@@ -1,129 +1,208 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D573BED23
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 12:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779973064; cv=pass; b=s2EQcp41WKa+4tI02oTogXQb2BkKIEPnt6bxYXGvDOSMIKcKFB6e8niisyFkZcm5iFNyEcMnZwBBNN2Kch1fHWabDSFBG6xBOyfKMhhgFFpGlBjk+l2QXliCUyuKZq0aE8fAKkvqJi1khHllq0ziVl0KF3kzqEb7cRAPyqnS3lQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779973064; c=relaxed/simple;
-	bh=fUHwBcjHUAk86dogR30rnj9wrSq1FRhyZ1sZYAiJlak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h2HCzleRPZ1bAlwYN9m23QWAdv/irqFEObJ4wEBmJ3Y9pE3ViZhSvBw7dpndCiyXY4merOvyxOH560pZKco/iAlJqdNAykEjq630FhoBn8AH86NH1sj7kAsEqYPj84LzS7wu8EuXnLOOrChAhfb/fffT+1WPCDuKT4K4jCw3olA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZNr54O51; arc=pass smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99763BED23
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 12:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779973189; cv=none; b=GklBCnF2xxv6nOrEINt19S72ybnzkqKEtj10REsZ2H+ngvwG5wIwWovXePSA/uZWdBwza2jQJNq1ZhIDb7VbThJzNvuaGhxGL84eTzCVNwUKAez7r+PHBzD0lvYcjYwOgmVEEaxEJU8A3IK5+JjOcwI89gwhfzn11206BFB/iLo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779973189; c=relaxed/simple;
+	bh=sIou1/uCXi+iGnp3M+/32mIuL66viWaxtFcS2RSdN1c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C3l5ErdugTvR8PaQpdxN2xA/IOo1rDZwgYrzqW5MuPNcySUtrS859Wsr2NjGUMqE2rfm6KnAGO2jqvq8yCPgjewMEVIhHPAzoTtGgf1fVbRT0AAM6CfqfUP6O6B37xeFTOgnlzzECzZ5uNTbCB/nypGB0Bb4dgLFEPrLVfGtrIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gEgOWBYl; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNr54O51"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-69d8ff0ca12so3862226eaf.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 05:57:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779973062; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NZKAlGOPXvdmmE1pabdohtWuPd3jRB08pdM/OyLZXneBuVmYyZHgssapjf6Z3tNwgi
-         Q07Slv27WMypbSwcsaSVuT1H0NvyDBUk2h0KwztKvtJHBPCFtk0I2CB//Bomsk+I2h8O
-         MCS7CWBnGknEKprKJAVSuClwG40oEIZJPErBoEZbkG4PtxfuY5xxRAS7HHUCyfZ7rSDc
-         oeTn27U2Jv6ocB10FMpTDdBwl9r4USn0RuRPQuCt91l5OSK7joSgv2GS1d2umsKP4q9h
-         IklVpUtd3F3ZPpdiKDdanBHv6iFPHYlPyDIXcmphvRowoTDDtgfYYgBGKHycee+Ok6Y3
-         1yRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c3Zbyw8SnKug00j3JWXX32OB1/0Us79zmL6jLVv0iYg=;
-        fh=ypXvQZ/ZpkXK8Ee/dpFp2aSLA4ag94SjQOPBS8tVjUc=;
-        b=Q+I1tdnoeasBPj2gJhESK0x1AsJVIcOKjMpJ0RrLeBQNDD6dVhpqinQo3QcX6DKaIg
-         370T73IWgn2Yc84RfXXoqtG98Z97Now2oT1V2jClL9VgxmtDTRruR+HUCJFwtOLW7Jj/
-         VkwtGUVqmmFiRHLJ6dtJcXoptTBIyxLyTcR4LDedwkcf55IgzCVFh9iVBbIW3WMWXw0e
-         92vQ4qYKPn7gmdTRRwkGga+ofbEVAdYXsg1D0WJp9ku+n6rQ/jBaS7357t9sHWyVeQGA
-         FXhpICSP7oYqfgMVeUDt5b7iq+4jEQRMEVTq2vFHS7ctGhE+i/MOZ6IQZPOmlmWhjHNA
-         9aYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779973062; x=1780577862; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c3Zbyw8SnKug00j3JWXX32OB1/0Us79zmL6jLVv0iYg=;
-        b=ZNr54O510mqcEL2nopfro5t2GhFgjibCwysMYxPjyA5b9mxXM2oUdvJZuVTsGUPDeY
-         veVuL6opBKxZ9PXU8jh5JBv+4yP87/lJjXjdqGyT5R5dpSxs0lc3qooMcGn3YWvjWWUy
-         0143XHJxiemdGtQjXeNoLGnktAE7Iruv+Tu0pNiPAfNwW8R+pOEPyV8McDRgsSf+Crd6
-         jc9dIRwCqG5wrSqC5lS4p00I0S4sm69fjV66uKwLV4sp6Fjx7Aac86BVXH2wZPj9N7TN
-         qA3X8aUNjiLjwlDaa7Up49GvM7TvBamUOnCWGEmTaupu7hX3++5QMdUO0+ajDOf6jkV4
-         JB+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779973062; x=1780577862;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c3Zbyw8SnKug00j3JWXX32OB1/0Us79zmL6jLVv0iYg=;
-        b=OuLfBc645/dyYVoJUxdgjpm46A2bpUiqoCAHH+rnIzA+r6B40x0V8dScqPLsZuH49i
-         zGCfl4jHj9gHBvz5yRTRpf5A2t5ZWPsUqU3V+m5CgyPccIa1P6Vz9rD6zy/oI5qKgrVL
-         zK4Nqq2DZY/Zpmk8XSuNT2LM1xj18u59q4ITeazJU+GxO2wEkDaoFXysxSYPQ+DCCbn2
-         o/fRrPUfcV+8n9JiW0CZsxcrxuy2/Zkzae0bDXsN4v/aYYF0n+5ta9/CNyt6P5TDCmAQ
-         Hfu6o5K/QAywRsATczbCCo6wlhhlNwGr+A0qokPco/+r5Ttq63C3EGOHai7FVEWqKMf0
-         82CA==
-X-Gm-Message-State: AOJu0YypIDmma7x99yycreheJQQ9U1G0RKd4gCOmXNkjpcFjX8mAwrFj
-	p8M7zVy6Tfl7RTyyYqS/fp+Wy6ehoS53VDY00EFWi1Tx2sDb8e/U1OBW+NQithJ39++Ol+vMglM
-	1SnRj1oJZpeKG4dXZDrTWkb/tkUfLRr8=
-X-Gm-Gg: Acq92OHMsxE+4CTiMoZhWZ9fIXzdcxV1WyMFIiFWnmCx9ILZ0cP8RUGX1xWpRqqqkW2
-	DP5HKv3F6vBoBKkKm++y43cCG9swX0sDYKw+NDwFnPinASOSjM+KL7UDpb6INq4V0co9jZfftsD
-	vluRcN0IiZxKW/cLYj1u2mWK4MhxTnnjEEMSP7nyZT4ZUJEKoetFjUhu2iYFEIjxVBlMxi1RCg2
-	vRQK7iOy4VeZg5YG2YmAViHBKQvYplLMYDp3FTZ6ZRoePyQ78po9fBEOAZzNlnjOGNIhEuSVoHj
-	Hgp0Lz1GBDjxbbou+okxFPVtk+VFCeRDuzKxSmOcOtN4fHGXg/lHiLEC/XYa
-X-Received: by 2002:a05:6820:4d06:b0:69d:e235:8868 with SMTP id
- 006d021491bc7-69de2358d98mr4252279eaf.36.1779973062035; Thu, 28 May 2026
- 05:57:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gEgOWBYl"
+Message-ID: <6ca2af4a-90ed-4d7e-9c21-42ebffddc3fe@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779973183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/7aIdks3CmcGjyyyeA3kszxapotlnaFMZvWoNmtYiZ8=;
+	b=gEgOWBYleLfJ4o8TSg0b50sNALcy2gCscDl4hn9L3rEguhiBPhziUkl0d99DPhO9vrbiJA
+	YW1cr5Ep5I+x6SCOT8z3GK/UPBroP4o1fdzutyJQgI702NZG5ifiEXWxWOJ0OmwG8O9ddc
+	PPlposNDvM6/0Ynl+Tvu6F1gAfrF4uI=
+Date: Thu, 28 May 2026 13:59:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528041958.57231-1-amandacorreasilvax@gmail.com>
-In-Reply-To: <20260528041958.57231-1-amandacorreasilvax@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 28 May 2026 09:57:29 -0300
-X-Gm-Features: AVHnY4KKido7uxpZ0jzuysGjwd5RUIyn6WaNQZ9Y3bsKYEs1s0DoXXRj-yiVRtM
-Message-ID: <CAMAsx6fWkQi1BHRPypDQeXL7LsDftfm5SFsgf1-pSUMQAdo8YA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: update maintainer-handbooks
-To: =?UTF-8?Q?Amanda_Corr=C3=AAa?= <amandacorreasilvax@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBb5aSW6YOo6YKu5Lu2XSBSZTogW1BB?=
+ =?UTF-8?Q?TCH=5D_mm/mempool=3A_use_static_key_for_boot-time_debug_enablemen?=
+ =?UTF-8?Q?t?=
+To: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20260527104634.2434-1-lirongqing@baidu.com>
+ <20260527130337.983366-1-usama.arif@linux.dev>
+ <fcf5585aba18414cbd0ab01935eeb1df@baidu.com>
+ <ddb499d5-6821-4fa7-9fec-563bdfbc8cbc@linux.dev>
+ <b9d53cb0be024778b09e1bb1ef7d0211@baidu.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <b9d53cb0be024778b09e1bb1ef7d0211@baidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, May 28, 2026 at 1:20=E2=80=AFAM Amanda Corr=C3=AAa
-<amandacorreasilvax@gmail.com> wrote:
->
-> Update the content of the maintainer-handbooks documentation
-> to Brazilian Portuguese.
->
-> v2: Update maintainer-handbooks documentation based on the actual latest =
-version of the English
-> documentation. Prior version was based on an older version of the English=
- documentation, which caused
-> some inconsistencies between the two versions.
-> This update ensures that the Brazilian Portuguese documentation is in syn=
-c with the latest English
-> version, providing accurate and up-to-date information.
->
-> Signed-off-by: Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com>
-> ---
->  .../pt_BR/process/maintainer-handbooks.rst    | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
 
-Hi Amanda,
 
-I believe this is your first contribution.
+On 28/05/2026 11:50, Li,Rongqing(ACG CCN) wrote:
+> 
+> 
+>>
+>> On 28/05/2026 04:00, Li,Rongqing(ACG CCN) wrote:
+>>>>> From: Li RongQing <lirongqing@baidu.com>
+>>>>>
+>>>>> Replace the #ifdef CONFIG_SLUB_DEBUG_ON conditional compilation with
+>>>>> a static key (mempool_debug_enabled). This allows enabling mempool
+>>>>> debugging at boot time via:
+>>>>>
+>>>>>     mempool_debug
+>>>>>
+>>>>> Instead of requiring CONFIG_SLUB_DEBUG_ON at compile time. Benefits:
+>>>>>
+>>>>> - Debugging can be enabled without rebuilding the kernel
+>>>>> - Uses standard kernel static_key mechanism with minimal overhead
+>>>>>
+>>>>> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>>>>> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+>>>>> Cc: Vlastimil Babka <vbabka@kernel.org>
+>>>>> Cc: Harry Yoo <harry@kernel.org>
+>>>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>>>> Cc: Hao Li <hao.li@linux.dev>
+>>>>> Cc: Christoph Lameter <cl@gentwo.org>
+>>>>> Cc: David Rientjes <rientjes@google.com>
+>>>>> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+>>>>> ---
+>>>>>  Documentation/admin-guide/kernel-parameters.txt |  5 ++++
+>>>>>  mm/mempool.c                                    | 32
+>>>> ++++++++++++++++++-------
+>>>>>  2 files changed, 28 insertions(+), 9 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+>>>>> b/Documentation/admin-guide/kernel-parameters.txt
+>>>>> index 35ed9dc..5a070e6 100644
+>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>>> @@ -3998,6 +3998,11 @@ Kernel parameters
+>>>>>  			Note that even when enabled, there are a few cases where
+>>>>>  			the feature is not effective.
+>>>>>
+>>>>> +	mempool_debug	[MM]
+>>>>> +			Enable mempool debugging. This enables element
+>>>>> +			poison checking when freeing elements back to the
+>>>>> +			pool. Useful for debugging mempool corruption.
+>>>>> +
+>>>>>  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable
+>> memtest
+>>>>>  			Format: <integer>
+>>>>>  			default : 0 <disable>
+>>>>> diff --git a/mm/mempool.c b/mm/mempool.c index db23e0e..4f429a1
+>>>> 100644
+>>>>> --- a/mm/mempool.c
+>>>>> +++ b/mm/mempool.c
+>>>>> @@ -16,11 +16,28 @@
+>>>>>  #include <linux/export.h>
+>>>>>  #include <linux/mempool.h>
+>>>>>  #include <linux/writeback.h>
+>>>>> +#include <linux/static_key.h>
+>>>>> +#include <linux/init.h>
+>>>>>  #include "slab.h"
+>>>>>
+>>>>>  static DECLARE_FAULT_ATTR(fail_mempool_alloc);
+>>>>>  static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
+>>>>>
+>>>>> +/*
+>>>>> + * Debugging support for mempool using static key.
+>>>>> + *
+>>>>> + * This allows enabling mempool debug at boot time via:
+>>>>> + *   mempool_debug
+>>>>> + */
+>>>>> +static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
+>>>>> +
+>>>>> +static int __init mempool_debug_setup(char *str) {
+>>>>> +	static_branch_enable(&mempool_debug_enabled);
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +early_param("mempool_debug", mempool_debug_setup);
+>>>>> +
+>>>>
+>>>> Can static_branch_enable() in mempool_debug_setup() run before
+>>>> jump_label_init() has set static_key_initialized?
+>>>>
+>>>> Looking at start_kernel() in init/main.c:
+>>>>
+>>>> 	setup_arch(&command_line);
+>>>> 	mm_core_init_early();
+>>>> 	/* Static keys and static calls are needed by LSMs */
+>>>> 	jump_label_init();
+>>>> 	...
+>>>> 	/* parameters may set static keys */
+>>>> 	parse_early_param();
+>>>>
+>>>> This will trigger the warning in include/linux/jump_label.h has:
+>>>>
+>>>> 	#define STATIC_KEY_CHECK_USE(key) WARN(!static_key_initialized, \
+>>>> 	    "%s(): static key '%pS' used before call to jump_label_init()", \
+>>>> 	    __func__, (key))
+>>>>
+>>>>
+>>>> mm/dmapool.c registers an equivalent debug toggle via __setup()
+>>>> rather than
+>>>> early_param():
+>>>>
+>>>> 	static int __init dmapool_debug_setup(char *str)
+>>>> 	{
+>>>> 		static_branch_enable(&dmapool_debug_enabled);
+>>>> 		return 1;
+>>>> 	}
+>>>> 	__setup("dmapool_debug", dmapool_debug_setup);
+>>>>
+>>>> I think you can reuse that.
+>>>
+>>> Thanks for your review!
+>>>
+>>> While this boot-time ordering used to be a generic issue, it seems
+>>> many architectures have already aligned or fixed this internally. For
+>>> instance,
+>>>
+>>> commit ca829e05d3d4 ("powerpc/64: Init jump labels before
+>>> parse_early_param()") and commit 6070970db9fe ("m68k: Initialize jump
+>>> labels early during setup_arch()") explicitly relocated jump_label_init() before
+>> the early parameter parsing.
+>>>
+>>
+>> I think 32 bit ARM doesnt?
+> 
+> You are right, 32-bit ARM doesn't. 
+> 
+> However, the correct architectural approach should be fixing the boot sequence 
+> inside arch/arm/ to match arm64 , powerpc and m68k, rather than compromising core MM 
+> code with temporary boilerplate variables.
+> 
+> I prefer to keep the mempool implementation clean. If ARM32 triggers the 
+> warning, the proper remedy is a follow-up patch to align its setup_arch() 
+> ordering.
+> 
+> What do you think?
+> 
 
-I noticed that the titles for v1 and v2 of this patch were different.
-When sending subsequent versions, please maintain the exact same
-subject line, only updating the version tag (e.g., from [PATCH v1] to
-[PATCH v2]). This helps significantly with identification.
+I think it would be a prerequisite rather than a follow up patch inorder to not
+break 32 bit arm. I will let ARM and slab maintainers decide on this. 
 
-Regarding the content, the Portuguese grammar is correct, and the
-change makes sense.
 
-Thanks,
-
-Acked-by: Daniel Pereira
