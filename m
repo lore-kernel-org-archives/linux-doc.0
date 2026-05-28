@@ -1,56 +1,66 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EAC3AD527;
-	Thu, 28 May 2026 09:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779960623; cv=none; b=X9HFoUDCGvBcLAA5S+bOy/a5OQc1Bn1l743jPZFvQhBDc/1QTtaXWDL7LIWlJNhivtAcdLpuN9crOhh1+XVX8pMUGjDq1Q5ph0j160mW8NDoA0MazB9aIh8xpeoaf76K7XENkfxFUsMqS1fMJjoolRX5njGspth219v/RdT/xvQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779960623; c=relaxed/simple;
-	bh=t/ZPTu+03WUwDLaQSebKERT1YeNGSnScWtj0CQa8e9w=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CK18cYUOLU2UI85IsulcmOMQO8f7o0BngY9YNlNHutRdIuRzhkGt5KUI6CMxKEGGeVS9rkV8mi6H42a1rRnWECcm0QZB29MYVyhoAr1EYW52o6CwJwpf5tXt2kO7AbMSAjkdqIqgu5XLz8W0SG6yYG5+xp6JGD1AQDgVSRBWDxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ZBnnsfH9; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D053B635F;
+	Thu, 28 May 2026 09:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779962012; cv=pass; b=u9DmIUxesY6Tbz9bXD1mVGRLlAJh1d8MF1EUUZsYiBqaHpPxTr0dCVtXBcgqu9UKNwaj4yeD/2lmLGbG/1vemI3QxY4jv7wFW1f5YaI6poRq/s7Id0yWpemnssoNkWVJKpmxxLx0Rr8JRUgPFVbuH6Nlw6Cf5+wsOopHeg7nORQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779962012; c=relaxed/simple;
+	bh=7iM2Kx/tK8WkB/Ra3LM0b0NJNDJgwiemZ3+qPNNwLS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h7b2gkXulZpEYdWdc1VysLahNiKvLiWHoajOf7EKcOJDlRCrYI4z6rJfeLSeWsKvYb3Qm/IX46vxN/6AvQt/drHCwR6kn7MPE2ccWWR/nkAejdf2KLLTUc5pamjmRnfnk8zbQ+v/ywKrRviVwvavnve4AHaB4rp1Y53K1sTKDh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=DfSYQ56A; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ZBnnsfH9"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=nPwq/WNboNSjLCBp71BxKKYQKMY0nkxxVDwBaBAXJNI=;
-	b=ZBnnsfH9zSehONjFk19Il4/IBTovvctcBT8FTtXlEOAFYPlB2oijE0u2Gt3PjfscsOchy0HBy
-	qYTD3V+CJEJRiKDl/lCyeFCDDuNqiwuom1g8w67ChBTldwIBJdN+H+rzBjlDiANgtva8hcEmdNR
-	i25/3mCMQsmI9vEYjaHPoos=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4gR1GN4kjzz12LGb;
-	Thu, 28 May 2026 17:22:04 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id C34FD201E9;
-	Thu, 28 May 2026 17:30:03 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 28 May 2026 17:30:02 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, Mohsin Bashir
-	<mohsin.bashr@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: [PATCH net-next v07 2/6] hinic3: Add ethtool statistic ops
-Date: Thu, 28 May 2026 17:29:49 +0800
-Message-ID: <9c9119e74cb46b2d09662f8c657ac016337127c5.1779940072.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <cover.1779940072.git.zhuyikai1@h-partners.com>
-References: <cover.1779940072.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="DfSYQ56A"
+ARC-Seal: i=1; a=rsa-sha256; t=1779961977; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=NAkz0SOOQjM2W1IWbe8FHDI2ymZWX/CCi43appKxaUbubD1pgY0UI6O7diyjpjdaW9Q6uV7e/8bG/pmIKNFthuFvABkpmc44s4IfoyEjFLDVsVe/2NPRFxS3qor1wN8SpBIZvq5KFIPVM2PxDHP0N9hXSUTCHWsEmAkNleE4dK0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779961977; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zYZjJmq/v2k7XZXptq1VTDQbNRTjIht89217mgdV0uw=; 
+	b=OA2Q3PQfADtBhDNrKr2INK2o4NyExUuPqlkKxUakcRmRfXWb3nY6cBdIZJP+DAF/vyPs9UAkcI8ZbZw5sdFp12KODA9VzSn4kUIvSGEnUt+CLBQyWPB6tE8tdV2VN27Iz9/lP9/1cdacue7PqyWSFB+7WIOFcuI0Kf5ZK8ywXBA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779961977;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=zYZjJmq/v2k7XZXptq1VTDQbNRTjIht89217mgdV0uw=;
+	b=DfSYQ56AiaiAMjT0uY8uKVXcmFmmXwWBaeU6a1/PqiqdDvUb2knMtnHjB4xYjOOe
+	Rpibfj90vJyzR5JTJdsKSAlYWMcd/Igextbkf2fLlHWQDJAVwBvpEsRppc6c9mezwtX
+	reqwjIhX2t06gNoIeGcHljkyHUWQ15EOOMoFWIG4=
+Received: by mx.zohomail.com with SMTPS id 17799619745921012.7078084271373;
+	Thu, 28 May 2026 02:52:54 -0700 (PDT)
+From: Li Chen <me@linux.beauty>
+To: Christian Brauner <brauner@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	x86@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable startup
+Date: Thu, 28 May 2026 17:52:21 +0800
+Message-ID: <20260528095235.2491226-1-me@linux.beauty>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,1172 +68,291 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+X-ZohoMailClient: External
 
-  Add PF/VF statistics functions in TX and RX processing.
-  Implement following ethtool callback function:
-.get_sset_count
-.get_ethtool_stats
-.get_strings
-.get_eth_phy_stats
-.get_eth_mac_stats
-.get_eth_ctrl_stats
-.get_rmon_stats
-.get_pause_stats
+Hi,
 
-  These callbacks allow users to utilize ethtool for detailed
-TX and RX netdev stats monitoring.
+This is an early RFC for an idea that is probably still rough in both the
+UAPI and implementation details. Sorry for the rough edges; I am sending
+it now to check whether this direction is worth pursuing and to get
+feedback on the kernel/userspace boundary.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_ethtool.c   | 485 ++++++++++++++++++
- .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  13 +-
- .../huawei/hinic3/hinic3_mgmt_interface.h     |  37 ++
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |  64 +++
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   | 109 ++++
- .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  59 ++-
- .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  15 +-
- .../net/ethernet/huawei/hinic3/hinic3_tx.c    |  71 ++-
- .../net/ethernet/huawei/hinic3/hinic3_tx.h    |   2 +
- 9 files changed, 845 insertions(+), 10 deletions(-)
+The series is based on linux-next version 20260518.
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-index e594bcbc8153..fa76a421b871 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-@@ -507,6 +507,483 @@ static int hinic3_set_ringparam(struct net_device *netdev,
- 	return 0;
- }
- 
-+struct hinic3_stats {
-+	char name[ETH_GSTRING_LEN];
-+	u32  size;
-+	int  offset;
-+};
-+
-+#define HINIC3_RXQ_STAT(_stat_item) { \
-+	.name   = "rxq%d_"#_stat_item, \
-+	.size   = sizeof_field(struct hinic3_rxq_stats, _stat_item), \
-+	.offset = offsetof(struct hinic3_rxq_stats, _stat_item) \
-+}
-+
-+#define HINIC3_TXQ_STAT(_stat_item) { \
-+	.name   = "txq%d_"#_stat_item, \
-+	.size   = sizeof_field(struct hinic3_txq_stats, _stat_item), \
-+	.offset = offsetof(struct hinic3_txq_stats, _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_rx_queue_stats[] = {
-+	HINIC3_RXQ_STAT(csum_errors),
-+	HINIC3_RXQ_STAT(other_errors),
-+	HINIC3_RXQ_STAT(rx_buf_empty),
-+	HINIC3_RXQ_STAT(alloc_skb_err),
-+	HINIC3_RXQ_STAT(alloc_rx_buf_err),
-+};
-+
-+static struct hinic3_stats hinic3_tx_queue_stats[] = {
-+	HINIC3_TXQ_STAT(busy),
-+	HINIC3_TXQ_STAT(skb_pad_err),
-+	HINIC3_TXQ_STAT(frag_len_overflow),
-+	HINIC3_TXQ_STAT(offload_cow_skb_err),
-+	HINIC3_TXQ_STAT(map_frag_err),
-+	HINIC3_TXQ_STAT(unknown_tunnel_pkt),
-+	HINIC3_TXQ_STAT(frag_size_err),
-+};
-+
-+#define HINIC3_FUNC_STAT(_stat_item) {	\
-+	.name   = #_stat_item, \
-+	.size   = sizeof_field(struct l2nic_vport_stats, _stat_item), \
-+	.offset = offsetof(struct l2nic_vport_stats, _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_function_stats[] = {
-+	HINIC3_FUNC_STAT(tx_unicast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_unicast_bytes_vport),
-+	HINIC3_FUNC_STAT(tx_multicast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_multicast_bytes_vport),
-+	HINIC3_FUNC_STAT(tx_broadcast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_broadcast_bytes_vport),
-+
-+	HINIC3_FUNC_STAT(rx_unicast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_unicast_bytes_vport),
-+	HINIC3_FUNC_STAT(rx_multicast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_multicast_bytes_vport),
-+	HINIC3_FUNC_STAT(rx_broadcast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_broadcast_bytes_vport),
-+
-+	HINIC3_FUNC_STAT(tx_discard_vport),
-+	HINIC3_FUNC_STAT(rx_discard_vport),
-+	HINIC3_FUNC_STAT(tx_err_vport),
-+	HINIC3_FUNC_STAT(rx_err_vport),
-+};
-+
-+#define HINIC3_PORT_STAT(_stat_item) { \
-+	.name   = #_stat_item, \
-+	.size   = sizeof_field(struct mag_cmd_port_stats, _stat_item), \
-+	.offset = offsetof(struct mag_cmd_port_stats, _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_port_stats[] = {
-+	HINIC3_PORT_STAT(mac_tx_fragment_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_undersize_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_undermin_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1519_max_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1519_max_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_oversize_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_jabber_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_bad_oct_num),
-+	HINIC3_PORT_STAT(mac_tx_good_oct_num),
-+	HINIC3_PORT_STAT(mac_tx_total_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_uni_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri0_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri1_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri2_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri3_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri4_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri5_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri6_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri7_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_err_all_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_from_app_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_from_app_bad_pkt_num),
-+
-+	HINIC3_PORT_STAT(mac_rx_undermin_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1519_max_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1519_max_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_bad_oct_num),
-+	HINIC3_PORT_STAT(mac_rx_good_oct_num),
-+	HINIC3_PORT_STAT(mac_rx_total_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_uni_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri0_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri1_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri2_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri3_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri4_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri5_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri6_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri7_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_send_app_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_send_app_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_unfilter_pkt_num),
-+};
-+
-+static int hinic3_get_sset_count(struct net_device *netdev, int sset)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int count, q_num;
-+
-+	switch (sset) {
-+	case ETH_SS_STATS:
-+		q_num = nic_dev->q_params.num_qps;
-+		count = ARRAY_SIZE(hinic3_function_stats) +
-+			(ARRAY_SIZE(hinic3_tx_queue_stats) +
-+			 ARRAY_SIZE(hinic3_rx_queue_stats)) *
-+			q_num;
-+
-+		if (!HINIC3_IS_VF(nic_dev->hwdev))
-+			count += ARRAY_SIZE(hinic3_port_stats);
-+
-+		return count;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static u64 get_val_of_ptr(u32 size, const void *ptr)
-+{
-+	u64 ret = size == sizeof(u64) ? *(u64 *)ptr :
-+		  size == sizeof(u32) ? *(u32 *)ptr :
-+		  size == sizeof(u16) ? *(u16 *)ptr :
-+		  *(u8 *)ptr;
-+
-+	return ret;
-+}
-+
-+static void hinic3_get_drv_queue_stats(struct net_device *netdev, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_txq_stats txq_stats = {};
-+	struct hinic3_rxq_stats rxq_stats = {};
-+	u16 i = 0, j, qid;
-+	char *p;
-+
-+	u64_stats_init(&txq_stats.syncp);
-+	u64_stats_init(&rxq_stats.syncp);
-+
-+	for (qid = 0; qid < nic_dev->q_params.num_qps; qid++) {
-+		if (!nic_dev->txqs)
-+			break;
-+
-+		hinic3_txq_get_stats(&nic_dev->txqs[qid], &txq_stats);
-+		for (j = 0; j < ARRAY_SIZE(hinic3_tx_queue_stats); j++, i++) {
-+			p = (char *)&txq_stats +
-+			    hinic3_tx_queue_stats[j].offset;
-+			data[i] = get_val_of_ptr(hinic3_tx_queue_stats[j].size,
-+						 p);
-+		}
-+	}
-+
-+	for (qid = 0; qid < nic_dev->q_params.num_qps; qid++) {
-+		if (!nic_dev->rxqs)
-+			break;
-+
-+		hinic3_rxq_get_stats(&nic_dev->rxqs[qid], &rxq_stats);
-+		for (j = 0; j < ARRAY_SIZE(hinic3_rx_queue_stats); j++, i++) {
-+			p = (char *)&rxq_stats +
-+			    hinic3_rx_queue_stats[j].offset;
-+			data[i] = get_val_of_ptr(hinic3_rx_queue_stats[j].size,
-+						 p);
-+		}
-+	}
-+}
-+
-+static u16 hinic3_get_ethtool_port_stats(struct net_device *netdev, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	u16 i = 0, j;
-+	char *p;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		goto err_zero_stats;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get port stats from fw\n");
-+		goto err_zero_stats;
-+	}
-+
-+	for (j = 0; j < ARRAY_SIZE(hinic3_port_stats); j++, i++) {
-+		p = (char *)ps + hinic3_port_stats[j].offset;
-+		data[i] = get_val_of_ptr(hinic3_port_stats[j].size, p);
-+	}
-+
-+	kfree(ps);
-+
-+	return i;
-+
-+err_zero_stats:
-+	memset(&data[i], 0, ARRAY_SIZE(hinic3_port_stats) * sizeof(*data));
-+
-+	return i + ARRAY_SIZE(hinic3_port_stats);
-+}
-+
-+static void hinic3_get_ethtool_stats(struct net_device *netdev,
-+				     struct ethtool_stats *stats, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct l2nic_vport_stats vport_stats = {};
-+	u16 i = 0, j;
-+	char *p;
-+	int err;
-+
-+	err = hinic3_get_vport_stats(nic_dev->hwdev,
-+				     hinic3_global_func_id(nic_dev->hwdev),
-+				     &vport_stats);
-+	if (err)
-+		netdev_err(netdev, "Failed to get function stats from fw\n");
-+
-+	for (j = 0; j < ARRAY_SIZE(hinic3_function_stats); j++, i++) {
-+		p = (char *)&vport_stats + hinic3_function_stats[j].offset;
-+		data[i] = get_val_of_ptr(hinic3_function_stats[j].size, p);
-+	}
-+
-+	if (!HINIC3_IS_VF(nic_dev->hwdev))
-+		i += hinic3_get_ethtool_port_stats(netdev, data + i);
-+
-+	hinic3_get_drv_queue_stats(netdev, data + i);
-+}
-+
-+static u16 hinic3_get_hw_stats_strings(struct net_device *netdev, char *p)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	u16 i, cnt = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(hinic3_function_stats); i++) {
-+		memcpy(p, hinic3_function_stats[i].name, ETH_GSTRING_LEN);
-+		p += ETH_GSTRING_LEN;
-+		cnt++;
-+	}
-+
-+	if (!HINIC3_IS_VF(nic_dev->hwdev)) {
-+		for (i = 0; i < ARRAY_SIZE(hinic3_port_stats); i++) {
-+			memcpy(p, hinic3_port_stats[i].name, ETH_GSTRING_LEN);
-+			p += ETH_GSTRING_LEN;
-+			cnt++;
-+		}
-+	}
-+
-+	return cnt;
-+}
-+
-+static void hinic3_get_qp_stats_strings(struct net_device *netdev, char *p)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	u8 *data = p;
-+	u16 i, j;
-+
-+	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
-+		for (j = 0; j < ARRAY_SIZE(hinic3_tx_queue_stats); j++)
-+			ethtool_sprintf(&data,
-+					hinic3_tx_queue_stats[j].name, i);
-+	}
-+
-+	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
-+		for (j = 0; j < ARRAY_SIZE(hinic3_rx_queue_stats); j++)
-+			ethtool_sprintf(&data,
-+					hinic3_rx_queue_stats[j].name, i);
-+	}
-+}
-+
-+static void hinic3_get_strings(struct net_device *netdev,
-+			       u32 stringset, u8 *data)
-+{
-+	char *p = (char *)data;
-+	u16 offset;
-+
-+	switch (stringset) {
-+	case ETH_SS_STATS:
-+		offset = hinic3_get_hw_stats_strings(netdev, p);
-+		hinic3_get_qp_stats_strings(netdev,
-+					    p + offset * ETH_GSTRING_LEN);
-+
-+		return;
-+	default:
-+		netdev_err(netdev, "Invalid string set %u.\n", stringset);
-+		return;
-+	}
-+}
-+
-+static void hinic3_get_eth_phy_stats(struct net_device *netdev,
-+				     struct ethtool_eth_phy_stats *phy_stats)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		return;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get eth phy stats from fw\n");
-+		return;
-+	}
-+
-+	phy_stats->SymbolErrorDuringCarrier = ps->mac_rx_sym_err_pkt_num;
-+
-+	kfree(ps);
-+}
-+
-+static void hinic3_get_eth_mac_stats(struct net_device *netdev,
-+				     struct ethtool_eth_mac_stats *mac_stats)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		return;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get eth mac stats from fw\n");
-+		return;
-+	}
-+
-+	mac_stats->FramesTransmittedOK = ps->mac_tx_good_pkt_num;
-+	mac_stats->FramesReceivedOK = ps->mac_rx_good_pkt_num;
-+	mac_stats->FrameCheckSequenceErrors = ps->mac_rx_fcs_err_pkt_num;
-+	mac_stats->OctetsTransmittedOK = ps->mac_tx_total_oct_num;
-+	mac_stats->OctetsReceivedOK = ps->mac_rx_total_oct_num;
-+	mac_stats->MulticastFramesXmittedOK = ps->mac_tx_multi_pkt_num;
-+	mac_stats->BroadcastFramesXmittedOK = ps->mac_tx_broad_pkt_num;
-+	mac_stats->MulticastFramesReceivedOK = ps->mac_rx_multi_pkt_num;
-+	mac_stats->BroadcastFramesReceivedOK = ps->mac_rx_broad_pkt_num;
-+
-+	kfree(ps);
-+}
-+
-+static void hinic3_get_eth_ctrl_stats(struct net_device *netdev,
-+				      struct ethtool_eth_ctrl_stats *ctrl_stats)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		return;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get eth ctrl stats from fw\n");
-+		return;
-+	}
-+
-+	ctrl_stats->MACControlFramesTransmitted = ps->mac_tx_control_pkt_num;
-+	ctrl_stats->MACControlFramesReceived = ps->mac_rx_control_pkt_num;
-+
-+	kfree(ps);
-+}
-+
-+static const struct ethtool_rmon_hist_range hinic3_rmon_ranges[] = {
-+	{     0,    64 },
-+	{    65,   127 },
-+	{   128,   255 },
-+	{   256,   511 },
-+	{   512,  1023 },
-+	{  1024,  1518 },
-+	{  1519,  2047 },
-+	{  2048,  4095 },
-+	{  4096,  8191 },
-+	{  8192,  9216 },
-+	{  9217, 12287 },
-+	{}
-+};
-+
-+static void hinic3_get_rmon_stats(struct net_device *netdev,
-+				  struct ethtool_rmon_stats *rmon_stats,
-+				  const struct ethtool_rmon_hist_range **ranges)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		return;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get eth rmon stats from fw\n");
-+		return;
-+	}
-+
-+	rmon_stats->undersize_pkts	= ps->mac_rx_undersize_pkt_num;
-+	rmon_stats->oversize_pkts	= ps->mac_rx_oversize_pkt_num;
-+	rmon_stats->fragments		= ps->mac_rx_fragment_pkt_num;
-+	rmon_stats->jabbers		= ps->mac_rx_jabber_pkt_num;
-+
-+	rmon_stats->hist[0]		= ps->mac_rx_64_oct_pkt_num;
-+	rmon_stats->hist[1]		= ps->mac_rx_65_127_oct_pkt_num;
-+	rmon_stats->hist[2]		= ps->mac_rx_128_255_oct_pkt_num;
-+	rmon_stats->hist[3]		= ps->mac_rx_256_511_oct_pkt_num;
-+	rmon_stats->hist[4]		= ps->mac_rx_512_1023_oct_pkt_num;
-+	rmon_stats->hist[5]		= ps->mac_rx_1024_1518_oct_pkt_num;
-+	rmon_stats->hist[6]		= ps->mac_rx_1519_2047_oct_pkt_num;
-+	rmon_stats->hist[7]		= ps->mac_rx_2048_4095_oct_pkt_num;
-+	rmon_stats->hist[8]		= ps->mac_rx_4096_8191_oct_pkt_num;
-+	rmon_stats->hist[9]		= ps->mac_rx_8192_9216_oct_pkt_num;
-+	rmon_stats->hist[10]		= ps->mac_rx_9217_12287_oct_pkt_num;
-+
-+	rmon_stats->hist_tx[0]		= ps->mac_tx_64_oct_pkt_num;
-+	rmon_stats->hist_tx[1]		= ps->mac_tx_65_127_oct_pkt_num;
-+	rmon_stats->hist_tx[2]		= ps->mac_tx_128_255_oct_pkt_num;
-+	rmon_stats->hist_tx[3]		= ps->mac_tx_256_511_oct_pkt_num;
-+	rmon_stats->hist_tx[4]		= ps->mac_tx_512_1023_oct_pkt_num;
-+	rmon_stats->hist_tx[5]		= ps->mac_tx_1024_1518_oct_pkt_num;
-+	rmon_stats->hist_tx[6]		= ps->mac_tx_1519_2047_oct_pkt_num;
-+	rmon_stats->hist_tx[7]		= ps->mac_tx_2048_4095_oct_pkt_num;
-+	rmon_stats->hist_tx[8]		= ps->mac_tx_4096_8191_oct_pkt_num;
-+	rmon_stats->hist_tx[9]		= ps->mac_tx_8192_9216_oct_pkt_num;
-+	rmon_stats->hist_tx[10]		= ps->mac_tx_9217_12287_oct_pkt_num;
-+
-+	*ranges = hinic3_rmon_ranges;
-+
-+	kfree(ps);
-+}
-+
-+static void hinic3_get_pause_stats(struct net_device *netdev,
-+				   struct ethtool_pause_stats *pause_stats)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		return;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get eth pause stats from fw\n");
-+		return;
-+	}
-+
-+	pause_stats->tx_pause_frames = ps->mac_tx_pause_num;
-+	pause_stats->rx_pause_frames = ps->mac_rx_pause_num;
-+
-+	kfree(ps);
-+}
-+
- static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.supported_coalesce_params      = ETHTOOL_COALESCE_USECS |
- 					  ETHTOOL_COALESCE_PKT_RATE_RX_USECS,
-@@ -517,6 +994,14 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.get_link                       = ethtool_op_get_link,
- 	.get_ringparam                  = hinic3_get_ringparam,
- 	.set_ringparam                  = hinic3_set_ringparam,
-+	.get_sset_count                 = hinic3_get_sset_count,
-+	.get_ethtool_stats              = hinic3_get_ethtool_stats,
-+	.get_strings                    = hinic3_get_strings,
-+	.get_eth_phy_stats              = hinic3_get_eth_phy_stats,
-+	.get_eth_mac_stats              = hinic3_get_eth_mac_stats,
-+	.get_eth_ctrl_stats             = hinic3_get_eth_ctrl_stats,
-+	.get_rmon_stats                 = hinic3_get_rmon_stats,
-+	.get_pause_stats                = hinic3_get_pause_stats,
- };
- 
- void hinic3_set_ethtool_ops(struct net_device *netdev)
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-index cfc9daa3034f..0b2ebef04c02 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-@@ -51,7 +51,18 @@ static inline void mgmt_msg_params_init_default(struct mgmt_msg_params *msg_para
- 	msg_params->in_size = buf_size;
- 	msg_params->expected_out_size = buf_size;
- 	msg_params->timeout_ms = 0;
--}
-+};
-+
-+static inline void
-+mgmt_msg_params_init_in_out(struct mgmt_msg_params *msg_params, void *in_buf,
-+			    void *out_buf, u32 in_buf_size, u32 out_buf_size)
-+{
-+	msg_params->buf_in = in_buf;
-+	msg_params->buf_out = out_buf;
-+	msg_params->in_size = in_buf_size;
-+	msg_params->expected_out_size = out_buf_size;
-+	msg_params->timeout_ms = 0;
-+};
- 
- enum cfg_cmd {
- 	CFG_CMD_GET_DEV_CAP = 0,
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-index c5bca3c4af96..76c691f82703 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-@@ -143,6 +143,41 @@ struct l2nic_cmd_set_dcb_state {
- 	u8                   rsvd[7];
- };
- 
-+struct l2nic_port_stats_info {
-+	struct mgmt_msg_head msg_head;
-+	u16                  func_id;
-+	u16                  rsvd1;
-+};
-+
-+struct l2nic_vport_stats {
-+	u64 tx_unicast_pkts_vport;
-+	u64 tx_unicast_bytes_vport;
-+	u64 tx_multicast_pkts_vport;
-+	u64 tx_multicast_bytes_vport;
-+	u64 tx_broadcast_pkts_vport;
-+	u64 tx_broadcast_bytes_vport;
-+
-+	u64 rx_unicast_pkts_vport;
-+	u64 rx_unicast_bytes_vport;
-+	u64 rx_multicast_pkts_vport;
-+	u64 rx_multicast_bytes_vport;
-+	u64 rx_broadcast_pkts_vport;
-+	u64 rx_broadcast_bytes_vport;
-+
-+	u64 tx_discard_vport;
-+	u64 rx_discard_vport;
-+	u64 tx_err_vport;
-+	u64 rx_err_vport;
-+};
-+
-+struct l2nic_cmd_vport_stats {
-+	struct mgmt_msg_head     msg_head;
-+	u32                      stats_size;
-+	u32                      rsvd1;
-+	struct l2nic_vport_stats stats;
-+	u64                      rsvd2[6];
-+};
-+
- struct l2nic_cmd_lro_config {
- 	struct mgmt_msg_head msg_head;
- 	u16                  func_id;
-@@ -234,6 +269,7 @@ enum l2nic_cmd {
- 	L2NIC_CMD_SET_VPORT_ENABLE    = 6,
- 	L2NIC_CMD_SET_RX_MODE         = 7,
- 	L2NIC_CMD_SET_SQ_CI_ATTR      = 8,
-+	L2NIC_CMD_GET_VPORT_STAT      = 9,
- 	L2NIC_CMD_CLEAR_QP_RESOURCE   = 11,
- 	L2NIC_CMD_CFG_RX_LRO          = 13,
- 	L2NIC_CMD_CFG_LRO_TIMER       = 14,
-@@ -272,6 +308,7 @@ enum mag_cmd {
- 	MAG_CMD_SET_PORT_ENABLE = 6,
- 	MAG_CMD_GET_LINK_STATUS = 7,
- 
-+	MAG_CMD_GET_PORT_STAT   = 151,
- 	MAG_CMD_GET_PORT_INFO   = 153,
- };
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index de5a7984d2cb..1b14dc824ce1 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -639,6 +639,42 @@ int hinic3_get_link_status(struct hinic3_hwdev *hwdev, bool *link_status_up)
- 	return 0;
- }
- 
-+int hinic3_get_phy_port_stats(struct hinic3_hwdev *hwdev,
-+			      struct mag_cmd_port_stats *stats)
-+{
-+	struct mag_cmd_port_stats_info stats_info = {};
-+	struct mag_cmd_get_port_stat *ps;
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	ps = kzalloc_obj(*ps);
-+	if (!ps)
-+		return -ENOMEM;
-+
-+	stats_info.port_id = hinic3_physical_port_id(hwdev);
-+
-+	mgmt_msg_params_init_in_out(&msg_params, &stats_info, ps,
-+				    sizeof(stats_info), sizeof(*ps));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_HILINK,
-+				       MAG_CMD_GET_PORT_STAT, &msg_params);
-+
-+	if (err || ps->head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to get port statistics, err: %d, status: 0x%x\n",
-+			err, ps->head.status);
-+		err = -EFAULT;
-+		goto out;
-+	}
-+
-+	memcpy(stats, &ps->counter, sizeof(*stats));
-+
-+out:
-+	kfree(ps);
-+
-+	return err;
-+}
-+
- int hinic3_get_port_info(struct hinic3_hwdev *hwdev,
- 			 struct hinic3_nic_port_info *port_info)
- {
-@@ -738,3 +774,31 @@ int hinic3_get_pause_info(struct hinic3_nic_dev *nic_dev,
- 	return hinic3_cfg_hw_pause(nic_dev->hwdev, MGMT_MSG_CMD_OP_GET,
- 				   nic_pause);
- }
-+
-+int hinic3_get_vport_stats(struct hinic3_hwdev *hwdev, u16 func_id,
-+			   struct l2nic_vport_stats *stats)
-+{
-+	struct l2nic_cmd_vport_stats vport_stats = {};
-+	struct l2nic_port_stats_info stats_info = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	stats_info.func_id = func_id;
-+
-+	mgmt_msg_params_init_in_out(&msg_params, &stats_info, &vport_stats,
-+				    sizeof(stats_info), sizeof(vport_stats));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
-+				       L2NIC_CMD_GET_VPORT_STAT, &msg_params);
-+
-+	if (err || vport_stats.msg_head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to get function statistics, err: %d, status: 0x%x\n",
-+			err, vport_stats.msg_head.status);
-+		return -EFAULT;
-+	}
-+
-+	memcpy(stats, &vport_stats.stats, sizeof(*stats));
-+
-+	return 0;
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-index 5d52202a8d4e..80573c121539 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-@@ -129,6 +129,110 @@ struct mag_cmd_get_xsfp_present {
- 	u8                   rsvd[2];
- };
- 
-+struct mag_cmd_port_stats {
-+	u64 mac_tx_fragment_pkt_num;
-+	u64 mac_tx_undersize_pkt_num;
-+	u64 mac_tx_undermin_pkt_num;
-+	u64 mac_tx_64_oct_pkt_num;
-+	u64 mac_tx_65_127_oct_pkt_num;
-+	u64 mac_tx_128_255_oct_pkt_num;
-+	u64 mac_tx_256_511_oct_pkt_num;
-+	u64 mac_tx_512_1023_oct_pkt_num;
-+	u64 mac_tx_1024_1518_oct_pkt_num;
-+	u64 mac_tx_1519_2047_oct_pkt_num;
-+	u64 mac_tx_2048_4095_oct_pkt_num;
-+	u64 mac_tx_4096_8191_oct_pkt_num;
-+	u64 mac_tx_8192_9216_oct_pkt_num;
-+	u64 mac_tx_9217_12287_oct_pkt_num;
-+	u64 mac_tx_12288_16383_oct_pkt_num;
-+	u64 mac_tx_1519_max_bad_pkt_num;
-+	u64 mac_tx_1519_max_good_pkt_num;
-+	u64 mac_tx_oversize_pkt_num;
-+	u64 mac_tx_jabber_pkt_num;
-+	u64 mac_tx_bad_pkt_num;
-+	u64 mac_tx_bad_oct_num;
-+	u64 mac_tx_good_pkt_num;
-+	u64 mac_tx_good_oct_num;
-+	u64 mac_tx_total_pkt_num;
-+	u64 mac_tx_total_oct_num;
-+	u64 mac_tx_uni_pkt_num;
-+	u64 mac_tx_multi_pkt_num;
-+	u64 mac_tx_broad_pkt_num;
-+	u64 mac_tx_pause_num;
-+	u64 mac_tx_pfc_pkt_num;
-+	u64 mac_tx_pfc_pri0_pkt_num;
-+	u64 mac_tx_pfc_pri1_pkt_num;
-+	u64 mac_tx_pfc_pri2_pkt_num;
-+	u64 mac_tx_pfc_pri3_pkt_num;
-+	u64 mac_tx_pfc_pri4_pkt_num;
-+	u64 mac_tx_pfc_pri5_pkt_num;
-+	u64 mac_tx_pfc_pri6_pkt_num;
-+	u64 mac_tx_pfc_pri7_pkt_num;
-+	u64 mac_tx_control_pkt_num;
-+	u64 mac_tx_err_all_pkt_num;
-+	u64 mac_tx_from_app_good_pkt_num;
-+	u64 mac_tx_from_app_bad_pkt_num;
-+
-+	u64 mac_rx_fragment_pkt_num;
-+	u64 mac_rx_undersize_pkt_num;
-+	u64 mac_rx_undermin_pkt_num;
-+	u64 mac_rx_64_oct_pkt_num;
-+	u64 mac_rx_65_127_oct_pkt_num;
-+	u64 mac_rx_128_255_oct_pkt_num;
-+	u64 mac_rx_256_511_oct_pkt_num;
-+	u64 mac_rx_512_1023_oct_pkt_num;
-+	u64 mac_rx_1024_1518_oct_pkt_num;
-+	u64 mac_rx_1519_2047_oct_pkt_num;
-+	u64 mac_rx_2048_4095_oct_pkt_num;
-+	u64 mac_rx_4096_8191_oct_pkt_num;
-+	u64 mac_rx_8192_9216_oct_pkt_num;
-+	u64 mac_rx_9217_12287_oct_pkt_num;
-+	u64 mac_rx_12288_16383_oct_pkt_num;
-+	u64 mac_rx_1519_max_bad_pkt_num;
-+	u64 mac_rx_1519_max_good_pkt_num;
-+	u64 mac_rx_oversize_pkt_num;
-+	u64 mac_rx_jabber_pkt_num;
-+	u64 mac_rx_bad_pkt_num;
-+	u64 mac_rx_bad_oct_num;
-+	u64 mac_rx_good_pkt_num;
-+	u64 mac_rx_good_oct_num;
-+	u64 mac_rx_total_pkt_num;
-+	u64 mac_rx_total_oct_num;
-+	u64 mac_rx_uni_pkt_num;
-+	u64 mac_rx_multi_pkt_num;
-+	u64 mac_rx_broad_pkt_num;
-+	u64 mac_rx_pause_num;
-+	u64 mac_rx_pfc_pkt_num;
-+	u64 mac_rx_pfc_pri0_pkt_num;
-+	u64 mac_rx_pfc_pri1_pkt_num;
-+	u64 mac_rx_pfc_pri2_pkt_num;
-+	u64 mac_rx_pfc_pri3_pkt_num;
-+	u64 mac_rx_pfc_pri4_pkt_num;
-+	u64 mac_rx_pfc_pri5_pkt_num;
-+	u64 mac_rx_pfc_pri6_pkt_num;
-+	u64 mac_rx_pfc_pri7_pkt_num;
-+	u64 mac_rx_control_pkt_num;
-+	u64 mac_rx_sym_err_pkt_num;
-+	u64 mac_rx_fcs_err_pkt_num;
-+	u64 mac_rx_send_app_good_pkt_num;
-+	u64 mac_rx_send_app_bad_pkt_num;
-+	u64 mac_rx_unfilter_pkt_num;
-+};
-+
-+struct mag_cmd_port_stats_info {
-+	struct mgmt_msg_head head;
-+
-+	u8                   port_id;
-+	u8                   rsvd0[3];
-+};
-+
-+struct mag_cmd_get_port_stat {
-+	struct mgmt_msg_head      head;
-+
-+	struct mag_cmd_port_stats counter;
-+	u64                       rsvd1[15];
-+};
-+
- enum link_err_type {
- 	LINK_ERR_MODULE_UNRECOGENIZED,
- 	LINK_ERR_NUM,
-@@ -209,6 +313,11 @@ int hinic3_get_port_info(struct hinic3_hwdev *hwdev,
- 			 struct hinic3_nic_port_info *port_info);
- int hinic3_set_vport_enable(struct hinic3_hwdev *hwdev, u16 func_id,
- 			    bool enable);
-+int hinic3_get_phy_port_stats(struct hinic3_hwdev *hwdev,
-+			      struct mag_cmd_port_stats *stats);
-+int hinic3_get_vport_stats(struct hinic3_hwdev *hwdev, u16 func_id,
-+			   struct l2nic_vport_stats *stats);
-+
- int hinic3_add_vlan(struct hinic3_hwdev *hwdev, u16 vlan_id, u16 func_id);
- int hinic3_del_vlan(struct hinic3_hwdev *hwdev, u16 vlan_id, u16 func_id);
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-index b5b601469517..f22b3ee2955b 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-@@ -29,7 +29,7 @@
- #define HINIC3_LRO_PKT_HDR_LEN_IPV4     66
- #define HINIC3_LRO_PKT_HDR_LEN_IPV6     86
- #define HINIC3_LRO_PKT_HDR_LEN(cqe) \
--	(RQ_CQE_OFFOLAD_TYPE_GET((cqe)->offload_type, IP_TYPE) == \
-+	(RQ_CQE_OFFOLAD_TYPE_GET(le32_to_cpu((cqe)->offload_type), IP_TYPE) == \
- 	 HINIC3_RX_IPV6_PKT ? HINIC3_LRO_PKT_HDR_LEN_IPV6 : \
- 	 HINIC3_LRO_PKT_HDR_LEN_IPV4)
- 
-@@ -46,7 +46,6 @@ static void hinic3_rxq_clean_stats(struct hinic3_rxq_stats *rxq_stats)
- 
- 	rxq_stats->alloc_skb_err = 0;
- 	rxq_stats->alloc_rx_buf_err = 0;
--	rxq_stats->restore_drop_sge = 0;
- 	u64_stats_update_end(&rxq_stats->syncp);
- }
- 
-@@ -155,8 +154,12 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
- 
- 		err = rx_alloc_mapped_page(rxq->page_pool, rx_info,
- 					   rxq->buf_len);
--		if (unlikely(err))
-+		if (unlikely(err)) {
-+			u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+			rxq->rxq_stats.alloc_rx_buf_err++;
-+			u64_stats_update_end(&rxq->rxq_stats.syncp);
- 			break;
-+		}
- 
- 		dma_addr = page_pool_get_dma_addr(rx_info->page) +
- 			rx_info->page_offset;
-@@ -170,6 +173,10 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
- 				rxq->next_to_update << HINIC3_NORMAL_RQ_WQE);
- 		rxq->delta -= i;
- 		rxq->next_to_alloc = rxq->next_to_update;
-+	} else if (free_wqebbs == rxq->q_depth - 1) {
-+		u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+		rxq->rxq_stats.rx_buf_empty++;
-+		u64_stats_update_end(&rxq->rxq_stats.syncp);
- 	}
- 
- 	return i;
-@@ -330,11 +337,23 @@ static void hinic3_rx_csum(struct hinic3_rxq *rxq, u32 offload_type,
- 	struct net_device *netdev = rxq->netdev;
- 	bool l2_tunnel;
- 
-+	if (unlikely(csum_err == HINIC3_RX_CSUM_IPSU_OTHER_ERR)) {
-+		u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+		rxq->rxq_stats.other_errors++;
-+		u64_stats_update_end(&rxq->rxq_stats.syncp);
-+	}
-+
- 	if (!(netdev->features & NETIF_F_RXCSUM))
- 		return;
- 
- 	if (unlikely(csum_err)) {
- 		/* pkt type is recognized by HW, and csum is wrong */
-+		if (!(csum_err & (HINIC3_RX_CSUM_HW_CHECK_NONE |
-+				  HINIC3_RX_CSUM_IPSU_OTHER_ERR))) {
-+			u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+			rxq->rxq_stats.csum_errors++;
-+			u64_stats_update_end(&rxq->rxq_stats.syncp);
-+		}
- 		skb->ip_summed = CHECKSUM_NONE;
- 		return;
- 	}
-@@ -387,8 +406,12 @@ static int recv_one_pkt(struct hinic3_rxq *rxq, struct hinic3_rq_cqe *rx_cqe,
- 	u16 num_lro;
- 
- 	skb = hinic3_fetch_rx_buffer(rxq, pkt_len);
--	if (unlikely(!skb))
-+	if (unlikely(!skb)) {
-+		u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+		rxq->rxq_stats.alloc_skb_err++;
-+		u64_stats_update_end(&rxq->rxq_stats.syncp);
- 		return -ENOMEM;
-+	}
- 
- 	/* place header in linear portion of buffer */
- 	if (skb_is_nonlinear(skb))
-@@ -550,11 +573,28 @@ int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
- 	return 0;
- }
- 
-+void hinic3_rxq_get_stats(struct hinic3_rxq *rxq,
-+			  struct hinic3_rxq_stats *stats)
-+{
-+	struct hinic3_rxq_stats *rxq_stats = &rxq->rxq_stats;
-+	unsigned int start;
-+
-+	do {
-+		start = u64_stats_fetch_begin(&rxq_stats->syncp);
-+		stats->csum_errors = rxq_stats->csum_errors;
-+		stats->other_errors = rxq_stats->other_errors;
-+		stats->rx_buf_empty = rxq_stats->rx_buf_empty;
-+		stats->alloc_skb_err = rxq_stats->alloc_skb_err;
-+		stats->alloc_rx_buf_err = rxq_stats->alloc_rx_buf_err;
-+	} while (u64_stats_fetch_retry(&rxq_stats->syncp, start));
-+}
-+
- int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(rxq->netdev);
- 	u32 sw_ci, status, pkt_len, vlan_len;
- 	struct hinic3_rq_cqe *rx_cqe;
-+	u64 rx_bytes = 0;
- 	u32 num_wqe = 0;
- 	int nr_pkts = 0;
- 	u16 num_lro;
-@@ -574,10 +614,14 @@ int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget)
- 		if (recv_one_pkt(rxq, rx_cqe, pkt_len, vlan_len, status))
- 			break;
- 
-+		rx_bytes += pkt_len;
- 		nr_pkts++;
- 		num_lro = RQ_CQE_STATUS_GET(status, NUM_LRO);
--		if (num_lro)
-+		if (num_lro) {
-+			rx_bytes += (num_lro - 1) *
-+				    HINIC3_LRO_PKT_HDR_LEN(rx_cqe);
- 			num_wqe += hinic3_get_sge_num(rxq, pkt_len);
-+		}
- 
- 		rx_cqe->status = 0;
- 
-@@ -588,5 +632,10 @@ int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget)
- 	if (rxq->delta >= HINIC3_RX_BUFFER_WRITE)
- 		hinic3_rx_fill_buffers(rxq);
- 
-+	u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+	rxq->rxq_stats.packets += (u64)nr_pkts;
-+	rxq->rxq_stats.bytes += rx_bytes;
-+	u64_stats_update_end(&rxq->rxq_stats.syncp);
-+
- 	return nr_pkts;
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-index 06d1b3299e7c..c11d080408a7 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-@@ -8,6 +8,17 @@
- #include <linux/dim.h>
- #include <linux/netdevice.h>
- 
-+/* rx cqe checksum err */
-+#define HINIC3_RX_CSUM_IP_CSUM_ERR      BIT(0)
-+#define HINIC3_RX_CSUM_TCP_CSUM_ERR     BIT(1)
-+#define HINIC3_RX_CSUM_UDP_CSUM_ERR     BIT(2)
-+#define HINIC3_RX_CSUM_IGMP_CSUM_ERR    BIT(3)
-+#define HINIC3_RX_CSUM_ICMPV4_CSUM_ERR  BIT(4)
-+#define HINIC3_RX_CSUM_ICMPV6_CSUM_ERR  BIT(5)
-+#define HINIC3_RX_CSUM_SCTP_CRC_ERR     BIT(6)
-+#define HINIC3_RX_CSUM_HW_CHECK_NONE    BIT(7)
-+#define HINIC3_RX_CSUM_IPSU_OTHER_ERR   BIT(8)
-+
- #define RQ_CQE_OFFOLAD_TYPE_PKT_TYPE_MASK           GENMASK(4, 0)
- #define RQ_CQE_OFFOLAD_TYPE_IP_TYPE_MASK            GENMASK(6, 5)
- #define RQ_CQE_OFFOLAD_TYPE_TUNNEL_PKT_FORMAT_MASK  GENMASK(11, 8)
-@@ -39,7 +50,6 @@ struct hinic3_rxq_stats {
- 	u64                   rx_buf_empty;
- 	u64                   alloc_skb_err;
- 	u64                   alloc_rx_buf_err;
--	u64                   restore_drop_sge;
- 	struct u64_stats_sync syncp;
- };
- 
-@@ -123,6 +133,9 @@ void hinic3_free_rxqs_res(struct net_device *netdev, u16 num_rq,
- 			  u32 rq_depth, struct hinic3_dyna_rxq_res *rxqs_res);
- int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
- 			  u32 rq_depth, struct hinic3_dyna_rxq_res *rxqs_res);
-+
-+void hinic3_rxq_get_stats(struct hinic3_rxq *rxq,
-+			  struct hinic3_rxq_stats *stats);
- int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget);
- 
- #endif
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index 9306bf0020ca..3fbbfa5d96b6 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -97,8 +97,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 
- 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
- 					 skb_headlen(skb), DMA_TO_DEVICE);
--	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
-+	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.map_frag_err++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		return -EFAULT;
-+	}
- 
- 	dma_info[0].len = skb_headlen(skb);
- 
-@@ -117,6 +121,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 						     skb_frag_size(frag),
- 						     DMA_TO_DEVICE);
- 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.map_frag_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			err = -EFAULT;
- 			goto err_unmap_page;
- 		}
-@@ -260,6 +267,9 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
- 		if (l4_proto != IPPROTO_UDP ||
- 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
- 		    VXLAN_OFFLOAD_PORT_LE) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.unknown_tunnel_pkt++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			/* Unsupported tunnel packet, disable csum offload */
- 			skb_checksum_help(skb);
- 			return 0;
-@@ -433,6 +443,27 @@ static u32 hinic3_tx_offload(struct sk_buff *skb, struct hinic3_sq_task *task,
- 	return offload;
- }
- 
-+static void hinic3_get_pkt_stats(struct hinic3_txq *txq, struct sk_buff *skb)
-+{
-+	u32 hdr_len, tx_bytes;
-+	unsigned short pkts;
-+
-+	if (skb_is_gso(skb)) {
-+		hdr_len = (skb_shinfo(skb)->gso_segs - 1) *
-+			  skb_tcp_all_headers(skb);
-+		tx_bytes = skb->len + hdr_len;
-+		pkts = skb_shinfo(skb)->gso_segs;
-+	} else {
-+		tx_bytes = skb->len > ETH_ZLEN ? skb->len : ETH_ZLEN;
-+		pkts = 1;
-+	}
-+
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.bytes += tx_bytes;
-+	txq->txq_stats.packets += pkts;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
-+}
-+
- static u16 hinic3_get_and_update_sq_owner(struct hinic3_io_queue *sq,
- 					  u16 curr_pi, u16 wqebb_cnt)
- {
-@@ -539,8 +570,12 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 	int err;
- 
- 	if (unlikely(skb->len < MIN_SKB_LEN)) {
--		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
-+		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.skb_pad_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			goto err_out;
-+		}
- 
- 		skb->len = MIN_SKB_LEN;
- 	}
-@@ -595,6 +630,7 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 				  txq->tx_stop_thrs,
- 				  txq->tx_start_thrs);
- 
-+	hinic3_get_pkt_stats(txq, skb);
- 	hinic3_prepare_sq_ctrl(&wqe_combo, queue_info, num_sge, owner);
- 	hinic3_write_db(txq->sq, 0, DB_CFLAG_DP_SQ,
- 			hinic3_get_sq_local_pi(txq->sq));
-@@ -604,6 +640,10 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
- err_out:
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.dropped++;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
-+
- 	return NETDEV_TX_OK;
- }
- 
-@@ -611,12 +651,19 @@ netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
- 	u16 q_id = skb_get_queue_mapping(skb);
-+	struct hinic3_txq *txq;
- 
- 	if (unlikely(!netif_carrier_ok(netdev)))
- 		goto err_drop_pkt;
- 
--	if (unlikely(q_id >= nic_dev->q_params.num_qps))
-+	if (unlikely(q_id >= nic_dev->q_params.num_qps)) {
-+		txq = &nic_dev->txqs[0];
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.dropped++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
-+
- 		goto err_drop_pkt;
-+	}
- 
- 	return hinic3_send_one_skb(skb, netdev, &nic_dev->txqs[q_id]);
- 
-@@ -754,6 +801,24 @@ int hinic3_configure_txqs(struct net_device *netdev, u16 num_sq,
- 	return 0;
- }
- 
-+void hinic3_txq_get_stats(struct hinic3_txq *txq,
-+			  struct hinic3_txq_stats *stats)
-+{
-+	struct hinic3_txq_stats *txq_stats = &txq->txq_stats;
-+	unsigned int start;
-+
-+	do {
-+		start = u64_stats_fetch_begin(&txq_stats->syncp);
-+		stats->busy = txq_stats->busy;
-+		stats->skb_pad_err = txq_stats->skb_pad_err;
-+		stats->frag_len_overflow = txq_stats->frag_len_overflow;
-+		stats->offload_cow_skb_err = txq_stats->offload_cow_skb_err;
-+		stats->map_frag_err = txq_stats->map_frag_err;
-+		stats->unknown_tunnel_pkt = txq_stats->unknown_tunnel_pkt;
-+		stats->frag_size_err = txq_stats->frag_size_err;
-+	} while (u64_stats_fetch_retry(&txq_stats->syncp, start));
-+}
-+
- bool hinic3_tx_poll(struct hinic3_txq *txq, int budget)
- {
- 	struct net_device *netdev = txq->netdev;
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-index 00194f2a1bcc..0a21c423618f 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-@@ -157,6 +157,8 @@ int hinic3_configure_txqs(struct net_device *netdev, u16 num_sq,
- 			  u32 sq_depth, struct hinic3_dyna_txq_res *txqs_res);
- 
- netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev);
-+void hinic3_txq_get_stats(struct hinic3_txq *txq,
-+			  struct hinic3_txq_stats *stats);
- bool hinic3_tx_poll(struct hinic3_txq *txq, int budget);
- void hinic3_flush_txqs(struct net_device *netdev);
- 
+This RFC adds spawn_template, a userspace-controlled exec acceleration
+mechanism for runtimes that repeatedly start the same executable with
+different argv, envp, and per-spawn file descriptor setup.
+
+The main target is agent runtimes. Modern coding agents repeatedly start
+short-lived helper tools such as rg, git, sed, awk, python, node, and
+shell wrappers while they inspect and edit a workspace. Those runtimes
+already know which tools are hot, and they are also the right place to
+decide policy. The kernel does not choose names such as rg, git, or sed.
+Userspace opts in by creating a template fd for one executable, then uses
+that fd for later spawns. Launchers, shells, and build systems have a
+similar repeated-startup shape and could use the same primitive, but the
+agent runtime case is the main motivation for this RFC.
+
+The mechanism applies to the executable that userspace asks the kernel to
+start. If an agent runtime directly starts /usr/bin/rg, the rg executable
+is the template target. If the runtime starts /usr/bin/bash -c "rg ... |
+head", the shell is the template target unless the shell itself opts in
+when it starts rg and head. The kernel does not parse the shell command
+string or rewrite inner commands into template spawns. Userspace has to
+call spawn_template for those inner commands explicitly:
+
+    direct exec                 shell wrapper
+    -----------                 -------------
+    agent                       agent
+      template("/usr/bin/rg")     template("/usr/bin/bash")
+      spawn rg argv              spawn bash -c "rg ... | head"
+
+    kernel target: rg          kernel target: bash
+    rg startup benefits        rg/head need shell opt-in
+
+Several agent runtime discussions are moving toward direct argv-style
+exec tools for both security and policy clarity. For example, opencode
+issue #2206 proposes an exec tool as a safer alternative to a shell-only
+bash tool:
+
+https://github.com/anomalyco/opencode/issues/2206
+
+spawn_template is meant to support both models. Direct exec users can
+cache the actual hot tool. Shell-wrapper users can cache the shell and
+still reduce shell startup cost. If a shell or an agent runtime later
+uses the same API for commands started inside a shell command, those
+inner tools can benefit too.
+
+Each spawn still goes through the normal exec path. The template reuses
+only metadata that can be revalidated before use. Credential preparation,
+permission checks, binary handler checks, secure-exec handling, and LSM
+hooks remain on the normal execve path.
+
+The UAPI has two operations. spawn_template_create() creates an
+anonymous-inode template fd from either an executable fd or an absolute
+executable path. spawn_template_spawn() starts one child from that
+template, applies per-spawn fd, cwd, and signal actions, and returns both
+pid and pidfd.
+
+fd inheritance is deliberately conservative. By default, after the
+requested per-spawn actions have run, the child closes fds above stderr.
+An agent runtime can still request traditional inheritance explicitly,
+but helper tools do not inherit unrelated secret files or sockets by
+accident. The create-time actions fields are reserved and rejected in
+this RFC because fd numbers are per-process state, not stable reusable
+objects. The caller supplies fd actions for each spawn instead.
+
+A typical agent runtime would keep one template per hot executable and
+still build argv, envp, cwd, and pipe wiring for each tool call:
+
+    rg_tmpl = spawn_template_create("/usr/bin/rg");
+
+    for each search request:
+        out_r, out_w = pipe_cloexec();
+        err_r, err_w = pipe_cloexec();
+        actions = [
+            FCHDIR(worktree_fd),
+            DUP2(out_w, STDOUT_FILENO),
+            DUP2(err_w, STDERR_FILENO),
+        ];
+        child = spawn_template_spawn(rg_tmpl, rg_argv, envp, actions);
+        close(out_w);
+        close(err_w);
+        read out_r and err_r;
+        waitid(P_PIDFD, child.pidfd, ...);
+
+A shell-wrapper runtime would use the same shape with a template for
+/usr/bin/bash and argv such as ["/usr/bin/bash", "-c", command]. That
+reduces shell startup cost, but it does not cache rg or head inside that
+command unless the shell also opts into spawn_template for commands it
+starts internally.
+
+The template pins the executable and denies writes to that file while the
+template fd is alive, so cached executable metadata cannot race with a
+writer changing the same inode. This means direct in-place writes to the
+executable can fail while a runtime keeps a template open. It does not
+block the common package-manager update pattern where a new inode is
+written and then atomically renamed over the old path. In that case the
+old path-created template becomes stale, spawn_template_spawn() rejects
+it with ESTALE, and the runtime should close and recreate the template
+for the new executable.
+
+    in-place write              package-manager update
+    --------------              ----------------------
+    template pins old inode     write new inode
+    write(old inode) denied     rename(new, "/usr/bin/rg")
+
+    cached metadata safe        old template sees path mismatch
+                                spawn_template_spawn() = -ESTALE
+                                recreate template for new inode
+
+Each spawn revalidates executable identity before cached metadata is
+used. Path-created templates only accept absolute paths: a relative path
+such as ./tool depends on cwd, and the same string can name a different
+file after chdir. For an absolute path template, each spawn reopens the
+path and checks that it still resolves to the executable recorded when
+the template was created. If the path now names a replaced file, the
+template is stale and userspace should close and recreate it.
+
+A template fd can be passed over SCM_RIGHTS like any other fd, but this
+RFC does not treat that as delegation. spawn_template_spawn() only works
+while the caller still has the same struct cred object that created the
+template. If another task, or the same task after a credential change,
+receives the fd, spawn fails instead of running the executable using the
+creator's launch authority:
+
+    ordinary fd                         spawn_template fd
+    -----------                         -----------------
+    A: open log                         A: create rg template
+    A -> B: SCM_RIGHTS(fd)              A -> B: SCM_RIGHTS(tfd)
+
+    B: read(fd) = ok                    B: spawn(tfd) = -EACCES
+                                        B: create own rg template
+                                        B: spawn(own_tfd) = ok
+
+    open-file use is delegated          spawn authority is not delegated
+
+The cached state is intentionally small. The template fd keeps the opened
+main executable file, an optional absolute path string, the creator
+credential pointer, and the deny-write state. The executable identity key
+records device, inode, size, mode, owner, ctime, and mtime, and is
+rechecked before cached metadata is used. The ELF cache keeps only the
+main executable's ELF header, program header table, and program header
+count.
+
+    cached in this RFC          not cached in this RFC
+    ------------------          ----------------------
+    opened main executable      PT_INTERP metadata
+    executable identity key     shared-library graph
+    main ELF header             VMA layout metadata
+    main ELF program headers    cross-process metadata sharing
+    creator cred pointer
+    deny-write state
+
+This RFC does not cache ELF interpreter metadata, shared-library
+dependency state, or derived mapping-layout state. Shared-library
+resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
+RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
+state. It also does not share cached executable metadata between template
+fds created by different processes. Each template owns its small cached
+metadata object in this RFC.
+
+Performance
+===========
+
+The numbers below come from my separate local autogen-bench project.
+autogen-bench uses AutoGen [1] Core as the agent harness: RoutedAgent
+instances run under SingleThreadedAgentRuntime, and RPC-style dispatch
+fans out concurrent tool-call requests to worker agents. The workload
+definitions, generated test files, and subprocess/spawn_template backends
+are local to autogen-bench.
+
+The agent-tools preset includes direct tool calls and shell-wrapper forms
+for:
+
+rg, grep, sed, awk, cat, head, tail, find, stat, ls, git-status, git-diff,
+python-small, node-small, sh-c, and bash-c.
+
+The benchmark is launch-heavy but not no-op: it searches generated
+Python-like source files, reads sample files, runs small Python and
+Node.js programs, and runs git status and git diff in a small repository.
+It does not include model inference or long-running tool work, so the
+numbers mainly describe the short-tool regime.
+
+The subprocess column starts each tool call through the existing
+userspace launch path. The spawn_template column creates templates for
+hot executables and uses spawn_template_spawn() for later calls.
+
+Total in-flight tool calls stay at 16; only the worker-process split
+changes. For example, 4x4 means 4 worker processes with 4 in-flight tool
+calls each. The two time_s values are subprocess/spawn_template wall
+times.
+
+Workload     Calls  subprocess  spawn_template  time_s       Delta
+(workers)    calls  calls/s     calls/s         seconds
+1x16         6144      411.04          420.32   14.95/14.62  +2.26%
+2x8          6144      666.78          690.08    9.21/8.90   +3.49%
+4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
+8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
+
+The table measures the whole mixed workload, including both process
+startup and the short tool work done after exec. Since this workload is
+launch-heavy, the possible launch-side savings include:
+
+- the template fd keeps an opened executable, avoiding repeated ordinary
+  open/path setup for that executable;
+- the kernel can reuse cached main-executable ELF header and program
+  header metadata after revalidation;
+- the fork-and-exec-style launch is submitted as one
+  spawn_template_spawn() operation;
+- fd, cwd, and signal actions run in the child kernel path instead of
+  being driven one syscall at a time by userspace child glue;
+- pid and pidfd are returned by the same operation, reducing some
+  runtime-side bookkeeping.
+
+In local experiments before this RFC, I also tried caching ELF
+interpreter metadata and derived ELF mapping-layout metadata. A focused
+repeated-exec benchmark did not show a stable standalone throughput gain
+for those two optimizations, so this RFC leaves them out and keeps only
+the main executable metadata cache.
+
+I also tried sharing main-executable ELF metadata across template fds
+created by different processes for the same executable identity. That can
+reduce duplicated metadata memory when many agent worker processes create
+their own templates for /usr/bin/rg, /usr/bin/git, and similar tools, but
+it did not show a stable throughput win in local multi-agent tests. It
+also adds cache keying, lifetime, invalidation, credential, and namespace
+questions to the RFC. This version therefore keeps per-template metadata
+ownership and leaves cross-process sharing out.
+
+Sorry again for the rough edges in this RFC. I would appreciate feedback
+on whether this direction is useful and what the right API boundary
+should be.
+
+Thanks,
+Li
+
+[1]: https://github.com/microsoft/autogen
+
+Li Chen (13):
+  exec: factor argument setup out of do_execveat_common()
+  exec: add an internal helper for opened executables
+  file: expose helpers for in-kernel fd actions
+  exec: add spawn template UAPI definitions
+  exec: add spawn template file descriptors
+  exec: add spawn_template_spawn()
+  exec: validate spawn template executable identity
+  binfmt_elf: cache ELF metadata for spawn templates
+  Documentation: describe spawn templates
+  exec: require absolute paths for path-created templates
+  exec: let close-range actions target the max fd
+  syscalls: add generic spawn template entries
+  selftests/exec: cover spawn template basics
+
+ Documentation/userspace-api/index.rst         |   1 +
+ .../userspace-api/spawn_template.rst          | 153 +++
+ MAINTAINERS                                   |   6 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +-
+ fs/Makefile                                   |   2 +-
+ fs/binfmt_elf.c                               | 104 +-
+ fs/exec.c                                     | 162 ++-
+ fs/file.c                                     |  11 +-
+ fs/spawn_template.c                           | 619 +++++++++++
+ include/linux/binfmts.h                       |  10 +
+ include/linux/fdtable.h                       |   2 +
+ include/linux/spawn_template.h                |  72 ++
+ include/linux/syscalls.h                      |   7 +
+ include/uapi/asm-generic/unistd.h             |   7 +-
+ include/uapi/linux/spawn_template.h           |  62 ++
+ scripts/syscall.tbl                           |   2 +
+ tools/testing/selftests/exec/Makefile         |   1 +
+ tools/testing/selftests/exec/spawn_template.c | 997 ++++++++++++++++++
+ 18 files changed, 2179 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/userspace-api/spawn_template.rst
+ create mode 100644 fs/spawn_template.c
+ create mode 100644 include/linux/spawn_template.h
+ create mode 100644 include/uapi/linux/spawn_template.h
+ create mode 100644 tools/testing/selftests/exec/spawn_template.c
+
 -- 
-2.43.0
-
+2.52.0
