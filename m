@@ -1,78 +1,113 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33DC3F413A;
-	Thu, 28 May 2026 13:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779974905; cv=none; b=Tbeg7fnJYbWYuG+WPavFg156dJr8ZEn1XwwQESPdpW9elCJTYQBZXlQbmkjHHy4hA1g4DpVJa/ICRKv0AVZkeNjQSmBFR22uQTWbO8iq5ND4iyNkpSxyi8dt/ISsqycC3AeNqYrRNllO415EjTA+P1lSXm+rf6gct6T2c5zfIfg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779974905; c=relaxed/simple;
-	bh=Ojhu0ztao92R3/IYF9ilOWrgyQIp9+pD2ERqQIFmEoI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j4MrTRzLpLpStyb6jZOEhMKhYzPvV+6bmg1I2QEvGlrBzYpTEY7WiADnq/uCZ76Ho24DjFTMyKHHLF+wMIfdDRDcE1BJP2JWrTSSaJl2zs9qfWlOICKJRfjStlJYUEcqAet80jAXx/gGdnA4tpSJwkoVRHVVCQO+sKErRJhZc90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=paZiEMJi; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0D13F0740;
+	Thu, 28 May 2026 13:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779974965; cv=pass; b=MEYiX+mwE6Q0LE8+rnXtYYw7qGUa3LEeJm9dSTR3h2McObKPoS81oOhGHrdm3f0BsZG1TyM+FDgnKqS8bGhVKeFrt2fffgLDstbDo5bzrcqtcgAFfLDghKVZaNESZJX/h0ch42/f0J/J8iV57iJ6ZoBrmQgKu2BfBU7xLTSbMto=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779974965; c=relaxed/simple;
+	bh=7qEK7ju3Omgrg8aAypHQk6Cbk0gZuRfZUcvvKJcACFA=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=IqFUl5JHJQgoJXrEUtzd37ReJeSqhFszr15boubLmu0RmcBQzk10cOXQ5ugcoy64NiwFbHQfyUmfBbw+UboneiFVyCTGklCxiop30t0wWTxaHvj3nASOicRRgpYUGIo6MVcgfrhviOoSeVALP6zYWlggWHY+ZH54lN4F/eyQrtQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=nAj+e7UB; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="paZiEMJi"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0442640E31
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1779974385; bh=dstEKY1poRPM6BQk7l1XSZmJmKHG4Uk0Daez6j/kGWI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=paZiEMJi2DqNDY9c7gKyaVuwkDzkZl8h9rb/xnqqnJZ793IvuS3ibUN6Ri9gtGNNc
-	 BcqkoMCyMF1JPnmWFNJtr0cBc0AZKBbODNaKWCLrEjqq1RA9K3pzwpkH0L0mvs4Wae
-	 Xp52X4kv70Ar1kcqP7ralzQ46NWE7eThU/Dle/Uy1JUe1Oz1zL2bfn4iosxuXtZkDV
-	 2BHXMFb4hXvLOEhdtcLx/VtNOyxxDzrOl5nyUHfeq7R+My/6AXosx0VyypHhCQFKb9
-	 l5iQyA0KSXjabf3LOwWGkd9Y8VjEKPbrn+oxAcMvrZny5LR46yjmR1n8cYCcH2TB+A
-	 5P6tsFAXWz8HA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0442640E31;
-	Thu, 28 May 2026 13:19:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: CHEN-YOU-0331 <chenyou910331@gmail.com>, Hu Haowen
- <2023002089@link.tyut.edu.cn>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, CHEN-YOU-0331 <chenyou910331@gmail.com>,
- alexs@kernel.org
-Subject: Re: [PATCH] docs: zh_TW: process: localize terminologies and
- improve fluency in 8.Conclusion
-In-Reply-To: <20260528041330.23247-1-chenyou910331@gmail.com>
-References: <20260528041330.23247-1-chenyou910331@gmail.com>
-Date: Thu, 28 May 2026 07:19:44 -0600
-Message-ID: <87cxyfllhr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="nAj+e7UB"
+ARC-Seal: i=1; a=rsa-sha256; t=1779974945; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RtNIp5pQ+N4uRz4sbdKqhMkiyRAh0GZeb5KzdeLEB4592t9KXZCeT3uGsU4/JJajw5kZT9x4sriFz7nqdN7FrKkfRestq+5qJdCG037fCw5e5wTxZQ+IIaPlu3fsNbqIrCVidKckQBffS5zkqzFvEEMGswZhOEVVATPYTrpezAk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779974945; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=; 
+	b=DS1Yt5L4rwnHtPxTIL1S8d/AjzpT7Cp6Jpai+ldhLyuCOkVSRaknPqlIB1TmHpOPGfjQmfihjd6ugExjUOJX5aQ8vtC5A0cTn4jnXsTBg/aME2X3YurlZl4qmCwz68/Tc5qh8yvOF9nSIfG+29uAOsAI76L/SvO5ohYenzme1pE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779974945;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=;
+	b=nAj+e7UBC8m9KsXsA67ZpQ0G+P4Wr+yGaw5uG9KocDsQtEyLCq3sV/BrxzddgPjE
+	/UZ1yJIoR8dbEmFNrpDDypsVD/M7R93gryh7fju8GAXCsig0/YiFnuMu66eOBae0bqY
+	YGcbeWkMT2FfDGnIFF949slQ4UGtgPinNFNmqtkxfBy5s0Zii+UMkFIGlM831KKPntB
+	WcBQh+ZjJcpgexjhte0ekVJEg6jxcFFiqcWdjzvKpwELnvmBbrqw2J+BWnH5Bjf0xXV
+	uGJLHjDDwl/rx5Lpf7VyLwLNX4tBoMPg1Yo10zXrGIGPu69NTu3eK36m6PrwQCYm8Uc
+	15uyo4Ob/A==
+Received: by mx.zohomail.com with SMTPS id 1779974943588581.027273066147;
+	Thu, 28 May 2026 06:29:03 -0700 (PDT)
+Message-ID: <966fd55f52bb5e0bd1d16d3227b2e6695fa23f56.camel@rong.moe>
+Subject: Re: [PATCH v2 1/2] ALSA: usb-audio: Add
+ QUIRK_FLAG_MIXER_GET_CUR_BROKEN
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet
+	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+In-Reply-To: <877boougfq.wl-tiwai@suse.de>
+References: <20260528-uac-quirk-get-cur-vol-v2-0-84d3c8f48150@rong.moe>
+		<20260528-uac-quirk-get-cur-vol-v2-1-84d3c8f48150@rong.moe>
+	 <877boougfq.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 May 2026 21:23:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+X-ZohoMailClient: External
 
-CHEN-YOU-0331 <chenyou910331@gmail.com> writes:
+Hi Takashi,
 
-> Translate PRC tech terms into Taiwanese tech terms (e.g.,
-> =E5=85=A7=E6=A0=B8 -> =E6=A0=B8=E5=BF=83, =E4=BB=A3=E7=A2=BC -> =E7=A8=8B=
-=E5=BC=8F=E7=A2=BC, =E8=BB=9F=E4=BB=B6 -> =E8=BB=9F=E9=AB=94) to improve
-> readability for local developers. Also, rephrase several
-> awkward sentences to make the document more fluent.
->
-> Signed-off-by: CHEN-YOU-0331 <chenyou910331@gmail.com>
-> ---
->  .../zh_TW/process/8.Conclusion.rst            | 45 +++++++++----------
->  1 file changed, 22 insertions(+), 23 deletions(-)
+Thanks for your review.
 
-I, of course, am in no position to judge these changes, and I worry
-about getting into some sort of turf war over differences in
-terminology.  Alex, are you able to give me a recommendation on this
-change?
+On Thu, 2026-05-28 at 09:44 +0200, Takashi Iwai wrote:
+> On Wed, 27 May 2026 20:56:27 +0200,
+> Rong Zhang wrote:
+> >=20
+> > @@ -1258,6 +1261,16 @@ static int check_sticky_volume_control(struct us=
+b_mixer_elem_info *cval,
+> >  			return 0;
+> >  	}
+> > =20
+> > +	if (cval->head.mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_GET_CUR_BR=
+OKEN) {
+> > +		usb_audio_warn(cval->head.mixer->chip,
+> > +			       "%d:%d: broken mixer GET_CUR (%d/%d/%d =3D> %d)\n",
+> > +			       cval->head.id, mixer_ctrl_intf(cval->head.mixer),
+> > +			       cval->min, cval->max, cval->res, saved);
+> > +
+>=20
+> IMO, it's better to be usb_audio_info().  Otherwise it leads to an
+> unnecessary caution.  Basically the behavior is expected, so there is
+> nothing to worry about that.
 
-Meanwhile, the signoff should have your proper name, please.
+Hmm, makes sense.
 
-Thanks,
+With your suggestion, I also just realized that it makes no sense to
+restore a garbage volume using snd_usb_set_cur_mix_value(..., saved)
+when GET_CUR is broken. It would be probably better to rely on
+init_cur_mix_raw() to initialize the mixer to cval->min instead, just
+like what it does for mixers that return errors for GET_CUR.
 
-jon
+Hence, I will turn it into a usb_audio_info(), clear cval->cached and
+goto no_checks, so that init_cur_mix_raw() will initialize it properly.
+The usb_audio_warn() in init_cur_mix_raw() will need to be gated by
+cval->get_cur_broken in this case too.
+
+Thanks for your suggestion,
+Rong
+
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
