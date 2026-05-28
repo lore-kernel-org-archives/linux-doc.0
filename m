@@ -1,40 +1,33 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43942351C02;
-	Thu, 28 May 2026 07:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FFB35AC27;
+	Thu, 28 May 2026 07:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779954513; cv=none; b=sz1nprdqFYtBb9E6jj9BR7cSQY3ReQtbtCkn3vpQ4tmbrxoYMLoAAW++F3qkhG7L4gsuYwVvkYmon68Ugf3xy+rq7JWhYP+4QAwkXi7BK5/zKD4kCHwyFVVF/7tPqsUKqZHuw1o2iGrOMsE+nxJ+7OIJjXlZsTjK6N8JQouUe98=
+	t=1779954853; cv=none; b=uR572iqCEkE4NoBxMq4Sz/DrNlnYDxBiWZ/ja6xay/66T7utbAlTC2GWAWUS5ZROQIi6p7xJyX52mjZznUkLfhnhgLr8G53nhmDDABmqsTHM8gK+aWj7W6ZP5L0X0Fl1pKm2RXLOwL2wRSylxl8fV3QlYoExEGRIhXeg1eh8a7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779954513; c=relaxed/simple;
-	bh=nMN8OwxhDdLf9YlQ22VoLYVfKGZLM/ci0aISZWDApD4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AGNhOQMpQWMilq10+OmBahHXc/8LJUbs/gYnTbGcuU5oAckxJbvUmnV4lsj++66BVJ5TIe8POBybQMRxZXN7JF3FAXDsRsKKUi/uEQoeoj1t4bc+bhgqsrkTamxUMPQ11sUaaCW1yYc0wf3WOk6mPXk4Hc07YFIY2ptuwmivWyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1P43YydG; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1779954853; c=relaxed/simple;
+	bh=6LhxpZ3jp/TRJAOmy1MQ4RP2/xjjrAWe43OmHikPpTw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iMgfpptg0ZFhf91RYhEgiUK+7NdCtlLzAQZLPq5JElk2nnxMW62weTHy2oh3y2Tt5r8gqLx0wwmeE5m0TWHFZYyy2ZE2Md6zK8laVK5jF8Us//GAYwBEBcI9cWUIhEaaE0GUFuzHuUam0PDY/wtrsWiP8w+svRohNWzdkNdbEUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMjrDY9P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1P43YydG"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=dpnGK6j+kvjnma6YHvrd5wwrLUxTfDRQvHYx5YGFkW8=;
-	b=1P43YydGlenQu7gtjAUK3WkAvoYefi1zaef3ts/PCFV8z8jXMftJzmpGqo5LjAapMRdRXr6/a
-	N1fDE/FHFxcXRLBxskpsButEzn/mkgSXUmZGYLvw2ukswIM6zPl+B8AGyjYLYkBV/NlrO3ruwSZ
-	nO8/hOI1gcFH8PiH3P2wFRQ=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4gQz1H3L7czmV7M;
-	Thu, 28 May 2026 15:40:35 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 95504402AB;
-	Thu, 28 May 2026 15:48:22 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 28 May 2026 15:48:16 +0800
-Message-ID: <08ab6756-091c-4bee-9d49-cb84d0be027c@huawei.com>
-Date: Thu, 28 May 2026 15:48:15 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMjrDY9P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9356E1F000E9;
+	Thu, 28 May 2026 07:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779954852;
+	bh=DXyX/vSlotir1MvkerBIJgI1i61yQB1gKf3by/+LUNM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=VMjrDY9Pl3stXYQe+Hx8eLna86X/Ey4PyiJtR5xorT1OA8XptvPgr3Kq85FgSVgNh
+	 XR5ZRMbBKfKNps0UVTzXEY41Ic+sODBxgi/xjj9tPCy+Ql2pHaWWCgA/L/SIkQY6n/
+	 rUyS+sJi7qt+Lcj/pLTsdZQRxS3LbGoiTQsXMd/KzNA1MBtfs30uncfKm54xfbyX5S
+	 Z3uKgxF21zys8QvrAUiNCE3/eibp0rmcLMiUVLuVLOlhQaO6XWudf3wGznREbnm86m
+	 fCv+Tq/bLgD8uIQB/KRD09em28nvvNanynmcl6DzZrTHJ18DJ4H4zz3/fAErmSlw9s
+	 uMQJeq3+ON0SA==
+Message-ID: <146b3bdf-0219-4eae-a569-6ffb3d5ea400@kernel.org>
+Date: Thu, 28 May 2026 09:54:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,97 +35,85 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 00/17] arm64/riscv: Add support for crashkernel CMA
- reservation
-To: Huacai Chen <chenhuacai@kernel.org>, Mike Rapoport <rppt@kernel.org>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <chleroy@kernel.org>,
-	<pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<alex@ghiti.fr>, <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <robh@kernel.org>,
-	<saravanak@kernel.org>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
-	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
-	<rdunlap@infradead.org>, <pmladek@suse.com>, <feng.tang@linux.alibaba.com>,
-	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
-	<kuba@kernel.org>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
-	<paulmck@kernel.org>, <thuth@redhat.com>, <ardb@kernel.org>,
-	<masahiroy@kernel.org>, <mark.rutland@arm.com>, <maz@kernel.org>,
-	<james.morse@arm.com>, <leitao@debian.org>, <sourabhjain@linux.ibm.com>,
-	<yeoreum.yun@arm.com>, <coxu@redhat.com>, <jbohac@suse.cz>,
-	<ryan.roberts@arm.com>, <cfsworks@gmail.com>, <tangyouling@kylinos.cn>,
-	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>,
-	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <kas@kernel.org>,
-	<debug@rivosinc.com>, <namcao@linutronix.de>, <liaoyuanhong@vivo.com>,
-	<fuqiang.wang@easystack.cn>, <seanjc@google.com>, <guoren@kernel.org>,
-	<chenjiahao16@huawei.com>, <hbathini@linux.ibm.com>, <bgwin@google.com>,
-	<takahiro.akashi@linaro.org>, <lizhengyu3@huawei.com>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
-References: <20260525084932.934910-1-ruanjinjie@huawei.com>
- <CAAhV-H4NA7vgyxKnK+N_3C6pWBnwXc2URUyLh_h1m-MO=MnsGQ@mail.gmail.com>
- <ahQ0WRiMsB011tym@kernel.org>
- <CAAhV-H5x3m08=acrUr2VOAQ8-r2PhN1xTdr3NihHocoPM5=3hQ@mail.gmail.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <CAAhV-H5x3m08=acrUr2VOAQ8-r2PhN1xTdr3NihHocoPM5=3hQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Subject: Re: [PATCH] mm/mempool: use static key for boot-time debug enablement
+Content-Language: en-US
+To: Andrew Morton <akpm@linux-foundation.org>,
+ lirongqing <lirongqing@baidu.com>, Usama Arif <usama.arif@linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260527104634.2434-1-lirongqing@baidu.com>
+ <20260527130656.a448e84a30dc44617b51b45a@linux-foundation.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260527130656.a448e84a30dc44617b51b45a@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-
-On 5/25/2026 9:17 PM, Huacai Chen wrote:
-> On Mon, May 25, 2026 at 7:37 PM Mike Rapoport <rppt@kernel.org> wrote:
->>
->> Hi Huacai,
->>
->> On Mon, May 25, 2026 at 06:14:52PM +0800, Huacai Chen wrote:
->>> On Mon, May 25, 2026 at 4:50 PM Jinjie Ruan <ruanjinjie@huawei.com> wrote:
->>>>
->>>> Jinjie Ruan (16):
->>>>   riscv: kexec_file: Fix crashk_low_res not exclude bug
->>>>   powerpc/crash: Fix possible memory leak in update_crash_elfcorehdr()
->>>>   arm64: kexec: Fix image->elf_headers memory leak during retry loop
->>>>   x86/kexec: Fix potential buffer overflow in prepare_elf_headers()
->>>>   arm64: kexec_file: Fix potential buffer overflow in
->>>>     prepare_elf_headers()
->>>>   riscv: kexec_file: Fix potential buffer overflow in
->>>>     prepare_elf_headers()
->>>>   LoongArch: kexec: Fix potential buffer overflow in
->>>>     prepare_elf_headers()
->>>>   crash: Add crash_prepare_headers() to exclude crash kernel memory
->>>>   arm64: kexec_file: Use crash_prepare_headers() helper to simplify code
->>>>   x86/kexec: Use crash_prepare_headers() helper to simplify code
->>>>   riscv: kexec_file: Use crash_prepare_headers() helper to simplify code
->>>>   LoongArch: kexec: Use crash_prepare_headers() helper to simplify code
->>>>   crash: Use crash_exclude_core_ranges() on powerpc
->>>>   arm64: kexec: Add support for crashkernel CMA reservation
->>>>   riscv: kexec: Add support for crashkernel CMA reservation
->>>>   arm64/crash: Add crash hotplug support
->>> I have some bikesheedings about the subjects. Can we unify the prefix formats?
->>> x86/kexec, arm64: kexec_file, riscv: kexec_file, LoongArch: kexec .....
->>
->> It might look weird in the series, but powerpc and x86 use '/' and arm64 and
->> riscv use ':' so in the logs in arch/ this would be actually fine.
-> OK, but at least we can unify kexec and kexec_file.
-
-That looks fine.
-
-Jinjie
-
+On 5/27/26 22:06, Andrew Morton wrote:
+> On Wed, 27 May 2026 06:46:34 -0400 lirongqing <lirongqing@baidu.com> wrote:
 > 
-> Huacai
+>> Replace the #ifdef CONFIG_SLUB_DEBUG_ON conditional compilation with a
+>> static key (mempool_debug_enabled). This allows enabling mempool debugging
+>> at boot time via:
+>> 
+>>     mempool_debug
+>> 
+>> Instead of requiring CONFIG_SLUB_DEBUG_ON at compile time. Benefits:
 > 
->>
->> With the only exception of arm64/crash that should have been arm64: crash:
->>
->>> Huacai
->>
->> --
->> Sincerely yours,
->> Mike.
-> 
+> Sashiko is suggesting that we use mempool_debug=<...> here.  Which permits
+> mempool_debug=n if for some reason the kernel is defaulting to "on".  Which
+> we might choose to do in the future.   I think that's a little better - do others agree?
 
+Yeah we could do that. But I still think "CONFIG_SLUB_DEBUG_ON" isn't what
+should cause mempool_debug to default to "on". It can be revisited once
+there's a solid argument why default on would be needed.
+
+> Same goes for the new dmapool_debug.
+
+Ack.
+
+> Sashiko asked a second question:
+> 	https://sashiko.dev/#/patchset/20260527104634.2434-1-lirongqing@baidu.com
+
+Seems the same thing as Usama raised about static key init ordering.
