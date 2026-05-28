@@ -1,96 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A38D282F09
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 14:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C4262D0B;
+	Thu, 28 May 2026 14:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976932; cv=none; b=cVIq/KJ0jp/0IGHAu2zBK5nsp0QscrvokesmEqVR47DlW3x4GbtlelvydwQ4zEB/NtihWAItipN4KDIEWjO86smOyOv9c8xXgEMREMgoUep44KRXkCFVtwiXCvzONP1R346Hmzc2iYipja2+/CoY6SD3lleh3hHMo8xBxCO0dhk=
+	t=1779977153; cv=none; b=exYLaSd841dx9G60wv8DmfQXLLDAlB76HRdspgEwLw+3C4iNv/0RbFYvpbGnBZ/K9QHyH3wO3Gui3UmngGrsWvVeIc0iTwKQ//HQgOdNJy4ucRpYeYRooyh4BJ+mHdNphTRHYz8u//KheA+MiEUeVUFk23xYJAQBiKpUu92KWx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976932; c=relaxed/simple;
-	bh=ctasQUQ7+Csh2D5lKCnh27cLT8B7cNdtofVRJ3FVAmY=;
+	s=arc-20240116; t=1779977153; c=relaxed/simple;
+	bh=2B+LiktD1pa0YGhkxFn2PP8pHb5/sG7H1Di7+KweH+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AGGiu60QutFT3PxnQp3NPHj/q7+1NYTOAae/+o72QvsXpYs37cganDpWewThfAnhkhtYHziryU3SyGz7G5hQuJUzRDFP8EKMdBTHrpz/Wtt4KKlLAGqcOSUTP0eUX1ynWnxvG09YyK02oWKjCIXBnZQMZU09/GSts3u6K4qB3zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CoQXGXR8; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kMij05pD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mkAWARCuusOO9Gsj2Uj8J+g0mQy1G73xZirGnGWR1uGRLZaeGw6DcTjG4sNjin5XzO17iZdj19rXiTNrMY64cb4MqLH4qT1UFtl0FHMWyxViDo31I+7ORhhRTawwGUOP8yhJ0kVrFtTDdbbs/ydMihB+zF/EclcVZOotK8h0r1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KSo4J3xP; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CoQXGXR8";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kMij05pD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779976930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sb89AkexlC8S7MoHF9+cz/eT1YgX2gdgA5YSkoKvstc=;
-	b=CoQXGXR8ne6kxyxJL3tWne6z991E0wYQLwxSfU11mI6Q5U1/5Zhy2q3AtjtbQjEb/HSaeh
-	AaDMRbGqR+L/xaXnhnPz6viELQSgjSu5nsGgttptPooU0bKydQCpPPkf7NvPoERIzO0tBH
-	IW833yCKfVldMoG/R1yA0p2r8jBV1Ac=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-421-lEykSUxpMA-W6epKn3L4RQ-1; Thu, 28 May 2026 10:02:08 -0400
-X-MC-Unique: lEykSUxpMA-W6epKn3L4RQ-1
-X-Mimecast-MFC-AGG-ID: lEykSUxpMA-W6epKn3L4RQ_1779976928
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4856fdda8a0so4577635b6e.1
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 07:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779976928; x=1780581728; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sb89AkexlC8S7MoHF9+cz/eT1YgX2gdgA5YSkoKvstc=;
-        b=kMij05pDuZ6twQ+Pp3rnFd6qoN5P8GO/7cMfVYpzfAOijzP2b8WYOOHMJKbztlQJcu
-         4bOtjd6vuT2Mo87TGxI0DygyLwX+NZY9l4w3roEijdOKpLnXj7DptYM6RIaFxPoTuBXU
-         sL3w8irbytOiRJlSUztO86o5xQNT1pn6cfpz2hSxWTAWfpynS3KeC8u1AHuyP3guFJT9
-         rkd7x445O28oWn8YDYHKi7uuV+T6gUqiN2o44DJpnrl90sRyCTE/RnISiRATME6goB7o
-         /4JhgdclEO95E+ZRA3gMqIvfmsbj64eDYOON59nNzL71boEckxxl34FhNceCNvxTHF+p
-         CrXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779976928; x=1780581728;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sb89AkexlC8S7MoHF9+cz/eT1YgX2gdgA5YSkoKvstc=;
-        b=pRRDZZ2AZPcKdJzeaTDcWpZS0i3fz1rBJRls6/9o4faaPwdpFPjSalw+d61Cz140ze
-         O9JH8YKDDsvoawNwZRTdNNVoXKD/oggwJzoBmfuT1pfGMlrfxesQ9GkkaCkH7diAbcjT
-         cYku+clzzzlsI4vFiHkjlkswEeGL+tNkhLwXzSVOkTHzb+KMRZFPtVsNp/zWOKXc3DNF
-         xrOyNxRISm4aX77B3b477/Y1LScimSzyOxkftokxSot8UYDe9Bi5pi+Eq2Z/DRwj4+px
-         WlVZXFv3DT+6tXGI+YjwfHcZ7b/zrHDVtnu6xEoXptfL/JyFVLJiDrF6siA9vzjbJy2r
-         5/rw==
-X-Forwarded-Encrypted: i=1; AFNElJ/tObu/uQ5ANXqlLx0/EHaOF1C758oZlTuJ1TSvupxBJl6sVTQFKcx4RhJ7aXe+crkcKMusmcfQ8W4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYD2hvXKxDypmJI7GAEG6xm/MqWBvVuqTJ8q+vow9iaVuOZtDb
-	lf6jpoX8wg6kWv/NZ9ebz4E7A4ZDPMiXp69sNhW19xo5JHOSjD2DSwHMvBxkrBN2tKH0SXNN659
-	M726ih+3WkItbbkheJsvAE4M0yzuL5U4XzfYnH9FZs3cHxgbIEB57HBDPmKNAsw==
-X-Gm-Gg: Acq92OGNuInU06fDbFfWEflYsiDW5B0CFBsSyosundRtYspjFcSR3misLWw4h7VFCcJ
-	TrQEqZkxk11g+I/q56ANeP9jg1fPmCsHv7IjewxT6vfx1/XKxHz1QF9Of21ThbkgAz4aJ76dRp3
-	YXA3qlC5RnXxmLslHkZpFFOoQIwpdIUTXaT0UHgEomKg0ZYcuUrzalc69vrOuVTPYG35AwVvriK
-	8IGMeERMsA4kGEnKCFe8HmeLSZvJf2HTtYbO4PDAjQvkmghi6lAviw4dPaGPGYl/5WXOewnm72C
-	aQbfh8yJcmN5HuE1ruOly/0w+LvrRFC7XhYn4l4BMfDXob+VOY5uW7zmP+1V320pcFjapgRlO1V
-	yGmXs7YrxPPAIDsCQpB6rS6Ai5KkklpKbTIepFRGbSpJGQrMFrdphrvSYIb/79VU5sJE=
-X-Received: by 2002:a05:6808:1482:b0:485:5430:2bb7 with SMTP id 5614622812f47-485d94ff023mr674767b6e.6.1779976927759;
-        Thu, 28 May 2026 07:02:07 -0700 (PDT)
-X-Received: by 2002:a05:6808:1482:b0:485:5430:2bb7 with SMTP id 5614622812f47-485d94ff023mr674628b6e.6.1779976926679;
-        Thu, 28 May 2026 07:02:06 -0700 (PDT)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51706adc446sm72730071cf.15.2026.05.28.07.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 07:02:04 -0700 (PDT)
-Date: Thu, 28 May 2026 10:02:02 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KSo4J3xP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=iKxZKPqxsH5uo4pqIkZVW6G4qdRbJWxX6X8Pa63Xnvo=; b=KSo4J3xP9z2BKQp2YtD8YreOy7
+	JeSCicIOC7tMqDe2DyJ3gZuNqZ+BYMq7UwyFX1esBs4k+0kK0zYAYY/CvIi+v9yk6nIIZnpLJvaHo
+	ubs6YYSQlYKT8rFh1GgejQPf1VML8a4GuDCXZGIBDFf3OYYn12/cSaMYmzMqTXOA7Uk0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wSbMc-004uKm-0g; Thu, 28 May 2026 16:05:34 +0200
+Date: Thu, 28 May 2026 16:05:33 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Regus, Ciprian" <Ciprian.Regus@analog.com>
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Matthew Storr <mstorr@redhat.com>
-Subject: Re: [PATCH] docs: mm: clarify that user_reserve_kbytes has no effect
- when overcommit_memory is set to 0 or 1
-Message-ID: <ahhK2nEo-HPgodNF@redhat.com>
-References: <20260528-mm-clarify-docs-v1-1-aa88e83b4bfd@redhat.com>
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
+ the ADIN1140 MACPHY
+Message-ID: <91ff1b03-d5db-473a-9292-335022a646c5@lunn.ch>
+References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
+ <20260527-adin1140-driver-v2-10-37e5c8d4e0a0@analog.com>
+ <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
+ <72c3a9a8040e4b8990f217d4072872de@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,44 +60,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260528-mm-clarify-docs-v1-1-aa88e83b4bfd@redhat.com>
-User-Agent: Mutt/2.3.1 (2026-03-20)
+In-Reply-To: <72c3a9a8040e4b8990f217d4072872de@analog.com>
 
-On Thu, May 28, 2026 at 09:45:10AM -0400, Brian Masney wrote:
-> Looking at __vm_enough_memory() in mm/util.c, user_reserve_kbytes has no
-> effect when overcommit_memory is set to 0 or 1. The documentation for
-> overcommit_memory already references user_reserve_kbytes when the flag
-> is set to 2.
+> > Does the standard say anything about this? It seems like something
+> > which could be moved into the core.
 > 
-> Let's go ahead and add a clarification to user_reserve_kbytes in vm.rst
-> that it has no effect when overcommit_memory is set to 0 or 1.
+> The comment is a mistake on my part, as it doesn't clearly describe why we
+> have to pad the skb. It's a case of a MAC device which doesn't pad a frame to
+> a minimum size when the host wants to transmit less than 64 bytes. I'll update
+> it in v3 to say:
 > 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 97e12359775c..b9b0c218bfb4 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -1034,6 +1034,8 @@ min(3% of current process size, user_reserve_kbytes) of free memory.
->  This is intended to prevent a user from starting a single memory hogging
->  process, such that they cannot recover (kill the hog).
->  
-> +This setting has no effect when overcommit_memory is set to 0 or 1.
-> +
->  user_reserve_kbytes defaults to min(3% of the current process size, 128MB).
->  
->  If this is reduced to zero, then the user will be allowed to allocate
-> 
-> ---
-> base-commit: e7d700e14934e68f86338c5610cf2ae76798b663
-> change-id: 20260528-mm-clarify-docs-76ab8f82826d
+> /* The MAC doesn't automatically pad the frame to a 64 byte minimum size in
+>  * case the host sent a shorter skb, so we have to do it in the driver. The FCS
+>  * will be added by the MAC.
+>  */
 
-+ Other MM maintainers / reviewers. Sorry for not including on the
-initial patch posting. I initially missed the separate MM Core subsystem
-in the MAINTAINERS file.
+Just an FYI: the 64 bytes includes the FCS. So if the MAC is adding
+the FCS, you should pad to 60, not 64.
 
-Brian
+> As for what the OA TC6 standard says, this is the relevant section
+> (7.3 - Data Transaction Protocol for Ethernet Frames)
+> 
+> "Ethernet frames are typically transferred from the SPI host to the MAC-PHY without
+> any padding or frame check sequence (FCS). The MAC will automatically pad the Ethernet
+> frame to the minimum frame size of 64 bytes and append a computed FCS. However, the
+> Ethernet specification allows for the SPI host to optionally perform the frame padding and
+> FCS computation prior to transfer to the MAC-PHY. Similarly, the MAC-PHY will typically
+> strip the FCS from received Ethernet frames prior to transfer to the SPI host. However,
+> the Ethernet specification allows the option for the Ethernet frame to be transferred to the
+> MAC client with the FCS.
+> 
+> The IEEE Ethernet standard [2] defines the behavior of the MAC and therefore is beyond
+> the scope of this specification. As a result, support for allowing the SPI host to perform frame
+> padding and FCS computation, or passing the FCS to the SPI host is optional. When supported,
+> the method for configuring the MAC-PHY to enable these modes of frame transfer is
+> implementation specific."
+> 
+> As I understand, from the TC6 standard point of view, the padding and FCS offload is optional.
+> So, I think this shouldn't go into the core. 
 
+Thanks for the quotes from the standard. I personally think this was a
+bad decision by the authors of the standard, leaving it ambiguous.
+
+In the end, putting it in the driver seems like a good first
+approach. Maybe as we get more devices following the standard, we see
+it is common to need padding, and we move it into the core controlled
+by a quirk. But that can come later.
+
+   Andrew
