@@ -1,131 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EFC2F5498
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 02:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246511C5D7D;
+	Thu, 28 May 2026 02:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779935830; cv=none; b=uEifYjUppfL/4LSksxaH2plZFj3/+upCF0kV3LPNXrpuQBuetaYzpetNCmDMKZEGvgbdq3nx7mjUrD2d1/gf1iUWs74XE52GDQZljfnmnF8dCbMq6sMwF6kit1+38Y33BVC5eo3bv2SwSbzWBtRbmQRG2zIa+AH6ch1cuTYOkkQ=
+	t=1779936621; cv=none; b=eTqezi6fjhxH2SRh5AR72KypnxeKLpLJQPR7GVRb/GQs2wXWzsW7vbyF/afy+CY65peSB3yTxTXpAUQaNuuiixuY0FQza2M3Kf1NoywGY2cEWY6cqv3JFvpvwjtlNsK1NR/H3zcFofJjA0yJzKqnwStUIE5KLpzDC7x5XLj0n0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779935830; c=relaxed/simple;
-	bh=Tx34bfrkuSv0RcUa6Qw+Oes/AE1Ehl10yz4Nrb7BMJI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dKMw4/Lf3GkkjfAKRUkGYLUqVQBjXG93vNVt6/iF9gyDSZb9PguIjEqx4e0fMAfspYpbPMe1+xDigudd7zSE8O0ZGAXdmFlhlW9nKl8PgSLF8pUpG+pxhDIzfgHTuHJ9LjkeAHXer95+k2r6Qpe463T+MDUTXbq8MBxzuv/x6Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2v3Dt17; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779936621; c=relaxed/simple;
+	bh=FPclTH03l9Yt7L1jGq5YcyMGTA4Tq90bDxn8yn0jsn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R04Cc1v5fI0LI3Obpf2sZ4fMeICwqgX7n/BdX4Zpm9zH1OoMBJINlGvOinSvsjsvd9ixViC5NiDshPBrNlRq5Yj0l8kuh+UMso9zWYSkDW9rs7XrqaYSEBeZPjBiBrgNydUrZZ69sU96sBW/e/hrEfjQrpbdUqC/f8V/NVzNqE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fG5jYt0K; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2v3Dt17"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779935828; x=1811471828;
-  h=date:from:to:cc:subject:message-id;
-  bh=Tx34bfrkuSv0RcUa6Qw+Oes/AE1Ehl10yz4Nrb7BMJI=;
-  b=I2v3Dt17S6Jgn9JLsdLbgw6E9c05cp38npKkqy+eY4uASKKEYEMWzh6X
-   m0OjrddxkEKM08d58UEBRTEFkgGwZyvrjeilxPdUOQZdZpMX4g1nSQe9F
-   KVIpeFdM2vntfb2/txyWOmhOGhbgDApmjbIe8PwVK75pJyawRdaQ99pY1
-   dZ+dScgy5f86pIFYHvgL27YENUe27X2K4HJ3zfKwfEpE1QkTttKvicATm
-   qqHTazdMVhhg60MtGOCCI8BPdS/wTJgKC1KgtJ4CoqixA+x1S60vkX3iK
-   cBJFb3VOo6wjhgFrQYdpDBep2sddKObYva85v6VpTvRVlcWND1j7ekPue
-   w==;
-X-CSE-ConnectionGUID: NPriXbJPQDOPuN3ePDTqcw==
-X-CSE-MsgGUID: 1PBf2cvyRUCfIwyuqM6OqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="80502837"
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="80502837"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 19:37:07 -0700
-X-CSE-ConnectionGUID: LnSES0FGSHiM68CDWLM1WQ==
-X-CSE-MsgGUID: HdfYZ9SiTgOGAse4384GQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
-   d="scan'208";a="266310683"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 27 May 2026 19:37:05 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSQcJ-000000000FR-1gnV;
-	Thu, 28 May 2026 02:37:03 +0000
-Date: Thu, 28 May 2026 04:36:31 +0200
-From: kernel test robot <lkp@intel.com>
-To: Wang Yaxin <wang.yaxin@zte.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/accounting/delay-accounting.rst:237:
- WARNING: Block quote ends without a blank line; unexpected unindent.
- [docutils]
-Message-ID: <202605280425.CtB8dwcy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fG5jYt0K"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=DsWVnO/eXmqtGauPYqIZ0hLahnQl89rtKzFLexhCFHk=; b=fG5jYt0K0UhDjn1cjT2LERST9d
+	6IiVoPaMdeX57dlq3JvW30HiPTKeCEbv4JtTl28nrXEWYvHV92l3sLl+j9VMSn8MMRbOQlgY5FIVd
+	IxoExANcplImlnf50trs4mHdUcIl0+bkRZgKoUdJ/478WLPJGl4TMQRUDXnPk9i6L4kw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wSQow-004qXj-Nl; Thu, 28 May 2026 04:50:06 +0200
+Date: Thu, 28 May 2026 04:50:06 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: ciprian.regus@analog.com
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next v2 09/10] net: phy: Add support for the ADIN1140
+ PHY
+Message-ID: <74a44fe8-52a3-4d06-94d3-be32a2e39c4c@lunn.ch>
+References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
+ <20260527-adin1140-driver-v2-9-37e5c8d4e0a0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260527-adin1140-driver-v2-9-37e5c8d4e0a0@analog.com>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/wang-yaxin-zte-com-cn/delaytop-add-delay-max-for-delaytop/20260527-220949
-head:   44e6b3df52686da300225295e81360c85eac7218
-commit: 44e6b3df52686da300225295e81360c85eac7218 delaytop: sort by max delay to highlight top latency processes
-date:   12 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260528/202605280425.CtB8dwcy-lkp@intel.com/reproduce)
+> +static int adin1140_config_aneg(struct phy_device *phydev)
+> +{
+> +	/* phylib tries to clear BIT(12) in MDIO_CTRL1, since AN is disabled.
+> +	 * However, on the ADIN1140, that field is non-standard, being used
+> +	 * to control the reset status of the PHY (thus it needs to remain set).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605280425.CtB8dwcy-lkp@intel.com/
+More brokenness. 802.3 defines PMA/PMD control 1 bit 12 as reserved
+and always 0.
 
-All warnings (new ones prefixed by >>):
+How did this chip get passed QA with so many issues?
 
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
-   [WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; ./Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
-   Using alabaster theme
-   Documentation/accounting/delay-accounting.rst:236: ERROR: Unexpected indentation. [docutils]
->> Documentation/accounting/delay-accounting.rst:237: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:237: ERROR: Missing matching underline for section title overline.
---
-   30        30  kworker/2:0H-kb   2.87   11.36  2026-05-27T13:32:36 [docutils]
-   Documentation/accounting/delay-accounting.rst:243: ERROR: Unexpected indentation. [docutils]
-   Documentation/accounting/delay-accounting.rst:244: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:246: ERROR: Unexpected indentation. [docutils]
-   Documentation/accounting/delay-accounting.rst:247: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/accounting/delay-accounting.rst:249: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/accounting/delay-accounting.rst:246: ERROR: Unknown target name: "pool_workqueue". [docutils]
-   WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
-   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-
-vim +237 Documentation/accounting/delay-accounting.rst
-
-   224	
-   225	
-   226	System Pressure Information: (avg10/avg60vg300/total)
-   227	CPU some:       0.4%/   0.2%/   0.1%/     220(ms)
-   228	CPU full:       0.0%/   0.0%/   0.0%/       0(ms)
-   229	Memory full:    0.0%/   0.0%/   0.0%/       0(ms)
-   230	Memory some:    0.0%/   0.0%/   0.0%/       0(ms)
-   231	IO full:        0.0%/   0.0%/   0.0%/      12(ms)
-   232	IO some:        0.0%/   0.0%/   0.0%/      13(ms)
-   233	IRQ full:       0.0%/   0.0%/   0.0%/       0(ms)
-   234	[o]sort [M]memverbose [q]quit
-   235	Top 20 processes (sorted by cpu MAX delay, largest first):
-   236	     PID      TGID  COMMAND          AVG(ms)  MAX(ms)   MAX_TIMESTAMP
- > 237	------------------------------------------------------------------------------------------------
-   238	       9         9  kworker/0:0-eve   0.59   16.87  2026-05-27T13:32:39
-   239	      30        30  kworker/2:0H-kb   2.87   11.36  2026-05-27T13:32:36
-   240	      27        27  migration/2       1.05    9.51  2026-05-27T13:32:37
-   241	      50        50  kworker/2:1-eve   0.50    9.13  2026-05-27T13:32:37
-   242	      15        15  rcu_preempt       0.11    8.98  2026-05-27T13:32:37
-   243	       1         1  init              0.17    7.12  2026-05-27T13:32:38
-   244	      67        67  scsi_eh_0         1.20    4.23  2026-05-27T13:32:37
-   245	      23        23  ksoftirqd/1       1.12    3.77  2026-05-27T13:32:36
-   246	       3         3  pool_workqueue_   0.72    3.55  2026-05-27T13:32:38
-   247	      62        62  kworker/u20:2-a   0.49    3.03  2026-05-27T13:32:37
-   248	       2         2  kthreadd          0.18    2.82  2026-05-27T13:32:37
- > 249	      11        11  kworker/0:1       1.42    2.76  2026-05-27T13:32:36
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Andrew
