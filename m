@@ -1,110 +1,200 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021124.outbound.protection.outlook.com [52.101.100.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C4262D0B;
-	Thu, 28 May 2026 14:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779977153; cv=none; b=exYLaSd841dx9G60wv8DmfQXLLDAlB76HRdspgEwLw+3C4iNv/0RbFYvpbGnBZ/K9QHyH3wO3Gui3UmngGrsWvVeIc0iTwKQ//HQgOdNJy4ucRpYeYRooyh4BJ+mHdNphTRHYz8u//KheA+MiEUeVUFk23xYJAQBiKpUu92KWx8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779977153; c=relaxed/simple;
-	bh=2B+LiktD1pa0YGhkxFn2PP8pHb5/sG7H1Di7+KweH+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mkAWARCuusOO9Gsj2Uj8J+g0mQy1G73xZirGnGWR1uGRLZaeGw6DcTjG4sNjin5XzO17iZdj19rXiTNrMY64cb4MqLH4qT1UFtl0FHMWyxViDo31I+7ORhhRTawwGUOP8yhJ0kVrFtTDdbbs/ydMihB+zF/EclcVZOotK8h0r1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KSo4J3xP; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204BD2DECBA;
+	Thu, 28 May 2026 14:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779978628; cv=fail; b=FmsBjSFI+zK8vd8iJ15QWNMBF5L6JvOqxBQ5xtIdPKd+J9FvSEvK+aL7cJ1O2PsQJVcmXwcX31IwEX4ebV9LdJ+qQPZGuhm+vIj7mBiaF2+559/RQYnvpr2lx7eg7JVi7MhDmAV0dgnMWNGicup07NF2K2bUTGZicr/9Ff9Xd7k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779978628; c=relaxed/simple;
+	bh=9HZ/18Z9GRuD/+dBySkCrHjpLxLvkP8uxuDXkydprNU=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=iux7f+7gBzwsJjZdzohgw2vj/ECGYrhGcxG+F+9vfJMQDH9h0DerWiRMsYQLk8CyyNOpkU6lNI3tWPMFihEVm3Be7v/G+Nki0q02VMoBXXCOUGXDxQ/p9uiVK2p9/sfNFJQHS1pQqJvrQ3PlTcwjiaxlgMX85PTqDo/SRWAiCFc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=o5IyIqNG; arc=fail smtp.client-ip=52.101.100.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KSo4J3xP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=iKxZKPqxsH5uo4pqIkZVW6G4qdRbJWxX6X8Pa63Xnvo=; b=KSo4J3xP9z2BKQp2YtD8YreOy7
-	JeSCicIOC7tMqDe2DyJ3gZuNqZ+BYMq7UwyFX1esBs4k+0kK0zYAYY/CvIi+v9yk6nIIZnpLJvaHo
-	ubs6YYSQlYKT8rFh1GgejQPf1VML8a4GuDCXZGIBDFf3OYYn12/cSaMYmzMqTXOA7Uk0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wSbMc-004uKm-0g; Thu, 28 May 2026 16:05:34 +0200
-Date: Thu, 28 May 2026 16:05:33 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Regus, Ciprian" <Ciprian.Regus@analog.com>
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
- the ADIN1140 MACPHY
-Message-ID: <91ff1b03-d5db-473a-9292-335022a646c5@lunn.ch>
-References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
- <20260527-adin1140-driver-v2-10-37e5c8d4e0a0@analog.com>
- <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
- <72c3a9a8040e4b8990f217d4072872de@analog.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="o5IyIqNG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XBe04JYBHVWFT73G2zA9QOGsesaOd9kO8NPlt2zyLOCOWPns403PIlE9zMfYo1I+Y7lPMwHZ/3OYsqyMCGOdK1exT48+a/0A4SZwelkcYahYRzyMSmRTxx1hG+YDlMzkGTGdZS+tc1qV2aYSsTe0O+tyDX6tMHKt+LlOzSukZmxwWs7NoMGHFFUo3CRvPtdn8Cg2D/0JIaPyyiYuopZTMtAfJaXrOp6fD25mNMWSVA0G+2KitE5LuwrOPy2WDxZheuNMFq7Q9yC9Db0Z8uTZtyOVUxhYAoXAv/CD3llIUkReuPwPVWDiIT2dCfcdFFWUlUQlV8oj3kkNg1SyJ3sZoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CnhcYOj9/2Yr9i8/8i3jXYCXrqPOVQvNAUTC+YhAEkw=;
+ b=mIGAFp3yoM5FcYbh46JDCPL/zmByT2AkUMofheOaYQSw3aRzOFcj/JSw9XhKPaAdaYDiCDOryRBextNs6+LZ+aloyTdpONL75wsT7p2C+JCrlyVS1ra2DSXI8gtDrdso4VVHFWnVTyqooCWAy4rqhv3IHM0RN9/grh30l/9fBiJ05bdPm+Enq/qg3rY3PEGEjuUCceJKVXE5J8GNiKLr1rijuNPm16sdNA8Dm1H0aj/rdfdCCVQ3hi+TSBXhoqYa9QKuTaD2Pxi/z+U3HMeTHB44zST80CNUq9Hlm3IOYx4zMFipAkyo8FFkaAXehyQ5EIVw5gLJg7VMyWhBNpPbQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CnhcYOj9/2Yr9i8/8i3jXYCXrqPOVQvNAUTC+YhAEkw=;
+ b=o5IyIqNGCocNcf/LA14gLOK+grQD1av186AN72bHU7WUsBZ78eTRKM/00W1KWHFviM18u8j1CbpJPHw5ZbdeM3vAQ56vl3MH9QQchGzhcUCcEeGPXA2Mam1eL1OvEnQ2cu2X4f3SOIgbL41Q5H/FCdSny/XsA6BG2byOcDY1cXc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO8P265MB7630.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3af::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Thu, 28 May
+ 2026 14:30:23 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 14:30:23 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 May 2026 15:30:22 +0100
+Message-Id: <DIUDREOJ8GWB.3QMNEGBRFQSWK@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Demi Marie Obenour" <demiobenour@gmail.com>, "Miguel Ojeda"
+ <miguel.ojeda.sandonis@gmail.com>
+Cc: "Julian Braha" <julianbraha@gmail.com>, <nathan@kernel.org>,
+ <nsc@kernel.org>, <jani.nikula@linux.intel.com>,
+ <akpm@linux-foundation.org>, <gary@garyguo.net>, <ljs@kernel.org>,
+ <arnd@arndb.de>, <gregkh@linuxfoundation.org>, <masahiroy@kernel.org>,
+ <ojeda@kernel.org>, <corbet@lwn.net>, <qingfang.deng@linux.dev>,
+ <yann.prono@telecomnancy.net>, <ej@inai.de>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
+X-Mailer: aerc 0.21.0
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <20260516215354.449807-2-julianbraha@gmail.com>
+ <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
+ <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
+ <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
+In-Reply-To: <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
+X-ClientProxiedBy: LO4P265CA0090.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bc::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72c3a9a8040e4b8990f217d4072872de@analog.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO8P265MB7630:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9591f19-afb9-4a02-2fb9-08debcc5a72e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|10070799003|1800799024|18002099003|22082099003|6133799003|5023799004|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	t7h/98rKk7LfmyC+oVK26VNrJ271Wl2ffhrVszXPeXmLcc28Jz/VHUfGkgpCSf3yNocrnIPnrB3dEHJimNpTjVS1QVsgs3WIDFo8ExveFbKx4EzIrGW6J89koO0TQwAZOFpwmRQ4NQWsfmoifvcheMdaC7vx/F4OjthlwLkAOF6unVijl3dPnhMgEk9e6lgWUCIWVmgb5L2/BFCxF4n2LAu+Lymod3rjZ1cvl1NICGPkLwTgEBCt6L7yjbJOOrDZWmiV/VoHh+WQ5MZ8S6Zo3HxcH1YQS08Vf0p9lFB9PD/OWlUw9M9Yfpnk1RET79jW372gue7aUIUYZtpguLMhtq/n5StqPwvjncK+/K5Dvs0bhlez5UKEm0/Ud5xbJCooPxhOxoVOS17A+gjBMN5Oux3uS1+O0iJpDGVDNIHcZDJbQEtJZtxtbeap1xooaOq1H0fVRwdM5AeOxrQq6uUBijXzQwYt2IqsOeXkF+AdODYI70Db51f1PO+pLerlR/OqGDMnkx/9C9ZuO8DobWwEPJ3Maqacxv3/T6ThMEpFY/3xBFqsctNKrgDMximkwq/07emlClR78P/bUzgNKad5qtMrWqBLUGyjBLPyHGrncZcSWSPmaVSUQY4ygDRO/VBfzPNFL7jq63yUfUsMdVh7BantOd08yb6rPNZIrtu3O0oPcYx8NIaeBq7dtSm+ocKDWKUB82UQ3QEVng3G3Jd4kA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(10070799003)(1800799024)(18002099003)(22082099003)(6133799003)(5023799004)(56012099006)(4143699003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SDNYSC9sZ2h6S05leTAvWlY0ckphNUVKc2xrbFJQRjBrOW5WVFhDSjRjaHY1?=
+ =?utf-8?B?Vzc5em5jTVM2aS9maUw5amp1VnJxQXdqVGxOWEFjc0VsejZJalFhOUNMMytp?=
+ =?utf-8?B?YXc0VWdhTFh4RTJGa3BxNW9iTWhLTjN2RWFuWE12YWJvMklqRDBscUJBeWpj?=
+ =?utf-8?B?endDMnNjc2NJL0d3Skg0cHpUOWNpbXR0bDhkU0wweU9ab2VHY25Hck11WDd3?=
+ =?utf-8?B?TDRya2tQN0RlN3dhQXFYMEdXeXpsSGtqR1h5MDJGZWQ1R3R3L2VreG51bFVs?=
+ =?utf-8?B?cERDcTFUZFNLMDNoc3JlMzV1bjZXa2dBbzhsMWNTbERmZ3o4QVFYME1DbGhN?=
+ =?utf-8?B?WFhMcmJXZDBFOHJlc01uakFNZUhocEQzajR1bm5qVEkrMUxyZ2JiRUE1SWFX?=
+ =?utf-8?B?MjhnK1diQmZ3WHJDbWp3Vnh4QjlFVldKRGltRm5PUVRTc0tGbTZ6dU16QURV?=
+ =?utf-8?B?dTB4S2lLaDBEM2l3VnpQc25LR203d3FDRFpjd3NqZ2xveTQ5N0tEMGQ0R3FP?=
+ =?utf-8?B?VVdPR1FCZllHTERzK0hHdmlGcnFJb1dENjhLMTlGN2lFL1FuaVJ4UkdRcXdW?=
+ =?utf-8?B?dU5pdXdLZWo3MEthMXVCNy9zeGxPZWx2ZTRkY095SHloMGNSc21aY01jM0F6?=
+ =?utf-8?B?VXdpU1pja2tkaGVYdm5EUFhVcnBsNmQ1YnA5azdGR3ZhaXRMOU9CVHhzNjlU?=
+ =?utf-8?B?NUFudGppMGl6c3czTk5SenNHd0cvOHorR3JiTVVGVEJOZGd4WndjU3cyN1hs?=
+ =?utf-8?B?MldITHpWYjRVNWJuZ3dCNWdOVCtGOXVTcUtRWDE0SVZ1eVZqd2hDbGF4bmxx?=
+ =?utf-8?B?b21iekJqYkhGR0hiT05WU3hvalVBNndIRE5nK2hPZ2w1REZRamlGaEk5djZ0?=
+ =?utf-8?B?cmgzdFZRM0JUU3ZuU1FzU08zQkFSbUM4QnhUc3FNbE11T1pFUWFTeEFIa1V5?=
+ =?utf-8?B?WkUxRWtTaFpiQTkwTlNMRkRUTW8xcEFjREtPczVjeERlTTRCdThVOHQwMDNz?=
+ =?utf-8?B?cmhWcXN3Ujlzb0VpcXdqMmEwR0hsZ2laVU1RdllSeXg0cEhycFpxeXR2RUI2?=
+ =?utf-8?B?WXRnTlAzUmdCYTBaNHE1NExTYStXNVkyZVh5Wm9odjk2OUIyeWFWb2VJeUVz?=
+ =?utf-8?B?QVBTN0QxVU9KVldqZjhYMGdVeUsyUm1LQkxnZkdYVEI1cytoRDNDWkEydzFH?=
+ =?utf-8?B?a1B5cTJsbGJLNFNENDVuUHkrbitjUmg5dG5WK1hjZHI1eEd5YnpUT0RFRFpw?=
+ =?utf-8?B?ayt3NXl3R2YrclR1dCt0SDdDMXdYcUo3eU5uNG9ocGpldHdHWWRhV3didmNr?=
+ =?utf-8?B?ZFJodVpGU1F3dFpDQ0IyZHp4N0FuUDkvZU1Oc3JOY2hvT0tlKzBtQnhWNFJr?=
+ =?utf-8?B?V1g4UGdUaTBNZVA1RmVJQXJielg4K3d2TDVMaHNNUUkxaFZ3eFlBQlJLUDYw?=
+ =?utf-8?B?QkJBVi92S0V2UnNUL25EVG1DN0cxdHhudmhnNVNUcGFQZEN1R2ZDODlsZmZH?=
+ =?utf-8?B?cUpHL1QyUUpCODhDcDdZczcrV2ZRT2lGRTcvUTVEM1IvWEo3VXA1U0xXMity?=
+ =?utf-8?B?VEJvdjdTdjlEWmxsR1VvMzIzUUVzaVdkK0VPenFqeDE5b1pDZE83ME01WVEy?=
+ =?utf-8?B?dHpTTWp0QzNBS0g0b3dyZUFERkNyWVlGQk5pU0xVT0FNSDVhczVOK3l2TC9F?=
+ =?utf-8?B?VjNRVmRMTTJkOU93VVN4MWNHS0U4NUNIQjMzdWQ4cURiVklrWU9xYldta21l?=
+ =?utf-8?B?NGZ5aE1HUjJMUkFrTncwTFN2WTV0amc4UjVoZ1ZJSVNURkM3UW15dndRell2?=
+ =?utf-8?B?Tm1kcnVRMHB1bkZEY0s4K0czSTJxWGo1b0Vhbk9qb29HY0N4cjhsS1plbGdN?=
+ =?utf-8?B?LzJ2b1pwWW9lVVZFdDI3dUxndTQ0cTAyRHVYVCtkOXp1d2FZMi9JNVZkZkJm?=
+ =?utf-8?B?Tmt6NVBUbENPUjg5WlpYcnJnTDhyK2EzZm43V0ZHdkwvNnZSYllJTEljaEZp?=
+ =?utf-8?B?aU43dXRTK1A0TEQwYWUzWC9vS2hlTkdVMUNyN3FqOFJzZWZOUGJzQzBBNG9P?=
+ =?utf-8?B?Rkg3U0k1R01pRWozczUzdDlFa1pnZW1aUnpmK202azJkdVpDZytIYVc1NlRO?=
+ =?utf-8?B?eWQyci9ZK1JZclNhdU95WEQ0WWtDZWhaWTVTc1djejdHaGI5bkdRQzZ4dDdU?=
+ =?utf-8?B?RTdUdFFUY3F2QXJDMlJXN3BQYkdDN3dmSE5QM1MrdGZ6OVdQbHQwdUhiSk5t?=
+ =?utf-8?B?bHdpNm9QOXRhWVJidVdreWtXSldkWElLQk82SUdPdkNZdXBzQXo1ZmVkaDd5?=
+ =?utf-8?B?Zy9OaHV6NnZTSVovQ29tTUVLcldMOWFLS1lMZ3dFenZJWnJsWDRaUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9591f19-afb9-4a02-2fb9-08debcc5a72e
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 14:30:23.3596
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: stZVjAnAgKdS9PdlDN4dZlOSzfTuNLZxXC08u0v/gt7POPQirGkSIbr5Nf6qSMg/LcoCQq3g1YKDbuUD3L7WkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7630
 
-> > Does the standard say anything about this? It seems like something
-> > which could be moved into the core.
-> 
-> The comment is a mistake on my part, as it doesn't clearly describe why we
-> have to pad the skb. It's a case of a MAC device which doesn't pad a frame to
-> a minimum size when the host wants to transmit less than 64 bytes. I'll update
-> it in v3 to say:
-> 
-> /* The MAC doesn't automatically pad the frame to a 64 byte minimum size in
->  * case the host sent a shorter skb, so we have to do it in the driver. The FCS
->  * will be added by the MAC.
->  */
+On Sun May 17, 2026 at 9:25 PM BST, Demi Marie Obenour wrote:
+> On 5/17/26 05:58, Miguel Ojeda wrote:
+>> On Sun, May 17, 2026 at 8:10=E2=80=AFAM Demi Marie Obenour
+>> <demiobenour@gmail.com> wrote:
+>>>
+>>> I think it is simpler to just inline all of this code into its
+>>> single call-site.  The safety of the code is obvious in context,
+>>> and you can avoid checking for impossible errors.  For instance,
+>>> since all of the options have required arguments, it really is safe
+>>> to dereference optarg without any null check.
+>>=20
+>> If we are going to have unsafe code, then let's please build safe
+>> abstractions wherever possible, just like we do elsewhere. We should
+>> also write `// SAFETY` comments and enable the lints that catch that
+>> etc., just like elsewhere too.
+>>=20
+>> (This is not to say we should use `getopt` instead of something like
+>> `clap` -- as soon as we start using `cargo vendor`, then it makes
+>> sense to at least consider having a set of vetted, well-known crates
+>> to write Rust tools in-tree, as I mentioned in v1.)
+>
+> I was hoping for Linux to avoid the Rust trend of downloading tons
+> of third-party crates, with all the supply-chain risks that entails.
+> Hence the idea of using getopt and system C libraries.
 
-Just an FYI: the 64 bytes includes the FCS. So if the MAC is adding
-the FCS, you should pad to 60, not 64.
+Well, there're quite a few libraries which are "third-party" but they're
+blessed and used by the Rust compiler itself (and often maintained by the s=
+ame
+group of people behind the Rust project).
 
-> As for what the OA TC6 standard says, this is the relevant section
-> (7.3 - Data Transaction Protocol for Ethernet Frames)
-> 
-> "Ethernet frames are typically transferred from the SPI host to the MAC-PHY without
-> any padding or frame check sequence (FCS). The MAC will automatically pad the Ethernet
-> frame to the minimum frame size of 64 bytes and append a computed FCS. However, the
-> Ethernet specification allows for the SPI host to optionally perform the frame padding and
-> FCS computation prior to transfer to the MAC-PHY. Similarly, the MAC-PHY will typically
-> strip the FCS from received Ethernet frames prior to transfer to the SPI host. However,
-> the Ethernet specification allows the option for the Ethernet frame to be transferred to the
-> MAC client with the FCS.
-> 
-> The IEEE Ethernet standard [2] defines the behavior of the MAC and therefore is beyond
-> the scope of this specification. As a result, support for allowing the SPI host to perform frame
-> padding and FCS computation, or passing the FCS to the SPI host is optional. When supported,
-> the method for configuring the MAC-PHY to enable these modes of frame transfer is
-> implementation specific."
-> 
-> As I understand, from the TC6 standard point of view, the padding and FCS offload is optional.
-> So, I think this shouldn't go into the core. 
+https://github.com/rust-lang/rust/blob/main/Cargo.lock
 
-Thanks for the quotes from the standard. I personally think this was a
-bad decision by the authors of the standard, leaving it ambiguous.
+For example, I would trust `clap` to be used, and I think it's a huge
+developer-experience improvement compared to getopt.
 
-In the end, putting it in the driver seems like a good first
-approach. Maybe as we get more devices following the standard, we see
-it is common to need padding, and we move it into the core controlled
-by a quirk. But that can come later.
+I think it's not really reasonable to avoid all dependencies, after all, C =
+tools
+also require a few dependencies, it's just that they're sourced from distro=
+ and
+not crates.io.
 
-   Andrew
+I think the only issue is that unlike C libraries, there's no unified ways =
+for
+distros to ship these libraries (and some distros don't ship individual Rus=
+t
+crates as libraries at all). It used to be the case that you can enable the
+`rustc_private` feature and just link against whatever the version that the=
+ Rust
+compiler depends on, but rustc stopped you from doing that a while ago beca=
+use
+they don't want people to depend on rustc's private dependencies.
+
+If the concern is with supply chain security, there're mechanisms like carg=
+o-vet
+https://github.com/mozilla/cargo-vet which can be used to ensure dependenci=
+es to
+be audited. That plus the hash locking should be sufficient.
+
+Best,
+Gary
