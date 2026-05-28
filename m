@@ -1,182 +1,237 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DD337B007;
-	Thu, 28 May 2026 12:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9313EFFC8
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 12:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779972249; cv=none; b=Yu1g20jHG48EDA+5CVUbx10hfDWx7/iMNBDoykxPjqxqh6eECGztmYjDQx5XdyDJfeirCk7OIbAVcY8ufg2d9tHrSuL3NRkEI1z2ZgWY8AeCyKjbJmADYu1hyQTEyQdHD+DsM/SHKUdrw/dqZIrhsIn9ctrujhF75o9ftCD18cM=
+	t=1779972943; cv=none; b=h3k3E3MehEXLq4+A7aiQ2hqeNDmHzS0CyCBlXn8lhqB61sIIWb6/ygWOVA3CpJZuwFwlD+437XaJGJr8didmbrLfFcdUeVO0gyqS8gs7Pz8GaLB8m8jPIimsIppeSsTmFlBktefm0ctfp0qy4k0zFML4/Vchwm1/sYbnpoKZSas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779972249; c=relaxed/simple;
-	bh=ktdHJTteuENZjygmIKdnyIPbq0G53A7TQmehHpc8RQE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=khgSuOvpE/LWm/2ed+7ZYHHNw/BhWyxgkhFRHvmbyl7TSv7Jmsl4lgjYPPhPe+aQ/LlUHre1F0jrV2qVGpZ6DkzPufPNd57v+U1kb5JxxAbghLxw/FD6bY8iBzvKXy5CVVtZIazM10L+auJ8m+4jORCEjGhdbRWIRfsodnfetyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=FWlKmQPN; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1779972943; c=relaxed/simple;
+	bh=lpz+Ddv9Dl9ska+aj8bD+cCJIeYa6uuABpLxyLqfJLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=irswI3p0wEuCx1BN1jpei58TOrAh9LBP9gX1oDT//D60XB1qA6cj4vE2zmLxbmK9rrypRltgdactBpkMsfBrjmzuSkDwMRkQCMs+/GEGZ109SyIqS/gP2kVP3Kk5oSQa/AKWeH7LJtFXtU7/dTaVRwsB6Utp71f//GgBfESSjp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ooAc9vXK; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="FWlKmQPN"
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64S8lf0K400653;
-	Thu, 28 May 2026 08:43:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=yPs0+
-	Ut+Mmj//US/eKG2HDyCXseT9Sv3IAvitcOiSrM=; b=FWlKmQPNlqE94ymYzCxVL
-	2SCR5eP73++NKJu4yN7j+qWlkCTN14Lr8vRJU4XvPCDexREgEvql+PhC1X5pmW2H
-	GhvDXofyfMucaVTnqpU9lPdAoAkd8sG3cLJDFENkP3S/jfc6EnhvhNaDT40VJQ26
-	a5YgQEuqnLqHjLTWuWqs4Ty/Ksm6lQequ1TV4Artbd1LkBexPMJbCZZVqKa9r5Rt
-	eKMOtjTTslHDTAOo8jd+x/hbt7hiK6FxqNLwMycRvpRgaUgfXmK5FVTlFOTLqNgJ
-	DLDrtI4nZOSck33gCrzAXkVc1RMlmaGFiaNe1NIETeDMlbSmnpjzxFyEZk0t8p/y
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4ee7x1tsut-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 May 2026 08:43:53 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64SChpI2059440
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 28 May 2026 08:43:51 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 28 May
- 2026 08:43:51 -0400
-Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
- ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
- 15.02.1748.037; Thu, 28 May 2026 08:43:51 -0400
-From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric
- Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Heiner Kallweit
-	<hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
- the ADIN1140 MACPHY
-Thread-Topic: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
- the ADIN1140 MACPHY
-Thread-Index: AQHc7Vnx3WPSKydSxEKkqCDJmkm377YjB1eAgABVdZA=
-Date: Thu, 28 May 2026 12:43:51 +0000
-Message-ID: <72c3a9a8040e4b8990f217d4072872de@analog.com>
-References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
- <20260527-adin1140-driver-v2-10-37e5c8d4e0a0@analog.com>
- <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
-In-Reply-To: <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-adiruleop-newscl: Rule Triggered
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ooAc9vXK"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso109493315e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 05:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779972940; x=1780577740; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+PXV0iuW9R5esuigYUQ8OuX8X2sJ11qfHxNpdIBfn54=;
+        b=ooAc9vXKTuWNLbW73kK7SI6/DjKAmprG1gDhOZvUPX7L9NjiuoiHzkLckbSCXjT1pS
+         b4E3zbPWxU0hUq0DF0YFzGPkKQ6LbluWhB+kIyghLHkkPVwoEe2NqecAvYHYb3ms5pQE
+         Ds4FUzjYHN21+ndFwLAuZf3Yk8IhKmyUzigZrMXtqsOZaJvSP5DakL588L4dx3RTruxn
+         0uKsYP5eymAc2GlzfhbwxR2Dge0DbqBZ4wzuGUyLAQO3aYe0OTlWZTC2Y2pVuNft4V3V
+         LchsorJGz5BTYp9YXp8M/ygOxzxdZLTKf2/kkzjtxVRiAYT5LZmwmDZAxKqibSVCYoxa
+         Ffmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779972940; x=1780577740;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+PXV0iuW9R5esuigYUQ8OuX8X2sJ11qfHxNpdIBfn54=;
+        b=NEVX+O9JlWMNsZd0BcUJPZxV5AvgbDQK2VJclA55XpmKE6bv6487JXftXMtYWk++ea
+         slwb1F6QJmO14K88nzhDVJ5yYIxfe5cRzAXD+9kqNij6rToyuaSMKTpphGZTzWpgsi9e
+         KtpoMEU6qo1jQI6JnIXcAPwurR6SYiDQlZPYEb8G6jYkVgdD7y5HdfgVXO4GPD62bJEh
+         AlXho95hwkhdTgEbzGaqb+y99CE88U/HWhmY0mdtY/675TzvP9CQ8cWu1haOev8UA5iM
+         ZxmNl6nPu4+VOzFV27uCkvEr9gTqJNRVWfimopYUqQiqZaWjic+Xd3gbEDglsPMRzX7Q
+         Z6cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9YdQSrMm0PeKFsYZK4GOsAxzCAoxfK83c1wyRcPfeakeTfVve3TGRw7Gl9VkmQFP83SQ0dDtNAHPM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjnnVvWtVXS61C+5S+iXaHeOWhazh7CVqTejoyN+SoG/ncB72a
+	j1rzXvG/wxTqz1yKLSxiPy6IMv7grXnHy2JKAdzmhtaoV1JLfZMWMyH0
+X-Gm-Gg: Acq92OHZ9VAeAo9fK4c1WsCb3UTRxO+S85FuN0h4mJG109xydgPQvJ9ckgHvZZSlucf
+	BWe8LYsVpLomQX47lY30kBKDDp3GWYsbq0auDdcimZ5DqZr7r3o/UnKi8HwjPjPx1CBDMegGAHb
+	Pa934KeqB6vpg2pW6qXxoNlnhAKL/Q7n11NZwwJSj/2vR9BHY2waFoU22TYV+UXXuyAEciDRqjt
+	A69euW6iWfUAbDlZlng9H6YmAJTJrcJlwmVwHBt7snuxrSgu6vyWvzjplyIx9qQy4iqqDCYGiLH
+	FpITq1lcEnlsMVFl2pd5woMa5e4M3bkH54/4GnaZYEoNQUmKhYFLK9yJZ58pyT6u77SVb+b6mxQ
+	jRvQ1EcSXuP4MMzcP3A7Thjq/WWD2ROdhER9/pGW/UbvDMGAyPkasBuCQfeUk4ctItpzBlrVUnt
+	F6HoxWXq3bpQTWpmC7iDnwrogEQJu65BLEr3/zuPR6mIqenkz+woENcMeaqxT85lj7wqRYoW3m+
+	gBkW3zxOA==
+X-Received: by 2002:a05:600d:640f:10b0:490:3d45:48d7 with SMTP id 5b1f17b1804b1-4904248d296mr326000915e9.6.1779972939903;
+        Thu, 28 May 2026 05:55:39 -0700 (PDT)
+Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a82ea2sm68894895e9.9.2026.05.28.05.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 05:55:39 -0700 (PDT)
+Date: Thu, 28 May 2026 14:55:32 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: Li Chen <me@linux.beauty>
+Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, x86@kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+Message-ID: <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
+References: <20260528095235.2491226-1-me@linux.beauty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDEyOCBTYWx0ZWRfX3jaCi4H+1LRQ
- xa9q0vDugr/WMheo4sR4yiG+cj5Nz4MtFFiEjlAFgXZAEWWZIW0+70jpp1uu+y3MNdyAfQXAMYb
- TW0RIiWa+XUEWR6AncIRaVrkl2zA2GiVmjE9vM/sERpoqaCI0jy1g5lZtzqOMWjYlskOu3jNZaK
- P6nGTs5l8VxUTUv9Bbj7Ky6aRF5MBOwF3auqvaERkz9Z1hfD9/spL4kgoSCkgtmGHhOTm93gtcP
- eH+x/rtDGEEGj4XSmvfYiQhSNIWsFSaLlAhbcnR6Y80ayBMHu2uJ3kDghBt2cXfi/Act3OX7u/n
- SXEVZ5UzRansTzC5utlYJsG1R27/5kQu+p6gLudEbBpXwO+sJgKI39W/WtL7tqQfxCpY+pQDkk1
- nOyO1v67hIbojXpYFytgInnjez7BtvmsvJYhsALGCxJ7dLkeBsX+oZeUThjRtG6lXL2z4fMo9er
- bYrqp9f0fyn/AgDPqsw==
-X-Authority-Analysis: v=2.4 cv=HMbz0Itv c=1 sm=1 tr=0 ts=6a183889 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=xqWC_Br6kY4A:10 a=SuJlEMG_fVsA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22
- a=JMH861CndGJDf_HG_EAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: UdXCBUC07EaeEhCwrxRNCeeWA5SM8oEx
-X-Proofpoint-ORIG-GUID: UdXCBUC07EaeEhCwrxRNCeeWA5SM8oEx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-28_03,2026-05-28_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 bulkscore=0
- adultscore=0 malwarescore=0 priorityscore=1501 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605280128
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
 
-> > +static netdev_tx_t adin1140_start_xmit(struct sk_buff *skb,
-> > +				       struct net_device *netdev)
-> > +{
-> > +	struct adin1140_priv *priv =3D netdev_priv(netdev);
-> > +
-> > +	/* Pad frames to minimum Ethernet frame size (60 bytes without
-> FCS).
-> > +	 * The MAC will append the FCS, but we need to ensure the frame is
-> > +	 * at least ETH_ZLEN bytes.
-> > +	 */
-> > +	if (skb_put_padto(skb, ETH_ZLEN))
-> > +		return NETDEV_TX_OK;
->=20
-> Does the standard say anything about this? It seems like something
-> which could be moved into the core.
+On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
+> This RFC adds spawn_template, a userspace-controlled exec acceleration
+> mechanism for runtimes that repeatedly start the same executable with
+> different argv, envp, and per-spawn file descriptor setup.
+> 
+> The main target is agent runtimes. Modern coding agents repeatedly start
+> short-lived helper tools such as rg, git, sed, awk, python, node, and
+> shell wrappers while they inspect and edit a workspace. Those runtimes
+> already know which tools are hot, and they are also the right place to
+> decide policy. The kernel does not choose names such as rg, git, or sed.
+> Userspace opts in by creating a template fd for one executable, then uses
+> that fd for later spawns. Launchers, shells, and build systems have a
+> similar repeated-startup shape and could use the same primitive, but the
+> agent runtime case is the main motivation for this RFC.
+> 
+[..]
+> A typical agent runtime would keep one template per hot executable and
+> still build argv, envp, cwd, and pipe wiring for each tool call:
+> 
+>     rg_tmpl = spawn_template_create("/usr/bin/rg");
+> 
+>     for each search request:
+>         out_r, out_w = pipe_cloexec();
+>         err_r, err_w = pipe_cloexec();
+>         actions = [
+>             FCHDIR(worktree_fd),
+>             DUP2(out_w, STDOUT_FILENO),
+>             DUP2(err_w, STDERR_FILENO),
+>         ];
+>         child = spawn_template_spawn(rg_tmpl, rg_argv, envp, actions);
+>         close(out_w);
+>         close(err_w);
+>         read out_r and err_r;
+>         waitid(P_PIDFD, child.pidfd, ...);
+> 
+> 
+[..]
+> The cached state is intentionally small. The template fd keeps the opened
+> main executable file, an optional absolute path string, the creator
+> credential pointer, and the deny-write state. The executable identity key
+> records device, inode, size, mode, owner, ctime, and mtime, and is
+> rechecked before cached metadata is used. The ELF cache keeps only the
+> main executable's ELF header, program header table, and program header
+> count.
+> 
+>     cached in this RFC          not cached in this RFC
+>     ------------------          ----------------------
+>     opened main executable      PT_INTERP metadata
+>     executable identity key     shared-library graph
+>     main ELF header             VMA layout metadata
+>     main ELF program headers    cross-process metadata sharing
+>     creator cred pointer
+>     deny-write state
+> 
+> This RFC does not cache ELF interpreter metadata, shared-library
+> dependency state, or derived mapping-layout state. Shared-library
+> resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
+> RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
+> state. It also does not share cached executable metadata between template
+> fds created by different processes. Each template owns its small cached
+> metadata object in this RFC.
+> 
+> Performance
+> ===========
+> 
+[..]
+> Workload     Calls  subprocess  spawn_template  time_s       Delta
+> (workers)    calls  calls/s     calls/s         seconds
+> 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
+> 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
+> 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
+> 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
+> 
 
-The comment is a mistake on my part, as it doesn't clearly describe why we
-have to pad the skb. It's a case of a MAC device which doesn't pad a frame =
-to
-a minimum size when the host wants to transmit less than 64 bytes. I'll upd=
-ate
-it in v3 to say:
+This problem is dear to my heart and I have been pondering it on and off
+for some time now. The entire fork + exec idiom is terrible and needs to
+be retired.
 
-/* The MAC doesn't automatically pad the frame to a 64 byte minimum size in
- * case the host sent a shorter skb, so we have to do it in the driver. The=
- FCS
- * will be added by the MAC.
- */
+Is this vibe-coded? I asked claude for in-kernel posix_spawn for kicks
+some time ago and it generated remarkably similar code. But that's a
+tangent.
 
-As for what the OA TC6 standard says, this is the relevant section
-(7.3 - Data Transaction Protocol for Ethernet Frames)
+I'm rather confused by the angle in the patchset. Most of this shaves
+off a tiny amount of work, while retaining the primary avoidable reason
+for bad performance: the very fact that fork is part of the picture,
+especially the part mucking with mm. Creating a pristine process is the
+way to go.
 
-"Ethernet frames are typically transferred from the SPI host to the MAC-PHY=
- without
-any padding or frame check sequence (FCS). The MAC will automatically pad t=
-he Ethernet
-frame to the minimum frame size of 64 bytes and append a computed FCS. Howe=
-ver, the
-Ethernet specification allows for the SPI host to optionally perform the fr=
-ame padding and
-FCS computation prior to transfer to the MAC-PHY. Similarly, the MAC-PHY wi=
-ll typically
-strip the FCS from received Ethernet frames prior to transfer to the SPI ho=
-st. However,
-the Ethernet specification allows the option for the Ethernet frame to be t=
-ransferred to the
-MAC client with the FCS.
+Additionally there is a known problem where transiently copied file
+descriptors on fork + exec cause a headache in multithreaded programs
+doing something like this in parallel. I only did cursory reading, it
+seems your patchset keeps the same problem in place.
 
-The IEEE Ethernet standard [2] defines the behavior of the MAC and therefor=
-e is beyond
-the scope of this specification. As a result, support for allowing the SPI =
-host to perform frame
-padding and FCS computation, or passing the FCS to the SPI host is optional=
-. When supported,
-the method for configuring the MAC-PHY to enable these modes of frame trans=
-fer is
-implementation specific."
+There are numerous impactful ways to speed up execs both in terms of
+single-threaded cost and their multicore scalability, most of which
+would be immediately usable by all programs without an opt-in. imo these
+needs to be exhausted before something like a "template" can be
+considered.
 
-As I understand, from the TC6 standard point of view, the padding and FCS o=
-ffload is optional.
-So, I think this shouldn't go into the core.=20
+Per the above, the primary win would stem from *NOT* messing with mm.
 
->=20
-> 	Andrew
+As in, whatever the interface, it needs to create an "empty" target
+process (for lack of a better term).
+
+In terms of userspace-visible APIs, a clean solution escapes me.
+
+Some time ago I proposed returning a handle which is populated over time
+by the parnet-to-be. One of the problems with it I failed to consider at
+the time is NUMA locality -- what if the process to be created is going
+to run on another domain? For example, opening and installing a file for
+its later use will result in avoidable loss of locality for some of the
+in-kernel data. That's on top of the fd vs fork problem.
+
+From perf standpoint, the final goal of whatever mechanism should be a
+state where the target process avoided copying any state it did not need
+to and which allocated any memory it needed from local NUMA node
+(whatever it may happen to be). Of course if no affinity is assigned it
+may happen to move again and lose such locality, nothing can be done
+about that. But pretend the process is to run in a specific node the
+parent is NOT running in.
+
+So I think the pragmatic way forward is to implement something close to
+posix_spawn in the kernel. It may make sense for the thing to take the
+PATH argument for repeated exec attempts. I understand this is of no use
+in your particular case, but it very much IS of use for most of the
+real-world. The initial implementation might even start with doing vfork
+just to get it off the ground.
+
+The next step would be to extend the interface with means to AVOID
+copying any file descriptors. There could be a dedicated file action
+which tells the kernel to avoid such copies or something like a
+close_range file action (or close_from) -- with a range like <0, INT_MAX>
+you know no fds are copied.
+
+For the NUMA angle to be sorted out, any file action which opens a file
+or dups from the parent needs to execute in the child. And frankly
+something would be needed to ask the scheduler where does it think the
+child is going to run, so that the task_struct itself can also be
+allocated with the right backing.
+
+I have not looked into what's needed to create a new process and NOT
+mess with mm, but I don't think there are unsolvable problems there, at
+worst some churn.
+
+There are of course other parameters which need to be sorted out, that's
+covered by the posix_spawn thing.
+
+This e-mail is long enough, so I'm not going to go into issues
+concerning exec itself right now.
+
+tl;dr I would suggest redoing the patchset as posix_spawn and then doing
+the actual optimization of not cloning mm itself.
