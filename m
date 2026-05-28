@@ -1,161 +1,182 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022080.outbound.protection.outlook.com [52.101.101.80])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65AA3EF65D;
-	Thu, 28 May 2026 12:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779971717; cv=fail; b=ksD0GtVlM7FI+rP/m+nm6EddqiIX0jb0nh36BzueYtYc+EEGFjqSM6tF1PbgYhUCpHiOx+Yx+5JVc1XMjeFswxi8XbyN7aZURMKxFv+yKjcbeL/NfWSCOBhefLLiNY/m8pop2QaXwy6DCysOUB0UVuOurmNu7Z5i9EuSeCqA3+8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779971717; c=relaxed/simple;
-	bh=hwjmgNoV3uaMJIbyq5cO+5uyoAIfqbYj9pziVxDNzU4=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=UZz7z2EFazlDxzjAoREyLILPfOc8SzA+byCOqYqtjTa3iAyxu/UUSoOloXyl1L2Irz0KEG5otVzrXxQqWIZi25I7HgO7G6kvMPAWdI7tSOog0xJbToLN6bTpK78ZkHcOYjsMwvwtM5BWzORcIubjmQU9riXQ9RHddMa/pS0Pqfs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Fz4ZNEQX; arc=fail smtp.client-ip=52.101.101.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DD337B007;
+	Thu, 28 May 2026 12:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779972249; cv=none; b=Yu1g20jHG48EDA+5CVUbx10hfDWx7/iMNBDoykxPjqxqh6eECGztmYjDQx5XdyDJfeirCk7OIbAVcY8ufg2d9tHrSuL3NRkEI1z2ZgWY8AeCyKjbJmADYu1hyQTEyQdHD+DsM/SHKUdrw/dqZIrhsIn9ctrujhF75o9ftCD18cM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779972249; c=relaxed/simple;
+	bh=ktdHJTteuENZjygmIKdnyIPbq0G53A7TQmehHpc8RQE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=khgSuOvpE/LWm/2ed+7ZYHHNw/BhWyxgkhFRHvmbyl7TSv7Jmsl4lgjYPPhPe+aQ/LlUHre1F0jrV2qVGpZ6DkzPufPNd57v+U1kb5JxxAbghLxw/FD6bY8iBzvKXy5CVVtZIazM10L+auJ8m+4jORCEjGhdbRWIRfsodnfetyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=FWlKmQPN; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Fz4ZNEQX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WlkI4prEoahMZoO1/Jb6g83KrDvAM3ZCACHzDQ+Z+rpAL3YGxyrXI76aHel/LD/52OSQi+QEh3JHWn1NSfhzmdFeR4IX7+6MDuBU/YXB7tDT6OFIrZBkLMLIWNjSEZc3YcsotOvLbxcdpBeQdO1tCvOgf+K7FAAJuI1Ts/0twlGDaYnYCLip+VDUjTp0p5+CRUZ2U04bUTQEzoufFncL3lCMdB/FoJBafICf9KVc/9jDBzUHvxai76hk94tvpjeWMw3KGCDqg5BOHl16kph7b2kqwoBBn/oeRs0ElsKe5qEKKCoXOFlxl/7xUyZWOWLb3MYjYFrfSzU3kIavybRegg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CdwYKheMKJDpd0r/I63FH9fAvOLpdcixeHhfRPNHTxs=;
- b=sK2hrnA1QCWLQRLg8UnLRkel/ut7qfl6QCW6l365vp4l4/qvFYiSNs1mWr1Mzzyuqs5P42h5jihv5qdxvggCDwgkCjey+D+VBAkcVpV4VDI0dSSgNMlJu66oFC/DyORv4RBJ0U5WNNFSJpNZeqVpherDlge9YVu1FjcWgDFYz3hCuS2Ua+X51bqLg5rflRaZ+06JUJOVLbeoyFDthuM9xRv0JHjUZbFQ6b2EkblW0Zm/jnlGcPz5D2zJzHAb0Ep+CYG4FTigeSqbnojqNseFF10/AwY4hqpa1lTm5FaEecRxpEMNOSX5gn9h64nK2/p2OACuAnRV4Juqok/EMs1dmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CdwYKheMKJDpd0r/I63FH9fAvOLpdcixeHhfRPNHTxs=;
- b=Fz4ZNEQXWPtsIUSEVkNPg2mQnWjKcPv5KWb0lShjQ8o1SnbsNYLGdyuooh27MED86BdJ3PTOcOvqTJqyLrUzuRzXN4PLIx++Af93qlxDJbCEDzunJDs5u/hDeddt9+x4Wlx/iOrCi4a9QkmvC4M69W8ZIz6QYq7n16iOYTwxweQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LNXP265MB2523.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:136::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Thu, 28 May
- 2026 12:35:12 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 12:35:12 +0000
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="FWlKmQPN"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64S8lf0K400653;
+	Thu, 28 May 2026 08:43:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=yPs0+
+	Ut+Mmj//US/eKG2HDyCXseT9Sv3IAvitcOiSrM=; b=FWlKmQPNlqE94ymYzCxVL
+	2SCR5eP73++NKJu4yN7j+qWlkCTN14Lr8vRJU4XvPCDexREgEvql+PhC1X5pmW2H
+	GhvDXofyfMucaVTnqpU9lPdAoAkd8sG3cLJDFENkP3S/jfc6EnhvhNaDT40VJQ26
+	a5YgQEuqnLqHjLTWuWqs4Ty/Ksm6lQequ1TV4Artbd1LkBexPMJbCZZVqKa9r5Rt
+	eKMOtjTTslHDTAOo8jd+x/hbt7hiK6FxqNLwMycRvpRgaUgfXmK5FVTlFOTLqNgJ
+	DLDrtI4nZOSck33gCrzAXkVc1RMlmaGFiaNe1NIETeDMlbSmnpjzxFyEZk0t8p/y
+	Q==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4ee7x1tsut-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 May 2026 08:43:53 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 64SChpI2059440
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 28 May 2026 08:43:51 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 28 May
+ 2026 08:43:51 -0400
+Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
+ ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
+ 15.02.1748.037; Thu, 28 May 2026 08:43:51 -0400
+From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Andrew Lunn
+	<andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric
+ Dumazet" <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Heiner Kallweit
+	<hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
+ the ADIN1140 MACPHY
+Thread-Topic: [PATCH net-next v2 10/10] net: ethernet: adi: Add a driver for
+ the ADIN1140 MACPHY
+Thread-Index: AQHc7Vnx3WPSKydSxEKkqCDJmkm377YjB1eAgABVdZA=
+Date: Thu, 28 May 2026 12:43:51 +0000
+Message-ID: <72c3a9a8040e4b8990f217d4072872de@analog.com>
+References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
+ <20260527-adin1140-driver-v2-10-37e5c8d4e0a0@analog.com>
+ <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
+In-Reply-To: <0aaa9a58-fac1-4de7-90f0-443db37228c8@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-adiruleop-newscl: Rule Triggered
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 May 2026 13:35:11 +0100
-Message-Id: <DIUBB7WFVZ04.1STVFBTJQPJQR@garyguo.net>
-Cc: "Neal Gompa" <neal@gompa.dev>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2] Fail the build on RUST=y and RUST_IS_AVAILABLE=n
-From: "Gary Guo" <gary@garyguo.net>
-To: "Sasha Finkelstein" <k@chaosmail.tech>, "Alice Ryhl"
- <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
- Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Danilo
- Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Jonathan
- Corbet" <corbet@lwn.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Trevor Gross" <tmgross@umich.edu>
-X-Mailer: aerc 0.21.0
-References: <20260521-evolve-to-crab-v2-1-c18e0e98fc54@chaosmail.tech>
-In-Reply-To: <20260521-evolve-to-crab-v2-1-c18e0e98fc54@chaosmail.tech>
-X-ClientProxiedBy: LO4P123CA0604.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:314::13) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LNXP265MB2523:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccc03707-3f47-44d2-822a-08debcb58ffc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|7416014|376014|1800799024|366016|921020|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	eDJSbM+mhB+iB3qHmAyksXJMeG/EyOceojnBYSuNrov0Ft4zuv/gpfGry3afDgekZhWKyq7hZIQk+j3f0IBRqYre4WVIR60CRwmTug+jv3k9Sjplb1HjHnIk5CywGWlVTJDmWuz2XkpYw0DUv/Bso8Rc0Td1343yGXyh8ZBEAw/6RDHD3OwGXhJx/ONQwb8tYXL4CXu64v0fB3IcbGKgC8eMXljmiLLe8Gj0/LxPuoIKx4ieoetVcd6PVhb5wZLhM+SzpWGyhsaMyUI4qIkohQV4tdrNrID1737T2D/Yjk61ZcN0/ZPIP7lHB/Yclw97VLcDvMv/YB8aaIAvo131wyuKdiT04v/lant/27KOMNuNAxMqOOwyitAu/gLIb5evRuTVr6WVDSkIHiaOWvpz1KwTMpD5MN5dUvrIX8UwZl0shODWyyQPZpTHdNwg98EDPRtlEWzOindN2+S30IMwmbhkseCieX86PLu27hoWFeEgO5vMbjEBWJUOOirrG5hLBQ1YYOYq7y6/nr7hlccU2gTCxhgnbwIscFvB2+Cuv9j3jY5IarjurrY9HY4Ym5xLfPXdCQQRTXxYn087VRN4LbVl5ewl0P5HYmyLnhaVarMEI2SgP7EpQcA8hEnak64O8ucLamWrHr2tzwuP/YLYCJtEmXN6zOawHrMrzaKki3iJ5tsVwZFLGneKFUcUc6aE
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(1800799024)(366016)(921020)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Rm5rUDRnSjZpUVdPR0gwOVdiOFRKVmpMQ3V4UHpoYzBieGU1dHBrcUhyNWJB?=
- =?utf-8?B?b2RjdGg1ODNHdFpycEdkUkx5T1JmVGw3bHdOSGpKZkFZWkRPVmhJQU9NUlF1?=
- =?utf-8?B?NWg4MWg1NlllMElDZzFOZ0RpaFk1dEpIdzBSOHdOWGdpNDRKNmhHRmFiRmdK?=
- =?utf-8?B?SVZUb0tmMSs0Ti9KcjlsQ3hZYmtDaUtVQmJJei9hTHlGYXp4QVczckRvMEFz?=
- =?utf-8?B?NDVaSWVQT0U3REZUeTRhTkRnQ2ZaNkxEMXJXVHh4Z1FNbDJkVHQrK0NFNWEw?=
- =?utf-8?B?L2ZrSVA2V2hORlUxZWE1YnZES0gzcDU3SDlMZERPUHVjTFhwV1BkWVFQczZL?=
- =?utf-8?B?cGE5YnB3a0YrYXN0M3VCTTN3OFRpRGoyelhNdDluN3RibXpaMDQ5dkV6RDlO?=
- =?utf-8?B?eEsvRG8xamEzNDNWVlhoc1pjb2hMUTF5eGhpTmtaczE5NXltWEJCU2FLK3hI?=
- =?utf-8?B?d1AxRmRUYzliYkZ6b3JEU1JmT3JjNXZuczlNRzVLc0YxbWxlSXlDZHRTamhx?=
- =?utf-8?B?Z1BGdDhyclNFVklabXYyV2RYT0VtV0h5K21naENsWWhwRmU3eWhqaUhVeDIy?=
- =?utf-8?B?Q056Q0p4d0NZbGREV1FDZmJlMlZmYmRTVm1GM1BzdGFqemp0b1JFOFBWSlc3?=
- =?utf-8?B?ZGtGTTYzZTBiclJSUVBubytvczJIK3NLVzVVRUV1WmtBZ1FJZ3BaRi9Vckh3?=
- =?utf-8?B?VDYzTnlMN3Q0WkVZNUVwS2dvZ2xqb254R0ZCNEY3bVhmT1BaVmV2QW1XYzlI?=
- =?utf-8?B?M2VkZWtDbEJiYWZBd1pTS1VaQTU1bytwcWpQcXNMb2Yxa3BhVkdyT3RoZGhp?=
- =?utf-8?B?a2dTa1VYeTNJUVR5dC9zTzlBaHV6dFZnQTVCNnVJcHE3b1RiK1k2eDA3dER1?=
- =?utf-8?B?ZzBtNkZvYmoxcWwxaWFndEUrU0l3SXVxcndIZXphdStwaUFQeGFtRmZBWkFN?=
- =?utf-8?B?U3VPdytWaHJjMEdab2ZFMmIyKzY2MVYvMWlMNDFFQTFGRmsrZ091dk9QV0pz?=
- =?utf-8?B?cmFWK0VySldPbW5WMnVSU3ozSklVcmN0akw2UkQ5SkJaVlNxT05XVFZWZ1hs?=
- =?utf-8?B?UzJYREVobGhVbVlpbk5YY29UK1Z5SUQrS2h6UDBkbGJ4MDJpcHdxZE50YUow?=
- =?utf-8?B?S3BodEZYeE9GWVpkZEtsNlY2UmpIWFM1RTZMY2Y2Wmp1eEhwaVBUV2MwVWVI?=
- =?utf-8?B?TGxUTU1TVmhtME0zSDR6MVRLNnNPYUV1bm8xU2w1RTlvQ1Y1M2x5U1VZdVhD?=
- =?utf-8?B?cXJYc2xCbWhSeGJ2Uk90TGQzVVloT1RTaFNHWTlqT2ZmbFR2UEVMVTAwdHdq?=
- =?utf-8?B?Q2wrUFdNczFMWk40bzFPRU1xVXl1MHdqYVRObEIwb3hQUFJtWU41bWJJeVor?=
- =?utf-8?B?VjV1b1VEdEJndXZURFc1OXFCc3RlYWZJRUxBTDZ5ZWU4V1JLN3hINUFHNGd1?=
- =?utf-8?B?Q1J3Zy9WNnVhNWlNb01NRkduVmpmWlgvdWVRalBJSkVjdFo5MSs4aTl6VEdw?=
- =?utf-8?B?NGZ4NStVM0hTcDl5L214Tm5jRHFEUkJ3Z09PT2U1NXd4K1dEc2lna1NMeVBy?=
- =?utf-8?B?Y3Qwa3RYRE5NelZyYkhNTEJiamdvR0M1K3lCeEM4cWR2b1lwV2lVNWszU3o3?=
- =?utf-8?B?N2dQekd5NmZMOHMxRDZpOFhaZ2YwQlRkamQ2WnNiajVtUkVtNTh1UlRiLzRr?=
- =?utf-8?B?cWw5YUxTZ1Y2azVHeHpocTdacUdTTG5rTGJ4WjV3U0FlVHpXZ2xLai82Vk1V?=
- =?utf-8?B?b25JZ3Baa3lvUlFybkNyK09XN3pIVnNJS1h1RzNKM29tbzFwTGtnaGZCV2Ru?=
- =?utf-8?B?eVNVdEo2TGFmSDR0bjhNTkpKc05oa0Y1U3NkUXRrL1AxM1lIUHk4dFdlTjZr?=
- =?utf-8?B?V3ZHa1Jza2E1b1BUdzZkSlNERFJFNG5acjQxK2EySjU3UFBIdEptWWVQWHEr?=
- =?utf-8?B?MFhSUHZjV3BMbjFXQkVPSGhrVmNBZHFCUkdrZVVZcnRuVGVHL2lET05maDUy?=
- =?utf-8?B?M013TVpTaFhzY1RUVVFLa0RTWlFxZXgzU3gvaHVDclMxN29tbmp2QTFuSmk2?=
- =?utf-8?B?YmZhMVQxYWROSDRBRjBJQzdVcThjaGVQOUw5RS9WajFuY2NBSXNHTlpJVjdp?=
- =?utf-8?B?cWcvdXMrSXNzdVpxY1FKbTljSXNMdDVBclZlL082dW5PUmxORkxrYi9YWFY4?=
- =?utf-8?B?ZHRJbHFEMVIzOStUaloyQlZ0OVoyR3dyMUJvejMwVmNBWHRySENWaitxRzYr?=
- =?utf-8?B?VHhFSzBlV0RuVk8zZzRoMk9hajEwUmxFQVAwVkZ4V2tSR2tLK0JscVE0RllV?=
- =?utf-8?B?czdHUnJOeWZsWWJXQXc1MTE3b25MMVE5MGNkZERLWEVBNEdUbC9vQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccc03707-3f47-44d2-822a-08debcb58ffc
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 12:35:12.4741
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WHARPQcGTXVq6+z8owsUyAj0Y/fb1DAEP45nK6lOBXVifGZo1NahaJXVVLpmBL4g3U3inL5UfGvDm9HW9fC0nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2523
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDEyOCBTYWx0ZWRfX3jaCi4H+1LRQ
+ xa9q0vDugr/WMheo4sR4yiG+cj5Nz4MtFFiEjlAFgXZAEWWZIW0+70jpp1uu+y3MNdyAfQXAMYb
+ TW0RIiWa+XUEWR6AncIRaVrkl2zA2GiVmjE9vM/sERpoqaCI0jy1g5lZtzqOMWjYlskOu3jNZaK
+ P6nGTs5l8VxUTUv9Bbj7Ky6aRF5MBOwF3auqvaERkz9Z1hfD9/spL4kgoSCkgtmGHhOTm93gtcP
+ eH+x/rtDGEEGj4XSmvfYiQhSNIWsFSaLlAhbcnR6Y80ayBMHu2uJ3kDghBt2cXfi/Act3OX7u/n
+ SXEVZ5UzRansTzC5utlYJsG1R27/5kQu+p6gLudEbBpXwO+sJgKI39W/WtL7tqQfxCpY+pQDkk1
+ nOyO1v67hIbojXpYFytgInnjez7BtvmsvJYhsALGCxJ7dLkeBsX+oZeUThjRtG6lXL2z4fMo9er
+ bYrqp9f0fyn/AgDPqsw==
+X-Authority-Analysis: v=2.4 cv=HMbz0Itv c=1 sm=1 tr=0 ts=6a183889 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=xqWC_Br6kY4A:10 a=SuJlEMG_fVsA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22
+ a=JMH861CndGJDf_HG_EAA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: UdXCBUC07EaeEhCwrxRNCeeWA5SM8oEx
+X-Proofpoint-ORIG-GUID: UdXCBUC07EaeEhCwrxRNCeeWA5SM8oEx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-28_03,2026-05-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605280128
 
-On Thu May 21, 2026 at 9:30 AM BST, Sasha Finkelstein wrote:
-> The current approach of silently disabling all rust drivers if the
-> toolchain is missing results in users that try to compile their own
-> kernels getting a "successful" build and then being confused about where
-> did their drivers go. In comparison, missing openssl results in a build
-> failure, not a disappearance of everything that depends on it.
+> > +static netdev_tx_t adin1140_start_xmit(struct sk_buff *skb,
+> > +				       struct net_device *netdev)
+> > +{
+> > +	struct adin1140_priv *priv =3D netdev_priv(netdev);
+> > +
+> > +	/* Pad frames to minimum Ethernet frame size (60 bytes without
+> FCS).
+> > +	 * The MAC will append the FCS, but we need to ensure the frame is
+> > +	 * at least ETH_ZLEN bytes.
+> > +	 */
+> > +	if (skb_put_padto(skb, ETH_ZLEN))
+> > +		return NETDEV_TX_OK;
 >=20
-> This also means that allyesconfig will depend on rust, but since the
-> rust experiment concluded with "rust is here to stay", i believe that
-> allyesconfig should be building rust drivers too.
+> Does the standard say anything about this? It seems like something
+> which could be moved into the core.
+
+The comment is a mistake on my part, as it doesn't clearly describe why we
+have to pad the skb. It's a case of a MAC device which doesn't pad a frame =
+to
+a minimum size when the host wants to transmit less than 64 bytes. I'll upd=
+ate
+it in v3 to say:
+
+/* The MAC doesn't automatically pad the frame to a 64 byte minimum size in
+ * case the host sent a shorter skb, so we have to do it in the driver. The=
+ FCS
+ * will be added by the MAC.
+ */
+
+As for what the OA TC6 standard says, this is the relevant section
+(7.3 - Data Transaction Protocol for Ethernet Frames)
+
+"Ethernet frames are typically transferred from the SPI host to the MAC-PHY=
+ without
+any padding or frame check sequence (FCS). The MAC will automatically pad t=
+he Ethernet
+frame to the minimum frame size of 64 bytes and append a computed FCS. Howe=
+ver, the
+Ethernet specification allows for the SPI host to optionally perform the fr=
+ame padding and
+FCS computation prior to transfer to the MAC-PHY. Similarly, the MAC-PHY wi=
+ll typically
+strip the FCS from received Ethernet frames prior to transfer to the SPI ho=
+st. However,
+the Ethernet specification allows the option for the Ethernet frame to be t=
+ransferred to the
+MAC client with the FCS.
+
+The IEEE Ethernet standard [2] defines the behavior of the MAC and therefor=
+e is beyond
+the scope of this specification. As a result, support for allowing the SPI =
+host to perform frame
+padding and FCS computation, or passing the FCS to the SPI host is optional=
+. When supported,
+the method for configuring the MAC-PHY to enable these modes of frame trans=
+fer is
+implementation specific."
+
+As I understand, from the TC6 standard point of view, the padding and FCS o=
+ffload is optional.
+So, I think this shouldn't go into the core.=20
+
 >=20
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-
-Reviewed-by: Gary Guo <gary@garyguo.net>
-
-> ---
-> Changes in v2:
-> - No longer a RFC, let's make it happen.
-> - Update the docs.
-> - Link to v1: https://patch.msgid.link/20260510-evolve-to-crab-v1-1-208df=
-84e67be@chaosmail.tech
-> ---
->  Documentation/rust/quick-start.rst | 6 +++---
->  init/Kconfig                       | 1 -
->  2 files changed, 3 insertions(+), 4 deletions(-)
-
+> 	Andrew
