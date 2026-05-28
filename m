@@ -1,120 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080D7352033;
-	Thu, 28 May 2026 22:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A836CDFE
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 22:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780007686; cv=none; b=TAEAaYnrzmIKy5ViWM3GL55MVvssiZi/Wt9Hem2AiUAaLTIsGmThWzSGSDW4UIVmc0TaptK89mxM/iXQvPdgnYJ/oHtujYU6EDrLWD+V2CNK5G6qzogKd64ewPQJiq/1vCr874zQviM7dUouexq+3dht8wJWI71BKmjI0MCU07c=
+	t=1780007849; cv=none; b=YmaS9mZG0bMFLMQer8+2mrfUHwjyPOwHY2/3ZWoQKB4neKa2FdRqGHQI3ZevKHnoYHahJFAAolu7pcy8Y3xYakvzylCoXDjx8tTVT191FGO+wC2xBRV6L9NZTQHyf2gLoqwk7dJRxnvIQ/ln5a4V6KoR9F9En6tqB7J3Gh07mvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780007686; c=relaxed/simple;
-	bh=T+A8B0Lkq8CucUJxIXZD63zdSoO1bk3N54bukijHHms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mECBLH/Yo+NN4lzSEG6JMB7l6VHFOMuTiOP/I2HDStTP/V7KUXHBubXsT0f1KVInWb9vi+i3q4K+XcELLgp0RMtI6CnBMHsVqWTK2VaP73GNvLcjbsTP0s4OlAQT1NY5CT+SaUDVidMmj/ujHvVF3kFKsUp319yLPv9YX+2jeBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wixk+w0z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780007849; c=relaxed/simple;
+	bh=QvjOUVcvSpWfuFqJupTUEnHGBg0XQxvgwFD++LL9Wa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GAmtmPF33voP/ECh6Vy5VZjeaaSkQBnLCQaU0Rlfvid+RB+ZZ5D/5yrsB/SEAy67vTtAM0zmPNAoO1Wha7NN8oVAjVfNVmCklHF+IR0awsSEm42nOTl0JTrTHKaedgec/yiTWbtbjRnZdp85leq5OBGhsBWdp4e42zCTg7NhdRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E9PmXxDj; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wixk+w0z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 990D61F000E9;
-	Thu, 28 May 2026 22:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780007684;
-	bh=T+A8B0Lkq8CucUJxIXZD63zdSoO1bk3N54bukijHHms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wixk+w0zrDvzUA9+b715i8Nur/PrQSMHRzRElj+lxfCwP2zEBGYfdtDffUNEG2gEz
-	 mcrTTh9lXiLPw6iEFXOPBgNqjmx5pp0CRQLy7miWuMmgqZ2UkTLe6uA9vwEw0WUn6w
-	 08eeTuPI45sC8JYHcgyqYR2qPqDt/z6eADE9v0kPx7ExN0U+GAMPR+FHtnWJzaLbAZ
-	 0T8ZkEAlVLDRqCM58Vdd4S5du5fRVxI7JvMDo7OZUsVpL8KsYUvND+QDo/2fryq7lY
-	 Zyil7d9oGYL2nrSETAwqRDmpeWQMzR1u74OKEwl5/ynx2hzRq+C8yepizpdIUXiPbD
-	 aG/KrVbf6hL/Q==
-Date: Thu, 28 May 2026 23:34:40 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org, Lars Randers <lranders@mail.dk>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Valentina.FernandezAlanis@microchip.com
-Subject: Re: [RFC] hwmon: add a driver for the temp/voltage sensor on
- PolarFire SoC
-Message-ID: <20260528-defog-lasso-84891a72775a@spud>
-References: <20260527-earring-bully-eb4a268c2e68@spud>
- <b49d4781-0827-4f26-9ca2-ccd177f90237@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E9PmXxDj"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49056b9f04aso74465335e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 15:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780007846; x=1780612646; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a5m+WvyMC+bIy8a0vdthZB52udcKqc3YLrb8WNsYpZg=;
+        b=E9PmXxDjuzsv5Y1e6XK627cbOHCnqiBrUqlOnBbZvL5QUaNUGreDAsN+NkTD9xWQFp
+         eJm7GEan2krqafu0YGBEAakxKmyri+FoIM5UW8jPtB6nzqapyiyag+gAQBCuR6RAeBGT
+         yR45GhwNwbp+HgqRQXqMXRZgPGKoFwD3TmsfEOGa9rk+jJq2A1N0oGavJsoPfNq7zEfV
+         WH5dtnGkOKdhaVALdpfUXnePFekKKSh9TX+XGGAZ3s2lkfvMtqqvK/0XVdSVFDRpbETi
+         2XyeEk5kxafaXPG++Q9F08QKYIFn9ssev166ID1CEn8Gae9Sm2sZvzHIc0aCFwcWqhun
+         NX+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780007846; x=1780612646;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a5m+WvyMC+bIy8a0vdthZB52udcKqc3YLrb8WNsYpZg=;
+        b=K23PaxWhH2/44hqQE7hdQo2GyfxnV1x7My6RcxxgkoD9UXAu2P+db4zLZGiD22jaKk
+         OqQXK50q8OUd3bRXZGn9lkS2dbfN1qfxgJ+i9QHud7EwbXV2K5P5XTLbRuSmXbMtAvHa
+         x2AC7+EwpG9PHkmdcDLaXITgnblW5yACDB8cB351WLoV67FZi00Q6thhpz/H91R/K/s7
+         kS839cxitDGHwkNvR2B/bV/AE7agwG6N3b777bK8AwseJzGAAQ6FX8z8OE+lQDq/fltO
+         b/qG/MkbvtM4wiVd8XFIRE9mVehjzXQDI1h0+ZRWEHgzavX7dNiIk3Ign1vJw/AKRMJX
+         e1Lw==
+X-Forwarded-Encrypted: i=1; AFNElJ8OJNx5uWcvsS0nHNRy1GbKfopPbTjjGzEadXnuOo6unahAKlhbzjWEXS8fZLOaHT7EOjwQ76DDpt0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHY/qA06K5H8YaVQrOSUCwf3PIjtrMw/cTNie/lzymWAMX8dFl
+	EcutqRSBw0PIWBD0omXSDZvK16oeUZPEKKMHuNAi1V4vOmvPyyWcEWAF
+X-Gm-Gg: Acq92OE2BWqqDy74K4/kYf+GGkwiSPmIxUtnvL7AVOKX7Za2z8QAHZGn5atYRhATIrt
+	1daDrfopl72bphccP+esZs0wRpY8F/DfyxDYhyXhl4bTPUv+iZT5ULhrRoKuQZPMkSO0fX3IpLm
+	5PKllGzDc2siImTMfzEJ6HxrBoRyEdW3KSYee0c0i66EdVTwoNM/kubFXMwdr1RlbJRVjmLsNsC
+	O/JoSPT1MGl0MHPTrghqmeYvAlAwnaLEdwyWZLGSV2ndaG53ir95UQHcz+YPTwCiFhw7dR2lfu2
+	Q1LYayNBg4BysQd6mDHM11hOmVoKMEwUW9rmdZ85sdtxSW5H1Jeexchwr0hlryT5zU7lb3zXcbS
+	+d7PzsDrfzOYRxbWvhAVcwQKAv3t/5MgvX+yI9SItE9qVQ4b70eEfnMCo5XKYo1WiORWlKQEhK3
+	kliyXZBEWTb5eb2c1i6KCGRIU0Ekt0JhMrauClKgYkVA==
+X-Received: by 2002:a05:600c:a55:b0:490:6869:46c3 with SMTP id 5b1f17b1804b1-4909c0cfa37mr6101135e9.30.1780007845583;
+        Thu, 28 May 2026 15:37:25 -0700 (PDT)
+Received: from Godswill ([102.88.111.240])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909ca6575csm5829475e9.4.2026.05.28.15.37.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 15:37:25 -0700 (PDT)
+From: Godswill Onwusilike <onwusilikegodswill@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Godswill Onwusilike <onwusilikegodswill@gmail.com>
+Subject: [PATCH v2] docs: gpu: todo: fix spelling of "fucntion"
+Date: Thu, 28 May 2026 23:37:15 +0100
+Message-ID: <20260528223715.26645-1-onwusilikegodswill@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/dY6UJR7eVAiYQsM"
-Content-Disposition: inline
-In-Reply-To: <b49d4781-0827-4f26-9ca2-ccd177f90237@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 
+Correct the spelling of "fucntion" to "function" in
+Documentation/gpu/todo.rst.
 
---/dY6UJR7eVAiYQsM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2:
 
-On Wed, May 27, 2026 at 09:07:20PM -0700, Guenter Roeck wrote:
-> On Wed, May 27, 2026 at 10:06:11AM +0100, Conor Dooley wrote:
-> > From: Lars Randers <lranders@mail.dk>
-> >=20
-> > Add a driver for the temperature and voltage sensors on PolarFire SoC.
-> > The temperature reports how hot the die is, and the voltages are the
-> > SoC's 1.05, 1.8 and 2.5 volt rails respectively.
-> >=20
-> > The hardware supports alarms in theory, but there is an unconfirmed
-> > erratum that prevents clearing them once triggered, so no support is
-> > added.
-> >=20
-> > The hardware measures voltage with 16 bits, of which 1 is a sign bit and
-> > the remainder holds the voltage as a fixed point integer value. It's
-> > improbable that the hardware will work if the voltages are negative, so
-> > the driver ignores the sign bits.
-> >=20
-> > There's no dt support etc here because this is the child of a simple-mfd
-> > syscon.
-> >=20
-> > Signed-off-by: Lars Randers <lranders@mail.dk>
-> > Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> > Guenter, there's one question here about the unit that update_interval
-> > is in, I didn't see anyone else using us, but I assume that's okay since
-> > the resolution that ms would give would be 8 steps only?
-> > RFC cos the question is also in the driver as a comment.
-> >=20
->=20
-> That just came up in a different context. We'll add a new standard attrib=
-ute
-> update_interval_us. The existing attribute MUST use ms. Everything else
-> would be an ABI violation.
+Fix the actual typo instead of newline-only change
 
-Cool. Sounds like Ferdinand is working on that based on the other
-thread.
+Signed-off-by: Godswill Onwusilike <onwusilikegodswill@gmail.com>
+---
+ Documentation/gpu/todo.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do you think I should support both update_interval and update_interval_us in
-this driver?
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index bc9f14c8a2ec..841e4e986c48 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pipe. The task here is to
+ convert them to use regular atomic helpers. Search for a driver that calls
+ drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_helper.c
+ into the driver, such that no simple-KMS interfaces are required. Please also
+-rename all inlined fucntions according to driver conventions.
++rename all inlined functions according to driver conventions.
+ 
+ Contact: Thomas Zimmermann, respective driver maintainer
+ 
+-- 
+2.53.0
 
-If yes, should I do the ms version now and add the us version later once
-Ferdinand's work is complete?
-
-Cheers,
-Conor.
-
---/dY6UJR7eVAiYQsM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahjDAAAKCRB4tDGHoIJi
-0umqAQCFXSx/b46Px06mubHpDqQJZ3Dlo4pIUwEr8Pe8FDNJVQD/SkBJj7iAvvsa
-IVlWnxRmcMZb0DAcbwlLRhhdwJdPOgc=
-=0zap
------END PGP SIGNATURE-----
-
---/dY6UJR7eVAiYQsM--
