@@ -1,169 +1,146 @@
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB04A19E97B
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 21:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780004327; cv=none; b=uZlbg7lkgXOZaQwCX6fTb2H05AneVbTRuF2WkorYP/KdYExl9LzMfmdSnlUQJr7svyaSlh6CgI8HvfuhaDsaztTNXXhNtPiqDWOSq9g5WdZZJgef1NES1Bxjgp3ThYSfXcs3c7VMhEaxMyw2R4xmkCIlfcmDz9rGEluHsZiBElI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780004327; c=relaxed/simple;
-	bh=Qm0ClVgDR801I+ouZbmXtpJMj50lr1fOBsz4IDlnCjc=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=pWsmiqWixwm6OBwSeN+LqvajrLexRvgEPDgBQ8uBSvAZaTHX0s+AyL710uTSTjwl/xSebkaS4xyA/9bSR/RlWmQgE67i1AVSHDnCN7kIKDdF15h+mejNv4u2CfBM7Q5URsZOoSdMb8HcoaSGAVUlQbXHapC1Sxct8LCeYQgZFFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ndesaulniers.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MT10BH0X; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ndesaulniers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7A735E1D4
+	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 21:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780004556; cv=pass; b=qevLm9mkneb5XVEeH1FROX+emjkdU0GY6oXQDQkOcOSmH+a7IxJIyQUopmW8BJM5cYFCv7HMrzMCkmZpDU+23qPD/IXLuokDECyk8OSgyT7wtTWrKY6xUUDJVDyPftmewdyb0AJHEUeGJASAR497cSXIfA7IN+WVfYvKMKOAnSw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780004556; c=relaxed/simple;
+	bh=9q/ZTSfTHT3ONJVmwny5oeOHsuAhfuQbux3JGsklk0A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zr4UG/PKQx7XjJX1F0HHIoVzVdK6fLNZVNi34O1I7QkNbvByIZO9rPSCFZROxat8hp3SFr4GQylPpuYFzULqnqvP+Go/s//7i/QsUCpumX53M30w3PIk8e0s+yeAH5PpXBvyWZjyDCyNFwG6r2qbI6DmcgakyhnXM+kjTY5PVe8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ls8wq3x8; arc=pass smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MT10BH0X"
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-304d8613efbso1329760eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 14:38:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ls8wq3x8"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-393d6025f99so125513581fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 14:42:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780004552; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Gt1WCV1SW0RvZnNK0TJJPycdHW3pjm+tfhk7QB2sMKCg61kAFwnIVSp9X/B4vZq0Nw
+         JrRj3TUHNleK5NzOPPpM9gXuii9uPPn3CHA2c9gx0c7eNsz0gvFuqj9pxYPtiPYOv4Z8
+         LieX9yHT5LpILdgmb2teD9W+V80D7SgsnKtjyMvyYtnSjQAqarvVdGH8UhC3jU3aU15n
+         Tlb21a1G3jGP8U6Vdk4tKl69juCyLtO4LHCBO8aEzxvW1Ctt8pjwlPlL5oLBWAwC09OL
+         RW5YOQAxMtOn/SRy9T/dfPw7jNWG0A81W3NWOzzkzgj/dIjW3ViFjNVFUhE5jvSxQI6/
+         7kRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9q/ZTSfTHT3ONJVmwny5oeOHsuAhfuQbux3JGsklk0A=;
+        fh=HgIrQ/Fu1RhJfxiAbtXK/jvH16MF4YQPu1OoDCE790M=;
+        b=OvJ1agn1BZl1jUNazNbJ/1g6fCy03MVFYb7B4sx24y4hOjXfe2RJ1FJLa/fyHNjQPB
+         fRmhcfyM0m7pgn5be98TdeVoxWl3b8XXTadDrbPYpp0zE3vgdSkjJCInAMNlq83Hytqw
+         0GHkMyCU3CDx8HDUIuGYqRBwrLF6erFvP9ZcSFtKKUtiVknMIL+6GfYOo/ytGkAc5+Fe
+         cAS5qusg3nocrQ8f5JYSVnAG+tMgYx6nrLx10t7pS/OJ5aa5yH/WAf1y6nshCEneiUpl
+         PeaFQKEwJIGw2fd9/cKIvx7EEf/MyXX3N4e5Og8x8ZC+jy1aajEDCYk/f2WnUwyKVVoL
+         HXvA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780004325; x=1780609125; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RJqAJojaJ8zfnf1d2GA7xSP8FvOiPajlnN1Xf8Iccu8=;
-        b=MT10BH0X02qfO7rAZNtfxzUmLYKbHAvSvyN88q5ggJNPzZpW2qRRTYKxTpu5nsEpqs
-         IbY+FFMz3ZfVUcpS4nug+jvNCXkz4YftyuPPGCa9cKau2ZaIH041ECrTiro1E2vktlb5
-         +NckkkABAut9c7ZHbX8SIAx55/Ik/sJWj5KOPmIH+Hecn0TUu407P0vkS2FBthDQ8Ejf
-         zX6JdL9/hE4EU8WsGyws5pn2Uvh8FwBqPYq0DofIY14PPolm9VPt3vOxaqOaWf9jgsmI
-         wetvTOXy8wiZ9SlSNOCnm/fWzUJa8gBb22Beq5Dmt2yqTOzZsg9rbNB9y4mLlb+bdk4K
-         zuCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780004325; x=1780609125;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780004552; x=1780609352; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RJqAJojaJ8zfnf1d2GA7xSP8FvOiPajlnN1Xf8Iccu8=;
-        b=soZAn+LSYhtyk9+Zux4cOl+bn1VMqPWTqk/sQqjdIAHJd9PTIgttEuTJNlNMnRoopD
-         33JMzQX1L2FVjUqA67K+QOkFBJrWXW9JNCiw5mSCFu0mJh2PJvFz9qz4EjeLFts5ZQ8M
-         I8l0ir05GehJsWk0h/W1rYDfu9TowCc/Zph4mVJU+F/YDhl6JRY5dkS3cywBZtIpfY/G
-         fbucd9huV6DL4VP/RlgCWy/9+k1ViO5GCaq6O7BmGae8pDYhQkCp0CfoRw03O6QsmOWo
-         qB9E4fBFs1dem9GEppUqDbLqJrS3jbhKrwj3iFf7qdISEyyZ7Qx29kXVDGhEK4HuMFqp
-         haCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/CDtPK3PpTlBYBBa01Qq7mqsOMLLlAWhZi5hxWwX5ago/SqBD/5mGGMiGPnz34dO6jbAEi8qYHZSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKYdbrrH04esD6IVHgn16O9alIAooQjOP7XkOJqr8BKGQ3dw75
-	dac8XoTwa8SdUl1kxuDWFRJqZYa9Y1Y14B6jrFi+LlUJKNF+E9LCC76/eHWm/2Fd4Z/ThRjHc7n
-	9DeGbfc7qbM4XCHfwNEWEz9ga1LDqiA==
-X-Received: from dyjk24.prod.google.com ([2002:a05:7300:2718:b0:303:93ec:5fc5])
- (user=ndesaulniers job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7301:1008:b0:304:6782:d57c with SMTP id 5a478bee46e88-304eb13916bmr131522eec.15.1780004324464;
- Thu, 28 May 2026 14:38:44 -0700 (PDT)
-Date: Thu, 28 May 2026 14:38:41 -0700
+        bh=9q/ZTSfTHT3ONJVmwny5oeOHsuAhfuQbux3JGsklk0A=;
+        b=ls8wq3x8kzyt7HiA06z5ov+GmK03Y5FbkxXShtTR8+zDslhmsPgzDkJItOwIO6496P
+         XusRh2vZG8XbLp2bgEzTyavSpAKV2yNT//DBY1++FtyRKsFYwrHrrJHuLQwegE5BCcge
+         2XXXa0IhGyzmQ23dNpLmvZ7gL5m55u2i6xcE4z3HpnPnj6BX6aHMThdRsKDvnhY78z1l
+         c33mfHCdz3R8dVtuKD4rfjNhu/sX/EpgxRhmliR+AhQgciqyKu5q+4q4EUryG802VElJ
+         n4kZbfpqnoA8XqN1jrhsMNdZ7paFJP9M//gZsLn3zZ97PJeucpT4TFYmt6Evwuygkvmc
+         bLeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780004552; x=1780609352;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9q/ZTSfTHT3ONJVmwny5oeOHsuAhfuQbux3JGsklk0A=;
+        b=q89wJki7xIa4+FvMCZbRkfCmAPxnUi+Le/3oJc7wx1x9DPNnkoKpE/qoHJaacbwSls
+         duHbgcB9x8VkdMmcI3r0w5sXx8b3ZwqcGADbD9eleF/Ts8ug9YMUl/y+a1Svmx0RH6RU
+         kpvihY1tEywZozeGmsWYr60ULKWfyA7mxGDRbrYhYKmoaOehXAJHmRaS9h1Yrpq04irK
+         OEU3hWoKDBDv1uVQ+vQBJ/MmzNFXHk+3NSbu0EvvVHv3Ue3FjhHMa5wJm3xTTeQfieMw
+         Ti9rNkQt9Uk/PQIm5WaIYNsWFpx99hwNrAFRfgEvaZUsf8tVqrorePg8/w86g4xwSykH
+         fDPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+t2qFOsaa/Z4WP0/14LEci8L6LLNA63a9RCArvP1i/9J/TYI2xusUusVj8gaVAhmITJv5wO9dNra0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd/lCXdhJuqPFxLqyHl14O/IGtons3lrGerr4qzJFCMuWCWMAa
+	lZgBXzzlnLnUin4zGAy7/GuGtQmWY5LBoD4rsuwbQRcCxRDcbaQyCxVQ1mVy01hmrUF5+wG/JeG
+	rBtcpnRbC8S8nXkdIsd9ejO7S4LgMeDA=
+X-Gm-Gg: Acq92OGKHhJUghBn+Krwd3ZJVY4PLS4IweNN+2PMaljdro5AWKkgT4aPNRjCr/kW4JB
+	FXhdBBj4P5k1T6uKpkPWzUU8sJDs3TyBCzRYS7KBLCU6ygqOpjs2T4B8B8MCwB1ZDCky/iI7uQZ
+	TALRD8E2eNmeg6BEPQMecBtK9ivYQCieISRxeV5bV/v4RoNsEVgw6dg+QFODGn62FNLTGYchPuJ
+	5LcCk0LCNOFKMB6qO+TDZg6XGy3Ao4Y1MTwlcvwSaIWB0MUpN4tszrnF4UYXymkFzDyWRlsq1DD
+	AcwWF+r8xfIYYKT/OUVqKkPsbJBGYAtmZDtwqymZkvHN3uo18w==
+X-Received: by 2002:a2e:a695:0:b0:38a:2a56:9546 with SMTP id
+ 38308e7fff4ca-396536f3de0mr174701fa.13.1780004551665; Thu, 28 May 2026
+ 14:42:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAOG1GGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDUyML3czc+KTE5GwgkVSpa5iYkmpslJJsYGKZqgTUUlCUmpZZATYuOhb CLy5NykpNLgGZoVRbCwD3xNl3cAAAAA==
-X-Change-Id: 20260528-im_back_baby-1ade32dc049e
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=G37kqG19J0fT90FIX6gZgD3l/cpQxiU38uBYq55AfXs=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780004322; l=3204;
- i=ndesaulniers@google.com; s=20260528; h=from:subject:message-id;
- bh=e4E1W/ubyy6eoS6wLc7Upd/F0ktRDYTG2gsNUpKQwfA=; b=cgLdoDrxBSrFtk9KK92hKq8JwEIJ+hIp5Vbklh1HyqiQ9lAL6XP9u0Z8FfdNdlgyn0sHyk6R0
- sCfSeCYxqhqAWQEng533s+jL//Lk87YkR9S41SC4EfByycDV3IF80IP
-X-Mailer: b4 0.15.2
-Message-ID: <20260528-im_back_baby-v1-1-25d355efdbae@google.com>
-Subject: [PATCH] MAINTAINERS: update ndesaulniers
-From: Nick Desaulniers <ndesaulniers@google.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Avadhut Naik <avadhut.naik@amd.com>, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, llvm@lists.linux.dev, 
-	gosst-kernel <gosst-kernel@google.com>, 
-	android-kernel-team <android-kernel-team@google.com>, 
-	kernel-dynamic-tools <kernel-dynamic-tools@google.com>, 
-	Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260505153854.1612033-1-nphamcs@gmail.com> <20260505153854.1612033-2-nphamcs@gmail.com>
+ <agJcCZuLqWwU_sSR@google.com>
+In-Reply-To: <agJcCZuLqWwU_sSR@google.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 28 May 2026 14:42:19 -0700
+X-Gm-Features: AVHnY4IQjMrNxr5cCHgyMIwBGAESeNQ717suquaX-CqDf9_dL7Z_N08muuwMcik
+Message-ID: <CAKEwX=PZnKqfriUsPV2whZyqxfCRNy67z7gyrHObEvztDF0_zg@mail.gmail.com>
+Subject: Re: [PATCH v6 01/22] mm/swap: decouple swap cache from physical swap infrastructure
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
+	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
+	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
+	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
+	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
+	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
+	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
+	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, 
+	ryan.roberts@arm.com, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
+	surenb@google.com, tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
+	riel@surriel.com, haowenchao22@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I'm coming back.  I will return.  I will possess your body, and I'll
-make LKML burn.
+On Mon, May 11, 2026 at 3:46=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> On Tue, May 05, 2026 at 08:38:30AM -0700, Nhat Pham wrote:
+> > When we virtualize the swap space, we will manage swap cache at the
+> > virtual swap layer. To prepare for this, decouple swap cache from
+> > physical swap infrastructure.
+> >
+> > We will also remove all the swap cache related helpers of swap table. W=
+e
+> > will keep the rest of the swap table infrastructure, which will be
+> > repurposed to serve as the rmap (physical -> virtual swap mapping)
+> > later.
+>
+> I didn't look through the entire series, but let me ask the same
+> high-level question I asked before. Instead of moving things out of the
+> swap table, why not reuse the swap table as the representation of the
+> virtual swap space? Seems like most/all metadata is already moved there
+> in a nice concise format.
 
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- .mailmap                                                               | 1=
- -
- Documentation/process/embargoed-hardware-issues.rst                    | 2=
- +-
- Documentation/translations/sp_SP/process/embargoed-hardware-issues.rst | 2=
- +-
- MAINTAINERS                                                            | 2=
- +-
- 4 files changed, 3 insertions(+), 4 deletions(-)
+The honest answer is I wasn't sure it would work, so I was hacking
+quietly a prototype on my own time :)
 
-diff --git a/.mailmap b/.mailmap
-index a009f73d7ea5..f863781b0102 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -634,7 +634,6 @@ Nicholas Piggin <npiggin@gmail.com> <npiggin@kernel.dk>
- Nicholas Piggin <npiggin@gmail.com> <npiggin@suse.de>
- Nicholas Piggin <npiggin@gmail.com> <nickpiggin@yahoo.com.au>
- Nicholas Piggin <npiggin@gmail.com> <piggin@cyberone.com.au>
--Nick Desaulniers <nick.desaulniers+lkml@gmail.com> <ndesaulniers@google.co=
-m>
- Nicolas Ferre <nicolas.ferre@microchip.com> <nicolas.ferre@atmel.com>
- Nicolas Pitre <nico@fluxnic.net> <nicolas.pitre@linaro.org>
- Nicolas Pitre <nico@fluxnic.net> <nico@linaro.org>
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Document=
-ation/process/embargoed-hardware-issues.rst
-index 34e00848e0da..d07f16c3c7b8 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -308,7 +308,7 @@ an involved disclosed party. The current ambassadors li=
-st:
-=20
-   Google	Kees Cook <keescook@chromium.org>
-=20
--  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-+  LLVM		Nick Desaulniers <ndesaulniers@google.com>
-   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- If you want your organization to be added to the ambassadors list, please
-diff --git a/Documentation/translations/sp_SP/process/embargoed-hardware-is=
-sues.rst b/Documentation/translations/sp_SP/process/embargoed-hardware-issu=
-es.rst
-index 9d444b9c46d3..7d4d694967c7 100644
---- a/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rs=
-t
-+++ b/Documentation/translations/sp_SP/process/embargoed-hardware-issues.rs=
-t
-@@ -287,7 +287,7 @@ revelada involucrada. La lista de embajadores actuales:
-=20
-   Google	Kees Cook <keescook@chromium.org>
-=20
--  LLVM		Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-+  LLVM		Nick Desaulniers <ndesaulniers@google.com>
-   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- Si quiere que su organizaci=C3=B3n se a=C3=B1ada a la lista de embajadores=
-, por
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..2f06cc2e463c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6259,7 +6259,7 @@ F:	.clang-format
-=20
- CLANG/LLVM BUILD SUPPORT
- M:	Nathan Chancellor <nathan@kernel.org>
--R:	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-+R:	Nick Desaulniers <ndesaulniers@google.com>
- R:	Bill Wendling <morbo@google.com>
- R:	Justin Stitt <justinstitt@google.com>
- L:	llvm@lists.linux.dev
+I finally got something that survives stress-ng and constant
+memory.reclaim thrown at it though. I figured I should send it out to
+get feedback before digging myself deeper into that hole:
 
----
-base-commit: 8fde5d1d47f69db6082dfa34500c27f8485389a5
-change-id: 20260528-im_back_baby-1ade32dc049e
+https://lore.kernel.org/all/20260528212955.1912856-1-nphamcs@gmail.com/
 
-Best regards,
--- =20
-Nick Desaulniers <ndesaulniers@google.com>
-
+There is still a small problem left (the metadata duplication issue
+that Johannes brought up). It is potentially fixable, but I haven't
+actually tried it out yet, so I don't want to overstate here. But take
+a look at it and let me know how you feel about this alternative
+approach!
