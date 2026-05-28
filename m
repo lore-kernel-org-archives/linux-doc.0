@@ -1,156 +1,164 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D104A3BB9ED
-	for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 10:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+Received: from outbound.baidu.com (mx16.baidu.com [111.202.115.101])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id CEBAC3CF025;
+	Thu, 28 May 2026 10:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.115.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779965410; cv=none; b=HwLFuqfPCDOuUU9VeWkHuJ2WYAl5oE4r+ZwZC2+IPJYkNe5+Qk20fcsB7ZKjsCQ1knx0PO81gRlMldwgsrQGmfwtsFEXidnDFiaKBQtPjjNyZ+Z8KBz5ymH4DVTJ+yV00KyxcKo7MpFffnmBMRXgzhwoDuok7HjRpvPj8b9UwvQ=
+	t=1779965421; cv=none; b=KghjcDthywjtoFCNdzKN9h5XmdTqR14HJ743UQg9KXu5/2wLZ+57ibIC/SEM7c8aRjvS29XZbCEbX+8VvEbPekS7RmLMvuDE3jLsL934oXlwmze2IfG6QMI6zJ/MmlOaDv8JLszJa9V5tqZgu8SDWWueeqEswxZeXRdp8KBdXtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779965410; c=relaxed/simple;
-	bh=eCJWbK5m+tNvzAyjDy46Navw29cBVreFmRG2Woa1MAw=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=DUtSaNzD+d/ZnVa4V0VL/5zQ1yiJDX3E6iAZqK19IzyC7Md2Y0EU27wMTMttdOVojxs1lIRePC8ERapcRIQMdqH/PD9qSGXowGJoFJsdBRBR9SC+PPSAuXLx5WUjbx4cJXFFVf7RnRqyGjo1pcAIe0guLKLbE2P44oQZF+EyWgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HuqAh1/r; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779965421; c=relaxed/simple;
+	bh=diaE5/DkVHL2OlpMmyZVGR0NbaFP0CVURipa1X2Xp6o=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CFto63ECeGzmb0c33xgB0W+qFnlUa0eSPKKj752MnFkqEFvHL2Ua48Rd2wbLVmtvt5bgqW9gkhc+ncBd0R9vQRPaGJjPERQD/bs2DtAdloNEITNr6LVqGJebFEmJ9mmt32cp4ZgFrIVWnqjdy5EwIdFUe9n3P5NNP9OCI9myeKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=LMevlbg8; arc=none smtp.client-ip=111.202.115.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HuqAh1/r"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2bea7176c72so57134275ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 03:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779965407; x=1780570207; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=46bMWh+gCQYzpY1dEMifCzkdbqK+/RCfas0dsX6v9EQ=;
-        b=HuqAh1/roKoG0hIctEWFdBb2sH5x3sG2/KhuwkiE/htE7DObP/e0nm/OoTr1AuHstG
-         ZE1djmIQWj0O8yMOmrZskKqt72gfx4cqqad7Wru2eTIN9iP6XtUnF3nx/I2Afqdyv5Nr
-         aiZWZMU5dlll+8A6ztSaMyxo31dMWxI89v1r1w7QJsa//Ib1dFhdz7+sZOHepzbzITAT
-         3eK/KcG9au19qgI0xrojwTeDJArN1MMu/mTEX3ZcRLBoPkznIOpYyaWi9ZPN5xFluz5t
-         ITu9hC4Bv5EasiDfhr8zuuuV1odUJ4kSiPhy2iJE6NAUbfLYNtA1x5DBm2umglUA0Y3M
-         Kr7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779965407; x=1780570207;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=46bMWh+gCQYzpY1dEMifCzkdbqK+/RCfas0dsX6v9EQ=;
-        b=e5t+kjddorRvvBVVGDO8bR8uBYuZNkAjfk6L9A6oOO0KhebwWVWUj1O/ZazlTnwc/o
-         Eq3YZhRnzHJbBxT8V5CJH1RG80uxzWoFC7QaG0y0RJheO4a+BU2n8rHxBzCntnF7Xfc3
-         xXFdKHy9FjM9cA2MlmqUvi/46Gzh5nqa/nDUFZ47sTEHVEK2DNmRPpy9gBFL59Of8y7y
-         laRFnrkVqOG9+mhAlM4D+tyZTZzNSLJK7uB7rMnx8rQIj62o9YzD803zKXJFV5fv+c/K
-         6msEr1IZoP/5DXNWdscHnOiNJXjLbZURKBrr82CWq68BemicvotSsMN6eOIQ6c0pEY7R
-         BQZg==
-X-Forwarded-Encrypted: i=1; AFNElJ/qCxIUmxcdqDJP19bdOLpYvM676I5IkLxVLOFCiCIOA0MBzNhp4ChPw/OmxdB8zelsg4YSl1ViymE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH9oUNPPpNOOJ+5ex6z03qgOW3H2ErAVlKIL6AxiuHwCG/UWJ4
-	159PxO+gOokp0WZd12VjWCjyCkcWrAw1l2Fdo+FtoelNJIK7nqO5yiHE
-X-Gm-Gg: Acq92OER+tEz9e/IxqmXda4aoaxAT/E5wgKHzBjQMp77r3nAxTQLJS41iqXBYch3Fam
-	vH1fEthOgvYiCY23e49TCX0rOa2vrDq3S/xob11V6v38GO6lSUjMckbLSAPFXnVlY8m/RQfoCLS
-	SFXHW7FVkb6mlfyZFJ12jZjDAGBgBJHhWYzw9ZUroIkdQ2Zp27w+B0D6fdHNxzfoAVuGDw7oV7A
-	13kFejgl8g4P001nTnohSZ1VGewajOcSu2RCJc1oAKX1Nifms5kQqrA0eskzICJ9Q2tfptkIxZw
-	QwnISqRpHZf1qcqtirSYan0KxPE8KW7B3WbvdP9dgin16V4KXYnqP5fiJEaadxsInQwF8oh2oaE
-	nDyz8gYox6v2xbq0QZ4TM9iXzAItapvamKKYOPwHsaQhACLuHHPZksi954mbknI82IzN5tGc+Mh
-	jw0FG104O11x5Igh4/KeRfZJBsKqKclYXy
-X-Received: by 2002:a17:902:e845:b0:2ba:4f37:d3a7 with SMTP id d9443c01a7336-2beb06a63c6mr311583635ad.27.1779965407101;
-        Thu, 28 May 2026 03:50:07 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56bc151sm180571765ad.24.2026.05.28.03.50.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 03:50:06 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
-Subject: Re: [PATCH v3 1/5] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
-In-Reply-To: <20260522152744.55251-2-amachhiw@linux.ibm.com>
-Date: Thu, 28 May 2026 08:43:04 +0530
-Message-ID: <pl2g6xbz.ritesh.list@gmail.com>
-References: <20260522152744.55251-1-amachhiw@linux.ibm.com> <20260522152744.55251-2-amachhiw@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="LMevlbg8"
+X-MD-Sfrom: lirongqing@baidu.com
+X-MD-SrcIP: 172.31.50.45
+From: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>
+To: Usama Arif <usama.arif@linux.dev>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, "Christoph
+ Lameter" <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman
+ Gushchin <roman.gushchin@linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdIG1t?=
+ =?utf-8?B?L21lbXBvb2w6IHVzZSBzdGF0aWMga2V5IGZvciBib290LXRpbWUgZGVidWcg?=
+ =?utf-8?Q?enablement?=
+Thread-Topic: =?utf-8?B?562U5aSNOiBb5aSW6YOo6YKu5Lu2XSBSZTogW1BBVENIXSBtbS9tZW1wb29s?=
+ =?utf-8?Q?:_use_static_key_for_boot-time_debug_enablement?=
+Thread-Index: AQHc7cYaHc/KlS0U5Emb14FdSgycW7YhUMwAgAFsxkD///uqgIAAiCNA
+Date: Thu, 28 May 2026 10:50:09 +0000
+Message-ID: <b9d53cb0be024778b09e1bb1ef7d0211@baidu.com>
+References: <20260527104634.2434-1-lirongqing@baidu.com>
+ <20260527130337.983366-1-usama.arif@linux.dev>
+ <fcf5585aba18414cbd0ab01935eeb1df@baidu.com>
+ <ddb499d5-6821-4fa7-9fec-563bdfbc8cbc@linux.dev>
+In-Reply-To: <ddb499d5-6821-4fa7-9fec-563bdfbc8cbc@linux.dev>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
+	s=selector1; t=1779965411;
+	bh=diaE5/DkVHL2OlpMmyZVGR0NbaFP0CVURipa1X2Xp6o=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=LMevlbg8ORAE/8iub4uXYG6v4ByP0QcXWKjkjADI6sqrg0lYvn0tRjYFJyGOGRz0L
+	 ni0/tGhJDCPl08BTaytKCqTCpMqTdgR9grKP3XJ8grcDkSb9lwxFVQ0REper0oR+4o
+	 JuLjX8QZhczhIWJS8dOO63lGgnpwZz3lyqnuMnOErbjKwIt98LnJTMVyElw+XN3YEU
+	 X3X5TzkbGJiToOb2pDwGBXpzxaZ2AbyoARhZQySqb2b7ugD2yhpLgPr3dEZDu1PSip
+	 OGFINLMgP97rpKoalhY1dFCh7QgI/6/fLhlGuVMIlFmNBFxVmmZCXSxU7zZ2Ng1ezb
+	 IPtolwc/KK2tw==
 
-Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-
-> On IBM POWER systems, newer processor generations can operate in
-> compatibility modes corresponding to earlier generations. This becomes
-> relevant for nested virtualization, where nested KVM guests may need to
-> run with a specific processor compatibility level.
->
-> Currently, when running a nested KVM guest (L2) inside a Power11 pSeries
-> logical partition (L1) booted in Power10 compatibility mode, the guest
-> fails to boot while setting 'arch_compat'. This happens because the CPU
-> class is derived from the hardware PVR (via mfspr()), which reflects the
-> physical processor generation (Power11), rather than the effective
-> compatibility mode (Power10).
->
-> As a result, userspace may request a Power11 arch_compat for the L2
-> guest. However, the L1 partition, running in Power10 compatibility, has
-> only negotiated support up to Power10 with the Power Hypervisor (L0).
-> When H_SET_STATE is invoked with a Power11 Logical PVR, the hypervisor
-
-s/H_SET_STATE/H_GUEST_SET_STATE 
-
-> rejects the request, leading to a late guest boot failure:
->
->   KVM-NESTEDv2: couldn't set guest wide elements
->   [..KVM reg dump..]
->
-
-I think irrespective of the other UAPI changes, we should still get this
-fixed - so that we don't see a late KVM guest boot failure msgs.
-
-So, in this review, I would like to mainly look at fixing this issue
-first and would request if we can defer the UAPI changes as a separate
-patch series please.
-
-
-> This situation should be detected earlier. Rejecting unsupported
-> 'arch_compat' values in 'kvmppc_set_arch_compat()' avoids issuing an
-> invalid H_SET_STATE hcall and provides a clearer failure mode.
-
-s/H_SET_STATE/H_GUEST_SET_STATE
-
->
-> Add a check to reject Power11 'arch_compat' requests when the host is
-> running in Power10 compatibility mode, returning -EINVAL early instead
-> of deferring the failure to the hypervisor.
->
-> Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> ---
->  arch/powerpc/kvm/book3s_hv.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> index 61dbeea317f3..249d1f2e4e2c 100644
-> --- a/arch/powerpc/kvm/book3s_hv.c
-> +++ b/arch/powerpc/kvm/book3s_hv.c
-> @@ -446,7 +446,19 @@ static int kvmppc_set_arch_compat(struct kvm_vcpu *vcpu, u32 arch_compat)
->  			guest_pcr_bit = PCR_ARCH_300;
->  			break;
->  		case PVR_ARCH_31:
-> +			guest_pcr_bit = PCR_ARCH_31;
-> +			break;
->  		case PVR_ARCH_31_P11:
-> +			/*
-> +			 * Need to check this for ISA 3.1, as Power10 and
-> +			 * Power11 share the same PCR. For any subsequent ISA
-> +			 * versions, this will be taken care of by the guest vs
-> +			 * host PCR comparison below.
-> +			 */
-> +			if ((PVR_ARCH_31 & cur_cpu_spec->pvr_mask) ==
-> +				cur_cpu_spec->pvr_value) {
-> +				return -EINVAL;
-> +			}
-
-Instead of the complicated check can we simply do this?
-			if (!cpu_has_feature(CPU_FTR_P11_PVR))
-				return -EINVAL;
-
-which means that if the Qemu is trying to set the arch_compat with P11
-PVR (arch_compat) and if the host cpu FTR doesn't support P11 PVR, then
-simply return -EINVAL
-
--ritesh
-
+DQoNCj4gDQo+IE9uIDI4LzA1LzIwMjYgMDQ6MDAsIExpLFJvbmdxaW5nKEFDRyBDQ04pIHdyb3Rl
+Og0KPiA+Pj4gRnJvbTogTGkgUm9uZ1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPg0KPiA+Pj4N
+Cj4gPj4+IFJlcGxhY2UgdGhlICNpZmRlZiBDT05GSUdfU0xVQl9ERUJVR19PTiBjb25kaXRpb25h
+bCBjb21waWxhdGlvbiB3aXRoDQo+ID4+PiBhIHN0YXRpYyBrZXkgKG1lbXBvb2xfZGVidWdfZW5h
+YmxlZCkuIFRoaXMgYWxsb3dzIGVuYWJsaW5nIG1lbXBvb2wNCj4gPj4+IGRlYnVnZ2luZyBhdCBi
+b290IHRpbWUgdmlhOg0KPiA+Pj4NCj4gPj4+ICAgICBtZW1wb29sX2RlYnVnDQo+ID4+Pg0KPiA+
+Pj4gSW5zdGVhZCBvZiByZXF1aXJpbmcgQ09ORklHX1NMVUJfREVCVUdfT04gYXQgY29tcGlsZSB0
+aW1lLiBCZW5lZml0czoNCj4gPj4+DQo+ID4+PiAtIERlYnVnZ2luZyBjYW4gYmUgZW5hYmxlZCB3
+aXRob3V0IHJlYnVpbGRpbmcgdGhlIGtlcm5lbA0KPiA+Pj4gLSBVc2VzIHN0YW5kYXJkIGtlcm5l
+bCBzdGF0aWNfa2V5IG1lY2hhbmlzbSB3aXRoIG1pbmltYWwgb3ZlcmhlYWQNCj4gPj4+DQo+ID4+
+PiBTdWdnZXN0ZWQtYnk6IFZsYXN0aW1pbCBCYWJrYSAoU1VTRSkgPHZiYWJrYUBrZXJuZWwub3Jn
+Pg0KPiA+Pj4gU2lnbmVkLW9mZi1ieTogTGkgUm9uZ1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29t
+Pg0KPiA+Pj4gQ2M6IFZsYXN0aW1pbCBCYWJrYSA8dmJhYmthQGtlcm5lbC5vcmc+DQo+ID4+PiBD
+YzogSGFycnkgWW9vIDxoYXJyeUBrZXJuZWwub3JnPg0KPiA+Pj4gQ2M6IEFuZHJldyBNb3J0b24g
+PGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+DQo+ID4+PiBDYzogSGFvIExpIDxoYW8ubGlAbGlu
+dXguZGV2Pg0KPiA+Pj4gQ2M6IENocmlzdG9waCBMYW1ldGVyIDxjbEBnZW50d28ub3JnPg0KPiA+
+Pj4gQ2M6IERhdmlkIFJpZW50amVzIDxyaWVudGplc0Bnb29nbGUuY29tPg0KPiA+Pj4gQ2M6IFJv
+bWFuIEd1c2hjaGluIDxyb21hbi5ndXNoY2hpbkBsaW51eC5kZXY+DQo+ID4+PiAtLS0NCj4gPj4+
+ICBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dCB8ICA1ICsr
+KysNCj4gPj4+ICBtbS9tZW1wb29sLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB8IDMyDQo+ID4+ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0NCj4gPj4+ICAyIGZpbGVzIGNo
+YW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQo+ID4+Pg0KPiA+Pj4gZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0
+DQo+ID4+PiBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0
+DQo+ID4+PiBpbmRleCAzNWVkOWRjLi41YTA3MGU2IDEwMDY0NA0KPiA+Pj4gLS0tIGEvRG9jdW1l
+bnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4gPj4+ICsrKyBiL0Rv
+Y3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQo+ID4+PiBAQCAt
+Mzk5OCw2ICszOTk4LDExIEBAIEtlcm5lbCBwYXJhbWV0ZXJzDQo+ID4+PiAgCQkJTm90ZSB0aGF0
+IGV2ZW4gd2hlbiBlbmFibGVkLCB0aGVyZSBhcmUgYSBmZXcgY2FzZXMgd2hlcmUNCj4gPj4+ICAJ
+CQl0aGUgZmVhdHVyZSBpcyBub3QgZWZmZWN0aXZlLg0KPiA+Pj4NCj4gPj4+ICsJbWVtcG9vbF9k
+ZWJ1ZwlbTU1dDQo+ID4+PiArCQkJRW5hYmxlIG1lbXBvb2wgZGVidWdnaW5nLiBUaGlzIGVuYWJs
+ZXMgZWxlbWVudA0KPiA+Pj4gKwkJCXBvaXNvbiBjaGVja2luZyB3aGVuIGZyZWVpbmcgZWxlbWVu
+dHMgYmFjayB0byB0aGUNCj4gPj4+ICsJCQlwb29sLiBVc2VmdWwgZm9yIGRlYnVnZ2luZyBtZW1w
+b29sIGNvcnJ1cHRpb24uDQo+ID4+PiArDQo+ID4+PiAgCW1lbXRlc3Q9CVtLTkwsWDg2LEFSTSxN
+NjhLLFBQQyxSSVNDVixFQVJMWV0gRW5hYmxlDQo+IG1lbXRlc3QNCj4gPj4+ICAJCQlGb3JtYXQ6
+IDxpbnRlZ2VyPg0KPiA+Pj4gIAkJCWRlZmF1bHQgOiAwIDxkaXNhYmxlPg0KPiA+Pj4gZGlmZiAt
+LWdpdCBhL21tL21lbXBvb2wuYyBiL21tL21lbXBvb2wuYyBpbmRleCBkYjIzZTBlLi40ZjQyOWEx
+DQo+ID4+IDEwMDY0NA0KPiA+Pj4gLS0tIGEvbW0vbWVtcG9vbC5jDQo+ID4+PiArKysgYi9tbS9t
+ZW1wb29sLmMNCj4gPj4+IEBAIC0xNiwxMSArMTYsMjggQEANCj4gPj4+ICAjaW5jbHVkZSA8bGlu
+dXgvZXhwb3J0Lmg+DQo+ID4+PiAgI2luY2x1ZGUgPGxpbnV4L21lbXBvb2wuaD4NCj4gPj4+ICAj
+aW5jbHVkZSA8bGludXgvd3JpdGViYWNrLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxpbnV4L3N0YXRp
+Y19rZXkuaD4NCj4gPj4+ICsjaW5jbHVkZSA8bGludXgvaW5pdC5oPg0KPiA+Pj4gICNpbmNsdWRl
+ICJzbGFiLmgiDQo+ID4+Pg0KPiA+Pj4gIHN0YXRpYyBERUNMQVJFX0ZBVUxUX0FUVFIoZmFpbF9t
+ZW1wb29sX2FsbG9jKTsNCj4gPj4+ICBzdGF0aWMgREVDTEFSRV9GQVVMVF9BVFRSKGZhaWxfbWVt
+cG9vbF9hbGxvY19idWxrKTsNCj4gPj4+DQo+ID4+PiArLyoNCj4gPj4+ICsgKiBEZWJ1Z2dpbmcg
+c3VwcG9ydCBmb3IgbWVtcG9vbCB1c2luZyBzdGF0aWMga2V5Lg0KPiA+Pj4gKyAqDQo+ID4+PiAr
+ICogVGhpcyBhbGxvd3MgZW5hYmxpbmcgbWVtcG9vbCBkZWJ1ZyBhdCBib290IHRpbWUgdmlhOg0K
+PiA+Pj4gKyAqICAgbWVtcG9vbF9kZWJ1Zw0KPiA+Pj4gKyAqLw0KPiA+Pj4gK3N0YXRpYyBERUZJ
+TkVfU1RBVElDX0tFWV9GQUxTRShtZW1wb29sX2RlYnVnX2VuYWJsZWQpOw0KPiA+Pj4gKw0KPiA+
+Pj4gK3N0YXRpYyBpbnQgX19pbml0IG1lbXBvb2xfZGVidWdfc2V0dXAoY2hhciAqc3RyKSB7DQo+
+ID4+PiArCXN0YXRpY19icmFuY2hfZW5hYmxlKCZtZW1wb29sX2RlYnVnX2VuYWJsZWQpOw0KPiA+
+Pj4gKwlyZXR1cm4gMDsNCj4gPj4+ICt9DQo+ID4+PiArZWFybHlfcGFyYW0oIm1lbXBvb2xfZGVi
+dWciLCBtZW1wb29sX2RlYnVnX3NldHVwKTsNCj4gPj4+ICsNCj4gPj4NCj4gPj4gQ2FuIHN0YXRp
+Y19icmFuY2hfZW5hYmxlKCkgaW4gbWVtcG9vbF9kZWJ1Z19zZXR1cCgpIHJ1biBiZWZvcmUNCj4g
+Pj4ganVtcF9sYWJlbF9pbml0KCkgaGFzIHNldCBzdGF0aWNfa2V5X2luaXRpYWxpemVkPw0KPiA+
+Pg0KPiA+PiBMb29raW5nIGF0IHN0YXJ0X2tlcm5lbCgpIGluIGluaXQvbWFpbi5jOg0KPiA+Pg0K
+PiA+PiAJc2V0dXBfYXJjaCgmY29tbWFuZF9saW5lKTsNCj4gPj4gCW1tX2NvcmVfaW5pdF9lYXJs
+eSgpOw0KPiA+PiAJLyogU3RhdGljIGtleXMgYW5kIHN0YXRpYyBjYWxscyBhcmUgbmVlZGVkIGJ5
+IExTTXMgKi8NCj4gPj4gCWp1bXBfbGFiZWxfaW5pdCgpOw0KPiA+PiAJLi4uDQo+ID4+IAkvKiBw
+YXJhbWV0ZXJzIG1heSBzZXQgc3RhdGljIGtleXMgKi8NCj4gPj4gCXBhcnNlX2Vhcmx5X3BhcmFt
+KCk7DQo+ID4+DQo+ID4+IFRoaXMgd2lsbCB0cmlnZ2VyIHRoZSB3YXJuaW5nIGluIGluY2x1ZGUv
+bGludXgvanVtcF9sYWJlbC5oIGhhczoNCj4gPj4NCj4gPj4gCSNkZWZpbmUgU1RBVElDX0tFWV9D
+SEVDS19VU0Uoa2V5KSBXQVJOKCFzdGF0aWNfa2V5X2luaXRpYWxpemVkLCBcDQo+ID4+IAkgICAg
+IiVzKCk6IHN0YXRpYyBrZXkgJyVwUycgdXNlZCBiZWZvcmUgY2FsbCB0byBqdW1wX2xhYmVsX2lu
+aXQoKSIsIFwNCj4gPj4gCSAgICBfX2Z1bmNfXywgKGtleSkpDQo+ID4+DQo+ID4+DQo+ID4+IG1t
+L2RtYXBvb2wuYyByZWdpc3RlcnMgYW4gZXF1aXZhbGVudCBkZWJ1ZyB0b2dnbGUgdmlhIF9fc2V0
+dXAoKQ0KPiA+PiByYXRoZXIgdGhhbg0KPiA+PiBlYXJseV9wYXJhbSgpOg0KPiA+Pg0KPiA+PiAJ
+c3RhdGljIGludCBfX2luaXQgZG1hcG9vbF9kZWJ1Z19zZXR1cChjaGFyICpzdHIpDQo+ID4+IAl7
+DQo+ID4+IAkJc3RhdGljX2JyYW5jaF9lbmFibGUoJmRtYXBvb2xfZGVidWdfZW5hYmxlZCk7DQo+
+ID4+IAkJcmV0dXJuIDE7DQo+ID4+IAl9DQo+ID4+IAlfX3NldHVwKCJkbWFwb29sX2RlYnVnIiwg
+ZG1hcG9vbF9kZWJ1Z19zZXR1cCk7DQo+ID4+DQo+ID4+IEkgdGhpbmsgeW91IGNhbiByZXVzZSB0
+aGF0Lg0KPiA+DQo+ID4gVGhhbmtzIGZvciB5b3VyIHJldmlldyENCj4gPg0KPiA+IFdoaWxlIHRo
+aXMgYm9vdC10aW1lIG9yZGVyaW5nIHVzZWQgdG8gYmUgYSBnZW5lcmljIGlzc3VlLCBpdCBzZWVt
+cw0KPiA+IG1hbnkgYXJjaGl0ZWN0dXJlcyBoYXZlIGFscmVhZHkgYWxpZ25lZCBvciBmaXhlZCB0
+aGlzIGludGVybmFsbHkuIEZvcg0KPiA+IGluc3RhbmNlLA0KPiA+DQo+ID4gY29tbWl0IGNhODI5
+ZTA1ZDNkNCAoInBvd2VycGMvNjQ6IEluaXQganVtcCBsYWJlbHMgYmVmb3JlDQo+ID4gcGFyc2Vf
+ZWFybHlfcGFyYW0oKSIpIGFuZCBjb21taXQgNjA3MDk3MGRiOWZlICgibTY4azogSW5pdGlhbGl6
+ZSBqdW1wDQo+ID4gbGFiZWxzIGVhcmx5IGR1cmluZyBzZXR1cF9hcmNoKCkiKSBleHBsaWNpdGx5
+IHJlbG9jYXRlZCBqdW1wX2xhYmVsX2luaXQoKSBiZWZvcmUNCj4gdGhlIGVhcmx5IHBhcmFtZXRl
+ciBwYXJzaW5nLg0KPiA+DQo+IA0KPiBJIHRoaW5rIDMyIGJpdCBBUk0gZG9lc250Pw0KDQpZb3Ug
+YXJlIHJpZ2h0LCAzMi1iaXQgQVJNIGRvZXNuJ3QuIA0KDQpIb3dldmVyLCB0aGUgY29ycmVjdCBh
+cmNoaXRlY3R1cmFsIGFwcHJvYWNoIHNob3VsZCBiZSBmaXhpbmcgdGhlIGJvb3Qgc2VxdWVuY2Ug
+DQppbnNpZGUgYXJjaC9hcm0vIHRvIG1hdGNoIGFybTY0ICwgcG93ZXJwYyBhbmQgbTY4aywgcmF0
+aGVyIHRoYW4gY29tcHJvbWlzaW5nIGNvcmUgTU0gDQpjb2RlIHdpdGggdGVtcG9yYXJ5IGJvaWxl
+cnBsYXRlIHZhcmlhYmxlcy4NCg0KSSBwcmVmZXIgdG8ga2VlcCB0aGUgbWVtcG9vbCBpbXBsZW1l
+bnRhdGlvbiBjbGVhbi4gSWYgQVJNMzIgdHJpZ2dlcnMgdGhlIA0Kd2FybmluZywgdGhlIHByb3Bl
+ciByZW1lZHkgaXMgYSBmb2xsb3ctdXAgcGF0Y2ggdG8gYWxpZ24gaXRzIHNldHVwX2FyY2goKSAN
+Cm9yZGVyaW5nLg0KDQpXaGF0IGRvIHlvdSB0aGluaz8NCg0KLUxpUm9uZ1FpbmcNCg0KPiANCj4g
+PiBGdXJ0aGVybW9yZSwgbGV2ZXJhZ2luZyBlYXJseV9wYXJhbSgpIHRvIGRpcmVjdGx5IG1hbmFn
+ZSBzdGF0aWMga2V5cw0KPiA+IGlzIHN0aWxsIGFjdGl2ZWx5IHVzZWQgYW5kIGFjY2VwdGVkIGlu
+IHRoZSBjdXJyZW50IGNvcmUga2VybmVsLiBTb21lIGV4YW1wbGVzDQo+IGluY2x1ZGU6DQo+ID4N
+Cj4gPiAgIC0gZWFybHlfcGFyYW0oInJhbmRvbWl6ZV9rc3RhY2tfb2Zmc2V0IiwgZWFybHlfcmFu
+ZG9taXplX2tzdGFja19vZmZzZXQpOw0KPiA+ICAgLSBlYXJseV9wYXJhbSgidGhyZWFkaXJxcyIs
+IHNldHVwX2ZvcmNlZF9pcnF0aHJlYWRzKTsNCj4gPg0KPiA+IFRoZSBwcmltYXJ5IHJlYXNvbiBm
+b3IgdXNpbmcgZWFybHlfcGFyYW0oKSBoZXJlIGluc3RlYWQgb2YgX19zZXR1cCgpDQo+ID4gaXMg
+dGhhdCBtZW1wb29sIGFsbG9jYXRpb25zIGNhbiBoYXBwZW4gZXh0cmVtZWx5IGVhcmx5IGR1cmlu
+ZyB0aGUgYm9vdA0KPiA+IHBoYXNlLiBNb3ZpbmcgdGhpcyB0byBhIGxhdGVyIHN0YWdlIGxpa2Ug
+X19zZXR1cCgpIHdvdWxkIG1lYW4gbWlzc2luZw0KPiA+IHRoZSB0cmFja2luZyBmb3IgdGhlIG1v
+c3QgY3JpdGljYWwgZWFybHktc3RhZ2UgbWVtb3J5IHBvb2xzLCB3aGljaA0KPiA+IGRlZmVhdHMg
+dGhlIHB1cnBvc2Ugb2YgYm9vdC10aW1lIGRlYnVnZ2luZy4NCj4gDQo+IEFjaw0KPiANCj4gPg0K
+DQo=
