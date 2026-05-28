@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22AF223322;
-	Thu, 28 May 2026 02:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BB92F361E;
+	Thu, 28 May 2026 02:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779934421; cv=none; b=Q2fA/Ri5LocARlfCa1yVORCcWis+Lm0WFLnXypv/KxcR+TI7y6fmeJAj7KnrJ9OvJDhWl/z+a7w7hB9xlAJwTdJS6A2IvES58YDfuIedNDQKswRHWYgxSCUn0XCX/G1+Ykdj4g+O4ANANV/d2gd13GRoWG11DHpkwFIaUQSTlvw=
+	t=1779934923; cv=none; b=Mjhr0HfH6BekyxaQp69j+B5najB92NEBNZesS7gWH6k1JXbYBtCxY5jAdj7mJgN89I07obStY4f45u+pVXE0QaJrq+dP+eY/PS0dE9RZaEv/f3hZ5VzqlQXvYtZ5xuvr1tZwJt9OsTgp81bIO5GsQLLNwfcqGBtYI94LcmPQqz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779934421; c=relaxed/simple;
-	bh=FnIIRhwHVxhf84QYbjG1naW87w4UL3JLS8AFwtzW2cM=;
+	s=arc-20240116; t=1779934923; c=relaxed/simple;
+	bh=6kDLe73RokxRj6Ox7y7HHr8Fn+q6X+MOupG3M1o/TB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QzmG5wFhK9Kmch7yMH1EFUS9zXzwu9Dzz9CClk+mqAF4ohSnAHPbhDKl32Y2cXPqmTLFWM+xUq/ycxYY0TlRNP6qLS/DHV92nq3lKDV7+y3dhC1DhmxTkrxF3M/ECemWysWmXVMrZqroOst0tHh1x/7zd1ohWoiM3X/GUoQ/7Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dZnTR7Wb; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMLf/yPu0TBLoe/K5D4KvglA9lguo/ufuX5t66Yhv9LV+lt0TTQIzQ4sw62/yfy3DDfdW/QNNLGdyi+HvTOIShNtmybRjbjwD5oEM6Jrs8+ByEg9UcA9zPdhPparn8ZbAjRQtQHBKv3K+BDAZaOPayHg1A8ZbySaTVDzL0LU29E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4BMi8Ynh; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dZnTR7Wb"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4BMi8Ynh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=+6hZhN0fsF8RcPZ8QWhufIy7gHA5Gi1Zrz/J4AEwbxo=; b=dZnTR7WbuolpUN1hRSzyk5dRCB
-	dK0JcdzLhslSJvFq5MyRh82olom/sM6CAlxWWztjGX8LLSc0bcK3qFMTIZ8YAhhlhxJXIk9Ygwj6z
-	cUR21pm56u1t5gGXp10HxrXqc9weQN/VX8+fCALo1OrofkvuOhqo4rr93mI8Yo2QnIAY=;
+	bh=VAYGjFilHSh1/tIWELsQKaec5OtqcNx26KLaxNrUsso=; b=4BMi8YnhTAzu2ho9F1R3NkpcdO
+	PvNjfJ7GGOhucTUmqcrNZlXCtXwiN7EVDKo7ZCKfDxRWg2QIxzsZlzk5TLTNnL1byh10VYxSE6d/1
+	I/lfFGFleC0HDnfiTv/hKvAekx9V9stLu7HX+agGCkGa1stA5tMZMRHdhugUw7JgMUe4=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wSQFV-004qFX-UL; Thu, 28 May 2026 04:13:29 +0200
-Date: Thu, 28 May 2026 04:13:29 +0200
+	id 1wSQNW-004qI7-4Q; Thu, 28 May 2026 04:21:46 +0200
+Date: Thu, 28 May 2026 04:21:46 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: ciprian.regus@analog.com
 Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
@@ -43,11 +43,11 @@ Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v2 04/10] net: ethernet: oa_tc6: Export the C45
- access functions
-Message-ID: <c2463fa3-7a43-4749-946a-e96f337e7d96@lunn.ch>
+Subject: Re: [PATCH net-next v2 05/10] net: ethernet: oa_tc6: Export standard
+ defined registers
+Message-ID: <f17d5beb-5223-4f44-9c0a-ffdf51dccfdb@lunn.ch>
 References: <20260527-adin1140-driver-v2-0-37e5c8d4e0a0@analog.com>
- <20260527-adin1140-driver-v2-4-37e5c8d4e0a0@analog.com>
+ <20260527-adin1140-driver-v2-5-37e5c8d4e0a0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,16 +56,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260527-adin1140-driver-v2-4-37e5c8d4e0a0@analog.com>
+In-Reply-To: <20260527-adin1140-driver-v2-5-37e5c8d4e0a0@analog.com>
 
-On Wed, May 27, 2026 at 12:51:49AM +0300, Ciprian Regus via B4 Relay wrote:
+On Wed, May 27, 2026 at 12:51:50AM +0300, Ciprian Regus via B4 Relay wrote:
 > From: Ciprian Regus <ciprian.regus@analog.com>
 > 
-> The C45 access functions can still be used by some Ethernet drivers
-> which set the OA_TC6_BROKEN_PHY flag. Export them.
-> 
-> Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
+> Move defines for standard Open Alliance TC6 register addresses and
+> subfields in the oa_tc6's header and add entries for the PHYID and
+> CONFIG2. As such, other ethernet drivers that rely on oa_tc6 can use
+> them directly.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+A patch which says its moves defines should only move defines. Don't
+change them at the same time.
+
 
     Andrew
+
+---
+pw-bot: cr
