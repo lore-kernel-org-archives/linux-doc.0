@@ -1,99 +1,119 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330E12D949B;
-	Fri, 29 May 2026 12:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D941E0B9C
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 13:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780059582; cv=none; b=Ml7zfiTAM7HAEV89R05ZJGdX6jP3GX23G3OOVEKEy5k/+f+G6Dr+/NXzl0ELyrbrtjtlb8mGITDtTj/JvxbCTfEp++nXrcZXFVMGYN9kzBKuRWDilvCeZ+LA/BRJeS4UFPTMETvLlNSqwtOxBvnSmW20CNGnjeYqw6cojoXiTJ8=
+	t=1780059695; cv=none; b=IjrgIqmLTywQV1oOxHeruWLARU8gi+mFbKDXc+MvSo9e4Bti8E7866ZxrHGyV/lzCeX0LqUm2trMKNpKlLw54v4IsjyR+Ep3dau3aZV930p8/p+z3VfkRhZq+GQ0TC6hi9rOzH3dnFbTXuqH7vH0YY0QiiwktkVdUeXREDcRf3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780059582; c=relaxed/simple;
-	bh=VQJuxRm7Bn2tIF4PNqdXD3fOfowwb5TiwItKks6C9Ug=;
+	s=arc-20240116; t=1780059695; c=relaxed/simple;
+	bh=TKlBWJ3ijSz9GFQ8lE7XQuNEddJ05fSbljPGAX3zb4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pwlKGKMxwG22CcowscFIoC/Iz6Kr+2YbZPlyMCR0xekvXFeYEIz5FPa3xfix2X56M37sQ+yDyLNWMa2OO4XbfICs4mNrzPWdIxbcejLzQupfNjqRZN7AHC+tpye/VUAQV+8Du1Q/1K3N4FkMBbsGgijkE0FcgJZqQJm6lHnr4TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=VIrr0fo0; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1VKfMCL+JPMDmkCBTvnClGqGqAAsYJCf/eqS2TWxRgdHeTMJGIhG2DD02YQF1FSItupXAX4KIc0nuC1NvMmVvMCuH+qeAr7mW7EsQsKazYsqyufB50zPB72a7azna/ftR74lFaQk4cQOtRWCOtjXG98ByZgM/3arxYASJeQto0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NkT0LDab; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="VIrr0fo0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Ykkqr/AFKCpdnBy5Nwco+T5dKDYCeBVkIM3xxhZU6es=; b=VIrr0fo07jcYrR9Bq93solgY34
-	ROBw9FUsK8Rc06warOLhDDmrxua6WFVNw4PBZQL0Jy0kvG974b0aNzbWdIRw8aeqJCN31vUt1ITBi
-	rtGd5U0LV/lpPlkthqBQCWBntwFVrxAe5CRkI6FNl1YbOfRoHpdl+uqfOh64tEYGIzPc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wSwoB-0055PK-6t; Fri, 29 May 2026 14:59:27 +0200
-Date: Fri, 29 May 2026 14:59:27 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <b7de216a-fd1a-42a0-8711-d822a1ad9319@lunn.ch>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <2293244a-c6a9-4642-a721-dada8a081dbc@lunn.ch>
- <adb69dee-2737-46ca-a92b-aae1ea7f5989@bootlin.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NkT0LDab"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso71228155e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 06:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1780059691; x=1780664491; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKlBWJ3ijSz9GFQ8lE7XQuNEddJ05fSbljPGAX3zb4M=;
+        b=NkT0LDabAIFtPWo9hVTwhgsqk0hG+2VqdJ/gKD00bz9obSX/pNrkS7TKQ4NDetk1aw
+         zwyIFqfvHYX9tUuanFns67wSgJOF8Q0pxlH/F9OSnFX6fg6o4WDRHVi/CMix4iSZO7eg
+         MC3W49HD/YMOS7UnVWcysg+0NF71VVC052N5bnJeOLdqMRi3wd6A58QFYSYSJu7I7ODH
+         bAkwIs+5Auc/BqLeZ4sWCy6wgBtBDocf46fUboukgqHM2A+HObJOGPfoJFsF46/jZGE0
+         Pol4ymQF48YwhOQgsmS6Nlj/SG/FbtRvE+1Fkl5BmQofrKpoSxy3NtuOhmezSzny+Dtu
+         E6RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780059691; x=1780664491;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TKlBWJ3ijSz9GFQ8lE7XQuNEddJ05fSbljPGAX3zb4M=;
+        b=BsynDounAs9URv+5wX2qE/mc6N5ZUkosMlsyzWlzCPtbn2sFsAkuJWdz48LY6I4hjv
+         suv1qjd8LXTLZzNf0tyvQGLkrSDUZQX6Sh+fx8eiTySZODUAPj/sgdiuV/MltQCRmilq
+         vq6WRk+RTTnXPHzG6dgxTbYyoA8C1PGVZioiKLPG0yVVYwVa6x0IDTuV8DjRgtqMLlfK
+         3yklheiEHIcaD0sKvJY7Z8LWLxUZXOrD0trz8AHPDFo/likbKhA/RD+41+YmAfrPFD1M
+         1t6FdbYk5TYIvpk4ERgLVX2V0TB/t+EgQw+0Eo/9dlKRd855h5KhDk0ZKZs4XK596Ued
+         oeEw==
+X-Forwarded-Encrypted: i=1; AFNElJ+9WV/cIAHAk+IWfjHusDD53yd4Hd8pckIMhZjuacCON4x/+E532A0tBLArGeFYbWUN22ZEX2Hm9w0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEvv8QITVOtI87Sp/bOpyFHuqWPFeGDN3b4aLJ4zjUioYP2vco
+	5QrpNDylxrkdmrz5YR8i3F5Scs6gTQdE7D1DLwQgiqPRkmwqmvh+KlfiDHB6eZE6s1g=
+X-Gm-Gg: Acq92OG2HBRkZ/AyyRA2zgUl7RrlVinzxtnuKDu1rqSdFB8LhtHMJ7ZzyXggBtQ1qpu
+	9tPgvRWVJrAwP0KDMN8FQC3C0M3wHS6kDxQPwtCFHQdrzUYj8u24cfUS5xVwHK7qmKVuhZvChAH
+	TPARfZXg+mejmRVava2fgryn1AVVChTKZ7lGi0iwP/a2YgMuJ7tglupPBTKNaOgt5cHH2wySsMi
+	OivjmKnSXmMfNXCL/ahC9CzhJ8mwPxkFYUZl6480bGEyxeqHblzDc9EVQ4bczs2+0yCkUgPS8Jf
+	/P3aFEA2ohmwGPToG8lG6rr4wwg5zMI8Y+3ImNI1dNOGie22rlWzbc0GRMVN/7vOTR+38BhK6+i
+	9N8fHpeXQpEQIXqv49fF0hMqCzfM9OS9LkL+nyoY69+QYe3Bacx64OPI+MDpKdcjbz1r7tevZB3
+	qrQ8bZGa2HY/2f9UjfzBa+TLQomLmE/Mvh++rJ1ILLZp3J4jAf7iMnQ1xHwmQ=
+X-Received: by 2002:a05:600c:560d:b0:490:4ee0:82f9 with SMTP id 5b1f17b1804b1-4909c0920c0mr38130535e9.7.1780059690792;
+        Fri, 29 May 2026 06:01:30 -0700 (PDT)
+Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909ca6575csm70478955e9.4.2026.05.29.06.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 06:01:30 -0700 (PDT)
+Date: Fri, 29 May 2026 15:01:27 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, 
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>, 
+	Natalie Vock <natalie.vock@gmx.de>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
+Message-ID: <ahmOBo02TA8u8RW2@localhost.localdomain>
+References: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
+ <ahCISfTlN10gD8e6@localhost.localdomain>
+ <89901220-0a43-4668-9d20-aaecc72c58dd@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2z43jkempbrnq7gp"
 Content-Disposition: inline
-In-Reply-To: <adb69dee-2737-46ca-a92b-aae1ea7f5989@bootlin.com>
+In-Reply-To: <89901220-0a43-4668-9d20-aaecc72c58dd@lankhorst.se>
 
-> I think that
-> 
->   ethtool -s <iface> duplex half autoneg on
-> 
-> should be enough, the link should still establish at 100M, I've tested
-> that on a 1G/FULL 100MHalf+Full interface and this is the result we
-> get :)
 
-Nice.
+--2z43jkempbrnq7gp
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
+MIME-Version: 1.0
 
-But i still think the test should check the autoneg result and do
-something sensible if the link does not come up. This probably applies
-to all cases where we trigger auto neg.
+On Fri, May 29, 2026 at 09:34:28AM +0200, Maarten Lankhorst <dev@lankhorst.=
+se> wrote:
+> > Reviewed-by: Michal Koutn=FD <mkoutny@suse.com>
+> Reviewed-by: Maarten Lankhorst <dev@lankhorst.se>
+>=20
+> With your r-b it's ok to push it to the dmemcg tree?
 
-> That said I've tested the following on mcbin, and it seems that acually
-> nothing in the code currently deals with Half duplex / Pause interaction,
-> and we don't get any EOPNOTSUPP.
-> 
-> So the broader question is, should we reflect the current behaviour or
-> an ideal one ?
+Please go for it.
 
-What 802.3 says. If we come across cases where phylib/phylink is
-broken, let me know, and i will fix it. But we will leave driver bugs
-to individual driver developers.
+Michal
 
-But we also need to consider that for some APIs, we have decided that
-a configuration can be set now, which does not actually apply in our
-current conditions, but it will be stored away for when conditions
-change and it is applicable. The half duplex case could fit that. When
-the link is currently half duplex, you can configure pause, but you
-don't expect it to actually change the current behaviour. It only
-kicks in when the link renegotiates to full duplex sometime in the
-future. We have to also consider this the other way around. The link
-is full duplex and pause is configured by the user. Something happens
-with the LP and the link renegotiates to half duplex. The local end
-should not throw away the configuration, it simply cannot apply it
-given the current situation.
+--2z43jkempbrnq7gp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	Andrew
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahmOJBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ah7GAEAt/V3wEPGggC+JULstS3y
+dmXXZPqpxAaQogu6yCs89g4BAMQxskRRFxPIHcGypjWfGqkYS3FsM2hfhSaRrkTr
+5X8P
+=a4Ed
+-----END PGP SIGNATURE-----
+
+--2z43jkempbrnq7gp--
