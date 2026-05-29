@@ -1,216 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B5833B6D3;
-	Fri, 29 May 2026 16:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C892E7378;
+	Fri, 29 May 2026 16:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780070645; cv=none; b=lya9tMQHwGRSUj8qxZJ7ssHrhasgboz9hn7cFEgLnZVuLTFiRnIxJMtPwgEqqbi+PcVLqORVcV+PWVGoDeBrBTcGzSa1GQyEXw1l4HuZPJPAyeTeyI5CrvDb5LTZfBsMUMYy+i1Kys3ClOl1OJc9eLpFgYlQP4ztw3KX2wWjJgw=
+	t=1780071003; cv=none; b=BEy/tu7kcWlrjoE8D0TS8MncgKP/JhA2iiesYiOb2Hyq+V+geEWholu7Fn+E2zyOhaNozH5tyMWNhbcjQ30p2wFMEOPuO0Wz8t3CYxOoobEGgEFZXpe5LsgR6neaDLmY3gTNn9rMEl11SLF1PMNtNPptz5nuDya7ixFZL0NobAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780070645; c=relaxed/simple;
-	bh=BmkP21SUIF+DuAco3OxR+YP4oH0wKj44AfRYwdgDiqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UvuRS0dnqefF2Z4q4VOEC0S+S0MXjcgbOZRAh1O/qc6PTPONG7kNsv4rX7JasC7LyokiUMTfhFZtKURq7Te6YcJJfRgVjOZBjSiyM1bQbf4+QZ8WeDn5o6TnGJCbZDRqHFpIA5Uha5oRXhhWGmaIalCUYm4orCN91X17AR+0pWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=miEqoNZC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780071003; c=relaxed/simple;
+	bh=ueMbKYDnjG/pPkozcvq1hNvLbgzbX4F0xs9sWbgMRyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KeymAD8vU/EqAqGdBQH5y+FjwEJf9tVEbSsQmaltwoUGp0aWFjgzLq09Iib70xWXst6IsT8/Ey0Z5r3oGob+KE8YcVcI83KYHxLQOPM/14Jd8HZGGZQ7IEzL7CerARXUxNARZn9nsodxD05kuyn7GNVjheavAHQ+wG7M+d3t+Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=dx790+gm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XzjWYWA2; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="miEqoNZC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A66B1F00893;
-	Fri, 29 May 2026 16:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780070643;
-	bh=6qBznc6a6QijXfnCauAhH2VOH6sZkPkccOFwVOda7dk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=miEqoNZCCSiqX+JEe8R6+K7Vfpu5DKBqGvRMRkTalRRH2j5FP9V15L5ufngSIDKVy
-	 FeyeB0NCkxK6keQExR4ubeZ9acE/H9hPG58NrPZz8gNcJtoVcXXjAU+iY/RLs9dh7w
-	 CYRA7SVdTKErbv3Pv+3sQP+piQ69+/f3oe6QgaEAx6sXbLT37YxoeC8Bp3I91XfWUF
-	 JFj+wAlGOaqsWFSyGOcPD9q1pmtGQR4BPTfsQVhtaXDBfTu1HkIo5VJY8IWa8Bt5P3
-	 sSWq4bzhkETIpxvIfX75j4b0obwXmnXUx6WTNAb7uCcIiAPRLnt+E8Kt6NtOgvpimI
-	 xwsIAwjtWITCg==
-Date: Fri, 29 May 2026 17:03:48 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v5 04/10] ACPI: APEI: GHES: move estatus cache helpers
-Message-ID: <20260529170348.0560da0e@jic23-huawei>
-In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-4-2e0500d42642@arm.com>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-	<20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-4-2e0500d42642@arm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="dx790+gm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XzjWYWA2"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.stl.internal (Postfix) with ESMTP id 8E219130017C;
+	Fri, 29 May 2026 12:09:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Fri, 29 May 2026 12:10:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1780070999; x=
+	1780078199; bh=yCQGxE2VwZ7TPyH1GENnw64ogNKLMsypG7SdY7O7HyY=; b=d
+	x790+gmFOOG9v4AuVJP4ne6bRgdnfCQusA6mDuRfxN+aMBZm0kvt3wnU/pQeM+CN
+	39g8UHT39sT3ktgE8mrVsSybi6u7Suk6K3GB9lcXIBDLJEys60v8ontI4U+s9zlp
+	T4iYlyY8kt4aEBJQjexUP35BvIns5SAO8obRtFrCE9Gxj+axX+y3ZKofNhMxwCjV
+	DIagvUTLnSYY0OxSfoJGdFu1qmeFAf4jHNxhwKyCENto6+BWUOIm0CsMglsEg7G9
+	oTXff5K8+JWKdrVUY2sO0CS7nleoceCZNXqN3QeXpV06teB7zZMxM9+th1ladti8
+	Q7hVeSIefKnCrOg2vr4cw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1780070999; x=1780078199; bh=yCQGxE2VwZ7TPyH1GENnw64ogNKLMsypG7S
+	dY7O7HyY=; b=XzjWYWA2FQxK/sdjf3Ns4xQt2XwlqavTtO/b0i7jHjVEqQs6IZs
+	Xk7OtncmEJccbLGx1TCq3HrtmigP24BtojTYLnv8lx2ZD2SmxuE3jZKVeNQmp7Zr
+	C/w+DA7rWDavQvu0xbUGqKJs7XFerdMLnhYma25urvVM6Y1mzGupa9PK9QJ/Xiql
+	6xGhGQzdieRgB/BM+rx3CJPad6rotOF2nD0+5orpWJ1GCqyu2oVJ360Q3h4gD6Dh
+	xmtcR6868TTK1n/hVvQLHe6/UaMCM8eTf4jPydMZNjwGMcznykbrVKtDHefoLeHF
+	Vk2zvjzlgy08XXRhJg2F/Sf3LrFpWqjSStA==
+X-ME-Sender: <xms:VroZaiYsZ3s217W5f-7Yot472V3xNeypxcJfdq-lZPZ2zBxLt6w_Yg>
+    <xme:VroZatx4_egnkCHb_9gr2HO1f1PndNcIn_8GDr8p4vAyTGCHbKghHY3ERldVpZfOv
+    KxKvvjO7gaUh52NcFGbq_XFEVREFwQT87gUuoJBQ1_V3teLy8I3QlM>
+X-ME-Received: <xmr:VroZanNjicJKD2ueeW2Q6rlSuSxp5Lu2S-vvGEQzskUPdPuR_-EbQULwg9JeVA>
+X-ME-Proxy-Cause: dmFkZTF5GxdEr1yCvZ6kyFvOzvHVs6SwkJfUGREcVnkg1W8F4OQC1NfE6tZFRjuAEYN7CY
+    oaeGvqirqC7MgUTCKRTPqriH20k/xhHdv+L9upsVMvX2G0Ehd95vRdHta+K3je4rJQBnCS
+    qAV7t2idhxq2AHeyEs7ThD8S9VwoF45Rgg20qllo34+oUy3TVn6bXp7RhbnqeiMkplmiE/
+    vGDHTQ4fr6VkZ3xwGpfyV8Fpf0aTgcR3ui/oOuiF8Lrc3gIpmXEAc8KbPGQDXs4ubh5AVO
+    aEDwiSBAL68wmfFNOohGfrv5tNlzCqN22kr28c1/AEq5T/PDAjboCyvAd+YtMlbSzDrvOg
+    5ffwJyVINgO0G/FnM7vN04WA3yPEDhlzsEEWsbxItMdALnS7Req6yihD4HKG27eTCIUWsi
+    3K35QliMA7OJhexc3hMbSlu15zDC0Ubi56fAUo9qu3dhOy/zSAoOCX78c6uLEoWiaYn6Qm
+    1Vtru0/IdBDvXgaSzsTuIQKqN61p4z/8JVhFETigfRfSgLIn2zrqhBrKyvPS+j/OE7l0uK
+    zt0o7mgm8lOF+uurUs+vz7W5PONJEoIfYm8ADY7juvGiZRjRVsGCwxWLRRQQD+H2Gpi5Am
+    znL2bTp4ZHh2vuBrcQHiY+cq5PFRj9a9Ihe7Ee/0ulN4xQH1W5I8EGaE6ZmA
+X-ME-Proxy: <xmx:VroZapOzu8MWwtCKHQeztbejLKFN4MQi2TnVxrs6R92pa5qus8PKtw>
+    <xmx:VroZaq8GzdXftzn4ApgZ8sKdAvtx8eSwHlqhZpMMapGCXvpVmYH_LQ>
+    <xmx:VroZaoby_NAFtPQhj2dWHtxsDxUZOjCaUjcleAVcgLGn3bFEAKibdw>
+    <xmx:VroZaoGOrnNd-hzG95vFOmevM9g64xdpwHnB_WIsMegvtQ8ub5XU7Q>
+    <xmx:V7oZav4VZ1ZfLoykJzfe7aSwIPEi_N--zGIiXJ_TCAdDHftwfbCVW3x8>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 May 2026 12:09:57 -0400 (EDT)
+Date: Fri, 29 May 2026 17:09:56 +0100
+From: Kiryl Shutsemau <kirill@shutemov.name>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
+	david@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
+	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
+	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
+	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kernel-team@meta.com, stable@vger.kernel.org
+Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
+Message-ID: <ahmoH9v6_DA2i_zn@thinkstation>
+References: <20260526130509.2748441-1-kirill@shutemov.name>
+ <20260526130509.2748441-5-kirill@shutemov.name>
+ <ahmQvfNk7S4F0LBj@lucifer>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahmQvfNk7S4F0LBj@lucifer>
 
-On Fri, 29 May 2026 10:50:44 +0100
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-
-> Relocate the estatus cache allocation and lookup helpers from ghes.c into
-> ghes_cper.c. This code move keeps the logic intact while making the cache
-> implementation available to forthcoming users.
+On Fri, May 29, 2026 at 03:00:14PM +0100, Lorenzo Stoakes wrote:
+> > Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
+> > of range to it. vma_flags_set_flag() drops negative bit values.
+> > The ternary collapses at compile time, the runtime check folds
+> > away when the bit is in range, and the common path is unchanged.
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> Hmm are you sure it does?
 
-A couple of minor things inline.
+You were right - I measured it (gcc 15.2, clang 21.1.8, -O2). The
+DECLARE_VMA_BIT() ternary is fine, but the "if (bit < 0)" guard does not
+reliably fold: with it, clang stops folding __VMA_UFFD_FLAGS to a constant
+and gcc keeps a rolled loop; without it, both fold.
 
-With the two I've called out tidied up
-Reviewed-by: Jonathan Cameron <jic23@kernel.org>
+So I've dropped VMA_NO_BIT and gone with your config-gated-mask approach
+instead: mk_vma_flags_from_masks() plus VMA_UFFD_{MISSING,WP,MINOR,RWP}
+masks that collapse to EMPTY_VMA_FLAGS when unavailable, so no out-of-range
+bit ever reaches mk_vma_flags(). __VMA_UFFD_FLAGS now folds to a single
+constant on both compilers, 32- and 64-bit. Added your Suggested-by.
 
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-> index 8080e0f76dac..0a117f478afb 100644
-> --- a/drivers/acpi/apei/ghes_cper.c
-> +++ b/drivers/acpi/apei/ghes_cper.c
-> @@ -13,10 +13,14 @@
->   */
->  
->  #include <linux/err.h>
-> +#include <linux/genalloc.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
-> +#include <linux/math64.h>
->  #include <linux/mm.h>
->  #include <linux/ratelimit.h>
-> +#include <linux/rcupdate.h>
-> +#include <linux/sched/clock.h>
->  #include <linux/slab.h>
+I also took your "use the new API" hint and added a prep patch converting
+the existing userfaultfd_*() helpers to vma_test_any_mask() (Suggested-by
+you as well). One deviation: vma_test(vma, VMA_UFFD_RWP_BIT) is itself an
+out-of-bounds *read* on 32-bit (test_bit(43, &one_long)), so the helpers
+use vma_test_any_mask() with the masks rather than the bit.
 
-> +static void ghes_estatus_cache_rcu_free(struct rcu_head *head)
-> +{
-> +	struct ghes_estatus_cache *cache;
-> +	u32 len;
-> +
-> +	cache = container_of(head, struct ghes_estatus_cache, rcu);
-> +	len = cper_estatus_len(GHES_ESTATUS_FROM_CACHE(cache));
-> +	len = GHES_ESTATUS_CACHE_LEN(len);
-> +	gen_pool_free(ghes_estatus_pool, (unsigned long)cache, len);
-> +	atomic_dec(&ghes_estatus_cache_alloced);
-> +}
-> +
-> +void
-> +ghes_estatus_cache_add(struct acpi_hest_generic *generic,
-> +		       struct acpi_hest_generic_status *estatus)
+> Either way, I think we should break out any fix like this from the series.
 
-void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
-			    struct acpi_hest_generic_status *estatus)
+Agreed - the OOB fix and the other pre-existing fixes will go as a separate
+series with the RWP work rebased on top.
 
-is under 80 chars (and how you have it in the header!)
-
-(RB assumes you fix this - or argue against perhaps because of a change in
- a future patch)
-
-> +{
-> +	unsigned long long now, duration, period, max_period = 0;
-> +	struct ghes_estatus_cache *cache, *new_cache;
-> +	struct ghes_estatus_cache __rcu *victim;
-> +	int i, slot = -1, count;
-> +
-> +	new_cache = ghes_estatus_cache_alloc(generic, estatus);
-> +	if (!new_cache)
-> +		return;
-> +
-> +	rcu_read_lock();
-> +	now = sched_clock();
-> +	for (i = 0; i < GHES_ESTATUS_CACHES_SIZE; i++) {
-> +		cache = rcu_dereference(ghes_estatus_caches[i]);
-> +		if (cache == NULL) {
-> +			slot = i;
-> +			break;
-> +		}
-> +		duration = now - cache->time_in;
-> +		if (duration >= GHES_ESTATUS_IN_CACHE_MAX_NSEC) {
-> +			slot = i;
-> +			break;
-> +		}
-> +		count = atomic_read(&cache->count);
-> +		period = duration;
-> +		do_div(period, (count + 1));
-> +		if (period > max_period) {
-> +			max_period = period;
-> +			slot = i;
-> +		}
-> +	}
-> +	rcu_read_unlock();
-> +
-> +	if (slot != -1) {
-If you even end up doing tidy up of this code, would be nicer to flip
-the logic here and do an early return.
-	if (slot == -1)
-		return;
-Then the rest is much less indented.
-
-No need to do that in this series though as nothing 'wrong' with the
-current code as such.
-
-> +		/*
-> +		 * Use release semantics to ensure that ghes_estatus_cached()
-> +		 * running on another CPU will see the updated cache fields if
-> +		 * it can see the new value of the pointer.
-> +		 */
-> +		victim = xchg_release(&ghes_estatus_caches[slot],
-> +				      RCU_INITIALIZER(new_cache));
-> +
-> +		/*
-> +		 * At this point, victim may point to a cached item different
-> +		 * from the one based on which we selected the slot. Instead of
-> +		 * going to the loop again to pick another slot, let's just
-> +		 * drop the other item anyway: this may cause a false cache
-> +		 * miss later on, but that won't cause any problems.
-> +		 */
-> +		if (victim)
-> +			call_rcu(&unrcu_pointer(victim)->rcu,
-> +				 ghes_estatus_cache_rcu_free);
-> +	}
-> +}
-> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-> index 6b7632cfaf66..1b5dbeca9bb6 100644
-> --- a/include/acpi/ghes_cper.h
-> +++ b/include/acpi/ghes_cper.h
-> @@ -16,6 +16,7 @@
->  #ifndef ACPI_APEI_GHES_CPER_H
->  #define ACPI_APEI_GHES_CPER_H
->  
-> +#include <linux/atomic.h>
-
-Why?  Nothing in in the types used in what is added to the header needs
-it - maybe I'm suffering Friday syndrome. Seems like it belongs in another
-patch or in a c file rather than the header.
-(RB assumes this fixed or argued against)
-
-
->  #include <linux/workqueue.h>
->  
->  #include <acpi/ghes.h>
-> @@ -54,6 +55,8 @@
->  	((struct acpi_hest_generic_data *)                              \
->  	((struct ghes_vendor_record_entry *)(vendor_entry) + 1))
->  
-> +extern struct gen_pool *ghes_estatus_pool;
-> +
->  static inline bool is_hest_type_generic_v2(struct ghes *ghes)
->  {
->  	return ghes->generic->header.type == ACPI_HEST_TYPE_GENERIC_ERROR_V2;
-> @@ -98,5 +101,8 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
->  			u64 buf_paddr, enum fixed_addresses fixmap_idx,
->  			size_t buf_len);
->  #endif
-> +int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
-> +void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
-> +			    struct acpi_hest_generic_status *estatus);
->  
->  #endif /* ACPI_APEI_GHES_CPER_H */
-> 
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
