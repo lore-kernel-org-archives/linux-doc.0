@@ -1,379 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0374385D66
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 17:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B830039B486
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 18:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780075701; cv=none; b=VZaU8on1gC9YY948bjWnQ6+9dv3Ejb0/nDA7OMgB+W6dBp6Tf34BJYyW0m3I2KKoOnbanv5eQclBZb+z/vSPo1BHHtpFsNHmX4wPbWCM6bhNmCQOhEPkp7Yi4BaHnGOVfccH+URjkTVuVaEJWkUWE6+dQMeaDUlclO4Ms5H4zlg=
+	t=1780079357; cv=none; b=kbUVcuFlj6rIldURRnRTj9Zqxmj1/DGnOaCL0v6dbPGeFWgZam3MgZusmxs2KhwmeQ9RTn2HwdLKz4GnyuoXJv1W/WQjIsMZuwTmovSrq/QPV5xUttXflDEMPA34JGG7TSFeUJr5XG3vmuJBFRvRhRMItFwFmumRDjRHUpETIzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780075701; c=relaxed/simple;
-	bh=ECJp/SwN+SvABQG3MNxZ61tl15iK0iHjERJkwYyNR4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WORU6g/7T7CtHc1cbOpjNOI8Nc9rc3Bqy1W/Ajewfbsl2lEZgd2SwNodj9CqYatpFiue5AQxlBAU/2VA2lRGMAd3/3Xsq5BUe0L6yt8qLdotdpyOfDONTIPPfJ8o3g0M+qRsqWq45se4sGjltBSA57Ilj8FnZmXkWQ98tln0rNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wzjt4seb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780079357; c=relaxed/simple;
+	bh=aOFXYeYQFmbVEiOM0RrY9tgq/Y6rzuZG4+/QB/IHSdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EUcZqMkPiqgQz3N2UxXjr0JXnr64iMwI6oW0DS37BUnGfjAKEHp8Eb4Hz7vgqrEjJ4As+EcsDPaRe9DuC2vSUDwbOU2IzvPgADJS/rRnxfloaJDCHqwZT/Xy2MHVC3U7FQ/G4HLl8SaersA/eVlqucqAyg4BCvNvVr9Dsss5sL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LayyVWiN; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wzjt4seb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F4D11F0089C;
-	Fri, 29 May 2026 17:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780075694;
-	bh=MIQxxozRIu6+nnGJE0oJP6Nk3SNPcpDq2i+v8EPL78w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Wzjt4sebkPZ6jVBhJa+W3B7qhYvkYj/u3xwrMJvT43wGuv3oysK0vjE38by/BDDSD
-	 Muahw60ipDLwR4SVDM7YeuO6cRle2cbvGq0kkib51ZdYxCq/D89DVahF0tEOTX0zCc
-	 nloBqyNqoS9ARUc0yG31esZOHcMpZ40I5MlWdKPFcaAEwgqF7FnOgNp8564XeLwTO3
-	 pmZUBwg3ovZ+Z1s8E1eSWsy1zFRwfTrObhUnyKqQbP56SkVAbd9TFZbfN+L6TORNw/
-	 RXxajWOwaPljfscjWU6VcADGdo3LkZJrszFo6Xkkem65TtNWSmWVOTId9dEoag8ckt
-	 UcpOa8+uc5iLA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id EDF8FF4006F;
-	Fri, 29 May 2026 13:28:12 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Fri, 29 May 2026 13:28:12 -0400
-X-ME-Sender: <xms:rMwZagkKYcKQFFBKd_SWBB-aFCgt21IgrgJ3Zg9hPAKz3LqgmG81MQ>
-    <xme:rMwZajyjy87xQU400APzCR8eCNX_j7uQwnOME_UKYT8CxWK--t4dTHa8wLvSdVLG_
-    rtQwP6nPU3tu7VeIL0kD_DH_C7NkDo2rhFvXH18k2yNurCYt-qmI-U>
-X-ME-Received: <xmr:rMwZanKoac070pK0WedjvyKZ6D7sYzcsAHEL1eFLGexcg44HML_8Pp40msCDlw>
-X-ME-Proxy-Cause: dmFkZTGBi04+ZX5edMs6arnVhjz5oTtZuLX6rF9F7dBMO1f7bo0/ibgVknVxOLxLEaTw3V
-    SP8XCWrfEIm+ORQdwtFgGmZbSjd5PWqHK7OyczVLOTkfernQnqiFyq/o6xwE8cbLWskv8V
-    +iZNmtaHm6WeW6aqk5t6K7mKlErgu7aQt0UjXT2ADQ7mf9nBrz2Zxt+3DgC32qmbL5bfPS
-    wp7fg604KU/dBYc/nC2f3KAKjHsrOYa0CCMIHhOSv9QOJzU1reEx7CzTRePC09oBWGnLrT
-    o+Pu2UEaZ81TuKLWkyHIRAb9DY0C7evn8G3qQgUz8zVG7T+c5/VvKECJCsNluq96Jwivtj
-    dSsiyOB9JK1+TqpuilG+0oS9Uz8ZJtNYcFKsnGxgHV/a00Q740eP/GqRi2+fD4HWViNz1N
-    l1MUW3aPaBSPOJBJH4X1DAHkBkCWXUqal/HVx0w93oZbm+raHUlRozRwpFZ5gWcn0WjiVs
-    /BHjthOcCrulBbD06r7frzLXf48yDnKzoh9G2ZWGjiLbqpOYQVglNT0r5bui58+iN0m2X+
-    5boxVqkorYKY/H1175kziF5tVhhelAbabXyOQns2oz01ntmpZ2NT0KJLGVRJAn4Ms9FLOe
-    zAedmCzLH+PXoATcn11B/eMhoIeBKJh/5BXhh1oQNTMgeTwD2qMp8P2YC86Q
-X-ME-Proxy: <xmx:rMwZamI1R_qTlll5NroPbxMs3j6_hjQ5bu_i2p48ObJaMjSN0emiFA>
-    <xmx:rMwZamUZaIv7ahaSN3Uj-OAdpYyvKmBP0Wl3X6Bq57S9a4N_nQSR3g>
-    <xmx:rMwZauCfiODAsI2XUhnX-c_lnhOCEcjlsd-HhBtaVazmqWRbxrxFhg>
-    <xmx:rMwZapF4QExaxQAp8tu2clyz44LbbZHUe9tMLuDQJWJeNYAGGyC_ag>
-    <xmx:rMwZaqfKE6AbvOQQDCgjcoYl6dvm-8iW6P2GLfQ_Bg6kCQWkFSb9IT3t>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 May 2026 13:28:12 -0400 (EDT)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: akpm@linux-foundation.org,
-	rppt@kernel.org,
-	peterx@redhat.com,
-	david@kernel.org
-Cc: ljs@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	Liam.Howlett@oracle.com,
-	ziy@nvidia.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	jthoughton@google.com,
-	aarcange@redhat.com,
-	sj@kernel.org,
-	usama.arif@linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kernel-team@meta.com,
-	kas@kernel.org
-Subject: [PATCH v6 15/15] Documentation/userfaultfd: document RWP working set tracking
-Date: Fri, 29 May 2026 18:26:44 +0100
-Message-ID: <20260529172716.357179-16-kas@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260529172716.357179-1-kas@kernel.org>
-References: <20260529172716.357179-1-kas@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LayyVWiN"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137d464c47eso76917c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 11:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780079355; x=1780684155; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+ybPONvBT+3PzQ9QpwIpiAUUWA5fZia2AyuCUimrO6U=;
+        b=LayyVWiNsvPQFfTlYVCT0RbqLuMfez/HO6Spvge2gXROWOiC0tSkCgMVRVp3vDimXj
+         rk8qCt9rdwqJvolY/aPjnxuxlFAW5ZXycj68rilumJk8WECQfPvAefpbh7+M2ZSdr0WQ
+         DHojxgQjQHgbUz67QC6hzC/riDawsBdwj8+aRGokiizvz/fXLKQrvSQiF1JJK0nkyVWY
+         SzgHW0FOUUKzn87+EomIcGcEBQR/zzXpzYvKwzdXm4aNTQRmFvMDNNBFU/LABPvbEbb0
+         ntajqBJCQ942pJoKzbmCLsIrn1Afr7Jwo7ZJqpco0VArfxl8m4EX7TlbVoGbWffhy3OW
+         Hu3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780079355; x=1780684155;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ybPONvBT+3PzQ9QpwIpiAUUWA5fZia2AyuCUimrO6U=;
+        b=gkUgVS5s4IXzmp7Moh7AwNTLZ3nvXoDjrdfujUNHOz/78jP1xyUEzmwEGbdfa9c1Tr
+         ViMfp9g3Uj9PD6Q3SGz+dJB1akHIznkN9CERDGomjsfST2X6k0/0i7IJ6Za/Sxccv8wY
+         +P7MhsO+1egLrFEWjukFizRvHnp54ZPl4wYFxGZ1WXLGfQHTZbX0i4aj/o5FuYRVj16v
+         KF6hWF6VNHuwAYoWQsYrIJavIkgSbmqhL9dmbSX7gPG0+1pESzPnsLFErtdLF6MhSd+g
+         ZizsBjp9PBK6V/5EEkN0WemLn5cg4Z4gD9aXxwUs7/GcLkgKyp/gC6WcinnOZAxdNfda
+         K+1A==
+X-Forwarded-Encrypted: i=1; AFNElJ9JawJO4eXzeZMbO2QUCzo5vQJeswsOvUQ+YKvPzuKEBL2uwn3kOfD3yUPCRwtU91Yj6Ww5tjrzXYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk/xOAeEqe5Q6vlZBWMLyv/QSmkq7oqCKuRZGdEwbqH2++rwBv
+	QftDkACFhbJh4gXOLPUJY3kiiHcgKUyaCBSY911E1UghOuZtyl+e4Lnu
+X-Gm-Gg: Acq92OGzvGOS3qC+ge+ZDYQBMnPygIWkrJvjB0/rYnsPsWqleleOsLGzCMzakkDCidf
+	TCAsp+jMfX5Kq8gWt0QbrsIQCctvCQJlsvzZNyqQ8k+RxW9bcDfvz7fIZtUYRKgHy5lClHqv1nF
+	aMiCfJ8y+sGjsW1Lvrv5RWXXwlgi+mLQHbaID830anrGCsJTCiuzUrSv7LPFNwD61uHjrCLG46Z
+	WnpUBcpUauJXSy/URp3inw1Aor2O31HY8KfHWAMCxpDiAoFaFSFiMzMMIaqaAKB99IU4S7f/v+9
+	0/j3RCKTU8yFEQik29fMuc5af/WlvEkU1tOr/ebxChZHa8xXL1hfLvy0kK9Ajo1oGkS9oPQzYMB
+	qBo5f5Y6vD1moGyxgfTgq+KBgwhZ21Z/W/Y+6KoyLACZudtpy9rScg6YrmXesJNg9iLzBqJpLNo
+	8+j6r+x0rUUlEVuz+0Zd1GzMT84wk9H4AidEOK4i4B/PaOflqjMeFQ2J4QGh1XBV8z5yshZsgLs
+	Z4=
+X-Received: by 2002:a05:7022:6a3:b0:136:4faf:eb09 with SMTP id a92af1059eb24-137ae5127e2mr1268920c88.7.1780079354594;
+        Fri, 29 May 2026 11:29:14 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:307d:2a52:8823:4a01])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b35a6cf0sm1664069c88.3.2026.05.29.11.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 11:29:13 -0700 (PDT)
+Date: Fri, 29 May 2026 11:29:10 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Derek John Clark <derekjohn.clark@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+	Denis Benato <denis.benato@linux.dev>, Zhouwang Huang <honjow311@gmail.com>, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 1/4] HID: hid-msi: Add MSI Claw configuration driver
+Message-ID: <ahnYeAbzO5K3feRn@google.com>
+References: <20260527222122.10620-1-derekjohn.clark@gmail.com>
+ <20260527222122.10620-2-derekjohn.clark@gmail.com>
+ <ahfQW54YoHj2Pal_@google.com>
+ <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com>
 
-Add an admin-guide section covering UFFDIO_REGISTER_MODE_RWP:
+On Thu, May 28, 2026 at 11:34:18PM -0700, Derek John Clark wrote:
+> On Wed, May 27, 2026 at 10:32 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Derek,
+> >
+> > On Wed, May 27, 2026 at 10:21:19PM +0000, Derek J. Clark wrote:
+> > > Adds configuration HID driver for the MSI Claw series of handheld PC's.
+> > > In this initial patch add the initial driver outline and attributes for
+> > > changing the gamepad mode, M-key behavior, and add a WO reset function.
+> > >
+> > > Sending the SWITCH_MODE and RESET commands causes a USB disconnect in
+> > > the device. The completion will therefore never get hit and would trigger
+> > > an -EIO. To avoid showing the user an error for every write to these
+> > > attrs a bypass for the completion handling is introduced when timeout ==
+> > > 0.
+> > >
+> > > The initial version of this patch was written by Denis Benato, which
+> > > contained the initial reverse-engineering and implementation for the
+> > > gamepad mode switching. This work was later expanded by Zhouwang Huang
+> > > to include more gamepad modes. Finally, I refactored the drivers data
+> > > in/out flow and overall format to conform to kernel driver best
+> > > practices and style guides. Claude was used as an initial reviewer of
+> > > this patch.
+> >
+> > I wonder why do you need to roll asynchronous probing and asynchronous
+> > resume by hand? This I think complicates the driver greatly and forces
+> > you to use a ton of works, spinlocks, and checks.
+> >
+> > Thanks.
+> >
+> 
+> Hi Dmitry,
+> 
+> I suppose being asked this means my cover letter and  commit
+> descriptions need some additional context.  The MCU in these Claw
+> devices is quite temperamental. There are a few specific issues that
+> cause the need for multiple work queues, a serialization mutex, and
+> subsequently spinlocks to prevent stale data reads.
+> 
+> 1.) The MCU will halt function if it receives any output reports
+> before ~500MS after probe or resume. This can either manifest as the
+> device never responding to a command, or it can cause the entire
+> system to become unstable and reboot. This creates the need for
+> cfg_setup to query the MCU and then add the gamepad attrs, led_mc
+> device, and rgb attrs. As a side effect, because a system could
+> technically be suspended during that 500ms delay, there exists the
+> need to re-queue the work if it was never triggered, hence the resume
+> queue.
+> 2.) The MCU will not always respond in order if two or more output
+> reports are sent within a few ms of each other. Since many of the
+> commands use a generic "ACK", or share an "ACK" type but don't provide
+> specific context about what sub-function called them, we could
+> potentially have cross talk where data is saved in the wrong attribute
+> or errors propagate because of a missed message.  To get around this
+> serialization issue we hold a mutex through a completion triggered in
+> raw_event and, for most events, save a state machine on what command
+> is expected and what sub-command was the initiator. (I.E. profile
+> events handle the M1, M2, RGB, Left rumble, and right rumble). Since
+> the state machine is accessed on both sides, we need spinlocks
+> guarding the reads. This essentially serializes the data and makes it
+> predictable. Using this pattern I haven't had any issues reading from
+> or writing to the MCU.
+> 3.) Some commands will never return their "ACK" while a completion is
+> held, so we have a workaround to basically ignore them and hope the
+> command worked. This is only needed for SYNC_TO_ROM, from which we
+> don't need to set anything on its "ACK", and switching the gamepad
+> mode, which causes USB disconnect/reconnect and the driver fully
+> reloads, so we'll never be able to read it anyway.
+> 4.) The RGB work queue is used to free the userspace write while the
+> completion is held. I found that use without it could stall userspace
+> quite significantly if it has multiple writes back to back. I
+> experienced this using Steam's customization menu, which sends a
+> single write for every increment of its color and brightness sliders.
+> when traversing the full length of the slider it is possible to have
+> effects changing for nearly a minute after stopping. With the queue,
+> only the most recent write is eventually sent to the MCU. This issue
+> also affects the Go 2 driver as well, though not to the same extent,
+> but for which I'll be adding a similar de-bounce queue soon. Go S is
+> also technically affected by this bug, but that returns quickly enough
+> that it isn't really feasible to trigger the bug with much frequency.
+> I'll still fix that one as well though.
+> 
+> TBH I'm not "happy" with the complexity of the driver, but I don't see
+> a reasonable alternative. If you have any specific suggestions that I
+> could try that might simplify it, I'd be more than happy to give it a
+> shot. That being said, I'm not very optimistic about it. Development
+> on this device has been like wrestling a bear.
 
-  - sync and async fault models;
-  - UFFDIO_RWPROTECT semantics;
-  - UFFD_FEATURE_RWP_ASYNC;
-  - UFFDIO_SET_MODE runtime mode flips.
+Thank you for this detailed explanation. I would like to concentrate on
+the #1 first. What happens in the driver is you are essentially rolling
+asynchronous probing and asynchronous suspend/resume in the driver
+itself, and end up fighting with the kernel and the driver core
+specifically.
 
-It also covers typical VMM working-set-tracking workflow from detection
-loop through sync-mode eviction and back to async.
+As far as suspend/resume goes: HID subsystem already enables
+asynchronous resume handling (checkout the call to
+device_enable_async_suspend() in
+drivers/hid/hid-core.c::hid_allocate_device()). Therefore I think you
+just need to stick the necessary delay in your resume method() and call
+it a day.
 
-Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-Assisted-by: Claude:claude-opus-4-6
----
- Documentation/admin-guide/mm/userfaultfd.rst | 243 ++++++++++++++++++-
- 1 file changed, 237 insertions(+), 6 deletions(-)
+For the probing I would look into annotating the driver as 
+PROBE_PREFER_ASYNCHRONOUS and relying on that. Again, if you stick the
+required delay in probe then sysfs attributes will not be created too
+early, same for the rest of concerns with the device being exposed to
+userspace before it is ready to handle requests.
 
-diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-index 1e533639fd50..2a72e54962c8 100644
---- a/Documentation/admin-guide/mm/userfaultfd.rst
-+++ b/Documentation/admin-guide/mm/userfaultfd.rst
-@@ -275,16 +275,16 @@ tracking and it can be different in a few ways:
-   - Dirty information will not get lost if the pte was zapped due to
-     various reasons (e.g. during split of a shmem transparent huge page).
- 
--  - Due to a reverted meaning of soft-dirty (page clean when uffd-wp bit
--    set; dirty when uffd-wp bit cleared), it has different semantics on
--    some of the memory operations.  For example: ``MADV_DONTNEED`` on
-+  - Due to a reverted meaning of soft-dirty (page clean when the uffd bit
-+    is set; dirty when the uffd bit is cleared), it has different semantics
-+    on some of the memory operations.  For example: ``MADV_DONTNEED`` on
-     anonymous (or ``MADV_REMOVE`` on a file mapping) will be treated as
--    dirtying of memory by dropping uffd-wp bit during the procedure.
-+    dirtying of memory by dropping the uffd bit during the procedure.
- 
- The user app can collect the "written/dirty" status by looking up the
--uffd-wp bit for the pages being interested in /proc/pagemap.
-+uffd bit for the pages being interested in /proc/pagemap.
- 
--The page will not be under track of uffd-wp async mode until the page is
-+The page will not be under track of userfaultfd-wp async mode until the page is
- explicitly write-protected by ``ioctl(UFFDIO_WRITEPROTECT)`` with the mode
- flag ``UFFDIO_WRITEPROTECT_MODE_WP`` set.  Trying to resolve a page fault
- that was tracked by async mode userfaultfd-wp is invalid.
-@@ -307,6 +307,237 @@ transparent to the guest, we want that same address range to act as if it was
- still poisoned, even though it's on a new physical host which ostensibly
- doesn't have a memory error in the exact same spot.
- 
-+Read-Write Protection
-+---------------------
-+
-+``UFFDIO_REGISTER_MODE_RWP`` enables read-write protection tracking on a
-+memory range. It is similar to (but faster than) ``mprotect(PROT_NONE)``
-+combined with a signal handler; unlike ``mprotect(PROT_NONE)``, RWP only
-+traps accesses to *present* PTEs, so accesses to unpopulated addresses in a
-+protected range fall through to the normal missing-page path. It uses the
-+PROT_NONE hinting mechanism (same as NUMA balancing) to make pages
-+inaccessible while keeping them resident in memory. Works on anonymous,
-+shmem, and hugetlbfs memory.
-+
-+RWP is designed for VM memory managers that need to track the working set
-+of guest memory for cold page eviction to tiered or remote storage.
-+
-+**Setup:**
-+
-+1. Open a userfaultfd and enable ``UFFD_FEATURE_RWP`` via ``UFFDIO_API``.
-+   Optionally request ``UFFD_FEATURE_RWP_ASYNC`` as well — it requires
-+   ``UFFD_FEATURE_RWP`` to be set in the same ``UFFDIO_API`` call.
-+
-+2. Register the guest memory range with ``UFFDIO_REGISTER_MODE_RWP``
-+   (and ``UFFDIO_REGISTER_MODE_MISSING`` if evicted pages will need to be
-+   fetched back from storage).
-+
-+**Feature availability:**
-+
-+RWP is built on top of two kernel primitives: a spare PTE bit owned by
-+userfaultfd (``CONFIG_HAVE_ARCH_USERFAULTFD_WP``) and architecture support
-+for present-but-inaccessible PTEs (``CONFIG_ARCH_HAS_PTE_PROTNONE``). When both
-+are available on a 64-bit kernel, the build selects
-+``CONFIG_USERFAULTFD_RWP=y`` and the ``VM_UFFD_RWP`` VMA flag becomes
-+available.
-+
-+``UFFD_FEATURE_RWP`` and ``UFFD_FEATURE_RWP_ASYNC`` are unavailable when
-+the running kernel or architecture does not support them — for example
-+32-bit kernels (where ``VM_UFFD_RWP`` is unavailable), kernels built
-+without ``CONFIG_USERFAULTFD_RWP``, and architectures whose ptes cannot
-+carry the uffd bit at runtime (e.g. riscv without the ``SVRSW60T59B``
-+extension). Requesting an unsupported feature in
-+``uffdio_api.features`` makes ``UFFDIO_API`` fail with ``EINVAL`` and
-+leaves the userfaultfd context uninitialized; the bitmask returned in
-+``uffdio_api.features`` then advertises the features the kernel does
-+support. The recommended probe sequence is therefore to open a
-+throwaway userfaultfd, call ``UFFDIO_API`` once with ``features = 0``,
-+inspect the returned bitmask, close that fd, then open the real one
-+and call ``UFFDIO_API`` again with only the supported features set.
-+
-+**Protecting and Unprotecting:**
-+
-+Use ``UFFDIO_RWPROTECT`` to protect or unprotect a range, mirroring the
-+``UFFDIO_WRITEPROTECT`` interface::
-+
-+    struct uffdio_rwprotect rwp = {
-+        .range = { .start = addr, .len = len },
-+        .mode = UFFDIO_RWPROTECT_MODE_RWP,  /* protect */
-+    };
-+    ioctl(uffd, UFFDIO_RWPROTECT, &rwp);
-+
-+Setting ``UFFDIO_RWPROTECT_MODE_RWP`` sets PROT_NONE on present PTEs in the
-+range. Pages stay resident and their physical frames are preserved — only
-+access permissions are removed.
-+
-+Clearing ``UFFDIO_RWPROTECT_MODE_RWP`` restores normal VMA permissions and
-+wakes any faulting threads (unless ``UFFDIO_RWPROTECT_MODE_DONTWAKE`` is set).
-+
-+**Scope of protection:**
-+
-+RWP protection is a property of *present* PTEs. ``UFFDIO_RWPROTECT`` only
-+affects entries that are already populated. Unpopulated addresses within
-+the range remain unpopulated; when first accessed they fault through the
-+normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
-+``finish_fault()``) and the resulting PTE is not RWP-protected. To observe
-+the population itself, co-register the range with
-+``UFFDIO_REGISTER_MODE_MISSING``.
-+
-+Protection is preserved across page reclaim: a page swapped out while
-+RWP-protected carries the marker on its swap entry, and swap-in restores
-+the PROT_NONE state so the first access after swap-in still faults. The
-+same applies to pages temporarily replaced by migration entries.
-+
-+Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
-+memory, hole-punch on shmem, truncation of a file mapping — also drop the
-+RWP marker: the next access re-populates the range without protection.
-+Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
-+persistent RWP marker today. The user needs to re-arm the range with
-+``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
-+
-+**Fault Handling:**
-+
-+When a protected page is accessed:
-+
-+- **Sync mode** (default): The faulting thread blocks and a
-+  ``UFFD_PAGEFAULT_FLAG_RWP`` message is delivered to the userfaultfd
-+  handler. The handler resolves the fault with ``UFFDIO_RWPROTECT``
-+  (clearing ``MODE_RWP``), which restores the PTE permissions and wakes
-+  the faulting thread.
-+
-+- **Async mode** (``UFFD_FEATURE_RWP_ASYNC``): The kernel automatically
-+  restores PTE permissions and the thread continues without blocking. No
-+  message is delivered to the handler.
-+
-+**Runtime Mode Switching:**
-+
-+``UFFDIO_SET_MODE`` toggles ``UFFD_FEATURE_RWP_ASYNC`` at runtime, allowing
-+the VMM to switch between lightweight async detection and safe sync
-+eviction without re-registering. The toggle takes ``mmap_write_lock()``
-+and calls ``vma_start_write()`` on each UFFD-armed VMA, draining
-+in-flight per-VMA-locked faults before the new mode takes effect.
-+
-+**Cold Page Detection with PAGEMAP_SCAN:**
-+
-+RWP-protected PTEs carry the uffd PTE bit; the fault-resolution path
-+clears it. ``PAGEMAP_SCAN`` reports ``PAGE_IS_ACCESSED`` once the bit is
-+clear on a ``VM_UFFD_RWP`` VMA, so inverting it efficiently reports the
-+still-protected (cold) pages. Require ``PAGE_IS_PRESENT`` too so memory
-+holes (which carry neither category bit) are filtered out::
-+
-+    struct pm_scan_arg arg = {
-+        .size = sizeof(arg),
-+        .start = guest_mem_start,
-+        .end = guest_mem_end,
-+        .vec = (uint64_t)regions,
-+        .vec_len = regions_len,
-+        .category_mask = PAGE_IS_PRESENT | PAGE_IS_ACCESSED,
-+        .category_inverted = PAGE_IS_ACCESSED,
-+        .return_mask = PAGE_IS_ACCESSED,
-+    };
-+    long n = ioctl(pagemap_fd, PAGEMAP_SCAN, &arg);
-+
-+The returned ``page_region`` array contains contiguous cold ranges that can
-+then be evicted.
-+
-+**Cleanup:**
-+
-+When the userfaultfd is closed or the range is unregistered, all PROT_NONE
-+PTEs are automatically restored to their normal VMA permissions. This
-+prevents pages from becoming permanently inaccessible.
-+
-+**VMM Working Set Tracking Workflow:**
-+
-+A typical VMM lifecycle for cold page eviction to tiered storage. Two
-+mappings of the same shmem (or hugetlbfs) file are used: ``guest_mem`` is
-+the RWP-registered mapping that vCPUs access through, and ``io_mem`` is a
-+private mapping for VMM-side I/O. Reading ``io_mem`` does not go through
-+the RWP-protected PTEs of ``guest_mem``, so the VMM's own ``pwrite()``
-+never traps on its own ::
-+
-+    /* One-time setup */
-+    fd = memfd_create("guest", MFD_CLOEXEC);
-+    ftruncate(fd, guest_size);
-+    guest_mem = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
-+                     MAP_SHARED, fd, 0);  /* vCPU view, RWP-registered */
-+    io_mem    = mmap(NULL, guest_size, PROT_READ | PROT_WRITE,
-+                     MAP_SHARED, fd, 0);  /* VMM I/O view, unprotected */
-+
-+    uffd = userfaultfd(O_CLOEXEC | O_NONBLOCK);
-+    struct uffdio_api api = {
-+        .api = UFFD_API,
-+        .features = UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC,
-+    };
-+    ioctl(uffd, UFFDIO_API, &api);
-+    if (!(api.features & UFFD_FEATURE_RWP))
-+        /* RWP unavailable on this kernel/arch -- fall back. */
-+    ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
-+        .range = { guest_mem, guest_size },
-+        .mode = UFFDIO_REGISTER_MODE_RWP |
-+                UFFDIO_REGISTER_MODE_MISSING,
-+    });
-+
-+    /* Tracking loop */
-+    while (vm_running) {
-+        /* 1. Detection phase (async -- no vCPU stalls) */
-+        ioctl(uffd, UFFDIO_RWPROTECT, &(struct uffdio_rwprotect){
-+            .range = full_range,
-+            .mode = UFFDIO_RWPROTECT_MODE_RWP });
-+        sleep(tracking_interval);
-+
-+        /*
-+         * 2. Switch to sync BEFORE scanning. In async mode a vCPU
-+         * access between the scan and any eviction step silently
-+         * clears the uffd bit, so the scan would already disagree
-+         * with the page state by the time eviction begins. Sync mode
-+         * blocks vCPU accesses, freezing the cold snapshot for the
-+         * rest of the iteration.
-+         */
-+        ioctl(uffd, UFFDIO_SET_MODE,
-+              &(struct uffdio_set_mode){
-+                  .disable = UFFD_FEATURE_RWP_ASYNC });
-+
-+        /* 3. Find cold pages (uffd bit still set, page present) */
-+        ioctl(pagemap_fd, PAGEMAP_SCAN, &(struct pm_scan_arg){
-+            .category_mask = PAGE_IS_PRESENT | PAGE_IS_ACCESSED,
-+            .category_inverted = PAGE_IS_ACCESSED,
-+            .return_mask = PAGE_IS_ACCESSED,
-+            ...
-+        });
-+
-+        /* 4. Evict cold pages (vCPU faults block on guest_mem) */
-+        for each cold range:
-+            /* Read from io_mem -- bypasses RWP, no fault. */
-+            pwrite(storage_fd, (char *)io_mem + cold_offset,
-+                   len, cold_offset);
-+            /* Drop the page from the shared file. */
-+            fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-+                      cold_offset, len);
-+            /*
-+             * Wake any vCPU blocked on the RWP fault for this range:
-+             * fallocate() does not iterate ctx->fault_pending_wqh.
-+             */
-+            ioctl(uffd, UFFDIO_WAKE, &(struct uffdio_range){
-+                .start = (uintptr_t)guest_mem + cold_offset,
-+                .len = len });
-+
-+        /* 5. Resume async tracking */
-+        ioctl(uffd, UFFDIO_SET_MODE,
-+              &(struct uffdio_set_mode){
-+                  .enable = UFFD_FEATURE_RWP_ASYNC });
-+    }
-+
-+During step 4, a vCPU that accesses ``guest_mem + cold_offset`` blocks
-+with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault while the eviction is in
-+progress. After ``fallocate()`` punches the page out and ``UFFDIO_WAKE``
-+fires, the vCPU retries the access, faults as ``MISSING``, and the
-+handler resolves it with ``UFFDIO_COPY`` from storage.
-+
-+This workflow targets shmem and hugetlbfs (both support a private
-+``io_mem`` mapping over the same fd). Anonymous-memory backings need a
-+different inner-loop strategy because the VMM has no way to read the
-+page without going through the RWP-protected mapping.
-+
- QEMU/KVM
- ========
- 
+If there are issues with HID subsystem honoring
+PROBE_PREFER_ASYNCHRONOUS I would look into fixing the subsystem rather
+than try to work around it in the driver.
+
+Thanks.
+
 -- 
-2.54.0
-
+Dmitry
