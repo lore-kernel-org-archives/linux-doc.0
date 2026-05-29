@@ -1,64 +1,64 @@
-Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BEC3FD12B
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 16:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39973FE350
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 16:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780073823; cv=none; b=p5K0zxAmbAeJHrLSlPg4REpXsSNZBQY4MOb46DkFZulliHdmPYwnuqt3NFIfU3lBDjuhK8PAsMA6sa7hjBGjx92DK7F8rpSmA+Cp+qL0K5WS9PH9MZJKyzO1PYaoXcJZB295QJvY6/xyr0LlKmyt2LB/SaMeLSGnGQFn+hBbXEI=
+	t=1780073826; cv=none; b=BYl92qFTnci4EyOY3FVQw4s1FcwYyPeUd2mkqkqHRCRu/we5zM9pHUG7X+14gRNg2j9h0ExPs4QFWR9oruwVignyqAmJuqH6canBp3I5ICnzDjCdxaGKlhOiO9y1TFvH9kU4dYvhF4U2nhifIFbGuPWt2eKwWVlOjVUC8jA7Qk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780073823; c=relaxed/simple;
-	bh=/WB7DhhL0YPzVpIXGI8fiP8eIBsrpdAk77Iyd16ISAA=;
+	s=arc-20240116; t=1780073826; c=relaxed/simple;
+	bh=F/QiQ0zSPrm/6oDcRCoTElEWdSJvT5j07i2HruZ+ebE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U64IFm2WHHHIEHdzQ1/oXv+jYvdxE36RLa7LlumH9d+rqd0kTEEf6aGedlzIGCo8naiBrX9M91fli28CyA5hiwFFlwpYlDXfD/5YFG5c6Nj22V5B9//oaUCqFUskJXVdTgLhoydR/0GHIILkqpRDNxOzFxzjorBOOcu7+fZ+QRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=slwewJ/Z; arc=none smtp.client-ip=209.85.160.65
+	 MIME-Version; b=h/ToZBz15jbRZejGsnXc8IVSbJmGRYFRWfvhvgabMBvhD9KyKkVuvTquSC1Tf70bQFhphirSpHropCUI4m0TPgRL5HniQ1pqWM0P3xe6+qI9F/UQH347E5F4Z4aJo+yH7n/GoPaRLCt/cpRJ1Jqq11U5t4PfysyvqOE8pqszwrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oxe0cd12; arc=none smtp.client-ip=209.85.210.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="slwewJ/Z"
-Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-43b53f048beso6107046fac.1
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 09:57:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oxe0cd12"
+Received: by mail-ot1-f68.google.com with SMTP id 46e09a7af769-7e666292eb8so2136485a34.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 09:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780073820; x=1780678620; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780073823; x=1780678623; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vBG7U8aH1ARs37G3HmZz4dhZEB7morx48iJcdEwFffY=;
-        b=slwewJ/Z7Tqj/w/HntFTl1PBI2hdLNI9vCtGlPAizJONGnE3yMK/xXF/nOMwOlUIIY
-         mBrXfuE5v6zHpxyfHlOEw14SjbqAOvFUJGyoegFZBVfzzWD/cN4/jpJd0SlRzH34Hjbj
-         6ntx6wt+F91kksvL302QMdECdhomtnViRco2Eaq44vuiCxbgLsFhXBuwmPGwDzeVTXGr
-         tebWzir/U3s/9aQgFMvZodtxAdG9ZbDyRL6cDRsk5yk4kcmO1Y0mLj08K8Xi0Eq1W+kJ
-         suTMFjD5lcZnCtvFOUI+wZQld4mTRcNdoad50KwU8d7RKAyDKJsxrrVLz2jkaJos2Ats
-         nt3g==
+        bh=rls65X3DOzAoQMMdNR2JhXNJkdCouUDjyK2mqUrqz1s=;
+        b=Oxe0cd12/Pz5k1qhA3VTJSMPUIhcXMw/5wOn1iXa+tolLRgeNJ+/4aAJX0mSFW/Ezm
+         y9S9z5+NLm67T6s0J6XSyc0Z5td0ILcyCpNQ7sJ8Dq3Kcd4RmvK0XGqc/W0lxLQmm2Xj
+         mLmdkjJsPGdnZ0iHblC//YaBEDSlTMwI0qZv+Kx/ZznALEr+w3oMIoif+HX3U/naz+eq
+         LLFYyF/z6pR+FH/WyGeTo0Jl8fmlWyR9eqr7gU8pFBWlu6HRLox3D978WTDw1ot/2Opy
+         JmvEVoWTM6C3BoYgyW8x5/9X87YXE1wT1L6pDyz+gALsVHrBVeV26N5sqc4tFuBVJN/l
+         7zrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780073820; x=1780678620;
+        d=1e100.net; s=20251104; t=1780073823; x=1780678623;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vBG7U8aH1ARs37G3HmZz4dhZEB7morx48iJcdEwFffY=;
-        b=HsSSQSU0KtWzeYvhXhtDb1Gu+IwmnymN2+47PelML/rhUI/kcgROvZbxbnZ+4pZd2R
-         ELP83kekievX5Qn+PenZfDsz8ZZjRw/UAQK1FlfvGHhOuRX2cPTG2YLSIwJp5TnVInEK
-         6GxkqoAzlz9DjWSjNfp8eR7tJlL8kT6Jhnidfqt0cKrbP0eGvmyiaNwvXws3nPKsB7ex
-         P/oob7M47dqolA/4cZ75yPu91gvIdvbK9Sk129oVcyzevHwOkH6TvXVqbjI4QwTF3gPd
-         zC2p307IKRifCV85P5Wy+5to6lb8bDXFcMuPs8o1g3lO5Ljm9qqLXgD/gywiqHpSCPzK
-         +3Jg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Jeju4uznIUwxZxCG5+586IIrr9k+lgCzLIAmoroD3mjOoQwv1t48vbl8b1ji6tyairisclGLz0A0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPiCKCuD/aoS0ASgvjVcr2BjUWlvzoeYYUHtXQmAgTASR4zhHM
-	woTT43tVQI3vJmJSW63oXpYUOnTml6oMo1CNZpuWKWy903nbjrgxakk=
-X-Gm-Gg: Acq92OH0yL5wmA6k6mdpsAktvDTBk9PG2A4E2dvUzk+wI0WrqLQXVclIM9dQSlFGyf/
-	xq6nCVIe24BkWRUCeSHtrX3sf7i7NPoLmgJ4OVyEpDZEirdZQFqtJQ2kTWHyh6NCDlAVV6hRtJ6
-	FqRFz5vWw0HUEethTwVbrQ9WrTsNDiq7CDGjQMoU6fvmq4uX0LfLWusTIi2IPKLMbRiH5CQs/+G
-	zkJqeTXMeWecERUOMRcbh9Uv9aBhlxTSG5kf4Zs6OKoaLlAFgfQVKD4Hi7bJvpqCZKiNDto+fem
-	1OucJTHWzo1pjjldEk+3fTrQcCE/WQLxBN1vWilvE04hFlc5lcbTUf/Xmj5LdYO993IA1HQr36i
-	8m/jaigcW4Plf+95Drj/oKlcgnUX6AwiNYhR8k5PRfZknJ7BkrIXqsA7unakdm8H42x1YnqotdG
-	k/wQEp9sXdTPiMiGgFhi0kGXW5aU/A9hizcUmKO4cvlr89aNvJDSX9SKxYrr9LkFtTzHpL+li/a
-	CiCRuLlHQuy
-X-Received: by 2002:a05:6871:890:b0:423:4260:2e0d with SMTP id 586e51a60fabf-43c891e473cmr1659989fac.8.1780073820507;
-        Fri, 29 May 2026 09:57:00 -0700 (PDT)
+        bh=rls65X3DOzAoQMMdNR2JhXNJkdCouUDjyK2mqUrqz1s=;
+        b=F9fVFZpiG7XGZuW79YC6+TQPoaM0EwrOE23cEphYTrOQv3X1ch1j4U3CmJC+IEU4vY
+         gvB2+Fn6YMDKU95yAZWrtSSw7X4cNDGfb48/tEhzs3CLzFWVufRKiWGApyAi/G5iSp5i
+         m4/ce/lX1J+2HPrhSFxVLwos8gZeCxanG2ymzskwION7EzR2xFJm9N/J6noHDIs9mijS
+         w0wFpYXLunS+Wr8eE+r12OAg9C2gkcn+ZegcNPACu/lBBP0Sul+xFb0zLYVexVbMkSCF
+         KULMkmQWZe84TpNxjD7fc2xs2asVEp6f0GiFz0Qbr7JxicTDt4QyhR7Wak2u178JlsRp
+         2IbA==
+X-Forwarded-Encrypted: i=1; AFNElJ8fOVTl4zNR3WoP7I4stojVFCEMMC8KkIhkBRxYy+L1INR2ejCyGA9FvV0l72O/bBf1j114bQIU2aQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv+09gqj0JiXrZ9VvD9qPxzsosJ8phbniCsgdVY+7gjn9YtVi5
+	B6GhclF0fgHcjHAB710tb4fwNiqhCmBcIDGEGKugNb/w3p6MXwVmIYI=
+X-Gm-Gg: Acq92OG5ODx805zpC+2MW7Ny0Ioqow3hguewm2hYORDGUMXE7uPa9QyrAsnflJvy0bV
+	Zk0ZoN4wwYCCl9TwO9tVN5tsISwqswCDGYVPQ1wTZ8oByI/eJyFK1qM+zrlmR/EQTjyU9TmP/io
+	yW3y9a4egqJKcEJjRCH7veZ+ISteHldK9iY/BSJfOdZKcUr2++H3Em6QY1oZOLJn+gitum02l+a
+	rRG/Zgjh0o4lQbOI8r2pjUz9UmMUbtXqzydUuyRE2DVKv4CX1ls1kpSmx+T3HJsPaKIXYNVe5ff
+	UQACm4/TW520nh+0PmUzrNJ3/hJ7wOHfdR4c97DskGN7Y++KIL62Xzsi54vudUdEN4QdS0edQHZ
+	S8aUzwCQK6UC67VybFtijs7Z5htSVl03XmMyqjP4VzbZaQM2OWfnVPVng0w2mGQVHGpMYSERpWa
+	TsDprhWYDezYSb+fWV15TAVJi8tjzSpXkscHB5j3qq9R5YvugZ9J4y0u6WV2t74qlct0lUS83OO
+	cKpJuUVF6eP
+X-Received: by 2002:a05:6830:258d:b0:7d7:ccc7:c546 with SMTP id 46e09a7af769-7e6a1e3ad8amr396513a34.23.1780073822973;
+        Fri, 29 May 2026 09:57:02 -0700 (PDT)
 Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43c93ef3ad7sm1403070fac.9.2026.05.29.09.56.59
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e695b8f662sm1862616a34.4.2026.05.29.09.57.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 09:57:00 -0700 (PDT)
+        Fri, 29 May 2026 09:57:02 -0700 (PDT)
 From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 To: sj@kernel.org,
 	akinobu.mita@gmail.com,
@@ -73,9 +73,9 @@ Cc: akpm@linux-foundation.org,
 	honggyu.kim@sk.com,
 	yunjeong.mun@sk.com,
 	ravis.opensrc@gmail.com
-Subject: [RFC PATCH 1/6] mm/damon: add struct damon_perf_event{,_attr} and per-ctx perf_events list
-Date: Fri, 29 May 2026 09:56:35 -0700
-Message-ID: <20260529165640.820-2-ravis.opensrc@gmail.com>
+Subject: [RFC PATCH 2/6] mm/damon/sysfs-sample: expose perf_events configuration via sysfs
+Date: Fri, 29 May 2026 09:56:36 -0700
+Message-ID: <20260529165640.820-3-ravis.opensrc@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260529165640.820-1-ravis.opensrc@gmail.com>
 References: <20260529165640.820-1-ravis.opensrc@gmail.com>
@@ -87,77 +87,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce the substrate types for using perf events as DAMON access
-check sources.  struct damon_perf_event_attr carries the raw PMU attr
-configurable from userspace; struct damon_perf_event is the per-event
-entry on a new damon_ctx::perf_events list.
+Add a perf_events/ subdirectory under each context's sample/ directory.
+Each numbered entry maps to one damon_perf_event and exposes its raw
+PMU attr, addressing flags, and period/delivery knobs.
 
-Declare damon_perf_init() and damon_perf_cleanup() in
-mm/damon/ops-common.h.  When CONFIG_PERF_EVENTS=n they fold to a no-op
-returning -ENOSYS.
+Defaults match Intel PEBS L3-miss; userspace overrides them for other
+PMUs.  sample_weight_struct defaults off because PMUs that do not
+advertise PERF_SAMPLE_WEIGHT_STRUCT (e.g. AMD IBS Op) reject events
+that request it with -EOPNOTSUPP.
 
-Suggested-by: Akinobu Mita <akinobu.mita@gmail.com>
-Link: https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
 Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 ---
- include/linux/damon.h   | 80 +++++++++++++++++++++++++++++++++++++++++
- mm/damon/ops-common.h   | 39 ++++++++++++++++++++
- mm/damon/sysfs-common.h |  6 ++++
- 3 files changed, 125 insertions(+)
+ mm/damon/sysfs-sample.c | 579 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 579 insertions(+)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index c0375035a3a7b..11f1c1071b9ba 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -123,6 +123,7 @@ struct damon_target {
-  * @size:		The size of the accessed address range.
-  * @cpu:		The id of the CPU that made the access.
-  * @tid:		The task id of the task that made the access.
-+ * @tgid:		Thread group id of the task that made the access.
-  * @is_write:		Whether the access is write.
-  *
-  * Any DAMON API callers that notified access events can report the information
-@@ -135,6 +136,7 @@ struct damon_access_report {
- 	unsigned long size;
- 	unsigned int cpu;
- 	pid_t tid;
-+	pid_t tgid;
- 	bool is_write;
- /* private: */
- 	unsigned long report_jiffies;	/* when this report is made */
-@@ -501,6 +503,7 @@ struct damos_filter {
+diff --git a/mm/damon/sysfs-sample.c b/mm/damon/sysfs-sample.c
+index ffc9c85455474..0570d27a47b1c 100644
+--- a/mm/damon/sysfs-sample.c
++++ b/mm/damon/sysfs-sample.c
+@@ -452,6 +452,520 @@ static const struct kobj_type damon_sysfs_primitives_ktype = {
+ 	.default_groups = damon_sysfs_primitives_groups,
  };
  
- struct damon_ctx;
-+struct damon_target_lookup;
- struct damos;
- 
- /**
-@@ -966,6 +969,67 @@ struct damon_sample_control {
- 	struct list_head sample_filters;
- };
- 
-+/**
-+ * struct damon_perf_event_attr - raw PMU event attr for access check.
-+ *
-+ * @type:		raw PMU event type.
-+ * @config:		raw PMU event config.
-+ * @config1:		raw PMU event config1.
-+ * @config2:		raw PMU event config2.
-+ * @sample_phys_addr:	whether to set PERF_SAMPLE_PHYS_ADDR in sample_type.
-+ * @sample_weight_struct:	whether to set PERF_SAMPLE_WEIGHT_STRUCT in
-+ *				sample_type.  PMUs that do not advertise
-+ *				weight (e.g. AMD IBS Op) reject events with
-+ *				this flag set, so it must be opt-in.
-+ * @exclude_kernel:	exclude kernel-mode samples.
-+ * @exclude_hv:		exclude hypervisor samples.
-+ * @freq:		when true use @sample_freq, otherwise @sample_period.
-+ * @sample_freq:	target sample rate when @freq is true.
-+ * @sample_period:	period (samples-between-overflows) when @freq is false.
-+ * @wakeup_events:	perf_event_attr.wakeup_events.
-+ * @precise_ip:		precise sampling skid bound (PEBS-style PMUs).
++/*
++ * perf_event_attr directory
 + */
-+struct damon_perf_event_attr {
++
++struct damon_sysfs_perf_event_attr {
++	struct kobject kobj;
 +	u32 type;
 +	u64 config;
 +	u64 config1;
@@ -173,143 +130,593 @@ index c0375035a3a7b..11f1c1071b9ba 100644
 +	u32 precise_ip;
 +};
 +
-+/**
-+ * struct damon_perf_event - perf event for access check.
-+ *
-+ * @attr:	Per-event PMU attribute (configured via sysfs).
-+ * @priv:	Monitoring operations-specific data.
-+ * @list:	List head for &damon_ctx->perf_events siblings.
-+ * @hlist_node:	Tracks this event among cpuhp multi-instance entries.
-+ * @init_complete:	Set after the synchronous online sweep finishes; gates
-+ *		@any_cpu_failed writes from late hotplug callbacks.
-+ * @any_cpu_failed:	Set by the cpuhp online callback if perf_event creation
-+ *		fails on any CPU during the synchronous initial install.
-+ * @ctx:	Back-pointer to the owning damon_ctx; the cpu_online callback
-+ *		reads ctx->perf_events_active to decide whether to enable a
-+ *		late-onlining CPU's event immediately after create.
-+ */
-+struct damon_perf_event {
-+	struct damon_perf_event_attr attr;
-+	void *priv;
-+	struct list_head list;
-+	struct hlist_node hlist_node;
-+	bool init_complete;
-+	bool any_cpu_failed;
-+	struct damon_ctx *ctx;
++static struct damon_sysfs_perf_event_attr *
++damon_sysfs_perf_event_attr_alloc(void)
++{
++	struct damon_sysfs_perf_event_attr *attr =
++		kzalloc(sizeof(*attr), GFP_KERNEL);
++
++	if (!attr)
++		return NULL;
++	attr->wakeup_events = 1;
++	attr->precise_ip = 2;
++	attr->freq = true;
++	attr->exclude_kernel = true;
++	attr->exclude_hv = true;
++	return attr;
++}
++
++static ssize_t attr_type_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "0x%x\n", perf_event_attr->type);
++}
++
++static ssize_t attr_type_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou32(buf, 0, &perf_event_attr->type);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t config_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "0x%llx\n", perf_event_attr->config);
++}
++
++static ssize_t config_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou64(buf, 0, &perf_event_attr->config);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t config1_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "0x%llx\n", perf_event_attr->config1);
++}
++
++static ssize_t config1_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou64(buf, 0, &perf_event_attr->config1);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t config2_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "0x%llx\n", perf_event_attr->config2);
++}
++
++static ssize_t config2_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou64(buf, 0, &perf_event_attr->config2);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t sample_phys_addr_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%d\n", perf_event_attr->sample_phys_addr);
++}
++
++static ssize_t sample_phys_addr_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	bool sample_phys_addr;
++	int err = kstrtobool(buf, &sample_phys_addr);
++
++	if (err)
++		return -EINVAL;
++
++	perf_event_attr->sample_phys_addr = sample_phys_addr;
++	return count;
++}
++
++static ssize_t sample_weight_struct_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%d\n", perf_event_attr->sample_weight_struct);
++}
++
++static ssize_t sample_weight_struct_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	bool sample_weight_struct;
++	int err = kstrtobool(buf, &sample_weight_struct);
++
++	if (err)
++		return -EINVAL;
++
++	perf_event_attr->sample_weight_struct = sample_weight_struct;
++	return count;
++}
++
++static ssize_t sample_freq_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%llu\n", perf_event_attr->sample_freq);
++}
++
++static ssize_t sample_freq_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou64(buf, 0, &perf_event_attr->sample_freq);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t wakeup_events_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%u\n", perf_event_attr->wakeup_events);
++}
++
++static ssize_t wakeup_events_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou32(buf, 0, &perf_event_attr->wakeup_events);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t precise_ip_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%u\n", perf_event_attr->precise_ip);
++}
++
++static ssize_t precise_ip_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou32(buf, 0, &perf_event_attr->precise_ip);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t freq_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%d\n", perf_event_attr->freq);
++}
++
++static ssize_t freq_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	bool freq;
++	int err = kstrtobool(buf, &freq);
++
++	if (err)
++		return -EINVAL;
++	perf_event_attr->freq = freq;
++	return count;
++}
++
++static ssize_t sample_period_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%llu\n", perf_event_attr->sample_period);
++}
++
++static ssize_t sample_period_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	int err = kstrtou64(buf, 0, &perf_event_attr->sample_period);
++
++	if (err)
++		return -EINVAL;
++	return count;
++}
++
++static ssize_t exclude_kernel_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%d\n", perf_event_attr->exclude_kernel);
++}
++
++static ssize_t exclude_kernel_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	bool v;
++	int err = kstrtobool(buf, &v);
++
++	if (err)
++		return -EINVAL;
++	perf_event_attr->exclude_kernel = v;
++	return count;
++}
++
++static ssize_t exclude_hv_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++
++	return sysfs_emit(buf, "%d\n", perf_event_attr->exclude_hv);
++}
++
++static ssize_t exclude_hv_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_event_attr *perf_event_attr = container_of(kobj,
++			struct damon_sysfs_perf_event_attr, kobj);
++	bool v;
++	int err = kstrtobool(buf, &v);
++
++	if (err)
++		return -EINVAL;
++	perf_event_attr->exclude_hv = v;
++	return count;
++}
++
++static void damon_sysfs_perf_event_attr_release(struct kobject *kobj)
++{
++	kfree(container_of(kobj, struct damon_sysfs_perf_event_attr, kobj));
++}
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_type_attr =
++		__ATTR(type, 0600, attr_type_show, attr_type_store);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_config_attr =
++		__ATTR_RW_MODE(config, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_config1_attr =
++		__ATTR_RW_MODE(config1, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_config2_attr =
++		__ATTR_RW_MODE(config2, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_sample_phys_addr_attr =
++		__ATTR_RW_MODE(sample_phys_addr, 0600);
++
++static struct kobj_attribute
++		damon_sysfs_perf_event_attr_sample_weight_struct_attr =
++		__ATTR_RW_MODE(sample_weight_struct, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_sample_freq_attr =
++		__ATTR_RW_MODE(sample_freq, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_wakeup_events_attr =
++		__ATTR_RW_MODE(wakeup_events, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_precise_ip_attr =
++		__ATTR_RW_MODE(precise_ip, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_freq_attr =
++		__ATTR_RW_MODE(freq, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_sample_period_attr =
++		__ATTR_RW_MODE(sample_period, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_exclude_kernel_attr =
++		__ATTR_RW_MODE(exclude_kernel, 0600);
++
++static struct kobj_attribute damon_sysfs_perf_event_attr_exclude_hv_attr =
++		__ATTR_RW_MODE(exclude_hv, 0600);
++
++static struct attribute *damon_sysfs_perf_event_attr_attrs[] = {
++	&damon_sysfs_perf_event_attr_type_attr.attr,
++	&damon_sysfs_perf_event_attr_config_attr.attr,
++	&damon_sysfs_perf_event_attr_config1_attr.attr,
++	&damon_sysfs_perf_event_attr_config2_attr.attr,
++	&damon_sysfs_perf_event_attr_sample_phys_addr_attr.attr,
++	&damon_sysfs_perf_event_attr_sample_weight_struct_attr.attr,
++	&damon_sysfs_perf_event_attr_freq_attr.attr,
++	&damon_sysfs_perf_event_attr_sample_freq_attr.attr,
++	&damon_sysfs_perf_event_attr_sample_period_attr.attr,
++	&damon_sysfs_perf_event_attr_wakeup_events_attr.attr,
++	&damon_sysfs_perf_event_attr_precise_ip_attr.attr,
++	&damon_sysfs_perf_event_attr_exclude_kernel_attr.attr,
++	&damon_sysfs_perf_event_attr_exclude_hv_attr.attr,
++	NULL,
 +};
++ATTRIBUTE_GROUPS(damon_sysfs_perf_event_attr);
 +
- /**
-  * struct damon_ctx - Represents a context for each monitoring.  This is the
-  * main interface that allows users to set the attributes and get the results
-@@ -991,6 +1055,11 @@ struct damon_sample_control {
-  * @addr_unit:	Scale factor for core to ops address conversion.
-  * @min_region_sz:	Minimum region size.
-  * @pause:	Pause kdamond main loop.
-+ * @perf_events:	Head of perf events (&damon_perf_event) list.
-+ * @perf_events_active:	Set while kdamond_fn has the perf events armed.
-+ *		Cleared in the kdamond_fn done path before the events are
-+ *		disabled; serves as the gate for damon_commit_perf_events()
-+ *		and the kdamond_fn drain dispatch.
-  */
- struct damon_ctx {
- 	struct damon_attrs attrs;
-@@ -1046,6 +1115,9 @@ struct damon_ctx {
- 	unsigned long min_region_sz;
- 	bool pause;
- 
-+	struct list_head perf_events;
-+	bool perf_events_active;
-+
- /* private: */
- 	/* Head of monitoring targets (&damon_target) list. */
- 	struct list_head adaptive_targets;
-@@ -1054,6 +1126,14 @@ struct damon_ctx {
- 
- 	/* Per-ctx PRNG state for damon_rand(); kdamond is the sole consumer. */
- 	struct rnd_state rnd_state;
-+
-+	/* Reusable drain-loop snapshot buffer (avoids per-tick kmalloc). */
-+	struct {
-+		struct damon_target_lookup *lookups;
-+		unsigned int nr_lookups;
-+		struct damon_region **region_buf;
-+		unsigned int region_buf_cap;
-+	} drain_snapshot;
- };
- 
- /* Get a random number in [@l, @r) using @ctx's lockless PRNG. */
-diff --git a/mm/damon/ops-common.h b/mm/damon/ops-common.h
-index 5efa5b5970def..35da400a67ec1 100644
---- a/mm/damon/ops-common.h
-+++ b/mm/damon/ops-common.h
-@@ -23,3 +23,42 @@ bool damos_folio_filter_match(struct damos_filter *filter, struct folio *folio);
- unsigned long damon_migrate_pages(struct list_head *folio_list, int target_nid);
- 
- bool damos_ops_has_filter(struct damos *s);
-+
-+#ifdef CONFIG_PERF_EVENTS
++static const struct kobj_type damon_sysfs_perf_event_attr_ktype = {
++	.release = damon_sysfs_perf_event_attr_release,
++	.sysfs_ops = &kobj_sysfs_ops,
++	.default_groups = damon_sysfs_perf_event_attr_groups,
++};
 +
 +/*
-+ * Per-event opaque allocated by damon_perf_init().  The NMI overflow
-+ * handler does NOT touch this struct; submission goes through the
-+ * shared per-CPU SPSC ring via damon_report_access().
++ * perf_events directory
 + */
-+struct damon_perf {
-+	struct perf_event * __percpu *event;
++
++/*
++ * Cap on the number of perf events per damon_ctx, to bound the sysfs
++ * kobject footprint and prevent unbounded allocations from a careless
++ * write to nr_perf_events.
++ */
++#define DAMON_SYSFS_PERF_EVENTS_MAX	64
++
++struct damon_sysfs_perf_events {
++	struct kobject kobj;
++	struct damon_sysfs_perf_event_attr **attrs_arr;
++	int nr;
 +};
 +
-+int damon_perf_init(struct damon_ctx *ctx, struct damon_perf_event *event);
-+void damon_perf_cleanup(struct damon_ctx *ctx, struct damon_perf_event *event);
-+void damon_perf_event_arm(struct damon_perf_event *event);
-+void damon_perf_event_disarm(struct damon_perf_event *event);
-+
-+#else /* !CONFIG_PERF_EVENTS */
-+
-+static inline int damon_perf_init(struct damon_ctx *ctx,
-+		struct damon_perf_event *event)
++static struct damon_sysfs_perf_events *damon_sysfs_perf_events_alloc(void)
 +{
-+	return -ENOSYS;
++	return kzalloc(sizeof(struct damon_sysfs_perf_events), GFP_KERNEL);
 +}
 +
-+static inline void damon_perf_cleanup(struct damon_ctx *ctx,
-+		struct damon_perf_event *event)
++static void damon_sysfs_perf_events_rm_dirs(
++		struct damon_sysfs_perf_events *events)
 +{
++	struct damon_sysfs_perf_event_attr **attrs_arr = events->attrs_arr;
++	int i;
++
++	for (i = 0; i < events->nr; i++)
++		kobject_put(&attrs_arr[i]->kobj);
++	events->nr = 0;
++	kfree(attrs_arr);
++	events->attrs_arr = NULL;
 +}
 +
-+static inline void damon_perf_event_arm(struct damon_perf_event *event)
++static int damon_sysfs_perf_events_add_dirs(
++		struct damon_sysfs_perf_events *events, int nr_events)
 +{
++	struct damon_sysfs_perf_event_attr **attrs_arr, *attr;
++	int err, i;
++
++	damon_sysfs_perf_events_rm_dirs(events);
++	if (!nr_events)
++		return 0;
++
++	attrs_arr = kmalloc_array(nr_events, sizeof(*attrs_arr), GFP_KERNEL);
++	if (!attrs_arr)
++		return -ENOMEM;
++	events->attrs_arr = attrs_arr;
++
++	for (i = 0; i < nr_events; i++) {
++		attr = damon_sysfs_perf_event_attr_alloc();
++		if (!attr) {
++			damon_sysfs_perf_events_rm_dirs(events);
++			return -ENOMEM;
++		}
++
++		err = kobject_init_and_add(&attr->kobj,
++				&damon_sysfs_perf_event_attr_ktype, &events->kobj,
++				"%d", i);
++		if (err) {
++			kobject_put(&attr->kobj);
++			damon_sysfs_perf_events_rm_dirs(events);
++			return err;
++		}
++		attrs_arr[i] = attr;
++		events->nr++;
++	}
++	return 0;
 +}
 +
-+static inline void damon_perf_event_disarm(struct damon_perf_event *event)
++static ssize_t nr_perf_events_show(struct kobject *kobj,
++		struct kobj_attribute *attr, char *buf)
 +{
++	struct damon_sysfs_perf_events *events = container_of(kobj,
++			struct damon_sysfs_perf_events, kobj);
++
++	return sysfs_emit(buf, "%d\n", events->nr);
 +}
 +
-+#endif /* CONFIG_PERF_EVENTS */
-diff --git a/mm/damon/sysfs-common.h b/mm/damon/sysfs-common.h
-index 25a6c28abdea8..67c7545fd57d0 100644
---- a/mm/damon/sysfs-common.h
-+++ b/mm/damon/sysfs-common.h
-@@ -66,10 +66,13 @@ int damon_sysfs_memcg_path_to_id(char *memcg_path, u64 *id);
++static ssize_t nr_perf_events_store(struct kobject *kobj,
++		struct kobj_attribute *attr, const char *buf, size_t count)
++{
++	struct damon_sysfs_perf_events *events;
++	int nr, err = kstrtoint(buf, 0, &nr);
++
++	if (err)
++		return err;
++	if (nr < 0 || nr > DAMON_SYSFS_PERF_EVENTS_MAX)
++		return -EINVAL;
++
++	events = container_of(kobj, struct damon_sysfs_perf_events, kobj);
++
++	if (!mutex_trylock(&damon_sysfs_lock))
++		return -EBUSY;
++	err = damon_sysfs_perf_events_add_dirs(events, nr);
++	mutex_unlock(&damon_sysfs_lock);
++	if (err)
++		return err;
++
++	return count;
++}
++
++static void damon_sysfs_perf_events_release(struct kobject *kobj)
++{
++	kfree(container_of(kobj, struct damon_sysfs_perf_events, kobj));
++}
++
++static struct kobj_attribute damon_sysfs_perf_events_nr_attr =
++		__ATTR_RW_MODE(nr_perf_events, 0600);
++
++static struct attribute *damon_sysfs_perf_events_attrs[] = {
++	&damon_sysfs_perf_events_nr_attr.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(damon_sysfs_perf_events);
++
++static const struct kobj_type damon_sysfs_perf_events_ktype = {
++	.release = damon_sysfs_perf_events_release,
++	.sysfs_ops = &kobj_sysfs_ops,
++	.default_groups = damon_sysfs_perf_events_groups,
++};
++
+ /*
   * sample directory
   */
- 
-+struct damon_sysfs_perf_events;
-+
- struct damon_sysfs_sample {
- 	struct kobject kobj;
+@@ -471,6 +985,7 @@ int damon_sysfs_sample_add_dirs(struct damon_sysfs_sample *sample)
+ {
  	struct damon_sysfs_primitives *primitives;
  	struct damon_sysfs_sample_filters *filters;
 +	struct damon_sysfs_perf_events *perf_events;
- };
+ 	int err;
  
- struct damon_sysfs_sample *damon_sysfs_sample_alloc(void);
-@@ -82,3 +85,6 @@ extern const struct kobj_type damon_sysfs_sample_ktype;
- int damon_sysfs_set_sample_control(
- 		struct damon_sample_control *control,
- 		struct damon_sysfs_sample *sysfs_sample);
+ 	primitives = damon_sysfs_primitives_alloc(true, false);
+@@ -494,7 +1009,23 @@ int damon_sysfs_sample_add_dirs(struct damon_sysfs_sample *sample)
+ 	if (err)
+ 		goto put_filters_out;
+ 	sample->filters = filters;
++
++	perf_events = damon_sysfs_perf_events_alloc();
++	if (!perf_events) {
++		err = -ENOMEM;
++		goto put_filters_out;
++	}
++	err = kobject_init_and_add(&perf_events->kobj,
++			&damon_sysfs_perf_events_ktype, &sample->kobj,
++			"perf_events");
++	if (err)
++		goto put_perf_events_out;
++	sample->perf_events = perf_events;
++
+ 	return 0;
++put_perf_events_out:
++	kobject_put(&perf_events->kobj);
++	sample->perf_events = NULL;
+ put_filters_out:
+ 	kobject_put(&filters->kobj);
+ 	sample->filters = NULL;
+@@ -512,6 +1043,10 @@ void damon_sysfs_sample_rm_dirs(struct damon_sysfs_sample *sample)
+ 		damon_sysfs_sample_filters_rm_dirs(sample->filters);
+ 		kobject_put(&sample->filters->kobj);
+ 	}
++	if (sample->perf_events) {
++		damon_sysfs_perf_events_rm_dirs(sample->perf_events);
++		kobject_put(&sample->perf_events->kobj);
++	}
+ }
+ 
+ void damon_sysfs_sample_release(struct kobject *kobj)
+@@ -596,3 +1131,47 @@ int damon_sysfs_set_sample_control(
+ 	return damon_sysfs_set_sample_filters(control,
+ 			sysfs_sample->filters);
+ }
++
++static int damon_sysfs_add_perf_event(
++		struct damon_sysfs_perf_event_attr *sys_attr,
++		struct damon_ctx *ctx)
++{
++	struct damon_perf_event *event = kzalloc(sizeof(*event), GFP_KERNEL);
++
++	if (!event)
++		return -ENOMEM;
++
++	event->attr.type = sys_attr->type;
++	event->attr.config = sys_attr->config;
++	event->attr.config1 = sys_attr->config1;
++	event->attr.config2 = sys_attr->config2;
++	event->attr.sample_phys_addr = sys_attr->sample_phys_addr;
++	event->attr.sample_weight_struct = sys_attr->sample_weight_struct;
++	event->attr.freq = sys_attr->freq;
++	event->attr.sample_freq = sys_attr->sample_freq;
++	event->attr.sample_period = sys_attr->sample_period;
++	event->attr.wakeup_events = sys_attr->wakeup_events;
++	event->attr.precise_ip = sys_attr->precise_ip;
++	event->attr.exclude_kernel = sys_attr->exclude_kernel;
++	event->attr.exclude_hv = sys_attr->exclude_hv;
++
++	list_add_tail(&event->list, &ctx->perf_events);
++	return 0;
++}
 +
 +int damon_sysfs_add_perf_events(struct damon_ctx *ctx,
-+		struct damon_sysfs_sample *sysfs_sample);
++		struct damon_sysfs_sample *sysfs_sample)
++{
++	struct damon_sysfs_perf_events *events = sysfs_sample->perf_events;
++	int i, err;
++
++	if (!events)
++		return 0;
++
++	for (i = 0; i < events->nr; i++) {
++		err = damon_sysfs_add_perf_event(events->attrs_arr[i], ctx);
++		if (err)
++			return err;
++	}
++	return 0;
++}
 -- 
 2.43.0
 
