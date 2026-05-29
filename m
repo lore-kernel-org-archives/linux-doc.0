@@ -1,131 +1,392 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047F332EDE
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F68340406;
+	Fri, 29 May 2026 08:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780041068; cv=none; b=YvFWxoPjCpPwnBySzAQIwew2Z/AGtglCsdMmGix3zn+ASkzXErHqG5b0zssuxtnCEzY88wY0gC0JekAHSKzBjWq7+PEFaOFDcz7Mi8QiEMZG28cnf/gs6v5AgWEmdHIuOu65VJ0YjI7Q8j6OMecC769nxmOV0JxR/udQa8nD1nQ=
+	t=1780042055; cv=none; b=ND4hIzHRm9aUktqKr1O+1cPCHQLSNbLZ/v+pwzS2SaE4eDFLTkBl4mfUUnEtbPttWD3Xrz4nkIXoZt9P0iIa9RnYfHgvGxIxBejVRun0Iwst7lXEqHuWhnwNAol9OBXYhUGjSM/YFSGhZTRALE2KF+Hv+DXAWkbnZ7TfdOpvfwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780041068; c=relaxed/simple;
-	bh=2/CzlDsL6M4D/2uAPuHj1XTFNWRuvfcQP2MZv8JIQOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlzaw+4yFTEjGg3Dhk/JenYTK1vcKaSz8qsNySmEzq+K6wT3Uicb3cAs8dw3ddK6u1ZOiat18lfqNSu1MaLLf5Lpy0WgtP5gtgDTTPm8MY0FTjFB/ahehzaFKcHkd+VbCnQcp85XT2MG7P/U/xGIGYkjf9u+Gd3e/F8/GorRK6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wSrzD-0003fa-7B; Fri, 29 May 2026 09:50:31 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wSrz9-0003eI-0Q;
-	Fri, 29 May 2026 09:50:27 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1wSrz9-00000005ze4-02Kd;
-	Fri, 29 May 2026 09:50:27 +0200
-Date: Fri, 29 May 2026 09:50:26 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <ahlFQkjLehH19oDa@pengutronix.de>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <20260527162516.0d012503@kernel.org>
- <b84a5fe0-a080-45fc-87d1-790402d423e4@bootlin.com>
+	s=arc-20240116; t=1780042055; c=relaxed/simple;
+	bh=vPRRXaXjoTYY9dJCQ1fK2GUOqj9LWdoMZQW4RpFc89I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VYQUEOG4+2kV20z8//LFnP2vpO2ROODta+NzJk+AqmGqjGwnAaOgu7qpqJNT84RTIwSRDEDOOzacHstBmgz7Dfd85srxKBed9G1TJhbsEp2PwLpzce7WeIOTRfk04hfpsMV2utkKGXs54wk+K9DhaDRxGjBcSSk0z8/JK0NMJo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CKY7stOc; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CKY7stOc"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 2F8201A3731;
+	Fri, 29 May 2026 08:07:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E8FC1601FA;
+	Fri, 29 May 2026 08:07:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5936C10888CCC;
+	Fri, 29 May 2026 10:07:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780042034; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=jGlRn1W5ouwjxABCkERxBzbsQlWsYNZ5t3xkrUTSUSY=;
+	b=CKY7stOcVz7q/LljMtLpxhEAP7WzWgJXglKSaenuFWf0om19acmrvNnk3PZCYYPSdBQtOH
+	VqWuH71AU/wjkGCV7drwxgZ4/NqYqHYLiwdMUg390ZugntlcUm1f+ChVI3amuuX+/Cim38
+	wJcUQgmrkHSNQqdnj/LUy4RL8twalD0U3WWsKmDr5ZpvOVcTKUFRTHixnLcoskRaeXi0VF
+	SPV31NqaGzZzKwm20sPCOykc25qYL0V5T64wc6fggVbK4p4Ubb1kb6xaYrOxMQrv7waKqt
+	qp6EzIvRFFQB2IXDBDK65Dl3AOSb+diN/+lSnEOW6UEkuHe8E/fS2+i9b4KaOA==
+Message-ID: <adb69dee-2737-46ca-a92b-aae1ea7f5989@bootlin.com>
+Date: Fri, 29 May 2026 10:07:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b84a5fe0-a080-45fc-87d1-790402d423e4@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+ <2293244a-c6a9-4642-a721-dada8a081dbc@lunn.ch>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <2293244a-c6a9-4642-a721-dada8a081dbc@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
 
-On Fri, May 29, 2026 at 09:42:14AM +0200, Maxime Chevallier wrote:
-> Hi
-> 
-> On 5/28/26 01:25, Jakub Kicinski wrote:
-> > On Wed, 27 May 2026 04:47:47 +0200 Andrew Lunn wrote:
-> > > > It'd be great to hear from others but IMHO in the current form this is
-> > > > not suitable for Documentation/networking/ We can commit the "knowledge"
-> > > > part but enumerating the test cases seems odd for Documentation/.
-> > > 
-> > > Sorry, not looked too deeply at the actual content yet.
-> > > 
-> > > What i was thinking was a python file, which sphinx can ingest to
-> > > produce documentation, and place holders were code would be added to
-> > > implement the actual test during the next phase.
-> > > 
-> > > This is how i've done testing in the past. I would be the evil one who
-> > > thought up the tests and described them in detail using sphinx markup
-> > > in a python test template file. After some review they got passed off
-> > > to a python developer for implementation. And when they got run and
-> > > failed, sometimes the feature developer, the test developer and myself
-> > > got together to figure who made the error.
-> > > 
-> > > I'm not sure we even need sphinx. What i find important is that the
-> > > test is documented. What kAPI calls should be made with what
-> > > parameters. What results we are expected and why? So that when a test
-> > > fails, a developer has the information they need to fix their
-> > > code. The Why? is important, and often missing from the kernel tests.
-> > 
-> > All makes sense. The question is primarily how we fit that into
-> > the existing project layout we have in the kernel :(
-> > 
-> > The python tests can be hacked up to print the test case docstring
-> > before the failure.
-> > 
-> > But I think for human and AI reviewer consumption it may be nice
-> > to keep the condensed knowledge / common mistakes in Documentation/
-> > If we had the ability to exercise the submissions it'd be a different
-> > story test output would be a sufficient signal and/or could be fed into
-> > the review. But for AI making a guess at whether the submitted driver is
-> > correct purely from the driver source - knowledge is useful.
-> 
-> Also for the knowledge part, we had Oleksij's series that documented
-> more aspects of flow control (not just the pause part) :
-> 
-> https://lore.kernel.org/netdev/20260304094811.2779953-1-o.rempel@pengutronix.de/
-> 
-> Oleksij, maybe we can merge some of the information here with your
-> doc for the Docuentation/networking part ?
 
-I have nothing against it. We need a documentation for proper testing
-and implementations too :)
+On 5/28/26 03:15, Andrew Lunn wrote:
+>> +A.1 : Sanity Checks
+>> +~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Pause autoneg is set to off::
+>> +
+>> +  ethtool -A <iface> autoneg off
+>> +
+>> +The 'supported' fields retrieved using the ETHTOOL_MSG_LINKMODES_GET includes
+>> +a "Pause" bit and an "Asym" bit.
+>> +
+>> +The ETHTOOL_MSG_PAUSE_GET command returns the currently configured pause modes
+>> +in the "tx" and "rx" attributes.
+> 
+> What you have left unspecified here is the state a link autoneg,
+> 
+> ethtool -s <iface> autoneg on|off
+> 
+> At minimum, it should be specified. I've not read the other tests yet,
+> but we may also want to run this basic test with both possible
+> setting.
 
-Best Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+True ! With a more formalized test description, it should be easier to
+get non-ambiguous starting conditions here.
+
+> 
+> One possible bug which we are trying to detect is that pause autoneg
+> is off, the values are forced, but -s autoneg is on, it completes, and
+> overwrites the forces values with negotiated values.
+
+I'm trying to cover that on the latter tests indeed
+
+> 
+> 
+>> +A.2 : Half-duplex operation
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Pause settings as exposed with the ethtool API only concern full-duplex modes.
+>> +
+>> +Test scenario:
+>> +--------------
+>> +
+>> +Set the interface under test in half-duplex mode with::
+>> +
+>> +  ethtool -s <iface> duplex half
+>> +
+>> +Expected behaviour::
+>> +
+>> + - ethtool <iface>
+>> +
+>> +shows no Pause settings advertised.
+> 
+> Since we are talking about advertisement of pause, i think you actually want
+> 
+> ethtool -A <iface> autoneg on
+> ethtool -s <iface> duplex half autoneg on
+> 
+> If -s autoneg is off, nothing should be advertised. So we need that
+> turned on. And if -A autoneg is off, no pause values should be
+> advertised, so you need that turned on as well.
+> 
+> Also, since we expect this to trigger an autoneg, we probably want a
+> sleep(2) in there before looking at the results, to ensure autoneg has
+> completed.
+> 
+> There is also the possibility that the link does not come up, because
+> the link peer does not support half duplex. This is quite common for
+> 1G interfaces. It could also be the local interface does not support
+> 1G half. So maybe
+> 
+> ethtool -s <iface> duplex half speed 100 autoneg on
+
+I think that
+
+   ethtool -s <iface> duplex half autoneg on
+
+should be enough, the link should still establish at 100M, I've tested
+that on a 1G/FULL 100MHalf+Full interface and this is the result we
+get :)
+
+That said I've tested the following on mcbin, and it seems that acually
+nothing in the code currently deals with Half duplex / Pause 
+interaction, and we don't get any EOPNOTSUPP.
+
+So the broader question is, should we reflect the current behaviour or
+an ideal one ?
+
+And if we reflect the current one, the canonical behaviour is probably
+the phylink one ?
+
+> 
+> Or let it first autoneg unrestricted, look at both the local and LP
+> values, and pick a half duplex link mode both support and set it to do
+> that?
+> 
+> The tests defined so far also don't cover all the possible settings of
+> -A autoneg and -s autoneg. There are combinations:
+> 
+> Link autoneg with pause autoneg
+> Link autoneg with forced pause
+> Force link, with forced pause
+> 
+> It would be good to consider what can be tested for these three. Maybe
+> nothing can be tested with forced link, because that it likely to
+> result in no link, when only the local side can be configured.
+> 
+>> +B : Combined devices testing
+>> +============================
+>> +
+>> +Requirements : The interface under test must be connected to a link-partner that
+>> +can be actively configured during the tests. It must at least support full-duplex
+>> +modes, and optionally (but ideally) symmetric and asymmetric flow-control, as
+>> +well as autonegotiation of the Pause parameters.
+> 
+> and forced link parameters.
+> 
+>> +
+>> +B.1 : Autoneg advertising
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Goal: Validate that the *advertised* Pause and AsymDir bits match the configured
+>> +pausemarams.
+> 
+> typo.
+> 
+>> +
+>> +The link-level autonegotiation must be enabled::
+>> +
+>> +  ethtool <iface> autoneg on
+>> +
+>> +Pause parameters are set with::
+>> +
+>> +  ethtool -A <iface> rx <val> tx <val> autoneg on
+>> +
+>> +Pause advertising is retrieved with::
+>> +
+>> +  ethtool <iface>
+>> +
+>> +Case 1
+>> +------
+>> +
+>> +Pause parameters : rx **off** tx **off**
+>> +
+>> +Expected advertisement : **None** (Pause = 0, AsymDir = 0)
+>> +
+>> +Case 2
+>> +------
+>> +
+>> +Pause parameters : rx **off** tx **on**
+>> +
+>> +Expected advertisement : **Transmit-only** (Pause = 0, AsymDir = 1)
+>> +
+>> +Case 3
+>> +------
+>> +
+>> +Pause parameters : rx **on** tx **off**
+>> +
+>> +Expected advertisement : **Symmetric receive-only** (Pause = 1, Asymdir = 1)
+>> +
+>> +Case 4
+>> +------
+>> +
+>> +Pause parameters : rx **on** tx **on**
+>> +
+>> +Expected advertisement : **Symmetric** (Pause = 1, Asymdir = 0)
+> 
+> We should consider here what happens when the local side only supports
+> symmetric pause. We would expect EOPNOTSUPP, or maybe EINVAL. If
+> ethtool report:
+> 
+> 	Supported pause frame use: Symmetric Receive-only
+> 
+> not getting an error for the asymmetric settings would be a bug.
+
+Ack, I think all test cases will need to account for the local device
+support
+
+> 
+>> +
+>> +B.2 : Autoneg resolution
+>> +~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Goal: Validate that the Pause and AsymDir negotiation translates to the right
+>> +TX and RX pause parameters.
+>> +
+>> +The following table, from the 802.3 standard, exposes the autoneg resolution
+>> +result for the advertised pause parameters by each link partner.
+>> +
+>> ++-------------+--------------+--------------------------+
+>> +|Local device | Link partner | Pause settings resolution|
+>> ++------+------+-------+------+-----------+--------------+
+>> +|Pause | Asym | Pause | Asym | RX        | TX	        |
+> 
+> There is a tab vs space issue here.
+> 
+> 
+>> ++======+======+=======+======+===========+==============+
+>> +| 0    | 0    | Any   | Any  | No        | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 0    | 1    | 0     | Any  | No        | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 0    | 1    | 1     | 0    | No        | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 0    | 1    | 1     | 1    | No        | Yes          |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 1    | 0    | 0     | Any  | No        | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 1    | Any  | 1     | Any  | Yes       | Yes          |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 1    | 1    | 0     | 0    | No        | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +| 1    | 1    | 0     | 1    | Yes       | No           |
+>> ++------+------+-------+------+-----------+--------------+
+>> +
+>> +The mapping between the configured pause parameters and advertised modes follow
+>> +the following truth table :
+>> +
+>> ++----+----+-------+---------+
+>> +| tx | rx | Pause | AsymDir |
+>> ++====+====+=======+=========+
+>> +| 0  | 0  | 0     | 0       |
+>> ++----+----+-------+---------+
+>> +| 0  | 1  | 1     | 1       |
+>> ++----+----+-------+---------+
+>> +| 1  | 0  | 0     | 1       |
+>> ++----+----+-------+---------+
+>> +| 1  | 1  | 1     | 0       |
+>> ++----+----+-------+---------+
+>> +
+>> +We can boil that down to the following cases to test, keeping the number small
+>> +to avoid dealing with the whole combinatory::
+> 
+> Why not do the whole set of combination? There are 16 combinations,
+> autoneg takes a little over 1 second, so we are probably talking 32
+> seconds in total. That is a reasonable runtime for a test.
+
+True, I'll describe the whole set then :)
+
+> 
+>> +Case 1
+>> +------
+>> +
+>> +Local device : rx **off**, tx **off**
+>> +Remote device : rx **on** tx **on**
+>> +
+>> +Expected result on local device after autonegotiation completes :
+>> +        rx negotiated **off**
+>> +        tx negotiated **off**
+>> +
+> 
+> ...
+> 
+>> +Case 7
+>> +------
+>> +
+>> +Local device : rx **on** tx **on**
+>> +Remote device : rx **off** tx **off**
+>> +
+>> +Expected result on local device after autonegotiation completes :
+>> +        rx negotiated **off**
+>> +        tx negotiated **off**
+>> +
+>> +Case 8
+>> +------
+>> +
+>> +Local device : rx **on** tx **on**
+>> +Remote device : rx **off** tx **on**
+>> +
+>> +Expected result on local device after autonegotiation completes :
+>> +        rx negotiated **on**
+>> +        tx negotiated **off**
+> 
+> what also needs to be considered here is:
+> 
+> What if the local side only supports symmetric pause?
+> What if the LP only supports symmetric pause?
+> 
+> The expect results should take this into account, that the
+> configuration fails, but that is not a test failure, just a hardware
+> limitation.
+> 
+>> +
+>> +B.3 : Pause Autoneg
+>> +~~~~~~~~~~~~~~~~~~~
+>> +
+>> +Goal: Validate that the Pause autonegotiation flag correctly toggles the
+>> +advertised Pause and AsymDir link parameters.
+>> +
+>> +Test scenario:
+>> +--------------
+>> +
+>> + - Enable pause autoneg and at least rx or tx pause::
+>> +
+>> +        ethtool -A <iface> rx on tx on autoneg on
+>> +
+>> + - Check the Advertised pause frame use::
+>> +
+>> +        ethtool <iface>
+>> +
+>> +        ...
+>> +        Advertised pause frame use: Symmetric Receive-only
+>> +
+>> + - Disable pause autoneg::
+>> +
+>> +        ethtool -A <iface> autoneg off
+>> +
+>> + - Check the Advertised pause frame use, which must be 'No'::
+>> +
+>> +        ethtool <iface>
+>> +
+>> +        ...
+>> +        Advertised pause frame use: No
+> 
+> Please describe configuration for both sides. This is needed for all
+> the tests when there are two devices involved.
+> 
+> Also, when local pause advertisement is turned off, check what the
+> link partner is reporting it received from its link partner.
+
+Very well, I'll add this.
+
+Thanks for the extensive feedback Andrew,
+
+Maxime
