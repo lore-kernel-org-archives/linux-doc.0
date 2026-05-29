@@ -1,34 +1,38 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCAFE3CF661;
-	Fri, 29 May 2026 09:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CC93BADA5;
+	Fri, 29 May 2026 10:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780048324; cv=none; b=ioMsJ5V4rc81JTFggo5vzaow6qTtkJhHqSgUPE7nSrOnkrgdATnijuZabJGvLCc/sb9EhT5s0fqh1KQQ3/HeMQxgWJlqD7XUVrxrbFrPvsM26lCuHaIdnpFsyJQdieOGpgqDhAf+GzZwsx2zk55yWOc2Vm5h9xdTMrB1tm58Lrs=
+	t=1780049704; cv=none; b=qZYoqefUPDniweMrtip8nofEKuYa9N3hAdi3/ndiB8v/17cANIv7O9Gcegtsc85RKhYuA6QjyGEpAluKM5ANSQFeI97Q4wY8fyS3ZO/W9Ia2BAA1Ymyxja03If2tZCF7utqo5kRQXD1CLfe80Z+LK1DgJ4x+EwQih81bxgaB6mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780048324; c=relaxed/simple;
-	bh=3Vm+nt9+NrRY2BNeT6yqN54lwtE/pTm7P8uhemvSbxw=;
+	s=arc-20240116; t=1780049704; c=relaxed/simple;
+	bh=bDwf6pJwio1K6uMUrSYHhLItA3eG/cM5Ghk00mt37aA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=daAm3p4QqSKBW/lVdpbKtE12kfjojy6yjcAPa6FtSOFMC2sBnLkVHRsAxg36VKLz8uW6hiRyKnkQEMjw9gZi7fDuw6+jCLi3zjtRKwrHyj77olM3i4TtorNXp1vM4NcbcflefA8Rg7+ERXXDh26TYFxk5JGAMqvpxfjTi8ezN6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=C7xg8XMz; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 In-Reply-To:To:Cc; b=P1z6apCHH0CmeZLqICSmRKEPbjVLzgm7P4w/0lPVcg/Ao5hjwfIY06J4SqB1Jv6KH9piBlk7lzxiflYZLN591RZ4bklV4U4rMeXJIPrxesr+AISMIMjXLdFwliNhbR6UQ/XVueJDm2UHpkGGZ7JZ96R4HVprTSwBZ0fsXNPD5rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8gFzLKA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="C7xg8XMz"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75F0532E5;
-	Fri, 29 May 2026 02:51:56 -0700 (PDT)
-Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 147B23F905;
-	Fri, 29 May 2026 02:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780048321; bh=3Vm+nt9+NrRY2BNeT6yqN54lwtE/pTm7P8uhemvSbxw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=C7xg8XMzq5zTtGfFr5s/2WYQYt+gpieTU7iOBQhmMtsGT9GXHigWk02g3JisLNZDg
-	 EfrT3vAxG+K6+BkarPyGHy2JBMBbg5gRsupN9ig5hxDK/Ef7hbUap+i/mB3/6iaxka
-	 U9nGu5xRIHxBLhx7jgQU3+80wTtca/MbrCaWAopA=
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-Date: Fri, 29 May 2026 10:50:50 +0100
-Subject: [PATCH v5 10/10] RAS: add firmware-first CPER provider
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8gFzLKA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C1DDEC2BCF7;
+	Fri, 29 May 2026 10:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780049703;
+	bh=bDwf6pJwio1K6uMUrSYHhLItA3eG/cM5Ghk00mt37aA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=W8gFzLKA95L4CVqHw5wC38Q85ks1emtVOUwIVIE37NeP5kyYM7mxg31ZHqkSUxaGG
+	 GSwsEImjxa0LOWKoxslEG0frphL1kEYwa1pZFqK5LfKgBymVjIHFnXN1f8l4Odukgz
+	 Uw7xyrB1Bbq8sZt+zsZj8mvRC97nikINDNXCdXrkfPtCiCDhxhNLWgblZeXGyqFf65
+	 MkzP3LR8+yaG5Lv+glbAG7CmwUOTh5uux/l1S9/fgj7xb3DPDUWPh8UHXn/ZozYWqm
+	 3eYa3/9uXvB3a6filF4tMSE2qEtRExXSD/eRVV5St3twblDedMeOpMTJ2/NGLtS2hz
+	 fLpIqmWPGOxxg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3C0CD5BD2;
+	Fri, 29 May 2026 10:15:03 +0000 (UTC)
+From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Date: Fri, 29 May 2026 13:15:01 +0300
+Subject: [PATCH v14 2/6] iio: adc: ad4691: add initial driver for AD4691
+ family
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,459 +40,914 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-10-2e0500d42642@arm.com>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-To: will@kernel.org, jic23@kernel.org, xueshuai@linux.alibaba.com, 
- saket.dumbre@intel.com, mchehab@kernel.org, dave@stgolabs.net, 
- djbw@kernel.org, bp@alien8.de, tony.luck@intel.com, guohanjun@huawei.com, 
- lenb@kernel.org, skhan@linuxfoundation.org, vishal.l.verma@intel.com, 
- rafael@kernel.org, corbet@lwn.net, ira.weiny@intel.com, 
- dave.jiang@intel.com, krzk+dt@kernel.org, robh@kernel.org, 
- catalin.marinas@arm.com, alison.schofield@intel.com, conor+dt@kernel.org
-Cc: Ahmed Tiba <ahmed.tiba@arm.com>, linux-arm-kernel@lists.infradead.org, 
- Michael.Zhao2@arm.com, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org, 
- Dmitry.Lamerov@arm.com, devicetree@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, 
- acpica-devel@lists.linux.dev
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780048269; l=12767;
- i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
- bh=3Vm+nt9+NrRY2BNeT6yqN54lwtE/pTm7P8uhemvSbxw=;
- b=fJuzbuh5gHAUrlcRsuZoAdSAQnVi9D2NMEtR4k8a1eCtv2+bFccnL+0PmDxls6bHh0Ns0V/Ml
- OLwy/sSySYiAqqdGcScJ/ea+VtjIxNA6sBpX7CZX6tgab7fccOmfE7q
-X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
- pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260529-ad4692-multichannel-sar-adc-driver-v14-2-e93c2747dc1f@analog.com>
+References: <20260529-ad4692-multichannel-sar-adc-driver-v14-0-e93c2747dc1f@analog.com>
+In-Reply-To: <20260529-ad4692-multichannel-sar-adc-driver-v14-0-e93c2747dc1f@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Radu Sabau <radu.sabau@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780049701; l=26406;
+ i=radu.sabau@analog.com; s=20260220; h=from:subject:message-id;
+ bh=6iOWMrGa/y2w9Oew4CkCbvcT6mq78gxkKi6FN8ZCkY4=;
+ b=8gjJlbgQTMntA6JOTAwApR9tdKBs1akUHfF7R4nZJJekk5UoUi2+Vu3dobvGQHm5zEsu7d5P3
+ 6WXQ+VxEfjXCwtY/wpVYENh1S8cOQ1JGDdlTn6npig5pE2xUNQBLWG4
+X-Developer-Key: i=radu.sabau@analog.com; a=ed25519;
+ pk=lDPQHgn9jTdt0vo58Na9lLxLaE2mb330if71Cn+EvFU=
+X-Endpoint-Received: by B4 Relay for radu.sabau@analog.com/20260220 with
+ auth_id=642
+X-Original-From: Radu Sabau <radu.sabau@analog.com>
+Reply-To: radu.sabau@analog.com
 
-Add a firmware-first CPER provider that reuses the shared
-GHES helpers, wire it into the RAS Kconfig/Makefile and
-document it in the admin guide.
+From: Radu Sabau <radu.sabau@analog.com>
 
-Update MAINTAINERS now that the driver exists.
+Add support for the Analog Devices AD4691 family of high-speed,
+low-power multichannel SAR ADCs: AD4691 (16-ch, 500 kSPS),
+AD4692 (16-ch, 1 MSPS), AD4693 (8-ch, 500 kSPS) and
+AD4694 (8-ch, 1 MSPS).
 
-Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+The driver implements a custom regmap layer over raw SPI to handle the
+device's mixed 1/2/3/4-byte register widths and uses the standard IIO
+read_raw/write_raw interface for single-channel reads.
+
+The chip idles in Autonomous Mode so that single-shot read_raw can use
+the internal oscillator without disturbing the hardware configuration.
+
+Three voltage supply domains are managed: avdd (required), vio, and a
+reference supply on either the REF pin (ref-supply, external buffer)
+or the REFIN pin (refin-supply, uses the on-chip reference buffer;
+REFBUF_EN is set accordingly). Hardware reset is performed by asserting
+then deasserting the reset-gpios GPIO line (tRESETL minimum pulse width
+is 10 ns, satisfied by function-call overhead); the driver then waits
+300 µs for the chip to complete its internal reset sequence. A software
+reset via SPI_CONFIG_A is used as fallback when no reset GPIO is
+provided.
+
+Accumulator channel masking for single-shot reads uses ACC_MASK_REG via
+an ADDR_DESCENDING SPI write, which covers both mask bytes in a single
+16-bit transfer.
+
+Reviewed-by: David Lechner <dlechner@baylibre.com>
+Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 ---
- Documentation/admin-guide/RAS/main.rst |  18 +++
- MAINTAINERS                            |   1 +
- drivers/acpi/apei/apei-internal.h      |  10 +-
- drivers/acpi/apei/ghes_cper.c          |   2 +
- drivers/ras/Kconfig                    |  11 ++
- drivers/ras/Makefile                   |   1 +
- drivers/ras/cper-esource.c             | 257 +++++++++++++++++++++++++++++++++
- include/acpi/ghes_cper.h               |  10 ++
- 8 files changed, 301 insertions(+), 9 deletions(-)
+ MAINTAINERS              |   1 +
+ drivers/iio/adc/Kconfig  |  12 +
+ drivers/iio/adc/Makefile |   1 +
+ drivers/iio/adc/ad4691.c | 783 +++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 797 insertions(+)
 
-diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-index 5a45db32c49b..84219d25a072 100644
---- a/Documentation/admin-guide/RAS/main.rst
-+++ b/Documentation/admin-guide/RAS/main.rst
-@@ -205,6 +205,24 @@ Architecture (MCA)\ [#f3]_.
- .. [#f3] For more details about the Machine Check Architecture (MCA),
-   please read Documentation/arch/x86/x86_64/machinecheck.rst at the Kernel tree.
- 
-+Firmware-first CPER providers
-+-----------------------------
-+
-+Some systems expose Common Platform Error Record (CPER) data
-+through platform firmware instead of ACPI HEST tables.
-+Enable ``CONFIG_RAS_CPER_ESOURCE`` to build the ``drivers/ras/cper-esource.c``
-+driver. The current in-tree firmware description uses the
-+``Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml`` binding.
-+The driver reuses the GHES CPER helper object in
-+``drivers/acpi/apei/ghes_cper.c`` so the logging, notifier chains, and
-+memory failure handling match the ACPI GHES behaviour even when
-+ACPI is disabled.
-+
-+Once a platform describes a firmware-first provider, both ACPI GHES and the
-+firmware-described driver reuse the same code paths. This keeps the
-+behaviour consistent regardless of whether the error source is described
-+by ACPI tables or another firmware description.
-+
- EDAC - Error Detection And Correction
- *************************************
- 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a9714603a7d..c14638cd97f6 100644
+index 7d31c38921e8..020c1ffae31b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -22265,6 +22265,7 @@ RAS ERROR STATUS
- M:	Ahmed Tiba <ahmed.tiba@arm.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-+F:	drivers/ras/cper-esource.c
+@@ -1488,6 +1488,7 @@ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
++F:	drivers/iio/adc/ad4691.c
  
- RAS INFRASTRUCTURE
- M:	Tony Luck <tony.luck@intel.com>
-diff --git a/drivers/acpi/apei/apei-internal.h b/drivers/acpi/apei/apei-internal.h
-index 77c10a7a7a9f..c16ac541f15b 100644
---- a/drivers/acpi/apei/apei-internal.h
-+++ b/drivers/acpi/apei/apei-internal.h
-@@ -8,6 +8,7 @@
- #define APEI_INTERNAL_H
+ ANALOG DEVICES INC AD4695 DRIVER
+ M:	Michael Hennerich <michael.hennerich@analog.com>
+diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+index a9dedbb8eb46..c9aca0d08e41 100644
+--- a/drivers/iio/adc/Kconfig
++++ b/drivers/iio/adc/Kconfig
+@@ -144,6 +144,18 @@ config AD4170_4
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called ad4170-4.
  
- #include <linux/acpi.h>
-+#include <acpi/ghes_cper.h>
- 
- struct apei_exec_context;
- 
-@@ -120,15 +121,6 @@ int apei_exec_collect_resources(struct apei_exec_context *ctx,
- struct dentry;
- struct dentry *apei_get_debugfs_dir(void);
- 
--static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
--{
--	if (estatus->raw_data_length)
--		return estatus->raw_data_offset + \
--			estatus->raw_data_length;
--	else
--		return sizeof(*estatus) + estatus->data_length;
--}
--
- int apei_osc_setup(void);
- 
- int einj_get_available_error_type(u32 *type, int einj_action);
-diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-index 0ff9d06eb78f..a7691aa5011c 100644
---- a/drivers/acpi/apei/ghes_cper.c
-+++ b/drivers/acpi/apei/ghes_cper.c
-@@ -46,7 +46,9 @@
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- 
-+#ifdef CONFIG_ACPI_APEI
- #include "apei-internal.h"
-+#endif
- 
- ATOMIC_NOTIFIER_HEAD(ghes_report_chain);
- 
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index fc4f4bb94a4c..3c1c63b2fefc 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -34,6 +34,17 @@ if RAS
- source "arch/x86/ras/Kconfig"
- source "drivers/ras/amd/atl/Kconfig"
- 
-+config RAS_CPER_ESOURCE
-+	bool "Firmware-first CPER error source block provider"
-+	select GHES_CPER_HELPERS
++config AD4691
++	tristate "Analog Devices AD4691 Family ADC Driver"
++	depends on SPI
++	depends on REGULATOR || COMPILE_TEST
++	select REGMAP
 +	help
-+	  Enable support for firmware-first Common Platform Error Record
-+	  (CPER) error source block providers. The current in-tree user is
-+	  described by the arm,ras-cper DeviceTree binding. The driver
-+	  reuses the existing GHES CPER helpers so the error processing
-+	  matches the ACPI code paths, but it can be built even when ACPI is
-+	  disabled.
++	  Say yes here to build support for Analog Devices AD4691 Family MuxSAR
++	  SPI analog to digital converters (ADC).
 +
- config RAS_FMPM
- 	tristate "FRU Memory Poison Manager"
- 	default m
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index 11f95d59d397..0de069557f31 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_RAS)	+= ras.o
- obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
-+obj-$(CONFIG_RAS_CPER_ESOURCE)	+= cper-esource.o
- 
- obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
- obj-y			+= amd/atl/
-diff --git a/drivers/ras/cper-esource.c b/drivers/ras/cper-esource.c
++	  To compile this driver as a module, choose M here: the module will be
++	  called ad4691.
++
+ config AD4695
+ 	tristate "Analog Device AD4695 ADC Driver"
+ 	depends on SPI
+diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+index 097357d146ba..707dd708912f 100644
+--- a/drivers/iio/adc/Makefile
++++ b/drivers/iio/adc/Makefile
+@@ -16,6 +16,7 @@ obj-$(CONFIG_AD4080) += ad4080.o
+ obj-$(CONFIG_AD4130) += ad4130.o
+ obj-$(CONFIG_AD4134) += ad4134.o
+ obj-$(CONFIG_AD4170_4) += ad4170-4.o
++obj-$(CONFIG_AD4691) += ad4691.o
+ obj-$(CONFIG_AD4695) += ad4695.o
+ obj-$(CONFIG_AD4851) += ad4851.o
+ obj-$(CONFIG_AD7091R) += ad7091r-base.o
+diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
 new file mode 100644
-index 000000000000..83f7a910e50a
+index 000000000000..e1febf80f21d
 --- /dev/null
-+++ b/drivers/ras/cper-esource.c
-@@ -0,0 +1,257 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/drivers/iio/adc/ad4691.c
+@@ -0,0 +1,783 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * Firmware-first CPER error source provider.
-+ *
-+ * This driver shares the GHES CPER helpers so we keep the reporting and
-+ * notifier behaviour identical to ACPI GHES.
-+ *
-+ * Copyright (C) 2026 ARM Ltd.
-+ * Author: Ahmed Tiba <ahmed.tiba@arm.com>
++ * Copyright (C) 2024-2026 Analog Devices, Inc.
++ * Author: Radu Sabau <radu.sabau@analog.com>
 + */
-+
-+#include <linux/bitops.h>
++#include <linux/array_size.h>
++#include <linux/bitfield.h>
++#include <linux/bitmap.h>
 +#include <linux/cleanup.h>
-+#include <linux/idr.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/mod_devicetable.h>
++#include <linux/delay.h>
++#include <linux/dev_printk.h>
++#include <linux/device/devres.h>
++#include <linux/err.h>
++#include <linux/limits.h>
++#include <linux/math.h>
 +#include <linux/module.h>
-+#include <linux/panic.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
++#include <linux/mod_devicetable.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++#include <linux/reset.h>
++#include <linux/spi/spi.h>
++#include <linux/types.h>
++#include <linux/units.h>
++#include <linux/unaligned.h>
 +
-+#include <acpi/ghes.h>
-+#include <acpi/ghes_cper.h>
++#include <linux/iio/iio.h>
 +
-+static DEFINE_IDA(cper_esource_source_ids);
++#define AD4691_VREF_uV_MIN			2400000
++#define AD4691_VREF_uV_MAX			5250000
++#define AD4691_VREF_2P5_uV_MAX			2750000
++#define AD4691_VREF_3P0_uV_MAX			3250000
++#define AD4691_VREF_3P3_uV_MAX			3750000
++#define AD4691_VREF_4P096_uV_MAX		4500000
 +
-+struct cper_esource_ack {
-+	void __iomem *addr;
-+	u64 preserve;
-+	u64 set;
-+	u8 width;
-+	bool present;
++#define AD4691_CNV_DUTY_CYCLE_NS		380
++#define AD4691_CNV_HIGH_TIME_NS			430
++
++#define AD4691_SPI_CONFIG_A_REG			0x000
++#define AD4691_SW_RESET				(BIT(7) | BIT(0))
++
++#define AD4691_STATUS_REG			0x014
++#define AD4691_CLAMP_STATUS1_REG		0x01A
++#define AD4691_CLAMP_STATUS2_REG		0x01B
++#define AD4691_DEVICE_SETUP			0x020
++#define AD4691_MANUAL_MODE			BIT(2)
++#define AD4691_LDO_EN				BIT(4)
++#define AD4691_REF_CTRL				0x021
++#define AD4691_REF_CTRL_MASK			GENMASK(4, 2)
++#define AD4691_REFBUF_EN			BIT(0)
++#define AD4691_OSC_FREQ_REG			0x023
++#define AD4691_OSC_FREQ_MASK			GENMASK(3, 0)
++#define AD4691_STD_SEQ_CONFIG			0x025
++#define AD4691_SEQ_ALL_CHANNELS_OFF		0x00
++#define AD4691_SPARE_CONTROL			0x02A
++
++#define AD4691_MAX_CHANNELS			16
++
++#define AD4691_NOOP				0x00
++#define AD4691_ADC_CHAN(ch)			((0x10 + (ch)) << 3)
++
++#define AD4691_OSC_EN_REG			0x180
++#define AD4691_STATE_RESET_REG			0x181
++#define AD4691_STATE_RESET_ALL			BIT(0)
++#define AD4691_ADC_SETUP			0x182
++#define AD4691_ADC_MODE_MASK			GENMASK(1, 0)
++#define AD4691_CNV_BURST_MODE			0x01
++#define AD4691_AUTONOMOUS_MODE			0x02
++/*
++ * ACC_MASK_REG covers both mask bytes via ADDR_DESCENDING SPI: writing a
++ * 16-bit BE value to 0x185 auto-decrements to 0x184 for the second byte.
++ */
++#define AD4691_ACC_MASK_REG			0x185
++#define AD4691_ACC_DEPTH_IN(n)			(0x186 + (n))
++#define AD4691_GPIO_MODE1_REG			0x196
++#define AD4691_GPIO_MODE2_REG			0x197
++#define AD4691_GP_MODE_MASK			GENMASK(3, 0)
++#define AD4691_GP_MODE_DATA_READY		0x06
++#define AD4691_GPIO_READ			0x1A0
++#define AD4691_ACC_STATUS_FULL1_REG		0x1B0
++#define AD4691_ACC_STATUS_FULL2_REG		0x1B1
++#define AD4691_ACC_STATUS_OVERRUN1_REG		0x1B2
++#define AD4691_ACC_STATUS_OVERRUN2_REG		0x1B3
++#define AD4691_ACC_STATUS_SAT1_REG		0x1B4
++#define AD4691_ACC_STATUS_SAT2_REG		0x1BE
++#define AD4691_ACC_SAT_OVR_REG(n)		(0x1C0 + (n))
++#define AD4691_AVG_IN(n)			(0x201 + (2 * (n)))
++#define AD4691_AVG_STS_IN(n)			(0x222 + (3 * (n)))
++#define AD4691_ACC_IN(n)			(0x252 + (3 * (n)))
++#define AD4691_ACC_STS_DATA(n)			(0x283 + (4 * (n)))
++
++
++static const char * const ad4691_supplies[] = { "avdd", "vio" };
++
++enum ad4691_ref_ctrl {
++	AD4691_VREF_2P5,
++	AD4691_VREF_3P0,
++	AD4691_VREF_3P3,
++	AD4691_VREF_4P096,
++	AD4691_VREF_5P0
 +};
 +
-+struct cper_esource {
-+	struct device *dev;
-+	void __iomem *status;
-+	size_t status_len;
-+
-+	struct cper_esource_ack ack;
-+
-+	struct acpi_hest_generic *generic;
-+	struct acpi_hest_generic_status *estatus;
-+
-+	bool sync;
-+	int irq;
-+
-+	/* Serializes access while firmware and the OS share the status buffer. */
-+	spinlock_t lock;
++struct ad4691_channel_info {
++	const struct iio_chan_spec *channels __counted_by_ptr(num_channels);
++	unsigned int num_channels;
 +};
 +
-+static void cper_esource_release_source_id(void *data)
-+{
-+	struct acpi_hest_generic *generic = data;
++struct ad4691_chip_info {
++	const char *name;
++	unsigned int max_rate;
++	const struct ad4691_channel_info *sw_info;
++};
 +
-+	ida_free(&cper_esource_source_ids, generic->header.source_id);
-+}
++#define AD4691_CHANNEL(ch)						\
++	{								\
++		.type = IIO_VOLTAGE,					\
++		.indexed = 1,						\
++		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
++		.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SCALE)	\
++				    | BIT(IIO_CHAN_INFO_SAMP_FREQ),	\
++		.info_mask_shared_by_all_available =			\
++				      BIT(IIO_CHAN_INFO_SAMP_FREQ),	\
++		.channel = ch,						\
++		.scan_type = {						\
++			.realbits = 16,					\
++		},							\
++	}
 +
-+static int cper_esource_init_pool(void)
++static const struct iio_chan_spec ad4691_channels[] = {
++	AD4691_CHANNEL(0),
++	AD4691_CHANNEL(1),
++	AD4691_CHANNEL(2),
++	AD4691_CHANNEL(3),
++	AD4691_CHANNEL(4),
++	AD4691_CHANNEL(5),
++	AD4691_CHANNEL(6),
++	AD4691_CHANNEL(7),
++	AD4691_CHANNEL(8),
++	AD4691_CHANNEL(9),
++	AD4691_CHANNEL(10),
++	AD4691_CHANNEL(11),
++	AD4691_CHANNEL(12),
++	AD4691_CHANNEL(13),
++	AD4691_CHANNEL(14),
++	AD4691_CHANNEL(15),
++};
++
++static const struct iio_chan_spec ad4693_channels[] = {
++	AD4691_CHANNEL(0),
++	AD4691_CHANNEL(1),
++	AD4691_CHANNEL(2),
++	AD4691_CHANNEL(3),
++	AD4691_CHANNEL(4),
++	AD4691_CHANNEL(5),
++	AD4691_CHANNEL(6),
++	AD4691_CHANNEL(7),
++};
++
++static const struct ad4691_channel_info ad4691_sw_info = {
++	.channels = ad4691_channels,
++	.num_channels = ARRAY_SIZE(ad4691_channels),
++};
++
++static const struct ad4691_channel_info ad4693_sw_info = {
++	.channels = ad4693_channels,
++	.num_channels = ARRAY_SIZE(ad4693_channels),
++};
++
++/*
++ * Internal oscillator frequency table. Index is the OSC_FREQ_REG[3:0] value.
++ * Index 0 (1 MHz) is only valid for AD4692/AD4694; AD4691/AD4693 support
++ * up to 500 kHz and use index 1 as their highest valid rate.
++ */
++static const int ad4691_osc_freqs_Hz[] = {
++	[0x0] = 1000000,
++	[0x1] = 500000,
++	[0x2] = 400000,
++	[0x3] = 250000,
++	[0x4] = 200000,
++	[0x5] = 167000,
++	[0x6] = 133000,
++	[0x7] = 125000,
++	[0x8] = 100000,
++	[0x9] = 50000,
++	[0xA] = 25000,
++	[0xB] = 12500,
++	[0xC] = 10000,
++	[0xD] = 5000,
++	[0xE] = 2500,
++	[0xF] = 1250,
++};
++
++static const struct ad4691_chip_info ad4691_chip_info = {
++	.name = "ad4691",
++	.max_rate = 500 * HZ_PER_KHZ,
++	.sw_info = &ad4691_sw_info,
++};
++
++static const struct ad4691_chip_info ad4692_chip_info = {
++	.name = "ad4692",
++	.max_rate = 1 * HZ_PER_MHZ,
++	.sw_info = &ad4691_sw_info,
++};
++
++static const struct ad4691_chip_info ad4693_chip_info = {
++	.name = "ad4693",
++	.max_rate = 500 * HZ_PER_KHZ,
++	.sw_info = &ad4693_sw_info,
++};
++
++static const struct ad4691_chip_info ad4694_chip_info = {
++	.name = "ad4694",
++	.max_rate = 1 * HZ_PER_MHZ,
++	.sw_info = &ad4693_sw_info,
++};
++
++struct ad4691_state {
++	const struct ad4691_chip_info *info;
++	struct regmap *regmap;
++	struct spi_device *spi;
++
++	int vref_uV;
++
++	bool refbuf_en;
++	bool ldo_en;
++	/*
++	 * Synchronize access to members of the driver state, and ensure
++	 * atomicity of consecutive SPI operations.
++	 */
++	struct mutex lock;
++};
++
++static int ad4691_reg_read(void *context, unsigned int reg, unsigned int *val)
 +{
-+	if (ghes_estatus_pool)
++	struct spi_device *spi = context;
++	u8 tx[2], rx[4];
++	int ret;
++
++	/* Set bit 15 to mark the operation as READ. */
++	put_unaligned_be16(0x8000 | reg, tx);
++
++	switch (reg) {
++	case 0 ... AD4691_OSC_FREQ_REG:
++	case AD4691_SPARE_CONTROL ... AD4691_ACC_MASK_REG - 1:
++	case AD4691_ACC_MASK_REG + 1 ... AD4691_ACC_SAT_OVR_REG(15):
++		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 1);
++		if (ret)
++			return ret;
++		*val = rx[0];
 +		return 0;
-+
-+	return ghes_estatus_pool_init(1);
-+}
-+
-+static int cper_esource_copy_status(struct cper_esource *ctx)
-+{
-+	memcpy_fromio(ctx->estatus, ctx->status, ctx->status_len);
-+	return 0;
-+}
-+
-+static void cper_esource_ack(struct cper_esource *ctx)
-+{
-+	u64 val;
-+
-+	if (!ctx->ack.present)
-+		return;
-+
-+	if (ctx->ack.width == 64) {
-+		val = readq(ctx->ack.addr);
-+		val &= ctx->ack.preserve;
-+		val |= ctx->ack.set;
-+		writeq(val, ctx->ack.addr);
-+	} else {
-+		val = readl(ctx->ack.addr);
-+		val &= (u32)ctx->ack.preserve;
-+		val |= (u32)ctx->ack.set;
-+		writel(val, ctx->ack.addr);
++	case AD4691_ACC_MASK_REG:
++	case AD4691_STD_SEQ_CONFIG:
++	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
++		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 2);
++		if (ret)
++			return ret;
++		*val = get_unaligned_be16(rx);
++		return 0;
++	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
++	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
++		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 3);
++		if (ret)
++			return ret;
++		*val = get_unaligned_be24(rx);
++		return 0;
++	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
++		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 4);
++		if (ret)
++			return ret;
++		*val = get_unaligned_be32(rx);
++		return 0;
++	default:
++		return -EINVAL;
 +	}
 +}
 +
-+static void cper_esource_fatal(struct cper_esource *ctx)
++static int ad4691_reg_write(void *context, unsigned int reg, unsigned int val)
 +{
-+	__ghes_print_estatus(KERN_EMERG, ctx->generic, ctx->estatus);
-+	add_taint(TAINT_MACHINE_CHECK, LOCKDEP_STILL_OK);
-+	panic("GHES: fatal firmware-first CPER record from %s\n",
-+	      dev_name(ctx->dev));
++	struct spi_device *spi = context;
++	u8 tx[4];
++
++	put_unaligned_be16(reg, tx);
++
++	switch (reg) {
++	case 0 ... AD4691_OSC_FREQ_REG:
++	case AD4691_SPARE_CONTROL ... AD4691_ACC_MASK_REG - 1:
++	case AD4691_ACC_MASK_REG + 1 ... AD4691_GPIO_MODE2_REG:
++		if (val > U8_MAX)
++			return -EINVAL;
++		tx[2] = val;
++		return spi_write_then_read(spi, tx, 3, NULL, 0);
++	case AD4691_ACC_MASK_REG:
++	case AD4691_STD_SEQ_CONFIG:
++		if (val > U16_MAX)
++			return -EINVAL;
++		put_unaligned_be16(val, &tx[2]);
++		return spi_write_then_read(spi, tx, 4, NULL, 0);
++	default:
++		return -EINVAL;
++	}
 +}
 +
-+static void cper_esource_process(struct cper_esource *ctx)
++static bool ad4691_volatile_reg(struct device *dev, unsigned int reg)
 +{
-+	int sev;
-+
-+	guard(spinlock_irqsave)(&ctx->lock);
-+
-+	if (cper_esource_copy_status(ctx))
-+		return;
-+
-+	sev = ghes_severity(ctx->estatus->error_severity);
-+	if (sev >= GHES_SEV_PANIC)
-+		cper_esource_fatal(ctx);
-+
-+	if (!ghes_estatus_cached(ctx->estatus) &&
-+	    ghes_print_estatus(NULL, ctx->generic, ctx->estatus))
-+		ghes_estatus_cache_add(ctx->generic, ctx->estatus);
-+
-+	ghes_cper_handle_status(ctx->dev, ctx->generic, ctx->estatus, ctx->sync);
-+	cper_esource_ack(ctx);
++	switch (reg) {
++	case AD4691_STATUS_REG:
++	case AD4691_CLAMP_STATUS1_REG:
++	case AD4691_CLAMP_STATUS2_REG:
++	case AD4691_GPIO_READ:
++	case AD4691_ACC_STATUS_FULL1_REG ... AD4691_ACC_STATUS_SAT2_REG:
++	case AD4691_ACC_SAT_OVR_REG(0) ... AD4691_ACC_SAT_OVR_REG(15):
++	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
++	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
++	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
++	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
++		return true;
++	default:
++		return false;
++	}
 +}
 +
-+static irqreturn_t cper_esource_irq(int irq, void *data)
++static bool ad4691_readable_reg(struct device *dev, unsigned int reg)
 +{
-+	struct cper_esource *ctx = data;
-+
-+	cper_esource_process(ctx);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int cper_esource_init_ack(struct platform_device *pdev,
-+				 struct cper_esource *ctx)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct resource *res;
-+	size_t size;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (!res)
-+		return 0;
-+
-+	ctx->ack.addr = devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-+	if (IS_ERR(ctx->ack.addr))
-+		return PTR_ERR(ctx->ack.addr);
-+
-+	size = resource_size(res);
-+	switch (size) {
-+	case 4:
-+		ctx->ack.width = 32;
-+		ctx->ack.preserve = ~0U;
++	switch (reg) {
++	case 0 ... AD4691_OSC_FREQ_REG:
++	case AD4691_SPARE_CONTROL ... AD4691_ACC_SAT_OVR_REG(15):
++	case AD4691_STD_SEQ_CONFIG:
++		return true;
++	default:
 +		break;
-+	case 8:
-+		ctx->ack.width = 64;
-+		ctx->ack.preserve = ~0ULL;
++	}
++
++	/*
++	 * Multi-byte result registers have non-unit strides; only the base
++	 * address of each entry is a valid single-register read.
++	 */
++	if (reg >= AD4691_AVG_IN(0) && reg <= AD4691_AVG_IN(15))
++		return (reg - AD4691_AVG_IN(0)) % 2 == 0;
++	if (reg >= AD4691_AVG_STS_IN(0) && reg <= AD4691_AVG_STS_IN(15))
++		return (reg - AD4691_AVG_STS_IN(0)) % 3 == 0;
++	if (reg >= AD4691_ACC_IN(0) && reg <= AD4691_ACC_IN(15))
++		return (reg - AD4691_ACC_IN(0)) % 3 == 0;
++	if (reg >= AD4691_ACC_STS_DATA(0) && reg <= AD4691_ACC_STS_DATA(15))
++		return (reg - AD4691_ACC_STS_DATA(0)) % 4 == 0;
++
++	return false;
++}
++
++static bool ad4691_writeable_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case 0 ... AD4691_OSC_FREQ_REG:
++	case AD4691_STD_SEQ_CONFIG:
++	case AD4691_SPARE_CONTROL ... AD4691_GPIO_MODE2_REG:
++		return true;
++	default:
++		return false;
++	}
++}
++
++static const struct regmap_config ad4691_regmap_config = {
++	.reg_bits = 16,
++	.val_bits = 32,
++	.reg_read = ad4691_reg_read,
++	.reg_write = ad4691_reg_write,
++	.volatile_reg = ad4691_volatile_reg,
++	.readable_reg = ad4691_readable_reg,
++	.writeable_reg = ad4691_writeable_reg,
++	.max_register = AD4691_ACC_STS_DATA(15),
++	.cache_type = REGCACHE_MAPLE,
++};
++
++/*
++ * Index 0 in ad4691_osc_freqs_Hz is 1 MHz — valid only for AD4692/AD4694
++ * (max_rate == 1 MHz). AD4691/AD4693 cap at 500 kHz so their valid range
++ * starts at index 1.
++ */
++static unsigned int ad4691_samp_freq_start(const struct ad4691_chip_info *info)
++{
++	return (info->max_rate == 1 * HZ_PER_MHZ) ? 0 : 1;
++}
++
++static int ad4691_get_sampling_freq(struct ad4691_state *st, int *val)
++{
++	unsigned int reg_val;
++	int ret;
++
++	guard(mutex)(&st->lock);
++
++	ret = regmap_read(st->regmap, AD4691_OSC_FREQ_REG, &reg_val);
++	if (ret)
++		return ret;
++
++	*val = ad4691_osc_freqs_Hz[FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val)];
++	return IIO_VAL_INT;
++}
++
++static int ad4691_set_sampling_freq(struct ad4691_state *st, int freq)
++{
++	unsigned int start = ad4691_samp_freq_start(st->info);
++
++	guard(mutex)(&st->lock);
++
++	for (unsigned int i = start; i < ARRAY_SIZE(ad4691_osc_freqs_Hz); i++) {
++		if (ad4691_osc_freqs_Hz[i] != freq)
++			continue;
++		return regmap_update_bits(st->regmap, AD4691_OSC_FREQ_REG,
++					  AD4691_OSC_FREQ_MASK, i);
++	}
++
++	return -EINVAL;
++}
++
++static int ad4691_read_avail(struct iio_dev *indio_dev,
++			     struct iio_chan_spec const *chan,
++			     const int **vals, int *type,
++			     int *length, long mask)
++{
++	struct ad4691_state *st = iio_priv(indio_dev);
++	unsigned int start = ad4691_samp_freq_start(st->info);
++
++	switch (mask) {
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		*vals = &ad4691_osc_freqs_Hz[start];
++		*type = IIO_VAL_INT;
++		*length = ARRAY_SIZE(ad4691_osc_freqs_Hz) - start;
++		return IIO_AVAIL_LIST;
++	default:
++		return -EINVAL;
++	}
++}
++
++static int ad4691_single_shot_read(struct iio_dev *indio_dev,
++				   struct iio_chan_spec const *chan, int *val)
++{
++	struct ad4691_state *st = iio_priv(indio_dev);
++	unsigned int reg_val, osc_idx, period_us;
++	int ret;
++
++	guard(mutex)(&st->lock);
++
++	/* Use AUTONOMOUS mode for single-shot reads. */
++	ret = regmap_write(st->regmap, AD4691_STATE_RESET_REG, AD4691_STATE_RESET_ALL);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
++			   BIT(chan->channel));
++	if (ret)
++		return ret;
++
++	ret = regmap_write(st->regmap, AD4691_ACC_MASK_REG,
++			   ~BIT(chan->channel) & GENMASK(15, 0));
++	if (ret)
++		return ret;
++
++	ret = regmap_read(st->regmap, AD4691_OSC_FREQ_REG, &reg_val);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(st->regmap, AD4691_OSC_EN_REG, 1);
++	if (ret)
++		return ret;
++
++	osc_idx = FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val);
++	/* Wait 2 oscillator periods for the conversion to complete. */
++	period_us = DIV_ROUND_UP(2UL * USEC_PER_SEC, ad4691_osc_freqs_Hz[osc_idx]);
++	fsleep(period_us);
++
++	ret = regmap_write(st->regmap, AD4691_OSC_EN_REG, 0);
++	if (ret)
++		return ret;
++
++	ret = regmap_read(st->regmap, AD4691_AVG_IN(chan->channel), &reg_val);
++	if (ret)
++		return ret;
++
++	*val = reg_val;
++
++	ret = regmap_write(st->regmap, AD4691_STATE_RESET_REG, AD4691_STATE_RESET_ALL);
++	if (ret)
++		return ret;
++
++	return IIO_VAL_INT;
++}
++
++static int ad4691_read_raw(struct iio_dev *indio_dev,
++			   struct iio_chan_spec const *chan, int *val,
++			   int *val2, long info)
++{
++	struct ad4691_state *st = iio_priv(indio_dev);
++
++	switch (info) {
++	case IIO_CHAN_INFO_RAW: {
++		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
++		if (IIO_DEV_ACQUIRE_FAILED(claim))
++			return -EBUSY;
++
++		return ad4691_single_shot_read(indio_dev, chan, val);
++	}
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		return ad4691_get_sampling_freq(st, val);
++	case IIO_CHAN_INFO_SCALE:
++		*val = st->vref_uV / (MICRO / MILLI);
++		*val2 = chan->scan_type.realbits;
++		return IIO_VAL_FRACTIONAL_LOG2;
++	default:
++		return -EINVAL;
++	}
++}
++
++static int ad4691_write_raw(struct iio_dev *indio_dev,
++			    struct iio_chan_spec const *chan,
++			    int val, int val2, long mask)
++{
++	struct ad4691_state *st = iio_priv(indio_dev);
++
++	IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
++	if (IIO_DEV_ACQUIRE_FAILED(claim))
++		return -EBUSY;
++
++	switch (mask) {
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		return ad4691_set_sampling_freq(st, val);
++	default:
++		return -EINVAL;
++	}
++}
++
++static int ad4691_reg_access(struct iio_dev *indio_dev, unsigned int reg,
++			     unsigned int writeval, unsigned int *readval)
++{
++	struct ad4691_state *st = iio_priv(indio_dev);
++
++	guard(mutex)(&st->lock);
++
++	if (readval)
++		return regmap_read(st->regmap, reg, readval);
++
++	return regmap_write(st->regmap, reg, writeval);
++}
++
++static const struct iio_info ad4691_info = {
++	.read_raw = ad4691_read_raw,
++	.write_raw = ad4691_write_raw,
++	.read_avail = ad4691_read_avail,
++	.debugfs_reg_access = ad4691_reg_access,
++};
++
++static int ad4691_regulator_setup(struct ad4691_state *st)
++{
++	struct device *dev = regmap_get_device(st->regmap);
++	int ret;
++
++	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(ad4691_supplies),
++					     ad4691_supplies);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get and enable supplies\n");
++
++	/*
++	 * vdd-supply and ldo-in-supply are mutually exclusive:
++	 *   vdd-supply present  → external 1.8V VDD; disable internal LDO.
++	 *   vdd-supply absent   → enable internal LDO fed from ldo-in-supply.
++	 * Having both simultaneously is strongly inadvisable per the datasheet.
++	 */
++	if (device_property_present(dev, "vdd-supply")) {
++		ret = devm_regulator_get_enable(dev, "vdd");
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "Failed to get and enable VDD\n");
++	} else if (device_property_present(dev, "ldo-in-supply")) {
++		ret = devm_regulator_get_enable(dev, "ldo-in");
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "Failed to get and enable LDO-IN\n");
++		st->ldo_en = true;
++	} else {
++		return dev_err_probe(dev, -EINVAL,
++				     "missing one of vdd-supply, ldo-in-supply\n");
++	}
++
++	if (device_property_present(dev, "ref-supply")) {
++		st->vref_uV = devm_regulator_get_enable_read_voltage(dev, "ref");
++		if (st->vref_uV < 0)
++			return dev_err_probe(dev, st->vref_uV,
++					     "Failed to get REF supply voltage\n");
++	} else if (device_property_present(dev, "refin-supply")) {
++		st->vref_uV = devm_regulator_get_enable_read_voltage(dev, "refin");
++		if (st->vref_uV < 0)
++			return dev_err_probe(dev, st->vref_uV,
++					     "Failed to get REFIN supply voltage\n");
++		st->refbuf_en = true;
++	} else {
++		return dev_err_probe(dev, -EINVAL,
++				     "missing one of ref-supply, refin-supply\n");
++	}
++
++	if (st->vref_uV < AD4691_VREF_uV_MIN || st->vref_uV > AD4691_VREF_uV_MAX)
++		return dev_err_probe(dev, -EINVAL,
++				     "vref(%d) must be in the range [%u...%u]\n",
++				     st->vref_uV, AD4691_VREF_uV_MIN,
++				     AD4691_VREF_uV_MAX);
++
++	return 0;
++}
++
++static int ad4691_reset(struct ad4691_state *st)
++{
++	struct device *dev = regmap_get_device(st->regmap);
++	struct reset_control *rst;
++	int ret;
++
++	rst = devm_reset_control_get_optional_exclusive(dev, NULL);
++	if (IS_ERR(rst))
++		return dev_err_probe(dev, PTR_ERR(rst), "Failed to get reset\n");
++
++	if (rst) {
++		/*
++		 * Assert the reset line to guarantee a clean reset pulse on
++		 * every probe, including driver reloads where the line may
++		 * already be deasserted (reset_control_put() does not
++		 * re-assert on release). tRESETL (minimum pulse width) = 10 ns
++		 * (Table 5); kernel function-call overhead alone exceeds this,
++		 * so no explicit delay is needed between assert and deassert.
++		 */
++		reset_control_assert(rst);
++		ret = reset_control_deassert(rst);
++		if (ret)
++			return ret;
++	} else {
++		/* No hardware reset available, fall back to software reset. */
++		ret = regmap_write(st->regmap, AD4691_SPI_CONFIG_A_REG,
++				   AD4691_SW_RESET);
++		if (ret)
++			return ret;
++	}
++
++	/*
++	 * Wait 300 µs (Table 5) for the device to complete its internal reset
++	 * sequence before accepting SPI commands.
++	 */
++	fsleep(300);
++	return 0;
++}
++
++static int ad4691_config(struct ad4691_state *st)
++{
++	struct device *dev = regmap_get_device(st->regmap);
++	enum ad4691_ref_ctrl ref_val;
++	unsigned int val;
++	int ret;
++
++	switch (st->vref_uV) {
++	case AD4691_VREF_uV_MIN ... AD4691_VREF_2P5_uV_MAX:
++		ref_val = AD4691_VREF_2P5;
++		break;
++	case AD4691_VREF_2P5_uV_MAX + 1 ... AD4691_VREF_3P0_uV_MAX:
++		ref_val = AD4691_VREF_3P0;
++		break;
++	case AD4691_VREF_3P0_uV_MAX + 1 ... AD4691_VREF_3P3_uV_MAX:
++		ref_val = AD4691_VREF_3P3;
++		break;
++	case AD4691_VREF_3P3_uV_MAX + 1 ... AD4691_VREF_4P096_uV_MAX:
++		ref_val = AD4691_VREF_4P096;
++		break;
++	case AD4691_VREF_4P096_uV_MAX + 1 ... AD4691_VREF_uV_MAX:
++		ref_val = AD4691_VREF_5P0;
 +		break;
 +	default:
 +		return dev_err_probe(dev, -EINVAL,
-+				     "unsupported ack resource size %zu\n", size);
++				     "Unsupported vref voltage: %d uV\n",
++				     st->vref_uV);
 +	}
 +
-+	ctx->ack.set = BIT_ULL(0);
-+	ctx->ack.present = true;
++	val = FIELD_PREP(AD4691_REF_CTRL_MASK, ref_val);
++	if (st->refbuf_en)
++		val |= AD4691_REFBUF_EN;
++
++	ret = regmap_write(st->regmap, AD4691_REF_CTRL, val);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to write REF_CTRL\n");
++
++	ret = regmap_assign_bits(st->regmap, AD4691_DEVICE_SETUP,
++				 AD4691_LDO_EN, st->ldo_en);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to write DEVICE_SETUP\n");
++
++	/*
++	 * Set the internal oscillator to the highest rate this chip supports.
++	 * Index 0 (1 MHz) exceeds the 500 kHz max of AD4691/AD4693, so those
++	 * chips start at index 1 (500 kHz).
++	 */
++	ret = regmap_write(st->regmap, AD4691_OSC_FREQ_REG,
++			   ad4691_samp_freq_start(st->info));
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to write OSC_FREQ\n");
++
++	ret = regmap_update_bits(st->regmap, AD4691_ADC_SETUP,
++				 AD4691_ADC_MODE_MASK, AD4691_AUTONOMOUS_MODE);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to write ADC_SETUP\n");
++
 +	return 0;
 +}
 +
-+static int cper_esource_probe(struct platform_device *pdev)
++static int ad4691_probe(struct spi_device *spi)
 +{
-+	struct device *dev = &pdev->dev;
-+	struct cper_esource *ctx;
-+	struct resource *res;
-+	int source_id;
-+	int rc;
++	struct device *dev = &spi->dev;
++	struct iio_dev *indio_dev;
++	struct ad4691_state *st;
++	int ret;
 +
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
++	if (!indio_dev)
 +		return -ENOMEM;
 +
-+	spin_lock_init(&ctx->lock);
-+	ctx->dev = dev;
-+	ctx->sync = device_property_read_bool(dev, "arm,sea-notify");
++	st = iio_priv(indio_dev);
++	st->spi = spi;
++	st->info = spi_get_device_match_data(spi);
++	if (!st->info)
++		return -ENODEV;
 +
-+	ctx->status = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(ctx->status))
-+		return dev_err_probe(dev, PTR_ERR(ctx->status),
-+				     "failed to map status region\n");
++	ret = devm_mutex_init(dev, &st->lock);
++	if (ret)
++		return ret;
 +
-+	ctx->status_len = resource_size(res);
-+	if (!ctx->status_len)
-+		return dev_err_probe(dev, -EINVAL, "status region has zero length\n");
++	st->regmap = devm_regmap_init(dev, NULL, spi, &ad4691_regmap_config);
++	if (IS_ERR(st->regmap))
++		return dev_err_probe(dev, PTR_ERR(st->regmap),
++				     "Failed to initialize regmap\n");
 +
-+	rc = cper_esource_init_ack(pdev, ctx);
-+	if (rc)
-+		return rc;
++	ret = ad4691_regulator_setup(st);
++	if (ret)
++		return ret;
 +
-+	rc = cper_esource_init_pool();
-+	if (rc)
-+		return rc;
++	ret = ad4691_reset(st);
++	if (ret)
++		return ret;
 +
-+	ctx->estatus = devm_kzalloc(dev, ctx->status_len, GFP_KERNEL);
-+	if (!ctx->estatus)
-+		return -ENOMEM;
++	ret = ad4691_config(st);
++	if (ret)
++		return ret;
 +
-+	ctx->generic = devm_kzalloc(dev, sizeof(*ctx->generic), GFP_KERNEL);
-+	if (!ctx->generic)
-+		return -ENOMEM;
++	indio_dev->name = st->info->name;
++	indio_dev->info = &ad4691_info;
++	indio_dev->modes = INDIO_DIRECT_MODE;
 +
-+	source_id = ida_alloc_min(&cper_esource_source_ids, 1, GFP_KERNEL);
-+	if (source_id < 0)
-+		return source_id;
++	indio_dev->channels = st->info->sw_info->channels;
++	indio_dev->num_channels = st->info->sw_info->num_channels;
 +
-+	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
-+	ctx->generic->header.source_id = source_id;
-+
-+	rc = devm_add_action_or_reset(dev, cper_esource_release_source_id,
-+				      ctx->generic);
-+	if (rc)
-+		return rc;
-+
-+	ctx->generic->notify.type = ctx->sync ?
-+		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
-+	ctx->generic->error_block_length = ctx->status_len;
-+
-+	ctx->irq = platform_get_irq(pdev, 0);
-+	if (ctx->irq < 0)
-+		return ctx->irq;
-+
-+	rc = devm_request_threaded_irq(dev, ctx->irq, NULL, cper_esource_irq,
-+				       IRQF_ONESHOT,
-+				       dev_name(dev), ctx);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "failed to request interrupt\n");
-+
-+	return 0;
++	return devm_iio_device_register(dev, indio_dev);
 +}
 +
-+static const struct of_device_id cper_esource_of_match[] = {
-+	{ .compatible = "arm,ras-cper" },
-+	{ /* sentinel */ }
++static const struct of_device_id ad4691_of_match[] = {
++	{ .compatible = "adi,ad4691", .data = &ad4691_chip_info },
++	{ .compatible = "adi,ad4692", .data = &ad4692_chip_info },
++	{ .compatible = "adi,ad4693", .data = &ad4693_chip_info },
++	{ .compatible = "adi,ad4694", .data = &ad4694_chip_info },
++	{ }
 +};
-+MODULE_DEVICE_TABLE(of, cper_esource_of_match);
++MODULE_DEVICE_TABLE(of, ad4691_of_match);
 +
-+static struct platform_driver cper_esource_driver = {
++static const struct spi_device_id ad4691_id[] = {
++	{ .name = "ad4691", .driver_data = (kernel_ulong_t)&ad4691_chip_info },
++	{ .name = "ad4692", .driver_data = (kernel_ulong_t)&ad4692_chip_info },
++	{ .name = "ad4693", .driver_data = (kernel_ulong_t)&ad4693_chip_info },
++	{ .name = "ad4694", .driver_data = (kernel_ulong_t)&ad4694_chip_info },
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, ad4691_id);
++
++static struct spi_driver ad4691_driver = {
 +	.driver = {
-+		.name = "cper-esource",
-+		.of_match_table = cper_esource_of_match,
++		.name = "ad4691",
++		.of_match_table = ad4691_of_match,
 +	},
-+	.probe = cper_esource_probe,
++	.probe = ad4691_probe,
++	.id_table = ad4691_id,
 +};
++module_spi_driver(ad4691_driver);
 +
-+module_platform_driver(cper_esource_driver);
-+
-+MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
-+MODULE_DESCRIPTION("Firmware-first CPER provider");
++MODULE_AUTHOR("Radu Sabau <radu.sabau@analog.com>");
++MODULE_DESCRIPTION("Analog Devices AD4691 Family ADC Driver");
 +MODULE_LICENSE("GPL");
-diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-index 511b95b50911..a78d4a773129 100644
---- a/include/acpi/ghes_cper.h
-+++ b/include/acpi/ghes_cper.h
-@@ -80,6 +80,14 @@ static inline bool is_hest_sync_notify(struct ghes *ghes)
- 	return notify_type == ACPI_HEST_NOTIFY_SEA;
- }
- 
-+static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
-+{
-+	if (estatus->raw_data_length)
-+		return estatus->raw_data_offset + estatus->raw_data_length;
-+	else
-+		return sizeof(*estatus) + estatus->data_length;
-+}
-+
- struct ghes_vendor_record_entry {
- 	struct work_struct work;
- 	int error_severity;
-@@ -108,6 +116,8 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
- int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
- void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
- 			    struct acpi_hest_generic_status *estatus);
-+int ghes_register_vendor_record_notifier(struct notifier_block *nb);
-+void ghes_unregister_vendor_record_notifier(struct notifier_block *nb);
- void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
- 				   int sev);
- int ghes_severity(int severity);
 
 -- 
 2.43.0
+
 
