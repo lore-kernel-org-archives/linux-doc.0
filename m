@@ -1,63 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A94235E943;
-	Fri, 29 May 2026 01:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D8C19067C;
+	Fri, 29 May 2026 01:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780017585; cv=none; b=hnaV91vJHGg7qYQ1nhuwZpVD68CIEj1AmyagoIi/zgtBTHVkVOPVvcUBfw7XeJqJfsKQ5xuWZUj6D+ZsjiWHjTYMGZddIJvG3cLX5W8ylDYYAiGJyW+cn/sUVSH1DVgx017ut+uKe16V6XC3TEAI0TGTiYFvkO5athC3IyeE2DE=
+	t=1780017613; cv=none; b=C0eywEwxh2COn4iDvL7y7keRw7canqj0l+d6LZ6UOFATwLcxOHWJDX56xhQW9He1k0c1qKkqFqQwadtmwyaHf1wmIQoJFVFsqPah1x55mnlvAnlxoYhhlkUJO1/nM9uv2HCmyz+JPWQ2QWj6EYn7SDpC2gYExQS0ZzT85IuWPYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780017585; c=relaxed/simple;
-	bh=QqZIPP1awhNi55+psmU3xmLHnRyV3K0pA9xXOZ+1hdQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PfInKvISplF6FUnLf9t7hRClsKi+mPMSEGV0uiEsvcERINMjzyFlwnOOe7IQl2dSurGcDuRGM0IrNu4dxbZRPg2mHilrWy6cscyazt9iMy8MGrV31+XdpSVMzbN2Cc+CX2us6lOB9X+MJ/M8YA5oOgNb79eH5tjqv4kJzfWmJ+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLzj7OCG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780017613; c=relaxed/simple;
+	bh=eCxv2XQhftM5vTggu9Ps8S9rcCz2nhE3rv2tQ0QOZQE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=J+XYWuqSNJCoCNV710Y/+oUKJYToW6Kkg290X3rWj+Gu8sA1+YLn/SwXGuPSFUF4nilZjY1UTuT1iq0lWMXYp7iHt/PKK9Siq6GneHkbHQIrc4NTvEd0du35zUHx9K+XFfNOuWFGNCK3zBqdGFPBt60owfEqtCNz7I8KPZ8IDag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwPvK2hZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLzj7OCG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AE21F000E9;
-	Fri, 29 May 2026 01:19:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwPvK2hZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 495831F000E9;
+	Fri, 29 May 2026 01:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780017581;
-	bh=Ozq/Ru3FRyhUKHioj+TdgdTtFgDpQkgRBP9R3Cod/9Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nLzj7OCGbAYQphViYclXtHITMmaEevm6G40K5z5oGF8OxchRHxEKKiPboc7ARFeiq
-	 E1aWmqls8XpEIW6+93ygxdQGIXL8Q3EjpR/7xVLB710yIvO6tcTx/KKn/wAc24xA/X
-	 aEq1Yv9XwNS5lbmC1lexYYQDitbtWDngkVPHuUYbjpsuscfMfP5YssJ60G/ZzVSFYv
-	 GMF4sAAQO96eKev9xxg6btXLcKm8b5oGv4CzFzICSsALDvTntxaScC/kNvmBua7NUz
-	 RJDFb4/OeQx7kYsv9aD/BiNTS9Ar5294YKFIq/uV+B7z4ijcE2KS6aRrt4W+WAIob2
-	 zz7a/yt8o2Xyw==
-From: SeongJae Park <sj@kernel.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: SeongJae Park <sj@kernel.org>,
-	akpm@linux-foundation.org,
-	rppt@kernel.org,
-	peterx@redhat.com,
-	david@kernel.org,
-	ljs@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	Liam.Howlett@oracle.com,
-	ziy@nvidia.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	jthoughton@google.com,
-	aarcange@redhat.com,
-	usama.arif@linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kernel-team@meta.com,
-	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: Re: [PATCH v5 09/18] mm: add MM_CP_UFFD_RWP change_protection() flag
-Date: Thu, 28 May 2026 18:19:34 -0700
-Message-ID: <20260529011935.8433-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260526130509.2748441-10-kirill@shutemov.name>
-References: 
+	s=k20260515; t=1780017612;
+	bh=vp1sp7O+SkJWYMsiMbNLWUdk9CPc3FRDPwRpVN6tDsY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=XwPvK2hZGllDTNRe92WD2Cgm1P8um5Jh98+G8gvsBVNNYNpcdo96VHE1HTTEEU7eH
+	 GMXkLYsmEPLtM/YsEQpzPlQqw0rMmBWP+N0LyyYPbf5NKlELqdtvmT4r68W143CTZF
+	 AEgX20XNfkLHn+OHt6D/Ju2v6u8BJ49a23Vr7euw5MrqCEbIcTBQcjW5FmKhAT3+rv
+	 j0J+DEhmSWlDxdWV1O3ulmx0vP352iredBos+Yv07TUy09IiyZHdUsDU1/MTHDM/21
+	 5XVQRKnjSQmF1GdxDmBs+y/WcJtXx2snfS0E5TxDt+B1PzTSStFOsqn0NKEdcfRy5D
+	 wIkZfZglLsFPw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93A1E392FFFE;
+	Fri, 29 May 2026 01:20:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,73 +37,52 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/4] docs: page_pool: tweaks and updates
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178001761613.1584301.7882255916128039608.git-patchwork-notify@kernel.org>
+Date: Fri, 29 May 2026 01:20:16 +0000
+References: <20260526155722.2790742-1-kuba@kernel.org>
+In-Reply-To: <20260526155722.2790742-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ tariqt@nvidia.com, dtatulea@nvidia.com, linux-doc@vger.kernel.org,
+ hawk@kernel.org, ilias.apalodimas@linaro.org
 
-On Tue, 26 May 2026 14:04:57 +0100 Kiryl Shutsemau <kirill@shutemov.name> wrote:
+Hello:
 
-> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 26 May 2026 08:57:18 -0700 you wrote:
+> I'm hoping to start feeding our docs into the AI review tools, instead
+> of maintaining a separate repo with review prompts. To experiment with
+> that we have to refresh the docs a little bit.
 > 
-> Preparatory patch. Add the change_protection() primitive that
-> userfaultfd RWP will use.
+> This set exclusively focuses on the page pool API. First patch is
+> a straightforward fix for information which is now out of date.
+> Second one attempts to clarify the NAPI linking requirements.
+> Third drops the dedicated section about the stats; the document
+> is primarily developer-facing and the stats should require no
+> development effort in most cases. Last but not least minor
+> API cleanup.
 > 
-> An RWP-protected PTE is PAGE_NONE with the uffd PTE bit set. The
-> PROT_NONE half makes the CPU fault on any access; the uffd bit
-> distinguishes an RWP fault from a plain mprotect(PROT_NONE) or NUMA
-> hinting fault. MM_CP_UFFD_WP and MM_CP_UFFD_RWP share the same PTE
-> bit, so the two cannot be used together on the same range.
-> 
-> Two new change_protection() flags:
-> 
->   MM_CP_UFFD_RWP            install PAGE_NONE and set the uffd bit
->   MM_CP_UFFD_RWP_RESOLVE    restore vma->vm_page_prot, clear the uffd bit
-> 
-> Both are wired through change_pte_range(), change_huge_pmd(), and
-> hugetlb_change_protection() so anon, shmem, THP, and hugetlb all
-> share the same semantics.
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Assisted-by: Claude:claude-opus-4-6
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> [...]
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
+Here is the summary with links:
+  - [net-next,1/4] docs: net: page_pool: drop reference to removed PP_FLAG_PAGE_FRAG
+    https://git.kernel.org/netdev/net-next/c/63c4530050d0
+  - [net-next,2/4] docs: clarify page pool NAPI consumer requirement
+    https://git.kernel.org/netdev/net-next/c/bbf2313cbeaf
+  - [net-next,3/4] docs: page_pool: drop the mention of the legacy stats API
+    https://git.kernel.org/netdev/net-next/c/ac0056e4f14b
+  - [net-next,4/4] net: make page_pool_get_stats() void
+    https://git.kernel.org/netdev/net-next/c/81a4d039537a
 
-> ---
->  include/linux/mm.h            |  5 ++++
->  include/linux/userfaultfd_k.h |  1 -
->  mm/huge_memory.c              | 30 +++++++++++++----------
->  mm/hugetlb.c                  | 25 ++++++++++++++-----
->  mm/mprotect.c                 | 46 +++++++++++++++++++++++++++--------
->  5 files changed, 77 insertions(+), 30 deletions(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6499cfb61dc4..f79801816f32 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3297,6 +3297,11 @@ int get_cmdline(struct task_struct *task, char *buffer, int buflen);
->  #define  MM_CP_UFFD_WP_RESOLVE             (1UL << 3) /* Resolve wp */
->  #define  MM_CP_UFFD_WP_ALL                 (MM_CP_UFFD_WP | \
->  					    MM_CP_UFFD_WP_RESOLVE)
-> +/* Whether this change is for uffd RWP */
-> +#define  MM_CP_UFFD_RWP                    (1UL << 4) /* do rwp */
-> +#define  MM_CP_UFFD_RWP_RESOLVE            (1UL << 5) /* resolve rwp */
-> +#define  MM_CP_UFFD_RWP_ALL                (MM_CP_UFFD_RWP | \
-> +					    MM_CP_UFFD_RWP_RESOLVE)
->  
->  bool can_change_pte_writable(struct vm_area_struct *vma, unsigned long addr,
->  			     pte_t pte);
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index 0aef628514df..564eb2aac321 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -361,7 +361,6 @@ static inline bool userfaultfd_huge_pmd_wp(struct vm_area_struct *vma,
->  	return false;
->  }
->  
-> -
-
-Nice cleanup.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Thanks,
-SJ
-
-[...]
