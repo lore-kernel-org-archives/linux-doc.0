@@ -1,136 +1,107 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578673F0A81
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4232E8B67;
+	Fri, 29 May 2026 14:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780066576; cv=none; b=C/UDQD6XJC1wKmfVp41prJ4CaZ020AR5czPYTkrKXg7hLLOaXFS2ljwmUzw1c6qPON64TaMu6/Ch5GJVqJdiDgK5YXLYI0SweXRbuHppSLIOQoruiCNzmUFTifS/mx9CYdKCvSU7s/GUf+bl3g10Yac0QOOwuNmTJfLEwkOnlmg=
+	t=1780066800; cv=none; b=TQfJ0QJr5gMToiRQYqee6FMdohzx2tIDI9QuwHbBOJiD/lMuBkLiLnuYUv6sS5TEtzhq3IJ089AdHC42rZh8QZ9lDJHhp67w1+05s1yFqychSnA+HV3yq5JrHrFozRWRySLdYT8X3fQGlS0t7JbomfPTtc0SpHbKF+TpXLnfrSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780066576; c=relaxed/simple;
-	bh=TGSbtZ81+gJhs54t7hRBEcQBUzBN4z2l/ycleOU4/pY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ot4+mzsZoCh4+UjLtZbXAk0wv6BedypcxE/hHDlUQKyVkhsOd/8snpYmadyWvbLn3FtLfSeJMSAZzbqEH9ppfB2MZUBTtSdx4E/V0x46gWd4hPP+A1Rw7CZExT+k9nrvf6JUjCqGnogeN2Zy4hcl6QyeTorVDRS5LpgkzFbWtQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M15wgI/w; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M15wgI/w"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4908b92904fso26222735e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1780066574; x=1780671374; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4sxBURKEIs5vdCG6YL1mHOm0YuBgobmnmOVB3aNVSj0=;
-        b=M15wgI/wsi+JAnMW01hc8DJy/2xg3Hbb7qimMrIu3Zw1qmYv6jWVI/NYZdjzrJJ42l
-         aPewwr9Yevu3TMcvyUspVWOy3ji/eqz61NxGQYOVd73gvxptJTIXyhTdEbKXc0ATNn60
-         L+eE/YYV8J0ZcLfwrlo7xwJl5DBIBfYfUvBnGkdbFW9v9bOwBHTg4fU1VJU3GHRO6Odq
-         mx8N5hhWfI3RbQAnLoeYYBnG4hOK11eKBnip4xcyauxQO9R24Kdb25UF85BIxzN4AgWo
-         21x/PVEx6Flw2wR3CnUDGtOOtDol0I2/dEEcTpiQmpGehuMuKTvsjXyUOsgPKMLoEwkl
-         6bZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780066574; x=1780671374;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4sxBURKEIs5vdCG6YL1mHOm0YuBgobmnmOVB3aNVSj0=;
-        b=EuZl83dhNjCJF0BbgQd4u5Wwzqk6W7XGFNmzTJIGJ2YD52J/MkO9icOWUN6w2USF54
-         sI/hZHO7kdkXuKo3MkjFDMyrm5BvdQ0FcIAPq8b7xhHG0rbTCjTJ3PmtvV5QRyCi/QEd
-         JctLzGhCcdx6MuGYaV8+H7+wLEVCP+oanDkH9uHgXlu5n2OU6y+N2TFHhyxzz6NrqR0Z
-         PqWDeXN9IkVTyAXeLz0a1SvAl8qqrNYBrqVVmxPEhAwONS42gXbdsA62V5ENEhHvxLUW
-         mznme932jDIXeluEpc2YCcv8UlWjAeOom4C4XMJgPFCSHi3uthYeMkPVTuA4b1R3ABqk
-         f7yQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8moVWkdXaohRJ2t/AzdvLjU4NdVl/kzodER6IV/+kjOYosSuXRR8BGsMTJuIetwiyf43M+g8+vtV0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLr8V6zICNDej4qZSHTi90fCw2Uh1UsKoXxE257NFl3ro5D6Sf
-	GzZRNrjCXxFPPc8a071GZVeroDZ7WzsjOHEtBefl0ZvRGud4LPNnbpjeyiEIrgrIYNo=
-X-Gm-Gg: Acq92OGMLTx7hhJ0YThlQik0/l7lEOq5TVsQ//hfWm2nD5UwU74OH5Td3lNhVYsUarP
-	W1d1n+OEunCmnJwH4E5v+YP8Wnm9yl+xNWSSVICTgfRfZWcnlNRChffa9Enhyq4u4QbJbt5ocmh
-	Pma88OVTk14gyMVcoziGSjvalEJAZq72hRO0iMADyVtKsx9JwNLSYOKHbhjuM8FtMzCLlNvwoKX
-	Yhji0zz/oSCCFw7E9Qqo7enonmAwzS2EmzWT+5GxeU5sq05UxHm4fjqRUvACj1uTvpG5ssTVmtv
-	YD50WKkFOCne3DHWIMOCl5d4hxZjhHcq1bqo2d/Fpya3D6WUpEX2j11oAyoHqQ5snJnkrKyaApm
-	VqNIY2atu4iZpgdmmS15eQK+JQRjAxErSsON3TkJplfKa63Yk0juWIDWVLA3fMdJWw2Lb8nOj5X
-	LupgIqsDIHA2suxKzvMejJeMTYpz3KRk7/VUGZeYxRmIGxiCHYQWOps7myxxk=
-X-Received: by 2002:a05:600c:4e55:b0:48a:9428:5522 with SMTP id 5b1f17b1804b1-4909c0a7eeemr64821725e9.16.1780066573715;
-        Fri, 29 May 2026 07:56:13 -0700 (PDT)
-Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909dff2a80sm51054325e9.3.2026.05.29.07.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:56:13 -0700 (PDT)
-Date: Fri, 29 May 2026 16:56:11 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
-	Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
-	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
-Message-ID: <ahmoDiQ8Q11xUgtV@localhost.localdomain>
-References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
- <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+	s=arc-20240116; t=1780066800; c=relaxed/simple;
+	bh=Yb5xZh+ixyrbfIrO8NYmZ70+SmcD6/eyVzBO631EP9Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jyNrkMMPS8dtBFuhBXlymp9PxyxIJZPSMyK8l1O6lkeKL05w41H/TnqLR0QgFY9nmD23Dd1AEQv25IfvyWz7dqP7CyL7dUH18XOmEXieNrPnHvQQi96HjYVon2Kme9qQtrNswUX1nzDrU4AD+1X3Bv7cxfnvQ2inbwAcplg010c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.196])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gRmbf29SMz1HChr;
+	Fri, 29 May 2026 22:54:38 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id DB0C84056C;
+	Fri, 29 May 2026 22:59:47 +0800 (CST)
+Received: from [10.204.63.22] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwBXTmrYqRlq4kwMAg--.36081S2;
+	Fri, 29 May 2026 15:59:47 +0100 (CET)
+Message-ID: <8a0c965e1c2f3eee1006c4941206d70a71e7d0f0.camel@huaweicloud.com>
+Subject: Re: [PATCH v5 12/13] ima: Return error on deleting measurements
+ already copied during kexec
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org,  dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, paul@paul-moore.com,  jmorris@namei.org,
+ serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
+	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Fri, 29 May 2026 16:59:33 +0200
+In-Reply-To: <ea886419ef3047ede1885504fad8f865cdcc5ce3.camel@linux.ibm.com>
+References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
+	 <20260429160319.4162918-13-roberto.sassu@huaweicloud.com>
+	 <ea886419ef3047ede1885504fad8f865cdcc5ce3.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rwilhpywdsxyo6sd"
-Content-Disposition: inline
-In-Reply-To: <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+X-CM-TRANSID:GxC2BwBXTmrYqRlq4kwMAg--.36081S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uF4kJrW8Ar1UZw13ZFWkJFb_yoW8GF1fpa
+	yfW3WFkr4kG34fCry0gw4DAr4Fv3yfta1DGa4kJw43A3Z5WFyvkr4Fkr1F9FWDKrZ3ta4Y
+	yw4Utry5C3WqvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFk
+	u4UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAIBGoZdzUCKgAAsX
+
+On Tue, 2026-05-26 at 10:02 -0400, Mimi Zohar wrote:
+> On Wed, 2026-04-29 at 18:03 +0200, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Refuse to delete staged or active list measurements, if a kexec racing =
+with
+> > the deletion already copied those measurements in the kexec buffer. In =
+this
+> > way, user space becomes aware that those measurements are going to appe=
+ar
+> > in the secondary kernel, and thus they don't have to be saved twice.
+>=20
+> There are two reboot notifiers: one to prevent additional measurements ex=
+tending
+> the TPM, while the other copies the measurements for kexec.  This patch p=
+revents
+> deleting the staged measurements after the latter notifier.
+>=20
+> Instead of introducing a specific method for detecting whether the measur=
+ement
+> list has been copied, rely on one of the two existing reboot notifiers. T=
+he
+> simplest method would test "ima_measurements_suspended", which would prev=
+ent
+> deleting the staged measurements a bit earlier.
+
+Testing that the reboot notifier fired (with the
+ima_measurements_suspended variable) is not enough to know whether the
+measurements dump took place or not.
+
+We need a flag (one is enough) protected by ima_extend_list_mutex, so
+that we know reliably which event occurred first, or the dump or the
+staging/delete (which are also protected by ima_extend_list_mutex).
 
 
---rwilhpywdsxyo6sd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
-MIME-Version: 1.0
+Roberto
 
-On Tue, May 19, 2026 at 11:59:01AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
-> +/**
-> + * mem_cgroup_dmem_uncharge - uncharge memcg from a dmem pool allocation
-> + * @cgrp: cgroup of the dmem pool
-> + * @nr_pages: number of pages to uncharge
-> + */
-> +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages)
-> +{
-> +	struct cgroup_subsys_state *mem_css;
-> +	struct mem_cgroup *memcg;
-> +
-> +	/* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
-> +	mem_css = cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
-> +
-> +	memcg = mem_cgroup_from_css(mem_css);
-> +	if (!memcg || mem_cgroup_is_root(memcg)) {
-> +		css_put(mem_css);
-> +		return;
-> +	}
-> +
-> +	mod_memcg_state(memcg, MEMCG_DMEM, -nr_pages);
-> +	refill_stock(memcg, nr_pages);
-
-This doesn't look right.
-Here should be memcg_uncharge().
-
-Regards,
-Michal
-
---rwilhpywdsxyo6sd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahmpBxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AjhCQEAr+BVWEm8zFPKmbprS/Y0
-DGDmEkJvmxq53yv7/M98beIA/RFe/RMHQUNUp4via8ejOQCz9uiKLY1q3PFlk5c+
-ByIA
-=eOXW
------END PGP SIGNATURE-----
-
---rwilhpywdsxyo6sd--
