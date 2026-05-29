@@ -1,180 +1,112 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEE62AF00;
-	Fri, 29 May 2026 05:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8235B21E097;
+	Fri, 29 May 2026 06:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780034329; cv=none; b=Ah4NeYZ+J4miE4zx9LJMBD7oGg9d3V1Q+ig+IZne9pqutVz1WzkqwiRzqidzkx/9HpMkWvH+ITumZhFLOFCnSaWjDGlesj6nFv9LsA160Q0cqYmqO/Qi8RJR5Bq/Dalg0HTHr7H50RObip5oFxIr+IHFB4optmokUEAtoHyQ+IY=
+	t=1780034827; cv=none; b=CMhbrdoGCWs4zwbeeK4xaMBfqujR0WEJYDfiJTTjx21a+wGxe6W4x4hO7pQpBS3LmC6RHnlfzMFodTLYAQ6pfH+phpyHf0W3DBMZsWezff0ebyOab5kxsZ0etNiyLse+zqmq5zA6TxncFQC6RYPebdHLUQmmOKhCJH/SB/U8TIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780034329; c=relaxed/simple;
-	bh=ipvgrDEKbelAty2m5S3d+Q0WZ2ojm3AKhtkdVbaItVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sh/Rs3fHCguV5o5i3AeLmeNgJMqP+kLOYrBuqodBBdDOQsu8frAaUibjIGRs9akxkMSAF80vQGANOHnG4SqskaC2nvGmDVOTp7muJfrOoMU6S+QITQnl7/rqH6IM+xkASQCgsPk5ze07QuGcABGQEfys4z9BO+17PSZfeGPPCW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=HeF7Nxg2; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1780034827; c=relaxed/simple;
+	bh=j1QJ/JmF3RS+ozhNYH5F0EegwZ0H7PPlXq/gF5R0ts8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=As11Y6PTcRrd0oV/cYilv9FgLx81MinZRqDcpUchiT0iv+wduyUJzgWUWhfbhyR83gWwdQVyDx41VD9M+ewoAg5QW9prLJON7CfMalYduyHzTcXG98W1n6woFhwuKokX5534wGxfsdzTgpWciiBZRqLg3zFpMQj2JPA+5J8+2eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=SkU6pnDJ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HeF7Nxg2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1780034326;
-	bh=ipvgrDEKbelAty2m5S3d+Q0WZ2ojm3AKhtkdVbaItVI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HeF7Nxg2ckhmJQE2iQBlzoqrZhBlxDZE6IW0gCLm9K3/RWIZtOVfqtXQYPKxVQEaT
-	 ulx+ILCiqPAk1W5Sf3Ywnsx7mX54L/xMhy1dravHEkkw7hQRpmFNJqcAXGgWVx8/Gk
-	 vagP5gIDUzgNU3jgQpBEyR+ebG4liCSdZCgbHMMs=
-Date: Fri, 29 May 2026 07:58:45 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: wang.yaxin@zte.com.cn
-Cc: akpm@linux-foundation.org, fan.yu9@zte.com.cn, yang.yang29@zte.com.cn, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	xu.xin16@zte.com.cn
-Subject: Re: [PATCH linux next] tools headers UAPI: sync linux/taskstats.h
- for procacct.c
-Message-ID: <6263830a-1559-440d-b914-8e3aff08fdaf@t-8ch.de>
-References: <20260527125034.ba695164344d2645dd055af0@linux-foundation.org>
- <20260529124410822pexFmlFsVNGRXq_DUHUmg@zte.com.cn>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="SkU6pnDJ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F4D42103;
+	Thu, 28 May 2026 23:06:59 -0700 (PDT)
+Received: from [10.164.19.8] (unknown [10.164.19.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 64EFC3F632;
+	Thu, 28 May 2026 23:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780034824; bh=j1QJ/JmF3RS+ozhNYH5F0EegwZ0H7PPlXq/gF5R0ts8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SkU6pnDJjmyiq7jNIHs/4qjwq4joS6Tv4B4sKtWqsFNbqhAWZOAr7vvM6LdOyv2pu
+	 G6IotSJ1X+DveHH0bhwTU6BC6wRX4wLL1CdEZI/7Ieq+SVSSeqEYZGJElKJAC72i3I
+	 DeY2Ugfk/8/NJ+9Tyfsn3yfkI6UhlMMozIVbzpeE=
+Message-ID: <403181bc-eab0-4f4a-b986-dab1d8c49bf3@arm.com>
+Date: Fri, 29 May 2026 11:36:53 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260529124410822pexFmlFsVNGRXq_DUHUmg@zte.com.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] selftests/mm: separate GUP microbenchmarking from
+ functional testing
+To: Sarthak Sharma <sarthak.sharma@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
+ linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260527142432.230127-1-sarthak.sharma@arm.com>
+ <20260527114752.cf4dd3e1bda93fb8ebab5a76@linux-foundation.org>
+ <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
+Content-Language: en-US
+From: Dev Jain <dev.jain@arm.com>
+In-Reply-To: <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi!
 
-On 2026-05-29 12:44:10+0800, wang.yaxin@zte.com.cn wrote:
-> >> From: Wang Yaxin <wang.yaxin@zte.com.cn>
-> >> 
-> >> Background
-> >> ==========
-> >> After commit 9b93f7e32774 ("tools/getdelays: use the static UAPI
-> >> headers from tools/include/uapi"), the Makefile was changed to use
-> >> -I../include/uapi/ instead of -I../../usr/include to ensure tools
-> >> always use the up-to-date UAPI headers.
-> >> 
-> >> However, only linux/taskstats.h was added to tools/include/uapi/ in
-> >> commit e5bbb35a07b3 ("tools headers UAPI: sync linux/taskstats.h"),
-> >> but linux/acct.h was missing.
-> >
-> >Please let's Cc the author of both of these commits!
+
+On 29/05/26 11:27 am, Sarthak Sharma wrote:
+> Hi Andrew!
 > 
-> Ok
+> On 5/28/26 12:17 AM, Andrew Morton wrote:
+>> On Wed, 27 May 2026 19:54:27 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
+>>
+>>> gup_test.c currently serves two distinct purposes: microbenchmarking
+>>> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK, PIN_LONGTERM_BENCHMARK) and
+>>> functional correctness testing (GUP_BASIC_TEST, PIN_BASIC_TEST,
+>>> DUMP_USER_PAGES_TEST). Mixing these in a single binary means functional
+>>> tests cannot be run or reported individually and run_vmtests.sh must
+>>> invoke the binary multiple times with different flag combinations to
+>>> cover all configurations.
+>>>
+>>> This patch series separates the two concerns: tools/mm/gup_bench for
+>>> benchmarking and tools/testing/selftests/mm/gup_test for functional
+>>> testing. To avoid duplicating HugeTLB and related file helpers, the
+>>> series first prepares the existing file helpers for sharing, then moves
+>>> the common helper code to tools/lib/mm/ so it can be shared by both
+>>> selftests and tools/mm.
+>>
+>> Thanks.  I'll duck this for now, see what reviewers have to say.
+>>
+>> Sashiko still has a couple of nags.  Minor stuff, arguably ignorable.
+>> 	https://sashiko.dev/#/patchset/20260527142432.230127-1-sarthak.sharma@arm.com
 > 
-> >> Problem
-> >> =======
-> >> This causes procacct.c to fail to compile with:
-> >>
-> >> procacct.c:234:37: error: 'AGROUP' undeclared (first use in this function)
-> >>
-> >> gcc -I../include/uapi/    getdelays.c   -o getdelays
-> >> gcc -I../include/uapi/    procacct.c   -o procacct
-> >> procacct.c: In function ‘print_procacct’:
-> >> procacct.c:234:37: error: ‘AGROUP’ undeclared (first use in this function)
-> >> did you mean ‘NOGROUP’?
-> >>   234 |  , t->version >= 12 ? (t->ac_flag & AGROUP ? 'P' : 'T') : '?'
-> >>       |                                     ^~~~~~
-> >>       |                                     NOGROUP
-> >> procacct.c:234:37: note: each undeclared ident
-> >>
-> >> because procacct.c uses the AGROUP macro defined in linux/acct.h.
-
-AGROUP is somewhat old. When linux/acct.h is not present in
-tools/include/uapi the system header will be used. In my case this
-symbol existed there, so I didn't see the error.
-
-> >> Solution
-> >> ========
-> >> Add the missing linux/acct.h to complete the static UAPI header set.
-
-Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
-
-> >
-> >It has always annoyed me that we do this by copying the file.  I'm
-> >surprised that there isn't a way of using the original file directly.
+> Thanks! I went through Sashiko's review.
 > 
-> Using -I../../usr/include avoids duplicate headers and relies on a
-> single original copy, but requires make headers_install. This aligns
-> with commit 9b93f7e32774 ("tools/getdelays: use the static UAPI headers
-> from tools/include/uapi").
+> Both the points are valid but look very minor to me: one is a temporary
+> x86 build issue fixed by the next patch and the other is stricter
 
-This requires the presence of a kernel build. Which is not guaranteed
-for tools/. You could put it in samples/ which is part of the regular
-kernel build and can depend on up-to-date UAPI headers.
+For the sake of bisection, we try to make patches such that each patch
+when applied one by one, does not break the build. Sashiko says that
+applying this patch breaks mm-selftests build for x86, so this needs
+to be fixed : )
 
-> Using -I../include/uapi/ keeps two separate header copies, which may
-> cause inconsistencies when one copy is updated. Can we optimize it
-> with symbolic links, or revert to the first solution?
+Although if there is no other major review comment, instead of respinning
+you could simply reply to this patch with a fix patch and Andrew can
+incorporate that : )
 
-See tools/include/uapi/README for the background of the current
-solution. I would stick with it.
+> argument validation for -F in gup_bench.
 
+> 
+> I don't feel they require a v5 on their own. Let's wait for reviewer
+> feedback. If a respin is needed then I'll fold these cleanups in as well.
+> 
 
-diff --git a/tools/include/uapi/linux/acct.h b/tools/include/uapi/linux/acct.h
-new file mode 100644
-index 000000000000..0e591152aa8a
---- /dev/null
-+++ b/tools/include/uapi/linux/acct.h
-@@ -0,0 +1,128 @@
-
-(...)
-
-+#ifndef _UAPI_LINUX_ACCT_H
-+#define _UAPI_LINUX_ACCT_H
-+
-+#include <linux/types.h>
-+
-+#include <asm/param.h>
-+#include <asm/byteorder.h>
-
-These headers do not exist in exist in tools/include/uapi/ either.
-So we need to rely on them to exist in the system UAPI headers.
-This should be fine.
-
-(...)
-
-+struct acct
-+{
-+	char		ac_flag;		/* Flags */
-+	char		ac_version;		/* Always set to ACCT_VERSION */
-+	/* for binary compatibility back until 2.0 */
-+	__u16		ac_uid16;		/* LSB of Real User ID */
-+	__u16		ac_gid16;		/* LSB of Real Group ID */
-+	__u16		ac_tty;			/* Control Terminal */
-+	/* __u32 range means times from 1970 to 2106 */
-+	__u32		ac_btime;		/* Process Creation Time */
-+	comp_t		ac_utime;		/* User Time */
-+	comp_t		ac_stime;		/* System Time */
-+	comp_t		ac_etime;		/* Elapsed Time */
-+	comp_t		ac_mem;			/* Average Memory Usage */
-+	comp_t		ac_io;			/* Chars Transferred */
-+	comp_t		ac_rw;			/* Blocks Read or Written */
-+	comp_t		ac_minflt;		/* Minor Pagefaults */
-+	comp_t		ac_majflt;		/* Major Pagefaults */
-+	comp_t		ac_swaps;		/* Number of Swaps */
-+/* m68k had no padding here. */
-+#if !defined(CONFIG_M68K) || !defined(__KERNEL__)
-+	__u16		ac_ahz;			/* AHZ */
-+#endif
-
-Pre-existing issue, unvalidated:
-This looks problematic, as on m68k userspace and kernel disagree on
-the existence of this field. This should probably use
-!defined(__m68k__).
-
-+	__u32		ac_exitcode;		/* Exitcode */
-+	char		ac_comm[ACCT_COMM + 1];	/* Command Name */
-+	__u8		ac_etime_hi;		/* Elapsed Time MSB */
-+	__u16		ac_etime_lo;		/* Elapsed Time LSB */
-+	__u32		ac_uid;			/* Real User ID */
-+	__u32		ac_gid;			/* Real Group ID */
-+};
-
-(...)
-
-
-Thomas
