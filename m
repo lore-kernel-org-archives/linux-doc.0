@@ -1,96 +1,84 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9A63BD635
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 10:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C79533A9EB;
+	Fri, 29 May 2026 10:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780050338; cv=none; b=Uq6CT3074tegpaZD+MnvgkeQOTshLpud5yza0tmTf74PoZxLTN6Gss7a6tRlKBm8mBe5kFE8OUy4QzP7P7C0nB80PIuWRvE5XHn5Exe+obzgLbFal8oXbyHQQPLK+B0QZ25pUwsFlKu31TevapYHynoKdUHRxaS/ZvfldaUbAbQ=
+	t=1780050529; cv=none; b=BRLkhqCffQiTlGaNxeuylC0IMe1SNJb0x7u7s0t5Abos9V3swHeNpWW3XQbdoYP5QGLWWf7QVC6JY2Q+9b6K0s8BLFGfcMrMQHb0mum7LN6J0eWeSKHcXMK6oW/OJJe62BnF6e/bytA+PTx0lek50U7JXiNcpGVSDOhO3jy9I+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780050338; c=relaxed/simple;
-	bh=hZdiciRf7GduXcXbVm4Vk1hA9JOZko9BRjeDEqiVcIg=;
+	s=arc-20240116; t=1780050529; c=relaxed/simple;
+	bh=gWr7pGt6rVdhsV4+G2/yO2oxTWlkexbbWGNCFFcXZS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajAdqu0Y5MtNAbS/AN0DBTKMxZOWPJoZFTlWtfUVMtsgurbXeNeurUahfsdxkppLucbp2aBCLnFh49kSYYzcrX0kv8F1WGX347HRN1qsZxDSG4bmCCm/Rj19uTfJ2seymO7imTKAXIGaND7Gq6m4MGKG8lup5LLrPV7x2TpV5X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=yKetUNKZ; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2hPkXSFqnGWklzLVuVhxRvfX/qWgMHXLcaFX9rwBeioI0vASM6DIUHTabkg0uz941AVq3r37+4s4JNg0GHQGTCyOUZZaSqqZvwGrdQgxyXsj+ArDWaUj3vMrbo3+v+tYFLFwO4LsotqN4XQGeCxqlNS/b5aWIPVa31JPZZ0EC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=QWigdeIP; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="yKetUNKZ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4905e190c71so64087955e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 03:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1780050333; x=1780655133; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JgtlNA99ibd00JHFfLFvSWZDOdItSPRT9Y5BN+K0sUE=;
-        b=yKetUNKZi6rsvq+sHOmWrCOxpx+Ieb6fNzmlo7y784P07W2nC4Hnhzihe+J6LAh5w2
-         +b4s1eD/8mcCi8blrP1pfagTSMVYKjQ9GBPGyUFmPHrQTp84oyYUgUtUG1L6PmPm3S9u
-         onE3HEOCHbQwlU9e5jVRBXqBegMPHFQYUJqyG+N4qWAimpYMZ192jddkvLCHN3LrKirr
-         lWMAaC8T5NWvVNEq+rG3GOZCzacAKAyDsdxe7Sj3T5JNxUv3eAGAfT/FVjPeaRQ5/ssc
-         V2sxWa730QSTYsvW2D9JIRsKLucHIY++4V71/jVbudL7nPEX1d9Y5qPLF6ayqA2RFBUu
-         WK6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780050333; x=1780655133;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JgtlNA99ibd00JHFfLFvSWZDOdItSPRT9Y5BN+K0sUE=;
-        b=GbKFGKKlzmvTotj+s76A8t9IWjZFu3mefubnIJYnZfyp3r+7wr2eWhqlGF3NImNY+Z
-         uHkZ3am52XxgSLNLr8wNXgbhMW+xGzIUK3VKXl4gVRb9WsApQ/TiMzFzIV57XdaX1X2n
-         TB3L0SD28efowB+YJhvh6cf3pln1qo/aMuogVS/LIHqMz6s8xRBbjJjUCFVK/j5/ib9k
-         Agkk6X4lg3r0isJPsXpXIYAC7hPSNaFqy+Rbkk98f6HFLOP7tQmVJ6dmCzPtfWrzBSOy
-         e+b900mpxVXcNckJUu8yqzGTzHvvhjfGdHtryxwmN/S0r5ZKhKM/yVaESr4AwlYOt0P1
-         GCaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8fXVgYzl6LOZNd8zjBO3he4LPZ0O0Kztawpsy9hW8WTTsitFpRpH401kfd/t3iRFFkvTArc8OpYoM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9Vkfq/cuvVgl/7O6nac2LnGXmjQqA5pn71bOrOXbMdPyxN84a
-	7TkUXXnNL6iDarMnRm8l9uQ78W32bUQTD98MBAqt5wEY/5YNVJYzCD+Wd5ngrYE/rPtCGnVjynA
-	OM9mX95iEOQ==
-X-Gm-Gg: Acq92OE1NE4zRyQklWIMjrlW4f77mmrYTFgp1s6Z1peO9j1DDQ5glHG/mTrBt8W8BTo
-	oFrN6QiBl/20k+SkLyXV9RK+JAhUiRhXV7VrFepEw3/WjUQ2up94+YeG8i2C6+eDEjJt9DrPrCv
-	i4s0KfOFgFg7uomm1L6bbBuWpJ9JNjAq0vWByw/ma8xu1fqb0P+5k5G+dc9VUlrtmucv2wUbGfE
-	owA9K14aotPuP2zvJ5mK+DlvyoWnNXwpCcfC8ztdDcxtC3u7RYZkxKgcQ24b5kZoKPUE+/w+UFj
-	mIDXDvNSpyiTIsv0GQYEqWK5Patkbw21pRHgoeuMtiohyFsNg6VjFjEmimTP0ZpEY/N/iTpDRLP
-	4RJXL0t1nQpFFp1IE6pbYwTSaQHzPu1mbNHapemN4eXZnfvoFttGI6lOGALmLJEzgArFhTu8Hfw
-	sdLC+43E4CqiMjAsmSGluboKjW6dPhrCGdK2BJ0XlGdQ==
-X-Received: by 2002:a05:600c:3f19:b0:490:9d1b:f086 with SMTP id 5b1f17b1804b1-4909d1bf171mr42154205e9.14.1780050332793;
-        Fri, 29 May 2026 03:25:32 -0700 (PDT)
-Received: from localhost ([128.77.52.126])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef3587072sm2492262f8f.34.2026.05.29.03.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 03:25:32 -0700 (PDT)
-Date: Fri, 29 May 2026 12:25:28 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Simon Horman <horms@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Christian Brauner <brauner@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Shay Drori <shayd@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next 3/3] net/mlx5: Apply devlink default eswitch
- mode during init
-Message-ID: <ahlpjJ4CCZAwqFVi@FV6GYCPJ69>
-References: <ahVPASuh4BZGOfx0@FV6GYCPJ69>
- <8c8df8da-62a9-49e8-84eb-572d54cfeb1f@nvidia.com>
- <ahWm4NXph9gdazV_@FV6GYCPJ69>
- <9aa7c295-35cb-428b-9031-13a2f507ae4b@nvidia.com>
- <ahXF2aQZNOwHdCG_@FV6GYCPJ69>
- <b9105eb7-de56-496e-998f-7c49c660b880@nvidia.com>
- <ahZ9CgIWdjny4N4D@FV6GYCPJ69>
- <b26b9866-440b-45bf-9d2f-7c4d3193c793@nvidia.com>
- <ahafaNDr0x-lzA7F@FV6GYCPJ69>
- <e4f4a6a5-9be0-462b-b4d7-8bbf57001cb4@nvidia.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="QWigdeIP"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64SLlgFJ1467756;
+	Fri, 29 May 2026 10:28:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=73ijo5CtYGwj6cMTdH7VlrUWfPogso
+	7oUWOQmYA0u5s=; b=QWigdeIPcsPtv5E7NFvr7f8irUPJpH1pO2hka3QoCavVnT
+	UeybWBbybbAkDH7xnZ2cLvVmPBUo8/d8P8rnzPpRLuv0MqMlVLA++boaRGxhMgYB
+	Px0J2BROVvd/t/efxgCqYQKu3FPU3pnuN4I9fJZdkJV9YPyFXSzJvmvwoCJdO+FJ
+	sUB4oyn5ANN/tFAx+hVm+viQ2AIEmKEOMulcfmw3VIpqJWuJD8rhplTFGyUKmfBl
+	MV0L3K7IRmRCBlJ8iJIMQndxXV815fVkCsNV0JmBSWz41B2LSHcxhQvTv30rvqYf
+	lQX/+qVBLzJFC7hC8k/gzNyZ9FgjxrJRNyHWAYhQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ee886g3k0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 May 2026 10:28:27 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64TAO95L028519;
+	Fri, 29 May 2026 10:28:26 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4edjrbd3f7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 May 2026 10:28:26 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64TASNxS52494676
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 May 2026 10:28:23 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C9C520043;
+	Fri, 29 May 2026 10:28:23 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5BD4C2004D;
+	Fri, 29 May 2026 10:28:20 +0000 (GMT)
+Received: from Amits-MacBook-Pro.local (unknown [9.123.0.51])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri, 29 May 2026 10:28:20 +0000 (GMT)
+Date: Fri, 29 May 2026 15:58:15 +0530
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: Ritesh Harjani <ritesh.list@gmail.com>
+Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Anushree Mathur <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+Subject: Re: [PATCH v3 1/5] KVM: PPC: Book3S HV: Validate arch_compat against
+ host compatibility mode
+Message-ID: <20260529141530.fc225a67-e9-amachhiw@linux.ibm.com>
+Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
+	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Vaibhav Jain <vaibhav@linux.ibm.com>, Anushree Mathur <anushree.mathur@linux.ibm.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+References: <20260522152744.55251-1-amachhiw@linux.ibm.com>
+ <20260522152744.55251-2-amachhiw@linux.ibm.com>
+ <pl2g6xbz.ritesh.list@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,339 +87,149 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e4f4a6a5-9be0-462b-b4d7-8bbf57001cb4@nvidia.com>
+In-Reply-To: <pl2g6xbz.ritesh.list@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: gVM7-xNLxCUksu8_mdoQ5tH8bxrKBAv_
+X-Authority-Analysis: v=2.4 cv=Z8Dc2nRA c=1 sm=1 tr=0 ts=6a196a4c cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
+ a=Y84buafM2nOP-rCehcwA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDEwMCBTYWx0ZWRfX0ryEmmrLboTs
+ hZjaZ7bOY3SFtgcn/DMeM94MYunsSq36yorTBcD8RYXIRpOgTR38PntB3PLAdtqLUUtrAaTVo2U
+ H34Qeoy9pfJCngb67+cD5Riywg/D8h1PKyQMl4+3MYrARUxZGtL9FsTA9GzIKluy274jKecZNtv
+ kFVuc/BSeiTVeW0i0aJVs+0xjGvXn+GZLjDaWiDvgcI/U+PSZsYaiEjW2PxA7EfCcjSRafN7Mr1
+ uYB9vHQeDCgLBZbk5aPnZEJCFCELfw2CpBfG4PYHFGRQvJS90w73WGiOaQG7Ct7CbB9vJaG6srh
+ AF54gmYgZ20uUBEf0q67AKDIu+lhNa8hdZMwOYfFVMgJB8U+dTG/rbZu+lwYxaVaowLId4wquKJ
+ jWymRF/aM3wIvRLlogHe/X4mLEYfTMnFGDz5aIl/Q3M8AN4+mLlmfe9PaN9ZJMFzwYh7mZK3tUX
+ hjQoXGOX4nr670HJkXQ==
+X-Proofpoint-ORIG-GUID: fdffp1RQRWBy5kwV0EKgxVQzGLvO9Z7k
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-29_03,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605290100
 
-Thu, May 28, 2026 at 10:15:44AM +0200, mbloch@nvidia.com wrote:
->
->
->On 27/05/2026 14:18, Jiri Pirko wrote:
->> Wed, May 27, 2026 at 09:03:26AM +0200, mbloch@nvidia.com wrote:
->>>
->>>
->>> On 27/05/2026 8:14, Jiri Pirko wrote:
->>>> Tue, May 26, 2026 at 07:13:46PM +0200, mbloch@nvidia.com wrote:
->>>>>
->>>>>
->>>>> On 26/05/2026 19:23, Jiri Pirko wrote:
->>>>>> Tue, May 26, 2026 at 05:03:57PM +0200, mbloch@nvidia.com wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 26/05/2026 17:07, Jiri Pirko wrote:
->>>>>>>> Tue, May 26, 2026 at 11:44:46AM +0200, mbloch@nvidia.com wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 26/05/2026 10:44, Jiri Pirko wrote:
->>>>>>>>>> Thu, May 21, 2026 at 09:24:34AM +0200, tariqt@nvidia.com wrote:
->>>>>>>>>>> From: Mark Bloch <mbloch@nvidia.com>
->>>>>>>>>>>
->>>>>>>>>>> Apply devlink default eswitch mode for mlx5 devices after successful
->>>>>>>>>>> device initialization while holding the devlink instance lock.
->>>>>>>>>>>
->>>>>>>>>>> At this point the devlink instance is registered and the mlx5 devlink
->>>>>>>>>>> operations are available, so the default eswitch mode can be applied to
->>>>>>>>>>> the matching PCI devlink handle.
->>>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Mark Bloch <mbloch@nvidia.com>
->>>>>>>>>>> Reviewed-by: Shay Drori <shayd@nvidia.com>
->>>>>>>>>>> Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
->>>>>>>>>>> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
->>>>>>>>>>> ---
->>>>>>>>>>> drivers/net/ethernet/mellanox/mlx5/core/main.c | 17 +++++++++++++++++
->>>>>>>>>>> 1 file changed, 17 insertions(+)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>>>> index 0c6e4efe38c8..4528097f3d84 100644
->>>>>>>>>>> --- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>>>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
->>>>>>>>>>> @@ -1391,6 +1391,21 @@ static void mlx5_unload(struct mlx5_core_dev *dev)
->>>>>>>>>>> 	mlx5_free_bfreg(dev, &dev->priv.bfreg);
->>>>>>>>>>> }
->>>>>>>>>>>
->>>>>>>>>>> +static void mlx5_devl_apply_default_esw_mode(struct mlx5_core_dev *dev)
->>>>>>>>>>> +{
->>>>>>>>>>> +	struct devlink *devlink = priv_to_devlink(dev);
->>>>>>>>>>> +	int err;
->>>>>>>>>>> +
->>>>>>>>>>> +	if (!MLX5_ESWITCH_MANAGER(dev))
->>>>>>>>>>> +		return;
->>>>>>>>>>> +
->>>>>>>>>>> +	devl_assert_locked(devlink);
->>>>>>>>>>> +	err = devl_apply_default_esw_mode(devlink);
->>>>>>>>>>> +	if (err)
->>>>>>>>>>> +		mlx5_core_warn(dev, "Couldn't apply default eswitch mode, err %d\n",
->>>>>>>>>>> +			       err);
->>>>>>>>>>> +}
->>>>>>>>>>> +
->>>>>>>>>>> int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
->>>>>>>>>>> {
->>>>>>>>>>> 	bool light_probe = mlx5_dev_is_lightweight(dev);
->>>>>>>>>>> @@ -1437,6 +1452,7 @@ int mlx5_init_one_devl_locked(struct mlx5_core_dev *dev)
->>>>>>>>>>> 		mlx5_core_err(dev, "mlx5_hwmon_dev_register failed with error code %d\n", err);
->>>>>>>>>>>
->>>>>>>>>>> 	mutex_unlock(&dev->intf_state_mutex);
->>>>>>>>>>> +	mlx5_devl_apply_default_esw_mode(dev);
->>>>>>>>>>
->>>>>>>>>> I wonder how we can make this work for all. I mean, other driver would
->>>>>>>>>> silently ignore this command like arg, right? Any idea how to make all
->>>>>>>>>> drivers follow the arg from very beginning?
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I have a follow-up series that adds the call to all drivers which support
->>>>>>>>> setting eswitch mode. When going over the other drivers, what I found is
->>>>>>>>> that the right point to apply the default is driver specific, drivers
->>>>>>>>> I have patch for:
->>>>>>>>>
->>>>>>>>> 46e16c6d9836 net: Apply devlink esw mode defaults
->>>>>>>>> ab4f54102ba9 bnxt_en: Apply devlink default eswitch mode during init
->>>>>>>>> b48cce1607bb liquidio: Apply devlink default eswitch mode during init
->>>>>>>>> 4ea54b0fe04a ice: Apply devlink default eswitch mode during init
->>>>>>>>> b7faddaa1c90 octeontx2-af: Apply devlink default eswitch mode during init
->>>>>>>>> 74b0c22c47b9 octeontx2-pf: Apply devlink default eswitch mode during init
->>>>>>>>> 5000e4c3d768 nfp: Apply devlink default eswitch mode during init
->>>>>>>>> 97a218e95e41 netdevsim: Apply devlink default eswitch mode during init
->>>>>>>>>
->>>>>>>>> I don't think doing this generically from devlink is realistic. devlink
->>>>>>>>> doesn't really know when a given driver is ready to change eswitch mode.
->>>>>>>>> Some drivers need SR-IOV state, representor setup, or other init pieces to
->>>>>>>>> be ready first, and the locking is not identical across drivers either.
->>>>>>>>
->>>>>>>>
->>>>>>>> Low hanging fruit would be just to call ops->eswitch_mode_set at the end
->>>>>>>> of register. Multiple reasons:
->>>>>>>>
->>>>>>>> 1) end of devl_register is exactly the point userspace is free to issue
->>>>>>>>    the eswitch mode set. Driver should be ready to handle it.
->>>>>>>> 2) all drivers would transparently get this functionality, without
->>>>>>>>    actually knowing this kernel command line arg ever existed, without
->>>>>>>>    odd wiring call of related exported function. I prefer that stongly.
->>>>>>>> 3) you should add a there warning for the case this arg is passed yet
->>>>>>>>    the driver does not implement eswitch_mode_set. User should
->>>>>>>>    get a feedback like this, not silent ignore.
->>>>>>>>
->>>>>>>> The only loose end is see it the void return of devl_register().
->>>>>>>> Multiple ways to handle the possibly failed eswitch_mode_set(). I would
->>>>>>>> probably just go for pr_warn, seems to be the most correct.
->>>>>>>>
->>>>>>>> Make sense?
->>>>>>>
->>>>>>> I see the point, but I don't think devl_register() (at least not the only place)
->>>>>>> is the right place.
->>>>>>>
->>>>>>> There is a small but important difference between userspace doing
->>>>>>> "devlink eswitch set" after register is done, and devlink core calling
->>>>>>> eswitch_mode_set() from inside the register flow.
->>>>>>>
->>>>>>> Some drivers call devlink_register() while holding the device lock.
->>>>>>> liquidio is one example. If devlink core calls ops->eswitch_mode_set() from
->>>>>>> there, we may start the full eswitch mode change while holding that lock.
->>>>>>> That mode change can create representors, register netdevs, take rtnl,
->>>>>>> allocate resources, etc. I don't think we want this to become an implicit
->>>>>>> side effect of devlink registration.
->>>>>>
->>>>>> I believe your AI may untagle liquidio locking :)
->>>>>
->>>>> I didn't try to solve that one with ai. Most drivers were fairly simple 
->>>>> so I didn't use ai at all. bnxt was the one where I needed a bit of help :)
->>>>>
->>>>>>
->>>>>>
->>>>>>>
->>>>>>> For mlx5, the placement after intf_state_mutex is also intentional:
->>>>>>>
->>>>>>> mutex_unlock(&dev->intf_state_mutex);
->>>>>>> mlx5_devl_apply_default_esw_mode(dev);
->>>>>>>
->>>>>>> We can't call it while holding intf_state_mutex because the mode set path
->>>>>>> takes it internally, and switchdev mode may also create IB representors.
->>>>>>>
->>>>>>> Also, devl_register() only covers the first registration. The mlx5 call in
->>>>>>> mlx5_load_one_devl_locked() is for reload/fw reset recovery kind of flows.
->>>>>>> In those flows devlink is already registered, so devl_register() is not
->>>>>>> called again, but the driver state was rebuilt and we may need to apply the
->>>>>>> default again.
->>>>>>
->>>>>> Call it from reload too, right?
->>>>>
->>>>> Yes, that was my first thought: apply it from devl_register() for the first
->>>>> registration and from devlink_reload() after a successful DRIVER_REINIT.
->>>>>
->>>>> That covers the clean devlink reload path but....(see bellow)
->>>>>
->>>>>>
->>>>>>
->>>>>>>
->>>>>>> Same for reload, fw reset and pci recovery in general. If the driver tears
->>>>>>> down and rebuilds eswitch related state, the place to apply the default is
->>>>>>> in that driver's reinit flow, not in devl_register().
->>>>>>>
->>>>>>> When I went over the other drivers, the right place was not always the same
->>>>>>> as devlink registration. I'm not an expert in any of them, so I hope I got
->>>>>>> the details right, but for example octeontx2 AF needs sr-iov and the
->>>>>>> representor switch state to be initialized first. nfp can do it after
->>>>>>> app/vNIC init while the devlink lock is already held. liquidio should do it
->>>>>>> only after dropping the PCI device lock.
->>>>>>
->>>>>> Idk, perhaps do it from devlink_post_register_work of some kind? That
->>>>>> would allow you to have the same locking ordering as a userspace cal
->>>>> l.
->>>>>
->>>>> I thought about a workqueue too, it was actually my first idea.
->>>>>
->>>>> The problem is that then we race with userspace. In the mlx5 version here the
->>>>> default is applied while the devlink lock is still held, before userspace can
->>>>> come in and issue its own eswitch set. If we defer it to post-register work,
->>>>> the devlink instance is already visible and userspace can get there first
->>>>> and then we might change the user configuration.
->>>>
->>>> Figure that out and expose to user by setting xa_mark only after the
->>>> work is done? This is doable.
->>>
->>> I agree that if devlink can keep the instance hidden/unavailable until the
->>> post register work is done, that solves the initial userspace race.
->>>
->>> The other part is the reinit/recovery case. For that I think devlink core
->>> needs some explicit indication from the driver that the device is now in
->>> reinit. Something like (at least that's the code I had initially, but something
->>> along those lines):
->>>
->>> void devl_dev_reinit_begin(struct devlink *devlink);
->>> void devl_dev_reinit_end(struct devlink *devlink);
->>> void devl_dev_reinit_abort(struct devlink *devlink);
->>>
->>> The core can then mark the instance as temporarily unavailable/in reinit
->>> between begin/end, and the relevant lookup/dump paths, for example
->>> devlink_get_from_attrs_lock() and devlink_nl_inst_iter_dumpit(), can reject
->>> or skip it while reinit is in progress. devlink_reload() can probably mark
->>> this state by itself around DRIVER_REINIT.
->> 
->> I believe this is orthogonal to the problem you are trying to solve in
->> this patchset. Not sure why you bring it in to the conversation...
->> 
->
->I brought it up because I was also thinking about reinit/recovery flows, but
->I guess I can tackle that later.
->
->For now I can focus on the generic devlink path, move drivers to register
->devlink only after the device is ready. Then devlink core can apply the default
->before exposing the instance to userspace.
->
->I think it is better to fix the ordering for all devlink drivers, not only the
->ones that support eswitch mode set. That gives us a consistent model and makes
->future defaults easier.
->
->Reload can be handled from devlink after successful DRIVER_REINIT.
->
->Does this sound ok?
+Hi Ritesh,
 
-Yes. Thanks!
+Thanks for taking a look at this patch. Please find my response inline
+below:
 
+On 2026/05/28 08:43 AM, Ritesh Harjani wrote:
+> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+> 
+> > On IBM POWER systems, newer processor generations can operate in
+> > compatibility modes corresponding to earlier generations. This becomes
+> > relevant for nested virtualization, where nested KVM guests may need to
+> > run with a specific processor compatibility level.
+> >
+> > Currently, when running a nested KVM guest (L2) inside a Power11 pSeries
+> > logical partition (L1) booted in Power10 compatibility mode, the guest
+> > fails to boot while setting 'arch_compat'. This happens because the CPU
+> > class is derived from the hardware PVR (via mfspr()), which reflects the
+> > physical processor generation (Power11), rather than the effective
+> > compatibility mode (Power10).
+> >
+> > As a result, userspace may request a Power11 arch_compat for the L2
+> > guest. However, the L1 partition, running in Power10 compatibility, has
+> > only negotiated support up to Power10 with the Power Hypervisor (L0).
+> > When H_SET_STATE is invoked with a Power11 Logical PVR, the hypervisor
+> 
+> s/H_SET_STATE/H_GUEST_SET_STATE 
 
->
->Mark
->
->> 
->>>
->>> Then mlx5 would look more or less like:
->>> 	devl_lock(devlink);
->>> 	devl_dev_reinit_begin(devlink);
->>> 	ret = mlx5_load_one_devl_locked(dev, recovery);
->>> 	if (!ret)
->>> 		devl_dev_reinit_end(devlink);
->>> 	else
->>> 		devl_dev_reinit_abort(devlink);
->>> 	devl_unlock(devlink);
->>>
->>> This gives devlink core a way to know that the devlink instance is registered,
->>> but should not be used by userspace at the moment. It also allows keeping the
->>> default/config apply logic in devlink instead of adding driver specific calls
->>> to apply it in each init path.
->>>
->>> But this still means the generic solution needs some driver help. Drivers need
->>> to register devlink at a point where the post-register default apply is safe,
->>> and full reinit paths need to be marked with this begin/end API.
->>>
->>>>
->>>>
->>>>>
->>>>> Also, the bigger issue for mlx5 is not only initial registration or devlink
->>>>> reload. Some recovery paths, pci resume, and fw reset flows rebuild the driver
->>>>> state without going through devlink at all. I did not find a clean way for
->>>>> devlink core to infer all those points by itself.
->>>>
->>>> If you don't obey current configuration for example in pci resume, it is
->>>> bug and you should fix it. All these flows should obey current eswitch
->>>> mode configuration.
->>>>
->>>
->>> I agree that the device should come back according
->>> to the intended high level policy. But I don't think full reinit can be treated
->>> as restoring the whole previous runtime state. There may be user created
->>> steering rules and other objects which the driver cannot keep or replay. Today
->>> full reinit brings the device back to a clean initialized state, and that is
->>> intentional.
->>>
->>> So the split I have in mind is:
->>>
->>> - full runtime state is not preserved across full reinit;
->>> - high level devlink policy/configuration should be applied when the device is
->>>  initialized again;
->>> - the command line default should not blindly override a later explicit
->>>  userspace eswitch mode selection.
->>>
->>> I am not against moving this into devlink core, and I am willing to work on it.
->>>
->>> But before I rework the series, I want to make sure we agree on the direction.
->>> As I see it, doing this cleanly needs a devlink state like "registered but
->>> unavailable/in reinit", plus driver annotations for the reinit paths.
->>>
->>> If this is not the direction you want, I prefer to know now rather than spend
->>> time on a version that will be rejected anyway.
->>>
->>> Mark
->>>
->>>>
->>>>>
->>>>> To handle that from devlink I would still need to add some api for the driver
->>>>> to tell devlink "I just reinitialized, apply the default now". but nce I had
->>>>> that driver call , it felt simpler and clearer to let the driver call
->>>>> the helper directly at the points where it knows eswitch mode is safe.
->>>>>
->>>>> I agree that handling all of this inside devlink would be the better option.
->>>>> I just couldn't make it work in a clean way.
->>>>>
->>>>> Mark
->>>>>
->>>>>>
->>>>>>>
->>>>>>> Mark
->>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>>>
->>>>>>>>> Also, since this knob is only about eswitch mode, I don't think we need to
->>>>>>>>> touch every devlink driver. Drivers that don't implement eswitch_mode_set()
->>>>>>>>> would just ignore it anyway. The follow-up only wires the default into
->>>>>>>>> drivers that actually support changing eswitch mode.
->>>>>>>>>
->>>>>>>>> Mark
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>>> 	return 0;
->>>>>>>>>>>
->>>>>>>>>>> err_register:
->>>>>>>>>>> @@ -1538,6 +1554,7 @@ int mlx5_load_one_devl_locked(struct mlx5_core_dev *dev, bool recovery)
->>>>>>>>>>> 		goto err_attach;
->>>>>>>>>>>
->>>>>>>>>>> 	mutex_unlock(&dev->intf_state_mutex);
->>>>>>>>>>> +	mlx5_devl_apply_default_esw_mode(dev);
->>>>>>>>>>> 	return 0;
->>>>>>>>>>>
->>>>>>>>>>> err_attach:
->>>>>>>>>>> -- 
->>>>>>>>>>> 2.44.0
->>>>>>>>>>>
->>>>>>>>>
->>>>>>>
->>>>>
->>>
->
+Good catch! I'll fix this in the next version.
+
+> 
+> > rejects the request, leading to a late guest boot failure:
+> >
+> >   KVM-NESTEDv2: couldn't set guest wide elements
+> >   [..KVM reg dump..]
+> >
+> 
+> I think irrespective of the other UAPI changes, we should still get this
+> fixed - so that we don't see a late KVM guest boot failure msgs.
+> 
+> So, in this review, I would like to mainly look at fixing this issue
+> first and would request if we can defer the UAPI changes as a separate
+> patch series please.
+
+This patch only enables the guest boot to bail out early instead of going upto
+making an H_GUEST_SET_STATE hcall with a non supported compatibility mode. In
+addition to that, it does not fix the real problem where guest fails to boot on
+Power11 LPAR booted in a Power10 compatibility mode.
+
+I understand your point and to make the segregation explicitly clear, I shall
+update the cover letter to mention that patch 1 only takes care of failing
+earlier as soon as an invalid compatibility mode is detected and Patch 2-5
+introduce a new uAPI for evaluating the right compatibility mode.
+
+The actual L2 guest boot fix with L1 booted in a compatibility mode is done via
+the next 4 patches which enables correct compatibility mode detection using the
+newly introduced uAPI. So, we would still want to prioritize the whole series
+instead of just this one patch.
+
+> 
+> 
+> > This situation should be detected earlier. Rejecting unsupported
+> > 'arch_compat' values in 'kvmppc_set_arch_compat()' avoids issuing an
+> > invalid H_SET_STATE hcall and provides a clearer failure mode.
+> 
+> s/H_SET_STATE/H_GUEST_SET_STATE
+
+Will rectify in the next version.
+
+> 
+> >
+> > Add a check to reject Power11 'arch_compat' requests when the host is
+> > running in Power10 compatibility mode, returning -EINVAL early instead
+> > of deferring the failure to the hypervisor.
+> >
+> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> > Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
+> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
+> > ---
+> >  arch/powerpc/kvm/book3s_hv.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> > index 61dbeea317f3..249d1f2e4e2c 100644
+> > --- a/arch/powerpc/kvm/book3s_hv.c
+> > +++ b/arch/powerpc/kvm/book3s_hv.c
+> > @@ -446,7 +446,19 @@ static int kvmppc_set_arch_compat(struct kvm_vcpu *vcpu, u32 arch_compat)
+> >  			guest_pcr_bit = PCR_ARCH_300;
+> >  			break;
+> >  		case PVR_ARCH_31:
+> > +			guest_pcr_bit = PCR_ARCH_31;
+> > +			break;
+> >  		case PVR_ARCH_31_P11:
+> > +			/*
+> > +			 * Need to check this for ISA 3.1, as Power10 and
+> > +			 * Power11 share the same PCR. For any subsequent ISA
+> > +			 * versions, this will be taken care of by the guest vs
+> > +			 * host PCR comparison below.
+> > +			 */
+> > +			if ((PVR_ARCH_31 & cur_cpu_spec->pvr_mask) ==
+> > +				cur_cpu_spec->pvr_value) {
+> > +				return -EINVAL;
+> > +			}
+> 
+> Instead of the complicated check can we simply do this?
+> 			if (!cpu_has_feature(CPU_FTR_P11_PVR))
+> 				return -EINVAL;
+
+Sure, I can base this check on CPU features.
+
+Thanks,
+Amit
+
+> 
+> which means that if the Qemu is trying to set the arch_compat with P11
+> PVR (arch_compat) and if the host cpu FTR doesn't support P11 PVR, then
+> simply return -EINVAL
+> 
+> -ritesh
+> 
