@@ -1,81 +1,79 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8523D3CEF
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578673F0A81
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780066344; cv=none; b=Tjg/CmQhp4M2vQcZQITtXBa7DMOvoichppJwhfscvg9Au4vQpLLVab73Y4nQyMe2r1AJPv22vYDGspBwpX2AfnDO6FWl6GONDYuNGvKuOODKEAse1UOt+qoV1P+kaHAHV34laZm2enKYdRN5m+YsNlVkifhkhgr54Q1fkvOGI7M=
+	t=1780066576; cv=none; b=C/UDQD6XJC1wKmfVp41prJ4CaZ020AR5czPYTkrKXg7hLLOaXFS2ljwmUzw1c6qPON64TaMu6/Ch5GJVqJdiDgK5YXLYI0SweXRbuHppSLIOQoruiCNzmUFTifS/mx9CYdKCvSU7s/GUf+bl3g10Yac0QOOwuNmTJfLEwkOnlmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780066344; c=relaxed/simple;
-	bh=pCZ3fEPjMOOKoFCjZxoSxM67ExDXIpbafDhQNDMrHi8=;
+	s=arc-20240116; t=1780066576; c=relaxed/simple;
+	bh=TGSbtZ81+gJhs54t7hRBEcQBUzBN4z2l/ycleOU4/pY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2Isteg/Hg7KpqpN4x4BNB9hCiRo8N1cpRx/0PtOa6MiM9sGSWZwfv05sNmF8GrguJd8fgrfFvJDMW3Tt2FO9CjgvMuvMzoZF6ZfiDmmX9oyy6uc/9rQgu2yF4pL80TSEwBshGUgbA4CMOIIBYRY77ZbXjMybT2xkOKK0GkdUeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=c8wev59v; arc=none smtp.client-ip=209.85.128.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ot4+mzsZoCh4+UjLtZbXAk0wv6BedypcxE/hHDlUQKyVkhsOd/8snpYmadyWvbLn3FtLfSeJMSAZzbqEH9ppfB2MZUBTtSdx4E/V0x46gWd4hPP+A1Rw7CZExT+k9nrvf6JUjCqGnogeN2Zy4hcl6QyeTorVDRS5LpgkzFbWtQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M15wgI/w; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="c8wev59v"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49050ff7cbdso66133685e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M15wgI/w"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4908b92904fso26222735e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1780066340; x=1780671140; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1780066574; x=1780671374; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmSOuhBgxBhu7Is1B1Rw2/yoQpGrUuGnNNhQRjRyvrQ=;
-        b=c8wev59vAWhLrSqSBoZ0Ikjbpnq76hJ7OtUmYXGqZuFonXJ7nRg2v8NenCSlkf32FZ
-         DDNGpfjRu55N0ypfEKZGH2cLSEoWDFa9B3JcYeoYgMMx5fM1nZxwz0XlMK+k0V63PGXD
-         /O7ACiiP5JmQ+bfSaoGKXaPp2zXfwk7EnfeR8y5bK+BpfIKM3nIwLEN+9t9sGOFwb0sN
-         bRN99enezj6SCJkgKT3wvMAhBLpTLhn1bANhU0Hgn7osFM5B7aiHd/9TubC8/Z2kfQLR
-         XQlwmQHWrtxPpfWS72Iwoia3+D3jtQrEGY+rrBI6lzvgfuw9AXICaZTKNwQnZIac9tIr
-         nocQ==
+        bh=4sxBURKEIs5vdCG6YL1mHOm0YuBgobmnmOVB3aNVSj0=;
+        b=M15wgI/wsi+JAnMW01hc8DJy/2xg3Hbb7qimMrIu3Zw1qmYv6jWVI/NYZdjzrJJ42l
+         aPewwr9Yevu3TMcvyUspVWOy3ji/eqz61NxGQYOVd73gvxptJTIXyhTdEbKXc0ATNn60
+         L+eE/YYV8J0ZcLfwrlo7xwJl5DBIBfYfUvBnGkdbFW9v9bOwBHTg4fU1VJU3GHRO6Odq
+         mx8N5hhWfI3RbQAnLoeYYBnG4hOK11eKBnip4xcyauxQO9R24Kdb25UF85BIxzN4AgWo
+         21x/PVEx6Flw2wR3CnUDGtOOtDol0I2/dEEcTpiQmpGehuMuKTvsjXyUOsgPKMLoEwkl
+         6bZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780066340; x=1780671140;
+        d=1e100.net; s=20251104; t=1780066574; x=1780671374;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pmSOuhBgxBhu7Is1B1Rw2/yoQpGrUuGnNNhQRjRyvrQ=;
-        b=K122+KtME6fln0UlN2vT8tJ8VU2m63XRkZO/CrH6GhbXfwEe70LMuC0Us+Z5pj7Lph
-         5ycFcZlKrzph8zEjVRSbIeI4DrBxdayEI4odxnKeZ0XaQ9hIVtZZznNlMDEBqnm7deCR
-         ZmttowlzN/Q9WxLihBOkVA2wd3YRn8+wOrOPgfP9AqgelMn2pOgC4aYu+3wlpSTHNSLQ
-         bVd6nYLkeTzqmfSJMkCrQfatb5eb1PSYmzzajvOYgJ2zK605cPnP27BQJA2mwhXeBnqK
-         /GEBmzUu//xT+K8ublRvck4qPeYBBXC12rE5ZcvrBbKhEshknKTNHd1IF9tssSdKs0G4
-         5YzQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9nVAabEQTMTpbSABx4e/OPRqa7EhLRbp0lHIAvgiA6mlYpr2B92idhecBa0JX1OQhv8/ARQQZ/8G4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1tqelbQh1wTlEXIxAWONq02Q1gNyJU5mTbZQ0YQS8UIzs13ku
-	gSoDgx4fKUTUau+Wgh0t+1MugDMpulCelo3gXQZacNcYCDc9dR5lFCg1hqDdTvIe1gw=
-X-Gm-Gg: Acq92OEPgk7yTCfwgw/Cp0kKBUA37vnk7aY/+5gK86pXC2dru4Lb8cFoyiJmg2l3Rgr
-	rx9YWGpaXeHXZsxTGICFRlvlCPK3duazWjKnkoE21ezdNRnAtjxj9kbAZeaH1ojdECddf7HmkKJ
-	g/FuA52rfeQUg7f8VQR4nQ5AqyNWmKUu3UCb9d8P+VPN/7FtY2ZIQBP4UsQjCmvUPnzzH3RfZyi
-	Q+kHd2SA8WsVvupxCEBHeN0zl120UGbK2cgg7A4EY325nTA3s2CMq4bHYsoEYnjKHuu2nHKcoI9
-	EQ44MKjBhVJCJnMg4oXizU415EXTmgTdYdIcUBwC8TC07QtQy1OJpsziHWgPE1P2a5nZJDx4RZJ
-	wQiYRkpaiiqi7fGILauN2KH0Q1qlj+HT8UkBG+Xv3PHVnjceRbSPCDaxTNPiPomXwWNupfqdBLp
-	uNbdLrSjBDXQR8H5EpF0t3DVpPR5gtJnUI7a68eWkX8sOyY/L3IFgNbYzEk/wR8NSzC+tsjw==
-X-Received: by 2002:a05:600c:1453:b0:490:9536:c513 with SMTP id 5b1f17b1804b1-4909c0b0012mr41744015e9.19.1780066339778;
-        Fri, 29 May 2026 07:52:19 -0700 (PDT)
+        bh=4sxBURKEIs5vdCG6YL1mHOm0YuBgobmnmOVB3aNVSj0=;
+        b=EuZl83dhNjCJF0BbgQd4u5Wwzqk6W7XGFNmzTJIGJ2YD52J/MkO9icOWUN6w2USF54
+         sI/hZHO7kdkXuKo3MkjFDMyrm5BvdQ0FcIAPq8b7xhHG0rbTCjTJ3PmtvV5QRyCi/QEd
+         JctLzGhCcdx6MuGYaV8+H7+wLEVCP+oanDkH9uHgXlu5n2OU6y+N2TFHhyxzz6NrqR0Z
+         PqWDeXN9IkVTyAXeLz0a1SvAl8qqrNYBrqVVmxPEhAwONS42gXbdsA62V5ENEhHvxLUW
+         mznme932jDIXeluEpc2YCcv8UlWjAeOom4C4XMJgPFCSHi3uthYeMkPVTuA4b1R3ABqk
+         f7yQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8moVWkdXaohRJ2t/AzdvLjU4NdVl/kzodER6IV/+kjOYosSuXRR8BGsMTJuIetwiyf43M+g8+vtV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLr8V6zICNDej4qZSHTi90fCw2Uh1UsKoXxE257NFl3ro5D6Sf
+	GzZRNrjCXxFPPc8a071GZVeroDZ7WzsjOHEtBefl0ZvRGud4LPNnbpjeyiEIrgrIYNo=
+X-Gm-Gg: Acq92OGMLTx7hhJ0YThlQik0/l7lEOq5TVsQ//hfWm2nD5UwU74OH5Td3lNhVYsUarP
+	W1d1n+OEunCmnJwH4E5v+YP8Wnm9yl+xNWSSVICTgfRfZWcnlNRChffa9Enhyq4u4QbJbt5ocmh
+	Pma88OVTk14gyMVcoziGSjvalEJAZq72hRO0iMADyVtKsx9JwNLSYOKHbhjuM8FtMzCLlNvwoKX
+	Yhji0zz/oSCCFw7E9Qqo7enonmAwzS2EmzWT+5GxeU5sq05UxHm4fjqRUvACj1uTvpG5ssTVmtv
+	YD50WKkFOCne3DHWIMOCl5d4hxZjhHcq1bqo2d/Fpya3D6WUpEX2j11oAyoHqQ5snJnkrKyaApm
+	VqNIY2atu4iZpgdmmS15eQK+JQRjAxErSsON3TkJplfKa63Yk0juWIDWVLA3fMdJWw2Lb8nOj5X
+	LupgIqsDIHA2suxKzvMejJeMTYpz3KRk7/VUGZeYxRmIGxiCHYQWOps7myxxk=
+X-Received: by 2002:a05:600c:4e55:b0:48a:9428:5522 with SMTP id 5b1f17b1804b1-4909c0a7eeemr64821725e9.16.1780066573715;
+        Fri, 29 May 2026 07:56:13 -0700 (PDT)
 Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d696f25sm62858365e9.5.2026.05.29.07.52.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909dff2a80sm51054325e9.3.2026.05.29.07.56.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:52:19 -0700 (PDT)
-Date: Fri, 29 May 2026 16:52:17 +0200
+        Fri, 29 May 2026 07:56:13 -0700 (PDT)
+Date: Fri, 29 May 2026 16:56:11 +0200
 From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
 To: Eric Chanudet <echanude@redhat.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
-	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+	Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
 	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
 	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
 	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
-Message-ID: <ahmceQfFPpXa_6Qe@localhost.localdomain>
+Message-ID: <ahmoDiQ8Q11xUgtV@localhost.localdomain>
 References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
  <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
- <ahB7pCu_G4vuswc0@linux.dev>
- <ahWfypvuTVsB-pHQ@x1nano>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,59 +81,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rw7fy7kfpwloyodg"
+	protocol="application/pgp-signature"; boundary="rwilhpywdsxyo6sd"
 Content-Disposition: inline
-In-Reply-To: <ahWfypvuTVsB-pHQ@x1nano>
+In-Reply-To: <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
 
 
---rw7fy7kfpwloyodg
+--rwilhpywdsxyo6sd
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
 MIME-Version: 1.0
 
-On Wed, May 27, 2026 at 03:10:47PM -0400, Eric Chanudet <echanude@redhat.co=
-m> wrote:
-> but that made me realize there is a catch with
-> this patch set, with something like:
-> A: +memory{max:32M}/+dmem
-> A/B: +memory{max:16M}
->=20
-> It gets the CSS from the dmem's cgroup with
->   cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
->   mem_cgroup_from_css(mem_css);
->=20
-> Which would resolve to A's memcg and not enforce the memory.max limit
-> set in B when dmem.memcg is set for that region.
+On Tue, May 19, 2026 at 11:59:01AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
+> +/**
+> + * mem_cgroup_dmem_uncharge - uncharge memcg from a dmem pool allocation
+> + * @cgrp: cgroup of the dmem pool
+> + * @nr_pages: number of pages to uncharge
+> + */
+> +void mem_cgroup_dmem_uncharge(struct cgroup *cgrp, unsigned int nr_pages)
+> +{
+> +	struct cgroup_subsys_state *mem_css;
+> +	struct mem_cgroup *memcg;
+> +
+> +	/* CGROUP_DMEM and MEMCG guarantees this cannot be NULL. */
+> +	mem_css = cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
+> +
+> +	memcg = mem_cgroup_from_css(mem_css);
+> +	if (!memcg || mem_cgroup_is_root(memcg)) {
+> +		css_put(mem_css);
+> +		return;
+> +	}
+> +
+> +	mod_memcg_state(memcg, MEMCG_DMEM, -nr_pages);
+> +	refill_stock(memcg, nr_pages);
 
-One perspective is that this is in accordance with dmem's limit granularity.
-If the user wanted to distinguish dmem charges below A, they need to
-enable the controller there too. IOW, the depends_on in one direction is
-correct. dmem is primary when it comes to those charges and memcg
-secondary.
+This doesn't look right.
+Here should be memcg_uncharge().
 
-Another possibility would be to always use the highest precision
-available (wrt where current resides) and then the API should refer to
-struct cgroup from task_dfl_cgroup(current) (and make this only
-available on v2), or to struct css_set and extract respective subsys
-csses in the double charging function.
-
-In either case, it's worth mentioning the behavior in the dmem docs.
-
-HTH,
+Regards,
 Michal
 
---rw7fy7kfpwloyodg
+--rwilhpywdsxyo6sd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahmoHRsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ahb7AD/ReCU/1qelso4Se3AlOZq
-R+fmGmGVDlgPYs7gBkJUqqEBALvZg8zd4ig7QW/B4SdBdSv8RGm7SPB7R9vTNMP8
-dKYO
-=3pZx
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahmpBxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AjhCQEAr+BVWEm8zFPKmbprS/Y0
+DGDmEkJvmxq53yv7/M98beIA/RFe/RMHQUNUp4via8ejOQCz9uiKLY1q3PFlk5c+
+ByIA
+=eOXW
 -----END PGP SIGNATURE-----
 
---rw7fy7kfpwloyodg--
+--rwilhpywdsxyo6sd--
