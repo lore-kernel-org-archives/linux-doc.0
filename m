@@ -1,71 +1,46 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225932D5C83;
-	Fri, 29 May 2026 13:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A593DEAC1;
+	Fri, 29 May 2026 14:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063179; cv=none; b=Dp5lHu8aW/IXqdMD37O87er8Kk4zoCdqbwxChTzicGl/WjDkcPb1APOYB7MZTse+0gqrJ9+XXo4kezh/p8IwRCLz3XG/9aaczqeqc3eTA3ncmRQO8afCTATqXHQKe53s6Gbv54/8/gZVORE4W1iaHfqKFeo4qZoe8E1zl6L0RrY=
+	t=1780063224; cv=none; b=pLaB9h6UKwKL3r2h+l4Rye9jQlR0zn1CNhlr5Y/9Z4rp468oLGcSjwsx4EWfpV6IsDnnY2/2ql3cz3tnFtl3NbP6CfdmfNBKXyUfpY/PYFxoFaTcN9om4YvPW7RDjif4740xspMxYDfn8yE9WiKcSyIUuHp2mxZ32k+/w9qBSvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063179; c=relaxed/simple;
-	bh=OIfcxw6L7juAJ+MhhKySY0equp2hvB1yaaAjhl0zNjc=;
+	s=arc-20240116; t=1780063224; c=relaxed/simple;
+	bh=W2pTYBq+b+oXiGU1QZzMVV+zQTudHkur2VT97ExkcZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7fmsVGQS0clIL3BOeuMcyYebiiwKpeJOgZdYaukSWiHRmZhT9eElVPmy7C8swlwpUKJY1MEQ9T9v/wUiRyB18/h0rAuv1xa035qC4xabVjZbBDDgNW1FataNgSmtmhvdH1fwG+TZ22r9msSEDGPsOL+rYUJBHK0SycPxETb0pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t4lUbtZl; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=LdMAs4NS+7IOPaRfLMtkF+jLeH0F3JTuEVmqkXZ2unvdpHttZdUhzASK6YFR5LcTvSzYxwDmYerbYDZ+FRKIxO9ba91T34hQzUh2Cb2aI98FLSoDEbknb62cfNsYrlQNREaJI47vC56Z0otdeiK8AbXt80B7WG4heIip+VHYCj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=neeNnvpP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t4lUbtZl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=krC21NLD30nrg01fSvUce7Fe+FnXVEhQr9QoYVMHRHI=; b=t4lUbtZlab0axYF0lmbW0CYbZ3
-	/JMaNPB4pXiSA68du4121/lvny2qQTj6r0QLLa3lvEiRGZzzI6ujKm+v/rgLwKfJXpGVb92BYVDp5
-	1+LI2tB7gw/1/qjbqSRu/o7jBzPpGIHStF7XhGfgk7wgr6mWl1Iy7z6ClDLlVrqU/fciiDY5cB+Dl
-	ov41tGJ1yiWyQKSwoA8Vxgobs13MaHEc3/wDb3MBrW8ouEjIj0p+kEAFHPvp17HszODSNJoclwbos
-	/LHuaQP/5EWbw3fTftd57ASuqWeQfloci3OE6ljXro3cxHW3c8F9WmYxDjA/J56FG/IhARBULEi+o
-	zutNVb1g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSxk9-00000007TtN-0ATY;
-	Fri, 29 May 2026 13:59:21 +0000
-Date: Fri, 29 May 2026 06:59:21 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@infradead.org>, demiobenour@gmail.com,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Eric Biggers <ebiggers@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-	netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
-	linux-api@vger.kernel.org, David Howells <dhowells@redhat.com>
-Subject: Re: [PATCH 1/3] net: Remove support for AIO on sockets
-Message-ID: <ahmbucsrd-W4BVhz@infradead.org>
-References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
- <20260523-af-alg-harden-v1-1-c76755c3a5c5@gmail.com>
- <ahQCZQNoyO8GQt3H@infradead.org>
- <92db3ff0-8f0b-4b61-a167-5004ffcf9025@kernel.dk>
- <ahanjVfIDlCmeCUE@infradead.org>
- <2cfd6455-7b5b-4974-b8a1-4a0abca69768@kernel.dk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="neeNnvpP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EFDA1F00893;
+	Fri, 29 May 2026 14:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780063223;
+	bh=o53KZSM1xwnMx9qRi9blrTJDTT9nvtmbWfg0I22/pKw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=neeNnvpPJ5li6VA0xHi+YFqdkMv2Z2MOaS7H1Wgd4ceLe4M5SB91cfCT5ZZ8dDZlV
+	 PKe6T3haHkhV+DXKVCfhRjx0RiQJjkgdRnG2MNfFrDkdri/AJFgSEU+FM0qR59oiAo
+	 +CDHcC1rjjFIkvr716svKIRiGkFhqD7ts2Iup6pf4yA54hvqRcmfah0snxc0hJQ7FB
+	 sSBT8f1Q8LOXvAoS+ftsJRLjaNhK9Y5nkxKrIK0E+/eiIg4/187gfg0UqH/50Q6JS7
+	 MvkeYaQdtGqiC//rj1Hce2Aj/IOHTDZmenaNoPt6hQMEr3yF8fev/ZeUZyMbJ8F7+X
+	 w6Tv3aWA/tCLA==
+Date: Fri, 29 May 2026 15:00:14 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Kiryl Shutsemau <kirill@shutemov.name>
+Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
+	david@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
+	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
+	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
+	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
+Message-ID: <ahmQvfNk7S4F0LBj@lucifer>
+References: <20260526130509.2748441-1-kirill@shutemov.name>
+ <20260526130509.2748441-5-kirill@shutemov.name>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,43 +49,183 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2cfd6455-7b5b-4974-b8a1-4a0abca69768@kernel.dk>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260526130509.2748441-5-kirill@shutemov.name>
 
-On Thu, May 28, 2026 at 10:56:06AM -0600, Jens Axboe wrote:
-> > Where?  And how do make that available to in-kernel users like
-> > storage protocols and network file system, which really suffer from
-> > the current MSG_SPLICE_PAGES semantics.
-> 
-> For zero copy, on both the receive and send side. Since we have a proper
-> notification channel, that's what we use rather than the hack that is
-> the error queue.
+On Tue, May 26, 2026 at 02:04:52PM +0100, Kiryl Shutsemau wrote:
+> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+>
+> vma_flags_t is one unsigned long on 32-bit -- NUM_VMA_FLAG_BITS ==
+> BITS_PER_LONG by design, so VM_xxx-declared bits sit in the first
+> word and hit the single-long fast path. But the bit enum declares
+> some bits unconditionally above BITS_PER_LONG (VMA_UFFD_MINOR_BIT
+> == 41 today, with VM_UFFD_MINOR == VM_NONE on 32-bit so no VMA
+> actually carries the bit).
 
-Can you point me to that notification channel? 
+Yeah ugh.
 
-> >> , and without needing msg_kiocb or the
-> > 
-> > What do you think is the downside of using a kiocb here like for
-> > everything else with async notifications?
-> 
-> Where would the notifications go?
+>
+> Passing such a bit to mk_vma_flags() goes through __set_bit(41,
+> &one_long) and writes one word past the end. The compiler folds
+> the OOB store with wraparound (1UL << (41 % 32) == bit 9) into
+> the first word. Bit 9 is already in __VMA_UFFD_FLAGS so the mask
+> happens to come out right today, but any high-numbered bit whose
 
-For userspace: io_uring or the error queue for the synchronous calls.
-For in-kernel APIs whatever the callers wants to do by doing it from
-ki_complete.
+That is... helpful :) but not great that this is the situation, an
+oversight, clearly! How I hate 32-bit kernels :)
 
-> You'd end up inventing something new
-> to propagate them to userspace then.
+> mod-BITS_PER_LONG position is otherwise unused would silently OR
+> an extra bit into the mask.
+>
+> Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
+> of range to it. vma_flags_set_flag() drops negative bit values.
+> The ternary collapses at compile time, the runtime check folds
+> away when the bit is in range, and the common path is unchanged.
 
-The main aim here is to have a way to get these completions from
-kernelspace to get rid of the current horrors around MSG_SPLICE_PAGES.
+Hmm are you sure it does?
 
-> The io_uring side does not rely on
-> using msg_kiocb, and iirc that part was only ever used for the crypto
-> stuff and largely broken. Which is why I do agree with just yanking it
-> out.
+A key design goal was that mk_vma_flags() generates compile-time constants
+the same as if the bitmap were constructed independently.
 
-I'm not arguing for how msg_kiocb as that is a mess.  But having an
-explicit kiocb API like all the other async file operations would
-make things a lot simpler.
+This surely must generate code? Or at least runs a significant risk of it?
 
+Setting a precedent here would probably lead to VMA_NO_BIT being used more
+and therefore generating code in more places I think.
+
+And I'm not sure I really want to bend over backwards here to work around
+issues with 32-bit kernels when in the long run the intent is that we move
+to making these values 64-bit anyway.
+
+Perhaps it's even wise possibly to just make these values 64-bit already,
+ahead of time?
+
+(I did look at this in terms of wanting something like a VMA_NO_BIT so we
+could get VM_NONE-like behaviour but nothing I tried failed to generate
+code.)
+
+A simple solution that doesn't require change to the core is to just uglify
+userfaultfd_k.h a bit with:
+
+#ifdef HAVE_ARCH_USERFAULTFD_MINOR
+#define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT, \
+				      VMA_UFFD_MINOR_BIT)
+#else
+#define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT)
+#endif
+
+But of course that becomes much more horrible with your changes...
+
+Another alternative, which I used for VMA_DROPPABLE is to add something
+like this in mm.h:
+
+#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+#define VM_UFFD_MINOR	INIT_VM_FLAG(UFFD_MINOR)
++define VMA_UFFD_MINOR	mk_vma_flags(VMA_UFFD_MINOR_BIT)
+#else
+#define VM_UFFD_MINOR	VM_NONE
++define VMA_UFFD_MINOR	EMPTY_VMA_FLAGS
+#endif
+
+Then we can do:
+
+#define __VMA_UFFD_FLAGS append_vma_flags(VMA_MINOR, VMA_UFFD_MISSING_BIT, \
+					  VMA_UFFD_WP_BIT)
+
+With you changes in 08/18 on top it'd get hairier, but we could make our
+life easier by implementing something like:
+
+static __always_inline vma_flags_t __mk_vma_flags_from_masks(size_t count,
+	const vma_flags_t *masks)
+{
+	vma_flags_t flags = EMPTY_VMA_FLAGS;
+	int i;
+
+	for (i = 0; i < count; i++)
+		mask = vma_flags_set_mask(&flags, masks[i]);
+
+	return flags;
+}
+
+#define mk_vma_flags_from_masks(...) __mk_vma_flags_from_masks(, \
+		COUNT_ARGS(__VA_ARGS__), (const vma_flags_t []){__VA_ARGS__})
+
+(untested code - you would need to ensure it generated equivalent
+constants as VM_xxx would now :)
+
+Then you could get VMA_UFFD_RWP with:
+
+#ifdef CONFIG_USERFAULTFD_RWP
+#define VMA_UFFD_RWP	mk_vma_flags(VMA_UFFD_RWP_BIT)
+#else
+#define VMA_UFFD_RWP	EMPTY_VMA_FLAGS
+#endif
+
+And then:
+
+
+/* Always available if CONFIG_USERFAULTFD set. */
+#define __VMA_UFFD_DEFAULT_FLAGS \
+		mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT)
+
+#define __VMA_UFFD_FLAGS mk_vma_flags_from_masks(__VMA_UFFD_DEFAULT_FLAGS \
+		VMA_MINOR, VMA_RWP)
+
+Which is kind ok-ish right? I mean it's all a bit fugly obviously.
+
+>
+> Bits declared in the enum are now safe to pass to mk_vma_flags()
+> regardless of arch.
+
+I mean another issue here is we're then codifying behaviour that's legacy
+ahead of time. I really want to avoid that.
+
+>
+> Fixes: 9ea35a25d51b ("mm: introduce VMA flags bitmap type")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> ---
+>  include/linux/mm.h | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 0f2612a70fb1..71b11945e4fc 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -286,8 +286,17 @@ extern unsigned int kobjsize(const void *objp);
+>   */
+>  typedef int __bitwise vma_flag_t;
+>
+> -#define DECLARE_VMA_BIT(name, bitnum) \
+> -	VMA_ ## name ## _BIT = ((__force vma_flag_t)bitnum)
+> +/*
+> + * VMA_NO_BIT means "no bit"; mk_vma_flags() skips it. DECLARE_VMA_BIT()
+> + * below uses it for any bit number that doesn't fit in the bitmap, so
+> + * callers don't need to track which bits are valid on the current build.
+> + */
+> +#define VMA_NO_BIT	((__force vma_flag_t)-1)
+> +
+> +#define DECLARE_VMA_BIT(name, bitnum)					\
+> +	VMA_ ## name ## _BIT = (((bitnum) < NUM_VMA_FLAG_BITS) ?	\
+> +				((__force vma_flag_t)(bitnum)) :	\
+> +				VMA_NO_BIT)
+>  #define DECLARE_VMA_BIT_ALIAS(name, aliased) \
+>  	VMA_ ## name ## _BIT = (VMA_ ## aliased ## _BIT)
+>  enum {
+> @@ -1081,6 +1090,8 @@ static __always_inline void vma_flags_set_flag(vma_flags_t *flags,
+>  {
+>  	unsigned long *bitmap = flags->__vma_flags;
+>
+> +	if ((__force int)bit < 0)
+> +		return;
+>  	__set_bit((__force int)bit, bitmap);
+>  }
+>
+> --
+> 2.54.0
+>
+
+Either way, I think we should break out any fix like this from the series.
+
+Andrew is I think also not a fan of fixes patches in the middle of series
+anyway :P
+
+Cheers, Lorenzo
