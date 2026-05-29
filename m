@@ -1,93 +1,93 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4240546AEE8
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 20:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF373F0750
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 20:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780084889; cv=pass; b=A5SXFwI1R3G/FYLcVdLicakPDBQmlnIRVqeNana+BPgt/ukYqpAgSrToZs9L82bBeX94dM9Ix52z/qIiY48QCHZWuSuBaXiB+2rnIXQZBYw2JeyGCUz4tRKgM9MXeT0zEeRWvSfbzqPFRod91XldPtu11xtHYWk4RGo7xoT7XV8=
+	t=1780084993; cv=pass; b=kXx41gtUYrUeKBeLKeFvYdJmwLhf0VudPPyALTfHuDQdLGQhZFk+o0qgZMWPKwrRLZxJtAQ9oBfzzV73FM60EVpemzmmjdE5D7FvApiZKaJkOzwbMryfb+qEZxyKOPADwG1Ohj6RIPY7BOKaY5nopg+ZTBS2K/TtnsHuiRyuKOA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780084889; c=relaxed/simple;
-	bh=KaqwHfp1L3nqAAOV0CMesoD1cT1icMUGhJtrVbzAUB8=;
+	s=arc-20240116; t=1780084993; c=relaxed/simple;
+	bh=8vV7V3CMoBNjkJhOUfmZqE5k0G0M3MxFKAVMCFWrXI0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ceRVZyCSvnEWVis4SSo98WERBehOXK7eX8j/glY+dQFkIXmx3wiH8Nm9lLzb4tbrF6XAdgteTMLoad/IKhR4q8UTdBqhTKTLL99qVqhEv+Vxkcx9r3LHgurxhburq2tPSgn8y6vWYPJfrBtSOzP0Ro+ZskILCOzaa+uPy2X0lYU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRo9tY6W; arc=pass smtp.client-ip=209.85.128.47
+	 To:Cc:Content-Type; b=BfvPkUDYRnUNy3ManPh4PeiJtBgr7WRDVcHcPy2aXcg+g13Rz/HZr+x4rsWm7WBGQs9O9/TKFVM2Z0kbjr6TRcd9dGQ9o8jXsXvLJiqIOUOQskBve0y+49zUwOL15Fp86vJoyEU2nhC/MfJruEvYnTzJ8JA9G1nG32wFwkwgPj0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rg33rV7E; arc=pass smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRo9tY6W"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49050ff7cbdso69128245e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 13:01:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780084887; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rg33rV7E"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so534866f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 13:03:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780084991; cv=none;
         d=google.com; s=arc-20240605;
-        b=HDkuOEdkhLtLrcX1OwfmOWDzD+anccKV0CkofiE7NfFB1dHmz8RxGY8pExORGj0Km/
-         dWbnAM/exPaJs3Lmi8O9vq8smg5I/GShJPnvj0/hUTDok4j0wdKhnh4EGct/mxM2wtGD
-         olQXQtwwOhCMKsniE+sQ/mUwnFoXda/rLtvctJmcTA2YxrdamHIvb0O5R5s/Vh5+AHvd
-         RtiEw6QtCj0HGl0KMGh3dFjakFOpsWXqZPVIhKKaySxgS0+g8Q5aCCtnbWbXI99Mz+sn
-         koi/GYImsm7UpXi103Lcvj/81e+S60QU+UKNuF5e2KXzrr1NWlB2pDsCpFSBAhX7Caeu
-         Yx8Q==
+        b=OcxJrmru4lBW31ZU3mPMv9zUHO08tpKCigaDrgCjPbISh5I87ZooRQmctaLdZKXWZb
+         XassrHGeuphdO0U98Bk/pm3LfTpJ0PsVZBUE2T7MbT5R/coRK+oaUeG/X42oRb7mqpZx
+         nE2nretEOPQc8R/7soxueiiwERx98NvT3x/MQnUsBa6QfcLpNpjJzmMtoaWDMMiJzw5+
+         q02tIFQbXxq3VsVOilrU7TB7k2X5CHhABGA0ffqIRHjrxtOPaXykBq3+Rds8I2ve0JuU
+         i1v1VPKHQ6vndvNMoIcjhyA07OtN6uEbnvCCYBmt33oW5p+b16OFpbmX7Ygk7rBndKGh
+         rI0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=W+5IFUGExZ+iwBSpEJguGBn5lCaGGh6fBKDVTB3MkGQ=;
-        fh=HhnAUROLR7on8k0UQXAOmodzS5LQxf4wDpK0BHHqykc=;
-        b=adE2+ms5vKzTMdwrSbPtjq40yvDM+7NRC86hnQd6FpfrEoWh/Rh9cxoa52YNFVOKwK
-         xvw0uWyrTXLBxg+Xl0iirr7lynvaRiwoBGiwB+JFrN4hXUeFel/C2bs1rySvw8HCqey6
-         QeWAVM+TGjPN0df12YXQrGMpt337Drbqdri8ZBs9kOVYBHQfcjsmYRxSCz2BG/6ns6HT
-         FM+Bkrcuoq3N8RgHQD8moBRGJ06vU6m5dPk4aYE0Ji75k9VmSvZKiF1vWkRjkI1IRJZd
-         yBU5cQVvWT4XmgRS0O3gYJ58r3CMeb1E4RO+a4VpOckTYiVP6GLCxhfRVYvfVZp0cFGg
-         Dvkg==;
+        bh=8vV7V3CMoBNjkJhOUfmZqE5k0G0M3MxFKAVMCFWrXI0=;
+        fh=IdbwiqBwVLT0orWdIxE7wEczom9Mb4FSoyfOo0Wf3xE=;
+        b=QF6YXH/SLmt+CLbgeO/G28TgdyDAJOSa4S6d0575KdtrL8DgBAUifUmJRYbSERf0br
+         SCoDNgw/KZ13loY+yQVybJTsix+l57L9Gr2EQAPQ9GS4AIkeRPzkKNamwMHwOFFap/1W
+         OyRKyLbP6U8QoiR901pXh49nU78Pkq26KVpC7PxZ1ojrL8b+W9ievZS4P0ltPT0ThsYa
+         VfchVJJiYZ5ZWZZTKn6nVE7ptrfxY3LQLK9mSggdqNN8X7f42OZjvwmxSRM8MR8xYYW6
+         ddCoJ8IHq8oEH7/0ODc8X8TdxkbdLnmcO/VjC7zvLUI1b/fDJpPWlhsha/Nv6tNdKr9A
+         Xa3g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780084887; x=1780689687; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780084991; x=1780689791; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W+5IFUGExZ+iwBSpEJguGBn5lCaGGh6fBKDVTB3MkGQ=;
-        b=YRo9tY6WSEjvQ6vAxmBVKowUNPrb5s/xa4bmNhchNw3cRjg8I/Yc0kG7hqHZRVi66P
-         dQ8aWcZJ4Wit3/Y49yYFn3UtaTuJeN3CbS2K5c3Yrt4UCbMOy6cewgBekS03liAVw4rs
-         merzoSfErhFl6uDIxHq7MxX0p5ozUBv6x1Q0n5wqP/SCGcnMLWIKzwCZWa5BChNCoTin
-         jDaj9r01YibIC1++cN+pRxHOtIz2y8VUvlwuxPjTErxH7BNQ4V9LBvrcqLwp28HNUG5h
-         2WiVCnoQPdNyeVm/H9E+G1HyENZVAUZTc10X2xvpei6DpgZ3tYFctEf1GXdNdYNeAQIL
-         NnQw==
+        bh=8vV7V3CMoBNjkJhOUfmZqE5k0G0M3MxFKAVMCFWrXI0=;
+        b=rg33rV7EsQFtyTgiUjK2Ackzr3TNkQBpZHUT8+A87Ac9RXqlFpgBhvSAy5QHW+ScU4
+         q15xl/aqyqG1HfygwNI7bVp3e24jLlhKeUNeugk2MPDZYUvW6tB3QEGtQawgIOnsCorw
+         5aAsSHgnE31TNV1mODMJvNj9UaQY9oHphJNIvqyddy6uRz32lGfxQREy01fkjhESwAVI
+         JtsLrF8BX7Z5Nqws7PKec8z1rAKiXndOg8nC/esldVX224O0ywMCg5dNropwdEQLnuCx
+         F7ayUffPAKSV8gCW4H9mFdreRlL9Sz7UOrut6B269UX6qIr2uwcFkgSM84By3eKs/DTk
+         BiNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780084887; x=1780689687;
+        d=1e100.net; s=20251104; t=1780084991; x=1780689791;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=W+5IFUGExZ+iwBSpEJguGBn5lCaGGh6fBKDVTB3MkGQ=;
-        b=seDpoXS/cHj5gAXehVHeqz1ApomzW1tIuXkLcasBWvdrueyywnEjHrw0VuewrMawKq
-         5P20UT/f5qvA4wV5gv/qvmdKH0FmihkMEL5wZxI0boVfzw2WKVV2CYQp3HacG/d0x2pm
-         PbtW1CEhlqeePzDA4Kn8AQkxcmNZkOrXTdsuiBm5Zhk9cfRkq04LLKpW4vthskBSy9LU
-         n/mPUsa3yekK13ZcLQUuf2HzEPViqcwGHHNoX/l0APDPXq2TuQ/XNnx99CckdKk/It7e
-         j9bNAfg4ajvHpeTMRotfFsbdZ/wpfmZCfANabgZTEsDGp0kZigb6qIa59O7Af6ERbQA9
-         44kw==
-X-Forwarded-Encrypted: i=1; AFNElJ/Z0ZfZSVkYqaMte1hPhSDyiDFGmo7Gdb0KdtPre0AKrlr45+bSIakgY2k2v5xJ/ZBmOrVboi7+S68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeHnGOC5XfuV5BbNUdKF8v2rVfQQtcpv9aA8b29AnRIo854mO/
-	/ECkcZdJy6oDuO0aNokdxQyLxWAETmkyHAmMmm8PxeTWu+oTQeOQnYsCeZoh9U2kFbGwzEFcqdV
-	NdbUh76nzJpWsCyOS7rbn2cOOjGehOvs=
-X-Gm-Gg: Acq92OFlIk0mo914ntSmw1wkKij9XfQpQEhiYL/wXl1KphfEwWk68wXfGFC+8xMU/yI
-	2YPZuPwtOkIhjaCfaSr7ewd3rYuRIpVU2iiSRvPFQATnyPG5Ts08XQbm6j3jo924wV82y7Qlxs0
-	v2nOLk3gW0wvpPhL0A02wLfEbkcEQcpHh6rwMZUIjVVuVPeXZ55vXh6G7B8eO2u3opBb/624PS/
-	QAHdK97aMqcP/Bn1AZk3Gi75QiaRpHsirFIVDS/SWwN6ugW6eYGt7IxDTOGCJraRYrda45fDm80
-	ZeOjWpy2Yw8HnSv6l6YKv75snuWYecLZ9jnG9ZptumwVA4qMPQ==
-X-Received: by 2002:a05:600c:8582:b0:488:b187:3c with SMTP id
- 5b1f17b1804b1-490a29399fcmr13599005e9.14.1780084886357; Fri, 29 May 2026
- 13:01:26 -0700 (PDT)
+        bh=8vV7V3CMoBNjkJhOUfmZqE5k0G0M3MxFKAVMCFWrXI0=;
+        b=OyDK1edvyo2we1LmAoqVeQ8DZy+fqtdLD3if1EuMo7E6UIStehMbzAzC3c1JZQVN7A
+         5/v+xDOQcGQ9z+5KdnYj5aki8sb+sK6wy6FycR4cKGLJB9hrfIxkMmuScA7Fy4N3o0hG
+         chf9Sojlewi0JHPZIBLjpmYhViVsO3QNRaLgJ9+7UmrxBjKBdFjFBGVfEnhGhPkd1SCG
+         wDgrcvpTRETqnnfNPQfi6V0e7dHOYg8NkIJiidvMJ2LyXtUrosuyaObtWpTvqnUeuoPt
+         QcZCHB6ZildNTe8cmnKJBaxxIf75eg/rbRDTqe53Y32Z9SWNPuyI2NoC5e7DJ3p9TOqV
+         nXeA==
+X-Forwarded-Encrypted: i=1; AFNElJ8IaDBuaiSPcOW5e4Ukz5Ui7FWXhZoq9tDNw3TM6rDzCdRGduoEbJ82DJ/7vOBrZLHTSR7Lrg8sVpY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztdjT8SVjXhkLU8GsNXR3R9UHbY7/tD7m8I6CuQNFZHBnzxKXk
+	LCaZ6JQgKCFTFtSfh3iq397ILietop0bfxrSkLTRbalV8f3+h2gLIEmBQ4FYgQQfFlFYD62+6Hb
+	BRn/IiRYezbqgRzO2qG8Selze17L204k=
+X-Gm-Gg: Acq92OFzCNzeo3EgFaej5kQX85CyLcKW6L7IHet0wea58EhMqkjHe/QaZ4in3mQIztR
+	59hMsZ8HfyRZiWIb+1EDgClrdDjfof7RR/i+V4tlMslwgZnK1McfW1zMzDPJNWLNCHVNNPD0jHU
+	hJsW1IJ3LcD8Su0PoazkteuGkss3zOawCymQ08dtegijYRnIHQWSAO1qfZvH2+ZpW7yOvXlbjH0
+	Tara8tKo6/JY7f2XoexiQBKwXUsg1E4jUwc7+YFQ+zCLVSkAzy3pbX8ZH8pNLlExGP+qbfIq1gu
+	z2ZE0CsqlAX5KZADzsMhwsgrb5c7IZHPRFApCGU5zyLldE0hiw==
+X-Received: by 2002:adf:e510:0:b0:45e:ef4a:819a with SMTP id
+ ffacd0b85a97d-45ef6b1fb03mr1966464f8f.17.1780084991071; Fri, 29 May 2026
+ 13:03:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com> <20260526114601.67041-4-jiahao.kernel@gmail.com>
-In-Reply-To: <20260526114601.67041-4-jiahao.kernel@gmail.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com> <20260526114601.67041-5-jiahao.kernel@gmail.com>
+In-Reply-To: <20260526114601.67041-5-jiahao.kernel@gmail.com>
 From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 29 May 2026 13:01:14 -0700
-X-Gm-Features: AVHnY4JBZV7V4Cuv6pthC1wuO8sZSjsWbark17MncjIwi_r03e6A9nAix31rk6E
-Message-ID: <CAKEwX=PcFqmsdFqUnpWxrPkoc1B-1w3CEb0ydK3df0qJGG-mnQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] mm/zswap: Add per-memcg stat for proactive writeback
+Date: Fri, 29 May 2026 13:02:59 -0700
+X-Gm-Features: AVHnY4IOqjjiOdCG6Ozo0C_CJ8lU_HS1P7B7pgVtIcaK6gtGQOhL7OfGo5YfYKU
+Message-ID: <CAKEwX=Mj8hxSma0DN4zvCgRo3HMs7cbB145+s2=LbTjiKUXh1w@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] selftests/cgroup: Add tests for zswap proactive writeback
 To: Hao Jia <jiahao.kernel@gmail.com>
 Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
 	shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com, 
@@ -102,130 +102,17 @@ rote:
 >
 > From: Hao Jia <jiahao1@lixiang.com>
 >
-> Currently, zswap writeback can be triggered by either the pool limit
-> being hit or by the proactive writeback mechanism. However, the
-> existing 'zswpwb' metric in memory.stat and /proc/vmstat counts all
-> written back pages, making it difficult to distinguish between pages
-> written back due to the pool limit and those written back proactively.
+> Add test_zswap_proactive_writeback() to cover the new memory.reclaim
+> "zswap_writeback_only" key. The test populates a memory cgroup zswap
+> pool, triggers proactive writeback, and verifies the behavior by
+> observing the change in zswpwb_proactive. Invalid input combinations
+> are also covered.
 >
-> Add a new statistic 'zswpwb_proactive' to memory.stat and /proc/vmstat.
-> This counter tracks the number of pages written back due to proactive
-> writeback. This allows users to better monitor and tune the proactive
-> writeback mechanism.
+> Extend test_zswap_writeback_one() to assert that the existing
+> non-proactive writeback path leaves zswpwb_proactive at zero.
 >
 > Signed-off-by: Hao Jia <jiahao1@lixiang.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst |  4 +++
->  include/linux/vm_event_item.h           |  1 +
->  mm/memcontrol.c                         |  1 +
->  mm/vmstat.c                             |  1 +
->  mm/zswap.c                              | 41 ++++++++++++++++++-------
->  5 files changed, 37 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 6564abf0dec5..7d65aef83f7b 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1748,6 +1748,10 @@ The following nested keys are defined.
->           zswpwb
->                 Number of pages written from zswap to swap.
->
-> +         zswpwb_proactive
-> +               Number of pages written from zswap to swap by proactive
-> +               writeback. This is a subset of zswpwb.
-> +
 
-nit: I think this is specifically the zswap_writeback_only mode right?
-
-Technically, normal proactive reclaim (memory.reclaim) can also hit zswap :=
-)
-
-Maybe some clarification here?
-
->           zswap_incomp
->                 Number of incompressible pages currently stored in zswap
->                 without compression. These pages could not be compressed =
-to
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.=
-h
-> index 03fe95f5a020..7a5bee0a20b6 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -138,6 +138,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT=
-,
->                 ZSWPIN,
->                 ZSWPOUT,
->                 ZSWPWB,
-> +               ZSWPWB_PROACTIVE,
->  #endif
->  #ifdef CONFIG_X86
->                 DIRECT_MAP_LEVEL2_SPLIT,
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index e205e5de193d..7648b3fd940e 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -571,6 +571,7 @@ static const unsigned int memcg_vm_event_stat[] =3D {
->         ZSWPIN,
->         ZSWPOUT,
->         ZSWPWB,
-> +       ZSWPWB_PROACTIVE,
->  #endif
->  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->         THP_FAULT_ALLOC,
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index f534972f517d..66fd06d1bb01 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1452,6 +1452,7 @@ const char * const vmstat_text[] =3D {
->         [I(ZSWPIN)]                             =3D "zswpin",
->         [I(ZSWPOUT)]                            =3D "zswpout",
->         [I(ZSWPWB)]                             =3D "zswpwb",
-> +       [I(ZSWPWB_PROACTIVE)]                   =3D "zswpwb_proactive",
->  #endif
->  #ifdef CONFIG_X86
->         [I(DIRECT_MAP_LEVEL2_SPLIT)]            =3D "direct_map_level2_sp=
-lits",
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 7bcbf788f634..b45d094f532a 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -160,6 +160,11 @@ struct zswap_pool {
->         char tfm_name[CRYPTO_MAX_ALG_NAME];
->  };
->
-> +struct zswap_shrink_walk_arg {
-> +       bool proactive;
-> +       bool encountered_page_in_swapcache;
-> +};
-> +
->  /* Global LRU lists shared by all zswap pools. */
->  static struct list_lru zswap_list_lru;
->
-> @@ -1042,7 +1047,8 @@ static bool zswap_decompress(struct zswap_entry *en=
-try, struct folio *folio)
->   * freed.
->   */
->  static int zswap_writeback_entry(struct zswap_entry *entry,
-> -                                swp_entry_t swpentry)
-> +                                swp_entry_t swpentry,
-> +                                bool proactive)
->  {
->         struct xarray *tree;
->         pgoff_t offset =3D swp_offset(swpentry);
-> @@ -1097,6 +1103,12 @@ static int zswap_writeback_entry(struct zswap_entr=
-y *entry,
->         if (entry->objcg)
->                 count_objcg_events(entry->objcg, ZSWPWB, 1);
->
-> +       if (proactive) {
-> +               count_vm_event(ZSWPWB_PROACTIVE);
-> +               if (entry->objcg)
-> +                       count_objcg_events(entry->objcg, ZSWPWB_PROACTIVE=
-, 1);
-> +       }
-> +
-
-With the above clarification, the rest LGTM.
+LGTM.
 
 Reviewed-by: Nhat Pham <nphamcs@gmail.com>
