@@ -1,120 +1,298 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6ADB3AEF4C
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B9439EF2E;
+	Fri, 29 May 2026 07:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780039464; cv=none; b=fxOL7z2szz+JEipUssBoUClv0b5M7PDCSGzLap36AViGWNi9AqGgYGqKCw+q+2r177awR/Y48XrnDHn+OoTXcHOBlFfD/vbFw6PFYMYIJLdc2e0vTd0Dtl3DYpvKeYPtBvsQek4MQ6EMRXZG4oQsyvXlgK7tX6DiHjGSen4aLXo=
+	t=1780039506; cv=none; b=go0P4syOYs5fBnw/Hno5nuGZFQwm5w09iTs4cjtPgBokgerr4BCdtuoeaqOzGbnl0dUyhmXyTLaons5qL47sFzRC/GNFYllPswvwOhN4HmFynnXvTX0OpClztw2bo4N6Zn3RJ3LFL8mkKFXEwF6DmVAZgrIOTN3TmWLQtmLHKcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780039464; c=relaxed/simple;
-	bh=ALiuycq0E1DHS2PuKfLSnTRGEAPeOubcOB1d1RtSjAk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cK14Ozfbhn+INtDIuv5jW1dUm/3LC0RcvTzNLTAZTA/1eztvi12sa/UZff03uuo1RwyEsGWnhCYS3Gsg3FslXqKaPkBi1n+bX7SDg3yadIJfrmSwxFksLkIFtGbBQM55Okc3iqsQnPqmT155dHE+QySeqDMpjSXHOPLCwchywQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WaaJ4fXA; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1780039506; c=relaxed/simple;
+	bh=qd5gEHq4/HklwNvBcX7Ni0HbPukEuBB4iJC1gA3gdTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7saxs6ikEj1XQZgTiLyMzeUNiIxgn6ebqTE5xR74Dy6E6aUbkeinK3vrj/UHmjdWhQbhcJYfR2FuDs+uOustQZZMbB69SO1t80NAJLgtDDgqal7QzLNpjDv5J2AvhYtiFJcD+nnuDAoLIUJroNGFl5IKu5xJ87eqzBUk7ek2SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtcc3LgH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WaaJ4fXA"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 34CB94E42D7D;
-	Fri, 29 May 2026 07:24:14 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 01910601FA;
-	Fri, 29 May 2026 07:24:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 34C6A10888CB3;
-	Fri, 29 May 2026 09:24:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780039453; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=HHqTs2Yl+OdyxwTew1hr6k/wiXQqeU25HoEHCJqqIBE=;
-	b=WaaJ4fXAP0N3EYusybJOJtx2NJsk7Pw5YJ/nAT6jlSWm+agwy6IpcyiF5vsRRMFN2V5VGm
-	vUEWdyeM9bD4oei2AuttaUz5udqTzps3o3qGUDimpu/KOm/X1Y17wMFsAifhgxlcNUsxjK
-	ET9syxOF6dYEuMJpVXlcrqtRVv8GJU/TYh7qXf0P1M+360ydp2KBrxUzz38EacQv70V2rs
-	h5R3dUOvaxlZRR49fm4SAOKMteF3bUA/kf6ELI+WUpvjeu4aLPgVxFTja8zc+ooG6vHdj9
-	P6hnNUF6H5NfSkZ/+CyItP/n5YD+OnZihZV6imKmoe+TNFLmLlrhCkYR4s54Kw==
-Message-ID: <452cb18a-29e7-4fc6-bf74-e9d67e7d4c70@bootlin.com>
-Date: Fri, 29 May 2026 09:24:05 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtcc3LgH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 788991F00898;
+	Fri, 29 May 2026 07:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780039505;
+	bh=DvnGy/aNdoF1O4Iz8f505H7qbHc2cS9hrHwlzAYFJpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dtcc3LgHMxD/qPlbvql/b6ShNTNw5wxrlzhV+pAA+DKoz8JwSsviSl2sap7itXy8a
+	 RiJc+a/NkOEbKGc/FeXi3ZxGcjRme0f/QlRYgQt5uDSu135tVrwuq0rrr7NMkn0A5p
+	 hq5Bb2Jaw6WthWwi461yqEyOsDg2Op/ok22WtEahzW89aSoSHjcjqrGC64D0ZOOhg7
+	 XlziVs3ZZuwSYh/rCy119Xtzb/Ruf4rPJ+DhY6hLnOJHQFYApCVWqeIsTAJyfh5jQs
+	 wUnCCK5FNnv6jlOLmEGjDPsUOugVmLGjHWDbj4tf0qlNlwiQYvvjOtwLA5qok4ts0x
+	 CYGE16Y7eB12w==
+Date: Fri, 29 May 2026 08:24:55 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Kiryl Shutsemau <kirill@shutemov.name>
+Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
+	david@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
+	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
+	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
+	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: Re: [PATCH v5 08/18] mm: add VM_UFFD_RWP VMA flag
+Message-ID: <ahk60ViRq4q2g4uz@lucifer>
+References: <20260526130509.2748441-1-kirill@shutemov.name>
+ <20260526130509.2748441-9-kirill@shutemov.name>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <20260527162516.0d012503@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260527162516.0d012503@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526130509.2748441-9-kirill@shutemov.name>
 
-Hi,
+On Tue, May 26, 2026 at 02:04:56PM +0100, Kiryl Shutsemau wrote:
+> From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+>
+> Preparatory patch for userfaultfd read-write protection (RWP). RWP
+> extends userfaultfd protection from plain write-protection (WP) to
+> full read-write protection: accesses to an RWP-protected range --
+> reads as well as writes -- trap through userfaultfd.
+>
+> Reserve VM_UFFD_RWP, add the userfaultfd_rwp() and
+> userfaultfd_protected() helpers, and wire up the smaps "ur" entry and
+> the trace-flag table the rest of the series will use. The flag is
+> gated on CONFIG_USERFAULTFD_RWP, which is introduced together with the
+> UAPI in a later patch; until then VM_UFFD_RWP aliases VM_NONE and
+> every downstream check folds to dead code.
+>
+> Nothing sets or queries the flag yet.
+>
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> Assisted-by: Claude:claude-opus-4-6
 
-On 5/28/26 01:25, Jakub Kicinski wrote:
-> On Wed, 27 May 2026 04:47:47 +0200 Andrew Lunn wrote:
->>> It'd be great to hear from others but IMHO in the current form this is
->>> not suitable for Documentation/networking/ We can commit the "knowledge"
->>> part but enumerating the test cases seems odd for Documentation/.
->>
->> Sorry, not looked too deeply at the actual content yet.
->>
->> What i was thinking was a python file, which sphinx can ingest to
->> produce documentation, and place holders were code would be added to
->> implement the actual test during the next phase.
->>
->> This is how i've done testing in the past. I would be the evil one who
->> thought up the tests and described them in detail using sphinx markup
->> in a python test template file. After some review they got passed off
->> to a python developer for implementation. And when they got run and
->> failed, sometimes the feature developer, the test developer and myself
->> got together to figure who made the error.
->>
->> I'm not sure we even need sphinx. What i find important is that the
->> test is documented. What kAPI calls should be made with what
->> parameters. What results we are expected and why? So that when a test
->> fails, a developer has the information they need to fix their
->> code. The Why? is important, and often missing from the kernel tests.
-> 
-> All makes sense. The question is primarily how we fit that into
-> the existing project layout we have in the kernel :(
-> 
-> The python tests can be hacked up to print the test case docstring
-> before the failure.
-> 
-> But I think for human and AI reviewer consumption it may be nice
-> to keep the condensed knowledge / common mistakes in Documentation/
-> If we had the ability to exercise the submissions it'd be a different
-> story test output would be a sufficient signal and/or could be fed into
-> the review. But for AI making a guess at whether the submitted driver is
-> correct purely from the driver source - knowledge is useful.
+Hm, if you've just used claude to bounce ideas off, I'm really not sure if
+it's necessary to disclose, though I respect your thoroughness for doing so
+:)
 
-Ok so let's split this then, on one hand the knowledge part, and on the
-other hand the test definitions.
+I guess determining the threshold at which it makes sense to do so is still
+a WIP for us in the kernel.
 
- From what I get from Andrew and you, the test definitions is lacking in 
-details w.r.t the start conditions, the return code handling as well.
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Reviewed-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/filesystems/proc.rst |  1 +
+>  fs/proc/task_mmu.c                 |  3 +++
+>  include/linux/mm.h                 | 28 +++++++++++++++++----------
+>  include/linux/userfaultfd_k.h      | 31 +++++++++++++++++++++++++-----
+>  include/trace/events/mmflags.h     |  7 +++++++
+>  5 files changed, 55 insertions(+), 15 deletions(-)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index db6167befb7b..db28207c5290 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -607,6 +607,7 @@ encoded manner. The codes are the following:
+>      um    userfaultfd missing tracking
+>      uw    userfaultfd wr-protect tracking
+>      ui    userfaultfd minor fault
+> +    ur    userfaultfd read-write-protect tracking
+>      ss    shadow/guarded control stack page
+>      sl    sealed
+>      lf    lock on fault pages
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 1e5f6ee8a3b6..974c5f4aa533 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -1237,6 +1237,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+>  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+>  		[ilog2(VM_UFFD_MINOR)]	= "ui",
+>  #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
+> +#ifdef CONFIG_USERFAULTFD_RWP
+> +		[ilog2(VM_UFFD_RWP)]	= "ur",
+> +#endif
+>  #ifdef CONFIG_ARCH_HAS_USER_SHADOW_STACK
+>  		[ilog2(VM_SHADOW_STACK)] = "ss",
+>  #endif
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 71b11945e4fc..6499cfb61dc4 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -362,6 +362,7 @@ enum {
+>  #endif
+>  	DECLARE_VMA_BIT(UFFD_MINOR, 41),
+>  	DECLARE_VMA_BIT(SEALED, 42),
+> +	DECLARE_VMA_BIT(UFFD_RWP, 43),
 
-Having that in the doc is going to be too verbose, but in some python 
-test that could really be great.
+I'm guessing CONFIG_USERFAULTFD_RWP is predicated on CONFIG_64BIT?
 
-I'll use that as a basis for V2
+It's a silly situation and once my VMA flags stuff is done it'll be
+eliminated but for now... :)
 
-Maxime
+>  	/* Flags that reuse flags above. */
+>  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT0, HIGH_ARCH_0),
+>  	DECLARE_VMA_BIT_ALIAS(PKEY_BIT1, HIGH_ARCH_1),
+> @@ -505,6 +506,11 @@ enum {
+>  #else
+>  #define VM_UFFD_MINOR	VM_NONE
+>  #endif
+> +#ifdef CONFIG_USERFAULTFD_RWP
+> +#define VM_UFFD_RWP		INIT_VM_FLAG(UFFD_RWP)
+> +#else
+> +#define VM_UFFD_RWP		VM_NONE
+> +#endif
+>  #ifdef CONFIG_64BIT
+>  #define VM_ALLOW_ANY_UNCACHED	INIT_VM_FLAG(ALLOW_ANY_UNCACHED)
+>  #define VM_SEALED		INIT_VM_FLAG(SEALED)
+> @@ -642,22 +648,24 @@ enum {
+>   * reconsistuted upon page fault, so necessitate page table copying upon fork.
+>   *
+>   * Note that these flags should be compared with the DESTINATION VMA not the
+> - * source, as VM_UFFD_WP may not be propagated to destination, while all other
+> - * flags will be.
+> + * source: VM_UFFD_WP and VM_UFFD_RWP may be cleared on the destination
+> + * (dup_userfaultfd() -> userfaultfd_reset_ctx() when the parent context did
+> + * not negotiate UFFD_FEATURE_EVENT_FORK), while all other flags propagate.
+>   *
+>   * VM_PFNMAP / VM_MIXEDMAP - These contain kernel-mapped data which cannot be
+>   *                           reasonably reconstructed on page fault.
+>   *
+>   *              VM_UFFD_WP - Encodes metadata about an installed uffd
+> - *                           write protect handler, which cannot be
+> - *                           reconstructed on page fault.
+> + *              VM_UFFD_RWP  write- or read-write-protect handler, which
+> + *                           cannot be reconstructed on page fault.
+>   *
+> - *                           We always copy pgtables when dst_vma has uffd-wp
+> - *                           enabled even if it's file-backed
+> - *                           (e.g. shmem). Because when uffd-wp is enabled,
+> - *                           pgtable contains uffd-wp protection information,
+> - *                           that's something we can't retrieve from page cache,
+> - *                           and skip copying will lose those info.
+> + *                           We always copy pgtables when dst_vma has the
+> + *                           uffd PTE bit in use even if it's file-backed
+> + *                           (e.g. shmem). Because when the uffd bit is
+> + *                           in use, the pgtable contains the protection
+> + *                           information, that's something we can't
+> + *                           retrieve from page cache, and skip copying
+> + *                           will lose those info.
+>   *
+>   *          VM_MAYBE_GUARD - Could contain page guard region markers which
+>   *                           by design are a property of the page tables
+> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> index f4cf5763f92c..0aef628514df 100644
+> --- a/include/linux/userfaultfd_k.h
+> +++ b/include/linux/userfaultfd_k.h
+> @@ -21,10 +21,11 @@
+>  #include <linux/hugetlb_inline.h>
+>
+>  /* The set of all possible UFFD-related VM flags. */
+> -#define __VM_UFFD_FLAGS (VM_UFFD_MISSING | VM_UFFD_WP | VM_UFFD_MINOR)
+> +#define __VM_UFFD_FLAGS (VM_UFFD_MISSING | VM_UFFD_MINOR | \
+> +			 VM_UFFD_WP | VM_UFFD_RWP)
+>
+>  #define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT, \
+> -				      VMA_UFFD_MINOR_BIT)
+> +				      VMA_UFFD_MINOR_BIT, VMA_UFFD_RWP_BIT)
+>
+>  /*
+>   * CAREFUL: Check include/uapi/asm-generic/fcntl.h when defining
+> @@ -178,7 +179,7 @@ static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
+>   */
+>  static inline bool uffd_disable_huge_pmd_share(struct vm_area_struct *vma)
+>  {
+> -	return vma->vm_flags & (VM_UFFD_WP | VM_UFFD_MINOR);
+> +	return vma->vm_flags & (VM_UFFD_MINOR | VM_UFFD_WP | VM_UFFD_RWP);
+
+While we're here we might as well switch to using the new API?
+
+Can do:
+
+	return vma_test_any_mask(vma, __VMA_UFFD_FLAGS);
+
+One unfortunate thing is using bit values means we can't do the VM_NONE
+trick, but if !CONFIG_USERFAULTFD_RWP then VMA_UFFD_RWP_BIT wouldn't be set
+anyway, same for minor so this should be fine?
+
+>  }
+>
+>  /*
+> @@ -208,6 +209,16 @@ static inline bool userfaultfd_minor(struct vm_area_struct *vma)
+>  	return vma->vm_flags & VM_UFFD_MINOR;
+>  }
+>
+> +static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
+> +{
+> +	return vma->vm_flags & VM_UFFD_RWP;
+> +}
+
+Can be:
+
+	return vma_test(vma, VMA_UFFD_RWP_BIT);
+
+> +
+> +static inline bool userfaultfd_protected(struct vm_area_struct *vma)
+> +{
+> +	return userfaultfd_wp(vma) || userfaultfd_rwp(vma);
+> +}
+> +
+>  static inline bool userfaultfd_pte_wp(struct vm_area_struct *vma,
+>  				      pte_t pte)
+>  {
+> @@ -328,6 +339,16 @@ static inline bool userfaultfd_minor(struct vm_area_struct *vma)
+>  	return false;
+>  }
+>
+> +static inline bool userfaultfd_rwp(struct vm_area_struct *vma)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline bool userfaultfd_protected(struct vm_area_struct *vma)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline bool userfaultfd_pte_wp(struct vm_area_struct *vma,
+>  				      pte_t pte)
+>  {
+> @@ -421,8 +442,8 @@ static inline bool userfaultfd_wp_use_markers(struct vm_area_struct *vma)
+>  }
+>
+>  /*
+> - * Returns true if this is a swap pte and was uffd-wp wr-protected in either
+> - * forms (pte marker or a normal swap pte), false otherwise.
+> + * Returns true if this swap pte carries uffd-tracked state in either
+> + * form (pte marker or a normal swap pte), false otherwise.
+>   */
+>  static inline bool pte_swp_uffd_any(pte_t pte)
+>  {
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index a6e5a44c9b42..bfface3d0203 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -194,6 +194,12 @@ IF_HAVE_PG_ARCH_3(arch_3)
+>  # define IF_HAVE_UFFD_MINOR(flag, name)
+>  #endif
+>
+> +#ifdef CONFIG_USERFAULTFD_RWP
+> +# define IF_HAVE_UFFD_RWP(flag, name) {flag, name},
+> +#else
+> +# define IF_HAVE_UFFD_RWP(flag, name)
+> +#endif
+> +
+>  #if defined(CONFIG_64BIT) || defined(CONFIG_PPC32)
+>  # define IF_HAVE_VM_DROPPABLE(flag, name) {flag, name},
+>  #else
+> @@ -215,6 +221,7 @@ IF_HAVE_UFFD_MINOR(VM_UFFD_MINOR,	"uffd_minor"	)		\
+>  	{VM_PFNMAP,			"pfnmap"	},		\
+>  	{VM_MAYBE_GUARD,		"maybe_guard"	},		\
+>  	{VM_UFFD_WP,			"uffd_wp"	},		\
+> +IF_HAVE_UFFD_RWP(VM_UFFD_RWP,		"uffd_rwp"	)		\
+>  	{VM_LOCKED,			"locked"	},		\
+>  	{VM_IO,				"io"		},		\
+>  	{VM_SEQ_READ,			"seqread"	},		\
+> --
+> 2.54.0
+>
+
+Cheers, Lorenzo
