@@ -1,33 +1,40 @@
-Received: from lankhorst.se (unknown [141.105.120.124])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BB93AA1B6;
-	Fri, 29 May 2026 07:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8C83B19A6
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780040414; cv=none; b=cB1VdVX2q0PXrJs82B5R2KWdSXMFR7hK3H/p5dHqDDGoHNWUyZBBu6areAo6s4BRFuk3Wf2m2J0qzMAMhpHLYcEzBPYrlHGacSXrOL0FGX7inxFZGYgIPEBtR8fNR/k/C6zOCg3MQLjYnS0XzALAFaWnophgLryjvBN6f+aR2gc=
+	t=1780040548; cv=none; b=D890QbJanUqHOA25ro5XnRh5fXA96gy5tKlqgKpU95k6nUEgz4PIu1ZaZj9+11ZzKUSCIO1hGANmy24WUcX5cemhbjSd8g93dlMH1tFnwPXn73yoWiZh4XruhUBtcRIa9YL4Wl4GvRnlhZB5Xr5xWzBDF6gesaqPRMyxrQPLbAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780040414; c=relaxed/simple;
-	bh=jQMKoFxjhXOg58Gu2goSrIvcgitzJfXOyS065eiSQOQ=;
+	s=arc-20240116; t=1780040548; c=relaxed/simple;
+	bh=DhCLGMOZL/w8aCkBuXuDq7mP31RtxM9KjJ0TJxr/Dn0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bLkBwjCtxqeECqXucnDM1xhvY3p3w12jiYEBrQhYEDUJsmuaniHq+0QDnqmaz2MoNy5tv8XCYK325HfbXUPugkfsHjtCxGUypxxatjGc4CcsVFwDN4/a4gXkki4sN4x+0BqG5K4FuHEiJB+vmfJgv3wm5qUg4QUt+kslpwxxsa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=njLFIoh5; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
+	 In-Reply-To:Content-Type; b=oo0HBKxsytRVakqMNTIGE+raMn2RHaNDSF0VYoV5F/FTpqGAMkUCf/5UhDIWpyIQ6C7WG8mCmlh98DO7DdVWnALnPbaUwzZX3vAp3IbqyApC9FN5dTaWR9+MV2/Xq3E46ignWc1nKQf8bG5PzLPHrnN4O6DXjwle5ic1sg5sYcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=t9kFSCYy; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="njLFIoh5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1780040071;
-	bh=jQMKoFxjhXOg58Gu2goSrIvcgitzJfXOyS065eiSQOQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=njLFIoh5+QF8qO2yk3lhUuM/T3YGzqoJcLI545XszXAraCyn/vqzqXbQpztEhe2qp
-	 TvvjZJh8sITmgxaNvTUvCrCWKTxfWZ5H1t6ucIVSwHpWHzYJrJ8zxulTWmtYdQuf1D
-	 S1iDf5BZX/zV0p/epJhWh88rH8FjbA70aH6aSBWLtYah/vlXYhULlnKNsLubUkU37E
-	 7eC5Et/rBQnmvo5b5xtczea6RnEY437dQfirB8BhtMrcEPhpaL015Dxlh69eFMoueV
-	 Uz25Xm/jB+pKTjyCi8f7ocYa5b9mJEfuoTwizogiCCJAbev4ZmKHjn5+RxJNWFSD8p
-	 6wFW6wpwDZIiQ==
-Message-ID: <89901220-0a43-4668-9d20-aaecc72c58dd@lankhorst.se>
-Date: Fri, 29 May 2026 09:34:28 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="t9kFSCYy"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E4DE6C62458;
+	Fri, 29 May 2026 07:42:19 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 56946601FA;
+	Fri, 29 May 2026 07:42:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 058F310888CBE;
+	Fri, 29 May 2026 09:42:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780040538; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=DZ3lfW7SRE9G4rYU9VyZ9PvQOFu+n80p9zGN3rx2H18=;
+	b=t9kFSCYyYsX7Mpm/43AyGd8fYnebRyCopT4YVv1WlV2yeqIP2xi7Z4lzM/NGEDpKfEflqo
+	COl1/50F/BMd2U8vhv2JtY7i/yUoh2uduIOBevb8aCBASp3YSXaTrXbHHEJB/19pHpLnaH
+	wuAz+Ei6HtEaxLhFX537DXLu6YVHHtGiyvXTuvIHiMQM8cxSNsScAflkJ5qQEfnLQIiXC7
+	n/3x9H1RNTntXn2X0fkVHy/1cR6GS/qtm3cOdKcYM89ZkOOZL4kRAEQnC/bknpD4gb0ljv
+	z+90+AwCWwAm2EBd+1dvFrNzaTpWDqoAgPa3KRqzQ8o3LjME2S0L/hhrb7D4Yw==
+Message-ID: <b84a5fe0-a080-45fc-87d1-790402d423e4@bootlin.com>
+Date: Fri, 29 May 2026 09:42:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,76 +42,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>,
- Natalie Vock <natalie.vock@gmx.de>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, cgroups@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
- <ahCISfTlN10gD8e6@localhost.localdomain>
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
+Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+ <20260526172447.10ca4b9e@kernel.org>
+ <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+ <20260527162516.0d012503@kernel.org>
 Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <ahCISfTlN10gD8e6@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260527162516.0d012503@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi
 
-
-Den 2026-05-22 kl. 18:48, skrev Michal Koutný:
-> On Thu, May 14, 2026 at 02:36:08PM -0300, Thadeu Lima de Souza Cascardo <cascardo@igalia.com> wrote:
->> Just like we have memory.peak, introduce a dmem.peak, which uses the
->> page_counter support for that.
+On 5/28/26 01:25, Jakub Kicinski wrote:
+> On Wed, 27 May 2026 04:47:47 +0200 Andrew Lunn wrote:
+>>> It'd be great to hear from others but IMHO in the current form this is
+>>> not suitable for Documentation/networking/ We can commit the "knowledge"
+>>> part but enumerating the test cases seems odd for Documentation/.
 >>
->> For now, make it read-only.
+>> Sorry, not looked too deeply at the actual content yet.
 >>
->> This allows for memory usage monitoring without polling dmem.current when
->> the information needed is the maximum device memory used. That can be used
->> for capacity planning, such that dmem.max can be properly setup for a given
->> workload. It can also be used for debugging to determine whether a given
->> workload would have caused eviction or system memory use.
+>> What i was thinking was a python file, which sphinx can ingest to
+>> produce documentation, and place holders were code would be added to
+>> implement the actual test during the next phase.
 >>
->> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
->> ---
->> Changes in v3:
->> - EDITME: describe what is new in this series revision.
->> - EDITME: use bulletpoints and terse descriptions.
->> - Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db9e@igalia.com
+>> This is how i've done testing in the past. I would be the evil one who
+>> thought up the tests and described them in detail using sphinx markup
+>> in a python test template file. After some review they got passed off
+>> to a python developer for implementation. And when they got run and
+>> failed, sometimes the feature developer, the test developer and myself
+>> got together to figure who made the error.
 >>
->> Changes in v2:
->> - Make it read-only for now and adjust documentation accordingly.
->> - Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com
->> ---
->>  Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
->>  kernel/cgroup/dmem.c                    | 15 +++++++++++++++
->>  2 files changed, 21 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->> index 6efd0095ed99..d103623b2be4 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -2808,6 +2808,12 @@ DMEM Interface Files
->>  	The semantics are the same as for the memory cgroup controller, and are
->>  	calculated in the same way.
->>  
->> +  dmem.peak
->> +	A read-only nested-keyed file that exists on non-root cgroups.
+>> I'm not sure we even need sphinx. What i find important is that the
+>> test is documented. What kAPI calls should be made with what
+>> parameters. What results we are expected and why? So that when a test
+>> fails, a developer has the information they need to fix their
+>> code. The Why? is important, and often missing from the kernel tests.
 > 
-> s/nested-keyed/flat-keyed/
+> All makes sense. The question is primarily how we fit that into
+> the existing project layout we have in the kernel :(
 > 
+> The python tests can be hacked up to print the test case docstring
+> before the failure.
 > 
-> With that
-> 
-> Reviewed-by: Michal Koutný <mkoutny@suse.com>
-Reviewed-by: Maarten Lankhorst <dev@lankhorst.se>
+> But I think for human and AI reviewer consumption it may be nice
+> to keep the condensed knowledge / common mistakes in Documentation/
+> If we had the ability to exercise the submissions it'd be a different
+> story test output would be a sufficient signal and/or could be fed into
+> the review. But for AI making a guess at whether the submitted driver is
+> correct purely from the driver source - knowledge is useful.
 
-With your r-b it's ok to push it to the dmemcg tree?
+Also for the knowledge part, we had Oleksij's series that documented
+more aspects of flow control (not just the pause part) :
 
-Kind regards,
-~Maarten Lankhorst
+https://lore.kernel.org/netdev/20260304094811.2779953-1-o.rempel@pengutronix.de/
+
+Oleksij, maybe we can merge some of the information here with your
+doc for the Docuentation/networking part ?
+
+Maxime
