@@ -1,201 +1,207 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B830039B486
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 18:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7C47ECCF
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 18:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780079357; cv=none; b=kbUVcuFlj6rIldURRnRTj9Zqxmj1/DGnOaCL0v6dbPGeFWgZam3MgZusmxs2KhwmeQ9RTn2HwdLKz4GnyuoXJv1W/WQjIsMZuwTmovSrq/QPV5xUttXflDEMPA34JGG7TSFeUJr5XG3vmuJBFRvRhRMItFwFmumRDjRHUpETIzw=
+	t=1780080117; cv=none; b=gsAhEpQ67bgQdFz65HA+W0JB+fr5MW7++pZbMhMk+4aKg7GjFbCeZBFMdEyRDiFYzC8a/1xq47YTpycb6PZq0kg6LD08ZrGjW6AOYa/nEN7T8axijWJRyfm7Xp8CaIzJaydMw4oAd1xBGzpIrmFFxOo+wNRavs7G71aZ0MMEKAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780079357; c=relaxed/simple;
-	bh=aOFXYeYQFmbVEiOM0RrY9tgq/Y6rzuZG4+/QB/IHSdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EUcZqMkPiqgQz3N2UxXjr0JXnr64iMwI6oW0DS37BUnGfjAKEHp8Eb4Hz7vgqrEjJ4As+EcsDPaRe9DuC2vSUDwbOU2IzvPgADJS/rRnxfloaJDCHqwZT/Xy2MHVC3U7FQ/G4HLl8SaersA/eVlqucqAyg4BCvNvVr9Dsss5sL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LayyVWiN; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780080117; c=relaxed/simple;
+	bh=uva3Wh2G41ZjJ7s3C9OQsVwYKWq75QhraT6FmWMwLsM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oRbbEWWDgXHClS8yRJxgpzR+y81rbN8ybDfU1BM53vnbcXj0JGblX4iJrqDkki+P5mhGAyV8Ie2pGtdXcNltF41dXtLCicUp4n3mAaZRC50ZRyEPPRAN1960ueNkI0wqI3aRHINilZ+TRB9WGPp4m83zOL5AZWhxe19QuTx62CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=UW/tU4Es; arc=none smtp.client-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LayyVWiN"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137d464c47eso76917c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 11:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780079355; x=1780684155; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+ybPONvBT+3PzQ9QpwIpiAUUWA5fZia2AyuCUimrO6U=;
-        b=LayyVWiNsvPQFfTlYVCT0RbqLuMfez/HO6Spvge2gXROWOiC0tSkCgMVRVp3vDimXj
-         rk8qCt9rdwqJvolY/aPjnxuxlFAW5ZXycj68rilumJk8WECQfPvAefpbh7+M2ZSdr0WQ
-         DHojxgQjQHgbUz67QC6hzC/riDawsBdwj8+aRGokiizvz/fXLKQrvSQiF1JJK0nkyVWY
-         SzgHW0FOUUKzn87+EomIcGcEBQR/zzXpzYvKwzdXm4aNTQRmFvMDNNBFU/LABPvbEbb0
-         ntajqBJCQ942pJoKzbmCLsIrn1Afr7Jwo7ZJqpco0VArfxl8m4EX7TlbVoGbWffhy3OW
-         Hu3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780079355; x=1780684155;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ybPONvBT+3PzQ9QpwIpiAUUWA5fZia2AyuCUimrO6U=;
-        b=gkUgVS5s4IXzmp7Moh7AwNTLZ3nvXoDjrdfujUNHOz/78jP1xyUEzmwEGbdfa9c1Tr
-         ViMfp9g3Uj9PD6Q3SGz+dJB1akHIznkN9CERDGomjsfST2X6k0/0i7IJ6Za/Sxccv8wY
-         +P7MhsO+1egLrFEWjukFizRvHnp54ZPl4wYFxGZ1WXLGfQHTZbX0i4aj/o5FuYRVj16v
-         KF6hWF6VNHuwAYoWQsYrIJavIkgSbmqhL9dmbSX7gPG0+1pESzPnsLFErtdLF6MhSd+g
-         ZizsBjp9PBK6V/5EEkN0WemLn5cg4Z4gD9aXxwUs7/GcLkgKyp/gC6WcinnOZAxdNfda
-         K+1A==
-X-Forwarded-Encrypted: i=1; AFNElJ9JawJO4eXzeZMbO2QUCzo5vQJeswsOvUQ+YKvPzuKEBL2uwn3kOfD3yUPCRwtU91Yj6Ww5tjrzXYY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk/xOAeEqe5Q6vlZBWMLyv/QSmkq7oqCKuRZGdEwbqH2++rwBv
-	QftDkACFhbJh4gXOLPUJY3kiiHcgKUyaCBSY911E1UghOuZtyl+e4Lnu
-X-Gm-Gg: Acq92OGzvGOS3qC+ge+ZDYQBMnPygIWkrJvjB0/rYnsPsWqleleOsLGzCMzakkDCidf
-	TCAsp+jMfX5Kq8gWt0QbrsIQCctvCQJlsvzZNyqQ8k+RxW9bcDfvz7fIZtUYRKgHy5lClHqv1nF
-	aMiCfJ8y+sGjsW1Lvrv5RWXXwlgi+mLQHbaID830anrGCsJTCiuzUrSv7LPFNwD61uHjrCLG46Z
-	WnpUBcpUauJXSy/URp3inw1Aor2O31HY8KfHWAMCxpDiAoFaFSFiMzMMIaqaAKB99IU4S7f/v+9
-	0/j3RCKTU8yFEQik29fMuc5af/WlvEkU1tOr/ebxChZHa8xXL1hfLvy0kK9Ajo1oGkS9oPQzYMB
-	qBo5f5Y6vD1moGyxgfTgq+KBgwhZ21Z/W/Y+6KoyLACZudtpy9rScg6YrmXesJNg9iLzBqJpLNo
-	8+j6r+x0rUUlEVuz+0Zd1GzMT84wk9H4AidEOK4i4B/PaOflqjMeFQ2J4QGh1XBV8z5yshZsgLs
-	Z4=
-X-Received: by 2002:a05:7022:6a3:b0:136:4faf:eb09 with SMTP id a92af1059eb24-137ae5127e2mr1268920c88.7.1780079354594;
-        Fri, 29 May 2026 11:29:14 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:307d:2a52:8823:4a01])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b35a6cf0sm1664069c88.3.2026.05.29.11.29.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 11:29:13 -0700 (PDT)
-Date: Fri, 29 May 2026 11:29:10 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-	Denis Benato <denis.benato@linux.dev>, Zhouwang Huang <honjow311@gmail.com>, 
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 1/4] HID: hid-msi: Add MSI Claw configuration driver
-Message-ID: <ahnYeAbzO5K3feRn@google.com>
-References: <20260527222122.10620-1-derekjohn.clark@gmail.com>
- <20260527222122.10620-2-derekjohn.clark@gmail.com>
- <ahfQW54YoHj2Pal_@google.com>
- <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="UW/tU4Es"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1780080111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Lwrj/ywtXNjbe0dHgmLhjk3odes4syGRReRu941q9DY=;
+	b=UW/tU4EsU8eI8kxzNWhnr9/C2/VNGBLo00+H1QezDsCIYPEw53EZq+54gcyWQOdy6VmRQz
+	Gw0BWJooMo3G6V1VAY/qPg2J3+6H2DrGD9582MTbAlaNQ5uAXftoF8eFgN6J0sWQGu7QvY
+	UqPdu4fa2agvgVVqSiLRAQ5o9MW13/w7BAmNkhVz7ORyu3ypQLbPDVQfmWmq605TfKOGEL
+	hfqrnIbhLT09RvF1Uz26X4zZDibRUr5BzW5A0ioJkHoBhLKTl8tePsc1fFYVcA1+ubsR56
+	wMOpe1RXMirJq+ehuzrKTBSqzA6+r8mauj6LWhwkaAlLfeO6CSMBsRTagz9HOg==
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010051.outbound.protection.outlook.com [52.101.56.51])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-16-ZrT7QEqgOUCilplPWza9BQ-2; Fri,
+ 29 May 2026 11:41:46 -0700
+X-MC-Unique: ZrT7QEqgOUCilplPWza9BQ-2
+X-Mimecast-MFC-AGG-ID: ZrT7QEqgOUCilplPWza9BQ_1780080102
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com (2603:10b6:930:9c::17)
+ by PH0PR02MB7399.namprd02.prod.outlook.com (2603:10b6:510:a::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
+ 2026 18:41:38 +0000
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda]) by CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda%3]) with mapi id 15.21.0071.011; Fri, 29 May 2026
+ 18:41:38 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	"parthiban.veerasooran@microchip.com" <parthiban.veerasooran@microchip.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH net-next v3 14/14] Documentation: networking: Add timestamp
+ related APIs to OA TC6 framework
+Thread-Topic: [PATCH net-next v3 14/14] Documentation: networking: Add
+ timestamp related APIs to OA TC6 framework
+Thread-Index: AdzvmhThHuxCpdZnTFeuAkMveDpFww==
+Date: Fri, 29 May 2026 18:41:38 +0000
+Message-ID: <CY8PR02MB9249D1ECBA54A1083D404A6D83162@CY8PR02MB9249.namprd02.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR02MB9249:EE_|PH0PR02MB7399:EE_
+x-ms-office365-filtering-correlation-id: b6f5a404-cf72-4ede-1272-08debdb1eb15
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|6133799003|921020|3023799007|18002099003|56012099006|11063799006
+x-microsoft-antispam-message-info: payaUazXmY21C/7l/1HsBMT+V2CbbEhUeS/DjM2aok9l1S1uhTGikYPyhWt7q8LScAPkJFaUOm+QBzzV5jluBC8FrIQMlTMdjheNWpA/Fd0l5NzB4vzSXkYdXwDxn2wx8+Vz9yNoXyrNAsqmQlHE62qpCA4148573x8rYCYBdMdHSkLaGecvYud03p/qNnkhTd+wuaZwrmj4CrebjjznoFD43XO/Fj825+QY0AaM2ytNWRQXtpUrTIPjggeJyp3icy7+WNYizmeQXfgd8BOIOCRwiRSKCq5vcoQ6/N4o73QU9qUU2broXXZqIlRi0jvQ218EWLBVc8VqC5xwJqbeusdoknqq3BBymnk3YianK64XieKwC7yFXLXZ5ykd91dPh+830Al1R1UKVWFSxaaqMK1ov9aFtJr4eX0usA0r62mA1+3JPlBFmtBl3cM42DxfZr74rcGZpZF4kzFDp+0ajAeYhzCTtqIaQwkcNxurr9aZitwbLmUL/Dg1IAdqbBLn7rIRYOmW3KgV0/6/kWI6ldEB+aDbVyu8T5M578EWWKzeuUYBg839nTwLRX6fNFgn8S9fdL3oAb3wfSI/sSm623eE4BG6AQqZWr75R+H1zgOzMtbtYazOM6WFZzsY1DacdBo0RpDTVkuT17d6z/DKqiZk9opeeflyIgryXoeTlo98LlCNQ3C0SRWPJjVlNVqj3QiCHlW7XHtz70WQHCPoxcS3nA31BzZmQI2Dacg6xTQTg8kU+NcPHkPm8N3aXkzhwaPmuXAnq1b7+nAwTZih5g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR02MB9249.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(6133799003)(921020)(3023799007)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VnQJdF44vOQbG9Ott6xR++WSA2NW8xIyfTXqGIGyxRqoqMGFeypHW0H4w3IC?=
+ =?us-ascii?Q?1BEQdk9VzHrGeFEMtFDIBPAWkf8fBbcy4sdh72CtfTklkTe1HPCGV954/AdY?=
+ =?us-ascii?Q?+XnXuX5MQx+pKTAugWUuVkIlrckZrUaj+aZE3EqUqu9pX6mMAcAoahN8Quvv?=
+ =?us-ascii?Q?6h3/kJAnL6ZUs2wM2uAob+1fHnFy8Dk3sIqQkOgG3+2xiQ4qojp4/2XiRw38?=
+ =?us-ascii?Q?K5HKTtyFNmbCKRkFl41rKhvuxvNooza7RFW1+pL81A+ijjmMAdaVI+kSbzJx?=
+ =?us-ascii?Q?l6/883W6GB/L5YYCjN4TNQhC88Y6I/7c/jOXFIzWi3tbfI1T19UBOSUpjvkh?=
+ =?us-ascii?Q?+7VgwLQIn3op38qVKggn6Hceski0WcSRrHl8uQKzFDVgL7Rfhcq+o0/CsQDF?=
+ =?us-ascii?Q?Y+jL2RGNZ21Sa3FwhsAWWwKzxlY+jhsZkJAlM1J/1t+wFyrY92qbaWdSiyHE?=
+ =?us-ascii?Q?oFKccbFw34j48CQ2Qotk6T3ZU+ce+2pDlPBXO+g1tWtDDrBUk0j5tCMhhTqq?=
+ =?us-ascii?Q?kdqmRF38wavlCcwZCKhckpTBY7MHAAs7DS5oNCB3IFG2/uWBkasp9tVA77ED?=
+ =?us-ascii?Q?jwz0PL9LMTAAIFIZ0SgZeIyk0LlJw7jeWeXlx2ItM9Fw16WzDTOl0whjK+vP?=
+ =?us-ascii?Q?qCVvUweiz3szUFgtQhuLAKURBRT7XYtMWNtCZQZEmBXjHVa9oTQXA9uAqy/k?=
+ =?us-ascii?Q?Hh2QK1REtZGwMqKsaWIcNR1VVKCuoKiLVBNP8pZeljEK1/JxJgQaSVNs6fj6?=
+ =?us-ascii?Q?jt4Sj1Cis0MxP9b6NtYY/BNFsPzUC0WwwyVCNbZtYKREEO6IRs4ho2d2V4lh?=
+ =?us-ascii?Q?mPQXsfnMZ3QwDeC086MpJ0Qu3ktjGcR/O7L+ctUfzIQP5OKEl4zzov5zPPor?=
+ =?us-ascii?Q?u9tYnMO2T2+yyxRRooPz/GY4MMYSjNOXkfte5YkbIac3QIPyC4O8aQMwi0Sl?=
+ =?us-ascii?Q?qrO5E2vAdq6hHmVfdiOiFhW1DI1312c9s4MH/6d5hr92vlg30HgkxA2OMXK9?=
+ =?us-ascii?Q?sRRKQkNswtQVsYkBX1vbPjdBoNAy/h5Djp199DCY3E+vqYGO3BB09Drd8Ggy?=
+ =?us-ascii?Q?9RX7YKsmKyVss40puE8zwjM37DJPzIaV52BxnOWGd9DiAFLrZmSHte+BDDD2?=
+ =?us-ascii?Q?HWfCxCiNdcCwTHMZ0PkKXr4Lt0na5FY40OWmfiZn4V8JAtqzp5JOd8aitbxm?=
+ =?us-ascii?Q?J6IhIe2bDT9cYvAFvAWqu9EhIKtFUgdClCeP2hxglDibuCtWyXObbZ+Rt+e+?=
+ =?us-ascii?Q?yO7w9CYcywkk2SmXZMFwBk2brzhQ1I0xbpMNDxI4OOxToOIXp+z407+sRddn?=
+ =?us-ascii?Q?jU9rU6m02Oif5SGDnfrkKkzDmsyY5ErRMrAt3qDyfDbzwH+jvgxHEmL5VyMM?=
+ =?us-ascii?Q?efDWCFuEbyL/6rXhw0CtetEcmIGOhF14ybl7UG5m86zq+SNnkFgFaYoSduC8?=
+ =?us-ascii?Q?pHKLAi0EsL5VTNpzb/2aN1wqJbl9dXTWAw/hnmQCUcBI6G3SbzUmWjWp3iWK?=
+ =?us-ascii?Q?rpmAKgRABp6DPmTpG7niHszU6eGHLJuYEd/ZeD1G3SPeL2IGHKVLKpp5JKSS?=
+ =?us-ascii?Q?LUbfBW7YdERz724NSCtd0s5coAvLvEBZ1wvMSkZjkaidZ9qewPl2oCQc3gEn?=
+ =?us-ascii?Q?w3XJPzAqbqN+TlQto1bVN7qYRZESYmhnAVqeeqQntpydJ+RIdW0vhRnkImHd?=
+ =?us-ascii?Q?hJF8TZnxJXLZMUj/hBYP97YUDudLhRJ3gvzLXnf3Ps0HAt67V/Me1HQMSLDP?=
+ =?us-ascii?Q?HuMpiurvvInBYX1AiPU9CQpO6WB3/Q0=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com>
+X-Exchange-RoutingPolicyChecked: FM+uFontxu3rxoka4VyFaUkeDeZ0jhptjEjeiKNDUu1t13iy4PHE5qIQhj99MH8IWkvHtsM1IKxe3e7C08185HgVcMyLPGec1OGsjqbIx3HZ/iKBy9iF0OyILLUEbHovpXGHvawaANp1aqU4h+x9FhZwF7eja1DRkYPjwltGCr71I/XR2mG8jWq16qxcwAqCFLlhHSozXymoXqeZ7WKBc417Gv9aBJ7btCCJtdBJMW2ti6m7+u8pxQREIFu+AjeF9u83oNNPWFprxmgpkkUd1UjjtiD4e+Hp3KYEjAihcQRWVoiDRhvT5vdsZy4o7Sbpi6GofSS7Enf5d3psrB4HDQ==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR02MB9249.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6f5a404-cf72-4ede-1272-08debdb1eb15
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2026 18:41:38.4011
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5hHwAxpJ/L7m016O1hVI0Q2XuZBnNxip12kmSS4LNp0j27rfZuL4mK/CipJg1hh7EbHQ3qA4345SHddGsTmt4kP7rHE515oAk4475+iZmBk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7399
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mkfYpHe4NOwuL-I7fnIMkK0xO47ijl4NVIA204vhsFg_1780080102
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 28, 2026 at 11:34:18PM -0700, Derek John Clark wrote:
-> On Wed, May 27, 2026 at 10:32 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Derek,
-> >
-> > On Wed, May 27, 2026 at 10:21:19PM +0000, Derek J. Clark wrote:
-> > > Adds configuration HID driver for the MSI Claw series of handheld PC's.
-> > > In this initial patch add the initial driver outline and attributes for
-> > > changing the gamepad mode, M-key behavior, and add a WO reset function.
-> > >
-> > > Sending the SWITCH_MODE and RESET commands causes a USB disconnect in
-> > > the device. The completion will therefore never get hit and would trigger
-> > > an -EIO. To avoid showing the user an error for every write to these
-> > > attrs a bypass for the completion handling is introduced when timeout ==
-> > > 0.
-> > >
-> > > The initial version of this patch was written by Denis Benato, which
-> > > contained the initial reverse-engineering and implementation for the
-> > > gamepad mode switching. This work was later expanded by Zhouwang Huang
-> > > to include more gamepad modes. Finally, I refactored the drivers data
-> > > in/out flow and overall format to conform to kernel driver best
-> > > practices and style guides. Claude was used as an initial reviewer of
-> > > this patch.
-> >
-> > I wonder why do you need to roll asynchronous probing and asynchronous
-> > resume by hand? This I think complicates the driver greatly and forces
-> > you to use a ton of works, spinlocks, and checks.
-> >
-> > Thanks.
-> >
-> 
-> Hi Dmitry,
-> 
-> I suppose being asked this means my cover letter and  commit
-> descriptions need some additional context.  The MCU in these Claw
-> devices is quite temperamental. There are a few specific issues that
-> cause the need for multiple work queues, a serialization mutex, and
-> subsequently spinlocks to prevent stale data reads.
-> 
-> 1.) The MCU will halt function if it receives any output reports
-> before ~500MS after probe or resume. This can either manifest as the
-> device never responding to a command, or it can cause the entire
-> system to become unstable and reboot. This creates the need for
-> cfg_setup to query the MCU and then add the gamepad attrs, led_mc
-> device, and rgb attrs. As a side effect, because a system could
-> technically be suspended during that 500ms delay, there exists the
-> need to re-queue the work if it was never triggered, hence the resume
-> queue.
-> 2.) The MCU will not always respond in order if two or more output
-> reports are sent within a few ms of each other. Since many of the
-> commands use a generic "ACK", or share an "ACK" type but don't provide
-> specific context about what sub-function called them, we could
-> potentially have cross talk where data is saved in the wrong attribute
-> or errors propagate because of a missed message.  To get around this
-> serialization issue we hold a mutex through a completion triggered in
-> raw_event and, for most events, save a state machine on what command
-> is expected and what sub-command was the initiator. (I.E. profile
-> events handle the M1, M2, RGB, Left rumble, and right rumble). Since
-> the state machine is accessed on both sides, we need spinlocks
-> guarding the reads. This essentially serializes the data and makes it
-> predictable. Using this pattern I haven't had any issues reading from
-> or writing to the MCU.
-> 3.) Some commands will never return their "ACK" while a completion is
-> held, so we have a workaround to basically ignore them and hope the
-> command worked. This is only needed for SYNC_TO_ROM, from which we
-> don't need to set anything on its "ACK", and switching the gamepad
-> mode, which causes USB disconnect/reconnect and the driver fully
-> reloads, so we'll never be able to read it anyway.
-> 4.) The RGB work queue is used to free the userspace write while the
-> completion is held. I found that use without it could stall userspace
-> quite significantly if it has multiple writes back to back. I
-> experienced this using Steam's customization menu, which sends a
-> single write for every increment of its color and brightness sliders.
-> when traversing the full length of the slider it is possible to have
-> effects changing for nearly a minute after stopping. With the queue,
-> only the most recent write is eventually sent to the MCU. This issue
-> also affects the Go 2 driver as well, though not to the same extent,
-> but for which I'll be adding a similar de-bounce queue soon. Go S is
-> also technically affected by this bug, but that returns quickly enough
-> that it isn't really feasible to trigger the bug with much frequency.
-> I'll still fix that one as well though.
-> 
-> TBH I'm not "happy" with the complexity of the driver, but I don't see
-> a reasonable alternative. If you have any specific suggestions that I
-> could try that might simplify it, I'd be more than happy to give it a
-> shot. That being said, I'm not very optimistic about it. Development
-> on this device has been like wrestling a bear.
+Added new APIs to support hardware timestamp feature as defined in
+OPEN Alliance 10BASE-T1x MAC-PHY serial interface specification.
 
-Thank you for this detailed explanation. I would like to concentrate on
-the #1 first. What happens in the driver is you are essentially rolling
-asynchronous probing and asynchronous suspend/resume in the driver
-itself, and end up fighting with the kernel and the driver core
-specifically.
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+---
+ Documentation/networking/oa-tc6-framework.rst | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-As far as suspend/resume goes: HID subsystem already enables
-asynchronous resume handling (checkout the call to
-device_enable_async_suspend() in
-drivers/hid/hid-core.c::hid_allocate_device()). Therefore I think you
-just need to stick the necessary delay in your resume method() and call
-it a day.
+diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/=
+networking/oa-tc6-framework.rst
+index fe2aabde923a..9e6aff408a92 100644
+--- a/Documentation/networking/oa-tc6-framework.rst
++++ b/Documentation/networking/oa-tc6-framework.rst
+@@ -153,6 +153,10 @@ OPEN Alliance TC6 Framework
+ - Forwards the received Ethernet frame from 10Base-T1x MAC-PHY to n/w
+   subsystem.
+=20
++- If supported by the hardware and enabled, updates hardware timestamp
++  in skb, when indicated by one of the three timestamp capture registers
++  through TSC fields of the header.
++
+ Data Transaction
+ ~~~~~~~~~~~~~~~~
+=20
+@@ -495,3 +499,37 @@ the MAC-PHY.
+ Zero align receive frame feature can be enabled to align all receive ether=
+net
+ frames data to start at the beginning of any receive data chunk payload wi=
+th a
+ start word offset (SWO) of zero.
++
++.. c:function:: int oa_tc6_ptp_register(struct oa_tc6 *tc6, struct ptp_clo=
+ck_info *info);
++
++Register the PTP hardware clock related functions with the kernel. The mod=
+ule
++simply registers. Hardware timer related functions are provided by the ven=
+dors.
++
++.. c:function:: void oa_tc6_ptp_unregister(struct oa_tc6 *tc6);
++
++Unregisters the PTP hardware clock related callbacks.
++
++.. c:function:: int oa_tc6_ioctl(struct oa_tc6 *tc6, struct ifreq *rq, int=
+ cmd);
++
++ioctl interface to control hardware timestamp and PHY related commands.
++
++.. c:function:: int oa_tc6_get_ts_info(struct oa_tc6 *tc6, struct kernel_e=
+thtool_ts_info *info);
++
++Provides timestamp related settings to ethtool.
++
++.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, struct kernel=
+_hwtstamp_config *cfg);
++
++Returns hardware timestamp configuration. Part of net_device_ops callbacks=
+.
++
++.. c:function:: void oa_tc6_get_ts_stats(struct oa_tc6 *tc6, struct ethtoo=
+l_ts_stats *ts_stats);
++
++Provides hardware timestamp related traffic statistics for ethtool.
++
++.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, struct kernel_=
+hwtstamp_config *cfg);
++
++Helper to set hardware timestamp configuration. Part of net_device_ops cal=
+lbacks.
++
++.. c:function:: void oa_tc6_set_vend1_mms(struct oa_tc6 *tc6, int mms);
++
++Helper to map MDIO_MMD_VEND1 command to vendor specific MMS (Memory Map Se=
+lect) value.
++
+--=20
+2.43.0
 
-For the probing I would look into annotating the driver as 
-PROBE_PREFER_ASYNCHRONOUS and relying on that. Again, if you stick the
-required delay in probe then sysfs attributes will not be created too
-early, same for the rest of concerns with the device being exposed to
-userspace before it is ready to handle requests.
-
-If there are issues with HID subsystem honoring
-PROBE_PREFER_ASYNCHRONOUS I would look into fixing the subsystem rather
-than try to work around it in the driver.
-
-Thanks.
-
--- 
-Dmitry
