@@ -1,89 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174703AD539
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 20:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AAB734F474;
+	Fri, 29 May 2026 21:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780088023; cv=none; b=hi4SVAQBIZwDbtKeSKLcuvRUhc7gClIsIsWM+fPbPteu+W9X9OLIBv5YdwUI1eDJ2mOIhWDCR/ml6UXprcbTzP5gyyhi2IfLSETTO+dH3/pWdrxwgSrfcApItinidYKEwVpIlnqYfSGo5loS1f23I0tN5gYbsPnaFLkFCUtZQWc=
+	t=1780089629; cv=none; b=kOqibRh+OH4HPzTXZy4lDZMXDwkhKuxJWiRJxWGzfEU+hkdwaysZDtRCnAtYSgVjAzTB+OKI16cCwHk176m31Z/dawro5JQvxHfhWcCGuBHzY7d5nUw8K872U9e3g0R2DiQzaDXRfX+LXcoUZrh3Bq4mai6tkSMbX0MYtht6XuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780088023; c=relaxed/simple;
-	bh=alrpKLdV48Pp4sTZ1wT9OMUMdJJUOKy4Lb5RXMiQQhI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S4AWXU/IweGPSt09VQjCTKnT2qpjv6wUBGkprH+RBlwXaoYLjufuCLaBlC7vhxriEZzUifpwB+oG1WtHM/0DCJeOCFSWhh+L1daGiOKqWlv69HOEzkmfxeFPtrjniy8HRPeaammbcgEPpsgNwERhdef+AjL1HZ2RQLntcR/XBs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bu7TauIQ; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780089629; c=relaxed/simple;
+	bh=oQ7x4NyHSPJnjBkGhNLc/QnP2bbrI9Ctr2l4qiKM6ow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BqEMXow/EE3bvdVRDfCu5rZxeNGtmdSeweb9UFR502ljrFq6De7DGINbcsTv1AmSURCRUdJijV+Atim9kwWY/Iuq6mFgM0I4qwKGC/CdNpSpNfF7vICpPHhqhpMwC2sOEU3dbbnlfO/cAsSg646N/1lTh08m0TXjnC9RdJiq2fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ld0SYG+o; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bu7TauIQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780088021; x=1811624021;
-  h=date:from:to:cc:subject:message-id;
-  bh=alrpKLdV48Pp4sTZ1wT9OMUMdJJUOKy4Lb5RXMiQQhI=;
-  b=bu7TauIQRAkAfQPI1+8afSTNMSzsV06U9TeVA1e/dOCCgS+EGZvcaNTV
-   vX5q6189+05oK5VKdw1kCYEyrKN+WkkrVKOhX97kdLxXDdnh8Xz0vyaDC
-   8Aq78MSermrRpsTtce4Z2LarqZ3scWWKnfVWgVyQvZDoqJoM/geiiMWPo
-   7BdRbcYUqnRretOCD1KPVB1HVKd2rhG1FdE14BIstvg/12eh4QSIqSq9a
-   2K1n/AALBnm/Yi7v8egqdg+i8GXQ8Cx++NxADctGNewURr2OH5skP/KtB
-   9PEwrr8cXQxZ8XLzdzaVOWkKf32/F/Z7vws99qMwii8TcvXxsiLLcW/D+
-   g==;
-X-CSE-ConnectionGUID: OOBQhu7gRv2mZJJPUhYKAA==
-X-CSE-MsgGUID: KV6BK8cuTo2omoUwQTRpmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="81060489"
-X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="81060489"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 13:53:41 -0700
-X-CSE-ConnectionGUID: TsJbHAgJQ++pagbkSLbS1A==
-X-CSE-MsgGUID: lNzHTciLSQKhVpxuK19mOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="242818409"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 29 May 2026 13:53:39 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wT4D2-000000000wL-43rm;
-	Fri, 29 May 2026 20:53:36 +0000
-Date: Fri, 29 May 2026 22:52:43 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/iio/open-sensor-fusion-protocol-v0.rst: WARNING: document isn't
- included in any toctree [toc.not_included]
-Message-ID: <202605292226.LXfXcakp-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ld0SYG+o"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=XzNZ2l/2uZ2WpZM+YlAZx0tA9px8hPppIzSOcPIbcTs=; b=ld0SYG+oRntiKmikAa7hhVEPUl
+	E/7P3ISfMsCUeRIcKX/3WANFEjo/Gl7gUkCfiHnSqCt3NQTP+S2QtL++QBQakhNHhORxGSealZFJo
+	9FIZw0bU7X0Hw6CndCoATlpFByEfSrY2zchkteNNelek8sDaD0emGPSKSVUqy0Aj5uHpH/YoQO+zu
+	3VMHX9klkDY6CQXM6VM89Atnv90M+gbrff5yUulXIldWXrDcxMfIe2f1znSMMhPJg6pnDySbw5JJC
+	JlyDEiSjM9oiwJLSm9u0uDCuptbVKtax+J+TkvSjPryrA9lTyH014bvXa1qAE1OPqr+VERLd1JHHO
+	aKJhq3Gw==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wT4d0-00000008F6L-3RCt;
+	Fri, 29 May 2026 21:20:26 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-watchdog@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/5] watchdog: add devm_watchdog_register_device() to watchdog-kernel-api
+Date: Fri, 29 May 2026 14:20:20 -0700
+Message-ID: <20260529212024.2119204-2-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260529212024.2119204-1-rdunlap@infradead.org>
+References: <20260529212024.2119204-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jinseob-Kim/dt-bindings-iio-add-OSF-GREEN-sensor-aggregation-device/20260529-203704
-head:   1c52cc7956cbaab8331a893adeeae87be8eecbc0
-commit: 6d2e81590d4f043dfe0119681118fff3d7d3da4f Documentation: iio: add Open Sensor Fusion protocol v0 reference
-date:   8 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260529/202605292226.LXfXcakp-lkp@intel.com/reproduce)
+devm_watchdog_register_device() is not documented. Add it to the current
+kernel API documentation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605292226.LXfXcakp-lkp@intel.com/
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+v2: no changes
 
-All warnings (new ones prefixed by >>):
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-watchdog@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/iio/open-sensor-fusion-protocol-v0.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+ Documentation/watchdog/watchdog-kernel-api.rst |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- linux-next-20260525.orig/Documentation/watchdog/watchdog-kernel-api.rst
++++ linux-next-20260525/Documentation/watchdog/watchdog-kernel-api.rst
+@@ -42,6 +42,14 @@ The watchdog subsystem includes a regist
+ which allows you to register a watchdog as early as you wish during
+ the boot process.
+ 
++There is also a resource-managed watchdog_register_device(),
++devm_watchdog_register_device(). If you use this to register a watchdog
++device, watchdog_unregister_device() is called automatically on driver
++detach::
++
++        int devm_watchdog_register_device(struct device *dev,
++				struct watchdog_device *wdd);
++
+ The watchdog device structure looks like this::
+ 
+   struct watchdog_device {
