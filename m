@@ -1,101 +1,155 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8851A3264FF
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 08:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D7F3B776A
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 08:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780042701; cv=none; b=lQ8wPOG2ZhfLFu44uJIDXgadMOODxi0P6hg1++Vtb0RT6eM+SiW9Fo3VesqUeU3uVw5Cmcs3CHF+eI0oNeLpX2L6vlaIcTwCZ83ZC2Xl9nKC+ujhtcjpUk2a1C1A3M3e6gmgdrdM2jMMNIBootkC9ub8+nE0z0fFlmJ2YuNh9Es=
+	t=1780044992; cv=none; b=FSsNOBPT2uHYZ/+AkuNMk20V/r/PQQQobuxZCzxGyb5wZrN97rd2hy4cbbJjbv5xlCCadMz4LFIItvg51Lom9CYERnSDk5DWxSgqs5Yx7dunxG1ye9WAglFtNMaE0drMabmzz2ICWrdVnZUE+BjxpL66hspI4xdZ4GJGEffJw6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780042701; c=relaxed/simple;
-	bh=U6STYFc1MSV2t8PYiQhu3Ra9FUPADWa8sNTge/8tcUA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f6IGvJiPX38NOR04dAMxMJezOJMiyrqbmHWFLzuxCmbNjPospTD4MaoWpArBF2mgBqv27qw7TNsYxsWr/A53kGd6CA+XfID5ykYmEyyMrg/uCDj3fn6daqyeW7BKqxPijqj7yqgUTZ1DACzeQgTqlDBuo/1uywo2U+B/kLl1N20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-95697b46831so8688808241.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 01:18:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780042699; x=1780647499;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y9alDc2PG7AUKpxvXQsiRJG2TJjrrZTsIKTRjeEkVAY=;
-        b=ZeJ6FqJMQLxmutc3YyXz+vQVvwCWEow5xzgIX/Lhw8pT891chjXDgrbGCaHPrDOHxY
-         o+KS/WjA9O+KiWFQsHemPdL9Hs/MsXP8w5fBo+EurNnIkC/+OuHEVIxYhaIQOEq+taer
-         kuCmwIPtuGatgxm23+Grqtd64JCkfR41F3Cxbwrxzn+YeK+SNC/1O2p9gV52qmuGwXBk
-         xhMogvVxHrrBJlS1QPW7+YwU8eYMgFdwjphE+j7OwZaXwOx7kyEZfsfwjtSVEgmgkpBe
-         HX8S+Ob/6KyRRWqoyY3K4nV20zPdmWg0dziBI9LKHJ8QaJFKvBsItvwyElpgRn2QhU6z
-         ksAA==
-X-Forwarded-Encrypted: i=1; AFNElJ9F+T2VX/1BNxlAdmJAzzGjYES4guawLl1c9mHKBxWLOTFLeJ1DVjrF2FfXQDsqlskdSee5qU4yVLQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSz7xXtJiyxTOJMJXzY+PA2zcC4NwzOe351AkD5H4SkES2PaYH
-	zYKyTTnES/dmqVaeOqhfVsdcfU7/eTapXrYsBA/Y4njUzmCf8nGSovPOjrE5Jk1nJM4=
-X-Gm-Gg: Acq92OFZSWlypgxA+S6DWSN9agYkYPZH/eT42Mawv0C27Tddsdm0Ma3p6V8pSRCz10o
-	azkjCR2NVy1q3d1S77B2e/bNhbT59pWg5fUP3AE7q/AnE5S+vy3WyK8gQ5+3akeaC1LNN5DuQK1
-	GgM51EPWPmZ4SWEMEYlqm5v6FGTKRRS8EdZ83i5UIyiaHtk1dR3Y/5Kj4jX3MjnKCcjdMev7Qm4
-	pvvcDvC41bYsrCaMvw7U299dBB1SxuvhVjczihovFoBsFsOHwWUTR4LhV3ugDHG7Jb40WwK5r8V
-	nol5poyvnsoN0bLOilXBM0maI1NFyDKmsyAr6Xkc7lMhFFy94dS59skKgfnGUqu4r8M1Lbu25D6
-	GMl/hbQ3FI17iRt0bL7o281gI1RkIYnaQrBNdvm/ijxqTb/MADfhi7hm6rwrRCv2sp3YzRJ+ToM
-	tMIhHz2dRbAifFDFNOddPTKZXCzkX78eBSIrncSy+kUxHmWF61nYhvqAOJosfz4hDcRyig4Tk=
-X-Received: by 2002:a05:6102:3711:b0:607:95f4:53b5 with SMTP id ada2fe7eead31-6bf2b14b116mr644551137.4.1780042699603;
-        Fri, 29 May 2026 01:18:19 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6bfa6da4d7bsm675787137.0.2026.05.29.01.18.18
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 01:18:19 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-9639d7daff3so842539241.1
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 01:18:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9ASzfMb4PBBIk7cb7WXgcWF+cvrl1u5OCUNXsrXHx/94bSZhp8KQROIk9noU4Ig/I+uPsxjXdajzc=@vger.kernel.org
-X-Received: by 2002:a05:6102:3e1e:b0:631:3bbb:f23f with SMTP id
- ada2fe7eead31-6bf3dd78c59mr540627137.26.1780042698332; Fri, 29 May 2026
- 01:18:18 -0700 (PDT)
+	s=arc-20240116; t=1780044992; c=relaxed/simple;
+	bh=u52KAyKTKrEsEtp9L4qDBjRSU+DFB09wCNA3z0VHVeE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i86HCab0s4Ylbqx3WmytGISbJLw/GyyT0nnmvOIfJ73b+lnaF7ZiCiD0U60Kbr+aoE/wvAhfurlQIW/xpSONDiutwFMkGXKLdaFEZws7rPAPJfsuMVzl8CcPzYui0KLQ5bBSMJ6uGlk1V0JqBCvB0Umyb2IlsxRPBzGnlxqk7Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=woQRNOaB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=myLKF7mJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I2tFrNei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L+7aQzFt; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="woQRNOaB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="myLKF7mJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I2tFrNei";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L+7aQzFt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C904267342;
+	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780044988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=woQRNOaBvBFkps7k3GMPTevpmrd3nqKlL40d9POfYrBfv1sjc+LiqCAN2thrrggc/MnbNL
+	dhV8WUf0sUqK/CcdB7wxTaujSyZIqpbLvHbJCmw6fVooUoJlSjZJ+F9mgmnAljVvvAknou
+	N6/BBg/fFwQyYKAnsKPy7hTkLTHucTs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780044988;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=myLKF7mJmoz222nKWEujpCHI8Kv2J1AtxUDlgwPSzb4eZjye+Hpnmd1iVlomd5wvNdcx6P
+	k21HKnRU8uKikLDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=I2tFrNei;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L+7aQzFt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780044987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=I2tFrNei/TtjS892sMYrMaLf8yx1ZoIrIF3kpk7l76YOYB3QaA31P+EuEDeH0SMFjrSxy+
+	jq2pseS6zi4D5RhaFOjAPxS+Ey0GDFJDY9YN/IGDZjna3XdlKyFHmKy6pwO+hEXeqNzcF9
+	e9Vt720fWZpjw9rWaEFs8p/16E8avEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780044987;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=L+7aQzFtYhCN0hnIJbTw9RhECiVPLNCFI565w9BkvedNt8qnYmIHwodOlWdWPgsptDoj+j
+	WFolGtyDU4u7V7Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D484779A7;
+	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3qAgIbtUGWpwMwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 May 2026 08:56:27 +0000
+Date: Fri, 29 May 2026 10:56:27 +0200
+Message-ID: <871peusif8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] ALSA: usb-audio: Add QUIRK_FLAG_MIXER_GET_CUR_BROKEN for Sennheiser MOMENTUM 3
+In-Reply-To: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
+References: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260529081006.2019687-2-ukleinek@kernel.org>
-In-Reply-To: <20260529081006.2019687-2-ukleinek@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 29 May 2026 10:18:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVRuOxznAK3HP_GSGGv+RdkTxkWb5-6xwnUs50qQnbnUg@mail.gmail.com>
-X-Gm-Features: AVHnY4JEuppnDpcn_tQwKsOIJi3aBauvsKBhjusGGgi5MxkY-7ZvXd-5Sqe46dE
-Message-ID: <CAMuHMdVRuOxznAK3HP_GSGGv+RdkTxkWb5-6xwnUs50qQnbnUg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Fix syntax of kmalloc_objs example in
- coding style doc
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Manuel Ebner <manuelebner@mailbox.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, SeongJae Park <sj@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: C904267342
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-On Fri, 29 May 2026 at 10:13, Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> w=
-rote:
-> The first parameter should match the variable that the allocated memory
-> is assigned to. Fix the example accordingly, the one for kmalloc_obj got
-> it right already.
->
-> Fixes: 7c6d969d5349 ("Documentation: adopt new coding style of type-aware=
- kmalloc-family")
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
+On Thu, 28 May 2026 20:38:54 +0200,
+Rong Zhang wrote:
+> 
+> Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
+> mixers"), the UAC mixer core utilizes volume SET_CUR and GET_CUR to
+> identify devices with sticky mixers. Unfortunately, even though most
+> devices with sticky GET_CUR also have corresponding sticky SET_CUR,
+> which I actually met more since the commit had been merged, there is
+> also a rare case that some devices may have volume mixers that responds
+> to SET_CUR properly but with its GET_CUR stubbed. This cause the sticky
+> check to consider the mixer to be sticky and unnecessarily disable it.
+> 
+> As the sticky check can't distinguish between sticky mixers and working
+> SET_CUR but broken GET_CUR, add QUIRK_FLAG_MIXER_GET_CUR_BROKEN to tell
+> that the device should fall into the second category when GET_CUR
+> returns a constant value. In this case, the sticky check becomes
+> non-fatal and only disables GET_CUR instead of the whole mixer. The
+> current volume will then be provided by the internal cache that stores
+> the last set volume.
+> 
+> The Sennheiser MOMENTUM 3 needs the quirk flag. Though its UAC mixer
+> works fine and precisely corresponds to the reported dB range, the
+> mixer's volume GET_CUR method is somehow stubbed and returns a constant
+> value (15dB), resulting in it being disabled by the sticky check.
+> 
+> Signed-off-by: Rong Zhang <i@rong.moe>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Applied to for-next branch now.  Thanks.
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Takashi
