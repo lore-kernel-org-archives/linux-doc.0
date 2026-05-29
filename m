@@ -1,71 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63D93C1985;
-	Fri, 29 May 2026 16:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217C73DA7F5;
+	Fri, 29 May 2026 16:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780071689; cv=none; b=TJ6Smv4jaghvDwETG8pFiIC6uR+dJ/JZYVIat85xP5HK3dHL6W0ZPMDpYoup2N3oL9YgGewrretAQpYaGfO27YBP8O4l/+bab6WBBUcox+G7rq0Nh+DDRSqfP25R2D9bRQC+GZb+l0053YfiE/F3V9IQBzMcY+RJA1y7g9a93mY=
+	t=1780071855; cv=none; b=MEq85pqk3fFu9G7zQ5T82BiaCydWcWj8BXIBts5rn9h12JGnfgVfkpZ3UspsRWC3wkzCDvWjxfmbbVBcx/MsILcUOwQCDhSpYgtKsuGANVc6BEJMbqGJhjNJzAM7bkjRMhkZeR8LfwbVyqbvuDp6iQ6OZ5Mvpsxg0jYcEgGWuU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780071689; c=relaxed/simple;
-	bh=ZhwZZh2c+ydcgPmEcqMNksds1l0+8qeg8YfVh0k7VDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wz49J4u0R1F7lBZy7xV+fpnN52474Is/9Xnapbh2vBEL3ukfgy1i0agCQ0WXu/XWPJfAmyTNgpDsZR3J/0eInXAHXxskqLSUHbjUz/n4o/4hkKvjQ5z3iSfVCZrxkBpzpOyagT3cWPaDm+AWbQrf8/lUdSr6I6/XzIdA9ZwEF9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhtkOfg5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780071855; c=relaxed/simple;
+	bh=D01qAPQ4SbktM0P9uDPR0w5fWEctLWmEB+QgEpp/7GY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2Sin93VsI0MZ1MBxWipjA1vbBcdayBfFMIOpOgNcT9QqC9arapr+BPwzRqknRLEVC8iqEIK6zeoJ/U6J+JzyISHqV1YK7l2eVDW4CG8JhXFBnvM5Jaseg+3nXt8vQkD7ugyWW4dqllP0HTZK9il+jIesJXA9J5bHM2vKuIAaMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5Ct7LDg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhtkOfg5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B72D1F00893;
-	Fri, 29 May 2026 16:21:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5Ct7LDg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA2B1F00893;
+	Fri, 29 May 2026 16:24:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780071688;
-	bh=sETUeraPm3lDWt83CkBlDnReof1JzvEfPtq12I0od7o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UhtkOfg5tpU58A1puKZrFMJv4+ZSY+eHsk+EjpC/uqcWBXgkP8itWmK0dw0GnzJBx
-	 v39RsyJx6rpSPrPEqDUrnbFCdXnf7nsoynP6VjDU0VDApCY4+N+cb03Di9yd91jFWD
-	 n0LbFYZc8LZCA9ejD4EqmuVDmZTw9bAR2jSr/cZIxUOZo+iR/2vi/KlLQuTWt4DILU
-	 wpiss1Sz6+OBpgYvYpF7U47lZb2JhC4gjIkVys1sKHhI/N3hi+LRqtlsFP5gZTKPpx
-	 OumseINICIYyrn4mJ+bECl0Av1JejR9IwFfjvfDzXb9/D9D24Y40MRhZT03818uWla
-	 NUrG5X2QKk7fg==
-Date: Fri, 29 May 2026 17:21:13 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v5 07/10] ACPI: APEI: introduce GHES helper
-Message-ID: <20260529172113.74c4ca05@jic23-huawei>
-In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-7-2e0500d42642@arm.com>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-	<20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-7-2e0500d42642@arm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1780071853;
+	bh=QvUGZhhWdI+4JN0vML4xtpmVBnKMBa3Y2aF9he498+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U5Ct7LDg3r/25r1GdbbJlkmPHtzKRndw/gD9Jkl5aY99pDkbzK4nU5LVrs0Ir8g3F
+	 ZN6+dLjKvM3YSAzLBvooLfwRaAW8bX+wtV0uEmuLgXPf5LaRt/o6Wrk2lebv0tOoox
+	 w2lNrSfxRkO0P7rIe1z3iZpfi2uFYQhHQZ38nppKvN59sMap+rtAqa0/VYsOqeYOxs
+	 0q/ObsxbpdTYUCUSavkXxGOEUWcg5ZKLVah5dUAm9Lu9SMY3dthOlMGxAyM/V10Yhh
+	 9qC+zEbHObxVZQR1WjvejjcGlnHvcRRZzErMC1kGDeXtriV/ONyme2JqHncB4n31y1
+	 1n6SisMLbKIFA==
+Date: Fri, 29 May 2026 09:22:51 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	Andy Gross <agross@codeaurora.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	brgl@kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v19 00/14] crypto/dmaengine: qce: introduce BAM locking
+ and use DMA for register I/O
+Message-ID: <20260529162251.GB2706@sol>
+References: <20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com>
 
-On Fri, 29 May 2026 10:50:47 +0100
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-
-> Add a dedicated GHES_CPER_HELPERS Kconfig entry so the shared helper code
-> can be built even when ACPI_APEI_GHES is disabled. Update the build glue
-> and headers to depend on the new symbol.
+On Tue, May 26, 2026 at 03:10:48PM +0200, Bartosz Golaszewski wrote:
+> I feel like I fell into the trap of trying to address pre-existing
+> issues reported by sashiko and in the process provoking more reports so
+> let this be the last iteration where I do this. Vinod can we get this
+> queued for v7.2 now and iron out any previously existing problems in
+> tree?
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-I guess it doesn't matter too much as in practice all exiting CXL systems
-are ACPI based, but is this new symbol sufficient for the
-CONFIG_CXL_RAS dependency?
+> Merging strategy: there are build-time dependencies between the crypto
+> and DMA patches so the best approach is for Vinod to create an immutable
+> branch with the DMA part pulled in by the crypto tree.
+> 
+> This iteration continues to build on top of v12 but uses the BAM's NWD
+> bit on data descriptors as suggested by Stephan. To that end, there are
+> some more changes like reversing the order of command and data
+> descriptors queuedy by the QCE driver.
+> 
+> Currently the QCE crypto driver accesses the crypto engine registers
+> directly via CPU. Trust Zone may perform crypto operations simultaneously
+> resulting in a race condition. To remedy that, let's introduce support
+> for BAM locking/unlocking to the driver. The BAM driver will now wrap
+> any existing issued descriptor chains with additional descriptors
+> performing the locking when the client starts the transaction
+> (dmaengine_issue_pending()). The client wanting to profit from locking
+> needs to switch to performing register I/O over DMA and communicate the
+> address to which to perform the dummy writes via a call to
+> dmaengine_desc_attach_metadata().
+> 
+> In the specific case of the BAM DMA this translates to sending command
+> descriptors performing dummy writes with the relevant flags set. The BAM
+> will then lock all other pipes not related to the current pipe group, and
+> keep handling the current pipe only until it sees the the unlock bit.
+> 
+> In order for the locking to work correctly, we also need to switch to
+> using DMA for all register I/O.
+> 
+> On top of this, the series contains some additional tweaks and
+> refactoring.
+> 
+> The goal of this is not to improve the performance but to prepare the
+> driver for supporting decryption into secure buffers in the future.
+> 
+> Tested with tcrypt.ko, kcapi and cryptsetup.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Rest of this looks fine to me.
+None of these fixes are Cc'ed to stable, so stable kernels will remain
+vulnerable to these race conditions.
+
+Shouldn't this be preceded by a patch, Cc'ed to stable, that marks the
+driver as BROKEN?  As discussed in the other thread
+(https://lore.kernel.org/linux-crypto/20260515-shikra_qcrypto-v1-0-80f07b345c29@oss.qualcomm.com/T/#u),
+none of the current functionality of this driver is actually useful in
+Linux.  It's just been causing problems.
+
+- Eric
