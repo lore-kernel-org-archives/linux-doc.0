@@ -1,112 +1,109 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8235B21E097;
-	Fri, 29 May 2026 06:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D63E2E7389;
+	Fri, 29 May 2026 06:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780034827; cv=none; b=CMhbrdoGCWs4zwbeeK4xaMBfqujR0WEJYDfiJTTjx21a+wGxe6W4x4hO7pQpBS3LmC6RHnlfzMFodTLYAQ6pfH+phpyHf0W3DBMZsWezff0ebyOab5kxsZ0etNiyLse+zqmq5zA6TxncFQC6RYPebdHLUQmmOKhCJH/SB/U8TIo=
+	t=1780035019; cv=none; b=TbFQ9fLJ1qmKdaQpDDxbdbnt7JbbWcKrIvLE5Dh9C7LX3Os6zAEMaKDFGIeRtnofAA0SOLAbGL9CsVyFbN3C9N0LZ+TGKucN1wGdWc2ZlDvBCzASaOg3jg3fZSzKDHx0+D9RHYq7Oc406xzNedPa+uUxUcykygrmSzAGz/NkVSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780034827; c=relaxed/simple;
-	bh=j1QJ/JmF3RS+ozhNYH5F0EegwZ0H7PPlXq/gF5R0ts8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=As11Y6PTcRrd0oV/cYilv9FgLx81MinZRqDcpUchiT0iv+wduyUJzgWUWhfbhyR83gWwdQVyDx41VD9M+ewoAg5QW9prLJON7CfMalYduyHzTcXG98W1n6woFhwuKokX5534wGxfsdzTgpWciiBZRqLg3zFpMQj2JPA+5J8+2eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=SkU6pnDJ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1780035019; c=relaxed/simple;
+	bh=osaKBTLJ0lV7a7mqYpO/cFFhkXh0WHooJI0CnQ+IbKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y1hCrQSYeF3kuxTVSApT1mKQMJvFJ/Fu52Vb3jq8ffPf8NVEhbmsXt+yRwnWP7OGKpf11ooeX2dWIKOvzOIwrkRwdC7mVRvOdLFiq6XXpMlbQvFH0gG24X8lEOBNoXlrzfaa/IdIgXHWvp+PevNl92SNhv8shkhsLhOOlPrq/w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=hVguPhg4; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="SkU6pnDJ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F4D42103;
-	Thu, 28 May 2026 23:06:59 -0700 (PDT)
-Received: from [10.164.19.8] (unknown [10.164.19.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 64EFC3F632;
-	Thu, 28 May 2026 23:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780034824; bh=j1QJ/JmF3RS+ozhNYH5F0EegwZ0H7PPlXq/gF5R0ts8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SkU6pnDJjmyiq7jNIHs/4qjwq4joS6Tv4B4sKtWqsFNbqhAWZOAr7vvM6LdOyv2pu
-	 G6IotSJ1X+DveHH0bhwTU6BC6wRX4wLL1CdEZI/7Ieq+SVSSeqEYZGJElKJAC72i3I
-	 DeY2Ugfk/8/NJ+9Tyfsn3yfkI6UhlMMozIVbzpeE=
-Message-ID: <403181bc-eab0-4f4a-b986-dab1d8c49bf3@arm.com>
-Date: Fri, 29 May 2026 11:36:53 +0530
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="hVguPhg4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=J3EhnnX3hHQdWB4TNUAD/20YRD6cojsn1uHBbo0VX2k=; 
+	b=hVguPhg4DROuLmAKUFs1ljpnkC82MqXEZ8MsQtl0U7pKDDS7hG6Bfizq8yHMAWvHkJTDgmyGvP7
+	PIL1z1cWNlR4a8BRTLrG40bbS/hQ+CcrHJjgEDWZMzOiU7Eepu4OnJdg3+MAAlQXkyCCWiBhdH4Gq
+	j1tcryJQQPS9WhE6qhTOdwVV1eX1DG8XHQY7Wldu7umXiGouAzuqjdaWCZA/ZjoXqt4FAyChx4mDM
+	lXQRShs4OuWYbtsvjYL2Rh54V/gvqRxZ1ER9RbB4bYYHqzGTizkNUj5Z69bNlCON3ENcu4T2ngKId
+	dDgIeNQaNfq418mRPMZ9k7CLbAtRyF65Yvew==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1wSqPc-000dKa-2D;
+	Fri, 29 May 2026 14:09:41 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 29 May 2026 14:09:40 +0800
+Date: Fri, 29 May 2026 14:09:40 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: demiobenour@gmail.com
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+	netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] AF_ALG: Remove support for AIO and old-style drivers
+Message-ID: <ahktpDYvPV9sb9zf@gondor.apana.org.au>
+References: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] selftests/mm: separate GUP microbenchmarking from
- functional testing
-To: Sarthak Sharma <sarthak.sharma@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260527142432.230127-1-sarthak.sharma@arm.com>
- <20260527114752.cf4dd3e1bda93fb8ebab5a76@linux-foundation.org>
- <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
-Content-Language: en-US
-From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com>
 
-
-
-On 29/05/26 11:27 am, Sarthak Sharma wrote:
-> Hi Andrew!
+On Sat, May 23, 2026 at 03:43:01PM -0400, Demi Marie Obenour via B4 Relay wrote:
+> AF_ALG is a deprecated API only useful for compatibility with existing
+> userspace.  It has had a lot of vulnerabilities, including the infamous
+> CopyFail.
 > 
-> On 5/28/26 12:17 AM, Andrew Morton wrote:
->> On Wed, 27 May 2026 19:54:27 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
->>
->>> gup_test.c currently serves two distinct purposes: microbenchmarking
->>> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK, PIN_LONGTERM_BENCHMARK) and
->>> functional correctness testing (GUP_BASIC_TEST, PIN_BASIC_TEST,
->>> DUMP_USER_PAGES_TEST). Mixing these in a single binary means functional
->>> tests cannot be run or reported individually and run_vmtests.sh must
->>> invoke the binary multiple times with different flag combinations to
->>> cover all configurations.
->>>
->>> This patch series separates the two concerns: tools/mm/gup_bench for
->>> benchmarking and tools/testing/selftests/mm/gup_test for functional
->>> testing. To avoid duplicating HugeTLB and related file helpers, the
->>> series first prepares the existing file helpers for sharing, then moves
->>> the common helper code to tools/lib/mm/ so it can be shared by both
->>> selftests and tools/mm.
->>
->> Thanks.  I'll duck this for now, see what reviewers have to say.
->>
->> Sashiko still has a couple of nags.  Minor stuff, arguably ignorable.
->> 	https://sashiko.dev/#/patchset/20260527142432.230127-1-sarthak.sharma@arm.com
+> Rip out support for offload drivers, which tend to be buggy.  Also rip
+> out support for AIO, which actually bloats the entire socket subsystem.
 > 
-> Thanks! I went through Sashiko's review.
+> Only compile-tested.
 > 
-> Both the points are valid but look very minor to me: one is a temporary
-> x86 build issue fixed by the next patch and the other is stricter
-
-For the sake of bisection, we try to make patches such that each patch
-when applied one by one, does not break the build. Sashiko says that
-applying this patch breaks mm-selftests build for x86, so this needs
-to be fixed : )
-
-Although if there is no other major review comment, instead of respinning
-you could simply reply to this patch with a fix patch and Andrew can
-incorporate that : )
-
-> argument validation for -F in gup_bench.
-
+> Signed-off-by: Demi Marie Obenour <demiobenour@gmail.com>
+> ---
+> Demi Marie Obenour (3):
+>       net: Remove support for AIO on sockets
+>       AF_ALG: Drop support for off-CPU cryptography
+>       AF_ALG: Document that it is *always* slower
 > 
-> I don't feel they require a v5 on their own. Let's wait for reviewer
-> feedback. If a respin is needed then I'll fold these cleanups in as well.
-> 
+>  Documentation/crypto/userspace-if.rst          | 26 ++++++++--
+>  crypto/af_alg.c                                | 35 ++------------
+>  crypto/algif_aead.c                            | 43 ++++-------------
+>  crypto/algif_hash.c                            |  4 +-
+>  crypto/algif_rng.c                             |  4 +-
+>  crypto/algif_skcipher.c                        | 66 ++++++--------------------
+>  include/crypto/if_alg.h                        | 19 ++++++--
+>  include/linux/socket.h                         |  1 -
+>  io_uring/net.c                                 |  1 -
+>  net/compat.c                                   |  1 -
+>  net/socket.c                                   |  7 +--
+>  tools/perf/trace/beauty/include/linux/socket.h |  1 -
+>  12 files changed, 70 insertions(+), 138 deletions(-)
+> ---
+> base-commit: 49e05bb00f2e8168695f7af4d694c39e1423e8a2
+> change-id: 20260502-af-alg-harden-900849451653
 
+All applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
