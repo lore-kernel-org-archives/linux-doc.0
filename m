@@ -1,206 +1,105 @@
-Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDEB340298
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063574; cv=pass; b=bGaE81+O/gho4upFoyUpylgYyJFl6Qc9GXarZAavZg7YHXV7zAOyIN6LyQ1hiT+q9wzFmVTgaaKYV6eHhzHYiYiEzMan1puzzOQuFDH3fjwtg3q0F6eKNxe1kzqJ3Pd9J6m9vRL9vL1MaT6H9DATNXP4YEJrrKvOYFsWyS39GEI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063574; c=relaxed/simple;
-	bh=dlQKIFsaxCwqnvkgUyYCLKYUIChEVDORaNS2cmPvIXM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MmJo4Dr2eqephhEduowTUo5tnjH7IEHgTEUfq8xI+yoO7eCnFtoRolzqByEqOwtyfxc5aG7G+ahs6Tu7qUCENQKpHy93xESZ8ESBYvlmumtGjh+gwOV4G8ANaacmnhhWhZPRi1YzdHWOy+qj17YQlrUF82IfFtCjsJpiivXe3To=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jo7X87NS; arc=pass smtp.client-ip=209.85.161.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468883E51F5
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780065677; cv=none; b=PKQJl3SSIFxvv7Zb6YR0L7TanES6cy2HikUXPiW1IndQQ5VqIpndj4VJvt578/eA++L081yT3x7Ghua9vzzsxPnWX1fsqz/xLeSZGsHm9SEuQj7Qf51gATlmHQtLp3DNazpCA5HhkJmZBKmAGNQ66wk66+UuCDm9EO00Lf6vCDo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780065677; c=relaxed/simple;
+	bh=GwX6M4/EK6SrBQ7tNZIqqdM6jMUv2V7uqBmnajKX7HE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nggsD1Hlqqp8pFZLKlp6kkFkHeysrJ/OjCRhAbGGdc9xyXfdoaI9NsH9dt/tQDfakEhPKqzEwzL3TxE59UvXryLdwUyXFCPhpwBbnziZjIGfxXeuvDmsO5qrR4B7B6bzC9Vw8ntDCpxhmRiJy7C8Oj93ZBXzw3rMz2Kof+jlr6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqYc//TE; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jo7X87NS"
-Received: by mail-oo1-f66.google.com with SMTP id 006d021491bc7-69d92dbc420so4227602eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:06:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780063570; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Qwbbj+YB0vzmInQjq8BnKWoWdtNkIdfVfLGAYeC4ecOoN5E6IMh10kVflgt4g6ytlu
-         L3ImxDyfD75Px+S/s5SJdN7vudX6sSYBRM3JGfWl0+nd3v0waMT6mr7yo8Rch8TgwA9O
-         zIChHUpTn/RAAMJfVqDGaIqhlTarME5p8PinLbtTEOIl5klXSX2LfqSOcQblnZn7Dzm1
-         NoAtSWFwp0FIJLiT7BF3E3gmnkwAWOSRad2KmCeqldCOl9k6YiT0dwSG7St3yJnTu65Z
-         ttdGS1IcBq22XtFfELwICqyzwZtFxTjtiFPPw0Q1/md2TotkD5jwK4mBqFtfXPDhN/vJ
-         0j/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dvHjpUscS3LGAt7KUFAQnACdb0jmXR2p4L+IG6VyYLM=;
-        fh=jzEyzojs3dogTyGIAxVQQEmkaPf7zWOJLaC6uj4gHp8=;
-        b=KScBIBgAF6pdTT0KUVW3elBNLiwDeeuXSlk+HXQORqnnLv19b+ofuQeH/RIu5R8MIY
-         R19Ax9jv7Xtxv8n9OWl/RZ1sZ95LV81ta04QqktR0IR55PGmDEmz/6cwsEh3T1EyEMS5
-         XrFT/iETzZVc7db4UZA8aVQkC+jDF0oFxhZjg1Oxge+L2I6rgs0uwWspPy9E5mEh/WNA
-         4eVamvSDfaMKDJcCyL8CAoFhWxewzvoB4P07M84u7sn8w947K4WR66L18x1FSL8LEza8
-         kj/T1iG/1CvlP9ORDD+cRjxboCLVz6JO9U6WDvkhwBM3wwZIclyxX9/4zaCo2l526Nqe
-         TjfA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqYc//TE"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82f8893bff3so6564581b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780063570; x=1780668370; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dvHjpUscS3LGAt7KUFAQnACdb0jmXR2p4L+IG6VyYLM=;
-        b=jo7X87NS6qDxhOnXL2lAzPbTFzLj0I3/fwYlest3CcBYV9N8TmNB4F5UpemHeXtvgD
-         6leWZdM4f26MipKXrqv062eHe0PAFwWKuuKH5vJPjmLqANc0zanTWri2s1LR9Dbn63WC
-         bN4YMyrVnlL45wmviLlUU/uEG7ybD7KZLaJpzSJQBhxZaCyTo6J++PjSFK/fRH+BuiHx
-         2HmPuSTAwgX0/zrjRg9c7hjMurG3HXL7Fvldgwa5SRn7cFZEqu8qwOw/qKQV7+NXQ0nK
-         IHBSn63D/z1lWJhHdBhna22dscHNVCEbJh/WXsE6dkLHTgSqlJcpUQjD/UCwlB9ZWRgK
-         h+6w==
+        d=gmail.com; s=20251104; t=1780065675; x=1780670475; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ifCetNsGhGXROpWXdUZu9k5jgo1IT0uJlL0ioftjkf0=;
+        b=GqYc//TE2UUpgpOKl+0b7wAMvM1Mkh7PejvXuQiFDlmjZUARf4Ozy2DOTMjINyHv8/
+         1W/1iEFjW7MA1oiBud35HlopB9X0VUGNibarpI50phBoDoR7D4zS06MaW/JybNkl2cke
+         9MD93FkG8618hkSI7B3qWAw/7Ckf0N6nDfdz6LlGgiYvETSDAweF2PwsqIBJHGViXWnR
+         GpEXFIawAx+Nt0Qx5iv51BGHIm8GxD03WOXS9qH3E/B9Fi7eqyeKcHmRHzxl8arJYtnJ
+         ysHZ0QmrUpB/gjqTN7yDuoPf9wixWKe4XI85YwwUezxcLU87Be5cROpKfFPGTwczymmj
+         N7nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780063570; x=1780668370;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dvHjpUscS3LGAt7KUFAQnACdb0jmXR2p4L+IG6VyYLM=;
-        b=lH8HXdzd4rkZZuEOUNAlNZ7JpPKvxocce0rTYjZV6NhTiCh05ExAH3VECEzfOJ/IP4
-         UatZYYG0ZamJ1z7S4AmuL3S0ejjiJng0V++rilYUwsWkYs4U488zxvGMCZEy/cOnKlwG
-         Lb7GjlZU72Uj3LHmJtbJXTlxxzqpsfQrkkA+qJKtp9S1g/d3+nWMhh36134nliJTQfp5
-         6XKO+rN968N/PtOyfL7mmpqxyWtJvfrbnf3aML9HXmKZ2ooNoBkP14GA3lBP1KdKY28T
-         us1BVVIRVGiPAAwrZPgX7qk1P0K8X5djZY8yDcE7vbA6dxp82udcVcddiZjltIE4vY3g
-         JTWg==
-X-Forwarded-Encrypted: i=1; AFNElJ8/xgVk00R7ViTw7BSfdrmWxNnSGk5xZdU+QeUnzolCE78YVMbmPOYkhgltVeFESop/4jYzS56otxk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/1VduiNMmg5msxHnhParaDpsrZUKFstxrFP5vU5F7YJ74ytOz
-	nwpcqSdHLkybGNiO/LxcYewOSd3cEhiD27W9VAsXbe7dYpUrtw1n3qJQ4XoYMUx9Xh4VHBUlmV3
-	xblxa2vt2CavtOuafHsb6B4rUCdm2Gew=
-X-Gm-Gg: Acq92OHSgo03dULmUDqSvuSVlbj9nbwo3Gf0S7M8uizIP5G/LmoddCra6hla86w75mI
-	nAiWpLW0b5ALD+puFXkAKXo8UzIprA0/tZswcnUceiyYhvOYPzVX3C/mXkZZ+TGZgzzMyQwV1yv
-	Q8bDvgbq7DD71eB2hC3in+e/NiqWb8U/PY6n62GdsGmmKXZxzNeK23jWwmTU58Je/ggEHcXePzS
-	DIJGBgAdVv3dQCzgmJqUDtS/p+lWpRioIhWzIn4hbNBgGoGVnasRMEys9xufC/9bzxw5H5ZxLHn
-	Dc8fQ/VuzlvHBS0gN0fU
-X-Received: by 2002:a05:6820:4dc3:b0:69d:8879:b68d with SMTP id
- 006d021491bc7-69e04031c40mr1576978eaf.47.1780063569742; Fri, 29 May 2026
- 07:06:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780065675; x=1780670475;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ifCetNsGhGXROpWXdUZu9k5jgo1IT0uJlL0ioftjkf0=;
+        b=HajZCub5Xb/GL7Xw9i7jNjb81WEbpfJpKvX+GpnihIm1SuqleRtGyiAn0uZba3fLoI
+         mLjBAZoeNOlMl+FdLpYnjoIArum9oc2N4kt0QqdxgSknpKAqDF7nez1fmB1m/As4wwTT
+         GRTcIkHICBd5d5SzQ4qphjrQy4XSHb9QVL7l1buROOlLPxZnQhrQ/4lwT/xOJxIebEjv
+         JqUAPglFf8vrs88GGQLVEb+/c8sA3ecrVl6w6bQ+1d0Vf75YY+TBmMzO/nLg+vlIies5
+         xEHF2ixX/bPwAPQrxkKt4hEzPUWO4OSb7d24Yy7ePSd26CTn7FTFVRYYMJhQpAC8wajS
+         pdMg==
+X-Forwarded-Encrypted: i=1; AFNElJ8OMW8H7rz4blnxvtGjA/k+s+CLQg20RZwtzULJSrW8ZBjKs1EK4JckKPGDUaQEYB5hGp+/sbnpjxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+dwqg2g7N1xwGlOq+wlL4ofNAx8iTCwuieDN20jd+AcHKY4ey
+	WlbRxcu8pL/yJ9BzEPmYa9RnJV3R32IlQzpPsJ70ORlhHdpEJ2SLx6Lj
+X-Gm-Gg: Acq92OFupIxuZvRvdj2xFlfg2tH27QfUpY1lqDefuGfMOWgKp/Srxm7KF/IgTSdj9cj
+	f/m1uvk3RHOXwjNIAmec0OyT2QNh+Bzfu56GaE07t4K+jNZJjQzksZGnRPhE9HheQ+JrTeQZpd5
+	yzWUN4a5n9KmNnJ4cXT6T8Kf6lCwOu/SAJvh9z/kiDuZI+0/MjE/oMxyvQlsJPAAQrw0xlvE0Kj
+	U9XCe7FjYmUgqGu3erir1ixjqcf+Ksvp35P6URpfHNpDm7ogWYXVtLmQiuHLHGUEksosYjfGyOM
+	UTDkEeJQjLR2647fHwPOp+8hVqKjqSc/FUbN6g8P8OjrWBxl+W2IGrj5ZOIrVxhTphVrZ8cYAsV
+	E0b6QujDRd8LGFBhDZUF763Yhc/6sMHa3OXDUXlwsCxXuRrFBzMoFbvTY6ksMeepi06k86UucnQ
+	oDxohLb0pJJzxOae2hT65rWSFOg7YXBhI9sH+8ezZGf4g3iSM56puI5isiIf8GNHzgbaKfHnfRY
+	imu
+X-Received: by 2002:a05:6a00:94d1:b0:841:edbf:6424 with SMTP id d2e1a72fcca58-84212c03459mr3360610b3a.13.1780065675248;
+        Fri, 29 May 2026 07:41:15 -0700 (PDT)
+Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b67a11sm1946082b3a.27.2026.05.29.07.41.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 07:41:14 -0700 (PDT)
+Date: Fri, 29 May 2026 07:41:12 -0700
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Liam.Howlett@oracle.com, david@kernel.org, jgg@ziepe.ca, corbet@lwn.net,
+	leon@kernel.org, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
+	shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
+	vbabka@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/3] mm/hmm: Add mmap lock-drop support for
+ userfaultfd-backed mappings
+Message-ID: <ahmliNJiR-R9N4M3@skinsburskii>
+References: <177928604779.589431.14703161356676674288.stgit@skinsburskii>
+ <20260521163309.c5cc5d3f6cf16bac212cf90b@linux-foundation.org>
+ <ahidV_iSq3E-FtMI@skinsburskii>
+ <20260528131115.184c178d03d516e11248a1ae@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527115311.13398-1-zhanwei919@gmail.com> <20260529135028.20763-1-zhanwei919@gmail.com>
-In-Reply-To: <20260529135028.20763-1-zhanwei919@gmail.com>
-From: =?UTF-8?B?5Y2gd2Vp?= <zhanwei919@gmail.com>
-Date: Fri, 29 May 2026 22:05:58 +0800
-X-Gm-Features: AVHnY4JSxROazTZrUw4k9CKjlOr2tJ7BgWyUtPWVIMQB2u2A0wFiRfrZym4I1SI
-Message-ID: <CA+qUFckr9uC7h4S9xw0JMxGnehXyrQ8HpOYdwoFoMsLk-HM_nw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/xe/hwmon: document DG2 fan speed reporting quirk
-To: Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Raag Jadav <raag.jadav@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528131115.184c178d03d516e11248a1ae@linux-foundation.org>
 
-+Cc Raag, who authored the fan support and reviewed v1.
+On Thu, May 28, 2026 at 01:11:15PM -0700, Andrew Morton wrote:
+> On Thu, 28 May 2026 12:53:59 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
+> 
+> > A gentle reminder as requested: do you think this change could be taken into
+> > the mm tree?
+> > It's beneficial not only for the MSHV driver, but can be used for
+> > post-copy live migration of GPU states in future.
+> 
+> Still no review, alas.  It's not a trivial thing, affecting both hmm
+> and userfaultfd.  And we're closing in on -rc6.
+> 
+> I'd prefer that we revisit in the next cycle, please.  Refresh retest
+> and resend after -rc1?
+> 
 
-Thanks for your help, this v2 drops the code change and documents the
-DG2 shared-tach behaviour instead, per your feedback on v1.
+Sure, will do.
 
-Zhan Wei <zhanwei919@gmail.com> =E4=BA=8E2026=E5=B9=B45=E6=9C=8829=E6=97=A5=
-=E5=91=A8=E4=BA=94 21:50=E5=86=99=E9=81=93=EF=BC=9A
->
-> The number of fanN_input attributes on DG2 is hardcoded to two because
-> FSC_READ_NUM_FANS returns an incorrect value on some boards. How the
-> physical fans map onto the tach channels is left to the board vendor:
-> some OEMs route multiple physical fans through a single shared tach
-> line, in which case the unwired channel's pulse counter never
-> accumulates and fanN_input reads a constant 0 RPM.
->
-> This is expected behaviour for such boards rather than a driver fault,
-> and the driver has no reliable way to distinguish a shared-tach layout
-> from a genuinely silent fan. Document this so the flat DG2 fan count is
-> not mistaken for a bug and "fixed" by lowering it, which would hide a
-> working fan2 on boards that do wire two tach lines.
->
-> Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
-> ---
-> v1 -> v2: Drop the code change. As pointed out in review, the same PCI
->   device ID ships with both shared-tach (multiple physical fans on one
->   channel) and 1:1 fan wiring, and FSC_READ_NUM_FANS is unreliable on
->   some boards, so the DG2 fan count cannot be lowered without hiding a
->   working fan2 on boards that do wire two tach lines. Document the
->   behaviour instead of changing the reported fan count.
->
-> v1: https://lore.kernel.org/intel-xe/20260527115311.13398-1-zhanwei919@gm=
-ail.com/
->
->  Documentation/gpu/xe/index.rst    |  1 +
->  Documentation/gpu/xe/xe_hwmon.rst | 48 +++++++++++++++++++++++++++++++
->  2 files changed, 49 insertions(+)
->  create mode 100644 Documentation/gpu/xe/xe_hwmon.rst
->
-> diff --git a/Documentation/gpu/xe/index.rst b/Documentation/gpu/xe/index.=
-rst
-> index 874ffcb6da3a..3c14cdcaa8a6 100644
-> --- a/Documentation/gpu/xe/index.rst
-> +++ b/Documentation/gpu/xe/index.rst
-> @@ -30,3 +30,4 @@ DG2, etc is provided to prototype the driver.
->     xe-drm-usage-stats.rst
->     xe_configfs
->     xe_gt_stats
-> +   xe_hwmon
-> diff --git a/Documentation/gpu/xe/xe_hwmon.rst b/Documentation/gpu/xe/xe_=
-hwmon.rst
-> new file mode 100644
-> index 000000000000..8cd48df59386
-> --- /dev/null
-> +++ b/Documentation/gpu/xe/xe_hwmon.rst
-> @@ -0,0 +1,48 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Xe HWMON support
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The xe driver exposes hardware monitoring sensors (power, energy,
-> +temperature, voltage and fan speed) through the kernel hwmon subsystem,
-> +typically consumed via ``/sys/class/hwmon/hwmonX/`` or tools such as
-> +``sensors``.
-> +
-> +Fan speed reporting
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Fan speed (``fanN_input``) is reported in RPM and computed from a tach
-> +pulse counter: the driver reads an accumulating pulse register, divides
-> +the delta between two subsequent readings by two pulses per rotation,
-> +and time-averages the result.
-> +
-> +Number of fan channels
-> +-----------------------
-> +
-> +The number of ``fanN_input`` attributes exposed in sysfs is the fan
-> +count returned by the ``FSC_READ_NUM_FANS`` pcode command. On DG2 this
-> +command has been found to return an incorrect value on some boards, so
-> +the driver hardcodes a fan count of two there. As a result up to
-> +``fan1_input`` and ``fan2_input`` are always exposed on DG2 regardless
-> +of how many tach lines are actually wired.
-> +
-> +Zero RPM on DG2 is not necessarily a bug
-> +----------------------------------------
-> +
-> +How physical fans map onto the tach channels is left to the board
-> +vendor. Some OEMs route several physical fans through a single shared
-> +tach line, while others wire each fan to its own channel 1:1. The
-> +driver has no reliable way to tell these layouts apart, and the same PCI
-> +device ID can ship in either configuration.
-> +
-> +When a channel has no tach line driving it, its pulse counter never
-> +accumulates, so the corresponding ``fanN_input`` reads a constant 0 RPM.
-> +On DG2 this is most often seen on ``fan2_input`` for boards that drive
-> +both physical fans from a single tach line. This is expected behaviour
-> +for such boards, not a driver fault, and reflects the board wiring
-> +rather than a missing or stalled fan.
-> +
-> +For this reason the fan count on DG2 is intentionally left at a flat
-> +value rather than tracked per board: there is no driver-visible signal
-> +that distinguishes a shared-tach layout from a genuinely silent fan.
-> --
-> 2.43.0
->
+Thanks,
+Stanislav
