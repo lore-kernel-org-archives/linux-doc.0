@@ -1,90 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9083191D3;
-	Fri, 29 May 2026 07:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BB93AA1B6;
+	Fri, 29 May 2026 07:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780039837; cv=none; b=bUEsyz4Y4ng/3BEx9K/YZsuqYR7ADcnwZQifVEFjLnBkcRFk6iWWiQqL9CMMcKcofpRvN2RGr/qTjOV1GB1nUN4p3kAgmRMxf7MFp2jFgVt1Akk+vZtYN0O/zbhmz2n6jCK3qA+l9LSzIvf6NqDn5wEKZeqCtbhD8IZYxrk1M1A=
+	t=1780040414; cv=none; b=cB1VdVX2q0PXrJs82B5R2KWdSXMFR7hK3H/p5dHqDDGoHNWUyZBBu6areAo6s4BRFuk3Wf2m2J0qzMAMhpHLYcEzBPYrlHGacSXrOL0FGX7inxFZGYgIPEBtR8fNR/k/C6zOCg3MQLjYnS0XzALAFaWnophgLryjvBN6f+aR2gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780039837; c=relaxed/simple;
-	bh=ClMk5zNyCRJu81M7Srr+gaScjDUvl33BlIAsEzgQIdU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q5qor9fzqFRbLON/yIL5eJkqgpEuYNiWF54J2Rc313D2x1mTT0e49eRLgM9Fb5j+qwKb9j/dRITNx+3mvZtzz3ocvmmJqieQ/FMkJyJtDI/C915qhGqfOxWTRHotB6of0mBk0gKaT1K8MlMZCgxUWy4yAuicalSRbTDOji2mSAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efVZxVlK; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780040414; c=relaxed/simple;
+	bh=jQMKoFxjhXOg58Gu2goSrIvcgitzJfXOyS065eiSQOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bLkBwjCtxqeECqXucnDM1xhvY3p3w12jiYEBrQhYEDUJsmuaniHq+0QDnqmaz2MoNy5tv8XCYK325HfbXUPugkfsHjtCxGUypxxatjGc4CcsVFwDN4/a4gXkki4sN4x+0BqG5K4FuHEiJB+vmfJgv3wm5qUg4QUt+kslpwxxsa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=njLFIoh5; arc=none smtp.client-ip=141.105.120.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efVZxVlK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780039835; x=1811575835;
-  h=date:from:to:cc:subject:message-id;
-  bh=ClMk5zNyCRJu81M7Srr+gaScjDUvl33BlIAsEzgQIdU=;
-  b=efVZxVlKNsuluyd2Se2BWOSsoLALlMGYEaHZJ5dURdWgq2mSCKeUbP9E
-   /8XfybSh/vw/ZZknRO1oFIIKCu6bvzYr1lWwJ+Kvo5GsAumQZjeAihJHy
-   qzlzIS96gsJcPLntDFZFFHky8P+DW/BPirJ3eHnEARDqVnHDbyxTuskta
-   wbYVShfMEv6R+zo/aJZmma+A57vk8cNCc7ucfnWJKWoCEqHV5OyVLD34R
-   Qrl0lZIOhSPNBvX7vYkN3RVtyKmM/9RQu+8zXWIB71eqhPF+zGP0DheV7
-   oPwfwEJqBGXlno/fsKWwzxB1IDU6fYuXNpgrBtMDHmJnMkCW+mRcUW5ro
-   Q==;
-X-CSE-ConnectionGUID: l5lsO6UuRxG0lNvkm5K8Iw==
-X-CSE-MsgGUID: VmsS6T07QwuEsSuPG1vYdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80883202"
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="80883202"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 00:30:35 -0700
-X-CSE-ConnectionGUID: Z095tQyIRDmG5HMN6Dhl8w==
-X-CSE-MsgGUID: +OukO60WTfKSSE7SqzhBfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="238590460"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 29 May 2026 00:30:33 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wSrfr-000000000pp-035s;
-	Fri, 29 May 2026 07:30:31 +0000
-Date: Fri, 29 May 2026 09:30:24 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Johannes Berg <johannes@sipsolutions.net>,
- linux-wireless@vger.kernel.org, Willem de Bruijn <willemb@google.com>,
- linux-doc@vger.kernel.org
-Subject: [wireless-next:main 10/20] htmldocs:
- Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181:
- WARNING: Failed to create a cross reference. A title or caption not found:
- 'crc' [ref.ref]
-Message-ID: <202605290940.E4u11iiQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="njLFIoh5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+	s=default; t=1780040071;
+	bh=jQMKoFxjhXOg58Gu2goSrIvcgitzJfXOyS065eiSQOQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=njLFIoh5+QF8qO2yk3lhUuM/T3YGzqoJcLI545XszXAraCyn/vqzqXbQpztEhe2qp
+	 TvvjZJh8sITmgxaNvTUvCrCWKTxfWZ5H1t6ucIVSwHpWHzYJrJ8zxulTWmtYdQuf1D
+	 S1iDf5BZX/zV0p/epJhWh88rH8FjbA70aH6aSBWLtYah/vlXYhULlnKNsLubUkU37E
+	 7eC5Et/rBQnmvo5b5xtczea6RnEY437dQfirB8BhtMrcEPhpaL015Dxlh69eFMoueV
+	 Uz25Xm/jB+pKTjyCi8f7ocYa5b9mJEfuoTwizogiCCJAbev4ZmKHjn5+RxJNWFSD8p
+	 6wFW6wpwDZIiQ==
+Message-ID: <89901220-0a43-4668-9d20-aaecc72c58dd@lankhorst.se>
+Date: Fri, 29 May 2026 09:34:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] cgroup/dmem: introduce a peak file
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>,
+ Natalie Vock <natalie.vock@gmx.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20260514-dmem_peak-v3-1-b64ce5d3ac38@igalia.com>
+ <ahCISfTlN10gD8e6@localhost.localdomain>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <ahCISfTlN10gD8e6@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   e7d6bd24e883bf7c328d73c99bf6bcde19bf5e61
-commit: 25bfb3a8edcbadf4d9d27450c547a631e7513f14 [10/20] docs: net: render the checksum comment in checksum-offloads.rst
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260529/202605290940.E4u11iiQ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605290940.E4u11iiQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Den 2026-05-22 kl. 18:48, skrev Michal Koutný:
+> On Thu, May 14, 2026 at 02:36:08PM -0300, Thadeu Lima de Souza Cascardo <cascardo@igalia.com> wrote:
+>> Just like we have memory.peak, introduce a dmem.peak, which uses the
+>> page_counter support for that.
+>>
+>> For now, make it read-only.
+>>
+>> This allows for memory usage monitoring without polling dmem.current when
+>> the information needed is the maximum device memory used. That can be used
+>> for capacity planning, such that dmem.max can be properly setup for a given
+>> workload. It can also be used for debugging to determine whether a given
+>> workload would have caused eviction or system memory use.
+>>
+>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>> ---
+>> Changes in v3:
+>> - EDITME: describe what is new in this series revision.
+>> - EDITME: use bulletpoints and terse descriptions.
+>> - Link to v2: https://patch.msgid.link/20260513-dmem_peak-v2-1-dac06999db9e@igalia.com
+>>
+>> Changes in v2:
+>> - Make it read-only for now and adjust documentation accordingly.
+>> - Link to v1: https://patch.msgid.link/20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com
+>> ---
+>>  Documentation/admin-guide/cgroup-v2.rst |  6 ++++++
+>>  kernel/cgroup/dmem.c                    | 15 +++++++++++++++
+>>  2 files changed, 21 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 6efd0095ed99..d103623b2be4 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -2808,6 +2808,12 @@ DMEM Interface Files
+>>  	The semantics are the same as for the memory cgroup controller, and are
+>>  	calculated in the same way.
+>>  
+>> +  dmem.peak
+>> +	A read-only nested-keyed file that exists on non-root cgroups.
+> 
+> s/nested-keyed/flat-keyed/
+> 
+> 
+> With that
+> 
+> Reviewed-by: Michal Koutný <mkoutny@suse.com>
+Reviewed-by: Maarten Lankhorst <dev@lankhorst.se>
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+With your r-b it's ok to push it to the dmemcg tree?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards,
+~Maarten Lankhorst
