@@ -1,130 +1,293 @@
-Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC83380FDA
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 17:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0C73806D7
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 17:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780075621; cv=none; b=Xs9LQnKPwh5DOrCIPF1sgfDW+RWK1JANIMca74kByhbNoVbFMcE4xeCFy1yQyZk0AawXoSq+RrHcWwcu4E+iZkb4n64fDfVllPkopu90mU7Sw0XZECgL5PYIgKKgteHdHpOQ4mHwI5rjpIq1L5uVFUl9HF3ds1s+/Dof1OzJLyo=
+	t=1780075645; cv=none; b=Y8COf7sheJUxwrrGWrT2IyVJM9VV26vze7Jk36Zw2SHudEEg8oCXaNPoloL7TfhZMpYYvf9wulXul2W9uIJJ4jHndHIZf26j7F2CQZ0TNpnvDTSRRqOLpQYT/AYWGGvOHrwXJu4jREcnggeXnUzyAQsLiXHZNFhzhsjt+nzXzGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780075621; c=relaxed/simple;
-	bh=cCVHycNzXYBDTxfQ2k6hsJzjSVBYoRMvdaVRtzY/adw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BVK4AueJti/BzSz5GUG0C1Jwys09OFXj2O77EYJxxAKabsbosi3Q75hVuZ5+N/yN54fTcaKFtE2JKDx/OlHxBTa4pV5IpwQ4ZxiDdawrCz/oE/02L6qsYEmXl82OFXK71Ea5w1wLYZVI7SbuC+cuDAep4uk8ZUJ7sNwdknCpkfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CL+2t3eQ; arc=none smtp.client-ip=74.125.82.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780075645; c=relaxed/simple;
+	bh=FbS3i2ODxvXZRHD84l3iMefX3d6meXR0PTACpQz/VF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a2/mZ1f8ZAgsYcyIkkBxfTwjgE2ME5Lhg0BXke2JG5iIT3NqwReHjHbezAGSiYtYEjb6/IpbHFGG2Xs+2UGd1p9umU/zbNjBlpe2a6dT7NsXepW+y1XoWCMrlK5n4OOwuR+nhbFqqUeA6LuLeaootIajj7qKdG1S3HZPZUUBlKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=loQx2kSe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CL+2t3eQ"
-Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304e83724bfso1653773eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 10:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780075618; x=1780680418; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rUW2sBne+Sxe0sHajD5BpUUqGczKXbh7gDG8g1//2Hc=;
-        b=CL+2t3eQQhiSf6g3RuyuBvOPe4s11ifeKnmDLUZ5E9JmBg0uNWmldIiwcTJCtSp0L5
-         AwpIVm2Uw3tIqPA6XbVTUtLkXl/2NmsfOSb+dqLbOIKaxZJOZu+AyTcWxaz0iGNtNrdn
-         YXSk7/k8wfCss0ZfMprA8bJKIJnJpwqb7JkXw5mEctk7ZClUS+O2nFQmRhiAeWKx+Ks4
-         WoIvg3XXTYL0olWGJCtzxMA9Z9K6tJ8OPXzCXQmxSzFzxTfMRzut+k79DL80WzjGLIGg
-         p8SwAsJIk7g38D3fnbwljVMgMYSI5CHt4xvBBt+MNCaWHbY988QypmS/i1M+TAFfkrdk
-         78Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780075618; x=1780680418;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rUW2sBne+Sxe0sHajD5BpUUqGczKXbh7gDG8g1//2Hc=;
-        b=D/icdf3zKivV8U/FvLPe5hqa0aHGEeZNiu3uls1XFT+7rbyYUV6GUUW3DjqPXc445a
-         0y2HsEms4P3xhGLRDeTFXfRWj2A6D+FGhLi5UkHGpF8CoADd0TcZmdlhE4d8DvXZ5V8X
-         Qvtq4kc9coxw9dnqD9RrxNYXRFxo2UrZqDPqSeWdfaJURR7nxn5ve8jbkb5MyFw4reaj
-         SmybByU6N52xh80O/8idwWi7uFpckXfmdWb3qnL8Kzbd5VmE0m7PPoP1NnBiLfwyviGg
-         KzQdvcNSqUPBiGRAyDryZR9wadO8ZN3hWtUshVC77szef7YUiXZjrFVRJvyJsVhoZv8Y
-         nSFA==
-X-Forwarded-Encrypted: i=1; AFNElJ8iWfC0ldc3RIawpY5EONJ1/9dkCXKIBwjv9sovFD6XTPaalKUbm7JlKLJ/qdhDiWLJmdIrtySZSmU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySqbnCrtKZcSE8sI0LuPegm2AR3HOiCHNR0hHqChnZVXjpw2uy
-	Kxl8wyVWtq/7gb25s9lTBr8mFOT+eoSk04RjHDij/MC/31oPMN7jLghZ
-X-Gm-Gg: Acq92OEZA/hSpIkmI/It5ljH35koGhHvMn1W2fXVt62hj9RxZ0M/SsIm2GQ4vVKmR6F
-	AN8zhvZ+yfG1GBBF0jgChm27h+mKXTYxXphV1tZocs2S0QjXs+DfF6Fs1CjD5VxJDzE2ZngiOLY
-	wPmcewGW9YBkk4a64xwBp9Ru/JdcLY7FyPpfO94vSbGRkiS2klW43gCMtqK9c0Vgno7+NUcVfdE
-	Q3txLBuUxWUBRkF4EVNvnss+z9n2qUy4LQ34+y85du8EKo/JGWcqmr8NFAoUFtMpV+SSBDmbSsd
-	X8Mn6sehXkn78jyeMmFZp5AL45RgznaEpSZafn7u3fFN2UNyu3TxRlh53I6IF0/K/AN3nWwvdND
-	x3f2Mq0LiDdj0Kp/H+uXS5dSEYDgJmJRc2OMdmc1MpZosRimEdWlWuRk+JUS72cz8IWHAU5GxyU
-	yCzDx3I6gA6UOlKUw/kgbFQJMJKuKdBsbR
-X-Received: by 2002:a05:7301:580b:b0:304:5a9c:6479 with SMTP id 5a478bee46e88-304fa4ec8f6mr378329eec.9.1780075618178;
-        Fri, 29 May 2026 10:26:58 -0700 (PDT)
-Received: from zhanwei.. ([192.227.223.214])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed53d06asm1785614eec.14.2026.05.29.10.26.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 10:26:56 -0700 (PDT)
-From: Zhan Wei <zhanwei919@gmail.com>
-To: matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com,
-	rodrigo.vivi@intel.com
-Cc: raag.jadav@intel.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="loQx2kSe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B361F00898;
+	Fri, 29 May 2026 17:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780075644;
+	bh=NfTzwAtyC5pYFlbHqtPUTEyIV17MhkMv9IDQiAjYQnI=;
+	h=From:To:Cc:Subject:Date;
+	b=loQx2kSeAW4WGlbFF0SGccV3kFJaF+FgtJlJYVlFoJvme3GQ0VClJ/v7YHyvBT2XX
+	 yJo2Tke4/qvLXVUS6jKk7zpYP9vRgl13mK7hMXlVUPYhzbOBgYxsPljG9q/VxAbuEC
+	 m/cvId4ydW2GZ1WLYjGUIDF0PdRebv9RsgVUk1I+aJ00NVNEXJKkY/lHzC9bvay96F
+	 kFl+mbK4B0mRuKPWZSnohV930dqs+dusBX0eZE7bAGKJwRtRjipIa0LTd7QE559Rui
+	 F3x3ClaImIRWaZBLoCJZskLq4PblpsRn9B9xRfDiNNCLYCKuBp+YCfO/y0lRnEs+q3
+	 0q5D0IAbh10Aw==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 3EEB2F4006F;
+	Fri, 29 May 2026 13:27:23 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 29 May 2026 13:27:23 -0400
+X-ME-Sender: <xms:e8wZat_1nNXv5CAdHB_HskvXv9SA7HT312ToLhM2ypvTldvN5NduHA>
+    <xme:e8wZalpRedKX_up8i1mqRKcNoPad8j0aWZhI8YY96Mc0Et1x9lCUDw2oDX37vh_i1
+    55RMExzVyRmqrB0gtW0f4ZTGrWK9MVu7Ikdo00v4t9YGpX20j-RoG4>
+X-ME-Received: <xmr:e8wZaji_c_ARQdrw05OHCov1PcrYiFkmsptProFoVTdAjHE9ku-Wui0V0tuPEA>
+X-ME-Proxy-Cause: dmFkZTFLqO2jamm4P7y4lIO2odxfIY2Q4usIAWWS/LuD7Qeu9DEkfQoY8X0zLzNn27/W0K
+    vPAn66qDVYZ3B59GlkltUfBGXhHi4cMOTSpefcOSVS4BSujNAPqNjBnuaalAYApfmqJGCl
+    PjiiIE8ahLGpAyEV8i51oONbzHPeeMgFWXGWXVTjhn2ou7ajp9XLjIEj3QVTj3ZEyL4Clq
+    Om2XB5Xj94E2HEXocz3aMcBewUn2ZGX1VabLUKDQY4siPVTnjLgvSoJiWxt4Py9ppBw8Wz
+    YFk1w+pg1vzY058LWIw8qWieUQvvCAcu1/5J6VptzCXcHLnyN2jEKM+QaNuF1DAT7g6yGl
+    AwVZkfUIJEXHUZA/oYBBQbtbJHlySn1cVRG/uGpQxCRV+Ck8z6evUsxK1ZnW0mwUGmvPBl
+    GJGyWqapotf69yDdTb1WfzPTzvbsSLhMhtPgw/WMdqB1ITnab7BzJu9a4GFUMAAYqNsNoP
+    YEyh5WPYPpW3KaFyVFwGqDX3ma3usQEFA50FEI7q74CMocYl8WHlVDgpxVPIi0emKtSTQ0
+    GJGvpzR/dR49fV5t/qnCT/WyiXopuEXz4Cg+JXNeYXZlOSAObkIJkP85o4Xtx2aOhLuYVl
+    D7hUvwS2YVXSdZM2pZnE9xplWtQuvebkidV/0yd9ye8sKZKghnAM8pOzZnXA
+X-ME-Proxy: <xmx:e8wZarDLkKiYxbqDPGTXMD00i2sTrYLiijkVd6XJ7tG_LsOVhLcgEQ>
+    <xmx:e8wZapssrxGS24UCos53QVMLvOLehmL29ZY_9TXhy1lSCAcQh-OzIg>
+    <xmx:e8wZat5R1nF8GKzaH6Oz1vxGfgDQfe-v1U_sOmOZ9c4wqFW5tuob9A>
+    <xmx:e8wZard1Z1L3zdyTC-fn-QlsZqBQQc1htk50wn6ssWhD4YbYEOy9hQ>
+    <xmx:e8wZatW3JZnHEE7iQ1eIV_qGD95Uy9ebTQJIUGuspqgW17VB3vtT02vQ>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 May 2026 13:27:21 -0400 (EDT)
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	david@kernel.org
+Cc: ljs@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Liam.Howlett@oracle.com,
+	ziy@nvidia.com,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	jthoughton@google.com,
+	aarcange@redhat.com,
+	sj@kernel.org,
+	usama.arif@linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Zhan Wei <zhanwei919@gmail.com>
-Subject: [PATCH v3] drm/xe/hwmon: document DG2 fan speed reporting quirk
-Date: Sat, 30 May 2026 01:24:49 +0800
-Message-ID: <20260529172449.41504-1-zhanwei919@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <ahm680G_8mf_cjG9@black.igk.intel.com>
-References: <ahm680G_8mf_cjG9@black.igk.intel.com>
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kernel-team@meta.com,
+	kas@kernel.org
+Subject: [PATCH v6 00/15] userfaultfd: working set tracking for VM guest memory
+Date: Fri, 29 May 2026 18:26:29 +0100
+Message-ID: <20260529172716.357179-1-kas@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On DG2 the driver always shows two fan channels, because the
-FSC_READ_NUM_FANS command does not work on some cards. OEMs decide how
-the fans map to tach channels, so two fans can share one tach line.
-When that happens, the second channel reads 0 RPM even though the fan
-is spinning.
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, so a VMM can identify cold pages and evict them to
+tiered or remote storage.
 
-Note this on the fan2_input ABI entry so the steady 0 RPM is not
-mistaken for a driver bug.
+v1: https://lore.kernel.org/all/20260427114607.4068647-1-kas@kernel.org/
+v2: https://lore.kernel.org/all/cover.1778254670.git.kas@kernel.org/
+v3: https://lore.kernel.org/all/20260522133857.552279-1-kirill@shutemov.name/
+v4: https://lore.kernel.org/all/20260525113737.1942478-1-kas@kernel.org/
+v5: https://lore.kernel.org/all/20260526130509.2748441-1-kirill@shutemov.name/
 
-Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
----
-v3:
-- Drop the dedicated Documentation/gpu/xe/xe_hwmon.rst doc and the
-  index.rst hunk; add a short note under the fan2_input entry in the
-  existing ABI doc instead, per Raag's feedback.
-v2: https://lore.kernel.org/intel-xe/20260529135028.20763-1-zhanwei919@gmail.com/
-- Drop the code change that reported a single fan on DG2; document the
-  shared-tach behaviour instead, per review feedback on v1.
-v1: https://lore.kernel.org/intel-xe/20260527115311.13398-1-zhanwei919@gmail.com/
+This series is based on the "userfaultfd/pagemap: pre-existing fixes"
+series, posted separately; that series carries the pre-existing
+Fixes:/Cc: stable@ patches that used to live at the front of v5 (the
+four from v5 plus two more surfaced since).
 
- Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon | 7 +++++++
- 1 file changed, 7 insertions(+)
+= Changes since v5 =
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
-index 55ab45f669ac..0da739d9a816 100644
---- a/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
-+++ b/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
-@@ -251,6 +251,13 @@ Description:	RO. Fan 2 speed in RPM.
- 
- 		Only supported for particular Intel Xe graphics platforms.
- 
-+		On DG2 the driver always shows two fan channels, because the
-+		FSC_READ_NUM_FANS command does not work on some cards. OEMs
-+		decide how the fans map to tach channels, so two fans can share
-+		one tach line. When that happens, the second channel
-+		reads 0 RPM even though the fan is spinning. This is normal, not
-+		a bug.
-+
- What:		/sys/bus/pci/drivers/xe/.../hwmon/hwmon<i>/fan3_input
- Date:		March 2025
- KernelVersion:	6.16
+  - Split the pre-existing fixes out into a separate series; this is
+    rebased on top. (Lorenzo, Andrew)
+  - Rework the mk_vma_flags() OOB fix to config-gated per-mode masks
+    (mk_vma_flags_from_masks()); moved to the fixes series. (Lorenzo)
+  - New prep patch 04/15: convert the userfaultfd_*() helpers to
+    vma_test_any_mask(). (Lorenzo)
+  - 08/15: gup_can_follow_protnone() forces the RWP fault only on
+    accessible VMAs, fixing a FOLL_FORCE loop on a VM_UFFD_RWP VMA that
+    was mprotect(PROT_NONE)'d.
+
+uffd-unit-tests 113/113, pagemap_ioctl 117/117.
+
+= Problem =
+
+A VMM managing guest memory needs to:
+
+  1. detect which pages are still being touched (working-set
+     tracking);
+  2. safely evict cold pages to slower tiered or remote storage;
+  3. fetch them back on demand when accessed again.
+
+= Approach =
+
+UFFDIO_REGISTER_MODE_RWP is a new userfaultfd registration mode, in
+parallel with the existing MODE_MISSING / MODE_WP / MODE_MINOR. It
+uses the same mechanism on every backing -- anon, shmem, hugetlbfs:
+
+  - PAGE_NONE on the PTE (the same primitive NUMA balancing uses)
+    makes the page inaccessible while keeping it resident;
+  - the uffd PTE bit (the one MODE_WP already owns) marks the entry
+    as "userfaultfd-tracked" so the protnone fault path can tell an
+    RWP fault apart from an mprotect(PROT_NONE) or NUMA hinting
+    fault.
+
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA, so the
+same PTE bit safely carries both meanings depending on the
+registered VMA flag.
+
+In sync mode, the kernel delivers a UFFD_PAGEFAULT_FLAG_RWP message
+to the registered handler, and the handler resolves the fault with
+UFFDIO_RWPROTECT clearing MODE_RWP. In async mode
+(UFFD_FEATURE_RWP_ASYNC), the fault is auto-resolved in-place: the
+kernel restores the original PTE permissions and the faulting thread
+continues without a userfaultfd message ever being delivered.
+Userspace then learns which pages were touched by reading
+PAGE_IS_ACCESSED out of PAGEMAP_SCAN -- pages whose uffd bit is
+still set were not re-accessed since the last RWP cycle.
+
+UFFDIO_RWPROTECT is the protect/unprotect ioctl, mirroring
+UFFDIO_WRITEPROTECT.
+
+UFFDIO_SET_MODE flips RWP_ASYNC <-> sync at runtime under
+mmap_write_lock() + vma_start_write(), so a VMM can run in async
+mode for detection and switch to sync for race-free eviction without
+re-registering the userfaultfd.
+
+= Typical VMM workflow =
+
+  /* arm */
+  UFFDIO_API(features = RWP | RWP_ASYNC)
+  UFFDIO_REGISTER(MODE_RWP)
+
+  /* detection cycle (async) */
+  UFFDIO_RWPROTECT(range, RWP)
+  sleep(interval)
+
+  /* freeze the cold snapshot before scanning */
+  UFFDIO_SET_MODE(disable = RWP_ASYNC)                  /* sync */
+  PAGEMAP_SCAN(!PAGE_IS_ACCESSED) -> cold pages
+
+  /* eviction (sync mode traps races) */
+  pwrite(cold) + fallocate(FALLOC_FL_PUNCH_HOLE, cold)
+  UFFDIO_WAKE(cold)
+  UFFDIO_SET_MODE(enable  = RWP_ASYNC)                  /* resume */
+
+= Series layout =
+
+Patches 1 to 4 are preparatory:
+
+  1: decouple protnone helpers from CONFIG_NUMA_BALANCING.
+  2-3: rename _PAGE_BIT_UFFD_WP, pte_uffd_wp() and friends to drop
+       the _WP suffix, since the bit now carries WP and RWP meaning
+       depending on the VMA flag. The SCAN_PTE_UFFD enum's ftrace
+       output string is intentionally kept as "pte_uffd_wp" so
+       trace-based tooling does not silently break.
+  4: convert the userfaultfd_*() flag helpers to vma_test_any_mask().
+
+Patches 5 to 8 add the in-kernel mechanism:
+
+  5: VM_UFFD_RWP VMA flag (aliased to VM_NONE until 09/15 introduces
+     CONFIG_USERFAULTFD_RWP together with the UAPI).
+  6: MM_CP_UFFD_RWP change_protection() primitive (PAGE_NONE +
+     uffd bit, plus a RESOLVE counterpart).
+  7: marker preservation across swap, device-exclusive, migration,
+     fork, mremap, UFFDIO_MOVE, hugetlb copy, and mprotect().
+  8: handle VM_UFFD_RWP in khugepaged, rmap, and GUP.
+
+Patches 9 to 13 wire the userspace surface:
+
+  9: UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT plumbing.
+ 10: RWP fault delivery; turn the UAPI on.
+ 11: PAGE_IS_ACCESSED in PAGEMAP_SCAN.
+ 12: UFFD_FEATURE_RWP_ASYNC.
+ 13: UFFDIO_SET_MODE runtime sync/async toggle.
+
+Patches 14 to 15 are selftests and documentation.
+
+Kiryl Shutsemau (Meta) (15):
+  mm: decouple protnone helpers from CONFIG_NUMA_BALANCING
+  mm: rename uffd-wp PTE bit macros to uffd
+  mm: rename uffd-wp PTE accessors to uffd
+  userfaultfd: test uffd VMA flags through the vma_flags_t API
+  mm: add VM_UFFD_RWP VMA flag
+  mm: add MM_CP_UFFD_RWP change_protection() flag
+  mm: preserve RWP marker across PTE rewrites
+  mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+  userfaultfd: add UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT
+    plumbing
+  mm/userfaultfd: add RWP fault delivery and expose
+    UFFDIO_REGISTER_MODE_RWP
+  mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+  userfaultfd: add UFFD_FEATURE_RWP_ASYNC for async fault resolution
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd RWP tests
+  Documentation/userfaultfd: document RWP working set tracking
+
+ Documentation/admin-guide/mm/pagemap.rst     |  13 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 253 +++++-
+ Documentation/filesystems/proc.rst           |   1 +
+ arch/arm64/Kconfig                           |   1 +
+ arch/arm64/include/asm/pgtable-prot.h        |   8 +-
+ arch/arm64/include/asm/pgtable.h             |  47 +-
+ arch/loongarch/Kconfig                       |   1 +
+ arch/loongarch/include/asm/pgtable.h         |   4 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h |   8 +-
+ arch/powerpc/platforms/Kconfig.cputype       |   1 +
+ arch/riscv/Kconfig                           |   1 +
+ arch/riscv/include/asm/pgtable-bits.h        |  12 +-
+ arch/riscv/include/asm/pgtable.h             |  59 +-
+ arch/s390/Kconfig                            |   1 +
+ arch/s390/include/asm/hugetlb.h              |  12 +-
+ arch/s390/include/asm/pgtable.h              |   4 +-
+ arch/x86/Kconfig                             |   1 +
+ arch/x86/include/asm/pgtable.h               |  56 +-
+ arch/x86/include/asm/pgtable_types.h         |  16 +-
+ fs/proc/task_mmu.c                           |  98 ++-
+ include/asm-generic/hugetlb.h                |  18 +-
+ include/asm-generic/pgtable_uffd.h           |  32 +-
+ include/linux/huge_mm.h                      |   7 +
+ include/linux/leafops.h                      |   4 +-
+ include/linux/mm.h                           |  65 +-
+ include/linux/mm_inline.h                    |   4 +-
+ include/linux/pgtable.h                      |  32 +-
+ include/linux/swapops.h                      |   4 +-
+ include/linux/userfaultfd_k.h                |  89 ++-
+ include/trace/events/huge_memory.h           |   2 +-
+ include/trace/events/mmflags.h               |   7 +
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  54 +-
+ init/Kconfig                                 |   8 +
+ mm/Kconfig                                   |   9 +
+ mm/debug_vm_pgtable.c                        |   4 +-
+ mm/huge_memory.c                             | 159 ++--
+ mm/hugetlb.c                                 | 158 +++-
+ mm/internal.h                                |   4 +-
+ mm/khugepaged.c                              |  40 +-
+ mm/memory.c                                  | 135 +++-
+ mm/migrate.c                                 |  20 +-
+ mm/migrate_device.c                          |   8 +-
+ mm/mprotect.c                                |  70 +-
+ mm/mremap.c                                  |  17 +-
+ mm/page_table_check.c                        |   8 +-
+ mm/rmap.c                                    |  18 +-
+ mm/swapfile.c                                |   9 +-
+ mm/userfaultfd.c                             | 387 +++++++++-
+ tools/include/uapi/linux/fs.h                |   1 +
+ tools/testing/selftests/mm/uffd-unit-tests.c | 765 +++++++++++++++++++
+ 51 files changed, 2300 insertions(+), 436 deletions(-)
+
+
+base-commit: 9110948da327947a01830604020e0548c15b96f1
 -- 
-2.43.0
+2.54.0
 
