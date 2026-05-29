@@ -1,233 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6922E7378;
-	Fri, 29 May 2026 16:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87E136C0D2;
+	Fri, 29 May 2026 16:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780071039; cv=none; b=PBk5vEY/V1oIhDtQ3GXmGH3DwSz1xUFAJxPlNtiNrwC8gos+wCfE+ren10YUBs9ciRC5bQYs5Aob10I0dTO37xb9IPA5KIcWkPInTQ5Lw+PfUYez7o38ORZvdpl03GrAbfYybJPCw1oePL9W8yvSNiuWnxgOGRpddH1bSDZwMME=
+	t=1780071162; cv=none; b=GPe5RsOkw84ACjl1Cd1xBw2p0aAdjetWROnmUfAS3mNLlbumQB0Y/zFUIGCFyu0DRf/mr9AO+SlKlHXTf4ysTrkyU+W31hmFrq0cFQ4r3QWBZrXBSvR6q1rr858FosSnshlVVrv5DQqR9svddjgmbylMDKo7j/bEgN2Lsyznnzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780071039; c=relaxed/simple;
-	bh=UZLusWf4bcT/ycD8aHU7xK0aEb315I5lvI1BlNafl7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gg9qoxz8OYviNx893AlOE5nYKEmYEOzqTi5gnFgVzXiYUuNMEwncZHUPPM9V7k2Fw6Wh1a5Yq93Es6zKrB7t4rm4Ewgf//Vep2WlbnGxNHWAdF12GK+DXTvFiIKvMoxK4hvPmWjFbcXkJvuNI+FkG8JMkzKC7Qa8i4x33cSuq7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FdcVNoNq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780071162; c=relaxed/simple;
+	bh=z+Lc5O2J/Ac6/dHKEA695nu+O+xYv0X3WMs8TMgvC3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HdawVPf3X7GRzEOAVHdrwZJEAZPkBJWrh88X/18nStF2GGc5/088hi7PI5In+0hnVOdFbhwZ2sE6AylE2xzUDr1pUT1dk8kwGW+eTJeKVKmEXnlRFU4NMk1HUzEr4m2BiXrxdl64tfUuVD06gaYQqJGGvMh/gp85AexjwSYqGU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZhDZqfF; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FdcVNoNq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09101F00893;
-	Fri, 29 May 2026 16:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780071038;
-	bh=0cfOaGqtXhzo3vVoQAD71kbwV/uATf5IVMb/TrLF8tQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=FdcVNoNqszKzYLbncqvIj3IKV9TiF7cDek9qbm1jDcGWZPJsGPHvmcI3cdTh2v76a
-	 yLrK4Dg3CkohtsWyEPNIQlflDTRRIaJ7zwdyaI0UBOtDjEbWeUKnQsxdH24d2rZd61
-	 TqSz7Fz+CpQzmkh7nmzGtCyPSRaegM9l5FiTJXs1mzoNeM7tD5DdY7LdUjAlR3ztf+
-	 Qj/Qvww9ZiZJ8PoW+ZF3XeswZDfbU6+x9PYXH4pg56pO2hOLdilYb9Hu50kfc1PSKJ
-	 5qLa1+KqQVRd1lnHDxJIE21RH2xC7lTDms6xAs25pKN0KiC+0hdEzTq3IOQsYeVVqs
-	 gMZZTLCaFI+2A==
-Date: Fri, 29 May 2026 17:10:22 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v5 05/10] ACPI: APEI: GHES: move vendor record helpers
-Message-ID: <20260529171022.073eb4cd@jic23-huawei>
-In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-5-2e0500d42642@arm.com>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-	<20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-5-2e0500d42642@arm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZhDZqfF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780071160; x=1811607160;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=z+Lc5O2J/Ac6/dHKEA695nu+O+xYv0X3WMs8TMgvC3k=;
+  b=RZhDZqfFHx2QwTMB6UBrxZcQy1F+ZN6x/haziIvO/NcQlzIPws/H+SCU
+   C6CKAPZAJjpNnpBuWtg8yJiIb9hZdqmyNiefz6ocUikpLKrFkU/y5uMM5
+   ROIPPdtBBsuuglBL4hVJKjcZCXiGdKzk5ferHxi5vbs6Mkdw/HZSNwZsL
+   yQRambXzQ8pcrYzYMbYNbYNfvj2t8pyixwaJtTFc5MFPZc53agbzD/LTn
+   Vsmw40IizuKpj47qtOTrhqH7A1s15I8/TJoBCCoMOaGXQsZuCjky51f1b
+   sI4PuWt62PTC1BcBlLEtKyQdT8wrl27v3T8gU0YGbxx6j+KLvfOD1S70W
+   A==;
+X-CSE-ConnectionGUID: GuZIb9PTQZOZNmb0L/731A==
+X-CSE-MsgGUID: 9NBqBjTdQQ6Fms6iz1jcGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="81109922"
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="81109922"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 09:12:40 -0700
+X-CSE-ConnectionGUID: GK8Gs3P/T/SpmXXC8gqm6Q==
+X-CSE-MsgGUID: rgRSwxWJSoSsaQsCrv5UAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
+   d="scan'208";a="247984125"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 09:12:37 -0700
+Date: Fri, 29 May 2026 18:12:35 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: =?utf-8?B?5Y2gd2Vp?= <zhanwei919@gmail.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/xe/hwmon: document DG2 fan speed reporting quirk
+Message-ID: <ahm680G_8mf_cjG9@black.igk.intel.com>
+References: <20260527115311.13398-1-zhanwei919@gmail.com>
+ <20260529135028.20763-1-zhanwei919@gmail.com>
+ <CA+qUFckr9uC7h4S9xw0JMxGnehXyrQ8HpOYdwoFoMsLk-HM_nw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+qUFckr9uC7h4S9xw0JMxGnehXyrQ8HpOYdwoFoMsLk-HM_nw@mail.gmail.com>
 
-On Fri, 29 May 2026 10:50:45 +0100
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-
-> Shift the vendor record workqueue helpers into ghes_cper.c so both GHES
-> and future DT-based providers can use the same implementation. The change
-> is mechanical and keeps the notifier behavior identical.
+On Fri, May 29, 2026 at 10:05:58PM +0800, 占wei wrote:
+> +Cc Raag, who authored the fan support and reviewed v1.
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-A few questions  / comments inline
+> Thanks for your help, this v2 drops the code change and documents the
+> DG2 shared-tach behaviour instead, per your feedback on v1.
 
-J
-> ---
->  drivers/acpi/apei/ghes.c      | 86 +++++++++----------------------------------
->  drivers/acpi/apei/ghes_cper.c | 55 +++++++++++++++++++++++++++
->  include/acpi/ghes_cper.h      |  2 +
->  3 files changed, 75 insertions(+), 68 deletions(-)
-> 
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index adab7404310e..81ac51632f21 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-...
+IMO it's a bit verbose to have a dedicated doc for this. Just add a small
+comment in the existing ABI doc[1] under fan channel description.
 
-> -
-> -static void ghes_vendor_record_notifier_destroy(void *nb)
-> -{
-> -	ghes_unregister_vendor_record_notifier(nb);
-> -}
-> -
-> -int devm_ghes_register_vendor_record_notifier(struct device *dev,
-> -					      struct notifier_block *nb)
-> -{
-> -	int ret;
-> -
-> -	ret = ghes_register_vendor_record_notifier(nb);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return devm_add_action_or_reset(dev, ghes_vendor_record_notifier_destroy, nb);
-> -}
-> -EXPORT_SYMBOL_GPL(devm_ghes_register_vendor_record_notifier);
+[1] Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
 
->  #define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
->  static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
-> @@ -514,6 +446,24 @@ int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
->  
-> +static void ghes_vendor_record_notifier_destroy(void *nb)
-> +{
-> +	ghes_unregister_vendor_record_notifier(nb);
-> +}
-> +
-> +int devm_ghes_register_vendor_record_notifier(struct device *dev,
-> +					      struct notifier_block *nb)
-> +{
-> +	int ret;
-> +
-> +	ret = ghes_register_vendor_record_notifier(nb);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_add_action_or_reset(dev, ghes_vendor_record_notifier_destroy, nb);
-> +}
-> +EXPORT_SYMBOL_GPL(devm_ghes_register_vendor_record_notifier);
-> +
+Raag
 
-Why did these two move inside the file?  It is a bit odd to leave the devm calls in
-a different place to what they are wrapping. I guess someone argued for that in an
-earlier version? (hopefully not me ;)  
-If the move puts them in an ifdef block then I'd not bother - it's tiny code and
-to me doing this is more confusing than just leaving them where they were.
-
-
->  /* Room for 8 entries for each of the 4 event log queues */
->  #define CXL_CPER_FIFO_DEPTH 32
->  DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-> index 0a117f478afb..131980d36064 100644
-> --- a/drivers/acpi/apei/ghes_cper.c
-> +++ b/drivers/acpi/apei/ghes_cper.c
-> @@ -14,12 +14,17 @@
->  
->  #include <linux/err.h>
->  #include <linux/genalloc.h>
-> +#include <linux/irq_work.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
-> +#include <linux/list.h>
->  #include <linux/math64.h>
->  #include <linux/mm.h>
-> +#include <linux/notifier.h>
-> +#include <linux/llist.h>
->  #include <linux/ratelimit.h>
->  #include <linux/rcupdate.h>
-> +#include <linux/rculist.h>
-
-I'm not seeing anything reason for most of these new includes.
-Probably in the wrong patch
-
-
->  #include <linux/sched/clock.h>
->  #include <linux/slab.h>
->  
-> @@ -266,6 +271,56 @@ void ghes_clear_estatus(struct ghes *ghes,
->  		ghes_ack_error(ghes->generic_v2);
->  }
->  
-> +static BLOCKING_NOTIFIER_HEAD(vendor_record_notify_list);
-> +
-> +int ghes_register_vendor_record_notifier(struct notifier_block *nb)
-> +{
-> +	return blocking_notifier_chain_register(&vendor_record_notify_list, nb);
-> +}
-> +EXPORT_SYMBOL_GPL(ghes_register_vendor_record_notifier);
-> +
-> +void ghes_unregister_vendor_record_notifier(struct notifier_block *nb)
-> +{
-> +	blocking_notifier_chain_unregister(&vendor_record_notify_list, nb);
-> +}
-> +EXPORT_SYMBOL_GPL(ghes_unregister_vendor_record_notifier);
-> +
-> +static void ghes_vendor_record_work_func(struct work_struct *work)
-> +{
-> +	struct ghes_vendor_record_entry *entry;
-> +	struct acpi_hest_generic_data *gdata;
-> +	u32 len;
-> +
-> +	entry = container_of(work, struct ghes_vendor_record_entry, work);
-> +	gdata = GHES_GDATA_FROM_VENDOR_ENTRY(entry);
-> +
-> +	blocking_notifier_call_chain(&vendor_record_notify_list,
-> +				     entry->error_severity, gdata);
-> +
-> +	len = GHES_VENDOR_ENTRY_LEN(acpi_hest_get_record_size(gdata));
-> +	gen_pool_free(ghes_estatus_pool, (unsigned long)entry, len);
-> +}
-> +
-> +void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
-> +				   int sev)
-> +{
-> +	struct acpi_hest_generic_data *copied_gdata;
-> +	struct ghes_vendor_record_entry *entry;
-> +	u32 len;
-> +
-> +	len = GHES_VENDOR_ENTRY_LEN(acpi_hest_get_record_size(gdata));
-> +	entry = (void *)gen_pool_alloc(ghes_estatus_pool, len);
-> +	if (!entry)
-> +		return;
-> +
-> +	copied_gdata = GHES_GDATA_FROM_VENDOR_ENTRY(entry);
-> +	memcpy(copied_gdata, gdata, acpi_hest_get_record_size(gdata));
-> +	entry->error_severity = sev;
-> +
-> +	INIT_WORK(&entry->work, ghes_vendor_record_work_func);
-> +	schedule_work(&entry->work);
-> +}
-> +
->  /*
->   * GHES error status reporting throttle, to report more kinds of
->   * errors, instead of just most frequently occurred errors.
-> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-> index 1b5dbeca9bb6..51725f25c516 100644
-> --- a/include/acpi/ghes_cper.h
-> +++ b/include/acpi/ghes_cper.h
-> @@ -104,5 +104,7 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
->  int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
->  void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
->  			    struct acpi_hest_generic_status *estatus);
-> +void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
-> +				   int sev);
->  
->  #endif /* ACPI_APEI_GHES_CPER_H */
-> 
-
+> Zhan Wei <zhanwei919@gmail.com> 于2026年5月29日周五 21:50写道：
+> >
+> > The number of fanN_input attributes on DG2 is hardcoded to two because
+> > FSC_READ_NUM_FANS returns an incorrect value on some boards. How the
+> > physical fans map onto the tach channels is left to the board vendor:
+> > some OEMs route multiple physical fans through a single shared tach
+> > line, in which case the unwired channel's pulse counter never
+> > accumulates and fanN_input reads a constant 0 RPM.
+> >
+> > This is expected behaviour for such boards rather than a driver fault,
+> > and the driver has no reliable way to distinguish a shared-tach layout
+> > from a genuinely silent fan. Document this so the flat DG2 fan count is
+> > not mistaken for a bug and "fixed" by lowering it, which would hide a
+> > working fan2 on boards that do wire two tach lines.
+> >
+> > Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
+> > ---
+> > v1 -> v2: Drop the code change. As pointed out in review, the same PCI
+> >   device ID ships with both shared-tach (multiple physical fans on one
+> >   channel) and 1:1 fan wiring, and FSC_READ_NUM_FANS is unreliable on
+> >   some boards, so the DG2 fan count cannot be lowered without hiding a
+> >   working fan2 on boards that do wire two tach lines. Document the
+> >   behaviour instead of changing the reported fan count.
+> >
+> > v1: https://lore.kernel.org/intel-xe/20260527115311.13398-1-zhanwei919@gmail.com/
+> >
+> >  Documentation/gpu/xe/index.rst    |  1 +
+> >  Documentation/gpu/xe/xe_hwmon.rst | 48 +++++++++++++++++++++++++++++++
+> >  2 files changed, 49 insertions(+)
+> >  create mode 100644 Documentation/gpu/xe/xe_hwmon.rst
+> >
+> > diff --git a/Documentation/gpu/xe/index.rst b/Documentation/gpu/xe/index.rst
+> > index 874ffcb6da3a..3c14cdcaa8a6 100644
+> > --- a/Documentation/gpu/xe/index.rst
+> > +++ b/Documentation/gpu/xe/index.rst
+> > @@ -30,3 +30,4 @@ DG2, etc is provided to prototype the driver.
+> >     xe-drm-usage-stats.rst
+> >     xe_configfs
+> >     xe_gt_stats
+> > +   xe_hwmon
+> > diff --git a/Documentation/gpu/xe/xe_hwmon.rst b/Documentation/gpu/xe/xe_hwmon.rst
+> > new file mode 100644
+> > index 000000000000..8cd48df59386
+> > --- /dev/null
+> > +++ b/Documentation/gpu/xe/xe_hwmon.rst
+> > @@ -0,0 +1,48 @@
+> > +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +
+> > +=================
+> > +Xe HWMON support
+> > +=================
+> > +
+> > +The xe driver exposes hardware monitoring sensors (power, energy,
+> > +temperature, voltage and fan speed) through the kernel hwmon subsystem,
+> > +typically consumed via ``/sys/class/hwmon/hwmonX/`` or tools such as
+> > +``sensors``.
+> > +
+> > +Fan speed reporting
+> > +===================
+> > +
+> > +Fan speed (``fanN_input``) is reported in RPM and computed from a tach
+> > +pulse counter: the driver reads an accumulating pulse register, divides
+> > +the delta between two subsequent readings by two pulses per rotation,
+> > +and time-averages the result.
+> > +
+> > +Number of fan channels
+> > +-----------------------
+> > +
+> > +The number of ``fanN_input`` attributes exposed in sysfs is the fan
+> > +count returned by the ``FSC_READ_NUM_FANS`` pcode command. On DG2 this
+> > +command has been found to return an incorrect value on some boards, so
+> > +the driver hardcodes a fan count of two there. As a result up to
+> > +``fan1_input`` and ``fan2_input`` are always exposed on DG2 regardless
+> > +of how many tach lines are actually wired.
+> > +
+> > +Zero RPM on DG2 is not necessarily a bug
+> > +----------------------------------------
+> > +
+> > +How physical fans map onto the tach channels is left to the board
+> > +vendor. Some OEMs route several physical fans through a single shared
+> > +tach line, while others wire each fan to its own channel 1:1. The
+> > +driver has no reliable way to tell these layouts apart, and the same PCI
+> > +device ID can ship in either configuration.
+> > +
+> > +When a channel has no tach line driving it, its pulse counter never
+> > +accumulates, so the corresponding ``fanN_input`` reads a constant 0 RPM.
+> > +On DG2 this is most often seen on ``fan2_input`` for boards that drive
+> > +both physical fans from a single tach line. This is expected behaviour
+> > +for such boards, not a driver fault, and reflects the board wiring
+> > +rather than a missing or stalled fan.
+> > +
+> > +For this reason the fan count on DG2 is intentionally left at a flat
+> > +value rather than tracked per board: there is no driver-visible signal
+> > +that distinguishes a shared-tach layout from a genuinely silent fan.
+> > --
+> > 2.43.0
+> >
