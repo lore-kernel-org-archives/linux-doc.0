@@ -1,310 +1,136 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C885E3C199A
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 09:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB79C326930
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 09:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780047026; cv=none; b=c4YFwcY63IVZd9UyVtxmxSw5syzkG236S3jVYgr4pzrNf5/Qppq6q2a9MX3PcC40kIGA6EVqH2todwAfBz9Aii0CSRTmVGpXsEqRQc7WPr+mE/MgirG75W/FwY7cAEX+0ARVsxak+TaHE81CVzvGdkcL1zBYOJL7ViCKudQ3MSA=
+	t=1780047195; cv=none; b=q+IvUGIIt+YMHfdZKsJLgHsG0QJa8QsR4+HvO08HLcV+YMD/ixl+X0Svvudt5qas7K7EhXHMfQSRYW1Fh31xRorbhV2aQsd3jfHf3kVU9NjgjgFka1UYX97dmBTU9HdI2WeE8L6ODD6Q9dJltdmu3i/wERL+VIU+eEgGFQE5ejs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780047026; c=relaxed/simple;
-	bh=GV5Rm1RwGK7U8/1MVkT6I42g38w5v9VWFglOl5x0yhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qh7C1/n49heG+Uwsui9hg4huSYKwp9y1HBiNWYr45L1nuIoqkfuswwM8oH0gC1H3hcH8G66WvqqKCXChxvRhE9iwhVPr1uzb/E82Pg9gWx32SDoUmw6LFnKtUiG87ObLn1ib9VMECSMwsgGh4dMSCRhbUqUNSSxqDH2dKmf+UdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6hl8S8Y; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780047195; c=relaxed/simple;
+	bh=oJBnS25vuN7if7mJFXm+R7eCRJTbzv2vvslR9lOBWAI=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Hbdp0ba2hbpNFXKYwjhsY850c0L6GV8k/bn7TyTHP+XtXgInXcFbrv1DVRj/c2KjLfwX4lsh6+DOH4j826XqaE1b6taozzpvAlOrWXOyXdjgBSXJIoDZ8qcEd/U5xwmYpDPYXZoxLk8M427JVQk1/rWhNW37L5j5aj9zMYIFFjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WYarOVqS; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6hl8S8Y"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so2165885366b.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 02:30:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WYarOVqS"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-68b6f4f3c06so1346032a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 02:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780047023; x=1780651823; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GYSRC4x1mjQTbx6PsVvZb225HoobPmXU3KLDTDQ5/gg=;
-        b=b6hl8S8YmUL9U/oTnfIPjw8gG5G3oMdwMc/ofkHVzQrikuk4JvF34fTCz/qTHaKG8/
-         c/41V3YpoRnUrul0dQ48XFLiLnsIZBNBSRSXkWZpfjAeXS/aJWDPQH6pBqSRFiGH0nHV
-         ywVmjTVGxPwZhFOPjW8dAwO/Ofmgpl83xq/eV9R6AYSQUHz5yic8eQg/piESOqYTRr3Q
-         11Gk6gVNHbPcW6ddyRsiA10OkncvIzFY+3zokGRa19QSs8pzgwJ7vhbbVz1W8sTSsIIN
-         1GEgZAjeAiMYr+66l2AjO2ymZDyPmtheCpvaAPVZbFbAoSLncWUjRbCxjA7c/C1bgwFJ
-         PNKw==
+        d=google.com; s=20251104; t=1780047192; x=1780651992; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cWB8AxuhflmNGkthEv8fqT0Ix6HH05iWrOSrTCpjrKE=;
+        b=WYarOVqSKW2lzxtiGKmVxCzKFWn7AHkwuMXGMfkxylQCkjzaT7z2YHBMWrssPDBB+N
+         wxMH7dHmoR0W9V3hpzN/rj2sK9KPJ5QwTn6DGRoLka7eByBlbLC83WguDymkNJsUkmo0
+         z4Ma4VuqgES7xkzC2JqRGH+tOhP9HuqBCxck0Cir2IUy+zvzuezEXlu1Z8X+Q3J3Co0z
+         wH3VmnstCLsaRM8jLFG2mpW7HK1ST75zxPDYYi+r+2Hov9zac2JQ3nqWTKCyzbEHuMKf
+         i2cjmHx/sWhoZvwGmwpW82MNWArO12V4eAMxmIU18XTpbj953mDg9qo0/UR8D+xKNeC/
+         +70w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780047023; x=1780651823;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GYSRC4x1mjQTbx6PsVvZb225HoobPmXU3KLDTDQ5/gg=;
-        b=Od9aiFGnpDUlbHLyFsu3WJSGDYqHseiZB4sNLKNgA9TG/I32/lyYgq2mt0R+FgVb4y
-         InjuPGmdfOt9QwK/M/ssefWteaFtlhIM7owt8C/49q5WeSpUqmUZ1DuYUcCDa3M7NqCU
-         VWhc3Jc+RbSD3nhe0VUFamVbyb76QsBeaA/6bCTVxBLsMPyrC3ZLfU6aPo+63/ftlFvn
-         b4D4xH/edCnWt/H/SCRxpbde5ePvexYg9kqKDQpvE6qIcS+UouBV4YKNSCJ4m1DJvPTY
-         p8wIaWo1Tz7wqdOKA7YctLsOaua+8rD650b82Xcq7lt+ex1IIblXWuYxyD/6hd4/1L19
-         5y9g==
-X-Forwarded-Encrypted: i=1; AFNElJ92jM5aOJMPYNblaioALNr9ik084nPtqkiKQlp3XDGo0/rdHf4vlywGM+cp43CDbPlfGd24Y/gx7P8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0Xz1+Lb56kABVdpB/A4/etFV960YZrgN0cVy/atpESFBhom3c
-	j3NNtdHXmbMbsKHjUs2iZo8309rrfsi1JvS+G5qIOM+jmiJhMkwFCDZi
-X-Gm-Gg: Acq92OEwsgaKmCVQNzPCwIgrMwoLrxSnHnXSwkbp7TyHfRveKfGrI+h/HGdn1QoK5kJ
-	CZfudoZmpLfLoHAUvRUMHhXPmQUdK+YjdT/DnrprvQdiusGkZIIcD1ecuYGNCApadSXrgzC+vKD
-	jkjp80jWatmHUMQOaP8rkyoggtAgPYya73021cQ0x27HGoJyrr+1SLAUJu0b1HIM8v8jO+Qlifc
-	2eGUuGD4oinMGqHJ4bz6BNCWHOvk1cgAuNOT4rYltYsbxTmYC2eyeHJyMbgu5OV8JER1fSvt5Vc
-	KirvUnXjHvveBeXlxwwbKa5Q4nfDV+RjFDdgsuYcximGKUplTyuqih/ZQSb4tFif0FY+HA0cZ5p
-	C4khzvgc8N2wxuUJvczq07yO4qSB/fmOAyYHWZe794RxbzfpDyvdf6ac514+HbsGcbzYKNnAkK+
-	Bz3GJrIK3V0kdgIJwsiiBzTXA=
-X-Received: by 2002:a17:907:2d20:b0:bde:72a9:ba83 with SMTP id a640c23a62f3a-be9cf2ae3d2mr105870766b.29.1780047022876;
-        Fri, 29 May 2026 02:30:22 -0700 (PDT)
-Received: from nsa ([45.94.208.29])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9d27f2207sm50349466b.2.2026.05.29.02.30.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 02:30:22 -0700 (PDT)
-Date: Fri, 29 May 2026 10:31:20 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: "Pradhan, Sanman" <sanman.pradhan@hpe.com>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
-	"linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Syed, Arif" <arif.syed@hpe.com>, 
-	Sanman Pradhan <psanman@juniper.net>
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/max20860a) Add driver for Analog
- Devices MAX20860A
-Message-ID: <ahlcnlJJnLfmCZNH@nsa>
-References: <20260529001903.625737-1-sanman.pradhan@hpe.com>
- <20260529001903.625737-3-sanman.pradhan@hpe.com>
+        d=1e100.net; s=20251104; t=1780047192; x=1780651992;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cWB8AxuhflmNGkthEv8fqT0Ix6HH05iWrOSrTCpjrKE=;
+        b=gN50v+18S4Ox2+GTNGekWwzdOHzIwUb/7YlcvAXyXnyDKXjIWryoUMEt9PXi1DV0ws
+         TZZgFFOLhGyW18w+vQq8cigR9KfzncRTU1AnlA6boF/XRmvqw0wIDdvBUJBFAs7C/ihb
+         w3YD5n70FSnfVUlhHxRErFvqo2tYWGioX/CO2KZTLw763dCV74GluzlcEarjpUJXzB8k
+         Is7Sd6M/kmlew9L8n8tnpMnP4W6ZdkQgPofDDvuJ6Wf8+l7oFeCH3NtWrS6t4oR3fAND
+         CQqzQYqQ63rHOtbo2J7g9UGeppbrV3z9LijPplVHxatLYerqqE4aeeCWz4vIx/cVw4uv
+         7HdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9WjY0YAYr9Er+JSHEV/hnvIge2QBRE8nOr7FXp727VUcGN250SeVGEosq9Tl0fhdmi2TUIF8gUoDE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJFL5D54v+EcLtQtti444xXvDta0uEvIFdKa4laRdF+4Uk2Rpc
+	3g7dORgv6F1SB86XHN3lm4c3pXx2QNFk2qkExGcy/G2tGtIEnI8Rxvp5dDLgP0EaVhAekpBcQmo
+	e/MlPci8vd1cms7/eJA==
+X-Received: from eddf19.prod.google.com ([2002:a05:6402:3553:b0:68b:6e75:543a])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:3783:b0:683:c39d:4da9 with SMTP id 4fb4d7f45d1cf-68c11361896mr1067288a12.25.1780047191812;
+ Fri, 29 May 2026 02:33:11 -0700 (PDT)
+Date: Fri, 29 May 2026 09:33:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260529001903.625737-3-sanman.pradhan@hpe.com>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAExdGWoC/33NzQ6CMBAE4FchPbtmu/x78j2MBygLNgrVFhoN4
+ d0FPajReJxJ5ptROLaandgEo7DstdOmm0O0CoQ6FF3DoKs5C0JKkGQOllvjGfrCHYEHXYHMOSo
+ RS+aSxTw7W6719UHu9s9s+TLMcv8qD9r1xt4et14u7Z8HL0FCjhEmmFHCmG4bY5oTr5VpxaJ5e hMo/SHQIhS5yrDIiMvkSwhfQoy/hBAQKK2J6jCMFakPYZqmO+919ydKAQAA
+X-Change-Id: 20260219-remove-task-euid-19e4b00beebe
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1662; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=oJBnS25vuN7if7mJFXm+R7eCRJTbzv2vvslR9lOBWAI=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqGV1Sao7MrLYahIMOWG7jT0fWqoePyPKo4J17C
+ p1zE3aGxWCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCahldUgAKCRAEWL7uWMY5
+ Rmi1EACOyB448LMR7/KyCIEQvFcWXStiVk3Q1yU/7O6vayGXczY4d2ulBrgFHzJc+Kyh+voTWfz
+ FGw/Sf2Y/IwmioZL8MSDA9Fbv4Dy2ew5/iXB02+cGa+olrN9UT7T231nhSZJrkyE8gFCV8iw4xX
+ +hKKxJd/COEkktGnNWXbwHsnBSrxoWYIzbB0nKftKE3YLbGlTC3koTPNCHgiycLrEvbuEuIvqiK
+ rRl1DQXQrEaQeONY6vobUrMRhiuEie+WBVzcL90jQBdtzg6nVeu+w/M9KHPnzS8U5OAE51qFx3H
+ ON5t+XRIEtkjEZbS+LnBfBaNt4DHB8W4tzLXkljgEPSh1SPFm7RqWRXYjQz0YRFvWNtaA2Rq9ds
+ /vj3VLkk1GVkWfcmI27JEU4j5ZcsMu4zYhDabVEIkcPZpEs2EO9krx4M7YiweOnCStQEuHQMdjY
+ VUsNyRIMNmeZhfFZaUFIrL1+TfARXKuYFPXkHLGQwb+HGnikDafZfxSV9M9tXYZ05gxL45mE7rO
+ +qrpOJbGhsH1r6GIxMb+fJfSH7mDk4zvVSsgmrAfYDfQ8C1uwWA8UX+J2DvLek3iCs6C44x1b9j
+ 8CMtPsT/nP95t4/+EeIFqSgQlY+XOByStFOh/32g6fMeICdFcGYw9lHTwmHmtSXIUyE2dX6+cv3 2cymArrf/j11c8Q==
+X-Mailer: b4 0.14.3
+Message-ID: <20260529-remove-task-euid-v4-0-07cbdf3af980@google.com>
+Subject: [PATCH v4 0/2] Delete task_euid()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, May 29, 2026 at 12:19:21AM +0000, Pradhan, Sanman wrote:
-> From: Syed Arif <arif.syed@hpe.com>
-> 
-> Add a PMBus driver for the Analog Devices MAX20860A step-down DC-DC
-> switching regulator. The MAX20860A provides monitoring of input/output
-> voltage, output current, and temperature via the PMBus interface using
-> linear data format.
-> 
-> Signed-off-by: Syed Arif <arif.syed@hpe.com>
-> Signed-off-by: Sanman Pradhan <psanman@juniper.net>
-> ---
-> v3:
->   - Removed "maxim,max20860a" from of_device_id
-> v2:
->   - Removed WRITE_PROTECT write from probe
-> 
->  Documentation/hwmon/index.rst     |  1 +
->  Documentation/hwmon/max20860a.rst | 57 +++++++++++++++++++++++++++++++
->  MAINTAINERS                       |  8 +++++
->  drivers/hwmon/pmbus/Kconfig       |  9 +++++
->  drivers/hwmon/pmbus/Makefile      |  1 +
->  drivers/hwmon/pmbus/max20860a.c   | 57 +++++++++++++++++++++++++++++++
->  6 files changed, 133 insertions(+)
->  create mode 100644 Documentation/hwmon/max20860a.rst
->  create mode 100644 drivers/hwmon/pmbus/max20860a.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index e880c6ca84f0..ffaacda416e7 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -163,6 +163,7 @@ Hardware Monitoring Kernel Drivers
->     max20730
->     max20751
->     max20830
-> +   max20860a
->     max31722
->     max31730
->     max31760
-> diff --git a/Documentation/hwmon/max20860a.rst b/Documentation/hwmon/max20860a.rst
-> new file mode 100644
-> index 000000000000..ea6d2228fafc
-> --- /dev/null
-> +++ b/Documentation/hwmon/max20860a.rst
-> @@ -0,0 +1,57 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver max20860a
-> +=======================
-> +
-> +Supported chips:
-> +
-> +  * Analog Devices MAX20860A
-> +
-> +    Prefix: 'max20860a'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://www.analog.com/en/products/max20860a.html
-> +
-> +Author:
-> +
-> +  - Syed Arif <arif.syed@hpe.com>
-> +  - Sanman Pradhan <psanman@juniper.net>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver supports hardware monitoring for Analog Devices MAX20860A
-> +Step-Down Switching Regulator with PMBus Interface.
-> +
-> +The MAX20860A is a fully integrated step-down DC-DC switching regulator.
-> +Through the PMBus interface, the device can monitor input/output voltages,
-> +output current and temperature.
-> +
-> +The driver is a client driver to the core PMBus driver. Please see
-> +Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate
-> +the devices explicitly.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +================= ========================================
-> +in1_label         "vin"
-> +in1_input         Measured input voltage
-> +in1_alarm         Input voltage alarm
-> +in2_label         "vout1"
-> +in2_input         Measured output voltage
-> +in2_alarm         Output voltage alarm
-> +curr1_label       "iout1"
-> +curr1_input       Measured output current
-> +curr1_alarm       Output current alarm
-> +temp1_input       Measured temperature
-> +temp1_alarm       Chip temperature alarm
-> +temp2_input       Measured temperature (secondary)
-> +================= ========================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b71acb130395..1d9651947ee3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15688,6 +15688,14 @@ F:	Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
->  F:	Documentation/hwmon/max20830.rst
->  F:	drivers/hwmon/pmbus/max20830.c
->  
-> +MAX20860A HARDWARE MONITOR DRIVER
-> +M:	Sanman Pradhan <psanman@juniper.net>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/hwmon/pmbus/adi,max20860a.yaml
-> +F:	Documentation/hwmon/max20860a.rst
-> +F:	drivers/hwmon/pmbus/max20860a.c
-> +
->  MAX2175 SDR TUNER DRIVER
->  M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
->  L:	linux-media@vger.kernel.org
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 64f38654f4e7..5825dda75f2c 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -402,6 +402,15 @@ config SENSORS_MAX20830
->  	  This driver can also be built as a module. If so, the module will
->  	  be called max20830.
->  
-> +config SENSORS_MAX20860A
-> +	tristate "Analog Devices MAX20860A"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for Analog
-> +	  Devices MAX20860A step-down converter.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called max20860a.
-> +
->  config SENSORS_MAX31785
->  	tristate "Maxim MAX31785 and compatibles"
->  	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index 1f2c73b71953..ffc05f493213 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -39,6 +39,7 @@ obj-$(CONFIG_SENSORS_MAX17616)	+= max17616.o
->  obj-$(CONFIG_SENSORS_MAX20730)	+= max20730.o
->  obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
->  obj-$(CONFIG_SENSORS_MAX20830)	+= max20830.o
-> +obj-$(CONFIG_SENSORS_MAX20860A)	+= max20860a.o
->  obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
->  obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
->  obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
-> diff --git a/drivers/hwmon/pmbus/max20860a.c b/drivers/hwmon/pmbus/max20860a.c
-> new file mode 100644
-> index 000000000000..f5feefcbe407
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/max20860a.c
-> @@ -0,0 +1,57 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for Analog Devices MAX20860A
-> + *
-> + * SPDX-FileCopyrightText: Copyright Hewlett Packard Enterprise Development LP
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include "pmbus.h"
-> +
-> +static struct pmbus_driver_info max20860a_info = {
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = linear,
-> +	.format[PSC_VOLTAGE_OUT] = linear,
-> +	.format[PSC_CURRENT_OUT] = linear,
-> +	.format[PSC_TEMPERATURE] = linear,
-> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT |
-> +		PMBUS_HAVE_STATUS_VOUT |
-> +		PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
-> +		PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
-> +		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_INPUT,
-> +};
+The task_euid() method is a very weird method, and Binder was the only
+user. As of commit 65b672152289 ("binder: use current_euid() for
+transaction sender identity") Binder doesn't use task_euid() anymore,
+so we can delete this method.
 
-Any reason not to add regulator support? Given that the device seems to
-be a regulator...
+My suggestion would be to merge this through the LSM tree.
 
-- Nuno Sá
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v4:
+- Reword 'euid' -> 'effective UID' in 'Kuid::current_euid()' docs.
+- Link to v3: https://lore.kernel.org/r/20260507-remove-task-euid-v3-0-27f22f335c2c@google.com
 
-> +
-> +static int max20860a_probe(struct i2c_client *client)
-> +{
-> +	return pmbus_do_probe(client, &max20860a_info);
-> +}
-> +
-> +static const struct i2c_device_id max20860a_id[] = {
-> +	{"max20860a"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, max20860a_id);
-> +
-> +static const struct of_device_id max20860a_of_match[] = {
-> +	{ .compatible = "adi,max20860a" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, max20860a_of_match);
-> +
-> +static struct i2c_driver max20860a_driver = {
-> +	.driver = {
-> +		.name = "max20860a",
-> +		.of_match_table = max20860a_of_match,
-> +	},
-> +	.probe = max20860a_probe,
-> +	.id_table = max20860a_id,
-> +};
-> +
-> +module_i2c_driver(max20860a_driver);
-> +
-> +MODULE_AUTHOR("Syed Arif <arif.syed@hpe.com>");
-> +MODULE_AUTHOR("Sanman Pradhan <psanman@juniper.net>");
-> +MODULE_DESCRIPTION("PMBus driver for Analog Devices MAX20860A");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("PMBUS");
-> -- 
-> 2.34.1
-> 
+Changes in v3:
+- Include 'task' clarification commit in series.
+- Rebase and resend.
+- Link to v2: https://lore.kernel.org/r/20260227-remove-task-euid-v2-1-9a9c80a82eb6@google.com
+
+Changes in v2:
+- Update translation as per Alex Shi.
+- Pick up Reviewed-by Gary.
+- Update commit title to use cred: prefix.
+- Link to v1: https://lore.kernel.org/r/20260219-remove-task-euid-v1-1-904060826e07@google.com
+
+---
+Alice Ryhl (1):
+      cred: delete task_euid()
+
+Jann Horn (1):
+      rust: task: clarify comments on task UID accessors
+
+ Documentation/security/credentials.rst                    |  6 ++----
+ Documentation/translations/zh_CN/security/credentials.rst |  4 +---
+ include/linux/cred.h                                      |  1 -
+ rust/helpers/task.c                                       |  5 -----
+ rust/kernel/task.rs                                       | 11 ++---------
+ 5 files changed, 5 insertions(+), 22 deletions(-)
+---
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260219-remove-task-euid-19e4b00beebe
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
