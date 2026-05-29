@@ -1,164 +1,194 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010001.outbound.protection.outlook.com [52.101.69.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1936C39EF2E
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 05:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780032621; cv=none; b=tYu6dCpEiR4d+RErZv1TzrvCmyw1VVJGobmanAOTOq0JwrUUVzvRFMes43ovw/dfc0KoViC1jMveGhDM/GJDRLtwezs9vs9dIQFnXZyvi+9UlYGyAz6xvs99oga9A0MAGa9eukt/+trguR3L5CBsV+79ar+eVoz64sgxOgFEZto=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780032621; c=relaxed/simple;
-	bh=jQRuadW4ipCNWKXC6bZwaj6vtlzEjMOxMjmPAtj9zUY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RXi2yT8Df4Wk6DFL3aabQ7UQl/ruWmm0O+u/AMfv7Ap2pqKHRLs0xF8+RgA8/IAU7UPvRD7Ox0HE6D22pL8AnwmeYWa9pmqE+llmpRDEHosMqK6toceXi3BHVNZbhPtiUmAkEiHhI2ZecD+2L8ukdGqDpmvurenaoZsrD/LlTZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lflhx9Vn; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D451223DC6;
+	Fri, 29 May 2026 05:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.1
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780034302; cv=fail; b=LhrQP+/iG8T40HlWSEcO73E0YxkU0r+oC5OTFthRzAr7d633je4DwDv44feOl/giYw60bdObJn4s9xZ+1aAX1+ffE2cfMs8WUxIPJRnIlXKzi9X51nRL3x13bz5bPAGpg2G5UAnKiwW/9dQJEpx+asedsh5C0b+7qi61G25D4Zs=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780034302; c=relaxed/simple;
+	bh=22JCnsMSfXxqERtU+VT+Za6Vj/dnqPWHPK4BeyNdtEo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EtVha4dvk15Jq7eYD2f0vy+JJ9QmC2Gh+1L93mON+4hZN9XN7EiDgylUO9qeRavlELo5uSaFUfV3kBnbFek0wSrIcWNoWoTAQJMLdQmenSLS4YrynnMl88+XJqJXjzM9ZAfT9BMAN1q3Hn3Gqujz4cN/rNOUclb3pyriwSWalYk=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qCwavqjh; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=qCwavqjh; arc=fail smtp.client-ip=52.101.69.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lflhx9Vn"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1353c2f35cfso6300577c88.1
-        for <linux-doc@vger.kernel.org>; Thu, 28 May 2026 22:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780032619; x=1780637419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oOhAPE7Hmb6u6mGyw2ElJiYEhXMYwY57RoxbsdcyxYg=;
-        b=lflhx9VnYMR3FDgCDrvLS7zDxs2N8/swwMoIz76FjlXPPWneBLvcXtbOQvvL8LVooc
-         J8yWYEWqO4G6pyWsed61FzBl30WdHmP0yHB0LX+eXXVxZ/nU7Y5SYWCZu7BmhlOt+/tZ
-         NdcEDXiPK8YN3DaoeqP3Yh0dD49XpY3el5EKLWz+RiX8TtK7MIxjk+6gVMOLWamSCabk
-         JWO/x+q5cAQ7qhM/GYaUqZUTnqC0J59X0e8rkbn3g1sidId122LK8Iz/O6xOympxi+LT
-         Sv85ttDchkpnxw9RpPKDa1mpRRxlQbImsB9sk3F53tQeTR3bNz4B1ClwvZ3hnHhMm1p5
-         NmHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780032619; x=1780637419;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oOhAPE7Hmb6u6mGyw2ElJiYEhXMYwY57RoxbsdcyxYg=;
-        b=m3nsqsBawniAHjf5jTGtTLGa7xZRmS73S7hxdMS9gehVcnpwKV4yeVvjFOwqPm0MAq
-         kjqcLbK1YQXv6WrCB3mXGv8VUaWp63T1CSy3NYwVw635/cWBP/qRz7H3JGnLQSCoKVmz
-         9XQ1vXaDMOrJdRf1AoZgwzvFPxRm1YOnxDzp8nTNyVWWQURuAM/6qZ3aCN4TREPFZukT
-         vrte9kofI+TYWY100IyQ3H5A+0L/5753MIBtPrAz6JJ12xLJIGPEpv3VY5clcS+1e42N
-         f/e+W0EE6qkRzjmTK1ra3hin1I3xd0Imw/B4J1MJwBy9jsH7i4hJ0SMCf3M/INHQfYx0
-         BegA==
-X-Forwarded-Encrypted: i=1; AFNElJ/44ylLOnLeZg6RYyhUoaoH0ra4pLQ/wHyuFzfmS/yIBiA9uZF211/Z7rnCgZbKhi8AbMaEW9r5lZQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzt/3VhkiX0Tq1HqvZ5hJJgLwsByjaNJqtbITdxOEu07UERq+Hr
-	HHqe9gtk1hqQwz9yiBWZrWWtBQxhyYFZrn2n7MEBPV3LKQDAMVY6fzr5
-X-Gm-Gg: Acq92OH5a1R8jC9C4tdOvjnkUBm2v20PUrJ/5vPbIXrWBm4JPYx4Gd2Wm+eTi+yN7ZS
-	6blVosaZJd19Ro4OTai8zPn5rlzkUJwvCUbHZ0yj2Aws/5fbIfuxOdmzixuK+rhPb387fpzd1zb
-	8cWd0qK4E8+8mYUJSvLOgoB6dnxWYsyDDhfdXCKSTVaIHYXntg6uAcTVZagd59OL8/wanklJe+U
-	sZ/AEIH3vkM1mSf7DEFDZJgUb7lPAdsHXPZOLwg41yX0PEncqHGyLCugHG+D155DqRTzVfJQ6JE
-	BnWWo8J8JYa5jGeQRWjPNyY63ZZPE7Elz4xJY3EGYgkLOwPM9RfcHzb1EQTs1s5PZM1YF2tNxfq
-	UvEaWSH1wHA+WzbvAqMMrQoIoHTC1H7Adhr3rYUaLoEbJy6+7EARfazJ5GhNNo1fo4s9vCvXhyH
-	92Pf5qp0d71RYet3vDM3n1m4oNnW71Bg4MA8rYm6yEudc2F3X60uNfF9VdRkgbXVvwRw==
-X-Received: by 2002:a05:7022:f84:b0:137:699d:7b95 with SMTP id a92af1059eb24-137af647ee5mr582575c88.19.1780032618982;
-        Thu, 28 May 2026 22:30:18 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c085:21c8::1024? ([2620:10d:c090:400::5:c891])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b3c7e4ebsm598300c88.12.2026.05.28.22.30.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2026 22:30:18 -0700 (PDT)
-Message-ID: <e282d783-3d91-493d-99f6-09464df26c60@gmail.com>
-Date: Fri, 29 May 2026 10:30:03 +0500
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qCwavqjh";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="qCwavqjh"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=nqi5mvy9sxmeFOU/eYbJt/G9Ialz9btXu2gyNCnDJdNwbyqDBB1Mh8a74ZDpHukSdkZri94iCLk64WRWov3v2SJZn1S24hsKJU58kdDwvQWe6utxLlyunV1Hy7zG120JTBZTShq9e0RNJa+pGKRiwrOXttNA5emzoNN9zcwpgF/SH9Mm7xdV3kCgouVSpqnVh4LsUtK/GmrHfVB/8DTkKvDZ0qdN942/RaF3m5UIOa2oN0SJtTd3vce3frjkJ7EE36euIgvTJp3T1/Oy/CzDKh08wmjhJcwDFRs4TgEeVn/gqVfw7v/nucTqEEZrJLiUsaMln17EZbW5F/sctVWtEA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n6gUJQF1z7miW2hZuGtbuy5c/PH1YUxkG69YDL2dfb4=;
+ b=qtXxQS3QWeACDIeWMjQ7oyQ4E5/BZIuGKwYKPANhA9YUglczx/XPgAejXqj3WzTKQSlNsv/Ahd9dFM9zG56Sb3+5PzDO5aiJ+yKmNL4UCfWSBXZtf4JcQfJdmrNzfHKfr9UlxBGqTmex/rnC4AwHBgq1N8ZR7rv/F/dGbgcZlFd2o2teDtKQDiUaOy/RG9nU5kdOP+qMB59j8B/lnURwSFqauYxV0KOCPCk/gcF9RdQfGzHUztYu+sVBSz4eg/IS0i5vG2jbKjFvzJLqthKYUIXhE/4RnhYLYExIctQJmq0cZ1Rymf0TYkd+JKa8h8Igz78tT/wUvuO+45ZaYhzxFA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n6gUJQF1z7miW2hZuGtbuy5c/PH1YUxkG69YDL2dfb4=;
+ b=qCwavqjhafRl1rkGkSDyN7RK1fLb7UUyMoO2oalIj2MKAZQJRHcjx2mIghcNaGhWWHYUrHjM5rTVh4p5Ckd54lavq6I8F6Y5u26mDRlOWuJZ5iiXX2HXiYtZlnlNgewUzsrZoXD011gVFBaSEjk0RLqj6B88hf6klCAreL8nkYU=
+Received: from DUZPR01CA0086.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46a::13) by VI0PR08MB11197.eurprd08.prod.outlook.com
+ (2603:10a6:800:24f::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
+ 2026 05:58:12 +0000
+Received: from DU6PEPF00009523.eurprd02.prod.outlook.com
+ (2603:10a6:10:46a:cafe::c) by DUZPR01CA0086.outlook.office365.com
+ (2603:10a6:10:46a::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.14 via Frontend Transport; Fri, 29
+ May 2026 05:58:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF00009523.mail.protection.outlook.com (10.167.8.4) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.5 via
+ Frontend Transport; Fri, 29 May 2026 05:58:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LvjRUo77PkZRSIjjDS4+5qzUQGHqs5pXhzaa9C3s5hCpi+MQELsdgCC1kj00mQcc2/tT42Ml4KQkwtsCEFBxyOXPiwYdzcbsnIOsmFZntbXWAa44IeX88ry6uRjpyxNN+niDUUuVvnWz/LzuxQ2h5hxr1yY4MoEwJUm1MbaRq+hBEr1Fn8QIIOM3zOLRmrZb23boVC/YJQ6gJEFit5YTy9Q3dOoPDWHRKZeVZ2u0hsIkVC9MVDskF5/vE4iGoDwO31cHva16tQOCsbV1B6JXbRez4GWFVT/m/yBoSRJYzPpubK05p0aC6QJQ/HhFUranFJ7FqpqM/eXoFMIxF5uXqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n6gUJQF1z7miW2hZuGtbuy5c/PH1YUxkG69YDL2dfb4=;
+ b=lgnFEk9vswkxvHkH+DYRFMkOr8lJ90sy9fAH4erw0tAxIagVSnj8nmKM0w8LGq/FU3fzirbEr1RmUFn51eAvu2HgnXbqSB2N5PBdlq8OMrVehJpg0a7SeTAtPpMvoUuzyAGrzKePj+YTvHKO86i7LuVQ55P8qJ5779WoV1KdRAB+Ke7yI492d6CtuScO+2GJBQIZVXqAx7Hv5rzlgBYR345LZrFIQqXGsdn9k67ieppFR4011sxqhlkhlpumLQlKpnvw/g2fHfmnHsjRcjvP1eWgIiVWYqO7cZfWO5WiqPGPXhEA0ZGVdBjf4V+ukZcVGqlbcsc4a0vGfkcL2e3oZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n6gUJQF1z7miW2hZuGtbuy5c/PH1YUxkG69YDL2dfb4=;
+ b=qCwavqjhafRl1rkGkSDyN7RK1fLb7UUyMoO2oalIj2MKAZQJRHcjx2mIghcNaGhWWHYUrHjM5rTVh4p5Ckd54lavq6I8F6Y5u26mDRlOWuJZ5iiXX2HXiYtZlnlNgewUzsrZoXD011gVFBaSEjk0RLqj6B88hf6klCAreL8nkYU=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com (2603:10a6:10:417::12)
+ by AM8PR08MB6418.eurprd08.prod.outlook.com (2603:10a6:20b:360::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
+ 2026 05:57:09 +0000
+Received: from DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047]) by DU0PR08MB9203.eurprd08.prod.outlook.com
+ ([fe80::f1e:73f2:57df:4047%5]) with mapi id 15.21.0071.011; Fri, 29 May 2026
+ 05:57:08 +0000
+Message-ID: <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
+Date: Fri, 29 May 2026 11:27:00 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] selftests/mm: separate GUP microbenchmarking from
+ functional testing
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mark Brown <broonie@kernel.org>, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260527142432.230127-1-sarthak.sharma@arm.com>
+ <20260527114752.cf4dd3e1bda93fb8ebab5a76@linux-foundation.org>
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+Content-Language: en-US
+In-Reply-To: <20260527114752.cf4dd3e1bda93fb8ebab5a76@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0194.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b2::7) To DU0PR08MB9203.eurprd08.prod.outlook.com
+ (2603:10a6:10:417::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v07 1/6] hinic3: Add ethtool queue ops
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
- <zhengjiezhen@h-partners.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>
-References: <cover.1779940072.git.zhuyikai1@h-partners.com>
- <1323cad7ba784efa29a3fd1475b744974e0a0cf5.1779940072.git.zhuyikai1@h-partners.com>
-Content-Language: en-US
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-In-Reply-To: <1323cad7ba784efa29a3fd1475b744974e0a0cf5.1779940072.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	DU0PR08MB9203:EE_|AM8PR08MB6418:EE_|DU6PEPF00009523:EE_|VI0PR08MB11197:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7393b03-4e1c-4a2f-3e37-08debd47445c
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|376014|366016|7416014|1800799024|4143699003|6133799003|11063799006|56012099006|5023799004|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ sLloh4YvfIYx2+f5nUTWrM9gjgwXTfwLD4an202+ea2cnYANTt4nkGykmVP4VPHLVE/B7jyYhNe9NC/wRnw2fTayETSBidqYCO/ct6JfzQp7tFYY/pRS3jDMuq4THSSm2AI1AeeG4MLBlPmma4mZQfllf2nu0vUE9PF2+0NQBTthh2YvIvBVvdIVzG/NzO0U2Itok9zGniRfSp5WWbz/l0PABGZN3Wod9zENUgUSbZOn671r8JvnanERTRpa8VXAJFQViWt1JRo02IvRRukDQAafrIGR6MAvRCnLyVYrQ9zGKQFz+JnmPm9QbwsNlsWY/IGc0PGbhIoPNcOUuPkwra/eDZSi72bpjyL0PnILgJ4EgFPi+d7Fc2Zc46kr0vWh9VQFXqG2NC2fq5i6SQKeMntk6N3Z1zmQTpo8j8Nyz1WS0HN5CGJS5ijMb5i19mxmfXKEleYOxIWUFy1O+j9id2P65ewPCuXpE1W/klvemkgtUcWqEjBEvslOIBMgknA6NLXDGJMEgoVe0t4B9JWwbl3HUcybISgGQa8v5uH295Oo+Ji/aWWYAMMYD1NRMoTvpNAB3GI47l4kA0KXqT8STIP/VShZ0BfwkY/zm/+6ZTzFo/WUSdul3mahThmzkAD7WEtasiEnKFngYX7OxXEEdg==
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9203.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(4143699003)(6133799003)(11063799006)(56012099006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ cEz9K6Sh6MHrlyFZsJQ1Wx4joO8zIkAaUHhf80/HO5jGyAKIRZDyhkbVwE90xV7rePlsJa53qJbg+oA94Sf//UIGVUNBOGpRhfaUeYRdfjpP+iZ64m9RFpZzj0dBkpnzHaxd16t/t9VuuBGbrlbZr8GEUFvE3mX533cX5BURkcKJLwVUpb7jOUSGpk1jpfh/2ZOcZelRkmKbThmFXPci+m2Y+F40Ozp03DVYqPWDAx7Ublz37IAaP7MlmPXt9shd4NOlBbqq2Sd+7GxIDJGMoZeN5xL5TVmi0yD6I3lFpMilAqqmNQYGQGtKJcjvHz0OIUaLyv6t3pBXyp61YOdFDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6418
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU6PEPF00009523.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	1bb7eade-5dd3-4854-08f5-08debd471e45
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|35042699022|14060799003|36860700016|6133799003|56012099006|4143699003|5023799004|11063799006|22082099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	AQeq/EAjP2mUTh4Wzr5QxlZqPSPoFSWN4ZlD1o7vSCFxO9EIS/sUBv+qu6yWnJXfeXb8xzmKKYEmE95udn6inAWBQLxKdiBelmpjAu9SUKKpL+zj1XBBxKxJqj5Vtbo1zrfPWgePp5uctFxbtYIc2xhQ+0ZizJNYJvpOzgAnJMWfLP57blq78C0kf029JSCKewvn3sNvQDbhtXThAKPVA/GwiKjPFlNekEmSN97Az+lAvTR+i19qUvxtMuEtug+LJJmVTFqmBX9q2o+SMarHJYipHGryHatedTdlBzYJRdkHcoHql8retwQ86m0ZufG5A44dqu+yr4n9sEIKm7AAxAhy/8Q5Y1JWhYCf+ey8ciQ39wQBc3UZcnVVbdvK4/EyOIA2W0zmOceVKNo8HoT2czKSK33QwY0krXAC89yQ5X4IFlIUGaBBrrY2vxSZPdwwxI3a1BckSaaiYnPzhMPE+mJmNvreailE+XV9U5/ZeEr+thT4Q/vk2stOQGyroABxpkxe1GaSiyGi+w53UA5lGdbegDaBVs/cJsXP/d935gASfx3ZFSaF2yn3H9nvF+zmDQ351b6s49eM0QCdOXzKBl1TQ9dGtd5yMMqcLDt3TwNmUecvLlJ0mTQy3ihai0tX1HYi1NT6ISardi1Xc3BMjzlJ31TG+0nblPJeQBnP6jdm8T47FYlpnHxpPDfl1SJJ
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(35042699022)(14060799003)(36860700016)(6133799003)(56012099006)(4143699003)(5023799004)(11063799006)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	H3sWLSji2/o7fLdKJqpyroQq6FPw/4LiBmTNQbNJhHf+zTnHpzW6ikeWHSHQTyL8ZxlC37krzX96tQ0wEFHSItkQhcFGex/f6FmI1rGfGNzHuAiEynzdi25lQ4ULj3X0OkWzOZe0l/8VBp8JmV6FHtP+zpgNbXmR1+a0Eb+ANmMMz3DMKorPkLh6xfmkB42FdXWhNahBhqCazcEW93SfbAbqneuxFbfhoi4kQyksDmGZfLlRvMDWOIWThwA4V5n0TBsYjWm7ouUj5YXtK+0P0/XK0NsV4fZb8/lY6k/ps0Fcft2Q7stEr87FMTDXIrBQGwKhecPNsT+WqZEhk1OftUX8+xrhyOrxoarI11j28GWyZr8b2Yvq+ACho1ggLip0+b+UiGyUKfE4ipkSwDyy3MZckJpq68C3fc6DoniOiO3R1cYZ2Z0qLLFUjbtt/PYu
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 05:58:11.9436
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7393b03-4e1c-4a2f-3e37-08debd47445c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF00009523.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11197
 
+Hi Andrew!
 
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params cur_trxq_params = {};
-> +	struct hinic3_dyna_qp_params new_qp_params = {};
-> +	struct hinic3_dyna_qp_params cur_qp_params = {};
-> +	int err;
-> +
-> +	cur_trxq_params = nic_dev->q_params;
-> +
-> +	hinic3_config_num_qps(netdev, trxq_params);
-> +
-> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
-> +					     trxq_params);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to alloc channel resources\n");
-> +		return err;
-> +	}
-> +
-> +	if (!test_and_set_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags)) {
-> +		hinic3_vport_down(netdev);
-> +		hinic3_close_channel(netdev);
-> +		hinic3_get_cur_qps(nic_dev, &cur_qp_params);
-> +	}
-> +
-> +	hinic3_init_qps(nic_dev, &new_qp_params);
-> +
-> +	err = hinic3_prepare_channel(netdev, trxq_params);
-> +	if (err)
-> +		goto err_uninit_qps;
+On 5/28/26 12:17 AM, Andrew Morton wrote:
+> On Wed, 27 May 2026 19:54:27 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
+> 
+>> gup_test.c currently serves two distinct purposes: microbenchmarking
+>> (GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK, PIN_LONGTERM_BENCHMARK) and
+>> functional correctness testing (GUP_BASIC_TEST, PIN_BASIC_TEST,
+>> DUMP_USER_PAGES_TEST). Mixing these in a single binary means functional
+>> tests cannot be run or reported individually and run_vmtests.sh must
+>> invoke the binary multiple times with different flag combinations to
+>> cover all configurations.
+>>
+>> This patch series separates the two concerns: tools/mm/gup_bench for
+>> benchmarking and tools/testing/selftests/mm/gup_test for functional
+>> testing. To avoid duplicating HugeTLB and related file helpers, the
+>> series first prepares the existing file helpers for sharing, then moves
+>> the common helper code to tools/lib/mm/ so it can be shared by both
+>> selftests and tools/mm.
+> 
+> Thanks.  I'll duck this for now, see what reviewers have to say.
+> 
+> Sashiko still has a couple of nags.  Minor stuff, arguably ignorable.
+> 	https://sashiko.dev/#/patchset/20260527142432.230127-1-sarthak.sharma@arm.com
 
-It may just be me, but looks like a failure here is not restoring the 
-old state. You are correctly getting the new resources and freeing them, 
-but don't you think a call to hinic3_init_qps() is needed here with 
-older config?
+Thanks! I went through Sashiko's review.
 
-> +
-> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
-> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
-> +
-> +	nic_dev->q_params = *trxq_params;
-> +
-> +	err = hinic3_open_channel(netdev);
-> +	if (err)
-> +		goto err_qp_irq_reset;
-> +
-> +	err = hinic3_vport_up(netdev);
-> +	if (err)
-> +		goto err_close_channel;
-> +
-> +	hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_params);
-> +
-> +	clear_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags);
-> +
-> +	return 0;
-> +
-> +err_close_channel:
-> +	hinic3_close_channel(netdev);
-> +err_qp_irq_reset:
-> +	nic_dev->q_params = cur_trxq_params;
-> +
-> +	if (trxq_params->num_qps > cur_trxq_params.num_qps)
-> +		hinic3_qp_irq_change(netdev, cur_trxq_params.num_qps);
-> +err_uninit_qps:
-> +	hinic3_get_cur_qps(nic_dev, &new_qp_params);
-> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
-> +
-> +	return err;
-> +}
-> +
+Both the points are valid but look very minor to me: one is a temporary
+x86 build issue fixed by the next patch and the other is stricter
+argument validation for -F in gup_bench.
+
+I don't feel they require a v5 on their own. Let's wait for reviewer
+feedback. If a respin is needed then I'll fold these cleanups in as well.
 
