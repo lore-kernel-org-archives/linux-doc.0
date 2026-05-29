@@ -1,369 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B623793BF;
-	Fri, 29 May 2026 17:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC83380FDA
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 17:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780074413; cv=none; b=oJ4NItG4cQpmGx2yLZ6n+TQ8XFnJpmY377cbwNZf0cqF5XYo0zhHF35detdWknPE9FHtyC0qbyxrVunjcbkPzirc8mv+IT5ZYjs3ZhWjHeD9ZVcN8EtFN+c8dgVCLKjElOGM0PTBYtTi3YteQg+cG8rJefM9yei+CDuvGuwUP4s=
+	t=1780075621; cv=none; b=Xs9LQnKPwh5DOrCIPF1sgfDW+RWK1JANIMca74kByhbNoVbFMcE4xeCFy1yQyZk0AawXoSq+RrHcWwcu4E+iZkb4n64fDfVllPkopu90mU7Sw0XZECgL5PYIgKKgteHdHpOQ4mHwI5rjpIq1L5uVFUl9HF3ds1s+/Dof1OzJLyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780074413; c=relaxed/simple;
-	bh=7xXeJRBpNhbFAdWVCL18HF13i3NE/J7ym+iYnseT0kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aYMyjsRs7CC2k8wRNL0k2fCKv1OjALvP0cE50BVrQ5/bDdYq9014bFI3xIBXIDmkUg4gRVT74KxP/vTIYyPW8Yc4HznxqHfWRVSnGecLX/3fZxWqM+JL1ZAIDCFo/RvOV3JSXiXiO/L93gNc7FcSbOUbRmLN/Hyqs7Ibavf5Bug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SP6p72pi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780075621; c=relaxed/simple;
+	bh=cCVHycNzXYBDTxfQ2k6hsJzjSVBYoRMvdaVRtzY/adw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BVK4AueJti/BzSz5GUG0C1Jwys09OFXj2O77EYJxxAKabsbosi3Q75hVuZ5+N/yN54fTcaKFtE2JKDx/OlHxBTa4pV5IpwQ4ZxiDdawrCz/oE/02L6qsYEmXl82OFXK71Ea5w1wLYZVI7SbuC+cuDAep4uk8ZUJ7sNwdknCpkfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CL+2t3eQ; arc=none smtp.client-ip=74.125.82.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SP6p72pi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F08591F00893;
-	Fri, 29 May 2026 17:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780074411;
-	bh=4M+It2DOv5k9KjwYe9tzppT1ZADxs54n1EqbAeaJ720=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=SP6p72pip/TZBBTPfI6xJt9s5UzA6binmI5dRPsEByPLuFHi5uyL5UYdE8bdSHQaK
-	 tggLikbsoalo8nS1PkmzssxJbu9eVzYH/XiBmA58ftVjJcuZW+1ohhVAC5LB21QdLO
-	 oGCFs3Z50GQocKQNRfiY/XOpzHcG3dHvfn3y8lOO1A4lTOdYUmHfsy+/Vj68eBdvlP
-	 wNp474s6YWglQC/Cp+xQvxvmqiOkmYUetZsumkvZu+Z/4TRhGwojOPkLDmWdP3EBq/
-	 zXiKyDgjFvZB6Ku/zB36Kb4XtrGNWFt7iuVxUawWOWRtqTWeE3i953yDfR380EWquV
-	 /HVuWv7/PVBoQ==
-Date: Fri, 29 May 2026 18:06:36 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v5 10/10] RAS: add firmware-first CPER provider
-Message-ID: <20260529180636.78cbc75f@jic23-huawei>
-In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-10-2e0500d42642@arm.com>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
-	<20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-10-2e0500d42642@arm.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CL+2t3eQ"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304e83724bfso1653773eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 10:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780075618; x=1780680418; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rUW2sBne+Sxe0sHajD5BpUUqGczKXbh7gDG8g1//2Hc=;
+        b=CL+2t3eQQhiSf6g3RuyuBvOPe4s11ifeKnmDLUZ5E9JmBg0uNWmldIiwcTJCtSp0L5
+         AwpIVm2Uw3tIqPA6XbVTUtLkXl/2NmsfOSb+dqLbOIKaxZJOZu+AyTcWxaz0iGNtNrdn
+         YXSk7/k8wfCss0ZfMprA8bJKIJnJpwqb7JkXw5mEctk7ZClUS+O2nFQmRhiAeWKx+Ks4
+         WoIvg3XXTYL0olWGJCtzxMA9Z9K6tJ8OPXzCXQmxSzFzxTfMRzut+k79DL80WzjGLIGg
+         p8SwAsJIk7g38D3fnbwljVMgMYSI5CHt4xvBBt+MNCaWHbY988QypmS/i1M+TAFfkrdk
+         78Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780075618; x=1780680418;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rUW2sBne+Sxe0sHajD5BpUUqGczKXbh7gDG8g1//2Hc=;
+        b=D/icdf3zKivV8U/FvLPe5hqa0aHGEeZNiu3uls1XFT+7rbyYUV6GUUW3DjqPXc445a
+         0y2HsEms4P3xhGLRDeTFXfRWj2A6D+FGhLi5UkHGpF8CoADd0TcZmdlhE4d8DvXZ5V8X
+         Qvtq4kc9coxw9dnqD9RrxNYXRFxo2UrZqDPqSeWdfaJURR7nxn5ve8jbkb5MyFw4reaj
+         SmybByU6N52xh80O/8idwWi7uFpckXfmdWb3qnL8Kzbd5VmE0m7PPoP1NnBiLfwyviGg
+         KzQdvcNSqUPBiGRAyDryZR9wadO8ZN3hWtUshVC77szef7YUiXZjrFVRJvyJsVhoZv8Y
+         nSFA==
+X-Forwarded-Encrypted: i=1; AFNElJ8iWfC0ldc3RIawpY5EONJ1/9dkCXKIBwjv9sovFD6XTPaalKUbm7JlKLJ/qdhDiWLJmdIrtySZSmU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySqbnCrtKZcSE8sI0LuPegm2AR3HOiCHNR0hHqChnZVXjpw2uy
+	Kxl8wyVWtq/7gb25s9lTBr8mFOT+eoSk04RjHDij/MC/31oPMN7jLghZ
+X-Gm-Gg: Acq92OEZA/hSpIkmI/It5ljH35koGhHvMn1W2fXVt62hj9RxZ0M/SsIm2GQ4vVKmR6F
+	AN8zhvZ+yfG1GBBF0jgChm27h+mKXTYxXphV1tZocs2S0QjXs+DfF6Fs1CjD5VxJDzE2ZngiOLY
+	wPmcewGW9YBkk4a64xwBp9Ru/JdcLY7FyPpfO94vSbGRkiS2klW43gCMtqK9c0Vgno7+NUcVfdE
+	Q3txLBuUxWUBRkF4EVNvnss+z9n2qUy4LQ34+y85du8EKo/JGWcqmr8NFAoUFtMpV+SSBDmbSsd
+	X8Mn6sehXkn78jyeMmFZp5AL45RgznaEpSZafn7u3fFN2UNyu3TxRlh53I6IF0/K/AN3nWwvdND
+	x3f2Mq0LiDdj0Kp/H+uXS5dSEYDgJmJRc2OMdmc1MpZosRimEdWlWuRk+JUS72cz8IWHAU5GxyU
+	yCzDx3I6gA6UOlKUw/kgbFQJMJKuKdBsbR
+X-Received: by 2002:a05:7301:580b:b0:304:5a9c:6479 with SMTP id 5a478bee46e88-304fa4ec8f6mr378329eec.9.1780075618178;
+        Fri, 29 May 2026 10:26:58 -0700 (PDT)
+Received: from zhanwei.. ([192.227.223.214])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed53d06asm1785614eec.14.2026.05.29.10.26.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 10:26:56 -0700 (PDT)
+From: Zhan Wei <zhanwei919@gmail.com>
+To: matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	rodrigo.vivi@intel.com
+Cc: raag.jadav@intel.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhan Wei <zhanwei919@gmail.com>
+Subject: [PATCH v3] drm/xe/hwmon: document DG2 fan speed reporting quirk
+Date: Sat, 30 May 2026 01:24:49 +0800
+Message-ID: <20260529172449.41504-1-zhanwei919@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ahm680G_8mf_cjG9@black.igk.intel.com>
+References: <ahm680G_8mf_cjG9@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 29 May 2026 10:50:50 +0100
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
+On DG2 the driver always shows two fan channels, because the
+FSC_READ_NUM_FANS command does not work on some cards. OEMs decide how
+the fans map to tach channels, so two fans can share one tach line.
+When that happens, the second channel reads 0 RPM even though the fan
+is spinning.
 
-> Add a firmware-first CPER provider that reuses the shared
-> GHES helpers, wire it into the RAS Kconfig/Makefile and
-> document it in the admin guide.
-> 
-> Update MAINTAINERS now that the driver exists.
-Sashiko had some interesting comments on this one. Please take a look and
-reply to the thread if any look plausible but aren't!
-https://sashiko.dev/#/patchset/20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com
+Note this on the fan2_input ABI entry so the steady 0 RPM is not
+mistaken for a driver bug.
 
-The irq thread / force_sig() one is something I'd not have
-considered. I obviously haven't tested it and so it might be wrong :)
+Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
+---
+v3:
+- Drop the dedicated Documentation/gpu/xe/xe_hwmon.rst doc and the
+  index.rst hunk; add a short note under the fan2_input entry in the
+  existing ABI doc instead, per Raag's feedback.
+v2: https://lore.kernel.org/intel-xe/20260529135028.20763-1-zhanwei919@gmail.com/
+- Drop the code change that reported a single fan on DG2; document the
+  shared-tach behaviour instead, per review feedback on v1.
+v1: https://lore.kernel.org/intel-xe/20260527115311.13398-1-zhanwei919@gmail.com/
 
-A few things inline.
+ Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Jonathan
-
-
-> 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> ---
->  Documentation/admin-guide/RAS/main.rst |  18 +++
->  MAINTAINERS                            |   1 +
->  drivers/acpi/apei/apei-internal.h      |  10 +-
->  drivers/acpi/apei/ghes_cper.c          |   2 +
->  drivers/ras/Kconfig                    |  11 ++
->  drivers/ras/Makefile                   |   1 +
->  drivers/ras/cper-esource.c             | 257 +++++++++++++++++++++++++++++++++
->  include/acpi/ghes_cper.h               |  10 ++
->  8 files changed, 301 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-> index 5a45db32c49b..84219d25a072 100644
-> --- a/Documentation/admin-guide/RAS/main.rst
-> +++ b/Documentation/admin-guide/RAS/main.rst
-> @@ -205,6 +205,24 @@ Architecture (MCA)\ [#f3]_.
->  .. [#f3] For more details about the Machine Check Architecture (MCA),
->    please read Documentation/arch/x86/x86_64/machinecheck.rst at the Kernel tree.
->  
-> +Firmware-first CPER providers
-> +-----------------------------
-> +
-> +Some systems expose Common Platform Error Record (CPER) data
-> +through platform firmware instead of ACPI HEST tables.
-
-Given the data doesn't come through HEST but rather in places it points to and
-that is via a different type of platform firmware it seems to me this
-bit needs a rewrite.
-
-> +Enable ``CONFIG_RAS_CPER_ESOURCE`` to build the ``drivers/ras/cper-esource.c``
-> +driver. The current in-tree firmware description uses the
-> +``Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml`` binding.
-> +The driver reuses the GHES CPER helper object in
-> +``drivers/acpi/apei/ghes_cper.c`` so the logging, notifier chains, and
-> +memory failure handling match the ACPI GHES behaviour even when
-> +ACPI is disabled.
-
-Rewrap.  Line lengths appear very random.
-
-> +
-> +Once a platform describes a firmware-first provider, both ACPI GHES and the
-> +firmware-described driver reuse the same code paths. This keeps the
-> +behaviour consistent regardless of whether the error source is described
-> +by ACPI tables or another firmware description.
-> +
->  EDAC - Error Detection And Correction
->  *************************************
->  
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a9714603a7d..c14638cd97f6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22265,6 +22265,7 @@ RAS ERROR STATUS
->  M:	Ahmed Tiba <ahmed.tiba@arm.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> +F:	drivers/ras/cper-esource.c
->  
->  RAS INFRASTRUCTURE
->  M:	Tony Luck <tony.luck@intel.com>
-> diff --git a/drivers/acpi/apei/apei-internal.h b/drivers/acpi/apei/apei-internal.h
-> index 77c10a7a7a9f..c16ac541f15b 100644
-> --- a/drivers/acpi/apei/apei-internal.h
-> +++ b/drivers/acpi/apei/apei-internal.h
-> @@ -8,6 +8,7 @@
->  #define APEI_INTERNAL_H
->  
->  #include <linux/acpi.h>
-> +#include <acpi/ghes_cper.h>
->  
->  struct apei_exec_context;
->  
-> @@ -120,15 +121,6 @@ int apei_exec_collect_resources(struct apei_exec_context *ctx,
->  struct dentry;
->  struct dentry *apei_get_debugfs_dir(void);
->  
-> -static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
-
-As below. I'd not expect to see this moving in this patch given all the precursor
-code movement patches.
-
-> -{
-> -	if (estatus->raw_data_length)
-> -		return estatus->raw_data_offset + \
-> -			estatus->raw_data_length;
-> -	else
-> -		return sizeof(*estatus) + estatus->data_length;
-> -}
-> -
->  int apei_osc_setup(void);
->  
->  int einj_get_available_error_type(u32 *type, int einj_action);
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-> index 0ff9d06eb78f..a7691aa5011c 100644
-> --- a/drivers/acpi/apei/ghes_cper.c
-> +++ b/drivers/acpi/apei/ghes_cper.c
-> @@ -46,7 +46,9 @@
->  #include <asm/fixmap.h>
->  #include <asm/tlbflush.h>
->  
-> +#ifdef CONFIG_ACPI_APEI
->  #include "apei-internal.h"
-
-Why is this dance needed? Add a comment.
-
-We'd normally expect a header to safe to include if it's not used with
-any stubbing done in the header.
-
-> +#endif
->  
->  ATOMIC_NOTIFIER_HEAD(ghes_report_chain);
->  
-
-> diff --git a/drivers/ras/cper-esource.c b/drivers/ras/cper-esource.c
-> new file mode 100644
-> index 000000000000..83f7a910e50a
-> --- /dev/null
-> +++ b/drivers/ras/cper-esource.c
-
-> +struct cper_esource {
-> +	struct device *dev;
-> +	void __iomem *status;
-> +	size_t status_len;
-> +
-> +	struct cper_esource_ack ack;
-> +
-> +	struct acpi_hest_generic *generic;
-
-See below - maybe this can just be embedded here.
-
-> +	struct acpi_hest_generic_status *estatus;
-> +
-> +	bool sync;
-> +	int irq;
-> +
-> +	/* Serializes access while firmware and the OS share the status buffer. */
-> +	spinlock_t lock;
-> +};
-
-> +
-> +static int cper_esource_copy_status(struct cper_esource *ctx)
-> +{
-> +	memcpy_fromio(ctx->estatus, ctx->status, ctx->status_len);
-> +	return 0;
-
-Seems an unnecessary helper. In particular if it returns 0 always
-no need to do so or to check the return value.
-
-> +}
->
-
-
-> +static int cper_esource_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct cper_esource *ctx;
-> +	struct resource *res;
-> +	int source_id;
-> +	int rc;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&ctx->lock);
-> +	ctx->dev = dev;
-> +	ctx->sync = device_property_read_bool(dev, "arm,sea-notify");
-> +
-> +	ctx->status = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-> +	if (IS_ERR(ctx->status))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->status),
-> +				     "failed to map status region\n");
-> +
-> +	ctx->status_len = resource_size(res);
-> +	if (!ctx->status_len)
-> +		return dev_err_probe(dev, -EINVAL, "status region has zero length\n");
-> +
-> +	rc = cper_esource_init_ack(pdev, ctx);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = cper_esource_init_pool();
-> +	if (rc)
-> +		return rc;
-> +
-> +	ctx->estatus = devm_kzalloc(dev, ctx->status_len, GFP_KERNEL);
-> +	if (!ctx->estatus)
-> +		return -ENOMEM;
-> +
-> +	ctx->generic = devm_kzalloc(dev, sizeof(*ctx->generic), GFP_KERNEL);
-
-Lifetime of this is shorter than that of containing structure. Why not just
-embed it and avoid need to allocate here?
-
-> +	if (!ctx->generic)
-> +		return -ENOMEM;
-> +
-> +	source_id = ida_alloc_min(&cper_esource_source_ids, 1, GFP_KERNEL);
-
-Maybe a comment on what is special about id 0
-
-> +	if (source_id < 0)
-> +		return source_id;
-> +
-> +	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
-> +	ctx->generic->header.source_id = source_id;
-> +
-> +	rc = devm_add_action_or_reset(dev, cper_esource_release_source_id,
-> +				      ctx->generic);
-> +	if (rc)
-> +		return rc;
-> +
-> +	ctx->generic->notify.type = ctx->sync ?
-> +		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
-> +	ctx->generic->error_block_length = ctx->status_len;
-> +
-> +	ctx->irq = platform_get_irq(pdev, 0);
-> +	if (ctx->irq < 0)
-> +		return ctx->irq;
-> +
-> +	rc = devm_request_threaded_irq(dev, ctx->irq, NULL, cper_esource_irq,
-> +				       IRQF_ONESHOT,
-> +				       dev_name(dev), ctx);
-> +	if (rc)
-> +		return dev_err_probe(dev, rc, "failed to request interrupt\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id cper_esource_of_match[] = {
-> +	{ .compatible = "arm,ras-cper" },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, cper_esource_of_match);
-> +
-> +static struct platform_driver cper_esource_driver = {
-> +	.driver = {
-> +		.name = "cper-esource",
-> +		.of_match_table = cper_esource_of_match,
-> +	},
-> +	.probe = cper_esource_probe,
-> +};
-Common practice to not have a blank line here. Keeps the
-structure and the macro visually closely coupled.
-
-> +
-> +module_platform_driver(cper_esource_driver);
-> +
-> +MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
-> +MODULE_DESCRIPTION("Firmware-first CPER provider");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-> index 511b95b50911..a78d4a773129 100644
-> --- a/include/acpi/ghes_cper.h
-> +++ b/include/acpi/ghes_cper.h
-> @@ -80,6 +80,14 @@ static inline bool is_hest_sync_notify(struct ghes *ghes)
->  	return notify_type == ACPI_HEST_NOTIFY_SEA;
->  }
->  
-> +static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
-
-I'm surprised to still see code movement in this patch. To me this should have
-happened earlier in series. 
-
-> +{
-> +	if (estatus->raw_data_length)
-> +		return estatus->raw_data_offset + estatus->raw_data_length;
-> +	else
-> +		return sizeof(*estatus) + estatus->data_length;
-> +}
-> +
->  struct ghes_vendor_record_entry {
->  	struct work_struct work;
->  	int error_severity;
-> @@ -108,6 +116,8 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
->  int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
->  void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
->  			    struct acpi_hest_generic_status *estatus);
-> +int ghes_register_vendor_record_notifier(struct notifier_block *nb);
-> +void ghes_unregister_vendor_record_notifier(struct notifier_block *nb);
-
-Why are we seeing these here now?  Stray from earlier patch?
-Which c file are they in at this point?
-
->  void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
->  				   int sev);
->  int ghes_severity(int severity);
-> 
+diff --git a/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
+index 55ab45f669ac..0da739d9a816 100644
+--- a/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
++++ b/Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon
+@@ -251,6 +251,13 @@ Description:	RO. Fan 2 speed in RPM.
+ 
+ 		Only supported for particular Intel Xe graphics platforms.
+ 
++		On DG2 the driver always shows two fan channels, because the
++		FSC_READ_NUM_FANS command does not work on some cards. OEMs
++		decide how the fans map to tach channels, so two fans can share
++		one tach line. When that happens, the second channel
++		reads 0 RPM even though the fan is spinning. This is normal, not
++		a bug.
++
+ What:		/sys/bus/pci/drivers/xe/.../hwmon/hwmon<i>/fan3_input
+ Date:		March 2025
+ KernelVersion:	6.16
+-- 
+2.43.0
 
