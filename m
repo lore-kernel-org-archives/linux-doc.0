@@ -1,105 +1,141 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468883E51F5
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8523D3CEF
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 14:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780065677; cv=none; b=PKQJl3SSIFxvv7Zb6YR0L7TanES6cy2HikUXPiW1IndQQ5VqIpndj4VJvt578/eA++L081yT3x7Ghua9vzzsxPnWX1fsqz/xLeSZGsHm9SEuQj7Qf51gATlmHQtLp3DNazpCA5HhkJmZBKmAGNQ66wk66+UuCDm9EO00Lf6vCDo=
+	t=1780066344; cv=none; b=Tjg/CmQhp4M2vQcZQITtXBa7DMOvoichppJwhfscvg9Au4vQpLLVab73Y4nQyMe2r1AJPv22vYDGspBwpX2AfnDO6FWl6GONDYuNGvKuOODKEAse1UOt+qoV1P+kaHAHV34laZm2enKYdRN5m+YsNlVkifhkhgr54Q1fkvOGI7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780065677; c=relaxed/simple;
-	bh=GwX6M4/EK6SrBQ7tNZIqqdM6jMUv2V7uqBmnajKX7HE=;
+	s=arc-20240116; t=1780066344; c=relaxed/simple;
+	bh=pCZ3fEPjMOOKoFCjZxoSxM67ExDXIpbafDhQNDMrHi8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nggsD1Hlqqp8pFZLKlp6kkFkHeysrJ/OjCRhAbGGdc9xyXfdoaI9NsH9dt/tQDfakEhPKqzEwzL3TxE59UvXryLdwUyXFCPhpwBbnziZjIGfxXeuvDmsO5qrR4B7B6bzC9Vw8ntDCpxhmRiJy7C8Oj93ZBXzw3rMz2Kof+jlr6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqYc//TE; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X2Isteg/Hg7KpqpN4x4BNB9hCiRo8N1cpRx/0PtOa6MiM9sGSWZwfv05sNmF8GrguJd8fgrfFvJDMW3Tt2FO9CjgvMuvMzoZF6ZfiDmmX9oyy6uc/9rQgu2yF4pL80TSEwBshGUgbA4CMOIIBYRY77ZbXjMybT2xkOKK0GkdUeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=c8wev59v; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqYc//TE"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82f8893bff3so6564581b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:41:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="c8wev59v"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49050ff7cbdso66133685e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780065675; x=1780670475; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1780066340; x=1780671140; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ifCetNsGhGXROpWXdUZu9k5jgo1IT0uJlL0ioftjkf0=;
-        b=GqYc//TE2UUpgpOKl+0b7wAMvM1Mkh7PejvXuQiFDlmjZUARf4Ozy2DOTMjINyHv8/
-         1W/1iEFjW7MA1oiBud35HlopB9X0VUGNibarpI50phBoDoR7D4zS06MaW/JybNkl2cke
-         9MD93FkG8618hkSI7B3qWAw/7Ckf0N6nDfdz6LlGgiYvETSDAweF2PwsqIBJHGViXWnR
-         GpEXFIawAx+Nt0Qx5iv51BGHIm8GxD03WOXS9qH3E/B9Fi7eqyeKcHmRHzxl8arJYtnJ
-         ysHZ0QmrUpB/gjqTN7yDuoPf9wixWKe4XI85YwwUezxcLU87Be5cROpKfFPGTwczymmj
-         N7nQ==
+        bh=pmSOuhBgxBhu7Is1B1Rw2/yoQpGrUuGnNNhQRjRyvrQ=;
+        b=c8wev59vAWhLrSqSBoZ0Ikjbpnq76hJ7OtUmYXGqZuFonXJ7nRg2v8NenCSlkf32FZ
+         DDNGpfjRu55N0ypfEKZGH2cLSEoWDFa9B3JcYeoYgMMx5fM1nZxwz0XlMK+k0V63PGXD
+         /O7ACiiP5JmQ+bfSaoGKXaPp2zXfwk7EnfeR8y5bK+BpfIKM3nIwLEN+9t9sGOFwb0sN
+         bRN99enezj6SCJkgKT3wvMAhBLpTLhn1bANhU0Hgn7osFM5B7aiHd/9TubC8/Z2kfQLR
+         XQlwmQHWrtxPpfWS72Iwoia3+D3jtQrEGY+rrBI6lzvgfuw9AXICaZTKNwQnZIac9tIr
+         nocQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780065675; x=1780670475;
+        d=1e100.net; s=20251104; t=1780066340; x=1780671140;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ifCetNsGhGXROpWXdUZu9k5jgo1IT0uJlL0ioftjkf0=;
-        b=HajZCub5Xb/GL7Xw9i7jNjb81WEbpfJpKvX+GpnihIm1SuqleRtGyiAn0uZba3fLoI
-         mLjBAZoeNOlMl+FdLpYnjoIArum9oc2N4kt0QqdxgSknpKAqDF7nez1fmB1m/As4wwTT
-         GRTcIkHICBd5d5SzQ4qphjrQy4XSHb9QVL7l1buROOlLPxZnQhrQ/4lwT/xOJxIebEjv
-         JqUAPglFf8vrs88GGQLVEb+/c8sA3ecrVl6w6bQ+1d0Vf75YY+TBmMzO/nLg+vlIies5
-         xEHF2ixX/bPwAPQrxkKt4hEzPUWO4OSb7d24Yy7ePSd26CTn7FTFVRYYMJhQpAC8wajS
-         pdMg==
-X-Forwarded-Encrypted: i=1; AFNElJ8OMW8H7rz4blnxvtGjA/k+s+CLQg20RZwtzULJSrW8ZBjKs1EK4JckKPGDUaQEYB5hGp+/sbnpjxg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+dwqg2g7N1xwGlOq+wlL4ofNAx8iTCwuieDN20jd+AcHKY4ey
-	WlbRxcu8pL/yJ9BzEPmYa9RnJV3R32IlQzpPsJ70ORlhHdpEJ2SLx6Lj
-X-Gm-Gg: Acq92OFupIxuZvRvdj2xFlfg2tH27QfUpY1lqDefuGfMOWgKp/Srxm7KF/IgTSdj9cj
-	f/m1uvk3RHOXwjNIAmec0OyT2QNh+Bzfu56GaE07t4K+jNZJjQzksZGnRPhE9HheQ+JrTeQZpd5
-	yzWUN4a5n9KmNnJ4cXT6T8Kf6lCwOu/SAJvh9z/kiDuZI+0/MjE/oMxyvQlsJPAAQrw0xlvE0Kj
-	U9XCe7FjYmUgqGu3erir1ixjqcf+Ksvp35P6URpfHNpDm7ogWYXVtLmQiuHLHGUEksosYjfGyOM
-	UTDkEeJQjLR2647fHwPOp+8hVqKjqSc/FUbN6g8P8OjrWBxl+W2IGrj5ZOIrVxhTphVrZ8cYAsV
-	E0b6QujDRd8LGFBhDZUF763Yhc/6sMHa3OXDUXlwsCxXuRrFBzMoFbvTY6ksMeepi06k86UucnQ
-	oDxohLb0pJJzxOae2hT65rWSFOg7YXBhI9sH+8ezZGf4g3iSM56puI5isiIf8GNHzgbaKfHnfRY
-	imu
-X-Received: by 2002:a05:6a00:94d1:b0:841:edbf:6424 with SMTP id d2e1a72fcca58-84212c03459mr3360610b3a.13.1780065675248;
-        Fri, 29 May 2026 07:41:15 -0700 (PDT)
-Received: from skinsburskii (c-98-225-44-182.hsd1.wa.comcast.net. [98.225.44.182])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b67a11sm1946082b3a.27.2026.05.29.07.41.14
+        bh=pmSOuhBgxBhu7Is1B1Rw2/yoQpGrUuGnNNhQRjRyvrQ=;
+        b=K122+KtME6fln0UlN2vT8tJ8VU2m63XRkZO/CrH6GhbXfwEe70LMuC0Us+Z5pj7Lph
+         5ycFcZlKrzph8zEjVRSbIeI4DrBxdayEI4odxnKeZ0XaQ9hIVtZZznNlMDEBqnm7deCR
+         ZmttowlzN/Q9WxLihBOkVA2wd3YRn8+wOrOPgfP9AqgelMn2pOgC4aYu+3wlpSTHNSLQ
+         bVd6nYLkeTzqmfSJMkCrQfatb5eb1PSYmzzajvOYgJ2zK605cPnP27BQJA2mwhXeBnqK
+         /GEBmzUu//xT+K8ublRvck4qPeYBBXC12rE5ZcvrBbKhEshknKTNHd1IF9tssSdKs0G4
+         5YzQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9nVAabEQTMTpbSABx4e/OPRqa7EhLRbp0lHIAvgiA6mlYpr2B92idhecBa0JX1OQhv8/ARQQZ/8G4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1tqelbQh1wTlEXIxAWONq02Q1gNyJU5mTbZQ0YQS8UIzs13ku
+	gSoDgx4fKUTUau+Wgh0t+1MugDMpulCelo3gXQZacNcYCDc9dR5lFCg1hqDdTvIe1gw=
+X-Gm-Gg: Acq92OEPgk7yTCfwgw/Cp0kKBUA37vnk7aY/+5gK86pXC2dru4Lb8cFoyiJmg2l3Rgr
+	rx9YWGpaXeHXZsxTGICFRlvlCPK3duazWjKnkoE21ezdNRnAtjxj9kbAZeaH1ojdECddf7HmkKJ
+	g/FuA52rfeQUg7f8VQR4nQ5AqyNWmKUu3UCb9d8P+VPN/7FtY2ZIQBP4UsQjCmvUPnzzH3RfZyi
+	Q+kHd2SA8WsVvupxCEBHeN0zl120UGbK2cgg7A4EY325nTA3s2CMq4bHYsoEYnjKHuu2nHKcoI9
+	EQ44MKjBhVJCJnMg4oXizU415EXTmgTdYdIcUBwC8TC07QtQy1OJpsziHWgPE1P2a5nZJDx4RZJ
+	wQiYRkpaiiqi7fGILauN2KH0Q1qlj+HT8UkBG+Xv3PHVnjceRbSPCDaxTNPiPomXwWNupfqdBLp
+	uNbdLrSjBDXQR8H5EpF0t3DVpPR5gtJnUI7a68eWkX8sOyY/L3IFgNbYzEk/wR8NSzC+tsjw==
+X-Received: by 2002:a05:600c:1453:b0:490:9536:c513 with SMTP id 5b1f17b1804b1-4909c0b0012mr41744015e9.19.1780066339778;
+        Fri, 29 May 2026 07:52:19 -0700 (PDT)
+Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d696f25sm62858365e9.5.2026.05.29.07.52.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:41:14 -0700 (PDT)
-Date: Fri, 29 May 2026 07:41:12 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Liam.Howlett@oracle.com, david@kernel.org, jgg@ziepe.ca, corbet@lwn.net,
-	leon@kernel.org, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
-	shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
-	vbabka@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v3 0/3] mm/hmm: Add mmap lock-drop support for
- userfaultfd-backed mappings
-Message-ID: <ahmliNJiR-R9N4M3@skinsburskii>
-References: <177928604779.589431.14703161356676674288.stgit@skinsburskii>
- <20260521163309.c5cc5d3f6cf16bac212cf90b@linux-foundation.org>
- <ahidV_iSq3E-FtMI@skinsburskii>
- <20260528131115.184c178d03d516e11248a1ae@linux-foundation.org>
+        Fri, 29 May 2026 07:52:19 -0700 (PDT)
+Date: Fri, 29 May 2026 16:52:17 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Maarten Lankhorst <dev@lankhorst.se>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
+Message-ID: <ahmceQfFPpXa_6Qe@localhost.localdomain>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-1-db4d1407062b@redhat.com>
+ <ahB7pCu_G4vuswc0@linux.dev>
+ <ahWfypvuTVsB-pHQ@x1nano>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rw7fy7kfpwloyodg"
 Content-Disposition: inline
-In-Reply-To: <20260528131115.184c178d03d516e11248a1ae@linux-foundation.org>
+In-Reply-To: <ahWfypvuTVsB-pHQ@x1nano>
 
-On Thu, May 28, 2026 at 01:11:15PM -0700, Andrew Morton wrote:
-> On Thu, 28 May 2026 12:53:59 -0700 Stanislav Kinsburskii <skinsburskii@gmail.com> wrote:
-> 
-> > A gentle reminder as requested: do you think this change could be taken into
-> > the mm tree?
-> > It's beneficial not only for the MSHV driver, but can be used for
-> > post-copy live migration of GPU states in future.
-> 
-> Still no review, alas.  It's not a trivial thing, affecting both hmm
-> and userfaultfd.  And we're closing in on -rc6.
-> 
-> I'd prefer that we revisit in the next cycle, please.  Refresh retest
-> and resend after -rc1?
-> 
 
-Sure, will do.
+--rw7fy7kfpwloyodg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/2] mm/memcontrol: add dmem charge/uncharge functions
+MIME-Version: 1.0
 
-Thanks,
-Stanislav
+On Wed, May 27, 2026 at 03:10:47PM -0400, Eric Chanudet <echanude@redhat.co=
+m> wrote:
+> but that made me realize there is a catch with
+> this patch set, with something like:
+> A: +memory{max:32M}/+dmem
+> A/B: +memory{max:16M}
+>=20
+> It gets the CSS from the dmem's cgroup with
+>   cgroup_get_e_css(cgrp, &memory_cgrp_subsys);
+>   mem_cgroup_from_css(mem_css);
+>=20
+> Which would resolve to A's memcg and not enforce the memory.max limit
+> set in B when dmem.memcg is set for that region.
+
+One perspective is that this is in accordance with dmem's limit granularity.
+If the user wanted to distinguish dmem charges below A, they need to
+enable the controller there too. IOW, the depends_on in one direction is
+correct. dmem is primary when it comes to those charges and memcg
+secondary.
+
+Another possibility would be to always use the highest precision
+available (wrt where current resides) and then the API should refer to
+struct cgroup from task_dfl_cgroup(current) (and make this only
+available on v2), or to struct css_set and extract respective subsys
+csses in the double charging function.
+
+In either case, it's worth mentioning the behavior in the dmem docs.
+
+HTH,
+Michal
+
+--rw7fy7kfpwloyodg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCahmoHRsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ahb7AD/ReCU/1qelso4Se3AlOZq
+R+fmGmGVDlgPYs7gBkJUqqEBALvZg8zd4ig7QW/B4SdBdSv8RGm7SPB7R9vTNMP8
+dKYO
+=3pZx
+-----END PGP SIGNATURE-----
+
+--rw7fy7kfpwloyodg--
