@@ -1,126 +1,233 @@
-Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C892E7378;
-	Fri, 29 May 2026 16:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6922E7378;
+	Fri, 29 May 2026 16:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780071003; cv=none; b=BEy/tu7kcWlrjoE8D0TS8MncgKP/JhA2iiesYiOb2Hyq+V+geEWholu7Fn+E2zyOhaNozH5tyMWNhbcjQ30p2wFMEOPuO0Wz8t3CYxOoobEGgEFZXpe5LsgR6neaDLmY3gTNn9rMEl11SLF1PMNtNPptz5nuDya7ixFZL0NobAU=
+	t=1780071039; cv=none; b=PBk5vEY/V1oIhDtQ3GXmGH3DwSz1xUFAJxPlNtiNrwC8gos+wCfE+ren10YUBs9ciRC5bQYs5Aob10I0dTO37xb9IPA5KIcWkPInTQ5Lw+PfUYez7o38ORZvdpl03GrAbfYybJPCw1oePL9W8yvSNiuWnxgOGRpddH1bSDZwMME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780071003; c=relaxed/simple;
-	bh=ueMbKYDnjG/pPkozcvq1hNvLbgzbX4F0xs9sWbgMRyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KeymAD8vU/EqAqGdBQH5y+FjwEJf9tVEbSsQmaltwoUGp0aWFjgzLq09Iib70xWXst6IsT8/Ey0Z5r3oGob+KE8YcVcI83KYHxLQOPM/14Jd8HZGGZQ7IEzL7CerARXUxNARZn9nsodxD05kuyn7GNVjheavAHQ+wG7M+d3t+Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name; spf=pass smtp.mailfrom=shutemov.name; dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b=dx790+gm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XzjWYWA2; arc=none smtp.client-ip=202.12.124.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shutemov.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shutemov.name
+	s=arc-20240116; t=1780071039; c=relaxed/simple;
+	bh=UZLusWf4bcT/ycD8aHU7xK0aEb315I5lvI1BlNafl7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gg9qoxz8OYviNx893AlOE5nYKEmYEOzqTi5gnFgVzXiYUuNMEwncZHUPPM9V7k2Fw6Wh1a5Yq93Es6zKrB7t4rm4Ewgf//Vep2WlbnGxNHWAdF12GK+DXTvFiIKvMoxK4hvPmWjFbcXkJvuNI+FkG8JMkzKC7Qa8i4x33cSuq7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FdcVNoNq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shutemov.name header.i=@shutemov.name header.b="dx790+gm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XzjWYWA2"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.stl.internal (Postfix) with ESMTP id 8E219130017C;
-	Fri, 29 May 2026 12:09:59 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 29 May 2026 12:10:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1780070999; x=
-	1780078199; bh=yCQGxE2VwZ7TPyH1GENnw64ogNKLMsypG7SdY7O7HyY=; b=d
-	x790+gmFOOG9v4AuVJP4ne6bRgdnfCQusA6mDuRfxN+aMBZm0kvt3wnU/pQeM+CN
-	39g8UHT39sT3ktgE8mrVsSybi6u7Suk6K3GB9lcXIBDLJEys60v8ontI4U+s9zlp
-	T4iYlyY8kt4aEBJQjexUP35BvIns5SAO8obRtFrCE9Gxj+axX+y3ZKofNhMxwCjV
-	DIagvUTLnSYY0OxSfoJGdFu1qmeFAf4jHNxhwKyCENto6+BWUOIm0CsMglsEg7G9
-	oTXff5K8+JWKdrVUY2sO0CS7nleoceCZNXqN3QeXpV06teB7zZMxM9+th1ladti8
-	Q7hVeSIefKnCrOg2vr4cw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1780070999; x=1780078199; bh=yCQGxE2VwZ7TPyH1GENnw64ogNKLMsypG7S
-	dY7O7HyY=; b=XzjWYWA2FQxK/sdjf3Ns4xQt2XwlqavTtO/b0i7jHjVEqQs6IZs
-	Xk7OtncmEJccbLGx1TCq3HrtmigP24BtojTYLnv8lx2ZD2SmxuE3jZKVeNQmp7Zr
-	C/w+DA7rWDavQvu0xbUGqKJs7XFerdMLnhYma25urvVM6Y1mzGupa9PK9QJ/Xiql
-	6xGhGQzdieRgB/BM+rx3CJPad6rotOF2nD0+5orpWJ1GCqyu2oVJ360Q3h4gD6Dh
-	xmtcR6868TTK1n/hVvQLHe6/UaMCM8eTf4jPydMZNjwGMcznykbrVKtDHefoLeHF
-	Vk2zvjzlgy08XXRhJg2F/Sf3LrFpWqjSStA==
-X-ME-Sender: <xms:VroZaiYsZ3s217W5f-7Yot472V3xNeypxcJfdq-lZPZ2zBxLt6w_Yg>
-    <xme:VroZatx4_egnkCHb_9gr2HO1f1PndNcIn_8GDr8p4vAyTGCHbKghHY3ERldVpZfOv
-    KxKvvjO7gaUh52NcFGbq_XFEVREFwQT87gUuoJBQ1_V3teLy8I3QlM>
-X-ME-Received: <xmr:VroZanNjicJKD2ueeW2Q6rlSuSxp5Lu2S-vvGEQzskUPdPuR_-EbQULwg9JeVA>
-X-ME-Proxy-Cause: dmFkZTF5GxdEr1yCvZ6kyFvOzvHVs6SwkJfUGREcVnkg1W8F4OQC1NfE6tZFRjuAEYN7CY
-    oaeGvqirqC7MgUTCKRTPqriH20k/xhHdv+L9upsVMvX2G0Ehd95vRdHta+K3je4rJQBnCS
-    qAV7t2idhxq2AHeyEs7ThD8S9VwoF45Rgg20qllo34+oUy3TVn6bXp7RhbnqeiMkplmiE/
-    vGDHTQ4fr6VkZ3xwGpfyV8Fpf0aTgcR3ui/oOuiF8Lrc3gIpmXEAc8KbPGQDXs4ubh5AVO
-    aEDwiSBAL68wmfFNOohGfrv5tNlzCqN22kr28c1/AEq5T/PDAjboCyvAd+YtMlbSzDrvOg
-    5ffwJyVINgO0G/FnM7vN04WA3yPEDhlzsEEWsbxItMdALnS7Req6yihD4HKG27eTCIUWsi
-    3K35QliMA7OJhexc3hMbSlu15zDC0Ubi56fAUo9qu3dhOy/zSAoOCX78c6uLEoWiaYn6Qm
-    1Vtru0/IdBDvXgaSzsTuIQKqN61p4z/8JVhFETigfRfSgLIn2zrqhBrKyvPS+j/OE7l0uK
-    zt0o7mgm8lOF+uurUs+vz7W5PONJEoIfYm8ADY7juvGiZRjRVsGCwxWLRRQQD+H2Gpi5Am
-    znL2bTp4ZHh2vuBrcQHiY+cq5PFRj9a9Ihe7Ee/0ulN4xQH1W5I8EGaE6ZmA
-X-ME-Proxy: <xmx:VroZapOzu8MWwtCKHQeztbejLKFN4MQi2TnVxrs6R92pa5qus8PKtw>
-    <xmx:VroZaq8GzdXftzn4ApgZ8sKdAvtx8eSwHlqhZpMMapGCXvpVmYH_LQ>
-    <xmx:VroZaoby_NAFtPQhj2dWHtxsDxUZOjCaUjcleAVcgLGn3bFEAKibdw>
-    <xmx:VroZaoGOrnNd-hzG95vFOmevM9g64xdpwHnB_WIsMegvtQ8ub5XU7Q>
-    <xmx:V7oZav4VZ1ZfLoykJzfe7aSwIPEi_N--zGIiXJ_TCAdDHftwfbCVW3x8>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 May 2026 12:09:57 -0400 (EDT)
-Date: Fri, 29 May 2026 17:09:56 +0100
-From: Kiryl Shutsemau <kirill@shutemov.name>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
-	david@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
-	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com, stable@vger.kernel.org
-Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
-Message-ID: <ahmoH9v6_DA2i_zn@thinkstation>
-References: <20260526130509.2748441-1-kirill@shutemov.name>
- <20260526130509.2748441-5-kirill@shutemov.name>
- <ahmQvfNk7S4F0LBj@lucifer>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FdcVNoNq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C09101F00893;
+	Fri, 29 May 2026 16:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780071038;
+	bh=0cfOaGqtXhzo3vVoQAD71kbwV/uATf5IVMb/TrLF8tQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=FdcVNoNqszKzYLbncqvIj3IKV9TiF7cDek9qbm1jDcGWZPJsGPHvmcI3cdTh2v76a
+	 yLrK4Dg3CkohtsWyEPNIQlflDTRRIaJ7zwdyaI0UBOtDjEbWeUKnQsxdH24d2rZd61
+	 TqSz7Fz+CpQzmkh7nmzGtCyPSRaegM9l5FiTJXs1mzoNeM7tD5DdY7LdUjAlR3ztf+
+	 Qj/Qvww9ZiZJ8PoW+ZF3XeswZDfbU6+x9PYXH4pg56pO2hOLdilYb9Hu50kfc1PSKJ
+	 5qLa1+KqQVRd1lnHDxJIE21RH2xC7lTDms6xAs25pKN0KiC+0hdEzTq3IOQsYeVVqs
+	 gMZZTLCaFI+2A==
+Date: Fri, 29 May 2026 17:10:22 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
+ mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
+ tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
+ skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
+ corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
+ krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
+ alison.schofield@intel.com, conor+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
+ devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v5 05/10] ACPI: APEI: GHES: move vendor record helpers
+Message-ID: <20260529171022.073eb4cd@jic23-huawei>
+In-Reply-To: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-5-2e0500d42642@arm.com>
+References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
+	<20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-5-2e0500d42642@arm.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahmQvfNk7S4F0LBj@lucifer>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 29, 2026 at 03:00:14PM +0100, Lorenzo Stoakes wrote:
-> > Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
-> > of range to it. vma_flags_set_flag() drops negative bit values.
-> > The ternary collapses at compile time, the runtime check folds
-> > away when the bit is in range, and the common path is unchanged.
+On Fri, 29 May 2026 10:50:45 +0100
+Ahmed Tiba <ahmed.tiba@arm.com> wrote:
+
+> Shift the vendor record workqueue helpers into ghes_cper.c so both GHES
+> and future DT-based providers can use the same implementation. The change
+> is mechanical and keeps the notifier behavior identical.
 > 
-> Hmm are you sure it does?
+> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+A few questions  / comments inline
 
-You were right - I measured it (gcc 15.2, clang 21.1.8, -O2). The
-DECLARE_VMA_BIT() ternary is fine, but the "if (bit < 0)" guard does not
-reliably fold: with it, clang stops folding __VMA_UFFD_FLAGS to a constant
-and gcc keeps a rolled loop; without it, both fold.
+J
+> ---
+>  drivers/acpi/apei/ghes.c      | 86 +++++++++----------------------------------
+>  drivers/acpi/apei/ghes_cper.c | 55 +++++++++++++++++++++++++++
+>  include/acpi/ghes_cper.h      |  2 +
+>  3 files changed, 75 insertions(+), 68 deletions(-)
+> 
+> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
+> index adab7404310e..81ac51632f21 100644
+> --- a/drivers/acpi/apei/ghes.c
+> +++ b/drivers/acpi/apei/ghes.c
+...
 
-So I've dropped VMA_NO_BIT and gone with your config-gated-mask approach
-instead: mk_vma_flags_from_masks() plus VMA_UFFD_{MISSING,WP,MINOR,RWP}
-masks that collapse to EMPTY_VMA_FLAGS when unavailable, so no out-of-range
-bit ever reaches mk_vma_flags(). __VMA_UFFD_FLAGS now folds to a single
-constant on both compilers, 32- and 64-bit. Added your Suggested-by.
+> -
+> -static void ghes_vendor_record_notifier_destroy(void *nb)
+> -{
+> -	ghes_unregister_vendor_record_notifier(nb);
+> -}
+> -
+> -int devm_ghes_register_vendor_record_notifier(struct device *dev,
+> -					      struct notifier_block *nb)
+> -{
+> -	int ret;
+> -
+> -	ret = ghes_register_vendor_record_notifier(nb);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return devm_add_action_or_reset(dev, ghes_vendor_record_notifier_destroy, nb);
+> -}
+> -EXPORT_SYMBOL_GPL(devm_ghes_register_vendor_record_notifier);
 
-I also took your "use the new API" hint and added a prep patch converting
-the existing userfaultfd_*() helpers to vma_test_any_mask() (Suggested-by
-you as well). One deviation: vma_test(vma, VMA_UFFD_RWP_BIT) is itself an
-out-of-bounds *read* on 32-bit (test_bit(43, &one_long)), so the helpers
-use vma_test_any_mask() with the masks rather than the bit.
+>  #define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
+>  static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
+> @@ -514,6 +446,24 @@ int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
+>  }
+>  EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
+>  
+> +static void ghes_vendor_record_notifier_destroy(void *nb)
+> +{
+> +	ghes_unregister_vendor_record_notifier(nb);
+> +}
+> +
+> +int devm_ghes_register_vendor_record_notifier(struct device *dev,
+> +					      struct notifier_block *nb)
+> +{
+> +	int ret;
+> +
+> +	ret = ghes_register_vendor_record_notifier(nb);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_add_action_or_reset(dev, ghes_vendor_record_notifier_destroy, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_ghes_register_vendor_record_notifier);
+> +
 
-> Either way, I think we should break out any fix like this from the series.
+Why did these two move inside the file?  It is a bit odd to leave the devm calls in
+a different place to what they are wrapping. I guess someone argued for that in an
+earlier version? (hopefully not me ;)  
+If the move puts them in an ifdef block then I'd not bother - it's tiny code and
+to me doing this is more confusing than just leaving them where they were.
 
-Agreed - the OOB fix and the other pre-existing fixes will go as a separate
-series with the RWP work rebased on top.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+>  /* Room for 8 entries for each of the 4 event log queues */
+>  #define CXL_CPER_FIFO_DEPTH 32
+>  DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
+> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
+> index 0a117f478afb..131980d36064 100644
+> --- a/drivers/acpi/apei/ghes_cper.c
+> +++ b/drivers/acpi/apei/ghes_cper.c
+> @@ -14,12 +14,17 @@
+>  
+>  #include <linux/err.h>
+>  #include <linux/genalloc.h>
+> +#include <linux/irq_work.h>
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+> +#include <linux/list.h>
+>  #include <linux/math64.h>
+>  #include <linux/mm.h>
+> +#include <linux/notifier.h>
+> +#include <linux/llist.h>
+>  #include <linux/ratelimit.h>
+>  #include <linux/rcupdate.h>
+> +#include <linux/rculist.h>
+
+I'm not seeing anything reason for most of these new includes.
+Probably in the wrong patch
+
+
+>  #include <linux/sched/clock.h>
+>  #include <linux/slab.h>
+>  
+> @@ -266,6 +271,56 @@ void ghes_clear_estatus(struct ghes *ghes,
+>  		ghes_ack_error(ghes->generic_v2);
+>  }
+>  
+> +static BLOCKING_NOTIFIER_HEAD(vendor_record_notify_list);
+> +
+> +int ghes_register_vendor_record_notifier(struct notifier_block *nb)
+> +{
+> +	return blocking_notifier_chain_register(&vendor_record_notify_list, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(ghes_register_vendor_record_notifier);
+> +
+> +void ghes_unregister_vendor_record_notifier(struct notifier_block *nb)
+> +{
+> +	blocking_notifier_chain_unregister(&vendor_record_notify_list, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(ghes_unregister_vendor_record_notifier);
+> +
+> +static void ghes_vendor_record_work_func(struct work_struct *work)
+> +{
+> +	struct ghes_vendor_record_entry *entry;
+> +	struct acpi_hest_generic_data *gdata;
+> +	u32 len;
+> +
+> +	entry = container_of(work, struct ghes_vendor_record_entry, work);
+> +	gdata = GHES_GDATA_FROM_VENDOR_ENTRY(entry);
+> +
+> +	blocking_notifier_call_chain(&vendor_record_notify_list,
+> +				     entry->error_severity, gdata);
+> +
+> +	len = GHES_VENDOR_ENTRY_LEN(acpi_hest_get_record_size(gdata));
+> +	gen_pool_free(ghes_estatus_pool, (unsigned long)entry, len);
+> +}
+> +
+> +void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
+> +				   int sev)
+> +{
+> +	struct acpi_hest_generic_data *copied_gdata;
+> +	struct ghes_vendor_record_entry *entry;
+> +	u32 len;
+> +
+> +	len = GHES_VENDOR_ENTRY_LEN(acpi_hest_get_record_size(gdata));
+> +	entry = (void *)gen_pool_alloc(ghes_estatus_pool, len);
+> +	if (!entry)
+> +		return;
+> +
+> +	copied_gdata = GHES_GDATA_FROM_VENDOR_ENTRY(entry);
+> +	memcpy(copied_gdata, gdata, acpi_hest_get_record_size(gdata));
+> +	entry->error_severity = sev;
+> +
+> +	INIT_WORK(&entry->work, ghes_vendor_record_work_func);
+> +	schedule_work(&entry->work);
+> +}
+> +
+>  /*
+>   * GHES error status reporting throttle, to report more kinds of
+>   * errors, instead of just most frequently occurred errors.
+> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
+> index 1b5dbeca9bb6..51725f25c516 100644
+> --- a/include/acpi/ghes_cper.h
+> +++ b/include/acpi/ghes_cper.h
+> @@ -104,5 +104,7 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
+>  int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
+>  void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
+>  			    struct acpi_hest_generic_status *estatus);
+> +void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
+> +				   int sev);
+>  
+>  #endif /* ACPI_APEI_GHES_CPER_H */
+> 
+
