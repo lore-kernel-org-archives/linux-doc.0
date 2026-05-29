@@ -1,93 +1,93 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4333769EB
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 19:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FB3390C94
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 19:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780084305; cv=pass; b=vFBJabR71b577WDakncCKY8qmEH3rSA+28OjZif60p3V5l+yplscMgFWxpv9YSvxZMOjl3Hh7smYSc3b/wOl1V5lx0mkovZTLJ0S9FNr2B9hDgsrz48MdhiAAQIGhqqWDRz9ZJarOxxcelcwDjzHuzFXvWqebXazlVAGX93zAOo=
+	t=1780084704; cv=pass; b=QnXXhy0dB2rPa/kNmO28f91gBtnqb0uT64fYxXxUth2spYQmJoK+Fd2Wd4VfB/6y0EiLQX7PVTiwpNUOu7Ms2cIUG0+WMxW+t5vtUpUrZT8p+7ra4ZY+Q6YiEhPCX1hOIoczOu0eCsU9c753TEgNEBA6QHXxgwNA9+s+mn7FZGo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780084305; c=relaxed/simple;
-	bh=vnofybMfKXc73Z7GzMMBieo9YudKdcjIw1E1DXfQBmE=;
+	s=arc-20240116; t=1780084704; c=relaxed/simple;
+	bh=mdMW6L6vLM7AETD1AJOGuPexCgv94MM9Av8w35YdBjo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uA3/0ugNZlSM690j93giPyMg8d5POvmQaZI77z8f4S2Az/uMbu6/zMi4CPVf1R6s31geH7T4kkU4YTTV7JMf/+Dq1/IY5KhZCrOeSjsb4udOO1VaZIgeQKlWpKlKlxbpdnDoUEP0XUqxYKPmz6/VS4wv3hnOxLAawJxygcAghtU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=quPQI1n6; arc=pass smtp.client-ip=209.85.128.43
+	 To:Cc:Content-Type; b=H+PUxDwKxHQtddyEyEWWMFdJpiNCvgC5UXSvCwv8zHr3U6JkLFtJibLVQooBb40fHpauhljiKVEeMdCuGaVS0yKe2/Ne8f9CvOxnaqpPru2hcSCiNdj0/niuoKw+uRdXovWEPjRLiL10dzmSeumzApFUmD48JuNg0zOXZWAmIaU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o6znuUZS; arc=pass smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="quPQI1n6"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso124186125e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 12:51:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780084302; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o6znuUZS"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4905e190c71so71065875e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 12:58:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780084701; cv=none;
         d=google.com; s=arc-20240605;
-        b=lq+whlyOKCLhQS5IZ5cewLYoLmjolih2R1ZybBdD1K2K4vXviJCfKNB1WkPGMe8kkY
-         llSFrsZvLsni0oW+iPk5G88wdMSiE2wkF+oKTwMVRkCqhvaXOhssni6MEkS7xg7aPMAT
-         OtTDzM0ebr3iYwp0W+ZVxdpGVOwhjk5GzWXIG4QwUrjX+xB3/3hh7bST4U6oIwtqWcu+
-         zvhzv/E9guP1pm6cpvVs5QDcEQBNyK5UENIwNh00vWXWde21UdZfEEukCCymBd9xk6HU
-         StAsqYMgZR9Ud/EtohCv8Pb57lD6ehOe3xm6ynZiNB930zjnqN4OOIwfCJPv90bVNysq
-         x9aA==
+        b=d7LdoI8hpwN1HhGfTbS+kp7wTS3QCJkZSHjpOb8cIEq0AEA+svxn7NbEU2Fr6W/buj
+         avnHY85o64xlKNGJB32GyqtImLHxVQ4PxMfw+eb+heA6ebW/WYSbN/MUAaXrcMFN4lj+
+         AOUVomsy3GLewvcofAPvw6U3bT3ztlpakDxUJNOSLTG38+Sz2XO+ddrjmL+AJ1r/SuTj
+         6LUr0ZAXmtrknBQnZQ+81nAJGwcEf0zA5sX210L+kSHj4QrtvHATkR7Och2ilK7NRWrd
+         FjerapuI4x1Ty5sDK2TNNhdX5LJ1HPoh3RxybYuolLLfBxugOAHNAy0uOexiccZv6oA4
+         2alg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vnofybMfKXc73Z7GzMMBieo9YudKdcjIw1E1DXfQBmE=;
-        fh=17kKpx1/xdTL2YKbfItWRVsWmszqkAxeQXD9lbmFTro=;
-        b=LKxm412a+4VPjMuAmK1N8Wp0Mesovo691K1SLlqlf3TDlQgP92NPMFJ2o27juuEMFz
-         kOK5F9eLIGdd7GGw//iJ80zVu8LGoVEdz9ZC/lqsWAfNJLl8yLRgP9pYvxmQbT6ZVYyo
-         aK0wJY51bQqhgdslJzArED4yr11LiX1BE6nM1nJtXUmnXsMiUQ3js0S/GV7H+i9Xn8w9
-         nvSYyHj2Wxp+J5+tzi66ukIySa6Rdbx71OEurc1CGumlETHXeZGTSzH3nomwLG58sh7C
-         Oz+oyhBRlbdOjYMVJoDQB/CEqaUNhiDEXKg43ZseJjO4ZcKZLVLFEfxsjtz7McUih9rQ
-         D4HA==;
+        bh=LfwYj4DA5FPfcIbVqcNLhmYJgj92y6YUeOF+OaLYeaY=;
+        fh=YnHbk9tCHr50PQCs+1mNIP9uT9xWEjWHIpEvqizXXKI=;
+        b=GZSW9XA8X9XId+m095jhf8VxQNWy2nukFJVjzHtpcgs1yBScFAiFu31xcxsJqrF8FG
+         KyiUxIbQhd5v3PzotX4qSG6oNghLCmMLVR8t5NWP8dhju9XoI6/5PHLm+RTLBu+wFYvt
+         RwLNl+ya7MstUamBzizxepTA/GWCCbijGsGWNqM8fG+sxHuxERQ/DNJyzI0SyT2pRU55
+         w0fXNRjg2hBIYvE2+8L5kr/yvcETQh0guf3mS8L9cOzSrdLHTDekeGMCm/8cwszOywJz
+         Hd3/KyKGkipRWSjVtbotFA2jq3H2vKuWQMFEQ6a+3fspV2XHoBiBt3D/Ms9rwoSdWWY8
+         TxFQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780084302; x=1780689102; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780084701; x=1780689501; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vnofybMfKXc73Z7GzMMBieo9YudKdcjIw1E1DXfQBmE=;
-        b=quPQI1n6nf5w0xxhvY6xcCmtxjYGWazoulzG9Cr2fiz8HEjNhnIULebkI5qVUtQ01P
-         txjZ6v9bkodVFhERU3EAqGmtsCEJFMJP1cX5CQLP2AFJtXMlLxAZGtsxK8U99e/Ug7Aa
-         0kDbzYHbqD4UaznA6Kb4/Q5jqxsZXpBA0cVJ0W3HvJMAqgSuebQRowKXWi/EB3lwvF78
-         YkeMJm/z5GRLp2kgs3pddKIPHieItj+nDRnRV9e/MdAqE8FKAvBMcJGOpBevzoLQeWK4
-         5BATYU527+6x/yHtKk+GAsO7Rgs/DIpZNfjUOe9chxLHtKgFwvlFI7nf8DRlMjtexot6
-         FAXg==
+        bh=LfwYj4DA5FPfcIbVqcNLhmYJgj92y6YUeOF+OaLYeaY=;
+        b=o6znuUZSJv+kt+BcNYd9Nw+PTuUPcR7zEO0tMwYd12Sl7Kl50eTOnC43IMsC2CRlg4
+         +HCgMyVptthi0NZ810a5B6GdVFPFpWWVrwyOam7Yx3SVTtCAC/VRmVSuuSkjVd/e69/+
+         vEDrKIz8MTAVAer0ybZEl3WQv826E3pptznX9mRooSYzYZ9dhsro14kJywbpx/CEUGEZ
+         GnZMfgaEXopiPxzdBFvO1HyNYVs1bR/Ll0QktgWr36wRgysD4GQK5fq3hTCWONxuIAJC
+         6c7NtXCCZgbWjnZh26XXjTmKX9+bdRGZIi/5aFTY/2A6wddZ+MPKFdga4JoNUYxAL+mW
+         xoyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780084302; x=1780689102;
+        d=1e100.net; s=20251104; t=1780084701; x=1780689501;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vnofybMfKXc73Z7GzMMBieo9YudKdcjIw1E1DXfQBmE=;
-        b=DJX+LtiSF27HFy4qhJUjgEEFcFP2hQ7o9lMy/Jd5jxE+qBPj5NE/BE1cOb72zQkIcF
-         U7aqWFGnl5m+9vaV8hK2FVLdhsjX57+8BKe3q7WBwIBqpJjDc3D0OUlnQiy9cBU4mL01
-         WSy4o2OmtfXc54sHWQzEKmMch8KvWJeLbPlvBoLxCVPoElQP6QLIqy8ywXfkr0HGDDJ5
-         3nLpIXgbJpN3bjY+T7OEQwCgG0XKEOWoZwqVjQgaeeNt2ER7EW7CagraGi7/vm5T+cy7
-         WsFUVrlHTu3UAlpsdN1Caa0GGlQ9xYdPYsM/tjogqly0fJXtEmKxyma39t1K5eNKMPEB
-         K7lw==
-X-Forwarded-Encrypted: i=1; AFNElJ8nYowAucUYQBThf+itRVC27M0Vk6UYzZDhMiJ/R++vX2riLdjQlOTEWMA6a04p5Y7AEszEDLoAlYE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdrSKxx6zf3o7XKOB9JVVYbgsUQXnHqvfpaRFacqm9orpNXGuJ
-	AYhiCDGN/0GFaIkgB+b6/08qfYYLDuWGOLCqcRLJGTe/PJL02cSpHl82NaPUyf+VPL80xLEioOC
-	/f1N+KUnhHso+TqDK11l7mB6odYhOffE=
-X-Gm-Gg: Acq92OFm6IgjP7HohEBMkkBFxunsjdOTpw85itW47dz65dImskkGfyRr786YJswqqwS
-	3Uly29S/MgfyP4tl312tH8z0CI/JRtbZ+OOQu9GbeNVdEYJinPcL/mYReWyLKljsEt+NwKODmRi
-	usaWNh0QMx8RMRjnSNZqJQo5TnZjWUPVV+4XQZf7c5nEIrx4DHdvW3dibeTkM18+BreVCov+R/u
-	Eaisf7pIot9GoIPRIodOKZAF9x0Ny+jo0ILlJFnOecvxEzjHo5hbQaUBTixpbJ6O01Wtvx1cBzI
-	XIl5x6pQ4pSZ/iWx8seneQ74Qq4Ojkt2QHYdIKOZubaV9+zq37zNquqD0PSH
-X-Received: by 2002:a05:600c:4f53:b0:490:3b8b:6ba2 with SMTP id
- 5b1f17b1804b1-490a290bbc9mr18998515e9.8.1780084301582; Fri, 29 May 2026
- 12:51:41 -0700 (PDT)
+        bh=LfwYj4DA5FPfcIbVqcNLhmYJgj92y6YUeOF+OaLYeaY=;
+        b=eeHaEUYIZL/Rk4MorZdvubeaC7G5EmWfrHMTFu8wUG0zgOwf/FM7nAoTwORMpxEo92
+         R16DFLFTaYW7PY0Zx59BUjU12cBQugNuN7KtpEh5xBM110cZTAK7idZ36rvQTnECGcaD
+         XgvQ/Ib5PknEblGIKHxCBFZYRvtyCj47ylFgGHGSMvutnkbVng0d/89eYEJ7HHvA2pdv
+         8ukUENBB2al6K3qCqH2JzwinTK6aaKEPXjVz5SrTUjIxnd02tPY4m7PdIR77aHT5Z925
+         FYOk4lj8jlm6wBm8ZyrVzOc5a2WsrKhdcoXGA/17CriJts3bAry2gwh02Vp+2NYCj+OW
+         5VUw==
+X-Forwarded-Encrypted: i=1; AFNElJ+T61B9vOhmA1LBsdRAup1hM3l7TICb5y28yHHL0pEtnbEuAE9DXizm3/TekaGPnZ5wQeRWJbT6buo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKf0yCzQk3X3+GRBe3izZBQ5blnnSoA24/vqD/JCIVsz5KqOld
+	QCrNyhzDj/bT/AW+HaVQTp9p4ee/hZTdXZ5FqHHsv9ttfV5YkliosGkqeamUUZ9f7/sh90UZ6DQ
+	aoXs9V1t0MPRLX5SLq72tffea9ncS9ae770C2
+X-Gm-Gg: Acq92OHidOo/ubrHMJ7cEI1cac859pejwAEIr5YX3OpMExHn2lBzaf9W6Zcl9NvSHnE
+	O7JCsRMqI9rids5fM+/9d/c7/t0ffooVIoWKZcbKgvoxnpTbdVpaJsbwGGhR2ZJX9dJcfH7RiXN
+	3QhbcHRfyIssxTyZpktB4BY9NrUl8VQASfAgne/s1d5YzfJDqI1VctGvGz65X267S3lFwsME3V2
+	nFLQQxO234YKzt0v7cnpGOksBILtxP4+bR20h1cpHGkBH6fENowiZzMg3bp4cjCVo+8oCLjE9IR
+	O3Oh3mwtsPEka4caJz6I8kcYMYVRLOrhRsfk9J+73vYyp+SArjbi9Dd/6Y/z
+X-Received: by 2002:a05:600c:1d86:b0:48e:60a3:220a with SMTP id
+ 5b1f17b1804b1-490a28aa789mr19945345e9.0.1780084701135; Fri, 29 May 2026
+ 12:58:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com> <20260526114601.67041-2-jiahao.kernel@gmail.com>
-In-Reply-To: <20260526114601.67041-2-jiahao.kernel@gmail.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com> <20260526114601.67041-3-jiahao.kernel@gmail.com>
+In-Reply-To: <20260526114601.67041-3-jiahao.kernel@gmail.com>
 From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 29 May 2026 12:51:30 -0700
-X-Gm-Features: AVHnY4L7tgvKRX4kdfRx8qsBxz-QbD35FXrun4oqca1DzRXBvrMnNdcuSN4_ihs
-Message-ID: <CAKEwX=NrL_t2BiA7i9D-jUdzkTu-pJDy++0uvxrysetMc8aRUw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
+Date: Fri, 29 May 2026 12:58:09 -0700
+X-Gm-Features: AVHnY4KgMD945lA_grdRhWAHXr8MpUc0KE7VWOqQOVSVohEoWbBZtrIU7fMWjKc
+Message-ID: <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
 To: Hao Jia <jiahao.kernel@gmail.com>
 Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
 	shakeel.butt@linux.dev, mhocko@kernel.org, yosry@kernel.org, mkoutny@suse.com, 
@@ -102,27 +102,26 @@ rote:
 >
 > From: Hao Jia <jiahao1@lixiang.com>
 >
-> The zswap background writeback worker shrink_worker() uses a global
-> cursor zswap_next_shrink, protected by zswap_shrink_lock, to round-robin
-> across the online memcgs under root_mem_cgroup.
+> Zswap currently writes back pages to backing swap reactively, triggered
+> either by the shrinker or when the pool reaches its size limit. There is
+> no mechanism to control the amount of writeback for a specific memory
+> cgroup. However, users may want to proactively write back zswap pages,
+> e.g., to free up memory for other applications or to prepare for
+> memory-intensive workloads.
 >
-> Proactive writeback also wants a similar per-memcg cursor that is
-> scoped to the specified memcg, so that repeated invocations against
-> the same memcg make forward progress across its descendant memcgs
-> instead of restarting from the first child memcg each time.
+> Introduce a "zswap_writeback_only" key to the memory.reclaim cgroup
+> interface. When specified, this key bypasses standard memory reclaim
+> and exclusively performs proactive zswap writeback up to the requested
+> budget. If omitted, the default reclaim behavior remains unchanged.
 >
-> Naturally, group the cursor and its protecting spinlock into a
-> zswap_wb_iter struct, and make it a member of struct mem_cgroup to
-> realize per-memcg cursor management. Accordingly, shrink_worker() now
-> uses the lock and cursor in root_mem_cgroup->zswap_wb_iter.
->
-> Because the cursor is now per-memcg, the offline cleanup must visit
-> every ancestor that could be holding a reference to the dying memcg.
-> Factor out __zswap_memcg_offline_cleanup() and walk from dead_memcg up
-> to the root.
->
-> No functional change intended for shrink_worker().
+> Example usage:
+>   # Write back 100MB of pages from zswap to the backing swap
+>   echo "100M zswap_writeback_only" > memory.reclaim
 
-LGTM, if the memcg maintainers are happy with the overhead.
+Hmmm, so this 100MB is the pre-compression size? i.e if this 100 MB
+compresses to 25 MB, then you're only freeing 25 MB?
 
-Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+I'm ok-ish with this, but can you document it?
+
+The rest seems solid to me, FWIW. I'll defer to Johannes and Yosry for
+opinions on zswap-only proactive reclaim.
