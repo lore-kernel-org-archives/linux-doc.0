@@ -1,117 +1,101 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8C83B19A6
-	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5746366DA3
+	for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 07:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780040548; cv=none; b=D890QbJanUqHOA25ro5XnRh5fXA96gy5tKlqgKpU95k6nUEgz4PIu1ZaZj9+11ZzKUSCIO1hGANmy24WUcX5cemhbjSd8g93dlMH1tFnwPXn73yoWiZh4XruhUBtcRIa9YL4Wl4GvRnlhZB5Xr5xWzBDF6gesaqPRMyxrQPLbAA=
+	t=1780040719; cv=none; b=Qczf1T0ING2+OFVSd2J3kpH9sMuCrKa5H3rsjbFM14uJZkYQ9UqbEuVy9YZ56fKIrW1l2GcdNuK0wTd1MrhiDAEiguI99LY8CYF81h9xBBHYbvfNxSBcbK+Hx4rlTgsVq1NtDvrti1juRl8tJBxesiwr0FIOCo5dLiUUtlXUW1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780040548; c=relaxed/simple;
-	bh=DhCLGMOZL/w8aCkBuXuDq7mP31RtxM9KjJ0TJxr/Dn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oo0HBKxsytRVakqMNTIGE+raMn2RHaNDSF0VYoV5F/FTpqGAMkUCf/5UhDIWpyIQ6C7WG8mCmlh98DO7DdVWnALnPbaUwzZX3vAp3IbqyApC9FN5dTaWR9+MV2/Xq3E46ignWc1nKQf8bG5PzLPHrnN4O6DXjwle5ic1sg5sYcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=t9kFSCYy; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1780040719; c=relaxed/simple;
+	bh=kdHtlJ+3Ahj+Fi3fYCzDqvHLYhDIMcJzfjP8AfP++X0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ocr1BfR5frIKdI6K+aOtzCSWhdV3WhNxSIMzBgYODnkBWXYZWm+Lp46pxwl34GGosPTQ/Rb5bXV2ezOUjDY96rReCBpMJmXZ2P+wVcBsPGSeeo8iSsDxsmoqOfVXWeMdaXfr/EFl+Xgi1mA+K4Ii9blobxLBO3qVjCc0JspeIVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vKmL6TMk; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="t9kFSCYy"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E4DE6C62458;
-	Fri, 29 May 2026 07:42:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 56946601FA;
-	Fri, 29 May 2026 07:42:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 058F310888CBE;
-	Fri, 29 May 2026 09:42:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780040538; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=DZ3lfW7SRE9G4rYU9VyZ9PvQOFu+n80p9zGN3rx2H18=;
-	b=t9kFSCYyYsX7Mpm/43AyGd8fYnebRyCopT4YVv1WlV2yeqIP2xi7Z4lzM/NGEDpKfEflqo
-	COl1/50F/BMd2U8vhv2JtY7i/yUoh2uduIOBevb8aCBASp3YSXaTrXbHHEJB/19pHpLnaH
-	wuAz+Ei6HtEaxLhFX537DXLu6YVHHtGiyvXTuvIHiMQM8cxSNsScAflkJ5qQEfnLQIiXC7
-	n/3x9H1RNTntXn2X0fkVHy/1cR6GS/qtm3cOdKcYM89ZkOOZL4kRAEQnC/bknpD4gb0ljv
-	z+90+AwCWwAm2EBd+1dvFrNzaTpWDqoAgPa3KRqzQ8o3LjME2S0L/hhrb7D4Yw==
-Message-ID: <b84a5fe0-a080-45fc-87d1-790402d423e4@bootlin.com>
-Date: Fri, 29 May 2026 09:42:14 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vKmL6TMk"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36bcbd7821fso114147a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 00:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1780040717; x=1780645517; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J//wIcuD5vVJ3zW/nhAOCIjIjm3fWsJip8Oi2c+mv+k=;
+        b=vKmL6TMkvZ8RJtrmRkg6HgUyQ5zKlp97arAXuMk9lZpLDMFIfBek9Fv+YF0H+a3Zou
+         OMWSiAz8wL1a17+0LOdVj5Pr+u7kXvqWdH2iw0Urbslima/BAy+Z2jw51QT4t4q6AZDV
+         Ds4BMKSs6C+Liq06+CjaTeS7fd7Xe6MnUDiVCRDJDj3I082YTvx5DF/1BPnHXmNWZToL
+         TndPP36dzIkviipz+Oe6Ocnq4RjvFAzMzoP1stUnzbAerN8BylRAuf/fJrGCt0P2ORUQ
+         QptNhPMdmBWQzcq5zPTd/rwHhaxu1gPk7yVq/8b47zkm5ySwP0PpkE0GiJYDe8MplfnT
+         qq5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780040717; x=1780645517;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J//wIcuD5vVJ3zW/nhAOCIjIjm3fWsJip8Oi2c+mv+k=;
+        b=crriIWE3ZHGwcH0vLpxexg1TeWadQ7j33JO5RF0BIccx69OB3fjhbTZINzlByLRzlh
+         jOT0a3EfMuojPBk/XHVjsmLpHVbjwOiINq52yOraHMYozBzAbQwle2SlaF7G2ceSwxDq
+         eraZD2MCxAMjWnztKDdttyQolD3/mC9DV8XrYt0hbqUxy0bM09LmaXhN1SFCAB6iAG9y
+         dDCL1k3MI2uvYCAINxEgCvG9UbGecA3Y0pf6SYyML+K8GVrzFt8LBwTBcjVVl9+uvSbw
+         l+HALm0KlS338zHePi+owYgNeBGxCBWj3Wikp41+mLDbraRMFvEvlSlC7Zzl6ucA2DGB
+         Rs5A==
+X-Forwarded-Encrypted: i=1; AFNElJ9svKRFsoEZlXJQJtjxRtSodubyO7ZsrCIO+FfJ4jNPGanyjjfpb9WPhPYvFZ5w11g9aDqbuRU6xdA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1L0WaAb8NUihL0cbXXGXoxWLxNfT23cgjevIHpEydmSDfjDWU
+	bd1I/do1LZKyUjpyN1I7Nlp0Jm1xEIap0eCmPtcg3j6gI0g6GlhhMwEmfnMUC6ggKdQ=
+X-Gm-Gg: Acq92OGB4YB1l1bGG+Ke5miimM8tMB/zEXv82/3GCYznJRQiOYt3GclpX4PT+XnXCdw
+	ak6memyJKYvBpJIioPdL+Ez2Jf0LAByNAFqqkGSNgdtujmIORWo3VmPCEV/J+fzsv9V1lzzrqF0
+	JOBnYYG+PnoB2mLzNLPJgjw6vTRnqBRo1qrJjc9H0E59mTDmhAUO6dmEcntFUxfkua8J8Hsj/b4
+	0kocLv/eMgYlrWV3PE9+P6E26kdidU7KdrY2BAKaC3TfmX+IhDKG0AkFwIELUA3L3sxwyufzDOw
+	gd70ljOMdrBsLIjymBBitw31bvo2s+m8+n8ATZB1Mn5WpCr4dmMgMVibvn7xnrfT27zTLiZd1GC
+	ACSn/nVjEHPVnT5mqvQj0NWAvPnS8h6Zx3wYF38AgEZECJ4btY3uCTpdPJhArbC/XrUzS3v4it7
+	JZvUcWOu0H4NH77yJqd2KqJyfZ6/TKC8v2uA==
+X-Received: by 2002:a17:90b:58c4:b0:366:1bab:c3d6 with SMTP id 98e67ed59e1d1-36bbcaf3037mr2086182a91.10.1780040716856;
+        Fri, 29 May 2026 00:45:16 -0700 (PDT)
+Received: from localhost ([122.172.82.94])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36bc0c341dasm1202989a91.15.2026.05.29.00.45.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 00:45:16 -0700 (PDT)
+Date: Fri, 29 May 2026 13:15:13 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, Jie Zhan <zhanjie9@hisilicon.com>, 
+	Lifeng Zheng <zhenglifeng1@huawei.com>, Ionela Voinescu <ionela.voinescu@arm.com>, 
+	Sumit Gupta <sumitg@nvidia.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Huang Rui <ray.huang@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, 
+	K Prateek Nayak <kprateek.nayak@amd.com>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] cpufreq: Set policy->min and max as real QoS
+ constraints
+Message-ID: <y7yal6aqzbnxy5w2b6daodzwrjus5wpds457bkj4ikbysf42ah@ynmxgrwc6kap>
+References: <20260528090913.2759118-1-pierre.gondois@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <20260527162516.0d012503@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260527162516.0d012503@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528090913.2759118-1-pierre.gondois@arm.com>
 
-Hi
-
-On 5/28/26 01:25, Jakub Kicinski wrote:
-> On Wed, 27 May 2026 04:47:47 +0200 Andrew Lunn wrote:
->>> It'd be great to hear from others but IMHO in the current form this is
->>> not suitable for Documentation/networking/ We can commit the "knowledge"
->>> part but enumerating the test cases seems odd for Documentation/.
->>
->> Sorry, not looked too deeply at the actual content yet.
->>
->> What i was thinking was a python file, which sphinx can ingest to
->> produce documentation, and place holders were code would be added to
->> implement the actual test during the next phase.
->>
->> This is how i've done testing in the past. I would be the evil one who
->> thought up the tests and described them in detail using sphinx markup
->> in a python test template file. After some review they got passed off
->> to a python developer for implementation. And when they got run and
->> failed, sometimes the feature developer, the test developer and myself
->> got together to figure who made the error.
->>
->> I'm not sure we even need sphinx. What i find important is that the
->> test is documented. What kAPI calls should be made with what
->> parameters. What results we are expected and why? So that when a test
->> fails, a developer has the information they need to fix their
->> code. The Why? is important, and often missing from the kernel tests.
+On 28-05-26, 11:09, Pierre Gondois wrote:
+> This patch is a follow-up from the serie:
+> - [PATCH v6 0/4] cpufreq: Introduce boost frequency QoS
+> https://lore.kernel.org/lkml/20260317101753.2284763-1-pierre.gondois@arm.com/
 > 
-> All makes sense. The question is primarily how we fit that into
-> the existing project layout we have in the kernel :(
-> 
-> The python tests can be hacked up to print the test case docstring
-> before the failure.
-> 
-> But I think for human and AI reviewer consumption it may be nice
-> to keep the condensed knowledge / common mistakes in Documentation/
-> If we had the ability to exercise the submissions it'd be a different
-> story test output would be a sufficient signal and/or could be fed into
-> the review. But for AI making a guess at whether the submitted driver is
-> correct purely from the driver source - knowledge is useful.
+> v3:
+> - Added Reviewed-by tags
+> - Return 0 on cpufreq_policy_init_qos() success instead of
+>   a random positive value
+> - Moved policy->min/max assignment out of cpufreq_policy_init_qos()
+> - Updated documentation
 
-Also for the knowledge part, we had Oleksij's series that documented
-more aspects of flow control (not just the pause part) :
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-https://lore.kernel.org/netdev/20260304094811.2779953-1-o.rempel@pengutronix.de/
-
-Oleksij, maybe we can merge some of the information here with your
-doc for the Docuentation/networking part ?
-
-Maxime
+-- 
+viresh
