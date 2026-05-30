@@ -1,69 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB3C5546;
-	Fri, 29 May 2026 23:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DE0249EB;
+	Sat, 30 May 2026 00:05:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780097631; cv=none; b=ijWzPrKXhMXYHzqa4HeasaWvZegSbDvsAhVOYEhKhXDfbBe+kPkIPV//NoJesjQNXlNtdjiRRMHfVYBx/EuDzFp1JyP1ApoMFxFlHrXvWtlmlpSynRO4540mpb7t2f2ij59j/nMmjrkmsgzbNRWh8KlUhucAhh9Y2HQlgO+Y00I=
+	t=1780099511; cv=none; b=NTTN4rZqUq+fnpHJAO+j8PqYyDdbzibXSzRtyD+g0UOBuT1LxRFzQdthmXD5iysdibVfWeQyktLBgrHpbdZD4eWn9Hzpp2SxOgh3knBpIKMQiTtzE3rJ+xUh8Sd6lYhRJb+XRJ7qiJmKCx0CCj1k3OTdVZ0Qhz5AOnOQcdUUWbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780097631; c=relaxed/simple;
-	bh=hXTACtBIV6hiJQgdeXIpXE8oX0VfwYXpGLrdPdwrSB0=;
+	s=arc-20240116; t=1780099511; c=relaxed/simple;
+	bh=pOc36OwMlu4s0P+Hx06cFzv83mzssJLOBSGQNWM1WoQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TTMqRFntTERLYZjBiPP8P5NhyRP+8BEhx2p3+5HDfm3A/iZ7r0pS7zER5QGgDuUlULS/kKC3fiDSQDNl84jbvOs7Q0GueLH4Ax6ulAulhM0ZuMh91oXAgorVkp5MtMiFmzWr9hglVe+u4DSEELxKlx7F7hHqkP5GT4+zJmwq1bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qxe1bqFi; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=G5RN7H8sxmfnOLAJktS1AOOEOKEYHBn4KjMKtOmM9e6+4La+Zsxs6LRMFJjpreWRDzHJ8V+Etng3+/F56z9jCZilCvRaeOzNzDFILMojZYJd0v5prF6YBbzZu0dd5POkTFf8dGH4/bESjfT0E2702/kpB9UAqexFuwQZc4T8wdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+z8niQ6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qxe1bqFi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673CE1F00899;
-	Fri, 29 May 2026 23:33:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+z8niQ6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1B51F00893;
+	Sat, 30 May 2026 00:05:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780097629;
-	bh=i5xoYOu+H/E2Qmd6vKoz6csEWSVaDrwB5J3ezvyhCxg=;
+	s=k20260515; t=1780099509;
+	bh=njDJvj09HuPHDKjMB6WRVtdXJLDfda9NGRMsHpQiz3E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qxe1bqFiXTODd2f4grnOICVXbhq2ocNkz+jxYbVEHDomrL78/pKUYx6CwgTDPf2vH
-	 yYmEnf7cSymZUlV7TX73zpm92q33c6jgFedQoR+P139razqoNlh+Vqu2FbcDUi/1ei
-	 aY5LEkRZvBGSGTExyqarQKrQAtrDiYkxXRa7Waa3cnrOC3qBH8L4aNhqW7VJWC1jAl
-	 1s+e748Q14/FPA6VAOCaaexu3U1xzaXCgjTHrL1mjdt3aXzWqO+/TidI2GkfNCHHFJ
-	 +lnMI48vCXplKCo+YH3PTS4B8U3HK6FmSkgl5VuEkIH2VPTy38q5sjCJA4KH8dNTWa
-	 ZxJTWsYDgAo1g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v4 11/11] kernel/api: add syscall enter/exit tracepoints
-Date: Fri, 29 May 2026 19:33:10 -0400
-Message-ID: <20260529233311.1901670-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260529233311.1901670-1-sashal@kernel.org>
-References: <20260529233311.1901670-1-sashal@kernel.org>
+	b=i+z8niQ6GdLZBj5TiMTO1yYO1Bo/zTV+xgkYgPNYO55YV0MzKHxVPAg4iVuSxDeP7
+	 XWPs6CrguNLPUXa4auUshFm6/HbX0wuOVPIphS9MLuZ7tz86C/VNkcSjQn6dxC8lCG
+	 gUgYrGPb3psK0Ovgf2husPTkj4qPhxBt5WIOZUcRJDwwDvfwEFI4RqI6j/q/7yUpCN
+	 oEwd1DxBIJ9NtFd5ztdHTmndRLPQ9P+tC3zAKK2G1bi/GVYWx4ccg91RbTTY6pn325
+	 jDuPWenkYuhfpGkOXMkqB6mnoXJwZuvyyWUjtKHFxmz80ayQf3Lt9dloK4QybvbW2a
+	 QY5NuMAHOwZUA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	akinobu.mita@gmail.com,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
+Date: Fri, 29 May 2026 17:04:59 -0700
+Message-ID: <20260530000500.87407-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260529165640.820-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,294 +54,219 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add two tracepoints to the CONFIG_KAPI_RUNTIME_CHECKS syscall validation
-path so the framework's behavior can be observed without the noise and
-loss of pr_warn_ratelimited():
+On Fri, 29 May 2026 09:56:34 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-  kapi_syscall_enter - the spec name, the raw argument values, and a
-                       rendered "name=value" list of the specified
-                       parameters (pointer-like values in hex, integers
-                       and file descriptors in decimal)
-  kapi_syscall_exit  - the spec name, the return value, and whether it
-                       matched the specification (spec_match)
+> This series introduces a vendor and PMU-agnostic substrate inside DAMON
+> that consumes hardware-sampled access reports through the standard
+> perf-event interface.  Userspace selects the PMU through sysfs (raw
+> type/config knobs), driving either Intel PEBS L3-miss sampling or AMD
+> IBS Op sampling.
+> 
+> Why a unified perf-event substrate
+> 
+> Earlier hardware-sampled access-monitoring proposal [1] took an AMD IBS
+> specific module path backend, owning its own probe configuration,
+> sysfs knobs, and lifecycle.
+> 
+> SeongJae Park has previously highlighted the advantage of Akinobu
+> Mita's perf-event proposal [2]: let DAMON register kernel-counter perf
+> events and consume samples from any sampling PMU that perf core knows
+> about.  This series builds on that direction
 
-Both fire only for syscalls that have a KAPI specification and live
-inside the existing CONFIG_KAPI_RUNTIME_CHECKS region, so they exist
-exactly when the runtime checks do; they compile to no-ops without
-CONFIG_TRACEPOINTS and stay dormant until enabled. The parameter list
-is rendered only when the enter tracepoint is enabled.
+Ah great, so we have no unclear challenge (additional loadable module support
+and conflicts with other IBS modules) on our road for now!  That is, we can
+reuse the stable perf event interface and achieve all our goals!  As I
+previously shared [1], it would take time, but I'm very optimistic about the
+success of this project.  I don't like promising too much, but this project
+looks like something that we can "consider it done".
 
-kapi_syscall_exit is also emitted on the parameter-validation rejection
-path -- where the validator returns -EINVAL and the real handler is
-skipped -- with spec_match=0, so every kapi_syscall_enter has a matching
-exit.
+We can also say that the current candidate of the first
+damon_report_access()-based data attributes monitoring (milestone 2 [1] final
+deliverable) is the perf event based monitoring.
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/kernel-api-spec.rst | 29 ++++++++
- MAINTAINERS                                 |  1 +
- include/trace/events/kapi.h                 | 74 ++++++++++++++++++++
- kernel/api/kernel_api_spec.c                | 77 ++++++++++++++++++---
- 4 files changed, 173 insertions(+), 8 deletions(-)
- create mode 100644 include/trace/events/kapi.h
+> with the changes we
+> needed to run it cross-vendor:
+> 
+>   - a per-CPU lockless ring between the NMI sample handler and the
+>     kdamond drain,
+>   - per-CPU events that follow CPU hotplug cleanly,
+>   - events fire only while the monitor is running -- created disabled,
+>     armed when kdamond starts, disarmed and drained when it stops,
+>   - all-or-nothing init across CPUs: a partial-CPU create failure rolls
+>     the whole event back rather than leaving silent gaps,
+>   - safe handling of vendor sample-validity flags so a stale or
+>     unpopulated address is never mistaken for a valid sample.
+> 
+> What the series adds
+> 
+> Patch 1 introduces the substrate's data types: a per-event
+> configuration struct and a per-context list to hang them on.  A
+> CONFIG_PERF_EVENTS=n build folds to no-op stubs.
+> 
+> Patch 2 exposes those types through sysfs.  Each entry maps to one
+> perf event and lets userspace pick the PMU and how to sample it: the
+> raw PMU type/config, addressing flags, and period or frequency.  The
+> defaults are tuned for Intel PEBS; userspace overrides them for other
+> PMUs.
+> 
+> Patch 3 wires the sysfs apply path so configured events get attached
+> to the running monitoring context.
+> 
+> Patch 4 is the core of the series.  It replaces the mutex-protected
+> report queue with a per-CPU lockless ring fed from NMI by the perf
+> overflow handler and drained once per sample tick by the kdamond.
+> Drained reports are matched to monitored regions by binary search
+> over a per-tick snapshot.  The patch also wires the per-event
+> lifecycle into kdamond: events arm when the monitor starts, disarm
+> and drain when it stops, roll back cleanly when per-CPU init fails on
+> some CPUs, and a second context that asks for the substrate while
+> it is in use is rejected with -EBUSY.
+> 
+> Patch 5 is the perf-event backend.  Two stateless overflow handlers
+> (one vaddr-keyed, one paddr-keyed) are picked at event creation time
+> and submit samples into the per-CPU ring.  Vendor-specific sample
+> validity is honored at this layer.
+> 
+> Patch 6 adds a tracepoint at every node_eligible_mem_bp quota-goal
+> evaluation so userspace can watch goal convergence without polling
+> sysfs.
+> 
+> Userspace setup model
+> 
+> Userspace selects the sampling PMU by pointing the perf event's
+> `type` / `config` at it, and chooses the scheme topology that suits
+> the address space the PMU reports on.  No module load or unload step
+> is involved; `echo on > state` arms the substrate, `echo off > state`
+> disarms it.
+> 
+> Two configurations were used for validation.
+> 
+> Configuration A: AMD IBS Op, paddr ops, system-wide PULL+PUSH tiering
+> 
+>   IBS Op stamps samples with physical addresses, so DAMON reasons over
+>   every backing page in the system regardless of which task or guest
+>   touched it -- the substrate becomes a system-wide tiering controller.
+> 
+>   Setup (abridged; `D=/sys/kernel/mm/damon/admin/kdamonds/0`):
+> 
+>     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
+>     echo 1     > $D/contexts/nr_contexts
+>     echo paddr > $D/contexts/0/operations
+> 
+>     # Two regions, one per NUMA node (DRAM + CXL).  PA ranges
+>     # are derived per host from /proc/iomem; omitted here.
+>     echo 1 > $D/contexts/0/targets/nr_targets
+>     echo 2 > $D/contexts/0/targets/0/regions/nr_regions
+>     echo <DRAM_LO> > $D/contexts/0/targets/0/regions/0/start
+>     echo <DRAM_HI> > $D/contexts/0/targets/0/regions/0/end
+>     echo <CXL_LO>  > $D/contexts/0/targets/0/regions/1/start
+>     echo <CXL_HI>  > $D/contexts/0/targets/0/regions/1/end
+> 
+>     # IBS Op event, period-based, paddr-stamped:
+>     PE=$D/contexts/0/monitoring_attrs/sample/perf_events
+>     echo 1 > $PE/nr_perf_events
+>     echo $(cat /sys/bus/event_source/devices/ibs_op/type) > $PE/0/type
+>     echo 0      > $PE/0/config
+>     echo 1      > $PE/0/sample_phys_addr
+>     echo 0      > $PE/0/freq
+>     echo 262144 > $PE/0/sample_period
+>     echo 0      > $PE/0/exclude_kernel
+>     echo 0      > $PE/0/exclude_hv
 
-diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-index 26598a98c0f69..561e7bff58379 100644
---- a/Documentation/dev-tools/kernel-api-spec.rst
-+++ b/Documentation/dev-tools/kernel-api-spec.rst
-@@ -285,6 +285,35 @@ custom validation functions via the ``validate`` field in the constraint spec:
-     .type = KAPI_CONSTRAINT_CUSTOM,
-     .validate = validate_buffer_size,
- 
-+Tracepoints
-+-----------
-+
-+When ``CONFIG_KAPI_RUNTIME_CHECKS`` is enabled, the syscall validation path emits
-+two ftrace tracepoints (in the ``kapi`` trace system) for every syscall that has a
-+specification:
-+
-+- ``kapi_syscall_enter`` -- fired before parameter validation, recording the spec
-+  name, the raw syscall argument values, and -- when the spec provides parameter
-+  metadata -- a rendered ``name=value`` list: pointer-like values are shown in hex,
-+  integers and file descriptors in decimal, and an unnamed parameter as ``arg``.
-+- ``kapi_syscall_exit`` -- fired after the handler returns, or in place of the
-+  handler when parameter validation rejects the call (the handler is skipped and
-+  ``-EINVAL`` is returned). Records the spec name, the return value, and
-+  ``spec_match``: 0 when the call did not conform to the spec -- the parameters were
-+  rejected, or the return value was not one the spec allows -- and 1 otherwise.
-+
-+Unlike the ``pr_warn_ratelimited`` violation reports, the tracepoints capture every
-+spec'd call rather than only violations, are lossless under load, and can be filtered
-+with the usual ftrace facilities. They require ``CONFIG_TRACEPOINTS`` and stay dormant
-+until enabled::
-+
-+    # echo 1 > /sys/kernel/tracing/events/kapi/enable
-+    # cat /sys/kernel/tracing/trace
-+     ...  kapi_syscall_enter: sys_read(fd=3, buf=0x7ffd46780b58, count=0x340)
-+     ...  kapi_syscall_exit: sys_read = 832 spec_match=1
-+     ...  kapi_syscall_enter: sys_open(filename=0x480300, flags=268435456, mode=0x0)
-+     ...  kapi_syscall_exit: sys_open = -22 spec_match=0
-+
- DebugFS Interface
- =================
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ddfd9cad98916..48def631ad823 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13823,6 +13823,7 @@ L:	linux-api@vger.kernel.org
- S:	Maintained
- F:	Documentation/dev-tools/kernel-api-spec.rst
- F:	include/linux/kernel_api_spec.h
-+F:	include/trace/events/kapi.h
- F:	kernel/api/
- F:	tools/kapi/
- F:	tools/lib/python/kdoc/kdoc_apispec.py
-diff --git a/include/trace/events/kapi.h b/include/trace/events/kapi.h
-new file mode 100644
-index 0000000000000..47828f3338828
---- /dev/null
-+++ b/include/trace/events/kapi.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM kapi
-+
-+#if !defined(_TRACE_KAPI_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_KAPI_H
-+
-+#include <linux/tracepoint.h>
-+
-+/* Max length of the rendered "name=value, ..." parameter list. */
-+#define KAPI_TP_PARAMS_LEN 256
-+
-+/*
-+ * Emitted from the CONFIG_KAPI_RUNTIME_CHECKS syscall validation path for
-+ * syscalls that have a KAPI specification: kapi_syscall_enter fires before
-+ * parameter validation, kapi_syscall_exit after the handler returns.
-+ * @name is the spec name, e.g. "sys_open".
-+ *
-+ * kapi_syscall_enter carries both the raw argument values (args[]) and, when
-+ * the spec provides parameter metadata, a rendered "name=value" list (params,
-+ * built by the caller): pointer-like values in hex, integers and fds in decimal.
-+ */
-+TRACE_EVENT(kapi_syscall_enter,
-+
-+	TP_PROTO(const char *name, int nargs, const s64 *args, const char *params),
-+
-+	TP_ARGS(name, nargs, args, params),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,	name	)
-+		__field(	int,	nargs	)
-+		__array(	u64,	args,	6	)
-+		__string(	params,	params	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->nargs = nargs;
-+		memset(__entry->args, 0, sizeof(__entry->args));
-+		if (args && nargs > 0)
-+			memcpy(__entry->args, args,
-+			       min_t(int, nargs, 6) * sizeof(__entry->args[0]));
-+		__assign_str(params);
-+	),
-+
-+	TP_printk("%s(%s)", __get_str(name), __get_str(params))
-+);
-+
-+TRACE_EVENT(kapi_syscall_exit,
-+
-+	TP_PROTO(const char *name, long ret, bool spec_match),
-+
-+	TP_ARGS(name, ret, spec_match),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,		name		)
-+		__field(	long,		ret		)
-+		__field(	bool,		spec_match	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->ret = ret;
-+		__entry->spec_match = spec_match;
-+	),
-+
-+	TP_printk("%s = %ld spec_match=%d",
-+		  __get_str(name), __entry->ret, __entry->spec_match)
-+);
-+
-+#endif /* _TRACE_KAPI_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/kernel/api/kernel_api_spec.c b/kernel/api/kernel_api_spec.c
-index 1a9041a7f21a4..2aa8c04a5851e 100644
---- a/kernel/api/kernel_api_spec.c
-+++ b/kernel/api/kernel_api_spec.c
-@@ -659,6 +659,45 @@ EXPORT_SYMBOL_GPL(kapi_print_spec);
- 
- #ifdef CONFIG_KAPI_RUNTIME_CHECKS
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/kapi.h>
-+
-+/*
-+ * Render a syscall's parameters as a "name=value, ..." string for the
-+ * kapi_syscall_enter tracepoint.  Names come from the spec; pointer-like
-+ * values are shown in hex, integers and file descriptors in decimal.
-+ */
-+static void kapi_trace_format_params(const struct kernel_api_spec *spec,
-+				     const s64 *args, int nargs,
-+				     char *buf, size_t size)
-+{
-+	int i, used = 0;
-+
-+	buf[0] = '\0';
-+	/* Bound by the caller-supplied arg count; the spec arity may differ. */
-+	for (i = 0; args && i < nargs && i < 6; i++) {
-+		const char *name = "arg";
-+		bool dec = false;
-+
-+		if (i < spec->param_count) {
-+			const struct kapi_param_spec *ps = &spec->params[i];
-+
-+			if (ps->name)
-+				name = ps->name;
-+			dec = ps->type == KAPI_TYPE_INT || ps->type == KAPI_TYPE_FD;
-+		}
-+
-+		used += scnprintf(buf + used, size - used, "%s%s=",
-+				  i ? ", " : "", name);
-+		if (dec)
-+			used += scnprintf(buf + used, size - used, "%lld",
-+					  (long long)args[i]);
-+		else
-+			used += scnprintf(buf + used, size - used, "0x%llx",
-+					  (unsigned long long)args[i]);
-+	}
-+}
-+
- /**
-  * kapi_validate_fd - Validate that a file descriptor value is in valid range
-  * @fd: File descriptor to validate
-@@ -1154,16 +1193,24 @@ EXPORT_SYMBOL_GPL(kapi_validate_syscall_param);
- int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 				 const s64 *params, int param_count)
- {
--	int i;
-+	int i, ret = 0;
- 
- 	if (!spec || !params)
- 		return 0;
- 
-+	if (trace_kapi_syscall_enter_enabled()) {
-+		char pbuf[KAPI_TP_PARAMS_LEN];
-+
-+		kapi_trace_format_params(spec, params, param_count, pbuf, sizeof(pbuf));
-+		trace_kapi_syscall_enter(spec->name, param_count, params, pbuf);
-+	}
-+
- 	/* Validate that we have the expected number of parameters */
- 	if (param_count != spec->param_count) {
- 		pr_warn_ratelimited("API %s: parameter count mismatch (expected %u, got %d)\n",
- 			spec->name, spec->param_count, param_count);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto out;
- 	}
- 
- 	/* Validate each parameter with context */
-@@ -1173,12 +1220,22 @@ int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 		if (!kapi_validate_param_with_context(param_spec, params[i], params, param_count)) {
- 			if (strncmp(spec->name, "sys_", 4) == 0) {
- 				/* For syscalls, we can return EINVAL to userspace */
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto out;
- 			}
- 		}
- 	}
- 
--	return 0;
-+out:
-+	/*
-+	 * Emit the exit event on the rejection path too (the wrapper
-+	 * short-circuits the handler on a non-zero return), so every
-+	 * kapi_syscall_enter has a matching kapi_syscall_exit.
-+	 */
-+	if (ret)
-+		trace_kapi_syscall_exit(spec->name, ret, false);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(kapi_validate_syscall_params);
- 
-@@ -1301,14 +1358,18 @@ EXPORT_SYMBOL_GPL(kapi_validate_return_value);
-  */
- int kapi_validate_syscall_return(const struct kernel_api_spec *spec, s64 retval)
- {
-+	bool valid = true;
-+
- 	if (!spec)
- 		return 0;
- 
--	/* Skip return validation if return spec was not defined */
--	if (spec->return_magic != KAPI_MAGIC_RETURN)
--		return 0;
-+	/* Validate against the return spec when one was defined */
-+	if (spec->return_magic == KAPI_MAGIC_RETURN)
-+		valid = kapi_validate_return_value(spec, retval);
-+
-+	trace_kapi_syscall_exit(spec->name, retval, valid);
- 
--	if (!kapi_validate_return_value(spec, retval)) {
-+	if (!valid) {
- 		/* Log the violation but don't change the return value */
- 		pr_warn_ratelimited("KAPI: Syscall %s returned unspecified value %lld\n",
- 				    spec->name, retval);
--- 
-2.53.0
+FYI, and as you may already know, the current plan [1] is to use the attributes
+probe interface.  With it, the above IBS Op event setup part would look like,
 
+mon_attr=/sys/kernel/mm/damon/admin/kdamonds/0/contexts/0/monitoring_attrs
+echo 1 > $mon_attr/probes/nr_probes
+probe=$mon_attr/probes/0
+echo 1 > $probe/filters/nr_filters
+filter=$probe/filters/0
+echo perf_event > $filter/type
+echo ibs_op > $filter/perf_event_type
+echo Y > $filter/allow
+
+Of course, more details could change later.
+
+> 
+>     # PULL scheme: migrate_hot toward DRAM, gated on
+>     # node_eligible_mem_bp(nid=DRAM) goal target_value=TARGET_BP.
+>     # addr filter restricts source to the CXL range.
+>     # PUSH scheme: migrate_hot toward CXL, gated on
+>     # node_eligible_mem_bp(nid=CXL) target_value=10000-TARGET_BP.
+>     # addr filter restricts source to the DRAM range.
+>     # Both schemes are migrate_hot; they converge from opposite
+>     # directions on the same hot working set.
+> 
+>     echo on > $D/state
+> 
+>   Userspace tunes the steady-state DRAM:CXL split by writing the goal
+>   `target_value`s; DAMON's quota autotuner drives migration intensity
+>   to match.
+> 
+>   Workload: a QEMU/KVM guest pinned to one NUMA node, running 32
+>   multichase multiload threads each touching a 4 GiB working set
+>   (~128 GiB aggregate) with the memcpy-libc kernel.  The guest sees
+>   a flat single-NUMA layout and has no direct view of the host's
+>   tiering topology, yet its hot pages are migrated to DRAM and cold
+>   pages pushed to CXL by host-side DAMON acting on IBS-stamped
+>   physical addresses -- the application inside the guest benefits
+>   from tiering it never had to be aware of.  Validated on AMD Turin
+>   (132-CPU EPYC).  The configuration converged to its target ratio
+>   in seconds and remained stable for 7+ hours continuously, with no
+>   perf core auto-throttle and no measurable drift in the achieved
+>   interleave ratio.
+> 
+> Configuration B: Intel PEBS L3-miss, vaddr ops, per-PID weighted-dest
+> 
+>   PEBS reports vaddr samples in the context of the running task.
+>   DAMON's vaddr ops monitors a specific PID.
+> 
+>   Setup (abridged):
+> 
+>     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
+>     echo 1     > $D/contexts/nr_contexts
+>     echo vaddr > $D/contexts/0/operations
+> 
+>     echo 1     > $D/contexts/0/targets/nr_targets
+>     echo $PID  > $D/contexts/0/targets/0/pid_target
+>     echo 0     > $D/contexts/0/targets/0/regions/nr_regions
+> 
+>     # PEBS MEM_LOAD_RETIRED.L3_MISS, frequency-based, vaddr-stamped:
+>     echo 1      > $PE/nr_perf_events
+>     echo 4      > $PE/0/type           # PERF_TYPE_RAW
+>     echo 0x20d1 > $PE/0/config         # umask=0x20 event=0xd1
+>     echo 0      > $PE/0/sample_phys_addr
+>     echo 1      > $PE/0/freq
+>     echo 5003   > $PE/0/sample_freq
+>     echo 2      > $PE/0/precise_ip
+>     echo 1      > $PE/0/wakeup_events
+> 
+>     # Single migrate_hot scheme with two weighted destinations
+>     # (DRAM + CXL).  Userspace tunes the steady-state interleave by
+>     # writing dests/{0,1}/weight.
+> 
+>     echo on > $D/state
+> 
+>   Workload: 32 multichase multiload threads with a 4 GiB working set
+>   each (~128 GiB aggregate) running directly on the host, monitored
+>   by DAMON via the multiload PID.  Validated on Intel Granite Rapids
+>   (144-CPU).  Convergence is fast and the system is stable.
+
+Thank you so much for sharing the great prototype implementation and test
+results!
+
+I will try to make fast progress on milestone 1.  I will hold reviewing details
+of this series for now, as there could be more changes.  But in the high level,
+this looks promising.
+
+> 
+> [1] https://lore.kernel.org/linux-mm/20260516223439.4033-1-ravis.opensrc@gmail.com/
+> [2] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
+
+[1] https://lore.kernel.org/20260525225208.1179-1-sj@kernel.org/
+
+
+Thanks,
+SJ
+
+[...]
