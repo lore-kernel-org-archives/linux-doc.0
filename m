@@ -1,128 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92358362157;
-	Sat, 30 May 2026 16:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780159957; cv=none; b=BDZAKYzDdRd89Hp+JBvPlhXi99j6K6XLPSFPovcg3yk74c06ILOiWngWI8c6HuX1RMUMfx1L7+msWeOZCU2LBxF5zUX0MhEpt5j0nBo0zq7tWfpBV5mHExwax3c4HLVsySl06/DqZ3+Z3X3PFanIYiEW5TdDH0+4wL8Vm41iwHc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780159957; c=relaxed/simple;
-	bh=jvBKcpRPqMkElAvtnlHvFX3fE1zwl2ElCd+UJN1nO+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tp86fPb7ZeF9qW2sNrssyEBfDZbKMns48L3OzumMbfP/jFm5O24x9QKBAQWbeGksdeg2ogxeKHTAYpbCC9A0PkaAFG+fTIlG8LldDYX6EH1+/LDZMT7ZBjArs60srSvTqEiVBvrjRfT5GQD30W6IcTVWyLwrGqJ3HKVg1oYWuwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ErTE6kd7; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9364A2773DE
+	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 19:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780170047; cv=pass; b=RBk0p/4m3Q3GTbZ824zsxIcNPBJLid6TAaFBDl2Z7KIsHDJ8XTMC2D3JEWQffXZdUJB6WDrjOkBOG631F2XoeonRxe8bUz6XHy/QX8AYKoDu66FavhzeBqw/GPmx0GlPkmCK6B0eATTBFfuJK1RVNjq/alvHqms/L43tEM+segA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780170047; c=relaxed/simple;
+	bh=cIra25/7V0IbwrRRmDW+gsrIYwnkI1A+HRB1U6+DiGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QRL+Mnoao7Wlez5jOrFpn6ecGocxnLGHqE1Ucp8vP2fbUrsLHFOb3mG2+coX9dPbs94eXP+QTBZOjr7wetB/YOHoYwFCHOrE+JkG7xxM1Uwd2bs8dMw6VfOQoJdrHCgBRnyCfs08/2QdnHoGPy3qoTqkXjo0UaB4d/xYC3hDJUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=MY6DdfAL; arc=pass smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErTE6kd7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE06F1F00893;
-	Sat, 30 May 2026 16:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780159956;
-	bh=8UNb1/3qGmB4zSX8MLGFUwdcMgPk4T11baGG/hOQ7Cg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ErTE6kd7JtWaVBDAoXu2s7i33/fLSNJOgv99y2jirEIh5FRREhKyHEBpPSt60wuGB
-	 AF/SOzPfIvWwO0hK4X+wKLOyMMpot4HDZOhFrm7Sj/C3AKPURyGBLHLnNVflxDtTgB
-	 dBfmMUVNRAHFI1XwUKnpoxRso8AxGDhPJwVh+jfDUkiaMr529dMx/JZ4Ossvp9Y3KS
-	 hBplQJ73LWwxWvMO/09GaoCXEwwOdgi15VCVTwkzR5ITTHqJ8rlCkZCdIbRmYtOwM8
-	 t4MJQK6U335Nd8iHwPDAoAaDYkjqoEojWMw8xzoyXjqqKTDiA1RqrlWDGy931gkTgu
-	 EvuS8mB+7V7Ow==
-Date: Sat, 30 May 2026 19:52:25 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Kiryl Shutsemau <kirill@shutemov.name>, akpm@linux-foundation.org,
-	peterx@redhat.com, david@kernel.org, surenb@google.com,
-	vbabka@kernel.org, Liam.Howlett@oracle.com, ziy@nvidia.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com,
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com,
-	sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
-	kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
-Message-ID: <ahsVyQZ5UXhJLct2@kernel.org>
-References: <20260526130509.2748441-1-kirill@shutemov.name>
- <20260526130509.2748441-5-kirill@shutemov.name>
- <ahmQvfNk7S4F0LBj@lucifer>
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="MY6DdfAL"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7dca5a81be2so29057587b3.2
+        for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 12:40:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780170045; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Cm9B8QaOpIvYJ6p7NGCTou5n+Dl/C7SO0LOHOaWWpmmEvew/oAvYCE7/i7dIvDcPGy
+         doIbpTIeJUqK1MqPhOLtZRNXNPhKfT6wjBUZWr3vhscxQ/PzHWYN6UzquSXUCrM2LTMH
+         CDZKceg9/dSsIxZhKvsD/HlBV/XlMm53lG5WMhLq6iIn3LhzEfQz9XM9w6Y9hXgkp2Vd
+         4sn8+KqFRWMnXr5Xw/1kqoNSQtyxb17rQBnt87zQwdQI5GGeddHU1R9G/htHeeW6T2u3
+         NyQpxPQn/AtY3+vnzDaW7bYd6eAQmxXZygoTFC8c7lYUtflS8oO2rHjHA6R50ar8A4+Y
+         XblA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZhMPXpo5C9bO9KiY6ITYmWYOylh8Rc870xEi824FVCY=;
+        fh=otMjKixhZJli/Xxw7rRoZhUn8dAsbzkYVGtwwImUyiM=;
+        b=PeJLS1cy+6s2+e07AOMKgD8cuGSVeK0LP2kLzChOkg+vXgTnPK06E4GRBEuKPBVzyl
+         x0+Sl8BU2jRVP14YRHPty6VedonJv3IBXHkM13ZZCNRl8pKhscVp/GisBTdAbTE5uIui
+         ufkwhKfvZe9i1q+4G8maysvvb5Fg+qX5Ec7oYcHvVvErI5HEDsG0PrVjXBb5Dy0kTkEp
+         Wox5VHnrPJqR7dHMJ/8T/6TAEz8obR1gukqQELE7ekBsaqei99Pd3rIF+ovhIp88kzPz
+         HRfOzwMYIwd8Jyp0mMaw8OPF6EWNBnxARpHutGcvNH98Gfs+WfxD/bKG5jwvx/bYbJfE
+         A2vA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc.com; s=google; t=1780170045; x=1780774845; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZhMPXpo5C9bO9KiY6ITYmWYOylh8Rc870xEi824FVCY=;
+        b=MY6DdfALfU2jE5XLhMv850ewVAbg2AmF3OlwgDROnQb8CBjUKLuT9j/n2VnQ1OaHEH
+         Fj1l8ZMwvmY4tMJXPfKAURVwRyrsKNGa5283gCuH8ezfn6U8pEK2kPcFD/K0WlrUaVXq
+         S1fi5+HpURX51EOa10v4vWvD+ORNKj741qku/aslBKkRr5XeTXfUDpYQRk/zhjYrCj15
+         R4uj1z6YRwSNUKm9YtnMBEcQV37eY/nm1e2Z/gnZHEgeOBbjIaveXR5n4e4AArW141Fp
+         9H9ECvGeM9Z0mvi8AuibXvo46pvYOecKgCtkqN3zC4DdGwiValuykAC5Xzm4H7wB3nVo
+         cHCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780170045; x=1780774845;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZhMPXpo5C9bO9KiY6ITYmWYOylh8Rc870xEi824FVCY=;
+        b=q69cn9bHj1Y03HEc+nKAvrGLPYTE3uKCH9uBCKlMlBgvn8SeqaWR7TrxLAZ2FQS85y
+         JVNlUplogphd3LE9ms30u4PzvpsoVw45JE5ShYicIDdtav7/sL+jmUvfDt8v17DQvWan
+         56XSfHRHeWTVLVUQrSi0pqWSSw1wZRNpETO252nX8wWTzdbp3mahxNO1QMH94DIel2rq
+         yrHD+iJMo03RS75zP5WO/drru+VQSqJ0wqhYF2UKdaTj/iYeRHFGVjvJBKh8OLLVL9Z3
+         JfOwtkW6rA0A4bcGj5CU7CBHHiGfyoe54spdH1xDO/0Oyfc6ur695zbgVYJD/gXVTam5
+         EdkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8VqIOLVstWSKh/lqpIjSXGuCWk63OMj1xFyaN3PFKSYbqAby+REXyHuVPgZMg0ZSqz4TuJa9lUwvQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUuW5Pus7BZszJ9a7jR5SVLJgND0E4sJ1p1sCvN6YcjX6BqHSi
+	SPUnuVfhZcOWwPrapcCzc3WZnuKHNa41Syf/qj/mX9pHFA0WH6UpGQJwq7aaazHdJjW3SVwB3Ob
+	nfMHRG5Ah77CrTMtsjkP665mA71v0oR26rU2JzfzRPg==
+X-Gm-Gg: Acq92OHyIbE5orCQdzmIkat6/2oKxCxNHixkTq2habrI0UVh5mrhMOqf2to5XQefOmc
+	HhKs3DE3WMi8E68Omyo2H4EpQtIyO1FzS0ZHDq4Q/IL//+zwWge5m0yu+OvRaPtHNuz9g/NkEE2
+	xKObbd/zxtWgjDJWAq77pn2tgify+AwnC6aXaxr5WSLk1bBX0D1FTxbg5O9HL0++3yXFfMwmhlW
+	2iTwhpp6jCMnXHLx9E3nrOx3ZelzIJ7wQ3cAtgf8iXVkc0pN4yNEH23bfAG3Gsd0+3OOhqz2RS/
+	WX9+Kt2UgvqqXi09hsVVKfYjh66lR/EPkVwYMSe2Cs+qd5o0HKM=
+X-Received: by 2002:a05:690c:f04:b0:7b2:513b:34d7 with SMTP id
+ 00721157ae682-7e05c664b30mr45779587b3.29.1780170044578; Sat, 30 May 2026
+ 12:40:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahmQvfNk7S4F0LBj@lucifer>
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+ <20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com> <87jyslndo4.fsf@igel.home>
+In-Reply-To: <87jyslndo4.fsf@igel.home>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Sat, 30 May 2026 12:40:33 -0700
+X-Gm-Features: AVHnY4L_dtmKXZYG4oLZDjuNSTdF7bCgCYfC8yAIbkNUuu6y-j26ASIyCiMoR50
+Message-ID: <CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
+Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+To: Andreas Schwab <schwab@linux-m68k.org>
+Cc: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 29, 2026 at 03:00:14PM +0100, Lorenzo Stoakes wrote:
-> On Tue, May 26, 2026 at 02:04:52PM +0100, Kiryl Shutsemau wrote:
-> > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+On Sat, May 30, 2026 at 8:02=E2=80=AFAM Andreas Schwab <schwab@linux-m68k.o=
+rg> wrote:
+>
+> On Nov 12 2025, Deepak Gupta via B4 Relay wrote:
+>
+> > From: Deepak Gupta <debug@rivosinc.com>
 > >
-> > vma_flags_t is one unsigned long on 32-bit -- NUM_VMA_FLAG_BITS ==
-> > BITS_PER_LONG by design, so VM_xxx-declared bits sit in the first
-> > word and hit the single-long fast path. But the bit enum declares
-> > some bits unconditionally above BITS_PER_LONG (VMA_UFFD_MINOR_BIT
-> > == 41 today, with VM_UFFD_MINOR == VM_NONE on 32-bit so no VMA
-> > actually carries the bit).
-> 
-> Yeah ugh.
-> 
-> > Passing such a bit to mk_vma_flags() goes through __set_bit(41,
-> > &one_long) and writes one word past the end. The compiler folds
-> > the OOB store with wraparound (1UL << (41 % 32) == bit 9) into
-> > the first word. Bit 9 is already in __VMA_UFFD_FLAGS so the mask
-> > happens to come out right today, but any high-numbered bit whose
-> 
-> That is... helpful :) but not great that this is the situation, an
-> oversight, clearly! How I hate 32-bit kernels :)
-> 
-> > mod-BITS_PER_LONG position is otherwise unused would silently OR
-> > an extra bit into the mask.
+> > `arch_calc_vm_prot_bits` is implemented on risc-v to return VM_READ |
+> > VM_WRITE if PROT_WRITE is specified. Similarly `riscv_sys_mmap` is
+> > updated to convert all incoming PROT_WRITE to (PROT_WRITE | PROT_READ).
+> > This is to make sure that any existing apps using PROT_WRITE still work=
+.
 > >
-> > Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
-> > of range to it. vma_flags_set_flag() drops negative bit values.
-> > The ternary collapses at compile time, the runtime check folds
-> > away when the bit is in range, and the common path is unchanged.
-> 
-> Hmm are you sure it does?
-> 
-> A key design goal was that mk_vma_flags() generates compile-time constants
-> the same as if the bitmap were constructed independently.
-> 
-> This surely must generate code? Or at least runs a significant risk of it?
+> > Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encoding=
+s.
+> > Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
+> > encodings for shadow stack. Above changes ensure that existing apps
+> > continue to work because underneath kernel will be picking
+> > `protection_map[VM_WRITE|VM_READ]` PTE encodings.
+>
+> This breaks LTP mmap04:
+>
+> $ ./mmap04
+> tst_test.c:2042: TINFO: LTP version: 20260529.5ccf816f
+> tst_test.c:2045: TINFO: Tested kernel: 7.0.10-5-default #1 SMP PREEMPT_DY=
+NAMIC Sat May 23 12:09:09 UTC 2026 (bb95589) riscv64
+> tst_kconfig.c:90: TINFO: Parsing kernel config '/proc/config.gz'
+> tst_kconfig.c:753: TINFO: CONFIG_FAULT_INJECTION kernel option detected w=
+hich might slow the execution
+> tst_test.c:1870: TINFO: Overall timeout per run is 0h 04m 00s
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: ---p
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: ---s
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: r--p
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: r--s
+> mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w=
+-p, found: rw-p
+> mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w=
+-s, found: rw-s
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: rw-p
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: rw-s
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: r-xp
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: r-xs
+> mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w=
+xp, found: rwxp
+> mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w=
+xs, found: rwxs
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: rwxp
+> mmap04.c:66: TPASS: mapping permissions in /proc matched: rwxs
 
-...
+But what does a writable only mapping even mean? It can always be read.
+I see two ways forward:
 
-> A simple solution that doesn't require change to the core is to just uglify
-> userfaultfd_k.h a bit with:
-> 
-> #ifdef HAVE_ARCH_USERFAULTFD_MINOR
-> #define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT, \
-> 				      VMA_UFFD_MINOR_BIT)
-> #else
-> #define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT)
-> #endif
-> 
-> But of course that becomes much more horrible with your changes...
-> 
-> Another alternative, which I used for VMA_DROPPABLE is to add something
-> like this in mm.h:
-> 
-> #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
-> #define VM_UFFD_MINOR	INIT_VM_FLAG(UFFD_MINOR)
-> +define VMA_UFFD_MINOR	mk_vma_flags(VMA_UFFD_MINOR_BIT)
-> #else
-> #define VM_UFFD_MINOR	VM_NONE
-> +define VMA_UFFD_MINOR	EMPTY_VMA_FLAGS
-> #endif
+- It can be done in generic way where incoming PROT_WRITE means
+  PROT_READ | PROT_WRITE irrespective of RISC-V. Although others
+  (x86, arm, etc) would have to weigh in.
 
-I have a PoC of yet another alternative:
+OR
 
-https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=uffd/vm-flags
+- mmap04 LTP test can be updated to expect either of "rw-p" or "-w-p"
+  whenever only PROT_WRITE was specified.
 
-The idea there is to keep a single VMA flag, VMA_UFFD_BIT/VM_UFFD and move
-all the rest into what's now struct vm_userfaultfd_ctx.
+I think latter (updating mmap04 test) is the easier path.
 
--- 
-Sincerely yours,
-Mike.
+>
+> Summary:
+> passed   10
+> failed   4
+> broken   0
+> skipped  0
+> warnings 0
+>
+> --
+> Andreas Schwab, schwab@linux-m68k.org
+> GPG Key fingerprint =3D 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC=
+1
+> "And now for something completely different."
