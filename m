@@ -1,272 +1,353 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DE0249EB;
-	Sat, 30 May 2026 00:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780099511; cv=none; b=NTTN4rZqUq+fnpHJAO+j8PqYyDdbzibXSzRtyD+g0UOBuT1LxRFzQdthmXD5iysdibVfWeQyktLBgrHpbdZD4eWn9Hzpp2SxOgh3knBpIKMQiTtzE3rJ+xUh8Sd6lYhRJb+XRJ7qiJmKCx0CCj1k3OTdVZ0Qhz5AOnOQcdUUWbw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780099511; c=relaxed/simple;
-	bh=pOc36OwMlu4s0P+Hx06cFzv83mzssJLOBSGQNWM1WoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G5RN7H8sxmfnOLAJktS1AOOEOKEYHBn4KjMKtOmM9e6+4La+Zsxs6LRMFJjpreWRDzHJ8V+Etng3+/F56z9jCZilCvRaeOzNzDFILMojZYJd0v5prF6YBbzZu0dd5POkTFf8dGH4/bESjfT0E2702/kpB9UAqexFuwQZc4T8wdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i+z8niQ6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9263826FD97
+	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 00:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780101766; cv=pass; b=flHiZ74Fvs1EnAXG9dAt+XdpCMSorIbvaakn40+b1GuO21B8lNFDjq/o5T9NgBOUslDkMIR8JAjpXvLPOZNC4SlTN0TChb6CWNiHGmNMYdNhTWUGiHo4FQgUTfThWYwWfbCMj/qBntUSQdDN9L3128BaU1fUioivDagjUL3eT/0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780101766; c=relaxed/simple;
+	bh=/5hCjxhlblu/dDXbaNzug8TLexppU7uEC3A76MTRqK8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XzCmP4BaV4Ckq1wVC3Y63232NAqkN1je7Uaf9vMgXOrFNM8GERTHVrDDjMgaXqXFCCIP63vdCPTiyAPToKcqW77TFLikZcZMg2nJr4D1+o7j6WbFwIfmVfgXo9qzZKwBFIVQmldGzcP37CUhfVP+RjjwFHhDLNwpOFfRuXXDLLA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=ndRGDEmc; arc=pass smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i+z8niQ6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E1B51F00893;
-	Sat, 30 May 2026 00:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780099509;
-	bh=njDJvj09HuPHDKjMB6WRVtdXJLDfda9NGRMsHpQiz3E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i+z8niQ6GdLZBj5TiMTO1yYO1Bo/zTV+xgkYgPNYO55YV0MzKHxVPAg4iVuSxDeP7
-	 XWPs6CrguNLPUXa4auUshFm6/HbX0wuOVPIphS9MLuZ7tz86C/VNkcSjQn6dxC8lCG
-	 gUgYrGPb3psK0Ovgf2husPTkj4qPhxBt5WIOZUcRJDwwDvfwEFI4RqI6j/q/7yUpCN
-	 oEwd1DxBIJ9NtFd5ztdHTmndRLPQ9P+tC3zAKK2G1bi/GVYWx4ccg91RbTTY6pn325
-	 jDuPWenkYuhfpGkOXMkqB6mnoXJwZuvyyWUjtKHFxmz80ayQf3Lt9dloK4QybvbW2a
-	 QY5NuMAHOwZUA==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	akinobu.mita@gmail.com,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
-Date: Fri, 29 May 2026 17:04:59 -0700
-Message-ID: <20260530000500.87407-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260529165640.820-1-ravis.opensrc@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="ndRGDEmc"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-65c1ba7eeb6so14311130d50.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 May 2026 17:42:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780101760; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VpR/qsfcW/PgCkCuCJu7HGlZl2Zvy1sC8LMcB4YotVpciiInmAhKSr8K/BTpXbR2gE
+         lWxJRjCwJMPp3k0ndxepu2nMVncWylxk2M7Y24fDFavbyWhQoETFyeQ3ehsYdpjcSstl
+         pwTOVqLZIMB404/8ytNg79G12pomdab6Kw3sBTcmkaVPvmjUSOaLN3re6PJd8W0XPxtg
+         Bn90dHJ5nxR9zMZ7OFK+I3ZVrRi0WIH05v2re0WoshPuzvNICCqQ5DbN7nZlUTXudJq9
+         7y7qqHMtG8yQbYkuIiaSdQ6oZnUG4KlwH3n+yYS4JgbaHX1ac+Gc5v85QqoAaqAniHkN
+         Vthg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9C6pC6G8jgQw8SEpFdd3tqY/qCEk2540e42V0ZevSno=;
+        fh=IMf1ZfiwsUjD35NOET+Gh1YKTxd92CLmGZ1R0qHzj6o=;
+        b=ZL7R8D+FFsiwk2xqmgMw509tDS/4U67DZGVvwk+sP0EP7mmLE2/kxxXdZeMuje3kwV
+         Gt04viqy+usNNKVieCUyHUnQnnuYMd1EE285xUksmFyTfjM0ZzJY8Wv84YGsnr0EzfHr
+         QH/lPHdAKO0jrlJq3cyq9z2WfyuTAJGxR/kf37dZcJpKhn35VUdwJq2flWYS/GqqbfGe
+         McDggT5hcaG9m6C371xtrd+4ELG/OIsE0Tzp97b9NzMmqEG0as06kgEufGnAqrwUDVGx
+         Ow5ROlc9gMIqkN+2wQoGDp45glJFLKag3jio5uEYdkIcleEz+G5wJS/yxuhdVHhTLMnS
+         CgMA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1780101760; x=1780706560; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9C6pC6G8jgQw8SEpFdd3tqY/qCEk2540e42V0ZevSno=;
+        b=ndRGDEmcMS8m1gf3t/4lh9/7t0pDux+9viZ7kJ9bR+EDtuJsSFFFiksxQFI3uz/o8G
+         f3HTIQtrcHjQpIffkMhhnDIAqB7wRdUt5KWK40x/lEoTnKAAz3gJ7H8HQRTV5vfkMqfx
+         gcekgRx19xcqJ2N63kUWmX3P+GFGz1wVQvqx0pcJmcau8pJugYlX1A847j/WZYqj3RDD
+         K3C68TKvSY7gJibeJXjzm2w5muAZ4FpxgiEtYOqn9lG6DngLmcKf5EPqpKAWhFQWuqX4
+         NXWbp21Ya5vjsx4JPP0TrdoFR1DOINmf/SdyQSEA9Qz0iQh/dTP1kwXC/UeHWjHNJghu
+         4X4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780101760; x=1780706560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9C6pC6G8jgQw8SEpFdd3tqY/qCEk2540e42V0ZevSno=;
+        b=LModyxd8kCqfECrjCjDMLcHfV1A3lXb7GQF8XHPdMW19VSudQXEEGl+aqLOqYgHAze
+         F75Pktuc2omeXua6i0uyX9QWshOqlFcdCr5NY+7tUIctoJ7ZfMDfguLy6R/R0ar0E9Iv
+         hlim09Fgy3KJJiVejWILMqao7yVT+H1s5tlYimc+swoGq2yM5j1DGVJnH+ru5X4wVQuO
+         tt+/ghUII4vhExRYEA108f8HnXjvbgRwHSjqsJ5WpwLZJVe87aB4nePR4c/Qa4Br39r/
+         lKL5OBqdomQgLgG5jmqQ6gZ4O138kTQDn9ltQFEYrJ6bN2Ed2+uPhd5+j7E8oMcBLKLy
+         zINA==
+X-Forwarded-Encrypted: i=1; AFNElJ8owNoi4Zo95kKgZlxNhUOmuvM7MgqDajF8GcVN5ByWM4sFXUP6sQHaKrh7gdEC6HXT12tNats5JEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiWo6EMI8eHIOMcY9lZqkpvjTRgCbrDUG72iEMD/ba3GULkA7U
+	tkSEIAE5EXmHXd4PWojt/REIPnc8q+yHmYKiGASICo0CBPMIZs6caabjvgMEi4ArJXay0Ar3LpW
+	GdBd4EntUk4Yla2ApwcQccbTU8NTmR9WOQhYAeNKCZA==
+X-Gm-Gg: Acq92OFYdk6PN/4tsYtjGmAWVR4IstV9InPzjUMkKd7iWumTEJOgiXFXSeWPsATsV31
+	6rQgTVCb4phFXApc5G3KbJ1OSccpB1WfmSBWxmDX2p2R8Wfj5+M4fiNIbT960j8vs1DhNbOUUU0
+	cU/XoUI5GjX8wTbpULD+KA1M9b61Kj21cB8Dw/IPrpUUjTWJVHP6lKPDwi2r7p2OTvr12TPxUxe
+	dGc/PPqBVprk44gaJNKCFSkVIgqZj/tVjHMstXcVZlMv2aEp4lKQeHNW7+nAAtXVQsGG3+lpn9U
+	UanhrGEvWyN4BBOnqLLKPXmVe8eo2bqT0FQnXif0aHvEtcIT9HLI3yjZz5I/kfWD2a8=
+X-Received: by 2002:a05:690c:480b:b0:7bd:9566:ef0c with SMTP id
+ 00721157ae682-7e05ea4cc3cmr16766257b3.26.1780101760314; Fri, 29 May 2026
+ 17:42:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc@riscstar.com>
+ <20260511-rva23u64-hwprobe-v2-v2-8-21c5a544f1dc@riscstar.com> <5tjmypgyxbhgxfjub5q6ne475uysse6yl473sxisjoammkdvbu@yebejqbiy6e3>
+In-Reply-To: <5tjmypgyxbhgxfjub5q6ne475uysse6yl473sxisjoammkdvbu@yebejqbiy6e3>
+From: Guodong Xu <guodong@riscstar.com>
+Date: Sat, 30 May 2026 08:42:29 +0800
+X-Gm-Features: AVHnY4L-oTZDn7xRb_-W1DfskfLnWnQK7ds7jlg7EeJxNaRDPoWxDaghmy3erNI
+Message-ID: <CAH1PCMa-5W9PsX8cDLUk6-MkcM53HOz2QtaxCHd+XOr7DgH5+w@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] riscv: cpufeature: Introduce ISA bases bitmap
+ and rva23u64 detection
+To: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <shuah@kernel.org>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atish.patra@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Deepak Gupta <debug@rivosinc.com>, Zong Li <zong.li@sifive.com>, 
+	Christian Brauner <brauner@kernel.org>, Charlie Jenkins <charlie@rivosinc.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, Guodong Xu <docularxu@outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 May 2026 09:56:34 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+Hi, Drew
 
-> This series introduces a vendor and PMU-agnostic substrate inside DAMON
-> that consumes hardware-sampled access reports through the standard
-> perf-event interface.  Userspace selects the PMU through sysfs (raw
-> type/config knobs), driving either Intel PEBS L3-miss sampling or AMD
-> IBS Op sampling.
-> 
-> Why a unified perf-event substrate
-> 
-> Earlier hardware-sampled access-monitoring proposal [1] took an AMD IBS
-> specific module path backend, owning its own probe configuration,
-> sysfs knobs, and lifecycle.
-> 
-> SeongJae Park has previously highlighted the advantage of Akinobu
-> Mita's perf-event proposal [2]: let DAMON register kernel-counter perf
-> events and consume samples from any sampling PMU that perf core knows
-> about.  This series builds on that direction
+On Thu, May 28, 2026 at 12:35=E2=80=AFAM Andrew Jones
+<andrew.jones@oss.qualcomm.com> wrote:
+>
+> On Mon, May 11, 2026 at 09:34:53PM -0400, Guodong Xu wrote:
+> > Introduce a per-hart and host-wide bitmap of conformant ISA "bases" --
+> > named profile-class sets such as IMA and RVA23U64 -- and compute
+> > both at init time.
+> >
+> > This is the cache that subsequent consumers (hwprobe's
+> > RVA23U64 base behavior bit, /proc/cpuinfo's "isa bases" lines, etc.)
+> > read without recomputing.
+> >
+> > riscv_init_isa_bases() iterates over all possible cpus to populate
+> > each hart_isa[cpu].isa_bases, then computes the host-wide
+> > riscv_isa_bases against the AND-across-harts riscv_isa bitmap.  It is
+> > registered as a subsys_initcall so it executes after
+> > core_initcall(tagged_addr_init), which probes senvcfg.PMM and
+> > populates have_user_pmlen_*.  Without that ordering,
+> > riscv_have_user_pmlen(7) would still return its default false and the
+> > RVA23U64 detection path would always bail.
+> >
+> > The detection itself is encapsulated in riscv_set_isa_bases(), which
+> > takes an output bases bitmap and an input ISA bitmap.
+> >
+> > Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+> > Signed-off-by: Guodong Xu <guodong@riscstar.com>
+> > ---
+> > v2:
+> > - Implement riscv_init_isa_bases() that runs at system init time,
+> >   after tagged_addr_init() populates have_user_pmlen_*.
+> > - Split RVA23S64 placeholder into a future patch.
+> > ---
+> >  arch/riscv/include/asm/cpufeature.h | 14 ++++++
+> >  arch/riscv/kernel/cpufeature.c      | 92 +++++++++++++++++++++++++++++=
+++++++++
+> >  2 files changed, 106 insertions(+)
+>
+> Sashiko points out a few things about this patch which I think I
+> agree with
+>
+> https://sashiko.dev/#/patchset/20260511-rva23u64-hwprobe-v2-v2-0-21c5a544=
+f1dc%40riscstar.com?part=3D8
 
-Ah great, so we have no unclear challenge (additional loadable module support
-and conflicts with other IBS modules) on our road for now!  That is, we can
-reuse the stable perf event interface and achieve all our goals!  As I
-previously shared [1], it would take time, but I'm very optimistic about the
-success of this project.  I don't like promising too much, but this project
-looks like something that we can "consider it done".
+Quote the following from Sashiko.dev:
+> Should this mask specify the individual subset extensions required by the
+> profile instead of the superset extensions like RISCV_ISA_EXT_B,
+> RISCV_ISA_EXT_C, and RISCV_ISA_EXT_V?
 
-We can also say that the current candidate of the first
-damon_report_access()-based data attributes monitoring (milestone 2 [1] final
-deliverable) is the perf event based monitoring.
+My preference is to leave the mask on B/C/V (and A) as-is. I'd prefer to
+keep matching on the single-letter, rather than expanding them. Here is why=
+:
 
-> with the changes we
-> needed to run it cross-vendor:
-> 
->   - a per-CPU lockless ring between the NMI sample handler and the
->     kdamond drain,
->   - per-CPU events that follow CPU hotplug cleanly,
->   - events fire only while the monitor is running -- created disabled,
->     armed when kdamond starts, disarmed and drained when it stops,
->   - all-or-nothing init across CPUs: a partial-CPU create failure rolls
->     the whole event back rather than leaving silent gaps,
->   - safe handling of vendor sample-validity flags so a stale or
->     unpopulated address is never mistaken for a valid sample.
-> 
-> What the series adds
-> 
-> Patch 1 introduces the substrate's data types: a per-event
-> configuration struct and a per-context list to hang them on.  A
-> CONFIG_PERF_EVENTS=n build folds to no-op stubs.
-> 
-> Patch 2 exposes those types through sysfs.  Each entry maps to one
-> perf event and lets userspace pick the PMU and how to sample it: the
-> raw PMU type/config, addressing flags, and period or frequency.  The
-> defaults are tuned for Intel PEBS; userspace overrides them for other
-> PMUs.
-> 
-> Patch 3 wires the sysfs apply path so configured events get attached
-> to the running monitoring context.
-> 
-> Patch 4 is the core of the series.  It replaces the mutex-protected
-> report queue with a per-CPU lockless ring fed from NMI by the perf
-> overflow handler and drained once per sample tick by the kdamond.
-> Drained reports are matched to monitored regions by binary search
-> over a per-tick snapshot.  The patch also wires the per-event
-> lifecycle into kdamond: events arm when the monitor starts, disarm
-> and drain when it stops, roll back cleanly when per-CPU init fails on
-> some CPUs, and a second context that asks for the substrate while
-> it is in use is rejected with -EBUSY.
-> 
-> Patch 5 is the perf-event backend.  Two stateless overflow handlers
-> (one vaddr-keyed, one paddr-keyed) are picked at event creation time
-> and submit samples into the per-CPU ring.  Vendor-specific sample
-> validity is honored at this layer.
-> 
-> Patch 6 adds a tracepoint at every node_eligible_mem_bp quota-goal
-> evaluation so userspace can watch goal convergence without polling
-> sysfs.
-> 
-> Userspace setup model
-> 
-> Userspace selects the sampling PMU by pointing the perf event's
-> `type` / `config` at it, and chooses the scheme topology that suits
-> the address space the PMU reports on.  No module load or unload step
-> is involved; `echo on > state` arms the substrate, `echo off > state`
-> disarms it.
-> 
-> Two configurations were used for validation.
-> 
-> Configuration A: AMD IBS Op, paddr ops, system-wide PULL+PUSH tiering
-> 
->   IBS Op stamps samples with physical addresses, so DAMON reasons over
->   every backing page in the system regardless of which task or guest
->   touched it -- the substrate becomes a system-wide tiering controller.
-> 
->   Setup (abridged; `D=/sys/kernel/mm/damon/admin/kdamonds/0`):
-> 
->     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
->     echo 1     > $D/contexts/nr_contexts
->     echo paddr > $D/contexts/0/operations
-> 
->     # Two regions, one per NUMA node (DRAM + CXL).  PA ranges
->     # are derived per host from /proc/iomem; omitted here.
->     echo 1 > $D/contexts/0/targets/nr_targets
->     echo 2 > $D/contexts/0/targets/0/regions/nr_regions
->     echo <DRAM_LO> > $D/contexts/0/targets/0/regions/0/start
->     echo <DRAM_HI> > $D/contexts/0/targets/0/regions/0/end
->     echo <CXL_LO>  > $D/contexts/0/targets/0/regions/1/start
->     echo <CXL_HI>  > $D/contexts/0/targets/0/regions/1/end
-> 
->     # IBS Op event, period-based, paddr-stamped:
->     PE=$D/contexts/0/monitoring_attrs/sample/perf_events
->     echo 1 > $PE/nr_perf_events
->     echo $(cat /sys/bus/event_source/devices/ibs_op/type) > $PE/0/type
->     echo 0      > $PE/0/config
->     echo 1      > $PE/0/sample_phys_addr
->     echo 0      > $PE/0/freq
->     echo 262144 > $PE/0/sample_period
->     echo 0      > $PE/0/exclude_kernel
->     echo 0      > $PE/0/exclude_hv
+- The RVA23 profile lists A, B, C and V as single-letter mandatory
+  extensions; it doesn't enumerate Zaamo/Zalrsc, Zba/Zbb/Zbs, Zc* or the
+  Zve*/Zvl* subsets in the mandatory set.
 
-FYI, and as you may already know, the current plan [1] is to use the attributes
-probe interface.  With it, the above IBS Op event setup part would look like,
+- In current merged code, hwprobe_isa_ext0() is already using
+  riscv_isa_extension_available() signle letter checking for C and V.
 
-mon_attr=/sys/kernel/mm/damon/admin/kdamonds/0/contexts/0/monitoring_attrs
-echo 1 > $mon_attr/probes/nr_probes
-probe=$mon_attr/probes/0
-echo 1 > $probe/filters/nr_filters
-filter=$probe/filters/0
-echo perf_event > $filter/type
-echo ibs_op > $filter/perf_event_type
-echo Y > $filter/allow
+PS:
+B maybe a special one, just in case anybody raise it. As the community
+discussed when I adding it into the bindings, because B comes later than
+its sub-components zba/zbb/zbs, so, when I added B, I cleaned up all
+in-tree dts files which declared zba/zbb/zbs but not B and made them declar=
+e
+both.
 
-Of course, more details could change later.
+Link: https://lore.kernel.org/linux-riscv/20260115-adding-b-dtsi-v2-0-254dd=
+61cf947@riscstar.com/
+[1]
 
-> 
->     # PULL scheme: migrate_hot toward DRAM, gated on
->     # node_eligible_mem_bp(nid=DRAM) goal target_value=TARGET_BP.
->     # addr filter restricts source to the CXL range.
->     # PUSH scheme: migrate_hot toward CXL, gated on
->     # node_eligible_mem_bp(nid=CXL) target_value=10000-TARGET_BP.
->     # addr filter restricts source to the DRAM range.
->     # Both schemes are migrate_hot; they converge from opposite
->     # directions on the same hot working set.
-> 
->     echo on > $D/state
-> 
->   Userspace tunes the steady-state DRAM:CXL split by writing the goal
->   `target_value`s; DAMON's quota autotuner drives migration intensity
->   to match.
-> 
->   Workload: a QEMU/KVM guest pinned to one NUMA node, running 32
->   multichase multiload threads each touching a 4 GiB working set
->   (~128 GiB aggregate) with the memcpy-libc kernel.  The guest sees
->   a flat single-NUMA layout and has no direct view of the host's
->   tiering topology, yet its hot pages are migrated to DRAM and cold
->   pages pushed to CXL by host-side DAMON acting on IBS-stamped
->   physical addresses -- the application inside the guest benefits
->   from tiering it never had to be aware of.  Validated on AMD Turin
->   (132-CPU EPYC).  The configuration converged to its target ratio
->   in seconds and remained stable for 7+ hours continuously, with no
->   perf core auto-throttle and no measurable drift in the achieved
->   interleave ratio.
-> 
-> Configuration B: Intel PEBS L3-miss, vaddr ops, per-PID weighted-dest
-> 
->   PEBS reports vaddr samples in the context of the running task.
->   DAMON's vaddr ops monitors a specific PID.
-> 
->   Setup (abridged):
-> 
->     echo 1     > /sys/kernel/mm/damon/admin/kdamonds/nr_kdamonds
->     echo 1     > $D/contexts/nr_contexts
->     echo vaddr > $D/contexts/0/operations
-> 
->     echo 1     > $D/contexts/0/targets/nr_targets
->     echo $PID  > $D/contexts/0/targets/0/pid_target
->     echo 0     > $D/contexts/0/targets/0/regions/nr_regions
-> 
->     # PEBS MEM_LOAD_RETIRED.L3_MISS, frequency-based, vaddr-stamped:
->     echo 1      > $PE/nr_perf_events
->     echo 4      > $PE/0/type           # PERF_TYPE_RAW
->     echo 0x20d1 > $PE/0/config         # umask=0x20 event=0xd1
->     echo 0      > $PE/0/sample_phys_addr
->     echo 1      > $PE/0/freq
->     echo 5003   > $PE/0/sample_freq
->     echo 2      > $PE/0/precise_ip
->     echo 1      > $PE/0/wakeup_events
-> 
->     # Single migrate_hot scheme with two weighted destinations
->     # (DRAM + CXL).  Userspace tunes the steady-state interleave by
->     # writing dests/{0,1}/weight.
-> 
->     echo on > $D/state
-> 
->   Workload: 32 multichase multiload threads with a 4 GiB working set
->   each (~128 GiB aggregate) running directly on the host, monitored
->   by DAMON via the multiload PID.  Validated on Intel Granite Rapids
->   (144-CPU).  Convergence is fast and the system is stable.
+Also, in the bindings: extensions.yaml, a schema rule is added which requir=
+es
+a node listing zba, zbb and zbs to also list b (and the reverse). Moving on=
+,
+new dtsi/dts fils, a node with only the subsets fails dtbs_check.
 
-Thank you so much for sharing the great prototype implementation and test
-results!
+One may argue that the schema check doesn't cover ACPI path. But again,
+shouldn't the vendor who publishs RVA23 hardware be conformant to the
+extensions wording in RVA23 v1.0 spec?
 
-I will try to make fast progress on milestone 1.  I will hold reviewing details
-of this series for now, as there could be more changes.  But in the high level,
-this looks promising.
-
-> 
-> [1] https://lore.kernel.org/linux-mm/20260516223439.4033-1-ravis.opensrc@gmail.com/
-> [2] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
-
-[1] https://lore.kernel.org/20260525225208.1179-1-sj@kernel.org/
-
+What do you think?
 
 Thanks,
-SJ
+Guodong Xu
+docularxu@outlook.com
 
-[...]
+
+>
+> Additional nit below.
+>
+> >
+> > diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/a=
+sm/cpufeature.h
+> > index 739fcc84bf7b2..facc31b2960c6 100644
+> > --- a/arch/riscv/include/asm/cpufeature.h
+> > +++ b/arch/riscv/include/asm/cpufeature.h
+> > @@ -25,10 +25,24 @@ struct riscv_cpuinfo {
+> >       unsigned long mimpid;
+> >  };
+> >
+> > +enum {
+> > +     RISCV_ISA_BASE_IMA,
+> > +     RISCV_ISA_BASE_RVA23U64,
+> > +     RISCV_NR_ISA_BASES,
+> > +};
+> > +
+> > +/**
+> > + * struct riscv_isainfo - per-hart ISA state
+> > + * @isa: bitmap of ISA extensions this hart implements
+> > + * @isa_bases: bitmap of profile bases this hart conforms to
+> > + */
+> >  struct riscv_isainfo {
+> >       DECLARE_BITMAP(isa, RISCV_ISA_EXT_MAX);
+> > +     DECLARE_BITMAP(isa_bases, RISCV_NR_ISA_BASES);
+> >  };
+> >
+> > +extern unsigned long riscv_isa_bases[BITS_TO_LONGS(RISCV_NR_ISA_BASES)=
+];
+> > +
+> >  DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+> >
+> >  extern const struct seq_operations cpuinfo_op;
+> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeat=
+ure.c
+> > index 81145621dc378..6e8dd33aa3888 100644
+> > --- a/arch/riscv/kernel/cpufeature.c
+> > +++ b/arch/riscv/kernel/cpufeature.c
+> > @@ -41,6 +41,9 @@ unsigned long elf_hwcap __read_mostly;
+> >  /* Host ISA bitmap */
+> >  static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
+> >
+> > +/* Host ISA bases bitmap */
+> > +DECLARE_BITMAP(riscv_isa_bases, RISCV_NR_ISA_BASES) __read_mostly;
+> > +
+> >  /* Per-cpu ISA extensions. */
+> >  struct riscv_isainfo hart_isa[NR_CPUS];
+> >
+> > @@ -1305,3 +1308,92 @@ void __init_or_module riscv_cpufeature_patch_fun=
+c(struct alt_entry *begin,
+> >       }
+> >  }
+> >  #endif
+> > +
+> > +/*
+> > + * Compute the set of profile bases (IMA, RVA23U64, ...) a hart
+> > + * conforms to, given its resolved ISA bitmap.
+> > + *
+> > + * If @isa_bitmap is NULL, the host ISA bitmap (the AND across all har=
+ts) is
+> > + * used.
+> > + */
+> > +static void riscv_set_isa_bases(unsigned long *bases, const unsigned l=
+ong *isa_bitmap)
+> > +{
+> > +     const unsigned long *isa =3D isa_bitmap ? isa_bitmap : riscv_isa;
+> > +     DECLARE_BITMAP(ext_mask, RISCV_ISA_EXT_MAX) =3D { 0 };
+> > +     DECLARE_BITMAP(tmp, RISCV_ISA_EXT_MAX);
+> > +
+> > +     /* IMA */
+> > +     set_bit(RISCV_ISA_EXT_I, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_M, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_A, ext_mask);
+> > +
+> > +     if (bitmap_andnot(tmp, ext_mask, isa, RISCV_ISA_EXT_MAX))
+> > +             return;
+> > +
+> > +     set_bit(RISCV_ISA_BASE_IMA, bases);
+> > +
+> > +     /* RVA23U64 */
+> > +
+> > +     /* Zic64b and Supm with PMLEN=3D7 */
+> > +     if (riscv_cbom_block_size !=3D 64 ||
+> > +         riscv_cbop_block_size !=3D 64 ||
+> > +         riscv_cboz_block_size !=3D 64 ||
+> > +         !riscv_have_user_pmlen(7))
+> > +             return;
+> > +
+> > +     set_bit(RISCV_ISA_EXT_F, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_D, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_C, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_B, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICSR, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICNTR, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZIHPM, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICCIF, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICCRSE, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICCAMOA, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICCLSM, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZA64RS, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZIHINTPAUSE, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICBOM, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICBOP, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICBOZ, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZFHMIN, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZKT, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_V, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZVFHMIN, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZVBB, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZVKT, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZIHINTNTL, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZICOND, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZIMOP, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZCMOP, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZCB, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZFA, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_ZAWRS, ext_mask);
+> > +     set_bit(RISCV_ISA_EXT_SUPM, ext_mask);
+> > +
+> > +     if (bitmap_andnot(tmp, ext_mask, isa, RISCV_ISA_EXT_MAX))
+> > +             return;
+> > +
+> > +     set_bit(RISCV_ISA_BASE_RVA23U64, bases);
+> > +}
+> > +
+> > +/*
+> > + * Populate the host ISA bases bitmap (riscv_isa_bases) and each
+> > + * hart's per-cpu isa_bases.
+> > + */
+> > +static int __init riscv_init_isa_bases(void)
+> > +{
+> > +     int cpu;
+> > +
+> > +     for_each_possible_cpu(cpu)
+> > +             riscv_set_isa_bases(hart_isa[cpu].isa_bases, hart_isa[cpu=
+].isa);
+> > +
+> > +     riscv_set_isa_bases(riscv_isa_bases, NULL);
+> > +     return 0;
+> > +}
+>
+> Missing blank line here.
+>
+> Thanks,
+> drew
+>
+> > +/*
+> > + * Registered as subsys_initcall so it runs after
+> > + * core_initcall(tagged_addr_init) populates have_user_pmlen_*.
+> > + */
+> > +subsys_initcall(riscv_init_isa_bases);
+> >
+> > --
+> > 2.43.0
+> >
