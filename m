@@ -1,184 +1,136 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731AB306756
-	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 14:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E923043DC;
+	Sat, 30 May 2026 15:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151789; cv=none; b=qB8gfkdVv1ZC0amzR6h/z1baOBLm35aJxgbu6TpmOuvRZMjmKShaYy0eZniqdNsVCHfvCK9HbJi1S4tQC2jsak6LcatdmSRv3veZCr8sv5duEFwjjByMFNbL+ZUVGGajKy4CmvO3IihouKhqfWxXs+ciNCrZbGUl+0B4MiY+8bE=
+	t=1780153696; cv=none; b=kuzmGxBS0mIXSpWZoai7grAEO2KW6lGurOhuJzlhyUU8T0G4y2/HsEcwuDOpr72TpSaLpUo3mgPld4ue5zcHkjDC11zg1WysAD6YutpeeXqjMh3pkixBc7sSaMLQOXCcuaxPGq4XLXxXqExTszQ27EOM/bZzfjgngTRs1wU8iHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151789; c=relaxed/simple;
-	bh=ZQvwa5QhqZ0lknUAWLawA2kfa2GO39ZYXWv5ZD1xNc8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ho0HDrd4TGMALHZu2PP/4u4f2nEuex8HhW7SSWZnvQZ91DzCfCYMXr0nKUhRHQVNJ3toPNrcxfgyqByIjd2e9uwK/2YABFsMWrYlTqavSCVq0Vdgy1+L+7MIlaOGdpaV2EpJN3Aq5bprgm7BtMbId2SY1jTTjvEDqDNLBXJS9mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jrcTkCVk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NFMr584u; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jrcTkCVk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NFMr584u"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64UEPHLH1750544
-	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 14:36:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MGZWr5Rpb2Y4avUOEBasFCxfAQKOCAbmy1aE3NQDOl0=; b=jrcTkCVkPRvYXV7A
-	8LcW0QH8UaY4Gj/K5hOPYp4i4FIGxitekbNWjoFUH+/GenDjQwMv9kkDEuQLYb49
-	tNEWqp+V4KVOksDtkOBSI+6DhmfbBhXBAKusJUHagOZk6qG0Moq9kmrcWhPlsVaW
-	AlbalHsiwX93Xed2gNogTAAOxbgABn7+c9xESjOJ689HjGby1O8Ul08v7S+aSW3v
-	z9SZbTaO/dj0cYRmeuD4xQVOT7OwRcBALwuvObDSdYIlC03wA69e5Tz7kyFNPlaa
-	xBTdnMn2/2bmeaBvFedlA2+UrbkgTD3cqXUUEw23ueHsQcJRZUzW0VxLwfz4cmnN
-	t/LtSw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4efr41945p-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 14:36:26 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c827bda3052so19523277a12.1
-        for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 07:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780151786; x=1780756586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MGZWr5Rpb2Y4avUOEBasFCxfAQKOCAbmy1aE3NQDOl0=;
-        b=NFMr584unBTOVbQ5m2eMkvFcYE1kmS/xKgEAN1A8CyybzN+He61tSL0BPQSGvCyGG2
-         b7oJ/3u2jyQT3OMWF+iHPknCBww420eh1B9OzVfhFh6+hSIp9AixWCNVJUB1dwjoNJrw
-         J2RqGbLxTGO05smIWUHgy4/qGFutl1SOB9IrVIWELJBQ+EiRSZTE6yqYnbgvrL8+Z3uu
-         v6nON3xj1UnObixmwdU1XsGiQPCC1AfpXmdWXMOLEy0acsHj0CiTvqU0nSg3s09aDANC
-         SDUpLcXkc5vdDn997Yj/u6ynAsOA6HbWjOG6JI6EW+fOWK+OPqyUSqocz44nEMRLCgzz
-         x2dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780151786; x=1780756586;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MGZWr5Rpb2Y4avUOEBasFCxfAQKOCAbmy1aE3NQDOl0=;
-        b=GvKyF13qceZY++2uVw5waIA5ellQ2skCx5YheTlemOkaYhFG4BcRB3GMahG2AlZJer
-         ezqq3bn3VtjQyjzl2fj1SRtVZaytIV9KxYe1Z6cMpJ+IjQVIJl7tPKBau/+pqurcq/lM
-         zc6PwWcOabIs4jIzHTfyed/Mmw2OyqKKwXF1zPjZ+4RuCoiS3UuQHg+E2hjOOGO1+NEt
-         T2GpbYfZV+g4OqQtmhJY9bkvVeKwd1bxGq0UvqzuxkZJd8yoM0Z5AO36vb9TlGTSwtGM
-         natfWEjpAqTSFyVrUASnyveuC05K/cB1kvNyRlsWXBRT6CwxAy+pjzVDM/ixWjn9GNjh
-         IIaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/DXZO+a7MdIJ7zJXqhcdPKrH5HuyKvRDhtffj5bkp9CCzAg7owaNPBL5G9RBSo085nMNkNOxIQJQw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySblBlAE5uJEg1Z76EJYFfztsCjyxXOFKvF1fPz3Iw96OG9lgb
-	aFVmM7U8ZeAnY9NfD7xl2uO7jML4ItamPYnzJ0Aqravr8M/m6RpOHRIQ6OieUrat7YlR5TTf78a
-	5w0mW9CqNo6Nx+/PxSiQYdNR9LPZbbYWwDZxDIp6ubZVybqOcWrfPH4Xdn4MXFS0=
-X-Gm-Gg: Acq92OEzGttTpxfoK/q0jyDaFiwglMYbsHxCW27ZFSxvfelWnlIuN3H5cRNmiGPdQzH
-	RHKU6lZD+lCYKQ+IBN4ObQiDA7Ww0D1LooQIvovTYOc6q0kJBk4CQDhczY5xFtrZFBvdyAU6EqC
-	YBsI0lO9GA0+3aXLk8T3hixTVpD6kUl73JTAqbTgyxDJqOqLBiZ7F09D1abKYPO9cusN2iHQ/aF
-	eb7LhY6a0MJ1pJDUZKqxbAoPNBBfDkxyUaJtpM2ksyS35DSNIFADE5SZWuOUrwVorPZjwmP8QvA
-	9yqcYwedVPYQCukwnbLglUZEAUOLS/BNwj77ks0rhJRzpzVSEl8PJO/2U1e9uYvIcK7J+8gj+vb
-	83mK67R+wRbJQVBX8KZxUEf2gIMJqhfcOK3BWOqeDyMRJpSyunxZsdxemk/6nUGeTdD7ETwZ3rB
-	4WYcsvLiI1g3Ex6EmKVw==
-X-Received: by 2002:a05:6a00:198a:b0:82f:5051:f024 with SMTP id d2e1a72fcca58-8422543b832mr3803711b3a.27.1780151786039;
-        Sat, 30 May 2026 07:36:26 -0700 (PDT)
-X-Received: by 2002:a05:6a00:198a:b0:82f:5051:f024 with SMTP id d2e1a72fcca58-8422543b832mr3803681b3a.27.1780151785523;
-        Sat, 30 May 2026 07:36:25 -0700 (PDT)
-Received: from ?IPV6:240e:479:e20:9ea:c59d:830f:a161:10b1? ([240e:479:e20:9ea:c59d:830f:a161:10b1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214c954b3sm5088546b3a.34.2026.05.30.07.36.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 May 2026 07:36:25 -0700 (PDT)
-Message-ID: <f598e862-8120-4922-9d04-6e3729187420@oss.qualcomm.com>
-Date: Sat, 30 May 2026 22:36:16 +0800
+	s=arc-20240116; t=1780153696; c=relaxed/simple;
+	bh=NMNWczVwr3plg6WJsDRmVwXLlmnCz1ua0v2/tG4Yv2Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=C70Y0oPh8hnbo/jv3azjJBkNWBPA3ntuq8V7yKGpB9Fv9Ht7+J9rF0D3AvOWh1S4+FSl/8g24u8Ho50TaCpG6p6vHt68RCx8+YAf1XVl6eHXyQHyrqnudIsAEPl3t4bU1qn5sdt4Z+6AFiKDHrS8yZyY7U01xj1T+bIxs0p8XKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=nefkom.net; arc=none smtp.client-ip=212.18.0.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nefkom.net
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gSNkQ6jYsz1sGWp;
+	Sat, 30 May 2026 17:02:38 +0200 (CEST)
+Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gSNkQ1QYbz1sGWg;
+	Sat, 30 May 2026 17:02:38 +0200 (CEST)
+Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
+	by mail.m-online.net (Postfix) with ESMTP id 4gSNkN5DcGz1qqlS;
+	Sat, 30 May 2026 17:02:36 +0200 (CEST)
+X-Virus-Scanned: amavis at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.6.182])
+ by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
+ with ESMTP id E2-sp1ZgOELx; Sat, 30 May 2026 17:02:35 +0200 (CEST)
+X-Auth-Info: seVX8pClgJ+A7Up8GdLsTTricyC7V41/AnuhQ+0oY9yeyNcy+IKvt/IaX2Iz3oot
+Received: from igel.home (aftr-82-135-83-65.dynamic.mnet-online.de [82.135.83.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Sat, 30 May 2026 17:02:35 +0200 (CEST)
+Received: by igel.home (Postfix, from userid 1000)
+	id 8848F2C16CE; Sat, 30 May 2026 17:02:35 +0200 (CEST)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
+  Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
+ <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
+ Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
+ Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
+ Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
+ Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
+ Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
+ <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
+ <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
+ <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
+ =?utf-8?Q?rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  Andreas Hindborg <a.hindborg@kernel.org>,
+  Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
+  Benno Lossin <lossin@kernel.org>,  debug@rivosinc.com,
+  linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  linux-mm@kvack.org,  linux-riscv@lists.infradead.org,
+  devicetree@vger.kernel.org,  linux-arch@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  alistair.francis@wdc.com,  richard.henderson@linaro.org,
+  jim.shu@sifive.com,  andybnac@gmail.com,  kito.cheng@sifive.com,
+  charlie@rivosinc.com,  atishp@rivosinc.com,  evan@rivosinc.com,
+  cleger@rivosinc.com,  alexghiti@rivosinc.com,  samitolvanen@google.com,
+  broonie@kernel.org,  rick.p.edgecombe@intel.com,
+  rust-for-linux@vger.kernel.org,  Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
+ | VM_WRITE
+In-Reply-To: <20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
+	(Deepak Gupta via's message of "Wed, 12 Nov 2025 16:43:04 -0800")
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
+Date: Sat, 30 May 2026 17:02:35 +0200
+Message-ID: <87jyslndo4.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cpufreq: Documentation: fix freq_step description
-To: Pengjie Zhang <zhangpengjie2@huawei.com>, rafael@kernel.org,
-        viresh.kumar@linaro.org, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, zhanjie9@hisilicon.com,
-        prime.zeng@hisilicon.com, wanghuiqiang@huawei.com, xuwei5@huawei.com,
-        lihuisong@huawei.com, zhenglifeng1@huawei.com, yubowen8@huawei.com,
-        wangzhi12@huawei.com, zhongqiu.han@oss.qualcomm.com
-References: <20260529111122.3321645-1-zhangpengjie2@huawei.com>
-Content-Language: en-US
-From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
-In-Reply-To: <20260529111122.3321645-1-zhangpengjie2@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=fOEJG5ae c=1 sm=1 tr=0 ts=6a1af5ea cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=i0EeH86SAAAA:8
- a=Zyhr3UL3YfEZVkCPdFoA:9 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-ORIG-GUID: 0eJuPRaoXUnS-1EcZF49OuLStkCKSwi2
-X-Proofpoint-GUID: 0eJuPRaoXUnS-1EcZF49OuLStkCKSwi2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTMwMDE1NyBTYWx0ZWRfX2jQ8iQtWwAzm
- +IOiSpYiphgY2jFGMMftHWAZd9/8ybrC46eFXvzDsTA4IGIB5yLPJmQpEaNv+spdzbJ72jxBV29
- a7SPNRYPqctZzcVpIf75qP4HonkgGCleHfiDBLo5Lyr2LvP5p1IM98Ny8R2P5VdwQtwCrP+TCPe
- m71bKym7W2ETOO8a0klvzkv/XJdDzmWqKBguyNCQhupAEFf7fJ//5p3BMc6O5PU8lcuz2n/4uBs
- LmXFXv62d21W5gskKEnwzreIICuINKJ8EBpYha5Mc2/IrjMaE0UHH89chQ2xm0HwyhagPP8lc6G
- AE2vGYoQ2h7VlQBMPz7Q3baOxx0ePh/vxB0s6d5TeBzZRrHibzNPN9VplL/dvAuY+u/fD0x4tw0
- XOJUP+JEOR5w/iTsUw0szQe/nG6aC033730bHDZUXG7nyD4JwceSQBDHcCiehSUVB8UPFbpkEqz
- mqvVGCqIGJbRpZTo8ww==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-30_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605300157
+Content-Type: text/plain
 
-On 5/29/2026 7:11 PM, Pengjie Zhang wrote:
-> The conservative governor documentation incorrectly states that setting
-> freq_step to 0 will use the default 5% frequency step. In reality, since
-> the governor's initial implementation
-> commit b9170836d1aa ("[CPUFREQ] Conservative cpufreq governer"),
-> freq_step=0 has always caused the governor to skip frequency updates
-> entirely.
+On Nov 12 2025, Deepak Gupta via B4 Relay wrote:
 
-Hi Pengjie,
+> From: Deepak Gupta <debug@rivosinc.com>
+>
+> `arch_calc_vm_prot_bits` is implemented on risc-v to return VM_READ |
+> VM_WRITE if PROT_WRITE is specified. Similarly `riscv_sys_mmap` is
+> updated to convert all incoming PROT_WRITE to (PROT_WRITE | PROT_READ).
+> This is to make sure that any existing apps using PROT_WRITE still work.
+>
+> Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encodings.
+> Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
+> encodings for shadow stack. Above changes ensure that existing apps
+> continue to work because underneath kernel will be picking
+> `protection_map[VM_WRITE|VM_READ]` PTE encodings.
 
-Thanks for the patch.
+This breaks LTP mmap04:
 
-The documentation fix looks correct: in the current code,
-cs_dbs_update() has an early goto out when freq_step == 0, which skips
-the call to get_freq_step() and all subsequent frequency change logic.
+$ ./mmap04
+tst_test.c:2042: TINFO: LTP version: 20260529.5ccf816f
+tst_test.c:2045: TINFO: Tested kernel: 7.0.10-5-default #1 SMP PREEMPT_DYNAMIC Sat May 23 12:09:09 UTC 2026 (bb95589) riscv64
+tst_kconfig.c:90: TINFO: Parsing kernel config '/proc/config.gz'
+tst_kconfig.c:753: TINFO: CONFIG_FAULT_INJECTION kernel option detected which might slow the execution
+tst_test.c:1870: TINFO: Overall timeout per run is 0h 04m 00s
+mmap04.c:66: TPASS: mapping permissions in /proc matched: ---p
+mmap04.c:66: TPASS: mapping permissions in /proc matched: ---s
+mmap04.c:66: TPASS: mapping permissions in /proc matched: r--p
+mmap04.c:66: TPASS: mapping permissions in /proc matched: r--s
+mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w-p, found: rw-p
+mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -w-s, found: rw-s
+mmap04.c:66: TPASS: mapping permissions in /proc matched: rw-p
+mmap04.c:66: TPASS: mapping permissions in /proc matched: rw-s
+mmap04.c:66: TPASS: mapping permissions in /proc matched: r-xp
+mmap04.c:66: TPASS: mapping permissions in /proc matched: r-xs
+mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -wxp, found: rwxp
+mmap04.c:68: TFAIL: mapping permissions in /proc mismatched, expected: -wxs, found: rwxs
+mmap04.c:66: TPASS: mapping permissions in /proc matched: rwxp
+mmap04.c:66: TPASS: mapping permissions in /proc matched: rwxs
 
-However, the commit message's historical claim appears to be inaccurate.
-In the original implementation (b9170836d1aa), freq_step=0 had
-asymmetric behavior: frequency decreases were skipped (early return),
-but frequency increases still used the hardcoded 5% fallback (freq_step
-= 5 after the unlikely(freq_step == 0) check).
-
-If so, would it make sense to remove/update the historical claim to
-avoid the incorrect historical claim?
-
-> 
-> Correct the documentation to reflect the actual behavior: freq_step=0
-> disables frequency changes by the governor entirely.
-> 
-> Fixes: 2a0e49279850 ("cpufreq: User/admin documentation update and consolidation")
-> Signed-off-by: Pengjie Zhang <zhangpengjie2@huawei.com>
-> ---
->   Documentation/admin-guide/pm/cpufreq.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-> index dbe6d23a5d67..98c724d49047 100644
-> --- a/Documentation/admin-guide/pm/cpufreq.rst
-> +++ b/Documentation/admin-guide/pm/cpufreq.rst
-> @@ -586,8 +586,8 @@ This governor exposes the following tunables:
->   	100 (5 by default).
->   
->   	This is how much the frequency is allowed to change in one go.  Setting
-> -	it to 0 will cause the default frequency step (5 percent) to be used
-> -	and setting it to 100 effectively causes the governor to periodically
-> +	it to 0 disables frequency changes by the governor entirely and setting
-> +	it to 100 effectively causes the governor to periodically
->   	switch the frequency between the ``scaling_min_freq`` and
->   	``scaling_max_freq`` policy limits.
->   
-
+Summary:
+passed   10
+failed   4
+broken   0
+skipped  0
+warnings 0
 
 -- 
-Thx and BRs,
-Zhongqiu Han
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
