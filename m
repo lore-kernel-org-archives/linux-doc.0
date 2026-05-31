@@ -1,103 +1,277 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from mail-m15590.qiye.163.com (mail-m15590.qiye.163.com [101.71.155.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADF031079B
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 04:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755BB8C1F;
+	Sun, 31 May 2026 07:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780203563; cv=none; b=mvu2DZZqje084t2NH/wtZwcCE3ejcmL/c9U19CsVUc4dxUWd73wfkKYxFhv906zt1Dg1ougxYRg3GpBIKX2xuMgM7j/8PQwsQcB6ZJhKFzGRTVBJtgLiBSYlKJAKMspF9b8E77BH3LFAm+ttIdx1IM+8p4CA76Ln+MYhwSiPfmI=
+	t=1780211569; cv=none; b=Ao60ga/7bdHiqYmXq3xYBW6g8w1eIXK+RCpDmaVnrdpq4/I7jIJ4QymXBR4EEg+k6Cw2WLtVBMpsEqfg4yKyfIHQsqJ+WA4Xn/EDu4EACFnR+iSmHPWdTig3mjl1fYOM63/lLRFKEPhNuTdYZU4oaUMIB+q8LRQnoyAUSYyV5rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780203563; c=relaxed/simple;
-	bh=KrlhF2lVuELuXETvEk4OrK00W6f1MM/ao5FulxmOCF0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UtsR46jR/oUzj3yyAWJY89LY3dMNIYjFb2wiorbeltunbI8YhIu0z0310VL3IQPnG8pp9G/+xg4bGNI5QEJQAiHG2EQPwlmuxgFJaU5sKJjX7HfvRTvjlnHg2Mjd8AgMQj//zmHLngAEIr6sTnHexNGAhtt5T8/SlQHiBplMpIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=aTUT/r5S; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1780211569; c=relaxed/simple;
+	bh=4rxEG82yvl0ii1Rsr5R2iRROWMz3xHbrMoabOricMR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hfuZNWSZSiR3z0ZNhZXySu4G7AnS3D8Pg5WFPEq28MwN/MUeplN7Tyq66SJVMmlKTzY35hjzzj47l9uQUJd6cr9p+Y3EZ7d8Oz1zx8GvP3Lr8mSutsypuwCTVWOECQ0OrU0AWM3VwfJnTYyuuzk1zkWZzLAu1g3BAvRitQNVwzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=E7yqv3Vf; arc=none smtp.client-ip=101.71.155.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="aTUT/r5S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1780203553; x=1780462753;
-	bh=JgXmbmRQhvxiYbQ8/af9ooPxSRB/f+wfhM3H1iUU/NE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=aTUT/r5SwxI54YFXsS4RmiLlPPODXhaCCwX84lSmBO6AftwQIaVbdU5BhdAyxt9ct
-	 z56/W7u4dOrm4uVQRM7Ianl4Rrv/IrBO6jCQjel7Z+TY6EXpeC5Z6uDHgrAFdp0aJy
-	 DrzS12YedB0VTGoQfeh+0ktHUAQSdHmAXP0VIJwkRQR0PRh8M7r52nhAlSZh53T/xQ
-	 uABlt+fty7BplDNq75DTeCzd3oUWAzPUy+qm+HB2Z8nPrloNFEQhetEIgk3mYv+whk
-	 6nWFFLMsuuhXpmgJI9j0R/8cvkj/ooY3Gtk5gjxXaIPyHQnO464oaY0CY6dHfenmzs
-	 f8Z+vdD2+TfLg==
-Date: Sun, 31 May 2026 04:59:09 +0000
-To: dri-devel@lists.freedesktop.org
-From: =?utf-8?Q?Gustavo_Kenji_Mendon=C3=A7a_Kaneko?= <kaneko.dev@pm.me>
-Cc: airlied@gmail.com, simona@ffwll.ch, alexander.deucher@amd.com, christian.koenig@amd.com, harry.wentland@amd.com, corbet@lwn.net, amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, =?utf-8?Q?Gustavo_Kenji_Mendon=C3=A7a_Kaneko?= <kaneko.dev@pm.me>
-Subject: [PATCH 2/2] drm/amd/display: rename timeout_occured to timeout_occurred
-Message-ID: <20260531045852.41849-2-kaneko.dev@pm.me>
-In-Reply-To: <20260531045852.41849-1-kaneko.dev@pm.me>
-References: <20260531045852.41849-1-kaneko.dev@pm.me>
-Feedback-ID: 165279626:user:proton
-X-Pm-Message-ID: 8cb3de63cbc7a301755003877c36a5a6a68ade29
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="E7yqv3Vf"
+Received: from localhost (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 40759fa20;
+	Sun, 31 May 2026 14:57:09 +0800 (GMT+08:00)
+Date: Sun, 31 May 2026 14:57:04 +0800
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: Alex Shi <seakeel@gmail.com>
+Cc: linux-usb@vger.kernel.org, si.yanteng@linux.dev,
+ gregkh@linuxfoundation.org, alexs@kernel.org, dzm91@hust.edu.cn,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+Subject: Re: [PATCH v7 2/8] docs/zh_CN: Add acm.rst translation
+Message-ID: <20260531145704.000061ae@leap-io-kernel.com>
+In-Reply-To: <a6752fa9-b15b-4b50-baef-53c36460311e@gmail.com>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+	<9f865599e837c90d3048b9a8004efd65b2e3f9d3.1779355170.git.baikefan@leap-io-kernel.com>
+	<a6752fa9-b15b-4b50-baef-53c36460311e@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=GB18030
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e7cd279d003ackunmeb980cf015a72e
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHk1MVksYTRpJTE8fThoZGVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
+	tJT09PSFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=E7yqv3Vfi6WVXQhx9qDA960mxIMsIRdy6orbLw3nh8sCIREPqMyXFw9mloc7ehrJ3UhkXkv2JZWsu9UBIEtUyDMgXkkcYDJiheUy3CBgVJSH3V95w2H2dVuPpktKNhf5VzE5JsoQHF0VJDSVjgLGcz0KzNFF47LcLMfOkWV/GzaU50bjyM/623tjV6dzEGDZkZ+pXMHroBgMhhhtXc4H4Pr7obpHnfrcjsKicn9/t1W/Ui8tdh0LKmvQcLorofM51dB0gcdwUC3yl+2lEHBKauLt8ZW7FNi1oOmuQRW2NeGZM7ITIkVg68RSOxBLB+iFWqDxUs/FT5ZxpJn0K+gGeg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=28k+EV+xM3AcribAqaKcns0myL5jorq6Xdjrk30tScU=;
+	h=date:mime-version:subject:message-id:from;
 
-Fix spelling mistake in struct dmub_timeout_info field name.
-Rename 'timeout_occured' to 'timeout_occurred' and update
-all references in dc_dmub_srv.c accordingly.
+On Mon, 25 May 2026 10:05:23 +0800
+Alex Shi <seakeel@gmail.com> wrote:
 
-Signed-off-by: Gustavo Kenji Mendon=C3=A7a Kaneko <kaneko.dev@pm.me>
----
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 4 ++--
- drivers/gpu/drm/amd/display/dmub/dmub_srv.h  | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> 
+> On 2026/5/21 17:55, Kefan Bai wrote:
+> > Translate .../usb/acm.rst into Chinese
+> > 
+> > Update the translation through commit ecefae6db042
+> > ("docs: usb: rename files to .rst and add them to drivers-api")
+> > 
+> > Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
+> > Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
+> > ---
+> >   Documentation/translations/zh_CN/usb/acm.rst  | 147
+> > ++++++++++++++++++ .../translations/zh_CN/usb/index.rst          |
+> >  2 +- 2 files changed, 148 insertions(+), 1 deletion(-)
+> >   create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+> > 
+> > diff --git a/Documentation/translations/zh_CN/usb/acm.rst
+> > b/Documentation/translations/zh_CN/usb/acm.rst new file mode 100644
+> > index 000000000000..51d6eb8f5660
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/usb/acm.rst
+> > @@ -0,0 +1,147 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/usb/acm.rst
+> > +
+> > +:翻译:
+> > +
+> > + 白钶凡 Kefan Bai<baikefan@leap-io-kernel.com>
+> > +
+> > +:校译:
+> > +
+> > +
+> > +====================
+> > +Linux ACM 驱动 v0.16
+> > +====================
+> > +
+> > +版权所有 (c) 1999 Vojtech Pavlik<vojtech@suse.cz>
+> > +
+> > +由 SuSE 赞助
+> > +
+> > +0. 免责声明
+> > +~~~~~~~~~~~
+> > +本程序是自由软件；你可以在自由软件基金会发布的
+> > +GNU 通用公共许可证第 2 版，或者（按你的选择）
+> > +任何后续版本的条款下重新发布和/或修改它。
+> > +
+> > +发布本程序是希望它能发挥作用，但它不附带任何担保；
+> > +甚至不包括对适销性或特定用途适用性的默示担保。
+> > +详情见 GNU 通用公共许可证。
+> 
+> Hi Kefan,
+> 
+> The alignment means we will try use the width for each of lines, not 
+> just stop for each of punctuation. Please fix all patches alignment,
+> try to expand the whole width for lines unless it's broken a word or
+> unreadable.
+> 
+> Thanks
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm=
-/amd/display/dc/dc_dmub_srv.c
-index 79c8b4cab053..4b47172a71c0 100644
---- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-+++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
-@@ -285,8 +285,8 @@ bool dc_dmub_srv_wait_for_idle(struct dc_dmub_srv *dc_d=
-mub_srv,
-=20
- =09=09if (status !=3D DMUB_STATUS_OK) {
- =09=09=09DC_LOG_DEBUG("No reply for DMUB command: status=3D%d\n", status);
--=09=09=09if (!dmub->debug.timeout_info.timeout_occured) {
--=09=09=09=09dmub->debug.timeout_info.timeout_occured =3D true;
-+=09=09=09if (!dmub->debug.timeout_info.timeout_occurred) {
-+=09=09=09=09dmub->debug.timeout_info.timeout_occurred =3D true;
- =09=09=09=09if (cmd_list)
- =09=09=09=09=09dmub->debug.timeout_info.timeout_cmd =3D *cmd_list;
- =09=09=09=09dmub->debug.timeout_info.timestamp =3D dm_get_timestamp(dc_dmu=
-b_srv->ctx);
-diff --git a/drivers/gpu/drm/amd/display/dmub/dmub_srv.h b/drivers/gpu/drm/=
-amd/display/dmub/dmub_srv.h
-index c18ff8f00bb8..33fcda687a86 100644
---- a/drivers/gpu/drm/amd/display/dmub/dmub_srv.h
-+++ b/drivers/gpu/drm/amd/display/dmub/dmub_srv.h
-@@ -355,11 +355,11 @@ struct dmub_srv_hw_params {
-=20
- /**
-  * struct dmub_srv_debug - Debug info for dmub_srv
-- * @timeout_occured: Indicates a timeout occured on any message from drive=
-r to dmub
-+ * @timeout_occurred: Indicates a timeout occurred on any message from dri=
-ver to dmub
-  * @timeout_cmd: first cmd sent from driver that timed out - subsequent ti=
-meouts are not stored
-  */
- struct dmub_timeout_info {
--=09bool timeout_occured;
-+=09bool timeout_occurred;
- =09union dmub_rb_cmd timeout_cmd;
- =09unsigned long long timestamp;
- };
---=20
-2.54.0
+Hi Alex,
 
+  Sorry for the late reply, and thanks for the review.
+
+  I understand the formatting point now. The translated text should be
+  reflowed more evenly, instead of breaking too early around
+  punctuation.
+
+  Greg queued this series in usb-testing on May 21, 2026, and then
+  moved it into usb-next on May 27, 2026. At this point, would you
+  prefer me to leave the current series as-is and follow this rule in
+  future translations, or send a small follow-up cleanup patch on top
+  of usb-next?
+
+  Thanks,
+  Kefan
+
+> > +
+> > +你应该已经随本程序收到了 GNU 通用公共许可证的副本；
+> > +如果没有，请致信：Free Software Foundation, Inc., 59
+> > +Temple Place, Suite 330, Boston, MA 02111-1307 USA。
+> > +
+> > +如需联系作者，可发送电子邮件至vojtech@suse.cz，
+> > +或邮寄至：
+> > +Vojtech Pavlik, Ucitelska 1576, Prague 8,
+> > +182 00, Czech Republic。
+> > +
+> > +为方便起见，软件包中已附带 GNU 通用公共许可证
+> > +第 2 版：见 COPYING 文件。
+> > +
+> > +1. 使用方法
+> > +~~~~~~~~~~~
+> > +``drivers/usb/class/cdc-acm.c`` 驱动可用于符合 USB
+> > +通信设备类抽象控制模型（USB CDC ACM）规范的
+> > +USB 调制解调器和 USB ISDN 终端适配器。
+> > +
+> > +许多调制解调器支持此驱动，以下是我所知道的一些型号：
+> > +
+> > +	- 3Com OfficeConnect 56k
+> > +	- 3Com Voice FaxModem Pro
+> > +	- 3Com Sportster
+> > +	- MultiTech MultiModem 56k
+> > +	- Zoom 2986L FaxModem
+> > +	- Compaq 56k FaxModem
+> > +	- ELSA Microlink 56k
+> > +
+> > +我知道有一款 ISDN 终端适配器可以与 ACM 驱动一起使用：
+> > +
+> > +	- 3Com USR ISDN Pro TA
+> > +
+> > +一些手机也可以通过 USB 连接。
+> > +我知道以下机型可以正常工作：
+> > +
+> > +	- SonyEricsson K800i
+> > +
+> > +遗憾的是，许多调制解调器和大多数 ISDN TA
+> > +都使用专有接口，因此无法与此驱动配合工作。
+> > +购买前请先确认设备是否符合 ACM 规范。
+> > +
+> > +要使用这些调制解调器，需要加载以下模块::
+> > +
+> > +	usbcore.ko
+> > +	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
+> > +	cdc-acm.ko
+> > +
+> > +之后就应该可以访问这些调制解调器了。
+> > +应当可以使用 ``minicom``、``ppp`` 和 ``mgetty``
+> > +与它们通信。
+> > +
+> > +2. 验证驱动是否正常工作
+> > +~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +第一步是检查 ``/sys/kernel/debug/usb/devices``，
+> > +其内容应该类似如下::
+> > +
+> > +  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
+> > +  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
+> > +  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
+> > +  P:  Vendor=0000 ProdID=0000 Rev= 0.00
+> > +  S:  Product=USB UHCI Root Hub
+> > +  S:  SerialNumber=6800
+> > +C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
+> > +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
+> > +  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
+> > +  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
+> > +  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
+> > +  P:  Vendor=04c1 ProdID=008f Rev= 2.07
+> > +  S:  Manufacturer=3Com Inc.
+> > +  S:  Product=3Com U.S. Robotics Pro ISDN TA
+> > +  S:  SerialNumber=UFT53A49BVT7
+> > +  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
+> > +  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
+> > +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> > +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> > +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
+> > +C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
+> > +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
+> > +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
+> > +  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
+> > +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> > +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
+> > +
+> > +这三行的存在很关键（以及 ``Cls=`` 字段里出现的
+> > +``comm`` 和 ``data`` 类）；它说明这是一个 ACM
+> > +设备。``Driver=acm`` 表示该设备正在使用 acm 驱动。
+> > +如果只看到 ``Cls=ff(vend.)``，那就无能为力了：
+> > +这说明你手上的设备使用的是厂商专有接口::
+> > +
+> > +    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
+> > +    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01
+> > Driver=acm
+> > +    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00
+> > Driver=acm +
+> > +在系统日志中应该可以看到::
+> > +
+> > +  usb.c: USB new device connect, assigned device number 2
+> > +  usb.c: kmalloc IF c7691fa0, numif 1
+> > +  usb.c: kmalloc IF c7b5f3e0, numif 2
+> > +  usb.c: skipped 4 class/vendor specific interface descriptors
+> > +  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
+> > +  usb.c: USB device number 2 default language ID 0x409
+> > +  Manufacturer: 3Com Inc.
+> > +  Product: 3Com U.S. Robotics Pro ISDN TA
+> > +  SerialNumber: UFT53A49BVT7
+> > +  acm.c: probing config 1
+> > +  acm.c: probing config 2
+> > +  ttyACM0: USB ACM device
+> > +  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
+> > +  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
+> > +  usb.c: acm driver claimed interface c7b5f3e0
+> > +  usb.c: acm driver claimed interface c7b5f3f8
+> > +  usb.c: acm driver claimed interface c7691fa0
+> > +
+> > +如果以上都正常，请启动 ``minicom``，
+> > +把它配置为连接 ``ttyACM`` 设备，然后
+> > +尝试输入 ``at``。如果返回 ``OK``，说明一切工作正常。
+> > diff --git a/Documentation/translations/zh_CN/usb/index.rst
+> > b/Documentation/translations/zh_CN/usb/index.rst index
+> > b4cb0ccaa39b..686e5b0a9384 100644 ---
+> > a/Documentation/translations/zh_CN/usb/index.rst +++
+> > b/Documentation/translations/zh_CN/usb/index.rst @@ -17,10 +17,10
+> > @@ USB 支持 .. toctree::
+> >       :maxdepth: 1
+> > 
+> > +    acm
+> > 
+> >   Todolist:
+> > 
+> > -* acm
+> >   * authorization
+> >   * chipidea
+> >   * dwc3
+> > --
+> > 2.54.0
+> > 
+> 
+> 
+> 
 
