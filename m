@@ -1,168 +1,152 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from mail-m15567.qiye.163.com (mail-m15567.qiye.163.com [101.71.155.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A87A3603D3
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 07:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392BA37756F;
+	Sun, 31 May 2026 07:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780212692; cv=none; b=WyRvGmk03bsxNRgYQEvMYO2XNpDtK3KAvVwTjH4d8fMhkJ0MQz9F2sVhKvw9H1XirdqLd3Z/KH5Dxg1YGR615WWzL91puC6gydW0gXq1XnFhbzDDilHReE9MGBItuYjmIcg2MKTlfbUAjCKk4yBkQC1OGMxTlPE8U50aaiu+AxU=
+	t=1780213047; cv=none; b=V9IPmRPdsn6xl4l93PxfWDUTcJAFCrQFqgsbzsV7u3Iy6aCcuihXbo0X6EB2tsLFGDBJZ5I1dcvl/73lE54iXmedAh+hnGoxYKWKKU1Hofxgv13sYfmqJariEV8JSciNkkNQEoeTRp7IWInJNP46/QdzdNWpQE8o66Ks74NpMd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780212692; c=relaxed/simple;
-	bh=k3wTY1riKpxj4w2KDLPS0/W88O4SZmB1j+/ICOH5GzE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lkreuZHxFu3BGDmTp3uuEckgCGeOn4YoNUSV9/Hff17t5mVVQ38SYFKyEcH2C6TpWUTRYO+jXoFRwv6dJQy3sspDWNcVZhcm5hCyx4/7+Z/wdqWLUoGw97uv0/1R2/mbRdj+3VWFtx7gnhDzOcaS1GMx1mQx7QYJbM0n4Lqql60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GLxC/+IQ; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780213047; c=relaxed/simple;
+	bh=4y/wqAEW5AaLhHqY2hNhbhkXKxSDw56N/PxgLo8hM+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PJwk7483EzI/esVRe5ymqy3o4dI5FooP6sAydQRINTkWFk2EJZipNfZz5dVLnhW2R4KA0/+vdoaUOx4IEKV7nfq4OwHgzijF0LgMxI0NKuRxzhLjE9fkqr2RKr319g89ONNxaGuMCm7XszLu0d3giqd0y0TRmLzbQTWzT/XSg0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=r8lA+Joy; arc=none smtp.client-ip=101.71.155.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GLxC/+IQ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780212678;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ygMusJ4OhxFWYgfdJFdjk6JjCc/P5Yv4lLsq+6asc2I=;
-	b=GLxC/+IQoaYnWqMbHdZqSraF09cYIqx1TkB97Iseulqg7tgBNUbFR46llX5lxy/ymBtQqv
-	ta1xf7DjhgeW2OqmHLXsTMw/0Ulf6309h0NH56ha+aGc/AaAGZdFlMvFzL8F4qoKgQF23n
-	J+dGGm1xnDWnqudtQmP4PWNJD6sQVHo=
-From: Lance Yang <lance.yang@linux.dev>
-To: npache@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	aarcange@redhat.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com,
-	usama.arif@linux.dev
-Subject: Re: [PATCH mm-unstable v18 12/14] mm/khugepaged: avoid unnecessary mTHP collapse attempts
-Date: Sun, 31 May 2026 15:31:02 +0800
-Message-Id: <20260531073102.20318-1-lance.yang@linux.dev>
-In-Reply-To: <20260522150009.121603-13-npache@redhat.com>
-References: <20260522150009.121603-13-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="r8lA+Joy"
+Received: from localhost (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 407609810;
+	Sun, 31 May 2026 15:32:03 +0800 (GMT+08:00)
+Date: Sun, 31 May 2026 15:31:59 +0800
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Alex Shi <seakeel@gmail.com>, linux-usb@vger.kernel.org,
+ si.yanteng@linux.dev, alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+Subject: Re: [PATCH v7 2/8] docs/zh_CN: Add acm.rst translation
+Message-ID: <20260531153159.0000636c@leap-io-kernel.com>
+In-Reply-To: <2026053149-flaky-shallow-2460@gregkh>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+	<9f865599e837c90d3048b9a8004efd65b2e3f9d3.1779355170.git.baikefan@leap-io-kernel.com>
+	<a6752fa9-b15b-4b50-baef-53c36460311e@gmail.com>
+	<20260531145704.000061ae@leap-io-kernel.com>
+	<2026053149-flaky-shallow-2460@gregkh>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=GB18030
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-HM-Tid: 0a9e7cf26e2903ackunm17ae474b15c35a
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGUhKVh4fQk8ZHU4YThkZGVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
+	tJT09PSFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=r8lA+Joy/THpantB0LX0uTTBYQazyTHbAbBaI8d+GqImlQJy2jgyly7yiycygzTd1GPwoC7j5wYa4O7AUvstS0i365o+Vjm4bijZSQnQ3xV+/Fflok/I5G9spzbhjbkbNqC9ELZ9u4Xu2bPHPZlqN7lYJlFuOnJ1uRwWamDyBeChqCMe+qwHrSchsuPDoCVegyxXRLxnb3+FZCeYGkrM9rs2qjr3Z8meNPdwjBKQLPgGq22T9DPBb9Lz1ST3Fm0Dv1UZkWZnsGn5X1V+FGYN+uph5+mScop89QqwYTEXbov3uFNpk7/qEXhKChnfeDa8bkmafmzXfC2jmqU3x4b4zg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=kb/IvFenX7DUCg3lu6mdJYbbfZw3ctU32Vp9sxf1gCQ=;
+	h=date:mime-version:subject:message-id:from;
 
+On Sun, 31 May 2026 09:23:02 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-On Fri, May 22, 2026 at 09:00:07AM -0600, Nico Pache wrote:
->There are cases where, if an attempted collapse fails, all subsequent
->orders are guaranteed to also fail. Avoid these collapse attempts by
->bailing out early.
->
->Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
->Acked-by: Usama Arif <usama.arif@linux.dev>
->Acked-by: David Hildenbrand (Arm) <david@kernel.org>
->Signed-off-by: Nico Pache <npache@redhat.com>
->---
-> mm/khugepaged.c | 24 +++++++++++++++++++++++-
-> 1 file changed, 23 insertions(+), 1 deletion(-)
->
->diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->index d3d7db8be26c..15b7298bc225 100644
->--- a/mm/khugepaged.c
->+++ b/mm/khugepaged.c
->@@ -1535,9 +1535,31 @@ static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
-> 			collapse_address = address + offset * PAGE_SIZE;
-> 			ret = collapse_huge_page(mm, collapse_address, referenced,
-> 						 unmapped, cc, order);
->-			if (ret == SCAN_SUCCEED) {
->+
->+			switch (ret) {
->+			/* Cases where we continue to next collapse candidate */
->+			case SCAN_SUCCEED:
-> 				collapsed += nr_ptes;
->+				fallthrough;
->+			case SCAN_PTE_MAPPED_HUGEPAGE:
-> 				continue;
->+			/* Cases where lower orders might still succeed */
->+			case SCAN_LACK_REFERENCED_PAGE:
->+			case SCAN_EXCEED_NONE_PTE:
->+			case SCAN_EXCEED_SWAP_PTE:
->+			case SCAN_EXCEED_SHARED_PTE:
->+			case SCAN_PAGE_LOCK:
->+			case SCAN_PAGE_COUNT:
->+			case SCAN_PAGE_NULL:
->+			case SCAN_DEL_PAGE_LRU:
->+			case SCAN_PTE_NON_PRESENT:
->+			case SCAN_PTE_UFFD_WP:
->+			case SCAN_ALLOC_HUGE_PAGE_FAIL:
-
-Nit: shouldn't SCAN_CGROUP_CHARGE_FAIL go with SCAN_ALLOC_HUGE_PAGE_FAIL
-here?
-
-If charging the current order fails, a smaller order might still fit :)
-
-Cheers, Lance
-
->+			case SCAN_PAGE_LAZYFREE:
->+				goto next_order;
->+			/* Cases where no further collapse is possible */
->+			default:
->+				return collapsed;
-> 			}
-> 		}
+> On Sun, May 31, 2026 at 02:57:04PM +0800, Kefan Bai wrote:
+> > On Mon, 25 May 2026 10:05:23 +0800
+> > Alex Shi <seakeel@gmail.com> wrote:
+> > 
+> > > 
+> > > 
+> > > On 2026/5/21 17:55, Kefan Bai wrote:
+> > > > Translate .../usb/acm.rst into Chinese
+> > > > 
+> > > > Update the translation through commit ecefae6db042
+> > > > ("docs: usb: rename files to .rst and add them to drivers-api")
+> > > > 
+> > > > Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
+> > > > Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
+> > > > ---
+> > > >   Documentation/translations/zh_CN/usb/acm.rst  | 147
+> > > > ++++++++++++++++++ .../translations/zh_CN/usb/index.rst
+> > > >  | 2 +- 2 files changed, 148 insertions(+), 1 deletion(-)
+> > > >   create mode 100644
+> > > > Documentation/translations/zh_CN/usb/acm.rst
+> > > > 
+> > > > diff --git a/Documentation/translations/zh_CN/usb/acm.rst
+> > > > b/Documentation/translations/zh_CN/usb/acm.rst new file mode
+> > > > 100644 index 000000000000..51d6eb8f5660
+> > > > --- /dev/null
+> > > > +++ b/Documentation/translations/zh_CN/usb/acm.rst
+> > > > @@ -0,0 +1,147 @@
+> > > > +.. SPDX-License-Identifier: GPL-2.0
+> > > > +.. include:: ../disclaimer-zh_CN.rst
+> > > > +
+> > > > +:Original: Documentation/usb/acm.rst
+> > > > +
+> > > > +:翻译:
+> > > > +
+> > > > + 白钶凡 Kefan Bai<baikefan@leap-io-kernel.com>
+> > > > +
+> > > > +:校译:
+> > > > +
+> > > > +
+> > > > +====================
+> > > > +Linux ACM 驱动 v0.16
+> > > > +====================
+> > > > +
+> > > > +版权所有 (c) 1999 Vojtech Pavlik<vojtech@suse.cz>
+> > > > +
+> > > > +由 SuSE 赞助
+> > > > +
+> > > > +0. 免责声明
+> > > > +~~~~~~~~~~~
+> > > > +本程序是自由软件；你可以在自由软件基金会发布的
+> > > > +GNU 通用公共许可证第 2 版，或者（按你的选择）
+> > > > +任何后续版本的条款下重新发布和/或修改它。
+> > > > +
+> > > > +发布本程序是希望它能发挥作用，但它不附带任何担保；
+> > > > +甚至不包括对适销性或特定用途适用性的默示担保。
+> > > > +详情见 GNU 通用公共许可证。
+> > > 
+> > > Hi Kefan,
+> > > 
+> > > The alignment means we will try use the width for each of lines,
+> > > not just stop for each of punctuation. Please fix all patches
+> > > alignment, try to expand the whole width for lines unless it's
+> > > broken a word or unreadable.
+> > > 
+> > > Thanks
+> > 
+> > Hi Alex,
+> > 
+> >   Sorry for the late reply, and thanks for the review.
+> > 
+> >   I understand the formatting point now. The translated text should
+> > be reflowed more evenly, instead of breaking too early around
+> >   punctuation.
+> > 
+> >   Greg queued this series in usb-testing on May 21, 2026, and then
+> >   moved it into usb-next on May 27, 2026. At this point, would you
+> >   prefer me to leave the current series as-is and follow this rule
+> > in future translations, or send a small follow-up cleanup patch on
+> > top of usb-next?
 > 
->-- 
->2.54.0
->
->
+> Clean up patch on top would be great, thanks.
+> 
+> greg k-h
+> 
+> 
+Hi Greg, Hi Alex,
+
+  Thanks, I will prepare and send a follow-up cleanup patch on top of
+  usb-next.
+
+Best regards,
+Kefan
+
