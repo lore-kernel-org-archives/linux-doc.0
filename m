@@ -1,116 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE10C23ABA8;
-	Sun, 31 May 2026 01:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EBC1A5BAE;
+	Sun, 31 May 2026 04:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780192273; cv=none; b=Fy+0l3O7IMVaPRhEzasK1PZf8a0S0jFpN9bZ6uUagvngbnEc72MjO/osMAtG3bE2FlBmSLG+TO+MExfHjKg0q1CNcAHcchNvKWElmaOJZ4+RErWtwwnSmm2SaJUVN+Y4APc87kGyctFnP3KU3Y/5KwhC1Tg0jEjh6IX1r9u3hhI=
+	t=1780203559; cv=none; b=FvEQphFjPHVRQl8Gy8mUIrtUKl0ToUOzNUkxrt1XlIlhN0TnPKe/o3zA34cApc19GJ4YXUvqc3meY0oW1gg8O5OS3kJCFCNlS1emIDopfoa0JoLEC8gIX5zLAIA+nOgTKcrgtRdgMv/oI9Cdm9kQea4oNpCQubVB7n+1dZTnupI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780192273; c=relaxed/simple;
-	bh=kgQ1INYmGkCFtHjfF37gquvimy7OqaTM1L0UoNYKxYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TOQANcTBLAuCpVOZ9xn5GeuNUbrKac6hgwvH9ZlSecWYCLN3SjzfTJtXhUu7IDrUm3U0PgBsxIkHFxyyxLPX7badlvaxngIqONlufU3TI69qRExLIFWEf0j++ueT7wK2p+KGODds3ntCHliROwPsgxhzPKdCA5zLTKlPjo1wrZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLY60Wfh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780203559; c=relaxed/simple;
+	bh=00pzoSYP8liaiHu6cR867gjr/Y6XH9eZ2OZHCB51D4o=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=tsqzRd7a1eEPEmbd7oxu5KYsbQf49XOv2fct8rFddFbi864zmpSWV5unjNi4NZuDzYj7uLiT/QoHIrPzmQnHbF9H253QINwx8WNJRMuLsf1UG+PCpfMD03I/f6pPnE21QDlMr3VSnWP7k56bJtJq63IsEFMkhAggRrUzIf7iIto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=UrglIUm3; arc=none smtp.client-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLY60Wfh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766BE1F00893;
-	Sun, 31 May 2026 01:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780192272;
-	bh=1miKEZAnGiSRcJQWtswcD5dFRkY3BK0eDKYXOh7h6zk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kLY60WfhyXnSawaNZl+ilX4Ak1L0nLfHZVo5wooZbVNLdLl6+VwBm6FBMlSa46wp2
-	 RhTtMwa0RiiIopa/dJ6a4pY7B1OWJ6JG6HV0TQp+U2W/HKI248r6TyYHbRTreyNyVz
-	 yUz2338GeKxTE6CjYYCC6b361QBAF7FbhAnXKsfdt2WOCXOxGmOr6XE4nuBsWSm68w
-	 aiWbuaU68w9QP8FiUzIoZ1Bv2H7Ru5HQw2gQGmLT2bdMaYe7+sdfPcvgs8KQZWMZpX
-	 upA3cR23f39TzrUVNIHAGvC/dbMTqphfDDHLjSUuECnm+NaeIS8qJ8xIn5Vit4bcaE
-	 MoQcXwuCuMEJw==
-Date: Sat, 30 May 2026 18:51:01 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Adrien Ricciardi <aricciardi@baylibre.com>,
-	Nicolas Pitre <npitre@baylibre.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Atish Kumar Patra <atishp@rivosinc.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Weiwei Li <liwei1518@gmail.com>, guo.wenjia23@zte.com.cn,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, liu.qingtao2@zte.com.cn,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Tony Luck <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>,
-	Peter Newman <peternewman@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
-	Dave Martin <Dave.Martin@arm.com>, Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v5 16/18] ACPI: RISC-V: Parse RISC-V Quality of
- Service Controller (RQSC) table
-Message-ID: <ahuUBV8QYo_ToOrB@gen8>
-References: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
- <20260524-ssqosid-cbqri-rqsc-v7-0-v5-16-78d3a7ba9dbe@kernel.org>
- <CAB19ukE9r_V=0eop3=f8zohhnCavd=9GjDEK1VMMbOb0ReOtDA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="UrglIUm3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1780203549; x=1780462749;
+	bh=K+8OFb6m2BhuUAkJ/JJ3Js3mjRVZ001+PKPq5jYUsxY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=UrglIUm3HCGYFcIczw/PZS14z0l01yf2anJsDfMMFCo58kFXJ7ZIukZCCU9pj40Xu
+	 oEm8QvfTowjrUzDAemaT1r/GKv2aDRjT73LWi5z5uYC8nvF7lymhICbpSPYgymbq8V
+	 eTzF2d43tUqMO140BkiLRwbjGjhB4Qc/HOO6wBFE+Ep5n9RX8OS6AKlrAiP5WxEj7L
+	 oDJsmDJ9aXOkJ2jNxL6GFhF+MKDreK+Bpwahuj1alEUYl/7b7O0xNAxtZV2CQ1bO2J
+	 0qPmtGSYeH7L1O73TMlNwW7NWcNsf3rtAeTsBzLTX9Hw/Gj+IbKNJcsHYNVdmGINvH
+	 fw/BeXLLPEIQg==
+Date: Sun, 31 May 2026 04:59:04 +0000
+To: dri-devel@lists.freedesktop.org
+From: =?utf-8?Q?Gustavo_Kenji_Mendon=C3=A7a_Kaneko?= <kaneko.dev@pm.me>
+Cc: airlied@gmail.com, simona@ffwll.ch, alexander.deucher@amd.com, christian.koenig@amd.com, harry.wentland@amd.com, corbet@lwn.net, amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, =?utf-8?Q?Gustavo_Kenji_Mendon=C3=A7a_Kaneko?= <kaneko.dev@pm.me>
+Subject: [PATCH 1/2] drm: fix spelling mistakes in comments and documentation
+Message-ID: <20260531045852.41849-1-kaneko.dev@pm.me>
+Feedback-ID: 165279626:user:proton
+X-Pm-Message-ID: afb4c42cef220faf058e256e353ae6c0ff2e2bf2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB19ukE9r_V=0eop3=f8zohhnCavd=9GjDEK1VMMbOb0ReOtDA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 25, 2026 at 01:53:09PM +0530, Sunil V L wrote:
-> > +               if (info.mcid_count > CBQRI_MAX_MCID) {
-> > +                       pr_warn("controller at %pa: mcid_count %u exceeds CBQRI_MAX_MCID %u, skipping\n",
-> > +                               &info.addr, info.mcid_count, CBQRI_MAX_MCID);
-> > +                       continue;
-> > +               }
-> > +
-> Do you also want to add a check for the statement in the spec "At
-> least one of RCID Count or MCID Count must be non-zero." ?
+Fix multiple spelling mistakes across the DRM subsystem:
 
-Good idea, I'll add a skip with pr_warn when both are zero.
+- 'occured' -> 'occurred' in:
+  - drm_debugfs_crc.h
+  - amdgpu_ctx.c
+  - amdgpu_ids.c (x2)
+  - amdgpu_job.h
+  - radeon_fence.c (x2)
 
-> > +/* RQSC v0.9.2 Table 4: Resource Type values for acpi_rqsc_resource.type. */
-> > +#define ACPI_RQSC_RESOURCE_TYPE_CACHE  0
-> > +#define ACPI_RQSC_RESOURCE_TYPE_MEMORY 1
-> > +
-> > +/* RQSC v0.9.2 Table 4: Resource ID Type values for .id_type. */
-> > +#define ACPI_RQSC_RESOURCE_ID_TYPE_PROCESSOR_CACHE     0
-> > +#define ACPI_RQSC_RESOURCE_ID_TYPE_MEMORY_RANGE                1
-> > +
-> Memory-Side Cache, ACPI, PCI devices missing?
+- 'fucntions' -> 'functions' in Documentation/gpu/todo.rst
+- 'doesn't exists' -> 'doesn't exist' in amdgpu_gmc.h
 
-I'll add the constants for the future.
+Signed-off-by: Gustavo Kenji Mendon=C3=A7a Kaneko <kaneko.dev@pm.me>
+---
+ Documentation/gpu/todo.rst              | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h | 2 +-
+ drivers/gpu/drm/radeon/radeon_fence.c   | 4 ++--
+ include/drm/drm_debugfs_crc.h           | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
-Thanks,
-Drew
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index bc9f14c8a2ec..841e4e986c48 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -55,7 +55,7 @@ There are still drivers that use drm_simple_display_pipe.=
+ The task here is to
+ convert them to use regular atomic helpers. Search for a driver that calls
+ drm_simple_display_pipe_init() and inline all helpers from drm_simple_kms_=
+helper.c
+ into the driver, such that no simple-KMS interfaces are required. Please a=
+lso
+-rename all inlined fucntions according to driver conventions.
++rename all inlined functions according to driver conventions.
+=20
+ Contact: Thomas Zimmermann, respective driver maintainer
+=20
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_ctx.c
+index 7af86a32c0c5..e5884bb4d63a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -564,7 +564,7 @@ static int amdgpu_ctx_query(struct amdgpu_device *adev,
+ =09out->state.flags =3D 0x0;
+ =09out->state.hangs =3D 0x0;
+=20
+-=09/* determine if a GPU reset has occured since the last call */
++=09/* determine if a GPU reset has occurred since the last call */
+ =09reset_counter =3D atomic_read(&adev->gpu_reset_counter);
+ =09/* TODO: this should ideally return NO, GUILTY, or INNOCENT. */
+ =09if (ctx->reset_counter_query =3D=3D reset_counter)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_gmc.h
+index 6ab4c1e297fc..85a0d9bcba16 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.h
+@@ -39,7 +39,7 @@
+ =09=09=09=090xff00000000000000ULL : 0xffff800000000000ULL)
+=20
+ /*
+- * Hardware is programmed as if the hole doesn't exists with start and end
++ * Hardware is programmed as if the hole doesn't exist with start and end
+  * address values.
+  *
+  * This mask is used to remove the upper 16bits of the VA and so come up w=
+ith
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_ids.c
+index 124fb38eb465..095ab609623f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
+@@ -161,12 +161,12 @@ void amdgpu_pasid_free_delayed(struct dma_resv *resv,
+  */
+=20
+ /**
+- * amdgpu_vmid_had_gpu_reset - check if reset occured since last use
++ * amdgpu_vmid_had_gpu_reset - check if reset occurred since last use
+  *
+  * @adev: amdgpu_device pointer
+  * @id: VMID structure
+  *
+- * Check if GPU reset occured since last use of the VMID.
++ * Check if GPU reset occurred since last use of the VMID.
+  */
+ bool amdgpu_vmid_had_gpu_reset(struct amdgpu_device *adev,
+ =09=09=09       struct amdgpu_vmid *id)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_job.h
+index 56a88e14a044..bc011b4639f2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+@@ -31,7 +31,7 @@
+ #define AMDGPU_PREAMBLE_IB_PRESENT          (1 << 0)
+ /* bit set means preamble IB is first presented in belonging context */
+ #define AMDGPU_PREAMBLE_IB_PRESENT_FIRST    (1 << 1)
+-/* bit set means context switch occured */
++/* bit set means context switch occurred */
+ #define AMDGPU_HAVE_CTX_SWITCH              (1 << 2)
+ /* bit set means IB is preempted */
+ #define AMDGPU_IB_PREEMPTED                 (1 << 3)
+diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon=
+/radeon_fence.c
+index 02a40e4750c7..943861b62ee9 100644
+--- a/drivers/gpu/drm/radeon/radeon_fence.c
++++ b/drivers/gpu/drm/radeon/radeon_fence.c
+@@ -191,7 +191,7 @@ static int radeon_fence_check_signaled(wait_queue_entry=
+_t *wait,
+  * @ring: ring index the fence is associated with
+  *
+  * Checks the current fence value and calculates the last
+- * signalled fence value. Returns true if activity occured
++ * signalled fence value. Returns true if activity occurred
+  * on the ring, and the fence_queue should be waken up.
+  */
+ static bool radeon_fence_activity(struct radeon_device *rdev, int ring)
+@@ -262,7 +262,7 @@ static bool radeon_fence_activity(struct radeon_device =
+*rdev, int ring)
+  * @work: delayed work item
+  *
+  * Checks for fence activity and if there is none probe
+- * the hardware if a lockup occured.
++ * the hardware if a lockup occurred.
+  */
+ static void radeon_fence_check_lockup(struct work_struct *work)
+ {
+diff --git a/include/drm/drm_debugfs_crc.h b/include/drm/drm_debugfs_crc.h
+index 1b4c98c2f838..d7da666b50ca 100644
+--- a/include/drm/drm_debugfs_crc.h
++++ b/include/drm/drm_debugfs_crc.h
+@@ -49,7 +49,7 @@ struct drm_crtc_crc_entry {
+  * @lock: protects the fields in this struct
+  * @source: name of the currently configured source of CRCs
+  * @opened: whether userspace has opened the data file for reading
+- * @overflow: whether an overflow occured.
++ * @overflow: whether an overflow occurred.
+  * @entries: array of entries, with size of %DRM_CRC_ENTRIES_NR
+  * @head: head of circular queue
+  * @tail: tail of circular queue
+--=20
+2.54.0
+
+
