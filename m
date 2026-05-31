@@ -1,220 +1,116 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BE3379996
-	for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 22:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE10C23ABA8;
+	Sun, 31 May 2026 01:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780179608; cv=none; b=BnabJqvTGZzylc/50/DWXpA1o/A11v7mPSQl0y1ocs3/T+n2KiT58GAnXr095TjojmQ6MrSmTlSLyGD/hgSpOMMx+11r7Ph1MKAdIS/XyFmvNzr+FrU9fNXOHLVMTWrrTKCFh1Alv37tnbmDTG1hZELczE1RhQ2IRceh95uRM5A=
+	t=1780192273; cv=none; b=Fy+0l3O7IMVaPRhEzasK1PZf8a0S0jFpN9bZ6uUagvngbnEc72MjO/osMAtG3bE2FlBmSLG+TO+MExfHjKg0q1CNcAHcchNvKWElmaOJZ4+RErWtwwnSmm2SaJUVN+Y4APc87kGyctFnP3KU3Y/5KwhC1Tg0jEjh6IX1r9u3hhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780179608; c=relaxed/simple;
-	bh=PI26M0khAE7StCXBHeuwdUicbhLFrZpiZfsokDq9n88=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GRFL2+aVy+XSL4yxtJAl4YGaZ2HLxqULXeusH+3+kuHzhUn2JEfpaRmKDHT4mOPlSSscGeKYFnxlcvrgjUYB8lzTX7yR9hWDLA0XKLSMk/unJaFkyJ4Rt/+6W/5E0iufrr0hpPECTamoyVrqn+NemQOUy9PfTcE2pqNu3zPcDlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NyZMKQgY; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780192273; c=relaxed/simple;
+	bh=kgQ1INYmGkCFtHjfF37gquvimy7OqaTM1L0UoNYKxYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TOQANcTBLAuCpVOZ9xn5GeuNUbrKac6hgwvH9ZlSecWYCLN3SjzfTJtXhUu7IDrUm3U0PgBsxIkHFxyyxLPX7badlvaxngIqONlufU3TI69qRExLIFWEf0j++ueT7wK2p+KGODds3ntCHliROwPsgxhzPKdCA5zLTKlPjo1wrZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLY60Wfh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NyZMKQgY"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-9154ca1aa1dso53052685a.0
-        for <linux-doc@vger.kernel.org>; Sat, 30 May 2026 15:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780179605; x=1780784405; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=NyZMKQgYj9gZS3nJ3TwtHG7VqnqiDZ7KNKoh/6eimpM8dJG4qWT4jinWbbBmjb0PGx
-         3dSk/F5rGoQIor4+8DKMkZHq/U9EY7H7Yrt9RivbCT/Gee0N76YAwhFLRC+LOFl4qV5G
-         rltSGcyOF+OCE8mydvhQLrM1hUhDpgXoXDccXZK3DdBhG/NwSEXt92AR3GHqXeCJ/6VP
-         CaWI+kX00v3SZkCHNaxnGihKX78Og9V5jMk4TRFAIj5ahuTYS7I3oSpQGtXuvL5ETaoe
-         4dPeHjWVJ8g1+JBolFO6uVf4KnPuHu/C5g2+9+oC/kko3rrNwdTnZw51nSAHI5Oqe/co
-         J6Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780179605; x=1780784405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=NoPAqwz+zxTK9iiHQkBzOVHoO08kbxU97dltI3J/4DHYyYZjyDbsRMJE8vk4A+g796
-         +SU/l6aqp4d7PUoEuduQjvo6qF8Fg+dN9XiXeBjE0VeQMDZnkd2Vs5klANpryviJwbMD
-         jeDi9gZBre8A681MsyZu9WQb9Yl2/zjPzmObTKa9mBZLTcxbGnSLkH4dARF2YTmE5MPW
-         IuvzQnoZ6WP/Krx18IavygZKzTCegOSXSRosJmAcwB56qNp9Wfcu84ezKKQwGs4hbGmF
-         RyCZDwYWvE+yaKAZwuPnVAgLctzOe2Fh4Ch81lBQgRNo9dgVWUqbrpuJVOV5UoVWWf0t
-         BsWg==
-X-Forwarded-Encrypted: i=1; AFNElJ+sbKH7xevPjoYGIyVqzWO+HlYF3rTw4IDN+YnxFVXOhhMFCc8MAs9elhmvK/16u4lL8v0vmJuXmNE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ8IXIi2atb5YPn952xhRlrikfmXc6O8GokPasoJP4AwFjmtO2
-	SPBl+oXfMD8d5YhEJVUj32wbmKLZw7sqXRvE1dO0YRXOHha8+j4hLUZFR6HnpjjJoEY=
-X-Gm-Gg: Acq92OGa+Le+daIeUjb3Je0lShBmBl6gO0Rm498PPtMpShDPiHZIHIEDNgL8rC0VNtE
-	L3FPgLu5FLoxZfYenEd6rXKDQRtxjnIfKLnYepTuQyhIz1PWRrmVi3RdQVAbLBaRdo5XovYCZdX
-	H+LCsVerAvJ91M5T2AdALTCc6Ho/slGa7VKeYxyIO1MovuPreD+cZ3WZbZ/kLrFEUIm13LrKnXY
-	KatP8DmWq0bmQHQc5S1GMJcbd6UXCkmVN+reTBa3sUcOKkaJzGZj4YZac68q2IzZqRToLAx7OWQ
-	708IWuZxhGhRCDZZPiYpqZ6/4q3LMKLVBaM+SI0rOjif6uLGItFrnaGR06s1IDt10OpLGUfhGD0
-	tTQmvlGZN4iVktQxrNfjorWIwDI+ObDdeN4YgaVHvgRpVY//91DRFcExj6M8hNOPLQmfw2gL29S
-	NdY7zzQRrjsYabZ0EMklVbaAY9px3EaoM22A7BpZHxdgkiJDuhaTIBgR5oC2eAEg==
-X-Received: by 2002:a05:620a:29d5:b0:90f:786c:4a82 with SMTP id af79cd13be357-9152fa29820mr1006065185a.39.1780179605586;
-        Sat, 30 May 2026 15:20:05 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-915324868a0sm651790085a.18.2026.05.30.15.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 15:20:04 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: linux-kselftest@vger.kernel.org,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	pasha.tatashin@soleen.com,
-	dmatlack@google.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	skhawaja@google.com,
-	graf@amazon.com
-Subject: [PATCH v4 13/13] selftests/liveupdate: Add stress-files kexec test
-Date: Sat, 30 May 2026 22:19:38 +0000
-Message-ID: <20260530221938.115978-14-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260530221938.115978-1-pasha.tatashin@soleen.com>
-References: <20260530221938.115978-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLY60Wfh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766BE1F00893;
+	Sun, 31 May 2026 01:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780192272;
+	bh=1miKEZAnGiSRcJQWtswcD5dFRkY3BK0eDKYXOh7h6zk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kLY60WfhyXnSawaNZl+ilX4Ak1L0nLfHZVo5wooZbVNLdLl6+VwBm6FBMlSa46wp2
+	 RhTtMwa0RiiIopa/dJ6a4pY7B1OWJ6JG6HV0TQp+U2W/HKI248r6TyYHbRTreyNyVz
+	 yUz2338GeKxTE6CjYYCC6b361QBAF7FbhAnXKsfdt2WOCXOxGmOr6XE4nuBsWSm68w
+	 aiWbuaU68w9QP8FiUzIoZ1Bv2H7Ru5HQw2gQGmLT2bdMaYe7+sdfPcvgs8KQZWMZpX
+	 upA3cR23f39TzrUVNIHAGvC/dbMTqphfDDHLjSUuECnm+NaeIS8qJ8xIn5Vit4bcaE
+	 MoQcXwuCuMEJw==
+Date: Sat, 30 May 2026 18:51:01 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Sunil V L <sunilvl@oss.qualcomm.com>
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Adrien Ricciardi <aricciardi@baylibre.com>,
+	Nicolas Pitre <npitre@baylibre.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Chen Pei <cp0613@linux.alibaba.com>,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Weiwei Li <liwei1518@gmail.com>, guo.wenjia23@zte.com.cn,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, liu.qingtao2@zte.com.cn,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Tony Luck <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>,
+	Peter Newman <peternewman@google.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
+	Dave Martin <Dave.Martin@arm.com>, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v5 16/18] ACPI: RISC-V: Parse RISC-V Quality of
+ Service Controller (RQSC) table
+Message-ID: <ahuUBV8QYo_ToOrB@gen8>
+References: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
+ <20260524-ssqosid-cbqri-rqsc-v7-0-v5-16-78d3a7ba9dbe@kernel.org>
+ <CAB19ukE9r_V=0eop3=f8zohhnCavd=9GjDEK1VMMbOb0ReOtDA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB19ukE9r_V=0eop3=f8zohhnCavd=9GjDEK1VMMbOb0ReOtDA@mail.gmail.com>
 
-Add a new luo_stress_files kexec test that verifies preserving and
-retrieving 500 files across a kexec reboot.
+On Mon, May 25, 2026 at 01:53:09PM +0530, Sunil V L wrote:
+> > +               if (info.mcid_count > CBQRI_MAX_MCID) {
+> > +                       pr_warn("controller at %pa: mcid_count %u exceeds CBQRI_MAX_MCID %u, skipping\n",
+> > +                               &info.addr, info.mcid_count, CBQRI_MAX_MCID);
+> > +                       continue;
+> > +               }
+> > +
+> Do you also want to add a check for the statement in the spec "At
+> least one of RCID Count or MCID Count must be non-zero." ?
 
-Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/testing/selftests/liveupdate/Makefile   |  1 +
- .../selftests/liveupdate/luo_stress_files.c   | 97 +++++++++++++++++++
- 2 files changed, 98 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
+Good idea, I'll add a skip with pr_warn when both are zero.
 
-diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-index ed7534468386..30689d22cb02 100644
---- a/tools/testing/selftests/liveupdate/Makefile
-+++ b/tools/testing/selftests/liveupdate/Makefile
-@@ -7,6 +7,7 @@ TEST_GEN_PROGS += liveupdate
- TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
- TEST_GEN_PROGS_EXTENDED += luo_multi_session
- TEST_GEN_PROGS_EXTENDED += luo_stress_sessions
-+TEST_GEN_PROGS_EXTENDED += luo_stress_files
- 
- TEST_FILES += do_kexec.sh
- 
-diff --git a/tools/testing/selftests/liveupdate/luo_stress_files.c b/tools/testing/selftests/liveupdate/luo_stress_files.c
-new file mode 100644
-index 000000000000..0cdf9cd4bac7
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_stress_files.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Validate that LUO can handle a large number of files per session across
-+ * a kexec reboot.
-+ */
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include "luo_test_utils.h"
-+
-+#define NUM_FILES 500
-+#define STATE_SESSION_NAME "kexec_many_files_state"
-+#define STATE_MEMFD_TOKEN 9999
-+#define TEST_SESSION_NAME "many_files_session"
-+
-+/* Stage 1: Executed before the kexec reboot. */
-+static void run_stage_1(int luo_fd)
-+{
-+	int session_fd, i;
-+
-+	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-+	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+
-+	ksft_print_msg("[STAGE 1] Creating test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_create_session");
-+
-+	ksft_print_msg("[STAGE 1] Preserving %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		if (create_and_preserve_memfd(session_fd, i, data) < 0)
-+			fail_exit("create_and_preserve_memfd for index %d", i);
-+	}
-+
-+	ksft_print_msg("[STAGE 1] Successfully preserved %d files.\n", NUM_FILES);
-+
-+	close(luo_fd);
-+	daemonize_and_wait();
-+}
-+
-+/* Stage 2: Executed after the kexec reboot. */
-+static void run_stage_2(int luo_fd, int state_session_fd)
-+{
-+	int session_fd;
-+	int i, stage;
-+
-+	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
-+
-+	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-+	if (stage != 2) {
-+		fail_exit("Expected stage 2, but state file contains %d",
-+			  stage);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Retrieving test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_retrieve_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_retrieve_session");
-+
-+	ksft_print_msg("[STAGE 2] Verifying %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+		int fd;
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		fd = restore_and_verify_memfd(session_fd, i, data);
-+		if (fd < 0)
-+			fail_exit("restore_and_verify_memfd for index %d", i);
-+		close(fd);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Finishing test session...\n");
-+	if (luo_session_finish(session_fd) < 0)
-+		fail_exit("luo_session_finish for test session");
-+	close(session_fd);
-+
-+	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-+	if (luo_session_finish(state_session_fd) < 0)
-+		fail_exit("luo_session_finish for state session");
-+	close(state_session_fd);
-+
-+	ksft_print_msg("\n--- MANY-FILES KEXEC TEST PASSED (%d files) ---\n",
-+		       NUM_FILES);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	return luo_test(argc, argv, STATE_SESSION_NAME,
-+			run_stage_1, run_stage_2);
-+}
--- 
-2.53.0
+> > +/* RQSC v0.9.2 Table 4: Resource Type values for acpi_rqsc_resource.type. */
+> > +#define ACPI_RQSC_RESOURCE_TYPE_CACHE  0
+> > +#define ACPI_RQSC_RESOURCE_TYPE_MEMORY 1
+> > +
+> > +/* RQSC v0.9.2 Table 4: Resource ID Type values for .id_type. */
+> > +#define ACPI_RQSC_RESOURCE_ID_TYPE_PROCESSOR_CACHE     0
+> > +#define ACPI_RQSC_RESOURCE_ID_TYPE_MEMORY_RANGE                1
+> > +
+> Memory-Side Cache, ACPI, PCI devices missing?
 
+I'll add the constants for the future.
+
+Thanks,
+Drew
