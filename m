@@ -1,152 +1,236 @@
-Received: from mail-m15567.qiye.163.com (mail-m15567.qiye.163.com [101.71.155.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392BA37756F;
-	Sun, 31 May 2026 07:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94F9379C53;
+	Sun, 31 May 2026 08:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780213047; cv=none; b=V9IPmRPdsn6xl4l93PxfWDUTcJAFCrQFqgsbzsV7u3Iy6aCcuihXbo0X6EB2tsLFGDBJZ5I1dcvl/73lE54iXmedAh+hnGoxYKWKKU1Hofxgv13sYfmqJariEV8JSciNkkNQEoeTRp7IWInJNP46/QdzdNWpQE8o66Ks74NpMd4=
+	t=1780216297; cv=none; b=C/lIUWK1gLq24WpFTPxe0cqNnAh7ORR91/fT6GOBnDaRmQhiMc2nb2hMB8mjcMwNOriNTZAYDsuSmQHai6sOCgtP8hGWWfPArPhmqpxV632h5eOC8bvtBAqQKxYgn3NWlrwFRltAWsTB6gyWMFWm31F1R/6XP7vxCfD4j7S+px0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780213047; c=relaxed/simple;
-	bh=4y/wqAEW5AaLhHqY2hNhbhkXKxSDw56N/PxgLo8hM+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PJwk7483EzI/esVRe5ymqy3o4dI5FooP6sAydQRINTkWFk2EJZipNfZz5dVLnhW2R4KA0/+vdoaUOx4IEKV7nfq4OwHgzijF0LgMxI0NKuRxzhLjE9fkqr2RKr319g89ONNxaGuMCm7XszLu0d3giqd0y0TRmLzbQTWzT/XSg0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=r8lA+Joy; arc=none smtp.client-ip=101.71.155.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1780216297; c=relaxed/simple;
+	bh=BwrCMJSqDqw93Kci2D9Mvk3scFE9sWiCX07UitM6pyY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bm+VU4Fad9Fd+0++3jDsfiad5lSSvqOoqZ7luTMMxi1oU6YFFfKIiZjXyEruouLQ1b3sR6k1RDq/7CB3OtVnNGA+/RmhW84IpZ0mFS/rIjAVbSpLIlIZ6Zd6P+327icievNkMKRvc3Mz1LrW2BbKiu2nWMpzGA2mInFXXWb9lWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKhl/WW5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="r8lA+Joy"
-Received: from localhost (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 407609810;
-	Sun, 31 May 2026 15:32:03 +0800 (GMT+08:00)
-Date: Sun, 31 May 2026 15:31:59 +0800
-From: Kefan Bai <baikefan@leap-io-kernel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Alex Shi <seakeel@gmail.com>, linux-usb@vger.kernel.org,
- si.yanteng@linux.dev, alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-Subject: Re: [PATCH v7 2/8] docs/zh_CN: Add acm.rst translation
-Message-ID: <20260531153159.0000636c@leap-io-kernel.com>
-In-Reply-To: <2026053149-flaky-shallow-2460@gregkh>
-References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
-	<9f865599e837c90d3048b9a8004efd65b2e3f9d3.1779355170.git.baikefan@leap-io-kernel.com>
-	<a6752fa9-b15b-4b50-baef-53c36460311e@gmail.com>
-	<20260531145704.000061ae@leap-io-kernel.com>
-	<2026053149-flaky-shallow-2460@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKhl/WW5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 55DAFC2BCB4;
+	Sun, 31 May 2026 08:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780216297;
+	bh=BwrCMJSqDqw93Kci2D9Mvk3scFE9sWiCX07UitM6pyY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=RKhl/WW5n1gd5E71EErGhWhcvz8rZrCjOCTPUxV/a3xWQ2icrodQl/jOm7sLFD9zU
+	 GapQ/aZcEYq7b0poexwxCOkruSV25FGR9J26J8/PLaMfLI6SBwiD3q3yQKZF/aU98Y
+	 1rJq4n6PNPvCiVxL5WZeD4tOz6Q6goG5rh7Mg50iQBVJoslFgOQQyyOr/sHWTUq1tW
+	 C5L/0vCAV3brWRVI0098kRw49ysr7JlgBKLVZz+GAneTwQwyat1jlBkf4fynRW+gbo
+	 KSE4fn+XSon3yJBxXQF5k73HaoJ2NNhkxEFP6Ipj94oAsgR3/CthyAnEzxshMcW204
+	 4Rbk9rBOn1jNQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3908ECD6E51;
+	Sun, 31 May 2026 08:31:37 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Subject: [PATCH v15 00/12] ADF41513/ADF41510 PLL frequency synthesizers
+Date: Sun, 31 May 2026 09:30:43 +0100
+Message-Id: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB18030
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e7cf26e2903ackunm17ae474b15c35a
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGUhKVh4fQk8ZHU4YThkZGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
-	tJT09PSFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=r8lA+Joy/THpantB0LX0uTTBYQazyTHbAbBaI8d+GqImlQJy2jgyly7yiycygzTd1GPwoC7j5wYa4O7AUvstS0i365o+Vjm4bijZSQnQ3xV+/Fflok/I5G9spzbhjbkbNqC9ELZ9u4Xu2bPHPZlqN7lYJlFuOnJ1uRwWamDyBeChqCMe+qwHrSchsuPDoCVegyxXRLxnb3+FZCeYGkrM9rs2qjr3Z8meNPdwjBKQLPgGq22T9DPBb9Lz1ST3Fm0Dv1UZkWZnsGn5X1V+FGYN+uph5+mScop89QqwYTEXbov3uFNpk7/qEXhKChnfeDa8bkmafmzXfC2jmqU3x4b4zg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=kb/IvFenX7DUCg3lu6mdJYbbfZw3ctU32Vp9sxf1gCQ=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALPxG2oC/33STY7UMBAF4KuMsibIVeVfVtwDsbBd5RlL0EFpF
+ IFGfXecllCCHLO0FX9OPb/36S5rlfv06eV9WmWr97rc2gLMh5cpv8Xbq8yV28aECg0AqDly0WC
+ A5lqXmde6yTrHmKOPrnjlZWonf6xS6q8n++VrW7/V+89l/f28ZYN99//eBrOakYtPogpnK5/jL
+ X5bXj/m5fu0gxseCEK4RrAhSTBET2xcoA6hv4hVoPw1QvufEAM5iFK07xB9QsBeI7ohnJJj6zw
+ iuA4xJwTpGjHPTLJ4wIjMsUPsCaFBsLYhuWiLFNp3KXeIOxAcjeP2YJUweReTMaFD/IGQGozjG
+ +KZUYPLWVvTIeGE4GCc0BAgLIqVs+R0h4A6lHZ80Da1v0+xoLRlo03/PgAHY9QgFni2NjkJIRf
+ xBXsGT8yw+3tvSceCwuhcKD1DZ8YNmL25KVmBZpFVF8ypugb1gNm7q6xHzSGDKf9G/Hg8/gBPs
+ OsIQwQAAA==
+X-Change-ID: 20251110-adf41513-iio-driver-aaca8a7f808e
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780216295; l=7207;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=BwrCMJSqDqw93Kci2D9Mvk3scFE9sWiCX07UitM6pyY=;
+ b=zKYqjB9Jzts8SWcgiAa5z0EAH1ZbDQMJQw9lnbL9Y4PC7PGqkC+WQalew2NgCh3jCEy34vomY
+ 5CpM2GNMWG4DEIOJ8cCg7WvBTwn/YjOjydds/NgFjpt11Y0SFRiytfA
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-On Sun, 31 May 2026 09:23:02 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
+This patch series adds support for the Analog Devices ADF41513 and ADF41510
+ultralow noise PLL frequency synthesizers. These devices are designed for
+implementing local oscillators (LOs) in high-frequency applications.
+The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
+operates from 1 GHz to 10 GHz.
 
-> On Sun, May 31, 2026 at 02:57:04PM +0800, Kefan Bai wrote:
-> > On Mon, 25 May 2026 10:05:23 +0800
-> > Alex Shi <seakeel@gmail.com> wrote:
-> > 
-> > > 
-> > > 
-> > > On 2026/5/21 17:55, Kefan Bai wrote:
-> > > > Translate .../usb/acm.rst into Chinese
-> > > > 
-> > > > Update the translation through commit ecefae6db042
-> > > > ("docs: usb: rename files to .rst and add them to drivers-api")
-> > > > 
-> > > > Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
-> > > > Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
-> > > > ---
-> > > >   Documentation/translations/zh_CN/usb/acm.rst  | 147
-> > > > ++++++++++++++++++ .../translations/zh_CN/usb/index.rst
-> > > >  | 2 +- 2 files changed, 148 insertions(+), 1 deletion(-)
-> > > >   create mode 100644
-> > > > Documentation/translations/zh_CN/usb/acm.rst
-> > > > 
-> > > > diff --git a/Documentation/translations/zh_CN/usb/acm.rst
-> > > > b/Documentation/translations/zh_CN/usb/acm.rst new file mode
-> > > > 100644 index 000000000000..51d6eb8f5660
-> > > > --- /dev/null
-> > > > +++ b/Documentation/translations/zh_CN/usb/acm.rst
-> > > > @@ -0,0 +1,147 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +.. include:: ../disclaimer-zh_CN.rst
-> > > > +
-> > > > +:Original: Documentation/usb/acm.rst
-> > > > +
-> > > > +:翻译:
-> > > > +
-> > > > + 白钶凡 Kefan Bai<baikefan@leap-io-kernel.com>
-> > > > +
-> > > > +:校译:
-> > > > +
-> > > > +
-> > > > +====================
-> > > > +Linux ACM 驱动 v0.16
-> > > > +====================
-> > > > +
-> > > > +版权所有 (c) 1999 Vojtech Pavlik<vojtech@suse.cz>
-> > > > +
-> > > > +由 SuSE 赞助
-> > > > +
-> > > > +0. 免责声明
-> > > > +~~~~~~~~~~~
-> > > > +本程序是自由软件；你可以在自由软件基金会发布的
-> > > > +GNU 通用公共许可证第 2 版，或者（按你的选择）
-> > > > +任何后续版本的条款下重新发布和/或修改它。
-> > > > +
-> > > > +发布本程序是希望它能发挥作用，但它不附带任何担保；
-> > > > +甚至不包括对适销性或特定用途适用性的默示担保。
-> > > > +详情见 GNU 通用公共许可证。
-> > > 
-> > > Hi Kefan,
-> > > 
-> > > The alignment means we will try use the width for each of lines,
-> > > not just stop for each of punctuation. Please fix all patches
-> > > alignment, try to expand the whole width for lines unless it's
-> > > broken a word or unreadable.
-> > > 
-> > > Thanks
-> > 
-> > Hi Alex,
-> > 
-> >   Sorry for the late reply, and thanks for the review.
-> > 
-> >   I understand the formatting point now. The translated text should
-> > be reflowed more evenly, instead of breaking too early around
-> >   punctuation.
-> > 
-> >   Greg queued this series in usb-testing on May 21, 2026, and then
-> >   moved it into usb-next on May 27, 2026. At this point, would you
-> >   prefer me to leave the current series as-is and follow this rule
-> > in future translations, or send a small follow-up cleanup patch on
-> > top of usb-next?
-> 
-> Clean up patch on top would be great, thanks.
-> 
-> greg k-h
-> 
-> 
-Hi Greg, Hi Alex,
+Key features supported by this driver:
+- Integer-N and fractional-N operation modes
+- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+- 25-bit fixed modulus or 49-bit variable modulus fractional modes
+- Digital lock detect functionality
+- Phase resync capability for consistent output phase
+- Load Enable vs Reference signal syncronization
 
-  Thanks, I will prepare and send a follow-up cleanup patch on top of
-  usb-next.
+The series includes:
+1. PLL driver implementation
+2. Device tree bindings documentation
+3. IIO ABI documentation
+4. Parsing utils for 64-bit decimal values
+
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+Changes in v15:
+- Set bleed value when chaging mode.
+- Link to v14: https://lore.kernel.org/r/20260524-adf41513-iio-driver-v14-0-06824d9c15f4@analog.com
+
+Changes in v14:
+- Review include headers.
+- Use named fields in spi device table.
+- Address relevant sashiko's feedback.
+- Minor tweaks to iio core changes.
+- Link to v13: https://lore.kernel.org/r/20260517-adf41513-iio-driver-v13-0-bb6e134a360f@analog.com
+
+Changes in v13:
+- Introduce _parse_integer_limit_init()
+- Better support for 0 and larger scales in kstrtodec64()
+- Increase test scope for kstrtodec64()
+- Fix LSB_P1 check at startup when going for fixed modulus mode.
+- Clear phase adjust when setting phase (It turns out sashiko was correct).
+- Make sure Load Enable is not selected when powering up.
+- Address some minor comments.
+- Link to v12: https://lore.kernel.org/r/20260510-adf41513-iio-driver-v12-0-34af2ed2779f@analog.com
+
+Changes in v12:
+- Contraint charge pump current.
+- Fix division-by-zero issues.
+- Address PM and sysfs powerdown conflicts.
+- Program proper phase resync value in clk divider mode.
+- Link to v11: https://lore.kernel.org/r/20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com
+
+Changes in v11:
+- Cleanup ext info attribute read/write callbacks.
+- Adjust attribute names in the documentation.
+- Turn s64 compose macros into static inline functions.
+- Link to v10: https://lore.kernel.org/r/20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com
+
+Changes in v10:
+- Drop simple_strntoull() changes
+- Create kstrtodec64() and kstrtoudec64() helpers. 
+- Add IIO value format for 64-bit decimal values.
+- PLL driver code implements new decimal format for frequency attr. 
+- Link to v9: https://lore.kernel.org/r/20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com
+
+Changes in v9:
+- Expose simple_strntoull() in a safer prototype instead of new kstrntoull()
+- Link to v8: https://lore.kernel.org/r/20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com
+
+Changes in v8:
+- Add new function kstrntoull() to lib/kstrtox.c and tests to lib/test-kstrtox.c.
+- Drop custom iio u64 parser, replacing it for kstrntoull().
+- Dedicated MAINTAINERS entry for drivers/iio/test/iio-test-fixpoint-parse.c.
+- Link to v7: https://lore.kernel.org/r/20260216-adf41513-iio-driver-v7-0-b0ed387ab559@analog.com
+
+Changes in v7:
+- Addressed minor suggestions.
+- frequency_resolution ABI for AD4350 removed in favor of generic one.
+- Link to v6: https://lore.kernel.org/r/20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com
+
+Changes in v6:
+- Drop usage of simple_strtoull().
+- Implement better overflow checks with iio_safe_strntou64().
+- Link to v5: https://lore.kernel.org/r/20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com
+
+Changes in v5:
+- Drop local parsing of 64-bit plus fractional parts
+- Add iio_str_to_fixpoint64() to iio core with parsing tests
+- Add DT property dependency for adi,charge-pump-resistor-ohms
+- Add local definition for ADF41513_HZ_PER_GHZ and drop units.h patch
+- Link to v4: https://lore.kernel.org/r/20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com
+
+Changes in v4:
+- Proper usage of units.h macros
+- Simplifications to DT property parsing
+- Adjustments to return value handling
+- Drop of simple DT property node example
+- Link to v3: https://lore.kernel.org/r/20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com
+
+Changes in v3:
+- Use FIELD_MODIFY macro in driver implementation
+- Drop refin_frequency iio attribute
+- Drop muxout-select property from dt-bindings (and rename logic-level property)
+- Use -mhz suffix in power-up frequency property
+- Address documentation issues
+- Link to v2: https://lore.kernel.org/r/20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com
+
+Changes in v2:
+- separate driver implementation from extra features and improve commit messages
+- use macros from units.h
+- explanation of custom parse function: adf41513_parse_uhz
+- reorganize driver data structures
+- drop clock framework support for now
+- reorganize documentation
+- Link to v1: https://lore.kernel.org/r/20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com
+
+---
+Rodrigo Alencar (12):
+      dt-bindings: iio: frequency: add adf41513
+      lib: kstrtox: add local _parse_integer_limit_init() helper
+      lib: kstrtox: add kstrtoudec64() and kstrtodec64()
+      lib: test-kstrtox: tests for kstrtodec64() and kstrtoudec64()
+      lib: math: div64: add div64_s64_rem()
+      iio: core: add decimal value formatting into 64-bit value
+      iio: test: iio-test-format: add test case for decimal format
+      iio: frequency: adf41513: driver implementation
+      iio: frequency: adf41513: handle LE synchronization feature
+      iio: frequency: adf41513: features on frequency change
+      docs: iio: add documentation for adf41513 driver
+      Documentation: ABI: testing: add common ABI file for iio/frequency
+
+ Documentation/ABI/testing/sysfs-bus-iio-frequency  |   11 +
+ .../ABI/testing/sysfs-bus-iio-frequency-adf4350    |   10 -
+ .../bindings/iio/frequency/adi,adf41513.yaml       |  227 ++++
+ Documentation/iio/adf41513.rst                     |  199 ++++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |    9 +
+ drivers/iio/frequency/Kconfig                      |   10 +
+ drivers/iio/frequency/Makefile                     |    1 +
+ drivers/iio/frequency/adf41513.c                   | 1246 ++++++++++++++++++++
+ drivers/iio/industrialio-core.c                    |   47 +-
+ drivers/iio/test/iio-test-format.c                 |   97 +-
+ include/linux/iio/types.h                          |   30 +
+ include/linux/kstrtox.h                            |    3 +
+ include/linux/math64.h                             |   18 +
+ lib/kstrtox.c                                      |  141 ++-
+ lib/math/div64.c                                   |   15 +
+ lib/test-kstrtox.c                                 |  182 +++
+ 17 files changed, 2193 insertions(+), 54 deletions(-)
+---
+base-commit: 1548c54e9adc32a719499216f63fba14b2fc07c3
+change-id: 20251110-adf41513-iio-driver-aaca8a7f808e
 
 Best regards,
-Kefan
+-- 
+Rodrigo Alencar <rodrigo.alencar@analog.com>
+
 
