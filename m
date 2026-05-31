@@ -1,90 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC383546EB;
-	Sun, 31 May 2026 16:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71BBBA3D;
+	Sun, 31 May 2026 17:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780246628; cv=none; b=GfVM+WOYt9V9gE0KePfqHC3cKzAuvVC4/zKNGhSPhSbM5ZrAM4C1jvWHc8eU11nfX+i2GiVGPqVuWopxyK/8WdjLSSBNv3+U4ZC0LtEpDTj3/R8kTS/hG2tLcQefzw+J1ZTLUM7F1Us8ITgAP9bdzq8WT7qj1ghY9JOJO5HWY48=
+	t=1780250363; cv=none; b=BkeqWlw2hLdozOUXdmdBmyrqN/yJXmn8p9sOZDqyXi0/T1V28C5Btxvnhm1DLsHaJPYeOy7v5K4A78hWyZX1xQbG66gS1bZViYHxPryWVR63AGu0+6Ri5lR2YY8uaeIBxkMUikL1mTRAzNxZaYOTbP5EtKNPMU4WO1CboS/gnuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780246628; c=relaxed/simple;
-	bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U/RDy3dhvCerHn1LzBYXyE8JrPHbTK74Ygg5wHbB4mMPYWeocJ0L6pHF7PmtiK62KwxPjho+62DXwIpXkGB+AFGodrb5m28TKcsO1Iliin4b6lvFf8TWzoXi1hZXsNMXj0pq62TunDrV5o88xpU5FOjU8fcWwDox/l0mz6MDrPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anxaks0w; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780250363; c=relaxed/simple;
+	bh=6j55yuq3haW58mABu5fGuPM2I8vX4fLaAq1ZXQ7u+tI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=GasEcntUqpH6bpPrCuauwfG3MzeeiyhPyLfjSy2hsbQaDKPIgq6Kdvij/yPkXGzTTMUlYVf0ru5QNLMlJL0xorEhEJSmF9I7hTIE/WgpIY0NrmrL3+bbU2vG/2LdKCn9/0Gj2RyH0o06haG8RTnI9sh5h859QiR/vq1M+m9sJTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QyQCjjc/; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VtUPxekb; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anxaks0w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780246627; x=1811782627;
-  h=date:from:to:cc:subject:message-id;
-  bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
-  b=anxaks0w7IcWcWFSnMXATm12d2fwSvb04O9H4OTPZ/sy5HeI9uZh0XNm
-   wno5aGziIR+MZjYyt17MhnE/BSPdKtT12wBiLAV8xM7d7pPnYi7YbHgBc
-   7iU+fJbG3BDbr5n9uzpVT/+L11kXt+4qp0u/B05uFVVPo6xWW0fpBDqL6
-   SyKn6TslxY435lY4khTgFwsfEm2EfuMIkPbI+sDj+zsN/7iHxa0UazR/5
-   T8aQuv4IEIp4YcPm91wdyDUgN9pO732qsyra9wVlowOdtq0jSh0KHUH5U
-   lV8pmFgfDdjwnvg/36+3f2Gq/wUdHKZV4NVk7IFQkB9uRpXA/mBgfqHgV
-   g==;
-X-CSE-ConnectionGUID: l5S5fC+4QcaIVbqbShy36A==
-X-CSE-MsgGUID: KgWYUR61ReSSeKlMyu5iSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="80052730"
-X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="80052730"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 09:57:06 -0700
-X-CSE-ConnectionGUID: HML7du4AQKqM/795MF60SA==
-X-CSE-MsgGUID: ucLD1krjQxiRCYKBpg6OgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
-   d="scan'208";a="240357461"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 31 May 2026 09:57:04 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wTjTC-000000001PJ-18bg;
-	Sun, 31 May 2026 16:57:02 +0000
-Date: Sun, 31 May 2026 18:56:57 +0200
-From: kernel test robot <lkp@intel.com>
-To: Leo Li <sunpeng.li@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [amd-pstate:superm1/backlight-property-v5 9/21] htmldocs:
- Documentation/gpu/amdgpu/display/display-manager:29:
- ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line
- block ends without a blank line. [docutils]
-Message-ID: <202605311832.R47OfrlB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QyQCjjc/";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VtUPxekb"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gT4bj3v8Lz9tDy;
+	Sun, 31 May 2026 19:59:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780250353;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=57br2g9fUlfUtP0mB56ZX/QUS1QSPk6nRh2NT0X1H0c=;
+	b=QyQCjjc/mgJPQ+Xysh/CJR9gCUZ4w9mCJiUGOG3ClIjgoD0axk7Dbhfr9I8V5yNk9yBt8v
+	+xK7k1cciC+fHmR/wdCVNDlfTaosfwuisGF0O0Dk/f8ldwqajilYe9z6188cx0uuiBv9Ws
+	cJpyp59mFoDdZSJQUj/C67YbICDf55gK2Q0kdKAVEpJZ/XAMolP9vvE46DPD1aHvcrJTVv
+	NZFfyts9yAreA0FcqzBhixX3n3Dd3aNR+CCcHr2TchBFZiS6luNrtKn/HYdY4ONmU6v7ua
+	Jwk44rphqEI9A+uxiu2airN57TGhyb2Bys/Ba1hT4gEKwAom4e0MUlJuIJbu+w==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=VtUPxekb;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780250351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=57br2g9fUlfUtP0mB56ZX/QUS1QSPk6nRh2NT0X1H0c=;
+	b=VtUPxekb4ykd7UCXk/hIf/auad7jUbChXdIDKIpMWAm2JyrDYx+iUdrvw7dzJyM7N8qTrD
+	29o/hDM7YC9OGcRcz/+pnm5f8CgCYUEHr5YEOj9kwikrGGfvDxYo7PZcDXGvnH8IbFFsUI
+	3Lnp8rITGmYh5exhA0/VqQmQkbGBqbO1BusqdvltKixihLHV7kF0h1iCGAZMnfuEWs0kyO
+	9q45OJk7rmJDJogvYzeOOax0/E15HHHtCv+oWx4RKKPzIsDhPKziRQULFor21o//y+pk1v
+	ai9ApbHsRZiC6eE9/X+oD1Bg2bU9E42QtxkT40DwpsPtJzced/cqzHYyOBTMsA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Manuel Ebner <manuelebner@mailbox.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: locking.rst: update deprecated function
+Date: Sun, 31 May 2026 19:54:53 +0200
+Message-ID: <20260531175452.272136-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 062210b7197cab47db8
+X-MBO-RS-META: k8jjtk9x1ay9u131ydq4cuqbq45gfnao
+X-Rspamd-Queue-Id: 4gT4bj3v8Lz9tDy
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v5
-head:   5f2330560c00d587cd173ee4222011b62e1ac567
-commit: 4dbf62273708e62ea3d1532671b4e5c26f722b8b [9/21] drm/amd/display: Use vline2 interrupt on DCN instead of vstartup
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260531/202605311832.R47OfrlB-lkp@intel.com/reproduce)
+replace strcpy() with strscpy() as suggested in deprecated.rst
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605311832.R47OfrlB-lkp@intel.com/
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/kernel-hacking/locking.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-All warnings (new ones prefixed by >>):
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index dff0646a717b..d625b522265a 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -471,7 +471,7 @@ to protect the cache and all the objects within it. Here's the code::
+             obj = __cache_find(id);
+             if (obj) {
+                     ret = 0;
+-                    strcpy(name, obj->name);
++                    strscpy(name, obj->name);
+             }
+             mutex_unlock(&cache_lock);
+             return ret;
+@@ -553,7 +553,7 @@ which are taken away, and the ``+`` are lines which are added.
+              obj = __cache_find(id);
+              if (obj) {
+                      ret = 0;
+-                     strcpy(name, obj->name);
++                     strscpy(name, obj->name);
+              }
+     -        mutex_unlock(&cache_lock);
+     +        spin_unlock_irqrestore(&cache_lock, flags);
+@@ -676,7 +676,7 @@ Here is the code::
+              obj = __cache_find(id);
+     -        if (obj) {
+     -                ret = 0;
+-    -                strcpy(name, obj->name);
++    -                strscpy(name, obj->name);
+     -        }
+     +        if (obj)
+     +                __object_get(obj);
+-- 
+2.54.0
 
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'adev' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'source' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'vline_crtc_id' not described in 'amdgpu_dm_set_vline_irq_state'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
->> Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line block ends without a blank line. [docutils]
-   Documentation/gpu/amdgpu/display/display-manager:47: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c:61: ERROR: Unexpected section title.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
