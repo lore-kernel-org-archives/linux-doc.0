@@ -1,102 +1,146 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA53A30F7F7;
-	Sun, 31 May 2026 16:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639593909BF
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 16:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780243937; cv=none; b=F2fM835yTEl8qR5xt2OPVHaSs3KPjrp0EiMbD7G2CjAOiAPUvtnJYPzQvp9vG2fzw8F/T26y+SHwjjNRfldPH1SV0sx23CGq7u/gGNag1+FrHCPo7sfdZ9+J2G/bLYQw+R6HQ/YgIRGYUHGNyYXefAUFEaArqFFb8hxSDagvZzQ=
+	t=1780244867; cv=none; b=VQBUdWCveHER5DSyfkX6SeJD4fKHB4aZuqUgDbtcqpCzUwku9wiXkG9drphfFLhChnQa0Isuy0/qY/tSj+cko145aWHpXryTjNQMDAOdrelgj51YHyERtt9aEQy193leJBx3gJKUByGj72chyUEj/rpfXu+JPlij1MVLqA2iCBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780243937; c=relaxed/simple;
-	bh=NEFLkuSTxCWs2924ngnPJ6eCDTa8JGSMiaCxiHXXsLU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=G2B0uJ7JNT2CCqSplcjW54EuS/AChetTQj3/zogDfxJ2/AC0pG9FTU9Pyi5Q5MB0ZsYzYF25RIqAO/qlk0EzGCQrEoCqBLj8Ffhdbgrt4CKA8b6rTGuMeAQSG+mVNxmdQdk7FqNircZ/MZIzwKsXoom6+VHrqXvQzIZ8jWYK8tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nnWddoRo; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1780244867; c=relaxed/simple;
+	bh=0Z7N0xCYu6VkyFfhnSi8o2vTsl4Gm9ruQYGU2oUarIU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IvqQq/jvjjC1edQwRx4r/MVNrcI9SZM+nWqq067qsYYcJ1vbrp/G89A1yWCjpJfpP50iD42BXwjUcIJm813XJCC8IaUejrIvDWFvP0f00wldCMBr09U/SsyW1m3kAxOQd4a9JEKji4eSgV5YH2Jh7iTH7AaHA0hB9VjTMBtHLlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vbou+zIi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nnWddoRo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=lRfsJRjVnz63B9zDXXJQSFpGpPDRHumKiPkeEH3p/P4=; b=nnWddoRoW6kYJ3DPZlJngMaGdl
-	1UDWVYUF3M2u/LmgDvjU6sOfXKDgBhcmOCfYl0pSkVP2pGCSU1sXMppG8saVBgBYvZTM7suer30az
-	ey3QcRYwN1BOzSBNpI/210TCIWBDBow98fk3aDPjA/V1G3F3a2Eo4B1x5noMbE/p7sTbnVqfBYW5n
-	O7ZxnVw4jnmTnARZOT1Mbb1LALHkkeSs7w8qWZ06FHwXyIKi80ZXeAlS+pz9OvEnEp8675M6LQv+1
-	nJDOXwUzsvemdti3ELwV95o488Qp0HDT59aoyDyMLPQy+iAZxztaM4GRB5+ybsRRE9EJfAY81XoMj
-	49ZmBZ6g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTilp-00000009k0J-0AkH;
-	Sun, 31 May 2026 16:12:13 +0000
-Message-ID: <5cf7a4f6-0a0b-4f41-8137-d6c3e055d4e8@infradead.org>
-Date: Sun, 31 May 2026 09:12:11 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vbou+zIi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0065A1F008A3
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 16:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780244866;
+	bh=b/T/RdXiN7bhTsikP7tDXhBU6HaNdabK8ZTbQ4skuK0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Vbou+zIiA3Mr4kpYeiYJTqi2gIfmOZkK11YoGOHJXJolFeVAEfBS1YmHpT2wbl7E4
+	 1TtFyx5TF2YuygGadxrQcJ1BbSDjThQNgIQTDV+k7mbJnCEVnmCp/WdYdPgTqysu3r
+	 iMc/SXEPVkZBePzOusjof6PMTt34N5mN/BWjlITLi6GWFVDZrYjjZMV3nyOz0eZh0H
+	 nSY9BsHNYDHM9flWN3Wyu66qytrnINpASR4KeaMgIHf179bUlLCtBEgwXjc2B1+jsG
+	 pI0eIsJ5J4yCzh+imQOSoXBDCyq6QOJRceCoO6RwRvc+V1+Aw4d5g0j4MWmuAfjJGI
+	 iJoGujrTk1fCg==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa63daf2a5so918290e87.3
+        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 09:27:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8Yo+tG7wAVdaAV0NGWdxCBHzN5BnYD5OzJftk9BT18vcp4L07gN42kGM4hQ4D4lq28r6L2X+foDJo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYtrMePhsj1c0u0/HIHiataPewgW0an+L/vuCvY3jaUHp4iG8l
+	r/ugWvKCCSC1dcmubQtGQ9J2hq+tAah7nyVAyCWPQKLXMwEwVpCHQgUag37x3m/a/HrP0vezWMd
+	o7VwsORXlMwx7AcI+5GgDO1pTD+GzN9IilKhevzIWWQ==
+X-Received: by 2002:a05:6512:800d:10b0:5a8:fca6:a537 with SMTP id
+ 2adb3069b0e04-5aa608ff3d8mr1341020e87.22.1780244864645; Sun, 31 May 2026
+ 09:27:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] net: Remove orphaned ax25_ptr references
-To: Costa Shulyupin <costa.shul@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260531134837.4111349-1-costa.shul@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260531134837.4111349-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260526-qcom-qce-cmd-descr-v19-0-08472fdcbf4a@oss.qualcomm.com> <20260529162251.GB2706@sol>
+In-Reply-To: <20260529162251.GB2706@sol>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Sun, 31 May 2026 18:27:32 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MdJ5GN_Lbi9PeCoW=fNnjCz-WAq66TSa8f=fZGOHFZ41Q@mail.gmail.com>
+X-Gm-Features: AVHnY4KA4mut6jG-LIp_D5JMZD7phc05G5rBuCgHgHRyzFVSAKUzF_CQJazrdyg
+Message-ID: <CAMRc=MdJ5GN_Lbi9PeCoW=fNnjCz-WAq66TSa8f=fZGOHFZ41Q@mail.gmail.com>
+Subject: Re: [PATCH v19 00/14] crypto/dmaengine: qce: introduce BAM locking
+ and use DMA for register I/O
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, Andy Gross <agross@codeaurora.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 29, 2026 at 6:24=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
+>
+> On Tue, May 26, 2026 at 03:10:48PM +0200, Bartosz Golaszewski wrote:
+> > I feel like I fell into the trap of trying to address pre-existing
+> > issues reported by sashiko and in the process provoking more reports so
+> > let this be the last iteration where I do this. Vinod can we get this
+> > queued for v7.2 now and iron out any previously existing problems in
+> > tree?
+> >
+> > Merging strategy: there are build-time dependencies between the crypto
+> > and DMA patches so the best approach is for Vinod to create an immutabl=
+e
+> > branch with the DMA part pulled in by the crypto tree.
+> >
+> > This iteration continues to build on top of v12 but uses the BAM's NWD
+> > bit on data descriptors as suggested by Stephan. To that end, there are
+> > some more changes like reversing the order of command and data
+> > descriptors queuedy by the QCE driver.
+> >
+> > Currently the QCE crypto driver accesses the crypto engine registers
+> > directly via CPU. Trust Zone may perform crypto operations simultaneous=
+ly
+> > resulting in a race condition. To remedy that, let's introduce support
+> > for BAM locking/unlocking to the driver. The BAM driver will now wrap
+> > any existing issued descriptor chains with additional descriptors
+> > performing the locking when the client starts the transaction
+> > (dmaengine_issue_pending()). The client wanting to profit from locking
+> > needs to switch to performing register I/O over DMA and communicate the
+> > address to which to perform the dummy writes via a call to
+> > dmaengine_desc_attach_metadata().
+> >
+> > In the specific case of the BAM DMA this translates to sending command
+> > descriptors performing dummy writes with the relevant flags set. The BA=
+M
+> > will then lock all other pipes not related to the current pipe group, a=
+nd
+> > keep handling the current pipe only until it sees the the unlock bit.
+> >
+> > In order for the locking to work correctly, we also need to switch to
+> > using DMA for all register I/O.
+> >
+> > On top of this, the series contains some additional tweaks and
+> > refactoring.
+> >
+> > The goal of this is not to improve the performance but to prepare the
+> > driver for supporting decryption into secure buffers in the future.
+> >
+> > Tested with tcrypt.ko, kcapi and cryptsetup.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+>
+> None of these fixes are Cc'ed to stable, so stable kernels will remain
+> vulnerable to these race conditions.
+>
+> Shouldn't this be preceded by a patch, Cc'ed to stable, that marks the
+> driver as BROKEN?  As discussed in the other thread
+> (https://lore.kernel.org/linux-crypto/20260515-shikra_qcrypto-v1-0-80f07b=
+345c29@oss.qualcomm.com/T/#u),
+> none of the current functionality of this driver is actually useful in
+> Linux.  It's just been causing problems.
+>
 
+I don't believe any of it should be backported. This is not a
+regression, multiple EEs were never supported, so it's a new feature.
+Also: backporting of over 500 diff lines across two subsystems doesn't
+sound like a good idea to me.
 
-On 5/31/26 6:48 AM, Costa Shulyupin wrote:
-> The AX.25 subsystem was removed in commit dd8d4bc28ad7
-> ("net: remove ax25 and amateur radio (hamradio) subsystem"),
-> which removed the ax25_ptr field from struct net_device but
-> left behind the kdoc comment and documentation.
-> 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+On the other hand, if marking the driver as BROKEN for the time being
+allows for a faster pace of queuing any changes to it, then I'm for
+it. Let's unmark it once we fix it.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/networking/net_cachelines/net_device.rst | 1 -
->  include/linux/netdevice.h                              | 1 -
->  2 files changed, 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-> index 7b3392553fd6..eb2e6851c6f6 100644
-> --- a/Documentation/networking/net_cachelines/net_device.rst
-> +++ b/Documentation/networking/net_cachelines/net_device.rst
-> @@ -91,7 +91,6 @@ struct vlan_info*                   vlan_info
->  struct dsa_port*                    dsa_ptr
->  struct tipc_bearer*                 tipc_ptr
->  void*                               atalk_ptr
-> -void*                               ax25_ptr
->  struct wireless_dev*                ieee80211_ptr
->  struct wpan_dev*                    ieee802154_ptr
->  struct mpls_dev*                    mpls_ptr
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index beed64b8d93f..460350a7f77a 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -1947,7 +1947,6 @@ enum netdev_reg_state {
->   *	@atalk_ptr:	AppleTalk link
->   *	@ip_ptr:	IPv4 specific data
->   *	@ip6_ptr:	IPv6 specific data
-> - *	@ax25_ptr:	AX.25 specific data
->   *	@ieee80211_ptr:	IEEE 802.11 specific data, assign before registering
->   *	@ieee802154_ptr: IEEE 802.15.4 low-rate Wireless Personal Area Network
->   *			 device struct
-
--- 
-~Randy
+Bart
