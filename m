@@ -1,79 +1,79 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E40311C27
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 13:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618CF146D5A
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 13:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780235713; cv=none; b=LVEr3VDMFrd9s5gY6sVAxsfnN/K1WZyYF7q8ITw26R1Ztkspzo8Serank8pFICIFuNzglyPruYhV4b5xD0uyGTLiwS670DQG3lbDocjw/9eRd6O68mcPKcL+L/YMud4+8cAjnoyfrDvQe76yseInLEve3dSG9HuXAUJ6HxPT09o=
+	t=1780235988; cv=none; b=g7f+0Z8m4wISkrliF6vacttwFvSIg6nBlpW9Grdmk1SAygXOhB/SdF73gZG8H4KeUxp8MJV9AhG/980Snk6GP2cNtyLGh8aoaseS+OH3Djt+c56vSqNOcIITwg5tMe6LRgPoHWwrx0OZtCKfLhLx2gjfeBeaDYxy7AIdSNBN7ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780235713; c=relaxed/simple;
-	bh=qCqpj1q7Wf2sQkVHcQVLbGGTmVKyL09F7STGaXtsWbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=npFv7tlSDfbgsX7ESIR9Yg0CG8NJywWm8Izn/1sp1p0Ald/u0uEOjmi6txmOiBI2uzEKprINaWOP78WINaxFmD1Cyh6GAzw9TLpSm2MwbNRxG19X9e4zLRlF0V5UoGE1axo++5VycJ11fBRmOGq3u0jWOYuLzxOJJ4L5HugOrQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UwNedyST; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=iB74ZXfd; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1780235988; c=relaxed/simple;
+	bh=6lQEpTCUzSDPmCgKLnIpahZ2D8JOYfJkb1FJ0yxFbPI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Juc0x+FE6EImg6rTZhdxQWLovbsO8TmJ86QWdKz497rPILuHAnm5Ep432Qe9Xanax6yODiWLmzouKkMo1Dz7cmzJUdFiFZEROKaEtwQLNAbejfRAAPZmRmgeK1Q+OvXwEFsa1ZIzaJd1vdpVuvx6zuq0zC/X6GkdL/NUs9AjBQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NEHDPOdf; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=g3lZ98F1; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UwNedyST";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="iB74ZXfd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NEHDPOdf";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="g3lZ98F1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780235710;
+	s=mimecast20190719; t=1780235986;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=p7N+ilkdZqAo8LNMlsKa0BtFzJ9yelehDUdSS2+l14I=;
-	b=UwNedySTbfUhXyzLNeYIuLeiVyFw0oNkslUGZ5FV+FqA9owCuklHgoLWA3YrwyQ23Nw7Pd
-	S2twumDXl2Ur6vs9vaLot32lW1zjhTQkU2jK7ONZ1ZAeVqSi84ZU5whbm2CWOhdPNQUpPL
-	BKojuOEYXMrYCnmszZqUTaVRug8SgMc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=03A2MUCmTXoLXQMCfVU/rqivXHeApJrPSQIBUmQXCwU=;
+	b=NEHDPOdfsUz8g3ROZBlQGs5D2eK/qOGubYLVpTffH2bLcUZBK4tmShlsvaLTS05BJp/yAO
+	i0cqmIsg6Z71BPZo8yOHVUmdX86a+l/FBtit1QGvF42PZddT5FMXxqVx40jCzpXdoijWtq
+	qHAJgovzOFuRIZEDuysKidPVjEOEpPs=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-498-Klka7z_JNB2cHijeQn-PSA-1; Sun, 31 May 2026 09:55:09 -0400
-X-MC-Unique: Klka7z_JNB2cHijeQn-PSA-1
-X-Mimecast-MFC-AGG-ID: Klka7z_JNB2cHijeQn-PSA_1780235708
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4908af8d7f9so31104405e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 06:55:08 -0700 (PDT)
+ us-mta-648-G54f_rQ8O_-0QvlxMYMsSQ-1; Sun, 31 May 2026 09:59:44 -0400
+X-MC-Unique: G54f_rQ8O_-0QvlxMYMsSQ-1
+X-Mimecast-MFC-AGG-ID: G54f_rQ8O_-0QvlxMYMsSQ_1780235984
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-516d38bfe83so196417791cf.3
+        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 06:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780235708; x=1780840508; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1780235984; x=1780840784; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p7N+ilkdZqAo8LNMlsKa0BtFzJ9yelehDUdSS2+l14I=;
-        b=iB74ZXfd8uwzJEz8DvKYkRxlJwno7o9OEhRrpqxSsTWzR37NBjH2g4qQOtLO0l6MAE
-         B92eyi5uw9zHWP1akKntDwWHb19FTa/aklCwTM+pZa5rCGVvSxx9mv1+Na+DtYMZreIn
-         ZuWOHoeGBnCK3stSbxVbQ8/z3FAVDOSY525i/L7ucdc0M/GGdny6g7r0LtUCgx74TU+e
-         GXi++qui7I0qpFf6gnBEtBAYQtUZSwS3MnR8VC/mOuOD1gcFvD9DX9TuD/e3sJmxdo83
-         NGxM4J3hyVcQm8woOOt3AuMz1LOOybhul1z+oBMuAgStTyvBEMHnXVr8X89QoSIPZFPe
-         vLuQ==
+        bh=03A2MUCmTXoLXQMCfVU/rqivXHeApJrPSQIBUmQXCwU=;
+        b=g3lZ98F1VtzXlaWdrtdRRAudyjK4EhKYXTS1xpNu9zmHTHjzbPiqc6u5imtZT7I5/E
+         nLx1ibTyRNxrcExc2rp9tWU13lwLcpNr/BL60WJEQhzfPJd+N4qONPjYHsDYDfjuO4YG
+         cfST2wbO/mxEsKl+lLHMDgapG0+K6PECrHfpvITZrxSEtVvP0589Z6efiwp/a9XYSmvq
+         cPdVls3j1PdWVNIhmjyQ3JSWrsMI2zPmzesY0dkU06jvI3saLPPbA+UU0cCAAegw0exP
+         4q4izjuAWsOS1Kgb1128+hq4dVoQYaKXS70OzCdqUo43QTOVrvg56msJyjo8h/xmsVe2
+         gDJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780235708; x=1780840508;
+        d=1e100.net; s=20251104; t=1780235984; x=1780840784;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p7N+ilkdZqAo8LNMlsKa0BtFzJ9yelehDUdSS2+l14I=;
-        b=WRZsXmLz951cU1q1/UCmFm9UKljHRQvubiAIdcHmlnGLjiydhh50bzYsXsHloP71kb
-         UkdBnFSD+NgxEKyyB8iblVOeNGZRGRgfTpeUUW7Hkc6TBXgjWrbjppkJVNckqiMqTVvs
-         hzkNUF4UH32JC1s4gm+mI4KI0QaJ4q6aLVK1rEa2cbD9DF9kRf9pRmiR5qJSt6dyu/96
-         xo24NcuYmF13lf+PVv3Y/YWwhqhf8j1gREOWdx9VQfz5v/jRxCx4G6UULjG+IIwd0+4A
-         lXvPCXCCeSciYBvp+IOnrpQJlZR0IhCEdzIO2bgzXBw/SOeHktnOGv8aQatgyp4zF1fI
-         1GUA==
-X-Forwarded-Encrypted: i=1; AFNElJ/E/1K5Mwwat/SLgoSiE0g6DPTJznV5dTbcsFKyZ4ArtHAu0hM1gjDCaKAw/wLZSX40a8AxNK+k3nk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyyzePayFVGaW/vddONz52OojQIZ+nMGYsrpR8oJtqwFaQnIXa
-	Fh6eHzhxQ0pGCiodcOk6lModIzZuxb+BLQBW4AVAtpl5widCQM3veRLNZoJZ+4i8Ojv7QkfnoGF
-	iYwtGR7Ptw2SDPEx0MtRwJDTCrzLh/fAG09t0V84fNyGU3pwhTJT8R4UK2MUoVw==
-X-Gm-Gg: Acq92OGN+hx4VO/n8bzFyybLC7oIP3DHdWzrfZ3B7/VyIjqZHiUJLmclrMm+pJAmZnH
-	RpENkOUFVgoLV22n/QJBaXd558T2tjWld/otFFGLPVCKh2fMwUi+RK2M0SvMKWXgeR1EZa95MD1
-	t6dyhLXCKJzo8guUpay+a2j3uxAD9UJdpq+FV8r+/3BYYIMlB5LPjeLZQWJhzyJrpbLwVss/5CL
-	hKq1RHBwDXQXeZRPNKn+vLVhOKSCYo7fhvKB65sGtz1A7WyMvPO06jhQWqsFV1Zif3DpI8lbula
-	DTb4jiqfvU4K7hzbD4/RHuYih1tO2foeOuJwwOucuYTWibXa7CKUjB3bWKcODHnNvQv6nsOGzjn
-	7BkFCVleRnrMEBSc3zbGqsEaJZtIUNgRgKRNOE3E8QQvLdw==
-X-Received: by 2002:a05:600c:6091:b0:490:6237:521b with SMTP id 5b1f17b1804b1-490a2b6b21cmr131427555e9.27.1780235707643;
-        Sun, 31 May 2026 06:55:07 -0700 (PDT)
-X-Received: by 2002:a05:600c:6091:b0:490:6237:521b with SMTP id 5b1f17b1804b1-490a2b6b21cmr131427185e9.27.1780235707223;
-        Sun, 31 May 2026 06:55:07 -0700 (PDT)
+        bh=03A2MUCmTXoLXQMCfVU/rqivXHeApJrPSQIBUmQXCwU=;
+        b=CF770Iqle0PSirotTvEFCkpiv6TEhjXWyv37HcFBRShHS5E/4Cu831GFLZ3m0v2ips
+         r+4U47T/ITgNsJZSVegoqLgfE/WxCcPmvJEy7GufVqG57OJIRVNnTiw4HLNPMobNo3R/
+         c2fRZ5L6oKDHiaIGFxwo/kbrqEDlQGawbCSGlxF48cGjSI61iwG3ntsU+1tiJqmtHIVt
+         /z+OUk+AgR4cr85fjzggF270S/PWZuRKNHa32G2T03AHKe8LcYsOmk8b3GPHY5CwMei7
+         OJlAFaE7RKUNNL7i9zza80sDcaXZ3Mlx6K3ao6NEixRVRynRazpRM8xulzmjrPMGfYlf
+         J8Mw==
+X-Forwarded-Encrypted: i=1; AFNElJ/fSJCZyaa4ZYlMiywp3S43X4Dldxs63MrmlJztZnf+CxzXfw0aBONHv2WAupQeiOkrVO/aUzjKMIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOqM5E1wpvmJ6RyuAkyRJECuF6QOcJmpnwgZFfDpdWNxeIih3c
+	sTUMEGRkY8VhWQlDpA0pgDS2aTRop+iMrkT7TshKgT77uB4p/lQ2XBRjGItrYkbNQJJGOxf3sKU
+	0DVa4HUoYBqpf3JNluJEjUjKWZtxLYhGgSGMbMYchDtXHAf62/wTMgX9Ns3xmvg==
+X-Gm-Gg: Acq92OEohpk+4bu6z5gUNp+AjMLmEEyJmxY+wCBhRRhHE5Nv9NfwZEE2+uAH+8cPqDs
+	K+WaBSvCMQsfjEkKsMI6Sz/XhDOdvHaXwmpuuBSKahJjg5jWQR7jEnd3c4fn0xuxpRiRioCTb0h
+	sodqwYKrJSk1XF4KfE4ql9f4sfoQjoGMDli4L5TeIPAUMTW3Vk4tdl6kDW1Ak2G8vs54KsSlaa0
+	OElAJgSZ5h9t9OMXTQyEgTkXVTeqFWFkP0Bc+Qg0PTg0e2hOiP/WbEASrEwmG85mecOAjBd4f4i
+	q9OLlwNjREjU3y/av0erQo3qMc5JRA6XdW6facYHW6ez5uD8iMKfChF74Crfgvh6POA8DE+Vmx1
+	c/93KD+faOutHBfvbCfxOK+vXlAS/cUG7YnpBh1h9DD4Fsw==
+X-Received: by 2002:ac8:690c:0:b0:516:cfb9:2845 with SMTP id d75a77b69052e-5173a9467aamr97065871cf.46.1780235984100;
+        Sun, 31 May 2026 06:59:44 -0700 (PDT)
+X-Received: by 2002:ac8:690c:0:b0:516:cfb9:2845 with SMTP id d75a77b69052e-5173a9467aamr97065651cf.46.1780235983626;
+        Sun, 31 May 2026 06:59:43 -0700 (PDT)
 Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d6975e2sm292270015e9.6.2026.05.31.06.55.06
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5174dcdf91fsm13657491cf.26.2026.05.31.06.59.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 06:55:06 -0700 (PDT)
+        Sun, 31 May 2026 06:59:43 -0700 (PDT)
 From: Costa Shulyupin <costa.shul@redhat.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
@@ -81,9 +81,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: kernel-parameters: Remove sa1100ir IrDA parameter
-Date: Sun, 31 May 2026 16:54:50 +0300
-Message-ID: <20260531135455.4113157-1-costa.shul@redhat.com>
+Subject: [PATCH v1] docs: sonypi: Fix stale header file path
+Date: Sun, 31 May 2026 16:58:48 +0300
+Message-ID: <20260531135850.4113774-1-costa.shul@redhat.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -93,29 +93,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sa1100ir parameter referenced drivers/net/irda/sa1100_ir.c,
-which was removed along with the entire IrDA stack in commit d64c2a76123f
-("staging: irda: remove the irda network stack and drivers").
+The sonypi.h header was moved from drivers/char/ to
+include/linux/. Update the reference.
 
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 --
- 1 file changed, 2 deletions(-)
+ Documentation/admin-guide/laptops/sonypi.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4420eb72b378..459ed0d72aeb 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6735,8 +6735,6 @@ Kernel parameters
- 			restrictions other than those given by hardware at the
- 			cost of significant additional memory use for tables.
+diff --git a/Documentation/admin-guide/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
+index 7541f56e0007..fb8f4a30ddce 100644
+--- a/Documentation/admin-guide/laptops/sonypi.rst
++++ b/Documentation/admin-guide/laptops/sonypi.rst
+@@ -89,7 +89,7 @@ statically linked into the kernel). Those options are:
+ 			set to 0xffffffff, meaning that all possible events
+ 			will be tried. You can use the following bits to
+ 			construct your own event mask (from
+-			drivers/char/sonypi.h)::
++			include/linux/sonypi.h)::
  
--	sa1100ir	[NET]
--			See drivers/net/irda/sa1100_ir.c.
- 
- 	sched_proxy_exec= [KNL]
- 			Enables or disables "proxy execution" style
+ 				SONYPI_JOGGER_MASK		0x0001
+ 				SONYPI_CAPTURE_MASK		0x0002
 -- 
 2.53.0
 
