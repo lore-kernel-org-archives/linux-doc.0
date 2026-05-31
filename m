@@ -1,403 +1,355 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB281340298
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 09:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0B52727E2
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 09:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780219910; cv=none; b=QPilF0n7DRt2WPa6Ed5NqPqpan3WtmG4S/P1WWrKAEv6zKjeQ+A6/8CaFlSO3TmCMquRDhfoS7v97Pmkq0Hnaw9szNGhmcXNpPgk4D0yUrkUHtDhtA3NkByp4adBFeb6pBp5Bp7Wg7QCq1E3CxZNU7utmZhn/duLqd/KeYNdbpA=
+	t=1780220402; cv=none; b=f+qt4i6KvwW8nyzj9LAsA9XeVk0OtlN23v4gE4ZVsF+g/oOunETi2+0ujS2wAhol6jHR3XqQZWVcTIx6KjLmtbGwuy0H9wJQH5lKR9JchNGTK5TjN73xAtpqb1F7el3eFlIy1wzUngBSMz2kzeJdpwi0McPg2KOPFIOdIPEykVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780219910; c=relaxed/simple;
-	bh=34bWtV7yPXNwTHhyd4tidM02gLkCJMg/I4D39lMzq4I=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=CIi7k3bg7iBMG2q7eTOuo+dVtFXshjenZzUKrF3FC++RKDlhGk+kuYshFeKGjmtN8JZc6JfWPE5+NEepybfIBRRquXJL47cq9vhrHQeuP4hRr818wZclgYkwOqXWbJMnY+W8Wa/3muxMOKtTqsvcDRGzDpaU5iYJ4DxQ6WjVzYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NHaA6GBf; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780220402; c=relaxed/simple;
+	bh=0j81wstmi0rDU8XS4YjTsE5IdgTOurZAC+U30Nd5b+U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DHPVy4BLdEhMmU6Y44Z5cyZBehes28BsP6fCZjDtvqSgvD2k6uAn5KbHFXfinin2hpvVhqFcgqGEWYaCvGXKUITU4rHc1qDpkwFb1vL5U1gkk5yOf+bhFGFuZhUziLJCrDkSvsjfQmxummc7JZbs7JMW2g+7EpMwbXZoTK+D0AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cBPRo2xp; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NHaA6GBf"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2bf18c30bb2so17979615ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 02:31:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780219908; x=1780824708; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yw0twq5qwLkcmJ7duol9vBU9e4SryySAWv6YUQ76/B8=;
-        b=NHaA6GBfF/RA17VCB6VIi8JYu9vN5D+Lq325dQZVj3C/3tZoVwyKJGbOSfHgbBNiFG
-         28ywFsSxjdDh/s2H2hS45ggOA3iYW7DiQ8XLIqnJ6d0lMBuCSOYONhFcZAjrlAP9n54z
-         DPO2qodhQfww004dOYs6JlNbpeFMYDjMdbHa6BbcbRNvSZTOQRdxt2ZKSODK7WjdRXn/
-         fuJf5aN+VkfvYVMoPn5iNuOaC85yhQK3g1RgJ/h7WqZuFIF5nETazr5EK0poXlMuqD0h
-         ui7cM70e6IKCCN4QZ60Q5AoDxlWAcbFOdDzAUqo4ydxY5YJGKHN48XQnQ0SvizXngg8v
-         pu+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780219908; x=1780824708;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yw0twq5qwLkcmJ7duol9vBU9e4SryySAWv6YUQ76/B8=;
-        b=Tt7XC7KRSC8S4TJZac8nwcpHeOc4sMpx8qDPAAMagccnIsnSMFHw3hqVY3oYQ2ctYl
-         xWfZzJ/W1I0i+5PqIlLdXYpw2XD5GdtzPMZzxGUUTCENsIsbgrHhmL3JbIeGQohuSO0+
-         ZXRLfb1G/+Z/1oWGkknvT/qzajl1YwWvRUeiOqkJ7oL1+G1XGntBRyqmNH0eYuWqBpTr
-         Bw8koeSqSS7HpUtLWGh1zOcbxQYJvZ4bsVA4U4GFlgGJeLyKbg9TV9KnsdXvI28OWRne
-         jyQZjzIaV4KGEViOdvEDffgIT9kYmajzzq9zWyK8DUmjiwUnNoFbsOiRZs1QYpPTSTfx
-         yAVw==
-X-Forwarded-Encrypted: i=1; AFNElJ/6TmtorMH97oa3lOV6/g4BiJ/uGkorOX17UvpqRIrspuG/ZeFW8J7tjhpgG0lQ8sKvNp4d1GFd9Mk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu+377LWT7jyvkug91zHOtE2XaCMRYeOBmOaJ/BF+G5+cIoGUd
-	UKv3jdXWt+mZb6BNFPayCOUkDBpz899OUiS/tGnE9WDGeMmirnGLf2/ywv5ccy6I
-X-Gm-Gg: Acq92OGBVx3PtExygCYYjGTPedhOcJfzTO8dt8AIqoUDYvamVktBr8BcQz4xHZ58zJX
-	zy6K+OGXGayMMYXcqUjSPuYZLhj6z8C+3Md6rwfxO4I4Y4KOhMT+KJki9MeOj/Us3wd/97TJnr9
-	DGF8xijyTKzDKM9f/rFmv7IYVtQIjjqZuz44K4Lb3gNBvXlpHabgjwFoueSKuhq0CKRoCJELNe0
-	d+SMnKdEMZI5N7PDIFAcFvi3MUzSfH9oJWaljfOpCoKKwwcz2R73ljGqrld7M3hzHXcoHz5Qauz
-	peBONVv22YIncPPaw8jeonmCcDTkJGyYBw8zvz1r8gUT6AhyIQO2Wg2aK6KGto6dXMu9/enCP5y
-	6MIo2h9QaOjtzXv1ztt0ClibegT7dXTMg+pHeOB+AeA3+SDpCki7vcSR8M6tLpKsuRjg4forUP9
-	yFuIdT7zBoZcK83HRgl/o=
-X-Received: by 2002:a17:903:1a0f:b0:2bf:195d:21de with SMTP id d9443c01a7336-2bf36795233mr83811235ad.7.1780219908072;
-        Sun, 31 May 2026 02:31:48 -0700 (PDT)
-Received: from qby-laptop ([2a13:edc0:18:16f::a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23915adcsm68003995ad.0.2026.05.31.02.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 02:31:47 -0700 (PDT)
-From: Mingyou Chen <qby140326@gmail.com>
-To: Armin Wolf <W_Armin@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mingyou Chen <qby140326@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] platform/x86: bitland-mifs-wmi: Add thermal cooling device fan control
-Date: Sun, 31 May 2026 17:30:50 +0800
-Message-ID: <20260531093101.30303-1-qby140326@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cBPRo2xp"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780220398;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CDqpOm4GUMbmXnNlKMQcoCkHdGOfT4SYZ50geLI7x88=;
+	b=cBPRo2xpHgEFrS06avLHNIBZGggrrVtlB5XZ+WsYxzDe2PXPZRngmY+/U1AUH7pR5wkT2Q
+	vnplr+blS3IBIuHIWL4br9MlrOAlw02LleDz+ZfMpxxHTb4BA8VqAyZsPGwW+psK0U3mb2
+	to1DOY5Cw2X6iSU8cz4Otw+jhAK5KGg=
+From: Lance Yang <lance.yang@linux.dev>
+To: npache@redhat.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com,
+	usama.arif@linux.dev
+Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize collapse_huge_page for mTHP collapse
+Date: Sun, 31 May 2026 17:39:42 +0800
+Message-Id: <20260531093942.19644-1-lance.yang@linux.dev>
+In-Reply-To: <20260522150009.121603-7-npache@redhat.com>
+References: <20260522150009.121603-7-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Register the onboard laptop fans within the Linux thermal framework as
-cooling devices to enable explicit thermal policy management.
 
-This implementation exposes two separate fan loops:
-- "bitland_main_fan"
-- "bitland_sys_fan"
+On Fri, May 22, 2026 at 09:00:01AM -0600, Nico Pache wrote:
+>Pass an order and offset to collapse_huge_page to support collapsing anon
+>memory to arbitrary orders within a PMD. order indicates what mTHP size we
+>are attempting to collapse to, and offset indicates were in the PMD to
+>start the collapse attempt.
+>
+>For non-PMD collapse we must leave the anon VMA write locked until after
+>we collapse the mTHP-- in the PMD case all the pages are isolated, but in
+>the mTHP case this is not true, and we must keep the lock to prevent
+>access/changes to the page tables. This can happen if the rmap walkers hit
+>a pmd_none while the PMD entry is currently unavailable due to being
+>temporarily removed during the collapse phase.
+>
+>Acked-by: Usama Arif <usama.arif@linux.dev>
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>---
+> mm/khugepaged.c | 93 +++++++++++++++++++++++++++++--------------------
+> 1 file changed, 55 insertions(+), 38 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index fab35d318641..d64f42f66236 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -1214,34 +1214,36 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+>  * while allocating a THP, as that could trigger direct reclaim/compaction.
+>  * Note that the VMA must be rechecked after grabbing the mmap_lock again.
+>  */
+>-static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>-		int referenced, int unmapped, struct collapse_control *cc)
+>+static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long start_addr,
+>+		int referenced, int unmapped, struct collapse_control *cc,
+>+		unsigned int order)
+> {
+>+	const unsigned long pmd_addr = start_addr & HPAGE_PMD_MASK;
+>+	const unsigned long end_addr = start_addr + (PAGE_SIZE << order);
+> 	LIST_HEAD(compound_pagelist);
+> 	pmd_t *pmd, _pmd;
+>-	pte_t *pte;
+>+	pte_t *pte = NULL;
+> 	pgtable_t pgtable;
+> 	struct folio *folio;
+> 	spinlock_t *pmd_ptl, *pte_ptl;
+> 	enum scan_result result = SCAN_FAIL;
+> 	struct vm_area_struct *vma;
+> 	struct mmu_notifier_range range;
+>+	bool anon_vma_locked = false;
+> 
+>-	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+>-
+>-	result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+>+	result = alloc_charge_folio(&folio, mm, cc, order);
+> 	if (result != SCAN_SUCCEED)
+> 		goto out_nolock;
+> 
+> 	mmap_read_lock(mm);
+>-	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>-					 HPAGE_PMD_ORDER);
+>+	result = hugepage_vma_revalidate(mm, pmd_addr, /*expect_anon=*/ true,
+>+					 &vma, cc, order);
+> 	if (result != SCAN_SUCCEED) {
+> 		mmap_read_unlock(mm);
+> 		goto out_nolock;
+> 	}
+> 
+>-	result = find_pmd_or_thp_or_none(mm, address, &pmd);
+>+	result = find_pmd_or_thp_or_none(mm, pmd_addr, &pmd);
+> 	if (result != SCAN_SUCCEED) {
+> 		mmap_read_unlock(mm);
+> 		goto out_nolock;
+>@@ -1253,8 +1255,8 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> 		 * released when it fails. So we jump out_nolock directly in
+> 		 * that case.  Continuing to collapse causes inconsistency.
+> 		 */
+>-		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
+>-						     referenced, HPAGE_PMD_ORDER);
+>+		result = __collapse_huge_page_swapin(mm, vma, start_addr, pmd,
+>+						     referenced, order);
+> 		if (result != SCAN_SUCCEED)
+> 			goto out_nolock;
+> 	}
+>@@ -1269,20 +1271,21 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> 	 * mmap_lock.
+> 	 */
+> 	mmap_write_lock(mm);
+>-	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+>-					 HPAGE_PMD_ORDER);
+>+	result = hugepage_vma_revalidate(mm, pmd_addr, /*expect_anon=*/ true,
+>+					 &vma, cc, order);
+> 	if (result != SCAN_SUCCEED)
+> 		goto out_up_write;
+> 	/* check if the pmd is still valid */
+> 	vma_start_write(vma);
+>-	result = check_pmd_still_valid(mm, address, pmd);
+>+	result = check_pmd_still_valid(mm, pmd_addr, pmd);
+> 	if (result != SCAN_SUCCEED)
+> 		goto out_up_write;
+> 
+> 	anon_vma_lock_write(vma->anon_vma);
+>+	anon_vma_locked = true;
+> 
+>-	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
+>-				address + HPAGE_PMD_SIZE);
+>+	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, start_addr,
+>+				end_addr);
+> 	mmu_notifier_invalidate_range_start(&range);
+> 
+> 	pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
+>@@ -1294,26 +1297,23 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> 	 * Parallel GUP-fast is fine since GUP-fast will back off when
+> 	 * it detects PMD is changed.
+> 	 */
+>-	_pmd = pmdp_collapse_flush(vma, address, pmd);
+>+	_pmd = pmdp_collapse_flush(vma, pmd_addr, pmd);
+> 	spin_unlock(pmd_ptl);
+> 	mmu_notifier_invalidate_range_end(&range);
+> 	tlb_remove_table_sync_one();
+> 
+>-	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+>+	pte = pte_offset_map_lock(mm, &_pmd, start_addr, &pte_ptl);
+> 	if (pte) {
+>-		result = __collapse_huge_page_isolate(vma, address, pte, cc,
+>-						      HPAGE_PMD_ORDER,
+>-						      &compound_pagelist);
+>+		result = __collapse_huge_page_isolate(vma, start_addr, pte, cc,
+>+						      order, &compound_pagelist);
+> 		spin_unlock(pte_ptl);
+> 	} else {
+> 		result = SCAN_NO_PTE_TABLE;
+> 	}
+> 
+> 	if (unlikely(result != SCAN_SUCCEED)) {
+>-		if (pte)
+>-			pte_unmap(pte);
+> 		spin_lock(pmd_ptl);
+>-		BUG_ON(!pmd_none(*pmd));
+>+		WARN_ON_ONCE(!pmd_none(*pmd));
+> 		/*
+> 		 * We can only use set_pmd_at when establishing
+> 		 * hugepmds and never for establishing regular pmds that
+>@@ -1321,21 +1321,24 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> 		 */
+> 		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> 		spin_unlock(pmd_ptl);
+>-		anon_vma_unlock_write(vma->anon_vma);
+> 		goto out_up_write;
+> 	}
+> 
+> 	/*
+>-	 * All pages are isolated and locked so anon_vma rmap
+>-	 * can't run anymore.
+>+	 * For PMD collapse all pages are isolated and locked so anon_vma
+>+	 * rmap can't run anymore. For mTHP collapse the PMD entry has been
+>+	 * removed and not all pages are isolated and locked, so we must hold
+>+	 * the lock to prevent neighboring folios from attempting to access
+>+	 * this PMD until its reinstalled.
+> 	 */
+>-	anon_vma_unlock_write(vma->anon_vma);
+>+	if (is_pmd_order(order)) {
+>+		anon_vma_unlock_write(vma->anon_vma);
+>+		anon_vma_locked = false;
+>+	}
+> 
+> 	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+>-					   vma, address, pte_ptl,
+>-					   HPAGE_PMD_ORDER,
+>-					   &compound_pagelist);
+>-	pte_unmap(pte);
+>+					   vma, start_addr, pte_ptl,
+>+					   order, &compound_pagelist);
+> 	if (unlikely(result != SCAN_SUCCEED))
+> 		goto out_up_write;
+> 
+>@@ -1345,18 +1348,32 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> 	 * write.
+> 	 */
+> 	__folio_mark_uptodate(folio);
+>-	pgtable = pmd_pgtable(_pmd);
+>-
+> 	spin_lock(pmd_ptl);
+>-	BUG_ON(!pmd_none(*pmd));
+>-	pgtable_trans_huge_deposit(mm, pmd, pgtable);
+>-	map_anon_folio_pmd_nopf(folio, pmd, vma, address);
+>+	WARN_ON_ONCE(!pmd_none(*pmd));
+>+	if (is_pmd_order(order)) {
+>+		pgtable = pmd_pgtable(_pmd);
+>+		pgtable_trans_huge_deposit(mm, pmd, pgtable);
+>+		map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
+>+	} else {
+>+		/*
+>+		 * set_ptes is called in map_anon_folio_pte_nopf with the
+>+		 * pmd_ptl lock still held; this is safe as the PMD is expected
+>+		 * to be none. The pmd entry is then repopulated below.
+>+		 */
+>+		map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uffd_wp=*/ false);
 
-The cooling devices support states from 0 to 100:
-- State 0 preserves or restores autonomous EC-driven fan curve control.
-- States 1 to 100 transition the loop into manual mode, where the state
-  is scaled linearly between a profile-defined minimum and maximum
-hardware
-  duty cycle boundary.
+Emm ... is it safe to use map_anon_folio_pte_nopf() here?
 
-Because safe operational constraints vary depending on the platform's
-current state and hardware configuration, the driver queries the active
-WMI platform profile at runtime and branches on the CPU vendor
-(boot_cpu_data.x86_vendor) to enforce distinct Intel or AMD fan speed
-safety ranges.
+At this point pmdp_collapse_flush() has cleared the PMD from the page
+tables. The PTE table we are updating is only reachable through the saved
+old PMD value, _pmd, until pmd_populate() below.
 
-Managed device lifecycle support is handled via
-devm_add_action_or_reset()
-to ensure that the cooling devices are cleanly unregistered and the fans
-are returned safely to hardware-controlled automatic mode upon driver
-unbind.
+map_anon_folio_pte_nopf() does set_ptes() and then calls
+update_mmu_cache_range(). Documentation/core-api/cachetlb.rst describes
+that hook as:
 
-Assisted-by: Gemini:gemini-3.5-flash
-Signed-off-by: Mingyou Chen <qby140326@gmail.com>
----
- .../wmi/devices/bitland-mifs-wmi.rst          |  21 +-
- drivers/platform/x86/bitland-mifs-wmi.c       | 196 ++++++++++++++++++
- 2 files changed, 216 insertions(+), 1 deletion(-)
+"
+	At the end of every page fault, this routine is invoked to tell
+	the architecture specific code that translations now exists
+	in the software page tables for address space "vma->vm_mm"
+	at virtual address "address" for "nr" consecutive pages.
+"
 
-diff --git a/Documentation/wmi/devices/bitland-mifs-wmi.rst b/Documentation/wmi/devices/bitland-mifs-wmi.rst
-index 9e86ecc2993c..5e5a51677883 100644
---- a/Documentation/wmi/devices/bitland-mifs-wmi.rst
-+++ b/Documentation/wmi/devices/bitland-mifs-wmi.rst
-@@ -201,7 +201,26 @@ The ``GPUMode`` (0x09) allows switching between Hybrid (Muxless) and Discrete
- take effect in the BIOS/Firmware.
- 
- Fan Control
-------------
-+===========
-+
- The system supports both automatic EC control and manual overrides. Command ID
- 0x14 (``MaxFanSpeedSwitch``) is used to toggle manual control, while ID 0x15
- sets the actual PWM duty cycle.
-+
-+The driver exposes the two onboard fan loops to the Linux thermal framework as
-+standard cooling devices:
-+
-+- ``bitland_main_fan``: Controls the combined CPU/GPU cooling loop.
-+- ``bitland_sys_fan``: Controls the auxiliary chassis/system fan loop.
-+
-+Thermal framework cooling states range from 0 to 100 and map to hardware operations:
-+
-+- **State 0**: Restores autonomous EC fan curve control (Automatic mode).
-+- **State 1-100**: Switches the loop to Manual mode, scaling the target hardware
-+  speed linearly between the profile's safe minimum and maximum bounds via:
-+  ``target_speed = min_val + ((state - 1) * (max_val - min_val) / 99)``
-+
-+The valid hardware boundaries (``min_val`` and ``max_val``) are evaluated
-+dynamically at runtime during state changes. The driver checks both the currently
-+active platform profile and the processor architecture (Intel vs. AMD via CPU
-+vendor matching) to enforce the correct operational safety envelopes.
-diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
-index b0d06a80e89e..4fb94046d5bf 100644
---- a/drivers/platform/x86/bitland-mifs-wmi.c
-+++ b/drivers/platform/x86/bitland-mifs-wmi.c
-@@ -26,10 +26,12 @@
- #include <linux/notifier.h>
- #include <linux/platform_profile.h>
- #include <linux/pm.h>
-+#include <linux/processor.h>
- #include <linux/power_supply.h>
- #include <linux/stddef.h>
- #include <linux/string.h>
- #include <linux/sysfs.h>
-+#include <linux/thermal.h>
- #include <linux/unaligned.h>
- #include <linux/units.h>
- #include <linux/wmi.h>
-@@ -38,6 +40,9 @@
- #define BITLAND_MIFS_GUID	"B60BFB48-3E5B-49E4-A0E9-8CFFE1B3434B"
- #define BITLAND_EVENT_GUID	"46C93E13-EE9B-4262-8488-563BCA757FEF"
- 
-+#define BITLAND_FAN_CONTROL_AUTO      0
-+#define BITLAND_FAN_CONTROL_MANUAL    1
-+
- enum bitland_mifs_operation {
- 	WMI_METHOD_GET	= 250,
- 	WMI_METHOD_SET	= 251,
-@@ -150,6 +155,60 @@ struct bitland_fan_notify_data {
- 	u16 speed;
- };
- 
-+enum bitland_fan_type {
-+	BITLAND_FAN_CPU_GPU = 0,
-+	BITLAND_FAN_SYS     = 1,
-+	BITLAND_FAN_MAX,
-+};
-+
-+struct bitland_fan_range {
-+	u8 min;
-+	u8 max;
-+};
-+
-+struct bitland_cooling_dev {
-+	struct bitland_mifs_wmi_data *data;
-+	struct thermal_cooling_device *cdev;
-+	enum bitland_fan_type type;
-+	u8 cur_val;
-+};
-+
-+/* Fan safety bounds indexed by [WMI_PP_MODE][FAN_TYPE] */
-+static const struct bitland_fan_range intel_fan_ranges[4][BITLAND_FAN_MAX] = {
-+	[WMI_PP_BALANCED] = {
-+		[BITLAND_FAN_CPU_GPU] = { 26, 35 }, [BITLAND_FAN_SYS] = { 59, 69 },
-+	},
-+	[WMI_PP_PERFORMANCE] = {
-+		[BITLAND_FAN_CPU_GPU] = { 32, 38 }, [BITLAND_FAN_SYS] = { 70, 80 },
-+	},
-+	[WMI_PP_QUIET] = {
-+		[BITLAND_FAN_CPU_GPU] = { 19, 29 }, [BITLAND_FAN_SYS] = { 25, 64 },
-+	},
-+	[WMI_PP_FULL_SPEED] = {
-+		[BITLAND_FAN_CPU_GPU] = { 40, 44 }, [BITLAND_FAN_SYS] = { 75, 82 },
-+	},
-+};
-+
-+static const struct bitland_fan_range amd_fan_ranges[4][BITLAND_FAN_MAX] = {
-+	[WMI_PP_BALANCED] = {
-+		[BITLAND_FAN_CPU_GPU] = { 26, 35 }, [BITLAND_FAN_SYS] = { 59, 69 },
-+	},
-+	[WMI_PP_PERFORMANCE] = {
-+		[BITLAND_FAN_CPU_GPU] = { 32, 38 }, [BITLAND_FAN_SYS] = { 64, 72 },
-+	},
-+	[WMI_PP_QUIET] = {
-+		[BITLAND_FAN_CPU_GPU] = { 19, 29 }, [BITLAND_FAN_SYS] = { 17, 64 },
-+	},
-+	[WMI_PP_FULL_SPEED] = {
-+		[BITLAND_FAN_CPU_GPU] = { 40, 44 }, [BITLAND_FAN_SYS] = { 75, 82 },
-+	},
-+};
-+
-+static const char *const cooling_dev_labels[BITLAND_FAN_MAX] = {
-+	[BITLAND_FAN_CPU_GPU] = "bitland_main_fan",
-+	[BITLAND_FAN_SYS]     = "bitland_sys_fan",
-+};
-+
- struct bitland_mifs_wmi_data {
- 	struct wmi_device *wdev;
- 	struct mutex lock;		/* Protects WMI calls */
-@@ -158,6 +217,7 @@ struct bitland_mifs_wmi_data {
- 	struct input_dev *input_dev;
- 	struct device *hwmon_dev;
- 	struct device *pp_dev;
-+	struct bitland_cooling_dev cooling_devs[BITLAND_FAN_MAX];
- 	enum platform_profile_option saved_profile;
- };
- 
-@@ -184,6 +244,25 @@ static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
- 	return 0;
- }
- 
-+static int bitland_get_wmi_profile(struct bitland_mifs_wmi_data *data)
-+{
-+	struct bitland_mifs_input input = {
-+		.operation = WMI_METHOD_GET,
-+		.function = WMI_FN_SYSTEM_PER_MODE,
-+	};
-+	struct bitland_mifs_output result;
-+	int ret;
-+
-+	ret = bitland_mifs_wmi_call(data, &input, &result);
-+	if (ret)
-+		return ret;
-+
-+	if (result.data[0] >= 4)
-+		return -EPROTO;
-+
-+	return result.data[0];
-+}
-+
- static int laptop_profile_get(struct device *dev,
- 			      enum platform_profile_option *profile)
- {
-@@ -406,6 +485,106 @@ static const struct hwmon_chip_info laptop_chip_info = {
- 	.info = laptop_hwmon_info,
- };
- 
-+static int bitland_set_fan_hardware(struct bitland_cooling_dev *fan, bool manual, u8 speed)
-+{
-+	int ret;
-+
-+	struct bitland_mifs_input switch_input = {
-+		.operation = WMI_METHOD_SET,
-+		.function = WMI_FN_MAX_FAN_SWITCH,
-+		.payload = {
-+			[0] = (u8)fan->type,
-+			[1] = manual ? BITLAND_FAN_CONTROL_MANUAL : BITLAND_FAN_CONTROL_AUTO,
-+		},
-+	};
-+
-+	ret = bitland_mifs_wmi_call(fan->data, &switch_input, NULL);
-+	if (ret)
-+		return ret;
-+
-+	if (!manual)
-+		return 0;
-+
-+	struct bitland_mifs_input speed_input = {
-+		.operation = WMI_METHOD_SET,
-+		.function = WMI_FN_MAX_FAN_SPEED,
-+		.payload = {
-+			[0] = (u8)fan->type,
-+			[1] = speed,
-+		},
-+	};
-+
-+	return bitland_mifs_wmi_call(fan->data, &speed_input, NULL);
-+}
-+
-+static int bitland_cooling_get_max_state(struct thermal_cooling_device *cdev,
-+					 unsigned long *state)
-+{
-+	*state = 100;
-+	return 0;
-+}
-+
-+static int bitland_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-+					 unsigned long *state)
-+{
-+	struct bitland_cooling_dev *fan = cdev->devdata;
-+
-+	*state = fan->cur_val;
-+	return 0;
-+}
-+
-+static int bitland_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-+					 unsigned long state)
-+{
-+	struct bitland_cooling_dev *fan = cdev->devdata;
-+	struct bitland_mifs_wmi_data *data = fan->data;
-+	const struct bitland_fan_range *range;
-+	int profile_mode;
-+	u8 target_speed;
-+	int ret;
-+
-+	if (state > 100)
-+		return -EINVAL;
-+
-+	if (state == 0) {
-+		ret = bitland_set_fan_hardware(fan, false, 0);
-+	} else {
-+		profile_mode = bitland_get_wmi_profile(data);
-+		if (profile_mode < 0)
-+			return profile_mode;
-+
-+		if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD)
-+			range = &amd_fan_ranges[profile_mode][fan->type];
-+		else
-+			range = &intel_fan_ranges[profile_mode][fan->type];
-+
-+		/* Scale 1..100 map directly to current profile's safe min..max min-bound */
-+		target_speed = range->min + ((state - 1) * (range->max - range->min) / 99);
-+		ret = bitland_set_fan_hardware(fan, true, target_speed);
-+	}
-+
-+	if (ret == 0)
-+		fan->cur_val = state;
-+
-+	return ret;
-+}
-+
-+static const struct thermal_cooling_device_ops bitland_cooling_ops = {
-+	.get_max_state = bitland_cooling_get_max_state,
-+	.get_cur_state = bitland_cooling_get_cur_state,
-+	.set_cur_state = bitland_cooling_set_cur_state,
-+};
-+
-+static void bitland_thermal_unregister_action(void *data)
-+{
-+	struct bitland_cooling_dev *fan = data;
-+
-+	if (fan->cdev) {
-+		bitland_set_fan_hardware(fan, false, 0);
-+		thermal_cooling_device_unregister(fan->cdev);
-+	}
-+}
-+
- static int laptop_kbd_led_set(struct led_classdev *led_cdev,
- 			      enum led_brightness value)
- {
-@@ -708,6 +887,23 @@ static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
- 	if (IS_ERR(drv_data->hwmon_dev))
- 		return PTR_ERR(drv_data->hwmon_dev);
- 
-+	for (int i = 0; i < BITLAND_FAN_MAX; i++) {
-+		struct bitland_cooling_dev *fan = &drv_data->cooling_devs[i];
-+
-+		fan->data = drv_data;
-+		fan->type = i;
-+		fan->cur_val = 0;
-+
-+		fan->cdev = thermal_cooling_device_register(cooling_dev_labels[i],
-+							    fan, &bitland_cooling_ops);
-+		if (IS_ERR(fan->cdev))
-+			return PTR_ERR(fan->cdev);
-+
-+		ret = devm_add_action_or_reset(&wdev->dev, bitland_thermal_unregister_action, fan);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/* Register keyboard LED */
- 	drv_data->kbd_led.max_brightness = 3;
- 	drv_data->kbd_led.brightness_set_blocking = laptop_kbd_led_set;
+But that does not seem true here yet, since the PTE table is not
+reachable from vma->vm_mm when update_mmu_cache_range() is called.
 
-base-commit: 174914ea551314c52a61713b9c4bde9e42d48073
--- 
-2.54.0
+Should we avoid calling update_mmu_cache_range() until after the PTE
+table is reinstalled with pmd_populate()?
 
+Cheers, Lance
+
+>+		smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
+>+		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+>+	}
+> 	spin_unlock(pmd_ptl);
+> 
+> 	folio = NULL;
+> 
+> 	result = SCAN_SUCCEED;
+> out_up_write:
+>+	if (anon_vma_locked)
+>+		anon_vma_unlock_write(vma->anon_vma);
+>+	if (pte)
+>+		pte_unmap(pte);
+> 	mmap_write_unlock(mm);
+> out_nolock:
+> 	if (folio)
+>@@ -1536,7 +1553,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+> 		/* collapse_huge_page expects the lock to be dropped before calling */
+> 		mmap_read_unlock(mm);
+> 		result = collapse_huge_page(mm, start_addr, referenced,
+>-					    unmapped, cc);
+>+					    unmapped, cc, HPAGE_PMD_ORDER);
+> 		/* collapse_huge_page will return with the mmap_lock released */
+> 		*lock_dropped = true;
+> 	}
+>-- 
+>2.54.0
+>
+>
