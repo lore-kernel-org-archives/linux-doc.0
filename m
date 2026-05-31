@@ -1,56 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD3762809;
-	Sun, 31 May 2026 16:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC383546EB;
+	Sun, 31 May 2026 16:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780245190; cv=none; b=VkcgkcLkE+wlFDyt9EJXPJgBI6uQq+gO/RNSuagEn411gz+/c9bnky6tm8Pchgdc4qvPHlKwhWN8o36iHjUR8XZyyCzPPmmqaXPrfF6NrZqetV9zg+PeiJ6tiHHdAVtSH6RbTZ3p6QwR0+yHd9JSkSLT7JCqGjOQWuOCr2R4zOY=
+	t=1780246628; cv=none; b=GfVM+WOYt9V9gE0KePfqHC3cKzAuvVC4/zKNGhSPhSbM5ZrAM4C1jvWHc8eU11nfX+i2GiVGPqVuWopxyK/8WdjLSSBNv3+U4ZC0LtEpDTj3/R8kTS/hG2tLcQefzw+J1ZTLUM7F1Us8ITgAP9bdzq8WT7qj1ghY9JOJO5HWY48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780245190; c=relaxed/simple;
-	bh=/EBK9Za3dzKeST6xzL+uhXsqga85E68iUDnkuLoGL9Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=knclOKZiKnklEzm8k4Bl7So0O9camVRde1inAEeTWNt9PkGvbWS2tcimYAMq+ao0rgD/hxyl1IOut9oPDpU0amK+YL86KIwojU7clS3c5ub08YQPfSDeyebbUMqdDNLjWzcJf0H/n8hxQzKdblbqNMOwlqJM5mv4JQjlzufLGh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+Qf//Uv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780246628; c=relaxed/simple;
+	bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U/RDy3dhvCerHn1LzBYXyE8JrPHbTK74Ygg5wHbB4mMPYWeocJ0L6pHF7PmtiK62KwxPjho+62DXwIpXkGB+AFGodrb5m28TKcsO1Iliin4b6lvFf8TWzoXi1hZXsNMXj0pq62TunDrV5o88xpU5FOjU8fcWwDox/l0mz6MDrPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anxaks0w; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+Qf//Uv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85EF1F00893;
-	Sun, 31 May 2026 16:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780245188;
-	bh=/EBK9Za3dzKeST6xzL+uhXsqga85E68iUDnkuLoGL9Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=c+Qf//UvGJPiWky0Bx3n0cD3T9m0V/qawaD5MvlXXn9H7tLwcd5ZYpM6awhfkuZLY
-	 voXD6dhrU9LmQYUtm+oLrrdo/9W7XW6MCbDWBQUZl7DmHAZuZmBSZeRfL5PkN/Isns
-	 OtA3L7c2ykICGQUwsk/SrTFALiLXiS13B+Q9tDQpwhTgX2wyn3h8qVaoHCyQGaW+p+
-	 vJScB3ZtyBD1+H+8nL4R0ZH06XUxnHHP9t/KKpnmskTk/lao2deVAw4cEXZbpEABh9
-	 fdeCbcNzAYJv5Rmp0dfr9Ove8KQso86IifQVwcjaDv/0dMtLPy2+QSvCrmYpPK28IS
-	 426ZN40Y0KbwA==
-Date: Sun, 31 May 2026 06:33:07 -1000
-Message-ID: <f0be4bbcfc27f132334ceabe2a0b8348@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Costa Shulyupin <costa.shul@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
- Michal Koutný <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: cgroup: Fix stale source file paths
-In-Reply-To: <20260531140045.4114289-1-costa.shul@redhat.com>
-References: <20260531140045.4114289-1-costa.shul@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anxaks0w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780246627; x=1811782627;
+  h=date:from:to:cc:subject:message-id;
+  bh=YxB8iq1OKxhlx8OiSPDy6fWpMVZHM57unYTBUCz4B9k=;
+  b=anxaks0w7IcWcWFSnMXATm12d2fwSvb04O9H4OTPZ/sy5HeI9uZh0XNm
+   wno5aGziIR+MZjYyt17MhnE/BSPdKtT12wBiLAV8xM7d7pPnYi7YbHgBc
+   7iU+fJbG3BDbr5n9uzpVT/+L11kXt+4qp0u/B05uFVVPo6xWW0fpBDqL6
+   SyKn6TslxY435lY4khTgFwsfEm2EfuMIkPbI+sDj+zsN/7iHxa0UazR/5
+   T8aQuv4IEIp4YcPm91wdyDUgN9pO732qsyra9wVlowOdtq0jSh0KHUH5U
+   lV8pmFgfDdjwnvg/36+3f2Gq/wUdHKZV4NVk7IFQkB9uRpXA/mBgfqHgV
+   g==;
+X-CSE-ConnectionGUID: l5S5fC+4QcaIVbqbShy36A==
+X-CSE-MsgGUID: KgWYUR61ReSSeKlMyu5iSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="80052730"
+X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
+   d="scan'208";a="80052730"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2026 09:57:06 -0700
+X-CSE-ConnectionGUID: HML7du4AQKqM/795MF60SA==
+X-CSE-MsgGUID: ucLD1krjQxiRCYKBpg6OgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,179,1774335600"; 
+   d="scan'208";a="240357461"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 31 May 2026 09:57:04 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wTjTC-000000001PJ-18bg;
+	Sun, 31 May 2026 16:57:02 +0000
+Date: Sun, 31 May 2026 18:56:57 +0200
+From: kernel test robot <lkp@intel.com>
+To: Leo Li <sunpeng.li@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [amd-pstate:superm1/backlight-property-v5 9/21] htmldocs:
+ Documentation/gpu/amdgpu/display/display-manager:29:
+ ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line
+ block ends without a blank line. [docutils]
+Message-ID: <202605311832.R47OfrlB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-Hello,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v5
+head:   5f2330560c00d587cd173ee4222011b62e1ac567
+commit: 4dbf62273708e62ea3d1532671b4e5c26f722b8b [9/21] drm/amd/display: Use vline2 interrupt on DCN instead of vstartup
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260531/202605311832.R47OfrlB-lkp@intel.com/reproduce)
 
-Applied to cgroup/for-7.2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605311832.R47OfrlB-lkp@intel.com/
 
-Thanks.
+All warnings (new ones prefixed by >>):
+
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'adev' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'source' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'vline_crtc_id' not described in 'amdgpu_dm_set_vline_irq_state'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:805 function parameter 'state' not described in 'amdgpu_dm_set_vline_irq_state'
+>> Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:789: WARNING: Line block ends without a blank line. [docutils]
+   Documentation/gpu/amdgpu/display/display-manager:47: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c:61: ERROR: Unexpected section title.
 
 --
-tejun
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
