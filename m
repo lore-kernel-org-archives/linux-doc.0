@@ -1,125 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADA3382F17;
-	Sun, 31 May 2026 08:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29DD72617
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 08:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780216298; cv=none; b=t/nriy7vWCSAXDr37GyhDvdCIGJP87xZfiC52AWFbON2Q2QJb+fjwU1uXnvzKjs+AZohlmL31aCseM3lKUmUZnIXW2g8RgM/2JxZ0C/KQgzwizyDEPTdh6EOHp3nS06tRVMgkqP3oCsMJO+bMHl4OW3lWf1GXB7Z2w3gtDeRPuA=
+	t=1780217318; cv=none; b=BvLXFpqds0pYfY9wRrH4kJ79p4300tCWNo3KomZDokytrCAo7S1KKFC/XuruZ2ie3rK3y7M83+TNCAd3c/UzKdyyoo2EYPMsHyQEpzS5YvTrtjYEGkKKBpcsDssuA/IMbi7xq84DziWJ1+HmDrsmH5xWOdDJcPdamPFscPV63xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780216298; c=relaxed/simple;
-	bh=aM5yeD8D0EpZb33GZB7QNZJF6fH7o1iaBw8tXcjXvyI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nk4sVrZ0jSU82beyLHRCT9kcf50b1us/jKgGLoCsLmDDx1ZNYa6WgxylhYrdN6T73PrhDG+VPF4Ri0nqIer1ztB2H+IYqnXQJd4ofaUPW38rzPVJeIZPeLoBGYdwRk6JGNvMks6rnuPyZ8Ob053o/rTfVqQVAPTwFRlpOGRBVgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Imi2NoGy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1780217318; c=relaxed/simple;
+	bh=uSedyu6fa22/scmtGFWpkpwKG/xroOzUSAdrt+6hLoE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Aqvt2fU6HaUiKasxusIHul/Smu8j8Y8WKmVNC0oH8tP5NRMyFF1OjSQxACL1Xhj2PHwXXHn/Msl08zGa+jmGY3wf4PdYrUFZG2QeR5FMs87yHsS3v1UGiYj/UjxcR6PsIiKdT7HJBv4VVu1sWYCzSRlx42klI81+U/5GolezCDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aoIoHeGS; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Imi2NoGy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3BFD7C2BD00;
-	Sun, 31 May 2026 08:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1780216298;
-	bh=aM5yeD8D0EpZb33GZB7QNZJF6fH7o1iaBw8tXcjXvyI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Imi2NoGyptEm6AUAD4Y7WGYoRVM36TAKAIKc9w8E4h+nPYv4u4hYjs/whcXez+nT+
-	 OgnTnOKtVtghF/Gocz2RxQ2tXAQeAO+AL/scnB4dgEj+gk2FuQKTY+QxTTyIyyOGI9
-	 +B91mJZ4E9uyMPQQhqUMbdMiL9q5VqZ/5aBSZW25LVP3D1oabDlKqaH7hDDzm9ZkCw
-	 j2IiKWcl4xFsiTFQs+7qAVsHFWnPOUnK2Ry1gvxZjgiD9HluzptCctnKr/D6ST3JjZ
-	 TXTqDiiccnmrgrZ4Hpjf6MuDbSQA10+scuHvjctx6tEO3Pa2v9DimNint+uJOp2DsV
-	 Ie2s/90d6QVBw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3584ACD6E56;
-	Sun, 31 May 2026 08:31:38 +0000 (UTC)
-From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Sun, 31 May 2026 09:30:55 +0100
-Subject: [PATCH v15 12/12] Documentation: ABI: testing: add common ABI file
- for iio/frequency
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aoIoHeGS"
+Message-ID: <6a9f062c-8376-4f83-90a9-8b167f925dc6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780217312;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NtWyv+l/PUjKD80QEnpdDAWmHtcb20b8E/xmF2pmiZc=;
+	b=aoIoHeGSPv7WJAUGcwp8gvMotVzsI7iE0R9cK8zt8tCXV44otjV2XtrKmsWdhCusYmakor
+	0G8XAsjLn21UL2vyqYY9VyPR0mcD7GaqVNcRo7DEf9pLj1qvz2RziNjQmJnHOjSQwtNeav
+	STvc2+9ZkdHUwWEQ6I4akRieqYKUEvw=
+Date: Sun, 31 May 2026 16:48:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+To: npache@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+ gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
+ jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, ljs@kernel.org,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
+ rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
+ richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
+ rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
+ sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
+ tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
+ vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
+ willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+References: <20260522150009.121603-12-npache@redhat.com>
+ <20260531071845.10875-1-lance.yang@linux.dev>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20260531071845.10875-1-lance.yang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260531-adf41513-iio-driver-v15-12-da09adf1c0dd@analog.com>
-References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
-In-Reply-To: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
-To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780216295; l=2211;
- i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=swStfLGThUgetsoO5JlOQerjXKGwa5yLnNDxX9LhxH8=;
- b=de0z8neivuKOvRMhxA4AMSelLOg/TZ59JbdehhZ3s4UNhNotpzc2ApIQoe6mRHhJisJEcPqyT
- 3XqerNxsNV9AX7p3iiTsoGDbSXanHgTTVB42KmTqzB6faugh3MeeGfz
-X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
- pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
-X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
- with auth_id=561
-X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Reply-To: rodrigo.alencar@analog.com
+X-Migadu-Flow: FLOW_OUT
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Add ABI documentation file for PLL/DDS devices with frequency_resolution
-sysfs entry attribute used by both ADF4350 and ADF41513.
 
-Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
----
- Documentation/ABI/testing/sysfs-bus-iio-frequency         | 11 +++++++++++
- Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350 | 10 ----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+On 2026/5/31 15:18, Lance Yang wrote:
+> 
+> On Fri, May 22, 2026 at 09:00:06AM -0600, Nico Pache wrote:
+> [...]
+>> @@ -1587,10 +1749,11 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>> 	if (result == SCAN_SUCCEED) {
+>> 		/* collapse_huge_page expects the lock to be dropped before calling */
+>> 		mmap_read_unlock(mm);
+>> -		result = collapse_huge_page(mm, start_addr, referenced,
+>> -					    unmapped, cc, HPAGE_PMD_ORDER);
+>> -		/* collapse_huge_page will return with the mmap_lock released */
+>> +		nr_collapsed = mthp_collapse(mm, vma, start_addr, referenced,
+>> +					     unmapped, cc, enabled_orders);
+>> +		/* mmap_lock was released above, set lock_dropped */
+>> 		*lock_dropped = true;
+>> +		result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
+> 
+> Hmm ... don't we lose the allocation-failure result here?
+> 
+> Previously collapse_scan_pmd() propagated SCAN_ALLOC_HUGE_PAGE_FAIL from
+> collapse_huge_page(), so khugepaged would call khugepaged_alloc_sleep()
+> in khugepaged_do_scan().
+> 
+> Now if allocation fails and nr_collapsed stays 0, we just return
+> SCAN_FAIL. So we won't back off via khugepaged_alloc_sleep() anymore?
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency b/Documentation/ABI/testing/sysfs-bus-iio-frequency
-new file mode 100644
-index 000000000000..5af31b5b3a19
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency
-@@ -0,0 +1,11 @@
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
-+KernelVersion:	3.4.0
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Stores channel Y frequency resolution/channel spacing in Hz for PLL
-+		devices. The given value directly influences the operating mode when
-+		fractional-N synthesis is required, as it derives values for
-+		configurable modulus parameters used in the calculation of the output
-+		frequency. It is assumed that the algorithm that is used to compute
-+		the various dividers, is able to generate proper values for multiples
-+		of channel spacing.
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350 b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
-index 1254457a726e..76987a119feb 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
-@@ -1,13 +1,3 @@
--What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
--KernelVersion:	3.4.0
--Contact:	linux-iio@vger.kernel.org
--Description:
--		Stores channel Y frequency resolution/channel spacing in Hz.
--		The value given directly influences the MODULUS used by
--		the fractional-N PLL. It is assumed that the algorithm
--		that is used to compute the various dividers, is able to
--		generate proper values for multiples of channel spacing.
--
- What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_refin_frequency
- KernelVersion:	3.4.0
- Contact:	linux-iio@vger.kernel.org
+Looks like this is a more general issue with mthp_collapse() only
+returning nr_collapsed.
 
--- 
-2.43.0
+For example, SCAN_PMD_MAPPED used to be propagated too, and
+madvise_collapse() treats that as success. With the new code, if
+nothing was collapsed by this call, that can also become SCAN_FAIL ...
 
+So I think we should keep both.
+
+Cheers, Lance
 
