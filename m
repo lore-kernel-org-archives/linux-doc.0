@@ -1,93 +1,94 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B676140E5F
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 14:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC04D1FC0EA
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 14:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780236085; cv=none; b=Oj/vT4ZmAMUG0EEWazrQ7r+q28woOMLO6sOgB/wTrfH//XseBWm2VQiVPGyjp/Imr+irUIj/glnAa6DJf6lHVJM+iCcIKh9lCA6SQDEAXfqxALxVKcQo1leLpdCySWk0JYr7mVM39kJw7zMTnGc4eAAIriRNRd2362vmuoxl7go=
+	t=1780236139; cv=none; b=rOrTXwipZoIAmW9wQj1qZ4Q/QZLLbQOAXRJFPinTAyL6UL07g8fr3crg2PJioUO3Qv4F7yLCXraYKX71svowjp1aEuQ50bOQO8cA3TP3Me352P0m0yHCO3TVmyq3zWAwiJ2fHaPFEzDgS31u6EQFORsZ2f6+Ap+hqyHbbuOWFl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780236085; c=relaxed/simple;
-	bh=cN7DgQyDDMKwlwoQV9Zy6CXTV747HEJD4SXWT7rDzt8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hl8ySCsYykNPwa92/M6HXyIwfS8yb6qH5XaCNOkUsE+SJgFjNiFoMKRPisGLPPrrarnfbvIhQM6xIF2EcnizRdmL/Z40eEa+N1jSrLo04Nkg7FoFL4O7A3bvMv4nX9iiVRa04s+wta/eNziVPBpBo0YWtxEduF6xVqVyxyhPXFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VTtVJ4N+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FsJKvvsE; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1780236139; c=relaxed/simple;
+	bh=1Mx9+JPAFFCXGppo/c4PNUomb6raQh6wwAYCvpR1FJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OdG1NCluDlnNOGRyCN+GUp0Gc0Qc/kfXpeAdBXTEa+6ucqvtI/KNMHag6Jb+AVpmqDeoiT9nOhUQgCHQudUx9itVlR7ujErrl2LGLR9EfEJt5QPslpWUudZp5CxXfe9cuEhm5D4sFXCmrQ9TOWJJcm89+jdutxMaPvpY+/Nh9Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LcPgiMao; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dAyoI7fP; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VTtVJ4N+";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FsJKvvsE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LcPgiMao";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dAyoI7fP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780236083;
+	s=mimecast20190719; t=1780236137;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=xablB6kB2yR2eWXgiEzwV/mfa3PUIVxolmDXg2loEdE=;
-	b=VTtVJ4N+RQBd6R+Zjgeos0t8T6UTFv2IHFMDlecR2wU+qXniDe1HHi7/a4g7yDUzMKWhJA
-	I/TrlAED5gOKruUREp+91gDITBlwu02IQBcaMO7hMPOiJfg2OprBeZ7m7MjQRySanKaAi9
-	ZiIqsL0xmHs5WT9QAmwwyg+EOVv68Ps=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+	b=LcPgiMaoFOP4arGKbUmV+gbsCa4aqwXJXEc3M15R6tLae5OJusP8+wgpsjuQMNDh9Wn5rm
+	5hEJS6+cYeQ1MLt58ygw40n/sgQOAQXB6lsWfWggk0X7Z9PRjy5GImTMkPQl5TOVAZkNLR
+	b9sUeY22ChuWiRi4HTg72U5omo+jY28=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-J1FOty3yPdywmpHitSzm3A-1; Sun, 31 May 2026 10:01:21 -0400
-X-MC-Unique: J1FOty3yPdywmpHitSzm3A-1
-X-Mimecast-MFC-AGG-ID: J1FOty3yPdywmpHitSzm3A_1780236080
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4909ea0ffbeso16537825e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 07:01:21 -0700 (PDT)
+ us-mta-280-7GAUwxpONqivg5CFUXpOYA-1; Sun, 31 May 2026 10:02:16 -0400
+X-MC-Unique: 7GAUwxpONqivg5CFUXpOYA-1
+X-Mimecast-MFC-AGG-ID: 7GAUwxpONqivg5CFUXpOYA_1780236136
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-914b5249bc1so1464388185a.2
+        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 07:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780236080; x=1780840880; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1780236136; x=1780840936; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xablB6kB2yR2eWXgiEzwV/mfa3PUIVxolmDXg2loEdE=;
-        b=FsJKvvsE20hE9jNzWKYg5yPw9d2vGcDgvFi9M382q1WkKBuHt1YNX87AIMPngZEm4Q
-         oJw6oREDq0uv4L5Wv94zrh1SehUA1D1b1EWoh5Vlsxp9nH881Pi9dOzbH+DqadAB5l4l
-         BTH6hpcOMjnoYV3wfOQvcZHUP3u8lFfuu6bsdhGu/3zRiQEHwQ3asnfB+hzlw9VRmFQF
-         BiWDMFmhiTpN6F32KqZ96e5pUV8qzi16Zk/zSiOfnA1Vd/c4GsNC82coqJW0JDME2wRz
-         Oy/4HETbjZzwTkeNeO3GqcKr6VifNxjIq9Npzj1xq9HKmV/gIylTl+oee+zK1U3yaquZ
-         ty8w==
+        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+        b=dAyoI7fPVentOlf9E062RSp1LexTLnlI9F01a4osB+BTpXPn2EVNuIWMAZuxTNfDV6
+         e9cnH7X/w3OCZcOMItVckgD+VC8Uvv72cYz4NGV/WxmsYjLXhymIdbLpmAFRzj9fOuBr
+         DilWQfGhRy9eUsAy9ppmYmzr+fDoeaH2at/d7j1b5knsoeP+9WwErfFEVeExrK3wOUQP
+         cJQiowpkmy7MD3VO7ThwjzfgSlYsLQ6skhy358ki3XUspY79Mg55wv7zRTbkjBlR8D9t
+         onqYtDq1QJ7OeLwaXzwlU7wB7y1bbMfaA0DUhqvt/7/kJbwThQCiwra/UWpI06yCeVkr
+         bVCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780236080; x=1780840880;
+        d=1e100.net; s=20251104; t=1780236136; x=1780840936;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xablB6kB2yR2eWXgiEzwV/mfa3PUIVxolmDXg2loEdE=;
-        b=gJ2v6MGWsZpvP8HMcIQgUgsfKtqlNjzJtRkTQe9eLu3N246zMFn07L0nfpd+JVYfX0
-         lJQSDg/DBCykpIAST6uuOAU9vt0oFKSjaiu90NpoXOODOsZViSkdeFCVXBGvM0CHG0xi
-         3Uz6A2980YmvgranZHIjfBcSb31J4xTZCXY0yFxRsTCas3Xob0682uc3ft0CbpzSmX0E
-         ZToChbFQ5rVyve5i2wO/ADkh0jqq/dEQJYMHbfM3zc1WZva6aBrTPPyHoHrkhfEjspnX
-         6WNlveKnSTVLAqWdau/IIk5NIYi/OjtXHkQV4SYkXzWkhnVo+BhUX8pt26bfBlEf+0ej
-         92yg==
-X-Forwarded-Encrypted: i=1; AFNElJ/112IsGHBV5V9pJCxe5e7aauCqzLX/FPSy2O3AfJyk84XQUOQoNrZrqgnxklApIzqj0Fd7fG5SPbo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7d22YN+NxnAVXUCqVMvpdhjti7TMb2voyZUDnl/hUG3g8Xkj/
-	BnAR/DplEdsrzdItUmQA0GdC36XijyV202aiI+zuGnLX+eWF2Z9LQvsLJRVh8zELlzcg77wtTD0
-	KVtctRfyxWoIPNPNv93h/yZFBq93+PsW6bIzlxF/tydjiNxRvMfJYNUAJvR58Mg==
-X-Gm-Gg: Acq92OFwEZNN6DUETCUf0twqp0ArGElwJXBaO4EGWW391PWAE0YefFhWZe+IoViubO+
-	KbDG9FoTgRDfjlQBaOqn9olDsRRxgOor4SMcecfE3O1BfI0mfN7MuPOde+dNibWy99Rgjyk48eh
-	+kw8ykOnPXWWGZ3mSnZD75W5QxhDeaDD4yW07K4a5FuticSxtMD6hD4uyQCLK9wLvXmLd490Pnx
-	uEYWCyltOhUJ30S+3xLq6GTvJgrK+GcI9K/hOot/FlN1jtTIIL4ZL4D7KSkcygubRFbwN2cWB9z
-	bLdkS/VAo6u8Qy4q/VZ2XsNTr9RPEss2UJHo6llBU7ZAkxklyWVnNPW2NTg64eZs/ZJhkSm0hgh
-	AQ7FkAwQRfVT+clPT/u3zv3Ux4GNc/0oF5MO0tNLmkEEIwg==
-X-Received: by 2002:a05:600c:c098:b0:489:1c32:210d with SMTP id 5b1f17b1804b1-490a2923cbbmr108126125e9.15.1780236080334;
-        Sun, 31 May 2026 07:01:20 -0700 (PDT)
-X-Received: by 2002:a05:600c:c098:b0:489:1c32:210d with SMTP id 5b1f17b1804b1-490a2923cbbmr108125565e9.15.1780236079839;
-        Sun, 31 May 2026 07:01:19 -0700 (PDT)
+        bh=ysQ7pxIb9uu9MOTslWvzE+QCFksmJ15vilUFpcNr1vE=;
+        b=YCNyJirCN2VxKaalb1GQ5Vli7cjt+GNFv6DCD/t8mtdjHXCEdj2crkDVMwrtAv5icB
+         iPCqTpGvIZZz2ShGMRCj38OS/9Ebi4PkkMq4oFkuXGszsPSvPINxhsqUJSnmvrJM9fuE
+         bptxC6eeR48DZMC2TSzxq/oCMzyyyOKnFOqIs3YCXalZmTy7+4DWbPaJNd+lEXopiDpj
+         ZN8hk+N0qYrFaZJNIsZO2Ivdq7MyxlHO2X8RCl87oT3PbW4enm1ApyhMtif0uD0UE7Dh
+         E73kNZbW/EOpXzWa8opVpE3QdP78zyiTxNlF1a07nJc3IRranFHu0PRvc3HO1G0lZi59
+         dkkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ87PSyjCq3nF3tMvs+3XksvVhMzPK5B8wv5/FvbREkPT/dr2mUC0njEeVmPqgvp4eJAf20i7Vn3wAw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCReh0A1k2t76LaAdU3EjunTays/K0R5YkWmh8Rlh6u05846Sf
+	tPeUfvC6upE3XoZU/jMo7EZEMJ04+uFDvu7Y8DjUrswsXTGs1E3CHh5fPXd1IE8pKcaNR3bybL4
+	PPJpDs9xKJ2oB3N7+zLarkERFAUzbUOHHiFvJciMxqJofePVL6MhK1ZlDSuNU6g==
+X-Gm-Gg: Acq92OH6Q6gtwy1DiRBoqJg5zIdQdIkkSWmHDA93UHeAr28gFpFFfYCH4JdMZRoiTvP
+	byAAnfRkbK5aKZ7VFdK+CuWHxQlw/9/sZZMo022t+6L078nebKwfeMLpHInXDwOdkxpnYGX4QT6
+	pmZPCYGqy1CIW62LRW32ghbFx0LArLYY+58Q1TcP22bxYLOKXk+id4GfRM+t1IocSc7Zobe1ALG
+	3BT3oFG6TvT1xWASQo4DNxprDNqF8TNb7YPc94SZCxihveUlhZ08TVyJgyjzBtvSADS5CPESx0b
+	5nB7hJGlaNRsmtFE6z/9fQmVbkVwjot6pv8BzpWLgAlcTNakW/8OEUf9RXNV1DfD5MvmAVmwNnB
+	DX1dv1XisE451rGV2eVP76XnrktqzHUEWRaGDkLgiptjEEg==
+X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169310385a.13.1780236135588;
+        Sun, 31 May 2026 07:02:15 -0700 (PDT)
+X-Received: by 2002:a05:620a:6ccc:b0:8ca:123e:819b with SMTP id af79cd13be357-9153d93ac41mr1169305985a.13.1780236135124;
+        Sun, 31 May 2026 07:02:15 -0700 (PDT)
 Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c12b2dbsm75194055e9.6.2026.05.31.07.01.18
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9153244e114sm780182585a.5.2026.05.31.07.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 07:01:19 -0700 (PDT)
+        Sun, 31 May 2026 07:02:14 -0700 (PDT)
 From: Costa Shulyupin <costa.shul@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+To: Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	cgroups@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: cgroup: Fix stale source file paths
-Date: Sun, 31 May 2026 17:00:45 +0300
-Message-ID: <20260531140045.4114289-1-costa.shul@redhat.com>
+Subject: [PATCH v1] docs: kgdb: Fix stale source file paths
+Date: Sun, 31 May 2026 17:02:07 +0300
+Message-ID: <20260531140207.4114764-1-costa.shul@redhat.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -97,44 +98,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update two references to files that were moved:
-- kernel/cgroup.c -> kernel/cgroup/cgroup.c
-- tools/cgroup/cgroup_event_listener.c ->
-  samples/cgroup/cgroup_event_listener.c
+Update two file paths that became stale when kgdb/kdb sources
+were reorganized:
+- kernel/debugger/debug_core.c -> kernel/debug/debug_core.c
+- drivers/char/kdb_keyboard.c -> kernel/debug/kdb/kdb_keyboard.c
 
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v1/cgroups.rst    | 2 +-
- Documentation/admin-guide/cgroup-v1/memcg_test.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/process/debugging/kgdb.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v1/cgroups.rst b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-index 463f98453323..e501f45ea93f 100644
---- a/Documentation/admin-guide/cgroup-v1/cgroups.rst
-+++ b/Documentation/admin-guide/cgroup-v1/cgroups.rst
-@@ -525,7 +525,7 @@ cgroup. It may also be taken to prevent cgroups from being
- modified, but more specific locks may be more appropriate in that
- situation.
+diff --git a/Documentation/process/debugging/kgdb.rst b/Documentation/process/debugging/kgdb.rst
+index dd6a103073fa..c4d0a9121d52 100644
+--- a/Documentation/process/debugging/kgdb.rst
++++ b/Documentation/process/debugging/kgdb.rst
+@@ -696,7 +696,7 @@ The kernel debugger is organized into a number of components:
  
--See kernel/cgroup.c for more details.
-+See kernel/cgroup/cgroup.c for more details.
+ 1. The debug core
  
- Subsystems can take/release the cgroup_mutex via the functions
- cgroup_lock()/cgroup_unlock().
-diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-index 7c7cd457cf69..ebedbc3c3f9c 100644
---- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-@@ -321,7 +321,7 @@ Under below explanation, we assume CONFIG_SWAP=y.
- ----------------------
+-   The debug core is found in ``kernel/debugger/debug_core.c``. It
++   The debug core is found in ``kernel/debug/debug_core.c``. It
+    contains:
  
- 	Memory controller implements memory thresholds using cgroups notification
--	API. You can use tools/cgroup/cgroup_event_listener.c to test it.
-+	API. You can use samples/cgroup/cgroup_event_listener.c to test it.
+    -  A generic OS exception handler which includes sync'ing the
+@@ -877,7 +877,7 @@ attached keyboard. The keyboard infrastructure is only compiled into the
+ kernel when ``CONFIG_KDB_KEYBOARD=y`` is set in the kernel configuration.
  
- 	(Shell-A) Create cgroup and run event listener::
- 
+ The core polled keyboard driver for PS/2 type keyboards is in
+-``drivers/char/kdb_keyboard.c``. This driver is hooked into the debug core
++``kernel/debug/kdb/kdb_keyboard.c``. This driver is hooked into the debug core
+ when kgdboc populates the callback in the array called
+ :c:expr:`kdb_poll_funcs[]`. The kdb_get_kbd_char() is the top-level
+ function which polls hardware for single character input.
 -- 
 2.53.0
 
