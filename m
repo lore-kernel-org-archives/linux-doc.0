@@ -1,91 +1,89 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D131274650
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 14:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2C3148D8
+	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 14:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780236217; cv=none; b=PR0PeLlruNHpOoPBDz880TS6PKJiyxFyR8wq8Jfvqk1Nx8i8gzirjM1byiKxKGLX1shYGnVcOBLt/1WI944QQpRQKvxwZfYgDM2sWpUi4mgbPXq+ZTbcWCL2tsjtMcsU7yNbB/fpeKWMt1LbPtx/ZsHLWy3HPpW8oQxhOnjAObU=
+	t=1780236363; cv=none; b=FLiW6407wCis3gzdEJ/wns9azycBPVQeBtMdBppG1CaC2gnIAAKxtH5zLcHF8JaZz1k/OOT54brH1OcG4LwsF/eSmg78/xrYrej1AQ0lohzgRQG4+XBWGLgJbH4dUrOAacQbIgyhv32B2EQ21lnAt+itC6jtBg1zTpZQ7EIya1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780236217; c=relaxed/simple;
-	bh=6KxXEU4mM4Etl4EqYEr6dcFBIew34rXPGITTvbtaPVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UV2RBTkGnGB7zgKIpyfTBS8G4WC7Pa/KlLBHdV5AuQwpqDCk4XlslbU/w97EBBcC65XG6YgzUSP6AnwO4io8VWV8f1/kLsEreW0Rc/I75J78GRjZLpUopYh+nCDBY5rwSI9SxBFYs1ORH3SuJlPhsF/8WduiyuP60UppENmjlS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Gbo4U12o; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SnbBwGwe; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1780236363; c=relaxed/simple;
+	bh=IUspxaQuWdE8Z/c7luYIY5bxyxtrZ0krXHqdBevnRWI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JNKa/y2tHRXs9PpHmWY82cisRcviu+oiHZ2y6Z84+vuxRmRFt8k6FZHkib0enqMFuSZlr0KvM5LoL3f/JVJ878DbyEF2HqnfIcUwtC2JSOkhlLeV++GSm29bcU4tc7IC2t3LWUFHm2T+Igxn59jIJmx3Y4hC1JO3Ig6wb7X0enk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G25VxvDl; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bXjHwObe; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gbo4U12o";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SnbBwGwe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G25VxvDl";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bXjHwObe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780236215;
+	s=mimecast20190719; t=1780236361;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=oXRHDWuf7kdsdZ+4dW4PM86Io+i5QtdP1dIiEDt0g1c=;
-	b=Gbo4U12ozvjN5631d+8vuEcs1K6QrmdGdqKlnP2YaVYU9i/Vfm5PbIaMe8H+D5FzBc5DV3
-	cPUI7lDu7gDxt4iqHbo2KYu2sbbfaw6N5BulWV1mIqSUjmEc6PDeO7VXiGbq0gGQ7ddhZ9
-	n5riMSYCjOcAkU+I2bJwpeodW73gD+Y=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1SOLKMEMgV0vwLhKuZFm/mKyDDFppk7ZEt1Oo+9fNG4=;
+	b=G25VxvDlFhSsXZc+a5HkoPLVmEibbPchZhmBAXSCI8plqYX4sPKjDA3LNg09t/A1kKzBH1
+	HhnH6VYU9np4PIu5bNiHB5v8S2Kurfk1bV/r1kirC91MsONIjquByeViVhVuMHFSmIrAU8
+	hGc9ZePGZkqrfhIST0SeBXot6frPDJQ=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-_h7BfdviP2WJJQzvqyWGeA-1; Sun, 31 May 2026 10:03:33 -0400
-X-MC-Unique: _h7BfdviP2WJJQzvqyWGeA-1
-X-Mimecast-MFC-AGG-ID: _h7BfdviP2WJJQzvqyWGeA_1780236213
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-91550c9d0f0so114956285a.0
-        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 07:03:33 -0700 (PDT)
+ us-mta-548-LJ0-Ty1qPICP0huofesRmA-1; Sun, 31 May 2026 10:05:59 -0400
+X-MC-Unique: LJ0-Ty1qPICP0huofesRmA-1
+X-Mimecast-MFC-AGG-ID: LJ0-Ty1qPICP0huofesRmA_1780236359
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8cea98a0effso8579416d6.2
+        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 07:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780236213; x=1780841013; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1780236359; x=1780841159; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oXRHDWuf7kdsdZ+4dW4PM86Io+i5QtdP1dIiEDt0g1c=;
-        b=SnbBwGwech0hsYmnDRbtZVqTJNiZBh2j5lAyLQMUeo9pm02eRDC+eIylCBPrMHMEnJ
-         3hYA4nMc6w7YQyu3xHJODejYhimTIEsz6Q22qozG9n07dIJqzJGzI2dNjMiD9l1//yb6
-         y2e8y2HQk9aveqLxWx1ttdKvZNZgfOvk2XrrB+UEvaaimrUVUIG0szjba8hBh987up9g
-         Nn2oEAB46AUg2V8Q5CRRTkyxutNY04IfnsK8kiiW2ucFd4j7f2Q3UPPGnBVMCaLGpeI6
-         +5+jTZFA8SkD/FSIr6k8nyd4ytw/49QITT25uFT0uKeD8J9ZiUS5zGC2cxgJpZNJVkU8
-         j0gQ==
+        bh=1SOLKMEMgV0vwLhKuZFm/mKyDDFppk7ZEt1Oo+9fNG4=;
+        b=bXjHwObeM1fd8pRq4CMJaPNa3BIQvD5H9De0FliilRoujeqoZL3pzXjuuQfhJP1JxS
+         hyDZeFaUpPbZAVLrD3J5wyMlzv43JJPd+4cqp/DqEO6YHn0KCZjhHnCOGRIHrzsZ+5wD
+         pp36fqLoIKEXc1ZR+iwykRf6UgbLQT3GcyHohg8iTtlonrpboDRDoI9Lh0I8EhuzCNSq
+         aWyHO6ZP9agywLnwdzYLi7/LyfhEn9b4stF1ryLXthIy4gYVs97ihTlaa8AyGffMXDnp
+         FEzwrbFRvkbPUjTv1NLaC2iPbiHbWM3Z1ptFojASjD1Ue03Z4gfanPGFqXGwuFgDUCwz
+         6gTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780236213; x=1780841013;
+        d=1e100.net; s=20251104; t=1780236359; x=1780841159;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oXRHDWuf7kdsdZ+4dW4PM86Io+i5QtdP1dIiEDt0g1c=;
-        b=oN5tY7+w1ZgXssWeLV5pz/4EWErPXdnURJehyFrC9hnQDNxY53Ckw31UHL37nFVrmA
-         WacYG6GhCRJBh3KUwIwJEQQdOaK0ETHXOGOkJDt03brLgcB0+RzlIE3lGOLGr3r1lzBb
-         wCyRCgeqgMrPyHfvUI/tIxlpxqHAp3B57CBg3YYejibg2XoLuyK44tGImeaRcLRhHWX1
-         aT7bWQG03WaWc9sA6iBV628F7he0RDEheAj7eHbMuE6k9wkgt/eZrk9humja2PxMthzk
-         OJuWx6ykbJ+7xIBbHUH3t3HAs+3ii7GZA5PvFeWm+t6ZzCRqEQKiGlCPO58Y+ZUtcHWT
-         kDjg==
-X-Forwarded-Encrypted: i=1; AFNElJ8oA1f0+Jghall3jbv9ZF/GSVdROzXjbETxXG2lpGqwddVYmdTGhp2v43QXpmsJ9TykrXAX/DxgIWc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYWclIo7fP8HvGKxJlJdd1n5/GP15JqFjusiMG6WPKpTFzy1TW
-	OrufdNo0i0QvMNjQYkG2v2IohGX5ASgMAMnARGRlWPvwvEvTUlQqoyBczCvE/gupDoYYRRzWcAC
-	ypMJXWTKzCyVEoYoIS2zZtRvpLnROSHeY36G8Jj1wvPvTgF32EbODZX99YupzTw==
-X-Gm-Gg: Acq92OGyQkbUEjRNtYhP2c0MJb66s8+JZDcoQV6ZqB6gSHSXaSwfmRATCWa+/pPRlby
-	REoPdEDgEp4XA/J+A26rppZBttP24ETJqd5/Su5a86DXzizQeJWcJl88uE1ShcE2tXEPQCMgU5y
-	sv6DHoGBtqZida3QUsuqZnHCnVGrBUADD6ut83ypW/AC2cTene7aN2Yig+PItY0ggwpjQa3/rwJ
-	hhwPubi+HSTuGxt77CU6zNRYu9tJYz7c3hKe40Oy9nB4JpV7OSl6uuuI9GqyDthHjiFl6FTHJHM
-	u/omKlqp/J/A0MdkhRhs9dq9sYHmTafOcTXQHbx1j3lXvJ+xSpFe8WIdkalpaKJTqa5MW2WK4qN
-	7XuhBvEz1Yc+DXw44hPXf3lyLBljnUJrBrWTVPTFITa38tw==
-X-Received: by 2002:a05:620a:458f:b0:911:9e67:44cb with SMTP id af79cd13be357-9153d9f5e56mr1146957485a.38.1780236213059;
-        Sun, 31 May 2026 07:03:33 -0700 (PDT)
-X-Received: by 2002:a05:620a:458f:b0:911:9e67:44cb with SMTP id af79cd13be357-9153d9f5e56mr1146953685a.38.1780236212601;
-        Sun, 31 May 2026 07:03:32 -0700 (PDT)
+        bh=1SOLKMEMgV0vwLhKuZFm/mKyDDFppk7ZEt1Oo+9fNG4=;
+        b=MCbLaH8xGxfHIvyCGl3gsNVxawzDvW+MxEcrqSAEBhRI+WW1Z7JwmHDxGK9F8MGmf9
+         YJ5lKwvPadsUoQ7ms46dEJb3V/ZdmbC6MMsoBnLmh14YRfo//Lg8ACMIORN4IiHxDapH
+         oE1W67czzGKyxTMmH60p5zkxSeIvlXXSYUh9f3HcdN7TGvYa2QAt5UWG/WM/yueuVQ7x
+         QMf31WXFwqyvK4f1dZX8M/cPZzrMANElTJl7AWvu18KEW8YqLIQCkUCTY0IIVf+3sUvK
+         eYciDoG5CrSs6mFBfpXtPs8knT+DinrEXLj/qHy9tdzCrgQipSz3gKgx9HsDFk6eSrB/
+         5p4A==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZgEop87bmtQnnPSI0yezOrAKKx2sgid4HxjAIMcFE1Pu7NbCdKWf7kBnxMcjDBtCBBZZREntevoE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSx8jZhSj5Fv1hEPTa3L6e5bI3uwh45cUXK8q6q4FdMAT5CMNx
+	usBvpYv2VO5noYZZr/srq9No58SEA7nVu99nB8rwHzDj45R5Ah1w3p2IvnnX4vN0gMcQFpSrLH3
+	PTtneiDxie8cWUcdOHD8pAMQIPZj54CqrUYKKtO/rvEEykn5/jm8Q0a51a1D7KA==
+X-Gm-Gg: Acq92OF7EwhiNfR4nFZYknzKz8ctDCK9ZXq83/52fRFEuaPPY0nZagSJc1rjzYhIUc4
+	J8tdnj7R+mNj4sELnc6GmEBXnyhHcvlXWGT9mo+odi+1Xhrw/vrIn+w0AYna7sJt9xzG/I0T6e6
+	XNBrOU/yPqu4/ysZuV41eyM3zGEwsnpzCW4lsFPOB5FGJUNFPjNie8BgEe+DueDKyb4RMjyzyGX
+	2DfkZ2f00x2FPSh2Z/rBqXrTu82i398aaFVIRRLyQ6nLJuVXjtXfFKc7t3m8++dOeE6NIwtM7ow
+	U23dH3WMRiJFH5rTaa8PcVvInghtuHVS+kgMkuZ0D0VrSdU9yvFxK23naQRlHfdACRCCBDH2FHF
+	jrduJ5tgasmAA3UX0+w5M3jL13PzLqOP2nwoJpB4/Rx5s4A==
+X-Received: by 2002:a05:6214:2c04:b0:8ac:a6bd:503b with SMTP id 6a1803df08f44-8ccefd3e23dmr123141046d6.15.1780236359243;
+        Sun, 31 May 2026 07:05:59 -0700 (PDT)
+X-Received: by 2002:a05:6214:2c04:b0:8ac:a6bd:503b with SMTP id 6a1803df08f44-8ccefd3e23dmr123140686d6.15.1780236358901;
+        Sun, 31 May 2026 07:05:58 -0700 (PDT)
 Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9153249a5fbsm799732285a.20.2026.05.31.07.03.29
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea1c30ecsm68564446d6.25.2026.05.31.07.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 07:03:31 -0700 (PDT)
+        Sun, 31 May 2026 07:05:58 -0700 (PDT)
 From: Costa Shulyupin <costa.shul@redhat.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	linux-omap@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: omap/dss: Fix stale modedb.c path
-Date: Sun, 31 May 2026 17:03:22 +0300
-Message-ID: <20260531140325.4115024-1-costa.shul@redhat.com>
+Subject: [PATCH v1] docs: kernel-parameters: Fix stale sticore file paths
+Date: Sun, 31 May 2026 17:05:37 +0300
+Message-ID: <20260531140541.4115641-1-costa.shul@redhat.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -95,28 +93,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The modedb.c file was moved from drivers/video/ to
-drivers/video/fbdev/core/. Update the reference.
+Update file paths for sticore references that
+became stale when drivers were reorganized:
+- drivers/video/console/sticore.c -> drivers/video/
 
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 ---
- Documentation/arch/arm/omap/dss.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/arm/omap/dss.rst b/Documentation/arch/arm/omap/dss.rst
-index a40c4d9c717a..9d39679235a3 100644
---- a/Documentation/arch/arm/omap/dss.rst
-+++ b/Documentation/arch/arm/omap/dss.rst
-@@ -314,7 +314,7 @@ Kernel boot arguments
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 459ed0d72aeb..f94ec9f3a75c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7381,10 +7381,10 @@ Kernel parameters
+ 			Set the STI (builtin display/keyboard on the HP-PARISC
+ 			machines) console (graphic card) which should be used
+ 			as the initial boot-console.
+-			See also comment in drivers/video/console/sticore.c.
++			See also comment in drivers/video/sticore.c.
  
- omapfb.mode=<display>:<mode>[,...]
- 	- Default video mode for specified displays. For example,
--	  "dvi:800x400MR-24@60".  See drivers/video/modedb.c.
-+	  "dvi:800x400MR-24@60".  See drivers/video/fbdev/core/modedb.c.
- 	  There are also two special modes: "pal" and "ntsc" that
- 	  can be used to tv out.
+ 	sti_font=	[HW]
+-			See comment in drivers/video/console/sticore.c.
++			See comment in drivers/video/sticore.c.
  
+ 	stifb=		[HW]
+ 			Format: bpp:<bpp1>[:<bpp2>[:<bpp3>...]]
 -- 
 2.53.0
 
