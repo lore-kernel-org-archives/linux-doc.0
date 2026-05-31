@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10E035AC05;
-	Sun, 31 May 2026 16:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA53A30F7F7;
+	Sun, 31 May 2026 16:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780243751; cv=none; b=fvBSXqhHb6YM9VbjQ4Ihb0gc/wdLtJMZt0KhjGf2xIv3NBP/AVdzK8U3YuQJJeV+loOrTBvdQW6JGGQ4GNz/VsjLEieJmYU1rI4yKFitoEgNghYWFFRtew2Uea4tAS7i3DZYCLaQIPsIHuqlZGRTcMtzJfuKmg+kkDoGTLgFzg4=
+	t=1780243937; cv=none; b=F2fM835yTEl8qR5xt2OPVHaSs3KPjrp0EiMbD7G2CjAOiAPUvtnJYPzQvp9vG2fzw8F/T26y+SHwjjNRfldPH1SV0sx23CGq7u/gGNag1+FrHCPo7sfdZ9+J2G/bLYQw+R6HQ/YgIRGYUHGNyYXefAUFEaArqFFb8hxSDagvZzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780243751; c=relaxed/simple;
-	bh=m3kbTS558ni8RGNd8CAcj0ZJ9OO0IwDrX5RCzAdmapQ=;
+	s=arc-20240116; t=1780243937; c=relaxed/simple;
+	bh=NEFLkuSTxCWs2924ngnPJ6eCDTa8JGSMiaCxiHXXsLU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ksOH3Sb/fdWKZpZpWiQzTRy2ifTd9zts2QBB1s038Ofy49s5toXsoBykDHCNKwxl9GeGYM85M3AxkiIHUAX56VGRqk9AziFxjVic8kyChU6PMJyNBqtCHZM+z9Dubmp+uFbUf0TKvQ3O9s/9y99OsegDpSxzgBXllDKiELmxzhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4JOKONaP; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=G2B0uJ7JNT2CCqSplcjW54EuS/AChetTQj3/zogDfxJ2/AC0pG9FTU9Pyi5Q5MB0ZsYzYF25RIqAO/qlk0EzGCQrEoCqBLj8Ffhdbgrt4CKA8b6rTGuMeAQSG+mVNxmdQdk7FqNircZ/MZIzwKsXoom6+VHrqXvQzIZ8jWYK8tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nnWddoRo; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4JOKONaP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nnWddoRo"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=FSNGWHhjcttKVIlhEFASjYLPUJ1sMHHhhz+jqTaODJM=; b=4JOKONaPELV6d24fNH55YbKUGP
-	hr7LEVyYNhOh8pExoAWTI/JyWMXLm5mmQRfBzYpMne2aYb2nOmjL/1vHtRVnoumwK5orLGyDpOVFM
-	slX0Uqo+MJ0o8JkgYzEIvtmkSNVOA5eRCmodhFdSeo2xGEv8PHXXppUTWQ0rMI16ryUsos7ix52JG
-	PlRvXCYrsAlJGD2iGjkzS0kuHLNbKzC131tF6rSL06numMzQmXYYrBHwTWNF1nEbfRXJIgN7Yfhtw
-	sa2mFWPqnBhSgIFQoqOMmnGdpGEGKkIyh9fnHuUaQSVhntc+8MvsSGfHeLCHDD1YmAaHib08Cuhz2
-	2JVd+dag==;
+	bh=lRfsJRjVnz63B9zDXXJQSFpGpPDRHumKiPkeEH3p/P4=; b=nnWddoRoW6kYJ3DPZlJngMaGdl
+	1UDWVYUF3M2u/LmgDvjU6sOfXKDgBhcmOCfYl0pSkVP2pGCSU1sXMppG8saVBgBYvZTM7suer30az
+	ey3QcRYwN1BOzSBNpI/210TCIWBDBow98fk3aDPjA/V1G3F3a2Eo4B1x5noMbE/p7sTbnVqfBYW5n
+	O7ZxnVw4jnmTnARZOT1Mbb1LALHkkeSs7w8qWZ06FHwXyIKi80ZXeAlS+pz9OvEnEp8675M6LQv+1
+	nJDOXwUzsvemdti3ELwV95o488Qp0HDT59aoyDyMLPQy+iAZxztaM4GRB5+ybsRRE9EJfAY81XoMj
+	49ZmBZ6g==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTiir-00000009jvR-0Tjt;
-	Sun, 31 May 2026 16:09:09 +0000
-Message-ID: <9ba41c93-ff40-4a82-9c2e-d86a892f83d9@infradead.org>
-Date: Sun, 31 May 2026 09:09:08 -0700
+	id 1wTilp-00000009k0J-0AkH;
+	Sun, 31 May 2026 16:12:13 +0000
+Message-ID: <5cf7a4f6-0a0b-4f41-8137-d6c3e055d4e8@infradead.org>
+Date: Sun, 31 May 2026 09:12:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,51 +39,64 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: kernel-parameters: Fix stale sticore file paths
-To: Costa Shulyupin <costa.shul@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+Subject: Re: [PATCH v1] net: Remove orphaned ax25_ptr references
+To: Costa Shulyupin <costa.shul@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260531140541.4115641-1-costa.shul@redhat.com>
+References: <20260531134837.4111349-1-costa.shul@redhat.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260531140541.4115641-1-costa.shul@redhat.com>
+In-Reply-To: <20260531134837.4111349-1-costa.shul@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/31/26 7:05 AM, Costa Shulyupin wrote:
-> Update file paths for sticore references that
-> became stale when drivers were reorganized:
-> - drivers/video/console/sticore.c -> drivers/video/
+On 5/31/26 6:48 AM, Costa Shulyupin wrote:
+> The AX.25 subsystem was removed in commit dd8d4bc28ad7
+> ("net: remove ax25 and amateur radio (hamradio) subsystem"),
+> which removed the ax25_ptr field from struct net_device but
+> left behind the kdoc comment and documentation.
 > 
 > Assisted-by: Claude:claude-opus-4-6
 > Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Thanks.
 
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/networking/net_cachelines/net_device.rst | 1 -
+>  include/linux/netdevice.h                              | 1 -
+>  2 files changed, 2 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 459ed0d72aeb..f94ec9f3a75c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7381,10 +7381,10 @@ Kernel parameters
->  			Set the STI (builtin display/keyboard on the HP-PARISC
->  			machines) console (graphic card) which should be used
->  			as the initial boot-console.
-> -			See also comment in drivers/video/console/sticore.c.
-> +			See also comment in drivers/video/sticore.c.
->  
->  	sti_font=	[HW]
-> -			See comment in drivers/video/console/sticore.c.
-> +			See comment in drivers/video/sticore.c.
->  
->  	stifb=		[HW]
->  			Format: bpp:<bpp1>[:<bpp2>[:<bpp3>...]]
+> diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
+> index 7b3392553fd6..eb2e6851c6f6 100644
+> --- a/Documentation/networking/net_cachelines/net_device.rst
+> +++ b/Documentation/networking/net_cachelines/net_device.rst
+> @@ -91,7 +91,6 @@ struct vlan_info*                   vlan_info
+>  struct dsa_port*                    dsa_ptr
+>  struct tipc_bearer*                 tipc_ptr
+>  void*                               atalk_ptr
+> -void*                               ax25_ptr
+>  struct wireless_dev*                ieee80211_ptr
+>  struct wpan_dev*                    ieee802154_ptr
+>  struct mpls_dev*                    mpls_ptr
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index beed64b8d93f..460350a7f77a 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -1947,7 +1947,6 @@ enum netdev_reg_state {
+>   *	@atalk_ptr:	AppleTalk link
+>   *	@ip_ptr:	IPv4 specific data
+>   *	@ip6_ptr:	IPv6 specific data
+> - *	@ax25_ptr:	AX.25 specific data
+>   *	@ieee80211_ptr:	IEEE 802.11 specific data, assign before registering
+>   *	@ieee802154_ptr: IEEE 802.15.4 low-rate Wireless Personal Area Network
+>   *			 device struct
 
 -- 
 ~Randy
