@@ -1,246 +1,210 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4E6376490
-	for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 23:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2576B1946BC
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 00:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780269485; cv=none; b=RrSOn1tQpdUE4sySLJOaVDN/SR/FUi/r2ouqzj0G+mqxMVJvkzqNEh0ckq589TTWMm7WryRA25adWnkt+fIDSyr9RE+x/oW35yNG9Ee8P4hvzSb+UGYEC1uFzJtZDJzTVON2L8kZ5tfRZfKXv8CWlGdT45kniu/FuhvQiQ5a+7A=
+	t=1780275041; cv=none; b=X68XFIo+pS6hAEFwUDo1dFRvSQHV0//qeh7YfhvhcR09leidzyPEuoVC2QswO/lZIfUtsKkNJpm5wgHviWBRoZcTwfcv1MidCMl5wSWZvcQimF8UICl4SySwIQQ/ffLTcKP6TwX5wlsUHPmIIitN3bFgRoxGvJd8FyoBsFOEQa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780269485; c=relaxed/simple;
-	bh=NzyYbeRmipVDUcVFnXEzhSA5L8Fjv+M/rg5sEJLce8g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kXL8M0Z4mf+7cE5akOrfQ+cdbuBTi9KiB3gA//I8tmviyzKUu5ZhEYZIyOvSgFjUo+TBkoCZrLKA+o/KiMzsN0QFvpM0T48T6NbQIrl5RhJA4RLXLIp4yOi7lXChrFCVFrtAY+ARAJ1asnsji/4+jBsE6luFqEk81kIUZAEsnAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=D4BBV8uM; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	s=arc-20240116; t=1780275041; c=relaxed/simple;
+	bh=NkgDjfStwAVwsufE6vFbU/T9ELXHoUZnhbLlqe0wf2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ijn/MqkKWumN+aWozJ3QWoAU1dCpuuUC0JmK+SiOqrq8GBQg0MkJyGxCxR1I3+71mhRd6ox06/6KOe8hxsGG+tqesn3wbh0Iu2wyL+0FKXj7l16vv7hImYVzjqcoNisVT0loqsfJGqt8TBMg9NjLPpxUwdlfp9uqZj1SgH8t9JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPNpUlRw; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="D4BBV8uM"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4906238c62eso74786715e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 16:17:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPNpUlRw"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36b903567fdso3254804a91.1
+        for <linux-doc@vger.kernel.org>; Sun, 31 May 2026 17:50:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1780269477; x=1780874277; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yw1fhfSYYqzCwDV1bdu9APNnKhaP1vTsxLW0x4AdDkE=;
-        b=D4BBV8uMc4b3pVACkDqxyvtmxKDnEpuWc2//GSZkcpvWFiWSMBEgIwDvxVZTX+odsg
-         gkcvVOSGshOlpnqMm2ocfdKBkAUgpk/F6Ac7xEXJylgFkTPDZCsfNZBrDhMYEZ3cIXyF
-         EA8dMFllT3I1tr+O76ZTZZF1C2sPNqufmT/aQFtIDdzCDpHYQRk5J5glOPaMen+58+B9
-         5ww4YxMzbVmWKHd07qFNR/HZTJjbgUa7tLfnCkJze6ipKDlHlkQtoZ1obygOGcSKL2B4
-         HqLGsAkJTEl7nKgulT7A+Q288xN2PiLeZkcLCx3TyM9U4gACzE8bi/4ik48vayc5DHD1
-         GbRQ==
+        d=gmail.com; s=20251104; t=1780275038; x=1780879838; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cg6Y3xqfBKjzaemeU2L9Q5dBdOV9FXfEg49CMyYPN/s=;
+        b=EPNpUlRwObo2qWJaaHM096jS+AW2VgYAQ5MCftvnUuPY7ekKVRd26P3IOqORaoH3hg
+         fYUnEdcoRwdOC6b9aLHJJ0sRFewIpWu92/pbxlzHEqv3Q3RswR4P0zXvJpc5Onoej1Pm
+         DAH47Y9Ft1foyWyZVu87btM3dD3xGfuJw5D7apR3hzCYYt/v3IsM6CRWLXgYSykfHy1Q
+         kLzUlZdNOJ04U1Nx3i0L9oE3aj3g1iNAMPD/iHQNDtNjOBV6NwPUb8oIYEM7S4ehJQen
+         2Rq96h65anKTA6PVyFLOAhNg5EHqF3/mIZ5qRs/ZWIDHx0c1DbTImTP9xJrY/ymGyGm6
+         j7VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780269477; x=1780874277;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Yw1fhfSYYqzCwDV1bdu9APNnKhaP1vTsxLW0x4AdDkE=;
-        b=WF1uOQmIVjvLbWWQcIH8/UqLwUq79pNfxzlP+TbQf3k8xCOZcWs9+jZba/l3F+AEZC
-         QPy+5Akx7WRHxoPSN15LsWnzfDr+myk/CTprnH8qVUrlStS1v91zQ33LI0zQOeneWZ0k
-         FioyNKlQz/wryAFtS+cp+ngwBdDQatlgcXs5oo4vwMeZEgzI+jJKT1p2T4v1KFa6qzE6
-         Q+PhYAbLKhyeHHaFSC0bPVEBxZNdtdox118U7rChs1QYMDLhEguooYW3WHlEo9iS8xC4
-         0bT+KO++ZuEVVQFM0TXY1DJX3cY+eNzCOnMuEkuTRwDyrXmScyiHXWnDl0tzomyPMUgS
-         kk/g==
-X-Gm-Message-State: AOJu0Yz4EIeI8VQXt5t7qVtVQ3jDPZKyx0sjx6eMdnph4aHIH75FYRcn
-	i202q6VHY16NSZkmY0LL1xlFBDY5se0jZTaAwj0WRRoQRvwNUuGIn0FhMynUVL1D+B4=
-X-Gm-Gg: Acq92OFS4GvRyiis7TjJuxs+CZYPZMcJsNtK7sNtJ6kazg3Ir8oZ0IZIxpcbjGoAqGl
-	Bvu25NdwrFkWUZHYwMaXmyXCyzX3ruQK6wgJ+KK/s8pov4z0etur/5QYUGVgU9AD7HN22X0MkOo
-	lN32XzTby4Wxoc8HAZ9fTRCCjFvuv6Pd40nxn6msexMK6ifM3xLjPs5QEcR+Nj1cALzmBdDkYWs
-	q8l3EZF0Xdf6rj3TqYW27fqs4E9QsBhGEVJaqXFw5TRh0a8KlIwS9WUKGT53uMPvo3DVtBLdZqF
-	74X3wKNFXq0x3MuhVc4VKpI81+mgg49Tjf3/wXTsmBwIMKqV+fMEjvFjjPBlL9SMEmoiBWwnpBX
-	ivYSiJn9FjyRaalKsFv3ufLhrKbDe1jhT6ze0GozGXjxO3t5cmb16l/OjrrC9Mwk1luvLDnyOeU
-	QTAArKHkb9rVVpstujt13ExPIrV6AmNpJZAzfdrttinG5hPLmYw2SyuURY84rJk8Qb4RpHURy8L
-	kfjyAaxJyjhFYXYDYr2wojo2fpkDx+l1HLw4LIFCSZ2SJX8/g==
-X-Received: by 2002:a05:600c:6558:b0:48f:d5a0:284e with SMTP id 5b1f17b1804b1-490a294b864mr118910765e9.28.1780269476864;
-        Sun, 31 May 2026 16:17:56 -0700 (PDT)
-Received: from [127.0.1.1] ([2a00:23c5:7815:1301:f27:e3a8:2334:314d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34b834esm20496544f8f.11.2026.05.31.16.17.55
+        d=1e100.net; s=20251104; t=1780275038; x=1780879838;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cg6Y3xqfBKjzaemeU2L9Q5dBdOV9FXfEg49CMyYPN/s=;
+        b=Kb9NAoTRATDxyz8Xftw9eXRbEso5MOlXzD/vbx+xSUVeZRPOtsrvKflgQpKwVmq+BB
+         MHtaoPhUkfXJzOhl8rMdGj6XQncZt8s5ieI+E1u7Y/KBj7gH65taezrSWATt4ZfasL0V
+         nhq5hW1vhGE8d9Jeq5fMQvCJFt6RsrpqzDco1YfJAi66q5OAyF+zppdYVhRdWP1YICyK
+         tdsVpWv9ML7otZQRPFC3/2AcbLOKx+BS00ZZjI9rhv4ynMgKrrU+HxsQ/2U1nWmObXfo
+         5Ec2x4F/8A1NmMGhdEKn3sk0ut+NM6Nm3HB7whnAT8ixOAE+JPBckCitBJiy2V5EMjbT
+         rvpw==
+X-Forwarded-Encrypted: i=1; AFNElJ+rBv/U1uNIJZBxU3Jk90YPLL6kiZ3USp7r0JhrJxg2Z13rIjH/BZ1Q3dQlDQ+yio3rK8KOvo+o3xI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7Uk7RbW76E1e/qYH53rdmMXy8QzOa0a+gvLPu55T5LBWak3Zp
+	oJiOEyskdUHnblbUtU/NNHGp0OVWf0luG2RrxIlILDWvX3U9Y/OoHpp8
+X-Gm-Gg: Acq92OEaX9Xnrg89oe7/RMwk+pV9L9mOa7GrQJPfCcQfS0rBGno4T+EBbQNlhSNPH9G
+	+ZD8HyNGarqK5zi74DF6IHY4U+dZMDGZwxgXIKq2VUvjFActOF1EbAGgN3wMxXlEks6ORYctOFk
+	3ap608Ot2hjFm+Ek83J7k2TD6IGIRe7NBIRXnjJOksqfFKD3nrOx+Gd34gOm7BWq6O9wqgfeZmt
+	C5L2VNo9LXAC/hfuVAbeV+XdWIlyyTWgsr16wWoK1ZHB6sPuTlhgsWFQY2bK4fqaWcWD6QKwIpn
+	DqwjfFRBv9NIgM9VR0e4tPn2vLXyzR+4j3ypTWDHtB3atiL1iETaEmANzo1kpTNGVdMg7Krk33w
+	LnQLyTEyYnfy8G/TweMQH7NV+a2WJywvqhVQqNse3+oMAs+sNF4zzQ3O2MSUFK7N3+J/DYno+Qf
+	mqB3/Q9C0lvwRwpgeHCQd59vcsXDHSc4uE7g==
+X-Received: by 2002:a17:90b:2586:b0:36d:b424:4f17 with SMTP id 98e67ed59e1d1-36db4245eb0mr1990613a91.1.1780275038259;
+        Sun, 31 May 2026 17:50:38 -0700 (PDT)
+Received: from localhost ([2001:19f0:8001:1b2d:5400:5ff:fefa:a95d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36bbdb5c91bsm5313469a91.1.2026.05.31.17.50.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 16:17:56 -0700 (PDT)
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Mon, 01 Jun 2026 00:17:38 +0100
-Subject: [PATCH RFC 2/4] printk: deprecate boot_delay in favour of
- printk_delay
+        Sun, 31 May 2026 17:50:37 -0700 (PDT)
+Date: Mon, 1 Jun 2026 08:50:22 +0800
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Tian Zheng <zhengtian10@huawei.com>, maz@kernel.org, oupton@kernel.org, 
+	catalin.marinas@arm.com, corbet@lwn.net, pbonzini@redhat.com, will@kernel.org
+Cc: yuzenghui@huawei.com, wangzhou1@hisilicon.com, liuyonglong@huawei.com, 
+	Jonathan.Cameron@huawei.com, yezhenyu2@huawei.com, linuxarm@huawei.com, joey.gouly@arm.com, 
+	kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	suzuki.poulose@arm.com, leo.bras@arm.com, Inochi Amaoto <inochiama@gmail.com>
+Subject: Re: [PATCH v3 3/5] KVM: arm64: Add support for FEAT_HDBSS
+Message-ID: <ahzUUDAMoHtDFJD3@inochi.infowork>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com>
+ <20260225040421.2683931-4-zhengtian10@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-deprecate_boot_delay-v1-2-c34c187142a6@thegoodpenguin.co.uk>
-References: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
-In-Reply-To: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Russell King <linux@armlinux.org.uk>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- John Ogness <john.ogness@linutronix.de>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
- linux-rt-devel@lists.linux.dev, 
- Andrew Murray <amurray@thegoodpenguin.co.uk>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780269471; l=4252;
- i=amurray@thegoodpenguin.co.uk; s=20250914; h=from:subject:message-id;
- bh=NzyYbeRmipVDUcVFnXEzhSA5L8Fjv+M/rg5sEJLce8g=;
- b=i+GDn9CndzdObBjnvYG9EQGVKMlZ7e6Fy6BNLVupTvtxPnVqFEb/bVi2JyX2zv2+YUvaYE0j4
- OueQHamNr33BR1S1U4QUwBadcLGdUbhjHwzvBhiP9fMeOsqdMoVpSvg
-X-Developer-Key: i=amurray@thegoodpenguin.co.uk; a=ed25519;
- pk=0SU0Q8S/uEiCdbXbXS+PvJGUCaBG1nDszD+HPU3Js0Q=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260225040421.2683931-4-zhengtian10@huawei.com>
 
-The boot_delay (BOOT_PRINTK_DELAY) kernel parameter and printk_delay sysctl
-are two distinct mechanisms for providing similar functionality which add a
-delay prior to each printed printk message.
+On Wed, Feb 25, 2026 at 12:04:19PM +0800, Tian Zheng wrote:
+> From: eillon <yezhenyu2@huawei.com>
+> 
+> Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
+> indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100. A CPU capability is added
+> to notify the user of the feature.
+> 
+> Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
+> ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
+> cannot be determined at KVM initialization, an IOCTL interface is
+> required.
+> 
+> Actually exposing the new capability to user space happens in a later
+> patch.
+> 
+> Signed-off-by: eillon <yezhenyu2@huawei.com>
+> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> ---
+>  arch/arm64/include/asm/cpufeature.h |  5 +++++
+>  arch/arm64/kernel/cpufeature.c      | 12 ++++++++++++
+>  arch/arm64/tools/cpucaps            |  1 +
+>  include/uapi/linux/kvm.h            |  1 +
+>  tools/include/uapi/linux/kvm.h      |  1 +
+>  5 files changed, 20 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+> index 4de51f8d92cb..dcc2e2cad5ad 100644
+> --- a/arch/arm64/include/asm/cpufeature.h
+> +++ b/arch/arm64/include/asm/cpufeature.h
+> @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
+>  	return cpus_have_final_cap(ARM64_HAFT);
+>  }
+> 
+> +static inline bool system_supports_hdbss(void)
+> +{
+> +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
+> +}
+> +
+>  static __always_inline bool system_supports_mpam(void)
+>  {
+>  	return alternative_has_cap_unlikely(ARM64_MPAM);
+> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> index c31f8e17732a..348b0afffc3e 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -2124,6 +2124,11 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
+>  	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
+>  }
+> 
+> +static bool has_vhe_hdbss(const struct arm64_cpu_capabilities *entry, int cope)
+> +{
+> +	return is_kernel_in_hyp_mode() && has_cpuid_feature(entry, cope);
+> +}
+> +
+>  bool cpu_supports_bbml2_noabort(void)
+>  {
+>  	/*
+> @@ -2759,6 +2764,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+>  		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
+>  	},
+>  #endif
+> +	{
+> +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
+> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+> +		.capability = ARM64_HAS_HDBSS,
+> +		.matches = has_vhe_hdbss,
+> +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
+> +	},
+>  	{
+>  		.desc = "CRC32 instructions",
+>  		.capability = ARM64_HAS_CRC32,
+> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> index 7261553b644b..f6ece5b85532 100644
+> --- a/arch/arm64/tools/cpucaps
+> +++ b/arch/arm64/tools/cpucaps
+> @@ -68,6 +68,7 @@ HAS_VA52
+>  HAS_VIRT_HOST_EXTN
+>  HAS_WFXT
+>  HAS_XNX
+> +HAS_HDBSS
+>  HAFT
+>  HW_DBM
+>  KVM_HVHE
 
-boot_delay provides a kernel parameter for delaying printk output from
-kernel start through to boot (SYSTEM_RUNNING), whereas printk_delay is
-configurable only via sysctl and thus is only used post boot.
 
-Let's deprecate the boot_delay feature in favour of printk_delay. In order
-to preserve functionality, we'll also extend printk_delay such that it can
-additionally configured via a kernel parameter.
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 65500f5db379..15ee42cdbd51 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -985,6 +985,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_ARM_SEA_TO_USER 245
+>  #define KVM_CAP_S390_USER_OPEREXEC 246
+>  #define KVM_CAP_S390_KEYOP 247
+> +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
+> 
+>  struct kvm_irq_routing_irqchip {
+>  	__u32 irqchip;
+> diff --git a/tools/include/uapi/linux/kvm.h b/tools/include/uapi/linux/kvm.h
+> index dddb781b0507..93e0a1e14dc7 100644
+> --- a/tools/include/uapi/linux/kvm.h
+> +++ b/tools/include/uapi/linux/kvm.h
+> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_GUEST_MEMFD_FLAGS 244
+>  #define KVM_CAP_ARM_SEA_TO_USER 245
+>  #define KVM_CAP_S390_USER_OPEREXEC 246
+> +#define KVM_CAP_ARM_HW_DIRTY_STATE_TRACK 248
+> 
+>  struct kvm_irq_routing_irqchip {
+>  	__u32 irqchip;
+> --
+> 2.33.0
+> 
 
-Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
----
- kernel/printk/printk.c | 75 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 48 insertions(+), 27 deletions(-)
+Instead of having these architecture specific capability, I wonder if
+we can add a generic capability like "KVM_CAP_HW_DIRTY_STATE", so
+other architecture supports similar things can reuse this capability,
 
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 822fcdff7b21ac00cfa655c3d9b4de2698fcb7d8..ca510b9c76458f5c1e059200060d9d6be4c859b3 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -1291,40 +1291,28 @@ static bool suppress_message_printing(int level)
- 
- #ifdef CONFIG_GENERIC_CALIBRATE_DELAY
- 
--static int boot_delay; /* msecs delay after each printk during bootup */
- static unsigned long long loops_per_msec;	/* based on boot_delay */
- 
--static int __init boot_delay_setup(char *str)
-+static void __init printk_delay_calculate(void)
- {
- 	unsigned long lpj;
- 
- 	lpj = preset_lpj ? preset_lpj : 1000000;	/* some guess */
- 	loops_per_msec = (unsigned long long)lpj / 1000 * HZ;
- 
--	get_option(&str, &boot_delay);
--	if (boot_delay > 10 * 1000)
--		boot_delay = 0;
--
--	pr_debug("boot_delay: %u, preset_lpj: %ld, lpj: %lu, "
-+	pr_debug("printk_delay: %u, preset_lpj: %ld, lpj: %lu, "
- 		"HZ: %d, loops_per_msec: %llu\n",
--		boot_delay, preset_lpj, lpj, HZ, loops_per_msec);
--	return 0;
-+		printk_delay_msec, preset_lpj, lpj, HZ, loops_per_msec);
- }
--early_param("boot_delay", boot_delay_setup);
- 
--static void boot_delay_msec(int level)
-+static void early_boot_delay_msec(void)
- {
- 	unsigned long long k;
- 	unsigned long timeout;
--	bool suppress = !is_printk_force_console() &&
--			suppress_message_printing(level);
--
--	if ((boot_delay == 0 || system_state >= SYSTEM_RUNNING) || suppress)
--		return;
- 
--	k = (unsigned long long)loops_per_msec * boot_delay;
-+	k = (unsigned long long)loops_per_msec * printk_delay_msec;
- 
--	timeout = jiffies + msecs_to_jiffies(boot_delay);
-+	timeout = jiffies + msecs_to_jiffies(printk_delay_msec);
- 	while (k) {
- 		k--;
- 		cpu_relax();
-@@ -1339,11 +1327,34 @@ static void boot_delay_msec(int level)
- 	}
- }
- #else
--static inline void boot_delay_msec(int level)
-+static inline void __init printk_delay_calculate(void)
-+{
-+}
-+
-+static inline void early_boot_delay_msec(void)
- {
- }
- #endif
- 
-+static int __init printk_delay_setup(char *str)
-+{
-+	get_option(&str, &printk_delay_msec);
-+	if (printk_delay_msec > 10 * 1000)
-+		printk_delay_msec = 0;
-+
-+	printk_delay_calculate();
-+
-+	return 0;
-+}
-+early_param("printk_delay", printk_delay_setup);
-+
-+static int __init boot_delay_setup(char *str)
-+{
-+	pr_warn("boot_delay will soon be deprecated, please use printk_delay instead");
-+	return printk_delay_setup(str);
-+}
-+early_param("boot_delay", boot_delay_setup);
-+
- static bool printk_time = IS_ENABLED(CONFIG_PRINTK_TIME);
- module_param_named(time, printk_time, bool, S_IRUGO | S_IWUSR);
- 
-@@ -2119,18 +2130,28 @@ static u8 *__printk_recursion_counter(void)
- 
- int printk_delay_msec __read_mostly;
- 
-+static inline void late_boot_delay_msec(void)
-+{
-+	int m = printk_delay_msec;
-+
-+	while (m--) {
-+		mdelay(1);
-+		touch_nmi_watchdog();
-+	}
-+}
-+
- static inline void printk_delay(int level)
- {
--	boot_delay_msec(level);
-+	bool suppress = !is_printk_force_console() &&
-+			suppress_message_printing(level);
- 
--	if (unlikely(printk_delay_msec)) {
--		int m = printk_delay_msec;
-+	if (likely(!printk_delay_msec) || suppress)
-+		return;
- 
--		while (m--) {
--			mdelay(1);
--			touch_nmi_watchdog();
--		}
--	}
-+	if (system_state < SYSTEM_RUNNING)
-+		early_boot_delay_msec();
-+	else
-+		late_boot_delay_msec();
- }
- 
- #define CALLER_ID_MASK 0x80000000
+For this generic thing I suggest, the getter returns the max support 
+entry count (or the buffer size) it supports like the dirty ring
+capability. And the setter just let the architecture set the parameters
+based on the user request. 
 
--- 
-2.34.1
+This should do no harm to this implement, as everything still depends
+on the architecture behavior, and leave room for other architecture
+to reuse this.
 
+Regards,
+Inochi
