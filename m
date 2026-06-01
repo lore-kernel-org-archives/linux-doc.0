@@ -1,167 +1,166 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF652D12F3
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 17:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB383E1234
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 17:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780336197; cv=pass; b=mi/yMXeOFlAV19a83ZVkm5DcQ62fj3z/5yYCJC1MD+NW8O/2aghkd1CXSMjes2C0EQp9+lRITzmOFSlqlKBGlLsP9QN2GXX+Dek9eIqTSjXqdCP6YA1GJC2Xo4kyZYQb5Tm9PaP7yL3nUrid2OpFt6JvWD8by+qZFP8e3a0sUgM=
+	t=1780336674; cv=pass; b=IQS83+us4J2pLO5wU9A3uz2a8m+/0wMzx9PSKPEg6BgzqokA3lH/QXec8rcjCagdI8rvK4R+3eJuI6D2HzviVTYU65cQx/jFBHf1QKgOsZGHt0EAMSoO8xRLpFr6yo7RF2+GdfDk80So9y3vZD8nxG7d6lJ5u5LDcc+maELQwtc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780336197; c=relaxed/simple;
-	bh=MHMfGyIQO/wWrdZz2ftsSzh09DwykVOPctTnncxFW2k=;
+	s=arc-20240116; t=1780336674; c=relaxed/simple;
+	bh=jS/ZEKJo2ddAZIP+307JZp0uZcdcPAaQg1XEpdiajmQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ve+Eg+FzSrSq9k3tOjJgCa4YojU0DftRl/1PFEyE9DA6whiJ+WWFbs2kM6hnqQwmjkpn4PUpPzB2SPyYjKXcFt+JS3ZUAb/GvxVnrsZVa1t5axjg+kxDa+Z2h792xV9xbDCSHKx4wEs/+Pc1B4i+bl77kOP1yBxAo+wWR3Q0QOs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rryOr97S; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=hrxTNcN8YJv0v0b3FIQC6LGnrtoLZeL45NHRWxutJV64AbxsZLzTp8TgHfZao5w5Du+8XmvTn3G/AaXdQvzxPfe7TlvfrrN8JyN74WF/WNLJOm+JvcCskQ1mOm1skiMBOTt6DZ5iYXAYa71OVLseRpOyCtex6Mp5M4xVbJtPSV0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=Y8gObGVn; arc=pass smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rryOr97S"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-68bac6e24fdso5702824a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 10:49:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780336194; cv=none;
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="Y8gObGVn"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7dc93d02916so43637537b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 10:57:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780336672; cv=none;
         d=google.com; s=arc-20240605;
-        b=LNpzCz7//AfDEoKPVV4Je2ELP9H+KD97xE6cUrALK2XTKU8FNF1UbMLLgeKtUZpU/J
-         YdvTSwl6y060zn7MRkTl3xdkqCG0WNqUbcvczd4o1acLK/CUI7u4JKA9bNcVxnaftOg1
-         rmcdysvtWJ7zA0Dam+4u8ml7/Y8lGi2P0VEN7Z4RpcXJytf90RdRo8wyZaMnx6ynwHde
-         lAOoY29uU6ThPA34zEtzRWa0nKlaSQ2g39MsaN3bnBy2g34e7Gkz/fHrvy4qUU5xQ0zH
-         EoHW5z8/HXRcK2SiRPvmGJrPCAEN0SdGlxweH9taLK5DS5D40VFzPDTRClwoAJI46X5t
-         FaWA==
+        b=fzAR8Js3Ea1eDNSB+7RjXLmgb92LkucZwBNbuRXTGUNNS+PLdSyLlHWKYtTBwNzboh
+         rzuwxz5WVqYIf41qa+cuehpMK5cvTX1poLIuJFNGmdgnTd33f83c1T771HUxEVBkOQ1z
+         xUwg8PjU+kLMRO690Fx+TTIbC0aIRaBRzO2gbWSU4fq3+gQEflnBYDABAzCYYyFfbrjC
+         4Y7unFeQaAEisFrPx6ZNuoP7oeMKvQ3ru6BJNjIw0E/ldYNc39gr0LB9IkexpAUVkJcR
+         AQ9BLfVQRz6kaXZKQCRl1jsZ7bfifoRlthLJ2YmHcVecipi/GMODd/aBhPmB7RBZkfgp
+         50jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=pMR+vMx9phwXvzk3LCs0RnCPA1OW1RBGgb6+eYeQRiE=;
-        fh=OcakI1BnH7gi8yZrsnMFoiMHGmBGhjMNHu6zVRWS8/U=;
-        b=XDw/zJit8Tl7Gr7S5Wi7cNwRYux0YTW+cKnA5s1aVBp1I723VHxVBQepDJ7Lblh4qb
-         kFFW110DQ5F+ll4a/1XvZMPtyeeg7oTjVc5CRW2N6XS1WV2nXwxXQP9VPa19Ht159moA
-         KDCxypvo8aiy8wBuAiym5uRaAEzNwDcXvapxxr7X8ADTbJCrBME4AGkgWT6fudPgwoVu
-         XQYoDcj2Ic+nkgaeKfoshy7jb0HiiDYQm3552WwJWe3be5c0zwMBkr1p2h9qjbZ0p+Kf
-         wesAhE5pECHk4sjoH8JvUQjIOaf8f0UgigKZRGCsgF3OT1X8c6mAFyVk82UDGxG7WGp+
-         UOuQ==;
+        bh=FfE0OEt10KoqyrBxkVX83evIZS2y+17Dt49yMyisaOQ=;
+        fh=7UN6qnUFXPPWRr2o+tmYRGWvpF6RpgUw9h/a4UHWo98=;
+        b=anSYWvlV3cZqTWVZcVkHUrY35Uq3ZuJWCXjhso0viYtQ8aTEgJJecuzHbXbn252b8b
+         SHk5jX3FA85dnn7iEB4o8bT0+dkc5u8nJaE8cysRZKs9RZki4R6W5v6eIr8lDhkBMeAJ
+         VOl6UkBvxAngjJy1ZCOL4v6FTxa8KWyc1KhzDnFUGd3zSdx2O8HK+xScvYjUkQftXk8I
+         NaoUYhNuL0BgXB2fFyw/oL15S1PnU7lzgRJ6rhVQZah5f/5Qr0ZO0GKVErLLgUVLQS5s
+         8gIOu10lEtf42rlnVHRiKNJAskvcJ7BgckjjrYwYE0mY15tugESf77zCXt6z/jNVoeuz
+         1hiQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780336194; x=1780940994; darn=vger.kernel.org;
+        d=rivosinc.com; s=google; t=1780336672; x=1780941472; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pMR+vMx9phwXvzk3LCs0RnCPA1OW1RBGgb6+eYeQRiE=;
-        b=rryOr97SQy0Yvp2+DlBXsOoeF8EjhQ/KHkErallpDjCJTM8vVvnrxje8waUS3RSM6W
-         K44IiWvhr+V7Mr1GrVuyd0oPesAgAbYIEwnpHi4ZUzoD45LioXHsBw9NsL+heiwigq4Q
-         jDS7J1LfYzKtBTbBUkElNuXKSFoYll0jTvdQ+h1Y1QVtLGUek+o1BsBc8nxV0CMb9q+f
-         uSQgTgxyE327kQkFtC4U9+JNVT0j7XQQ+aEzSl5wP/FhIwJxmfqHxax4oX+3vUO4HcQ9
-         gcfswYK4PLHucfo6VsL0zt1lYOWydWR49L5Ioiu/uehdq9XGLtyM+xwnzUkRN20QnWVe
-         CKhw==
+        bh=FfE0OEt10KoqyrBxkVX83evIZS2y+17Dt49yMyisaOQ=;
+        b=Y8gObGVnIQEkypCR7OU54mIgGNbVOHe4Lc+1yn54ancdyLNe/ih/f4zzt4VmsHT7EB
+         RcPsTBQfqLYFQ6z9qGGt6Hnp4NdvbwA1OzEBLeC/STfKaFf6nQgEoDYPf1ZdUW9tXXYj
+         wK6bHimi4TPbAe2xSk0JJgnRZupzA30ZYcNUazyMd5RuTQQ4xAmpSZUzzsyxW2d845tZ
+         JeGBx8MP8Ex75k/0VfMVmqYFjS+ayM+mX3glfVuyIGxADVqmHlK2DF/NCYjZJNrQhBfL
+         1lgIuk4qmCInUBEv5T1GCUMJs7lsB0TUmfS5l0zFgGPja4SnPZO/pZ6g4p35D2qoPDIM
+         mQUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780336194; x=1780940994;
+        d=1e100.net; s=20251104; t=1780336672; x=1780941472;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pMR+vMx9phwXvzk3LCs0RnCPA1OW1RBGgb6+eYeQRiE=;
-        b=J57uQnbXFs8z0MEecLz6RuazIrci8LsmOAgC2TRrzWnSxslK13JschX4Wjl075exCm
-         OVU4VUKAYvYfykVeyErIKiTsAISwpWFVP8NdhrM/Rb2nzVd3BkQVZkZ/CajwD/gS+Tfh
-         c9y1w1ev3wBK4qXn5octvY+3ZU3AKTQc6Eb4aDsvZXMYbthmEZUcETuKRTIBT5kboXe+
-         n0BXUhnr6hQ7I+3KhMnxbW8sm6vfsrvIsAoGVNXS20jWpO0UeoQJR3a2j01g2G/s1CwA
-         7EQfKHWXU9NkTv4An8LTmQPuEY3KNki6o4zM9kqK9aeSkSnabx+TYuDYA3nkYFb9bDxg
-         rqMw==
-X-Forwarded-Encrypted: i=1; AFNElJ9WWDaPusLKMhEogtXsDNZADym2JHJrGU6E3+uUqMhWOsyR/xoY+ImWOVTlOyfvRODhca+7Z5NIOAU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoS30zD94UOVi9FKztVcOzb0VdtM12kRmxXJFX3cJODNfcy9xG
-	UZ5UpFxqjyDGtVUdbDDNNCFp/S+V7Y91A3tItAjw8Jobh370LK7mi7SjGjDHLd9rM1pb4QpawP9
-	PB5zed6upacPIe2boHUmXX0dB3ywahX4=
-X-Gm-Gg: Acq92OHnfuY/3rY58eGx7eLhUWFKRpgqo4tW++ouWyVYSb90WVtdJi/MW0vJs+dkdgr
-	E1h6CWALKOgB380b1sZ68CkZi3W+4QMj2ANuQLTwoJo8DqaCAlXfLTl4gpP1Ct/t8UpX92T24fC
-	r+xuI/Qb//VPNOuPj9inaxqjRKUj8aTW/jEwsETXEcMFyZyg7j4EvOP3ZDVuPlOWcYYZ4qRbTYS
-	GlWfT0/iKgC1zyqNpWZvu2rhCXkXqRI7I20oIj7yYJkiGXIm3swDGIRKhDhOkrNUzVGsMF4aFV4
-	LjkDizp6CSbB1TPZCyRcnXBPA4bX8r3ZMcNtd911qF2Bn24syt8=
-X-Received: by 2002:a17:906:1ba9:b0:beb:e13b:b3eb with SMTP id
- a640c23a62f3a-bebe13c09c8mr420086866b.9.1780336193926; Mon, 01 Jun 2026
- 10:49:53 -0700 (PDT)
+        bh=FfE0OEt10KoqyrBxkVX83evIZS2y+17Dt49yMyisaOQ=;
+        b=cS5sfOw18nfgIH40gSdy+N6tFImyMlgbCQek9gsp2DjY983xYz+bPtXV8gVGoIYX25
+         P0Y+hDhLJC/zBT5pavMBUpl+sLwM5b/TNAIcmYfs7CKZJisSgWYPRWdheJn7sM3TKF00
+         RQn4Q9VkRo9tNfqzAuS1qPNVsQBUBTc59Rc0agfXqHS/cMQP556NYlT2PnZBqrqQbNk9
+         TGcoVNfEAJek8TTQaWcHcDw6I3NVOUPCIVdW99Cj2rDEU+EyDnRtm/c7Q3YN1tV/KFYd
+         P8CzlT83PPAejiF0oDtbTAPbzjso19sA700o8rxQnSA+kKGcydqs7v4NvM5+tEvNceGD
+         9PPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9X+uVIJd+FjoNc1vktBgGhI3mcIYyv5zBiqhWwcEWj8Mhj56WxduT3UzQWp8gm9W3JcB/ySxv5+UM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2pc8+3o8CQp1tklCYdfSEmH3AphvPs/Zfom1cb6ckMqKM6iZ+
+	DaRYMB7yzfjW+MiQV7PX1aP2bc+HdQCeTJoXENjoIj/vRsCIA6KtHI1f6AsdbGEji9NIgdxscFN
+	1rVR+gi+jKs01mkVir1paCEWuy56+A9E0dFBvXwHP8g==
+X-Gm-Gg: Acq92OEfB3gmh/aijKui44R3bwqyCvlouNCbtzH+WJYpt1/sKzlOZcwqpAdjLxdVbwq
+	Gw+9ug7YLkId8rFghINk6KIN2FEYEqZYMPnypJ8sjeMY8rvO2B4kPrkFpJVzPg6xvVMeJZRjFxA
+	r2B1UdB/gicUNVI0J7skrkVwPuzdKIU5KZkgpWmz9dNx7y7535IdJGVG/VL87RjUeWnKpv1URNB
+	MOckjHN5BlfglCGpSmRLCB2bKfssLiaPV5XJsZhiMQvIwxW0J0iu+DAZgDccwLUr8mVuubJVnoV
+	RSx33mgV5kduwsZHB/zyIaV3D8w/coxCmIvWQNDEAuGOiK80Dg8=
+X-Received: by 2002:a05:690c:30a:b0:7be:5f3e:5309 with SMTP id
+ 00721157ae682-7e05e853e5amr107636127b3.38.1780336672104; Mon, 01 Jun 2026
+ 10:57:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528212955.1912856-1-nphamcs@gmail.com> <ahz_iYG4lqWL4g-J@KASONG-MC4>
- <CAKEwX=PzMwXXgq=ULAkFD9UqMz+ewLqhKt+xdGxkV7OmA2QG6w@mail.gmail.com> <CAKEwX=NNNf0KCZC0ph7VRW0gjnbXd4W5NKEaHM4XzPdN03Ek3A@mail.gmail.com>
-In-Reply-To: <CAKEwX=NNNf0KCZC0ph7VRW0gjnbXd4W5NKEaHM4XzPdN03Ek3A@mail.gmail.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Tue, 2 Jun 2026 01:49:16 +0800
-X-Gm-Features: AVHnY4KkMWDCgqvQ0VtgzLPCLTVcd18CUg6LbNn4WT1rDML5IaDfG1WZK2GBXNs
-Message-ID: <CAMgjq7CT0ccCnzmpRGjTGPnNEn4eK==5A-OFbr3+p465dQMH4A@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
-	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
-	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
-	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
-	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
-	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
-	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
-	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com, haowenchao22@gmail.com
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+ <20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
+ <87jyslndo4.fsf@igel.home> <CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
+ <875x44o9hj.fsf@igel.home> <CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
+ <871peqgp9v.fsf@igel.home>
+In-Reply-To: <871peqgp9v.fsf@igel.home>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Mon, 1 Jun 2026 10:57:41 -0700
+X-Gm-Features: AVHnY4J9AUNhuz056EYoPs-ULzO8_fe_9tgwbVh_N3bHNsdR65FJv6ifxqCKuXk
+Message-ID: <CAKC1njR+dTdvp+BmLGPtgd8dufiUwBtkQ9a-qinELT_Fmi13sQ@mail.gmail.com>
+Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+To: Andreas Schwab <schwab@linux-m68k.org>
+Cc: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 2, 2026 at 12:22=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
+On Mon, Jun 1, 2026 at 10:10=E2=80=AFAM Andreas Schwab <schwab@linux-m68k.o=
+rg> wrote:
 >
-> On Mon, Jun 1, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
-> >
-> > On Mon, Jun 1, 2026 at 12:34=E2=80=AFAM Kairui Song <ryncsn@gmail.com> =
-wrote:
-> > >
-> > > On Thu, May 28, 2026 at 02:29:24PM +0800, Nhat Pham wrote:
-> > > > III. Follow-ups:
-> > > >
-> > > > In no particular order (and most of which can be done as follow-up
-> > > > patch series rather than shoving everything in the initial landing)=
-:
-> > > >
-> > > > - More thorough stress testing is very much needed.
-> > > >
-> > > > - Performance benchmarks to make sure I don't accidentally regress
-> > > >   the vswap-less case, and that the vswap's case performance is
-> > > >   good. I suspect I will have to port a lot of the
-> > > >   optimizations I implemented in v6 over here - some of the
-> > > >   inefficiencies are inherent in any swap virtualization, and
-> > > >   would require the same fix (for e.g the MRU cluster caching
-> > > >   for faster cluster lookup - see [8] and [9]).
-> > >
-> > > This could be imporved by per-si percpu cluster. Both YoungJun's
-> > > tiering and Baoquan's previous swap ops mentioned this is needed,
-> > > and now vswap also need that. If the vswap is also a si, then it will
-> > > make use of this too.
+> On Jun 01 2026, Deepak Gupta wrote:
 >
-> Oh and the MRU cluster caching I mentioned here is not the allocation
-> caching. It's the lookup caching, basically to avoid doing the
-> xa_load() to look up clusters for consecutive swap operations on the
-> same vswap cluster (which is the common case with vswap). For v6, it
-> massively reduces this indirection lookup overhead. Performance-wise
-> it's an absolute winner, just more complexity (because I need to
-> handle reference counting carefully).
+> > This was settled when x86 introduced shadow stack. Instead of having
+> > new `PROT_`, it was agreed to create a new syscall for mapping shadow
+> > stack memory (syscall: `map_shadow_stack`). Scenarios like `clone3` or
+> > co-routines required manufacturing a shadow stack, thus necessitating a
+> > new mechanism to create shadow stack style memory in demand. Instead
+> > of having a new PROT_ flag,  a new syscall was created.
+>
+> So what prevents riscv from making use of VM_SHADOW_STACK similar as
+> x86, without the user visible effects?
 
-Ah alright, that's interesting. And I think we can keep things simple
-to start, since sensitive users is stil able tol use plain device this
-way.
+riscv uses `VM_SHADOW_STACK`. It's just very simple to use `protection_map`
+with just `VM_WRITE`. On RISC-V, `-W-` is a shadow stack mapping. It's not =
+same
+on x86 or arm64. So `protection_map[VM_WRITE]` simply picks shadow stack
+encoding. We just ensure that PROT_WRITE is converted to
+"VM_READ | VM_WRITE" at vma level.
 
-BTW maintaining MRU is also an overhead, I'm not sure if the lookup
-pattern always follows that?
+see commit message
 
-> I also just realized we'll induce the indirection overhead on
-> allocation here too, even if the cached cluster still have slots for
-> allocation, because we look up the cluster (which is basically free
-> for static swap device, but not free for vswap devices). Might need to
-> take care of that to maintain vswap performance (but it will then
-> diverge from your existing code...).
+"""
+Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encodings.
+Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
+encodings for shadow stack. Above changes ensure that existing apps
+continue to work because underneath kernel will be picking
+`protection_map[VM_WRITE|VM_READ]` PTE encodings.
+"""
 
-That part should be indeed coverable by the si->percpu cluster though, I th=
-ink.
+As I said other arches have a VMA flag for shadow stack range but PTE encod=
+ings
+and overlays are complicated.
+
+>
+> --
+> Andreas Schwab, schwab@linux-m68k.org
+> GPG Key fingerprint =3D 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC=
+1
+> "And now for something completely different."
