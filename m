@@ -1,200 +1,164 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013023.outbound.protection.outlook.com [52.101.83.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F82F377566;
-	Mon,  1 Jun 2026 12:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.23
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780315576; cv=fail; b=SOJEqtBVfu8PGpM0pQnnc5ynn40PxFfXeiicR6aifFwlVS1el1C74Rva0a+KwVEBJtnOR++6SnjiULFOIQfmRzvlnVG+VB0Tzk5v++Jz09SRc7ACoxef7nBIAoRjiciHm2GEJdhvFJxg1OVMdd+wtjwiKrErXw2Yzj5QzXI9M68=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780315576; c=relaxed/simple;
-	bh=+R1pZvYgAujMlaT4UxGutFo+5V9ab06BARqTJy3U6vs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cnhBw5QT1m7AUpVK6al3zJuKppBPkWDWcNa14HF3ME/aXE4hynYLnEjLfRD3EI6hC4hVoc768ZLErlRLMXTtpVA49ru51mbbtDdY+rfBfaoaQ9zrEKa+RyHya+35DSVEw5jdBANCDLVJMhyecLW4l51ILoGdcDh521TNkV7BYuM=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W/h2Zymk; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W/h2Zymk; arc=fail smtp.client-ip=52.101.83.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3401C3769F4;
+	Mon,  1 Jun 2026 12:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780315591; cv=none; b=KtAiwzCvSTmL/rK7rNTi+LA5QQPwFnFXLfzs1ZkhBWy4zA7X/KagO0N7BpekYnxWAj/3+QEOPOaEo08lDX6J/dq6NmI9vYJysYS6F/0OEpT75kezGgwu/2uZPHBdclKPLem2w7ufkTzzgkHgNyiWfxXSWxb+XHlG7rZQRylTjB4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780315591; c=relaxed/simple;
+	bh=1V/aUBVsGQA0kwjBWuEds8b3HAtK0JeHycZcGTnJFfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QNKp3Y+a9DTtF+WJGs8tCE9a8jhi2Zibct4vJKc9047JgU7qKp9NdkoVXP/qfcWtEL2vWZe5m4SgLeO/inM1wTcvbDQzb+CO84g3kK90z8CBaWGlylKgyxMnqBIbqZGx6/RjO0weFJyL+0JaGocDT6fNh+SoaSax778dspPmyH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRpHjCBQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W/h2Zymk";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W/h2Zymk"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=C81Gy5DQKLpSpVpDVIrwqYGiOlDbFZ6kUNC17MJjMd9ErYfQhYyjZxvlBwD47eFUEg7hOn77C+o8Xma7kJQVOSUxk8bVgudMd8rGVBADP8Gyka8YGLpytx2IewMAp+O/wWNgz1czKlKBOXJ+m0qngenMwJIs2bGAiHzDxFp/LEkmZ3qRpG3R3cRoRMich9xAvQxgN0eosMbebsfGwwJdJNVURw8LPfzcpLf6pQnx2S2FXrb6bLlgxSkPkLWUjAGMukU9OxvIij90yUP2oBKOelkcvu6/FAfQgjOV3r5qXA5WH9D8y28Q+Hhs2ME/2OXJ9mt7SswsvnYQpYSM4g0ZhQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YAwtx8iXkBZ35HE+VZNm/0vvO4oCQSSXH+5v98gjC3E=;
- b=lVDr+D5ppyKgAJsZOSzIVLU1E6yoy17Ed6eQleU1NtHlX4E8WfPja2xtviyArMn0o+pNJISaLx7aOZZEVK4jfnlLdcFpbfUHKs+uGiTaIWp9zlcnq5SomaxdbT0oqJPB3tuheGqYHkdfPmovKzUvEefXwLGwyznrCXCpavkcXP0oeQNQ448XUdOI9mNttzTXaz3LHNjiy7yUAorA8L0Sq/MjB+VoHczFu4Eu+AE8tTDTzMbbTglCWEmy9+RCDcPceZUbd+e80rnweqJ/wecjnblCfSJfRx/el/nPI37Zg++4pSTXCWus9aUvAZ3jKYITDtPF0nMIIUUCXnYilZzbUA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=nvidia.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YAwtx8iXkBZ35HE+VZNm/0vvO4oCQSSXH+5v98gjC3E=;
- b=W/h2ZymkgTVFi/r7dSxhibzOg+RVUQuPHBPwmr+v07gJzynNAzhnV6/KrdHXqnGVHvJMOLsLPoyg7XkZyuJ9lKpQXU4AIguc6vAMdo6253t6PSpnHK+2kCEncFVfQCJLM8RenPyvJhgNkVw5Kg/PIc4V83gBV7vWPj+SzTlUP9E=
-Received: from AS4P192CA0031.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:658::24)
- by AS2PR08MB9739.eurprd08.prod.outlook.com (2603:10a6:20b:605::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 12:06:07 +0000
-Received: from AM3PEPF0000A79A.eurprd04.prod.outlook.com
- (2603:10a6:20b:658:cafe::15) by AS4P192CA0031.outlook.office365.com
- (2603:10a6:20b:658::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.16 via Frontend Transport; Mon, 1
- Jun 2026 12:06:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM3PEPF0000A79A.mail.protection.outlook.com (10.167.16.105) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.5 via
- Frontend Transport; Mon, 1 Jun 2026 12:06:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VZrcX3xbUjMD/On4sElS7rfjpLgiAlMJ0YD5IRe+zRvQxIk0VoGG4LGvQJEiHlmwFx8fGkBEIBGt4bZhACaokOveW9Z1m/XtUPOpU/vCovwQqkb5bbmqvowr63l/FxeBQ3erGs5sgsNccjQT7AoPHWbx6I9zf938/G24G3WIj8uYNG7jbXX6Acl2dE0/VGAE32q4xIJMPmha9zubmoP9ifR4MT4Ff89K6PEcg7XEeiAP9AjXkiDacnGStkM3vQEJ3445BRNTfY83AJ7aOtQMQaPQo+7H+mQomSfh65R2GoKWrY1+CFvDCEBxMMoA9VMVnzinorPyblVl9CJ4/314qQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YAwtx8iXkBZ35HE+VZNm/0vvO4oCQSSXH+5v98gjC3E=;
- b=wt1RiEtoUx4e1+zavwHmqNKFVbKu0gobFq2IQvCYY5XiIaMz+yFXByQ6vpNFeCqKudsMnzEEflUEikuxq7h4CKEWxLn29/BwXojwrjSD/PELTDl5nJjG+eZrb6PqNflknNyYlULT4GL0LI1shu/fgXu2h1fdEo6c6p812Ggd1pictq3IwtaOBSAmjNvW4yLOQY/A+LLTan5wNi/UjpS0/EMAUB4z+etwOSciPIYcsDfpS53951PHWO9/VNrpBvQK38siWfESP3PuGAmINhKL3Cd29UHLcbc42x/Zl3vjhOFQOYV4oPSOHi2MWggpQkqPexzljB6OPztPATSj6gEevg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YAwtx8iXkBZ35HE+VZNm/0vvO4oCQSSXH+5v98gjC3E=;
- b=W/h2ZymkgTVFi/r7dSxhibzOg+RVUQuPHBPwmr+v07gJzynNAzhnV6/KrdHXqnGVHvJMOLsLPoyg7XkZyuJ9lKpQXU4AIguc6vAMdo6253t6PSpnHK+2kCEncFVfQCJLM8RenPyvJhgNkVw5Kg/PIc4V83gBV7vWPj+SzTlUP9E=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DU0PR08MB9203.eurprd08.prod.outlook.com (2603:10a6:10:417::12)
- by PR3PR08MB5644.eurprd08.prod.outlook.com (2603:10a6:102:86::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 12:05:04 +0000
-Received: from DU0PR08MB9203.eurprd08.prod.outlook.com
- ([fe80::f1e:73f2:57df:4047]) by DU0PR08MB9203.eurprd08.prod.outlook.com
- ([fe80::f1e:73f2:57df:4047%5]) with mapi id 15.21.0071.014; Mon, 1 Jun 2026
- 12:05:04 +0000
-Message-ID: <b2265aeb-fbde-45d4-aa4b-fc08dc4fdd28@arm.com>
-Date: Mon, 1 Jun 2026 17:34:55 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] selftests/mm: separate GUP microbenchmarking from
- functional testing
-To: John Hubbard <jhubbard@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Peter Xu <peterx@redhat.com>,
- Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Mark Brown <broonie@kernel.org>,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260527142432.230127-1-sarthak.sharma@arm.com>
- <20260527114752.cf4dd3e1bda93fb8ebab5a76@linux-foundation.org>
- <3b4176f4-e099-490c-a5e2-6a36d00b1207@arm.com>
- <13b63b4f-6a4b-4433-93e8-78035ab62b83@nvidia.com>
-From: Sarthak Sharma <sarthak.sharma@arm.com>
-Content-Language: en-US
-In-Reply-To: <13b63b4f-6a4b-4433-93e8-78035ab62b83@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0009.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:176::13) To DU0PR08MB9203.eurprd08.prod.outlook.com
- (2603:10a6:10:417::12)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRpHjCBQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 350851F008A1;
+	Mon,  1 Jun 2026 12:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780315589;
+	bh=HkMg3NCB26gAhUUW/DuAMeOpPoMt1oN8LvktWRRL14s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=FRpHjCBQXQ5Zf6i2+7aYg5ZfVma/l81fehJ3XD4KbjXDpz4wczfktm0xO4dWonVAV
+	 WtQgLSXg5sYF3D1DrcPEmrqNgxpZ+dpU4OUxVXdztvfOP52n59M3Nj6a32q4eUzq9T
+	 JSJhvYkN7CRWeSdRVaB3AlszrzlDAGfH1qIKTlMCD9AYQTNSXcj4g4QjDV6sCZzT0j
+	 /gLx5U70OUcRfv0K0vzM3FFGVC0arv3j6BPFrSSERnMQgnLnkEnyldxeBgFxjQ7Kcp
+	 HSzoqv9sPRasdUglu+TlCu3sjV1QzU3828BqMYOXYWZgblwWfCORmbBgv+CHo4hfuu
+	 c8IilCLHYED6A==
+Message-ID: <3a5eed44-7d4b-488c-8e04-380cd115b6dc@kernel.org>
+Date: Mon, 1 Jun 2026 14:06:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	DU0PR08MB9203:EE_|PR3PR08MB5644:EE_|AM3PEPF0000A79A:EE_|AS2PR08MB9739:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95c0a2c7-256c-4498-de9d-08debfd6295b
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|22082099003|18002099003|56012099006|4143699003|5023799004|11063799006;
-X-Microsoft-Antispam-Message-Info-Original:
- 0/UCGDkV18pw1rqlCv8/v3c395BjlZi1XIiaKBCfN66Ra7MGSp6D6Q8PsII135EQTkPhTf+mUe31ui+vzK/wX350Wf1VUuG3RdjaoiKdL9T+5Pp7UifYPvKYm7voVLLoZvElkflff6Dnb4fn0Oo06DsjO6tvD9b++Axa2JzcqjDXsCtR5SRgEUUMaVNd05NIcv0zK+AvJz+E7FUG9itLk6WHEb8swToNZWAQ/v9XELV702ykHdRILAFHWFhHU2/DufFwIe+3KnWZhN6WX+uIxx3Tts8fgmAFC4mDcpW69dQtMfGZjG8SiXVWFgf6EUwyWg9DQgy51PwhdxDhXNXjHEQPfejtAMHTRPr/5yeheCG9MKd9Kk/0c1qHDUttMr3w0ZWtjSMmRd0pQ+Rvj1fu+d8ct9VGa7R/z/dYajx7WWXWk07H4/7gFL6dLy8S0JECThwxnhC8eRTr9VD2THaM61hbV1LL8erXzELuNEnXD/WFGiVqvXOoNXSgSQDYn7I9oMFvmKenwI8LEYsq8aJPBROiV3iYtu1ZCvmCFHUSfUfnOlrXXwhgh7qEBzidYgyFMJ0tIXPBPIASAC98hqXDS8XO5mgCWbTtf7uasCZ8aenXmSbdWolhkQ/TY5QCRYcWxZO/Y0+rdlltIoBMsICoA9aka+XCraKF0c5Tj9tCwb8IA+B7E8k4PxYkrDrYJEKLXVpRgIv3EcTnOZiPU/ydUQ==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9203.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(22082099003)(18002099003)(56012099006)(4143699003)(5023799004)(11063799006);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- oUqGST2JVM/UdGTwr2bnCrwo36HB+Hi3jdVCjcMYGHlGzQ13yS1vMWwGSXIS0E1zKz9maokA28ZOG0GaHIoI95Ahh1EkklHzPHcnv6lkFXydU4roonAB97MumFy+5HBKKamnKp5KTgiHWvyRL+AOsr1YKwrc1DErWK9slGTPOBeixZppFt9D5YeGLHyYJWuXcLGlPptyDQOW6vYBdxuEEhURWxwuRWOJ3DMJaBJmYshfYQR87NjZ+jg3nLPTtdumn5jncVUyfVq1rCy2Uobhm2oyA3BAz8BhulmYGUmXVUk15rM8Atsn//m4lHqQo6NuxqU/EHYqjCRXqaNOexKkfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5644
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM3PEPF0000A79A.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	c65a5cba-439f-4549-e91d-08debfd6039f
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|14060799003|7416014|376014|1800799024|35042699022|36860700016|82310400026|18002099003|22082099003|56012099006|4143699003|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	WzRgc7lnt7gKXubh0BrABrW05+1l/GyzL50WrBfRLErWYYTDsMUtUGFY23Jqj8m2WmHSSzx84ufh4sThG5b+Vka8qYU4RwcL/tRUtTRjCMhkhML+L6OQ0GmNUJz7/I613dHTpmyfzxXolqKvdpt+8l4fNZGOE7EWgt38Qus0uigvtpaK/9UlmidETZIR8G6C4TTPbZcTVVfdAWovVlthqBLrg5cgs2MajIGCgSi0mewOdLrmxtKJnYnak10Xl4VH4Otj7hkJlM37Q762yVzxZey8DbRqyuG/g/rH4u7KaXF75Lk3DU/7l56ViQHkkkJ19ocJCZs2kce8op9rRCW6CBRizH4tR2/f9BuI1w/gY5RKVO4CupHX9cUyupnggz73Y+9aFUAj15eFJ5zhbSxygiAU3VW+GhTUxln9Tl1i7o4ZOitfXnqMoDRSXpfTd1blsLwb03ypegN4EP1kMw2ZPeqC14nREXquTczkAH1Ej87Vs+5/EfR4CJrESdstvRNKwEBqKmgVOG9SdE+GrSaFaxQLADG5mHzfFMQPCdsHxMDwDqNpNpymh7W7JbYsSRS1khc4T36gN/sctjXx9/yaKEmvMpz74aMQgO2I8YpYX4oojrCJZrgTgBcam/r5260O6aPv0gKT+m+TV88UCovi2UOke8oBV6oxGiWEzyd+1xKjptg/xzSERKUm7RYmBflJ0BdWr240+Fz9Lo5ADsvmrg0S86Su4YiQ6nT1P7EKhZg=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(7416014)(376014)(1800799024)(35042699022)(36860700016)(82310400026)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	EKTCTmWJHEvcXecrMO1hKdVaYxRttGGs9BP3642dDeaMnWb4fsE6eI+4s9oeJG0H6CmdR+tFFFW2J48mIm4Hwisela8+EsC/jhJYK255VZA0JORRFNbMU5M+yWKiUHSHaolsHAhvhvNboUmiXSJTwO9IRBmldvAz8j1aCyFuN8OD46huxM0xTkUSUX8TrUYLbFY1BvPGAJsKz1RBmL69gQe1aAyOEwWprOnQn1ThkBw/IRC8Di7R84rSgu0G1/6psJwjEMMZMy3gjcoZ0t/G+ljYNdQyhksbDBeoYQpPBWPGnaME6s6Nw5NJL/BagC8CarElzbMokkb0UYvO8JHeN9xcauZMDKpgURkwlnr+huSyoIoyEr17YgUDnUEDuTQ6OIYJKX7aoST2Qwf8O3ExSdN8wc4Wtx5GZxdIZn3KhhWwL5xgtoCuOQ4l/J2fKbs0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 12:06:06.9443
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95c0a2c7-256c-4498-de9d-08debfd6295b
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM3PEPF0000A79A.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9739
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+To: Nico Pache <npache@redhat.com>, Lance Yang <lance.yang@linux.dev>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
+ hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
+ jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
+ kas@kernel.org, liam@infradead.org, ljs@kernel.org,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
+ rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
+ richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
+ rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
+ sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
+ tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
+ vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
+ willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+References: <20260522150009.121603-12-npache@redhat.com>
+ <20260531071845.10875-1-lance.yang@linux.dev>
+ <6a9f062c-8376-4f83-90a9-8b167f925dc6@linux.dev>
+ <CAA1CXcCfww9X-f2Vb=ipz8tY2nMNnMx5_58Ozz63tvZTz_wpOw@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CAA1CXcCfww9X-f2Vb=ipz8tY2nMNnMx5_58Ozz63tvZTz_wpOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi John!
-
-On 5/30/26 1:04 AM, John Hubbard wrote:
-> On 5/28/26 10:57 PM, Sarthak Sharma wrote:
->> On 5/28/26 12:17 AM, Andrew Morton wrote:
->>> On Wed, 27 May 2026 19:54:27 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
-> ...
->> Thanks! I went through Sashiko's review.
+On 6/1/26 14:01, Nico Pache wrote:
+> On Sun, May 31, 2026 at 2:48 AM Lance Yang <lance.yang@linux.dev> wrote:
 >>
->> Both the points are valid but look very minor to me: one is a temporary
->> x86 build issue fixed by the next patch and the other is stricter
+>>
+>>
+>> On 2026/5/31 15:18, Lance Yang wrote:
+>>>
+>>> [...]
+>>>
+>>> Hmm ... don't we lose the allocation-failure result here?
+>>>
+>>> Previously collapse_scan_pmd() propagated SCAN_ALLOC_HUGE_PAGE_FAIL from
+>>> collapse_huge_page(), so khugepaged would call khugepaged_alloc_sleep()
+>>> in khugepaged_do_scan().
+>>>
+>>> Now if allocation fails and nr_collapsed stays 0, we just return
+>>> SCAN_FAIL. So we won't back off via khugepaged_alloc_sleep() anymore?
+>>
+>> Looks like this is a more general issue with mthp_collapse() only
+>> returning nr_collapsed.
+>>
+>> For example, SCAN_PMD_MAPPED used to be propagated too, and
+>> madvise_collapse() treats that as success. With the new code, if
+>> nothing was collapsed by this call, that can also become SCAN_FAIL ...
+>>
+>> So I think we should keep both.
 > 
-> This is the sort of claim that an AI will make, in kernel code: "it's
-> just a temporary build issue". I've seen this happen during sessions
-> when I'm interrogating an AI about something.
+> Yeah I thought about this before, but more regarding the "incorrect"
+> propagation of errors; I didn't consider that those results were
+> actually being considered.
 > 
-> Don't be misled by AI's evaluations, as unless it is guided very
-> firmly (sashiko for example has fairly firm guidance, although still
-> a work in progress) it will provide routinely terrible advice about
-> how to deal with the kernel.
+> I actually had a patch to track the last_failure (with some
+> prioritization on certain results). I think that would solve this
+> issue.
 > 
-> I'm sure we have something in the "how to contribute" docs that
-> explain that patchsets must be bisectable and that there are no
-> "minor" build "issues"!
+> Thanks for reminding me to improve this.
 > 
-> I'd request that you study those docs and the surrounding ones,
-> it won't take long and it will help immunize you against the
-> various AI suggestions that seem to be unavoidable problems in
-> 2026.
-> 
-> thanks,
+> Depending on how the rest of the reviews go, I can either send up a
+> follow up series to do some more cleanups and improvements of the
+> current approach or we can send out a v19.
 
-Thanks for the guidance. You're right, I shouldn't have called it a
-minor issue just because it was fixed in the next patch.
+Let's do a v19.
 
-I have sent a fixup that moves the Makefile hunk from patch 3 to patch
-2, so every patch is buildable on its own. If I need to send a v5 after
-reviewer feedback, I'll fold this fixup into patch 2 directly.
+Patch #11 might need a bit of work, we can discuss offline if you want.
+
+If we could get a v19 by the end of the week, that would be nice.
+
+-- 
+Cheers,
+
+David
