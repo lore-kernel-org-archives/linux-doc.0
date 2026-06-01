@@ -1,369 +1,135 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03793386C03
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 07:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A91E341AC7;
+	Mon,  1 Jun 2026 07:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780299292; cv=none; b=NUgK6UZfP+b/7EjToApg23f3TQBfEzuMFHh5sLq11M5cB/mKIDujGSJxEqV2V3vrf/OBmTjLrRzbILVAlSrnwaq4otkf8UiigUH+ePdxdx24RpAy/36jQFHgky70ACoO87Sy460vWsXgO+mPkg2Z85dUbtrlN9Lv0gEejGBqZWE=
+	t=1780299778; cv=none; b=jhjk0OWkuVVf9xZGYKOeFSb9JWrkVaefyIkjTi9PkgdxBURT2YqDM3pVRtuVHAzzy2ZROeCwaIhcQNOs8O+Z3yLdAVpCncZE29+W/kPPaNQF/8Y1+4O9WeEoIFzGbeHIbzFPAs3oXLoNsKIEyRliMgyvc5p7S7mDy9ghw5yoHCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780299292; c=relaxed/simple;
-	bh=rQwmF9Z0bF2+ssgODdEVa+v28Rq2XiZeAKdj/LJGOL8=;
+	s=arc-20240116; t=1780299778; c=relaxed/simple;
+	bh=LBRASCQNybdy4by4isiOs6IW4BLbct2fZE2vZspbdHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DlS5GDKdBMAd0IvwUqNkgh4MzaCx+xfwLOpwvX1MyI655Wzpo0Dk5ELEnQ3A3E34JiEcdI10ZneC37b4cEXq1ZeljhJK1/PGR1FvFnABJlXryGJ38Kv8UPrNeJ3LIVRSvbMxaMxzi6QkYxVw+YhQpckMgztd3dMXHFd3KPEaxqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G12YTEvn; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IzgNpXg4SzHqkEV3jy6DD1xs65JuT0TnZa9qYD3NlCqFhUOktQYQKvtFGQMkj2KGi4kzMXQPusDRA6QA+aPnSSbTtjee6efqBxpDnT9d14dyKHlr7cpDJc3XKIbfLlVZjvmMFGTqRVtYsxhg6xJH9yS5umG8Lg6NEAWbgeysW0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJ1pWFC1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G12YTEvn"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2bea7176c72so80372715ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 00:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780299288; x=1780904088; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UntsdzuqpdttstMyOLOIQLL5ljvbyDCzLnXwa0e2org=;
-        b=G12YTEvnWT6O8akt8WPf7nNhBfPJaRUHORX6x51m2rCV720o6wUunJV54R9v8UtScb
-         oIDEURCXEYb9VRCyEUE4I6d5P1JPeuWt23pPo0rfvyLMvDbi/pF3OifRs/I6BJQirDj3
-         X+jW+IX1mdl7TtjglH9hoO0k2SyZ5poF7/Yb/63tta0GI9w4YSKrzbKgCHpg13Z5iV2F
-         bkYy3RlHLvyhguP5QP8dxwwsgszniWIwmhso4770RzfAdhnrDdz0od39vKjzjP+qg2m6
-         ZCzV7WHmNTM/4x1ZkCyodqWRwMAAUU6MUJR/RLRdD1tWNS4mOL2LCEoy9BqSz3rMhrNF
-         9pqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780299288; x=1780904088;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UntsdzuqpdttstMyOLOIQLL5ljvbyDCzLnXwa0e2org=;
-        b=hjcR80G4/OdLrQFH3vuvfoRA7EZ5lVdPKOcSK7TX8EnAK7E7eQPWhvAAbSinbSq5mu
-         Sc4477HrfrWuCggdLcg/++0qxjqK9kPjYDpDqwDU/iGDGQDXEbKdfPNtTqHIGzLs9Ae2
-         16/MHlyx0hELwyuXdghzELbbVkN1dmiQBh1dOcbl0OAg8eqrYQLR8GxR40SPVwzNppk7
-         AEFXuGE9aYXXrPJnCg+NpVTTlLsKBRyux9AP4ciZ4A5+NqhYXUsiX9WRrFCqJaC1WwRD
-         MGDjxoGqWBH5y/HuZPG9QxxH/q89mdBYE6G669Ou7SzKWhBYlHNRcvx3SWoEUnPlCboJ
-         nzbw==
-X-Forwarded-Encrypted: i=1; AFNElJ/lx1vxp/9QB1V5/wkeFHwaRIW7NOgUrt8Mq34wMSdif9akM1L/IFoSqORz1YyiCaSSU+rz+3bbx74=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgQK5yCL64WL5+4Pr86vgB0nJnpp3bqJwHkLd8AUqSaVhyqcrj
-	SWsr2CMpoBqpxgEJbrTumCnL6dhGZ1t00VS0dmCyspIR/dA/YjWLBosN
-X-Gm-Gg: Acq92OFo1LEsi5oifYihfjRcPR6kZrsjwvxbs4Cy2Dd9c34BcSO3boBJwiBJfM2pwCb
-	+4YXNztxrcewJB+AOfXLsiRCh1gXZNyR/3WME5sQoEEmFauC5aTCdQaOcG0QlOGiQkWk4eSE/9e
-	y8+RFF1ug+dgqfxfZt3dGKzHjAdzyPxiOMAaQIqPLUL1HGbbNOvEQRllrBjSPsIrimrDKUNNdgy
-	PiMUUg1mwhKxLOJcU6ANkBixQyhJCYI0/igOiGQu/KT/SpukfL9/wUbebKiVlwwUoRCjSs9Jv/4
-	U98mKGioZNjJW+jt6ePbNQW+miWR/3CgyDq2AwisrC/UVLxxNqyAEAVGyL+w/fClbda9/XI1Kxe
-	bPhgPNo85RUp6Qzh/w8Rpo/x43KfYLs6xx4tDNP7Gmut3AtswXJNisP4qAIc7zrUQ8BQC8xvWkE
-	ED9YXN5ZrMeTITRAZ0nkVhLMGbTQstlc1Wcw+08fAATzwY1D9dmptfFdQUYk/EHF4CdFWiYoivF
-	pT8XgI=
-X-Received: by 2002:a17:902:ce11:b0:2c0:3400:5c34 with SMTP id d9443c01a7336-2c034005dd9mr93758435ad.3.1780299287941;
-        Mon, 01 Jun 2026 00:34:47 -0700 (PDT)
-Received: from KASONG-MC4 ([43.132.141.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c4dd4csm97887385ad.78.2026.06.01.00.34.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 00:34:47 -0700 (PDT)
-Date: Mon, 1 Jun 2026 15:34:34 +0800
-From: Kairui Song <ryncsn@gmail.com>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org, 
-	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com, 
-	yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com, ziy@nvidia.com, 
-	kernel-team@meta.com, riel@surriel.com, haowenchao22@gmail.com
-Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
-Message-ID: <ahz_iYG4lqWL4g-J@KASONG-MC4>
-References: <20260528212955.1912856-1-nphamcs@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJ1pWFC1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342CD1F00893;
+	Mon,  1 Jun 2026 07:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780299777;
+	bh=G6E/427vKjNMrNFnfzJ5w/oioAQsHShjLOWHUrX6Zb8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RJ1pWFC19TPXp/omPArHxv5x2qOq16KOXdKlqOHHweNUSE0B0kXCuHNmYIa29VeAv
+	 x1xukkrYT0vEFqTjKybI9CMv+G5k3YQfnYB7JlHdtGpKnzVF72J3cklM5PUgBuWYPT
+	 Zb85JfREbCwhnT+mX5TVtU5r6x789OLRNYsvMsTkvBSMq9BEmXMyFMwfSMfWkTM+YD
+	 zJfWmnK/xP4OSww3ENvvdeuDgg8mYVJjxGxRuRKS8rHEcyubNuUc6uwlcM8SfIhTRP
+	 fN0lzfo7D0m4HnqdibY2CcGk5s9ocXceGp/B64TNx44+GE5hErGZbYDwEUb79kCi5M
+	 xO2iV1myeeJyw==
+Date: Mon, 1 Jun 2026 08:42:48 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Kiryl Shutsemau <kirill@shutemov.name>, akpm@linux-foundation.org, 
+	peterx@redhat.com, david@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, 
+	sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kvm@vger.kernel.org, kernel-team@meta.com, "Kiryl Shutsemau (Meta)" <kas@kernel.org>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
+Message-ID: <ah03yn_FLO_ca6eE@lucifer>
+References: <20260526130509.2748441-1-kirill@shutemov.name>
+ <20260526130509.2748441-5-kirill@shutemov.name>
+ <ahmQvfNk7S4F0LBj@lucifer>
+ <ahsVyQZ5UXhJLct2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260528212955.1912856-1-nphamcs@gmail.com>
+In-Reply-To: <ahsVyQZ5UXhJLct2@kernel.org>
 
-On Thu, May 28, 2026 at 02:29:24PM +0800, Nhat Pham wrote:
-> Based on: mm-unstable @ 444fc9435e57 + swap-table phase IV v5 [2].
-> 
-> I manually adapted Kairui's ghost device implementation (from [4])
-> for my vswap device. I've credited him as Co-developed-by on Patch I
-> since a substantial portion of the dynamic-cluster infrastructure is
-> his (I did propose the idea of using xarray/radix tree for dynamic
-> swap clusters allocation and management though :P).
-> 
-> >From here on out, for simplicity, I will refer to swap table phase IV
-> as "P4", and the older v6 virtual swap space implementation as "v6".
-> 
+On Sat, May 30, 2026 at 07:52:25PM +0300, Mike Rapoport wrote:
+> On Fri, May 29, 2026 at 03:00:14PM +0100, Lorenzo Stoakes wrote:
+> > On Tue, May 26, 2026 at 02:04:52PM +0100, Kiryl Shutsemau wrote:
+> > > From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+> > >
+> > > vma_flags_t is one unsigned long on 32-bit -- NUM_VMA_FLAG_BITS ==
+> > > BITS_PER_LONG by design, so VM_xxx-declared bits sit in the first
+> > > word and hit the single-long fast path. But the bit enum declares
+> > > some bits unconditionally above BITS_PER_LONG (VMA_UFFD_MINOR_BIT
+> > > == 41 today, with VM_UFFD_MINOR == VM_NONE on 32-bit so no VMA
+> > > actually carries the bit).
+> >
+> > Yeah ugh.
+> >
+> > > Passing such a bit to mk_vma_flags() goes through __set_bit(41,
+> > > &one_long) and writes one word past the end. The compiler folds
+> > > the OOB store with wraparound (1UL << (41 % 32) == bit 9) into
+> > > the first word. Bit 9 is already in __VMA_UFFD_FLAGS so the mask
+> > > happens to come out right today, but any high-numbered bit whose
+> >
+> > That is... helpful :) but not great that this is the situation, an
+> > oversight, clearly! How I hate 32-bit kernels :)
+> >
+> > > mod-BITS_PER_LONG position is otherwise unused would silently OR
+> > > an extra bit into the mask.
+> > >
+> > > Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
+> > > of range to it. vma_flags_set_flag() drops negative bit values.
+> > > The ternary collapses at compile time, the runtime check folds
+> > > away when the bit is in range, and the common path is unchanged.
+> >
+> > Hmm are you sure it does?
+> >
+> > A key design goal was that mk_vma_flags() generates compile-time constants
+> > the same as if the bitmap were constructed independently.
+> >
+> > This surely must generate code? Or at least runs a significant risk of it?
+>
+> ...
+>
+> > A simple solution that doesn't require change to the core is to just uglify
+> > userfaultfd_k.h a bit with:
+> >
+> > #ifdef HAVE_ARCH_USERFAULTFD_MINOR
+> > #define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT, \
+> > 				      VMA_UFFD_MINOR_BIT)
+> > #else
+> > #define __VMA_UFFD_FLAGS mk_vma_flags(VMA_UFFD_MISSING_BIT, VMA_UFFD_WP_BIT)
+> > #endif
+> >
+> > But of course that becomes much more horrible with your changes...
+> >
+> > Another alternative, which I used for VMA_DROPPABLE is to add something
+> > like this in mm.h:
+> >
+> > #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+> > #define VM_UFFD_MINOR	INIT_VM_FLAG(UFFD_MINOR)
+> > +define VMA_UFFD_MINOR	mk_vma_flags(VMA_UFFD_MINOR_BIT)
+> > #else
+> > #define VM_UFFD_MINOR	VM_NONE
+> > +define VMA_UFFD_MINOR	EMPTY_VMA_FLAGS
+> > #endif
+>
+> I have a PoC of yet another alternative:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=uffd/vm-flags
+>
+> The idea there is to keep a single VMA flag, VMA_UFFD_BIT/VM_UFFD and move
+> all the rest into what's now struct vm_userfaultfd_ctx.
 
-...
+*Gives Mike a big kiss*
 
-> 
-> This series reimplements the virtual swap space concept (see [1])
-> on top of Kairui Song's swap table infrastructure, on top of [2]
-> and in accordance with his proposal in [3]. The proposal's idea
-> is interesting, so I decided to give it a shot myself. I'm still not
-> 100% sure that this is bug-proof, but hey, it compiles, and has
-> not crashed in my simple stress testing :)
-> 
-> The prototype here is feature-complete relative to the swap-table P4
-> baseline — swapout, swapin, freeing, swapoff, zswap writeback, zswap
-> shrinker, memcg charging, and THP swapin all work for
-> both vswap and direct-physical entries — and satisfies all three
-> requirements above: no backend coupling (zswap/zero entries hold no
-> physical slot), dynamic swap space (clusters allocated on demand via
-> xarray, no static provisioning), and efficient backend transfer
-> (in-place vtable updates, no PTE/rmap walking).
-> 
-> II. Design
-> 
-> With vswap, pages are assigned virtual swap entries on a ghost device
-> with no backing storage. These entries are backed by zswap, zero pages,
-> or (lazily) physical swap slots. Physical backing is allocated only
-> when needed — on zswap writeback or reclaim writeout, after the rmap
-> step.
-> 
-> Compared to the standalone v6 implementation [1], which introduces a
-> 24-byte per-entry swap descriptor and its own cluster allocator, this
-> edition uses swap_table infrastructure, and share a lot of the allocator
-> logic. Per-slot metadata is stored in a tag-encoded virtual_table
-> (atomic_long_t, 8 bytes per slot), and physical clusters store
-> Pointer-tagged rmap entries in the swap_table for reverse lookup back to
-> the virtual cluster.
-> 
-> Here are some data layout diagrams:
-> 
->   Case 1: vswap entry (virtualized)
-> 
->   PTE                  swap_cluster_info_dynamic
->   vswap_entry          +-------------------------+
->   (swp_entry_t) ------>| swap_cluster_info (ci)  |
->                        | +--------------------+  |
->                        | | swap_table         |  |
->                        | |   PFN / Shadow     |  |
->                        | | memcg_table        |  |
->                        | | count,flags,order  |  |
->                        | | lock, list         |  |
->                        | +--------------------+  |
->                        |                         |
->                        | virtual_table           |
->                        | +--------------------+  |
->                        | | NONE               |  |
->                        | | PHYS               |  |
->                        | | ZERO               |  |
->                        | | ZSWAP(entry*)      |  |
->                        | | FOLIO(folio*)      |  |
->                        | +--------------------+  |
->                        +-------------------------+
->                               |
->                               | PHYS resolves to
->                               v
->                        PHYSICAL CLUSTER (swap_cluster_info)
->                        +--------------------------+
->                        | swap_table per-slot:     |
->                        |   NULL   - free          |
->                        |   PFN    - cached folio  |
->                        |   Shadow - swapped out   |
->                        |   Pointer- vswap rmap    |
->                        |   Bad    - unusable      |
->                        |                          |
->                        | Vswap-backing slot:      |
->                        |   Pointer(C|swp_entry_t) |
->                        |     rmap back to vswap   |
->                        +--------------------------+
-> 
->   Case 2: direct-mapped physical entry (no vswap)
-> 
->   PTE                  PHYSICAL CLUSTER (swap_cluster_info)
->   phys_entry           +--------------------------+
->   (swp_entry_t) ------>| swap_table per-slot:     |
->                        |   NULL   - free          |
->                        |   PFN    - cached folio  |
->                        |   Shadow - swapped out   |
->                        |   Bad    - unusable      |
->                        +--------------------------+
-> 
-> struct swap_cluster_info_dynamic {
->     struct swap_cluster_info ci;       /* swap_table, lock, etc. */
->     unsigned int index;                /* position in xarray */
->     struct rcu_head rcu;               /* kfree_rcu deferred free */
->     atomic_long_t *virtual_table;      /* backend info, 8 B/slot */
-> };
-> 
-> Each vswap cluster (swap_cluster_info_dynamic) extends the classic
-> swap_cluster_info struct with a virtual_table array that stores the
-> backend information for each virtual swap entry in the cluster. Each
-> entry is tag-encoded in the low 3 bits to indicate backend types:
-> 
->   NONE:   |----- 0000 ------|000|  free / unbacked
->   PHYS:   |-- (type:5,off:N)|001|  on a physical swapfile (shifted)
->   ZERO:   |----- 0000 ------|010|  zero-filled page
->   ZSWAP:  |--- zswap_entry* |011|  compressed in zswap
->   FOLIO:  |--- folio* ------|100|  in-memory folio
+YES PLEASE!
 
-Thanks for trying this approach!
+>
+> --
+> Sincerely yours,
+> Mike.
 
-For the format part, PHYS don't need that much bits I think,
-so by slightly adjust the format vswap device could be share
-mostly the same format with ordinary device.
-
-For example typical modern system don't have a address space larger
-than 52 bit. (Even with full 64 bits used for addressing, shift it
-by 12 we get 52). Plus 5 for type, you get 57, so you can have a
-marker that should work as long as it shorter than 1000000 for PHYS,
-and shared for all table format since it's not in conflict with
-anything. You have also use a few extra bits so a single swap space
-can be 8 times larger than RAM space, and since we can help
-multiple swap type I think that should be far than enough?
-
-Then you have Shadow back at 001, and zero bit in shadow. The only
-special one is Zswap, which will be 100 now, and that's exactly the
-reserved pointer format in current swap table format, on seeing
-si->flags & VSWAP && is_pointer(swp_tb) you know that's zswap :)
-
-Folio / PFN can still be 010 as in the current swap table format.
-
-Then everything seems clean and aligned, no more special handling
-for vswap needed, there are detailed to sort out, but it should work.
-
-> - Pointer-tagged swap_table on physical clusters for rmap (physical
->   -> virtual) lookup.
-
-Or reuse the PHYS format (rename it maybe) since point back to vswap
-is also pointing to a si.
-
-> III. Follow-ups:
-> 
-> In no particular order (and most of which can be done as follow-up
-> patch series rather than shoving everything in the initial landing):
-> 
-> - More thorough stress testing is very much needed.
-> 
-> - Performance benchmarks to make sure I don't accidentally regress
->   the vswap-less case, and that the vswap's case performance is
->   good. I suspect I will have to port a lot of the
->   optimizations I implemented in v6 over here - some of the
->   inefficiencies are inherent in any swap virtualization, and
->   would require the same fix (for e.g the MRU cluster caching
->   for faster cluster lookup - see [8] and [9]).
-
-This could be imporved by per-si percpu cluster. Both YoungJun's
-tiering and Baoquan's previous swap ops mentioned this is needed,
-and now vswap also need that. If the vswap is also a si, then it will
-make use of this too.
-
-YoungJun posted this a few month before:
-https://lore.kernel.org/linux-mm/20260131125454.3187546-5-youngjun.park@lge.com/
-
-The concern is that some locking contention could be heavier, or maybe
-that's just a hypothetical problem though.
-
-> 
-> - Runtime enable/disable of the vswap device. To be honest, I don't
->   know if there is a value in this. My preference is vswap can be
->   optimized to the point that any overhead is negligible. Failing that,
->   maybe we can come up with some simple heuristics that automatically
->   decides for users?
-> 
->   In this RFC, CONFIG_VSWAP=y means the vswap device is always created at
->   boot, and CONFIG_VSWAP=n means the vswap device is never created. This
->   *might* be enough just on its own.
-> 
->   Is a runtime knob (sysfs or sysctl) worth the complexity beyond
->   these heuristics? I'm not sure yet. Maintaining both cases
-
-I checked the code and I think it's not hard to do, patch 1 already
-handling the meta data dynamically, everything will still just work
-even if you remove vswap at runtime. The rest of patches need adaption
-but might not end up being complex, it other comments here
-are considered.
-
-For patch 2, a few routines like vswap_can_swapin_thp seems not
-needed or should be moved to __swap_cache_alloc? VSWAP_FOLIO is
-same as swap cache folio check, which is already covered. Same for
-zero checking, and VSWAP_NONE which is same as swap count check
-I think. That way we not only save a lot of code, we also no
-longer need to treat vswap specially.
-
-If you keep the format compatible with what we already have
-as the earlier comment mentions, a large portion of this part
-might be unneeded.
-
->   at runtime also has overhead for checking as well, and some of the
->   checks are not cheap :)
-
-I also noticed the new introduced swap_read_folio_phys in patch 3, so
-this actually can be done using Baoquan's swapops idea which is now
-part of Christoph's swap batching:
-
-https://lore.kernel.org/linux-mm/20260528124559.2566481-9-hch@lst.de/#r
-
-That series is focusing on batching and better performance but swapops
-was also proposed as a way to solve the virtual layer, makes it possible
-to have vswap as one kind of swapops which is Chris talked a lot about:
-
-https://lore.kernel.org/linux-mm/aZiFvzlBJiYBUDre@MiWiFi-R3L-srv/
-
-Following this, we could have something like:
-
-const struct swap_ops swap_vswap_ops = {
-	.submit_write		= swap_vswap_submit_write,
-	.submit_read		= swap_vswap_submit_read,
-};
-
-The move the folio_realloc_swap in swap_vswap_submit_write.
-
-Merge of IO might be moved to lower phyiscal level for vswap.
-
-Another gain is that the memory usage and CPU overhead will be
-lower with only one layer. As I'm recently trying to offload swap
-dataplane off CPU so the CPU won't touch the data at all, the
-overhead will be purely by swap itself, plus some mm overhead.
-Things like that and IO optimization above and could make swap
-subsystem more and more performance sensitive so we have cases
-that needs only one layer.
-
-> 
-> - Defer per-cluster memcg_table and zeromap allocation on physical
->   clusters. A physical swap cluster backing vswap entries only do
->   not really need their memcg_table, but the current design forces
->   us to allocate it anyway. This is a waste of memory, and is an
->   overhead regression compared to my older design on the zswap-only
->   case, which Johannes has pointed out multiple times (see [6]),
->   and is one of the biggest reasons why I have not been satisfied
->   with this approach thus far. It honestly is a bit of a
->   deal-breaker...
-> 
->   That said, I think I might be able to allocate them on demand, i.e
->   only when the first direct-mapped slot is allocated on that cluster.
->   That will give us the best of BOTH worlds, for both the vswap and
->   directly-mapped physical swap cases. No promises, but I will try
->   (if this approach is good enough for all parties).
-
-Zero map is not really a problem when it's just a inlined bit I think.
-For memcg table allocation, on demand seems a good idea, and actually
-we are not far from there, I tried to generalize the
-alloc-then-retry-sleep-alloc in swap_alloc_table but still not generic
-enough I guess.. Good new is the allocation of the table is already
-kind of ondemand, just need to split the detection of these two kind
-of table.
-
-Mean while I also remember we once discussed about splitting the
-accounting for vswap / physical swap? If we went that approach we
-don't need to treat memcg_table specially.
-
-> - Widen swap_info_struct->max to unsigned long. The vswap device's
->   max is currently clamped to ALIGN_DOWN(UINT_MAX, SWAPFILE_CLUSTER)
->   (~16 TiB) to fit in unsigned int. 16 TiB is small for vswap,
->   especially when we're getting increasingly big machines memory-wise.
-
-This should be very easy to do, just replace unsigned int with
-unsigned long, a lot of place to touch though :)
+Thanks, Lorenzo
