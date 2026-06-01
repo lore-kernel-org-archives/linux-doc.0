@@ -1,108 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DE83672A1
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 19:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0203A356771;
+	Mon,  1 Jun 2026 19:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780340927; cv=none; b=kivh+2hck2EPleAedoCoC+mdBCdpAQdYDkRJqc76JwI6qTWpl4OpYBod8cjHIucKaeGpHVdoy62+6IzFrPofkTGDnex3As8JRTcBT4ayfnMjFXU3EDiOt9uwA9xMuKm0DvLD4kUuoH9kFmj2vnA8aNCbZlczujcHmcQDQUsirq4=
+	t=1780341132; cv=none; b=d45Twu60Om0bOhE39knADG08Bz0aMMj3FWg12NV2JteUEJ/pM0XPlDPRHCg+wJ+CFyc10p9G9JEP+R27S6yToieN9swEbok8Ko/lLnHP778cXZbOf7hadhYwApP93QZVqD/sYl3IMdHERWywwQ2B2Ht3asAVMMFXT5OVb8+1scg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780340927; c=relaxed/simple;
-	bh=dZn3k7Cd4pvAmprGRxDQATCsMVFMDEIX9YcJonaBRe8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VifBB8Syy9aUSY5KJ3GgN6bdxMzXmnsrbL0TewlvDbsLUwd1DJj5YpFS/QvntrAW3lRoJoQ4+DBglybD8RNalKbudjfBDj69l+j8Ds3tRAQ8FyvuJRi4bzKSDcMw5UiPb9DOIIyDjGL4zC620D+oTHpn9pw4Kl3Eu0B5alQGc5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgkrFU4W; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780341132; c=relaxed/simple;
+	bh=Gurb0fbhRXMNIz5c02hayfoHGtFUh+uXP4x/L6f167E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pzkK9xSqrgZmW1G8nX34R5996AtP4K7T8v4MpI8wq0JjYYvTc5HtW+FCxu/SN3ZTdVQZxo5d/KN30YSQT1fRt3PINySFMPMrjsEB05pinxQK+6mTlLz3G2z3qhExtoCzb1TTrU/YwXTp9yiw0uKKk/wF8oWJlERB0AxBDoR2ThU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Leh5nCNE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgkrFU4W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA131F0089A
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 19:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780340926;
-	bh=RoHlLdjCwXHhHBH6lmoj0WDBU93zAamK1pPlgM6/XWk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=BgkrFU4WJJshnbb1PFIdbDKcuNkQL2Ho6QsTUSfru88NCcylwEMB3njwBMlioMcTi
-	 mLnDpKv7gbxA/UkCRGueY+caCgBCg0xnExLb3Mjm1T20ca2vKskLgYzWg8kbi0NIoB
-	 4HV3b2fQPtHk8Pc20sCjdF6WJLAIdbPENog4KVUgjg6ugVouJhzIKCU/b7AxIK3Xk2
-	 Gi/4Fpyz1NiWaPv8FsOHY1LjXBINmtJFnQlGqgHm1HozJRziUH78aRTrwJdOh1B5P6
-	 GTnVy8r8AUcFH10s/HewdNHYFLxJCEwRkEno9F7SrJnlqXNOJQAqAAr2EB8NtTZiwr
-	 x4y495bt8jK1A==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aa6cdebc33so1170604e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 12:08:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Sd/2rEHJXEMG6FHe5wpVcmtU/hvckXBTeGULqsfsi7dEsYweR+rHX2oaBRzmwsFZOQSIh+Wgz1Ww=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxOxZ7GO2MQ3Xc0TIcsAPJRGFmR4HTgmVoAkU3a90B3iBEdeRw
-	FLUmlFbfTLtsmnK1vW2+6x6eMHq0j8Z3IK1DPgLZAaCUl6FlLxgSM73pM+oHakBK8MTTLTVjTlE
-	994gW8Vq+JRiWi9YeDHlxgZXah3qLhWs=
-X-Received: by 2002:a05:6512:39d0:b0:5aa:67ed:68a1 with SMTP id
- 2adb3069b0e04-5aa74115903mr418878e87.11.1780340924845; Mon, 01 Jun 2026
- 12:08:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Leh5nCNE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0248D40E50
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1780341131; bh=uIWMybH3Zpbdxw4BgW9HcnVGZgESCxCCvLJVY8nFhxw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Leh5nCNEIuAuBD4aTCQLTyDlQOEzIyFamvqryYk5rD9D13JZbn52VO1UL4EhTU2km
+	 FSq8nuScEFT6HIIqmPkNG3vNTs3GuvuGmM7jLnGDxWqdVPg7s4N95Q5MpIYOigkwzw
+	 iBYON7PyscnoWZ/ZrTeHWp9wSURWTf/SsZp6fZhPinH3s+d/cLyUeBKtYSMH3SQWiT
+	 b3eFRQ9mbCv54UUZHGG3XSv6burBuBLg7rqs9dXFRR1bv+G7k3wM5vxO717YJBOX8O
+	 9SvWMUQ/HEzZtz16RLdUQNmckm21mNB+Tq9guL2hJcbt0Zyk88erHc0d1TnuN9FeVh
+	 vJ2icY94HjiyA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0248D40E50;
+	Mon,  1 Jun 2026 19:12:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jim Cromie <jim.cromie@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jim Cromie
+ <jim.cromie@gmail.com>, Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH 0/2] 2 dydnbg doc fixes
+In-Reply-To: <20260502-dyndbg-doc-v1-0-67cc4a93a77e@gmail.com>
+References: <20260502-dyndbg-doc-v1-0-67cc4a93a77e@gmail.com>
+Date: Mon, 01 Jun 2026 13:12:10 -0600
+Message-ID: <87cxya848l.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260426160127.292486-1-atomlin@atomlin.com> <76opmfrrzgjgd2m7pnzjdd5h4a3bc3ofz4xwsxuavulnqslsm7@fuirka5jro5j>
-In-Reply-To: <76opmfrrzgjgd2m7pnzjdd5h4a3bc3ofz4xwsxuavulnqslsm7@fuirka5jro5j>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 1 Jun 2026 21:08:33 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g4ksMwxqso8nagPO6s59fFzWt0YSv=SJ1ePF1bfgUCjw@mail.gmail.com>
-X-Gm-Features: AVHnY4J8dEsrs9L6980IzkI6QEAyQmbwAvAuQ_l11Woig6ZGFA8nzc-hpFHDVGk
-Message-ID: <CAJZ5v0g4ksMwxqso8nagPO6s59fFzWt0YSv=SJ1ePF1bfgUCjw@mail.gmail.com>
-Subject: Re: [PATCH v5] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	pavel@kernel.org, lenb@kernel.org, zhongqiu.han@oss.qualcomm.com, 
-	akpm@linux-foundation.org, bp@alien8.de, pmladek@suse.com, 
-	rdunlap@infradead.org, feng.tang@linux.alibaba.com, 
-	pawan.kumar.gupta@linux.intel.com, kees@kernel.org, elver@google.com, 
-	arnd@arndb.de, fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com, 
-	neelx@suse.com, sean@ashe.io, mproche@gmail.com, chjohnst@gmail.com, 
-	nick.lange@gmail.com, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Jun 1, 2026 at 8:55=E2=80=AFPM Aaron Tomlin <atomlin@atomlin.com> w=
-rote:
->
-> On Sun, Apr 26, 2026 at 12:01:27PM -0400, Aaron Tomlin wrote:
-> > This patch introduces the pm_qos_resume_latency_us kernel boot
-> > parameter, which allows users to specify distinct resume latency
-> > constraints for specific CPU ranges.
-> >
-> >       Syntax: pm_qos_resume_latency_us=3Drange:value;range:value...
-> >
-> > This boot parameter mirrors the sysfs interface behaviour: the special
-> > string "n/a" imposes a 0us latency constraint (polling), while the
-> > integer 0 removes the constraint entirely.
->
-> Hi Greg, Rafael, Danilo, Pavel, Len,
->
-> It has been over a month since I submitted this, so I just wanted to gent=
-ly
-> ping this thread.
->
-> As a quick reminder, this parameter is highly beneficial for deployments
-> that prefer to establish strict latency constraints early in the boot
-> process, eliminating the need to rely on custom user-space tooling later
-> on.
->
-> Patch link: https://lore.kernel.org/lkml/20260426160127.292486-1-atomlin@=
-atomlin.com/
->
-> Please let me know if you have any conceptual concerns with this approach=
-,
-> if any further adjustments are required,
+Jim Cromie <jim.cromie@gmail.com> writes:
 
-IMV it would be better to call the new command line arg something like
-"cpu_idle_exit_latency_us" to make it clear what it is about.
+> 1st swaps \012 for \n to match actual output in dynamic_debug/control
+>
+> 2nd explains that flags input to >dynamic_debug/control is checked
+> before keyword value pairs, which might not be there.
+>
+> Both reflect current code behavior.
+>
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+> Jim Cromie (2):
+>       docs/dyndbg: update examples \012 to \n
+>       docs/dyndbg: explain flags parse 1st
+>
+>  Documentation/admin-guide/dynamic-debug-howto.rst | 35 ++++++++++++++---------
+>  1 file changed, 22 insertions(+), 13 deletions(-)
 
-Also, generally speaking, it should be part of cpuidle rather than the
-generic QoS code that also applies to devices other than CPUs.
+Applied, thanks.
 
-> or if you simply need me to rebase and resend this against the latest pow=
-er management tree.
-
-And that too.
-
-Thanks!
+jon
