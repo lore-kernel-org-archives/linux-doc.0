@@ -1,212 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D30366042;
-	Mon,  1 Jun 2026 10:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B32D395AE2;
+	Mon,  1 Jun 2026 10:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780309433; cv=none; b=LS3kccMHUUXORfZsEZz0zUX8gNntjHDeHE9ICqGc0+VOrUZQ9XqFY2kIiPs/6IW+GUhxIcUaqSQRfODFEsCl2BaePLm5958V6sEdmENU533kafALyU4UbiDuMrlVnR1N4RbHao9GsCJbqducTQs/wyQZ+3e6QRd9IKikyzpow+A=
+	t=1780309805; cv=none; b=NoKEedFYFX/Dy0LWNMKJmuwSi1oUbyEfX8Wb/UoaIIoFeeEjB6UT0nFq3BsAqWKDpcPHWpRBkDSrRfR+r1KNMn1SJjF/LkIWe/+4meRsTsunnhGe+q6NdLQBliTGwcmLuSBGOCPkL4yBlRrrq+i06n9emYiA8b1t97EMmpgoRuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780309433; c=relaxed/simple;
-	bh=2E883kgTXUL29AKJNWLQ3zzb7tdvdjFLXCJfHhXA4hw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k7Nrr4TBQ+/ejM2azhm+bH3MFwsWlATO1PUdT7EZO9D5JN49PmYEuBgtSEmmf9Whwmg11g8+bs+ZYx96lG87CIixP1LrcyHKiO6Fevqgd7PETTiADjMwh62FEwYMQEotEBPvQqP14BLU+onDKtfqbTGJeeC9zsoKu+V94sq3VDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c833BeYw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780309805; c=relaxed/simple;
+	bh=NCCEOep1v/81LrwEaRyt9x58TIOTCpVMYpw9cwgu8Sw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BwRCcPBTnWblkcs0We1vyAuIz0PMDAsW5KWvFOxvlw7J3fp17u/2u73c5HxGUYLfpzDyO1hXuS7BkdjG5r3sfRyz+2mjKVzWmclhdJrmj0nigBMMqYoTQoa4sRAWokYzBtI5wizYnbUEz2ec6Fv6ekYD1QOTp6/N/Q9XrlfWThw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=ZL2m23Uv; arc=none smtp.client-ip=211.125.139.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c833BeYw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45F371F00893;
-	Mon,  1 Jun 2026 10:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780309430;
-	bh=i98ewwvptaynRm7UjfKX4kD/Leq2g7oiiApUuPFAV2U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=c833BeYwgWz0ppp2x5phqCnJSunVgereyjGFUP4VqomH4E1+QpFfXKobIPxqHWZjf
-	 mHsIUimognUz54K96CBjCRux7u5M+O3Fns9wbdjp0/SfXsM5HOfeyQIKeIBQ2+IxQK
-	 VdGUz2DB8VatOJWgXIaufLTsE/5ra+O+5teh72LQe+jWlTOSUmxZtZsSojv2M9Jifd
-	 kicJVxsrzwL2zbz0aLVT4FgrsgN2rKBfx/N+CsNTRqdmNCn6X9BBnbueQgumucs+I+
-	 eHf+Qiz0MgWpWxRaJbOr7V12LUXNhYpe4ePGGEX9K2h7Mg7rr/KZ+q6an5DZThkQhv
-	 gqc+JIOA7PrpA==
-Message-ID: <6b11bf0a-769c-4ef2-ac6f-2af38200a6bc@kernel.org>
-Date: Mon, 1 Jun 2026 12:23:33 +0200
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="ZL2m23Uv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1780309804; x=1811845804;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0rHdH/6OzUvgw/Z1d6llxooirf3DGCf2wJCl22Zrk6k=;
+  b=ZL2m23UvAKplAAuw4wHwj8BopN8yQxX4GD4F9AL98jcGUZeMo6i9FuY3
+   EN3AtzK81E+luchi3Amc7amj9yRaFl8I5xkAcZ8AHwe7da07Q9e5+0Zyr
+   BBJ1+zNDYCSsv9sdYR0+ugpKQ4gS6AkR6TXUSCggcZBE/gSTU63cSg/lr
+   1oDaMtqVbhXn2SXZFDWBBga95uXfVqwhyCUc11GlO3urLSW8zrjiiRcJn
+   T7NEz2J/UyACS2Z8hMQn/lZvdtgzRnCFNw0/cGUa9bmckngmqB4DfPsJy
+   gxD+WURJvDK4MMkb5zrzU0ehF00kkUWGmTFC+lZGMgficl7gWeXkOZsw/
+   w==;
+X-CSE-ConnectionGUID: fHY3hk8IQPya5S/VzT0E7w==
+X-CSE-MsgGUID: A6YwwHDwRxS/ycdMpF3BAg==
+Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 19:19:52 +0900
+X-CSE-ConnectionGUID: sNjFdX7LQYSLb2PshMkn2Q==
+X-CSE-MsgGUID: WqV8hNo5ShCKx694VddLQw==
+X-IronPort-AV: E=Sophos;i="6.24,181,1774278000"; 
+   d="scan'208";a="69757146"
+Received: from unknown (HELO JPC00244420..) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP; 01 Jun 2026 19:19:52 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: "Gary Guo" <gary@garyguo.net>,
+	"Danilo Krummrich" <dakr@kernel.org>,
+	"Petr Pavlu" <petr.pavlu@suse.com>
+Cc: Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	linux-kernel@vger.kernel.org,
+	coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>,
+	linux-modules@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	Sumit Gupta <sumitg@nvidia.com>,
+	"Suzuki K Poulose" <suzuki.poulose@arm.com>,
+	"James Clark" <james.clark@linaro.org>,
+	"Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Miguel Ojeda" <ojeda@kernel.org>,
+	"Boqun Feng" <boqun@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	"Benno Lossin" <lossin@kernel.org>,
+	"Andreas Hindborg" <a.hindborg@kernel.org>,
+	"Alice Ryhl" <aliceryhl@google.com>,
+	"Trevor Gross" <tmgross@umich.edu>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Shuah Khan" <skhan@linuxfoundation.org>,
+	"Luis Chamberlain" <mcgrof@kernel.org>,
+	"Daniel Gomez" <da.gomez@kernel.org>,
+	"Sami Tolvanen" <samitolvanen@google.com>,
+	"Aaron Tomlin" <atomlin@atomlin.com>,
+	"Mike Leach" <mike.leach@arm.com>,
+	"Leo Yan" <leo.yan@arm.com>,
+	"Thierry Reding" <thierry.reding@kernel.org>,
+	"Jonathan Hunter" <jonathanh@nvidia.com>
+Subject: [PATCH v6] kernel: param: initialize module_kset in a pure_initcall
+Date: Mon,  1 Jun 2026 19:19:41 +0900
+Message-ID: <20260601101942.4002661-1-shashank.mahadasyam@sony.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ahEd4iC-2hqUbMy3@JPC00244420>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
- collapse_huge_page for mTHP collapse
-To: Lance Yang <lance.yang@linux.dev>
-Cc: npache@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, liam@infradead.org, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com,
- usama.arif@linux.dev
-References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
- <20260601032804.96122-1-lance.yang@linux.dev>
- <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
- <616de1a8-1cfd-40b8-b04f-7b324be40bfd@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <616de1a8-1cfd-40b8-b04f-7b324be40bfd@linux.dev>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 6/1/26 11:08, Lance Yang wrote:
-> 
-> 
-> On 2026/6/1 14:54, David Hildenbrand (Arm) wrote:
->> On 6/1/26 05:28, Lance Yang wrote:
->>>
->>>
->>> Ah, fair point.
->>>
->>> I was mostly worried about arch hooks that walk vma->vm_mm again, rather
->>> than only using the pte pointer passed in. For example, mips does:
->>
->> Right, a re-walk would be the real problem.
->>
->>>
->>>    update_mmu_cache_range()
->>>      -> __update_tlb()
->>>        -> pgd_offset(vma->vm_mm, address)
->>>        -> pte_offset_map(...)
->>>
->>> and __update_tlb() has this assumption:
->>>
->>>         /*
->>>          * update_mmu_cache() is called between pte_offset_map_lock()
->>>          * and pte_unmap_unlock(), so we can assume that ptep is not
->>>          * NULL here: and what should be done below if it were NULL?
->>>          */
->>>
->>> So if khugepaged happens to run with current->active_mm == vma->vm_mm
->>> here, could __update_tlb() hit the none PMD, get NULL from
->>> pte_offset_map(), and then dereference it?
->>
->> Likely yes -- that MIPS code is horrible. And the comment in MIPS code
->> even spells that out. :(
->>
->> Do you know about other code like that, or is MIPS the only one doing a
->> re-walk and crossing fingers?
->>
->>>
->>> Just wanted to raise it since some arch code may still have assumptions
->>> like this, and the always-enable-mTHP work is getting closer ...
->>
->> Right. I assume set_pte_at() couldn't trigger something similar (re-walk) in
->> arch code,
->> because we simply provide the ptep. update_mmu_cache_range() only consumes the
->> pte.
->>
->>>
->>> Probably very very very hard to hit, though :)
->>
->> Delaying update_mmu_cache_range() is nasty, as we'd have to make sure that
->> nobody can interfere in the meantime ... and the PMD lock will not be sufficient.
->>
->> Maybe we could reinstall the page table with the cleared (none) entries while
->> still holding the PTL?
->>
->> Thinking out loud:
->>
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index 5ba298d420b7..e39b750b1e6f 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -1413,13 +1413,17 @@ static enum scan_result collapse_huge_page(struct
->> mm_struct *mm, unsigned long s
->>                  map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
->>          } else {
->>                  /*
->> -                * set_ptes is called in map_anon_folio_pte_nopf with the
->> -                * pmd_ptl lock still held; this is safe as the PMD is expected
->> -                * to be none. The pmd entry is then repopulated below.
->> +                * Re-insert the page table with the cleared entries, but
->> +                * hold the PTL, such that no one can mess with the re-installed
->> +                * page table until we updated the temporarily-cleared entries
->> +                * through map_anon_folio_pte_nopf().
->>                   */
->> -               map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /
->> *uffd_wp=*/ false);
->> -               smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
-> 
-> One small thing, I think we should probably keep the smp_wmb(), and just
-> move it before the earlier pmd_populate().
-> 
-> IIUC, the ordering we want is still:
-> 
->   clear old PTEs
->   smp_wmb()
->   pmd_populate()
-> 
-> so another CPU cannot walk through the re-installed PMD and still observe
-> the old PTEs, right?
+Commit "driver core: platform: set mod_name in driver registration" will set
+struct device_driver's mod_name member for platform driver registration. For a
+driver to be registered with its mod_name set, module_kset needs to be
+initialized, which currently happens in a subsys_initcall in param_sysfs_init().
+The tegra cbb drivers register themselves before module_kset init, in a
+core_initcall. This works currently because lookup_or_create_module_kobject(),
+which dereferences module_kset via kset_find_obj(), is not called if mod_name
+is not set, which is the case now.
 
-There is a smp_wmb() in __folio_mark_uptodate(), that should be sufficient?
+So in preparation for the commit "driver core: platform: set mod_name in driver registration",
+move module_kset init to pure_initcall level, ensuring it happens before tegra
+cbb driver registration.
 
+Suggested-by: Gary Guo <gary@garyguo.net>
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+I'm sending v6 of just this patch to add the comment suggested by Petr and pick
+up Gary's Reviewed-by. The rest of the patches are the same as v5.
+
+Danilo, I'm assuming this series goes through driver-core. Could you please pick
+up this version of this patch and the v5 of the others?
+---
+ kernel/params.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/params.c b/kernel/params.c
+index 74d620bc2521..a668863a4bb6 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -942,9 +942,9 @@ const struct kobj_type module_ktype = {
+ /*
+  * param_sysfs_init - create "module" kset
+  *
+- * This must be done before the initramfs is unpacked and
+- * request_module() thus becomes possible, because otherwise the
+- * module load would fail in mod_sysfs_init.
++ * This must be done before any driver registration so that when a driver comes
++ * from a built-in module, the driver core can add the module under /sys/module
++ * and create the associated driver symlinks.
+  */
+ static int __init param_sysfs_init(void)
+ {
+@@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
+ 
+ 	return 0;
+ }
+-subsys_initcall(param_sysfs_init);
++pure_initcall(param_sysfs_init);
+ 
+ /*
+  * param_sysfs_builtin_init - add sysfs version and parameter
 -- 
-Cheers,
+2.43.0
 
-David
