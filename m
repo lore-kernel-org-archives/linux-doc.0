@@ -1,130 +1,151 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAE936A367
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 10:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780308051; cv=pass; b=Ng74DW+OWIwzNPDb0JrhGafLY9pBPYincsFi7t/Tu4kuS1JJ5RT78KdX/dik2ZxWhzEV9NUY5Lu+4Iqpc/+PKmYq1RUnM2G2f+T6NANxrRJMbCSfuv7jCmc53RHIsG+RGU+ljEurE2iUvwPhi835qkqdHbDdTPOOyMgBGWnKceQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780308051; c=relaxed/simple;
-	bh=oIJ2IYJSSD6u/7FhnZ9xjxR4o8CpwbNOP8wfcffrBMw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NWyxYVB0g92G53FPXGAEeMkU74HGnJGSo+F/jKtBNRzb9qfCLFXlSBDjXnHdAZi623SxOnq07wKF46KAg0jJkK1vsXicUsFm9wYCbEU7BlYuIlNyB1jH8G4zj+L+qACbi5Ce3CdwOoI7NDni3U58PliEGCv94AftbomESF2sJeI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=balHhLmG; arc=pass smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF08395AE1;
+	Mon,  1 Jun 2026 10:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780308574; cv=none; b=jkWQknyAM+s13NAeeCvkOyK7TCO1+rDHBzIezB9Gxin146dEDN0i4M76j1cmMBasLcZ02DaQ0cVZ/Pc8exEK++E/wEaop2lNsbiKYO8AJee0F+1YIFHfuFpS+eC4v/JhFcvcTRmKOINOjeL07OMm0yvUQ1XgmwPoTo/lkzACoQg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780308574; c=relaxed/simple;
+	bh=+2MB96/BVouH0+TPLKMKehOeyNIGPTacG9p6OCNjZIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lXm5sM5cnrgmQ12DQUnUWTVvfFKL8JfuAVkXG38yaxdnqcHNwZfZbzZfYOUGfikI5cvcBLkaQpJ0dafMyEQAczOmGljm/q0hfQvAoeRvHOcgNW9vd0uLitGoxpWv+OhzNAqmY+vW2Mf6tFxrsmgzTvWM2LZoYALZKcQq+9HZLF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/RSr7+q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="balHhLmG"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-43bf5f4ee8dso2817757fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 03:00:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780308042; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EzmSaprcq8xMJL+TFIMYGKG+l1r4u9ZUBEYLyhv21fqR+lum3AI6idPzg7XDP0HnvV
-         RoCbajs9ckkYOQo+jKAzGUsqpwdZ4djWo1Mucs+JL3wHoulUAd1WMkUN9yHMtgtro12K
-         EGli05hXNq2cfs/Bkn2H/Dq9SjxOkTbZByIm01Dt3NhOCQt+FWJYE5aIB1wUNYj/SLZr
-         NhO8aZ9DQOimsCPTEsaWc0Rxz5qQE5lq3dgNwi1r5SLX8X9Wa8sRmEtFnLeFZzWdRiDa
-         bQJ3EesTwf4cze+IgFsRy2pAGwUe5eRMPTsv0l2tyWFRHCY9oqTV2SmvlscVbSCDfVBX
-         jNTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oIJ2IYJSSD6u/7FhnZ9xjxR4o8CpwbNOP8wfcffrBMw=;
-        fh=x6bzAfYGStnqGzkQbi8sKe9sISYPI1VGCA0ymH4Onpk=;
-        b=SNui50qEnV6S6HpVjp8gJYgChvOfIlr+Nr/zjheZvLJNdmZvdx+TzrRO9JjNr8bOF/
-         Szy3yBurUoPPQZfoGJWSwRk3OYLJJaiRaSoWJvMhIRCVMzocJLPgWAoOR1/aYwLCEfyn
-         LdN4uT4QW9N6B3SCeBXGaKKPRvGkg7wOdSLU6R/XuE8/KqQLaaIisDshr856gddnmbMO
-         yRmw8Ro5L26ZY38D/O8wB+FjcewV5VNqOr8EVwGoZWxtWodmWRjB0wZDG0orlSCQ0NIO
-         v8kgbhzvjnY22LdAHfBvhWAyskdawNAzB41POHEt6Dg+UE7Z5AOEk43sdKQnauXf2cyU
-         4B2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780308042; x=1780912842; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oIJ2IYJSSD6u/7FhnZ9xjxR4o8CpwbNOP8wfcffrBMw=;
-        b=balHhLmGJfZpfxmLzj1jyzHKeWwp07Xr7mXAPVOdk+woLtHiZb65zdXHe0i8u36GlD
-         8JGx0Nhalb/zimRGT643Ccrip3sCSutxzNznFBSCWnFRKnCKnu0Q7qM6Do7C2+Ohq2gE
-         k6u382eW51ySgD9JAJqApA/SWsOwZkvpVwETqRNGUI+mCUm/NqM6DrY30i7rI3QVZvff
-         aURVJl+DY0ekMc1PZU/CQxYJuSPQNwhhhjdfUuJzquO6p2eoYY0AEzvCIbH8TwleHd//
-         t3yqxH5qIH/z1ikRMLO52JPk7bPV5pfMfg5N1iL9x4y68PIhLVs+uhFS00o9b0BpAYq+
-         3z9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780308042; x=1780912842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oIJ2IYJSSD6u/7FhnZ9xjxR4o8CpwbNOP8wfcffrBMw=;
-        b=D7Wx8Nd/G4XtG3Ts6I2t3mWZRmL/2VFF+0FiL0GuRNXgEOM8OPJ4AqTv7D+8nZ6c/L
-         PUGVLh6rxY1XFJzr3rVAPbWAhPQ9AME5O8Tv8pX/KAFN8cmRriXg+x8v/eVbcvtwcOK+
-         qA/y8JWLerQp6OrJJEi0gYGPKwuBGdXqoVvIfjpk90x9HVjgJYM7bdrmblrF0l/7Y/el
-         mL2lVcSyvMQ5tXDIrAdjFEM1pXNr4NsmZQZ3EL3eYyeWt3Hf8TDqV4neigvFQpePkw+m
-         NjvZG6r6KVeis4snoW7dX9qoJ8BJVapwg8zJzBfaEVemnfBX1uDH0OL2FDlq290j5iia
-         lrgw==
-X-Forwarded-Encrypted: i=1; AFNElJ83hlAfRRbiSDbEOCyH2HW2DHPHyyMuCu6kBOQ+aOcNkhLePvb6+lrWg/PKcJ34mJfIcYPC9OIhQHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrPn61b7eWPhlRLai+k5N+3t51gyXCd0KiDIxRpsUOPI5MHfcu
-	7sUkJ5sqXpNAb3Y+K9rsUwuLfiHDMopXfmQm2b2d54lEiEy6veRbiZTGtjZJZ1w9rx1OAYpsDDa
-	73kuNi3dTI9vLhHwqJh9VBpdw6gReOGU=
-X-Gm-Gg: Acq92OFxu0Vj1gwYBIvGfrhoGV1X7rE6zTvuxozpM+6e9eWtJgpykSGsg1lBFVh5h8t
-	FHn2mAh481zHsVG97CFRA4llGGo4HYt5Nqmak8CSKFJC3NHpxf13PbUrOkbO71D9wy9Oq+b0D++
-	ot93ooGhDBgFpL8nlVOFaUwOm3nE0Q0glWPkRvbdv+L2JZVPISME58KqHFRVQr4D1EaebDPucCD
-	AOMz7t9e1DY0lJixkDf/FtxwDtYmNybwLterXynIqM6hgqovwkbqocql4ppjZEKTWNeMUidborG
-	BdYOR0sN50/uzWLLtQfXbUamrK2mke7ihD7FlJW/55lmee2+cw==
-X-Received: by 2002:a05:6820:1385:b0:69d:95d6:2629 with SMTP id
- 006d021491bc7-69e1031eae3mr5369304eaf.26.1780308041641; Mon, 01 Jun 2026
- 03:00:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/RSr7+q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C9011F00893;
+	Mon,  1 Jun 2026 10:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780308567;
+	bh=telDdSC7/EI4bm0my2SYNWvjV6/+1WMfaGUydwsM0JE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=E/RSr7+q/6nIFb+9C6c9jmKbP1es072hXYz1IQTGwUjqaPxnQ3p0yc/KbCu5ZwWW7
+	 O4de5CsFCu+YBhZn0/qvFCVmXnhQZ+9bcoLMBeKqREXxlFIr5oU6mXmOrcX6VruVjp
+	 j5WG8L1x8M48jYN/AQiG6LpMUDMP96kfuQ5pbitNPPhKrhMEkpVqoLAjig4X1ATvh5
+	 l1DeuNTi+4uytvO3r+WRDidfs8pVNImknpTmQZ48FHAhfLQgEP5r/X2x3TH3Ibx3rF
+	 WW0u5PA4rvSr7OS8rrXPbpZCp0JRJt7WiTn0MRU8VhZ3ldi28u+HEvu6N0aoZFitOS
+	 ihVHv9tWG1ZZw==
+Message-ID: <c73fb0fa-f109-4a52-a28f-d558b9445e9e@kernel.org>
+Date: Mon, 1 Jun 2026 12:09:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528041958.57231-1-amandacorreasilvax@gmail.com>
- <CAMAsx6fWkQi1BHRPypDQeXL7LsDftfm5SFsgf1-pSUMQAdo8YA@mail.gmail.com>
- <874ijrlhf4.fsf@trenco.lwn.net> <CAMAsx6esEkQ6bGn7RYVrrna2r51qLLTvZbbsWJ=y9zg7aBTgyg@mail.gmail.com>
- <87mrxjjtgs.fsf@trenco.lwn.net>
-In-Reply-To: <87mrxjjtgs.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 1 Jun 2026 07:00:30 -0300
-X-Gm-Features: AVHnY4Ih6PEpskPr1NznmCpdckn23J2RxV_mMgC94iIqkM3rFcPNDtEW67CJ_sk
-Message-ID: <CAMAsx6eFwvzpNHzc4PudKf6DyfcUi8_Hitu+YSu8hp9Oh0wdUQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: update maintainer-handbooks
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Amanda_Corr=C3=AAa?= <amandacorreasilvax@gmail.com>, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+To: Lance Yang <lance.yang@linux.dev>
+Cc: npache@redhat.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
+ hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
+ jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
+ kas@kernel.org, liam@infradead.org, ljs@kernel.org,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
+ rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
+ richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
+ rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
+ sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
+ tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
+ vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
+ willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com,
+ usama.arif@linux.dev
+References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
+ <20260601032804.96122-1-lance.yang@linux.dev>
+ <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
+ <fb8f24b1-ce8e-4f06-bbd8-f148a9bcaeee@linux.dev>
+ <1c99294c-9ebe-4856-bfde-09801701d75c@kernel.org>
+ <32751424-8ad3-4fd2-9f07-8a4f5a98d632@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <32751424-8ad3-4fd2-9f07-8a4f5a98d632@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 28, 2026 at 3:10=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Daniel Pereira <danielmaraboo@gmail.com> writes:
->
-> > On Thu, May 28, 2026 at 11:47=E2=80=AFAM Jonathan Corbet <corbet@lwn.ne=
-t> wrote:
-> >>
-> >
-> >>
-> >> Is that an Acked-by?
-> >>
-> >> Thanks,
-> >>
-> >> jon
-> >
-> > Hi Jon,
-> >
-> > Yes, that is an Acked-by.
->
-> Please actually given an Acked-by line when you do that - it makes the
-> signal unambiguous and the tools can pick it up.
->
-> Thanks,
->
-> jon
-HI Jon,
+On 6/1/26 10:44, Lance Yang wrote:
+> 
+> 
+> On 2026/6/1 16:15, David Hildenbrand (Arm) wrote:
+>> On 6/1/26 09:49, Lance Yang wrote:
+>>>
+>>>
+>>>
+>>> I had Codex do the boring grep-work through the arch update_mmu_cache*
+>>> code :D
+>>>
+>>> MIPS doesn't seem to be the only code doing a re-walk, but it is the
+>>> only one I found that appears to assume the PMD/PTE walk cannot fail,
+>>> without checking whether the PMD is none ...
+>>
+>> Okay, but likely the other code that tries to handle it is also problematic.
+>>
+>> Best to make sure the page table is already installed when updating the entries.
+> 
+> Neat, makes sense to me :D
+> 
+> That way the page talbe is back in place before any arch hook gets to look at it :)
 
-OK.
+Right. I don't think we could run into a deadlock here (nobody should
+concurrently take a look at the page tables in the first place).
 
-Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
+Not sure about the memory barrier I dropped: the page tables are already
+properly set up (just some entries cleared), so I'd assume that barrier might
+not be required.
+
+-- 
+Cheers,
+
+David
