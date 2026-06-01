@@ -1,66 +1,66 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094EA3A759D
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 12:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6793A7D9E
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 12:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780315562; cv=none; b=doING3+JM8VKGmTlZHbnJvwyNanp08eCPpkjipAqoJVU6u6xhjoXH8xX25XXVQg94mbdqQIDWlY+bbXmx7Vck1iPil0BK5HR2V4GchRCotaMuKg4jeAJ937tSRYcgdRa/143kfXImr33GnkhQ1fvkgU9bYL5DpF0D6+0giAlDbU=
+	t=1780315565; cv=none; b=G68cLQ90YJzyfk+7m61yYhcLdmOVkySx97yhfUJ2Myf9cRh6Y/I6qZgYvMjfU84kvUnr+GGcVgpidaR7jEMpeNSx3aLTuqfB0GMzjaW8WF4SJOaNgVf0vm8pt7i6Nc/lxIBhRLxNfpqN5QQY940YPexWVRdR8flyNpMkR/BwE8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780315562; c=relaxed/simple;
-	bh=h10PnN9dZij/9KIShcmtDym4aMWTMKg/65aOZIHej50=;
+	s=arc-20240116; t=1780315565; c=relaxed/simple;
+	bh=sEO7u0MUmNyTUFNIPBYBwtZCCgzYuBjfxfoGHbMv0oE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pgYd4vyTitVFIz6fJE+SHWWMUA/Npfl6FJ3SFVoPMVfywRs0y/L+zEET05+tvKueu/iSTYYpKWkKq+n0+pb/qDkgTRwRsBQs+Ktm30artJWvdkahjopwaw9qjf9LwfjrHpetehE4z2TFbyKwpX0rqrd6hLW0T8RlsyU6dBeYQnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V7iIvUfM; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:To:Cc; b=i3Y3l20yDOk8wlwOC9hnrci7DUD//NQSsurC5TfXXSIGDTJ3e5RLaHg0LJGFz5H5t2QvS3uoUAT+UdM5y3oRwJoVA8HT62cH6J+t1RiPN+sK9aKCVIeEod0rykbwA5LhfN3NnBU02Rk5VqLAPsbf4bFQrQC6DtLoIyIfTBDW2os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=emQ0ufQA; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V7iIvUfM"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490a7876f8cso11459015e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 05:05:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="emQ0ufQA"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4905e190c71so92371885e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 05:06:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780315558; x=1780920358; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780315561; x=1780920361; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yYycUh0v045JLMzHv+cDjWaRSMlpTVGG8/fmLB5h0j8=;
-        b=V7iIvUfMhb7SYycWP/6siol7VERg9dKBNgPg4laUom+r4Kbhz84wRvPQEVVnvtj9YI
-         m2kIT31QSXKuszMcgiOKmzAFUX8iSNDHEFQT8HiUo8SyBcFTne2q5HsNq3VydGaqHOTX
-         9c00nbn7JYsvDVsE2pdj6BX7oedieF4kPyA1ALfLwtjOLHXmA/Xb/zfJYPVTccKCAytC
-         FiHuRyXuWCedPmh83dBDgiGBJ0FGPjflPuYNVWVw6XGXpg7Finsr8v8vGsTTolxR4cqO
-         pVhnhq1wk8EWPntfCHJM3+zoAk0JShijTCPbB9rajTEJ42dtvkZjRCxZUsu7zxviHXQ1
-         GbOA==
+        bh=vU7EFGuwqCZWgkJhEpDIGpXxPiY17lJwErVDlJ76auc=;
+        b=emQ0ufQAvvX5Yq7G0xvsXQqdAXdECmMQL0fgULqP7x4AbHzbn9FID0sgTxPP1cN+5N
+         phgMCYmxdtEKj9trh4ESlCb4GWV9WlSZPOjg+sWb1vQ150Q2AyPeXlWt4/xNorJnguc4
+         6tIJkXixN7F4N34K/RgU5fzc7Ycek1XnTTd/5A2TEwmHNrXWHIcDLtHcbCuofQtmqUch
+         31a1z8RtBnBX9tWT+BhFT9Rq3n0dcKsme71BAIpP4xl9dpZIzskOfS+xLuRtI4js7Pjp
+         3s5+RVImHEGbVPmvOEXTP+cXj/EMbwqxgbC0wgi0P9ZgwxtYAGVmWQqFIu0rM9hyraEh
+         JaBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780315558; x=1780920358;
+        d=1e100.net; s=20251104; t=1780315561; x=1780920361;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=yYycUh0v045JLMzHv+cDjWaRSMlpTVGG8/fmLB5h0j8=;
-        b=GWTJ369DoFu67lqYnSv+RZkBLQZJqTT5Nrwf0htPOTFn1itoxe9kDBoqqc+NOCbNct
-         yR2X9IuA1PZZKrYbuO6Nryv2CEsOurtzaDs4C6PFxKi+GxQ98XYSjg4y1IakGfJXzbTV
-         Ej6azL+9TqtfOrYA+lnbEtmqcM+/1Ujkc+IN9hKv/7I7Bb7x4bF8edv+6b6JsXrdcl9X
-         hp5OA6CmodjiuZPlyMRh2SL7xpyZbKpET/M6jnVhmgnFhP3pMUUfEet1eV3G2j9SO0AZ
-         L7YAlvH2rqFflp7IxZShgGT93Khyk1qHOa5wTnZwrhRTBTK0vXUMWZ07vJtudnzaibJr
-         l5ZA==
-X-Gm-Message-State: AOJu0YzFD93ontLeXl+P0xW5jJVCPU8U5FF/muQYwJPP+c1dOM1SrNcN
-	03R96aI056VVrtnLufj48bicnp6DcRI8rjIXT5TWyslQZ7g4J8r42oq3
-X-Gm-Gg: Acq92OEhGSiRcC+Zk0GKy5ZBFKaLsBc+EJvHdx1IQQG2m8JOb8qB2fuR2+8JRhDAWAL
-	kuc8uEuEJGaUVKIsWE3Slsq4iPGN/KKrPJPJyDyHicIjAW5hrnLY1mGMhVQwif4tF4baEVjQnuU
-	KDQl4E4N3D1b/fqWPHXltt9W+Up5ntzqS0yhkrBEgvA5owP6DOctTjoHasu97hY6HVBwF47hGa6
-	c79kFFaHFK//syXuNaNbJwL98OPsFk+HYFPjgffkP0C7EYMIcoDJdwZ0MbnGG9ckg1mD6Cp50bw
-	niH/4tmprV/44U6KY5NDfJxQhYYmTyisF1isH2sKIgYRprP2DjVC0zT+fe5mXX9+fBIPzKWLpqi
-	DSPBfoLhS5PxbH5mrsKX2RlI1U4r/OUvPyA8cT4+3wb0xGlu2NcGpH2506sy3Qzo6eDx+nt/pQ7
-	4guRc5twBIchhXof/x0NZ2/r75kMHLY07D8tHwyl/UXaNRMa0+GmK1
-X-Received: by 2002:a7b:c3c3:0:b0:490:5191:6e26 with SMTP id 5b1f17b1804b1-490a2941d7emr123128335e9.18.1780315558152;
-        Mon, 01 Jun 2026 05:05:58 -0700 (PDT)
+        bh=vU7EFGuwqCZWgkJhEpDIGpXxPiY17lJwErVDlJ76auc=;
+        b=LDzzaCQO3Yzc1WiCGNUsuHKyjGlgM9sMOxIlMhPEF+pRAK/FHHkZ4P0jKR9rJgZSvM
+         cePWWyaMBl2bS48PZ2TjUq7pd9PTtBPMqR9H3u2jR285hhT1VrkDIzZ01aXgiGXso5rV
+         GICiHHqFwrVRzxlAIaPAaLxl3YTFVAuhMSkYbELleeqQwYgDcEDWnZfySdgPffa6SnUa
+         TVym5VDy6HENKACaSKV7cOaWCAetcBUn6vdQwm8/3hkrnOtfp4ibq+udlWaTHVUOdrjL
+         y6vcTp3LUTbb1bNQ4OfPSqlaJDXKwc0jczlOY2Da7EXlgF1KFq926WAq9PGqw07bMuQI
+         bHWg==
+X-Gm-Message-State: AOJu0YwaDeMygCNfNaeUMtFVM47sVvROJ1riKg2WlfY/gkOAVZlyIsFL
+	hW6J6M8+PviioWBYqzliyb6RKQVit3XVZymST3VVbEBO97BdKZX1ueEx
+X-Gm-Gg: Acq92OG65ZdL0bC5mlOBQ99gnu6V4I6OJwX105rxpJAmePXK/HoWyovv4FPpebA8i47
+	9rJrHZHLLC/ECPyAjTRt/z3+z9bcMhNpJsqknomu42Ipf6A6EGxFSOWkKz8UxwQYwCSguNhmHrU
+	2i+USCd6C9ntLlbyyrkvXjZ7E3XvMCsPkDx5Tt8nvRm4rs+jIFfuD01czxGRut5d3BaSID/lOFA
+	fD/yRU87VpS1ZbM50KoMHVsC3u+ZE1jrUHCtlAddeXBgq6cJI8OLenkk4F7UHC9L+5gDe3fZ7Fg
+	aE/WcQSuLmEbUYWXg9ygrXmRoNw9dajuqQ+eqtnsoIAsTd9gn/ROUB7im7oSphKAMHGCMdYCjad
+	gqanGJC+8caBiJHPcpFkN6K1wW8Ceq4KpMN2AXnSkhNnG8t8aaFx5f2S27TcJoPuaszprU0TGM8
+	k2HYwjZLsyBr1ZC4iHPqjWYa3Eeuuxv8sp0xohsnDM5w==
+X-Received: by 2002:a05:600c:4e92:b0:490:8fd1:72a with SMTP id 5b1f17b1804b1-490a2900dacmr202132615e9.3.1780315560582;
+        Mon, 01 Jun 2026 05:06:00 -0700 (PDT)
 Received: from [172.16.188.153] ([213.181.114.83])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909c152570sm103972805e9.9.2026.06.01.05.05.55
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909c152570sm103972805e9.9.2026.06.01.05.05.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 05:05:57 -0700 (PDT)
+        Mon, 01 Jun 2026 05:06:00 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Mon, 01 Jun 2026 12:05:09 +0000
-Subject: [PATCH v3 23/24] dyndbg: change __dynamic_func_call_cls* macros
- into expressions
+Date: Mon, 01 Jun 2026 12:05:10 +0000
+Subject: [PATCH v3 24/24] dynamic_debug: use KBUILD_MODFILE for unique
+ builtin module names
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-dd-maint-2-v3-23-4a15b241bd3c@gmail.com>
+Message-Id: <20260601-dd-maint-2-v3-24-4a15b241bd3c@gmail.com>
 References: <20260601-dd-maint-2-v3-0-4a15b241bd3c@gmail.com>
 In-Reply-To: <20260601-dd-maint-2-v3-0-4a15b241bd3c@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -84,99 +84,279 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
  linux-kselftest@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Jim Cromie <jim.cromie@gmail.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>
+ Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780315495; l=3131;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780315495; l=11525;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=h10PnN9dZij/9KIShcmtDym4aMWTMKg/65aOZIHej50=;
- b=7d4cXQrVbi/WeQvP8ZQuwmniE0ZO2BzoQ9gySu/7FaWMnxSGtRwVplsGXCR/85fxmr/fnL+vF
- wSHFrEsdBaeBNH4X2ZDEhDHxsO9POFKRVGtZMsRU54EYlGrkzM4lXm0
+ bh=sEO7u0MUmNyTUFNIPBYBwtZCCgzYuBjfxfoGHbMv0oE=;
+ b=DPwcRKWEUYRhXRmC55DFt4XbR2ofmt1arOnS2i/wN8YubW92I1k8pJhvFDor9/LqQslDrC/N3
+ VZ62XvXMhV/CsYupwAafT1pAtBZ/E9i8lMFkaVFl/5C4jYDJWbI3ouy
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-The Xe driver's XE_IOCTL_DBG macro calls drm_dbg() from inside an if
-(expression).  This breaks when CONFIG_DRM_USE_DYNAMIC_DEBUG=y because
-the invoked macro has a do-while-0 wrapper, and is not an expression.
+Historically dynamic-debug gets its module names from KBUILD_MODNAME.
+This works well for loadable modules, as the module loader has always
+required them to have unique names, but for builtins it is basically
+kbasename(srcfile), which sadly gives us many modules named "main".
 
-   if (cond && (drm_dbg("expr-form"),1)) {
-      ... do some more stuff
-   }
+This makes the following ambiguous:
+  bash-5.3# echo module main +m > /proc/dynamic_debug/control
 
-Fix for this usage by changing __dynamic_func_call_cls{,_no_desc}
-macros into expressions, by replacing the do-while-0s with a ({ })
-wrapper.  In the common usage, the trailing ';' converts the
-expression into a statement.
+since it would affect 4 independent modules named main:
+  bash-5.3# ddgrep =m
+  init/main.c:1265 [main]initcall_blacklist =m "blacklisting initcall %s\n"
+  kernel/power/main.c:49 [main]pm_restore_gfp_mask =m "GFP mask restored\n"
+  kernel/module/main.c:2862 [main]move_module =m "\t0x%lx 0x%.8lx %s\n"
+  drivers/base/power/main.c:149 [main]device_pm_add =m "Adding info for %s:%s\n"
 
-   drm_dbg("statement form");
+We can improve this by using KBUILD_MODFILE for dyndbg's modname in
+builtins, and KBUILD_MODNAME for loadables.
+
+The above control-file entries then become:
+  init/main.c:1265 [init/main]initcall_blacklist ...
+  kernel/power/main.c:49 [kernel/power/main]pm_restore_gfp_mask ...
+  kernel/module/main.c:2862 [kernel/module/main]move_module ...
+  drivers/base/power/main.c:149 [drivers/base/power/main]device_pm_add ...
+
+While this is a user visible change; [params] becomes [kernel/params],
+it is not a behavior change; we now match the query-module against the
+subsystem/module name or its kbasename (the simple-modname), which as
+before, matches all 4 modules.
+
+This allows queries to be specific when desired: "module init/main",
+while preserving the existing meaning of "module main"
+
+The deeper reason for this change is not obvious.  If any builtin
+"main" module were to add a classmap, it would attach to all "main"
+modules.  If 2 "main" modules defined separate classmaps, both modules
+would inadvertently share both classmaps.  Since classmaps map
+classnames to 0..62, and independently defined classmaps are most
+likely to start at 0 (unless author is planning to share the 0..62
+range with other classmaps), we have a setup for later reserved range
+conflicts.  Having unique names prevents future conflicts.
+
+This solution isn't perfect:
+1. it changes displayed [params] to [kernel/params] etc
+2. its mostly redundant with "filename */main.*"
+3. "module power", "module module", "module base/power" might be better
+   but would break old queries.
+
+Adapt dynamic-debug selftest:
+1- Add 'test_subsystem_module_queries' to verify path-based module matching.
+2- Use dynamic counting with precise regexes to determine expectations.
+3- Reorder tests to run slash-query verification immediately after
+   basic tests.
+4- Update basic_tests and comma_terminator_tests to use 'kernel/params'
+   instead of 'params' to match new path-based names for built-ins.
+
+And adjust Documentation
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
-v2:
-
-fix statement-expressions to return 0 (not void) like their respective fallbacks
-
-   1. Add 0; to __dynamic_func_call_cls
-   2. Add 0; to __dynamic_func_call_cls_no_desc
-   3. Convert the disabled fallback of dynamic_hex_dump from do { ... } while(0) to ({ ... 0; })
-
-move RvB after SoB
+v3: new patch in rev-3
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/dynamic-debug-howto.rst  | 40 ++++++++++----------
+ include/linux/dynamic_debug.h                      | 17 +++++++--
+ lib/dynamic_debug.c                                |  3 +-
+ .../selftests/dynamic_debug/dyndbg_selftest.sh     | 44 ++++++++++++++++++++--
+ 4 files changed, 77 insertions(+), 27 deletions(-)
 
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 9c2f096ed1d8..8befb69575b7 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
+ 
+   :#> head -n7 /proc/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
+-  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
+-  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
+-  init/main.c:1426 [main]run_init_process =_ "    %s\n"
+-  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
+-  init/main.c:1429 [main]run_init_process =_ "    %s\n"
++  init/main.c:1179 [init/main]initcall_blacklist =_ "blacklisting initcall %s\n"
++  init/main.c:1218 [init/main]initcall_blacklisted =_ "initcall %s blacklisted\n"
++  init/main.c:1424 [init/main]run_init_process =_ "  with arguments:\n"
++  init/main.c:1426 [init/main]run_init_process =_ "    %s\n"
++  init/main.c:1427 [init/main]run_init_process =_ "  with environment:\n"
++  init/main.c:1429 [init/main]run_init_process =_ "    %s\n"
+ 
+ The 3rd space-delimited column shows the current flags, preceded by
+ a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
+@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
+ 
+   :#> ddcmd '-p; module main func run* +p'
+   :#> grep =p /proc/dynamic_debug/control
+-  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
+-  init/main.c:1426 [main]run_init_process =p "    %s\n"
+-  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
+-  init/main.c:1429 [main]run_init_process =p "    %s\n"
++  init/main.c:1424 [init/main]run_init_process =p "  with arguments:\n"
++  init/main.c:1426 [init/main]run_init_process =p "    %s\n"
++  init/main.c:1427 [init/main]run_init_process =p "  with environment:\n"
++  init/main.c:1429 [init/main]run_init_process =p "    %s\n"
+ 
+ Error messages go to console/syslog::
+ 
+@@ -161,17 +161,19 @@ file
+ 	file kernel/freezer.c	# ie column 1 of control file
+ 	file drivers/usb/*	# all callsites under it
+ 	file inode.c:start_*	# parse :tail as a func (above)
+-	file inode.c:1-100	# parse :tail as a line-range (above)
++	file inode.c:1-100	# parse :tail as a line-range (below)
+ 
+ module
+-    The given string is compared against the module name
+-    of each callsite.  The module name is the string as
+-    seen in ``lsmod``, i.e. without the directory or the ``.ko``
+-    suffix and with ``-`` changed to ``_``.  Examples::
+-
+-	module sunrpc
+-	module nfsd
+-	module drm*	# both drm, drm_kms_helper
++    The query string is compared against the subsystem module name of
++    each callsite, as shown in the control file.  The simple module
++    name is the string as seen in ``lsmod``, i.e. without the
++    directory or the ``.ko`` suffix and with ``-`` changed to ``_``.
++
++    Examples::
++
++	module nfsd        # simple modname (as from lsmod)
++	module init/main   # subsystem modname (as in control file)
++	module drm*	   # both drm, drm_kms_helper
+ 
+ format
+     The given string is searched for in the dynamic debug format
 diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index e4a62cb73267..2d6983186f37 100644
+index 2d6983186f37..aee6f3d0916f 100644
 --- a/include/linux/dynamic_debug.h
 +++ b/include/linux/dynamic_debug.h
-@@ -224,24 +224,26 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
-  * (|_cls):	adds in _DPRINT_CLASS_DFLT as needed
-  * (|_no_desc):	former gets callsite descriptor as 1st arg (for prdbgs)
-  */
--#define __dynamic_func_call_cls(id, cls, fmt, func, ...) do {	\
-+#define __dynamic_func_call_cls(id, cls, fmt, func, ...) ({	\
- 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);	\
- 	if (DYNAMIC_DEBUG_BRANCH(id)) {				\
- 		func(&id, ##__VA_ARGS__);			\
- 		__dynamic_dump_stack(id);			\
- 	}							\
--} while (0)
-+	0; /* match no_printk return value */			\
-+})
- #define __dynamic_func_call(id, fmt, func, ...)				\
- 	__dynamic_func_call_cls(id, _DPRINTK_CLASS_DFLT, fmt,		\
- 				func, ##__VA_ARGS__)
+@@ -8,6 +8,17 @@
  
--#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) do {	\
-+#define __dynamic_func_call_cls_no_desc(id, cls, fmt, func, ...) ({	\
- 	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(id, cls, fmt);		\
- 	if (DYNAMIC_DEBUG_BRANCH(id)) {					\
- 		func(__VA_ARGS__);					\
- 		__dynamic_dump_stack(id);				\
- 	}								\
--} while (0)
-+	0; /* match no_printk return value */				\
-+})
- #define __dynamic_func_call_no_desc(id, fmt, func, ...)			\
- 	__dynamic_func_call_cls_no_desc(id, _DPRINTK_CLASS_DFLT,	\
- 					fmt, func, ##__VA_ARGS__)
-@@ -321,10 +323,12 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
- 	dev_no_printk(KERN_DEBUG, dev, fmt, ##__VA_ARGS__)
- #define dynamic_hex_dump(prefix_str, prefix_type, rowsize,		\
- 			 groupsize, buf, len, ascii)			\
--	do { if (0)							\
-+({									\
-+	if (0)								\
- 		print_hex_dump(KERN_DEBUG, prefix_str, prefix_type,	\
--				rowsize, groupsize, buf, len, ascii);	\
--	} while (0)
-+			       rowsize, groupsize, buf, len, ascii);	\
-+	0;								\
-+})
+ #include <linux/build_bug.h>
  
- #endif /* CONFIG_DYNAMIC_DEBUG || (CONFIG_DYNAMIC_DEBUG_CORE && DYNAMIC_DEBUG_MODULE) */
++/*
++ * Pick the best name for the module:
++ * KBUILD_MODFILE includes the path (e.g., drivers/usb/core/usbcore) for built-ins.
++ * Fall back to KBUILD_MODNAME for modules (loader requires unique names).
++ */
++#ifdef KBUILD_MODFILE
++# define DDEBUG_MODNAME KBUILD_MODFILE
++#else
++# define DDEBUG_MODNAME KBUILD_MODNAME
++#endif
++
+ /*
+  * An instance of this structure is created in a special
+  * ELF section at every dynamic debug callsite.  At runtime,
+@@ -128,9 +139,9 @@ struct _ddebug_class_param {
+ #define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
+ 	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
+ 	static struct _ddebug_class_map __aligned(8) __used		\
+-		__section("__dyndbg_class_maps") _var = {			\
++	__section("__dyndbg_class_maps") _var = {			\
+ 		.mod = THIS_MODULE,					\
+-		.mod_name = KBUILD_MODNAME,				\
++		.mod_name = DDEBUG_MODNAME,				\
+ 		.base = _base,						\
+ 		.map_type = _maptype,					\
+ 		.length = ARRAY_SIZE(_var##_classnames),		\
+@@ -169,7 +180,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
+ 	static struct _ddebug  __aligned(8)			\
+ 	__section("__dyndbg_descs") name = {			\
+-		.modname = KBUILD_MODNAME,			\
++		.modname = DDEBUG_MODNAME,			\
+ 		.function = __func__,				\
+ 		.filename = __FILE__,				\
+ 		.format = (fmt),				\
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index fdb730db385e..7f78c6b3eeaf 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -248,7 +248,8 @@ static int ddebug_change(const struct ddebug_query *query,
  
+ 		/* match against the module name */
+ 		if (query->module &&
+-		    !match_wildcard(query->module, di->mod_name))
++		    !match_wildcard(query->module, di->mod_name) &&
++		    !match_wildcard(query->module, kbasename(di->mod_name)))
+ 			continue;
+ 
+ 		if (query->class_string) {
+diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+index 8b2b7388678e..541a2ea7bcb3 100755
+--- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
++++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+@@ -76,9 +76,9 @@ function handle_exit_code() {
+ # $1 - pattern to match, pattern in $1 is enclosed by spaces for a match ""\s$1\s"
+ # $2 - number of times the pattern passed in $1 is expected to match
+ # $3 - optional can be set either to "-r" or "-v"
+-#       "-r" means relaxed matching in this case pattern provided in $1 is passed
+-#       as is without enclosing it with spaces
+-#       "-v" prints matching lines
++#       "-r" means relaxed matching in this case pattern provided in
++#       $1 is passed as is without enclosing it with spaces "-v"
++#       prints matching lines
+ # $4 - optional when $3 is set to "-r" then $4 can be used to pass "-v"
+ function check_match_ct {
+     pattern="\s$1\s"
+@@ -223,7 +223,7 @@ function basic_tests {
+     check_match_ct =p 0
+ 
+     # module params are builtin to handle boot args
+-    check_match_ct '\[params\]' 4 -r
++    check_match_ct '\[kernel/params\]' 4 -r
+     ddcmd module params +mpf
+     check_match_ct =pmf 4
+ 
+@@ -238,8 +238,44 @@ EOF
+     ddcmd =_
+ }
+ 
++function test_subsystem_module_queries {
++    echo -e "${GREEN}# TEST_SUBSYTEM_MODULE_QUERIES ${NC}"
++    ddcmd =_
++
++    # Find how many 'main' modules we have in total (by basename)
++    # Use a more precise regex to avoid false positives like [irqdomain]
++    local total_main=$(grep -c "\[\([^]]*/\)\?main\]" /proc/dynamic_debug/control)
++    echo "# found $total_main total 'main' modules"
++
++    if [ $total_main -eq 0 ]; then
++        echo "SKIP - no 'main' modules found to test slashes"
++        return
++    fi
++
++    echo "# testing 'module */main'"
++    ddcmd module "*/main" +p
++    # This should match modules that HAVE a slash and end in /main
++    local slash_main=$(grep -c "\[[^]]*/main\]" /proc/dynamic_debug/control)
++    check_match_ct =p $slash_main -r
++
++    echo "# testing 'module init/main' (specific path)"
++    ddcmd =_
++    ddcmd module "init/main" +p
++    local init_main=$(grep -c "\[init/main\]" /proc/dynamic_debug/control)
++    check_match_ct =p $init_main
++
++    echo "# testing 'module main' (basename match)"
++    ddcmd =_
++    ddcmd module main +p
++    # This should match ALL $total_main entries due to kbasename matching
++    check_match_ct =p $total_main
++
++    ddcmd =_
++}
++
+ tests_list=(
+     basic_tests
++    test_subsystem_module_queries
+ )
+ 
+ # Run tests
 
 -- 
 2.54.0
