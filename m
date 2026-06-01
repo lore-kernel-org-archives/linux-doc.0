@@ -1,28 +1,27 @@
 Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7FB3A383C;
-	Mon,  1 Jun 2026 11:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF3839B947;
+	Mon,  1 Jun 2026 11:20:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780312835; cv=none; b=hCjWSiYEnAhAMZ7aliZmxEB8fjRIsKjHIGqtapyzbf87g4hpHFjoaHcrnRzwJLJv/ktZqlLrkk+qh62pZAPeYOl4JpjXGOdl+DYQpAeXZ2p6xZERxWHmvAC0jUkU3RWXWPwP4JOkAOBmBSlety7nW+vnS0jd9zK5+kKXyI/wG2k=
+	t=1780312836; cv=none; b=JPiGpSUvve/oupoOjVAtzu6z4oDBTsJ43WGQ4w3dLZkpDgqEsqnM1+XtkUnCseVyUjeZX6dWnx1Ut01UBoEMrCOYuiBe6S27aRfry1Lg9TSXneeaX6MgxW1vEm99Eso+pTHRWJKwgjW48z+Qm3ARXFrSCePegvINVc7GBt2KhNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780312835; c=relaxed/simple;
-	bh=7SmNXf8juQwgGeX1M3tcXBSdl6icFKu6vp1ous8XMIs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tbSy63wgY/L+vw59GJqVteKsTdlntdmY51WiRgZxa0wO9dzPZnwfTsZuYU6ysZLUrNSH82bXcXlETaTZ8jHBtiOMpvTCawpHvGs0UD3EdY2fSonKK1iauUcRGZ2VIlhvu618kaatlTVwMrHOf8/ZjZbJyHHeFBpWo1loCJ4cIh4=
+	s=arc-20240116; t=1780312836; c=relaxed/simple;
+	bh=Gxton/4wo3wXBqeRE9ui8o2fYIJTnYjXq9a+3voQdSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sJetAFV4kG0AOWHfcaGF1XpoNP+UJbUjqsQAm7FvlTBjKQyAppdOGdEgv4mZ13KwxciUcJScD9rDFzIv8Fbkb4zoN/RiPIIMvGmQfDRpV4ouqssDy3KDK+y0qt5puwFECuNzflFKEUjtZ/IiMEJo9LPeO3trBNS9C/K7pw/arPQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gTWhk28hGzKHN1D;
-	Mon,  1 Jun 2026 19:20:06 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gTWhg5c7WzKHN0w;
+	Mon,  1 Jun 2026 19:20:03 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id D377440561;
-	Mon,  1 Jun 2026 19:20:28 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id 5BB304058C;
+	Mon,  1 Jun 2026 19:20:26 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.109])
-	by APP1 (Coremail) with SMTP id cCh0CgB3ej_iah1qEvbwAA--.46998S6;
-	Mon, 01 Jun 2026 19:20:28 +0800 (CST)
+	by APP1 (Coremail) with SMTP id cCh0CgB3ej_iah1qEvbwAA--.46998S4;
+	Mon, 01 Jun 2026 19:20:24 +0800 (CST)
 From: Zeng Heng <zengheng@huaweicloud.com>
 To: vladimir.murzin@arm.com,
 	xuwei5@huawei.com,
@@ -51,12 +50,10 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	wangkefeng.wang@huawei.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] arm64: kernel: Disable CNP on HiSilicon HIP09
-Date: Mon,  1 Jun 2026 19:20:00 +0800
-Message-ID: <20260601112000.1145391-3-zengheng@huaweicloud.com>
+Subject: [PATCH v3 0/2] arm64: cpufeature: Add WORKAROUND_DISABLE_CNP capability
+Date: Mon,  1 Jun 2026 19:19:58 +0800
+Message-ID: <20260601112000.1145391-1-zengheng@huaweicloud.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260601112000.1145391-1-zengheng@huaweicloud.com>
-References: <20260601112000.1145391-1-zengheng@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,120 +61,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgB3ej_iah1qEvbwAA--.46998S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw47Jr4rurWDuryUtFW5KFg_yoWrXrWfpr
-	13Jr1xJFyUWr13Jry5Jw4UXr15Ca93Jwn0vF1Ut340qr1Yy34UZr18Jw1xGFWUWrykXr4U
-	WF109ryUJr42yrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPIb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
-	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
-	Ij6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
-	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI
-	0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
-	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07jI
-	sjbUUUUU=
+X-CM-TRANSID:cCh0CgB3ej_iah1qEvbwAA--.46998S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFyDJFyxCr47Aw18ur15Arb_yoWfZFX_tr
+	1xKa4rWryfAFy0qayFya4fAryjkFW8tr98GF1IqrZ8GF9Ivr1xCrWrKFyrCws8Z3WSgrWU
+	Ja4DZr1kArZFqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_JFC_Wr1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
+	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
+	WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	jxCztUUUUU=
 X-CM-SenderInfo: p2hqwxhhqjqx5xdzvxpfor3voofrz/
 
 From: Zeng Heng <zengheng4@huawei.com>
 
-HiSilicon HIP09 implements TLB entry matching behavior that deviates
-from the ARM architecture specification when the CNP (Common not Private)
-bit is set in TTBRx_ELx.
+v2: https://lore.kernel.org/all/20260529063132.766491-1-zengheng@huaweicloud.com/
+v1: https://lore.kernel.org/all/20260526015720.206854-1-zengheng@huaweicloud.com/
 
-When TTBRx.CNP=1, TLB entries may be incorrectly shared between CPU
-cores, leading to TLB conflicts and stale mappings. This affects
-coherency and can result in incorrect translations.
+Changes in v3:
+  - Keep CONFIG_ARM64_WORKAROUND_DISABLE_CNP config and generalise
+    ARM64_WORKAROUND_DISABLE_CNP capability.
 
-Add the hardware erratum workaround (Hisilicon erratum 162100125) to
-disable CNP on affected HIP09 cores.
+Changes in v2:
+  - Unify CNP disable workaround into ARM64_WORKAROUND_DISABLE_CNP
 
-Co-developed-by: Tong Tiangen <tongtiangen@huawei.com>
-Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
----
+Zeng Heng (2):
+  arm64: cpufeature: Add WORKAROUND_DISABLE_CNP capability
+  arm64: kernel: Disable CNP on HiSilicon HIP09
+
  Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 16 ++++++++++++++++
- arch/arm64/kernel/cpu_errata.c              | 13 ++++++++++---
- 3 files changed, 28 insertions(+), 3 deletions(-)
+ arch/arm64/Kconfig                          | 20 ++++++++++++++++++++
+ arch/arm64/include/asm/cpucaps.h            |  4 ++--
+ arch/arm64/kernel/cpu_errata.c              | 17 ++++++++++++-----
+ arch/arm64/kernel/cpufeature.c              |  2 +-
+ arch/arm64/tools/cpucaps                    |  2 +-
+ 6 files changed, 38 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 211119ce7adc..cd50059edb85 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -284,6 +284,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100125      | HISILICON_ERRATUM_162100125 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f297517a83b9..75638e37883d 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1273,6 +1273,22 @@ config HISILICON_ERRATUM_162100801
-
- 	  If unsure, say Y.
-
-+config HISILICON_ERRATUM_162100125
-+	bool "Hisilicon erratum 162100125"
-+	default y
-+	select ARM64_WORKAROUND_DISABLE_CNP
-+	help
-+	  On HiSilicon HIP09, TLB entry matching behavior when CNP
-+	  (TTBRx.CNP=1) is enabled differs from the ARM architecture
-+	  specification.
-+
-+	  TLB entries may be incorrectly shared between CPUs, potentially
-+	  causing TLB conflicts and stale mappings.
-+
-+	  Disable CNP support for affected HiSilicon HIP09 cores.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index b0db946568b7..02e0ee5c948c 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -608,6 +608,14 @@ static const struct midr_range erratum_ac04_cpu_23_list[] = {
- };
- #endif
-
-+#ifdef CONFIG_ARM64_WORKAROUND_DISABLE_CNP
-+static const struct midr_range cnp_erratum_cpus[] = {
-+	MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
-+	MIDR_ALL_VERSIONS(MIDR_HISI_HIP09),
-+	{},
-+};
-+#endif
-+
- const struct arm64_cpu_capabilities arm64_errata[] = {
- #ifdef CONFIG_ARM64_WORKAROUND_CLEAN_CACHE
- 	{
-@@ -803,10 +811,9 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- #endif
- #ifdef CONFIG_ARM64_WORKAROUND_DISABLE_CNP
- 	{
--		/* NVIDIA Carmel */
--		.desc = "NVIDIA Carmel CNP erratum",
-+		.desc = "NVIDIA Carmel CNP erratum, or Hisilicon erratum 162100125",
- 		.capability = ARM64_WORKAROUND_DISABLE_CNP,
--		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
-+		ERRATA_MIDR_RANGE_LIST(cnp_erratum_cpus),
- 	},
- #endif
- #ifdef CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
 --
 2.43.0
 
