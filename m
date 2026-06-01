@@ -1,166 +1,119 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6C3403E4
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 09:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC37396590;
+	Mon,  1 Jun 2026 09:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780306937; cv=none; b=mv2sCQ5s9Uw/pufGFRCDclXCCiB+vJpzOuOphJx6qI9fiJD5yiDr0z/TQAwNRCqIoi6xWpjIwJhOovEa1x5ywlZXBaZWQSzYAkTl8T/ZjRu+CsQMzPcKRiWARjC+9IY4Wk7iX+YMgyLOB2LNc73eletVYTVaCRKA7zdeDmDTOng=
+	t=1780307333; cv=none; b=cJAsqBRRSnoRjehMfame9HaEBYe4pZy3KFqqs6ZBxxzSdEFLpFhA9ccgnx8rrUPhUoxozUbqYLP7dnFGs3MdAfLEeX/7w8k6bbAStwZ/Tq4OYOJ5UCVnPrJQiAL/cRWj0SiRwzM4Mfcs2GfE39ziImDjaJuuvfyt2YfRUXDtIM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780306937; c=relaxed/simple;
-	bh=M4KJACFzvesHU8ZcNTqZNU2lBZR0p+BUriDvgnQRgKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQJkuui5Hdhyirq3GoksHH2KOjXqO2qCKNt+VfgeHiytfAo3iKSwOvnpKG2lU+vubq4iVu8wYfaU/XGZKD7sQJK1k5sBx1M9OxO3cuffdD3x91FdlMAIu8kWm/o/Jn8EiamrgglB8w8X3yAhJF/9WAU1fNR4sgaxPdfD64O8uuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ofa4pL1O; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780307333; c=relaxed/simple;
+	bh=4JrklAuaL71xs8Fh7DT8STuKEGBgW1Q8EtKabMapkzA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aOduNjvHnBdNYVUPtpdRluFMnTRPiUEStFMhad9djXeuVTAOtYi5FC2zgQYeJ+14VgbKZ5MfTFx4av3oNz5AASQ7jon5rqqsL3yoc+vLUNvpTr4e+trywp5iInyDEH1ytxcVtCJ++m5O8vEAD5abhThg6mx5q4iywG4yra4PWAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=0MGx/T1E; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ofa4pL1O"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490a765e68eso9614495e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 02:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780306934; x=1780911734; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yej0wnG6WIrmpOSuTlhVpOj2TC3TsG+QHTev2H2YE0M=;
-        b=Ofa4pL1OoOUvRPRqyi5+VclYD2rgWkRgX/TAF4TGLvgpBhTUL1cxiFA2OJqFuwEDTy
-         1OE6qpGBY2BdtNAKBl8GG35OFYjgGnSxwcLTXxOf479Nmxeb47sff9VUc3b9goWt37L4
-         wuQJFSpfoNRPW020fAEvrKILrfK6YIHl9fXNafqRI3MsESArpp+mv3NRzv+5uBI5evU6
-         f/oBPJlPCd7DkdGj7CE6jagHQPKdB3BbkPGtpTYzcdhFJi3lmeWTEfMKHcrEh4ia89aH
-         hSe826dL9jxehElWDqx6gTK6Y8PgenysEXwTJZofUsE2w1jdxLLdpAOP/nH+FiIwSe9+
-         utjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780306934; x=1780911734;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yej0wnG6WIrmpOSuTlhVpOj2TC3TsG+QHTev2H2YE0M=;
-        b=Nc3C+opsNUraZ5sJFWQBR1URadszvlCjJqambj0n4snERFDfesGjxKM0hHbCEQ3/oO
-         OmmKzAfdrGyc/hGMefcX2WbBLT+mAWUEuVlArtE7tHD3WXoeZJKXDJz078pVQyPR/PNG
-         jxprIpUiKkADwEbJQN/Onsbyh6QMCSxTYFcs4i2xu2KOwKioQLpidlu0WHf+hdPF19me
-         v2nwiAgwtQ3BSJHzdaLiAxuUV9Csz/jooI0KTVRCw3YxTHKQS92mw5YgXfJAtLA8Oifb
-         iBKhj1HKcwwtF5yuhBjCnHnhf8zYqjaXj66ejSE14veJDb1sKFN4YCSLsnd6GlZ3GMbq
-         hs4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8lcHML8FnOo6EIAu+1UiixKV58npoBQJdgevAbF044axC32pWDKp8/JNiaHfMXT6Oa/FLVsatN3xg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBpXnsoMyvtSVza0A2Y0D7YKSWzH01bCG1IwS31pMGNmaHiCVv
-	xb2p4wVNuOJ/vi0hNO5+FPFjP9Ulin1m2lydKt3727CgW8us6YGvNJnt
-X-Gm-Gg: Acq92OFqP6Lmh1yR1sV3LSWdefbAuWecssFIbKN2cVfAjxNih91LlK9N+0QxFHlZ64m
-	WXJCyPQXgQFW5AWEx17KYkfJ64F5sPw2LBF6Zmfwz+6N7Hfe32fSKp3LZdLgaIhji9PDx5JjnsX
-	oBHy1/WLnhs/L1AgLY+lcZJv89qnzs7gNUUOrd8TTVinV+4+S5lprU/TPmGxQnK7Cx30/G3e/XB
-	rlW2N4QAoV6Bvf1FCzkF7hPu+tp3oBI8kGfZCKeTOlVhXzVr368mrI9+mLgs8vOUKpUewWzplC/
-	KIL/pUrRiftEsCoOI1I71fbWPEVw2YePb8aPH3vpN9LzBCBFl5tMU74uPTA29PHQwybaWITCyeD
-	QWaj9AsYVoqb6bg7vVIU9IWPi8hYdhQiGARtu8WjREUinm0b5iyuQm9KUVvUlC7sENlJgLjtNba
-	4zIvSK7zFoYU7sm7YRdXsew+K7JA==
-X-Received: by 2002:a05:600d:8497:10b0:490:6869:9601 with SMTP id 5b1f17b1804b1-490a292a48fmr129304845e9.6.1780306934316;
-        Mon, 01 Jun 2026 02:42:14 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d6f3612sm241891185e9.12.2026.06.01.02.42.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 02:42:13 -0700 (PDT)
-Date: Mon, 1 Jun 2026 10:43:11 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v15 06/12] iio: core: add decimal value formatting into
- 64-bit value
-Message-ID: <ah1SUD_QpRLD2WGV@nsa>
-References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
- <20260531-adf41513-iio-driver-v15-6-da09adf1c0dd@analog.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="0MGx/T1E"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=+4ILLVBcCmgg2fmuluXGQIe+Wa8wvQwZl0q7wZ0b1wA=;
+	b=0MGx/T1EiFcOPTEH6lF1r992tIy/Q8e3PhaNOPVs5akFPcfXgZZ6oaexT4tzvH4ZpP20dlPf9
+	KVcFbe/8vDwYApyATtOgB5vKBU16tI0ouoHUG/USqZ07jxw5xL2PErsfNCNc1oomEwZaMLb35ce
+	K6f4ZiCeAlhnlGSH+5OhQ6U=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gTTVF4h5dzLlyD;
+	Mon,  1 Jun 2026 17:40:53 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0197D40562;
+	Mon,  1 Jun 2026 17:48:42 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
+ (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 1 Jun
+ 2026 17:48:38 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<rdunlap@infradead.org>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<kuba@kernel.org>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <sourabhjain@linux.ibm.com>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <masahiroy@kernel.org>, <gshan@redhat.com>,
+	<james.morse@arm.com>, <maz@kernel.org>, <leitao@debian.org>,
+	<yeoreum.yun@arm.com>, <coxu@redhat.com>, <suzuki.poulose@arm.com>,
+	<cfsworks@gmail.com>, <osandov@fb.com>, <jbohac@suse.cz>,
+	<ryan.roberts@arm.com>, <tangyouling@kylinos.cn>, <ritesh.list@gmail.com>,
+	<adityag@linux.ibm.com>, <hbathini@linux.ibm.com>, <bjorn@rivosinc.com>,
+	<songshuaishuai@tinylab.org>, <vishal.moola@gmail.com>,
+	<junhui.liu@pigmoral.tech>, <djordje.todorovic@htecgroup.com>,
+	<austin.kim@lge.com>, <namcao@linutronix.de>, <djbw@kernel.org>,
+	<chao.gao@intel.com>, <seanjc@google.com>, <fuqiang.wang@easystack.cn>,
+	<liaoyuanhong@vivo.com>, <makb@juniper.net>, <graf@amazon.com>,
+	<piliu@redhat.com>, <rafael.j.wysocki@intel.com>,
+	<mario.limonciello@amd.com>, <jbouron@amazon.com>, <chenjiahao16@huawei.com>,
+	<guoren@kernel.org>, <bauerman@linux.ibm.com>, <bgwin@google.com>,
+	<takahiro.akashi@linaro.org>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH v15 02/23] powerpc/crash: Fix possible memory leak in update_crash_elfcorehdr()
+Date: Mon, 1 Jun 2026 17:47:44 +0800
+Message-ID: <20260601094805.2928614-3-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260601094805.2928614-1-ruanjinjie@huawei.com>
+References: <20260601094805.2928614-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260531-adf41513-iio-driver-v15-6-da09adf1c0dd@analog.com>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Sun, May 31, 2026 at 09:30:49AM +0100, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
-> defines the representation of fixed decimal point values into a single
-> 64-bit number. This new format increases the range of represented values,
-> allowing for integer parts greater than 2^32, as bits are not "wasted"
-> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
-> IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 64-bit
-> decimals into integer values used in IIO formatting interfaces, which
-> creates consistency and avoid error-prone manual assignments when using
-> wordpart macros. When doing the parsing, kstrtodec64() is used with the
-> scale defined by the specific decimal format type.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
->  drivers/iio/industrialio-core.c | 47 +++++++++++++++++++++++++++++++++--------
->  include/linux/iio/types.h       | 30 ++++++++++++++++++++++++++
->  2 files changed, 68 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> index bd6f4f9f4533..a88088cac641 100644
-> --- a/drivers/iio/industrialio-core.c
-> +++ b/drivers/iio/industrialio-core.c
-> @@ -19,6 +19,7 @@
->  #include <linux/idr.h>
->  #include <linux/kdev_t.h>
->  #include <linux/kernel.h>
-> +#include <linux/math64.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
->  #include <linux/poll.h>
-> @@ -26,7 +27,6 @@
->  #include <linux/sched.h>
->  #include <linux/slab.h>
->  #include <linux/wait.h>
-> -#include <linux/wordpart.h>
->  
->  #include <linux/iio/buffer.h>
->  #include <linux/iio/buffer_impl.h>
-> @@ -655,6 +655,7 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
->  				  int size, const int *vals)
->  {
->  	int tmp0, tmp1;
-> +	int l = 0;
->  	s64 tmp2;
->  	bool scale_db = false;
->  
-> @@ -698,7 +699,6 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
->  	case IIO_VAL_INT_MULTIPLE:
->  	{
->  		int i;
-> -		int l = 0;
->  
->  		for (i = 0; i < size; ++i)
->  			l += sysfs_emit_at(buf, offset + l, "%d ", vals[i]);
-> @@ -707,8 +707,25 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
->  	case IIO_VAL_CHAR:
->  		return sysfs_emit_at(buf, offset, "%c", (char)vals[0]);
->  	case IIO_VAL_INT_64:
-> -		tmp2 = (s64)((((u64)vals[1]) << 32) | (u32)vals[0]);
-> +		tmp2 = iio_val_s64_from_s32s(vals);
+In get_crash_memory_ranges(), if crash_exclude_mem_range() failed
+after realloc_mem_ranges() has successfully allocated the cmem
+memory, it just returns an error but leaves cmem pointing to
+the allocated memory, nor is it freed in the caller
+update_crash_elfcorehdr(), which cause a memory leak, goto out
+to free the cmem.
 
-I might be missing something but can't we just call
-iio_val_s64_compose()? Likely even inline in sysfs_emit_at()?
+Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc: Hari Bathini <hbathini@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Fixes: 849599b702ef ("powerpc/crash: add crash memory hotplug support")
+Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ arch/powerpc/kexec/crash.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It would match your call to iio_val_s64_decompose() below.
-
-And the above makes me wonder if the compose()/decompose() are not the
-only helpers we need? At least in terms of parameters? I mean, just
-assuming we only have two integers instead of allowing s32* and opening
-the door for misbehave :)?
-
-Don't feel too strong about the above anyways!
-
-- Nuno Sá
+diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+index e6539f213b3d..a520f851c3a6 100644
+--- a/arch/powerpc/kexec/crash.c
++++ b/arch/powerpc/kexec/crash.c
+@@ -502,7 +502,7 @@ static void update_crash_elfcorehdr(struct kimage *image, struct memory_notify *
+ 	ret = get_crash_memory_ranges(&cmem);
+ 	if (ret) {
+ 		pr_err("Failed to get crash mem range\n");
+-		return;
++		goto out;
+ 	}
+ 
+ 	/*
+-- 
+2.34.1
 
