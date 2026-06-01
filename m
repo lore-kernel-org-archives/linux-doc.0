@@ -1,388 +1,356 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47253E2769
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 18:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780337213; cv=pass; b=RQkk1Nhao617yB/cHYQccb/ZjuBQeCd0U+AH0D4Y+9MgTVMFrzqozLvn6RCDCYUWyPmQaR2vVQT7069D9zZSlinuevOyUoEc/Z5cKHvbqmWImraX485ti0kGdJIYFYS5m58PHCmGkFDVnccJ1pBcfsVP8jZGpkz40klmJ1tVJTo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780337213; c=relaxed/simple;
-	bh=ghYY1NsDZ0jpHFccSpot/TCvl6MbOIQ0KElLf2vfeCk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2553E2AA1
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 18:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780337346; cv=none; b=b1Rc1SGbaN8REA2g4lPP+XpvGKv4XQpRXgIGFrj79TfFEGok74SBNSu+WaDOzRZFSB4ERt0kkPWYuU4YjFDYUvWS6XlHSBeqxj9ZRvBVJgvDWp1fgWrm1K51bizGIRzASxsPWwAEshOoUELbnF4e4wiuoiAxchFGOLJmXZ8cKyc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780337346; c=relaxed/simple;
+	bh=xPkR0Crgc+DiudCNfhE4jEgQSZuUow+5dWREHAUDuos=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qU//xdfcJnnRCC0BD3ebkFvMizY6uZIRG6lfn/JBp7r3kcnw74yfMsCF4XKq49pusINEdHj9sJWgBmqkTjOdTnV2Rgklxn/3OWhzk/4CkvxR2fvOEKnnO9Wiwuuzw3g4iR1BJDukXDJfsyV9kpgLlyPA/BKICZQ5tP9Q/TpJoAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q0FzUPxw; arc=pass smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=T4fyqhV0Bn006SMQReyrN+oBRVt0lsYw4/U4co9UaQOaj9XNUw3nc/bFHRtIzrSZToEQTYD7VSrPIem1qZBSaAA+H1yOubSGG6G1nJVGxq43Zcpvy8AMy7w3qDCVKuehodU1ieQQN1n89F1OrXhrzj/xPOB28q3ugO1Z50MMmj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ElQsIOSo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q0FzUPxw"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so2081181f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 11:06:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780337210; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Nz7TBzUUYeTYpRRNQnxNyHv2nP541gSU9LHbF7iO2WCq9QP3xNiIJeCf/xTo54BSdW
-         tg+c6bOd2b7JIVdTAU36CSncXthkq+NsA+VV96LJQZmfCTyw4yuG5JhJtvDSSpepsK4t
-         +nrACMT2W3V/sSXbVFkfdEI0zzWv8eFO9aChBqieaW4aix1lX1pV4yUTtOa2hhfj7Bhn
-         6QJSVZ8Cow7FlKjMwvydy2HxCIYI/4SMbgVtCC4xyQeb3sMPGeIPGkvJPN7qoJXD2pyH
-         AQCPyMa/CNTzCm6UlGq8u9L1YKnVDLu1v2bH335tc7u83zNBV6SLpF3CnCcA3u+pgYIl
-         CsgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=k+NcOvINeD/X7jg493pqLpYD2a6ETdaWQNv9IdTEDm4=;
-        fh=P5EYPNNFWyBKqmwiF9sgAl0Z4XosvKiSNGQ7gzVKVAI=;
-        b=V5izYHEnsgsU/LqefA0lKcDZd7UCvOax6Uh8xK45B+mX2W8JdmBxDPJIohOjSzE86m
-         xkaf6qZxP+ZbJfvZVeaONKTMd4cPXpjQi1l2fhwqIfG6n6QmxRTpBPt0oCBl/54flC4f
-         Iev9dC2aTbPlpqZEBIJE5p2uef9akIOX426eWJorW8yQQPWro2IGLnIb3vAaFr6J3szo
-         Cjz1RIf0JHNfbWRuuR9VkqKj2APoIf6pZBju1vre+ovJAJqQKPUoKtXnLRmopCkVjjI8
-         ExtEGhghslRwfQm2wOoQo0E2bQAHO73EUUtHV95/xT6r4ChlHEqQ7TuLqA370vhEWUbq
-         AnwA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780337210; x=1780942010; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k+NcOvINeD/X7jg493pqLpYD2a6ETdaWQNv9IdTEDm4=;
-        b=Q0FzUPxwzGm/zWFf7Tg8sYP3YVthlIVOEnKgBuyM+ux6CENRgaaHHcMg7poSeU8A8p
-         C5c0/hTZySmDecntt7nqrt9DWz+Eof+ukCjbhR5ykyrlXd8AEZnFaxkSTQGqBZxi3NpJ
-         WPa8uChKUhNX7QI4lvUy/D0+8FzBfJOl1O30qFTHTaqTzl2ji+CDNgR2Q7ydv/3dx0jW
-         ETV8seoMAXU5fM1W3XcIS5w6NuveuwKud9/LnEKY91Y0jzkNiuVhqtU6ge9S3qQwU7c3
-         CEQXt/JOvHukMD9pnQfEw4HfBCS3KtWt2oOGCGb07Hf1jsK9Cvig/ssf0f3kcpi8cObX
-         RxDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780337210; x=1780942010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=k+NcOvINeD/X7jg493pqLpYD2a6ETdaWQNv9IdTEDm4=;
-        b=qRJLP2jx2TPtBdPIlFOeO+C5V2eNdyIpsHTRBsyWf6ZFKkeX5ijhzrVVSRGn07Aw7a
-         6ukLLDFwAxlTitGRnHQJt8oMklZ7aHeKArCaJ5rQVkal6xZQyt0mPQ6fKmb+Xqgp5I/C
-         GAlDbsEE0maURUEvNLF7ZQISdEEvVuA/C+GnIwC8/VTp83n0uE8WbJmdYfZAdksus/AV
-         wO0iUROdg2++GiTmV62x+ntD8PvruIoYUwyJbe/U36Wck6I31TWAjA/s8EvgXUWq/OiY
-         0WYW7ZCOXMtGHtz0W5axxu9Mc2F13/wm+jnd69Ek3387FcOl1r8ZHEUEVpraKhNDuvOl
-         TMOA==
-X-Forwarded-Encrypted: i=1; AFNElJ9VXQhrq+sIpLuBY8rD8v7d0TswZaGpqnkREedKbcd+Tcc9zhjYHj8d6z0QDBc7zVhTM3LkuYxTx28=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOhqc+xH4NxDfH45ZXVu62+fn5jmQB1fOfa4jkzeKSkIj9PnR2
-	x2sGoPax5dd7Q34nGTl5bsE9Ee/IHtmp1i1j+ch8UcAKH1iwkCG/aXk2Ol6a6j97KDWZAlkQypx
-	G/lgOcqMuJbbJmL3MZnhpmyOpBADPMiQ=
-X-Gm-Gg: Acq92OEqwNuK+5nKYz+G+CJ7z9/HytOymsCkAaG5NuGwmwsxmuRH7oS4luh77kMmmUH
-	0xmII4Rvg5H/qcKE00Gq1uZYvHYk6507fWSIEZor3fHSYayOjhLNbbI9Jzuwse61NBg4I6qw8jr
-	JKYAnQmb12t1qrimEbK/bOcgVSaNE8vURkKafdlqcM7wc+uYXpMXB3fPng1W5MRiLZhJkxf/FM2
-	UiHPBC/7TyTaAtcVbsn7PZ6B1kMb/pzU15MitsyS9LNQVLn4qnUhUo6PekfwRLHik3ibJ71RVOp
-	cVI/Lx9OS6MWCYMrGhc0L0Zw6Wkc3uVXyt+MA41/CK07+LjnQw==
-X-Received: by 2002:a5d:58f6:0:b0:45e:e50e:3bc with SMTP id
- ffacd0b85a97d-45ef6b71573mr17744808f8f.29.1780337209883; Mon, 01 Jun 2026
- 11:06:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ElQsIOSo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 201691F008A0
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 18:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780337345;
+	bh=8a1T2nczzhAJXAnulpdxwQnDZVw6jQ0eNgXdqdJ2210=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ElQsIOSovb6sImfus40Yrz5Li8+DGLzEFKLlfhFLKd+8bfXliKY4xhB2jStMziayP
+	 G0l14yWSFn9YwcBhzZDC+AILF2FNRyOsHMYJUKNuxRCfDfmUOm5TBbB0hytX7leVIA
+	 InWwqihtzkV87I07zrTQ0fyPoxhfcKt2y4hDp8YHu2KSmb/xdtyUgfSocy7ymGg+xZ
+	 W4g9hsYegXfnckj+uc1gROGu0BW2tw49Z97QcEq3K678x0xVlus+nBKMD47CTBbGe+
+	 XngGrTm/uESEVTOlwImCR9IJFS10QB7LI6f1NRYNBrZmoCeubIN2mddR36DW3x4Iak
+	 R4dlNyG8wZbcQ==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so1596347e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 11:09:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9KKSLNtj1e4wtLTZMtAH5FCsUxtyJ1CXBWx4y80iyIL246yb9FjaC1ur/iyujIUq73JxJU7mjU324=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywmi1xdbAjG9kNR9np9pDV+wKR86mRp+CrD1ij/vb8yaLug0FvR
+	IxxMRrSLDQHENc7ZGtDGN9A1mkP+RZ27829o2oiD+EbUVOsvOw6nXnqk0CpYZPW1ypc954PywFM
+	HZ64wUGxk4dxshPEP8Y4I7xxrfjMcdfM=
+X-Received: by 2002:a05:6512:3b97:b0:5aa:6e86:55e5 with SMTP id
+ 2adb3069b0e04-5aa6e865850mr1257448e87.13.1780337343486; Mon, 01 Jun 2026
+ 11:09:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528212955.1912856-1-nphamcs@gmail.com> <ahz_iYG4lqWL4g-J@KASONG-MC4>
- <CAKEwX=PzMwXXgq=ULAkFD9UqMz+ewLqhKt+xdGxkV7OmA2QG6w@mail.gmail.com> <CAMgjq7BhOn48xEyC=2j837R7qddfjeBVHMiRqdx8no4ZEBpBLg@mail.gmail.com>
-In-Reply-To: <CAMgjq7BhOn48xEyC=2j837R7qddfjeBVHMiRqdx8no4ZEBpBLg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 1 Jun 2026 11:06:36 -0700
-X-Gm-Features: AVHnY4KpgrZEoyhjTsiexcEZOQjS_1bg9H_7TW6-dFwfjU3rgggaOz11SKO19Jw
-Message-ID: <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
-	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
-	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
-	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
-	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
-	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
-	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
-	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com, haowenchao22@gmail.com
+References: <20260528090913.2759118-1-pierre.gondois@arm.com> <20260528090913.2759118-4-pierre.gondois@arm.com>
+In-Reply-To: <20260528090913.2759118-4-pierre.gondois@arm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 1 Jun 2026 20:08:51 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hwYcvYZJ1jCSo_5vpynOLBciW-4-KeracQTyUCw7fSGw@mail.gmail.com>
+X-Gm-Features: AVHnY4JjEBXOjcgvXxMXg847AEXBp-yEE12VDaag-pa32OsmMQwWVJsebOubX9g
+Message-ID: <CAJZ5v0hwYcvYZJ1jCSo_5vpynOLBciW-4-KeracQTyUCw7fSGw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] cpufreq: Remove driver default policy->min/max init
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, Jie Zhan <zhanjie9@hisilicon.com>, 
+	Lifeng Zheng <zhenglifeng1@huawei.com>, Ionela Voinescu <ionela.voinescu@arm.com>, 
+	Sumit Gupta <sumitg@nvidia.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Huang Rui <ray.huang@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 1, 2026 at 10:45=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
-e:
+On Thu, May 28, 2026 at 11:10=E2=80=AFAM Pierre Gondois <pierre.gondois@arm=
+.com> wrote:
 >
-> On Mon, Jun 1, 2026 at 11:57=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >
-> > On Mon, Jun 1, 2026 at 12:34=E2=80=AFAM Kairui Song <ryncsn@gmail.com> =
-wrote:
-> > >
-> > > For the format part, PHYS don't need that much bits I think,
-> > > so by slightly adjust the format vswap device could be share
-> > > mostly the same format with ordinary device.
-> > >
-> > > For example typical modern system don't have a address space larger
-> > > than 52 bit. (Even with full 64 bits used for addressing, shift it
-> > > by 12 we get 52). Plus 5 for type, you get 57, so you can have a
-> > > marker that should work as long as it shorter than 1000000 for PHYS,
-> > > and shared for all table format since it's not in conflict with
-> > > anything. You have also use a few extra bits so a single swap space
-> > > can be 8 times larger than RAM space, and since we can help
-> > > multiple swap type I think that should be far than enough?
-> > >
-> > > Then you have Shadow back at 001, and zero bit in shadow. The only
-> > > special one is Zswap, which will be 100 now, and that's exactly the
-> > > reserved pointer format in current swap table format, on seeing
-> > > si->flags & VSWAP && is_pointer(swp_tb) you know that's zswap :)
-> >
-> > Are you suggesting we merge the virtual table with main swap table?
-> >
-> > Man, I'd love to do this. There is a problem though - we have a case
-> > where we occupy both backing physical swap AND swap cache. Do you
-> > think we can fit both the physical swap slot handle and the swap cache
-> > PFN into the same slot in virtual table? Maybe with some expanding...?
+> Prior to [1], drivers were setting policy->min/max and
+> the value was used as a QoS constraint. After that change,
+> the values were only temporarily used: cpufreq_set_policy()
+> ultimately overriding them through:
+> cpufreq_policy_online()
+> \-cpufreq_init_policy()
+>   \-cpufreq_set_policy()
+>     \-/* Set policy->min/max */
 >
-> I don't really get why we would need to do that? If you put the PFN
-> info in the virtual / upper layer, then the count info, locking, and
-> all swap IO synchronization (via folio lock), dup (current protected
-> by ci lock / folio lock), and allocation (folio_alloc_swap), are all
-> handled in this layer.
+> This patch reinstate the initial behaviour. This will allow
+> drivers to request min/max QoS frequencies if desired.
+> For instance, the cppc driver advertises a lowest non-linear
+> frequency, which should be used as a min QoS value.
 >
-> The physical / lower layer will just hold a reverse entry on
-> folio_realloc_swap, or no entry at all (no physical layer used, zswap,
-> or after swap allocation but before IO) right?
+> To avoid having drivers setting policy->min/max to default
+> values which are considered as QoS values (i.e. the reason
+> why [1] was introduced), remove the initialization of
+> policy->min/max in .init() callbacks wherever the
+> policy->min/max values are identical to the
+> policy->cpuinfo.min/max_freq.
 >
-> Looking up the actual folio from the physical layer will be a bit
-> slower since it needs to resolve the reverse entry, but the only place
-> we need to do that is things like migrate, compaction (none of them
-> exist yet) which seems totally fine?
-
-All of this is correct, but consider swaping in a vswap entry backed
-by pswap. There are cases where you still want to maintain the pswap
-slots around backing vswap entry, while having the swap cache folio as
-well.
-
-For e.g, at swap in time, we add the folio into the swap cache. First
-of all, we need to hold on to the physical swap slot for IO step. But
-even after IO succeeds, there are cases where you would still like to
-keep physical swap slots around (for e.g, to avoid swapping out again
-if the folio is only speculatively fetched).
-
-So you have to make sure we have space for both the physical swap
-slot, and the swap cache folio's PFN at the same time for each vswap
-entry. So we still need the vtable extension (well maybe the other
-approach I mentioned could work, but I'm not 100% sure).
-
+> Indeed, the previous patch ("cpufreq: Set default
+> policy->min/max values for all drivers") makes this initialization
+> redundant.
 >
-> > > This could be imporved by per-si percpu cluster. Both YoungJun's
-> > > tiering and Baoquan's previous swap ops mentioned this is needed,
-> > > and now vswap also need that. If the vswap is also a si, then it will
-> > > make use of this too.
-> >
-> > Yeah I made the same recommendation when I review swap tier last week:
-> >
-> > https://lore.kernel.org/all/CAKEwX=3DN2XcMHN1jatppOk6wnmz-Shab5XMtTtzgY=
-OzRvU_6YFw@mail.gmail.com/
-> >
-> > I like it, but yeah it will be complicated. That said, I think not
-> > fixing the fast path for tiering/vswap will seriously restrict their
-> > usefulness. We don't want to go back to the old swap allocator days :)
+> The only drivers where these values are different are:
+> - gx-suspmod.c (min)
+> - cppc-cpufreq.c (min)
+> - longrun.c
 >
-> Thanks. Not too complicated, actually our internal kernel
-> implementation still using si->percpu cluster, and use a counter for
-> the rotation and each order have a counter :P, it's a bit ugly but
-> works fine. It still serves pretty well just like the global percpu
-> cluster, YoungJun's previous per ci percpu cluster also still provides
-> the fast path, many ways to do that.
-
-Sounds like something that should be upstreamed? ;)
-
-I was concerned that you might deem the overhead too high (so I came
-up with the per-tier percpu caching), but honestly I like it a lot.
-
+> [1]
+> commit 521223d8b3ec ("cpufreq: Fix initialization of min and
+> max frequency QoS requests")
 >
-> >
-> > >
-> > > YoungJun posted this a few month before:
-> > > https://lore.kernel.org/linux-mm/20260131125454.3187546-5-youngjun.pa=
-rk@lge.com/
-> > >
-> > > The concern is that some locking contention could be heavier, or mayb=
-e
-> > > that's just a hypothetical problem though.
-> >
-> > I don't think it's hypothetical. At least with vswap, it's very easy
-> > to get into a state where the shared per-cpu cache gets invalidated
-> > constantly if phys swap and vswap allocation alternates (which is
-> > actually very possible under heavy memory pressure), hammering the
-> > slow paths...
->
-> I mean if the per-cpu cache is moved to si level, then whoever enters
-> the allocation path of a si will almost always get a stable percpu
-> cache to use, even if the last used si changes.
->
-> We might better have a more explicit per si fast path for that. The
-> plist rotation should better be done in a different (will be even
-> better if lockless) way.
+> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+> Acked-by: Jie Zhan <zhanjie9@hisilicon.com>
 
-Exactly! That's what I'm thinking too. Basically I'm special-casing
-for vswap here, but if you're happy with generalizing this for every
-si I'm happy with it.
+sashiko.dev has some feedback on this patch and appears to have a point:
 
+https://sashiko.dev/#/patchset/20260528090913.2759118-1-pierre.gondois%40ar=
+m.com
+
+Can you have a look at it please?
+
+> ---
+>  drivers/cpufreq/amd-pstate.c      | 14 ++++++--------
+>  drivers/cpufreq/cppc_cpufreq.c    |  5 ++---
+>  drivers/cpufreq/cpufreq-nforce2.c |  4 ++--
+>  drivers/cpufreq/freq_table.c      |  7 +++----
+>  drivers/cpufreq/gx-suspmod.c      |  2 +-
+>  drivers/cpufreq/intel_pstate.c    |  3 ---
+>  drivers/cpufreq/pcc-cpufreq.c     | 10 ++++------
+>  drivers/cpufreq/pxa3xx-cpufreq.c  |  5 ++---
+>  drivers/cpufreq/sh-cpufreq.c      |  6 ++----
+>  drivers/cpufreq/virtual-cpufreq.c |  5 +----
+>  10 files changed, 23 insertions(+), 38 deletions(-)
 >
-> >
-> > >
-> > > >
-> > > > - Runtime enable/disable of the vswap device. To be honest, I don't
-> > > >   know if there is a value in this. My preference is vswap can be
-> > > >   optimized to the point that any overhead is negligible. Failing t=
-hat,
-> > > >   maybe we can come up with some simple heuristics that automatical=
-ly
-> > > >   decides for users?
-> > > >
-> > > >   In this RFC, CONFIG_VSWAP=3Dy means the vswap device is always cr=
-eated at
-> > > >   boot, and CONFIG_VSWAP=3Dn means the vswap device is never create=
-d. This
-> > > >   *might* be enough just on its own.
-> > > >
-> > > >   Is a runtime knob (sysfs or sysctl) worth the complexity beyond
-> > > >   these heuristics? I'm not sure yet. Maintaining both cases
-> > >
-> > > I checked the code and I think it's not hard to do, patch 1 already
-> > > handling the meta data dynamically, everything will still just work
-> > > even if you remove vswap at runtime. The rest of patches need adaptio=
-n
-> > > but might not end up being complex, it other comments here
-> > > are considered.
-> >
-> > Yeah, it's not terribily hard to do. I'm more wondering if it's worth
-> > the effort, both for the implementer and the user :)
-> >
-> > As I said here, if we want vswap, just enable it at boot time and get
-> > a vast (but dynamic) device. We can make it optional per-cgroup
-> > through Youngjun's interface, and that would be good enough?
-> >
-> > >
-> > > For patch 2, a few routines like vswap_can_swapin_thp seems not
-> > > needed or should be moved to __swap_cache_alloc? VSWAP_FOLIO is
-> > > same as swap cache folio check, which is already covered. Same for
-> > > zero checking, and VSWAP_NONE which is same as swap count check
-> > > I think. That way we not only save a lot of code, we also no
-> > > longer need to treat vswap specially.
-> >
-> > Unfortunately, I think a lot of this complexity is still needed. Vswap
-> > adds a new layer, which means new complications :)
-> >
-> > For instance, I think you still need vswap_can_swapin_thp. It
-> > basically enforces that the backend must be something
-> > swap_read_folio() can handle. That means:
-> >
-> > 1. No zswap.
-> >
-> > 2. No mixed backend.
+> diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
+> index 62b5d995281d2..2f0bb732ea173 100644
+> --- a/drivers/cpufreq/amd-pstate.c
+> +++ b/drivers/cpufreq/amd-pstate.c
+> @@ -1086,10 +1086,9 @@ static int amd_pstate_cpu_init(struct cpufreq_poli=
+cy *policy)
 >
-> If mixed backend means phys vs zero vs zswap, then we already have
-> part of that covered with the current swap cache except for the phys
-> part (zswap part seems very doable with fujunjie's work).
-> swap_cache_alloc_folio will ensure there is no mixed zerobit, it can
-> be easily extended to ensure there is no mixed zswap as well
-> (according to what I've learned from fujunjie's code). Similar logic
-> for phys detection I think.
-
-Yeah it's basically generalizing that check, and handle the case where
-we can have indirection.
-
-I mean I can open-code it, but it has to be there :) And I figure it
-might be useful to check this opportunistically (at swap_pte_batch,
-even if it's not guaranteed to be correct down the line) before we
-even attempt to allocate a large folio etc. to avoid large folio
-allocation.
-
+>         perf =3D READ_ONCE(cpudata->perf);
 >
-> > > For memcg table allocation, on demand seems a good idea, and actually
-> > > we are not far from there, I tried to generalize the
-> > > alloc-then-retry-sleep-alloc in swap_alloc_table but still not generi=
+> -       policy->cpuinfo.min_freq =3D policy->min =3D perf_to_freq(perf,
+> -                                                             cpudata->no=
+minal_freq,
+> -                                                             perf.lowest=
+_perf);
+> -       policy->cpuinfo.max_freq =3D policy->max =3D cpudata->max_freq;
+> +       policy->cpuinfo.min_freq =3D perf_to_freq(perf, cpudata->nominal_=
+freq,
+> +                                               perf.lowest_perf);
+> +       policy->cpuinfo.max_freq =3D cpudata->max_freq;
+>
+>         policy->driver_data =3D cpudata;
+>         ret =3D amd_pstate_cppc_enable(policy);
+> @@ -1915,10 +1914,9 @@ static int amd_pstate_epp_cpu_init(struct cpufreq_=
+policy *policy)
+>
+>         perf =3D READ_ONCE(cpudata->perf);
+>
+> -       policy->cpuinfo.min_freq =3D policy->min =3D perf_to_freq(perf,
+> -                                                             cpudata->no=
+minal_freq,
+> -                                                             perf.lowest=
+_perf);
+> -       policy->cpuinfo.max_freq =3D policy->max =3D cpudata->max_freq;
+> +       policy->cpuinfo.min_freq =3D perf_to_freq(perf, cpudata->nominal_=
+freq,
+> +                                               perf.lowest_perf);
+> +       policy->cpuinfo.max_freq =3D cpudata->max_freq;
+>         policy->driver_data =3D cpudata;
+>
+>         ret =3D amd_pstate_cppc_enable(policy);
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufre=
+q.c
+> index 7e7f9dfb7a24c..5abac50df7508 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -660,8 +660,6 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_polic=
+y *policy)
+>          * Section 8.4.7.1.1.5 of ACPI 6.1 spec)
+>          */
+>         policy->min =3D cppc_perf_to_khz(caps, caps->lowest_nonlinear_per=
+f);
+> -       policy->max =3D cppc_perf_to_khz(caps, policy->boost_enabled ?
+> -                                               caps->highest_perf : caps=
+->nominal_perf);
+>
+>         /*
+>          * Set cpuinfo.min_freq to Lowest to make the full range of perfo=
+rmance
+> @@ -669,7 +667,8 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_polic=
+y *policy)
+>          * nonlinear perf
+>          */
+>         policy->cpuinfo.min_freq =3D cppc_perf_to_khz(caps, caps->lowest_=
+perf);
+> -       policy->cpuinfo.max_freq =3D policy->max;
+> +       policy->cpuinfo.max_freq =3D cppc_perf_to_khz(caps, policy->boost=
+_enabled ?
+> +                                                   caps->highest_perf : =
+caps->nominal_perf);
+>
+>         policy->transition_delay_us =3D cppc_cpufreq_get_transition_delay=
+_us(cpu);
+>         policy->shared_type =3D cpu_data->shared_type;
+> diff --git a/drivers/cpufreq/cpufreq-nforce2.c b/drivers/cpufreq/cpufreq-=
+nforce2.c
+> index fbbbe501cf2dc..831102522ad64 100644
+> --- a/drivers/cpufreq/cpufreq-nforce2.c
+> +++ b/drivers/cpufreq/cpufreq-nforce2.c
+> @@ -355,8 +355,8 @@ static int nforce2_cpu_init(struct cpufreq_policy *po=
+licy)
+>                 min_fsb =3D NFORCE2_MIN_FSB;
+>
+>         /* cpuinfo and default policy values */
+> -       policy->min =3D policy->cpuinfo.min_freq =3D min_fsb * fid * 100;
+> -       policy->max =3D policy->cpuinfo.max_freq =3D max_fsb * fid * 100;
+> +       policy->cpuinfo.min_freq =3D min_fsb * fid * 100;
+> +       policy->cpuinfo.max_freq =3D max_fsb * fid * 100;
+>
+>         return 0;
+>  }
+> diff --git a/drivers/cpufreq/freq_table.c b/drivers/cpufreq/freq_table.c
+> index 5b364d8da4f92..ea994647abc88 100644
+> --- a/drivers/cpufreq/freq_table.c
+> +++ b/drivers/cpufreq/freq_table.c
+> @@ -49,16 +49,15 @@ int cpufreq_frequency_table_cpuinfo(struct cpufreq_po=
+licy *policy)
+>                         max_freq =3D freq;
+>         }
+>
+> -       policy->min =3D policy->cpuinfo.min_freq =3D min_freq;
+> -       policy->max =3D max_freq;
+> +       policy->cpuinfo.min_freq =3D min_freq;
+>         /*
+>          * If the driver has set its own cpuinfo.max_freq above max_freq,=
+ leave
+>          * it as is.
+>          */
+>         if (policy->cpuinfo.max_freq < max_freq)
+> -               policy->max =3D policy->cpuinfo.max_freq =3D max_freq;
+> +               policy->cpuinfo.max_freq =3D max_freq;
+>
+> -       if (policy->min =3D=3D ~0)
+> +       if (min_freq =3D=3D ~0)
+>                 return -EINVAL;
+>         else
+>                 return 0;
+> diff --git a/drivers/cpufreq/gx-suspmod.c b/drivers/cpufreq/gx-suspmod.c
+> index d269a4f26f98e..d40c9e0bbb740 100644
+> --- a/drivers/cpufreq/gx-suspmod.c
+> +++ b/drivers/cpufreq/gx-suspmod.c
+> @@ -421,7 +421,7 @@ static int cpufreq_gx_cpu_init(struct cpufreq_policy =
+*policy)
+>                 policy->min =3D maxfreq / max_duration;
+>         else
+>                 policy->min =3D maxfreq / POLICY_MIN_DIV;
+> -       policy->max =3D maxfreq;
+> +
+>         policy->cpuinfo.min_freq =3D maxfreq / max_duration;
+>         policy->cpuinfo.max_freq =3D maxfreq;
+>
+> diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstat=
+e.c
+> index 1f093e3464301..dfc1e321f9e02 100644
+> --- a/drivers/cpufreq/intel_pstate.c
+> +++ b/drivers/cpufreq/intel_pstate.c
+> @@ -3049,9 +3049,6 @@ static int __intel_pstate_cpu_init(struct cpufreq_p=
+olicy *policy)
+>         policy->cpuinfo.max_freq =3D READ_ONCE(global.no_turbo) ?
+>                         cpu->pstate.max_freq : cpu->pstate.turbo_freq;
+>
+> -       policy->min =3D policy->cpuinfo.min_freq;
+> -       policy->max =3D policy->cpuinfo.max_freq;
+> -
+>         intel_pstate_init_acpi_perf_limits(policy);
+>
+>         policy->fast_switch_possible =3D true;
+> diff --git a/drivers/cpufreq/pcc-cpufreq.c b/drivers/cpufreq/pcc-cpufreq.=
 c
-> > > enough I guess.. Good new is the allocation of the table is already
-> > > kind of ondemand, just need to split the detection of these two kind
-> > > of table.
-> >
-> > I have a prototype of this, but I have not tested, so I do not want to
-> > send it out. :)
-> >
-> > TLDR is - I still want to record the memcg for vswap (just not charge
-> > it towards the counter). So we still need memcg_table at both level,
-> > generally - just not allocating until needed (basically if a physical
-> > swap slot in the cluster is directly mapped into PTE). You can kinda
-> > tell, since you pass the folio into the allocation path - with some
-> > care you can distinguish between:
-> >
-> > 1. Virtual swap, or directly maped physical swap -> need memcg_table
-> >
-> > 2. Physical swap, backing vswap -> does not memcg_table.
-> >
-> > Another alternative is you can defer this allocation until the point
-> > where you have to do the charging action. But then you have to be
-> > careful with failure handling, and need to backoff ya di da di da.
-> > Funsies.
-> >
-> > I think I did a mixed of these 2 strategies. Anyway, I'll include the
-> > patch in v2 (if folks like this approach).
-> >
-> > >
-> > > Mean while I also remember we once discussed about splitting the
-> > > accounting for vswap / physical swap? If we went that approach we
-> > > don't need to treat memcg_table specially.
-> >
-> > For the charging behavior, I already have a patch for it actually in
-> > this series (just not the dynamic allocation of the memcg_table field
-> > yet).
-> >
-> > Basically:
-> >
-> > 1. For vswap entry, not backed by phys swap: record swap memcg, hold
-> > reference to pin the memcg, but not charging towards swap.current.
+> index ac2e90a65f0c4..0f185a13577f8 100644
+> --- a/drivers/cpufreq/pcc-cpufreq.c
+> +++ b/drivers/cpufreq/pcc-cpufreq.c
+> @@ -551,13 +551,11 @@ static int pcc_cpufreq_cpu_init(struct cpufreq_poli=
+cy *policy)
+>                 goto out;
+>         }
 >
-> Maybe you don't need to record memcg here since folio->memcg already
-> have that info?
+> -       policy->max =3D policy->cpuinfo.max_freq =3D
+> -               ioread32(&pcch_hdr->nominal) * 1000;
+> -       policy->min =3D policy->cpuinfo.min_freq =3D
+> -               ioread32(&pcch_hdr->minimum_frequency) * 1000;
+> +       policy->cpuinfo.max_freq =3D ioread32(&pcch_hdr->nominal) * 1000;
+> +       policy->cpuinfo.min_freq =3D ioread32(&pcch_hdr->minimum_frequenc=
+y) * 1000;
 >
-> I previously had a patch:
-> https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-7-104795d19815=
-@tencent.com/
+> -       pr_debug("init: policy->max is %d, policy->min is %d\n",
+> -               policy->max, policy->min);
+> +       pr_debug("init: max_freq is %d, min_freq is %d\n",
+> +                policy->cpuinfo.max_freq, policy->cpuinfo.min_freq);
+>  out:
+>         return result;
+>  }
+> diff --git a/drivers/cpufreq/pxa3xx-cpufreq.c b/drivers/cpufreq/pxa3xx-cp=
+ufreq.c
+> index 50ff3b6a69000..06b27cbc59d6a 100644
+> --- a/drivers/cpufreq/pxa3xx-cpufreq.c
+> +++ b/drivers/cpufreq/pxa3xx-cpufreq.c
+> @@ -185,9 +185,8 @@ static int pxa3xx_cpufreq_init(struct cpufreq_policy =
+*policy)
+>         int ret =3D -EINVAL;
 >
-> The defers the recording of memcg, the behavior is almost identical to
-> before, but charging & recording should be cleaner and you don't need
-> to record memcg at allocation time hence maybe reduce the possibility
-> of pinning a memcg. I didn't include that in P4 just to reduce LOC,
-> maybe can be resent or included.
-
-That works-ish when the folio is sitll in swap cache, but say if it's
-vswap backed by zswap (and the swap cache folio has been reclaimed),
-you need a place to store the memcg, no?
-
-Just seems cleaner to centralize this info at vswap layer when it is
-presented, for now anyway, rather than juggling this on a per-backend
-basis.
-
+>         /* set default policy and cpuinfo */
+> -       policy->min =3D policy->cpuinfo.min_freq =3D 104000;
+> -       policy->max =3D policy->cpuinfo.max_freq =3D
+> -               (cpu_is_pxa320()) ? 806000 : 624000;
+> +       policy->cpuinfo.min_freq =3D 104000;
+> +       policy->cpuinfo.max_freq =3D (cpu_is_pxa320()) ? 806000 : 624000;
+>         policy->cpuinfo.transition_latency =3D 1000; /* FIXME: 1 ms, assu=
+med */
 >
-> > 2. For phys swap backing vswap: charging towards swap.current, but
-> > does not record the memcg in its memcg_table, nor does it hold
-> > reference to memcg (its vswap entry holds the reference already)
-> >
-> > 2. For phys swap directly mapped to PTE: charges, records, and holds re=
-ference.
-> >
-> > The motivation here is I do not want vswap entry to shares the same
-> > limit as phys swap counter. If we think of it as "infinite" or
-> > "dynamic", it should not be capped at all, but even if it is charged,
-> > it should be something separate.
+>         if (cpu_is_pxa300() || cpu_is_pxa310())
+> diff --git a/drivers/cpufreq/sh-cpufreq.c b/drivers/cpufreq/sh-cpufreq.c
+> index 642ddb9ea217e..3c99d7009cbe2 100644
+> --- a/drivers/cpufreq/sh-cpufreq.c
+> +++ b/drivers/cpufreq/sh-cpufreq.c
+> @@ -124,10 +124,8 @@ static int sh_cpufreq_cpu_init(struct cpufreq_policy=
+ *policy)
+>                 dev_notice(dev, "no frequency table found, falling back "
+>                            "to rate rounding.\n");
 >
-> Good to know, it's not too messy to make everything dynamic, but if
-> our ultimate goal is to account for them separately, maybe we can save
-> some effort here.
-
-It's not terrible, TBH.
+> -               policy->min =3D policy->cpuinfo.min_freq =3D
+> -                       (clk_round_rate(cpuclk, 1) + 500) / 1000;
+> -               policy->max =3D policy->cpuinfo.max_freq =3D
+> -                       (clk_round_rate(cpuclk, ~0UL) + 500) / 1000;
+> +               policy->cpuinfo.min_freq =3D (clk_round_rate(cpuclk, 1) +=
+ 500) / 1000;
+> +               policy->cpuinfo.max_freq =3D (clk_round_rate(cpuclk, ~0UL=
+) + 500) / 1000;
+>         }
+>
+>         return 0;
+> diff --git a/drivers/cpufreq/virtual-cpufreq.c b/drivers/cpufreq/virtual-=
+cpufreq.c
+> index 4159f31349b16..dc78b74409af4 100644
+> --- a/drivers/cpufreq/virtual-cpufreq.c
+> +++ b/drivers/cpufreq/virtual-cpufreq.c
+> @@ -164,10 +164,7 @@ static int virt_cpufreq_get_freq_info(struct cpufreq=
+_policy *policy)
+>                 policy->cpuinfo.min_freq =3D 1;
+>                 policy->cpuinfo.max_freq =3D virt_cpufreq_get_perftbl_ent=
+ry(policy->cpu, 0);
+>
+> -               policy->min =3D policy->cpuinfo.min_freq;
+> -               policy->max =3D policy->cpuinfo.max_freq;
+> -
+> -               policy->cur =3D policy->max;
+> +               policy->cur =3D policy->cpuinfo.max_freq;
+>                 return 0;
+>         }
+>
+> --
+> 2.43.0
+>
