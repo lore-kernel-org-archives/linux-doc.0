@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CA12236E0;
-	Mon,  1 Jun 2026 19:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5F3360EE1;
+	Mon,  1 Jun 2026 19:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780340800; cv=none; b=WYu7UrrJm1pV8Gxn7v7umIXAL+0bQjJo9QNWKS+7w72TKKnBj+fSNx2V0li4Gx0z9m6nQBsJELS/CiEJI7+Cl+uIy//DjoX4vhuoDM/qq0tsoyfZKWLijD9b0N9cS1FQflEW3lMQq76V/Xk7DKnUeNbhuU2uVcD0ksAl6V9HigQ=
+	t=1780340919; cv=none; b=PM6YfpiOaye3I70RJBBHvjYnaUblMwbYgHzXBsmP6EtWsKBhy/7cyjxT17Akq05UHyrI6IQMu5RiCpLTf4zqHN1PWh0LX5qUCMVUn24L0JnMwA8G+MsrOdo7qiStt7lf1yeKr2gL9BCkI2sCpQ3s9Kr3QcrbC526AgfS7yWjkYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780340800; c=relaxed/simple;
-	bh=cmISLBoZ7V5IprSnEE+/iaGmBvKLkaLwGK2iu7OH72U=;
+	s=arc-20240116; t=1780340919; c=relaxed/simple;
+	bh=eb7084sSUNMCJAClyTtIWei4A5dlaWhLaHbga7K/oq8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D9Ke4WroN5ULCox42Dnq8K4sIRS1PfbgeROuUo4V/Yp14E4nQiL9hCanjxkZ19D78oungdcq7pXCDW5EtCEIR6Rs/3rk2udOjQIR0yXjkVoE4EaBy89LlfyMep63fpko0ozqjO/o9ZlqmcX4pCD5YMM1EF4Z0KtVV5ysl/Fk/K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RPJMzkoS; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=rkjWCz8/8mhzk/gwYVGi9G9B49Zl/ThyjSYpNUJgx83VuYg/XwXv5m3DZPzEsl83cPMoBKOEkZd+O+qspSxO4DzI0YA/AkxHdK3LS7ZlFMxiyFJjtYhWm/nQIdLN9jNrKZmXNNq/JXb64KiLM3wcScKz4IJYBb6DS3OaVeihT9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jwV/Dvmi; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RPJMzkoS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A403440E50
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jwV/Dvmi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 205C340E50
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1780340797; bh=jIbui+TOzTTl1Z1CmdVldqCeJocnq3WNhislILHtezM=;
+	t=1780340918; bh=2mpCoTKfC5sXglQufo/V1Q/cgV/pJRUGqSV59ulBvdI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RPJMzkoSfziGCB1WIN3zgAkxObRcYUa0+gT52YtzPiay5NrCIljsqdfDgFW8cRbF9
-	 ckArS/kHfbwlrpAwEvsy91rAEmxsqXhQRxk84b9ewHgpfb2Nu0dayjJyO/jz2uxI+0
-	 ZDkN7z110xowdsJXEp3mm7dEp708txLEUsUaMhdbsN2m9KD7rkh8ldstUX8184DY2h
-	 HrNFjhqjfEeA+sK5fOBzwtGmXNdqAhsISBxxwsOSZ2UFip9vuns3GOdsM/Fts0EXC/
-	 lrYRFI8bTzzOQw+8r7CJVFSDxv8CqHkLJOz67I8rA+tSp0VJhk+5jQYPpC7rarvA5f
-	 gDH03uiihpgtQ==
+	b=jwV/DvmiFgsdp+aMe/GN35jBovFDVXRtvTL6T3CqOq3VaJNpMTKGTolyVy30FEaKq
+	 lgk2DVw4hvkl8W5OQI+4x2ozDm6EIL616a0/2jKrmaxxnWCEserloKtio0FxJX4wBW
+	 zkfL005yFIaKSj0WwH0Ye3jhehVHIG+tdHYK+P350eTxKrC2sd7f7LI3N798FlMFP1
+	 Kn7VkXHfw3nrIka88k5HSfsapKYZ4jDVnSsFHyW9yxuhQpK6Koy3a+DZtlxixOaH/X
+	 euBUrfiPukNJmwv98ONxJmJe6tjNah/H6/6N0uT06VtlWyEJLsLqDzrYuy0h/WJBJY
+	 RFvlHjaVhZsMg==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A403440E50;
-	Mon,  1 Jun 2026 19:06:37 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 205C340E50;
+	Mon,  1 Jun 2026 19:08:38 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Costa Shulyupin <costa.shul@redhat.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-rt-devel@lists.linux.dev,
+To: Costa Shulyupin <costa.shul@redhat.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: Re: [PATCH v1] docs: real-time: Fix duplicated sched(7) text
-In-Reply-To: <20260531141823.4118954-1-costa.shul@redhat.com>
-References: <20260531141823.4118954-1-costa.shul@redhat.com>
-Date: Mon, 01 Jun 2026 13:06:36 -0600
-Message-ID: <87ldcy84hv.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v1] docs: kernel-parameters: Fix stale sticore file paths
+In-Reply-To: <20260531140541.4115641-1-costa.shul@redhat.com>
+References: <20260531140541.4115641-1-costa.shul@redhat.com>
+Date: Mon, 01 Jun 2026 13:08:37 -0600
+Message-ID: <87h5nm84ei.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,26 +52,27 @@ Content-Type: text/plain
 
 Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> The man page reference appeared twice - once as plain text and
-> once as a hyperlink. Remove the plain text duplicate.
+> Update file paths for sticore references that
+> became stale when drivers were reorganized:
+> - drivers/video/console/sticore.c -> drivers/video/
 >
 > Assisted-by: Claude:claude-opus-4-6
 > Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 > ---
->  Documentation/core-api/real-time/theory.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/Documentation/core-api/real-time/theory.rst b/Documentation/core-api/real-time/theory.rst
-> index 43d0120737f8..92de5654163d 100644
-> --- a/Documentation/core-api/real-time/theory.rst
-> +++ b/Documentation/core-api/real-time/theory.rst
-> @@ -25,7 +25,7 @@ Scheduling
->  ==========
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 459ed0d72aeb..f94ec9f3a75c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7381,10 +7381,10 @@ Kernel parameters
+>  			Set the STI (builtin display/keyboard on the HP-PARISC
+>  			machines) console (graphic card) which should be used
+>  			as the initial boot-console.
+> -			See also comment in drivers/video/console/sticore.c.
+> +			See also comment in drivers/video/sticore.c.
 >  
->  The core principles of Linux scheduling and the associated user-space API are
-> -documented in the man page sched(7)
-> +documented in the man page
->  `sched(7) <https://man7.org/linux/man-pages/man7/sched.7.html>`_.
 
 Applied, thanks.
 
