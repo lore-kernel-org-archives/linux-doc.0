@@ -1,92 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36287285417;
-	Mon,  1 Jun 2026 09:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6C3403E4
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 09:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780306659; cv=none; b=E2wUD7FsNR39966H1/7DgMifBl+I8EsnVEWhcInBjqlvBQDU3de8hLzsdpZVHnfNNcRgDAzrXFadBX4JJf8yUBzjMWQ1aXRH8Bkt4o0Eq/DhqpWhs00qQ9G6upoqu7CGlbeFV+kMl4GXkWDgvQroZYDETt0VvdYSAfDIbN9LV1A=
+	t=1780306937; cv=none; b=mv2sCQ5s9Uw/pufGFRCDclXCCiB+vJpzOuOphJx6qI9fiJD5yiDr0z/TQAwNRCqIoi6xWpjIwJhOovEa1x5ywlZXBaZWQSzYAkTl8T/ZjRu+CsQMzPcKRiWARjC+9IY4Wk7iX+YMgyLOB2LNc73eletVYTVaCRKA7zdeDmDTOng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780306659; c=relaxed/simple;
-	bh=9eE/88fQSqXK3PWBhQXJt59pjMmydVz4iFC/+YtdLa8=;
+	s=arc-20240116; t=1780306937; c=relaxed/simple;
+	bh=M4KJACFzvesHU8ZcNTqZNU2lBZR0p+BUriDvgnQRgKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B23/PMkmUcpc7yUOdCxQ5E7PJ74Lz7u55rBP41mrYdQqLIP18xfvQgu0seABKRjEvU75ZTrZDjT7PFRMx6YK699jKckpP35AuzvrvRw06d7oyW35mR4M7ZybehvyLdXvL7s/fpbSteOy4q3EBgYE1YUf2YxAJqj/4+hVMA1wI4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1PJZNWT; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQJkuui5Hdhyirq3GoksHH2KOjXqO2qCKNt+VfgeHiytfAo3iKSwOvnpKG2lU+vubq4iVu8wYfaU/XGZKD7sQJK1k5sBx1M9OxO3cuffdD3x91FdlMAIu8kWm/o/Jn8EiamrgglB8w8X3yAhJF/9WAU1fNR4sgaxPdfD64O8uuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ofa4pL1O; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1PJZNWT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2F01F00893;
-	Mon,  1 Jun 2026 09:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780306658;
-	bh=AzbXwY67i7orrJSYLIcDP2MIfpMzq9fPfuSJU14oS7I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c1PJZNWT6Jhrtsti0/iLRUjmX2p41TJJfRVGF/3HNXBQB7PyKa2x9bRmyaeFYhkph
-	 S/XYHC6xhKx56Ya51Xak5ZkdEYl7w6jJ5CHtlZipgiVBNEdAMNHH/iRIH0rE/rdUWu
-	 0NcYKv9W6ljVMkX338Av9+n5cEDMlkvl9EyHcrfG4IQCWXZKImq9ht9DNl8Bv5zvtM
-	 ATehWylJaNN+9d/XXQwwW29cYaUrS+pOaBG4dYswLQ5k9wG0aOJ57MhEFaYf6nU2l8
-	 SGi6xk/XJwSfllo85W6VmcGnxePA0rHGqKLm46uy+j9fAJrU+3ZTv7yeI+eHKuE7At
-	 N4eY0MFKY1p+w==
-Date: Mon, 1 Jun 2026 10:37:30 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
-	david@kernel.org, surenb@google.com, vbabka@kernel.org, Liam.Howlett@oracle.com, 
-	ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, seanjc@google.com, 
-	pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, sj@kernel.org, 
-	usama.arif@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org, 
-	kernel-team@meta.com, stable@vger.kernel.org
-Subject: Re: [PATCH v5 04/18] mm: skip out-of-range bits in mk_vma_flags()
-Message-ID: <ah1Sxn5VHLF6jlcU@lucifer>
-References: <20260526130509.2748441-1-kirill@shutemov.name>
- <20260526130509.2748441-5-kirill@shutemov.name>
- <ahmQvfNk7S4F0LBj@lucifer>
- <ahmoH9v6_DA2i_zn@thinkstation>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ofa4pL1O"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490a765e68eso9614495e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 02:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780306934; x=1780911734; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yej0wnG6WIrmpOSuTlhVpOj2TC3TsG+QHTev2H2YE0M=;
+        b=Ofa4pL1OoOUvRPRqyi5+VclYD2rgWkRgX/TAF4TGLvgpBhTUL1cxiFA2OJqFuwEDTy
+         1OE6qpGBY2BdtNAKBl8GG35OFYjgGnSxwcLTXxOf479Nmxeb47sff9VUc3b9goWt37L4
+         wuQJFSpfoNRPW020fAEvrKILrfK6YIHl9fXNafqRI3MsESArpp+mv3NRzv+5uBI5evU6
+         f/oBPJlPCd7DkdGj7CE6jagHQPKdB3BbkPGtpTYzcdhFJi3lmeWTEfMKHcrEh4ia89aH
+         hSe826dL9jxehElWDqx6gTK6Y8PgenysEXwTJZofUsE2w1jdxLLdpAOP/nH+FiIwSe9+
+         utjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780306934; x=1780911734;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yej0wnG6WIrmpOSuTlhVpOj2TC3TsG+QHTev2H2YE0M=;
+        b=Nc3C+opsNUraZ5sJFWQBR1URadszvlCjJqambj0n4snERFDfesGjxKM0hHbCEQ3/oO
+         OmmKzAfdrGyc/hGMefcX2WbBLT+mAWUEuVlArtE7tHD3WXoeZJKXDJz078pVQyPR/PNG
+         jxprIpUiKkADwEbJQN/Onsbyh6QMCSxTYFcs4i2xu2KOwKioQLpidlu0WHf+hdPF19me
+         v2nwiAgwtQ3BSJHzdaLiAxuUV9Csz/jooI0KTVRCw3YxTHKQS92mw5YgXfJAtLA8Oifb
+         iBKhj1HKcwwtF5yuhBjCnHnhf8zYqjaXj66ejSE14veJDb1sKFN4YCSLsnd6GlZ3GMbq
+         hs4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8lcHML8FnOo6EIAu+1UiixKV58npoBQJdgevAbF044axC32pWDKp8/JNiaHfMXT6Oa/FLVsatN3xg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBpXnsoMyvtSVza0A2Y0D7YKSWzH01bCG1IwS31pMGNmaHiCVv
+	xb2p4wVNuOJ/vi0hNO5+FPFjP9Ulin1m2lydKt3727CgW8us6YGvNJnt
+X-Gm-Gg: Acq92OFqP6Lmh1yR1sV3LSWdefbAuWecssFIbKN2cVfAjxNih91LlK9N+0QxFHlZ64m
+	WXJCyPQXgQFW5AWEx17KYkfJ64F5sPw2LBF6Zmfwz+6N7Hfe32fSKp3LZdLgaIhji9PDx5JjnsX
+	oBHy1/WLnhs/L1AgLY+lcZJv89qnzs7gNUUOrd8TTVinV+4+S5lprU/TPmGxQnK7Cx30/G3e/XB
+	rlW2N4QAoV6Bvf1FCzkF7hPu+tp3oBI8kGfZCKeTOlVhXzVr368mrI9+mLgs8vOUKpUewWzplC/
+	KIL/pUrRiftEsCoOI1I71fbWPEVw2YePb8aPH3vpN9LzBCBFl5tMU74uPTA29PHQwybaWITCyeD
+	QWaj9AsYVoqb6bg7vVIU9IWPi8hYdhQiGARtu8WjREUinm0b5iyuQm9KUVvUlC7sENlJgLjtNba
+	4zIvSK7zFoYU7sm7YRdXsew+K7JA==
+X-Received: by 2002:a05:600d:8497:10b0:490:6869:9601 with SMTP id 5b1f17b1804b1-490a292a48fmr129304845e9.6.1780306934316;
+        Mon, 01 Jun 2026 02:42:14 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909d6f3612sm241891185e9.12.2026.06.01.02.42.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 02:42:13 -0700 (PDT)
+Date: Mon, 1 Jun 2026 10:43:11 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v15 06/12] iio: core: add decimal value formatting into
+ 64-bit value
+Message-ID: <ah1SUD_QpRLD2WGV@nsa>
+References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
+ <20260531-adf41513-iio-driver-v15-6-da09adf1c0dd@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ahmoH9v6_DA2i_zn@thinkstation>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260531-adf41513-iio-driver-v15-6-da09adf1c0dd@analog.com>
 
-On Fri, May 29, 2026 at 05:09:56PM +0100, Kiryl Shutsemau wrote:
-> On Fri, May 29, 2026 at 03:00:14PM +0100, Lorenzo Stoakes wrote:
-> > > Add VMA_NO_BIT and have DECLARE_VMA_BIT() resolve any bitnum out
-> > > of range to it. vma_flags_set_flag() drops negative bit values.
-> > > The ternary collapses at compile time, the runtime check folds
-> > > away when the bit is in range, and the common path is unchanged.
-> >
-> > Hmm are you sure it does?
->
-> You were right - I measured it (gcc 15.2, clang 21.1.8, -O2). The
-> DECLARE_VMA_BIT() ternary is fine, but the "if (bit < 0)" guard does not
-> reliably fold: with it, clang stops folding __VMA_UFFD_FLAGS to a constant
-> and gcc keeps a rolled loop; without it, both fold.
->
-> So I've dropped VMA_NO_BIT and gone with your config-gated-mask approach
-> instead: mk_vma_flags_from_masks() plus VMA_UFFD_{MISSING,WP,MINOR,RWP}
-> masks that collapse to EMPTY_VMA_FLAGS when unavailable, so no out-of-range
-> bit ever reaches mk_vma_flags(). __VMA_UFFD_FLAGS now folds to a single
-> constant on both compilers, 32- and 64-bit. Added your Suggested-by.
->
-> I also took your "use the new API" hint and added a prep patch converting
-> the existing userfaultfd_*() helpers to vma_test_any_mask() (Suggested-by
-> you as well). One deviation: vma_test(vma, VMA_UFFD_RWP_BIT) is itself an
-> out-of-bounds *read* on 32-bit (test_bit(43, &one_long)), so the helpers
-> use vma_test_any_mask() with the masks rather than the bit.
->
-> > Either way, I think we should break out any fix like this from the series.
->
-> Agreed - the OOB fix and the other pre-existing fixes will go as a separate
-> series with the RWP work rebased on top.
+On Sun, May 31, 2026 at 09:30:49AM +0100, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
+> defines the representation of fixed decimal point values into a single
+> 64-bit number. This new format increases the range of represented values,
+> allowing for integer parts greater than 2^32, as bits are not "wasted"
+> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
+> IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 64-bit
+> decimals into integer values used in IIO formatting interfaces, which
+> creates consistency and avoid error-prone manual assignments when using
+> wordpart macros. When doing the parsing, kstrtodec64() is used with the
+> scale defined by the specific decimal format type.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  drivers/iio/industrialio-core.c | 47 +++++++++++++++++++++++++++++++++--------
+>  include/linux/iio/types.h       | 30 ++++++++++++++++++++++++++
+>  2 files changed, 68 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index bd6f4f9f4533..a88088cac641 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/idr.h>
+>  #include <linux/kdev_t.h>
+>  #include <linux/kernel.h>
+> +#include <linux/math64.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/poll.h>
+> @@ -26,7 +27,6 @@
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+>  #include <linux/wait.h>
+> -#include <linux/wordpart.h>
+>  
+>  #include <linux/iio/buffer.h>
+>  #include <linux/iio/buffer_impl.h>
+> @@ -655,6 +655,7 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
+>  				  int size, const int *vals)
+>  {
+>  	int tmp0, tmp1;
+> +	int l = 0;
+>  	s64 tmp2;
+>  	bool scale_db = false;
+>  
+> @@ -698,7 +699,6 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
+>  	case IIO_VAL_INT_MULTIPLE:
+>  	{
+>  		int i;
+> -		int l = 0;
+>  
+>  		for (i = 0; i < size; ++i)
+>  			l += sysfs_emit_at(buf, offset + l, "%d ", vals[i]);
+> @@ -707,8 +707,25 @@ static ssize_t __iio_format_value(char *buf, size_t offset, unsigned int type,
+>  	case IIO_VAL_CHAR:
+>  		return sysfs_emit_at(buf, offset, "%c", (char)vals[0]);
+>  	case IIO_VAL_INT_64:
+> -		tmp2 = (s64)((((u64)vals[1]) << 32) | (u32)vals[0]);
+> +		tmp2 = iio_val_s64_from_s32s(vals);
 
-Ack on all and thanks! :)
+I might be missing something but can't we just call
+iio_val_s64_compose()? Likely even inline in sysfs_emit_at()?
 
->
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
+It would match your call to iio_val_s64_decompose() below.
 
-Cheers, Lorenzo
+And the above makes me wonder if the compose()/decompose() are not the
+only helpers we need? At least in terms of parameters? I mean, just
+assuming we only have two integers instead of allowing s32* and opening
+the door for misbehave :)?
+
+Don't feel too strong about the above anyways!
+
+- Nuno Sá
+
