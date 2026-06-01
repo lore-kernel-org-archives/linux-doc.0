@@ -1,127 +1,145 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016C921257E
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 01:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFFD18BBAE;
+	Mon,  1 Jun 2026 02:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780278932; cv=none; b=sRjfGCQJ+IJf0h+s69jgMoteNaLmWlg1odnccCuAmAfose7S/c9vQ/qME+E0uhTmeAbSc39fm5K6D3DhL2PoLbrDqp44TrkBfFHnZyioj9CcMNDLZWgV9fnAxunKpJeQGdA105G/gPl199wuN674uWVjr3oJXKSu/NtTvZ4EkeU=
+	t=1780279466; cv=none; b=RMK+Z0q+86N2lt4HvkNxbwJ9VcfPQuHvXfNPJVWeqsPCxjaiL52Fnv2wJNuujqiI5b2HhoVD+edkVSL6gnTQoaAXuHgTCJkK1woZQYbIMLXhMp+EL0IzqdAKhz0JXvP7nuhRkgHJbHlZXAyXV1n0W4BMrQpuC1LjZFDswrwRXbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780278932; c=relaxed/simple;
-	bh=j4uRY4vfme7Hj8zI1X26nZmyC//UW5FolYkUWvVXqhk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OAEXEyR8zeD7T0MfCGQzJwcuSYVl9BIGJkGsqzFVTTd1prnGjpsTMoi2P5PMkG+5RHY+qF123hlb7+NA7tlFwWq+HVL6V1LQl7Lvs+fjKKZCq89vCDsEfjAD0OMg1t+IxB5pZU7UnB51wxK6zWS8pslL/KbqFcJh5KfMslqo7rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GnCTJd3B; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780279466; c=relaxed/simple;
+	bh=24u0Mc/omcptN/bXvWCbC/xhppIqcwqy22nqFlXk27I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=T6+wpmlYpXlEAd4+ETM1ACnzqm2Ec6SQyCPQUH9BP9y1XeuAn1W3OUTDGC12++3A8i57lOtt1sYFDGfT3Fsa7kwGkWTGzSlvbT0OzDfrdrJVXsH8lmrMMoUs7jQhe0pQhxW4S7nWnj0OxxLkXntlP1515RX7Bn4BA5dtB98P7GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=PqZWk8y9; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GnCTJd3B"
-Message-ID: <bb855309-422b-418d-ae34-54969e01375f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780278918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uQCbMRkdqdDT9GLUSMLXaeh0gg478vZBNxmXwoTOz6U=;
-	b=GnCTJd3BSfUClP+EsrGgz2anJizI1lNps8XDR/4ezY3+8U5Tb14abeAfZv2bzXchAihLYN
-	fo8bwJf0yz6X2MYCySFso5RSnCLFQzVrw/qGsL4jzIsdFzY9+5xj6RAlNCwd23SGSJ8xRa
-	aMauQxDjTgID35xkiQSfsyXbn9R29L4=
-Date: Mon, 1 Jun 2026 09:53:28 +0800
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="PqZWk8y9"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=n6O/rJnqc29q+9bm0i+9ElxVQIbKP87fJyka1ARSiLI=;
+	b=PqZWk8y9AK9nxhWXCFpDQs0N5riIKYx7IJNft1TIUVObqLqzqKxzJPQiaDA+c0nwhCVazVoNL
+	FrU3FWVzaL5zGM3N0EqntW9dSYBqZjafpEkZ0Q4glhkX1PdT1qiEgIDBx3K2Pt7xlpZ31P2hqaP
+	WtnREqT0t4m5J9RIQ04DHf8=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gTHBS34fDz1cyPZ;
+	Mon,  1 Jun 2026 09:56:32 +0800 (CST)
+Received: from kwepemr200004.china.huawei.com (unknown [7.202.195.241])
+	by mail.maildlp.com (Postfix) with ESMTPS id BA9364056C;
+	Mon,  1 Jun 2026 10:04:19 +0800 (CST)
+Received: from [10.67.121.62] (10.67.121.62) by kwepemr200004.china.huawei.com
+ (7.202.195.241) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 1 Jun
+ 2026 10:04:18 +0800
+Message-ID: <2712839c-fb9b-4717-a36f-a0f922115be8@huawei.com>
+Date: Mon, 1 Jun 2026 10:04:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH mm-unstable v18 12/14] mm/khugepaged: avoid unnecessary
- mTHP collapse attempts
-Content-Language: en-US
-To: "David Hildenbrand (Arm)" <david@kernel.org>, npache@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, liam@infradead.org, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com,
- usama.arif@linux.dev
-References: <20260522150009.121603-13-npache@redhat.com>
- <20260531073102.20318-1-lance.yang@linux.dev>
- <65e201dd-10d6-43f6-8758-0fc313158fe7@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <65e201dd-10d6-43f6-8758-0fc313158fe7@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq: Documentation: fix freq_step description
+To: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>
+CC: <linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <zhanjie9@hisilicon.com>,
+	<prime.zeng@hisilicon.com>, <wanghuiqiang@huawei.com>, <xuwei5@huawei.com>,
+	<lihuisong@huawei.com>, <zhenglifeng1@huawei.com>, <yubowen8@huawei.com>,
+	<wangzhi12@huawei.com>
+References: <20260529111122.3321645-1-zhangpengjie2@huawei.com>
+ <f598e862-8120-4922-9d04-6e3729187420@oss.qualcomm.com>
+From: Pengjie Zhang <zhangpengjie2@huawei.com>
+In-Reply-To: <f598e862-8120-4922-9d04-6e3729187420@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemr200004.china.huawei.com (7.202.195.241)
 
 
+On 5/30/2026 10:36 PM, Zhongqiu Han wrote:
+> On 5/29/2026 7:11 PM, Pengjie Zhang wrote:
+>> The conservative governor documentation incorrectly states that setting
+>> freq_step to 0 will use the default 5% frequency step. In reality, since
+>> the governor's initial implementation
+>> commit b9170836d1aa ("[CPUFREQ] Conservative cpufreq governer"),
+>> freq_step=0 has always caused the governor to skip frequency updates
+>> entirely.
+>
+> Hi Pengjie,
+>
+> Thanks for the patch.
+>
+> The documentation fix looks correct: in the current code,
+> cs_dbs_update() has an early goto out when freq_step == 0, which skips
+> the call to get_freq_step() and all subsequent frequency change logic.
+>
+> However, the commit message's historical claim appears to be inaccurate.
+> In the original implementation (b9170836d1aa), freq_step=0 had
+> asymmetric behavior: frequency decreases were skipped (early return),
+> but frequency increases still used the hardcoded 5% fallback (freq_step
+> = 5 after the unlikely(freq_step == 0) check).
+>
+> If so, would it make sense to remove/update the historical claim to
+> avoid the incorrect historical claim?
+>
+Thanks for the careful review.
 
-On 2026/6/1 04:02, David Hildenbrand (Arm) wrote:
-> On 5/31/26 09:31, Lance Yang wrote:
+Agreed. The correct commit for the symmetric freq_step=0 behavior
+should be 8e677ce83bf4 ("[CPUFREQ] conservative: fixup governor to
+function more like ondemand logic"), not b9170836d1aa.
+
+I'll fix the commit message in v2.
+
+On a related note, I have a quick question regarding code readability in
+this area. Currently, the code uses the name "freq_step" for two different
+concepts:
+
+1. `cs_tuners->freq_step`: The tunable exposed via sysfs/documentation,
+    which represents a percentage.
+2. `freq_step = get_freq_step(...)`: The local variable representing the
+    actual calculated frequency step (in kHz). The `if 
+(unlikely(freq_step == 0))`
+    check also applies to this absolute value.
+
+Since mixing a percentage and an absolute kHz value under the same name
+might be slightly confusing for readers, would it make sense to rename the
+local variable (e.g., to `freq_step_khz`) to clearly distinguish the two?
+
+Cheers,
+     Pengjie
+
 >>
->> On Fri, May 22, 2026 at 09:00:07AM -0600, Nico Pache wrote:
->>> There are cases where, if an attempted collapse fails, all subsequent
->>> orders are guaranteed to also fail. Avoid these collapse attempts by
->>> bailing out early.
->>>
->>> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
->>> Acked-by: Usama Arif <usama.arif@linux.dev>
->>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
->>> Signed-off-by: Nico Pache <npache@redhat.com>
->>> ---
->>> mm/khugepaged.c | 24 +++++++++++++++++++++++-
->>> 1 file changed, 23 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->>> index d3d7db8be26c..15b7298bc225 100644
->>> --- a/mm/khugepaged.c
->>> +++ b/mm/khugepaged.c
->>> @@ -1535,9 +1535,31 @@ static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
->>> 			collapse_address = address + offset * PAGE_SIZE;
->>> 			ret = collapse_huge_page(mm, collapse_address, referenced,
->>> 						 unmapped, cc, order);
->>> -			if (ret == SCAN_SUCCEED) {
->>> +
->>> +			switch (ret) {
->>> +			/* Cases where we continue to next collapse candidate */
->>> +			case SCAN_SUCCEED:
->>> 				collapsed += nr_ptes;
->>> +				fallthrough;
->>> +			case SCAN_PTE_MAPPED_HUGEPAGE:
->>> 				continue;
->>> +			/* Cases where lower orders might still succeed */
->>> +			case SCAN_LACK_REFERENCED_PAGE:
->>> +			case SCAN_EXCEED_NONE_PTE:
->>> +			case SCAN_EXCEED_SWAP_PTE:
->>> +			case SCAN_EXCEED_SHARED_PTE:
->>> +			case SCAN_PAGE_LOCK:
->>> +			case SCAN_PAGE_COUNT:
->>> +			case SCAN_PAGE_NULL:
->>> +			case SCAN_DEL_PAGE_LRU:
->>> +			case SCAN_PTE_NON_PRESENT:
->>> +			case SCAN_PTE_UFFD_WP:
->>> +			case SCAN_ALLOC_HUGE_PAGE_FAIL:
+>> Correct the documentation to reflect the actual behavior: freq_step=0
+>> disables frequency changes by the governor entirely.
 >>
->> Nit: shouldn't SCAN_CGROUP_CHARGE_FAIL go with SCAN_ALLOC_HUGE_PAGE_FAIL
->> here?
+>> Fixes: 2a0e49279850 ("cpufreq: User/admin documentation update and 
+>> consolidation")
+>> Signed-off-by: Pengjie Zhang <zhangpengjie2@huawei.com>
+>> ---
+>>   Documentation/admin-guide/pm/cpufreq.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
 >>
->> If charging the current order fails, a smaller order might still fit :)
-> 
-> I think the reasoning was here, that if we are already that close to our mem
-> limit, we should just give up instead of trying to squeeze it in .. :)
-
-Fair point. Just a nit, nevermind :)
+>> diff --git a/Documentation/admin-guide/pm/cpufreq.rst 
+>> b/Documentation/admin-guide/pm/cpufreq.rst
+>> index dbe6d23a5d67..98c724d49047 100644
+>> --- a/Documentation/admin-guide/pm/cpufreq.rst
+>> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+>> @@ -586,8 +586,8 @@ This governor exposes the following tunables:
+>>       100 (5 by default).
+>>         This is how much the frequency is allowed to change in one 
+>> go.  Setting
+>> -    it to 0 will cause the default frequency step (5 percent) to be 
+>> used
+>> -    and setting it to 100 effectively causes the governor to 
+>> periodically
+>> +    it to 0 disables frequency changes by the governor entirely and 
+>> setting
+>> +    it to 100 effectively causes the governor to periodically
+>>       switch the frequency between the ``scaling_min_freq`` and
+>>       ``scaling_max_freq`` policy limits.
+>
+>
