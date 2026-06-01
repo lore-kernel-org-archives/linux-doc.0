@@ -1,197 +1,188 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBBB3BFAE0
-	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 14:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780325057; cv=none; b=nI3fbwstBobrdfA6QPcnndPWhpFu/AcMNBad1u1StK39vRettYb8GrwA+lWkYpox2MgYwDSEvCezBIQxTr7po0FmezsiumRmwnCdfO7kcgfQc2xmDK49VqAWqy8zBEkYy6T7IUr9A8+VXnAWdW46RofgHgkTZE5GQAlm09hSWvk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780325057; c=relaxed/simple;
-	bh=0/6PPPczUPstqdeXFmlTfi2ZpOlCRrU6ph2Il3cBxlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XzAiMPsbW8YoYbTVue88ly4i/PBvYLybZJc1PKg3nUnPne6rLvsTvkkWd31+cp4E3BZcD9RepjK1aYVzTTCfnWDZSejcZcSga3Cb0+lbpLKZbI559IoqxMyKBqPkPDsXAfWHXRjNMLduyz+zQZpPSy3PFEEBHwcgel5X5s5ykTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=I7VK568K; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3945E3A5E9E
+	for <linux-doc@vger.kernel.org>; Mon,  1 Jun 2026 14:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780325987; cv=pass; b=maKeMOAFC3uvuOTR8CrmIbf+0lzTY9A6o/zLYwF1z2aT/TtehuOWpUG53PbyYdqo11nBJ96tm+Z3zEM1Ri/bJaGFzXjgGYcsUGXTLZDANjugssWAkiy93FuTrLrR41CHuPY+njKvYLxd1hiQ/hBBvxjYbfZZIvfYXR0l2XOINBY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780325987; c=relaxed/simple;
+	bh=WzrBFZqfu8DnkLEv7f5e1V0F1EgR/vAbRBb+8qRzHsI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ys+8uKIpQBWvwAsISydAwwfs6zYh5YOEKozSaMRt8BX6m39nUWHyDIPY5HeAM4IcZkZ7G8x5N2meoGH4V+9Z+WkDZgbEwMqjjEz+ghgV3YT3wJnnJ+UpSzBR6k6GolmauK4j1bsS6VuvQSEreQluYQkkz/ujRDhaUKnFweepIEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cosvmb8g; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cHhEGntY; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="I7VK568K"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7dfe7712572so19583887b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 07:44:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cosvmb8g";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cHhEGntY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780325985;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Kzh5a0tVq5+/8roSGK1F3W4YTaJGCvorVh1SK1J8QJA=;
+	b=cosvmb8gNFWJk4+HEo2W9HkjhhyD2zY3JbmR+gTgPQRL5qfDIKSBdRSRBKC7Is2ypVxJoj
+	jJ1oisarcUQUO2xEPXw1WnR5Fg8Lpjf0To7VfZp0jr9tC2mo1TZw24KivF8jxc41DRWWIj
+	9TwZDTLm1Wgij+DkJBqI7AeKYb2NbK4=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-414-ECLW1AvIPcygt8RX-ImFXA-1; Mon, 01 Jun 2026 10:59:44 -0400
+X-MC-Unique: ECLW1AvIPcygt8RX-ImFXA-1
+X-Mimecast-MFC-AGG-ID: ECLW1AvIPcygt8RX-ImFXA_1780325983
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-66032d92cdeso4375728d50.2
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 07:59:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780325983; cv=none;
+        d=google.com; s=arc-20240605;
+        b=D77j3GlKHXMAyWJwWWn+qiO2bgSn6z1dvGhzQYGsvoOw1hsxt6MQoxT8lrCT9oyfMB
+         8FAJbn5Ojhx9Zwl8R9MvQamMa69ZY1kbc4yrZRuY5YiKIo6kgklMqpoAd26hS7m0sbBt
+         Vck+5u5w/RqEq8jXMP2Uk2dgqmqr/En155npA+29Ub1NMQyHWzl6M60a/IJNMaCnrBP1
+         r4W6c4w3IXpz3RWs2WodP6RJVv6F4MtBVuAyase2EwKBF/Tp16iFFpjdFTNVKI9R8VML
+         cUjJ2+TOsd+xhie4r9ng6qsY/IM5a8MDOE4OviregSN7wg8174V/mlw4gzFR/tkIl4Cy
+         R7jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Kzh5a0tVq5+/8roSGK1F3W4YTaJGCvorVh1SK1J8QJA=;
+        fh=977z3ISM51mh4jkQ3aTfn4ahM1xJLMAeBmm9Iv+9RfU=;
+        b=HQG1Zy9vlEAqKZGwwjk3f/y3r5JD5MSqp7yMUkDcCDbHRv0TWZGpdddAftPRuRZfXL
+         JVAbuT+7yiDHK3XQcFld0EWykEP6BetCUbA9d/+NlvnbYTKlYWNbs+Dt/mXGDJuwSgL7
+         PV5p9EgRvc23cJrr8Bwl0vyCAXHRPuakjqH3vNjwF9NumC5/RrRc9BW4osVZnIt3IDcc
+         Wpl4IcVOU2AFhHB29wqNnZaMI7IlAG1bOUjFOWj8FjD+TEqoLAQTcKCPinHe9kpRQ1vR
+         DO+1K1u7+FmuZbbhZSwoXZb7GtWMbX7SaAbQSTzoPa0/QFhS4nh6GTCVm1LWHEMNlM8x
+         7VqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780325055; x=1780929855; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GHCECJLKZVXmKAb51dyXN6SjQcWAQtdhT5+Tc3oFsbc=;
-        b=I7VK568KcEwbosq/EbTGcWrIWERYiWOyjDcOq3m3698R1hXs+AhVn11WSLYA7hAZqU
-         5xCYlKtdJnsx2pxxV6MyphNf449+AoQfu5UTEp4axbZ7n35baxn3uA10sM5sNGkhi/uW
-         SfNSqfMCRuiaYIWdla//HzfOK0w2STY9106SXjsLmds6NdpTHabCk//lVzT9soZ0Lset
-         YxUpeIQ94rHYEJGRqE/SgRbtUhrqKqWgZCg8t5D3LHvsVZACfKtyOOWxW+tf5/BpUMIX
-         xx60JO0o3ZgA/Yfyi9Ge/eikZOTFow9f8aFOhFrhAY7pa0ll6E5J6HIWIMPUCvkt9c0f
-         uh0A==
+        d=redhat.com; s=google; t=1780325983; x=1780930783; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kzh5a0tVq5+/8roSGK1F3W4YTaJGCvorVh1SK1J8QJA=;
+        b=cHhEGntYladA+EVnljPfrs1j5vpKBk7JiJjGnQuMjdZPt+oKKudJ9w28Sq/CjypX0z
+         sijPMFVcpeJLHOgKYIT26DNFZ6QaIWCzHAxTOamtRz4ovPpaBmVOZ7fIhq0O+WdAKNOm
+         4I7ipI8Z2a+H9zFIywIcgeiY6h2WZN+XGmBDf4KdIbjgone82pUykkZPjZhngO+Ade4W
+         F2V0A7AC3IKuqr6EoGimlz6gfWPrq4PWbyaYl3hVntjlZ/iUkSxUTy49OveIoX9Y1HIG
+         ETr5/YxBYf4dVbi54yM/XyzuY7KgcIb5v0pRwqz6FNtU/DwXmi7oUKsXwICwf899Swh/
+         jt7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780325055; x=1780929855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GHCECJLKZVXmKAb51dyXN6SjQcWAQtdhT5+Tc3oFsbc=;
-        b=KzFG/xWiJiEbo7aLEsiDJqNbe6Es9FKuIBsbsIZKdUfUjYCk71CLR9x+c2f2/Ik8pT
-         ibNhZvPa5r54bdPSPI98H9K3ir2rZj4L9pSBYjKi9BmGooU8L6f6uNxaXvteaAsaI32A
-         oqPXZk0yfPhFXNLWP1wl1PZidmvCTE4xIUTztkwlp9Od3MVXiRJLxq7x2627gp/q/f3V
-         1fjb60FfD/SS0NdWu+ti+X6v4nYtTCjjJt8H0tswtZO9/TfZh+FQRZB/NDOCppPaH8yi
-         pfsSNrQ/WKZtW74NsWqO0Hk5o14JzZR317hyQs9N74e87E8kmMreh5GMqoZvOCCCS/Gn
-         6AOw==
-X-Forwarded-Encrypted: i=1; AFNElJ8ra2CGJWuNFo+eXi3+9+v5vgaaU6qmzFEYOZrTf1/xEl29WayTaoYdgWFArbxBMDic98tTgrp+/nk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysOZUGZKyHFX3X27qeFk1hEHIadIEQXW9bzbBoVNw+6/18654C
-	G3vflPduWx4Huc05ZGi2losRoQyLzBDxHgszHvchby7ouGrIjc5LaGGZnefrvY9rzPs=
-X-Gm-Gg: Acq92OE0rY+UGHfYdZq46UMUydlwkYZu7F8NQ5Lj+1wq+Of6vQ86k4ejXKNxJdmCd/z
-	3XzDS0IoF4jp2yRQakqtuOFHdHMDTGEOwpImO8dK7FJk//T+pnUj9RrbvD0/iDcyZI7ueR1K2om
-	4JOkB3Aj7MAbX5tudtXyj25h8YjW3VThtBQwOZbRj81FoalUwIQRstbK1JPH1MhWM+MTLFX9vAX
-	fZwbSiNs+axQ3avkDzmpgqbJtDpbfaMtFJXrbThxvSzhefhhrCpuAEcGpMy3xAT2UlMBvAcPA9D
-	GnKYAmWvw6GjZl0ornQusZVsio/SD36UVpPpKqPlwzmlsDJMEK40u7TXiffZpHWoLeOuxzN6a9o
-	/v82uSTYKE3AbWwsrMXOoAxN89+EiPOwAp3J0GRGYaej2KWjiVIjt3z8FvI412HVNCJOSV43nSz
-	If78zOE259RLgBnmrq4OCa7TGfScde4QnbtNRwFKMDAwM7wI/LhiDf4N2q2bX6cnmooTy+hLYr7
-	1iWhgzvOZLWgJ/ZSJFQyu1C/6LRVEMYRYvZzmgT5PWJLt0B479SbA==
-X-Received: by 2002:a05:690c:3511:b0:7dc:e580:7f8 with SMTP id 00721157ae682-7e05d0172d6mr107595267b3.26.1780325055588;
-        Mon, 01 Jun 2026 07:44:15 -0700 (PDT)
-Received: from google.com (138.200.150.34.bc.googleusercontent.com. [34.150.200.138])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7e17c9ac78asm41186257b3.43.2026.06.01.07.44.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 07:44:15 -0700 (PDT)
-Date: Mon, 1 Jun 2026 10:44:14 -0400
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, rppt@kernel.org, shuah@kernel.org, akpm@linux-foundation.org, 
-	linux-mm@kvack.org, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
-	skhawaja@google.com, graf@amazon.com
-Subject: Re: [PATCH v4 09/13] liveupdate: Remove limit on the number of
- sessions
-Message-ID: <ah2ardT1UjymdMqd@google.com>
-References: <20260530221938.115978-1-pasha.tatashin@soleen.com>
- <20260530221938.115978-10-pasha.tatashin@soleen.com>
- <2vxzfr36fjcj.fsf@kernel.org>
+        d=1e100.net; s=20251104; t=1780325983; x=1780930783;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Kzh5a0tVq5+/8roSGK1F3W4YTaJGCvorVh1SK1J8QJA=;
+        b=OqD9phYwYjq4xvjBELuUtrvF6F9QOf+tVPpDJLTTCbRtRGGosu/BPGVkY29zzJcksp
+         fwKU1uixEueEwRabZql2t/reEAqcHOLpYYvtTtyBWv6uVR6xLJXAqModwpvf+8adgVCr
+         V56ZDrQ7Ekb/iwSno5/UzlBaSncDCag/8g/f1TxC20MrEE51J9owyKHhYjWqEAdPED4T
+         t889bMB7zmZpmUn1pWNdXmi/eKM3VY3X2cOX09PIX0o1IxwWyMOE5fuUEkL0Fu+bOynm
+         UtNcUqiDP9aVMaCJQdmy3KwAk5C70VeKVOWWLuA6y0c8+Rj+Jvr7bMY9bd8e6Wp18NTn
+         H0cQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8VZ0jvTgZ3RrHb5b75gJqmpEf+cK9kKo0QCgnJnZnPu6BROn0YSKmjS1UPH9DZ1WMqPpLYpAUbVcE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT9/0IWEq8QhVHRgCQ8mHenKmUq4EJDNneyGzUvQNL8Ua6Afry
+	1Dpys5zWWFH+/kQYvWKuXenUFKpZVp40I3hiZG3Ps/telj41as+flz3Z616HIwy2W8OXe1LX4im
+	L6Md9UZHgEmdvJ4Jjy6csvWT2YWC9X+rxCPNlc0QRX3ejKWN+6F7rEf82RQYER9Dnr/OA8L6Bub
+	7eUPKVHvzduAMSREdNiuk+k4OZng2gs0WfsJeu
+X-Gm-Gg: Acq92OH2Fg+y6F+BbebpNYP6X/OIJamd4RX3rMubAgc/nxO43uifcZeRvfZ2CodYs8A
+	YuP7Qu5a7rzO96svomGVY2CX/HDtpI19nOTLf21noeyvt9b+qMCBo4zxH67kkImhwfuOkvCvl24
+	r5d6Smgv3bGmji6ILk03hw2n4VVrSPiMVNIZhdTMeAe3BStA4UWNvBlRNaaJ3aDde1saQ6hjl2O
+	J8YGg/SbPZ7H/Or2w==
+X-Received: by 2002:a05:690e:1593:10b0:65e:43a2:82a5 with SMTP id 956f58d0204a3-6605f9416camr7354341d50.55.1780325983519;
+        Mon, 01 Jun 2026 07:59:43 -0700 (PDT)
+X-Received: by 2002:a05:690e:1593:10b0:65e:43a2:82a5 with SMTP id
+ 956f58d0204a3-6605f9416camr7354269d50.55.1780325983033; Mon, 01 Jun 2026
+ 07:59:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2vxzfr36fjcj.fsf@kernel.org>
+References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
+ <20260601032804.96122-1-lance.yang@linux.dev> <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
+ <616de1a8-1cfd-40b8-b04f-7b324be40bfd@linux.dev> <6b11bf0a-769c-4ef2-ac6f-2af38200a6bc@kernel.org>
+ <baa0a462-46e0-44ab-b583-c722ad253afe@linux.dev> <06d9b665-945f-4967-9ed9-b06514478996@kernel.org>
+In-Reply-To: <06d9b665-945f-4967-9ed9-b06514478996@kernel.org>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 1 Jun 2026 09:00:22 -0600
+X-Gm-Features: AVHnY4L3QcDds9Bx9nzJC4wMJL4H0KRuHxJDPSKQUpwkRBzl7EaLMR0JWfpdnXo
+Message-ID: <CAA1CXcAeEGOsqp-ywAQ7GMYQzXEeco-rUxUkk2hEF69HybC4=w@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lance Yang <lance.yang@linux.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com, 
+	matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
+	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
+	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
+	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com, usama.arif@linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06-01 16:03, Pratyush Yadav wrote:
-> On Sat, May 30 2026, Pasha Tatashin wrote:
-> 
-> > Currently, the number of LUO sessions is limited by a fixed number of
-> > pre-allocated pages for serialization (16 pages, allowing for ~819
-> > sessions).
+On Mon, Jun 1, 2026 at 5:14=E2=80=AFAM David Hildenbrand (Arm) <david@kerne=
+l.org> wrote:
+>
+> On 6/1/26 12:47, Lance Yang wrote:
 > >
-> > This limitation is problematic if LUO is used to support things such as
-> > systemd file descriptor store, and would be used not just as VM memory
-> > but to save other states on the machine.
 > >
-> > Remove this limit by transitioning to a linked-block approach for
-> > session metadata serialization. Instead of a single contiguous block,
-> > session metadata is now stored in a chain of 16-page blocks. Each block
-> > starts with a header containing the physical address of the next block
-> > and the number of session entries in the current block.
+> > On 2026/6/1 18:23, David Hildenbrand (Arm) wrote:
+> >> On 6/1/26 11:08, Lance Yang wrote:
+> >>>
+> >>>
+> >>>
+> >>> One small thing, I think we should probably keep the smp_wmb(), and j=
+ust
+> >>> move it before the earlier pmd_populate().
+> >>>
+> >>> IIUC, the ordering we want is still:
+> >>>
+> >>>    clear old PTEs
+> >>>    smp_wmb()
+> >>>    pmd_populate()
+> >>>
+> >>> so another CPU cannot walk through the re-installed PMD and still obs=
+erve
+> >>> the old PTEs, right?
+> >>
+> >> There is a smp_wmb() in __folio_mark_uptodate(), that should be suffic=
+ient?
 > >
-> > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> [...]
-> > @@ -63,13 +58,15 @@
-> >  #define _LINUX_KHO_ABI_LUO_H
-> >  
-> >  #include <linux/align.h>
-> > +#include <linux/kho/abi/block.h>
-> >  #include <uapi/linux/liveupdate.h>
-> >  
-> >  /*
-> >   * The LUO state is registered under this KHO entry name.
-> >   */
-> >  #define LUO_KHO_ENTRY_NAME	"LUO"
-> > -#define LUO_ABI_COMPATIBLE	"luo-v3"
-> > +#define LUO_COMPAT_BASE		"luo-v3"
-> > +#define LUO_ABI_COMPATIBLE	LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE
-> 
-> That's clever :-)
-> 
-> [...]
-> >  int luo_session_serialize(void)
-> >  {
-> >  	struct luo_session_header *sh = &luo_session_global.outgoing;
-> >  	struct luo_session *session;
-> > -	int i = 0;
-> > +	struct kho_block_it it;
-> >  	int err;
-> >  
-> >  	down_write(&luo_session_serialize_rwsem);
-> >  	down_write(&sh->rwsem);
-> >  	*sh->sessions_pa = 0;
-> >  
-> > +	kho_block_it_init(&it, &sh->block_set);
-> > +
-> >  	list_for_each_entry(session, &sh->list, list) {
-> > -		err = luo_session_freeze_one(session, &sh->ser[i]);
-> > -		if (err)
-> > +		struct luo_session_ser *ser = kho_block_it_next(&it);
-> > +
-> > +		if (!ser) {
-> > +			err = -ENOSPC;
-> >  			goto err_undo;
-> > +		}
-> >  
-> > -		strscpy(sh->ser[i].name, session->name,
-> > -			sizeof(sh->ser[i].name));
-> > -		i++;
-> > -	}
-> > +		err = luo_session_freeze_one(session, ser);
-> > +		if (err) {
-> > +			kho_block_it_prev(&it);
-> > +			goto err_undo;
-> > +		}
-> >  
-> > -	if (sh->header_ser && sh->count > 0) {
-> > -		sh->header_ser->count = sh->count;
-> > -		*sh->sessions_pa = virt_to_phys(sh->header_ser);
-> > +		strscpy(ser->name, session->name, sizeof(ser->name));
-> >  	}
-> > +
-> > +	kho_block_it_finalize(&it);
-> > +
-> > +	if (sh->sessions_pa && sh->count > 0)
-> 
-> Nit: Why check for sh->sessions_pa? It can never be NULL.
+> > Ah, cool! __folio_mark_uptodate() already does the job :P
+> >
+> > So yeah, no extra smp_wmb() needed here!
+>
+> Yeah. BTW, I think we'd need a spin_lock_nested(), so @Nico, treat my cod=
+e as a
+> draft.
 
-Good point, I will remove it.
+Okay, I read the above and did some investigating.
 
-> 
-> Other than this, 
-> 
-> Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
-> 
-> > +		*sh->sessions_pa = sh->block_set.head_pa;
-> >  	up_write(&sh->rwsem);
-> >  
-> >  	return 0;
-> >  
-> >  err_undo:
-> >  	list_for_each_entry_continue_reverse(session, &sh->list, list) {
-> > -		i--;
-> > -		luo_session_unfreeze_one(session, &sh->ser[i]);
-> > -		memset(sh->ser[i].name, 0, sizeof(sh->ser[i].name));
-> > +		struct luo_session_ser *ser = kho_block_it_prev(&it);
-> > +
-> > +		luo_session_unfreeze_one(session, ser);
-> > +		memset(ser->name, 0, sizeof(ser->name));
-> >  	}
-> >  	up_write(&sh->rwsem);
-> >  	up_write(&luo_session_serialize_rwsem);
-> 
-> -- 
-> Regards,
-> Pratyush Yadav
+I will try to implement and verify the changes you suggested :)
+
+Or an even crazier idea... what if we ensure MIPS checks for PMD_none
+before walking a PTE table?
+
+-- Nico
+
+>
+> --
+> Cheers,
+>
+> David
+>
+
