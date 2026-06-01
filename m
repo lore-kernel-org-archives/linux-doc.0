@@ -1,148 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843EC3290B8;
-	Mon,  1 Jun 2026 17:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C775E3DCD90;
+	Mon,  1 Jun 2026 17:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780333732; cv=none; b=aZ+cXghaMiAyvYGEgSar7c4xMo8iRW3Ke7gwyQgj6+5MjKe4CxGVexsW9H4Y/lHIdH6QKVO+hTgcKURsTqqysv6xEccxYG9W5zJXYJSTv0iMnMYOTO5DKtUpFZGlfTK23HcaapKTS8AQ4Me5loe03AWZ6vihMZaXTttcqCzb9yk=
+	t=1780334280; cv=none; b=X4oprCErwSww8//M1Y7EgfF15n26B2zUqrboNLSkxsMhoJMMgvXVMz8QB7jFU2hXgf0uCmFqGvI7/JV63NsZnQWnqW2Ohn1eQJpOMElRMyQP8oeAkJdeJBL+7cDSUpdt+j+d05Dmya0x5sk1gnRuSbbl6a39UjuuprHVehPINAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780333732; c=relaxed/simple;
-	bh=R+4vZaN1xqN/LsQ2xys8py3kf5DHCcgY9FypPzBEApY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MwS0dXttu3ANdetL06IU8fB5lLHG/C0eBV8DFMS03Mla3J/m4oboxFC8ajzQH2f1dsQCsuHfaGYVCEQEPHNSguCn7Ccpzw7Ux92hA6KiPkCmvqgtD2P3kCffRtNoGKvveKqY/ztbe+Xu8c9cdmG4ssZ2OBwkjvnthDyOtm5eg58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdiSuNz6; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdiSuNz6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B72B1F00893;
-	Mon,  1 Jun 2026 17:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780333731;
-	bh=EBXI4HbJibjDLVvDetMK7+6KAjdi6I5+A1gy4GVSqbY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hdiSuNz63MftBuD8XNFnT8sEmDqA1Vfhdf0FTLIV0LEyU9ZfxYDXAgk2Pk8RT5LEb
-	 Jrdn+y0//I/UejlL3wJOCX2Laq65odRaPmXRHWfIXTXAzkmoVV0qEVeqqNU/cXnF3b
-	 vte2aEfqZcJowbZf/aBEwMelM7YB+ppWKwOOoFYYCMHE3siBqhx45paLmoZhnDaDkq
-	 0GjY/6l8xiQOANQGNuqD/dbt9vxee/tRcAA8W73u6Mb9X2jGWHa26QmsrT9itRWkwL
-	 l51vmTttsVev/EPzBafewKWUkGMIZ4GYFwpbKtDHPHVNKQwx6K8dKm6mPMHMZx1cbY
-	 U0bTqbsxsEcqw==
-Date: Mon, 1 Jun 2026 18:08:34 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
-	aarcange@redhat.com, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
-	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com, 
-	linux-s390@vger.kernel.org, linux-next@vger.kernel.org
-Subject: Re: [PATCH mm-hotfixes-unstable v18 00/14] khugepaged: add mTHP
- collapse support
-Message-ID: <ah2z26OzPktchVeT@lucifer>
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522134724.f4f11941a85ef18b307d16ae@linux-foundation.org>
- <20260601155808.2755103A59-agordeev@linux.ibm.com>
+	s=arc-20240116; t=1780334280; c=relaxed/simple;
+	bh=LQUTB94cM9nNiaq73r39iQB5cbmgYYtvftmacB4sm7g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tmW6qOlVUZRbNDgepx3tAw9CrnilktWfraOu5E8q3qYo7QI8/L154bhTYxaMVgQ9kP3L10ykIpdfLyo+tTPJOpxllJsBxf3JjrKiHonyWKAMtWsje6nsxPTNNNSiuOA9WsN1rzb8VTzrtgVdrkuXLbgV4uhGKBtkoBxx9YbdiC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=nefkom.net; arc=none smtp.client-ip=212.18.0.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nefkom.net
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gTgTB64v4z1r5hp;
+	Mon,  1 Jun 2026 19:10:38 +0200 (CEST)
+Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4gTgTB21gvz1r5hh;
+	Mon,  1 Jun 2026 19:10:38 +0200 (CEST)
+Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
+	by mail.m-online.net (Postfix) with ESMTP id 4gTgTB094jz1qqlT;
+	Mon,  1 Jun 2026 19:10:38 +0200 (CEST)
+X-Virus-Scanned: amavis at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.6.182])
+ by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
+ with ESMTP id 4ObbziePTiqW; Mon,  1 Jun 2026 19:10:37 +0200 (CEST)
+X-Auth-Info: 5KwVlaw+khWHn6gx4eE0zoJA0qIH7ypG7QdiocwwDCnNkXIZNIRcKtK9irFsGuR+
+Received: from igel.home (aftr-82-135-83-133.dynamic.mnet-online.de [82.135.83.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon,  1 Jun 2026 19:10:37 +0200 (CEST)
+Received: by igel.home (Postfix, from userid 1000)
+	id C844A2C16DB; Mon,  1 Jun 2026 19:10:36 +0200 (CEST)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>,
+  Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
+  Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
+ <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
+ Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
+ Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
+ Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
+ Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
+ Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
+ <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
+ <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
+ <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
+ =?utf-8?Q?rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  Andreas Hindborg <a.hindborg@kernel.org>,
+  Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
+  Benno Lossin <lossin@kernel.org>,  linux-kernel@vger.kernel.org,
+  linux-fsdevel@vger.kernel.org,  linux-mm@kvack.org,
+  linux-riscv@lists.infradead.org,  devicetree@vger.kernel.org,
+  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kselftest@vger.kernel.org,  alistair.francis@wdc.com,
+  richard.henderson@linaro.org,  jim.shu@sifive.com,  andybnac@gmail.com,
+  kito.cheng@sifive.com,  charlie@rivosinc.com,  atishp@rivosinc.com,
+  evan@rivosinc.com,  cleger@rivosinc.com,  alexghiti@rivosinc.com,
+  samitolvanen@google.com,  broonie@kernel.org,
+  rick.p.edgecombe@intel.com,  rust-for-linux@vger.kernel.org,  Zong Li
+ <zong.li@sifive.com>
+Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
+ | VM_WRITE
+In-Reply-To: <CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
+	(Deepak Gupta's message of "Mon, 1 Jun 2026 09:22:17 -0700")
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
+	<87jyslndo4.fsf@igel.home>
+	<CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
+	<875x44o9hj.fsf@igel.home>
+	<CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
+Date: Mon, 01 Jun 2026 19:10:36 +0200
+Message-ID: <871peqgp9v.fsf@igel.home>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601155808.2755103A59-agordeev@linux.ibm.com>
+Content-Type: text/plain
 
-On Mon, Jun 01, 2026 at 05:58:08PM +0200, Alexander Gordeev wrote:
-> On Fri, May 22, 2026 at 01:47:24PM -0700, Andrew Morton wrote:
->
-> Hi Andrew et al,
->
-> > On Fri, 22 May 2026 08:59:55 -0600 Nico Pache <npache@redhat.com> wrote:
-> >
-> > > The following series provides khugepaged with the capability to collapse
-> > > anonymous memory regions to mTHPs.
-> >
-> > Thanks, I've update mm.git's mm-unstable branch to this version.
-> >
-> > It sounds like I might be dropping it soon, haven't started looking at
-> > that yet.  But let's at least eyeball the latest version at this time.
-> >
-> > Sashiko was able to apply this, so the base-it-on-hotfixes thing worked
-> > well, thanks.  The AI checking made a few allegations:
->
-> This series appears to cause hangs on s390 in linux-next.
-> The issue is not easily reproducible, so it is not yet confirmed.
-> Any ideas for a reliable reproducer that exercises the code path below?
->
->     [ 2749.385719] sysrq: Show Blocked State
->     [ 2749.385730] task:khugepaged      state:D stack:0     pid:209   tgid:209   ppid:2      task_flags:0x200040 flags:0x00000000
->     [ 2749.385735] Call Trace:
->     [ 2749.385736]  [<0000017f63c8b226>] __schedule+0x316/0x890
->     [ 2749.385740]  [<0000017f63c8b7dc>] schedule+0x3c/0xc0
->     [ 2749.385743]  [<0000017f63c8b888>] schedule_preempt_disabled+0x28/0x40
->     [ 2749.385746]  [<0000017f63c902ea>] rwsem_down_write_slowpath+0x2fa/0x8b0
->     [ 2749.385749]  [<0000017f63c90910>] down_write+0x70/0x80
->     [ 2749.385752]  [<0000017f6313407a>] collapse_huge_page+0x2ea/0x9e0
->     [ 2749.385755]  [<0000017f6313491e>] mthp_collapse+0x1ae/0x1f0
->     [ 2749.385757]  [<0000017f63134fda>] collapse_scan_pmd+0x67a/0x8f0
->     [ 2749.385760]  [<0000017f6313751a>] collapse_single_pmd+0x15a/0x260
->     [ 2749.385762]  [<0000017f6313792c>] collapse_scan_mm_slot.constprop.0+0x30c/0x470
->     [ 2749.385765]  [<0000017f63137cb6>] khugepaged+0x226/0x240
->     [ 2749.385768]  [<0000017f62db3128>] kthread+0x148/0x170
->     [ 2749.385770]  [<0000017f62d2c238>] __ret_from_fork+0x48/0x220
->     [ 2749.385772]  [<0000017f63c95d0a>] ret_from_fork+0xa/0x30
->
-> Thanks!
+On Jun 01 2026, Deepak Gupta wrote:
 
-Hi Alexander,
+> This was settled when x86 introduced shadow stack. Instead of having
+> new `PROT_`, it was agreed to create a new syscall for mapping shadow
+> stack memory (syscall: `map_shadow_stack`). Scenarios like `clone3` or
+> co-routines required manufacturing a shadow stack, thus necessitating a
+> new mechanism to create shadow stack style memory in demand. Instead
+> of having a new PROT_ flag,  a new syscall was created.
 
-Thanks for the report.
+So what prevents riscv from making use of VM_SHADOW_STACK similar as
+x86, without the user visible effects?
 
-It's a pity it's non-repro, I had Claude have a look at it and it couldn't find
-a definite issue with the code at v18, all the locks seem balanced internally.
-
-Things it highlighted FWIW:
-
-- Far more mmap_write_lock()'s being taken - the stack-based approach calls
-  colapse_huge_page() multiple times per-PMD each of which entails an mmap read
-  lock/unlock and mmap write lock.
-
-- anon_vma write lock held for a much longer period over partial collapse.
-
-So maybe these are triggering issues rather than being the cause of them per-se?
-
-If you happen to see it again could you give the output for:
-
-'echo t > /proc/sysrq-trigger' so we can track who holds the contended lock and
-get more details on it?
-
-Also the .config would be useful.
-
-I'm guessing you've also not enabled mTHP in any way on the system?
-
-Repro-wise you could also:
-
-# echo 1 > /sys/kernel/mm/transparent_hugepage/khugepaged/scan_sleep_millisecs
-# echo 1 > /sys/kernel/mm/transparent_hugepage/khugepaged/alloc_sleep_millisecs
-
-To get khugepaged going a more aggressively:
-
-$ for f in /sys/kernel/mm/transparent_hugepage/hugepages-*; do echo always | sudo tee $f/enabled; done
-
-Then maybe some stress-ng like sudo stress-ng --vm 4 --vm-bytes 2G --vm-method
-all --timeout 5m (or maybe something more refined :)?
-
-Maybe some of this will help repro more reliably?
-
-Cheers, Lorenzo
+-- 
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
