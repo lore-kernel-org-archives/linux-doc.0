@@ -1,106 +1,179 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7522E7F39
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 06:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+Received: from outbound.baidu.com (mx21.baidu.com [220.181.3.85])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 8E7412E7F39;
+	Tue,  2 Jun 2026 06:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.3.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780380945; cv=none; b=PFRNKNtkKSJ5wia1PbiEsnQRi3Ud/gQmGjM8WYXjPUJ8IGJJin3rb16mhRijIUZWc7HGZGwC0jOisJ/AZW0/91i/lBPNdkFMnTAaFQeRIENeK/rdVcadHtHSme/P77uEvUeMgycHmi0N9MMfsFRV81CH+tTUmkFSTJb7G6FEQa0=
+	t=1780381324; cv=none; b=mnmTWdZRskqtUvVchUN2+WJxlSp+SVIl48kjsqkzTc2T8ogZNKOqucfGbHgtdW8K/ZgfvzOeLTt1UKVeMiIrbtSX9M3cXit8ngX8RSfVtx5rfP26+2y7ohpWWVuDCR+5/UTxEW+M+fFtR9EGXjVdMAMalCstRCVtzrQoWt/7hss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780380945; c=relaxed/simple;
-	bh=1X/bccwOfssWIS6ajyQ189AljJH2LtuBT18CMIZ+1Ls=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kcrP/5oisw7dHv3lgDVaYgaxcTVoYHc3Gn5xL4WCR18zQFFQZHNy1K3aImYN4Oc2CL3rm9psmRFaGMNGzJ+9iXXrhZgIHOkv8zazh9pRoRV+k5SKqHdsz9oyhAsg3wNhwpLA3StTYt6x68WrcqnvXjB0KiU5q9zx/nHU1N6e8Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZXNPCuao; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1780381324; c=relaxed/simple;
+	bh=UCampyD53bPnSyM0B6ONAmrFee8hi5bD4X1UJZOEVys=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HrnGtrcoVmQsLidLEqQHZRBWQg/4QCHt3i/NNFCXzxcyRSF4T+2QC9cab2FPudw91/dFuKUltF6bu2+C77wZkyTbiKDBoriKS/SQH1VR0mPSBcIYW+pXWPXTpk1U/80xq3v10yWyV+kAXqvHHXJu/9CN4Evdi8CFxznmqnuYnHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=eZoTWzSY; arc=none smtp.client-ip=220.181.3.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZXNPCuao"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-490a762bcc6so19324875e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 23:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780380943; x=1780985743; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XgRgw1IKC03OLwNyxPDI58QMkRMSvSCj4bII0pkMkMw=;
-        b=ZXNPCuaoeorrH6dKoluuANYDEtScJKv3GR58TIMUYz7vkUv8hE3oA/Avwdg4Ejr2IC
-         mSMqLHA5t3OEfRMWxFI/euhVIDH6hO+N5OTkJCSsuiNMEFfyjTE9a2enEaA9ttmirwCn
-         G+omSuOWWaaye4QbjW3MQ6MmxIAZFULSpxQ3PAP4lTo2IVobfM5v+9za5QYi+hb+ko7S
-         QlDW5caSFfqEmsQbBis9rkG3jv54us8ejPlWQOYLk6OKmy6ZXRh86e9Oj7I554ZBtT14
-         sOIYqSvSCwOyZQwuw3tunwdg0rhTYzNcRe2nDpeZ9QmFAjJ+dXhwFY6+4CszCj3Gyk8n
-         AovQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780380943; x=1780985743;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XgRgw1IKC03OLwNyxPDI58QMkRMSvSCj4bII0pkMkMw=;
-        b=BXFIOiS/G9E0EuCeKNPhKDFEXP+c4u7YfaG8yjr2KUYdpbU9a4QnTmALFGkZlhGROh
-         KOFrrv5ImG8afo/WQaZ9Ikd22p3bM/FYJ0WCyPXJlb9puoVDeKcnMM093D46yoxKyNMD
-         7T9v1g8Zs6+X1SALFs62d4NT9LIOsDtpxdIm8AvpSXDGH8W5VX2HLN1qA8ZJRy1yqbaU
-         6+H3Cf45XyXv5+crvZtMXB5weUZVEMZm7IMAI0m1cf+tytKrCFINdslkoe0UJ/L/sQV9
-         GFhheGcZVLaErE6txa4+2hYFikvZSUDwAfkuBqqgG/XIeeHoLnsnIXfES0tk2eQHI0Uu
-         NH+w==
-X-Forwarded-Encrypted: i=1; AFNElJ+ravzVITdXqxgidprzgBcgU9kDf3qK3UOiOAmX0YkR6QEGCbS4ptnOA5J4quZHSZYRU+NjJ3cD7C0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYyMYfyZNneiiSUwqAFo5CJ4yUnocn4BDD8tJ77v3jf/ivq2ue
-	hzUBYr84o6/CDToIbVW0Iqe0rQErb47xNwl2zOLgdweJ7Tx5ZKmLhC1cdty1t/89VaQEok8KlfP
-	Zx0o3dYRlXyYM6fRIGg==
-X-Received: from wmaw13.prod.google.com ([2002:a05:600c:6d4d:b0:490:b22d:da02])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c0d2:10b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-490a2938f7cmr185302145e9.25.1780380942885;
- Mon, 01 Jun 2026 23:15:42 -0700 (PDT)
-Date: Tue, 2 Jun 2026 06:15:41 +0000
-In-Reply-To: <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="eZoTWzSY"
+X-MD-Sfrom: lirongqing@baidu.com
+X-MD-SrcIP: 172.31.50.47
+From: lirongqing <lirongqing@baidu.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, Christoph
+ Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman Gushchin
+	<roman.gushchin@linux.dev>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
+CC: Li RongQing <lirongqing@baidu.com>, Matthew Wilcox <willy@infradead.org>,
+	Usama Arif <usama.arif@linux.dev>
+Subject: [PATCH][v2] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse and switch to static key
+Date: Tue, 2 Jun 2026 02:21:42 -0400
+Message-ID: <20260602062142.1790-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260529-remove-task-euid-v4-0-07cbdf3af980@google.com> <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com>
-Message-ID: <ah51DY5yfaNZejBd@google.com>
-Subject: Re: [PATCH v4 0/2] Delete task_euid()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: bjkjy-exc2.internal.baidu.com (172.31.50.46) To
+ bjkjy-exc3.internal.baidu.com (172.31.50.47)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
+	s=selector1; t=1780381319;
+	bh=DaOgBQX2Bprj5SEr7V1aHONGUCzeW+2n3CTATOhVeeA=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+	b=eZoTWzSYLb0DMIw8U5wsd4eZpq9YxToIlc0hZA/sMZatsWnIV5sapyswkv7hG3arn
+	 +klF8Rl+o6hFfntvAKk8oPhqJ4FaO04rxho0mqh0Sk2kr/HnTsK2znTYZR3EsSw+Qg
+	 J9ZvXqJ0EaVNrXYDMJl98rHy52gBKugjyc008ZJ3THMBwywDZgU/uY83TJsua+/6a+
+	 X0ICdDT4NKffrCQig2hy27NXdHxhU//Two5ArjWrhVmqMElcP/XfiabpnoxsCVGIJ5
+	 R+18PjaAyW1yGyg/IeoX1y/RQ/F8e1rW8bIrV3uY7nkN1972gXniRTDXZpNEv+9BtF
+	 O88kkGWA6lkgg==
 
-On Mon, Jun 01, 2026 at 07:13:37PM -0400, Paul Moore wrote:
-> On Fri, May 29, 2026 at 5:33=E2=80=AFAM Alice Ryhl <aliceryhl@google.com>=
- wrote:
-> >
-> > The task_euid() method is a very weird method, and Binder was the only
-> > user. As of commit 65b672152289 ("binder: use current_euid() for
-> > transaction sender identity") Binder doesn't use task_euid() anymore,
-> > so we can delete this method.
->=20
-> Given the problems from last time, it seems like it might be prudent
-> to let the commit have some time to "breathe" in a proper release, I'd
-> suggest merging this not for the upcoming v7.2 merge window but
-> instead waiting for v7.3.
+From: Li RongQing <lirongqing@baidu.com>
 
-Sure, that makes sense. I'll resend after the merge window.
+The mempool subsystem historically wrapped its debugging logic inside an
+merely defines compile-time defaults for SLUB and caused two flaws:
 
-> > My suggestion would be to merge this through the LSM tree.
->=20
-> That's fine with me.  I'd also suggest updating the commit description
-> in patch 1/2 to indicate that binder is no longer using task_euid();
-> it currently reads like it is still being used.
+1. On production kernels where CONFIG_SLUB_DEBUG=y but
+   CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely compiled out
+   at compile time.
+2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed active
+   even if a user explicitly disabled slub debugging at boot time.
 
-I guess this occurred because when patch 1 was written, it really *was*
-still being used. Perhaps we could pick up only patch 1 now since even
-if we run into problems and Binder has to go back to using task_euid(),
-clarifying the docs is still useful.
+Clean up this mess by removing the #ifdef and switching to a runtime static
+key (mempool_debug_enabled), allowing mempool debugging to be toggled
+cleanly via its own boot parameter.
 
-Alice
+Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Harry Yoo <harry@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Hao Li <hao.li@linux.dev>
+Cc: Christoph Lameter <cl@gentwo.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Usama Arif <usama.arif@linux.dev>
+---
+Diff with v1:
+	Rewrite commit message, change early_param to __setup
+
+ Documentation/admin-guide/kernel-parameters.txt |  5 ++++
+ mm/mempool.c                                    | 32 ++++++++++++++++++-------
+ 2 files changed, 28 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 642659b..89b5994 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3980,6 +3980,11 @@ Kernel parameters
+ 			Note that even when enabled, there are a few cases where
+ 			the feature is not effective.
+ 
++	mempool_debug	[MM]
++			Enable mempool debugging. This enables element
++			poison checking when freeing elements back to the
++			pool. Useful for debugging mempool corruption.
++
+ 	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
+ 			Format: <integer>
+ 			default : 0 <disable>
+diff --git a/mm/mempool.c b/mm/mempool.c
+index db23e0e..71e4b54 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -16,11 +16,28 @@
+ #include <linux/export.h>
+ #include <linux/mempool.h>
+ #include <linux/writeback.h>
++#include <linux/static_key.h>
++#include <linux/init.h>
+ #include "slab.h"
+ 
+ static DECLARE_FAULT_ATTR(fail_mempool_alloc);
+ static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
+ 
++/*
++ * Debugging support for mempool using static key.
++ *
++ * This allows enabling mempool debug at boot time via:
++ *   mempool_debug
++ */
++static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
++
++static int __init mempool_debug_setup(char *str)
++{
++	static_branch_enable(&mempool_debug_enabled);
++	return 1;
++}
++__setup("mempool_debug", mempool_debug_setup);
++
+ static int __init mempool_faul_inject_init(void)
+ {
+ 	int error;
+@@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)
+ }
+ late_initcall(mempool_faul_inject_init);
+ 
+-#ifdef CONFIG_SLUB_DEBUG_ON
+ static void poison_error(struct mempool *pool, void *element, size_t size,
+ 			 size_t byte)
+ {
+@@ -73,6 +89,9 @@ static void __check_element(struct mempool *pool, void *element, size_t size)
+ 
+ static void check_element(struct mempool *pool, void *element)
+ {
++	if (!static_branch_unlikely(&mempool_debug_enabled))
++		return;
++
+ 	/* Skip checking: KASAN might save its metadata in the element. */
+ 	if (kasan_enabled())
+ 		return;
+@@ -112,6 +131,9 @@ static void __poison_element(void *element, size_t size)
+ 
+ static void poison_element(struct mempool *pool, void *element)
+ {
++	if (!static_branch_unlikely(&mempool_debug_enabled))
++		return;
++
+ 	/* Skip poisoning: KASAN might save its metadata in the element. */
+ 	if (kasan_enabled())
+ 		return;
+@@ -140,14 +162,6 @@ static void poison_element(struct mempool *pool, void *element)
+ #endif
+ 	}
+ }
+-#else /* CONFIG_SLUB_DEBUG_ON */
+-static inline void check_element(struct mempool *pool, void *element)
+-{
+-}
+-static inline void poison_element(struct mempool *pool, void *element)
+-{
+-}
+-#endif /* CONFIG_SLUB_DEBUG_ON */
+ 
+ static __always_inline bool kasan_poison_element(struct mempool *pool,
+ 		void *element)
+-- 
+2.9.4
+
