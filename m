@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F65D2D3EC7
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 17:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA403FBED1;
+	Tue,  2 Jun 2026 17:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780421477; cv=none; b=hopMgEwsmXqZc1IJ8nIzL/XL+i/IBj6qhvA+zL3HZg0ofGxo2clJfaootF87jralxbtnHRaxZjCqoy01JRDUt4N4jnD3GR1sF2RSzeUW5i3uko48gHsTH0M3lKOYyMOzgAEyqplNFyRXiX0x0W1jT84EXehLIsfHlL4QhneX48U=
+	t=1780423014; cv=none; b=I6PzCt2gVY1JvI+zHE+mRgUaoF442xnbri+rv/eXf+L8NrkkDjhIqrIcL/JzMPZ/Ke/C7EA3iHhY8S2U6HfBQm86OcbnUBiGk4QgaUdpPcvoA1Z/b9HQDnNLNa63tCGrpT8YKl1IP0TR95sqA8NY5WTbTYkb9f7cPRQH0xjOs9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780421477; c=relaxed/simple;
-	bh=h1jMuU3vzOEfWvNoF88HaVZ2Idd//bX0ugzgHlZgVto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hTcFpgELOGayvoG8wCOw56+ISzuwVX3heJcGXTp9rB/RrhoA2+Pq+BIZc0FFlbYwhOK0Rnl06+9T6KIrhcZOqK6ryskcMt6rvcCMqkJXtnF5Trevw+jGqpBFQDMof6vYO3FNZZx49REOtpZTFvkSdUqk5nZ/uwMfLPpCDQkukMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0wMsF/9u; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1780423014; c=relaxed/simple;
+	bh=NVWXmGqmUvJQny9yieHXIHHkLpzoqyVakt1uxLHG+3k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HCbFZvxX7KcudcaoAzRfzbk5bZOKxi1SbfxNPjn+dZhUohht0vhUs95afE4uuUu5D50tuLtuA+WrG5mfkXVj89o45GymIltKbo9Fs88aIw/bz6873yjtrMAVRSXaBS1fy8oKb4R4oVC6sshCsIit1+LrNiG5CUlOS5sz1PAUULU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zXPpd61h; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0wMsF/9u"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zXPpd61h"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=KMnzrHMvtjzp5lG+Aql6fem1tyh3fk/ywlTSd6NAz3w=; b=0wMsF/9uUswGUvKChwwmdiWK4l
-	q5uwgUmQAqMZCGnNFSg2ciWCS/xQlOPhGSDM88BFb6G527YZuLz/XuR+Y2uRhW903XPAiDVGu1KH5
-	dIyzInueVOvL1L22ycGE467YAweFBWBSwFydfoMA1LQvLNmg4SFiqiH89lcM0/qSadNedJI+n5NxW
-	yF/lwqU/m42N0bR8E+RYh8vsSiwaV5AphQR3/ohRQvhews0x7WVzWPzn/jSSXi+3hXxkm1MEiYBxU
-	ntLFkfL0icuTAfcO7xpYNYNpLZPCy7hN7BFtl3knC2yIhKu/j3hAYAZ68aD2ImS8pxNKpEFSNfbVk
-	GsJPvv9w==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Goe+jsCqeDAJ8nUJNisNgAeTC2XY0L4p8OmyKx0rp8E=; b=zXPpd61hBw8rl26vZtM28T9n4Q
+	Il3HgNkkofilrRjJFUUx3szOmvA9/CeCaxodIQD2syctQbDOqTU8IMiwj6hC+fUqozGtDrluA3zyP
+	rHdkUHMhozE/z7ULFYB8X7BuXrm0Z2xZfwyp+yqw6mJr7ta/NN5M3oyFJaKVNB7T8l51j8PYqWpl9
+	nnnWkAUhiOIXui16yGfpvCXJl4qo9shOCQqSYxKD+e1HDqAJ3z12yqLaNLNJoM6jBViYcJ5AhF1VI
+	Gy4Ea08DJFqK0+/KLkZUTiyhLOeivpeVu+oOX45mDDjYjUbnGwuur0KpiGgP9CLxip+8KGCOHCHbe
+	HNNgINdQ==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUSxN-0000000DaRr-1TXO;
-	Tue, 02 Jun 2026 17:31:13 +0000
-Message-ID: <b9380d52-f74f-44b9-b307-b797eb197b42@infradead.org>
-Date: Tue, 2 Jun 2026 10:31:12 -0700
+	id 1wUTMC-0000000DcHa-0r6p;
+	Tue, 02 Jun 2026 17:56:52 +0000
+Message-ID: <41eb226b-dafc-40ce-b6d5-a404683b239e@infradead.org>
+Date: Tue, 2 Jun 2026 10:56:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,137 +39,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [linux] Documentation/arch/sparc/oradax/dax-hv-api.txt and
- Documentation/driver-api/parport-lowlevel.rst : Form feed (^L) characters
-To: Xose Vazquez Perez <xose.vazquez@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, DOC ML <linux-doc@vger.kernel.org>
-References: <25667a7c-e426-413d-aa3d-a52ebbeb9de5@gmail.com>
+Subject: Re: [PATCH 8/9] block: add configurable error injection
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org,
+ linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20260602054615.3788425-1-hch@lst.de>
+ <20260602054615.3788425-9-hch@lst.de>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <25667a7c-e426-413d-aa3d-a52ebbeb9de5@gmail.com>
+In-Reply-To: <20260602054615.3788425-9-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 6/2/26 2:39 AM, Xose Vazquez Perez wrote:
-> Hi,
-> 
-> I noticed that  Documentation/arch/sparc/oradax/dax-hv-api.txt and
-> Documentation/driver-api/parport-lowlevel.rst contains several
-> legacy form feed (\f, ^L) characters used as page breaks.
-> 
-> I am not sure if these are still required for any specific formatting
-> reasons or if they should be removed.
+On 6/1/26 10:45 PM, Christoph Hellwig wrote:
+> diff --git a/Documentation/block/error-injection.rst b/Documentation/block/error-injection.rst
+> new file mode 100644
+> index 000000000000..be87091b5330
+> --- /dev/null
+> +++ b/Documentation/block/error-injection.rst
+> @@ -0,0 +1,59 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================
+> +Configurable Error Injection
+> +============================
+> +
+> +Overview
+> +--------
+> +
+> +Configurable error injection allows injecting specific block layer status codes
+> +for ranges of a block device.  Error can be injected unconditional, or with a
 
-These form feed ^L characters seem to be ignored in the produced html output.
-If someone printed the text files, they would cause page feeds.
-In the case of parport-lowlevel.rst the form feeds might make the output
-look nicer at the expense of wasting paper.
+                                  Errors can be injected unconditionally or with a
 
-IMO they can all be removed.
+> +given probability.
+> +
+> +To use configurable error injection, CONFIG_FAIL_MAKE_REQUEST must be enabled.
+> +
+> +The only interface is the error_injection debugfs file, which is created for
+> +each registered gendisk.  Writes to this file are used to create or delete rules
+> +and reads return a list of the current error injection sites.
 
-> They appear in the following lines:
-> 
-> $ grep -n -P '\f' Documentation/arch/sparc/oradax/dax-hv-api.txt Documentation/driver-api/parport-lowlevel.rst
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:66:
->                                                                                                  Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:128:
->                                                                                          Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:176:
->                                                                                          Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:228:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:284:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:342:
->                                                                                                    Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:397:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:454:
->                                                                              Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:504:
->                                                                             Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:554:
->                                                                                                      Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:609:
->                                                                                             Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:667:
->                                                                              Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:719:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:779:
->                                                                              Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:830:
->                                                                                                    Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:887:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:943:
->                                                                                                Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:995:
->                                                                                            Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1048:
->                                                                                                   Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1105:
->                                                                                             Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1156:
->                                                                                                    Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1216:
->                                                                               Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1272:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1326:
->                                                                                                    Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1381:
->                                                                                                     Coprocessor services
-> ./Documentation/arch/sparc/oradax/dax-hv-api.txt:1433:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:104:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:504:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:540:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:586:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:674:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:709:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:866:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1102:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1188:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1217:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1253:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1282:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1319:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1355:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1386:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1413:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1444:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1511:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1589:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1629:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1661:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1771:
-> 
-> ./Documentation/driver-api/parport-lowlevel.rst:1805:
-> 
+[snip]
 
 -- 
 ~Randy
