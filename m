@@ -1,151 +1,204 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F2733F8A4
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C37C23EAAF;
+	Tue,  2 Jun 2026 03:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780369596; cv=none; b=d0/FrF3RJelodQzdhj/K9ZoLAm9B9mI1ff2afmM49RMj2f2idB50KQVV+lGDQqtdsRpZnNQqaRqJiUPLoWCviOieFU93hbMNnPqOqZRX7yhf/T+PcT+wB8MoZ6tyehI7YUNzHjt86RMbJk7bxL/bI9fbQgDsKofdUIvU3MiSF30=
+	t=1780369744; cv=none; b=WHgTeJ9Z8U8KCJSMOELEJmykkHl+oIhdFRRkB8pe2dwbky8dXHIhGxOvZ95a0hfjA0hIjmZQ9jH7pAi0XThio1G+ExQl/xcGBNJCl/VA8s4UEk4mGreOJPVmC1+VOkvLyVW81xhIDFDecd91bhWxjLbvSOyR+zXregruVkNL43E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780369596; c=relaxed/simple;
-	bh=quBqK+pAfJg8IQ6QPWniQxuzvmKmI37+PJNOoXvhQms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxsnLWIb89RRn9VXNNMz+EY/qQFLhE1nRa6cRcB4mBvRuf8XKqp6ndOdlonfT0loc/Gz8kuEo+1sVkFY8APhj736+X8WumrGsTt5KALkfzkHMA+GQKA2HFWNfuVq0OagAtzrPvJhxK0YpJTRbfjbYyjqvC7BQ2CxZtUmcfgP8Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FfbPNmSq; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780369744; c=relaxed/simple;
+	bh=JdtkIHo86r93mLpvlA9hHSrLiBIeaKQl1noIOfoI+HQ=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=KgXfMNseG42T3c0plh4jexlidqwzmdHbBPWKbW86AZAwnNk+2Rckuz2RTB/sZ8p8O9nf4bYGnXx8T+4dprxOzge7o7gB5CTWjezdOT9nzQNzzrGsi16SZ2hrSPCuqS4sN53SeN4G0OfXHrRzPqWaBfiwyrd6LmxIn9rE3d6ik5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Te/fsP91; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FfbPNmSq"
-Date: Tue, 2 Jun 2026 11:06:11 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780369591;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P70qjRmAyMymwJPTMfOq+4DYcvFmuGavpK8tS3QAMZ8=;
-	b=FfbPNmSqGFBVUXMW60W8WZklD/5OswTsE3vOOKJWBoPQkE+ieiKrsI/w+0/boUf1oyoQTr
-	a6KYsX23L/elGm5bXPqfLcPYLugymhGemNGpdBX9bswHkYCZ207Y83Ojwb0HZ4Gy7cbZDl
-	Ei0P5PYrgBGvOUgIoJMhYqqLwwkMndo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Baoquan He <baoquan.he@linux.dev>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	hpa@zytor.com, robh@kernel.org, saravanak@kernel.org,
-	akpm@linux-foundation.org, bhe@redhat.com, rppt@kernel.org,
-	pasha.tatashin@soleen.com, pratyush@kernel.org,
-	ruirui.yang@linux.dev, rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
-	kees@kernel.org, elver@google.com, kuba@kernel.org,
-	lirongqing@baidu.com, ebiggers@kernel.org, paulmck@kernel.org,
-	sourabhjain@linux.ibm.com, thuth@redhat.com, ardb@kernel.org,
-	masahiroy@kernel.org, gshan@redhat.com, james.morse@arm.com,
-	maz@kernel.org, leitao@debian.org, yeoreum.yun@arm.com,
-	coxu@redhat.com, suzuki.poulose@arm.com, cfsworks@gmail.com,
-	osandov@fb.com, jbohac@suse.cz, ryan.roberts@arm.com,
-	tangyouling@kylinos.cn, ritesh.list@gmail.com,
-	adityag@linux.ibm.com, hbathini@linux.ibm.com, bjorn@rivosinc.com,
-	songshuaishuai@tinylab.org, vishal.moola@gmail.com,
-	junhui.liu@pigmoral.tech, djordje.todorovic@htecgroup.com,
-	austin.kim@lge.com, namcao@linutronix.de, djbw@kernel.org,
-	chao.gao@intel.com, seanjc@google.com, fuqiang.wang@easystack.cn,
-	liaoyuanhong@vivo.com, makb@juniper.net, graf@amazon.com,
-	piliu@redhat.com, rafael.j.wysocki@intel.com,
-	mario.limonciello@amd.com, jbouron@amazon.com,
-	chenjiahao16@huawei.com, guoren@kernel.org, bauerman@linux.ibm.com,
-	bgwin@google.com, takahiro.akashi@linaro.org, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, kexec@lists.infradead.org
-Subject: Re: [PATCH v15 00/23] arm64/riscv: Add support for crashkernel CMA
- reservation
-Message-ID: <ah5Ioxs9aLxKIKWg@MiWiFi-R3L-srv>
-References: <20260601094805.2928614-1-ruanjinjie@huawei.com>
- <ah2Lx7KHI60tzd0v@MiWiFi-R3L-srv>
- <1a459706-80db-43d8-b163-76fc09da338d@huawei.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Te/fsP91"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=YbsuXNQSSzUTtgq4oSp1vzBur9x6afidpwasn1swHTs=;
+	b=Te/fsP91KX55l1Gbb+C9+u0k3lsQtDmYEzt1UfTZmzElSuKtGIKMJz5MC4kV2vuTKn97krApj
+	J66MNqF9SwWz/noaN6xm4l+pGq4tJSV1syNQETRFigZbQF53yFLWCqq6qJOg3GjxofiQLcH7wlJ
+	zkKwe43mzvaluygA+VwNMXY=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gTwZf55jlzpStZ;
+	Tue,  2 Jun 2026 11:01:14 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id E8F224056F;
+	Tue,  2 Jun 2026 11:08:50 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 11:08:50 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 11:08:49 +0800
+Subject: Re: [PATCH v8 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Breno Leitao
+	<leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Lance Yang
+	<lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-2-9ea0cfa16bb0@debian.org>
+ <19f968f5-1289-f573-4406-e5c91dcd8923@huawei.com>
+ <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
+Date: Tue, 2 Jun 2026 11:08:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a459706-80db-43d8-b163-76fc09da338d@huawei.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On 06/02/26 at 09:43am, Jinjie Ruan wrote:
+On 2026/6/1 21:22, David Hildenbrand (Arm) wrote:
+> On 6/1/26 14:28, Miaohe Lin wrote:
+>> On 2026/5/27 22:06, Breno Leitao wrote:
+>>> get_any_page() collapses every HWPoisonHandlable() rejection into a
+>>> single -EIO via the __get_hwpoison_page() -> -EBUSY -> shake_page()
+>>> -> retry path.  That is correct for the transient case (a userspace
+>>> folio briefly off LRU during migration or compaction, which a later
+>>> shake can drag back), but wrong for stable kernel-owned pages: slab,
+>>> page-table, large-kmalloc and PG_reserved pages will never become
+>>> HWPoisonHandlable(), so the retry loop is wasted work and the final
+>>> -EIO loses the "this is structurally unrecoverable" information.
+>>> memory_failure() then maps -EIO into MF_MSG_GET_HWPOISON, which the
+>>> panic-on-unrecoverable sysctl deliberately does not act on.
+>>>
+>>> Introduce HWPoisonKernelOwned(), a small predicate that positively
+>>> identifies pages the hwpoison handler cannot recover from:
+>>>
+>>>   HWPoisonKernelOwned(p, flags) :=
+>>>       !(MF_SOFT_OFFLINE && page_has_movable_ops(p)) &&
+>>>       (PageReserved(p) || PageSlab(p) ||
+>>>        PageTable(p)    || PageLargeKmalloc(p))
+>>>
+>>> The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors the
+>>> same exception in HWPoisonHandlable(): soft-offline is allowed to
+>>> migrate movable_ops pages even though they are not on the LRU, and
+>>> we must not pre-empt that with an unrecoverable verdict.
+>>>
+>>> The list is intentionally not exhaustive.  vmalloc and kernel-stack
+>>> pages, for example, do not carry a page_type bit and would need a
+>>> different oracle; they keep going through the existing retry path
+>>> unchanged.  This is the smallest set we can identify with certainty
+>>> by page type.
+>>>
+>>> Wire the helper into the top of get_any_page() to short-circuit
+>>> those pages before the retry loop runs.  On a hit, drop the caller's
+>>> MF_COUNT_INCREASED reference (if any) and return -ENOTRECOVERABLE
+>>> straight away.  Pages outside the helper's positive list still take
+>>> the existing retry path and return -EIO, leaving operator-visible
+>>> behaviour for those cases unchanged.
+>>>
+>>> Extend the unhandlable-page pr_err() to fire for either errno and
+>>> update the get_hwpoison_page() kerneldoc to document the new return.
+>>>
+>>> memory_failure() still folds every negative return into
+>>> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
+>>> this patch on its own only changes the errno that soft_offline_page()
+>>> can propagate to its callers.  A follow-up wires -ENOTRECOVERABLE
+>>> through memory_failure() and reports MF_MSG_KERNEL for the
+>>> unrecoverable cases, which is what the
+>>> panic_on_unrecoverable_memory_failure sysctl observes.
+>>
+>> Thanks for your patch.
+>>
+>>>
+>>> Suggested-by: David Hildenbrand <david@kernel.org>
+>>> Suggested-by: Lance Yang <lance.yang@linux.dev>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>> ---
+>>>  mm/memory-failure.c | 42 ++++++++++++++++++++++++++++++++++++++++--
+>>>  1 file changed, 40 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+>>> index f4d3e6e20e13..8f63bdfeff8f 100644
+>>> --- a/mm/memory-failure.c
+>>> +++ b/mm/memory-failure.c
+>>> @@ -1325,6 +1325,28 @@ static inline bool HWPoisonHandlable(struct page *page, unsigned long flags)
+>>>  	return PageLRU(page) || is_free_buddy_page(page);
+>>>  }
+>>>  
+>>> +/*
+>>> + * Positive identification of pages the hwpoison handler cannot recover.
+>>> + * These page types are owned by kernel internals (no userspace mapping
+>>> + * to unmap, no file mapping to invalidate, no migration target), so the
+>>> + * shake_page() / retry loop in get_any_page() can never turn them into
+>>> + * something HWPoisonHandlable() will accept.  Short-circuit them to
+>>> + * -ENOTRECOVERABLE so callers can panic on operator request instead of
+>>> + * spinning through retries that exit as a transient-looking -EIO.
+>>> + *
+>>> + * The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors
+>>> + * HWPoisonHandlable(): soft-offline is allowed to migrate movable_ops
+>>> + * pages even though they are not on the LRU.
+>>> + */
+>>> +static inline bool HWPoisonKernelOwned(struct page *page, unsigned long flags)
+>>> +{
+>>> +	if ((flags & MF_SOFT_OFFLINE) && page_has_movable_ops(page))
+>>> +		return false;
+>>> +
+>>> +	return PageReserved(page) || PageSlab(page) ||
+>>
+>> Once shake_page finds a lightweight range-based way to shrink slab, slab pages could be freed
+>> into buddy and above PageSlab test should be removed then. Maybe add a TODO or XXX here?
+>>
+>>> +	       PageTable(page) || PageLargeKmalloc(page);
+>>
+>> I'm not sure but is it safe or a common way to test PageReserved, PageSlab,
+>> PageTable and PageLargeKmalloc without extra page refcnt?
 > 
-> 
-> On 6/1/2026 9:40 PM, Baoquan He wrote:
-> > Hi Jinjie,
-> > 
-> > On 06/01/26 at 05:47pm, Jinjie Ruan wrote:
-> > ...snip... 
-> >> Changes in v15:
-> >> - Unify the subject prefix formats as Huacai suggested.
-> >> - Fix powerpc pre-existing NULL pointer dereference [Sashiko [1]]
-> >> - Fix powerpc pre-existing __merge_memory_ranges() memory range
-> >>   truncation [Sashiko [1]].
-> >> - Fix pre-existing arm64 CMA page leaks [Sashiko[2]].
-> >> - Fix pre-existing crash_load_dm_crypt_keys() Use-After-Free and
-> >>   Double Free issue [Sashiko[3]].
-> >> - Fix vfree(headers) and uninitialized variables issue
-> >>   and simplify the fix [Sashiko[2]].
-> >> - As walk_system_ram_res() and for_each_mem_range() use different
-> >>   lock, unify and simplify the fix of TOCTOU buffer overflow via memory
-> >>   region padding [Sashiko[4]].
-> >> - Fix the arm64 crash dump issues in Sashiko[5].
-> >> - Link to v14: https://lore.kernel.org/all/20260525084932.934910-1-ruanjinjie@huawei.com/
-> > 
-> > Do these Fixes have anything with the main target of this patch series
-> > you mentioned in cover-letter:"arm64/riscv: Add support for crashkernel CMA"?
-> > The patches become more and more in each new version, I am wondering if
-> > it relies on these Fixes patches to implement your adding support for
-> > crashkernel CMA on arm64/risc-v.
-> > 
-> > If not relying on them, could you split them into different patchset
-> > on different purpose? 
-> 
-> Hi Baoquan,
-> 
-> Thank you for your valuable guidance.
-> 
-> You are absolutely right. Most of these fix patches are indeed not
-> strictly related to the core implementation of the crashkernel CMA
-> support. They are pre-existing bugs in the surrounding kexec/crash code
-> that were flagged during our review.
-> 
-> Previously, Andrew suggested taking a look at the code review comments
-> from the Sashiko AI system, which is why these fixes kept expanding. I
-> completely agree with your advice that there is no need to keep them
-> together. I will split them into two completely different patchsets
-> based on their purpose:
-> 
-> 1. A cleaner version of this series, strictly focused on adding the core
-> crashkernel CMA support for arm64/riscv.
-> 
-> 2. One standalone bugfix patchset dedicated entirely to fixing these
-> pre-existing issues.
-> 
-> By the way, I would also appreciate some advice on how to handle further
-> AI reviews. It seems that the more code we touch or refactor to fix
-> these pre-existing issues, the more tangential bugs the AI flags in the
-> newly exposed areas, making the series extremely difficult to converge.
-> 
-> Should I continue to address all AI-reported bugs associated with the
-> surrounding code in this series, or should we draw a strict line
-> and only focus on the core CMA logic moving forward?
+> Checking typed pages in a racy fashion is fine (PageSlab, PageTable,
+> PageLargeKmalloc).
 
-Then please post patches to focus on the core implementation of the
-crashkernel CMA support. If any AI reported bugs are raised but not
-relatd to it, you can add note in cover-letter or explain somewhere
-to tell whehter it's caused by the core code and how you want
-to deal with it. Otherwise, you could go round and round of new posting
-and still can't see when it ends up.
+Got it. Thanks.
+
+> Checking PageReserved in a racy fashion is fine as well. TESTPAGEFLAG() will
+> allow checking it on compound pages.
+
+It seems PageReserved is not intended to be set on compound pages. I see there are PF_NO_COMPOUND
+in its definition: PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND).
+
+> 
+> For PageLargeKmalloc, we would want to check the head page, though. The page
+> type is only stored for the head page.
+
+Maybe we should check the head page for PageSlab and PageTable too? alloc_slab_page only
+set PageSlab on the head page and __pagetable_ctor uses __folio_set_pgtable to set PageTable
+on folio.
+
+> 
+> So maybe we want to lookup the compound head (if any) and perform the type
+> checks against that?
+
+Maybe we should or we might miss some pages that could have been handled. And
+if compound head is required, should we hold an extra page refcnt to guard against
+possible folio split race?
+
+Thanks.
+.
+
 
