@@ -1,88 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86684306778;
-	Tue,  2 Jun 2026 00:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210A62459EA;
+	Tue,  2 Jun 2026 00:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780360772; cv=none; b=DO8jExh+ruavjue4+l4Acsvy7WI7i/6BNl8mXTzcpDIPqaBfAhwVmM6wOCSht/KTNro7P9yVxWc55vOagkAyY3Xw9vyA/nsphn+Y+SO7gsP9rplMT79+GctZWzmV7spQpkhhu9R44OmJaOh3crIMHjj5tcBfbNmWLclqJav/ZWk=
+	t=1780361823; cv=none; b=oQN3fVj++vX6oc3+cyWa5tYhETesgH6kibo2O/cEyyOLSg8teeFzLmTxJDT9tZQWbKokrS/GZ/2rlprFDYMHY5Z5+IW1cC6eAqdAtij/oL9qwK07WgEmistbGV3sbmtw5MuIwtoT1OVc3yk2ozel2W9KbgKyQ/s3OF/gca8vSVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780360772; c=relaxed/simple;
-	bh=ZI/7bM/8vZxnYP2aCgikn3UECnABcjInnFZj4n7oWqk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=XQGC16TxOwGMiq+0B/bXeWg8J99WYl74E2v63tEzOGyS8l2xY3ixgaVMkGxK3H5eFHZ2V7Cxr1EML62zXJ41PYMn+1Pf8kZqNk7P1sD4FxNyFnIDyF1SzweHHqZWE0Ovl9dPWJ2nM2bHloGRXF8TfVGLEx8/DhoyFje3km7fOSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JPxKSqcS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780361823; c=relaxed/simple;
+	bh=i65H/O9UUlO2s7Dspabff4qR2XkhHYoSHFW1aY5tj/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h4AzAdUgpYk/CMGDcDnXIDpucImyBY7xY6fsZfqvEXGQBFPayocoHF6+nJPAiyjVnwL67CQDx/iqI+vMt42FbGCHAYW7Z1pxVADtrpFMeN4ymKYAOvOJuDPWJm/Ra3IeGVknjaqcRKhmQHgA5X5fq9iv2L6YflQSYOniuzpoGw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5mnDEdT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JPxKSqcS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2511F00893;
-	Tue,  2 Jun 2026 00:39:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1780360771;
-	bh=ZLruH0m3W08KnNTLHRjnVrTL7t6nQJJg42epmFol5Qg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=JPxKSqcSscNTfuwfvLBv8utgcJoa6sDT/q374gqHLlMLkLxdJ00mrPdM7AXzLUwwQ
-	 OFcFSqi5SQEf82OeNoWtIYGXA7zDnW5rPAbSiyf+DRdVhwpoemoHzCc0QsFdA2gyER
-	 h9zcquT27k/N11bEOs3cAWFnbBlFrhexYz/xP8kM=
-Date: Mon, 1 Jun 2026 17:39:29 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Sarthak Sharma <sarthak.sharma@arm.com>
-Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan
- <shuah@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Jason Gunthorpe
- <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, Leon Romanovsky <leon@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
- <broonie@kernel.org>, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] tools/lib/mm: add shared file helpers
-Message-Id: <20260601173929.aa5141c274c351ccbcabc767@linux-foundation.org>
-In-Reply-To: <2fb753d0-a9cd-48f3-a24d-ea0b54330279@arm.com>
-References: <20260527142432.230127-1-sarthak.sharma@arm.com>
-	<20260527142432.230127-3-sarthak.sharma@arm.com>
-	<2fb753d0-a9cd-48f3-a24d-ea0b54330279@arm.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5mnDEdT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9912B1F00893;
+	Tue,  2 Jun 2026 00:56:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780361820;
+	bh=T7bQHGZhX9+sHJpAAQcCgYO66iY6em+ApCTpukgWa3I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=X5mnDEdTO9Je4v7S3JjNNPmfdm02Dpi0LuieTixZSV4wN86PdhIOr3YP08mWc3tke
+	 gKSVsPVhO8HO7tn9+hIKGqBVOAJJikTKoKNDZqf16CSCIIGYm9PRunFT+YZl5gt4+G
+	 9tBUr5GTXeG+FTMYbyWYxBtuV4qo59oNuVm50OyNNNf9SGYg6tVwtJ/Uc3pwrU0OWM
+	 gotfjaTy6wChz5IKDTFA1kWatUy0HEU16usAuswSyn0gyVWjOda6f5c2+JH2pk2EzN
+	 UEVvXzZBOej+B4ZkzbzXcwOJgvgTfsIfPOJO1WZFITnQmSdCsBpaWg8K6K6mWUnC6O
+	 93RnkBVsJ98tQ==
+Date: Tue, 2 Jun 2026 00:56:57 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
+	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
+	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
+	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
+	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
+	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
+	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
+	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org, 
+	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com, 
+	yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com, ziy@nvidia.com, 
+	kernel-team@meta.com, riel@surriel.com, haowenchao22@gmail.com
+Subject: Re: [PATCH v6 01/22] mm/swap: decouple swap cache from physical swap
+ infrastructure
+Message-ID: <ah4qS4uE2CBMOWd1@google.com>
+References: <20260505153854.1612033-1-nphamcs@gmail.com>
+ <20260505153854.1612033-2-nphamcs@gmail.com>
+ <agJcCZuLqWwU_sSR@google.com>
+ <CAKEwX=PZnKqfriUsPV2whZyqxfCRNy67z7gyrHObEvztDF0_zg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKEwX=PZnKqfriUsPV2whZyqxfCRNy67z7gyrHObEvztDF0_zg@mail.gmail.com>
 
-On Mon, 1 Jun 2026 11:40:52 +0530 Sarthak Sharma <sarthak.sharma@arm.com> wrote:
-
-> On 5/27/26 7:54 PM, Sarthak Sharma wrote:
-> > Move read_file(), write_file(), read_num(), and write_num() out of
-> > tools/testing/selftests/mm/vm_util.c into a new shared helper under
-> > tools/lib/mm/.
-> > 
-> > These helpers are used by mm selftests today and will also be needed by
-> > shared hugepage helpers in subsequent patches. Move them to a generic
-> > location so they can be reused outside selftests as well.
-> > 
-> > Keep the helpers exposed to mm selftests through vm_util.h by including
-> > the new shared header there, and link the new helper into the
-> > selftests/mm build.
-> > 
-> > Add tools/lib/mm/ to the MEMORY MANAGEMENT - MISC entry in MAINTAINERS.
-> > 
-> > Signed-off-by: Sarthak Sharma <sarthak.sharma@arm.com>
-> > ---
+On Thu, May 28, 2026 at 02:42:19PM -0700, Nhat Pham wrote:
+> On Mon, May 11, 2026 at 3:46 PM Yosry Ahmed <yosry@kernel.org> wrote:
+> >
+> > On Tue, May 05, 2026 at 08:38:30AM -0700, Nhat Pham wrote:
+> > > When we virtualize the swap space, we will manage swap cache at the
+> > > virtual swap layer. To prepare for this, decouple swap cache from
+> > > physical swap infrastructure.
+> > >
+> > > We will also remove all the swap cache related helpers of swap table. We
+> > > will keep the rest of the swap table infrastructure, which will be
+> > > repurposed to serve as the rmap (physical -> virtual swap mapping)
+> > > later.
+> >
+> > I didn't look through the entire series, but let me ask the same
+> > high-level question I asked before. Instead of moving things out of the
+> > swap table, why not reuse the swap table as the representation of the
+> > virtual swap space? Seems like most/all metadata is already moved there
+> > in a nice concise format.
 > 
-> Hi Andrew!
+> The honest answer is I wasn't sure it would work, so I was hacking
+> quietly a prototype on my own time :)
 > 
-> Can you please fold the below fixlet into patch 2, as suggested by
-> Sashiko.
+> I finally got something that survives stress-ng and constant
+> memory.reclaim thrown at it though. I figured I should send it out to
+> get feedback before digging myself deeper into that hole:
+> 
+> https://lore.kernel.org/all/20260528212955.1912856-1-nphamcs@gmail.com/
+> 
+> There is still a small problem left (the metadata duplication issue
+> that Johannes brought up). It is potentially fixable, but I haven't
+> actually tried it out yet, so I don't want to overstate here. But take
+> a look at it and let me know how you feel about this alternative
+> approach!
 
-Thanks.  Please incorporate this (and the bisection fixlet and anything
-else) into a v5 series, after 7.2-rc1?
-
-Because it's late in 7.1-rcX and there is still much reviewing and
-testing to be done (please).
-
+Thank you! I will take a look!
