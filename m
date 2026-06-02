@@ -1,154 +1,93 @@
-Received: from outbound.baidu.com (mx20.baidu.com [111.202.115.85])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 481F93C457C;
-	Tue,  2 Jun 2026 09:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.115.85
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A7D53ABD90;
+	Tue,  2 Jun 2026 09:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780392433; cv=none; b=AwGVCRlwxWWrQK/kKANVGk1A/tu6s1vIaA9U0RwiMjJcSL349G12khgZmX0z6C1MiEkpxHMLOI3ye/+h/SjmkAK0DZDxljrF+wpKYRE+xcRrLsyVyDblM96XDJXpMxY7Xn0opetPc6nisPqdZnLxm47ykdQSnT0vyc7bSiLyUgI=
+	t=1780392508; cv=none; b=U607/EY/paHRG5w03qrluu0QKtUuT3U7mqFkdPex/5i/cb7niiydIpXUMHsq0hCT0DcI61M6wKp9tgSIICXw4YymHLb9MmHG1JaKC+mOlmigKaHtQdA3qrcG+nkuOigUSMH/aAu4DDawcZ4X9jk2YzLk9wL7QNWXWhQuFcF3w0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780392433; c=relaxed/simple;
-	bh=YrgjZrxrSzS/flJ+hRLXPpu23dJ1TE/2v08JQ7mWGGs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PvQfOAsVcgdjdebacpvAraujoPiJM8NhZgURoQQ+LkR20d0ws8EUcjNUc8KX0qV85ILH5+T1MFTk/80BMJk0hyK9+OtVn/VDEODvg3DHHcBK1cA5RnCJVJD3tiN0Qe2otX/zEydmsHum2JXYxFSXWHhS41stPlFG5ab+aQvVG0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=mlxSFIpg; arc=none smtp.client-ip=111.202.115.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+	s=arc-20240116; t=1780392508; c=relaxed/simple;
+	bh=dZrUdnqAf9XrzV7pvUqn+kP9qXBcqosGRgnk/2w21Mo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FOOXrVuS29IgfqikI2ndUc0Fp7HpgXirT3CGh//CXPJJPZtHSB1YGxeSrRHtyWUdLu5slRr5HAI24lAjaOo/NzwbtF0Sr8KjRLR4RdjEQ3Zu9yLivUGEfOBIvwNeiQCHLQT8Pv0KOMQmHVH4/VdfWfPXDsWMdfg2rCthcVUVq3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QPhYm6gK; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="mlxSFIpg"
-X-MD-Sfrom: lirongqing@baidu.com
-X-MD-SrcIP: 172.31.50.46
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Harry Yoo
-	<harry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Hao Li
-	<hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes
-	<rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>
-CC: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
-Subject: =?utf-8?B?562U5aSNOiBb5aSW6YOo6YKu5Lu2XSBSZTogW1BBVENIXVt2Ml0gbW0vbWVt?=
- =?utf-8?B?cG9vbDogVW50YW5nbGUgQ09ORklHX1NMVUJfREVCVUdfT04gYWJ1c2UgYW5k?=
- =?utf-8?Q?_switch_to_static_key?=
-Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF1bdjJdIG1tL21lbXBvb2w6IFVu?=
- =?utf-8?B?dGFuZ2xlIENPTkZJR19TTFVCX0RFQlVHX09OIGFidXNlIGFuZCBzd2l0Y2gg?=
- =?utf-8?Q?to_static_key?=
-Thread-Index: AQHc8lgbm0tk1w1eoUOK9eJTC4e20LYqdGmAgACKlhA=
-Date: Tue, 2 Jun 2026 09:26:58 +0000
-Message-ID: <fade35b47d62413ea01379781004c549@baidu.com>
-References: <20260602062142.1790-1-lirongqing@baidu.com>
- <3674d3a8-b30e-4bf1-a4ab-0f82c494d131@kernel.org>
-In-Reply-To: <3674d3a8-b30e-4bf1-a4ab-0f82c494d131@kernel.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QPhYm6gK"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D10EE3532;
+	Tue,  2 Jun 2026 02:28:21 -0700 (PDT)
+Received: from [10.1.25.162] (e121487-lin.cambridge.arm.com [10.1.25.162])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD0AC3F7D8;
+	Tue,  2 Jun 2026 02:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780392506; bh=dZrUdnqAf9XrzV7pvUqn+kP9qXBcqosGRgnk/2w21Mo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QPhYm6gK4mC+PEzhaxpriTDtkt9wexQpUn5bZD3nhFZ1OPU1VQxd8/DvJ7tY/23iK
+	 3ru7ryoDFTi3yePlTC+aVsBG+cOKyu7AvcegU8To6luKr26XNXII3U00CXMz3R8UAD
+	 Vb/IUQUHxHFDn/C0cS7hVQcTjH0r5Gog2bi94yL8=
+Message-ID: <c3aa7bac-4770-4179-b433-15e421ae2e96@arm.com>
+Date: Tue, 2 Jun 2026 10:28:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
-	s=selector1; t=1780392422;
-	bh=YrgjZrxrSzS/flJ+hRLXPpu23dJ1TE/2v08JQ7mWGGs=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
-	b=mlxSFIpgOVZpWQ4sroTkJ063rp/oAuPxh1+WrM4lGEeNbg35xCPNe4BCj+MckKA/6
-	 NGWrmkozbbtm6AolS58grlqlwX8NRcgAcym4oUBY09OtcoVuhtPQ5OWtzu2B2tZTzd
-	 1eKDaHOY/xujxMMgajhafkV4bIp46NNeSWOuL9L23+SelSq31ssKji+PR55qEHGILB
-	 Qyh1Bt/DP9BkDnhzGRwoxk5wRhF9qmaJ99IpZriWH8Qh/PyHr4zSqk5mNzOg8uQ8pQ
-	 ViWXXeGbe5EN7bJwzRS4K2akBbp5wxoCiLUaSl5okvqj4Ffc6JX4G6mwdtOihrvM+d
-	 drgeW7Dd/x7vg==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] arm64: cpufeature: Add WORKAROUND_DISABLE_CNP
+ capability
+To: Zeng Heng <zengheng@huaweicloud.com>, xuwei5@huawei.com,
+ wangyushan12@huawei.com, yangyicong@hisilicon.com, maz@kernel.org,
+ yeoreum.yun@arm.com, miko.lenczewski@arm.com, james.clark@linaro.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, kuninori.morimoto.gx@renesas.com,
+ lucaswei@google.com, catalin.marinas@arm.com, broonie@kernel.org,
+ lpieralisi@kernel.org, thuth@redhat.com, kevin.brodsky@arm.com,
+ tongtiangen@huawei.com, oupton@kernel.org, ryan.roberts@arm.com,
+ mark.rutland@arm.com, will@kernel.org, Sascha.Bischoff@arm.com
+Cc: linux-arm-kernel@lists.infradead.org, wangkefeng.wang@huawei.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260601112000.1145391-1-zengheng@huaweicloud.com>
+Content-Language: en-GB
+From: Vladimir Murzin <vladimir.murzin@arm.com>
+In-Reply-To: <20260601112000.1145391-1-zengheng@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-PiBPbiA2LzIvMjYgMDg6MjEsIGxpcm9uZ3Fpbmcgd3JvdGU6DQo+ID4gRnJvbTogTGkgUm9uZ1Fp
-bmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPg0KPiA+DQo+ID4gVGhlIG1lbXBvb2wgc3Vic3lzdGVt
-IGhpc3RvcmljYWxseSB3cmFwcGVkIGl0cyBkZWJ1Z2dpbmcgbG9naWMgaW5zaWRlDQo+ID4gYW4g
-bWVyZWx5IGRlZmluZXMgY29tcGlsZS10aW1lIGRlZmF1bHRzIGZvciBTTFVCIGFuZCBjYXVzZWQg
-dHdvIGZsYXdzOg0KPiA+DQo+ID4gMS4gT24gcHJvZHVjdGlvbiBrZXJuZWxzIHdoZXJlIENPTkZJ
-R19TTFVCX0RFQlVHPXkgYnV0DQo+ID4gICAgQ09ORklHX1NMVUJfREVCVUdfT049biwgbWVtcG9v
-bCBkZWJ1Z2dpbmcgd2FzIGNvbXBsZXRlbHkNCj4gY29tcGlsZWQgb3V0DQo+ID4gICAgYXQgY29t
-cGlsZSB0aW1lLg0KPiA+IDIuIE9uIGtlcm5lbHMgd2l0aCBDT05GSUdfU0xVQl9ERUJVR19PTj15
-LCBtZW1wb29sIGRlYnVnZ2luZyBzdGF5ZWQNCj4gYWN0aXZlDQo+ID4gICAgZXZlbiBpZiBhIHVz
-ZXIgZXhwbGljaXRseSBkaXNhYmxlZCBzbHViIGRlYnVnZ2luZyBhdCBib290IHRpbWUuDQo+ID4N
-Cj4gPiBDbGVhbiB1cCB0aGlzIG1lc3MgYnkgcmVtb3ZpbmcgdGhlICNpZmRlZiBhbmQgc3dpdGNo
-aW5nIHRvIGEgcnVudGltZQ0KPiA+IHN0YXRpYyBrZXkgKG1lbXBvb2xfZGVidWdfZW5hYmxlZCks
-IGFsbG93aW5nIG1lbXBvb2wgZGVidWdnaW5nIHRvIGJlDQo+ID4gdG9nZ2xlZCBjbGVhbmx5IHZp
-YSBpdHMgb3duIGJvb3QgcGFyYW1ldGVyLg0KPiA+DQo+ID4gU3VnZ2VzdGVkLWJ5OiBWbGFzdGlt
-aWwgQmFia2EgKFNVU0UpIDx2YmFia2FAa2VybmVsLm9yZz4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBM
-aSBSb25nUWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+ID4gQ2M6IFZsYXN0aW1pbCBCYWJr
-YSA8dmJhYmthQGtlcm5lbC5vcmc+DQo+ID4gQ2M6IEhhcnJ5IFlvbyA8aGFycnlAa2VybmVsLm9y
-Zz4NCj4gPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4NCj4g
-PiBDYzogSGFvIExpIDxoYW8ubGlAbGludXguZGV2Pg0KPiA+IENjOiBDaHJpc3RvcGggTGFtZXRl
-ciA8Y2xAZ2VudHdvLm9yZz4NCj4gPiBDYzogRGF2aWQgUmllbnRqZXMgPHJpZW50amVzQGdvb2ds
-ZS5jb20+DQo+ID4gQ2M6IFJvbWFuIEd1c2hjaGluIDxyb21hbi5ndXNoY2hpbkBsaW51eC5kZXY+
-DQo+ID4gQ2M6IE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRlYWQub3JnPg0KPiA+IENjOiBV
-c2FtYSBBcmlmIDx1c2FtYS5hcmlmQGxpbnV4LmRldj4NCj4gPiAtLS0NCj4gPiBEaWZmIHdpdGgg
-djE6DQo+ID4gCVJld3JpdGUgY29tbWl0IG1lc3NhZ2UsIGNoYW5nZSBlYXJseV9wYXJhbSB0byBf
-X3NldHVwDQo+ID4NCj4gPiAgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1l
-dGVycy50eHQgfCAgNSArKysrDQo+ID4gIG1tL21lbXBvb2wuYyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgMzINCj4gKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiA+ICAy
-IGZpbGVzIGNoYW5nZWQsIDI4IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pDQo+ID4NCj4g
-PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVy
-cy50eHQNCj4gPiBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMu
-dHh0DQo+ID4gaW5kZXggNjQyNjU5Yi4uODliNTk5NCAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVu
-dGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dA0KPiA+ICsrKyBiL0RvY3Vt
-ZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQo+ID4gQEAgLTM5ODAs
-NiArMzk4MCwxMSBAQCBLZXJuZWwgcGFyYW1ldGVycw0KPiA+ICAJCQlOb3RlIHRoYXQgZXZlbiB3
-aGVuIGVuYWJsZWQsIHRoZXJlIGFyZSBhIGZldyBjYXNlcyB3aGVyZQ0KPiA+ICAJCQl0aGUgZmVh
-dHVyZSBpcyBub3QgZWZmZWN0aXZlLg0KPiA+DQo+ID4gKwltZW1wb29sX2RlYnVnCVtNTV0NCj4g
-PiArCQkJRW5hYmxlIG1lbXBvb2wgZGVidWdnaW5nLiBUaGlzIGVuYWJsZXMgZWxlbWVudA0KPiA+
-ICsJCQlwb2lzb24gY2hlY2tpbmcgd2hlbiBmcmVlaW5nIGVsZW1lbnRzIGJhY2sgdG8gdGhlDQo+
-ID4gKwkJCXBvb2wuIFVzZWZ1bCBmb3IgZGVidWdnaW5nIG1lbXBvb2wgY29ycnVwdGlvbi4NCj4g
-PiArDQo+ID4gIAltZW10ZXN0PQlbS05MLFg4NixBUk0sTTY4SyxQUEMsUklTQ1YsRUFSTFldIEVu
-YWJsZSBtZW10ZXN0DQo+ID4gIAkJCUZvcm1hdDogPGludGVnZXI+DQo+ID4gIAkJCWRlZmF1bHQg
-OiAwIDxkaXNhYmxlPg0KPiA+IGRpZmYgLS1naXQgYS9tbS9tZW1wb29sLmMgYi9tbS9tZW1wb29s
-LmMgaW5kZXggZGIyM2UwZS4uNzFlNGI1NA0KPiAxMDA2NDQNCj4gPiAtLS0gYS9tbS9tZW1wb29s
-LmMNCj4gPiArKysgYi9tbS9tZW1wb29sLmMNCj4gPiBAQCAtMTYsMTEgKzE2LDI4IEBADQo+ID4g
-ICNpbmNsdWRlIDxsaW51eC9leHBvcnQuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L21lbXBvb2wu
-aD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3dyaXRlYmFjay5oPg0KPiA+ICsjaW5jbHVkZSA8bGlu
-dXgvc3RhdGljX2tleS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvaW5pdC5oPg0KPiA+ICAjaW5j
-bHVkZSAic2xhYi5oIg0KPiA+DQo+ID4gIHN0YXRpYyBERUNMQVJFX0ZBVUxUX0FUVFIoZmFpbF9t
-ZW1wb29sX2FsbG9jKTsNCj4gPiAgc3RhdGljIERFQ0xBUkVfRkFVTFRfQVRUUihmYWlsX21lbXBv
-b2xfYWxsb2NfYnVsayk7DQo+ID4NCj4gPiArLyoNCj4gPiArICogRGVidWdnaW5nIHN1cHBvcnQg
-Zm9yIG1lbXBvb2wgdXNpbmcgc3RhdGljIGtleS4NCj4gPiArICoNCj4gPiArICogVGhpcyBhbGxv
-d3MgZW5hYmxpbmcgbWVtcG9vbCBkZWJ1ZyBhdCBib290IHRpbWUgdmlhOg0KPiA+ICsgKiAgIG1l
-bXBvb2xfZGVidWcNCj4gPiArICovDQo+ID4gK3N0YXRpYyBERUZJTkVfU1RBVElDX0tFWV9GQUxT
-RShtZW1wb29sX2RlYnVnX2VuYWJsZWQpOw0KPiA+ICsNCj4gPiArc3RhdGljIGludCBfX2luaXQg
-bWVtcG9vbF9kZWJ1Z19zZXR1cChjaGFyICpzdHIpIHsNCj4gPiArCXN0YXRpY19icmFuY2hfZW5h
-YmxlKCZtZW1wb29sX2RlYnVnX2VuYWJsZWQpOw0KPiA+ICsJcmV0dXJuIDE7DQo+ID4gK30NCj4g
-PiArX19zZXR1cCgibWVtcG9vbF9kZWJ1ZyIsIG1lbXBvb2xfZGVidWdfc2V0dXApOw0KPiA+ICsN
-Cj4gPiAgc3RhdGljIGludCBfX2luaXQgbWVtcG9vbF9mYXVsX2luamVjdF9pbml0KHZvaWQpICB7
-DQo+ID4gIAlpbnQgZXJyb3I7DQo+ID4gQEAgLTM3LDcgKzU0LDYgQEAgc3RhdGljIGludCBfX2lu
-aXQgbWVtcG9vbF9mYXVsX2luamVjdF9pbml0KHZvaWQpICB9DQo+ID4gbGF0ZV9pbml0Y2FsbCht
-ZW1wb29sX2ZhdWxfaW5qZWN0X2luaXQpOw0KPiA+DQo+ID4gLSNpZmRlZiBDT05GSUdfU0xVQl9E
-RUJVR19PTg0KPiA+ICBzdGF0aWMgdm9pZCBwb2lzb25fZXJyb3Ioc3RydWN0IG1lbXBvb2wgKnBv
-b2wsIHZvaWQgKmVsZW1lbnQsIHNpemVfdCBzaXplLA0KPiA+ICAJCQkgc2l6ZV90IGJ5dGUpDQo+
-ID4gIHsNCj4gPiBAQCAtNzMsNiArODksOSBAQCBzdGF0aWMgdm9pZCBfX2NoZWNrX2VsZW1lbnQo
-c3RydWN0IG1lbXBvb2wgKnBvb2wsDQo+ID4gdm9pZCAqZWxlbWVudCwgc2l6ZV90IHNpemUpDQo+
-ID4NCj4gPiAgc3RhdGljIHZvaWQgY2hlY2tfZWxlbWVudChzdHJ1Y3QgbWVtcG9vbCAqcG9vbCwg
-dm9pZCAqZWxlbWVudCkgIHsNCj4gPiArCWlmICghc3RhdGljX2JyYW5jaF91bmxpa2VseSgmbWVt
-cG9vbF9kZWJ1Z19lbmFibGVkKSkNCj4gPiArCQlyZXR1cm47DQo+IA0KPiBXaXRoIHN0YXRpYyBr
-ZXlzIGl0J3MgYmV0dGVyIHRvIGhhdmUgdGhlIGNoZWNrIGluIHRoZSBjYWxsZXIgb2YgY2hlY2tf
-ZWxlbWVudCBzbw0KPiB3ZSBza2lwIG92ZXIgdGhhdCBjYWxsIGlmIGl0J3MgZGlzYWJsZWQsIGFu
-ZCBub3QgZG8gYSBjYWxsIHRoYXQgaW1tZWRpYXRlbHkNCj4gcmV0dXJucy4gU2luY2UgdGhlcmUn
-cyBhIHNpbmdsZSBjYWxsZXIsIHRoZXJlJ3Mgbm8gbmVlZCBmb3IgYW4gZXh0cmEgaW5saW5lDQo+
-IHdyYXBwZXIuDQo+IA0KDQpPaywgSSB3aWxsIGNoYW5nZSBpdCBpbiBuZXh0IHZlcnNpb24gDQpU
-aGFua3MgDQoNCltMaSxSb25ncWluZ10gDQoNCg0KPiA+ICsNCj4gPiAgCS8qIFNraXAgY2hlY2tp
-bmc6IEtBU0FOIG1pZ2h0IHNhdmUgaXRzIG1ldGFkYXRhIGluIHRoZSBlbGVtZW50LiAqLw0KPiA+
-ICAJaWYgKGthc2FuX2VuYWJsZWQoKSkNCj4gPiAgCQlyZXR1cm47DQo+ID4gQEAgLTExMiw2ICsx
-MzEsOSBAQCBzdGF0aWMgdm9pZCBfX3BvaXNvbl9lbGVtZW50KHZvaWQgKmVsZW1lbnQsIHNpemVf
-dA0KPiA+IHNpemUpDQo+ID4NCj4gPiAgc3RhdGljIHZvaWQgcG9pc29uX2VsZW1lbnQoc3RydWN0
-IG1lbXBvb2wgKnBvb2wsIHZvaWQgKmVsZW1lbnQpICB7DQo+ID4gKwlpZiAoIXN0YXRpY19icmFu
-Y2hfdW5saWtlbHkoJm1lbXBvb2xfZGVidWdfZW5hYmxlZCkpDQo+ID4gKwkJcmV0dXJuOw0KPiAN
-Cj4gRGl0dG8uDQo+IA0KPiA+ICsNCj4gPiAgCS8qIFNraXAgcG9pc29uaW5nOiBLQVNBTiBtaWdo
-dCBzYXZlIGl0cyBtZXRhZGF0YSBpbiB0aGUgZWxlbWVudC4gKi8NCj4gPiAgCWlmIChrYXNhbl9l
-bmFibGVkKCkpDQo+ID4gIAkJcmV0dXJuOw0KPiA+IEBAIC0xNDAsMTQgKzE2Miw2IEBAIHN0YXRp
-YyB2b2lkIHBvaXNvbl9lbGVtZW50KHN0cnVjdCBtZW1wb29sDQo+ICpwb29sLA0KPiA+IHZvaWQg
-KmVsZW1lbnQpICAjZW5kaWYNCj4gPiAgCX0NCj4gPiAgfQ0KPiA+IC0jZWxzZSAvKiBDT05GSUdf
-U0xVQl9ERUJVR19PTiAqLw0KPiA+IC1zdGF0aWMgaW5saW5lIHZvaWQgY2hlY2tfZWxlbWVudChz
-dHJ1Y3QgbWVtcG9vbCAqcG9vbCwgdm9pZCAqZWxlbWVudCkNCj4gPiAteyAtfSAtc3RhdGljIGlu
-bGluZSB2b2lkIHBvaXNvbl9lbGVtZW50KHN0cnVjdCBtZW1wb29sICpwb29sLCB2b2lkDQo+ID4g
-KmVsZW1lbnQpIC17IC19IC0jZW5kaWYgLyogQ09ORklHX1NMVUJfREVCVUdfT04gKi8NCj4gPg0K
-PiA+ICBzdGF0aWMgX19hbHdheXNfaW5saW5lIGJvb2wga2FzYW5fcG9pc29uX2VsZW1lbnQoc3Ry
-dWN0IG1lbXBvb2wgKnBvb2wsDQo+ID4gIAkJdm9pZCAqZWxlbWVudCkNCg0K
+Hi,
+
+On 6/1/26 12:19, Zeng Heng wrote:
+> From: Zeng Heng <zengheng4@huawei.com>
+> 
+> v2: https://lore.kernel.org/all/20260529063132.766491-1-zengheng@huaweicloud.com/
+> v1: https://lore.kernel.org/all/20260526015720.206854-1-zengheng@huaweicloud.com/
+> 
+> Changes in v3:
+>   - Keep CONFIG_ARM64_WORKAROUND_DISABLE_CNP config and generalise
+>     ARM64_WORKAROUND_DISABLE_CNP capability.
+> 
+> Changes in v2:
+>   - Unify CNP disable workaround into ARM64_WORKAROUND_DISABLE_CNP
+> 
+> Zeng Heng (2):
+>   arm64: cpufeature: Add WORKAROUND_DISABLE_CNP capability
+>   arm64: kernel: Disable CNP on HiSilicon HIP09
+> 
+>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                          | 20 ++++++++++++++++++++
+>  arch/arm64/include/asm/cpucaps.h            |  4 ++--
+>  arch/arm64/kernel/cpu_errata.c              | 17 ++++++++++++-----
+>  arch/arm64/kernel/cpufeature.c              |  2 +-
+>  arch/arm64/tools/cpucaps                    |  2 +-
+>  6 files changed, 38 insertions(+), 9 deletions(-)
+> 
+> --
+> 2.43.0
+> 
+
+Thanks a lot for going the extra mile and putting everything
+together! I have no further comments, but let's give others some
+time to chime in.
+
+Cheers
+Vladimir
