@@ -1,192 +1,151 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F2137F006
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 10:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397891; cv=pass; b=pPLQBX1ByoQU1jgxFuynfcuf7whaCUXrbBIeI7kN1g1zKhWtjcp6J8EWKkyeO9YYGynzgJ8l7aIq4cUXEMjpWEq+6EiMwvnWICRz184F9I+jAhB3wdNyg23YJPr9h2LmfnQUximEdiAv9hI04IUOKMV8ftVtyCdyM2LzpfqrDrs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397891; c=relaxed/simple;
-	bh=IThGWOOZGbVGfuCaLgZyh1XcfzbaXpKlfr5NbCDa4KY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bq6Boi5ea7FfNe+Tm4HNYjCAkSJRHPggtf24q0oYv5cawq6Z/kHPod08lZslEuJGwRwy8jdTetJtI+fsqBgG1xRuY6T+em7mIu9OPAw86b5VJ/ZxOaZVThvY4V/aFjnlIdG+MHO4Bf2lHYYuE9ZXdCODaHCTqzB0tZApa7wDqcg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W+uq8hrC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FWRhYKLF; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W+uq8hrC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FWRhYKLF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780397889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
-	b=W+uq8hrCIiZeSY5aG0+UkAh67C6CKkCXFSs1YTHS1MSMDQyrRbf9mecfXgveFI0f+AauAk
-	/w+2wL8Gn9F8tLnToUTzqprr27JnLrEQp+DLI/0EUReqW8oK80Nngg0xh0b1C8JYDVd2Bw
-	sLdjUEU+RmWPR1R8kSZfHbzB/WofkCE=
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
- [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-340-peFFy0FbMf2oAniZnG2dPA-1; Tue, 02 Jun 2026 06:58:07 -0400
-X-MC-Unique: peFFy0FbMf2oAniZnG2dPA-1
-X-Mimecast-MFC-AGG-ID: peFFy0FbMf2oAniZnG2dPA_1780397887
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-6605694a059so5357888d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 03:58:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780397887; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VZFvlAqmdrThxkc/Pdij2oHvCoofXWFu4zc3GmYj/U0WlSJdTELVE09u9UDUgoCsbt
-         nVIdNe4AMrp4+SjVAqZ7qn0kInhI3DKqj+pdRhD608vDpMUBevZJt58AFQeK/5x88fu4
-         jd7WVwLVSKWJfT6J9aNnmBaJVqCSxzUS+64bKfpMpzh8iIP01z6ZnIad6bPq1sRJm4Kc
-         iVLPhNAl4WF4A2ZxiI5bXwSLo1VDrP8KGp5pBxgFoa1jjW2kW8Sz8UcSm61SVcptrbZ0
-         nIVXrvwt+AeLOLnT0u93YaSRpBy9BBxNcIiyOwqd/hcDoJMR5c4THZmrqn93oF4qN7wt
-         VQPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
-        fh=iRmbNBvmTVOaaG15gglLhUK1mnHiint5PALrclwTl7c=;
-        b=J6h5n+hgVRBZJ/ITklFcK9kh4lH0dFnRyrOPhg8ZDos3kc0nyDDiEK68anjZGMf2+4
-         7F8nw3kJlnP8PTrRmVsA6ANlZVOTqa3tsYi512t569HpRjeCb1WZZp9ID4opECFCl/OF
-         ySCu+HpSHy7AybjodeKV1l8haAzGsOeDrGBGCX5mP8su4Y4IHM+x4N/pzlR1J2CIB2UE
-         7wM3XP+7MA2jVZS2YGpQDN8w0szjcXJ4eANxYsldYWW79DV0HWkN9ldvOiA0OsIeEJPe
-         vdkiqJra7ZeKMyo+O5MVTGRCNdfJghizoL1aldbdA76bJTMFlYO0TR7pxnAlZcUYcA76
-         CVsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780397887; x=1781002687; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
-        b=FWRhYKLFrGgmtK88SrdZ+1Q2uAYrUzcxByt7Jze8CahrRoufFdYCNUfiT00SXg/aDV
-         Oy+MWVXHGQGaC5ODn0066KtKEK2x4hsQ/bJCP14/7xDM1mLSBVAsf4g6xUYrg6B8Cvdo
-         QgJxVKy2WcZsMK7dgfI33/Ft+EsIpMga2SuKMVSLOHuU3CmDRM8hLmSWGbCCYV3jDqJq
-         C9xUFPedYDrpVlWZvx4/paB2aUOZYXejTJ6OFSdvAqvvzecTd5HS2lAz6Rp2wee+GuIy
-         y2ahz1ALCphFWkHpsZFLy/3A0dht0q+JNc7jcAE5bhGv7og3nZyvRaWGHPuuYY2syJQ1
-         K5Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780397887; x=1781002687;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
-        b=V6cd5uf8ZtYZyxg8olldUcSyl+92GDh59A+C7BEbRCDvVvQ0x5pUwHkY/IJdjYa/aP
-         Hlghru2+Nuz1xYMXmuX87G6yQhU2dFvISiDrUgiUWQlV1yTaOmpzFcUe74rRDmuZY08J
-         rMa7lmPgmJyDLLLhe0WnvlUKSaJVa5QGg5TCbzNamTt64G9r9/vkj3Sqr+nN/Uyc0Y2A
-         Gr8V23RLSPSj6GtnN11Dzq07BZW8WcLmjl4D8NJtl3tMNYVImDXEXsNagBc3VZ8LuvAy
-         +X/XY85QYuhfAwwcXVS4WVJETA/QSwjuef1LRxp8DEfRN64/XA4DMoe9hLR607kTBPW1
-         6ihg==
-X-Gm-Message-State: AOJu0Yy6B7xGxNNr/5XTHpoX1t6/DC7r/FnMnYqVwB61DcfCWy62lkgC
-	5RcEe2Ll4UaJAZ8917b7gzZuxRn23qu3mJTYfLldYW1WMGOVGuV+ZsVjK2k2LH+J4+4iGD2UgDe
-	AEkcuBMXtuvcRF63NoyZXQHlGpTefpz4K/4pgXPfr384d2CPx2QLPh+23TGJ/8iV5fj0ig5Cqu+
-	/qpuE5kAYDQtSLkCysLA1hgG7eyoZ35igtvaWC
-X-Gm-Gg: Acq92OGSGWDMXmXcMCCPNyd7Q8pTcxwALPPBbyzoqlEX/GkBck2m7AKiSRNhphjW4Pz
-	z37gcpWnv4Mx932R7cNI7qeW2PcnF5iwFRs99JoRjoN4WuxJnXVOB9VkUGRlVdTCF4yv7HoLsZ4
-	Q64LPQ8CfVXFT85hSzezA+Yzc7tjGFzQAysF1CZBZzTCgtS4wwxm0l9fNfgLdPKORGmNdpM/qFy
-	gK5ka0UMxhLqGpNSA==
-X-Received: by 2002:a05:690e:4084:b0:660:8253:b836 with SMTP id 956f58d0204a3-6608253ca8bmr7541728d50.5.1780397887238;
-        Tue, 02 Jun 2026 03:58:07 -0700 (PDT)
-X-Received: by 2002:a05:690e:4084:b0:660:8253:b836 with SMTP id
- 956f58d0204a3-6608253ca8bmr7541686d50.5.1780397886838; Tue, 02 Jun 2026
- 03:58:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878CD303CAB;
+	Tue,  2 Jun 2026 10:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780397929; cv=none; b=sz3ZsyNexO/Bxy2ZM+KN6iOfeG/tLTlxcE83tG+W7AZDPFlHrQq5qB88sV4vYTCkcDdzfVOf2oHWE/K38CwvmCXWOS8mJHxyiKj3CoffTJecr+gT59PndihCyGQmU3rFGKkUfzcYeJ6DPp8+CoMsU1YgM4A7mOErSHlylyx3FpM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780397929; c=relaxed/simple;
+	bh=MAOU/H4rP3vMD5JkGQ/N6kaHM6Ob1xXG95h7Yn8X/I8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Epi//UQlY7Qxivwy/vJVIVyzjfd1Y6QbxiMDJqEXkir3GdDIS9hyTprkbMox0vnuFVUHEOK+2OWjBQaOQgcIxlLKH9RNUo7bUgOiOSDk/C0hEI3hBGXWoLQiU4vZz2HsgfxMXDlwoW5wH1kxoBGDP3nfxj0xwDSUCnUdFSyR1Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 054f0f425e7211f1a87c2323a98e90a4-20260602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:b8fb18fe-69d2-430e-a2d4-b25185e77789,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:6129ffd6-0b04-449f-bc4f-a909b8df9b02,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:-10|0|15|50,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:ni
+	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
+	:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 054f0f425e7211f1a87c2323a98e90a4-20260602
+Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 767860867; Tue, 02 Jun 2026 18:58:43 +0800
+X-UUID: 032bf1445e7211f1943831befd1aa4bc-20260602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:b2ed9818-399c-4c40-83a8-13e3fd1ae099,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:4429ffd6-0b04-449f-bc4f-a909b8df9b02,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:-10|0|15|50,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:ni
+	l,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE
+	:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 032bf1445e7211f1943831befd1aa4bc-20260602
+Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg11.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1693711392; Tue, 02 Jun 2026 18:58:39 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
+ Tue, 2 Jun 2026 18:58:37 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
+ 15.02.2562.029; Tue, 2 Jun 2026 18:58:37 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Jakub Kicinski <kuba@kernel.org>, Jack Wu via B4 Relay
+	<devnull+jackbb_wu.compal.com@kernel.org>
+CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
+	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Wen-Zhi
+ Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
+	"Minano Tseng" <Minano.tseng@mediatek.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "Simon Horman" <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [External Mail] Re: [PATCH 00/11] net: wwan: t9xx: Add MediaTek
+ T9XX WWAN driver
+Thread-Topic: [External Mail] Re: [PATCH 00/11] net: wwan: t9xx: Add MediaTek
+ T9XX WWAN driver
+Thread-Index: AQHc8iePJegWnmu1bUi94DWo9+PN/LYrGJEz
+Date: Tue, 2 Jun 2026 10:58:37 +0000
+Message-ID: <c279aea41ecf41c6aca4314a2f4e306b@compal.com>
+References: <20260529-t9xx_driver_v1-v1-0-bdbfe2c01e57@compal.com>,<20260601173401.2c892526@kernel.org>
+In-Reply-To: <20260601173401.2c892526@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29982.005
+x-tm-as-result: No-10--20.911500-8.000000
+x-tmase-matchedrid: 13nEecSBt9Euv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLS9XY
+	nKy9ZqbG0wNjG7j2lpfWtteiDVXz7mpW0A+eYNud4WMcbQqR5OFkrVIXZHd52KloHyDFpaEsbxq
+	9W35blN9+M8NObIEDkCLCiAPpH5Zk/7zDDoXJoQ2DhqUecocKp5Wa6EbToghtwd4te8L2vhKVPE
+	hvdlk+CqeenaCmQghS8mtEegHTuKyGtpiI1cumNtTSGjubFor4a3FVQe5d4zvlNADTSrHglS1A/
+	qnDlqGPFpzeGnmPO0/7sEGacnICGo1g3zDt1sv5v9rSd36EgULA931+mNd9sJs7gkGWoKY36QLg
+	e8Tcpn0=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--20.911500-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29982.005
+x-tm-snts-smtp: 3683968551714F2E1CC524964F4B12B68B09CA53E3CB9515879F16383EF833F72000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522150009.121603-12-npache@redhat.com> <20260531071845.10875-1-lance.yang@linux.dev>
-In-Reply-To: <20260531071845.10875-1-lance.yang@linux.dev>
-From: Nico Pache <npache@redhat.com>
-Date: Tue, 2 Jun 2026 04:58:46 -0600
-X-Gm-Features: AVHnY4IqE8U3CJE9xIL2UnupWmTAd82eHE7h-QioX8Ctpe94C2G_M5ur14b-CTk
-Message-ID: <CAA1CXcA+oZmp=cxiC2_EBDxqGX94gAd335d9eFPNv=j_0=og7Q@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-To: Lance Yang <lance.yang@linux.dev>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
-	joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, ljs@kernel.org, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
-	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
-	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
-	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
-	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 31, 2026 at 1:19=E2=80=AFAM Lance Yang <lance.yang@linux.dev> w=
-rote:
->
->
-> On Fri, May 22, 2026 at 09:00:06AM -0600, Nico Pache wrote:
-> [...]
-> >@@ -1587,10 +1749,11 @@ static enum scan_result collapse_scan_pmd(struct=
- mm_struct *mm,
-> >       if (result =3D=3D SCAN_SUCCEED) {
-> >               /* collapse_huge_page expects the lock to be dropped befo=
-re calling */
-> >               mmap_read_unlock(mm);
-> >-              result =3D collapse_huge_page(mm, start_addr, referenced,
-> >-                                          unmapped, cc, HPAGE_PMD_ORDER=
-);
-> >-              /* collapse_huge_page will return with the mmap_lock rele=
-ased */
-> >+              nr_collapsed =3D mthp_collapse(mm, vma, start_addr, refer=
-enced,
-> >+                                           unmapped, cc, enabled_orders=
-);
-> >+              /* mmap_lock was released above, set lock_dropped */
-> >               *lock_dropped =3D true;
-> >+              result =3D nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
->
-> Hmm ... don't we lose the allocation-failure result here?
->
-> Previously collapse_scan_pmd() propagated SCAN_ALLOC_HUGE_PAGE_FAIL from
-> collapse_huge_page(), so khugepaged would call khugepaged_alloc_sleep()
-> in khugepaged_do_scan().
->
-> Now if allocation fails and nr_collapsed stays 0, we just return
-> SCAN_FAIL. So we won't back off via khugepaged_alloc_sleep() anymore?
-
-Ok I did the error propagation! I think I handled both of these cases
-you brought up pretty easily.
-
-However I don't know what to do in the following case: We successfully
-collapsed some portion of the PMD, but during that process, we also
-hit an allocation failure. Is it best to back off entirely? or can we
-treat some forward progress as a sign we can continue trying collapses
-without sleeping.
-
-Basically, do we prioritize SCAN_ALLOC_HUGE_PAGE_FAIL or the
-successful collapses as the returned value?
-
-This is what I currently have:
-done:
-    if (collapsed)
-        return SCAN_SUCCEED;
-    if (alloc_failed)
-        return SCAN_ALLOC_HUGE_PAGE_FAIL;
-
-Thanks,
--- Nico
-
->
-> Cheers, Lance
->
-
+SGkgSmFrdWIsDQoNCj4gT24gRnJpLCAyOSBNYXkgMjAyNiAxODozMTozOSArMDgwMCBKYWNrIFd1
+IHZpYSBCNCBSZWxheSB3cm90ZToNCj4gPiA0MyBmaWxlcyBjaGFuZ2VkLCAxNDc2MSBpbnNlcnRp
+b25zKCspDQo+DQo+IFBsZWFzZSB0cnkgdG8gY3V0IHRoaXMgZG93biB0byB+NWtMb0MgZm9yIHRo
+ZSBpbml0aWFsIHN1Ym1pc3Npb24uDQo+IFdoYXRldmVyIHRoZSBhYnNvbHV0ZSBtaW5pbXVtIHNl
+bnNpYmxlIGNodW5rIG9mIGNvZGUgaXMuDQo+DQo+IEVhY2ggcGF0Y2ggbXVzdCBidWlsZCBjbGVh
+bmx5IHdpdGggVz0xDQoNCldlJ3ZlIGFscmVhZHkgcmVkdWNlZCB0aGlzIHNpZ25pZmljYW50bHkg
+ZnJvbSB0aGUgb3JpZ2luYWwgNDFrIExvQw0KZG93biB0byB+MTQuN2sgYnkgc3RyaXBwaW5nIG91
+dCBub24tZXNzZW50aWFsIGZlYXR1cmVzIHN1Y2ggYXMNCmV4Y2VwdGlvbiBoYW5kbGluZywgbWVt
+b3J5IGxvZ2dpbmcsIGRldmxpbmssIHN0YXRpc3RpY3MsIGRlYnVnDQp0cmFjaW5nLCBhbmQgb3Ro
+ZXJzLg0KDQpXZSBldmVuIHJlbW92ZWQgc29tZSBhcmd1YWJseSBuZWNlc3NhcnkgZmVhdHVyZXMg
+KFBNLCBtZGxvZywNCnRocm91Z2hwdXQgb3B0aW1pemF0aW9ucykgdGhhdCB3ZSBwbGFuIHRvIHN1
+Ym1pdCBhcyBmb2xsb3ctdXANCnNlcmllcy4NCg0KTm90ZSB0aGF0IHRoZSBsaW5lIGNvdW50IG1h
+eSBzbGlnaHRseSBpbmNyZWFzZSBpbiB2MiwgYXMgd2UgcGxhbg0KdG8gYWRkIG1pc3Npbmcga2Rv
+YyBjb21tZW50cyBiYXNlZCBvbiByZXZpZXcgZmVlZGJhY2suDQoNCkZvciByZWZlcmVuY2UsIHRo
+ZSB0N3h4IGRyaXZlciAodHdvIGdlbmVyYXRpb25zIG9sZGVyLCBzaW1wbGVyIEhXKQ0KaGFkIGFu
+IGluaXRpYWwgc3VibWlzc2lvbiBvZiB+MTEuM2sgTG9DIFsxXS4gVGhlIHQ5eHggaGFyZHdhcmUg
+aXMNCm1vcmUgY29tcGxleCwgc28gd2UgYmVsaWV2ZSBiZWluZyBpbiBhIHNpbWlsYXIgcmFuZ2Ug
+aXMgcmVhc29uYWJsZS4NCg0KV2UnZCBsaWtlIHRvIGtlZXAgdGhlIGRyaXZlciBmdW5jdGlvbmFs
+IGFuZCByZXZpZXdhYmxlIGluIGl0cw0KY3VycmVudCBzY29wZS4gRG8geW91IGhhdmUgYW55IHN1
+Z2dlc3Rpb25zIG9uIGhvdyB3ZSBjb3VsZCBmdXJ0aGVyDQpyZWR1Y2UgdGhlIHNpemUgd2hpbGUg
+bWFpbnRhaW5pbmcgYSB3b3JraW5nIGluaXRpYWwgc3VibWlzc2lvbj8NCg0KWzFdIGh0dHBzOi8v
+cGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9uZXRkZXZicGYvY292ZXIvMjAyMjA1MDYxODEz
+MTAuMjE4MzgyOS0xLXJpY2FyZG8ubWFydGluZXpAbGludXguaW50ZWwuY29tLw0KDQpUaGFua3Mu
+DQoNCg0KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KVGhp
+cyBtZXNzYWdlIG1heSBjb250YWluIGluZm9ybWF0aW9uIHdoaWNoIGlzIHByaXZhdGUsIHByaXZp
+bGVnZWQgb3IgY29uZmlkZW50aWFsIG9mIENvbXBhbCBFbGVjdHJvbmljcywgSW5jLiBJZiB5b3Ug
+YXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgbWVzc2FnZSwgcGxlYXNlIG5v
+dGlmeSB0aGUgc2VuZGVyIGFuZCBkZXN0cm95L2RlbGV0ZSB0aGUgbWVzc2FnZS4gQW55IHJldmll
+dywgcmV0cmFuc21pc3Npb24sIGRpc3NlbWluYXRpb24gb3Igb3RoZXIgdXNlIG9mLCBvciB0YWtp
+bmcgb2YgYW55IGFjdGlvbiBpbiByZWxpYW5jZSB1cG9uIHRoaXMgaW5mb3JtYXRpb24sIGJ5IHBl
+cnNvbnMgb3IgZW50aXRpZXMgb3RoZXIgdGhhbiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IGlzIHBy
+b2hpYml0ZWQuDQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+DQo=
