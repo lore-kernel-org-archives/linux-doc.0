@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2EB369D65;
-	Mon,  1 Jun 2026 23:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26B4286D7D;
+	Tue,  2 Jun 2026 00:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780357404; cv=none; b=k701kYs/tt+tVh9ukOCtQoPABvMY9XPryQeUDdSdKEk1C+L4952ZuV66qdjy7YImfDiVF1Sx+1fc14BKWO33wxWqGev3Xkp5rqx4U0y/nSQF3VTGvBW6sptLHQzDBH85tOzLeDs09vcGAFC53ak9cHRHxcqTnolkZZGDffdiXfA=
+	t=1780360306; cv=none; b=NpztX+Wlnc8/4CRtWXeg1lg9P1oXi4C1+JO/ZZPUdJXk8GxzaPdctAhVbl8gNJafUPO6HN0Jh2VwwMTZY1UUf7Fhlvl49LnUmeNxACzPsh+SELqFK0HfVFq4lvcrfeA8NN6J0DdKwlPec2KpOAyFx+soZruQkqtyKsCP1UaaWs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780357404; c=relaxed/simple;
-	bh=dyyVbCYfhF0ne7fVBeLpfHYmemWTvM+zrxzAGG0dV4I=;
+	s=arc-20240116; t=1780360306; c=relaxed/simple;
+	bh=+8sQrUqGSN1oOA5tT/s+QkoUQ8LxHayYh2tkLGm+6aA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aNtT4EzV3fnN/WUa6oG2wOjjIdaSm7FYYGCdzJRc9uAqyrrFx0wOjcky90UqI0kggK/Rg35AYVN3cDqPeCr07LioyHfhqhdBNPkmStKJ/vn3zMop0WlsMQ1Yr2EtM7L3oW7bFdiX23wt6gMwp94t2PGTYo4KsjW60LDWLMZ9LEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YS8So822; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fRy3lFGGMULVqHBxATllNxsaB1Fs5p7C7ow+q7zos7rOLFdaGNaHyWdCLrxhaYYzgXJPKqZ3vK/+slYyJ+zx1CJDd1qif/yMd12VRTvSQqp1bgwb3Zy55CGu4dT3BYHgHsQk1D2uE5A41UrcHu49DPKP1y1XNWPD/r6nGEhnxXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1O5VgG7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YS8So822"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3911F00893;
-	Mon,  1 Jun 2026 23:43:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1O5VgG7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0391F00893;
+	Tue,  2 Jun 2026 00:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780357403;
-	bh=+gK9RZcJQHg70lk9XCvhC2rBm1ZbkmW6WyWwQi+sjSs=;
+	s=k20260515; t=1780360304;
+	bh=dvpsrQF436x2L0cWUtnjT+RXsKFfyVf7IVhk+awr3Ns=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YS8So822tXldNNp08c59d/L3DIO8UolYxXsGDzxUQZI9fWdEXREGViW180dGtgTXu
-	 X1SE2oHVjiDRdMyOkrZP/nGBCAnBAWajobUwYNkY0BjkY3ge8rJmcNioFAzwhUZYwB
-	 d7pXq7ocrVlje0DlSS9Nk5D0cMg/mIrdqASYEH2V8+blalGws264fPrGc9L9u6En+9
-	 S7jXz1qgQaoBUgO95eAmuFBs6VL6rVFuyknIwCWQbr5Yb8omij1BZNLkC1CrL1B9hC
-	 MARATmllFWXsEbSJ1lKidMziAtCP1cBPLaQnPfkGB7SEe1ebjwXsxvS4pEo9i2HUKh
-	 XrfPuYpplpbYQ==
-Date: Mon, 1 Jun 2026 16:43:21 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Daniel Vacek <neelx@suse.com>
-Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	David Sterba <dsterba@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-block@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 08/43] fscrypt: add documentation about extent
- encryption
-Message-ID: <20260601234321.GE25574@quark>
-References: <20260513085340.3673127-1-neelx@suse.com>
- <20260513085340.3673127-9-neelx@suse.com>
+	b=G1O5VgG7fthYL5WKXAy3t/bCYnCqhKDmIUjEsm+ZGqi+ffXciopqgn1893NvG6rUo
+	 PXyr5CNlmK0mjIB18aA5+8RD1D2IBm2SonVoAbGBtTdSDuXofu/Nhr9Qc12RD5QfFi
+	 UmPwy7FucbWywRVVYGfBV7HJezhTMxaDpmhH+yP44zkO5Z/9z0zOh6rwNCSxdHM9ef
+	 5ic6sxSiFHOkYFzrZmUyD0uFU72zisqaoyuoazfFbDgXuXeOFzGXz9v+mgeBo3sSNq
+	 cshKdE57GJRSp5CmcTSFHCz/NC+2tfW7kW859Uhr1xAGX7GFsFy59m3DE39N+1qzid
+	 wFBEPHOsVNq4w==
+Date: Tue, 2 Jun 2026 00:31:42 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+Message-ID: <ah4ZZGl7GYJf54Wz@google.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,67 +49,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260513085340.3673127-9-neelx@suse.com>
+In-Reply-To: <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
 
-On Wed, May 13, 2026 at 10:52:42AM +0200, Daniel Vacek wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
+On Mon, Jun 01, 2026 at 07:07:45PM +0800, Hao Jia wrote:
 > 
-> Add a couple of sections to the fscrypt documentation about per-extent
-> encryption.
+> 
+> On 2026/5/30 09:24, Yosry Ahmed wrote:
+> > On Tue, May 26, 2026 at 07:45:58PM +0800, Hao Jia wrote:
+> > > From: Hao Jia <jiahao1@lixiang.com>
+> > > 
+> > > The zswap background writeback worker shrink_worker() uses a global
+> > > cursor zswap_next_shrink, protected by zswap_shrink_lock, to round-robin
+> > > across the online memcgs under root_mem_cgroup.
+> > > 
+> > > Proactive writeback also wants a similar per-memcg cursor that is
+> > > scoped to the specified memcg, so that repeated invocations against
+> > > the same memcg make forward progress across its descendant memcgs
+> > > instead of restarting from the first child memcg each time.
+> > 
+> > Is this a problem in practice?
+> > 
+> > Is the concern the overhead of scanning memcgs repeatedly, or lack of
+> > fairness? I wonder if we should just do writeback in batches from all
+> > memcgs, similar to how reclaim does it, then evaluate at the end if we
+> > need to start over?
+> > 
+> 
+> Not using a per-cgroup cursor will cause issues for "repeated small-budget
+> calls" cases. For example, repeatedly triggering a 2MB writeback might
+> result in only writing back pages from the first few child memcgs every
+> time. In the worst-case scenario (where the writeback amount is less than
+> WB_BATCH), it might only ever write back from the first child memcg.
 
-A few things that were missed:
+Right, so a fairness concern?
 
-- "Contents encryption" section should be updated to document how
-  extents are encrypted
+I wonder if we should just reclaim a batch from each memcg, then check
+if we reached the goal, otherwise start over. If the batch size is small
+enough that should work?
 
-- btrfs should be added to the list of filesystems in the introduction
-  section and in the "Tests" section
+> 
+> Similar to how memory reclaim uses mem_cgroup_iter() (via struct
+> mem_cgroup_reclaim_iter) and the old shrink_worker() used zswap_next_shrink,
+> we need a shared cursor here.
 
-- "Read-only kernel memory compromise" should be updated to mention the
-  new limitation which extent-based encryption creates.
-  Maybe after the sentence "Per-file keys for in-use files will *not* be
-  removed or wiped.", insert "On filesystems that use per-extent
-  encryption, master keys for in-use files will not be wiped either."
+Right, I understand that in theory we need a cursor. I am just wondering
+if the complexity is justified in practice. Reclaim is a much larger
+beast than zswap writeback. I wonder if we can just get away with
+scanning a batch from each child memcg -- for per-memcg reclaim, not
+global.
 
-The list of filesystems can also be found in the help text for the
-CONFIG_FS_ENCRYPTION kconfig.  That should be updated too.
+We can always improve it later with a cursor if there's an actual need.
 
-> +For certain file systems, such as btrfs, it's desired to derive a
-> +per-extent encryption key.  This is to enable features such as snapshots
+> 
+> 
+> > > 
+> > > Naturally, group the cursor and its protecting spinlock into a
+> > > zswap_wb_iter struct, and make it a member of struct mem_cgroup to
+> > > realize per-memcg cursor management. Accordingly, shrink_worker() now
+> > > uses the lock and cursor in root_mem_cgroup->zswap_wb_iter.
+> > 
+> > If we really need to have per-memcg cursors (I am not a big fan), I
+> > think we can minimize the overhead by making the cursor updates use
+> > atomic cmpxchg instead of having a per-memcg lock.
+> > 
+> 
+> Because mem_cgroup_iter() always calls css_put(&prev->css), we cannot simply
+> update zswap_wb_iter.pos via cmpxchg() after calling it. Doing so could lead
+> to a double css_put() issue on prev->css.
+> 
+> Therefore, if we switch to the cmpxchg() approach, we wouldn't be able to
+> reuse the existing mem_cgroup_iter() logic. We would have to write a new
+> function similar to cgroup_iter(), and its implementation might end up
+> looking a bit obscure/complex.
 
-It's necessary, not just "desired".  The per-file keys just don't work
-when multiple files can share the same extents.
+What if we do something like this (for the global cursor):
 
-> +Currently the inode's master key and encryption policy must match the
-> +extent, so you cannot share extents between inodes that were encrypted
-> +differently.
+	do {
+		memcg = xchg(zswap_next_shrink, NULL);
+		memcg = mem_cgroup_iter(NULL, memcg, NULL);
+		/* If the cursor was advanced from under us, try again */
+		if (!try_cmpxchg(zswap_next_shrink, NULL, memcg))
+			continue;
+	} while (..);
+			
 
-Here's another instance of "the inode".  It should say something like:
-Currently, each extent's master key and encryption mode always match the
-corresponding values from each inode that shares the extent.
+There is a window where a racing shrinker will see the cursor as NULL
+and start over, but that should be fine. We can generalize this for the
+per-memcg cursor.
 
-> +The extent encryption context mirrors the important parts of the above
-> +`Encryption context`_, with a few omissions.  The struct is defined as
-> +follows::
-> +
-> +        struct fscrypt_extent_context {
-> +                u8 version;
-> +                u8 encryption_mode;
-> +                u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
-> +                u8 nonce[FSCRYPT_FILE_NONCE_SIZE];
-> +        };
-> +
-> +Currently all fields much match the containing inode's encryption
-> +context, with the exception of the nonce.
-> +
-> +Additionally extent encryption is only supported with
-> +FSCRYPT_EXTENT_CONTEXT_V2 using the standard policy; all other policies
-> +are disallowed.
+That being said..
 
-FSCRYPT_EXTENT_CONTEXT_V2 should say FSCRYPT_EXTENT_CONTEXT_V1.
+> 
+> Currently, this lock is only used in shrink_memcg(), proactive writeback,
+> and mem_cgroup_css_offline(). Note that shrink_memcg() only acquires the
+> lock of the root cgroup, and mem_cgroup_css_offline() is unlikely to be a
+> hot path.
 
-Both version and nonce are exceptions, not just nonce.
+..this made me realize it's probably fine to just use a global lock for
+now?
 
-Unclear what "the standard policy" is.
+IIUC the only additional contention to the existing lock will be from
+userspace proactive writeback, and that shouldn't be a big deal
+especially with the critical section being short?
 
-- Eric
+> 
+> So, should we keep the spin_lock or go with the cmpxchg() approach?
+> Yosry and Nhat, what are your thoughts on this?
+
+I think we should experiment with the global lock first. See if you
+observe any regressions with workloads that put a lot of pressure on the
+lock (a lot of threads in reclaim doing writeback + a few userspace
+threads doing proactive writeback). See if the userspace threads
+actually cause a meaningful regression.
+
+> 
+> 
+> 
+> > > 
+> > > Because the cursor is now per-memcg, the offline cleanup must visit
+> > > every ancestor that could be holding a reference to the dying memcg.
+> > > Factor out __zswap_memcg_offline_cleanup() and walk from dead_memcg up
+> > > to the root.
+> > 
+> > Another reason why I don't like per-memcg cursors. There is too much
+> > complexity and I wonder if it's warranted. If we stick with per-memcg
+> > cursors please do the refactoring in separate patches to make the
+> > patches easier to review.
+> 
+> 
+> Sorry about that. I will try to keep each patch as simple as possible in the
+> next version.
+
+No worries, thanks!
+
+> 
+> 
+> Thanks,
+> Hao
+> 
+> 
