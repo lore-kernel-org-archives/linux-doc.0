@@ -1,180 +1,106 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CBE3064B5;
-	Tue,  2 Jun 2026 05:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7522E7F39
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 06:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780379214; cv=none; b=kUd46xDyS32iDGvz9NXA4EdiKpI/Sgj9RdsQuZ8az5IaASZbnndmivY8u0CFwMNAhzeIkecrbKnN+dcIKNNC/WRAyrYRpogvo/eP4A27Yi2L66uSSthTt2+dfeetc8Re3Qez1xMWybvluDoQeQPms1DzbLJoc0f3hKH6lGUjPXA=
+	t=1780380945; cv=none; b=PFRNKNtkKSJ5wia1PbiEsnQRi3Ud/gQmGjM8WYXjPUJ8IGJJin3rb16mhRijIUZWc7HGZGwC0jOisJ/AZW0/91i/lBPNdkFMnTAaFQeRIENeK/rdVcadHtHSme/P77uEvUeMgycHmi0N9MMfsFRV81CH+tTUmkFSTJb7G6FEQa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780379214; c=relaxed/simple;
-	bh=1zAqYg60GAZgU4KKXvACIRybU0aAzPr4a/WkAX8AOak=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ppl9QS2txJQB/tLBwQp5Q0ZXLbczwXK4XDmybIZ7pvtLHHlla8XQCk/wuXFZMuY1H2J1n+WAFpUorL0hcPR0xU1Ou6BQ+C0JzAPZzS/2qlTI85QzfeQsdzkfvizqkEcP7NoNBTGPwqfi17kpUF793Lr4Hh9ytvMysG6bkVMkyoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2ho+sF/d; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1780380945; c=relaxed/simple;
+	bh=1X/bccwOfssWIS6ajyQ189AljJH2LtuBT18CMIZ+1Ls=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=kcrP/5oisw7dHv3lgDVaYgaxcTVoYHc3Gn5xL4WCR18zQFFQZHNy1K3aImYN4Oc2CL3rm9psmRFaGMNGzJ+9iXXrhZgIHOkv8zazh9pRoRV+k5SKqHdsz9oyhAsg3wNhwpLA3StTYt6x68WrcqnvXjB0KiU5q9zx/nHU1N6e8Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZXNPCuao; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2ho+sF/d"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=QU8vL5BYsgr14/B5ViSJNohvg+HvTPRDGcs97wxt6N4=; b=2ho+sF/dXbdRWYOPg7dh8Z77vx
-	IbJgqTikKNRmyPyzI/GI96CMlSXMAunHx4P2s/DrMdKfhOe1sBAQnHVyhnIRjBDtHOIQVjSoUljSQ
-	EBZlloKyAkFs7QyUkmBcIUjZiqxfixC3m4BuRJiSmUHmPCZeBlhqeEh7IKU1KqxEKvnvItSigZPdH
-	F3etd5PDsXElIBZUzIz3m+Dd8ZWIxdBcCaR1YqQhRxbtLkC7cCjK2BLYxS2fA/Q59zSJJCQWi/wbc
-	GIvXM20oiTJKM+UouN7BHummWuPCthfsW4+4K5FRLNMmfD2Kl3/RJfBD3FZieeU8+NtpaBnHT017B
-	LrvX/oaQ==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUHxj-0000000CLCN-2pey;
-	Tue, 02 Jun 2026 05:46:52 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 9/9] block: move the fail request code
-Date: Tue,  2 Jun 2026 07:45:41 +0200
-Message-ID: <20260602054615.3788425-10-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260602054615.3788425-1-hch@lst.de>
-References: <20260602054615.3788425-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZXNPCuao"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-490a762bcc6so19324875e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 23:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780380943; x=1780985743; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XgRgw1IKC03OLwNyxPDI58QMkRMSvSCj4bII0pkMkMw=;
+        b=ZXNPCuaoeorrH6dKoluuANYDEtScJKv3GR58TIMUYz7vkUv8hE3oA/Avwdg4Ejr2IC
+         mSMqLHA5t3OEfRMWxFI/euhVIDH6hO+N5OTkJCSsuiNMEFfyjTE9a2enEaA9ttmirwCn
+         G+omSuOWWaaye4QbjW3MQ6MmxIAZFULSpxQ3PAP4lTo2IVobfM5v+9za5QYi+hb+ko7S
+         QlDW5caSFfqEmsQbBis9rkG3jv54us8ejPlWQOYLk6OKmy6ZXRh86e9Oj7I554ZBtT14
+         sOIYqSvSCwOyZQwuw3tunwdg0rhTYzNcRe2nDpeZ9QmFAjJ+dXhwFY6+4CszCj3Gyk8n
+         AovQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780380943; x=1780985743;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XgRgw1IKC03OLwNyxPDI58QMkRMSvSCj4bII0pkMkMw=;
+        b=BXFIOiS/G9E0EuCeKNPhKDFEXP+c4u7YfaG8yjr2KUYdpbU9a4QnTmALFGkZlhGROh
+         KOFrrv5ImG8afo/WQaZ9Ikd22p3bM/FYJ0WCyPXJlb9puoVDeKcnMM093D46yoxKyNMD
+         7T9v1g8Zs6+X1SALFs62d4NT9LIOsDtpxdIm8AvpSXDGH8W5VX2HLN1qA8ZJRy1yqbaU
+         6+H3Cf45XyXv5+crvZtMXB5weUZVEMZm7IMAI0m1cf+tytKrCFINdslkoe0UJ/L/sQV9
+         GFhheGcZVLaErE6txa4+2hYFikvZSUDwAfkuBqqgG/XIeeHoLnsnIXfES0tk2eQHI0Uu
+         NH+w==
+X-Forwarded-Encrypted: i=1; AFNElJ+ravzVITdXqxgidprzgBcgU9kDf3qK3UOiOAmX0YkR6QEGCbS4ptnOA5J4quZHSZYRU+NjJ3cD7C0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYyMYfyZNneiiSUwqAFo5CJ4yUnocn4BDD8tJ77v3jf/ivq2ue
+	hzUBYr84o6/CDToIbVW0Iqe0rQErb47xNwl2zOLgdweJ7Tx5ZKmLhC1cdty1t/89VaQEok8KlfP
+	Zx0o3dYRlXyYM6fRIGg==
+X-Received: from wmaw13.prod.google.com ([2002:a05:600c:6d4d:b0:490:b22d:da02])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c0d2:10b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-490a2938f7cmr185302145e9.25.1780380942885;
+ Mon, 01 Jun 2026 23:15:42 -0700 (PDT)
+Date: Tue, 2 Jun 2026 06:15:41 +0000
+In-Reply-To: <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0
+References: <20260529-remove-task-euid-v4-0-07cbdf3af980@google.com> <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com>
+Message-ID: <ah51DY5yfaNZejBd@google.com>
+Subject: Re: [PATCH v4 0/2] Delete task_euid()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Keep all error injection in one place, and out of line for the main
-I/O submission fast path.
+On Mon, Jun 01, 2026 at 07:13:37PM -0400, Paul Moore wrote:
+> On Fri, May 29, 2026 at 5:33=E2=80=AFAM Alice Ryhl <aliceryhl@google.com>=
+ wrote:
+> >
+> > The task_euid() method is a very weird method, and Binder was the only
+> > user. As of commit 65b672152289 ("binder: use current_euid() for
+> > transaction sender identity") Binder doesn't use task_euid() anymore,
+> > so we can delete this method.
+>=20
+> Given the problems from last time, it seems like it might be prudent
+> to let the commit have some time to "breathe" in a proper release, I'd
+> suggest merging this not for the upcoming v7.2 merge window but
+> instead waiting for v7.3.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/blk-core.c        | 37 ++-----------------------------------
- block/error-injection.c | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 32 insertions(+), 35 deletions(-)
+Sure, that makes sense. I'll resend after the merge window.
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 04a392849ab0..7465dd291272 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -29,7 +29,6 @@
- #include <linux/swap.h>
- #include <linux/writeback.h>
- #include <linux/task_io_accounting_ops.h>
--#include <linux/fault-inject.h>
- #include <linux/list_sort.h>
- #include <linux/delay.h>
- #include <linux/ratelimit.h>
-@@ -534,32 +533,6 @@ bool blk_get_queue(struct request_queue *q)
- }
- EXPORT_SYMBOL(blk_get_queue);
- 
--#ifdef CONFIG_FAIL_MAKE_REQUEST
--
--static DECLARE_FAULT_ATTR(fail_make_request);
--
--static int __init setup_fail_make_request(char *str)
--{
--	return setup_fault_attr(&fail_make_request, str);
--}
--__setup("fail_make_request=", setup_fail_make_request);
--
--bool should_fail_request(unsigned int bytes)
--{
--	return should_fail(&fail_make_request, bytes);
--}
--
--static int __init fail_make_request_debugfs(void)
--{
--	struct dentry *dir = fault_create_debugfs_attr("fail_make_request",
--						NULL, &fail_make_request);
--
--	return PTR_ERR_OR_ZERO(dir);
--}
--
--late_initcall(fail_make_request_debugfs);
--#endif /* CONFIG_FAIL_MAKE_REQUEST */
--
- static inline void bio_check_ro(struct bio *bio)
- {
- 	if (op_is_write(bio_op(bio)) && bdev_read_only(bio->bi_bdev)) {
-@@ -764,14 +737,8 @@ static void __submit_bio_noacct_mq(struct bio *bio)
- 
- void submit_bio_noacct_nocheck(struct bio *bio, bool split)
- {
--	if (unlikely(may_fail_bio(bio))) {
--		if (blk_error_inject(bio))
--			return;
--		if (should_fail_request(bio->bi_iter.bi_size)) {
--			bio_io_error(bio);
--			return;
--		}
--	}
-+	if (unlikely(may_fail_bio(bio)) && blk_error_inject(bio))
-+		return;
- 
- 	blk_cgroup_bio_start(bio);
- 
-diff --git a/block/error-injection.c b/block/error-injection.c
-index dc0420c4eb58..45f2454d0bca 100644
---- a/block/error-injection.c
-+++ b/block/error-injection.c
-@@ -4,6 +4,7 @@
-  */
- #include <linux/debugfs.h>
- #include <linux/blkdev.h>
-+#include <linux/fault-inject.h>
- #include <linux/parser.h>
- #include <linux/seq_file.h>
- #include "blk.h"
-@@ -47,6 +48,13 @@ bool __blk_error_inject(struct bio *bio)
- 		}
- 	}
- 	rcu_read_unlock();
-+
-+	/* legacy I/O error injection */
-+	if (should_fail_request(bio->bi_iter.bi_size)) {
-+		bio_io_error(bio);
-+		return true;
-+	}
-+
- 	return false;
- }
- 
-@@ -297,3 +305,25 @@ void blk_error_injection_exit(struct gendisk *disk)
- {
- 	error_inject_removall(disk);
- }
-+
-+static DECLARE_FAULT_ATTR(fail_make_request);
-+
-+bool should_fail_request(unsigned int bytes)
-+{
-+	return should_fail(&fail_make_request, bytes);
-+}
-+
-+static int __init setup_fail_make_request(char *str)
-+{
-+	return setup_fault_attr(&fail_make_request, str);
-+}
-+__setup("fail_make_request=", setup_fail_make_request);
-+
-+static int __init fail_make_request_debugfs(void)
-+{
-+	struct dentry *dir = fault_create_debugfs_attr("fail_make_request",
-+						NULL, &fail_make_request);
-+
-+	return PTR_ERR_OR_ZERO(dir);
-+}
-+late_initcall(fail_make_request_debugfs);
--- 
-2.53.0
+> > My suggestion would be to merge this through the LSM tree.
+>=20
+> That's fine with me.  I'd also suggest updating the commit description
+> in patch 1/2 to indicate that binder is no longer using task_euid();
+> it currently reads like it is still being used.
 
+I guess this occurred because when patch 1 was written, it really *was*
+still being used. Perhaps we could pick up only patch 1 now since even
+if we run into problems and Binder has to go back to using task_euid(),
+clarifying the docs is still useful.
+
+Alice
