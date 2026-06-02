@@ -1,231 +1,196 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536FF3812EC
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 16:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0683A3F44D9;
+	Tue,  2 Jun 2026 17:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780419332; cv=none; b=TU/EH8S/oprvmJvPyZSKR9We5LlPnFGrI7ttg2z/kWS0u/hRFjvN/QiEyg9P3u/vnWPJjvo1jVRIj2qIX3RWZ3RSw1B9tmFx8rP4P8xT3Ju7OYpWh8b5dgf51tVULjnkDPhkiGrcJOEY/rA9eN7GPji8UdFTuPraSYKelID8NA0=
+	t=1780419683; cv=none; b=QJgrSWesX4pAfA3AkHMWF1C/yq6OWxCFazweBwaPSxRvJ/zeu+999TT5hbcE89sS93EOFnEZ+EP/JJtuakldpXVOSHP065VWnXOJ1EMjsxDvPcytYTAb4BfDrhJ5VsPD809L5D8MODUdSI3Mo6a1uxx8KfK9QAhOVhy0jRTXKj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780419332; c=relaxed/simple;
-	bh=7M6qQwSwD+XrHhy1JS5GMZiaeqWwjrdH7qVYXbsQEsU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Wbtzf2wetwdCW/S/CoDZpo0puIEgr8D6oJC8cl5pjnRm6FCQD5YTftPz1X7AIG3bZ9UNSxN06BW61ibDg5Kr1sUW7FeFATMe/AxfsQFN3yCUfB8CYb7neyTh+YydsfFMgqHRrds+oIn+4pgAEADELKJwaD4n2NQ0WX/VPHZIFiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YbUN5+uK; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780419683; c=relaxed/simple;
+	bh=j04SSoU8pd6CJbQ86Dn/ekV6BBh/lLB9B0H5XZzOW64=;
+	h=Message-ID:Subject:From:To:Cc:Date:in-reply-to:Content-Type:
+	 MIME-Version; b=UGU+GF64gy2gQMXE5TqUJk9LvPaxOucjh+wr6ncZ3o3q2hkP/4VRchsrEXG4JxNXnbFd5J/zjTLSBXR13q5BvzDDaKYd6iOolJNqGfpQh0sYuWRRtZMntv9KqFP6xJ37R1IPtF3dqY578/6PnsZ/wgA/eNeAOCJP5bF9+l41ku8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BsGy6123; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YbUN5+uK"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso116883085e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 09:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780419329; x=1781024129; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lR1aiUfHvK9pACcDS8heDpRLK9T5JqYjX9U4vnMG5Yk=;
-        b=YbUN5+uKTXcpMd9xhLVeeQZGG5docKseXHF5TmwoxiE4nMYMAJxfsKQTg37mwoJYcH
-         xaU3G4ehkfD32MKuXv+mfyhUx0ifb6S2jMfccJFIoqCmCLw1dP8cFu5vzQmcEwBIYgli
-         K93N/VnsTsn8sPFrtA7Ft125FayhLyryQqncEA0D8fn+oetH3feBHqVsozFJQaXMTjS6
-         taA+0vLN6tDMFI3Lbj7QFOPwreLZMj3WyX/NtTesXV955YiafHWhDjfhgNVJjNy1ViTh
-         s4JN0xytM+5k/+qwiukNaJpMkgp0pePOS+DjUHMInIyDgLUJGWc6gaLZgjKQfNdeYtxo
-         sbnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780419329; x=1781024129;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lR1aiUfHvK9pACcDS8heDpRLK9T5JqYjX9U4vnMG5Yk=;
-        b=dUReC8Rat0MBR6Shvic99OfaXa7vrG5HgSoujROc2KlX0n7ATI7qg/Xv3o5nJRjnkS
-         Zmwow67HoxLfkSU2jfvmVB1rBKb/QT/0BR08pRB2aebqGT1wnLLB/9VX8F0J5jNskQEy
-         yBewsIBZ7n7ocwWfiJQVOokcxtQiR34eEKfzKXk6czClwkqJ7wI2mCqtQrdrefdvjLqg
-         r0rvj6UJVlM+CRLfrtUGNVBqaTU3HKvwm657w28pR+A8ql0b0o1BEBV3y7mbOEjim63t
-         k/7oSEJNT8qj2p/p9nskzLtT9DzrDN3am/ZAlCfnmDyieC2wkg3QTOGx2styK65AiFhp
-         93cw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Ly8zLwYa9Ul41BtF4fWx4KzHH74sG3VVSYpVawjIy7LXXF1t08Ul/as3QDiaC927lfX8p5b7dmRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD4gVpXbpI6iDxsdTysZU1O+KFbrGv++gcjncLIp9o3NOA/2hV
-	UhrNjtwoXFsLCx7G3+Tlf6ZWLNvEI1FLTZ8d5zwzmif1C2BKawnXmcCF
-X-Gm-Gg: Acq92OFDvq54+o9I7YoU5GLRRtIjJXGhui0u21by5X7oI8/x7sBWuxiRDKHVKmQROY7
-	d+ck8T/UoJgkI0qC2CXGMv6Fp1CL04yqHIGxulusYikpOTWUb/9AQIt1V52wbmZNCuIHT/AuRNp
-	4LbijdIfrMEnkCKAH2ynJGI5kV6FRoNZi8OLVxmEaXWiVwIJ67fxLHM5ZorVU4dG4mTAerZoBas
-	skA4KSypTvRdEImAE4wxZMgbEYpDq4C5Lye1mxbfIdyoE31hj5pT8b4xJUUTv60sv+33IFij7R9
-	c+LbmHNNPHbMahA/HtSQmOF9OImMXlpQi1mJv3na0G+PvdYtsDXr9Etz9rFBSl6zUABC8FPBctz
-	apLwE+Vg2V5C1A6sJO/WJTCjzyEllHWM/6ja+5Br7x+v9RWBsoifnm0IAd0tj6ZjpX15Xu8HNUZ
-	xpbgZwpTSDV3PKbJhcQWz4/2o7tGsWAjgYX5scvEB61R6b6ysIGz/jxHw6ozvFcTNphw0zvLHC7
-	vJq237H1wBO
-X-Received: by 2002:a05:600c:c3db:20b0:48e:5fb8:f80f with SMTP id 5b1f17b1804b1-490b50bfabdmr7086835e9.24.1780419328608;
-        Tue, 02 Jun 2026 09:55:28 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e0f343sm82850455e9.1.2026.06.02.09.55.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 09:55:28 -0700 (PDT)
-Message-ID: <a607ff15c5a9c6edd6be1a40182b16b5dc48c151.camel@gmail.com>
-Subject: Re: [PATCH v15 06/12] iio: core: add decimal value formatting into
- 64-bit value
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron	
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Andy Shevchenko	
- <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,  Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>,  Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Date: Tue, 02 Jun 2026 17:56:32 +0100
-In-Reply-To: <u7p5ndqqh3ngnmmzoir37yuc3hfm2llenaihuekwuwoji743mf@itbbdxfo4qan>
-References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
-	 <20260531-adf41513-iio-driver-v15-6-da09adf1c0dd@analog.com>
-	 <ah1SUD_QpRLD2WGV@nsa>
-	 <u7p5ndqqh3ngnmmzoir37yuc3hfm2llenaihuekwuwoji743mf@itbbdxfo4qan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BsGy6123"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:in-reply-to:
+	Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:References;
+	bh=txsFq69lsjUJDOhROz/LD5kUbWdffdCmz+DxdBFULCQ=; b=BsGy6123LjiobFJAtqpK1o1mbm
+	XH1IY4AiNV9RksbMss7K0+2Q1HoS3o4sPK2gkA+QBqOufVs1krDdNRpaGOYN/sx7zHCerdRSfm3rx
+	K9kegOEw7rBDZZMJHDaHjzKCbtNyqXLomZViTtj5Jzn8wqmf1T4L1aApGb/+XfzJfOB//uH5zWncR
+	ciUCy6zAAtzkC0C8RGUFeDQjI79fFFNvxjp320sv+XXtRY6n9RKS5KIOMNsOz3vRzbFN7y/utDl2z
+	4+epv+EZlWPIl87WqXepYyB0POgCWf40sA0CYTT5Apyea4lrQE29nf0nCZyjactmyCfMz/HbFufpW
+	yyQuByZw==;
+Received: from [2001:8b0:10b:5:c68:987:fac8:ab00] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wUSUJ-00000002JUW-2LTW;
+	Tue, 02 Jun 2026 17:01:12 +0000
+Message-ID: <4f958b17c040c005800b27d90a4bc5052b665a72.camel@infradead.org>
+Subject: Re: [PATCH] KVM: x86/xen: Add
+ KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
+From: David Woodhouse <dwmw2@infradead.org>
+To: xadimgnik@gmail.com
+Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com, 
+ dwmw2@infradead.org, hpa@zytor.com, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, mingo@redhat.com,  pbonzini@redhat.com,
+ seanjc@google.com, skhan@linuxfoundation.org, tglx@kernel.org, 
+ x86@kernel.org
+Date: Tue, 02 Jun 2026 18:01:11 +0100
+in-reply-to: <d56d47ab-1306-4b33-9120-8849a7b33928@xen.org>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-FvKzkB+F7nlP6UyO/Ypi"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 2026-06-01 at 16:12 +0100, Rodrigo Alencar wrote:
-> On 26/06/01 10:43AM, Nuno S=C3=A1 wrote:
-> > On Sun, May 31, 2026 at 09:30:49AM +0100, Rodrigo Alencar via B4 Relay =
-wrote:
-> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > >=20
-> > > Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
-> > > defines the representation of fixed decimal point values into a singl=
+
+--=-FvKzkB+F7nlP6UyO/Ypi
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 29 Apr 2026 12:36:52 +0200, Paul Durrant wrote:
+> On 28/04/2026 21:12, David Woodhouse wrote:
+> > From: David Woodhouse <dwmw@amazon.co.uk>
+> >=20
+> > Commit 3617c0ee7decb ("KVM: x86/xen: Only write Xen hypercall page for
+> > guest writes to MSR") blocked host-initiated writes from triggering the
+> > Xen hypercall page setup, to fix an SRCU usage violation when the
+> > hypercall MSR index collides with a real MSR written during vCPU reset.
+> >=20
+> > However, some VMMs legitimately need to trigger hypercall page setup
+> > from host context. For example, a VMM may intercept the guest's MSR
+> > write to track an epoch (for kexec/crash recovery), and then replay the
+> > write as a host-initiated KVM_SET_MSRS to populate the hypercall page.
+> > The host_initiated check breaks this use case.
+> >=20
+> > Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE as a new vcpu attribute
+> > that explicitly invokes kvm_xen_write_hypercall_page() under proper
+> > locking. This gives userspace a safe interface to trigger hypercall pag=
 e
-> > > 64-bit number. This new format increases the range of represented val=
-ues,
-> > > allowing for integer parts greater than 2^32, as bits are not "wasted=
-"
-> > > in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO a=
-nd
-> > > IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 6=
-4-bit
-> > > decimals into integer values used in IIO formatting interfaces, which
-> > > creates consistency and avoid error-prone manual assignments when usi=
-ng
-> > > wordpart macros. When doing the parsing, kstrtodec64() is used with t=
-he
-> > > scale defined by the specific decimal format type.
-> > >=20
-> > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > ---
-> > > =C2=A0drivers/iio/industrialio-core.c | 47 ++++++++++++++++++++++++++=
-+++++++--------
-> > > =C2=A0include/linux/iio/types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 30 ++++++++++++++++++++++++++
-> > > =C2=A02 files changed, 68 insertions(+), 9 deletions(-)
-> > >=20
-> > > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrial=
-io-core.c
-> > > index bd6f4f9f4533..a88088cac641 100644
-> > > --- a/drivers/iio/industrialio-core.c
-> > > +++ b/drivers/iio/industrialio-core.c
-> > > @@ -19,6 +19,7 @@
-> > > =C2=A0#include <linux/idr.h>
-> > > =C2=A0#include <linux/kdev_t.h>
-> > > =C2=A0#include <linux/kernel.h>
-> > > +#include <linux/math64.h>
-> > > =C2=A0#include <linux/module.h>
-> > > =C2=A0#include <linux/mutex.h>
-> > > =C2=A0#include <linux/poll.h>
-> > > @@ -26,7 +27,6 @@
-> > > =C2=A0#include <linux/sched.h>
-> > > =C2=A0#include <linux/slab.h>
-> > > =C2=A0#include <linux/wait.h>
-> > > -#include <linux/wordpart.h>
-> > > =C2=A0
-> > > =C2=A0#include <linux/iio/buffer.h>
-> > > =C2=A0#include <linux/iio/buffer_impl.h>
-> > > @@ -655,6 +655,7 @@ static ssize_t __iio_format_value(char *buf, size=
-_t offset,
-> > > unsigned int type,
-> > > =C2=A0				=C2=A0 int size, const int *vals)
-> > > =C2=A0{
-> > > =C2=A0	int tmp0, tmp1;
-> > > +	int l =3D 0;
-> > > =C2=A0	s64 tmp2;
-> > > =C2=A0	bool scale_db =3D false;
-> > > =C2=A0
-> > > @@ -698,7 +699,6 @@ static ssize_t __iio_format_value(char *buf, size=
-_t offset,
-> > > unsigned int type,
-> > > =C2=A0	case IIO_VAL_INT_MULTIPLE:
-> > > =C2=A0	{
-> > > =C2=A0		int i;
-> > > -		int l =3D 0;
-> > > =C2=A0
-> > > =C2=A0		for (i =3D 0; i < size; ++i)
-> > > =C2=A0			l +=3D sysfs_emit_at(buf, offset + l, "%d ", vals[i]);
-> > > @@ -707,8 +707,25 @@ static ssize_t __iio_format_value(char *buf, siz=
-e_t
-> > > offset, unsigned int type,
-> > > =C2=A0	case IIO_VAL_CHAR:
-> > > =C2=A0		return sysfs_emit_at(buf, offset, "%c", (char)vals[0]);
-> > > =C2=A0	case IIO_VAL_INT_64:
-> > > -		tmp2 =3D (s64)((((u64)vals[1]) << 32) | (u32)vals[0]);
-> > > +		tmp2 =3D iio_val_s64_from_s32s(vals);
+> > setup without going through the MSR write path, preserving the
+> > host_initiated defence in depth while restoring the lost functionality.
 > >=20
-> > I might be missing something but can't we just call
-> > iio_val_s64_compose()? Likely even inline in sysfs_emit_at()?
+> > Fixes: 3617c0ee7dec ("KVM: x86/xen: Only write Xen hypercall page for g=
+uest writes to MSR")
+> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > ---
+> >   Documentation/virt/kvm/api.rst                | 11 +++
+> >   arch/x86/include/uapi/asm/kvm.h               |  3 +
+> >   arch/x86/kvm/x86.c                            |  3 +-
+> >   arch/x86/kvm/xen.c                            |  7 ++
+> >   .../selftests/kvm/x86/xen_vmcall_test.c       | 96 ++++++++++++++++++=
++
+> >   5 files changed, 119 insertions(+), 1 deletion(-)
 >=20
-> There is a compose() already.
->=20
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-Yes and I was suggesting using that one instead iio_val_s64_from_s32s() :).=
- To be
-consistent to what you use in the other path (which is decompose() if I'm n=
-ot
-mistaken).
+Ping?=20
 
-> =C2=A0
-> > It would match your call to iio_val_s64_decompose() below.
->=20
-> here are the helpers prototype:
->=20
-> 	s64 iio_val_s64_compose(s32 val0, s32 val1);
-> 	s64 iio_val_s64_from_s32s(const s32 *vals);
->=20
-> 	void iio_val_s64_decompose(s64 dec64, s32 *val0, s32 *val1);
-> 	void iio_val_s64_to_s32s(s64 dec64, s32 *vals);
-> =C2=A0
+--=-FvKzkB+F7nlP6UyO/Ypi
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-Yes and it feels that iio_val_s64_compose() and iio_val_s64_decompose() are=
- the only
-ones we really need? (Maybe with other naming if you prefer iio_val_s64_fro=
-m_s32s()
-and iio_val_s64_to_s32s()).
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDYwMjE3MDEx
+MVowLwYJKoZIhvcNAQkEMSIEIA/6yQWSi7/ATdvIahueBmIVstGmAZ2+feF4YHrWA/+SMGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIA2VzvB/KXGsth
+ZimjsHsfOKU3QNa2t3mGpFb8jXBhSQ/qohaau/QWP7Njrh0CtceOWnaxoXUYiXmNaHl75Yj32Tby
+KvbWEJFm0AwRRRXinrvlOuGmRnCaZvJXBJAsb4IU//fVSm9TVoU51KFkOC/CwaKfBliTTSwnWtyA
+dSNJCxEMH2fSWwkzg5O3ubLoUFdY3HVxmW3QpGTDnjlukPXDZuqp3PxcoQpOwMQofYhbLVAYH91e
+FelimHlR5vqt7eEPzCAYfo3BClxHI/ySG6HITr5LkfXnohQtNcnuSpA2u7iv+abiFTr0oX01kDIO
+BuSwwAq1457JpZ4lFEgoX/vtFrosfkaG3V7XAnlGwJfveAL3Cu0tleO8+nI+mDmIo70JWs7dhqEL
+L/PyfZtVEOUOesK7brmNtTsYQ6rT0zGMc3iLjaUqor0JTy1qqhWGE9EPB3VoJLhMrAM7qppuOxaH
+DtnP74aqpE8150xUiNnnKhk+qmB/t/70GNJ957xPt4PrTKUKUdgLxo+rIwIGMBX4kE8yTgeOQFVA
+uOskJ+Hp2+fr2oXcytutGHKli1OlgVqstuWOv/8c778595r4XdLpJlSS/Nc4gj6s9BYJ7Ju6/bmF
+I+Xc0PhINlLSIplkCb6tu0JlgqRNKtmsSEdLHhViQpGXYQzOgGtXi+HWCnuKc0EAAAAAAAA=
 
-> > And the above makes me wonder if the compose()/decompose() are not the
-> > only helpers we need? At least in terms of parameters? I mean, just
-> > assuming we only have two integers instead of allowing s32* and opening
-> > the door for misbehave :)?
->=20
-> I suppose we would really need some sort of:
->=20
-> union iio_val {
-> 	s32 val32[2];
-> 	s64 val64;
-> };
->=20
-> or even add a:
->=20
-> 	struct { void *ptr, size_t size }
 
-I just meant using two where we just have (s32 val1, s32 vals2) given that =
-is
-what IIO has anyways. No need to overthinking it for now IMO.
-
-- Nuno S=C3=A1
-
-> > - Nuno S=C3=A1
-> >=20
+--=-FvKzkB+F7nlP6UyO/Ypi--
