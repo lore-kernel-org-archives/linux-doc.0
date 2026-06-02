@@ -1,229 +1,266 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013035.outbound.protection.outlook.com [52.101.83.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F49D3CBE84;
-	Tue,  2 Jun 2026 09:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780391412; cv=none; b=th7h7vmfK+WvbLvmCRMj9Gmc6YBGLdOPYiNb5jHUYFm4syFj7SoJzSn9tCgJpYKeBfAe8pqQwAZ5gDSGBHREyrKvfcMpiMkTjBq9qeq/egyCTMsGCCkGp28JxwtQLDmPsJd4DVS7trUVXcThVN/1EOGgleoULoNxVU3EDqj9gp8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780391412; c=relaxed/simple;
-	bh=v8ADpKuVUuJdvfsdxL+3no0PVB96FFml4gf9uFICkMM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S2Hulev79uSzyYFEzWagPRQoMVb4qfsuxyqjo9QQ/tOvucjbo44vvo9dpkcisiCKS5UH1XasmTkZdraCmmMbFNo1mjem5mu8Z2M2qTK2Be3mi5icEju3907vJMpULE10cE1yIIfB84yFqt9gKuEKOMN7wHn/I/K+Cc3Z7rhMQF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JoneNJ5b; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E388C3D47B2;
+	Tue,  2 Jun 2026 09:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.35
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780391516; cv=fail; b=nlSgmOLQ7UTWlsF5DixDAJkjrtmjeGaicQjM8Bk9K+GZvqI4n1nahMlfkl/XjDNPjY9qMppVz4ChJ51tI90FXY0k3q7WKLuRQOR2IkB+gDDHf8iZJ+KlrqFvbYGcQJI5Fy2xujJC0q32ITHYq+cfaqqgco6W19Gg6KrG7QpLPw8=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780391516; c=relaxed/simple;
+	bh=wg7L5HwqsT1yV+1ojvpa9oa2xP1lCkVoNpuDpKrDG3s=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PlWZ114XOvoOpYVWW9fMINT+nJZtBfpePxfzvF1gwosLxDX7ThgfPMcHZT91J0pfd8VpgtiL1v/tJDMvIYLyQzKmed194eVSqeEx+ntdN1TJfklFGB9GFl2e8OL04TQR5SuHX+xrMbUJ7VhMCsmDkOil9Kko6Kcn5LMwF99mT7M=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lL6BezCO; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lL6BezCO; arc=fail smtp.client-ip=52.101.83.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JoneNJ5b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688A21F00899;
-	Tue,  2 Jun 2026 09:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780391411;
-	bh=kq5G0oHDkBWFEFFqoWIBja9YbwYgAYGaHMrsEu/NhUE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JoneNJ5b/Q0IaGwhfeEspKw8KT/XrtpSuyDwYnlA1H7DFKwtqJnKWbwiRyhY/u3XK
-	 DeQSI09SyNWmgWRnO6BhSHJr49DCNaeiDjDBqO9isA/PYFXcAJydRbYe8C3dp6VecI
-	 lGGreseU3n2X9YSMa5sZvg5nOzKPeu4lFHilZs8VtxwenM3VDQ4dbp6bSK6Np9nUAF
-	 uukUzKeptcEDqZf8vJ5Izy3O1wagGDcsutLa5/1s5vebHAZkHnaTuFxQID+JzFqd1O
-	 Yo3hSlTEMi8bx97RafJX7n6Nz0XLx2Zlb0vpPDUkGTNRV7Gzed0IQlV9hKvmjtBUio
-	 m2PV4G0DuQgfw==
-Message-ID: <3674d3a8-b30e-4bf1-a4ab-0f82c494d131@kernel.org>
-Date: Tue, 2 Jun 2026 11:10:07 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lL6BezCO";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lL6BezCO"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=xwnCFLa5itRRG837Vg91jx85NE0oSotKQ2ypf9VZ0rTRPawJto0jGHssxSN/obimwOU/Z5d7+M2aSceAIAzDmOWYQJCGssQfA4ud+hXuq3CBzntrKFFcortLI+rhC9UZuVquaVHPppEQTLyKgaKZ3vVyR+6RgG+51AJWUU0BUqiAkw1uY+z7QpBUNZ08K6oOCpdmASY2c476mcznYFtrCELunRucvEoJvwzXPaIYiUxC9R59CRY+EvspwPL64OtjDGdfeadwYk33PRq3aRDdvRkgqByl++pZFFCVIMlJ5iTuWIadia0VZyZvlK6Lef1DqyCLdxYSvy2WsjN9rkJIqA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fb0D0KrKGhNBxmEk5l3OPWmNyHDGDePPvR9YDZC7L8c=;
+ b=ZpQvr4bGcMNO/OC6kQOJ8ztZJLcaij1ZIrGrNaN9M0sw3oXEnTc9d+DS1vIh8wW8JVuWi3GCVZV0YaCwR7LB31AguIY9bm69H3dDMmIfpBEWhkU0fJhmcuSM6OyFJjIc61WPi5G69wwD4KC/3d4AGl9sRAEm767Wu7d5zwbpZ0msm/riXHPY4b2PdqSoLxwM4H0ytiRWm8w95PI7ggrrxssUYUfq2nAgb2w3D3Pe+pTK3id0qmCfIqPrW9hmTwud64rG4rBMlMFx9h9lzjxka/HrE1ZcMNtE3G9nxG82tGHicWo11tllgD2qOwUJSG3zXFZOL+iCVpz7tBZJrBJjsQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=google.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fb0D0KrKGhNBxmEk5l3OPWmNyHDGDePPvR9YDZC7L8c=;
+ b=lL6BezCO3ZCXeTda9MbnIx/V8HgFKIXdYcUt95QGD5Qiv7jQ0tJt/DsCyHJjQ0NgyiOXChRL1daS4Cu1HA2r2FAucxpXkOg22n0fI6EP5QCVSqq5BVcyqkkGVL6qMp5g8xjtAkUja5KO7DyLAOWWauJvm+cSbIqZ8bdvzIdYeXk=
+Received: from DUZP191CA0067.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4fa::26)
+ by DU0PR08MB8711.eurprd08.prod.outlook.com (2603:10a6:10:401::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.17; Tue, 2 Jun 2026
+ 09:11:39 +0000
+Received: from DU2PEPF0001E9C2.eurprd03.prod.outlook.com
+ (2603:10a6:10:4fa:cafe::c) by DUZP191CA0067.outlook.office365.com
+ (2603:10a6:10:4fa::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.17 via Frontend Transport; Tue, 2
+ Jun 2026 09:11:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF0001E9C2.mail.protection.outlook.com (10.167.8.71) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.7 via
+ Frontend Transport; Tue, 2 Jun 2026 09:11:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k5t+QX80fOMhs+kEuHljheCPP6yx/5loeKM45JjTCLF12RaywnyL32/RGht7q4stpSpTQ7t+VmSvXXHLHSDEsJuwAcCnArrhnLIjbbB5QlJuBUfZDQodyXMYRh+eGNmR/gcFrGVOQvY7O/NlMYEsOPn7BXZ/PIWYpbB5GDfi2kQCvtRBDobZr9sa253uh33H2S4VKNt1ZXRRX4/tTcHG+cP2cLCNQupJ/svifCvjx+ENqxx5unNplHIxqskjzoX0HpPmJmJLf8o085SDxNsFamBhqFNMIQ8ktLchuTc0ylp09aror3MWOUV+NzX4N3H/let0AnkJYZ645xytEzbkYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fb0D0KrKGhNBxmEk5l3OPWmNyHDGDePPvR9YDZC7L8c=;
+ b=nUnhF2grMFybCVEPodSo74gUzDlU0xmA2E3TUhYYeKGd1jPUxJjI+c/DbLXW+G3VgcOsIiGQICAw+oYgBGi3kpnCNja4xsYrlYpDq3DRmfz6QhqRmKa5b/PerAPWu+vHagiveAYtTBghKbtw8qCMWXe3Bgfghe0UR4qmb7pm5roLwutaFN1Ow7P7nHVe1gKy1MAvocEJukUjLUOuEk0sXfTx3fPBhqUbVxFtBucZs7B1pJm2JLseUFchjfP5OUgaDJ18JSVYfn7EFajBD9A1kppXTuruQjCBSbX38pB8DtkvrI9NYtkdKYzlFtN7wi3aDQaHmW9cfMIm9nOMaUqS0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fb0D0KrKGhNBxmEk5l3OPWmNyHDGDePPvR9YDZC7L8c=;
+ b=lL6BezCO3ZCXeTda9MbnIx/V8HgFKIXdYcUt95QGD5Qiv7jQ0tJt/DsCyHJjQ0NgyiOXChRL1daS4Cu1HA2r2FAucxpXkOg22n0fI6EP5QCVSqq5BVcyqkkGVL6qMp5g8xjtAkUja5KO7DyLAOWWauJvm+cSbIqZ8bdvzIdYeXk=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from PAWPR08MB10975.eurprd08.prod.outlook.com (2603:10a6:102:46e::7)
+ by FRZPR08MB10999.eurprd08.prod.outlook.com (2603:10a6:d10:13a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
+ 09:10:33 +0000
+Received: from PAWPR08MB10975.eurprd08.prod.outlook.com
+ ([fe80::3c7a:9a64:14bc:ce15]) by PAWPR08MB10975.eurprd08.prod.outlook.com
+ ([fe80::3c7a:9a64:14bc:ce15%7]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
+ 09:10:32 +0000
+Message-ID: <144bbb9f-39a2-4c90-8903-51521e022da0@arm.com>
+Date: Tue, 2 Jun 2026 10:10:31 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 07/42] KVM: guest_memfd: Only prepare folios for
+ private pages
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+To: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev,
+ binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com,
+ david@kernel.org, ira.weiny@intel.com, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
+ <20260522-gmem-inplace-conversion-v7-7-2f0fae496530@google.com>
+ <d01cf1ec-b85d-4af6-9810-8107c0e2a4ec@arm.com>
+Content-Language: en-US
+In-Reply-To: <d01cf1ec-b85d-4af6-9810-8107c0e2a4ec@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0273.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:195::8) To PAWPR08MB10975.eurprd08.prod.outlook.com
+ (2603:10a6:102:46e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][v2] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse and
- switch to static key
-Content-Language: en-US
-To: lirongqing <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Harry Yoo <harry@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
-References: <20260602062142.1790-1-lirongqing@baidu.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20260602062142.1790-1-lirongqing@baidu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	PAWPR08MB10975:EE_|FRZPR08MB10999:EE_|DU2PEPF0001E9C2:EE_|DU0PR08MB8711:EE_
+X-MS-Office365-Filtering-Correlation-Id: a80b0a3a-2b8e-44e7-c9ef-08dec086f46a
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|4143699003|22082099003|18002099003|6133799003|11063799006|56012099006|921020;
+X-Microsoft-Antispam-Message-Info-Original:
+ l8Rfs5PkFu4rGFjSRWn1dpEfnmPrtAtMnLcnbAdPrwF5XIU7zT91LRiQGSC6C9L8FL/bMrVNnU5ciSFdnNhzLGKCL0gJ8HymNmeiGBuu/0NUQ7T4asfCpLw0ZCYM6zMLM3WyEQyGVYlDrkRhqxs3AA3gSlJ2YBBBBzjp+3+sqARlKtW3zD+OnjhZOH4IY7gheh42vasD+K07vAJTb126uDXDmJLe9/8klQ7yLDSyxQQapeHkrVZCGHruKyMHslJly64Zb7lZWY8pLj3jpjLVEmZAOSiQjWu/1CFARfdCxbqj3WoZ7t2b3j/ImV35jPAeZPYpxf+IBCKrmYTAfMf3DQBgPnH5GrLOnZpKObjQVKEcsWzUftU93g8qTPMsbk93AVe8vc3cAQeI0JXJTG2mvRVPT6LMpNeHl0PbJa8VXg5cYE0GKhjN/Fv0XK5OWV4C+tT8KZZMG9dNAgOKBlMulOop5AcVXAktPAY/G5RZ7LvxBLhm0c5zt/otmbFF8SRa/yHc0qIr8Pf/kr7cai3Xc9LfSTrny1QSg/OBeIaxjDTebsHIABdegNkjU9OGx+te1Qc8kKQZ7wfbgoA/BambJpNrNCmBucAGr54oOCZtF4uQbdZOoinhUkY/Z6umBgVmmkpHx0MvJRxObfbivAMB8zOVTDCFPxXTA5mqPuf/rvIjh4bOG1OhV510pYQEkC5rNVFDE04GCyB8uipDRH2KVxpRBdlP+L4Pt8OPslhXexE=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWPR08MB10975.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(4143699003)(22082099003)(18002099003)(6133799003)(11063799006)(56012099006)(921020);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ Smh2c1FLMAKkYlCcWGkBMm50hsFfjZPUNbdMvb8pyK4Ze8fzd6T8I2cIV7hKyfXEeU8ZLBIkHRmU6XRbzy2y4CZgwPw3t/Y0nyqVetQ6dL9xlhPYJx1xZlJYudpwXPw0VmZ9M0r8TGx23dyxx6bCCB8WbVd+/kEXu0III9Zkemu3onmm+Yytksku2wPEXg20dRL7HfJK2PvG2D1fmO0MpIukVsAE1f6FuQaEZ+5CnjKmmq+t0KkymU6pffhZHjgAP45i5RHAtwHL/mtsw+rfuBGqLREfTz2oKt6cPo3Fk4yM+egwKVt/C/IiMY3KfyFUCdoQFcG7fLYT5eQfwFbK0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR08MB10999
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU2PEPF0001E9C2.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	4745e14f-aa23-4307-fc7b-08dec086cccd
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|14060799003|36860700016|7416014|82310400026|35042699022|376014|1800799024|56012099006|4143699003|11063799006|18002099003|6133799003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	43ERN6MLba2lA1+Q1MLFWQIEFZT/oUTn5JJ4m/gzoI1NxKiKHNXwtbDeFblyFpm/fhicaAaR8gVRV0ebYY/Os9L08p1+kszKqxDdpz6MkOXWFJymzUHHUgHS2vOBoUfC4WTOgAB17VuM8xYDTF8OvRZw191smMM4aMXvuzihwi6PMFbtIMlFMXevuSmIPS23jqgBKot+yPJ9mTRn2vE+E1gt4MCfBwaYbSP4iJ/CV4a0MbEXYuCUk8ztyrTiMTHzQeRZsfEdTvLkUScxAAvJorpDbDVCfrV7c5wt33CinKSXgKNt7r17seS7zEUO/5aMNzi9lLy0tPMwhvamHZnrTh52FHb/tXGXsqtlt4ms13x1BJoXYctXClFV7jjju9HUngzaQwNo366FQ8Kr+2jwvla3Fu70DJ+lIToxhUZ/hR0QezG3D+7M3U9EmUQwlXa/gLzCJUEUuQxpb5Oq/Vzq9TU3/0tGM2SHKP3SmDoMfaJuw89ZOJHIawB/GGl9clGNczfXUflsnubpPnNVyivga491R538T5gRPM9rWomFo5QYgzbgv2HQq2xBSd6w5gd9Rz145mX5ULd4tHKrl7QzYN5f2dB1icO4MIA0CeeqwyI7DB2qqv/nE0oFY3ACHKSP1qP7W+8vCIivzMwji6XhWjGe+350dLK/XL1tx1HAWT5x7r3CvXS/MoKw+i8PyNq+XFY4D+dlr9Nq3ddSf4HVhzUv3M8t86JQCU7mpXLYIiYMC2TgihILukauGjt7QXsCQl6dk7h/67o9xY1ngEInlA==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(36860700016)(7416014)(82310400026)(35042699022)(376014)(1800799024)(56012099006)(4143699003)(11063799006)(18002099003)(6133799003)(22082099003)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	X8s/AOyZfskLKV0Q4Aac0URIIuwejhACyqZoucAxyjFMdPmNpm90gtN70KjkbMGv8cQ+YsPfk53nxI6XaisRatzthm5lvMiqo+5SwYTbTa5zAPtZx0/BYRmQO0TCAWnz513xjLHYVgEzRz3QCkPxvUwFJ7PhziL5tTvoQTHBeYc5sDIBGcno9zkbIZild25kiiTWlxoARUm++LdVUWf+jRR3ht/EPppzKZZnWcT0m+NTgLb24WY6eWGza8SPyNc61GFupqTq4q1ctCv325Uf5W/aEAL5CrwBRMPLrF7SuYt4kWCdmrXncuj2dLBAU3LwCsxrT4lbPXqUU0z02X6tbCuwyyAV8lY7nxKSdKORvQVh2zlMo9Y2Cj/efC8g/bk+mrWPfBSFuAmB2HNIuQ0uOLUJwy/c1fEhB3orKBalfOAduH2HooyPpYXZkTb+AFW8
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 09:11:39.1186
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a80b0a3a-2b8e-44e7-c9ef-08dec086f46a
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU2PEPF0001E9C2.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8711
 
-On 6/2/26 08:21, lirongqing wrote:
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> The mempool subsystem historically wrapped its debugging logic inside an
-> merely defines compile-time defaults for SLUB and caused two flaws:
-> 
-> 1. On production kernels where CONFIG_SLUB_DEBUG=y but
->    CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely compiled out
->    at compile time.
-> 2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed active
->    even if a user explicitly disabled slub debugging at boot time.
-> 
-> Clean up this mess by removing the #ifdef and switching to a runtime static
-> key (mempool_debug_enabled), allowing mempool debugging to be toggled
-> cleanly via its own boot parameter.
-> 
-> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Cc: Harry Yoo <harry@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Hao Li <hao.li@linux.dev>
-> Cc: Christoph Lameter <cl@gentwo.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Usama Arif <usama.arif@linux.dev>
-> ---
-> Diff with v1:
-> 	Rewrite commit message, change early_param to __setup
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  5 ++++
->  mm/mempool.c                                    | 32 ++++++++++++++++++-------
->  2 files changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 642659b..89b5994 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3980,6 +3980,11 @@ Kernel parameters
->  			Note that even when enabled, there are a few cases where
->  			the feature is not effective.
->  
-> +	mempool_debug	[MM]
-> +			Enable mempool debugging. This enables element
-> +			poison checking when freeing elements back to the
-> +			pool. Useful for debugging mempool corruption.
-> +
->  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
->  			Format: <integer>
->  			default : 0 <disable>
-> diff --git a/mm/mempool.c b/mm/mempool.c
-> index db23e0e..71e4b54 100644
-> --- a/mm/mempool.c
-> +++ b/mm/mempool.c
-> @@ -16,11 +16,28 @@
->  #include <linux/export.h>
->  #include <linux/mempool.h>
->  #include <linux/writeback.h>
-> +#include <linux/static_key.h>
-> +#include <linux/init.h>
->  #include "slab.h"
->  
->  static DECLARE_FAULT_ATTR(fail_mempool_alloc);
->  static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
->  
-> +/*
-> + * Debugging support for mempool using static key.
-> + *
-> + * This allows enabling mempool debug at boot time via:
-> + *   mempool_debug
-> + */
-> +static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
-> +
-> +static int __init mempool_debug_setup(char *str)
-> +{
-> +	static_branch_enable(&mempool_debug_enabled);
-> +	return 1;
-> +}
-> +__setup("mempool_debug", mempool_debug_setup);
-> +
->  static int __init mempool_faul_inject_init(void)
->  {
->  	int error;
-> @@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)
->  }
->  late_initcall(mempool_faul_inject_init);
->  
-> -#ifdef CONFIG_SLUB_DEBUG_ON
->  static void poison_error(struct mempool *pool, void *element, size_t size,
->  			 size_t byte)
->  {
-> @@ -73,6 +89,9 @@ static void __check_element(struct mempool *pool, void *element, size_t size)
->  
->  static void check_element(struct mempool *pool, void *element)
->  {
-> +	if (!static_branch_unlikely(&mempool_debug_enabled))
-> +		return;
 
-With static keys it's better to have the check in the caller of
-check_element so we skip over that call if it's disabled, and not do a call
-that immediately returns. Since there's a single caller, there's no need for
-an extra inline wrapper.
 
-> +
->  	/* Skip checking: KASAN might save its metadata in the element. */
->  	if (kasan_enabled())
->  		return;
-> @@ -112,6 +131,9 @@ static void __poison_element(void *element, size_t size)
->  
->  static void poison_element(struct mempool *pool, void *element)
->  {
-> +	if (!static_branch_unlikely(&mempool_debug_enabled))
-> +		return;
+On 02/06/2026 09:55, Suzuki K Poulose wrote:
+> On 23/05/2026 01:17, Ackerley Tng via B4 Relay wrote:
+>> From: Ackerley Tng <ackerleytng@google.com>
+>>
+>> All-shared guest_memfd used to be only supported for non-CoCo VMs where
+>> preparation doesn't apply. INIT_SHARED is about to be supported for
+>> non-CoCo VMs in a later patch in this series.
+> 
+> nit: s/non-CoCo/CoCo ?
+> 
+>>
+>> In addition, KVM_SET_MEMORY_ATTRIBUTES2 is about to be supported in
+>> guest_memfd in a later patch in this series.
+>>
+>> This means that the kvm fault handler may now call kvm_gmem_get_pfn() 
+>> on a
+>> shared folio for a CoCo VM where preparation applies.
+>>
+>> Add a check to make sure that preparation is only performed for private
+>> folios.
+>>
+>> Preparation will be undone on freeing (see kvm_gmem_free_folio()) and on
+>> conversion to shared.
+>>
+>> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> 
+> nit: Missing Co-Developed-by: ?
+> 
+>> Reviewed-by: Fuad Tabba <tabba@google.com>
+>> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> ---
+>>   virt/kvm/guest_memfd.c | 9 ++++++---
+>>   1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index 78e5435967341..adf57a3a1f5dd 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -894,6 +894,7 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
+>> kvm_memory_slot *slot,
+>>                int *max_order)
+>>   {
+>>       pgoff_t index = kvm_gmem_get_index(slot, gfn);
+>> +    struct inode *inode;
+>>       struct folio *folio;
+>>       int r = 0;
+>> @@ -901,7 +902,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
+>> kvm_memory_slot *slot,
+>>       if (!file)
+>>           return -EFAULT;
+>> -    filemap_invalidate_lock_shared(file_inode(file)->i_mapping);
+>> +    inode = file_inode(file);
+>> +    filemap_invalidate_lock_shared(inode->i_mapping);
+>>       folio = __kvm_gmem_get_pfn(file, slot, index, pfn, max_order);
+>>       if (IS_ERR(folio)) {
+>> @@ -914,7 +916,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
+>> kvm_memory_slot *slot,
+>>           folio_mark_uptodate(folio);
+>>       }
+>> -    r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>> +    if (kvm_gmem_is_private_mem(inode, index))
+> 
+> Don't we need to make sure the entire folio is private ? Not just the 
+> page at the index ?
+>      if (kvm_gmem_range_is_private(, index, folio_nr_pages(folio)) ?
 
-Ditto.
+Or rather, we should go through the individual pages and apply the
+prepare for ones that are private ?
 
-> +
->  	/* Skip poisoning: KASAN might save its metadata in the element. */
->  	if (kasan_enabled())
->  		return;
-> @@ -140,14 +162,6 @@ static void poison_element(struct mempool *pool, void *element)
->  #endif
->  	}
->  }
-> -#else /* CONFIG_SLUB_DEBUG_ON */
-> -static inline void check_element(struct mempool *pool, void *element)
-> -{
-> -}
-> -static inline void poison_element(struct mempool *pool, void *element)
-> -{
-> -}
-> -#endif /* CONFIG_SLUB_DEBUG_ON */
->  
->  static __always_inline bool kasan_poison_element(struct mempool *pool,
->  		void *element)
+Suzuki
+
+> 
+> Suzuki
+> 
+>> +        r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>>       folio_unlock(folio);
+>> @@ -924,7 +927,7 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct 
+>> kvm_memory_slot *slot,
+>>           folio_put(folio);
+>>   out:
+>> -    filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
+>> +    filemap_invalidate_unlock_shared(inode->i_mapping);
+>>       return r;
+>>   }
+>>   EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
+>>
+> 
 
