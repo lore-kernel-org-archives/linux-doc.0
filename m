@@ -1,63 +1,61 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8275E33AD81
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A873223DC6
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780370242; cv=none; b=O9ssVBLPhOL+NtXmLW1pXMRn9u8T+bekTDnKqikNkxOLp+zSqKBWnmxkCW1rB2K6WbqEJNYI7RECQKfw8mLFtRAOpqS4nnbglDhg4M/MJgxyPvtZOc6rpKGrXAuBcnILljM/bJmTGU7pI6TeTGewIrFIYinBf7JTPWER1FXCEfI=
+	t=1780370243; cv=none; b=kFDeqqzLWwyDZLm5v1kiQU+qspbzFwzQAeBcglKvZRfOsCws/JEw+/Hj0IQccvZQopkUBc9AD1PiULo5rPWhZBqZRsNHzwI1ZbGgDuC8heQQNjk8AH9iQomq62lJ/FyV2LflB+XAdttBgpfZPkn5z7DmK+jUjjRIVLfd8n1WTBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780370242; c=relaxed/simple;
-	bh=iLcdCc0te5fqBZzAelrcWbzlLEUfrhfSCvMibuoqogY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dAR+OZ3jt/E+qsHJxHyN1MgnTDAWf4hwz1M6jeos67CZMRs/O7qyzaymXq42/c/6z7550ujOgd2L3nQWLADacveTetkkuNmw7eybcq4ulENdaMRwQqRt5qjZ1GMfPHxcQ7JWRhfpZC5TbiPfbA8TxTss/T0/97KzGtCb7vmfTCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=B7dKe+we; arc=none smtp.client-ip=209.85.160.178
+	s=arc-20240116; t=1780370243; c=relaxed/simple;
+	bh=UFlTWNbUvzwCLymITQWsd2wQWBNsij3IqqVuiYdePpk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=nCPpRyAo5qJHcBfXTQ+qm4BZECeluVfgnApnIa+Wdaw6emFoLRhIzGcZ8A6aICvlQzTwium1OysOTcj8Yrn+3RDHi2Sm1PpXnnAujiIWxNBMISwA3RY7vGU7qEpTO0FZtbgoarObMkq67X+Xcv7L+EoL8Bu6S3tO0FJGL/V1+xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=CEenTv2r; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="B7dKe+we"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51749ff0a97so17963501cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:17:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="CEenTv2r"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5175cb5946dso9300251cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:17:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780370240; x=1780975040; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=57XHE07VPesg/638uO62i0q1esIWZpU9ZAzOqv5wFOw=;
-        b=B7dKe+wemC9eOcrpQ48Ze1TDlRVjIA8tbs8n/SNsel1eg8SZwWYR6ToQxp7CzhYFGs
-         urR+XeArtQEjq5eXFph/aEMCqELs6Rg9jnO/RkeyPP7ld4pJ/fKHxWXZCJsqnZAOLByz
-         bmshjpimuJYCgjot2OVq+Gbe4s6pOPqPDKwd99cWkLvTWNZ52CPaZDgu4aM+3cTe4DO/
-         Nfhb0FYf1bR4IcV3UzgYgN+wXhm4Gs95B5tgWgoH7faOB5wgyhwrnj5KXxcdRR7K8UvS
-         JkK3JlvMwiCkCKs+HMMmAQok9pq2Md2JLkI5KUlR7zSDdh61IoWk7axZZ6XqTGluxnyl
-         HWhQ==
+        d=soleen.com; s=google; t=1780370239; x=1780975039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M1YZ6pkpMukmY0PpCar7lQ0cU7Gg/pAjVgGHiG98i3c=;
+        b=CEenTv2rNnmtcJLtT5AupTwi7SsWz2GJNVhOFuf6rbh9YROnzSmaKeMgRb6luESEBl
+         YXyIAGx/CYXfeKo7AEUbiUMNk8//dYriqPu9KpoaxpM+M9Rrum6aWUny36NZyKvACv5V
+         pX39y1wU2x7K1Dm3lEviZTOioKwBlSYyRF5+Pi5eChVqNjsBMOkcnGRVEtFU2v1h4Gom
+         WKjmYHF/O1QBxI+ZN94tX0RuOtuBHCUpJMnUwbvNfoKtpPDdmgUdh6YTE7GkcxlDZmoi
+         wCMEThwgD2zr/NXu73aDcxcLy3Bb0jGKsl1QXNbRgGKDobSA6ZZV7X7qEjngYbbMbuSq
+         JTSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780370240; x=1780975040;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=57XHE07VPesg/638uO62i0q1esIWZpU9ZAzOqv5wFOw=;
-        b=V2VuwcMWD4En1xXvxB/Y6BRhdyYn5ci/wytPrHa/kNK+mHj739DeBZ9yoO8vEUdRxh
-         NJLok7d24Fi5JeGvC+bQgg+8GvNUOV6oN7WqgNBeDLJM8JhoMHawKkyqJ3QdkCtKCbfa
-         afgJF6+9uLdK5YwOmE4ltKq0OpMjZ0X4ApskZH2+BtnRv9UxGMJrfQy7R0JspYgtLPwR
-         QkyU7+Se2BXLxN+tNBFiC92oVfJFFFEu2+PK9O9F0P2heTtZsarkpbzLLhOIHCXIv+Mm
-         WdeX+aiE8zDjzxT4b0kV2Gr1riwEvx0g9376RxaKEEP5L0j4+YBBO6ptePt9NU/AcR9Z
-         xEvg==
-X-Forwarded-Encrypted: i=1; AFNElJ95hVMsFfax00FxUmM3XIs1MzJDlchdfp+wijoqMffqOAfVgQarTsE2Cj1C06wGYYsyau7KuTxVIb0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMJTjomoCli5Etdlu+RiQIdK9gfCf93fsTkcRNIFoqKrTbukV1
-	J1aqebWlRfMoVBVlYvm7QcPdbZPEEdaghqZyvaZZSlw3g17kfs3uUbxMvIkDq8YiG/o=
-X-Gm-Gg: Acq92OFEUlBuCBnS0MqpVosv4Z/07FDxSPJWz94xcT6h4YBK4VWc+Q8toeqrokcQYi6
-	5D/vpzUPYz007EkgnAtBAgfF+0v0uoMtZs6IvmIEOt3Ci4Bg+SnQM8ZK2vG16I6ZaUtH4UxUjMs
-	BFLaK5dyMv2/ndblx8PKxa9l765/NUMQEBztFTuuC0eM9JFo+fiXZHpMKIxtpLPNynwHvnRSx1N
-	2AUylbdDOnJawQZhLpD1+Mvyg+95Fmx6akdGxxxftiEKNsAK4yu4BjN6PuornG7x8NTJvhsN0vo
-	Byl5ej5MYVof2v0M815NTL2Ox8y8mR176uGwBY0Ju4H/Ww17kU4IdYKBIaXi5PSkmY7fT3ok/HL
-	z3jLoe3T82RWsk56cM8xdcma0UsmM1rNRf0G8FVchKPiQfmiqgb0UtI2mqnOuok4h82k42XgcLa
-	aXJQ6/0W/uES6PS3Y3nCLUR2SCbkLbe5ammGxFjqKefJrN0BZ2R6IhzceziFndWg==
-X-Received: by 2002:ac8:5dd1:0:b0:50f:6415:1eb4 with SMTP id d75a77b69052e-5173a97fdd5mr181349891cf.49.1780370240533;
-        Mon, 01 Jun 2026 20:17:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780370239; x=1780975039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M1YZ6pkpMukmY0PpCar7lQ0cU7Gg/pAjVgGHiG98i3c=;
+        b=YRteZ1MNDs1fh9USDb3HMByMtb9ksk/dCqwg5WrFKq61Hp9BEy0jbAy7pE+NVrueL5
+         ZeTyLmYWfq8pmN7ai52z2SXIdsy+PyXCEXFDH/psBFs8epnNrKrBs2+fc+j46BYbTpcd
+         05o8wMt81rc9g3avUfEpV9F4GjWfEJqV8oB4anr4QPswfCeXNKw0aXZd5/KsCrnXhnVn
+         HJI2OUOwXOwL2g7fzZklxLH0kJE/woodpYYag6hZFD6ayLaATFsU0Mf+EdfhMFM5kzTm
+         +2qRGak/0FbJ72qmUERqF2dW3PGSf/JRjVCCdMpsYCPziiry7nngG3wBaUXf4KHskoKE
+         z+uw==
+X-Forwarded-Encrypted: i=1; AFNElJ8Vg0oiqak8zATLD9UhguriRKsGCPn5fNO7B2XqxxSHMoNmUgn/D81TCxWRfU7eBeZz3xdK8SjLVMw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOOQIMYovVbsXWO45pDp80cMFcMgQ881PgeT35nC7eonjskr+R
+	pYrOMe2puZpsVjNtk0acUrIzOHyEqQSBM2sgWrhxdxpJdHArLlGnitklCXz8K6dPO/w=
+X-Gm-Gg: Acq92OGDeeaoeruCa/iT3FLAW1jTZlvZgZLfj6Egk9mjeJ3gP72vqq5u5E1RdjYIqE8
+	+9jTLeZwoxnErrFtTrQzO6sPzYC5UT46ksvP6NK4Dr0+2XMWr9kRC5mbf12Ro8O86bnHaYjeXVA
+	J7oTF3Jd8NTJR5jToD2V7IpR2OtdcR26ftc2xHSTHQZZV/dQnJw2NoknL7MnUqTag09ECXCguB0
+	FTESRcD3fFPBCmdlBVloMCUH7EqkXnWiPdt5eoHcCqwwWNXSggPQJ4BmwfrqjFW5otp5669JX4E
+	OWdC5E6eqKtlIs5KBwSFi7lyO8oQrqvaTQ5zD/AMHGLqZVfBG8/0aRpKuYYoHoMFmSIAVcI/P/Q
+	WFbJm5HRT6J8OUo3ff6AAah4E8VXJpdJbE6nXGG6y214A7IntNGwKqRk82CIrrbjiA+Og7tZ/zB
+	Vp7yJnbG0KLaspKWEFYFJGPEYcBI5qOFilX+xZPpVM+7nhJp1EDJNeJ/UXbJJ6RiBTGyLVnRX+
+X-Received: by 2002:a05:622a:a9c9:20b0:50f:f0be:dc7b with SMTP id d75a77b69052e-5173a7fe8aemr158846631cf.39.1780370239332;
+        Mon, 01 Jun 2026 20:17:19 -0700 (PDT)
 Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51741b29745sm71219081cf.8.2026.06.01.20.17.19
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51741b29745sm71219081cf.8.2026.06.01.20.17.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 20:17:20 -0700 (PDT)
+        Mon, 01 Jun 2026 20:17:18 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -74,12 +72,10 @@ To: linux-kselftest@vger.kernel.org,
 	pratyush@kernel.org,
 	skhawaja@google.com,
 	graf@amazon.com
-Subject: [PATCH v5 01/13] liveupdate: change file_set->count type to u64 for type safety
-Date: Tue,  2 Jun 2026 03:17:05 +0000
-Message-ID: <20260602031717.197696-2-pasha.tatashin@soleen.com>
+Subject: [PATCH v5 00/13] liveupdate: Remove limits on sessions and files
+Date: Tue,  2 Jun 2026 03:17:04 +0000
+Message-ID: <20260602031717.197696-1-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260602031717.197696-1-pasha.tatashin@soleen.com>
-References: <20260602031717.197696-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,29 +84,95 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This improves type safety and aligns the in-memory file_set->count with
-the serialized count type. It avoids potential truncation or sign
-conversion mismatch issues.
+Hi all,
 
-Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- kernel/liveupdate/luo_internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series removes the fixed limits on the number of files that can
+be preserved within a single session, and the total number of sessions
+managed by the Live Update Orchestrator (LUO).
 
-diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index dd53d4a7277e..ae58206f14ac 100644
---- a/kernel/liveupdate/luo_internal.h
-+++ b/kernel/liveupdate/luo_internal.h
-@@ -52,7 +52,7 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
- struct luo_file_set {
- 	struct list_head files_list;
- 	struct luo_file_ser *files;
--	long count;
-+	u64 count;
- };
- 
- /**
+The core of the change is a transition from single contiguous memory
+blocks for metadata serialization to a chain of linked blocks. This
+allows LUO to scale dynamically.
+
+1.  ABI Evolution:
+    - Introduced linked-block headers for both file and session
+      serialization.
+    - Bumped session ABI version to v4.
+
+2.  Memory Management & Security:
+    - Implemented a dynamic block allocation and reuse strategy. Blocks
+      are allocated only when existing ones are exhausted and are reused
+      during session/file removal cycles.
+    - Introduced KHO_MAX_BLOCKS (10000) as a safeguard against stupid
+      excessive allocations or corrupted cyclic lists during restore.
+
+3.  Expanded Selftests:
+    - Added new kexec-based tests verifying preservation of
+      2000 sessions and 500 files per session.
+    - Added self-tests for many sessions and many files management.
+
+Tree: git.kernel.org/pub/scm/linux/kernel/git/tatashin/linux.git
+Branch: luo-remove-max-files-sessions-limits/v5
+
+Changes v5:
+- Addressed comments from Pratyush:
+  - Renamed kho_block_restore -> kho_block_set_restore, kho_block_destroy -> kho_block_set_destroy.
+  - Renamed block iterator next/read functions to reserve_entry/read_entry.
+  - Added public helpers kho_block_set_head_pa() and kho_block_set_is_empty().
+  - Added validation to treat zero-count blocks as errors during restoration.
+  - Simplified block iterator reading loop from a while to an if statement.
+  - Changed standard WARN_ON macros to WARN_ON_ONCE on iterator allocation checks, and added warning details.
+  - Simplified session serialization by removing a redundant NULL check on sessions_pa.
+
+Please review.
+
+Thanks,
+Pasha
+
+Pasha Tatashin (13):
+  liveupdate: change file_set->count type to u64 for type safety
+  liveupdate: avoid mixing cleanup guards with goto in
+    luo_session_retrieve_fd
+  liveupdate: centralize state management into struct luo_ser
+  liveupdate: register luo_ser as KHO subtree
+  liveupdate: Extract luo_file_deserialize_one helper
+  liveupdate: Extract luo_session_deserialize_one helper
+  kho: add support for linked-block serialization
+  liveupdate: defer session block allocation and PA setting
+  liveupdate: Remove limit on the number of sessions
+  liveupdate: Remove limit on the number of files per session
+  selftests/liveupdate: Test session and file limit removal
+  selftests/liveupdate: Add stress-sessions kexec test
+  selftests/liveupdate: Add stress-files kexec test
+
+ Documentation/core-api/kho/abi.rst            |   5 +
+ Documentation/core-api/kho/index.rst          |  11 +
+ MAINTAINERS                                   |   1 +
+ include/linux/kho/abi/block.h                 |  56 +++
+ include/linux/kho/abi/luo.h                   | 149 ++-----
+ include/linux/kho_block.h                     | 101 +++++
+ kernel/liveupdate/Makefile                    |   1 +
+ kernel/liveupdate/kho_block.c                 | 390 ++++++++++++++++++
+ kernel/liveupdate/luo_core.c                  |  99 ++---
+ kernel/liveupdate/luo_file.c                  | 206 ++++-----
+ kernel/liveupdate/luo_flb.c                   |  65 +--
+ kernel/liveupdate/luo_internal.h              |  16 +-
+ kernel/liveupdate/luo_session.c               | 241 +++++------
+ tools/testing/selftests/liveupdate/Makefile   |   2 +
+ .../testing/selftests/liveupdate/liveupdate.c |  75 ++++
+ .../selftests/liveupdate/luo_stress_files.c   |  97 +++++
+ .../liveupdate/luo_stress_sessions.c          | 102 +++++
+ .../selftests/liveupdate/luo_test_utils.c     |  24 ++
+ .../selftests/liveupdate/luo_test_utils.h     |   2 +
+ 19 files changed, 1184 insertions(+), 459 deletions(-)
+ create mode 100644 include/linux/kho/abi/block.h
+ create mode 100644 include/linux/kho_block.h
+ create mode 100644 kernel/liveupdate/kho_block.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_stress_sessions.c
+
+
+base-commit: 2935777b418d2bfcbfe96705bb2c0fa6c0d94e18
 -- 
 2.53.0
 
