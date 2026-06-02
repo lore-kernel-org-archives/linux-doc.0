@@ -1,62 +1,63 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11D73769FA
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 10:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C2A3769FA
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 10:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397769; cv=none; b=my3ZML029OuW2KI+vMzsVttXYRS8tVVZRbG2r1eHwB49eriKQaJIbYSeROVlZN4o1DoPeSolxzb4An2+Qt1Jl1kbtjYcC48P0pS1HJYHsTdNtSwObyoCu8+71aSnkkCpfb4enkW4SwLzKW8KzIgZJOBlga9OT5UloNsSCDuuGRQ=
+	t=1780397775; cv=none; b=gGaqlzJRfg9HmvciutNryTC1GGZmjygWaNLdWG0uO/qnxWjisQT4vNo1no9MuDrgFISo6s1A5PuGxh8eND/prozkqDaex1LUQBpGNjgBqyomKQk34B+odQKx3Mf0n9kXHwzTvEupDI4vFQ/9+0XQPiHt+wUHeiSB2t7TTA3FRZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397769; c=relaxed/simple;
-	bh=QVHEmFnx0DUpGUKy/kZIWW0fq7FBpCeUK0VEnbP1aKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DQUiNVUr/l9No7tXIabBeVJ0ZTzK9QLS++FxwYX6mzQa0YTnFpa/p6HE5naqj4uWmatc84+/0buCZdU7Z2vU54WUixyc3ZxUCawNuMZD0Ze6jcw7sjFr6TYY0r183YqyKPnB+mKZ4oAOnr8XUZ1eGKef6/5LFIzr9xMABTQwnPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=JYtnyp+/; arc=none smtp.client-ip=74.125.82.46
+	s=arc-20240116; t=1780397775; c=relaxed/simple;
+	bh=wLCKuc5QOnzLCacTJEBWqxb1EStcrRKg3HvJvzZAG5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hkKfUQmc4nrleEVWr0pyhXdxY6AScAC/944Q5m1IJL/MsPf/He6Qrcf8euSnE1Dfx9gAqKX3c1RMaq/pgCkVDMYxi2Q49saORhKR+FlMNGNQIrpMIPOH7d2i81BiWAlPSnPl3kNlbUAuJq5vpLwbyQw5OUXLYuDDEaP9ytX3Vn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=UKXYoY9S; arc=none smtp.client-ip=74.125.82.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="JYtnyp+/"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-137dd5161feso63399c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 03:56:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="UKXYoY9S"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1363fe80fe8so13446128c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 03:56:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1780397767; x=1781002567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tU5zBVcnweYdPS2s4Hj5IdEBDkNLbQ2aMEv3yP+HtpE=;
-        b=JYtnyp+/mXQdczbIBW+D61++lXUfEKuzTtxAbAhKHtBw7P8xZLuXQc7Syew1sPUOPZ
-         ZVgdHZlruENkayXjMFkxvRwgfg4bPfoFOej9XGPBgfTN6VMx3FHVAMahOZnN51uMmBuI
-         Pu8fBAgXDeQ1JngIYZzVNsPb3Sl1wEc1QTCO+qStfP2sbVITa84KU0yWZCdvlrgf1WLW
-         KdV1VxRUgHpUDKnu9WV/GQ1Iu2uxGbXyWqrp/a/D7CGpEswjuca3ZIRwjkQYoRWlnL5r
-         KebLNjUUsWPPQ5Inc+V4A0kdm26STVSinT01oJ1pQTuEZ739dSv/+a0wjGS/aPvN/D2D
-         jFgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780397767; x=1781002567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=arista.com; s=google; t=1780397773; x=1781002573; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tU5zBVcnweYdPS2s4Hj5IdEBDkNLbQ2aMEv3yP+HtpE=;
-        b=BGcZuY4kmafhuumAD/ziMsfIuypKzLmIvx4R0PCcdwc7dyyC3KGKVSANN+qnCZx1C3
-         RY5f1WqFpGfGyXLMYLSm87bUD3MvifmSHnrRGVY9P8axMzKCNkYDwWKIFcRDZR8lZvZA
-         uGwnPniq3rx678o7lzVI40eW6N2Ll8THCUA1xQooxP1yOe/KBABS5ULsdGS/SV/zVPO4
-         mSgy8UCSOoLRWOEYrnsLFZd76WcBwYwT7CocIoTtPJ8CaE0JwN18/5tmUMiDnlYog/GY
-         wFRjw+3VyoEHvlA5DWeTeWgRu7f37YfYo6VbyEuCo0BLxEgqwnqdbQatZXGGXIU7CeKy
-         G8lg==
-X-Forwarded-Encrypted: i=1; AFNElJ+bzvbcpTYa5UXFivenWgzCEYxTidq7/MXjfZ3q9JKu9ugdD8w9blFAOOe1Ecp4Uy7cZp/RytWEfG0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6VeyqTScTvO85LamTqsgVvQp6x7qeywFYVWeS7pu5MncsFGaC
-	oG5MgocYyLd1gvcVxSjTVISDRCy5LMcYrqo/1UoDr736N1PvFKLhkwFu2nvKmpi0Gg==
-X-Gm-Gg: Acq92OHlLxZRryBMEo26ADBNZWk8oCNSsTCxOL1UDIUYVOdVRUqcNnG1rexX4XBpafe
-	eSDVzoUQcls6nuNIlahtuOJWMuj536nGQqOSSVKlNL4m2I9OxT90aaglH9KlpYxigb6dAslL8yG
-	kU8luhpKWG39BLV3eu3/ppoJxDOUnkQ4XLG6HGM2+oriNKzRs9lg/WkYI7xm9yLgJBYwSr3ZWvN
-	JoLgxY+Zb0RlKdRHN+X+SCbgqL5kYGUf9pZcn/SRJzQTkzwi4xZGHFtCCwFv1Vo+hxZmt7AX6PN
-	1jH8hWQOeFjlatRE07JHjDA23S3v4Kx2IGcp3uSWWAwklZEuTXbZQykZ/fO7YrknVyE5XAcAwA5
-	SXW3a2IwZJs1IUBdXz9avJiMhqvnGWY4QWUpF5oviGVEMG7jMOUWeNFQKQsSHVshGYJvOVPUsMK
-	OJB2QK1fmaPZN9DP8VhmBC4bNo9uDMvj3V5TXl4peU1p2l+tmguvfgGj6DrIBMZaduWio2JNNFz
-	VEY
-X-Received: by 2002:a05:7022:981:b0:12b:ec67:3529 with SMTP id a92af1059eb24-137d3e13d8cmr6754013c88.14.1780397766712;
-        Tue, 02 Jun 2026 03:56:06 -0700 (PDT)
+        bh=ipygvPfGvh511pGoc1WDj9e8ajT/yuZPoVIK2+0UFTI=;
+        b=UKXYoY9SKQWepUbI+JTUVgWgZezXpMkZgowB2GX1/1L1pDkGj2Ww9sEstnb2XBz14s
+         A2YcC3rR8PagfWWv7+U4Bi44CyNYsw89lswvF83p9jjpOq0O7KXkrs1Ty0jJNbh7V8nQ
+         Wk2LIpsnt98H40+3EXa08BLK39IqdXOmrXdyyU/a645j/Sf94D4mw8GpekgynJMQ9M7F
+         tGHdl8bITnadZav7zfpHJwlO28iczUPf7FyZrEdh8PT/8SwERZjXt9p3jqaM/7P//dWq
+         y4v556ymmdhHP7HYFiA56QYR9lOaQRY3GEWxO4SHVRaCy3Z39vCsDuVcLuHxFAMlfDGF
+         sbwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780397773; x=1781002573;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ipygvPfGvh511pGoc1WDj9e8ajT/yuZPoVIK2+0UFTI=;
+        b=kga89itd7UUcwp9w+ny/0lMzIQKYW75yNT83YxwtYcNspPfUEGECemuMJXT2MeaMeZ
+         URQDAjV+P9PK+Ji9RQQi+2YcIS7EuyAKJyNdlhzy6QXhD0+AcfMLg6CfsZSv9/1Nd+0H
+         5b7RxQyokhGDD/Z6m99G5GC8hVZUis/BwdiHTG6oXAszXNccdTv7+4p1A5M9WV7kkEtk
+         mTjDxy7fGMN5VKGqhTkHdXsoj1VKuXqrICcB8088PMKYe9AmYtdee1B3nis8+/yAIXlQ
+         nCSbemiH0nWwMnEcatup9ICCdGZDiIk16d34pNvODs8amMzepAjYUGOp30zdr3XFV6g6
+         UWyg==
+X-Forwarded-Encrypted: i=1; AFNElJ9MjxzrFR25nYZ5ssVEiSqv4JeIhJbt9RR8DYJo364WKgeBC3/z8xTNA4JOUWBls5YeL43hAGNhZS4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ1Dnte0G9M/zk+l3sm7FMgGoXm803zSWg4Z0UggEMGA/wATrD
+	s0YMfy8BiBcpypOAUlmXYvmspPfm9rxSjMXxZsVe2yeZIOgTx7YZY0YLCvLeu+C+1A==
+X-Gm-Gg: Acq92OFf3QcvQs/iqj8oR/2xmZs1RiFFrY0U64JXKDvAOPsn9j8qLbNXOw5WMi/lbUz
+	pTY1Dm/gxzsv9MYxDctwYNVXaRuak0WO5X8hRI/jrkRt59Ze1zd4ZF3N+fLVr1uY6IdAOk8/igU
+	QFjKNxmadrRuVcMFROOTK5euYCvFkzQv2r7F15WJjy2v+8INX1E/meuUDRT88nWkUdYlqtyGgBW
+	Wltz+8xMg594YvV/509Ehlf6OUvKQlsH26b9gJYOnpkt4jCEMOjRQZ6KctOlwjGFeOj1eHcplop
+	vVcE3wrL40cd2WhTioIJOjg6ADAzimt0lw5zwFmMrKIxxQugCRklLxNT2kDCljglEWzA5kctJpB
+	0rIlTuaT6eQQWhKyByebcsp7nWDDrL9i3lcb6KcB1sKHUnGomLHfMh8mszSlAoJV9iyeJEK+NQA
+	GcjXLXf4qLloX9lzmPrlNRYozTmgZ48FuemQAATELF7pvPGE0ulkd6StLIZifU11KcwA==
+X-Received: by 2002:a05:7022:2228:b0:12c:6e85:505c with SMTP id a92af1059eb24-137d3bf6159mr6165635c88.4.1780397773132;
+        Tue, 02 Jun 2026 03:56:13 -0700 (PDT)
 Received: from yurypm-home-4hjc6.sjc.aristanetworks.com ([74.123.28.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b36c6700sm8875678c88.6.2026.06.02.03.56.04
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b36c6700sm8875678c88.6.2026.06.02.03.56.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 03:56:05 -0700 (PDT)
+        Tue, 02 Jun 2026 03:56:11 -0700 (PDT)
 From: Yury Murashka <yurypm@arista.com>
 To: bhelgaas@google.com
 Cc: corbet@lwn.net,
@@ -65,10 +66,12 @@ Cc: corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yury Murashka <yurypm@arista.com>
-Subject: [PATCH 0/2] PCI: Add boot options to disable DPC and AER recovery
-Date: Tue,  2 Jun 2026 10:55:56 +0000
-Message-ID: <20260602105558.1799563-1-yurypm@arista.com>
+Subject: [PATCH 1/2] PCI: Add pci=noaer_recovery kernel boot option
+Date: Tue,  2 Jun 2026 10:55:57 +0000
+Message-ID: <20260602105558.1799563-2-yurypm@arista.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260602105558.1799563-1-yurypm@arista.com>
+References: <20260602105558.1799563-1-yurypm@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,30 +80,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On large modular systems with a complex PCIe tree, the default kernel
-AER recovery and DPC behavior could cause unexpected side effects.
-Sometimes it would be nice to have the option to keep the system in an
-unmodified state and be able to handle PCIe errors from userspace.
+AER error recovery is part of the AER error handling subsystem in the
+Linux kernel. On large modular systems with a complex PCIe tree, AER
+recovery could cause unexpected behavior and side effects. Sometimes it
+would be nice to have the option to keep the system in an unmodified
+state and be able to handle PCIe errors from userspace.
 
-This series adds two new PCI kernel boot options:
+Add pci=noaer_recovery kernel boot option to disable AER error recovery
+when an uncorrectable error is reported. When this option is set, the
+error status bits are still cleared, but no recovery actions are taken.
 
-  pci=noaer_recovery  - Disable AER error recovery while still clearing
-                        error status bits
-  pci=nodpc           - Disable PCI Downstream Port Containment entirely
-
-Yury Murashka (2):
-  PCI: Add pci=noaer_recovery kernel boot option
-  PCI: Add pci=nodpc kernel boot option
-
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/pci/pci.c                               |  4 ++++
- drivers/pci/pci.h                               |  4 ++++
- drivers/pci/pcie/dpc.c                          | 16 +++++++++++++---
+Signed-off-by: Yury Murashka <yurypm@arista.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 ++++
+ drivers/pci/pci.c                               |  2 ++
+ drivers/pci/pci.h                               |  2 ++
  drivers/pci/pcie/err.c                          | 15 +++++++++++++++
- 5 files changed, 43 insertions(+), 3 deletions(-)
+ 4 files changed, 23 insertions(+)
 
-
-base-commit: 6f3ed7fec72fc8979b2a8c7219c0a9fcfc8d07b5
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 97007f4f69d4..cfec12d37677 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5068,6 +5068,10 @@ Kernel parameters
+ 		noaer		[PCIE] If the PCIEAER kernel config parameter is
+ 				enabled, this kernel boot option can be used to
+ 				disable the use of PCIE advanced error reporting.
++		noaer_recovery	[PCIE] If the PCIEAER kernel config parameter is
++				enabled, this kernel boot option can be used to
++				disable AER error recovery when an uncorrectable
++				error is reported.
+ 		nodomains	[PCI] Disable support for multiple PCI
+ 				root domains (aka PCI segments, in ACPI-speak).
+ 		nommconf	[X86] Disable use of MMCONFIG for PCI
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index d34266651ad0..1f71f9c773c4 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -6725,6 +6725,8 @@ static int __init pci_setup(char *str)
+ 				pcie_ats_disabled = true;
+ 			} else if (!strcmp(str, "noaer")) {
+ 				pci_no_aer();
++			} else if (!strcmp(str, "noaer_recovery")) {
++				pci_no_aer_recovery();
+ 			} else if (!strcmp(str, "earlydump")) {
+ 				pci_early_dump = true;
+ 			} else if (!strncmp(str, "realloc=", 8)) {
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 4a14f88e543a..7a79df0ae712 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -1283,6 +1283,7 @@ static inline void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge
+ 
+ #ifdef CONFIG_PCIEAER
+ void pci_no_aer(void);
++void pci_no_aer_recovery(void);
+ void pci_aer_init(struct pci_dev *dev);
+ void pci_aer_exit(struct pci_dev *dev);
+ extern const struct attribute_group aer_stats_attr_group;
+@@ -1294,6 +1295,7 @@ void pci_save_aer_state(struct pci_dev *dev);
+ void pci_restore_aer_state(struct pci_dev *dev);
+ #else
+ static inline void pci_no_aer(void) { }
++static inline void pci_no_aer_recovery(void) { }
+ static inline void pci_aer_init(struct pci_dev *d) { }
+ static inline void pci_aer_exit(struct pci_dev *d) { }
+ static inline void pci_aer_clear_fatal_status(struct pci_dev *dev) { }
+diff --git a/drivers/pci/pcie/err.c b/drivers/pci/pcie/err.c
+index bebe4bc111d7..c022cfd85b93 100644
+--- a/drivers/pci/pcie/err.c
++++ b/drivers/pci/pcie/err.c
+@@ -21,6 +21,13 @@
+ #include "portdrv.h"
+ #include "../pci.h"
+ 
++static int pcie_aer_recovery_disable;
++
++void pci_no_aer_recovery(void)
++{
++	pcie_aer_recovery_disable = 1;
++}
++
+ static pci_ers_result_t merge_result(enum pci_ers_result orig,
+ 				  enum pci_ers_result new)
+ {
+@@ -216,6 +223,14 @@ pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
+ 	pci_ers_result_t status = PCI_ERS_RESULT_CAN_RECOVER;
+ 	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
+ 
++	if (pcie_aer_recovery_disable) {
++		if (host->native_aer || pcie_ports_native) {
++			pcie_clear_device_status(dev);
++			pci_aer_clear_nonfatal_status(dev);
++		}
++		return status;
++	}
++
+ 	/*
+ 	 * If the error was detected by a Root Port, Downstream Port, RCEC,
+ 	 * or RCiEP, recovery runs on the device itself.  For Ports, that
 -- 
 2.51.0
 
