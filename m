@@ -1,166 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2262674C14;
-	Tue,  2 Jun 2026 01:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780363115; cv=fail; b=q2qRKVyBPWY1X9WS4duhatf06u0FCpkwA5DYlzvePFPEh0ABfpq/t95WKT4khR9aNfZkryhKfMukJ1u+SaQIxKvzmYo+7ZT7qhx2mNI3NMRUz/kctOwqOrl69/dmIffXnXoSgr78GAcKgA4HW4gm1Xo5bP56cftxul1IKvCkqd8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780363115; c=relaxed/simple;
-	bh=L/nK9V3PTwaTAYnVhOcd8oB9CEUJMl0Em105agIKmHI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Xj3652VqEAyu2wmt2VkFNivXYJCQBm21XCdUrPrg02QKsCqSC/b23lm3TAVYKQkdcvpzOrI/F3GKuggLpoIx1epUl3aRO5DTd1qE0pzc7JoXcIgtcYyUTzsJ+F05C2v3A3Ghn6hb6ZusgQR78VzZV9fr6ZTcLp+2S0Je1hCRLR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNBrD6T1; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E5F1E515;
+	Tue,  2 Jun 2026 01:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780364618; cv=none; b=L5IRlXXDCR/ULhDie5oJR+orIJEbxYJfyTTu3IQ4NEJgtUe8efF0fSRG3jjLaMOtCtAfwitYkE6+89y8bZHfqeRhW6tnJMYHhsemh4X1dRLF3dE2pWpE+u7sgptmgKSK/xbQrGRySHbj/JM7G7eLaF7UpeoXhxhw50zHamGHY1s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780364618; c=relaxed/simple;
+	bh=Is74unXW3WLzqATS41lpUgNaFD3it4MLsOw3+TT8G4M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=CljaYJdloAy4eCJgbZIigWiLZyq47Y4v1tQ6pCPtU2LWXCVbj9inIVBgKQGkMlK+LIqdGJD+2zdPP555P6KDqqZe7KwPl6fyDSUl6/HkNrxbTYv8cMSwKM+yclAQuJzgQMbygsm0a3fS0PqdD1fue8V+H8kIFDDhreW5a5AmDMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=rHaZ8PNG; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNBrD6T1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780363112; x=1811899112;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=L/nK9V3PTwaTAYnVhOcd8oB9CEUJMl0Em105agIKmHI=;
-  b=gNBrD6T1p9z0Gq9H0J+Uj3rAoyNqnvtp/qG4L4sRV7fU89zgKhPtDm6e
-   lgpUJcr2iVS59ZF9XFBM6PxioJ9WW58BYsq4Oh7nibknoHF9T5JKj1FxZ
-   tFGyauqeazBmZoY0CxFAwhcQnbEGQ8tsVjQURkwIeKmRbuRm6APqn1iSS
-   6wHIY27w0SVbvT6U/AAJXzOSsXPQRXwB6gX4uWeoSgKso0a/IVYhoORoC
-   3Wqvx6WYJ7jZ72OeL0cbDRQxjjQd62bachDN3ToQOoiiJgYB232VgprR8
-   CTeyF4kTyb/HzXyuS759fhvOrju/8dIF7qylNrYBWhFtdmDdHIxgLgYRr
-   Q==;
-X-CSE-ConnectionGUID: 4QfXQHA9Q/KGnp3R44wMmA==
-X-CSE-MsgGUID: aUg1rJkHSXul9tYUYhjfrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91819775"
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="91819775"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 18:18:31 -0700
-X-CSE-ConnectionGUID: GjSW1MJLRi6T8588N0tpfw==
-X-CSE-MsgGUID: nQO0uAZhRnCw9TsrW7mWjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="274009187"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 18:18:30 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="rHaZ8PNG"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=lSyN8uzwXhmY7DMOaiH5+32B3ctfvf5QTlFldSqrORg=;
+	b=rHaZ8PNGA+gISgwgik10XoynkWfz7ayOHWp5pYg2DR9+kM7LRE6sFvvbCwY7WZuExcMNMQCQS
+	XuZ/RD3H3jG0SNieTYmEXXudVXbblnFxAcsCDvSXYCJwK6nxFw20KYn+MN8CS9fgZgl4GqZ8Sc9
+	+cBgIb8sYmtBRoiL2hN8lbA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gTthC4T77zpStZ;
+	Tue,  2 Jun 2026 09:35:55 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id A94E940561;
+	Tue,  2 Jun 2026 09:43:31 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 1 Jun 2026 18:18:29 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 1 Jun 2026 18:18:29 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.41)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 1 Jun 2026 18:18:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rfKUq8IeqFGG/ovMd6MTkHaxv0xcVidz7ohnkr5j65wi/NadDeFyXMI0rKhAjxM8TJxMNcKF76ZxZhQRP0CmBVjFZuR/AsbMEKmmLyznQ6+yvkfxP0DZSfpXVpWydCcgnDwwN2p+cUgq3WFw08w3Yx2/BFapAf7UBxkrZ2VtO8Cju9CLXcITp7yqShuaWDC4IT0gNoN3LIDI3wcXZB+4CTLIh/GBhP61phZoi0Q07hCFyPDrP8y5nnyn1fcZv+oSpLQtj0ECfw4acWhx6hT8RwX59a8QHatDwrWPWmXAojcfXibqU5+pPvcA9MSIqT4NIozgLAJHekdxza4GAFoYuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q/UKRdP6iHdEnpq4j3DTyuXx+FDEVmA0rezs+8vK8V0=;
- b=IZcxCzDbOn/ymsiWZRxlxf18Tguo+IIdzpZ6obOMIixdHB/KQ6ra/+7jkVR4DDfN1ypJ7xG8V4JurGM0kpgjDCpvkyoz/EQsyj6pyPDmlBW4RZTVwTB0KJPU8NVnzGRHyA+/LSKk1QWfR1oFRYiiOHHja8UyxpT2m17xsXfF7rnlC1LnEoWP3vYqO70lAsGISIGijc9ieDPZJ0fJxY9Sqbz1QQP8Kv+G2rPV+VPXC3PtDpCBzbWbKXTdNVN1jIv7WwFBAAIOql/U+yuwbuVyLNmU/NCUOTjOrWPom87k+bAvLlpjnpX2mxGRxL73x4UuzGvR1JgZtV4VojNNMiEVDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by IA1PR11MB7754.namprd11.prod.outlook.com (2603:10b6:208:421::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
- 01:18:25 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891%4]) with mapi id 15.21.0071.010; Tue, 2 Jun 2026
- 01:18:25 +0000
-Date: Mon, 1 Jun 2026 18:18:21 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-CC: Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	<nvdimm@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: nvdimm: Include maintainer profile
-Message-ID: <ah4vXbPHrJhXKsLw@aschofie-mobl2.lan>
-References: <20260518104306.39289-2-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260518104306.39289-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-ClientProxiedBy: MW4PR03CA0242.namprd03.prod.outlook.com
- (2603:10b6:303:b4::7) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+ 15.2.1544.11; Tue, 2 Jun 2026 09:43:27 +0800
+Message-ID: <1a459706-80db-43d8-b163-76fc09da338d@huawei.com>
+Date: Tue, 2 Jun 2026 09:43:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|IA1PR11MB7754:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68d59e1c-8420-4703-db6b-08dec044d85b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: Hvismjn3Oeg0eQvpfojCed7P+j1hr4kj+/ctHkiScY93VEmdY32NPgtdhlnGWfT17pqhufu2WMfPWzLBnL4fchNwkZQ4HiScBb002RHv1VgJHquRkXr4z3+cC+vP3nFAiXqveMS23ZokZVK00IHkcYQl59GaeK7lg38bOzmO5rzotN2cnzEy0jwMFTaKtz2Cr91UmoqdlGozwkQTddIyo4y9dyPkdV3+KvUX10MSM7TUsW8bScW7O6kOLHO/60BF5nzNLNk+Kcfw73rYce2Mn2xqxldKpgFgvN5jkM77DHJSGvwVSTjPzn/XSTLrwC1pNWapIMmG3da0uU6swautoJ9FpX3Nvpa71vk6BpNhtvWsHDil7jlyU6kTFXs9BEsTnnxITyY4eI4fDiXdRODmmcPtgFOIKO5NSweGBl+S1IQY5Lsmkd/2QHosvmgEBhMArOMoaq5PDed3uQ/eImxpUMCf63jGQksX15ErFaOll7jb3rD37r11Y5FeRS9DTxzjHUIqfQRSDCpmTRt6KvQAmOaf6tV7HyJ2Azelv36HYRcTSrCe7JvP7MZlPEidw30wJGJ2twkA5f5vZEb9ZvcWx3Xg59xtp5Wh2GmUtjCVM2tVTLBHFXobUTrx0/8uRzXOsZEVad/jIWmVuI0OZpwAZgVwFeuBtWKJrwjeeolu02WiYi5bHFe1FVJPq7BiBzBE7d7jTVNyVeN6oVnaxWjHYA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PJyiGTRA+WdSOiSRndBJL8Rl0wjuoJVGruNLl3VZEqcQBVC6eAJO2nLiKube?=
- =?us-ascii?Q?HuJG0PjZV3UzRMoH7v1QfgF2mipM/5f2i410Z+KQ1MHYydJCkgNMart59zq3?=
- =?us-ascii?Q?LHYIQmyCk3HGlrrrfygszw51Rg5PgBLz7qX3PGt842PMUldKcsj3xwJBhwkZ?=
- =?us-ascii?Q?5l2cLwN7aNTbbN0Te5v08Si1vDTU+F1TtZzFX40IdEgucXCMc4r/uuNOOucP?=
- =?us-ascii?Q?8cqmXS81RCWYR4E2hw3mia+mwXvXMtbbuRLRftqBwlMolPyDYScEzeQZUqEV?=
- =?us-ascii?Q?o5hjbq56AMnF1q9YWiDrBiKDr4L6CtehVAJKv+a9cQE6I2oqkNqvbOrlJwDi?=
- =?us-ascii?Q?vtBwj0PrPCFUomyk5w4rw7IvL2yMG+vnPWvZotFyDz6/4kR4EMCFtWxyCtYB?=
- =?us-ascii?Q?pG6rVDLWBeSF79SMRecqR80MxTkLVA4kpcmaSR8zDMlChpFCZcsCxHOW1hwW?=
- =?us-ascii?Q?OvjPwgUjhDaiiZ4Rq1vmQZVguq29Lzl0+PNFSjmachTT96TwRvk+vvVV5Pny?=
- =?us-ascii?Q?sjVajO3dzkVqwDqXgpzernk9qchxZJWSXjuFF3XvCA5WATY/x123ENKTsBlX?=
- =?us-ascii?Q?kBdgBg/Lwmh2O/oTFlEA8dSzc+A3THEaKkyrb3Tf0NFPTYCMQrUja9dFrGSK?=
- =?us-ascii?Q?ckyqHeJZ7cm85rtCcU1PaUzc8xQ9jilOSURI0U3BVlaSBB/vaBWm98U84z4E?=
- =?us-ascii?Q?Pcm3nGFFOUUojwi5PkVixarWL6TXrBqWrFYeh0bhAv3m63uRnFgd2B5JsQlq?=
- =?us-ascii?Q?d8BTXdWZu72dK4yd4x/afQrpoNDSLOV31Y0ZR7ZS4RK8O+U7+72dUARCXkTl?=
- =?us-ascii?Q?yFHwBf/ToX6VGszTd41/+LODMSChXtZ4Btd/osUnGjnTWMuGl3vqN18YdAoz?=
- =?us-ascii?Q?xaBTdzH525CXMtYwPvQjggWrbfk+QMPQfmvMO72TpOk28H/FeM1w+X8fJPdG?=
- =?us-ascii?Q?otoQ4xe7BaIYquWfBZixcXMMMw191LIAm7qnyO13qOcZNqAYLc/mdPYNYt3V?=
- =?us-ascii?Q?eTM6XqxwI04ocZHTUdZUqYkPS/0S0KWaFB38Eh7WDL9YRgVfTh6vIC6SmhaE?=
- =?us-ascii?Q?5ReU3wPCy5e9/B/GxDPDXjus/frvNS2T4LIUGKmZhXRx36Ih4j0Wfov31RO4?=
- =?us-ascii?Q?dOdn+ON19hLbIUrbDtpMb6Rb2JBRjRD1R7t7KQ4MsUUKznu48qt+ZJfkm6mM?=
- =?us-ascii?Q?hKe1KDDmDxkLlLbPRoIrCSfg3uk87FkcET7sRp+oKkPP1WgQY1XujxoJ/8RN?=
- =?us-ascii?Q?LtPO3N6d17aGRTnM/LslXWS4dtKAX0hzfHoheKIdOCKwZSRAW6sqqjQGToRp?=
- =?us-ascii?Q?F+r9QWbQp5AA9huWQ+wkiMMylkRsEWxOCvn4fLJdYOC6jRJxcB0I2oh35hkZ?=
- =?us-ascii?Q?7UncOgSerwojYNtfmGXaQPJPse9LEpsF/YXuGEhuj5EyhfX+elzT442FKwUz?=
- =?us-ascii?Q?GKBxkrsxt9B4PtR8FeZRyVjarrj9sya2Egw6UtogImIGfCsR4u3YdCdf2Fsf?=
- =?us-ascii?Q?KpWEjysDbKq/lxa2IkVQBesMg5a5tZQCgy8V6ITZLQ3j4sKhGlG7G7RYh0FI?=
- =?us-ascii?Q?2cdo08Sc5sNcTzbcVT8MVFOFNtnTImtOIVlfx91/OOm7cXBLGRHeM9ccNplW?=
- =?us-ascii?Q?OzpXv4TLYvc46mjgp77I7yIMk97aigz/ztYuzb4Hy0q8flKqkWjwGburM2R8?=
- =?us-ascii?Q?fcAr0YJCMEOsevn26lqLqhrO7muMOPh3Z8n3FqTuMho0lZssnlBg5oC2WnR4?=
- =?us-ascii?Q?r+h/MOJy4Q=3D=3D?=
-X-Exchange-RoutingPolicyChecked: U9tj/vVepe617ak9uL+2p1qh1cnN0V4ce2meJBZs6dSly1bxIwEaAhAMVBYCu/yBwc5MhQ3WwLK12kmF6B4kDoXk17QNglWAt7zydgFji/cEzd8sGQ4LRdXiAIhlv/v1OoSO648mzTCCPP0GfO+KadxJMV2FrqYYppw34vQ7OKdKTGoryDUWBOhOQ3ICIuZrUYLED0exoBrGoIL7yil1A5wDVfc8D0E2p9m4jixSNQ9G33QcGCneRQZvAfK+jOoyQ3GE/ursfKEIeoNAeBT7SaYxeJ0T7x3lrSTlHvJ/HiG5qDUKCihEW9SOeIEnvZWi9McUdkGpAfEJmUfHYivDDA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68d59e1c-8420-4703-db6b-08dec044d85b
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 01:18:25.6030
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MVp+vCSqkRD+uD2/VQE0eujyVw1At+wBJbHwBArACPPd+UU/iam1H9sE4/JOABRZvZc2fSg6kYr/F4U3l8EDRdh8pJUK0bhi5KhkjWYltvo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7754
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/23] arm64/riscv: Add support for crashkernel CMA
+ reservation
+To: Baoquan He <baoquan.he@linux.dev>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<rdunlap@infradead.org>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<kuba@kernel.org>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <sourabhjain@linux.ibm.com>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <masahiroy@kernel.org>, <gshan@redhat.com>,
+	<james.morse@arm.com>, <maz@kernel.org>, <leitao@debian.org>,
+	<yeoreum.yun@arm.com>, <coxu@redhat.com>, <suzuki.poulose@arm.com>,
+	<cfsworks@gmail.com>, <osandov@fb.com>, <jbohac@suse.cz>,
+	<ryan.roberts@arm.com>, <tangyouling@kylinos.cn>, <ritesh.list@gmail.com>,
+	<adityag@linux.ibm.com>, <hbathini@linux.ibm.com>, <bjorn@rivosinc.com>,
+	<songshuaishuai@tinylab.org>, <vishal.moola@gmail.com>,
+	<junhui.liu@pigmoral.tech>, <djordje.todorovic@htecgroup.com>,
+	<austin.kim@lge.com>, <namcao@linutronix.de>, <djbw@kernel.org>,
+	<chao.gao@intel.com>, <seanjc@google.com>, <fuqiang.wang@easystack.cn>,
+	<liaoyuanhong@vivo.com>, <makb@juniper.net>, <graf@amazon.com>,
+	<piliu@redhat.com>, <rafael.j.wysocki@intel.com>,
+	<mario.limonciello@amd.com>, <jbouron@amazon.com>, <chenjiahao16@huawei.com>,
+	<guoren@kernel.org>, <bauerman@linux.ibm.com>, <bgwin@google.com>,
+	<takahiro.akashi@linaro.org>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260601094805.2928614-1-ruanjinjie@huawei.com>
+ <ah2Lx7KHI60tzd0v@MiWiFi-R3L-srv>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <ah2Lx7KHI60tzd0v@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Mon, May 18, 2026 at 12:43:07PM +0200, Krzysztof Kozlowski wrote:
-> No dedicated NVDIMM maintainers are returned by get_maintainers.pl for
-> the subsystem maintainer profile, thus patches changing that file miss
-> the actual owners of the file.
+
+
+On 6/1/2026 9:40 PM, Baoquan He wrote:
+> Hi Jinjie,
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> On 06/01/26 at 05:47pm, Jinjie Ruan wrote:
+> ...snip... 
+>> Changes in v15:
+>> - Unify the subject prefix formats as Huacai suggested.
+>> - Fix powerpc pre-existing NULL pointer dereference [Sashiko [1]]
+>> - Fix powerpc pre-existing __merge_memory_ranges() memory range
+>>   truncation [Sashiko [1]].
+>> - Fix pre-existing arm64 CMA page leaks [Sashiko[2]].
+>> - Fix pre-existing crash_load_dm_crypt_keys() Use-After-Free and
+>>   Double Free issue [Sashiko[3]].
+>> - Fix vfree(headers) and uninitialized variables issue
+>>   and simplify the fix [Sashiko[2]].
+>> - As walk_system_ram_res() and for_each_mem_range() use different
+>>   lock, unify and simplify the fix of TOCTOU buffer overflow via memory
+>>   region padding [Sashiko[4]].
+>> - Fix the arm64 crash dump issues in Sashiko[5].
+>> - Link to v14: https://lore.kernel.org/all/20260525084932.934910-1-ruanjinjie@huawei.com/
+> 
+> Do these Fixes have anything with the main target of this patch series
+> you mentioned in cover-letter:"arm64/riscv: Add support for crashkernel CMA"?
+> The patches become more and more in each new version, I am wondering if
+> it relies on these Fixes patches to implement your adding support for
+> crashkernel CMA on arm64/risc-v.
+> 
+> If not relying on them, could you split them into different patchset
+> on different purpose? 
 
-Thanks!
+Hi Baoquan,
 
-Applied to nvdimm/nvdimm.git (libnvdimm-for-next)
-https://git.kernel.org/nvdimm/nvdimm/c/86e411b6ec27
+Thank you for your valuable guidance.
+
+You are absolutely right. Most of these fix patches are indeed not
+strictly related to the core implementation of the crashkernel CMA
+support. They are pre-existing bugs in the surrounding kexec/crash code
+that were flagged during our review.
+
+Previously, Andrew suggested taking a look at the code review comments
+from the Sashiko AI system, which is why these fixes kept expanding. I
+completely agree with your advice that there is no need to keep them
+together. I will split them into two completely different patchsets
+based on their purpose:
+
+1. A cleaner version of this series, strictly focused on adding the core
+crashkernel CMA support for arm64/riscv.
+
+2. One standalone bugfix patchset dedicated entirely to fixing these
+pre-existing issues.
+
+By the way, I would also appreciate some advice on how to handle further
+AI reviews. It seems that the more code we touch or refactor to fix
+these pre-existing issues, the more tangential bugs the AI flags in the
+newly exposed areas, making the series extremely difficult to converge.
+
+Should I continue to address all AI-reported bugs associated with the
+surrounding code in this series, or should we draw a strict line
+and only focus on the core CMA logic moving forward?
+
+I will prepare the split patchsets shortly. Thanks again for
+straightening this out!
+
+Best regards,
+Jinjie Ruan
+
 
 > 
+> Thanks
+> Baoquan
+> 
+>>
+>> [1]: https://lore.kernel.org/all/20260525092207.96B9D1F000E9@smtp.kernel.org/
+>> [2]: https://lore.kernel.org/all/20260525091149.1A1E01F00A3D@smtp.kernel.org/
+>> [3]: https://lore.kernel.org/all/20260525105227.3C2421F000E9@smtp.kernel.org/
+>> [4]: https://lore.kernel.org/all/20260525095447.944E11F000E9@smtp.kernel.org/
+>> [5]: https://lore.kernel.org/all/20260525101746.9959D1F000E9@smtp.kernel.org/
+>>
+>> Changes in v14:
+>> - Fix image->elf_headers memory leak during retry loop for arm64 as Sashiko
+>>   AI code review pointed out.
+>> - Solve the hotplug notifier arch_crash_handle_hotplug_event() AA
+>>   self-deadlock problem as Sashiko AI code review pointed out.
+>> - Fix the TOCTOU issue in prepare_elf_headers() by get_online_mems().
+>> - -ENOMEM -> -EAGAIN as Breno suggested.
+>> - Add support for arm64 crash hotplug.
+>> - Link to v13: https://lore.kernel.org/all/20260511030454.1730881-1-ruanjinjie@huawei.com/
+>>
+
+[...]
+>>  24 files changed, 430 insertions(+), 338 deletions(-)
+>>  create mode 100644 arch/arm64/kernel/crash.c
+>>
+>> -- 
+>> 2.34.1
+>>
+
