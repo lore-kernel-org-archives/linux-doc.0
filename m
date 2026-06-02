@@ -1,97 +1,116 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949D633BBBD
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8275E33AD81
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780369938; cv=none; b=T30AgbbTOrm97v8MWiRDP5LsZ/oFvuRTrlTjT9iYacPfjT37olI7NO7PdgBHjikhmDzsy21W8fe6QdyPNCYHc6NL/1fVPAlE134rjKONz/iLzbvEygA9016/A0qspZEZzP1kI0fe1PH6NaD6mo7eYF0PsMWiXXRkRBwJldrb/1M=
+	t=1780370242; cv=none; b=O9ssVBLPhOL+NtXmLW1pXMRn9u8T+bekTDnKqikNkxOLp+zSqKBWnmxkCW1rB2K6WbqEJNYI7RECQKfw8mLFtRAOpqS4nnbglDhg4M/MJgxyPvtZOc6rpKGrXAuBcnILljM/bJmTGU7pI6TeTGewIrFIYinBf7JTPWER1FXCEfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780369938; c=relaxed/simple;
-	bh=6MGQSajH/OFnvX+n2HHxrJIuB048d2AdiirGhdfKFtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uunMrJyD4O8v+AjyyEFP4PhZasSxVqrpaoIhjFEyvqwaWUp9UI1BCtF6ZBncMHBdX9GxS5s8Wnen23A+YBAtTMLj01qmm1bToIN7oSy5tdpHUFf6khTUZ6u8+fc7ULBFNbbR2XMYAWBuJhCyHxsFnnuZYs+CDjuAi7yJrmI5qnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kWD9rCZs; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1780370242; c=relaxed/simple;
+	bh=iLcdCc0te5fqBZzAelrcWbzlLEUfrhfSCvMibuoqogY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dAR+OZ3jt/E+qsHJxHyN1MgnTDAWf4hwz1M6jeos67CZMRs/O7qyzaymXq42/c/6z7550ujOgd2L3nQWLADacveTetkkuNmw7eybcq4ulENdaMRwQqRt5qjZ1GMfPHxcQ7JWRhfpZC5TbiPfbA8TxTss/T0/97KzGtCb7vmfTCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=B7dKe+we; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kWD9rCZs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=I4gGLAdNf52WPFFAYkC6rriPGKuD0scRD8vqOYbdLQc=; b=kWD9rCZsI9ykxKpUQbSM5exlqD
-	c9Is3RG5x/xo6zEVXgsfJdgEAtw4754gR0HOPzyG71eC9E00/HXmVcpW+VxVIL1r3Vm2LkQOEUr90
-	XwI7gASIVM6BHh4+BuYza+GZt8h755WUttSHiXuDAO3c7E48kfoZiKh0m969A7DuF49eV0pner7Zc
-	e+EJ86FpIqeD34Ct4THRPF2UAV3tLZ93dKtHCcU8Moa7P061higGUbuiWOH4gCOARzzh/Y0Z3CEjQ
-	3fB8NT8re6jbXbA1pMnOChw5FTrSkQ1FfcLzIhS510jTHcKO6z0tFu/K9PF4ffIrAyqOMAOb6jKJd
-	cgLkgtOA==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wUFY8-0000000CD2c-2YA2;
-	Tue, 02 Jun 2026 03:12:16 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Ivan Lipski <ivan.lipski@amd.com>,
-	Dan Wheeler <daniel.wheeler@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH] kdoc: xforms: ignore special static/inline macros
-Date: Mon,  1 Jun 2026 20:12:13 -0700
-Message-ID: <20260602031214.2817411-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="B7dKe+we"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51749ff0a97so17963501cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1780370240; x=1780975040; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=57XHE07VPesg/638uO62i0q1esIWZpU9ZAzOqv5wFOw=;
+        b=B7dKe+wemC9eOcrpQ48Ze1TDlRVjIA8tbs8n/SNsel1eg8SZwWYR6ToQxp7CzhYFGs
+         urR+XeArtQEjq5eXFph/aEMCqELs6Rg9jnO/RkeyPP7ld4pJ/fKHxWXZCJsqnZAOLByz
+         bmshjpimuJYCgjot2OVq+Gbe4s6pOPqPDKwd99cWkLvTWNZ52CPaZDgu4aM+3cTe4DO/
+         Nfhb0FYf1bR4IcV3UzgYgN+wXhm4Gs95B5tgWgoH7faOB5wgyhwrnj5KXxcdRR7K8UvS
+         JkK3JlvMwiCkCKs+HMMmAQok9pq2Md2JLkI5KUlR7zSDdh61IoWk7axZZ6XqTGluxnyl
+         HWhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780370240; x=1780975040;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=57XHE07VPesg/638uO62i0q1esIWZpU9ZAzOqv5wFOw=;
+        b=V2VuwcMWD4En1xXvxB/Y6BRhdyYn5ci/wytPrHa/kNK+mHj739DeBZ9yoO8vEUdRxh
+         NJLok7d24Fi5JeGvC+bQgg+8GvNUOV6oN7WqgNBeDLJM8JhoMHawKkyqJ3QdkCtKCbfa
+         afgJF6+9uLdK5YwOmE4ltKq0OpMjZ0X4ApskZH2+BtnRv9UxGMJrfQy7R0JspYgtLPwR
+         QkyU7+Se2BXLxN+tNBFiC92oVfJFFFEu2+PK9O9F0P2heTtZsarkpbzLLhOIHCXIv+Mm
+         WdeX+aiE8zDjzxT4b0kV2Gr1riwEvx0g9376RxaKEEP5L0j4+YBBO6ptePt9NU/AcR9Z
+         xEvg==
+X-Forwarded-Encrypted: i=1; AFNElJ95hVMsFfax00FxUmM3XIs1MzJDlchdfp+wijoqMffqOAfVgQarTsE2Cj1C06wGYYsyau7KuTxVIb0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMJTjomoCli5Etdlu+RiQIdK9gfCf93fsTkcRNIFoqKrTbukV1
+	J1aqebWlRfMoVBVlYvm7QcPdbZPEEdaghqZyvaZZSlw3g17kfs3uUbxMvIkDq8YiG/o=
+X-Gm-Gg: Acq92OFEUlBuCBnS0MqpVosv4Z/07FDxSPJWz94xcT6h4YBK4VWc+Q8toeqrokcQYi6
+	5D/vpzUPYz007EkgnAtBAgfF+0v0uoMtZs6IvmIEOt3Ci4Bg+SnQM8ZK2vG16I6ZaUtH4UxUjMs
+	BFLaK5dyMv2/ndblx8PKxa9l765/NUMQEBztFTuuC0eM9JFo+fiXZHpMKIxtpLPNynwHvnRSx1N
+	2AUylbdDOnJawQZhLpD1+Mvyg+95Fmx6akdGxxxftiEKNsAK4yu4BjN6PuornG7x8NTJvhsN0vo
+	Byl5ej5MYVof2v0M815NTL2Ox8y8mR176uGwBY0Ju4H/Ww17kU4IdYKBIaXi5PSkmY7fT3ok/HL
+	z3jLoe3T82RWsk56cM8xdcma0UsmM1rNRf0G8FVchKPiQfmiqgb0UtI2mqnOuok4h82k42XgcLa
+	aXJQ6/0W/uES6PS3Y3nCLUR2SCbkLbe5ammGxFjqKefJrN0BZ2R6IhzceziFndWg==
+X-Received: by 2002:ac8:5dd1:0:b0:50f:6415:1eb4 with SMTP id d75a77b69052e-5173a97fdd5mr181349891cf.49.1780370240533;
+        Mon, 01 Jun 2026 20:17:20 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51741b29745sm71219081cf.8.2026.06.01.20.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 20:17:20 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: linux-kselftest@vger.kernel.org,
+	rppt@kernel.org,
+	shuah@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	pasha.tatashin@soleen.com,
+	dmatlack@google.com,
+	kexec@lists.infradead.org,
+	pratyush@kernel.org,
+	skhawaja@google.com,
+	graf@amazon.com
+Subject: [PATCH v5 01/13] liveupdate: change file_set->count type to u64 for type safety
+Date: Tue,  2 Jun 2026 03:17:05 +0000
+Message-ID: <20260602031717.197696-2-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260602031717.197696-1-pasha.tatashin@soleen.com>
+References: <20260602031717.197696-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c contains 7 (for
-now) functions that use STATIC_IFN_KUNIT or INLINE_IFN_KUNIT macros for
-function qualifiers (static or not, inline or not).
+This improves type safety and aligns the in-memory file_set->count with
+the serialized count type. It avoids potential truncation or sign
+conversion mismatch issues.
 
-These cause parse warnings from kernel-doc:
-Invalid C declaration: Expected identifier in nested name, got keyword:
-  struct [error at 29]
-STATIC_IFN_KUNIT const struct drm_color_lut * __extract_blob_lut (const
-  struct drm_property_blob *blob, uint32_t *size)
-
-Handle these in kernel-doc to prevent multiple warnings.
-
-Fixes: 647d1fd04652 ("drm/amd/display: Add KUnit test for color helpers")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Ivan Lipski <ivan.lipski@amd.com>
-Cc: Dan Wheeler <daniel.wheeler@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+ kernel/liveupdate/luo_internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- tools/lib/python/kdoc/xforms_lists.py |    2 ++
- 1 file changed, 2 insertions(+)
-
---- linux-next-20260601.orig/tools/lib/python/kdoc/xforms_lists.py
-+++ linux-next-20260601/tools/lib/python/kdoc/xforms_lists.py
-@@ -104,6 +104,8 @@ class CTransforms:
-         (CMatch("__context_unsafe"), ""),
-         (CMatch("__attribute_const__"), ""),
-         (CMatch("__attribute__"), ""),
-+        (CMatch("STATIC_IFN_KUNIT"), ""),
-+        (CMatch("INLINE_IFN_KUNIT"), ""),
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index dd53d4a7277e..ae58206f14ac 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -52,7 +52,7 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
+ struct luo_file_set {
+ 	struct list_head files_list;
+ 	struct luo_file_ser *files;
+-	long count;
++	u64 count;
+ };
  
-         #
-         # HACK: this is similar to process_export() hack. It is meant to
+ /**
+-- 
+2.53.0
+
