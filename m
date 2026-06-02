@@ -1,179 +1,152 @@
-Received: from outbound.baidu.com (mx21.baidu.com [220.181.3.85])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 8E7412E7F39;
-	Tue,  2 Jun 2026 06:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.3.85
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0249D34CFD3;
+	Tue,  2 Jun 2026 07:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780381324; cv=none; b=mnmTWdZRskqtUvVchUN2+WJxlSp+SVIl48kjsqkzTc2T8ogZNKOqucfGbHgtdW8K/ZgfvzOeLTt1UKVeMiIrbtSX9M3cXit8ngX8RSfVtx5rfP26+2y7ohpWWVuDCR+5/UTxEW+M+fFtR9EGXjVdMAMalCstRCVtzrQoWt/7hss=
+	t=1780383940; cv=none; b=px4oaP0bPqGebFiyo7ry2ySCDA/yn845ra6Nc+5e1jvguO+wfBMPXn5UG3XM7qj3AEkO8vQ0ipNetSI8vpu5NnAfK0N6WP2x/ZqbmWJwjgSENX9j36IYOMXQQvtfg3tI2Xejq4IGz5vQDP0Kl/n0apHB2ETRerjk6NwGMlHEBIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780381324; c=relaxed/simple;
-	bh=UCampyD53bPnSyM0B6ONAmrFee8hi5bD4X1UJZOEVys=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HrnGtrcoVmQsLidLEqQHZRBWQg/4QCHt3i/NNFCXzxcyRSF4T+2QC9cab2FPudw91/dFuKUltF6bu2+C77wZkyTbiKDBoriKS/SQH1VR0mPSBcIYW+pXWPXTpk1U/80xq3v10yWyV+kAXqvHHXJu/9CN4Evdi8CFxznmqnuYnHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=eZoTWzSY; arc=none smtp.client-ip=220.181.3.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+	s=arc-20240116; t=1780383940; c=relaxed/simple;
+	bh=IYeo6c8VaIc0I6De68d9Dc6uoh6+x0T5ZPPO2A/0xnY=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=CYFTwAc6XqpjTQjNEWplBVmE8IdztowjGtAgRUuL5m7ADadP4MwA/ueuY3EnpbUA+/SFWHONbcpVi9lQoO3b6q6Ek4F7yxVHRFEzWHSv4iHnazNSXBEHFA4aSc1I/UB9A0JItUMPsIVBW7P/iz2hCthiIg6JqnDXXRluW/krPQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Bs1n6fFK; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="eZoTWzSY"
-X-MD-Sfrom: lirongqing@baidu.com
-X-MD-SrcIP: 172.31.50.47
-From: lirongqing <lirongqing@baidu.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, Christoph
- Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman Gushchin
-	<roman.gushchin@linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>
-CC: Li RongQing <lirongqing@baidu.com>, Matthew Wilcox <willy@infradead.org>,
-	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH][v2] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse and switch to static key
-Date: Tue, 2 Jun 2026 02:21:42 -0400
-Message-ID: <20260602062142.1790-1-lirongqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Bs1n6fFK"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ywNJBGpmmj9NFHoVdWRVSdCZGNodVCyyTVIIC+PjNKE=;
+	b=Bs1n6fFKha43sqYhA2tcjSKsQDx7BaUGA6NUMdju6QLI/zIcoj6MivYNkd4KB5UzwgTwlRGRz
+	DBaCYzG3lmH9nMWSDaCaN/QE0DF2txBBIS+FXHu0AyqAciCTvM6wFX81QkZB7TvYIsS+e91oBXo
+	OMxjbX/ncrB1e4iZFAn9le4=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gV1q845Hhz1T4fx;
+	Tue,  2 Jun 2026 14:57:24 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1C5BA4056D;
+	Tue,  2 Jun 2026 15:05:34 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 15:05:33 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 15:05:32 +0800
+Subject: Re: [PATCH v8 4/6] mm/memory-failure: add panic option for
+ unrecoverable pages
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-4-9ea0cfa16bb0@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <4d7b720a-7975-8a4d-a00e-e888d63812a0@huawei.com>
+Date: Tue, 2 Jun 2026 15:05:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: bjkjy-exc2.internal.baidu.com (172.31.50.46) To
- bjkjy-exc3.internal.baidu.com (172.31.50.47)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
-	s=selector1; t=1780381319;
-	bh=DaOgBQX2Bprj5SEr7V1aHONGUCzeW+2n3CTATOhVeeA=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
-	b=eZoTWzSYLb0DMIw8U5wsd4eZpq9YxToIlc0hZA/sMZatsWnIV5sapyswkv7hG3arn
-	 +klF8Rl+o6hFfntvAKk8oPhqJ4FaO04rxho0mqh0Sk2kr/HnTsK2znTYZR3EsSw+Qg
-	 J9ZvXqJ0EaVNrXYDMJl98rHy52gBKugjyc008ZJ3THMBwywDZgU/uY83TJsua+/6a+
-	 X0ICdDT4NKffrCQig2hy27NXdHxhU//Two5ArjWrhVmqMElcP/XfiabpnoxsCVGIJ5
-	 R+18PjaAyW1yGyg/IeoX1y/RQ/F8e1rW8bIrV3uY7nkN1972gXniRTDXZpNEv+9BtF
-	 O88kkGWA6lkgg==
+In-Reply-To: <20260527-ecc_panic-v8-4-9ea0cfa16bb0@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-From: Li RongQing <lirongqing@baidu.com>
+On 2026/5/27 22:06, Breno Leitao wrote:
+> Add a sysctl panic_on_unrecoverable_memory_failure (disabled by
+> default) that triggers a kernel panic when memory_failure()
+> encounters pages that cannot be recovered.  This provides a clean
+> crash with useful debug information rather than allowing silent
+> data corruption or a delayed crash at an unrelated code path.
+> 
+> Panic eligibility is intentionally narrow: only MF_MSG_KERNEL with
+> result == MF_IGNORED panics.  After the previous patch, MF_MSG_KERNEL
+> covers PG_reserved pages and the kernel-owned pages promoted from
+> get_hwpoison_page() via -ENOTRECOVERABLE (slab, page tables,
+> large-kmalloc).
+> 
+> All other action types are excluded:
+> 
+> - MF_MSG_GET_HWPOISON and MF_MSG_KERNEL_HIGH_ORDER can be reached by
+>   transient refcount races with the page allocator (an in-flight buddy
+>   allocation has refcount 0 and is no longer on the buddy free list,
+>   briefly), and panicking on them would risk killing the box for what
+>   is actually a recoverable userspace page.
+> 
+> - MF_MSG_UNKNOWN means identify_page_state() could not classify the
+>   page; that is precisely the wrong basis for a panic decision.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  mm/memory-failure.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 14c0a958638c..dcd53dbc6aec 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
+>  
+>  static int sysctl_enable_soft_offline __read_mostly = 1;
+>  
+> +static int sysctl_panic_on_unrecoverable_mf __read_mostly;
+> +
+>  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
+>  
+>  static bool hw_memory_failure __read_mostly = false;
+> @@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
+>  		.proc_handler	= proc_dointvec_minmax,
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+> +	},
+> +	{
+> +		.procname	= "panic_on_unrecoverable_memory_failure",
+> +		.data		= &sysctl_panic_on_unrecoverable_mf,
+> +		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dointvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE,
+>  	}
+>  };
+>  
+> @@ -1255,6 +1266,15 @@ static void update_per_node_mf_stats(unsigned long pfn,
+>  	++mf_stats->total;
+>  }
+>  
+> +static bool panic_on_unrecoverable_mf(enum mf_action_page_type type,
+> +				      enum mf_result result)
+> +{
+> +	if (!sysctl_panic_on_unrecoverable_mf || result != MF_IGNORED)
+> +		return false;
+> +
+> +	return type == MF_MSG_KERNEL;
 
-The mempool subsystem historically wrapped its debugging logic inside an
-merely defines compile-time defaults for SLUB and caused two flaws:
+Would it be more straightforward to write as something like:
 
-1. On production kernels where CONFIG_SLUB_DEBUG=y but
-   CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely compiled out
-   at compile time.
-2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed active
-   even if a user explicitly disabled slub debugging at boot time.
+if (!sysctl_panic_on_unrecoverable_mf)
+	return false;
 
-Clean up this mess by removing the #ifdef and switching to a runtime static
-key (mempool_debug_enabled), allowing mempool debugging to be toggled
-cleanly via its own boot parameter.
+return (type == MF_MSG_KERNEL && result == MF_IGNORED);
 
-Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
-Cc: Vlastimil Babka <vbabka@kernel.org>
-Cc: Harry Yoo <harry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Hao Li <hao.li@linux.dev>
-Cc: Christoph Lameter <cl@gentwo.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Usama Arif <usama.arif@linux.dev>
----
-Diff with v1:
-	Rewrite commit message, change early_param to __setup
-
- Documentation/admin-guide/kernel-parameters.txt |  5 ++++
- mm/mempool.c                                    | 32 ++++++++++++++++++-------
- 2 files changed, 28 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 642659b..89b5994 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3980,6 +3980,11 @@ Kernel parameters
- 			Note that even when enabled, there are a few cases where
- 			the feature is not effective.
- 
-+	mempool_debug	[MM]
-+			Enable mempool debugging. This enables element
-+			poison checking when freeing elements back to the
-+			pool. Useful for debugging mempool corruption.
-+
- 	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
- 			Format: <integer>
- 			default : 0 <disable>
-diff --git a/mm/mempool.c b/mm/mempool.c
-index db23e0e..71e4b54 100644
---- a/mm/mempool.c
-+++ b/mm/mempool.c
-@@ -16,11 +16,28 @@
- #include <linux/export.h>
- #include <linux/mempool.h>
- #include <linux/writeback.h>
-+#include <linux/static_key.h>
-+#include <linux/init.h>
- #include "slab.h"
- 
- static DECLARE_FAULT_ATTR(fail_mempool_alloc);
- static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
- 
-+/*
-+ * Debugging support for mempool using static key.
-+ *
-+ * This allows enabling mempool debug at boot time via:
-+ *   mempool_debug
-+ */
-+static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
-+
-+static int __init mempool_debug_setup(char *str)
-+{
-+	static_branch_enable(&mempool_debug_enabled);
-+	return 1;
-+}
-+__setup("mempool_debug", mempool_debug_setup);
-+
- static int __init mempool_faul_inject_init(void)
- {
- 	int error;
-@@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)
- }
- late_initcall(mempool_faul_inject_init);
- 
--#ifdef CONFIG_SLUB_DEBUG_ON
- static void poison_error(struct mempool *pool, void *element, size_t size,
- 			 size_t byte)
- {
-@@ -73,6 +89,9 @@ static void __check_element(struct mempool *pool, void *element, size_t size)
- 
- static void check_element(struct mempool *pool, void *element)
- {
-+	if (!static_branch_unlikely(&mempool_debug_enabled))
-+		return;
-+
- 	/* Skip checking: KASAN might save its metadata in the element. */
- 	if (kasan_enabled())
- 		return;
-@@ -112,6 +131,9 @@ static void __poison_element(void *element, size_t size)
- 
- static void poison_element(struct mempool *pool, void *element)
- {
-+	if (!static_branch_unlikely(&mempool_debug_enabled))
-+		return;
-+
- 	/* Skip poisoning: KASAN might save its metadata in the element. */
- 	if (kasan_enabled())
- 		return;
-@@ -140,14 +162,6 @@ static void poison_element(struct mempool *pool, void *element)
- #endif
- 	}
- }
--#else /* CONFIG_SLUB_DEBUG_ON */
--static inline void check_element(struct mempool *pool, void *element)
--{
--}
--static inline void poison_element(struct mempool *pool, void *element)
--{
--}
--#endif /* CONFIG_SLUB_DEBUG_ON */
- 
- static __always_inline bool kasan_poison_element(struct mempool *pool,
- 		void *element)
--- 
-2.9.4
-
+Thanks.
+.
