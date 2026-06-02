@@ -1,220 +1,259 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A3F377553
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780370260; cv=none; b=YUed5PAbAPzBwNDEmROW8wpkVeHVJ/JzHVdtGs3P5Gr7JOvG9k5DCSmlsR3Qnn3/86MzyuIzdAQMRHJXVGrDue1SSB/73zB2gU28pwBHPBxS3LxR+x8m6AXoUDZuIpuIV5yafTHmVeQw3GM/I65FLGdp6wkUCZkiD+7b0kJ0gFI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780370260; c=relaxed/simple;
-	bh=PI26M0khAE7StCXBHeuwdUicbhLFrZpiZfsokDq9n88=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PKW53Ym1NgoK8+C60OKb8ujfTLwuzxzSfvGZNIXvr9E/P0s2cp2QXMGLq20PELl3q/5amX6Zni7ztqXRidUSO70+hHb+l9qHnFIH2oTx/ehUIZq5YMF9tjuFSYjY7UHGLrSWvOBtdCbyGMpeupKm4qSDabIjmA4bjgJn9JQ2NqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=C4QE7CGJ; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA91A3546E9
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780370713; cv=pass; b=WMP4gXyFvJbzepHMP/X8BO3LS/jmmTeYuuBDi+k/ZT2bW9Tr2ryTsGGk9p6D796BndLSpZhFTg4hli/QiInz9tUWki69ewIU8MlnfBnSaqeZQ7A3dYBtJ5J9cQdkmx6a6uFeu7mUqOYWJdSvqXiN2gt2xp0in2dx86jzx4ivboE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780370713; c=relaxed/simple;
+	bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nhMRCzKRUFkpDJ6gnEedgSH4xy5u3EjM0LpkSi8G7KF5HLFEEa0frcRRP3k0MlWR5mDh9L6RAIZZzjNpVmoHpyNvb9oRD3NTALr0tIcyEMjSSSkluU2Xh/nR9QtGeT0DEqU2mkx0sLaCdFxGAsdT2q2c2pmWMHg+D6c9CC3hV+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMY+jmie; arc=pass smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="C4QE7CGJ"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5176096116fso10257831cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:17:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMY+jmie"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bec4639953dso345519566b.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:25:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780370710; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WUtmT8N0jfNHLauSMYmnUanNWIobStzzHFwWoe/WTFpBVcfWdgd/jjIIaXAt5DUPk4
+         wYi00mYE2TTouiXOdNJ3d1I8JWPDbDrvl9IiD0K6WuYwbc9bCk3bRpNmTTESNu+HDt22
+         0CwDyuK5rtGOfO9DbNuBK/g/EEC3xG+US1M7x2ssRPwT4mpk8SBWOcG69EpIZV5rGB+Q
+         jnF8VGDvWTfoti8hk9pGaa3eKydZLX52g2W4RLdcMLnE0pj7vhb07AsyCGHwao+JdQ4k
+         nxRAcoONpDwBMEEOFX6ryPMntkp/yyMvQunU/ssEJlOnS3EeNYiU3nQJheSjQnLGgH2I
+         nKrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
+        fh=cp3/FGVs/1JihHwodrwW721Pa+ausrn2JhGJmYJIewY=;
+        b=lV/6AOH/AyqnQQrO5ov6rXg4GSdtYrlddICqVZtKvgZzLLD/bzMR2Va3mwLLpuKDPe
+         zrGzYbBoTepl4YdyumuXMEmgjYp0IfJG8KfvJVCkp16MjN1yW0w4BqwwcllGRV2eVLpE
+         2oxXJCARIW5AjjcsXS3fJyF72XLWrPrHUqvEYVHmwbAk42Pu779m4+dDcieFbkGn+HW4
+         AFkpUPhAGAEG0xyhic7XsWV+SnDeSncbpYnhyjABHzf0nRwk23bl+fjsLcmr465JM9I5
+         na4OlF+h14IBWo5BVR/PUmo6z2sK28rvMQnbbAuXHOhNKKqDGqvW3P3fqSAamf4tO+DM
+         vgAw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780370258; x=1780975058; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=C4QE7CGJcAqV2/zrxG4d7x5xbeua9cAzc8XndG7qWl+L2/hZHZtwC7KVyRhQOHJtE2
-         T5aa8xwbPWfZWI/R3j9XoppRcgaiVHxQchY6sZbaAA+ttazu8Noy/OjpCNYvp47T2lmA
-         ZCnaq8pJJvZhm2AuCfdmY7S+SOjeHVCHAXmBsNoIV+7xFK6fDdbmKn7k/pcJXyn0RTDZ
-         vLEkbNpVZpRkU/KKG+m32NosX5hB6SY1uAlyxa+0J5k4wEdDgrbdzgmBTlTH2ADz+Y7c
-         amIJE8MeSkwcqOSVYF9Rm0B4OYx6wYU1OADR4DRsbZt5d1SczG8KnENG06drf9vNaOV6
-         1niw==
+        d=gmail.com; s=20251104; t=1780370710; x=1780975510; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
+        b=OMY+jmie8bu9I4r3R/dXdLhxR54/JpQXI7xHpaWQjcNlxM1mU7kWW+93vpGZrbiUJQ
+         4pdoXVvlcP4/F4nuS6SnKwDtIS/INCLUCaDsr13KSiA8FI7W2POos9eIMy90EwFqz+Ke
+         +uWX+aCkoT+b9aXO88OaCpdyYqNwJnEIIf0gfZtuqR7pB7Iu/AHf/62Caw0LjiK9Sb86
+         XbtzNlMgyFqJVVAF2SiiRAP4pdGokukiNAriF9T4GqXahxOVVflZhdJBokMX0gAZHIAV
+         mZiCvzKUJSa8OAUIK9/qyESHCV9B6Y8M0F3gW3LfaT247MemygG2NuIQSRf03LPfDwat
+         e8yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780370258; x=1780975058;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=O2wDQgZxwfHq1HYX1/vRY73/hWVNbI203BcIdsWNky2rgbN0jNEmufBMhDPmHTqsMQ
-         Wjd/NFhVg7l8f0750QUOb5X7i618GLaTSww7nVQ1Llhcm5wPyQ6aW+qMAPhk0s7x5dNQ
-         WRoORXPNXlQfnrUwX6HkM7lwb0PSnTEVhX9glIpfBmCwlibo8vl4O9IV8W/vsLfHr4qq
-         B4jbjwEbY52RV2IAR3naJuDtW2XTrzfJt61GK44ZHFQaTX4atxhZbK43hCavEGDHC+42
-         PNy2ONnUqYhzBJ8T0auztcOWj8BWnJgUjnpaBiOrLHqgoSiX130vIcPZcy7b6TfoQVgL
-         XC1g==
-X-Forwarded-Encrypted: i=1; AFNElJ96hjDrAMQ30a/K2OGWWqDHPujtIX4UL+bH1GHmhlKrL+E3XHLAJfYBkCso94s9PO/Xq03JIM7yhsE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynfL71d9WoiPgZUEz6Vd43xYfT4po7t/oF0M732vbFd08P50b1
-	48KR+hbdsad9pYxY11ecPaUBZLYR2HpUf8rJgWjdmaC2HIiW8XQ5yymgDKQfDilphJg=
-X-Gm-Gg: Acq92OFlDAdYPmK4Pc7Xz3xqbQWpMstiT3Te9WE75VcgbjJASiGnbw+0Ox9G4+Cb+fd
-	Yqk0E72hgp38QCcix20J+NV2Qom5PG/0Ojy2QUnUDb1a/f0KPHvzkjFSR2QDz03AwVj6RbSaZMB
-	BBhoPt4sXXucQ/zlUEvuRe/4WkqEuBxricSvBZ6JtzuN5/NSU7VgygYpk/0I1lOMZpT5qARBPzc
-	5KSrr471aQvBi2uqmy0wlU/EcbliSL/XUPRYMitj9UWg+xGkpRZNyLBG9RlW7IETba2dmSlIqp6
-	h1tcgjQTiOrirWvnr3aFIBDe1Gj/9LP8UG4b14Ok54wyYEo+22sARngCL0ysr993/U3zJ9+iEgB
-	SzH258PlTsSh/dzff63U26ELo68GsdtKqIIoMaMCV5nznfg/GiQNjr4xbLAZtIzxIh2z1WzLlPU
-	7twsvUsnmzy2gHh5EozfWNWOdLATyaCsrvWg+euuxyGfcThiq/EPAuVUFM3I9R3P0Kb+DRqqBD
-X-Received: by 2002:a05:622a:1f9a:b0:516:d781:589a with SMTP id d75a77b69052e-5173a73b0aemr208229881cf.22.1780370257673;
-        Mon, 01 Jun 2026 20:17:37 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51741b29745sm71219081cf.8.2026.06.01.20.17.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 20:17:37 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: linux-kselftest@vger.kernel.org,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	pasha.tatashin@soleen.com,
-	dmatlack@google.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	skhawaja@google.com,
-	graf@amazon.com
-Subject: [PATCH v5 13/13] selftests/liveupdate: Add stress-files kexec test
-Date: Tue,  2 Jun 2026 03:17:17 +0000
-Message-ID: <20260602031717.197696-14-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260602031717.197696-1-pasha.tatashin@soleen.com>
-References: <20260602031717.197696-1-pasha.tatashin@soleen.com>
+        d=1e100.net; s=20251104; t=1780370710; x=1780975510;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
+        b=XeGD8Av8lGZhnAHztJ46d85z3hFe7bcklshnNmZFkPNVAJx1zzTvGct46aU/4/Kru3
+         0aL30Pu2remWEkyo9JUsQNFXisTjtNX5h/9UKimP6e9lFpqmf14EZfWp8Dbs8tj27ww6
+         W4xPkOvcy0YEQeu3Of9PfQFmlJHlpvkFOUTZIOYDoozmKmQH6YKOXZRBUcJfOpcvY+SM
+         0sjjf/IhHlSkSL0vXj9m4virRm5mVfqgUGzz9N6mMxxAlmL1FuLd8o2TE47B3eabxOOt
+         hiHHpqOWxjpvYVVroxQojGFC1CosLhWUv+Q/h2XPX9m02Y3t9HSXU9mBi+xSKDysk/Bj
+         jpXg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ixY7vtQs/yXIdtu//osWKudoD+ganDHsqwt5XjYInxaS1D27lHZCHPudssg31kMRMneWaBe3PYv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8sG75b2jciU/6Ovd6q/IMBIBfDYFIkT5uV8H97Dyycj4cB57I
+	H34HQePTdqVUdwpEznhBQoZUMvo1QrrJPkXQsjsnb8EYBGscFDQ8x04Sl92PqSG9N0suNqkyarA
+	OoN3GMl6RUjQagj2N/OSWPVaNC4KP3zQ=
+X-Gm-Gg: Acq92OEbHLsXTf43l2pX6qkIYOrUP+HdakvKwG9nk5pSFeXxiq7xh+OwdKtRlQ6heQp
+	i9zAOVAD5qLP1U5aXOqtIDxX1CQbV45FRCiQTj2eaqrlVZM7B/XnLGvOpJW4XipHOELeZWapyvV
+	r0RPw1hgUBJEkc7hXIkTmzIAC5czfMBqfooKvxiOC1eu19x4vfiXBVKazuXAGHX3cPo6utF+FNh
+	LmITaBe0qaXkExdNoioWCgxVdcSLbpZOkvNMPCdwFyvgj7R5LJvaOhlLWxVO8ATbUGClYrUMG2f
+	7JcNvGAW+8JKjfgEcSWl9YJbfqjyu9kzLsgzITb/6G/imRRwhw==
+X-Received: by 2002:a17:907:b582:b0:bec:b4e3:e930 with SMTP id
+ a640c23a62f3a-becb4e3ea0amr390918166b.12.1780370710180; Mon, 01 Jun 2026
+ 20:25:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260528212955.1912856-1-nphamcs@gmail.com> <ahz_iYG4lqWL4g-J@KASONG-MC4>
+ <CAKEwX=PzMwXXgq=ULAkFD9UqMz+ewLqhKt+xdGxkV7OmA2QG6w@mail.gmail.com>
+ <CAMgjq7BhOn48xEyC=2j837R7qddfjeBVHMiRqdx8no4ZEBpBLg@mail.gmail.com> <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com>
+In-Reply-To: <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Tue, 2 Jun 2026 11:24:32 +0800
+X-Gm-Features: AVHnY4LgB4_R0tkXYgUuuSpKzumTcKeWUZY8_XjCCaRJMf8h2HTxkfNiEQ137jc
+Message-ID: <CAMgjq7D4XsAD4NGDL7FC2kaYAQAP8PDJdn4bpzGZwXYtjEpJ6w@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
+	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
+	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
+	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
+	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
+	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
+	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
+	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
+	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
+	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
+	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
+	riel@surriel.com, haowenchao22@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new luo_stress_files kexec test that verifies preserving and
-retrieving 500 files across a kexec reboot.
+On Tue, Jun 2, 2026 at 2:06=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote:
+>
+> On Mon, Jun 1, 2026 at 10:45=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wr=
+ote:
+> >
+> > On Mon, Jun 1, 2026 at 11:57=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> w=
+rote:
+> > >
+> > > Are you suggesting we merge the virtual table with main swap table?
+> > >
+> > > Man, I'd love to do this. There is a problem though - we have a case
+> > > where we occupy both backing physical swap AND swap cache. Do you
+> > > think we can fit both the physical swap slot handle and the swap cach=
+e
+> > > PFN into the same slot in virtual table? Maybe with some expanding...=
+?
+> >
+> > I don't really get why we would need to do that? If you put the PFN
+> > info in the virtual / upper layer, then the count info, locking, and
+> > all swap IO synchronization (via folio lock), dup (current protected
+> > by ci lock / folio lock), and allocation (folio_alloc_swap), are all
+> > handled in this layer.
+> >
+> > The physical / lower layer will just hold a reverse entry on
+> > folio_realloc_swap, or no entry at all (no physical layer used, zswap,
+> > or after swap allocation but before IO) right?
+> >
+> > Looking up the actual folio from the physical layer will be a bit
+> > slower since it needs to resolve the reverse entry, but the only place
+> > we need to do that is things like migrate, compaction (none of them
+> > exist yet) which seems totally fine?
+>
+> All of this is correct, but consider swaping in a vswap entry backed
+> by pswap. There are cases where you still want to maintain the pswap
+> slots around backing vswap entry, while having the swap cache folio as
+> well.
+>
+> For e.g, at swap in time, we add the folio into the swap cache. First
+> of all, we need to hold on to the physical swap slot for IO step. But
+> even after IO succeeds, there are cases where you would still like to
+> keep physical swap slots around (for e.g, to avoid swapping out again
+> if the folio is only speculatively fetched).
 
-Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/testing/selftests/liveupdate/Makefile   |  1 +
- .../selftests/liveupdate/luo_stress_files.c   | 97 +++++++++++++++++++
- 2 files changed, 98 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
+A reverse entry is enough to hold the physical swap, just like how the
+current hibernation works with a fake shadow, you don't need a PFN
+just for holding that.
 
-diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-index ed7534468386..30689d22cb02 100644
---- a/tools/testing/selftests/liveupdate/Makefile
-+++ b/tools/testing/selftests/liveupdate/Makefile
-@@ -7,6 +7,7 @@ TEST_GEN_PROGS += liveupdate
- TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
- TEST_GEN_PROGS_EXTENDED += luo_multi_session
- TEST_GEN_PROGS_EXTENDED += luo_stress_sessions
-+TEST_GEN_PROGS_EXTENDED += luo_stress_files
- 
- TEST_FILES += do_kexec.sh
- 
-diff --git a/tools/testing/selftests/liveupdate/luo_stress_files.c b/tools/testing/selftests/liveupdate/luo_stress_files.c
-new file mode 100644
-index 000000000000..0cdf9cd4bac7
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_stress_files.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Validate that LUO can handle a large number of files per session across
-+ * a kexec reboot.
-+ */
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include "luo_test_utils.h"
-+
-+#define NUM_FILES 500
-+#define STATE_SESSION_NAME "kexec_many_files_state"
-+#define STATE_MEMFD_TOKEN 9999
-+#define TEST_SESSION_NAME "many_files_session"
-+
-+/* Stage 1: Executed before the kexec reboot. */
-+static void run_stage_1(int luo_fd)
-+{
-+	int session_fd, i;
-+
-+	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-+	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+
-+	ksft_print_msg("[STAGE 1] Creating test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_create_session");
-+
-+	ksft_print_msg("[STAGE 1] Preserving %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		if (create_and_preserve_memfd(session_fd, i, data) < 0)
-+			fail_exit("create_and_preserve_memfd for index %d", i);
-+	}
-+
-+	ksft_print_msg("[STAGE 1] Successfully preserved %d files.\n", NUM_FILES);
-+
-+	close(luo_fd);
-+	daemonize_and_wait();
-+}
-+
-+/* Stage 2: Executed after the kexec reboot. */
-+static void run_stage_2(int luo_fd, int state_session_fd)
-+{
-+	int session_fd;
-+	int i, stage;
-+
-+	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
-+
-+	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-+	if (stage != 2) {
-+		fail_exit("Expected stage 2, but state file contains %d",
-+			  stage);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Retrieving test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_retrieve_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_retrieve_session");
-+
-+	ksft_print_msg("[STAGE 2] Verifying %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+		int fd;
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		fd = restore_and_verify_memfd(session_fd, i, data);
-+		if (fd < 0)
-+			fail_exit("restore_and_verify_memfd for index %d", i);
-+		close(fd);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Finishing test session...\n");
-+	if (luo_session_finish(session_fd) < 0)
-+		fail_exit("luo_session_finish for test session");
-+	close(session_fd);
-+
-+	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-+	if (luo_session_finish(state_session_fd) < 0)
-+		fail_exit("luo_session_finish for state session");
-+	close(state_session_fd);
-+
-+	ksft_print_msg("\n--- MANY-FILES KEXEC TEST PASSED (%d files) ---\n",
-+		       NUM_FILES);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	return luo_test(argc, argv, STATE_SESSION_NAME,
-+			run_stage_1, run_stage_2);
-+}
--- 
-2.53.0
+>
+> So you have to make sure we have space for both the physical swap
+> slot, and the swap cache folio's PFN at the same time for each vswap
+> entry. So we still need the vtable extension (well maybe the other
+> approach I mentioned could work, but I'm not 100% sure).
 
+Right, vtable extension is fine, there is no redundant data. I just
+mean you don't need to set the PFN twice (for vswap & pswap). So
+simply reusing the PFN format in the vswap layer and solving
+everything there should be enough.
+
+> > Thanks. Not too complicated, actually our internal kernel
+> > implementation still using si->percpu cluster, and use a counter for
+> > the rotation and each order have a counter :P, it's a bit ugly but
+> > works fine. It still serves pretty well just like the global percpu
+> > cluster, YoungJun's previous per ci percpu cluster also still provides
+> > the fast path, many ways to do that.
+>
+> Sounds like something that should be upstreamed? ;)
+
+I'd love to :), there is a lot of work going on as you can see and
+people seem to have many different proposals about this so I didn't
+prioritize it. I'll try as things settle down.
+
+> > > >
+> > > > For patch 2, a few routines like vswap_can_swapin_thp seems not
+> > > > needed or should be moved to __swap_cache_alloc? VSWAP_FOLIO is
+> > > > same as swap cache folio check, which is already covered. Same for
+> > > > zero checking, and VSWAP_NONE which is same as swap count check
+> > > > I think. That way we not only save a lot of code, we also no
+> > > > longer need to treat vswap specially.
+> > >
+> > > Unfortunately, I think a lot of this complexity is still needed. Vswa=
+p
+> > > adds a new layer, which means new complications :)
+> > >
+> > > For instance, I think you still need vswap_can_swapin_thp. It
+> > > basically enforces that the backend must be something
+> > > swap_read_folio() can handle. That means:
+> > >
+> > > 1. No zswap.
+> > >
+> > > 2. No mixed backend.
+> >
+> > If mixed backend means phys vs zero vs zswap, then we already have
+> > part of that covered with the current swap cache except for the phys
+> > part (zswap part seems very doable with fujunjie's work).
+> > swap_cache_alloc_folio will ensure there is no mixed zerobit, it can
+> > be easily extended to ensure there is no mixed zswap as well
+> > (according to what I've learned from fujunjie's code). Similar logic
+> > for phys detection I think.
+>
+> Yeah it's basically generalizing that check, and handle the case where
+> we can have indirection.
+>
+> I mean I can open-code it, but it has to be there :) And I figure it
+> might be useful to check this opportunistically (at swap_pte_batch,
+> even if it's not guaranteed to be correct down the line) before we
+> even attempt to allocate a large folio etc. to avoid large folio
+> allocation.
+
+Right, but swap_cache_alloc_folio with orders=3D<large order> won't
+attempt a large allocation if the batch check fails, so that's fine.
+
+> > > Basically:
+> > >
+> > > 1. For vswap entry, not backed by phys swap: record swap memcg, hold
+> > > reference to pin the memcg, but not charging towards swap.current.
+> >
+> > Maybe you don't need to record memcg here since folio->memcg already
+> > have that info?
+> >
+> > I previously had a patch:
+> > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-7-104795d198=
+15@tencent.com/
+> >
+> > The defers the recording of memcg, the behavior is almost identical to
+> > before, but charging & recording should be cleaner and you don't need
+> > to record memcg at allocation time hence maybe reduce the possibility
+> > of pinning a memcg. I didn't include that in P4 just to reduce LOC,
+> > maybe can be resent or included.
+>
+> That works-ish when the folio is sitll in swap cache, but say if it's
+> vswap backed by zswap (and the swap cache folio has been reclaimed),
+> you need a place to store the memcg, no?
+
+"Backed by zswap" means the actual swapout already happened, which is
+the case where we always have to record the memcg info because the
+folio is gone, seems still fit in the model.
+
+> Just seems cleaner to centralize this info at vswap layer when it is
+> presented, for now anyway, rather than juggling this on a per-backend
+> basis.
+
+Zswap charge could be merged with vswap I think but pswap we just
+discussed that we might want to charge it differently? And actually
+vswap charge is still quite different from zswap charge if you want to
+make vswap infinitely large? I think we can figure out this part as we
+progress; it's not a major problem at this point.
