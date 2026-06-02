@@ -1,204 +1,192 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03C83803F5
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 10:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780397779; cv=none; b=X6bNLMhMKazupJq/88MrGcpdffwD62LLJ3S+vMdS/NUW9b+pgYhU+VRa9Hd4/3r/z8S6lpR3lCdqBwnZHvGajfZUqCyr7y0t1PMLC+iJ670ZwwWKMQF+gymd6AVWe/lX64NECtsmN4leAAk/UwyINT5pyDL4lao9ONgtfC4kI6Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780397779; c=relaxed/simple;
-	bh=5kgCPvMKVNlkmlG9q2DP0TEUkvLsW+2Hf7nUpTdyoiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dc/bwmuiJqj9fS/FtzCoC0cgOkip2d2blvD3qXiIZJ71vZEhwPrbARDLrgR0l1IBRAxMKZwFggPo9f+gehKUvzQIVdvNUiM+oYofiwAaXKJhehQ3bLtAPBFUWoKo1cu6NUi/2KVmQ++x+HLcqNmHAzNjP+Xh80+DL7W/ILe7tP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=Z8VdALqm; arc=none smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F2137F006
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 10:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780397891; cv=pass; b=pPLQBX1ByoQU1jgxFuynfcuf7whaCUXrbBIeI7kN1g1zKhWtjcp6J8EWKkyeO9YYGynzgJ8l7aIq4cUXEMjpWEq+6EiMwvnWICRz184F9I+jAhB3wdNyg23YJPr9h2LmfnQUximEdiAv9hI04IUOKMV8ftVtyCdyM2LzpfqrDrs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780397891; c=relaxed/simple;
+	bh=IThGWOOZGbVGfuCaLgZyh1XcfzbaXpKlfr5NbCDa4KY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bq6Boi5ea7FfNe+Tm4HNYjCAkSJRHPggtf24q0oYv5cawq6Z/kHPod08lZslEuJGwRwy8jdTetJtI+fsqBgG1xRuY6T+em7mIu9OPAw86b5VJ/ZxOaZVThvY4V/aFjnlIdG+MHO4Bf2lHYYuE9ZXdCODaHCTqzB0tZApa7wDqcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W+uq8hrC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FWRhYKLF; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="Z8VdALqm"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-137f3cb3f46so131228c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 03:56:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W+uq8hrC";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FWRhYKLF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780397889;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
+	b=W+uq8hrCIiZeSY5aG0+UkAh67C6CKkCXFSs1YTHS1MSMDQyrRbf9mecfXgveFI0f+AauAk
+	/w+2wL8Gn9F8tLnToUTzqprr27JnLrEQp+DLI/0EUReqW8oK80Nngg0xh0b1C8JYDVd2Bw
+	sLdjUEU+RmWPR1R8kSZfHbzB/WofkCE=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-340-peFFy0FbMf2oAniZnG2dPA-1; Tue, 02 Jun 2026 06:58:07 -0400
+X-MC-Unique: peFFy0FbMf2oAniZnG2dPA-1
+X-Mimecast-MFC-AGG-ID: peFFy0FbMf2oAniZnG2dPA_1780397887
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-6605694a059so5357888d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 03:58:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780397887; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VZFvlAqmdrThxkc/Pdij2oHvCoofXWFu4zc3GmYj/U0WlSJdTELVE09u9UDUgoCsbt
+         nVIdNe4AMrp4+SjVAqZ7qn0kInhI3DKqj+pdRhD608vDpMUBevZJt58AFQeK/5x88fu4
+         jd7WVwLVSKWJfT6J9aNnmBaJVqCSxzUS+64bKfpMpzh8iIP01z6ZnIad6bPq1sRJm4Kc
+         iVLPhNAl4WF4A2ZxiI5bXwSLo1VDrP8KGp5pBxgFoa1jjW2kW8Sz8UcSm61SVcptrbZ0
+         nIVXrvwt+AeLOLnT0u93YaSRpBy9BBxNcIiyOwqd/hcDoJMR5c4THZmrqn93oF4qN7wt
+         VQPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
+        fh=iRmbNBvmTVOaaG15gglLhUK1mnHiint5PALrclwTl7c=;
+        b=J6h5n+hgVRBZJ/ITklFcK9kh4lH0dFnRyrOPhg8ZDos3kc0nyDDiEK68anjZGMf2+4
+         7F8nw3kJlnP8PTrRmVsA6ANlZVOTqa3tsYi512t569HpRjeCb1WZZp9ID4opECFCl/OF
+         ySCu+HpSHy7AybjodeKV1l8haAzGsOeDrGBGCX5mP8su4Y4IHM+x4N/pzlR1J2CIB2UE
+         7wM3XP+7MA2jVZS2YGpQDN8w0szjcXJ4eANxYsldYWW79DV0HWkN9ldvOiA0OsIeEJPe
+         vdkiqJra7ZeKMyo+O5MVTGRCNdfJghizoL1aldbdA76bJTMFlYO0TR7pxnAlZcUYcA76
+         CVsA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1780397777; x=1781002577; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=redhat.com; s=google; t=1780397887; x=1781002687; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3vw7pTGbZv180hnfPtEbYCTGSUppqGH0HzAhdLQBYrc=;
-        b=Z8VdALqmHDCN8HRb1ozO0r6HGMaUce/9c+y3zGgGikPUxDezFCmrpBPm1srpf2qmHa
-         6pfsjWGf0W2Ku+uowumMKOlmoZHnA4PODVvGYIjzqXflyOLF8F+ZLgijOJVw7NNSdCRB
-         G+0363fmwLNjegRE5BtGE3lLEVcLP/ouCiVGDl9H6MV0aWPV85FspTteCjtib77qtDdy
-         6RLv/nIVXZEMvBtMAHwjh9G+w8EB/gSE/w8/pDh5BLFXrlU9DZ6yYQsLRA3fwDijuxEo
-         jZ01eySoXQHXOYM2DXJ0xLvUbQlxq5HfoJ5yxlwqfLN1Sd7hPifg8BQhe83SGP2AnV8r
-         gXMw==
+        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
+        b=FWRhYKLFrGgmtK88SrdZ+1Q2uAYrUzcxByt7Jze8CahrRoufFdYCNUfiT00SXg/aDV
+         Oy+MWVXHGQGaC5ODn0066KtKEK2x4hsQ/bJCP14/7xDM1mLSBVAsf4g6xUYrg6B8Cvdo
+         QgJxVKy2WcZsMK7dgfI33/Ft+EsIpMga2SuKMVSLOHuU3CmDRM8hLmSWGbCCYV3jDqJq
+         C9xUFPedYDrpVlWZvx4/paB2aUOZYXejTJ6OFSdvAqvvzecTd5HS2lAz6Rp2wee+GuIy
+         y2ahz1ALCphFWkHpsZFLy/3A0dht0q+JNc7jcAE5bhGv7og3nZyvRaWGHPuuYY2syJQ1
+         K5Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780397777; x=1781002577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780397887; x=1781002687;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3vw7pTGbZv180hnfPtEbYCTGSUppqGH0HzAhdLQBYrc=;
-        b=J37llnOGHDwYutypm5qJhBQ1IGCEuUwt30aemSmZkAoCLsY0IiLhs2XvytRfznMHW+
-         fCco40rQ+7Dasiehcoj/TjDD/eK82fGc5jBgJtNlYs0nm6mwipZsLC7wjN1pjqzIDkKx
-         1GrVz0RL9z0k4YCV2F2PUyrx5W9HA54c0EQEPCUpQ2jJfRFquA9eBXzhAa2RcBvbwV1W
-         9RjHrjpbw7gZffXmnP/T5rm+4kTqBOZa7cmyOfay4QjaOCyHqLidhLj8kkIKf2AcQlCp
-         +U7tLDXtXiK+iv0BJgamQx6vWZprm3zYzbcTm7Nh2/8eOjpQ3V1f/KuXO2SsISfBJPLP
-         bmfw==
-X-Forwarded-Encrypted: i=1; AFNElJ/gKOdz9cLaFA/0ibIiwpMmw9FrUzShRL0tqHOz5LMiPMLKsiBID+Ktyv4/WDkcAkGrGxBbCsCeSoo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzAWYvu8kAo4L7JOKTju4RIog6P37IQKV9VeXoENdGtbosnrqI
-	6oj5GOW3N2K5p4RpH49UGLe9qFRxNJVJNn4oW9dMoZdT6tc+DNbpyR442F6fF/uU/g==
-X-Gm-Gg: Acq92OE9d39AzNsPNZBjLXRAHGsvikC6MydOzIBcTrjfWZiMI1g1aaxFlSuw3aXYEN3
-	657r1mKFuhYI9q2IFbVJzjZd9lz32QmeT/SaBy4X0trux1KLCiDFxZCBhY4z4aUelBdEu5UbL7/
-	X3POnTN9UV7tLJCbDPFAgvSmP8WJi68eGLPzQNoDZtVNhIH1LaM6HFa0y/mc9DHe24J0a8kd9Hb
-	SzjRPHO9Ii/EaZrbL1wzhpqRiXFweTkR/voKjTsSr+WwD9X50cBd4/Lvr8IPJ5ZI6KTspWAt5YW
-	bwsHxTmLhruLB8AUK8y3PdwTuiBfsC4G7+3a/znu6nPvVG6MPS15AFB8ailkeQCHdLxAlSosRp4
-	UWaGRUfImPF8IIHU4x7kIFX+SVVuarBpQfeUuAYePGn0UijtOAcqZnOLbKSgVtb1SwZsdejZJPg
-	l+aycRwvVdxyDHGCFN5IGWPzjlgqzj3i+AjV3zBuW4VUURxQiIo9h4pK7aoNWdSXS51A==
-X-Received: by 2002:a05:7022:41a4:b0:136:e639:9c17 with SMTP id a92af1059eb24-137d42615b3mr6583398c88.23.1780397776746;
-        Tue, 02 Jun 2026 03:56:16 -0700 (PDT)
-Received: from yurypm-home-4hjc6.sjc.aristanetworks.com ([74.123.28.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b36c6700sm8875678c88.6.2026.06.02.03.56.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 03:56:15 -0700 (PDT)
-From: Yury Murashka <yurypm@arista.com>
-To: bhelgaas@google.com
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yury Murashka <yurypm@arista.com>
-Subject: [PATCH 2/2] PCI: Add pci=nodpc kernel boot option
-Date: Tue,  2 Jun 2026 10:55:58 +0000
-Message-ID: <20260602105558.1799563-3-yurypm@arista.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260602105558.1799563-1-yurypm@arista.com>
-References: <20260602105558.1799563-1-yurypm@arista.com>
+        bh=lzLj+P+CIxVIK1VlPvMvdq94QC/E8hMOQaV32XaaoGc=;
+        b=V6cd5uf8ZtYZyxg8olldUcSyl+92GDh59A+C7BEbRCDvVvQ0x5pUwHkY/IJdjYa/aP
+         Hlghru2+Nuz1xYMXmuX87G6yQhU2dFvISiDrUgiUWQlV1yTaOmpzFcUe74rRDmuZY08J
+         rMa7lmPgmJyDLLLhe0WnvlUKSaJVa5QGg5TCbzNamTt64G9r9/vkj3Sqr+nN/Uyc0Y2A
+         Gr8V23RLSPSj6GtnN11Dzq07BZW8WcLmjl4D8NJtl3tMNYVImDXEXsNagBc3VZ8LuvAy
+         +X/XY85QYuhfAwwcXVS4WVJETA/QSwjuef1LRxp8DEfRN64/XA4DMoe9hLR607kTBPW1
+         6ihg==
+X-Gm-Message-State: AOJu0Yy6B7xGxNNr/5XTHpoX1t6/DC7r/FnMnYqVwB61DcfCWy62lkgC
+	5RcEe2Ll4UaJAZ8917b7gzZuxRn23qu3mJTYfLldYW1WMGOVGuV+ZsVjK2k2LH+J4+4iGD2UgDe
+	AEkcuBMXtuvcRF63NoyZXQHlGpTefpz4K/4pgXPfr384d2CPx2QLPh+23TGJ/8iV5fj0ig5Cqu+
+	/qpuE5kAYDQtSLkCysLA1hgG7eyoZ35igtvaWC
+X-Gm-Gg: Acq92OGSGWDMXmXcMCCPNyd7Q8pTcxwALPPBbyzoqlEX/GkBck2m7AKiSRNhphjW4Pz
+	z37gcpWnv4Mx932R7cNI7qeW2PcnF5iwFRs99JoRjoN4WuxJnXVOB9VkUGRlVdTCF4yv7HoLsZ4
+	Q64LPQ8CfVXFT85hSzezA+Yzc7tjGFzQAysF1CZBZzTCgtS4wwxm0l9fNfgLdPKORGmNdpM/qFy
+	gK5ka0UMxhLqGpNSA==
+X-Received: by 2002:a05:690e:4084:b0:660:8253:b836 with SMTP id 956f58d0204a3-6608253ca8bmr7541728d50.5.1780397887238;
+        Tue, 02 Jun 2026 03:58:07 -0700 (PDT)
+X-Received: by 2002:a05:690e:4084:b0:660:8253:b836 with SMTP id
+ 956f58d0204a3-6608253ca8bmr7541686d50.5.1780397886838; Tue, 02 Jun 2026
+ 03:58:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260522150009.121603-12-npache@redhat.com> <20260531071845.10875-1-lance.yang@linux.dev>
+In-Reply-To: <20260531071845.10875-1-lance.yang@linux.dev>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 2 Jun 2026 04:58:46 -0600
+X-Gm-Features: AVHnY4IqE8U3CJE9xIL2UnupWmTAd82eHE7h-QioX8Ctpe94C2G_M5ur14b-CTk
+Message-ID: <CAA1CXcA+oZmp=cxiC2_EBDxqGX94gAd335d9eFPNv=j_0=og7Q@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
+To: Lance Yang <lance.yang@linux.dev>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
+	joshua.hahnjy@gmail.com, kas@kernel.org, liam@infradead.org, ljs@kernel.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
+	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
+	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PCI DPC (Downstream Port Containment) support can be advertised by PCIe
-devices, but it might not be fully supported in the firmware. On large
-modular systems with a complex PCIe tree, enabling DPC could cause
-unexpected behavior and side effects. Sometimes it would be nice to have
-the option to keep the system in an unmodified state and be able to
-handle PCIe errors from userspace.
+On Sun, May 31, 2026 at 1:19=E2=80=AFAM Lance Yang <lance.yang@linux.dev> w=
+rote:
+>
+>
+> On Fri, May 22, 2026 at 09:00:06AM -0600, Nico Pache wrote:
+> [...]
+> >@@ -1587,10 +1749,11 @@ static enum scan_result collapse_scan_pmd(struct=
+ mm_struct *mm,
+> >       if (result =3D=3D SCAN_SUCCEED) {
+> >               /* collapse_huge_page expects the lock to be dropped befo=
+re calling */
+> >               mmap_read_unlock(mm);
+> >-              result =3D collapse_huge_page(mm, start_addr, referenced,
+> >-                                          unmapped, cc, HPAGE_PMD_ORDER=
+);
+> >-              /* collapse_huge_page will return with the mmap_lock rele=
+ased */
+> >+              nr_collapsed =3D mthp_collapse(mm, vma, start_addr, refer=
+enced,
+> >+                                           unmapped, cc, enabled_orders=
+);
+> >+              /* mmap_lock was released above, set lock_dropped */
+> >               *lock_dropped =3D true;
+> >+              result =3D nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
+>
+> Hmm ... don't we lose the allocation-failure result here?
+>
+> Previously collapse_scan_pmd() propagated SCAN_ALLOC_HUGE_PAGE_FAIL from
+> collapse_huge_page(), so khugepaged would call khugepaged_alloc_sleep()
+> in khugepaged_do_scan().
+>
+> Now if allocation fails and nr_collapsed stays 0, we just return
+> SCAN_FAIL. So we won't back off via khugepaged_alloc_sleep() anymore?
 
-Add pci=nodpc kernel boot option to disable PCI DPC. When this option
-is set, DPC initialization, state save/restore, and recovery are all
-skipped.
+Ok I did the error propagation! I think I handled both of these cases
+you brought up pretty easily.
 
-Signed-off-by: Yury Murashka <yurypm@arista.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  3 +++
- drivers/pci/pci.c                               |  2 ++
- drivers/pci/pci.h                               |  2 ++
- drivers/pci/pcie/dpc.c                          | 16 +++++++++++++---
- 4 files changed, 20 insertions(+), 3 deletions(-)
+However I don't know what to do in the following case: We successfully
+collapsed some portion of the PMD, but during that process, we also
+hit an allocation failure. Is it best to back off entirely? or can we
+treat some forward progress as a sign we can continue trying collapses
+without sleeping.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cfec12d37677..46a993c26dc0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5065,6 +5065,9 @@ Kernel parameters
- 				through ports 0xC000-0xCFFF).
- 				See http://wiki.osdev.org/PCI for more info
- 				on the configuration access mechanisms.
-+		nodpc		[PCIE] If the PCIE_DPC kernel config parameter is
-+				enabled, this kernel boot option can be used to
-+				disable the use of PCIE DPC.
- 		noaer		[PCIE] If the PCIEAER kernel config parameter is
- 				enabled, this kernel boot option can be used to
- 				disable the use of PCIE advanced error reporting.
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 1f71f9c773c4..2882c7bbb358 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -6723,6 +6723,8 @@ static int __init pci_setup(char *str)
- 			} else if (!strncmp(str, "noats", 5)) {
- 				pr_info("PCIe: ATS is disabled\n");
- 				pcie_ats_disabled = true;
-+			} else if (!strcmp(str, "nodpc")) {
-+				pci_no_dpc();
- 			} else if (!strcmp(str, "noaer")) {
- 				pci_no_aer();
- 			} else if (!strcmp(str, "noaer_recovery")) {
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 7a79df0ae712..1b6f17dddf21 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -887,6 +887,7 @@ struct rcec_ea {
- #endif
- 
- #ifdef CONFIG_PCIE_DPC
-+void pci_no_dpc(void);
- void pci_save_dpc_state(struct pci_dev *dev);
- void pci_restore_dpc_state(struct pci_dev *dev);
- void pci_dpc_init(struct pci_dev *pdev);
-@@ -895,6 +896,7 @@ pci_ers_result_t dpc_reset_link(struct pci_dev *pdev);
- bool pci_dpc_recovered(struct pci_dev *pdev);
- unsigned int dpc_tlp_log_len(struct pci_dev *dev);
- #else
-+static inline void pci_no_dpc(void) { }
- static inline void pci_save_dpc_state(struct pci_dev *dev) { }
- static inline void pci_restore_dpc_state(struct pci_dev *dev) { }
- static inline void pci_dpc_init(struct pci_dev *pdev) { }
-diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-index 2b779bd1d861..10d1a0e026d7 100644
---- a/drivers/pci/pcie/dpc.c
-+++ b/drivers/pci/pcie/dpc.c
-@@ -43,12 +43,19 @@ static const char * const rp_pio_error_string[] = {
- 	"Memory Request Completion Timeout",		 /* Bit Position 18 */
- };
- 
-+static int pcie_dpc_disable;
-+
-+void pci_no_dpc(void)
-+{
-+	pcie_dpc_disable = 1;
-+}
-+
- void pci_save_dpc_state(struct pci_dev *dev)
- {
- 	struct pci_cap_saved_state *save_state;
- 	u16 *cap;
- 
--	if (!pci_is_pcie(dev))
-+	if (pcie_dpc_disable || !pci_is_pcie(dev))
- 		return;
- 
- 	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
-@@ -64,7 +71,7 @@ void pci_restore_dpc_state(struct pci_dev *dev)
- 	struct pci_cap_saved_state *save_state;
- 	u16 *cap;
- 
--	if (!pci_is_pcie(dev))
-+	if (pcie_dpc_disable || !pci_is_pcie(dev))
- 		return;
- 
- 	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
-@@ -104,7 +111,7 @@ bool pci_dpc_recovered(struct pci_dev *pdev)
- {
- 	struct pci_host_bridge *host;
- 
--	if (!pdev->dpc_cap)
-+	if (pcie_dpc_disable || !pdev->dpc_cap)
- 		return false;
- 
- 	/*
-@@ -404,6 +411,9 @@ void pci_dpc_init(struct pci_dev *pdev)
- {
- 	u16 cap;
- 
-+	if (pcie_dpc_disable)
-+		return;
-+
- 	pdev->dpc_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_DPC);
- 	if (!pdev->dpc_cap)
- 		return;
--- 
-2.51.0
+Basically, do we prioritize SCAN_ALLOC_HUGE_PAGE_FAIL or the
+successful collapses as the returned value?
+
+This is what I currently have:
+done:
+    if (collapsed)
+        return SCAN_SUCCEED;
+    if (alloc_failed)
+        return SCAN_ALLOC_HUGE_PAGE_FAIL;
+
+Thanks,
+-- Nico
+
+>
+> Cheers, Lance
+>
 
