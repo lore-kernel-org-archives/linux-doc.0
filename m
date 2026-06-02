@@ -1,217 +1,215 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D313B894B
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 23:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083453A7597;
+	Tue,  2 Jun 2026 23:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780442133; cv=none; b=M/fEW0K2AMz1wijPyGaJsJaR6MlXhxsdDGGXaUvVE2OBG14gYnE0cxf9vTO9XrKaN8m4knfQBX4zBGEgi4odHHXzgNL1Ya43Ws/HzW0UM+ZijxP7hkBNvLpuIJICq1p4i+yU79JZNEGFGJy2M+sEV3vxVPgx5QIZOWzWqOq7QsY=
+	t=1780442355; cv=none; b=IW5XkESjnC1F/y8DxpF9gt27mXUiRHNezTR+1QnN21MoTueUKx7A+3a1S4MDtZiOoNMNU7xxqCEIW0WBnQJxzieWu5F8vcjtXqEvEHwbhsEJqDTUYcbE5LnRwFknImyET4npv31ZHvc4CdQ2+M8cK+GN/VtTJqiDdU/sJ9QpmVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780442133; c=relaxed/simple;
-	bh=O+m6esE1h2WCRNa4TSXJ8l0GsbEGYg/n4liKpqmrez8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YtFnuatJ3Zdw4MXEYV75RvpklcpZOOYbvILOn5fr/izsCU0YJppbiSo0Y3Od86Oiz3aktRSV5CaUSnE2MTiBPzE4BN/1bYAcmbJkRyb2btVKveqate+hgtOgJvzXAf/7Dmv1SqfBAGjD7+BEBZDpaLU8QfeK/k3SH+Z4yGpsJ84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRC0FYvb; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780442355; c=relaxed/simple;
+	bh=DrslTSQXT8cfx56wHRiJpsvTA1fviMta4VbTrLg4zTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kcp3kXjMIBs+B/SeqY+bpVG7Y7JhjuOjPv35nCV6QZP0tQI7uKBv5RBXd1wZ+M5Ts/5oOHkDDolovY1YDHceem7pXsSGrZCzzKmsgAj7eFxD5DWHKW4vn6ts49CFiGfslPXLl9SxJYnREk4c4WvioHl0VRQkXSXPgXcI2dep8fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftb1Jwi7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRC0FYvb"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c0c1e0d00bso30240245ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 16:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780442131; x=1781046931; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=elAeolCTc2IAaRv5GDeM52BjkVLUXqNe1DIyzckEuoM=;
-        b=mRC0FYvb7xovNewnjKUYev+3ezw89Fc+sIj+CKpcHlTp95tPq7I5GjbzJwP5CI/UDT
-         EOVbiLxQxcFNqfCR5+ILFZ6HGLZMhqu4+Jdm9Ajm9yywZaX4XY8vXh6T1HbgUaj381NE
-         VZCjBaMF5/0CqXvybSwcbhRX9VOo6BA9s3BQM7At6vgO2ydF/pmwoxBnjytIbxhdEiUY
-         w2SfzuZAaTWUZzy8f6wnki1yYx79KxwEAO4TfoNhaSKA0w0Ycw42jVxb2uqrA/oStUff
-         8iao8Yob6pSkzh1sY0yIoIlNi4+crym+HFHHAhevXWRQUKgTe6YN6ZbwRRtabiZUG6yP
-         xuVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780442131; x=1781046931;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=elAeolCTc2IAaRv5GDeM52BjkVLUXqNe1DIyzckEuoM=;
-        b=FjXSCYcEI9GwSNYCGzMBViMGM4N2ll78J3jM+zStED+dDXFcQnIHIzJqFDPSYai55d
-         Awgj7H2zzxLtEancmFn4MtHQ7pPbuMVXl3fHel3vczAWlR19wbNKxpsJAZZf2gTbqYfp
-         ZPcB2kKere2qGyPYfWv5DHoOe73kXJPyLUlZYkvOi/u3/6LCasPBl2QGJgTWcRyrgTny
-         uGdW/SYtN4GqNvpsAS1HZl3VPj+g4u8kUUG3ViwMKSKzPq5+srVkTjsNvPAFB6PT5pBu
-         KPONq8q4mXLg8v8wWKfz85/xuNKiHRNhtNMrWCspGWxTyJnXqvm+UwaHB8redPAZwcm6
-         rpxw==
-X-Gm-Message-State: AOJu0YxwCOrTMl7hOmx8dsAmgjxVHykuauHif1hWX3EMAbSrzSjnZxXl
-	FIvKdvg34yW3Q3e56p9twrJBlnZTJZzQRne/2uN7BHumftagpIOUwvFU
-X-Gm-Gg: Acq92OGc1+cnSuxvPpj6H4CE0ICKlwPnBkVmyO2/a2Z1TSdq8lBDOf20S1K4EHwJS1z
-	WMD0OMaL8Tg5y46a+h/JH8Bkd666lohh4CbzsJoYSoulPkpsyztPD+YMAuWXR7vfdSow+vYi8DQ
-	/TOYZzZg5cHBhze4liVogT5GTtYcGY9nWgTvhJRWvZEPMDRlciTEmH7go36koxWDiRfOzSGpwoq
-	6SmGXiNf9njTj2N8+ALS5OqjFO4Y8hp+00jfKeXPHtSoQcQdLX2VxBlihA4tA8JMSjJYf4vzPr5
-	ieCujOBCReTVtsjey9lUH4IrYOaODIyrk83UuQQTcpBEnf5gbtcj186kZkdsvYGxobr4j8mJAvQ
-	JQ9bG2VZGDMOyLhhMIQVjWThl7Rmvmp//jWtRiAYz5YPDvFxqtREdJ3lPoHD2HxzLrvk8mDnMLL
-	Q3XvYIvGmNvA==
-X-Received: by 2002:a17:902:f547:b0:2b0:c59f:3b58 with SMTP id d9443c01a7336-2c163a3d1b6mr7203385ad.9.1780442131511;
-        Tue, 02 Jun 2026 16:15:31 -0700 (PDT)
-Received: from [127.0.1.1] ([2a12:a305:4::40e9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649d2dfsm3302965ad.75.2026.06.02.16.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 16:15:31 -0700 (PDT)
-From: Guodong Xu <docular.xu@gmail.com>
-Date: Wed, 03 Jun 2026 07:12:10 -0400
-Subject: [PATCH v3 15/15] riscv: hwprobe: Introduce rva23u64 base behavior
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftb1Jwi7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F4E1F00893;
+	Tue,  2 Jun 2026 23:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780442352;
+	bh=KCQTKKV4OkG0g4DPTo1dosbbUmHALAtgMMXh353W1do=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ftb1Jwi7vGUaTZ08YB0sJ8lzivTWYTQb5gxbwHrpsGAczoXYB03Jtxxu4GhdujeF9
+	 4wHP/NTcSz8OqTJBEHWQ70CjZV7BF2NYZWVEag1D0NzIJAzOZ4MhKs90U8W0+ZtXjW
+	 BsNXfsuVYZZlL+feBLoqauAHSiClLSnOL8MWWpo5sb2oCYqo4gCZVaWBejTi+J2oE0
+	 wPY9mvm0bV+o8ktBPSpD2JAw+4gyTqQ+b7tnkLOGkL9lygFoneIRHCByRTbPLrWprB
+	 R+90fhMCKQijvqOyKbidq2BCDM4HR1u1y2/Ym7dvz6hTzmsXNZvtBYY2OuqRPaIR4W
+	 VLxgGAMKtUp4g==
+Date: Tue, 2 Jun 2026 23:19:10 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+Message-ID: <ah9i3uhh3PFiS0Uk@google.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
+ <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-rva23u64-hwprobe-v2-v3-15-5529a7b28384@gmail.com>
-References: <20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com>
-In-Reply-To: <20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Zong Li <zong.li@sifive.com>, 
- Deepak Gupta <debug@rivosinc.com>, Anup Patel <anup@brainfault.org>, 
- Atish Patra <atish.patra@linux.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
- Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
- Conor Dooley <conor.dooley@microchip.com>, Shuah Khan <shuah@kernel.org>, 
- Christian Brauner <brauner@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>, 
- devicetree@vger.kernel.org, spacemit@lists.linux.dev, 
- sophgo@lists.linux.dev, linux-kselftest@vger.kernel.org, 
- Andrew Jones <andrew.jones@oss.qualcomm.com>, 
- Charles Jenkins <thecharlesjenkins@gmail.com>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Guodong Xu <docular.xu@gmail.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4827; i=docular.xu@gmail.com;
- h=from:subject:message-id; bh=O+m6esE1h2WCRNa4TSXJ8l0GsbEGYg/n4liKpqmrez8=;
- b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhiwFHvYP001VTd0EX7Jtz/r1fX1MpPDfafPEZD+aHd25Y
- k/yjFD7jlIWBjEuBlkxRZbDR1uyt77yifZ9zvkDZg4rE8gQBi5OAZiIdQkjQ8cd3dI3NxoXfthj
- fUXAwaAgPdVj8ZIbF5tKmY5ZCLtMvsfIsIYrRmnaLyfmpTIiSa2u0svvnnrlZeYgUrt9jafMDDt
- 1HgA=
-X-Developer-Key: i=docular.xu@gmail.com; a=openpgp;
- fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
 
-Provide a hwprobe base-behavior bit so userspace can check RVA23U64
-support in one call.  Without it, a consumer needs five hwprobe
-calls and four prctl calls, which is error-prone to require of every
-caller.  Most software treats RVA23U64 as a new base anyway, so
-expose it directly.
+> > > > > Proactive writeback also wants a similar per-memcg cursor that is
+> > > > > scoped to the specified memcg, so that repeated invocations against
+> > > > > the same memcg make forward progress across its descendant memcgs
+> > > > > instead of restarting from the first child memcg each time.
+> > > > 
+> > > > Is this a problem in practice?
+> > > > 
+> > > > Is the concern the overhead of scanning memcgs repeatedly, or lack of
+> > > > fairness? I wonder if we should just do writeback in batches from all
+> > > > memcgs, similar to how reclaim does it, then evaluate at the end if we
+> > > > need to start over?
+> > > > 
+> > > 
+> > > Not using a per-cgroup cursor will cause issues for "repeated small-budget
+> > > calls" cases. For example, repeatedly triggering a 2MB writeback might
+> > > result in only writing back pages from the first few child memcgs every
+> > > time. In the worst-case scenario (where the writeback amount is less than
+> > > WB_BATCH), it might only ever write back from the first child memcg.
+> > 
+> > Right, so a fairness concern?
+> > 
+> > I wonder if we should just reclaim a batch from each memcg, then check
+> > if we reached the goal, otherwise start over. If the batch size is small
+> > enough that should work?
+> 
+> Even with a small batch size, for small writeback requests triggered by
+> user-space (e.g., 2MB, which is batch size * N), it might still repeatedly
+> write back from only the first N child memcgs.
 
-Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-Signed-off-by: Guodong Xu <docular.xu@gmail.com>
----
-v3: No change.
-v2:
-- Detect RVA23U64 by reading from the cached hart_isa[].isa_bases
-  bitmap populated by riscv_init_isa_bases() at init time, sharing
-  one source of truth with /proc/cpuinfo.
----
- Documentation/arch/riscv/hwprobe.rst               |  8 ++++++++
- arch/riscv/include/uapi/asm/hwprobe.h              |  3 ++-
- arch/riscv/kernel/sys_hwprobe.c                    | 23 +++++++++++++++-------
- tools/testing/selftests/riscv/hwprobe/which-cpus.c |  2 +-
- 4 files changed, 27 insertions(+), 9 deletions(-)
+Yes, I understand, I am asking if this is a problem in practice. For
+this to be a problem we'd need to trigger small writeback requests and
+have many memcgs. 
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 601e81f561421..d6712259946e9 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -67,6 +67,14 @@ The following keys are defined:
-       programs (it may still be executed in userspace via a
-       kernel-controlled mechanism such as the vDSO).
- 
-+  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64`: Support for all mandatory
-+    extensions of RVA23U64, as defined in the RISC-V Profiles specification
-+    starting from commit 0273f3c921b6 ("rva23/rvb23 ratified").
-+
-+    The RVA23U64 base is based upon the IMA base and therefore IMA extension
-+    keys (e.g. :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`:) may be used to probe
-+    optional extensions.
-+
- * :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing extensions
-   that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
-   base system behavior.
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 36ec8ab470423..50733d3db7633 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -21,7 +21,8 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_MARCHID	1
- #define RISCV_HWPROBE_KEY_MIMPID	2
- #define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
--#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	(1 << 0)
-+#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA		(1 << 0)
-+#define		RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64	(1 << 1)
- #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
- #define		RISCV_HWPROBE_IMA_FD		(1 << 0)
- #define		RISCV_HWPROBE_IMA_C		(1 << 1)
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 3e80e5551ae0d..3f66f2e99d41a 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -226,6 +226,17 @@ static bool hwprobe_ext0_has(const struct cpumask *cpus, u64 ext)
- 	return (pair.value & ext);
- }
- 
-+static bool hwprobe_has_isa_base(const struct cpumask *cpus, unsigned int base)
-+{
-+	int cpu;
-+
-+	for_each_cpu(cpu, cpus) {
-+		if (!test_bit(base, hart_isa[cpu].isa_bases))
-+			return false;
-+	}
-+	return true;
-+}
-+
- #if defined(CONFIG_RISCV_PROBE_UNALIGNED_ACCESS)
- static u64 hwprobe_misaligned(const struct cpumask *cpus)
- {
-@@ -308,14 +319,12 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 	case RISCV_HWPROBE_KEY_MIMPID:
- 		hwprobe_arch_id(pair, cpus);
- 		break;
--	/*
--	 * The kernel already assumes that the base single-letter ISA
--	 * extensions are supported on all harts, and only supports the
--	 * IMA base, so just cheat a bit here and tell that to
--	 * userspace.
--	 */
- 	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
--		pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-+		pair->value = 0;
-+		if (hwprobe_has_isa_base(cpus, RISCV_ISA_BASE_IMA))
-+			pair->value |= RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
-+		if (hwprobe_has_isa_base(cpus, RISCV_ISA_BASE_RVA23U64))
-+			pair->value |= RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64;
- 		break;
- 
- 	case RISCV_HWPROBE_KEY_IMA_EXT_0:
-diff --git a/tools/testing/selftests/riscv/hwprobe/which-cpus.c b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-index 587feb198c049..f8c797b1d0fd9 100644
---- a/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-+++ b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
-@@ -105,7 +105,7 @@ int main(int argc, char **argv)
- 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_BASE_BEHAVIOR, };
- 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
- 	assert(rc == 0 && pairs[0].key == RISCV_HWPROBE_KEY_BASE_BEHAVIOR &&
--	       pairs[0].value == RISCV_HWPROBE_BASE_BEHAVIOR_IMA);
-+	       (pairs[0].value & RISCV_HWPROBE_BASE_BEHAVIOR_IMA));
- 
- 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_IMA_EXT_0, };
- 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
+> This could cause the user-space agent to prematurely give up on zswap
+> writeback.
 
--- 
-2.43.0
+Why? The kernel should not return before trying to writeback from all
+memcgs. If we scan the first N child memcgs and did not writeback
+enough, we should keep going, right?
 
+> > What if we do something like this (for the global cursor):
+> > 
+> > 	do {
+> > 		memcg = xchg(zswap_next_shrink, NULL);
+> > 		memcg = mem_cgroup_iter(NULL, memcg, NULL);
+> > 		/* If the cursor was advanced from under us, try again */
+> > 		if (!try_cmpxchg(zswap_next_shrink, NULL, memcg))
+> > 			continue;
+> > 	} while (..);
+> > 			
+> > 
+> 
+> Regarding the code above, IIRC, both the global and per-cgroup cursors
+> suffer from race conditions. This race can cause mem_cgroup_iter(NULL, NULL,
+> NULL) to return the root memcg or its descendants, leading zswap to write
+> back pages from the wrong memcg.
+
+Not the wrong memcg, it will just go back to the first memcg again,
+which should be fine as I mentioned below.
+
+> 
+> Additionally, since mem_cgroup_iter() puts the prev memcg ref and gets the
+> next memcg ref, a try_cmpxchg() failure on CPU1 might also lead to a ref
+> leak for memcg1.
+> 
+> 
+> 	CPU1                                       CPU2
+> memcg1 = xchg(pos, NULL)
+>                                memcg2 = xchg(pos, NULL) memcg2 = NULL;
+> 
+> memcg1 = mem_cgroup_iter()
+>                        mem_cgroup_iter(NULL, **NULL**, NULL) error memcg
+>                                 try_cmpxchg(pos，NULL，memcg2） succeed
+> try_cmpxchg(pos，NULL，memcg1） **fail**
+
+Yes, we can probably just take a ref on the memcg before calling
+mem_cgroup_iter(). That being said, I think we can just keep the lock,
+see below.
+
+> 
+> I took a stab at implementing a cmpxchg()-based zswap_mem_cgroup_iter()
+> modeled after mem_cgroup_iter(), and it actually doesn't look that complex
+> after all :)
+
+I don't think we should re-implement mem_cgroup_iter() here.
+
+[..]
+> > There is a window where a racing shrinker will see the cursor as NULL
+> > and start over, but that should be fine. We can generalize this for the
+> > per-memcg cursor.
+> > 
+> > That being said..
+> > 
+> > > 
+> > > Currently, this lock is only used in shrink_memcg(), proactive writeback,
+> > > and mem_cgroup_css_offline(). Note that shrink_memcg() only acquires the
+> > > lock of the root cgroup, and mem_cgroup_css_offline() is unlikely to be a
+> > > hot path.
+> > 
+> > ..this made me realize it's probably fine to just use a global lock for
+> > now?
+> > 
+> > IIUC the only additional contention to the existing lock will be from
+> > userspace proactive writeback, and that shouldn't be a big deal
+> > especially with the critical section being short?
+> > 
+> 
+> In the current patch implementation, this lock protects the cgroup's own
+> cursor variable. During each writeback, we only acquire the spin_lock of the
+> target cgroup itself; we do not attempt to **spin on any child cgroup's lock
+> while iterating through the descendants**.
+
+Oh, I did not say anything about the current patch adding contention. I
+am suggesting we just keep using the global lock for the per-memcg
+cursors, if we keep them.
+
+Right now, without this series, the global lock protects against
+concurrent changes to the global cursor from concurrent shrinkers. After
+the series, the only added contenders are userspace proactive writeback
+threads. Unless you have 10s or 100s of those, it should be fine to keep
+a single global lock, right?
+
+Yes, userspace can affect writeback efficiency, but we can split the
+lock when it actually causes a problem.
+
+> 
+> 
+> > > 
+> > > So, should we keep the spin_lock or go with the cmpxchg() approach?
+> > > Yosry and Nhat, what are your thoughts on this?
+> > 
+> > I think we should experiment with the global lock first. See if you
+> > observe any regressions with workloads that put a lot of pressure on the
+> > lock (a lot of threads in reclaim doing writeback + a few userspace
+> > threads doing proactive writeback). See if the userspace threads
+> > actually cause a meaningful regression.
+> 
+> Sorry, it seems there are some implementation issues with the global lock
+> approach.
+> 
+> In practice, our user-space agent mostly operates in the following two
+> scenarios:
+>  - Triggering proactive writeback on the same cgroup at different times
+> (sequentially).
+>  - Triggering proactive writeback on different cgroups at the same time
+> (concurrently).
+> 
+> In both cases, there is no lock contention. So, the current lock works
+> perfectly fine for us.
+
+Would using the existing global lock work for your use case? How many
+different cgroups can you end up reclaiming from concurrently?
+
+> 
+> However, if we really hate zswap_wb_iter.lock, I can try replacing it with
+> the cmpxchg() approach.
+> 
+> Thanks,
+> Hao
