@@ -1,184 +1,164 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E7F3D0C00
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 09:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6013C3D16F5;
+	Tue,  2 Jun 2026 09:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780393181; cv=none; b=cd7c0iKWIKSvQTx8gMIqd60xc4F3beU6LYxFB+e2If/50LXhwEgGfgj7SUeilA8cNJuNV7NcnUozacENIji88RJvBbZbCNf4PG2bwuLqsujSVDgqXfJ4I5h8Oiwq/fyrN5VrMszuvAVXJJD3N03cXPDeisWpaB4nMGMy7wlnz18=
+	t=1780393317; cv=none; b=d4exKQ8VKXTt0H9m4GQnjOj3JGueXv5sG8Eo6nwUO1zyTf10Rx6S5JasDkIAwSktkP9Rg6721pJWw2crhtjNprkhqP25AlNtnl6UEfNrEW1HF8K1SCyYcJJ8UFoxgQ1k5FUEBbuG/msZAESFYwzx7Hdcb7itQfb4alciiABakjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780393181; c=relaxed/simple;
-	bh=GOzeMM/JYZgIe4dUI3JUkqJJ3BRhMV07ewJVU/ufUE8=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=qNs2R0oAzF0dVb5iOiqwwOX9Bc2qZcs+6DBcUEjS/wNTc0iJgNjIOiVqzUq7gcdUtpw263mUxxWWrQ+1qctr1aPFmWauvHt5+EKJtzvXBMGqrMl3Ax67HgCxepQHlhYtfoDzoewJve9UhIF/ROsiRHfNUK6020z7gVej+9Qn6N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rUqLggyb; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780393317; c=relaxed/simple;
+	bh=+VZaNIRt8hQU4ylEHndWxmW1KleEAsKp7O5WEsHnvMg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hOQ4gW6P10ZE1JkZ+0wHfeaDvPmNdWyNEk9D5jHbkJQdLzpbDwgJquB1yBTTWXBh9fTIlQ+exJXk4XyRlI56Wd5pqr+SfS3CfyPiY2QsA+S3z+Tv08mwAXaHtYTDjMpqr+wamgRt8lrGS0fXgj3MbmjULVdWqgGZDVgcj7MO2/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NB4tv7lD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rUqLggyb"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490a767521dso1462535e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 02:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780393178; x=1780997978; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NFpS2S2szfARI+N80dvWwk9HISbdYk0AgMvzITAGi74=;
-        b=rUqLggybwKtGh0VgM6kLsnHJT3p5kMIHC5ctviq+udh4FHdbDqlPQzC2zlQEQ3U732
-         v/yRaFx2JfY/Kk4+D39vEy9aN+wVYRXS5H72lLQCdBwmj43Q8QfbfbaQdkiV+MtoPcQ1
-         eoQKUfrRq0z86aBax7HB+XQulIUm9wYvsbp5GqVrmxMpyXt3hg+kbxup1ePJZEGGX6cv
-         Uy1AelfNPcMpMcf1h5m3LbVFFcWcQ0jLE1fwGmB6lIqAjkt+PD/UKYNPzSYn7MZbk1lo
-         lMWXNqp4YYD1jOTss2sZ01M6+kq6rd6kGGRBSNa3D61FsFBbkHfvluCIwEmfBnRxIrBm
-         DTdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780393178; x=1780997978;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NFpS2S2szfARI+N80dvWwk9HISbdYk0AgMvzITAGi74=;
-        b=PujIREit0ywQAjVams0J4609s42b2aRDOShnM5o/MEZcNEE/ceqn/MmasQ/06LVW2T
-         zkG+LP/h+ri5Dgz4CJNU5yFzXHNCnYG3Qfxvh+05SvX8GzFudm4Bsd/KfTnvHn57tkJZ
-         Am4ig+c0/MiPtyc5gBHCP//WlStMowraytEIPJrNfYsyMLGPG3cQcxIqB0dnvUdqcvf4
-         uFgUimoGNmWyUvaKULVn5yQaxF6dPlwwNcSz+zqLGvDxT1aEMXQUB6IcVztNcbAECUVU
-         eqKG6zIbS0xW1KtovaRum0ppJ8/HEPv4DZhPK/d5J7WAYEDmCqsrt4fsQJmyJ69Yijfz
-         42YA==
-X-Forwarded-Encrypted: i=1; AFNElJ80SnnusDLlqtRBtp3xUirTHGsBuSqGzehj1aCFNPt29WbZ+bXaNr5iCl9OoN8FWu8kpJss8Tt49+c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrgOLtYP3KrBjMb0JqTWqXC8VgETh313WUr/xaIslAH9Evs2I+
-	JYhie9JV/kYCz2W3zr1SdDdRe4fOe/ifQiPmuLL0l0wn7ajoup961c9PUL59ykNGM6BM
-X-Gm-Gg: Acq92OHK+BmOEPZ5+5VzRi4MYvC2ZLlgjkx9fCCd3p8fPFv4P2lGePs5TLn0mvMj3jR
-	N2bl5PXHsn3p+KHmW4aEl1gFLgq9nvimMzf4w+vsxerJbbuCQQu6InSBQYoKpZkfp7W7oTmcjv3
-	/gzZAyMOsI5pFLrlCY0zECBy833KUvHAZovSYjH3fsTXlvtOGlLF1Ep8lxIM2VYsz7qwQKkHD9H
-	mV+EoFPGPj6fSwmKFJf6SOYJGJTCogxnFY7+kpHWDuJvunjfUZVOTUk4gtYMGdZwmhKS2mPIRVw
-	FoFrU0cmjFVUWWoL0Iz8nxdn473yyiZFzBbsNXXDNC9O9lj+RX9f9uH/5bWrwuj7v9eCzaOZr7K
-	n0DGcxZEXWGgL7yvD5A56bdAohPsNADZD4LbgFtNO5w9j7uhkBCS+smXaFGYSJ9GUs0NkR8y0YU
-	HRYq0/xVWnf1InwVLZdZHHUVf9rIXXu392AMczEAzAMm/GaRHjvgGqDZSi4rDtwth44goc114=
-X-Received: by 2002:a05:600c:1d0c:b0:490:6e0f:2a10 with SMTP id 5b1f17b1804b1-490a294a76amr99880005e9.7.1780393177806;
-        Tue, 02 Jun 2026 02:39:37 -0700 (PDT)
-Received: from localhost (32.red-80-39-29.staticip.rima-tde.net. [80.39.29.32])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e76feasm53722455e9.9.2026.06.02.02.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2026 02:39:37 -0700 (PDT)
-Message-ID: <25667a7c-e426-413d-aa3d-a52ebbeb9de5@gmail.com>
-Date: Tue, 2 Jun 2026 11:39:36 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NB4tv7lD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727E01F00893;
+	Tue,  2 Jun 2026 09:41:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780393315;
+	bh=vT4GhybZ63q/C77icFjfDw2+SgkthJIdZFmZoFl7XsQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=NB4tv7lD0sn2xWMbkfISkEKc9+jTV/l+aDD2meGk9UhivS0/j4YBKNhZDevi7M0Hq
+	 qnao6MXfp6z9UH1rB+ftvHDJtJJ2KhlbvD64xsvjyeSeRvoLWGGiAonzpitEYoJjZH
+	 NPU4azq1xakAFt8Io5EAj7o1BEiJRy2iNquMic1cAgj/CgQyTBj5ffPr37OxMGy8cv
+	 7nLLRmwioFPYLpV8oPN6pYDl7a7SmRyzXZz2f3MdMT7qBcsh8oF1nmqr0t6guwiK55
+	 O8pEYPH4wDyKPzpRcgHHm/LE4HY8cavsevtuqm/AjlJZuMzeld5kaVBY9Uo6buYPmq
+	 cNS2kxQTNcTTA==
+Message-ID: <21732071-14a1-486a-951c-34de97b7c757@kernel.org>
+Date: Tue, 2 Jun 2026 11:41:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: en-US, en-GB, es-ES
-To: Jonathan Corbet <corbet@lwn.net>, DOC ML <linux-doc@vger.kernel.org>
-From: Xose Vazquez Perez <xose.vazquez@gmail.com>
-Subject: [linux] Documentation/arch/sparc/oradax/dax-hv-api.txt and
- Documentation/driver-api/parport-lowlevel.rst : Form feed (^L) characters
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: Miaohe Lin <linmiaohe@huawei.com>, Breno Leitao <leitao@debian.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, kernel-team@meta.com,
+ Lance Yang <lance.yang@linux.dev>, Andrew Morton
+ <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-2-9ea0cfa16bb0@debian.org>
+ <19f968f5-1289-f573-4406-e5c91dcd8923@huawei.com>
+ <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
+ <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 6/2/26 05:08, Miaohe Lin wrote:
+> On 2026/6/1 21:22, David Hildenbrand (Arm) wrote:
+>> On 6/1/26 14:28, Miaohe Lin wrote:
+>>>
+>>> Thanks for your patch.
+>>>
+>>>
+>>> Once shake_page finds a lightweight range-based way to shrink slab, slab pages could be freed
+>>> into buddy and above PageSlab test should be removed then. Maybe add a TODO or XXX here?
+>>>
+>>>
+>>> I'm not sure but is it safe or a common way to test PageReserved, PageSlab,
+>>> PageTable and PageLargeKmalloc without extra page refcnt?
+>>
+>> Checking typed pages in a racy fashion is fine (PageSlab, PageTable,
+>> PageLargeKmalloc).
+> 
+> Got it. Thanks.
+> 
+>> Checking PageReserved in a racy fashion is fine as well. TESTPAGEFLAG() will
+>> allow checking it on compound pages.
+> 
+> It seems PageReserved is not intended to be set on compound pages. I see there are PF_NO_COMPOUND
+> in its definition: PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND).
+> 
+>>
+>> For PageLargeKmalloc, we would want to check the head page, though. The page
+>> type is only stored for the head page.
+> 
+> Maybe we should check the head page for PageSlab and PageTable too? alloc_slab_page only
+> set PageSlab on the head page and __pagetable_ctor uses __folio_set_pgtable to set PageTable
+> on folio.
+> 
+>>
+>> So maybe we want to lookup the compound head (if any) and perform the type
+>> checks against that?
+> 
+> Maybe we should or we might miss some pages that could have been handled. And
+> if compound head is required, should we hold an extra page refcnt to guard against
+> possible folio split race?
 
-I noticed that  Documentation/arch/sparc/oradax/dax-hv-api.txt and
-Documentation/driver-api/parport-lowlevel.rst contains several
-legacy form feed (\f, ^L) characters used as page breaks.
+Races are fine. We might miss some pages, but that can happen on races either way.
 
-I am not sure if these are still required for any specific formatting
-reasons or if they should be removed.
 
-They appear in the following lines:
+I'd just do something like
 
-$ grep -n -P '\f' Documentation/arch/sparc/oradax/dax-hv-api.txt Documentation/driver-api/parport-lowlevel.rst
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:66:
-                                                                                                  Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:128:
-                                                                                          Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:176:
-                                                                                          Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:228:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:284:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:342:
-                                                                                                    Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:397:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:454:
-                                                                              Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:504:
-                                                                             Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:554:
-                                                                                                      Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:609:
-                                                                                             Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:667:
-                                                                              Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:719:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:779:
-                                                                              Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:830:
-                                                                                                    Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:887:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:943:
-                                                                                                Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:995:
-                                                                                            Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1048:
-                                                                                                   Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1105:
-                                                                                             Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1156:
-                                                                                                    Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1216:
-                                                                               Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1272:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1326:
-                                                                                                    Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1381:
-                                                                                                     Coprocessor services
-./Documentation/arch/sparc/oradax/dax-hv-api.txt:1433:
+if (PageReserved(page))
+	return true;
 
-./Documentation/driver-api/parport-lowlevel.rst:104:
+head = compound_head(page);
+return PageSlab(head) || ...;
+	
 
-./Documentation/driver-api/parport-lowlevel.rst:504:
+-- 
+Cheers,
 
-./Documentation/driver-api/parport-lowlevel.rst:540:
-
-./Documentation/driver-api/parport-lowlevel.rst:586:
-
-./Documentation/driver-api/parport-lowlevel.rst:674:
-
-./Documentation/driver-api/parport-lowlevel.rst:709:
-
-./Documentation/driver-api/parport-lowlevel.rst:866:
-
-./Documentation/driver-api/parport-lowlevel.rst:1102:
-
-./Documentation/driver-api/parport-lowlevel.rst:1188:
-
-./Documentation/driver-api/parport-lowlevel.rst:1217:
-
-./Documentation/driver-api/parport-lowlevel.rst:1253:
-
-./Documentation/driver-api/parport-lowlevel.rst:1282:
-
-./Documentation/driver-api/parport-lowlevel.rst:1319:
-
-./Documentation/driver-api/parport-lowlevel.rst:1355:
-
-./Documentation/driver-api/parport-lowlevel.rst:1386:
-
-./Documentation/driver-api/parport-lowlevel.rst:1413:
-
-./Documentation/driver-api/parport-lowlevel.rst:1444:
-
-./Documentation/driver-api/parport-lowlevel.rst:1511:
-
-./Documentation/driver-api/parport-lowlevel.rst:1589:
-
-./Documentation/driver-api/parport-lowlevel.rst:1629:
-
-./Documentation/driver-api/parport-lowlevel.rst:1661:
-
-./Documentation/driver-api/parport-lowlevel.rst:1771:
-
-./Documentation/driver-api/parport-lowlevel.rst:1805:
+David
