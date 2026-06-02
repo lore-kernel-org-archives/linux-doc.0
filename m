@@ -1,67 +1,66 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667F7402B8F
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 14:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A4B403EAC
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 14:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780410450; cv=none; b=eBHjeodTsORLHt4cOV8RovrbZ6YL3HYqrC8J4hRA3h5KN4oh6f4XuES5Uubj2xrAyzxwFpJ2h3V8mhUwCEdbJhTGXR45UQkNSRcyof54KquVh6tgwZf8QYIogn7SRB08VTGeX9SKJBqWhbfyViPjgOQlS9M1ilVK1ppsDVc0Yps=
+	t=1780410451; cv=none; b=IiwsupfJ3LpJ0DsvYGKDmSPl+R4p02EhZFppeTqYWI/quYKfKTC0aoedmHZJaAdL0S1YJdpR+qZy9oy/0lJvsSBNBOZvh6q59PiuyiwHma5YdPa8oMkG0qDNZK0+tKJI7ECjut9tDv+UskTdKymAksw9AKpS12GWv7Cgtl4uwXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780410450; c=relaxed/simple;
-	bh=ESmfjIh7MN23IeBJPxwPdBU7xBIa18aM//caXhGjZcM=;
+	s=arc-20240116; t=1780410451; c=relaxed/simple;
+	bh=Bet7dcog4cI1OWFbkgHySPvLYRaBjOEAmnyguA5dwLY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ER4SQ32Yetw1h/HUQoMI5kZo+5tmpTNFXnV2kq0UhZJV64YmP1c06vuqWIccoi7jRasPgx9bzJzIUR2B6r2l6w76bU4BrVKRlG8val9J/UkV3WvrOTwbv6/xEdJ3BHwZ+Zposn6Ncq/v5r4XZVcwZU2TWpEMZ90qKB8Ppdb7egI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nKb6xbwj; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:To:Cc; b=OuhrCwigyNB7jnKqw2xmTKyEa8uf6+hubxsW6HcHlaIYV/nZpET/Zb5LDy8BhgoxpMgm13Fy1TkOUodDSG/4oSRSdnnCxTdshNkHnoAaxzhOxuX9MjIs9uGmrQaeAYnMumyB0HvtIo1vVKwZBGtrsWyU9e4bbL/aGYB1nhmQJJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m+UWT5a8; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nKb6xbwj"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45f3cf907ceso1533616f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 07:27:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m+UWT5a8"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b43e2b95so2375855e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 07:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780410447; x=1781015247; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1780410448; x=1781015248; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pXjR0tiVSlnNG0AciIMM1oZd4f63sbXFpo0GMT42zX4=;
-        b=nKb6xbwj3tP8iZMpReZNNT6dFQ54cs+fIsXJZzkzEpY/L9cznx0sOzeoS/3ITOlc1B
-         73QsScaMkcLsA0Dro4o9UWHyKZPKZb3ba9yTo8rPrzY1VAbqwayCwOvm0sEJSl3iO5HN
-         OAlbVFU8fqgufRBsw7s73OIDFakRQJAJEdkEiVOsgFPpnnbG3S6lyNDGsf27E/dQa85n
-         PacYZcthUKtgIvSPJLX0GDBeGSxH00Yafn0kvj9BHRG0otz+jUn93XbW1Gg2p2OpqJA8
-         0P0+Xf1fMuVxG1zJsKTRO8EEqN0OUNsEGaac8zEm0DgQuOHf/nx/Yq0jA5PKMWJpshQ2
-         10MQ==
+        bh=8mOc2t8dZN0s1J71IBgMzN0QR+1naOVex0M+qvmJCq0=;
+        b=m+UWT5a8AlVJdNCu9Jy9CkfyuxE1Gtxud27XnSUmIGzuUq9zMv1YR4Ueta2++5TpUW
+         zzuyBTLATZKNFhu4w/6RFyzuEXJ8onmxob2W9xpo87iuIbFWOm1nlSmmFrGDK+w1mo1g
+         7jU/kuf/+62k7BQHAGU6W5qLwkZqOxp1ltfYGoKYe/DYxbAvcDGICavPA5NzccFZ/hx0
+         d7Vf+3rl3ZWD1mJ05W+/TH+y4SLzmuLw23PIZPaUdfMqWQEYpatCSFeidFEeCty1jzbi
+         OTawsX1sIYFAlyJnLizMLeCUNI2/kjSyGpXX2esQy/Gt3W+0A7Fjaeykl2Mq9XHRNvU6
+         vyqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780410447; x=1781015247;
+        d=1e100.net; s=20251104; t=1780410448; x=1781015248;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=pXjR0tiVSlnNG0AciIMM1oZd4f63sbXFpo0GMT42zX4=;
-        b=S9kxJqXPGCfY34G2I2XOdpJXmBtZNHKcYUIjtF/lUdW98L39aKmg/SeY9d3Z/RK6rN
-         DlmVqE/aJW4WpZiUglB0BxoDpubIWA5XF9iFk/TKcZxBJkTZ1IjT+gRH8IYGNIkP5IS+
-         ysloBgqJBocXa2HkmxtvZcd2KFcdn7e1precj/bOKa8jp5LYfz7MPbLv3UIKQfSM4qLb
-         iFcOMNcKJgV/IMIGS7N/prusioQnQ4DYozpYvdtqF+VotU0XR3AxcWnTgC/+d6jVT9yE
-         9JD19IsMq4dq7OdWx7rCtFdg2KutwhNz88KVlE0BxrySrLirw9G1dIHwXOU4I23mreYN
-         ++dA==
-X-Forwarded-Encrypted: i=1; AFNElJ80I4tD8mOCAxSsgLqISjjdr3VPvMZsN2ABQ2lYG4MBRq2eyDP7PYMSfZCKYDFFKyt59Ylv5we0pec=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzukS7FAR07hYeiFAuaIW9DiEma5dm20Xz479ozXuIiGQwQMcSY
-	Vje2zRvdGn/QotKVgJcVLVw+omhh+Ug+Oi65m53E9Y7QF8XF+7WLxeTLyCdSY+nOLIQ=
-X-Gm-Gg: Acq92OEWNPWyHVjt84gia3iacGCvJsYyXPVrqIAhP8i+Y5GXcCU79QQFC8jNxyNn4O5
-	4BsMLs91tU/gHpBtEIirSJEnq7ooHXEtkQikGH0Rhh9IW0GpqcuKX8W/H94+qJOs1qoGTCKBXiV
-	60IQ7OSk9HMAiPmY9nW9d943GHJlhoan6y47iu9AvaaOdsE1Dn3JLAVH5jVF0IU1tE1Db9KHHrf
-	TrgRyKiExPAFg9RPMGCdL/ifIe/1BldcBNyFEql+WdozKrBlwdMHcNz3U79nIJ/bvRIcNBghP8O
-	3VFzMww5LtGNzkrPDC2t0fpyILKaAhY4zt79v45P1SFm1R6yGDTJnfGDyjeHynQ1GMYmkDGEYxd
-	KMWfNCe0iMxmTYr0E9Me1bUAELhK681+DJ8QMWP3QdfnRIR9CuX3vAg3CseAMupXIOdg3Ttpf4U
-	oOF8gxZtJw507s+UqeYHhjQ81fVrQyJ6i7kSZyH8+5Ldw=
-X-Received: by 2002:a05:600c:6098:b0:490:b1b8:95f5 with SMTP id 5b1f17b1804b1-490b1b89725mr62646115e9.15.1780410446812;
-        Tue, 02 Jun 2026 07:27:26 -0700 (PDT)
+        bh=8mOc2t8dZN0s1J71IBgMzN0QR+1naOVex0M+qvmJCq0=;
+        b=DWCD01lhZPMsZvanMMqP9LmfNsfLY8gLUn4FLNtczV31Q+qU4Mg7VTz7dVcU0lY0Io
+         +Ac0XRJwfS6PnIYbmbB3+qFksgaepWVBMc72PS9+eE+xyYsigI4XwkiV9PQRWWMUD8Jj
+         jGGSBtBLx6RB+mG2GH6NHDwgIxG3rvRs+DvWe6yedfZ4rNfhZRhNn1izHWQ1JgRLBwrh
+         MXVn67AlXVzW8SgEKgQTpfaTEykmwwljQWMIOWXEWdiPNbCJ3kBuNr7e+3M34bVF8d73
+         IeOG20HYa6qD1WUK5OABhwNIwKWaeVgvzhpl+hDLGxo2h4Hvh104+RnU4Tv7+y80raOL
+         +XKw==
+X-Forwarded-Encrypted: i=1; AFNElJ9haCnpGf3PZFy9lLmhDdaosv9XKRICfBdVHjflgfnCYS7CF13F1TSeGIG/RA5xbJdao3ULPyocxz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwupTy8HQAkYhsQVMdncz/osMNEidF22+4xb99JhUUcS5IuZCvt
+	E6UkrVBpF3TenviLXdMqGXFav/DaNTnqYQS4tr7Z16u78+/KKtZCg62XVgX8nDYkNw0=
+X-Gm-Gg: Acq92OEvXCOCMCU/fWtgWyDNdTbMV+3WiZCH3w/VfA8YSA0yf+QUcyDiTuhmzKzGyN7
+	LDEXpC0KNtO2y+sdGl2TVXMzvUh1EmIkfBz8QrXWRV5N50aB6h4XJw1IILHdM1vpMqMG66Pdt+0
+	QRtCPt0Soq/uRkQe0zi0ZRCJgSGaf8bel+GX6X4XfNGJ8ZUS0aHAq1hgDgleiRg8ePjL3vLNIwe
+	/9jCUcpQN8Z64xO3TktAHZqJPecbrQjBbPKsiIjPUr9usDVhwU8LOrRm5zPCIaMEnwDIKIROSw1
+	Te9UeeVQQMGMmuBdFFPYyfRM/yBErDzUZPq7NHwzCoVpSshFkKruLTBZn99Amk8W3B3Al6wnnmR
+	PWoqeQ0QSat7335G2uA4m5cDCffZcWtmrr68Qyf6Ycu3fXVETQDU5xusmEtw5qSGe3r1/xwsiaG
+	micBo2a1Uozly/eLAzwDxytgEvxZuS6BnRXZS5n9D4LYc=
+X-Received: by 2002:a05:600c:4715:b0:48f:be94:d82c with SMTP id 5b1f17b1804b1-490a293bcaamr257657365e9.19.1780410447898;
+        Tue, 02 Jun 2026 07:27:27 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e18e1csm66771965e9.4.2026.06.02.07.27.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e18e1csm66771965e9.4.2026.06.02.07.27.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 07:27:26 -0700 (PDT)
+        Tue, 02 Jun 2026 07:27:27 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 02 Jun 2026 15:26:48 +0100
-Subject: [PATCH v2 06/18] perf test cs-etm: Replace unroll loop thread with
- deterministic decode test
+Date: Tue, 02 Jun 2026 15:26:49 +0100
+Subject: [PATCH v2 07/18] perf test cs-etm: Remove asm_pure_loop test
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260602-james-cs-context-tracking-fix-v2-6-85b5ce6f55c6@linaro.org>
+Message-Id: <20260602-james-cs-context-tracking-fix-v2-7-85b5ce6f55c6@linaro.org>
 References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
 In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -85,117 +84,42 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Testing a long sequence without branches seems like it would be better
-as a decoder unit test, and this test doesn't test decoding either, so
-it's not clear what bugs this is trying to catch.
+It's not obvious what this test is for so remove it. It's not a stress
+test because it doesn't output lots of data and it's not a functional
+test because it only looks for raw trace output. It seems to imply that
+a program written in assembly influences whether trace would be
+generated by the CPU or not, but the CPU doesn't know what language the
+program is written in.
 
-The new deterministic workload has somewhat long sequences when built
-unoptimized, and we can always increase them later if we want to. But
-now we test that decoding always gives the same result for the same
-sequence of code which we've never had before.
+We already have lots of Coresight tests that test the full pipeline
+including decoding, and in many more modes of operation than this one,
+so if no trace was collected they will already fail leaving this one
+redundant.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/tests/shell/coresight/deterministic.sh  | 71 ++++++++++++++++++++++
- .../tests/shell/coresight/unroll_loop_thread_10.sh | 22 -------
- 2 files changed, 71 insertions(+), 22 deletions(-)
+ tools/perf/tests/shell/coresight/asm_pure_loop.sh | 22 ----------------------
+ 1 file changed, 22 deletions(-)
 
-diff --git a/tools/perf/tests/shell/coresight/deterministic.sh b/tools/perf/tests/shell/coresight/deterministic.sh
-new file mode 100755
-index 000000000000..52e033fd6b82
---- /dev/null
-+++ b/tools/perf/tests/shell/coresight/deterministic.sh
-@@ -0,0 +1,71 @@
-+#!/bin/bash -e
-+# Coresight deterministic workload decode (exclusive)
-+
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# If Coresight is not available, skip the test
-+perf list pmu | grep -q cs_etm || exit 2
-+
-+tmpdir=$(mktemp -d /tmp/__perf_test.coresight_deterministic.XXXXX)
-+
-+cleanup() {
-+	rm -rf "${tmpdir}"
-+	trap - EXIT TERM INT
-+}
-+
-+trap_cleanup() {
-+	cleanup
-+	exit 1
-+}
-+trap trap_cleanup EXIT TERM INT
-+
-+cf="$tmpdir/ctl"
-+af="$tmpdir/ack"
-+mkfifo "$cf" "$af"
-+
-+# Start disabled and use the control FIFO to only record the workload and not
-+# startup.
-+perf record -o "$tmpdir/data" -e cs_etm//u -D -1 --control fifo:"$cf","$af" -- \
-+	perf test --workload-ctl fifo:"$cf","$af" -w deterministic > /dev/null 2>&1
-+
-+perf script -i "$tmpdir/data" --itrace=i1i -F ip,srcline | \
-+	grep "deterministic.c" | uniq > "$tmpdir/script" 2>/dev/null
-+
-+
-+# Remove open brace lines as they may not be hit depending on the compiler
-+sed -i \
-+  -e '/deterministic.c:8$/d' \
-+  -e '/deterministic.c:15$/d' \
-+  -e '/deterministic.c:23$/d' \
-+  "$tmpdir/script"
-+
-+cat > "$tmpdir/expected" << EOF
-+  deterministic.c:24
-+  deterministic.c:25
-+  deterministic.c:26
-+  deterministic.c:28
-+  deterministic.c:9
-+  deterministic.c:10
-+  deterministic.c:11
-+  deterministic.c:12
-+  deterministic.c:30
-+  deterministic.c:31
-+  deterministic.c:32
-+  deterministic.c:34
-+  deterministic.c:16
-+  deterministic.c:17
-+  deterministic.c:18
-+  deterministic.c:19
-+  deterministic.c:36
-+  deterministic.c:37
-+EOF
-+
-+if ! diff -q "$tmpdir/script" "$tmpdir/expected"; then
-+	echo "FAIL: line numbers don't match expected: "
-+	head -n 100 "$tmpdir/script"
-+	cleanup
-+	exit 1
-+fi
-+
-+cleanup
-+exit 0
-diff --git a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh b/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
+diff --git a/tools/perf/tests/shell/coresight/asm_pure_loop.sh b/tools/perf/tests/shell/coresight/asm_pure_loop.sh
 deleted file mode 100755
-index cb3e97a0a89f..000000000000
---- a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
+index 0301904b9637..000000000000
+--- a/tools/perf/tests/shell/coresight/asm_pure_loop.sh
 +++ /dev/null
 @@ -1,22 +0,0 @@
 -#!/bin/bash -e
--# CoreSight / Unroll Loop Thread 10 (exclusive)
+-# CoreSight / ASM Pure Loop (exclusive)
 -
 -# SPDX-License-Identifier: GPL-2.0
 -# Carsten Haitzler <carsten.haitzler@arm.com>, 2021
 -
--TEST="unroll_loop_thread"
+-TEST="asm_pure_loop"
 -
 -# shellcheck source=../lib/coresight.sh
 -. "$(dirname $0)"/../lib/coresight.sh
 -
--ARGS="10"
--DATV="10"
+-ARGS=""
+-DATV="out"
 -# shellcheck disable=SC2153
 -DATA="$DATD/perf-$TEST-$DATV.data"
 -
