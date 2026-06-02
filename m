@@ -1,84 +1,316 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFBC3E075C;
-	Tue,  2 Jun 2026 15:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780412710; cv=none; b=qyW37YLtJwun/pu8veSQAV0VglK1v70VRs6IRez0VUP77GTZfehT8PZoNHG+bRNhVQF9Bevk9jiiQ44Yu53gIHytN384yBiP/6bDQD8jZ0k+xkFMI6JdSUOjOx8CPyjTjJrx58t1UASEUgBiK9AN84v0IR1+9zMJ8xGlJop030M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780412710; c=relaxed/simple;
-	bh=DKoJemVjl8bEGdCqk5pT7C6Kowrn/eXqCAZhd+bX10g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tndXK7/jyBK6iXfBqoW8ySNs7oE7pfR6uTfZGo1K2g3BJoEqIegB2nqsPna+XZv8JgaAdsfA54+uAgJIW9UOfWNFhOZSUw4z19ddigtGnC+m1ojveJB9ZZsDM1EogKeEI1j5CHbaKqVmYMuzkVb1SSZjI14h6Bu+SnxFSO4Wf6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C3A9A6732A; Tue,  2 Jun 2026 17:05:04 +0200 (CEST)
-Date: Tue, 2 Jun 2026 17:05:03 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Brendan Gregg <brendan.d.gregg@gmail.com>,
-	GOST <gost.dev@samsung.com>
-Subject: Re: configurable block error injection
-Message-ID: <20260602150503.GA6887@lst.de>
-References: <20260602054615.3788425-1-hch@lst.de> <e4c653ec-dfb4-4dce-a565-2a43520fc44f@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A763EEACD
+	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 15:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780414104; cv=pass; b=fuMmZq0FMTsfg7Usy2h76zFAJko4yPS6xQr1L5bZ1PNoN2iHSkDP9WyA/ybBfobIfJmAaSZmqaqRY47SNlssikzBC0/oPv+mQS1eXAEptmDFIeeKNQSJ+w53+KpBdHvLOF8hU/NnAN5hARvj8MYo0t3bpIccBWYBQpf/V5wym/U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780414104; c=relaxed/simple;
+	bh=KioD6muOq73KOuZgXUdfc8mghtZCf5WX4ci2/jt07rE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DYTiavYW2eEmKer6RmfL3xLzzJP1RIJ07ToruK1PA+TMPwFRg6k2SruBwVfaXdqTxP9BT+FkYUiKWlmR76YjZAfDIRfeeR52WVRkvcv4T3oMaYf8PNYaR3pFJd3Iq2BFqBDueYBs4MO0273H2fNTalBLZ65fVLdiO61q22JMHAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZJisVyW; arc=pass smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZJisVyW"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ee6d32402so2998638f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 08:28:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780414101; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MnOO5pJW99CSBcPnEV3wzroIr5M3tdpGwpdyqgSrkO+SrIKWN9QoC66MVJPmJ52xuC
+         U/459VlkrzK3XvSYkg1/BZT3B/b8xvM9kLjVDICPxToUYdGEu3GUR2ReZF6kM/9BY+C+
+         cMkvqyTB9iysNXhiXbfBZ4hU/vsmIVaUcdMiFFnhks2iWDm4iRNpuUfz60rrBfvBD5hN
+         8YPwwYIHe6f7B0LB7LttS8791ApS1W2grnXObk8fAJsq4WiA7bWyU6M6+ugHMzn8NDYD
+         g+8xVX4dBUJipNH7w/u5novgWNzq4FZcrsJlcyhk5fdhdsS8Y0fK8i6FXeSssAqcBDJG
+         Ai8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KioD6muOq73KOuZgXUdfc8mghtZCf5WX4ci2/jt07rE=;
+        fh=wnnfrSH6fDkN7HpdOEOBcpC8oBQp4KDTw0uiEAZ+Dt0=;
+        b=NtfDic6qUiMTH8pTq7r4ejmI2zDMrw8U9JYkEmy7wETr/lsv5UKCQthEZf2oprNUJJ
+         cWdNSpVnmgsWFUJD9DcIZE+mtXXCMXZuOxi7/kGUK85g54OR/tcA02OZMKUj4Krw8dZL
+         dWX8gkS2ptYhggoo3YJbblWyxEmAoNwR3kKOWLbUX9qTZc9yW4TTcZg1bCcS7wePfuvN
+         0aFWuruISi+WgOJYfzlwdokq1PjjMc4K2r6OEU0wO1r+p7M0OYePH+0B3iKIIGwb9k0q
+         VtF4usoLFr9dYZuSI8gSDcWKOzpjdkSKln/C13kkYG7AXusZOnSM0VygoWfjB+DKjL7d
+         yM8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780414101; x=1781018901; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KioD6muOq73KOuZgXUdfc8mghtZCf5WX4ci2/jt07rE=;
+        b=mZJisVyWXmXPsPq1B+4RWVJXsEAcwnVm2eooLuPaonvGk5UuSz/RcfRnYDtaXFt1jr
+         lrzNhKSFhOKb9M5nvWDdGdBQ/stkgH/VByDF7fSn4tTHpXm3Q6TZvdKjxDpRp9QsqD/c
+         9pEmbNrI2DqujUzI1G22wDd9A22nC6jjZXH9C1yPOX1zafbGpaOZHWKRbLSlCU9IoMDd
+         6h71mvbZ4CFPTGUBAIxyVebOS3WOWDWF626Eozevs+puG3putEyoDLgA8EsCmEsIKC79
+         T99vcQTxJW4cRLJaCVY4NRFVdVFXKErPfy9zR0BTilyp31D0X/rBdl8iyePJNN0Z8Fe6
+         HtQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780414101; x=1781018901;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KioD6muOq73KOuZgXUdfc8mghtZCf5WX4ci2/jt07rE=;
+        b=mrGmo8qetcwewnl5UgD0H0W9sji4vzFRFQS2Jq8CdDNsOl4E4SaHczWDGnWZkSrvh2
+         AQ5PDN3oTJgggWf9B9zgDvfc0VRfpCCyJLkN9UDnEofHbPEEdPUu7e6fGJPRsrYgmyt/
+         Nz384UDu1JiUZkNyyBoybIOuk8c8Bd/lywPg3ekGM9P5qt1Lj906pXOk1TjcJDcIi9YE
+         DVMVD77BP7c3RJ2aiYldkG2hqKVMIQk7U+5+h4soNBPDpwyGBFy0Qz9wy6qHxVN5eTLa
+         bYTcj+Gegy0YcfmTOYdo9SbwwpnInHxBQG3A3ThIzGwndpovNrIzG0H0nU3OWh7AvjJY
+         fhuA==
+X-Forwarded-Encrypted: i=1; AFNElJ+C/Bd6MHhON8EpXFAOB15cjLotKv5aBMIS9h5jKqpAzV5hFPvHzOzc2WRbyR+tr6cwczb8/fAkkI8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWXUjZ0t75ZAr6zL3pe2Z4IVmaavkUGsTcNPx9BP0hXkpeuBXV
+	kXjjYbZMCmFeDpJg1qzeR6e0IkYOufvFTPHz+S7UEOpMvzV34ZSSBU7HdUtk6lmZvHdXZfjTRbm
+	0tq82tYTz1PZa2rMsUGOL0c138N2Co8I=
+X-Gm-Gg: Acq92OGqsUooConh7MGZO717GDyLZ7N3j0w7Bh9w/wb7JfNfk+aRaaM8PvFC70zM6bQ
+	wMXNhjqABF/dEQUCaciKk2rcGHziqBBwlVvQUxV7AVxFtKZMC5CTSweOcy82/k5hszoE2CCQURe
+	di3DHb4liKmECy2YK81huHNHYJvckmjARDqOzUu7mCoq8FB5GGVY1a0BXLMbnCnrRXgZLRIW438
+	0IH72CXTe7Kd7Bp3vhynKVKEJzXeKt1XS3C1jzOCkvWkHBGmQYWDqMT6kMNLXVuJDrpCdwdu25m
+	hRVzTG4kY8tKyGOxBl8m9diI9NDaXr1gXzlt/tdlsVmjNmuyqw==
+X-Received: by 2002:a5d:5401:0:b0:45e:d6b2:e6a5 with SMTP id
+ ffacd0b85a97d-45ef6b83764mr21337268f8f.34.1780414101045; Tue, 02 Jun 2026
+ 08:28:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4c653ec-dfb4-4dce-a565-2a43520fc44f@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20260528212955.1912856-1-nphamcs@gmail.com> <ahz_iYG4lqWL4g-J@KASONG-MC4>
+ <CAKEwX=PzMwXXgq=ULAkFD9UqMz+ewLqhKt+xdGxkV7OmA2QG6w@mail.gmail.com>
+ <CAMgjq7BhOn48xEyC=2j837R7qddfjeBVHMiRqdx8no4ZEBpBLg@mail.gmail.com>
+ <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com> <CAMgjq7D4XsAD4NGDL7FC2kaYAQAP8PDJdn4bpzGZwXYtjEpJ6w@mail.gmail.com>
+In-Reply-To: <CAMgjq7D4XsAD4NGDL7FC2kaYAQAP8PDJdn4bpzGZwXYtjEpJ6w@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 2 Jun 2026 08:28:09 -0700
+X-Gm-Features: AVHnY4IWURpsnvI312VbRdsgEkqVndHtTZWSNA7JxRNHqCQ-2eUuyz0lSoO1lo4
+Message-ID: <CAKEwX=OZL+ykwTjZJzUDAEnTOO6B0mibc6dxiYtmnoLReB7TYA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
+	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
+	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
+	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
+	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
+	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
+	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
+	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
+	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
+	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
+	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
+	riel@surriel.com, haowenchao22@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 02, 2026 at 11:58:25AM +0200, Daniel Gomez wrote:
-> I wonder if the block layer would be interested in moving block error
-> injection off the should_fail() fault injection framework and extending
-> the ALLOW_ERROR_INJECTION annotation instead and offloading all the
-> debugfs configuration logic (block/error-injection.c) into eBPF?
+On Mon, Jun 1, 2026 at 8:25=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wrote=
+:
+>
+> On Tue, Jun 2, 2026 at 2:06=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
+e:
+> >
+> > On Mon, Jun 1, 2026 at 10:45=E2=80=AFAM Kairui Song <ryncsn@gmail.com> =
+wrote:
+> > >
+> > > On Mon, Jun 1, 2026 at 11:57=E2=80=AFPM Nhat Pham <nphamcs@gmail.com>=
+ wrote:
+> > > >
+> > > > Are you suggesting we merge the virtual table with main swap table?
+> > > >
+> > > > Man, I'd love to do this. There is a problem though - we have a cas=
+e
+> > > > where we occupy both backing physical swap AND swap cache. Do you
+> > > > think we can fit both the physical swap slot handle and the swap ca=
+che
+> > > > PFN into the same slot in virtual table? Maybe with some expanding.=
+..?
+> > >
+> > > I don't really get why we would need to do that? If you put the PFN
+> > > info in the virtual / upper layer, then the count info, locking, and
+> > > all swap IO synchronization (via folio lock), dup (current protected
+> > > by ci lock / folio lock), and allocation (folio_alloc_swap), are all
+> > > handled in this layer.
+> > >
+> > > The physical / lower layer will just hold a reverse entry on
+> > > folio_realloc_swap, or no entry at all (no physical layer used, zswap=
+,
+> > > or after swap allocation but before IO) right?
+> > >
+> > > Looking up the actual folio from the physical layer will be a bit
+> > > slower since it needs to resolve the reverse entry, but the only plac=
+e
+> > > we need to do that is things like migrate, compaction (none of them
+> > > exist yet) which seems totally fine?
+> >
+> > All of this is correct, but consider swaping in a vswap entry backed
+> > by pswap. There are cases where you still want to maintain the pswap
+> > slots around backing vswap entry, while having the swap cache folio as
+> > well.
+> >
+> > For e.g, at swap in time, we add the folio into the swap cache. First
+> > of all, we need to hold on to the physical swap slot for IO step. But
+> > even after IO succeeds, there are cases where you would still like to
+> > keep physical swap slots around (for e.g, to avoid swapping out again
+> > if the folio is only speculatively fetched).
+>
+> A reverse entry is enough to hold the physical swap, just like how the
+> current hibernation works with a fake shadow, you don't need a PFN
+> just for holding that.
+>
+> >
+> > So you have to make sure we have space for both the physical swap
+> > slot, and the swap cache folio's PFN at the same time for each vswap
+> > entry. So we still need the vtable extension (well maybe the other
+> > approach I mentioned could work, but I'm not 100% sure).
+>
+> Right, vtable extension is fine, there is no redundant data. I just
+> mean you don't need to set the PFN twice (for vswap & pswap). So
+> simply reusing the PFN format in the vswap layer and solving
+> everything there should be enough.
 
-I've looked into plain ALLOW_ERROR_INJECTION-based injection and it
-is not very useful.  I didn't even now eBPF could use it, but I
-looked into other eBPF injections and at least for my uses cases
-it was a bit of a mess.  I'd have to allow access to certain bio
-fields and would have create a stable UAPI for commands and status
-using the fake BTF struct access which really would not be a good
-idea here as we need to be able to change internals.  Additionally
-having fully BTF-enabled toolchains in test VMs is not great either.
+Ah yeah, then I might have misunderstood you here. I thought you were
+proposing a way to remove vtable :)
 
-I've also not actually found any good map type for range lookups,
-which is kinda essential here.
+"don't need to set the PFN twice" completely agree. I'm pretty sure I
+did not here, but do let me know if I accidentally set it twice. I'm
+be sure to check this myself for the next version.
 
-> I talked about moderr [1] at LPC 2025. It's a simple error injection
-> tool in eBPF for the module subsystem. The suggested direction there was
-> to generalize the tool to ideally to no tool at all, and leverage
-> bpftrace to describe the error injection conditions a given
-> subsystem needs to be tested under. That would let blktests, for
-> example, absorb that and simplify the configuration logic this series
-> adds in the kernel for debugfs.
+>
+> > > Thanks. Not too complicated, actually our internal kernel
+> > > implementation still using si->percpu cluster, and use a counter for
+> > > the rotation and each order have a counter :P, it's a bit ugly but
+> > > works fine. It still serves pretty well just like the global percpu
+> > > cluster, YoungJun's previous per ci percpu cluster also still provide=
+s
+> > > the fast path, many ways to do that.
+> >
+> > Sounds like something that should be upstreamed? ;)
+>
+> I'd love to :), there is a lot of work going on as you can see and
+> people seem to have many different proposals about this so I didn't
+> prioritize it. I'll try as things settle down.
 
-I don't think pulling in ebpftrace for simple error injection is a
-winning proposition..
+Yeah understandable. It's a very volatile codebase, with a lot of
+folks trying to improve different aspects.
 
-> 
-> A previous attempt to add inline error injection [2] was rejected as too
-> intrusive / source-polluting;
+Hopefully we're close to a unified design :)
 
-I'm not sure a single hand waivy comment counts as rejection, although
-I'm not a huge fan of setup_fault_attr - it makes a mess of debugfs and
-creates a lot of boilerplate for a single not very much configurable call
-site.  That might be ok for something like the make_request case
-(although I think we can do better as shown in this patch), but for
-making random functions fail it is a lot of overhead.  These injections
-points also are not anywhere near stable enough to be exposed.
+I'll keep my dedicated vswap per-cpu alloc caching for now, but I'll
+get rid of it whenever the per-CPU per-si cache is ready.
 
+>
+> > > > >
+> > > > > For patch 2, a few routines like vswap_can_swapin_thp seems not
+> > > > > needed or should be moved to __swap_cache_alloc? VSWAP_FOLIO is
+> > > > > same as swap cache folio check, which is already covered. Same fo=
+r
+> > > > > zero checking, and VSWAP_NONE which is same as swap count check
+> > > > > I think. That way we not only save a lot of code, we also no
+> > > > > longer need to treat vswap specially.
+> > > >
+> > > > Unfortunately, I think a lot of this complexity is still needed. Vs=
+wap
+> > > > adds a new layer, which means new complications :)
+> > > >
+> > > > For instance, I think you still need vswap_can_swapin_thp. It
+> > > > basically enforces that the backend must be something
+> > > > swap_read_folio() can handle. That means:
+> > > >
+> > > > 1. No zswap.
+> > > >
+> > > > 2. No mixed backend.
+> > >
+> > > If mixed backend means phys vs zero vs zswap, then we already have
+> > > part of that covered with the current swap cache except for the phys
+> > > part (zswap part seems very doable with fujunjie's work).
+> > > swap_cache_alloc_folio will ensure there is no mixed zerobit, it can
+> > > be easily extended to ensure there is no mixed zswap as well
+> > > (according to what I've learned from fujunjie's code). Similar logic
+> > > for phys detection I think.
+> >
+> > Yeah it's basically generalizing that check, and handle the case where
+> > we can have indirection.
+> >
+> > I mean I can open-code it, but it has to be there :) And I figure it
+> > might be useful to check this opportunistically (at swap_pte_batch,
+> > even if it's not guaranteed to be correct down the line) before we
+> > even attempt to allocate a large folio etc. to avoid large folio
+> > allocation.
+>
+> Right, but swap_cache_alloc_folio with orders=3D<large order> won't
+> attempt a large allocation if the batch check fails, so that's fine.
+>
+> > > > Basically:
+> > > >
+> > > > 1. For vswap entry, not backed by phys swap: record swap memcg, hol=
+d
+> > > > reference to pin the memcg, but not charging towards swap.current.
+> > >
+> > > Maybe you don't need to record memcg here since folio->memcg already
+> > > have that info?
+> > >
+> > > I previously had a patch:
+> > > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-7-104795d1=
+9815@tencent.com/
+> > >
+> > > The defers the recording of memcg, the behavior is almost identical t=
+o
+> > > before, but charging & recording should be cleaner and you don't need
+> > > to record memcg at allocation time hence maybe reduce the possibility
+> > > of pinning a memcg. I didn't include that in P4 just to reduce LOC,
+> > > maybe can be resent or included.
+> >
+> > That works-ish when the folio is sitll in swap cache, but say if it's
+> > vswap backed by zswap (and the swap cache folio has been reclaimed),
+> > you need a place to store the memcg, no?
+>
+> "Backed by zswap" means the actual swapout already happened, which is
+> the case where we always have to record the memcg info because the
+> folio is gone, seems still fit in the model.
+
+Hmmm I might have misunderstood you in my last response here.
+
+So what you are doing in that patch:
+
+1. Charge towards folio->memcg when we allocate swap slots, but do not
+record or take reference yet.
+
+2. Once we reclaimed the folio after swap out, then we record and
+acquire reference to pin.
+
+You know what - this would simplify my usecase. For vswap entries not
+backing by pswap, it *basically* just means I skip step 1 for vswap
+backend. Step 2 is shared for all cases. Donezo.
+
+You're right. This is simpler :) Let me brew on it a bit longer in
+case there might be something we're missing. but it does seem like
+this will reduce complexity (and with the added benefits of me not
+having to come up with names for helpers).
+
+>
+> > Just seems cleaner to centralize this info at vswap layer when it is
+> > presented, for now anyway, rather than juggling this on a per-backend
+> > basis.
+>
+> Zswap charge could be merged with vswap I think but pswap we just
+> discussed that we might want to charge it differently? And actually
+> vswap charge is still quite different from zswap charge if you want to
+> make vswap infinitely large? I think we can figure out this part as we
+> progress; it's not a major problem at this point.
+
+That was because I misunderstood your suggestions. My bad :)
+
+Anyway, please keep the suggestions and recommendations coming :) I'm
+playing with some of your suggestions right now, and waiting for other
+folks' inputs as well. Will send out the next version at some point.
+If there is no fundamental design flaws, I will un-RFC once I've
+addressed all the main issues.
