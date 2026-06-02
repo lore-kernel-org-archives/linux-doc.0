@@ -1,78 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F1E29BD9A;
-	Tue,  2 Jun 2026 02:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3807D364E81;
+	Tue,  2 Jun 2026 02:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780366212; cv=none; b=dieR8AG/0mcy3H9a+fUaix6zifLn6rKcATYVudLGdUyP3/Tno4VEjZLNEqs/+GzL2r/bGwZ3Clgj0TUdtIwRIgvbIomUmAhLt3WZ2iv0en50aeN6tmooHDpgtdySZOpNIuKUY31tEieVZ7Femp4oRpKnmAQWXcIu4CJJho5KCsA=
+	t=1780369129; cv=none; b=qpOglaXumQBNaF4zSwIH+UNhQQlhUNee7FP6Vz1k3aawM1xAbdcj97zh8k2rpTp6/VCBzMWYGX/JhG0lZUqH8pObAhVSgqvT+5Hrh7crC04gKgwTJchlPhOhIP5WgVDSAo3hn+hKMukyUKV2rlZBd8WKXg+UBX4Cum3qQFs5ZDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780366212; c=relaxed/simple;
-	bh=AMoajZE73YqwLv4ndzVWFvhCs3otHeg+OTc2qzqZnjg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=HbS69T3d5T7d+12XsV3kAzOePrEMwjOm+el+x5ozfNQ4/dz0OTACimsIw2cfnFaLZXcda+FaDgDwvfz3K61f1NBkVXy6KA5tZVr8QdXqwNBX0X+x9Qo3+vMDIljdfP1ITvC4UY3Ltn+EG/uSR+lqSkxwNTVydYdsvJfnER7FSPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RK/UA0w3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780369129; c=relaxed/simple;
+	bh=53Cp5+xc+DYElUKvXrlzk3pn+leisi31D9Du/yr+gIA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OiKh3rpIgqZEgCg7E/IZQgLsnZCUx34O3YyeIRLVOfli3tmPFLvtx7Bul9sX9OQecpKgU0ucGXxTW5twYtd4qVd/UEh3ZAZw9SmH5UNdnYsfGv2cOc6dHUCYctrWV6lxMsJwgHhkEfYbTA90NRDvhgQx8k7ixPHeMmRwBEZxTl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AFco6wM+; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RK/UA0w3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB641F00893;
-	Tue,  2 Jun 2026 02:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780366210;
-	bh=GffbgE9ImjIz7Fcf0+2uSe9JZW9Fg9VMzfRDR9fOFxI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=RK/UA0w3/2WKAr2fRmwLO1iLQ/Ln/qXv07xXsbssQEIxyQH+3qQbEwuDdqkIgZWX7
-	 GvRo+HFuSOetnYnGtDgjX4ZFrclvTVn6lfa9/ezsOZFcqsXsslrj7mbx0R6vnM74zT
-	 5OOMmwUMZSTNBO7q8yHAKzyKFfgIAcjPP5gq96jajoGuAcMOBuCfaLcCtzFvoKcHLq
-	 sOOQ9tpkwNC7NWlBYfHvv5mGlQhLub7YoLKzx4Wr86+ksLB4LRCaDLQjsQdh3nyMy7
-	 FX3rxmEF2YK2VRqTktj+5E+kKzemVrpuJOciKtfFWrPIZE4i8iHIpB/qb1RhybWucg
-	 qhKu7zEzVM47Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56B5638119F9;
-	Tue,  2 Jun 2026 02:10:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AFco6wM+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=V6Fwgi6SxT306fVnfWLu85I0FmoYducjBMjSrjw4plo=; b=AFco6wM+4kKsPd/RxOZ3WirD18
+	9wWXZAPaGaw5U/2SNlcoFUWOtWzzTv+FdpGYnm2N5u9z5ZLjxaPtmW0gFl5UTlrT7xqh2sflbVmvr
+	QLYojwuJKnNZTsUldMYtFCVPzT/mryE6hzvMJ72K8Joa/m8dWtpbEVgNe3GoYa78GIk4degkjjcmW
+	vRpHMwYGl+bHqjqZ/gDvjOxZpxc0Lr+ck8nTnLxQ79SpdVDFCCT7UfU3GGx+Sec1ZJn7Oj6TxHRtm
+	nHDVFe/gMe7lJBLHVkzL2wfWTgrZ5XugVyS1P8W1NTMFvTJWkDqqRIv3XZV+r1ymfyA2U7LG34Zz7
+	L9Mt6MVQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wUFL1-0000000CCc9-0zZn;
+	Tue, 02 Jun 2026 02:58:43 +0000
+Message-ID: <a597f215-6ec8-40e7-be5d-9e765a87f639@infradead.org>
+Date: Mon, 1 Jun 2026 19:58:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v1] net: Remove orphaned ax25_ptr references
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178036621315.206391.609120386736941722.git-patchwork-notify@kernel.org>
-Date: Tue, 02 Jun 2026 02:10:13 +0000
-References: <20260531134837.4111349-1-costa.shul@redhat.com>
-In-Reply-To: <20260531134837.4111349-1-costa.shul@redhat.com>
-To: Costa Shulyupin <costa.shul@redhat.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 11/12] docs: iio: add documentation for adf41513
+ driver
+To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
+ <20260531-adf41513-iio-driver-v15-11-da09adf1c0dd@analog.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260531-adf41513-iio-driver-v15-11-da09adf1c0dd@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
 
-On Sun, 31 May 2026 16:48:36 +0300 you wrote:
-> The AX.25 subsystem was removed in commit dd8d4bc28ad7
-> ("net: remove ax25 and amateur radio (hamradio) subsystem"),
-> which removed the ax25_ptr field from struct net_device but
-> left behind the kdoc comment and documentation.
+On 5/31/26 1:30 AM, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> Add documentation for ADF41513 driver, which describes the device
+> driver files and shows how userspace may consume the ABI for various
+> tasks.
 > 
-> [...]
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Here is the summary with links:
-  - [v1] net: Remove orphaned ax25_ptr references
-    https://git.kernel.org/netdev/net-next/c/7745f1978a0f
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-You are awesome, thank you!
+> ---
+>  Documentation/iio/adf41513.rst | 199 +++++++++++++++++++++++++++++++++++++++++
+>  Documentation/iio/index.rst    |   1 +
+>  MAINTAINERS                    |   1 +
+>  3 files changed, 201 insertions(+)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+~Randy
