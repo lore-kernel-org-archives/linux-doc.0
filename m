@@ -1,259 +1,100 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA91A3546E9
-	for <linux-doc@vger.kernel.org>; Tue,  2 Jun 2026 03:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780370713; cv=pass; b=WMP4gXyFvJbzepHMP/X8BO3LS/jmmTeYuuBDi+k/ZT2bW9Tr2ryTsGGk9p6D796BndLSpZhFTg4hli/QiInz9tUWki69ewIU8MlnfBnSaqeZQ7A3dYBtJ5J9cQdkmx6a6uFeu7mUqOYWJdSvqXiN2gt2xp0in2dx86jzx4ivboE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780370713; c=relaxed/simple;
-	bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nhMRCzKRUFkpDJ6gnEedgSH4xy5u3EjM0LpkSi8G7KF5HLFEEa0frcRRP3k0MlWR5mDh9L6RAIZZzjNpVmoHpyNvb9oRD3NTALr0tIcyEMjSSSkluU2Xh/nR9QtGeT0DEqU2mkx0sLaCdFxGAsdT2q2c2pmWMHg+D6c9CC3hV+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMY+jmie; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFF72D7814;
+	Tue,  2 Jun 2026 03:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780371091; cv=none; b=ms4qRzq5iJkcnx5iBgTSPx/KSGA6WSlJ0NnecgCqSJejT9LD/3ObqN7vytT82UVKJfom5l72ZWrAi+3GSjJiNULcref04tDp1QDqGBlqOfdIrXueyVigz+LEs5CbHNmMJA5Cye/w5dh6mA4X2IhY5BLFy4258ffpgWScUfTiRjc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780371091; c=relaxed/simple;
+	bh=H+LYvqr7shSZ2FXiWbX0Oc1bgeW/7ID/d53Wfv1nfxM=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=UiJV5bkJC2k1yT4Umh4DKmVFTy6HpAdZoKtvHryowDiiMOQs2Jm/mXRUYFpAnRDv9vLEI3UKWTgDf4NeHfvrP8aypf+WG5JK2NdWqqWjd/fix8hhdU80hFdXVd+l3Hyg2uUXAwEp1oXNVDXePId0kQ5JCwd6TJ6DODaYEHDtNq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=rUbsWu8t; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMY+jmie"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bec4639953dso345519566b.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Jun 2026 20:25:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780370710; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WUtmT8N0jfNHLauSMYmnUanNWIobStzzHFwWoe/WTFpBVcfWdgd/jjIIaXAt5DUPk4
-         wYi00mYE2TTouiXOdNJ3d1I8JWPDbDrvl9IiD0K6WuYwbc9bCk3bRpNmTTESNu+HDt22
-         0CwDyuK5rtGOfO9DbNuBK/g/EEC3xG+US1M7x2ssRPwT4mpk8SBWOcG69EpIZV5rGB+Q
-         jnF8VGDvWTfoti8hk9pGaa3eKydZLX52g2W4RLdcMLnE0pj7vhb07AsyCGHwao+JdQ4k
-         nxRAcoONpDwBMEEOFX6ryPMntkp/yyMvQunU/ssEJlOnS3EeNYiU3nQJheSjQnLGgH2I
-         nKrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
-        fh=cp3/FGVs/1JihHwodrwW721Pa+ausrn2JhGJmYJIewY=;
-        b=lV/6AOH/AyqnQQrO5ov6rXg4GSdtYrlddICqVZtKvgZzLLD/bzMR2Va3mwLLpuKDPe
-         zrGzYbBoTepl4YdyumuXMEmgjYp0IfJG8KfvJVCkp16MjN1yW0w4BqwwcllGRV2eVLpE
-         2oxXJCARIW5AjjcsXS3fJyF72XLWrPrHUqvEYVHmwbAk42Pu779m4+dDcieFbkGn+HW4
-         AFkpUPhAGAEG0xyhic7XsWV+SnDeSncbpYnhyjABHzf0nRwk23bl+fjsLcmr465JM9I5
-         na4OlF+h14IBWo5BVR/PUmo6z2sK28rvMQnbbAuXHOhNKKqDGqvW3P3fqSAamf4tO+DM
-         vgAw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780370710; x=1780975510; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
-        b=OMY+jmie8bu9I4r3R/dXdLhxR54/JpQXI7xHpaWQjcNlxM1mU7kWW+93vpGZrbiUJQ
-         4pdoXVvlcP4/F4nuS6SnKwDtIS/INCLUCaDsr13KSiA8FI7W2POos9eIMy90EwFqz+Ke
-         +uWX+aCkoT+b9aXO88OaCpdyYqNwJnEIIf0gfZtuqR7pB7Iu/AHf/62Caw0LjiK9Sb86
-         XbtzNlMgyFqJVVAF2SiiRAP4pdGokukiNAriF9T4GqXahxOVVflZhdJBokMX0gAZHIAV
-         mZiCvzKUJSa8OAUIK9/qyESHCV9B6Y8M0F3gW3LfaT247MemygG2NuIQSRf03LPfDwat
-         e8yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780370710; x=1780975510;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fam29w7BM7SQN1712sc63hB2u0C0AKH1MvJ73Y+Wc24=;
-        b=XeGD8Av8lGZhnAHztJ46d85z3hFe7bcklshnNmZFkPNVAJx1zzTvGct46aU/4/Kru3
-         0aL30Pu2remWEkyo9JUsQNFXisTjtNX5h/9UKimP6e9lFpqmf14EZfWp8Dbs8tj27ww6
-         W4xPkOvcy0YEQeu3Of9PfQFmlJHlpvkFOUTZIOYDoozmKmQH6YKOXZRBUcJfOpcvY+SM
-         0sjjf/IhHlSkSL0vXj9m4virRm5mVfqgUGzz9N6mMxxAlmL1FuLd8o2TE47B3eabxOOt
-         hiHHpqOWxjpvYVVroxQojGFC1CosLhWUv+Q/h2XPX9m02Y3t9HSXU9mBi+xSKDysk/Bj
-         jpXg==
-X-Forwarded-Encrypted: i=1; AFNElJ8ixY7vtQs/yXIdtu//osWKudoD+ganDHsqwt5XjYInxaS1D27lHZCHPudssg31kMRMneWaBe3PYv4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8sG75b2jciU/6Ovd6q/IMBIBfDYFIkT5uV8H97Dyycj4cB57I
-	H34HQePTdqVUdwpEznhBQoZUMvo1QrrJPkXQsjsnb8EYBGscFDQ8x04Sl92PqSG9N0suNqkyarA
-	OoN3GMl6RUjQagj2N/OSWPVaNC4KP3zQ=
-X-Gm-Gg: Acq92OEbHLsXTf43l2pX6qkIYOrUP+HdakvKwG9nk5pSFeXxiq7xh+OwdKtRlQ6heQp
-	i9zAOVAD5qLP1U5aXOqtIDxX1CQbV45FRCiQTj2eaqrlVZM7B/XnLGvOpJW4XipHOELeZWapyvV
-	r0RPw1hgUBJEkc7hXIkTmzIAC5czfMBqfooKvxiOC1eu19x4vfiXBVKazuXAGHX3cPo6utF+FNh
-	LmITaBe0qaXkExdNoioWCgxVdcSLbpZOkvNMPCdwFyvgj7R5LJvaOhlLWxVO8ATbUGClYrUMG2f
-	7JcNvGAW+8JKjfgEcSWl9YJbfqjyu9kzLsgzITb/6G/imRRwhw==
-X-Received: by 2002:a17:907:b582:b0:bec:b4e3:e930 with SMTP id
- a640c23a62f3a-becb4e3ea0amr390918166b.12.1780370710180; Mon, 01 Jun 2026
- 20:25:10 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="rUbsWu8t"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=eKjT6Zg4boSSOeRK+U8oV+FxAjxZtDyhnFgmKfmpDas=;
+	b=rUbsWu8t2d2azz8Ev4bysq6LLCcJ/SHmOo0GFrdvlUOILVf2ZXLEW8XEljU1G4WVXJ3vLafjF
+	YX68s2tIiko1MsBkDrbA7z1MYsikporFc7syk5ZlzwtT7H9hvc1crRbFfWDTmaDWX245QZQ/0B+
+	PCcJvZW5kHYoz43eLR/pMXQ=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gTx4H0Gt7zcb0N;
+	Tue,  2 Jun 2026 11:23:27 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1D0274056A;
+	Tue,  2 Jun 2026 11:31:24 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 11:31:23 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 2 Jun 2026 11:31:22 +0800
+Subject: Re: [PATCH v8 3/6] mm/memory-failure: report MF_MSG_KERNEL for
+ unrecoverable kernel pages
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-3-9ea0cfa16bb0@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <642852e1-933a-a6f6-b6e8-2ef3339bcd58@huawei.com>
+Date: Tue, 2 Jun 2026 11:31:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528212955.1912856-1-nphamcs@gmail.com> <ahz_iYG4lqWL4g-J@KASONG-MC4>
- <CAKEwX=PzMwXXgq=ULAkFD9UqMz+ewLqhKt+xdGxkV7OmA2QG6w@mail.gmail.com>
- <CAMgjq7BhOn48xEyC=2j837R7qddfjeBVHMiRqdx8no4ZEBpBLg@mail.gmail.com> <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com>
-In-Reply-To: <CAKEwX=PmwzaJhfjBrho3+kQ8HXFUC0WiegQrsguBc-_pmn5bSA@mail.gmail.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Tue, 2 Jun 2026 11:24:32 +0800
-X-Gm-Features: AVHnY4LgB4_R0tkXYgUuuSpKzumTcKeWUZY8_XjCCaRJMf8h2HTxkfNiEQ137jc
-Message-ID: <CAMgjq7D4XsAD4NGDL7FC2kaYAQAP8PDJdn4bpzGZwXYtjEpJ6w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
-	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
-	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
-	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
-	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
-	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
-	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
-	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com, haowenchao22@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260527-ecc_panic-v8-3-9ea0cfa16bb0@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Tue, Jun 2, 2026 at 2:06=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote:
->
-> On Mon, Jun 1, 2026 at 10:45=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wr=
-ote:
-> >
-> > On Mon, Jun 1, 2026 at 11:57=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> w=
-rote:
-> > >
-> > > Are you suggesting we merge the virtual table with main swap table?
-> > >
-> > > Man, I'd love to do this. There is a problem though - we have a case
-> > > where we occupy both backing physical swap AND swap cache. Do you
-> > > think we can fit both the physical swap slot handle and the swap cach=
-e
-> > > PFN into the same slot in virtual table? Maybe with some expanding...=
-?
-> >
-> > I don't really get why we would need to do that? If you put the PFN
-> > info in the virtual / upper layer, then the count info, locking, and
-> > all swap IO synchronization (via folio lock), dup (current protected
-> > by ci lock / folio lock), and allocation (folio_alloc_swap), are all
-> > handled in this layer.
-> >
-> > The physical / lower layer will just hold a reverse entry on
-> > folio_realloc_swap, or no entry at all (no physical layer used, zswap,
-> > or after swap allocation but before IO) right?
-> >
-> > Looking up the actual folio from the physical layer will be a bit
-> > slower since it needs to resolve the reverse entry, but the only place
-> > we need to do that is things like migrate, compaction (none of them
-> > exist yet) which seems totally fine?
->
-> All of this is correct, but consider swaping in a vswap entry backed
-> by pswap. There are cases where you still want to maintain the pswap
-> slots around backing vswap entry, while having the swap cache folio as
-> well.
->
-> For e.g, at swap in time, we add the folio into the swap cache. First
-> of all, we need to hold on to the physical swap slot for IO step. But
-> even after IO succeeds, there are cases where you would still like to
-> keep physical swap slots around (for e.g, to avoid swapping out again
-> if the folio is only speculatively fetched).
+On 2026/5/27 22:06, Breno Leitao wrote:
+> The previous patch teaches get_any_page() to return -ENOTRECOVERABLE
+> for stable unhandlable kernel pages (PG_reserved, slab, page tables,
+> large-kmalloc).  memory_failure() still folds every negative return
+> into MF_MSG_GET_HWPOISON, so callers that want to react to the
+> unrecoverable cases (a panic option, smarter logging) cannot tell
+> them apart from transient page-allocator races.
+> 
+> Turn the post-call branch into a switch over the get_hwpoison_page()
+> return code: map -ENOTRECOVERABLE to MF_MSG_KERNEL and any other
+> negative return to MF_MSG_GET_HWPOISON.  case 0 keeps the existing
+> free-buddy / kernel-high-order handling and case 1 falls through to
+> the rest of memory_failure() unchanged.
+> 
+> The MF_MSG_KERNEL label and tracepoint string are kept as
+> "reserved kernel page" to avoid breaking userspace tools that match
+> on those literals; the enum value still adequately tags the failure
+> even though it now also covers slab, page tables and large-kmalloc
+> pages.
+> 
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-A reverse entry is enough to hold the physical swap, just like how the
-current hibernation works with a fake shadow, you don't need a PFN
-just for holding that.
+Acked-by: Miaohe Lin <linmiaohe@huawei.com>
 
->
-> So you have to make sure we have space for both the physical swap
-> slot, and the swap cache folio's PFN at the same time for each vswap
-> entry. So we still need the vtable extension (well maybe the other
-> approach I mentioned could work, but I'm not 100% sure).
-
-Right, vtable extension is fine, there is no redundant data. I just
-mean you don't need to set the PFN twice (for vswap & pswap). So
-simply reusing the PFN format in the vswap layer and solving
-everything there should be enough.
-
-> > Thanks. Not too complicated, actually our internal kernel
-> > implementation still using si->percpu cluster, and use a counter for
-> > the rotation and each order have a counter :P, it's a bit ugly but
-> > works fine. It still serves pretty well just like the global percpu
-> > cluster, YoungJun's previous per ci percpu cluster also still provides
-> > the fast path, many ways to do that.
->
-> Sounds like something that should be upstreamed? ;)
-
-I'd love to :), there is a lot of work going on as you can see and
-people seem to have many different proposals about this so I didn't
-prioritize it. I'll try as things settle down.
-
-> > > >
-> > > > For patch 2, a few routines like vswap_can_swapin_thp seems not
-> > > > needed or should be moved to __swap_cache_alloc? VSWAP_FOLIO is
-> > > > same as swap cache folio check, which is already covered. Same for
-> > > > zero checking, and VSWAP_NONE which is same as swap count check
-> > > > I think. That way we not only save a lot of code, we also no
-> > > > longer need to treat vswap specially.
-> > >
-> > > Unfortunately, I think a lot of this complexity is still needed. Vswa=
-p
-> > > adds a new layer, which means new complications :)
-> > >
-> > > For instance, I think you still need vswap_can_swapin_thp. It
-> > > basically enforces that the backend must be something
-> > > swap_read_folio() can handle. That means:
-> > >
-> > > 1. No zswap.
-> > >
-> > > 2. No mixed backend.
-> >
-> > If mixed backend means phys vs zero vs zswap, then we already have
-> > part of that covered with the current swap cache except for the phys
-> > part (zswap part seems very doable with fujunjie's work).
-> > swap_cache_alloc_folio will ensure there is no mixed zerobit, it can
-> > be easily extended to ensure there is no mixed zswap as well
-> > (according to what I've learned from fujunjie's code). Similar logic
-> > for phys detection I think.
->
-> Yeah it's basically generalizing that check, and handle the case where
-> we can have indirection.
->
-> I mean I can open-code it, but it has to be there :) And I figure it
-> might be useful to check this opportunistically (at swap_pte_batch,
-> even if it's not guaranteed to be correct down the line) before we
-> even attempt to allocate a large folio etc. to avoid large folio
-> allocation.
-
-Right, but swap_cache_alloc_folio with orders=3D<large order> won't
-attempt a large allocation if the batch check fails, so that's fine.
-
-> > > Basically:
-> > >
-> > > 1. For vswap entry, not backed by phys swap: record swap memcg, hold
-> > > reference to pin the memcg, but not charging towards swap.current.
-> >
-> > Maybe you don't need to record memcg here since folio->memcg already
-> > have that info?
-> >
-> > I previously had a patch:
-> > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-7-104795d198=
-15@tencent.com/
-> >
-> > The defers the recording of memcg, the behavior is almost identical to
-> > before, but charging & recording should be cleaner and you don't need
-> > to record memcg at allocation time hence maybe reduce the possibility
-> > of pinning a memcg. I didn't include that in P4 just to reduce LOC,
-> > maybe can be resent or included.
->
-> That works-ish when the folio is sitll in swap cache, but say if it's
-> vswap backed by zswap (and the swap cache folio has been reclaimed),
-> you need a place to store the memcg, no?
-
-"Backed by zswap" means the actual swapout already happened, which is
-the case where we always have to record the memcg info because the
-folio is gone, seems still fit in the model.
-
-> Just seems cleaner to centralize this info at vswap layer when it is
-> presented, for now anyway, rather than juggling this on a per-backend
-> basis.
-
-Zswap charge could be merged with vswap I think but pswap we just
-discussed that we might want to charge it differently? And actually
-vswap charge is still quite different from zswap charge if you want to
-make vswap infinitely large? I think we can figure out this part as we
-progress; it's not a major problem at this point.
+Thanks.
+.
