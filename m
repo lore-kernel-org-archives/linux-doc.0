@@ -1,130 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5779C33970F;
-	Wed,  3 Jun 2026 14:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C69022E2EF9;
+	Wed,  3 Jun 2026 14:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497261; cv=none; b=X9AS3ZpY/xDT/l9Pm/lIvALXw1vKHJ6viJK5rjIdTPf/S6o22EyGk18Wolbu69LaaZNiJhShpQ+t+QWfb1xCpgybFD0sicihshc6hwlFsMSGZklIa2SY37rc65m2AGtwZFK6503zHpxH4t3LCZbKJSyID0l4uXGzEdI3yrjOGW4=
+	t=1780497387; cv=none; b=Fl+nhPX1sZaDSBcsLs0Gq6NxYZi/GIheUzTxx0ZsKsEtus+cu4qrbj5PX8BAunvylC+DgndyH3Dq39r/+LETRUUwo3Yobx3GOsbxX0WX4e9+J8ayKOcHXV+oZ6MMq9jxsvs8M9NMd2Fpj7TGI/aQHw36BPjB8kVcPALI310o7Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497261; c=relaxed/simple;
-	bh=3WikHp9gRVkuVp8+7UzM84rcmvZ3obzhbv7GBYqSIbU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=Y2YToHYWldf96SVu4/v/kuUWjya99SVAOVIP3V9TmvyKCdxv9Et5/L3Asfp+Gr00rjHAPZHTDAHPEAB85zVKY0f0YGyUEsBbfqCSGYr66vxqu4qTS25YgPkvlmR6gG1J4cPoSASGpGutCVwnkc4rYGmwGR9d8rb1Pp43Fcpbp2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RncmSrbY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780497387; c=relaxed/simple;
+	bh=sPSGraBaeCpqJ2GVM9kYYz4LqRqZqZOMNi/h+2mM9b8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bsf3pXMCu/ObmShVrHqJt99ir2Kd41Y/qUGcF6HVubaki1gTrpo7+s2vqbs56oNi8YoN+nOKWeqcxwUBJG3ekwDwll18KxtEGw5hYBR1Thw7y0/KZTrHS3y/UGDtkSyATAZ8Ny0yJSlNk8SvFRsblM74hlZNRTdVfkSuPldhrcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=r09i9xMd; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RncmSrbY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA2ED1F00893;
-	Wed,  3 Jun 2026 14:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780497260;
-	bh=yu2f5FIaIpPGb9LsISKA98pvWiCaazPbEtHtZWNusVY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=RncmSrbYsIH29DH7UOSflSaLWXVrOKpLLAkTNCb1nluOnMdGip2i37TURU6W4HJeJ
-	 TZmp9pFP/lbNDNr3NmDkkjJQARDS1Em4yc4OBjvD/HMqo5Kld1S1vJuw7KOZcI/GDd
-	 IjXr1uUeuaJ6ivMy9Kcf1kEZLJ30C1L9MYns8jf2EuhRyGX6snzePBcWJ0eCFfN0FT
-	 focV5Pz8fwOO1Xg4xet9jBisJNLqZE3MMFs794fvDkya9D/WUwSrHHZT26Bl5MLnrR
-	 fi6kk90xXakTHdzzz88I1gudGHOY/XZtbx+xIuSYhxAJQiCjkJycHRHBYMAZXRurbj
-	 7KVS/pipaYesw==
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="r09i9xMd"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C0D532F9;
+	Wed,  3 Jun 2026 07:36:20 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8C933F632;
+	Wed,  3 Jun 2026 07:36:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780497385; bh=sPSGraBaeCpqJ2GVM9kYYz4LqRqZqZOMNi/h+2mM9b8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r09i9xMdiczEUol6iK6QtGi10rdlibzEZwa5dD/BIoF//iSkgzew586N/oXicMAdl
+	 Y8cyxSBqx6kmXaswQB+aTNwbx+BhoO9Jf/h48kbjG3jW23jiJGeDIQA89R8fG4Ktph
+	 DGSjSNrd2CysihK0j8VtIviiKbMR/6WpzOdiL7/c=
+Date: Wed, 3 Jun 2026 15:36:22 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
+	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 08/18] perf test cs-etm: Replace memcpy test with raw
+ dump stress test
+Message-ID: <20260603143622.GX101133@e132581.arm.com>
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-8-85b5ce6f55c6@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 07/13] kho: add support for linked-block
- serialization
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Mike Rapoport <rppt@kernel.org>, linux-kselftest@vger.kernel.org, 
- shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, corbet@lwn.net, dmatlack@google.com, 
- kexec@lists.infradead.org, pratyush@kernel.org, skhawaja@google.com, 
- graf@amazon.com
-In-Reply-To: <aiA1slnqPnC4_8XY@plex>
-References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
- <20260603032905.344462-8-pasha.tatashin@soleen.com>
- <178046937151.468621.13398573538792303093.b4-review@b4>
- <aiANtYRRDr5iO5QR@plex> <aiAzT9TvGYjITiB8@kernel.org>
- <aiA1slnqPnC4_8XY@plex>
-Date: Wed, 03 Jun 2026 17:34:14 +0300
-Message-Id: <178049725439.475072.11560134126837430744.b4-reply@b4>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-8-85b5ce6f55c6@linaro.org>
 
-On 2026-06-03 14:11 +0000, Pasha Tatashin wrote:
-> On 06-03 16:59, Mike Rapoport wrote:
-> > On Wed, Jun 03, 2026 at 12:05:04PM +0000, Pasha Tatashin wrote:
-> > > On 06-03 09:49, Mike Rapoport wrote:
-> > > > On Wed, 03 Jun 2026 03:28:58 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > > > > diff --git a/include/linux/kho/abi/block.h b/include/linux/kho/abi/block.h
-> > > > > new file mode 100644
-> > > > > index 000000000000..8641c20b379b
-> > > > > --- /dev/null
-> > > > > +++ b/include/linux/kho/abi/block.h
-> > > > > @@ -0,0 +1,56 @@
-> > > > > [ ... skip 25 lines ... ]
-> > > > > +#define _LINUX_KHO_ABI_BLOCK_H
-> > > > > +
-> > > > > +#include <asm/page.h>
-> > > > > +#include <linux/types.h>
-> > > > > +
-> > > > > +#define KHO_BLOCK_ABI_COMPATIBLE	"kho-block-v1"
-> > > > 
-> > > > It's never used by block set and after looking at the following patches I
-> > > > found that it's appended to LUO compatible string.
-> > > > 
-> > > > While this works for LUO, I think it should be kho_block_set_restore()
-> > > > responsibility to verify the compatibility.
-> > > 
-> > > It should work for any component that relies on  kho_block. My proposal 
-> > > is to use this method for other common KHO data structures (e.g.,  kho 
-> > > vmalloc,  kho radix, future kho xarray). There is no need for them to 
-> > > carry the compatibility string in their metadata, as whoever uses them 
-> > > will include their compatibility string.
-> > 
-> > So if, say, memfd_luo uses kho vmalloc, xarray and blocks it'll have five
-> > compatibility strings glued together?
-> 
-> That is correct, but it will be in only one place: the header of the 
-> client's KHO subtree. Since it is dynamically sized and 8-byte aligned, 
-> it should be safe to include in any struct.
+On Tue, Jun 02, 2026 at 03:26:50PM +0100, James Clark wrote:
 
-This is safe, you are right.
-But I have more usability concerns from one side and the duplication it
-causes from the other.
+[...]
 
-I can see the downside of putting the version information in the data
-structure itself as it either requires a different header for the first
-element or needlessly increases all the headers.
+> +# Use exit snapshot to record 2M of trace to make about 80MB of raw dump data.
+> +echo "Recording..."
+> +perf record -e cs_etm/timestamp=0/u -m,2M -Se -o "$tmpdir/data" -- \
+> +	perf test -w brstack 20000 > /dev/null 2>&1
 
-But 
+...
 
-#define LUO_ABI_COMPATIBLE     LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE "-" KHO_VMALLOC_ABI_COMPATIBLE "-" KHO_RADIX_COMPATIBLE
+> +size=$(stat -c%s "$tmpdir/rawdump")
+> +if [ $size -gt $((50 * 1024 * 1024)) ]; then
+> +	echo "PASS: Raw dump file is larger than 50MB"
+> +	cleanup
+> +	exit 0
+> +fi
 
-is not really digestible too. And it forces KHO users to potentially
-track KHO internal changes.
+I am not sure how we can map 2MiB trace data to 50MiB+ raw dump.  This
+is not to verify perf stuffs but just expect how verbose output from
+decoder.
 
-We still don't promise any compatibility between different kernel
-versions so to avoid blocking this series on the decision what is the
-best way to convey KHO data structures compatibility I suggest to bump
-kho ABI version in v6.2* of the patch that adds KHO blocks and postpone
-this discussion to after rc1 when we'll have plenty of time.
+Can we simply verify the trace data is ~2MiB with the command:
 
-* sending a new version of a single file does same email traffic, but it
-confuses b4 and quite possibly other tools, so I think v7 is better.
+  perf report -D | grep ". ... CoreSight .* Trace data: size .* bytes"
 
-> Pasha
-> 
-> >  
-> > > For now, reviewers will have to make sure that if the ABI header content 
-> > > is changed, the compatibility string is updated.
-> > 
-> -- 
-> > Sincerely yours,
-> > Mike.
-> 
+We might relax the check as the trace size >= 90% * 2MiB
 
-
+Thanks,
+Leo
