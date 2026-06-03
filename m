@@ -1,156 +1,94 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E93846AEEA
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 11:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897724779A4;
+	Wed,  3 Jun 2026 12:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780487139; cv=none; b=XJ6KdeGP1Ecr+DxHs095m33sznxoiqw0i/HwIq3khtvTq2j+iUC1NZTBlErRVfW+e/Fozbtml/KAcFFd0dxmNChDRYO91rB2yZDw0qi7Hn1gQGOYwa0DHC/Cob72xKkm2CSG9cnfjdeMHUzwid+6P2OlBd3LSW/usU8i4/rVios=
+	t=1780488188; cv=none; b=o5iK1UBwmVfHrU9e+xfPzrUp6XMGrbgAZtKR9iQEaJEv4jf7fbccMltGT5zjcxDFeOFUN+vZ7GoD1SFuDSMmciqzoF/WmN5v3OEBWwOTYadxfiA2Qct0pGDOK80kkMEbwcOeb/guB6Gdb72e3jnsv0U/E8q14L+0BQFTNYq5WDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780487139; c=relaxed/simple;
-	bh=nUBTUt6u+VUEoJiU2XSu4LyljZz8GesU5Adl+TGl/wk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JmO5qlMjKIk1Slrf/GBWsDaOs5kEWShs82nWyiIHHAHkkn34rCu7gmYWaa4y/EheT8ZKTLO8ivE3wA6/KXXCHO0Yre4Lpfz16bDr/h3D7Qnu7l3tYJ1wjRaaLJmL8UdN78eYDh4ORyPMAjHtqB4qL8feJRKnpzCY9nz1fRs3Od0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W+hdX8NL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GocJuQlG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W+hdX8NL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GocJuQlG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780488188; c=relaxed/simple;
+	bh=iws0Tqy7tnfDb1/y0VXTMhiMiNB5jVzESMdnPftZQL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eAUZVoe56pZBmjwu3kZ/It45GoBRKTH+xYgkNc0xJjqzsmkI+XUjo6EElSYRUQZ8FEgDoGhITWFYwlpDj9Rr3UP//++INnSMdCBI6WAPytXmoPecAIMiFMd/v7bpjLHS/mxR/BE+q+I1ZIFnMdPjEX/HY0YRW4ZdiMjoB7V2qh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwnnLw/I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W+hdX8NL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GocJuQlG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W+hdX8NL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GocJuQlG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 244616A800;
-	Wed,  3 Jun 2026 11:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780487135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XT56QKdjWikMuY7gT9KrU+V0bhCS1pLWUGmQUob5E2A=;
-	b=W+hdX8NLJfF1AvDGi6b+rjG+8tOF6R/UPBEfoRpOfPyr9BS+8Ct9B7/Rhp4NtuoNFYq8K0
-	eUfmdTpVxbAAZLwBB+mhhuQwXw2OXgj3G9fzNOr1RobkvWmcUb533o/qcDXNpy5ZcKfopQ
-	/0Akp5YJvE8oEbC1ZoYesOZMFM83+DU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780487135;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XT56QKdjWikMuY7gT9KrU+V0bhCS1pLWUGmQUob5E2A=;
-	b=GocJuQlGJ1HeSQfSH6PdqAotMxbCiFnZYU+dDVPw3OR7b5pZvrR/o2vxBM7Ug+vpp9sC9g
-	xPU8gTY/1pKBmlBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W+hdX8NL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GocJuQlG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780487135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XT56QKdjWikMuY7gT9KrU+V0bhCS1pLWUGmQUob5E2A=;
-	b=W+hdX8NLJfF1AvDGi6b+rjG+8tOF6R/UPBEfoRpOfPyr9BS+8Ct9B7/Rhp4NtuoNFYq8K0
-	eUfmdTpVxbAAZLwBB+mhhuQwXw2OXgj3G9fzNOr1RobkvWmcUb533o/qcDXNpy5ZcKfopQ
-	/0Akp5YJvE8oEbC1ZoYesOZMFM83+DU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780487135;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=XT56QKdjWikMuY7gT9KrU+V0bhCS1pLWUGmQUob5E2A=;
-	b=GocJuQlGJ1HeSQfSH6PdqAotMxbCiFnZYU+dDVPw3OR7b5pZvrR/o2vxBM7Ug+vpp9sC9g
-	xPU8gTY/1pKBmlBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78C50779A7;
-	Wed,  3 Jun 2026 11:45:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CdjLGt4TIGrVXQAAD6G6ig
-	(envelope-from <clopez@suse.de>); Wed, 03 Jun 2026 11:45:34 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Isaku Yamahata <isaku.yamahata@intel.com>,
-	Binbin Wu <binbin.wu@linux.intel.com>
-Subject: [PATCH] Documentation: KVM: Synchronize x86 VM types
-Date: Wed,  3 Jun 2026 13:45:04 +0200
-Message-ID: <20260603114504.814647-2-clopez@suse.de>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwnnLw/I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996911F00893;
+	Wed,  3 Jun 2026 12:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780488187;
+	bh=IDHgSHa5uXJ+5Hto9fEJThy5rAbEZ0SR6ey5biY1EW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NwnnLw/Id0sHKsjiKaS8e4ppA2aD9LcPMTcTIPRFSYWL7yOAwo+azmXyFJB9euTCq
+	 PtjT0r283OzRwfwqQzwW0Q61xedncBSgVLwQiMk4zPGOcq5VGRINV55mJXJmWUL98Q
+	 Ye0XW2PTKkw2NbjwguZT6ACC91Vd+LBufHEHsbBdqsmxlP/h00qyIE4QmiPzV5yJCa
+	 1J8dsKBHHYbQ7JU73wzCbOoJUQD5qs2DyMaA1hfNDLlmQEqEHu98h7m3kDE/FePb3o
+	 KaE5QwbmnWgXlALze/3rs/VzhE6hqc9nIhLQmtwBk5wwJN/aqsUBlfJbS8luLI4Xmc
+	 0zyIIHCMUywTg==
+Date: Wed, 3 Jun 2026 14:03:01 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>, 
+	"Daniel J. Ogorchock" <djogorchock@gmail.com>, Petr Mladek <pmladek@suse.com>, 
+	Tamir Duberstein <tamird@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 2/2] HID: nintendo: Use %pM format specifier for MAC
+ addresses
+Message-ID: <aiAXraQh-IrbAe0C@beelink>
+References: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
+ <20260603104351.152085-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 244616A800
-X-Spam-Score: -3.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603104351.152085-3-andriy.shevchenko@linux.intel.com>
 
-KVM has reflected KVM_X86_SNP_VM to userspace since 1dfe571c12cf
-("KVM: SEV: Add initial SEV-SNP support"), and KVM_X86_TDX_VM since
-161d34609f9b ("KVM: TDX: Make TDX VM type supported"). Update the
-documentation to reflect this fact.
+On Jun 03 2026, Andy Shevchenko wrote:
+> Convert to %pM instead of using custom code.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Fixes: 1dfe571c12cf ("KVM: SEV: Add initial SEV-SNP support")
-Fixes: 161d34609f9b ("KVM: TDX: Make TDX VM type supported")
-Signed-off-by: Carlos López <clopez@suse.de>
----
- Documentation/virt/kvm/api.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Not sure where the first patch should land, so in case someone prefers
+having the full series through their tree:
+Acked-by: Benjamin Tissoires <bentiss@kernel.org>
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 52bbbb553ce1..3ec574a41f60 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -9363,6 +9363,8 @@ means the VM type with value @n is supported.  Possible values of @n are::
-   #define KVM_X86_SW_PROTECTED_VM	1
-   #define KVM_X86_SEV_VM	2
-   #define KVM_X86_SEV_ES_VM	3
-+  #define KVM_X86_SNP_VM		4
-+  #define KVM_X86_TDX_VM		5
- 
- Note, KVM_X86_SW_PROTECTED_VM is currently only for development and testing.
- Do not use KVM_X86_SW_PROTECTED_VM for "real" VMs, and especially not in
--- 
-2.51.0
+Cheers,
+Benjamin
 
+> ---
+>  drivers/hid/hid-nintendo.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 29008c2cc530..05c50f2530ef 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -2431,14 +2431,8 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
+>  	for (i = 4, j = 0; j < 6; i++, j++)
+>  		ctlr->mac_addr[j] = report->subcmd_reply.data[i];
+>  
+> -	ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL,
+> -					    "%02X:%02X:%02X:%02X:%02X:%02X",
+> -					    ctlr->mac_addr[0],
+> -					    ctlr->mac_addr[1],
+> -					    ctlr->mac_addr[2],
+> -					    ctlr->mac_addr[3],
+> -					    ctlr->mac_addr[4],
+> -					    ctlr->mac_addr[5]);
+> +	ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL, "%pMU",
+> +					    ctlr->mac_addr);
+>  	if (!ctlr->mac_addr_str)
+>  		return -ENOMEM;
+>  	hid_info(ctlr->hdev, "controller MAC = %s\n", ctlr->mac_addr_str);
+> -- 
+> 2.50.1
+> 
+> 
