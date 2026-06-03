@@ -1,67 +1,47 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867A642B724
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 20:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41F448C8AC;
+	Wed,  3 Jun 2026 21:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780519451; cv=none; b=pk1nVnSPZUS1+5Wx4XioIanS/DCYYSJWZkBVg29L5x9THz6CGtlrGzlDWNmw5v3PC+vsdFPNq/ILYXJJ4555/SB+x8XH8n5tT3FfBzV5zaAMew8jFm9XDo1UL9yvvZtW8hJuGu4fo6ydCdCK2It9PvIhfsVFcxp9mtx+oj/x/FQ=
+	t=1780520813; cv=none; b=WZ6t/95SpuHas9JH6W9sZWq8tgHftIYOZp0wt/RGjbWDtrzP43heF9SbipFJ6XuF1/VX2KQHXlJaXja1HU8ohvpItPZ/qAn1NgFCBIhduFTuHNQ5pMtB4YXF/fTOLbV0vjJWav2unRCaeRp5R3QVxzxgQrR2PvZFH0d2Rjv/k6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780519451; c=relaxed/simple;
-	bh=amPURw1JjZfEDUE22gJ+bKOK7PktxrSxr1SHV7K3oHg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NPr1JiseAqwhPrtn7QneSJtkUVQHMgwBIigSXm9pdKHCT24Njh5NixAbjeKQ6s54hrZuV/BUXAImh4cFy+IbvUP4lnPjs1oP/ORoSAlb8PZPL2lcIBdqsLemqerzlRsam4n7nvuz8FpOSvf0F/mysyLdTu5RKfzBe6uo5H8ORUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5RL9D5u; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780520813; c=relaxed/simple;
+	bh=z0Jp8LV7efE6WbL+zZOrICPpKPAe5OtclLW7a2oebsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aAfwI85VpmXtzVNgWnMW4L8eqHeAazKG/eiFy+tct0oXkMxR9UlCz0qKM7lRnnDcLxijCWl/5gulyPvIfLpKoTzDfrbWcOP9q5WWIKSuxZB7VuV3dxf0xVuqWnI/EvtNXxZ33x2ydeOmAtIdrSarFm7SlwjanFkC0k3AHkcAp6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nydNbfnm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5RL9D5u"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4863eae453eso1387295b6e.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 13:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780519448; x=1781124248; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RIMHRKZ1kbgwP55bGp0c0OQ+sOxMVw/a+CoqATe1mLs=;
-        b=I5RL9D5uhEAyzv9tsLU2FeMJxU9b/Bi54IP9i0s25oEq6IkiWt3wMeW96YdViiZypi
-         QMTIfabDlD9IQcSkCES6tGRHJCNrtRBNrjOHnnPlJ/rj5W1jTuO6uLKufTvl4AhxTqo7
-         HHLnF3x5Tc0jfyBsXetMUqdSMKBGyxxWWxaH/0Fxu7TNYRsN8DF5+39ZDetxVDUoj+aj
-         Hrj1Wj5gk+XtMTrUaFqaNvmniHVHDe8VQDaEc6hHWz5RWWMF+HWNYmlCo6upyjKMbdR7
-         ONK99j3x4hqqOrJTg/ylUFHJCtQP3tqpSsAyqCUEWI5aWdqpjnpuxkEjC6/0zfMXyf2i
-         XkBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780519448; x=1781124248;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RIMHRKZ1kbgwP55bGp0c0OQ+sOxMVw/a+CoqATe1mLs=;
-        b=hbZo4mmKOufNIcrOxQJk+4E1vJOOdEyV0jQq+osX9YuybDvU66nzctDb29xoOBDTUT
-         pH6+dlZTt4Nb6H4oD6fqvAMFoREzIa+qcS50oBDCr5S13DcGQIJm1acM46Lm9hqdUEaH
-         XHUB9ql5zdOpt+5kAJte1wJzJJNcb4B6v3BZ8HL1YJU3f5ble1Rp32VVInDIJTO8kg9a
-         mBOmax084stdGy30+TYMap+ufdDEvqyog08AGil0i1jGll7oFOVu0a4SkCRdRdfa5qbi
-         FFB4N+zMbBvOrWH+5TeSB/U4N+08DBGqBmfj1CsrMEVKr+rJCSMogEh8Rcg0DwbstPbF
-         DRcA==
-X-Forwarded-Encrypted: i=1; AFNElJ+vhCXEP6Q9Ihq7A5Zed9dfmZvZOlQwGRYOmrxHXdoLtZtyvxBKCZh8lLRbDZBE5yONpVvgsYK/IXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE6qFm0n7FwzY7tTazeJNCnwAORtP2iqlyZOJTrRpZUi0nXfIA
-	mLB84ZEoEMCVW0HE7Ez2M/PBz0jCP6Aa5wT/x4+dxNl7RgssKm0znHWQ
-X-Gm-Gg: Acq92OGlaMlaZYNqZpqdAjFvjiz6RydnmcCWS/gNLkg2tSfiRxPKRQj/d/D2wUu2JgC
-	UJanQ+uSjE1ETro8b09seXyKMZ8Hi2VI9H7AomncYDGzM6IgdAzgmZEPYZcfpEogB6cx0iO74m8
-	0MHZn/cs4F0L/ZlI5eNE3/wcMgH1OkduLx9S69TbxVxQZWBlwugIn9V7uuMfdrMhAaGUYukfvJg
-	NJz5/jdoNwV/AY4GBXp3+TEpdBRYyMK7YglPksHOgv3QvwRERgwNcJt3SVSAhcdo5mFCtYrH37N
-	+pp8Ks1QBrBpKnR613nHDvuRAPwpbNcbIl+ke+G0mu9yJGY9Ra1brMxuBWqbqbqyZ5YnX9cAVe+
-	Siv0Ggo/TLK+XG2oJNPG7mnzfzjHNuL07ov2GOLqVUeLBvIrCCoUcJx9NW5dMeiS9ty7mTxN28w
-	sCwGwrnzY1QlKQ+FsPZ0kOJ5U12XcjvyNTPdCGDqAWyDxAuJEWJg==
-X-Received: by 2002:a05:6808:1783:b0:47b:bd7b:10d0 with SMTP id 5614622812f47-4865aa81a6cmr2841639b6e.13.1780519448489;
-        Wed, 03 Jun 2026 13:44:08 -0700 (PDT)
-Received: from [192.168.1.71] ([2600:1702:56e9:4b40:e3a9:78c5:641e:a58c])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4865b5a5a64sm2667962b6e.4.2026.06.03.13.44.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 13:44:07 -0700 (PDT)
-From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-Date: Wed, 03 Jun 2026 15:42:21 -0500
-Subject: [PATCH v2 4/4] dt-bindings: input: remove obsolete
- matrix-keymap.txt
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nydNbfnm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A893D1F00893;
+	Wed,  3 Jun 2026 21:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780520812;
+	bh=21q3frG5dqsfzhzDGUSQ2foZqGYT+5Kd243FESgXfYg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=nydNbfnm6Q5PM5n4h1PYamx+MAScoZSsjbgXa+PidSrdlv9limWwAAs3w1gBxgW3/
+	 E2eDdyXoSqKK97c/sq0583UeeMRLETMOdukT3NfBOxopHZbugjnQcuX3EzwPciOpkr
+	 YL0jB0WM3VW5Q73BK4TcFxQCXcu21BGcy9UIisT4THSEErXd1SnwKHO8Xym6Xof1y4
+	 CVNXDJDN/VjIWvoU2mY4RlYK9vIMPKtgAqbUU1Y6hoDv9ejbMyW+5ooj6Y6ThM3vtS
+	 WMofj3ch2GU28t6P4s7QXSFiP2onkVdUaEJky1Qel8NaKg7Iermv4Jy6sNxJEYxdTJ
+	 AR7+TlBkLkgAQ==
+From: Will Deacon <will@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: Document SVE constraints on new hwcaps
+Date: Wed,  3 Jun 2026 22:06:27 +0100
+Message-ID: <178048736181.314885.11070346483704289867.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260522-arm64-elf-hwcaps-sve-cleanup-v1-1-07b0cedfc6fa@kernel.org>
+References: <20260522-arm64-elf-hwcaps-sve-cleanup-v1-1-07b0cedfc6fa@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,151 +49,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-b4-remove-redirect-stubs-v2-4-c8c19876ab64@gmail.com>
-References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
-In-Reply-To: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Vladimir Oltean <olteanv@gmail.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Lee Jones <lee@kernel.org>
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-input@vger.kernel.org, 
- linux-tegra@vger.kernel.org, Akash Sukhavasi <akash.sukhavasi@gmail.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-matrix-keymap.txt has been a single-line redirect to
-matrix-keymap.yaml since commit 639d6eda3b80 ("dt-bindings: input:
-Convert matrix-keymap to json-schema"), which introduced the .yaml
-schema and reduced the .txt to a stub in the same change. The .yaml
-has the same filename in the same directory, making this redirect
-unnecessary for discoverability.
+On Fri, 22 May 2026 18:50:28 +0100, Mark Brown wrote:
+> Two of the SVE hwcaps added for the SVE features in the 2025 dpISA did
+> not explicitly call out their dependency on SVE in the ABI documentation.
+> Do so.
+> 
+> While we're here reorder the SVE and fature specific ID registers for
+> HWCAP3_SVE_LUT6 which did have the SVE dependency but listed it second
+> unlike the other SVE specific ID registers.
+> 
+> [...]
 
-Eight instances across six files still reference matrix-keymap.txt,
-forcing readers through an extra hop to reach the .yaml. The stub has
-not been touched since June 2020. Update all references across input
-and mfd binding documentation to point directly to matrix-keymap.yaml
-and remove the stub.
+Applied to arm64 (for-next/cpufeature), thanks!
 
-Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
----
-v2:
-- Patch 4/4: corrected commit message (eight references in six files,
-  not eight files), Sashiko review.
-  https://sashiko.dev/#/patchset/20260529052246.4934-1-akash.sukhavasi@gmail.com?part=4
+[1/1] arm64: Document SVE constraints on new hwcaps
+      https://git.kernel.org/arm64/c/f20f8fe086b2
 
-v1: https://lore.kernel.org/all/20260529052246.4934-5-akash.sukhavasi@gmail.com/
----
- Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt    | 2 +-
- Documentation/devicetree/bindings/input/clps711x-keypad.txt    | 2 +-
- Documentation/devicetree/bindings/input/matrix-keymap.txt      | 1 -
- Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt | 2 +-
- Documentation/devicetree/bindings/input/pxa27x-keypad.txt      | 2 +-
- Documentation/devicetree/bindings/input/st-keyscan.txt         | 2 +-
- Documentation/devicetree/bindings/mfd/tc3589x.txt              | 6 +++---
- 7 files changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt b/Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt
-index 262deab73588..33514eba0c9c 100644
---- a/Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt
-+++ b/Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt
-@@ -59,7 +59,7 @@ Board Specific Properties:
- 	  subsystem (optional).
- 
- - linux,keymap: The keymap for keys as described in the binding document
--  devicetree/bindings/input/matrix-keymap.txt.
-+  devicetree/bindings/input/matrix-keymap.yaml.
- 
- Example:
- #include "dt-bindings/input/input.h"
-diff --git a/Documentation/devicetree/bindings/input/clps711x-keypad.txt b/Documentation/devicetree/bindings/input/clps711x-keypad.txt
-index 3eed8819d05d..5f4514c0cd5f 100644
---- a/Documentation/devicetree/bindings/input/clps711x-keypad.txt
-+++ b/Documentation/devicetree/bindings/input/clps711x-keypad.txt
-@@ -5,7 +5,7 @@ Required Properties:
- - row-gpios:     List of GPIOs used as row lines.
- - poll-interval: Poll interval time in milliseconds.
- - linux,keymap:  The definition can be found at
--                 bindings/input/matrix-keymap.txt.
-+                 bindings/input/matrix-keymap.yaml.
- 
- Optional Properties:
- - autorepeat:    Enable autorepeat feature.
-diff --git a/Documentation/devicetree/bindings/input/matrix-keymap.txt b/Documentation/devicetree/bindings/input/matrix-keymap.txt
-deleted file mode 100644
-index 79f6d01aecaa..000000000000
---- a/Documentation/devicetree/bindings/input/matrix-keymap.txt
-+++ /dev/null
-@@ -1 +0,0 @@
--This file has been moved to matrix-keymap.yaml
-diff --git a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-index 1faa7292e21f..460b64d332cd 100644
---- a/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-+++ b/Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
-@@ -12,7 +12,7 @@ Required properties:
- - nvidia,kbc-col-pins: The KBC pins which are configured as column. This is an
-   array of pin numbers which is used as column.
- - linux,keymap: The keymap for keys as described in the binding document
--  devicetree/bindings/input/matrix-keymap.txt.
-+  devicetree/bindings/input/matrix-keymap.yaml.
- - clocks: Must contain one entry, for the module clock.
-   See ../clocks/clock-bindings.txt for details.
- - resets: Must contain an entry for each entry in reset-names.
-diff --git a/Documentation/devicetree/bindings/input/pxa27x-keypad.txt b/Documentation/devicetree/bindings/input/pxa27x-keypad.txt
-index f8674f7e5ea5..a727d66eece4 100644
---- a/Documentation/devicetree/bindings/input/pxa27x-keypad.txt
-+++ b/Documentation/devicetree/bindings/input/pxa27x-keypad.txt
-@@ -10,7 +10,7 @@ Required Properties
-   interval for matrix key. The value is in binary number of 2ms
- 
- Optional Properties For Matrix Keyes
--Please refer to matrix-keymap.txt
-+Please refer to matrix-keymap.yaml
- 
- Optional Properties for Direct Keyes
- - marvell,direct-key-count : How many direct keyes are used.
-diff --git a/Documentation/devicetree/bindings/input/st-keyscan.txt b/Documentation/devicetree/bindings/input/st-keyscan.txt
-index 51eb428e5c85..fd88f40faebf 100644
---- a/Documentation/devicetree/bindings/input/st-keyscan.txt
-+++ b/Documentation/devicetree/bindings/input/st-keyscan.txt
-@@ -17,7 +17,7 @@ Required properties:
-   See ../pinctrl/pinctrl-bindings.txt for details.
- 
- - linux,keymap: The keymap for keys as described in the binding document
--  devicetree/bindings/input/matrix-keymap.txt.
-+  devicetree/bindings/input/matrix-keymap.yaml.
- 
- - keypad,num-rows: Number of row lines connected to the keypad controller.
- 
-diff --git a/Documentation/devicetree/bindings/mfd/tc3589x.txt b/Documentation/devicetree/bindings/mfd/tc3589x.txt
-index 4f22b2b07dc5..a6d356e90f42 100644
---- a/Documentation/devicetree/bindings/mfd/tc3589x.txt
-+++ b/Documentation/devicetree/bindings/mfd/tc3589x.txt
-@@ -48,11 +48,11 @@ Optional nodes:
-  - compatible : must be "toshiba,tc3589x-keypad"
-  - debounce-delay-ms : debounce interval in milliseconds
-  - keypad,num-rows : number of rows in the matrix, see
--   bindings/input/matrix-keymap.txt
-+   bindings/input/matrix-keymap.yaml
-  - keypad,num-columns : number of columns in the matrix, see
--   bindings/input/matrix-keymap.txt
-+   bindings/input/matrix-keymap.yaml
-  - linux,keymap: the definition can be found in
--   bindings/input/matrix-keymap.txt
-+   bindings/input/matrix-keymap.yaml
-  - linux,no-autorepeat: do no enable autorepeat feature.
-  - wakeup-source: use any event on keypad as wakeup event.
- 		  (Legacy property supported: "linux,wakeup")
-
+Cheers,
 -- 
-2.54.0
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
