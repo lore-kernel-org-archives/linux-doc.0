@@ -1,63 +1,63 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B603FC5A4
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 03:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39A43F4DD7
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 03:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780457363; cv=none; b=r1FoSmL1CgzYoxURLlbPSvvXygpu+9HbpKibD7b1wID+9xFEX7SoDUMWxe0dYzsvYA2bjaT+7srSdGt9WDIZqRSVq/fTfVriZv5iwDYWv4oDtRttpzWULF7iz0kJn8m3fPx0joKokRRaYyUpwHMivNN8YBXeG69j8xQDRsgM964=
+	t=1780457365; cv=none; b=CzTnRZ5X4NQKdRSmdk2uUeK1H6NyaWYksPLbKMmGrEPevFEJuy/pRZP2ICOAeNxfbdzPh/WzTIOk42qpC+NOY8sYilqoDcuxiLpJ9QyVF+cgFpQEPzN6dvhAbZRB9okZ7OE6t2Vwp5k89rQp9V8ef0uJqtJRyTz08cbK8fdLB94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780457363; c=relaxed/simple;
-	bh=0gwKyQQYDBUnv0UGfVWyXc49IlrArrhgteCjS6YB3K4=;
+	s=arc-20240116; t=1780457365; c=relaxed/simple;
+	bh=yEFWFfzRSqKK8yaJuteqmaD2iCfnvu87uZtqGd2pNTI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M/96M4v5fOu2myLVRUUmv9fK1zlk5GUOCWVjl6iAwVBGbBLKSOgoEtMaHU3U+xrL/wmPSZ2okqsbkI+n1cVWTBXF+DPmkC2jeaZqfKj5mz7e/sln2EDhC2Y3R7mbcBYmAfhQVmAQ1pKrz7JhC5VZp/RurqHObQDZWypoYfnShGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=J3vWjEOK; arc=none smtp.client-ip=209.85.219.54
+	 MIME-Version; b=D2kxHTB/dTUr7IOqPuyKz2lbLvYF3Khohy4l72dCjI1p+gSxlBoa/byQ+1GV52jCNI1+3f8jES7fbu0v5q7Fg3mA05RCok6dUXsm1AUb2btDmqcj14IQcXPDiOk76vsDz52ufl1KazC3nhP/P827lDdSX8V9UQJmr2J08TDWUFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=XsImrYQU; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="J3vWjEOK"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8cc0ef7c306so159336026d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 20:29:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="XsImrYQU"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ce9df4732cso31197606d6.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 20:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780457360; x=1781062160; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1780457362; x=1781062162; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Tz2WlgQShBzc08rHE8f9hPH77UCMh/X7xv20EWPP2Uw=;
-        b=J3vWjEOKG7oiAv0W7ehKe7u292uQLR+KlnBMR/KlZWsAWSpC1vPHC4YxiqXpBX+Hyo
-         Web5s6QOMZcFWDuB3ktxcH4couHxcy30PyXfjS/2HuLc3zvxA/D9GV1Tbz7MvgyGx6js
-         AfBV5zckYv1lC1mQC/hUD31ZrJeA0mxmIG4ColZGhJNDVdQWhEn3enGs2/DrzGffR9Nf
-         +VgOdzcuFSdn1igZz//sFByftOs5OQuyLosr4nVQ8qHCq7cE/KsFIqDdHHsaVrzhxzbn
-         vNRyUUKW/qR/qAEMGF8fl+VD2L9Un+7l8msnuOU2H1lhLcm0sRt/iDii71485Utai+hs
-         npLQ==
+        bh=aDk1luXhEbMZPjSCi9wsbdWPEY1V0MeSCJTY8TocvIA=;
+        b=XsImrYQU4BhzlfAyIcUebZ6AIQQu7oi0Imbg3PsRDNl3Oc7jNv16Q5/+YI7O3DLTLt
+         u2noPW0BSIpQUnKNU4aKb57daS0ngvUMESjsLosc5hl0awLDNP3X5w3jj5zLpfbEAUqd
+         Y2z2dkfHWQ6+9tNFjqImqhaHYI2sNYibmxvf31Wo4yz0vyvvBQHgNna1+6TWBSPMM60h
+         SAFmNVu0vrRtJIy08nMdHhX6FBZURYrcGvk37hUw6Qg3kdln+ECGUY9GZbdWrzk2bdRc
+         0CKfAiSjd2AH0nya+B8k3TQOjq+noImLwQPTY91/GxsO+iOofEJXqjrIDM2iZPzIwyeW
+         FdFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780457360; x=1781062160;
+        d=1e100.net; s=20251104; t=1780457362; x=1781062162;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Tz2WlgQShBzc08rHE8f9hPH77UCMh/X7xv20EWPP2Uw=;
-        b=lVViRYUM4B88wttUHOxwwV4K6qg4KbbkMb/PArhabNAKioZTrBkLidYSgItAxLKffd
-         nz/3oGY2y03xFlwdS88yhcGq/LVqzWu71cAHVW9vslSiBc+lw6SsBdIDltfZCd5SKO0p
-         nHyhtHPPSXv3Mbv8wKCF4Aw4i7wHaqhEz1f/ISRlgSc15ZUsyI5qpIjIglr8uMB7UOp7
-         o6yaOrazG3MLLWI6EJCaEIdfoJdHujtnBr0j5XTiBJUwaTd/89tRbgq0xRsbzAjG4Cih
-         zaltGQQAbMvZax6sru+GFJXrJYcJPjt7mfy4Nqi761AXlIIB8wZEmYpK66K7S8+UWcZ7
-         vIvA==
-X-Forwarded-Encrypted: i=1; AFNElJ/EaRogdVo6iKulJ8cRufAslG3I4XYjZmAq0+YNZhNGxOTINlDBGc9UT0nV7yLzudKU9i2EaucSqDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpLnm0wO7s2/y3Bjop4G6hfqWXPBZDRy1A+vRZAB3qaACUv3YG
-	bhqzxVb7d3atY6b1q34ofiuTrXyR3j+FJXoT9vxTZClUQ9HFc5RJY0XKj/4GW8mtbXg=
-X-Gm-Gg: Acq92OGo75SfO6ZniQReBF7YuZJ/pi+zPOmoF8CEHgQai5fdP7PRvwm7AA8B4mq7xsK
-	2DPLXfO3ZQCxUk/d+EnLBLy7sWCaAq9ZBWkfN/gtLnt5RtelLOF2I/UZgao91d1hVmJYEhyA2xL
-	jm02nX8yCEnhZtvVfkuzQN90aFgLmt7GkqkgxvfSvQ41vjvYpshg9bA+PwbKAQCn1TGoI98RYci
-	XUYIB4umTG3xiqTiH1f1OpTn/5mkd93GJZ1U4wbhPU/TDCMAVikGwMk4cFAiwvw1TMEpl3ax69a
-	dVYm8mNlDZceUi3YWxR6lfq0Yz3pRCl3ALvq1LfNLQL9GhsFnj4UNYehWWMMR9uUDmLrS4k4rs+
-	/hoHl6bdg5KYEb16WVA0Ikw0InIkxcy7teUXLS5Y1zb8qYNRQXQli/st7XmjSqDCc9ZG97dgy+0
-	vQFzz7pLzi3W4HETzOwjr0DgaGGX+TTfufDiPtQ3Po/odTPrKHWgw5o3tr4+/JWA==
-X-Received: by 2002:a05:6214:260e:b0:8ac:a154:e156 with SMTP id 6a1803df08f44-8cecdca3c5emr23602316d6.29.1780457360528;
-        Tue, 02 Jun 2026 20:29:20 -0700 (PDT)
+        bh=aDk1luXhEbMZPjSCi9wsbdWPEY1V0MeSCJTY8TocvIA=;
+        b=V33iC2SJjAXlU0hnKW3MMmGqEWg1wPOfWrdT3mx8gCi1te+5dEQhEj02DzJxo49pmd
+         8BTpKU/UCqFYUbJvUlt1D6nbgwXE0Wt9c4SaAeqWkZunkJyV+0E8VeYH6iG7C3mo1IfV
+         L22pwU/T7eMbv01+nGj+Mz0NvZQk3SPBdxvfgiBhF+0zlr/TX8jZgFkpUisJ5RMnnwGS
+         SVU89CVWgcoikdi3RNc8ZDyXLGqbgYBEgOO3rFG+pyc84usfd2p3Tlx/q4nRnLi08fBN
+         auSIJAIBTQ3DaIt2ZjJX7SGc4YdxlZZhEm2AL4RD5PEy7AZ0tw4bCdZB5IrQFPEYmd/c
+         JvDg==
+X-Forwarded-Encrypted: i=1; AFNElJ+vg8h7jEXgRwpN2T5CUlEeJ5J9CEuVPwnQkkY57Y//3scmRxHaL8y2MMqdKMutPQFyVUAV1TCWrQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9TG/RqZ4sH7ELCrkN1k8T3+pNtY1tlx5zbIcbX80fqm8hilCQ
+	MQQSwR9SJmbZtbRBt+gHA8IqRoCJoOdNjgKvn6DGK+VqGwP5GQ3Ta9B4FLU5IQ+yEK4=
+X-Gm-Gg: Acq92OFxWWddcaizOfsKhKpw5qAKRrX313zck//UMKs/N+vmlG7pqt8fYm0Jc3toW61
+	htu1CmZ4YXtqKMWyc38flJUvS+KyR2l+JL+Vi8JHmNA6nwdAp8c+6C8F7pbgrpNJ8O85FR2DaS3
+	HY1sgw49IgEZkPNYe2a2EzEKqo/Z+vPm7At6DmEpEnsfxs3IEj46Oj1rNACCR3skz82DmEUNtUZ
+	j5hRjmKrhFIoEr+h5iBiSrInG5bUvoY91hlOcQw3bMEaDQExheJwMyVQZVkoPCQC3AzUx0P2B62
+	IifzF/pr8PhMMmKw4zBTUh/uNoUpoJ4u7RYa/PhWxrkbrkd58KMgUbxzpqzyTj8DWTMsmOE/s4h
+	k5JfO6VtyiPuJEl37mDTkqDOvVAvpY2x//XvvqH0W16uM2kGJxJ5QyLtbMkd2ROp+BkzBaoR2cw
+	V9D5Taujv7JzD7aRWAqaz5IAtbeKfD/t9RxB58sSdVnDCSqrlY9UZ4Q5SLzjBe2w==
+X-Received: by 2002:a05:6214:2f13:b0:8ce:aace:eaf8 with SMTP id 6a1803df08f44-8cece152728mr22557086d6.43.1780457361705;
+        Tue, 02 Jun 2026 20:29:21 -0700 (PDT)
 Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd26b3b9sm9244566d6.45.2026.06.02.20.29.18
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd26b3b9sm9244566d6.45.2026.06.02.20.29.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 20:29:19 -0700 (PDT)
+        Tue, 02 Jun 2026 20:29:21 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -74,9 +74,9 @@ To: linux-kselftest@vger.kernel.org,
 	pratyush@kernel.org,
 	skhawaja@google.com,
 	graf@amazon.com
-Subject: [PATCH v6 09/13] liveupdate: Remove limit on the number of sessions
-Date: Wed,  3 Jun 2026 03:29:00 +0000
-Message-ID: <20260603032905.344462-10-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 10/13] liveupdate: Remove limit on the number of files per session
+Date: Wed,  3 Jun 2026 03:29:01 +0000
+Message-ID: <20260603032905.344462-11-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260603032905.344462-1-pasha.tatashin@soleen.com>
 References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
@@ -88,321 +88,358 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, the number of LUO sessions is limited by a fixed number of
-pre-allocated pages for serialization (16 pages, allowing for ~819
-sessions).
-
-This limitation is problematic if LUO is used to support things such as
-systemd file descriptor store, and would be used not just as VM memory
-but to save other states on the machine.
-
-Remove this limit by transitioning to a linked-block approach for
-session metadata serialization. Instead of a single contiguous block,
-session metadata is now stored in a chain of 16-page blocks. Each block
-starts with a header containing the physical address of the next block
-and the number of session entries in the current block.
+To remove the fixed limit on the number of preserved files per session,
+transition the file metadata serialization from a single contiguous
+memory block to a chain of linked blocks.
 
 Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/kho/abi/luo.h     |  24 +------
- kernel/liveupdate/luo_session.c | 113 +++++++++++++++-----------------
- 2 files changed, 56 insertions(+), 81 deletions(-)
+ include/linux/kho/abi/luo.h      |  13 +--
+ kernel/liveupdate/luo_file.c     | 138 ++++++++++++++-----------------
+ kernel/liveupdate/luo_internal.h |   6 +-
+ 3 files changed, 74 insertions(+), 83 deletions(-)
 
 diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/luo.h
-index 9a4fe491812b..79758d92ed5f 100644
+index 79758d92ed5f..16df550ef143 100644
 --- a/include/linux/kho/abi/luo.h
 +++ b/include/linux/kho/abi/luo.h
-@@ -33,11 +33,6 @@
-  *     It includes the compatibility string, the liveupdate-number, and pointers
-  *     to sessions and FLBs.
+@@ -35,8 +35,8 @@
   *
-- *   - struct luo_session_header_ser:
-- *     Header for the session array. Contains the total page count of the
-- *     preserved memory block and the number of `struct luo_session_ser`
-- *     entries that follow.
-- *
   *   - struct luo_session_ser:
   *     Metadata for a single session, including its name and a physical pointer
-  *     to another preserved memory block containing an array of
-@@ -63,13 +58,15 @@
- #define _LINUX_KHO_ABI_LUO_H
- 
- #include <linux/align.h>
-+#include <linux/kho/abi/block.h>
- #include <uapi/linux/liveupdate.h>
- 
- /*
+- *     to another preserved memory block containing an array of
+- *     `struct luo_file_ser` for all files in that session.
++ *     to the first `struct kho_block_header_ser` for all files in that session.
++ *     Multiple blocks are linked via the `next` field in the header.
+  *
+  *   - struct luo_file_ser:
+  *     Metadata for a single preserved file. Contains the `compatible` string to
+@@ -65,7 +65,7 @@
   * The LUO state is registered under this KHO entry name.
   */
  #define LUO_KHO_ENTRY_NAME	"LUO"
--#define LUO_ABI_COMPATIBLE	"luo-v3"
-+#define LUO_COMPAT_BASE		"luo-v3"
-+#define LUO_ABI_COMPATIBLE	LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE
+-#define LUO_COMPAT_BASE		"luo-v3"
++#define LUO_COMPAT_BASE		"luo-v4"
+ #define LUO_ABI_COMPATIBLE	LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE
  #define LUO_ABI_COMPAT_LEN	ALIGN(sizeof(LUO_ABI_COMPATIBLE), 8)
  
- /**
-@@ -118,21 +115,6 @@ struct luo_file_set_ser {
- 	u64 count;
- } __packed;
+@@ -103,9 +103,10 @@ struct luo_file_ser {
  
--/**
-- * struct luo_session_header_ser - Header for the serialized session data block.
-- * @count: The number of `struct luo_session_ser` entries that immediately
-- *         follow this header in the memory block.
-- *
-- * This structure is located at the beginning of a contiguous block of
-- * physical memory preserved across the kexec. It provides the necessary
-- * metadata to interpret the array of session entries that follow.
-- *
-- * If this structure is modified, `LUO_ABI_COMPATIBLE` must be updated.
-- */
--struct luo_session_header_ser {
--	u64 count;
--} __packed;
--
  /**
-  * struct luo_session_ser - Represents the serialized metadata for a LUO session.
-  * @name:         The unique name of the session, provided by the userspace at
-diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_session.c
-index 2411849a34e3..b79b2a488974 100644
---- a/kernel/liveupdate/luo_session.c
-+++ b/kernel/liveupdate/luo_session.c
-@@ -24,9 +24,10 @@
-  *   ioctls on /dev/liveupdate.
-  *
-  * - Serialization: Session metadata is preserved using the KHO framework. When
-- *   a live update is triggered via kexec, an array of `struct luo_session_ser`
-- *   is populated and placed in a preserved memory region. The physical address
-- *   of this array is stored in the centralized `struct luo_ser` structure.
-+ *   a live update is triggered via kexec, session metadata is serialized into
-+ *   a chain of linked-blocks and placed in a preserved memory region. The
-+ *   physical address of the first block header is stored in the centralized
-+ *   `struct luo_ser` structure.
-  *
-  * Session Lifecycle:
-  *
-@@ -89,6 +90,7 @@
- #include <linux/fs.h>
- #include <linux/io.h>
- #include <linux/kexec_handover.h>
-+#include <linux/kho_block.h>
- #include <linux/kho/abi/luo.h>
- #include <linux/list.h>
- #include <linux/liveupdate.h>
-@@ -98,23 +100,14 @@
- #include <uapi/linux/liveupdate.h>
- #include "luo_internal.h"
+  * struct luo_file_set_ser - Represents the serialized metadata for file set
+- * @files:   The physical address of a contiguous memory block that holds
+- *           the serialized state of files (array of luo_file_ser) in this file
+- *           set.
++ * @files:   The physical address of the first `struct kho_block_header_ser`.
++ *           This structure is the header for a block of memory containing
++ *           an array of `struct luo_file_ser` entries. Multiple blocks are
++ *           linked via the `next` field in the header.
+  * @count:   The total number of files that were part of this session during
+  *           serialization. Used for iteration and validation during
+  *           restoration.
+diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+index 9eec07a9e9fc..c39f96961a85 100644
+--- a/kernel/liveupdate/luo_file.c
++++ b/kernel/liveupdate/luo_file.c
+@@ -118,11 +118,6 @@ static LIST_HEAD(luo_file_handler_list);
+ /* Keep track of files being preserved by LUO */
+ static DEFINE_XARRAY(luo_preserved_files);
  
--/* 16 4K pages, give space for 744 sessions */
--#define LUO_SESSION_PGCNT	16ul
--#define LUO_SESSION_MAX		(((LUO_SESSION_PGCNT << PAGE_SHIFT) -	\
--		sizeof(struct luo_session_header_ser)) /		\
--		sizeof(struct luo_session_ser))
--
- static DECLARE_RWSEM(luo_session_serialize_rwsem);
+-/* 2 4K pages, give space for 128 files per file_set */
+-#define LUO_FILE_PGCNT		2ul
+-#define LUO_FILE_MAX							\
+-	((LUO_FILE_PGCNT << PAGE_SHIFT) / sizeof(struct luo_file_ser))
 -
  /**
-  * struct luo_session_header - Header struct for managing LUO sessions.
-  * @count:       The number of sessions currently tracked in the @list.
-  * @list:        The head of the linked list of `struct luo_session` instances.
-  * @rwsem:       A read-write semaphore providing synchronized access to the
-  *               session list and other fields in this structure.
-- * @header_ser:  The header data of serialization array.
-- * @ser:         The serialized session data (an array of
-- *               `struct luo_session_ser`).
-+ * @block_set:   The set of serialization blocks.
-  * @sessions_pa: Points to the location of sessions_pa within struct luo_ser.
-  * @active:      Set to true when first initialized. If previous kernel did not
-  *               send session data, active stays false for incoming.
-@@ -123,8 +116,7 @@ struct luo_session_header {
- 	long count;
- 	struct list_head list;
- 	struct rw_semaphore rwsem;
--	struct luo_session_header_ser *header_ser;
--	struct luo_session_ser *ser;
-+	struct kho_block_set block_set;
- 	u64 *sessions_pa;
- 	bool active;
- };
-@@ -143,10 +135,14 @@ static struct luo_session_global luo_session_global = {
- 	.incoming = {
- 		.list = LIST_HEAD_INIT(luo_session_global.incoming.list),
- 		.rwsem = __RWSEM_INITIALIZER(luo_session_global.incoming.rwsem),
-+		.block_set = KHO_BLOCK_SET_INIT(luo_session_global.incoming.block_set,
-+						sizeof(struct luo_session_ser)),
- 	},
- 	.outgoing = {
- 		.list = LIST_HEAD_INIT(luo_session_global.outgoing.list),
- 		.rwsem = __RWSEM_INITIALIZER(luo_session_global.outgoing.rwsem),
-+		.block_set = KHO_BLOCK_SET_INIT(luo_session_global.outgoing.block_set,
-+						sizeof(struct luo_session_ser)),
- 	},
+  * struct luo_file - Represents a single preserved file instance.
+  * @fh:            Pointer to the &struct liveupdate_file_handler that manages
+@@ -174,39 +169,6 @@ struct luo_file {
+ 	u64 token;
  };
  
-@@ -173,25 +169,6 @@ static void luo_session_free(struct luo_session *session)
- 	kfree(session);
- }
- 
--static int luo_session_grow_ser(struct luo_session_header *sh)
+-static int luo_alloc_files_mem(struct luo_file_set *file_set)
 -{
--	struct luo_session_header_ser *header_ser;
+-	size_t size;
+-	void *mem;
 -
--	if (sh->count == LUO_SESSION_MAX)
--		return -ENOMEM;
--
--	if (sh->header_ser)
+-	if (file_set->files)
 -		return 0;
 -
--	header_ser = kho_alloc_preserve(LUO_SESSION_PGCNT << PAGE_SHIFT);
--	if (IS_ERR(header_ser))
--		return PTR_ERR(header_ser);
+-	WARN_ON_ONCE(file_set->count);
 -
--	sh->header_ser = header_ser;
--	sh->ser = (void *)(header_ser + 1);
+-	size = LUO_FILE_PGCNT << PAGE_SHIFT;
+-	mem = kho_alloc_preserve(size);
+-	if (IS_ERR(mem))
+-		return PTR_ERR(mem);
+-
+-	file_set->files = mem;
+-
 -	return 0;
 -}
 -
- static int luo_session_insert(struct luo_session_header *sh,
- 			      struct luo_session *session)
+-static void luo_free_files_mem(struct luo_file_set *file_set)
+-{
+-	/* If file_set has files, no need to free preservation memory */
+-	if (file_set->count)
+-		return;
+-
+-	if (!file_set->files)
+-		return;
+-
+-	kho_unpreserve_free(file_set->files);
+-	file_set->files = NULL;
+-}
+-
+ static unsigned long luo_get_id(struct liveupdate_file_handler *fh,
+ 				struct file *file)
  {
-@@ -205,7 +182,7 @@ static int luo_session_insert(struct luo_session_header *sh,
- 	 * for new session.
- 	 */
- 	if (sh == &luo_session_global.outgoing) {
--		err = luo_session_grow_ser(sh);
-+		err = kho_block_set_grow(&sh->block_set, sh->count + 1);
- 		if (err)
- 			return err;
- 	}
-@@ -232,6 +209,8 @@ static void luo_session_remove(struct luo_session_header *sh,
- 	guard(rwsem_write)(&sh->rwsem);
- 	list_del(&session->list);
- 	sh->count--;
-+	if (sh == &luo_session_global.outgoing)
-+		kho_block_set_shrink(&sh->block_set, sh->count);
- }
+@@ -276,16 +238,15 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 	if (luo_token_is_used(file_set, token))
+ 		return -EEXIST;
  
- static int luo_session_finish_one(struct luo_session *session)
-@@ -555,15 +534,17 @@ void __init luo_session_setup_outgoing(u64 *sessions_pa)
- 
- int __init luo_session_setup_incoming(u64 sessions_pa)
- {
--	struct luo_session_header_ser *header_ser;
-+	struct luo_session_header *sh = &luo_session_global.incoming;
-+	int err;
- 
--	if (sessions_pa) {
--		header_ser = phys_to_virt(sessions_pa);
--		luo_session_global.incoming.header_ser = header_ser;
--		luo_session_global.incoming.ser = (void *)(header_ser + 1);
--		luo_session_global.incoming.active = true;
--	}
-+	if (!sessions_pa)
-+		return 0;
- 
-+	err = kho_block_set_restore(&sh->block_set, sessions_pa);
+-	if (file_set->count == LUO_FILE_MAX)
+-		return -ENOSPC;
++	err = kho_block_set_grow(&file_set->block_set, file_set->count + 1);
 +	if (err)
 +		return err;
-+
-+	sh->active = true;
- 	return 0;
+ 
+ 	file = fget(fd);
+-	if (!file)
+-		return -EBADF;
+-
+-	err = luo_alloc_files_mem(file_set);
+-	if (err)
+-		goto  err_fput;
++	if (!file) {
++		err = -EBADF;
++		goto err_shrink;
++	}
+ 
+ 	err = -ENOENT;
+ 	down_read(&luo_register_rwlock);
+@@ -300,7 +261,7 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 
+ 	/* err is still -ENOENT if no handler was found */
+ 	if (err)
+-		goto err_free_files_mem;
++		goto err_fput;
+ 
+ 	err = xa_insert(&luo_preserved_files, luo_get_id(fh, file),
+ 			file, GFP_KERNEL);
+@@ -343,10 +304,10 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 	xa_erase(&luo_preserved_files, luo_get_id(fh, file));
+ err_module_put:
+ 	module_put(fh->ops->owner);
+-err_free_files_mem:
+-	luo_free_files_mem(file_set);
+ err_fput:
+ 	fput(file);
++err_shrink:
++	kho_block_set_shrink(&file_set->block_set, file_set->count);
+ 
+ 	return err;
+ }
+@@ -392,13 +353,14 @@ void luo_file_unpreserve_files(struct luo_file_set *file_set)
+ 
+ 		list_del(&luo_file->list);
+ 		file_set->count--;
++		kho_block_set_shrink(&file_set->block_set, file_set->count);
+ 
+ 		fput(luo_file->file);
+ 		mutex_destroy(&luo_file->mutex);
+ 		kfree(luo_file);
+ 	}
+ 
+-	luo_free_files_mem(file_set);
++	kho_block_set_destroy(&file_set->block_set);
  }
  
-@@ -605,6 +586,8 @@ int luo_session_deserialize(void)
- {
- 	struct luo_session_header *sh = &luo_session_global.incoming;
- 	static bool is_deserialized;
-+	struct luo_session_ser *ser;
-+	struct kho_block_set_it it;
- 	static int saved_err;
- 	int err;
+ static int luo_file_freeze_one(struct luo_file_set *file_set,
+@@ -454,7 +416,7 @@ static void __luo_file_unfreeze(struct luo_file_set *file_set,
+ 		luo_file_unfreeze_one(file_set, luo_file);
+ 	}
  
-@@ -631,18 +614,19 @@ int luo_session_deserialize(void)
+-	memset(file_set->files, 0, LUO_FILE_PGCNT << PAGE_SHIFT);
++	kho_block_set_clear(&file_set->block_set);
+ }
+ 
+ /**
+@@ -493,19 +455,24 @@ static void __luo_file_unfreeze(struct luo_file_set *file_set,
+ int luo_file_freeze(struct luo_file_set *file_set,
+ 		    struct luo_file_set_ser *file_set_ser)
+ {
+-	struct luo_file_ser *file_ser = file_set->files;
+ 	struct luo_file *luo_file;
++	struct kho_block_set_it it;
+ 	int err;
+-	int i;
+ 
+ 	if (!file_set->count)
+ 		return 0;
+ 
+-	if (WARN_ON(!file_ser))
+-		return -EINVAL;
++	kho_block_set_it_init(&it, &file_set->block_set);
+ 
+-	i = 0;
+ 	list_for_each_entry(luo_file, &file_set->files_list, list) {
++		struct luo_file_ser *file_ser = kho_block_set_it_reserve_entry(&it);
++
++		/* This should not fail normally as blocks were pre-allocated */
++		if (WARN_ON_ONCE(!file_ser)) {
++			err = -ENOSPC;
++			goto err_unfreeze;
++		}
++
+ 		err = luo_file_freeze_one(file_set, luo_file);
+ 		if (err < 0) {
+ 			pr_warn("Freeze failed for token[%#0llx] handler[%s] err[%pe]\n",
+@@ -514,16 +481,14 @@ int luo_file_freeze(struct luo_file_set *file_set,
+ 			goto err_unfreeze;
+ 		}
+ 
+-		strscpy(file_ser[i].compatible, luo_file->fh->compatible,
+-			sizeof(file_ser[i].compatible));
+-		file_ser[i].data = luo_file->serialized_data;
+-		file_ser[i].token = luo_file->token;
+-		i++;
++		strscpy(file_ser->compatible, luo_file->fh->compatible,
++			sizeof(file_ser->compatible));
++		file_ser->data = luo_file->serialized_data;
++		file_ser->token = luo_file->token;
+ 	}
+ 
+ 	file_set_ser->count = file_set->count;
+-	if (file_set->files)
+-		file_set_ser->files = virt_to_phys(file_set->files);
++	file_set_ser->files = kho_block_set_head_pa(&file_set->block_set);
+ 
+ 	return 0;
+ 
+@@ -741,14 +706,12 @@ int luo_file_finish(struct luo_file_set *file_set)
+ 		module_put(luo_file->fh->ops->owner);
+ 		list_del(&luo_file->list);
+ 		file_set->count--;
++		kho_block_set_shrink(&file_set->block_set, file_set->count);
+ 		mutex_destroy(&luo_file->mutex);
+ 		kfree(luo_file);
+ 	}
+ 
+-	if (file_set->files) {
+-		kho_restore_free(file_set->files);
+-		file_set->files = NULL;
+-	}
++	kho_block_set_destroy(&file_set->block_set);
+ 
+ 	return 0;
+ }
+@@ -822,16 +785,18 @@ int luo_file_deserialize(struct luo_file_set *file_set,
+ 			 struct luo_file_set_ser *file_set_ser)
+ {
+ 	struct luo_file_ser *file_ser;
++	struct kho_block_set_it it;
+ 	int err;
+-	u64 i;
+ 
+ 	if (!file_set_ser->files) {
+ 		WARN_ON(file_set_ser->count);
+ 		return 0;
+ 	}
+ 
+-	file_set->count = file_set_ser->count;
+-	file_set->files = phys_to_virt(file_set_ser->files);
++	file_set->count = 0;
++	err = kho_block_set_restore(&file_set->block_set, file_set_ser->files);
++	if (err)
++		return err;
+ 
+ 	/*
+ 	 * Note on error handling:
+@@ -848,25 +813,50 @@ int luo_file_deserialize(struct luo_file_set *file_set,
  	 * userspace to detect the failure and trigger a reboot, which will
  	 * reliably reset devices and reclaim memory.
  	 */
--	for (int i = 0; i < sh->header_ser->count; i++) {
--		err = luo_session_deserialize_one(sh, &sh->ser[i]);
-+	kho_block_set_it_init(&it, &sh->block_set);
-+	while ((ser = kho_block_set_it_read_entry(&it))) {
-+		err = luo_session_deserialize_one(sh, ser);
+-	file_ser = file_set->files;
+-	for (i = 0; i < file_set->count; i++) {
+-		err = luo_file_deserialize_one(file_set, &file_ser[i]);
++	kho_block_set_it_init(&it, &file_set->block_set);
++	while ((file_ser = kho_block_set_it_read_entry(&it))) {
++		err = luo_file_deserialize_one(file_set, file_ser);
  		if (err)
- 			goto save_err;
+-			return err;
++			goto err_destroy_blocks;
++		file_set->count++;
++	}
++
++	if (file_set->count != file_set_ser->count) {
++		pr_warn("File count mismatch: expected %llu, found %llu\n",
++			file_set_ser->count, file_set->count);
++		err = -EINVAL;
++		goto err_destroy_blocks;
  	}
- 
--	kho_restore_free(sh->header_ser);
--	sh->header_ser = NULL;
--	sh->ser = NULL;
-+	kho_block_set_destroy(&sh->block_set);
  
  	return 0;
 +
- save_err:
-+	kho_block_set_destroy(&sh->block_set);
- 	saved_err = err;
- 	return err;
++err_destroy_blocks:
++	while (!list_empty(&file_set->files_list)) {
++		struct luo_file *luo_file;
++
++		luo_file = list_first_entry(&file_set->files_list,
++					    struct luo_file, list);
++		list_del(&luo_file->list);
++		module_put(luo_file->fh->ops->owner);
++		mutex_destroy(&luo_file->mutex);
++		kfree(luo_file);
++	}
++	file_set->count = 0;
++	kho_block_set_destroy(&file_set->block_set);
++	return err;
  }
-@@ -651,36 +635,45 @@ int luo_session_serialize(void)
+ 
+ void luo_file_set_init(struct luo_file_set *file_set)
  {
- 	struct luo_session_header *sh = &luo_session_global.outgoing;
- 	struct luo_session *session;
--	int i = 0;
-+	struct kho_block_set_it it;
- 	int err;
+ 	INIT_LIST_HEAD(&file_set->files_list);
++	kho_block_set_init(&file_set->block_set, sizeof(struct luo_file_ser));
+ }
  
- 	down_write(&luo_session_serialize_rwsem);
- 	down_write(&sh->rwsem);
- 	*sh->sessions_pa = 0;
+ void luo_file_set_destroy(struct luo_file_set *file_set)
+ {
+ 	WARN_ON(file_set->count);
+ 	WARN_ON(!list_empty(&file_set->files_list));
++	WARN_ON(!kho_block_set_is_empty(&file_set->block_set));
+ }
  
-+	kho_block_set_it_init(&it, &sh->block_set);
-+
- 	list_for_each_entry(session, &sh->list, list) {
--		err = luo_session_freeze_one(session, &sh->ser[i]);
--		if (err)
-+		struct luo_session_ser *ser = kho_block_set_it_reserve_entry(&it);
-+
-+		/* This should not fail normally as blocks were pre-allocated */
-+		if (WARN_ON_ONCE(!ser)) {
-+			err = -ENOSPC;
- 			goto err_undo;
-+		}
+ /**
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index ee18f9a11b91..64879ffe7378 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -10,6 +10,7 @@
  
--		strscpy(sh->ser[i].name, session->name,
--			sizeof(sh->ser[i].name));
--		i++;
--	}
-+		err = luo_session_freeze_one(session, ser);
-+		if (err) {
-+			kho_block_set_it_prev(&it);
-+			goto err_undo;
-+		}
+ #include <linux/liveupdate.h>
+ #include <linux/uaccess.h>
++#include <linux/kho_block.h>
  
--	if (sh->header_ser && sh->count > 0) {
--		sh->header_ser->count = sh->count;
--		*sh->sessions_pa = virt_to_phys(sh->header_ser);
-+		strscpy(ser->name, session->name, sizeof(ser->name));
- 	}
-+
-+	if (sh->count > 0)
-+		*sh->sessions_pa = kho_block_set_head_pa(&sh->block_set);
- 	up_write(&sh->rwsem);
+ struct luo_ucmd {
+ 	void __user *ubuffer;
+@@ -44,14 +45,13 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
+  * struct luo_file_set - A set of files that belong to the same sessions.
+  * @files_list: An ordered list of files associated with this session, it is
+  *              ordered by preservation time.
+- * @files:      The physically contiguous memory block that holds the serialized
+- *              state of files.
++ * @block_set:  The set of serialization blocks.
+  * @count:      A counter tracking the number of files currently stored in the
+  *              @files_list for this session.
+  */
+ struct luo_file_set {
+ 	struct list_head files_list;
+-	struct luo_file_ser *files;
++	struct kho_block_set block_set;
+ 	u64 count;
+ };
  
- 	return 0;
- 
- err_undo:
- 	list_for_each_entry_continue_reverse(session, &sh->list, list) {
--		i--;
--		luo_session_unfreeze_one(session, &sh->ser[i]);
--		memset(sh->ser[i].name, 0, sizeof(sh->ser[i].name));
-+		struct luo_session_ser *ser = kho_block_set_it_prev(&it);
-+
-+		luo_session_unfreeze_one(session, ser);
-+		memset(ser->name, 0, sizeof(ser->name));
- 	}
- 	up_write(&sh->rwsem);
- 	up_write(&luo_session_serialize_rwsem);
 -- 
 2.53.0
 
