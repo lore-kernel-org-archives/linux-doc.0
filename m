@@ -1,68 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9E52FD1DA;
-	Wed,  3 Jun 2026 13:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 666132FD1DA;
+	Wed,  3 Jun 2026 13:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494171; cv=none; b=ptWcYRJRfCiRtPsofQ8DPUHdHzf6NDuHdal4sttO+MynaarzZMW0esEdfRCpI9Z7H8u+rGhcDxl3iI8/WRP4GTcuBMDQ4WmfKtKTC5ZdoR1UnY0EziWI+BY3HmuOvYnrgp9g8k1+7kbQXfwSgp4jrVYLktABvsZlPLoaV2kH3sE=
+	t=1780494225; cv=none; b=tcf9OAKA3FIgUuQUP5wTrKz4OVCZghf7T1B5wB1fGkhqgNB0l8C6HquETCBQ30Trm9MGsAs1jDFBS6g9CabNzUrFit0erFOwLWEHn635aeMAg7q6rUnl97yWR6pXuHFaINegp8M1JI/GUBbXCy1PCAkXOut0WfMIXrp5dFuGtYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494171; c=relaxed/simple;
-	bh=rMKZjBP7AuEpr0QSYrK0D98BzJfCMoK06rqueXVej4U=;
+	s=arc-20240116; t=1780494225; c=relaxed/simple;
+	bh=XS3AUT8gLJh/VCtqlwIdaljPjNYM4Ji4B9GWl1mdiYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2xbv3kNjyNyOxZFhvqGD+7X8nLXzTrTqA8uG/sxmsPs85mgAUnIVEK1t5BGmo9rBMzmRmH8iRX6+0D0tlB0rODDuvS8qCrBjoYI2LGkjWoHmS3ySRaos6EV4WM6VsGmjJwFX38FRe841pOI0qZe9bHCGS+/o7UwPo73UrV3xqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDLxHu9x; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IsnsMuhfqpmfoQNbjEXr8XKrmhcxoPpfFT8e0saP3SbS6cQfMEvIEQX2Hj6pQOkLgxC0j77yCkYYFRpfTBFkpZE78YZvD9I66MKrdSUaEdkhYWLyL7cVCNMcyf+Brlc57v9CBMlLKn4up3yE4FEdwGB8pRPeL29uF300TYIMvfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=soxvulSm; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDLxHu9x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780494170; x=1812030170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rMKZjBP7AuEpr0QSYrK0D98BzJfCMoK06rqueXVej4U=;
-  b=PDLxHu9xe376yuShu8S3jvElj5Y7ouFbW2TP7NET9ZR1sZJKy6ShBST8
-   +86C2RnZrdzfkivgVp76ofwv7Hb0mqcAwsYLymNSlDr/q3H8JIic7MQUy
-   IUgQ486Hfs6SV3UJl4rxOo3mIjpZFtLp1b7jCmAzmBRd8ZOmj71DxVfLa
-   /wOTUwYMj6e645xSrAARtwovxyTp8SeNarj2vmN5TzloMwDxW8zu1601f
-   IwRSsIb5QKsrJc68FLyMPZummAfnZVoqzZhdCI+64B/bfwiFT4O//SeRD
-   juC/YeUVoc8tfUydTfegEceTANHwktSsh6BUgijd+9svCdInBujKTHjZV
-   g==;
-X-CSE-ConnectionGUID: cWqEZhBnQoqthDRtddNhhA==
-X-CSE-MsgGUID: 4h4xbSOLTBmz1KnAe3IOHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81485257"
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="81485257"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:42:49 -0700
-X-CSE-ConnectionGUID: llsCtjQkRNSxywrZs3B2yQ==
-X-CSE-MsgGUID: ZEP5mG5nRMy+dQpm16d/sg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="240067059"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.250])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 06:42:45 -0700
-Date: Wed, 3 Jun 2026 16:42:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	"Daniel J. Ogorchock" <djogorchock@gmail.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Tamir Duberstein <tamird@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="soxvulSm"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0ED4F32E6;
+	Wed,  3 Jun 2026 06:43:37 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EF173F86F;
+	Wed,  3 Jun 2026 06:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780494222; bh=XS3AUT8gLJh/VCtqlwIdaljPjNYM4Ji4B9GWl1mdiYo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=soxvulSmaI7IldxbFJnpQ0O2B7ZFKecG/cj6e+NCMPC1l9CHaQRwjo0Ww8JD9A2Md
+	 qILposO+e1SBiLkjUv14P1U/wLNm8giZZ/rgnkp8yl7uNRXvSyP996OkdAGcSKQPtg
+	 cURuBHT/vIt/T+1d9SOPqPvEBEcfV/Yqr7I1tMUI=
+Date: Wed, 3 Jun 2026 14:43:39 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 2/2] HID: nintendo: Use %pM format specifier for MAC
- addresses
-Message-ID: <aiAvUw7uWBv8bf0-@ashevche-desk.local>
-References: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
- <20260603104351.152085-3-andriy.shevchenko@linux.intel.com>
- <aiAXraQh-IrbAe0C@beelink>
+	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
+	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 05/18] perf test: Add deterministic workload
+Message-ID: <20260603134339.GU101133@e132581.arm.com>
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-5-85b5ce6f55c6@linaro.org>
+ <20260603112742.GT101133@e132581.arm.com>
+ <b4836fe9-49cf-44c3-96a9-548e890cee29@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,27 +55,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aiAXraQh-IrbAe0C@beelink>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <b4836fe9-49cf-44c3-96a9-548e890cee29@linaro.org>
 
-On Wed, Jun 03, 2026 at 02:03:01PM +0200, Benjamin Tissoires wrote:
-> On Jun 03 2026, Andy Shevchenko wrote:
-> > Convert to %pM instead of using custom code.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Wed, Jun 03, 2026 at 02:10:37PM +0100, James Clark wrote:
 > 
-> Not sure where the first patch should land,
+> 
+> On 03/06/2026 12:27 pm, Leo Yan wrote:
+> > On Tue, Jun 02, 2026 at 03:26:47PM +0100, James Clark wrote:
+> > 
+> > [...]
+> > 
+> > > @@ -22,3 +23,4 @@ CFLAGS_brstack.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+> > >   CFLAGS_datasym.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+> > >   CFLAGS_traploop.o         = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+> > >   CFLAGS_inlineloop.o       = -g -O2
+> > > +CFLAGS_deterministic.o    = -g -O0
+> > 
+> > I have no strong opinion for using 'noinline' in source or using the
+> > global option '-fno-inline', just thought this is not easy to follow
+> > up if anyone (likely myself) will write a new workload for disabling
+> > inline. Could we have consistent style for this?
+> > 
+> > For the patch itself:
+> > 
+> > Reviewed-by: Leo Yan <leo.yan@arm.com>
+> 
+> Actually it's a fair question why some have -fno-inline and others do it in
+> the code, it could just be copied from when these were built by their shell
+> script tests. From a quick look I would say we can easily drop the
+> -fno-inline and do it in the code, and it's better to only noinline what's
+> needed rather than everything. But that's probably a change for another
+> time.
 
-Up to the maintainers Petr and you, to me it makes no difference.
+Seems to me, `-fno-inline` is more reliable.
 
-> so in case someone prefers having the full series through their tree:
-> Acked-by: Benjamin Tissoires <bentiss@kernel.org>
+I.e., in this patch deterministic() has no 'noinline' annotation, my
+understanding is the test expects it is not inlined. With `-fno-inline`
+flag, we don't need to worry anything is missed.
 
-Thank you!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Leo
