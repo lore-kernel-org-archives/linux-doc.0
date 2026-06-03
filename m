@@ -1,406 +1,162 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010055.outbound.protection.outlook.com [52.101.84.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C003AB285;
-	Wed,  3 Jun 2026 21:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CF4028EE
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 21:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780520983; cv=fail; b=OsskqeOOC8+w6OjFHSGDiRm08DF5ilsZqrGBtW3ayxjeY6x5haQDuPdSNb9uxcMs7twZRHYeEvBTQfHcuXkl1nkyxzaIcx2I/dAkheNyqB7osqQwJkGWt/fcjb9srMTwzcuFv3adjIrnhxyjSSpWQ7unVEOKaWu97vUwaqIW8Io=
+	t=1780522028; cv=pass; b=pqEtO4pYjW3yksl4+t0g63EsnfBGut3qCPvf5nZ2GQAo1RFsrDETlSQaPrGPrjkXPo+eOu4ozcsFlLJFgB9rddh6K1NG5/RMg8KGI6MZJXMck6XK8KBvKQKYQRVDuYv411muD4dzkv72nSagop3r4h0vfqIUXJbSWvsFES+aJu4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780520983; c=relaxed/simple;
-	bh=UygMzDndGp/pbHJ7x255/ChWtC3MDi+6I3TIUFNHtGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ASkkVUqmtSIbj41UMD0rtKai4cixyCV1fpTbAeY7S1FSyo9GaM2nP9LKbgC7FBhCpEw07KLNubTZcCGJFnWOUtQKazVU1bB6h2VRKKVg4NPqzzumuTPdkriHNnLpnKS8TTNMpZxixhGekG4JENamLgSfMzZfaq1JLJ2mmJauXb8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=SugxWgbd; arc=fail smtp.client-ip=52.101.84.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1780522028; c=relaxed/simple;
+	bh=R6WSQnJIsA+v35uGQtkq6O8mYZ7zBggzE/oxP9twkYg=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JqbNbktL+HkfLOFpFEH9HlCi2vrx+zd/uD2ke65X15vrGOjekPNgSS18Cr4/H1zgmvjNXOlmT1cggNu1Slo8LXu44+P5Mwc+hxHLhxmLdLzn93bCWOB62NoZb1a/tgVIL59p0/+K9Ujl5v1uZyzOXZPw+IWVDXovt1N2wc1gUC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WbpOTiLd; arc=pass smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="SugxWgbd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r3SemDrjqp9iWHyIUJLT5pErtHHRHl6Im+NIUDk9yAAjgguoY6YPoSyIezwHzkvwEECq3OYcG3HkT6VQhz9kBKiHmL0xUHqSHB4vyhMsL9s2RS7oEsB0KwG0ShPXKRDNVnlQn3DfzkWVO4FKzwQU2rm9RBRAx5FBDH8gs/KmlucsdwvZn2f3rChCe7LCn4zDRFUOAVTmMNmoI+R+9U50+iOJTzmfmInRiSjltfAqdSeiEAS3Voyv4SZBzbWdFkc16KQH9gFZha/iN/m14FYgEBtk1Iv5y+yhqFERL0rT7npmBmDDKYwzNg58i2DZSSDp/+FZ06VTLvrypztXP9Z5qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qTHG+1YanwOe3GBHTQGXgVtvXSLS2uEFZy5djXv87zY=;
- b=hXSY/p7yOuLHlAqLRigkqrRgd9DRWt0C1vPbyqP9uvylH9AlMwqLf7H91bbnrl97fyTNj14TTHgGdklFsYoA//c9jln/nE6guqoVAMz6E3CH69WBmXbA6WcgxOtedXjLfhs0qTQinyM8SrQdUTjekc78AemZZanjhppzYuV2UnGDUNTh7cyooW1Z9Gh/M2ue1UrjklR5Hchiply4oZgUXouz2k4B5dbBDqDEpJ4rMnunsy0OMOpGJaKmkN/cvnRV0A+mXNl4uQCuij2jAd0GpzePZfj8870dCdct72ns1E/odHRdE8XipDcMiC892/1I2BEo2TvMxldw0fcgbFi33Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qTHG+1YanwOe3GBHTQGXgVtvXSLS2uEFZy5djXv87zY=;
- b=SugxWgbdRN8I+2RQACZWM5OVffiJN7xPie3NSChbcmV2BNHZ7LKsLuEP8AbHATtzInC6RSbtzdCeRb4wrYo+8BjJ61xVJCCQmBB1rU28ayvyeu/DNFO55DE7TfIF0QRmmVFmgjzgPECW87V21WKaIgFaUXF7TZRDY5UThlheBl235blKM6gs5v0PDRRFP004qZYKZE12gclT4iUXaX0TYa18bH2Xcvy1tqVoc4ena/8u67x0eNGPKtp6q+tCeb5wOEAJaAwQ3+FUqtnNgtxcyQJxX6o8jP4niCjPJah7CJlTIGhqsSyIytKaoNWRDVMut2cAC6mQab/ujYUVgIk1PA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by GV1PR04MB9071.eurprd04.prod.outlook.com (2603:10a6:150:22::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 21:09:37 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 21:09:36 +0000
-From: Frank.Li@oss.nxp.com
-To: Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Cc: imx@lists.linux.dev
-Subject: [PATCH v2 1/1] dt-bindings: net: dsa: Convert lan9303.txt to yaml format
-Date: Wed,  3 Jun 2026 17:09:24 -0400
-Message-ID: <20260603210929.3099363-1-Frank.Li@oss.nxp.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SA0PR11CA0034.namprd11.prod.outlook.com
- (2603:10b6:806:d0::9) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WbpOTiLd"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-137f0aa125bso36404c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 14:27:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780522026; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AWywyvm5LbkVB4MmNcZ/+diSxXMyVhm34EePaDPReey3wq8aZeQZtj/+zUnQQ+NmCJ
+         qFbOY+DcE7EtjfUXz+JOkjR6yoS9J0Mv/4wsFOqSZTfDiyRTg6kX8YIySEMFF3N82JzM
+         1jyi3haG/AGh8lTB/p+JZBIYMEpwktBdgKQ4wRngykoyp+PgEvzzKTXQr78MkcOHQa7U
+         3wiUk0RmM/qHMs2nAEy+1gOpHu+ATOQBYmNaL4BmL04uVYwH6zlPcUvbTSopShYtBoS9
+         8ZhpqHi/F1yCrvHYzQSMuYZ6IqMOSr8iIvJuaDsHOkH2NI/MLpBxtVyFOcLMWPXyv2IF
+         CF8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=kXmCClVJ6sffKdNaL7Yv6BlzVuWsmG/JEBjIeBbKKjE=;
+        fh=bQ/4iYZD1GfFZRukENKPolwexAiNT1ZSM7w0y+BSb8M=;
+        b=CNcja5LARotam0D8sKRgIn1wVy3FYZf/Whu0C4f+AacCcVek/86zeUGhdzeuEnj090
+         LFTkNRBx5qvhGXyhxVb+kxoz/vjwN0lubp/Izvm0CvKyo3mSx/uvpSfuPyhloGCk3y2b
+         uTxkCkhdbCUH9Lw9VYqclX/tf8dFaszYCyd4wOBv7rMoWwRsfYaXz0VWS1PlBQ1kSej6
+         7yBw/x33b6O18WWssFd82sDV0vrB8w2M2CklFqsQwA3mRDUUQhi35jtzKOfAlz8Tx43+
+         +luA/QKyDnKVePOsn4+riIgTN7O3X1YouyLckjz3LrR4qTebtIBEPTsZ7i9qTC/Vx2iB
+         WB/w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780522026; x=1781126826; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kXmCClVJ6sffKdNaL7Yv6BlzVuWsmG/JEBjIeBbKKjE=;
+        b=WbpOTiLdHBvzmwiTpMPVgbnII3vNyO3SNsoPLH6VIEBacZOPD4FZRi9ouBmHzGfdyz
+         qQr4UPLmfVX0Mna1x41GMFNRiJ8Tp5lxjh0qK2tOVIkO1Qx2eu5e61n9gM0VwSqQRiXz
+         inzjmgz0zLFYc43ghOoSHDJoDaSuI0qkD/ZgDe543j47DoVn3kqcDvcT2bIpL4xc8VDq
+         CEB7XicOiRBqR7dVAPk+kgjQJYxCxZ93tk/Ljic4NKSKnTRB+EEYoFl6psuEc5NDjHnC
+         B6iSDmEgjThK1D/INgd02VnCj/BaRFqwLruf0W6rr6YaUbM/nHavujSCNm9JhcxARVqE
+         AYlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780522026; x=1781126826;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kXmCClVJ6sffKdNaL7Yv6BlzVuWsmG/JEBjIeBbKKjE=;
+        b=hdc5xtI2WgkiOL/fq70Rq9qOu66wSy2PeDDVX6QTWNiUjzV1NfHLdw2Jcf3PWUj8aV
+         WWX/yWACumM9yOHijuH7sNvRMJH18tJn3dwvwcEsbikndxNGfStDrDmqygBhVts7C441
+         CMnwF4fcAPKKIxOc/7pgOpcePXaq2e/dKaMyI1yUSbXbQuJmRyoSJ6JRvKI018V+0adD
+         9y1o6TpkmJzK3m4dtelLqhRxHRMigGHGA9OhaNngsDIx/SbIPhwyBcac8/BiRJrQ/8IP
+         SEYdica9azkZmgLBHW7oCLXHMV1tj+ES8wxwHczaCwN8corZCh26jP6WjIdxuNsMeY/8
+         X0wQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/8TPhgVQbyX6TGzT2ctGGbMWK5CJzR85tyAOEGro2qAaXeb/xC46CPsyVvXwjRyXXRgfHa6okVRI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxntH2M1Z2aodnGW0a+LJDyP4v238UpvzpK1EMNNbwE52nM8Uc
+	TosJ+NnmJ0WH3O9PnfNuQWrPOo0RHeIrSApU8LU4UkLUMVxlWqpqMKK5qMXVnwWVXPXhkAyTfGx
+	2tNYWWUT51+hDeuZOa4+ueMCYRB0hCNKTh50Z80m5
+X-Gm-Gg: Acq92OGmln+V3HiO73JlJbtN80EnFiOO+ms4wAIzLevx7T3V2sdxVAStftJs8QztRkz
+	CGNIvNPdPpifli/tmWLw3aasdLHkXH1VhOgRNmuMuk+RIKl9FFQ8cSN0Xz6tP6LGvl0goLDap6o
+	0He00qugzIpu1I/335ZPmuRDtTh8MAK5GshWwD2f2j8FVkpY7fdDR28ohz2KevgbbpWt0dXJW29
+	jc+92D8Kon5gonT/aK3vD6JkYZuhf/LfrPyjGXF7/EIpGmxi8f9Vv2q/akm8FhIWkyVSaCC+srT
+	raE959vlgo1CSLzGDaF5eNSLvgGbT9pTozyCzZTQ0w0gLHarqHvlwNSo6s7SBuxnX87pUoqfl1y
+	xmhWhHaVhthL0QWo=
+X-Received: by 2002:a05:7022:1285:b0:130:9b78:b17b with SMTP id
+ a92af1059eb24-137f6befdaamr2412541c88.38.1780522025275; Wed, 03 Jun 2026
+ 14:27:05 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 3 Jun 2026 14:27:04 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 3 Jun 2026 14:27:04 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
+References: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV1PR04MB9071:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2f23c23-f60b-4b9e-766f-08dec1b46ade
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|56012099006|11063799006|6133799003|18002099003|3023799007|921020;
-X-Microsoft-Antispam-Message-Info:
-	NB7ezXZ84U19yyyU8Rw+cdJFbSyWNE2Z6ABMKQqQ+F/GrzwMd3WRmi0LLVh3ETlvBJFoMcClY35A5qFVyG3LWXKJQHNphPmW5P+HOAjQSY2ciCbZfAnL8plSeHhxTf4Yk8JttZcrA9sH+vQ63yKZ7v3McyxwRCOENxpGq64ovUJnLfT2N9yw3xR/1/U2dVQyJ4Eu0jyTJ566+jBWqBcW1fMMtghY2njEXFBeoSWHP86w1yvh6MajotOpAGq2k8DG19O9bCC00D8qbYzkwJe4KORLKP+4pf6vWnSVOrsrKnBfnJAv/aNHM8jZ+AcHgUkEIwtfDR1/4Iyk6no0X8dhrpqIoCj8LzMWl92PxqRgw1gBeqByRSiB6+Sb3MTnv57uQztPgjCpFaW9PIUZ3P9MsFClRQlpmLp0nYhm15hALObFm03WTCXmsPMPeDJ36yYsMD3Yqo2KhRM/CAXgp6vMpFEsbgvK4ReceVR7TqIgsd2T1sP1kO+wc5eBJyiuD0Nx/eS99bIhlJ/Dmj9y1LwrtmQp3nO6c/PaUoWpAlSL+8X/fbunu1a10iqou0QV7k5wofd6YnJrr82yseCi0fnhcm6gvGJKIkIvL3/NVIobjgEenjXXENSfOf3Fpo2hrcjdQoSb1aKknIXlAN4PNELYlxbb/GLFG1F4KLks8JPYu3kXTe/3A9wVnKsaAFB3X+zp
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(56012099006)(11063799006)(6133799003)(18002099003)(3023799007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kOB0XCkwHDsWv6zyVWPZ+ZoMDhsh0LksPfGTshB4tOO+pFRImKicmlTuVes3?=
- =?us-ascii?Q?KHt76C6j4I8KSrxgX+yqrkilv+kSXxrES3Lql4YiN+BkAAG2Dka89F21YEtj?=
- =?us-ascii?Q?37GE2xRWibHeYOUMA7zdY/BjUwPG0TcxtyVe1N+FkDe9oyW+kHOB/mzXfsaL?=
- =?us-ascii?Q?fWJMoON/IUTHvoixwhs9XdnrCTr/Mt4LzGS/RP5RzvuYJEjK00ty0XtuZLbl?=
- =?us-ascii?Q?upnXhreZ2qdFLPRJEl66ej2aN7ORolKDZ1bKgKWF7OPgili2cd3NJrdJMQtS?=
- =?us-ascii?Q?6vI/FEjIQnQ6E323oWxznsmJV5lk7lOO5n1nADfOuToKwwyDbiBPLiqbcj5d?=
- =?us-ascii?Q?p7cEsz56SiNdk6K2g4jSJRAWk0XONc0Hz0qUGonhJo8KtjG2pG+sJe37ps/x?=
- =?us-ascii?Q?V+3ObXmtT2dGgQ25Ubz4KDIOF5/vyCVjmnX+sKtSoqJHMzFCAZHzUBZ7hKgq?=
- =?us-ascii?Q?3l2Tn2TaVz4m7GAKzo2RJcSCY3i8WG3J/BYWlx+B2Cvv8/NQ/lc5rGSY4F/Z?=
- =?us-ascii?Q?uXa7xNT/FrRSFb3lqwoeQA6E/Dtb+ptCfX3TVhLO4ToFiqcOoBx5/67sHh7X?=
- =?us-ascii?Q?C1VmLDWR8p6wqsjKVzGUDjo/0KwaIX3vYbmQ2KqY4slMwGppTRAOYbVfQhHI?=
- =?us-ascii?Q?+DA1BUSP2aqC8fmlFj+gu8gDBwxys7Sq5FicMkkNHefdhZQnyVN5hlhSvMzi?=
- =?us-ascii?Q?YcVqL0WarqFNixGhB1wkwNlNTlFeHmuSFXgQdgjjYqZ+3yOwat0oVUv2IFfj?=
- =?us-ascii?Q?FK/lbatJ6PstZLRnIv0LiPIppBYel6iJK72u5ThPF8ovZjDIBeDsOlBVqnQE?=
- =?us-ascii?Q?JZxyya+foPqAbgcL+3aBQ4qDNTtaWw3zg43ajifN/CbKxYLrrO7N22D3AV3N?=
- =?us-ascii?Q?ArFkqpYL25QbUUDHAkGjWgSiI5KtNhCQpruC5mlGCCYKXG5CRQPb9nW2r3yj?=
- =?us-ascii?Q?m0a7U6/uuvnDeUQX/mOoQA+fDqWb0ZkTk2WFYd/cBFSjG+QSPz2SZD+u4Ddo?=
- =?us-ascii?Q?heCnQbaWs6lMs6mXc1eY/K+nbvlx22ExuHlQjWnKyUo9+flSZ1ooH2Ly0yAh?=
- =?us-ascii?Q?OneZbF3HUOFZQVuF6EPaVhJbKSAonIhmFhbgL74d9s1fFa22xo/4QNOkcmQX?=
- =?us-ascii?Q?EZtLzDxx7R/+J1qPqyWTbUFmeK4dFOsVvthZNIZbs5I8LmW8ExcoLC6hf3Ra?=
- =?us-ascii?Q?47t3bH442gJvF/ItTVy/T1xvInrDaR8W5X+ynh6ew5hqSIAiRs95TBGT8JUU?=
- =?us-ascii?Q?eEZi7sXgev7u7KN+WcoBtPznzffXSBqfL80CMQVIKqVeQiC41JBXHiLMXd2k?=
- =?us-ascii?Q?zFKDi6SaoGn5oJ+8ejrV4agqkQ450OO0qK0iqsolx16FJkYduOLF2amZcupv?=
- =?us-ascii?Q?+6f+nIyPhrW2e1xm41vB2J6deIxXd5m6HK1/bUB/Gb9mHOaUC65WFJtVAKC3?=
- =?us-ascii?Q?wuowg1U0IdE3gvr9Ffnbl9aBkJvuglCKZsa5+DPdHEKI7fUJuQgkoDc+nxZm?=
- =?us-ascii?Q?a/VFR4SqyJ18eJlXqhzd+9CYNN235Suql3L6TilCso0S/mMeGaltfmAm9WKc?=
- =?us-ascii?Q?R2JBC5aTkYxFTX8pEWNMN2S1NHrBLwZrMa5sYdRD6Q5nEB3jz7JJOKmBnjO4?=
- =?us-ascii?Q?OUmS5IJbm0h/Fu8mBEawgI8JvFZLnVsDXnaXWwj8Y33G+we/7G4EFDkuDjmd?=
- =?us-ascii?Q?+kfm76XrJkVhyaMYzqlBdJuqQoPdfAZrqSeooWVjV+yzEZ8oQFtr78GeryGv?=
- =?us-ascii?Q?77apua7F2336lohL/U7wPLEuiFoSaaVQDIfx5JtDHTbm/jMcU81O?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2f23c23-f60b-4b9e-766f-08dec1b46ade
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 21:09:36.7526
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qdd5YFMjwxHd7Ew4rb/KpkOgMWWtAUmel8wQYlOxDdiougYxoLkgQxichdM+B3C5RR4bsD+3gN6ep9A8rGqhffaoSw9ba7pAwru1nVz2OXWsBORH0oQAMlhogr/jzrhk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9071
+Date: Wed, 3 Jun 2026 14:27:04 -0700
+X-Gm-Features: AVHnY4LsErH-4tZ18bsf2DQ3mNo93pDC9YYwJb_gB-LjwgbEb6k0MtNG-ciXWJs
+Message-ID: <CAEvNRgGpaggjd3=ooyzv7iEbmA-x1mWJHgjLSjPi8=5CPrk-yQ@mail.gmail.com>
+Subject: Re: [PATCH v7 00/42] guest_memfd: In-place conversion support
+To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-From: Frank Li <Frank.Li@nxp.com>
+Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+writes:
 
-Convert lan9303.txt to yaml format to fix below CHECK_DTBS warnings:
-arch/arm/boot/dts/nxp/imx/imx53-kp-hsc.dtb: /soc/bus@50000000/i2c@53fec000/switch@a: failed to match any schema with compatible: ['smsc,lan9303-i2c']
+> This is v7 of guest_memfd in-place conversion support.
+>
 
-Additional changes:
-  - rename switch-phy to switch in example.
+Here's the outstanding items after going over everyone's comments
+including Sashiko's:
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-change in v2:
-- fix typo Additional in commit message
-- add rob's reviewed-by tags
-- fix doc ref problem
----
- .../devicetree/bindings/net/dsa/lan9303.txt   | 100 --------------
- .../bindings/net/dsa/smsc,lan9303.yaml        | 123 ++++++++++++++++++
- Documentation/networking/dsa/lan9303.rst      |   2 +-
- 3 files changed, 124 insertions(+), 101 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/net/dsa/lan9303.txt
- create mode 100644 Documentation/devicetree/bindings/net/dsa/smsc,lan9303.yaml
++ KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
+    + Need to move page clearing into __kvm_gmem_get_pfn to resolve
+      leak where populate can put initialized kernel memory into TDX
+      guest
+    + See suggested fix at [1]
++ KVM: guest_memfd: Only prepare folios for private pages,
+    + s/non-CoCo/CoCo in commit message "INIT_SHARED is about to be
+      supported for non-CoCo VMs in a later patch in this series
+    + Use Suggested-by: Michael Roth <michael.roth@amd.com>
++ KVM: selftests: Test that shared/private status is consistent across
+  processes
+    + Improve test reliability using pthread_mutex
+    + I have a fixup patch offline.
+	
+I would like feedback on these:
+	
++ KVM: selftests: Test conversion with elevated page refcount
+    + Askar pointed out that soon vmsplice may not pin pages. Should I
+      pin pages through CONFIG_GUP_TEST like in [2]? I prefer not to
+      take a dependency on CONFIG_GUP_TEST.
++ KVM: selftests: Add script to exercise private_mem_conversions_test
+    + Would like to know what people think of a wrapper script before
+      I address Sashiko's comments.
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/lan9303.txt b/Documentation/devicetree/bindings/net/dsa/lan9303.txt
-deleted file mode 100644
-index 46a732087f5ca..0000000000000
---- a/Documentation/devicetree/bindings/net/dsa/lan9303.txt
-+++ /dev/null
-@@ -1,100 +0,0 @@
--SMSC/MicroChip LAN9303 three port ethernet switch
---------------------------------------------------
--
--Required properties:
--
--- compatible: should be
--  - "smsc,lan9303-i2c" for I2C managed mode
--    or
--  - "smsc,lan9303-mdio" for mdio managed mode
--
--Optional properties:
--
--- reset-gpios: GPIO to be used to reset the whole device
--- reset-duration: reset duration in milliseconds, defaults to 200 ms
--
--Subnodes:
--
--The integrated switch subnode should be specified according to the binding
--described in dsa/dsa.txt. The CPU port of this switch is always port 0.
--
--Note: always use 'reg = <0/1/2>;' for the three DSA ports, even if the device is
--configured to use 1/2/3 instead. This hardware configuration will be
--auto-detected and mapped accordingly.
--
--Example:
--
--I2C managed mode:
--
--	master: masterdevice@X {
--
--		fixed-link { /* RMII fixed link to LAN9303 */
--			speed = <100>;
--			full-duplex;
--		};
--	};
--
--	switch: switch@a {
--		compatible = "smsc,lan9303-i2c";
--		reg = <0xa>;
--		reset-gpios = <&gpio7 6 GPIO_ACTIVE_LOW>;
--		reset-duration = <200>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 { /* RMII fixed link to master */
--				reg = <0>;
--				ethernet = <&master>;
--			};
--
--			port@1 { /* external port 1 */
--				reg = <1>;
--				label = "lan1";
--			};
--
--			port@2 { /* external port 2 */
--				reg = <2>;
--				label = "lan2";
--			};
--		};
--	};
--
--MDIO managed mode:
--
--	master: masterdevice@X {
--		phy-handle = <&switch>;
--
--		mdio {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			switch: switch-phy@0 {
--				compatible = "smsc,lan9303-mdio";
--				reg = <0>;
--				reset-gpios = <&gpio7 6 GPIO_ACTIVE_LOW>;
--				reset-duration = <100>;
--
--				ports {
--					#address-cells = <1>;
--					#size-cells = <0>;
--
--					port@0 {
--						reg = <0>;
--						ethernet = <&master>;
--					};
--
--					port@1 { /* external port 1 */
--						reg = <1>;
--						label = "lan1";
--					};
--
--					port@2 { /* external port 2 */
--						reg = <2>;
--						label = "lan2";
--					};
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/net/dsa/smsc,lan9303.yaml b/Documentation/devicetree/bindings/net/dsa/smsc,lan9303.yaml
-new file mode 100644
-index 0000000000000..42f8473538a07
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/dsa/smsc,lan9303.yaml
-@@ -0,0 +1,123 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/dsa/smsc,lan9303.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: SMSC/MicroChip LAN9303 three port ethernet switch
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+description:
-+  The LAN9303 is a three port ethernet switch with integrated PHYs for the
-+  two external ports. The third port is an RMII/MII interface to a host
-+  processor. The device can be managed via I2C or MDIO.
-+
-+  Note - always use 'reg = <0/1/2>;' for the three DSA ports, even if the
-+  device is configured to use 1/2/3 instead. This hardware configuration
-+  will be auto-detected and mapped accordingly.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - smsc,lan9303-i2c
-+      - smsc,lan9303-mdio
-+
-+  reg:
-+    maxItems: 1
-+
-+  reset-gpios:
-+    description:
-+      GPIO to be used to reset the whole device
-+    maxItems: 1
-+
-+  reset-duration:
-+    description:
-+      Reset duration in milliseconds
-+    default: 200
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+allOf:
-+  - $ref: dsa.yaml#
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    /* I2C managed mode */
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        switch@a {
-+            compatible = "smsc,lan9303-i2c";
-+            reg = <0xa>;
-+            reset-gpios = <&gpio7 6 GPIO_ACTIVE_LOW>;
-+            reset-duration = <200>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    label = "cpu";
-+                    ethernet = <&master>;
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    label = "lan1";
-+                };
-+
-+                port@2 {
-+                    reg = <2>;
-+                    label = "lan2";
-+                };
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    /* MDIO managed mode */
-+    mdio {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        switch@0 {
-+            compatible = "smsc,lan9303-mdio";
-+            reg = <0>;
-+            reset-gpios = <&gpio7 6 GPIO_ACTIVE_LOW>;
-+            reset-duration = <100>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    label = "cpu";
-+                    ethernet = <&master>;
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    label = "lan1";
-+                };
-+
-+                port@2 {
-+                    reg = <2>;
-+                    label = "lan2";
-+                };
-+            };
-+        };
-+    };
-diff --git a/Documentation/networking/dsa/lan9303.rst b/Documentation/networking/dsa/lan9303.rst
-index ab81b4e0139e3..776572be265e1 100644
---- a/Documentation/networking/dsa/lan9303.rst
-+++ b/Documentation/networking/dsa/lan9303.rst
-@@ -12,7 +12,7 @@ Driver details
- 
- The driver is implemented as a DSA driver, see ``Documentation/networking/dsa/dsa.rst``.
- 
--See ``Documentation/devicetree/bindings/net/dsa/lan9303.txt`` for device tree
-+See ``Documentation/devicetree/bindings/net/dsa/smsc,lan9303.yaml`` for device tree
- binding.
- 
- The LAN9303 can be managed both via MDIO and I2C, both supported by this driver.
--- 
-2.43.0
+[1] https://lore.kernel.org/all/CAEvNRgEVC=fFuKVgZYvWyZD7t_zvUZihFG8hrACjvtkD5cwugw@mail.gmail.com/
+[2] https://lore.kernel.org/all/baa8838f623102931e755cf34c86314b305af49c.1747264138.git.ackerleytng@google.com/
 
+>
+> [...snip...]
+>
