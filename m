@@ -1,352 +1,294 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35CE352C54
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 02:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780453292; cv=none; b=cXgvjz/6mW0Uuah4S78MhyrBCH1jjsCjqCAI6Y3QKUWkaxF4W/AaLRsayKsjL8wJjENxm+HnZU/mQGLgw5AAZ7PAic56wUV1JuHbhIEWbJLD8GAOH1CcqEFHOuPhfwVZl/4yMwoEWG3lK15ctYJmhC8D8NwuEm3gWGJ6086NJaQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780453292; c=relaxed/simple;
-	bh=B6UiAWELcOybS6WN+RYhVLn+8R0MHHzWvv7kTDPBaV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r2n50uVdlOlNqnKxbZFtgdoXaH1Jm3c4M2AZfxiqiTINTze3bVGnQpOT5PdrnyWKrdbQm0u61SgSIt5pA1fHMIYB1hn/KSDcQ71WqUPEHp+zAymo38M9FckZcM74f6X6qIFV1aX9XbiJihpJUDWRlxVppjfv/KFhEuFyv+Lvn9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PgwKiS59; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55380322533
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 02:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780453990; cv=pass; b=OnudOMVcwo3tHTbKzhZZ5TyKAplHE6z5M/464cnRDKOrG5uBhGE+HVqGypr3tBQ6DDgzFkot6rSZ/6+VSG5OPmv5rnjlTXS77OJ4b8jkzMzmyM6O3C9X2f+EXoXXKVKgKDUKvAL8aXWrnqYdWlDsPvteMRSApXkZ6zwb0m7Rl1o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780453990; c=relaxed/simple;
+	bh=B5D6CLLoPVetalo0iR0aHY58CILhdyNTKmLkx6nm3Ww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VPRPgTOiMV8S6CcByNGvc1NI3LLk33xH87Y++lZhcDVxijmo7DPzkdrsLIrDJzYTilUG7UXicwh8Xu1JShgDA1mtMx2zgPwY0yCT9grK6OTzvfv9HzDz0Cl08HzNMMk2J/awLAPNfHNEOcOq6J4pZQXKG+WKm4KEoooV75f5rlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5o2DZlB; arc=pass smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PgwKiS59"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5176a2fd597so11399991cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 19:21:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5o2DZlB"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8ce9e56f68cso25344066d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 19:33:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780453988; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Muc35mFB96SJaYCYS0w1YfRYVySwUyvJACCGuUEQZyvAncoIW59wzWHEAgbknMHjO1
+         WPXjn0ijuRVXTgZ/ZwT2THHv2g+Uwsg7VL5Kk4LkqYB/w/UUFGULLncsx+Hc0B/E9D1x
+         csmzEcXmc0+4S8DVeu2NlhM0VNyO80BUVG79neIL2+7nSTGLTi6FA3GJUwTsm1FkCOL5
+         l6PTpqDmhA2ljT4UtNrBp7EqzVTFngfSDuKdgVb1V86avEB6IIIO5S+wvxYd/WZQI3YG
+         7502KRomrFh/9b0qloIXD93xYW7GF34vPxG5W0a+vzlfWhxzVKXCcwXQJ95x+AEocqlz
+         HDhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
+        fh=hx4wm0dcwPrY+QIKTKOvsWfwyfxsC6WjXQjgdhz48B0=;
+        b=WsOpaO+wcVPg07yUfAKvY4YWdeWi7PfmLr9c72kzCnEqpGHwKq50UvsohPJVJyobfT
+         P/fCss9eSX3M0PULNqnrr/PaHdlP2Op4dtiDpvCAqDWBd71IlSbLBnrYxM0MTGCoHK6I
+         lMXOaI6HF3wcX8yCSwT0u1YVHy4jwucLQ2Cz8dPS1Mx9Nv0LaDOayzXan1JcihNY6/mT
+         zDQIOgOBlvWWW8BgyfmV+R+9msbSGUEv0uKzOjpNo4HcS5E6WCj4D8aA3w2sGQW6Pz/z
+         VcLzGCoLtStwk/oaakQH/J5J5XYsl+LZAA/g17/cHuAn3mKi3Vb93v3Qql91eOsfbBMc
+         7wmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780453290; x=1781058090; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MJOr97mrATixEW5kehH0DvlyrDDJP/7LhB74lpVfHs=;
-        b=PgwKiS597GCKPaZv1rbT0kLAVAtEeLvpTCDO4Fe/rEHV3Bu4nx5cSjnVWaoOx0moAN
-         HESuTtcrgwTa3UEziGXZoo42J9GEXnlPu90nDjbx5ces5v/Truabf170CqTYrEkeiEVu
-         U/PH1IP4dMgyM3BQ+0jQkj1GeuuW5LrgeOEns5vo8pSlpgRNzjhzusU2Jq1Fzk8v52qj
-         X1Zmxr0oJUhr3zyVdijSKg571NTOGn/h+9+VJnBzzhiZ9p4suKmtgRCB5xjoK0bsTQ+x
-         Nvyj1K38YF2DZdT/zyPWuZd2WlNEJoW/KLsbaIPZjwaPh3cDm/v4ynrPsooZZVhIrSuT
-         l1Zg==
+        d=gmail.com; s=20251104; t=1780453988; x=1781058788; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
+        b=N5o2DZlBOJc6jZGzs9MwNpJq/8U9mmpt1peMrRZdcUvoHwNcqHqquhBU3mIO/IX529
+         pgiUnHpFzLRCtqqKbF7nnPEnsAjMsqngH0woc6iJdRPB8YPCQKm5XFp8QhP7F14DW75A
+         pH+Q5Sddywlomz3cx43v+t9wghCIVIiJKG6ZXOSuAZv3RP+NaZCk401QV6/yq9lI6drm
+         bMErPekdFDoROYNk//7b9dGo/+aIWuA8kmKXLBQM96R8883nov31Uj+DbJWzWWahSdUu
+         Ly0WLS6LtVcc0OkqS6hmJJneGuoPncOhuZqD+tQIatKUHiF5DzWnatA37ejNqVWbCn3G
+         9HPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780453290; x=1781058090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9MJOr97mrATixEW5kehH0DvlyrDDJP/7LhB74lpVfHs=;
-        b=OgEb5rhgLxHsl9nWWGhu5W0STNl8zMLghts721ersTXtWYFfod87uxQ5Pf43t5jqzK
-         3wnZLdxuf4cCoAiHFmkh1oM+JFVmjRpbz8jZv89gEVnoBHoLKfRdArp/gS8HEC01zFKL
-         Lr85izZ3aKe/RHdhrrY0eytUDlmohodvDtVmk7HtiuLh74xcdd4xUP1XtAvDGxbHKlQ6
-         krCws/LSaRim8IIXsI9OhI5JzqEcOc3Rzt7mOFRpts3BnG72Olsw1f4OcJshegk9jeYF
-         251PlRZ2XzebKaDRtw0srMR7pxwXZI8f3ZWN2GmXuK3VxYnKD7hWUB2V8C8kK8p8F5Un
-         nRQg==
-X-Forwarded-Encrypted: i=1; AFNElJ8zAkQLuW8/57aiYayG/Y8QOoLazpUJuHqS82C+qhjAxpx6V0iAGRjZNjipTTZuy8em0gDduVZfmXI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8XI/xSWkXA3KLeIjSolNwAM9NMxjWwiRBA8VAZEyU624QA93A
-	Ay4s+tnzgG+jsBpaNqPL8KEdmfx0+0Ks8DSiXjiBuBtIq/MyoJKLYuyLQPdz9lp4RjE=
-X-Gm-Gg: Acq92OF1wlV8hNamiDOGP8tUv0Q9+WBVJhGllvFF84BUmzII+CLmyESOkoUNJ1xnl3C
-	kYcanbcx/emSJYLTQRbUJDPFC+e37U7ptHY2a8ZmgHkE1x1S1YVm0D8ccJ5pJ+218Yae4tgVa+U
-	LRbMY8ACWga5h1yF2jrMiDjFaw+Gc15BJcGljZWeAWn06QxHp5Tm+/euan+T5DJ4fHM+QPe+3mL
-	9WuWo/pUzjbduLPy7YHNH2bvTuh6eiyAehe9lA8nvQd5Oac+oRogsE1j61fe2U3x3IDplXsJcZM
-	HNqKNRY0Bu2v5MrGYarYJCqZDgacnh8BbTlWroWXmkaTsJ9elKAwxPZH/btAWb+cRDcuCZlswGJ
-	b4kUIn3fKNODI+dAou6WVC7mZjaMbtOeaEGK+BgILCrIh2ojajIQFCcWtmYgJkRXyW3wfY69+jW
-	PsRuNRndnau4FbzUbKVzCHi+RG5dCePZ8OMjkYfnv5nfbkDDK7WSLXV2zJ7Qn47g==
-X-Received: by 2002:a05:622a:306:b0:50d:9e8d:9837 with SMTP id d75a77b69052e-517785adec6mr26502311cf.11.1780453289820;
-        Tue, 02 Jun 2026 19:21:29 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd06d600sm8167806d6.35.2026.06.02.19.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 19:21:29 -0700 (PDT)
-Date: Wed, 3 Jun 2026 02:21:28 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
-	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
-Subject: Re: [PATCH v4 07/13] kho: add support for linked-block serialization
-Message-ID: <ah75uAV8uPtS0XNj@plex>
-References: <20260530221938.115978-1-pasha.tatashin@soleen.com>
- <20260530221938.115978-8-pasha.tatashin@soleen.com>
- <178038801491.119771.18384706761138506132.b4-review@b4>
+        d=1e100.net; s=20251104; t=1780453988; x=1781058788;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
+        b=A4r64xpc5PCFHf7WK1FFWjNxt01DAfI68Dbrh14ccPIxC0JIKSyiJwYFk/2/9V2Wgu
+         vv2FE1t6SX0TOUG5VtywvzV85pS8FyMrJycitkx+Buyh4aN/EDyleAg0NcAOvC8m5hqx
+         8nJoM8nFaeSiRS61q8EoZIaGeO6MZDq+QOaWEN/m+pJuPiazBgbKcQUGSgLyuwpinBGR
+         vpA4Zz0XyKeHgAAtXAfiY1BCJDqSRwzqrubleeM3QSJQOMDU3RJnBzS/XH5eM4n5pdoP
+         W1MLALpXxiSoZHFRPYD/BCVpPNuEIyo3b66HbjnL+bMPbkTA++SAWSjFl1Fd/RkqZXik
+         3RpA==
+X-Forwarded-Encrypted: i=1; AFNElJ9pIVPtz7ivaboZv4UJuFVm0RvQFsBDGW5C0iwYuSOQXQVp9ld4570DqfL7dXeKc4UKgumVqyEF5qU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEqHy8F9AT1WkVeYBuWwTEgG8UIAWsXrrtCQpT+Cv5E54pujqq
+	Ip2L8jfeecjjUxrYobep7qYK4D0oIsqYR2bkzwZkaP+4zNUlEDHGfZfvnqnDCXQXJWHxU05xBpT
+	F6qnbWbadyYPw6/dQgR7OS/hthncxY3g=
+X-Gm-Gg: Acq92OHzmz1BLPX4o5j1F2wCsnoWh0qmZn9CwiokRRAM6a2UO9g6bYB0GTeHoNC2NTd
+	HK+HO3x3FWXm2iGUGzr4JHG2V0fnLYa/Ya0o0tIzX0lHtnwT/2De8H2HPOTNQJvdFMj1D6HVUMa
+	iQSxl4VRoZNrmCPs4YZuuw0UNWjeg3V/92BI8UE4338ybkrGReh6n+L7ULFWzTcyMxENpOnq1Kz
+	x3R2VbEjqo9HC36JWaPbjD3u4zgcrg5aGNDwL/E9dbPSMf/6H9YfkcOz4AzfnPi77VfBptIH7h5
+	6yg3c3j7x9584u6oEkU=
+X-Received: by 2002:a05:6214:3ca0:b0:8ca:1ea9:d9af with SMTP id
+ 6a1803df08f44-8cece152ef7mr18859336d6.42.1780453988217; Tue, 02 Jun 2026
+ 19:33:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178038801491.119771.18384706761138506132.b4-review@b4>
+References: <20260527222122.10620-1-derekjohn.clark@gmail.com>
+ <20260527222122.10620-2-derekjohn.clark@gmail.com> <ahfQW54YoHj2Pal_@google.com>
+ <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com> <ahnYeAbzO5K3feRn@google.com>
+In-Reply-To: <ahnYeAbzO5K3feRn@google.com>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Tue, 2 Jun 2026 19:32:55 -0700
+X-Gm-Features: AVHnY4KU2GxEJvnSXzx6ZxsBIJkIyxmbjmt0pWWQGiz1t0od313xiLMX9DydjHY
+Message-ID: <CAFqHKTnGpv5=4zGXQY99NDSwtTAGuZpBpZ3C2w+TRbuHCbS=WA@mail.gmail.com>
+Subject: Re: [PATCH v10 1/4] HID: hid-msi: Add MSI Claw configuration driver
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, Denis Benato <denis.benato@linux.dev>, 
+	Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06-02 11:13, Mike Rapoport wrote:
-> On Sat, 30 May 2026 22:19:32 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > diff --git a/include/linux/kho_block.h b/include/linux/kho_block.h
-> > new file mode 100644
-> > index 000000000000..5e6b87b1befa
-> > --- /dev/null
-> > +++ b/include/linux/kho_block.h
-> > @@ -0,0 +1,79 @@
-> > [ ... skip 19 lines ... ]
-> > +	struct list_head list;
-> > +	struct kho_block_header_ser *ser;
-> > +};
-> > +
-> > +/**
-> > + * struct kho_block_set - A set of blocks that belong to the same object.
-> 
-> "same object" sounds off to me. The blocks belong to the same module?
-> user?
-> 
-> Thoughts?
-
-user and module are not descriptive, as the same client/user/module can 
-use multiple kho_block_set for different purposes. I suggest:
-
-"struct kho_block_set - A set of blocks containing serialized entries of 
-the same type."
-
-> 
-> > + * @blocks:          The list of serialization blocks (struct kho_block).
-> > + * @nblocks:         The number of allocated serialization blocks.
-> > + * @head_pa:         Physical address of the first block header.
-> > + * @entry_size:      The size of each entry in the blocks.
-> 
-> I think it's "... entry in a block"
-
-It is 'in the blocks' (or 'across the blocks') because a single  
-block_set  can contain multiple blocks, and they all share this same 
-uniform entry size.
-
-> 
-> > [ ... skip 42 lines ... ]
-> > +
-> > +void kho_block_it_init(struct kho_block_it *it, struct kho_block_set *bs);
-> > +void *kho_block_it_next(struct kho_block_it *it);
-> > +void *kho_block_it_read(struct kho_block_it *it);
-> > +void *kho_block_it_prev(struct kho_block_it *it);
-> > +void kho_block_it_finalize(struct kho_block_it *it);
-> 
-> These operate on block sets, should be reflected in the names.
-> Can be kho_blocks_ to avoid too long names.
-
-We have already started using kho_block_set. Although it is longer, I 
-prefer to avoid kho_blocks/kho_block because the subtle difference makes 
-them difficult to read and prone to typos during coding. Let's use 
-kho_block_set for operations on a block_set.
-
+On Fri, May 29, 2026 at 11:29=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, May 28, 2026 at 11:34:18PM -0700, Derek John Clark wrote:
+> > On Wed, May 27, 2026 at 10:32=E2=80=AFPM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > >
+> > > Hi Derek,
+> > >
+> > > On Wed, May 27, 2026 at 10:21:19PM +0000, Derek J. Clark wrote:
+> > > > Adds configuration HID driver for the MSI Claw series of handheld P=
+C's.
+> > > > In this initial patch add the initial driver outline and attributes=
+ for
+> > > > changing the gamepad mode, M-key behavior, and add a WO reset funct=
+ion.
+> > > >
+> > > > Sending the SWITCH_MODE and RESET commands causes a USB disconnect =
+in
+> > > > the device. The completion will therefore never get hit and would t=
+rigger
+> > > > an -EIO. To avoid showing the user an error for every write to thes=
+e
+> > > > attrs a bypass for the completion handling is introduced when timeo=
+ut =3D=3D
+> > > > 0.
+> > > >
+> > > > The initial version of this patch was written by Denis Benato, whic=
+h
+> > > > contained the initial reverse-engineering and implementation for th=
+e
+> > > > gamepad mode switching. This work was later expanded by Zhouwang Hu=
+ang
+> > > > to include more gamepad modes. Finally, I refactored the drivers da=
+ta
+> > > > in/out flow and overall format to conform to kernel driver best
+> > > > practices and style guides. Claude was used as an initial reviewer =
+of
+> > > > this patch.
+> > >
+> > > I wonder why do you need to roll asynchronous probing and asynchronou=
+s
+> > > resume by hand? This I think complicates the driver greatly and force=
+s
+> > > you to use a ton of works, spinlocks, and checks.
+> > >
+> > > Thanks.
+> > >
 > >
-> > diff --git a/kernel/liveupdate/kho_block.c b/kernel/liveupdate/kho_block.c
-> > new file mode 100644
-> > index 000000000000..a4e650af946f
-> > --- /dev/null
-> > +++ b/kernel/liveupdate/kho_block.c
-> > @@ -0,0 +1,384 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +/*
-> > + * Copyright (c) 2026, Google LLC.
-> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> > + */
-> > +
-> > +/**
-> > + * DOC: KHO Serialization Blocks
-> > + *
-> > + * KHO provides a mechanism to preserve stateful data across a kexec handover
-> > + * by serializing it into memory blocks. This file provides the common
-> 
-> "This file" does not look good in HTML docs.
+> > Hi Dmitry,
+> >
+> > I suppose being asked this means my cover letter and  commit
+> > descriptions need some additional context.  The MCU in these Claw
+> > devices is quite temperamental. There are a few specific issues that
+> > cause the need for multiple work queues, a serialization mutex, and
+> > subsequently spinlocks to prevent stale data reads.
+> >
+> > 1.) The MCU will halt function if it receives any output reports
+> > before ~500MS after probe or resume. This can either manifest as the
+> > device never responding to a command, or it can cause the entire
+> > system to become unstable and reboot. This creates the need for
+> > cfg_setup to query the MCU and then add the gamepad attrs, led_mc
+> > device, and rgb attrs. As a side effect, because a system could
+> > technically be suspended during that 500ms delay, there exists the
+> > need to re-queue the work if it was never triggered, hence the resume
+> > queue.
+> > 2.) The MCU will not always respond in order if two or more output
+> > reports are sent within a few ms of each other. Since many of the
+> > commands use a generic "ACK", or share an "ACK" type but don't provide
+> > specific context about what sub-function called them, we could
+> > potentially have cross talk where data is saved in the wrong attribute
+> > or errors propagate because of a missed message.  To get around this
+> > serialization issue we hold a mutex through a completion triggered in
+> > raw_event and, for most events, save a state machine on what command
+> > is expected and what sub-command was the initiator. (I.E. profile
+> > events handle the M1, M2, RGB, Left rumble, and right rumble). Since
+> > the state machine is accessed on both sides, we need spinlocks
+> > guarding the reads. This essentially serializes the data and makes it
+> > predictable. Using this pattern I haven't had any issues reading from
+> > or writing to the MCU.
+> > 3.) Some commands will never return their "ACK" while a completion is
+> > held, so we have a workaround to basically ignore them and hope the
+> > command worked. This is only needed for SYNC_TO_ROM, from which we
+> > don't need to set anything on its "ACK", and switching the gamepad
+> > mode, which causes USB disconnect/reconnect and the driver fully
+> > reloads, so we'll never be able to read it anyway.
+> > 4.) The RGB work queue is used to free the userspace write while the
+> > completion is held. I found that use without it could stall userspace
+> > quite significantly if it has multiple writes back to back. I
+> > experienced this using Steam's customization menu, which sends a
+> > single write for every increment of its color and brightness sliders.
+> > when traversing the full length of the slider it is possible to have
+> > effects changing for nearly a minute after stopping. With the queue,
+> > only the most recent write is eventually sent to the MCU. This issue
+> > also affects the Go 2 driver as well, though not to the same extent,
+> > but for which I'll be adding a similar de-bounce queue soon. Go S is
+> > also technically affected by this bug, but that returns quickly enough
+> > that it isn't really feasible to trigger the bug with much frequency.
+> > I'll still fix that one as well though.
+> >
+> > TBH I'm not "happy" with the complexity of the driver, but I don't see
+> > a reasonable alternative. If you have any specific suggestions that I
+> > could try that might simplify it, I'd be more than happy to give it a
+> > shot. That being said, I'm not very optimistic about it. Development
+> > on this device has been like wrestling a bear.
+>
+> Thank you for this detailed explanation. I would like to concentrate on
+> the #1 first. What happens in the driver is you are essentially rolling
+> asynchronous probing and asynchronous suspend/resume in the driver
+> itself, and end up fighting with the kernel and the driver core
+> specifically.
+>
+> As far as suspend/resume goes: HID subsystem already enables
+> asynchronous resume handling (checkout the call to
+> device_enable_async_suspend() in
+> drivers/hid/hid-core.c::hid_allocate_device()). Therefore I think you
+> just need to stick the necessary delay in your resume method() and call
+> it a day.
+>
+> For the probing I would look into annotating the driver as
+> PROBE_PREFER_ASYNCHRONOUS and relying on that. Again, if you stick the
+> required delay in probe then sysfs attributes will not be created too
+> early, same for the rest of concerns with the device being exposed to
+> userspace before it is ready to handle requests.
 
-Fixed.
+Hi Dmitry,
 
-> 
-> > [ ... skip 15 lines ... ]
-> > +
-> > +/*
-> > + * Safeguard limit for the number of serialization blocks. This is used to
-> > + * prevent infinite loops and excessive memory allocation in case of memory
-> > + * corruption in the preserved state.
-> > + */
-> 
-> Can you add how much memory it is and how many entries with, say, 4 u64
-> it can accommodate?
+I've done a bit of a deep dive into this to try and get it to work
+without work queues while using PROBE_PREFER_ASYNCHRONOUS and regular
+sleeps. While it does simplify the driver, I can't get it to function
+properly. No matter how long I wait the probe fails with an -EBUSY as
+raw_event never fires during the probe context, and my completion
+handler times out. The most likely explanation I have found is that
+the MCU must require all interfaces to be fully bound before it will
+respond to interrupt URB completions (vice needing to sleep for 500ms
+for the MCU to be ready as I previously thought). During probe the
+driver core holds the parent USB device lock for the duration of each
+interface's probe. Since the other interfaces cannot start binding as
+they are blocked waiting for the parent lock, and the MCU is waiting
+for them to bind before responding, no ACK arrives within the timeout
+window and the probe fails. The other interfaces only begin probing
+after the config interface probe returns and releases the parent lock,
+as confirmed by dmesg timestamps. When using the work_queue method all
+interfaces have finished probing, so the MCU is responding to
+interrupt URB completions and everything works.
 
-Done
+> If there are issues with HID subsystem honoring
+> PROBE_PREFER_ASYNCHRONOUS I would look into fixing the subsystem rather
+> than try to work around it in the driver.
 
-> 
-> > [ ... skip 13 lines ... ]
-> > +{
-> > +	if (unlikely(!bs->count_per_block)) {
-> > +		bs->count_per_block = (KHO_BLOCK_SIZE -
-> > +				       sizeof(struct kho_block_header_ser)) /
-> > +				      bs->entry_size;
-> > +		WARN_ON(!bs->count_per_block);
-> 
-> Don't you want to set count_per_block in _init()?
+Since a lock is held on the parent while each interface is attached,
+and USB devices have multiple interfaces, this happens synchronously
+even in "async" context. The HID core calls driver_attach, which
+detects the async flag and calls __driver_attach_async_helper, which
+then calls driver_probe_device after locking the parent.
 
-Done.
+From drivers/base/dd.c:
+static void __driver_attach_async_helper(void *_dev, async_cookie_t cookie)
+{
+    struct device *dev =3D _dev;
+    const struct device_driver *drv;
+    int ret;
 
-> 
-> > [ ... skip 29 lines ... ]
-> > +	if (!block)
-> > +		return -ENOMEM;
-> > +
-> > +	block->ser = ser;
-> > +	last = list_last_entry_or_null(&bs->blocks, struct kho_block, list);
-> > +	list_add_tail(&block->list, &bs->blocks);
-> 
-> No locks?
+    __device_driver_lock(dev, dev->parent);
+    drv =3D dev->p->async_driver;
+    dev->p->async_driver =3D NULL;
+    ret =3D driver_probe_device(drv, dev);
+    __device_driver_unlock(dev, dev->parent);
 
-Linked blocks are not internally synchronized; that is a responsibility 
-of the caller, similar to linked lists.
+    dev_dbg(dev, "driver %s async attach completed: %d\n", drv->name, ret);
 
-> 
-> > [ ... skip 12 lines ... ]
-> > + * @bs:    The block set.
-> > + * @count: The current number of entries.
-> > + *
-> > + * This function handles the dynamic expansion of a block set. It allocates
-> > + * and links a new serialization block if the provided entry count matches
-> > + * the current total capacity of the set.
-> 
-> This is a weird semantics for a generic API. I'd expect _grow() would
-> add count - current_count blocks.
+    put_device(dev);
+}
+...
+ * driver_probe_device - attempt to bind device & driver together
+...
+ * This function must be called with @dev lock held.  When called for a
+ * USB interface, @dev->parent lock must be held as well.
 
-Changed the semantics to use target count, i.e. "The target number of 
-valid entries to accommodate."
+One possible solution might be to add a way to match on
+bInterfaceNumber in hid_device_id and allow the interfaces I don't
+care about to stay bound to hid_generic. Another would be to
+parallelize the interface probing. I'm not sure about the feasibility
+of either approach since they would have significant changes and broad
+implications for all USB/USBHID drivers. I also don't know if that
+would even solve the problem.
 
-> 
-> > [ ... skip 25 lines ... ]
-> > +}
-> > +
-> > +/**
-> > + * kho_block_shrink - Conditionally destroy the last block in a block set.
-> > + * @bs:              The block set.
-> > + * @count:           The current number of entries across all blocks.
-> 
-> Maybe 
->  	... of valid entries?
+Thanks,
+Derek
 
-OK
-
-> 
-> > + *
-> > + * This function checks if the last block in the set is redundant based on the
-> > + * total entry count and the capacity of the preceding blocks. If the entry
-> > + * count can be accommodated by the blocks that come before the last one, the
-> > + * last block is destroyed and removed from the set.
-> 
-> This should mention that it's the caller responsibility to ensure that
-> entries are removed in the right order.
-
-OK
-
-> 
-> > [ ... skip 49 lines ... ]
-> > +
-> > +		fast = phys_to_virt(fast->next);
-> > +		slow = phys_to_virt(slow->next);
-> > +
-> > +		if (slow == fast) {
-> > +			pr_err("Cyclic list detected\n");
-> 
-> Maybe "block set is corrupted"?
-
-OK
-
-> 
-> > +			return false;
-> > +		}
-> > +	}
-> > +
-> > +	return true;
-> > +}
-> > +
-> > +/**
-> > + * kho_block_restore - Restore a block set from a physical address.
-> > + * @bs:      The block set to restore.
-> > + * @head_pa: Physical address of the first block header.
-> 
-> I'd mention that the block set should be allocated and initialized
-
-Done
-
-> 
-> > [ ... skip 10 lines ... ]
-> > +	bs->incoming = true;
-> > +	if (!head_pa)
-> > +		return 0;
-> > +
-> > +	bs->head_pa = head_pa;
-> > +	if (!kho_cyclic_blocks_check(bs)) {
-> 
-> if (kho_block_set_cyclic()) 
-> 
-> reads nicer IMO
-
-Sure, done.
-
-> 
-> > [ ... skip 87 lines ... ]
-> > +{
-> > +	if (!it->block)
-> > +		return NULL;
-> > +
-> > +	if (it->i == kho_block_count_per_block(it->bs)) {
-> > +		it->block->ser->count = it->i;
-> 
-> Why iterator updates ser->count?
-
-The new name  kho_block_set_it_reserve_entry()  clarifies that this is a 
-write/reservation path function (unlike the original read-only  next  
-name). Reserving a slot to write entries naturally implies 
-writing/finalizing the metadata count in the physical block header when 
-a block becomes full
-
-> > +		if (list_is_last(&it->block->list, &it->bs->blocks))
-> > +			return NULL;
-> > +		it->block = list_next_entry(it->block, list);
-> > +		it->i = 0;
-> > +	}
-> > +
-> > +	return (void *)(it->block->ser + 1) + (it->i++ * it->bs->entry_size);
-> 
-> In a month we'll need an LLM's help to understand what it does.
-
-Good thing in a month we will have even stronger LLMs to help us :-)
-
-Anyways, clean-up ...
-
-> 
-> > +}
-> > +
-> > +/**
-> > + * kho_block_it_read - Return the next entry slot for reading.
-> > + * @it: The block iterator.
-> 
-> And what is the conceptual difference between this and _it_next()?
-
-This was updated :-)
-
-> 
-> > [ ... skip 49 lines ... ]
-> > + * @it: The block iterator.
-> > + */
-> > +void kho_block_it_finalize(struct kho_block_it *it)
-> > +{
-> > +	if (it->block)
-> > +		it->block->ser->count = it->i;
-> 
-> So, it looks like the intention of _it_next is for write, and this ends a
-> write iteration.
-> 
-> I think the names should be adjusted to make it clearer.
-
-Done
-
-> 
-> -- 
-> Sincerely yours,
-> Mike.
-> 
+> Thanks.
+>
+> --
+> Dmitry
