@@ -1,113 +1,180 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1693CCFCA
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 15:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182AD395AFD
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 15:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780498818; cv=none; b=jGteD9sO92vrjpOlr78P249mD5kUbXEFXPsUB3SwCbr3rbqV7KQAIJtWbbA3LCANG+Mc//DeS/ozGwBi/0Si4qv3gf69ccZfQohnI517O+93cridBa/fkGMp57XBZO/smRpY3d+lDf3hdecGBKF7xn+9NQS2jnAcm1U03bIRuJE=
+	t=1780499020; cv=none; b=uLPKievGd+iZ1jg62W5suRbq/Ec8A4rIFSDWiy3Q1qYCSe6yy23BDddGh9fDrfZdDBFrElvsN15MpQ0e8QrgdQMljdtJ4/8IjHR1wgfieMxOErPCVQzKvflY9IOVm7nuaXRoDF3N0WdI4fgJ3ObaFMc+ugbI3/w/oIaHXM3D6Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780498818; c=relaxed/simple;
-	bh=7avvJD037Pje5iEie+6YD1lXux4Fq1431pfDto1ugbY=;
+	s=arc-20240116; t=1780499020; c=relaxed/simple;
+	bh=aJLjATifzgiw0TOlO2S9rrai0BaEgmmVwEMl+rz5nfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlT0zSXye/Xv01H54bD2zw4+rua5JU3Kj6iPKksNfazFxC4IHRlxquJP20y8fza0CJMOIEfPSVORqzDad1rv3enWkN5cRyIwdWmOiyhWlDb3bTXdpRrjTjs2DdoV/7afqJ7k59TToxygIPQyKUP+YdQ61nN3ebtIl9QKNsD5H0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=PGuxVJr/; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=pc0MV/2r0G7V8Luog6FZwNkK0kzwQsKeWlKwlP0ZN43UCFTkZsZHYg5kQJtjBKVk++/U5ckgUMyOH7IljwOQbqA0TOCcaA40SoeKUu3QsncBh1iw1V33RxiLBqaDqxBJL+0BvWEXSW8ja+EkeztcQS5E0sACcZJSZJbVH9qqY+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=cqgOTH34; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="PGuxVJr/"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ce9df48e1bso36547186d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 08:00:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="cqgOTH34"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5176ca6bab1so8414971cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 08:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1780498816; x=1781103616; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvMHfiHYUP99FrIyQrPKXSaUDFV16/XdU6uT2nwNWZ0=;
-        b=PGuxVJr/46eKO+QVvALARSwS0lriGwrPr/PIJN5wUud9RHcGodbi4ghbxd0y4bQvGS
-         9tSQoI+21ICMDzMq/xlg7OxeszPJ60SIqZ79QVBwItPgKOaAGgcdljiQCDKqqcyq3Tdg
-         XWwmyW4YczgssYkN3rO1A/c8UYwwGAPz4EiNRMABt6i4/0uqcxYGBOVyRUSt0jfYFesE
-         2pEzSVWTDo5c5Ob3AqNfrH029D6vJIJMp+vH0aL6DUAVvkcbPiNbGx/iwQnVu1neFuyq
-         dhy0+96a15jLQxDUs3e66JdItmht0olYC2ZpIsu7xBGi2cevs+p/4UH5AxO+E7t1/BNu
-         PP9A==
+        d=soleen.com; s=google; t=1780499018; x=1781103818; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GE3cxqAXSaCHVcc+WKXlgfot3UvMd9FsWD9Iu0pbg2Q=;
+        b=cqgOTH34C+FJgNcku0jzLOHE06WOO0GzZlwzJWYwQrB3lNzQycQHXHfiRUeg96EJuj
+         zu80R9bQFL5szMIu2M6mBNaYBpH2uuiQWpqazM+lJMNdWAWRcXylqfDIgv8pYxropi2H
+         iRc+3WEfNnow2lkbOuMPW6GRfaiM778Q5KrvQuZaiIUOThJU7EYYW5BTobgWJeJ7JtWH
+         s40eM8WjpSNEsynDnrxTy9rOcgACSokJKDxHm5vmW/Qr/Jg2a1Xh4VuO2huux8eJoVsT
+         NHhD2wTOX5APj2DP/CmiOU09ZL057g+NdbquGMcFrC6IizUQHUOeUHWeiSaXy2Kx15Ji
+         ZCDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780498816; x=1781103616;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nvMHfiHYUP99FrIyQrPKXSaUDFV16/XdU6uT2nwNWZ0=;
-        b=PneULibaKB40jse+8v6PWow2g57uaQldXCRTrWOovAPghKz7huIaoWdpEhLjz/66x7
-         ff3ORvE8hdAMVRNifegVd55t55hUCEL4a+QvpVfmKyoLiyvleI4ojjRSj2CKLsVCEKyB
-         WBOqxOO6o0an2xwOu+edVUYitbThJgNm/Yz+Ip3HqXVsNCIkTs1tlUGiQn+MqhZFjhUq
-         uf9XbN1bNPa80zngwIekDrz5aSe0aL6j91lNWcHqHI/QwbFey1+rqVQyAUkLlahc2VHs
-         fyreWqC4zBiB6DWCnqgYnsKHS+KqMoBj4xlaxE/NvrID9WbCz5G10awuSATVgfregFD6
-         pFGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/VVSkovvi+md/vpap9PJUsnHHTpV5r+BI5n/tPoSD0iwdJ0g9e8xD4g/josBgm4uGNtQNKxbXe1+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPnjjIMICsxwZoktAeyQhIx4+wYuMOuUJVpmnoThn35jLWRy2R
-	uvh57UoTnFMClcpu9B9XzeUKwehC4bMqF/GLc4q2ns1AmdWtaxSotTQSKoohMdAaz1o=
-X-Gm-Gg: Acq92OF7EPHtWmIjsGM80IkK2KpB0Vbm6YBkMTT/cBwKVQ9Rx74SMpzFoAUAnMUhJpO
-	jCU8NyaR2XyypD18ODphdm25NAsMzSJtZQWWqOSkUf0+7E7Tx+zLc7Srw+HjoavmZCvyTis5aCc
-	oi1ebLOIfTU1dWGFwe2jbp40YkfHHA2qRoafv4IZPA0zPPJzMLvD3nHHWqruMmnBnzOI99p0ItH
-	tNC76oGHfJK58YlVGQTLbiuOKWov7p4ovnGXqE4dC2ZjzJcS5KEy5Lc8cjI73bnZdPhoQf7RfFE
-	7ZXWqTWXFH/IewiMeuPCE/XDEvURMK2ftR4RCgY9sJkrz67ItFXD/Nytb0BDGBe+ASouIJqyZQ/
-	mxslsxTF/OU1guWKrMqsafbNM171jnctlD7u7+nzMvq1Q58/nxWzCDguClpGqKPURRwLE2JHLhO
-	LpZVLKz3vC2krMNCAy2oxJ5YHp9joCk93k3EhAa3MB8fw=
-X-Received: by 2002:a0c:ec03:0:b0:8ca:1cee:7c5a with SMTP id 6a1803df08f44-8cecdc329ccmr45124016d6.12.1780498815694;
-        Wed, 03 Jun 2026 08:00:15 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecc8222bcsm22979756d6.0.2026.06.03.08.00.14
+        d=1e100.net; s=20251104; t=1780499018; x=1781103818;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GE3cxqAXSaCHVcc+WKXlgfot3UvMd9FsWD9Iu0pbg2Q=;
+        b=fkR/OI6wTbl2xMT4MYHPva0pgUTHG8Lw28Yndin2GsN05ysuk/g2jTr5f+pYABVIeT
+         VcQVO1ZOcYk+q8aFKZPs1ifds2Vt1pZI3u/nMMXgsWwVHx0dpNNydgVgc2q9OFKfYX0A
+         mA477w50kQEMhnDh2gDxe3h1ztflBhgjPGDDO5R9AULvUhI4xz4ZFkWHmjC6Vn4EQsqR
+         0fYASsZ+6lfaQ7uVFAmj3h/kS6MNkx/S3YLl8KFxinQLEenFo878CDdCZ6Rzgl+jA6vB
+         S1iSPlQcV8G1OIw2+yHTLKYNZe4lAsqrjRhsPXJsfUa6tmLVuLlnPdHj0VUvNa1a1jw+
+         tkcQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/4gGxiC8q3ZuNBb0lDXoflBtpuAMAMUw8l2oENozQsSBONJfigVBLwPmG+z4/LyG2NRkjivk15SR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqO/ypGPz1T3W/wxWx89bb2IJDlStNtMesA+TQpDEgkqMAt8nK
+	gHZc0m7e9YQX8HwhnY5OwV5z9OPgrum9efFebkrMpTMjE4UyPLU1XDhJ6AkHI42CV4/GXDbnjqT
+	Lih0U
+X-Gm-Gg: Acq92OF4EO/cZqq/KQXIsbblFbfIVEZlRDfbStALPSfreQUMuKC/ZyoOUI6qdWxUpgU
+	Bij5Uq0Xc3ObdPx9miESc0grxl5mkPSMGnX7CpE90kj+vKS6ccA+cfeb7mLJeJWJytAb8W61EOb
+	G7oT4SrVUPCN99+R7LpkekP+bpN/WbJRjNi3VL8uxEs+m0EJWSTkXb3tnZKuRdwNcJrVH8/+jnq
+	0bk39ZWOIClEbm0lldXdtpix9VfPi9n7j3xDNR3OcfgBPQch6cRqcvW0ZP2zyuC9B+oYjalz7Ui
+	MBKrINkeJMYRSk2nNwyKY7uyZ2mT90BM3UbSAhJyCOyDtclO2C5x8xcdqPt1IuIjs7MUqoFSVRK
+	nDqI4C+9j+6QAyPjQ7uECaMyWUGDoOPQHU6MShqBO+7zYWbK4jFBFNRj6Ehg2RoQ/OYvpkr5d24
+	TafMFHPQyK5lSx/vGCwJVg6LoQRUbLgWuw3pyrsASIaR963Pl2+pXHtvVB94i8Gw==
+X-Received: by 2002:ac8:7e86:0:b0:516:82e2:7788 with SMTP id d75a77b69052e-51779701719mr41203361cf.1.1780499017835;
+        Wed, 03 Jun 2026 08:03:37 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775dd2e53sm25188571cf.24.2026.06.03.08.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 08:00:15 -0700 (PDT)
-Date: Wed, 3 Jun 2026 11:00:14 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Jianyue Wu <wujianyue000@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	David Hildenbrand <david@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] mm: move reclaim-internal declarations out of
- swap.h
-Message-ID: <aiBBfh_lR2AUHidk@cmpxchg.org>
-References: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
- <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-3-ce0219e100d9@gmail.com>
+        Wed, 03 Jun 2026 08:03:37 -0700 (PDT)
+Date: Wed, 3 Jun 2026 15:03:36 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
+	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
+Subject: Re: [PATCH v6 07/13] kho: add support for linked-block serialization
+Message-ID: <aiA_j7udFaO9TRBP@plex>
+References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
+ <20260603032905.344462-8-pasha.tatashin@soleen.com>
+ <178046937151.468621.13398573538792303093.b4-review@b4>
+ <aiANtYRRDr5iO5QR@plex>
+ <aiAzT9TvGYjITiB8@kernel.org>
+ <aiA1slnqPnC4_8XY@plex>
+ <178049725439.475072.11560134126837430744.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-3-ce0219e100d9@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <178049725439.475072.11560134126837430744.b4-reply@b4>
 
-On Wed, Jun 03, 2026 at 09:05:34PM +0800, Jianyue Wu wrote:
-> Keep include/linux/swap.h focused on swap-facing interfaces by moving
-> MM-internal reclaim and workingset declarations into mm/internal.h.
+On 06-03 17:34, Mike Rapoport wrote:
+> On 2026-06-03 14:11 +0000, Pasha Tatashin wrote:
+> > On 06-03 16:59, Mike Rapoport wrote:
+> > > On Wed, Jun 03, 2026 at 12:05:04PM +0000, Pasha Tatashin wrote:
+> > > > On 06-03 09:49, Mike Rapoport wrote:
+> > > > > On Wed, 03 Jun 2026 03:28:58 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> > > > > > diff --git a/include/linux/kho/abi/block.h b/include/linux/kho/abi/block.h
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..8641c20b379b
+> > > > > > --- /dev/null
+> > > > > > +++ b/include/linux/kho/abi/block.h
+> > > > > > @@ -0,0 +1,56 @@
+> > > > > > [ ... skip 25 lines ... ]
+> > > > > > +#define _LINUX_KHO_ABI_BLOCK_H
+> > > > > > +
+> > > > > > +#include <asm/page.h>
+> > > > > > +#include <linux/types.h>
+> > > > > > +
+> > > > > > +#define KHO_BLOCK_ABI_COMPATIBLE	"kho-block-v1"
+> > > > > 
+> > > > > It's never used by block set and after looking at the following patches I
+> > > > > found that it's appended to LUO compatible string.
+> > > > > 
+> > > > > While this works for LUO, I think it should be kho_block_set_restore()
+> > > > > responsibility to verify the compatibility.
+> > > > 
+> > > > It should work for any component that relies on  kho_block. My proposal 
+> > > > is to use this method for other common KHO data structures (e.g.,  kho 
+> > > > vmalloc,  kho radix, future kho xarray). There is no need for them to 
+> > > > carry the compatibility string in their metadata, as whoever uses them 
+> > > > will include their compatibility string.
+> > > 
+> > > So if, say, memfd_luo uses kho vmalloc, xarray and blocks it'll have five
+> > > compatibility strings glued together?
+> > 
+> > That is correct, but it will be in only one place: the header of the 
+> > client's KHO subtree. Since it is dynamically sized and 8-byte aligned, 
+> > it should be safe to include in any struct.
 > 
-> Leave the small set of LRU helper declarations that are used outside mm/
-> in swap.h so this cleanup does not need a new public header under
-> include/linux/.
+> This is safe, you are right.
+> But I have more usability concerns from one side and the duplication it
+> causes from the other.
 > 
-> Suggested-by: Barry Song <baohua@kernel.org>
-> Suggested-by: Baoquan He <bhe@redhat.com>
-> Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
+> I can see the downside of putting the version information in the data
+> structure itself as it either requires a different header for the first
+> element or needlessly increases all the headers.
+> 
+> But 
+> 
+> #define LUO_ABI_COMPATIBLE     LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE "-" KHO_VMALLOC_ABI_COMPATIBLE "-" KHO_RADIX_COMPATIBLE
+> 
+> is not really digestible too. And it forces KHO users to potentially
+> track KHO internal changes.
 
-Nice cleanup, LGTM.
+These are compatibilities; I think they are quite digestible, both to 
+write and also when the  LUO_ABI_COMPATIBLE  string is printed out for 
+debugging/info purposes.
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> We still don't promise any compatibility between different kernel
+> versions so to avoid blocking this series on the decision what is the
+> best way to convey KHO data structures compatibility I suggest to bump
+> kho ABI version in v6.2* of the patch that adds KHO blocks and postpone
+> this discussion to after rc1 when we'll have plenty of time.
+
+Let's keep this patch as is for now. We will have a broader discussion 
+when we convert other participants to this new scheme. If we decide not 
+to pursue this approach, we will change this code to use an independent 
+compatibility string. However, having this in place as a template will 
+help us convert other components correctly, ensuring proper alignment 
+and that correct string helpers like  strncmp / strscpy are used—which I 
+have already ensured is the case in LUO.
+
+> * sending a new version of a single file does same email traffic, but it
+> confuses b4 and quite possibly other tools, so I think v7 is better.
+
+Agreed, I also prefer re-sending the whole series...
+
+Pasha
+
+> > Pasha
+> > 
+> > >  
+> > > > For now, reviewers will have to make sure that if the ABI header content 
+> > > > is changed, the compatibility string is updated.
+> > > 
+> > -- 
+> > > Sincerely yours,
+> > > Mike.
+> > 
+> 
+> 
