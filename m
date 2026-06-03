@@ -1,357 +1,237 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010001.outbound.protection.outlook.com [52.101.56.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720233168EF
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 13:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494242; cv=none; b=cNrAGOxM+bIwyJKExsENm5rKrh9oZbdUd1JjU+bUQ2/5MLVHoxLcuq3CTC/ZeULIDI9HEwrwc2oBTk9b04ggMceveAt9yyMOmuZiybytlzIAoRcfuluUx3wA3EhAwxhWPazK62mlmp9bn59LslwmLij/TVPdHsEUUfsKeJzktZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494242; c=relaxed/simple;
-	bh=a8BDW+CrunOYbTFlwKZkd/OyryCGgg8B9X++SYgSnD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jxt8fJz7XMpAFtliEVyoCVyuPsC2WR4NQKrzlaC21xumuDD8chLgIjqekTB0wjxn6B+3zjp9yd6+omB3jpHdyYi2qaG5Qmub1Wu833OVprdsw0Ga91v3zbciPvNpSBIVqP+tBYPUbUwDlEOG443Hm4QfO80J3H0qP2uG4RFJaNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EyyhwZTb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X02eUVuV; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D7D350D74;
+	Wed,  3 Jun 2026 13:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780494910; cv=fail; b=TnAerC/9i0Tiv2MsjXobqasyvoHOHs3GSywiW+qNI6Cc6dyl6FQm2xjvyBUKeYN7nty0ZpKlRsh+RC3FykBb3qXcVgYPCHwKVDKJ2RcF+Jw9zbG2lO5jj3xXx2m35xNY6yNCVZ8dvrd0aDXX79jHN6UNnmbx+4hukeko265g918=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780494910; c=relaxed/simple;
+	bh=rfz8UVefd+bkoGK5TcAABYhKTolEHA1NISoK1xJPlqU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ats3vcaqmwndPNuo7zJjj/28n4xNx2YTVdpwMUkkk3cWirvoVbX2vlQVKfqXwRAMfmoxedgtw2M3UWEnYKjFU9X+hazNvbw8UJ31AgqcxDojhXV0hg8OX28ma78SH10oaO+cRYtgyyb6AZ2h/fukjIia7K8eoNA63YclhqxNtNA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VmbUMxLj reason="signature verification failed"; arc=fail smtp.client-ip=52.101.56.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EyyhwZTb";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X02eUVuV"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 653ABKfn3552790
-	for <linux-doc@vger.kernel.org>; Wed, 3 Jun 2026 13:44:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kRbnU8V6Zsc+nav/FJky6GGhRnGxbQyRHCJCHQ8YEm0=; b=EyyhwZTbQfhFDZMd
-	7/4fMwTCUpSRhTNsWsHAyx8UwJfcKZIMQ4/sbAEpnkbOlhoUJvKrU3m/nGKyn5mG
-	rSnp6b+aFYgaLyXIQZsfy0p73XLEmKHqgQJVSe4CNf1IL2ZH2BZfT0VZdw8yAQ2u
-	2qe4dGi/2pzYRIsbCkw8p8gWxLJAdlIz7PRyqJEzN0XIkosS0/k7uTzC1HrNn3ki
-	vBV3JDExkb/BOU8kc6q1ZmOJ5OVpYxY1AwVdbUrQku1ZO2MkOmndJD73lqU/QRtM
-	fxQuxERcwTum1w1uAJbJ2maUN57342AI6ICT5qZzpKAuV0frf2oeH8Hu15aw2X93
-	IiT8vQ==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ejj9mrs1g-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 13:44:00 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-963d7e5ac48so3725625241.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 06:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780494240; x=1781099040; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kRbnU8V6Zsc+nav/FJky6GGhRnGxbQyRHCJCHQ8YEm0=;
-        b=X02eUVuVVLXm722Ig0GIoGnki/uD3Q6ICNn1zewY7DQcjFohX7WmhAxDX5eamsnmpq
-         BrT2YpivEsa6+T455ip0QgNi5mq38xF+nuPW30iogoc5Y9ZmdAQxE2b+r1rapT3p4dTx
-         I5kUcXtq/6O/xuKcDGNKTChGLKjSyD4nO0so+4BmcPlQ/ZWpw1qcHvN2IdrMZBWGUlZ+
-         CQScyPzv3oYlPhG/3nJzMGQMu2CIBIVWZAzfwh60fZ+rDS4sNXzS/BCRNOxLbPrmqZeD
-         SLsFkxdHxzoXrPEHqrTMI1OSBMOkqay0w1cfV3BRkPu8ZO7k1oxjchth2DiHwsc0URxV
-         j3xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780494240; x=1781099040;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRbnU8V6Zsc+nav/FJky6GGhRnGxbQyRHCJCHQ8YEm0=;
-        b=TwEK/gaCLm+SB5kmOvwYRsVJyIqkl6ZCh3y7sXSW4wOHzZin5YOOYIt9Oos13MprOM
-         WA/d9jUF2UCK89L6YaBnhnz4iSVZwX6q8zNvmRAXzjIJKgt8Nh3qXp6ew9ydDH8tlXry
-         QqyFquRZkagRrv28x9iu5OoPKtuGK+FNovsjL4ZepgfbEEZYFF1pLS5K1iR1Y3Wg/F80
-         g0G5x/B5F6XlJJ0Y97rFesWV8RHHPVsQCzyarwfsPQSkQKskV09/jn9pglGy57juHWFz
-         wboiDbAV6521NWtPylGJhx5iN2jUZHbj5zTqwUBT8/3RKoeSqJVYyNo2MCntVKxsbCUd
-         LF3A==
-X-Forwarded-Encrypted: i=1; AFNElJ/bgn3A6LfclRzqWv1LgFZhnGGdNHsyI+Z0cESlnUOpc+KJShSO3Kg4zCSed3D5imOhZnC+qlJlxhk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLtC0nszPrOizq+4bFGNlD4r0L8iDx9xeTwaHNWSAyTlHFL8YY
-	H9lvsQib6a6WC66nez9LXBkvzFirwrFQXIpwSfwiqswK0HeXLGnG1gBzQ6QJWkhajfdjsHtbseM
-	AGAWoUSWarOsqG2HKy20okzL1UZvgd5eEnnd4/0RFFE9pRJEN7upCsuNsRXzhyrc=
-X-Gm-Gg: Acq92OF3E/SPHbLLWNObhTAq7oB4gD2Hn4N6gGv5l6AgPf9uznIBMvgJrMSoOXIUJHX
-	/MTKyD5+HlZwaXXWKKH1Dwzkfy5E8xad2uGENmjkoIVShE3qEapNVa9hkxoqYP/Kvg1GrcQ/HkQ
-	QZ62ww3/xztY4qU9vIfbCHXyx0P0O7eWXNPlfzhtYKG2/6fGcTyUCq/fEbCaERnPWF2QtBRgvWS
-	9YZsLJ3P2ZfXiH9AxX97HxdLL8w6zCh4y//p0F/8LMeUhv/CxgIj44xqDNUVD0AUI8rdQJ4xUVp
-	WRnqjei6IGjrxOanSoQg6RI25A/LrLBGZwWYHCTQU7SwSXCEhBcMpoQicfN3n6KaVIxuCiaI0H0
-	TJuSw6lZ3M4phlFuNpnLI0kJSAwuEfdYGv653pe7eGrsCMFaRO7JttQuMHjBfhxcXqJxR818cds
-	CuX/aYOLLazVp8NhhOqmF0IwU6iP+RRgnPF41HRhbQ94XbIw==
-X-Received: by 2002:a05:6102:dd0:b0:631:2973:5c2c with SMTP id ada2fe7eead31-6ec469592aamr1534016137.21.1780494239374;
-        Wed, 03 Jun 2026 06:43:59 -0700 (PDT)
-X-Received: by 2002:a05:6102:dd0:b0:631:2973:5c2c with SMTP id ada2fe7eead31-6ec469592aamr1533992137.21.1780494238918;
-        Wed, 03 Jun 2026 06:43:58 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-396ac2ed56fsm9210311fa.37.2026.06.03.06.43.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 06:43:58 -0700 (PDT)
-Date: Wed, 3 Jun 2026 16:43:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        robin.clark@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 08/15] accel/qda: Add QUERY IOCTL and QDA UAPI header
-Message-ID: <2ztwmdejpkp3f3naz3g2fkjkpd6iomlb34bqnpnp6bhzn27vbb@wnd3fjcz6tgx>
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
- <20260519-qda-series-v1-8-b2d984c297f8@oss.qualcomm.com>
- <m4zo2nkxtl5yeyo7riuata6r5saflmdgqf37cz2g2ezrwhk53m@mnad6bb7n3ik>
- <b5c9d149-1a48-4c0d-aa0d-9ad331896f47@oss.qualcomm.com>
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VmbUMxLj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qYmCoavDEMSKELSvlMkV7GBPB2EFPTFmjn9ddcZ/FPqvi1z/0kUp+a00PiNn3Jz+FTgvocPo28d+jYVqWiji9ziH8BjDh80m8szZv2bLFD14FGuYVts/NBMx8fd4NuMaA+auZdZbiTGlfXpmrDB6w889DqQsWvv9apzO4EDnTolGxuyMm5DbSPFl0ulujd5bFoB5T0rX37idK36zFBBaI6QkFDXcnXW6yZ9ZXwv1hOX5eQPmjMSwX5uTPsadYFc0tOEkxz29vTZqBehb+5dZc55jxJyKL45DffWpQ5EAjcY9WSke9Mh+KhOWvB64Wv/rNQUi1nPajz9d5UOHiPXbyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lWJJKq0XHaGHI5TnSD9auhv2n2Mb1lFzBdKs7NDxrRQ=;
+ b=vQDsd/0fKnzNv52Vata+2kLSVLbvYnPrptNbaoZJ89J3dUKL6+zdeRv++XFBFZkbDoRffPPqio0Q9SXAN+uyg7WVDC2Ob+1pS6JaZauIrutpExiu+h/OwjyJgtyAaONP5hZzWByYtd/vDQLKBws3BCw7YUTONb4CG5Cizqs3InWMQbFyQHQoN4/SwZn/odj8Kt1s+xu4+bzmvVnROOt4rduZvkgtKP5/8EcLlvyA6Yymx4f/ZPGsytq9yfNd137TP9LfyDxIPWXnCYeK9CrKj54HID+Nv/6+w3oBlPB7Sp9AjfHPf3M2s49XyOGPrkzgt9vU3cRXeo3uDrxoYvixXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=arm.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lWJJKq0XHaGHI5TnSD9auhv2n2Mb1lFzBdKs7NDxrRQ=;
+ b=VmbUMxLjBCW0HGGIOwvbxB72biW1VEdZ5YfIJNoTnTBDAcis1ucNw5bJHhF6aS3rLc0u2uxOjWmo8GqHd61QlbYTL1mrw4oLnZH6J1s3DhBnarEdjR1dz2PTNURP5NLWSfxxP8+AiF3OXtXDHIU+C4hjRyqjzxaVOW9QBPxtWkM=
+Received: from SJ2PR07CA0024.namprd07.prod.outlook.com (2603:10b6:a03:505::14)
+ by SA1PR12MB6797.namprd12.prod.outlook.com (2603:10b6:806:259::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 13:54:55 +0000
+Received: from SJ1PEPF00002314.namprd03.prod.outlook.com
+ (2603:10b6:a03:505:cafe::52) by SJ2PR07CA0024.outlook.office365.com
+ (2603:10b6:a03:505::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.7 via Frontend Transport; Wed, 3
+ Jun 2026 13:54:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00002314.mail.protection.outlook.com (10.167.242.168) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.92.5 via Frontend Transport; Wed, 3 Jun 2026 13:54:54 +0000
+Received: from localhost (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 3 Jun
+ 2026 08:54:54 -0500
+Date: Wed, 3 Jun 2026 08:51:53 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+CC: Ackerley Tng <ackerleytng@google.com>, <aik@amd.com>,
+	<andrew.jones@linux.dev>, <binbin.wu@linux.intel.com>, <brauner@kernel.org>,
+	<chao.p.peng@linux.intel.com>, <david@kernel.org>, <ira.weiny@intel.com>,
+	<jmattson@google.com>, <jthoughton@google.com>, <oupton@kernel.org>,
+	<pankaj.gupta@amd.com>, <qperret@google.com>, <rick.p.edgecombe@intel.com>,
+	<rientjes@google.com>, <shivankg@amd.com>, <steven.price@arm.com>,
+	<tabba@google.com>, <willy@infradead.org>, <wyihan@google.com>,
+	<yan.y.zhao@intel.com>, <forkloop@google.com>, <pratyush@kernel.org>,
+	<aneesh.kumar@kernel.org>, <liam@infradead.org>, Paolo Bonzini
+	<pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, "Thomas
+ Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, "Vishal
+ Annapurve" <vannapurve@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song
+	<kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
+	<nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song
+	<baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie
+	<yuanchu@google.com>, Wei Xu <weixugc@google.com>, Youngjun Park
+	<youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+	<shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe
+	<jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, <kvm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-coco@lists.linux.dev>
+Subject: Re: [PATCH v7 07/42] KVM: guest_memfd: Only prepare folios for
+ private pages
+Message-ID: <mzbsmlljbqxv7epwh6bpjrlbsbc4yqdj456cb5hanxetco3thd@c7mdph3oi6o4>
+References: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
+ <20260522-gmem-inplace-conversion-v7-7-2f0fae496530@google.com>
+ <d01cf1ec-b85d-4af6-9810-8107c0e2a4ec@arm.com>
+ <144bbb9f-39a2-4c90-8903-51521e022da0@arm.com>
+ <CAEvNRgE1dCVAxJWd_hyFa8N=m9JLfn97ip9tAmvHxspWJ50oGg@mail.gmail.com>
+ <88cae738-18e9-4ed3-8414-506a1ad8fb18@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5c9d149-1a48-4c0d-aa0d-9ad331896f47@oss.qualcomm.com>
-X-Proofpoint-GUID: o9MY0n9NMkRGULriFd6AMHOVmU7Xr2BM
-X-Authority-Analysis: v=2.4 cv=XK0AjwhE c=1 sm=1 tr=0 ts=6a202fa0 cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=LflQWrLztFwobrB7iZEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1WsBpfsz9X-RYQiigVTh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDEzMSBTYWx0ZWRfX5z7dFeZjbstZ
- QkmuzXaKw9NQOGjTDRNmEHuVBgWRD6Awp/wXd1QlVcCblHhM/6yBj6IRtPI/IzHWgFPwPsmrp7e
- HMXDRBMAEXVB5dfBeiHoJ9pvFmCg3M/0lLEzRkm37rLrsRm4nbEGgufV7q5OTREdvmjcXwmHFvk
- T4q1w7czTNCU1ksA2Z1ev6rwIONLd6vvCuAcXESA+MiRxk0cYKcgTVt/lb98ivK6zYcFnNhtWez
- kSck+8SyqLJC7icTSsrLDxtEQlkwpY0r3gBdabc7iAgTAQ0pWyw8xBt9xZD4up/NysK2kvPxKb0
- xo3VDL3pH/kGwHTEmGWFxWWRJxhjStMHe32DNjOSvuIuRSVzCgVeillTo2cZh3VSmgbq9c4rBX0
- mE2UyI+240/YdhE22tShVHHGzu7N3hcjqKGZQdRri6BGq2HJOXDEx4hrIER8rhFXC8lTrMI2zIV
- Bqlc+6chxPR5TlWVQfQ==
-X-Proofpoint-ORIG-GUID: o9MY0n9NMkRGULriFd6AMHOVmU7Xr2BM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-03_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- phishscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030131
+In-Reply-To: <88cae738-18e9-4ed3-8414-506a1ad8fb18@arm.com>
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002314:EE_|SA1PR12MB6797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01fdd232-0bde-4b91-a416-08dec177b10e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700016|7416014|82310400026|376014|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	wGsDUj1VqMffVhv6PLZsn/UDfBQso8yfRbErvW2EFHXdDhQGSV0Y30uImcLMGsLd90tiGc6NMD0PEqPfNJCqwEz8UGoy04GngQOx1RHfPD0/R16l9Kdms6yLIEzXXaOuhoq3bVkvisGJuVSeX1LljM4ccybWG0pXg9iOZ/zrVKmLcVzLPP5R5CiIG3Eu0IWRO0Sxn+viDdZWC2QXLERVmo25dSCP10BEQjIiEubNO0fu87tN3inskd4j6IGSjSdoPxs0zZs8ONhvN61umymciIO4/oZlKnkwaZwnikq00nABmXDA3vXkPqQN0f2iv631C/IE47Zf+226DobLjTMlog6ZCQ6F8Rqs9db4cdioJiedFHQCVoMesiSG1X9mzQfRcaVjprziye5zQP6PXnumUgbricOuAqbSRT0iAN3NrLF+lSRBmwNo096+AmvfhLycabrRJLwQgKyC5gcGjnfPD3oTzOXg6Dhqej0KOYYLySxq0byEcVcAHXmYfGp7L4H4ZbNEYqE4euf1tmDadw2R3NXZJuiy/5lcsLRtISYszygsQOA9a390/mW5SR9Hedru1X578Gb75t8FZmwWM8+jYb/StrTsocuoeOxGdQkj225YKFUr9nQ9e2IaClLoqk1GiqQ7ykCRhjWxvLiQfULCP4ZOknD2h+UbSv9/GAfwWOCPjhuT/no+UP34wue+xwyocaxWNclPS1F0NV4U+zRbAmJq3D0f43vnqqQ8eNkftUg=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(7416014)(82310400026)(376014)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	vMtahuW4IGDeowK92ErtLxT3iBnRKNqnxnyEfRe2rBzCfsx8f9k9brqwDk0UoGKXy/xNp52GKAfBH1HrnsyL+4BH9BdA6u3dRhj2qSzFWN0AytLSHj8AGnle1tjA23biT4FB1vgvztZBouklQWWMXcjSlu6kIKoIkNqFJ1eYj6yJ/E+BUGH0X3eItSbmaUmO5M1vncUuxzBeMzVNv+zjNz1kv+7TMdS0wdLjgeghNdVxgv7LCK3HRND/Nt1ajee7DXYdPDXbDmx50CgRVJ5TljYSqR52LXnhfSOTm2ZtgmOxhtdb3o3/uye/M/KRHdziXv3C21opqNLIia5cu3cB2OkTFmA3IpZSkwkkKAOBYsJgFh++fAA6WxficmtlbpBkUsvBnQS06InLv9UWnpkaZ9yY8dN/uCCPiRpYkAgjS/jzP2294IM+JtxW+IJuSEyn
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 13:54:54.7713
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01fdd232-0bde-4b91-a416-08dec177b10e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002314.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6797
 
-On Wed, Jun 03, 2026 at 11:21:43AM +0530, Ekansh Gupta wrote:
-> On 20-05-2026 19:59, Dmitry Baryshkov wrote:
-> > On Tue, May 19, 2026 at 11:45:58AM +0530, Ekansh Gupta via B4 Relay wrote:
-> >> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >>
-> >> Introduce the DRM_IOCTL_QDA_QUERY IOCTL, which allows user-space to
-> >> identify which DSP domain a given /dev/accel/accel* node represents
-> >> (e.g. "cdsp", "adsp").
-> >>
-> >> include/uapi/drm/qda_accel.h
-> >>   Defines the QDA IOCTL command numbers and the associated data
-> >>   structures. The header follows the standard DRM UAPI conventions:
-> >>   __u8/__u32 types, a C++ extern "C" guard, and GPL-2.0-only WITH
-> >>   Linux-syscall-note licensing.
-> >>
-> >> drivers/accel/qda/qda_ioctl.c / qda_ioctl.h
-> >>   Implements qda_ioctl_query(), which copies the DSP domain name
-> >>   stored in qda_dev.dsp_name into the user-supplied drm_qda_query
-> >>   buffer using strscpy().
-> >>
-> >> drivers/accel/qda/qda_drv.c
-> >>   Registers the qda_ioctls[] table with the drm_driver so that the
-> >>   DRM core dispatches DRM_IOCTL_QDA_QUERY to qda_ioctl_query().
-> >>
-> >> Assisted-by: Claude:claude-4-6-sonnet
-> >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >> ---
-> >>  drivers/accel/qda/Makefile    |  1 +
-> >>  drivers/accel/qda/qda_drv.c   |  8 +++++++
-> >>  drivers/accel/qda/qda_ioctl.c | 26 +++++++++++++++++++++++
-> >>  drivers/accel/qda/qda_ioctl.h | 13 ++++++++++++
-> >>  include/uapi/drm/qda_accel.h  | 49 +++++++++++++++++++++++++++++++++++++++++++
-> >>  5 files changed, 97 insertions(+)
-> >>
-> >> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
-> >> index 701fad5ffb50..b658dad35fee 100644
-> >> --- a/drivers/accel/qda/Makefile
-> >> +++ b/drivers/accel/qda/Makefile
-> >> @@ -8,6 +8,7 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
-> >>  qda-y := \
-> >>  	qda_cb.o \
-> >>  	qda_drv.o \
-> >> +	qda_ioctl.o \
-> >>  	qda_memory_manager.o \
-> >>  	qda_rpmsg.o
-> >>  
-> >> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-> >> index 0ad5d9873d7e..becd831d10be 100644
-> >> --- a/drivers/accel/qda/qda_drv.c
-> >> +++ b/drivers/accel/qda/qda_drv.c
-> >> @@ -8,8 +8,10 @@
-> >>  #include <drm/drm_gem.h>
-> >>  #include <drm/drm_ioctl.h>
-> >>  #include <drm/drm_print.h>
-> >> +#include <drm/qda_accel.h>
-> >>  
-> >>  #include "qda_drv.h"
-> >> +#include "qda_ioctl.h"
-> >>  #include "qda_rpmsg.h"
-> >>  
-> >>  static int qda_open(struct drm_device *dev, struct drm_file *file)
-> >> @@ -36,11 +38,17 @@ static void qda_postclose(struct drm_device *dev, struct drm_file *file)
-> >>  
-> >>  DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
-> >>  
-> >> +static const struct drm_ioctl_desc qda_ioctls[] = {
-> >> +	DRM_IOCTL_DEF_DRV(QDA_QUERY, qda_ioctl_query, 0),
-> >> +};
-> >> +
-> >>  static const struct drm_driver qda_drm_driver = {
-> >>  	.driver_features = DRIVER_COMPUTE_ACCEL,
-> >>  	.fops = &qda_accel_fops,
-> >>  	.open = qda_open,
-> >>  	.postclose = qda_postclose,
-> >> +	.ioctls = qda_ioctls,
-> >> +	.num_ioctls = ARRAY_SIZE(qda_ioctls),
-> >>  	.name = QDA_DRIVER_NAME,
-> >>  	.desc = "Qualcomm DSP Accelerator Driver",
-> >>  };
-> >> diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-> >> new file mode 100644
-> >> index 000000000000..761d3567c33f
-> >> --- /dev/null
-> >> +++ b/drivers/accel/qda/qda_ioctl.c
-> >> @@ -0,0 +1,26 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-only
-> >> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> >> +#include <drm/drm_ioctl.h>
-> >> +#include <drm/qda_accel.h>
-> >> +#include "qda_drv.h"
-> >> +#include "qda_ioctl.h"
-> >> +
-> >> +/**
-> >> + * qda_ioctl_query() - Query DSP device information
-> >> + * @dev: DRM device structure
-> >> + * @data: User-space data (struct drm_qda_query)
-> >> + * @file_priv: DRM file private data
-> >> + *
-> >> + * Return: 0 on success, negative error code on failure
-> >> + */
-> >> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> >> +{
-> >> +	struct drm_qda_query *args = data;
-> >> +	struct qda_dev *qdev;
-> >> +
-> >> +	qdev = qda_dev_from_drm(dev);
-> >> +
-> >> +	strscpy(args->dsp_name, qdev->dsp_name, sizeof(args->dsp_name));
-> >> +
-> >> +	return 0;
-> >> +}
-> >> diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
-> >> new file mode 100644
-> >> index 000000000000..b8fd536a111f
-> >> --- /dev/null
-> >> +++ b/drivers/accel/qda/qda_ioctl.h
-> >> @@ -0,0 +1,13 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-only */
-> >> +/*
-> >> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> >> + */
-> >> +
-> >> +#ifndef __QDA_IOCTL_H__
-> >> +#define __QDA_IOCTL_H__
-> >> +
-> >> +#include "qda_drv.h"
-> >> +
-> >> +int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> >> +
-> >> +#endif /* __QDA_IOCTL_H__ */
-> >> diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-> >> new file mode 100644
-> >> index 000000000000..1971a4263065
-> >> --- /dev/null
-> >> +++ b/include/uapi/drm/qda_accel.h
-> >> @@ -0,0 +1,49 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> >> +/*
-> >> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> >> + */
-> >> +
-> >> +#ifndef __QDA_ACCEL_H__
-> >> +#define __QDA_ACCEL_H__
-> >> +
-> >> +#include "drm.h"
-> >> +
-> >> +#if defined(__cplusplus)
-> >> +extern "C" {
-> >> +#endif
-> >> +
-> >> +/*
-> >> + * QDA IOCTL command numbers
-> >> + *
-> >> + * These define the command numbers for QDA-specific IOCTLs.
-> >> + * They are used with DRM_COMMAND_BASE to create the full IOCTL numbers.
-> >> + */
-> >> +#define DRM_QDA_QUERY		0x00
-> >> +
-> >> +/*
-> >> + * QDA IOCTL definitions
-> >> + *
-> >> + * These macros define the actual IOCTL numbers used by userspace applications.
-> >> + * They combine the command numbers with DRM_COMMAND_BASE and specify the
-> >> + * data structure and direction (read/write) for each IOCTL.
-> >> + */
-> >> +#define DRM_IOCTL_QDA_QUERY		DRM_IOR(DRM_COMMAND_BASE + DRM_QDA_QUERY, \
-> >> +					 struct drm_qda_query)
-> >> +
-> >> +/**
-> >> + * struct drm_qda_query - Device information query structure
-> >> + * @dsp_name: Name of DSP (e.g., "adsp", "cdsp", "cdsp1", "gdsp0", "gdsp1")
-> >> + *
-> >> + * This structure is used with DRM_IOCTL_QDA_QUERY to query device type,
-> >> + * allowing userspace to identify which DSP a device node represents. The
-> >> + * kernel provides the DSP name directly as a null-terminated string.
-> >> + */
-> >> +struct drm_qda_query {
-> >> +	__u8 dsp_name[16];
+On Wed, Jun 03, 2026 at 09:58:45AM +0100, Suzuki K Poulose wrote:
+> On 02/06/2026 23:41, Ackerley Tng wrote:
+> > Suzuki K Poulose <suzuki.poulose@arm.com> writes:
 > > 
-> > Are you sure that you want to query only the name? No extra options, no
-> > attributes, no hardware capabilities?
-> There are plans to extend this ioctl to support DSP capabilities and few
-> other query options, but as per my understanding, I don't need to add
-> reserved IOCTLs in drm case and I can extend it in future. Please
-> correct me if my understanding is wrong and I should add reserved fields.
-> 
-> Copying the statement from the doc[1].
-> "Note that drm_ioctl() automatically zero-extends structures, hence make
-> sure you can add more stuff at the end, i.e. donâ€™t put a variable sized
-> array there."
-
-I'd rather have a query type as an input here, to be able to return one
-of querried params.
-
-> 
-> [1]
-> https://www.kernel.org/doc/html/v7.0/gpu/drm-uapi.html#ioctl-support-on-device-nodes>
-> 
-> >> +};
-> >> +
-> >> +#if defined(__cplusplus)
-> >> +}
-> >> +#endif
-> >> +
-> >> +#endif /* __QDA_ACCEL_H__ */
-> >>
-> >> -- 
-> >> 2.34.1
-> >>
-> >>
+> > > 
+> > > [...snip...]
+> > > 
+> > > > > @@ -914,7 +916,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct
+> > > > > kvm_memory_slot *slot,
+> > > > >            folio_mark_uptodate(folio);
+> > > > >        }
+> > > > > -    r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+> > > > > +    if (kvm_gmem_is_private_mem(inode, index))
+> > > > 
+> > > > Don't we need to make sure the entire folio is private ? Not just the
+> > > > page at the index ?
+> > > >       if (kvm_gmem_range_is_private(, index, folio_nr_pages(folio)) ?
 > > 
+> > I was thinking to fix this when I do huge pages, for now guest_memfd is
+> > always just PAGE_SIZE, so just looking up index is fine.
+> > 
+> > Is that okay?
 > 
+> Thats fine, but would be good to enforce that here, so that we don't miss
+> out when we add support for multi page folios.
 
--- 
-With best wishes
-Dmitry
+We sort of already enforce that in kvm_gmem_get_folio():
+
+        /*
+         * External interfaces like kvm_gmem_get_pfn() support dealing
+         * with hugepages to a degree, but internally, guest_memfd currently
+         * assumes that all folios are order-0 and handling would need
+         * to be updated for anything otherwise (e.g. page-clearing
+         * operations).
+         */
+        WARN_ON_ONCE(!IS_ERR(folio) && folio_order(folio));
+
+which was done as part of:
+
+  commit 6538b6221cc2feda415ca1946e66a5ef02dc6a0a
+  Author: Michael Roth <michael.roth@amd.com>
+  Date:   Thu Jan 8 15:46:18 2026 -0600
+  
+      KVM: guest_memfd: Remove partial hugepage handling from kvm_gmem_populate()
+
+and that should trigger before you even reach the prepare path, so I think
+that's covered.
+
+In general, there some previous discussion where we decided we would stop wasting
+time guessing at what we'll need to do for hugepages and instead just strip out
+the partial support. Sean wanted the folio order kept at part of the internal API
+since we know MMU will need that one way or another, but elsewhere within
+guest_memfd we are okay to assume 4K. If we *know* certain points that will need
+to change then a comment mentioning it isn't a bad idea, but even those comments
+have tended to be wrong so far about exactly what changes are supposed to happen.
+
+I'm not sure where the original discussion happened but there's some aftermath
+discussion here[1] that I think summarizes current [non-]plans around
+prepare+hugepages.
+
+[1] https://lore.kernel.org/kvm/20250711163440.kwjebnzd7zeb4bxt@amd.com/
+
+> 
+> > 
+> > > 
+> > > Or rather, we should go through the individual pages and apply the
+> > > prepare for ones that are private ?
+> > > 
+> > > Suzuki
+> > > 
+> > 
+> > IIRC the plan was to make kvm_gmem_prepare_folio() idempotent, as in, if
+> > a page is already private, just skip. Currently sev_gmem_prepare() does
+> > a pr_debug(), which I guess is technically still idempotent.
+> > 
+> > I'm thinking that the information tha needs tracking to make
+> > .gmem_prepare() idempotent should be tracked by arch code.
+> > 
+> > Does this work for ARM CCA?
+> 
+> We don't hook into the prepare yet, but have plans to do that. We should
+> be able to handle the pages that are already private. (For CCA context,
+> RMI_GRANULE_DELEGATE_RANGE can skip over already REALM pages). So this
+> should be fine.
+> 
+> My point is, in a given folio, there may be pages that are shared.
+> Like you said, this could be dealt with when we support hugepages.
+
+Sounds good, that's also what SNP will do once hugepages come along.
+
+-Mike
+
+> 
+> Suzuki
+> 
+> 
+> > 
+> > > > 
+> > > > [...snip...]
+> > > > 
+> 
