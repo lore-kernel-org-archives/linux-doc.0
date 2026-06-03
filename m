@@ -1,175 +1,108 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DA437756F;
-	Wed,  3 Jun 2026 06:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06553F9F51
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 06:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780467658; cv=none; b=AzoKI+ceSwbaG74J5LoR8Q3s0w5Wf6FarmYpuo8cI7iRKxrosGdrsmPF3IxdKnqVjYlHP/fKZWZqRAAMZEB8Lm7URXp1/IwGcPCGG5o8MzKpdUCSHp+tS6iTAjsPOMogZVS+XKKAYEhFCnhsruT2dTjkmJnVrgvRg1Ny01/u7YY=
+	t=1780468035; cv=none; b=BUFqkPZy7IsteSL1d3pnMsoaXozH16vCXp2nX8yEzmJ2guo/2QTJ+uIY/bOru1Z5CFJg8Zsoy4XycHVxPtC0xDnGpN40ck0LSA25dRua/5bnoj6NeTxKJ6kk/KcjljGWBBdD/U5YBYpI0N/LJSGAqYy5+RrYyJjCjAeu7A0yVos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780467658; c=relaxed/simple;
-	bh=Ts33ZPjowL53LM4zHYGuB9Jj/D8KSTOodKScOiSs1mE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=An3aX5ouID7+efdAPG4AyQzKxOp6nOf8YavQMS9N8fsktimb0cN+wKfPQ0iuqcROx98yOUH0UM9s7PBmX2y2tWihhGD+Ku94ggClsL4Hof2FbWc7yQ2GEfTmPXY/VHdQiOBtP6R9q0ITHJAQeZUBe1iavQQP1c1PN9b2vuewNTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gVcxp57RVzKHMSW;
-	Wed,  3 Jun 2026 14:20:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 2C5B14056F;
-	Wed,  3 Jun 2026 14:20:40 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.87.109])
-	by APP1 (Coremail) with SMTP id cCh0CgBHlzytxx9qYt3IAQ--.56787S6;
-	Wed, 03 Jun 2026 14:20:39 +0800 (CST)
-From: Zeng Heng <zengheng@huaweicloud.com>
-To: will@kernel.org,
-	vladimir.murzin@arm.com,
-	xuwei5@huawei.com,
-	broonie@kernel.org,
-	ryan.roberts@arm.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	oupton@kernel.org,
-	kevin.brodsky@arm.com,
-	maz@kernel.org,
-	yeoreum.yun@arm.com,
-	skhan@linuxfoundation.org,
-	yangyicong@hisilicon.com,
-	thuth@redhat.com,
-	kuninori.morimoto.gx@renesas.com,
-	lucaswei@google.com,
-	lpieralisi@kernel.org,
-	miko.lenczewski@arm.com,
-	mark.rutland@arm.com,
-	james.clark@linaro.org
-Cc: wangkefeng.wang@huawei.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	zengheng4@huawei.com
-Subject: [PATCH v4 2/2] arm64: kernel: Disable CNP on HiSilicon HIP09
-Date: Wed,  3 Jun 2026 14:20:25 +0800
-Message-ID: <20260603062025.1504083-3-zengheng@huaweicloud.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260603062025.1504083-1-zengheng@huaweicloud.com>
-References: <20260603062025.1504083-1-zengheng@huaweicloud.com>
+	s=arc-20240116; t=1780468035; c=relaxed/simple;
+	bh=br4Q/5Zkdoxf1ZYbzi2zhNKQk/fuGIIMoDVDCqYOvec=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=BGYE+4HeBmTQQBzLM4l3mvN1LzR4wyLMz6LcLLF5EPYzzBoNpvEhOLsH4SkCev31HkuDPxtdohVUQ7BErtinTSyU8ZXREl1IREafun14gejDie4eRE3cml8Oio2EDeNEEB9NPfzJGPe16Sp4w+fNyHQHyjqwRHaeqRhyTDl3EoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+TFFupz; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+TFFupz"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf18c30bb2so41144515ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 23:27:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780468033; x=1781072833; darn=vger.kernel.org;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FsWw+BRaEfTe2BSzSpq066D0ULR8rb3630HXbbNfz04=;
+        b=G+TFFupzCbNdF3i5DbDb6woQdwwrx11zHf//h3dwTPe8HiXAdLqI8L9P/BHw6OQRb+
+         hR3iha1fuQu8ZdJMa/s4PRCm6hh6r5Z1WRP2uoSjC+jSVNSJZq2K7hpcyxgqMouh8w3S
+         eM+6jFl1bYbeM2jcc1X2uyS5hj0Yl0bpPgOO/HLDy3q06PpdC32BzSuLGBYLTOzoxqfu
+         Rec4QVRaKx2mtf0Vx2tbbLzE8vC/iX3bev8xe/ass9k1wpwz5yT6ijX43jdnz8UO2eeN
+         fOubUiE5rUufkGGQIbd8IPBc+H4vHkghDpkXavVFZKfbwUthzno5bWnvepkF8OsjjUam
+         q0qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780468033; x=1781072833;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FsWw+BRaEfTe2BSzSpq066D0ULR8rb3630HXbbNfz04=;
+        b=DWPQEwHbC80qfIf34RanPcJl++A4FtbB96R+/54lCF3cU7kJMhV37i0dyNOfdlXP2K
+         28wtFBx+YjN+CWockjC4IaFine0tlNKgKMLTkRxEzLR+1pBkkYdSTxjP6iXOSoiqK132
+         +bHFf0f+dyxlAfRt1mf9P+tWC6j8O15fLAr7PSfYiC961uY5HcyDpVeg9pM46A5rOXRZ
+         bwwdzejzykijMZe9lSjANR2RPVWQSnIs2mxBoXB6PcABSaOGWpSkOvp0/kXPsKb+Oj87
+         bI4fTvTOamt7CJTsqI1WQt8qJeSICwUIqIc6O134fmOolxzmXYRq86Relc/qvN+G1wEO
+         yFMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/JaMSGY+gp9nhuGQLZwayCDL/ODL1f5DySS3wf/hIeesgZWy++1bdoIb+TAJtKPxGYFLYZWof18CE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFboOQgc+2g3poUmKo6r+v+fuOKgSHZl0zEpeScjpWn9buo/CW
+	Gpw0i1vJFjHgJcAKkGXBebbwqdVZ7XGVslACeXV7XzonJA7Ixw0YkM21
+X-Gm-Gg: Acq92OGRJ03YSHX8eqmuifAxZXeP8KmTmu8kK7OnJzHvWXB+O3EUNMWz5J1XwdB5xde
+	tveaUAYa9kcL7EOGBl9nzeqK3CILkEKWG2nGFtNJ94f0NV+Uso1m1XORXYd3Ln5HwKZt0vErtWJ
+	3Da0sXzGaVHJTEKq3xVjiaYnKoMr+t60syZ8w3Kig9+K/dKOJ7RFyGi+6umeyzp6KYSYttzIFil
+	+zJMVxkND057cTC7vVdo8mQxxaRbS/Bk9qHkddi0VnlwiW9wpWw1GjGgPs+KZvvH9xn8zmFQ7Cu
+	ydwY7qscDjlNRe26OuhMctK2g9cZVoNhO2K8MdoEUnnWeKQidAHNdXN/f83BSF9zoGucFCHvjrD
+	l1ifRhRiUEAFFEiJOvtHWDJSJiBygCJDfgFErY71+ThdV1QRUkLLkKqMzA+f06PPPwMfEIpyGIC
+	zG13HDcMW6x92YdKettzREHVscgAwIVN/i
+X-Received: by 2002:a17:903:3c45:b0:2c0:bb2d:a30b with SMTP id d9443c01a7336-2c1644ae17fmr20198585ad.32.1780468033143;
+        Tue, 02 Jun 2026 23:27:13 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629cfb4sm12978885ad.59.2026.06.02.23.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2026 23:27:12 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Harsh Prateek Bora <harshpb@linux.ibm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, Vaibhav Jain <vaibhav@linux.ibm.com>, Amit Machhiwal <amachhiw@linux.ibm.com>
+Cc: linuxppc-dev@lists.ozlabs.org, Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+Subject: Re: [PATCH v3 1/5] KVM: PPC: Book3S HV: Validate arch_compat against host compatibility mode
+In-Reply-To: <56c84e26-69ed-433b-baaf-7b53acc60391@linux.ibm.com>
+Date: Wed, 03 Jun 2026 11:35:55 +0530
+Message-ID: <bjdsw43g.ritesh.list@gmail.com>
+References: <20260522152744.55251-1-amachhiw@linux.ibm.com> <20260522152744.55251-2-amachhiw@linux.ibm.com> <pl2g6xbz.ritesh.list@gmail.com> <20260529141530.fc225a67-e9-amachhiw@linux.ibm.com> <cxyewhx8.ritesh.list@gmail.com> <87se74z4a6.fsf@vajain21.in.ibm.com> <72ef4cdb-8d9e-4319-9c94-b9a46a6f6194@linux.ibm.com> <56c84e26-69ed-433b-baaf-7b53acc60391@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgBHlzytxx9qYt3IAQ--.56787S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw47Jr45ZrWUWw45Kw4DArb_yoWrGF13pr
-	43Jr1xJFyUWF13JryUJw1UXr15Can3Jw1DXF1Utry8Xr1jy34UZr18Kw1xGFWUXry8Xr4U
-	WF1j9FyUtr47ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPIb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
-	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
-	Ij6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_
-	Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI
-	0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
-	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07jI
-	sjbUUUUU=
-X-CM-SenderInfo: p2hqwxhhqjqx5xdzvxpfor3voofrz/
 
-From: Zeng Heng <zengheng4@huawei.com>
+Harsh Prateek Bora <harshpb@linux.ibm.com> writes:
 
-HiSilicon HIP09 implements TLB entry matching behavior that deviates
-from the ARM architecture specification when the CNP (Common not Private)
-bit is set in TTBRx_ELx.
+>> amit, can you just post this alone as a separate patch, so that we could
+>> pull it for 7.2 merge?
+>> 
+>
+> FWIW, b4 am -P1 <mbox> should fetch this patch alone (and not the entire 
+> series), See b4 am --help for more options to select a subset of patches.
+>
 
-When TTBRx.CNP=1, TLB entries may be incorrectly shared between CPU
-cores, leading to TLB conflicts and stale mappings. This affects
-coherency and can result in incorrect translations.
+I agree, however as an FYI in this case -
+I had few review comments on PATCH-1 here [1] - which along with the
+commit msg changes, also had a code change involved, so IMO, it's still
+a good idea if Amit can test and send an updated patch separately for this -
+to be pulled in for 7.2.
 
-Add the hardware erratum workaround (Hisilicon erratum 162100125) to
-disable CNP on affected HIP09 cores.
+[1]: https://lore.kernel.org/linuxppc-dev/pl2g6xbz.ritesh.list@gmail.com/
 
-Co-developed-by: Tong Tiangen <tongtiangen@huawei.com>
-Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
-Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-Reviewed-by: Vladimir Murzin <vladimir.murzin@arm.com>
-Acked-by: Wei Xu <xuwei5@hisilicon.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 16 ++++++++++++++++
- arch/arm64/kernel/cpu_errata.c              |  6 ++++--
- 3 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 211119ce7adc..cd50059edb85 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -284,6 +284,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Hisilicon      | Hip09           | #162100801      | HISILICON_ERRATUM_162100801 |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Hisilicon      | Hip09           | #162100125      | HISILICON_ERRATUM_162100125 |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f297517a83b9..75638e37883d 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1273,6 +1273,22 @@ config HISILICON_ERRATUM_162100801
- 
- 	  If unsure, say Y.
- 
-+config HISILICON_ERRATUM_162100125
-+	bool "Hisilicon erratum 162100125"
-+	default y
-+	select ARM64_WORKAROUND_DISABLE_CNP
-+	help
-+	  On HiSilicon HIP09, TLB entry matching behavior when CNP
-+	  (TTBRx.CNP=1) is enabled differs from the ARM architecture
-+	  specification.
-+
-+	  TLB entries may be incorrectly shared between CPUs, potentially
-+	  causing TLB conflicts and stale mappings.
-+
-+	  Disable CNP support for affected HiSilicon HIP09 cores.
-+
-+	  If unsure, say Y.
-+
- config QCOM_FALKOR_ERRATUM_1003
- 	bool "Falkor E1003: Incorrect translation due to ASID change"
- 	default y
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 08eb9d6545d1..310e6f120992 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -612,6 +612,9 @@ static const struct midr_range erratum_ac04_cpu_23_list[] = {
- static const struct midr_range cnp_erratum_cpus[] = {
- #ifdef CONFIG_NVIDIA_CARMEL_CNP_ERRATUM
- 	MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
-+#endif
-+#ifdef CONFIG_HISILICON_ERRATUM_162100125
-+	MIDR_ALL_VERSIONS(MIDR_HISI_HIP09),
- #endif
- 	{},
- };
-@@ -812,8 +815,7 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- #endif
- #ifdef CONFIG_ARM64_WORKAROUND_DISABLE_CNP
- 	{
--		/* NVIDIA Carmel */
--		.desc = "NVIDIA Carmel CNP erratum",
-+		.desc = "NVIDIA Carmel CNP erratum, or Hisilicon erratum 162100125",
- 		.capability = ARM64_WORKAROUND_DISABLE_CNP,
- 		ERRATA_MIDR_RANGE_LIST(cnp_erratum_cpus),
- 	},
--- 
-2.43.0
+Replying to Vaibhav comment here so that we can reach to the conclusion
+at one place.
 
+> Hence IMHO, this patch can be marked for stable tree and potential
+> candidate for 7.2 merge window. But dont see applicability of a 'fixes'
+> tag to this patch
+
+I agree, we need not use a fixes tag then. So, we shall mark this
+with v6.10 tag then.
+
+Cc: stable@vger.kernel.org # v6.10+
+
+(I calculated this based on when Power11 was added: 
+git tag --contains c2ed087ed35ca    | grep -E "^v" |head -1
+v6.10
+)
+
+-ritesh
