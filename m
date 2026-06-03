@@ -1,299 +1,200 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011006.outbound.protection.outlook.com [52.101.57.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED30F2F39B9;
-	Wed,  3 Jun 2026 13:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780493623; cv=none; b=QvKOMcuuRpHdUqmdVhJcs5kJCZlYrpOTW/a57q0R8WfNiTuJ+BBJ7r6moWvkoZ+alnlcdiA+TpTiLf/iIYvjrbWO4KFhXes+/w7LjzBi5nx4FQFBZMwxg+GCF2EKDH/J6cbYfgUZWG6jPtdh9rseN3hLAiABc2fp/SBcfYzBHLk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780493623; c=relaxed/simple;
-	bh=W7s7wxfcHO35roXSci+Uzh7bnfE9I9tNRRgIg6dlsf0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WzDKjEEAtpbUHaeRfXP/oQdh0xE/CTBJG9z/UuK+F8Ax0FzitFW2nYTCYqusoVTwYBv+cTxslMWEf9c60GPDcghM+ZxMuKfvayQCRYPyBX6ShSBaBva5zV3l2gDBr5NDBHv6ks/imEqZW0ZbpcFNHexRUcIohVZ+ijaQmivG720=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ehijjyYT; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5F62D8DBB;
+	Wed,  3 Jun 2026 13:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780494025; cv=fail; b=JLSYvVbyheaaGB/QJxVrfi90uqFPFc4ZLAmp8Ll6iX575NDKmZLixiDaI5rN3ug3Q4/oSs7uQGcHjnHmOuiBV4ITbHlcY9X2oEtxH0Ey/aLMC3OC+P83zA1B9bpmQ3REwo0oHi3eLTTov4jfKBnk+fqYFiaLNot/ANVNrKf2oMk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780494025; c=relaxed/simple;
+	bh=70dRiDAY2qjKa0FU8ykvF7RlrcPNjmj3XCDrWfBhY0o=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=M2F3HfFz4LtOpGpcBfrcGXDWeh7Gwn4vvXlKgi1e9V405j1RkDSzyiloYeaYc5H882/j4koIvd8P2iSHy6xvoYh/zNVVvTQeF8e/bUrETdSw9L0IphjIg8LdcXRGqjpq683YhJK6Dn+B+GGoZ8zJOEYaL36H89+y5+5FbBx9OyU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WkOl1BsB; arc=fail smtp.client-ip=52.101.57.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ehijjyYT"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6537UL8j845711;
-	Wed, 3 Jun 2026 13:33:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=PrPvpzfpwtOEes92N
-	NPIxU3eWl0EAkKMINiHdG31bwM=; b=ehijjyYT0OtJgPOS8Cgr5KGwC4af6PVSc
-	FFj0lD1uvvS280h9HXcvs1VyVuk7jwFuFYkPwXXhzrOAeziQCsM4QBuTGqivLKRe
-	Hq+Ba9dxy0eSeyd0qX0RzS+XiSlNLahLfhrwTMDb4IqNeW+4oib3k6w5rMEKxwSN
-	ZyKjymjttFjb586QX8z0gYfT6avGeMF2tegzGdw0pS1mH8WQOJ6QbyqCzMU/diAF
-	pGkfM4Lw/k+aDhsPeJfNLWTghCpD6IbRwPGlNicb53sAGFOjeWMq9Jj9R+mgTeJs
-	nmmsQP4FsVbMklvESdD0JR/YB42cPqm57ioZvvUY/D8mr/5yjQ90Q==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqjqb37m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jun 2026 13:33:16 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 653DO5r4011319;
-	Wed, 3 Jun 2026 13:33:15 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ega7qgj0v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Jun 2026 13:33:15 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 653DXDIO31064378
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 3 Jun 2026 13:33:13 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 63D4020043;
-	Wed,  3 Jun 2026 13:33:13 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 074E520040;
-	Wed,  3 Jun 2026 13:33:13 +0000 (GMT)
-Received: from funtu2.ibm.com (unknown [9.111.155.240])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  3 Jun 2026 13:33:12 +0000 (GMT)
-From: Harald Freudenberger <freude@linux.ibm.com>
-To: devnull+demiobenour.gmail.com@kernel.org
-Cc: acme@kernel.org, adrian.hunter@intel.com,
-        alexander.shishkin@linux.intel.com, ardb@kernel.org, axboe@kernel.dk,
-        corbet@lwn.net, davem@davemloft.net, demiobenour@gmail.com,
-        ebiggers@google.com, edumazet@google.com, herbert@gondor.apana.org.au,
-        horms@kernel.org, io-uring@vger.kernel.org, irogers@google.com,
-        james.clark@linaro.org, jolsa@kernel.org, kuba@kernel.org,
-        kuniyu@google.com, linux-crypto@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, mark.rutland@arm.com,
-        mingo@redhat.com, namhyung@kernel.org, netdev@vger.kernel.org,
-        pabeni@redhat.com, peterz@infradead.org, skhan@linuxfoundation.org,
-        willemb@google.com, linux-s390@vger.kernel.org
-Subject: Re: [PATCH 2/3] AF_ALG: Drop support for off-CPU cryptography
-Date: Wed,  3 Jun 2026 15:33:12 +0200
-Message-ID: <20260603133312.12848-1-freude@linux.ibm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
-References: <20260523-af-alg-harden-v1-2-c76755c3a5c5@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WkOl1BsB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N3NExXJQ6oWekVnMMDfE+xEsboKkduMI3+TBZer+//I0be1nWIgB9MPeFDPiXcx680UMEetCO1j4zER5/YxLvFpZQsCxlXZSkphKhl+OFRWAO+NswV9N00DtuXL6suD++81GDWnHGyoCqSptyhQOFHg+6UiwfmW9LpwT+ncsnJ7yG9LvLjo6WC407b/HvCfrDykWHbZKStYXSt0SiU0vuILfzaEEj5U6UjjGbrpXh0pUWLLGfEf/AZdAto6Adngl3eS0B0lK2OF1AYyhIUKbrz7OfRHf5+xXz7Q/LkN3Rwyl1Lw7xw7Hu46ZAHonuv1F20a2nWTz0ifSKA5j6iVgzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XX5kWf/hBf1QlFB99I7mhEf/2cvKTzGcDwVH0Dpl5Ho=;
+ b=Zah1/h/FE19PrLjY6UbNlFh+xLqUmhOTfdJlr5iNKd8gEsfPFugAZcQrs5bvFwQP2cVLZq9oXA061unzY7MjJ3rUPaBgLLAm+qXYU0ljv+YoDIg6uUpzAOv0bfCz9O3xoiGNTf/GSKdy3n7R24guWsQfvX4afkQ5F0N/OScbsg4fG+tjln4e4cjg3Ghw9Q86aGQ3sZdkntYFM3yIoBxWtsJQVC5b5BBPCpEKNy24YeT3ZyZw5utdGoYkvE+CvfefXI1QAmswxfVdVs9B4uDC6YJfb5YRbTvxqxozwcHkWBGD2v9Dk8DcSe/BKR//pOX8KDMInTQpAooMLX6YfnfpWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XX5kWf/hBf1QlFB99I7mhEf/2cvKTzGcDwVH0Dpl5Ho=;
+ b=WkOl1BsB8+5BaWT6l571Js9uqXiO58+NyA/R6Ur7U1X0pycsV/Kerjm6BQ1jSMKsHsgTgd9JcoRhBIYsVftz6ky5JUVZr0VBwcW7L4gZz2sjd1Xbmdb+k7LWZIHB5hNuE8ZXMiWWf+or+x2QooxuW9ZERFda+yb/FwBpTTC+Y7c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB7304.namprd12.prod.outlook.com (2603:10b6:510:217::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 13:40:19 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0071.011; Wed, 3 Jun 2026
+ 13:40:19 +0000
+Message-ID: <0feaad40-8bde-46c4-a251-07a1bd6ac79d@amd.com>
+Date: Wed, 3 Jun 2026 15:40:10 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/15] accel/qda: Add PRIME DMA-BUF import support
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
+ dmitry.baryshkov@oss.qualcomm.com, andersson@kernel.org,
+ konradybcio@kernel.org, robin.clark@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
+ <20260519-qda-series-v1-11-b2d984c297f8@oss.qualcomm.com>
+ <3dddb7e8-5837-4038-9823-ce419cb49ec2@amd.com>
+ <e465ed15-1568-467b-ac6b-94f903b46776@oss.qualcomm.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e465ed15-1568-467b-ac6b-94f903b46776@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL0PR0102CA0023.prod.exchangelabs.com
+ (2603:10b6:207:18::36) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: iSjO_QN_WYH1Co56C1ey6R3URohRWB3y
-X-Proofpoint-GUID: s_kRT_T1wq9TI34aElrat1UiQutSsMDs
-X-Authority-Analysis: v=2.4 cv=bcVbluPB c=1 sm=1 tr=0 ts=6a202d1c cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=pGLkceISAAAA:8 a=Qr0bbqx5VTdTA2CgjBkA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDEyNSBTYWx0ZWRfX2hLLU66OhwOH
- xvtV2ecyk7GFvmfFoTnlUVD+KxsIQgROhU/m0nid/cngCgqbFihcochevVYCqnnSJ8cy6qW4kq3
- yFrNygcdoMGDngGQRotXcQiwuqJkTr+WT53EOCGMi3w9FJBGzBXAgleAu13LeOHe5/IX6nRWAT0
- tKQDQ8xO0M+0WXOCahK5aQ4d6QIwzGCRZRCr1oxbO7iQb+2SApRa/1QKmFZzSswz/T42AF1QH4R
- pmkaVPNOZNFwSCH2vgnFScUaH0Tpcq85tLz40jLCDoi3+We0gUGDjHW6iZ/Y9TLZUZILPXIAm1v
- OJvtx2GtaX7Nv8Wkfghlss8J2PcqlCOwDuXFpoMus5LGPM9ovjdox/GIdhAp+jxPxx0y6jDtwkS
- F55ZtIJNOu9EXHlOEe6/mATBDBgtSN0owu4PrkgGZ6i66f0wB0EGqfjncwTCTknkVEndicgKFJb
- 9pvpVurIUXD3vOK29Ig==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-03_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011 adultscore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030125
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 521eb7a3-aee8-40fa-f56b-08dec175a6eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|6133799003|3023799007|22082099003|18002099003|11063799006|5023799004|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	kW2ouNX2OIqk+EsytkWS+zXSF1Y8ehOjjPFR1L/K+zn7keV7dVAL3qSu1KhZhd+sr6nxL5OM7n5HqTWgNeuKRBqjvfdcFD1li/JUsopOdPOGym2ekBnHjLS6OV/p6uq9A1Dj2NcPItn3/ff8Z5uZw1IvlsfHCBVYgY4tYh9h7iwh2k4w7krKcUr07L9JR9XgEWBLAF4qzKzEfx8TsOCcDCcW5vYCrVVt9ZRZ3dRDAN9LxG7YoVcVSsBugnyTZrkSLA4r/bQEENTQ1uLZ+jPDbQ4H2MS4f4bZqfm6c2Q2Wfeq2MB4rDAFSwehKmLWVCduSAHpsfp+SScDbljRrFF9GQzSduLz5qUwlykN958tq0akzdPpkkeW1uqec84vTH3gYDOFOdreU8VMGTfy7ej7vhOwUfq26wuLxgWGPCisqK7NGXiyg5Ozq2B8GLo4TjNk2f4JTTcYWeSgz9F85hU7iOB8ELX/k8mWpEoGED1Qn8aG0oZqb0w7bAfoepdgNKMJV6+lMYpTZcPEfnbiozBlh44oEp34dvY86WMSf23h47s7N/fyef8UyzRGUN+hvTpPbesml8AFjg3ImkTIyh3Ie4sg76wmMREmUKbcR1227x2GJDLjefsSY+xEhzC937ePo++Zci4vVRMCDwXJPhyRE1xYBgXBVPv0HBbNEypM55deRIBSez10hDjIY0LNuM1DgYa8keC6ks3Ts6uT1FyfJcGER/Jen8UFh89wGU8k/5k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(6133799003)(3023799007)(22082099003)(18002099003)(11063799006)(5023799004)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TWJ5a0RvQlJRRTRCbklsYjI5MlVxalBpM3UwcGR4cmVTMmF3UjFza01naHM3?=
+ =?utf-8?B?UGtGb29CUFQyYmNtNDVGbXZ3SEl0d1BaNkw5ODBDNXYrU1BwdVVZOTJtd2Rr?=
+ =?utf-8?B?ay9hSWcwV3Z2aDBJK0U1Zk03ZlBGZ2MzNm43c2RKQUNEbnBEOVM3NkVUTTRM?=
+ =?utf-8?B?UW9NZTY5SWVLb2traUlVZWZqZSszNXpTQi9oaUZQa0FMOHVieThaYWViVVNO?=
+ =?utf-8?B?QzF1RitEdkxPVFhkRTNUMGVsZHFVRVgvMTNMRVE0VW94bnlBUmdlR0x0TmNm?=
+ =?utf-8?B?UXpnZ0w2MERxU2Q2UVdQTG8rUldwL3F2OVhLTU1zUy9QdGRjbWNrVEhHUHZl?=
+ =?utf-8?B?RlVQMUZNVUpTd3hPamFFMTlpUitOV0dQTjE4M3dob3VGb21kMmpBNE53cU1w?=
+ =?utf-8?B?YWI4MDF0VkNBOWZwdlAyM3lnMTFmZk5GTHNuMVNobXZsRUZhVWd0TE9UcXRs?=
+ =?utf-8?B?d1c0aDROcDZ6RTZZMjFhVWErbkJpWGQwUEEwdUI4cjF1UklaS1NrOHRrS3VE?=
+ =?utf-8?B?QWtnM05mMDRuL3RYbkpyRVJKNHdzcDBvdFlyNitTVmdXY0hLQlcrWEZFaEJt?=
+ =?utf-8?B?RllRZ1dlT2Q1UXdwMldZNlZac050bHVxVHFZZTZSSThTeXNrYTdmcXZ0UWx0?=
+ =?utf-8?B?OFpNUHpiT0UyR1I5UWduOFVLSWNuMWQ5ODloTm9SNlhWeXdxL05VeWNnQU82?=
+ =?utf-8?B?MmJxemVCOTlUTXFIUUZ4R2NDWmxFTzV4M1Rud1l4L2oyR1RUbnNzZFpVMmI4?=
+ =?utf-8?B?VVVFOGVSTVNRQWg3VE10MHpHREk4bVVMS3RHVDRsNk9YVEpwVUw2b05TeTlW?=
+ =?utf-8?B?NXBUaGVLMk9CSklpL1MxNFJiZzE3RERPSmJWTk51OTVsZ1BFbVZQbEZZNHhB?=
+ =?utf-8?B?NVExYnFCQXFXMlhCVXp4YlJ5cUlNK2dkSmpaN2RMbEJiNWw5dXlYTmxOQVNG?=
+ =?utf-8?B?NWhUNVZjMDZ5SDQvd3RTOGhFMUVQNkZXMWtYa3JIR2dQTUR1VlMvbWNKVFZq?=
+ =?utf-8?B?M0NJUzQyb0RXV0JHYnRXMXI3OVovbVM5WnpZUzNqVVdGVThSSTVqWnkwSno1?=
+ =?utf-8?B?bVJOUHFZWUEvNVgxMkhaODEvRG5JZ2ZFTVo3UmpocmN5Sy9QUmdENll6SkJ5?=
+ =?utf-8?B?cEIrWUkzM1BSejVEZlpheGVNc3lBWVl5TkpPY1lCNS9CdE5tM0Y5OUp4N0k2?=
+ =?utf-8?B?aEtOZ0VjSXAyRTJXVTM5WVpUZVh2c0s0WkpRNXQ1amNjaHVhSWpmQzh4cG1X?=
+ =?utf-8?B?NXdOUkNJS3p4OVI3WklhUmllbDRDZ0NuZFJKZHN4cjJvQlpob0Fzb3ZZZTFY?=
+ =?utf-8?B?bm8yRHYyNDgxZUhnK09tRjB6VjVvaU01QXVWMTBZR04rYWhIeVZXYnQ5cnJs?=
+ =?utf-8?B?NEI2R1N3RnJ6M0lvSFNCT2Ixc1dabEJFM3hMVExQbFljenRwT2tuL1RRSXhY?=
+ =?utf-8?B?cGxycFQwNFNvYzQ5eUdmWGIxcDUrQllwSEQ3OThoT3l1TVVBZG1vNVd3K3la?=
+ =?utf-8?B?cjArbStlM2lldEV6MFowV3ZYTHFiRW4rR0NnZjRTMGg3dUNjMWlmaUMzc3B2?=
+ =?utf-8?B?bkcwV2tpNzNhclY0dFAyYnhNMjduTHZhWVNBZ3liUnNPSzlFQ0xaK0hvd1U4?=
+ =?utf-8?B?blNURC8xekJBSG5pOUNGV29DbDRmelJwWTBkNWZGYWloK2crcWtxOXpNaFlO?=
+ =?utf-8?B?WlNzNDFpTmhLVW5TYUE1LzBxWFZ6Q3JOeGdidG9Id1k1N3hobHU2WHFoSkJZ?=
+ =?utf-8?B?RXY0bkJZVExWbWwxY1Jzb2NFUEh0TFVBb3dZUmRiYmhENEhFZXhyUGRCZHEv?=
+ =?utf-8?B?eUNVbHNoYVBDS0xPSHBGN2F5ak9wUjhNbzhNYkF6cHo2ZVBGZjN4YURneTBU?=
+ =?utf-8?B?Uld3REo5Nk9yZllMQ3FOYmZhUmh3VXRXUDJ0RnVQTGg0TFF2NWxGUXJWQUVG?=
+ =?utf-8?B?dzNqQk5tNFdDdmRkcVVFbSswVnBaaHgzZWhQZEpKZ2FsRFp4M2FXZWxxRTJ3?=
+ =?utf-8?B?dGcva1FOalNCTFF5bFR6T0gyL3J2czU4b3lJM0laZHNhcU8ramZVOHVRUkoy?=
+ =?utf-8?B?RGJ4b29RWkNVcmh2L0RJdkpSQUdwTlZCUTZyNWFGdXFpT21Qd2NpZERYU1ln?=
+ =?utf-8?B?MjNDU3dWMVFmaXlHMHNjNWpFbHBpU2oxc0NFZXRydHpLOFJGWVFhdUcvM2JF?=
+ =?utf-8?B?d0Y4YS92Nlo5a1ZkRGZJUGVLUGJXT1RZakNFc29xWVdEc21pUi9yU2RTejI4?=
+ =?utf-8?B?cGFIOCtvOVhwUzdMQm1uUWVqMkxuU2k5c3g1TFNYVkRyQVhpWmVLREdEYUQy?=
+ =?utf-8?Q?80QWgYVnKaw57Q5lmz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 521eb7a3-aee8-40fa-f56b-08dec175a6eb
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 13:40:19.2817
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OiBtNsdpWeQ8Iauq4qFrZ+y6c7FET0EUW4zZ7CgueU5WnkzUhWDWUNzGTbEN9dSz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7304
 
-> AF_ALG is deprecated and exposed to unprivileged userspace.  Only
-> use the least buggy algorithm implementations: the pure software ones.
->
+On 6/3/26 08:11, Ekansh Gupta wrote:
+> On 19-05-2026 12:25, Christian König wrote:
+>> On 5/19/26 08:16, Ekansh Gupta via B4 Relay wrote:
+>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+...
+>>> +static int qda_memory_manager_map_imported(struct qda_memory_manager *mem_mgr,
+>>> +                                          struct qda_gem_obj *gem_obj,
+>>> +                                          struct qda_iommu_device *iommu_dev)
+>>> +{
+>>> +       struct scatterlist *sg;
+>>> +       dma_addr_t dma_addr;
+>>> +
+>>> +       if (!gem_obj->is_imported || !gem_obj->sgt || !iommu_dev) {
+>>> +               drm_err(gem_obj->base.dev, "Invalid parameters for imported buffer mapping\n");
+>>> +               return -EINVAL;
+>>> +       }
+>>> +
+>>> +       sg = gem_obj->sgt->sgl;
+>>> +       if (!sg) {
+>>> +               drm_err(gem_obj->base.dev, "Invalid scatter-gather list for imported buffer\n");
+>>> +               return -EINVAL;
+>>> +       }
+>>> +
+>>> +       gem_obj->iommu_dev = iommu_dev;
+>>> +
+>>> +       /*
+>>> +        * After dma_buf_map_attachment_unlocked(), sg_dma_address() returns the
+>>> +        * IOMMU virtual address, not the physical address. The IOMMU maps the
+>>> +        * entire buffer as a contiguous range in the IOMMU address space even if
+>>> +        * the underlying physical memory is non-contiguous. Therefore the first
+>>> +        * sg entry's DMA address is the start of the complete contiguous
+>>> +        * IOMMU-mapped range and is sufficient to describe the buffer to the DSP.
+>>> +        */
+>>> +       dma_addr = sg_dma_address(sg);
+>>> +       dma_addr += ((u64)iommu_dev->sid << 32);
+>>> +       gem_obj->dma_addr = dma_addr;
+>>
+>> That handling here is completely broken since it assumes that the exporter maps the buffer as contigious range.
+>>
+>> But that's in no way guaranteed.
+> I'll collect more details and will try to implement this in the right
+> way, maybe by iterating the full sg_table.>
 
-I thought AF_ALG is marked as deprecated but still usable. This patch
-now actively disables groups of crypto implementations. Also it just
-assumes that all algorithms which are asynchronously implemented or
-do not have a fallback are to be disabled via AF_ALG.
+You could also document explicitly that you can only import contiguous buffers (e.g. DMA-buf heap CMA etc....) and then cleanly reject non contiguous buffers here.
 
-There are may reasons for not having a synchronous implementation. For
-example if you need to fetch (asynch) some information from a HSM before
-doing the job of the algorithm. Also all secure key operations can't
-by definition run directly on the CPU but need to be fed into some
-hardware. Same is true with just acceleration - and acceleration via
-special hardware (crypto hw, or AI hardware for example) is very common
-on platforms priced by CPU cycles.
+We have quite a number of drivers/HW with that limitation, so only accepting contiguous buffers is perfectly ok.
 
-I also can't find any arguments for the statement 'Hardware accelerator
-drivers are frequently buggy.' Does this mean that the linux kernel
-from now on will not accept any hardware accelerator drivers any more?
-Statements about code quality should be addressed to the driver
-maintainer but not lead to tagging of groups of drivers.
+You just can't silently assume that IOMMU would always map the entire buffer as one contiguous range, cause that is certainly not true.
 
-I can understand that the AF_ALG shall be deprecated and fade away.
-But this patch out of the sudden disables the long standing AF_ALG
-interface at least for testing purpose and causes some failures in
-the s390 crypto test area without any chance to react at all.
+Regards,
+Christian.
 
-> This removes one of the main advantages of AF_ALG, which is the
-> ability to use it with off-CPU accelerators.  However, using off-CPU
-> accelerators has huge overheads, both in performance and attack surface.
-> I have yet to see real-world, performance-critical workloads where using
-> an accelerator via AF_ALG is actually a win over doing cryptography in
-> userspace.
->
-> If using an off-CPU accelerator really does turn out to be a win, a new
-> API should be developed that is actually a good fit for it.
->
-> Signed-off-by: Demi Marie Obenour <demiobenour@gmail.com>
-> ---
->  Documentation/crypto/userspace-if.rst |  7 ++++++-
->  crypto/af_alg.c                       |  2 +-
->  crypto/algif_aead.c                   |  4 ++--
->  crypto/algif_hash.c                   |  4 ++--
->  crypto/algif_rng.c                    |  4 ++--
->  crypto/algif_skcipher.c               |  4 ++--
->  include/crypto/if_alg.h               | 14 +++++++++++++-
->  7 files changed, 28 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
-> index ea1b1b3f4049fd4673528dc2a6234f6376a3489f..b31117d4415dda6ad6ca36275e615bec7df9552e 100644
-> --- a/Documentation/crypto/userspace-if.rst
-> +++ b/Documentation/crypto/userspace-if.rst
-> @@ -9,7 +9,8 @@ symmetric cipher, AEAD, and RNG algorithms that are implemented in kernel-mode
->  code.
->
->  AF_ALG is insecure and is deprecated. Originally added to the kernel in 2010,
-> -most kernel developers now consider it to be a mistake.
-> +most kernel developers now consider it to be a mistake. Support for hardware
-> +accelerators, which was the original purpose of AF_ALG, has been removed.
->
->  AF_ALG continues to be supported only for backwards compatibility. On systems
->  where no programs using AF_ALG remain, the support for it should be disabled by
-> @@ -59,6 +60,10 @@ Some of the examples include:
->  - CVE-2013-7421
->  - CVE-2011-4081
->
-> +Hardware accelerator drivers are frequently buggy. To reduce attack surface,
-> +AF_ALG now only provides access to algorithms implemented in software. This
-> +means that AF_ALG no longer fulfills its original purpose.
-> +
->  It is recommended that, whenever possible, userspace programs be migrated to
->  userspace crypto code (which again, is what is normally used anyway) and
->  ``CONFIG_CRYPTO_USER_API_*`` be disabled.  On systems that use SELinux, SELinux
-> diff --git a/crypto/af_alg.c b/crypto/af_alg.c
-> index 8ccf7a737cd6ca9a5d5bf47050c9afea0dfd61bf..cce000e8590e469927b5a5a0ceccfdf0ef54633d 100644
-> --- a/crypto/af_alg.c
-> +++ b/crypto/af_alg.c
-> @@ -181,7 +181,7 @@ static int alg_bind(struct socket *sock, struct sockaddr_unsized *uaddr, int add
->	if (IS_ERR(type))
->		return PTR_ERR(type);
->
-> -	private = type->bind(sa->salg_name, sa->salg_feat, sa->salg_mask);
-> +	private = type->bind(sa->salg_name);
->	if (IS_ERR(private)) {
->		module_put(type->owner);
->		return PTR_ERR(private);
-> diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
-> index 60f06597cb0b13036bc975641a0b02ea8a41ad03..787aac8aeb24eed128f08345ba730478113919b3 100644
-> --- a/crypto/algif_aead.c
-> +++ b/crypto/algif_aead.c
-> @@ -342,9 +342,9 @@ static struct proto_ops algif_aead_ops_nokey = {
->	.poll		=	af_alg_poll,
->  };
->
-> -static void *aead_bind(const char *name, u32 type, u32 mask)
-> +static void *aead_bind(const char *name)
->  {
-> -	return crypto_alloc_aead(name, type, mask);
-> +	return crypto_alloc_aead(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void aead_release(void *private)
-> diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
-> index 4d3dfc60a16a6d8b677d903d209df18d67202c98..5452ad6c15069c3cb0ff78fe58868fe7ce4b0fc3 100644
-> --- a/crypto/algif_hash.c
-> +++ b/crypto/algif_hash.c
-> @@ -380,9 +380,9 @@ static struct proto_ops algif_hash_ops_nokey = {
->	.accept		=	hash_accept_nokey,
->  };
->
-> -static void *hash_bind(const char *name, u32 type, u32 mask)
-> +static void *hash_bind(const char *name)
->  {
-> -	return crypto_alloc_ahash(name, type, mask);
-> +	return crypto_alloc_ahash(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void hash_release(void *private)
-> diff --git a/crypto/algif_rng.c b/crypto/algif_rng.c
-> index a9fb492e929a70c94476f296f5f5e7c42f0313b7..4dfe7899f8fa4ce82d5f2236297230fb44bc35d6 100644
-> --- a/crypto/algif_rng.c
-> +++ b/crypto/algif_rng.c
-> @@ -197,7 +197,7 @@ static struct proto_ops __maybe_unused algif_rng_test_ops = {
->	.sendmsg	=	rng_test_sendmsg,
->  };
->
-> -static void *rng_bind(const char *name, u32 type, u32 mask)
-> +static void *rng_bind(const char *name)
->  {
->	struct rng_parent_ctx *pctx;
->	struct crypto_rng *rng;
-> @@ -206,7 +206,7 @@ static void *rng_bind(const char *name, u32 type, u32 mask)
->	if (!pctx)
->		return ERR_PTR(-ENOMEM);
->
-> -	rng = crypto_alloc_rng(name, type, mask);
-> +	rng = crypto_alloc_rng(name, 0, AF_ALG_CRYPTOAPI_MASK);
->	if (IS_ERR(rng)) {
->		kfree(pctx);
->		return ERR_CAST(rng);
-> diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
-> index 9dbccabd87b13920c27aff5a450a235cc6a27d59..df20bdfe1f1f4e453782dee3b743dd1939ab4c6c 100644
-> --- a/crypto/algif_skcipher.c
-> +++ b/crypto/algif_skcipher.c
-> @@ -307,9 +307,9 @@ static struct proto_ops algif_skcipher_ops_nokey = {
->	.poll		=	af_alg_poll,
->  };
->
-> -static void *skcipher_bind(const char *name, u32 type, u32 mask)
-> +static void *skcipher_bind(const char *name)
->  {
-> -	return crypto_alloc_skcipher(name, type, mask);
-> +	return crypto_alloc_skcipher(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void skcipher_release(void *private)
-> diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
-> index 62867daca47d76c9ea1a7ed233188788c5f6c3c0..7643ba954125aba0c06aaf19de087985325885ad 100644
-> --- a/include/crypto/if_alg.h
-> +++ b/include/crypto/if_alg.h
-> @@ -41,7 +41,7 @@ struct af_alg_control {
->  };
->
->  struct af_alg_type {
-> -	void *(*bind)(const char *name, u32 type, u32 mask);
-> +	void *(*bind)(const char *name);
->	void (*release)(void *private);
->	int (*setkey)(void *private, const u8 *key, unsigned int keylen);
->	int (*setentropy)(void *private, sockptr_t entropy, unsigned int len);
-> @@ -243,4 +243,16 @@ int af_alg_get_rsgl(struct sock *sk, struct msghdr *msg, int flags,
->		    struct af_alg_async_req *areq, size_t maxsize,
->		    size_t *outlen);
->
-> +/*
-> + * Mask used to disable unsupported algorithm implementations.
-> + *
-> + * This is the same as FSCRYPT_CRYPTOAPI_MASK in fs/crypto/fscrypt_private.h.
-> + * In additions to the motivations there, this API is exposed to userspace
-> + * that might not be fully trusted.
-> + */
-> +#define AF_ALG_CRYPTOAPI_MASK                             \
-> +	(CRYPTO_ALG_ASYNC | CRYPTO_ALG_ALLOCATES_MEMORY | \
-> +	 CRYPTO_ALG_KERN_DRIVER_ONLY)
-> +
-> +
->  #endif	/* _CRYPTO_IF_ALG_H */
->
-> --
-> 2.54.0
->
 
-Harald Freudenberger
+>> Regards,
+>> Christian.
