@@ -1,65 +1,66 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0CB403EB1
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 20:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87AC40910A
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 20:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780519445; cv=none; b=VipdmCZLN66iJ5tIP/2nCZ9rUjHpdP+5dUWgIlIfli45GGM9VzaTlWXH44udeHVmbwx+0ATGSeCwyHI31W3+/GVHrZKHSLGW0PfA28Q3a+Ro8cvaV82iN3sKV+BYMZMENd2Ud2TFabqtmOqsB+YjGwgKDew4aC7bVTck+nBkH0c=
+	t=1780519448; cv=none; b=NesNrpXxBkT1QTKzTrJUeNWdovoKJ3Af27oyBTC01CaXUB6wnDub2mrLzUXGEeTLNvYteM3nX+Krd06JNS9hToLWJsQxuPI5Mx52V9bbB4Qtf8tBUmFLv7hdhb49wZ2fxDJ6zaDAOIKJidnlUdl+XMCnbliWdTcQYQfGCiMV/SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780519445; c=relaxed/simple;
-	bh=+JosnbZhQUF/MOBUAyqR6d/lHKYmP/5jY0EEF59+azs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oIM1ZUg62pe+pQwqWj4C3apXJzo1SLxDyiRBybt0rAYC9UDn5JAPFZeNYrl8SvtgZwbxMjCVpQvf4ZhJ65MgBYw2stU5M0J2VNVQEcipAB7T8h0gHNzHMMUAi1xbMtUCoxBfEMadV6hD6+RUbRScSAxkheVu/1hmw3tVNE+/ES0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBhHX/bj; arc=none smtp.client-ip=209.85.167.180
+	s=arc-20240116; t=1780519448; c=relaxed/simple;
+	bh=1VgHiEy4LZCKpTLkS9uhtOQ9zMOOI5+2vy09ZAAS624=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WhUB+b8fsVhBw0ykFis5rdVrmPQdOyxBB8Ktjsi0TjWsPLdIoFXGvH1LSJD5wayYBje/0sgi9Ucgn7tC1+lf7R0VxvFhV5+6ZA7BmcYAj1LEuZ+LOjhHt1xEFJ60ZcQ5UWV9uk1uZXu1mR4pqeOz211TqQhPJMjrHH5zbOLEYOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PT1+lJi/; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBhHX/bj"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-486304fa184so2938164b6e.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 13:44:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PT1+lJi/"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-4863ee8474eso1976325b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 13:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780519443; x=1781124243; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1IEf6hXj7f37DFxPYxn9sI96qJysjet+fYfxXFRG2SM=;
-        b=eBhHX/bjUqK/bQgWs32lKFc+cdIrlG6bjDtdscaOc4jE8J3fMP6N6xa4MHb+aanQ4r
-         vjdbiFEKLGRZgWx8jdRAt2PzEL0vjWQoxbnsouDIXQtzrul6Gxuu5eRXWMVcz+5n/Rhe
-         jig4upRzejUnzDzQlUALFqK+JmJAoR8lz7Uw3U3SwruM1FGl3106LcTKsn/3yDD8FH/B
-         3MSbKgu1iwmv1uz4BAc1vZBJ0hfRZTGZvVUyaUtoFLczTJCWd14PC4Nsc9C6lHppBbNh
-         4pe3UUvDR5qWghr81ltPt45/kVmIgiN1XGrcWJ5QGk7LUk2PvpJL01qWrTkj+rolK28m
-         xPnQ==
+        d=gmail.com; s=20251104; t=1780519445; x=1781124245; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HWkxW7Ud9tasihZM1AsETVa4enpdjUpARrEAwS6/9NY=;
+        b=PT1+lJi/dVYSSC+fFoYHIJrGX9eMjKdSl476Uq9/CyTks5EULnBzI+7eCrWu9tCyl7
+         Ld1H8U7yUkY7YHV1symkS6+rVED9QEQ3JN/bckDHENZc2zy4lUWMGCkC0pV55dNgRQ30
+         c30GJghRC2z2yv3DxxpteL1bPrBx0EBd9iIWLLUztI7M63Fe5jrl4C8wE8VtOMtlAQX0
+         WNo+Gh7X4gEUz0IyrgvkLEk5rOPzRl0JoXTF7d4Jn0w1tDWoXvbOFgBTdsIjzvPFrgzz
+         Yhxx9TBiuxpTtU80FiuhQNCII8hH466uUQw3YDokhGYhIR6N/DwYkfA/nx8w1Me5qpoE
+         wAaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780519443; x=1781124243;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1IEf6hXj7f37DFxPYxn9sI96qJysjet+fYfxXFRG2SM=;
-        b=o9Az5qA0XBTryHztuXMdLQaJexdH1HPe/DZQjfRO8NQUDY2x3QuE5UqxE7XA2GFkel
-         JJCTggYc/POZet5e9MHz0XpSzuqmyfxMyqp8SFP4sDa1uevy7mwVR46n6o8kklLsjXgD
-         PPFCKFfueS4Z1zmtQcpZGS20UZus6/d/J+vBSHnQ+ptBJWkkQ01RofV2g7sr3kdjhFxv
-         O93gvW6qvIP6VB5kvBbXrAt3lTjKAqSqjzxpPJ93XsxqRW+PqLfAWuu/wztUeuqPRJio
-         bpPbrYY2WE2gVjAza3PWU9qSUOYbf5rT9MYj7comOEngq632pjwlYJ+3R1OJ6d65ljnX
-         xFFw==
-X-Forwarded-Encrypted: i=1; AFNElJ9NyM9L7cTsH+4+ejWIp/EnyszfnIGWJO85Lsj090Jlb46pGc35K27iwzQaKbtRCC9kmCyZKFffrJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2Hcs8lJGrByWaGawdQc4FayU4H8wEIurvvXrkwYdtCrhavTiX
-	Ll8b+R2ZnaH1nh31F5RkbDSqdoB8B1GOlQTt84t29MlzvbyKLU49Bb0/
-X-Gm-Gg: Acq92OGuzTFauNxMQjKqLDj2D7Ihd0oli7QvkpWfOPLkaCxkCbPqV6ipvcSptVYcohi
-	V6cCufkxXMg4v9jVZDXGz1Ottn+vmcFXrQVk3xbBHjvH8BDs9U5QJD1MVD3kaGyJ+05zttxFbeN
-	bCGlaHw987FhAo0o24/ipb7bh3FRZUzX15T42Z85liIwMbKcPDAHEOUWtmGGStASZi5AjcXTM7F
-	65Z0XcbUZ2vh+M/+PhrcF73czGXZQ94249OnwXFwyR5c3kbYYwB+ghq2A1qJFMSWwFfQ9yn7apS
-	GfH1AGy15h2J5WfOlvGu1yZl76YWlbUoM5RBJb3vdi0go+gtf6pG6N85zB1krcqNDhdO/V7Wc7m
-	ZXXeA2SBURVgDEPakrad69qRJ00hhKeAxirzQkTBhmlSHwB9XPVHBDEIb4ebkKPmydC1MRjmdYY
-	YYxXH2BfkshF4HYiMWrkoNi4mw5q6qc6RooqEd4GiPMfZnZ7zmFQ==
-X-Received: by 2002:a05:6808:144f:b0:479:fa21:adfe with SMTP id 5614622812f47-4865a9264e7mr3070801b6e.6.1780519442890;
-        Wed, 03 Jun 2026 13:44:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780519445; x=1781124245;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HWkxW7Ud9tasihZM1AsETVa4enpdjUpARrEAwS6/9NY=;
+        b=HvVCIOo7WUksz3cYwapx2F9ZaBCM+csgt6W0qYaKoDnWFI2RllunmOrHK1q3Xg6Kit
+         kIVMJbSR+bvkCOA628N7evOVbmr22isVEsZMjQ+dSCTAV6iYSzi87Y8r6sbfwj3t8lpf
+         +uFQn1ZRnNAjxhHpV5zI8bky3drHSEIYpQ99pFm8Dyz/j8R+/MGe+U6iYMhI2r4V5ehr
+         qhlnmLm+0Jq5nyp+vEHwO04WntlTn1BJmqQSAlloBp5kIEHSK8AYecOjWAlKSTJwt22w
+         ZrEeog0gIs1K8mXmrGPUNKOmDaoIsVN7qpmBgh+bHd8mIp1yu8921PTiGlglNn9oszia
+         EV7w==
+X-Forwarded-Encrypted: i=1; AFNElJ+Fga8U+OrdXQDE9I1syNojp5qO+/lznM+bxb6bFKzuuZfmG/xCvLosm/ImvcNhNiHWIu/sneiUbhc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwBCxGvCKs4/evufKq1UC1xXs/7sd+yFysVy78QopXlKi9wj2Q
+	8YC1OddcbtB7jODxw4PfanW/OnJ51AFFUJTCTGsTU4bJoKVFiBNDqeKt
+X-Gm-Gg: Acq92OFjAgVJYNdIU0FFXxd8XTEp5p85313O6XnCZrJsiv6ILonPbFM/n5AJAD9XTmG
+	urZtsfXLYvSParbuJA14nfvgbPakO7TpKO/+eMKQz7eoVjNcqRp+QxiFkKHb1LYuBoMwA7Ucfmy
+	UaW0rKhzfui1jgWabUzXfUsasSKOq2CcPrvgJrCwcn1LZippzmWbr1fZxI8d09A4JsrkoCnhN2v
+	+HzJMsr9uQePiTIj2lbPi0J5CZ+UzfXykgZsTqnOrtX6Lxf8EpOcBI/CDnEr64QCaFIFY/r3D1R
+	Pxi1G2iHat+cyuPgNi/tKzBP9FQCI+LugISk83Mwk1xQ4DiYQhueUk9PdUMmJ8KcXiYnjlVaAOS
+	PsnEamqP+BPN3MEXa2uos812IudPWvm3eW3e9ios5Dpy7BV9SWjdBEpf2gZlb6o6Fa1QxJTZqie
+	jcT98Wfwd+4nWW9akAj/tQ7U3SRs07ZTuqP+aDPEiiQfQ3qgBFTg==
+X-Received: by 2002:a05:6808:1a19:b0:467:58e:5d4b with SMTP id 5614622812f47-4865ab31ed2mr2926769b6e.20.1780519444730;
+        Wed, 03 Jun 2026 13:44:04 -0700 (PDT)
 Received: from [192.168.1.71] ([2600:1702:56e9:4b40:e3a9:78c5:641e:a58c])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4865b5a5a64sm2667962b6e.4.2026.06.03.13.44.01
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4865b5a5a64sm2667962b6e.4.2026.06.03.13.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 13:44:02 -0700 (PDT)
+        Wed, 03 Jun 2026 13:44:03 -0700 (PDT)
 From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-Subject: [PATCH v2 0/4] dt-bindings: remove redundant .txt redirect stubs
-Date: Wed, 03 Jun 2026 15:42:17 -0500
-Message-Id: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
+Date: Wed, 03 Jun 2026 15:42:18 -0500
+Subject: [PATCH v2 1/4] dt-bindings: net: remove obsolete mdio.txt
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,10 +69,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqDMBAAvyJ7diFESWO/Ih5isql7UMuuihD8e
- 0NPwxxmCigJk8K7KSB0sfK+VbFtA3EJ24eQU3WwxjrjTIdzj0LrflFFYqF4oB7nrOiHIeToc3g
- lBzX/CmW+/+txep4f7I/bSWoAAAA=
-X-Change-ID: 20260603-b4-remove-redirect-stubs-899afc8fa7d6
+Message-Id: <20260603-b4-remove-redirect-stubs-v2-1-c8c19876ab64@gmail.com>
+References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
+In-Reply-To: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
 To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
  Russell King <linux@armlinux.org.uk>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
@@ -90,73 +90,29 @@ Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, Akash Sukhavasi <akash.sukhavasi@gmail.com>
 X-Mailer: b4 0.14.3
 
-Several .txt files under Documentation/devicetree/bindings/ contain
-only a redirect notice pointing to a .yaml schema with the same base
-filename in the same directory. These stubs were useful during the
-.txt to .yaml transition but are now redundant, since the .yaml is
-discoverable by name. Meanwhile, other documentation still references
-some of these stubs, forcing readers through an unnecessary extra hop
-to reach the actual schema.
+mdio.txt has been a single-line redirect to mdio.yaml since
+commit 62d77ff7ecbf ("dt-bindings: net: Add a YAML schemas for the
+generic MDIO options"), which introduced the .yaml schema and reduced
+the .txt to a stub in the same change. The .yaml has the same filename
+in the same directory, making this redirect unnecessary for
+discoverability.
 
-This series removes four such stubs and updates all remaining
-cross-references to point directly to the .yaml schemas.
-
-Other redirect stubs in the tree were evaluated and intentionally
-kept:
-
- - Stubs pointing to .yaml files with different names (e.g.,
-   spi-bus.txt -> spi-controller.yaml) serve as breadcrumbs for
-   the renamed schema.
-
- - Stubs pointing to multiple .yaml files (e.g., nvmem.txt ->
-   nvmem.yaml and nvmem-consumer.yaml) convey that the content
-   was split.
-
- - Stubs pointing to .yaml files in a different directory (e.g.,
-   reset/st,stm32-rcc.txt -> clock/st,stm32-rcc.yaml) serve as
-   cross-directory pointers.
-
-Two additional same-name, same-directory stubs (leds/common.txt,
-regulator/regulator.txt) have significantly more cross references
-and will be addressed in a follow-up series.
-
-v2:
-- Patch 4/4: corrected commit message (eight references in six files, not
-  eight files), Sashiko review.
-  https://sashiko.dev/#/patchset/20260529052246.4934-1-akash.sukhavasi@gmail.com?part=4
-
-v1: https://lore.kernel.org/all/20260529052246.4934-1-akash.sukhavasi@gmail.com/
-
-Patch 1 supersedes my earlier standalone submission:
-https://lore.kernel.org/all/20260523004223.3045-1-akash.sukhavasi@gmail.com/
+No files in the tree reference mdio.txt and it has not been touched
+since June 2019. Remove the obsolete stub.
 
 Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
 ---
-Akash Sukhavasi (4):
-      dt-bindings: net: remove obsolete mdio.txt
-      dt-bindings: media: remove obsolete rc.txt
-      dt-bindings: net: dsa: remove obsolete dsa.txt
-      dt-bindings: input: remove obsolete matrix-keymap.txt
+ Documentation/devicetree/bindings/net/mdio.txt | 1 -
+ 1 file changed, 1 deletion(-)
 
- Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt    | 2 +-
- Documentation/devicetree/bindings/input/clps711x-keypad.txt    | 2 +-
- Documentation/devicetree/bindings/input/matrix-keymap.txt      | 1 -
- Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt | 2 +-
- Documentation/devicetree/bindings/input/pxa27x-keypad.txt      | 2 +-
- Documentation/devicetree/bindings/input/st-keyscan.txt         | 2 +-
- Documentation/devicetree/bindings/media/hix5hd2-ir.txt         | 2 +-
- Documentation/devicetree/bindings/media/rc.txt                 | 1 -
- Documentation/devicetree/bindings/mfd/tc3589x.txt              | 6 +++---
- Documentation/devicetree/bindings/net/dsa/dsa.txt              | 4 ----
- Documentation/devicetree/bindings/net/dsa/lan9303.txt          | 2 +-
- Documentation/devicetree/bindings/net/mdio.txt                 | 1 -
- Documentation/networking/dsa/dsa.rst                           | 2 +-
- 13 files changed, 11 insertions(+), 18 deletions(-)
----
-base-commit: b7bee4ca5688e30ca50fbc87b1b8f7eed7006c17
-change-id: 20260603-b4-remove-redirect-stubs-899afc8fa7d6
+diff --git a/Documentation/devicetree/bindings/net/mdio.txt b/Documentation/devicetree/bindings/net/mdio.txt
+deleted file mode 100644
+index cf8a0105488e..000000000000
+--- a/Documentation/devicetree/bindings/net/mdio.txt
++++ /dev/null
+@@ -1 +0,0 @@
+-This file has moved to mdio.yaml.
 
-Best regards,
 -- 
-Akash Sukhavasi <akash.sukhavasi@gmail.com>
+2.54.0
 
