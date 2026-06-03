@@ -1,238 +1,195 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012061.outbound.protection.outlook.com [52.101.43.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E2F48C405
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 19:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780515269; cv=none; b=PynGafSIxIqestGV0AeMUxWxHVZ2uv93jkPoTbrDrYYWFFn5dmZ82or8GaSNSpTKMNfbzhCVYAmbYCW1sjzk3yR1WsySY6jViJh2BvSNDQiDuG5o8aDrpH/4oxNZ/Il+9TwePa0GRckteaJETGKywLNMYusu1/SjB9en1Zq+CpY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780515269; c=relaxed/simple;
-	bh=4cSzd8MC5Wb456VcUltFlGNqovJDAm1MFOU5USO+n0g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PCBHG+SbzXOFe6TjW6SvwQW2awLTmNBeXlrX71IVh3JzDJq3j2TCQMcResEpHKFiYYxAslmmSSA4rjV3D9et+t1uW5KPoBwVmjZgj3jpU6/gDMX5vzcDFOt/C0SykxQBYzphYNxUbitWJ7CjhsgZqvFgjA1KX0s4J8Y7SYDYL1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBVL0vQm; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F9148C40F;
+	Wed,  3 Jun 2026 19:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780515277; cv=fail; b=i9rrzdPCQS10706I12YDQuwRh6g8yC+3N0r/KJq7iZpYZxhlnt8OhMsYCKZH0vlnnTCE2wRFxub1T13zckVHwe+dS4a65SMrHl5xHrC3+Pwl3bGDGnVC+2Jj64FvfY1iDDUVIN6EXLHfZ20380bDhKVkytqQDMGzi7FVsyv+6Rw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780515277; c=relaxed/simple;
+	bh=jSch0ciHaAM1sWMZMwjvlyCb+JrlevS5niw4TmhB6+0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p/RZpdAk+mQsvyTJUHewIvpBT+PAjXFXX2Zv4Kp3PVxKkPYLZgCyX3qH2B0I5xGdGcUMVwOCHE/SBSRG+XjHLyZ/fbiMMbzBjCVywbiyz4dIiIZs/7Wr+Vwkr8oKTeLfEvptzx1WD8H5XHcYtghrz3TW+5mf6unvT3K/dpkCVqM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Fgtfv08w; arc=fail smtp.client-ip=52.101.43.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBVL0vQm"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c857fba35cfso2628387a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 12:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780515266; x=1781120066; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQrrxMnqw6ml9s5gr8YGx8Mot8gr2nhuVfyrrBoCUFI=;
-        b=KBVL0vQmb3w+PpXN75pu5b7e+uBZiMY5WOrbsybGFWwIHxDsisf3bHIbjpzT7E9ZRP
-         SJiWqw06GyWSZoTSq4cZc1o1E27p1mtd64J4JvVeokVIXphlGfoHTF2OCQZKaADgs6V7
-         h91ON4w7Km3GY+laAfJowk2worc+kTaLM15MlG8SAjnimC6FaSYTGzaegW9l7t5Ia28L
-         5OjvKJlivHJg7P94Zxi3KHZ2fd+RFGcKI7NWeDcyrqMfAEPfP3qKLHYcQIMfhtsUCxUC
-         bNJ99/IiTKXAzb9juwSeE1mnAq4ukFzsTJc/Z3wVuRROsUfBUAn42aXBHMns7V/wd8H7
-         U5JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780515266; x=1781120066;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SQrrxMnqw6ml9s5gr8YGx8Mot8gr2nhuVfyrrBoCUFI=;
-        b=pig8ewiRzrSJdvaMzi3v7MUEvJYQaFA7KrpKzp+l2MaeZIWWh53JMOMpgK5So4qey2
-         rsMB6xosTHUrObtUMFJAqK44tzNlx9HhvMKZcls+tMls3zcfZbJZe//4JBR8o+xbeLAY
-         AJzpNStejylovsSj59QitwqjKpFDH/YQ8yIYS7VE+R98Yfbf2sLO+sNfR78xmxhVbHje
-         vTSpBezym7XT5ztct9G7awt6cSQ3W8AcMuiOojvHuPjYKTqQInX0K5qLvT/WGLDJFu8M
-         ONsuEmgqMgkBqPWMewUTtlfbUGdsKwZYrbvQ5/q0tjdSyPFd/kngKmzDNT8lfcVWj4R9
-         /FaA==
-X-Forwarded-Encrypted: i=1; AFNElJ9J2a5Rmg31up/7MtiRI4dLCXC5AIT0iLeQTQRG8sZSJoaFEwxS8G91ApBeQe9tXAxrxCxv9roSoD4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWi0ZWquBBZmUWyXUZ6D+t7f51C5uNLouK2m5jVKV3YfQbZNZq
-	KJlKmKyS4+3OHcPahswlSkftQWhTkdR0JRoujMUWY7Yyr7pM0I3GcXk=
-X-Gm-Gg: Acq92OGGcSG7EJpzbYpgix6LfBBsmWV5CHMJKkM2v0UsTvEIsawf6kLPRop+AsEN3Mi
-	TIF75BFUkr7k/TknTD5NyAi+LUMm76DWHPcI+eEkCm0RkgcGIkTZ+9Hm340anPKBcEhVaRKHK21
-	7xOiRd3tPtHb7pR3XE0Ot3XX90wFSr7xqeF3j/B9L7AtPoj6Xwi7kbBIiAjWI181l+CUDyJkPyq
-	qMggKo+HuDXShW/v+UBWdufb8vv0UNvkBlKFw/3KLH/rhJ+kW1FiFfjMpcSfCpx/cC6Fjd5RRNb
-	NER4THnYwuuOUKrpu72CHcbZmw9vLmJNuQSFld6trIOkBaoMojpgi5/Q3dBbLirr4heiai/rYS0
-	Vo2XS8jEtJBftVWNFqJfTWMkM0wCSr+WoHszanPPMt+R8BvpanJ56lTtD1uPNeVOR1dV2b8MOO4
-	Ke1gzdFfgrTVemLgMRboLKULsRvQ7ll5rmi/hFG8+zxG1lUvEf1/Nrqn2gaGoTwY2rMcuEkfiTz
-	dkgCCfQsw7hTWvn
-X-Received: by 2002:a05:6300:228c:b0:3b4:780:8fc0 with SMTP id adf61e73a8af0-3b4977b9f67mr5478856637.47.1780515265396;
-        Wed, 03 Jun 2026 12:34:25 -0700 (PDT)
-Received: from panzhi.. ([2001:288:7001:2560:7f36:30bb:5a71:e7aa])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842829188b9sm3874132b3a.59.2026.06.03.12.34.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 12:34:24 -0700 (PDT)
-From: panzhipop <kipp455187@gmail.com>
-To: Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	panzhipop <kipp455187@gmail.com>
-Subject: [PATCH] =?UTF-8?q?docs/zh=5FTW:=20replace=20=E6=8E=A5=E5=8F=A3=20?= =?UTF-8?q?with=20=E4=BB=8B=E9=9D=A2=20in=20stable-api-nonsense.rst?=
-Date: Thu,  4 Jun 2026 03:34:08 +0800
-Message-Id: <20260603193408.140445-1-kipp455187@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Fgtfv08w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r2xXGEmINOpyS8aMsj/zZRK5TTpEJy+qYByyFhD5f1+/gtGGNb8MmlwL4hN56V9Ku2ca+2Mb9uAagD8tttEiaLcecZDJwz5Vjwz54JGlezavzayEwP1AKCZbfaaW/PsixfgEYAp3VXECMRq7cATZ7zHt31pc/bzeOQ18TI8AMdjYFJi96QFWgdLxihWmbpBcj9oY8FI6FMP8xur4Ey2yxDcrFvWwlav8p7L/eMjerqxb8oSqIBNRVAyLccEODSAi/+qEhlQElgl1Mka7jH2Vtv8Xf1fG9i1bCd5XR4AVRI3Mk4EMoww68pMZfbbV4bs0PyDEYHlXE/7AQavF+xLjvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Fjh6Va9is1UKXphs4R/KE5/TgQpuAEqDeLTgySmbZw=;
+ b=nNZguOT0BMiPHjUKwFmLHS20Nq3U59gAF+Uwy+jtYym6kpEdK9gYaRLyD6bC4NhV0SxR2y23U9jP2WQTEkwH5hi4PXmaTsdLDh8oL8KtB42d+oOYMKcZO1BxcOPIOpQ1/tm3JqxMEfBQmzzmt7HeLP0+P9C1Pr4c3Qh9tWq/CLhkIVr1RDc2vbkvfTaPDv/5q0BngnyufUdnT6ZQCqHgVLlwD+7qJAcCWnH1+xGeYaF2v3Fs0chOsjN2rnIm6V8KWVae4fISSEhmlpFqf6eIPu7m4ULDnXoMHiW4R2SU2WCm/KcICQ+6ZFYBIIXVqPO6Tt5gTHk2H7zeGAtEVl4S9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9Fjh6Va9is1UKXphs4R/KE5/TgQpuAEqDeLTgySmbZw=;
+ b=Fgtfv08w1OMLXdonW+6HhtK+YmUVi2lSS4VLNGSHmALfE55OYgvxudlo1Q4f7jySItgL6vXqvATpX3wvNhH+bA73roP8Ui+xg5eBRvUzuKu5FtyeInKKVflg2gMq+Y6VEqgy+KY4Rjqi95nxCUea+676mSRT9DrWr4CEEG8MLSziAma3drMxNQdsnhwKXsK4t3C30uSXU4j2ET6d3+IP2npt2w/LZXHrQWPcqygZ2hgs8hRzsy+FdqORKCs/GFOfSRLkMkUVOTCvCDqcpy/EUBF/ikpVvXoF8VcMnkEgj2h3VRxOx97dkEWwPdzGLcFyMH+koLLvp2/ECUsn8+QuFg==
+Received: from SJ0PR13CA0144.namprd13.prod.outlook.com (2603:10b6:a03:2c6::29)
+ by MW4PR12MB7015.namprd12.prod.outlook.com (2603:10b6:303:218::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 19:34:28 +0000
+Received: from CO1PEPF000066E6.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c6:cafe::e5) by SJ0PR13CA0144.outlook.office365.com
+ (2603:10b6:a03:2c6::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.7 via Frontend Transport; Wed, 3
+ Jun 2026 19:34:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1PEPF000066E6.mail.protection.outlook.com (10.167.249.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.92.5 via Frontend Transport; Wed, 3 Jun 2026 19:34:24 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 3 Jun
+ 2026 12:34:07 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Wed, 3 Jun 2026 12:34:07 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 3 Jun 2026 12:33:58 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Sunil Goutham
+	<sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, Geetha sowjanya
+	<gakula@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya Sundeep
+	<sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
+	<tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, "Borislav Petkov (AMD)"
+	<bp@alien8.de>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>, "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, Tejun Heo
+	<tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Feng Tang
+	<feng.tang@linux.alibaba.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver
+	<elver@google.com>, Eric Biggers <ebiggers@kernel.org>, Li RongQing
+	<lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Ethan
+ Nelson-Moore" <enelsonmoore@gmail.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>
+Subject: [PATCH net-next V2 6/7] octeontx2-pf: Register devlink after SR-IOV state init
+Date: Wed, 3 Jun 2026 22:32:58 +0300
+Message-ID: <20260603193259.3412464-7-mbloch@nvidia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260603193259.3412464-1-mbloch@nvidia.com>
+References: <20260603193259.3412464-1-mbloch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066E6:EE_|MW4PR12MB7015:EE_
+X-MS-Office365-Filtering-Correlation-Id: aec7e565-1771-41d6-312b-08dec1a71e5f
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700016|18002099003|22082099003|6133799003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	aj5MfJdt7S7ffWEPi+2bAyFKJJ+JKCDKT3lmNTaudJZjdP+2XuhUSP8dWnaPB/+GODtfGEkmjun2Ykwx5Ika04Nk76A948BFRfkOSg+3WdcqVlz/sbFzcYIqMpk6B0f0+gYPZNbK08f1JxcnVf6zQzy6RinkbmWvuLdkAyQMCi/d5nUY3mzHeFietax3qCgQACNfLZykk6nQkpjRYHbYV9f6VMQRva/b4Jg77N9qbMUy1kYvTjz1gKTGjwJOg7oEkDIetZVWOfPIl7BoLQKGLu1DuOnbMR1HBng03AXZ6lDT3w40cd0aSNCja5zUVHiyG2aGWJfGQ8oThyIJmR+VcxWTLZQzIjm1mdD78J6tOIIVKq8WbMUoGk0y12ZPV/2twQZjfQdaQrLmBjApCR6dZy43uJLr0ZQm66RM8P3g+vvu0LlmfUvaFB+qELN95duYuwlDqKVhoN6Vpb0MugIsHRT+nRIbmOSIo42MDW7TVoMxzw6jseoo7kPFAuC18RQ5zZfMUU+ZhniRBIK04iKE4YYJCe2e9pIQDtGRKpxJ2DC+s3orWMtzjjDMOZSFbX+Ig2dpWtyaqTWWn8YigTOWmd6kk8XWgCmgcuH+BlDTg+4pZMHyGj+1jX2Xxypgybu0acjxA3rKNx5Opjkja1tpa6VUTEXfhg2Rn5TJNjPDgnXIQEQKc4uqLMpyH6AsINaNTieD3M0hJIFLKmLpqwaeoGJJ4TlLSsdRMLpQupwOv5E=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700016)(18002099003)(22082099003)(6133799003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	pYvcMNaVP/MUO06CJGhrMlHikBRZfeMjxaOLvi3d7MoX2PYGsMqLahWar0SDDH81grOmCN73c2o5L3Jn+DezI82yy4Hv70athUPxyWiT3GJB3gFcJFr4xxyqX2tQmyKMEe/9GuUf1j99bNaRZljiY1m8BeU5Uk1QuK023oyt2I4NWyiFK/8wX/Mva9mdGVuPjqIAeNYe+AemnU3yLNkkmTfRoC5LJfm0B7YXSnRx66ZMjcevijzxTIVsb2Q/hpVKJ0c5u9M3l5FeoRSNWw/oHeLCADVFHmiWBi4arrhbHghuSXPiNtVU5HnAsdmX2j8dPpU6Y2c9u4L+PuBEgk8TpZwUF6EH/YN8iBfVS0+fWRe8X76ghC5uKCoPutRR7u84T1mGlMpGSh0c4EcFvp6XBDIsv7yiSNEsguyeoQTKw2+YII0eS6rjK5fGlGzyV/jD
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 19:34:24.5714
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aec7e565-1771-41d6-312b-08dec1a71e5f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066E6.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7015
 
-In Taiwan's standard terminology, as defined by the National Academy
-for Educational Research (NAER) term bank (https://terms.naer.edu.tw/),
-the correct Traditional Chinese translation for "interface" is "介面",
-not "接口" (which is used in Simplified Chinese/Mainland China).
+A later patch makes devlink registration the point where devlink core may
+call eswitch_mode_set() to apply a boot-time default eswitch mode.
 
-Update the zh_TW translation of stable-api-nonsense.rst to use
-the proper Taiwanese terminology.
+Move octeontx2 PF devlink registration after PF SR-IOV configuration state
+is initialized, so representor creation has the state it needs.
 
-Signed-off-by: panzhipop <kipp455187@gmail.com>
+Add a separate unwind label so failures after devlink registration
+unregister devlink before cleaning up SR-IOV state.
+
+Signed-off-by: Mark Bloch <mbloch@nvidia.com>
 ---
- .../zh_TW/process/stable-api-nonsense.rst     | 62 +++++++++----------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+ .../ethernet/marvell/octeontx2/nic/otx2_pf.c    | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-index 4b8597fed5ae..a21daf29da10 100644
---- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
-@@ -14,21 +14,21 @@
-         中文版校譯者： 李陽  Li Yang <leoyang.li@nxp.com>
-                       胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
+index ee623476e5ff..9afe6cf0ea01 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
+@@ -3278,14 +3278,14 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (err)
+ 		goto err_mcam_flow_del;
  
--Linux 內核驅動接口
-+Linux 內核驅動介面
- ==================
+-	err = otx2_register_dl(pf);
+-	if (err)
+-		goto err_mcam_flow_del;
+-
+ 	/* Initialize SR-IOV resources */
+ 	err = otx2_sriov_vfcfg_init(pf);
+ 	if (err)
+-		goto err_pf_sriov_init;
++		goto err_shutdown_tc;
++
++	err = otx2_register_dl(pf);
++	if (err)
++		goto err_sriov_cleannup;
  
--寫作本文檔的目的，是爲了解釋爲什麼Linux既沒有二進制內核接口，也沒有穩定
--的內核接口。這裏所說的內核接口，是指內核裏的接口，而不是內核和用戶空間
--的接口。內核到用戶空間的接口，是提供給應用程序使用的系統調用，系統調用
-+寫作本文檔的目的，是爲了解釋爲什麼Linux既沒有二進制內核介面，也沒有穩定
-+的內核介面。這裏所說的內核介面，是指內核裏的介面，而不是內核和用戶空間
-+的介面。內核到用戶空間的介面，是提供給應用程序使用的系統調用，系統調用
- 在歷史上幾乎沒有過變化，將來也不會有變化。我有一些老應用程序是在0.9版本
- 或者更早版本的內核上編譯的，在使用2.6版本內核的Linux發佈上依然用得很好
--。用戶和應用程序作者可以將這個接口看成是穩定的。
-+。用戶和應用程序作者可以將這個介面看成是穩定的。
+ 	/* Enable link notifications */
+ 	otx2_cgx_config_linkevents(pf, true);
+@@ -3293,7 +3293,7 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	pf->af_xdp_zc_qidx = bitmap_zalloc(qcount, GFP_KERNEL);
+ 	if (!pf->af_xdp_zc_qidx) {
+ 		err = -ENOMEM;
+-		goto err_sriov_cleannup;
++		goto err_dl_unregister;
+ 	}
  
- 
- 執行綱要
- --------
- 
--你也許以爲自己想要穩定的內核接口，但是你不清楚你要的實際上不是它。你需
-+你也許以爲自己想要穩定的內核介面，但是你不清楚你要的實際上不是它。你需
- 要的其實是穩定的驅動程序，而你只有將驅動程序放到公版內核的源代碼樹裏，
- 纔有可能達到這個目的。而且這樣做還有很多其它好處，正是因爲這些好處使得
- Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選擇Linux的原因。
-@@ -37,8 +37,8 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
- 入門
- -----
- 
--只有那些寫驅動程序的“怪人”纔會擔心內核接口的改變，對廣大用戶來說，既
--看不到內核接口，也不需要去關心它。
-+只有那些寫驅動程序的“怪人”纔會擔心內核介面的改變，對廣大用戶來說，既
-+看不到內核介面，也不需要去關心它。
- 
- 首先，我不打算討論關於任何非GPL許可的內核驅動的法律問題，這些非GPL許可
- 的驅動程序包括不公開源代碼，隱藏源代碼，二進制或者是用源代碼包裝，或者
-@@ -46,14 +46,14 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
- 詢律師，我只是一個程序員，所以我只打算探討技術問題（不是小看法律問題，
- 法律問題很實際，並且需要一直關注）。
- 
--既然只談技術問題，我們就有了下面兩個主題：二進制內核接口和穩定的內核源
--代碼接口。這兩個問題是互相關聯的，讓我們先解決掉二進制接口的問題。
-+既然只談技術問題，我們就有了下面兩個主題：二進制內核介面和穩定的內核源
-+代碼介面。這兩個問題是互相關聯的，讓我們先解決掉二進制介面的問題。
- 
- 
--二進制內核接口
-+二進制內核介面
- --------------
--假如我們有一個穩定的內核源代碼接口，那麼自然而然的，我們就擁有了穩定的
--二進制接口，是這樣的嗎？錯。讓我們看看關於Linux內核的幾點事實：
-+假如我們有一個穩定的內核源代碼介面，那麼自然而然的，我們就擁有了穩定的
-+二進制介面，是這樣的嗎？錯。讓我們看看關於Linux內核的幾點事實：
- 
-     - 取決於所用的C編譯器的版本，不同的內核數據結構裏的結構體的對齊方
-       式會有差別，代碼中不同函數的表現形式也不一樣（函數是不是被inline
-@@ -84,18 +84,18 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
- 深刻的教訓...
- 
- 
--穩定的內核源代碼接口
-+穩定的內核源代碼介面
- --------------------
- 
- 如果有人不將他的內核驅動程序，放入公版內核的源代碼樹，而又想讓驅動程序
- 一直保持在最新的內核中可用，那麼這個話題將會變得沒完沒了。
--內核開發是持續而且快節奏的，從來都不會慢下來。內核開發人員在當前接口中
-+內核開發是持續而且快節奏的，從來都不會慢下來。內核開發人員在當前介面中
- 找到bug，或者找到更好的實現方式。一旦發現這些，他們就很快會去修改當前的
--接口。修改接口意味着，函數名可能會改變，結構體可能被擴充或者刪減，函數
--的參數也可能發生改變。一旦接口被修改，內核中使用這些接口的地方需要同時
-+介面。修改介面意味着，函數名可能會改變，結構體可能被擴充或者刪減，函數
-+的參數也可能發生改變。一旦介面被修改，內核中使用這些介面的地方需要同時
- 修正，這樣才能保證所有的東西繼續工作。
- 
--舉一個例子，內核的USB驅動程序接口在USB子系統的整個生命週期中，至少經歷
-+舉一個例子，內核的USB驅動程序介面在USB子系統的整個生命週期中，至少經歷
- 了三次重寫。這些重寫解決以下問題：
- 
-     - 把數據流從同步模式改成非同步模式，這個改動減少了一些驅動程序的
-@@ -105,22 +105,22 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
-       需要提供更多的參數給USB核心，以修正了很多已經被記錄在案的死鎖。
- 
- 這和一些封閉源代碼的操作系統形成鮮明的對比，在那些操作系統上，不得不額
--外的維護舊的USB接口。這導致了一個可能性，新的開發者依然會不小心使用舊的
--接口，以不恰當的方式編寫代碼，進而影響到操作系統的穩定性。
-+外的維護舊的USB介面。這導致了一個可能性，新的開發者依然會不小心使用舊的
-+介面，以不恰當的方式編寫代碼，進而影響到操作系統的穩定性。
- 在上面的例子中，所有的開發者都同意這些重要的改動，在這樣的情況下修改代
--價很低。如果Linux保持一個穩定的內核源代碼接口，那麼就得創建一個新的接口
--；舊的，有問題的接口必須一直維護，給Linux USB開發者帶來額外的工作。既然
-+價很低。如果Linux保持一個穩定的內核源代碼介面，那麼就得創建一個新的介面
-+；舊的，有問題的介面必須一直維護，給Linux USB開發者帶來額外的工作。既然
- 所有的Linux USB驅動的作者都是利用自己的時間工作，那麼要求他們去做毫無意
- 義的免費額外工作，是不可能的。
- 安全問題對Linux來說十分重要。一個安全問題被發現，就會在短時間內得到修
--正。在很多情況下，這將導致Linux內核中的一些接口被重寫，以從根本上避免安
--全問題。一旦接口被重寫，所有使用這些接口的驅動程序，必須同時得到修正，
-+正。在很多情況下，這將導致Linux內核中的一些介面被重寫，以從根本上避免安
-+全問題。一旦介面被重寫，所有使用這些介面的驅動程序，必須同時得到修正，
- 以確定安全問題已經得到修復並且不可能在未來還有同樣的安全問題。如果內核
--內部接口不允許改變，那麼就不可能修復這樣的安全問題，也不可能確認這樣的
-+內部介面不允許改變，那麼就不可能修復這樣的安全問題，也不可能確認這樣的
- 安全問題以後不會發生。
--開發者一直在清理內核接口。如果一個接口沒有人在使用了，它就會被刪除。這
--樣可以確保內核儘可能的小，而且所有潛在的接口都會得到儘可能完整的測試
--（沒有人使用的接口是不可能得到良好的測試的）。
-+開發者一直在清理內核介面。如果一個介面沒有人在使用了，它就會被刪除。這
-+樣可以確保內核儘可能的小，而且所有潛在的介面都會得到儘可能完整的測試
-+（沒有人使用的介面是不可能得到良好的測試的）。
- 
- 
- 要做什麼
-@@ -128,11 +128,11 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
- 
- 如果你寫了一個Linux內核驅動，但是它還不在Linux源代碼樹裏，作爲一個開發
- 者，你應該怎麼做？爲每個發佈的每個版本提供一個二進制驅動，那簡直是一個
--噩夢，要跟上永遠處於變化之中的內核接口，也是一件辛苦活。
-+噩夢，要跟上永遠處於變化之中的內核介面，也是一件辛苦活。
- 很簡單，讓你的驅動進入內核源代碼樹（要記得我們在談論的是以GPL許可發行
- 的驅動，如果你的代碼不符合GPL，那麼祝你好運，你只能自己解決這個問題了，
- 你這個吸血鬼<把Andrew和Linus對吸血鬼的定義鏈接到這裏>）。當你的代碼加入
--公版內核源代碼樹之後，如果一個內核接口改變，你的驅動會直接被修改接口的
-+公版內核源代碼樹之後，如果一個內核介面改變，你的驅動會直接被修改介面的
- 那個人修改。保證你的驅動永遠都可以編譯通過，並且一直工作，你幾乎不需要
- 做什麼事情。
- 
-@@ -142,7 +142,7 @@ Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
-     - 其他人會給驅動添加新特性。
-     - 其他人會找到驅動中的bug並修復。
-     - 其他人會在驅動中找到性能優化的機會。
--    - 當外部的接口的改變需要修改驅動程序的時候，其他人會修改驅動程序
-+    - 當外部的介面的改變需要修改驅動程序的時候，其他人會修改驅動程序
-     - 不需要聯繫任何發行商，這個驅動會自動的隨着所有的Linux發佈一起發
-       布。
- 
+ #ifdef CONFIG_DCB
+@@ -3310,10 +3310,11 @@ static int otx2_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ err_free_zc_bmap:
+ 	bitmap_free(pf->af_xdp_zc_qidx);
+ #endif
++err_dl_unregister:
++	otx2_unregister_dl(pf);
+ err_sriov_cleannup:
+ 	otx2_sriov_vfcfg_cleanup(pf);
+-err_pf_sriov_init:
+-	otx2_unregister_dl(pf);
++err_shutdown_tc:
+ 	otx2_shutdown_tc(pf);
+ err_mcam_flow_del:
+ 	otx2_mcam_flow_del(pf);
 -- 
 2.34.1
 
