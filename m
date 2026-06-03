@@ -1,33 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F8743E48C;
-	Wed,  3 Jun 2026 13:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8893E480DF0
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 13:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780492232; cv=none; b=LejtRZBGLn5Gl78wDCLQiL7F0avI7Ad+Yo7mL9K5gJptgMI6lFhIUmHTzXjLVDovhgpGW3XL4gL+0kf0vystXowBYyFUxKwRwDenipL4t3buT9lzJ9dy7Q3Vl03+4JTRN5ju6Fvyup88hmO81Crm9SMuF+E7+HdCrAKinNrhG9g=
+	t=1780492242; cv=none; b=a9+K8jVHqwxGoHqRSLxbN3NvEnXekg0DYUcRlgg67FHqKIFy9bahMwz+H2H/yGh1jNsAr9ONhStyW9/huO0auZe5bPDjh/YKvq7PRxFFyBXHaRGYDv7zCV2uz5MU+Aeeu2QBI/Ec25ai+9GGoCxaYnCvl4lHA0uHxKjdjhpXucw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780492232; c=relaxed/simple;
-	bh=aA+jQZLEe4zTDyHZE+wP2UMZnQvSbK3p1fe1IgcdCzM=;
+	s=arc-20240116; t=1780492242; c=relaxed/simple;
+	bh=DA2FW+m2bWueyUDMLsGb7KZj+YBbfbYQwznE2VUZHeY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OPGpsCOVDTbPJ3y/GM81t+cqaWWXrNYQ7k/uMRws9TeW9qQu9LFGt6XfrXhT2HFzcafETArhk7iB+wpSCWem+UovSByMNzGb0aLdWr9ebfenHfhkONkHJpBQHT7t4UKwexGQ9mdUt6jcDP53aTVetSbAZhodXy+NNgS5fxvWpp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQIQPSGp; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=arf2aJhmc0sEPjjIc1UXz2e0rdAabRUVfvAHItTeutdOLq4mc88zhOjo2s6TiOvF5Is726/x1sEFryMelnejRGETI4JO7cS1T1TI3ihFtyXZ+umYZ4AlFwSorIfGLHPyyusZjqMR7vYkFkqj7OYBHBNSMKA3CtjHXJZSJO2+NjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tzOZ5zSw; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQIQPSGp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E711F00898;
-	Wed,  3 Jun 2026 13:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780492230;
-	bh=xfGW+mRFGm8otcTxNVwZMIMPut6TCa61gmVUrx4IZyY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MQIQPSGpw5I9loYGFQLcQY7krurq0Y7ApV7YAwoDGRJoFsVw+6xjNfuxELTSJH5Cj
-	 aG/6mkFsGEqOLHl3wbpTZQpORpa12t6ssxCVueCuAkjqRefy8EmoULjnS6PbDtsPSE
-	 eClL4KWs4bPMDBYnZOcju1cH17iKUPZMFygJY+pCAasLIQLsVc5ChIEYQFSRqAtmyW
-	 JTeiLJ+Uz53GdqGavxHDurOtMvZUMgwVdKpXenWQMH3YkUj7CE7+uBrBYgGr0nDxSk
-	 S3DLl5R/FC6IGUBjIZi6DNeORcBDiM1EeWOEn1dWkGBCBiTByK/qDHfxFIDrA1Svqc
-	 OBE/1RR2+8dqw==
-Message-ID: <8948ca8f-d872-4fe2-8887-568eb0d0e65f@kernel.org>
-Date: Wed, 3 Jun 2026 15:10:21 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tzOZ5zSw"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bec43ee8ff0so111247466b.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 06:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1780492239; x=1781097039; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X1Ude0q8UJNEq/jv9daxrUZHrb0trlAcIj1CVfNsKe4=;
+        b=tzOZ5zSwVVEsQSIcpKmLO1Z47lE42mK5pFQSe8jtORpBnPY/hute9iWahmsiIAmGV1
+         OrjVeFrqPgaSXPXiV92pmUj/Kc67Wo9wK0E9asWP0yJf05LrbFM4CHFX6+wjKIKb8d+e
+         v/paP1p/I4CiwvoAt7lSnAIYXHBamY8cOSqgYFu2+2Pg8XVnQWbUDWtNKiZmVM8aLAuS
+         Ef6/InC8nNsu2D4ZSmR0R4FzQNUmefTb8reqLWDfJQ6GqKnHfjbQZxM2guWOZyy5umnL
+         H6xg313ByCl+bsbcneWHPVae38sEMxokG1iwSsvlOjsNYLlhgqqaZ6Qb3Ka0Tq4gcrwA
+         E+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780492239; x=1781097039;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X1Ude0q8UJNEq/jv9daxrUZHrb0trlAcIj1CVfNsKe4=;
+        b=j+jmnbMlCv5QGFEgo/vZERfeFkQnGea7LZY8CoF/uOw/HRiaB7pkrUWv2yXBRXnDWR
+         2Xudo5AijNGTi9euuaM/ZYHzsPCYr6GaYFP7CYS/PK6eUveNT/TU1qvXYawWaBiiBHsY
+         UuHQlnAJHrys+P+R6ndLlRWWhbaqgxTR1G0ZQzmiedFtR/8LXUSMHXEQA7SCCMTsRcSl
+         6IHmbbgD0iegZpH3khG9TinFqNXIlXb6zBZ0zqU12QFbTuxET3ZRI9I8Hz5cRAFei2wv
+         xWc0g9s3MZ/5SgS5daE6yDKunc7lrKFX2p9wPVuQ5mt/XPmsatrnmRbGB8DlueCeQ1T9
+         AXPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Ogx12MrhncuKHefVKocbhI5nhXCcVBAU5+REQASDWNv2gpmd00odqxuKnMIACtsi/myqjli0/OQk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4pRvM+WGcd95Fpnh9HPXYqByIZJxiY/ELbiaRDh30pAnIUuL7
+	aC8KTZZpNLV9tA//PafldhWMELl32+x+o1TVQ0B9T7Bc2HHzi+F5EIGOj/FskLsw1gA=
+X-Gm-Gg: Acq92OF5i1pjLQSh3FeMSq18njh4bnlQ+DEkjTggaYWw7/sZMdJyCYan6qqiGnxyrin
+	pHWhxtEKtKZ0l80JhZZU8JdN68t13W51I+GAn8DqZZoAuZAcbxzVtBC7PTyzqA7LXjgJVoUx6Vx
+	VFGo0NGqIsatzSuwntMYCeqxNdzPlTisvr0X78OorGon+1BNIjYQOEanW2K1V+rZnRdpsGcYM9i
+	YP9Fkdo7ucYcRxYU851lybXafEHdsbZ7VX3Z7u8gQzp/9UW9EL59Uti8spP0RGW739z1Q1p/rJK
+	9IkKqdLBe9Zgcftfmfg9jxarMeYZTsWAxGnTZnY8v9PaazGUZdCiwFtRov1SlQtEtP5Cw17vQxe
+	laNUApo3AcqOPNwkU7m3byo06eOs/EVWhQLKAzaXZINrvnajaCK41RPyQ+9l54WJrTJjZAfV+KA
+	VzE3wQ2FmK9Dtf53gjFGmxIp1OKKuhQpE9oqTayCI=
+X-Received: by 2002:a17:907:c783:b0:beb:4d05:9a0a with SMTP id a640c23a62f3a-bf09ea5e71fmr166944866b.15.1780492238789;
+        Wed, 03 Jun 2026 06:10:38 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0517714c5sm155160966b.2.2026.06.03.06.10.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 06:10:38 -0700 (PDT)
+Message-ID: <b4836fe9-49cf-44c3-96a9-548e890cee29@linaro.org>
+Date: Wed, 3 Jun 2026 14:10:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,101 +68,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] mm/swap: colocate page-cluster sysctl with swap
- readahead
-To: Jianyue Wu <wujianyue000@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
- Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
- <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-1-ce0219e100d9@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH v2 05/18] perf test: Add deterministic workload
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-5-85b5ce6f55c6@linaro.org>
+ <20260603112742.GT101133@e132581.arm.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-1-ce0219e100d9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260603112742.GT101133@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/3/26 15:05, Jianyue Wu wrote:
-> page_cluster and the vm.page-cluster sysctl are only used by swap-in
-> readahead in swap_state.c. Move them out of swap.c together with
-> swap_readahead_setup(), and make page_cluster static to that file.
+
+
+On 03/06/2026 12:27 pm, Leo Yan wrote:
+> On Tue, Jun 02, 2026 at 03:26:47PM +0100, James Clark wrote:
 > 
-> Rename swap_setup() while moving it as well. The helper is internal to
-> MM and now only sets up swap readahead defaults and its sysctl hook, so
-> the more specific name matches its reduced scope.
+> [...]
 > 
-> swap_setup() previously lived in mm/swap.c, which is built
-> unconditionally, so the vm.page-cluster sysctl was registered also on
-> CONFIG_SWAP=n kernels. swap_readahead_setup() is now a no-op stub when
-> CONFIG_SWAP is disabled, so vm.page-cluster is no longer registered
-> there. The knob only tunes swap-in readahead and had no effect without
-> swap.
+>> @@ -22,3 +23,4 @@ CFLAGS_brstack.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+>>   CFLAGS_datasym.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+>>   CFLAGS_traploop.o         = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+>>   CFLAGS_inlineloop.o       = -g -O2
+>> +CFLAGS_deterministic.o    = -g -O0
 > 
-> Suggested-by: Baoquan He <bhe@redhat.com>
-> Suggested-by: Barry Song <baohua@kernel.org>
-> Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
-> ---
+> I have no strong opinion for using 'noinline' in source or using the
+> global option '-fno-inline', just thought this is not easy to follow
+> up if anyone (likely myself) will write a new workload for disabling
+> inline. Could we have consistent style for this?
+> 
+> For the patch itself:
+> 
+> Reviewed-by: Leo Yan <leo.yan@arm.com>
 
+Actually it's a fair question why some have -fno-inline and others do it 
+in the code, it could just be copied from when these were built by their 
+shell script tests. From a quick look I would say we can easily drop the 
+-fno-inline and do it in the code, and it's better to only noinline 
+what's needed rather than everything. But that's probably a change for 
+another time.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+That leaves the only custom build options as the ones that force -O0 
+(which also requires U_FORTIFY_SOURCE), or force -O2.
 
--- 
-Cheers,
-
-David
