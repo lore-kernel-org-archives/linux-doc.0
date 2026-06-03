@@ -1,220 +1,157 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF423FE659
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 03:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B1A3382EC;
+	Wed,  3 Jun 2026 03:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780457369; cv=none; b=tVQGpSX5IvrfmEjpZ5fVXcW2l2N4HpLgZfRFydVejY8TYffxKL0LFArdDZmuJg7WJFBvMnvAUFWkoxFKVoD6wAccom2dmJjdlTAoWkfKNIMXMItueE0qdNLSUyZHTtyzKh8YK2zqsAAj1P0jwnlTcSdScTxlhJ2X82ufXT2z6mA=
+	t=1780457682; cv=none; b=OTQic5u3TEp2FdQObHPZK5T166am64L2lGK7G5vcdDR0925xDenyFVyjYs9AYg/REH5cfpv1Ez6g7Hcidvkpl6qgqW9U+YVlCfyPMwRut08nYUko6zlrAsQpkAlaWiBOqH9l41lnbk2RoLQ+eODgB6a7m+B1iymx0DblmO3vWhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780457369; c=relaxed/simple;
-	bh=PI26M0khAE7StCXBHeuwdUicbhLFrZpiZfsokDq9n88=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y9StZuhoNwozUcgWR8VNihhfOD7tQMe+vjSKWrjt3tYmGJQZp6/hpG+kS1iHi+DUp+O6RHmtOBYFgsD9y11Eh27i2EdNw9c7hVGOUI5hYeICW5sDMqB9RSof776FwojG8kpEu6Dfo9/mJXiaxaW6nArbSAJD+DArwgwqQi6DzKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=H3gBJSfy; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780457682; c=relaxed/simple;
+	bh=CNXwDBuPWxCiTXQMyKkrUawMivbKCJlmbJPtmkawtj8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LsBUGI9cUdr8XXtcMStE7xoQBQ+3wYvB84yRfCH+l1U6bUJkl0dIeMfvK7efhR4+e0als748q9qVqodhPmxQs6ztmGIZWlEbOyxYsQMLAOFfMyrHm42l6dCBZltMAeB4OQGRFkNK2orWVECXrIDSR4LiqJeh+YwsKXPV2EZItK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WtYtN8AS; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="H3gBJSfy"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ccedaf0b54so27715106d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 20:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780457366; x=1781062166; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=H3gBJSfyhNg/d6xu8tLy3zhPjq0CIcVT/vNWBe0DuibKH55/qS4e6LLCg+5zeqDmhR
-         hhwZQIsVo57hM55ZQDivV6QthQNfw6vBcVPhYuUS7p8LAiYLOE6N/cGo6VOaJ6epJPgU
-         0wCwLZcspfeG20llEo2UvjtXyGe3J/5zBiPPolqLtA6J8xbD9wZeseSIW0sC2K+cs47z
-         CxuvDvrCq4BiuXhYBof1v6DlVLI+JpGuVPPDiczcylwEmSjiay76x8Ax1qSl5eoUqHbL
-         FgkfC+fYpuMSDtd2RcKttTwoU7FMSUgarS6naaReiZmhx5didspEY4QLcu+jFsE06j9R
-         NVXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780457366; x=1781062166;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LZ44uuKaEudMkx03Nujcoh6Uuv+6Qpcd4aVYSw8wkq4=;
-        b=EVYe+xc3KylTl0KDUutb5lvDZ26ht3k64scvDNakbTE7VPm8ZPr5V++rokbLi268hN
-         B69k5LNLbQ3nyNWHVIDptW+cEGllMkjl8vvj9+98Za2npFASk5o16BzSjK+ZjGMQCC8O
-         Tn5smyMoJGZkNr3IFDykrQxUgAMHGckTNKDgH5epUkyE1Ij3lZoighHd44yig1ZaMpfw
-         9Tgzxerwvr3o4/FVbSZyyXOXk5LupN9LCSpeqYYDVWocfzJ6wNfJM4iugdsMDvCX5PRQ
-         61GiAeWFW+g/lfdPIdclBpPBCVPr+calfprBUgWWUxGXbwboDMBfyumJOQzf7aaBvnoT
-         S/PA==
-X-Forwarded-Encrypted: i=1; AFNElJ/ou0Ls8QMfIAV/imIykHt0Lg/U6LcmdQbxjlYtjqAz5O6D371F8l+NY8ApWuB4ZSR4fYB6Fvg7G24=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx57QdEAyHYi7GzkPJhA27L6a4Ie27y3mJ3dRBl1bdhbNZ+70H/
-	z82y+8VBMdzssAzCny7no/wOmad0XPsLVTsRMEDvj1W2ynpXaaloXDxV2OnpqMf1f4g=
-X-Gm-Gg: Acq92OGFXbapk/aRJE6rQ/0sg1fVo5fBVHyPjBjrcApotDPBS63qfkMLJJS5SAdmRMu
-	ND1wewMVxHVGJyKjf5m64hoZgrAmKKaa7BzcGcbQtChe5jiYeSrigTrWSRhgYzlpo4JYfjEGZmS
-	lLPOxgNvF8vtQn+5/Xt7GoFvQExRD+RP66/msTLop96UlffcGwCOHHzpKZffEdOfnwqTy5tVleH
-	HkoHKKi5tbq3L0pP3Jnk6CoNNZCuawUQ0+fbrYYCCaOaaajV45IT+lEMU4P5H39tkONu1ISN+17
-	wGha8zznZePVXFOXXjzo2DIDk86RmJLM4KT5kKhZLAoxUMqsl5q5wXAa6bCG7oQme7qVlSMN1EU
-	FisP0TEz4G2S+Fqki8dM6FVYYU1mae6YMfdCMLpgDHSGvGMdPQOhQBP0PUYnchyToPzigXXCidk
-	31IOGjXB0RpBr0tTXgy/5/HBNqjWrR1Top/6G/HuCiQtNs8IJto+lakZkudRJZbw==
-X-Received: by 2002:a05:6214:500e:b0:8a0:4e92:c45f with SMTP id 6a1803df08f44-8cecdc18097mr21849986d6.11.1780457365747;
-        Tue, 02 Jun 2026 20:29:25 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd26b3b9sm9244566d6.45.2026.06.02.20.29.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 20:29:25 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: linux-kselftest@vger.kernel.org,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	pasha.tatashin@soleen.com,
-	dmatlack@google.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	skhawaja@google.com,
-	graf@amazon.com
-Subject: [PATCH v6 13/13] selftests/liveupdate: Add stress-files kexec test
-Date: Wed,  3 Jun 2026 03:29:04 +0000
-Message-ID: <20260603032905.344462-14-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260603032905.344462-1-pasha.tatashin@soleen.com>
-References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WtYtN8AS"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 652EmiWO3294112;
+	Wed, 3 Jun 2026 03:34:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=tqWImsXeVRKcQn4dWrEUOR+IcKrbiN
+	ifyqEYRdi7jNg=; b=WtYtN8ASEBEPkn6FsN53lP3roAJ3tWpikSj9WUeqLVLF3y
+	M7jbEQ6anQpUe/dUMAR9Or69H3PW3Qa1ultcFE2qNFdyCcTRaQdj1TuUtrXiIxDI
+	4f3qQOTU/2S/kVkRcpjs0Hj0Xp2uCp2LVrXoFcZADKailDPj4R+borZEmDTEmdCR
+	bxt35Km8Sc7WTzV6wuMXcW/u415hsY+/zusXaFXebyQOfcHIBsE2FpJ2aQuzkIS1
+	hDhPQV7bM868zNV7Kc2jwNiApjuQ6b7hdfZ93WmFdoSnhryk6L9cJvmJxKZQKK3v
+	yFn5P92d+v1YNrwOVQcFHY3oM7v+F6GkZpQqs2JA==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnahrnt8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 03:34:20 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6533O731030901;
+	Wed, 3 Jun 2026 03:34:20 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egakvxet9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 03:34:20 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6533YIZ319202700
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Jun 2026 03:34:19 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C7EF15805E;
+	Wed,  3 Jun 2026 03:34:18 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6545E58052;
+	Wed,  3 Jun 2026 03:34:11 +0000 (GMT)
+Received: from vaibhav?linux.ibm.com (unknown [9.39.22.158])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with SMTP;
+	Wed,  3 Jun 2026 03:34:11 +0000 (GMT)
+Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Wed, 03 Jun 2026 09:03:37 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: Ritesh Harjani <ritesh.list@gmail.com>,
+        Amit Machhiwal
+ <amachhiw@linux.ibm.com>
+Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Anushree Mathur
+ <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman
+ <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+Subject: Re: [PATCH v3 1/5] KVM: PPC: Book3S HV: Validate arch_compat
+ against host compatibility mode
+In-Reply-To: <cxyewhx8.ritesh.list@gmail.com>
+References: <20260522152744.55251-1-amachhiw@linux.ibm.com>
+ <20260522152744.55251-2-amachhiw@linux.ibm.com>
+ <pl2g6xbz.ritesh.list@gmail.com>
+ <20260529141530.fc225a67-e9-amachhiw@linux.ibm.com>
+ <cxyewhx8.ritesh.list@gmail.com>
+Date: Wed, 03 Jun 2026 09:03:37 +0530
+Message-ID: <87se74z4a6.fsf@vajain21.in.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDAyNiBTYWx0ZWRfX1tX0qYxhX1PA
+ z61jkOAogx672D97RkbkT35H97MqtDMjEccbGEYfzy/edaCFo3SHcOTzQbIR7Qb7kGc0g/WACI/
+ lnfSlQwKm6TpwvMH9LmHLTp40/SI0ry/41/xLbP2yyAVdF+VpVeHIwl48qdwyQioYjEAzNCfaN6
+ 4uu9B7Pxwxt7cq/RgP7mes23iULTqpN4KHTtbtrLOenk1tRC6Yf7tih1rL44WV7MB3/UHiYxcfx
+ lr7xcgV6K7jQSLEXn7OsmMYdwweBBIhdaTvVLAKc4aux2R7UaFCcrzNmqU8oWGwiPIyaHbJQhxM
+ tOm4aVIV5neqvvnJzoNyzoDE65ELo2Zcd+hjiNDoKEok2Ylqzie/ADIhTuAyBcD+oQcB0xkou9N
+ xO20NMfJX7obb+6noYrlsMywDr4iAYDhqrbjHxI7aLTdg4u5ORMZN+0N7zXPvVgHtQ3p8PnhWfI
+ GpYBlNCUX2LJy3icM9A==
+X-Proofpoint-ORIG-GUID: tlBea0HN3XiMzJQ3-isLDoPoncieOJQe
+X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a1fa0bd cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8
+ a=3YTRlACzSOsmAlwpqRgA:9
+X-Proofpoint-GUID: tmgqI8U8dHULBbb6Z5BkVT8DMOcv5ZpN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_01,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030026
 
-Add a new luo_stress_files kexec test that verifies preserving and
-retrieving 500 files across a kexec reboot.
+Hi Ritesh, thanks for looking into this patch. My responses to your
+review comments inline below.
 
-Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- tools/testing/selftests/liveupdate/Makefile   |  1 +
- .../selftests/liveupdate/luo_stress_files.c   | 97 +++++++++++++++++++
- 2 files changed, 98 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
+Ritesh Harjani (IBM) <ritesh.list@gmail.com> writes:
 
-diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-index ed7534468386..30689d22cb02 100644
---- a/tools/testing/selftests/liveupdate/Makefile
-+++ b/tools/testing/selftests/liveupdate/Makefile
-@@ -7,6 +7,7 @@ TEST_GEN_PROGS += liveupdate
- TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
- TEST_GEN_PROGS_EXTENDED += luo_multi_session
- TEST_GEN_PROGS_EXTENDED += luo_stress_sessions
-+TEST_GEN_PROGS_EXTENDED += luo_stress_files
- 
- TEST_FILES += do_kexec.sh
- 
-diff --git a/tools/testing/selftests/liveupdate/luo_stress_files.c b/tools/testing/selftests/liveupdate/luo_stress_files.c
-new file mode 100644
-index 000000000000..0cdf9cd4bac7
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_stress_files.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Validate that LUO can handle a large number of files per session across
-+ * a kexec reboot.
-+ */
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include "luo_test_utils.h"
-+
-+#define NUM_FILES 500
-+#define STATE_SESSION_NAME "kexec_many_files_state"
-+#define STATE_MEMFD_TOKEN 9999
-+#define TEST_SESSION_NAME "many_files_session"
-+
-+/* Stage 1: Executed before the kexec reboot. */
-+static void run_stage_1(int luo_fd)
-+{
-+	int session_fd, i;
-+
-+	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-+	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+
-+	ksft_print_msg("[STAGE 1] Creating test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_create_session");
-+
-+	ksft_print_msg("[STAGE 1] Preserving %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		if (create_and_preserve_memfd(session_fd, i, data) < 0)
-+			fail_exit("create_and_preserve_memfd for index %d", i);
-+	}
-+
-+	ksft_print_msg("[STAGE 1] Successfully preserved %d files.\n", NUM_FILES);
-+
-+	close(luo_fd);
-+	daemonize_and_wait();
-+}
-+
-+/* Stage 2: Executed after the kexec reboot. */
-+static void run_stage_2(int luo_fd, int state_session_fd)
-+{
-+	int session_fd;
-+	int i, stage;
-+
-+	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
-+
-+	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-+	if (stage != 2) {
-+		fail_exit("Expected stage 2, but state file contains %d",
-+			  stage);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Retrieving test session '%s'...\n", TEST_SESSION_NAME);
-+	session_fd = luo_retrieve_session(luo_fd, TEST_SESSION_NAME);
-+	if (session_fd < 0)
-+		fail_exit("luo_retrieve_session");
-+
-+	ksft_print_msg("[STAGE 2] Verifying %d files...\n", NUM_FILES);
-+	for (i = 0; i < NUM_FILES; i++) {
-+		char data[64];
-+		int fd;
-+
-+		snprintf(data, sizeof(data), "file-data-%d", i);
-+		fd = restore_and_verify_memfd(session_fd, i, data);
-+		if (fd < 0)
-+			fail_exit("restore_and_verify_memfd for index %d", i);
-+		close(fd);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Finishing test session...\n");
-+	if (luo_session_finish(session_fd) < 0)
-+		fail_exit("luo_session_finish for test session");
-+	close(session_fd);
-+
-+	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-+	if (luo_session_finish(state_session_fd) < 0)
-+		fail_exit("luo_session_finish for state session");
-+	close(state_session_fd);
-+
-+	ksft_print_msg("\n--- MANY-FILES KEXEC TEST PASSED (%d files) ---\n",
-+		       NUM_FILES);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	return luo_test(argc, argv, STATE_SESSION_NAME,
-+			run_stage_1, run_stage_2);
-+}
+> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
+>
+>> So, we would still want to prioritize the whole series
+>> instead of just this one patch.
+>>
+>
+> Patch-1 could go as a bug fix even in 7.1-rc6 (or maybe with 7.2
+> bug fixes). - Maddy?
+>
+> So, you may want to add a fixes tag and maybe even cc stable if you are
+> seeing this issue from older kernels maybe when nestedv2 got introduced?
+
+This isnt a 'bug fix' per-se but rather strengthening of compat mode
+checks so that any non compatible PVR being used by the VMM can be
+caught early. The hypervisor anyway ultimately prevents non-compatible
+PVRs from being used by the VMM. So there isnt a bug thats being fixed
+in this patch.
+
+The rest of the patch series builds on top of this patch to advertise
+the available compatible PVRs to the VMM so that it can further
+preemptively prevent users from forcibly using a non-compatible PVR.
+
+Hence IMHO, this patch can be marked for stable tree and potential
+candidate for 7.2 merge window. But dont see applicability of a 'fixes'
+tag to this patch
+
+> However the new UAPI discussion might still require more discussion with
+> the community and I don't think it is ready for 7.2 yet ;)
+
+Somewhat agree with the above
+
+>
+> -ritesh
+>
+
 -- 
-2.53.0
-
+Cheers
+~ Vaibhav
