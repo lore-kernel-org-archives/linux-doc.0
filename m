@@ -1,157 +1,141 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD403D9DB2
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 16:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780502701; cv=pass; b=Hqy6j/q3ZaEtIsfbQPw1CX6Sm3fA14UPrdI1+vA27iAm+DqUofo1OCan8RRxaQl4SjYQk2oRW9lgUQBuJwsfyNk12DtFOSY9Wzi6iH6823tCRaITT7DAODsjqqDYUkbGpb+LuXvJlTN5rISSHNCsIt0GUCmxt+WeoYdAUOaS09I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780502701; c=relaxed/simple;
-	bh=KdK+HJPfqWh89Zp4ToM1VwC3m/NfENtvgJL4u0B4uXo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NJMmuNILgtLV/kKT9TdBsB/fpUVgnKMYEmSJtUCNYl04IN8TtdIIPsn6DL3n2u72UHd2HV6SGq71AS6Ul20HVP750ERrPD+cguaSPgPFHz09RcEvYie/LAzcnFDy00Xdu5t4i428JE55zH/W59PsUAcqe+63Ogt/B3n8OKQ5oFs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=bEq5JVUy; arc=pass smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FA33E63B8
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 16:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780503095; cv=none; b=WCJszV7D1SWsAGJ1/lJ2mMhhudy2nDJNtN1d454WY/6ix9hY6xcQQK7zjwxMHux00M+Uwtq5CJ4nh+KWNbaeEp34cxEZKQZgMS/GFLsxfSSygXP4RuFJ2F6WyptaS+YOqGHy1BT+S4SPJDM6VDfpLUl/Yho1Ni+9he8Prf11otg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780503095; c=relaxed/simple;
+	bh=QrEgHVX4ffhJFB1JpGLYul4XC04Y8ZkjwVyIj8YGu7c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EUTEu5T1LSQAOS626BC1OyLzm8u9IIRzj4YEJAl/9oye7nynj/LcAlpLcAzkGjELxeDxHAdyYXkTAl6HTtEgxtVRbPzcxfkpm9bbJT9HfGO9U6RW5fVj55N2mICL3FeMrmMbEgfXnyK/Vq2tz/RHxnqmzvpTggETmkos7377RGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HnwoYy5F; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="bEq5JVUy"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2bf77d4a4e2so5132515ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 09:05:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780502700; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L2vfPBC66b1RoKLC+lyA0tdQ3COejOKjplkXsgGycsx+d4w3Two3dWKVjpKyP9uJ0w
-         3m9WfY5XI9VQWrS/gujN/ba6IqM50WSMqVIIBBT1O7Ds/0FQCkCKjYsSQtnxdECmCVSE
-         p8m5/bIuh0hVDl5uYEEnruvA91JyP2/zS16BM8yQ3ap5uywBc6fgsa51NaiSK72yEUAr
-         jlznk2nGTJIr/uFD0I8359Q8EZfp4aMF4R5GSAe3WYYrrVV4fLMKmi8XbnXyCMjo4uI+
-         Hh339Bkuz6EYcEgAceM1s5tPuH9E7aUZTkjLq3qeySEeI/TPtfEBooTIly1pwtKWewN8
-         rEjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RJiwIu7uyZAaPlamCdTOHC+XlHLfDNYUsMpOrpvH7ck=;
-        fh=4ti31UEjSOtPAbtDC1OCsfm68SYyNAly7gCXPUJtKhE=;
-        b=PF4hY7R+KCiejhAnVYvG1XdxWE0EiKCfQaHcJMrx3jIsdTtMJoJN2eci/c2w0O5cUe
-         8iwki9T0CNO5qOOhJyPEROy/trsYv61d7SOEW0qti5dlrTecic6yiw0/hEQ6bbVwCOCg
-         bLNZ58+YKy5qJ+xYHf56HWTZ3vaH2te9ReVD94NmWfrUDaIac5GVa3ehrTOyplviY2kj
-         2n5HSfuXGRA+qQ5f1BQ03ZO3QKwPG9sNJhNj+D/yqQ7RDA4Il3t7TH+P5YvUr7vawnzq
-         /O9OWQltyqLawoiXjcShJNzvkBQtiIEQ5b7Gz1aRarSYiGAbaZ7KrMgnTN55+Q+qWBRr
-         kHZA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HnwoYy5F"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b2b037d2so18519065e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 09:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1780502700; x=1781107500; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RJiwIu7uyZAaPlamCdTOHC+XlHLfDNYUsMpOrpvH7ck=;
-        b=bEq5JVUyik36GznJczEmGp/zvq4S+t4sSQGOdFrNgHDAND8PfN9Jy6RKIG6djwP2V1
-         JqQV+TZNTTRJ1oNo1sO3ehK+qWCOk8sj61muK9fh4S3QqbpUJf9exaTJaxa3a1BaJeua
-         2vqdWL1JblHn6H8rkvvntMOZ7R5BhjjWC5/ckDpvAaI5T9wmazv0lsk3iLkFPFbqdsBc
-         pFP/yTbjeEH7SXox3KDwLwKPJbuciNM2Hviy6PI2pk9VYcY+l6vKNgXPOQd4uZDvBkMb
-         gXotbk0hlQl6WGbIgxZ7J4ZIUNRGAV8CX+YPsr0oiqF6Ih8e923eCXrZl4RjD4ETaD0X
-         zstw==
+        d=linaro.org; s=google; t=1780503091; x=1781107891; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QqzEpLZhbsJNsiLYofbVYCw/MWIHevffPJ5dCvGAQKM=;
+        b=HnwoYy5Fg9t2UDJoe2h2ZC745TCjvslE/umYeI2vMJ3Gi8KInFQDaoqLNQUs74Qrey
+         S1KOG6Vi3//1duL95lMu67C2BvuLRl/cl0CQr/ZkjZ3XRutSEgGRnsOpeBSDK8xZNVuO
+         RA9go2/HB+OdMR1NAzIzfRUEw0DLuh4d2aV02dUFti5V3aasOn/zHA5ol2/17e7b3iqF
+         3Pyigr0GUr/Kk0lqWOhVRh5Vdew1o/XaJ/lCG8lhqe3Gy75B0pnhsOy41eRx/j+WxGJc
+         LUHmcuQK8CrA1xXuqzvrw8Ka97GIukRdiE7zXueG5W24Ef4pwa4SABv6XWKJpUnmeU0j
+         jpnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780502700; x=1781107500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RJiwIu7uyZAaPlamCdTOHC+XlHLfDNYUsMpOrpvH7ck=;
-        b=NH3kc23fqFe1LeV4KVEvuS7fdqhNrOk/bfwoGV0H7WGSV0F+Fg4fvQS3Ny9RN6PxUQ
-         ghJZ1rhiesMNCFszV90rFrr27+Bk0znCg2cgYSiXnp7tZUUcrWM62aP3a/9nzt40pU2W
-         xTnry6DEyCcsFbvn/Eu/taPeLvE7tMNBlTj1lDAFU5VPWT4NLTkuV9/KgWZ53NQk6lI4
-         QIbwcjEL6ASs5dY/XFxV0BkSM4sFWOG5N16E5k0zRkuPaeluW4f47tzKjtp4CPtUJkks
-         hplJS6AZmuOTyeR5IzKmZDA2g5HK+gq53di21XYAaXU7BaY6cyn53K+fVuNrVT4k/xXD
-         OTPA==
-X-Forwarded-Encrypted: i=1; AFNElJ+QkEy8qlw0mevwqSqXtbuK6m5XmxfWp3PIzBQ0KmnvOuW/uCjwc2wqoxPVsWAYh+o/EO14ucN9rvo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKQgIxQ/LffLL0bwubbSKp2kSNxsMF4uHRGjj7IkpY2p4Mgkda
-	gQhPLJLVXUZzU8Io69dW488FZ3PkXPEX1tTb/eANjjWNdLdVwb2VPu7SJaz93dRiRrK92PS8QR6
-	OeXCVv6wdVdIDLfzvjWuAhYZPDkj1UCBvRY37Ydz1
-X-Gm-Gg: Acq92OGS4i/VNUsw5PJ5D34eQw9XWCe70MbQ/epxogVIwvUjUMSWXQSznq5bxi7zCHV
-	5iRO1u9YcbF8h9fELK5c84Uu9JGJHQVNAp+TK8hB07rCxlqU84SYr1Bt66Unr1phqZEM+imFUvn
-	f4/Gj6tvR++LoEVRNjajb28XuvqMSU1JZB0Upfge85jMkJw9fI48JhmwTYpH/Pzj2t+nnJ84xjC
-	MipoNeQ1uKBhElC+jIlr47MJrEP2gOjPTyFm91Dp51Dcs1dkkH94p98d8qGsjPOrx/l5kGI/eYX
-	gMAYGKeVEOm7gpeOmQ==
-X-Received: by 2002:a17:903:2352:b0:2bf:361e:3edc with SMTP id
- d9443c01a7336-2c197a1e664mr634245ad.2.1780502699785; Wed, 03 Jun 2026
- 09:04:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780503091; x=1781107891;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QqzEpLZhbsJNsiLYofbVYCw/MWIHevffPJ5dCvGAQKM=;
+        b=D3GKNFgYwm4jtlENHPrXocpu3hjxqq+SjGPeP7KVBX+Fz81QdyVkzogVZ3kSgOo1cJ
+         tHokK4sENn4BfHmP00BR3i8STFI13v8Nu99Uls+AKT0oX0V8xw8QyBC6p73/X7yMmdta
+         CfKQAXZjN78/2yRyWLLyiTlByAoZplhJsr/CzRoL/tOVeY7jje6e8uGlu+zRuc15u5e5
+         LZOAnyw66e1N2o1k20Ib44/uiZah351j2DtYPNQmwKvDL0o0F7R/FikhsuHWFrFL6/Lj
+         NlZyfMcYDzB8UTM442/3+mgEyy466ZRn522JKS+fHJHx6CeoNNfwvdg22Ny5tk6emerH
+         L9tA==
+X-Forwarded-Encrypted: i=1; AFNElJ8IJE4Yd1qRWw9M8SKND3FhTnEBIOnJfeQX3vMx3XhWkMwZ+A4aFOx0CNLr6GS8M7S5eRqMm96Xv8Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5jtt1FW4SddQkCT5jqQ5rlnd4FDPRYKr4/z0wb6SCDcrfv9Hs
+	VmOomvkOlLPG02M5oZO7E638sGDqDRvkBfl5pnLTSr00JNP4wADH2PbqvFj75w9bLQg=
+X-Gm-Gg: Acq92OFZpIEmxbi/dsMc+Rv+zcO/eA6vBoPJXeHQyyuJtP1In/8uB6kC4QmEigGe55O
+	fjGaDMjqaJJYbf/KsAR3rij2zx06ei4fMZhdCm4sjlD8XNRXjOXKkZnKAwY6aicT3Qnn7GXkTVm
+	j72v6atf30X1YpKnkuyQW810MW+x9Q/PWB5E9u/ZZqbB26xR/Ov+hejdxLi9OWIIqmPrnseqM20
+	m656N/HlNWO/X5cRtFdXPc0gwbuPmvG+VhK6CgSf3sJ3FFW6vCUUFZGKLtlUQCqyQs0095FBh6s
+	+IfxEtJGm31MPU5xvwTNyso6JRfJ4xijqENXVqB5jcx87UBWQwTjEB3tJ8KPhz6ZvotX7oEG8iV
+	RWJSqhfcrbkkk77Hz2yvj3l6uawXg+1L8PO4/t3LeB4RkXtDi5CGZVDVtgDEe3Ojq81DswITAnL
+	8IDPbDAGUGxDxC0t6HbsWY6OfxgehX6lTiH6jxeE1iUOmFOAtXIA==
+X-Received: by 2002:a05:600c:3e0a:b0:490:b4cb:3845 with SMTP id 5b1f17b1804b1-490b5d48800mr79915015e9.0.1780503091650;
+        Wed, 03 Jun 2026 09:11:31 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dc412sm9011742f8f.4.2026.06.03.09.11.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 09:11:31 -0700 (PDT)
+Message-ID: <882922c0-042a-4108-bc2f-cec443d0db9f@linaro.org>
+Date: Wed, 3 Jun 2026 17:11:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529-remove-task-euid-v4-0-07cbdf3af980@google.com>
- <CAHC9VhR5Ca+WyP2OiNGtL1SqHn0SwLe=M9SB8D2bxtdS52quhg@mail.gmail.com> <ah51DY5yfaNZejBd@google.com>
-In-Reply-To: <ah51DY5yfaNZejBd@google.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 3 Jun 2026 12:04:47 -0400
-X-Gm-Features: AVHnY4Il2nbhkxMxu_bFZ4TFGt7Ipvw1ewyd2x_7Gw2WYSaTiJOB7iM0xVPzXF4
-Message-ID: <CAHC9VhQyNzxJgdMkmEsOeAQ7Wt2L+eW6aNLjeoYmnCQLmcYRnw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Delete task_euid()
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Jann Horn <jannh@google.com>, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/18] perf test cs-etm: Replace memcpy test with raw
+ dump stress test
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-8-85b5ce6f55c6@linaro.org>
+ <20260603143622.GX101133@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260603143622.GX101133@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 2, 2026 at 2:15=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> wr=
-ote:
-> On Mon, Jun 01, 2026 at 07:13:37PM -0400, Paul Moore wrote:
-> > On Fri, May 29, 2026 at 5:33=E2=80=AFAM Alice Ryhl <aliceryhl@google.co=
-m> wrote:
-> > >
-> > > The task_euid() method is a very weird method, and Binder was the onl=
-y
-> > > user. As of commit 65b672152289 ("binder: use current_euid() for
-> > > transaction sender identity") Binder doesn't use task_euid() anymore,
-> > > so we can delete this method.
-> >
-> > Given the problems from last time, it seems like it might be prudent
-> > to let the commit have some time to "breathe" in a proper release, I'd
-> > suggest merging this not for the upcoming v7.2 merge window but
-> > instead waiting for v7.3.
->
-> Sure, that makes sense. I'll resend after the merge window.
 
-No need to resend if there are no changes (see below), it's in
-patchwork and I'm tracking it so you're all set.  I'll send another
-notice when I merge it.
 
-> > > My suggestion would be to merge this through the LSM tree.
-> >
-> > That's fine with me.  I'd also suggest updating the commit description
-> > in patch 1/2 to indicate that binder is no longer using task_euid();
-> > it currently reads like it is still being used.
->
-> I guess this occurred because when patch 1 was written, it really *was*
-> still being used.
+On 03/06/2026 3:36 pm, Leo Yan wrote:
+> On Tue, Jun 02, 2026 at 03:26:50PM +0100, James Clark wrote:
+> 
+> [...]
+> 
+>> +# Use exit snapshot to record 2M of trace to make about 80MB of raw dump data.
+>> +echo "Recording..."
+>> +perf record -e cs_etm/timestamp=0/u -m,2M -Se -o "$tmpdir/data" -- \
+>> +	perf test -w brstack 20000 > /dev/null 2>&1
+> 
+> ...
+> 
+>> +size=$(stat -c%s "$tmpdir/rawdump")
+>> +if [ $size -gt $((50 * 1024 * 1024)) ]; then
+>> +	echo "PASS: Raw dump file is larger than 50MB"
+>> +	cleanup
+>> +	exit 0
+>> +fi
+> 
+> I am not sure how we can map 2MiB trace data to 50MiB+ raw dump.  This
 
-Yeah, I understand the world has changed since patch 1/2 was written,
-which is okay, we just need to update the commit description ... which
-should be a trivial task.
+Why not? Decoding it is roughly equal to decompressing it, and with that 
+amount of trace the small differences in compressibility average out and 
+you do get the same amount every time. I think if we got less than half 
+the amount expected then it would be worth investigating.
 
-> Perhaps we could pick up only patch 1 now since even
-> if we run into problems and Binder has to go back to using task_euid(),
-> clarifying the docs is still useful.
+> is not to verify perf stuffs but just expect how verbose output from
+> decoder.
+> 
+> Can we simply verify the trace data is ~2MiB with the command:
+> 
+>    perf report -D | grep ". ... CoreSight .* Trace data: size .* bytes"
+> 
+> We might relax the check as the trace size >= 90% * 2MiB
+> 
+> Thanks,
+> Leo
 
-I assumed that was one of the reasons for splitting the changes across
-two patches (reverting patch 2/2 leaves patch 1/2 intact).
-Regardless, we're at -rc6 and with patch 1/2 being purely a comment
-update I don't see an urgent rush on this, especially considering that
-if I did pick it up now, it would be for the v7.2 merge window and the
-binder/current_euid() change will ship in v7.1.
+That would work, but that wouldn't be as thorough. The first thing it 
+prints is " CoreSight .* Trace data: size .* bytes". If it stops working 
+half way through or prints nothing then the test will still pass.
 
-Let's update the commit description - you've got a couple of weeks to
-do that - and then we'll merge everything once the v7.2 merge window
-closes.
+The reason I wanted to add a stress test is because all of the other 
+tests have been reduced to just a few kb of trace so we have nothing 
+that opens a file with a more reasonable amount of data.
 
---=20
-paul-moore.com
+I suppose with your suggestion we'd still check the exit code, but 
+that's about it.
+
