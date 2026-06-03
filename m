@@ -1,131 +1,285 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156B63DC877
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 02:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A655A20468E
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 03:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780455444; cv=none; b=blP1R5YKfSAaGkUKxunq+gaaMsL02zhPsdEYItJddvTyIq7v/Xnsx28R9UryNUifyxGUvlXO1Qyk3+12pN3mbMKN7poPU6iavCLyNiSNtrpSvHm2jKNbp0Kr9VUDXWj9QzeFxetZ7saE6cIkyNb2/XAItoFQ5zbjwevtuSrCSIs=
+	t=1780455791; cv=none; b=MSi3ixxBhf10MTMe8QKRuv2syJt6u+gaan/Cz0b2qdazoMLFOVMnlyn0iJGwnRER9G+mexeEknCyZRXVrHFqI3uFOdcimhp3G+nnw/AZjCPBfxBgXtx7KGzG4nqTP9pOV+Z4oyy4q3ceMhwVPEA769pCty7560C/71mo0SwOQZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780455444; c=relaxed/simple;
-	bh=N4OxoQTixXI0CRT16N1iXZqTHUvsDx1Q9fcNeE9kgUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pua8R70gJ30e0vu9kAjOqIaFkb5NbxBNmUpNazdvk+bndruSVNlAl3vvGI9e+5F6Op7Kc2i+9wZdunm3rewki9hIXkON6hfviTVbgYOU/NwE8V/9skYxwwtPg+VLMucKlhZsUGpb4HrYBQJk0mI2p8lJ8GttExdS6mOKd54jzmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=E/KUNS3x; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780455791; c=relaxed/simple;
+	bh=4+IcMpw6wmNDWDflQAxNeyWQzxMBkOGm0XHg3YvB8os=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O5lS1zlM92XK+9AlC20zUaLl7CFPiLdzKxqZjxl7H939+0tpSemmj5P3LQ7bQ1f10XBWKo+HYQcvKYr/OUfYtGr5h5W+XsChtuOql6qrmSRvNEAVsUjG5aL36k/WlDFCtg9CTosLpLDoe9TO36j1jsaqALgap1BU2tn70zOmbqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rz3KQeHb; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="E/KUNS3x"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-9157d3f2098so165168485a.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 19:57:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rz3KQeHb"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84275887a3fso78229b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 20:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780455442; x=1781060242; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y3awZDWC/0BEHXSInI6v/h4g63e1F9fJCkxQA7vD56Q=;
-        b=E/KUNS3xAzyC0G5EB+KrwKNZP2PaaFGBqYrzzi3riFW2g2Hl9xI4giD9ok2HT6DwCL
-         u4K2OUJO3dmn0W5ZKtJ5f/r2xR6z8CKXTWncXmk/lpinHNYaAKMZNWQ8/JxX5elMmjKM
-         HFy7vIxTAvEQD4jgxZriuLi4E1f4EmlG7EVlnDE8Wz+RvwLVS6nPuCBe4CR1H8BRDgpq
-         Hkc94WHD1xU5zAR2I1oX/q/ZixtaEc+HsSDKvY/8wukHbiN6cACtWFcV3HoEDajqVegw
-         onscqy7DfCCZERTXfCIG22TP1ZXsp02TW1N35oI7kOz5CjHslA6DZ8rWxHUnZXz0S3rp
-         E2xA==
+        d=gmail.com; s=20251104; t=1780455789; x=1781060589; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VVn12Hvb9FGkLc5N/aP4mYm2YYdVU4vVM0uYVFz4Dq8=;
+        b=Rz3KQeHbfHYc+f+dz9WllE5npaoV4yRRwryksIQA4CMHBRKyUNwKltgADuN4d2hpnM
+         TVDCkK+C96ghE822BOWZ+SzKkZ/mVq8vYrhZoiyniGlh/OWlKbHCf2skXNmEJHngy2UF
+         EFOb0Eqfyy8VlsmTS5vg6z8EKmZIhQdltO3dJYoM5ah1YOtQQpUcjpWa6pTWXjt78sET
+         8FKGEM845dHDtwrtMOHCb4DpfpSK13lPiy5mIVlWNihmZZ+exHx681032NYVhEzj5w/q
+         zDk4exGyZ65X8nWqD1V4D20S/NOU8s6D60OEXNWq4RfJd52H6mUNjwxGh3+1sGgIIycQ
+         gmBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780455442; x=1781060242;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y3awZDWC/0BEHXSInI6v/h4g63e1F9fJCkxQA7vD56Q=;
-        b=QVxuuHu2JovtE48rnxxQ4VhUfGb2U0HWHUWeiZqpJ68dbZR44n2H4hYfQhVyVAq/5y
-         XqCO9MDfFFhw1JlEx2IjTXEqluyQxNMeE9v8ZocJ7xYds16VeAetmorCcR/Lr1hVjBcH
-         svNjjbZJY7v5oZUaTP5Mf6sNFheqpPslvp55gUuq8V+MtS//swpbkKraMMxbqPluwOKJ
-         QYnAj5y34whiB0HmHqUEbE1Oo/jDmATMXCMNu3UqxQe4OXCyTI0Xvs0jFZFmVQvuigkr
-         cWG1D82ibuwQrOJ1OpgdQ5aDAX4jPdpRzq7XclI8xZ70OIYuwCiC4fGZUHfqVGNZEotl
-         qkVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+HthiqWVqP09C774Wo+X2+3X+OxmFrfYWSE91BOkDjFN2q4l9JmPpfhkOR85sDFsCJ/BLNbuHUIsE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp9TR6k+WGhdc5Gow7k/uL8VQkcjc0xTt1/j02BLFAT5A6Qf8f
-	IQQNRzldpL8SSptxZ2IfWWRT4s+v7wdZinJ2vCVEFKhYRP6MTYSp1oIiUuO9qivwaf0=
-X-Gm-Gg: Acq92OG9rXaX41Pt3AWJLU/INeyCeZ0ZTHXWeuObuOkl04Y/aNz5H2OO35X+HYlGk8T
-	TBLYYWgdX7NuLLSGQPs8AaCUqnfEV+Jq/OPA3UARMl+xNJrlbQxXntBZgKWEWTlHTfcgnzI1vUa
-	PC0xoPhL4xh05tih0vH4UlYpb5ODzHu8IJlRvSoVQDI3pbGLsPmQfwPA2W6FWUbilyCA8UzpkDN
-	DCURXYyTkcwhW2I8ylV5ONq5cgYMuJFf30H/gZCZJSi+zZ/tlntnyrM9zISji2GpRspBVEzeKLC
-	Tnox99o5gYQ546oBdDZgCYzNtEK6A22NTiGCGVrn0UhcuXI425u/VqQcvdrsAXsWEGNdo5KQ/Xm
-	/DqcHKz6ojUVHtNKHqi7jm7/yeRQVn0ofo2pGBjDYDR/Uwm66IkhA1uA+cTcBAbwQk7Q9hVE8TV
-	TNynnf9+XcvvllURwewuxYlJYOI/KJIpRGKHhr7hk+X91qJUXaeBnLKsHN1CjBRw==
-X-Received: by 2002:a05:620a:3199:b0:915:86c6:8432 with SMTP id af79cd13be357-9158a6979f0mr317963585a.14.1780455442182;
-        Tue, 02 Jun 2026 19:57:22 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a37bae6sm118824085a.31.2026.06.02.19.57.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 19:57:21 -0700 (PDT)
-Date: Wed, 3 Jun 2026 02:57:19 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
-	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
-Subject: Re: [PATCH v4 03/13] liveupdate: centralize state management into
- struct luo_ser
-Message-ID: <ah-Wov2fvjYbpjHX@plex>
-References: <20260530221938.115978-1-pasha.tatashin@soleen.com>
- <20260530221938.115978-4-pasha.tatashin@soleen.com>
- <178038801487.119771.6308607614059754603.b4-review@b4>
+        d=1e100.net; s=20251104; t=1780455789; x=1781060589;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VVn12Hvb9FGkLc5N/aP4mYm2YYdVU4vVM0uYVFz4Dq8=;
+        b=WI4EQyMK3GvYcbe6vOfhkWkpZwtN/N6+9RLUZBYOjlhTMfXiMZTA9pS6uba9fBoCjX
+         +2XEJ6vGrn9E03k/WD+DJUeC3OD4Iyg3tHx0RKC/EDWVgWy9cYQzeSyl/zGc+QxzAeZQ
+         RsjFH7yrk+8AiMdOXBHM6IknFGXWSVH1JqoDmDQS+iK3yeprOVittX8lnzEewLAuKvZr
+         iQqnPi3T826FHbcuLP43UtiGDdcWmensKpH1MNUJstBNkLecuLrsZ4lZEu5MWb0RTulh
+         drXtVfH0H60EJuJ0IAIPYPUVlBk0vkSdc7FJNYwtwrvlBHotRQP0lB4Jpqo9QcdkwIhv
+         mfzw==
+X-Forwarded-Encrypted: i=1; AFNElJ9fZzq8xNhapsVo9zRidwXGIfh6ttH0+YioeSAcEXmHp2apHCsiVLWVjiX1KuLFA1PZyTeGjQI1AaE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMbw2p0acRP6ygzD1CK1LSKQMywEwUW4MWgyZ9njL3ei6Q3RUV
+	U+n4w/bBc1BL8gJuwPnLiPvyebMmzRcCNjkoC6pQ8X/B207AmzmriqRe
+X-Gm-Gg: Acq92OFWJg6T5OoHz0Sxi1A/09+x/Fz34DvNPRIzTF7agX/CC0v9cHVVLpIRnHCdhJC
+	bY92nLVbJxMe1cklVWFA5lYtIXX7uKoYC6whZdK2RegSqZzgIPM8RgY++N1rqOaBd0TpCgsu1jX
+	w2Vwp9wNsYDUxyDK8Qn1fz1u1vhOcTn1VWlX9CpdFXe3PaKRZ3TY1EhDS+34kghoQZyDbjUKJiL
+	xbIGgxC/iE8Enh/gTFx5k3IzM1huBvLjZxTSvFfGPCQoJbvPAmE0rCquBcWGqsHqa/6nVMp4CoJ
+	BdZ1ZDI+zLHm8jfoNopf2wV0C0i9e4jadNqgASh/IMy2dENhjiI78mNCoWgCPm3ifomXzCY2cYb
+	nF8K2ZAVFrGmAIyEyhbIHu4R8RtvIU6gt/SDvWCIYoNd276kua16ylbUelEFZHfMB/TpEe3j28A
+	/tEuJZr5Hi1hG2Je89drs+BOnKjEROMD0Mw6TnYNS5Y4kg2z3tbsFWrvr/diXzRif7
+X-Received: by 2002:a05:6a00:f08:b0:837:f111:b70 with SMTP id d2e1a72fcca58-84285975450mr1047918b3a.4.1780455788827;
+        Tue, 02 Jun 2026 20:03:08 -0700 (PDT)
+Received: from [10.125.192.75] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8428235006dsm1357752b3a.13.2026.06.02.20.02.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 20:03:07 -0700 (PDT)
+Message-ID: <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
+Date: Wed, 3 Jun 2026 11:02:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178038801487.119771.6308607614059754603.b4-review@b4>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
+ shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
+ nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
+ <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
+ <ah9i3uhh3PFiS0Uk@google.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <ah9i3uhh3PFiS0Uk@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 06-02 11:13, Mike Rapoport wrote:
-> On Sat, 30 May 2026 22:19:28 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > diff --git a/kernel/liveupdate/luo_flb.c b/kernel/liveupdate/luo_flb.c
-> > index 8f5c5dd01cd0..c8dd30b41238 100644
-> > --- a/kernel/liveupdate/luo_flb.c
-> > +++ b/kernel/liveupdate/luo_flb.c
-> > @@ -579,53 +565,18 @@ int __init luo_flb_setup_outgoing(void *fdt_out)
-> > [ ... skip 18 lines ... ]
-> > -	offset = fdt_subnode_offset(fdt_in, 0, LUO_FDT_FLB_NODE_NAME);
-> > -	if (offset < 0) {
-> > -		pr_err("Unable to get FLB node [%s]\n", LUO_FDT_FLB_NODE_NAME);
-> > -
-> > -		return -ENOENT;
-> > +	if (flbs_pa) {
-> 
-> I like 
-> 
-> 	if (!flbs_pa)
-> 		return;
-> 
-> more
 
-Ok.
+
+On 2026/6/3 07:19, Yosry Ahmed wrote:
+>>>>>> Proactive writeback also wants a similar per-memcg cursor that is
+>>>>>> scoped to the specified memcg, so that repeated invocations against
+>>>>>> the same memcg make forward progress across its descendant memcgs
+>>>>>> instead of restarting from the first child memcg each time.
+>>>>>
+>>>>> Is this a problem in practice?
+>>>>>
+>>>>> Is the concern the overhead of scanning memcgs repeatedly, or lack of
+>>>>> fairness? I wonder if we should just do writeback in batches from all
+>>>>> memcgs, similar to how reclaim does it, then evaluate at the end if we
+>>>>> need to start over?
+>>>>>
+>>>>
+>>>> Not using a per-cgroup cursor will cause issues for "repeated small-budget
+>>>> calls" cases. For example, repeatedly triggering a 2MB writeback might
+>>>> result in only writing back pages from the first few child memcgs every
+>>>> time. In the worst-case scenario (where the writeback amount is less than
+>>>> WB_BATCH), it might only ever write back from the first child memcg.
+>>>
+>>> Right, so a fairness concern?
+>>>
+>>> I wonder if we should just reclaim a batch from each memcg, then check
+>>> if we reached the goal, otherwise start over. If the batch size is small
+>>> enough that should work?
+>>
+>> Even with a small batch size, for small writeback requests triggered by
+>> user-space (e.g., 2MB, which is batch size * N), it might still repeatedly
+>> write back from only the first N child memcgs.
+> 
+> Yes, I understand, I am asking if this is a problem in practice. For
+> this to be a problem we'd need to trigger small writeback requests and
+> have many memcgs.
+> 
+>> This could cause the user-space agent to prematurely give up on zswap
+>> writeback.
+> 
+> Why? The kernel should not return before trying to writeback from all
+> memcgs. If we scan the first N child memcgs and did not writeback
+> enough, we should keep going, right?
+> 
+
+Yes, this issue is not caused by the kernel, but rather by our 
+user-space agent itself.
+
+For instance, suppose a parent memcg has two children, memcg1 and 
+memcg2, each with 200MB of zswap (100MB inactive). Triggering proactive 
+writeback on the parent memcg will exhaust memcg1's inactive zswap 
+pages. After that, even though memcg2 still has plenty of inactive zswap 
+pages, it will continue to write back memcg1's active zswap pages. 
+Writing back active zswap pages causes the user-space agent to 
+prematurely abort the writeback because it detects that certain memcg 
+metrics have exceeded predefined thresholds.
+
+Of course, real-world scenarios are much more complex, and this kind of 
+case is extremely rare in our environment.
+
+That being said, your suggestion of using the global lock for the 
+per-memcg cursors makes the writeback fairer and would resolve these 
+corner cases.
+
+>>> What if we do something like this (for the global cursor):
+>>>
+>>> 	do {
+>>> 		memcg = xchg(zswap_next_shrink, NULL);
+>>> 		memcg = mem_cgroup_iter(NULL, memcg, NULL);
+>>> 		/* If the cursor was advanced from under us, try again */
+>>> 		if (!try_cmpxchg(zswap_next_shrink, NULL, memcg))
+>>> 			continue;
+>>> 	} while (..);
+>>> 			
+>>>
+>>
+>> Regarding the code above, IIRC, both the global and per-cgroup cursors
+>> suffer from race conditions. This race can cause mem_cgroup_iter(NULL, NULL,
+>> NULL) to return the root memcg or its descendants, leading zswap to write
+>> back pages from the wrong memcg.
+> 
+> Not the wrong memcg, it will just go back to the first memcg again,
+> which should be fine as I mentioned below.
+> 
+>>
+>> Additionally, since mem_cgroup_iter() puts the prev memcg ref and gets the
+>> next memcg ref, a try_cmpxchg() failure on CPU1 might also lead to a ref
+>> leak for memcg1.
+>>
+>>
+>> 	CPU1                                       CPU2
+>> memcg1 = xchg(pos, NULL)
+>>                                 memcg2 = xchg(pos, NULL) memcg2 = NULL;
+>>
+>> memcg1 = mem_cgroup_iter()
+>>                         mem_cgroup_iter(NULL, **NULL**, NULL) error memcg
+>>                                  try_cmpxchg(pos，NULL，memcg2） succeed
+>> try_cmpxchg(pos，NULL，memcg1） **fail**
+> 
+> Yes, we can probably just take a ref on the memcg before calling
+> mem_cgroup_iter(). That being said, I think we can just keep the lock,
+> see below.
+> 
+>>
+>> I took a stab at implementing a cmpxchg()-based zswap_mem_cgroup_iter()
+>> modeled after mem_cgroup_iter(), and it actually doesn't look that complex
+>> after all :)
+> 
+> I don't think we should re-implement mem_cgroup_iter() here.
+> 
+> [..]
+>>> There is a window where a racing shrinker will see the cursor as NULL
+>>> and start over, but that should be fine. We can generalize this for the
+>>> per-memcg cursor.
+>>>
+>>> That being said..
+>>>
+>>>>
+>>>> Currently, this lock is only used in shrink_memcg(), proactive writeback,
+>>>> and mem_cgroup_css_offline(). Note that shrink_memcg() only acquires the
+>>>> lock of the root cgroup, and mem_cgroup_css_offline() is unlikely to be a
+>>>> hot path.
+>>>
+>>> ..this made me realize it's probably fine to just use a global lock for
+>>> now?
+>>>
+>>> IIUC the only additional contention to the existing lock will be from
+>>> userspace proactive writeback, and that shouldn't be a big deal
+>>> especially with the critical section being short?
+>>>
+>>
+>> In the current patch implementation, this lock protects the cgroup's own
+>> cursor variable. During each writeback, we only acquire the spin_lock of the
+>> target cgroup itself; we do not attempt to **spin on any child cgroup's lock
+>> while iterating through the descendants**.
+> 
+> Oh, I did not say anything about the current patch adding contention. I
+> am suggesting we just keep using the global lock for the per-memcg
+> cursors, if we keep them.
+> 
+> Right now, without this series, the global lock protects against
+> concurrent changes to the global cursor from concurrent shrinkers. After
+> the series, the only added contenders are userspace proactive writeback
+> threads. Unless you have 10s or 100s of those, it should be fine to keep
+> a single global lock, right?
+> 
+
+Ah yes, sorry about that, I misunderstood what you meant. Thanks a lot 
+for the suggestion and for taking the time to explain it so patiently. 
+I'll switch to using the global lock in v4 patch.
+
+
+> Yes, userspace can affect writeback efficiency, but we can split the
+> lock when it actually causes a problem.
+
+Agreed.
 
 > 
-> >
-> > diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_session.c
-> > index 8d9201c25412..3b760fefa7b9 100644
-> > --- a/kernel/liveupdate/luo_session.c
-> > +++ b/kernel/liveupdate/luo_session.c
-> > @@ -497,75 +494,34 @@ int luo_session_retrieve(const char *name, struct file **filep)
-> > [ ... skip 58 lines ... ]
-> > +	if (sessions_pa) {
-> > +		header_ser = phys_to_virt(sessions_pa);
-> > +		luo_session_global.incoming.header_ser = header_ser;
-> > +		luo_session_global.incoming.ser = (void *)(header_ser + 1);
-> > +		luo_session_global.incoming.active = true;
-> >  	}
+>>
+>>
+>>>>
+>>>> So, should we keep the spin_lock or go with the cmpxchg() approach?
+>>>> Yosry and Nhat, what are your thoughts on this?
+>>>
+>>> I think we should experiment with the global lock first. See if you
+>>> observe any regressions with workloads that put a lot of pressure on the
+>>> lock (a lot of threads in reclaim doing writeback + a few userspace
+>>> threads doing proactive writeback). See if the userspace threads
+>>> actually cause a meaningful regression.
+>>
+>> Sorry, it seems there are some implementation issues with the global lock
+>> approach.
+>>
+>> In practice, our user-space agent mostly operates in the following two
+>> scenarios:
+>>   - Triggering proactive writeback on the same cgroup at different times
+>> (sequentially).
+>>   - Triggering proactive writeback on different cgroups at the same time
+>> (concurrently).
+>>
+>> In both cases, there is no lock contention. So, the current lock works
+>> perfectly fine for us.
 > 
-> Ditto
+> Would using the existing global lock work for your use case? How many
+> different cgroups can you end up reclaiming from concurrently?
 
-This functions get's re-written with early return later in the serires.
 
-> 
-> -- 
-> Sincerely yours,
-> Mike.
-> 
+It should work fine. We typically only have a dozen or so user-space 
+agents triggering zswap writeback, and the critical section is very 
+short anyway. I will implement this next.
+
+
+Thanks,
+Hao
+
