@@ -1,67 +1,66 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7FF3AC0FA
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 10:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CFE37C923
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 10:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780481851; cv=none; b=R6RA/EShQEK4fWsV+ILEjwW/KVnTi2n9gE4ftDboTxLaTn4/HKwaFcDc6HYoOnrnWcmQQjb9UlUs7BUMpQyJgsO/bDJt64zkeWeQr+tmeIJtYdAdCXloqFmmhqRugbdtRgDIfIqxjp6CCBDtgoGv0Y13imn/KjZMxpcGuQwT1PI=
+	t=1780481852; cv=none; b=DjrRA2Ey4XfOgAEN3/cz2sRwOBVnHUaGT29l2Go9Wv/u1kS+rdiR9dW7Q8GPyF3H1OITJClIYYZxYUEYhyKLES1tgpEG+wfO1xwABumtnJMtCaJ3fb2020XkhbphjHNy9chEXTX0AJPZlWol36HgZfQI9ab4qggDaZmSoFXYOP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780481851; c=relaxed/simple;
-	bh=ESmfjIh7MN23IeBJPxwPdBU7xBIa18aM//caXhGjZcM=;
+	s=arc-20240116; t=1780481852; c=relaxed/simple;
+	bh=EgF9wlG8ZbGpA6Fw8M+WUSk6oGa9DEGTh/b30THx494=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gI0lcnBkfhre3KUfNwDvBZIB2BDdEcnWBgu/YWcDFbtBuXb7Z+FYHb96dA/N392Sg07km8mCCIwj/WAqzU25oHAOB2t5L0lJHSy3ffLpVAPfMgdliK4FWTQPwM9Xwo9+y+JVdJZzpdqhz9sRCWJEnQSnLocWE+NTKRQG2yXYTnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lgaUu2iy; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:To:Cc; b=AMJNgp3jc1H7sHFOgTgzOxprE0NXyAZ8a7LJL5nmHaeQfr6JBAPjpe+7gX7Jf0q5uI6TC3fyUkJVIfMNCGy2tXCdwVwV/Hz6WPDkRQkPJXhN+/uE2mXEHoEVRmx4cG8uKvyB7vigbiN/Yz7Wb6Xw+k80QhPWkUrUh2p25xWinlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e2fPNk1D; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lgaUu2iy"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b2b037d2so14726155e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 03:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e2fPNk1D"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b613a17bso7353155e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 03:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780481848; x=1781086648; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1780481847; x=1781086647; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pXjR0tiVSlnNG0AciIMM1oZd4f63sbXFpo0GMT42zX4=;
-        b=lgaUu2iyJyDxzbErkikl8wB/pDiinjfL0zeL7gnrNA7CSJ94VhQO9qwD6GRebkLPIT
-         MXrdBvE+XaORPDcsxwky0UQlpa+NkwAKKdwFuirOGeaURI8CGJ1MhGUWQOWH4BHuAZSM
-         CSVbRraoUVtde0gldYuovAtao/ouCcySKkHL6wNFvmPQ9MHmNCCHVReajd7Xm2Utxc/J
-         vzCBNOI+fYHzrUErFM/zcf3QERZdnZqR1z088D3NKnacbPuszWGAfM1t+qbKRaILnW6B
-         cY1TUhGCo/1hDtIEUQnkmyKq9OLciL5IAvpC9d6+J+aJ8G7q3j2r8ytr2fDtYBcbAmJ4
-         G9og==
+        bh=uIva9g/gVoYEr2OQuQ3ZFE/kcOOWkyDfg5JnXdWNeQY=;
+        b=e2fPNk1DEIBKYzujsa/lNs9C8rNSdvctop1VRd+FE8AVBd3i+pRrsmUFI9tehMj2sW
+         XFQmIyx0vKY3o36ZLRfkEuN8At25TKXs6h0SeMXmw5OLFkyov1u5+qEN5m8m1LlMbDZi
+         JaPMNhVg6n45RosiIFC1hiPvU7pIeFICQaFwLjHZ2paXtK6chm3eskSnBsobFRslJ2S/
+         wSo87Xaau2h3Lx/IWktl+QM85/5l2SfnMmMXnQUHxkla0eb9YwJxaN7ASXGBUPWG8xVo
+         lmQyxRt3hfALPibKgi6aWyemgvNn72UbObysOURJvUQTgyODJSYjjYCqPs5GJrewMKGq
+         lbOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780481848; x=1781086648;
+        d=1e100.net; s=20251104; t=1780481847; x=1781086647;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=pXjR0tiVSlnNG0AciIMM1oZd4f63sbXFpo0GMT42zX4=;
-        b=b41miD07GViHiHZusjwzSL9+ZlLIp3hXmWFQWqIKscIb+NCFn+atN9XRb980Wx5kU9
-         0nY03a2Ql/njRxYeUDD9/wdJzOWcQSOxXdE3IjG3I2xIeceHfuHkn5MQRu/hiSdoi2Sm
-         CmdlxT5v/aG9H1aRW/ooJFkZ9zBLwXg2FXEy4ZoBO0N09oLTJj6aVxas6KCCA54Gcsoh
-         SB8jJiBAl40euEAq7AzrBgvsxcPv5KC6By7kZNGN/28obePdZt/kZNvVpkfwkJ3dhOlG
-         hQmcMyzPYuVIrZ3bc+ISrTJzcPom6tcYDs5xF7ysJJzjTZZrgv2jXofKvuWsfDIwDgNC
-         PK9w==
-X-Forwarded-Encrypted: i=1; AFNElJ+me+9xzMf+MH2sY6guVTY7r9mkWwQOuAXv40xuqWk3OlB/GK8SgUO4oYtGiUyQI/T12cRwDcHIjBU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTbZolX1EnzkLQhwVitYLhc9+K6mDH7S/J9lR0iHMYDk4qOUdg
-	pqg+y9ujvk+4awja0GGWTBgIb3DQ2n9Gaj/JKhchkDEuNxwjcWE1Yop2YkyQu8POgiI=
-X-Gm-Gg: Acq92OGRLbsLqIeSYft0xNGQAWkVidqxYIsF9a8HDwdPDApNE6cTMV0158pbEP0uSIk
-	yrwqzdljy/JB0ynsGU096PUiwrAKwMNa2N0EAE7zKT5CRBKF2mUGpIr28lHmIE2ZoAW11kBVttE
-	Rc39bYoliaD2PH7wNsNw34+cCCW4qsM43ahR73cgfnTuU09aBng0XlcVh8r2ZO7bRL0RLxVX5JG
-	LKVAjcNzrGplqBRhkmbp56ANfb+Kftl7EuCq6DyMcQsPpSR3g3Pw/wVOnP6Jq1kJOzHT6yweH9L
-	7lnOJVNAo2UQEEQXyB+SJZCiLMy+wprc65O46ETSwEr42AutcfBnb9aKE4DRjWTqpFstPR5Jxvt
-	tA8DC0r9J9QjyJj1AZL1Si5MhbxyO7kJf8S+KtT5UG2SwRCF0C0MF1uOtHWEsaI9RHCrDdEEJ/0
-	L3gotHMvKa+xUfYjIFJCvMhHqudjVJvpbh9tWRrR51QMcGECooeBIa7g==
-X-Received: by 2002:a05:600c:859b:b0:490:4b89:535d with SMTP id 5b1f17b1804b1-490b5e96157mr35768765e9.1.1780481848349;
-        Wed, 03 Jun 2026 03:17:28 -0700 (PDT)
-Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b63d8205sm38681875e9.11.2026.06.03.03.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=uIva9g/gVoYEr2OQuQ3ZFE/kcOOWkyDfg5JnXdWNeQY=;
+        b=Uvt6lW8yhWH+Jzi0pK4JcHjU7h6BDW8uQJx5/vV2KNyLAWrwQmjy5eoWKZyFUFvrvp
+         6P+mafLTMlfEpCZCw4HdPYmE3AaUbS61D1xy1b+MPoyghLLyTgljo0D6P/DZb8GQfcAX
+         Ihi0u1sBOdL1NpdKmZHLxyDzb0RhZ9QWLxb3kADN7BorAGeLZQWy4RzVFtW4vEQwFvSd
+         8lqIiwN4MBMMbArTksFtZmdsCeVU0JZW/IV4o4Av7V+iT8C/B0064an/rUuqbAoS5hAM
+         Bg1OIIJiW6qGuFFin0BLy3vy+nyCam2oie/LZDnyHsfyst7/iqALma0PiZUUryOTfn3J
+         0maQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/j5iLFD5xkeEFP5yDktl8Sw/r30IeJl+Su75YZ8uALjB4X7YEOQB2jDDBgcNwGVGMwLsYSbh5ez/A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP+NCIfgzYaiU10oiw5Hmma4QXJAvBkm5cQ7edIN3Azwocn7Vx
+	KmFRPy0mvcKLg0DVahgVLf96it76n5OcfNbCD7N1oVchiWfIi4uwtAHX3rWBqhWu6f0=
+X-Gm-Gg: Acq92OGb9qMdH3qvcyLXyAUXZpbRnQlGXsUfjVUp16/gwKdyM1D0kzdI4jCGVKFgbex
+	VVR7vJ26FJgzD9MuEIElJ1/JNFAVElkJz+M68VyEFvf037kOMw4i55phgYSNNNox4kjJLTKTRBe
+	xEvQvzRduNLN1I49KbFIFeHLi/3K3hqIoYvtjZZPJDXdfIr3MJIecXvAT6ImirVyrMXZHbwv9aS
+	OwTTjIrQAQYhE9g4LRwCj2Q4vpPe+0DZuYebCdrEfWzgQfh3KDZr/bHHNf3AzaFRrr5OIUxRz/m
+	jHKZLZAR3Nq8qgfOYH5499K7Jiu+0o2o6+KROwRBDhlFvexDW4e3R2pxVJv9RBZfI1Rw7VTFzEf
+	dsV1YKcvuhvcRODDZCstPjOcoPXKuIHWw02HtXpGnb2V+SufyLu5iLxoLvKNSM36mmnSerT21vw
+	WPi1qAngvpP6I2jW8ZmIikVblJBRIyARnas6341lyKF2MgxrhFcS/5CA==
+X-Received: by 2002:a05:600c:3490:b0:490:b7a2:8864 with SMTP id 5b1f17b1804b1-490b7a28a0amr33243145e9.0.1780481847229;
         Wed, 03 Jun 2026 03:17:27 -0700 (PDT)
+Received: from ho-tower-lan.lan ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b63d8205sm38681875e9.11.2026.06.03.03.17.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 03:17:26 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Wed, 03 Jun 2026 11:17:10 +0100
-Subject: [PATCH v3 06/19] perf test cs-etm: Replace unroll loop thread with
- deterministic decode test
+Date: Wed, 03 Jun 2026 11:17:09 +0100
+Subject: [PATCH v3 05/19] perf test: Add deterministic workload
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-james-cs-context-tracking-fix-v3-6-c392945d9ed5@linaro.org>
+Message-Id: <20260603-james-cs-context-tracking-fix-v3-5-c392945d9ed5@linaro.org>
 References: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
 In-Reply-To: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -85,126 +84,126 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Testing a long sequence without branches seems like it would be better
-as a decoder unit test, and this test doesn't test decoding either, so
-it's not clear what bugs this is trying to catch.
-
-The new deterministic workload has somewhat long sequences when built
-unoptimized, and we can always increase them later if we want to. But
-now we test that decoding always gives the same result for the same
-sequence of code which we've never had before.
+Add a workload that does the same thing every time for testing CPU trace
+decoding.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/tests/shell/coresight/deterministic.sh  | 71 ++++++++++++++++++++++
- .../tests/shell/coresight/unroll_loop_thread_10.sh | 22 -------
- 2 files changed, 71 insertions(+), 22 deletions(-)
+ tools/perf/Documentation/perf-test.txt     |  4 +--
+ tools/perf/tests/builtin-test.c            |  1 +
+ tools/perf/tests/tests.h                   |  1 +
+ tools/perf/tests/workloads/Build           |  2 ++
+ tools/perf/tests/workloads/deterministic.c | 39 ++++++++++++++++++++++++++++++
+ 5 files changed, 45 insertions(+), 2 deletions(-)
 
-diff --git a/tools/perf/tests/shell/coresight/deterministic.sh b/tools/perf/tests/shell/coresight/deterministic.sh
-new file mode 100755
-index 000000000000..52e033fd6b82
+diff --git a/tools/perf/Documentation/perf-test.txt b/tools/perf/Documentation/perf-test.txt
+index 9c0d7ac2bc64..7ec70c054cac 100644
+--- a/tools/perf/Documentation/perf-test.txt
++++ b/tools/perf/Documentation/perf-test.txt
+@@ -57,7 +57,7 @@ OPTIONS
+ --workload=::
+ 	Run a built-in workload, to list them use '--list-workloads', current
+ 	ones include: noploop, thloop, leafloop, sqrtloop, brstack, datasym,
+-	context_switch_loop and landlock.
++	context_switch_loop, deterministic and landlock.
+ 
+ 	Used with the shell script regression tests.
+ 
+@@ -66,7 +66,7 @@ OPTIONS
+ 		seconds: leafloop, noploop, sqrtloop, thloop
+ 		nrloops: brstack, context_switch_loop
+ 
+-	The datasym and landlock workloads don't accept any.
++	The datasym, landlock and deterministic workloads don't accept any.
+ 
+ --list-workloads::
+ 	List the available workloads to use with -w/--workload.
+diff --git a/tools/perf/tests/builtin-test.c b/tools/perf/tests/builtin-test.c
+index 2830a431771f..5a2ab67cd85d 100644
+--- a/tools/perf/tests/builtin-test.c
++++ b/tools/perf/tests/builtin-test.c
+@@ -157,6 +157,7 @@ static struct test_workload *workloads[] = {
+ 	&workload__traploop,
+ 	&workload__inlineloop,
+ 	&workload__context_switch_loop,
++	&workload__deterministic,
+ 
+ #ifdef HAVE_RUST_SUPPORT
+ 	&workload__code_with_type,
+diff --git a/tools/perf/tests/tests.h b/tools/perf/tests/tests.h
+index 79f50bacfc94..f8bba2d68769 100644
+--- a/tools/perf/tests/tests.h
++++ b/tools/perf/tests/tests.h
+@@ -243,6 +243,7 @@ DECLARE_WORKLOAD(landlock);
+ DECLARE_WORKLOAD(traploop);
+ DECLARE_WORKLOAD(inlineloop);
+ DECLARE_WORKLOAD(context_switch_loop);
++DECLARE_WORKLOAD(deterministic);
+ 
+ #ifdef HAVE_RUST_SUPPORT
+ DECLARE_WORKLOAD(code_with_type);
+diff --git a/tools/perf/tests/workloads/Build b/tools/perf/tests/workloads/Build
+index 3bda6da04a35..cca7ad354227 100644
+--- a/tools/perf/tests/workloads/Build
++++ b/tools/perf/tests/workloads/Build
+@@ -10,6 +10,7 @@ perf-test-y += landlock.o
+ perf-test-y += traploop.o
+ perf-test-y += inlineloop.o
+ perf-test-y += context_switch_loop.o
++perf-test-y += deterministic.o
+ 
+ ifeq ($(CONFIG_RUST_SUPPORT),y)
+     perf-test-y += code_with_type.o
+@@ -22,3 +23,4 @@ CFLAGS_brstack.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+ CFLAGS_datasym.o          = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+ CFLAGS_traploop.o         = -g -O0 -fno-inline -U_FORTIFY_SOURCE
+ CFLAGS_inlineloop.o       = -g -O2
++CFLAGS_deterministic.o    = -g -O0 -U_FORTIFY_SOURCE
+diff --git a/tools/perf/tests/workloads/deterministic.c b/tools/perf/tests/workloads/deterministic.c
+new file mode 100644
+index 000000000000..3caea8564043
 --- /dev/null
-+++ b/tools/perf/tests/shell/coresight/deterministic.sh
-@@ -0,0 +1,71 @@
-+#!/bin/bash -e
-+# Coresight deterministic workload decode (exclusive)
++++ b/tools/perf/tests/workloads/deterministic.c
+@@ -0,0 +1,39 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/compiler.h>
++#include "../tests.h"
 +
-+# SPDX-License-Identifier: GPL-2.0
++int dt_work = 1234;
 +
-+# If Coresight is not available, skip the test
-+perf list pmu | grep -q cs_etm || exit 2
-+
-+tmpdir=$(mktemp -d /tmp/__perf_test.coresight_deterministic.XXXXX)
-+
-+cleanup() {
-+	rm -rf "${tmpdir}"
-+	trap - EXIT TERM INT
++static noinline void function1(void)
++{
++	dt_work *= 7;
++	dt_work *= 7;
++	dt_work *= 7;
 +}
 +
-+trap_cleanup() {
-+	cleanup
-+	exit 1
++static noinline void function2(void)
++{
++	dt_work *= 7;
++	dt_work *= 7;
++	dt_work *= 7;
 +}
-+trap trap_cleanup EXIT TERM INT
 +
-+cf="$tmpdir/ctl"
-+af="$tmpdir/ack"
-+mkfifo "$cf" "$af"
++static int deterministic(int argc __maybe_unused,
++			 const char **argv __maybe_unused)
++{
++	dt_work *= 7;
++	dt_work *= 7;
++	dt_work *= 7;
 +
-+# Start disabled and use the control FIFO to only record the workload and not
-+# startup.
-+perf record -o "$tmpdir/data" -e cs_etm//u -D -1 --control fifo:"$cf","$af" -- \
-+	perf test --workload-ctl fifo:"$cf","$af" -w deterministic > /dev/null 2>&1
++	function1();
 +
-+perf script -i "$tmpdir/data" --itrace=i1i -F ip,srcline | \
-+	grep "deterministic.c" | uniq > "$tmpdir/script" 2>/dev/null
++	dt_work *= 7;
++	dt_work *= 7;
++	dt_work *= 7;
 +
++	function2();
 +
-+# Remove open brace lines as they may not be hit depending on the compiler
-+sed -i \
-+  -e '/deterministic.c:8$/d' \
-+  -e '/deterministic.c:15$/d' \
-+  -e '/deterministic.c:23$/d' \
-+  "$tmpdir/script"
++	return 0;
++}
 +
-+cat > "$tmpdir/expected" << EOF
-+  deterministic.c:24
-+  deterministic.c:25
-+  deterministic.c:26
-+  deterministic.c:28
-+  deterministic.c:9
-+  deterministic.c:10
-+  deterministic.c:11
-+  deterministic.c:12
-+  deterministic.c:30
-+  deterministic.c:31
-+  deterministic.c:32
-+  deterministic.c:34
-+  deterministic.c:16
-+  deterministic.c:17
-+  deterministic.c:18
-+  deterministic.c:19
-+  deterministic.c:36
-+  deterministic.c:37
-+EOF
-+
-+if ! diff -q "$tmpdir/script" "$tmpdir/expected"; then
-+	echo "FAIL: line numbers don't match expected: "
-+	head -n 100 "$tmpdir/script"
-+	cleanup
-+	exit 1
-+fi
-+
-+cleanup
-+exit 0
-diff --git a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh b/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
-deleted file mode 100755
-index cb3e97a0a89f..000000000000
---- a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
-+++ /dev/null
-@@ -1,22 +0,0 @@
--#!/bin/bash -e
--# CoreSight / Unroll Loop Thread 10 (exclusive)
--
--# SPDX-License-Identifier: GPL-2.0
--# Carsten Haitzler <carsten.haitzler@arm.com>, 2021
--
--TEST="unroll_loop_thread"
--
--# shellcheck source=../lib/coresight.sh
--. "$(dirname $0)"/../lib/coresight.sh
--
--ARGS="10"
--DATV="10"
--# shellcheck disable=SC2153
--DATA="$DATD/perf-$TEST-$DATV.data"
--
--perf record $PERFRECOPT -o "$DATA" "$BIN" $ARGS
--
--perf_dump_aux_verify "$DATA" 10 10 10
--
--err=$?
--exit $err
++DEFINE_WORKLOAD(deterministic);
 
 -- 
 2.34.1
