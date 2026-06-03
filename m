@@ -1,168 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A073D1CC1;
-	Wed,  3 Jun 2026 15:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209E93CF69C
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 15:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780499927; cv=none; b=ATm/tIbHXrbZNgeJXPluqRO2U2rYHcBhIjyrh1Wpn8e0S0RgQH67L+djvWQ86yq7XRHERKp2dxtzfZQzJeG3VfNIrt6mYPay/ehwaqB2sN7n3KebrVobt1ocXq+9g3ll0F9cCUBAE0AcsB+NTrcXMXSxkg5XopkY0YKu1e9MIHU=
+	t=1780501447; cv=none; b=IkZNQWgDwneZ6oBQbKyfQ3sY214WJ7fXIYJKWyM+nchAvrHI7Ad8VYdTTCMS9xQqY3hJobZ/ihofLAkXoOdFziGcp4VBiOo8yYB7xiIwZ3OCTGtj3M8XqV9i+QMKcmJjaG9l8VzHwuZpGZ/Ua8QYih7iBpnzUkql/zQPZ5qeX0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780499927; c=relaxed/simple;
-	bh=YF7xn7hgjPsOhYw+YjiF/ybr1IQd0XiGCqBnPwAR5+c=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=XlcydNHjLoEEoiJ5q/6MzmBQZA/zIjUkGaDj1fKV2YDkUNaGikfpAJZtwOPcv2d+krYs1qjRY0RYQft8UU5/CmMgN0w8/dsup23lOo6eJJGu3gmd1wuifwJambMEmRlvAP3LJ3B8MwHl2gFzUulTXP5rOTTOIlBiVFqO97gGFZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqiDx2XI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780501447; c=relaxed/simple;
+	bh=b2e1N3WNuvDqJwLy2iHEiZO66j92zWhizs+pziHMFdc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Hk32pmV7BZ5d1n63W3BKAAWOwvMfpxy+yNADmWE0pbc0xVSxQzNXBQ9eiQIdUL9sAv9xZ51NhMVezCYeATPIKm/V+I+gNPAQreLcB562qgs5ZN7q+rRNYP2n4q9+KiOqXoaD/OolSHRIAmRVs5qOsybfIO5Bf+DxXFJr7hYZtrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=AeiP4o0S; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqiDx2XI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D17521F00898;
-	Wed,  3 Jun 2026 15:18:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780499926;
-	bh=Row1/ZMLh6mM+sigh4dqTjgwYgOfCp9sUzuCj7aY0Fw=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=gqiDx2XIJ6TAOhH6COyc85O7nZTepQiHDoIwbNNC292yB9TuNTxpGhJ/VrhM5MgSG
-	 hCV+5zMk9sWy8BJLb6mJEiXT/PFhFr/ysO1atbo7egQSNjeeYYqVvW3/maP6WuQDLl
-	 4ksBKHdCFbbC0xk3Wc6+1V91XA5ji5JyMED+9Rqs+mbNNtuzP4kry6+rq0iFxpuMv9
-	 QzEbzzSDWUgCIhTx4qU+EXMSm3EoPiuHSgHqN00eIC2jOYah12EaiVGODawZwWRz12
-	 01NbzKgqcrqvjs5B7e9buR3+Wf9D07ezTSb5wyK22sUjVLWU7hMtWJvkm2AbPEunzS
-	 0JKuLIzwWry2w==
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="AeiP4o0S"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5177945a279so10231821cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 08:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1780501444; x=1781106244; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIUnOidiefXcspEuuyeBWqUN2o/RTn4ccvxerf6qmvg=;
+        b=AeiP4o0SQs7/+qjbTS8pfRnvXLty/b/jQXIr6AWkElFAJ9pRuFYSYDVI66tO+WJix7
+         vDQFa+AyfGmup2BfSHgl+4xss3il2lHzjBjTua904POHAo0DdUTmSyMLdyxDg7jm9tWD
+         FTGo5BFq9hmWMSMVto95LsTbTiEyXl2z2R72Z06aavfPbIhiD5FV5MKOMV/e0N885H5p
+         WSq2d0FM/bE5Rv7qAB/FN5u8MmqiZBDvovlB8+CBU2i4ZSJMwPlRHAEcSl2KInR+L7Pv
+         upmYRsrkHqQL/p3cRuF2FyVoc0NcUtnDzeV7nHQn9arnbI3dBo/xL33YjFuOPPkBP1tw
+         O0UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780501444; x=1781106244;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MIUnOidiefXcspEuuyeBWqUN2o/RTn4ccvxerf6qmvg=;
+        b=aQMxvO01elQtOI7r41ZTVfIbztOj5pRwUBAK/m4SmvvcodQ6Sg86dLvulRtjYSw/bc
+         f4vkZHWpuXm3d2DNiKce85xjsKj7cg/hmmwoaqP6Wtd3WS9GQz8cJWog6QjfMyw4Ctv3
+         /UKzJZrB3CAB9Hk2LqI5Pe5BNJ9uVJxOQZE+bbcXHf0C0vGKuVCdSDY0wCvKgL1WmHgK
+         fZ9qKkYuhD7NtM/umCVrziQiQkMrNiP/0w6lVEhRJhIdqYEA64cYLpQ5+bEVMyjMIduP
+         ZLAPz2UgZvKYHIomiGmImEKBJ2PDhPjYP+LRtDTKc7K73zTyPQz2lQs6HhoBrUNKBrui
+         5j5g==
+X-Forwarded-Encrypted: i=1; AFNElJ+Ez8GrDgT9rIvwubz5VAJdG5D8Vp94bB3jelM7YIWPtHtRsHJaJm29lqu/4JeCXjITCd0zEuUpDhE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8OTqNGqs9NLbV+hDQEIif56bFG5irHZnz33X2Blnd9ZehPbZM
+	u5JR+hsFBhN/Bk0hXk+kuGU6YHxX0Z1C1SRMqhMw7lXyL1XwLzgvLVOa4FAPg7zUkqg=
+X-Gm-Gg: Acq92OFb77zwVH+OwJeIFFP09yO79UCA0pwlo6BFP9tQyedmfAg4+nqHkae5GC9tI/7
+	11V7uxTwQ2r6Q894AZthdCol+4q/kAYUnHqky2zE5n4N3TxcOCbeFzGq0oImHsKoB3zX5EzquWZ
+	p/N0aWwINV9voPlZU0RdTCp9s7mISYGFGoy9+zGgLoLlx6Dmsjj2YA4gopCZuyz9CMJDkkWG7qx
+	x9LHFAGCYSrw5ryn/j65tpFt7XxD73FMfZA1OCeZA0lQKGvyJ2UESj6IHryX/NTfX9etBImuWzG
+	5rTLfiIqlcFH6gaju0erl0oHDV4/dhaUMXevBEKOfNVUXjMCH2GwuTF8exvVB+Sk2Ll+TQOjXPz
+	tVbRXYGv1uQz1sAK3OUaX59G8njR0RRnpDkSz+gqYz5pBjVIvIgeEg7YNhZK3wPwEQkjhODhQ4K
+	eJmHRLZIi8SE7DAFz2cSl2dz64/gCgNrJlfOKbM1fEjpkgtdpjZWoltd6V7HEkMg==
+X-Received: by 2002:a05:622a:313:b0:516:508b:bf4d with SMTP id d75a77b69052e-51778789b11mr58906021cf.56.1780501444077;
+        Wed, 03 Jun 2026 08:44:04 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c07e91sm26996561cf.4.2026.06.03.08.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 08:44:03 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: linux-kselftest@vger.kernel.org,
+	rppt@kernel.org,
+	shuah@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	pasha.tatashin@soleen.com,
+	dmatlack@google.com,
+	kexec@lists.infradead.org,
+	pratyush@kernel.org,
+	skhawaja@google.com,
+	graf@amazon.com
+Subject: [PATCH v7 00/13] liveupdate: Remove limits on sessions and files
+Date: Wed,  3 Jun 2026 15:43:49 +0000
+Message-ID: <20260603154402.468928-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 07/13] kho: add support for linked-block
- serialization
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Mike Rapoport <rppt@kernel.org>, linux-kselftest@vger.kernel.org, 
- shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, corbet@lwn.net, dmatlack@google.com, 
- kexec@lists.infradead.org, pratyush@kernel.org, skhawaja@google.com, 
- graf@amazon.com
-In-Reply-To: <aiA_j7udFaO9TRBP@plex>
-References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
- <20260603032905.344462-8-pasha.tatashin@soleen.com>
- <178046937151.468621.13398573538792303093.b4-review@b4>
- <aiANtYRRDr5iO5QR@plex> <aiAzT9TvGYjITiB8@kernel.org>
- <aiA1slnqPnC4_8XY@plex>
- <178049725439.475072.11560134126837430744.b4-reply@b4>
- <aiA_j7udFaO9TRBP@plex>
-Date: Wed, 03 Jun 2026 18:18:38 +0300
-Message-Id: <178049991886.481270.8804649242857550471.b4-reply@b4>
-X-Mailer: b4 0.15.2
 
-On 2026-06-03 15:03 +0000, Pasha Tatashin wrote:
-> On 06-03 17:34, Mike Rapoport wrote:
-> > On 2026-06-03 14:11 +0000, Pasha Tatashin wrote:
-> > > On 06-03 16:59, Mike Rapoport wrote:
-> > > > On Wed, Jun 03, 2026 at 12:05:04PM +0000, Pasha Tatashin wrote:
-> > > > > On 06-03 09:49, Mike Rapoport wrote:
-> > > > > > On Wed, 03 Jun 2026 03:28:58 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > > > > > > diff --git a/include/linux/kho/abi/block.h b/include/linux/kho/abi/block.h
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..8641c20b379b
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/include/linux/kho/abi/block.h
-> > > > > > > @@ -0,0 +1,56 @@
-> > > > > > > [ ... skip 25 lines ... ]
-> > > > > > > +#define _LINUX_KHO_ABI_BLOCK_H
-> > > > > > > +
-> > > > > > > +#include <asm/page.h>
-> > > > > > > +#include <linux/types.h>
-> > > > > > > +
-> > > > > > > +#define KHO_BLOCK_ABI_COMPATIBLE	"kho-block-v1"
-> > > > > > 
-> > > > > > It's never used by block set and after looking at the following patches I
-> > > > > > found that it's appended to LUO compatible string.
-> > > > > > 
-> > > > > > While this works for LUO, I think it should be kho_block_set_restore()
-> > > > > > responsibility to verify the compatibility.
-> > > > > 
-> > > > > It should work for any component that relies on  kho_block. My proposal 
-> > > > > is to use this method for other common KHO data structures (e.g.,  kho 
-> > > > > vmalloc,  kho radix, future kho xarray). There is no need for them to 
-> > > > > carry the compatibility string in their metadata, as whoever uses them 
-> > > > > will include their compatibility string.
-> > > > 
-> > > > So if, say, memfd_luo uses kho vmalloc, xarray and blocks it'll have five
-> > > > compatibility strings glued together?
-> > > 
-> > > That is correct, but it will be in only one place: the header of the 
-> > > client's KHO subtree. Since it is dynamically sized and 8-byte aligned, 
-> > > it should be safe to include in any struct.
-> > 
-> > This is safe, you are right.
-> > But I have more usability concerns from one side and the duplication it
-> > causes from the other.
-> > 
-> > I can see the downside of putting the version information in the data
-> > structure itself as it either requires a different header for the first
-> > element or needlessly increases all the headers.
-> > 
-> > But 
-> > 
-> > #define LUO_ABI_COMPATIBLE     LUO_COMPAT_BASE "-" KHO_BLOCK_ABI_COMPATIBLE "-" KHO_VMALLOC_ABI_COMPATIBLE "-" KHO_RADIX_COMPATIBLE
-> > 
-> > is not really digestible too. And it forces KHO users to potentially
-> > track KHO internal changes.
-> 
-> These are compatibilities; I think they are quite digestible, both to 
-> write and also when the  LUO_ABI_COMPATIBLE  string is printed out for 
-> debugging/info purposes.
+Hi all,
 
-I agree to disagree :)
+This series removes the fixed limits on the number of files that can
+be preserved within a single session, and the total number of sessions
+managed by the Live Update Orchestrator (LUO).
 
-It's KHO property, not it's users.
+The core of the change is a transition from single contiguous memory
+blocks for metadata serialization to a chain of linked blocks. This
+allows LUO to scale dynamically.
 
-> > We still don't promise any compatibility between different kernel
-> > versions so to avoid blocking this series on the decision what is the
-> > best way to convey KHO data structures compatibility I suggest to bump
-> > kho ABI version in v6.2* of the patch that adds KHO blocks and postpone
-> > this discussion to after rc1 when we'll have plenty of time.
-> 
-> Let's keep this patch as is for now. We will have a broader discussion 
-> when we convert other participants to this new scheme. If we decide not 
-> to pursue this approach, we will change this code to use an independent 
-> compatibility string. However, having this in place as a template will 
-> help us convert other components correctly, ensuring proper alignment 
-> and that correct string helpers like  strncmp / strscpy are used—which I 
-> have already ensured is the case in LUO.
+1.  ABI Evolution:
+    - Introduced linked-block headers for both file and session
+      serialization.
+    - Bumped session ABI version to v4.
 
-Pasha, this sounds like salami approach :)
+2.  Memory Management & Security:
+    - Implemented a dynamic block allocation and reuse strategy. Blocks
+      are allocated only when existing ones are exhausted and are reused
+      during session/file removal cycles.
+    - Introduced KHO_MAX_BLOCKS (10000) as a safeguard against stupid
+      excessive allocations or corrupted cyclic lists during restore.
 
-We didn't agree yet to convert other components and even to use this
-scheme globally. Changing this during -rc does not seem a good practice.
-So whatever new versioning scheme we'll come up with, it'll have to wait
-until v7.3.
+3.  Expanded Selftests:
+    - Added new kexec-based tests verifying preservation of
+      2000 sessions and 500 files per session.
+    - Added self-tests for many sessions and many files management.
 
-Let's bump kho and LUO ABI versions and drop the concatenation for now.
-It's a small change to the patches, so I don't see it as a blocker for
-merging them in v7.2.
+Tree: git.kernel.org/pub/scm/linux/kernel/git/tatashin/linux.git
+Branch: luo-remove-max-files-sessions-limits/v6
 
-> > * sending a new version of a single file does same email traffic, but it
-> > confuses b4 and quite possibly other tools, so I think v7 is better.
-> 
-> Agreed, I also prefer re-sending the whole series...
-> 
-> Pasha
-> 
-> > > Pasha
-> > > 
-> > > >  
-> > > > > For now, reviewers will have to make sure that if the ABI header content 
-> > > > > is changed, the compatibility string is updated.
-> > > > 
-> > > -- 
-> > > > Sincerely yours,
-> > > > Mike.
-> > > 
-> > 
-> > 
-> 
+Changes v7:
+- Addressed comments from Mike.
+- For changes in kho_block.c, and updated to use gloval KHO compatability.
+- Collected review-by's and acks.
 
+Please review.
+
+Thanks,
+Pasha
+
+Pasha Tatashin (13):
+  liveupdate: change file_set->count type to u64 for type safety
+  liveupdate: avoid mixing cleanup guards with goto in
+    luo_session_retrieve_fd
+  liveupdate: centralize state management into struct luo_ser
+  liveupdate: register luo_ser as KHO subtree
+  liveupdate: Extract luo_file_deserialize_one helper
+  liveupdate: Extract luo_session_deserialize_one helper
+  kho: add support for linked-block serialization
+  liveupdate: defer session block allocation and physical address
+    setting
+  liveupdate: Remove limit on the number of sessions
+  liveupdate: Remove limit on the number of files per session
+  selftests/liveupdate: Test session and file limit removal
+  selftests/liveupdate: Add stress-sessions kexec test
+  selftests/liveupdate: Add stress-files kexec test
+
+ Documentation/core-api/kho/abi.rst            |   5 +
+ Documentation/core-api/kho/index.rst          |  11 +
+ MAINTAINERS                                   |   1 +
+ include/linux/kho/abi/block.h                 |  54 +++
+ include/linux/kho/abi/kexec_handover.h        |   2 +-
+ include/linux/kho/abi/luo.h                   | 148 ++-----
+ include/linux/kho_block.h                     | 106 +++++
+ kernel/liveupdate/Makefile                    |   1 +
+ kernel/liveupdate/kho_block.c                 | 416 ++++++++++++++++++
+ kernel/liveupdate/luo_core.c                  |  99 ++---
+ kernel/liveupdate/luo_file.c                  | 205 ++++-----
+ kernel/liveupdate/luo_flb.c                   |  60 +--
+ kernel/liveupdate/luo_internal.h              |  16 +-
+ kernel/liveupdate/luo_session.c               | 219 +++++----
+ tools/testing/selftests/liveupdate/Makefile   |   2 +
+ .../testing/selftests/liveupdate/liveupdate.c |  75 ++++
+ .../selftests/liveupdate/luo_stress_files.c   |  97 ++++
+ .../liveupdate/luo_stress_sessions.c          | 102 +++++
+ .../selftests/liveupdate/luo_test_utils.c     |  24 +
+ .../selftests/liveupdate/luo_test_utils.h     |   2 +
+ 20 files changed, 1199 insertions(+), 446 deletions(-)
+ create mode 100644 include/linux/kho/abi/block.h
+ create mode 100644 include/linux/kho_block.h
+ create mode 100644 kernel/liveupdate/kho_block.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_stress_files.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_stress_sessions.c
+
+
+base-commit: 2935777b418d2bfcbfe96705bb2c0fa6c0d94e18
+-- 
+2.53.0
 
