@@ -1,70 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5038F3E6DF5;
-	Wed,  3 Jun 2026 17:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EB43E63BE
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 17:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780506695; cv=none; b=JYpCLuy6nhkVT8gKmsSW+H38MY1DiCi9TgvnLaHp7k1aO9JpAls8kqEZcP94lzr1idK4Ue+IMuusti05FVMoaSDV+if+wj3tkJWEFa0HElzQPOFWZOQwUEdDxAaOaKH1E0uJAfpMXdauosdyyF1ZLXDQcD3zUH55y1FmkD66N9E=
+	t=1780506747; cv=none; b=hovet8u7cs1I62RP9/f2QdgXX02V2eGIDmqcKPsX/qHP55T/O/GZPwtMZzK0ABL4EiH8pmYjP2fQeLS4xWd/eSmm13LRHknJI07IfIMbA4Rwnn0eAdm9ZMMZtwf7oHeJ0pYTbFTLWs3Pew4R/4CcU7PuxT710nMLSvEPTEyM5ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780506695; c=relaxed/simple;
-	bh=+yb5rkUKMjMfxiwW6lHFJ5FCCgUjN6cCouV3yLYRbRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NU6JVRjggKeHMtA5QKECA3RXzgKZE+Xj8H4CYo/3BG6ai7jo4lLNVzFDzBQaqrEkXYGq/1XojHNXSnzFGKBootCyMKLacSaWw9nBK380roUhQIrKq6F750zAZEJATI6j+6SpYPPNDya2SRE7HCdBVk8Clt1+FBzxNWBMn5RApVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DG08E6Fj; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1780506747; c=relaxed/simple;
+	bh=TN5VN5nZYGpZ0cgk6I+DWPRMt4OBymg3kF+L1ZSTg10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VkMI3MCE/QAe/5sMwLmkGmz9OLqwBBZuSw4mYNuTnhIFUTj5cYS/cftcg4UF2rABotdyq2JCLdCOo/5ghr73s4GoCWp5CIxjBPgZbnkde1YSCYabIuCkgch7hZg1xyMoE8zJIPvhCG7GdIiK1IO/EhD93icShuEjTa8gCsDeImM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=J43NUAr6; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DG08E6Fj"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF421307A;
-	Wed,  3 Jun 2026 10:11:28 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35CE73F632;
-	Wed,  3 Jun 2026 10:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780506693; bh=+yb5rkUKMjMfxiwW6lHFJ5FCCgUjN6cCouV3yLYRbRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DG08E6Fj8GvCOSVDAoErqocNXxHig4S/G4LyqjfkwNsWi08tsMa8+IfK34IBW6ViH
-	 4e7miqlbQsuiDMY7BxAkkVcRE8rbBXtw/Bfp+qolFTVwxAEc/vEX03/7cLlhzE78H5
-	 xWrJhxqjOFKxtcHvPuYK4dc4M8C5fZ3jGHO2Zng4=
-Date: Wed, 3 Jun 2026 18:11:30 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 11/18] perf test cs-etm: Remove duplicate branch tests
-Message-ID: <20260603171130.GB101133@e132581.arm.com>
-References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-11-85b5ce6f55c6@linaro.org>
+	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="J43NUAr6"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45ef372c58aso2984584f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 10:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall.org; s=google; t=1780506745; x=1781111545; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WShIXeDXg6osn/1BPpnCqqp3TWGu+yv09MQ0gxlHZ/8=;
+        b=J43NUAr6UxcD6FhnwU3H5ssro/H+8XGFqQJSoNhiMs3ztDp8Q8P4c0V4dndmvxoB9u
+         HGLYWSSg/r/hz7VWdpSLHoZXMi9kTS9DtnC8iKQWzEpjAIUj+BYzxmxi4S7E5BSmqwfn
+         rkkklpjH0ZOVxOShxgYaB4k9F71N8npU26s3nDsEymw6CQ+de50yUol829sxw9znEOKC
+         tgW2CPTzcTc+wzz9f3pYS+fJ8gXhWlSeVPAGv2b87BtaKX8qFi/1JAVnIrRzksUXckom
+         cGdxPwDy3l3pkO/Cv0IoLx3U0SLmT5DwSOr08RKc8RGcbYpX47iCv4rsl1mJ26oum2Oy
+         koPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780506745; x=1781111545;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WShIXeDXg6osn/1BPpnCqqp3TWGu+yv09MQ0gxlHZ/8=;
+        b=E3uDT7Sx/rR5EhcsTZ8c25Pw/f/8UsjNUGO+/py62m7n1pksgXTVePSivsZHKY2PlY
+         XCgQ/uR3N6/AzvOX+60OPU1GPO4mtrKqMVH+XgqzM98TXynBmEzxkSgFfEZAlMowj+17
+         ZMk0EtCu91U6nM5fBiw/sHDdQ+wxcgPUqU+hUY5qI8ZO9LQMcioWmNbUKFguN52CjlZW
+         iRfofo12eI40qKwclgPgtJ/Al7IfiQ+o+UnzfIACvFG+2GluHrsp9o0Xh3WR3dSlvkwQ
+         x+xAdoX6Y896DSbWCh+G4LjfkRQCgyR2B++oyO7D0MyGcmXopqJ0ScgAOjRDt/GbvAGT
+         7h3A==
+X-Forwarded-Encrypted: i=1; AFNElJ8BS797TtitFNzeMSc2jh1i6vGNyLM2LdKaS7m+eu+LpJSTnI8TteFvww+8OCLmzbTZDdtg1nDXWBA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0VRi7knAU+Yka8duJXmCCkClEKPWa17JmvsMfeltOrnf5uuVY
+	/bS2LwPfOnf0VUQbtb1Xvyl5Mm8pnuRc/eCC7CHae2Hpc0SDdGsOIYlxs4a0EnxlzK8=
+X-Gm-Gg: Acq92OFZAYGv/TeokUhsy+/kUCjn7OhuWGfRsFxEruwkh4DC+Laf/Cyax/G55nKOi3L
+	owzbXhS5oJx0r457KuCZgJdLuCa+ZBanyjt5h7FP9NmYw6raIVoYJIsn4WOcZ5MDcmyHj++A+1L
+	Q3KemS4cq7WtgNF7ped4kxUnIlFDIX8RCUoJxO20hgTEO7DTtOjDdGkLCDKKPgz9mnZDNV2lerD
+	GmcfSXPqPUbP3d6DyTCnEkrPUDck8jGy/tYUUQdtOwXY14g01KncljNR0dxWoNWx3hpy0ikgexZ
+	Q+yFdi9N7OaHG8evURfvwzbVOre++DTdqYwQIl6lcgw5Sszx0z2EjRV2M1hOQDggckLN8mqXgok
+	vLxt99gP4r1Knsi7g9jbMVsqrIhoW34B+DvMt3i4pjr7tzzF+A1q6JplUt5+t9UvLMyPUWB/hLq
+	QT3xvGdhskesgmWY1qmIcwJKnIyWJGmaISqA33QI7NTTc6lSPWPOGivMNK946v/qmC
+X-Received: by 2002:a5d:5f8c:0:b0:45e:f29d:d42d with SMTP id ffacd0b85a97d-4602181eea2mr6197828f8f.25.1780506744671;
+        Wed, 03 Jun 2026 10:12:24 -0700 (PDT)
+Received: from [192.168.0.161] (78-154-15-182.ip.btc-net.bg. [78.154.15.182])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4004sm8997419f8f.9.2026.06.03.10.12.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 10:12:24 -0700 (PDT)
+Message-ID: <b087dc20-7398-4ad3-9787-efef883d81b1@blackwall.org>
+Date: Wed, 3 Jun 2026 20:12:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-11-85b5ce6f55c6@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V3 0/2] devlink: add generic device max_sfs
+ parameter
+Content-Language: en-US, bg
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
+Cc: Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Mark Bloch <mbloch@nvidia.com>, Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+ Daniel Zahka <daniel.zahka@gmail.com>,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Arthur Kiyanovski <akiyano@amazon.com>, Petr Machata <petrm@nvidia.com>,
+ Ratheesh Kannoth <rkannoth@marvell.com>, David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Gal Pressman <gal@nvidia.com>, Amery Hung <ameryhung@gmail.com>
+References: <20260603102646.404797-1-tariqt@nvidia.com>
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20260603102646.404797-1-tariqt@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 02, 2026 at 03:26:53PM +0100, James Clark wrote:
-> We already test branch output in perf script mode, but then retest it in
-> Perf report mode. This is more of a test of Perf itself than Coresight
-> because Perf uses the same samples to generate both outputs. Also we're
-> already testing instruction output in Perf report mode.
+On 03/06/2026 13:26, Tariq Toukan wrote:
+> Hi,
 > 
-> Remove this test for a speedup. On the systemwide test also remove the
-> Perf report test because systemwide mode records a lot more data so
-> running multiple tests on it has a big runtime impact.
+> This series by Nikolay introduces a new generic devlink device
+> parameter, max_sfs, to control the number of light-weight NIC
+> subfunctions (SFs) that can be created on a device.
 > 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> The first patch adds the generic devlink parameter and infrastructure
+> support.
+> The second patch implements support for the parameter in the mlx5
+> driver.
+> 
+> With this addition, users can enable or disable SF creation directly via
+> devlink, without relying on external vendor-specific tools.
+> 
+> Regards,
+> Tariq
+> 
+>
+Need to rebase due to commit d603517771d8 ("devlink: pass param values by 
+pointer"). Sorry for the noise.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+
