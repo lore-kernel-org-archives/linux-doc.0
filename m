@@ -1,65 +1,66 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490833264D2
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 10:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4947235F192
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 10:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780481845; cv=none; b=tSwwBKTEXN8x/ojm/FrQQmGROEAA+hFAvpuSjQDAkAoBVoBs0zkJSj7yJyZhndB3EKMQnjY/oZw6vlTaglyhSZeI+e/HPeA5aLfPZcCaKqH04WNP7/7vNf859L2TlIHUkQTAutdA3xUMeLZ+nihCAQSt97bTQ7ovJne0a58S31k=
+	t=1780481847; cv=none; b=s7gGpGlMinGvt7nue+xSlYceGtH5cwV+O4y4Zf8IBM/+F/rfB1yMlUJsDwBtcc5sUw6tWvHihtFHW/TXh6N6ZRWUSyaCLXeliQAdlUUsT/2fIqFldAlfxhrYr3PO8XvQ9X4Y2TMwFIMQz3gigrkAd+9nGN5zL/GSZZ/K2SBs/ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780481845; c=relaxed/simple;
-	bh=zsB6b2mSax8ijZe6CEgFqKmviDOUVPzm4axnSMhYsEQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iVRaYDx7fwwwDbAL0OTgTLVWAcrFR1jNJMkK6+ptC/5ewSuOaqZ34q2/UuhrPDahuxLxtjQTId1bfZPoJf4to3vuyRTI089lwZbFpP6YqKBHrxcfY1izIFJ81lxXBZVpzEe0T85VFp5jG7K19Lw7RHTnwiAoAJUjrT+mUo7/CIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=THk3eZJd; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1780481847; c=relaxed/simple;
+	bh=aR1osBtg8+dXgkU8gRUvP5gNGrwRuwN2bVKWjW+bwQM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=hYc1/uKbu/JDO7UT+d/vZM6mq0CY3bjO4jbtr6nzNb/1aG/cEu3imlniRH4LCNqoLJQsU5OMqPAfCaUuFLTapawdHMnxFOOpDObBIcEfRBl0xvT8S6l60+LR9NketUQmKS8CFWhCZe+nhSwYYGc10GLllghZMJ/wr74gVc3cl60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OxC3VMbP; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="THk3eZJd"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b3e03939so4526135e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 03:17:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OxC3VMbP"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so20452315e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 03:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780481842; x=1781086642; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y7B6wlqSPvHP4/6Eu04K7r/NtlTz65B+jmw25he2xI0=;
-        b=THk3eZJdWo5qRIXNqAra4V3rLfUC5FA3stNJoe0/oULgaYqUEgVocsgsxae3SbJmM9
-         Y/Fbgqr9QbMB3zQzSdhewnvexi3Aux6iPgaASmdTIunBD716eHl0CgBnWqWFFKVsX5+V
-         cJa6vndrU/ECOwQ6hbaj63P7P7GLrxMWBpssi0s1R8wYPW1y7bBDGQBNhHgv9JscmXcp
-         aCygPYzTrxHsEyHJIaUqfzRfqSoz29Xh/33g/Mk/E98Zm3skaOp2efVVOcaf9Mq5dyr9
-         d9Nv+yckNVpSl/HL79j636PmBCyw+RikzozXPA9KzkfzAKQg4Vb3cFC58LkAZskicjJQ
-         BRXA==
+        d=linaro.org; s=google; t=1780481844; x=1781086644; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LYNGLIkJZMjRjHk0hF9NSWbns9QHjdminA/Y/0E/C8I=;
+        b=OxC3VMbPggN8D7Yu+AaHpOXTyB+kUpz1vaDZg2hjKHsNywfV0FlNgppYStF05SgCQq
+         cc5Qx2OPRWt5ir6zV6xBRdtcWnLCtNrKeEw50gag4v2KIgNg/WdqNrEq33Ju0+9BPjPk
+         9JtcgiICc8BiCi+BauXwB66xjrYnCgeApROGPj3J3rlx1gpftTB9BXRB8uD0fjDj8hD2
+         cO+USv11uEa5UvpoYR8+17j/bonnPfVdGhv108kc0fvJk9pdlPtPVHr2Isow2fKtKrIa
+         xtxWUUzid+YUc7Tz0WQ4yIB1OQ/OUa47coAj/BLk69I2RSnG7qGYXyKQF1lzVdanD8ZE
+         dBGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780481842; x=1781086642;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y7B6wlqSPvHP4/6Eu04K7r/NtlTz65B+jmw25he2xI0=;
-        b=ZJNgiJMnMf9FnTrwnT1emDJ+QDeElYvpEokGgsiFw6WK4v2AOw38uwteK3nNxo+11t
-         wihVpy8uni127bkGIx3sPNbQEshfnnjVqhFXVwKBEn/w2sFFq4V8sYz5YA80oHd26w6v
-         dtfTcybZY9nwjn6BRd5AYB53Izb7wHUJB7mvKPqNClC59/PYSUNv/NhtxijobgX3qajb
-         w1/6hK876j8CNH/sU4TKIX7reI6aWYC8ymIhgpKviYC7Tsz38etxCLUtdsHwFVpkJXZk
-         g/hY3Y6r8c+1JkIgjqcvgvbYlNJD5RWqtTgFZl/qY5i002vp9AgJkAhNCUbSC2ofd7D+
-         NRag==
-X-Forwarded-Encrypted: i=1; AFNElJ/iZkpTiV57Olnq7XnwOnKGmBoRdn2TtbgPIi53diNRpd9JxFeT848FM7OEM++Zf7Z0qinaKKyEqD4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDTqmdEtIoKw/WXi9U86yClE8n924gTPENzQ0X9oN9rQX8GBQY
-	HUswBhbc6HrSMwYc/+8Lyy+B2ufgqPGYgtO1dgxNb8ZX+oMkxlaagfmA2y993AKUfGU=
-X-Gm-Gg: Acq92OEYtDiWpMWKWBJvTHwgQ5S30Ht2I3TtZERqv8/+P9LcPBvyF/vfn6sJlj/GqNZ
-	zayX5t1C86XNLVykDm54Wb7Y7knGnyzwfEw2+6+oaePPvr08k9K/g1hWKRnf9jgxexK/8y5l6Ks
-	8u1rnW6VEeKYw/M/gaDvZrmUjDcc+Di0MIztkRS7b9IpDXdJLkUT3gpYrZWUg1H0KNGzVbvfm//
-	VTS/sug9sI3HvzE3nLYOitIFMZyQd9Tgxx3TfeWW6DyTWZZToWmxVoHzHfswZLMNMvU8l5alT48
-	Z2bSDNELjjvTyLrRt1lIiMTX8frJx3ZOFyMkezowh2MbJIKXPX2mc7mS10vjdq9rWyVUU1CoAGQ
-	6qxfdkVhwx9xIgvMmZD0CslVnf+V64cPmg+WhkILj+yAc7kosmA1mCtFa27y43u5ReWuB2FGLnG
-	Le/xK0op0EGRTjtNF50CNJToGftN2chEzYaPOfJHf0vWI=
-X-Received: by 2002:a05:600c:8b2a:b0:490:3cf0:8d81 with SMTP id 5b1f17b1804b1-490b614df8dmr33957045e9.13.1780481841724;
-        Wed, 03 Jun 2026 03:17:21 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780481844; x=1781086644;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LYNGLIkJZMjRjHk0hF9NSWbns9QHjdminA/Y/0E/C8I=;
+        b=hZgeJDeBf+oyr7sXyYbowizc4lcW5PWlifEuZdbvpR/IcpFknNtG6080yO+L5Witfn
+         xQUwkzQl6qys1Uvjls1wTIrjAwLJieHmKPNCnsBMw6GedEAdutpFd9QlVv7VCI8isy84
+         SLdHq51wLwuWZG3SkvrYKgQ1njkGUkYCdk0AID9k/dXFsiLJsH+rWZVpPGLhDB2x8G/k
+         Rnte9s2CapR3INEjmsiQAznR3WPuLsyO0iotatfBI73UdgyOLyu7F82F4EmRHx/aCS/V
+         BHw/qaw8j5KRdEOyWXELgCtar8hGQlYeBda7mxYpIkaRRXEEN5kyxL6+TDo61q1okeKv
+         V3kw==
+X-Forwarded-Encrypted: i=1; AFNElJ9s+CIPGyZio6yskPzMvW8Bjo5LOZ4g4QMcbXjDRDVclQHMCPVCM3itoLQxfIbP/Me8AVDmX6+L/UI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/j4YSPfOCX7jeuTRJMKxy19PwHJ0O9RvLXphKZfxQPQPb818X
+	SjlED/Y8ns/g+9GRPlA6Y2mO4CU4nRZg4R8xokriUtXDXDUNu7g77caHU/nGoyuCB1o=
+X-Gm-Gg: Acq92OER3ObYTcZjGyobFZF4qTRV1joSiUptPnhHIgtFCv1Ja9WuC6L2UCHa6KLRzpZ
+	tK5ZNITprpd7LPuq7ETScryUm5pI00QfIq+LRHqJ5vz5XKvCOxPCcEHYdL+cZ6De6ZGMjnHpvGH
+	meZBjQGVjRrMdXNKbKhSXsA1ZGR2j9SURqLYs/5zh4nJ6OTgE4g6ETE4BVfkXGxU2sZpWuZ1KJA
+	q57FYj7xFP8z2kSIqUBQZTBS/AugCTmJgIFlcEDQM4sLBebT97gTDFU8xrxzJ45uFtZEqvFJRy2
+	8yn4jaEpe2PbjCD5fFDySFteCIHJLi1e9e4QekcjjH0tCaXJhvk73qUQRDea2pbxeo0w5u+tLmq
+	c6flwWHSUbcMmMlEGu6OsnsZLrllcPBj14MccMCiZCBNf5E2G2+6t+lb9upSRopU4X+I0a2ggMi
+	BRtG3V0c2XEAf7SDj+l4te+s4atc0wmKoV+TtD4DzkQL0=
+X-Received: by 2002:a05:600c:4f50:b0:488:d6eb:e63c with SMTP id 5b1f17b1804b1-490b5ea32a4mr51625575e9.15.1780481843826;
+        Wed, 03 Jun 2026 03:17:23 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b63d8205sm38681875e9.11.2026.06.03.03.17.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b63d8205sm38681875e9.11.2026.06.03.03.17.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 03:17:21 -0700 (PDT)
+        Wed, 03 Jun 2026 03:17:23 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Subject: [PATCH v3 00/19] perf cs-etm: Queue context packets for frontend
-Date: Wed, 03 Jun 2026 11:17:04 +0100
-Message-Id: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
+Date: Wed, 03 Jun 2026 11:17:06 +0100
+Subject: [PATCH v3 02/19] perf test: Add workload-ctl option
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,10 +69,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACD/H2oC/4XNTQrDIBAF4KsE152ithrTVe9RujBmktgfLRokJ
- eTuNaFQugrM5j0e30wkYrAYyamYSMBko/Uuh8OuIKbXrkOwTc6EUy6pYAJu+okRTD7vBhwHGII
- 2d+s6aO0IpThWlao1ltiQbLwC5nr1L9ecexsHH97ru8SW9itzuSEnBhSwbiTlyBRX5flhnQ5+7
- 0NHFjrxH5dHWxzPnBK1MChbIYz84+Z5/gBQaP5BGgEAAA==
+Message-Id: <20260603-james-cs-context-tracking-fix-v3-2-c392945d9ed5@linaro.org>
+References: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
+In-Reply-To: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
  Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>, 
  Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -84,122 +84,259 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Fix thread tracking when decoding Coresight trace and add a new test for
-it.
+Add a --workload-ctl=fifo:ctl-fifo[,ack-fifo] option for 'perf test
+-w'. When set, run_workload() opens the named FIFO, writes enable before
+invoking the builtin workload, writes disable before returning, and
+waits for ack responses when an ack FIFO is provided to ensure that the
+workload doesn't run until the events are enabled.
 
-The new test is added as a Perf test workload instead of a custom binary
-with its own build system, but this requires a new feature in Perf test
-to pass in control pipes which can enable and disable events. This
-scopes the recording to just the workload and helps to reduce the amount
-of data recorded in tracing tests.
+This can be used to limit the scope of the recording to only the
+workload execution and avoid recording Perf setup and teardown code if
+Perf record is started with events disabled (-D 1).
 
-With this new feature we can re-write all of the Coresight tests to make
-use of it and remove the remaining binaries which fixes the following
-issues:
-
- * They didn't work in out of source builds
- * A lot of the tests unnecessarily required root and didn't skip
-   without it
- * They were mainly qualitative tests which didn't look for specific
-   behavior
-
-Most importantly, the long build and runtime has been reduced. On a
-Radxa Orion O6, unroll_loop_thread.c took 37s to compile which is longer
-than the entire Perf build. Now the build time is negligible and the
-before and after test runtimes for all the Coresight tests are:
-
-          |   N1SDP   |   Orion O6
-  -----------------------------------
-  Before  |   4m  0s  |    14m 49s
-  After   |      26s  |        56s
-  -----------------------------------
-
+Assisted-by: Codex:GPT-5.5
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
-Changes in v3:
-- Minor sashiko comments
-  - Close some more pipes
-  - Fix warning messages
-  - Error handling improvements
-- Pass packet into cs_etm__synth_instruction_sample()
-- Fixup stale comment (Leo)
-- Link to v2: https://lore.kernel.org/r/20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org
+ tools/perf/Documentation/perf-test.txt |   6 ++
+ tools/perf/tests/builtin-test.c        | 184 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 188 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Add --workload-ctl option to Perf test
-- Re-write all the Coresight tests and speed them up
-- Pass packet to memory access function so frontend can use either the
-  previous or current packet's EL
-- Link to v1: https://lore.kernel.org/r/20260526-james-cs-context-tracking-fix-v1-0-ebd602e18287@linaro.org
+diff --git a/tools/perf/Documentation/perf-test.txt b/tools/perf/Documentation/perf-test.txt
+index 32da0d1fa86a..1faf30d4a7be 100644
+--- a/tools/perf/Documentation/perf-test.txt
++++ b/tools/perf/Documentation/perf-test.txt
+@@ -69,3 +69,9 @@ OPTIONS
+ 
+ --list-workloads::
+ 	List the available workloads to use with -w/--workload.
++
++--workload-ctl=fifo:ctl-fifo[,ack-fifo]::
++	Write 'enable' to ctl-fifo before running the workload and 'disable'
++	before returning. If ack-fifo is provided, the workload runner waits for
++	an 'ack' response after each command. This scopes the recording to only
++	the workload if used with 'perf record -D 1 --control ...'.
+diff --git a/tools/perf/tests/builtin-test.c b/tools/perf/tests/builtin-test.c
+index f2c135891477..a9e67d7da700 100644
+--- a/tools/perf/tests/builtin-test.c
++++ b/tools/perf/tests/builtin-test.c
+@@ -50,6 +50,7 @@ static bool sequential;
+ static unsigned int runs_per_test = 1;
+ const char *dso_to_test;
+ const char *test_objdump_path = "objdump";
++static const char *workload_control;
+ 
+ /*
+  * List of architecture specific tests. Not a weak symbol as the array length is
+@@ -161,6 +162,11 @@ static struct test_workload *workloads[] = {
+ #endif
+ };
+ 
++struct workload_control {
++	int ctl_fd;
++	int ack_fd;
++};
++
+ #define workloads__for_each(workload) \
+ 	for (unsigned i = 0; i < ARRAY_SIZE(workloads) && ({ workload = workloads[i]; 1; }); i++)
+ 
+@@ -711,13 +717,185 @@ static int workloads__fprintf_list(FILE *fp)
+ 	return printed;
+ }
+ 
++static int perf_control_open_fifo(struct workload_control *ctl, const char *str)
++{
++	char *s, *p;
++	int ret;
++
++	if (strncmp(str, "fifo:", 5))
++		return -EINVAL;
++
++	str += 5;
++	if (!*str || *str == ',')
++		return -EINVAL;
++
++	s = strdup(str);
++	if (!s)
++		return -ENOMEM;
++
++	p = strchr(s, ',');
++	if (p)
++		*p = '\0';
++
++	ctl->ctl_fd = open(s, O_WRONLY | O_CLOEXEC);
++	if (ctl->ctl_fd < 0) {
++		ret = -errno;
++		pr_err("Failed to open workload control FIFO '%s': %m\n", s);
++		free(s);
++		return ret;
++	}
++
++	if (p && *++p) {
++		ctl->ack_fd = open(p, O_RDONLY | O_CLOEXEC);
++		if (ctl->ack_fd < 0) {
++			ret = -errno;
++			pr_err("Failed to open workload control ack FIFO '%s': %m\n", p);
++			close(ctl->ctl_fd);
++			ctl->ctl_fd = -1;
++			free(s);
++			return ret;
++		}
++	}
++
++	free(s);
++	return 0;
++}
++
++static int perf_control_open(struct workload_control *ctl)
++{
++	int ret;
++
++	if (!workload_control)
++		return 0;
++
++	ret = perf_control_open_fifo(ctl, workload_control);
++
++	if (ret == -EINVAL) {
++		pr_err("Unsupported workload control spec '%s', expected fifo:ctl-fifo[,ack-fifo]\n",
++			workload_control);
++	}
++
++	return ret;
++}
++
++static void perf_control_close(struct workload_control *ctl)
++{
++	if (ctl->ctl_fd >= 0) {
++		close(ctl->ctl_fd);
++		ctl->ctl_fd = -1;
++	}
++	if (ctl->ack_fd >= 0) {
++		close(ctl->ack_fd);
++		ctl->ack_fd = -1;
++	}
++}
++
++static int perf_control_write_cmd(int fd, const char *cmd)
++{
++	size_t len = strlen(cmd);
++	ssize_t ret;
++
++	while (len) {
++		ret = write(fd, cmd, len);
++		if (ret < 0) {
++			if (errno == EINTR)
++				continue;
++			pr_err("Failed to write perf control command: %m\n");
++			return -1;
++		}
++
++		if (!ret) {
++			pr_err("Failed to write perf control command: short write\n");
++			return -1;
++		}
++
++		cmd += ret;
++		len -= ret;
++	}
++
++	return 0;
++}
++
++static int perf_control_read_ack(int fd)
++{
++	char buf[16];
++	ssize_t ret;
++
++	do {
++		ret = read(fd, buf, sizeof(buf) - 1);
++	} while (ret < 0 && errno == EINTR);
++
++	if (ret < 0) {
++		pr_err("Failed to read perf control ack: %m\n");
++		return -1;
++	}
++
++	if (!ret) {
++		pr_err("Unexpected EOF while reading perf control ack\n");
++		return -1;
++	}
++
++	buf[ret] = '\0';
++	for (ssize_t i = 0; i < ret; i++) {
++		if (buf[i] == '\n' || buf[i] == '\0') {
++			buf[i] = '\0';
++			break;
++		}
++	}
++
++	if (strcmp(buf, "ack")) {
++		pr_err("Unexpected perf control ack: %s\n", buf);
++		return -1;
++	}
++
++	return 0;
++}
++
++static int perf_control_send(struct workload_control *ctl, const char *cmd)
++{
++	if (ctl->ctl_fd < 0)
++		return 0;
++
++	if (perf_control_write_cmd(ctl->ctl_fd, cmd))
++		return -1;
++
++	if (ctl->ack_fd >= 0 && perf_control_read_ack(ctl->ack_fd))
++		return -1;
++
++	return 0;
++}
++
+ static int run_workload(const char *work, int argc, const char **argv)
+ {
+ 	struct test_workload *twl;
+ 
+ 	workloads__for_each(twl) {
+-		if (!strcmp(twl->name, work))
+-			return twl->func(argc, argv);
++		struct workload_control ctl = {
++			.ctl_fd = -1,
++			.ack_fd = -1,
++		};
++		int control_ret, ret;
++
++		if (strcmp(twl->name, work))
++			continue;
++
++		ret = perf_control_open(&ctl);
++		if (ret)
++			return ret;
++
++		if (perf_control_send(&ctl, "enable\n")) {
++			perf_control_close(&ctl);
++			return -1;
++		}
++
++		ret = twl->func(argc, argv);
++
++		control_ret = perf_control_send(&ctl, "disable\n");
++		perf_control_close(&ctl);
++		if (control_ret)
++			return -1;
++
++		return ret;
+ 	}
+ 
+ 	pr_info("No workload found: %s\n", work);
+@@ -799,6 +977,8 @@ int cmd_test(int argc, const char **argv)
+ 	OPT_UINTEGER('r', "runs-per-test", &runs_per_test,
+ 		     "Run each test the given number of times, default 1"),
+ 	OPT_STRING('w', "workload", &workload, "work", "workload to run for testing, use '--list-workloads' to list the available ones."),
++	OPT_STRING(0, "workload-ctl", &workload_control, "fifo:ctl-fifo[,ack-fifo]",
++		   "Write enable to the fifo just before running the workload and disable after, with optional ack from ack-fifo"),
+ 	OPT_BOOLEAN(0, "list-workloads", &list_workloads, "List the available builtin workloads to use with -w/--workload"),
+ 	OPT_STRING(0, "dso", &dso_to_test, "dso", "dso to test"),
+ 	OPT_STRING(0, "objdump", &test_objdump_path, "path",
 
----
-James Clark (19):
-      perf cs-etm: Queue context packets for frontend
-      perf test: Add workload-ctl option
-      perf test: Add a workload that forces context switches
-      perf test cs-etm: Test process attribution
-      perf test: Add deterministic workload
-      perf test cs-etm: Replace unroll loop thread with deterministic decode test
-      perf test cs-etm: Remove asm_pure_loop test
-      perf test cs-etm: Replace memcpy test with raw dump stress test
-      perf test: Add named_threads workload
-      perf test cs-etm: Test decoding for concurrent threads test
-      perf test cs-etm: Remove duplicate branch tests
-      perf test cs-etm: Skip if not root
-      perf test cs-etm: Reduce snapshot size
-      perf test cs-etm: Speed up basic test
-      perf test cs-etm: Remove unused Coresight workloads
-      perf test cs-etm: Make disassembly test use kcore
-      perf test cs-etm: Add all branch instructions to test
-      perf test cs-etm: Speed up disassembly test
-      perf test cs-etm: Move existing tests to coresight folder
-
- Documentation/trace/coresight/coresight-perf.rst   |  78 +------
- MAINTAINERS                                        |   2 -
- tools/perf/Documentation/perf-test.txt             |  18 +-
- tools/perf/Makefile.perf                           |  14 +-
- tools/perf/scripts/python/arm-cs-trace-disasm.py   |  20 +-
- tools/perf/tests/builtin-test.c                    | 187 +++++++++++++++-
- tools/perf/tests/shell/coresight/Makefile          |  29 ---
- .../perf/tests/shell/coresight/Makefile.miniconfig |  14 --
- tools/perf/tests/shell/coresight/asm_pure_loop.sh  |  22 --
- .../tests/shell/coresight/asm_pure_loop/.gitignore |   1 -
- .../tests/shell/coresight/asm_pure_loop/Makefile   |  34 ---
- .../shell/coresight/asm_pure_loop/asm_pure_loop.S  |  30 ---
- .../tests/shell/coresight/concurrent_threads.sh    |  45 ++++
- .../tests/shell/coresight/context_switch_thread.sh |  69 ++++++
- tools/perf/tests/shell/coresight/deterministic.sh  |  71 +++++++
- .../tests/shell/coresight/memcpy_thread/.gitignore |   1 -
- .../tests/shell/coresight/memcpy_thread/Makefile   |  33 ---
- .../shell/coresight/memcpy_thread/memcpy_thread.c  |  80 -------
- .../tests/shell/coresight/memcpy_thread_16k_10.sh  |  22 --
- .../perf/tests/shell/coresight/raw_dump_stress.sh  |  48 +++++
- .../shell/{ => coresight}/test_arm_coresight.sh    |  43 ++--
- .../{ => coresight}/test_arm_coresight_disasm.sh   |  17 +-
- .../tests/shell/coresight/thread_loop/.gitignore   |   1 -
- .../tests/shell/coresight/thread_loop/Makefile     |  33 ---
- .../shell/coresight/thread_loop/thread_loop.c      |  85 --------
- .../shell/coresight/thread_loop_check_tid_10.sh    |  23 --
- .../shell/coresight/thread_loop_check_tid_2.sh     |  23 --
- .../shell/coresight/unroll_loop_thread/.gitignore  |   1 -
- .../shell/coresight/unroll_loop_thread/Makefile    |  33 ---
- .../unroll_loop_thread/unroll_loop_thread.c        |  75 -------
- .../tests/shell/coresight/unroll_loop_thread_10.sh |  22 --
- tools/perf/tests/shell/lib/coresight.sh            | 134 ------------
- tools/perf/tests/tests.h                           |   3 +
- tools/perf/tests/workloads/Build                   |   4 +
- tools/perf/tests/workloads/context_switch_loop.c   | 101 +++++++++
- tools/perf/tests/workloads/deterministic.c         |  39 ++++
- tools/perf/tests/workloads/named_threads.c         | 109 ++++++++++
- tools/perf/util/cs-etm-decoder/cs-etm-decoder.c    |  21 +-
- tools/perf/util/cs-etm.c                           | 234 ++++++++++++---------
- tools/perf/util/cs-etm.h                           |   8 +-
- 40 files changed, 889 insertions(+), 938 deletions(-)
----
-base-commit: 5f0ca6b80b12bab1ce06839cdffb6148bb650ff4
-change-id: 20260515-james-cs-context-tracking-fix-754998bae7ed
-
-Best regards,
 -- 
-James Clark <james.clark@linaro.org>
+2.34.1
 
