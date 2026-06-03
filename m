@@ -1,111 +1,108 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65B1392C2F;
-	Wed,  3 Jun 2026 10:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ECC38D019;
+	Wed,  3 Jun 2026 10:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780483235; cv=none; b=hQBXYbaNyyws3ECRl19Mq4HzdDWOx2MyeQQdhaKvxG3vB23I75UEutZHgNkQLmII6AmZnFiwN/UT3xT4I0M9wnOmNNXuToQ/QHaQjqKfEDIP7QJ0obdJ2aaTWMy9U3u18aAoSfNMbgEK7Ss5GVtWeDNHt0SSHRf1dgY84C573Uk=
+	t=1780483441; cv=none; b=uGq6izk/EZYuo3IJVit5mMFNjovab5sqCqhMfhZQop9QilMZM/sHoyQ6irxTSdYSE8vPs47LPE9IWtvYeCg95YtFCdx8MMMH0T8nbW8w8CefbLlsI80CHRbupV2UoypwBqQCGFvD2pIax9Dz+wJZHUgMgPGrcrclRnAw4xjjLWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780483235; c=relaxed/simple;
-	bh=H9Y4CGDa4uJHRTCOdiJKq9IP7qzjATIYMHaGm1TLUwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rh+Z7NdW/7cRi6Gbk30Dt/LwZR5+zmqjSitdkT6ziQkgQflqJnnjB/xqbxZxc1Hzul94rFAGpO/dNIUPVXwDLojLbGkgMR4HMADoZscwg2P1fuWhveb93i0jKEamrgKvAHSyP1EcmTBM/iCr/2Q2y5aZAGNTL7wWUxuD241ag14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JAotgp1M; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1780483441; c=relaxed/simple;
+	bh=oZiUVbmkfwkJjNevEN1GRtwtJQOOjjxR9EYg2bGEtG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TerehilgPmayWJAKs5fsNV5PSn9147vxngf6pjOjYFV31hgodJRy+HTrh8/PpgJ9m7RJezfXJ1+3QdDzor1rLBzfFjxm9DGMW1cRaRE9cSO3IVXqEhzXXSUA9P0jL0c2OIuKSNyVAqtzGNm4PSP5rtdjpE48iydJI4LGwBzTdjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkFXP1tA; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JAotgp1M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkFXP1tA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780483233; x=1812019233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H9Y4CGDa4uJHRTCOdiJKq9IP7qzjATIYMHaGm1TLUwU=;
-  b=JAotgp1MELJ+9Cu9bkAEpxqphJt46ioMLtLkswwHR4NO2Z3poCoYDrRi
-   NwWlcjioxizHwW3cQkb2aYMo9jUevKP/k5UU38Ng07lLEjcURVWCBS1xp
-   837ehsBuMM/a5W3xqLSEoUZ0jmJTId7Jf+KpCOFwRqctVzcKj8omXeHpP
-   Jn3AOnmh+IZb+KYPO2wPhB4jXBtUQGgTqXyL3svO36z3bpDsuUhpUoVFY
-   XHlzIlWlXqMcWhdvwDCM0sxWC8NMot70B/8hRk0WdtI2LxWMKckcjPAtl
-   TY4J3iHxbKS04Qt4JA52qAeJH92oVjiO+55mJljPNRefbofY58Qcek8qE
-   Q==;
-X-CSE-ConnectionGUID: kJ0QV0QWQGSZDbJI4eGxSQ==
-X-CSE-MsgGUID: MTXGwLM7Q7WGjJObnMjpcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80428937"
+  t=1780483441; x=1812019441;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oZiUVbmkfwkJjNevEN1GRtwtJQOOjjxR9EYg2bGEtG4=;
+  b=EkFXP1tAvjW0dLdoXx0gvZ9V0dbNluHsmuEuUNg5KgpvDPOrgHQgRPIg
+   +9VTIJkav+MypfouaOFmLuqIqPM0M/IH7EJf8YpiarUW51CaKmjKpyR1f
+   xW9/uAdR2uXN1AVw8cHKp53ZFpECnTpRsYuW3kBBsdDlHsKg8DbvyR++i
+   HKBlQjz9mkCvoLOO6e6cyYUAlA5tuSLpvlBS8jbD0+9YNWyAD1sut/Ms7
+   WiRVTZulYN6XddU5dPJBZEkpMt6hjlTEdfKIP6QNLDp1X3vkqPcieRfxT
+   8eJ1ARcu/w8k6qv0LCaNfPtC8OXMfpmRjrmBIUCV8S6m7uXofehqrlKP6
+   w==;
+X-CSE-ConnectionGUID: YSA+NwxLRnaAAlIG0VTQaQ==
+X-CSE-MsgGUID: yzg0SKE+TY6RMXiTULBH0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80429104"
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="80428937"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 03:40:32 -0700
-X-CSE-ConnectionGUID: KNp61SvLSfqZlUW+cu6fYA==
-X-CSE-MsgGUID: RqnmA0PHTZWL/X+BWEdfPw==
+   d="scan'208";a="80429104"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 03:44:00 -0700
+X-CSE-ConnectionGUID: Vh2oqqU9QlGBTVxwUybgtQ==
+X-CSE-MsgGUID: tsGfTAxgRdGqdZDRdRsYrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="237832611"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 03:40:27 -0700
-Date: Wed, 3 Jun 2026 13:40:25 +0300
+   d="scan'208";a="241695746"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Jun 2026 03:43:57 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 33B0899; Wed, 03 Jun 2026 12:43:56 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	"Daniel J. Ogorchock" <djogorchock@gmail.com>,
 	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
+	Tamir Duberstein <tamird@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v15 02/12] lib: kstrtox: add local
- _parse_integer_limit_init() helper
-Message-ID: <aiAEmS7aa5p1Fi7g@ashevche-desk.local>
-References: <20260531-adf41513-iio-driver-v15-0-da09adf1c0dd@analog.com>
- <20260531-adf41513-iio-driver-v15-2-da09adf1c0dd@analog.com>
- <ah8yR3Os8NDNll27@ashevche-desk.local>
- <r54csg73lsafo6rff7gew2eardfag3zmwjbm4jl54pjbqf6w7y@axnfog5wpney>
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2 2/2] HID: nintendo: Use %pM format specifier for MAC addresses
+Date: Wed,  3 Jun 2026 12:34:03 +0200
+Message-ID: <20260603104351.152085-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
+References: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <r54csg73lsafo6rff7gew2eardfag3zmwjbm4jl54pjbqf6w7y@axnfog5wpney>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 03, 2026 at 11:27:11AM +0100, Rodrigo Alencar wrote:
-> On 26/06/02 10:43PM, Andy Shevchenko wrote:
-> > On Sun, May 31, 2026 at 09:30:45AM +0100, Rodrigo Alencar via B4 Relay wrote:
+Convert to %pM instead of using custom code.
 
-...
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/hid/hid-nintendo.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-> > > +static unsigned int _parse_integer_limit_init(const char *s, unsigned int base,
-> > > +					      unsigned long long init,
-> > 
-> > Why not name it res...
-> 
-> "res" is short for result and this is an init value. I suppose the compiler
-> can optmize towards that kinda of efficiency. I thought of "p" itself to
-> carry the init value, and the function would just accumulate, but that would
-> change expectations on the function behavior.
-
-> > > +					      unsigned long long *p,
-> > > +					      size_t max_chars)
-
-In any case I hope you saw my mini-series:
-20260602203706.103449-1-andriy.shevchenko@linux.intel.com
-
+diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+index 29008c2cc530..05c50f2530ef 100644
+--- a/drivers/hid/hid-nintendo.c
++++ b/drivers/hid/hid-nintendo.c
+@@ -2431,14 +2431,8 @@ static int joycon_read_info(struct joycon_ctlr *ctlr)
+ 	for (i = 4, j = 0; j < 6; i++, j++)
+ 		ctlr->mac_addr[j] = report->subcmd_reply.data[i];
+ 
+-	ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL,
+-					    "%02X:%02X:%02X:%02X:%02X:%02X",
+-					    ctlr->mac_addr[0],
+-					    ctlr->mac_addr[1],
+-					    ctlr->mac_addr[2],
+-					    ctlr->mac_addr[3],
+-					    ctlr->mac_addr[4],
+-					    ctlr->mac_addr[5]);
++	ctlr->mac_addr_str = devm_kasprintf(&ctlr->hdev->dev, GFP_KERNEL, "%pMU",
++					    ctlr->mac_addr);
+ 	if (!ctlr->mac_addr_str)
+ 		return -ENOMEM;
+ 	hid_info(ctlr->hdev, "controller MAC = %s\n", ctlr->mac_addr_str);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.50.1
 
