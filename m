@@ -1,77 +1,92 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417383D301F
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 14:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C952772D;
+	Wed,  3 Jun 2026 14:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780495895; cv=none; b=YsZQxrgrwSb3rvEvp3IbCtqcvqpHezbDM+DPGFl9BvOcigV9eXitS5X9ywxAx5sgWPsVT7z8MESDcwX7o5de+1sT4yg3vkXGYk3KRTGced+3B6RczBm7nAKefzRSjCJ1cv1sfXv7JzAapEejzFIrzOSgu152aPI7ad0meKtkm7A=
+	t=1780496787; cv=none; b=NN2xSrYOD9cN4YMEd2hVQvYqeyMdIaqOTx8Yo8HaXg+yQcMUUmrFzj8sZfpbPhOiEeNY/kTb1X99Ru2yiMTeac43uw/yBoOc0Wy6EuKGols6Bc1kV6D9hSaHocTs1mwFPSyFr3HvkkXU+0TAchUWljyi5B8ach6Hz7JkCm9URII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780495895; c=relaxed/simple;
-	bh=b/SIUriVsuGQ8+K9ks4Bx6z61f4Zp4N9nO9DkwNZvL8=;
+	s=arc-20240116; t=1780496787; c=relaxed/simple;
+	bh=Jrbt4hY5vRaUmjbma8ooNEkZVi47v72zJgYBpCPy8Hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bKRoXPphyN4r58R9SOAEMaoftZdxgk/4mWPKrn/e2E8fTwA3vaGEmKLDyVBmI34BIPAuKCaZK+tvPEcS9FLx4prG4jM2Kpi13dsrhvo9DZh8MEFyhbfWmeLn0zRxAxyQ0qVGz7G7Mow7Rw5E4TrbODpUATD8lZWp5jYUgDi4ut8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Jj/gXNQz; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvzLy8SpVt14mLAISygjqpWsO+Wkvl5RTAWYaQKUU+3WmNF5B5kYAmIXNIlr2tHhfpNLSOcRrcPsJP8+VLlf6ZnW/AJvykt99HkytMdJ6kKXAbrqmwHHFqxkMQNrW4LP1t78P1XO3omV9yCmuLV397VqFYn3OWDLk/32jfhNsH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ouwwIeFA; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Jj/gXNQz"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9157f7c1c0eso192688885a.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 07:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780495893; x=1781100693; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3JBFLHHchSf6Ugt56GZlS5cZe18tTPuP1JId2xHEinc=;
-        b=Jj/gXNQz9PzMyt/Qlt6Q2M3R245DJFs2mznVy5gaKaJpgI6Fzs3uffqHQTVciPDiON
-         c+gXtmpnbP//2nGpOWRG1DMuK+KCG+q3QbHfdMsZZXdMbqT6KDziuumMr9bKwVcQLtYj
-         nY5fZbjcBpBy4vQmg7riJpMdsd849LjZkUG+7LSsHGj50odIXBLfu3ZC2RQRsjK8NC21
-         BtVbmz/mfj5A9eQvlDuUmtmfAuejT773Z40C6Sxy8s9e+jVFgBdYMiciPrJ0BWapP8c2
-         1+n6edbMVArRWJMh1g1hFb824kkVkjvXDQfVU2j5TAucSqkOiDOgCkcYYZoSShEFAA9B
-         OYoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780495893; x=1781100693;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3JBFLHHchSf6Ugt56GZlS5cZe18tTPuP1JId2xHEinc=;
-        b=i7xS2zcfj0vB0ElBaeQ2x/F9ddbNjQiO6G8SgKWLiAUrQQt5S4S+o1ZQWo+bTAkgLl
-         zxE8brs4z7GxgqTtoPFOCyuZ78+E/ReQwVO9cf1yhaGGaAJc+/75yLO63y5C4vEoPZ9m
-         6So/HJ11IzEWUOJsAGQwxxuYnbktxMLgqEKXQ2Sn71zJO4UtDqA5fvt10k9eVIK44Veo
-         zs807PnbVY754wvmvqrb/hU8x6JNYeClyHrzg9Nv3E3GNLY8nYKgDaY2FRPw/tdSB8/Z
-         nAQkq5xaiAW5GJ/EhrCanvWvB4Ir+AcdnlCkwWNw6Pzja3iVefYMGcyv935N35aW+qeA
-         UTNg==
-X-Forwarded-Encrypted: i=1; AFNElJ+ppw8dScHC3R3IXe3r4sEN/YrkoPvOwIZRTvPgEel4ObYWjwfQQVNnvscnKf7PPyIPkAxVEDHYxYw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxhpt7R9HxdspTQf2riMsi3bL2Vg0vQhJZal0UEYvzrPYoehf3I
-	7UIgtkCRU3LaD5+gLM+pgiBBDq2R4aUFV8VvABGo+ljeg6k6hSvz759RgbM0pgZzhcs=
-X-Gm-Gg: Acq92OGtENHIatFw+7CEuWsNlp421rnwD62HN+4QWth/JnWJSZJWGYcpZzoXVWHp5qD
-	Y9IGHYVE6Z1oIdh1MCqEhB6R44Y2Q91vpd8JRhmq6ddCm72bt4DNpLH5cpSAKvjveIlqVtzMG4b
-	AWjiCZeFf9YSr/KePj6cIAg4RpcvsFlMo11fj7GkzGSBmO7D0np/oCLZD/fn+7JLQ0yd3N66riK
-	wgqkJjpM381y6k9MYpKkid4sSgna38biKJpRBuib2qoaEHMFDy+S4/sRb/VOoaVk5avDOXIX2j6
-	+cSIXxl5v/gbOilrPxiDp5od8akI44zwSeQsmlCf9pufUZACzTBfHIKPPA1tCA+oYj+IctVTshm
-	nK2G0OH/FOjS8cRAl0R5TKHc3kT3xf1PvxRKWI6vTU3R3v/8rPjyQxUoZeempdz/YokOdBk/W28
-	3EJNWwTIqoQ2fSiqtTJvJgMxLvQx5aHGCUbYY4eZkcU817vuH1VREhTzMdtCT8dQ==
-X-Received: by 2002:a05:620a:4613:b0:915:4ca3:61bd with SMTP id af79cd13be357-9158a83f992mr602997485a.59.1780495893289;
-        Wed, 03 Jun 2026 07:11:33 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a402ff9sm248774285a.45.2026.06.03.07.11.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 07:11:32 -0700 (PDT)
-Date: Wed, 3 Jun 2026 14:11:31 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
-	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
-Subject: Re: [PATCH v6 07/13] kho: add support for linked-block serialization
-Message-ID: <aiA1slnqPnC4_8XY@plex>
-References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
- <20260603032905.344462-8-pasha.tatashin@soleen.com>
- <178046937151.468621.13398573538792303093.b4-review@b4>
- <aiANtYRRDr5iO5QR@plex>
- <aiAzT9TvGYjITiB8@kernel.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ouwwIeFA"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6538OBOc1640981;
+	Wed, 3 Jun 2026 14:26:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=D3c3qVzMqoLf/cC8c1yv2aX8V7QliP
+	T1+YNIojfmBbU=; b=ouwwIeFAXd+ijIDnWrcJNMyYcdSVa4q/v5UPwwfVzOcmmA
+	V/pj5lB9Z1EyTAUe6LSNdvrgE7Kpfqovjj31KHmiTPk+wpD5zmwsZOda5KxTF9xa
+	J+dF/KNx5FYzilBnFoUyQtMjr2VyiTDLgT4uDKQchcbY3QVH476VzpYlXkDKyWtO
+	XrnJeXW3Cgtn6zTd6p5Rmg/33ANs1ZspQ8nB4IEeOgO5SF9ERA+XO45fN0qxOBMJ
+	oyXGLBKENWA2EFElZMvfIdP1yytgFk4K7sQuvhqPMEWJmVIOZx5x84MPTCtdspFL
+	nst6KRrVNhrJCNPvESqz90cBHTiGCY1ffygFcRtg==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnahtyrp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 14:26:09 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 653EPECu010968;
+	Wed, 3 Jun 2026 14:26:08 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ega7qgr1f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Jun 2026 14:26:08 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 653EQ5Lj51511648
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Jun 2026 14:26:05 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 18A7B2004B;
+	Wed,  3 Jun 2026 14:26:05 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3644F20040;
+	Wed,  3 Jun 2026 14:26:02 +0000 (GMT)
+Received: from fedora (unknown [9.5.7.39])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed,  3 Jun 2026 14:26:02 +0000 (GMT)
+Date: Wed, 3 Jun 2026 19:56:00 +0530
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: Ritesh Harjani <ritesh.list@gmail.com>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Harsh Prateek Bora <harshpb@linux.ibm.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        Anushree Mathur <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+Subject: Re: [PATCH v3 1/5] KVM: PPC: Book3S HV: Validate arch_compat against
+ host compatibility mode
+Message-ID: <20260603194919.ca2d31c0-17-amachhiw@linux.ibm.com>
+Mail-Followup-To: Ritesh Harjani <ritesh.list@gmail.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Harsh Prateek Bora <harshpb@linux.ibm.com>, 
+	Vaibhav Jain <vaibhav@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, 
+	Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, lkp@intel.com
+References: <20260522152744.55251-1-amachhiw@linux.ibm.com>
+ <20260522152744.55251-2-amachhiw@linux.ibm.com>
+ <pl2g6xbz.ritesh.list@gmail.com>
+ <20260529141530.fc225a67-e9-amachhiw@linux.ibm.com>
+ <cxyewhx8.ritesh.list@gmail.com>
+ <87se74z4a6.fsf@vajain21.in.ibm.com>
+ <72ef4cdb-8d9e-4319-9c94-b9a46a6f6194@linux.ibm.com>
+ <56c84e26-69ed-433b-baaf-7b53acc60391@linux.ibm.com>
+ <bjdsw43g.ritesh.list@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,51 +95,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aiAzT9TvGYjITiB8@kernel.org>
+In-Reply-To: <bjdsw43g.ritesh.list@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDEzNiBTYWx0ZWRfX/QwTJz03YvEm
+ tnycR05KaAFcuOcNHpoejZ6IIh+UigfTilSwx5QMy4TR/fb3T3nnsdjCkScPevJC7iq8kg7o/Ib
+ BZOdVVIAQSEWsTLbm5JkibeEbyY76YvNycOZ1AbXrDCcXWoLRmyyNVeESjK1hwxv8iicqccho6q
+ bw0M2elmleS2YzLqa+ooJEStZ1HERkg7kWJn9VQFC5xfpnmIxXKLA+zay9XlzSz4/1E7vSzr3uy
+ rX4jTxMpp/ouvk2B4lAc6WYNDnjslQK+K8fvacktm78OV1NnZ97PzPE6lyEQPS/ynzJ6TSYuHZX
+ UxU3oScsqwa/3xR1Gp3Sxy8dEjZq3M/Vd6eppK/2QAHRYkaoNkZNn7aLf2YtDK2Fi26PhIHAj0x
+ cSKIE/Seck6pW5M+8det4XBtpkAumePRM6utxRT0J8Gw2uA4Y0kZEpWrK1txc42FAATyH2M7Zua
+ iCAt4hj+s+3OIeGb8rw==
+X-Proofpoint-ORIG-GUID: tLYlDXtEPf68UXX27itDkXR-54AXc34Z
+X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a203982 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=tBi8NAT1RsUeDLHYQY8A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: GLiYH9xarfqBmBAlgsiXZLR5YM2sYABO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030136
 
-On 06-03 16:59, Mike Rapoport wrote:
-> On Wed, Jun 03, 2026 at 12:05:04PM +0000, Pasha Tatashin wrote:
-> > On 06-03 09:49, Mike Rapoport wrote:
-> > > On Wed, 03 Jun 2026 03:28:58 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > > > diff --git a/include/linux/kho/abi/block.h b/include/linux/kho/abi/block.h
-> > > > new file mode 100644
-> > > > index 000000000000..8641c20b379b
-> > > > --- /dev/null
-> > > > +++ b/include/linux/kho/abi/block.h
-> > > > @@ -0,0 +1,56 @@
-> > > > [ ... skip 25 lines ... ]
-> > > > +#define _LINUX_KHO_ABI_BLOCK_H
-> > > > +
-> > > > +#include <asm/page.h>
-> > > > +#include <linux/types.h>
-> > > > +
-> > > > +#define KHO_BLOCK_ABI_COMPATIBLE	"kho-block-v1"
-> > > 
-> > > It's never used by block set and after looking at the following patches I
-> > > found that it's appended to LUO compatible string.
-> > > 
-> > > While this works for LUO, I think it should be kho_block_set_restore()
-> > > responsibility to verify the compatibility.
-> > 
-> > It should work for any component that relies on  kho_block. My proposal 
-> > is to use this method for other common KHO data structures (e.g.,  kho 
-> > vmalloc,  kho radix, future kho xarray). There is no need for them to 
-> > carry the compatibility string in their metadata, as whoever uses them 
-> > will include their compatibility string.
+Hi Maddy, Ritesh,
+
+I have made the suggested changes and posted the separate patch here:
+
+ https://lore.kernel.org/all/20260603141539.47620-1-amachhiw@linux.ibm.com/
+
+<..snip..>
+
+> > Hence IMHO, this patch can be marked for stable tree and potential
+> > candidate for 7.2 merge window. But dont see applicability of a 'fixes'
+> > tag to this patch
 > 
-> So if, say, memfd_luo uses kho vmalloc, xarray and blocks it'll have five
-> compatibility strings glued together?
-
-That is correct, but it will be in only one place: the header of the 
-client's KHO subtree. Since it is dynamically sized and 8-byte aligned, 
-it should be safe to include in any struct.
-
-Pasha
-
->  
-> > For now, reviewers will have to make sure that if the ABI header content 
-> > is changed, the compatibility string is updated.
+> I agree, we need not use a fixes tag then. So, we shall mark this
+> with v6.10 tag then.
 > 
-> -- 
-> Sincerely yours,
-> Mike.
+> Cc: stable@vger.kernel.org # v6.10+
+
+Please note that I have marked the patch for stable v6.13+ as the KVM
+support for Power11 was added via 96e266e3bcd6 ("KVM: PPC: Book3S HV:
+Add Power11 capability support for Nested PAPR guests"). Also, this
+commit had introduced CPU_FTR_P11_PVR on which the compat PVR check in
+the patch is based on.
+
+Thanks,
+Amit
