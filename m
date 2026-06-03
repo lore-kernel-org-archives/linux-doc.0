@@ -1,129 +1,99 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7931C3DB339;
-	Wed,  3 Jun 2026 18:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A773E4C61;
+	Wed,  3 Jun 2026 18:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780510622; cv=none; b=ano3vI4SnRm8EC14NMhPWLslKQzqiB+7CtdSbIo3mXLHVeHgkoSMpiKGrdELtmXnd4yPjUJX2+7PZqMRJOXK+3ztnK4UrpTwayxaGfkrtnKdUj5gV2BXLFPbK6ZrsNBBy/RnSqaNhJoqhjeUUpruy6fXlaMObMGhtfZIJ4OqNWE=
+	t=1780510623; cv=none; b=jUA7S0NgdJIqryKWK2bQGwSyqa5vsvyQ3Yv/ejlJ95cgPCOCw7wUYN44fD9kVfUzSfaiO9rJGwRpn87p77X+ezbgQGKMoxkSZPZGz/aunIkjzdOAVrspOBCLoIG4raiHxL/vfBvRaUSJoHs4Tak3vmZbgGKIAeFi4+iiNINKmYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780510622; c=relaxed/simple;
-	bh=7g7eSXNFd6x4zcH4Pn9AImxVzHQhVePOAWugkZSlJjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SIOuQadGFcemzgMVDPeQGffC//56F+Irm21NKV8GIbfLvcWPcS9DT6OlKZmnI0/9XoCYr0P4oOiGrjNn9QXVR2b2ynbOFqP1VSyw7877J8Q/tfiIbUPRvfdvJoC6cYOm4+hEzJ3pe+aVbdeZea4rpRma3c0yt8T+1mGEv/2R0Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ef7nMb0E; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1780510623; c=relaxed/simple;
+	bh=iRiWIraVsGgmw29IifxJAhl8Y674/tWWwsgW74JyFCw=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MRdnwhZE4NBW5ZFDxKL7nQFUXKEdpUSFrc3QPxzyeSZWYOd9gaMHs+0yIEq/4ICAPIcrDQrZvGk/SaUgP10Dtg5NmT8R99L2tYIqDdo9WP0DVYnwdW3656/uPrDZhxmW2+n8o7i+5IHmktuSra6x498rZNE5/t3+DDNmjU0u6UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSLKO+Ut; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ef7nMb0E"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C4114759;
-	Wed,  3 Jun 2026 11:16:53 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE8393F86F;
-	Wed,  3 Jun 2026 11:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780510618; bh=7g7eSXNFd6x4zcH4Pn9AImxVzHQhVePOAWugkZSlJjg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ef7nMb0E/12bcYNdfNrimAlNTgIO5Hh/D+hGfpd1wQMciIW+L6sdey7AHanePjgGA
-	 LeGZso7Nz8eTNiupxyEMegCmZCPZvK2H/wQHJ7OtDm71XoWfD96dpOVpdBNdGT9itY
-	 AfIOaAuJc2W6AUR1LCrMFLxWSstgTsUdUJcgEWRw=
-Date: Wed, 3 Jun 2026 19:16:55 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 08/18] perf test cs-etm: Replace memcpy test with raw
- dump stress test
-Message-ID: <20260603181655.GK101133@e132581.arm.com>
-References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-8-85b5ce6f55c6@linaro.org>
- <20260603143622.GX101133@e132581.arm.com>
- <882922c0-042a-4108-bc2f-cec443d0db9f@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSLKO+Ut"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5594A1F00893;
+	Wed,  3 Jun 2026 18:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780510620;
+	bh=nxQ22KcJJP7bVCdFVSScm4T4WK7bH7Ys2cqAdls6sJQ=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=YSLKO+Uty9Cb7gb0+g+YURmGlAfgJDL1bkZ3upC7pCzRW257ES511XK59cObIdiLp
+	 HQLBUG3vDvVuHsHby5F8udil1Anpb1xIEsfKK6txziKZubb3wr6xFoqqDdA6qeIGi+
+	 IlXPtzuptxb2JFv/3bKMtDLvilfFAJF/lDPbXMlmFK3r0ygLOVQbjzEtiVBB0FTZuH
+	 IhdHRNMtb/2RYH0gjiarVrBSivGLVN6SJ5wOArrtGfyPFukeCboLnQBsBtzGIKDjda
+	 SC1r3BaxKQTAvqhGzJ/IlLGkLhuWSL9lCQwPbyV0EZsAaZEv0ok9PIFUHxdq9AFQho
+	 nY/BZsoKlHezw==
+From: Mike Rapoport <rppt@kernel.org>
+To: linux-kselftest@vger.kernel.org, shuah@kernel.org, 
+ akpm@linux-foundation.org, linux-mm@kvack.org, skhan@linuxfoundation.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net, 
+ dmatlack@google.com, kexec@lists.infradead.org, pratyush@kernel.org, 
+ skhawaja@google.com, graf@amazon.com, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>
+In-Reply-To: <20260603154402.468928-1-pasha.tatashin@soleen.com>
+References: <20260603154402.468928-1-pasha.tatashin@soleen.com>
+Subject: Re: [PATCH v7 00/13] liveupdate: Remove limits on sessions and
+ files
+Message-Id: <178051061274.867224.3632796902576075261.b4-ty@b4>
+Date: Wed, 03 Jun 2026 21:16:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <882922c0-042a-4108-bc2f-cec443d0db9f@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-On Wed, Jun 03, 2026 at 05:11:30PM +0100, James Clark wrote:
-
-[...]
-
-> > I am not sure how we can map 2MiB trace data to 50MiB+ raw dump.  This
+On Wed, 03 Jun 2026 15:43:49 +0000, Pasha Tatashin wrote:
+> liveupdate: Remove limits on sessions and files
 > 
-> Why not? Decoding it is roughly equal to decompressing it, and with that
-> amount of trace the small differences in compressibility average out and you
-> do get the same amount every time. I think if we got less than half the
-> amount expected then it would be worth investigating.
-
-TBH, I don't know how to calculate decompressing size. Seems to me this
-is a heuristics value.
-
-Maybe Mike could help to confirm if this works or not.
-
-[...]
-
-> That would work, but that wouldn't be as thorough. The first thing it prints
-> is " CoreSight .* Trace data: size .* bytes". If it stops working half way
-> through or prints nothing then the test will still pass.
+> Hi all,
 > 
-> The reason I wanted to add a stress test is because all of the other tests
-> have been reduced to just a few kb of trace so we have nothing that opens a
-> file with a more reasonable amount of data.
+> This series removes the fixed limits on the number of files that can
+> be preserved within a single session, and the total number of sessions
+> managed by the Live Update Orchestrator (LUO).
 > 
-> I suppose with your suggestion we'd still check the exit code, but that's
-> about it.
+> [...]
 
-Is it possible to locate the end of raw dump with a specific parttern? like:
+Applied to next branch of liveupdate/linux.git tree, thanks!
 
-  Idx:36061; ID:1a;       I_IGNORE : Ignore.
-  Idx:36062; ID:1a;       I_IGNORE : Ignore.
-  Idx:36063; ID:1a;       I_IGNORE : Ignore.
-  Idx:36064; ID:1a;       I_IGNORE : Ignore.
-  Idx:36065; ID:1a;       I_IGNORE : Ignore.
-  Idx:36066; ID:1a;       I_IGNORE : Ignore.
-  Idx:36067; ID:1a;       I_IGNORE : Ignore.
-  Idx:36068; ID:1a;       I_IGNORE : Ignore.
-  Idx:36069; ID:1a;       I_IGNORE : Ignore.
-  Idx:36070; ID:1a;       I_IGNORE : Ignore.
-  Idx:36071; ID:1a;       I_IGNORE : Ignore.
-  Idx:36072; ID:1a;       I_IGNORE : Ignore.
-  Idx:36073; ID:1a;       I_IGNORE : Ignore.
-  Idx:36074; ID:1a;       I_IGNORE : Ignore.
-  Idx:36075; ID:1a;       I_IGNORE : Ignore.
-  Idx:36076; ID:1a;       I_IGNORE : Ignore.
-  Idx:36077; ID:1a;       I_IGNORE : Ignore.
-  Idx:36078; ID:1a;       I_IGNORE : Ignore.
-  Idx:36079; ID:1a;       I_IGNORE : Ignore.
-  Idx:36080; ID:1a;       I_IGNORE : Ignore.
-  Idx:36081; ID:1a;       I_IGNORE : Ignore.
-  Idx:36082; ID:1a;       I_IGNORE : Ignore.
-  Idx:36083; ID:1a;       I_IGNORE : Ignore.
-  Idx:36084; ID:1a;       I_IGNORE : Ignore.
-  Idx:36085; ID:1a;       I_IGNORE : Ignore.
-  Idx:36086; ID:1a;       I_IGNORE : Ignore.
-  Idx:36087; ID:1a;       I_IGNORE : Ignore.
-  Idx:36088; ID:1a;       I_IGNORE : Ignore.
-  Idx:36089; ID:1a;       I_IGNORE : Ignore.
-  Idx:36090; ID:1a;       I_IGNORE : Ignore.
-  Idx:36091; ID:1a;       I_IGNORE : Ignore.
-  Idx:36092; ID:1a;       I_IGNORE : Ignore.
-  Idx:36093; ID:1a;       I_IGNORE : Ignore.
-  Idx:36094; ID:1a;       I_IGNORE : Ignore.
-  Idx:36095; ID:1a;       I_IGNORE : Ignore.
+[01/13] liveupdate: change file_set->count type to u64 for type safety
+        commit: 81fbb909ec07868415f6b2269922c8d1cc6a215a
+[02/13] liveupdate: avoid mixing cleanup guards with goto in luo_session_retrieve_fd
+        commit: 6af06e11bd48bdefaf9381f6ff0bd65b1e5d98ab
+[03/13] liveupdate: centralize state management into struct luo_ser
+        commit: d376e4b55c9a0adb3e701c7eaff21d9ba655a1c6
+[04/13] liveupdate: register luo_ser as KHO subtree
+        commit: cf071b3536df76a2a75b83ca1fe8c043824352c3
+[05/13] liveupdate: Extract luo_file_deserialize_one helper
+        commit: 51b71af922a7145e63fdc0cab075d681ecd89e4a
+[06/13] liveupdate: Extract luo_session_deserialize_one helper
+        commit: be9d10d167652e11283cd07c7daf187222808db1
+[07/13] kho: add support for linked-block serialization
+        commit: 0349ff2887059112ce06831ab29aec47a2a7285a
+[08/13] liveupdate: defer session block allocation and physical address setting
+        commit: b5a58a922e6f2f9f40faddd8e0e1fe3ce0ea9c56
+[09/13] liveupdate: Remove limit on the number of sessions
+        commit: 2a441a14c2c03b39d1c89438dd28cef9d8fa57d5
+[10/13] liveupdate: Remove limit on the number of files per session
+        commit: 1d1153097f4dd417e2ea00404edec9fbd1d88f28
+[11/13] selftests/liveupdate: Test session and file limit removal
+        commit: 5ba3f30643cbdd79fb82e525aa1ca55b62fcc7ac
+[12/13] selftests/liveupdate: Add stress-sessions kexec test
+        commit: 3432292fb9130191dca57953941f7ae3888d52d8
+[13/13] selftests/liveupdate: Add stress-files kexec test
+        commit: 46429a15a6dfe522880d5085f1f6999357758872
 
-Thanks,
-Leo
+tree: https://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux
+branch: next
+
+--
+Sincerely yours,
+Mike.
+
+
