@@ -1,319 +1,246 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011007.outbound.protection.outlook.com [40.107.208.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3A54657C2
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 19:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C774548BD55;
+	Wed,  3 Jun 2026 19:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780514782; cv=pass; b=CGg40WHqo+TPQq9Rae0eAhQX8KouYHIZ4f/5WOKbpobhBoxU11mH2+vBL3ywlqqEzANYnv8CuIHCjSkYBwaVT9FavXf5FXkd8zOOwDJPIIAqPGkf4Vbiv6gwiLQOeepVhVWEuteNhFUYwm6wD9JY0D2Cqn5jb6HwF/3g1wqED70=
+	t=1780515216; cv=fail; b=tlEkPWWwRSjVcQHNadtpssck5XYVC7T86iLVAJberfM/T4B479gGFKV8jFDycLyWyBlgatgTA7kSI4piVxR9zknAXNap9MoI0S800xQbaE4pXbKRbjyawzC8NeFVxXaaxi7ZaavcKvqKoijPDWWiNQYWDclO5s2fVKRXpdcQnLI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780514782; c=relaxed/simple;
-	bh=tBlqGSO58iqBVZZw/2Y2ObnnEsd9OBRWmhZbqa08LGQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kS4o8acFucI0lAW5lbVjClW/lsyWtpCs2a2TlA0hxwH/0ZbhfD9ccPFQYpy0hav0UTLxK3kjoDIrHTKYAzooI2KuYKT5nlvIQ9AmZ8LWt8KoCp6YE2a0nG+Aq51BxtVoWexS/63aggWv1w9FeSvva6V4mlAB8qYEVLcwWlW6wJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BuoT7f99; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780515216; c=relaxed/simple;
+	bh=onO2pG1AEH3vk27xBQ4d1w+ps68z6VOvlyQl5+tp9go=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cE1BTK8ORF4srcOAQHEhXJLVM3AvYvKholFdSTgBh1co/pUfGJlwNA0Gs+0P18KVJ6hJZRXVQN/t4Pot4EgJc4Q46N6VBDfDAmOs1x0EHK3aQRs/8J2pY0JVVtvknWvaDDSg7tjPu1bMszw/gdUaQc5JksVv7HfYYOP6mIHMNVU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ROJTpzrr; arc=fail smtp.client-ip=40.107.208.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuoT7f99"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45eec22fab7so3759286f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 12:26:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780514779; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WabMakj5HcrHsFMTpq4QB86CBozK6ZQbwm7cbTBrYp2xY7dM/saFQtOvgOtRQ2qWm/
-         8drFRaW2AwxxLaY0JP13P8lkEBlwqM49oD1ugZeeU4hfRzlMa+W8/CWvFHYBcWL/16DI
-         q3Ihi46/mqccG7bk5NZnmDRiC8USaEnwiaf41CjpZ29ns5tyEwvD5//+XvwjE3j4p0sM
-         mOLpf69E6OQu/iMh7apZsMw+FKxxFcNRnWPl/eCVMgpmB4eG1GdAacWAvzm1LWNe4Oy1
-         x7JGSzhpA4WR2//ogwI2P5iItej4QNXct4/EO8SsGklvj+sMwDfNVGm65c3056mifj9I
-         18+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tBlqGSO58iqBVZZw/2Y2ObnnEsd9OBRWmhZbqa08LGQ=;
-        fh=rxnVO9Z+LSusZu17/3I9BdSLRv4uuR95Ecdkmx+n5w8=;
-        b=kLdozhabra2e2ToscX/dOrVN6bUSwlJKjAEqqGKIyuyfPF1LMdxVN7pENdIH3/b467
-         b9tHXChi+8OQzT3FCzcwKkf5em29R5k5vqQzpxybmucWFF438xzTrMZShoV1Zr/9kvDS
-         tersHzopYpudAFeMmV21iGtpVPh1jIa1DpB9rDHsOZSwJcCs3IO4uvDHXj33JxmEMxxG
-         siLz82klHVqdETo6dQYWFqnECPZY8oP+VvOl2arfVFLyJ9LsQ8kpbGsABZWB9DHl24Gd
-         ZiNlSi51IOcKbTZKyrAvv5stvHbXqKzaWmG+WSIwtLy0NWHWX+AFGM8+riOgYivK4mhq
-         L4VQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780514779; x=1781119579; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tBlqGSO58iqBVZZw/2Y2ObnnEsd9OBRWmhZbqa08LGQ=;
-        b=BuoT7f99eJZTXtIIe4MFO5di5KxU7NumGnwQirtPVBW46zq9F/ZSOik/hoFJlFSSjQ
-         o87B/LO9s6P3tFSplzk1Iub761YlykrTPGjuYTWWYYYITgivDoZPGarj/3u6AhK+u/NS
-         Y8w6xejTVTKQqVRBP2pch/fFfF8YEvV3nBOSvFDgBLEjU2Cj5NBmXoKaouAtdzd5HUyb
-         u51gW/lhPRaqsV8y3o+CeDt3ubI3aoDYboIo12tQiJc4lGby/MA4Gn1ZuRrRynWWYzhq
-         Vq8ljUF/jchmhR3ohUvN1q7zHi+bwj/iHLKdFdaOORcq5UGb+HTOTiNknJP7WJX7mRNq
-         LpHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780514779; x=1781119579;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tBlqGSO58iqBVZZw/2Y2ObnnEsd9OBRWmhZbqa08LGQ=;
-        b=DHIc+gfzeQgZUtlp1u2r/uYo5rXS/RiCK3tsHOvT3Qq77PCRxoJysUX/Yfb+yjtTmJ
-         Z8yYHN/Ifn2xrD2Npok6AU3XrUWYuLYgCuD9QDSW6ouGUKll0dkUi9oM1e0qUMnHvrhi
-         sPVSLddYi6CSMxXHQY82jJSLpiYqckihm6uHHjPUHfVlDdjkDDgouunAFxi/g2MvsUwM
-         skNlP2Z20KPGKAB3r0FoDEriDh8yFgavBPbuM9BSg16DR5DlFnigKG88+FijnormBQEA
-         zshS31EbLwUZ4Ic3A0YTHO9vUFnG42Y4KwOZjcwtn9e0JdfvwGCBF8CGEcbGLztEeWPC
-         KtqA==
-X-Forwarded-Encrypted: i=1; AFNElJ/HV+GdmisMKjxkO3uQuOc7TrpJ+k3crScxhDh1mCAIlC2Z7+w1AXlO+nYnmpeieBJkSaEzYJni58w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeKP1B7Qojl8SE73txFNlhCYESbV5j3JVBu+fVpFuCJOv4RbsU
-	1UolL5rvrCcfnaLECePBEcDj4i1f8WWJle+m384WIKFwn8oe87I7LTSuQALK3gkrmOrTlMWMC6m
-	ByhBh8FYIyU/Kp2QLFb7n4nTA2krikZA=
-X-Gm-Gg: Acq92OF+InNgntixGlmOsXt/Qjg4iePMYulk+mZeKNsGGDsMgn+qvqWnn6JhuQE7YXN
-	tCcpWEyWAFYaJlfZ+LEOGgd6oSqlHVGj4tg/1w4/HUlYb8XEjprMCMCt5IW849SjvtYhxAmBF3r
-	lHCM9FYJQBuWGeRTxnmZdZTcaIyABWRjBOWWMQUvQAnhh8TM0gyu5pnyCXobIPPh4Xr9XGQR2lN
-	7OGINS38YV44DsjIwZZI24Dvdnkn9cNYsa8/bNE/IhNbr8OqNpTWI+cyO7i4tv1mDxE1mZ3Ho8e
-	zSREoFXRlBPp8VwRdJ/2ubOXsVbUSB6BmzwgNqg0jbQ8b0nxEQ==
-X-Received: by 2002:a05:6000:1288:b0:45a:e3dd:5865 with SMTP id
- ffacd0b85a97d-4602179d1femr5352008f8f.13.1780514779097; Wed, 03 Jun 2026
- 12:26:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ROJTpzrr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o4eiOqq+u1w5OEkf3XlOmT/EPXEW6224bmgZgaiptRl+bt+4GDmkqCdjv/EW0UzDO02Wrb05zLT+nrjxdLbjdvCOlCP9Gn5HfKAcHxJCHvRjgLvlmg/MV0aHkGDJ7zCFb/kB6np1F8EmqkEPYtB/nkCpYEND9nxH5TWczYJmjX3B+sH4b6oRVgBYS9FnvhDlZ2oVqJ75fH64K5i4noa9M7qwo+4SY340rldSDbO45BY5JOKFy8UlexiGwiwz/ijhoUpFOPgepm/vf5/LjGLixDEHU/SYeCar/7YwY7O8GnfI4E8zug9Pe6lw8br/nfc7l7aIuH+F1LrWWQkEPmhp8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GGwiBNv0ml5gByeB1UQLpeEIeyial0/9QwM1CoFdU1s=;
+ b=jNXukeDF3xI+FIh45mpOIAYzzvDlDfe79XBrBRptbqtWsB6ytb1WbmjfYoKgpF1TFAiP8E70JcxQZQ3fbAoRb8+kQ4hESfuAaisjDmpOirSGuB1uuugr0SSksPVsjub6HP8JVlS9yaLzBLiC7WP2E0D04HvuN9/shjjzxPqxA3WiP6kDO222UNH4JDFVNUbhnGR6Hr00STaogHwqhIIExgrZKNmRThlJiqLxxmPhUlsbyITYznaZMQTlbNG+nhlamm6dTH6Y/uUN7NCxwP6ujcAKS/QJZVaB0qd+qbnNzBchgFvjvK9dfgF7xJQMMgNkYD/UTGD4bupWSMBm1mAW2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GGwiBNv0ml5gByeB1UQLpeEIeyial0/9QwM1CoFdU1s=;
+ b=ROJTpzrrg9NZmFKXpq/zoerm8kuHhglmWEEOPX11VxlmXiB09Fs4Nv2l53uCf8pNSF37/NF9gpyuCd03eMT3ga5AsLOCSd/sMIKICnoGOb8xU2cweOOwZtoZFruLik+qHgEfV7TO/d0ITxzdbO19K/OJoJtV6jImn+4u67dTlIaWgXK4HY7InBzIdEHzXEkmo1OV6GDNiKsXCEkmvYxczUgY3R1bF8TYYtYJqJk/tGLWnXCjCAAlzkrUdtq9nYCSNEFgUbEhLX6jcMciipC72GPpna3RyBS7qpEflUvJo1q/0Jq4K4Bb/48XguIEHyU6fqszhEK21Au7SbmB8QhXXg==
+Received: from SJ0PR03CA0004.namprd03.prod.outlook.com (2603:10b6:a03:33a::9)
+ by LV8PR12MB9406.namprd12.prod.outlook.com (2603:10b6:408:20b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 19:33:26 +0000
+Received: from CO1PEPF000066ED.namprd05.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::7e) by SJ0PR03CA0004.outlook.office365.com
+ (2603:10b6:a03:33a::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.7 via Frontend Transport; Wed, 3
+ Jun 2026 19:33:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1PEPF000066ED.mail.protection.outlook.com (10.167.249.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.92.5 via Frontend Transport; Wed, 3 Jun 2026 19:33:24 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 3 Jun
+ 2026 12:33:10 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Wed, 3 Jun 2026 12:33:10 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 3 Jun 2026 12:33:01 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Sunil Goutham
+	<sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, Geetha sowjanya
+	<gakula@marvell.com>, hariprasad <hkelam@marvell.com>, Subbaraya Sundeep
+	<sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
+	<tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, "Borislav Petkov (AMD)"
+	<bp@alien8.de>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap
+	<rdunlap@infradead.org>, "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>, Tejun Heo
+	<tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Feng Tang
+	<feng.tang@linux.alibaba.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver
+	<elver@google.com>, Eric Biggers <ebiggers@kernel.org>, Li RongQing
+	<lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Ethan
+ Nelson-Moore" <enelsonmoore@gmail.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>
+Subject: [PATCH net-next V2 0/7] devlink: Add boot-time eswitch mode defaults
+Date: Wed, 3 Jun 2026 22:32:52 +0300
+Message-ID: <20260603193259.3412464-1-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528212955.1912856-1-nphamcs@gmail.com> <ah-A2gQ0GPgerXop@google.com>
- <CAKEwX=MWX9KkSFAoN4xEMg3b+gZUN9=yd7rirAWG5NOBf26eAg@mail.gmail.com> <aiB2sHqxcBAJrTkP@google.com>
-In-Reply-To: <aiB2sHqxcBAJrTkP@google.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 3 Jun 2026 12:26:07 -0700
-X-Gm-Features: AVHnY4KHcbe_bXQiAXNFeQa4TOqhlLT5AHoq3gLwnZPa6MV4BsBjJQBU0kZ4pYI
-Message-ID: <CAKEwX=P95D7wNpWhEAXQpeNPM6eQa2mEZE8Srzfpct=-=Q40tg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] mm, swap: Virtual Swap Space (Swap Table Edition)
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
-	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
-	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
-	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
-	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, 
-	ryan.roberts@arm.com, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com, haowenchao22@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066ED:EE_|LV8PR12MB9406:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5d0445c-7100-4766-a352-08dec1a6fa55
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700016|13003099007|18002099003|6133799003|56012099006|11063799006|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	Drsn5poAL82PIaBkXOyUQrjkh3g5CbMLTEqWKuFbCxIWG6IhkNLRlE/vSYrU0/nloO6wB4ntZlsiz75XbIZdWmW5NySYJjgNmsrHKfa0EPelxhuYNxA/1iKYSOlZV0RoAk7o809B2rcKug6s7qINArr3xiHfhqM3yhy/Yjh55v4kgkPDW2sAwR/P9gsULTng10seRbuuE6zpvXi+S48m3umAkUFAY9Zwl7diUYphJI9VzfGTJfPO45rzEmlQoz2ziu+dyemMSLMhLCIB0CkYpruwigC3ZUAPF6RRzxsiNxwWkd0tN020SwURtrRKE6gUHn7yp2Cfn/aJ03s+xwnUJgQB9qL364BffkIraSGqoztQE4mOWpyt9+SLa4Y9dxcYXIBcJ/1Rg1Rmfq7ityjq3CY55ci0mQkLaJMi1oKZDfHxOCtu86SGcYt0xAYCsQ6WoQooV8yxKIQ830kS6ZorqyDWZlR5erB7oJ9CFUjuiAfnfJ8ZXQgbDaiVE3C7avQMOLwmbhALt7y8w2X4KPT062kfI8L7u3iUAXBwC97ShuSWO9OA4LzOPjJexaaLhucxhr9wV0oMd3aP29P6HX532AA4O+0ZojU0Uofc2CNsRi9RUE5HKkg+o09U6FIoMEe8XOEB7PHvBvq6RmeocJU3tOtjnBdIK4TAZ7QZjPqvHgdoWbojAsEhJYk2eOKmweDCjHKH+6qVBGoYmynostmhItGJMW99RDRtIPYXie8w+uk=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700016)(13003099007)(18002099003)(6133799003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	2757K8R+vN72yoPLlr88RsfpkJKmq5lsI7SH0XmRUlr4rAf1YBcQFwRE62SpeV+YDvqbasp6kwGDbN7ggukLHPGE7OYlUssh3PjmxoF+wDf8wZSpjCy5u0T7ruKP+kqWGiIanIAmlWl5GtK6ix5fUoSVkYmxQ+JWYDlIst4vP07ub57TYVSS+14lmvw/sy5raUCnN8QYkdyoZh5e1hrxv55QpyqDX546sEYUhLU1Yy9CanMmoBQx6UYpiDlVfoP7HprsEd1sNChIxZnCSut63CZORyMxrvIxxaB0eQpVCfZpdgE59PiWW4Q2HZdePGEfXhuOsDnHhSa/hPD5PlsOiDKnuMSrgkiYq3vYEKmWV8CsKHamClzHbLiABH3JVgIVpXJX8ulLiOOxvj86AfSFtxwN1Fhc3dY2DHOian2u7tL56iWl20gjCEZHGLNbUtkb
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 19:33:24.1165
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5d0445c-7100-4766-a352-08dec1a6fa55
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066ED.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9406
 
-On Wed, Jun 3, 2026 at 11:58=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> > > I assume the main reason here is to avoid the extra overhead if
-> > > everything uses vswap, which would mainly be the reverse mapping
-> > > overhead? I guess there's also some simplicity that comes from reusin=
-g
-> > > the swap info infra as a whole, including the swap table.
-> >
-> > Yeah it helps a lot that we don't have to rewrite the whole allocator
-> > and swap entry reference counting logic again :)
->
-> I specifically meant using a full swap info thing for the physical swap
-> device even when it's behind vswap. That seems like an overkill, and we
-> don't need things like the swap entry reference coutning. We probably
-> just need a bitmap and a reverse mapping.
->
-> So I am assuming the main reason why we are not doing that (at least for
-> now) is simplicity?
+This series adds a devlink_eswitch_mode= kernel command line parameter for
+applying a default devlink eswitch mode during device initialization.
 
-Mostly.
+Following the discussion with Jakub[1] and the feedback on the RFC
+postings, this version keeps the scope limited to a boot-time devlink
+eswitch mode default only.
 
-FWIW, we're pretty close to full deduplication. Right now, physical
-swap clusters have a couple of fields that are not needed when they're
-backing a vswap cluster:
+The option selects either all devlink handles or an explicit comma
+separated handle list:
 
-1. The main swap table (which houses swap cache, swap shadow, and
-reference counting): I repurpose it for the rmap :) It's an array of
-unsigned long, which works for rmap.
+devlink_eswitch_mode=[*]:switchdev
+devlink_eswitch_mode=[pci/0000:08:00.0,pci/0000:09:00.1]:switchdev_inactive
 
-2. memcg_table: still duplicated, but I think I can make sure this is
-not allocated if physical swap clusters only back vswap entries. I
-have a prototype that I'm testing for this.
+The supported modes are legacy, switchdev and switchdev_inactive. The
+selected mode is applied through the existing eswitch_mode_set() devlink
+operation, the same operation used by the devlink eswitch mode command.
 
-3. The zeromap field: this is actually not allocated in 64 bit
-architecture, IIUC, which is what I'm gating CONFIG_VSWAP on. If we
-extend vswap to supporting 32 bits, this can also be dynamically
-allocated.
+The preparatory patches move registration points that expose the devlink
+instance before the driver is ready for a registration-time eswitch mode
+change. Where registration is moved later, the matching unregister path is
+moved earlier so unregister notifications are sent from devl_unregister()
+before object teardown. The final patch adds the parser and applies the
+default from devlink core when a matching instance is registered and after
+a successful devlink reload that performed DRIVER_REINIT.
 
-4. Extend table - this is for the swap count overfills, and already
-dynamically allocated.
+Patch 1 skips devlink health recovery notifications while a devlink
+instance is not registered. Health state and counters are still updated,
+but there is no registered instance for userspace to observe or receive
+notifications from yet. This lets drivers move registration later without
+hitting health notification registration assertions during early
+initialization.
 
->
-> > >
-> > > I don't like that the code bifurcates for vswap vs. normal swap entri=
-es
-> > > though. Not sure if this is an issue that can be fixed with proper
-> > > abstractions to hide it, or if the design needs modifications. I was
-> > > honestly really hoping we don't end up with this. I was hoping that t=
-he
-> > > physical swap device no longer uses a full swap table and all, and
-> > > everything goes through vswap.
-> > >
-> > > I hoping that if redirection isn't needed (e.g. zswap is disabled),
-> > > vswap can directly encode the physical swap slot so that the reverse
-> > > mapping isn't needed -- so we avoid the overhead without keeping the
-> > > physical swap device using a fully-fledged swap table.
-> >
-> > Can you expand on "vswap can directly encode the physical swap slot"?
-> > I'm not sure I follow here.
->
-> I meant that if redirection is not needed (e.g. zswap is disabled), then
-> instead of having a vswap device pointing at a physical swap device, we
-> can just the data (e.g. phyiscal swap slot) in the vswap device
-> directly. Then we don't need a full swap info thing and swap table for
-> the physical swap device.
->
-> This directly ties into my question above, about why we have a
-> fully-fledged swap info thing for the physical swap device when using
-> vswap.
+Patch 2 moves netdevsim devlink registration after device initialization,
+so registration-time defaults can call eswitch_mode_set() after simulator
+state is ready. It also unregisters devlink before netdevsim tears down the
+objects that were registered before devlink became visible.
 
-See above.
+Patch 3 clears the mlx5 FW reset-in-progress bit before reloading after a
+firmware reset.
 
->
-> > >
-> > > All that being said, perhaps I am too out of touch with the code to
-> > > realize it's simply not possible.
-> > >
-> > > Honestly, if the main reason we can't have a single swap table for vs=
-wap
-> > > is saving 8 bytes on the reverse mapping, it sounds like a weak-ish
-> > > argument, even if we can't optimize the reverse mapping away. But may=
-be
-> > > I am also out of touch with RAM prices :)
-> >
-> > In terms of the space overhead I do agree, FWIW :)
-> >
-> > I think the other concern is the indirection overhead with going
-> > through the xarray for every swap operation, hence the per-CPU vswap
-> > cluster lookup caching idea:
-> >
-> > https://lore.kernel.org/all/20260505153854.1612033-23-nphamcs@gmail.com=
-/
->
-> Right, but we should already avoid the xarray with the swap table
-> design, right? We just have one swap table pointing to another
-> essentially?
+Patch 4 moves mlx5 devlink registration after device initialization,
+including the lightweight init path, and moves unregister before the
+matching teardown.
 
-Hmmm, I don't quite follow your suggestion here.
+Patch 5 moves octeontx2 AF devlink registration after SR-IOV setup and
+switch lock initialization.
 
-For normal swap devices, we organize the space into clusters, and
-maintain them in various lists (free, nonfull, full etc.). The only
-difference with a vswap device is we do not have a free list, and have
-the clusters themselves dynamically allocated.
+Patch 6 moves octeontx2 PF devlink registration after PF SR-IOV state
+setup.
 
-If we're using vswap, we will incur the xarray overhead. There's no
-avoiding that if we want a dynamic indirection layer. We can of course
-revisit this data structure design later.
+Patch 7 adds the devlink_eswitch_mode= parser, documentation,
+registration-time default application and successful reload default
+application.
 
-So yes, it will be one swap table (vswap cluster) pointing to another
-swap table (pswap cluster). But to get to the first swap table, you
-will have to go through xarray still.
+Changelog:
 
->
-> > >
-> > > I at least hope that, the current design is not painting us into a
-> > > corner (e.g. through userspace interfaces), and we can still achieve =
-a
-> > > vswap-for-all implementation in the future (maybe that's what you hav=
-e
-> > > in mind already?).
-> >
-> > That's still my plan. Operationally speaking, I want to make this
-> > completely transparent to users, with minimal to no performance
-> > overhead.
->
-> So if CONFIG_VSWAP is set all swap devices are vswap by default, right?
-> Would it help with testing if it's controlled by a boot param?
->
-> >
-> > The next action item is to optimize for vswap-on-fast-swapfile case -
-> > that was Kairui's main concerns regarding performance. I spent a lot
-> > of time perfing and fixing issues for this case in v6. The issues with
-> > the most egregious effects and simplest fix (vswap-less
-> > swap-cache-only check for e.g) are already fixed in this new design,
-> > and eventually I will move the rest (lookup caching) and more to here.
->
-> So is the end goal to have vswap be the default rather than a special
-> swap device? It would certainly help to include some details about that.
+v1 -> v2:
 
-That is my preference - I did allude to it in "Runtime enable/disable
-of the vswap device" follow-up section :) I'm a sucker for unified
-paths. It kinda depends on whether we can optimize most of vswap
-overhead away though - if not, then we have to maintain both paths.
-Kairui, how do you feel about this?
+- Move default eswitch mode application into devlink core. The default is
+  now applied during devlink registration and after a successful devlink
+  reload that performed DRIVER_REINIT.
 
->
-> > >
-> > > Aside from the swap code, the only sticking point for me is the logic
-> > > bifurcation in zswap. Why does zswap need to handle vswap vs. not vsw=
-ap?
-> > > I thought the point of the design is to use vswap when zswap is used,
-> > > and otherwise use a normal swap table. In a way, one of the goals is =
-to
-> > > make zswap a first class swap citizen, but it doesn't seem like we ar=
-e
-> > > achieving that?
-> >
-> > We already have all the machinery to make zswap completely
-> > independent. Right now, if you use vswap, you'll skip the zswap's
-> > internal xarray entirely, and just store a zswap entry in the virtual
-> > swap cluster's vtable.
-> >
-> > I just haven't removed the old code for 2 reasons:
-> >
-> > 1. Reduce the delta on this RFC, to ease the burden for reviewers (and
-> > definitely not because I'm lazy :P)
-> >
-> > 2. The only other practical reason is so that we can let users compile
-> > with !CONFIG_VSWAP and still uses zswap on top of the old swapfile
-> > setup during the transition/experimentation period for now.
-> >
-> > But logically and conceptually speaking, there is no reason I can come
-> > up with to use zswap on without vswap. The CPU indirection overhead is
-> > already partially there (since zswap uses an xarray) and further
-> > optimized (cluster loopup caching etc.), as well as the space overhead
-> > (vswap replaces the zswap xarray). I actually wrote a whole paragraph
-> > about how we should always go for vswap if we're using zswap, but then
-> > decide to remove it since there's no code for it yet.
-> >
-> > If folks like it, what I can do is have CONFIG_ZSWAP depends on
-> > CONFIG_VSWAP, removes all the non-vswap logic, and call it a day? :)
-> > Then, on the swap allocation side, if vswap allocation fail and zswap
-> > writeback is disabled, we can error out early.
->
-> Hmm maybe we can keep it around for now and do that after vswap
-> stabilizes? It ultimately depend on how much complexity we maintain by
-> allowing both.
->
-> I think another problem is 32-bit, technically zswap can be used on
-> 32-bit now, right? So vswap not supporitng 32-bit is a problem.
+- Remove the exported devl_apply_default_esw_mode() driver API and the mlx5
+  driver-side call to it.
 
-Ah shoot I forgot about that. Hmmm.
+- Skip devlink health recovery notifications while the devlink instance is
+  not registered, so drivers can move registration later without early
+  health work hitting registration assertions.
 
-It's not impossible to make vswap support 32-bit. I did that for v6
-after all. It just needs extra fields because we have fewer bits to
-leverage in pointers etc., complicating the logic a bit. Follow-up
-work? :)
+- Move mlx5 devlink registration after device initialization, including the
+  lightweight init path, so the core can apply the default through the
+  normal registration flow.
 
->
-> General question (for both zswap and general swap code), would a boot
-> param make implementation simpler? Right now we seem to key off the swap
-> device having the "vswap" flag, would it help if it was a runtime
-> constant?
+- Move the matching netdevsim and mlx5 unregister paths before object
+  teardown, so unregister notifications come from devl_unregister() and the
+  later object teardown paths run while the devlink instance is no longer
+  registered.
 
-Hmmm, even if it's a runtime constant, both branches still have to be
-there, no? Does the boot param simplify it somehow?
+- Add registration-ordering preparation patches for netdevsim and octeontx2
+  AF/PF, so their eswitch state is ready before registration-time defaults
+  may call eswitch_mode_set().
+
+[1] https://lore.kernel.org/all/20260502184153.4fd8d06f@kernel.org/
+RFC V1 : https://lore.kernel.org/all/20260506123739.1959770-1-mbloch@nvidia.com/
+RFC V2 : https://lore.kernel.org/all/20260510185424.2041415-1-mbloch@nvidia.com/
+v1     : https://lore.kernel.org/all/20260521072434.362624-1-tariqt@nvidia.com/
+
+Signed-off-by: Mark Bloch <mbloch@nvidia.com>
+
+Mark Bloch (7):
+  devlink: Skip health recover notifications before register
+  netdevsim: Register devlink after device init
+  net/mlx5: Clear FW reset-in-progress bit before reload
+  net/mlx5: Register devlink after device init
+  octeontx2-af: Register devlink after SR-IOV init
+  octeontx2-pf: Register devlink after SR-IOV state init
+  devlink: Add eswitch mode boot defaults
+
+ .../admin-guide/kernel-parameters.txt         |  25 ++
+ .../networking/devlink/devlink-defaults.rst   |  80 ++++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ .../net/ethernet/marvell/octeontx2/af/rvu.c   |  24 +-
+ .../ethernet/marvell/octeontx2/nic/otx2_pf.c  |  17 +-
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |  28 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |  34 ++-
+ drivers/net/netdevsim/dev.c                   |  15 +-
+ net/devlink/core.c                            | 261 ++++++++++++++++++
+ net/devlink/dev.c                             |   3 +
+ net/devlink/devl_internal.h                   |   1 +
+ net/devlink/health.c                          |   3 +-
+ 12 files changed, 443 insertions(+), 49 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
+
+
+base-commit: dfcc2ff12925d99e858eaf539eaa4aaaf81fe2a6
+-- 
+2.34.1
+
