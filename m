@@ -1,137 +1,149 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3722E736D
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 11:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77589449EA4;
+	Wed,  3 Jun 2026 11:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780485658; cv=none; b=nkAjJAeIXtglg55ArexcfYiMCgisXqisZJP0UJI0otuREAurU+kUgfDrYh9B/CZ4fbk/ZmCov+MSm34kNBfdIryEiX2owlVvzBEW9yLdVbu3yU4iemxGIxTrKMxt1aipFqR8NEd21N3aolelJl+69vFsVxd4YpEMXN2c4jMcJjg=
+	t=1780485711; cv=none; b=h0dEMCVkSj5NHTH8585LSeHIAs7ZpHGEmHyY+JubPm/wZN5kYbBt1mOSMzGQk1AizMXhGKGQ3GFc6Clq2BuvtXO3F6+YcEMOcuFu+m+yWW6zFeu2AwnxntsQUAHmZHL6OTpxunJcoQLunBvuRtz0bLg6gaCnyr9PUh9r7Rsh+Js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780485658; c=relaxed/simple;
-	bh=OzFVEqgwCuNxD8i7OS1J8fnss8t7CNHqvfWTQ+y6B3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ONvlfPI2QFEHeP8Hs5Y1hYpsw6OBy7/ESYCQEZAqQYDlJUsl1G62Tlx4g+crY8OSSayKpx0WZqblcJ0Yz2YJHEZdjCImxvzz1UFYXJKJX4OuVP/Mp2RbWMK/4npDg6zlOn8kDJUNUuXpH0TXWtJUHV9CKvFbrRkC7Qq6DnRaggw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QV9v9pp7; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1780485711; c=relaxed/simple;
+	bh=sfx1tvNRErDF1HTfIALai0SM6G/2WCKioBj6QNPwX3A=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YOKARQ8wLuMB/YH/iMgjrD/C76IVCvRwTaiw8xhfecv7K99dSxgJftIi39ztlAVTmhj9yeXKpmt9oIVkRTRvhZ/IfwUR2jfx/TDE8Zc+UnOdxYpdDR4yva5cWp7n2rL1gPWBbr92rfFOIhOZ/N9GKnTqrZsu3CzgZqZ5Ci+Sk1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BPBVxQ2V; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QV9v9pp7"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ef616daf6so5116577f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 04:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780485655; x=1781090455; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NRFu66k1KJeXKuYTZNicRKot0uoKyyMMCt8VU3OBoJc=;
-        b=QV9v9pp7ISAn6FWyYPEr/3XWBvFUYI/ePGOCZSEZGxjdfNNaHxOcHlikxSbNRSwvpz
-         ls33sWfQ241FnTfK8em0ubfMoHTja/S4G4sHlJFBbiVqOKZXLddJ7hYVd9Z25xxj2/Aw
-         5GgubxwIKWTRXaMleb+rSW67gQ3enMnqugXB2+dF/GN3EUZ4qBuBuBx81HXP3MCBRMsU
-         o/AflMddJVP/pKwg62buVmNW7sUAa1i/B1ehLt8TDXxcfuBe4ofU37q4clHE0f0nAe6Z
-         Nnn2+W9pZ0SEPaB5Im5ueePJK0PeHmydLozOtlVeTBuZT7EBSt5eBl9zQDjhwLu64Xek
-         JGMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780485655; x=1781090455;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NRFu66k1KJeXKuYTZNicRKot0uoKyyMMCt8VU3OBoJc=;
-        b=An/q3rm+PKn7vyO0lAiyu9aEVr3SDmNQPuxtlnxH5ZLd7LtMqnmfRx/iA48xdQ691C
-         X8CBhOOr2klCfuCAzevyGRNA3PO3ACD4xet2S+/oh13sxobElYM8ml9UVWWZA0xL10nz
-         lOzxO3WVm9RoKTLO+vhGnF/0kpPcC0+GP4AP1XdElEqYp20x2Nt1tfE3qbTS7Z/qZ5Vo
-         4U7yg+So1I8LKxA8FE7yqJOc02hz7peDst+YP10AClTybzKqLwKKmZbUPUGiRH3jD1kv
-         Cu+jnEIToHJ9IDFl9lleT+l1df+ZAnytvE7OavN+pA83oyy2sj4SNdlrVndj2suCItFQ
-         aVeQ==
-X-Forwarded-Encrypted: i=1; AFNElJ97XCvC5Eka/YEgxwQ+e4YjFxYC6M0WzbwGKQqmUMs9hFiSOmMuzpb/W04/f0nyfKCzuKaEEmsUihE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6OcggTOTzOWNGSZcFR9tM5fwTB0lKnh6uo3psFAvF6ikJR7N1
-	wbYrEfDO+juHUAO+hXj1mcs0kFOo6Xbqb2RzzBA2iQF9fidkXFOxLhmcEuUKNLcYME0=
-X-Gm-Gg: Acq92OGO6fpOXgT4Ete81/83YFUqC9zwj7wy57m8AwCUsCguGh49/XVZkUcZsfWaHSY
-	946coykiuRx0DqnkKb59XQh0xSugKFcLu6d1WdeFzDzaf8oOsj69hUCXnaWeX4K9RmiyrWUHZ/0
-	by0Cnj7Jk/oCPu+CQpUxHakHgU2u/dmJLhjwFz6TEMyLgmYKTSvItzdxB0ZQg1tZXdJjAwFDr9g
-	Jiz06mttcsi78YPBqPVQQXkX8zviQ+dYLf7jnc6GF5mkqLCApByKcpxTyuhuo3JDhgFoYYGCFjJ
-	1HVdvAP8ez47bC0MiCdzO6Zp70ngSrU8Ul+P3f2cyVDHIGWlZWH4Hvf4hhI2FIvxKCe7XRPlXcO
-	6Sbgkci+TRWI1j77GHmlOpr3KmD08C+zypUCiDOPDKYcSQEjPTYJHE2DtuiFiIrv7tZnEl11qJe
-	mnJR6lRq5l+B+GKtIT0oJF6/3E9xUjv40HSJBAJSQ=
-X-Received: by 2002:a05:600c:a307:b0:490:b7e6:bd1d with SMTP id 5b1f17b1804b1-490b7e6bfa0mr28113465e9.16.1780485655211;
-        Wed, 03 Jun 2026 04:20:55 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b79d64e8sm46791355e9.0.2026.06.03.04.20.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 04:20:54 -0700 (PDT)
-Message-ID: <c8959843-2358-4305-bbe4-3ad69da949f5@linaro.org>
-Date: Wed, 3 Jun 2026 12:20:53 +0100
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BPBVxQ2V"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gVlSt62QVz9tyP;
+	Wed,  3 Jun 2026 13:14:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780485246; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sfx1tvNRErDF1HTfIALai0SM6G/2WCKioBj6QNPwX3A=;
+	b=BPBVxQ2VOQAmNjCBS/CsdXEc93Uxz5hNgeSYzCzuxZ4ngIWUoTZNfdBP5vIjzMQj0kBM+P
+	Kdl6ilr9GRoN2ML5piHR18evBZ4FgrFuw0cshQbkRPARaCNVGLWx63IQienE4wVNFKZr9E
+	EFhOtnhzMO1P/jWnKEzI14hcZ5pPvU1vaA0Wu5L//63pm+Lg575BehyMPZfko2WTQ8kzfT
+	Y2z6I6kmx02CeMtQD803CG1O1WrzXFq/xzzzIvpSNWqdL6pfKJD4vmgibezueqg+UnFKGs
+	zh3E1IQay3huth/SSctwXfEigcz3iajI4+bMjYS5xcKmXd3bxpB3NE1atKSRiQ==
+Message-ID: <c6ecda00eb1aa6a88c17354e26d4dd7dc58ae582.camel@mailbox.org>
+Subject: Re: [PATCH] Documentation: drm: Add entry for removing spsc_queue
+ to TODO list
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, avid Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>,  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann	
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
+ <skhan@linuxfoundation.org>, dakr@kernel.org, Tvrtko Ursulin	
+ <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 03 Jun 2026 13:14:01 +0200
+In-Reply-To: <aceb688b-4f65-4539-a4f1-fc5455b60a5f@amd.com>
+References: <20260529215207.115513-2-phasta@kernel.org>
+	 <aceb688b-4f65-4539-a4f1-fc5455b60a5f@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/18] perf test cs-etm: Test process attribution
-To: Leo Yan <leo.yan@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
-References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-4-85b5ce6f55c6@linaro.org>
- <20260603111018.GS101133@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260603111018.GS101133@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: bihjw5wo6xpk91679khq9hpsnwrfqzps
+X-MBO-RS-ID: 4831e0c02127252da33
 
+On Mon, 2026-06-01 at 10:30 +0200, Christian K=C3=B6nig wrote:
+>=20
+>=20
+> On 5/29/26 23:52, Philipp Stanner wrote:
+> > drm_sched contains a lockless queue (spsc_queue) that seems to be
+> > useless and potentially unsound.
+> >=20
+> > Add a TODO list entry for replacing spsc_queue with a locked list.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>=20
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
+Pushed to drm-misc-next
 
-On 03/06/2026 12:10 pm, Leo Yan wrote:
-> On Tue, Jun 02, 2026 at 03:26:46PM +0100, James Clark wrote:
-> 
-> [...]
-> 
->> +check_samples() {
->> +	owner_samples=$(grep -c "proc1.*context_switch_loop_proc1" "$tmpdir/script" || true)
->> +	next_samples=$(grep -c "proc2.*context_switch_loop_proc2" "$tmpdir/script" || true)
->> +
->> +	if [ "$owner_samples" -eq 0 ] || [ "$next_samples" -eq 0 ]; then
->> +		echo "No samples found"
->> +		cleanup
-> 
-> We don't need cleanup explictly here, as trap covers exit case?
-> 
+Thx
+P.
 
-We need it whenever we call exit because it removes the trap which would 
-trap and return with its own (potentially different) exit value.
-
-The alternative is a global $err which you set and then call exit 
-without a value and let cleanup() do exit $err. But from searching the 
-existing shell tests calling cleanup before exit seemed to be more 
-common so I did it that way.
-
->> +		exit 1
->> +	fi
->> +
->> +	if grep "proc2.*context_switch_loop_proc1" "$tmpdir/script"; then
->> +		echo "Thread1 symbol was attributed to proc2"
->> +		cleanup
-> 
-> Ditto.
-> 
->> +		exit 1
->> +	fi
->> +
->> +	if grep "proc1.*context_switch_loop_proc2" "$tmpdir/script"; then
->> +		echo "Thread2 symbol was attributed to proc1"
->> +		cleanup
-> 
-> Ditto.
-> 
-> Otherwise:
-> 
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-
+>=20
+> > ---
+> > =C2=A0Documentation/gpu/todo.rst | 41 +++++++++++++++++++++++++++++++++=
++++++
+> > =C2=A01 file changed, 41 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index cdddf8db35f5..87e082b0eb48 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -948,6 +948,47 @@ Contact: Philipp Stanner <phasta@kernel.org>
+> > =C2=A0
+> > =C2=A0Level: Intermediate
+> > =C2=A0
+> > +Replace the lockless queue with a locked list
+> > +---------------------------------------------
+> > +
+> > +drm_sched is the only user in the entire kernel of a special lockless =
+queue, the
+> > +spsc_queue. This queue utilizes:
+> > +
+> > +- preempt_disable()
+> > +- atomic instructions
+> > +- memory barriers
+> > +- ACCESS_ONCE()
+> > +
+> > +whereas a conventional spinlock utilizes:
+> > +
+> > +- preempt_disable()
+> > +- 1 atomic instruction for taking / releasing the lock
+> > +- memory barriers
+> > +
+> > +Moreover, drm_sched_entity_push_job(), the only user of spsc_queue_pus=
+h(), has
+> > +to take a lock in some situations anyways and calls to it are often se=
+rialized
+> > +with a driver lock.
+> > +
+> > +It is, thus, highly questionable whether the lockless queue grants any=
+ advantage
+> > +at all. Considering that its internals are not well documented and its=
+ correctness
+> > +is not formally proven, it seems desirable to replace the queue with a=
+ mere list
+> > +or hlist that is protected by a spinlock.
+> > +
+> > +Tasks:
+> > +
+> > +- Replace the spsc_queue in drm/sched (and those who might access the =
+scheduler's
+> > +=C2=A0 internal queue) with a spinlock + (h)list.
+> > +- Ideally, check with some micro benchmarks and real world tests (pref=
+erably
+> > +=C2=A0 with amdgpu) for relevant performance regressions.
+> > +- Remove the spsc_queue from the kernel altogether.
+> > +
+> > +Contact:
+> > +
+> > +- Philipp Stanner <phasta@kernel.org>
+> > +- Christian K=C3=B6nig <christian.koenig@amd.com>
+> > +
+> > +Level: Beginner
+> > +
+> > =C2=A0Outside DRM
+> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =C2=A0
