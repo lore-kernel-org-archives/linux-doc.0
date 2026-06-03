@@ -1,131 +1,352 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CCD2609EE
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 01:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35CE352C54
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 02:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780451910; cv=none; b=j/5u4nzzh6VPCg+aK6aDROs+cE4wYJzSpw63t7fGkKKRbqSbctDdXO29iRRhcQR/OF6EoLOE+K/AQ1XnOSRtfBkgrAiTWRFOX6Zq59bo9UDkPe9UmSe6oS8e8L/aqfmRETYsYaW9EeiRxGoAdZFGHkhhc2hpkZrjVcFOJd54OHc=
+	t=1780453292; cv=none; b=cXgvjz/6mW0Uuah4S78MhyrBCH1jjsCjqCAI6Y3QKUWkaxF4W/AaLRsayKsjL8wJjENxm+HnZU/mQGLgw5AAZ7PAic56wUV1JuHbhIEWbJLD8GAOH1CcqEFHOuPhfwVZl/4yMwoEWG3lK15ctYJmhC8D8NwuEm3gWGJ6086NJaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780451910; c=relaxed/simple;
-	bh=3Is7N/1s9kesTV6NifnE11ZTm6dK8ik8AnUdJpZ9u1I=;
+	s=arc-20240116; t=1780453292; c=relaxed/simple;
+	bh=B6UiAWELcOybS6WN+RYhVLn+8R0MHHzWvv7kTDPBaV8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4Ftuyz6UK4eEY8gNN/KOZDChFcO0Q90ZpcbIWNp8G8MEN5XLEXPdL2dRtox4JJ+JwLGv/t1ZDhWTSFTj4TgqIAH8zTA4+7UHKzRjT+ivCLv1NpCvF4MU1A+F31BeXn588+PRHeHObcZ0o054IGnTR38Oerm26MqRKmc224QxDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com; spf=pass smtp.mailfrom=manifault.com; dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b=0rtbFtby; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manifault.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manifault.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2n50uVdlOlNqnKxbZFtgdoXaH1Jm3c4M2AZfxiqiTINTze3bVGnQpOT5PdrnyWKrdbQm0u61SgSIt5pA1fHMIYB1hn/KSDcQ71WqUPEHp+zAymo38M9FckZcM74f6X6qIFV1aX9XbiJihpJUDWRlxVppjfv/KFhEuFyv+Lvn9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PgwKiS59; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manifault-com.20251104.gappssmtp.com header.i=@manifault-com.20251104.gappssmtp.com header.b="0rtbFtby"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e6b5dfde3cso1563234a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 18:58:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PgwKiS59"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5176a2fd597so11399991cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 19:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=manifault-com.20251104.gappssmtp.com; s=20251104; t=1780451908; x=1781056708; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Is7N/1s9kesTV6NifnE11ZTm6dK8ik8AnUdJpZ9u1I=;
-        b=0rtbFtbyTZCAASKL658vuOyYHFETjKUckuuC2re5PG2Fru/V85370HXX2kZ3n9S++k
-         k/gNHyWItfPtExbP9ylsPLpXCXPWqI+zv5tnqpnbM2z9kYvV1P8wi+KL5MW4M0HPwP7x
-         juz8bubVq+CpHjOzc/zihGM+Yj4ECo25An5Ng6PJrVn03RMGWGzF7YDzLF9oMlpytzOI
-         BsMmvofEurvgUlMDON6JjhxA66sNAGfyHlyIbl2fU9F/bvNMaUMB61P8Jt0NVgZGcrPn
-         lA52kePFAsEe9+MOsX+PRABI9dyWZ2vgkWhz7LlFkjl9IPC3Hme5osEHssU5YIjmRM1q
-         FcgA==
+        d=soleen.com; s=google; t=1780453290; x=1781058090; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9MJOr97mrATixEW5kehH0DvlyrDDJP/7LhB74lpVfHs=;
+        b=PgwKiS597GCKPaZv1rbT0kLAVAtEeLvpTCDO4Fe/rEHV3Bu4nx5cSjnVWaoOx0moAN
+         HESuTtcrgwTa3UEziGXZoo42J9GEXnlPu90nDjbx5ces5v/Truabf170CqTYrEkeiEVu
+         U/PH1IP4dMgyM3BQ+0jQkj1GeuuW5LrgeOEns5vo8pSlpgRNzjhzusU2Jq1Fzk8v52qj
+         X1Zmxr0oJUhr3zyVdijSKg571NTOGn/h+9+VJnBzzhiZ9p4suKmtgRCB5xjoK0bsTQ+x
+         Nvyj1K38YF2DZdT/zyPWuZd2WlNEJoW/KLsbaIPZjwaPh3cDm/v4ynrPsooZZVhIrSuT
+         l1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780451908; x=1781056708;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3Is7N/1s9kesTV6NifnE11ZTm6dK8ik8AnUdJpZ9u1I=;
-        b=jkZUTphdF7RSZUXWAhldCKszww7L79mejs0Nt+DfwbJQV87ZzRKHKMkYCrOGgdPqnM
-         8axAv0DdMNCGHJBbmRXy8McQhkXGp9dRxor8ulJ+9oKqZaz5Vb6VgTlbkMDA+zfmK60E
-         ZUg5rW8TnC1us2Uf5LfqdEEmAY6GBbeLhEx6sSy3HwUBySeMeaepNmXR1U6HWFaZbCZN
-         3WZwMlq/BXd0hrp0ALXnwZYdptbdDIzA35W1SqZJsxOfVpsb2f6ilaPALK2Q1OGS0WLr
-         EoJGnq44ftlhdE6KkPB+ML+sX5G2OiBZhcLVeC5ldrJ4YDXJOL4nv7qahEVp4t/Zk05/
-         c1ZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ez0+p2ydZBr09cnu3/M1stbyT1kOP4VZaqItz7ZfTQeu4zqF9iZLc9zLSWA9sr9IEWwxT4ucu0EY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrzFbkdfGUba7VLivZr/0sZvJKKarVwlVFtXQ2hrKUphyy98qD
-	3KiSC/qLMRcS33kbmNzd+fUVVB0/mxxAiMrAWGCXNtWY3/E8CiWqv1A9MRUVpnhmtORE
-X-Gm-Gg: Acq92OHDbNqRzjps7szI3UWv4jT7Q/3psTI86w+muAbt8piv+zbiSNdOsqa7Z5cQ9hP
-	6sNTeAZkhP3+JbO/clnH6SarGXKFLSxP+JFJn8JyRWDFXgCXWXhdcNQx0s2cJq/e5CNhlOpdXlY
-	SjJY7Ko8aMrbsymyvtdp07K389jHlE2i2ArXwKThBiYDJGt4aG8MkohtPQ1PGhomxHTJn7tCF8d
-	i5hi50d3ZSOw9BMx45FEcBlaMls1MvTc2qvUSrBAHaPRZH4499Thz56PdRBrmXXz+KoLqaFlqzH
-	/1+Hqde+VLpflGM4GvYDq2Z6bE4vCVmIg2XueE+cq85MfZ/iV2maIMCBDHMgbyiU0Xm2W6S0I6M
-	VnbHzxUi/upkySmjnkELVb3lN12H33UlhMmLSZV/IrILEOi5vDTcsx+JCvtlc10AUrTi8D+G29G
-	6QSAyX6W3RPkLzyiCgQsKwpsuxA8bFdxgmwkDQTjbGltKnvfWj2bsPXmLu+jIH4bYhF4DOsw==
-X-Received: by 2002:a05:6830:6ae6:b0:7d7:419a:7ac8 with SMTP id 46e09a7af769-7e6e9d3b2b0mr631893a34.15.1780451907761;
-        Tue, 02 Jun 2026 18:58:27 -0700 (PDT)
-Received: from localhost (c-76-141-129-107.hsd1.il.comcast.net. [76.141.129.107])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e6e75c5495sm791076a34.10.2026.06.02.18.58.27
+        d=1e100.net; s=20251104; t=1780453290; x=1781058090;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9MJOr97mrATixEW5kehH0DvlyrDDJP/7LhB74lpVfHs=;
+        b=OgEb5rhgLxHsl9nWWGhu5W0STNl8zMLghts721ersTXtWYFfod87uxQ5Pf43t5jqzK
+         3wnZLdxuf4cCoAiHFmkh1oM+JFVmjRpbz8jZv89gEVnoBHoLKfRdArp/gS8HEC01zFKL
+         Lr85izZ3aKe/RHdhrrY0eytUDlmohodvDtVmk7HtiuLh74xcdd4xUP1XtAvDGxbHKlQ6
+         krCws/LSaRim8IIXsI9OhI5JzqEcOc3Rzt7mOFRpts3BnG72Olsw1f4OcJshegk9jeYF
+         251PlRZ2XzebKaDRtw0srMR7pxwXZI8f3ZWN2GmXuK3VxYnKD7hWUB2V8C8kK8p8F5Un
+         nRQg==
+X-Forwarded-Encrypted: i=1; AFNElJ8zAkQLuW8/57aiYayG/Y8QOoLazpUJuHqS82C+qhjAxpx6V0iAGRjZNjipTTZuy8em0gDduVZfmXI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8XI/xSWkXA3KLeIjSolNwAM9NMxjWwiRBA8VAZEyU624QA93A
+	Ay4s+tnzgG+jsBpaNqPL8KEdmfx0+0Ks8DSiXjiBuBtIq/MyoJKLYuyLQPdz9lp4RjE=
+X-Gm-Gg: Acq92OF1wlV8hNamiDOGP8tUv0Q9+WBVJhGllvFF84BUmzII+CLmyESOkoUNJ1xnl3C
+	kYcanbcx/emSJYLTQRbUJDPFC+e37U7ptHY2a8ZmgHkE1x1S1YVm0D8ccJ5pJ+218Yae4tgVa+U
+	LRbMY8ACWga5h1yF2jrMiDjFaw+Gc15BJcGljZWeAWn06QxHp5Tm+/euan+T5DJ4fHM+QPe+3mL
+	9WuWo/pUzjbduLPy7YHNH2bvTuh6eiyAehe9lA8nvQd5Oac+oRogsE1j61fe2U3x3IDplXsJcZM
+	HNqKNRY0Bu2v5MrGYarYJCqZDgacnh8BbTlWroWXmkaTsJ9elKAwxPZH/btAWb+cRDcuCZlswGJ
+	b4kUIn3fKNODI+dAou6WVC7mZjaMbtOeaEGK+BgILCrIh2ojajIQFCcWtmYgJkRXyW3wfY69+jW
+	PsRuNRndnau4FbzUbKVzCHi+RG5dCePZ8OMjkYfnv5nfbkDDK7WSLXV2zJ7Qn47g==
+X-Received: by 2002:a05:622a:306:b0:50d:9e8d:9837 with SMTP id d75a77b69052e-517785adec6mr26502311cf.11.1780453289820;
+        Tue, 02 Jun 2026 19:21:29 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd06d600sm8167806d6.35.2026.06.02.19.21.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 18:58:27 -0700 (PDT)
-Date: Tue, 2 Jun 2026 20:58:25 -0500
-From: David Vernet <void@manifault.com>
-To: Alexis =?utf-8?Q?Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, ebpf@linuxfoundation.org, 
-	Bastien Curutchet <bastien.curutchet@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	bpf@vger.kernel.org, bpf@ietf.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
- STORE_RELEASE instructions
-Message-ID: <ah-KCqA0FgLcX4NQ@maniforge>
-References: <20260521-bpf-insn-doc-v2-1-8c43c037d599@bootlin.com>
- <iulf7fwwvfrvvspg4e5xyx3tcxe2yonfjllnze2phgfgpynrlh@kodf3fy3l32q>
- <DIP2GAUG3O18.29B8U0FOVEVET@bootlin.com>
+        Tue, 02 Jun 2026 19:21:29 -0700 (PDT)
+Date: Wed, 3 Jun 2026 02:21:28 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	corbet@lwn.net, dmatlack@google.com, kexec@lists.infradead.org, 
+	pratyush@kernel.org, skhawaja@google.com, graf@amazon.com
+Subject: Re: [PATCH v4 07/13] kho: add support for linked-block serialization
+Message-ID: <ah75uAV8uPtS0XNj@plex>
+References: <20260530221938.115978-1-pasha.tatashin@soleen.com>
+ <20260530221938.115978-8-pasha.tatashin@soleen.com>
+ <178038801491.119771.18384706761138506132.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ezldfm6trmndxdd2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DIP2GAUG3O18.29B8U0FOVEVET@bootlin.com>
-User-Agent: NeoMutt/20260105
+In-Reply-To: <178038801491.119771.18384706761138506132.b4-review@b4>
 
+On 06-02 11:13, Mike Rapoport wrote:
+> On Sat, 30 May 2026 22:19:32 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> > diff --git a/include/linux/kho_block.h b/include/linux/kho_block.h
+> > new file mode 100644
+> > index 000000000000..5e6b87b1befa
+> > --- /dev/null
+> > +++ b/include/linux/kho_block.h
+> > @@ -0,0 +1,79 @@
+> > [ ... skip 19 lines ... ]
+> > +	struct list_head list;
+> > +	struct kho_block_header_ser *ser;
+> > +};
+> > +
+> > +/**
+> > + * struct kho_block_set - A set of blocks that belong to the same object.
+> 
+> "same object" sounds off to me. The blocks belong to the same module?
+> user?
+> 
+> Thoughts?
 
---ezldfm6trmndxdd2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH bpf-next v2] bpf, docs: add LOAD_ACQUIRE and
- STORE_RELEASE instructions
-MIME-Version: 1.0
+user and module are not descriptive, as the same client/user/module can 
+use multiple kho_block_set for different purposes. I suggest:
 
-On Fri, May 22, 2026 at 10:35:20AM +0200, Alexis Lothor=E9 wrote:
+"struct kho_block_set - A set of blocks containing serialized entries of 
+the same type."
 
-[...]
+> 
+> > + * @blocks:          The list of serialization blocks (struct kho_block).
+> > + * @nblocks:         The number of allocated serialization blocks.
+> > + * @head_pa:         Physical address of the first block header.
+> > + * @entry_size:      The size of each entry in the blocks.
+> 
+> I think it's "... entry in a block"
 
-> I don't know how heavy/long the process is to submit this kind of RFC
-> update, but your point makes it sound like it makes more sense to just
-> go directly for the proper way, ie adding the conformance group and then
-> adding those new ops in there, rather than updating the kernel doc as my
-> series is proposing, and then later reverting to a proper conformance
-> group.
+It is 'in the blocks' (or 'across the blocks') because a single  
+block_set  can contain multiple blocks, and they all share this same 
+uniform entry size.
 
-Hey Alexis,
+> 
+> > [ ... skip 42 lines ... ]
+> > +
+> > +void kho_block_it_init(struct kho_block_it *it, struct kho_block_set *bs);
+> > +void *kho_block_it_next(struct kho_block_it *it);
+> > +void *kho_block_it_read(struct kho_block_it *it);
+> > +void *kho_block_it_prev(struct kho_block_it *it);
+> > +void kho_block_it_finalize(struct kho_block_it *it);
+> 
+> These operate on block sets, should be reflected in the names.
+> Can be kho_blocks_ to avoid too long names.
 
-Apologies for the delay. My email filter was broken so I only just saw
-this. Yes, this would be my suggestion. I can send out a patch that gets
-this started later this week.
+We have already started using kho_block_set. Although it is longer, I 
+prefer to avoid kho_blocks/kho_block because the subtle difference makes 
+them difficult to read and prone to typos during coding. Let's use 
+kho_block_set for operations on a block_set.
 
-Thanks,
-David
+> >
+> > diff --git a/kernel/liveupdate/kho_block.c b/kernel/liveupdate/kho_block.c
+> > new file mode 100644
+> > index 000000000000..a4e650af946f
+> > --- /dev/null
+> > +++ b/kernel/liveupdate/kho_block.c
+> > @@ -0,0 +1,384 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +/*
+> > + * Copyright (c) 2026, Google LLC.
+> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > + */
+> > +
+> > +/**
+> > + * DOC: KHO Serialization Blocks
+> > + *
+> > + * KHO provides a mechanism to preserve stateful data across a kexec handover
+> > + * by serializing it into memory blocks. This file provides the common
+> 
+> "This file" does not look good in HTML docs.
 
---ezldfm6trmndxdd2
-Content-Type: application/pgp-signature; name="signature.asc"
+Fixed.
 
------BEGIN PGP SIGNATURE-----
+> 
+> > [ ... skip 15 lines ... ]
+> > +
+> > +/*
+> > + * Safeguard limit for the number of serialization blocks. This is used to
+> > + * prevent infinite loops and excessive memory allocation in case of memory
+> > + * corruption in the preserved state.
+> > + */
+> 
+> Can you add how much memory it is and how many entries with, say, 4 u64
+> it can accommodate?
 
-iHUEABYKAB0WIQRBxU1So5MTLwphjdFZ5LhpZcTzZAUCah+KQQAKCRBZ5LhpZcTz
-ZB68AP0XZVyPSmVl/+Ql+/VELqAYsqSL+Iq1Wkure4rdMn3Y5wEAwxbBaowMElWS
-MSr9V7Fqms8AHBV4LXZ24XslYEAK4ww=
-=MHgJ
------END PGP SIGNATURE-----
+Done
 
---ezldfm6trmndxdd2--
+> 
+> > [ ... skip 13 lines ... ]
+> > +{
+> > +	if (unlikely(!bs->count_per_block)) {
+> > +		bs->count_per_block = (KHO_BLOCK_SIZE -
+> > +				       sizeof(struct kho_block_header_ser)) /
+> > +				      bs->entry_size;
+> > +		WARN_ON(!bs->count_per_block);
+> 
+> Don't you want to set count_per_block in _init()?
+
+Done.
+
+> 
+> > [ ... skip 29 lines ... ]
+> > +	if (!block)
+> > +		return -ENOMEM;
+> > +
+> > +	block->ser = ser;
+> > +	last = list_last_entry_or_null(&bs->blocks, struct kho_block, list);
+> > +	list_add_tail(&block->list, &bs->blocks);
+> 
+> No locks?
+
+Linked blocks are not internally synchronized; that is a responsibility 
+of the caller, similar to linked lists.
+
+> 
+> > [ ... skip 12 lines ... ]
+> > + * @bs:    The block set.
+> > + * @count: The current number of entries.
+> > + *
+> > + * This function handles the dynamic expansion of a block set. It allocates
+> > + * and links a new serialization block if the provided entry count matches
+> > + * the current total capacity of the set.
+> 
+> This is a weird semantics for a generic API. I'd expect _grow() would
+> add count - current_count blocks.
+
+Changed the semantics to use target count, i.e. "The target number of 
+valid entries to accommodate."
+
+> 
+> > [ ... skip 25 lines ... ]
+> > +}
+> > +
+> > +/**
+> > + * kho_block_shrink - Conditionally destroy the last block in a block set.
+> > + * @bs:              The block set.
+> > + * @count:           The current number of entries across all blocks.
+> 
+> Maybe 
+>  	... of valid entries?
+
+OK
+
+> 
+> > + *
+> > + * This function checks if the last block in the set is redundant based on the
+> > + * total entry count and the capacity of the preceding blocks. If the entry
+> > + * count can be accommodated by the blocks that come before the last one, the
+> > + * last block is destroyed and removed from the set.
+> 
+> This should mention that it's the caller responsibility to ensure that
+> entries are removed in the right order.
+
+OK
+
+> 
+> > [ ... skip 49 lines ... ]
+> > +
+> > +		fast = phys_to_virt(fast->next);
+> > +		slow = phys_to_virt(slow->next);
+> > +
+> > +		if (slow == fast) {
+> > +			pr_err("Cyclic list detected\n");
+> 
+> Maybe "block set is corrupted"?
+
+OK
+
+> 
+> > +			return false;
+> > +		}
+> > +	}
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +/**
+> > + * kho_block_restore - Restore a block set from a physical address.
+> > + * @bs:      The block set to restore.
+> > + * @head_pa: Physical address of the first block header.
+> 
+> I'd mention that the block set should be allocated and initialized
+
+Done
+
+> 
+> > [ ... skip 10 lines ... ]
+> > +	bs->incoming = true;
+> > +	if (!head_pa)
+> > +		return 0;
+> > +
+> > +	bs->head_pa = head_pa;
+> > +	if (!kho_cyclic_blocks_check(bs)) {
+> 
+> if (kho_block_set_cyclic()) 
+> 
+> reads nicer IMO
+
+Sure, done.
+
+> 
+> > [ ... skip 87 lines ... ]
+> > +{
+> > +	if (!it->block)
+> > +		return NULL;
+> > +
+> > +	if (it->i == kho_block_count_per_block(it->bs)) {
+> > +		it->block->ser->count = it->i;
+> 
+> Why iterator updates ser->count?
+
+The new name  kho_block_set_it_reserve_entry()  clarifies that this is a 
+write/reservation path function (unlike the original read-only  next  
+name). Reserving a slot to write entries naturally implies 
+writing/finalizing the metadata count in the physical block header when 
+a block becomes full
+
+> > +		if (list_is_last(&it->block->list, &it->bs->blocks))
+> > +			return NULL;
+> > +		it->block = list_next_entry(it->block, list);
+> > +		it->i = 0;
+> > +	}
+> > +
+> > +	return (void *)(it->block->ser + 1) + (it->i++ * it->bs->entry_size);
+> 
+> In a month we'll need an LLM's help to understand what it does.
+
+Good thing in a month we will have even stronger LLMs to help us :-)
+
+Anyways, clean-up ...
+
+> 
+> > +}
+> > +
+> > +/**
+> > + * kho_block_it_read - Return the next entry slot for reading.
+> > + * @it: The block iterator.
+> 
+> And what is the conceptual difference between this and _it_next()?
+
+This was updated :-)
+
+> 
+> > [ ... skip 49 lines ... ]
+> > + * @it: The block iterator.
+> > + */
+> > +void kho_block_it_finalize(struct kho_block_it *it)
+> > +{
+> > +	if (it->block)
+> > +		it->block->ser->count = it->i;
+> 
+> So, it looks like the intention of _it_next is for write, and this ends a
+> write iteration.
+> 
+> I think the names should be adjusted to make it clearer.
+
+Done
+
+> 
+> -- 
+> Sincerely yours,
+> Mike.
+> 
