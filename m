@@ -1,109 +1,80 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79981340416;
-	Wed,  3 Jun 2026 10:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A10F3B2FD1;
+	Wed,  3 Jun 2026 11:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484168; cv=none; b=SknYC/X3njaTOvIeQ07kEix0u0bxriBenjcY2v0UM4QC6sAhMWsDItupekWke1xtC2GGmOoeDO18dyXdhyXjOvg8u/fE3eRTTc2W4JOkJ6uqbS8Z/lHKZPFoz7d4IpVIIt7AaaabfeNqUVeTGQleaMbfxsKBxnu572rzLPx4KhU=
+	t=1780484785; cv=none; b=e1YJierJXuWbm0ubsGs9DPQ4S7UZHI4x9+vcTiNtHrxRSru1aNghNbCt4T0KLRQV15G0e/4y5IInEm8Mk915iqr/N3kuXMOleDjwconUH0DtbvGq7xbk4oV++MY+StdopOtX4J6Absx+PE2af+JRQi2SiEBD5xK9ghwJC8qrC3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780484168; c=relaxed/simple;
-	bh=qB/lQfI4dsfp4RRMTU7nRrxcm6HE6yD9Mh5ftr5+Odg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WP4SPVvlM2iB5abIPAzvHP+nEw60TLw8AQkaGtdOr+15My4Mb4Kfw1UrPKVgk0i0dEq0ljmmuC2w1D7ydwlUaOJ/DidobFKtk/qyq9ybEsuCmVc/DcDDTOw22vc/Psb6NMEezbR2s3G2eJ08fhynu7cIaEu6GuPnbz4CWtqvUJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=hksvWnts; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1780484785; c=relaxed/simple;
+	bh=GvgqB2E/Kyddxf977Klr0BYNxizGw/BC0d/bmgsXfbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zqi2n1T5+O2TF1VhA62366YucSBxY+QC3TZnm9WiEodFClAQqv3N8Ec7XJnc2m03TNrNsMtrTJ/uqAbl5mRYav+40/SbRZkkFyPnKy5livhNUnIwJbfIEfpSyEfTbcB5S2X4xEBgbMYSx2vcrG+d20WupgqOmaoOyJ4uQnuWDAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Dh0pgKkY; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="hksvWnts"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gVl422n9qz9t1S;
-	Wed,  3 Jun 2026 12:56:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780484162;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mYLPDcy2H/OdgxAqqsMYxi9ouNTaBTAKlEi5O7LobLk=;
-	b=hksvWntszK8FsFQalsKjtqSDsZK714OAzxKxHZRLgm8W/t3xn/R/cGeKVOv3knByosd6LJ
-	2rLwRKAyWUKPOl5QB/8yaHrq7uu5Vbvsmu2r1SRThs3Rl59hX0leQ/PdR6uSTPFVpNygNI
-	wll8BA16q4sts9e1EWYEQp6LFxsy2LXrKsNwJBH7ozmejLNhSG2GvS4Z9tsY7btQnysOWq
-	/8fa7p+CfK+NY+/xOFeYUwIdH3ybS3d60CE/WwFYiMy0WKvgzL/zVvs9YE8rpChHyDzv7z
-	Qa7kRMQ7VnAE9ewyx/IWP7n53sUEKWUx4kXuzO9dgmkUFkGDXv3PKIXvw0bBzw==
-Message-ID: <a553f123de4b4887e8e78e751ca727f9992d8b00.camel@mailbox.org>
-Subject: Re: [PATCH] Documentation: index.rst: add entry of other
- sub-directory
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-rt-users
-	 <linux-rt-users@vger.kernel.org>
-Cc: Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>,  Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, "open list:Real-time Linux (PREEMPT_RT)"
- <linux-rt-devel@lists.linux.dev>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Date: Wed, 03 Jun 2026 12:55:57 +0200
-In-Reply-To: <20260603102020.ZsS16TaP@linutronix.de>
-References: <20260603080430.344391-2-manuelebner@mailbox.org>
-	 <20260603102020.ZsS16TaP@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Dh0pgKkY"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C775632E4;
+	Wed,  3 Jun 2026 04:06:18 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52B513F86F;
+	Wed,  3 Jun 2026 04:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780484783; bh=GvgqB2E/Kyddxf977Klr0BYNxizGw/BC0d/bmgsXfbw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dh0pgKkYamrFVE00IdP/ciPJ47rh+RmuKqGjRSeCJ30JkFx5eHMjdNxruDu5l3J9w
+	 suWtvZiytH1+GfAPpSyvb5Wzs88uX8N8myXgeHGSyQt4fwA5dsbyUiz93SI2IpYW3r
+	 2EslEMMGxCO/8aSakzkDwqCnWEzflopzev0Vy5F0=
+Date: Wed, 3 Jun 2026 12:06:21 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
+	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 03/18] perf test: Add a workload that forces context
+ switches
+Message-ID: <20260603110621.GR101133@e132581.arm.com>
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-3-85b5ce6f55c6@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: j8nar46ch35zgpd5mmtm4uy6g3qsymah
-X-MBO-RS-ID: 97f1a0ade6ecd05d2bd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-3-85b5ce6f55c6@linaro.org>
 
-On Wed, 2026-06-03 at 12:20 +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-06-03 10:04:31 [+0200], Manuel Ebner wrote:
-> > add reference to scheduler/sched-rt-group.rst
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> > ---
-> > =C2=A0Documentation/core-api/real-time/index.rst | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/Documentation/core-api/real-time/index.rst b/Documentation=
-/core-api/real-
-> > time/index.rst
-> > index f08d2395a22c..661b419e7f8f 100644
-> > --- a/Documentation/core-api/real-time/index.rst
-> > +++ b/Documentation/core-api/real-time/index.rst
-> > @@ -15,3 +15,4 @@ the required changes compared to a non-PREEMPT_RT con=
-figuration.
-> > =C2=A0=C2=A0=C2=A0 differences
-> > =C2=A0=C2=A0=C2=A0 hardware
-> > =C2=A0=C2=A0=C2=A0 architecture-porting
-> > +=C2=A0=C2=A0 Real-Time group scheduling <../../scheduler/sched-rt-grou=
-p>
->=20
-> Have you been using this and are referencing this because it is useful
-> or did you just happen to find it?
+On Tue, Jun 02, 2026 at 03:26:45PM +0100, James Clark wrote:
 
-I happened to find it.
+[...]
 
-> People have been complaining about this=C2=A0
+> +/* Not static to avoid LTO clobbering the function name */
+> +void context_switch_loop_proc1(int in_fd, int out_fd);
+> +noinline void context_switch_loop_proc1(int in_fd, int out_fd)
+> +{
+> +	for (int i = 0; i < loops; i++) {
+> +		read_block(in_fd);
+> +		context_switch_loop_work += i * 3;
+> +		write_block(out_fd);
+> +	}
+> +}
 
-Maybe with the help of them we can figure out what's happening.
-adding linux-rt-user@vger.kernel.org=20
+Rather than struggling with unexpected options, and "noinline" might
+not work as it is not a standard compiler option (it is defined in
+kernel header as AI reminded me), wouldn't it is reliable to use a
+dedicated CFLAG rule same as other programs?
 
-> and I *think* it fails to work
-> in multi-CPU scenarios (it might work if the task is restricted to
-> single CPU usage). Not entirely certain. But complains, that I am
-> certain of.
-> There is replacement underway to utilize SCHED_DL for this as in
-> "Hierarchical Constant Bandwidth Server (HCBS)"
-> 	https://lore.kernel.org/all/20260430213835.62217-1-yurand2000@gmail.com/
-
-will look into this.
->=20
-> Sebastian
-
-Thanks for the feedback
- Manuel
+Thanks,
+Leo
