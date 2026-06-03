@@ -1,50 +1,45 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB20C37BE7E;
-	Wed,  3 Jun 2026 09:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E4643CEFA;
+	Wed,  3 Jun 2026 09:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780477728; cv=none; b=V0L6Xa6EfQ6yFqLbV0rTZUbMqczYpBUDcQHdQ6xSwwXQgt0EfGRtY8X26S3+bFcAI5OXAqiFq3OqesSQIsj45+1/uT/tlc2IWLmTAv0qS7Py9stPh5f07NFPt7rI66IXTGg2PeHa0iNSgmU4iQhlTO5WX89UVedX2eIkvHPoJOM=
+	t=1780479188; cv=none; b=EgD2N5hgDFmnODBTvkzIy0fkdKlRAv00KWQxuJRa7MDUq6OvPWIZGVPI37MOkAPH08V10d6K0Jobk1/QVZxm7xngPvbn8EgqU5vsUth2q3HlnRFkgS738Yt72Kw+w5S21CyaLfH5g21s9Ils0jf9HE2R+9YKv9CD0LnTFF8LxAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780477728; c=relaxed/simple;
-	bh=JfJw0R7L0SlTjl7cN9ao6oUSPyEBft3ic8R9P4imIIc=;
+	s=arc-20240116; t=1780479188; c=relaxed/simple;
+	bh=lt+j2EZwfuCvS9VqopiUtmumkELCLq8z+NMaWo6dPRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SpXM5WQoC1dt9TBIShZB2GTJ2CeW6f+AGQDE49yx2jeV/zTHoAXqdxcAeC0AusVCQUb6AHmptgqzGxC5eZAS4FF3TlTBBw3439f7xgVqVOGJxDp5kih1ezE0s4U615dw5sJrb3h0JRIHhHUfeg5DqEuDPBV+E2myUFZJeoVAHN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VIC+l2bO; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMd34LgHQqQYw1o07piaxVuWNnpbu180E95LlyW7wUupPdMvq3O8KoRlMqV4ELxUt5HXA7MxiQFbb/umMr2wXr+unpl4zg3uloL+C8D2CBcT5ROJXz7aZy/LPKtlavvtrhBJZodU122+r/88k90/GaovNN7WvzaRbccPStV3+0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rx1cSpJl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VIC+l2bO"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B8A732E3;
-	Wed,  3 Jun 2026 02:08:41 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 97CFD3F7D8;
-	Wed,  3 Jun 2026 02:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780477726; bh=JfJw0R7L0SlTjl7cN9ao6oUSPyEBft3ic8R9P4imIIc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VIC+l2bOcGWkZnPySdfpJb3DUf5Q+a/PeG3LyDBDJPMCmTkbGTEfVu7utSF22EQO5
-	 T54EUW7jbf9FfFxNgCnge8tqf00MqY/+AABA7z8fyP5tXVQjgXGB0auYHQi1uqgzmN
-	 OF6u5RqGVwda/x5gTlizxbvra2xNsj+PwdOPJ6cU=
-Date: Wed, 3 Jun 2026 10:08:43 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 01/18] perf cs-etm: Queue context packets for frontend
-Message-ID: <20260603090843.GO101133@e132581.arm.com>
-References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-1-85b5ce6f55c6@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rx1cSpJl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FAF1F00893;
+	Wed,  3 Jun 2026 09:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780479182;
+	bh=R3CPe9L+Xkc56uXDetG+lvovbz0JWP1jQopKoFbSJqc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Rx1cSpJlGAM0YKvGloDx4NCqR14Zez0e6wNchackcfyp3UWVdcBZSI9zTWDzbxJ9K
+	 0bxYsTiuDHtW/iHnjIsxs7z7YmLa/cvEP67GMnbC5TqLxuuYjSd9o2npCUDV6PIt54
+	 kYFUq53Ow4olqnLx+dT8XKv53t10rlH8/YbanQ4smjEdtkzz+MkZIos8WgrWvz8Hgv
+	 GdrOWQQWdzDSFzD42zxtkp5aHFnN/hw/tz7d4s5PJ4OE4yrRKkGRclDGlKGRnYIs+2
+	 4M9Mq4C9Ui6I3VnVRfzjhRHXZlFvXiHaWX4z0hcmznIOTu5avK9NWnL1AmPAJAPNMh
+	 H47PAq9cno9jA==
+Date: Wed, 3 Jun 2026 12:32:54 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: linux-kselftest@vger.kernel.org, shuah@kernel.org,
+	akpm@linux-foundation.org, linux-mm@kvack.org,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net, dmatlack@google.com,
+	kexec@lists.infradead.org, pratyush@kernel.org, skhawaja@google.com,
+	graf@amazon.com
+Subject: Re: [PATCH v6 04/13] liveupdate: register luo_ser as KHO subtree
+Message-ID: <ah_0xsPC_oNPewVk@kernel.org>
+References: <20260603032905.344462-1-pasha.tatashin@soleen.com>
+ <20260603032905.344462-5-pasha.tatashin@soleen.com>
+ <178046942429.468621.9591914636403075487.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,58 +48,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-1-85b5ce6f55c6@linaro.org>
+In-Reply-To: <178046942429.468621.9591914636403075487.b4-review@b4>
 
-On Tue, Jun 02, 2026 at 03:26:43PM +0100, James Clark wrote:
+On Wed, Jun 03, 2026 at 09:50:24AM +0300, Mike Rapoport wrote:
+> # Add your code comments below. There is no need to trim or delete
+> # any existing content -- just insert your comments under the relevant
+> # lines of code. Lines starting with "> " are quoted diff context and
+> # lines starting with "| " are comments from other reviewers.
+> # The final email will be reformatted automatically to include only
+> # the sections that have your comments.
+> #
 
-[...]
+looks like b4 review bug or misuse from my side :)
 
-> @@ -614,10 +621,12 @@ static int cs_etm__init_traceid_queue(struct cs_etm_queue *etmq,
->  
->  	queue = &etmq->etm->queues.queue_array[etmq->queue_nr];
->  	tidq->trace_chan_id = trace_chan_id;
-> -	tidq->el = tidq->prev_packet_el = ocsd_EL_unknown;
-> -	tidq->thread = machine__findnew_thread(&etm->session->machines.host, -1,
-> +	tidq->decode_el = ocsd_EL_unknown;
-> +	tidq->frontend_thread = machine__findnew_thread(&etm->session->machines.host, -1,
-> +					       queue->tid);
-> +	tidq->decode_thread = machine__findnew_thread(&etm->session->machines.host, -1,
->  					       queue->tid);
-> -	tidq->prev_packet_thread = machine__idle_thread(&etm->session->machines.host);
-> +
-
-Redundant new line.
-
->  	tidq->packet = zalloc(sizeof(struct cs_etm_packet));
->  	if (!tidq->packet)
-> @@ -751,20 +760,16 @@ static void cs_etm__packet_swap(struct cs_etm_auxtrace *etm,
->  		 * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->  		 * the next incoming packet.
->  		 *
-> -		 * Threads and exception levels are also tracked for both the
-> -		 * previous and current packets. This is because the previous
-> -		 * packet is used for the 'from' IP for branch samples, so the
-> -		 * thread at that time must also be assigned to that sample.
-> -		 * Across discontinuity packets the thread can change, so by
-> -		 * tracking the thread for the previous packet the branch sample
-> -		 * will have the correct info.
-> +		 * Track Exception levels for both the previous and current
-> +		 * packets. This is because the previous packet's address is
-> +		 * used for the 'from' IP for branch samples, so the previous EL
-> +		 * must also be used so that sample shows it originates from the
-> +		 * correct EL. Branches can't branch to a different thread, so
-> +		 * no need to track the previous thread.
->  		 */
->  		tmp = tidq->packet;
->  		tidq->packet = tidq->prev_packet;
->  		tidq->prev_packet = tmp;
-> -		tidq->prev_packet_el = tidq->el;
-> -		thread__put(tidq->prev_packet_thread);
-> -		tidq->prev_packet_thread = thread__get(tidq->thread);
-
-As here no any code for EL swap, the comment above is a bit disconnected
-with the code. Can we just remove the comment to avoid confusion?
-
-Otherwise, looks good. Thanks for maturing the patch.
-
-Leo
+-- 
+Sincerely yours,
+Mike.
