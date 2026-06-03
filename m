@@ -1,50 +1,50 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D58837DAAA;
-	Wed,  3 Jun 2026 17:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC4535B636;
+	Wed,  3 Jun 2026 17:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780509055; cv=none; b=h3QrFTQ84CGvAmSvplblEg9V9bhqkK21fu9oJVfAlZuYkCpJBgqDzr7Z8bH7OGmTWOirepW4++JuIR2QIAQCXiKCA/ivoDVMZIn4ry2Q4TYUb1YNnIgKjtrVOvr/7s4KEpXb9hzsM3KrdFtePUly74RF5ty6MCLcEAOYNEPAZww=
+	t=1780509205; cv=none; b=fdPW8O+0vhPXC3kft+kd/v1qv56d9CKqWvexSbtcbZpgfz/fdj+XWG7K/VR5JZE2cRGKGq/1Zv/5UWcmUJpu1PKhIaDR4bhaL+oEsVWb+G9MHU/EEgJcogZEqGjyDojq/tQoGfQkRziZ9gJfd/9PqOPseSBr4Kmq5z+Cf3GnObw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780509055; c=relaxed/simple;
-	bh=B5Lqtd1oa0rlp+ydOSNsdkfEIB24JYJistvdJ8DWLc8=;
+	s=arc-20240116; t=1780509205; c=relaxed/simple;
+	bh=vppiZd/qtcCRgVLh1QMM9EF7Mw0qPVoVQ41j9MIeuUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EIKzNoYWsqId4z1Sg/xIOT0ztL7/yOONv9/ynnTelz06n6M7ugv4A8Bnn0UwyrirBQpGEh6VOwqWRAU2RcAI1Rip30P6GB1L/8wlpRdCxYnNt5YtJgJi7UEI9g2HnONqyfpJR5VWkiJt8ibEGVAuLFo9kYYJr2ew9io+XacEcLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Y0sdcHkM; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q99U4ihXl52WlrW4tQQV39d5M7EC5fXE0LZeqkT3wAEc68JA71N7zB+mJBoTZ5Qebahi0gDSrTB+5FVVdVovVnQF12svYUUKfEuMyVFkoVr844ODDwXSH60APZb9uGZrrfD5cnU5Xygaoh3Akh5zLmj6aA/PR9G1FI0J+IGBnno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkVO97m0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Y0sdcHkM"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D01032E4;
-	Wed,  3 Jun 2026 10:50:48 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DAA493F632;
-	Wed,  3 Jun 2026 10:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780509053; bh=B5Lqtd1oa0rlp+ydOSNsdkfEIB24JYJistvdJ8DWLc8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y0sdcHkMQOlmliCSSMgxKSjEkEdJ13Owb0hAh4ohcOimLGuGYKLCNzG7F8d5ZHFWb
-	 KhO70aTFKams8gEu+NOFsGnab5N5d4QYUdadn3SS2+QpG4XnH362H6P3WW+QmUJnZ7
-	 L5h58FEJTTJsP4ONkQ/Ck1S37LbKTGjLysYOn7p0=
-Date: Wed, 3 Jun 2026 18:50:50 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paschalis Mpeis <Paschalis.Mpeis@arm.com>,
-	coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 17/18] perf test cs-etm: Speed up disassembly test
-Message-ID: <20260603175050.GI101133@e132581.arm.com>
-References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-17-85b5ce6f55c6@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkVO97m0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21F1B1F00893;
+	Wed,  3 Jun 2026 17:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780509203;
+	bh=Kmw2GG270O/WDwV9f+xAk26aPfN3D53RPt/2qsfOh+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=HkVO97m0JsKg+Wm02hgp6BASGf3hGqiwuLrba0GeSiPaD3J7Aa4WBjEyu35tjFpz7
+	 +ClWT+Gq2KkgPeVhp6NPeZS5XFRt8WPhUKT041BRbyZ0gwdfekfBr1NlRf7QspnF2Y
+	 xATaeyWAFn94pFEFUsZx7/Rf9K7PWJpofAYTGnRV63L6cqsbrX+nqUBpH4U0L3psZP
+	 7H+Rn0P85Cgo8HmdiRhxiBYG6R7r8qjpNLTwXM8V4dmVtogbw1f0LTM5bwxpLQ98qa
+	 GiBl9/XsnrCropM9xKs1JBwV3ZPVv0jVj372YBuXtNKdEXF1/terVlR4zDgaXMhxOO
+	 02t21aRkpBsdA==
+Date: Wed, 3 Jun 2026 17:53:21 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+Message-ID: <aiBpibRNi0BcM1Zu@google.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
+ <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
+ <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,14 +53,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260602-james-cs-context-tracking-fix-v2-17-85b5ce6f55c6@linaro.org>
+In-Reply-To: <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
 
-On Tue, Jun 02, 2026 at 03:26:59PM +0100, James Clark wrote:
-> We can use exit snapshot to limit the amount of trace to decode here
-> too. Also each call to objdump is quite expensive on kcore so limit it
-> to 2 samples instead of 30. We only want to see if there is no data at
-> all.
+On Wed, Jun 03, 2026 at 11:02:54AM +0800, Hao Jia wrote:
 > 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> 
+> On 2026/6/3 07:19, Yosry Ahmed wrote:
+> > > > > > > Proactive writeback also wants a similar per-memcg cursor that is
+> > > > > > > scoped to the specified memcg, so that repeated invocations against
+> > > > > > > the same memcg make forward progress across its descendant memcgs
+> > > > > > > instead of restarting from the first child memcg each time.
+> > > > > > 
+> > > > > > Is this a problem in practice?
+> > > > > > 
+> > > > > > Is the concern the overhead of scanning memcgs repeatedly, or lack of
+> > > > > > fairness? I wonder if we should just do writeback in batches from all
+> > > > > > memcgs, similar to how reclaim does it, then evaluate at the end if we
+> > > > > > need to start over?
+> > > > > > 
+> > > > > 
+> > > > > Not using a per-cgroup cursor will cause issues for "repeated small-budget
+> > > > > calls" cases. For example, repeatedly triggering a 2MB writeback might
+> > > > > result in only writing back pages from the first few child memcgs every
+> > > > > time. In the worst-case scenario (where the writeback amount is less than
+> > > > > WB_BATCH), it might only ever write back from the first child memcg.
+> > > > 
+> > > > Right, so a fairness concern?
+> > > > 
+> > > > I wonder if we should just reclaim a batch from each memcg, then check
+> > > > if we reached the goal, otherwise start over. If the batch size is small
+> > > > enough that should work?
+> > > 
+> > > Even with a small batch size, for small writeback requests triggered by
+> > > user-space (e.g., 2MB, which is batch size * N), it might still repeatedly
+> > > write back from only the first N child memcgs.
+> > 
+> > Yes, I understand, I am asking if this is a problem in practice. For
+> > this to be a problem we'd need to trigger small writeback requests and
+> > have many memcgs.
+> > 
+> > > This could cause the user-space agent to prematurely give up on zswap
+> > > writeback.
+> > 
+> > Why? The kernel should not return before trying to writeback from all
+> > memcgs. If we scan the first N child memcgs and did not writeback
+> > enough, we should keep going, right?
+> > 
+> 
+> Yes, this issue is not caused by the kernel, but rather by our user-space
+> agent itself.
+> 
+> For instance, suppose a parent memcg has two children, memcg1 and memcg2,
+> each with 200MB of zswap (100MB inactive). Triggering proactive writeback on
+> the parent memcg will exhaust memcg1's inactive zswap pages. After that,
+> even though memcg2 still has plenty of inactive zswap pages, it will
+> continue to write back memcg1's active zswap pages. Writing back active
+> zswap pages causes the user-space agent to prematurely abort the writeback
+> because it detects that certain memcg metrics have exceeded predefined
+> thresholds.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+This will only happen if the reclaim size is smaller than the batch
+size, right? Otherwise the kernel should reclaim more or less equally
+from both memcgs?
+
+> Of course, real-world scenarios are much more complex, and this kind of case
+> is extremely rare in our environment.
+> 
+> That being said, your suggestion of using the global lock for the per-memcg
+> cursors makes the writeback fairer and would resolve these corner cases.
+
+Right, but I'd rather not do per-memcg cursors at all if we can avoid
+it. Will using batches help make reclaim fair over all memcgs without a
+cursor?
+
+We can always add the cursor later if needed.
