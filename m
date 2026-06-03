@@ -1,47 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41F448C8AC;
-	Wed,  3 Jun 2026 21:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F28E48C8A1;
+	Wed,  3 Jun 2026 21:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780520813; cv=none; b=WZ6t/95SpuHas9JH6W9sZWq8tgHftIYOZp0wt/RGjbWDtrzP43heF9SbipFJ6XuF1/VX2KQHXlJaXja1HU8ohvpItPZ/qAn1NgFCBIhduFTuHNQ5pMtB4YXF/fTOLbV0vjJWav2unRCaeRp5R3QVxzxgQrR2PvZFH0d2Rjv/k6w=
+	t=1780520827; cv=none; b=axj2h+rf0lqLdabAfKgjwC74XLXlgIIlLx2EA6TAzQB3v0ge5NNg5KiFdtMjMajHH0Gr/AW3Go3ppoTj0kz5SkVrjL2R69pm39TOw/9GSqCItOUkld+itiJtQu6HjI95POesA1mPDvVSziyjPGojqeOWyjeGf5B0zwfYpsFY/AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780520813; c=relaxed/simple;
-	bh=z0Jp8LV7efE6WbL+zZOrICPpKPAe5OtclLW7a2oebsk=;
+	s=arc-20240116; t=1780520827; c=relaxed/simple;
+	bh=4m2Fj2ZS2BLyJDWSMX9JZEerPxvMzhGBmpS8xsHOyrU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aAfwI85VpmXtzVNgWnMW4L8eqHeAazKG/eiFy+tct0oXkMxR9UlCz0qKM7lRnnDcLxijCWl/5gulyPvIfLpKoTzDfrbWcOP9q5WWIKSuxZB7VuV3dxf0xVuqWnI/EvtNXxZ33x2ydeOmAtIdrSarFm7SlwjanFkC0k3AHkcAp6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nydNbfnm; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=lPhQvVfe7G8+LRGPD9yd9//qnybSFsSa1ddAkloz/aJbeHkKMwqbBPwx/TBtozi53iufPSFUpjXmY1CFl2m4QRhFBUJgtq4jTJcvoWdD2U6CQ7UrGI3yUOc2rvaGneXZWRwR5Vjrn6LU6KcpCVMiEvI2tuZ1PhqgeeBJ634Dj0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3NEPwD4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nydNbfnm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A893D1F00893;
-	Wed,  3 Jun 2026 21:06:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3NEPwD4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C75D1F00893;
+	Wed,  3 Jun 2026 21:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780520812;
-	bh=21q3frG5dqsfzhzDGUSQ2foZqGYT+5Kd243FESgXfYg=;
+	s=k20260515; t=1780520825;
+	bh=zuCcNKlBGvtnqvBvkqXr9K8d2tUZ3DIWY7nKfWt/lcs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nydNbfnm6Q5PM5n4h1PYamx+MAScoZSsjbgXa+PidSrdlv9limWwAAs3w1gBxgW3/
-	 E2eDdyXoSqKK97c/sq0583UeeMRLETMOdukT3NfBOxopHZbugjnQcuX3EzwPciOpkr
-	 YL0jB0WM3VW5Q73BK4TcFxQCXcu21BGcy9UIisT4THSEErXd1SnwKHO8Xym6Xof1y4
-	 CVNXDJDN/VjIWvoU2mY4RlYK9vIMPKtgAqbUU1Y6hoDv9ejbMyW+5ooj6Y6ThM3vtS
-	 WMofj3ch2GU28t6P4s7QXSFiP2onkVdUaEJky1Qel8NaKg7Iermv4Jy6sNxJEYxdTJ
-	 AR7+TlBkLkgAQ==
+	b=C3NEPwD4GvgSeWN6a3CQ/gyiEh+c0zvPeQQGLhGxCTjJet12GZSBrXbGn9OH0fhcz
+	 hpMn48cXO8/bhBG1zh9zB6P3mRCow/IqcbgbwCJRugr3zXJFhZi9t862Ip6Owa+hJg
+	 2BOXHRdLsy7Ue1D4XV29EC1bdDP5qtC6rNkxfXGmeekH3i8oGoRbHI1GeJuosp42BH
+	 tH/TL+AP/KMPMuJJkP4t1OAjayb0Ffo3bYj3qKN7X1nqueA6+bQLCbYNgNOWk3f8D8
+	 Cen2wOVPr+p6qQSHKaNDiCG0ndlgVo3FsPPaQ8vHCA/EKtLnZ+Fr1R8kFwMkTrkqLl
+	 /QvGO20Ola7AA==
 From: Will Deacon <will@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>
+To: vladimir.murzin@arm.com,
+	xuwei5@huawei.com,
+	broonie@kernel.org,
+	ryan.roberts@arm.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	oupton@kernel.org,
+	kevin.brodsky@arm.com,
+	maz@kernel.org,
+	yeoreum.yun@arm.com,
+	skhan@linuxfoundation.org,
+	yangyicong@hisilicon.com,
+	thuth@redhat.com,
+	kuninori.morimoto.gx@renesas.com,
+	lucaswei@google.com,
+	lpieralisi@kernel.org,
+	miko.lenczewski@arm.com,
+	mark.rutland@arm.com,
+	james.clark@linaro.org,
+	Zeng Heng <zengheng@huaweicloud.com>
 Cc: kernel-team@android.com,
 	Will Deacon <will@kernel.org>,
+	wangkefeng.wang@huawei.com,
 	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: Document SVE constraints on new hwcaps
-Date: Wed,  3 Jun 2026 22:06:27 +0100
-Message-ID: <178048736181.314885.11070346483704289867.b4-ty@kernel.org>
+	zengheng4@huawei.com
+Subject: Re: [PATCH v4 0/2] arm64: cpufeature: Add WORKAROUND_DISABLE_CNP capability
+Date: Wed,  3 Jun 2026 22:06:31 +0100
+Message-ID: <178048700943.309679.7634002465643697724.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260522-arm64-elf-hwcaps-sve-cleanup-v1-1-07b0cedfc6fa@kernel.org>
-References: <20260522-arm64-elf-hwcaps-sve-cleanup-v1-1-07b0cedfc6fa@kernel.org>
+In-Reply-To: <20260603062025.1504083-1-zengheng@huaweicloud.com>
+References: <20260603062025.1504083-1-zengheng@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,21 +69,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 22 May 2026 18:50:28 +0100, Mark Brown wrote:
-> Two of the SVE hwcaps added for the SVE features in the 2025 dpISA did
-> not explicitly call out their dependency on SVE in the ABI documentation.
-> Do so.
+On Wed, 03 Jun 2026 14:20:23 +0800, Zeng Heng wrote:
+> v3: https://lore.kernel.org/all/20260601112000.1145391-1-zengheng@huaweicloud.com/
+> v2: https://lore.kernel.org/all/20260529063132.766491-1-zengheng@huaweicloud.com/
+> v1: https://lore.kernel.org/all/20260526015720.206854-1-zengheng@huaweicloud.com/
 > 
-> While we're here reorder the SVE and fature specific ID registers for
-> HWCAP3_SVE_LUT6 which did have the SVE dependency but listed it second
-> unlike the other SVE specific ID registers.
+> Changes in v4:
+>   - Keep orthogonality for CONFIG_NVIDIA_CARMEL_CNP_ERRATUM and
+>     CONFIG_HISILICON_ERRATUM_162100125 within the cnp_erratum_cpus array.
 > 
 > [...]
 
-Applied to arm64 (for-next/cpufeature), thanks!
+Applied to arm64 (for-next/errata), thanks!
 
-[1/1] arm64: Document SVE constraints on new hwcaps
-      https://git.kernel.org/arm64/c/f20f8fe086b2
+[1/2] arm64: cpufeature: Add WORKAROUND_DISABLE_CNP capability
+      https://git.kernel.org/arm64/c/25996982ebcf
+[2/2] arm64: kernel: Disable CNP on HiSilicon HIP09
+      https://git.kernel.org/arm64/c/f64328ecf4bf
 
 Cheers,
 -- 
