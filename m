@@ -1,328 +1,775 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9CD481661
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 13:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA7E481A92
+	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 13:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780491978; cv=none; b=Tcm8AYSJ+Lae9Ex47WOQBgPszM/UWtePbZ/eEN8C1RdyLUhLfaV7SPeOcCR7fINurgZBHqwjYg/+cn3iu4cFxBMBqqYoz/d5Q6+Ks4EzThyZVo9Mdob0NhA4vX3Ee5RUYDpNT2PNc7XUQFcKqPpQotYlmLf8GoMtRdbqPp/DnjQ=
+	t=1780491979; cv=none; b=ntLUUIC2oZt3FLMar9cNAfbGh7iAbHAlHSQSln7WRsv31XXPyfkq9JyRncgf+DWeYL9xm9Afy0gRtRFkSJI6G7THZPolemfihdZeABktiioo9U65Vx9cTHSAyB7eZF5eBQS3PS8FuSby4giQLJdcW/GWPL2rZKWytx/3soQDbho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780491978; c=relaxed/simple;
-	bh=T6kHT+p1VwjYophqk0ehEJosMAed3iZy1b1M7R+o828=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FeXC9hwBuMpXHNImO1vAQA75Wy0f+jP4Y3xirQEAfPBWuYod0Z5weT2yt40mw7ueO9jAZX0HAemiwzyot1ELn+ttoJES2sbJkxbGQLtS+WrXk9rM0yy4Ll7QOs3onQ/6dO7C2ZVoQxSTMrkNNF1cNcazO1zy5Boy7iZUfm/Mjqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSmbqBMJ; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780491979; c=relaxed/simple;
+	bh=gBI1VIffgXOMhgS82GUqaDqo8I8A6uOrjx8K6KC3KxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uPgMaKChJ7/LsBuMHdTYhb8tBR6dzC5t5238xuM3q8CSk8/fFsWpmckBwC8x9/lXpHtVv7nta6eKTNTFWdry8lnzT8rZP2FKs0XdL81wYu8E+aLEyftb3Hf9i607dscComLeAQH5B/XvYhGNK06V+klP/uFe7eTb7S6bUuY/2ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=JkNXCXSE; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSmbqBMJ"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8421f0e9c5bso1966353b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 06:06:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="JkNXCXSE"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-48611abeeaeso1408412b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 06:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780491967; x=1781096767; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/AdEtlgwKVGn3OjI19JPJND+SGmb9+Nc9aTPH09hmBU=;
-        b=gSmbqBMJ/YP8JsRsqmbQd5yjAL1yE6abCB23bDKeTykWFEpag2l5toFAj5+3lV3nlf
-         wzHw2h/1AgHz2myN0YQ667V18oGeTVKOEoP+sy2tWi5V5u69I5KwIFMSBczPg0tUIHFn
-         A5oOsvcUOMn9DyVFFqqVUE+mrxdevXCBj8ttM+FcIQ9fVBk/pXD3MOllmjN+tsdNOE+6
-         zPYTM3eTLNjnxLyvkEljZIMA7Wf3wG/oxkyQqn2j4RUl/cjGm+05dpJCzaM9OoO7A2dT
-         zoTjwY+1YlstIlQdQwkeuhh+Y+fyF0rr1CcnCBwNOovXvjK1pbeqD0+qlPdErCwdodA8
-         hCLA==
+        d=soleen.com; s=google; t=1780491975; x=1781096775; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iV51OI5GB1SwhOBsu/JVwt8SKq7L6n2Bh6/sNMVT8To=;
+        b=JkNXCXSEmUfKoQAjRONfgxvQZVBPxfY7H8o45odVdyi9lK/dHPZSam8dcxl0+GstH6
+         3Bm1wJ7TTydch7blYrxSxnjCa9k8tPD322XqGdz7IJ64gJEoxYjt1/Yg2Tzm6+x7ZL43
+         fDLpkrK6c6hR7sz3nNNGpxw3ptK4VXGMCrJUUAxKAx4vUzWI5FjFNp6R7jq0NAklz2Jk
+         28HxXlRg4j8lBPVMw+I3nyVhl9kau8FCGTLJiM0wV/lju+b+PiLSlBs7GbiGE40wTBPN
+         McCee88L2cswoz5UpvptRohp9t1/mZEggBIBmIY4T2vt1oqzzk5omje1yImrWjrYSX1q
+         PPcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780491967; x=1781096767;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/AdEtlgwKVGn3OjI19JPJND+SGmb9+Nc9aTPH09hmBU=;
-        b=JKbqGM5YOxQJJKJuBiUVcW/dxleWWAC5jww0yFgGuLGXhikWA8xErJtbre7PF5N5T7
-         LsK2BdM1XqwfAvOQ0of7K394oy32H9F7NtHAVDatGCU0EJCOvS1efPs/tiZXus7TChFj
-         V6pBTuC078gQPO9f7NFDpDPoi1Hexdj0bRhnxzn4uPab+4LrbuVF0ytnOYAa4z1MZO4r
-         8WUvpIciKCC+4cdeEe+Dcw/qcq7bMNnqgcUcgh7WEMueOqzj6hnULHZQA80hagq5caXE
-         SjRAHDQWmhwrfMqHXmGRm7ZUV/tVxgQVIZ5hVtOdc/MWuInSmL5vyElwXTo1Yu3W7Acu
-         Morw==
-X-Forwarded-Encrypted: i=1; AFNElJ/1XFBJzbSPuVZ5zbyjU4sJ/Fmln4jca6hJnz6HOXl7M1dz6Y3ND5FgF3E3NH0EqKFf4ufnHDqF84M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySM3XG3oADixDGtyF+EeIvH/JZCPMfZ4kN/pVFacWIDQyl6XhY
-	yXgbPnJuYMgUWuxBISM1dqyV0F40QM2NE6DDRG/7QsRdIk+iH1uW1oz5
-X-Gm-Gg: Acq92OG8Na3oHZRCuC8ak6DGMUhMj5kfXo4k8/D7se3/wx1zMYuWJv5Clmdlb5t31D5
-	lGwDVjMmwNAvAwOvrCOru4z80mGlrbhaK550127nQ5jpDcFIS7ck5hbO/Yx0LRtVIdjqpWcFxxr
-	bqJ/nT7BijdsMtdTN+gdQDHlV8Em53FwyU4wU3xgzTAuOKa7eajvrEN1OaPiEkrDphup827zwhD
-	hdyuE4iecnJS2O7khd9cak/xucVGz0mBqpoJmVgMMuSVL2Ivl6lC27bZbBbupt5la5JRejw+/W1
-	km02IkqttYLhIWCa3b7vFhhaaBWVz2E1oMVlI60IKf+L3DJJusFYREz6TQFLn995zM5itvdtGSV
-	vLbPhk+Kpb4e/S5P9tZR47GP86giHsgZbgw5ems7gtotdvOpDB9Z5dqrdiKHRq4Tsvolrw7LAy2
-	DxSKI+IHZ8ai/p6O1FOdjoCAhMV/Yr5gV0GXxaHI8+g0T2mHCxEOArC0BLf3oAiJZ68oYt6cUIW
-	NtEb06nWd8=
-X-Received: by 2002:a05:6a00:340b:b0:82c:d7c4:4c5c with SMTP id d2e1a72fcca58-84284ea24f6mr3094033b3a.20.1780491966627;
-        Wed, 03 Jun 2026 06:06:06 -0700 (PDT)
-Received: from NV-J4GCB44.localdomain ([103.74.125.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828821d0sm3018661b3a.28.2026.06.03.06.05.59
+        d=1e100.net; s=20251104; t=1780491975; x=1781096775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iV51OI5GB1SwhOBsu/JVwt8SKq7L6n2Bh6/sNMVT8To=;
+        b=HXRJK1Ce4GXR2KwNPn6USEhgvYMTVI5v0A09Sl8lR7151QstsKVGmExWgxzjx1R2NB
+         37kvuD9GEmxVqODapbvgtEKRzI90rrnwrlv9PmisVPpxEWb3NlK9T0V5KHX3azdZ54QY
+         NpS6kV0/s9qqg50jfTsXahswXaL5fW00CQ6pT0ttq8QSI+DNpAVP4sQPLzzkCQZKzUnc
+         dC0CEoFnQb/4CCieXWZD+0GG8KKbIHUu1lW6yBXbL+3jO/s2kGd32beoIRz6aI1dke6U
+         NGFbSRheB7cfhjpzqsnSHOT+seVqLLf7LZs8RT45Zk5lCy79ImJENT6IZNKpZ45LyNWF
+         rYZg==
+X-Forwarded-Encrypted: i=1; AFNElJ9Jk7GP0+EjJcTNKhzWHXHVvbhm24bArIrzWd9Cton5P8CQGZoQ4tzBGe7nik2k/ZuaBCmL6Q74Qx8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3bRYC5pRGLiGdp7uzInvLIyrvWRHgwRkxShSbP0IS7tSsBrNS
+	TGl1ht7ErxYQjb5IHP9pGcbk8rdekMWFS8Q/H6zmeEYdBE3WDF6jSau5Me58ip/YKSU=
+X-Gm-Gg: Acq92OGElebvVYli0xioat51tgWQq283cG5kNOccTlwlFuTuaciJWrueAakP1NdQ0L8
+	2qj6WFIZoDUaRzbUsHPn2whu5fpnSYuUJZmaB5E5dmPmac8xIfZW1Lh344WOg2LkidPIYzJTBAL
+	SCGts3MzV2OhIgnFJDFPyJWN9xhZokQRPu/qzmpYV0b7T7Ko4pV2+7wZf/pkHGpJK6GQ2VKMWRo
+	3K/dLoP3NRR+xdKcu1d0p4dT9xb0N9Pi2AvJIrWOnSYBAigpqJiZKwtU2UrMrCivJAoftXNzfci
+	Bvz0gntd38iK8yT7XHJr0f0v/ogMiAdqpitseTBsaibbFu9H2K+J+y33nJ7QYMGKpHkWAlPhOl/
+	eHEILVM/oXISeRcx+8UIDPq4fWTGClyxLrVPqoXG4aPtz8ZvgZXF3Ln5MT9T2A3jijmsBplYre5
+	cb8uhRakQxPguh7Sjio+AppRR3c7/HmNdUn6dRR04YUNRL4rsf/4zWHp7HB4PBaA==
+X-Received: by 2002:a05:6808:50a2:b0:47c:be93:9214 with SMTP id 5614622812f47-4865a97f66cmr1774141b6e.20.1780491974661;
+        Wed, 03 Jun 2026 06:06:14 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd07629dsm19450276d6.39.2026.06.03.06.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 06:06:06 -0700 (PDT)
-From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Wed, 03 Jun 2026 21:05:34 +0800
-Subject: [PATCH v4 3/3] mm: move reclaim-internal declarations out of
- swap.h
+        Wed, 03 Jun 2026 06:06:14 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: rppt@kernel.org
+Cc: linux-kselftest@vger.kernel.org,
+	shuah@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	dmatlack@google.com,
+	kexec@lists.infradead.org,
+	pratyush@kernel.org,
+	skhawaja@google.com,
+	graf@amazon.com
+Subject: [PATCH v6.1 07/13] kho: add support for linked-block serialization
+Date: Wed,  3 Jun 2026 13:06:12 +0000
+Message-ID: <20260603130612.397948-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <aiAgHTbleCL60SYm@plex>
+References: <aiAgHTbleCL60SYm@plex>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-3-ce0219e100d9@gmail.com>
-References: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
-In-Reply-To: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
- Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- David Hildenbrand <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jianyue Wu <wujianyue000@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openssh-sha256; t=1780491936; l=7974;
- i=wujianyue000@gmail.com; s=id_ed25519; h=from:subject:message-id;
- bh=T6kHT+p1VwjYophqk0ehEJosMAed3iZy1b1M7R+o828=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgW51Zh3v9nG0Wlld2Ti8ylp1TnO7yB
- H+z9CbXty/WEAQAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QD4bVWhMe8NLfW7WaNlCFAwsZgMqQhUe7WFiFzMCNG3jj26NJzsItffE/f0Y0lHspxRMIi1Z50i
- ycVwcPcdRAAY=
-X-Developer-Key: i=wujianyue000@gmail.com; a=openssh;
- fpr=SHA256:gVWBPJbHGWlCIw+V8F63Ff0k21S7AB5+rZt8+huemvg
+Content-Transfer-Encoding: 8bit
 
-Keep include/linux/swap.h focused on swap-facing interfaces by moving
-MM-internal reclaim and workingset declarations into mm/internal.h.
+Introduce a linked-block serialization mechanism for state handover.
 
-Leave the small set of LRU helper declarations that are used outside mm/
-in swap.h so this cleanup does not need a new public header under
-include/linux/.
+Previously, LUO used contiguous memory blocks for serializing sessions
+and files, which imposed limits on the total number of items that could
+be preserved across a live update.
 
-Suggested-by: Barry Song <baohua@kernel.org>
-Suggested-by: Baoquan He <bhe@redhat.com>
-Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
+This commit adds the infrastructure for a more flexible, block-based
+approach where serialized data is stored in a chain of linked blocks.
+This is a generic KHO serialization block infrastructure that can be
+used by multiple subsystems.
+
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/swap.h | 74 +++++-----------------------------------------------
- mm/internal.h        | 68 +++++++++++++++++++++++++++++++++++++++++++++++
- mm/memfd.c           |  1 +
- 3 files changed, 76 insertions(+), 67 deletions(-)
+ Documentation/core-api/kho/abi.rst   |   5 +
+ Documentation/core-api/kho/index.rst |  11 +
+ MAINTAINERS                          |   1 +
+ include/linux/kho/abi/block.h        |  56 ++++
+ include/linux/kho_block.h            | 106 +++++++
+ kernel/liveupdate/Makefile           |   1 +
+ kernel/liveupdate/kho_block.c        | 416 +++++++++++++++++++++++++++
+ 7 files changed, 596 insertions(+)
+ create mode 100644 include/linux/kho/abi/block.h
+ create mode 100644 include/linux/kho_block.h
+ create mode 100644 kernel/liveupdate/kho_block.c
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 5bd6f1d5984a..5c0d92613a35 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -292,39 +292,19 @@ static inline swp_entry_t page_swap_entry(struct page *page)
- 	return entry;
- }
+diff --git a/Documentation/core-api/kho/abi.rst b/Documentation/core-api/kho/abi.rst
+index 799d743105a6..edeb5b311963 100644
+--- a/Documentation/core-api/kho/abi.rst
++++ b/Documentation/core-api/kho/abi.rst
+@@ -28,6 +28,11 @@ KHO persistent memory tracker ABI
+ .. kernel-doc:: include/linux/kho/abi/kexec_handover.h
+   :doc: KHO persistent memory tracker
  
--/* linux/mm/workingset.c */
--bool workingset_test_recent(void *shadow, bool file, bool *workingset,
--				bool flush);
--void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages);
--void *workingset_eviction(struct folio *folio, struct mem_cgroup *target_memcg);
--void workingset_refault(struct folio *folio, void *shadow);
--void workingset_activation(struct folio *folio);
--
- /* linux/mm/page_alloc.c */
- extern unsigned long totalreserve_pages;
- 
- /* Definition of global_zone_page_state not available yet */
- #define nr_free_pages() global_zone_page_state(NR_FREE_PAGES)
- 
-+/* linux/mm/folio_lru.c */
-+void folio_add_lru(struct folio *folio);
-+void folio_mark_accessed(struct folio *folio);
-+void lru_add_drain_all(void);
- 
--/* linux/mm/swap.c */
--void lru_note_cost_unlock_irq(struct lruvec *lruvec, bool file,
--		unsigned int nr_io, unsigned int nr_rotated);
--void lru_note_cost_refault(struct folio *);
--void folio_add_lru(struct folio *);
--void folio_add_lru_vma(struct folio *, struct vm_area_struct *);
--void mark_page_accessed(struct page *);
--void folio_mark_accessed(struct folio *);
--
--static inline bool folio_may_be_lru_cached(struct folio *folio)
--{
--	/*
--	 * Holding PMD-sized folios in per-CPU LRU cache unbalances accounting.
--	 * Holding small numbers of low-order mTHP folios in per-CPU LRU cache
--	 * will be sensible, but nobody has implemented and tested that yet.
--	 */
--	return !folio_test_large(folio);
--}
-+/* linux/mm/folio-compat.c */
-+void mark_page_accessed(struct page *page);
- 
- extern atomic_t lru_disable_count;
- 
-@@ -333,42 +313,7 @@ static inline bool lru_cache_disabled(void)
- 	return atomic_read(&lru_disable_count);
- }
- 
--static inline void lru_cache_enable(void)
--{
--	atomic_dec(&lru_disable_count);
--}
--
--extern void lru_cache_disable(void);
--extern void lru_add_drain(void);
--extern void lru_add_drain_cpu(int cpu);
--extern void lru_add_drain_cpu_zone(struct zone *zone);
--extern void lru_add_drain_all(void);
--void folio_deactivate(struct folio *folio);
--void folio_mark_lazyfree(struct folio *folio);
--
- /* linux/mm/vmscan.c */
--extern unsigned long zone_reclaimable_pages(struct zone *zone);
--extern unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
--					gfp_t gfp_mask, nodemask_t *mask);
--unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru, int zone_idx);
--
--#define MEMCG_RECLAIM_MAY_SWAP (1 << 1)
--#define MEMCG_RECLAIM_PROACTIVE (1 << 2)
--#define MIN_SWAPPINESS 0
--#define MAX_SWAPPINESS 200
--
--/* Just reclaim from anon folios in proactive memory reclaim */
--#define SWAPPINESS_ANON_ONLY (MAX_SWAPPINESS + 1)
--
--extern unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
--						  unsigned long nr_pages,
--						  gfp_t gfp_mask,
--						  unsigned int reclaim_options,
--						  int *swappiness);
--extern unsigned long mem_cgroup_shrink_node(struct mem_cgroup *mem,
--						gfp_t gfp_mask, bool noswap,
--						pg_data_t *pgdat,
--						unsigned long *nr_scanned);
- extern unsigned long shrink_all_memory(unsigned long nr_pages);
- extern int vm_swappiness;
- long remove_mapping(struct address_space *mapping, struct folio *folio);
-@@ -389,11 +334,6 @@ static inline void reclaim_unregister_node(struct node *node)
- }
- #endif /* CONFIG_SYSFS && CONFIG_NUMA */
- 
--#ifdef CONFIG_NUMA
--extern int sysctl_min_unmapped_ratio;
--extern int sysctl_min_slab_ratio;
--#endif
--
- void check_move_unevictable_folios(struct folio_batch *fbatch);
- 
- extern void __meminit kswapd_run(int nid);
-@@ -553,7 +493,7 @@ static inline int mem_cgroup_swappiness(struct mem_cgroup *memcg)
- 
- void lru_reparent_memcg(struct mem_cgroup *memcg, struct mem_cgroup *parent, int nid);
- #else
--static inline int mem_cgroup_swappiness(struct mem_cgroup *mem)
-+static inline int mem_cgroup_swappiness(struct mem_cgroup *memcg)
- {
- 	return READ_ONCE(vm_swappiness);
- }
-diff --git a/mm/internal.h b/mm/internal.h
-index 5602393054f3..1744bb6b3222 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -24,6 +24,74 @@
- 
- struct folio_batch;
- 
-+/* mm/workingset.c */
-+bool workingset_test_recent(void *shadow, bool file, bool *workingset,
-+			    bool flush);
-+void workingset_age_nonresident(struct lruvec *lruvec, unsigned long nr_pages);
-+void *workingset_eviction(struct folio *folio,
-+			  struct mem_cgroup *target_memcg);
-+void workingset_refault(struct folio *folio, void *shadow);
-+void workingset_activation(struct folio *folio);
++KHO serialization block ABI
++===========================
 +
-+/* mm/folio_lru.c */
-+void lru_note_cost_unlock_irq(struct lruvec *lruvec, bool file,
-+		unsigned int nr_io, unsigned int nr_rotated)
-+		__releases(lruvec->lru_lock);
-+void lru_note_cost_refault(struct folio *folio);
-+void folio_add_lru_vma(struct folio *folio, struct vm_area_struct *vma);
++.. kernel-doc:: include/linux/kho/abi/block.h
 +
-+static inline bool folio_may_be_lru_cached(struct folio *folio)
-+{
-+	/*
-+	 * Holding PMD-sized folios in per-CPU LRU cache unbalances accounting.
-+	 * Holding small numbers of low-order mTHP folios in per-CPU LRU cache
-+	 * will be sensible, but nobody has implemented and tested that yet.
-+	 */
-+	return !folio_test_large(folio);
+ See Also
+ ========
+ 
+diff --git a/Documentation/core-api/kho/index.rst b/Documentation/core-api/kho/index.rst
+index 0a2dee4f8e7d..320914a42178 100644
+--- a/Documentation/core-api/kho/index.rst
++++ b/Documentation/core-api/kho/index.rst
+@@ -83,6 +83,17 @@ Public API
+ .. kernel-doc:: kernel/liveupdate/kexec_handover.c
+   :export:
+ 
++KHO Serialization Blocks API
++============================
++
++.. kernel-doc:: kernel/liveupdate/kho_block.c
++  :doc: KHO Serialization Blocks
++
++.. kernel-doc:: include/linux/kho_block.h
++
++.. kernel-doc:: kernel/liveupdate/kho_block.c
++  :internal:
++
+ See Also
+ ========
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9ec290e38b44..920ba7622afa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14208,6 +14208,7 @@ F:	Documentation/admin-guide/mm/kho.rst
+ F:	Documentation/core-api/kho/*
+ F:	include/linux/kexec_handover.h
+ F:	include/linux/kho/
++F:	include/linux/kho_block.h
+ F:	kernel/liveupdate/kexec_handover*
+ F:	lib/test_kho.c
+ F:	tools/testing/selftests/kho/
+diff --git a/include/linux/kho/abi/block.h b/include/linux/kho/abi/block.h
+new file mode 100644
+index 000000000000..8641c20b379b
+--- /dev/null
++++ b/include/linux/kho/abi/block.h
+@@ -0,0 +1,56 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2026, Google LLC.
++ * Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++/**
++ * DOC: KHO Serialization Blocks ABI
++ *
++ * Subsystems using the KHO Serialization Blocks framework rely on the stable
++ * Application Binary Interface defined below to pass serialized state from a
++ * pre-update kernel to a post-update kernel.
++ *
++ * This interface is a contract. Any modification to the structure fields,
++ * compatible strings, or the layout of the `__packed` serialization
++ * structures defined here constitutes a breaking change. Such changes require
++ * incrementing the version number in the `KHO_BLOCK_ABI_COMPATIBLE` string to
++ * prevent a new kernel from misinterpreting data from an old kernel.
++ *
++ * Changes are allowed provided the compatibility version is incremented;
++ * however, backward/forward compatibility is only guaranteed for kernels
++ * supporting the same ABI version.
++ */
++
++#ifndef _LINUX_KHO_ABI_BLOCK_H
++#define _LINUX_KHO_ABI_BLOCK_H
++
++#include <asm/page.h>
++#include <linux/types.h>
++
++#define KHO_BLOCK_ABI_COMPATIBLE	"kho-block-v1"
++
++/**
++ * KHO_BLOCK_SIZE - The size of each serialization block.
++ *
++ * This is defined as PAGE_SIZE. PAGE_SIZE is ABI compliant because live
++ * update between kernels with different page sizes is not supported by KHO.
++ */
++#define KHO_BLOCK_SIZE			PAGE_SIZE
++
++/**
++ * struct kho_block_header_ser - Header for the serialized data block.
++ * @next:  Physical address of the next struct kho_block_header_ser.
++ * @count: The number of entries that immediately follow this header in the
++ *         memory block.
++ *
++ * This structure is located at the beginning of a block of physical memory
++ * preserved across a kexec. It provides the necessary metadata to interpret
++ * the array of entries that follow.
++ */
++struct kho_block_header_ser {
++	u64 next;
++	u64 count;
++} __packed;
++
++#endif /* _LINUX_KHO_ABI_BLOCK_H */
+diff --git a/include/linux/kho_block.h b/include/linux/kho_block.h
+new file mode 100644
+index 000000000000..93a7cc2be5f5
+--- /dev/null
++++ b/include/linux/kho_block.h
+@@ -0,0 +1,106 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2026, Google LLC.
++ * Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++#ifndef _LINUX_KHO_BLOCK_H
++#define _LINUX_KHO_BLOCK_H
++
++#include <linux/list.h>
++#include <linux/types.h>
++#include <linux/kho/abi/block.h>
++
++/**
++ * struct kho_block - Internal representation of a serialization block.
++ * @list: List head for linking blocks in memory.
++ * @ser:  Pointer to the serialized header in preserved memory.
++ */
++struct kho_block {
++	struct list_head list;
++	struct kho_block_header_ser *ser;
++};
++
++/**
++ * struct kho_block_set - A set of blocks containing serialized entries of the same type.
++ * @blocks:          The list of serialization blocks (struct kho_block).
++ * @nblocks:         The number of allocated serialization blocks.
++ * @head_pa:         Physical address of the first block header.
++ * @entry_size:      The size of each entry in the blocks.
++ * @count_per_block: The maximum number of entries each block can hold.
++ * @incoming:        True if this block set was restored from the previous kernel.
++ *
++ * Note: Synchronization and locking are the responsibility of the caller.
++ * The block set structure itself is not internally synchronized.
++ */
++struct kho_block_set {
++	struct list_head blocks;
++	long nblocks;
++	u64 head_pa;
++	size_t entry_size;
++	u64 count_per_block;
++	bool incoming;
++};
++
++/**
++ * struct kho_block_set_it - Iterator for serializing entries into blocks.
++ * @bs:         The block set being iterated.
++ * @block:      The current block.
++ * @i:          The current entry index within @block.
++ */
++struct kho_block_set_it {
++	struct kho_block_set *bs;
++	struct kho_block *block;
++	u64 i;
++};
++
++/**
++ * KHO_BLOCK_SET_INIT - Initialize a static kho_block_set.
++ * @_name:       Name of the kho_block_set variable.
++ * @_entry_size: The size of each entry in the block set.
++ */
++#define KHO_BLOCK_SET_INIT(_name, _entry_size) {			\
++	.blocks = LIST_HEAD_INIT((_name).blocks),			\
++	.entry_size = _entry_size,					\
++	.count_per_block = (KHO_BLOCK_SIZE -				\
++			    sizeof(struct kho_block_header_ser)) /	\
++			   (_entry_size),				\
 +}
 +
-+static inline void lru_cache_enable(void)
++void kho_block_set_init(struct kho_block_set *bs, size_t entry_size);
++
++int kho_block_set_grow(struct kho_block_set *bs, u64 count);
++void kho_block_set_shrink(struct kho_block_set *bs, u64 count);
++
++int kho_block_set_restore(struct kho_block_set *bs, u64 head_pa);
++void kho_block_set_destroy(struct kho_block_set *bs);
++void kho_block_set_clear(struct kho_block_set *bs);
++
++/**
++ * kho_block_set_head_pa - Get the physical address of the first block header.
++ * @bs: The block set.
++ *
++ * Return: The physical address of the first block header, or 0 if empty.
++ */
++static inline u64 kho_block_set_head_pa(struct kho_block_set *bs)
 +{
-+	atomic_dec(&lru_disable_count);
++	return bs->head_pa;
 +}
 +
-+void lru_cache_disable(void);
-+void lru_add_drain(void);
-+void lru_add_drain_cpu(int cpu);
-+void lru_add_drain_cpu_zone(struct zone *zone);
-+void folio_deactivate(struct folio *folio);
-+void folio_mark_lazyfree(struct folio *folio);
++/**
++ * kho_block_set_is_empty - Check if the block set has no allocated blocks.
++ * @bs: The block set.
++ *
++ * Return: True if there are no blocks in the set, false otherwise.
++ */
++static inline bool kho_block_set_is_empty(struct kho_block_set *bs)
++{
++	return list_empty(&bs->blocks);
++}
 +
-+/* mm/vmscan.c */
-+unsigned long zone_reclaimable_pages(struct zone *zone);
-+unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
-+				gfp_t gfp_mask, nodemask_t *mask);
-+unsigned long lruvec_lru_size(struct lruvec *lruvec, enum lru_list lru,
-+			      int zone_idx);
++void kho_block_set_it_init(struct kho_block_set_it *it, struct kho_block_set *bs);
++void *kho_block_set_it_reserve_entry(struct kho_block_set_it *it);
++void *kho_block_set_it_read_entry(struct kho_block_set_it *it);
++void *kho_block_set_it_prev(struct kho_block_set_it *it);
 +
-+#define MEMCG_RECLAIM_MAY_SWAP (1 << 1)
-+#define MEMCG_RECLAIM_PROACTIVE (1 << 2)
-+#define MIN_SWAPPINESS 0
-+#define MAX_SWAPPINESS 200
-+
-+/* Just reclaim from anon folios in proactive memory reclaim */
-+#define SWAPPINESS_ANON_ONLY (MAX_SWAPPINESS + 1)
-+
-+unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
-+					   unsigned long nr_pages,
-+					   gfp_t gfp_mask,
-+					   unsigned int reclaim_options,
-+					   int *swappiness);
-+unsigned long mem_cgroup_shrink_node(struct mem_cgroup *memcg,
-+				     gfp_t gfp_mask, bool noswap,
-+				     pg_data_t *pgdat,
-+				     unsigned long *nr_scanned);
-+
-+#ifdef CONFIG_NUMA
-+extern int sysctl_min_unmapped_ratio;
-+extern int sysctl_min_slab_ratio;
-+#endif
-+
- /*
-  * Maintains state across a page table move. The operation assumes both source
-  * and destination VMAs already exist and are specified by the user.
-diff --git a/mm/memfd.c b/mm/memfd.c
-index abe13b291ddc..6c72fe6caef7 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -19,6 +19,7 @@
- #include <linux/memfd.h>
- #include <linux/pid_namespace.h>
- #include <uapi/linux/memfd.h>
-+#include "internal.h"
- #include "swap.h"
++#endif /* _LINUX_KHO_BLOCK_H */
+diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+index d2f779cbe279..eec9d3ae07eb 100644
+--- a/kernel/liveupdate/Makefile
++++ b/kernel/liveupdate/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- /*
-
+ luo-y :=								\
++		kho_block.o						\
+ 		luo_core.o						\
+ 		luo_file.o						\
+ 		luo_flb.o						\
+diff --git a/kernel/liveupdate/kho_block.c b/kernel/liveupdate/kho_block.c
+new file mode 100644
+index 000000000000..0d2a342ef422
+--- /dev/null
++++ b/kernel/liveupdate/kho_block.c
+@@ -0,0 +1,416 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2026, Google LLC.
++ * Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++/**
++ * DOC: KHO Serialization Blocks
++ *
++ * KHO provides a mechanism to preserve stateful data across a kexec handover
++ * by serializing it into memory blocks, and provides the common
++ * infrastructure for managing these blocks.
++ *
++ * Each block consists of a header (struct kho_block_header_ser) followed by an
++ * array of serialized entries. Multiple blocks are linked together via a
++ * physical pointer in the header, forming a linked list that can be easily
++ * traversed in both the current and the next kernel.
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/io.h>
++#include <linux/kexec_handover.h>
++#include <linux/kho/abi/block.h>
++#include <linux/kho_block.h>
++#include <linux/slab.h>
++
++/*
++ * Safeguard limit for the number of serialization blocks. This is used to
++ * prevent infinite loops and excessive memory allocation in case of memory
++ * corruption in the preserved state.
++ *
++ * With a 4KB page size, 10k blocks is about 40MB. For 32-byte entries
++ * (e.g. 4 u64s), each block holds up to 127 entries (accounting for the
++ * 16-byte header), allowing the block set to hold up to 1.27M entries.
++ */
++#define KHO_MAX_BLOCKS 10000
++
++/**
++ * kho_block_set_init - Initialize a block set.
++ * @bs:         The block set to initialize.
++ * @entry_size: The size of each entry in the blocks.
++ */
++void kho_block_set_init(struct kho_block_set *bs, size_t entry_size)
++{
++	*bs = (struct kho_block_set)KHO_BLOCK_SET_INIT(*bs, entry_size);
++	WARN_ON_ONCE(!bs->count_per_block);
++}
++
++/* Serialized entries start immediately after the block header */
++static void *kho_block_entries(struct kho_block *block)
++{
++	return (void *)(block->ser + 1);
++}
++
++/* Get the address of the serialized entry at the specified index */
++static void *kho_block_entry(struct kho_block_set_it *it, u64 index)
++{
++	return kho_block_entries(it->block) + (index * it->bs->entry_size);
++}
++
++/* Free serialized data */
++static void kho_block_free_ser(struct kho_block_set *bs,
++			       struct kho_block_header_ser *ser)
++{
++	if (bs->incoming)
++		kho_restore_free(ser);
++	else
++		kho_unpreserve_free(ser);
++}
++
++static struct kho_block_header_ser *kho_block_alloc_ser(struct kho_block_set *bs)
++{
++	WARN_ON_ONCE(bs->incoming);
++	return kho_alloc_preserve(KHO_BLOCK_SIZE);
++}
++
++static int kho_block_add(struct kho_block_set *bs,
++			 struct kho_block_header_ser *ser)
++{
++	struct kho_block *block, *last;
++
++	if (bs->nblocks >= KHO_MAX_BLOCKS)
++		return -ENOSPC;
++
++	block = kzalloc_obj(*block);
++	if (!block)
++		return -ENOMEM;
++
++	block->ser = ser;
++	last = list_last_entry_or_null(&bs->blocks, struct kho_block, list);
++	list_add_tail(&block->list, &bs->blocks);
++	bs->nblocks++;
++
++	if (last)
++		last->ser->next = virt_to_phys(ser);
++	else
++		bs->head_pa = virt_to_phys(ser);
++
++	return 0;
++}
++
++static int kho_block_set_grow_one(struct kho_block_set *bs)
++{
++	struct kho_block_header_ser *ser;
++	int err;
++
++	ser = kho_block_alloc_ser(bs);
++	if (IS_ERR(ser))
++		return PTR_ERR(ser);
++
++	err = kho_block_add(bs, ser);
++	if (err) {
++		kho_block_free_ser(bs, ser);
++		return err;
++	}
++
++	return 0;
++}
++
++static void kho_block_set_shrink_one(struct kho_block_set *bs)
++{
++	struct kho_block *last, *new_last;
++
++	if (list_empty(&bs->blocks))
++		return;
++
++	last = list_last_entry(&bs->blocks, struct kho_block, list);
++	list_del(&last->list);
++	bs->nblocks--;
++	kho_block_free_ser(bs, last->ser);
++	kfree(last);
++
++	new_last = list_last_entry_or_null(&bs->blocks, struct kho_block, list);
++	if (new_last)
++		new_last->ser->next = 0;
++	else
++		bs->head_pa = 0;
++}
++
++/**
++ * kho_block_set_grow - Expand the block set to accommodate the target count.
++ * @bs:    The block set.
++ * @count: The target number of valid entries to accommodate.
++ *
++ * Dynamically preallocates and links preserved memory blocks if the target
++ * entry count exceeds the current total capacity of the set, ensuring they
++ * are available during serialization/deserialization.
++ *
++ * Context: Caller must hold a lock protecting the block set.
++ * Return: 0 on success, or a negative errno on failure.
++ */
++int kho_block_set_grow(struct kho_block_set *bs, u64 count)
++{
++	long orig_nblocks = bs->nblocks;
++	int err;
++
++	if (WARN_ON_ONCE(bs->incoming))
++		return -EINVAL;
++
++	while (count > bs->nblocks * bs->count_per_block) {
++		err = kho_block_set_grow_one(bs);
++		if (err)
++			goto err_shrink;
++	}
++
++	return 0;
++
++err_shrink:
++	while (bs->nblocks > orig_nblocks)
++		kho_block_set_shrink_one(bs);
++	return err;
++}
++
++/**
++ * kho_block_set_shrink - Shrink the block set to accommodate the target count.
++ * @bs:              The block set.
++ * @count:           The target number of valid entries to accommodate.
++ *
++ * Releases and unallocates redundant preserved memory blocks. Checks if the
++ * last block in the set can be removed because the remaining entry count is
++ * fully accommodated by the preceding blocks.
++ *
++ * Note: It is the caller's responsibility to ensure that entries are removed
++ * in the reverse order of their insertion. Because shrinking destroys the last
++ * block in the set, removing entries in any other order would corrupt active
++ * data.
++ *
++ * Context: Caller must hold a lock protecting the block set.
++ */
++void kho_block_set_shrink(struct kho_block_set *bs, u64 count)
++{
++	while (bs->nblocks > 0 && count <= (bs->nblocks - 1) * bs->count_per_block)
++		kho_block_set_shrink_one(bs);
++}
++
++/*
++ * kho_block_set_is_cyclic - Check for cycles in a linked list of blocks.
++ * Uses Floyd's cycle-finding algorithm to ensure sanity of the incoming list.
++ *
++ * Return: true if a cycle or corruption is detected, false otherwise.
++ */
++static bool kho_block_set_is_cyclic(struct kho_block_set *bs)
++{
++	struct kho_block_header_ser *fast;
++	struct kho_block_header_ser *slow;
++	int count = 0;
++
++	fast = phys_to_virt(bs->head_pa);
++	slow = fast;
++
++	while (fast) {
++		if (count++ >= KHO_MAX_BLOCKS) {
++			pr_err("Block set is corrupted\n");
++			return true;
++		}
++
++		if (!fast->next)
++			break;
++
++		fast = phys_to_virt(fast->next);
++		if (!fast->next)
++			break;
++
++		fast = phys_to_virt(fast->next);
++		slow = phys_to_virt(slow->next);
++
++		if (slow == fast) {
++			pr_err("Block set is corrupted\n");
++			return true;
++		}
++	}
++
++	return false;
++}
++
++/**
++ * kho_block_set_restore - Restore a block set from a physical address.
++ * @bs:      The block set to restore.
++ * @head_pa: Physical address of the first block header.
++ *
++ * Restores a serialized block set from a given physical address. The caller is
++ * responsible for ensuring that the block set @bs has been allocated and
++ * initialized prior to calling this function.
++ *
++ * Return: 0 on success, or a negative errno on failure.
++ */
++int kho_block_set_restore(struct kho_block_set *bs, u64 head_pa)
++{
++	struct kho_block_header_ser *ser;
++	u64 next_pa = head_pa;
++	int err;
++
++	/* Restored block sets use size from the previous kernel */
++	bs->incoming = true;
++	if (!head_pa)
++		return 0;
++
++	bs->head_pa = head_pa;
++	if (kho_block_set_is_cyclic(bs)) {
++		bs->head_pa = 0;
++		return -EINVAL;
++	}
++
++	while (next_pa) {
++		ser = phys_to_virt(next_pa);
++		if (!ser->count || ser->count > bs->count_per_block) {
++			pr_warn("Block contains invalid entry count: %llu\n",
++				ser->count);
++			err = -EINVAL;
++			goto err_destroy;
++		}
++		err = kho_block_add(bs, ser);
++		if (err)
++			goto err_destroy;
++		next_pa = ser->next;
++	}
++
++	return 0;
++
++err_destroy:
++	kho_block_set_destroy(bs);
++
++	/* Free the remaining un-restored blocks in the physical chain */
++	while (next_pa) {
++		struct kho_block_header_ser *next_ser = phys_to_virt(next_pa);
++
++		next_pa = next_ser->next;
++		kho_block_free_ser(bs, next_ser);
++	}
++	return err;
++}
++
++/**
++ * kho_block_set_destroy - Destroy all blocks in a block set.
++ * @bs:          The block set.
++ */
++void kho_block_set_destroy(struct kho_block_set *bs)
++{
++	struct kho_block *block, *tmp;
++
++	list_for_each_entry_safe(block, tmp, &bs->blocks, list) {
++		list_del(&block->list);
++		kho_block_free_ser(bs, block->ser);
++		kfree(block);
++	}
++	bs->nblocks = 0;
++	bs->head_pa = 0;
++}
++
++/**
++ * kho_block_set_clear - Clear all serialized data in a block set.
++ * @bs: The block set to clear.
++ */
++void kho_block_set_clear(struct kho_block_set *bs)
++{
++	struct kho_block *block;
++
++	list_for_each_entry(block, &bs->blocks, list) {
++		block->ser->count = 0;
++		memset(block->ser + 1, 0, KHO_BLOCK_SIZE - sizeof(*block->ser));
++	}
++}
++
++/**
++ * kho_block_set_it_init - Initialize a block set iterator.
++ * @it:         The iterator to initialize.
++ * @bs:         The block set to iterate over.
++ */
++void kho_block_set_it_init(struct kho_block_set_it *it, struct kho_block_set *bs)
++{
++	it->bs = bs;
++	it->block = list_first_entry_or_null(&bs->blocks, struct kho_block, list);
++	it->i = 0;
++}
++
++/**
++ * kho_block_set_it_reserve_entry - Reserve and return the next available slot for writing.
++ * @it: The block iterator.
++ *
++ * Reserves a slot in the current block during state serialization to add a new
++ * entry, advancing the internal index. If the current block is full, it
++ * automatically moves to the next block in the set.
++ *
++ * Return: A pointer to the reserved entry slot, or NULL if the block set's
++ * capacity is fully exhausted.
++ */
++void *kho_block_set_it_reserve_entry(struct kho_block_set_it *it)
++{
++	void *entry;
++
++	if (!it->block)
++		return NULL;
++
++	if (it->i == it->bs->count_per_block) {
++		if (list_is_last(&it->block->list, &it->bs->blocks))
++			return NULL;
++		it->block = list_next_entry(it->block, list);
++		it->i = 0;
++	}
++
++	entry = kho_block_entry(it, it->i++);
++	it->block->ser->count = it->i;
++	return entry;
++}
++
++/**
++ * kho_block_set_it_read_entry - Read the next serialized entry from the block set.
++ * @it: The block iterator.
++ *
++ * Iterates through previously written entries during state deserialization,
++ * respecting the actual count stored in each block's header.
++ *
++ * Return: A pointer to the next serialized entry, or NULL if all serialized
++ * entries have been read.
++ */
++void *kho_block_set_it_read_entry(struct kho_block_set_it *it)
++{
++	if (!it->block)
++		return NULL;
++
++	if (it->i == it->block->ser->count) {
++		if (list_is_last(&it->block->list, &it->bs->blocks))
++			return NULL;
++		it->block = list_next_entry(it->block, list);
++		it->i = 0;
++	}
++
++	return kho_block_entry(it, it->i++);
++}
++
++/**
++ * kho_block_set_it_prev - Return the previous entry slot in the block set.
++ * @it: The block iterator.
++ *
++ * If the current index is at the start of a block, it automatically moves to
++ * the end of the previous block.
++ *
++ * Return: A pointer to the previous entry slot, or NULL if at the very
++ * beginning of the block set.
++ */
++void *kho_block_set_it_prev(struct kho_block_set_it *it)
++{
++	if (!it->block)
++		return NULL;
++
++	if (it->i == 0) {
++		if (list_is_first(&it->block->list, &it->bs->blocks))
++			return NULL;
++		it->block = list_prev_entry(it->block, list);
++		it->i = it->bs->count_per_block;
++	}
++
++	return kho_block_entry(it, --it->i);
++}
 -- 
-2.43.0
+2.53.0
 
