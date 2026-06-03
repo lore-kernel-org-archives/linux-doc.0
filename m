@@ -1,294 +1,141 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55380322533
-	for <linux-doc@vger.kernel.org>; Wed,  3 Jun 2026 02:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780453990; cv=pass; b=OnudOMVcwo3tHTbKzhZZ5TyKAplHE6z5M/464cnRDKOrG5uBhGE+HVqGypr3tBQ6DDgzFkot6rSZ/6+VSG5OPmv5rnjlTXS77OJ4b8jkzMzmyM6O3C9X2f+EXoXXKVKgKDUKvAL8aXWrnqYdWlDsPvteMRSApXkZ6zwb0m7Rl1o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780453990; c=relaxed/simple;
-	bh=B5D6CLLoPVetalo0iR0aHY58CILhdyNTKmLkx6nm3Ww=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VPRPgTOiMV8S6CcByNGvc1NI3LLk33xH87Y++lZhcDVxijmo7DPzkdrsLIrDJzYTilUG7UXicwh8Xu1JShgDA1mtMx2zgPwY0yCT9grK6OTzvfv9HzDz0Cl08HzNMMk2J/awLAPNfHNEOcOq6J4pZQXKG+WKm4KEoooV75f5rlM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5o2DZlB; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB323A9632;
+	Wed,  3 Jun 2026 02:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780453994; cv=none; b=ax5k8q5shLEYn/dR196UDCiUIoM5xar9ZAPykokbcx0zD3sJycxTA8BGO128O+9NfFReFdlsxVG90c4bVx4eZdLBhZdGdE4ZRYJHHoavw2tohwY3Ci+TsASC6CCGCvSWUm3QVvyi/h8vylBWhwp4QH10d2OPKzYKfV9hT5r+9ZY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780453994; c=relaxed/simple;
+	bh=dcw6J6XxUYMZByDAwHUqpq/EmR+eZ1hR9fjpYNYOqNc=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=iAso+daNYXeT6J1tAYBSxd+B4cpGgfA73xxIYUBMKuQvv8ZYkmMeBwz2YZeERjc3w1sAR1uQSgeQXyvs3x04FlnQrorW3NO7ssPK6MFHFO4vUyB47r8/xec8pbM2InfFhtyEg1xlUGVqI+8fzdD+8Tl/9fuTNk4bmybKx8TIFrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pwX/FwLf; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5o2DZlB"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8ce9e56f68cso25344066d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Jun 2026 19:33:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780453988; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Muc35mFB96SJaYCYS0w1YfRYVySwUyvJACCGuUEQZyvAncoIW59wzWHEAgbknMHjO1
-         WPXjn0ijuRVXTgZ/ZwT2THHv2g+Uwsg7VL5Kk4LkqYB/w/UUFGULLncsx+Hc0B/E9D1x
-         csmzEcXmc0+4S8DVeu2NlhM0VNyO80BUVG79neIL2+7nSTGLTi6FA3GJUwTsm1FkCOL5
-         l6PTpqDmhA2ljT4UtNrBp7EqzVTFngfSDuKdgVb1V86avEB6IIIO5S+wvxYd/WZQI3YG
-         7502KRomrFh/9b0qloIXD93xYW7GF34vPxG5W0a+vzlfWhxzVKXCcwXQJ95x+AEocqlz
-         HDhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
-        fh=hx4wm0dcwPrY+QIKTKOvsWfwyfxsC6WjXQjgdhz48B0=;
-        b=WsOpaO+wcVPg07yUfAKvY4YWdeWi7PfmLr9c72kzCnEqpGHwKq50UvsohPJVJyobfT
-         P/fCss9eSX3M0PULNqnrr/PaHdlP2Op4dtiDpvCAqDWBd71IlSbLBnrYxM0MTGCoHK6I
-         lMXOaI6HF3wcX8yCSwT0u1YVHy4jwucLQ2Cz8dPS1Mx9Nv0LaDOayzXan1JcihNY6/mT
-         zDQIOgOBlvWWW8BgyfmV+R+9msbSGUEv0uKzOjpNo4HcS5E6WCj4D8aA3w2sGQW6Pz/z
-         VcLzGCoLtStwk/oaakQH/J5J5XYsl+LZAA/g17/cHuAn3mKi3Vb93v3Qql91eOsfbBMc
-         7wmw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780453988; x=1781058788; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
-        b=N5o2DZlBOJc6jZGzs9MwNpJq/8U9mmpt1peMrRZdcUvoHwNcqHqquhBU3mIO/IX529
-         pgiUnHpFzLRCtqqKbF7nnPEnsAjMsqngH0woc6iJdRPB8YPCQKm5XFp8QhP7F14DW75A
-         pH+Q5Sddywlomz3cx43v+t9wghCIVIiJKG6ZXOSuAZv3RP+NaZCk401QV6/yq9lI6drm
-         bMErPekdFDoROYNk//7b9dGo/+aIWuA8kmKXLBQM96R8883nov31Uj+DbJWzWWahSdUu
-         Ly0WLS6LtVcc0OkqS6hmJJneGuoPncOhuZqD+tQIatKUHiF5DzWnatA37ejNqVWbCn3G
-         9HPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780453988; x=1781058788;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=R1hHnwu4UKQ78UvXuhtdfSY1js4owGHvjcyByjH9Yk4=;
-        b=A4r64xpc5PCFHf7WK1FFWjNxt01DAfI68Dbrh14ccPIxC0JIKSyiJwYFk/2/9V2Wgu
-         vv2FE1t6SX0TOUG5VtywvzV85pS8FyMrJycitkx+Buyh4aN/EDyleAg0NcAOvC8m5hqx
-         8nJoM8nFaeSiRS61q8EoZIaGeO6MZDq+QOaWEN/m+pJuPiazBgbKcQUGSgLyuwpinBGR
-         vpA4Zz0XyKeHgAAtXAfiY1BCJDqSRwzqrubleeM3QSJQOMDU3RJnBzS/XH5eM4n5pdoP
-         W1MLALpXxiSoZHFRPYD/BCVpPNuEIyo3b66HbjnL+bMPbkTA++SAWSjFl1Fd/RkqZXik
-         3RpA==
-X-Forwarded-Encrypted: i=1; AFNElJ9pIVPtz7ivaboZv4UJuFVm0RvQFsBDGW5C0iwYuSOQXQVp9ld4570DqfL7dXeKc4UKgumVqyEF5qU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEqHy8F9AT1WkVeYBuWwTEgG8UIAWsXrrtCQpT+Cv5E54pujqq
-	Ip2L8jfeecjjUxrYobep7qYK4D0oIsqYR2bkzwZkaP+4zNUlEDHGfZfvnqnDCXQXJWHxU05xBpT
-	F6qnbWbadyYPw6/dQgR7OS/hthncxY3g=
-X-Gm-Gg: Acq92OHzmz1BLPX4o5j1F2wCsnoWh0qmZn9CwiokRRAM6a2UO9g6bYB0GTeHoNC2NTd
-	HK+HO3x3FWXm2iGUGzr4JHG2V0fnLYa/Ya0o0tIzX0lHtnwT/2De8H2HPOTNQJvdFMj1D6HVUMa
-	iQSxl4VRoZNrmCPs4YZuuw0UNWjeg3V/92BI8UE4338ybkrGReh6n+L7ULFWzTcyMxENpOnq1Kz
-	x3R2VbEjqo9HC36JWaPbjD3u4zgcrg5aGNDwL/E9dbPSMf/6H9YfkcOz4AzfnPi77VfBptIH7h5
-	6yg3c3j7x9584u6oEkU=
-X-Received: by 2002:a05:6214:3ca0:b0:8ca:1ea9:d9af with SMTP id
- 6a1803df08f44-8cece152ef7mr18859336d6.42.1780453988217; Tue, 02 Jun 2026
- 19:33:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pwX/FwLf"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=vHfwDEtQrbN077pHZVQUB5kFtwZn5VuD4rouby1Sq5g=;
+	b=pwX/FwLf0Z0XWLY+UYZMiEDu+1GHWfGUE1Huc+mqnyYOrAtgLxqd0RgdXNo+FHJh9qG5TIUMi
+	E6mb5BguU2Rz9q+HAndfUbJxHJQ7mYX7Mr1xd/82ZssGY7/3eoCkwycweLyjsXKk+0TDtst8NlQ
+	FmoI8h8zSR5GTRxLdxsJSI0=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gVWkj28JwzLlXL;
+	Wed,  3 Jun 2026 10:25:17 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id ABD1740575;
+	Wed,  3 Jun 2026 10:33:06 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 3 Jun 2026 10:33:06 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 3 Jun 2026 10:33:05 +0800
+Subject: Re: [PATCH v8 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Breno Leitao
+	<leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Lance Yang
+	<lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-2-9ea0cfa16bb0@debian.org>
+ <19f968f5-1289-f573-4406-e5c91dcd8923@huawei.com>
+ <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
+ <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
+ <21732071-14a1-486a-951c-34de97b7c757@kernel.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <4b27467e-935f-5587-2f48-5a794c30a592@huawei.com>
+Date: Wed, 3 Jun 2026 10:33:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527222122.10620-1-derekjohn.clark@gmail.com>
- <20260527222122.10620-2-derekjohn.clark@gmail.com> <ahfQW54YoHj2Pal_@google.com>
- <CAFqHKT=zRMW4gu09xz2WAukjXB0i9d-z-SfkxU67yJkCA0DZvQ@mail.gmail.com> <ahnYeAbzO5K3feRn@google.com>
-In-Reply-To: <ahnYeAbzO5K3feRn@google.com>
-From: Derek John Clark <derekjohn.clark@gmail.com>
-Date: Tue, 2 Jun 2026 19:32:55 -0700
-X-Gm-Features: AVHnY4KU2GxEJvnSXzx6ZxsBIJkIyxmbjmt0pWWQGiz1t0od313xiLMX9DydjHY
-Message-ID: <CAFqHKTnGpv5=4zGXQY99NDSwtTAGuZpBpZ3C2w+TRbuHCbS=WA@mail.gmail.com>
-Subject: Re: [PATCH v10 1/4] HID: hid-msi: Add MSI Claw configuration driver
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, Denis Benato <denis.benato@linux.dev>, 
-	Zhouwang Huang <honjow311@gmail.com>, linux-input@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <21732071-14a1-486a-951c-34de97b7c757@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Fri, May 29, 2026 at 11:29=E2=80=AFAM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Thu, May 28, 2026 at 11:34:18PM -0700, Derek John Clark wrote:
-> > On Wed, May 27, 2026 at 10:32=E2=80=AFPM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > Hi Derek,
-> > >
-> > > On Wed, May 27, 2026 at 10:21:19PM +0000, Derek J. Clark wrote:
-> > > > Adds configuration HID driver for the MSI Claw series of handheld P=
-C's.
-> > > > In this initial patch add the initial driver outline and attributes=
- for
-> > > > changing the gamepad mode, M-key behavior, and add a WO reset funct=
-ion.
-> > > >
-> > > > Sending the SWITCH_MODE and RESET commands causes a USB disconnect =
-in
-> > > > the device. The completion will therefore never get hit and would t=
-rigger
-> > > > an -EIO. To avoid showing the user an error for every write to thes=
-e
-> > > > attrs a bypass for the completion handling is introduced when timeo=
-ut =3D=3D
-> > > > 0.
-> > > >
-> > > > The initial version of this patch was written by Denis Benato, whic=
-h
-> > > > contained the initial reverse-engineering and implementation for th=
-e
-> > > > gamepad mode switching. This work was later expanded by Zhouwang Hu=
-ang
-> > > > to include more gamepad modes. Finally, I refactored the drivers da=
-ta
-> > > > in/out flow and overall format to conform to kernel driver best
-> > > > practices and style guides. Claude was used as an initial reviewer =
-of
-> > > > this patch.
-> > >
-> > > I wonder why do you need to roll asynchronous probing and asynchronou=
-s
-> > > resume by hand? This I think complicates the driver greatly and force=
-s
-> > > you to use a ton of works, spinlocks, and checks.
-> > >
-> > > Thanks.
-> > >
-> >
-> > Hi Dmitry,
-> >
-> > I suppose being asked this means my cover letter and  commit
-> > descriptions need some additional context.  The MCU in these Claw
-> > devices is quite temperamental. There are a few specific issues that
-> > cause the need for multiple work queues, a serialization mutex, and
-> > subsequently spinlocks to prevent stale data reads.
-> >
-> > 1.) The MCU will halt function if it receives any output reports
-> > before ~500MS after probe or resume. This can either manifest as the
-> > device never responding to a command, or it can cause the entire
-> > system to become unstable and reboot. This creates the need for
-> > cfg_setup to query the MCU and then add the gamepad attrs, led_mc
-> > device, and rgb attrs. As a side effect, because a system could
-> > technically be suspended during that 500ms delay, there exists the
-> > need to re-queue the work if it was never triggered, hence the resume
-> > queue.
-> > 2.) The MCU will not always respond in order if two or more output
-> > reports are sent within a few ms of each other. Since many of the
-> > commands use a generic "ACK", or share an "ACK" type but don't provide
-> > specific context about what sub-function called them, we could
-> > potentially have cross talk where data is saved in the wrong attribute
-> > or errors propagate because of a missed message.  To get around this
-> > serialization issue we hold a mutex through a completion triggered in
-> > raw_event and, for most events, save a state machine on what command
-> > is expected and what sub-command was the initiator. (I.E. profile
-> > events handle the M1, M2, RGB, Left rumble, and right rumble). Since
-> > the state machine is accessed on both sides, we need spinlocks
-> > guarding the reads. This essentially serializes the data and makes it
-> > predictable. Using this pattern I haven't had any issues reading from
-> > or writing to the MCU.
-> > 3.) Some commands will never return their "ACK" while a completion is
-> > held, so we have a workaround to basically ignore them and hope the
-> > command worked. This is only needed for SYNC_TO_ROM, from which we
-> > don't need to set anything on its "ACK", and switching the gamepad
-> > mode, which causes USB disconnect/reconnect and the driver fully
-> > reloads, so we'll never be able to read it anyway.
-> > 4.) The RGB work queue is used to free the userspace write while the
-> > completion is held. I found that use without it could stall userspace
-> > quite significantly if it has multiple writes back to back. I
-> > experienced this using Steam's customization menu, which sends a
-> > single write for every increment of its color and brightness sliders.
-> > when traversing the full length of the slider it is possible to have
-> > effects changing for nearly a minute after stopping. With the queue,
-> > only the most recent write is eventually sent to the MCU. This issue
-> > also affects the Go 2 driver as well, though not to the same extent,
-> > but for which I'll be adding a similar de-bounce queue soon. Go S is
-> > also technically affected by this bug, but that returns quickly enough
-> > that it isn't really feasible to trigger the bug with much frequency.
-> > I'll still fix that one as well though.
-> >
-> > TBH I'm not "happy" with the complexity of the driver, but I don't see
-> > a reasonable alternative. If you have any specific suggestions that I
-> > could try that might simplify it, I'd be more than happy to give it a
-> > shot. That being said, I'm not very optimistic about it. Development
-> > on this device has been like wrestling a bear.
->
-> Thank you for this detailed explanation. I would like to concentrate on
-> the #1 first. What happens in the driver is you are essentially rolling
-> asynchronous probing and asynchronous suspend/resume in the driver
-> itself, and end up fighting with the kernel and the driver core
-> specifically.
->
-> As far as suspend/resume goes: HID subsystem already enables
-> asynchronous resume handling (checkout the call to
-> device_enable_async_suspend() in
-> drivers/hid/hid-core.c::hid_allocate_device()). Therefore I think you
-> just need to stick the necessary delay in your resume method() and call
-> it a day.
->
-> For the probing I would look into annotating the driver as
-> PROBE_PREFER_ASYNCHRONOUS and relying on that. Again, if you stick the
-> required delay in probe then sysfs attributes will not be created too
-> early, same for the rest of concerns with the device being exposed to
-> userspace before it is ready to handle requests.
+On 2026/6/2 17:41, David Hildenbrand (Arm) wrote:
+> On 6/2/26 05:08, Miaohe Lin wrote:
+>> On 2026/6/1 21:22, David Hildenbrand (Arm) wrote:
+>>> On 6/1/26 14:28, Miaohe Lin wrote:
+>>>>
+>>>> Thanks for your patch.
+>>>>
+>>>>
+>>>> Once shake_page finds a lightweight range-based way to shrink slab, slab pages could be freed
+>>>> into buddy and above PageSlab test should be removed then. Maybe add a TODO or XXX here?
+>>>>
+>>>>
+>>>> I'm not sure but is it safe or a common way to test PageReserved, PageSlab,
+>>>> PageTable and PageLargeKmalloc without extra page refcnt?
+>>>
+>>> Checking typed pages in a racy fashion is fine (PageSlab, PageTable,
+>>> PageLargeKmalloc).
+>>
+>> Got it. Thanks.
+>>
+>>> Checking PageReserved in a racy fashion is fine as well. TESTPAGEFLAG() will
+>>> allow checking it on compound pages.
+>>
+>> It seems PageReserved is not intended to be set on compound pages. I see there are PF_NO_COMPOUND
+>> in its definition: PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND).
+>>
+>>>
+>>> For PageLargeKmalloc, we would want to check the head page, though. The page
+>>> type is only stored for the head page.
+>>
+>> Maybe we should check the head page for PageSlab and PageTable too? alloc_slab_page only
+>> set PageSlab on the head page and __pagetable_ctor uses __folio_set_pgtable to set PageTable
+>> on folio.
+>>
+>>>
+>>> So maybe we want to lookup the compound head (if any) and perform the type
+>>> checks against that?
+>>
+>> Maybe we should or we might miss some pages that could have been handled. And
+>> if compound head is required, should we hold an extra page refcnt to guard against
+>> possible folio split race?
+> 
+> Races are fine. We might miss some pages, but that can happen on races either way.
+> 
+> 
+> I'd just do something like
+> 
+> if (PageReserved(page))
+> 	return true;
+> 
+> head = compound_head(page);
 
-Hi Dmitry,
+If @head is split just after compound_head. And then @head is freed into buddy and re-allocated as slab
+page while @page is still in the buddy. We would panic on this scene as @head is PageSlab. But we were
+supposed to successfully handle @page. Or am I miss something?
 
-I've done a bit of a deep dive into this to try and get it to work
-without work queues while using PROBE_PREFER_ASYNCHRONOUS and regular
-sleeps. While it does simplify the driver, I can't get it to function
-properly. No matter how long I wait the probe fails with an -EBUSY as
-raw_event never fires during the probe context, and my completion
-handler times out. The most likely explanation I have found is that
-the MCU must require all interfaces to be fully bound before it will
-respond to interrupt URB completions (vice needing to sleep for 500ms
-for the MCU to be ready as I previously thought). During probe the
-driver core holds the parent USB device lock for the duration of each
-interface's probe. Since the other interfaces cannot start binding as
-they are blocked waiting for the parent lock, and the MCU is waiting
-for them to bind before responding, no ACK arrives within the timeout
-window and the probe fails. The other interfaces only begin probing
-after the config interface probe returns and releases the parent lock,
-as confirmed by dmesg timestamps. When using the work_queue method all
-interfaces have finished probing, so the MCU is responding to
-interrupt URB completions and everything works.
+Thanks.
+.
 
-> If there are issues with HID subsystem honoring
-> PROBE_PREFER_ASYNCHRONOUS I would look into fixing the subsystem rather
-> than try to work around it in the driver.
+> return PageSlab(head) || ...;
+> 	
+> 
 
-Since a lock is held on the parent while each interface is attached,
-and USB devices have multiple interfaces, this happens synchronously
-even in "async" context. The HID core calls driver_attach, which
-detects the async flag and calls __driver_attach_async_helper, which
-then calls driver_probe_device after locking the parent.
-
-From drivers/base/dd.c:
-static void __driver_attach_async_helper(void *_dev, async_cookie_t cookie)
-{
-    struct device *dev =3D _dev;
-    const struct device_driver *drv;
-    int ret;
-
-    __device_driver_lock(dev, dev->parent);
-    drv =3D dev->p->async_driver;
-    dev->p->async_driver =3D NULL;
-    ret =3D driver_probe_device(drv, dev);
-    __device_driver_unlock(dev, dev->parent);
-
-    dev_dbg(dev, "driver %s async attach completed: %d\n", drv->name, ret);
-
-    put_device(dev);
-}
-...
- * driver_probe_device - attempt to bind device & driver together
-...
- * This function must be called with @dev lock held.  When called for a
- * USB interface, @dev->parent lock must be held as well.
-
-One possible solution might be to add a way to match on
-bInterfaceNumber in hid_device_id and allow the interfaces I don't
-care about to stay bound to hid_generic. Another would be to
-parallelize the interface probing. I'm not sure about the feasibility
-of either approach since they would have significant changes and broad
-implications for all USB/USBHID drivers. I also don't know if that
-would even solve the problem.
-
-Thanks,
-Derek
-
-> Thanks.
->
-> --
-> Dmitry
