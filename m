@@ -1,66 +1,66 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03933A9014
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 12:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18FE3F5BE2
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 12:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780575540; cv=none; b=p8DVqQYwfvxVX1PIeSnR6jRlaA1UYCfapnAUO+bWYW56RLcSHVxS0u6A7abDr2+EcKiiBu47JHu/jiThzHe64/SdNcuaKHlzGVcH3SMdBm6Yqq+P1fp2nXvq8xK+r0JzHV1OzLXjNxtpunKbAokUCQyerHvGNfKnYX7Xlrlgo1E=
+	t=1780575769; cv=none; b=aoNDzVYMalg7COxK9dlFnqIXzG2RKYzI0D2yJy6B1I79gSET7dn8ZskICisA8vcl0rx2UnIq/5tbMiMwMKCNn+x8MvP/4odf6SkwGP3hmedoHL6TAPr5ZEXqMX98FwDdh3iHNLt1M/6HSR8mx1zomaB83Kpi4JAFLaYx/rtxemQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780575540; c=relaxed/simple;
-	bh=LlzDXkVW2KDnZvT5WLR716/Dj/N1QHBH52PN2KfgwlM=;
+	s=arc-20240116; t=1780575769; c=relaxed/simple;
+	bh=a15fuknZPhg5CxoMfrb46XjXkuhlhr76ZG6Cgy5CSJw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WIX3djFLgnOhj+pNKQK1737JGQFmj1jVDRKNv6XwGM2LFG9b4hCx7GdM7QdAJqVdoY/dTr/FpxACBvhsLY5fLxojjcT1n/lG3sh0cF6yl6ihC0X/k3bjN5vns55iCrhD7+NfEXQAfbpxEkYOU4H+zqI/BsxwoAQKaGLIY2GeU2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nI3NJviy; arc=none smtp.client-ip=209.85.128.47
+	 In-Reply-To:Content-Type; b=dgFJSxqP7LCHYzUg3Oqkkvj05uzY2FvRdGXdECwgZw/Itk5eBgAaObVccu225aJbDfNu8KlGC4eCbM0nCb8YM/pc16ND8O+HuNEYUvpdiM03Ytolf4Cu0heBMzhodyeG+XU1C/uPwHSpQLwo6hEpDt6s+HvgICpygHqwezNMvQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z7DRIlwD; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nI3NJviy"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b4e1ade7so7316855e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 05:18:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z7DRIlwD"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45eec22fab7so348989f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 05:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780575537; x=1781180337; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1780575766; x=1781180566; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d2bp5jaoGscH7ESVGw52bNDl430Md7PtGyJ0j9xVCNs=;
-        b=nI3NJviyP9o/TqlCEPY69iUG9GC9/2FZxx6YcmB9x7/L51fn6wtudBqfdWjXjKkDZP
-         N0AVj0lIsrK+sgh46TWSKCdpClv0XlQydLrkYAR8bQnled0tJesY7LjF0vocPPDDMJeV
-         wAwMD3t3vxk0A9llvJgwYA5q+0rRa2yYzKYbUr5OtqiB39E49XjJIWdQHQs3VnGv4u4O
-         ySXHjBBeL9eaF+jnr2P/3k8baXfUkLtVl705J+RazEYZk+/577sJgqjZ3YISqO5wInnj
-         92W9KVAc3FPNESBCRO51eAaoanxdGW5s0WCh7juy52NxQhTA7GXyydRDtY6SHw6MOU5Q
-         rUTQ==
+        bh=oKLGdfNT18VsLriOtCEzvToAjcqMcAhaOgOhA4AjUBM=;
+        b=Z7DRIlwDE+O5+F0yRaV4aNQJhCYEoeZ48p6+2MdthghnabTwr+VK4iyaVxW7rpeJJf
+         wLGuOz0Z3d1uJbCWkkvzVfgIAqg/NpqWPwYj38e3MUzIWeEz41ME1vij0VO7kwq44Sbk
+         sa2oINx1hAImPZqi5oswDQSCIUAN7ZcbgcKSe7ooWxcqhIdE1RojDtPz2Q4RgraHiGjI
+         wc7YcvC0BmAS2+rAyRZPm+8oSV+YLgwZzQNJ1peOlF6cc/0Bo+r42NxpIlH869jSh7hW
+         cw0ULVATqK7Sx0T9vLW/0ycPdjSa1xS98bWVbMi1LTyJtRJC/it9asoHW3sMB1+4RLyj
+         Gnmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780575537; x=1781180337;
+        d=1e100.net; s=20251104; t=1780575766; x=1781180566;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d2bp5jaoGscH7ESVGw52bNDl430Md7PtGyJ0j9xVCNs=;
-        b=RzVsFlJw+ADjHm+um43eGzxRrzreHuZ3bLxvjO8oEfdg90INpBvJMH8D6WiqFsmoe/
-         VMLqDVqC5oWfl1DLI5LFtEsGaS/8SOqMVy34qMerbbu23R3yKDlDG//qJ4ah0aF+bchS
-         bq1O/fpL1GQjnVbtraFbrT3+sv+GYfeegw5X7iz+Pu4qDoTikp1lflbn8RF+kV3RgCeZ
-         ICSw0BlYJFFyDs2DkFPaB2LE+NAKoPi20vkfNlepNv2OL6ccWKumXAPNYBfeowRRlj7w
-         0EuvinlV23pQOCvF30sCDx3cTXv3JbhkTzoTRnvP5yrFoZTjtYS8C4ykCFlh3V46xtRQ
-         mv3A==
-X-Forwarded-Encrypted: i=1; AFNElJ/OLj/XD6veYwNehWLkQAMKM9t4MUukJ34wqtx6E/EYxtFns+804T4Ha7g5pXC/L9mkg+W8ZiHIssE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyx47yaS1Rgx3kaOiiNmbVKNNzRKxARAispT5bZu+13bJrgtuN1
-	Q/0oUZoP6eDMrCw1ZdepkFyleIcoAlgfu88uVfcqABzrzJEOqbnSWdmoe4L38/BpldU=
-X-Gm-Gg: Acq92OGKHdZKKJmrUMuv3hQkQaupCuXBbGNdnyub/YUTBwgqZIgZ5gvrdPbb3VCZ1uE
-	n9A0gA9ZHCXJZaV3Ffl0UUaihRXJbBq81YPbGH0KsX33wS6YDKRxW0Zy03PgIsV0yQtAio28pfD
-	PF6lgtaDHtd73NutaflcGkEx9186X0bgoD99OPlXk/DuDw0FYIcTU1dvGRoJMZj9NiDaqOmjh/b
-	bT4addHzsuatVdKjYm/kSf6iZXkKTLfC3+dtesq4v2DXrQj8TT0a/6mlusFsuPnBZGPqyYYwFDs
-	Dg+ODr7F1kbvtmGuKRWlImXmpX0dRRd8SPnpF6iexL4JtUtxj0xPlYKX2GMV7+i5w9gbvyOS/jV
-	5jFQXwpIP1dR+/FVw1HmIhKZJ8shl6MIN5uHCheJY2Mfk3Fj14uGfcLC2mu5vNYWM4srayFYkcR
-	a7zqYUVJ9GuPZKjJnS0Ob+3DP+K94Sg5zBueFWzeY=
-X-Received: by 2002:a05:600c:1d86:b0:48a:6fd4:d3d3 with SMTP id 5b1f17b1804b1-490b5fe9688mr128262045e9.20.1780575537237;
-        Thu, 04 Jun 2026 05:18:57 -0700 (PDT)
+        bh=oKLGdfNT18VsLriOtCEzvToAjcqMcAhaOgOhA4AjUBM=;
+        b=nsLwM0UsaAwqultKbR/1dIeXyup8iF7Z6P4wzV4v+P7tDnwwRNmlgW+F2+7jk/1TAC
+         +bQppbcvho1TVXVK9TWE78gyP6xmGh+bkAePZ0fV9tzoAkrDfCI8V1uqcXQXpEmo/xN1
+         2N8pwwfBg1Setn43Ro4hZrjgrS8uhY7VUAz0EuccBXbclFPbpCFvyRWPd2ZrPK3uJHNM
+         zRmKE27gZAufHHdSBblj4NdDkzjwokDL+HkotLFmv022p695M98+dBM9KDPwC68u2es7
+         BFMIBPO97hknQwHNR75dgFPNhWQ6DNV6XEjfu2pFNzhcUoZtCqg7jBWM7MCWds6h/Zdg
+         RjeA==
+X-Forwarded-Encrypted: i=1; AFNElJ+7YUF6y74cWPo6NpsrYMbKiURO/5wviQoslTGdQp59wmNbCv9mBHhp8anbd0M80FlVbhdKJmHXX3E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCtu0ZtBgTKfI8ddluTZERWRq3RsstiMT0VzrT8cfTNsMuUimH
+	EgeuqZIJRcpHnWzua+7a+ENHN7+wn3OhkVKW0YMpt0GgTg97PTmhQy0+kJXseo180Y0=
+X-Gm-Gg: Acq92OHr1qaKFmL8VOBGUKFwPF0MlLZkDMu/xct8TqqZgMFdnD9n+zHP9VSF5wdC9yY
+	OCUA2CkTKXUcxte2puqB1Hn/iNKHsxdVEj/kmtjtLyxx/1ozCqoQLcCGiCpw93P+xVhPleo5qeW
+	t+EOAXsSTv9UJoyBeLgroARu9NVeobQZXcnpMFrQy3Pa63SsaJJfoDAD2xSDRHO5AEdKey/mKVk
+	hqUud6+FX873l2zbQ1+EcDw5gLZt7mGPy3yf3IwGTIMtuC8Vz0KYlhlZ6F/3zs9W1MhRJOmow8o
+	67hEBS5KJU3FkiYV46Bas2Q6KmevVClqpG71UFzOQCTPshuMnazlCQBLoyc6+IWGsS31qGhW/RS
+	ttXRlvHaRFOv+PYvQzZGdw/EDg9dxAYpxTnb5sz9tDPmHiEu+YpPROkGmfmpSxtVb3d4oXsswZB
+	vfzW/stYtIWEteFJsy3l02bq8KnWpwIiwcVD1bA4g=
+X-Received: by 2002:a05:600c:a016:b0:490:bc46:1a58 with SMTP id 5b1f17b1804b1-490bc461b57mr64677525e9.18.1780575766123;
+        Thu, 04 Jun 2026 05:22:46 -0700 (PDT)
 Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b79d64e8sm165761745e9.0.2026.06.04.05.18.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f368e9fsm15406844f8f.37.2026.06.04.05.22.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 05:18:56 -0700 (PDT)
-Message-ID: <011bf252-855e-4941-a6ef-8cc53f0bc48c@linaro.org>
-Date: Thu, 4 Jun 2026 13:18:55 +0100
+        Thu, 04 Jun 2026 05:22:45 -0700 (PDT)
+Message-ID: <64f23ad7-5033-4d4d-9e64-7503f0d2c46c@linaro.org>
+Date: Thu, 4 Jun 2026 13:22:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 15/18] perf test cs-etm: Make disassembly test use
- kcore
+Subject: Re: [PATCH v2 18/18] perf test cs-etm: Move existing tests to
+ coresight folder
 To: Leo Yan <leo.yan@arm.com>
 Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
  <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -80,45 +80,39 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
  linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
  Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
 References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
- <20260602-james-cs-context-tracking-fix-v2-15-85b5ce6f55c6@linaro.org>
- <20260603173203.GF101133@e132581.arm.com>
+ <20260602-james-cs-context-tracking-fix-v2-18-85b5ce6f55c6@linaro.org>
+ <20260603180219.GJ101133@e132581.arm.com>
 Content-Language: en-US
 From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260603173203.GF101133@e132581.arm.com>
+In-Reply-To: <20260603180219.GJ101133@e132581.arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 03/06/2026 6:32 pm, Leo Yan wrote:
-> On Tue, Jun 02, 2026 at 03:26:57PM +0100, James Clark wrote:
->> Hits in modules return empty disassembly with vmlinux as an input to
->> objdump. Make the disassembly test more reliable by always using kcore.
->> And update the comments to say that this is supported by the script.
+On 03/06/2026 7:02 pm, Leo Yan wrote:
+> On Tue, Jun 02, 2026 at 03:27:00PM +0100, James Clark wrote:
+>> There is a subfolder for Coresight tests so might as well keep them all
+>> in here.
 > 
-> Even without kcore, .ko files should have been saved into buildid
-> folder. Before switch to kcore, can we firstly fix the issue that why
-> .ko does not work?
+> Now we only have two shell test for CoreSight (I might add one for
+
+That's not right, we have 6. The tests/shell/coresight folder already 
+existed so it seemed like a mistake to not move these two in there when 
+it was originally created.
+
+> callchain test), seems to me it is more meaningful to move Arm specific
+> tests into a central place (like tools/perf/tests/shell/arm/) for
+> easier maintainence.
+
+Maybe, but arm/ and then arm/coresight probably makes sense. There are 
+some tests that have arm specific blocks in them but are still shared 
+with other platforms so it could be confusing. I think we can do that 
+later if we ever end up with a load of arm tests, but right now there 
+aren't many.
+
 > 
-> Thanks,
-> Leo
-
-I think this description of the problem was wrong, the reason for 
-failures was the alternatives patching mechanism. And the only way to 
-fix that is by using kcore. I'm not sure what you were thinking of as a fix?
-
-Sashiko commented on V3 that hits in modules would still open the .ko 
-file and skip kcore anyway. I tried to investigate but I wasn't able to 
-generate any trace or samples with hits in modules. It might be a 
-regression but it might have always been like that. I do remember 
-switching to static when I was tracing Coresight modules before, but 
-that was to make using address filtering easier, and I inadvertently 
-avoided this issue.
-
-Seems like fixing this is outside of the scope of this test though. I 
-didn't see a single failure on N1SDP and the only failures on Orion O6 
-are because of the wrapping/snapshot bug, and we already knew that you 
-have to use kcore to get accurate decode. So I'm not sure of a reason to 
-not do it?
-
+> Anyway, this patch is fine as well:
+> 
+> Reviewed-by: Leo Yan <leo.yan@arm.com>
 
