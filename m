@@ -1,124 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282053CC303
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCF6409E07;
+	Thu,  4 Jun 2026 16:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780589417; cv=none; b=m1SomFB09tPLG8EyWDNfTUtx0AkrLDcDK/zHjIHNNdCReml65zupE7WKXgGWGkB2u/oZL1MHyzbO3v6mhZrhzkq7OuGlgdxzrR8kYVa3W6aKdAWjm20GvSXyBlFBSSnbRSslBP3a9HaKOV8ra/lAPeBRfWe8B3Ui4/NHdrFHdwI=
+	t=1780589662; cv=none; b=Bu3nRcJ3f/GzotIp5jiUlTQycyGfX1OhQtKpF2Zwh/RqVU8+9EEmYBj04HkDB4+s2//8oF0hYVQrp8hajm+diq2HxnHz/AxUaq4YzSUTP8XRF/OfSk0xygkFBBOWD+p7y2V89KcqktBgS4Uf7epGKuodSxQyOaVP7GEOmzWaRsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780589417; c=relaxed/simple;
-	bh=dkqfCMrLmXYKCpzoo4wiIUki7SDk/LrZwiKaXXZvcDw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k9qdPGWnIsehaZqdTcmYFOiUHmi4JfoahwsGD9EEBroP1zqAwIQs0fJ9bcfMaRGz+1KhIcFGd3S3LKEs7CcTrQIP5x8Zh6oEAs/+UU3Dc6SIoFuJoiVHIaAfaAqQkvTx+3YGC9zEJsEsUtLr+a0GigjKpqMbYR/l/vuq1eVV4w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEq5dlFI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780589662; c=relaxed/simple;
+	bh=PAnTwGzhU7hZQJBjO9YW2fVB7bTAGggEUp7o+9uA2PM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DC0yX8y/sYD/YHsVvOJfC8wj9qYZb4awCuC9V/L2HmrlkybM2gkcPspDf7kjSTqPkLO2MgmfnvLEo4O0ysDHAkCFk7LR/nnp6cZOGS+mRDm81gcz6QBk8m9uvXYUHn48oMw/cSmzq3G3heiA3hcQL6620IjhynVfFbzGp6+G9fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGu6qSpc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEq5dlFI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA1911F008A0
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:10:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGu6qSpc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32AA01F00899;
+	Thu,  4 Jun 2026 16:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780589415;
-	bh=YW7V6VQa29YjcMSrmd42lxjY3Q5BWm+8nU4PiEtSpss=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=MEq5dlFIJfV2cj25Gy5Iphar+8EB3Q+M++ma3ddkZ79VItR+ZvWCy5GquLxnOwLVT
-	 J0TvzAcGjl7Z1/O41TXXKHBFelMg54n3BTGq2Q9EZgUNoAihogBT0qG+6UYmqVnx2H
-	 Mu7raqFZSeIZhtTt2+xGRdXmofZV6p0dcICRAwft3WVZmbtnX+2V2U5eRc3gWEeD0u
-	 Lg5SEKkRDUZMSEKAkIxpE3/03WJK7VloDAFzWaehmiYDKu9IZw5eqQFmuC9/jPXudl
-	 Pqvz5HUrco5yx9+lUkOI41JCLlWsJ1Flg08a2vxZpM9oXrMH5s7EcHnoJFSDpt2rW1
-	 X/t1zmDjUd3fg==
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9159951f05aso109425685a.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 09:10:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/hwvGL8bw6e2xrYwlWNp/SdEFk4PgPezqYw573tFiGyJBT8tLQA+Kdd5lN+7Vdum6qBL1D+gn6Y94=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxBXjdbnS53XRVSDvGY/seHPh5sIWYqzrOJdOZT/CI6dz5veLx
-	K0CCOrESwSxpGzvolM8sQJ1JiQTwTcR/z3EhWl6s3Khh/oNhh5hCn5dGjCqlIaEJfdW2BvfGzrr
-	5tJAr4JHr9uEFEp1U69qTD5Oth2Egces=
-X-Received: by 2002:a05:620a:a181:10b0:914:ca75:e8cb with SMTP id
- af79cd13be357-9158a7a7d31mr980372885a.39.1780589414974; Thu, 04 Jun 2026
- 09:10:14 -0700 (PDT)
+	s=k20260515; t=1780589659;
+	bh=PpMgxAcmqP0/HxSDQyuooMlOZ/9hDkPU2x1Wgc+yUA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fGu6qSpcPJU7kXUfED0HTmjGhylwEox9gFldFxHQohlR+zhnG8jMaBlWKnoz0liZW
+	 EOjVW9ZLlEmnSWxCkKHKlgmrnxQ+P7SNpk9QjesXs8+2GKM+uxAoreENEi8Z0e7gak
+	 eAwHHLp3WuDRZZQzBKDNmmGvMsnYftj2waVmY7HYYuByi544VdolBUrSiuHGnURXk+
+	 CvGae2pFtxUvs2s80ZCIsZj+0KheDy816uDx0SjW8+t3wYAZE4gRc5wBknzz45jpIO
+	 cHakwZ2XjP5p/j0+wlJ5SR7vVxJZNCjrzy2I37mslpeSoNp++aTUPT8+vUokIX2Mlp
+	 Ny+ei8FdNrhhg==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 7E4D7F40076;
+	Thu,  4 Jun 2026 12:14:18 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Thu, 04 Jun 2026 12:14:18 -0400
+X-ME-Sender: <xms:WqQhamkdk1Y6jvyWyC8LH9ULV0ywiz9xz9YSe_41SIZuej7E1L_Xgg>
+    <xme:WqQhapgp38hR3XTiLct77z2TQcgEwq1RhYAbA0E4-DnUCg-Gd_S8CXZoh2kxLFtr7
+    bzmBSdh5EDjt2zerkPdm_TkPKQ7ZZY7rMKafEB3uO3AAxQ3qfikMrA>
+X-ME-Received: <xmr:WqQhaoTjvujKvwbj7wSCKiba7kDxsSPH_krjXI-Xw6x-8yZvvNqxQYA3qzK3eg>
+X-ME-Proxy-Cause: dmFkZTFGEzbEvp3rMXU4iRhENjqviIxNp7V0LUVnr+Fq6cSejAtx8FcqjjaURnh943PB5m
+    ACNmP1eVrpC4WKxEYFlGtsfl+sLKO/sIXhCA+l+8VyKxwjeCuqH9asWmc2xxn7AmvQ/nmS
+    JLcNtzbYuAPFWssmdGRx3PIY2B5Oj4NlPjetc7p2P2RvsOvn9uiwn+s+97/2wga6vp3Phg
+    qyACbjqJzuQpbEf/la0N8TltHAypJ5Terb6RIUUBdgEvR8j7GLzbUV2oBWGYM/En2oxjsU
+    xMb8khgoM+1JPXiuWXrvPiAb0xeb+IrPitlygBw8YtFGH++z/ZmC5dI/QMWr/NRv4gi7RK
+    yV9cXxNFhhlNF6aDjt30Z44QuXolA7Yd4qkf89w3cJioRLyZuk+1/gF7R1NfnIQtw0t69E
+    62fMkjo22E35jSDnOqreuzVpJBHxBTG+VUZ49omMPV9ygsc3HtwufIl/kdz61hj2mFwwDm
+    qawiqDTBbA6L0F8JUFwzOTs3oNZkLVRZWc/IYgH7PGSN6jLwY0mNQYTmF8fFw7AaTKrlL7
+    4BRLiI6jh83hqW87Ubpf9KqANLzx234YnvGOCXeNMVCaMcDWLAZA75WA+TlFxyzKfLbOU1
+    ACPT2g8UzLTTccfjEwnez4j3+yvF4WMcjAV7uR+3zgbxbGxLBvhYdi6ZDkUw
+X-ME-Proxy: <xmx:WqQhaq1FYbygoaciEetWj1LouU5Vp7CbRdBDOP8IclzhdZpIGzCE0w>
+    <xmx:WqQhai1epsazh011up9nQYHps2DaoGfTS9U0uBD98APiszB-Tfah9Q>
+    <xmx:WqQhapsoHVqy9O51rKBVvMNdmJJlal5ybc2revNTlYReZiTjJON8Hg>
+    <xmx:WqQhajAjWiUwnfBkiKCvjaGrdhKB0e0pDlRUX-BfBJODwSOwX5e4UQ>
+    <xmx:WqQhat8pG0cEfblocA4LNIImEc2AEn7PPipWFX0ivMWSaG-LblPomndH>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Jun 2026 12:14:17 -0400 (EDT)
+Date: Thu, 4 Jun 2026 17:14:11 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, pbonzini@redhat.com, 
+	seanjc@google.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Subject: Re: [PATCH v6 02/11] x86/virt/tdx: Allocate page bitmap for Dynamic
+ PAMT
+Message-ID: <aiGi36_YpJBRechp@thinkstation>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-3-rick.p.edgecombe@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com> <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
-In-Reply-To: <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Thu, 4 Jun 2026 09:10:01 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMydJfQ+28OQkPYyH1yHngxYCNByo-4hu=D2eoJBtTX-Q@mail.gmail.com>
-X-Gm-Features: AVHnY4JkU6wiALPrkeGY5YeF8-NFodHMhfIp-dzt841kR4__pG_M4xsJghd5PrI
-Message-ID: <CAO9r8zMydJfQ+28OQkPYyH1yHngxYCNByo-4hu=D2eoJBtTX-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526023515.288829-3-rick.p.edgecombe@intel.com>
 
-On Thu, Jun 4, 2026 at 6:06=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> wr=
-ote:
->
->
->
-> On 2026/6/4 13:34, Yosry Ahmed wrote:
-> >>>> For instance, suppose a parent memcg has two children, memcg1 and me=
-mcg2,
-> >>>> each with 200MB of zswap (100MB inactive). Triggering proactive writ=
-eback on
-> >>>> the parent memcg will exhaust memcg1's inactive zswap pages. After t=
-hat,
-> >>>> even though memcg2 still has plenty of inactive zswap pages, it will
-> >>>> continue to write back memcg1's active zswap pages. Writing back act=
-ive
-> >>>> zswap pages causes the user-space agent to prematurely abort the wri=
-teback
-> >>>> because it detects that certain memcg metrics have exceeded predefin=
-ed
-> >>>> thresholds.
-> >>>
-> >>> This will only happen if the reclaim size is smaller than the batch
-> >>> size, right? Otherwise the kernel should reclaim more or less equally
-> >>> from both memcgs?
-> >>>
-> >>
-> >> I gave it some thought. Not using a cursor could lead to unfairness
-> >> issues with certain writeback sizes:
-> >>
-> >>    - If the writeback size is an odd multiple of WB_BATCH (e.g.,
-> >> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
-> >> writeback ratio might end up being 2:1.
-> >>    - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
-> >> triggered, it might repeatedly write back from only the first 2 child
-> >> cgroups.
-> >>
-> >> Although setting a smaller WB_BATCH might mitigate this unfairness, it
-> >> could hurt writeback efficiency. Let's just use per-memcg cursors to
-> >> completely fix these corner cases.
-> >
-> > Exactly, the batch size should be small enough that any unfairness is
-> > not a problem. I would honestly just do batching without a per-memcg
-> > cursor, unless we have numbers to prove that the efficiency is
-> > affected when we use a small batch size. Let's only introduce
-> > complexity when needed please.
->
->
-> If you prefer not to use per-cgroup cursors, do we still need to keep
-> the global cursor (i.e., the root cgroup's cursor) zswap_next_shrink?
-> I found this part to be quite tricky when trying to reuse the main logic
-> of shrink_worker() in zswap_proactive_writeback().
->
-> Of course, I think we could also keep zswap_next_shrink and write a
-> small helper to check if it's the root cgroup, allowing us to use
-> different memcg iteration methods.
+On Mon, May 25, 2026 at 07:35:06PM -0700, Rick Edgecombe wrote:
+> @@ -579,7 +591,12 @@ static __init int tdmr_set_up_pamt(struct tdmr_info *tdmr,
+>  	 * Calculate the PAMT size for each TDX supported page size
+>  	 * and the total PAMT size.
+>  	 */
+> -	tdmr->pamt_4k_size = tdmr_get_pamt_sz(tdmr, TDX_PS_4K);
+> +	if (tdx_supports_dynamic_pamt(&tdx_sysinfo)) {
+> +		/* With Dynamic PAMT, PAMT_4K is replaced with a bitmap */
+> +		tdmr->pamt_4k_size = tdmr_get_pamt_bitmap_sz(tdmr);
+> +	} else {
+> +		tdmr->pamt_4k_size = tdmr_get_pamt_sz(tdmr, TDX_PS_4K);
+> +	}
+>  	tdmr->pamt_2m_size = tdmr_get_pamt_sz(tdmr, TDX_PS_2M);
+>  	tdmr->pamt_1g_size = tdmr_get_pamt_sz(tdmr, TDX_PS_1G);
+>  	tdmr_pamt_size = tdmr->pamt_4k_size + tdmr->pamt_2m_size + tdmr->pamt_1g_size;
 
-I think we want to keep the global cursor, at least for now.
+Maybe it would more readable if we reverse the size order:
+
+	/*
+	 * Calculate the PAMT size for each TDX supported page size
+	 * and the total PAMT size.
+	 */
+  	tdmr->pamt_1g_size = tdmr_get_pamt_sz(tdmr, TDX_PS_1G);
+  	tdmr->pamt_2m_size = tdmr_get_pamt_sz(tdmr, TDX_PS_2M);
+
+	if (tdx_supports_dynamic_pamt(&tdx_sysinfo)) {
+		/* With Dynamic PAMT, PAMT_4K is replaced with a bitmap */
+		tdmr->pamt_4k_size = tdmr_get_pamt_bitmap_sz(tdmr);
+	} else {
+		tdmr->pamt_4k_size = tdmr_get_pamt_sz(tdmr, TDX_PS_4K);
+	}
+
+  	tdmr_pamt_size = tdmr->pamt_1g_size + tdmr->pamt_2m_size + tdmr->pamt_4k_size;
+
+It allows split it into logical blocks while keeping the comment attached.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
