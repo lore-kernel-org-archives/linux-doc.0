@@ -1,85 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41573373C1E
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 05:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6B214883F;
+	Thu,  4 Jun 2026 06:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780551381; cv=none; b=T24BbU179UaLcDPcsiGKZ/Oh50pVN8+3FdwP4r5qNdA+C3XpxeU0UREw60ddFMMrLrX6DelmFO1r/Ljoda83NmDpDw7OqRVUhHmtRPdzya9UkNTBTMKqIlrCM1xwyg9vOYyPOF9sZvuOPtGvg2ndSWERUerGSXob91d7ENDeLGw=
+	t=1780553042; cv=none; b=kHs59DzEb1RVSb2/2h/nPQBfAAm0/9s7VZx/AZemL8ocPv3EYPXgUsosyZjqW2VlIkkE173K3u/iAinbqWvJf9LAsC4PKIBKb4CcnMOJYKeelA6KPfv9+4AGm4T6k1tQNw5tmPrDxTRtK6yIwil7Q3hCpQQlTCyU1FKB/ez+YtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780551381; c=relaxed/simple;
-	bh=hlf6gZ7zE0nZZVqddnEN3mtWYxn26ImLM+nzUagCUEc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=on8usKlQr7Q0R+gOXMtPQJ/X0MI6YIJJEFyk1bYAN1NYOhNH3Jj44imsQvChg5+/3KUZpiRE6Or584aS0yna7ccE1LHp/CktXlHTtb4Dz9fPQDrHUM4FwHv5844vqnEI/VhptJ0DHGj2jzBywehCQBRcp9aVxFx0maalY0C0Cuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdMDMi4Y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780553042; c=relaxed/simple;
+	bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jNKqm5KiXSq0StyHOFSvrCMlV3vYv5gDudPilV3DDsvVDoDv24Kfb1etrZSsJ0zaov9mKtHr/Rw5c2U5BbcYDDIohEpGSn3HvgI/SflaV7chUeUGC3a538c5SozkcwuBYccythg+YvTZz4GkWvOZEJe9uLXP1PO/KDo82oMOQBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJvpn/qM; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdMDMi4Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01D291F008A4
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 05:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780551380;
-	bh=hlf6gZ7zE0nZZVqddnEN3mtWYxn26ImLM+nzUagCUEc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=gdMDMi4YgBtoGh5YNLNCJyqy+lw64oERWsV7XQCyiUTXkrrJiCIzII6H7jD86aDKa
-	 nkGhZQOUi5Gracb+Ixl5YFl85bXK+VEHccERo8LNO68+HU95F5hNUk5JJt+qjcBJQ5
-	 LOMEPWl+JBreT6xT9hYuJUV20lbdw9i/mUyYNFNRjWowAKFCIIIScDqYgqeRKJVAEU
-	 G4cpJlcSjqOMZaCJGNNezf9ZbDwFxGyM/YJd+0J7STxFEd70Aq9EJ8Sd/SiviBfrin
-	 iWdT0TLA76pTpFttQXX2Phlb8rpUK3yGE5kESs+Wl6ihHGDHfBTWgR8ask9PmFhiBP
-	 buW08RWhnj3AA==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bec450b950dso35939266b.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 22:36:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/VszIf4P9GQqQgJEW38VSJXQ4nkmhd6dR/dcoVeWBWkhkCisFBLWHfgw6v08lcoEpvCW2rIQ5s2KI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXya9EEkl242NKYhTUIInrxA9d/555zfg8N/WN8cd8daKUFlA1
-	Bt5ujkZYvA/Aw1b8SPNJWXcUMTFQUI/QBrv34g0QiuU5fvoGNtOYP9Ge/t0qAugHT96SUzygXa5
-	2QDqnMYAnc0o7Crpsj9mlI/hQxSoTMYg=
-X-Received: by 2002:a17:907:c289:b0:bef:87ca:aec5 with SMTP id
- a640c23a62f3a-bf0afaf5209mr309828866b.47.1780551378864; Wed, 03 Jun 2026
- 22:36:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJvpn/qM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780553041; x=1812089041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
+  b=fJvpn/qM3073y/2hfHx7jaROjj45LMy6LUzSS+LVaA57oBNPavCfANDg
+   5oJzCUXaTkbFbUtpND6yGlG06jcEtkB/dJNT96JKWxDukKB8DabB8A3+Q
+   Vdn+8D1ajiy5VfLjGwKUbK5SnoODWTpug937mjewQ8h3w087MidYq7GCe
+   IftfX4abRm3ARbLtHWI1RPFoBxj9oZayf6Cg2knb3YKi8FuH7C+z2k2yq
+   nSoYd9tC3+yBzlSB80EWs17Ya/4kvTqHNNp3wnLqo/opnkhV7ejCeKbrf
+   03MH125X1xaLGxKl/6CyyXqPyr7sRjlYlh0Q+LBeR3/lNyAfcCTvr4IZv
+   Q==;
+X-CSE-ConnectionGUID: qc+Kki1hQvOiNS7qK4xxLw==
+X-CSE-MsgGUID: y18nxBh9TCutvyIq4ODC2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="92858496"
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="92858496"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 23:04:01 -0700
+X-CSE-ConnectionGUID: rW2snc4ATBmWtyOd08pxfw==
+X-CSE-MsgGUID: DMk6Ah2STY2ZVZIFf0OH7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="243381899"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 03 Jun 2026 23:03:58 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wV1BL-000000002HX-0huY;
+	Thu, 04 Jun 2026 06:03:55 +0000
+Date: Thu, 4 Jun 2026 08:03:38 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+	horms@kernel.org, johannes@sipsolutions.net,
+	Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: exclude driver and netdevsim bugs
+Message-ID: <202606040736.mHgLfIxh-lkp@intel.com>
+References: <20260603162943.2406080-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-3-jiahao.kernel@gmail.com> <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
- <aho_VtLCmIRsNyvO@google.com> <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
- <aiBqzOtEv5iAC_qC@google.com> <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
-In-Reply-To: <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Wed, 3 Jun 2026 22:36:07 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
-X-Gm-Features: AVHnY4IE7N3d59FLndV-s7gDFevntutRjRoeBw3qu7WJHZARyl3yLsqSevGQ5pQ
-Message-ID: <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-To: Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, shakeel.butt@linux.dev, 
-	mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, chengming.zhou@linux.dev, 
-	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603162943.2406080-1-kuba@kernel.org>
 
-> >> But doesn't it make more sense to specify the compressed size, which is
-> >> ultimately the amount of memory you actually want to reclaim.
-> >>
-> >
-> > I personally prefer compressed size to pre-compressed size. That's
-> > kinda what user cares about, no?
-> >
-> > One thing we can do is let users prescribe a compressed size, but
-> > internally, we can multiply that by the average compression ratio.
-> > That gives us a guesstimate of how many pages we need to reclaim, and
-> > you can follow the rest of your implementation as is (perhaps with
-> > short-circuit when we reach the goal with fewer pages reclaimed).
->
-> Got it. I will change it to use the compressed size in the next version.
->
-> Yosry, Nhat, should we continue using the zswap_writeback_only key to
-> trigger proactive writeback?
+Hi Jakub,
 
-I *really* want the memcg maintainers to chime in here, it's
-ultimately their call.
+kernel test robot noticed the following build warnings:
 
-Michal? Johannes? Shakeel? Roman? Anyone? :D
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/docs-exclude-driver-and-netdevsim-bugs/20260604-003949
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260603162943.2406080-1-kuba%40kernel.org
+patch subject: [PATCH net-next] docs: exclude driver and netdevsim bugs
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260604/202606040736.mHgLfIxh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606040736.mHgLfIxh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+   Documentation/process/maintainer-netdev.rst:295: ERROR: Unexpected indentation. [docutils]
+>> Documentation/process/maintainer-netdev.rst:299: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+
+
+vim +299 Documentation/process/maintainer-netdev.rst
+
+   292	
+   293	Additionally, netdev does not consider bugs to be ``net``-worthy
+   294	if they fulfill **all** of the following criteria:
+   295	 - bug is in a hardware device driver;
+   296	 - bug is either a missing error handling or is part of the error handling flow;
+   297	 - bug was discovered by a static analysis / AI tool;
+   298	 - bug was triggered/observed only with kernel changes or fault injection.
+ > 299	Fixes for such bugs should default to ``net-next`` and should **not** contain
+   300	a Fixes tag. Networking or driver maintainers may redirect such fixes to ``net``
+   301	at their discretion if they consider the condition to be relevant enough.
+   302	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
