@@ -1,145 +1,161 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA88847DD47
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 13:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FB01F4611
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 13:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780578417; cv=none; b=fHqi2vLq/O4/Xpf9vhbXmWcePXFzrxUSVyZcEAVa3AgUcyufSN/b1zq/9csPWWji4Q7W6+TCLP7dTVyb+dA5zmZZz1Eby676sYuksaudl/OUBEZEEqYIocsTMn3HJ+NQHuWK9yMgokNVFogxN0dBj8M+U+l2Lcw/LLzqP0ylr9s=
+	t=1780579310; cv=none; b=SVz00z0HZXIXT8jji1FpMgQC/eHnUJ0PleH8ZqPc/9Me3wZ0nWrT58qLimN/nRNts12So6EtThVLhXMBVZnPgRlfNqs8deyBuTKUjCW8Hs3qSjW9k7KLw60luN+p//OHVTBlxAi7UH1WEB6s84QxcHLBY7X+vo7Woe9pfVt+2h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780578417; c=relaxed/simple;
-	bh=wRbCF69wlx67VwicjostQ42SihvIU2JiEg8O7U3Nwyg=;
+	s=arc-20240116; t=1780579310; c=relaxed/simple;
+	bh=R4Qd1UZS19xLGwI+6b1+VkqpzA2WHtPOvF+YQJ5gNJw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uZ16/NFHFkmzbAMzYAOP7uN5LORAS5ltolao990GPwxrLoDiqbRxBuOkUawuYiBVLYuYI2S+M4FnEaI2ZmBfSLtKShUz7bj5YgnzuBSTJv8SfwfWgDs6zO4q3VMdWFOPcRaV5VI72+L529TKFTEJFkLfwXIz7uwtlXxuGUstenM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J1ts5vak; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=bv0q4IJiASSNbdu7BLaldCy+PB/i2r0B4P1pV02q5gjHzOMJ8D/hh4fkHHHRflcZX6NC7k7EiRVxsuGUceIX6iP6lYZElUh7I5SZonS2rld+06na9tojP5qCHhiW2XdSiB6R9DioaAQW3ym5IVo7DRz5OQQUHWAJrOKvytaBANg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zgdatk9A; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J1ts5vak"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36dac5d5d05so343837a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 06:06:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zgdatk9A"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490af320e2aso8744525e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 06:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780578415; x=1781183215; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/V6RPepsyqoQUt2D3lkrhZmC+vMiyf2WaK9hrkxCm4=;
-        b=J1ts5vakIYSwW7lGar4RSiIYRA6yKQkJvTCaeGuiFHGWM235fn8ul3kNp/CpYx+Vh3
-         DTNsJxgCvd7ub8MJAHC8884ys5ZSTzxbq/hv7RJTHMwPxNg3WlIsFjaw327KeykrL2+A
-         Rq3tNntFtFR1ZFS5HaU+h8TvooTvkW0Y9jsYAcmiV2Fjb1mxM1XOesRCd/OW+dojaUne
-         9MsTGgUiY5A6sEyRsprLph4EV8E9KEdmsSO/HwgdtyPo8Nqg4mR8V5D2tbsAq6fHFKH0
-         uFTZnORdn3VMa+oFkPbfIqduKHf2yk5gFN83wjDV3cQpBXHhvN9QkTiH9xPD0gydXTQw
-         w84Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780578415; x=1781183215;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=linaro.org; s=google; t=1780579307; x=1781184107; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=x/V6RPepsyqoQUt2D3lkrhZmC+vMiyf2WaK9hrkxCm4=;
-        b=PdD8Rdo4wNgrePxlY+hETLWXuLxUT9WtxPN8nucfgJbPh9vqqEhfHqhYA8W6rany0B
-         yEd76Dyy9iwllWANVj9nQoVkTRlqDnekHSQ9hL7cQG1GwwGf1PSmi/dXEUChqPehWcOT
-         9Yn3uZyHH6xQ/0nnCnu53EikLkxVHpoWnLcf5oyBK/lYGfY3fsNLewHL3tit154ns9u1
-         XbXDmI3gXzXzqt3ouQ23AjzrD++yJ0H+/pdcI3F28bONGq4y4pA6jRTiRebCicPaWIbp
-         eBiYEz2gWnXe5WemaNC83QH/qfrASElpgKVVlU4Qe/mb+584nVEU092Wy49qdiNQro4j
-         x99A==
-X-Forwarded-Encrypted: i=1; AFNElJ/SU0HfeC6USeS54zz7bx0sT93G+nWPAZYulXcfyqUi7np9Doed2Fvn93fMq5Br1irAjQS1/cbAuZI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9tvZQIkRB4mz5Uy4rN1CkkREPuf40dxAduC1pdbkhgqqCaLFk
-	6935cBX3YBOfzRpJa5/kqd52hSbeZr1nbBwPfI0wZwhj9Gqy2mM2dgtE
-X-Gm-Gg: Acq92OFHROnEacnWRc4mr5D/hyly09pOJb4ut8i2C5J+4vTjldP7BGcRb9nwmP518Eh
-	HN+YrWnnH2tV+y8Xqv2nOFYzNBLbtKKznMgRiwDE5eIOVvqJkyG/bPcxpFcbZa5zQ5fcQi8VHDo
-	JVMneisJ8gDFqpKREDkCmow3bffKd+mULfFZbmd75MOZ2NxDxf2Kj6+6ZyKAtVleIkZCL8JppQx
-	RamaCuqkfWXvzuV9g9NibBO5YlO/mt4JNRymQoh9oj7DCiJDnNLpYfInHZCK1Q18wTcYXVXKLhr
-	CV/7DSExW1awAgsxd5dRTaWyRI1HSKxX0S+3Lq/hHCpSHB/kyWzNjAqMDeKOhLIJmwOSIIQZ9ht
-	Q0FUbJMx4r7nY/vg3G9KShTdZW8g+jXhGJm6l9yZj9/UJK7n0ImT/a0oeMSUFoRmnhfgFTwhhwS
-	pbrPsATzIbBV955WBaAnhloAKZg/Hh57xxvmzUEoD55Q/nzMQ87A+HSw==
-X-Received: by 2002:a17:90b:2d8d:b0:36d:ae6a:22fe with SMTP id 98e67ed59e1d1-36e32288dc4mr8152975a91.16.1780578415000;
-        Thu, 04 Jun 2026 06:06:55 -0700 (PDT)
-Received: from [10.125.192.75] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6bf8284dsm3942710a91.4.2026.06.04.06.06.46
+        bh=nAM+rRAaT8WOAGvky0RLKEaSXTjKAfYZq1zaY/oNR/s=;
+        b=zgdatk9A3+oqtGDlof2gqUaumIx3TxVlLl8puY4sp+C/Ochf3ibjtlo/W7l7F7RWFg
+         p8uEOUytpU9BDswUnxP/aj4vj/wjsIBW0ldeL4wVBdMVgf6wbg4w5lJw6tRyuoCxY8ak
+         nGCi8EhRaw85AezttRakyArgGArfjKw9LvQuWkJFPRdFKhLlHeGXLnxEieOM88VdygVh
+         OGEe1EYOAeWxOC3kl0fPbSygiybBRYmvRHaomYzuSEAPgpdrgQPhRQDhqKheGEE6q0i5
+         t0JphQu/b2RRowWrJBX6U0TNsIJW107kObdns8aaONWV4QHE2+PeiW00Yk14SuuTvRRS
+         lgTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780579307; x=1781184107;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nAM+rRAaT8WOAGvky0RLKEaSXTjKAfYZq1zaY/oNR/s=;
+        b=SuvwKIknibieFKpVbVKUIHyxbGIMn5BtxD88bzjvRcFa0gNxlyl7bFiuv+MylqtGh6
+         qu9zjCUjQzLI9sjYA3WALLmTIAHFOqGHu0xnqThWzj6hkkPTgsVGzzbZOJ5m/5+fcceT
+         aURro+2S9JKSJsSZbemSyQkwN3GAN6ZXzbeayGIQ7ZGnNIff44UPqkbPUx1mza/qngRw
+         +UxwHUwSQ0Law6Ocoww6TVlrGRaMVZAFRR6nB1mXD12U5ZsPobOpQoR4E7Gq9+XrEzqP
+         4dTEhGxwmqBRCaD6TrQkA3oV0Q9MGSOmkbcpbUb/gYIl17miy7xBRjH15mY/Tp6O2KsZ
+         qEgw==
+X-Forwarded-Encrypted: i=1; AFNElJ+5nulcDoObX/c25GBA/LKgHIU5BHXwgsxNpa6Z0klNSAJcMw/Ju1R6IrKJlLqTTPfs+ye4NJa6BVY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLgj0RtAPiKC5I03K4tlIovkhq0Q5mFfB6ZzF88EZsdqsAF00V
+	gyZG06HPgrgQqSD4BcagTwvVqkheSD0lrdkDVfFfr+cCaAVS/ZVaG+Hq7JTrSCPeH0I=
+X-Gm-Gg: Acq92OHIme8amzzzyO+KMg6ImJNay1kujn3pjv50WAFmOoLPg3fgCmICaQQ8PL89wYT
+	ip1bjOwPP37YZt/VzwxK77EJY74rXvuqy7S65d+qutKkS6T8k3u82G+edyNf5I3PePypsptaYh7
+	uG2xuyGIgvVfY1nHU5dzG3KsWetr447+A4qolzmAWwnt1NIz2+ZTuroGMueGMWIZonncCSFlAo+
+	5c0UgiBCfjrvLldXDLjvs2pahfHWQBeaYHnvDT94bSmA5J5ekRNS/vP/99EmnG+LOzN+s3L1CNc
+	Zec7pUQl3SOCyA8Ly0pCJIucoeX0+WGtmlxz0sQtMLms/J8Vqe+28L5smmm/2eX2guBMhZqGRKy
+	e5/f8jZ3ZwioJycmC8+QG5/9Vw14K4XEZ/mado/ACTMPRkFS+AslV/xkReuOdOiYpKF+sIAqLQF
+	cNYXHhUo+7MeRy9LclO4Sk7s0TSjnHOSpkrIJ2D/c=
+X-Received: by 2002:a05:600c:a088:b0:48f:f64c:c2fe with SMTP id 5b1f17b1804b1-490b5ee1983mr137859005e9.22.1780579307027;
+        Thu, 04 Jun 2026 06:21:47 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc391aaasm83198855e9.1.2026.06.04.06.21.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 06:06:54 -0700 (PDT)
-Message-ID: <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
-Date: Thu, 4 Jun 2026 21:06:43 +0800
+        Thu, 04 Jun 2026 06:21:46 -0700 (PDT)
+Message-ID: <f0758b1d-9b04-4e81-aece-ea021cabb95e@linaro.org>
+Date: Thu, 4 Jun 2026 14:21:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
- per-memcg
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com>
- <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
- <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
- <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
- <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
- <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/18] perf test cs-etm: Replace unroll loop thread
+ with deterministic decode test
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
+References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
+ <20260602-james-cs-context-tracking-fix-v2-6-85b5ce6f55c6@linaro.org>
+ <20260603140803.GV101133@e132581.arm.com>
+ <2f1db2b3-93e8-4c32-b207-304e3a43ce77@linaro.org>
+ <20260603170823.GA101133@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260603170823.GA101133@e132581.arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 2026/6/4 13:34, Yosry Ahmed wrote:
->>>> For instance, suppose a parent memcg has two children, memcg1 and memcg2,
->>>> each with 200MB of zswap (100MB inactive). Triggering proactive writeback on
->>>> the parent memcg will exhaust memcg1's inactive zswap pages. After that,
->>>> even though memcg2 still has plenty of inactive zswap pages, it will
->>>> continue to write back memcg1's active zswap pages. Writing back active
->>>> zswap pages causes the user-space agent to prematurely abort the writeback
->>>> because it detects that certain memcg metrics have exceeded predefined
->>>> thresholds.
->>>
->>> This will only happen if the reclaim size is smaller than the batch
->>> size, right? Otherwise the kernel should reclaim more or less equally
->>> from both memcgs?
->>>
->>
->> I gave it some thought. Not using a cursor could lead to unfairness
->> issues with certain writeback sizes:
->>
->>    - If the writeback size is an odd multiple of WB_BATCH (e.g.,
->> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
->> writeback ratio might end up being 2:1.
->>    - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
->> triggered, it might repeatedly write back from only the first 2 child
->> cgroups.
->>
->> Although setting a smaller WB_BATCH might mitigate this unfairness, it
->> could hurt writeback efficiency. Let's just use per-memcg cursors to
->> completely fix these corner cases.
+On 03/06/2026 6:08 pm, Leo Yan wrote:
+> On Wed, Jun 03, 2026 at 05:01:02PM +0100, James Clark wrote:
 > 
-> Exactly, the batch size should be small enough that any unfairness is
-> not a problem. I would honestly just do batching without a per-memcg
-> cursor, unless we have numbers to prove that the efficiency is
-> affected when we use a small batch size. Let's only introduce
-> complexity when needed please.
+> [...]
+> 
+>>>> +# Remove open brace lines as they may not be hit depending on the compiler
+>>>> +sed -i \
+>>>> +  -e '/deterministic.c:8$/d' \
+>>>> +  -e '/deterministic.c:15$/d' \
+>>>> +  -e '/deterministic.c:23$/d' \
+>>>> +  "$tmpdir/script"
+>>>
+>>> Is this related to the function definition?
+>>>
+>>> I can see the brace lines with change below. It might be more reliable
+>>> if adding unused function argument, which can give chance for hit
+>>> function entry.
+>>>
+>>>     static int function1(void)
+>>>     {
+>>>         ...
+>>>
+>>>         return 0;
+>>>     }
+>>
+>> Originally I included the brace lines in the test and it was working even
+>> without function arguments, but Sashiko mentioned that they may not always
+>> be hit.
+> 
+> I tried Clang to build the program and can see the brace lines are
+> missed for function1() / function2().
+> 
+> Does Sashiko mention any reasons causing the issue?
+> 
+>> I think its point was that there is no hard rule about debug symbols for
+>> open braces and the behavior might change from one version of the compiler
+>> to the next, or whether there is a function prologue or inlining or not etc.
+>>
+>> I don't think it's important to the test at all though? So to err on the
+>> side of caution it makes sense to not test for them. Unless there's a reason
+>> you think testing for open braces is important? Surely just testing for
+>> actual lines of code appearing in a certain order is enough.
+> 
+> As the test program is named as "deterministic", wouldn't we expect the
+> test to hit every code line run in the program?
+> 
+> It is fine for me to skip some checks _if_ we know the reason. I dumped
+> the disassembly, it shows function entry is a distinguished position
+> from the first calculation sentence (same for both GCC and Clang). And
+> there have no difference for a function entry after I tweaked the
+> function return type from "void" to "int". I still have no clue why
+> brace lines are misses.
+> 
+> Thanks,
+> Leo
 
+Seems like the compiler is free to emit a prologue or not for a static 
+function. Adding an argument might force it to for one version, but I 
+don't see that being reliable for every future version. And I don't 
+think we gain anything by testing the braces.
 
-If you prefer not to use per-cgroup cursors, do we still need to keep 
-the global cursor (i.e., the root cgroup's cursor) zswap_next_shrink?
-I found this part to be quite tricky when trying to reuse the main logic 
-of shrink_worker() in zswap_proactive_writeback().
+Testing clang did reveal that it returns back to the call site where GCC 
+didn't though. So I'll also filter out the call site and only test the 
+"dt_work += 7;" lines. That's enough to check that the decode has done 
+everything in the right order and shouldn't be fragile to anything that 
+isn't a real bug.
 
-Of course, I think we could also keep zswap_next_shrink and write a 
-small helper to check if it's the root cgroup, allowing us to use 
-different memcg iteration methods.
-
-
-Thanks，
-Hao
