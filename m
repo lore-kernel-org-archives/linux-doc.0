@@ -1,117 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6B214883F;
-	Thu,  4 Jun 2026 06:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6DF373C0E;
+	Thu,  4 Jun 2026 06:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780553042; cv=none; b=kHs59DzEb1RVSb2/2h/nPQBfAAm0/9s7VZx/AZemL8ocPv3EYPXgUsosyZjqW2VlIkkE173K3u/iAinbqWvJf9LAsC4PKIBKb4CcnMOJYKeelA6KPfv9+4AGm4T6k1tQNw5tmPrDxTRtK6yIwil7Q3hCpQQlTCyU1FKB/ez+YtU=
+	t=1780555371; cv=none; b=ukLXEk3xeHILaf3k2y+qSoEo6KNkldEMx48K2CTjDPJ90lI3Uqg+n+AlhqJlNU1zmJrYS3aFno01UdK5zNvniTkZPWn0kMS6OSzMhzG1aZhl8T08Mfqcd4SY6U9ImU5t1gWUYpvBvrvRLdjyu5UcQMCCiG/QETY39MrRVH7Y9G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780553042; c=relaxed/simple;
-	bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jNKqm5KiXSq0StyHOFSvrCMlV3vYv5gDudPilV3DDsvVDoDv24Kfb1etrZSsJ0zaov9mKtHr/Rw5c2U5BbcYDDIohEpGSn3HvgI/SflaV7chUeUGC3a538c5SozkcwuBYccythg+YvTZz4GkWvOZEJe9uLXP1PO/KDo82oMOQBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJvpn/qM; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJvpn/qM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780553041; x=1812089041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CiAF47QrFNb3VQSmiI1gAWPARMkmVShzbMohSB9skDA=;
-  b=fJvpn/qM3073y/2hfHx7jaROjj45LMy6LUzSS+LVaA57oBNPavCfANDg
-   5oJzCUXaTkbFbUtpND6yGlG06jcEtkB/dJNT96JKWxDukKB8DabB8A3+Q
-   Vdn+8D1ajiy5VfLjGwKUbK5SnoODWTpug937mjewQ8h3w087MidYq7GCe
-   IftfX4abRm3ARbLtHWI1RPFoBxj9oZayf6Cg2knb3YKi8FuH7C+z2k2yq
-   nSoYd9tC3+yBzlSB80EWs17Ya/4kvTqHNNp3wnLqo/opnkhV7ejCeKbrf
-   03MH125X1xaLGxKl/6CyyXqPyr7sRjlYlh0Q+LBeR3/lNyAfcCTvr4IZv
-   Q==;
-X-CSE-ConnectionGUID: qc+Kki1hQvOiNS7qK4xxLw==
-X-CSE-MsgGUID: y18nxBh9TCutvyIq4ODC2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="92858496"
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="92858496"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 23:04:01 -0700
-X-CSE-ConnectionGUID: rW2snc4ATBmWtyOd08pxfw==
-X-CSE-MsgGUID: DMk6Ah2STY2ZVZIFf0OH7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="243381899"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jun 2026 23:03:58 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wV1BL-000000002HX-0huY;
-	Thu, 04 Jun 2026 06:03:55 +0000
-Date: Thu, 4 Jun 2026 08:03:38 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
-	horms@kernel.org, johannes@sipsolutions.net,
-	Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: exclude driver and netdevsim bugs
-Message-ID: <202606040736.mHgLfIxh-lkp@intel.com>
-References: <20260603162943.2406080-1-kuba@kernel.org>
+	s=arc-20240116; t=1780555371; c=relaxed/simple;
+	bh=mI9g6gD5BRy3kD3PF5NSErrg5217vlzsf1ZgKqQ13AA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=N6gC8QpFDp5BD3naRABHfKubYbybnNAY7mThFkpmvP4+1c2XQAV6tY5zu2E9RipJe/4Tgp8HByTB2WTSi8T8SHyWomPUhCNXSdqw+82f/mTHjCJbeZV9PK/uXnh3Xg7iZJIucE2B2eY21QE0QAB224LyT5Rtl9p2Oug28UyUH/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 968afd8a5fe011f1a87c2323a98e90a4-20260604
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:c893f2b7-45cf-41fe-b21c-3a1848270a5d,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e276073,CLOUDID:23cf472a-13d2-4d29-83ea-b8014339a000,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
+	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:11|94|82|106|1,Fil
+	e:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR
+	:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 968afd8a5fe011f1a87c2323a98e90a4-20260604
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1459051028; Thu, 04 Jun 2026 14:42:42 +0800
+X-UUID: 938fe0325fe011f1a42089d3d1632821-20260604
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:f1996c64-118c-4810-bc2f-8dcf2a3762f9,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e276073,CLOUDID:0fc30542-f53d-456b-bcbe-afd9e5a5b333,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
+	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:11|94|82|106|1,Fil
+	e:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR
+	:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 938fe0325fe011f1a42089d3d1632821-20260604
+Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1827825207; Thu, 04 Jun 2026 14:42:37 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
+ Thu, 4 Jun 2026 14:42:33 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
+ 15.02.2562.029; Thu, 4 Jun 2026 14:42:33 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: "Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>, Loic Poulain
+	<loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh
+	<shi-wei.yeh@mediatek.com>, Minano Tseng <Minano.tseng@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH 01/11] net: wwan: t9xx: Add PCIe core
+Thread-Topic: [PATCH 01/11] net: wwan: t9xx: Add PCIe core
+Thread-Index: AQHc8bhcdmgibeQV+0mP7OG8OB0FzrYt9Hq3
+Date: Thu, 4 Jun 2026 06:42:33 +0000
+Message-ID: <c9e80369a7ec449a814cd85269f1135e@compal.com>
+References: <20260529-t9xx_driver_v1-v1-0-bdbfe2c01e57@compal.com>
+ <20260529-t9xx_driver_v1-v1-1-bdbfe2c01e57@compal.com>,<PH0PR11MB5902127C590230B9FE50F78AF0152@PH0PR11MB5902.namprd11.prod.outlook.com>
+In-Reply-To: <PH0PR11MB5902127C590230B9FE50F78AF0152@PH0PR11MB5902.namprd11.prod.outlook.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29986.005
+x-tm-as-result: No-10--7.938100-8.000000
+x-tmase-matchedrid: EefIVvJ/ke0uv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLSw2J
+	SRqdWmN4dOiVKzG2jpTSPUHhcw+FHAE8OiDrjBOCUirF7gO7fvl0pPFWgq1KNgSjtG4gy/zQk3M
+	PpgxG+BYZ+O+6wWe+rfJ3yfksIbvtUohvb26/VwDIUNmTDb0ad1XyfUSvLyzCwuyxgbj8l3/4mW
+	TdKLNVsJtnQM1dYEpEhP3qugnKLontZDpZlNWg4O3qPLdU3cUZ8kOnQJj3cxKt4Zcwyi58uXaRl
+	uqYn9rmrWwln+vsup2vvs41AhDx9CRoQhMu0UDBJPlTeUnhPwrNWLms91YSA1o7GmCOJYd1O50T
+	9A74HCu2FEUBwKd8ytET2zOm+uW5sIEAo6wFidwno0Idd9TzoxCUQCtauB3Whv30+gdEALI=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--7.938100-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29986.005
+x-tm-snts-smtp: EA7519F9C438C9B8BD9413C927FD465DE89BEFAF1CB7E18423535D7878401CC42000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603162943.2406080-1-kuba@kernel.org>
 
-Hi Jakub,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/docs-exclude-driver-and-netdevsim-bugs/20260604-003949
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260603162943.2406080-1-kuba%40kernel.org
-patch subject: [PATCH net-next] docs: exclude driver and netdevsim bugs
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260604/202606040736.mHgLfIxh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606040736.mHgLfIxh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
-   Documentation/process/maintainer-netdev.rst:295: ERROR: Unexpected indentation. [docutils]
->> Documentation/process/maintainer-netdev.rst:299: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
-   Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
-
-
-vim +299 Documentation/process/maintainer-netdev.rst
-
-   292	
-   293	Additionally, netdev does not consider bugs to be ``net``-worthy
-   294	if they fulfill **all** of the following criteria:
-   295	 - bug is in a hardware device driver;
-   296	 - bug is either a missing error handling or is part of the error handling flow;
-   297	 - bug was discovered by a static analysis / AI tool;
-   298	 - bug was triggered/observed only with kernel changes or fault injection.
- > 299	Fixes for such bugs should default to ``net-next`` and should **not** contain
-   300	a Fixes tag. Networking or driver maintainers may redirect such fixes to ``net``
-   301	at their discretion if they consider the condition to be relevant enough.
-   302	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+DQoNCj4gU2VudDogRnJpZGF5LCBNYXkgMjksIDIwMjYgMTI6MzIgUE0NCj4NCj4gPiArDQo+DQo+
+IHBsZWFzZSBhbHNvIHRha2UgYSBsb29rIG9uIHNhc2hpa28gbm90ZXMsIHRoZXJlIGlzIHNvbWUg
+bnVtYmVyIG9mIHRoZW0NCg0KSGkgSmFnaWVsc2tpLA0KDQogIFRoYW5rIHlvdSBmb3IgeW91ciBy
+ZXZpZXcuIFdlIGhhdmUgZml4ZWQgc29tZSBpc3N1ZXMgYW5kIGFyZSBzdGlsbCBkaXNjdXNzaW5n
+IG90aGVycyB3aXRoIE1lZGlhVGVrLiBBbGwgb2YgdGhlbSB3aWxsIGJlIGFkZHJlc3NlZCBpbiBW
+Mi4NCg0KICBSZWdhcmRpbmcgc2FzaGlrbyBub3RlcywgaG93IHNob3VsZCBJIGhhbmRsZSB0aGVt
+IGlmIGRpc2N1c3Npb24gaXMgbmVlZGVkPyBJIGNhbm5vdCBmaW5kIHNhc2hpa28ncyBlbWFpbCBh
+ZGRyZXNzLCBhbmQgaXRzIHdlYnNpdGUgZG9lcyBub3QgaGF2ZSBhIHJlcGx5IG9wdGlvbi4NCg0K
+Rm9yIGV4YW1wbGU6DQogIGh0dHBzOi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC8yMDI2MDUyOS10
+OXh4X2RyaXZlcl92MS12MS0wLWJkYmZlMmMwMWU1NyU0MGNvbXBhbC5jb20/cGFydD0yDQoNCiAg
+UTE6DQogIFRoZSBjb21taXQgbWVzc2FnZSBtZW50aW9ucyBpbXBsZW1lbnRpbmcgVFggYW5kIFJY
+IHNlcnZpY2VzLCBidXQgdGhlIHBhdGNoIHByaW1hcmlseSBhZGRzIGVtcHR5IHN0cnVjdHVyZXMg
+YW5kIGJvaWxlcnBsYXRlIGNvZGUuIElzIHRoZSBwYXRjaCBtaXNzaW5nIHRoZSBhY3R1YWwgVFgv
+UlggaW1wbGVtZW50YXRpb24gZGVzY3JpYmVkIGhlcmU/DQoNCiAgUmVwbHk6DQogIFdlIHBsYW4g
+dG8gdXBkYXRlIHRoZSBjb21taXQgbWVzc2FnZS4gV291bGQgdGhlIGZvbGxvd2luZyBiZSBhY2Nl
+cHRhYmxlPw0KDQogICAgQWRkIHRoZSBjb250cm9sIHBsYW5lIHRyYW5zYWN0aW9uIGxheWVyIGZy
+YW1ld29yayBmb3IgdGhlIHQ5eHgNCiAgICBXV0FOIGRyaXZlciwgaW5jbHVkaW5nIGNvbmZpZ3Vy
+YXRpb24gb3B0aW9ucywgZGV2aWNlIHN0cnVjdHVyZQ0KICAgIGRlZmluaXRpb25zLCBhbmQgaW5p
+dGlhbGl6YXRpb24vY2xlYW51cCBmdW5jdGlvbnMuDQoNCiAgICBUaGUgYWN0dWFsIFRYL1JYIHNl
+cnZpY2UgaW1wbGVtZW50YXRpb25zIHRoYXQgdXNlIHRoaXMgZnJhbWV3b3JrDQogICAgYXJlIGlu
+dHJvZHVjZWQgaW4gc3Vic2VxdWVudCBwYXRjaGVzLg0KDQoNClRoYW5rcy4NCg0KDQoNCg0KDQo9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpUaGlzIG1lc3Nh
+Z2UgbWF5IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBv
+ciBjb25maWRlbnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNzLCBJbmMuIElmIHlvdSBhcmUgbm90
+IHRoZSBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2Ugbm90aWZ5IHRo
+ZSBzZW5kZXIgYW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNzYWdlLiBBbnkgcmV2aWV3LCByZXRy
+YW5zbWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yIHRha2luZyBvZiBh
+bnkgYWN0aW9uIGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZvcm1hdGlvbiwgYnkgcGVyc29ucyBv
+ciBlbnRpdGllcyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQgaXMgcHJvaGliaXRl
+ZC4NCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg==
