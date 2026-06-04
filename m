@@ -1,83 +1,88 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011065.outbound.protection.outlook.com [52.101.65.65])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011061.outbound.protection.outlook.com [52.101.52.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EED372058;
-	Thu,  4 Jun 2026 09:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E893976AD;
+	Thu,  4 Jun 2026 09:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780565402; cv=fail; b=tipezgmzEFdY2pDEjm5+9d1Ql5+QpZewLpmuaZRsq2Kvxl688AaQub1dwVAF1lDVnPE2L+5DqLcowZd0kLy7FgTcVYVM0Pe10x+P92suU7pTXTpwUzglM4YW/m1ZvtvzhkZHhVNozRD8UcecJC/GcosigO+ido2sBysuRyLEYq4=
+	t=1780566600; cv=fail; b=qncMO0hS2OAgq4IFm0X+iLBlWx+H///E4wCnsOJwSptd/XpRhTJTfcXzDgduYV0erUMZ7kmJ/dWFNl2ziq13luYIjm3U/zAaG46in6QPW7ilr3tRasLfqWT2NHunAsmDrfE1Jy0atj3cEgZJANcOv7LdnaxN1HIto0RKcI2+58Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780565402; c=relaxed/simple;
-	bh=womoXms92eqe2X6R9DHJQRO5KzUJIFoMqwF9IIaqAqM=;
+	s=arc-20240116; t=1780566600; c=relaxed/simple;
+	bh=dTsYFryAEdDrTnQXxLP9BQxJ0syRkpz+aAI0mthz8rE=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q0zpmBCFHyswMAcawSVM+jnD7WT4ySz5U6v+Cz/jokgQnTE1MA0wvcbC6VWPGuBCdxiilqfcF9q9x8j0B5NjiZL0vtm5excrBvHLsZf8167WZCGPffr0OKriRhDh/pTRk6Mq34CHYxKV6aaYZs/VRa0EkKxmQDXcA/aOWSP/uC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=QSY2z47I; arc=fail smtp.client-ip=52.101.65.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	 Content-Type:MIME-Version; b=XuISbLQ3g2iu0UY6MiT7/FDU3ExOJiGpwYfO7qX8wBAO4uomj7836OWTVyeeIZQ9JOerrpuTlBP7l4kZXxw9A2EDmq9sVxCebmjRVsgww9bVany6y7cSm4TJUCCDqzHsrolQ5xyqBM6a3aNrnXNhtrXRDLoZiGNFWHWF9/f1BxI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Eg1ZJ53y; arc=fail smtp.client-ip=52.101.52.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="QSY2z47I"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Eg1ZJ53y"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d+47VhkoR3SfklUOswBWi+vpWWO0E/WzI2ZM5duVBLDggZjZiEtX8lZkpIdvW7qw9bPdORONWR+PRUhBShVMtFkx5hCbpsHaLaOokXODU7Qr0cBIJroj3Fz5EPtCmmONo2TIyqbERjdFjLGx9aI0MTaw62fgD9r441u3aZSc5R+Vc9MrCN+f0hu5kkg8qc8RCSQvkfrCpuea4oG0VU8gcHFGlDox4SQ8wGcK+bF0WVj3P4Fvh0lAhUZvlTP2KBmTikM608uZZQ5yGkMdX0KSqZen5AM7WvtGHwEmm18gYI7TV9S6HvtSzy4GFEpsRxnnjhWltV9n7MKk8ChFLfNRlw==
+ b=ys9niReipIyN0EeRhOe8++Ju/7BnB2LHDVAKutkNjX4eYUDYHnO78Cqss+kVUPDgbdn/Sltt1wmS0kH0mzAs7RV4GZlj46/0PWhTiNmfT2f9fsUK6gBS5tKyYtKBTIDmQEB1jwiugIjLSWXP8GfhXM4MgV+U57q6aC+UYrmjO6aXmsanQJzhJzOxydYPrGR7DNOIg3Y+hluiW4fJTJriyCrjGCt/iGFSy5W/bKqJrNi0Z5G2RcAT9IKSkbjeXxlyD0T6ZFpxILQ0fYxnhM+E8VIBWAWcsoy7iSNKAFcRul26BwEJqkJrfq7xyzysTHyHgUWQMsKPJJPo5ks4zeznhg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
- b=rRH1n4rAch8gjNVjINz5deRI29AiQYvSlOb1CRezFIM3d3R3tWJawb/ic50MpTr7t2Age7f9rr7jehrwBjC5g4c7DlUYOPIzp9wDl4++lPHVX3b/2ardUr8B+acE4Euoq6Pm8EJk5Fk3QDjg9hrZoI2yM01/s6wLefh0X6u9dVp0mI9rf5mdEE1ScMR7kR/YfJfgNYGI2fWHJCV7o+JS2UqPutFMG0tCUmMCB+D39WLq7LXp/op2jOtPj78WnVSLuavRHh6fI78V3n1hL745YsK3FzmNwxr6ha3qkWcBE5yLxDraEwATidZZSc79tXxfFEFq7PGapak8Hv7oQ346QA==
+ bh=lBTh+PzZYLqNYhWHWlcoIYbqM/WUl+Q/NWAeqPw8eLA=;
+ b=DAHbVlA7PhsGJhZoCcxNZ1yOqAe4jFJbEwT9T0t09vFy4UtYdgY0pXr6QXLXGeeRzWlyvMTVu8P5flfP3Bh69BeyCOihh6BYD6dafBQgRtQt2l8dZ2HwCplO3Pg6hquteiK3DVEcX5xwKCcawnLu1EwdNYJvz8dAMbAXUC/0k165ewGve8B/zER4xWvViYZFastLyk4FwGaPtsbuNjz0sfCnuo5fiiAoqbfFbPEMTaafge+4kJrTj/TibCI1NWrX0VrRJOXVTDButnHQF2browUMyXjc2H+6/qs5AMgmlKCQwH92QfgOa1neClhEJwvdLChyW4QMAqgWwDZ8zWhJgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
- b=QSY2z47I/HvGpgDsfsQFQ89nqZo+6CkqKhhVFXCUVrUM+R++U+/aaKChxt4JVFxz7RhXmFfu0av6IgXJ7Jbl1KuLZ1ww24WUIfNG7F8NZxGiAh/XVsJDuBKD2TQE8ex5LQOxMEj/GSsFDySoB+Caz3Ah7K0VumUbIG9YkW1uNUlz9QoR6HKfCzEqzFquUDyCgE8R7nzpia+Oey4uXxgD8UANOOXwhl1kcwkOI+Flseew1rVbdRUpr3x/21Pby/Hzz/J+F8QO4KowX6zonGasOfWMHq1KbuPorTOJs2uY35Wza6aNrb660IcUC+2VOqb/VMVDBFcJ4Jy8ytwfnmE1gA==
+ bh=lBTh+PzZYLqNYhWHWlcoIYbqM/WUl+Q/NWAeqPw8eLA=;
+ b=Eg1ZJ53yDQLuhEADCsicR3U8wKza3DKVkRRYrRNuWZNMG6jiKVXXvl8Y+tBlgtbElx4NuVUOFuiUs45/i5D3xW6KrOEgQJ7Sstrg2ZksgQRkbq1QthBdDtLX7v1fuqURozXyNtYtpG2Ch3cY/lK6mILSUstmcJRznDU/xXB8cArJBDK44Mcnxa1UaXmK1Qx8ZtTM8P5ip8Dm+ds1+Wiw0ZLPPDUWK3HrHYLJW9STcBZIHXkuFTOLkkYlPAVuxXvAEc8bBnGsP5CtJQKqZIMcrVwmv8MsuwRqkGfkqIFrQxrcRAKORSGsY3ME54ZGJBmEajBx5VSDDF4hUe5XKLS7sA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by DB9P189MB1834.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:330::18) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by CH8PR12MB9790.namprd12.prod.outlook.com (2603:10b6:610:274::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
- 09:29:55 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
- 09:29:55 +0000
-Message-ID: <5bbc98a8-fb7f-4909-ab5a-5229e9ef74f2@est.tech>
-Date: Thu, 4 Jun 2026 11:29:52 +0200
+ 09:49:52 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
+ 09:49:51 +0000
+Message-ID: <91d12ffd-6bd9-4951-8351-655262d44874@nvidia.com>
+Date: Thu, 4 Jun 2026 12:49:43 +0300
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
- function boundaries
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, Dmitry Vyukov
- <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+Subject: Re: [PATCH net-next V2 7/7] devlink: Add eswitch mode boot defaults
+To: Randy Dunlap <rdunlap@infradead.org>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, hariprasad <hkelam@marvell.com>,
+ Subbaraya Sundeep <sbhatta@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>,
  Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, Eric Biggers <ebiggers@kernel.org>,
+ Li RongQing <lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org
+References: <20260603193259.3412464-1-mbloch@nvidia.com>
+ <20260603193259.3412464-8-mbloch@nvidia.com>
+ <d276e842-dd8f-40b7-806b-71572503005e@infradead.org>
+ <e4aada53-fb80-41a8-9a8e-d19414f6466b@nvidia.com>
+ <909ada9a-a398-4e3f-8ed0-596a1e4bdbfd@infradead.org>
 Content-Language: en-US
-From: Yunseong Kim <yunseong.kim@est.tech>
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <909ada9a-a398-4e3f-8ed0-596a1e4bdbfd@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: GV2PEPF000239A4.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::225) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0141.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::20) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,159 +90,188 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DB9P189MB1834:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8a71689-356b-400e-7a73-08dec21bd66c
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|CH8PR12MB9790:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0c602f4-ff9e-4bb6-e30c-08dec21e9f9f
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|921020|11063799006|6133799003|56012099006|3023799007|18002099003|22082099003;
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|6133799003|22082099003|18002099003|4143699003|11063799006|56012099006|5023799004|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	7p65TcjUvLFoEr6TnmOnk//ZT8X/rrsG03NVZtMvq+tHxwcdstA6m9MWcrx6AcKLAw4c42TkyGQwT2zqEfHA/PWFniHrSczFZ7fUx5Z4E1ReTvY4azIn/4Ilplq+m+vUvFIVbgzPqOAblMYQkArDCmgNAcsVwpkSdK9mhjo58FZVkpGWP+9dTo9W/7f9SZInOnRW+yXZxvCvwmQbQypjPorCIHBMu9nG5SYXHyF2v1/OUpYFKoxVE/WmWtshdJJL3KFag/Abf7F/35ykKuSBDiIZhnH6hYsfO6qoS8v4BlxIN94/z0rvYSM60m6VbTocKENpb1XdgouHoHXEDEQkTlLk87CfLCnMl+5d70wtItf35cSQrUcPtDF3IJday/BOLY2N5ST3QOPg4oKnLLZfdq9lF18pq4Ki2/o+YDozeKgxDMNCSXHyR/kX4MYlJMQqWKWoTAO+1amCcZauD5RzlbFdONLZ6/M/95BNBkh6Hj3zCC1E1z9Ei4irDRKfrBNWjk7t3CwF8q/D1BqvYP2zbkiRKXMi7hNbzsSh7F7XcGNIqh9eViY+n75EQSOS2zg0u3p2COz0XqVh40uO7tPqZK0EFQd8GwJtLqnIgOIceRwpHUyvfPxUxdu4Ssb2C+sCxr+Suk+DvcZ/YlygFxbFcFEQ575C5xID0Jznf2ZS4DhgutiESVLw/x6IRmpQ+nr7mJ7GSfgfLtMBxKEdDnpj0CpUApegLCLVLKRsWgrLy+YP9NNnjjWhnASrbZ8usU5C
+	5x4HKfC2XS8re4cyW/CGRIyPTE1RghNnhDyENoQF6kbZc7h5cysYxzeVdWNbvSTlklidY0yObB5I1Elo8uDJZGFtu5zp7P6+jdIYs8DRGCutylitMxCiDHFXspGIBZYCELkJAnBg2b1pLloo56DHipLiQEDNu567ALZNw8sfECjuE7ifKaGI8mCm1Hl8P9t0A81zHgrHblFsSpvOXUq4FPh3BLbc76liPCtoo7cd8N5LoPLJMpNib4tqX76GcUzyYJJKB6qQDpLk8niHTDqMmLtnyLoqq89CbpaxXeTL431nC37L/eVSxulgnB3hKcLP7nz3apJUVHo4APKVXV7Lwh1jL01bSsRBdT8sxNP2PQQWUeUfdqFxQSvax3LNlUy7dakiN5/xo6gLMztTVPKsb1mIlfwnVHKTAHecPX/0Qs0GDhyZr4QxcKysqa3R2vDVRG//S6rM42LW82fNwk4AVIqM5kYDs57f0/ngS9hLP7Vb1kqMdgupr9i+ZuW0CwgAHXfX3SYRtYba/TPlUDMqIfn77ng/i8uXh/bj/5QwPVfxY2CVqca0L7ynYCSbzbR+YFfadkCM5d1sk3BBLxBnbqTQIhzWZGRzqVHJmwpb/wt/bogtWi8h9SDUyPMtdph5Otud78+E/PT5QyElHew3KCxcGsJDIjf055viESG/mlCTBg81Dg8SyJLx3tvYIEe5
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(921020)(11063799006)(6133799003)(56012099006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(5023799004)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WDhkVDZDK1pJK2Q3bjhMMFRLOVVSeXBWbVR1V3Npd0l0Y1dWL3JoTTdUNlNP?=
- =?utf-8?B?TGJBR3pxcHNEL0dtZGw5MTNlZDBIamplN0o0SzVSODZmbXdwV3pKTHRPeGN5?=
- =?utf-8?B?cXJRTjJJdm1oMlA1SUFBQUlYd3g2UWphb1dyN2R5c3pWQ25Dc1Q1QmVXNDg5?=
- =?utf-8?B?a05NMVlFQ1FHQUpmYkl1cTA5Z1ljQ2VYOUlFMWduVFpLcFVOTDB2RjJvWHhm?=
- =?utf-8?B?UGR0aE5tS0wweGRmODFtV0QxZ2xHY081NUNWVGljZW8yejdUSkZDREFWUGxa?=
- =?utf-8?B?Q1Rib21CWVVVbDh5M0l3S1N4SmlpOFdkYU02ZHE4SnYyM2ZEYUJ5RnN2TUg3?=
- =?utf-8?B?M1B4OE5BeldyRkRVU0VzVkhMRXRQdGRCdGQvaGIxM0hDR3Izdis1SzNYeXZn?=
- =?utf-8?B?ekF1VnhlOXdGdzl5ck0xWjNrd1FOWlFGSzlsT1FsZlJieUVZR2t5cVNPUWhr?=
- =?utf-8?B?T2ZGckVnd0ptc3p3TURTb0VZTzhGVFV5WHJ3bzVZaFl4UUtIVkFjVzhRbHYr?=
- =?utf-8?B?Q0VCSVpZRGkvcUNkWUxwTW9mYkJaQ3R1dkFEOXRjbmxLc3lvU2c2MUJteEwy?=
- =?utf-8?B?Y0h3QWo4QkpCN211eHRWK2JxaGdwWlJxT09YdjBNOXd4WmlNcC9ZVS9qbzM0?=
- =?utf-8?B?UENHVFJBcGJmZFB4b1I3NlVrc1BQY01QQmhYVUkxMnRTTnNKRDNmYVo1dVh5?=
- =?utf-8?B?Z1IzM3JWajNZT1p5MkNaeDZtR2gxVVFJdklwdjNPbGxSUndWT3RvM2E4Y2dD?=
- =?utf-8?B?dlB2dk9xcWgrNWtvQ0crRTUwUmRCbS80YzhaOHo0b29LWmRUdGVNVCtqekRB?=
- =?utf-8?B?NGI4bE5PS21DN1YvSE9TK1dsMGVsMGJMUHY3aG4rRVVtbXdlYXpseU9WVmlQ?=
- =?utf-8?B?emo1MFJwcHVwRjFGdm9KKy9SU3pEYk5NMmdJbmNnTlM4eHpiakdGclM0bGdB?=
- =?utf-8?B?c05FdkdLVGh6cHpIY09rQllkdFpYeUgvQ3hjbWxBL3FLaXhvckhQNGRqTUU0?=
- =?utf-8?B?R2FRNEhyYjRISU1yRTFuM2NxUmdkZWpqbEI3QVdxSDZhamZZOXhLMWNqS1N0?=
- =?utf-8?B?dVNNeXZKeXd5OW9leTVqOVRaQnIwN3U5VlFxcTJ5UXRRQkpEQm5pTUJUUHNs?=
- =?utf-8?B?RWRJa2FBc2QwbXdPQ1EvS1haRTNBN3ZQS21ISFAydnB0RGFkTy9TckNBRnJJ?=
- =?utf-8?B?V0FGSkFwT0dYV3JUd0d5RHZhTWRTZFJMUEZYdlkxekVpQmtnVHViWkNObzBN?=
- =?utf-8?B?RjhTWmM5L0N4MnNNSUhZSjgwUkowMHlVR0gwVFhWUHpibkVhWlYzN2VYTDd5?=
- =?utf-8?B?V3Z4dHA3S2o3cHYzUHBYbjFpZ20yb3JVMWRqQ3FjOWYyMXQ5QkhDQWpGd0Mx?=
- =?utf-8?B?T0dqSXd3TFNJZ3VQTWg2WGY3Ym14NEZCV3ZlNVpZeEVjTkdSZ3dmdU5uMitm?=
- =?utf-8?B?dlRZRVRtWW1YamQxNFdYZE0vVWV0RXJudytxeGN1LzUxWDBRTTE2SjZhTTJn?=
- =?utf-8?B?UUE1SG95ck9hVWRmY2JHNnNRdEJZWXlHWUJFZG9kWVA0SWlDNGZjTHZEMWhG?=
- =?utf-8?B?MmxGN3ZUOEc3VDBuSWs3QzV3QnBuTGdUTkIvYW1pYWYvYisrSUpJamlDOW5i?=
- =?utf-8?B?K2RNOTc1SmYrVjh1dEpaSFRYa3FQUEtKR1p6aHRVVDV5bXNZSDQvNnloL2Zh?=
- =?utf-8?B?cVc5WjhZdEh1OFd2WUdzT2J4THk4VVlZY0FmdjI3UkM5Y0puN0dQSlErYTlh?=
- =?utf-8?B?Q1BnNlFTSVZDV2N3bm9YK01HRVZ5TGFFZFFCV0VLU252STI5YkwzRVpneGhP?=
- =?utf-8?B?L01BZ0d5c0xrOUJPdW5QWVJsVS9USG5rRTBCWmxMMG9qZkI3MGtnRzNzTE9W?=
- =?utf-8?B?MDd5T3BtMEV5L1VBaVRzdXBkSVVCMkNOaUkzSUFQeTUxRlloMTFvUE1OMWln?=
- =?utf-8?B?T2o0WVAwcEtuWktHZ2tSRTUxc3JwVC93WVFLY2ZIVFFFOVZ0NHBMdlBtbEp6?=
- =?utf-8?B?WCtmL0ZzNFphQ3o5RWlaSkVKRFp6cE9xUWtTbTNUZTZlNllqSDZ6RUpZQi9G?=
- =?utf-8?B?MzlocFRZMjFWbU5uQ0RPQmppTTQreUpRbWZ1MW1kY0hwTW5RQnBuV2ttM0Yr?=
- =?utf-8?B?cEptUm1DRWtOUkE4dk9PV1F3VnZiRThEK3psOEJCU2NRRnB5RTNzZlhWNkt3?=
- =?utf-8?B?WkFhVDFHYkRtWGhNU2NKRHJUVjhFY2k1NkZ6d2ZMVXNUL1dMcWNRZmhkaEdx?=
- =?utf-8?B?aGRieHNNQTNTS25RalpzK0toMS9qcTZVaGxMNG1iTkRLenlXajR1VTV2bnZL?=
- =?utf-8?B?YkExQWhMQUc3M2dxZVRhS3BWU09EMU5jTStodVdNNDR5ekZMZFpVdz09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8a71689-356b-400e-7a73-08dec21bd66c
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+	=?utf-8?B?NHFYLzNoS1ZTbzBubFFrdXpRdDJQdDV6ejFKKzZ4MFF0ODlnL2N0UmpZV1Js?=
+ =?utf-8?B?MFlaRmlLeXcwTk9obEJnVVdqc0hrVVJhZ2doMnllb0FVeVU4NUtsemIvR2Rs?=
+ =?utf-8?B?d0trL3QyajNub0pHQ1BGSFBzVE5iZDNQRE9xWUVFYjNVQlV4b1BJd0J4U2x3?=
+ =?utf-8?B?RDJ1eXp2eVAzZ2NCdTU1bWFyckRWQU03MWIvSVI3TGFQRXVHTzllcEVNaHRP?=
+ =?utf-8?B?dkJnMXI0T3Q1blNZMnZlaFhsZG5zK3VXZWs5bzRYRmZKb1d2cnZkWm9VVmhn?=
+ =?utf-8?B?cjNqbDlqMlMweEtzaitPTFEwZjY5NG9RY2crd0pRbnY0c0RiZUVKR3NjR255?=
+ =?utf-8?B?YzA5TkU0Y0RoT0piQS93dldTYU5STm9oWUtuTTlnb3pTbEg5YnNKbHpLdm00?=
+ =?utf-8?B?Um9NOE1zYllpS3h6VmdEVno0eE5rK0Q4Q3BmUVJBWUk3MS9VcHEzTUw3cVgz?=
+ =?utf-8?B?RHFMcENoa1k4UjdTdktCb0syb3JIOFNjeGNuUFh0VVZURUErL0JiSzdYTG0z?=
+ =?utf-8?B?MnkrUHZRUzlUVDJ4NFVkL2J5M3YwZTFKTFlkdDA1YjJKK29OZFVabHBxczlp?=
+ =?utf-8?B?L1MxUExIN3NGRGNqeGZhWE5vVFNtUmNncUlpWnhZWVJqemo2NUdWNjFuTEVR?=
+ =?utf-8?B?T2NzdVVpZGNsb3NScHNEQ0ZMUDVydU9nOGRZQlFuRjRZNEx3QlUzNnNGeEZW?=
+ =?utf-8?B?aThSSUJ3VFF6VldLa1FCRUtLK0JWZnpFbnNKK0QzMU45YkhpWlltNUp0b1g0?=
+ =?utf-8?B?OGVpd3hlQzdzZXo5cWNrOUNuVWxSVXNqbkVvNzlHM0dwS3VhVFBZd3h2ZENP?=
+ =?utf-8?B?clRSYzBIanpBeThWZ2d0SExpSHlmSkFxRC9Mb0tlU2hHSE9JZ3FOWDB3L01m?=
+ =?utf-8?B?NUJ1WUYvaG5lRG1OSCtvY0lyNVhKell0TC8yU3MveXBGU2dSMnh2VjF2UXJn?=
+ =?utf-8?B?aEdIeVdVUGhYSWdxSlNweHNuUFJuRXE3djR2ZHJ4bDFuMVVHY05wRHB3SUdW?=
+ =?utf-8?B?UzJZTkZTNlF0c1p0TDlXYkxsRUd5QUc4bFVsbzlINVRDUmNWaEFOTFVMR1Zi?=
+ =?utf-8?B?WXlPL2xtd1VDMjZYcDhuTExGTERtdzgxOFdJQWFQZGlnV1A5VVRkOGtiNnNh?=
+ =?utf-8?B?MUVxSllsZFJEWG9CaWR2OXdaZmplb1JVdmJrNUFqb2I3NHBJemRKcWk3R1BX?=
+ =?utf-8?B?TnJ0WjhsMmd3ZkdJMUxZRk5vckQvZ1RhY3Vac1hyZ1NDdkNyZ1pjZjFqdzAr?=
+ =?utf-8?B?NnRCUGo3RGJiVThQQ2w1STF5MFBEMlgrSVZHeHlnb3F4NXI1WS9UMDI3aEZD?=
+ =?utf-8?B?V04xVnZHb3NkNTU4UG5jOEc5WGwwNHMyUFh2c0FkeThvQnk3bkJTWlIyVk5l?=
+ =?utf-8?B?bFZCQlhVNDJJYTZ4VTl0eCtOSFdOVi9HZlpSR256MGsyd3dlRXZJS1pIYXFl?=
+ =?utf-8?B?MjZVZ1VFQVdaeGZWYUZSbVYvU0ErZlpBUzQ1ZE9IZzBuUEowWmZ0OU1NVGow?=
+ =?utf-8?B?b0NldXhUcmc2S1JUaFJTeVlRbUFmbUVxOFFzalZ6NDJadmFYQjVVY3VjOTdn?=
+ =?utf-8?B?M2g2c3FXbGtyZDh5OFRIL3hUdGhYT2NDcUMwVmFTTi9ZQldrcUdScmwrOEtl?=
+ =?utf-8?B?a1ZkOWtQekpmT0JxRmZDYjhUY3JoaTl3ZmFwRnZZT0llRmQ3Nk4vSjEvQ00z?=
+ =?utf-8?B?VXZDVkpCOTFNaStHenhwcGMwRDc1THR0ckdHSVhKUGhMTytHc091KzQ1blFK?=
+ =?utf-8?B?TnFVdjZ4YVdOc3o3WjdaYUFvdWlTNkdvckdYdjZjNHVQQkZIYy8zQVFuV2Vq?=
+ =?utf-8?B?eHpkaHE0WGI1dVdYV1E1RFNNNERXVmMrQno4UVZGOVlyUDhnM2pvN3h1aFdR?=
+ =?utf-8?B?aURZMDhzY1BtSmZmQmRwMmRFVGlDREc1eGswTDBpQUMrbGJ3bi8vSEJ4WWM4?=
+ =?utf-8?B?OXRUZjN3T3VLdGQxTEFSb3VhUlRkbllnbEpoS2JpbFZVbUpJbk5Kd2ZzdHdz?=
+ =?utf-8?B?cGNUMi82TTlRM05FY2VjOFcyUEt5WEVEZUtpcjhhOTZRVWJyMWZBTVNGZ2Y3?=
+ =?utf-8?B?N3lCdHJHRGtKa3hxZlRZYUJVbC9aRzFDU2xaTGtmVm12Wk9xanM3VElZMmF0?=
+ =?utf-8?B?S3piOURPbXdieEtreCtYa2I5a3l5WUV3VVMwR3RvQ3prMGo4QTBoVG5QWFZ3?=
+ =?utf-8?B?Rjd3a21vM3ZPNmVrZmRCL0JTTEpSWTFZMFpzbWNiR0V1Y1RUQ0NMRVhZWFpi?=
+ =?utf-8?B?S0NydlRCZEIraWorQlJXL0hVcU80N3hRalZLM3NOd3I1NWRCdHBTZ2Yza0Ji?=
+ =?utf-8?B?MkVCOGZNNmpsNnNUQnRvYUFvWkhtdkVhOVRIeGphVVhOdjJOMFp0Zz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0c602f4-ff9e-4bb6-e30c-08dec21e9f9f
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 09:29:55.1846
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 09:49:51.8661
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o5cDXuaiGsYECkrmb+JAnJHUlACYANOPhe21H+Gvj/4hnYjMFoz4CDktl4mm3OksrACypTUi9dbeAWV6o6Kauw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1834
+X-MS-Exchange-CrossTenant-UserPrincipalName: ObTZG40zH1er0KFAl6f1hqm70nYOiNn78xMT4v2tOTzsLMJnsEhFQRbS6SG6ihkwpafXDl08rWV2FyhItkVAcg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9790
 
-Hi,
 
-I would like to make a correction to my cover letter.
 
-Note: v1 was sent as "RFC v2" due to my b4 misconfiguration.
-
-On 6/3/26 19:43, Yunseong Kim wrote:
-> Introduces a new KCOV exetened feature that captures function arguments and
-> return values at kernel function boundaries, enabling per-process visibility
-> into runtime dataflow.
+On 04/06/2026 6:53, Randy Dunlap wrote:
 > 
-> [snip...]
-
-kcov-dataflow are not in conflict with "KASAN_GENERIC + KCOV_DATAFLOW_INSTRUMENT_ALL"
-
-> Prerequisites / Toolchain
-> =========================
 > 
-> This kernel patch relies on a custom LLVM SanitizerCoverage pass that
-> emits __sanitizer_cov_trace_args() and __sanitizer_cov_trace_ret()
-> callbacks at function boundaries, extracting struct field layouts from
-> DWARF debug metadata at compile time.
+> On 6/3/26 6:16 PM, Mark Bloch wrote:
+>>
+>>
+>> On 03/06/2026 23:06, Randy Dunlap wrote:
+>>> Hi.
+>>>
+>>> On 6/3/26 12:32 PM, Mark Bloch wrote:
+>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>>>> index 063c11ca33e5..7af9f2898d92 100644
+>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>> @@ -1264,6 +1264,31 @@ Kernel parameters
+>>>>  	dell_smm_hwmon.fan_max=
+>>>>  			[HW] Maximum configurable fan speed.
+>>>>  
+>>>> +	devlink_eswitch_mode=
+>>>> +			[NET]
+>>>> +			Format:
+>>>> +			[<selector>]:<mode>
+>>>
+>>> It appears (please correct me if I am mistaken) that the '[' and ']'
+>>> above don't mean "optional" but instead they are required characters...
+>>>
+>>>> +
+>>>> +			<selector>:
+>>>> +			* | <handle>[,<handle>...]
+>>>
+>>> while here they mean "optional".
+>>>
+>>> That is confusing (inconsistent). Also, if the square brackets are
+>>> always required around the <selector>, what purpose do they serve?
+>>
+>> Yes, you are right, this is confusing. The outer square brackets are part of
+>> the syntax and are required, while the brackets in "[,<handle>...]" mean that
+>> additional handles are optional.
+>>
+>> I couldn't find a better way to describe this. What I want to say is that the
+>> selector is always wrapped in square brackets. Inside the brackets it can either
+>> be "*" to match all devices, or a comma separated list of handles. If "*" is
+>> not used, then at least one handle has to be provided.
+>>
+>> Maybe it would be clearer to spell it out explicitly, something like:
+>>
+>> Format:
+>>   [<selector>]:<mode>
+>>
+>> The '[' and ']' characters are literal and required.
+>>
+>> <selector>:
+>>   * | <handle>[,<handle>...]
+>>
+>> If '*' is not used, <selector> must contain at least one <handle>.
+>>
+>> Does that sound like a reasonable way to document it?
 > 
-> To build and test this patchset, compile the kernel using the modified
-> toolchain:
+> Yes, that helps a little bit. Better than nothing.
 > 
-> 1. LLVM/Clang (adds -fsanitize-coverage=dataflow-args,dataflow-ret):
->    https://github.com/llvm/llvm-project/pull/201410
+> But why are they required at all?
+
+Jiri suggested using the square brackets, and I liked that they made the
+selector look like a grouped argument. But if that is too confusing, I can
+also drop them and use a simpler separator, for example:
+
+	devlink_eswitch_mode=
+			[NET]
+			Format:
+			<selector>=<mode>
+
+			<selector>:
+			* | <handle>[,<handle>...]
+
+			<handle>:
+			<bus-name>/<dev-name>
+
+			Configure default devlink eswitch mode for matching
+			devlink instances during device initialization.
+
+			<mode>:
+			legacy | switchdev | switchdev_inactive
+
+			Examples:
+			devlink_eswitch_mode=*=switchdev
+			devlink_eswitch_mode=pci/0000:08:00.0=switchdev
+			devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
+
+Does this look better to you?
+
+Mark
+
 > 
-> 2. Rust (rustc 1.98 built against the above LLVM 23, for Rust module support):
->    https://github.com/yskzalloc/rust
+>>>> +
+>>>> +			<handle>:
+>>>> +			<bus-name>/<dev-name>
+>>>> +
+>>>> +			Configure default devlink eswitch mode for matching
+>>>> +			devlink instances during device initialization.
+>>>> +
+>>>> +			<mode>:
+>>>> +			legacy | switchdev | switchdev_inactive
+>>>> +
+>>>> +			Examples:
+>>>> +			devlink_eswitch_mode=[*]:switchdev
+>>>> +			devlink_eswitch_mode=[pci/0000:08:00.0]:switchdev
+>>>> +			devlink_eswitch_mode=[pci/0000:08:00.0,pci/0000:09:00.1]:legacy
+>>>> +
+>>>> +			See Documentation/networking/devlink/devlink-defaults.rst
+>>>> +			for the full syntax.
+>>>> +
+>>>>  	dfltcc=		[HW,S390]
+>>>>  			Format: { on | off | def_only | inf_only | always }
+>>>>  			on:       s390 zlib hardware support for compression on
+>>>
+>>>
+>>
 > 
-> Build instructions:
-> 
->   # Build the modified clang
->   cd llvm-project && cmake -G Ninja -S llvm -B build \
->     -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release
->   ninja -C build clang
-> 
->   # Build the kernel with dataflow support
->   export PATH=$HOME/llvm-project/build/bin:$PATH
->   export RUSTC=$HOME/rust/build/x86_64-unknown-linux-gnu/stage1/bin/rustc
->   export RUST_LIB_SRC=$HOME/rust/library
-> 
->   make LLVM=1 defconfig
->   scripts/config --enable KCOV \
->                  --enable KCOV_DATAFLOW_ARGS \
->                  --enable KCOV_DATAFLOW_RET
->   make LLVM=1 olddefconfig
->   make LLVM=1 -j$(nproc)
-> 
-> Note: CONFIG_KCOV_DATAFLOW_ARGS and CONFIG_KCOV_DATAFLOW_RET depend on
-> CONFIG_KCOV and use $(cc-option) to verify the compiler supports the
-> new flags. With standard (unpatched) clang, these options will not
-> appear in menuconfig and silently remain disabled.
-> 
-> Optional configs:
->   --enable KCOV_DATAFLOW_INSTRUMENT_ALL  (instrument entire kernel)
->   --enable KCOV_DATAFLOW_NO_INLINE       (enabled by default)
 
-I checked, and it’s better to use CONFIG_FRAME_WARN=0 when using KASAN
-together regarding flood of -Wframe-larger-than warnings.
-
->   --set-val FRAME_WARN 4096             (needed for INSTRUMENT_ALL)
->   --disable KASAN                        (conflicts with INSTRUMENT_ALL)   --enable KASAN (no conflicts; works well, but slower, a lot of dataflow)
-
-What I meant by that conflicts is that I was using it for kernel-space
-behavior only for the "offensive kernel vulnerability auditing",
-and in that case, sometime it’s better to disable KASAN.
-
-Tested CONFIG_KASAN=y + CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL=y together
-(FRAME_WARN=4096, virtme-ng 1 vCPU 1GB on my Intel CPU Dell Pro 14
-Premium PA14250):
-
-  - Builds clean, no frame size warnings
-  - Boots and runs without KASAN errors
-  - kcov-dataflow captures correctly under KASAN:
-
-        getpid():    6,682 records
-        open+close: 16,382 records (filled 64K buffer)
-
-Time to "Freeing unused kernel image (initmem)":
-
-  KCOV_DATAFLOW_INSTRUMENT_ALL only:          ~0.95s (+40%)
-  KASAN + KCOV_DATAFLOW_INSTRUMENT_ALL:       ~2.02s (+197%)
-
-
-Sorry for any confusion the earlier wording may have caused.
-
-Thank you!
-
-Kind regards,
-Yunseong
