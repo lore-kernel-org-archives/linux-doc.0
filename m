@@ -1,166 +1,171 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AC24C6F1C
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 17:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780593831; cv=pass; b=s33g5P/I2tl1dqsiQcdSirdbdXz6fz7efm0kO3rxdqW2bM33A6CmEsM/0Jz1541l/60ybEeaIYRNlBGozn7Hq4kJj+Xtt7FBURUc/PHpJONEqsf/k70bvWnOTeHM0FnTK7plKrItFI7cDgtbU4UII6dN8rAdW5P1fMPCklyILGk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780593831; c=relaxed/simple;
-	bh=WgIKM3EBxa7eVRr1Qp+EPGWEolxCAu6y4pk0+g25Gr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ma650Fpj6ivsqFcgEQNNCt7CGgIwrcycj9zHcQyEA1VZ/oChoDMBEpfhJqAZZnrA9/8OXXAwTR/uL5RYtRZTfNW13Gcscf176aY8qc4ss1EEWksPkbRgXcY7wotYbPHDpI77w3tz7bCncpFpBmQ//0Mm84iGxWXuL2ndrFh4/os=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K8xCd26f; arc=pass smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075873BFE5C;
+	Thu,  4 Jun 2026 18:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780596793; cv=none; b=lkHwoEpkXcDDAuEuGdDKqzTdy+s8jqAaFmEo6TPdO/RMuh8qds+f6/a4zuBgX3v47cRmykUkQpDA5zuLoU1gW2N3YrItjZRv+E2yuRHMYum0ihG8ke/W7NyMM7zdbwyMb3+AIvWofHJ4I8uuokmk7+W/kDLFz9NdYZ6AjzWu35A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780596793; c=relaxed/simple;
+	bh=r0wjT9nlr3/7ANv0YhS8eiFusH1oMPnAKEwu64ciUjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8RMEEIWACPAYXiPHGSkZqj47Xt1PkNB7tZm4xGwMIJHWjTbw30I7jdPYdnjMIiKA8osaFKAAI1DK6266OP+X40bI6CW8EKDZPbnCNKOL4LUee/q5IlePeR+smT1bHaRggbB8OtEzvx2ucgtaA6hAA/EhAgG3IxkZk1WCtaIXRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/XV3iVQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K8xCd26f"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so798466f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 10:23:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780593828; cv=none;
-        d=google.com; s=arc-20240605;
-        b=f1R8Krx8jvTQNI2y6Ga1O264nRdpUBCHTpTacFxJgOZseKFlXO5Nx2LwEpP0ODpf/L
-         mz8+hZfyIlQSZO8DMSYqlPUPLxcfyGhUYEBLTzbCDy0GIHBIPkPSt99CGI96GyiYj175
-         6PPNcoI/lzJdMhLAM3U7AwzKF+GxiNIBwFo8w5wFQ0OfvfKLUFt70yP38f/iZQ5PUkge
-         p8UjXq5WmM5uuPAUC27E8iTHbKfi6W3L73vbC+Cu3CdBp9yt3pR/tglID2whaTB7KXaP
-         anjurVtnY38EvTIrpKzT5CC+1NEgL5pfiOA4Wh7CSCNFGTzNvkDbFzda0T6/898R0SiC
-         k5SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/rB/IXV+OMc2A+R0X4txGzVE+20Yu2JeN9gbqIkZf1A=;
-        fh=B9DYsscDCUFt4VlP+M3J1aOQ0gnQs+IA3I//cbEriwQ=;
-        b=Yy6UYRGsXKxHqtVbMbhpUrevMGUtqZxwevWSDVf1ST4n3a64r2AYi1hqv35E5U3kBi
-         gVhMPR0M+eRQjdcPc2gpySWqDX0Osx4ZApCMui0yXVLiE9sUIc44UxKI3Ui0R8BXniXd
-         uq5QwKbZnAMISRZvXv2wtKFZaki0rq3CLA5ohi8g7oyO06thtlDXRJ0f8ySja+XFFoqw
-         RdBpPE6zdcuGjpI1jVPorE/XePgFYq0je0lmGPzH65vPsUPqSGViKH3yaFptXJeGw+8n
-         nUUXyC0WGWdpGZJl25RRPZGSeNyPQtA5Onnmu5l3hO9Tpxw/49xAr9Qy0TMkpBGQF/d+
-         mJZg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780593828; x=1781198628; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/rB/IXV+OMc2A+R0X4txGzVE+20Yu2JeN9gbqIkZf1A=;
-        b=K8xCd26f2jR2srH2WJ5ijXhlT8cgZ6PqnPdioj0r+nI/S0Qr48jEUxIOGJIjpbV+0X
-         K47vwwIgo00nOo8RbqyBIdnLUG0MZv+UIRtELeJnHtrdmvVk6FnWR71PRGfzobV+GBGN
-         1X+YCQuRNbEi6RUDSZIpOun2lkHfac6THvsUgEZW74pS60qnqikFM1fvZcEoDnn9MPlZ
-         +gMGdfS4jhtzb9JzaWkATdTwLJeV9FncYCWX2kZMRtGxuV3uemghesicJMane/whLYRw
-         R7C7lQwZNRaxLHwgQ2PyjuMyJc38nfO0zT81SZSmeuxw+XCPwHUZ9d3OA58eNQM1aT4Z
-         g+Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780593828; x=1781198628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/rB/IXV+OMc2A+R0X4txGzVE+20Yu2JeN9gbqIkZf1A=;
-        b=qk8RWrD+32oKEbBStPb+/7Yaf3EHba9ggBf7IC09IFK9dwDIUVf49ng9tb9a0f3DAy
-         IBp7aUt1tkyl3wOXtw0KWwpVO4ca0KBr9sXNnSKkIgBkAEjAAPkoh/PNVZK6EAr91pMS
-         sTAfAvEZPTTAoASIdmmF35ZeGClH+EGaqqOY1ZajSLtfvpOrmSgidN3ZefjvJrDyj1YZ
-         C/8vzyxI35Y0OpncunB0z0yp57k7jzlUbVGhgxn++myvG6zhP4fJNf0VB3QtMNXHN5aY
-         NthQzSTlOtXl0jNVDsUfDhgG+1MEdj/fndCyb8lveoqF/OfsFXZj4y7S08AC2OfRIX9E
-         r70g==
-X-Forwarded-Encrypted: i=1; AFNElJ8wn4apYzRhH9rqfQ2MY2rP3II93QBrveFhdoFh8heIxXGm5tPZPwlahF+4jJtE0fWbWY6ehmau3gE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgARG+5W75TQ4WPCSyMRpLvO3MtaYSP2tgCM/bjukH8+3ofi0a
-	eIpHg7h05vd0mnZovbl4K28Rj7IFBsm1AZ9EumdvP4lQ/Fws9bHJSFY2En4WFU0lGVZp24rYa0u
-	x+418i49SaO5c/ad4SE7NPU8Ke19znvE=
-X-Gm-Gg: Acq92OHl6m/yBNSX9gYVTC8aPFc23JQ59iyJpRILLpSkh06sVwvq7UPTuSs+FYVR7tl
-	PyQaPfIW1GmqHuhfQWuC9odoHnbkubCNEn+MAjZE+XOaz8YbgTPy7Wge1Qz30m9gSXON57aP34R
-	S+PsiqodUmZ3rFytQFty6FWFkxa+aCmL3KI4dE7wk6G+R5nNHBuvcUFYf9mMSJAi8+XMZRNWMH1
-	44cFBhHDMOLH4T563uBfi2LiBEVtsrVV119Wr35kT3wAgoC5Mot4a3AahtBmcGpprKYuu4q02ub
-	eWSHEew3aYDHwuechRSJY1jbRvrrnFBPDt9aVW1tLnR0flvZEQ==
-X-Received: by 2002:a5d:604b:0:b0:43d:69ff:6898 with SMTP id
- ffacd0b85a97d-460302e6f06mr103580f8f.9.1780593827921; Thu, 04 Jun 2026
- 10:23:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/XV3iVQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54AA21F00893;
+	Thu,  4 Jun 2026 18:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780596791;
+	bh=h9siRJLal0UIGuKxUNFIYMAX2s/cZPxHkMdng7Hug/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=V/XV3iVQ4PRKNVCvTu15YxKWSS8z2rg9Z5nKNSe0DJ+dG1R0b21v8OhFQ4xjYmiv5
+	 WoLCGhlsrNR38uXgEgJvbBjPqBWzfmmFlsf/sdlzB1Ofqr5TAsYQwvF3CDdBLgoakl
+	 aOe9tkeCuQRFp1PjFSSIuqO/tybLyiWr2qyQMufO+BTAwWqzMb6nGcNHiaeEPBnRvn
+	 rgf8y0PSub1b3PAkTQEjcsGxF5s6Z/W+/p7EOceykOuqrmXTRI+Kz9LIInpTzzKysG
+	 chLeb1cJbQD6EMoAlGWIOEqSOuUodSfhLmmXLR1XUTUezVeiZ+Ze23Sp4berUW2oCt
+	 0eR/Zhg2EC1UA==
+Date: Thu, 4 Jun 2026 19:12:56 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	liam@infradead.org, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com, 
+	usama.arif@linux.dev
+Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+Message-ID: <aiG_-lP_HfxWXB4G@lucifer>
+References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
+ <20260601032804.96122-1-lance.yang@linux.dev>
+ <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
+ <616de1a8-1cfd-40b8-b04f-7b324be40bfd@linux.dev>
+ <6b11bf0a-769c-4ef2-ac6f-2af38200a6bc@kernel.org>
+ <baa0a462-46e0-44ab-b583-c722ad253afe@linux.dev>
+ <06d9b665-945f-4967-9ed9-b06514478996@kernel.org>
+ <CAA1CXcAeEGOsqp-ywAQ7GMYQzXEeco-rUxUkk2hEF69HybC4=w@mail.gmail.com>
+ <CAA1CXcBSPVG4CJFCBDvbuodcJ_7eXoDQTpK0ZN0HEhkDPi-DEw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com> <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
-In-Reply-To: <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 4 Jun 2026 10:23:36 -0700
-X-Gm-Features: AVVi8Cflh7M61FcoQfkq5TRPiQaxI_Tappj1TjJNCo92lEJSIG0y-zr5pc0cdEk
-Message-ID: <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA1CXcBSPVG4CJFCBDvbuodcJ_7eXoDQTpK0ZN0HEhkDPi-DEw@mail.gmail.com>
 
-On Thu, Jun 4, 2026 at 6:06=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> wr=
-ote:
->
->
->
-> On 2026/6/4 13:34, Yosry Ahmed wrote:
-> >>>> For instance, suppose a parent memcg has two children, memcg1 and me=
-mcg2,
-> >>>> each with 200MB of zswap (100MB inactive). Triggering proactive writ=
-eback on
-> >>>> the parent memcg will exhaust memcg1's inactive zswap pages. After t=
-hat,
-> >>>> even though memcg2 still has plenty of inactive zswap pages, it will
-> >>>> continue to write back memcg1's active zswap pages. Writing back act=
-ive
-> >>>> zswap pages causes the user-space agent to prematurely abort the wri=
-teback
-> >>>> because it detects that certain memcg metrics have exceeded predefin=
-ed
-> >>>> thresholds.
-> >>>
-> >>> This will only happen if the reclaim size is smaller than the batch
-> >>> size, right? Otherwise the kernel should reclaim more or less equally
-> >>> from both memcgs?
-> >>>
-> >>
-> >> I gave it some thought. Not using a cursor could lead to unfairness
-> >> issues with certain writeback sizes:
-> >>
-> >>    - If the writeback size is an odd multiple of WB_BATCH (e.g.,
-> >> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
-> >> writeback ratio might end up being 2:1.
-> >>    - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
-> >> triggered, it might repeatedly write back from only the first 2 child
-> >> cgroups.
-> >>
-> >> Although setting a smaller WB_BATCH might mitigate this unfairness, it
-> >> could hurt writeback efficiency. Let's just use per-memcg cursors to
-> >> completely fix these corner cases.
+On Thu, Jun 04, 2026 at 11:04:35AM -0600, Nico Pache wrote:
+> On Mon, Jun 1, 2026 at 9:00 AM Nico Pache <npache@redhat.com> wrote:
 > >
-> > Exactly, the batch size should be small enough that any unfairness is
-> > not a problem. I would honestly just do batching without a per-memcg
-> > cursor, unless we have numbers to prove that the efficiency is
-> > affected when we use a small batch size. Let's only introduce
-> > complexity when needed please.
+> > On Mon, Jun 1, 2026 at 5:14 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
+> > >
+> > > On 6/1/26 12:47, Lance Yang wrote:
+> > > >
+> > > >
+> > > > On 2026/6/1 18:23, David Hildenbrand (Arm) wrote:
+> > > >> On 6/1/26 11:08, Lance Yang wrote:
+> > > >>>
+> > > >>>
+> > > >>>
+> > > >>> One small thing, I think we should probably keep the smp_wmb(), and just
+> > > >>> move it before the earlier pmd_populate().
+> > > >>>
+> > > >>> IIUC, the ordering we want is still:
+> > > >>>
+> > > >>>    clear old PTEs
+> > > >>>    smp_wmb()
+> > > >>>    pmd_populate()
+> > > >>>
+> > > >>> so another CPU cannot walk through the re-installed PMD and still observe
+> > > >>> the old PTEs, right?
+> > > >>
+> > > >> There is a smp_wmb() in __folio_mark_uptodate(), that should be sufficient?
+> > > >
+> > > > Ah, cool! __folio_mark_uptodate() already does the job :P
+> > > >
+> > > > So yeah, no extra smp_wmb() needed here!
+> > >
+> > > Yeah. BTW, I think we'd need a spin_lock_nested(), so @Nico, treat my code as a
+> > > draft.
+> >
+> > Okay, I read the above and did some investigating.
+> >
+> > I will try to implement and verify the changes you suggested :)
+>
+> I've implemented something slightly different actually and I *think* its better!
+>
+> } else {
+>        /* this is map_anon_folio_pte_nopf with no mmu update */
+>         __map_anon_folio_pte_nopf(folio, pte, vma, start_addr,
+>                       /*uffd_wp=*/ false);
+>        smp_wmb();
+>         pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+>         /*
+>          * Some architectures (e.g. MIPS) walk the live page table in
+>          * their implementation. update_mmu_cache_range() must be called
+>          * with a valid page table hierarchy and the PTE lock held.
+>          * Acquire it nested inside pmd_ptl when they are distinct locks.
+>          */
+>         if (pte_ptl != pmd_ptl)
+>             spin_lock_nested(pte_ptl, SINGLE_DEPTH_NESTING);
+>         update_mmu_cache_range(NULL, vma, start_addr, pte, nr_pages);
+>         if (pte_ptl != pmd_ptl)
+>             spin_unlock(pte_ptl);
+>     }
+> spin_unlock(pmd_ptl);
+>
+> The logic here is that when the PMD becomes visible, PTEs are already
+> populated (no possibility of spurious faults on local CPU)
+>
+> the SMP_WMB makes sure of the above
+>
+> And the pmd is installed with the pte and pmd lock both held through
+> the mmu_cache update.
+>
+> This follows the conventions used in pmd_install() and clears the
+> potential for local CPU faults hitting cleared PTE entries.
+>
+> I think both approaches are correct but this prevents any possibility
+> of my first point. although mmap_write_lock prevents this too.
+>
+> Let me know what you think. I can revert to your implementation but
+> this is what I tested.
 
-I'm impartial towards the complexity of per-memcg cursor. I don't
-think it's that big of a deal, but only if it's warranted.
+Yeah let's go with the original implementation please :)
 
-Hao, if you're convinced that doing small batch is not efficient,
-could you run some experiments to show the improvement bigger batchign
-and fairness? Maybe implement a small batch, no-memcg cursor first.
-Then implement a patch on top of it to add per-memcg cursor, and show
-how much performance win we can get from that patch on top of the
-patch series?
+Thanks!
 
-FWIW, zswap writeback right now is not that batch-efficient :) There
-is no IO batching, or batched lock operations (we drop the lock
-whenever we attempt to writeback a page), etc. Might be a good avenue
-to optimize.
+>
+> Cheers,
+> -- Nico
+>
+> >
+> > Or an even crazier idea... what if we ensure MIPS checks for PMD_none
+> > before walking a PTE table?
+> >
+> > -- Nico
+> >
+> > >
+> > > --
+> > > Cheers,
+> > >
+> > > David
+> > >
+>
+
+Cheers, Lorenzo
