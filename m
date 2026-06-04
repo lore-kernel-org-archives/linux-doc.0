@@ -1,236 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8827932B125
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 17:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780592638; cv=pass; b=XlUt1pem258GhcpNEszQpIxng4TO5j2Gdvu/cFruuhEzjw2kzIjUEIci9CwhY9gJIqpRtNNQw8wXM7YoVh/50+V3Hx9+HoHxWqGXTY4VcIg5R+vSk2lHKzMqT6Ub+V4bqldA6U5ZCVWpxD7JW4FPseuoF8jLAg5v7zJ12aL+qvM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780592638; c=relaxed/simple;
-	bh=CS8LTr/ytbf5VzNbA+58AYmQySqtkVsv4R0NV1X3qU0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U96JXJ2CcwqtWjd3TwFRKTTxlzOez2XWOOOvze0ayDZMuWV91+ngNjrhEwvG1mrJ1t/yz8pyFV98pUdAKwGD7QhIqL0Nj5cuEdhQz1h9eczQj0gZbq1oY78WXyGjDG09J515/+ninWOB0zrkotX2QCc+R4cO5UqiKka4xOgE96w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KixjPKkc; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mnr2S9PW; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9371A4A2E20
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 17:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780593102; cv=none; b=ONFh59pOGjuT5kzfyEyO8I8aE+pafJSrOp8zyLebuCzisUmr23T/7ND7W7za87ZEynuBeRcxQaOndh55aU3Z7go8y4n9/Vs62I/yCbRTpFxe7a6DBBjkXyJS35JuxbxBGVDEw5tUYJeVMXhQBdvY4RpwWy3esLStCOfQH6OZptU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780593102; c=relaxed/simple;
+	bh=GbgplKPXYa2UNbqZfHKJ/fZMS/5TFFGc0wikQnh6Ldo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxdbHhKeAuuGLH1kOLN53H1163Ng9HwRUaClSVKq+t5ADnmIJYpMH6nsVKCEBbkz6kC0au2+0eZ3hqKnqssoqA7YrtyTpGHvtNfHWwKD1pDV5m4Re6NcNn9ggfR5RtZbeAu405d7QkySRp8XeK+E1ARM4tFigFViRPixQ1rEO1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5z0qsku; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KixjPKkc";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mnr2S9PW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780592636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mFdbSvVLclwxYmscPcZ8kkZXJU9Ks9VowvahVknrrs4=;
-	b=KixjPKkcIh2mT0u10q+P/TOAblb3SHaXmQr7H6VDzAOZL1j+HZMvdcWNnidwC2KTk0Lv5E
-	EdqZZc3Diaf+nx7m3IFz2vQWpc0BdPKy+yn5Ej7c/rzCoAsZ0X1GX0XKNIg4KZ4g0dkTMU
-	tCdQHdIpONx3r3f9Lmy6RXjaLSiMU30=
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
- [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-wkUr9ZYFM8-BSzEIls9EIg-1; Thu, 04 Jun 2026 13:03:55 -0400
-X-MC-Unique: wkUr9ZYFM8-BSzEIls9EIg-1
-X-Mimecast-MFC-AGG-ID: wkUr9ZYFM8-BSzEIls9EIg_1780592635
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-66030c38630so1069565d50.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 10:03:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780592635; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EA1jUdyiDa2Z4HNpY63cTI8WLTkST3kYvlrit+eiKdJra/IrxgVDdkm4qsGH4a67gO
-         9ZDzIsiPNUxyIOLsLJZybe9M6c76ckKpo30fMcuE2u+8XYWSSmVcrj1RMKthZglMUSis
-         v6+eSdrJCMpbHcnhEOnsrfiQRv9Z0wC0Ja6dPM76fvWHu8dPykn8O/53To0n16NLv9sg
-         JIrxIAMLtuyGw6FCwZ1pVO6r8S4ZJXXhrPeSoA/rQ3T6CZ4rhD66+OwOJl9q1v4ZOUIF
-         nL+FfLBalEGq9H5Eb2sFjK7VTf8V5oHsqX72R5KZEGnOwQYzNAbwHWMf9byQfr/B/Xup
-         nO7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mFdbSvVLclwxYmscPcZ8kkZXJU9Ks9VowvahVknrrs4=;
-        fh=GsejEyc06MadlX6JshkwcR/bTeDgL0TfSU015kOQugA=;
-        b=i0Hf7WEPTmjE1QDfBLyIJcUeDKu1fudIsZ+EgNMTvS5PaEgGJpihhwt+NIjw01ivHm
-         ZlBSZfostij+ev25URfjpRIHR2TmwM1eeteJ8IHp57iAZrte8GfBFZr75i0To6T1bDY/
-         MmjBH88irpoU/pBpwocZGdXafkUH/463pKPkjG7cOa4NkGaXIndfmjDRhVIcBK9WBIAh
-         tRSvY7zJeXc5AAJVA9hi/7kSh0AMRGexyrWrLV8s83rv9uILHpbasBjA4wBBtwfPJruO
-         B7uBuYU0Cphhe4+mygZrBpGrPq4rJ6NfRZngnepZ6MgMyYvAVwAanlTKI6B/3zQ08PTK
-         YlYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780592635; x=1781197435; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mFdbSvVLclwxYmscPcZ8kkZXJU9Ks9VowvahVknrrs4=;
-        b=mnr2S9PWsd/R7OUEDPrbVuP3IYUy5+AVljybs8aW64MgIOlvXAuPmOp71EpWIj6eCP
-         BUGWyq4lKK2XeTwvyjQ3BOsgwSaK0VDiwes+UFQxybyExqseR3U+n0blc0N6snJs1vCe
-         3oLdR2aH6vc4mVIvgWTKF26olbLm0QdBueYfVak6qV8MfR712q/DNA4Hqk7a5corZAdR
-         ufmc1jb8G2xYOBqczWLDtYjF2TUruRtf783ldRIEKjEAaWZV8Sj5x4aBXDmoAO3+xdjq
-         GAW+wx6a3PIfOXlKLZqPCqvTbWeO5Vg4vc6pu2NLg3Jn4i38H3D90Y0PUsgDP/7SSqxL
-         xSmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780592635; x=1781197435;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mFdbSvVLclwxYmscPcZ8kkZXJU9Ks9VowvahVknrrs4=;
-        b=TA3U1VcQsV7DetrXIAd4ZivSIDzQ8s8yUrOHz/WhTHLYw4xOkEaGFukEoUiC7sRtzr
-         bPQP5Aznd0VpIePUbw85S0U6QfmypiA4jyO7j6KYZ1V+27uKqGlRjoy8bfjlplyLFvfu
-         CwNojMIc3alkpr6Cxp5NPFSh0OfGalLfFO0beCCI7DpH00zWKQcMXVXzAxOichuApWLT
-         tt3FlbKADlRDUgeESKkTnHYTPP83rr8AIaQsins0Fsd0O5kwLbFhKZnTcaUHlWpiSg2G
-         b/bov60GU/Dm+c8VkC8w1lQKTpIIixmbywZ1TSXjhicZKXWo8Y5fLfZZLrKgsciHXchk
-         X8XQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9k9r7OX8ZIjbxzHmt4BG4LgP4T1an0IMX7wIE93LmKeSDzRbJghvADiOWUOao1qKDocMXkl7jKkQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/Tz7QL6X2esRi5OkNTf0IaJVCS9Z1vpYUF7hhEuXOk0Dx0AgJ
-	NmgPWgZungWx4sHkZgCPYlo3WRdhSuzn0T2ddeYP4VhIVvDwjX3GrhPIaNv5+Ie+3r2kJGxdqMD
-	efXoeeauE1hVS1OTdzg6HCMB02saHa4w5nR/JjX7LX+EitOoHPxIbTt1InIx9/uc2Z888l3MiLZ
-	c/nUXxuZCxNme0j0/TVMYeF8N8P+0e2LkfHypN
-X-Gm-Gg: Acq92OFBzBVwyp9sGmOnyX399DqvdGFtWVq5Gg9/7U0aq/7TAXGt4vdjqTSyMrn4ywH
-	Tk8ffK6vKyxCkDbQsf+CgMXwtf8PQEuLXIFsdFmrTuHt0OHFUQvsckRWD+3ymlcXssVcw61Lyf7
-	5tzQthutkFUbJv/U4fYIMZUCcDcWx0tR94y8xVE+VwgAploYl308wR+hmFvHsejDn7yEQp3NNdX
-	oKa/QR0kTEqdZw=
-X-Received: by 2002:a53:d016:0:b0:660:689b:1539 with SMTP id 956f58d0204a3-660dc5af389mr7257845d50.58.1780592634567;
-        Thu, 04 Jun 2026 10:03:54 -0700 (PDT)
-X-Received: by 2002:a53:d016:0:b0:660:689b:1539 with SMTP id
- 956f58d0204a3-660dc5af389mr7257769d50.58.1780592633890; Thu, 04 Jun 2026
- 10:03:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5z0qsku"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4AF71F00893;
+	Thu,  4 Jun 2026 17:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780593100;
+	bh=jq5cp0aGYbB6/otk4wK3ZDWvNng/wiEoRgWQxKMwtA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=k5z0qskuA8WEns0xazep3AUKazNtC+UDwdwdkdC5h3jZKQa4yRN65fPCiYlulXV22
+	 A0yBKwV8HyCm1lVzyohm4qQ3/zoM0Es7MqwCwX2TayqU68j1gJfPbDWBS+qcUxYjVy
+	 6X001qOX7iD0LdLr/TQ37nJFbGHG79lwt25E53RT50ciMKRv7BhAb79SLdx92N4kGx
+	 hJc522YUdl6MXNXOkHgZgDgPyzrdk6KIekGeWQHaZ0Y47X0sTMN23/KKSxHRtpWmia
+	 4NLjbHojN4aYlakLPsThu5idBU268TgXj32mP552+szloAxrBTX3xi5aNgv5DUjSuV
+	 w25+IqSxthujw==
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1E38CF40068;
+	Thu,  4 Jun 2026 13:11:39 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Thu, 04 Jun 2026 13:11:39 -0400
+X-ME-Sender: <xms:y7Ehap7bISS6ixOvAtzDEj2L48PEGb-d_5GC9fLeD-M2lLR1fKpT9Q>
+    <xme:y7EhaiSVoWVUZR_2Fjyj-H69tvTXa2IwECnrMBNh0XGymIyo-M_5ksPnrdCr5Ex1j
+    l1nsa4Xcpq6U0Laf7TI5OmBPEC2djl53r_Jb-mpU9nRK7lQOARgQek>
+X-ME-Received: <xmr:y7Ehap3eq1PgrZ5DDa8pIeWOnPXD8DPS4kVDfO_XkTcjkT1mZzc3WZqb490sbQ>
+X-ME-Proxy-Cause: dmFkZTFlW7VhwxWXq7tsON5B+6qGxNwxYgJP3Wq0DzpeO16wgX6wxI6pErtUcVLIvEaSgV
+    G50EDo6SWQD98P091T97d1R9HH7OhtI5ZzbpaSgG88N7bLFYfNXPoe1a+vXqpDy47eRrj4
+    3Raze2ZLgXeIKizbd5iLEzl1dxLub2GwSuGrA8HJLFzr3PCPojzwNmZy+PWHkG6G6rNGqQ
+    D3549YZfGLyb6fz6O/zHwN4VKU7z6l2OWJ+YlH8JSlz2qTilaNin29xWbvIH6ynfsEX0tG
+    SL6LDgtYFdXau2QKOjTmeiP7YKQMiWmFkRCBfgxhQgfNbpJ3SADo8Y1mGQ231h8xbpUApJ
+    4RphbNfkCvmdArbicxhY6wB8XyiI5xpr8FbHOp7hpSrhSYari9To0IwGAKj69jvRUKPlQV
+    8LE/B9EaYkoombNH0NJn4nv0JoOWy07jvuhwJ4PfGgfcUTVq+fhp0b+4YUU9Vq7LOMTsws
+    RyZTWGy+g0Ruo1pl0SNrNQhjj6Ql6/rF67zGPvoGaGaMz3U5XA1lc6DE+/7dEHwYGw/IWE
+    FqckvdF+7jtgISxkeE8pyiJnkBexhdUCUSzJPbCzGWDSHzrFvr+f80e5ph/FdXOKRyqQiM
+    Yk03nG4IvC4sQFbMUYTih7pP5Wjgw7OwHB8P5pllaIr7MqWjsmM1sjb3apcQ
+X-ME-Proxy: <xmx:y7Ehap4eVtzTcL8qYiWFdoLd_ojw2C9dYanGaiYmbyaJhtWCFqOkzQ>
+    <xmx:y7EhaovofXMG0FLIiBoNCKRm5IzbTlRqWH5IWINtTbkw-kRDNJiz1A>
+    <xmx:y7EhaiMPEtTfwh6VM03EeLx6dKgCAMPjALWe9BrAmE0ivrk4nshJqQ>
+    <xmx:y7EhajWur5vqT6URAMpy3-fWliTH5vZ4W5PRD1558FA3rCikLpW-Tg>
+    <xmx:y7Ehaj0lkYICjd5MQpm7CaOYLKo0r89xPNL7x0tH5YPEfBLlKRvrBC2j>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Jun 2026 13:11:38 -0400 (EDT)
+Date: Thu, 4 Jun 2026 18:11:37 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, pbonzini@redhat.com, 
+	seanjc@google.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com
+Subject: Re: [PATCH v6 08/11] x86/tdx: Add APIs to support Dynamic PAMT ops
+ from KVM's fault path
+Message-ID: <aiGxr47ClKRwXYUo@thinkstation>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-9-rick.p.edgecombe@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
- <20260601032804.96122-1-lance.yang@linux.dev> <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
- <616de1a8-1cfd-40b8-b04f-7b324be40bfd@linux.dev> <6b11bf0a-769c-4ef2-ac6f-2af38200a6bc@kernel.org>
- <baa0a462-46e0-44ab-b583-c722ad253afe@linux.dev> <06d9b665-945f-4967-9ed9-b06514478996@kernel.org>
- <CAA1CXcAeEGOsqp-ywAQ7GMYQzXEeco-rUxUkk2hEF69HybC4=w@mail.gmail.com>
-In-Reply-To: <CAA1CXcAeEGOsqp-ywAQ7GMYQzXEeco-rUxUkk2hEF69HybC4=w@mail.gmail.com>
-From: Nico Pache <npache@redhat.com>
-Date: Thu, 4 Jun 2026 11:04:35 -0600
-X-Gm-Features: AVHnY4I_L8TwfZPfpH2lQFz1V2RvpVRsRnPJ_VPp-rqHDi22wC_1Io6tlGI8brU
-Message-ID: <CAA1CXcBSPVG4CJFCBDvbuodcJ_7eXoDQTpK0ZN0HEhkDPi-DEw@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
- collapse_huge_page for mTHP collapse
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
-	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
-	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
-	liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com, 
-	matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
-	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com, usama.arif@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526023515.288829-9-rick.p.edgecombe@intel.com>
 
-On Mon, Jun 1, 2026 at 9:00=E2=80=AFAM Nico Pache <npache@redhat.com> wrote=
-:
->
-> On Mon, Jun 1, 2026 at 5:14=E2=80=AFAM David Hildenbrand (Arm) <david@ker=
-nel.org> wrote:
-> >
-> > On 6/1/26 12:47, Lance Yang wrote:
-> > >
-> > >
-> > > On 2026/6/1 18:23, David Hildenbrand (Arm) wrote:
-> > >> On 6/1/26 11:08, Lance Yang wrote:
-> > >>>
-> > >>>
-> > >>>
-> > >>> One small thing, I think we should probably keep the smp_wmb(), and=
- just
-> > >>> move it before the earlier pmd_populate().
-> > >>>
-> > >>> IIUC, the ordering we want is still:
-> > >>>
-> > >>>    clear old PTEs
-> > >>>    smp_wmb()
-> > >>>    pmd_populate()
-> > >>>
-> > >>> so another CPU cannot walk through the re-installed PMD and still o=
-bserve
-> > >>> the old PTEs, right?
-> > >>
-> > >> There is a smp_wmb() in __folio_mark_uptodate(), that should be suff=
-icient?
-> > >
-> > > Ah, cool! __folio_mark_uptodate() already does the job :P
-> > >
-> > > So yeah, no extra smp_wmb() needed here!
-> >
-> > Yeah. BTW, I think we'd need a spin_lock_nested(), so @Nico, treat my c=
-ode as a
-> > draft.
->
-> Okay, I read the above and did some investigating.
->
-> I will try to implement and verify the changes you suggested :)
+On Mon, May 25, 2026 at 07:35:12PM -0700, Rick Edgecombe wrote:
+> When handling an EPT violation, KVM holds a spinlock while manipulating
+> the EPT. Before entering the spinlock it doesn't know how many EPT page
+> tables will need to be installed or whether a huge page will be used. For
+> this reason it allocates a worst case number of page tables that it might
+> need as part of servicing the EPT violation.
+> 
+> Under Dynamic PAMT these pre-allocated pages will potentially need to have
+> Dynamic PAMT backing pages installed for them. KVM already has helpers to
+> manage topping up page caches before taking the MMU lock, but they cannot be
+> passed from KVM to arch/x86 code.
+> 
+> The problem of how and when to install the DPAMT backing pages for the
+> pages given to the TDX module during the fault path has had a lot of
+> design attempts.
+>  - Extracting KVM's MMU caches requires too much inlined code added to
+>    headers.
+>  - A few varieties of installing Dynamic PAMT backing when allocating the
+>    S-EPT page tables. [0][1]
+>  - Using mempool_t to transfer the pages between KVM and arch/x86 doesn't
+>    work because it is the component is designed more around maintaining a
+>    pool of pages, rather than topping up a continually drained cache.
+> 
+> So don't do these as they all had various problems. Instead just create a
+> small simple data structure to use for handing a pre-allocated list of
+> pages between KVM and arch/x86 code. Model this on KVM's existing MMU
+> memory caches.
+> 
+> Add a tdx_pamt_cache arg to tdx_pamt_get() so it can draw pages from a
+> cache when needed. Not all DPAMT page installations will happen under
+> spinlock, for example control pages. So have tdx_pamt_get() maintain the
+> existing behavior of allocating from the page allocator when NULL is
+> passed for the struct tdx_pamt_cache arg. This prevents excess allocations
+> for cases where it can be avoided.
+> 
+> Export the new helpers for KVM.
+> 
+> Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
+> Co-developed-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Link: https://lore.kernel.org/kvm/de05853257e9cc66998101943f78a4b7e6e3d741.camel@intel.com/ [0]
+> Link: https://lore.kernel.org/kvm/aYprxnSHKHUtk7pt@google.com/ [1]
 
-I've implemented something slightly different actually and I *think* its be=
-tter!
+Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 
-} else {
-       /* this is map_anon_folio_pte_nopf with no mmu update */
-        __map_anon_folio_pte_nopf(folio, pte, vma, start_addr,
-                      /*uffd_wp=3D*/ false);
-       smp_wmb();
-        pmd_populate(mm, pmd, pmd_pgtable(_pmd));
-        /*
-         * Some architectures (e.g. MIPS) walk the live page table in
-         * their implementation. update_mmu_cache_range() must be called
-         * with a valid page table hierarchy and the PTE lock held.
-         * Acquire it nested inside pmd_ptl when they are distinct locks.
-         */
-        if (pte_ptl !=3D pmd_ptl)
-            spin_lock_nested(pte_ptl, SINGLE_DEPTH_NESTING);
-        update_mmu_cache_range(NULL, vma, start_addr, pte, nr_pages);
-        if (pte_ptl !=3D pmd_ptl)
-            spin_unlock(pte_ptl);
-    }
-spin_unlock(pmd_ptl);
-
-The logic here is that when the PMD becomes visible, PTEs are already
-populated (no possibility of spurious faults on local CPU)
-
-the SMP_WMB makes sure of the above
-
-And the pmd is installed with the pte and pmd lock both held through
-the mmu_cache update.
-
-This follows the conventions used in pmd_install() and clears the
-potential for local CPU faults hitting cleared PTE entries.
-
-I think both approaches are correct but this prevents any possibility
-of my first point. although mmap_write_lock prevents this too.
-
-Let me know what you think. I can revert to your implementation but
-this is what I tested.
-
-Cheers,
--- Nico
-
->
-> Or an even crazier idea... what if we ensure MIPS checks for PMD_none
-> before walking a PTE table?
->
-> -- Nico
->
-> >
-> > --
-> > Cheers,
-> >
-> > David
-> >
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
