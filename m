@@ -1,342 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9423E6DC9;
-	Thu,  4 Jun 2026 11:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD0F3DA5D2
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 11:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780573112; cv=none; b=bLjyOXbbGBO98XyhB6fFC/7jsMEi8US2nX4/IQWi+4mHUajQOq0hK1plumaWPhjNYLIfHUwLaESgep9jk7214uq+EAK8MK2jBbvdZIBgYRtIoxrLZro5skWMgHUg+wbxVcQrTIii+DGZxOl6oHFTjNbkry/hNIaGpIc6EC67Tvk=
+	t=1780573432; cv=none; b=KxeMTo5SagUqELrGuBrorWoh9bBOUoo1+vMH26A+K3iTtou+46iKVYK8jhe++4fs+5SLd5RVX1iiOLJsXI3YH5nx8HJxf8L595HOpSDYttyGK7VxqLJ8ddGm0X8V8E/CeIInDCJ4CGMDjlGUGlGq95papyDDMFHvcZGxmqj+uzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780573112; c=relaxed/simple;
-	bh=jWktKFiR0aREzNMh5t+4Hsu801hp/zbvBdtge9HMK5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ual3TKNkocxhUx+Ep1CvB8ez0+f2it0pixHVqpv65NW5m4tk72HtsyjwSqP2rwV+yhdd+sF6jM8Jwbxnnr6JiriimmScNcZVmC2XoLeUvb9gzST8QKfhOHSV0ayfZVom31OAXq92GSE/8L0ZFMw1FZLlSG+op66Dd/d8Usps+HY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFxoq+6d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780573432; c=relaxed/simple;
+	bh=UlgOiZzolv21k+Fs4BDGLvH4PmZAmdU4z4XhtlR+T1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A7OT8aqN875zE9nQqaImCRNHHj4WlFZTONSwokQoZxG67lJh+N+8hBBXzGKjBkj+u1PA9LclpKgntGEq5vs0wXkNSdZkHNde/z5g85yPWbaz6WmlZMKMeGAe6YuKZca8nO/LaurRcwdw3f4EW7XChQrXCwmepjLYOvDVfMOI08M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HQXsVSCX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZYcjIsvP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFxoq+6d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001A41F00898;
-	Thu,  4 Jun 2026 11:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780573110;
-	bh=0Cs5HltYdoJIMxaPhRAbM656+FdrapHi9nkAsTwvgJs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mFxoq+6dwmB63YA4eNje+poauaE108YtMyQzjeUIVWivqr6B0Z/N/8uE7lnIo9Nd4
-	 FFIU1+jAIvqnVvjFOwuRuahuM8yP+S33zThST2xFhJ83iYtjfYWvQ5xC+x3ClIQASI
-	 IECYBxbT5ufcfQ7SbE6M+9B24G0iFU9XRjq94SKuCszF17U5xrVRsddXrIQafQEzlj
-	 M34f2pOG/jPs2YDq9Its1aG37nFh5cf91N4L3mmDMpRCOXk9EKD/x8rwC9kOt3qVVw
-	 YBg8fusqS3krzm/TSgeqRd+CAlp7r8NGhUU4/HLkYJ2KTvUhgZhmCVdfTB6jSnE7XJ
-	 3H2uIvr2GPzfg==
-Date: Thu, 4 Jun 2026 12:38:16 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
-	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com, 
-	Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
- collapse_huge_page for mTHP collapse
-Message-ID: <aiFTSLb0kkTR7I9A@lucifer>
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522150009.121603-7-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HQXsVSCX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZYcjIsvP"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654B1inQ994671
+	for <linux-doc@vger.kernel.org>; Thu, 4 Jun 2026 11:43:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DCkHbluDcNWeIl3FDcfNeAqYdv70fCJloE9NrbQf6xU=; b=HQXsVSCXl5YnZ39s
+	Z6HwZNxa62yrZ+FYgJMbw/MqV1apYJzb2GokYok3AnIaskHrQJSMtKEfeOTtSwFC
+	EgGxAuTfawbek02gZ9llI6Nwf4EU3rNdcZ8ZPalUCN7MynASJb6G6d4K0Tkp0HlX
+	5P7d4pUwUUBzdnThtX88k/tX+NtsoyyAtciRLPTmtB+iGQM8tesxBEKZ7kR0hWQd
+	6LEVxSjyLx8FK1kY+gclzdXalKvaGIIsuqh1ulfr+FMgILtJIn4EAbv6V0PPKXwQ
+	FXjBkRAy2ee6GOYwn5XvY/q9U2bUH2fOBc1Zorbla7Ui8OXYUji5oso3Pocx3he2
+	27qo5g==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ek374sawb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 11:43:49 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2bf2bc4371bso12847345ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 04:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780573429; x=1781178229; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DCkHbluDcNWeIl3FDcfNeAqYdv70fCJloE9NrbQf6xU=;
+        b=ZYcjIsvPTbyWGPH2DJJGR1RQyZHifuOYfH49TnuKQ14VrxDB0GGD56wlx/sAe8Ejnd
+         7L0PjRGYNcCrTDxj1sHh2NYfTG/uFEhoJHOVmVU49MtM8VrrWsX2AaKKsW9iqOEd5Aeq
+         8jYgl3X2YuQ1ui26YP3xj7eLqDs8JeLoOcCnFE0GyMzXxkzw2ELwN7rvKGLhIBcyhUqZ
+         wLCsQdHNZe0rLTXUYHLUSJWSR7QR1P3yOm87f0lcc7kuO/yih0Ol6L66iFX3ncuM3hOw
+         GJZQUZqfVrJux7dJDTBgX2Jcyuw1caybL7/fmlwjXULmGX2IbxXaiyXDs29zb26YnUL1
+         IQtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780573429; x=1781178229;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DCkHbluDcNWeIl3FDcfNeAqYdv70fCJloE9NrbQf6xU=;
+        b=roxyoWjFJyg1vp2eN9n4ORqd3bbgF0Zgg3T8GrNC9UmAbhD8dCAT3LtmEm+b533ZUW
+         oxDB3+3XNWxfmanEuLzajklei00++QsyOaY0liivY6VNvZbNltWxBIRR2ajKgsOmFVqa
+         Lp3+p6W4Ut7s65VXP8JwRWlZo7AGOCYIKaLcO24oGMEy1qeh6U1Bgtu3EIyNhrGGqamf
+         CM0rcdsDf5L26OHM5ltzXzAWCL3yo5DKhPX/iEumKQE3SzD8axnQwdeFBhSfgkewXzF7
+         001n8UTlPS78j7AEYubbYoXCbjo5rM6IcVWL7XEvO70Pc+QF5eqDJJSPrU8tnFbL12ox
+         06pQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/OekCQQfnuqXlb2LZOZu0d6AP7gauI5a4w5Oxl3ZEPhEmDwYrDZhKRJ+PjAOxeCClIztVjaBnw6S4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1OImkvd4x7YXm0aMZDG1TH5SE8bhqpr9z7lyHQ9jARzTsDQpV
+	UAJWiyc5cXJy1P/l/xhj1cVXO2Finz35Jvc56QTyNZPEHP41RDyU8mprHKbq177z4bHRDIY6G6P
+	MZIGJk3mVpTRUxqiQ2c5pNfvh6HHydAmEUuJRQP69PKCP4NhSVYxjpXsuCcRZ/3k=
+X-Gm-Gg: Acq92OFqC9E8Doj3TweJ97NHwVn/mid9eziRQ7F40Z0o/iQBZ3jf1ZbCX1MQyBm7R+M
+	OGCSnrBljPuDA0oQ2/m5Reni6M8G3AO1oWOgzyeSftISsNBJLhJ9TMm5eodDtPkIYOlI6LOiWUU
+	vbtJHtV47UmyljVhHGzObpsYax8JZjDxORFvlgycbpORcDq7I2ngtACOBr88NeVQSyjNaLeJ3WU
+	JNbf7DfI5zmfZzg/XgVo1VjBjeDoOhZREEyzwQiu3Zy6iN/GpmCIzdxVtfskqQiuKsLj1BhafT+
+	4d56Ab6Nt5LBx+jYyI1969DYIU2V02vPNLJH6kI7ZjAx1Uubfu8q3tUSMknWGRaa8SSOFWGbF17
+	MMLAF0Wow0I4csKoX4G9//ox9oCbGMEgwxfL6/mKuYRw7wL3kXczMTtDOqBOSo1UT9ZPQ5hOtWp
+	hlfKDlaCBnkLsiuByAUPr4tp1eBXhy
+X-Received: by 2002:a17:902:e84f:b0:2bd:d7c5:927c with SMTP id d9443c01a7336-2c197ea5564mr32376445ad.20.1780573428869;
+        Thu, 04 Jun 2026 04:43:48 -0700 (PDT)
+X-Received: by 2002:a17:902:e84f:b0:2bd:d7c5:927c with SMTP id d9443c01a7336-2c197ea5564mr32376085ad.20.1780573428363;
+        Thu, 04 Jun 2026 04:43:48 -0700 (PDT)
+Received: from [10.133.33.112] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f70660sm55923615ad.11.2026.06.04.04.43.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 04:43:47 -0700 (PDT)
+Message-ID: <ee06f1c2-b47e-407c-ab33-9d4f2661b3ad@oss.qualcomm.com>
+Date: Thu, 4 Jun 2026 19:43:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522150009.121603-7-npache@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cpufreq: Documentation: fix freq_step description
+To: Pengjie Zhang <zhangpengjie2@huawei.com>, rafael@kernel.org,
+        viresh.kumar@linaro.org, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhanjie9@hisilicon.com,
+        prime.zeng@hisilicon.com, wanghuiqiang@huawei.com, xuwei5@huawei.com,
+        lihuisong@huawei.com, zhenglifeng1@huawei.com, yubowen8@huawei.com,
+        wangzhi12@huawei.com, zhongqiu.han@oss.qualcomm.com
+References: <20260529111122.3321645-1-zhangpengjie2@huawei.com>
+ <f598e862-8120-4922-9d04-6e3729187420@oss.qualcomm.com>
+ <2712839c-fb9b-4717-a36f-a0f922115be8@huawei.com>
+Content-Language: en-US
+From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
+In-Reply-To: <2712839c-fb9b-4717-a36f-a0f922115be8@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDExMyBTYWx0ZWRfX2RdvmtG0gP3u
+ dL4ftwJHZjJ6f4IBWtdg3mZ/TL/0TRK5IBYvstHqQilgRXNG5jRVcEk6QPVhhIHy9bocrXxKOkt
+ Fe4Mb9Kc8VzloVb+Kmw3cSZUWB1TEoESGcbJzyLLRNQY7QudyZ6VKexOaz7l4/ZppIwu3gFGlz4
+ b7tNJVXiIAXJxP9VL7Jc/J0kyp0rtpQaDaq98tf64/16wI5C6rr00XnFRMa5q5UnKY8dfq2Kysm
+ tdqiiuRug/t99EdimpfT9lx2ElsAYc7U4HjZphAv6T99BT2GLaydOc6Nn3mKFBjNbbrCELjKrAq
+ tpaGeVp7ItIXYWshbDifDBMchaGucHI17wPSOeI9oDjN2eBg741tEAKnSwfAQWyt0i6m8ZBhJOF
+ bg2Cp9OzSMk3Gl5XhLDz41KrHVWWvR9Tj2Sf/6nwvLhyMIm+G+8YFwYLTwNwJ7uq0u4kqpQmdjC
+ 5tsB9a1deYNh88rTW4w==
+X-Proofpoint-GUID: Iq4e628dy4tl7cOqVpeIgVjvcQvo3lBX
+X-Proofpoint-ORIG-GUID: Iq4e628dy4tl7cOqVpeIgVjvcQvo3lBX
+X-Authority-Analysis: v=2.4 cv=eJsjSnp1 c=1 sm=1 tr=0 ts=6a2164f5 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=i0EeH86SAAAA:8 a=4SKoMZd7SZ04T4ZP5QkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-04_03,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606040113
 
-I will go review the thread about the cache maintenance separately and
-respond about that.
+On 6/1/2026 10:04 AM, Pengjie Zhang wrote:
+> 
+> On 5/30/2026 10:36 PM, Zhongqiu Han wrote:
+>> On 5/29/2026 7:11 PM, Pengjie Zhang wrote:
+>>> The conservative governor documentation incorrectly states that setting
+>>> freq_step to 0 will use the default 5% frequency step. In reality, since
+>>> the governor's initial implementation
+>>> commit b9170836d1aa ("[CPUFREQ] Conservative cpufreq governer"),
+>>> freq_step=0 has always caused the governor to skip frequency updates
+>>> entirely.
+>>
+>> Hi Pengjie,
+>>
+>> Thanks for the patch.
+>>
+>> The documentation fix looks correct: in the current code,
+>> cs_dbs_update() has an early goto out when freq_step == 0, which skips
+>> the call to get_freq_step() and all subsequent frequency change logic.
+>>
+>> However, the commit message's historical claim appears to be inaccurate.
+>> In the original implementation (b9170836d1aa), freq_step=0 had
+>> asymmetric behavior: frequency decreases were skipped (early return),
+>> but frequency increases still used the hardcoded 5% fallback (freq_step
+>> = 5 after the unlikely(freq_step == 0) check).
+>>
+>> If so, would it make sense to remove/update the historical claim to
+>> avoid the incorrect historical claim?
+>>
+> Thanks for the careful review.
+> 
+> Agreed. The correct commit for the symmetric freq_step=0 behavior
+> should be 8e677ce83bf4 ("[CPUFREQ] conservative: fixup governor to
+> function more like ondemand logic"), not b9170836d1aa.
+> 
+> I'll fix the commit message in v2.
+> 
+> On a related note, I have a quick question regarding code readability in
+> this area. Currently, the code uses the name "freq_step" for two different
+> concepts:
+> 
+> 1. `cs_tuners->freq_step`: The tunable exposed via sysfs/documentation,
+>     which represents a percentage.
+> 2. `freq_step = get_freq_step(...)`: The local variable representing the
+>     actual calculated frequency step (in kHz). The `if 
+> (unlikely(freq_step == 0))`
+>     check also applies to this absolute value.
+> 
+> Since mixing a percentage and an absolute kHz value under the same name
+> might be slightly confusing for readers, would it make sense to rename the
+> local variable (e.g., to `freq_step_khz`) to clearly distinguish the two?
 
-On Fri, May 22, 2026 at 09:00:01AM -0600, Nico Pache wrote:
-> Pass an order and offset to collapse_huge_page to support collapsing anon
-> memory to arbitrary orders within a PMD. order indicates what mTHP size we
-> are attempting to collapse to, and offset indicates were in the PMD to
-> start the collapse attempt.
->
-> For non-PMD collapse we must leave the anon VMA write locked until after
-> we collapse the mTHP-- in the PMD case all the pages are isolated, but in
-> the mTHP case this is not true, and we must keep the lock to prevent
-> access/changes to the page tables. This can happen if the rmap walkers hit
-> a pmd_none while the PMD entry is currently unavailable due to being
-> temporarily removed during the collapse phase.
->
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+Hi Pengjie,
 
-The logic LGTM generally, some questions for understanding below, and of
-course as per above I want to review the Lance/David subthread.
+Agreed, the shadowing is confusing. That said, renaming just the local
+variable alone might be a bit too small to warrant a separate patch
+-- but while you're looking at this area, you might want to consider
+DEF_FREQUENCY_STEP itself as well, which seems to be overloaded:
 
-Thanks!
+   - In cs_init() it is used as a percentage (the default 5% tunable).
+   - In get_freq_step() it is assigned to a kHz-valued variable as a
+     fallback, where "5" means "5 kHz".
 
-> ---
->  mm/khugepaged.c | 93 +++++++++++++++++++++++++++++--------------------
->  1 file changed, 55 insertions(+), 38 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index fab35d318641..d64f42f66236 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -1214,34 +1214,36 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
->   * while allocating a THP, as that could trigger direct reclaim/compaction.
->   * Note that the VMA must be rechecked after grabbing the mmap_lock again.
->   */
-> -static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long address,
-> -		int referenced, int unmapped, struct collapse_control *cc)
-> +static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long start_addr,
-> +		int referenced, int unmapped, struct collapse_control *cc,
-> +		unsigned int order)
->  {
-> +	const unsigned long pmd_addr = start_addr & HPAGE_PMD_MASK;
-> +	const unsigned long end_addr = start_addr + (PAGE_SIZE << order);
->  	LIST_HEAD(compound_pagelist);
->  	pmd_t *pmd, _pmd;
-> -	pte_t *pte;
-> +	pte_t *pte = NULL;
+As a suggestion, you could fix both while you're at it.
 
-As mentioned elsewhere for some reason this was dropped in
-mm-unstable. Maybe a bad conflict resolution?
-
->  	pgtable_t pgtable;
->  	struct folio *folio;
->  	spinlock_t *pmd_ptl, *pte_ptl;
->  	enum scan_result result = SCAN_FAIL;
->  	struct vm_area_struct *vma;
->  	struct mmu_notifier_range range;
-> +	bool anon_vma_locked = false;
->
-> -	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
-> -
-> -	result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
-> +	result = alloc_charge_folio(&folio, mm, cc, order);
->  	if (result != SCAN_SUCCEED)
->  		goto out_nolock;
->
->  	mmap_read_lock(mm);
-> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
-> -					 HPAGE_PMD_ORDER);
-> +	result = hugepage_vma_revalidate(mm, pmd_addr, /*expect_anon=*/ true,
-> +					 &vma, cc, order);
->  	if (result != SCAN_SUCCEED) {
->  		mmap_read_unlock(mm);
->  		goto out_nolock;
->  	}
->
-> -	result = find_pmd_or_thp_or_none(mm, address, &pmd);
-> +	result = find_pmd_or_thp_or_none(mm, pmd_addr, &pmd);
->  	if (result != SCAN_SUCCEED) {
->  		mmap_read_unlock(mm);
->  		goto out_nolock;
-> @@ -1253,8 +1255,8 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  		 * released when it fails. So we jump out_nolock directly in
->  		 * that case.  Continuing to collapse causes inconsistency.
->  		 */
-> -		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
-> -						     referenced, HPAGE_PMD_ORDER);
-> +		result = __collapse_huge_page_swapin(mm, vma, start_addr, pmd,
-> +						     referenced, order);
->  		if (result != SCAN_SUCCEED)
->  			goto out_nolock;
->  	}
-> @@ -1269,20 +1271,21 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  	 * mmap_lock.
->  	 */
->  	mmap_write_lock(mm);
-> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
-> -					 HPAGE_PMD_ORDER);
-> +	result = hugepage_vma_revalidate(mm, pmd_addr, /*expect_anon=*/ true,
-> +					 &vma, cc, order);
->  	if (result != SCAN_SUCCEED)
->  		goto out_up_write;
->  	/* check if the pmd is still valid */
->  	vma_start_write(vma);
-> -	result = check_pmd_still_valid(mm, address, pmd);
-> +	result = check_pmd_still_valid(mm, pmd_addr, pmd);
->  	if (result != SCAN_SUCCEED)
->  		goto out_up_write;
->
->  	anon_vma_lock_write(vma->anon_vma);
-> +	anon_vma_locked = true;
-
-I worry that we hold this lock a lot longer now? Maybe the algorithmic
-change alters that, but Claude did suggest on the s390 bug that longer lock
-hold might be an issue.
-
-I wonder if we'll observe lock contention as a result?
-
-Correct me if I'm wrong and we're not holding longer than previously,
-however. Just appears that we do.
-
->
-> -	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
-> -				address + HPAGE_PMD_SIZE);
-> +	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, start_addr,
-> +				end_addr);
->  	mmu_notifier_invalidate_range_start(&range);
->
->  	pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
-> @@ -1294,26 +1297,23 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  	 * Parallel GUP-fast is fine since GUP-fast will back off when
->  	 * it detects PMD is changed.
->  	 */
-> -	_pmd = pmdp_collapse_flush(vma, address, pmd);
-> +	_pmd = pmdp_collapse_flush(vma, pmd_addr, pmd);
->  	spin_unlock(pmd_ptl);
->  	mmu_notifier_invalidate_range_end(&range);
->  	tlb_remove_table_sync_one();
->
-> -	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
-> +	pte = pte_offset_map_lock(mm, &_pmd, start_addr, &pte_ptl);
->  	if (pte) {
-> -		result = __collapse_huge_page_isolate(vma, address, pte, cc,
-> -						      HPAGE_PMD_ORDER,
-> -						      &compound_pagelist);
-> +		result = __collapse_huge_page_isolate(vma, start_addr, pte, cc,
-> +						      order, &compound_pagelist);
->  		spin_unlock(pte_ptl);
->  	} else {
->  		result = SCAN_NO_PTE_TABLE;
->  	}
->
->  	if (unlikely(result != SCAN_SUCCEED)) {
-> -		if (pte)
-> -			pte_unmap(pte);
-
-OK I seem to remember this is because we're holding the anon_vma lock
-longer. That does imply that on e.g. x86-64 the RCU lock is being held a
-bit longer also as well as the anon_vma loc.
-
-I guess it's also because we need to hold anon_vma and pte lock because
-we're fiddling around at PTE level for mTHP not just PMD level as 'classic'
-THP did.
-
-(Rememberings going on here :)
-
->  		spin_lock(pmd_ptl);
-> -		BUG_ON(!pmd_none(*pmd));
-> +		WARN_ON_ONCE(!pmd_none(*pmd));
->  		/*
->  		 * We can only use set_pmd_at when establishing
->  		 * hugepmds and never for establishing regular pmds that
-> @@ -1321,21 +1321,24 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  		 */
->  		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
->  		spin_unlock(pmd_ptl);
-> -		anon_vma_unlock_write(vma->anon_vma);
->  		goto out_up_write;
->  	}
->
->  	/*
-> -	 * All pages are isolated and locked so anon_vma rmap
-> -	 * can't run anymore.
-> +	 * For PMD collapse all pages are isolated and locked so anon_vma
-> +	 * rmap can't run anymore. For mTHP collapse the PMD entry has been
-> +	 * removed and not all pages are isolated and locked, so we must hold
-
-Right because some PTE entries be unaffected by the change.
-
-> +	 * the lock to prevent neighboring folios from attempting to access
-> +	 * this PMD until its reinstalled.
-
-OK. This is slightly annoying for my CoW context work as it means there's
-another case where we need to explicitly hold an anon_vma lock for
-correctness :)
-
-Anyway I will think about that separately, is what it is. And in fact
-motivates to want this merged earlier so I can work against it :)
+> 
+> Cheers,
+>      Pengjie
+> 
+>>>
+>>> Correct the documentation to reflect the actual behavior: freq_step=0
+>>> disables frequency changes by the governor entirely.
+>>>
+>>> Fixes: 2a0e49279850 ("cpufreq: User/admin documentation update and 
+>>> consolidation")
+>>> Signed-off-by: Pengjie Zhang <zhangpengjie2@huawei.com>
+>>> ---
+>>>   Documentation/admin-guide/pm/cpufreq.rst | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/ 
+>>> Documentation/admin-guide/pm/cpufreq.rst
+>>> index dbe6d23a5d67..98c724d49047 100644
+>>> --- a/Documentation/admin-guide/pm/cpufreq.rst
+>>> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+>>> @@ -586,8 +586,8 @@ This governor exposes the following tunables:
+>>>       100 (5 by default).
+>>>         This is how much the frequency is allowed to change in one 
+>>> go.  Setting
+>>> -    it to 0 will cause the default frequency step (5 percent) to be 
+>>> used
+>>> -    and setting it to 100 effectively causes the governor to 
+>>> periodically
+>>> +    it to 0 disables frequency changes by the governor entirely and 
+>>> setting
+>>> +    it to 100 effectively causes the governor to periodically
+>>>       switch the frequency between the ``scaling_min_freq`` and
+>>>       ``scaling_max_freq`` policy limits.
+>>
+>>
 
 
->  	 */
-> -	anon_vma_unlock_write(vma->anon_vma);
-> +	if (is_pmd_order(order)) {
-> +		anon_vma_unlock_write(vma->anon_vma);
-> +		anon_vma_locked = false;
-> +	}
->
->  	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
-> -					   vma, address, pte_ptl,
-> -					   HPAGE_PMD_ORDER,
-> -					   &compound_pagelist);
-> -	pte_unmap(pte);
-> +					   vma, start_addr, pte_ptl,
-> +					   order, &compound_pagelist);
->  	if (unlikely(result != SCAN_SUCCEED))
->  		goto out_up_write;
->
-> @@ -1345,18 +1348,32 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
->  	 * write.
->  	 */
->  	__folio_mark_uptodate(folio);
-> -	pgtable = pmd_pgtable(_pmd);
-> -
->  	spin_lock(pmd_ptl);
-> -	BUG_ON(!pmd_none(*pmd));
-> -	pgtable_trans_huge_deposit(mm, pmd, pgtable);
-> -	map_anon_folio_pmd_nopf(folio, pmd, vma, address);
-> +	WARN_ON_ONCE(!pmd_none(*pmd));
-> +	if (is_pmd_order(order)) {
-> +		pgtable = pmd_pgtable(_pmd);
-> +		pgtable_trans_huge_deposit(mm, pmd, pgtable);
-> +		map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
-> +	} else {
-> +		/*
-> +		 * set_ptes is called in map_anon_folio_pte_nopf with the
-> +		 * pmd_ptl lock still held; this is safe as the PMD is expected
-
-PMD entry you mean?
-
-> +		 * to be none. The pmd entry is then repopulated below.
-> +		 */
-> +		map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uffd_wp=*/ false);
-
-So here we populate entries in the existing PTE _table_ to point at the new
-order>0 folio? With arm64 of course doing transparent contpte stuff?
-
-> +		smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
-> +		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
-
-And then we reinstall the pre-existing PMD _entry_ from none -> what it was
-before?
-
-> +	}
->  	spin_unlock(pmd_ptl);
->
->  	folio = NULL;
->
->  	result = SCAN_SUCCEED;
->  out_up_write:
-> +	if (anon_vma_locked)
-> +		anon_vma_unlock_write(vma->anon_vma);
-> +	if (pte)
-> +		pte_unmap(pte);
->  	mmap_write_unlock(mm);
->  out_nolock:
->  	if (folio)
-> @@ -1536,7 +1553,7 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		/* collapse_huge_page expects the lock to be dropped before calling */
->  		mmap_read_unlock(mm);
->  		result = collapse_huge_page(mm, start_addr, referenced,
-> -					    unmapped, cc);
-> +					    unmapped, cc, HPAGE_PMD_ORDER);
->  		/* collapse_huge_page will return with the mmap_lock released */
->  		*lock_dropped = true;
->  	}
-> --
-> 2.54.0
->
+-- 
+Thx and BRs,
+Zhongqiu Han
