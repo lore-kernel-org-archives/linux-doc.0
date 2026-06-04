@@ -1,416 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA64D24728F;
-	Thu,  4 Jun 2026 14:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34284342524
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 15:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780584347; cv=none; b=mSeQL8evmGfgk846krv4DvqBNbCYnwkarzXKicD83YPge/uPn9dgiZIf5AWeOBg7QRm0JQWMZMWmldaxl5X6XN1O7aYCsTDzFxWH7/pqRgqjDwp3i9LOXlVVDp0BD1SjeZK5RrLDr2WvYEFHQS1pBOpBbJXvtKJqpxITTI9R70g=
+	t=1780586965; cv=none; b=ZCg/jFhRgee2Bo/OL4n5SVlPCEMSESzcwPZxI7ZvulprtgyePKIemBV18hTCATFzkia4d8+zHi5mxR9NtFROYUDWYXQIFcf74JtJOuoQi+B6KrwUuT0QoOjpYe6VhWecSBdXegYcwtzTgW68GNvRhrfY70VeNC0BjUVfSzWFpok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780584347; c=relaxed/simple;
-	bh=+bkGuuNXSVNkDBMttcEwj0VQLaAX5iJmNjc23XYher8=;
+	s=arc-20240116; t=1780586965; c=relaxed/simple;
+	bh=UkMauGVB26yFY7UTIwWOcgIzL97oaXwcfIInVZVnp0I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4/D6UJhcJeShUGSHHjRRoP4ICZlhqPACMmpFpWmh+W0Afv9t4OMS6nW01eW2QNrA7hIzPhbQHgQ2IPWz++kTBdVp/M5dv7wSCOPX4eL+jkW4y6OXaOVBExtanbZG7x0cSPgzklT2JwS3vsSRAKRPlZyFQLLxk/85XaGsRkwfO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFpgmwNn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ks+glSKdpb7oerP/lEx7WWDmIsUqZLKJsUrtCUwVqro54p1+/9Jwg/Z76FCbpX8W9ampwTkrsF4J1rTFNUlE9E9LSOYrUH2HMleCjYAhcvYHXxweDnUUJDw+cYHYiPC3CJ7CcEoHWi9s8UNy7I74/745WGvhosncLmVpUaksjl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Qlncft6F; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ilYChW73; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFpgmwNn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 937411F00898;
-	Thu,  4 Jun 2026 14:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780584345;
-	bh=BJYCgZSQTNkh6hxE/kJ6+MhW48xihgOg6aoHCWlS+KE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZFpgmwNndGWbwB/VyMmHZmh0HhYvBN95OsGVg6UaRXkVs6q9z36cTa+1OqCx+fEo3
-	 XV/gSux4cXuKvhWvEpOKkGguVK2Qng475SE16iiiRwtnsY+2yl5/LRltjNx//9Ghpi
-	 Pl3jPwD23z7YBKvlCmv5MIE5mDHJVRYlHZjALvre1eQlqQNOdCHRTT09CiFdIkrwi6
-	 W6tSZN494rTjUsCWQaciqDtpdo49bW4T4Tk5xuLOofyWgCasNEc2KMWc1vY9BggWpS
-	 ha8VxHLMxZdWE9xg0ADq8wUvUvJQYKpWHieYUut43LWi15niI7NHj6j7vRJUwxC6os
-	 flYea9MTZmtQQ==
-Date: Thu, 4 Jun 2026 15:45:30 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, liam@infradead.org, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
-	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
-	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
-	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v18 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-Message-ID: <aiGOvIR9sfm91cvT@lucifer>
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522150009.121603-12-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qlncft6F";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ilYChW73"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654EKxKj1132273
+	for <linux-doc@vger.kernel.org>; Thu, 4 Jun 2026 15:29:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qzF1JQDHu/K7zEZi00iVkIXGDGc/cwKiYYKzelWhYfQ=; b=Qlncft6Fwh6BKW7n
+	ka795Z+gVHHYDdEefWUmmoQD4RgUPeiGhHV8SLohswSyxQA7tUpBQh5QJy+w6cUx
+	nthELcj2CqKsQtu8IWnnUGVBvx1B4CcqQbh0/tJI53DobGxPsWEKB0olLTomoQjJ
+	dKokvTmQAdHSd8V/mrQrqOhm7qnHT3NPPfKphB5f08Ld+jJ4MMnuk4pGoYKPsYNR
+	fBUyH5fUfYvPA9cIOWGy6Lhda0l5bMpg0n4kcqegrR9PrsGt3p4KFs11AYqkLbIx
+	DPVLtwnic5BaEo8QCGinJHUSHwKzz5V/qJ+gTP541f0Kvr7AYVrKVIkHTnW2gfBI
+	ME5ykQ==
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ek5wshpgt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 15:29:22 +0000 (GMT)
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-137f81004cbso3586390c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 08:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780586962; x=1781191762; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qzF1JQDHu/K7zEZi00iVkIXGDGc/cwKiYYKzelWhYfQ=;
+        b=ilYChW73DD4JVlwf36MDUbIxRVgOyS/x4M+pk/YSoF4CFShn3QcVjT7yuhLbqj6elx
+         GIgZON3eOgFVYNPwfq2aCssnAKBiG2EOwLz0jGKfLeV5orEzfa1ocBlPQ+WRD4pOuHUZ
+         nDjxuNwkoRZ69kgRB8sdCYtLoLC6klk0IohQmhLgNlAHnY0ydj7r1dNnO87kawOJmD0a
+         xgoF6yE/KApkQoD+wORsoMHDYbEajBq63BM12BNVCEgrp42f5Fq11xieSh3EB+ImJWPX
+         cjEftxioWbf9VS0XKRHPz1tK+KufGQ0AB34pD78LtyEgMXJVNFpi1Z2CvfRvUcg5Dckt
+         Fojg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780586962; x=1781191762;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qzF1JQDHu/K7zEZi00iVkIXGDGc/cwKiYYKzelWhYfQ=;
+        b=ZMqvRSIC7zSzX/wIDAcOc5DstbiUAprEhpaeP5rPnZai4K8kf2pbKS9BhO/XjBFMlp
+         S0jhFRW0YXpm1Cp83qoDdQMZYItyYHS6R/gX+xaKdKMn1oZM+ew2uy0c527akcfzZoVt
+         P32N/fQ6fY8W4os5kB1lFrEjBC4ei/rwcL3or2kE2U9VpCrJEslPK/SxVCRT3wAIzfkg
+         jSniKBCtFm3NE4wOPXD7PHLw6nenCVO3pJ2pJJ5uIxDIFFROMUQsHgIO+IKUyd+B5A6B
+         4HyjvOmcL49il4tIdEP05HgVZBBQWT6B9HIq/4fejLxOsa1ekTMTjbuoD1qqEGidUf0R
+         N3iw==
+X-Forwarded-Encrypted: i=1; AFNElJ8rhdboXUeaVyxYm/NPby5f1ccxfWKDwutvgjoGxLc/Pt5q0zO9WOy+XiT30nlnM9FmLCXGM8NRsv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx2g9Jy/5qSc7YfQkqouzwdcjsj4Ayr0Q9nvaA9WC4F33DMwSy
+	qjcsJ52EqBL6+CQ4DtimyqN64ZXB3WsjTFwZUVJL+UHuHDp1r6qBH0khZnI3X/NDxm2qnHVeCOs
+	M/bHZpfk/APgnmWte0esVjx/APzoK36tJE1ahzqRup89Lb4Wf/byt9D+/L90FZoY=
+X-Gm-Gg: Acq92OG4PjsrHFsvM0NnXV6lvwtMfCrqdjBJSNjoaJG9E7Z2XwO1/oVcdJRQhfNP51O
+	VYAbnrplQL2AAdi9MxJkB1MKWknQ9fFc//gGEW3rtadH8ERqyfxnRTMi56BQ4L2q6bR1XTqkv91
+	KqyPYYCXdAn6IkOkmdKNaHqJXNxS1Whqzd33s/K1lU0beOKUDsmiBFRf/e5pi2oViAXu9CPtskX
+	8aFys/67Jl7dsTDAZ7S685N1vyKw++9KjRmLWoExjHyBa3jClw+FsqXnZmf2HbDcQXk99OsXUMD
+	w23qUaZa7ZPkDTO4IHq5G5/w3kzAY8jIx+oKhKGwiyTIHSTM1Unk5ibKTcsbDw5psulaureauCi
+	cUL/hSz4wpG5FARF4xh/QHGq0jSI/DZ3HSMRPe7JJ4w==
+X-Received: by 2002:a05:7022:693:b0:136:90d9:f204 with SMTP id a92af1059eb24-137f6bb4bd5mr3557181c88.25.1780586961863;
+        Thu, 04 Jun 2026 08:29:21 -0700 (PDT)
+X-Received: by 2002:a05:7022:693:b0:136:90d9:f204 with SMTP id a92af1059eb24-137f6bb4bd5mr3557156c88.25.1780586961314;
+        Thu, 04 Jun 2026 08:29:21 -0700 (PDT)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f5539035sm4107408c88.11.2026.06.04.08.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 08:29:20 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:29:19 -0500
+From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+To: Guodong Xu <guodong@riscstar.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Shuah Khan <shuah@kernel.org>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <atish.patra@linux.dev>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Deepak Gupta <debug@rivosinc.com>, Zong Li <zong.li@sifive.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Charlie Jenkins <charlie@rivosinc.com>,
+        Samuel Holland <samuel.holland@sifive.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, Guodong Xu <docularxu@outlook.com>
+Subject: Re: [PATCH v2 08/10] riscv: cpufeature: Introduce ISA bases bitmap
+ and rva23u64 detection
+Message-ID: <ug2cipududshcbv24ruicqpugzinujnamvdcuy6pubkwh67bfp@2fysrplz3nr4>
+References: <20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc@riscstar.com>
+ <20260511-rva23u64-hwprobe-v2-v2-8-21c5a544f1dc@riscstar.com>
+ <5tjmypgyxbhgxfjub5q6ne475uysse6yl473sxisjoammkdvbu@yebejqbiy6e3>
+ <CAH1PCMa-5W9PsX8cDLUk6-MkcM53HOz2QtaxCHd+XOr7DgH5+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260522150009.121603-12-npache@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH1PCMa-5W9PsX8cDLUk6-MkcM53HOz2QtaxCHd+XOr7DgH5+w@mail.gmail.com>
+X-Proofpoint-GUID: tAE2OzyptXV1tOCH9I4GBoizNKSDxnIh
+X-Proofpoint-ORIG-GUID: tAE2OzyptXV1tOCH9I4GBoizNKSDxnIh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDE1MSBTYWx0ZWRfX5L3SyjfW15oi
+ NDIMf5rTNVncFz1AADsvvT8qQag2/418nbxCnzO+rstze+aAlq9Szll9bzs9/1RgjV9BcMtodVt
+ gD4ed6jOtC8cb5Fe+0YRMW+p6bCL/ax0cTYMlX0ZRheWTbVovGNFn+xN5DhBtOg2Uqu+RzWC+yr
+ sRMVI5td8k9i3uwUre6LjCYpludWaaDkJlmC7LBNzN1Z/iNzUrIr9EG2ERTUM+qFVn5aHvEFOPV
+ HRQkQEthFH9FjQPDr8RI5C/vXGbkCHmPuj0zqd8R/ciP7SxwRI7/uxDMIWaMKI+K+vcSfA/kTRg
+ TQ+9y7EVsihfn6W+CnoMEcE7w6F93shYb56E6VGSxVH2utCku+sWoXenIgVTsPbvM2ENlMeQnHJ
+ ZzCLeF5s57D21VEjcojip+M8DUnegpJVrd6wD53R+8EFWYHdfyZNCjinYLqpAaV4z6hkdxJ3Bdg
+ Tj4pn4QXjxggDNDEBSQ==
+X-Authority-Analysis: v=2.4 cv=POc/P/qC c=1 sm=1 tr=0 ts=6a2199d2 cx=c_pps
+ a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=c92rfblmAAAA:8 a=ee_2aqc6AAAA:8 a=VwQbUJbxAAAA:8 a=-RU_IiooM-Ar16elnkoA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=vBUdepa8ALXHeOFLBtFW:22
+ a=GvGzcOZaWPEFPQC_NcjD:22 a=VOpmJXOdbJOWo2YY3GeN:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-04_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606040151
 
-On Fri, May 22, 2026 at 09:00:06AM -0600, Nico Pache wrote:
-> Enable khugepaged to collapse to mTHP orders. This patch implements the
-> main scanning logic using a bitmap to track occupied pages and a stack
-> structure that allows us to find optimal collapse sizes.
->
-> Previous to this patch, PMD collapse had 3 main phases, a light weight
-> scanning phase (mmap_read_lock) that determines a potential PMD
-> collapse, an alloc phase (mmap unlocked), then finally heavier collapse
-> phase (mmap_write_lock).
->
-> To enabled mTHP collapse we make the following changes:
->
-> During PMD scan phase, track occupied pages in a bitmap. When mTHP
-> orders are enabled, we remove the restriction of max_ptes_none during the
-> scan phase to avoid missing potential mTHP collapse candidates. Once we
-> have scanned the full PMD range and updated the bitmap to track occupied
-> pages, we use the bitmap to find the optimal mTHP size.
->
-> Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
-> and determine the best eligible order for the collapse. A stack structure
-> is used instead of traditional recursion to manage the search. This also
-> prevents a traditional recursive approach when the kernel stack struct is
-> limited. The algorithm recursively splits the bitmap into smaller chunks to
-> find the highest order mTHPs that satisfy the collapse criteria. We start
-> by attempting the PMD order, then moved on the consecutively lower orders
-> (mTHP collapse). The stack maintains a pair of variables (offset, order),
-> indicating the number of PTEs from the start of the PMD, and the order of
-> the potential collapse candidate.
->
-> The algorithm for consuming the bitmap works as such:
->     1) push (0, HPAGE_PMD_ORDER) onto the stack
->     2) pop the stack
->     3) check if the number of set bits in that (offset,order) pair
->        statisfy the max_ptes_none threshold for that order
->     4) if yes, attempt collapse
->     5) if no (or collapse fails), push two new stack items representing
->        the left and right halves of the current bitmap range, at the
->        next lower order
->     6) repeat at step (2) until stack is empty.
->
-> Below is a diagram representing the algorithm and stack items:
->
->                             offset   mid_offset
->                             |        |
->                             |        |
->                             v        v
->           ____________________________________
->          |          PTE Page Table            |
->          --------------------------------------
-> 			    <-------><------->
->                              order-1  order-1
->
-> mTHP collapses reject regions containing swapped out or shared pages.
-> This is because adding new entries can lead to new none pages, and these
-> may lead to constant promotion into a higher order mTHP. A similar
-> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
-> introducing at least 2x the number of pages, and on a future scan will
-> satisfy the promotion condition once again. This issue is prevented via
-> the collapse_max_ptes_none() function which imposes the max_ptes_none
-> restrictions above.
->
-> We currently only support mTHP collapse for max_ptes_none values of 0
-> and HPAGE_PMD_NR - 1. resulting in the following behavior:
->
->     - max_ptes_none=0: Never introduce new empty pages during collapse
->     - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
->       available mTHP order
->
-> Any other max_ptes_none value will emit a warning and default mTHP
-> collapse to max_ptes_none=0. There should be no behavior change for PMD
-> collapse.
->
-> Once we determine what mTHP sizes fits best in that PMD range a collapse
-> is attempted. A minimum collapse order of 2 is used as this is the lowest
-> order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
->
-> Currently madv_collapse is not supported and will only attempt PMD
-> collapse.
->
-> We can also remove the check for is_khugepaged inside the PMD scan as
-> the collapse_max_ptes_none() function handles this logic now.
->
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 181 +++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 172 insertions(+), 9 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 64ceebc9d8a7..d3d7db8be26c 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -99,6 +99,30 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->
->  static struct kmem_cache *mm_slot_cache __ro_after_init;
->
-> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
-> +/*
-> + * mthp_collapse() does an iterative DFS over a binary tree, from
-> + * HPAGE_PMD_ORDER down to KHUGEPAGED_MIN_MTHP_ORDER. The max stack
-> + * size needed for a DFS on a binary tree is height + 1, where
-> + * height = HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER.
-> + *
-> + * ilog2 is used in place of HPAGE_PMD_ORDER because some architectures
-> + * (e.g. ppc64le) do not define HPAGE_PMD_ORDER until after build time.
-> + */
-> +#define MTHP_STACK_SIZE	(ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER + 1)
-> +
-> +/*
-> + * Defines a range of PTE entries in a PTE page table which are being
-> + * considered for mTHP collapse.
-> + *
-> + * @offset: the offset of the first PTE entry in a PMD range.
-> + * @order: the order of the PTE entries being considered for collapse.
-> + */
-> +struct mthp_range {
-> +	u16 offset;
-> +	u8 order;
-> +};
-> +
->  struct collapse_control {
->  	bool is_khugepaged;
->
-> @@ -110,6 +134,12 @@ struct collapse_control {
->
->  	/* nodemask for allocation fallback */
->  	nodemask_t alloc_nmask;
-> +
-> +	/* Each bit represents a single occupied (!none/zero) page. */
-> +	DECLARE_BITMAP(mthp_bitmap, MAX_PTRS_PER_PTE);
-> +	/* A mask of the current range being considered for mTHP collapse. */
-> +	DECLARE_BITMAP(mthp_bitmap_mask, MAX_PTRS_PER_PTE);
-> +	struct mthp_range mthp_bitmap_stack[MTHP_STACK_SIZE];
->  };
->
->  /**
-> @@ -1411,20 +1441,137 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  	return result;
->  }
->
-> +static void collapse_mthp_stack_push(struct collapse_control *cc, int *stack_size,
-> +				     u16 offset, u8 order)
-> +{
-> +	const int size = *stack_size;
-> +	struct mthp_range *stack = &cc->mthp_bitmap_stack[size];
-> +
-> +	VM_WARN_ON_ONCE(size >= MTHP_STACK_SIZE);
-> +	stack->order = order;
-> +	stack->offset = offset;
-> +	(*stack_size)++;
-> +}
-> +
-> +static struct mthp_range collapse_mthp_stack_pop(struct collapse_control *cc,
-> +						 int *stack_size)
-> +{
-> +	const int size = *stack_size;
-> +
-> +	VM_WARN_ON_ONCE(size <= 0);
-> +	(*stack_size)--;
-> +	return cc->mthp_bitmap_stack[size - 1];
-> +}
-> +
-> +static unsigned int collapse_mthp_count_present(struct collapse_control *cc,
-> +						u16 offset, unsigned int nr_ptes)
-> +{
-> +	bitmap_zero(cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
-> +	bitmap_set(cc->mthp_bitmap_mask, offset, nr_ptes);
-> +	return bitmap_weight_and(cc->mthp_bitmap, cc->mthp_bitmap_mask, MAX_PTRS_PER_PTE);
-> +}
-> +
-> +/*
-> + * mthp_collapse() consumes the bitmap that is generated during
-> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
-> + *
-> + * Each bit in cc->mthp_bitmap represents a single occupied (!none/zero) page.
-> + * A stack structure cc->mthp_bitmap_stack is used to check different regions
-> + * of the bitmap for collapse eligibility. The stack maintains a pair of
-> + * variables (offset, order), indicating the number of PTEs from the start of
-> + * the PMD, and the order of the potential collapse candidate respectively. We
-> + * start at the PMD order and check if it is eligible for collapse; if not, we
-> + * add two entries to the stack at a lower order to represent the left and right
-> + * halves of the PTE page table we are examining.
-> + *
-> + *                         offset       mid_offset
-> + *                         |         |
-> + *                         |         |
-> + *                         v         v
-> + *      --------------------------------------
-> + *      |          cc->mthp_bitmap            |
-> + *      --------------------------------------
-> + *                         <-------><------->
-> + *                          order-1  order-1
-> + *
-> + * For each of these, we determine how many PTE entries are occupied in the
-> + * range of PTE entries we propose to collapse, then we compare this to a
-> + * threshold number of PTE entries which would need to be occupied for a
-> + * collapse to be permitted at that order (accounting for max_ptes_none).
-> + *
-> + * If a collapse is permitted, we attempt to collapse the PTE range into a
-> + * mTHP.
-> + */
-> +static int mthp_collapse(struct mm_struct *mm, struct vm_area_struct *vma,
-> +		unsigned long address, int referenced, int unmapped,
-> +		struct collapse_control *cc, unsigned long enabled_orders)
-> +{
-> +	unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
-> +	int collapsed = 0, stack_size = 0;
-> +	unsigned long collapse_address;
-> +	struct mthp_range range;
-> +	u16 offset;
-> +	u8 order;
-> +
-> +	collapse_mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
-> +
-> +	while (stack_size) {
-> +		range = collapse_mthp_stack_pop(cc, &stack_size);
-> +		order = range.order;
-> +		offset = range.offset;
-> +		nr_ptes = 1UL << order;
-> +
-> +		if (!test_bit(order, &enabled_orders))
-> +			goto next_order;
-> +
-> +		max_ptes_none = collapse_max_ptes_none(cc, vma, order);
-> +
-> +		nr_occupied_ptes = collapse_mthp_count_present(cc, offset,
-> +							       nr_ptes);
-> +
-> +		if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
-> +			int ret;
-> +
-> +			collapse_address = address + offset * PAGE_SIZE;
-> +			ret = collapse_huge_page(mm, collapse_address, referenced,
-> +						 unmapped, cc, order);
-> +			if (ret == SCAN_SUCCEED) {
-> +				collapsed += nr_ptes;
-> +				continue;
-> +			}
-> +		}
-> +
-> +next_order:
-> +		if ((BIT(order) - 1) & enabled_orders) {
-> +			const u8 next_order = order - 1;
-> +			const u16 mid_offset = offset + (nr_ptes / 2);
-> +
-> +			collapse_mthp_stack_push(cc, &stack_size, mid_offset,
-> +						 next_order);
-> +			collapse_mthp_stack_push(cc, &stack_size, offset,
-> +						 next_order);
-> +		}
-> +	}
-> +	return collapsed;
-> +}
-> +
->  static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		struct vm_area_struct *vma, unsigned long start_addr,
->  		bool *lock_dropped, struct collapse_control *cc)
->  {
-> -	const unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
->  	const unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
->  	const unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
-> +	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
-> +	enum tva_type tva_flags = cc->is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
->  	pmd_t *pmd;
-> -	pte_t *pte, *_pte;
-> -	int none_or_zero = 0, shared = 0, referenced = 0;
-> +	pte_t *pte, *_pte, pteval;
-> +	int i;
-> +	int none_or_zero = 0, shared = 0, nr_collapsed = 0, referenced = 0;
->  	enum scan_result result = SCAN_FAIL;
->  	struct page *page = NULL;
->  	struct folio *folio = NULL;
->  	unsigned long addr;
-> +	unsigned long enabled_orders;
->  	spinlock_t *ptl;
->  	int node = NUMA_NO_NODE, unmapped = 0;
->
-> @@ -1436,8 +1583,19 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		goto out;
->  	}
->
-> +	bitmap_zero(cc->mthp_bitmap, MAX_PTRS_PER_PTE);
->  	memset(cc->node_load, 0, sizeof(cc->node_load));
->  	nodes_clear(cc->alloc_nmask);
-> +
-> +	enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, tva_flags);
-> +
-> +	/*
-> +	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
-> +	 * scan all pages to populate the bitmap for mTHP collapse.
-> +	 */
-> +	if (enabled_orders != BIT(HPAGE_PMD_ORDER))
-> +		max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
-
-Hmm, this is a bit odd, what if the user set max_ptes_none = 0?
-
-I assume we handle the 0/511 thing elsewhere?
-
-> +
->  	pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
->  	if (!pte) {
->  		cc->progress++;
-> @@ -1445,11 +1603,13 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  		goto out;
->  	}
->
-> -	for (addr = start_addr, _pte = pte; _pte < pte + HPAGE_PMD_NR;
-> -	     _pte++, addr += PAGE_SIZE) {
-> +	for (i = 0; i < HPAGE_PMD_NR; i++) {
-> +		_pte = pte + i;
-> +		addr = start_addr + i * PAGE_SIZE;
-> +		pteval = ptep_get(_pte);
-> +
->  		cc->progress++;
->
-> -		pte_t pteval = ptep_get(_pte);
->  		if (pte_none_or_zero(pteval)) {
->  			if (++none_or_zero > max_ptes_none) {
->  				result = SCAN_EXCEED_NONE_PTE;
-> @@ -1529,6 +1689,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  			}
->  		}
->
-> +		/* Set bit for occupied pages */
-> +		__set_bit(i, cc->mthp_bitmap);
->  		/*
->  		 * Record which node the original page is from and save this
->  		 * information to cc->node_load[].
-> @@ -1587,10 +1749,11 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
->  	if (result == SCAN_SUCCEED) {
->  		/* collapse_huge_page expects the lock to be dropped before calling */
->  		mmap_read_unlock(mm);
-> -		result = collapse_huge_page(mm, start_addr, referenced,
-> -					    unmapped, cc, HPAGE_PMD_ORDER);
-> -		/* collapse_huge_page will return with the mmap_lock released */
-> +		nr_collapsed = mthp_collapse(mm, vma, start_addr, referenced,
-> +					     unmapped, cc, enabled_orders);
-
-I guess mthp_collapse() also does PMD collapse if only PMD is enabled?
-
-It feels like this name is a bit confusing then :)
-
-But I guess we can do a follow up to think of a better name possibly.
-
-> +		/* mmap_lock was released above, set lock_dropped */
->  		*lock_dropped = true;
-> +		result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
->  	}
->  out:
->  	trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
-> --
-> 2.54.0
+On Sat, May 30, 2026 at 08:42:29AM +0800, Guodong Xu wrote:
+> On Thu, May 28, 2026 at 12:35 AM Andrew Jones
+> > Sashiko points out a few things about this patch which I think I
+> > agree with
+> >
+> > https://sashiko.dev/#/patchset/20260511-rva23u64-hwprobe-v2-v2-0-21c5a544f1dc%40riscstar.com?part=8
+> 
+> Quote the following from Sashiko.dev:
+> > Should this mask specify the individual subset extensions required by the
+> > profile instead of the superset extensions like RISCV_ISA_EXT_B,
+> > RISCV_ISA_EXT_C, and RISCV_ISA_EXT_V?
+> 
+> My preference is to leave the mask on B/C/V (and A) as-is. I'd prefer to
+> keep matching on the single-letter, rather than expanding them. Here is why:
+> 
+> - The RVA23 profile lists A, B, C and V as single-letter mandatory
+>   extensions; it doesn't enumerate Zaamo/Zalrsc, Zba/Zbb/Zbs, Zc* or the
+>   Zve*/Zvl* subsets in the mandatory set.
+> 
+> - In current merged code, hwprobe_isa_ext0() is already using
+>   riscv_isa_extension_available() signle letter checking for C and V.
+> 
+> PS:
+> B maybe a special one, just in case anybody raise it. As the community
+> discussed when I adding it into the bindings, because B comes later than
+> its sub-components zba/zbb/zbs, so, when I added B, I cleaned up all
+> in-tree dts files which declared zba/zbb/zbs but not B and made them declare
+> both.
+> 
+> Link: https://lore.kernel.org/linux-riscv/20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com/
+> [1]
+> 
+> Also, in the bindings: extensions.yaml, a schema rule is added which requires
+> a node listing zba, zbb and zbs to also list b (and the reverse). Moving on,
+> new dtsi/dts fils, a node with only the subsets fails dtbs_check.
+> 
+> One may argue that the schema check doesn't cover ACPI path. But again,
+> shouldn't the vendor who publishs RVA23 hardware be conformant to the
+> extensions wording in RVA23 v1.0 spec?
+> 
+> What do you think?
 >
 
-Thanks, Lorenzo
+I certainly see a case for the kernel staying out of the extension
+dependency validation game. I think it makes sense for an ISA string
+validation tool to exist for vendors to do sanity checks on their
+ISA strings, but that's not the kernel's role. OTOH, whether or not
+the kernel wants to try and detect inconsistencies with the ISA
+string in order to build confidence in using what it sees there
+and publishing what it sees there to usermode, through hwprobe, might
+still be worth debating.
+
+Without CPUID / ID_* registers for Linux to be able to check an
+authoritative source of truth about what is and isn't supported by
+the CPU, riscv Linux has to decide to either blindly trust the
+hardware description or do sanity checks / probes in order to
+confirm what it sees there. Maybe we can assume that any extension
+used by the kernel will trip over itself quickly, alerting vendors
+to fix their ISA strings, but I'm not sure we can make that assumption
+for usermode extensions that Linux doesn't use, but does expose
+through hwprobe. What apps need to run in testing to exercise them?
+How long will those apps need to run before they trip over something?
+
+The more I think I about it, the more I think the lack of CPUID / ID_*
+registers puts Linux in a tight spot. If Linux trustingly publishes
+what firmware tells it to to userspace and userspace blows up, Linux
+will have to share some of the blame for having misled it. So, should
+Linux validate everything it publishes somehow? Or, should it at least
+do relatively cheap sanity checks on everything it publishes in order
+to build some confidence?
+
+Thanks,
+drew
