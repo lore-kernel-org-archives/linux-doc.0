@@ -1,106 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674053AFCE8;
-	Thu,  4 Jun 2026 16:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6D42FA0C6;
+	Thu,  4 Jun 2026 16:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780591179; cv=none; b=dSc5KYMUIld31SCGxcKWBwMPXaKmKJxAM9H6oDfQ2JSJW9MRLhap5q00lvul5vjH6ihGCOGIt/XdCJ2U81bZrVbktJAF3imIkl3YtoknrK+2hFY8P3bOS0BXl+1hIS9SMcv/XJHiesDv9v///vPr2mMc4c3Lu1THY/KInqZPZYk=
+	t=1780592351; cv=none; b=kbMgrD7Q4X6+5U6L7qYXM5QhYgjK0DoJ/NAL3D3vd7QGckCJFlsS/IDe0e0H/blGrXvWYgRrU1wzvNePGXWL5ko2as2GKnZj7QA8Zj+AV7Sy3nEY4V4ijxNOnw1w74bSJQcACRp98N6r4kLmN34i1XjLkHW8u/2BWzCygZ2eGCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780591179; c=relaxed/simple;
-	bh=c37l7/my8PeBcqolj2D0YxpepY2LnMLvvONRHTXMPyg=;
+	s=arc-20240116; t=1780592351; c=relaxed/simple;
+	bh=fv+HWUge/YP8LYuL46ALrxGkihxGGgZyzKU2vno5rho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GB0hkgex74G9EjFSw1IOMH6AYLGDWDsSxe3Okr6kUHr6ukW9qJ5bQwR8HlRTlZ5XAziMS/8ya6f0FV2KjVsi6P5LY/TXtOIZKnC0/S/2ZDNpqgeg2R9y1UY7KCwNRgFw63DAy67FmtTwzIGqv5SHXIRhGPN4sb/kpFMuXA8YZgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OA9vIs9p; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=k3FY9LoulQmnvYd0YerROqw2etIip5ckOMXftOar0F9m/6bP9RjiyaIs1N+3yQcpR3GFp8PnV23e5Ws+oJaDUjl/TkzMhs3Cl2+El4lEb6WCIHPudbb4qjIPFxqOSiY6Rmt9DROydlsi0XEK8FhiY9/4Pk8FURAg8qTwcywcF0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJrGtIOm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OA9vIs9p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9201F00898;
-	Thu,  4 Jun 2026 16:39:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJrGtIOm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0FE1F00893;
+	Thu,  4 Jun 2026 16:59:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780591178;
-	bh=4KZsy5obdlZxh/b5c8a6JTkwwxyP0LH4cSc0OEXfIcY=;
+	s=k20260515; t=1780592349;
+	bh=WVPTTMo8bIsk9JlGvzesKjGz/XtA0MV3XLnFt/zj6d8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OA9vIs9pIPYZ7nlFvWVaT0sGcqXPSIgkM2xGgElld8VamNpZ9SWpPbOaiIvTUw//C
-	 mOEePXq14cPfzDO6knZ2uIzRGROV2bLUhxff5SbEiGjCgmU3C/Cha/QcCxXp7P52j7
-	 yeRTrRKXS8H4izNPyd/Pfd2ORkg2+lERfq2atgAhmlpT3ChXBeMLwbv3JAjraMAhqH
-	 ahDErjcLn/98KqHLtxsavHeK5T3qOr0TlEOQYEtQ8eMX53VLYqellTqyRokNwPYy+x
-	 TklmwBAiXsabTvpzBc9OhuW2hwEWbz62Mn8CCGFQS/o9e45aGjCIir8lKFtpDyOgc/
-	 R4bW96XyA3Ghw==
-Date: Thu, 4 Jun 2026 17:39:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: ciprian.regus@analog.com
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v3 01/13] dt-bindings: net: Add ADIN1140
-Message-ID: <20260604-devoutly-registry-6564d8cd3ed8@spud>
-References: <20260604-adin1140-driver-v3-0-5debdb3173c4@analog.com>
- <20260604-adin1140-driver-v3-1-5debdb3173c4@analog.com>
+	b=TJrGtIOm0lsNeIQ9NVH3n+3zIJYUyBQu5gMOCKqG17JFYSsGSTJ1wARYLNdOZLqAX
+	 jSDLw2xFjMH7aN0GeSbCBjAz3fR1tA58NutrNh3A46dM9QXpDqXAGieeRQ1hlqy+96
+	 ETGEcwIW5sVB5G6IZbvpF1Bl5aelyHdIM5bIncxmUSokOGgL1duge4JTQ3J1Ylye2S
+	 hotVP0BQq7+rxP2Mr6SBWAZqmkN/dXfedFhLdjO3hLiYq8zkpJpR3sY8sBRHRVWGIA
+	 XQdxjbjY/LJkE6g3GdDtcYSUnYRhrn/79+M1rCcDKbe2l59niTRHvyrkp23cAHltWB
+	 Zr6LIOZCuiQQw==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 9BB27F40069;
+	Thu,  4 Jun 2026 12:59:08 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Thu, 04 Jun 2026 12:59:08 -0400
+X-ME-Sender: <xms:3K4hanxi0LzocSq5vJ_h92PVMo3LKj2M3plMBSjtgoV7weU97s5w_w>
+    <xme:3K4hahWaWT-35FSg5ed_xZ63njPogq_nsuZ3t_UzCiTY-xApQxiuBgs5ehnjEjLhn
+    _ISozuJaoHz8njv0YwuAy9dj0nXRXI6Q9iGSA3_GZdRys75KGSk9Q>
+X-ME-Received: <xmr:3K4havd-xjOR57bfKHlT9eEKtcjJs6pFEI_ZSA7AZoGCI8KSmtGOXTEkazaSOw>
+X-ME-Proxy-Cause: dmFkZTGeoB4SgjdWj4Dl9/PtRKRJtdUvzP3KQVWBMoAhNypI18EqanJi+PGfEFRdTkzCHV
+    ht2/0RJ2iMKxcgYpniz1aqwXmhEID8Qa1IB4iB5HQM/SMt7GGsdVaIKr8BOFfrPz+x/189
+    /G9YrPAqu47fV0yBhFcev9fqPnqCui/MqX0ssmQMFlB0AT8QTqEuR1h3Fe0YehsIj3ABo2
+    tD3rq1FmgQX3BDP2/k1c2rwWdTkQrN9JJ2/VEp86DJPw7O1hL/vdP0B1W6/96HCeO6c1ze
+    DXl5yWGC9y8dfj9v13a8VJIMUE9ZZs2qqFz7YCKRQasuvirmqiNkuNOblidwb7vRdfNfjg
+    2mFUIL7Pbl3QW84R5BqvwCzTNtFNQFUZhtnp4LMOHsgBLxk3FIwJKwssunLA5BVJ81v/n2
+    YvgS3lvxk+/Z+ZZ6VMSLefcGXuLlr3w/9bxQMqe9ZzJOh/PeVJUgsSFaLu+wKcBlASlkmF
+    9JmE0XH9vXYesJ2QDsBrQvomGt/qOrJVijYJB1jK281TocrfbT7eOckpICpwg6G1e5BEAP
+    ztqSGHM4xjzK8fMo9h8QHHETpdaivkuQrePNAEjHwppjMEhGF0cpQAIXVK/hLKAE48GKdk
+    HxoTfifyR2wX+ujfPhRDj/oDVM1sNJWxRSd4mbHH0sThZeXMEP8Aj9WVVOkA
+X-ME-Proxy: <xmx:3K4hamdtH0smiskAZ4bdJqHOVj4eO2jnFcu3iebZlh0ILR1ZoXuVVQ>
+    <xmx:3K4hall8sgDlhXAR1T6ZyYMPDo9sNZo7NKAlU3YtQnPjjgeYDZth0g>
+    <xmx:3K4haj_q5krYNmQxBoTDbjW6-ZChMRwbtqFmEIi1IuCPdQc3wSS8gw>
+    <xmx:3K4hapHoGhO9ufFGMz28QJSMcPjilLsOSYajz5SIGljjsPKzhV4cFA>
+    <xmx:3K4haqLKNYJPiEHF0-UL3WzLdBuywVSYH-Cq8QzdHkXIz1fuxtrHaKB9>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Jun 2026 12:59:06 -0400 (EDT)
+Date: Thu, 4 Jun 2026 17:59:02 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "Gao, Chao" <chao.gao@intel.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, 
+	"Huang, Kai" <kai.huang@intel.com>, "Hansen, Dave" <dave.hansen@intel.com>, 
+	"Zhao, Yan Y" <yan.y.zhao@intel.com>, "seanjc@google.com" <seanjc@google.com>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "nik.borisov@suse.com" <nik.borisov@suse.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "Annapurve, Vishal" <vannapurve@google.com>, 
+	"bp@alien8.de" <bp@alien8.de>, 
+	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>
+Subject: Re: [PATCH v6 06/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
+Message-ID: <aiGq7XjmMrsqdBY5@thinkstation>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-7-rick.p.edgecombe@intel.com>
+ <ahVghgNAe4JrmlQH@intel.com>
+ <fe08f03a22acfe758cd97f7c2880deeafbc5fe58.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wPqzZuWB6wYVv20r"
-Content-Disposition: inline
-In-Reply-To: <20260604-adin1140-driver-v3-1-5debdb3173c4@analog.com>
-
-
---wPqzZuWB6wYVv20r
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <fe08f03a22acfe758cd97f7c2880deeafbc5fe58.camel@intel.com>
 
-On Thu, Jun 04, 2026 at 07:32:46PM +0300, Ciprian Regus via B4 Relay wrote:
-> From: Ciprian Regus <ciprian.regus@analog.com>
->=20
-> The ADIN1140 is a single port 10BASE-T1S Ethernet controller that
-> includes both the MAC and a PHY in the same package.
->=20
-> Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
->=20
-> ---
-> v3 changelog:
->  - set adi,ad3306 as a fallback compatible.
-> v2 changelog:
->  - Reorder the compatible entries in the dt schema (ad3306, adin1140).
->  - Removed "dt-bindings" from the commit title and message.
->  - Updated the DT example to use IRQ_TYPE_LEVEL_LOW instead of
->    IRQ_TYPE_EDGE_FALLING for the interrupt trigger condition.
->  - "implements" -> "tries to implement" in the description.
->  - Removed the MAINTAINERS entry, as it will be added in a later patch
->    in the series.
->  - Reordered as the first patch of the series
-> ---
->  .../devicetree/bindings/net/adi,adin1140.yaml      | 71 ++++++++++++++++=
-++++++
+On Tue, May 26, 2026 at 04:42:24PM +0000, Edgecombe, Rick P wrote:
+> On Tue, 2026-05-26 at 16:57 +0800, Chao Gao wrote:
+> > > -	scoped_guard(spinlock, &pamt_lock) {
+> > 
+> > This converts the scoped_guard() added by the previous patch to
+> > explicit lock/unlock and goto. It would reduce code churn if the
+> > previous patch used that form directly.
+> 
+> Yea, it's a good point. I actually debated doing it, but decided not to because
+> the scoped version is cleaner for the non-optimized version. But for
+> reviewability, never doing the scoped version is probably better.
 
-File should probably be named after the fallback compatible, but
-otherwise this looks okay.
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+I don't see a reason why we can't keep the scoped_guard() on get side.
 
---wPqzZuWB6wYVv20r
-Content-Type: application/pgp-signature; name="signature.asc"
+On put side, we cannot get atomic_get_and_lock() semantics without
+dropping the scoped_guard().
 
------BEGIN PGP SIGNATURE-----
+Maybe we should keep it for get?
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaiGqRAAKCRB4tDGHoIJi
-0hSnAP40G5o4GiXBt3J2g0xEBk1CvhYU08hklJOuK6koHHrslgD/Y+cm6b3gd+wh
-ER0xd3SqY21oFM3je23FnyAEqrFgrQE=
-=sJ8C
------END PGP SIGNATURE-----
-
---wPqzZuWB6wYVv20r--
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
