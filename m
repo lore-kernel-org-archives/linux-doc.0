@@ -1,66 +1,65 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915133537FB
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 13:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A90477E42
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 13:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780579894; cv=none; b=HycxjFnhCzmW9R12KXjXWmt+0JAGgE3L6xHH879Ec+mXniuBK/E5zx20WE1wdprnvdeosWhYlddYhybLYRQrPrDZngbqwlNZ/I0FRsamNsNGea6bKUlccZPtHRCpRyyT1gBmyCd/PMsiQEIwxfZVGMwitTLN5n0AICHd/SN8C40=
+	t=1780580045; cv=none; b=UHq0XuFDlGwxMZaGr5O4od5vVRqjflapPF+XZqgLCAvt/C8+p1lmVqEtq34STHmObvPUD86M4Dj7DlpVXeW77KL2Wi6Bxid4eVUekpCM96jQRqA72w6k4RqSrBDRM3qeS3g1s7SATeQOL0xOmm4eWksuVbuq1SZQxa46Si8rNr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780579894; c=relaxed/simple;
-	bh=kOyFFVsgLyRTHjGzNqbc0mRHi+Lm0TcVUi4DJKuIv1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hoGHio2vX19e8XIk4EDILL/bLxOK5WXDml5ERRyHDZ8aNys9X+DywvEOFbRR4eYXVI9Fs86le7Xa3XTX4edUVmJVr0BtY7uOM4jzy6ta86zEvy6i6KeGLDPlRfDAE68Mv0aqX67r/yH5t6yurVecwGEqbZ4Dg/EPWDOZFeAhgHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ip8l7wLg; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1780580045; c=relaxed/simple;
+	bh=Q+2riaQ4bkpEOGbfcGsgWYBHaiPit5haYTT9ORAITwU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Ica0/JUvX6AibeYV2FO87OLapxNf0RPjFDxhqPM9TuEsU2R8KBpEX0uLE5d8Gynu3uJ5RTXvNDu43snDrp+q9NplAx9g6AX7M44f5eDn44Gqisr+75MTVLE70LDwJcn2itwmWyD3WWi0tdqLMgr8NfKPV4S0Wcl1xsmTY6CJx0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BQFA/tQI; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ip8l7wLg"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bef1e6423e7so77936866b.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 06:31:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BQFA/tQI"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-46019edc13dso366920f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 06:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780579892; x=1781184692; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8RpaPlWKAO3dChkQSzu5tZ6cbmxeZTl6U2Q5KqvJNao=;
-        b=Ip8l7wLgkCA3A9EDzSVotx7iS2KQ1G/2pV791Ppjql5rpgIXBlteJ+/qA+lBV+G30K
-         0tajJcGR0AEcuUqAnK5T3N5WI5ym4onmv15miUIghGjFm06YZXzC2ZjSs7N/M/CZ8d57
-         1rhjeCAX5GusOP3RSjVwhTrG27D5liR8lJkSX//W5vUQH3u9GupGG13pBtnBqxmkDjHN
-         CbyJvboweU39uJH6bLuh3kDhtTkOOGy5Ra0eQ+BB/qoxOQy1tClTgnQMgrOuGZ8OsK2y
-         f0u+lEqP3xt84GumOUR/hP6HpVrEakSfqCm00UjEU2FFeLNmm2IUfZRyNpM2FDekCwej
-         rRow==
+        d=linaro.org; s=google; t=1780580042; x=1781184842; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ue7J7mL4SO+to/BOU4/AYhoa7RJi/0UZqIbNqRbPrJo=;
+        b=BQFA/tQI8/d2OKczypwOcm3HGsZXNaEtutbHxYFxwcDcysMaReER/Mx6QAPwRY9r0Z
+         Wr7IjlSzy3UUMxH2u1HwDYVzcZN1U/+lHbRo1MUjUvU46MJUkVrgMn3FTVHSu/waEfGR
+         ngV/nJAJWzs5rDPsSZlSHOwY4caG6f1YAl80J0vcj65JH+DIVvbwXcrf21h3axQIm6sD
+         MbeHUzhKZ+PjkhIF9DY5Dk2e05ApCzVoMmGddPlCyNJK1wBXGAo+m9gDagoZegqXB8YQ
+         5WVhSr2OkHNNhCWfKfUYX0m2+hd4675/9sV8usKZgenyuCVZ8PEbxcemZ0CtdMFT8ULg
+         oKEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780579892; x=1781184692;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8RpaPlWKAO3dChkQSzu5tZ6cbmxeZTl6U2Q5KqvJNao=;
-        b=nwb2wR8dJeFnOztZlZ6qLRPakrNp7346LgWbOmtvftfTWnHuPQXKc3eo3RRRGb8CnZ
-         XnbltxIk2kLCCp0P0B/V3+B+fRcD7AWzuGIZ5FdpzEXSoBCX0Plmpa1gPzn/4LXtw6KV
-         9u7fHGpUaXqT5HyFMmIz5Hv5Zk3IWzA+da3mRh/pu3g2Tmf2uIDWzZzi0GYGWWGmP5wZ
-         kBbZT4OAFC5AxiXoCIT+27pJxG1I5aiBbFwD1gArmwQkRwilnLPLWkQk37mayMxA2/VJ
-         V4py3CVKfOPiigClxsIVF13h+85GRWO3lYjduDhSRLV3AW1Jkb3rBCNwnJwOols9XyMb
-         2bcw==
-X-Forwarded-Encrypted: i=1; AFNElJ/khw2Q5XTCET0oPeroQlwoJcpwhUrt1ANUMe21yJ4VGsD/gEVWsO60o3AxsAmvB+6exuKQblEGJ20=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybGzJz2YIfSEHQMXwW1TtmqCfjjSiUoPBu6JAVqDXH+Po5XKBt
-	jNZBci2tyQ/1+eGHjASKa1hjOLJWZIk8knbi0JJjybz/PwEgpOnzGPGg+6awAxfHi84=
-X-Gm-Gg: Acq92OGhS3YBmoJDVwC2ElAGWBfQ4K+b4Gen3GRVzHBSV19QxozKKh9HNt2wOIYHTdK
-	y6nU1/LonSlDWdXnf40G0bGJlH/mceprLX9k6TJP0xYZG1RHZLpkQh1t9JMoBIZ3v9WTp3Z40dx
-	jRegIJ/h71hxwanPzosPqJOqiFGOtjE9G7inb5/I6lGpRfnVggdXrk2vb6kov1rW1Witu137Lg/
-	Y18QX4YDcoaYygs0FM+EuFb8m9Wis4bRexZ8vihoMuuSqF8FOw3BBvxi5YNWANciiM/XuTcmxq2
-	KFv+HBoB+InJhV4u769e4cnWH8aEwvmFZAo2tHlE2hYXZBhkacQy3lYiLVEhmftjsCD73tkQSrn
-	WaO0umhF7ElpUKhHn4tLCsneygF/98JrPFzo649nlFWF5aAeBauf/9Ub4oDvRXv5IHKVKf49+U/
-	1hbd1mXa+PijuB/IVmVPsmBj4tRhhL79wwPV2W8O4=
-X-Received: by 2002:a17:907:6e89:b0:beb:f71c:63a with SMTP id a640c23a62f3a-bf0ac304ccfmr461348966b.2.1780579891965;
-        Thu, 04 Jun 2026 06:31:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780580042; x=1781184842;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ue7J7mL4SO+to/BOU4/AYhoa7RJi/0UZqIbNqRbPrJo=;
+        b=LTwbmr2pTVZSrf3S7MODAlWQq+UIaR0iH7gWaPO5z7TvwG6oxOwAsq1FtJjrFnPb56
+         967UjaevGymcgj2bF8vcYj3y6U8Azcsq6mW1lVf8VfiwSwic3jtMscejU3R3Wx5y0itd
+         NQcCAE9EuMqHxulPzuceiDbDtzHHWJduk9ZccgkFEcCsDiN3xhd455mDMCeqtP3j1D/E
+         H4uWQYjqpEyzqHlmBLy9ULq3zAgnzqrZDCFp83RY7eiDhZ8yicr+lDjGZU0JPQStZleK
+         gU+VYDN5fj6KeGx40NUw2IxKcRamY5Ps1goHrfs0A58L9xgSTHs/ZbWlJzA7WlEJIUvz
+         C2Cw==
+X-Forwarded-Encrypted: i=1; AFNElJ+zB+x6ZOr5vOoYwGQDE7nM64cz+dROE2llK6F7CGGXW7XbdlxlZEl3raf4HOnI4I/KFVHF1xk+gUI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj0HfJTvAcWXbWzYID4p5d5mjWRAmurFEvY/zKWdS6uO5r1hhw
+	NozYAz3QKP3X99rOUiLlzuWkRF5P1sdZocFypYIiuH3KO5d6WLq59zD603zXYf9yRNE=
+X-Gm-Gg: Acq92OEjHU/p04+um+kmGp5cRu7kKUUOtEk8in4w1FQ6IsLscwXTlLXtMGRavfrV5Jm
+	9vSpQ3ghe9151PFLjAHDtYb9tIfS5tQLkRQFhnIpgf5OLNvHNjfre0mLR4BBokTnx7JCqTDsaQC
+	dITmeU8SMri/5YheyUn1UdTRuuczrt9B4QB/XRzQlZHF76fqVWEImrrXcE2BYUxWor+j8R6cT+m
+	FLJeZ+UF9Z7yovUMoz6X00ZGtvBHPc38q3zZxAHGPVmL6Z2FapMIZJJiAqHB+3tpHL4922OnF2E
+	iG0BHwtZER/XK8grpI5mBb/+sv7YB3mB4y+ZpIR7bpVCG2KnvBcE7r3ue+Ly2Vf5kHSnr2d1ZDb
+	uEaTeMj16myglvYhXSkmqDzJYVej/FywqjviwJhQ2xxV26c4vmVk+0c75msXFLS5w3iFsIFO6MZ
+	O2wlx7fPJlWuRqk5AEsMxe7EuQAVbRAW5zGJ4qRbr3kZqhCbVPOw==
+X-Received: by 2002:a05:6000:1cc8:b0:45e:ed7f:1d9 with SMTP id ffacd0b85a97d-460216e6c10mr9128085f8f.17.1780580042209;
+        Thu, 04 Jun 2026 06:34:02 -0700 (PDT)
 Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf055303fc6sm309199566b.42.2026.06.04.06.31.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f351ac0sm27068067f8f.27.2026.06.04.06.34.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 06:31:31 -0700 (PDT)
-Message-ID: <8721d1b4-ce27-4ab0-9a24-138c31440e94@linaro.org>
-Date: Thu, 4 Jun 2026 14:31:30 +0100
+        Thu, 04 Jun 2026 06:34:01 -0700 (PDT)
+Message-ID: <e7118c8c-a9a9-4c34-971a-ebc93f193fc0@linaro.org>
+Date: Thu, 4 Jun 2026 14:34:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,6 +69,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 14/18] perf test cs-etm: Remove unused Coresight
  workloads
+From: James Clark <james.clark@linaro.org>
 To: Leo Yan <leo.yan@arm.com>
 Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
  <mike.leach@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -82,56 +82,64 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
 References: <20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org>
  <20260602-james-cs-context-tracking-fix-v2-14-85b5ce6f55c6@linaro.org>
  <20260603172546.GE101133@e132581.arm.com>
+ <8721d1b4-ce27-4ab0-9a24-138c31440e94@linaro.org>
 Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260603172546.GE101133@e132581.arm.com>
+In-Reply-To: <8721d1b4-ce27-4ab0-9a24-138c31440e94@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 03/06/2026 6:25 pm, Leo Yan wrote:
-> On Tue, Jun 02, 2026 at 03:26:56PM +0100, James Clark wrote:
+On 04/06/2026 2:31 pm, James Clark wrote:
 > 
-> [...]
 > 
->> -When you run perf test, it will do a lot of self tests. Some of those
->> -tests will cover CoreSight (only if enabled and on ARM64). You
->> -generally would run perf test from the tools/perf directory in the
->> -kernel tree. Some tests will check some internal perf support like:
->> -
->> -   Check Arm CoreSight trace data recording and synthesized samples
->> -   Check Arm SPE trace data recording and synthesized samples
+> On 03/06/2026 6:25 pm, Leo Yan wrote:
+>> On Tue, Jun 02, 2026 at 03:26:56PM +0100, James Clark wrote:
+>>
+>> [...]
+>>
+>>> -When you run perf test, it will do a lot of self tests. Some of those
+>>> -tests will cover CoreSight (only if enabled and on ARM64). You
+>>> -generally would run perf test from the tools/perf directory in the
+>>> -kernel tree. Some tests will check some internal perf support like:
+>>> -
+>>> -   Check Arm CoreSight trace data recording and synthesized samples
+>>> -   Check Arm SPE trace data recording and synthesized samples
+>>
+>> Should we keep the chunk for but suggest a perf command as
+>>
+>>    perf test "CoreSight" ?
+>>
 > 
-> Should we keep the chunk for but suggest a perf command as
+> I put this at the end, not sure if you saw it:
 > 
->    perf test "CoreSight" ?
+>   +There are a set of Perf tests for CoreSight which can be run with::
+>   +
+>   +  sudo perf test coresight
 > 
+> 
+> "When you run perf test, it will do a lot of self tests." didn't seem 
+> useful. And the other part about the directory was general advice which 
+> I'm not even sure is accurate. The tests are supposed to install and you 
+> can run them from anywhere.
+> 
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index b539be153f6a..7efb893edcbb 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -2751,7 +2751,6 @@ F:    tools/perf/arch/arm/util/cs-etm.h
+>>>   F:    tools/perf/arch/arm/util/pmu.c
+>>>   F:    tools/perf/tests/shell/*coresight*
+>>>   F:    tools/perf/tests/shell/coresight/*
+>>> -F:    tools/perf/tests/shell/lib/*coresight*
+>>
+>> Need to delete tools/perf/tests/shell/coresight/* ?
 
-I put this at the end, not sure if you saw it:
+I delete /*coresight* in the later commit when moving everything into 
+the coresight/ folder, so only coresight/* remains. I think that's right?
 
-  +There are a set of Perf tests for CoreSight which can be run with::
-  +
-  +  sudo perf test coresight
-
-
-"When you run perf test, it will do a lot of self tests." didn't seem 
-useful. And the other part about the directory was general advice which 
-I'm not even sure is accurate. The tests are supposed to install and you 
-can run them from anywhere.
-
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index b539be153f6a..7efb893edcbb 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2751,7 +2751,6 @@ F:	tools/perf/arch/arm/util/cs-etm.h
->>   F:	tools/perf/arch/arm/util/pmu.c
->>   F:	tools/perf/tests/shell/*coresight*
->>   F:	tools/perf/tests/shell/coresight/*
->> -F:	tools/perf/tests/shell/lib/*coresight*
+>>
+>> Thanks,
+>> Leo
 > 
-> Need to delete tools/perf/tests/shell/coresight/* ?
-> 
-> Thanks,
-> Leo
 
