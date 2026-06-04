@@ -1,82 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C13E30C62D
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE02C38E8A9
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780588914; cv=none; b=HiR1pWv1U9RQohJkyO0hxoNhn+y5iyKoaRB+M2HlyY4cu3LyYVr0hVnbjp4QU9x1tN8RgCzpv3k9OE4WRjt6lWDsP6ko4cYok1CTfft6yv25kHbWjrexdp/acB4vVbHxgmzLyfV/N6qbc461qWUq4dVULK1stLkb1GwSAxdt/7s=
+	t=1780589015; cv=none; b=JMejQ3QKV1hcv2jHqoS4+sCG0BDGKsJtO/QHBes3FpJeVvCiWSZY7Fpq5B4GzQk1YVESkxpa53v4ZBUxGpvnHOMtOx2F18aX+iTHqw4RtDIxYe3fZWuvSpRzO70Eq2pu4QYQl+XfmRetRy9OdBRwctARH7kZq3ezgXTDUOIYvN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780588914; c=relaxed/simple;
-	bh=Bb5mTrgyt2h5wH9/ID4zexvhJBt+QMk4O3GE6dK3YOE=;
+	s=arc-20240116; t=1780589015; c=relaxed/simple;
+	bh=Mpc15BTxXFPLS7siOrt94DVTxzgWbPGCx4J/ojX1QSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sNUl6ObEpfrrYlmvcqjX5DEhseI1W1tMGJB6YVV7XLvUtv6SbiLb8SunV2ygtV0FpRjJ1cM+ktgbBaeeU5dOPyF4zKeFqEx24JFBMIpPIWH4AUTCGFjiYU6eZD8vXBshVnJ4Jl4ehBAzDyko0JTzd/Zh/vjYvUnziTnDMT34IS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OF+XSvRY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MiYgp1sV; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=LVJNZuxTGRhIZ+43m6vSsktmx/8ioRzhhQ8tGz+KDbbVyA6ET7uAomPfkippSsBX4D9Sfhl8nizo8qDnvxFvdw5OJfl8CniEqFRcHNS0EE6BMQkCfBaIt/mq3QqWr1+9C/yugj1qGobvR7Q7bT5eKhe6Ie3VJd1yAExS9MSIc0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R57WYhlK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TzwKFFr/; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OF+XSvRY";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MiYgp1sV"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654ED70X598077
-	for <linux-doc@vger.kernel.org>; Thu, 4 Jun 2026 16:01:52 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R57WYhlK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TzwKFFr/"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654BJoA4944402
+	for <linux-doc@vger.kernel.org>; Thu, 4 Jun 2026 16:03:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=yt4gW85Y9LMlMB5+VVL9pvf/
-	wye7kF75DN7q+ptOBr4=; b=OF+XSvRYiLrTH54S9+jd0MNLNy21hVd6XdRt8wwZ
-	0pjMiHCqOMO+rMsINhJw6L7neH6unjvY+9GUSK/2X88fKg9XOTBb19AnBXn1LSoG
-	ou19z3e2t6MIjiBwOFCbQ3TSgGV8rxh1DVzmFwuS66BCG915tom3yAXcjdtUTsgW
-	j80safQqLSn+NuNnDb8Sltf82fX8mRFpErJcWSRgngpurvuc0LmzRv0Qe/vY1qzt
-	hhHsiPH/x2iTyAkULmj29aMqSZuAm05syng1M0Oit8Mgkp+PF4oHJ72dZ9KVspxZ
-	tGNduT1zRurOxBDDs2NtuTwW61/n5BBkmdLzzpBVW31+mQ==
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ejy8m3arj-1
+	:references:subject:to; s=qcppdkim1; bh=8T3I1JSi6bPzTWMglkCJmeKM
+	pAKkFgJd3nlCAFBxxjI=; b=R57WYhlKJl3K8bFUdl58ZqjkhTtCV46ZT5QO6j0A
+	Kddjcmp6YEGcd8WIruVAt0ZMvC+hOWwkGsLEYz7Yb32W3tRSjhQMXgZc94DdG/6u
+	YU3sFnnQtRqKdtqQjus9VHxy5Ee7e1r+jsPLX0pbfzq5ydcL/dpmaF0z9cdGphrJ
+	/WYa44pwTb1IiQegKIZ9sqhZSST8w2Iiz/tW0BAkpcmqQsPp61iSH/YrPG4o0pxF
+	PHXOOSiUGCCBEuyEbblKvDPdgi5d/iDCJwe1OMDiZjxZ7Cg1LrZfd6m3m8FpJylJ
+	7poDjZlZipbJF3WIo4ECfDqr2LrUdd2XCKi/I3p96YyXYw==
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com [74.125.224.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ek8d519xd-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 16:01:52 +0000 (GMT)
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-137fe4a3640so1370062c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 09:01:52 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 16:03:33 +0000 (GMT)
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-66063190853so1824457d50.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 09:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780588912; x=1781193712; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1780589013; x=1781193813; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yt4gW85Y9LMlMB5+VVL9pvf/wye7kF75DN7q+ptOBr4=;
-        b=MiYgp1sVYYfSG/LwjzCN/hm92Mo1l7GJPFfl/+F1cYDCCkCS9ApSuqwafqEMKoX+JH
-         cjzahU83Ti8w6M4RsR2GrMoFwBsJdDce5XDnot6QPomdvdIp0+6hewXytRNpyOTuBR38
-         dg/6dVuvGHIBU1HPWWMm53rTjFMhIjTD6YgQdRN2BpTRGtl9s2pvYLRMiv6asdqgG51a
-         rqlDTODx26OOqw481OsOwDDPgjp+fNVVd7Y4/trINA2URybd+cL2gunpS5QXt3Y06yS+
-         6A6wYlMecuFHzVJd32Y1wyoxwzoCETG/sgxsIuJzDn2nY6w7yPa/V+lcFdWPwDUVbITR
-         4h6Q==
+        bh=8T3I1JSi6bPzTWMglkCJmeKMpAKkFgJd3nlCAFBxxjI=;
+        b=TzwKFFr/yAqAzsnz24uUZ2xYa0AKrhpiOmdwSN4zzb3G1FeWtsYG5lyd3Hsb+OUfMJ
+         hIXbCczAD1Lns2anFm8HA2kw1NOKbMKhD8k8ZiQtae3PTHslV8T23VKPUMINx7dp7vHz
+         xEHjxdssQfhQpGl1tNqO8daUw03uiuF9m7PHOHYH+a6h93cmIFn5fkS7phl/zWgALKnF
+         vHxtgXmkFWk/A4wRHU8+ENAWZ998LoaEZbCoLcVsGM/0BLgyAKvtEUZ+dk9ko1Yw7NFF
+         WTyZful/xUvQkTRB5/62Brdz2XW8eUpmTYia4q2M/1/FTRkzjcjlkB4HsIFL5caekQM7
+         k2lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780588912; x=1781193712;
+        d=1e100.net; s=20251104; t=1780589013; x=1781193813;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yt4gW85Y9LMlMB5+VVL9pvf/wye7kF75DN7q+ptOBr4=;
-        b=bEqBcCqaBG3ZKRYp1d1lbV7DoQvowidDD/tIpoPUuAJkScSogSMgA9sDSTZ+6ma7Cf
-         D9WxUKx9bdU5c9ybdZ8fUX2Nin9z5FfvTpCGB8/uxrH8MoSpUNZnjNInLU2F+ismO+je
-         jsgBeIFbrAbbOjKr2K5lT0RB+EBsF5RpjpczbHhmdlHGfX+Zf6VakvFVUL7n4Y5SrLto
-         ocuP9rUn5HV2DpILbRfEItdM781LT98gP4Gq2qthfpU37avyfLqz7/xmdJ73K/f7nPhe
-         lHzaX4eoVA25NVm36lcJ9sRcSRTG3pZc9/X93dwF8jHXYLv7jAWK5ThERAmzHXEkaqEp
-         KgPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/KGF2NSzhymN0qRDrf/ah1A6HzMYuLvvknRbaS16VgrPldSxQ4q8tFCe/GJbKYYgpYuZNqvPNKOfM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3aEykhx87e7XaNte0yZNzc+6SWsBcfogKdzWh00lsYngmVI/d
-	Ysnounx++8LOsBqIYpeMW6moj84DB4rWC6AzCRmtQ8tlOMYc94O+gn+V+dg4aX37fIFYh8i2oej
-	QowXnzIA93E+qywgIiuEXOf4WhcZrQM7bMXUwF6OHMdRc2J+QHxAG5s36ot1nQUU=
-X-Gm-Gg: Acq92OF712zdxpdIIy2gPQub8WkY2iC9+BonN2FRmX4bkPRXFnATG84Ytu4UckiE2PT
-	YalNDGC5jwb0xbUa4O571DYN6bOE12mIrWXpwXyx4lvpzWEuiYt/QUBaEmKqi/6Cy6JrME3TpTY
-	PTwYWrmYrxu2JE1qW8XACDq9rgt7tvkSIzbOPwjf50aDTA7uC/NXlQISZGXroAiMnLfkiYIA1en
-	Ai5J4apMi0+lF2G/AlIs6mr0KdzCmbMpqOu7h65OU++Jny4fzMjApGHpc2RvI3YN9lBOp5DMncq
-	ZP1/gYgfjHSc59sBCldQB9a5MC20+n5HFJXpH70yP7rX+zy8+cirsgbNzpMArawuCb3GMR3zQ7N
-	IDVYMrz3ymQ==
-X-Received: by 2002:a05:7022:206:b0:137:ea56:358 with SMTP id a92af1059eb24-137f6bd030emr3478922c88.30.1780588910487;
-        Thu, 04 Jun 2026 09:01:50 -0700 (PDT)
-X-Received: by 2002:a05:7022:206:b0:137:ea56:358 with SMTP id a92af1059eb24-137f6bd030emr3478562c88.30.1780588909024;
-        Thu, 04 Jun 2026 09:01:49 -0700 (PDT)
+        bh=8T3I1JSi6bPzTWMglkCJmeKMpAKkFgJd3nlCAFBxxjI=;
+        b=cgnn1oFWNWuttszVBiL5TRt6Ckayx8moQfWgkGx+sPhhKck5fbG8lXvDl/GIJhevjt
+         JloFa5sffGSppgCajJpEn8Fvpn3iFI4vKiGDopAgm/lq0DM+IERTpRw7Iv61ktTHTTiy
+         mpjnA04je/oRYb5boLJm6Uh+DWNCapyqXn5nL6vt1xM6fPRiQ0sRLfghmbVkDK2EdYqF
+         n8sKBrK6LXHt5k/T3yDOnjoTApkU3DP7t4kmD/JPOYbvbjdFT5d6bkx7uvTtrW3e5PHj
+         YMXWCWroF5SsaT701BcROrMNajgMxHHG/pkL/1j5r0+W5wCKKri/nwMwbAVUaMvCZdLA
+         IFmw==
+X-Forwarded-Encrypted: i=1; AFNElJ8xgeT6nH9NjpPpBZPCR/8IWCL0Ekg16+dC+9suhUqXIoyaaUd+AYbwEvPCqJCUEWWL1Pwqcba9Cco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzJCWk2yGrOqYs0paF7lh5POxMTsMb6I2nb5we+L+Mc+8lt3sz
+	aDNSInZncnPUS8PUvSk9JeeRcpc3Gap6QU0UYlJBPET+x3paKNImnZqZhBA2i6T48xjcSB6YIkK
+	NkTgPFyplPAewwXpjndBEjBf3JwjV9XxO0j8qEeDq53KDzEZHMqYmzIfbfSk1P6MwlwJN4TM=
+X-Gm-Gg: Acq92OEEO0CqJkNTIS93ybU8fDKf23w8Ut2L7sqL1dvBkc4F7T4C89UuOWaKyGQ/vkk
+	uFUhu+1oMgTDQxMvsN6P9cAEQ9zzWhd88PKM3pMzJ8+MfrN/7T6YF1AlDiEEhnQtROj8ew6SITd
+	oVSDKQyfyxw8SysIHMITtUKvwoZ0RvyKXdsvDpKpeYfymEe2jNrQf/2EqeNZ5BngneSz0cAdTjk
+	qZmKZpEzE7fqGPS1U3COwfd4+XQIY+0+1tXMXWfOTLXVbJBpu9Xc76e8GV7E0Fiw9PJ9RP0klup
+	ECoNtbk6Tw3YhYBPDr6MUdPABzt2Toh1BR2YxD1Q5kLxctKVk2K64Z69gkdBfK72u+HZSPWpw63
+	o1IMmeKI+S1olIA6rrCSxv0LUUWBgEJRH/J4NquWgkA==
+X-Received: by 2002:a05:690e:134f:b0:654:2882:42b8 with SMTP id 956f58d0204a3-660dc29ecd3mr8042136d50.35.1780589012912;
+        Thu, 04 Jun 2026 09:03:32 -0700 (PDT)
+X-Received: by 2002:a05:7301:100c:b0:304:4f23:4466 with SMTP id 5a478bee46e88-3074faa488dmr4046204eec.15.1780589001468;
+        Thu, 04 Jun 2026 09:03:21 -0700 (PDT)
 Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f716017esm5199221c88.15.2026.06.04.09.01.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db55f60sm6911110eec.6.2026.06.04.09.03.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 09:01:48 -0700 (PDT)
-Date: Thu, 4 Jun 2026 11:01:47 -0500
+        Thu, 04 Jun 2026 09:03:20 -0700 (PDT)
+Date: Thu, 4 Jun 2026 11:03:19 -0500
 From: Andrew Jones <andrew.jones@oss.qualcomm.com>
 To: Guodong Xu <docular.xu@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -99,12 +99,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
         devicetree@vger.kernel.org, spacemit@lists.linux.dev,
         sophgo@lists.linux.dev, linux-kselftest@vger.kernel.org,
         Charles Jenkins <thecharlesjenkins@gmail.com>,
-        Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH v3 02/15] riscv: hwprobe.rst: Document EXT_ZICFISS and
- EXT_ZICFILP
-Message-ID: <vazr6kop3pbga22p5wbn3oursuic4thh4aeogkndyuskrncgta@cpk6igb7cr6a>
+        Samuel Holland <samuel.holland@sifive.com>,
+        Charlie Jenkins <charlie@rivosinc.com>,
+        Jesse Taube <jesse@rivosinc.com>, Andy Chiu <andybnac@gmail.com>
+Subject: Re: [PATCH v3 00/15] riscv: hwprobe: Expose RVA23U64 base behavior
+Message-ID: <dyafwgy6wgahizpld2vfuk56nzhueh727u6vzblmasmw24vb23@uw46cc5sxpb2>
 References: <20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com>
- <20260603-rva23u64-hwprobe-v2-v3-2-5529a7b28384@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -113,82 +113,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603-rva23u64-hwprobe-v2-v3-2-5529a7b28384@gmail.com>
-X-Authority-Analysis: v=2.4 cv=KfDidwYD c=1 sm=1 tr=0 ts=6a21a170 cx=c_pps
- a=SvEPeNj+VMjHSW//kvnxuw==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+In-Reply-To: <20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com>
+X-Proofpoint-ORIG-GUID: oPHP6AG4e61Blg6I1RzoBhanTSplMwM-
+X-Authority-Analysis: v=2.4 cv=IZG3n2qa c=1 sm=1 tr=0 ts=6a21a1d6 cx=c_pps
+ a=ngMg22mHWrP7m7pwYf9JkA==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
  a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=MiYv3HnXQXVWDUVKjRcA:9 a=CjuIK1q_8ugA:10
- a=Kq8ClHjjuc5pcCNDwlU0:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDE1NyBTYWx0ZWRfX+RxMIX7WzIhT
- 4Gwos0lCntmm0y8hwIqWuZq/nOzUvWbQigJBtOPyIrOSCJwFNmyJJWjv3lE6YbTzGCjEEUVAvCr
- 8tPgSy5tjn5i/1H0M0MqjVCKq/V4UndIy2Z9+xu08YPdAJDi59v6woTnnTHM1VbXAvlp8604aSR
- yoLl4qylccBbAHjb0zMO/nJsDtJxWmXayJk+lSIrNR/ZixtOdn0Rc0Jb59hnUQTwHF5i7Nbsca5
- BGHQdTQnvyjWQ4/WkWr1jRPcpsf9np9937e4C/nX+0nfqorn/QWchIiwSAMDJyLHJ+3lGx2yHHz
- BERs1Q63WcRird7Db+MNU14TLWQ2pAw3FyG6zHQzdlBrfkDJFK4zt0DFXoJw+YxAt1jXm2VPyG5
- YLBvDceh4veFucURvHpei+jpMIpiV4INSyS1RND/zCZ/XkUq1aGT35kJWGC66GUVKM87xeTwt5y
- 3LpBNE44BD3IIXpC4tg==
-X-Proofpoint-GUID: _TZpBA6f8_dEfI7b5Q3xpyGfjARRgD8v
-X-Proofpoint-ORIG-GUID: _TZpBA6f8_dEfI7b5Q3xpyGfjARRgD8v
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=bmEhWVV90QwrJAxICpMA:9 a=CjuIK1q_8ugA:10 a=yHXA93iunegOHmWoMUFd:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDE1NyBTYWx0ZWRfXxOo+iA3aqJr6
+ y0v6KIkiHPlNx+OavzIOh0bOaSMphnb1JpuS1vhhXxg5aD53FJWgEf0BZhLWad+D9bRia+yzk5W
+ BOgbORZmuC3qDi/IuioH3/Xxv2aXicAF26j8RWnVke9ySjCb+3MjLjezvrwa/FKWohKgI9kR7uv
+ gK3oSYbd2bNSbDD9ed0DSBExNMQ5T/gc9YrR8RwWfFMPICg3a816WtQqBCiBxrI70TAtDLzY2f/
+ jK0cz6IWjJvJLREDd3ND29ioSbg8TQgcY99ZIBLDuc8pIMmqLfQLG2s4NZWtYjg19Nn0OtzGSby
+ CZCaQLhf+C48A199DELUTn3NQy4t7MwYmFXh6uZoYH0HQHr0g8E835FEn/K3TaHprXwScKb4wv/
+ KX+EigD+N3boetEDHbBSj8fuRZM0m/sGuLNqWectMJi8xV6vlfL4KrD0Ot+dYK34ytZsHSQfrWe
+ Skssi/tDlpFIbW8G9cA==
+X-Proofpoint-GUID: oPHP6AG4e61Blg6I1RzoBhanTSplMwM-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-04_04,2026-05-28_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 suspectscore=0 spamscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606040157
+ clxscore=1015 spamscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606040157
 
-On Wed, Jun 03, 2026 at 07:11:57AM -0400, Guodong Xu wrote:
-> Commit 30c3099036a9 ("riscv/hwprobe: add zicfilp / zicfiss
-> enumeration in hwprobe") added RISCV_HWPROBE_EXT_ZICFISS and
-> RISCV_HWPROBE_EXT_ZICFILP, but did not add matching entries to
-> Documentation/arch/riscv/hwprobe.rst.  Add them now.
+On Wed, Jun 03, 2026 at 07:11:55AM -0400, Guodong Xu wrote:
+> This series builds on Andrew Jones's earlier RFC [1]. It lets
+> userspace check for RVA23U64 conformance in one call, instead of
+> walking hwprobe + prctl across every mandatory extension.
 > 
-> Fixes: 30c3099036a9 ("riscv/hwprobe: add zicfilp / zicfiss enumeration in hwprobe")
-> Signed-off-by: Guodong Xu <docular.xu@gmail.com>
-> ---
-> v3:
-> - Also document RISCV_HWPROBE_EXT_ZICFILP (bit 63 of IMA_EXT_0), the
->   sibling enumeration added by the same commit (Andrew).
-> v2: New patch.
-> ---
->  Documentation/arch/riscv/hwprobe.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index a09a8f16bd16f..3cedaaa53f331 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -289,6 +289,11 @@ The following keys are defined:
->      defined in the RISC-V ISA manual starting from commit f88abf1 ("Integrating
->      load/store pair for RV32 with the main manual") of the riscv-isa-manual.
->  
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICFILP`: The Zicfilp extension is supported,
-> +    as defined in version 1.0 of the RISC-V Control-flow Integrity (CFI)
-> +    extensions specification, ratified in commit ff03d8485a04 ("Update to
-
-Can we use commit 302a2d45c243 instead since that one has the v1.0 tag?
-
-> +    ratified state") of riscv-cfi.
-> +
->  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
->    :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
->    mistakenly classified as a bitmask rather than a value.
-> @@ -391,3 +396,8 @@ The following keys are defined:
->  * :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_1`: A bitmask containing additional
->    extensions that are compatible with the
->    :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`: base system behavior.
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZICFISS`: The Zicfiss extension is supported,
-> +    as defined in version 1.0 of the RISC-V Control-flow Integrity (CFI)
-> +    extensions specification, ratified in commit ff03d8485a04 ("Update to
-> +    ratified state") of riscv-cfi.
-> 
-> -- 
-> 2.43.0
+> The series adds a small framework that resolves profile-class
+> bases (IMA and RVA23U64) from the kernel's ISA extension bitmap at
+> init time, and surfaces the result through both /proc/cpuinfo and
+> hwprobe. Later patches can add RVA23S64, and backward RVA22 / RVA20
+> detection, to riscv_set_isa_bases() without changes to the
+> surrounding code.
 >
 
-Otherwise,
+Hi Guodong,
 
-Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+The series looks good to me. Thanks a lot for picking up this work!
+
+drew
