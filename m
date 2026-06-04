@@ -1,138 +1,122 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8943939D2
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 21:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E483A329E6C;
+	Thu,  4 Jun 2026 21:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780607938; cv=none; b=or71ilxtmOhLKYUa8NGAQ/Gb6LYUQpDsZLlgUDUYLvy9xNwNcl9RnYJpNj67Hk/XgNxglCXc6hSzmHJ/ubCYdLVPvb5IboikmqZrh7Ep+H+aAp0eTNBcg72bX0jsBGYQwUplYe+cOdR5mGqlN/ICyMikdiVgdzQ47mQUlebfdJo=
+	t=1780609731; cv=none; b=Stzr4rNzyKtVbicycBzadsGwUY9h+Bj3dHsVR75V7lmSXuGySIVGhLcnXHG6x1fTIepaD9umtxUZtZ7hEbI6pCDoVw2P8lYXnpRwoFTDtTABOOdaJsncihePKcvLtD8Ea9/GaxSTjAU4v5As77OZh7rwGKyNM4sqlKDYoq4LzXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780607938; c=relaxed/simple;
-	bh=j5Va7+gmykjYF242T1iZbiZTv44+SJJypaxifOh0AUw=;
+	s=arc-20240116; t=1780609731; c=relaxed/simple;
+	bh=iK7nDkaVl+kbc7PjAEoaEgaDEKAIkheFFI1yWCxh/uA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RfFLTvaN0GYnNohR/5Rlv8C7hsi6doaFKTqjJIIABEHjVurBGelgQxSSqaqVTIZ7jlrXLXbrHDfndSEJRpd4M2TnneEVl4GtWeN7bzlPrN3YpP12mapwYFMi8jz/FhmIqbjUMKAcd8qDcYfxLjB0wVB7fCTJ2gUAdRulJoRd0Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f6Iwf48g; arc=none smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bLvbVHmrIlsDwkcItFk/QJBBJkwwBsFhSMXbBuLWAKGbxZ53qY67wfHTlehJu480XBjC80idK6siy3tEDgF/lWkrLkuwMk/VA9MvJ5eUd9ELhulo9WXw1VkVApyd6N0Wo9XXm+vtYqX+0B/dBCZipmcXzhJC2LtLgDv1OpPimSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOJtH3Ws; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f6Iwf48g"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-66056b248abso1251585d50.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 14:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780607936; x=1781212736; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m2J8USZDL7/DpTIcuYHRyNZJXHApGCptCywopvKKKw0=;
-        b=f6Iwf48g0sV8eFbaZLcfnfr49MvzIaKGKwgcqlifmYPouS15GCriYWKZBmyjHTmuzE
-         zjyEb/65tqbtpv+uvM1STrUQ4ohRKKbNqvAdYScq0AP58i8eViSLl7y9eXrhBJLMPk4b
-         v4IPBECBBEtfa9hc5CXR83YHg4q7n6bGKdhQlu8qU9Ybwv20FlAFkAHQsTUAmixwupZP
-         sNXGO8teGzeRUFpJQkqDlyjDgU35kk7BO0ILO3T3VWR1fpcBUuvz7Dff3TKaQJTtgPKt
-         vhwY+cm8yBYVDli1ckPgytEZo6fMcITwrLoUhTXHvtvbutcw7lWkW1kyrbdvyHuNex5h
-         Pbpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780607936; x=1781212736;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m2J8USZDL7/DpTIcuYHRyNZJXHApGCptCywopvKKKw0=;
-        b=OAUtPzXkDK0MTFHYs/hNkD3V8e4gTPVSR+qMc4lRW8aeo7gxFJWLnfsxa12bhjryMM
-         jW83cfO1HYWaY8OSNfOAHYUQu4ITRRMDaChRWHqtUX5HjCB28Mh15uaWZoK1HZ5H1EQ3
-         JihkMwa/gPwB3nLNFyUvCLUD3gKZH259K9AalclXzcfldXlNTqAcSI6jig9DskahX3XX
-         +vGoJTsK3ysDEmkAsRFXKH0QVFB4ddbbrtvM7abHBb2o8F2CMrCy8ioJfqahO34KW0Tp
-         SrGT2JPwooL5BM71CfQT+1FjY1LLKppQupcj2X/9reIK5BEy/db3PbBRFvi1gj2iN4wn
-         cJLw==
-X-Forwarded-Encrypted: i=1; AFNElJ+WwiP3KickuEFUm4k82UReRcRzEw3q9of5jQXOVsAb+GFTmS5F964qv2KiCreCnwg8viBGiDrj+n4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ/nE6NcLsQXslD74aNRWY8DJE8yGMKgBaugfX8nx640633oxv
-	4PR4HJqTkk/EEf5BCnW6yHb9joTaYjMR1UFv+qfKOpD6R02UMEU0VEbt
-X-Gm-Gg: Acq92OHCftTLMMW2OoWptCcP1ym73yCUeBnTXTYXTl/hDh0h9m/3inYn+bh46xyUG03
-	O22yBJdGcrcxSgEW/9R8yypS5ssBqfLLH31bW2Fm2U9RUSwwxuw9bcUDfirfrh3fqtfWHirWVEe
-	YZy36OSkLAbv4PYJX+VGrg1Uaa1cF13Lrp+5AZgcjsR7OSb9ZMEoOLsESv7KcXaBJs8QBklxzmu
-	lc8iIm03njURkTfa42mDYGGI/QdZ/1uvfyDilNclXfYIA6lx2kZyXZsf7zSpKELN9zk9qxLR1if
-	//bV0yKW6Wdw+U6vg3hFeMFtV1N6bB/4VogRdP3oWeJna0FcML8oFSXyKFTDEYEcYSRMzyVY7XK
-	IT96Kivu4hOTxnBn9D//qVTFD51U8IT256Oi2NAE8LsEZQvOgWTrhaOGi4HbqM9fiSyw8GSBupf
-	cqtxd5nX7eJo/qIzC/addBCBbbFF2DWepYbAMUNTR4tYxylwvXE2L3uE4tWTyJATAfdZc=
-X-Received: by 2002:a05:690e:4805:b0:660:8e61:1a49 with SMTP id 956f58d0204a3-66106e4abb7mr376567d50.18.1780607936124;
-        Thu, 04 Jun 2026 14:18:56 -0700 (PDT)
-Received: from zenbox ([2600:1700:18fb:6011:6d35:e45:54a5:6b0f])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-660d5f883e2sm4500821d50.6.2026.06.04.14.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 14:18:55 -0700 (PDT)
-Date: Thu, 4 Jun 2026 17:18:55 -0400
-From: Justin Suess <utilityemal77@gmail.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
-	live-patching@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Joshua Peisach <jpeisach@ubuntu.com>, 
-	Florian Weimer <fw@deneb.enyo.de>, Breno Leitao <leitao@debian.org>, 
-	Anthony Iliopoulos <ailiop@suse.com>, Michal Hocko <mhocko@suse.com>, Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCH v3] killswitch: add per-function short-circuit mitigation
- primitive
-Message-ID: <aiHgdw_fBv8RTgC2@zenbox>
-References: <20260508195749.1885522-1-sashal@kernel.org>
- <20260517134858.146569-1-sashal@kernel.org>
- <CAPhsuW4x8shWon8Moi5VgCq2n4E2EzaaauZ2HHpy42Rp1Y-J-g@mail.gmail.com>
- <agsVDqdALBoHEHlv@laps>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOJtH3Ws"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EC31F00893;
+	Thu,  4 Jun 2026 21:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780609730;
+	bh=hccU/NDSuAvcNj2qshs5G5T8N2B5+zR4AKzNjS5QKDY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oOJtH3WswuxaSXCBwtdBZdGgqvPxMl2AxmgsBn1Q7sv9bv+2fIQpUu8P6psX9SraE
+	 lSBE1kDOlOcCkxwq1Te5aY2Bf5gUb74/snkw1zcC7CzFdqpd4Avhfe2fsm750odqgS
+	 O59dMX2g/aDU3jKvEKl8txbOdj8B+U3/SsyEk2xAP8EUrnd4KHHvI+btOw06/4rK2Q
+	 taz///r7YoJ8dRaGduBLFDxVhYonPuOrFN7EFKzndPcRwg/FSeYlsjY8zFKlhD4Wob
+	 HX+achzSxwGdodU9S7+z5XB058pkm5Q/iau8rvefFGQqQMoYtL2OOWHLyI0pZM4xE6
+	 OCPIVEZUZh7Aw==
+Date: Thu, 4 Jun 2026 14:48:40 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Yunseong Kim <yunseong.kim@est.tech>, Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+Subject: Re: [RFC PATCH v2 2/6] kcov: add build system support for dataflow
+ instrumentation
+Message-ID: <20260604214840.GA3915915@ax162>
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+ <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
+ <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agsVDqdALBoHEHlv@laps>
+In-Reply-To: <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
 
-On Mon, May 18, 2026 at 09:33:02AM -0400, Sasha Levin wrote:
-> On Sun, May 17, 2026 at 11:37:36PM -0700, Song Liu wrote:
-> > On Sun, May 17, 2026 at 6:49 AM Sasha Levin <sashal@kernel.org> wrote:
-> > > * fail_function (CONFIG_FUNCTION_ERROR_INJECTION) is disabled in
-> > >   most production kernels. Even where enabled, it only works on
-> > >   functions pre-annotated with ALLOW_ERROR_INJECTION() in source -
-> > >   no help for a freshly-disclosed CVE. The debugfs UI is blocked by
-> > >   lockdown=integrity and the override is probabilistic.
-> > > 
-> > > * BPF override (bpf_override_return) honors the same
-> > >   ALLOW_ERROR_INJECTION() whitelist, and BPF itself is off in many
-> > >   production kernels. Even where on, the operator interface is
-> > >   "load a verified BPF program," not a one-line write.
+On Thu, Jun 04, 2026 at 10:45:19AM +0200, Peter Zijlstra wrote:
+> On Wed, Jun 03, 2026 at 07:43:29PM +0200, Yunseong Kim wrote:
+> > Add CFLAGS_KCOV_DATAFLOW and RUSTFLAGS_KCOV_DATAFLOW exports to
+> > scripts/Makefile.kcov, containing:
+> >   -fsanitize-coverage=dataflow-args,dataflow-ret -g
+> >   (with optional -fno-inline via CONFIG_KCOV_DATAFLOW_NO_INLINE)
 > > 
-> > If it is OK for killswitch to attach to any kernel functions, do we still
-> > need ALLOW_ERROR_INJECTION() for fail_function and BPF
-> > override? Shall we instead also allow fail_function and BPF override
-> > to attach to any kernel functions?
+> > scripts/Makefile.lib applies these flags when a module's Makefile sets:
+> >   KCOV_DATAFLOW_file.o := y   (per-file)
+> >   KCOV_DATAFLOW := y          (per-directory)
+> > 
+> > Also supports CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for global enablement.
+> > The flags are only applied to kernel objects (same guard as basic KCOV).
+> > 
+> > Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
+> > ---
+> >  scripts/Makefile.kcov | 6 ++++++
+> >  scripts/Makefile.lib  | 7 +++++++
+> >  2 files changed, 13 insertions(+)
+> > 
+> > diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
+> > index 78305a84ba9d..101173fe194b 100644
+> > --- a/scripts/Makefile.kcov
+> > +++ b/scripts/Makefile.kcov
+> > @@ -2,10 +2,16 @@
+> >  kcov-flags-y					+= -fsanitize-coverage=trace-pc
+> >  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
+> >  
+> > +# KCOV dataflow: trace function args and return values
+> > +kcov-dataflow-flags-y := -fsanitize-coverage=dataflow-args,dataflow-ret -g
+> > +kcov-dataflow-flags-$(CONFIG_KCOV_DATAFLOW_NO_INLINE) += -fno-inline
 > 
-> I don't think so. ALLOW_ERROR_INJECTION is not a security mechanism, it's an
-> integrity/safety mechanism for both bpf and fault injection.
+> https://clang.llvm.org/docs/ClangCommandLineReference.html
 > 
-> It protects against a "developer or CI script doing legitimate fault injection
-> accidentally panics the box" scenario, not an "attacker gets in" one.
->
-At that point why not just make this entire killswitch mechanism an expanded
-version of the bpf_override_return helper that doesn't care about ALLOW_ERROR_INJECTION?
+> Has no mention of -fno-inline, furthermore, what are the exact
+> semantics? Does it inhibit __always_inline?
+> 
 
-Then killswitch mitigations are just BPF programs.
+Based on clang/test/CodeGen/always-inline.c [1], I believe the semantics
+are the same as GCC's '-fno-inline' [2], which avoids inlining except
+for always_inline functions.
 
-This could be paired with a userspace tool for building and
-loading the killswitch programs conveniently.
+[1]: https://github.com/llvm/llvm-project/blob/1d13b74cf086629d5cdae5f44ef4a62cebcaf3ff/clang/test/CodeGen/always-inline.c
+[2]: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-fno-inline
 
-You can make the helper function only succeed if (CONFIG_KILLSWITCH=y
-CONFIG_BPF_KPROBE_OVERRIDE=y etc.) and taint the kernel on the first call.
-
-BPF has the crash_kexec kfunc already that can take down the kernel.
-Thus it's not crazy in my opinion to add a helper with a similar intentional
-intentional footgun in another kfunc/helper.
-
-We can automatically benefit from BPF signing mechanisms to prevent
-unauthorized loading of programs. If killswitch is enabled, users can
-restrict unauthorized use of it by restricting the loading of all BPF
-programs to those signed w/ the key.
-
-Thanks,
-Justin
-> -- 
-> Thanks,
-> Sasha
+-- 
+Cheers,
+Nathan
