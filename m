@@ -1,821 +1,260 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0A5409129
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 12:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE7535E1B5;
+	Thu,  4 Jun 2026 12:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780576181; cv=none; b=SK6g+i1WCOUjywpTK+k3loDHMrhZtnd+NDES2c9g75PSdJTU5SHHKrpu0ktPK4JKMBk/3w69o3dkDNn76OnFLR1wyzrp56q15XTcXdyimUTxzaSwhfCHMvsM/kuQB+ZV5CoveqsJ/kQ2BSmfrBteZXVV09z534S01n3o8AmhUbI=
+	t=1780576451; cv=none; b=M0Eq73faoy8l/jxl6F8HW9codoqeXEISKW5j8lUAJBasZN6+IiNegLGk/iVQsFA137FPiAV8bsaLhXzc8MOx+zNEJjNgZroxSf6VQbMMruGP158JhTXXcxIpUDa8VbrCG45ECq/+PpCN8tjI4Z+MCoZ2vPwc6At9A8c8kC5YKYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780576181; c=relaxed/simple;
-	bh=tmZHnC61Yhk/jDI5ReyQgEweuADI96cFI1iEvz2cs2E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n+lxL2w7hZBndA4etrn5PpuA5vt8m5c+/fjNEETYom4t9PSr2746MjqNc7fX7iYWdgGsPdGE6PBTNP+Rv9rJIs+xcYxWrcOEnFMqSosSzwr3LYLuVJFIgFIbNlruZEYeCaLggarQm9pQ3ojGdcn5imCZhXL6CnrDe6Ov0s2PULE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mQIqPZBB; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1780576451; c=relaxed/simple;
+	bh=gdedar459vsMSFxl9/kWW91qvvU9Z+FRDiQswxnd6e8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MNJ9otkifmIj/muQwrZ82buZ/ojfkBpU9F9Y39wgRdDeaGiIKFeg5+SBTN7vIWlTnqq8YLaxoCoIctdCbn73mHGcJcWR53o55eyOylD++buH8buji4MQHcYpHr0JHcGrERzui7WjzMLiEglvEqmgl6nMvIPPDqXue/mfseo/y3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmbeSmfP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mQIqPZBB"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b613a17bso6416225e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 05:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780576177; x=1781180977; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l2PJhIT72fciYL16jjN/rS6J8xbyzj+B6z62XJwShEs=;
-        b=mQIqPZBBQm0O3jbAoquLsfVgtlWBdO+6jPQM6oISeM0FSXWPlPUESdbslFplFl0PHO
-         dRfFBRzCQ7mg38End04SBqfvQxVW9a+DnfPmrkkJchYW7UtUbtGXsRiEJv0ZOHeS0xYZ
-         +eTibgPp9fgsSNROFom2tP+eLk4RHWlIOQxNAFDqBQi0+DBdm5SkIrAICnzW1ho/mauH
-         DXRwQqnalTjq0ch51tgjJ43+Ml9u1LqJjbzn6r2PdTQBp7lcAH1/qfUUFRlq5S/mniSr
-         1e9VDe0Onh8JAisyPgrT4DJyw631TCNl/ddCZSC/0NKUwPi/WweCMmfiCzd4Z7VyGUuJ
-         lOCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780576177; x=1781180977;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l2PJhIT72fciYL16jjN/rS6J8xbyzj+B6z62XJwShEs=;
-        b=I0yH+o6NBseJEnWFhb/39Mg74sS8Tv/0EAuiRBp0KgYBQY6nPFrES9B+cYH2f7UzOy
-         qsBddurVBDznAtHXnfibz7w6xgz+54xyohoaqq0M1AaPb8z+3pcvpvU06dXT+skhIZnq
-         eEYnwBO2dmjua7p+wPaqzCKP4Y8vO0Qq4hmRjJtGZvh+/MVlWuhET6KPg5mr0GjspuaV
-         T4XHJEgP9G6aCJqixG2ZJ5PG/q4QdxK5oh5h2sgQ2EaXLrqiLRaHJdi0ldmKtxj5RyE5
-         lfJnNhEN8UzB68hpJdsCbffSnRMM4BXqtPKKx2TGqSjRoklPsd2hP3fs+jFJV2h8aBUZ
-         Oz/A==
-X-Forwarded-Encrypted: i=1; AFNElJ/B/lXmg9/S3HY+inQGNgTPYo2HueGyv9xoxPhK0RasIqF4oLd/dfSOuL+AxLYJ57GbyGAnrjG9q+Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrgiJ/uEAoDez5hvGi9H5Ut1QmiicnbMzF5vGjOyhUhk4WN6zD
-	OFdNbuaPqMTS/eqT2Z/avL7/20MgGUWkuXDmyJCkfKX046QB+w/Rr2ndKA13KS8Yv7Y=
-X-Gm-Gg: Acq92OEmpw1SBWAc5ZaSxw9QL4v7bVlPD4kS7VshwYwddcpJg6cjatn+PQJHtN1I27L
-	HkZS0e8ebgg/WSfn+7VWac8CZrbLvk8WnReKhlNUicdNgv2i8ZaDUFCLGri81g3BkifR+7dhLQI
-	dWYjmcEHHTdMRT9qiT1vcp+W+mnMqbs+FC+s8hpn54ukv01NEVS8gzXjYK5072URM41ZcUJj/ty
-	/qMutSTrvacHrHkLmlb2rDjUIGX3hdm+/fdaFC7lxD1n5XWONnlZ3moaFf16cp+TEVner45tFw+
-	C3o3noTpkJR8BYjPHqWz701WDYMOJiKJZSLob5zk3Aigg3/l5Zc4uJ+l2MysS361ew8bHZdCWjG
-	/za5D7L7kmFjbvUjONy1WiaPhHMvWFd0xxMh477fW/X1ME4nuLc48MkLsMW7LdJKpSHTeoTguGm
-	wjuzWO2Nv5iRNMneKQpUh09aFdJK7UlMTeFzTNKtWhHQW/U5Z4lQ==
-X-Received: by 2002:a05:600c:3490:b0:490:b7a2:8864 with SMTP id 5b1f17b1804b1-490b7a28a0amr111693925e9.0.1780576177147;
-        Thu, 04 Jun 2026 05:29:37 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc4082c3sm64869205e9.13.2026.06.04.05.29.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 05:29:36 -0700 (PDT)
-Message-ID: <a6e8e27d-31b5-4b67-affd-97e20aae49bf@linaro.org>
-Date: Thu, 4 Jun 2026 13:29:35 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmbeSmfP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF3B1F00893;
+	Thu,  4 Jun 2026 12:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780576450;
+	bh=nF1iBW3FnQDK77z6Z/erssj/aJgmx1yuGL+yjDuzS7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FmbeSmfP3EK9rBz/hN1P235JwHBuwKRZqChSyPgRQ0akT4zcsHmAOwY8SpA8L/0D0
+	 HApsu4hM0YRqD/0/ychCxMQqWguRZdqvZ/uUPIYcdS7cXhn/mN8Ky9ChjKbGkO7J3x
+	 1THCiOccp+vQWU94FMtFxgj8o47NEOki/Okk4TzYLtdp0L4lkNQpoMgQrqwmh2a7el
+	 sJQPHqQHuyX1tZ8Jy89q3GawXcKUhAJICfbN7f+dTaRca2xtZKd96SQeoeWxu4aJO/
+	 oRVa6qNGwkhpV4gK5Fzqkt3zPzqKzqFNFGTejf6zO2tMnDmGTchjiWSFZuMC/KLKFp
+	 6menozUfpMnoQ==
+Date: Thu, 4 Jun 2026 13:33:55 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lance Yang <lance.yang@linux.dev>, npache@redhat.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, akpm@linux-foundation.org, 
+	anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	liam@infradead.org, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com, 
+	usama.arif@linux.dev
+Subject: Re: [PATCH mm-unstable v18 06/14] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+Message-ID: <aiFlNd9vr_NJi3Ah@lucifer>
+References: <2024af56-5e99-4799-a586-e9ba756cecb9@kernel.org>
+ <20260601032804.96122-1-lance.yang@linux.dev>
+ <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/19] perf cs-etm: Queue context packets for frontend
-To: Amir Ayupov <aaupov@meta.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- Ian Rogers <irogers@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
-References: <20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org>
- <20260603-james-cs-context-tracking-fix-v3-1-c392945d9ed5@linaro.org>
- <CAMOD+7+xeh-RNQJUUpGoV6gU3swOcpGX82n2FSNiiewZ2R3vKQ@mail.gmail.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <CAMOD+7+xeh-RNQJUUpGoV6gU3swOcpGX82n2FSNiiewZ2R3vKQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5d38f64-ab92-496d-afd3-29ccc17fec2b@kernel.org>
+
+On Mon, Jun 01, 2026 at 08:54:24AM +0200, David Hildenbrand (Arm) wrote:
+> On 6/1/26 05:28, Lance Yang wrote:
+> >
+> > On Sun, May 31, 2026 at 10:00:17PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 5/31/26 11:39, Lance Yang wrote:
+> >>>
+> >>>
+> >>> Emm ... is it safe to use map_anon_folio_pte_nopf() here?
+> >>>
+> >>> At this point pmdp_collapse_flush() has cleared the PMD from the page
+> >>> tables. The PTE table we are updating is only reachable through the saved
+> >>> old PMD value, _pmd, until pmd_populate() below.
+> >>>
+> >>> map_anon_folio_pte_nopf() does set_ptes() and then calls
+> >>> update_mmu_cache_range(). Documentation/core-api/cachetlb.rst describes
+> >>> that hook as:
+> >>>
+> >>> "
+> >>> 	At the end of every page fault, this routine is invoked to tell
+> >>> 	the architecture specific code that translations now exists
+> >>> 	in the software page tables for address space "vma->vm_mm"
+> >>> 	at virtual address "address" for "nr" consecutive pages.
+> >>> "
+> >>>
+> >>> But that does not seem true here yet, since the PTE table is not
+> >>> reachable from vma->vm_mm when update_mmu_cache_range() is called.
+> >>>
+> >>> Should we avoid calling update_mmu_cache_range() until after the PTE
+> >>> table is reinstalled with pmd_populate()?
+> >>
+> >> I recall that update_mmu_cache* users mostly care about updating folios flags,
+> >> for the folio derived from the PTE ... or flushing caches for the user address.
+> >>
+> >> So intuitively I would say "the architecture code doesn't care that the PMD
+> >> table will only be visible to HW shortly after". The important thing should be
+> >> that it will definetly happen, and that nothing else is curently there or can be
+> >> there?
+> >
+> > Ah, fair point.
+> >
+> > I was mostly worried about arch hooks that walk vma->vm_mm again, rather
+> > than only using the pte pointer passed in. For example, mips does:
+>
+> Right, a re-walk would be the real problem.
+>
+> >
+> >   update_mmu_cache_range()
+> >     -> __update_tlb()
+> >       -> pgd_offset(vma->vm_mm, address)
+> >       -> pte_offset_map(...)
+> >
+> > and __update_tlb() has this assumption:
+> >
+> > 		/*
+> > 		 * update_mmu_cache() is called between pte_offset_map_lock()
+> > 		 * and pte_unmap_unlock(), so we can assume that ptep is not
+> > 		 * NULL here: and what should be done below if it were NULL?
+> > 		 */
+> >
+> > So if khugepaged happens to run with current->active_mm == vma->vm_mm
+> > here, could __update_tlb() hit the none PMD, get NULL from
+
+I really wish people would say Pxx _entry_ :) so confusing.
+
+> > pte_offset_map(), and then dereference it?
+>
+> Likely yes -- that MIPS code is horrible. And the comment in MIPS code
+> even spells that out. :(
+>
+> Do you know about other code like that, or is MIPS the only one doing a
+> re-walk and crossing fingers?
+>
+> >
+> > Just wanted to raise it since some arch code may still have assumptions
+> > like this, and the always-enable-mTHP work is getting closer ...
+>
+> Right. I assume set_pte_at() couldn't trigger something similar (re-walk) in arch code,
+> because we simply provide the ptep. update_mmu_cache_range() only consumes the pte.
+>
+> >
+> > Probably very very very hard to hit, though :)
+>
+> Delaying update_mmu_cache_range() is nasty, as we'd have to make sure that
+> nobody can interfere in the meantime ... and the PMD lock will not be sufficient.
+>
+> Maybe we could reinstall the page table with the cleared (none) entries while
+> still holding the PTL?
+
+You mean the cleared PTE entries that are to be updated with the collapsed
+larger folio?
+
+>
+> Thinking out loud:
+
+After staring at this long enough, this does seems like a viable solution yes.
+
+I hate how subtle this is.
+
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 5ba298d420b7..e39b750b1e6f 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -1413,13 +1413,17 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+>                 map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
+>         } else {
+>                 /*
+> -                * set_ptes is called in map_anon_folio_pte_nopf with the
+> -                * pmd_ptl lock still held; this is safe as the PMD is expected
+> -                * to be none. The pmd entry is then repopulated below.
+> +                * Re-insert the page table with the cleared entries, but
+> +                * hold the PTL, such that no one can mess with the re-installed
+> +                * page table until we updated the temporarily-cleared entries
+> +                * through map_anon_folio_pte_nopf().
+>                  */
+
+You may say nit, but, I think we should be clearly stating the problem here. Yes
+we want to hold the PTL to stop anybody else messing with it yet, but we're
+really doing this because of:
+
+map_anon_folio_pte_nopf
+-> update_mmu_cache_range
+-> rewalk
+-> try to look up an entry that's not yet actually installed
+-> bang
+
+Right?
+
+So maybe something like:
+
+	Re-insert the PMD entry pointing to the PTE page table with cleared
+	entries first, because map_anon_folio_pte_nopf() invokes
+	update_mmu_cache_range() which may cause a rewalk of the page tables and
+	blow up if the supplied PTE entry belongs to a PTE table that is not yet
+	present there.
+
+	We hold the PTE PTL to avoid anything else messing with this until we're
+	ready.
 
 
+> -               map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uffd_wp=*/ false);
+> -               smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
 
-On 03/06/2026 9:14 pm, Amir Ayupov wrote:
-> Hi James,
-> 
-> I tested the v2 patch series and it looks good. Compared to my
-> stamping pid/tid on each packet, there was a minor difference in 2/39
-> tested perf data files: the number of brstack samples differs by one,
-> however, there was no loss of binary profile. The resulting BOLT
-> profile converted from the perf script output was identical, so I'm OK
-> with v2 patch as-is.
-> 
-> -Amir
-> 
+(I guess better to comment on the smp_wmb() stuff in the other message about
+this.)
 
-Thanks for testing. Seems like Leo might have an explanation for the 
-branch stack difference on the other thread. If you want to share the 
-files I can look into it, otherwise I'm ok with ignoring it too.
+> +               if (pte_ptl != pmd_ptl)
+> +                       spin_lock(pte_ptl);
 
-James
+(Obviously should be spin_lock_nested() as David says later)
 
-> 
-> 
-> On Wed, Jun 3, 2026 at 3:17 AM James Clark <james.clark@linaro.org> wrote:
->>
->>>
->> PE_CONTEXT elements update the context ID and exception level, but the
->> decoder may still have prior packets cached for frontend processing.
->> Updating the context immediately in the decoder backend can make those
->> cached packets get consumed with the wrong thread or EL state.
->>
->> Add a CS_ETM_CONTEXT packet carrying the TID and EL to the frontend,
->> this keeps context changes ordered with the rest of the packet stream
->> and avoids mismatches when synthesizing samples from cached packets.
->>
->> Separate the memory access function into one for the frontend and one
->> for decoding. The frontend also needs memory access to attach the
->> instruction to samples. Because the frontend does memory access for
->> both previous and current packets, change all the frontend memory access
->> function signatures to take both a tidq and packet. But backend always
->> uses the current backend EL and thread from the tidq.
->>
->> Treat context packets as a boundary for branch sample generation and
->> remove tidq->prev_packet_thread because it's not possible to branch to a
->> different thread, so only tracking the current thread is required for
->> sample generation.
->>
->> Fixes: e573e978fb12 ("perf cs-etm: Inject capabilitity for CoreSight traces")
->> Reported-by: Amir Ayupov <aaupov@meta.com>
->> Closes: https://lore.kernel.org/linux-perf-users/20260515021135.1729028-1-aaupov@meta.com/
->> Co-authored-by: James Clark <james.clark@linaro.org>
->> Signed-off-by: Leo Yan <leo.yan@arm.com>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   tools/perf/util/cs-etm-decoder/cs-etm-decoder.c |  21 ++-
->>   tools/perf/util/cs-etm.c                        | 234 ++++++++++++++----------
->>   tools/perf/util/cs-etm.h                        |   8 +-
->>   3 files changed, 162 insertions(+), 101 deletions(-)
->>
->> diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
->> index dee3020ceaa9..26940f1f1b0b 100644
->> --- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
->> +++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
->> @@ -402,6 +402,8 @@ cs_etm_decoder__buffer_packet(struct cs_etm_queue *etmq,
->>          packet_queue->packet_buffer[et].flags = 0;
->>          packet_queue->packet_buffer[et].exception_number = UINT32_MAX;
->>          packet_queue->packet_buffer[et].trace_chan_id = trace_chan_id;
->> +       packet_queue->packet_buffer[et].el = ocsd_EL_unknown;
->> +       packet_queue->packet_buffer[et].tid = -1;
->>
->>          if (packet_queue->packet_count == CS_ETM_PACKET_MAX_BUFFER - 1)
->>                  return OCSD_RESP_WAIT;
->> @@ -449,6 +451,7 @@ cs_etm_decoder__buffer_range(struct cs_etm_queue *etmq,
->>          packet->last_instr_type = elem->last_i_type;
->>          packet->last_instr_subtype = elem->last_i_subtype;
->>          packet->last_instr_cond = elem->last_instr_cond;
->> +       packet->el = elem->context.exception_level;
->>
->>          if (elem->last_i_type == OCSD_INSTR_BR || elem->last_i_type == OCSD_INSTR_BR_INDIRECT)
->>                  packet->last_instr_taken_branch = elem->last_instr_exec;
->> @@ -525,7 +528,9 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
->>                          const ocsd_generic_trace_elem *elem,
->>                          const uint8_t trace_chan_id)
->>   {
->> +       struct cs_etm_packet *packet;
->>          pid_t tid = -1;
->> +       int ret;
->>
->>          /*
->>           * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
->> @@ -546,12 +551,18 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
->>                  break;
->>          }
->>
->> -       if (cs_etm__etmq_set_tid_el(etmq, tid, trace_chan_id,
->> -                                   elem->context.exception_level))
->> +       if (cs_etm__etmq_update_decode_context(etmq, trace_chan_id,
->> +                               elem->context.exception_level, tid))
->>                  return OCSD_RESP_FATAL_SYS_ERR;
->>
->> -       if (tid == -1)
->> -               return OCSD_RESP_CONT;
->> +       ret = cs_etm_decoder__buffer_packet(etmq, packet_queue, trace_chan_id,
->> +                                           CS_ETM_CONTEXT);
->> +       if (ret != OCSD_RESP_CONT && ret != OCSD_RESP_WAIT)
->> +               return ret;
->> +
->> +       packet = &packet_queue->packet_buffer[packet_queue->tail];
->> +       packet->tid = tid;
->> +       packet->el = elem->context.exception_level;
->>
->>          /*
->>           * A timestamp is generated after a PE_CONTEXT element so make sure
->> @@ -559,7 +570,7 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
->>           */
->>          cs_etm_decoder__reset_timestamp(packet_queue);
->>
->> -       return OCSD_RESP_CONT;
->> +       return ret;
->>   }
->>
->>   static ocsd_datapath_resp_t cs_etm_decoder__gen_trace_elem_printer(
->> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->> index 40c6ddfa8c8d..ce570913669c 100644
->> --- a/tools/perf/util/cs-etm.c
->> +++ b/tools/perf/util/cs-etm.c
->> @@ -85,15 +85,22 @@ struct cs_etm_traceid_queue {
->>          u64 period_instructions;
->>          size_t last_branch_pos;
->>          union perf_event *event_buf;
->> -       struct thread *thread;
->> -       struct thread *prev_packet_thread;
->> -       ocsd_ex_level prev_packet_el;
->> -       ocsd_ex_level el;
->>          struct branch_stack *last_branch;
->>          struct branch_stack *last_branch_rb;
->>          struct cs_etm_packet *prev_packet;
->>          struct cs_etm_packet *packet;
->>          struct cs_etm_packet_queue packet_queue;
->> +
->> +       struct thread *decode_thread;
->> +       ocsd_ex_level decode_el;
->> +
->> +       /*
->> +        * The frontend accesses the EL from '[prev_]packet' because it needs
->> +        * previous EL for branch and current EL for instruction samples. It's
->> +        * not possible to change thread in a single branch sample so no need to
->> +        * store or access the thread through the packet.
->> +        */
->> +       struct thread *frontend_thread;
->>   };
->>
->>   enum cs_etm_format {
->> @@ -614,10 +621,11 @@ static int cs_etm__init_traceid_queue(struct cs_etm_queue *etmq,
->>
->>          queue = &etmq->etm->queues.queue_array[etmq->queue_nr];
->>          tidq->trace_chan_id = trace_chan_id;
->> -       tidq->el = tidq->prev_packet_el = ocsd_EL_unknown;
->> -       tidq->thread = machine__findnew_thread(&etm->session->machines.host, -1,
->> +       tidq->decode_el = ocsd_EL_unknown;
->> +       tidq->frontend_thread = machine__findnew_thread(&etm->session->machines.host, -1,
->> +                                              queue->tid);
->> +       tidq->decode_thread = machine__findnew_thread(&etm->session->machines.host, -1,
->>                                                 queue->tid);
->> -       tidq->prev_packet_thread = machine__idle_thread(&etm->session->machines.host);
->>
->>          tidq->packet = zalloc(sizeof(struct cs_etm_packet));
->>          if (!tidq->packet)
->> @@ -750,21 +758,10 @@ static void cs_etm__packet_swap(struct cs_etm_auxtrace *etm,
->>                  /*
->>                   * Swap PACKET with PREV_PACKET: PACKET becomes PREV_PACKET for
->>                   * the next incoming packet.
->> -                *
->> -                * Threads and exception levels are also tracked for both the
->> -                * previous and current packets. This is because the previous
->> -                * packet is used for the 'from' IP for branch samples, so the
->> -                * thread at that time must also be assigned to that sample.
->> -                * Across discontinuity packets the thread can change, so by
->> -                * tracking the thread for the previous packet the branch sample
->> -                * will have the correct info.
->>                   */
->>                  tmp = tidq->packet;
->>                  tidq->packet = tidq->prev_packet;
->>                  tidq->prev_packet = tmp;
->> -               tidq->prev_packet_el = tidq->el;
->> -               thread__put(tidq->prev_packet_thread);
->> -               tidq->prev_packet_thread = thread__get(tidq->thread);
->>          }
->>   }
->>
->> @@ -937,8 +934,8 @@ static void cs_etm__free_traceid_queues(struct cs_etm_queue *etmq)
->>
->>                  /* Free this traceid_queue from the array */
->>                  tidq = etmq->traceid_queues[idx];
->> -               thread__zput(tidq->thread);
->> -               thread__zput(tidq->prev_packet_thread);
->> +               thread__zput(tidq->frontend_thread);
->> +               thread__zput(tidq->decode_thread);
->>                  zfree(&tidq->event_buf);
->>                  zfree(&tidq->last_branch);
->>                  zfree(&tidq->last_branch_rb);
->> @@ -1083,47 +1080,43 @@ static u8 cs_etm__cpu_mode(struct cs_etm_queue *etmq, u64 address,
->>          }
->>   }
->>
->> -static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
->> -                             u64 address, size_t size, u8 *buffer,
->> -                             const ocsd_mem_space_acc_t mem_space)
->> +static u32 __cs_etm__mem_access(struct cs_etm_queue *etmq,
->> +                               u64 address, size_t size, u8 *buffer,
->> +                               const ocsd_mem_space_acc_t mem_space,
->> +                               ocsd_ex_level el, struct thread *thread)
->>   {
->>          u8  cpumode;
->>          u64 offset;
->>          int len;
->>          struct addr_location al;
->>          struct dso *dso;
->> -       struct cs_etm_traceid_queue *tidq;
->>          int ret = 0;
->>
->>          if (!etmq)
->>                  return 0;
->>
->>          addr_location__init(&al);
->> -       tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
->> -       if (!tidq)
->> -               goto out;
->>
->>          /*
->> -        * We've already tracked EL along side the PID in cs_etm__set_thread()
->> -        * so double check that it matches what OpenCSD thinks as well. It
->> -        * doesn't distinguish between EL0 and EL1 for this mem access callback
->> -        * so we had to do the extra tracking. Skip validation if it's any of
->> -        * the 'any' values.
->> +        * We track EL for the frontend and the backend when receiving context
->> +        * and range packets. OpenCSD doesn't distinguish between EL0 and EL1
->> +        * for this mem access callback so we had to do the extra tracking. Skip
->> +        * validation if it's any of the 'any' values.
->>           */
->>          if (!(mem_space == OCSD_MEM_SPACE_ANY ||
->>                mem_space == OCSD_MEM_SPACE_N || mem_space == OCSD_MEM_SPACE_S)) {
->>                  if (mem_space & OCSD_MEM_SPACE_EL1N) {
->>                          /* Includes both non secure EL1 and EL0 */
->> -                       assert(tidq->el == ocsd_EL1 || tidq->el == ocsd_EL0);
->> +                       assert(el == ocsd_EL1 || el == ocsd_EL0);
->>                  } else if (mem_space & OCSD_MEM_SPACE_EL2)
->> -                       assert(tidq->el == ocsd_EL2);
->> +                       assert(el == ocsd_EL2);
->>                  else if (mem_space & OCSD_MEM_SPACE_EL3)
->> -                       assert(tidq->el == ocsd_EL3);
->> +                       assert(el == ocsd_EL3);
->>          }
->>
->> -       cpumode = cs_etm__cpu_mode(etmq, address, tidq->el);
->> +       cpumode = cs_etm__cpu_mode(etmq, address, el);
->>
->> -       if (!thread__find_map(tidq->thread, cpumode, address, &al))
->> +       if (!thread__find_map(thread, cpumode, address, &al))
->>                  goto out;
->>
->>          dso = map__dso(al.map);
->> @@ -1138,7 +1131,7 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>
->>          map__load(al.map);
->>
->> -       len = dso__data_read_offset(dso, maps__machine(thread__maps(tidq->thread)),
->> +       len = dso__data_read_offset(dso, maps__machine(thread__maps(thread)),
->>                                      offset, buffer, size);
->>
->>          if (len <= 0) {
->> @@ -1158,6 +1151,30 @@ static u32 cs_etm__mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>          return ret;
->>   }
->>
->> +static u32 cs_etm__frontend_mem_access(struct cs_etm_queue *etmq,
->> +                                      struct cs_etm_traceid_queue *tidq,
->> +                                      struct cs_etm_packet *packet,
->> +                                      u64 address, size_t size, u8 *buffer)
->> +{
->> +       return __cs_etm__mem_access(etmq, address, size, buffer, 0, packet->el,
->> +                                   tidq->frontend_thread);
->> +}
->> +
->> +static u32 cs_etm__decoder_mem_access(struct cs_etm_queue *etmq, u8 trace_chan_id,
->> +                                     u64 address, size_t size, u8 *buffer,
->> +                                     const ocsd_mem_space_acc_t mem_space)
->> +{
->> +       struct cs_etm_traceid_queue *tidq;
->> +
->> +       tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
->> +       if (!tidq)
->> +               return 0;
->> +
->> +       return __cs_etm__mem_access(etmq, address, size, buffer,
->> +                                   mem_space, tidq->decode_el,
->> +                                   tidq->decode_thread);
->> +}
->> +
->>   static struct cs_etm_queue *cs_etm__alloc_queue(void)
->>   {
->>          struct cs_etm_queue *etmq = zalloc(sizeof(*etmq));
->> @@ -1333,12 +1350,13 @@ void cs_etm__reset_last_branch_rb(struct cs_etm_traceid_queue *tidq)
->>   }
->>
->>   static inline int cs_etm__t32_instr_size(struct cs_etm_queue *etmq,
->> -                                        u8 trace_chan_id, u64 addr)
->> +                                        struct cs_etm_traceid_queue *tidq,
->> +                                        struct cs_etm_packet *packet, u64 addr)
->>   {
->>          u8 instrBytes[2];
->>
->> -       cs_etm__mem_access(etmq, trace_chan_id, addr, ARRAY_SIZE(instrBytes),
->> -                          instrBytes, 0);
->> +       cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
->> +                                   ARRAY_SIZE(instrBytes), instrBytes);
->>          /*
->>           * T32 instruction size is indicated by bits[15:11] of the first
->>           * 16-bit word of the instruction: 0b11101, 0b11110 and 0b11111
->> @@ -1371,16 +1389,16 @@ u64 cs_etm__last_executed_instr(const struct cs_etm_packet *packet)
->>   }
->>
->>   static inline u64 cs_etm__instr_addr(struct cs_etm_queue *etmq,
->> -                                    u64 trace_chan_id,
->> -                                    const struct cs_etm_packet *packet,
->> +                                    struct cs_etm_traceid_queue *tidq,
->> +                                    struct cs_etm_packet *packet,
->>                                       u64 offset)
->>   {
->>          if (packet->isa == CS_ETM_ISA_T32) {
->>                  u64 addr = packet->start_addr;
->>
->>                  while (offset) {
->> -                       addr += cs_etm__t32_instr_size(etmq,
->> -                                                      trace_chan_id, addr);
->> +                       addr += cs_etm__t32_instr_size(etmq, tidq, packet,
->> +                                                      addr);
->>                          offset--;
->>                  }
->>                  return addr;
->> @@ -1490,34 +1508,51 @@ cs_etm__get_trace(struct cs_etm_queue *etmq)
->>          return etmq->buf_len;
->>   }
->>
->> -static void cs_etm__set_thread(struct cs_etm_queue *etmq,
->> -                              struct cs_etm_traceid_queue *tidq, pid_t tid,
->> -                              ocsd_ex_level el)
->> +/*
->> + * Convert a raw thread number to a thread struct and assign it to **thread.
->> + */
->> +static int cs_etm__etmq_update_thread(struct cs_etm_queue *etmq,
->> +                                     ocsd_ex_level el, pid_t tid,
->> +                                     struct thread **thread)
->>   {
->>          struct machine *machine = cs_etm__get_machine(etmq, el);
->>
->> +       if (!machine || !*thread)
->> +               return -EINVAL;
->> +
->>          if (tid != -1) {
->> -               thread__zput(tidq->thread);
->> -               tidq->thread = machine__find_thread(machine, -1, tid);
->> +               thread__zput(*thread);
->> +               *thread = machine__find_thread(machine, -1, tid);
->>          }
->>
->>          /* Couldn't find a known thread */
->> -       if (!tidq->thread)
->> -               tidq->thread = machine__idle_thread(machine);
->> +       if (!*thread)
->> +               *thread = machine__idle_thread(machine);
->>
->> -       tidq->el = el;
->> +       return 0;
->>   }
->>
->> -int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
->> -                           u8 trace_chan_id, ocsd_ex_level el)
->> +/*
->> + * Set the thread and EL of the decode context which is ahead in time of the
->> + * frontend context.
->> + */
->> +int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
->> +                                      u8 trace_chan_id,
->> +                                      ocsd_ex_level el, pid_t tid)
->>   {
->>          struct cs_etm_traceid_queue *tidq;
->> +       int ret;
->>
->>          tidq = cs_etm__etmq_get_traceid_queue(etmq, trace_chan_id);
->>          if (!tidq)
->>                  return -EINVAL;
->>
->> -       cs_etm__set_thread(etmq, tidq, tid, el);
->> +       ret = cs_etm__etmq_update_thread(etmq, el, tid,
->> +                                        &tidq->decode_thread);
->> +       if (ret)
->> +               return ret;
->> +
->> +       tidq->decode_el = el;
->>          return 0;
->>   }
->>
->> @@ -1527,8 +1562,8 @@ bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq)
->>   }
->>
->>   static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
->> -                             u64 trace_chan_id,
->> -                             const struct cs_etm_packet *packet,
->> +                             struct cs_etm_traceid_queue *tidq,
->> +                             struct cs_etm_packet *packet,
->>                                struct perf_sample *sample)
->>   {
->>          /*
->> @@ -1545,14 +1580,14 @@ static void cs_etm__copy_insn(struct cs_etm_queue *etmq,
->>           * cs_etm__t32_instr_size().
->>           */
->>          if (packet->isa == CS_ETM_ISA_T32)
->> -               sample->insn_len = cs_etm__t32_instr_size(etmq, trace_chan_id,
->> +               sample->insn_len = cs_etm__t32_instr_size(etmq, tidq, packet,
->>                                                            sample->ip);
->>          /* Otherwise, A64 and A32 instruction size are always 32-bit. */
->>          else
->>                  sample->insn_len = 4;
->>
->> -       cs_etm__mem_access(etmq, trace_chan_id, sample->ip, sample->insn_len,
->> -                          (void *)sample->insn, 0);
->> +       cs_etm__frontend_mem_access(etmq, tidq, packet, sample->ip,
->> +                                   sample->insn_len, (void *)sample->insn);
->>   }
->>
->>   u64 cs_etm__convert_sample_time(struct cs_etm_queue *etmq, u64 cs_timestamp)
->> @@ -1579,6 +1614,7 @@ static inline u64 cs_etm__resolve_sample_time(struct cs_etm_queue *etmq,
->>
->>   static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
->>                                              struct cs_etm_traceid_queue *tidq,
->> +                                           struct cs_etm_packet *packet,
->>                                              u64 addr, u64 period)
->>   {
->>          int ret = 0;
->> @@ -1588,15 +1624,15 @@ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
->>
->>          perf_sample__init(&sample, /*all=*/true);
->>          event->sample.header.type = PERF_RECORD_SAMPLE;
->> -       event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, tidq->el);
->> +       event->sample.header.misc = cs_etm__cpu_mode(etmq, addr, packet->el);
->>          event->sample.header.size = sizeof(struct perf_event_header);
->>
->>          /* Set time field based on etm auxtrace config. */
->>          sample.time = cs_etm__resolve_sample_time(etmq, tidq);
->>
->>          sample.ip = addr;
->> -       sample.pid = thread__pid(tidq->thread);
->> -       sample.tid = thread__tid(tidq->thread);
->> +       sample.pid = thread__pid(tidq->frontend_thread);
->> +       sample.tid = thread__tid(tidq->frontend_thread);
->>          sample.id = etmq->etm->instructions_id;
->>          sample.stream_id = etmq->etm->instructions_id;
->>          sample.period = period;
->> @@ -1604,7 +1640,7 @@ static int cs_etm__synth_instruction_sample(struct cs_etm_queue *etmq,
->>          sample.flags = tidq->prev_packet->flags;
->>          sample.cpumode = event->sample.header.misc;
->>
->> -       cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->packet, &sample);
->> +       cs_etm__copy_insn(etmq, tidq, tidq->packet, &sample);
->>
->>          if (etm->synth_opts.last_branch)
->>                  sample.branch_stack = tidq->last_branch;
->> @@ -1649,15 +1685,15 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
->>
->>          event->sample.header.type = PERF_RECORD_SAMPLE;
->>          event->sample.header.misc = cs_etm__cpu_mode(etmq, ip,
->> -                                                    tidq->prev_packet_el);
->> +                                                    tidq->prev_packet->el);
->>          event->sample.header.size = sizeof(struct perf_event_header);
->>
->>          /* Set time field based on etm auxtrace config. */
->>          sample.time = cs_etm__resolve_sample_time(etmq, tidq);
->>
->>          sample.ip = ip;
->> -       sample.pid = thread__pid(tidq->prev_packet_thread);
->> -       sample.tid = thread__tid(tidq->prev_packet_thread);
->> +       sample.pid = thread__pid(tidq->frontend_thread);
->> +       sample.tid = thread__tid(tidq->frontend_thread);
->>          sample.addr = cs_etm__first_executed_instr(tidq->packet);
->>          sample.id = etmq->etm->branches_id;
->>          sample.stream_id = etmq->etm->branches_id;
->> @@ -1666,8 +1702,7 @@ static int cs_etm__synth_branch_sample(struct cs_etm_queue *etmq,
->>          sample.flags = tidq->prev_packet->flags;
->>          sample.cpumode = event->sample.header.misc;
->>
->> -       cs_etm__copy_insn(etmq, tidq->trace_chan_id, tidq->prev_packet,
->> -                         &sample);
->> +       cs_etm__copy_insn(etmq, tidq, tidq->prev_packet, &sample);
->>
->>          /*
->>           * perf report cannot handle events without a branch stack
->> @@ -1788,7 +1823,6 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
->>   {
->>          struct cs_etm_auxtrace *etm = etmq->etm;
->>          int ret;
->> -       u8 trace_chan_id = tidq->trace_chan_id;
->>          u64 instrs_prev;
->>
->>          /* Get instructions remainder from previous packet */
->> @@ -1874,10 +1908,10 @@ static int cs_etm__sample(struct cs_etm_queue *etmq,
->>                           * been executed, but PC has not advanced to next
->>                           * instruction)
->>                           */
->> -                       addr = cs_etm__instr_addr(etmq, trace_chan_id,
->> -                                                 tidq->packet, offset - 1);
->> +                       addr = cs_etm__instr_addr(etmq, tidq, tidq->packet,
->> +                                                 offset - 1);
->>                          ret = cs_etm__synth_instruction_sample(
->> -                               etmq, tidq, addr,
->> +                               etmq, tidq, tidq->packet, addr,
->>                                  etm->instructions_sample_period);
->>                          if (ret)
->>                                  return ret;
->> @@ -1959,7 +1993,7 @@ static int cs_etm__flush(struct cs_etm_queue *etmq,
->>                  addr = cs_etm__last_executed_instr(tidq->prev_packet);
->>
->>                  err = cs_etm__synth_instruction_sample(
->> -                       etmq, tidq, addr,
->> +                       etmq, tidq, tidq->prev_packet, addr,
->>                          tidq->period_instructions);
->>                  if (err)
->>                          return err;
->> @@ -2014,7 +2048,7 @@ static int cs_etm__end_block(struct cs_etm_queue *etmq,
->>                  addr = cs_etm__last_executed_instr(tidq->prev_packet);
->>
->>                  err = cs_etm__synth_instruction_sample(
->> -                       etmq, tidq, addr,
->> +                       etmq, tidq, tidq->prev_packet, addr,
->>                          tidq->period_instructions);
->>                  if (err)
->>                          return err;
->> @@ -2051,9 +2085,9 @@ static int cs_etm__get_data_block(struct cs_etm_queue *etmq)
->>          return etmq->buf_len;
->>   }
->>
->> -static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
->> -                                struct cs_etm_packet *packet,
->> -                                u64 end_addr)
->> +static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq,
->> +                                struct cs_etm_traceid_queue *tidq,
->> +                                struct cs_etm_packet *packet, u64 end_addr)
->>   {
->>          /* Initialise to keep compiler happy */
->>          u16 instr16 = 0;
->> @@ -2075,8 +2109,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>                   * so below only read 2 bytes as instruction size for T32.
->>                   */
->>                  addr = end_addr - 2;
->> -               cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr16),
->> -                                  (u8 *)&instr16, 0);
->> +               cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
->> +                                           sizeof(instr16), (u8 *)&instr16);
->>                  if ((instr16 & 0xFF00) == 0xDF00)
->>                          return true;
->>
->> @@ -2091,8 +2125,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>                   * +---------+---------+-------------------------+
->>                   */
->>                  addr = end_addr - 4;
->> -               cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
->> -                                  (u8 *)&instr32, 0);
->> +               cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
->> +                                           sizeof(instr32), (u8 *)&instr32);
->>                  if ((instr32 & 0x0F000000) == 0x0F000000 &&
->>                      (instr32 & 0xF0000000) != 0xF0000000)
->>                          return true;
->> @@ -2108,8 +2142,8 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>                   * +-----------------------+---------+-----------+
->>                   */
->>                  addr = end_addr - 4;
->> -               cs_etm__mem_access(etmq, trace_chan_id, addr, sizeof(instr32),
->> -                                  (u8 *)&instr32, 0);
->> +               cs_etm__frontend_mem_access(etmq, tidq, packet, addr,
->> +                                           sizeof(instr32), (u8 *)&instr32);
->>                  if ((instr32 & 0xFFE0001F) == 0xd4000001)
->>                          return true;
->>
->> @@ -2125,7 +2159,6 @@ static bool cs_etm__is_svc_instr(struct cs_etm_queue *etmq, u8 trace_chan_id,
->>   static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
->>                                 struct cs_etm_traceid_queue *tidq, u64 magic)
->>   {
->> -       u8 trace_chan_id = tidq->trace_chan_id;
->>          struct cs_etm_packet *packet = tidq->packet;
->>          struct cs_etm_packet *prev_packet = tidq->prev_packet;
->>
->> @@ -2140,7 +2173,7 @@ static bool cs_etm__is_syscall(struct cs_etm_queue *etmq,
->>           */
->>          if (magic == __perf_cs_etmv4_magic) {
->>                  if (packet->exception_number == CS_ETMV4_EXC_CALL &&
->> -                   cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
->> +                   cs_etm__is_svc_instr(etmq, tidq, prev_packet,
->>                                           prev_packet->end_addr))
->>                          return true;
->>          }
->> @@ -2178,7 +2211,6 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
->>                                        struct cs_etm_traceid_queue *tidq,
->>                                        u64 magic)
->>   {
->> -       u8 trace_chan_id = tidq->trace_chan_id;
->>          struct cs_etm_packet *packet = tidq->packet;
->>          struct cs_etm_packet *prev_packet = tidq->prev_packet;
->>
->> @@ -2204,7 +2236,7 @@ static bool cs_etm__is_sync_exception(struct cs_etm_queue *etmq,
->>                   * (SMC, HVC) are taken as sync exceptions.
->>                   */
->>                  if (packet->exception_number == CS_ETMV4_EXC_CALL &&
->> -                   !cs_etm__is_svc_instr(etmq, trace_chan_id, prev_packet,
->> +                   !cs_etm__is_svc_instr(etmq, tidq, prev_packet,
->>                                            prev_packet->end_addr))
->>                          return true;
->>
->> @@ -2228,7 +2260,6 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
->>   {
->>          struct cs_etm_packet *packet = tidq->packet;
->>          struct cs_etm_packet *prev_packet = tidq->prev_packet;
->> -       u8 trace_chan_id = tidq->trace_chan_id;
->>          u64 magic;
->>          int ret;
->>
->> @@ -2309,11 +2340,11 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
->>                  if (prev_packet->flags == (PERF_IP_FLAG_BRANCH |
->>                                             PERF_IP_FLAG_RETURN |
->>                                             PERF_IP_FLAG_INTERRUPT) &&
->> -                   cs_etm__is_svc_instr(etmq, trace_chan_id,
->> -                                        packet, packet->start_addr))
->> +                   cs_etm__is_svc_instr(etmq, tidq, packet, packet->start_addr)) {
->>                          prev_packet->flags = PERF_IP_FLAG_BRANCH |
->>                                               PERF_IP_FLAG_RETURN |
->>                                               PERF_IP_FLAG_SYSCALLRET;
->> +               }
->>                  break;
->>          case CS_ETM_DISCONTINUITY:
->>                  /*
->> @@ -2394,6 +2425,7 @@ static int cs_etm__set_sample_flags(struct cs_etm_queue *etmq,
->>                                               PERF_IP_FLAG_RETURN |
->>                                               PERF_IP_FLAG_INTERRUPT;
->>                  break;
->> +       case CS_ETM_CONTEXT:
->>          case CS_ETM_EMPTY:
->>          default:
->>                  break;
->> @@ -2469,6 +2501,19 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
->>                           */
->>                          cs_etm__sample(etmq, tidq);
->>                          break;
->> +               case CS_ETM_CONTEXT:
->> +                       /*
->> +                        * Update context but don't swap packet. Keep the
->> +                        * previous one for branch source address info, if
->> +                        * tracing the kernel the context packet will be emitted
->> +                        * between two ranges.
->> +                        */
->> +                       ret = cs_etm__etmq_update_thread(etmq, tidq->packet->el,
->> +                                                        tidq->packet->tid,
->> +                                                        &tidq->frontend_thread);
->> +                       if (ret)
->> +                               goto out;
->> +                       break;
->>                  case CS_ETM_EXCEPTION:
->>                  case CS_ETM_EXCEPTION_RET:
->>                          /*
->> @@ -2497,6 +2542,7 @@ static int cs_etm__process_traceid_queue(struct cs_etm_queue *etmq,
->>                  }
->>          }
->>
->> +out:
->>          return ret;
->>   }
->>
->> @@ -2620,7 +2666,7 @@ static int cs_etm__process_timeless_queues(struct cs_etm_auxtrace *etm,
->>                          if (!tidq)
->>                                  continue;
->>
->> -                       if (tid == -1 || thread__tid(tidq->thread) == tid)
->> +                       if (tid == -1 || thread__tid(tidq->frontend_thread) == tid)
->>                                  cs_etm__run_per_thread_timeless_decoder(etmq);
->>                  } else
->>                          cs_etm__run_per_cpu_timeless_decoder(etmq);
->> @@ -3328,7 +3374,7 @@ static int cs_etm__create_queue_decoders(struct cs_etm_queue *etmq)
->>           */
->>          if (cs_etm_decoder__add_mem_access_cb(etmq->decoder,
->>                                                0x0L, ((u64) -1L),
->> -                                             cs_etm__mem_access))
->> +                                             cs_etm__decoder_mem_access))
->>                  goto out_free_decoder;
->>
->>          zfree(&t_params);
->> diff --git a/tools/perf/util/cs-etm.h b/tools/perf/util/cs-etm.h
->> index aa9bb4a32eca..b81099c2b301 100644
->> --- a/tools/perf/util/cs-etm.h
->> +++ b/tools/perf/util/cs-etm.h
->> @@ -158,6 +158,7 @@ enum cs_etm_sample_type {
->>          CS_ETM_DISCONTINUITY,
->>          CS_ETM_EXCEPTION,
->>          CS_ETM_EXCEPTION_RET,
->> +       CS_ETM_CONTEXT,
->>   };
->>
->>   enum cs_etm_isa {
->> @@ -184,6 +185,8 @@ struct cs_etm_packet {
->>          u8 last_instr_size;
->>          u8 trace_chan_id;
->>          int cpu;
->> +       int el;
->> +       pid_t tid;
->>   };
->>
->>   #define CS_ETM_PACKET_MAX_BUFFER 1024
->> @@ -259,8 +262,9 @@ enum cs_etm_pid_fmt {
->>   #include <opencsd/ocsd_if_types.h>
->>   int cs_etm__get_cpu(struct cs_etm_queue *etmq, u8 trace_chan_id, int *cpu);
->>   enum cs_etm_pid_fmt cs_etm__get_pid_fmt(struct cs_etm_queue *etmq);
->> -int cs_etm__etmq_set_tid_el(struct cs_etm_queue *etmq, pid_t tid,
->> -                           u8 trace_chan_id, ocsd_ex_level el);
->> +int cs_etm__etmq_update_decode_context(struct cs_etm_queue *etmq,
->> +                                      u8 trace_chan_id, ocsd_ex_level el,
->> +                                      pid_t tid);
->>   bool cs_etm__etmq_is_timeless(struct cs_etm_queue *etmq);
->>   void cs_etm__etmq_set_traceid_queue_timestamp(struct cs_etm_queue *etmq,
->>                                                u8 trace_chan_id);
->>
->> --
->> 2.34.1
->>
+It seems a bit weird to me that we acquire the PTE lock:
 
+	pte = pte_offset_map_lock(mm, &_pmd, start_addr, &pte_ptl);
+
+Clear out the mTHP entries we're going to remove:
+
+	if (pte) {
+		result = __collapse_huge_page_isolate(vma, start_addr, pte, cc,
+						      order, &compound_pagelist);
+
+THen unlock the PTE:
+
+		spin_unlock(pte_ptl);
+
+Before again reacquiring here, especially given this is an unreachable PTE
+table.
+
+But then again not doing that would require us to add some error handling logic
+to unlock again so it's probably not vital.
+
+>                 pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+
+So we're protecting against concurrent rmap and fault handlers with the PTL such
+that installing this is safe right?
+
+Are we good against GUP fast? I guess a race will be fine with that, or will it?
+I suppose before it would have skipped the range entirely because of the missing
+PMD entry anyway.
+
+(in any case we also hold anon_vma write lock too.)
+
+> +               map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uffd_wp=*/ false);
+> +               if (pte_ptl != pmd_ptl)
+> +                       spin_unlock(pte_ptl);
+>         }
+>         spin_unlock(pmd_ptl);
+>
+>
+>
+> --
+> Cheers,
+>
+> David
+
+Thanks, Lorenzo
