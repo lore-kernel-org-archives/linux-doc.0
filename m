@@ -1,88 +1,330 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F29B30D418
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 23:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780616288; cv=none; b=g1C06xrIfEMZa0Lgqra5HMFsalLZKLteXKV6XM1shcxuUwM+y1fo94H3SzPEuXZxD9EuRvJwp0rle570Xte7UEMD1PU6+O3Z4c73w4H1sb+0FnpxcEgA7EwrFTyDJ7An/PoSTeAOqsQEI2O3km8ZPvZslrypgVA3JrZ2THUKi4Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780616288; c=relaxed/simple;
-	bh=YEDWp2cE51a1TKKLwnX+bFGA+Ng6BY6pwhzXPdo9JSk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EtS9tR5cjQkiH7ByBkt6WrYMJpiDdqAi82axLWzu24MBVCvDZ8Jyt66kucIx2PoPED6lbvNKWfGiqAWe4lXti5tn6xhzptPxyAx7R1TB9Qsu/TTzkgcboFfFbpRn/sXN+ivGq9Lc7dozOJz39kSWK8gHoen741jAGnWmyNfp2Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TnXtf9Xj; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B781D37C925
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 23:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780617204; cv=pass; b=Gt+VK7yMT+gkdCnX0VwoV1uDA327oeSDJ+ugWLLf2LUEpUofH7jTvBI6TuAZU31gc/uEBCR3yg1eUlB8H26E8rZaSXhZToZcha+8Vc55kTgxpqQb9S9tU5XBApuzirjAoII4KqI7J0b5J2rdKVHkGRUU9+oQepQfpiLZQOLZCFs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780617204; c=relaxed/simple;
+	bh=2Q77Ton4JA3XTBwdLcdvqJ6O/ExRWuIoZAbP8SFmvnk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D/jjnRkATu5g/LBGytYQovZE5O/lqEBmN4D7/SQlxxz9IsUayk9W4PomOtITdxfdhfsOlOMjosoPqtSTOQiq4EYzMIYlawWogkOmOTTdOqJj96g1qWXnHppMNHX4pEVU8K06NxvDq0rsFWMJ6lP70ihc7NJ7jIzJuiKyuLE5Hu0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EXHWmCeO; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TnXtf9Xj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780616287; x=1812152287;
-  h=date:from:to:cc:subject:message-id;
-  bh=YEDWp2cE51a1TKKLwnX+bFGA+Ng6BY6pwhzXPdo9JSk=;
-  b=TnXtf9XjoCBvsfAAgqNUbzvvupohbXSafjVJEhC3bmS3wZ6TMKJfnnW/
-   ka+NbVgn5oOG7EA12u0UmTAOEEE0OTKoMBHFwKRZbXsIWLdyrtA7hT9ai
-   srT5R3d5xOGJT0BjrqVE49ozlchIMOi5ig+yH+6gDph+O07Bc802+EbIH
-   QNjQnEtwYTWi5fZTwK7U4O/jvBw8yqSbNBiUd2R3KP6BeY340YFljREA+
-   28YEG8FjdGEneW3m5WV9IwGzxslQsS7bSrWXu1WUdXveWNGhxxuCIxaa8
-   SVZpdA85KDmW13ZjO/56h5vOEqMlXEy9hiFEWRBd3tOxtwIYl8m+V+Wiy
-   g==;
-X-CSE-ConnectionGUID: taBXafuZQjOE4DMIxvk8Kw==
-X-CSE-MsgGUID: ttf5CrDESUW18iawbxmkOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="84030414"
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="84030414"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 16:38:07 -0700
-X-CSE-ConnectionGUID: uSt9I3aWSxWZP7tXfMOp6Q==
-X-CSE-MsgGUID: McEu248XR6qZYKs/f3/uEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="268614629"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2026 16:38:05 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wVHdT-000000002Pz-0aUA;
-	Thu, 04 Jun 2026 23:38:03 +0000
-Date: Fri, 05 Jun 2026 01:37:53 +0200
-From: kernel test robot <lkp@intel.com>
-To: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/admin-guide/mm/damon/hugepage.rst:
- WARNING: document isn't included in any toctree [toc.not_included]
-Message-ID: <202606050129.sxUrDe40-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EXHWmCeO"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf2d865383so30405ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 16:53:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780617202; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FgzqLSDChPYJa55ey97wpsLwYoqPgZ3MDb7mRQWfhx8i45j5h2Ios41cMlIUHTSsc7
+         GZcq+rZ2axy+arVaLVJlGhpLZuJZqIR9rLdvlh5+6wB7orHmpOQT/7YDIbvi/PXMmxDg
+         mMtIt5/h89eSdEIyDc7Eijb4ry162YufWrBbP0ehmLU6qUPs11w7XCSmyX3xyDlo/FD2
+         xwcBO+2eMZ7sN3pyBfYfuis7XOgka7fc/170M0CECW8e11d/xEu/On3TknQHqEHAJamh
+         Nm93jabF0L/BYhxGMu9RyyN7o/0FQY7i0H+/7hxwrHxMZ0B777YS6BjSyiQghGP/qneJ
+         k1iA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1sayKnAkcvjh5O6e9c0QpImq/vePww6nkOl9CjIY9+Y=;
+        fh=97LKzbGGfvm3K5BBdove/jvpnSx4gIqSRhMY6bWJgUI=;
+        b=ElEHSIoqCaO27S85mcd5PCuHdWXfGmD7Vhnc5YXfYLtVMvIlBsYsni2iNxZ7YSlliR
+         khjbECyNpnwCYhyKDOjXEl+m8c8ReG7siZoLq4M1u/daZVKe/gV5w9B6j+9fAcOugNtK
+         dIFlwT2QFZ5Coqvw/qxhiSi0tHw1QdhdkI1iEwH2Rni8RDnrt0QzCxQATMx5esPMJuNz
+         dC5f05Jup0b2JtcF9RgXj4ziLRr97skSLtrpkYt5i46aRsEdd20WtltwmIJUWYrYSX6p
+         ILPFWxJ4mRawHQIoLv0cBVjQsS2f+JXhXTb0NZHl9dUQXw1AXRe2u57Fl9MCvc/zclPJ
+         XQSw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780617202; x=1781222002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1sayKnAkcvjh5O6e9c0QpImq/vePww6nkOl9CjIY9+Y=;
+        b=EXHWmCeOBMnaPi/3DunH1wHXfo2H+PsG1djsjOprkKNGgjE6dd4reVeD5M+zP/Fu92
+         nUOitM2wjkgvWjS929MByi1IYWmi9SE5GvP47L5hJ3Xvck86KIq2NlNEFNlVXZkovHeR
+         kixGuUUSkK+Xucru0wNgfFTwHhU0bQEUW7HAGhKrvJi3O9py2pUzhsuP5PMEGVZbAhkf
+         IEIqEtKTJoAD5LAWy4QNQEY5fsmFw8kxrRCe6jm5+//5bZZYmUyXcwF1/uHAK3/q6zrI
+         ySaJcP9k6aWdBqXtgk3JjFPuye8aZtXKiIs6zXQh5ntghhNYWf6Hmq5038JTDovpPhkU
+         BEoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780617202; x=1781222002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1sayKnAkcvjh5O6e9c0QpImq/vePww6nkOl9CjIY9+Y=;
+        b=IOYzn3VAJcXm7iQQUr0R9fenV98uGIUi75iks2kjyUYJftSV0Y3GJiLu7Z3OibffmX
+         T5BBC8uTFRiag9RxGcsnGFY8F/GG7+jj/bZZIvsZ39vRr+IrKLDm3SNlONakOXaOTSlb
+         U6AzhPBqMhtNEwH+qx4ihH2o6SL6qmdsXGTuMVSOFU03LQsPdcMa/5DndsSu0c77cZ7a
+         9WZrChK5CUCwYuBsTT2ZqZmUXxwu0xXkCm/32STOY4H9wyxUuB3Qt2iogEXaJ29ogdPi
+         n/fCszr/qbqlNzqELwhYhlXzyYCEM2h9JKH/4qaW+gGqcwEe0tkz2Ex6BGsUIrLnxzuL
+         yELw==
+X-Forwarded-Encrypted: i=1; AFNElJ+aZ4M20eNVodQJ3b+/wx80ARMV883YXfow6SaFonGntkji2/89vTbGjKheIu41pWaVDPnc+fvAGZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbnsQxr26Xs4c3naTuyaCP+TAS7kVwvgbt87JyRt4fU5nHAD2i
+	CjGKc7FvkOu8T39iePCSbYd+v87iIgE50eOC41tHepiJFPnAZQ82apcJkCToNVXrgCy+XuX+oNT
+	3G+g6NExRUey6srGp+61q8o9hJyrLkqzsdvJdcaE+
+X-Gm-Gg: Acq92OH4AS3yuB3NbrNZlFteBeStsQ+uZsFpUIAnMfyM9CkzdiifAwRyR4WK+prsTGo
+	MaPaL6gKyZ0acz1mUXA37A2YDm61iwMzwmkb0z3jBUsn9vK8k8yOScIGicRn8wh5F4jytcmwpy7
+	nX7eDZ2WxLU8X+wLksBnBMf3Etivm84By04b/zdLdV4g2Y0kXqvvW8ZZFslt62qfDU6A4wgIslA
+	88zoAC0R/pIGM2ABCeKyVuS3qD+IVRG5guTcnae/rpNojCqdUiM3k8llnEC/S8aiwhERCfd5GTD
+	dqSErD+AY8pmmEHu/0QUZBUqL0SQE2byqS8LLx66NiPwACMp
+X-Received: by 2002:a17:903:3807:b0:2b7:b03d:9dce with SMTP id
+ d9443c01a7336-2c1ebeb5fa8mr261515ad.18.1780617201343; Thu, 04 Jun 2026
+ 16:53:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <cover.1779471082.git.abhishekbapat@google.com>
+ <f177efebdfda5c2a179d7cd6768e0c6f37efb9c4.1779471082.git.abhishekbapat@google.com>
+ <aba73999-dc29-45c1-b6cd-54a7c1b824fa@linux.dev>
+In-Reply-To: <aba73999-dc29-45c1-b6cd-54a7c1b824fa@linux.dev>
+From: Abhishek Bapat <abhishekbapat@google.com>
+Date: Thu, 4 Jun 2026 16:53:10 -0700
+X-Gm-Features: AVHnY4KyqsDiHrH7JcfoQPZjpkORjY20gfnuwslf8qqI9Nu431iLe4LIAgxAv_o
+Message-ID: <CAL41Mv4fkK-t55GuDNTe9fie9nUBfY_Ap3CpgT1XDpn8sSU0qg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] alloc_tag: add ioctl filters to /proc/allocinfo
+To: Hao Ge <hao.ge@linux.dev>
+Cc: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/gutierrez-asier-huawei-partners-com/mm-damon-Introduce-DAMOS_QUOTA_HUGEPAGE-auto-tuning/20260604-230803
-head:   263912f5b34dfc2412f2e8b7ea92f6a278ebcfe7
-commit: 263912f5b34dfc2412f2e8b7ea92f6a278ebcfe7 Documentation/admin-guide/mm/damon: add DAMON-based Hugepage Management
-date:   8 hours ago
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260605/202606050129.sxUrDe40-lkp@intel.com/reproduce)
+On Sun, May 24, 2026 at 8:00=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
+>
+> Hi Abhishek
+>
+>
+> On 2026/5/23 01:45, Abhishek Bapat wrote:
+> > Extend the capability of the IOCTL mechanism to filter allocations base=
+d
+> > on tag's module name, function name, file name and line number.
+> >
+> > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> > ---
+> >   include/uapi/linux/alloc_tag.h | 26 ++++++++++++++-
+> >   lib/alloc_tag.c                | 58 ++++++++++++++++++++++++++++++++-=
+-
+> >   2 files changed, 80 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_=
+tag.h
+> > index e9a5b55fcc7a..0cc9db5298c6 100644
+> > --- a/include/uapi/linux/alloc_tag.h
+> > +++ b/include/uapi/linux/alloc_tag.h
+> > @@ -34,8 +34,32 @@ struct allocinfo_tag_data {
+> >       struct allocinfo_counter counter;
+> >   };
+> >
+> > +enum {
+> > +     ALLOCINFO_FILTER_MODNAME,
+> > +     ALLOCINFO_FILTER_FUNCTION,
+> > +     ALLOCINFO_FILTER_FILENAME,
+> > +     ALLOCINFO_FILTER_LINENO,
+> > +     __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_LINENO
+> > +};
+> > +
+> > +#define ALLOCINFO_FILTER_MASK_MODNAME                (1 << ALLOCINFO_F=
+ILTER_MODNAME)
+> > +#define ALLOCINFO_FILTER_MASK_FUNCTION               (1 << ALLOCINFO_F=
+ILTER_FUNCTION)
+> > +#define ALLOCINFO_FILTER_MASK_FILENAME               (1 << ALLOCINFO_F=
+ILTER_FILENAME)
+> > +#define ALLOCINFO_FILTER_MASK_LINENO         (1 << ALLOCINFO_FILTER_LI=
+NENO)
+> > +
+> > +#define ALLOCINFO_FILTER_MASKS \
+> > +     ((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> > +
+> > +struct allocinfo_filter {
+> > +     __u64 mask; /* bitmask of the filter fields used */
+> > +     struct allocinfo_tag fields;
+> > +};
+> > +
+> >   struct allocinfo_get_at {
+> > -     __u64 pos;      /* input */
+> > +     /* inputs */
+> > +     __u64 pos;
+> > +     struct allocinfo_filter filter;
+> > +     /* output */
+> >       struct allocinfo_tag_data data;
+> >   };
+> >
+> > diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> > index 3598735b6c93..56c394ef721f 100644
+> > --- a/lib/alloc_tag.c
+> > +++ b/lib/alloc_tag.c
+> > @@ -48,6 +48,7 @@ int alloc_tag_ref_offs;
+> >   struct allocinfo_private {
+> >       struct codetag_iterator iter;
+> >       bool print_header;
+> > +     struct allocinfo_filter filter;
+> >       /* ioctl uses a separate iterator not to interfere with reads */
+> >       struct codetag_iterator ioctl_iter;
+> >       bool positioned; /* seq_open_private() sets to 0 */
+> > @@ -167,6 +168,11 @@ static void allocinfo_copy_str(char *dest, const c=
+har *src)
+> >       strscpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
+> >   }
+> >
+> > +static int allocinfo_cmp_str(const char *str, const char *template)
+> > +{
+> > +     return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
+> > +}
+> > +
+> >   static void allocinfo_to_params(struct codetag *ct,
+> >                               struct allocinfo_tag_data *data)
+> >   {
+> > @@ -198,27 +204,71 @@ static int allocinfo_ioctl_get_content_id(struct =
+seq_file *m, void __user *arg)
+> >       return 0;
+> >   }
+> >
+> > +static bool matches_filter(struct codetag *ct, struct allocinfo_filter=
+ *filter)
+> > +{
+> > +     if (!filter || !filter->mask)
+> > +             return true;
+> > +
+> > +     if (filter->mask & ALLOCINFO_FILTER_MASK_MODNAME) {
+> > +             if (!ct->modname)
+> > +                     return false;
+> > +             if (allocinfo_cmp_str(ct->modname, filter->fields.modname=
+))
+> > +                     return false;
+> > +     }
+> > +
+>
+> Apologies -- I previously suggested the "!ct->modname ->
+>
+> return false" approach, but I realized we broke the ability to
+>
+> filter for built-in allocations.  allocinfo_to_params() returns
+>
+> modname=3D"" for those, so a user would naturally try to filter
+>
+> by modname=3D"" -- except it never matches because ct->modname is
+>
+> NULL, not an empty string.
+>
+> Maybe something like this instead?
+>
+> if (filter->mask & ALLOCINFO_FILTER_MASK_MODNAME) {
+>
+>      if (ct->modname) {
+>
+>          if (allocinfo_cmp_str(ct->modname, filter->fields.modname))
+>
+>              return false;
+>
+>          } else if (filter->fields.modname[0] !=3D '\0') {
+>
+>              return false;
+>
+>          }
+>
+> }
+>
+> That way modname=3D"" matches built-in tags, which lines up with
+>
+> what the API actually returns.
+>
+> Thanks
+>
+> Hao
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606050129.sxUrDe40-lkp@intel.com/
+Ah good catch, will use the following logic that's a bit cleaner:
+if (filter->mask & ALLOCINFO_FILTER_MASK_MODNAME) {
+                /* user wants to filter by modname but ct->modname is NULL =
+*/
+                if (!ct->modname) {
+                        /* validate if user was attempting to filter
+for built-in allocations */
+                        if (filter->fields.modname[0] !=3D '\0')
+                                return false;
+                }
+                if (allocinfo_cmp_str(ct->modname, filter->fields.modname))
+                        return false;
+        }
 
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/admin-guide/mm/damon/hugepage.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > +     if ((filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) &&
+> > +         ct->function && (allocinfo_cmp_str(ct->function, filter->fiel=
+ds.function)))
+> > +             return false;
+> > +
+> > +     if ((filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) &&
+> > +         ct->filename && (allocinfo_cmp_str(ct->filename, filter->fiel=
+ds.filename)))
+> > +             return false;
+> > +
+> > +     if ((filter->mask & ALLOCINFO_FILTER_MASK_LINENO) &&
+> > +         ct->lineno !=3D filter->fields.lineno)
+> > +             return false;
+> > +
+> > +     return true;
+> > +}
+> > +
+> >   static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *ar=
+g)
+> >   {
+> >       struct allocinfo_private *priv;
+> >       struct codetag *ct;
+> > -     __u64 pos;
+> >       struct allocinfo_get_at params =3D {0};
+> > +     __u64 skip_count;
+> >
+> >       if (copy_from_user(&params, arg, sizeof(params)))
+> >               return -EFAULT;
+> >
+> > +     if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+> > +             return -EINVAL;
+> > +
+> >       priv =3D (struct allocinfo_private *)m->private;
+> > -     pos =3D params.pos;
+> > +
+> > +     skip_count =3D params.pos;
+> >
+> >       mutex_lock(&priv->ioctl_lock);
+> >       codetag_lock_module_list(alloc_tag_cttype, true);
+> >
+> > +     if (params.filter.mask)
+> > +             priv->filter =3D params.filter;
+> > +     else
+> > +             priv->filter.mask =3D 0;
+> > +
+> >       /* Find the codetag */
+> >       priv->ioctl_iter =3D codetag_get_ct_iter(alloc_tag_cttype);
+> >       ct =3D codetag_next_ct(&priv->ioctl_iter);
+> > -     while (ct && pos--)
+> > +
+> > +     while (ct) {
+> > +             if (matches_filter(ct, &priv->filter)) {
+> > +                     if (skip_count =3D=3D 0)
+> > +                             break;
+> > +                     skip_count--;
+> > +             }
+> >               ct =3D codetag_next_ct(&priv->ioctl_iter);
+> > +     }
+> > +
+> >       if (ct) {
+> >               allocinfo_to_params(ct, &params.data);
+> >               priv->positioned =3D true;
+> > @@ -254,6 +304,8 @@ static int allocinfo_ioctl_get_next(struct seq_file=
+ *m, void __user *arg)
+> >       }
+> >
+> >       ct =3D codetag_next_ct(&priv->ioctl_iter);
+> > +     while (ct && !matches_filter(ct, &priv->filter))
+> > +             ct =3D codetag_next_ct(&priv->ioctl_iter);
+> >       if (ct)
+> >               allocinfo_to_params(ct, &params);
+> >
