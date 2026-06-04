@@ -1,308 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892573CAA2F;
-	Thu,  4 Jun 2026 16:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282053CC303
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780589160; cv=none; b=L/SbUkgxtGVnoKPs6A2fRKnfvf4jNcr/ZrmFN3X0/v8p+xVq45gzpLAlrcQASw1/CitdvsVvD9jyJD2aV5wDKRGHbPxAhU5FspDYPf9GOwZMZz4wsuIKaZKxLLVIWVQjQWCfAP3b8KDQcRbCPujE/pWFrIR7ZA028Xn2CUv+PyQ=
+	t=1780589417; cv=none; b=m1SomFB09tPLG8EyWDNfTUtx0AkrLDcDK/zHjIHNNdCReml65zupE7WKXgGWGkB2u/oZL1MHyzbO3v6mhZrhzkq7OuGlgdxzrR8kYVa3W6aKdAWjm20GvSXyBlFBSSnbRSslBP3a9HaKOV8ra/lAPeBRfWe8B3Ui4/NHdrFHdwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780589160; c=relaxed/simple;
-	bh=C+3/Y8UM+QF4b+fxUP6DMkOPxlSgLT2Ew0IkUAd7ZBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YSzhWwZBwayWA0y1JXlzM0MK0LJoT/cJQwaTsEaAa9rPU+fX8PoNk3U6+smAU25xQnmkmAwhE2WCXt5fI76wj/Jemy9sI2MQmr0v5ra2wo8wWzLNxQGHu+O0CZ7c+/cvvPWxPJlFXILaXrI9kgcIVMRmbTpQEytd4u9TPqQpDPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U53n/eYJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780589417; c=relaxed/simple;
+	bh=dkqfCMrLmXYKCpzoo4wiIUki7SDk/LrZwiKaXXZvcDw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k9qdPGWnIsehaZqdTcmYFOiUHmi4JfoahwsGD9EEBroP1zqAwIQs0fJ9bcfMaRGz+1KhIcFGd3S3LKEs7CcTrQIP5x8Zh6oEAs/+UU3Dc6SIoFuJoiVHIaAfaAqQkvTx+3YGC9zEJsEsUtLr+a0GigjKpqMbYR/l/vuq1eVV4w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEq5dlFI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U53n/eYJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69841F00899;
-	Thu,  4 Jun 2026 16:05:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEq5dlFI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA1911F008A0
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 16:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780589157;
-	bh=yVTz1uwL1NNB95GiENNhSXV/zvAW1QB+RQh5yDivS9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=U53n/eYJFU+DltQIrh9jMR7xb6PYWBeAX+OJQ1QBCVtMnXdVZYyQ10H28CIt0yCjm
-	 NHvqDaLvs/8UZd06nXwa2/uPJsdYD7u3mKcH5pwnzWsg7qFRkQYLg3k5y2psbko+Rn
-	 0zCw6GA0Nv4+9W1VuJChafZzGAJlmOooCLVD14SegCTCGA7YBf8JuPNNbudHXFYnPj
-	 tHkUTUI5rXwhUCHjUBCbk7UJZDDdHjF2gx5bpQCJyOP2B+H6GDV3Rq3uo0ZxesHR79
-	 7OyMSbOYZjE08zq3KXmiB2yAwbhIz4XikTPR+RsF2F+hCDU7tXurawk5WknddQUXjK
-	 ffV3j2deZfdEQ==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id ED797F40072;
-	Thu,  4 Jun 2026 12:05:55 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Thu, 04 Jun 2026 12:05:55 -0400
-X-ME-Sender: <xms:Y6IhahnHXc09KilZvFzUSBZgTSLIkEVygC0kGisdcxVNEKWyRMxGBw>
-    <xme:Y6IhaqtBr2N5Ps4cgjVM-Im_rzv11AUNqNFez-P-R_haS4tzA3BMK62krcfnL0STb
-    2nMO5pkdjsKaKlgK95VqrzoeZWJ8bBKa5PIoiyvL4EWo-gzF_vR8w>
-X-ME-Received: <xmr:Y6IhagsMGGZ5nB454xWyFruYQrqtm5hAUF4aEe9Cx4QsVtL1cF2LpHxL1bd0wA>
-X-ME-Proxy-Cause: dmFkZTFWOXm/HbsQkCfZ0JEDY7FJu/nVG/x0j3OWWRZksOqWO2cAdoQsNzQcvJeAF7T6wu
-    yw3RhoVAzGLCcdWmON5DYz2p1qN+phCm6+K5u7cpldS1sgAmg2ww0rqmwunmD4tc32uiSL
-    OJaP+3cfqmhdriIifqpvM3rYkemJiIJaAuqZ/bYJu+yFHX1aUPGas+wSyV/YCgyg3apGfX
-    jeBZRQGpawV2oGEvl7OINeHp115YYqmyGZWnP4M8hNrIQs2UnHEAqSJAlDGkYGO06OF/AS
-    ipoLNMUWYA+g7PheK5gtmnLK0LaLiJvuy7PRw7r52HFPk19FLjXZ1XO2UKefyecs9Ox5kx
-    SZY8ocoNDU7HkqYDwAc+EvaIYPL/5dX42cdazX4XSGrW37W6+LpwvoM0cTUE1ZR+oVIQ3O
-    pN0C8RDxcNuWfZuqWqK+z/gGuJRPc5EM3LhvlI6/XN+IBB3bsmYZW7wdR4zvcwVsUz5J5B
-    XG+u49B2DvY0QFy2A+Pq2Ora3d5Gc1xpJyb8+SP03RID8WNfP7ZQi1VUd7u/FqJ33+MNPO
-    Jr6x9KlODIKyeQ1uSXXpMvuszK0ldcqOx3UOj0R+0f+pWmn/jqKctW8XfbLmm4WlW+N51V
-    f66QJpT5ZSKg10X+S+QoRl1Hod8ihzmmcD5TJKkG7W/O1vPBmThgYvLF7fNQ
-X-ME-Proxy: <xmx:Y6Ihai1gRVJqQDK-wAYgh4IVoPsfpj0WIZDWQoKtMJqeZkEwh9WgJg>
-    <xmx:Y6IhaoNjkt5jhap18TBFNnPFBYtRR6zhU4y2qrAm_sZeBfUjr3q9Ag>
-    <xmx:Y6IhaoWiwMRCKigm9wIuXI3pCgSjGuZgviC77oMPa72wIXF0dLSU-A>
-    <xmx:Y6IhaoYvxw-HXITfeaxlQuluR8fwJzGepU7zG1IqMj670gSDQ0Qt_Q>
-    <xmx:Y6IhajvO5uppJzHZ_sZztkh5Ssr3Q2CM6UlAyFYU0bB2iKgWAhO6cD0L>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jun 2026 12:05:53 -0400 (EDT)
-Date: Thu, 4 Jun 2026 17:05:48 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, 
-	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, pbonzini@redhat.com, 
-	seanjc@google.com, tglx@kernel.org, vannapurve@google.com, x86@kernel.org, 
-	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
-	Binbin Wu <binbin.wu@linux.intel.com>
-Subject: Re: [PATCH v6 01/11] x86/virt/tdx: Simplify tdmr_get_pamt_sz()
-Message-ID: <aiGheH8YceumotUU@thinkstation>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-2-rick.p.edgecombe@intel.com>
+	s=k20260515; t=1780589415;
+	bh=YW7V6VQa29YjcMSrmd42lxjY3Q5BWm+8nU4PiEtSpss=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MEq5dlFIJfV2cj25Gy5Iphar+8EB3Q+M++ma3ddkZ79VItR+ZvWCy5GquLxnOwLVT
+	 J0TvzAcGjl7Z1/O41TXXKHBFelMg54n3BTGq2Q9EZgUNoAihogBT0qG+6UYmqVnx2H
+	 Mu7raqFZSeIZhtTt2+xGRdXmofZV6p0dcICRAwft3WVZmbtnX+2V2U5eRc3gWEeD0u
+	 Lg5SEKkRDUZMSEKAkIxpE3/03WJK7VloDAFzWaehmiYDKu9IZw5eqQFmuC9/jPXudl
+	 Pqvz5HUrco5yx9+lUkOI41JCLlWsJ1Flg08a2vxZpM9oXrMH5s7EcHnoJFSDpt2rW1
+	 X/t1zmDjUd3fg==
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9159951f05aso109425685a.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 09:10:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/hwvGL8bw6e2xrYwlWNp/SdEFk4PgPezqYw573tFiGyJBT8tLQA+Kdd5lN+7Vdum6qBL1D+gn6Y94=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxBXjdbnS53XRVSDvGY/seHPh5sIWYqzrOJdOZT/CI6dz5veLx
+	K0CCOrESwSxpGzvolM8sQJ1JiQTwTcR/z3EhWl6s3Khh/oNhh5hCn5dGjCqlIaEJfdW2BvfGzrr
+	5tJAr4JHr9uEFEp1U69qTD5Oth2Egces=
+X-Received: by 2002:a05:620a:a181:10b0:914:ca75:e8cb with SMTP id
+ af79cd13be357-9158a7a7d31mr980372885a.39.1780589414974; Thu, 04 Jun 2026
+ 09:10:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260526023515.288829-2-rick.p.edgecombe@intel.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
+ <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com> <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
+In-Reply-To: <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Thu, 4 Jun 2026 09:10:01 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMydJfQ+28OQkPYyH1yHngxYCNByo-4hu=D2eoJBtTX-Q@mail.gmail.com>
+X-Gm-Features: AVHnY4JkU6wiALPrkeGY5YeF8-NFodHMhfIp-dzt841kR4__pG_M4xsJghd5PrI
+Message-ID: <CAO9r8zMydJfQ+28OQkPYyH1yHngxYCNByo-4hu=D2eoJBtTX-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 25, 2026 at 07:35:05PM -0700, Rick Edgecombe wrote:
-> For each memory region that the TDX module might use (called TDMR), three
-> separate traditional PAMT allocations are needed. One for each supported
-> page size (1GB, 2MB, 4KB). These store information on each page in the
-> TDMR. In Linux, they are allocated out of one physically contiguous block,
-> in order to more efficiently use some internal TDX module book keeping
-> resources. So some simple math is needed to break the single large
-> allocation into three smaller allocations for each page size.
-> 
-> There are some commonalities in the math needed to calculate the base and
-> size for each smaller allocation, and so an effort was made to share logic
-> across the three. Unfortunately doing this turned out unnaturally tortured,
-> with a loop iterating over the three page sizes, only to call into a
-> function with cases statement for each page size. In the future Dynamic
-> PAMT will add more logic that is special to the 4KB page size, making the
-> benefit of the math sharing even more questionable.
-> 
-> Three is not a very high number, so get rid of the loop and just duplicate
-> the small calculation three times. In doing so, setup for future Dynamic
-> PAMT changes.
-> 
-> Since the loop that iterates over it is gone, further simplify the code by
-> dropping the array of intermediate size and base storage. Just store the
-> values to their final locations. Accept the small complication of having
-> to clear tdmr->pamt_4k_base in the error path, so that tdmr_do_pamt_func()
-> will not try to operate on the TDMR struct when attempting to free it.
-> 
-> Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+On Thu, Jun 4, 2026 at 6:06=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> wr=
+ote:
+>
+>
+>
+> On 2026/6/4 13:34, Yosry Ahmed wrote:
+> >>>> For instance, suppose a parent memcg has two children, memcg1 and me=
+mcg2,
+> >>>> each with 200MB of zswap (100MB inactive). Triggering proactive writ=
+eback on
+> >>>> the parent memcg will exhaust memcg1's inactive zswap pages. After t=
+hat,
+> >>>> even though memcg2 still has plenty of inactive zswap pages, it will
+> >>>> continue to write back memcg1's active zswap pages. Writing back act=
+ive
+> >>>> zswap pages causes the user-space agent to prematurely abort the wri=
+teback
+> >>>> because it detects that certain memcg metrics have exceeded predefin=
+ed
+> >>>> thresholds.
+> >>>
+> >>> This will only happen if the reclaim size is smaller than the batch
+> >>> size, right? Otherwise the kernel should reclaim more or less equally
+> >>> from both memcgs?
+> >>>
+> >>
+> >> I gave it some thought. Not using a cursor could lead to unfairness
+> >> issues with certain writeback sizes:
+> >>
+> >>    - If the writeback size is an odd multiple of WB_BATCH (e.g.,
+> >> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
+> >> writeback ratio might end up being 2:1.
+> >>    - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
+> >> triggered, it might repeatedly write back from only the first 2 child
+> >> cgroups.
+> >>
+> >> Although setting a smaller WB_BATCH might mitigate this unfairness, it
+> >> could hurt writeback efficiency. Let's just use per-memcg cursors to
+> >> completely fix these corner cases.
+> >
+> > Exactly, the batch size should be small enough that any unfairness is
+> > not a problem. I would honestly just do batching without a per-memcg
+> > cursor, unless we have numbers to prove that the efficiency is
+> > affected when we use a small batch size. Let's only introduce
+> > complexity when needed please.
+>
+>
+> If you prefer not to use per-cgroup cursors, do we still need to keep
+> the global cursor (i.e., the root cgroup's cursor) zswap_next_shrink?
+> I found this part to be quite tricky when trying to reuse the main logic
+> of shrink_worker() in zswap_proactive_writeback().
+>
+> Of course, I think we could also keep zswap_next_shrink and write a
+> small helper to check if it's the root cgroup, allowing us to use
+> different memcg iteration methods.
 
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-
-Couple of nits below.
-
-> ---
-> v6:
->  - Drop {} by moving a comment (Binbin)
->  - Log tweaks
-> 
-> v4:
->  - Just refer to global var instead of passing pamt_entry_size around
->    (Xiaoyao)
->  - Remove setting pamt_4k_base to zero, because it already is zero.
->    Adjust the comment appropriately (Kai)
-> 
-> v3:
->  - New patch
-> ---
->  arch/x86/virt/vmx/tdx/tdx.c | 93 ++++++++++++-------------------------
->  1 file changed, 29 insertions(+), 64 deletions(-)
-> 
-> diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
-> index 967482ae3c801..487f389f52f4b 100644
-> --- a/arch/x86/virt/vmx/tdx/tdx.c
-> +++ b/arch/x86/virt/vmx/tdx/tdx.c
-> @@ -516,31 +516,21 @@ static __init int fill_out_tdmrs(struct list_head *tmb_list,
->   * Calculate PAMT size given a TDMR and a page size.  The returned
->   * PAMT size is always aligned up to 4K page boundary.
->   */
-> -static __init unsigned long tdmr_get_pamt_sz(struct tdmr_info *tdmr, int pgsz,
-> -					     u16 pamt_entry_size)
-> +static __init unsigned long tdmr_get_pamt_sz(struct tdmr_info *tdmr, int pgsz)
->  {
->  	unsigned long pamt_sz, nr_pamt_entries;
-> +	const int tdx_pg_size_shift[] = { PAGE_SHIFT, PMD_SHIFT, PUD_SHIFT };
-> +	const u16 pamt_entry_size[TDX_PS_NR] = {
-> +		tdx_sysinfo.tdmr.pamt_4k_entry_size,
-> +		tdx_sysinfo.tdmr.pamt_2m_entry_size,
-> +		tdx_sysinfo.tdmr.pamt_1g_entry_size,
-> +	};
->  
-> -	switch (pgsz) {
-> -	case TDX_PS_4K:
-> -		nr_pamt_entries = tdmr->size >> PAGE_SHIFT;
-> -		break;
-> -	case TDX_PS_2M:
-> -		nr_pamt_entries = tdmr->size >> PMD_SHIFT;
-> -		break;
-> -	case TDX_PS_1G:
-> -		nr_pamt_entries = tdmr->size >> PUD_SHIFT;
-> -		break;
-> -	default:
-> -		WARN_ON_ONCE(1);
-> -		return 0;
-> -	}
-> +	nr_pamt_entries = tdmr->size >> tdx_pg_size_shift[pgsz];
-> +	pamt_sz = nr_pamt_entries * pamt_entry_size[pgsz];
->  
-> -	pamt_sz = nr_pamt_entries * pamt_entry_size;
->  	/* TDX requires PAMT size must be 4K aligned */
-> -	pamt_sz = ALIGN(pamt_sz, PAGE_SIZE);
-> -
-> -	return pamt_sz;
-> +	return PAGE_ALIGN(pamt_sz);
->  }
->  
->  /*
-> @@ -578,28 +568,21 @@ static __init int tdmr_get_nid(struct tdmr_info *tdmr, struct list_head *tmb_lis
->   * within @tdmr, and set up PAMTs for @tdmr.
->   */
->  static __init int tdmr_set_up_pamt(struct tdmr_info *tdmr,
-> -				   struct list_head *tmb_list,
-> -				   u16 pamt_entry_size[])
-> +				   struct list_head *tmb_list)
->  {
-> -	unsigned long pamt_base[TDX_PS_NR];
-> -	unsigned long pamt_size[TDX_PS_NR];
-> -	unsigned long tdmr_pamt_base;
->  	unsigned long tdmr_pamt_size;
->  	struct page *pamt;
-> -	int pgsz, nid;
-> -
-> +	int nid;
-
-Add a newline here?
-
->  	nid = tdmr_get_nid(tdmr, tmb_list);
->  
->  	/*
->  	 * Calculate the PAMT size for each TDX supported page size
->  	 * and the total PAMT size.
->  	 */
-> -	tdmr_pamt_size = 0;
-> -	for (pgsz = TDX_PS_4K; pgsz < TDX_PS_NR; pgsz++) {
-> -		pamt_size[pgsz] = tdmr_get_pamt_sz(tdmr, pgsz,
-> -					pamt_entry_size[pgsz]);
-> -		tdmr_pamt_size += pamt_size[pgsz];
-> -	}
-> +	tdmr->pamt_4k_size = tdmr_get_pamt_sz(tdmr, TDX_PS_4K);
-> +	tdmr->pamt_2m_size = tdmr_get_pamt_sz(tdmr, TDX_PS_2M);
-> +	tdmr->pamt_1g_size = tdmr_get_pamt_sz(tdmr, TDX_PS_1G);
-> +	tdmr_pamt_size = tdmr->pamt_4k_size + tdmr->pamt_2m_size + tdmr->pamt_1g_size;
->  
->  	/*
->  	 * Allocate one chunk of physically contiguous memory for all
-> @@ -607,26 +590,18 @@ static __init int tdmr_set_up_pamt(struct tdmr_info *tdmr,
->  	 * in overlapped TDMRs.
->  	 */
->  	pamt = alloc_contig_pages(tdmr_pamt_size >> PAGE_SHIFT, GFP_KERNEL,
-> -			nid, &node_online_map);
-> +				  nid, &node_online_map);
-> +
-
-Looks like unrelated whitespace change. Is it intentional?
-
-> +	/*
-> +	 * tdmr->pamt_4k_base is still zero so the error
-> +	 * path of the caller will skip freeing the pamt.
-> +	 */
->  	if (!pamt)
->  		return -ENOMEM;
->  
-> -	/*
-> -	 * Break the contiguous allocation back up into the
-> -	 * individual PAMTs for each page size.
-> -	 */
-> -	tdmr_pamt_base = page_to_pfn(pamt) << PAGE_SHIFT;
-> -	for (pgsz = TDX_PS_4K; pgsz < TDX_PS_NR; pgsz++) {
-> -		pamt_base[pgsz] = tdmr_pamt_base;
-> -		tdmr_pamt_base += pamt_size[pgsz];
-> -	}
-> -
-> -	tdmr->pamt_4k_base = pamt_base[TDX_PS_4K];
-> -	tdmr->pamt_4k_size = pamt_size[TDX_PS_4K];
-> -	tdmr->pamt_2m_base = pamt_base[TDX_PS_2M];
-> -	tdmr->pamt_2m_size = pamt_size[TDX_PS_2M];
-> -	tdmr->pamt_1g_base = pamt_base[TDX_PS_1G];
-> -	tdmr->pamt_1g_size = pamt_size[TDX_PS_1G];
-> +	tdmr->pamt_4k_base = page_to_phys(pamt);
-> +	tdmr->pamt_2m_base = tdmr->pamt_4k_base + tdmr->pamt_4k_size;
-> +	tdmr->pamt_1g_base = tdmr->pamt_2m_base + tdmr->pamt_2m_size;
->  
->  	return 0;
->  }
-> @@ -657,10 +632,7 @@ static __init void tdmr_do_pamt_func(struct tdmr_info *tdmr,
->  	tdmr_get_pamt(tdmr, &pamt_base, &pamt_size);
->  
->  	/* Do nothing if PAMT hasn't been allocated for this TDMR */
-> -	if (!pamt_size)
-> -		return;
-> -
-> -	if (WARN_ON_ONCE(!pamt_base))
-> +	if (!pamt_base)
->  		return;
->  
->  	pamt_func(pamt_base, pamt_size);
-> @@ -686,14 +658,12 @@ static __init void tdmrs_free_pamt_all(struct tdmr_info_list *tdmr_list)
->  
->  /* Allocate and set up PAMTs for all TDMRs */
->  static __init int tdmrs_set_up_pamt_all(struct tdmr_info_list *tdmr_list,
-> -					struct list_head *tmb_list,
-> -					u16 pamt_entry_size[])
-> +				 struct list_head *tmb_list)
->  {
->  	int i, ret = 0;
->  
->  	for (i = 0; i < tdmr_list->nr_consumed_tdmrs; i++) {
-> -		ret = tdmr_set_up_pamt(tdmr_entry(tdmr_list, i), tmb_list,
-> -				pamt_entry_size);
-> +		ret = tdmr_set_up_pamt(tdmr_entry(tdmr_list, i), tmb_list);
->  		if (ret)
->  			goto err;
->  	}
-> @@ -970,18 +940,13 @@ static __init int construct_tdmrs(struct list_head *tmb_list,
->  				  struct tdmr_info_list *tdmr_list,
->  				  struct tdx_sys_info_tdmr *sysinfo_tdmr)
->  {
-> -	u16 pamt_entry_size[TDX_PS_NR] = {
-> -		sysinfo_tdmr->pamt_4k_entry_size,
-> -		sysinfo_tdmr->pamt_2m_entry_size,
-> -		sysinfo_tdmr->pamt_1g_entry_size,
-> -	};
->  	int ret;
->  
->  	ret = fill_out_tdmrs(tmb_list, tdmr_list);
->  	if (ret)
->  		return ret;
->  
-> -	ret = tdmrs_set_up_pamt_all(tdmr_list, tmb_list, pamt_entry_size);
-> +	ret = tdmrs_set_up_pamt_all(tdmr_list, tmb_list);
->  	if (ret)
->  		return ret;
->  
-> -- 
-> 2.54.0
-> 
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I think we want to keep the global cursor, at least for now.
