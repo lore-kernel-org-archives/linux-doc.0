@@ -1,647 +1,98 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF9A353EF3
-	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 05:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016C8353EE0
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 05:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780550248; cv=none; b=U9ACo7VEDGf312VY8BxivYmDH4yJdX9oMgBksdxmA9ZpixieQCJ6mAjMSePK+8UoO1me+Sfiq6fNp4AIuCsZvh1jfgT3TSySGg4ify1K5I2gB0xGl/3MhvNN4hRVyA5ufuwI8rC6Ebdz9JRDf7gbrjY0Jrm5Cdc6C+2XXFVQ70Q=
+	t=1780551271; cv=none; b=NiDsidR+mDCkyYh5JHY4AwY/nsTmPBJWJtue50L3OZwSL2b4G9NLVooubxeG+Vtc9yHzYsnEp2ZciHkUnPEQoCazGFCzyf2qeiKrRyejZnBL6TQo+UTnkIWYAXh3Z4WsJ/COtgEVVdTkDtE+A13MXguWJfd6ir7cklnV0jeFeMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780550248; c=relaxed/simple;
-	bh=bSDC8NCULjXgRLV8koD7qYS4Pp2cM1Ezaszm8DK/eDA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iu1FZnN8tBVzJtuOeSvovGYZGQ5glyq5OJ825E70PvQGxjQjEWqWkV35CcegB0LvZgJwW9QfNKyxSwfFU8c0hLnoAIUb01eIfVG/F8aXM9rHvTGJVRKvSTyarrCLJXJZKCeivFCKCRDreDzUv29jESz7pVrZh6mxPS6cc0eU83g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WKiA7Lo6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BamWjvgi; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1780551271; c=relaxed/simple;
+	bh=qCgaAA//Qi8esUuIw4UZ1rzbubx/43eTgcseHb0d6Bk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tqHkp29LwAxOkB29ulB9lHRkrvRAK+F0Hj6ACe0juAyHB2cqSTF+2HR5kZ8moqT5xRFb9z+JHDJZspHZtzAx4D2sunLyEIoOV7Lh/ZMHuyo9A6EH7gPoD4P2506Bpcd0bdWxjaqPXUKqvl2Xtwgl1U6m2tnR1P1t6fj4Nzs+Blw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IxW4QK6l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WKiA7Lo6";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BamWjvgi"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6543Ai8e3234568
-	for <linux-doc@vger.kernel.org>; Thu, 4 Jun 2026 05:17:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tjRFSiCeKBsFoWJCncYJG01Lt2ia4LM9GCm1RkkjZqM=; b=WKiA7Lo6R4RQXcRQ
-	4NguGQn8xrPP51iyOSl9J8h5G0RAGAvBBCHlxz/a0eN0k8tzXLFYQJ3sFtZRJrSj
-	PBd0b1hD6pmqtVymsG2lcyEgEtygiHF3I2nUVdftknitCTpw3QPqICZ9QfV0llbX
-	MF9gzivwI7jCGEUWsF9a/GFKALcvZaLdmu94ksx/k+/EjsDh9vKuDvij9TaJH+j3
-	1BDNGtXthZuxhf/7614Dq4DS6ImowezIjcBSSND66on9qGIbyVSd7TbZbYk2R46j
-	MuCBqxtx/DWEkUVNDVglZEI249SNFHRJNUWbyWSs8tOXcgwWghKwKJFYQC0k4zbc
-	9DBNtA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ejs4s23yx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 05:17:24 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2c0c1e08848so5319685ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 22:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780550243; x=1781155043; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tjRFSiCeKBsFoWJCncYJG01Lt2ia4LM9GCm1RkkjZqM=;
-        b=BamWjvgi64IyBqo+zJLV5NXRfQ/ztp6iJIQ3jM1W5LP/NhxdSOyn+aQ7LDplFYbZY1
-         qqZnIudNQ/HCe48fVYl+QmKAB0E+Wh02QMuaCFlwvOjxnW5w2o3KdRC5N/kovnqWwuWL
-         8BXLOF7tX/T5+GLdYtJ3uZ1vonUYiKJaOA1ELt85MY7ZD7HY6pB2EQkO+2YldjptopIu
-         TDiY5/fqzael099r/KLRuIwj6F2PLy4g7SHeNbot9+iUU9EtPplv3pmFYATdsAxSn2Ma
-         C1pTzhkH4fuIklWxkrRhBiuetGfEc4bH/RjoWpWvrx9FZw0rP0r7qsIY4lCeGuGJW5Xr
-         5N4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780550243; x=1781155043;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tjRFSiCeKBsFoWJCncYJG01Lt2ia4LM9GCm1RkkjZqM=;
-        b=OXiZOyX1COB9/1/THye7DQxHP8GJDVAFv/CFznJ6n0hb4dlaPj5IudQM0Ecmf+8L6v
-         WGHfDgryDB1L6TZtK01eL35GOk5eGAHRdxe9WHM0bZTRy/ai/M1n9gNvkxTgyRdXDxxa
-         7VPmQBKlFH8SYNeKjXfVfuaGEhCGeCVUBJ6HhzXXFTFqfcvmX23q6m0h+boXUyt/DmEG
-         zDmiK7oR6qsG4myFRM2YW57K5S73NFbiMZQJQD6fxpXFhPOuGkM9lzalbfBW8hA8oNaZ
-         PgCts/J5bGq5u1DHV6rSLfZjNEB1TDms3TC7TNFeHowU+5OhQHUa+D6SgS21WqEi2/Jo
-         Eqxg==
-X-Forwarded-Encrypted: i=1; AFNElJ+BPcuDgoZbW9PeemBEVBpyY3lhuZR6wEY6oQ19RaFIAfaOkk5WORxOaKijicxKvdZik7cpglqIW24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPD6RxxvRKFf6bYvUBKvTJsLS2ns99mdcrC1D981yjPDhfJDL1
-	Opqgtx3r0gUI9UG3qRlVFDRsvLXypDX5jpkTKN7ps8hKQ2/zexu+g5euah5Y6vcr80OTHzr4T3j
-	HpfXlOiZVZfcMJikAaFXnE1x1gBDcX1uttN+f8mtCve774NWY1tfEcGohbFXwOyg=
-X-Gm-Gg: Acq92OFd+PXEvyjPVP1NC+JJaWbjOxgd/zqtTo/cw7QZfMgSY4evlUqo4Aw6OtucFce
-	WB2gsq1A5qHAnFG6rU85FOTdF7w1NE+dO+C+ron4pmsPkCM/PLhIURJzTlbBFmX0hdfEvwCzhpT
-	13KYNFQ/pKLEcrAvUBpnBURhnWgXMPyJ4naBGImqr49pq4fYa1xOt91K3hrD+IXZraNFmctAX0A
-	AjkLHyxlUv5Qpq6woWBMBZ2ggcMYHgzUHKLQF3KLw90YFujlMUq1a00MO5l6iWhLn1bsPEO96Ro
-	2UVs1qW9OjoeCVZpHWq0aKz1yXJZw0e5duEbgFf6bSb3IZax57K8Ew0dd1YX3lHZlnFWVTo0foO
-	FgtPpqWRtE8i7WJx6/dBrFWay3NfQSK3kylMjMExbdjyb8/oQ8wubnAZ/37Jq
-X-Received: by 2002:a17:903:3c45:b0:2be:3434:4e28 with SMTP id d9443c01a7336-2c163fa8b9fmr65639985ad.19.1780550242815;
-        Wed, 03 Jun 2026 22:17:22 -0700 (PDT)
-X-Received: by 2002:a17:903:3c45:b0:2be:3434:4e28 with SMTP id d9443c01a7336-2c163fa8b9fmr65639565ad.19.1780550242253;
-        Wed, 03 Jun 2026 22:17:22 -0700 (PDT)
-Received: from [10.204.78.54] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649fcdfsm56330175ad.78.2026.06.03.22.17.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 22:17:21 -0700 (PDT)
-Message-ID: <568987b0-6f54-4b51-b1c0-416435e3f564@oss.qualcomm.com>
-Date: Thu, 4 Jun 2026 10:47:13 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IxW4QK6l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1CD41F0089D
+	for <linux-doc@vger.kernel.org>; Thu,  4 Jun 2026 05:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780551270;
+	bh=dBjgi3h65nFOda/5nltf0/WjlV3uis7HxPyve8TgC1A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IxW4QK6ls26ShtfRGvRr2x2HcKcyVcz1DPWUOMq1tHyNNvLdnaBWG/e5h3c4wvy99
+	 KSF+Sf1Z+1gfhGpMUHohUTifmkOUeu+bx/Fa17b+Gp0SbL2jCMde1RGLp1EOb6vkG/
+	 yrca4otWvs1k3I9lBeifqV46S5F87O8j0GRzQjFJ5pp39tcAcxRhCRtI6xE/Vy7PfF
+	 lJM04L/X7ll7kEf5wItZH82axyFQ/o6YeQ4RflDEkLzXfLuhQbk7paIBrPixNaC2Lb
+	 ei2uav4+KTiqZs+xiWrzD2fC9p00Ch6ihJaa5FTiKcOb3mGC5f6sDiKwRty7Iqp7pU
+	 epc8D2iBZwMyg==
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68be16c61d1so487732a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Jun 2026 22:34:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8yZRFC6AATdfL4VW+SjKg+zXoFUbTEArtqGhRRwirQpO3MJejR6QPvz4y07d9QOcMB/byiq2+5CzE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQQSz1dYA+7SheAVXHpTiF0pM/jpcqBNVEttyR6sZuByjC0Kbo
+	3XQOnmz8EfNtoNSYTPdEvgRgZU40DW4SmvW/lGkDX76GnRUQ+PIcdPZDZAodAz1XuKh8X0tiwW7
+	DmfourMMHKDnB/JGMNU2dgc5yqYyBtK8=
+X-Received: by 2002:a17:907:7f9e:b0:bec:2d9f:2aa7 with SMTP id
+ a640c23a62f3a-bf0b2bd07edmr353177466b.24.1780551269748; Wed, 03 Jun 2026
+ 22:34:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/15] accel/qda: Add DSP process creation and release
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        robin.clark@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
- <20260519-qda-series-v1-13-b2d984c297f8@oss.qualcomm.com>
- <w44qzw2ryg7bpbte3hegopmtkfjd2gby532rdjarm4i3tylpv2@2rmruincfdgc>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <w44qzw2ryg7bpbte3hegopmtkfjd2gby532rdjarm4i3tylpv2@2rmruincfdgc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: Fi9lWXz2rR657mxBGeO8UDg-BE8tPE4-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA0MDA0OCBTYWx0ZWRfX+gFqIbPzv7eJ
- JL9V0a0oD9J10uvLeLDha5wHthO8MRWnqZOddocYxsPxNmyvlLXmL8CSHQ3U6SCGouho9+/KFCR
- ZuYfaA8FxhBglGtlTLYEAet5j8S5KXFK19YNTmRSZn0+1HVI0Oiq0EZjIfJC3J0q12CPtaLiTFV
- 85z7F0r2xx8kf+rXjtyuMz4QoQgKhvNRewYDjdHkqPxx+6SUEDtYbEundhlJ6/KBsxxqQnuEHDk
- Pc3a5Qp/ZkG/5wHZ5rS3EUJTxwQ9w1QoC8hNnGqWHkG0tUaX4JNr6UgCQZO7L2MPTDWjyz0PWQb
- 5B06cbRU97UFV7ttdvYtGCsrnGM4BI2L4rtwPjjYjkCOnufSB3YhtWs9R/FLzMEKwWTFZigfDE2
- RxX1KN413nAdiUZ9WWJ5AWjESmwilnndiU/ImwIvHcOdsWBT2PhbwG/KaDz+Avg0bEktR0rfhLQ
- arGzEVBiNI00VcC7fvw==
-X-Authority-Analysis: v=2.4 cv=afRRWxot c=1 sm=1 tr=0 ts=6a210a64 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=asIQMUHu0qG-B1vOHVIA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-GUID: Fi9lWXz2rR657mxBGeO8UDg-BE8tPE4-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-04_02,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 phishscore=0 clxscore=1015
- adultscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606040048
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
+ <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+In-Reply-To: <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Wed, 3 Jun 2026 22:34:17 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+X-Gm-Features: AVHnY4Ku_FxWJkBn8j4XFqE3NCwF4f-sPcyoSpNO4PUEnd9_caFmKAyU5mggsGc
+Message-ID: <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 20-05-2026 19:30, Dmitry Baryshkov wrote:
-> On Tue, May 19, 2026 at 11:46:03AM +0530, Ekansh Gupta via B4 Relay wrote:
->> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>
->> Implement the REMOTE_SESSION_CREATE and INIT_RELEASE FastRPC
->> operations, which establish and tear down a user process on the
->> DSP.
->>
->> DRM_IOCTL_QDA_REMOTE_SESSION_CREATE (drm_qda_init_create)
->>   Creates a new process on the DSP by sending an INIT_CREATE message
->>   via the FastRPC INIT_HANDLE. The caller provides an ELF file (via
->>   DMA-BUF fd or direct pointer) and optional process attributes. A
->>   4 MB GEM buffer is allocated per session to hold the DSP process
->>   image; this buffer is stored in qda_file_priv and reused for the
->>   lifetime of the session.
->>
->>   If attrs is non-zero, INIT_CREATE_ATTR is used instead of
->>   INIT_CREATE to pass the extended attribute and signature fields.
-> 
-> What is the difference?
-This attaches attributes with the PD that is being created, I'll add
-more details>
->>
->> INIT_RELEASE
->>   Sends a release message to the DSP when the DRM file is closed
->>   (qda_postclose via qda_release_dsp_process), freeing the remote
->>   process and its resources. The release is skipped if the device
->>   has already been unplugged.
->>
->> qda_fastrpc.c
->>   fastrpc_prepare_args_init_create() marshals the six-argument
->>   create-process payload: the inbuf descriptor, process name,
->>   ELF file, physical pages, attrs, and siglen.
->>   fastrpc_prepare_args_release_process() marshals the single-
->>   argument release payload (remote_session_id).
->>
->> qda_drv.c
->>   qda_postclose() is extended to call qda_release_dsp_process()
->>   under drm_dev_enter() so the release message is only sent while
->>   the device is still accessible.
->>
->> Assisted-by: Claude:claude-4-6-sonnet
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>  drivers/accel/qda/qda_drv.c     |   8 +++
->>  drivers/accel/qda/qda_drv.h     |   5 ++
->>  drivers/accel/qda/qda_fastrpc.c | 140 ++++++++++++++++++++++++++++++++++++++++
->>  drivers/accel/qda/qda_fastrpc.h |  39 +++++++++--
->>  drivers/accel/qda/qda_ioctl.c   |  52 +++++++++++++++
->>  drivers/accel/qda/qda_ioctl.h   |   1 +
->>  include/uapi/drm/qda_accel.h    |  32 ++++++++-
->>  7 files changed, 270 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
->> index 704c7d3127d2..4eaba9b050c0 100644
->> --- a/drivers/accel/qda/qda_drv.c
->> +++ b/drivers/accel/qda/qda_drv.c
->> @@ -36,6 +36,13 @@ static int qda_open(struct drm_device *dev, struct drm_file *file)
->>  static void qda_postclose(struct drm_device *dev, struct drm_file *file)
->>  {
->>  	struct qda_file_priv *qda_file_priv = file->driver_priv;
->> +	int idx;
->> +
->> +	/* Only send the DSP release message while the device is accessible */
->> +	if (drm_dev_enter(dev, &idx)) {
->> +		qda_release_dsp_process(qda_file_priv->qda_dev, file);
->> +		drm_dev_exit(idx);
->> +	}
->>  
->>  	if (qda_file_priv->assigned_iommu_dev) {
->>  		struct qda_iommu_device *iommu_dev = qda_file_priv->assigned_iommu_dev;
->> @@ -59,6 +66,7 @@ static const struct drm_ioctl_desc qda_ioctls[] = {
->>  	DRM_IOCTL_DEF_DRV(QDA_QUERY, qda_ioctl_query, 0),
->>  	DRM_IOCTL_DEF_DRV(QDA_GEM_CREATE, qda_ioctl_gem_create, 0),
->>  	DRM_IOCTL_DEF_DRV(QDA_GEM_MMAP_OFFSET, qda_ioctl_gem_mmap_offset, 0),
->> +	DRM_IOCTL_DEF_DRV(QDA_REMOTE_SESSION_CREATE, qda_ioctl_init_create, 0),
-> 
-> Why is it being added in the middle?
-no specific reason, I'll correct this.>
->>  	DRM_IOCTL_DEF_DRV(QDA_REMOTE_INVOKE, qda_ioctl_invoke, 0),
->>  };
->>  
->> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
->> index 420cccff42bf..4b4639961d95 100644
->> --- a/drivers/accel/qda/qda_drv.h
->> +++ b/drivers/accel/qda/qda_drv.h
->> @@ -28,6 +28,8 @@ struct qda_file_priv {
->>  	struct qda_dev *qda_dev;
->>  	/** @assigned_iommu_dev: IOMMU device assigned to this process */
->>  	struct qda_iommu_device *assigned_iommu_dev;
->> +	/** @init_mem_gem_obj: GEM object for PD initialization memory */
->> +	struct qda_gem_obj *init_mem_gem_obj;
->>  	/** @pid: Process ID for tracking */
->>  	pid_t pid;
->>  	/** @remote_session_id: Unique session identifier */
->> @@ -83,4 +85,7 @@ void qda_deinit_device(struct qda_dev *qdev);
->>  int qda_register_device(struct qda_dev *qdev);
->>  void qda_unregister_device(struct qda_dev *qdev);
->>  
->> +/* DSP process / protection domain management */
->> +int qda_release_dsp_process(struct qda_dev *qdev, struct drm_file *file_priv);
->> +
->>  #endif /* __QDA_DRV_H__ */
->> diff --git a/drivers/accel/qda/qda_fastrpc.c b/drivers/accel/qda/qda_fastrpc.c
->> index 0ec37175a098..305915022b91 100644
->> --- a/drivers/accel/qda/qda_fastrpc.c
->> +++ b/drivers/accel/qda/qda_fastrpc.c
->> @@ -524,6 +524,138 @@ int qda_fastrpc_invoke_unpack(struct fastrpc_invoke_context *ctx,
->>  	return err;
->>  }
->>  
->> +static void setup_create_process_args(struct drm_qda_fastrpc_invoke_args *args,
->> +				      struct fastrpc_create_process_inbuf *inbuf,
->> +				      struct drm_qda_init_create *init,
->> +				      struct fastrpc_phy_page *pages)
->> +{
->> +	args[0].ptr = (u64)(uintptr_t)inbuf;
->> +	args[0].length = sizeof(*inbuf);
->> +	args[0].fd = -1;
->> +
->> +	args[1].ptr = (u64)(uintptr_t)current->comm;
->> +	args[1].length = inbuf->namelen;
->> +	args[1].fd = -1;
->> +
->> +	args[2].ptr = (u64)init->file;
->> +	args[2].length = inbuf->filelen;
->> +	args[2].fd = init->filefd;	/* DMA-BUF fd forwarded to DSP */
->> +
->> +	args[3].ptr = (u64)(uintptr_t)pages;
->> +	args[3].length = 1 * sizeof(*pages);
->> +	args[3].fd = -1;
->> +
->> +	args[4].ptr = (u64)(uintptr_t)&inbuf->attrs;
->> +	args[4].length = sizeof(inbuf->attrs);
->> +	args[4].fd = -1;
->> +
->> +	args[5].ptr = (u64)(uintptr_t)&inbuf->siglen;
->> +	args[5].length = sizeof(inbuf->siglen);
->> +	args[5].fd = -1;
->> +}
->> +
->> +static void setup_single_arg(struct drm_qda_fastrpc_invoke_args *args, const void *ptr, size_t size)
->> +{
->> +	args[0].ptr = (u64)(uintptr_t)ptr;
->> +	args[0].length = size;
->> +	args[0].fd = -1;
->> +}
->> +
->> +static int fastrpc_prepare_args_release_process(struct fastrpc_invoke_context *ctx)
->> +{
->> +	struct drm_qda_fastrpc_invoke_args *args;
->> +
->> +	args = kzalloc_obj(*args);
->> +	if (!args)
->> +		return -ENOMEM;
->> +
->> +	setup_single_arg(args, &ctx->remote_session_id, sizeof(ctx->remote_session_id));
->> +	ctx->sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_RELEASE, 1, 0);
->> +	ctx->args = args;
->> +	ctx->handle = FASTRPC_INIT_HANDLE;
->> +
->> +	return 0;
->> +}
->> +
->> +static int fastrpc_prepare_args_init_create(struct fastrpc_invoke_context *ctx,
->> +					    char __user *argp)
->> +{
->> +	struct drm_qda_init_create init;
->> +	struct drm_qda_fastrpc_invoke_args *args;
->> +	struct fastrpc_create_process_inbuf *inbuf;
->> +	int err;
->> +	u32 sc;
->> +
->> +	args = kcalloc(FASTRPC_CREATE_PROCESS_NARGS, sizeof(*args), GFP_KERNEL);
->> +	if (!args)
->> +		return -ENOMEM;
->> +
->> +	ctx->input_pages = kcalloc(1, sizeof(*ctx->input_pages), GFP_KERNEL);
->> +	if (!ctx->input_pages) {
->> +		err = -ENOMEM;
->> +		goto err_free_args;
->> +	}
->> +
->> +	ctx->inbuf = kcalloc(1, sizeof(*inbuf), GFP_KERNEL);
->> +	if (!ctx->inbuf) {
->> +		err = -ENOMEM;
->> +		goto err_free_input_pages;
->> +	}
->> +	inbuf = ctx->inbuf;
->> +
->> +	memcpy(&init, argp, sizeof(init));
->> +
->> +	if (init.filelen > FASTRPC_INIT_FILELEN_MAX) {
->> +		err = -EINVAL;
->> +		goto err_free_inbuf;
->> +	}
->> +
->> +	/*
->> +	 * Validate that the DMA-BUF fd is importable.  The fd itself is kept
->> +	 * in init.filefd and forwarded to the DSP via setup_create_process_args().
->> +	 */
->> +	if (init.filelen && init.filefd > 0) {
->> +		struct drm_gem_object *file_gem_obj;
->> +
->> +		err = get_gem_obj_from_dmabuf_fd(ctx, init.filefd, &file_gem_obj);
->> +		if (err) {
->> +			err = -EINVAL;
->> +			goto err_free_inbuf;
->> +		}
->> +		drm_gem_object_put(file_gem_obj);
->> +	}
->> +
->> +	inbuf->remote_session_id = ctx->remote_session_id;
->> +	inbuf->namelen = strlen(current->comm) + 1;
->> +	inbuf->filelen = init.filelen;
->> +	inbuf->pageslen = 1;
->> +	inbuf->attrs = init.attrs;
->> +	inbuf->siglen = init.siglen;
->> +
->> +	setup_pages_from_gem_obj(ctx->init_mem_gem_obj, &ctx->input_pages[0]);
->> +
->> +	setup_create_process_args(args, inbuf, &init, ctx->input_pages);
->> +
->> +	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE, 4, 0);
->> +	if (init.attrs)
->> +		sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE_ATTR, 4, 0);
->> +	ctx->sc = sc;
->> +	ctx->args = args;
->> +	ctx->handle = FASTRPC_INIT_HANDLE;
->> +
->> +	return 0;
->> +
->> +err_free_inbuf:
->> +	kfree(ctx->inbuf);
->> +	ctx->inbuf = NULL;
->> +err_free_input_pages:
->> +	kfree(ctx->input_pages);
->> +	ctx->input_pages = NULL;
->> +err_free_args:
->> +	kfree(args);
->> +	return err;
->> +}
->> +
->>  static int fastrpc_prepare_args_invoke(struct fastrpc_invoke_context *ctx, char __user *argp)
->>  {
->>  	struct drm_qda_invoke_args invoke_args;
->> @@ -568,6 +700,14 @@ int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *ar
->>  	int err;
->>  
->>  	switch (ctx->type) {
->> +	case FASTRPC_RMID_INIT_RELEASE:
->> +		err = fastrpc_prepare_args_release_process(ctx);
->> +		break;
->> +	case FASTRPC_RMID_INIT_CREATE:
->> +	case FASTRPC_RMID_INIT_CREATE_ATTR:
->> +		ctx->pd = QDA_USER_PD;
->> +		err = fastrpc_prepare_args_init_create(ctx, argp);
->> +		break;
->>  	case FASTRPC_RMID_INVOKE_DYNAMIC:
->>  		err = fastrpc_prepare_args_invoke(ctx, argp);
->>  		break;
->> diff --git a/drivers/accel/qda/qda_fastrpc.h b/drivers/accel/qda/qda_fastrpc.h
->> index ce77baeccfba..1c1236f9525e 100644
->> --- a/drivers/accel/qda/qda_fastrpc.h
->> +++ b/drivers/accel/qda/qda_fastrpc.h
->> @@ -127,6 +127,27 @@ struct fastrpc_invoke_buf {
->>  	u32 pgidx;
->>  };
->>  
->> +/**
->> + * struct fastrpc_create_process_inbuf - Input buffer for process creation
->> + *
->> + * This structure defines the input buffer format for creating a new
->> + * process on the remote DSP.
->> + */
->> +struct fastrpc_create_process_inbuf {
->> +	/** @remote_session_id: Client identifier for the session */
->> +	int remote_session_id;
->> +	/** @namelen: Length of the process name string including NUL terminator */
->> +	u32 namelen;
->> +	/** @filelen: Length of the ELF shell file in bytes */
->> +	u32 filelen;
->> +	/** @pageslen: Number of physical page descriptors */
->> +	u32 pageslen;
->> +	/** @attrs: Process attribute flags */
->> +	u32 attrs;
->> +	/** @siglen: Length of the signature data in bytes */
->> +	u32 siglen;
->> +};
->> +
->>  /**
->>   * struct fastrpc_msg - FastRPC wire message for remote invocations
->>   *
->> @@ -153,10 +174,6 @@ struct fastrpc_msg {
->>  
->>  /**
->>   * struct qda_msg - FastRPC message with kernel-internal bookkeeping
->> - *
->> - * The wire-format portion is kept in the embedded @fastrpc member (must
->> - * be first) so that &qda_msg->fastrpc can be passed directly to
->> - * rpmsg_send() without a copy.
->>   */
->>  struct qda_msg {
->>  	/**
->> @@ -245,7 +262,7 @@ struct fastrpc_invoke_context {
->>  	struct qda_gem_obj *msg_gem_obj;
->>  	/** @file_priv: DRM file private data */
->>  	struct drm_file *file_priv;
->> -	/** @init_mem_gem_obj: GEM object for protection domain init memory */
->> +	/** @init_mem_gem_obj: GEM object for PD initialization memory */
->>  	struct qda_gem_obj *init_mem_gem_obj;
->>  	/** @req: Pointer to kernel-internal request buffer */
->>  	void *req;
->> @@ -256,11 +273,23 @@ struct fastrpc_invoke_context {
->>  };
->>  
->>  /* Remote Method ID table - identifies initialization and control operations */
->> +#define FASTRPC_RMID_INIT_RELEASE	1	/* Release DSP process */
->> +#define FASTRPC_RMID_INIT_CREATE	6	/* Create DSP process */
->> +#define FASTRPC_RMID_INIT_CREATE_ATTR	7	/* Create DSP process with attributes */
->>  #define FASTRPC_RMID_INVOKE_DYNAMIC	0xFFFFFFFF	/* Dynamic method invocation */
->>  
->>  /* Common handle for initialization operations */
->>  #define FASTRPC_INIT_HANDLE		0x1
->>  
->> +/* Protection Domain (PD) identifiers */
->> +#define QDA_ROOT_PD		(0)
->> +#define QDA_USER_PD		(1)
->> +
->> +/* Number of arguments for process creation */
->> +#define FASTRPC_CREATE_PROCESS_NARGS	6
->> +/* Maximum initialization file size (4 MB) */
->> +#define FASTRPC_INIT_FILELEN_MAX	(4 * 1024 * 1024)
->> +
->>  void qda_fastrpc_context_free(struct kref *ref);
->>  struct fastrpc_invoke_context *qda_fastrpc_context_alloc(void);
->>  int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *argp);
->> diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
->> index c81268c20b04..33f0a798ad13 100644
->> --- a/drivers/accel/qda/qda_ioctl.c
->> +++ b/drivers/accel/qda/qda_ioctl.c
->> @@ -109,6 +109,7 @@ static int fastrpc_invoke(int type, struct drm_device *dev, void *data,
->>  	struct drm_gem_object *gem_obj;
->>  	int err;
->>  	size_t hdr_size;
->> +	size_t initmem_size = FASTRPC_INIT_FILELEN_MAX;
->>  
->>  	ctx = qda_fastrpc_context_alloc();
->>  	if (IS_ERR(ctx))
->> @@ -124,6 +125,27 @@ static int fastrpc_invoke(int type, struct drm_device *dev, void *data,
->>  	ctx->file_priv = file_priv;
->>  	ctx->remote_session_id = qda_file_priv->remote_session_id;
->>  
->> +	if (type == FASTRPC_RMID_INIT_CREATE) {
->> +		struct drm_gem_object *initmem_gem_obj;
->> +
->> +		if (qda_file_priv->init_mem_gem_obj) {
-> 
-> Why is it non-NULL here?
-I had added this check in case the init failed earlier and there is a
-retry for the same, but now I see it's not correct and should be handled
-in the error path. I'll fix this.>
->> +			drm_gem_object_put(&qda_file_priv->init_mem_gem_obj->base);
->> +			qda_file_priv->init_mem_gem_obj = NULL;
->> +		}
->> +
->> +		initmem_gem_obj = qda_gem_create_object(dev, qdev->iommu_mgr,
->> +							initmem_size, file_priv);
->> +		if (IS_ERR(initmem_gem_obj)) {
->> +			err = PTR_ERR(initmem_gem_obj);
->> +			goto err_context_free;
->> +		}
->> +
->> +		ctx->init_mem_gem_obj = to_qda_gem_obj(initmem_gem_obj);
->> +		qda_file_priv->init_mem_gem_obj = ctx->init_mem_gem_obj;
->> +	} else if (type == FASTRPC_RMID_INIT_RELEASE) {
->> +		ctx->init_mem_gem_obj = qda_file_priv->init_mem_gem_obj;
->> +	}
->> +
->>  	err = qda_fastrpc_prepare_args(ctx, (char __user *)data);
->>  	if (err)
->>  		goto err_context_free;
->> @@ -161,11 +183,41 @@ static int fastrpc_invoke(int type, struct drm_device *dev, void *data,
->>  	return 0;
->>  
->>  err_context_free:
->> +	if (type == FASTRPC_RMID_INIT_RELEASE && !err && qda_file_priv->init_mem_gem_obj) {
->> +		drm_gem_object_put(&qda_file_priv->init_mem_gem_obj->base);
->> +		qda_file_priv->init_mem_gem_obj = NULL;
->> +	}
->> +
->>  	fastrpc_context_put_id(ctx, qdev);
->>  	kref_put(&ctx->refcount, qda_fastrpc_context_free);
->>  	return err;
->>  }
->>  
->> +/**
->> + * qda_ioctl_init_create() - Create a DSP process
->> + * @dev: DRM device structure
->> + * @data: User-space data (struct drm_qda_init_create)
->> + * @file_priv: DRM file private data
->> + *
->> + * Return: 0 on success, negative error code on failure
->> + */
->> +int qda_ioctl_init_create(struct drm_device *dev, void *data, struct drm_file *file_priv)
->> +{
->> +	return fastrpc_invoke(FASTRPC_RMID_INIT_CREATE, dev, data, file_priv);
-> 
-> Where is INIT_CREATE_ATTR, which you described earlier?
-INIT_CREATE_ATTR is used while `sc` creation so the DSP considers the
-request is coming with some attributes, the ioctl functions are going to
-be the same in both the cases, so keeping it unchanged and the decision
-is taken while `sc` is getting created.>
->> +}
->> +
->> +/**
->> + * qda_release_dsp_process() - Release DSP process resources for a file
->> + * @qdev: QDA device structure
->> + * @file_priv: DRM file private data
->> + *
->> + * Return: 0 on success, negative error code on failure
->> + */
->> +int qda_release_dsp_process(struct qda_dev *qdev, struct drm_file *file_priv)
->> +{
->> +	return fastrpc_invoke(FASTRPC_RMID_INIT_RELEASE, &qdev->drm_dev, NULL, file_priv);
->> +}
->> +
->>  /**
->>   * qda_ioctl_invoke() - Perform a dynamic FastRPC method invocation
->>   * @dev: DRM device structure
->> diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
->> index 3bb9cfd98370..192565434363 100644
->> --- a/drivers/accel/qda/qda_ioctl.h
->> +++ b/drivers/accel/qda/qda_ioctl.h
->> @@ -9,6 +9,7 @@
->>  #include "qda_drv.h"
->>  
->>  int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_priv);
->> +int qda_ioctl_init_create(struct drm_device *dev, void *data, struct drm_file *file_priv);
->>  int qda_ioctl_gem_create(struct drm_device *dev, void *data, struct drm_file *file_priv);
->>  int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv);
->>  int qda_ioctl_invoke(struct drm_device *dev, void *data, struct drm_file *file_priv);
->> diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
->> index 72512213741f..711e2523a570 100644
->> --- a/include/uapi/drm/qda_accel.h
->> +++ b/include/uapi/drm/qda_accel.h
->> @@ -21,8 +21,9 @@ extern "C" {
->>  #define DRM_QDA_QUERY		0x00
->>  #define DRM_QDA_GEM_CREATE		0x01
->>  #define DRM_QDA_GEM_MMAP_OFFSET	0x02
->> -/* Command numbers 0x03-0x06 reserved for INIT_ATTACH, INIT_CREATE, MAP, MUNMAP */
->> -#define DRM_QDA_REMOTE_INVOKE		0x07
->> +/* Command number 0x03 reserved for INIT_ATTACH; 0x05-0x06 reserved for MAP, MUNMAP */
->> +#define DRM_QDA_REMOTE_SESSION_CREATE		0x04
->> +#define DRM_QDA_REMOTE_INVOKE			0x07
->>  
->>  /*
->>   * QDA IOCTL definitions
->> @@ -37,6 +38,9 @@ extern "C" {
->>  					  struct drm_qda_gem_create)
->>  #define DRM_IOCTL_QDA_GEM_MMAP_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_GEM_MMAP_OFFSET, \
->>  					  struct drm_qda_gem_mmap_offset)
->> +#define DRM_IOCTL_QDA_REMOTE_SESSION_CREATE					\
->> +	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_SESSION_CREATE,		\
->> +		 struct drm_qda_init_create)
->>  #define DRM_IOCTL_QDA_REMOTE_INVOKE	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_INVOKE, \
->>  					  struct drm_qda_invoke_args)
->>  
->> @@ -99,6 +103,30 @@ struct drm_qda_fastrpc_invoke_args {
->>  	__u32 attr;
->>  };
->>  
->> +/**
->> + * struct drm_qda_init_create - Accelerator process initialization parameters
->> + * @filelen: Length of the ELF file in bytes
->> + * @filefd: DMA-BUF file descriptor containing the ELF file
->> + * @attrs: Process attributes flags
->> + * @siglen: Length of signature data in bytes
->> + * @file: Pointer to ELF file data if not using filefd
->> + *
->> + * This structure is used with DRM_IOCTL_QDA_INIT_CREATE to initialize
->> + * a new process on the accelerator. The process code is provided either
->> + * via a file descriptor (filefd, typically a GEM object) or a direct
->> + * pointer (file). Set file to 0 if using filefd.
->> + *
->> + * The attrs field contains bit flags for debug mode, privileged execution,
->> + * and other process attributes.
->> + */
->> +struct drm_qda_init_create {
->> +	__u32 filelen;
->> +	__s32 filefd;
->> +	__u32 attrs;
->> +	__u32 siglen;
->> +	__u64 file;
->> +};
->> +
->>  /**
->>   * struct drm_qda_invoke_args - Dynamic FastRPC invocation parameters
->>   * @handle: Remote handle to invoke on the DSP
->>
->> -- 
->> 2.34.1
->>
->>
-> 
+> >> For instance, suppose a parent memcg has two children, memcg1 and memcg2,
+> >> each with 200MB of zswap (100MB inactive). Triggering proactive writeback on
+> >> the parent memcg will exhaust memcg1's inactive zswap pages. After that,
+> >> even though memcg2 still has plenty of inactive zswap pages, it will
+> >> continue to write back memcg1's active zswap pages. Writing back active
+> >> zswap pages causes the user-space agent to prematurely abort the writeback
+> >> because it detects that certain memcg metrics have exceeded predefined
+> >> thresholds.
+> >
+> > This will only happen if the reclaim size is smaller than the batch
+> > size, right? Otherwise the kernel should reclaim more or less equally
+> > from both memcgs?
+> >
+>
+> I gave it some thought. Not using a cursor could lead to unfairness
+> issues with certain writeback sizes:
+>
+>   - If the writeback size is an odd multiple of WB_BATCH (e.g.,
+> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
+> writeback ratio might end up being 2:1.
+>   - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
+> triggered, it might repeatedly write back from only the first 2 child
+> cgroups.
+>
+> Although setting a smaller WB_BATCH might mitigate this unfairness, it
+> could hurt writeback efficiency. Let's just use per-memcg cursors to
+> completely fix these corner cases.
 
+Exactly, the batch size should be small enough that any unfairness is
+not a problem. I would honestly just do batching without a per-memcg
+cursor, unless we have numbers to prove that the efficiency is
+affected when we use a small batch size. Let's only introduce
+complexity when needed please.
