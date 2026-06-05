@@ -1,142 +1,294 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36682F39AB;
-	Fri,  5 Jun 2026 16:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DF938C41E
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 17:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780676613; cv=none; b=QpcP4tePy6K74YkJtRlGeGZ5Mf5/NBZ2mRkXEcVos3VCfAe73Xxf+6k4fty3CE2lLkC8Iy7lyU5/msRploc5gEa4rmjUasxf1s4APGnkfYPzIAIHofo3dpSrVqOd8UaoZiPFUhkZ6YKmMKpSXPZVB8nXXhTq2/YeUjsitWsUI/4=
+	t=1780679327; cv=none; b=YlAe/MQVRl4wyywYHn+BmUKdhLrmA54enaaG0YaQ2L1WkrJDC6awtN+vnY4HvuciuG6AJVMcZm/Kb9y0mG163MKQGhjMPlROntXqQ9zm0R6xaYwVZrtjtTGoxp0AfsGX2QOmQR4zaJIV7mJ1Qgf8OG1xDU2muzV6TVXCTjL0WRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780676613; c=relaxed/simple;
-	bh=36G93fEgvDwrQQeVtWl6/OYIdFaFQDpGBD1vJIbr4sM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BXrHDNoJX3cGdKyawMPJHCEOwHmD+iDdJty9bUI1fhvc1LepQYDb9tUXBIlO21xbW7XMiiv8LqlVxHgoq4UxQd2Ao5cYfASMJpGxOdUePvPDZrv90GCRzMFhjOhALu+QKro3Emnxzv7jRRgPvGZMuO2YzRhIklYqWozs0x+Ews8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=imu5HU79; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780679327; c=relaxed/simple;
+	bh=3niKRmDHxwyRp2JeLNFOtmvwBY8emWKsp6bOTgXVikk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=E1EZJluXNZz3ueSacdDjPo8+FxwC4azMXFErPVyaPexKnhyCfD5jGFGUiHPBj9A2RdDOIeXbu+cSfKgwOEjIkYw5bWgxo8t9mkIiLohaOE5Q/cbWBXnelXZk52lSi9G778WRXyk5QUzxOV0usWpDAPtvzDwy4MkX9mLWEWVKAi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KG5FV+qp; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imu5HU79"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780676611; x=1812212611;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=36G93fEgvDwrQQeVtWl6/OYIdFaFQDpGBD1vJIbr4sM=;
-  b=imu5HU79Y5Sa9e7gAC9iEtYHnzICi7i2ieR7oTOgqwm3Crr2+tcTUB5N
-   IYJ794kA4KHy+amEuT9ZCUx3enf8i9Q6dPy/rs2OmjwWGVyy1Pg/6qqiW
-   klwe3l35Q9DR6D7xTojSU8ATHiJmoodFl9v3sp6SPIIbBn69jWCZ5J2J6
-   gXkmXkjzqvueroy86a1YoFZWXLbiN0YXguIMIdqhNQKmE+wrZ4JGORfJc
-   1MTfFaro1CUNMs4dpAw8bQgNvyTaIdUDStnRkgUiygiIQcHubJcJs6Qrk
-   xzyG9eWusA6+ShGaQQwGnhniRxMEQo0+FmwZe8UPxjyKGHaKER58DpLA3
-   w==;
-X-CSE-ConnectionGUID: uAbO2sHwSnKnFblNY+U2aQ==
-X-CSE-MsgGUID: DDPFHPpAR8SOWhyObunieg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="81634016"
-X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="81634016"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 09:23:30 -0700
-X-CSE-ConnectionGUID: GDFLHO7TRnKWPVfOGssbUw==
-X-CSE-MsgGUID: 0MbgXl7lSTW/Z8KPX8x9Aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
-   d="scan'208";a="282964733"
-Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.109.26]) ([10.125.109.26])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 09:23:30 -0700
-Message-ID: <572868d7-4794-4fec-b80f-97d8434d5fb6@intel.com>
-Date: Fri, 5 Jun 2026 09:23:21 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KG5FV+qp"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-bebfe499101so208604866b.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 10:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780679321; x=1781284121; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=d5WfUZoABBIW0tyIpALU+TWbIZ4Vz/CJ1yqpAAE2dls=;
+        b=KG5FV+qpzqT+64U83cCKMTuOIsrLsTnLN5AJ9pKYfP8bdRmm4ZYKzMjORBLWHhCyAV
+         y7ArbZFylCEHcVo6IRTt6gwi3MgDW0G1HILtXRuT99gDpOebNEgQ2a3kCn+SHk530Cm9
+         uSE2d15F0aCgeYIA5j0J6aW2DPCJSvZ2xeIMFMIEwBu+u+W+loAsCqLwykRJilazS6RS
+         QPhnIMMGmbf7ghE95lu0VNM4RVAm7B/qwzL4xizz7psZnYBVmOpTnEvEllkM20gYvn9A
+         NgOrHTLJ8cnenwTqvAcbBnJvzBl+POMq8ecqeuUbHHpop5IgFBo+gU6fJmVEJFwKLw+X
+         GZeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780679321; x=1781284121;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d5WfUZoABBIW0tyIpALU+TWbIZ4Vz/CJ1yqpAAE2dls=;
+        b=VF9MKMxuX1EgVaGQ1Hejd9ILru5+soY/BkOJZK6dLaLI3bVCxVh7kznoSGHByAeX4r
+         CzYkUMvolm2BjjWcdRQbC731zTEx2uMrA+a4V/go7dJ+sWCwi9rzWRklwz5Ps2jRoD8F
+         H5BfUZVythuWY4myZuXKyxQKe3hXTQTLe2TifB2/0cNMmzToXorZehgExeLMTZW6bXcx
+         437lQu8KsGR9gXfI+12UTBxMMKM1pc1xJi84KvX1ykwPixy1XyhaFxEiYwNBkdZIZpN4
+         hjpEldRZcay6Eyb7TixcRk9ZBwPZmh+/tw5zDF02yIoxQHESkVN8+SvJ4o/X37pqyGqu
+         I/BQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+6DLJVKxoLfTRGzbLGyRzQsnQE7VqbPTi8+5L+Qqd5XDbpjqM8fL3vrZO6paQqtZz91+O6ZPTX090=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy41hMWsvdh6SnSApmAnyIwSqwq3NArtP4SrpqWVNZvlhphVXJL
+	IP2oeZLWUVv8MlDtod1AH4QtnEqGUArhisFgAatofIV36PzlJDZ6cAHCehY6cJGQewcIERk8AYL
+	svb6twamrsdjilyhqAg==
+X-Received: from edbif10.prod.google.com ([2002:a05:6402:5d8a:b0:68b:12e9:a194])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:9487:b0:bdf:b9fa:6683 with SMTP id a640c23a62f3a-bf3a71f72c7mr204228166b.14.1780679321346;
+ Fri, 05 Jun 2026 10:08:41 -0700 (PDT)
+Date: Fri,  5 Jun 2026 17:08:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
-To: Kiryl Shutsemau <kas@kernel.org>, Chao Gao <chao.gao@intel.com>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
- "Huang, Kai" <kai.huang@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
- "seanjc@google.com" <seanjc@google.com>, "mingo@redhat.com"
- <mingo@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "nik.borisov@suse.com" <nik.borisov@suse.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "hpa@zytor.com" <hpa@zytor.com>, "tglx@kernel.org" <tglx@kernel.org>,
- "Annapurve, Vishal" <vannapurve@google.com>, "bp@alien8.de" <bp@alien8.de>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-7-rick.p.edgecombe@intel.com>
- <ahVghgNAe4JrmlQH@intel.com>
- <fe08f03a22acfe758cd97f7c2880deeafbc5fe58.camel@intel.com>
- <aiGq7XjmMrsqdBY5@thinkstation> <aiJhScChLZkH44eB@intel.com>
- <aiK1_q8beMcIEiwO@thinkstation>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <aiK1_q8beMcIEiwO@thinkstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
+Message-ID: <cover.1780667929.git.tarunsahu@google.com>
+Subject: [RFC PATCH v1 0/10] liveupdate: kvm: Guest_memfd preservation
+From: Tarun Sahu <tarunsahu@google.com>
+To: Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
+	Tarun Sahu <tarunsahu@google.com>, fvdl@google.com, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, 
+	aneesh.kumar@kernel.org, skhawaja@google.com, vipinsh@google.com, 
+	ackerleytng@google.com, Pratyush Yadav <pratyush@kernel.org>, david@redhat.com, 
+	dmatlack@google.com, mark.rutland@arm.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	seanjc@google.com, axelrasmussen@google.com
+Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/5/26 04:42, Kiryl Shutsemau wrote:
->>> I don't see a reason why we can't keep the scoped_guard() on get side.
->> One additional reason to drop scoped_guard() is that it mixes cleanup helpers
->> with goto, which is discouraged. See [*]
->>
->>  :Lastly, given that the benefit of cleanup helpers is removal of “goto”, and
->>  :that the “goto” statement can jump between scopes, the expectation is that
->>  :usage of “goto” and cleanup helpers is never mixed in the same function.
-> Fair enough.
-> 
-> But it can also be address if we free the PAMT page array with the guard
-> too :P
+Changes from V1:
+1. Remove mem_attr_array preservation
+2. Removed prefaulted guest_memfd condition
+3. Updated the check for shared guest_memfd from INIT_SHARED to
+   kvm_arch_has_private_mem
+4. Added the document liveupdate/vmm.rst
 
-How important is this patch? I see "Optimize" but I read "Optional".
+Hello,
 
-If we're arguing about it, maybe we should just kick it out and focus on
-the more important bits.
+I am proposing this series as RFC, to initiate the discussion for
+supporting the guest_memfd preservation. This will setup basic arhitecture
+for VM preservation during liveupdate. This Cover letter has three
+sections (please feel free to skip the section you already know):
+
+A. Guest_memfd introduction:
+To make the audience familiar with guest_memfd
+B. Liveupdate introduction:
+To make the audience familiar with liveupdate
+C. Actual Implementation Design and questions.
+
+**A: GUEST MEMFD INTRODUCTION**
+
+Initially, guest_memfd was created to support guest private memory in
+confidential computing VMs (CoCo VMs). It was designed so that whenever
+a guest wants to grant the host access to private memory, a series of
+calls occurs: from the guest to KVM, KVM to the host userspace, host
+userspace back to KVM, and finally a new page fault maps the memory into
+a separate shared address space. Conversely, if the guest transitions the
+memory back to private, the subsequent fault is handled by guest_memfd.
+(Dual Mapping Architecture). In such a VM, all guest memory is initially
+shared. On the fly, the guest may request to change pages to private; the
+metadata indicating which parts of memory are private is stored in an
+xarray inside struct kvm (mem_attr_array). This array serves as the source
+of truth for the fault mechanism, determining whether a mapping should be
+created from host-userspace-mapped pages or directly from the guest_memfd
+file. For private memory, Fault also calls architecture-specific function
+to set up private hardware access (e.g., on SEV-SNP or TDX). This type of
+guest_memfd is fully-private where shared mapping comes from userspace
+mapped address space.
+
+Subsequently, support was added to allow the entire guest memory to be
+backed by guest_memfd. This led to the implementation of the MMAP and
+INIT_SHARED flags for the guest_memfd inode. When KVM_CREATE_GUEST_MEMFD
+is called with these flags, the guest_memfd becomes mmap-able by host
+userspace. The INIT_SHARED flag is used to make the guest_memfd completely
+shared between the host and the guest. Consequently, page faults from both
+host userspace and the guest resolve to the same guest_memfd page cache.
+However, under this configuration, marking a portion of this memory as
+private is not possible. This type of guest_memfd is fully-shared.
+
+If guest_memfd is created with INIT_SHARED without MMAP, the host
+can never access the guest_memfd. But the memory is still considered
+shared.
+
+Hence, At this point, Only use-case of guest_memfd is either fully-shared
+or fully-private.
+
+There is ongoing work to make shared and private mapping in-place backed
+by guest_memfd. [1] There is also ongoing work to back guest_memfd by
+hugetlb pages. [2]
+
+**B: LIVEUPDATE INTRODUCTION (LIVEUPDATE ORCHESTRATOR - LUO)**
+
+Livepdate support was added in kernel to update the host kernel by
+minimizing the downtime to minimal. This is generally achieved by
+preserving the current state of the system and retrieve after boot to
+resume from where we left it.
+
+Any subsystem that wants to preserve themselves, register their handler
+with liveupdate system. This handler includes calls to the following
+
+*can_preserve (file)*:
+This tells the luo system about the eligibility of the file. When
+preserve ioctl is called, it first loop through all the file handlers
+and call can_preserve, the one which return true, luo uses this file
+handler fh->preserve call to preserve the file.
+
+*preserve(file)*:
+This actually preserves the file.
+
+*unpreserve(file)*:
+This unpreserve the file incase userspace want to go back.
+
+*retrieve(file)*:
+On new kernel boot, this function retrieves the file.
+
+*finish(file)*:
+When userspace decides that all the files in the liveupdate session has
+been retrieved, it can trigger this to do final work of cleaning up.
+
+LUO preserve its memory using KHO (kexec-handover). All these APIs will
+be implemented using KHO calls.
+
+**C: GUEST MEMFD PRESERVATION**
+
+SCOPE:
+1. Fully Shared Guest_memfd
+2. Guest_memfd backed by PAGE_SIZE pages
+
+Any VM whose memory is backed by such guest_memfd can be preserved
+across liveupdate.
+
+The preservation call is straight forward. It walks through the page
+cache, serialize the folios and preserve them.
+
+On the retrieval path:
+Currently, creating a guest_memfd requires an associated struct kvm
+(derived from vm_file / vm_fd). Since there is no direct way to pass a
+VM file descriptor via the LUO API.
+
+I leverage a companion patch [3] (Also added as part of this series
+PATCH[1]) that allows one file to retrieve another file from the same
+LUO session. This enables the guest_memfd retrieval path to obtain the
+preserved KVM file, use it during guest_memfd file creation, and
+subsequently populate its preserved memory.
+
+Preserving the KVM file allows us to preserve additional VM-specific
+metadata, which will be crucial in the future for cleanly resuming the
+VM. Currently, it preserves only the VM type.
+
+On the retrieval path:
+KVM normally requires a unique identifier (fdname) upon creation,
+which KVM typically assigns based on the newly created file descriptor
+number. However, in the LUO retrieval path, the retrieve call restores
+the underlying file structure and delegates actual file descriptor
+allocation to LUO (check luo_session_retrieve_fd). Currently, I used an
+atomically incremented sequence number as the fdname. I would like to
+discuss whether userspace services rely on specific naming conventions
+here. Or if we can change underlying the retrieve call
+(luo_retrieve_file) to pass fd?
+
+This series also introduces the inode freeze call for guest_memfd inode.
+Which fails any subseuquent fallocate calls or new page fault allocation.
+VMM is supposed to take necessary measure when it is triggering the
+liveupdate. VMM must:
+1. Either pause the VM before preserving the VM/guest_memfd OR
+2. Take action (vm_pause or unpreserve/destroy liveupdate sequence)
+   when a fault fails and VM_EXIT to VMM with -EPERM.
+
+Preservation Order between VM and guest_memfd file:
+There is no strict order, they are independent. Guest_memfd file needs
+the kvm_file preserved token, which it update on freeze call as freeze
+is called just before kexec jump. kexec fails incase freeze will be
+unsuccessful, for this case, it will fail if vm_file token is not found.
+
+Retrieval order for VM and guest_memfd file:
+There is no strict order needed for retrieval.
+1. If VM file is retrieve before guest_memfd: guest_memfd will be
+retrieved and vm_file also retrieved and userspace hold reference to
+both files.
+
+2. If guest_memfd file is retrieved before vm_file: guest_memfd will be
+retrieved and it will retrieve vm_file internally and userspace can
+retrieve vm_file later. But userspace will not have reference to vm_file
+and luo_finish() will drop vm_file final reference if userspace does not
+retrieve vm_file before calling luo_finish(). This is valid case, as
+guest_memfd can live without vm_file as in the case vm_file is closed
+before guest_memfd file.
+
+I have implemented the basic test, where it spawn a VM with guest_memfd
+or 16MB and write data to its 5MB portion. After LUO preserve call, and
+kexec, On retrieve, a new VM is spawn with the restored vm_file and
+restored guest_memfd and the data is verified. It uses the liveupdate
+test library [5].
+
+Future Work:
+1. Support private guest_memfd preservation.
+2. Extend the support for guest_memfd with in-place conversion of
+shared/private.
+
+[1] https://lore.kernel.org/all/20260507-gmem-inplace-conversion-v6-0-91ab5a8b19a4@google.com/
+[2] https://lore.kernel.org/all/cover.1747264138.git.ackerleytng@google.com/
+[3] https://lore.kernel.org/all/20260427175633.1978233-2-skhawaja@google.com/
+[4] https://lore.kernel.org/all/cover.1691446946.git.ackerleytng@google.com/
+[5] https://lore.kernel.org/all/20260511201155.1488670-1-vipinsh@google.com/
+
+Pasha Tatashin (1):
+  liveupdate: luo_file: Add internal APIs for file preservation
+
+Tarun Sahu (8):
+  liveupdate: Add LIVEUPDATE_GUEST_MEMFD config option
+  kvm: Prepare core VM structs and helpers for LUO support
+  kvm: kvm_luo: Allow kvm preservation with LUO
+  kvm: guest_memfd: Move internal definitions and helper to new header
+  kvm: guest_memfd: Add support for freezing and unfreezing mappings
+  kvm: guest_memfd_luo: add support for guest_memfd preservation
+  selftests: kvm: Split ____vm_create() to expose init helpers
+  selftests: kvm: Add guest_memfd_preservation_test
+
+ MAINTAINERS                                   |  13 +
+ include/linux/kho/abi/kvm.h                   | 106 ++++
+ include/linux/kvm_host.h                      |  14 +
+ include/linux/liveupdate.h                    |  21 +
+ kernel/liveupdate/Kconfig                     |  15 +
+ kernel/liveupdate/luo_file.c                  |  69 +++
+ kernel/liveupdate/luo_internal.h              |  17 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   6 +-
+ .../kvm/guest_memfd_preservation_test.c       | 230 ++++++++
+ .../testing/selftests/kvm/include/kvm_util.h  |   2 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  26 +-
+ virt/kvm/Makefile.kvm                         |   1 +
+ virt/kvm/guest_memfd.c                        | 185 +++++--
+ virt/kvm/guest_memfd.h                        |  44 ++
+ virt/kvm/guest_memfd_luo.c                    | 489 ++++++++++++++++++
+ virt/kvm/kvm_luo.c                            | 190 +++++++
+ virt/kvm/kvm_main.c                           |  94 +++-
+ virt/kvm/kvm_mm.h                             |  15 +
+ 18 files changed, 1456 insertions(+), 81 deletions(-)
+ create mode 100644 include/linux/kho/abi/kvm.h
+ create mode 100644 tools/testing/selftests/kvm/guest_memfd_preservation_test.c
+ create mode 100644 virt/kvm/guest_memfd.h
+ create mode 100644 virt/kvm/guest_memfd_luo.c
+ create mode 100644 virt/kvm/kvm_luo.c
+
+
+base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+prerequisite-patch-id: 85705fb54d3065efe1d87ab4b69e828a9f3404e7
+prerequisite-patch-id: 7bf85ca17e12b26a72d41ee35f2ec8fc5ce2e692
+-- 
+2.54.0.1032.g2f8565e1d1-goog
+
