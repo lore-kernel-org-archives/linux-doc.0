@@ -1,505 +1,288 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C247416D01;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA32330CD9E;
 	Fri,  5 Jun 2026 17:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780680188; cv=none; b=aifjWHEC6ejWJLrK8mhH98OjLQTqvwFeAGK8BKduJg+IvwXG/5uMj32qhxj7sdkLcs5nFxSpAof/Q8hc/NWONM1dVqZ2jF7hCKw6af6pCB6WOHktpf27zAC4HLjamBLQzL65jnx+VLzjiInHg/T37WW4hSvMS//sKtu5ReGwIa4=
+	t=1780680192; cv=none; b=iuqJH2Hpva8mV0onJZDNNiRLACM3AAtgJZBOSPX/fPuzT9XIf3noznSgCT4549ohMkJosmhMp5oA6StC0bzLp8z29sBo7mbD+m2J2O6il6wW4EQ+3Nw9mRThNBFHsOLisGKR4rHaeL9DFmb3fKhRt24gRRDe6uxlJD0NMMD56B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780680188; c=relaxed/simple;
-	bh=lizWom7kQpSapScdlQtqP0GPMCXLJkaPKaDj2lnf8e4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=opQ8C7CD74C7YOF3pvLfigFNRrGsdOLMwyd7daMzBoPwr9X8f4cE9XKFFJ3sfYnl6333gsFQB3sxpc1ZADEs3t8FpCfCZTpI/pE9xbgcUv0V59GF5M00F1hdRvFUgfCIFGP3eB4qHIFau0yf+N6MVVChLMLGWKu5Cj9A5IFIv0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXe3tUct; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXe3tUct"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4B2F01F00893;
-	Fri,  5 Jun 2026 17:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780680187;
-	bh=JmeMxbXw2ZDUnGPQV9xGUwkBAbxAXeB57R4NlHLmCCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VXe3tUctdvoapIkLQpt0U552wqCeFZZczgH/BeLyYfz2UZIyHmXxIl0RYwXXrGJvL
-	 gHsvtEpCDksKnSboMaNJBdo9inyJ/j94jrwLAjL8FzefmOSfASXZV7ytifDjhFXBev
-	 X8PqhCwReJ9U90h1qMZ7CSVVuIc+N8iSZCqZGCNA89YlR0rtV/rBWiahOyKx/OweWe
-	 /aI0xYUd2+ZDUCOs+weHiYTHRyw7Hz5FwI5g1z0vylbDC+nZmf3VJAMFkS4qwnFn3A
-	 lejISQ+OvG3E0sd0UHj8lTGFWtUloqyiXmEomfXGstcueTGENDUSJ4mAe8zyIyJC2A
-	 Zc+dA8Ow1wgtA==
-Date: Wed, 3 Jun 2026 21:25:19 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Subject: Re: [RFC PATCH v2 1/6] kcov: add per-task dataflow tracking for
- function arguments/return values
-Message-ID: <aiB_nycHL-MLN-3g@levanger>
-Mail-Followup-To: Yunseong Kim <yunseong.kim@est.tech>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
- <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
+	s=arc-20240116; t=1780680192; c=relaxed/simple;
+	bh=hfpDS268L20nSYLvYiQ2jzFnFR8t3uEl6pCp/0cfsQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bDhp0+BvIG1QtpxnCe7R76dW0q0zCxwt/EsCx8ijFbBg/YpCnqsBgpwy/VDr1l4O1pEf+D8o48qelcdnK/ABHCj6kKSb4b5trP4QkbnMz86CR69SOg5prYaTXQNeu9VbDBPcZvT672YBs2dhmVApWqxm3S9ajZ5+99cgU4s/yW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.196])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gX7RT4zLCz1HCn5;
+	Sat,  6 Jun 2026 01:17:41 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 8BFF740565;
+	Sat,  6 Jun 2026 01:23:00 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwBHV43pBSNqZAhlAA--.46721S2;
+	Fri, 05 Jun 2026 18:23:00 +0100 (CET)
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	gregorylumen@linux.microsoft.com,
+	chenste@linux.microsoft.com,
+	nramas@linux.microsoft.com,
+	Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v7 00/12] ima: Exporting and deleting IMA measurement records from kernel memory
+Date: Fri,  5 Jun 2026 19:22:24 +0200
+Message-ID: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
+X-CM-TRANSID:GxC2BwBHV43pBSNqZAhlAA--.46721S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3XF1xWFWUCw1xCr4fWF1ftFb_yoWfurWfpa
+	9ag34xCwn5Ja4Syw1xJw1xCr4ru393Ka1DGrn7J34xJF15WFyvvr4YkrWYkFnxKryFyr1j
+	yw12qr45ua1qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
+	w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a
+	6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUFku4UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAPBGoiOzcKfgABs4
 
-On Wed, Jun 03, 2026 at 07:43:28PM +0200, Yunseong Kim wrote:
-> Add a new KCOV subsystem that captures function arguments at entry and
-> return values at exit, with automatic struct field expansion using
-> compiler-generated DebugInfo metadata.
-> 
-> Key components:
-> - CONFIG_KCOV_DATAFLOW_ARGS: enables argument capture
-> - CONFIG_KCOV_DATAFLOW_RET: enables return value capture
-> - /sys/kernel/debug/kcov_dataflow: separate device from legacy kcov
-> - Ioctl namespace 'd' (KCOV_DF_INIT_TRACE, KCOV_DF_ENABLE, KCOV_DF_DISABLE)
-> - Per-task buffer: task->kcov_df_area with atomic xadd reservation
-> - Fault-tolerant: all reads via copy_from_kernel_nofault()
-> - Recursion-safe: notrace __no_sanitize_coverage noinline
-> - ERR_PTR aware: skips struct expansion for error pointers
-> 
-> The callbacks (__sanitizer_cov_trace_args/ret) are inserted by the
-> compiler when -fsanitize-coverage=dataflow-args,dataflow-ret is used.
-> The Kconfig options depend on cc-option to verify compiler support.
-> 
-> Buffer format (TLV records, all u64):
->   area[0]: atomic word count
->   [pos+0]: type_and_seq (0xE=entry, 0xF=return in upper 4 bits)
->   [pos+1]: PC
->   [pos+2]: meta (arg_idx | arg_size | ptr)
->   [pos+3..N]: field values read via copy_from_kernel_nofault()
-> 
-> This is completely independent from legacy /sys/kernel/debug/kcov.
-> Existing users (syzkaller, oss-fuzz) are unaffected.
-> 
-> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
-> ---
->  include/linux/sched.h |   8 ++
->  kernel/kcov.c         | 291 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  lib/Kconfig.debug     |  22 ++++
->  3 files changed, 321 insertions(+)
-> 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index c4433c185ad8..03be4b495f70 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1533,6 +1533,14 @@ struct task_struct {
->  	/* KCOV sequence number: */
->  	int				kcov_sequence;
->  
-> +	/* KCOV dataflow per-task sequence counter for TLV records: */
-> +	u32				kcov_dataflow_seq;
-> +
-> +	/* KCOV dataflow: separate buffer for trace-args/trace-ret */
-> +	unsigned int			kcov_df_size;
-> +	void				*kcov_df_area;
-> +	bool				kcov_df_enabled;
-> +
->  	/* Collect coverage from softirq context: */
->  	unsigned int			kcov_softirq;
->  #endif
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 1df373fb562b..d3c9c0efe961 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -353,6 +353,288 @@ void notrace __sanitizer_cov_trace_switch(kcov_u64 val, void *arg)
->  EXPORT_SYMBOL(__sanitizer_cov_trace_switch);
->  #endif /* ifdef CONFIG_KCOV_ENABLE_COMPARISONS */
->  
-> +#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_RET)
-> +/*
-> + * KCOV Dataflow: /sys/kernel/debug/kcov_dataflow
-> + *
-> + * Completely separate from legacy /sys/kernel/debug/kcov.
-> + * Own buffer, own ioctl, own mmap. No printk — buffer only.
-> + *
-> + * TLV record layout (all u64):
-> + *   area[0]: total u64 words written (atomic counter)
-> + *   [pos+0]: type_and_seq (0xE=entry|0xF=return in upper 4 bits, seq in lower 24)
-> + *   [pos+1]: PC
-> + *   [pos+2]: raw pointer | (arg_idx << 56) | (arg_size << 48) for entry
-> + *   [pos+3..N]: field values (or scalar value if num_fields=0)
-> + */
-> +#define KCOV_DF_TYPE_ENTRY	0xE0000000ULL
-> +#define KCOV_DF_TYPE_RET	0xF0000000ULL
-> +#define KCOV_DF_MAGIC_BAD	0xBADADD85ULL
-> +#define KCOV_DF_IS_ERR(p)	((unsigned long)(p) >= (unsigned long)-4095UL)
-> +
-> +/* Ioctl commands for /sys/kernel/debug/kcov_dataflow */
-> +#define KCOV_DF_INIT_TRACE	_IOR('d', 1, unsigned long)
-> +#define KCOV_DF_ENABLE		_IO('d', 100)
-> +#define KCOV_DF_DISABLE		_IO('d', 101)
-> +
-> +struct kcov_dataflow {
-> +	refcount_t	refcount;
-> +	spinlock_t	lock;
-> +	unsigned int	size;	/* in u64 words */
-> +	void		*area;
-> +	struct task_struct *t;
-> +};
-> +
-> +static void kcov_df_put(struct kcov_dataflow *df)
-> +{
-> +	if (refcount_dec_and_test(&df->refcount)) {
-> +		vfree(df->area);
-> +		kfree(df);
-> +	}
-> +}
-> +
-> +/*
-> + * Core write function — no printk, no locks, just atomic buffer write.
-> + * Called from __sanitizer_cov_trace_args/ret in instrumented code.
-> + */
-> +static noinline notrace __no_sanitize_coverage void
-> +kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
-> +	      u64 *offsets, u32 num_fields)
-> +{
-> +	struct task_struct *t = current;
-> +	u64 *area;
-> +	unsigned long pos, max_pos;
-> +	u32 record_len, seq, i;
-> +
-> +	if (!t->kcov_df_enabled)
-> +		return;
-> +
-> +	area = (u64 *)t->kcov_df_area;
-> +	if (!area)
-> +		return;
-> +
-> +	max_pos = t->kcov_df_size;
-> +
-> +	/* Record: header(1) + pc(1) + meta(1) + fields or scalar(max 1) */
-> +	record_len = 3 + (num_fields > 0 ? num_fields : 1);
-> +
-> +	/* Atomic reservation */
-> +	pos = 1 + xadd((unsigned long *)&area[0], record_len);
-> +	if (unlikely(pos + record_len > max_pos)) {
-> +		xadd((unsigned long *)&area[0], -(long)record_len);
-> +		return;
-> +	}
-> +
-> +	seq = ++t->kcov_dataflow_seq;
-> +	area[pos] = type_marker | (seq & 0x00FFFFFFULL);
-> +	area[pos + 1] = pc;
-> +	area[pos + 2] = meta;
-> +
-> +	if (num_fields == 0) {
-> +		/* Scalar: read value from ptr using size from meta */
-> +		u64 val = 0;
-> +		u32 sz = (meta >> 48) & 0xFF;
-> +
-> +		if (sz > sizeof(val))
-> +			sz = sizeof(val);
-> +		if (ptr && !KCOV_DF_IS_ERR(ptr))
-> +			copy_from_kernel_nofault(&val, ptr, sz);
-> +		area[pos + 3] = val;
-> +	} else {
-> +		/* Struct fields */
-> +		if (KCOV_DF_IS_ERR(ptr)) {
-> +			for (i = 0; i < num_fields; i++)
-> +				area[pos + 3 + i] = KCOV_DF_MAGIC_BAD;
-> +			return;
-> +		}
-> +		for (i = 0; i < num_fields; i++) {
-> +			u64 off, sz, val = KCOV_DF_MAGIC_BAD;
-> +			void *fa;
-> +
-> +			if (copy_from_kernel_nofault(&off, &offsets[i * 2], sizeof(off)) ||
-> +			    copy_from_kernel_nofault(&sz, &offsets[i * 2 + 1], sizeof(sz))) {
-> +				area[pos + 3 + i] = KCOV_DF_MAGIC_BAD;
-> +				continue;
-> +			}
-> +			fa = (void *)((unsigned long)ptr + off);
-> +			val = 0;
-> +			if (sz <= sizeof(val))
-> +				copy_from_kernel_nofault(&val, fa, sz);
-> +			else
-> +				copy_from_kernel_nofault(&val, fa, sizeof(val));
-> +			area[pos + 3 + i] = val;
-> +		}
-> +	}
-> +}
-> +
-> +#ifdef CONFIG_KCOV_DATAFLOW_ARGS
-> +noinline void notrace __no_sanitize_coverage
-> +__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
-> +			   u64 *offsets, u32 num_fields);
-> +
-> +noinline void notrace __no_sanitize_coverage
-> +__sanitizer_cov_trace_args(u64 pc, u32 arg_idx, u32 arg_size, void *arg_ptr,
-> +			   u64 *offsets, u32 num_fields)
-> +{
-> +	/* meta: [arg_idx(8) | arg_size(8) | ptr(48)] */
-> +	u64 meta = ((u64)arg_idx << 56) | ((u64)arg_size << 48) |
-> +		   ((u64)(unsigned long)arg_ptr & 0xFFFFFFFFFFFFULL);
-> +	kcov_df_write(KCOV_DF_TYPE_ENTRY, pc, meta, arg_ptr,
-> +		      offsets, num_fields);
-> +}
-> +EXPORT_SYMBOL(__sanitizer_cov_trace_args);
-> +#endif
-> +
-> +#ifdef CONFIG_KCOV_DATAFLOW_RET
-> +noinline void notrace __no_sanitize_coverage
-> +__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
-> +			  u64 *offsets, u32 num_fields);
-> +
-> +noinline void notrace __no_sanitize_coverage
-> +__sanitizer_cov_trace_ret(u64 pc, u32 ret_size, void *ret_val,
-> +			  u64 *offsets, u32 num_fields)
-> +{
-> +	u64 meta = ((u64)ret_size << 48) |
-> +		   ((u64)(unsigned long)ret_val & 0xFFFFFFFFFFFFULL);
-> +	kcov_df_write(KCOV_DF_TYPE_RET, pc, meta, ret_val,
-> +		      offsets, num_fields);
-> +}
-> +EXPORT_SYMBOL(__sanitizer_cov_trace_ret);
-> +#endif
-> +
-> +/* --- /sys/kernel/debug/kcov_dataflow file operations --- */
-> +
-> +static int kcov_df_open(struct inode *inode, struct file *filep)
-> +{
-> +	struct kcov_dataflow *df;
-> +
-> +	df = kzalloc(sizeof(*df), GFP_KERNEL);
-> +	if (!df)
-> +		return -ENOMEM;
-> +	spin_lock_init(&df->lock);
-> +	refcount_set(&df->refcount, 1);
-> +	filep->private_data = df;
-> +	return nonseekable_open(inode, filep);
-> +}
-> +
-> +static int kcov_df_close(struct inode *inode, struct file *filep)
-> +{
-> +	struct kcov_dataflow *df = filep->private_data;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&df->lock, flags);
-> +	if (df->t == current) {
-> +		current->kcov_df_enabled = false;
-> +		current->kcov_df_area = NULL;
-> +		current->kcov_df_size = 0;
-> +		df->t = NULL;
-> +	}
-> +	spin_unlock_irqrestore(&df->lock, flags);
-> +	kcov_df_put(df);
-> +	return 0;
-> +}
-> +
-> +static int kcov_df_mmap(struct file *filep, struct vm_area_struct *vma)
-> +{
-> +	struct kcov_dataflow *df = filep->private_data;
-> +	unsigned long size, off;
-> +	struct page *page;
-> +	unsigned long flags;
-> +	void *area;
-> +	int res = 0;
-> +
-> +	spin_lock_irqsave(&df->lock, flags);
-> +	size = df->size * sizeof(u64);
-> +	if (!df->area || vma->vm_pgoff != 0 ||
-> +	    vma->vm_end - vma->vm_start != size) {
-> +		res = -EINVAL;
-> +		goto out;
-> +	}
-> +	area = df->area;
-> +	spin_unlock_irqrestore(&df->lock, flags);
-> +
-> +	vm_flags_set(vma, VM_DONTEXPAND);
-> +	for (off = 0; off < size; off += PAGE_SIZE) {
-> +		page = vmalloc_to_page(area + off);
-> +		res = vm_insert_page(vma, vma->vm_start + off, page);
-> +		if (res)
-> +			return res;
-> +	}
-> +	return 0;
-> +out:
-> +	spin_unlock_irqrestore(&df->lock, flags);
-> +	return res;
-> +}
-> +
-> +static long kcov_df_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct kcov_dataflow *df = filep->private_data;
-> +	unsigned long flags;
-> +	unsigned long size;
-> +	int res = 0;
-> +
-> +	spin_lock_irqsave(&df->lock, flags);
-> +	switch (cmd) {
-> +	case KCOV_DF_INIT_TRACE:
-> +		if (df->area) {
-> +			res = -EBUSY;
-> +			break;
-> +		}
-> +		size = arg;
-> +		if (size < 2 || size > (128 << 20) / sizeof(u64)) {
-> +			res = -EINVAL;
-> +			break;
-> +		}
-> +		spin_unlock_irqrestore(&df->lock, flags);
-> +		df->area = vmalloc_user(size * sizeof(u64));
-> +		if (!df->area)
-> +			return -ENOMEM;
-> +		spin_lock_irqsave(&df->lock, flags);
-> +		df->size = size;
-> +		break;
-> +
-> +	case KCOV_DF_ENABLE:
-> +		if (!df->area || df->t) {
-> +			res = -EINVAL;
-> +			break;
-> +		}
-> +		df->t = current;
-> +		current->kcov_df_area = df->area;
-> +		current->kcov_df_size = df->size;
-> +		current->kcov_dataflow_seq = 0;
-> +		/* Barrier before enabling */
-> +		barrier();
-> +		current->kcov_df_enabled = true;
-> +		break;
-> +
-> +	case KCOV_DF_DISABLE:
-> +		if (df->t != current) {
-> +			res = -EINVAL;
-> +			break;
-> +		}
-> +		current->kcov_df_enabled = false;
-> +		barrier();
-> +		current->kcov_df_area = NULL;
-> +		current->kcov_df_size = 0;
-> +		df->t = NULL;
-> +		break;
-> +
-> +	default:
-> +		res = -ENOTTY;
-> +	}
-> +	spin_unlock_irqrestore(&df->lock, flags);
-> +	return res;
-> +}
-> +
-> +static const struct file_operations kcov_df_fops = {
-> +	.open		= kcov_df_open,
-> +	.unlocked_ioctl	= kcov_df_ioctl,
-> +	.compat_ioctl	= kcov_df_ioctl,
-> +	.mmap		= kcov_df_mmap,
-> +	.release	= kcov_df_close,
-> +};
-> +#endif /* CONFIG_KCOV_DATAFLOW_ARGS || CONFIG_KCOV_DATAFLOW_RET */
-> +
->  static void kcov_start(struct task_struct *t, struct kcov *kcov,
->  			unsigned int size, void *area, enum kcov_mode mode,
->  			int sequence)
-> @@ -1146,6 +1428,15 @@ static int __init kcov_init(void)
->  	 */
->  	debugfs_create_file_unsafe("kcov", 0600, NULL, NULL, &kcov_fops);
->  
-> +#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_RET)
-> +	/*
-> +	 * Toggle verbose printk: echo 1 > /sys/kernel/debug/kcov_dataflow_verbose
-> +	 * Default off — zero overhead when not debugging.
-> +	 */
-> +	debugfs_create_file_unsafe("kcov_dataflow", 0600, NULL, NULL,
-> +				   &kcov_df_fops);
-> +#endif
-> +
->  #ifdef CONFIG_KCOV_SELFTEST
->  	selftest();
->  #endif
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index e2f976c3301b..abd1a94589aa 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2261,6 +2261,28 @@ config KCOV_SELFTEST
->  	  On test failure, causes the kernel to panic. Recommended to be
->  	  enabled, ensuring critical functionality works as intended.
->  
-> +
-> +config KCOV_DATAFLOW_ARGS
-> +	bool "Enable KCOV dataflow: function argument capture"
-> +	depends on KCOV
-> +	depends on $(cc-option,-fsanitize-coverage=dataflow-args)
-> +	help
-> +	  Captures function arguments at entry via /sys/kernel/debug/kcov_dataflow.
-> +	  Struct pointer arguments are auto-expanded using compiler DebugInfo
-> +	  metadata, recording individual field values at runtime.
-> +	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
-> +	  Requires clang with -fsanitize-coverage=dataflow-args support.
-> +
-> +config KCOV_DATAFLOW_RET
-> +	bool "Enable KCOV dataflow: return value capture"
-> +	depends on KCOV
-> +	depends on $(cc-option,-fsanitize-coverage=dataflow-ret)
-> +	help
-> +	  Captures function return values via /sys/kernel/debug/kcov_dataflow.
-> +	  Struct pointer returns are auto-expanded using compiler DebugInfo
-> +	  metadata, recording individual field values at runtime.
-> +	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
-> +	  Requires clang with -fsanitize-coverage=dataflow-ret support.
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-You might want to add an empty line here.
+Introduction
+============
 
+The IMA measurements list is currently stored in the kernel memory.
+Memory occupation grows linearly with the number of records, and can
+become a problem especially in environments with reduced resources.
+
+While there is an advantage in keeping the IMA measurements list in
+kernel memory, so that it is always available for reading from the
+securityfs interfaces, storing it elsewhere would make it possible to
+free precious memory for other kernel usage.
+
+The IMA measurements list needs to be retained and safely stored for new
+attestation servers to validate it. Assuming the IMA measurements list
+is properly saved, storing it outside the kernel does not introduce
+security issues, since its integrity is anyway protected by the TPM.
+
+Hence, the new IMA staging mechanism is introduced to export IMA
+measurements to user space and delete them from kernel space.
+
+Staging consists in atomically moving the current measurements list to a
+temporary list, so that measurements can be deleted afterwards. The
+staging operation locks the hot path (racing with addition of new
+measurements) for a very short time, only for swapping the list
+pointers. Deletion of the measurements instead is done locklessly, away
+from the hot path.
+
+There are two flavors of the staging mechanism. In the staging with
+prompt, all current measurements are staged, read and deleted upon
+confirmation. In the staging and deleting flavor, N measurements are
+staged from the beginning of the current measurements list and
+immediately deleted without confirmation.
+
+
+Usage
+=====
+
+The IMA staging mechanism can be enabled from the kernel configuration
+with the CONFIG_IMA_STAGING option. This option prevents inadvertently
+removing the IMA measurement list on systems which do not properly save
+it.
+
+If the option is enabled, IMA duplicates the current securityfs
+measurements interfaces (both binary and ASCII), by adding the _staged
+file suffix. Both the original and the staging interfaces gain the write
+permission for the root user and group, but require the process to have
+CAP_SYS_ADMIN set.
+
+The staging mechanism supports two flavors.
+
+Staging with prompt
+~~~~~~~~~~~~~~~~~~~
+
+The current measurement list is moved to a temporary staging area,
+allowing it to be saved to external storage, before being deleted upon
+confirmation.
+
+This staging process is achieved with the following steps.
+
+  1.  echo A > <_staged interface>: the user requests IMA to stage the
+      entire measurements list;
+  2.  cat <_staged interface>: the user reads the staged measurements;
+  3.  echo D > <_staged interface>: the user requests IMA to delete
+      staged measurements.
+
+Staging and deleting
+~~~~~~~~~~~~~~~~~~~~
+
+N measurements are staged to a temporary staging area, and immediately
+deleted without further confirmation.
+
+This staging process is achieved with the following steps.
+
+  1.  cat <original interface>: the user reads the current measurements
+      list and determines what the value N for staging should be;
+  2.  echo N > <original interface>: the user requests IMA to delete N
+      measurements from the current measurements list.
+
+
+Management of Staged Measurements
+=================================
+
+Since with the staging mechanism measurement records are removed from
+the kernel, the staged measurements need to be saved in a storage and
+concatenated together, so that they can be presented during remote
+attestation as if staging was never done. This task can be accomplished
+by a remote attestation agent modified to support staging, or a system
+service.
+
+
+Patch set content
+=================
+
+Patches 1-8 are preparatory patches to quickly replace the hash table,
+maintain separate counters for the different measurements list types,
+mediate access to the measurements list interface, and simplify the staging
+patches.
+
+Patch 9 introduces the staging with prompt flavor. Patch 10 makes it
+possible to flush the hash table when deleting all the staged measurements.
+Patch 11 introduces the staging and deleting flavor. Patch 12 adds the
+documentation of the staging mechanism.
+
+
+Changelog
+=========
+
+v6:
+ - Make ima_extend_list_mutex as static since it is not needed anymore by
+   ima_dump_measurement_list() (suggested by Mimi)
+ - Export ima_flush_htable in patch 11 instead of 10 (suggested by Mimi)
+ - Add clarification in the documentation regarding a proactive remote
+   attestation agent, and storing all the measurements in the storage
+   (suggested by Mimi)
+
+v5:
+ - Add motivation for the ima_flush_htable= kernel option (suggested by
+   Mimi)
+ - New documentation title and fixes (suggested by Mimi)
+ - Allow stage all command on the _staged interface instead of the original
+ - Set CONFIG_IMA_STAGING default to n (suggested by Mimi)
+ - Rename ima_num_entries to ima_num_records (suggested by Mimi)
+ - Comment for ima_num_records and ima_num_violations (suggested by Mimi)
+ - Add overflow check in ima_measure_lock()
+ - Allow a writer to open for write or read/write the other staging
+   interfaces
+ - Ignore ppos in _ima_measurements_write()
+ - Implement lockless kexec measurement lists dump by denying
+   staging/delete after measurement suspend (collapse patch 12 into 9 and
+   11)
+ - Refuse delete based on measurement suspend instead of using
+   ima_copied_flags (suggested by Mimi)
+ - Add staging/deleting functions documentation
+
+v4:
+ - Add write permission to the original measurement interface, and move
+   the A and N staging commands to that interface
+ - Explain better the two staging flavors and highlight that the staging
+   and delete only stages measurements internally
+ - Rename ima_queue_staged_delete_partial() to ima_queue_delete_partial()
+ - Replace ima_staged_measurements_prepended with per measurements list
+   flag to avoid copying staged and active list measurements twice
+ - Optimize the staging and deleting flavor by locklessly determining the
+   cut position in the active list, and immediately deleting entries
+   without explicit staging and splicing (suggested by Steven Chen)
+
+v3:
+ - Add Kconfig option to enable the staging mechanism (suggested by Mimi)
+ - Change the meaning of BINARY_STAGED to be just the staged measurements
+ - Separate the two staging flavors in two different functions:
+   ima_queue_staged_delete_all() for staging with prompt,
+   ima_queue_staged_delete_partial() for staging and deleting
+ - Delete N entries without staging first (suggested by Mimi)
+ - Avoid duplicate staged entries if there is contention between the
+   measurements list interfaces and kexec
+
+v2:
+ - New patch to move measurements and violation counters outside the
+   ima_h_table structure
+ - New patch to quickly replace the hash table
+ - Forbid partial deletion when flushing hash table (suggested by Mimi)
+ - Ignore ima_flush_htable if CONFIG_IMA_DISABLE_HTABLE is enabled
+ - BINARY_SIZE_* renamed to BINARY_* for better clarity
+ - Removed ima_measurements_staged_exist and testing list empty instead
+ - ima_queue_stage_trim() and ima_queue_delete_staged_trimmed() renamed to
+   ima_queue_stage() and ima_queue_delete_staged()
+ - New delete interval [1, ULONG_MAX - 1]
+ - Rename ima_measure_lock to ima_measure_mutex
+ - Move seq_open() and seq_release() outside the ima_measure_mutex lock
+ - Drop ima_measurements_staged_read() and use seq_read() instead
+ - Optimize create_securityfs_measurement_lists() changes
+ - New file name format with _staged suffix at the end of the file name
+ - Use _rcu list variant in ima_dump_measurement_list()
+ - Remove support for direct trimming and splice the remaining entries to
+   the active list (suggested by Mimi)
+ - Hot swap the hash table if flushing is requested
+
+v1:
+ - Support for direct trimming without staging
+ - Support unstaging on kexec (requested by Gregory Lumen)
+
+Roberto Sassu (12):
+  ima: Remove ima_h_table structure
+  ima: Replace static htable queue with dynamically allocated array
+  ima: Introduce per binary measurements list type ima_num_records
+    counter
+  ima: Introduce per binary measurements list type binary_runtime_size
+    value
+  ima: Introduce _ima_measurements_start() and _ima_measurements_next()
+  ima: Mediate open/release method of the measurements list
+  ima: Use snprintf() in create_securityfs_measurement_lists
+  ima: Introduce ima_dump_measurement()
+  ima: Add support for staging measurements with prompt
+  ima: Add support for flushing the hash table when staging measurements
+  ima: Support staging and deleting N measurements records
+  doc: security: Add documentation of exporting and deleting IMA
+    measurements
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/security/IMA-export-delete.rst  | 203 ++++++++++
+ Documentation/security/index.rst              |   1 +
+ MAINTAINERS                                   |   2 +
+ security/integrity/ima/Kconfig                |  15 +
+ security/integrity/ima/ima.h                  |  28 +-
+ security/integrity/ima/ima_api.c              |   2 +-
+ security/integrity/ima/ima_fs.c               | 346 ++++++++++++++++--
+ security/integrity/ima/ima_init.c             |   5 +
+ security/integrity/ima/ima_kexec.c            |  42 ++-
+ security/integrity/ima/ima_queue.c            | 327 ++++++++++++++++-
+ 11 files changed, 905 insertions(+), 72 deletions(-)
+ create mode 100644 Documentation/security/IMA-export-delete.rst
 
 -- 
-Nicolas
+2.43.0
+
