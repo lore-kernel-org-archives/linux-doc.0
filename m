@@ -1,113 +1,124 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E237F399CF5
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A973A9DA9
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780684081; cv=none; b=lm85o3PpAhYdf/LfGgTG+WN/16+fl5umIdau8f7gEY7v7tDeDXJ9f8U1cBfolnYID/B7VS5YZZIoyBY5yC3tKhor+yzOAQR6pxGsRT9XaRZwf0uMY+w2s9v2z4c+EQ/RUBDXddQ9sWWqepPCdhDCzChJc+aTd3MRYHPnysthbI8=
+	t=1780684209; cv=none; b=Sl6ompvG8Ovc6jvfuJT7bxvo7m0X3oNfzHnNxbjDTfga9sYKnww6tWc8LtT0tGxuxfPtIHf8MEc1TP1vQmQ9BsJtNnAA/Suloi5ayLYJuFUSBnMDJBDSbOOpTzNMLHw5txY8IF5reMvhZvBFjd46u/JPDeDM58yGJZhg7//tB1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780684081; c=relaxed/simple;
-	bh=5jiFPb4shRixueM3EXqj7rLUUpc6Mvk/umob9LPRscI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=EMZaDsFihAL9ZJiyPW8mIjxIk7vP0n9VN4eZYD3a9yqZFWwqV0hPfbOZfp3Iec8gBu4mtrnMzI2/COHkhCAqIXkzKvsBanflAyxptjQjTPkU6YAksAjNNAJjvsvbIwJrtLBjM9buRxwiX7vdkZvZZoPe3aXII2EruIWOdI66+OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e9yEA4mQ; arc=none smtp.client-ip=209.85.216.74
+	s=arc-20240116; t=1780684209; c=relaxed/simple;
+	bh=wcy0f2jBXzVCMI2Wm+TBszW9WYGbTiy+Tvaz4GauPjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxtmPaBe1Z9XRhhb1XLCMZkc8k7wNiAMU+rYjBtWip4XFLLpa5WqRTgZ2282LXZ+2kTrmKsx7x0BX4813SPkGhS+GmrEf8iCpzTgpSdzMaNKEdtzWJhJlNR/LR7VEVG2DDyHed0C56QjLLHi0bcLVmV5qNFQymF22vU2wb4eSjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pVat2Z8/; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e9yEA4mQ"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-36d979441eeso2088168a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:27:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pVat2Z8/"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf22c18ad3so167145ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780684079; x=1781288879; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Al0zDa4bN146O1R+FtGZtDttdy90kv7zGQH5evIcYPw=;
-        b=e9yEA4mQM2lut0pEuCRQy3Ps8v9Hyu0Fb1uWNJ62pgvmh5CYZnF9CaZYEwUMxEUlm/
-         8Azxab4UduI99UbxJyBd7805CWQsOCFsv4JaKlvMH59Y7Cs+QkZlEjZQII2EuW/mBvl+
-         E654i/X+2Q8W3amEZWXtyAubBNvVx1uFvWkQCXYiXnieAzgoTRL/MbVcCjEjU8sqx0P5
-         dvgaDa9D8TJAz2YY5WhxLFnWOBWMsxpQKRR5Mfaz95Yk+/6Nl9qtY4/rb4EjxDdkIe8X
-         OJUyzKpW/ERHauokVrwmOBbq1m25UU927PjuKGYU2fRqejCMwr3Y+8WzcAOOPP1bdT2x
-         5WqQ==
+        d=google.com; s=20251104; t=1780684208; x=1781289008; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9KnToTwjIOTIeerw1OtFveTTURV0LHhrMU47MZN/oSk=;
+        b=pVat2Z8/cWqe2QjhIsQ78MNIm64/CNBEteK6EVoKNCKT5NS6EOrQ4mG0gxgJAI4fzc
+         6tc42nx342W10DrLWeePU0U02k7ttE9vELWNoyGPmVQa0O5JLLFq4WUOLJpVGpRG7rYF
+         2xijMDgTe/VsWt0s1iISY6Q+8YEaStSifTFRxCav2reiukGT3UUcVkrL0O5tNnObuIVK
+         P6+HrwT0ij1vMgtLGiMRnTF6OcGOtpw6HbVFjdPmwWZSRDvIPjN+2Na/S7HHV8wVJ1sS
+         oXm6MD0qKTNTqgThzY8wNwUcEZ1i5Bk83o9YzdtKniW3+id7XPezidpBF1w++6YAUCCW
+         YC/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780684079; x=1781288879;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Al0zDa4bN146O1R+FtGZtDttdy90kv7zGQH5evIcYPw=;
-        b=Y1+HeDW0TdPAy+SWrhMgaI5tUterlQhXB6OGA73r8jmFl2fhZabCOuC7YkdNw2pad9
-         wRKHMohPZqhk5QX0CGan/CC2VtsSsOmHf2t9Cx25KwMizc7YW25L8RsfqSWMTzZMQu0r
-         gfMuzLM9VZNqMJJYxuMkqHi99xMM3o6KLUdYARKv7OLZXoLlKeh6xYc0XETAn5Lhz253
-         5xpqdlq9gg7DP+/2MyMBWA0FJksjyyK60DNaMMVapdUPY+QpnZZSlR/DaRkDpeKqiCeq
-         h8iz/HtnBEoJbkFdJuEzqFMfJl/RIr8kcn/d60sTXZ9fPF1gEE/6jYhIwfMnLE7GISY/
-         69SQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9KJGdnPs4fwB73V4uIvoezQ+jbPd5p/vyDWC+dh15J81TQIabPF/VWo91Q6UHnpdRLPK+lt20p5Z4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlwnwkGc4Yrc52MZW0SseSZkDpCBzNWkvezmneeN/nz1L/Z6lF
-	WbiTXwfMigVvSolmtNlOD7ygTnbsGY9zafAYiWQHbxhcrXI4E55b0Q4FF/8FlKP3b8/qLZH0DKt
-	xa1PpVA==
-X-Received: from pfwp41.prod.google.com ([2002:a05:6a00:26e9:b0:842:5fa6:3103])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5210:b0:36a:1ed8:6fe6
- with SMTP id 98e67ed59e1d1-370f0b58cefmr4684526a91.24.1780684078907; Fri, 05
- Jun 2026 11:27:58 -0700 (PDT)
-Date: Fri, 5 Jun 2026 11:27:58 -0700
-In-Reply-To: <CAEvNRgHz5GDjq0GqRmpQdHc-X45gCNr39VYWZH-T7XhPEtN5CQ@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1780684208; x=1781289008;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9KnToTwjIOTIeerw1OtFveTTURV0LHhrMU47MZN/oSk=;
+        b=YrM1c13tUx20X+Y9wJxcTFiLZ2ac3a5jtRwjSAnXA1OP/jVb6JqQflQVpRaSaq+pjN
+         k34q/g+hYNbISLtTQW9kfapHMLyWh/HT/5EXe6SJaSI1V1ghG583BuvJrv3Ytr7IiBGb
+         X4o6dPixYnofT6jcCPbmuJh3gPLLJGW49f7oZ03O0ICIAbcjtzHCtlFaMrKNXOxXV6gd
+         iWwxsNFAnvwslcCKIjsEn/3s9n/AEoZVgF7V5oMaamiOTGHOSGlCbQs8L1mcJTr0tThY
+         5iD/ZNKUdQeysF5pHzTkP22rYYsPWtYnFYH5OGuo8Fbg6DjK/hVt1tlPQVGmzEx67zzl
+         FUmg==
+X-Forwarded-Encrypted: i=1; AFNElJ//aE5v5EALH8VreSgFyoNkZkUfu2XwKT5bJAS6is9F+p5aeR/r2AQzk7NTx5fVQOTfLkxIfAEFFW8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLtovcplxjlaZqrwhbE5bdO8nZExzIVkJdtzVL1n7mJ1QCk6a9
+	0jKyOeNdaMp0uFB8qCpTvF01QqmPSk4h+WFy69kEJkfzkOFMAFdVYeNsG0kgpwdf7w==
+X-Gm-Gg: Acq92OHS/7m9ArXXGWiixyxf07vKGOZCIaaEh1ZFwGQBp9bAfQRhZi+E8QRtvMwAkOD
+	cttodOXVEYu5xlVM2xaY+pzx52rFzmt14dgGTpUE/ZbyQp/Ll/+fC/TxWpkN8v41leSFohMIqHy
+	0WhbXhDdlPqzK4/OG6VUcCKu5XKPXfwH9aAsod1GdHCGZxhVNI+XHpAjzm1NvEqIj1a+EWslGdm
+	M1B7no1nAck+mOknA9fylnWemWQhDODfyNTK9lYIK9zZ+SGfnc+ve2anygWSzPv7ZH2KqN2H3Co
+	+Kh16SB9WJz7A8Gcokcs+vawj+jzAswHnTRr4itE891eShmB10de35lX4njbKxnUk5yUKcOenwX
+	mBCjBrfz8J9oaQcjolnTia+cKhVFUO4OyLp5bfg6VSdrfPhfKVsF9wcMIzQ146v6mnXhb+1gv70
+	TMAYiw0YrAWX2G59AMV0UR5SZc1efVC/5acruutzqAEZtVS64T+jEuRetxP9ZYXG2OIyL5QuzJ8
+	Wqnig==
+X-Received: by 2002:a17:902:da84:b0:2bf:193b:a195 with SMTP id d9443c01a7336-2c1eb1ded7emr2155935ad.11.1780684207442;
+        Fri, 05 Jun 2026 11:30:07 -0700 (PDT)
+Received: from google.com (171.46.125.34.bc.googleusercontent.com. [34.125.46.171])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6bf827e6sm9411861a91.1.2026.06.05.11.30.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 11:30:06 -0700 (PDT)
+Date: Fri, 5 Jun 2026 18:30:02 +0000
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Michal Gorlas <michal.gorlas@9elements.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
+Subject: Re: [PATCH 2/2] module: restrict autoload to CAP_SYS_ADMIN if
+ CONFIG_MODULE_RESTRICT_AUTOLOAD
+Message-ID: <20260605183002.GB2939956@google.com>
+References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
+ <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
- <CAEvNRgGpaggjd3=ooyzv7iEbmA-x1mWJHgjLSjPi8=5CPrk-yQ@mail.gmail.com>
- <aiHeDZEPkAcWcSkn@google.com> <CAEvNRgHz5GDjq0GqRmpQdHc-X45gCNr39VYWZH-T7XhPEtN5CQ@mail.gmail.com>
-Message-ID: <aiMVLtblIKu1DQWJ@google.com>
-Subject: Re: [PATCH v7 00/42] guest_memfd: In-place conversion support
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
 
-On Thu, Jun 04, 2026, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
-> >> + KVM: selftests: Test conversion with elevated page refcount
-> >>     + Askar pointed out that soon vmsplice may not pin pages. Should I
-> >>       pin pages through CONFIG_GUP_TEST like in [2]? I prefer not to
-> >>       take a dependency on CONFIG_GUP_TEST.
-> >
-> > I'm not exactly excited about taking a dependency on CONFIG_GUP_TEST either, but
-> > it probably is the least awful choice.  E.g. KVM also pins pages is certain flows,
-> > but we're _also_ actively working to remove the need to pin.
-> >
-> > Hmm, maybe IORING_REGISTER_PBUF_RING?  AFAICT, it's almost literally a "pin user
-> > memory" syscall.
-> >
+On Fri, May 15, 2026 at 07:20:20PM +0200, Michal Gorlas wrote:
+> Restrict module auto-loading to CAP_SYS_ADMIN if
+> CONFIG_MODULE_RESTRICT_AUTOLOAD is enabled, cmdline parameter
+> modrestrict=true, or kernel.modrestrict=1 is set with sysctl.
 > 
-> Hmm that takes a dependency on io_uring, which isn't always compiled
-> in. Between CONFIG_IO_URING and CONFIG_GUP_TEST, I'd rather
-> CONFIG_GUP_TEST.
+> Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
+> ---
+>  kernel/module/internal.h |  1 +
+>  kernel/module/kmod.c     |  5 +++++
+>  kernel/module/main.c     | 11 +++++++++++
+>  3 files changed, 17 insertions(+)
+> 
+> diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+> index 061161cc79d9..496d8703f0c6 100644
+> --- a/kernel/module/internal.h
+> +++ b/kernel/module/internal.h
+> @@ -46,6 +46,7 @@ struct kernel_symbol {
+>  
+>  extern struct mutex module_mutex;
+>  extern struct list_head modules;
+> +extern bool module_autoload_restrict;
+>  
+>  extern const struct module_attribute *const modinfo_attrs[];
+>  extern const size_t modinfo_attrs_count;
+> diff --git a/kernel/module/kmod.c b/kernel/module/kmod.c
+> index a25dccdf7aa7..58b28c23f571 100644
+> --- a/kernel/module/kmod.c
+> +++ b/kernel/module/kmod.c
+> @@ -156,6 +156,11 @@ int __request_module(bool wait, const char *fmt, ...)
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (module_autoload_restrict && !capable(CAP_SYS_ADMIN)) {
+> +		pr_alert("denied attempt to auto-load module %s\n", module_name);
 
-Or try both?  If it's not a ridiculous amount of work.
+Is pr_alert appropriate here or can this be a warning? Also, use the _ratelimited
+variant like the pre-existing warning in this function.
+
+Sami
