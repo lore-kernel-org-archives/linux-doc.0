@@ -1,329 +1,298 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011057.outbound.protection.outlook.com [52.101.57.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C092F7EE1;
-	Fri,  5 Jun 2026 17:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780680355; cv=none; b=kRzgDWwo52p816CCBg+MlZLjG6xJ7zhFO6yyDWyboO4QCNewjtH8kP5mLKJttwOqeK9S3KBdviOsEuWLDD9f7htmGuYbPKsc+5UhgP7hS5iOopeiuoLNd5At4ovLIsAldpgykbGcMZsDIo10Xt7bpfGCAHYFblPPJjn0cRgxwbs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780680355; c=relaxed/simple;
-	bh=L0gUMkOe3CEUdn9+ggxOpmkji8Fi1cuMFRNBlHHMXgs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kx7KxEIAxNJK56YQoBL+u4/c205v8nU80K19n5Hdy1UyvsKdXncuPkNXO1nXmCAbS7HamViQQsPY9crgGBxyVhBWt0vytmGOafz9rENvmIyCj3p0MbIQUVmeYelblS+tHq+0RATTh1InFsJJQxzkkMC7e7o8e0bnXBKXsAB+bJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.224.235])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gX7W20GvKzsT0g;
-	Sat,  6 Jun 2026 01:20:46 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 35BFA40572;
-	Sat,  6 Jun 2026 01:25:45 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwCXWY9+BiNqCg9lAA--.44013S4;
-	Fri, 05 Jun 2026 18:25:44 +0100 (CET)
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	zohar@linux.ibm.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	gregorylumen@linux.microsoft.com,
-	chenste@linux.microsoft.com,
-	nramas@linux.microsoft.com,
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v7 12/12] doc: security: Add documentation of exporting and deleting IMA measurements
-Date: Fri,  5 Jun 2026 19:22:36 +0200
-Message-ID: <20260605172236.2042045-13-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
-References: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0631D28643C;
+	Fri,  5 Jun 2026 17:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780681349; cv=fail; b=Eo0SvrIdaU2kHu2fFiZ3I7aHJ1C388TPWtj5A0bjyLTwt0sguqFRfvmBTyK9ZVKjFPZQ//OXJCx4mMZO71OMcrmzGNdZhctpAYlWHTlJ8RRiRFTsN8+XxrdKEuYe4iP3jj9M3qY6jKxEJflOWeZdB4VgkutFIV9swpGL4SfQrUc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780681349; c=relaxed/simple;
+	bh=IrF0ItQ3RIjwHgeq5Yp1ZdxMvZvn/9qYkgEeW5i/Au8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=jzV/vInMD/c8ybqaL4na2bRPXSdIXUt312tMVIIa+RKFPLnfa9KdacNNqknObodSGgeHbQzWM6UonhVGHUw39ZHgV+q/jQAMd2paVPnueHgvuN9kBdpDx1weYEJGJT3e0hZ6XX8eKOfaV0DVJMhaj/3Qd7k7/2CuiFlHP7UUX4w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FSDYGN8b; arc=fail smtp.client-ip=52.101.57.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FSDYGN8b"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c7VZlFlbUJQbqb7KjX1q/8CRdhFfyMjcvBD3d/9loQAUlPeaHgSxm6CZHWNOLD9zse333finGMJc7A2WyVumSUaIgP0WtMXHHQ1huywYiLkJGtpBTj+nzHXbsW0twdDOjrYqXIQ8FG4USfVVFW9N63zlUNWJJw4oDZK8eWIpS+Jr5stpmyhBUqzYo8L80RRjEXN5dnOWY2Vy52mesPN8oyowwZyMbIovSWR/SqxG7W3+/D6EKdWaoD/D+GNnVTgdfrwu0Oj93VM56tEKIAhPpL7Sk/454N6mp3KPZUeJbHfCLnNqREYOH3xPPqKpBmnuFHZbKFHScJeQSnwwnwNPFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1na3breKKWu2a6om/2PxHDnJtLblWuS6PCAdA7fP82s=;
+ b=UU8Zny3/ccmBo8Vh999pbKQp3xb12x5IKxbTWIjqndteUjv7MYi+aHALHtIihtHsvma9FEKdKsA1cCEoDa3S+X1nuXdXpvtE3WQ6+xlO32JTm3AYLVA3mF30QiQJBdTvbyBUN3X2633f0yjkVz4q1Ge6+sWTBnTUvJde/r3Ai1zs/U7CKrLj0ueR6HWIJIRWa/Q3lccWRBSk0HSZW1aFIgAMZkiGfC0FZU2p3aGKRYpjwECGSK5Fwd+xnSLaHOJZe1y1E2n9cgSRjr46oQx1mGCZasN1dy9ST2QMDiXIV7BTfoYWJHnYzO03F2WG9Cb2SiYcCKcYEc2VDVL7YrYaKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1na3breKKWu2a6om/2PxHDnJtLblWuS6PCAdA7fP82s=;
+ b=FSDYGN8b8rRX+iO4qC8cM1J+ro0z9SAFGkXar4zoa3EUH16LDaV9QcWlevMnAH0zLEaiUMmcG3H5WzQejBKicOBq7Q1R3VeGEVOO+vfjHr8qo02hRd/UZy4puCxRwBD0PLt9pX2IlgJ4emLtBUsg3CPX0+8lZv0FRwNWdBCPL/LoISfrutC2/bbTEbzNCe7a7bGVkLMF+Ad99//pRb5FYALzQBd8IPet9Pi7fDs7gcZaFNzvleuIdtYZUtAymyWO8U8qzqZg/JNVNFDrs6Lf/AkYqnMcu4s/rZulzSHcD1htf8cIK/t3KohaDj1cqN/oQNVhAUBVIfbMSQLZfwLJCQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by CY8PR12MB7435.namprd12.prod.outlook.com (2603:10b6:930:51::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.9; Fri, 5 Jun 2026
+ 17:42:05 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 17:42:05 +0000
+Message-ID: <3e8b0954-5f63-424e-97ef-ba841cc8f2bb@nvidia.com>
+Date: Fri, 5 Jun 2026 20:41:53 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V2 7/7] devlink: Add eswitch mode boot defaults
+To: Randy Dunlap <rdunlap@infradead.org>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, hariprasad <hkelam@marvell.com>,
+ Subbaraya Sundeep <sbhatta@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, Eric Biggers <ebiggers@kernel.org>,
+ Li RongQing <lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rdma@vger.kernel.org
+References: <20260603193259.3412464-1-mbloch@nvidia.com>
+ <20260603193259.3412464-8-mbloch@nvidia.com>
+ <d276e842-dd8f-40b7-806b-71572503005e@infradead.org>
+ <e4aada53-fb80-41a8-9a8e-d19414f6466b@nvidia.com>
+ <909ada9a-a398-4e3f-8ed0-596a1e4bdbfd@infradead.org>
+ <91d12ffd-6bd9-4951-8351-655262d44874@nvidia.com>
+ <fa19f1d2-832b-4b9c-824d-29ae48e4bc2a@infradead.org>
+Content-Language: en-US
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <fa19f1d2-832b-4b9c-824d-29ae48e4bc2a@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0174.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::20) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GxC2BwCXWY9+BiNqCg9lAA--.44013S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3Cr48GrW7JFWrJF4UJFW8JFb_yoWDKw1rpa
-	9aga4Ikwn5Ja4fAw1kJw1xJr4rZ3yrKa1UGrn3Jw1xAFn8Wryvyr4akrWY9FZxKr1vvryj
-	v3ZFvr45Aa1qqaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPqb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
-	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
-	WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
-	bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7
-	AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
-	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wr
-	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI
-	0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x
-	07Ud5rcUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAPBGoiOzcKlQAAsS
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|CY8PR12MB7435:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4a1f4e7-3f97-4e0a-61c9-08dec329c258
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|6133799003|11063799006|56012099006|4143699003|5023799004|3023799007|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	R500DLeM69yF0MCgy/d8xdAk11nhfWhyZU4qvWiZO6dqejtsPStNLLg3zfObg3RDF5WAp3NfRl/EUlir5nlw37Jmg+PG1oIFOXDKvT6zqajIzWM+5lxFTW/ncS8OmaY0X93zYi5hs8WpWskJ6U2c9b5FUxn6hYK5YgMCFtiRqzXsZZ9FFWpsGUzu27slwR0Cs/zbQ9BllwCxVHZJtPm6hmZBd0CR/7q6tcZFOL0KR+tLFFeRFV5SyWPzRTyu7bsYiKyoHQtiNCltz2oxnGH0ouSI7FvlIOv6VyCM6sXvyleVLhKUJwnnp+4rDDYJ0DI94M/C2DiQza1fFiNAypFQVinagy3zHnvOrdVanAVaXRsL2EfTrS+sm5Szt+jMduF6jDvMfjb8gGPzYeMgMODD4K2AYqeJSTHuIWP+SDTdh4KnW6Zb2chMuTRVMsPs8qZGEcfuIGzRtKUCO21ZV2awh+Vz6hhYZ1faTOYo2uwuqKTRzxSa6tmOOmz7e9PVLq0KpqzeWY+tNZusONwXooPWouxMOqE5HBiMXNC2qMskLj/XptYCMjIViLRrND5kXW97bjfgm2SXTLIyIeYH2OxMQdOa+6qhmqNzuieQMf7FnjJ1PQd8vTImMD9Z4ApxnP8QUV/8rtm7Eg29NIxuID0CIvKzwZzacTnUi7Lmx+nxwHq2fsHE+J/krDEj/5ep3OAH
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(6133799003)(11063799006)(56012099006)(4143699003)(5023799004)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MjNLenNVS1gvYU8veDhBUlNBQ1M0QzhUMk9nb01YcE9WZXIxaDVJSUY5enVE?=
+ =?utf-8?B?QlFhL0U1SkFiOVJaakJvbEw0MUFCSmVxQ1E4dXV2UEZ6UWR5cVNyRzFVUjVr?=
+ =?utf-8?B?VlZWalVXSk9mRko3L0x3dzlRZDFqQTFUbklEV2xVREFUcG5QdVExdGtrZ1Y0?=
+ =?utf-8?B?VTZQc2QxMDdkekN0d0xhZ2VnY3ZXbElwZzBHSW40MVFlZkhWU2lZNUdnS1JP?=
+ =?utf-8?B?RkhDRXVmcklPWndmM0lITXlmRUJkMEZEbzdTd0V6SnFqMHpuWGNUQi8xUUVj?=
+ =?utf-8?B?cjZ0OFNHU04xWGphOXNYRjFPK3BHbDZkYUl6blZiSGVhR2dwY1pBZ1FHZEVQ?=
+ =?utf-8?B?Yy9xeFg1TXcvd0xDTFFhcElKeTJobzFyWkJNQ0pkaGhRV1N0cGZlaiszaTN5?=
+ =?utf-8?B?NC9oYkhzWkVxcXU0MnZMZTh1dDBMVkYyTUIzd3JMZVJrZnlNY0RoaVRzMzRy?=
+ =?utf-8?B?REhSVEE5TTN2OHhwdnhRSjZMakpwdUt5OWI4Rnp4cXBWbHRmWXdOUjFYbjhG?=
+ =?utf-8?B?MDZIbVBScVpTRnhaNlZzTVNsSi9XdHpkOFE3ZlE1WHhIRFRRNVdhTkUrSDRC?=
+ =?utf-8?B?OHlWNTRlcFJmMGNJZndZQzF6M3N6RlhSS3FjbUl2QUpCdlBtcUFKaTJiWE9S?=
+ =?utf-8?B?d0Qxck5GWTAyc2tlS3J5T0hFSTd6MW9DNzZGK2tSOVdBNExIbEw0Z3pzRnVC?=
+ =?utf-8?B?aGtpZjhsMjRIR1NNUkVmeWh3OURCU0VjQkt4WnNqYUNJN0ZXbjJDcURMams3?=
+ =?utf-8?B?RlYxSnpZNkppODZuYnYvN3ZoS3hOZE1NamU3cEdHSGd6VnR5ODBiMm83eWtV?=
+ =?utf-8?B?dTFWMDltY0FkL2U0cGRGNVFYRXEzYmNVUDVucWdSekpiZ0JLd1ZDYkpUN2FV?=
+ =?utf-8?B?bnpUdDNlRThvbk9ickdQQVdIbmdQUWRhYjJQNGduT1VwcXdOSnlibjlsT2VV?=
+ =?utf-8?B?QmZWQWQ4M1VNcFBYcnNUbXJ1UmlSalpsZWZEYlZHaFMvQldGYjhTUWFkZjZN?=
+ =?utf-8?B?NDZ6cmdFU3ZBaDhiblFwL0xOY0R3Tmd4VkFsN1ZZY1FCbUlVRVU5RFJTMXdm?=
+ =?utf-8?B?VllEWG10MytRUTEySndXMW50aGZJQTlJWkxTMEpRRUduVkFZSWgvZm5oWHVX?=
+ =?utf-8?B?L3JsYm1PRjd0ekRjT1A4YlNId0RXT2xWNTM4L0U2d0tRbTE5Yk5xZHdQb0x5?=
+ =?utf-8?B?SWJwNWd5ZHo2OWw3ek9kcy9seUVjYnBYTEN2TDQza2RQVW9YYnFkemZVbTlV?=
+ =?utf-8?B?ZDd5czVVbFM2dzAxdk5Gd0p3UEY2SEdBME5Qb3NTNmgwZUtjRml3K1lJVm5C?=
+ =?utf-8?B?b2F3cXUweU0ySmR5ditzcU9qZS9Dc2lGV1E0RDFpek01bEVMUXhTSTJmWWxr?=
+ =?utf-8?B?UmtnS2VMYW41bWVBWHJFNVBtbG5UTVJnZ3BNbzg1Y0MzdVExS0NqU3pBQmpK?=
+ =?utf-8?B?bEc0cjFGRnlhcTkwSnNXYWVWZUhiNHRrc1g4a1NlUDhpU1hMQ3BrNkErUEpo?=
+ =?utf-8?B?VW9sWXV3cmh0NFBsUTA1RGJJeVRhbGYyMEViUFdqZzRrek9HUGo0U1I5cFVa?=
+ =?utf-8?B?S1BDK08wa3MvMGFTdllJZmtiY3ZOWU5yaEY1R3lzNTJqN3EzbVRsTmtRdzBV?=
+ =?utf-8?B?eUhkNndTNks0M2w1OEt2WXM5c2Q2RHVycEhidmp6OEdsQzlKOXN1N2xINXV5?=
+ =?utf-8?B?UnYwakNLT2h4Y2pTNFVZT0hua0lxUkh6MEIyWXZMTXh6VmlJa3VHenoyRE00?=
+ =?utf-8?B?M2VyNjE2SklYZmhId2FDWlZ5Z1VJSnFnR0gvbFMySGJlcytXb3pjdTc3UGF0?=
+ =?utf-8?B?UkZxUHpCRlVmY01lekU5S2VVSUFJSHVFSXVBQlNGa2IzSEtjVCthUW9qTkhN?=
+ =?utf-8?B?eWEzRUowR2MzdFljd1IyVC80WVNjMThFQ0J2T1RvYVlnT1RWYldkS0RQcXVK?=
+ =?utf-8?B?QXUxeDkrSkNpR04xVDUyUXd3aXRPWnZ3UXJrVGlaNTR6T0hNUmREWUNoaGMw?=
+ =?utf-8?B?dm5ESzQ5alVqdXhVVVF1M3ZqWnlMMEhsTERKL2pnZmF1OEtNREdWZG11c0li?=
+ =?utf-8?B?bVRDSXFOWTZBcEpMWndGWkc3amMrd3pMMnRxbVJyUUVyMktBZGtjc3RVeTdX?=
+ =?utf-8?B?Y3lUbHRwMWlzcHZjS0VscXA1QW16WjVQajdPZ2tISU8xVFhwYmxFeit3MnJp?=
+ =?utf-8?B?d3VqeWk2anR4WEpjM0ZwSmF5aFZ4ekFsMHBpTng3R2VoS3FnSnoxRnRVU3dw?=
+ =?utf-8?B?bnNYdnRyRXZWU09YRmE1TWQ1RjVUZXV0d1ZGcHdEek1DS3pneklmdDRwMFdi?=
+ =?utf-8?B?alNBSTJXOGpCYjU0N3JNdDVOSkdXMmE3Z3hQTkFEcjc0ZmFVcjZBdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4a1f4e7-3f97-4e0a-61c9-08dec329c258
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 17:42:05.6618
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OM88OmHAZ6VK5FzYKnY8rzBEGDbI9NJK+sCxa/00+VS0dqBXI/bmhFMLcBLxHOpZ/rTs1eRI2tPRkU6/YNATTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7435
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
 
-Add the documentation of exporting and deleting IMA measurements in
-Documentation/security/IMA-export-delete.rst.
 
-Also add the missing Documentation/security/IMA-templates.rst file in
-MAINTAINERS.
+On 05/06/2026 7:02, Randy Dunlap wrote:
+> 
+> 
+> On 6/4/26 2:49 AM, Mark Bloch wrote:
+>>
+>>
+>> On 04/06/2026 6:53, Randy Dunlap wrote:
+>>>
+>>>
+>>> On 6/3/26 6:16 PM, Mark Bloch wrote:
+>>>>
+>>>>
+>>>> On 03/06/2026 23:06, Randy Dunlap wrote:
+>>>>> Hi.
+>>>>>
+>>>>> On 6/3/26 12:32 PM, Mark Bloch wrote:
+>>>>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>>>>>> index 063c11ca33e5..7af9f2898d92 100644
+>>>>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>>>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>>>>> @@ -1264,6 +1264,31 @@ Kernel parameters
+>>>>>>  	dell_smm_hwmon.fan_max=
+>>>>>>  			[HW] Maximum configurable fan speed.
+>>>>>>  
+>>>>>> +	devlink_eswitch_mode=
+>>>>>> +			[NET]
+>>>>>> +			Format:
+>>>>>> +			[<selector>]:<mode>
+>>>>>
+>>>>> It appears (please correct me if I am mistaken) that the '[' and ']'
+>>>>> above don't mean "optional" but instead they are required characters...
+>>>>>
+>>>>>> +
+>>>>>> +			<selector>:
+>>>>>> +			* | <handle>[,<handle>...]
+>>>>>
+>>>>> while here they mean "optional".
+>>>>>
+>>>>> That is confusing (inconsistent). Also, if the square brackets are
+>>>>> always required around the <selector>, what purpose do they serve?
+>>>>
+>>>> Yes, you are right, this is confusing. The outer square brackets are part of
+>>>> the syntax and are required, while the brackets in "[,<handle>...]" mean that
+>>>> additional handles are optional.
+>>>>
+>>>> I couldn't find a better way to describe this. What I want to say is that the
+>>>> selector is always wrapped in square brackets. Inside the brackets it can either
+>>>> be "*" to match all devices, or a comma separated list of handles. If "*" is
+>>>> not used, then at least one handle has to be provided.
+>>>>
+>>>> Maybe it would be clearer to spell it out explicitly, something like:
+>>>>
+>>>> Format:
+>>>>   [<selector>]:<mode>
+>>>>
+>>>> The '[' and ']' characters are literal and required.
+>>>>
+>>>> <selector>:
+>>>>   * | <handle>[,<handle>...]
+>>>>
+>>>> If '*' is not used, <selector> must contain at least one <handle>.
+>>>>
+>>>> Does that sound like a reasonable way to document it?
+>>>
+>>> Yes, that helps a little bit. Better than nothing.
+>>>
+>>> But why are they required at all?
+>>
+>> Jiri suggested using the square brackets, and I liked that they made the
+>> selector look like a grouped argument. But if that is too confusing, I can
+>> also drop them and use a simpler separator, for example:
+>>
+>> 	devlink_eswitch_mode=
+>> 			[NET]
+>> 			Format:
+>> 			<selector>=<mode>
+>>
+>> 			<selector>:
+>> 			* | <handle>[,<handle>...]
+>>
+>> 			<handle>:
+>> 			<bus-name>/<dev-name>
+>>
+>> 			Configure default devlink eswitch mode for matching
+>> 			devlink instances during device initialization.
+>>
+>> 			<mode>:
+>> 			legacy | switchdev | switchdev_inactive
+>>
+>> 			Examples:
+>> 			devlink_eswitch_mode=*=switchdev
+>> 			devlink_eswitch_mode=pci/0000:08:00.0=switchdev
+>> 			devlink_eswitch_mode=pci/0000:08:00.0,pci/0000:09:00.1=switchdev_inactive
+>>
+>> Does this look better to you?
+> 
+> Yes, that looks much better to me.
+> But you should do whatever you think is right.
 
-Link: https://github.com/linux-integrity/linux/issues/1
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- Documentation/security/IMA-export-delete.rst | 203 +++++++++++++++++++
- Documentation/security/index.rst             |   1 +
- MAINTAINERS                                  |   2 +
- 3 files changed, 206 insertions(+)
- create mode 100644 Documentation/security/IMA-export-delete.rst
+Good syntax should not be confusing. If it was not clear to you, then
+it will probably not be clear to others either, so I am fine with
+changing it.
 
-diff --git a/Documentation/security/IMA-export-delete.rst b/Documentation/security/IMA-export-delete.rst
-new file mode 100644
-index 000000000000..1600ead03b03
---- /dev/null
-+++ b/Documentation/security/IMA-export-delete.rst
-@@ -0,0 +1,203 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================
-+IMA Measurements Export and Delete
-+==================================
-+
-+
-+Introduction
-+============
-+
-+The IMA measurements list is currently stored in the kernel memory. Memory
-+occupation grows linearly with the number of records, and can become a
-+problem especially in environments with reduced resources.
-+
-+While there is an advantage in keeping the IMA measurements list in kernel
-+memory, so that it is always available for reading from the securityfs
-+interfaces, storing it elsewhere would make it possible to free precious
-+memory for other kernel usage.
-+
-+The IMA measurements list needs to be retained and safely stored for new
-+attestation servers to validate it. Assuming the IMA measurements list is
-+properly saved, storing it outside the kernel does not introduce security
-+issues, since its integrity is anyway protected by the TPM.
-+
-+Hence, the new IMA staging mechanism is introduced to export IMA
-+measurements to user space and delete them from kernel space.
-+
-+Staging consists in atomically moving the current measurements list to a
-+temporary list, so that measurements can be deleted afterwards. The staging
-+operation locks the hot path (racing with addition of new measurements) for
-+a very short time, only for swapping the list pointers. Deletion of the
-+measurements instead is done locklessly, away from the hot path.
-+
-+There are two flavors of the staging mechanism. In the staging with prompt,
-+all current measurements are staged, read and deleted upon confirmation. In
-+the staging and deleting flavor, N measurements are staged from the
-+beginning of the current measurements list and immediately deleted without
-+confirmation.
-+
-+
-+Management of Staged Measurements
-+=================================
-+
-+Since with the staging mechanism measurement records are removed from the
-+kernel, the staged measurements need to be saved in a storage and
-+concatenated together, so that they can be presented during remote
-+attestation as if staging was never done. This task can be accomplished by
-+a remote attestation agent modified to support staging, or a system
-+service.
-+
-+Coordination is necessary in the case where there are multiple actors
-+requesting measurements to be staged.
-+
-+In the staging with prompt case, the measurement interfaces can be accessed
-+only by one actor (writer) at a time, so the others will get an error until
-+the former closes it. Since the actors don't care about N, when they gain
-+access to the interface, they will get all the staged measurements at the
-+time of their request.
-+
-+In the case of staging and deleting, coordination is more important, since
-+there is the risk that two actors unaware of each other compute the value N
-+on the current measurements list and request IMA to stage N twice.
-+
-+
-+Remote Attestation Agent Workflow
-+=================================
-+
-+Remote attestation agents can be configured to always present all the
-+measurements to the remote verifiers or, alternatively, to only provide the
-+measurements that have not been verified yet by the remote verifiers.
-+
-+In the latter case, determining which measurements need to be sent and
-+verified must solely depend on the remote verifier. The remote attestation
-+agent can proactively send partial measurements, at the condition that they
-+are the ones that the remote verifier needs.
-+
-+An agent can rely on one of the supported staging methods to proactively
-+send to a remote verifier the measurements since the previous request up
-+to the ones that verify the TPM quote obtained in the current request.
-+The workflow with each staging method is the following.
-+
-+With staging with prompt, the agent stages the current measurements list,
-+reads and stores the measurements in a storage and immediately requests
-+IMA to delete the staged measurements from kernel memory. Afterwards, it
-+calculates N by replaying the PCR extend on the stored measurements until
-+the calculated PCRs match the quoted PCRs. It then keeps the measurements
-+in excess for the next attestation request.
-+
-+At the next attestation request, the agent performs the same steps above,
-+and concatenates the new measurements to the ones in excess from the
-+previous request. Also in this case, the agent replays the PCR extend until
-+it matches the currently quoted PCRs, keeps the measurements in excess and
-+presents the new N measurement records to the remote attestation server.
-+
-+With the staging and deleting method, the agent reads the current
-+measurements list, calculates N and requests IMA to delete only those. The
-+measurements in excess are kept in the IMA measurements list and can be
-+retrieved at the next remote attestation request.
-+
-+While keeping only the excess measurements in the storage could be
-+sufficient to serve the requests of a remote verifier, it is advised to
-+keep all the obtained measurements locally, as they might be needed for the
-+attestation with a different remote verifier.
-+
-+
-+Usage
-+=====
-+
-+The IMA staging mechanism can be enabled from the kernel configuration with
-+the CONFIG_IMA_STAGING option. This option prevents inadvertently removing
-+the IMA measurement list on systems which do not properly save it.
-+
-+If the option is enabled, IMA duplicates the current securityfs
-+measurements interfaces (both binary and ASCII), by adding the ``_staged``
-+file suffix. Both the original and the staging interfaces gain the write
-+permission for the root user and group, but require the process to have
-+CAP_SYS_ADMIN set.
-+
-+The staging mechanism supports two flavors.
-+
-+
-+Staging with prompt
-+~~~~~~~~~~~~~~~~~~~
-+
-+The current measurements list is moved to a temporary staging area,
-+allowing it to be saved to external storage, before being deleted upon
-+confirmation.
-+
-+This staging process is achieved with the following steps.
-+
-+ 1. ``echo A > <_staged interface>``: the user requests IMA to stage the
-+    entire measurements list;
-+ 2. ``cat <_staged interface>``: the user reads the staged measurements;
-+ 3. ``echo D > <_staged interface>``: the user requests IMA to delete
-+    staged measurements.
-+
-+
-+Staging and deleting
-+~~~~~~~~~~~~~~~~~~~~
-+
-+N measurements are staged to a temporary staging area, and immediately
-+deleted without further confirmation.
-+
-+This staging process is achieved with the following steps.
-+
-+ 1. ``cat <original interface>``: the user reads the current measurements
-+    list and determines what the value N for staging should be;
-+ 2. ``echo N > <original interface>``: the user requests IMA to delete N
-+    measurements from the current measurements list.
-+
-+
-+Interface Access
-+================
-+
-+In order to avoid the IMA measurements list being suddenly truncated by the
-+staging mechanism during a read, or having multiple concurrent staging, a
-+semaphore-like locking scheme has been implemented on all the measurements
-+list interfaces.
-+
-+Multiple readers can access concurrently the original and staged
-+interfaces, and they can be in mutual exclusion with one writer. In order
-+to see the same state across all the measurement interfaces, the same
-+writer is allowed to open multiple interfaces for write or read/write.
-+
-+If an illegal access occurs, the open to the measurements list interface is
-+denied.
-+
-+
-+Kexec
-+=====
-+
-+In the event a kexec() system call occurs between staging and deleting, the
-+staged measurement records are marshalled before the current measurements
-+list, so that they are both available when the secondary kernel starts.
-+
-+If measurement is suspended before requesting to delete staged or current
-+measurements, IMA returns an error to user space to let it know that
-+marshalling is already in progress, so that it does not save the
-+measurements twice.
-+
-+IMA also disallows staging when suspending measurement, to avoid the
-+situation where neither measurements are carried over to the secondary
-+kernel, nor they are saved by user space to the storage.
-+
-+
-+Hash table
-+==========
-+
-+By default, the template digest of staged measurement records are kept in
-+kernel memory (only template data are freed), to be able to detect
-+duplicate records independently of staging.
-+
-+The new kernel option ``ima_flush_htable`` has been introduced to
-+explicitly request a complete deletion of the staged measurements, for
-+maximum kernel memory saving. If the option has been specified, duplicate
-+records are still avoided on records of the current measurements list,
-+but there can be duplicates between different groups of staged
-+measurements.
-+
-+Flushing the hash table is supported only for the staging with prompt
-+flavor. For the staging and deleting flavor, it would have been necessary
-+to lock the hot path adding new measurements for the time needed to remove
-+each selected measurement individually.
-diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
-index 3e0a7114a862..00650dcf38cb 100644
---- a/Documentation/security/index.rst
-+++ b/Documentation/security/index.rst
-@@ -8,6 +8,7 @@ Security Documentation
-    credentials
-    snp-tdx-threat-model
-    IMA-templates
-+   IMA-export-delete
-    keys/index
-    lsm
-    lsm-development
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..70ff6bae3493 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12752,6 +12752,8 @@ R:	Eric Snowberg <eric.snowberg@oracle.com>
- L:	linux-integrity@vger.kernel.org
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
-+F:	Documentation/security/IMA-export-delete.rst
-+F:	Documentation/security/IMA-templates.rst
- F:	include/linux/secure_boot.h
- F:	security/integrity/
- F:	security/integrity/ima/
--- 
-2.43.0
+I will post v3 with this change.
+
+Thanks for the input!
+
+Mark
+
+> 
+>>>>>> +
+>>>>>> +			<handle>:
+>>>>>> +			<bus-name>/<dev-name>
+>>>>>> +
+>>>>>> +			Configure default devlink eswitch mode for matching
+>>>>>> +			devlink instances during device initialization.
+>>>>>> +
+>>>>>> +			<mode>:
+>>>>>> +			legacy | switchdev | switchdev_inactive
+>>>>>> +
+>>>>>> +			Examples:
+>>>>>> +			devlink_eswitch_mode=[*]:switchdev
+>>>>>> +			devlink_eswitch_mode=[pci/0000:08:00.0]:switchdev
+>>>>>> +			devlink_eswitch_mode=[pci/0000:08:00.0,pci/0000:09:00.1]:legacy
+>>>>>> +
+>>>>>> +			See Documentation/networking/devlink/devlink-defaults.rst
+>>>>>> +			for the full syntax.
+>>>>>> +
+>>>>>>  	dfltcc=		[HW,S390]
+>>>>>>  			Format: { on | off | def_only | inf_only | always }
+>>>>>>  			on:       s390 zlib hardware support for compression on
+>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
 
