@@ -1,416 +1,170 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012055.outbound.protection.outlook.com [40.107.209.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CBF38B12F;
-	Fri,  5 Jun 2026 16:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780675219; cv=none; b=CDFp2fFiw8DUp/9HEgvA8uLvOexp5ccXMVxm+HhOp6u1Moc7vrOvYYRzkTdonhTvdD5bek+X30eAK30qTMnTWkJHwdh17bl0SyMKNYMzuCjWaaM5ZLXq312do8VVdy/TVHg3ox63wyVdlM6Hbz4rJIlcZ0xky8kaOeLblKLLysg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780675219; c=relaxed/simple;
-	bh=qNiHxQTcd5GWsdF+i/kdaV7pHhTcsPfOYVuWJthh8KM=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=nDhb0+H3zAQ/PVIjX1SnxRUveCKfmgoUY8XILhPRmJtbq5zQFyxwUY45vToOIMHrI+jqC/3kRWIwfCrides5Mr0fTqhGzk2fui3dOM+hecvR+TkRi5dEIyfDyS10q1OVgwuJA3cwkc/tfyf7aaWsWp2qUDYeXIolaKq0QUC1vs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=a6qgwb8M; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784423271FD;
+	Fri,  5 Jun 2026 16:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780675518; cv=fail; b=I6bFOoGpNZBZRhHqxivHd/dv0nvDlM0Up2LnDK/OiAQP3wNO9h8VyqsSTnhm2rAxNx5nsHRlhPZyEXvmr+ZNKRKX8FrHKMC1Y4y53GrPOzIQcPC6xa9cduREVb7Z0G7N9XNFKTttxLW7PaixTx82K9moxGuqZd8JBweUNohYU14=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780675518; c=relaxed/simple;
+	bh=U+eAevlYKQ5YduqCf+Bz/DElrCnwr9Yis2197eD1j/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aNnMUzzZ6UlHUSHU7+hyo2rrgQRwMFLNoCh/8ywpxAY01CkItNO8aAQoskzgrCAVrrTqUe8Upe3DoJPatvptc9LGX2px56tdy0/2QbuQzBL2K5Y4lDTSsiUdNMZwlwUDRWAOB7Tg5uypWX1WH8ABZlSastKuZKjTeW1iPTSQB6s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MsPR1Bzx; arc=fail smtp.client-ip=40.107.209.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="a6qgwb8M"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6554KD0s2223981;
-	Fri, 5 Jun 2026 15:59:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=i07pDU
-	z035M602FZ/BVBaNfVaEKYL5dRuQapQ+N7sDM=; b=a6qgwb8MRygaH8Ng2oE/nI
-	D0GwVYYV+7EAmAZh+lGaH/oJGvWfrabjrV0k+25wNeacXav7YA96fOrdksyWS2pK
-	yILK8EqeaxT++KLc21A/mUxgnN9BYpQhEP1c7Ehdzvt3nTiPNbufcyKA+TKJ1opc
-	e4VkENgebcXArKeXgeSC3K7b+v0TeKfsbioAduP1XVdP0m2YVKHihj7hgx9Jh1yM
-	ryacSZ+1CKNuRb5FidqHn+CxCKTFJgOetb1hNLJvWWWDxEjAVpUT50D1DB2cHf6Z
-	qCmE6OIlTaRtmSqq3VXe6e2cNA3EcktFCNDOkMVNWNUjUUnoz4bHUifMriA/Lqvg
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqd4n9m3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 15:59:52 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 655Fs7ew014062;
-	Fri, 5 Jun 2026 15:59:52 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4egceh25dp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 15:59:52 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 655Fxp6215598280
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Jun 2026 15:59:51 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 537B35805C;
-	Fri,  5 Jun 2026 15:59:51 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DC87058054;
-	Fri,  5 Jun 2026 15:59:49 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.67.126])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  5 Jun 2026 15:59:49 +0000 (GMT)
-Message-ID: <fb9de334db1eb72de58d55f5b95a60be189e4856.camel@linux.ibm.com>
-Subject: Re: [PATCH v6 12/12] doc: security: Add documentation of exporting
- and deleting IMA measurements
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MsPR1Bzx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TP0QIAsEvT85DVZrZjYEPynRwjEYJT0FLphD1QSWnXha3PQ+dJf10mGHvuFtr+YLabgNMhIAEJXwqzrIsjLJsGhpemdprYaCN2k2nsPxB5xMyrwHoxdQqs8ILIHPV17XJg+9rce0xyGs5dybu1QKOmd+W0di+wUtR4ugwXF42eT/8HpvqF4I7EBgkEX5IOnQ1kNEZ8sGaAh1s6d4mxBFPxX14+ISt/0neqJj7mLw5dkzfC8ILu0JwC/bmvqrEk05+XbhgTOpkb9lJCMd7KBbONTf3SLoBQBSz35cAYwo91CoxKWN62wINGUGzX9Z2sy/WJLo+PffWUDvNR8nL2EJFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X0ljNOWJmuIFJa//vLl2Uii9okpP/nLim7UzXrn9yeE=;
+ b=owbbvKEljIMej3IDY06jVWzt4CyoxUHsrX7Nzd/f0CfAXDD+eDGPjp/ee4bbvUC0QbENj1wnsuqUtyjyIV1EpuYVCEblLyzVvIGcG/o0MZN5AlMQ2TffPUXAKFqre62eS5iYIwdaaBfwPv+DDQuSsX0CpL4WR5nx0XodPdfCI+U5lQ9sxELAgxpy4+ZIaxdgSOk3eUH1mERygwUBFUFRFpEvcmV+3dmrbnwnVtcl00MwXzAFQ9qaQlMxCnFHs1VvpzRoayfukRsNzQeDM0B/5F11g8IxRNtqomeAAgaD9qhmtZwIwGSCz3clCJSBugNA/m8WnbuOYcWus3mRI517XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X0ljNOWJmuIFJa//vLl2Uii9okpP/nLim7UzXrn9yeE=;
+ b=MsPR1BzxSU5r3EMKoyLibC77c2r1j8YyS7RafLjdcA4VaAuoB+7Cnsvr/2t3E8zzj6hhnf/nNUFvVrJrFALHMHdNIWhNQcWan/KylCoG1WVfMhIg2LolSS6zFPv+Vw9UIU564IEj2rPwgV9l29RxS+IG6EQlJ9Z3VWFfiteQNxfMwF4eN2pcj4RucJ8BgMSLVl01tO/l2mAwEOnpX4y0R31749zgyZJE4dxZ6WdvRXsPAZNcc8EduYOBHl63Oszgv9cNgyITd0aR9ZyMr2gMVsWJlB/LG3mbXSOVNast7QWGiN5149R6HdNhJ1T88E6Fh+Y5yiCBtRRR10jwC1ndog==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ CH2PR12MB4085.namprd12.prod.outlook.com (2603:10b6:610:79::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.17; Fri, 5 Jun 2026 16:04:58 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%5]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 16:04:58 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Nico Pache <npache@redhat.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
-        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-In-Reply-To: <20260602111401.1706052-13-roberto.sassu@huaweicloud.com>
-References: <20260602111401.1706052-1-roberto.sassu@huaweicloud.com>
-	 <20260602111401.1706052-13-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 11:59:49 -0400
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+ gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
+ jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
+ liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
+ peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+ rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
+ rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
+ sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
+ tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
+ vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
+ willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, zokeefe@google.com,
+ Usama Arif <usama.arif@linux.dev>
+Subject: Re: [PATCH mm-unstable v18 03/14] mm/khugepaged: rework max_ptes_*
+ handling with helper functions
+Date: Fri, 05 Jun 2026 12:04:53 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <62E1363B-ED9C-4CFB-AB5E-CD7B1D1EF3C3@nvidia.com>
+In-Reply-To: <20260522150009.121603-4-npache@redhat.com>
+References: <20260522150009.121603-1-npache@redhat.com>
+ <20260522150009.121603-4-npache@redhat.com>
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR20CA0045.namprd20.prod.outlook.com
+ (2603:10b6:208:235::14) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDE1NCBTYWx0ZWRfX3BPELvGqJnXK
- MXZCwJA8ES2NadCtSRJ9kviLSI9R7Zd2A5Sy1Y5/Fwzsf/91Bz/CSdfyotNkdWZZGuZKT3IMe0s
- WGKDdSMWihl0HvBKQ0sXSrUtmFbu8ASHPvO/wbMLkXZIcMJA2etVCp1qOxpXIEXY2/Qu1T9l5G+
- 4MLCOG6+Mb306cu2yP9/tzkRwLWdJab2PM9A015ZbzgKJ8rN6pLnOrFiIJ8YuxcXc5/RBqwFUwa
- NKZYzAPpbWBCXeiknG5g/aUCPWg+iyMEdJCC1znzpkrVExjkiJt/LhJ+gn/M+PwMe3XklkZDwbO
- 0iHLkXPBd6C0OF9C9Z45TFfESnIgamiLlz0kNlpuxAvM38oQDvG0IwJq+seudME1whk9aXgLbaQ
- nrloNo+ZFoFbafWtwv2c4xU/Y+tm+71do08XUEYDHi3LAIbJZymIzycc9Ua0RYRm7+G2u9VmfRr
- VhXFgpM1WWv/hcxP2YA==
-X-Proofpoint-GUID: 3rK2jKOvVejQxW3pOkZasrh_rmD811cC
-X-Proofpoint-ORIG-GUID: j30XuGIhpgLw3qeuTEtRW2TA0bdZAO-Y
-X-Authority-Analysis: v=2.4 cv=DZknbPtW c=1 sm=1 tr=0 ts=6a22f279 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
- a=i0EeH86SAAAA:8 a=yPCof4ZbAAAA:8 a=VwQbUJbxAAAA:8 a=2gXG2BVIBEAsA41MxPYA:9
- a=QEXdDO2ut3YA:10 a=O8hF6Hzn-FEA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-05_02,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 suspectscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050154
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH2PR12MB4085:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9ebe9da-549c-4bf8-9d2d-08dec31c312c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|6133799003|11063799006|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	2Q/oMjzoU8jL+MMBnOsc5smPPVDUXzOZaTHbix4gAaItzK8b2i0F+66fDPrognR7h/0MwCZlO62iqiLWVH0dIHXR/4DpYOaBunrbfwEO79d1Ht/4s8qc2MehmbTchYs/zw2n8uCSwtPE3SbWOXeo7vO4UWufDPDBjGUVgqoqLZMy5CFsEq0nR+wT5dhP3Xz/Fpdy/YywX/pOCvGstM2bUkLufiLovFlM7ErrkQvedYxIAsSg9fUlfGWS1br1vegYjb2SrjOHFibDZcm8USo3ftaUZEYAgWkx3qgtkl8U1dn3DIRCVbttDz5vYkppB5ZPARJS2ba4ax+V79ERU4yvJIy1KUGCDO574Y6aJkiP/QdNxmzP67Jl3pTDv4c+fKccIPccvoVLqYkIJtWryg+POUqRKeb/LjSuV1XV88IYXkvTFD2CLCQeAWqHIIq6TLAxlhmnF7UYBaViogfSU9xEZwXnTCDJCRaVd+fxGjrmzoUCc5CTdRsshynjYHIAdFXvRLWW02RmfTl6Uy6eNVP7E5GMFj1ZITtgXtub+Z6+3w0L+lIw64at3XaqTa9FpJHfyBv8kWszjHc9VXoojDVeZ9JqgA1L6NYfMCbpYX3H8J0LO9jSpJmJ30Anw/LQBD1QlKoQEssdaBy56x3UHSiDpZBoVB3JQOX1l1/fTMN/F02Zp7cLIx+GveaBwyChCQFZ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?J6GPxZrLZB/si2C0XXw0NvEsg0MCidp2w1XapKMXO0XnIRXFrU+9drYiWxnt?=
+ =?us-ascii?Q?CNBMtYeNKZ7aNIC3EbzCs0YhzRVTaTUCvzFziga5jOlw1QpJQod4xbfvnoDW?=
+ =?us-ascii?Q?0cyoSoBn7WwVooPY6/It1FfX6bNYvGIb1uFlxbxul50uv49HYdFsPKLw85D3?=
+ =?us-ascii?Q?1nUS/qNtQlnzNsmEoaYLTieSisxB9PghD7oaCLaOCiQniUlh/m7zjsI3iYPl?=
+ =?us-ascii?Q?6idq8Qfs/UYXk1/cQClxj6BrutF4m8Xq0bfRNnjDJBMbbb1gt9VJOD2IVbcy?=
+ =?us-ascii?Q?0oe5nUdAMUqzFSPY/IsVYnxNMj7Rx/+tucwOdML0Sve428H6DN4FsYitO5BR?=
+ =?us-ascii?Q?e0d5AomMxZSdDZZ9DbZwLiXGGsOLY2JY3kUjZKKz9GdXlrl4Qj1McPJJDakO?=
+ =?us-ascii?Q?l6CBkM8De13LGxzZs87Gff8chwL15SXRSFyZ99/8Y/l+1QMClQpFLdNkIdek?=
+ =?us-ascii?Q?Swh2IHuMb7xBQfRCrwoLhqpt7tF+2yyo5ty7i/jKIO8g0YgDgqU2KKwyQdRI?=
+ =?us-ascii?Q?TjBE3ygDlDrlVsUPdrPpjufQy0OJhz/5w02eZ5VwUhgBRNimZYPArIs6qoIG?=
+ =?us-ascii?Q?SP+9HCH9xJZX9NRcj60107FIVyFcgbj1XaWDGS7YHhjkZ56SuMab3/TUI78A?=
+ =?us-ascii?Q?gEzVrajAppR533mmfB2c3HEx4buTdhhWYn4yzHrw7/FbqkCcDYiumLgqT9J4?=
+ =?us-ascii?Q?Kh1r0FwLkj36iaIguh6JU7pp/Jh1qTAvJGgHQ2ruJSo38cG+8F29PSplkqUS?=
+ =?us-ascii?Q?CQF1jc0MbkdxEGB8WZ2XWJt4/v3RzCXHWzzr5sx2ZFsOQm+2L8bp1Cg1tiDF?=
+ =?us-ascii?Q?7UDhukPs6rNalNtBZD5GUX3tqf19YCmFBDKdqeRzQJ4NS5YQQhYAlOFe3E7R?=
+ =?us-ascii?Q?EYF7s6X8FdJxQqdyMpqdibxwvdxCPKKx1l3rI3NDvSeUuQC3deHf3wc+oRx1?=
+ =?us-ascii?Q?TCCw4YDafRua91gzVHOByqjTBKEFWINiwo2TSJSw8I5bLDMnswsO3CYbRkOu?=
+ =?us-ascii?Q?rduok/lhrdZgKYUugotjU2IGqAR6h5KAe2l6+U5UAF5HZsryh1PaimUl+nA4?=
+ =?us-ascii?Q?DPPhORq60BVtySv9e+3PZj3d9bzV2cmu4GVbLhURe8ywi8ucEHZ08asG2guY?=
+ =?us-ascii?Q?ZxjOR0JgfN7XAO2huUQwh5pYhc6ruQXzc3P/OG6+NCtexewa8M0GWWVpIDEl?=
+ =?us-ascii?Q?ELjGP5HmnGV042h6XXRPGOUS35NmYaZg8iagBNDVAb7CM6h9Jx7hcIVh8Hbt?=
+ =?us-ascii?Q?w75m8RyIiJIJE/fuBzRySseLdauB9GCCA6x0aVxOSZhFzStx331wbdn+A73Y?=
+ =?us-ascii?Q?tXxiT3gly0g7TiliCv1AGoZkjusMj+11UQJQ3s+nro8C2bsSQ6Y4iYuSFHma?=
+ =?us-ascii?Q?zDgOmI9hsbiNW5kdQHbAI4zvc4Vw2+KxrcotFqKMyqE4qXzFjimTbRNfr0Gn?=
+ =?us-ascii?Q?nPZcjKxuExNU4bxKi2rh2AV8tGKNywT13WTTaBiiHwCoWwKfV5PkkQKdGiUz?=
+ =?us-ascii?Q?GvXt7E/zgtMqHB490nkwwQP61ElxX13+Odb8tGch+Jbt1Vob8wzv4BOXZAfw?=
+ =?us-ascii?Q?nLxeUKQTMreV6qj6JB6guFJEVJxQiLlCEnc+PD7Lz9VmxC3R3GYlIRJOPZZB?=
+ =?us-ascii?Q?Or7KxosjNsIUdmnAM8gGWRRUEg9vfmZ94eo73awAxaU4QUJOSLxmno7/WPot?=
+ =?us-ascii?Q?ghrHpjJwX91XS/UJ07QdLw0ckjefTO4xc/OvMghAJYNKU/mV?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9ebe9da-549c-4bf8-9d2d-08dec31c312c
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 16:04:58.6284
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: H6OYTTiYEWw06o3OhSW+WYPDEj5+Bi8TzHvW4kHOjwVBYV0J3WA9L+NTrZ8iMWGZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4085
 
-On Tue, 2026-06-02 at 13:14 +0200, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->=20
-> Add the documentation of exporting and deleting IMA measurements in
-> Documentation/security/IMA-export-delete.rst.
->=20
-> Also add the missing Documentation/security/IMA-templates.rst file in
-> MAINTAINERS.
->=20
-> Link: https://github.com/linux-integrity/linux/issues/1
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+On 22 May 2026, at 10:59, Nico Pache wrote:
 
-Thanks, Roberto!  Other than the section titled "Remote Attestation Agent
-Workflow", the documentation is well written and flows nicely.  More detail=
-s in
-the "Remote Attestation Agent Workflow" section.
-
+> The following cleanup reworks all the max_ptes_* handling into helper
+> functions. This increases the code readability and will later be used to
+> implement the mTHP handling of these variables.
+>
+> With these changes we abstract all the madvise_collapse() special casing
+> (do not respect the sysctls) away from the functions that utilize them.
+> And will be used later in this series to cleanly restrict the mTHP
+> collapse behavior.
+>
+> No functional change is intended; however, we are now only reading the
+> sysfs variables once per scan, whereas before these variables were being
+> read on each loop iteration.
+>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 > ---
->  Documentation/security/IMA-export-delete.rst | 190 +++++++++++++++++++
->  Documentation/security/index.rst             |   1 +
->  MAINTAINERS                                  |   2 +
->  3 files changed, 193 insertions(+)
->  create mode 100644 Documentation/security/IMA-export-delete.rst
->=20
-> diff --git a/Documentation/security/IMA-export-delete.rst b/Documentation=
-/security/IMA-export-delete.rst
-> new file mode 100644
-> index 000000000000..a9e1d3f8ed47
-> --- /dev/null
-> +++ b/Documentation/security/IMA-export-delete.rst
-> @@ -0,0 +1,190 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +IMA Measurements Export and Delete
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +
-> +Introduction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The IMA measurements list is currently stored in the kernel memory. Memo=
-ry
-> +occupation grows linearly with the number of records, and can become a
-> +problem especially in environments with reduced resources.
-> +
-> +While there is an advantage in keeping the IMA measurements list in kern=
-el
-> +memory, so that it is always available for reading from the securityfs
-> +interfaces, storing it elsewhere would make it possible to free precious
-> +memory for other kernel usage.
-> +
-> +The IMA measurements list needs to be retained and safely stored for new
-> +attestation servers to validate it. Assuming the IMA measurements list i=
-s
-> +properly saved, storing it outside the kernel does not introduce securit=
-y
-> +issues, since its integrity is anyway protected by the TPM.
-> +
-> +Hence, the new IMA staging mechanism is introduced to export IMA
-> +measurements to user space and delete them from kernel space.
-> +
-> +Staging consists in atomically moving the current measurements list to a
-> +temporary list, so that measurements can be deleted afterwards. The stag=
-ing
-> +operation locks the hot path (racing with addition of new measurements) =
-for
-> +a very short time, only for swapping the list pointers. Deletion of the
-> +measurements instead is done locklessly, away from the hot path.
-> +
-> +There are two flavors of the staging mechanism. In the staging with prom=
-pt,
-> +all current measurements are staged, read and deleted upon confirmation.=
- In
-> +the staging and deleting flavor, N measurements are staged from the
-> +beginning of the current measurements list and immediately deleted witho=
-ut
-> +confirmation.
-> +
-> +
-> +Management of Staged Measurements
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Since with the staging mechanism measurement records are removed from th=
-e
-> +kernel, the staged measurements need to be saved in a storage and
-> +concatenated together, so that they can be presented to remote attestati=
-on
-> +agents as if staging was never done. This task can be accomplished by a
-> +system service.
-> +
-> +Coordination is necessary in the case where there are multiple actors
-> +requesting measurements to be staged.
-> +
-> +In the staging with prompt case, the measurement interfaces can be acces=
-sed
-> +only by one actor (writer) at a time, so the others will get an error un=
-til
-> +the former closes it. Since the actors don't care about N, when they gai=
-n
-> +access to the interface, they will get all the staged measurements at th=
-e
-> +time of their request.
-> +
-> +In the case of staging and deleting, coordination is more important, sin=
-ce
-> +there is the risk that two actors unaware of each other compute the valu=
-e N
-> +on the current measurements list and request IMA to stage N twice.
-> +
-> +
-> +Remote Attestation Agent Workflow
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  mm/khugepaged.c | 120 +++++++++++++++++++++++++++++++++---------------
+>  1 file changed, 84 insertions(+), 36 deletions(-)
+>
 
-The example below illustrates a narrow use case in which only a single
-attestation server is present, eliminating the need to retain the measureme=
-nt
-list records. The recommended general case, however, involves multiple
-attestation servers and requires the system service to retain all measureme=
-nt
-records since boot, with the ability to respond with records from any speci=
-fied
-point onward.
+userfaultfd_armed() and cc->is_khugepaged check results are now folded
+into collapse_max_ptes_*() return values, using 0 and HPAGE_PMD_NR.
+It simplifies the caller code. LGTM.
 
-Mimi
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-> +
-> +Users can choose the staging method they find more appropriate for their
-> +workflow.
-> +
-> +If, as an example, a remote attestation agent would like to present to t=
-he
-> +remote attestation server only the measurements that are required to
-> +verify the TPM quote, its workflow would be the following.
-> +
-> +With staging with prompt, the agent stages the current measurements list=
-,
-> +reads and stores the measurements in a storage and immediately requests
-> +IMA to delete the staged measurements from kernel memory. Afterwards, it
-> +calculates N by replaying the PCR extend on the stored measurements unti=
-l
-> +the calculated PCRs match the quoted PCRs. It then keeps the measurement=
-s
-> +in excess for the next attestation request.
-
-
-
-> +
-> +At the next attestation request, the agent performs the same steps above=
-,
-> +and concatenates the new measurements to the ones in excess from the
-> +previous request. Also in this case, the agent replays the PCR extend un=
-til
-> +it matches the currently quoted PCRs, keeps the measurements in excess a=
-nd
-> +presents the new N measurement records to the remote attestation server.
-> +
-> +With the staging and deleting method, the agent reads the current
-> +measurements list, calculates N and requests IMA to delete only those. T=
-he
-> +measurements in excess are kept in the IMA measurements list and can be
-> +retrieved at the next remote attestation request.
-> +
-> +
-> +Usage
-> +=3D=3D=3D=3D=3D
-> +
-> +The IMA staging mechanism can be enabled from the kernel configuration w=
-ith
-> +the CONFIG_IMA_STAGING option. This option prevents inadvertently removi=
-ng
-> +the IMA measurement list on systems which do not properly save it.
-> +
-> +If the option is enabled, IMA duplicates the current securityfs
-> +measurements interfaces (both binary and ASCII), by adding the ``_staged=
-``
-> +file suffix. Both the original and the staging interfaces gain the write
-> +permission for the root user and group, but require the process to have
-> +CAP_SYS_ADMIN set.
-> +
-> +The staging mechanism supports two flavors.
-> +
-> +
-> +Staging with prompt
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +The current measurements list is moved to a temporary staging area,
-> +allowing it to be saved to external storage, before being deleted upon
-> +confirmation.
-> +
-> +This staging process is achieved with the following steps.
-> +
-> + 1. ``echo A > <_staged interface>``: the user requests IMA to stage the
-> +    entire measurements list;
-> + 2. ``cat <_staged interface>``: the user reads the staged measurements;
-> + 3. ``echo D > <_staged interface>``: the user requests IMA to delete
-> +    staged measurements.
-> +
-> +
-> +Staging and deleting
-> +~~~~~~~~~~~~~~~~~~~~
-> +
-> +N measurements are staged to a temporary staging area, and immediately
-> +deleted without further confirmation.
-> +
-> +This staging process is achieved with the following steps.
-> +
-> + 1. ``cat <original interface>``: the user reads the current measurement=
-s
-> +    list and determines what the value N for staging should be;
-> + 2. ``echo N > <original interface>``: the user requests IMA to delete N
-> +    measurements from the current measurements list.
-> +
-> +
-> +Interface Access
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +In order to avoid the IMA measurements list being suddenly truncated by =
-the
-> +staging mechanism during a read, or having multiple concurrent staging, =
-a
-> +semaphore-like locking scheme has been implemented on all the measuremen=
-ts
-> +list interfaces.
-> +
-> +Multiple readers can access concurrently the original and staged
-> +interfaces, and they can be in mutual exclusion with one writer. In orde=
-r
-> +to see the same state across all the measurement interfaces, the same
-> +writer is allowed to open multiple interfaces for write or read/write.
-> +
-> +If an illegal access occurs, the open to the measurements list interface=
- is
-> +denied.
-> +
-> +
-> +Kexec
-> +=3D=3D=3D=3D=3D
-> +
-> +In the event a kexec() system call occurs between staging and deleting, =
-the
-> +staged measurement records are marshalled before the current measurement=
-s
-> +list, so that they are both available when the secondary kernel starts.
-> +
-> +If measurement is suspended before requesting to delete staged or curren=
-t
-> +measurements, IMA returns an error to user space to let it know that
-> +marshalling is already in progress, so that it does not save the
-> +measurements twice.
-> +
-> +IMA also disallows staging when suspending measurement, to avoid the
-> +situation where neither measurements are carried over to the secondary
-> +kernel, nor they are saved by user space to the storage.
-> +
-> +
-> +Hash table
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +By default, the template digest of staged measurement records are kept i=
-n
-> +kernel memory (only template data are freed), to be able to detect
-> +duplicate records independently of staging.
-> +
-> +The new kernel option ``ima_flush_htable`` has been introduced to
-> +explicitly request a complete deletion of the staged measurements, for
-> +maximum kernel memory saving. If the option has been specified, duplicat=
-e
-> +records are still avoided on records of the current measurements list,
-> +but there can be duplicates between different groups of staged
-> +measurements.
-> +
-> +Flushing the hash table is supported only for the staging with prompt
-> +flavor. For the staging and deleting flavor, it would have been necessar=
-y
-> +to lock the hot path adding new measurements for the time needed to remo=
-ve
-> +each selected measurement individually.
-> diff --git a/Documentation/security/index.rst b/Documentation/security/in=
-dex.rst
-> index 3e0a7114a862..00650dcf38cb 100644
-> --- a/Documentation/security/index.rst
-> +++ b/Documentation/security/index.rst
-> @@ -8,6 +8,7 @@ Security Documentation
->     credentials
->     snp-tdx-threat-model
->     IMA-templates
-> +   IMA-export-delete
->     keys/index
->     lsm
->     lsm-development
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 461a3eed6129..70ff6bae3493 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12752,6 +12752,8 @@ R:	Eric Snowberg <eric.snowberg@oracle.com>
->  L:	linux-integrity@vger.kernel.org
->  S:	Supported
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integri=
-ty.git
-> +F:	Documentation/security/IMA-export-delete.rst
-> +F:	Documentation/security/IMA-templates.rst
->  F:	include/linux/secure_boot.h
->  F:	security/integrity/
->  F:	security/integrity/ima/
+Best Regards,
+Yan, Zi
