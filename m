@@ -1,444 +1,179 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAB7413610
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 15:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780672788; cv=pass; b=lf3C1L+hXZruHxkmlgnRO0GC508URMrwp08eKUFMm5+/9zLeohWyxjKV/KyYo/jwR+2r3echlIxr6knl33m/+82TlSyCdp6OXEp6qQ8TxU6ZRcuniDiDs8+wGRK9/ltwfahllowgk1YQ5oC33GaLptmRGC32okbDjvvXdZS85/A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780672788; c=relaxed/simple;
-	bh=ymFf/rEwZrJs5X9wKSO5OinbMUTtbF8uY2QhuC9pf7k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M4G0YQ8+EFw927oh2p7i3GwlYl8YhPHHEQ/ymZdKlZiq7dAQ4zMhJ1XL1ajr7tFr7LjvxxfXQmaaQRDAduTgdW7V8M4OA0AdM8O5EiTcerCxPoNPeNXuC4GFq4GWA3uTxJsy7FcaAkEDu8+fXGR3dtdeAGOAJMarBZuilJ4b2SA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dZspgvhI; arc=pass smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561E118C332;
+	Fri,  5 Jun 2026 15:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780673318; cv=none; b=AjWZHHxk+yI90TGOKp2qmviRlOSQL/McGN6ykCpeBbQnd98/qi5mBUqi7GjA+vQ9iJfZR7Jhp+i9cADXeexxuK57nim22DgeO3TOPhBFR3BkiRHRB1zwXYsCdf0IoMZDWuX4Q5iRO66TbO60SaqvAm5hFmjgimwvvZJQgjDsVKM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780673318; c=relaxed/simple;
+	bh=eO5deUNjUsSs5uHgXTzBnq8zxoJQfniS/ft3jMquW7w=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=Gi+cDud2dzWLZm2RMAW8FPTqWoyZX137Q95wNn9u0zVjdq2MzkZMkfu82bIAWnex8LE50EjRJYOwDJPCPKIfrdQJp9yiSYPhPFn3VFG1V/pHuFm2YPeUiV1FFanj/YIOKGhJUoR5cEno0I1H68a610bdKFDiqvemnMFuSGXgpPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Ko279fa7; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dZspgvhI"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66061993121so2113683d50.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 08:19:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780672783; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iZdbjYnnNZbzPDpNpUEXgnwKvMaPxdvy2xoRwDavS2ZjOuAFL44b2mXTZ4gTMkO6bH
-         Yqn6jxQOMFOyufCXUx8LgxbAnc3m1Jr7WnAkoAcRwzdbM9OqG3fafew2yBLwvDeCHLSz
-         2VHLGaJH9Ivoxb+e3927TTfj4WSKVr/Cy1yLBZIZtamkgyw47RdvoJfKmcNqyMPA2x6i
-         hiVXctOlmFH4cTP9PfQkA1JUyLshoR+qM3K7/J5J34xx2sllIl6tbaHAfnWvE7K4MaNY
-         bFGWEDtB4nVHFZwH/AwvwWfXYjUl9vQfSgt2rzQfiKrs9VijHXa8q5Rt5epnOlrX8ypw
-         51yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3m/KOQvsG1uJHDvO1PZnjraMcJuZMi2RUKvodsmX6gM=;
-        fh=ztGvscIT0n/Bx/HQEt+X8AtdJ/Iw9LtXuN0J3dZ3r5Q=;
-        b=gr6QxbStFrv+thbLZ5DW6zAR0mn2hjsxlJdQHfaQPT1J4jwsu506MZGFC3y3jHujzN
-         0BZcqdhHUsIdSRPmdiSvfgSGq6AzXJuHH8sS/4fiVxzVZSdEtJovKOcWzqbbw+/97vzJ
-         fgHhBm4wHM/Fp/3mxvtx6AIx4wQn16wJxvoAcFJaejLfid9uHOH6Sf/RKEVoBZMyyyp2
-         g74tTeH8u0fBxOoo64ZUk+V/FMZg383PnZS6bAcQKfKuemkRnqN4o2OwLVj3Idql9ghw
-         BqAIgxzPtPeIPORp9049DNNP2M5qUavf/m4Vh5syBb4SBJTCHj86AlbXieW8nBaMAnye
-         1CIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780672783; x=1781277583; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3m/KOQvsG1uJHDvO1PZnjraMcJuZMi2RUKvodsmX6gM=;
-        b=dZspgvhImrxDp7hNtUv4CCE7zrL0eVUrG75rI5ARz6iuBvEA5jp1X7MtBl/PdZLcpl
-         KR9WtqrKqv98P4+4sPm3nSZ2fVPOTtnfkFkZG0NwLBzbj6RnpnbpuBZ5/QONeGB89cAg
-         fIGh96QMPkQ2BcbBa+4O13TX0gNFlTCgbz7UMMZqDq4LqThmcyelyW/tjAtG5O7KCyge
-         gOTVqceu4XeorfE6ndB045Xz7yMWuThVMJAhec7gPLdRqj1S3HU+Yz89k/NYd7uvaOha
-         GgPtlLY0VUgXpQMfYSd1gtlVWx/KnzKsYMU/++ayqn3btLoN3DaAlg/UaGEg/0QSOk/a
-         rKug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780672783; x=1781277583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3m/KOQvsG1uJHDvO1PZnjraMcJuZMi2RUKvodsmX6gM=;
-        b=Yx5OOBR//Ihg/sqIEr4ak1rqfqzP5qZoy2Ay60k7BTKCj+IepNCWt5XjAyxLnzHtUo
-         +dPNZFc7bzf7hp2YoESionMVuoOUVQwF7cRInUV1bj6yjYaDnXSNVAYOzBKxO54ZILg3
-         QojLEvJC8LAqLRfvMMp5MDgUD87LK2y23xiPm5/Xy3d9tB8iM6UPyr3S4VdWtVArl92M
-         tUV98h8eJUfhyniKsfPwx6JtHPnuBrYK9h+eeWMzr7tdNqdMQmMyc9GENbE4I4ntAf2B
-         lrhTa7ii8P/lOKleZMq/8ubt/hap/QJXMjb8Ex2keuTs1eCpNQX6nSv5pHOzxKlp0Hrb
-         8MwA==
-X-Forwarded-Encrypted: i=1; AFNElJ92qtGbbdN29+HJPTNpBqlw4sEI+wI05x9P6smrS/UNxktaJ3+tvowTlX5zJCDhcDMcQDW4aoHQVYM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhimWVM3olzaVN4uRhCCvF036+tX7Y1oVrt20W/COdPbieP0YT
-	FS044hlTXvA8N4RSGb7Mqc/8keiSiljSeEf1wHNGZrWEecoBOLhalGUgI3Dg0oSMkjU3ofgBiNa
-	18B/OEhp8Rmh0ciXEZSNfvnPVjbO3xInd07dwXxoW
-X-Gm-Gg: Acq92OGGXwX7jIN17MdXpjUuZf7MljWSkraH7FVVXWohHux/+t4+VgLvf0I2JwPCJ6Q
-	8ltqAhpGWmTZfNnufqPif+uQbw0vpH/SyQQraCzhPmId1PzLEJGNpMwW2BFxOBsoB6voyfguYT9
-	IUye4/WPhGiysmfp9V7eSouSBTLMLZDi6pSmJN9o2/57zYiLRmh8NnnTlp+ww4rZBKgL+6N6BaT
-	5YSM6USxvZWV6hSZzwDHOSmN2kPGxzSWSWyp6YvE52+thy/YRQdj8ovh9ZJA5acyt0Ikk1IO/r2
-	1MyTKJN63qihgqkxu1Lhs/gsrEb5NLeiK37M1vKcPJhmyH85unM=
-X-Received: by 2002:a05:690e:1c07:b0:64c:9f31:e33 with SMTP id
- 956f58d0204a3-66106fbfa70mr3468603d50.65.1780672782001; Fri, 05 Jun 2026
- 08:19:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Ko279fa7"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6554Uu0G1954705;
+	Fri, 5 Jun 2026 15:28:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=J5rAMw
+	xoTisKP4BMXx13HaD/fZQ0TGgiSbOKO18Eqv0=; b=Ko279fa7fWCjJhcCbX7M1W
+	68vOnMb5fdqnN7cnL32+vmjbQsFV7lhsCwoZZbl99wy7NB+e5QylvF55vxoB47EX
+	wV3wD1aFQfkMdQQLA6Ywnh3I7/arCDR7ravQdRXzc0Nv5bgUUYTK6avkua9IubZo
+	KT4mWCZD7D8v2AWop30dMQGX9TGvnJeh2ebif5KrudqWSFTwVjCkIxviETdOvUgv
+	V3eRbYi/q2qGiLyJRQrX2G0IR8mxQ6cSQx9pqmkZ1YMSgPxMZygy2siGCgdGnb0P
+	XSBsE1ctw48J5+ThW1pamuIVa3drX1Wby12OxK62j/9BXa+BQ6ZkcrScgyfPpQBQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqd4n5x0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 15:28:10 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 655FO70r026361;
+	Fri, 5 Jun 2026 15:28:09 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egbqht6d5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 15:28:09 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 655FS8x932899826
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 5 Jun 2026 15:28:08 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7046058052;
+	Fri,  5 Jun 2026 15:28:08 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3A4CB5805D;
+	Fri,  5 Jun 2026 15:28:07 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.67.126])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  5 Jun 2026 15:28:07 +0000 (GMT)
+Message-ID: <e71b3b9f040683aee106ad87ebba81fe09ac7d15.camel@linux.ibm.com>
+Subject: Re: [PATCH v6 10/12] ima: Add support for flushing the hash table
+ when staging measurements
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
+        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+In-Reply-To: <20260602111401.1706052-11-roberto.sassu@huaweicloud.com>
+References: <20260602111401.1706052-1-roberto.sassu@huaweicloud.com>
+	 <20260602111401.1706052-11-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2026 11:28:06 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech> <20260603-kcov-dataflow-next-20260603-v2-4-fee0939de2c4@est.tech>
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-4-fee0939de2c4@est.tech>
-From: Alexander Potapenko <glider@google.com>
-Date: Fri, 5 Jun 2026 17:19:01 +0200
-X-Gm-Features: AVVi8Ceblw1PVlq_JOUX8fDH6TRKq7cz66at-ID_frny8QXhTeItWJGDPY83a0I
-Message-ID: <CAG_fn=UTFnM60LVABGR-V0NwYc4d9C4KAhT4A_+oxduJcSeqew@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/6] tools/kcov-dataflow: add userspace consumer
- and test modules
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDE0OSBTYWx0ZWRfX7e5ir0Yx1UaU
+ crW0ECr3PQiEn9XO+oFe1AqC+xP3mQpE5NTk0x2ZVGvmGeCs39gYdablVKt/yXecXRlOdYQyNB6
+ dbf5PZwzIEUxG0bVB8f3y8iR4VCC2YhClpVoKHbWu6yjYgystiyBa3wEsJRFYA3t42mjuGBPkgT
+ zzp9fFox1IrV3oSJBpMCkXxjy/x5HVg1VVERwmOprIRE4OdHqb8wHkjVSP2cPNM6ZlQMQ3/A82z
+ tu6fv/a+J3ndrUnNI5OhVO9vSQmzK9GkUg/4JXFIWsq/Dd5tq7QXn7SGaoOeU3t0sLHEEDtMtwy
+ GzI8iUdKP3RFysnTM62iArxzo38jdzAznTS1MXfE6T0xbaHm2vYMevnNzbqGT2KayaKfCbZo3xx
+ /G6flSMQDJ7qOEQKbThhQb/5JXhhoDcktWv7OwMS8Rg/K/DfMCk5ahb0NWciJLktimoeRcaMJ2n
+ V8+U98QL8bEy9iFm/8g==
+X-Proofpoint-GUID: -1pYE27db3Vbmv2q3v0Z5dFSpnvtqzkD
+X-Proofpoint-ORIG-GUID: J3enxJpe2beIGJaEbrew44OCw_pNPsQk
+X-Authority-Analysis: v=2.4 cv=DZknbPtW c=1 sm=1 tr=0 ts=6a22eb0a cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
+ a=i0EeH86SAAAA:8 a=C3CPiBWLnMe3MCAkXaYA:9 a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-05_02,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050149
 
-On Wed, Jun 3, 2026 at 7:43=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech>=
- wrote:
->
-> Add tools/kcov-dataflow/ with:
->
-> - trigger.c: userspace consumer that opens /sys/kernel/debug/kcov_dataflo=
-w,
->   mmaps the buffer, enables recording, triggers a kernel path, and dumps
->   the captured TLV records.
->
-> - kcov-view.py: visualization tool that parses and pretty-prints the
->   binary TLV buffer with struct field expansion and symbol resolution.
->
-> - eight_args_c/eight_args_mod.c: stress test with 1-8 argument functions
->   verifying correct capture of register and stack-passed arguments.
+On Tue, 2026-06-02 at 13:13 +0200, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> During staging and delete, measurements are not completely deallocated.
+> Their entry digest portion is kept and is still reachable with the hash
+> table to detect duplicate records. If the number of records is significan=
+t,
+> this reduces the memory saving benefit of staging.
+>=20
+> Some users might be interested in achieving the best memory saving (the
+> measurements are completely deallocated) at the cost of having duplicate
+> records across the staged measurement lists. Duplicate records are still
+> avoided within the current measurement list.
+>=20
+> Introduce the new kernel option ima_flush_htable to decide whether or not
+> the digests of staged measurement records are flushed from the hash table=
+,
+> when they are deleted, to achieve the maximum memory saving.
+>=20
+> When the option is enabled, replace the old hash table with a new one,
+> by calling ima_alloc_replace_htable(), and completely delete the
+> measurements records.
+>=20
+> Note: This code derives from the Alt-IMA Huawei project, whose license is
+>       GPL-2.0 OR MIT.
+>=20
+> Link: https://github.com/linux-integrity/linux/issues/1
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  6 +++
+>  security/integrity/ima/ima.h                  |  1 +
+>  security/integrity/ima/ima_queue.c            | 41 ++++++++++++++++---
+>  3 files changed, 42 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 4d0f545fb3ec..aad318803f82 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2343,6 +2343,12 @@ Kernel parameters
+>  			Use the canonical format for the binary runtime
+>  			measurements, instead of host native format.
+> =20
+> +	ima_flush_htable  [IMA]
+> +			Flush the IMA hash table when deleting all the
+> +			staged measurement records, to achieve maximum
+> +			memory saving at the cost of having duplicate
+> +			records across the staged measurement lists.
 
-I think the tests should better go to tools/testing/selftests.
-
-> diff --git a/tools/kcov-dataflow/.gitignore b/tools/kcov-dataflow/.gitign=
-ore
-> new file mode 100644
-> index 000000000000..1f35df8fbd07
-> --- /dev/null
-> +++ b/tools/kcov-dataflow/.gitignore
-
-I am not sure about the conventions, but a bunch of other .gitignore
-files have SPDX headers.
-
-> diff --git a/tools/kcov-dataflow/deep_module/Makefile b/tools/kcov-datafl=
-ow/deep_module/Makefile
-> new file mode 100644
-> index 000000000000..6afed580dc9a
-> --- /dev/null
-> +++ b/tools/kcov-dataflow/deep_module/Makefile
-
-Makefiles must have SPDX headers.
-
-> diff --git a/tools/kcov-dataflow/deep_module/deep_chain_mod.c b/tools/kco=
-v-dataflow/deep_module/deep_chain_mod.c
-> new file mode 100644
-> index 000000000000..786e23c5d213
-> --- /dev/null
-> +++ b/tools/kcov-dataflow/deep_module/deep_chain_mod.c
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * deep_chain_mod.c - Demonstrates kcov_dataflow tracing through 10 nest=
-ed
-> + * function calls. An attacker-controlled "offset" value propagates from
-> + * the entry point through transformations until it causes an OOB write
-> + * in the deepest function.
-
-I don't fully understand the purpose of this file. Are you going to
-parse its output for testing?
-
-> + *
-> + * Call chain:
-> + *   entry_handler =E2=86=92 parse_request =E2=86=92 validate_header =E2=
-=86=92 extract_payload =E2=86=92
-> + *   transform_data =E2=86=92 apply_filter =E2=86=92 compute_index =E2=
-=86=92 lookup_slot =E2=86=92
-> + *   write_slot =E2=86=92 commit_write (BUG: OOB here)
-
-Call me old fashioned, but I think we can easily avoid the non-ASCII
-characters here.
-
-
-> +/* Function 10 (DEEPEST): The vulnerable write */
-> +static noinline int commit_write(struct slot_table *table, u32 index, u6=
-4 value)
-> +{
-> +       /* BUG: no bounds check on index =E2=80=94 if index >=3D 8, OOB w=
-rite */
-> +       table->slots[index] =3D value;
-> +       return 0;
-> +}
-
-Does this call chain need to be this long?
-I assume it was extracted from some real-world example, but maybe
-pruning it to 3-5 calls would demonstrate the capabilities of dataflow
-tracing just as well?
-
+Thank you for patch description, kernel doc, and Kconfig updates.
 
 > +
-> +       table =3D kzalloc(sizeof(*table), GFP_KERNEL);
-> +       if (!table)
-> +               return -ENOMEM;
-> +       table->num_slots =3D 8;
-> +
-> +       /* The tainted data flow:
-Please make sure to conform to
-https://docs.kernel.org/process/coding-style.html#commenting
+>  	ima_hash=3D	[IMA]
+>  			Format: { md5 | sha1 | rmd160 | sha256 | sha384
+>  				   | sha512 | ... }
+> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+> index a05db5b18982..d2e740c8ff75 100644
+> --- a/security/integrity/ima/ima.h
+> +++ b/security/integrity/ima/ima.h
+> @@ -343,6 +343,7 @@ extern atomic_long_t ima_num_records[BINARY__LAST];
+>  extern atomic_long_t ima_num_violations;
+>  extern struct hlist_head __rcu *ima_htable;
+>  extern struct mutex ima_extend_list_mutex;
+> +extern bool ima_flush_htable;
 
-> +
-> +/* Trigger: constructs a malicious request that causes index=3D12 (OOB) =
-*/
-> +static ssize_t deep_trigger_write(struct file *file, const char __user *=
-ubuf,
-> +                                 size_t count, loff_t *ppos)
-> +{
-> +       u8 *buf;
-> +       struct request_header *hdr;
-> +       struct payload *pl;
-> +
-> +       buf =3D kzalloc(256, GFP_KERNEL);
-> +       if (!buf)
-> +               return -ENOMEM;
-> +
-> +       /* Craft malicious request */
-> +       hdr =3D (struct request_header *)buf;
-> +       hdr->magic =3D 0x50524F54;       /* valid magic */
-> +       hdr->version =3D 1;              /* valid version */
-> +       hdr->payload_offset =3D 16;      /* offset to payload (valid posi=
-tion) */
-> +       hdr->payload_size =3D sizeof(struct payload);
-> +
-> +       /* Craft payload that will produce OOB index */
-> +       pl =3D (struct payload *)(buf + 16);
-> +       pl->session_id =3D 0xAAAABBBBCCCCDDDDULL;
+Making ima_flush_htable global is only needed for "[PATCH v6 11/12] ima: Su=
+pport
+staging and deleting N measurements records", not here.  Please make it sta=
+tic
+here and change it to global as needed.
 
-Much is happening in this code, making it hard to review, but all
-these values do not seem to be used anywhere.
-
-
-> +
-> +noinline u64 func2(u64 a1, u64 a2)
-> +{
-> +       return a1 + a2;
-> +}
-> +EXPORT_SYMBOL(func2);
-> +
-> +noinline u64 func3(u64 a1, u64 a2, u64 a3)
-> +{
-> +       return a1 + a2 + a3;
-> +}
-> +EXPORT_SYMBOL(func3);
-
-Would it be more readable to use some macro magic here?
-
-E.g.:
-```
-#define DEFINE_SUM_FUNC(n, sum_expr, ...)           \
-noinline u64 func##n(__VA_ARGS__)               \
-{                                               \
-return sum_expr;                            \
-}                                               \
-EXPORT_SYMBOL(func##n)
-
-DEFINE_SUM_FUNC(1, a1, u64 a1);
-DEFINE_SUM_FUNC(2, a1 + a2, u64 a1, u64 a2);
-DEFINE_SUM_FUNC(3, a1 + a2 + a3, u64 a1, u64 a2, u64 a3);
-DEFINE_SUM_FUNC(4, a1 + a2 + a3 + a4, u64 a1, u64 a2, u64 a3, u64 a4);
-DEFINE_SUM_FUNC(5, a1 + a2 + a3 + a4 + a5, u64 a1, u64 a2, u64 a3, u64
-a4, u64 a5);
-DEFINE_SUM_FUNC(6, a1 + a2 + a3 + a4 + a5 + a6, u64 a1, u64 a2, u64
-a3, u64 a4, u64 a5, u64 a6);
-DEFINE_SUM_FUNC(7, a1 + a2 + a3 + a4 + a5 + a6 + a7, u64 a1, u64 a2,
-u64 a3, u64 a4, u64 a5, u64 a6, u64 a7);
-DEFINE_SUM_FUNC(8, a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8, u64 a1, u64
-a2, u64 a3, u64 a4, u64 a5, u64 a6, u64 a7, u64 a8);
-```
-
-You could as well define the function prototypes instead of applying
--Wno-missing-prototypes.
-
-
-> +{
-> +       pr_info("func1(0x11)=3D0x%llx\n", func1(0x11));
-> +       pr_info("func2(0x11,0x22)=3D0x%llx\n", func2(0x11, 0x22));
-> +       pr_info("func3(0x11,0x22,0x33)=3D0x%llx\n",
-> +               func3(0x11, 0x22, 0x33));
-> +       pr_info("func4(0x11,..,0x44)=3D0x%llx\n",
-> +               func4(0x11, 0x22, 0x33, 0x44));
-> +       pr_info("func5(0x11,..,0x55)=3D0x%llx\n",
-> +               func5(0x11, 0x22, 0x33, 0x44, 0x55));
-> +       pr_info("func6(0x11,..,0x66)=3D0x%llx\n",
-> +               func6(0x11, 0x22, 0x33, 0x44, 0x55, 0x66));
-> +       pr_info("func7(0x11,..,0x77)=3D0x%llx\n",
-> +               func7(0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77));
-> +       pr_info("func8(0x11,..,0x88)=3D0x%llx\n",
-> +               func8(0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88));
-> +       return count;
-> +}
-
-The inconsistent output format here suggests that the output is never valid=
-ated.
-
-> +
-> +static const struct proc_ops ops =3D { .proc_write =3D trigger_write };
-
-This file should belong to debugfs rather than /proc/.
-
-> diff --git a/tools/kcov-dataflow/eight_args_rust/eight_args_rust.rs b/too=
-ls/kcov-dataflow/eight_args_rust/eight_args_rust.rs
-> new file mode 100644
-> index 000000000000..11bbe1449eaf
-> --- /dev/null
-> +++ b/tools/kcov-dataflow/eight_args_rust/eight_args_rust.rs
-> @@ -0,0 +1,114 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//! Verify kcov_dataflow captures 1-arg through 8-arg functions.
-> +//! Write to /sys/kernel/debug/test_args_rust to trigger all 8.
-
-Please make sure triggers for all your tests are consistent,
-preferably somewhere under /sys/kernel/debug/kcov_testing/ or similar.
-
-
-
-> +
-> +Reads both /sys/kernel/debug/kcov (PC trace) and /sys/kernel/debug/kcov_=
-dataflow
-> +(args/ret), correlates by PC, and produces a human-readable call trace w=
-ith
-> +argument values and struct field expansion.
-> +
-> +Usage (inside guest or with appropriate permissions):
-> +    python3 kcov-view.py <trigger_command>
-> +
-> +Example:
-> +    python3 kcov-view.py "echo x > /proc/uaf_trigger"
-> +
-> +Output:
-> +    func+0x0 [module]
-> +      =E2=86=92 a(arg[0]=3D0x1, arg[1]=3D0x2, arg[2]=3D0x3, arg[3]=3Dstr=
-uct{.f[0]=3D1, .f[1]=3D2, .f[2]=3D3})
-> +        =E2=86=90 ret =3D struct{.f[0]=3D1, .f[1]=3D2, .f[2]=3D3}
-> +      =E2=86=92 a(arg[0]=3D0x0, arg[1]=3D0x0, arg[2]=3D0x1, arg[3]=3DNUL=
-L)
-> +        =E2=86=90 ret =3D 0x0
-> +"""
-> +import os, sys, struct, mmap, fcntl, subprocess, re, ctypes
-> +from collections import defaultdict
-> +
-> +# Ioctl definitions (x86_64)
-
-Why is this code x86-specific?
-
-> +def parse_dataflow(buf, n):
-> +    """Parse TLV records from kcov_dataflow buffer into a list of events=
-."""
-> +    events =3D []
-> +    i =3D 1
-> +    while i <=3D n and i < BUF_SIZE:
-> +        hdr =3D buf[i]
-> +        typ =3D hdr & 0xF0000000
-> +        seq =3D hdr & 0x00FFFFFF
-
-These numbers are used more than once - please declare them as
-constants instead.
-
-> +
-> +        if typ not in (0xE0000000, 0xF0000000):
-Same here, no one knows what these numbers stand for.
-
-
-> +        while i <=3D n and i < BUF_SIZE:
-> +            v =3D buf[i]
-> +            vtype =3D v & 0xF0000000
-
-Please use helper functions to extract the type, size and whatnot.
-
-> +            if vtype =3D=3D 0xE0000000 or vtype =3D=3D 0xF0000000:
-> +                break
-> +            fields.append(v)
-> +            i +=3D 1
-> +
-> +        if typ =3D=3D 0xE0000000:
-> +            arg_idx =3D (meta >> 56) & 0xFF
-> +            arg_sz =3D (meta >> 48) & 0xFF
-> +            ptr =3D meta & 0xFFFFFFFFFFFF
-> +            events.append({
-> +                "type": "entry", "seq": seq, "pc": pc,
-> +                "arg_idx": arg_idx, "arg_size": arg_sz,
-> +                "ptr": ptr, "fields": fields
-> +            })
-
-This looks like it could benefit from OOP.
-
-
-> diff --git a/tools/kcov-dataflow/trigger.c b/tools/kcov-dataflow/trigger.=
-c
-> new file mode 100644
-> index 000000000000..7fa7b4414770
-> --- /dev/null
-> +++ b/tools/kcov-dataflow/trigger.c
-> @@ -0,0 +1,125 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * trigger.c - Uses /sys/kernel/debug/kcov_dataflow to capture
-
-This code seems to partially duplicate kcov-view.py, do you need both?
-
-> +#define COVER_SIZE (64 * 1024)  /* 64K u64 words =3D 512KB */
-> +
-> +static void dump_buffer(uint64_t *cover, uint64_t n)
-> +{
-> +       uint64_t i =3D 1;
-> +
-> +       printf("=3D=3D=3D KCOV Dataflow TLV Dump (%lu words) =3D=3D=3D\n"=
-, n);
-> +       while (i <=3D n && i < COVER_SIZE) {
-> +               uint64_t hdr =3D cover[i];
-> +               uint64_t type =3D hdr & 0xF0000000ULL;
-
-Maybe we could use unions to unpack the header?
-I don't mind the masks either, but please declare them as constants.
-
-
-> +int main(int argc, char **argv)
-> +{
-> +       const char *trigger_path =3D "/proc/uaf_trigger";
-
-I couldn't find /proc/uaf_trigger anywhere, does it belong to this series?
-If trigger.c is a general-purpose tool rather than a test script, it
-shouldn't depend on the test modules.
-
-
-
-
-
---=20
-Alexander Potapenko
-Software Engineer
-
-Google Germany GmbH
-Erika-Mann-Stra=C3=9Fe, 33
-80636 M=C3=BCnchen
-
-Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
-Registergericht und -nummer: Hamburg, HRB 86891
-Sitz der Gesellschaft: Hamburg
+Mimi
