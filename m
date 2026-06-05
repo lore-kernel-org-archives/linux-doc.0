@@ -1,63 +1,63 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D613BB139
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDEC3D1A98
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780630441; cv=none; b=ErGr4P8IKVL2uJK8u7XlSsCVqTStyLIykGijMAgJHBM3RV7i+jRUBSFxM0D+LUK2vZlS3CX6Jj5/RkS/S534lZzPaET2dgecs6i4J55TuecokQrT0lQ+OfC8wYlkPSJxsn8uN2R4teLma73Q5QA8sN5kUYhUJXfpfWNuqDkDf4w=
+	t=1780630454; cv=none; b=PsI+VSEL2XeGd2bcXdOkpE4DdT5MfceoZ7mv5br98vkrI9MmdoI/Rb7cIOQOMvEqD0x1obczsYcdkcN3pyXTH5eS0ebByzsLtCkAuUAfGy9N1F8ewYvaxC76UVzrGXgCDxnUiueKUePeR9/BR4aZxwZfCe1cIztWfNFXRZLrU6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780630441; c=relaxed/simple;
-	bh=eU1fOM4eOd3z2yeGVKb+QlTsoAWC8tuz1WiFB/USShI=;
+	s=arc-20240116; t=1780630454; c=relaxed/simple;
+	bh=gG+BMzTQAvQ99ajXilaSRudbxpmfCpeFzhzw+IUPT7Y=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pdvGvBSl4aeUO4KeOsOKvMdhAPtjbMnS8F7XnR++DLKd0D14+5BB8b9sx2Bjj1bJmkjoaMHsUXQKuwbMZ654USteSJIxsK0Da7TLZQSyFOi+liCu+xG4PyrUCkHPlCDh8k7mnA4mjENbwRMsygx2zb6IPwQ+7V0mRdBmqwbkyXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PfIkSFJC; arc=none smtp.client-ip=209.85.222.174
+	 MIME-Version; b=eOzd0y/Y6o4z38+cYxfTbuv10TkQTOY0+A8y1Wx6md57FtauEzqyxr8LnXLzn3yK8cq7vUCLZvlu521jgKY/hz+uBBigV9+SEl8OrLa0oOlVLEFSD32A164z/5SDdLqBUc6jbguxITIdp/na6vQjMNoSq5DfGkBJ3kbLDIiKpc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=lGJL4ynJ; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PfIkSFJC"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9159f631656so165073885a.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:34:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="lGJL4ynJ"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9157b94a07aso211435885a.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780630439; x=1781235239; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1780630452; x=1781235252; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jYmKPVlEdqw9nJIpln28SQxgNWXUbITnOaKq2Dm+DFI=;
-        b=PfIkSFJC+zV/o6fdsI/6c3+0vJ0o0jwIIpnyxNvKze0ap7rp+yjGJrvLdY9QbEohFT
-         Qwm2MCJZKPyHGXgPXHT0w0VK4JJUUboaQpsa5D9CgxK6olxY3ztzbr5o6OOaoVCe3e+I
-         8zshjfRj0Gp5cXUcmFeBaaCSu6jd95Nzzj0fCty1RvrT59rrEWImby0ymEEIjh8Ad5Po
-         6ERVqtLVOy6y4BI1bZboowhNwuZXMJKYt4EcleWES4eGY09Bpeq3LlhjD/14COipbQ+F
-         9f0KsTt0nq03AIqxtbuLrS6tdsm4IO5ylKwCWE93go4VTTL6gbOJ9exGwdI3yPPXYajR
-         zCZA==
+        bh=2YcWKgEizOcY9z0vq5q3df4Dwqk/3q2KHCFvnTeL730=;
+        b=lGJL4ynJqM5hV2myVR4/CaQ0T32pZ5fy4ZVzaNNabzCaj0xXm9co9facJb0a2boji3
+         YRtpNZVdrcCoqWRh9LL9YTI2nquCLecmsJIlqWuDItCpG+rKuV9/7ZPbD6iFxR38AJvT
+         J1lVBTiaj3eVEiBBUOJgeGygq2+gYEDXHVib157pFnbR6g9gEgmdUYN1pJ1GhLBHduuD
+         gK5ZJ/V5sfQ/jUgQrkaXHmoIbvlzEgn32w/bgr7MKuetzuDz0kWPGZdlywMtQxtRqfKK
+         VbUU+5fBF7+KGKd5T7YUlb9Gt7KpZd3sk2X82RC5eBYOjA2naZWxpoqVtUDYdXx9IPSS
+         VAQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780630439; x=1781235239;
+        d=1e100.net; s=20251104; t=1780630452; x=1781235252;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jYmKPVlEdqw9nJIpln28SQxgNWXUbITnOaKq2Dm+DFI=;
-        b=DyNYUyisA5YwoM9dzbCmqau/Tpy93XcC8bYeByp8izs77WwCklZPU4IgJBJq7MiWnA
-         Gs7EYxfHksR21u3/UG9X49AMLXwUVXeVteXumP2crCRpnTVqjab83H4Lw7bYUtx3AtTm
-         Nhe/VU063GZgnkg8h24F4l0iIJA1ks5H4r6qFDuQtAB/cIhkWhEkw3q7GOzMZmP1CQIg
-         2p3DLVunWPIIPpO44j7uMflJ5wrJ7UbdEitHbo1bRFsARX/7Bs4gcoZKPjdts9Ldh7ym
-         lJtq1OyfLiyTnWul+17pLHvFRrl+3UhPwKIFBvX3z/Mo+XDsFI3qj/I4SiYArIVhkloJ
-         i1rg==
-X-Forwarded-Encrypted: i=1; AFNElJ+ybs5klu44dUW5vtLh8M7LPs4/rSdcbzs46Si+I5GhmrkiK6Pj/nC/GRklDT31Ey59408npmuZ6kE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1OtSf+XmQRkqWNaygTROqAqN4rxY2OMf8y93ID/l7Y4FqWyef
-	ZakeXVEwls3ZXyKLhJlEGuHsX7X3OjmOa62B3YCcJGFnap76JAJIiQObU7KhCWQgRak=
-X-Gm-Gg: Acq92OFWxhQG+Omo8URNKvPe+gUz/Ex7rjNtVQPrCrAp3irwqur3dDjaehYoCvehXtq
-	ztWUnaOR5PvG4eq3JPAMUGvfiyEFdysxjYidVHkqxHkvuxWIR794AirPF8gOvBYeUQl5+xMraE7
-	tv2uzP0r6+psIFn8rd/UD93AxP5mDe3hS1OQ7zUb6658VfMmOBxKpPSo3IcN9VNIdbr8q5carJr
-	en147zcY0x18kMEGthdPxIv8Fhs1+Ma0DgSIotFjqcTTAblbY8HZuseGEoEL7KKtEyH+yu1kaJ+
-	FOJY45tOgC3czEZcfLkwiQnKT1st0DjWeczYyBtw/NmgGUBLJZweThjhKC42tH1/R3ikM74+9N2
-	D6l78Eal5VK4abSVvsJMLaI61bnzD/O8W6dlilbwkou75Gyd67jMjjZCrlspGiHu7VJnm4KfYjz
-	naolEq7CELpgb2Cml8V7j7LpYerOMMCQBGCOPe0DmsSKqVglN9FcPUqN/pIsP54g==
-X-Received: by 2002:a05:620a:450c:b0:8cd:d688:7aef with SMTP id af79cd13be357-915ad197c8dmr107318585a.19.1780630439344;
-        Thu, 04 Jun 2026 20:33:59 -0700 (PDT)
+        bh=2YcWKgEizOcY9z0vq5q3df4Dwqk/3q2KHCFvnTeL730=;
+        b=C9uND+JM3EOpisDuAPz9aUG0WM39mxCBjuiaqFzPmmRcnXU2AYkkw/I/XTsrZMUOgO
+         YyOsS1HEY9eX10h4AAo9XcRrgW8dyb4iKe4QLVLkd3aHXZxqFkAjDcxTEIx1MGxl8QI9
+         XTU34UznUo2AODMJTxLOIYsknJjMwMT+6HLICO9xjAgJO7B86wZMt0EcZ3AevJr4CBkK
+         P2QF2NPcNyT0ceCO+04pybVXBYOiWIqm+CVeY9FvyrQnqa37UB0S4l8kgI8VyPkl0Kxj
+         1pNYZ8gQTgvXDpgT1UqPJ6TO+6h6Z3OxtGmq2BKkNzeElcORI8Ui6F8K7Z3fODno7IgL
+         kTlA==
+X-Forwarded-Encrypted: i=1; AFNElJ9LJr2VkDI9EdfVidj/foVWAJHI7yhn9vKaSLc75aW26zdhPjJdrKnTTfWKBQUvqlR2OvLEPn7S6nc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDtlNs2ICGG71ppHb8XvJ8Jzax91AlKMmily4g4pYNruUtO/a+
+	R/7mKk488slcyd034Jc0oIkyatDT3Gk6oKAbT3Q2kYfnJfQTeabMyR8VdsGYtSC7H2I=
+X-Gm-Gg: Acq92OFvcTtW0zuQfHrSxUgnDr2fHr4r4Iac6i+r+EAtfoRZQzUMyDcAwVAkA8oHsKx
+	3OmHu5UPNgjOl05TQp2LfyfjnZb7fvr5nmFmJJoQgv88SRwoMZ76zaRrVAhKuRwZro3bg0O2jzF
+	J1Tj0khEqDHqqT4XsLq/+GXFOs9AMc6PPZD3tYj0Pr21mg9RP6/VLAiuxtZltcNKCaNU8+AlxLu
+	rIbqCE5P6baRPDnetJWIw7esSVblu2Uru7xrEgwCUkK4o+ldqeb77FV0psojZCWmY3laBj2Tnk9
+	8Jb2+YKy6PODy1Ls8bHjIKdCDSi1t64U+yTEo6AX9QPTBDm0n736s9GdfApNwTaxvDK0ei6HlDW
+	D68VzG078cw4b4P7jEkqEF91gq5flJnac8oA+1bu3CKABWCZBDbYjpeMHFpriGs73AVTd1hK5SE
+	DJGT26jLO+T5xnlBWKZ/9lfrtCPQU3//Xc0By4BhTbP+U1iqJbIPMdoFOGylUN5g==
+X-Received: by 2002:a05:620a:f0e:b0:915:a953:4b93 with SMTP id af79cd13be357-915a9c4b267mr362733285a.3.1780630451754;
+        Thu, 04 Jun 2026 20:34:11 -0700 (PDT)
 Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-91589ea0bcfsm780607085a.0.2026.06.04.20.33.58
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a00b474sm768496585a.10.2026.06.04.20.34.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:33:59 -0700 (PDT)
+        Thu, 04 Jun 2026 20:34:10 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -74,9 +74,9 @@ To: linux-kselftest@vger.kernel.org,
 	kexec@lists.infradead.org,
 	pratyush@kernel.org,
 	graf@amazon.com
-Subject: [RFC v1 7/9] kho: decouple radix tree compatibility from global KHO version
-Date: Fri,  5 Jun 2026 03:32:33 +0000
-Message-ID: <20260605033235.717351-8-pasha.tatashin@soleen.com>
+Subject: [RFC v1 8/9] kho: decouple vmalloc compatibility from global KHO version and update memfd
+Date: Fri,  5 Jun 2026 03:32:34 +0000
+Message-ID: <20260605033235.717351-9-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260605033235.717351-1-pasha.tatashin@soleen.com>
 References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
@@ -88,91 +88,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Decouple the kho radix tree compatibility version from the global
+Decouple the vmalloc preservation compatibility version from the global
 KHO compatibility version KHO_FDT_COMPATIBLE.
 
-Define the independent compatibility version "radix-v1" for the radix
-tree KHO_RADIX_COMPATIBLE in radix_tree.h.
+Define the independent compatibility version "vmalloc-v1" for vmalloc
+preservation KHO_VMALLOC_COMPATIBLE in vmalloc.h.
 
-Integrate KHO_RADIX_COMPATIBLE into the composite root compatibility
+Integrate KHO_VMALLOC_COMPATIBLE into the composite root compatibility
 string KHO_FDT_COMPATIBLE.
 
-Additionally, document the new KHO Compatibility ABI under the
-Documentation/core-api/kho/abi.rst section.
+Additionally, update the memfd compatibility string
+MEMFD_LUO_FH_COMPATIBLE to include the vmalloc compatibility dependency,
+and add a static assertion to verify its length limit.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/core-api/kho/abi.rst     |  5 +++++
- include/linux/kho/abi/kexec_handover.h | 10 ++++++----
- include/linux/kho/abi/radix_tree.h     |  4 +++-
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ include/linux/kho/abi/kexec_handover.h | 4 +++-
+ include/linux/kho/abi/memfd.h          | 9 ++++++++-
+ include/linux/kho/abi/vmalloc.h        | 6 ++++--
+ 3 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/core-api/kho/abi.rst b/Documentation/core-api/kho/abi.rst
-index b61363679829..6acdb7c85239 100644
---- a/Documentation/core-api/kho/abi.rst
-+++ b/Documentation/core-api/kho/abi.rst
-@@ -10,6 +10,11 @@ Core Kexec Handover ABI
- .. kernel-doc:: include/linux/kho/abi/kexec_handover.h
-    :doc: Kexec Handover ABI
- 
-+KHO Compatibility ABI
-+=====================
-+
-+.. kernel-doc:: include/linux/kho/abi/compat.h
-+
- vmalloc preservation ABI
- ========================
- 
 diff --git a/include/linux/kho/abi/kexec_handover.h b/include/linux/kho/abi/kexec_handover.h
-index c893b5045078..49ac4b47cc3d 100644
+index 49ac4b47cc3d..f048bc95fed3 100644
 --- a/include/linux/kho/abi/kexec_handover.h
 +++ b/include/linux/kho/abi/kexec_handover.h
-@@ -8,9 +8,8 @@
- 
- #ifndef _LINUX_KHO_ABI_KEXEC_HANDOVER_H
+@@ -10,6 +10,7 @@
  #define _LINUX_KHO_ABI_KEXEC_HANDOVER_H
--#include <linux/types.h>
--
--#include <asm/page.h>
-+#include <linux/kho/abi/compat.h>
-+#include <linux/kho/abi/radix_tree.h>
+ #include <linux/kho/abi/compat.h>
+ #include <linux/kho/abi/radix_tree.h>
++#include <linux/kho/abi/vmalloc.h>
  
  /**
   * DOC: Kexec Handover ABI
-@@ -85,7 +84,10 @@
-  */
- 
- /* The compatible string for the KHO FDT root node. */
--#define KHO_FDT_COMPATIBLE "kho-v4"
-+#define KHO_FDT_COMPAT_BASE "kho-v4"
-+#define KHO_FDT_COMPATIBLE						\
-+	KHO_FDT_COMPAT_BASE						\
-+	KHO_SUB_COMPAT(KHO_RADIX_COMPATIBLE)
+@@ -87,7 +88,8 @@
+ #define KHO_FDT_COMPAT_BASE "kho-v4"
+ #define KHO_FDT_COMPATIBLE						\
+ 	KHO_FDT_COMPAT_BASE						\
+-	KHO_SUB_COMPAT(KHO_RADIX_COMPATIBLE)
++	KHO_SUB_COMPAT(KHO_RADIX_COMPATIBLE)				\
++	KHO_SUB_COMPAT(KHO_VMALLOC_COMPATIBLE)
  
  /* The FDT property for the preserved memory map. */
  #define KHO_FDT_MEMORY_MAP_PROP_NAME "preserved-memory-map"
-diff --git a/include/linux/kho/abi/radix_tree.h b/include/linux/kho/abi/radix_tree.h
-index f4cc5c02f37a..89cd7eb4a91d 100644
---- a/include/linux/kho/abi/radix_tree.h
-+++ b/include/linux/kho/abi/radix_tree.h
-@@ -20,7 +20,7 @@
+diff --git a/include/linux/kho/abi/memfd.h b/include/linux/kho/abi/memfd.h
+index af310c0c9fdf..24ecbf48cbe1 100644
+--- a/include/linux/kho/abi/memfd.h
++++ b/include/linux/kho/abi/memfd.h
+@@ -11,7 +11,9 @@
+ #ifndef _LINUX_KHO_ABI_MEMFD_H
+ #define _LINUX_KHO_ABI_MEMFD_H
+ 
++#include <linux/kho/abi/compat.h>
+ #include <linux/kho/abi/kexec_handover.h>
++#include <linux/kho/abi/luo.h>
+ #include <linux/kho/abi/vmalloc.h>
+ #include <linux/types.h>
+ 
+@@ -89,6 +91,11 @@ struct memfd_luo_ser {
+ } __packed;
+ 
+ /* The compatibility string for memfd file handler */
+-#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v2"
++#define MEMFD_LUO_FH_COMPAT_BASE "memfd-v2"
++#define MEMFD_LUO_FH_COMPATIBLE						\
++	MEMFD_LUO_FH_COMPAT_BASE					\
++	KHO_SUB_COMPAT(KHO_VMALLOC_COMPATIBLE)
++
++static_assert(KHO_COMPAT_ALIGN(MEMFD_LUO_FH_COMPATIBLE) <= LIVEUPDATE_HNDL_COMPAT_LENGTH);
+ 
+ #endif /* _LINUX_KHO_ABI_MEMFD_H */
+diff --git a/include/linux/kho/abi/vmalloc.h b/include/linux/kho/abi/vmalloc.h
+index 87650e1dd774..1847b82e147b 100644
+--- a/include/linux/kho/abi/vmalloc.h
++++ b/include/linux/kho/abi/vmalloc.h
+@@ -9,13 +9,13 @@
+  *
+  * The Kexec Handover ABI for preserving vmalloc'ed memory is defined by
+  * a set of structures and helper macros. The layout of these structures is a
+- * stable contract between kernels and is versioned by the KHO_FDT_COMPATIBLE
++ * stable contract between kernels and is versioned by the KHO_VMALLOC_COMPATIBLE
+  * string.
+  *
   * This interface is a contract. Any modification to the structure fields,
   * compatible strings, or the layout of the serialization structures defined
   * here constitutes a breaking change. Such changes require incrementing the
 - * version number in the `KHO_FDT_COMPATIBLE` string to prevent a new kernel
-+ * version number in the `KHO_RADIX_COMPATIBLE` string to prevent a new kernel
++ * version number in the `KHO_VMALLOC_COMPATIBLE` string to prevent a new kernel
   * from misinterpreting data from an old kernel.
   *
   * Changes are allowed provided the compatibility version is incremented;
-@@ -94,6 +94,8 @@
-  * 4KB.
-  */
+@@ -36,6 +36,8 @@
+ #include <linux/types.h>
+ #include <asm/page.h>
  
-+#define KHO_RADIX_COMPATIBLE "radix-v1"
++#define KHO_VMALLOC_COMPATIBLE "vmalloc-v1"
 +
- /*
-  * Defines constants for the KHO radix tree structure, used to track preserved
-  * memory. These constants govern the indexing, sizing, and depth of the tree.
+ /* Helper macro to define a union for a serializable pointer. */
+ #define DECLARE_KHOSER_PTR(name, type)	\
+ 	union {                        \
 -- 
 2.53.0
 
