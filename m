@@ -1,66 +1,67 @@
 Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A973A9DA9
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670563C5523
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:36:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780684209; cv=none; b=Sl6ompvG8Ovc6jvfuJT7bxvo7m0X3oNfzHnNxbjDTfga9sYKnww6tWc8LtT0tGxuxfPtIHf8MEc1TP1vQmQ9BsJtNnAA/Suloi5ayLYJuFUSBnMDJBDSbOOpTzNMLHw5txY8IF5reMvhZvBFjd46u/JPDeDM58yGJZhg7//tB1U=
+	t=1780684613; cv=none; b=IG3gexhMWv3Bv8wi/FkrVgC2fbdiLmI3L/bdrnY1xTssVpJqcBpSWI7MNWmt0TYw8tX0rC/EE+3vzSdboPe9IlvqNZkUmKhQdRhd624h8e8JlGgDHdq/FLnPlVOcwKVGDUUqXKKQTWD2ErSWpqfpVOj20N2D5d94f0fyNRH9tj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780684209; c=relaxed/simple;
-	bh=wcy0f2jBXzVCMI2Wm+TBszW9WYGbTiy+Tvaz4GauPjk=;
+	s=arc-20240116; t=1780684613; c=relaxed/simple;
+	bh=ZQHe0J07CmP23BW2U5EKlaB3TPIrDh2NZlEnsiDNxHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WxtmPaBe1Z9XRhhb1XLCMZkc8k7wNiAMU+rYjBtWip4XFLLpa5WqRTgZ2282LXZ+2kTrmKsx7x0BX4813SPkGhS+GmrEf8iCpzTgpSdzMaNKEdtzWJhJlNR/LR7VEVG2DDyHed0C56QjLLHi0bcLVmV5qNFQymF22vU2wb4eSjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pVat2Z8/; arc=none smtp.client-ip=209.85.214.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=ow88WaZKWdEkH90pPkO4DtwZzGImvm/eFtNozcGWXik0gxN5MYiFYA6I9MfreA1fMWAK372ko+Xa01JuX2JWTKys2E+JmdF77GziiPrzkFC7+pR0VC4QMDlG29PjdV574H5xiYPVwrd4w/qIoJ3rIfkv+7W1TJ2ez3Lii/YfNaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JhzoTCFM; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pVat2Z8/"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf22c18ad3so167145ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:30:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JhzoTCFM"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0b1a48855so163305ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780684208; x=1781289008; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1780684612; x=1781289412; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9KnToTwjIOTIeerw1OtFveTTURV0LHhrMU47MZN/oSk=;
-        b=pVat2Z8/cWqe2QjhIsQ78MNIm64/CNBEteK6EVoKNCKT5NS6EOrQ4mG0gxgJAI4fzc
-         6tc42nx342W10DrLWeePU0U02k7ttE9vELWNoyGPmVQa0O5JLLFq4WUOLJpVGpRG7rYF
-         2xijMDgTe/VsWt0s1iISY6Q+8YEaStSifTFRxCav2reiukGT3UUcVkrL0O5tNnObuIVK
-         P6+HrwT0ij1vMgtLGiMRnTF6OcGOtpw6HbVFjdPmwWZSRDvIPjN+2Na/S7HHV8wVJ1sS
-         oXm6MD0qKTNTqgThzY8wNwUcEZ1i5Bk83o9YzdtKniW3+id7XPezidpBF1w++6YAUCCW
-         YC/w==
+        bh=P13RElyEY77N682sCtZ4HPH2+wcRcMGtUhEt/2n1PrE=;
+        b=JhzoTCFMqXHlj+OgFZrURLYyzljpgP3EZYIYSLBDID6328qNmjfVX2VH4IHiDHMdVg
+         ROI4J46S64WfxwgFofxjcEnnDEaZAy3CkWMnhVtvmn7moF/Laq/3+MMqwMX7j7HoZd2b
+         YDrmuNyua90xwQX/UxjbfM9etutoVbvxP6xeN0I711ANdJWwzoV7q9nnhSqPZ3rExPjL
+         XjKNvquz4GFoxa3A9fj4SKZPzhdY3xe/kKgeqBTDHZVN9t0jij8VQhvBi3Iy7NpynoL3
+         LYdg0uh3XS6ZWBOAp4lyG06iBas7Z9oI3nhFAyelazgi9lUQ0hkA9aqAzjXpEOVmozm6
+         Ua6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780684208; x=1781289008;
+        d=1e100.net; s=20251104; t=1780684612; x=1781289412;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9KnToTwjIOTIeerw1OtFveTTURV0LHhrMU47MZN/oSk=;
-        b=YrM1c13tUx20X+Y9wJxcTFiLZ2ac3a5jtRwjSAnXA1OP/jVb6JqQflQVpRaSaq+pjN
-         k34q/g+hYNbISLtTQW9kfapHMLyWh/HT/5EXe6SJaSI1V1ghG583BuvJrv3Ytr7IiBGb
-         X4o6dPixYnofT6jcCPbmuJh3gPLLJGW49f7oZ03O0ICIAbcjtzHCtlFaMrKNXOxXV6gd
-         iWwxsNFAnvwslcCKIjsEn/3s9n/AEoZVgF7V5oMaamiOTGHOSGlCbQs8L1mcJTr0tThY
-         5iD/ZNKUdQeysF5pHzTkP22rYYsPWtYnFYH5OGuo8Fbg6DjK/hVt1tlPQVGmzEx67zzl
-         FUmg==
-X-Forwarded-Encrypted: i=1; AFNElJ//aE5v5EALH8VreSgFyoNkZkUfu2XwKT5bJAS6is9F+p5aeR/r2AQzk7NTx5fVQOTfLkxIfAEFFW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLtovcplxjlaZqrwhbE5bdO8nZExzIVkJdtzVL1n7mJ1QCk6a9
-	0jKyOeNdaMp0uFB8qCpTvF01QqmPSk4h+WFy69kEJkfzkOFMAFdVYeNsG0kgpwdf7w==
-X-Gm-Gg: Acq92OHS/7m9ArXXGWiixyxf07vKGOZCIaaEh1ZFwGQBp9bAfQRhZi+E8QRtvMwAkOD
-	cttodOXVEYu5xlVM2xaY+pzx52rFzmt14dgGTpUE/ZbyQp/Ll/+fC/TxWpkN8v41leSFohMIqHy
-	0WhbXhDdlPqzK4/OG6VUcCKu5XKPXfwH9aAsod1GdHCGZxhVNI+XHpAjzm1NvEqIj1a+EWslGdm
-	M1B7no1nAck+mOknA9fylnWemWQhDODfyNTK9lYIK9zZ+SGfnc+ve2anygWSzPv7ZH2KqN2H3Co
-	+Kh16SB9WJz7A8Gcokcs+vawj+jzAswHnTRr4itE891eShmB10de35lX4njbKxnUk5yUKcOenwX
-	mBCjBrfz8J9oaQcjolnTia+cKhVFUO4OyLp5bfg6VSdrfPhfKVsF9wcMIzQ146v6mnXhb+1gv70
-	TMAYiw0YrAWX2G59AMV0UR5SZc1efVC/5acruutzqAEZtVS64T+jEuRetxP9ZYXG2OIyL5QuzJ8
-	Wqnig==
-X-Received: by 2002:a17:902:da84:b0:2bf:193b:a195 with SMTP id d9443c01a7336-2c1eb1ded7emr2155935ad.11.1780684207442;
-        Fri, 05 Jun 2026 11:30:07 -0700 (PDT)
+        bh=P13RElyEY77N682sCtZ4HPH2+wcRcMGtUhEt/2n1PrE=;
+        b=gdhztea1BD7FgT7M0Lrm09rl4i4QrhQH6zDByb9pWfqbe19ZCuZpf9ptN8ExVd5oOS
+         nXAR9bgGaItcRu3NgHMcgHnA4sAvtJZiRtdJzO7Ch220FGa223pB2j6Ii/s4tQIz8L68
+         7DGvdMYMRR//GGdYLoQES0Z1h1m/FRmgJCBjhcF2kicCGx44lAqm6l5rbbSYHU16SEh+
+         8KABx8vplo61sMpG4mLjnHfQyPCyA3Niy56aEpdW1wcX6iDCtojSr4lj8W9s8KAtLJH9
+         j3OqbDOQkg30zNKEWcPvjFZtQRzuaEaeLEhTXdqtI9JgsHr7D1oHy+cSgtKKgdaliQLx
+         knxw==
+X-Forwarded-Encrypted: i=1; AFNElJ/V3biQZ3GrFVwcGOP0kS8/UP2ubGx3bdgtSNeA+e8Q81703QkL2ubyF6oxVS+qkh9oJLVfOL9oG9s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0grI1EEZZHLGL0VuAxwG3UpzbzpEAbbd9LNNScwcytwyns0xv
+	91Y9RPY9xwYP1SuSXHWzYmQ9NFalT5WCE+jmCGpi46q3H6Pu5lPnDJw2K9zP4z3YCQ==
+X-Gm-Gg: Acq92OEN328/fe8Yqy0n/3kPawdqHD+dM4JnreS8Qrut1dTGEuY219KQ88sYlkuL+y/
+	gxA+vCEmsvCZh+nvtErFeJYW/VaVGjLOFUy8xnHDA28FZZuv9d6GAaQrIy7W2INmt4fsLG10i3a
+	F57vbcRYYcBm0CdSWG4oUxv1yJlLo99TparfRVgPhmF34AFTa1jwYRTZlRO8PwvBRKeP7akBdog
+	jOGFCXLd2007I68p2XTqAVT7Ke87Xw2niz80GLxdFBxW1oS4AO/YwnlOtF6icouytr6AyLRRQDU
+	eBSwX+h+AOISrFx837+vRYz+YlViqHUrjQtpjIVzJPhm/ZZYiGBVesj7CyVVevW3hpekHlRkSRb
+	uLg1T7qNvL+7OWAxFAt1GzXhLU0aB2FIvPcQPr3uwHqHFZDrW5OnLUtV5co5I/4nqdjkK62vn0a
+	7oAMVs3vXPvVyqRKZ/aKYw6vFpzBm1SVe8wIYMBBR9B4jlno9RXKYaneV3JaJyQqMaox/J/U7/K
+	N4KRg==
+X-Received: by 2002:a17:902:e5d2:b0:2c0:b1b0:376e with SMTP id d9443c01a7336-2c1eb742daamr2207405ad.8.1780684611222;
+        Fri, 05 Jun 2026 11:36:51 -0700 (PDT)
 Received: from google.com (171.46.125.34.bc.googleusercontent.com. [34.125.46.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6bf827e6sm9411861a91.1.2026.06.05.11.30.06
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0b315esm8340917a12.26.2026.06.05.11.36.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 11:30:06 -0700 (PDT)
-Date: Fri, 5 Jun 2026 18:30:02 +0000
+        Fri, 05 Jun 2026 11:36:50 -0700 (PDT)
+Date: Fri, 5 Jun 2026 18:36:46 +0000
 From: Sami Tolvanen <samitolvanen@google.com>
-To: Michal Gorlas <michal.gorlas@9elements.com>
+To: Michal Gorlas <michal.gorlas@9elements.com>,
+	Kees Cook <kees@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Luis Chamberlain <mcgrof@kernel.org>,
@@ -68,11 +69,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Daniel Gomez <da.gomez@kernel.org>,
 	Aaron Tomlin <atomlin@atomlin.com>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH 2/2] module: restrict autoload to CAP_SYS_ADMIN if
- CONFIG_MODULE_RESTRICT_AUTOLOAD
-Message-ID: <20260605183002.GB2939956@google.com>
+Subject: Re: [PATCH 0/2] module: restrict module auto-loading to privileged
+ users
+Message-ID: <20260605183646.GC2939956@google.com>
 References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
- <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,44 +81,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
+In-Reply-To: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
 
-On Fri, May 15, 2026 at 07:20:20PM +0200, Michal Gorlas wrote:
-> Restrict module auto-loading to CAP_SYS_ADMIN if
-> CONFIG_MODULE_RESTRICT_AUTOLOAD is enabled, cmdline parameter
-> modrestrict=true, or kernel.modrestrict=1 is set with sysctl.
+On Fri, May 15, 2026 at 07:20:18PM +0200, Michal Gorlas wrote:
+> Add option to restrict the module auto-loading to CAP_SYS_ADMIN.
+> This is heavily inspired by CONFIG_GRKERNSEC_MODHARDEN of the latest
+> available Grsecurity patches [1]. Instead of checking whether the
+> callers' UID is 0, check whether the calling process has CAP_SYS_ADMIN.
+> The reasoning here is that many modules are autoloaded by systemd
+> services which are running as privileged users, but do not have UID 0.
+> While systemd-udevd runs as root, systemd-network (which often
+> auto-loads a module) for example runs as system user (UID range 6 to
+> 999).
 > 
-> Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
-> ---
->  kernel/module/internal.h |  1 +
->  kernel/module/kmod.c     |  5 +++++
->  kernel/module/main.c     | 11 +++++++++++
->  3 files changed, 17 insertions(+)
-> 
-> diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-> index 061161cc79d9..496d8703f0c6 100644
-> --- a/kernel/module/internal.h
-> +++ b/kernel/module/internal.h
-> @@ -46,6 +46,7 @@ struct kernel_symbol {
->  
->  extern struct mutex module_mutex;
->  extern struct list_head modules;
-> +extern bool module_autoload_restrict;
->  
->  extern const struct module_attribute *const modinfo_attrs[];
->  extern const size_t modinfo_attrs_count;
-> diff --git a/kernel/module/kmod.c b/kernel/module/kmod.c
-> index a25dccdf7aa7..58b28c23f571 100644
-> --- a/kernel/module/kmod.c
-> +++ b/kernel/module/kmod.c
-> @@ -156,6 +156,11 @@ int __request_module(bool wait, const char *fmt, ...)
->  	if (ret)
->  		return ret;
->  
-> +	if (module_autoload_restrict && !capable(CAP_SYS_ADMIN)) {
-> +		pr_alert("denied attempt to auto-load module %s\n", module_name);
+> When enabled, reduces attack surface where unprivileged users can trigger
+> vulnerable module to be auto-loaded, to then exploit it. Recent LPEs
+> (CopyFail [3], DirtyFrag [4]) for example, would have been mitigated
+> with this option enabled as long as the vulnerable modules are not built-in
+> (or already loaded at the point of running the exploit). 
 
-Is pr_alert appropriate here or can this be a warning? Also, use the _ratelimited
-variant like the pre-existing warning in this function.
+This sounds potentially useful as an optional feature. Kees, you've
+looked at grsec features in the past, do you have any thoughts about
+this?
 
 Sami
