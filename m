@@ -1,240 +1,86 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BFF3ED128
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 16:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F0E3EEACE;
+	Fri,  5 Jun 2026 16:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780676028; cv=none; b=CbtwEZap42C167xdYWoeDTF8ZMwHdNU6HkCtxuhktdNaeKq7ueXPaQXnLFpQN3g7lMeMLoNBFqIysZ8Mo1r54ZlsaGpSeaFi/Jc/OhD4byj47JbIG5d4ipGAuYrjf9uQ300dV7EfqsPxcT+8oziJ15o5hYYEvuztsarx5SM9sCc=
+	t=1780676034; cv=none; b=pqGShmXPuF87Ge0iG4PfYcDG89bWw9NplomUPYoQtdwWijxrROG7nuy33hBDaXjPqG3k2vJGl8dN4V7GEDVk2WY9+6x4xxp3DKcLWT8GB6iOHrQOqr7+rUwRAE/52KJqaKKVAOGhtmJGZlX3fDxg0efrgMzO3RwUBqSBvHiVIzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780676028; c=relaxed/simple;
-	bh=KxvLLEf3L+qn0IoFoO2VvGAcQ9AXKBtaOWPgwcDOP7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jnyC4oYgPg9lt5c4dlmbJED2sZTWeT5HeuX0pdJliEO+kpc9kfFMrzDL8qR1ARBlViQArKdYMkXo4k9Or0wIhpU2ZbLf7Mz505lwKGlA5P9KblEVTdtjadQsC9p9bgjRZ9zZym8oxpQkht5/nG7/+XOxmaOxjsk2Xmky/K0zt54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OH45pVKg; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780676034; c=relaxed/simple;
+	bh=Te4GkXG1496fCyo+YbNpbRV83Yf9Z+2rfvybxXOJ4vY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XbJ+lA2LguSg8UU3bcmIP71pr7K2RB8NZT/h6wvtWBUXU44H4lNNbrmd0Rf5iXyE5Ixre9tHBvI50fN9H37VS5vkV7uFL/ZTaKJOII9ekObhCLi4opzuCy1dAP5OHYx5w+1ZL9PZCtDayuefIKDghGJnjnQ5hE9Y3ilphwyrP5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SK6J4fvo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OH45pVKg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780676024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=A4y+MelSbX2M+ZZatm09vxhIOL+bctnk296UHynr2zs=;
-	b=OH45pVKgQ+VpIlxcTsWBFifFy54s7TKsslNGnGAVhtjSfLcqurFMQ9WrVksh9F0Hbz2j2E
-	4umEdSBvSKJ9FH0EQZizDhqmE/1ZBQPs88c8vyhLtXriNo6aXY2ooWmbmrmKrWSsJ9NjHT
-	Y1OQuzgkdRH9XxA/8i3MwbTvnM9XKaM=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-1-pLsb70pbPJ6lrOLJMIxNJA-1; Fri,
- 05 Jun 2026 12:13:43 -0400
-X-MC-Unique: pLsb70pbPJ6lrOLJMIxNJA-1
-X-Mimecast-MFC-AGG-ID: pLsb70pbPJ6lrOLJMIxNJA_1780676022
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 17CB81944D29;
-	Fri,  5 Jun 2026 16:13:42 +0000 (UTC)
-Received: from p1.redhat.com (unknown [10.44.22.9])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CF35C180049F;
-	Fri,  5 Jun 2026 16:13:17 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	npache@redhat.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com
-Subject: [PATCH mm-unstable v19 00/14] khugepaged: add mTHP collapse support
-Date: Fri,  5 Jun 2026 10:14:07 -0600
-Message-ID: <20260605161422.213817-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SK6J4fvo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7402D1F00893;
+	Fri,  5 Jun 2026 16:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780676033;
+	bh=Te4GkXG1496fCyo+YbNpbRV83Yf9Z+2rfvybxXOJ4vY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SK6J4fvojNgg//QQPQQZAQD7yZD0JD8Jf/3IwHM6dZJuna5gjKsMrSfCpCTmNOn3K
+	 ifaZsNzHmcU+snqsil09WFKwNbfxwVPyFFRGFwIFynZMS2DBi5S8MBJ1IPfWuzn6HR
+	 BaByoOToiJRnaA5mFat1X9jCNwV1yUlvWnTLUSz9sB62Zb6bbGvaOiAgTmj83J/D4K
+	 7o+pCu3CrXB3tt1PnOqo6TguCrHHbesHA33f9Mv59xBIc9vM1ZGanOhWQ95Jun+Iws
+	 F0w8JYFTr0KmRXMzF1X0vIRQS4v7VfjeNfFzICRIOM5VKsLY7gglPEJk3vvuwyIL2O
+	 dNn9Y1xhtqC9Q==
+Date: Fri, 5 Jun 2026 17:13:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Ziming Zhu <zmzhu0630@163.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Ziming Zhu <ziming.zhu@silergycorp.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: hwmon: pmbus: Add bindings for
+ Silergy SQ24860
+Message-ID: <20260605-tumbling-defile-1a049164cd3c@spud>
+References: <20260605063042.91776-1-zmzhu0630@163.com>
+ <20260605063042.91776-2-zmzhu0630@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-
-The following series provides khugepaged with the capability to collapse
-anonymous memory regions to mTHPs.
-
-To achieve this we generalize the khugepaged functions to no longer depend
-on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
-pages that are occupied (!none/zero). After the PMD scan is done, we use
-the bitmap to find the optimal mTHP sizes for the PMD range. The
-restriction on max_ptes_none is removed during the scan, to make sure we
-account for the whole PMD range in the bitmap. When no mTHP size is
-enabled, the legacy behavior of khugepaged is maintained.
-
-We currently only support max_ptes_none values of 0 or HPAGE_PMD_NR - 1
-(ie 511). If any other value is specified, the kernel will emit a warning
-and mTHP collapse will default to max_ptes_none=0. If a mTHP collapse is
-attempted, but contains swapped out, or shared pages, we don't perform
-the collapse.
-It is now also possible to collapse to mTHPs without requiring the PMD THP
-size to be enabled. These limitations are to prevent collapse "creep"
-behavior. This prevents constantly promoting mTHPs to the next available
-size, which would occur because a collapse introduces more non-zero pages
-that would satisfy the promotion condition on subsequent scans.
-
-Patch 1-2:   Generalize hugepage_vma_revalidate and alloc_charge_folio
-             for arbitrary orders.
-Patch 3:     Rework max_ptes_* handling into helper functions
-Patch 4:     Generalize __collapse_huge_page_* for mTHP support
-Patch 5:     Require collapse_huge_page to enter/exit with the lock dropped
-Patch 6:     Generalize collapse_huge_page for mTHP collapse
-Patch 7:     Skip collapsing mTHP to smaller orders
-Patch 8-9:   Add per-order mTHP statistics and tracepoints
-Patch 10:    Introduce collapse_possible_orders helper functions
-Patch 11-13: Introduce bitmap and mTHP collapse support, fully enabled
-Patch 14:    Documentation
-
-Testing:
-- Built for x86_64, aarch64, ppc64le, and s390x
-- ran all arches on test suites provided by the kernel-tests project
-- internal testing suites: functional testing and performance testing
-- selftests mm
-- I created a test script that I used to push khugepaged to its limits
-   while monitoring a number of stats and tracepoints. The code is
-   available here[1] (Run in legacy mode for these changes and set mthp
-   sizes to inherit)
-   The summary from my testings was that there was no significant
-   regression noticed through this test. In some cases my changes had
-   better collapse latencies, and was able to scan more pages in the same
-   amount of time/work, but for the most part the results were consistent.
-- redis testing. I did some testing with these changes along with my defer
-  changes (see followup [2] post for more details). We've decided to get
-  the mTHP changes merged first before attempting the defer series.
-- some basic testing on 64k page size.
-- lots of general use.
-
-[1] - https://gitlab.com/npache/khugepaged_mthp_test
-[2] - https://lore.kernel.org/lkml/20250515033857.132535-1-npache@redhat.com/
-
-V19 Changes:
-- Rebased onto mm-unstable (base: 9282f9bdbdf2, where v18 was based)
-- Added RBs/Acks
-- [patch 04] Make max_ptes_none const; guard pr_warn_once with
-  check so we only warn for non-zero intermediate values and use a single
-  "return 0" path (David)
-- [patch 06] Add comment explaining the mmu_notifier_range covers only
-  the modified PTE range (David); change BUG_ON to VM_WARN_ON_ONCE
-  (David); fix update_mmu_cache_range() arch safety issue: reinstall
-  PMD via pmd_populate() before calling map_anon_folio_pte_nopf() and
-  hold the PTE lock nested inside pmd_ptl during the operation (David,
-  Lance); drop the now-unnecessary smp_wmb() as __folio_mark_uptodate()
-  provides the required ordering (David, Lance)
-- [patch 07] Clarify commit message: "mTHP to a folio of equal or
-  smaller size, possibly resulting in a partially mapped source folio"
-  (David)
-- [patch 08] Add Lorenzo's RB and David's Ack; move TODO comment about
-  shared pages to patch 4 (David)
-- [patch 10] Rename collapse_allowable_orders() to
-  collapse_possible_orders() and add collapse_possible() boolean wrapper
-  for callers that only need a yes/no answer (David)
-- [patch 11] Major rework: replace the DFS stack-based algorithm with a
-  simpler linear forward-walking approach using offset + order (David);
-  remove mthp_range struct, mthp_bitmap_stack[], stack push/pop
-  functions, and MTHP_STACK_SIZE; add max_order_from_offset() helper
-  using __ffs(offset) for natural alignment; rename mthp_bitmap to
-  mthp_present_ptes (David); remove temporary mthp_bitmap_mask and use
-  bitmap_weight_from() directly (David); fix result propagation so
-  mthp_collapse() returns enum scan_result and properly propagates
-  SCAN_ALLOC_HUGE_PAGE_FAIL and SCAN_PTE_MAPPED_HUGEPAGE to callers
-  (Lance); fold in v18 fixup for potential use-after-free of vma in
-  mthp_collapse() by passing NULL to collapse_max_ptes_none()
-- [patch 12] Rework to match new linear algorithm; expand the set of
-  failures that allow retrying at a lower order
-- [patch 14] Re-add note about file/shmem still only collapsing to
-  PMD-sized THPs (David)
-
-Baolin Wang (1):
-  mm/khugepaged: run khugepaged for all orders
-
-Dev Jain (1):
-  mm/khugepaged: generalize alloc_charge_folio()
-
-Nico Pache (12):
-  mm/khugepaged: generalize hugepage_vma_revalidate for mTHP support
-  mm/khugepaged: rework max_ptes_* handling with helper functions
-  mm/khugepaged: generalize __collapse_huge_page_* for mTHP support
-  mm/khugepaged: require collapse_huge_page to enter/exit with the lock
-    dropped
-  mm/khugepaged: generalize collapse_huge_page for mTHP collapse
-  mm/khugepaged: skip collapsing mTHP to smaller orders
-  mm/khugepaged: add per-order mTHP collapse failure statistics
-  mm/khugepaged: improve tracepoints for mTHP orders
-  mm/khugepaged: introduce collapse_possible_orders helper functions
-  mm/khugepaged: Introduce mTHP collapse support
-  mm/khugepaged: avoid unnecessary mTHP collapse attempts
-  Documentation: mm: update the admin guide for mTHP collapse
-
- Documentation/admin-guide/mm/transhuge.rst |  71 ++-
- include/linux/huge_mm.h                    |   5 +
- include/trace/events/huge_memory.h         |  34 +-
- mm/huge_memory.c                           |  11 +
- mm/khugepaged.c                            | 616 ++++++++++++++++-----
- 5 files changed, 569 insertions(+), 168 deletions(-)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="deq8HtxXZ1lJn9DW"
+Content-Disposition: inline
+In-Reply-To: <20260605063042.91776-2-zmzhu0630@163.com>
 
 
-base-commit: 9282f9bdbdf22a1914f0b085f2fe5e8141cbc3de
--- 
-2.54.0
+--deq8HtxXZ1lJn9DW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 05, 2026 at 02:30:40PM +0800, Ziming Zhu wrote:
+> From: Ziming Zhu <ziming.zhu@silergycorp.com>
+>=20
+> Add devicetree binding documentation for the Silergy SQ24860 eFuse.
+>=20
+> The device is a PMBus hardware monitoring device which reports voltage,
+> current, power, and temperature telemetry. The board-specific IMON
+> resistor value is described with silergy,rimon-micro-ohms.
+>=20
+> Signed-off-by: Ziming Zhu <ziming.zhu@silergycorp.com>
+
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+--deq8HtxXZ1lJn9DW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaiL1vQAKCRB4tDGHoIJi
+0usAAPwMzoVAl/jc9ydtaIuFi5HfL3I9MfmEwrd7FmNrnL0w+QD+KRV2ckmyss0j
+buoo7AA6EPyU9pLDho0Ldt89M4de1QQ=
+=HPMx
+-----END PGP SIGNATURE-----
+
+--deq8HtxXZ1lJn9DW--
