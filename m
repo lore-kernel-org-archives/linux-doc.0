@@ -1,433 +1,274 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011021.outbound.protection.outlook.com [40.107.208.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E620383C99
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 14:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780669447; cv=none; b=s+nU+vW+NXOlT8K8Bc1Kv3zmG0AMukBfE/aQ+DNTNeLVHt5W4Kul16WbggmJrtL8SOgQOt3cF1SNVl1YP7x0wvcOx52l3US1aALBsQ6a32KRpizbxKp1cTiLo6QzVrdmOwY0aXEclRKn770bt9PrjNEuf2qPwvyfe4tiFvrOKFI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780669447; c=relaxed/simple;
-	bh=MiWkb/Pb0D+XsNjIyrHKEdBxoHD7kMOMSE4P5zeZX2Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=psmnw7QPCrDmPwOR8DKgg968ShN5+SK6a920goH7ksnnbR+O6Upv14XCGMyu9EY2cAXLUeVwN+xa3/0gNjplPsRlVqy32zT8rpb01uvyZLhcu4bPmeBxp7Knnb+BnjM9F2CvKzB94G8eRlHUA81YkOovXwdJnv77gchf+k3JNBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rEyK/LEN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Arwy/YsR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rEyK/LEN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Arwy/YsR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5013368299;
+	Fri,  5 Jun 2026 14:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780670058; cv=fail; b=bqEDkDHbBq1gaytpd+L+S7JmD3DZ/YuvwtqVbWUu/odbdQYd2mG30mUzHrghSgwXPi4oRQXpT6Ei87BfC/wPdbN9VJ4zDzp8i8EedMH5CN0KX1Zxw+O0yLR2dAZiO3jjSTJ4pBWLj127h8H8tLscaxvObuwC8p5YFyBiaW3vUQ4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780670058; c=relaxed/simple;
+	bh=ReYp8o9tS5kQAg7MDBqgRhXZfF7w4rSc+rDeY8v1Pls=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XrBnblw4jqtoehml3QkNDOsB0BE+UTFJ4xUv7GZzvO9Ezi611bwKYQF5tMXMOJ9X5sqP5j4HcQ65y+d3KVMKKtJ/U/lSNbnz300obg/dMTuXKPF589w5O+odoVUiEEobVoT6VkTiua+B0dLX8SAmho2xFPHxf+zC2mbYmIKm9jM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WDAaor51; arc=fail smtp.client-ip=40.107.208.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rEyK/LEN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Arwy/YsR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rEyK/LEN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Arwy/YsR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4B11C67E78;
-	Fri,  5 Jun 2026 14:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780669442; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+HGKaThZ/5TPBiXRyMCnl4+XAf4m2Ka2hMbNclSznbQ=;
-	b=rEyK/LEN3YsG3oxwU7ZBwEEg9JnB3PyjcaW/hbxPALj74k1L1xXaI7X/S/KLfF9iKINkkC
-	RzQ+visrW2RHE3C44iFbr9o1dG+5cdk3sios84gb0L1674ilJ+IqyR8j7WOOU8KBjDRGrC
-	d08mNotwMu22OWBLUqBUpwL17tIjclg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780669442;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+HGKaThZ/5TPBiXRyMCnl4+XAf4m2Ka2hMbNclSznbQ=;
-	b=Arwy/YsRJ867EfecU52qyRqitkjnoecuXfLS4wlRQ5WDXhI3mxtsQMw5HX0l2ZdWqrLAYp
-	pyskJXcxIQF4YDAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="rEyK/LEN";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Arwy/YsR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780669442; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+HGKaThZ/5TPBiXRyMCnl4+XAf4m2Ka2hMbNclSznbQ=;
-	b=rEyK/LEN3YsG3oxwU7ZBwEEg9JnB3PyjcaW/hbxPALj74k1L1xXaI7X/S/KLfF9iKINkkC
-	RzQ+visrW2RHE3C44iFbr9o1dG+5cdk3sios84gb0L1674ilJ+IqyR8j7WOOU8KBjDRGrC
-	d08mNotwMu22OWBLUqBUpwL17tIjclg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780669442;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+HGKaThZ/5TPBiXRyMCnl4+XAf4m2Ka2hMbNclSznbQ=;
-	b=Arwy/YsRJ867EfecU52qyRqitkjnoecuXfLS4wlRQ5WDXhI3mxtsQMw5HX0l2ZdWqrLAYp
-	pyskJXcxIQF4YDAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECCAB779A8;
-	Fri,  5 Jun 2026 14:24:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AIKvLQHcImojSQAAD6G6ig
-	(envelope-from <krisman@suse.de>); Fri, 05 Jun 2026 14:24:01 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Li Chen <me@linux.beauty>
-Cc: Christian Brauner <brauner@kernel.org>,  Kees Cook <kees@kernel.org>,
-  Alexander Viro <viro@zeniv.linux.org.uk>,  linux-fsdevel@vger.kernel.org,
-  linux-api@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-mm@kvack.org,  linux-arch@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  x86@kernel.org,  Arnd Bergmann <arnd@arndb.de>,  Andy Lutomirski
- <luto@kernel.org>,  Thomas Gleixner <tglx@kernel.org>,  Ingo Molnar
- <mingo@redhat.com>,  Borislav Petkov <bp@alien8.de>,  Dave Hansen
- <dave.hansen@linux.intel.com>,  "H. Peter Anvin" <hpa@zytor.com>,  Jan
- Kara <jack@suse.cz>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-In-Reply-To: <20260528095235.2491226-1-me@linux.beauty> (Li Chen's message of
-	"Thu, 28 May 2026 17:52:21 +0800")
-References: <20260528095235.2491226-1-me@linux.beauty>
-Date: Fri, 05 Jun 2026 10:24:00 -0400
-Message-ID: <87fr31xdz3.fsf@mailhost.krisman.be>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WDAaor51"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q8wuLWulQUKBIg4/cyR/wfh7h6PMOe71sG1ZpHR+b6xWxiys1/YjBYQSU26AajqPLPFXCFxKH1jSjeVnaHrQ4Z4rG1FIjop5pSSrDT2EUtaNPpO2j3Y1Tc0+K8e7C9ZimSCciDWRWeESf6Fsbc+bjp7qHrX4k1esLcJmnCp5yIC6lAjr3f6kJSNWCFwzqqmHQS4Kw5BTsXQZYfUktTdxtoWoz2PSkaZd8lEl4RABUCAByF1Bh/3JtR0Rr6fdH0/rr1HmANRE6EmoJa9nE6iVrW9VukkOy42vRPSltiJ4IaP4USNsTlQ1jJT3Iw3m//4ZKoHMy/tuDLsW1/FCdXamJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gHQEy22dR29lDsyV2x6IqTzwto8wTW3FheHhdqT4hjA=;
+ b=Pch2vqB+79f0ijmuO84/ZkK0AKt4pHq/kmq0Av4IjQTTYA1XIsEsYfjq059YQYGCa3yz1WNKviqLzO2xciMOutRlQoIyBpiSnAcF+CHtgRTPTznX0A4dbZv1fCBCjQ9VP03prqVycPYatzNDtiOXy9wGIWHg+32lhvuGzS1MO9ftHaOEBTmoMuw+1HNIqpjr1CrM4gNr7zKRcLfgWwJ5ufvv64KJJ57e6mxERIjXTvctC7r041dBjnp28UBq1g7sQrJCVGoyQi+FfiNm46mvCvVW1AAHE1qTFqvkK5DuUhPmUMF9R5YJxVLUVfk0O8VHDF98mf2c2dUS9LbJ2kNRSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gHQEy22dR29lDsyV2x6IqTzwto8wTW3FheHhdqT4hjA=;
+ b=WDAaor51fNkcO3BFntRIF5waS5H13uCItsz3Tg5VN3K+AAz8w2SZXxqjdLJyOKTV2ZKPDSFMvx56wSPBoNJUe35IS5do5kP7g4MJNKZBnyBsxXYKTTgeq4fElIlwNw/0NSxXW6qJ0uOMBVm7WiZtjQcuJezLpqDqp1fqSgvyWFJgPkDOSWAXBJ4dMSha6+7egwRVxIu+EhqhE8vYEDTqB497f+eDe/vIAK2yiuAbz7f+ryyqxFhFhulrKGg1woBZ+SKaF8xASs6V/zQ34ETD/ZosnbaXd7IVUztc59CM2cnOaiFEsk+++q0kJ6XSMYxFF4wzGgvz/rFpBVaHN3MmgQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA1PR12MB9516.namprd12.prod.outlook.com (2603:10b6:806:45b::16)
+ by SA3PR12MB7880.namprd12.prod.outlook.com (2603:10b6:806:305::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.9; Fri, 5 Jun 2026
+ 14:34:11 +0000
+Received: from SA1PR12MB9516.namprd12.prod.outlook.com
+ ([fe80::16bc:1d1d:88e3:6a2b]) by SA1PR12MB9516.namprd12.prod.outlook.com
+ ([fe80::16bc:1d1d:88e3:6a2b%5]) with mapi id 15.21.0092.006; Fri, 5 Jun 2026
+ 14:34:11 +0000
+Message-ID: <f3fd520e-9412-473e-a7e8-4ebff097e809@nvidia.com>
+Date: Fri, 5 Jun 2026 09:34:10 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Vladimir Murzin <vladimir.murzin@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+ Jason Sequeira <jsequeira@nvidia.com>
+References: <20260604231254.1904988-1-sdonthineni@nvidia.com>
+ <fd729256-07e8-46eb-8473-74ae6ec3a07e@arm.com>
+Content-Language: en-US
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <fd729256-07e8-46eb-8473-74ae6ec3a07e@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM6PR06CA0073.namprd06.prod.outlook.com
+ (2603:10b6:5:336::6) To SA1PR12MB9516.namprd12.prod.outlook.com
+ (2603:10b6:806:45b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4B11C67E78
-X-Spam-Score: -4.51
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR12MB9516:EE_|SA3PR12MB7880:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10465124-18b2-44b0-48e4-08dec30f8223
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|6133799003|18002099003|22082099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	kWZyrk9KHzkHgo14zkc7zsvxo9cTQdItE0s38nqOhvsyxLgcQNypqjeokkHfymKvd38barGNMbl29k3W1VftVqRKuYbwOwLsf4XXlmYSpsWTUh35SaLn7PNTvgfR/PK8xJHYdtqF2Ypy68+8Wh4AsRGl6OC0MEclK9rXEk9rZBjHvVhRCXWtbFczyOL/rLiCbyWwjRTnEFgv9278RUoESXCJwPopCeEl+HOMSonhyelegN717i3dpaCOioS7eYN4LDc5Xjnxq7CzFUhJ3wHP7VYb9Y0hnHH2oqzjx5kGWk2qV3BmGria7vT5k06ItgLp7l+ian5S9S46ZRarsHj261OZENwFmrol++by7UNO1fo7iQjpskCR8jxpGj94DzJLvJKuHT2O3d63Z3tAjipKpsWYRXo0NquQaXexNehi7cULbfWuNXGVh4oPPR4kZn8GVafrfjmfjr31GevsJe1r2cPTaIbRYiCK4VxysTw0OfQ7lYhaUQvq4cAa6GzCZK/B9cM/KJzZecl2HqyYc0hzYVon/Xql9l/ig0GNsSNE5w7AC9qAc6cZwqFQIiO8zDGDY5hoWyB6k6REPIEA8i6A634iSH/zegr9Q3QPWS0Iv1AkJlcKAJBTz9ZWcs0gyikEs+bZ2ncEtA+q3SSfSkeucu/+BM+gierPalYsITf+L3k81KmlO4iy2uE7iGmFppBg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB9516.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(6133799003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SUNEOFkvcC83eloybTR1b1F0b29ESlpoUFZld212MTBQek81dldZakhEdTJX?=
+ =?utf-8?B?TUJlS1hQaVlGOG9rbmJwaGdjQUVBUTVNbXk0LzkxUmV1akl2akYvSmt5OFZz?=
+ =?utf-8?B?ZVgvdVY2aG1TQ09RN0c1ODdSZjVIVENRMCtXbHFsYVNibG81bGV5MmhweHhr?=
+ =?utf-8?B?a3NwYSs2YkgrZ0s5WWMvRDB3UHZzMWRyaDBqQzdoU0NlUFNQQTRlRG1ZZlRh?=
+ =?utf-8?B?eUJ4eUlLbkdMNFcwSzlJSUlyUkFtZEMrSGVzYUVNdHBPaFJ5MThRTDYwRWph?=
+ =?utf-8?B?eE9BazZhRmdwaEJtSU5JN2FPei9NM2NUUURzamFYaTJiOHI5M29lS0ZiSnNM?=
+ =?utf-8?B?bnMzRXFaT2E5T2x2Y3h1OUMwbkM1ZjVFcmY3aU40a3E2MFpIVWVhbURTTmtS?=
+ =?utf-8?B?QVlPcUNWaEEzYlB1MjRwVmd4N1RlV3lQbXZWaWxzd09vMUgzTE9sYzZtY001?=
+ =?utf-8?B?TkNiOEIwNEJQOFIzSnlweFZnb3dIUXV2THUzQ0V0SnlwcGxHUDdKWmU0eW41?=
+ =?utf-8?B?djVzT3d3NzVQU1pOWUN2dVpBVllqczBWeHlsRmhXWm9EWGRUeitFOVNJcEVl?=
+ =?utf-8?B?aFk2bnRFNmxCSlJpRW5sODVvM01OQkpvWDJxS045QWpaL3h6MkZSYjFHTFI1?=
+ =?utf-8?B?dGFmL3RFdUpGMlZHL2Jod3FUYmRLUisxQ1Z2WndqZGJZZllDSExGWnE3elVm?=
+ =?utf-8?B?ZHA5NzkySzJqMEljODRKU1ZmVE1nSHVNbnFFeHorOEVTVlNPODhkMHJBWHZa?=
+ =?utf-8?B?Yk9FYkNiYlRQRXJVZ3MvSEpaM0dXdkRPTEs0V1FHVlhqaXFUS2FSY1k0eXlX?=
+ =?utf-8?B?dGZuM256YzdYajZWNEZkV1JhcWNDM2ZpVTlmdlFTZWxuR3o2a2Naa2ZhKytV?=
+ =?utf-8?B?cmR2cDBtYWw0aXZydzNMc2ZIRCtzK1JoL1dGUzBaYWJPNEZMem4wNFA1UHRy?=
+ =?utf-8?B?MGJ3L0pvMlhaR05PSndBcXhqMVU5eW8rVWJ5U2R2bDJXMExnWHo1Z0NxaDY4?=
+ =?utf-8?B?TWd5MHR4OU5KNW00Q1I2Z0xvZ0xhUjNXN3MvSTdrMDJkR1pFTzdneWhObncx?=
+ =?utf-8?B?SG0rOGZVQmFIK2FsZE85aWZsK2RzS2lkaEtSVmEyRzdKN3IwMldoWEYxU1ZV?=
+ =?utf-8?B?SHRoNGlSY3RHSE9qK3NQVDVQNnF5Qkl0bVJhakNhUjlXQlNWdXhpRGNmdnBI?=
+ =?utf-8?B?bkl2SmJoNVNoRHNrejZtRkM1MWs5L2c1UkhRZ2Zxd3B2bU81VTkvM1pCTk1r?=
+ =?utf-8?B?Zmp2WStOTzJMVHBTQUh3bkhVczEraGwxZmRjSlBGeCtORkFrK2JzVnVpanQr?=
+ =?utf-8?B?Zk1HaTBBdlJBcVhoeUwwaUpyRUV0WVVBbnJlQm5BWU54OCtpcTBiaGFKZjhX?=
+ =?utf-8?B?RUpnZVMza3FsWDRXQS90WEhacjY5WjlTeFNDTEpzUndjUGN4SXRMdGt5VjVL?=
+ =?utf-8?B?S1NyTWRkcFBjcmEzclhoeHdxWk11NFAyckptN2xkUndOcDM0eThBcDk0Y0lG?=
+ =?utf-8?B?eGVnUzVQQ2RhYTd1bW1WYU5KNWJML1hTNGhmaHJiNkJIU1ZsWlRnQklSTHBt?=
+ =?utf-8?B?L2Jjdnk4ckgwSzFMOG9HcVpOR2VOK3JoRmhsRVJ2Zzg0dmxySW9zQ3VTVzQ3?=
+ =?utf-8?B?Wm1PZFhvc21mRXRjQlh0dXZqTkVyNHFIcklCMGluMStzZ2lBTGRIMXpDZ0ZQ?=
+ =?utf-8?B?TkdXNUY1L3Z2MHY5Q0dmNFZ5MnUxVDNWV2g1NFd5eHlRRnZ2M2M3TnZIU2Y3?=
+ =?utf-8?B?SEF3WlBLTWdRQjdwSnlIVW1KUVpBaVJvWnpYTm9pMSsraDJNL05VWmt6bUZY?=
+ =?utf-8?B?UHpBdzhXczYzUUc2Q0ZsYjRtRGhoUm5vTU1teE50cHRFY2RHbHhCc0QyUkpi?=
+ =?utf-8?B?WXl4N3ZhTEY4Ri9XSGdoNFhnWVgrT2RmUVgxS1JXckR3ZzlYMFA3UEgrVGdN?=
+ =?utf-8?B?TWFhZUQ5SWhpRk5kVGUyWHBweFVhOWJyQUFDQnpxOUl5WWpPa1U1L1ZZZVdl?=
+ =?utf-8?B?L2hvdzVxV0U1UG5Fa1NSckVjTnFObnBHMTN2RW0xTEhKUkNud3lHc2lMWURF?=
+ =?utf-8?B?UmtSTG50QWdJUkdFRXlScDcyUWRVQWVJcGNRWEdyajNUVzlqSmZmZUpoNU5p?=
+ =?utf-8?B?RnBubi9mbk1BeGdiUFErRG1UQ1hRYkNxZk1UZkVCM1hTdFVnZmF3QWdvYXNl?=
+ =?utf-8?B?bENTa1dxWXhMTDh3YWFVczZmb2wwSWxwT0Z2aUUwVWxxNWhkMmI0MlErSVEv?=
+ =?utf-8?B?ZVd6REtUMnBjRjRPSndiZjBuSzFxS25ZbE50aVZzSTNkQzlFemFIdktLdSs0?=
+ =?utf-8?B?VzVoNFdUWXg0VkM0SHlTbzNqQnVtM2h1Skg5MTBEbHQzek9BY1hDZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10465124-18b2-44b0-48e4-08dec30f8223
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB9516.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 14:34:11.1243
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 52eYQfdpgMj6f81fT4xXBUMW4qGx7jpixiRqjmHpcpIZ+bPdE2zir/SzqUdrmiH8ODKUZbr/XQ7VwDeZ8UeXrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7880
 
-Li Chen <me@linux.beauty> writes:
+Hi Vladimir Murzin,
 
-> Hi,
+On 6/5/2026 4:26 AM, Vladimir Murzin wrote:
+> External email: Use caution opening links or attachments
 >
-> This is an early RFC for an idea that is probably still rough in both the
-> UAPI and implementation details. Sorry for the rough edges; I am sending
-> it now to check whether this direction is worth pursuing and to get
-> feedback on the kernel/userspace boundary.
 >
-> The series is based on linux-next version 20260518.
+> On 6/5/26 00:12, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>    - A PE executes a Device-nGnR* store followed by a younger
+>>      Device-nGnR* load.
+>>    - The store is not a store-release.
+>>    - The accesses target the same peripheral and do not overlap in bytes.
+>>    - There is at most one intervening Device-nGnR* store in program
+>>      order, and there are no intervening Device-nGnR* loads.
+>>    - There is no DSB, and no DMB that orders loads, between the store and
+>>      the load.
+>>    - Specific micro-architectural and timing conditions occur.
+>>
+>> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
+>> orders loads) between the store and the load, or make the store a
+>> store-release. A load-acquire on the load side would not help, because
+>> acquire semantics do not prevent a load from being observed ahead of an
+>> older store; only the store side (release or a barrier) closes the
+>> window.
+>>
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+>> to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not order
+>> the store against a subsequent readl(); the store-release promotion is
+>> what provides that ordering.
+>>
+>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+>> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+>> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+>> the plain str* sequence.
+>>
+>> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+>> ---
+>>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>>   arch/arm64/Kconfig                          | 23 ++++++++++++++++++++
+>>   arch/arm64/include/asm/io.h                 | 24 ++++++++++++++-------
+>>   arch/arm64/kernel/cpu_errata.c              |  8 +++++++
+>>   arch/arm64/tools/cpucaps                    |  1 +
+>>   5 files changed, 50 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+>> index 211119ce7adc..899bed3908bb 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -256,6 +256,8 @@ stable kernels.
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+>> ++----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/A                         |
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index fe60738e5943..a6bac84b05a1 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>>
+>>          If unsure, say Y.
+>>
+>> +config NVIDIA_OLYMPUS_1027_ERRATUM
+>> +     bool "NVIDIA Olympus: device store/load ordering erratum"
+>> +     default y
+>> +     help
+>> +       This option adds an alternative code sequence to work around an
+>> +       NVIDIA Olympus core erratum where a Device-nGnR* store can be
+>> +       observed by a peripheral after a younger Device-nGnR* load to the
+>> +       same peripheral. This breaks the program order that drivers rely
+>> +       on for MMIO and can leave a device in an incorrect state.
+>> +
+>> +       The workaround promotes the raw MMIO store helpers
+>> +       (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+>> +       required ordering. Because writel() and writel_relaxed() are built
+>> +       on __raw_writel(), both are covered without changes to the higher
+>> +       layers.
+>> +
+>> +       The fix is applied through the alternatives framework, so enabling
+>> +       this option does not by itself activate the workaround: it is
+>> +       patched in only when an affected CPU is detected, and is a no-op on
+>> +       unaffected CPUs.
+>> +
+>> +       If unsure, say Y.
+>> +
+>>   config ARM64_ERRATUM_834220
+>>        bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>>        depends on KVM
+>> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+>> index 8cbd1e96fd50..b6d7966e9c19 100644
+>> --- a/arch/arm64/include/asm/io.h
+>> +++ b/arch/arm64/include/asm/io.h
+>> @@ -25,29 +25,37 @@
+>>   #define __raw_writeb __raw_writeb
+>>   static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>>   {
+>> -     volatile u8 __iomem *ptr = addr;
+>> -     asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+>> +     asm volatile(ALTERNATIVE("strb %w0, [%1]",
+>> +                              "stlrb %w0, [%1]",
+>> +                              ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+>> +                  : : "rZ" (val), "r" (addr));
+>>   }
+>>
+> Nitpick:
 >
-> This RFC adds spawn_template, a userspace-controlled exec acceleration
-> mechanism for runtimes that repeatedly start the same executable with
-> different argv, envp, and per-spawn file descriptor setup.
+> The change has the side effect of undoing d044d6ba6f02 ("arm64:
+> io: permit offset addressing"), since stlr* do not support
+> offset addressing. Unaffected CPUs would continue to use str*,
+> but would lose the benefit of offset addressing :(
+>
+> Not sure if this needs to be mentioned in the commit message...
+>
+Thanks for your feedback, You're right that this reverts the 
+offset-addressing benefit of d044d6ba6f02 for the str* path too, because 
+stlr* has no offset form and both alternates must share one compile-time 
+operand form (alternatives are patched at boot). Keeping offset 
+addressing only for the unaffected str* path would need a runtime branch 
+per str operation, which isn't worth it for this optimization. I'll call 
+this out explicitly in the commit message in the v2 patch. -Shanker
 
-Have you looked at Josh's proposal to do this over io_uring [1] and my
-implementation of it at [2]?  I think io_uring is a very natural
-interface for something like this, it will avoid adding a larger API,
-since you could, in theory, set up the entire new task context using
-regular io_uring operations in an io workqueue and then starting it would
-be a matter of forking the pre-configured io thread with a new io_uring
-operation.
-
-[1]
-https://lpc.events/event/16/contributions/1213/attachments/1012/1945/io-uring-spawn.pdf
-[2] https://lwn.net/Articles/1001622/
-
->
-> The main target is agent runtimes. Modern coding agents repeatedly start
-> short-lived helper tools such as rg, git, sed, awk, python, node, and
-> shell wrappers while they inspect and edit a workspace. Those runtimes
-> already know which tools are hot, and they are also the right place to
-> decide policy. The kernel does not choose names such as rg, git, or sed.
-> Userspace opts in by creating a template fd for one executable, then uses
-> that fd for later spawns. Launchers, shells, and build systems have a
-> similar repeated-startup shape and could use the same primitive, but the
-> agent runtime case is the main motivation for this RFC.
->
-> The mechanism applies to the executable that userspace asks the kernel to
-> start. If an agent runtime directly starts /usr/bin/rg, the rg executable
-> is the template target. If the runtime starts /usr/bin/bash -c "rg ... |
-> head", the shell is the template target unless the shell itself opts in
-> when it starts rg and head. The kernel does not parse the shell command
-> string or rewrite inner commands into template spawns. Userspace has to
-> call spawn_template for those inner commands explicitly:
->
->     direct exec                 shell wrapper
->     -----------                 -------------
->     agent                       agent
->       template("/usr/bin/rg")     template("/usr/bin/bash")
->       spawn rg argv              spawn bash -c "rg ... | head"
->
->     kernel target: rg          kernel target: bash
->     rg startup benefits        rg/head need shell opt-in
->
-> Several agent runtime discussions are moving toward direct argv-style
-> exec tools for both security and policy clarity. For example, opencode
-> issue #2206 proposes an exec tool as a safer alternative to a shell-only
-> bash tool:
->
-> https://github.com/anomalyco/opencode/issues/2206
->
-> spawn_template is meant to support both models. Direct exec users can
-> cache the actual hot tool. Shell-wrapper users can cache the shell and
-> still reduce shell startup cost. If a shell or an agent runtime later
-> uses the same API for commands started inside a shell command, those
-> inner tools can benefit too.
->
-> Each spawn still goes through the normal exec path. The template reuses
-> only metadata that can be revalidated before use. Credential preparation,
-> permission checks, binary handler checks, secure-exec handling, and LSM
-> hooks remain on the normal execve path.
->
-> The UAPI has two operations. spawn_template_create() creates an
-> anonymous-inode template fd from either an executable fd or an absolute
-> executable path. spawn_template_spawn() starts one child from that
-> template, applies per-spawn fd, cwd, and signal actions, and returns both
-> pid and pidfd.
->
-> fd inheritance is deliberately conservative. By default, after the
-> requested per-spawn actions have run, the child closes fds above stderr.
-> An agent runtime can still request traditional inheritance explicitly,
-> but helper tools do not inherit unrelated secret files or sockets by
-> accident. The create-time actions fields are reserved and rejected in
-> this RFC because fd numbers are per-process state, not stable reusable
-> objects. The caller supplies fd actions for each spawn instead.
->
-> A typical agent runtime would keep one template per hot executable and
-> still build argv, envp, cwd, and pipe wiring for each tool call:
->
->     rg_tmpl = spawn_template_create("/usr/bin/rg");
->
->     for each search request:
->         out_r, out_w = pipe_cloexec();
->         err_r, err_w = pipe_cloexec();
->         actions = [
->             FCHDIR(worktree_fd),
->             DUP2(out_w, STDOUT_FILENO),
->             DUP2(err_w, STDERR_FILENO),
->         ];
->         child = spawn_template_spawn(rg_tmpl, rg_argv, envp, actions);
->         close(out_w);
->         close(err_w);
->         read out_r and err_r;
->         waitid(P_PIDFD, child.pidfd, ...);
->
-> A shell-wrapper runtime would use the same shape with a template for
-> /usr/bin/bash and argv such as ["/usr/bin/bash", "-c", command]. That
-> reduces shell startup cost, but it does not cache rg or head inside that
-> command unless the shell also opts into spawn_template for commands it
-> starts internally.
->
-> The template pins the executable and denies writes to that file while the
-> template fd is alive, so cached executable metadata cannot race with a
-> writer changing the same inode. This means direct in-place writes to the
-> executable can fail while a runtime keeps a template open. It does not
-> block the common package-manager update pattern where a new inode is
-> written and then atomically renamed over the old path. In that case the
-> old path-created template becomes stale, spawn_template_spawn() rejects
-> it with ESTALE, and the runtime should close and recreate the template
-> for the new executable.
->
->     in-place write              package-manager update
->     --------------              ----------------------
->     template pins old inode     write new inode
->     write(old inode) denied     rename(new, "/usr/bin/rg")
->
->     cached metadata safe        old template sees path mismatch
->                                 spawn_template_spawn() = -ESTALE
->                                 recreate template for new inode
->
-> Each spawn revalidates executable identity before cached metadata is
-> used. Path-created templates only accept absolute paths: a relative path
-> such as ./tool depends on cwd, and the same string can name a different
-> file after chdir. For an absolute path template, each spawn reopens the
-> path and checks that it still resolves to the executable recorded when
-> the template was created. If the path now names a replaced file, the
-> template is stale and userspace should close and recreate it.
->
-> A template fd can be passed over SCM_RIGHTS like any other fd, but this
-> RFC does not treat that as delegation. spawn_template_spawn() only works
-> while the caller still has the same struct cred object that created the
-> template. If another task, or the same task after a credential change,
-> receives the fd, spawn fails instead of running the executable using the
-> creator's launch authority:
->
->     ordinary fd                         spawn_template fd
->     -----------                         -----------------
->     A: open log                         A: create rg template
->     A -> B: SCM_RIGHTS(fd)              A -> B: SCM_RIGHTS(tfd)
->
->     B: read(fd) = ok                    B: spawn(tfd) = -EACCES
->                                         B: create own rg template
->                                         B: spawn(own_tfd) = ok
->
->     open-file use is delegated          spawn authority is not delegated
->
-> The cached state is intentionally small. The template fd keeps the opened
-> main executable file, an optional absolute path string, the creator
-> credential pointer, and the deny-write state. The executable identity key
-> records device, inode, size, mode, owner, ctime, and mtime, and is
-> rechecked before cached metadata is used. The ELF cache keeps only the
-> main executable's ELF header, program header table, and program header
-> count.
->
->     cached in this RFC          not cached in this RFC
->     ------------------          ----------------------
->     opened main executable      PT_INTERP metadata
->     executable identity key     shared-library graph
->     main ELF header             VMA layout metadata
->     main ELF program headers    cross-process metadata sharing
->     creator cred pointer
->     deny-write state
->
-> This RFC does not cache ELF interpreter metadata, shared-library
-> dependency state, or derived mapping-layout state. Shared-library
-> resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
-> RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
-> state. It also does not share cached executable metadata between template
-> fds created by different processes. Each template owns its small cached
-> metadata object in this RFC.
->
-> Performance
-> ===========
->
-> The numbers below come from my separate local autogen-bench project.
-> autogen-bench uses AutoGen [1] Core as the agent harness: RoutedAgent
-> instances run under SingleThreadedAgentRuntime, and RPC-style dispatch
-> fans out concurrent tool-call requests to worker agents. The workload
-> definitions, generated test files, and subprocess/spawn_template backends
-> are local to autogen-bench.
->
-> The agent-tools preset includes direct tool calls and shell-wrapper forms
-> for:
->
-> rg, grep, sed, awk, cat, head, tail, find, stat, ls, git-status, git-diff,
-> python-small, node-small, sh-c, and bash-c.
->
-> The benchmark is launch-heavy but not no-op: it searches generated
-> Python-like source files, reads sample files, runs small Python and
-> Node.js programs, and runs git status and git diff in a small repository.
-> It does not include model inference or long-running tool work, so the
-> numbers mainly describe the short-tool regime.
->
-> The subprocess column starts each tool call through the existing
-> userspace launch path. The spawn_template column creates templates for
-> hot executables and uses spawn_template_spawn() for later calls.
->
-> Total in-flight tool calls stay at 16; only the worker-process split
-> changes. For example, 4x4 means 4 worker processes with 4 in-flight tool
-> calls each. The two time_s values are subprocess/spawn_template wall
-> times.
->
-> Workload     Calls  subprocess  spawn_template  time_s       Delta
-> (workers)    calls  calls/s     calls/s         seconds
-> 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
-> 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
-> 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
-> 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
->
-> The table measures the whole mixed workload, including both process
-> startup and the short tool work done after exec. Since this workload is
-> launch-heavy, the possible launch-side savings include:
->
-> - the template fd keeps an opened executable, avoiding repeated ordinary
->   open/path setup for that executable;
-> - the kernel can reuse cached main-executable ELF header and program
->   header metadata after revalidation;
-> - the fork-and-exec-style launch is submitted as one
->   spawn_template_spawn() operation;
-> - fd, cwd, and signal actions run in the child kernel path instead of
->   being driven one syscall at a time by userspace child glue;
-> - pid and pidfd are returned by the same operation, reducing some
->   runtime-side bookkeeping.
->
-> In local experiments before this RFC, I also tried caching ELF
-> interpreter metadata and derived ELF mapping-layout metadata. A focused
-> repeated-exec benchmark did not show a stable standalone throughput gain
-> for those two optimizations, so this RFC leaves them out and keeps only
-> the main executable metadata cache.
->
-> I also tried sharing main-executable ELF metadata across template fds
-> created by different processes for the same executable identity. That can
-> reduce duplicated metadata memory when many agent worker processes create
-> their own templates for /usr/bin/rg, /usr/bin/git, and similar tools, but
-> it did not show a stable throughput win in local multi-agent tests. It
-> also adds cache keying, lifetime, invalidation, credential, and namespace
-> questions to the RFC. This version therefore keeps per-template metadata
-> ownership and leaves cross-process sharing out.
->
-> Sorry again for the rough edges in this RFC. I would appreciate feedback
-> on whether this direction is useful and what the right API boundary
-> should be.
->
-> Thanks,
-> Li
->
-> [1]: https://github.com/microsoft/autogen
->
-> Li Chen (13):
->   exec: factor argument setup out of do_execveat_common()
->   exec: add an internal helper for opened executables
->   file: expose helpers for in-kernel fd actions
->   exec: add spawn template UAPI definitions
->   exec: add spawn template file descriptors
->   exec: add spawn_template_spawn()
->   exec: validate spawn template executable identity
->   binfmt_elf: cache ELF metadata for spawn templates
->   Documentation: describe spawn templates
->   exec: require absolute paths for path-created templates
->   exec: let close-range actions target the max fd
->   syscalls: add generic spawn template entries
->   selftests/exec: cover spawn template basics
->
->  Documentation/userspace-api/index.rst         |   1 +
->  .../userspace-api/spawn_template.rst          | 153 +++
->  MAINTAINERS                                   |   6 +
->  arch/x86/entry/syscalls/syscall_64.tbl        |   3 +-
->  fs/Makefile                                   |   2 +-
->  fs/binfmt_elf.c                               | 104 +-
->  fs/exec.c                                     | 162 ++-
->  fs/file.c                                     |  11 +-
->  fs/spawn_template.c                           | 619 +++++++++++
->  include/linux/binfmts.h                       |  10 +
->  include/linux/fdtable.h                       |   2 +
->  include/linux/spawn_template.h                |  72 ++
->  include/linux/syscalls.h                      |   7 +
->  include/uapi/asm-generic/unistd.h             |   7 +-
->  include/uapi/linux/spawn_template.h           |  62 ++
->  scripts/syscall.tbl                           |   2 +
->  tools/testing/selftests/exec/Makefile         |   1 +
->  tools/testing/selftests/exec/spawn_template.c | 997 ++++++++++++++++++
->  18 files changed, 2179 insertions(+), 42 deletions(-)
->  create mode 100644 Documentation/userspace-api/spawn_template.rst
->  create mode 100644 fs/spawn_template.c
->  create mode 100644 include/linux/spawn_template.h
->  create mode 100644 include/uapi/linux/spawn_template.h
->  create mode 100644 tools/testing/selftests/exec/spawn_template.c
-
--- 
-Gabriel Krisman Bertazi
