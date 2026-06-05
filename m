@@ -1,126 +1,100 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAA83D9049
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 08:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E803988F8;
+	Fri,  5 Jun 2026 08:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780648967; cv=none; b=bCa/1H1vTlJKy09rq9om5k01Svz3K+uUc7JB1pGbwh422QcC2s/uUtp5FNPtRbiidTaL+Al+YtDN4gtneAa2TL6nXT1xtavETyVfkNT0KuaHN1lmzkytUXogaoFPRxiVDumeCvP3DEimgWhaWa3md/G7BANjHdn5Mu+SxKCTM4g=
+	t=1780649366; cv=none; b=qPD9XOegRS62WIG8jxsZNAbMJKGtCBbkiJab2yRWgAqy/XF09S6mQtBnOJ4ezUfkpJt3Oj3uYp1Aq2KOLzWLvWWKNEvQ2f8ayNTpoFPE9qBj7C/xdnu7rSsAUWtmKU0bjWM2IggQRLRxjl/fYilI5FQNyyNEq0K42l8gLcAeJxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780648967; c=relaxed/simple;
-	bh=oHIXLuYzIBw7a37yAfN6c/LniYTZOWunKxnbo9VfqHA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V3FX+uLjoj4+iUb8Uc8AcqcHbJw0IerlMPeZZEnzK0ToNY8Tkw/7vA4bebCAq/oFxDQBAO0gTDQ9viNOvBqyIlogR51SdzfsBWBahsUNDC9DWrnF3saByXpeTtv2WdejiSLJmy7bj+POJZhjb4I/EiREU9NDgQTDFXXxMMYcGk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r/bmu2rs; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780649366; c=relaxed/simple;
+	bh=MBWZib5l50WfG33f/b/qcsZdOZojhitXJDU75/edpMU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jESqvym0K3uCqResub6dxGgd0ZkIWJt0LvnY1wDXfGEcqDkLoXLZEN7k7GHA6SVh1aDCwIVdyiE7ITa/IOXyN74XPvETN97/z8ao0VFm98XXY0gGI5SCT0x7xpoaDgzDU2iaak1p6CLb4JTnpn/WcLgfw3z2gY5M5bE/ob60Qww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lr2pfS3B; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r/bmu2rs"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c0c2d792c8so11427135ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 01:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780648965; x=1781253765; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvqlHjcbwyGRdhAJkKALJZgP3oME5pVGmYOXUhA+Uvs=;
-        b=r/bmu2rs3dnQsOBuVakQSMW5GAFMCCGiscmhletwaZDO5wku2b3R5M+U/2+7GjXHB0
-         M4UZXkaP5+ahXbGMdrcuQeTEE2QGoqUEEjCTyRUsRIOgeYuP7L2nlJI8Yn8g+37bk56W
-         DFZjDIfMR+Tl2jty+bRjjtt5lHOY7J1lC6thUvT2qC/UHucINdMj8DgTVQ710+yIti0o
-         ejVLPgrwgxEx+n3PVq38hPJATKJodhug7E2iFVctAPXIuuYEAec0zZCwLk+Uql0dHsaB
-         VJcvwQJ3KYrZ7AliDNps36pHpZqB0e+BobKaaSjOwMxtn5CS+wPz7XOGDQLhKzBBC8aA
-         yF9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780648965; x=1781253765;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FvqlHjcbwyGRdhAJkKALJZgP3oME5pVGmYOXUhA+Uvs=;
-        b=gy7CVkvGOt+Q+bgjxmWVfCbQR6VZ68WinXT4Hg2H5iRm4v8KX0lZ+4Ir/xwm/Lx/Gx
-         SkoyfPWlhzLEaWEtL0Px5oE6t5rkxUmlPRUzzxIXRisj2rb/8ylNX8oiiRHx0ScVA+gv
-         OIBe3p7phI61ITXCOzGT6VQlxZuZ+X8I9IQ32rDr0ujvtFHmpf1lNvij3WmovzfPCqVQ
-         U4V7XMMkLe6GF7jDIgtVYNddwf5g8/3EUO4Q7KGSzFIL4MLawJcPa3+dEE6ggExO5k8U
-         QBJ+7kjsjENPNbfVwYXv9xkVv4eqPJ4CS6uLbxPPBtUBcp1FyUF1lu+7HOXdGnvKnCQa
-         rQyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/RvHvYbbi9twH/RI9VXvFEhYQ+f1zVt5QVXHhOZ+Kux8Z+xdNGU+hlkSFXx1+JAT+iKj69QAsmB5M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxUfQQ7yIotBp3dH1uw7AuDpVg5EZFv3Cud1tNK2CSxahqdxDH
-	5o7xRfTwJDQ+pqx/MUEuan3g7jqOUyau09suCIEbp7C8PEFwksCi0kdgZoGGD0JUQAU=
-X-Gm-Gg: Acq92OEAEiC9zdWxV2qovhojLnIBdCaUVkVW6vKZpu4pSd896qASo4fanPbZVrPuqfz
-	LVjeZsifYosTIAxB25nKXFNTNeNqBjXUaF4t1afRZsaABB/ln7581QxF5dTGCp6dIKONa7EKOkk
-	Sgt9tHh8zkJ7po23u2rwGhsdNRVauY2w+llHcGaUHolDVPgcRjb2mIk9OJHw18g4DXDdV/lPeXY
-	1CW/kS1qTPB9PckWUpskO1KYwRd9/7pWGCdOUP5X0isF4AyEkkZOroH9BhoCrKAz1vzPZTV0Sji
-	NpotT22Z363T9e6Z0nAazelTkMoZ09nkj53GRPKvEayQHdw1Euen7fApQypaXYHJpnukAlizp03
-	62/PHi3Ql1m2fKI2lBmx6oHZ9FZ/j/KkapNN5w7EW3Rjy0TAwGMp3VfW6XGtHFiVmReVmauAnXI
-	pWwdkRyAA+q92nyyjNul9pOcf4TxqXljtzAVmOdItxlhNBn0IZQnl2jNyTs5svupiL+0HeQhmb9
-	HPKt21ywDI7B9gC2YbXGB3OOQ==
-X-Received: by 2002:a17:903:3504:b0:2c0:ab82:6b9d with SMTP id d9443c01a7336-2c1e80edc43mr25916515ad.29.1780648964638;
-        Fri, 05 Jun 2026 01:42:44 -0700 (PDT)
-Received: from urbaner-laptop.. ([61.70.109.236])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e096sm84879065ad.44.2026.06.05.01.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 01:42:44 -0700 (PDT)
-From: "[Ko Han Chen]" <urbaner3@gmail.com>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Simon Horman <horms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"[Ko Han Chen]" <urbaner3@gmail.com>
-Subject: [PATCH] Document: Fix missing reference pages
-Date: Fri,  5 Jun 2026 16:41:30 +0800
-Message-ID: <20260605084130.13363-1-urbaner3@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lr2pfS3B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780649365; x=1812185365;
+  h=date:from:to:cc:subject:message-id;
+  bh=MBWZib5l50WfG33f/b/qcsZdOZojhitXJDU75/edpMU=;
+  b=lr2pfS3Bwgsoq+Qmk4pigNruEhPZoGumDuwJGWs9m4OU8ckLFBiyfQy/
+   XM8aUIy7GWTII/M+x0vgE0JsOBHbWYNlxSKM21Mv9YIZsacf+9hikSL5r
+   HgY8tpZqi9OdwT6ewtlvEuqB8PGFaRntPE/PXB/yP2NGW+7UIYfub4FUy
+   Fpf6cFAwRdJU5mmK+HTZPILucYgoTcpxyFLJaSPX3ep4FRKRYRnI/uXNT
+   b7YfskP6yMrGb+20yL8qlTPcrRlhTNUQfXFQSUNCegE8z6hp5ktkxqaxu
+   Gujqx6dXcD/j6KzFf9Vn5J8j+GPs4qGKiXNM0f61TlZyAetHE0I/a3/bH
+   w==;
+X-CSE-ConnectionGUID: qFlG6a8vS86oZFFCNe57Lw==
+X-CSE-MsgGUID: iFaWA0GZQUOyEr2Xa23YYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="92968293"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="92968293"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 01:49:15 -0700
+X-CSE-ConnectionGUID: SaGMq8PGRQOmi7sL9gQjYg==
+X-CSE-MsgGUID: zMRhoDRdRb6Q3qs8ZcoQpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="242303454"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Jun 2026 01:49:13 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVQEo-000000002XL-2fyb;
+	Fri, 05 Jun 2026 08:49:10 +0000
+Date: Fri, 05 Jun 2026 10:48:29 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:partial-reg 9/9] htmldocs: Warning:
+ Documentation/userspace-api/media/mediactl/media-ioc-dqevent.rst references a
+ file that doesn't exist: Documentation/media/uapi/fdl-appendix.rst
+Message-ID: <202606051009.SvtAY0cZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Today, my friend and I are discussing a wwan driver produced by
-Mediatek. I am reading the related document and reference link,
-then I found the page is missing. So after a short search I am
-giving the better link and test the two pages with my bash
-program for more dead links. It turns out only this one. I check
-the page and the following documents. Details are covered in
-this markdown [page](https://hackmd.io/@Urbaner/lk_patch_doc).
+tree:   git://linuxtv.org/sailus/media_tree.git partial-reg
+head:   b7d01dab7d47849d483b459ff2abf50497b52149
+commit: b7d01dab7d47849d483b459ff2abf50497b52149 [9/9] Documentation: media: Add Media controller event documentation
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260605/202606051009.SvtAY0cZ-lkp@intel.com/reproduce)
 
-Signed-off-by: [Ko Han Chen] <urbaner3@gmail.com>
----
- Documentation/networking/device_drivers/wwan/iosm.rst | 2 +-
- Documentation/networking/device_drivers/wwan/t7xx.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606051009.SvtAY0cZ-lkp@intel.com/
 
-diff --git a/Documentation/networking/device_drivers/wwan/iosm.rst b/Documentation/networking/device_drivers/wwan/iosm.rst
-index 6f9e955af984..d28a922391ce 100644
---- a/Documentation/networking/device_drivers/wwan/iosm.rst
-+++ b/Documentation/networking/device_drivers/wwan/iosm.rst
-@@ -84,7 +84,7 @@ session 1.
- References
- ==========
- [1] "MBIM (Mobile Broadband Interface Model) Errata-1"
--      - https://www.usb.org/document-library/
-+      - http://usb.org/document-library/mobile-broadband-interface-model-v10-errata-1-and-adopters-agreement
- 
- [2] libmbim - "a glib-based library for talking to WWAN modems and
-       devices which speak the Mobile Interface Broadband Model (MBIM)
-diff --git a/Documentation/networking/device_drivers/wwan/t7xx.rst b/Documentation/networking/device_drivers/wwan/t7xx.rst
-index e07de7700dfc..fd532a7e225a 100644
---- a/Documentation/networking/device_drivers/wwan/t7xx.rst
-+++ b/Documentation/networking/device_drivers/wwan/t7xx.rst
-@@ -187,7 +187,7 @@ References
- ==========
- [1] *MBIM (Mobile Broadband Interface Model) Errata-1*
- 
--- https://www.usb.org/document-library/
-+- http://usb.org/document-library/mobile-broadband-interface-model-v10-errata-1-and-adopters-agreement
- 
- [2] *libmbim "a glib-based library for talking to WWAN modems and devices which
- speak the Mobile Interface Broadband Model (MBIM) protocol"*
--- 
-2.48.1
+All warnings (new ones prefixed by >>):
 
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst references a file that doesn't exist: Documentation/filesystems/gfs2-uevents.rst
+   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst references a file that doesn't exist: Documentation/filesystems/gfs2.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+>> Warning: Documentation/userspace-api/media/mediactl/media-ioc-dqevent.rst references a file that doesn't exist: Documentation/media/uapi/fdl-appendix.rst
+>> Warning: Documentation/userspace-api/media/mediactl/media-ioc-subscribe-event.rst references a file that doesn't exist: Documentation/media/uapi/fdl-appendix.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+--
+   c:type:`MC.media_v2_entity` (from userspace-api/media/mediactl/media-ioc-g-topology)
+   c:enum:`media_entity_type` (from driver-api/media/mc-core)
+   c:struct:`media_entity_enum` (from driver-api/media/mc-core) [ref.missing]
+   include/uapi/linux/media.h:390: WARNING: Invalid xref: c:type:`MC.media_event_subscription`. Possible alternatives:
+   c:type:`media_event_subscription` (from userspace-api/media/mediactl/media-ioc-subscribe-event) [ref.missing]
+>> Documentation/userspace-api/media/mediactl/media-ioc-subscribe-event.rst:76: WARNING: undefined label: 'media_subscribe_event' [ref.ref]
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
