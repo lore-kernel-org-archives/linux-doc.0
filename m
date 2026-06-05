@@ -1,249 +1,142 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DE04192E0;
-	Fri,  5 Jun 2026 09:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3BB3D9DA5;
+	Fri,  5 Jun 2026 09:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780651593; cv=none; b=MVXB5vq0iWMIdehRm+ITOGbxkGuBBu+YS72pGjGwLCdh1erbJzZuwb5ro+YcbSmPBGjcZUmOMBu4pp5QCr791tzwxSYkLbpmpLyzKsbbvJLGboOoMWL697zne5RfFtSD9yuzq01LO9Z66G105bmALiJDDXz/wqwdu9/Vj1NpW1U=
+	t=1780652150; cv=none; b=BgMfUAA7/LGXeqTVf16h4t91cDqmkkuDFm8iNNF4kZfC8ICi3QVm4NuLkPILHGSVqlSwHin5c6WcahVPIx6DU+oAMdc9Tb8shH90pAciM8qXSzCPam8oU+jVlUI/HhUOoJXq0IaYWijzdeb6rK76sZcoRmBPWa2KskUOCCiAQN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780651593; c=relaxed/simple;
-	bh=qLDVMzsp0gU9ZT+OeIVYdQXL4O9nCAvlhg1NGB8/Z/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OgG9sLQBjSYZuCZeBkHBnZUjBr7ktxRQIQf14mKOtjEozuAtPa6/N4gKvDRWQwYDeWSmRdHSJOke+mJNA3E94jb3nqMdhsHnYZvEUbJMuaDRhYekAiOVl10mS1rTlNzDP4jOxLkNmDzNiDKu2e/WRArD53zE1zQi7HY9LN/xnoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pc5HFOIJ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1780652150; c=relaxed/simple;
+	bh=RWyXGpeXTKNETGHIWgEjmAejxFfG/u5gH8IJN3uweL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nmRjthOp87cSCuJysIProvhv1Vu/BrWeNieRdzyeJWGFeUS+BHZJAQ98hZudxjgmGLOyj2gwBFihrIBmbxvBY/9lrt/wNRy2jWidDR+8n5H27OZXvGFIaa5wRzlWrGieHFBX83mhQvhscFDQ7FAcelzm0B3HzgcLfYFmiXCXc4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=iDfmlnHG; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pc5HFOIJ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3294A4AB3;
-	Fri,  5 Jun 2026 02:26:26 -0700 (PDT)
-Received: from [10.1.34.147] (e121487-lin.cambridge.arm.com [10.1.34.147])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 633473F86F;
-	Fri,  5 Jun 2026 02:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780651591; bh=qLDVMzsp0gU9ZT+OeIVYdQXL4O9nCAvlhg1NGB8/Z/Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pc5HFOIJNGJddjic9h4Z3nHCCDTS1usEWCoRtTBJzuDeWeiskdxV6/pmk2pZ97P9B
-	 fAxd3MOD7j5ElA+q+JwOWz0ndXxVCL8Fd0aFrgvdNPDffVFIwnqbMXaUt4UQauq2zt
-	 LAz2BgrhZktIkxYJj2Xfg3flDBBRC3Sz2N5AAksQ=
-Message-ID: <fd729256-07e8-46eb-8473-74ae6ec3a07e@arm.com>
-Date: Fri, 5 Jun 2026 10:26:27 +0100
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="iDfmlnHG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=zlWtZOvWgDoHJPvKqfNO3Eu581+nJ0SQLgmcmlXuYXo=; b=iDfmlnHGeVi2uxrYd7Tq9kWHf7
+	K+WPKvGVHHa1tIf0LwmKs9t6/v/nnGtvSwPhfytbVmDXWmmWoGQZ0v+rByRdaJA3tIYblFmqS4nIS
+	98Z4UbeAaVVIl+Em61k1tTXgScPOGnTtzUtQJtrQwgD1PqQHt4ngV9dPt3ik/u4d3jEtfaIbZcX5K
+	RByY1L08ON2pVGaR/VGq1IWlKHSo7St1+DxGWLp/bQpwVnMcOoyXYxg89tUNddrOlhJpYJWly3+/Y
+	XDvflUXvtQUsfaQ6nXNNM45oijiggEAwFb8SE4JJxSWoB1kQWoNtuYqpklQHvV56wUan3+1Jdh/6F
+	LoPIbzrg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wVQxe-005CEJ-2i;
+	Fri, 05 Jun 2026 09:35:31 +0000
+Date: Fri, 5 Jun 2026 02:35:23 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com, Lance Yang <lance.yang@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>
+Subject: Re: [PATCH v8 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+Message-ID: <aiKXrovzrNN-gExm@gmail.com>
+References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
+ <20260527-ecc_panic-v8-2-9ea0cfa16bb0@debian.org>
+ <19f968f5-1289-f573-4406-e5c91dcd8923@huawei.com>
+ <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
+ <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
+ <21732071-14a1-486a-951c-34de97b7c757@kernel.org>
+ <4b27467e-935f-5587-2f48-5a794c30a592@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-To: Shanker Donthineni <sdonthineni@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
- Jason Sequeira <jsequeira@nvidia.com>
-References: <20260604231254.1904988-1-sdonthineni@nvidia.com>
-Content-Language: en-GB
-From: Vladimir Murzin <vladimir.murzin@arm.com>
-In-Reply-To: <20260604231254.1904988-1-sdonthineni@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4b27467e-935f-5587-2f48-5a794c30a592@huawei.com>
+X-Debian-User: leitao
 
-On 6/5/26 00:12, Shanker Donthineni wrote:
-> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
-> observed by a peripheral before an older, non-overlapping Device-nGnR*
-> store to the same peripheral. This breaks the program-order guarantee
-> that software expects for Device-nGnR* accesses and can leave a
-> peripheral in an incorrect state, as a load is observed before an
-> earlier store takes effect.
+On Wed, Jun 03, 2026 at 10:33:04AM +0800, Miaohe Lin wrote:
+> On 2026/6/2 17:41, David Hildenbrand (Arm) wrote:
+> > On 6/2/26 05:08, Miaohe Lin wrote:
+> >> On 2026/6/1 21:22, David Hildenbrand (Arm) wrote:
+> >>> On 6/1/26 14:28, Miaohe Lin wrote:
+> >>>>
+> >>>> Thanks for your patch.
+> >>>>
+> >>>>
+> >>>> Once shake_page finds a lightweight range-based way to shrink slab, slab pages could be freed
+> >>>> into buddy and above PageSlab test should be removed then. Maybe add a TODO or XXX here?
+> >>>>
+> >>>>
+> >>>> I'm not sure but is it safe or a common way to test PageReserved, PageSlab,
+> >>>> PageTable and PageLargeKmalloc without extra page refcnt?
+> >>>
+> >>> Checking typed pages in a racy fashion is fine (PageSlab, PageTable,
+> >>> PageLargeKmalloc).
+> >>
+> >> Got it. Thanks.
+> >>
+> >>> Checking PageReserved in a racy fashion is fine as well. TESTPAGEFLAG() will
+> >>> allow checking it on compound pages.
+> >>
+> >> It seems PageReserved is not intended to be set on compound pages. I see there are PF_NO_COMPOUND
+> >> in its definition: PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND).
+> >>
+> >>>
+> >>> For PageLargeKmalloc, we would want to check the head page, though. The page
+> >>> type is only stored for the head page.
+> >>
+> >> Maybe we should check the head page for PageSlab and PageTable too? alloc_slab_page only
+> >> set PageSlab on the head page and __pagetable_ctor uses __folio_set_pgtable to set PageTable
+> >> on folio.
+> >>
+> >>>
+> >>> So maybe we want to lookup the compound head (if any) and perform the type
+> >>> checks against that?
+> >>
+> >> Maybe we should or we might miss some pages that could have been handled. And
+> >> if compound head is required, should we hold an extra page refcnt to guard against
+> >> possible folio split race?
+> > 
+> > Races are fine. We might miss some pages, but that can happen on races either way.
+> > 
+> > 
+> > I'd just do something like
+> > 
+> > if (PageReserved(page))
+> > 	return true;
+> > 
+> > head = compound_head(page);
 > 
-> The erratum can occur only when all of the following apply:
-> 
->   - A PE executes a Device-nGnR* store followed by a younger
->     Device-nGnR* load.
->   - The store is not a store-release.
->   - The accesses target the same peripheral and do not overlap in bytes.
->   - There is at most one intervening Device-nGnR* store in program
->     order, and there are no intervening Device-nGnR* loads.
->   - There is no DSB, and no DMB that orders loads, between the store and
->     the load.
->   - Specific micro-architectural and timing conditions occur.
-> 
-> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
-> orders loads) between the store and the load, or make the store a
-> store-release. A load-acquire on the load side would not help, because
-> acquire semantics do not prevent a load from being observed ahead of an
-> older store; only the store side (release or a barrier) closes the
-> window.
-> 
-> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
-> to stlr* (Store-Release), which removes the "store is not a
-> store-release" condition for every device write the kernel issues.
-> Because writel() and writel_relaxed() are both built on __raw_writel()
-> in asm-generic/io.h, patching the raw variants covers both the
-> non-relaxed and relaxed APIs without touching the higher layers. Note
-> that writel()'s own barrier sits before the store, so it does not order
-> the store against a subsequent readl(); the store-release promotion is
-> what provides that ordering.
-> 
-> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
-> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
-> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
-> the plain str* sequence.
-> 
-> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                          | 23 ++++++++++++++++++++
->  arch/arm64/include/asm/io.h                 | 24 ++++++++++++++-------
->  arch/arm64/kernel/cpu_errata.c              |  8 +++++++
->  arch/arm64/tools/cpucaps                    |  1 +
->  5 files changed, 50 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index 211119ce7adc..899bed3908bb 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -256,6 +256,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/A                         |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index fe60738e5943..a6bac84b05a1 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
->  
->  	  If unsure, say Y.
->  
-> +config NVIDIA_OLYMPUS_1027_ERRATUM
-> +	bool "NVIDIA Olympus: device store/load ordering erratum"
-> +	default y
-> +	help
-> +	  This option adds an alternative code sequence to work around an
-> +	  NVIDIA Olympus core erratum where a Device-nGnR* store can be
-> +	  observed by a peripheral after a younger Device-nGnR* load to the
-> +	  same peripheral. This breaks the program order that drivers rely
-> +	  on for MMIO and can leave a device in an incorrect state.
-> +
-> +	  The workaround promotes the raw MMIO store helpers
-> +	  (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
-> +	  required ordering. Because writel() and writel_relaxed() are built
-> +	  on __raw_writel(), both are covered without changes to the higher
-> +	  layers.
-> +
-> +	  The fix is applied through the alternatives framework, so enabling
-> +	  this option does not by itself activate the workaround: it is
-> +	  patched in only when an affected CPU is detected, and is a no-op on
-> +	  unaffected CPUs.
-> +
-> +	  If unsure, say Y.
-> +
->  config ARM64_ERRATUM_834220
->  	bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
->  	depends on KVM
-> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
-> index 8cbd1e96fd50..b6d7966e9c19 100644
-> --- a/arch/arm64/include/asm/io.h
-> +++ b/arch/arm64/include/asm/io.h
-> @@ -25,29 +25,37 @@
->  #define __raw_writeb __raw_writeb
->  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
->  {
-> -	volatile u8 __iomem *ptr = addr;
-> -	asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
-> +	asm volatile(ALTERNATIVE("strb %w0, [%1]",
-> +				 "stlrb %w0, [%1]",
-> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
-> +		     : : "rZ" (val), "r" (addr));
->  }
->  
+> If @head is split just after compound_head. And then @head is freed into buddy and re-allocated as slab
+> page while @page is still in the buddy. We would panic on this scene as @head is PageSlab. But we were
+> supposed to successfully handle @page. Or am I miss something?
 
-Nitpick:
+You're right that it is racy, but I think it is an acceptable race here.
 
-The change has the side effect of undoing d044d6ba6f02 ("arm64:
-io: permit offset addressing"), since stlr* do not support
-offset addressing. Unaffected CPUs would continue to use str*,
-but would lose the benefit of offset addressing :(
+For it to happen, the poisoned @page has to be a tail of a live compound page
+at the time of the fault, and then -- in the few instructions between
+compound_head() and the PageSlab(head) test -- that compound page has to be
+split, the old head freed to buddy, and that head re-allocated as a slab page,
+all while @page lands back in the buddy.  It cannot happen without concurrent
+split/free/alloc activity in that exact window.
 
-Not sure if this needs to be mentioned in the commit message...
+It is also worth noting the page in question genuinely took a unrecoverable ECC
+error, and panic_on_unrecoverable_memory_failure is opt-in -- an operator who
+enables it has explicitly chosen to crash rather than risk running on corrupted
+memory.  Mis-attributing one such rare, genuinely-poisoned page as
+unrecoverable is within that contract.
 
-Cheers
-Vladimir
-
->  #define __raw_writew __raw_writew
->  static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
->  {
-> -	volatile u16 __iomem *ptr = addr;
-> -	asm volatile("strh %w0, %1" : : "rZ" (val), "Qo" (*ptr));
-> +	asm volatile(ALTERNATIVE("strh %w0, [%1]",
-> +				 "stlrh %w0, [%1]",
-> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
-> +		     : : "rZ" (val), "r" (addr));
->  }
->  
->  #define __raw_writel __raw_writel
->  static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
->  {
-> -	volatile u32 __iomem *ptr = addr;
-> -	asm volatile("str %w0, %1" : : "rZ" (val), "Qo" (*ptr));
-> +	asm volatile(ALTERNATIVE("str %w0, [%1]",
-> +				 "stlr %w0, [%1]",
-> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
-> +		     : : "rZ" (val), "r" (addr));
->  }
->  
->  #define __raw_writeq __raw_writeq
->  static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
->  {
-> -	volatile u64 __iomem *ptr = addr;
-> -	asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
-> +	asm volatile(ALTERNATIVE("str %x0, [%1]",
-> +				 "stlr %x0, [%1]",
-> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
-> +		     : : "rZ" (val), "r" (addr));
->  }
->  
->  #define __raw_readb __raw_readb
-> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-> index 5377e4c2eba2..958d7f16bfeb 100644
-> --- a/arch/arm64/kernel/cpu_errata.c
-> +++ b/arch/arm64/kernel/cpu_errata.c
-> @@ -809,6 +809,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
->  		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
->  	},
->  #endif
-> +#ifdef CONFIG_NVIDIA_OLYMPUS_1027_ERRATUM
-> +	{
-> +		/* NVIDIA Olympus core */
-> +		.desc = "NVIDIA Olympus device load/store ordering erratum",
-> +		.capability = ARM64_WORKAROUND_DEVICE_STORE_RELEASE,
-> +		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_OLYMPUS),
-> +	},
-> +#endif
->  #ifdef CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
->  	{
->  		/*
-> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-> index 811c2479e82d..d367257bf770 100644
-> --- a/arch/arm64/tools/cpucaps
-> +++ b/arch/arm64/tools/cpucaps
-> @@ -120,6 +120,7 @@ WORKAROUND_CAVIUM_TX2_219_PRFM
->  WORKAROUND_CAVIUM_TX2_219_TVM
->  WORKAROUND_CLEAN_CACHE
->  WORKAROUND_DEVICE_LOAD_ACQUIRE
-> +WORKAROUND_DEVICE_STORE_RELEASE
->  WORKAROUND_NVIDIA_CARMEL_CNP
->  WORKAROUND_PMUV3_IMPDEF_TRAPS
->  WORKAROUND_QCOM_FALKOR_E1003
-> -- 2.43.0
-> 
-
+Thanks for the review and discussions,
+--breno
