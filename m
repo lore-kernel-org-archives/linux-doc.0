@@ -1,156 +1,107 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FF9407592;
-	Fri,  5 Jun 2026 06:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64812436352;
+	Fri,  5 Jun 2026 06:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780641117; cv=none; b=kbkJCKWRTDfyhrA+iRz6nv1cqnGmRP97pBJZwc0/uTvq98UaBeg8FIZ2a64TEXJCj3VaWr9KyGIgVWH0Y/PKzC/ZfR6214gd11qWnQwOsWQvgxRR0lDNGvXkTSuDB7uHwuOS2aQSv6UY8sHSJontu+UD00PzyVubsdvq9Bxy9BY=
+	t=1780642635; cv=none; b=iiZwShRUTwTyAIxFAOcMFfmKgqC2rJhiJ9HHvbKHELE8MXjwW8EDa/D2KgT6FnOGcEOz9IqXBk0PAK+KspzJlZNwl3krXqjrorZq/vc4IxwKkJ2CIb5CgGXt2yOrQ1W+0dpvEma+saAMMo/XR9tXS+jCvxbip4NX+MdazUkHH6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780641117; c=relaxed/simple;
-	bh=hKtJBj6NbpM+g6kmjkW4KSom4gFoNvlMbMdPkKuqkbg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dn3rW1/+jUdYnFcwieJs8ctlWZhjBv6Zj6O+/znG6w2Nn58DRyq1Vbd26nW+FS/8DlpOfCLw4cBHjcblzhl6XGwci4VSoC+Rz6/W4mqmagtCtVX1ZHkdXOBee8mg+eY+sKRJKeiglVd5ZVKdZ4oMHe7EI5skLpZ/x1luFyA13qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=g2U8A9g2; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1780642635; c=relaxed/simple;
+	bh=+19Zsk5vOXZMyuMg7RMcM29ulngnILx4+uZ4DNkfhqg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ihZNGI74Q1D4mKoB8xtPO05m/oWdODjU/WRg+sngtoOvr6CaG+yu1kl8eItCLz9x45GKJ37+iXcAZixnnb6kdNRHwkTR6j9Bbjzhr2pv6DvqYKXFYeo5TULN7aXofZurfD7moWeg9zRaZGrDcotGG0P5bWDC89d/25KHm33oC+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vT2fhohF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="g2U8A9g2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PQ
-	iPGhl1R3XE1rfbgWoU/FE0wGrBbGWg/k63y7WgUeQ=; b=g2U8A9g2S2tEs91pqU
-	RYd9y9qFCXAkJktT5ZkS+iQArE6fTTJmyxvOXxnV1HKugnkUuW3qlWMboeL2QmoM
-	zwjI83at4KiDakmDUtQIEHTUU0ScXoSMrNFKw5Clf+hjz9GaH3hJ6TLRfXkHsTiW
-	he0wUCOF/Io+eGTzID9o+JgGM=
-Received: from ZM.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnl3AjbSJqJU+5BQ--.9698S3;
-	Fri, 05 Jun 2026 14:31:06 +0800 (CST)
-From: Ziming Zhu <zmzhu0630@163.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Ziming Zhu <ziming.zhu@silergycorp.com>
-Subject: [PATCH v2 1/3] dt-bindings: hwmon: pmbus: Add bindings for Silergy SQ24860
-Date: Fri,  5 Jun 2026 14:30:40 +0800
-Message-Id: <20260605063042.91776-2-zmzhu0630@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260605063042.91776-1-zmzhu0630@163.com>
-References: <20260605063042.91776-1-zmzhu0630@163.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vT2fhohF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9EAE1C2BCF4;
+	Fri,  5 Jun 2026 06:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1780642634; bh=+19Zsk5vOXZMyuMg7RMcM29ulngnILx4+uZ4DNkfhqg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=vT2fhohFphNNPru2XOOUvCyDL1p5NKcSO42ZRUJ2m+qZVdA+pKSaKJj54t+AGYBEr
+	 WHqkm78f+KzD3FQa1DKcm1u1IrLtN4Tp3gUomPpUO0BusNCx9W+owBNG1fexFLjvoe
+	 +xISEKsmEEyPv9WkQMbUUF4AqsFOJ59hx6x8Xvfo=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84022CD6E6B;
+	Fri,  5 Jun 2026 06:57:14 +0000 (UTC)
+From: Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+Date: Fri, 05 Jun 2026 14:57:04 +0800
+Subject: [PATCH RESEND] checkpatch: Suppress warnings when Reported-by: is
+ followed by Link:
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnl3AjbSJqJU+5BQ--.9698S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJr18KF18uF15Xr4kWFy3Arb_yoW8Kw1DpF
-	Z5uF9rJr48XryxWw47GFykZ3W5Zr1kAa1j9r9xJw1SyF98XFsYvrZIkrW5XF1UCr10yFy3
-	ZFWqyryxt3s7Cr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07je-erUUUUU=
-X-CM-SenderInfo: x2p2x3aqwtiqqrwthudrp/xtbCwAyJgmoibSzT1wAA3K
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260605-checkpatch-v1-1-8c68ae618513@linux.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OOw+CMBSF/wq5szUtPhqcHGR10NEwtJerLUZK2
+ kI0hP9uwdXxnHznMUIgbynAIRvB02CDdW0SYpUBGtU+iNk6ach5vudbLhgawmenIhqmC1lz1CS
+ JCkiBztPdvpeyG1zKa3k+QfXzQ68bwjg3zaSxITr/WVYHsfD/BgbBBNvJWnGUivSGH/s2/YuEZ
+ o3uBdU0TV89BkK0wgAAAA==
+X-Change-ID: 20260401-checkpatch-b97d0cbe7ee9
+To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+ Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, zhanjun@uniontech.com, 
+ niecheng1@uniontech.com, kernel@uniontech.com, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>, Petr Vorel <pvorel@suse.cz>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780642625; l=1814;
+ i=cryolitia.pukngae@linux.dev; s=20260401; h=from:subject:message-id;
+ bh=c9WOjIkf6PqQcC+UWyqhsH7Lp0mHPos984XKOAN5Tdo=;
+ b=wmZomkal1ceAYLxYqsR55LBmE95VujryRzX7m4nZXkxbncAL+HlNFyns9W1vugQF9VpuvsNUC
+ tdG5nZGkDf6Dw3/lubNoHtBG5fuOHAJhPQlmNOcAaM9Hs2hBtq7nwCj
+X-Developer-Key: i=cryolitia.pukngae@linux.dev; a=ed25519;
+ pk=kF6wBkp7j9167keuk8Q9RvPgMRPuHlJztbLy0vbJ3K0=
+X-Endpoint-Received: by B4 Relay for cryolitia.pukngae@linux.dev/20260401
+ with auth_id=712
 
-From: Ziming Zhu <ziming.zhu@silergycorp.com>
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Add devicetree binding documentation for the Silergy SQ24860 eFuse.
+> The tag should be followed by a Closes: tag pointing to the report,
+> unless the report is not available on the web. The Link: tag can be
+> used instead of Closes: if the patch fixes a part of the issue(s)
+> being reported.
 
-The device is a PMBus hardware monitoring device which reports voltage,
-current, power, and temperature telemetry. The board-specific IMON
-resistor value is described with silergy,rimon-micro-ohms.
+Accroding to Documentation/process/submitting-patches.rst , Link: is
+also acceptable to followed a Reported-by:, if the patch fixes a part
+of the issue(s) being reported.
 
-Signed-off-by: Ziming Zhu <ziming.zhu@silergycorp.com>
+Reviewed-by: Petr Vorel <pvorel@suse.cz>
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 ---
- .../bindings/hwmon/pmbus/silergy,sq24860.yaml | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+ scripts/checkpatch.pl | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
-new file mode 100644
-index 000000000000..03ef82c11e1a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
-@@ -0,0 +1,74 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+
-+$id: http://devicetree.org/schemas/hwmon/pmbus/silergy,sq24860.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Silergy SQ24860 eFuse
-+
-+maintainers:
-+  - Ziming Zhu <ziming.zhu@silergycorp.com>
-+
-+description:
-+  The Silergy SQ24860 is an integrated, high-current circuit protection and
-+  power management device with PMBus interface.
-+
-+properties:
-+  compatible:
-+    const: silergy,sq24860
-+
-+  reg:
-+    maxItems: 1
-+
-+  silergy,rimon-micro-ohms:
-+    description:
-+      Micro-ohms value of the resistance installed between the IMON pin and
-+      the ground reference.
-+
-+  interrupts:
-+    description: PMBus SMBAlert interrupt.
-+    maxItems: 1
-+
-+  regulators:
-+    type: object
-+    description:
-+      List of regulators provided by this controller.
-+
-+    properties:
-+      vout:
-+        $ref: /schemas/regulator/regulator.yaml#
-+        type: object
-+        unevaluatedProperties: false
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - silergy,rimon-micro-ohms
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        hw-monitor@40 {
-+            compatible = "silergy,sq24860";
-+            reg = <0x40>;
-+
-+            interrupt-parent = <&gpio>;
-+            interrupts = <42 8>;
-+            silergy,rimon-micro-ohms = <1600000000>;
-+
-+            regulators {
-+                cpu0_vout: vout {
-+                    regulator-name = "main_cpu0";
-+                };
-+            };
-+        };
-+    };
--- 
-2.25.1
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 0492d6afc9a1..bb452f5313b6 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3233,10 +3233,10 @@ sub process {
+ 			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
+ 				if (!defined $lines[$linenr]) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . "\n");
+-				} elsif ($rawlines[$linenr] !~ /^closes:\s*/i) {
++					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . "\n");
++				} elsif ($rawlines[$linenr] !~ /^(closes|link):\s*/i) {
+ 					WARN("BAD_REPORTED_BY_LINK",
+-					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
++					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+ 				}
+ 			}
+ 		}
+
+---
+base-commit: ddd664bbff63e09e7a7f9acae9c43605d4cf185f
+change-id: 20260401-checkpatch-b97d0cbe7ee9
+
+Best regards,
+--  
+Cryolitia PukNgae <cryolitia.pukngae@linux.dev>
+
 
