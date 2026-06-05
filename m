@@ -1,90 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out28-74.mail.aliyun.com (out28-74.mail.aliyun.com [115.124.28.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9398339099E;
-	Fri,  5 Jun 2026 01:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF9C23D7E6;
+	Fri,  5 Jun 2026 02:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780623016; cv=none; b=iUhf6qSmimVD0jgqFsSXCqYwN6hX5r5fAJYqDO903FhjwFN7PioK6hEYuy/HgFVBLi453bNkjCXH3DN5L3sGa302DLNpKmQfExi8V0I6281jpl+IXSM8qLc/RoCQdkoxSzSZPYoazXTusp5peL5+oxQr98xkwiP9vvF9zBdiQ+k=
+	t=1780624870; cv=none; b=ROvkfpvIMKU22jTnwFzWgdehmFIwO0gP+Xo+Y+xQ7LD8IbXZ2+1/0YgkSQdfo43EduQ+6c5YM8TtTwwfFwDqtDAfxJepN5Y8Yz9pO/Tg5cSETxhL9SShB2/stE9+a4H7poRPZDNYY8yrq7eZS1lQvtjkhRuWJxiAcaFMirEATRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780623016; c=relaxed/simple;
-	bh=KXlwYjqKVSUou60rpLkA1iL5cirORHeMbS0KbckVvy8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=nLFBIZXWVkcgLShWDnU/Y3jxBGfciZ5hrwPHys/EIi9UlGA0/gb3Kga8Qaf7q+7p0RHZOORmgII+zWeCVByHdNQcd7yo5LgUiA8KxlQ8g7ahvaMMAivjAlS2x3JiORVxSP0u6hUPPOAfZJUH4cia5y/p/ZVCBtOl0WQM0sBSsEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2XccfvB; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c2XccfvB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8AB1F00893;
-	Fri,  5 Jun 2026 01:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780623011;
-	bh=ehZCtSynk3bTn44G6PMr36RiMYbFetcFDvaiFCTYQUo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=c2XccfvBptzHz55v6NBJeU76o0cvge5jJdtMPa9/lePBC2+4eSf9Ck+7nHbj1/idL
-	 SkZB4ajriFpKhqucuZJZsrTGzz/W8T4GAmJ3g809fg+SwkDHRT0ERPQ71H3DyhivHK
-	 ahBzevah02Devlifsi/Ixo1HOPZ4n6DsKSAmebn9EbA6JbjCY01uDFOSQ/Em2n7ei3
-	 oTtu+6r2F1VcwiHfitR147yOw+9dtBPA8uCZ8SAzCVUWi2Lmq+vWZwtzYU5CWPmVSb
-	 FPivH01aaoMCVgbpjeyqvWa4EEFgac6RiFaG4WZw/hqaiZDgDdzVf/tY48Ulc3z82f
-	 6pwMmyTrmmzMQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0B243930A8A;
-	Fri,  5 Jun 2026 01:30:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1780624870; c=relaxed/simple;
+	bh=J779dFSCQWOm4dQwHstZyjULyKJinK2MiVqgv94EKK8=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=B2Chgpbew8jruSibxHoaFXzG4o5g+i/9PtDPOkpqksjr3XCvdhtPfYNhipEex0ZqXPL6bNdecbN67u+9CI4t7QvBopYhw+t+j3ry8yKJlitjpaEFrgyoTCA6C3gUxEGW3/LoOFZlq+ldjDsBHJ1G/Wl3GSJSLGlIVHbdAFRMFJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09781785|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0171234-0.00200289-0.980874;FP=12461754946603209801|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=17;RT=17;SR=0;TI=W4_0.2.3_212D3FFB_1780624731439_o7001c596;
+Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_212D3FFB_1780624731439_o7001c596] cluster:ay29) at Fri, 05 Jun 2026 10:00:43 +0800
+Date: Fri, 05 Jun 2026 10:00:43 +0800
+From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+To: "Paolo Abeni" <pabeni@redhat.com>,
+  "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>
+Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "kuba" <kuba@kernel.org>,
+  "horms" <horms@kernel.org>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "edumazet" <edumazet@google.com>,
+  "enelsonmoore" <enelsonmoore@gmail.com>,
+  "skhan" <skhan@linuxfoundation.org>,
+  "hkallweit1" <hkallweit1@gmail.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+Message-ID: <1ba81af4-2051-41fc-902d-cb66217c855a.Illusion.Wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYxNyBuZXQtbmV4dCAwNS8xMV0gbmV0L25lYnVsYS1tYXRyaXg6?=
+  =?UTF-8?B?IGFkZCBjaGFubmVsIGxheWVy?=
+X-Mailer: [Alimail-Mailagent revision 446][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/4] dt-bindings: remove redundant .txt redirect stubs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178062301139.3093327.8247260042998931357.git-patchwork-notify@kernel.org>
-Date: Fri, 05 Jun 2026 01:30:11 +0000
-References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
-In-Reply-To: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
-To: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, mchehab@kernel.org,
- olteanv@gmail.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, dmitry.torokhov@gmail.com,
- thierry.reding@kernel.org, jonathanh@nvidia.com, lee@kernel.org,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
- linux-tegra@vger.kernel.org
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260601093149.25905-1-illusion.wang@nebula-matrix.com> <20260601093149.25905-6-illusion.wang@nebula-matrix.com>,<c5750d8a-5b37-4269-819b-1c3c04be0ddf@redhat.com>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4zLjIwLVJlbGVhc2UuMjYwNTE0MDAyKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
+In-Reply-To: <c5750d8a-5b37-4269-819b-1c3c04be0ddf@redhat.com>
+x-aliyun-mailtrack: {"foreign-track":"0"}
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 03 Jun 2026 15:42:17 -0500 you wrote:
-> Several .txt files under Documentation/devicetree/bindings/ contain
-> only a redirect notice pointing to a .yaml schema with the same base
-> filename in the same directory. These stubs were useful during the
-> .txt to .yaml transition but are now redundant, since the .yaml is
-> discoverable by name. Meanwhile, other documentation still references
-> some of these stubs, forcing readers through an unnecessary extra hop
-> to reach the actual schema.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2,1/4] dt-bindings: net: remove obsolete mdio.txt
-    https://git.kernel.org/netdev/net-next/c/ed2b921b542b
-  - [v2,2/4] dt-bindings: media: remove obsolete rc.txt
-    (no matching commit)
-  - [v2,3/4] dt-bindings: net: dsa: remove obsolete dsa.txt
-    https://git.kernel.org/netdev/net-next/c/0fbbc19482bd
-  - [v2,4/4] dt-bindings: input: remove obsolete matrix-keymap.txt
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+PiBTYXNoaWtvIHJlcG9ydHMgYSBudW1iZXIgb2YgaXNzdWVzIFdSVCB0aGUgYXRvbWljIHN0YXR1
+cyB1cGRhdGVzOgo+IAo+IGh0dHBzOi8vbmV0ZGV2LWFpLmJvdHMubGludXguZGV2L3Nhc2hpa28v
+Iy9wYXRjaHNldC8yMDI2MDYwMTA5MzE0OS4yNTkwNS0xLWlsbHVzaW9uLndhbmclNDBuZWJ1bGEt
+bWF0cml4LmNvbQoKPiBJdCdzIGluZGVlZCBxdWl0ZSBjb21wbGV4IHRvIGdldCB0aGluZ3Mgcmln
+aHQgdGhpcyB3YXkuIEknbSB3b25kZXJpbmcgaWYKPiB5b3Ugc2hvdWxkIHVzZSBhIHNwaW5fbG9j
+ayBpbnN0ZWFkIHRvIHByb3RlY3QgdGhlIHJlbGV2YW50IHN0YXRlPwoKPiBBbHNvIGEgZmV3IHBy
+b2Nlc3MgcmVsYXRlZCBub3RlczoKPiAtIHRvIG1ha2UgZWZmZWN0aXZlIHByb2dyZXNzZXMgeW91
+IHNob3VsZCBwcm9hY3RpdmVseSByZXBseSBvbiB0aGUgTUwgV1JUCj4gdGhlIHNhc2hpa28gY29t
+bWVudHMgZGlzY3Vzc2lvbiBpZiBhbmQgd2h5IHRoZXkgYXJlIChub3QpIHJlbGV2YW50Lgo+IC0g
+aXMgJ2lsbHVzaW9uIHdhbmcnIChhbGwgbG93ZXIgY2FzZSkgeW91ciByZWFsIG5hbWU/IHdlIGNh
+bid0IGFjY2VwdAo+IHBzZXVkb25pbXMgYXMgU29CIHRhZy4KClRoYW5rIHlvdSBmb3IgeW91ciBm
+ZWVkYmFjay4KWWVzLCBJJ3ZlIHJldmlld2VkIHRoZSBTYXNoaWtvIHJlcG9ydC4gVGhlIGF0b21p
+YyBzdGF0dXMgdXBkYXRlIHJhY2UgaXMgcmVhbDoKbmJsX2NoYW5fcmVjdl9hY2tfbXNnIHdyaXRl
+cyBzdGF0dXMgYW5kIG5lZWRfd2FrZWQgd2hpbGUgbmJsX2NoYW5fc2VuZF9tc2cKbWF5IHJlYWQv
+Y2xlYXIgdGhlbSwgd2l0aCBubyBvcmRlcmluZyBndWFyYW50ZWUgYmV0d2VlbiB0aGUgdHdvIGF0
+b21pY3MuClRoZSBzcGlubG9jayBmaXggYWRkcmVzc2VzIGV4YWN0bHkgd2hhdCBTYXNoaWtvIGZs
+YWdnZWQuCkknbGwgdXBkYXRlIHRoZSBwYXRjaHNldCBhY2NvcmRpbmdseS4KcHM6ICJpbGx1c2lv
+biB3YW5nIiBpcyBpbmRlZWQgbXkgcmVhbCBuYW1lLg==
