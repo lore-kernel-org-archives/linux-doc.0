@@ -1,164 +1,160 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012024.outbound.protection.outlook.com [52.101.53.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f74.google.com (mail-dl1-f74.google.com [74.125.82.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F327F345CC0;
-	Fri,  5 Jun 2026 20:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780690097; cv=fail; b=La75acwgCMKen5RUycyOavuf4Bl8FofuGwTPyi+xh+BT4XSgTpbu/HOt0KPs+5UHGFZpPhMekdY30aEPy6gTkQvq50YwsWZX8vcRXe/gLD+ZeKPBY4j4ggl6GJEHPzW69i6XK1m/v8p78vMukDquFfapMRWSFD0F0QJSPPUbEj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780690097; c=relaxed/simple;
-	bh=WNMb2hxKC2nM6DlXB4DgI6A7f+ejICDQfGAPOWD8cmA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XVYf9umcFqZjg0K+c2Tx/mJLIgrBEY44su3+GYPP3CK/51lieZvKM1fLng6ZbdYbbwqNFljmqggPncFQhMq11Ew0Tj70HfLu8xwE6lWZOJcEwuj8RuMkvJLnojIt0z/X1MLAGy5nUzAICT3tpj0ZQlPpKQJe1cQE5QaYrtks5ZI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=mJ9GqTTy; arc=fail smtp.client-ip=52.101.53.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CBB37D135
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 23:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780702617; cv=none; b=ZQbl6kpzQA/LNqMqKF9axHnNrnI4OC/gD2qc0V/qaw/cuBHP/Y8MZ0Du8afyXi0mPN298KzeA0rYlrYxVExTGP0KHc2KmloiayG1jx9a+K1GoXPDBxCbh5DBSiTbgpyFyPZCeVPcjbuoDEJdervK4XCY4b0ntAViqhnVhZn11lk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780702617; c=relaxed/simple;
+	bh=eXRtvDonELVSUBfr/dF+X1aj9t1NoF8TQiTZc77Z3Cs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=e2fFJHJcivoibVUzPGzNALeg9hL1M0hfygIM1CsDReouujFo/RCzzqpY753QGnLjxGl48h8JSVEVe6l01Yy98rR3N9AcH74txWBXcb5+9cudUtOZ3BvFk6C2l5l6KZ9sTa07HZuRuSD6roxpoi00KeV+Y1IL3QcEBy3B2f2oDb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZTiKK6xW; arc=none smtp.client-ip=74.125.82.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="mJ9GqTTy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=reTty9mAyL2B6KIgzDb0OKYQD11e9KyIqI6eeb9uoWKtb2gSKQjM6GcI8LAjG4vddePMSUOSmkw9AhZ1WK2KvVLgYP9VzMQVuoP+SNqpQRV3fROSwTEvkrVRh+VzsiAs7ZzieSO86CG1arWwZ25W4hWbjmSCsPyYI/Qc/pAhFqwAukvjGyVgN6LX3m8HIzmNjCWNX48zzj3ZTV+tFly+eyMbBmrIMlUPrqM6/51rJ2r36kByGUyynHUShSjBzaAOWYMLglm8IDQY07v+1gn7hLbHNkn1KmkjjpoGISLz596z6qSwlnmXAxPqbp/uIZ4F/cvcxR53xcBsLyX1VI0xGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zDOq5HSj2oX768VN+NTdbrN4/PMY7AoRKtlpz3K4WoQ=;
- b=XXtGHYO5TIOFE62TLtGNWYf7CyElrpp0uV7Q3woXSGdGzSK948QIP0XjONfQsIBB0pz3Fk6ODIfdTrksOGer20PkSn40axgflS8aC+XTLKSXpEu5eoNmLegESbWjL8ejydYGVauU5mSU7gOwwT06kdAguZU00RnkW2qQnuC+qwjpIAiWC7YjNxBvzYWDOQ468ByRO2mo1XHAFmietyAlmkuJBDMmyriPT/afiYp2lT29UNYsCELY5XpTG/oC2eaGbqNLc+IPjcYwu9L3Ib2RgCtURcaB3LE0aVWobXTCHBnP/TCTUGfesxvVr3QGGbCx3gOcanXh0XvcYOgWWaMAYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zDOq5HSj2oX768VN+NTdbrN4/PMY7AoRKtlpz3K4WoQ=;
- b=mJ9GqTTyhtLT41d7J+2EiF0qWmFLFjqJawbNopfCLqLUTybLhqe/XFa4Vj4thHw9hKQfHGquCH7iz/dJHdH77Jou/u8O10Sa4p9U8RdILpUYKk/HCVCL4gA3u/U27X2GE76OaqIePQtsHbdassDNxeB5M713OBbpIhD8gY4NwAIW1VM3gTC2g16qYvLittz+KFo3Vc/kND32c+D5dgO28MsEzBQuewscyFqQyoIWCIK4/wkIUrB03PK1J/ICK2qS9RzGmk6SNL9pMqDdcrIaTgC245SPi/XNNZyIvELiVrUQ+TpoLvXOMN580bs1rsUGM4cpsZ/SiJcRHDyFlqbGVQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- PH7PR12MB5998.namprd12.prod.outlook.com (2603:10b6:510:1da::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.9; Fri, 5 Jun 2026 20:08:07 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%5]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
- 20:08:07 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
- gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
- jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v19 05/14] mm/khugepaged: require
- collapse_huge_page to enter/exit with the lock dropped
-Date: Fri, 05 Jun 2026 16:07:56 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <F4C2A4F3-54E9-4150-8196-DD303E4D8C39@nvidia.com>
-In-Reply-To: <20260605161422.213817-6-npache@redhat.com>
-References: <20260605161422.213817-1-npache@redhat.com>
- <20260605161422.213817-6-npache@redhat.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0170.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::25) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZTiKK6xW"
+Received: by mail-dl1-f74.google.com with SMTP id a92af1059eb24-13709ab38a8so2897986c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 16:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780702615; x=1781307415; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TP1Gw/FZpMqPW7LfLc3jMLRgJ8WESnfISTEPmikAWZE=;
+        b=ZTiKK6xWeem7O3yVDLRbY1GUcaoUNqH0JSlPvOjXnyYK+ccV/X3vyTxisoYUNes80H
+         vmkch/q2IFCGN41Y2Mda5zCTlRzRAW7+N7r7gwajKM67BjOaBf+kBYrdkYfl4zJn7CdM
+         Mbnp1lNh0Q5FIkdM/dn8o1YVzX1rocPG2N4FLN3QFGJ9g6P2YqJsZ7ulzBwcPsoZvrqK
+         GWDbeoelQm7vaMtjhXMQTiUMCoLVpIJaVZVmUSx3zn84/KdUjgn0ictCzFaaAWPVK+s/
+         MC+2kp7vrd6ILgmbkDHQfe/mgiVDr23f0Mk7kONRpS51wsxPc6FVDuTjCsl9AsjXAsmN
+         wwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780702615; x=1781307415;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TP1Gw/FZpMqPW7LfLc3jMLRgJ8WESnfISTEPmikAWZE=;
+        b=lqw5UlGe/+TRbFwPl5AVAJHXLHgp5nEsxjCnyx4Aw4OHwZ2C0ypyYadH5KQ2AkALuQ
+         1b0TPCFyjl9KaJ5S63Q15bsX1o1bKcmDm3CkuhUpCAzDldv85tu4GUBphwX5k1zgrfq4
+         C6ifUix2+1eKf1EL7fsb6bDdBo87gjZ7uYLkTQe6gamKF6g6lso4G4dt7uVrBDZdtZGT
+         PxFuszsZX+XZTYSkiAW9i/iT3VLg/5hUWM5rIEX1+GUUc+hGvR9zKu7DVzVagGBIaRBC
+         RaFSe8dwxz1nj3vfxUK0SGhMlnT2bQkXKQk2I1Iof7kSojYtQy/vUZ3/jdfSW3fKHNrn
+         faSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/yBygTrJ96f7TIE1L4F+JsU1yeKYJ/UaJz7pffnoQRScWl0hukQMkOQ2VuniUexnFsU2J5+1KFN+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXttF429Cp8HPnAfdACGKLOEWrolCSI3JvFcSNTCDJ+4JX1Y67
+	XY3aRy8y/XHA1ElylISx7fKgcRw+Lt1khH0vp+cd37UekRZMC4DjynC6jLLFuErnZLzR87S3AUE
+	TBi42acs0PI4QWyjrmNgVn47ZJ1qa1N/d3A==
+X-Received: from dyvp27.prod.google.com ([2002:a05:693c:885b:b0:303:3f37:eaf5])
+ (user=abhishekbapat job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:1287:b0:136:e639:9c05 with SMTP id a92af1059eb24-1380670db9fmr2750057c88.31.1780702615144;
+ Fri, 05 Jun 2026 16:36:55 -0700 (PDT)
+Date: Fri,  5 Jun 2026 23:36:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH7PR12MB5998:EE_
-X-MS-Office365-Filtering-Correlation-Id: be69971c-7a13-4097-4a8e-08dec33e28a2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|22082099003|18002099003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	mTktN32ilqW64KzrJQ/60dnvoe9EzbDKDn0yLtQyuL9g/Lc5NiTXwxu9dueiRkFjzfZO+mVidhox0kRbojP5Budh3k56wjJtmM3J/r8KJLz6DND+LftNK0Q5p5RVGjW6MUKdFaxMA/YOmhpB8rHsdfESHggevHwNnB6O/UXlDJKk8yvG97BRG5lOnHX5TXz5PH74crFmwvEXmGzYcH+japSmDjSGtyDnj70y4cpXqrQAxVpii7eAghWw6laef3BYPXvuWYWncVQfWyCAfprjyCOzfrMlTTuY/K6uekkC67rBI6egJET6rDN3KFuCV6IuG5dx8f8yDM5G2BpaanveFDe0ZER8F9dudt3vXqvuv9OU+3mausbYnjQUkp0uzs22m7e+ubVOtG8SSrcmYtHR+6Dk+VAilWHzyuLQp9yP/QZr+vCi1pLJ2hLBCQTjxaEsMNeHuC7s/67q7o8kwL/t2U75kufwHzz3jdoccpN4UslB6DC8w8HsyQX4HJO1GQ3sPNaMXO0VqTe6RZcdoFgUdju2Wu0vQhOgMKc2gdjBbRCM2hkRiR4hqG/o2UpuqKav5pauD+kKZONU0CIeDBb4NSf8bIfrOyLhMU1JCDG2Y10QuwPjZvHegru+IG6Bhxt4kHpJ25sVjqLloev630FZKBISB28zymnBmCCxn0kLxClw8A1EdTTLbUPD3a3FWHBB
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bjpkw2Vb3KXhRKdF+DXuCXIVLFVbE/WBuTryVV9gAfFp0jCfIoZ0D5VZItlQ?=
- =?us-ascii?Q?Hosgrq0KbLfIntvobPRh9YKwYoYvBQOisDPaH03uW0pn2gpdrJowPwMHNNu5?=
- =?us-ascii?Q?YrpDH54Dfifc5f067aiyPKU6GSJNuVf8Ud8FlSMonBodr+EoQ2pPgknbAlus?=
- =?us-ascii?Q?tMKofB7djVa8MP3IExmV/CY4bi+puLLdhABVgsnLa3bJaFIInb74tgMJpxt6?=
- =?us-ascii?Q?lql9t57bwfoQD7e9zGNy1a51f+cGkc8yB7XTqP8VLY5otp0D6XY4gl/kacCv?=
- =?us-ascii?Q?xuBXQIs3r7+q789b4wrEDxJ1jriKly94igw5H1PSDaqsLStkpDjrpkg4sXZt?=
- =?us-ascii?Q?nhPo9HxgJp2RISW6LCfuskxJ44FlUlXtDmFccs+4jXIpy9mc2kqdFX0I3Ld5?=
- =?us-ascii?Q?rCkGs9ZWclEoQiF9zpTd70pIj8UYTFAYfLuLkrzn0nMCTi5jGj4jeOZJSyFk?=
- =?us-ascii?Q?Zru15PBwOzxJmke4Ni0eEq/O04AdWzyRR+VH2AC0ZZ4syO+60QBbAzShChHq?=
- =?us-ascii?Q?FI8p6Pwxfbd3bB8BphfegeXu5pZbui4bTZp644NvQICEkyOHdta3UksuYaN6?=
- =?us-ascii?Q?64D9N8JKbJyRFQnOBCxeX/ip9MLrzw/bpuT2bkJExzFzpCJb3vY4nCdcPLtB?=
- =?us-ascii?Q?uGWBm3p7fqCbS/+iu8Kje1WgolOiYrvr+jYywHesR5n0ofdDDz0lFBTmb8BA?=
- =?us-ascii?Q?GjmXW52jSuZjqlTEk3U5plH4LxxyXUFBo/jXB0MjffzLZFjf3HOQK/UdOR13?=
- =?us-ascii?Q?5UMRus0/4sA+9ynwx1NVMwMEnBXoNPxVO3Cfns9Dk7ZdCZ+G6MBIneNM+a8N?=
- =?us-ascii?Q?/SpLKySCvvF/0AK1l3b06m6DVop0GRCzCXUPUjKyC4UdvC3DMA7dwbAkHmqa?=
- =?us-ascii?Q?IV5QrlWm6E3M/E4p374Dci9PbK+3eiXyumx6fVdWiypFhjzVq44kU6poplhV?=
- =?us-ascii?Q?uds+B9IMKtS3lnPdEMxKSsHG6oZ8VnIhXO2IvTpwiQ8BHvTdeFqY/uVr3Rgq?=
- =?us-ascii?Q?ksRvLfjuDBdggtrJu17JNfZWiLkz/QzRasqa/f+4TKdso37R/AaV36WuZ0Nr?=
- =?us-ascii?Q?q5iP6OBpiqto2HAm0yByHgTH80wwlxBM6w8wSGxuXIRTGA4uXamypIV45l13?=
- =?us-ascii?Q?cz8GSjRkxYSkqo+FL6IBX8X0aGbQHFm9MoSHXiPnNK3hijpMw/7oZRJM98AQ?=
- =?us-ascii?Q?rGGlLeFcsur+89EbjGrSSDIN7qbsluQcDE+C0rHOe92re+J4tMPPwNcL5SNl?=
- =?us-ascii?Q?zDLuF7phSRfyy+mM9OlmN7xX92ko4ksH1WxJkV0CgmT+H+gBVtGDnlD2nAHF?=
- =?us-ascii?Q?RVk4l+hPVGugpEZFH9E3/8Pu1x3IWVYPPO78Pp0jlseHj86aMOd9GiWJkhff?=
- =?us-ascii?Q?048Ij20UhU01OwwK5OOo4ItacLvRXQDje6QxU2YimIOUjeR6t1l2Qv7efvR7?=
- =?us-ascii?Q?r/edPNgjMVoR3yXNiv48bH7iOBxeSwghdzmQNTM3cBbmmB9a9oZewia1hIU0?=
- =?us-ascii?Q?5OZJDDy9HeBStnp2G0ABmpvRPRrhGrMfzYx6O3MxMCKRM36wVIXhX8O0tMIT?=
- =?us-ascii?Q?tT5vg2yaP3G96/j53PCq2e/eZt1dTSa6MsZCiY8z0HU3jb/5VM31vWoEVglV?=
- =?us-ascii?Q?ma/emjkhXX1vhk7Wij3gOHhyR26FdxIr3RejjGLTO8zhpfGlaDf6NkTg+k6r?=
- =?us-ascii?Q?VDa+tce+7Q9DQWH3is9PRX1SiKOJiztlsJ8WXp8ot3kuKzT+?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be69971c-7a13-4097-4a8e-08dec33e28a2
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 20:08:07.1398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tRYU/jAQx1K1T6rbsCJ69mTaLzizCgn2QOA6bPsyn7t1ntBNvO5bjkTtFcs4HUHg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5998
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
+Message-ID: <cover.1780701922.git.abhishekbapat@google.com>
+Subject: [PATCH v3 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
+From: Abhishek Bapat <abhishekbapat@google.com>
+To: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Hao Ge <hao.ge@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Sourav Panda <souravpanda@google.com>, Abhishek Bapat <abhishekbapat@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 5 Jun 2026, at 12:14, Nico Pache wrote:
+Currently, memory allocation profiling data is primarily exposed through
+/proc/allocinfo. While useful for manual inspection, this text-based
+interface poses challenges for production monitoring and large-scale
+analysis:
 
-> Currently the collapse_huge_page function requires the mmap_read_lock to
-> enter with it held, and exit with it dropped. This function moves the
-> unlock into its parent caller, and changes this semantic to requiring it
-> to enter/exit with it always unlocked.
->
-> In future patches, we need this expectation, as for in mTHP collapse, we
-> may have already dropped the lock, and do not want to conditionally
-> check for this by passing through the lock_dropped variable.
->
-> No functional change is expected as one of the first things the
-> collapse_huge_page function does is drop this lock before allocating the
-> hugepage.
->
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-LGTM.
+1. Userspace must parse large amounts of text to extract specific
+fields.
+2. To find specific tags, userspace must read the entire dataset,
+requiring many context switches and high data copying.
+3. The kernel currently aggregates per-CPU counters for every allocation
+size, even those the user intends to filter out immediately.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+This series introduces a new IOCTL-based binary interface for allocinfo
+that supports kernel-side filtering. By allowing the user to specify a
+filter mask, we significantly reduce the work performed in-kernel and
+the amount of data transferred to userspace.
 
-Best Regards,
-Yan, Zi
+Performance measurements were conducted on an Intel Xeon Platinum 8481C
+(224 CPUs) with caches dropped before each run.
+
+The IOCTL mechanism shows a ~20x performance improvement for
+filtered queries. The kernel avoids the expensive per-CPU counter
+aggregation (alloc_tag_read) for any tags that fail the initial string
+or location filters.
+
+Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
+1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
+2. IOCTL Interface: 1ms (sys)
+
+Scenario 2: Compound Filtering (Filename + Size)
+1. Traditional: (cat ... | grep | awk): 21ms (sys)
+2. IOCTL Interface: 1ms (sys)
+
+Scenario 3: Size-Based Filtering (min_size = 1MB)
+1. Traditional: (cat ... | awk): 21ms (sys)
+2. IOCTL Interface: 14ms (sys)
+
+v2 changes:
+- Patch 1/6: Introduced locking for m->private. Also included the new uapi
+header file in MAINTAINERS list.
+- Patch 2/6: Handled the case where ALLOCINFO_FILTER_MASK_MODNAME is
+passed but ct->modname is NULL.
+- Patch 3/6: Moved min_size and max_size outside of struct allocinfo_tag
+into struct allocinfo_filter. Added validation that min_size <=
+max_size. Prefetched alloc_tag_counters if size based filter masks are
+provided to avoid assimilating per-cpu counters twice.
+- Patch 5/6: Removed the hardcoded logic to skip the header, instead the
+test will skip lines that don't match the format. Also included the
+newly added alloc_tag selftests directory in MAINTAINERS list.
+
+v3 changes:
+- Patch 1/6: Modified Documentation to indicate that map supports
+  ioctl(). Modified struct allocinfo_count to use
+__attribute__((aligned(8))) instead of manual padding. Removed
+redundance type-casting. Added comments for static functions in
+lib/alloc_tag.c. Introduced a new seq counter for content_id that gets
+bumped every time module is loaded / unloaded. Introduced logic to
+validate user specified position is not greater than number of
+allocation tags and return early if it is. Changed strscpy to
+strscpy_pad to not echo arbitrary user data back to the user.
+- Patch 2/6: Handled the case where user wants to specifically filter
+  for built-in modules. Included some comments for static functions.
+- Patch 3/6: Modified logic to only fetch per-CPU counters for codetags
+  that satisfy other filters. Included some comments for static
+functions.
+
+Abhishek Bapat (5):
+  alloc_tag: add ioctl filters to /proc/allocinfo
+  alloc_tag: add size-based filtering to ioctl
+  alloc_tag: add accuracy based filtering to ioctl
+  kselftest: alloc_tag: add kselftest for ioctl interface
+  kselftest: alloc_tag: extend the allocinfo ioctl kselftest
+
+Suren Baghdasaryan (1):
+  alloc_tag: add ioctl to /proc/allocinfo
+
+ Documentation/mm/allocation-profiling.rst     |   5 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ MAINTAINERS                                   |   2 +
+ include/linux/codetag.h                       |   2 +
+ include/uapi/linux/alloc_tag.h                |  87 +++
+ lib/alloc_tag.c                               | 342 +++++++++++-
+ lib/codetag.c                                 |  18 +
+ tools/testing/selftests/alloc_tag/Makefile    |   9 +
+ .../alloc_tag/allocinfo_ioctl_test.c          | 505 ++++++++++++++++++
+ 9 files changed, 970 insertions(+), 2 deletions(-)
+ create mode 100644 include/uapi/linux/alloc_tag.h
+ create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+ create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+
+-- 
+2.54.0.1032.g2f8565e1d1-goog
+
