@@ -1,74 +1,91 @@
-Received: from out28-74.mail.aliyun.com (out28-74.mail.aliyun.com [115.124.28.74])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF9C23D7E6;
-	Fri,  5 Jun 2026 02:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA2737DEAF;
+	Fri,  5 Jun 2026 02:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780624870; cv=none; b=ROvkfpvIMKU22jTnwFzWgdehmFIwO0gP+Xo+Y+xQ7LD8IbXZ2+1/0YgkSQdfo43EduQ+6c5YM8TtTwwfFwDqtDAfxJepN5Y8Yz9pO/Tg5cSETxhL9SShB2/stE9+a4H7poRPZDNYY8yrq7eZS1lQvtjkhRuWJxiAcaFMirEATRg=
+	t=1780625155; cv=none; b=Jl9fGFmdOYZSFkjuqlu3c+6XU0h9f1dAacoBWQVNrnhYFMy6O66FEG84bVqCxdxYPYJT48xcqg0Ziec8QNl/7Wfh82IWXfCOTRkZSlidbdtvvgmwzoSsyFBMlINLzIkZ/PzpTfE3NgYh2vCvglQqpY+rWrOAkPcgRab3eDd4g1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780624870; c=relaxed/simple;
-	bh=J779dFSCQWOm4dQwHstZyjULyKJinK2MiVqgv94EKK8=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=B2Chgpbew8jruSibxHoaFXzG4o5g+i/9PtDPOkpqksjr3XCvdhtPfYNhipEex0ZqXPL6bNdecbN67u+9CI4t7QvBopYhw+t+j3ry8yKJlitjpaEFrgyoTCA6C3gUxEGW3/LoOFZlq+ldjDsBHJ1G/Wl3GSJSLGlIVHbdAFRMFJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.09781785|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0171234-0.00200289-0.980874;FP=12461754946603209801|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=17;RT=17;SR=0;TI=W4_0.2.3_212D3FFB_1780624731439_o7001c596;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_212D3FFB_1780624731439_o7001c596] cluster:ay29) at Fri, 05 Jun 2026 10:00:43 +0800
-Date: Fri, 05 Jun 2026 10:00:43 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Paolo Abeni" <pabeni@redhat.com>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>
-Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "horms" <horms@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "enelsonmoore" <enelsonmoore@gmail.com>,
-  "skhan" <skhan@linuxfoundation.org>,
-  "hkallweit1" <hkallweit1@gmail.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <1ba81af4-2051-41fc-902d-cb66217c855a.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYxNyBuZXQtbmV4dCAwNS8xMV0gbmV0L25lYnVsYS1tYXRyaXg6?=
-  =?UTF-8?B?IGFkZCBjaGFubmVsIGxheWVy?=
-X-Mailer: [Alimail-Mailagent revision 446][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1780625155; c=relaxed/simple;
+	bh=jWMv/OVg0XBOoo5m2/ElvfSL0l48pCnTg9x0hzAzgaE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UbzDrKoue9vuXhxivarxpTCZv9aVwfgGCnJUiB+YT92L/naPkdxd4E02U0qRyQGCtD+aoxtReTT6JDH4LelNY0aAtcxxditmPAOu0GOT1XEYEXyjC/xuuni5OC6iPFO1LdQGLKfAHKFHfatGESeOrwL0pQIpBn0kV4YG+OTulJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=IzKN0iKy; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="IzKN0iKy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=93
+	j7WYO5scoCiDafPFE27aT4pcg41KjcRlyGVBbLkYU=; b=IzKN0iKyJfsU7z/6Wa
+	ap5hLO3gnjkaoEQIjXUiBgAHUsspCxJzAHLqXVSD2BYfBiQhdEptdhNuxOalbRMm
+	GOwYIGuZNliFJGk0+6i///JUksdQjw5AL+vaV+f8A6u9uu4hAvhe+5iq0ocpPzNi
+	aOFdF+YAQ5x10zZ+ZzH1nCgaA=
+Received: from ZM.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wAXVW_FLiJq4ffOBQ--.62174S2;
+	Fri, 05 Jun 2026 10:05:00 +0800 (CST)
+From: Ziming Zhu <zmzhu0630@163.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Ziming Zhu <ziming.zhu@silergycorp.com>
+Subject: [PATCH 0/3] *** Add support for Silergy SQ24860 ***
+Date: Fri,  5 Jun 2026 10:04:47 +0800
+Message-Id: <20260605020450.89638-1-zmzhu0630@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260601093149.25905-1-illusion.wang@nebula-matrix.com> <20260601093149.25905-6-illusion.wang@nebula-matrix.com>,<c5750d8a-5b37-4269-819b-1c3c04be0ddf@redhat.com>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4zLjIwLVJlbGVhc2UuMjYwNTE0MDAyKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <c5750d8a-5b37-4269-819b-1c3c04be0ddf@redhat.com>
-x-aliyun-mailtrack: {"foreign-track":"0"}
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAXVW_FLiJq4ffOBQ--.62174S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWrZrW5AFWUJw17XFy7JF1rCrg_yoW8Jryxpa
+	ykZrZIkw1DJr17X393tF18WF90yry8Xa1YkF9rKw1S9Fn5ZF929ry3Krn0yw1DAr4fGFy7
+	Zr93Kr4v9w17ArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UHmh7UUUUU=
+X-CM-SenderInfo: x2p2x3aqwtiqqrwthudrp/xtbCvwzh2moiLsy6kwAA3L
 
-PiBTYXNoaWtvIHJlcG9ydHMgYSBudW1iZXIgb2YgaXNzdWVzIFdSVCB0aGUgYXRvbWljIHN0YXR1
-cyB1cGRhdGVzOgo+IAo+IGh0dHBzOi8vbmV0ZGV2LWFpLmJvdHMubGludXguZGV2L3Nhc2hpa28v
-Iy9wYXRjaHNldC8yMDI2MDYwMTA5MzE0OS4yNTkwNS0xLWlsbHVzaW9uLndhbmclNDBuZWJ1bGEt
-bWF0cml4LmNvbQoKPiBJdCdzIGluZGVlZCBxdWl0ZSBjb21wbGV4IHRvIGdldCB0aGluZ3Mgcmln
-aHQgdGhpcyB3YXkuIEknbSB3b25kZXJpbmcgaWYKPiB5b3Ugc2hvdWxkIHVzZSBhIHNwaW5fbG9j
-ayBpbnN0ZWFkIHRvIHByb3RlY3QgdGhlIHJlbGV2YW50IHN0YXRlPwoKPiBBbHNvIGEgZmV3IHBy
-b2Nlc3MgcmVsYXRlZCBub3RlczoKPiAtIHRvIG1ha2UgZWZmZWN0aXZlIHByb2dyZXNzZXMgeW91
-IHNob3VsZCBwcm9hY3RpdmVseSByZXBseSBvbiB0aGUgTUwgV1JUCj4gdGhlIHNhc2hpa28gY29t
-bWVudHMgZGlzY3Vzc2lvbiBpZiBhbmQgd2h5IHRoZXkgYXJlIChub3QpIHJlbGV2YW50Lgo+IC0g
-aXMgJ2lsbHVzaW9uIHdhbmcnIChhbGwgbG93ZXIgY2FzZSkgeW91ciByZWFsIG5hbWU/IHdlIGNh
-bid0IGFjY2VwdAo+IHBzZXVkb25pbXMgYXMgU29CIHRhZy4KClRoYW5rIHlvdSBmb3IgeW91ciBm
-ZWVkYmFjay4KWWVzLCBJJ3ZlIHJldmlld2VkIHRoZSBTYXNoaWtvIHJlcG9ydC4gVGhlIGF0b21p
-YyBzdGF0dXMgdXBkYXRlIHJhY2UgaXMgcmVhbDoKbmJsX2NoYW5fcmVjdl9hY2tfbXNnIHdyaXRl
-cyBzdGF0dXMgYW5kIG5lZWRfd2FrZWQgd2hpbGUgbmJsX2NoYW5fc2VuZF9tc2cKbWF5IHJlYWQv
-Y2xlYXIgdGhlbSwgd2l0aCBubyBvcmRlcmluZyBndWFyYW50ZWUgYmV0d2VlbiB0aGUgdHdvIGF0
-b21pY3MuClRoZSBzcGlubG9jayBmaXggYWRkcmVzc2VzIGV4YWN0bHkgd2hhdCBTYXNoaWtvIGZs
-YWdnZWQuCkknbGwgdXBkYXRlIHRoZSBwYXRjaHNldCBhY2NvcmRpbmdseS4KcHM6ICJpbGx1c2lv
-biB3YW5nIiBpcyBpbmRlZWQgbXkgcmVhbCBuYW1lLg==
+From: Ziming Zhu <ziming.zhu@silergycorp.com>
+
+Add support for the Silergy SQ24860 eFuse.
+
+SQ24860 is a PMBus device that reports input voltage, output voltage,
+auxiliary voltage, input current, input power, and temperature
+telemetry.
+It also supports average and peak history reporting.
+
+The series adds the devicetree binding, PMBus hwmon driver, and hwmon
+documentation.
+
+Tested on a board with SQ24860 at I2C address 0x40. Verified voltage,
+current, power, temperature, samples, and history reset hwmon
+attributes.
+
+Ziming Zhu (3):
+  dt-bindings: hwmon: pmbus: Add bindings for Silergy SQ24860
+  hwmon: pmbus: Add support for Silergy SQ24860
+  hwmon: Add documentation for SQ24860
+
+ .../bindings/hwmon/pmbus/silergy,sq24860.yaml |  74 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/sq24860.rst               |  96 ++++
+ drivers/hwmon/pmbus/Kconfig                   |  19 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/sq24860.c                 | 423 ++++++++++++++++++
+ 6 files changed, 614 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+ create mode 100644 Documentation/hwmon/sq24860.rst
+ create mode 100644 drivers/hwmon/pmbus/sq24860.c
+
+-- 
+2.25.1
+
