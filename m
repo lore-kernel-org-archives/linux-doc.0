@@ -1,132 +1,113 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013543A7828
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E237F399CF5
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 18:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780683925; cv=none; b=PrmfwFFMExij+drYv94WeQlSyxgt0efZfbroMD7/ht+I6bNIWhq+7y+cZoZFltNCNonA17A/eHdufaZwMiTeNWUP0zfjmNCDNBvk/fTcZdsSjmuodf453TgktuO83JU786G/CU6qAG4NUuWrAa5ukH4RsiQUyuBKkI5jZ+cHGRk=
+	t=1780684081; cv=none; b=lm85o3PpAhYdf/LfGgTG+WN/16+fl5umIdau8f7gEY7v7tDeDXJ9f8U1cBfolnYID/B7VS5YZZIoyBY5yC3tKhor+yzOAQR6pxGsRT9XaRZwf0uMY+w2s9v2z4c+EQ/RUBDXddQ9sWWqepPCdhDCzChJc+aTd3MRYHPnysthbI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780683925; c=relaxed/simple;
-	bh=ODQinMMdxsaY6RL0hYX0pZOFbL9zrSNm1pmSWChLaA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5JnIPNCu/pWpBUpNtn+JB3sH54Qe0lNYAfaDvAjv3u+x0cYkMbDBhjjx6pCJ7sBYLMm5FbNzn9c0apT/SZ1Z0n2uN6lBoyqX8ZyEN3ETQVzwXM8QVAlqp5Hps48+KaQQ9Xm+rRuKm2IRXvEMk8NR/NzHxFGg1Kbk7orkpqRKjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iiuICafn; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1780684081; c=relaxed/simple;
+	bh=5jiFPb4shRixueM3EXqj7rLUUpc6Mvk/umob9LPRscI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=EMZaDsFihAL9ZJiyPW8mIjxIk7vP0n9VN4eZYD3a9yqZFWwqV0hPfbOZfp3Iec8gBu4mtrnMzI2/COHkhCAqIXkzKvsBanflAyxptjQjTPkU6YAksAjNNAJjvsvbIwJrtLBjM9buRxwiX7vdkZvZZoPe3aXII2EruIWOdI66+OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e9yEA4mQ; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iiuICafn"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bf2911f93cso117275ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:25:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e9yEA4mQ"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-36d979441eeso2088168a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 11:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780683923; x=1781288723; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6t9Y3TUDX8gOECAz6pcChptmfsUqRuuX+pFwbulAEyA=;
-        b=iiuICafnvH8RuQx0+dpLIBD9tvUC6/HmIb6q3PxVV3k7YDOLj+eAWZ1mShsgSHs6gc
-         MLmStcZp6Z12piph3rME9XGOsVwTXUIVpgWMCcn0cJnFP4MDljuwT6XGfFnf6q0cihs+
-         oljC4fV43Sid9Fk+C16048vY/jeLcKKMylyKNBQLU8vCdOJVdPN5d5gGa/HyFlIJnaDb
-         +t0jMctZtQq+6FpG3vnM8nw5EQ5Ibd08kiVZWfFlozdfjsCskii1zHWArZjTADziJiWl
-         OyXE/w7tdV2JrybeYlU7AmzoTQP1woikGJZxGwnHeQR5n38StKIZAnsnyir/YROuAOBo
-         YVGw==
+        d=google.com; s=20251104; t=1780684079; x=1781288879; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Al0zDa4bN146O1R+FtGZtDttdy90kv7zGQH5evIcYPw=;
+        b=e9yEA4mQM2lut0pEuCRQy3Ps8v9Hyu0Fb1uWNJ62pgvmh5CYZnF9CaZYEwUMxEUlm/
+         8Azxab4UduI99UbxJyBd7805CWQsOCFsv4JaKlvMH59Y7Cs+QkZlEjZQII2EuW/mBvl+
+         E654i/X+2Q8W3amEZWXtyAubBNvVx1uFvWkQCXYiXnieAzgoTRL/MbVcCjEjU8sqx0P5
+         dvgaDa9D8TJAz2YY5WhxLFnWOBWMsxpQKRR5Mfaz95Yk+/6Nl9qtY4/rb4EjxDdkIe8X
+         OJUyzKpW/ERHauokVrwmOBbq1m25UU927PjuKGYU2fRqejCMwr3Y+8WzcAOOPP1bdT2x
+         5WqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780683923; x=1781288723;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6t9Y3TUDX8gOECAz6pcChptmfsUqRuuX+pFwbulAEyA=;
-        b=XfPhnMRFoVMXoxY4Z0QGh6Uta4+zHMXOZaxv8EKM20eqsTCfPgyHppXpab7z3mdP6w
-         ly9i7vyOvE9UTwHkxkeB9Viwvj26uwiaVSJXK99+9OCMjuSctGus3oB2vmQl+ntGoXHl
-         7LKxhB0tpyO5kX3H2TpzAgT9c26t+7mKrisrQMOcFewpKohCM10G6tsgK/K80J/ygGlg
-         tafm2C7mI7CF9f6TQCjp8MBmBV/lyfUgeuVKqKMpI6G1yHnMOlXXCDmqRJnjKCKd7DRm
-         9rs3EDOnd9q8qtSJPQNHuCfARycMtDhYZ8hXC3uY50Xu2o9vpjgEoXtB3CsGyxyXzjIC
-         rAdw==
-X-Forwarded-Encrypted: i=1; AFNElJ9qR8vmqWvTpusHY9WerV6leKgfzubIhv/P7VEBT6gR9fjbFkszH1ttE1UICGMjo+xYaoVeFDffj8Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgD9Mbk+gV3QQY6RqvK8+OYZe8iQD2Scizx7FgSgCOEpJls5Xz
-	1RDBcRTWxhWinlR3AFxPBGQ38L9XoTs1CIZ12EZvmDzBRN6XgVd8afAX7a6/Irk/ADn1ERXXl/+
-	2vzGSuv9U
-X-Gm-Gg: Acq92OERPp8p2cQGQtZmM0rLtS7gaCqh2mZN7KV3LmQiAV77nhD2Uff2vEg8t/DcXgj
-	hgvtTOjhEV0DTspgUZ8ccwgpqF5Lg5khD726JniFtotPcN+/M+i5Fb3n1YNCLq9ogRPn6CMweFa
-	sYs5XXFshWXCiNdaJPTMU4lcTAW51r+DC1PfUx4NSCXACDjDcfSYxdCO5Sr3jKjr8ej2LTmuIuC
-	jxExnCkUNkcmUZr/oM62RHc67ZzQB/ol9pe3PZtgQbjUuUKyX2cTx9Iygm4TnWa3qLM25+uv0Zu
-	uAmWCY7l26emKmEfmKo1ePoCsaxJmzveYXV+6w+3O8zko8cMwCabICvdFRzZ6FX6h85juvPDIwG
-	RycxlHnf/Jn6Tu5exXtUKKvZXLCgBz3f4OHnVAV4kGIynEuiGAvwe0HhCsSxaiRwgmkYNO+NR0M
-	SqT9U1F868c6PFKjngbpevgemMFLhmkjPtFPT0ZaaH+qsUHVrtVFMFO+knWB7RHhXVxl+EH23PU
-	Hr2tA==
-X-Received: by 2002:a17:902:e842:b0:2bd:6dad:3df9 with SMTP id d9443c01a7336-2c1eb744312mr2068635ad.23.1780683922744;
-        Fri, 05 Jun 2026 11:25:22 -0700 (PDT)
-Received: from google.com (171.46.125.34.bc.googleusercontent.com. [34.125.46.171])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6e86dsm100327885ad.8.2026.06.05.11.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 11:25:21 -0700 (PDT)
-Date: Fri, 5 Jun 2026 18:25:17 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Michal Gorlas <michal.gorlas@9elements.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH 1/2] module: add CONFIG_MODULE_RESTRICT_AUTOLOAD
-Message-ID: <20260605182517.GA2939956@google.com>
-References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
- <20260515-autoload_restrict-v1-1-40b7c03ddd04@9elements.com>
+        d=1e100.net; s=20251104; t=1780684079; x=1781288879;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Al0zDa4bN146O1R+FtGZtDttdy90kv7zGQH5evIcYPw=;
+        b=Y1+HeDW0TdPAy+SWrhMgaI5tUterlQhXB6OGA73r8jmFl2fhZabCOuC7YkdNw2pad9
+         wRKHMohPZqhk5QX0CGan/CC2VtsSsOmHf2t9Cx25KwMizc7YW25L8RsfqSWMTzZMQu0r
+         gfMuzLM9VZNqMJJYxuMkqHi99xMM3o6KLUdYARKv7OLZXoLlKeh6xYc0XETAn5Lhz253
+         5xpqdlq9gg7DP+/2MyMBWA0FJksjyyK60DNaMMVapdUPY+QpnZZSlR/DaRkDpeKqiCeq
+         h8iz/HtnBEoJbkFdJuEzqFMfJl/RIr8kcn/d60sTXZ9fPF1gEE/6jYhIwfMnLE7GISY/
+         69SQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9KJGdnPs4fwB73V4uIvoezQ+jbPd5p/vyDWC+dh15J81TQIabPF/VWo91Q6UHnpdRLPK+lt20p5Z4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlwnwkGc4Yrc52MZW0SseSZkDpCBzNWkvezmneeN/nz1L/Z6lF
+	WbiTXwfMigVvSolmtNlOD7ygTnbsGY9zafAYiWQHbxhcrXI4E55b0Q4FF/8FlKP3b8/qLZH0DKt
+	xa1PpVA==
+X-Received: from pfwp41.prod.google.com ([2002:a05:6a00:26e9:b0:842:5fa6:3103])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5210:b0:36a:1ed8:6fe6
+ with SMTP id 98e67ed59e1d1-370f0b58cefmr4684526a91.24.1780684078907; Fri, 05
+ Jun 2026 11:27:58 -0700 (PDT)
+Date: Fri, 5 Jun 2026 11:27:58 -0700
+In-Reply-To: <CAEvNRgHz5GDjq0GqRmpQdHc-X45gCNr39VYWZH-T7XhPEtN5CQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260515-autoload_restrict-v1-1-40b7c03ddd04@9elements.com>
+Mime-Version: 1.0
+References: <20260522-gmem-inplace-conversion-v7-0-2f0fae496530@google.com>
+ <CAEvNRgGpaggjd3=ooyzv7iEbmA-x1mWJHgjLSjPi8=5CPrk-yQ@mail.gmail.com>
+ <aiHeDZEPkAcWcSkn@google.com> <CAEvNRgHz5GDjq0GqRmpQdHc-X45gCNr39VYWZH-T7XhPEtN5CQ@mail.gmail.com>
+Message-ID: <aiMVLtblIKu1DQWJ@google.com>
+Subject: Re: [PATCH v7 00/42] guest_memfd: In-place conversion support
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, May 15, 2026 at 07:20:19PM +0200, Michal Gorlas wrote:
-> Add CONFIG_MODULE_RESTRICT_AUTOLOAD and modrestrict parameter
-> documentation.
+On Thu, Jun 04, 2026, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> >> + KVM: selftests: Test conversion with elevated page refcount
+> >>     + Askar pointed out that soon vmsplice may not pin pages. Should I
+> >>       pin pages through CONFIG_GUP_TEST like in [2]? I prefer not to
+> >>       take a dependency on CONFIG_GUP_TEST.
+> >
+> > I'm not exactly excited about taking a dependency on CONFIG_GUP_TEST either, but
+> > it probably is the least awful choice.  E.g. KVM also pins pages is certain flows,
+> > but we're _also_ actively working to remove the need to pin.
+> >
+> > Hmm, maybe IORING_REGISTER_PBUF_RING?  AFAICT, it's almost literally a "pin user
+> > memory" syscall.
+> >
 > 
-> Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  5 +++++
->  kernel/module/Kconfig                           | 15 +++++++++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 03a550630644..1013104f0943 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4185,6 +4185,11 @@ Kernel parameters
->  			For details see:
->  			Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
->  
-> +	modrestrict=<bool>
-> +			Control the restriction of module auto-loading to
-> +			CAP_SYS_ADMIN. If no <bool> value is specified, this
-> +			is set to the value of CONFIG_MODULE_RESTRICT_AUTOLOAD.
+> Hmm that takes a dependency on io_uring, which isn't always compiled
+> in. Between CONFIG_IO_URING and CONFIG_GUP_TEST, I'd rather
+> CONFIG_GUP_TEST.
 
-Doesn't this default to true if no bool value is specified? It only uses
-the config if modrestrict is not passed to the kernel at all.
-
->  	<module>.async_probe[=<bool>] [KNL]
->  			If no <bool> value is specified or if the value
->  			specified is not a valid <bool>, enable asynchronous
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index 43b1bb01fd27..c9e01bb848c0 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -337,6 +337,21 @@ config MODULE_SIG_HASH
->  
->  endif # MODULE_SIG || IMA_APPRAISE_MODSIG
->  
-> +config MODULE_RESTRICT_AUTOLOAD
-> +	bool "Restrict module auto-loading to privileged users"
-> +	default n
-
-You don't need to specify default n here.
-
-Also, I think you can just squash the two patches. There's no benefit
-in splitting the config/documentation into a separate patch.
-
-Sami
+Or try both?  If it's not a ridiculous amount of work.
