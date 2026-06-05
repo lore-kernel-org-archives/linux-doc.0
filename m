@@ -1,210 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A2440B39E;
-	Fri,  5 Jun 2026 09:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DE04192E0;
+	Fri,  5 Jun 2026 09:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780651335; cv=none; b=IAoP35mcAZ1cfoJTm+SCYgLZCxAbnXHweNIXDrX/FSAsyGU1t6s7wOjj/v4it1wwHo3Wtgd/9NmC1Ssh3sAqFt1GjmAkov4p8s8OZq2gvHiPDJ/pPou976QI95sSXtJIETrFRnPlqSGmEVvxuqcann75JjD7BXx48eHYhM/rIUw=
+	t=1780651593; cv=none; b=MVXB5vq0iWMIdehRm+ITOGbxkGuBBu+YS72pGjGwLCdh1erbJzZuwb5ro+YcbSmPBGjcZUmOMBu4pp5QCr791tzwxSYkLbpmpLyzKsbbvJLGboOoMWL697zne5RfFtSD9yuzq01LO9Z66G105bmALiJDDXz/wqwdu9/Vj1NpW1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780651335; c=relaxed/simple;
-	bh=ioj31fCYdywMjCoiLQi0yNH1ROl+h6WOhuCRsAzTMXA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NwD1QEMws25Gmel71ntXeIuCDCcU+X+If/+G4E6yt0qEgWv9yoaGJE6YnOqs1vRLeU7mqqtA6y8ka2Y4vmvFied7isttDxFMdOJgAwcAoLk2Ptig3ZIk0xseWsu9j/ycny7SETIbLJZKmOcaSl6n8xqNXoD4mJQmdOB7B/2k5lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ow6LmtHS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780651593; c=relaxed/simple;
+	bh=qLDVMzsp0gU9ZT+OeIVYdQXL4O9nCAvlhg1NGB8/Z/Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OgG9sLQBjSYZuCZeBkHBnZUjBr7ktxRQIQf14mKOtjEozuAtPa6/N4gKvDRWQwYDeWSmRdHSJOke+mJNA3E94jb3nqMdhsHnYZvEUbJMuaDRhYekAiOVl10mS1rTlNzDP4jOxLkNmDzNiDKu2e/WRArD53zE1zQi7HY9LN/xnoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pc5HFOIJ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ow6LmtHS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BE41F00899;
-	Fri,  5 Jun 2026 09:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780651333;
-	bh=Jn+jv4J+mnQe29rTKcMoZd4FHc4QkUXPXIUHfKBPrRY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Ow6LmtHShkBXW/wE6BvcYW+xmY2AVfjuRlaa5HwGNr1ZnWwtlO4fM4/MMnddOS4ma
-	 H3YnT8/LPFDWBh8sKAH9v/sFqryTwlHZztap+ThQ4ImI6qt9AJ6hNpLSLijgclJdSC
-	 7mQnlNf1DVyhTQjUtPvo6ahRzILjNo1bA2/vL7qpnZwzOXgXFSQOwz54doq3DWP2gl
-	 1Jbl/bhZ2C2fJ4NII8IISkHfcMoLEpy0rKclnLNL7zC23ADBRXA/a3KJ0/GmwNm1WT
-	 pbUh3sCmZ6G1ZzJAJT6SMYl3TbdCXFeugOYwEF0qVkoxtIF9POhS0HR8Vmivih9zJf
-	 JB6J3D+rBMu3Q==
-From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Date: Fri, 05 Jun 2026 19:21:48 +1000
-Subject: [PATCH net-next v2 04/15] mptcp: introduce
- add_addr_v6_port_drop_ts sysctl knob
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pc5HFOIJ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3294A4AB3;
+	Fri,  5 Jun 2026 02:26:26 -0700 (PDT)
+Received: from [10.1.34.147] (e121487-lin.cambridge.arm.com [10.1.34.147])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 633473F86F;
+	Fri,  5 Jun 2026 02:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780651591; bh=qLDVMzsp0gU9ZT+OeIVYdQXL4O9nCAvlhg1NGB8/Z/Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pc5HFOIJNGJddjic9h4Z3nHCCDTS1usEWCoRtTBJzuDeWeiskdxV6/pmk2pZ97P9B
+	 fAxd3MOD7j5ElA+q+JwOWz0ndXxVCL8Fd0aFrgvdNPDffVFIwnqbMXaUt4UQauq2zt
+	 LAz2BgrhZktIkxYJj2Xfg3flDBBRC3Sz2N5AAksQ=
+Message-ID: <fd729256-07e8-46eb-8473-74ae6ec3a07e@arm.com>
+Date: Fri, 5 Jun 2026 10:26:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Shanker Donthineni <sdonthineni@nvidia.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+ Jason Sequeira <jsequeira@nvidia.com>
+References: <20260604231254.1904988-1-sdonthineni@nvidia.com>
+Content-Language: en-GB
+From: Vladimir Murzin <vladimir.murzin@arm.com>
+In-Reply-To: <20260604231254.1904988-1-sdonthineni@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260605-net-next-mptcp-add-addr6-port-ts-v2-4-758e7ca73f4d@kernel.org>
-References: <20260605-net-next-mptcp-add-addr6-port-ts-v2-0-758e7ca73f4d@kernel.org>
-In-Reply-To: <20260605-net-next-mptcp-add-addr6-port-ts-v2-0-758e7ca73f4d@kernel.org>
-To: Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>
-Cc: netdev@vger.kernel.org, mptcp@lists.linux.dev, 
- linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5725; i=matttbe@kernel.org;
- h=from:subject:message-id; bh=ioj31fCYdywMjCoiLQi0yNH1ROl+h6WOhuCRsAzTMXA=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBqIpUxItj0KhvuVum64CQpbFZptgFIjDQm+KnOy
- 2Tle2qXLBKJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCaiKVMQAKCRD2t4JPQmmg
- c3CBD/wLdb9bzclZB0PJscIqjrloR3pCPIkpmXmgv1BxfaOUZkbNN35Og7KdI/VDXRow3MTNSnK
- zts1g/j0eh4408lpdYo8VAyQ4UOqjl6X989nUWd8+PbBFAhwANfFyIG+9Arc74h/EOznkIfZe9B
- /tIz1tv7Mcqz9oFXQzW9rKi1Ngrh4euesmkJHqTPqt8ov7RwJQRvKg7hhPpBQ3bRzjbHHyRJjTn
- xQMNBtZbL67UlhAiRSks9cKk/jmHtqyDvm6nvRVP0BbpR9PHXWFzWgYrMOLSe9Drq79IuuF/Gd1
- 9EHVFnWBgyxI0j0cJ4jHiMbD2BkfjLtbT0Z53MWUnJ62pznSNAIcxm7xLjzGdUDNdhw25G6d0uo
- B/0fUj2wCZPMs8VgSrbvBP+8BQK3VfDHMf5cKijLGm5dqrPvUwGghUfEqWo2r8fVScI7fsptOcZ
- 2bJIQJ6kz9wYZzR7JMt1XEvR+ijaxDgKPIqztZRgrm1F8UtDVDRLR8T6ex6y/yXdzqi007O23Z/
- /N3RG8budd+nO3s523Kb2yMkkE2i2U+GwOws1cJCfnSF/tVUDttUPi3paNq83X6FyK4J+xDKuZh
- Id9I6uJOgeCjKTz6ATI1KD6+I6phXLWOEn/s5A1kDDJkBd7Jc6I30/ouTCchaH/OLrJ8WDzO4eq
- OHDKa69Hhjgqs5w==
-X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-This sysctl is going to be used in the next commits to drop TCP
-timestamps option, to be able to send an ADD_ADDR with a v6 IP address
-and a port number. It is enabled by default.
+On 6/5/26 00:12, Shanker Donthineni wrote:
+> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+> observed by a peripheral before an older, non-overlapping Device-nGnR*
+> store to the same peripheral. This breaks the program-order guarantee
+> that software expects for Device-nGnR* accesses and can leave a
+> peripheral in an incorrect state, as a load is observed before an
+> earlier store takes effect.
+> 
+> The erratum can occur only when all of the following apply:
+> 
+>   - A PE executes a Device-nGnR* store followed by a younger
+>     Device-nGnR* load.
+>   - The store is not a store-release.
+>   - The accesses target the same peripheral and do not overlap in bytes.
+>   - There is at most one intervening Device-nGnR* store in program
+>     order, and there are no intervening Device-nGnR* loads.
+>   - There is no DSB, and no DMB that orders loads, between the store and
+>     the load.
+>   - Specific micro-architectural and timing conditions occur.
+> 
+> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
+> orders loads) between the store and the load, or make the store a
+> store-release. A load-acquire on the load side would not help, because
+> acquire semantics do not prevent a load from being observed ahead of an
+> older store; only the store side (release or a barrier) closes the
+> window.
+> 
+> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+> to stlr* (Store-Release), which removes the "store is not a
+> store-release" condition for every device write the kernel issues.
+> Because writel() and writel_relaxed() are both built on __raw_writel()
+> in asm-generic/io.h, patching the raw variants covers both the
+> non-relaxed and relaxed APIs without touching the higher layers. Note
+> that writel()'s own barrier sits before the store, so it does not order
+> the store against a subsequent readl(); the store-release promotion is
+> what provides that ordering.
+> 
+> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+> the plain str* sequence.
+> 
+> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                          | 23 ++++++++++++++++++++
+>  arch/arm64/include/asm/io.h                 | 24 ++++++++++++++-------
+>  arch/arm64/kernel/cpu_errata.c              |  8 +++++++
+>  arch/arm64/tools/cpucaps                    |  1 +
+>  5 files changed, 50 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index 211119ce7adc..899bed3908bb 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -256,6 +256,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/A                         |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index fe60738e5943..a6bac84b05a1 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>  
+>  	  If unsure, say Y.
+>  
+> +config NVIDIA_OLYMPUS_1027_ERRATUM
+> +	bool "NVIDIA Olympus: device store/load ordering erratum"
+> +	default y
+> +	help
+> +	  This option adds an alternative code sequence to work around an
+> +	  NVIDIA Olympus core erratum where a Device-nGnR* store can be
+> +	  observed by a peripheral after a younger Device-nGnR* load to the
+> +	  same peripheral. This breaks the program order that drivers rely
+> +	  on for MMIO and can leave a device in an incorrect state.
+> +
+> +	  The workaround promotes the raw MMIO store helpers
+> +	  (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+> +	  required ordering. Because writel() and writel_relaxed() are built
+> +	  on __raw_writel(), both are covered without changes to the higher
+> +	  layers.
+> +
+> +	  The fix is applied through the alternatives framework, so enabling
+> +	  this option does not by itself activate the workaround: it is
+> +	  patched in only when an affected CPU is detected, and is a no-op on
+> +	  unaffected CPUs.
+> +
+> +	  If unsure, say Y.
+> +
+>  config ARM64_ERRATUM_834220
+>  	bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>  	depends on KVM
+> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+> index 8cbd1e96fd50..b6d7966e9c19 100644
+> --- a/arch/arm64/include/asm/io.h
+> +++ b/arch/arm64/include/asm/io.h
+> @@ -25,29 +25,37 @@
+>  #define __raw_writeb __raw_writeb
+>  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>  {
+> -	volatile u8 __iomem *ptr = addr;
+> -	asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+> +	asm volatile(ALTERNATIVE("strb %w0, [%1]",
+> +				 "stlrb %w0, [%1]",
+> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+> +		     : : "rZ" (val), "r" (addr));
+>  }
+>  
 
-This knob is explicitly disabled in the MPTCP Join selftest, with the
-"signal addr list progresses after tx drop" subtest, to continue
-verifying the previous behaviour where the ADD_ADDR is not sent due to a
-lack of space.
+Nitpick:
 
-While at it, move syn_retrans_before_tcp_fallback down from struct
-mptcp_pernet, to avoid creating another 3 bytes hole.
+The change has the side effect of undoing d044d6ba6f02 ("arm64:
+io: permit offset addressing"), since stlr* do not support
+offset addressing. Unaffected CPUs would continue to use str*,
+but would lose the benefit of offset addressing :(
 
-Reviewed-by: Mat Martineau <martineau@kernel.org>
-Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
----
-- v2: Use READ_ONCE() to read sysctl data. (Eric Dumazet)
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
----
- Documentation/networking/mptcp-sysctl.rst       | 13 +++++++++++++
- net/mptcp/ctrl.c                                | 18 +++++++++++++++++-
- net/mptcp/protocol.h                            |  1 +
- tools/testing/selftests/net/mptcp/mptcp_join.sh |  1 +
- 4 files changed, 32 insertions(+), 1 deletion(-)
+Not sure if this needs to be mentioned in the commit message...
 
-diff --git a/Documentation/networking/mptcp-sysctl.rst b/Documentation/networking/mptcp-sysctl.rst
-index 1eb6af26b4a7..b9b5f58e0625 100644
---- a/Documentation/networking/mptcp-sysctl.rst
-+++ b/Documentation/networking/mptcp-sysctl.rst
-@@ -21,6 +21,19 @@ add_addr_timeout - INTEGER (seconds)
- 
- 	Default: 120
- 
-+add_addr_v6_port_drop_ts - BOOLEAN
-+	Control whether preparing an ADD_ADDR with an IPv6 address and a port
-+	should drop the TCP timestamps option to have enough option space to
-+	send the signal.
-+
-+	If there is not enough option space, and the TCP timestamps option
-+	cannot be dropped, the signal cannot be sent. Note that dropping the TCP
-+	timestamps option for one packet of the connection could disrupt some
-+	middleboxes: even if it should be unlikely, they could drop the packet
-+	or block the connection. This is a per-namespace sysctl.
-+
-+	Default: 1 (enabled)
-+
- allow_join_initial_addr_port - BOOLEAN
- 	Allow peers to send join requests to the IP address and port number used
- 	by the initial subflow if the value is 1. This controls a flag that is
-diff --git a/net/mptcp/ctrl.c b/net/mptcp/ctrl.c
-index d96130e49942..63c5747f0f63 100644
---- a/net/mptcp/ctrl.c
-+++ b/net/mptcp/ctrl.c
-@@ -32,12 +32,13 @@ struct mptcp_pernet {
- 	unsigned int close_timeout;
- 	unsigned int stale_loss_cnt;
- 	atomic_t active_disable_times;
--	u8 syn_retrans_before_tcp_fallback;
- 	unsigned long active_disable_stamp;
-+	u8 syn_retrans_before_tcp_fallback;
- 	u8 mptcp_enabled;
- 	u8 checksum_enabled;
- 	u8 allow_join_initial_addr_port;
- 	u8 pm_type;
-+	u8 add_addr_v6_port_drop_ts;
- 	char scheduler[MPTCP_SCHED_NAME_MAX];
- 	char path_manager[MPTCP_PM_NAME_MAX];
- };
-@@ -94,6 +95,11 @@ const char *mptcp_get_scheduler(const struct net *net)
- 	return mptcp_get_pernet(net)->scheduler;
- }
- 
-+unsigned int mptcp_add_addr_v6_port_drop_ts(const struct net *net)
-+{
-+	return READ_ONCE(mptcp_get_pernet(net)->add_addr_v6_port_drop_ts);
-+}
-+
- static void mptcp_pernet_set_defaults(struct mptcp_pernet *pernet)
- {
- 	pernet->mptcp_enabled = 1;
-@@ -108,6 +114,7 @@ static void mptcp_pernet_set_defaults(struct mptcp_pernet *pernet)
- 	pernet->pm_type = MPTCP_PM_TYPE_KERNEL;
- 	strscpy(pernet->scheduler, "default", sizeof(pernet->scheduler));
- 	strscpy(pernet->path_manager, "kernel", sizeof(pernet->path_manager));
-+	pernet->add_addr_v6_port_drop_ts = 1;
- }
- 
- #ifdef CONFIG_SYSCTL
-@@ -362,6 +369,14 @@ static struct ctl_table mptcp_sysctl_table[] = {
- 		.mode = 0444,
- 		.proc_handler = proc_available_path_managers,
- 	},
-+	{
-+		.procname = "add_addr_v6_port_drop_ts",
-+		.maxlen = sizeof(u8),
-+		.mode = 0644,
-+		.proc_handler = proc_dou8vec_minmax,
-+		.extra1       = SYSCTL_ZERO,
-+		.extra2       = SYSCTL_ONE
-+	},
- };
- 
- static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
-@@ -389,6 +404,7 @@ static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
- 	table[10].data = &pernet->syn_retrans_before_tcp_fallback;
- 	table[11].data = &pernet->path_manager;
- 	/* table[12] is for available_path_managers which is read-only info */
-+	table[13].data = &pernet->add_addr_v6_port_drop_ts;
- 
- 	hdr = register_net_sysctl_sz(net, MPTCP_SYSCTL_PATH, table,
- 				     ARRAY_SIZE(mptcp_sysctl_table));
-diff --git a/net/mptcp/protocol.h b/net/mptcp/protocol.h
-index 4dfea209ac16..b43dae72e7de 100644
---- a/net/mptcp/protocol.h
-+++ b/net/mptcp/protocol.h
-@@ -798,6 +798,7 @@ unsigned int mptcp_close_timeout(const struct sock *sk);
- int mptcp_get_pm_type(const struct net *net);
- const char *mptcp_get_path_manager(const struct net *net);
- const char *mptcp_get_scheduler(const struct net *net);
-+unsigned int mptcp_add_addr_v6_port_drop_ts(const struct net *net);
- 
- void mptcp_active_disable(struct sock *sk);
- bool mptcp_active_should_disable(struct sock *ssk);
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_join.sh b/tools/testing/selftests/net/mptcp/mptcp_join.sh
-index ac8dc7051aae..70d5b26be4e0 100755
---- a/tools/testing/selftests/net/mptcp/mptcp_join.sh
-+++ b/tools/testing/selftests/net/mptcp/mptcp_join.sh
-@@ -3313,6 +3313,7 @@ add_addr_ports_tests()
- 	if reset "signal addr list progresses after tx drop"; then
- 		pm_nl_set_limits $ns1 0 2
- 		pm_nl_set_limits $ns2 1 0
-+		ip netns exec $ns1 sysctl -q net.mptcp.add_addr_v6_port_drop_ts=0 2>/dev/null || true
- 		ip netns exec $ns1 sysctl -q net.ipv4.tcp_timestamps=1
- 		ip netns exec $ns2 sysctl -q net.ipv4.tcp_timestamps=1
- 
+Cheers
+Vladimir
 
--- 
-2.53.0
+>  #define __raw_writew __raw_writew
+>  static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+>  {
+> -	volatile u16 __iomem *ptr = addr;
+> -	asm volatile("strh %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+> +	asm volatile(ALTERNATIVE("strh %w0, [%1]",
+> +				 "stlrh %w0, [%1]",
+> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+> +		     : : "rZ" (val), "r" (addr));
+>  }
+>  
+>  #define __raw_writel __raw_writel
+>  static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+>  {
+> -	volatile u32 __iomem *ptr = addr;
+> -	asm volatile("str %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+> +	asm volatile(ALTERNATIVE("str %w0, [%1]",
+> +				 "stlr %w0, [%1]",
+> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+> +		     : : "rZ" (val), "r" (addr));
+>  }
+>  
+>  #define __raw_writeq __raw_writeq
+>  static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
+>  {
+> -	volatile u64 __iomem *ptr = addr;
+> -	asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
+> +	asm volatile(ALTERNATIVE("str %x0, [%1]",
+> +				 "stlr %x0, [%1]",
+> +				 ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
+> +		     : : "rZ" (val), "r" (addr));
+>  }
+>  
+>  #define __raw_readb __raw_readb
+> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> index 5377e4c2eba2..958d7f16bfeb 100644
+> --- a/arch/arm64/kernel/cpu_errata.c
+> +++ b/arch/arm64/kernel/cpu_errata.c
+> @@ -809,6 +809,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+>  		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
+>  	},
+>  #endif
+> +#ifdef CONFIG_NVIDIA_OLYMPUS_1027_ERRATUM
+> +	{
+> +		/* NVIDIA Olympus core */
+> +		.desc = "NVIDIA Olympus device load/store ordering erratum",
+> +		.capability = ARM64_WORKAROUND_DEVICE_STORE_RELEASE,
+> +		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_OLYMPUS),
+> +	},
+> +#endif
+>  #ifdef CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+>  	{
+>  		/*
+> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> index 811c2479e82d..d367257bf770 100644
+> --- a/arch/arm64/tools/cpucaps
+> +++ b/arch/arm64/tools/cpucaps
+> @@ -120,6 +120,7 @@ WORKAROUND_CAVIUM_TX2_219_PRFM
+>  WORKAROUND_CAVIUM_TX2_219_TVM
+>  WORKAROUND_CLEAN_CACHE
+>  WORKAROUND_DEVICE_LOAD_ACQUIRE
+> +WORKAROUND_DEVICE_STORE_RELEASE
+>  WORKAROUND_NVIDIA_CARMEL_CNP
+>  WORKAROUND_PMUV3_IMPDEF_TRAPS
+>  WORKAROUND_QCOM_FALKOR_E1003
+> -- 2.43.0
+> 
 
