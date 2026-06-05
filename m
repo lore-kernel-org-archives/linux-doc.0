@@ -1,232 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629F5404BF4
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 16:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780676297; cv=none; b=qt01ZfrlwJpkbGuTT2n6pAcghjH16/pJZ2/+0Vui4Xi/KgkekfeS734/VLRerCO8QME2t/UnegUR/Qsg6re/uKH+4TORzwWJnoL/J+To8uMZApKkOKIbhr0QjEVva35Z8mVo38fr5LfAq4c0DgdrMbricJr+e2YIONSjrCYR8vc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780676297; c=relaxed/simple;
-	bh=tR1fDlAzMJvhK4HCy+DckQWp+RczZqh4BBMTVFhKyEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QXGEKj0nO5tphKXuNUdxG6XP3KG+575SbwpB6WdHJ72cSldrYIjUQGRmji2l++dCvfLHXgkzfvqCw/ED5BEpT76hXxkF3ss3eVgPbgmH2j1N39dhuYL9wtn4LRq434I2OivK+wlEIhvOz6lt42u+WG2jNpPZFQuLwfrn7bVopQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PzCWHnMy; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AE63C3428
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 16:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780676488; cv=pass; b=lMUtNRswncmPIswuoP/UxKwUA+mXYbYkIq/ZKf7eICOcjjsrhEDBKA2LFYYAh22q6gkesTTKuWlKJfY1DH+pKjoy96Hvtx4A44uPhdtxXj6SH1ZU6lCwHmbSt/3ihTAmzMwW2nkWVOn4SjSoBVxHptBiJZkgc3dYo9JuL4argEA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780676488; c=relaxed/simple;
+	bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XgTr9Ht8oJOraASsWeAXeaqWoeQbUGB1xqq8eRc7JRxxPNCmT8TTBSQGcK2h5A6+wTF11j/EWWungcfy+NA44ZPL2MCzjdOTRkphrnqjoTFgpno4WIQ5HeS3P7jt+CrBgzPxBGnQ7k3VV6xCa8+OndBvLmMBJb4AVprRciAjbVc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ui8wUur8; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PzCWHnMy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780676295;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bBQWaXR8oRLz4Hk62HvwsKqlzdG1BUydAb8xounnNo=;
-	b=PzCWHnMyjXAIU9ZrDxOIBm4AmtOn8VlvxsNRZrgvlOkLW/M/qlWkPhTxAMnko8RnkMyyS0
-	d+43wKCU5VBvME4qxB+Un3qm9/3ON1Yu+dbmlCQvCrhkO9gpFNf1rCr9DK3Mkx+MKgDY5R
-	38x7YHsKEQsNc0PvXGXanceqMLKjR2o=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-446-w7H7jxseNwuNJCLxnjVZpg-1; Fri,
- 05 Jun 2026 12:18:11 -0400
-X-MC-Unique: w7H7jxseNwuNJCLxnjVZpg-1
-X-Mimecast-MFC-AGG-ID: w7H7jxseNwuNJCLxnjVZpg_1780676290
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 97BED18003FC;
-	Fri,  5 Jun 2026 16:18:10 +0000 (UTC)
-Received: from p1.redhat.com (unknown [10.44.22.9])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B35A918005AE;
-	Fri,  5 Jun 2026 16:17:50 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	npache@redhat.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH mm-unstable v19 14/14] Documentation: mm: update the admin guide for mTHP collapse
-Date: Fri,  5 Jun 2026 10:14:21 -0600
-Message-ID: <20260605161422.213817-15-npache@redhat.com>
-In-Reply-To: <20260605161422.213817-1-npache@redhat.com>
-References: <20260605161422.213817-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ui8wUur8"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-660456349d9so2588669d50.3
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 09:21:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780676486; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FoxKToCyiL1oSNjuknm4Queke7jgiy4gWPCB4ojq175fx/2+mYQi4F9OYxNea82+VH
+         PO+e7luvh+n4OLK9SzGapVBwaecFCDZvKUhOzyy3JdNvw3ZfH7PUFN60zH5HmOBL0j5q
+         JfvloC1s/jidV1MhKAPFQzclYk8FgCMJnPRCSB+5pY512+2yKC4PQdBrzeD2iJk32nGi
+         WHMGfIhmMFyUZblMNnaMUOF9EnogY235R+9l/xW6bFPV2GEAHiDbgtmhpZkmk66qnWH7
+         dg7xJfapHyEMTsvMRrobQX2Q9BFpjqVg4dSJvd7QfQmaz2ogfr701FQ7Fcs5w7A/jzRy
+         ytag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
+        fh=s8r3W17UwClzkLK/ML+hmB9/QUX9lIn40zxiNdPGJQU=;
+        b=R3kyyNJ+Bozqk17YbLrxkWldVATT/dTZ/XsPLP4lBAvV9/Lv+sq0+yI9dHCJKQtzCI
+         30JLg7cSfoi4c9BpaIO1+FPBLlTXOu2Rrq+0DXB5Hedk3LbQ5QIRdeMGaaVewl7ocV+D
+         ywUIyotUZUDoJ/EgXxooJWAktTgry/BR0iTXApfKhj/metVUDCJ+5OCi6ofMwep3DetU
+         7JLVGofiY3bH0KPHKD4J2omr6fXR2OB4asJcENmRUDEtpwXRDLVryuJ8l8Hp1kbR8Lc5
+         KRI5lSpZbleUsqEOSTPEbvRbH1noOOhz2Pdm0l9EmXgXKJ0J7eHXPyjUbvtoc9wP6YGl
+         JyGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780676486; x=1781281286; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
+        b=Ui8wUur8KSyN0pvynRn3skezHBd3sfh1W5TIjT4eVt8Ktiz8vrwisyKkScL5uRWs83
+         GBDkw6QrKOQy7eVUQZoCJWF5kgJ9MUu2mbMLhq6GgQOCJWyTwgqUwp3kwBc1JF6hg0cY
+         AVaO6PI9zVJGkoVY23ra2X+Pshx9zPmheAZP3Vgy5eNnT59Is8pWFvrufHHr7ADCbIan
+         N1LnZ2808X83NOKNBnd2eL5qBX97ba92cAY2Qh3rEEM5SzBPlKMWOzrojBQau6ULIAiL
+         fq+cXcJbuJiw+OekQSmQwaeYvzjLb5tD7/ywY9GJ8ni0M44MdhHBiNzPnzL2umckP+rC
+         RWig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780676486; x=1781281286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mWB1QjoCqaUp7xOYtL0VXwUOlRHPZS3Zm5pVWOTzZow=;
+        b=cC3lbdcfvElEHJcHpgii28pGkWxayW8xoDqR3FxwRTq1/MsxYnfbC/Xnp1+6yDbGBz
+         sjSXweWD1+IqhW3R4tt0JmV94pI1oZXNmvthUSyPCiekp8XKb/Gqj8TIiosGfGsS9pbR
+         swHOdQhxUVirc75laaC8HgfrwWMu+7wBUwn0AAtkeVsCq4nT4iopHTRPl49mDrnMQwVs
+         pHatKo1gMF+hRka9LTU60zKmRJoducCYKHhoEr6ZMATkJT7uFC34jDjdpAjwoni8l2RI
+         IELTJ4W3nVZc3RWaw2OvlIWfpnLUTlR/ksv9sTWCoNVXhcC1ic9KBEDg69hSM+A2ouex
+         GF2w==
+X-Forwarded-Encrypted: i=1; AFNElJ85ZsFj4vIb1L+O8hGHDtfTmVtQ2t14Q7nnv+iLSIPtJNXvj2g+deXI1/lbcjypgAwSYnLfOsE2ZZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqU4C3CPDuorMxo7fPVVHWWe8WrhajO0brceeL+kLgK6tbqjyG
+	1g2LWrOiRRPuLgRKCbtxtb790wsryOv0XQ0oiFs+ykyPDWCEV9X1+e/1Xi9fwKkNdp0zGGR+Mkv
+	Y6Y90POPxAZZhm7CyoIN/rgl5DwdzJgb6bDSemz4X
+X-Gm-Gg: Acq92OFmpzkh31+4JEXrR7AZsDeI5SObVmhVBJg81z7m4xNlUtHnNF0t3MhXRJ/wlnF
+	V4ZxknTGc1UduFKwoEBgRsj7PZFjG5oJL9pSxhjFnOzjG5ExZcZDxF9pwOUixMKN6MaXoUVudz2
+	Dq2kDz7hRGiIGXTQiG28/EcEINyn2adqD2QJ/RSM8yA99ztbgc4LNts3uJSvoR8GqAGBwpvusRF
+	DSqB10xmjH5FCnZS/HPFpfyhFqycnc1dAmUa/db4XgIIfOIrK/yMW1abVep1nBsS0CkFPWS/Hym
+	TtIHXmZu6TL9QwVXjKmCq/A1ZEhwSYxUI2G+XXLpNXMeTUkFYHw=
+X-Received: by 2002:a05:690e:1388:b0:660:877f:a5f5 with SMTP id
+ 956f58d0204a3-6610704f8f0mr3897550d50.43.1780676485426; Fri, 05 Jun 2026
+ 09:21:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 5 Jun 2026 18:20:43 +0200
+X-Gm-Features: AVVi8Cev4P7AiBmPodWfwaPtX8_k3m47tFa_rHl6t21z7L5L4Qmm-6Ly0xXbR54
+Message-ID: <CAG_fn=W1++qPJWQk1+4MtRfe6n1iUKF2O5pddnqKGwSq85CuqA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
+ function boundaries
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidance on how to utilize it.
+On Wed, Jun 3, 2026 at 7:43=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech>=
+ wrote:
+>
+> Introduces a new KCOV exetened feature that captures function arguments a=
+nd
+> return values at kernel function boundaries, enabling per-process visibil=
+ity
+> into runtime dataflow.
 
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 49 ++++++++++++++--------
- 1 file changed, 32 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index b98e18c80185..23f8d13c2629 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,8 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages of either PMD size
-+or mTHP sizes, if the system is configured to do so.
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
- 	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 
--khugepaged will be automatically started when PMD-sized THP is enabled
-+khugepaged will be automatically started when any THP size is enabled
- (either of the per-size anon control or the top-level control are set
- to "always" or "madvise"), and it'll be automatically shutdown when
--PMD-sized THP is disabled (when both the per-size anon control and the
-+all THP sizes are disabled (when both the per-size anon control and the
- top-level control are "never")
- 
- process THP controls
-@@ -265,8 +266,8 @@ Khugepaged controls
- -------------------
- 
- .. note::
--   khugepaged currently only searches for opportunities to collapse to
--   PMD-sized THP and no attempt is made to collapse to other THP
-+   khugepaged currently only searches for opportunities to collapse file/shmem
-+   to PMD-sized THP. Only anonymous memory will attempt to collapse to other THP
-    sizes.
- 
- khugepaged runs usually at low frequency so while one may not want to
-@@ -296,11 +297,11 @@ allocation failure to throttle the next allocation attempt::
- The khugepaged progress can be seen in the number of pages collapsed (note
- that this counter may not be an exact count of the number of pages
- collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
--being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
--one 2M hugepage. Each may happen independently, or together, depending on
--the type of memory and the failures that occur. As such, this value should
--be interpreted roughly as a sign of progress, and counters in /proc/vmstat
--consulted for more accurate accounting)::
-+being replaced by a PMD mapping, or (2) physical pages replaced by one
-+hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
-+or together, depending on the type of memory and the failures that occur.
-+As such, this value should be interpreted roughly as a sign of progress,
-+and counters in /proc/vmstat consulted for more accurate accounting)::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
- 
-@@ -308,16 +309,21 @@ for each pass::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
- 
--``max_ptes_none`` specifies how many extra small pages (that are
--not already mapped) can be allocated when collapsing a group
--of small pages into one large page::
-+``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
-+when collapsing a group of small pages into one large page::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
- 
--A higher value leads to use additional memory for programs.
--A lower value leads to gain less thp performance. Value of
--max_ptes_none can waste cpu time very little, you can
--ignore it.
-+For PMD-sized THP collapse, this directly limits the number of empty pages
-+allowed in the 2MB region.
-+
-+For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1) are supported. At
-+HPAGE_PMD_NR - 1, we collapse to the highest possible order. Any intermediate
-+value will emit a warning and mTHP collapse will default to max_ptes_none=0.
-+
-+A higher value allows more empty pages, potentially leading to more memory
-+usage but better THP performance. A lower value is more conservative and
-+may result in fewer THP collapses.
- 
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
-@@ -337,6 +343,15 @@ that THP is shared. Exceeding the number would block the collapse::
- 
- A higher value may increase memory footprint for some workloads.
- 
-+.. note::
-+   For mTHP collapse, khugepaged does not support collapsing regions that
-+   contain shared or swapped out pages, as this could lead to continuous
-+   promotion to higher orders. The collapse will fail if any shared or
-+   swapped PTEs are encountered during the scan.
-+
-+   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
-+   and does not attempt mTHP collapses.
-+
- Boot parameters
- ===============
- 
--- 
-2.54.0
-
+Some high-level comments:
+- Make sure your code can run on every platform supported by kcov (namely A=
+RM64)
+- Check out Sashiko findings:
+https://sashiko.dev/#/patchset/20260603-kcov-dataflow-next-20260603-v2-0-fe=
+e0939de2c4%40est.tech,
+at least some of them seem to make sense
+- Please consolidate changes to the same file into a single patch
+- There seem to be two tools (one in C and one in Python) with
+overlapping functionality, can you keep only one?
+- The test modules seem to be used only in manual testing. Can you
+convert them to kselftests or remove them?
+- At this point, long dashes in the kernel codebase are quite rare,
+and I don't see a reason to add more.
