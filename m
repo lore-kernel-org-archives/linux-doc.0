@@ -1,179 +1,158 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561E118C332;
-	Fri,  5 Jun 2026 15:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780673318; cv=none; b=AjWZHHxk+yI90TGOKp2qmviRlOSQL/McGN6ykCpeBbQnd98/qi5mBUqi7GjA+vQ9iJfZR7Jhp+i9cADXeexxuK57nim22DgeO3TOPhBFR3BkiRHRB1zwXYsCdf0IoMZDWuX4Q5iRO66TbO60SaqvAm5hFmjgimwvvZJQgjDsVKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780673318; c=relaxed/simple;
-	bh=eO5deUNjUsSs5uHgXTzBnq8zxoJQfniS/ft3jMquW7w=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Gi+cDud2dzWLZm2RMAW8FPTqWoyZX137Q95wNn9u0zVjdq2MzkZMkfu82bIAWnex8LE50EjRJYOwDJPCPKIfrdQJp9yiSYPhPFn3VFG1V/pHuFm2YPeUiV1FFanj/YIOKGhJUoR5cEno0I1H68a610bdKFDiqvemnMFuSGXgpPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Ko279fa7; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1A93B895D
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 15:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780673396; cv=pass; b=Mg+f7XUaR+8uhuQpDwXZf2WP+IU44TT0NtQqxwYU23IFecuctfHI3+Vqd/PZfRJmCmAklPlihFCReKKG+sAVlk6bMNCubI5oRIZRkRWJSxJFa+TPSc6BsSeFNLAtd96NulXjfWP1NR0xCzXbaY8RmQFWww3qrbdVRhOydpQmZjc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780673396; c=relaxed/simple;
+	bh=HON0Vmc+Uv2m+9L/ARZIecJdRDIMB40cGZIqinKUDVg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pBPqJ/jtGUElz/u2mhd0CyViFRtjAp4JmZB2OOcQfxe5xc8YoknSCO8UdmmdxbiAlm3r1kaEbcTEuYON6gLWIshtvDzhtkTFq6t6TQcuHSbPiXusuor3swaT/06aoie0XztH5n7ch3PryExqtDtu8cn77i6c8onnea6b4wyg0uI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vfjKaH31; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Ko279fa7"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6554Uu0G1954705;
-	Fri, 5 Jun 2026 15:28:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=J5rAMw
-	xoTisKP4BMXx13HaD/fZQ0TGgiSbOKO18Eqv0=; b=Ko279fa7fWCjJhcCbX7M1W
-	68vOnMb5fdqnN7cnL32+vmjbQsFV7lhsCwoZZbl99wy7NB+e5QylvF55vxoB47EX
-	wV3wD1aFQfkMdQQLA6Ywnh3I7/arCDR7ravQdRXzc0Nv5bgUUYTK6avkua9IubZo
-	KT4mWCZD7D8v2AWop30dMQGX9TGvnJeh2ebif5KrudqWSFTwVjCkIxviETdOvUgv
-	V3eRbYi/q2qGiLyJRQrX2G0IR8mxQ6cSQx9pqmkZ1YMSgPxMZygy2siGCgdGnb0P
-	XSBsE1ctw48J5+ThW1pamuIVa3drX1Wby12OxK62j/9BXa+BQ6ZkcrScgyfPpQBQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqd4n5x0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 15:28:10 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 655FO70r026361;
-	Fri, 5 Jun 2026 15:28:09 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egbqht6d5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 15:28:09 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 655FS8x932899826
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Jun 2026 15:28:08 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7046058052;
-	Fri,  5 Jun 2026 15:28:08 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3A4CB5805D;
-	Fri,  5 Jun 2026 15:28:07 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.67.126])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  5 Jun 2026 15:28:07 +0000 (GMT)
-Message-ID: <e71b3b9f040683aee106ad87ebba81fe09ac7d15.camel@linux.ibm.com>
-Subject: Re: [PATCH v6 10/12] ima: Add support for flushing the hash table
- when staging measurements
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
-        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-In-Reply-To: <20260602111401.1706052-11-roberto.sassu@huaweicloud.com>
-References: <20260602111401.1706052-1-roberto.sassu@huaweicloud.com>
-	 <20260602111401.1706052-11-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 11:28:06 -0400
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vfjKaH31"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7dd7818ac2aso26391917b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 08:29:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780673393; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gthjkqpSAYV0MXFnGF6TgJpU0nSLAp4T1lwZ0n/CQWqJu553mzwliRzP+kob49xdv/
+         Ia4nNxVsAWeqLM1Yx4kvNy0cx2w4wyi8PDUzdeTEAVwZARUNUV1XtcWv65/GcZ9gJRxd
+         gDHW+VBlInZH5faeeFvdYsXrJVpraZ2J5zb4gmnQHh+TahGFQ2yWm6BYgrTR/THC6nP/
+         KEOwZIYIL5iManT6vkSmmzfPbbIghqKIOhLHu5pOPDX+9IH8UsykvB2x/OYS1HFQgEXa
+         epVQTqNcFbQ9MagOxnhRa4f+p5rhgipkXGO6uCX0/wRQes23gYL/48nIiEVdW9GNKNO+
+         EUdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
+        fh=3UlvCbEDAOsa4TUxO/EilvbBilpMkKw9OzkToAFNGKQ=;
+        b=c7ENaoGezd0iePbl7df5tc5dO/AKSKibbSzROB7VKdKQUqOEqNp5YcG1bt3NE4n+Fe
+         lyYJTRzD2CtFB3RDxmiTYhfZjFuZ5JTLjn4ARi9syAO1SrLLmCQFv1j/yNo/wqAE+Z92
+         +mdvDpsEEL4kilIEA4nmqI1sjpZ+tp7p6xYVZnsv/3NGTUs8MhVRd8fFUzKU8JqEAtyO
+         RN/EQWHM3Ph9MEODTFbwCG/u34VaeHZZaoGa3eBXf6pvXXxqz/ybcve7zjxqD0yOFZDK
+         EJq3DokvXBItLIMppkGHvCDaOdD1K9Qd+5Szogfjqt4okPSX/kuFoWN740++PtkCq2Qf
+         cHkg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780673393; x=1781278193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
+        b=vfjKaH31f+6lQ3upr3PyLRn7MmHU83cfe6ChRbWCt6goUMmPn2jl0rIxPRuESMehyx
+         JlwTecA2zsdBdZC4wNajqJ5tDdRhJQGdek1KUAkuSSHnGu5wWNW2zv1FfOB0xlenlvV/
+         VHn7ZyBcjHa6J95xUq4/ZAtc8sWgBoZ77jSXpA7Pz0m0mi/AmFceYT5SX8KeR4OKbF8i
+         ca4ZQHinJp2Df2RyuEkyXaob7WN7ZZYduCGItkdoLSb9PG3FCvNHZhWe0xqF+DjyL434
+         KWUAuftviQm5BlqZ+VUauwjVyT3tZBBP5xYBIFkV3yzuE+6AZODAPGchOCzvtd8BH/4r
+         jiiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780673393; x=1781278193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
+        b=o3H5vd1QOqKvXNDR+J9dgNGB4VaHwSaCeZDMslijLfF43gwqsUz3OqROm7Ywpgsz0p
+         twSxci0/GRAXBm+CSnASlOXFsio92fcuCXGc0bxiy3bqWAsnkA/sus4cFcHiqtzOFKGe
+         oBDqbILzdM5sNlEG/10qdvwroz5qLTwjkzJtCxIGJTfKLIjjrci9GGvvzMVkqgLQNKTb
+         nLI9/Y5kCEbmp72gR+5lEvQgqkflg/vv16zphp6LazSNFHydncjvKEASLMbdG3/9PXh2
+         GQX5tR30SU8Vzb/4s91sn0BM8Lvhwyq965FigxuE8WnjsNlSFXuEvn8WHH4n4oYyanQH
+         Kyiw==
+X-Forwarded-Encrypted: i=1; AFNElJ+TvTyCmOcJvTEovpCzcNhdwdwaIWS/lzlzhYjzxyJhGxwrRJT3tujuq8IZmlMH/FiTmrq3qrThXPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaDZNkdrgYodw1WNzvbR+b7rfEitk3QcVrsxehTyKTQZe5IOGb
+	j2+IOcQiJUyAaVzFsBg2Xbj5u1v2SfRoTCuE6ldfHWK/axTtoPxlN0AIxVm7quZfCcCxrBDf2Xj
+	IIhbgDlABv/ScQzf9xsG4A+CCIFZB8Gztu9pZM+xD
+X-Gm-Gg: Acq92OGZDaOWMsd+JWXuXtl4YYrPtXZNNciGIKDC3Me4KV8yJL0XHH1v2NglT6VOpSq
+	a/JaFkODMIqSzobj/fAh9JAGGSIpGbXJwfpIYxbZIq4TA6fvf8sPUg7sI8roRgZbgpxq0hqH+wR
+	0uEiHdHYzI0A2zfzNnnmv5I0oWKi68Rg0x+nPkyTc2mBIFi7SfmsaDX82Fog8A3IP6WynIzjUOd
+	qEOcJtiOOAauAmcGRYjk30N3IRjti3h7nJmrCeffjBw26BCDX+61swYTObapGwfaHYWVL+EchoE
+	elL35hBoG+/+skROsGCBnjVbWIxLuU4n4v+njd1A2tDvXz7aP8o=
+X-Received: by 2002:a05:690e:4848:b0:660:8e61:1a3a with SMTP id
+ 956f58d0204a3-66106e3f6aamr2683179d50.19.1780673392488; Fri, 05 Jun 2026
+ 08:29:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDE0OSBTYWx0ZWRfX7e5ir0Yx1UaU
- crW0ECr3PQiEn9XO+oFe1AqC+xP3mQpE5NTk0x2ZVGvmGeCs39gYdablVKt/yXecXRlOdYQyNB6
- dbf5PZwzIEUxG0bVB8f3y8iR4VCC2YhClpVoKHbWu6yjYgystiyBa3wEsJRFYA3t42mjuGBPkgT
- zzp9fFox1IrV3oSJBpMCkXxjy/x5HVg1VVERwmOprIRE4OdHqb8wHkjVSP2cPNM6ZlQMQ3/A82z
- tu6fv/a+J3ndrUnNI5OhVO9vSQmzK9GkUg/4JXFIWsq/Dd5tq7QXn7SGaoOeU3t0sLHEEDtMtwy
- GzI8iUdKP3RFysnTM62iArxzo38jdzAznTS1MXfE6T0xbaHm2vYMevnNzbqGT2KayaKfCbZo3xx
- /G6flSMQDJ7qOEQKbThhQb/5JXhhoDcktWv7OwMS8Rg/K/DfMCk5ahb0NWciJLktimoeRcaMJ2n
- V8+U98QL8bEy9iFm/8g==
-X-Proofpoint-GUID: -1pYE27db3Vbmv2q3v0Z5dFSpnvtqzkD
-X-Proofpoint-ORIG-GUID: J3enxJpe2beIGJaEbrew44OCw_pNPsQk
-X-Authority-Analysis: v=2.4 cv=DZknbPtW c=1 sm=1 tr=0 ts=6a22eb0a cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
- a=i0EeH86SAAAA:8 a=C3CPiBWLnMe3MCAkXaYA:9 a=0bXxn9q0MV6snEgNplNhOjQmxlI=:19
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-05_02,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 suspectscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050149
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech> <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
+In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 5 Jun 2026 17:29:12 +0200
+X-Gm-Features: AVVi8CexkL34vp_i1CuA85Czs2clQeB-m5POHKFPZIkxmr9X1YgpCn5QeGEQ9Pc
+Message-ID: <CAG_fn=WavwJakpE35nc+SC2pdhu7zAtS-NTGuzsnDo=84pX8zQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/6] kcov: add build system support for dataflow instrumentation
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2026-06-02 at 13:13 +0200, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->=20
-> During staging and delete, measurements are not completely deallocated.
-> Their entry digest portion is kept and is still reachable with the hash
-> table to detect duplicate records. If the number of records is significan=
-t,
-> this reduces the memory saving benefit of staging.
->=20
-> Some users might be interested in achieving the best memory saving (the
-> measurements are completely deallocated) at the cost of having duplicate
-> records across the staged measurement lists. Duplicate records are still
-> avoided within the current measurement list.
->=20
-> Introduce the new kernel option ima_flush_htable to decide whether or not
-> the digests of staged measurement records are flushed from the hash table=
-,
-> when they are deleted, to achieve the maximum memory saving.
->=20
-> When the option is enabled, replace the old hash table with a new one,
-> by calling ima_alloc_replace_htable(), and completely delete the
-> measurements records.
->=20
-> Note: This code derives from the Alt-IMA Huawei project, whose license is
->       GPL-2.0 OR MIT.
->=20
-> Link: https://github.com/linux-integrity/linux/issues/1
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+On Wed, Jun 3, 2026 at 7:43=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech>=
+ wrote:
+>
+> Add CFLAGS_KCOV_DATAFLOW and RUSTFLAGS_KCOV_DATAFLOW exports to
+> scripts/Makefile.kcov, containing:
+>   -fsanitize-coverage=3Ddataflow-args,dataflow-ret -g
+>   (with optional -fno-inline via CONFIG_KCOV_DATAFLOW_NO_INLINE)
+>
+> scripts/Makefile.lib applies these flags when a module's Makefile sets:
+>   KCOV_DATAFLOW_file.o :=3D y   (per-file)
+>   KCOV_DATAFLOW :=3D y          (per-directory)
+>
+> Also supports CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for global enablement.
+> The flags are only applied to kernel objects (same guard as basic KCOV).
+>
+> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 > ---
->  .../admin-guide/kernel-parameters.txt         |  6 +++
->  security/integrity/ima/ima.h                  |  1 +
->  security/integrity/ima/ima_queue.c            | 41 ++++++++++++++++---
->  3 files changed, 42 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 4d0f545fb3ec..aad318803f82 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2343,6 +2343,12 @@ Kernel parameters
->  			Use the canonical format for the binary runtime
->  			measurements, instead of host native format.
-> =20
-> +	ima_flush_htable  [IMA]
-> +			Flush the IMA hash table when deleting all the
-> +			staged measurement records, to achieve maximum
-> +			memory saving at the cost of having duplicate
-> +			records across the staged measurement lists.
+>  scripts/Makefile.kcov | 6 ++++++
+>  scripts/Makefile.lib  | 7 +++++++
+>  2 files changed, 13 insertions(+)
+>
+> diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
+> index 78305a84ba9d..101173fe194b 100644
+> --- a/scripts/Makefile.kcov
+> +++ b/scripts/Makefile.kcov
+> @@ -2,10 +2,16 @@
+>  kcov-flags-y                                   +=3D -fsanitize-coverage=
+=3Dtrace-pc
+>  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)   +=3D -fsanitize-coverage=
+=3Dtrace-cmp
+>
+> +# KCOV dataflow: trace function args and return values
+> +kcov-dataflow-flags-y :=3D -fsanitize-coverage=3Ddataflow-args,dataflow-=
+ret -g
 
-Thank you for patch description, kernel doc, and Kconfig updates.
+Instead of adding debug info here, consider adding a dependency on
+CONFIG_DEBUG_INFO.
 
-> +
->  	ima_hash=3D	[IMA]
->  			Format: { md5 | sha1 | rmd160 | sha256 | sha384
->  				   | sha512 | ... }
-> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-> index a05db5b18982..d2e740c8ff75 100644
-> --- a/security/integrity/ima/ima.h
-> +++ b/security/integrity/ima/ima.h
-> @@ -343,6 +343,7 @@ extern atomic_long_t ima_num_records[BINARY__LAST];
->  extern atomic_long_t ima_num_violations;
->  extern struct hlist_head __rcu *ima_htable;
->  extern struct mutex ima_extend_list_mutex;
-> +extern bool ima_flush_htable;
 
-Making ima_flush_htable global is only needed for "[PATCH v6 11/12] ima: Su=
-pport
-staging and deleting N measurements records", not here.  Please make it sta=
-tic
-here and change it to global as needed.
+>  export CFLAGS_KCOV :=3D $(kcov-flags-y)
+> +export CFLAGS_KCOV_DATAFLOW :=3D $(kcov-dataflow-flags-y)
+> +export RUSTFLAGS_KCOV_DATAFLOW :=3D -Cpasses=3Dsancov-module -Cllvm-args=
+=3D-sanitizer-coverage-level=3D3 -Cllvm-args=3D-sanitizer-coverage-dataflow=
+-args -Cllvm-args=3D-sanitizer-coverage-dataflow-ret -Cdebuginfo=3D2
 
-Mimi
+Ditto.
