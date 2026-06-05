@@ -1,158 +1,236 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1A93B895D
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 15:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780673396; cv=pass; b=Mg+f7XUaR+8uhuQpDwXZf2WP+IU44TT0NtQqxwYU23IFecuctfHI3+Vqd/PZfRJmCmAklPlihFCReKKG+sAVlk6bMNCubI5oRIZRkRWJSxJFa+TPSc6BsSeFNLAtd96NulXjfWP1NR0xCzXbaY8RmQFWww3qrbdVRhOydpQmZjc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780673396; c=relaxed/simple;
-	bh=HON0Vmc+Uv2m+9L/ARZIecJdRDIMB40cGZIqinKUDVg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pBPqJ/jtGUElz/u2mhd0CyViFRtjAp4JmZB2OOcQfxe5xc8YoknSCO8UdmmdxbiAlm3r1kaEbcTEuYON6gLWIshtvDzhtkTFq6t6TQcuHSbPiXusuor3swaT/06aoie0XztH5n7ch3PryExqtDtu8cn77i6c8onnea6b4wyg0uI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vfjKaH31; arc=pass smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879123A9BD
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 15:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780674152; cv=none; b=dW65+bSOKssUQqdD/uIinVyRTySgNYzqiwEaDXK2HgJxTH44zAkDZzGk/r3uO8sx12TSuOvyHLZUFUg8m8pl+BhLI3mNBkBvwcvkjmzwpOsIilH1FGzui7oyYC25FX/SeJizUuQP2xgz+jesXMMEl4LMxgMhQZq5Sy9GZcss8ds=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780674152; c=relaxed/simple;
+	bh=hNXMOCusmTiv9t8jBH97402lT0OFK1tPV6LcYWEcI0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pgCwSWa0tK04a09K9YInOD34Sqs2ityFp48RknkqYghiC1LXK32yFRzlzbRK097Xc+ErUU+/6RKHVuq/lf1ePUPfpoeKGHbEafPuqbhBMgOh4IAAz8xQUtYMgq/84inciwcEynLZAWP8KvkozTJEFk8gH6A43Cqp1knunxCcB5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wkm5OHuS; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q+HEcTwM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vfjKaH31"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7dd7818ac2aso26391917b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 08:29:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780673393; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gthjkqpSAYV0MXFnGF6TgJpU0nSLAp4T1lwZ0n/CQWqJu553mzwliRzP+kob49xdv/
-         Ia4nNxVsAWeqLM1Yx4kvNy0cx2w4wyi8PDUzdeTEAVwZARUNUV1XtcWv65/GcZ9gJRxd
-         gDHW+VBlInZH5faeeFvdYsXrJVpraZ2J5zb4gmnQHh+TahGFQ2yWm6BYgrTR/THC6nP/
-         KEOwZIYIL5iManT6vkSmmzfPbbIghqKIOhLHu5pOPDX+9IH8UsykvB2x/OYS1HFQgEXa
-         epVQTqNcFbQ9MagOxnhRa4f+p5rhgipkXGO6uCX0/wRQes23gYL/48nIiEVdW9GNKNO+
-         EUdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
-        fh=3UlvCbEDAOsa4TUxO/EilvbBilpMkKw9OzkToAFNGKQ=;
-        b=c7ENaoGezd0iePbl7df5tc5dO/AKSKibbSzROB7VKdKQUqOEqNp5YcG1bt3NE4n+Fe
-         lyYJTRzD2CtFB3RDxmiTYhfZjFuZ5JTLjn4ARi9syAO1SrLLmCQFv1j/yNo/wqAE+Z92
-         +mdvDpsEEL4kilIEA4nmqI1sjpZ+tp7p6xYVZnsv/3NGTUs8MhVRd8fFUzKU8JqEAtyO
-         RN/EQWHM3Ph9MEODTFbwCG/u34VaeHZZaoGa3eBXf6pvXXxqz/ybcve7zjxqD0yOFZDK
-         EJq3DokvXBItLIMppkGHvCDaOdD1K9Qd+5Szogfjqt4okPSX/kuFoWN740++PtkCq2Qf
-         cHkg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wkm5OHuS";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q+HEcTwM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780674150;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ykStheHWzMecvQlC8/orrpWH+CEGzXq9KPPg3CU9BFw=;
+	b=Wkm5OHuSi+DmWKoOEdpiU+hIgQSyLP6VuGQUrH0Y/tIiWwrEhXO+y2PrMIMLBp5oBmg8xj
+	Ca9gZhNrsA41N6wgAgqUhdGOhLssc9r8kTqlFsAeLfkSL1i2T4EyFcR/Hsl4/uUhbmMwLE
+	eDhwzRyTz7wxu5+79IMxUE2mKJukiL8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-639-VODafpf3Nl23knXbKHvgTQ-1; Fri, 05 Jun 2026 11:42:28 -0400
+X-MC-Unique: VODafpf3Nl23knXbKHvgTQ-1
+X-Mimecast-MFC-AGG-ID: VODafpf3Nl23knXbKHvgTQ_1780674147
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-91574ad681eso227512985a.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 08:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780673393; x=1781278193; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
-        b=vfjKaH31f+6lQ3upr3PyLRn7MmHU83cfe6ChRbWCt6goUMmPn2jl0rIxPRuESMehyx
-         JlwTecA2zsdBdZC4wNajqJ5tDdRhJQGdek1KUAkuSSHnGu5wWNW2zv1FfOB0xlenlvV/
-         VHn7ZyBcjHa6J95xUq4/ZAtc8sWgBoZ77jSXpA7Pz0m0mi/AmFceYT5SX8KeR4OKbF8i
-         ca4ZQHinJp2Df2RyuEkyXaob7WN7ZZYduCGItkdoLSb9PG3FCvNHZhWe0xqF+DjyL434
-         KWUAuftviQm5BlqZ+VUauwjVyT3tZBBP5xYBIFkV3yzuE+6AZODAPGchOCzvtd8BH/4r
-         jiiA==
+        d=redhat.com; s=google; t=1780674147; x=1781278947; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ykStheHWzMecvQlC8/orrpWH+CEGzXq9KPPg3CU9BFw=;
+        b=Q+HEcTwMSZGwipJDNevrJmq+OjbpOrsA78SyPVjkkw0DSCG8VzY1cUwbluO/8cwhj4
+         lHmCtWuNpbTMFUW0OUS6joQeefT8aUj+cBM1QyhcZOOtvDMLJ5EpJniqwvWDRxEYmeUP
+         +/0mwUgzndc08H3FeNvMAySqcrNSdbKksb7Th9cf9raFl8AxZpsrgkmSM2kKhB4BsN8j
+         hvMLNGFlWACS7hIR3NKbec8/3HeLFKEnBShmJhsenkIMP/Elb/dvnH6mqQzIDnIeMCj/
+         lldKC4ABYi2Nr6hlaQl2Ffle1J0JuGLUmQcEdsvpW1GhaY9Sp1gzDtx3FbmUPlX8ldLp
+         JJHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780673393; x=1781278193;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pGE5at90J4zPleIdiXtGRgIUFnfxghG8AWeqoh9Pscw=;
-        b=o3H5vd1QOqKvXNDR+J9dgNGB4VaHwSaCeZDMslijLfF43gwqsUz3OqROm7Ywpgsz0p
-         twSxci0/GRAXBm+CSnASlOXFsio92fcuCXGc0bxiy3bqWAsnkA/sus4cFcHiqtzOFKGe
-         oBDqbILzdM5sNlEG/10qdvwroz5qLTwjkzJtCxIGJTfKLIjjrci9GGvvzMVkqgLQNKTb
-         nLI9/Y5kCEbmp72gR+5lEvQgqkflg/vv16zphp6LazSNFHydncjvKEASLMbdG3/9PXh2
-         GQX5tR30SU8Vzb/4s91sn0BM8Lvhwyq965FigxuE8WnjsNlSFXuEvn8WHH4n4oYyanQH
-         Kyiw==
-X-Forwarded-Encrypted: i=1; AFNElJ+TvTyCmOcJvTEovpCzcNhdwdwaIWS/lzlzhYjzxyJhGxwrRJT3tujuq8IZmlMH/FiTmrq3qrThXPg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaDZNkdrgYodw1WNzvbR+b7rfEitk3QcVrsxehTyKTQZe5IOGb
-	j2+IOcQiJUyAaVzFsBg2Xbj5u1v2SfRoTCuE6ldfHWK/axTtoPxlN0AIxVm7quZfCcCxrBDf2Xj
-	IIhbgDlABv/ScQzf9xsG4A+CCIFZB8Gztu9pZM+xD
-X-Gm-Gg: Acq92OGZDaOWMsd+JWXuXtl4YYrPtXZNNciGIKDC3Me4KV8yJL0XHH1v2NglT6VOpSq
-	a/JaFkODMIqSzobj/fAh9JAGGSIpGbXJwfpIYxbZIq4TA6fvf8sPUg7sI8roRgZbgpxq0hqH+wR
-	0uEiHdHYzI0A2zfzNnnmv5I0oWKi68Rg0x+nPkyTc2mBIFi7SfmsaDX82Fog8A3IP6WynIzjUOd
-	qEOcJtiOOAauAmcGRYjk30N3IRjti3h7nJmrCeffjBw26BCDX+61swYTObapGwfaHYWVL+EchoE
-	elL35hBoG+/+skROsGCBnjVbWIxLuU4n4v+njd1A2tDvXz7aP8o=
-X-Received: by 2002:a05:690e:4848:b0:660:8e61:1a3a with SMTP id
- 956f58d0204a3-66106e3f6aamr2683179d50.19.1780673392488; Fri, 05 Jun 2026
- 08:29:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780674147; x=1781278947;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ykStheHWzMecvQlC8/orrpWH+CEGzXq9KPPg3CU9BFw=;
+        b=M/gC0FMm2aIilhxmuIUSsNq8aQtQZbp6NfGuWQqrv4KSxz0QwJJsfaKhK/C9gLW2uM
+         Qz0jKvV9N8janYHDeTs/tsWqYVXAJwPIBRRHYAuj2xlJaopPRMdVCMFTa1jcM+PFg7r9
+         sDUi84A6P70Yf/5OUy9s5hwz/g29yot5X8LlK8SZLfZMy/BakbsblZxau9HGgR0r2zg/
+         JAXBvnw2ceowOh02HVD+rvLjZSsF/Vc5Y/GUwLe8QygkgO6xk9SXGKceV2Et/r3zqqUX
+         FMBlFlitwMHovwqKyNvvPsTKfDWUkPYiP7kO24Tt6D/A21IJn29eMddefLk94WTIlYOm
+         s78Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/LSwn1crh+U6b6qjCKVPa9AXIaqqMkAXK7qGfTjOncVSnkQU2lzSU9IrvXYZvqe/Kk0c/zCJl/LK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrACLXpmY+QKi3kIGAONiHv4YMknV4ubVK5FkopbhXZ/+JhFi/
+	zYasqzrdIKdYFqZXtEC1PuDtFgIuZzTAk/hxI+L+NMz4qe6qt5wBYEUJoZBqUWkyUK9SCOhAGUw
+	F5u8emNv58EY3e9SeQDFq6Dtkdtik+wqBU9Iph5LOLb1mvZalUOw2g0dmbPrW3g==
+X-Gm-Gg: Acq92OEt5sxscn/jSikGVoHObI80EHUllTVshxXMXYvHxlGOQabJXCsH6ko9miZnNYz
+	Ei5bzJOCSR3pAGcjNMTuFsG2g8TsQeupZlD0jLGIY/W5AZ202/eV71zs8ssvUJlME8YzSHTSLEU
+	miRSjIkml8iT3thda2O/On8dPD4Zwkm6gUSOhEDPwfuEEadi5Xv8tTO9qopYLzfbknRIfNyZTVc
+	KJvbwzpubM/CVqvXF2eK00pWBfD6pTVWnBkVeY54xOKmEWvsqhoGjVE3ALCjwr5bmSfCfIcP+KC
+	ucxcwKHZtDKzYHYf9skQogIQPOHQLpP18bIrKPwOzyhkBk2DhTv2BIFnvp/fW4s19XHfRv5wxMm
+	H+oB/x431gvhdKO0RsolIcQ7U4uucPzkAy6SeK1NjB7hojRtr8fGB9lDCLp8Vhcr9L03YmAru08
+	D2
+X-Received: by 2002:a05:620a:f11:b0:915:8f08:5f9d with SMTP id af79cd13be357-915a9dd4bd8mr792213985a.56.1780674147336;
+        Fri, 05 Jun 2026 08:42:27 -0700 (PDT)
+X-Received: by 2002:a05:620a:f11:b0:915:8f08:5f9d with SMTP id af79cd13be357-915a9dd4bd8mr792205585a.56.1780674146859;
+        Fri, 05 Jun 2026 08:42:26 -0700 (PDT)
+Received: from localhost (pool-100-17-21-205.bstnma.fios.verizon.net. [100.17.21.205])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3d2384sm921805785a.39.2026.06.05.08.42.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 08:42:26 -0700 (PDT)
+Date: Fri, 5 Jun 2026 11:42:25 -0400
+From: Eric Chanudet <echanude@redhat.com>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+	Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] cgroup/dmem: add dmem.memcg control file for
+ double-charging to memcg
+Message-ID: <aiLVbQPxK1qI1h4p@x1nano>
+References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
+ <20260519-cgroup-dmem-memcg-double-charge-v2-2-db4d1407062b@redhat.com>
+ <ahBxB5a9sX9DEWvl@localhost.localdomain>
+ <ahXKFYBdCMDBvc_N@x1nano>
+ <158bc103-7f99-4df4-8d3b-2da9b04ac0ed@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech> <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
-From: Alexander Potapenko <glider@google.com>
-Date: Fri, 5 Jun 2026 17:29:12 +0200
-X-Gm-Features: AVVi8CexkL34vp_i1CuA85Czs2clQeB-m5POHKFPZIkxmr9X1YgpCn5QeGEQ9Pc
-Message-ID: <CAG_fn=WavwJakpE35nc+SC2pdhu7zAtS-NTGuzsnDo=84pX8zQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/6] kcov: add build system support for dataflow instrumentation
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <158bc103-7f99-4df4-8d3b-2da9b04ac0ed@lankhorst.se>
 
-On Wed, Jun 3, 2026 at 7:43=E2=80=AFPM Yunseong Kim <yunseong.kim@est.tech>=
- wrote:
->
-> Add CFLAGS_KCOV_DATAFLOW and RUSTFLAGS_KCOV_DATAFLOW exports to
-> scripts/Makefile.kcov, containing:
->   -fsanitize-coverage=3Ddataflow-args,dataflow-ret -g
->   (with optional -fno-inline via CONFIG_KCOV_DATAFLOW_NO_INLINE)
->
-> scripts/Makefile.lib applies these flags when a module's Makefile sets:
->   KCOV_DATAFLOW_file.o :=3D y   (per-file)
->   KCOV_DATAFLOW :=3D y          (per-directory)
->
-> Also supports CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for global enablement.
-> The flags are only applied to kernel objects (same guard as basic KCOV).
->
-> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
-> ---
->  scripts/Makefile.kcov | 6 ++++++
->  scripts/Makefile.lib  | 7 +++++++
->  2 files changed, 13 insertions(+)
->
-> diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-> index 78305a84ba9d..101173fe194b 100644
-> --- a/scripts/Makefile.kcov
-> +++ b/scripts/Makefile.kcov
-> @@ -2,10 +2,16 @@
->  kcov-flags-y                                   +=3D -fsanitize-coverage=
-=3Dtrace-pc
->  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)   +=3D -fsanitize-coverage=
-=3Dtrace-cmp
->
-> +# KCOV dataflow: trace function args and return values
-> +kcov-dataflow-flags-y :=3D -fsanitize-coverage=3Ddataflow-args,dataflow-=
-ret -g
+On Fri, Jun 05, 2026 at 01:27:09PM +0200, Maarten Lankhorst wrote:
+> Hey,
+> 
+> On 5/26/26 18:59, Eric Chanudet wrote:
+> > On Fri, May 22, 2026 at 05:26:16PM +0200, Michal Koutný wrote:
+> >> Hello Eric.
+> >>
+> >> On Tue, May 19, 2026 at 11:59:02AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
+> >>> Add a root-only cgroupfs file "dmem.memcg" that lets an administrator
+> >>> configure whether allocations in a dmem region should also be charged to
+> >>> the memory controller.
+> >>
+> >> This kinda makes sense as it is not unlike io.cost.* device
+> >> configurators.
+> >>
+> >> Just for my better understanding -- will there be a space for userspace
+> >> to switch this? (No charged dmem allocations happen before responsible
+> >> userspace runs, so that the attribute remains unlocked.)
+> >>
+> >> (I'm rather indifferent about the actual double charging/non-charging
+> >> matter.)
+> > 
+> > Yes, this is intended to be configured before the user space stack that
+> > would start allocating things is started. Once it has started (and tried
+> > to charge something), the configuration is locked
+> > 
+> >>
+> >>>
+> >>> To handle inheritance, dmem adds a depends_on the memory controller,
+> >>> unless MEMCG isn't configured in.
+> >>>
+> >>> Double-charging is disabled by default. Once a charge is attempted, the
+> >>> setting is locked to prevent inconsistent accounting by a small 4-state
+> >>> machine (off, on, locked off, locked on).
+> >>>
+> >>> The memcg to charge is derived from the pool's cgroup, since the pool
+> >>> holds a reference to the dmem cgroup state that keeps the cgroup alive
+> >>> until it gets uncharged.
+> >>>
+> >>> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> >>> ---
+> >>>  Documentation/admin-guide/cgroup-v2.rst |  23 +++++
+> >>>  kernel/cgroup/dmem.c                    | 158 +++++++++++++++++++++++++++++++-
+> >>>  2 files changed, 178 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> >>> index 6efd0095ed995b1550317662bc1b56c7a7f3db23..1d2fa55ddf0faa17baa916a8914d3033e8e42359 100644
+> >>> --- a/Documentation/admin-guide/cgroup-v2.rst
+> >>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> >>> @@ -2828,6 +2828,29 @@ DMEM Interface Files
+> >>>  	  drm/0000:03:00.0/vram0 12550144
+> >>>  	  drm/0000:03:00.0/stolen 8650752
+> >>>  
+> >>> +  dmem.memcg
+> >>> +	A readwrite nested-keyed file that exists only on the root
+> >>> +	cgroup.
+> >>
+> >> Strictly speaking this is not nested-keyed but flat keyed [1],
+> > 
+> > Indeed,
+> > 
+> >> which leads me to realization that this is the first instance of a boolean.
+> >> All in call, such a composition comes to my mind (latter is RO):
+> >>
+> >> 	drm/0000:03:00.0/vram0 enable=0|1 locked=0|1
+> >>
+> > 
+> > So per[1] 1 key, 2 sub-keys (enable RW, locked RO), that looks better
+> > and match the documentation, thanks!
+> > 
+> >>
+> >>
+> >>> +static ssize_t dmem_cgroup_memcg_write(struct kernfs_open_file *of, char *buf,
+> >>> +				       size_t nbytes, loff_t off)
+> >>> +{
+> >>> +	while (buf) {
+> >>> +		struct dmem_cgroup_region *region;
+> >>> +		char *options, *name;
+> >>> +		bool flag;
+> >>> +
+> >>> +		options = buf;
+> >>> +		buf = strchr(buf, '\n');
+> >>> +		if (buf)
+> >>> +			*buf++ = '\0';
+> >>
+> >> I recall there was a discussion about accepting only a single device per
+> >> write(2) (at the same time I see this idiom is still present in other
+> >> dmem.* files, so this is nothing to change in _this_ patch).
+> > 
+> > I would second that. When setting say dmem.max for 2 regions, with a
+> > typo on the second, the first one is set, but write still get EINVAL.
+> > 
+> > Also, I just notice dmemcg_limit_write() returns EINVAL if the region is
+> > not found (this patch returns ENODEV).
+> > 
+> >>
+> >> Thanks,
+> >> Michal
+> >>
+> >> [1] https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html#format
+> > 
+> > 
+> > 
+> 
+> Perhaps a bit late, but before we start adding this UAPI we should enforce a
+> single region per write?
 
-Instead of adding debug info here, consider adding a dependency on
-CONFIG_DEBUG_INFO.
+I can send that separately, although that is a UAPI change. Is there any
+user that would be affected?
 
+This series is hung on charging memcg using memory objects from the
+context of dmem, when at that level of abstraction it doesn't have
+access to the underlying pieces that were allocated.
 
->  export CFLAGS_KCOV :=3D $(kcov-flags-y)
-> +export CFLAGS_KCOV_DATAFLOW :=3D $(kcov-dataflow-flags-y)
-> +export RUSTFLAGS_KCOV_DATAFLOW :=3D -Cpasses=3Dsancov-module -Cllvm-args=
-=3D-sanitizer-coverage-level=3D3 -Cllvm-args=3D-sanitizer-coverage-dataflow=
--args -Cllvm-args=3D-sanitizer-coverage-dataflow-ret -Cdebuginfo=3D2
+Best,
 
-Ditto.
+> 
+> Kind regards,
+> ~Maarten Lankhorst
+> 
+
+-- 
+Eric Chanudet
+
