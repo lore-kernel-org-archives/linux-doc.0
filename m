@@ -1,170 +1,211 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012055.outbound.protection.outlook.com [40.107.209.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784423271FD;
-	Fri,  5 Jun 2026 16:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209AB3AA1B2
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 16:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780675518; cv=fail; b=I6bFOoGpNZBZRhHqxivHd/dv0nvDlM0Up2LnDK/OiAQP3wNO9h8VyqsSTnhm2rAxNx5nsHRlhPZyEXvmr+ZNKRKX8FrHKMC1Y4y53GrPOzIQcPC6xa9cduREVb7Z0G7N9XNFKTttxLW7PaixTx82K9moxGuqZd8JBweUNohYU14=
+	t=1780675577; cv=pass; b=Dw81xQUl0wEQUaRwZz0m3dab1T9QqAEjr9l3/VKfj1F3xLDQcAHBk3SmXYb7rJ6bsb02yIkYAhjAhw1EK0l3nSzhsgwYHTrjudKeUxHd0pCE3jBMEf1f1VWyjzbkNm1TGqoyNIM8h54v75XqODKDLPmUpN7bUQz7tedl9HJnoSE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780675518; c=relaxed/simple;
-	bh=U+eAevlYKQ5YduqCf+Bz/DElrCnwr9Yis2197eD1j/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aNnMUzzZ6UlHUSHU7+hyo2rrgQRwMFLNoCh/8ywpxAY01CkItNO8aAQoskzgrCAVrrTqUe8Upe3DoJPatvptc9LGX2px56tdy0/2QbuQzBL2K5Y4lDTSsiUdNMZwlwUDRWAOB7Tg5uypWX1WH8ABZlSastKuZKjTeW1iPTSQB6s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MsPR1Bzx; arc=fail smtp.client-ip=40.107.209.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1780675577; c=relaxed/simple;
+	bh=CYocm5u0+pg9o3aIVAE3m5a3oTIe6F5o9fKMKsoF8EI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rWfi3kmWCclVrNPsInt7Sl5GLb1vgH4IQd45qbLvpSuWaMhbZgJsFCvv6W/R1WFM4eLLaTlATGw35VlAjGeei0osf+wLjJxwLfebCkSOpgGkh90wvpt8RZrA3n4MUpg6iCLKH7jumTMmqqflY1wQokFkr6EdCjT3bkv58i1mGBM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WYw2iXHO; arc=pass smtp.client-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MsPR1Bzx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TP0QIAsEvT85DVZrZjYEPynRwjEYJT0FLphD1QSWnXha3PQ+dJf10mGHvuFtr+YLabgNMhIAEJXwqzrIsjLJsGhpemdprYaCN2k2nsPxB5xMyrwHoxdQqs8ILIHPV17XJg+9rce0xyGs5dybu1QKOmd+W0di+wUtR4ugwXF42eT/8HpvqF4I7EBgkEX5IOnQ1kNEZ8sGaAh1s6d4mxBFPxX14+ISt/0neqJj7mLw5dkzfC8ILu0JwC/bmvqrEk05+XbhgTOpkb9lJCMd7KBbONTf3SLoBQBSz35cAYwo91CoxKWN62wINGUGzX9Z2sy/WJLo+PffWUDvNR8nL2EJFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X0ljNOWJmuIFJa//vLl2Uii9okpP/nLim7UzXrn9yeE=;
- b=owbbvKEljIMej3IDY06jVWzt4CyoxUHsrX7Nzd/f0CfAXDD+eDGPjp/ee4bbvUC0QbENj1wnsuqUtyjyIV1EpuYVCEblLyzVvIGcG/o0MZN5AlMQ2TffPUXAKFqre62eS5iYIwdaaBfwPv+DDQuSsX0CpL4WR5nx0XodPdfCI+U5lQ9sxELAgxpy4+ZIaxdgSOk3eUH1mERygwUBFUFRFpEvcmV+3dmrbnwnVtcl00MwXzAFQ9qaQlMxCnFHs1VvpzRoayfukRsNzQeDM0B/5F11g8IxRNtqomeAAgaD9qhmtZwIwGSCz3clCJSBugNA/m8WnbuOYcWus3mRI517XA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X0ljNOWJmuIFJa//vLl2Uii9okpP/nLim7UzXrn9yeE=;
- b=MsPR1BzxSU5r3EMKoyLibC77c2r1j8YyS7RafLjdcA4VaAuoB+7Cnsvr/2t3E8zzj6hhnf/nNUFvVrJrFALHMHdNIWhNQcWan/KylCoG1WVfMhIg2LolSS6zFPv+Vw9UIU564IEj2rPwgV9l29RxS+IG6EQlJ9Z3VWFfiteQNxfMwF4eN2pcj4RucJ8BgMSLVl01tO/l2mAwEOnpX4y0R31749zgyZJE4dxZ6WdvRXsPAZNcc8EduYOBHl63Oszgv9cNgyITd0aR9ZyMr2gMVsWJlB/LG3mbXSOVNast7QWGiN5149R6HdNhJ1T88E6Fh+Y5yiCBtRRR10jwC1ndog==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- CH2PR12MB4085.namprd12.prod.outlook.com (2603:10b6:610:79::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.17; Fri, 5 Jun 2026 16:04:58 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%5]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
- 16:04:58 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
- gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
- jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, zokeefe@google.com,
- Usama Arif <usama.arif@linux.dev>
-Subject: Re: [PATCH mm-unstable v18 03/14] mm/khugepaged: rework max_ptes_*
- handling with helper functions
-Date: Fri, 05 Jun 2026 12:04:53 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <62E1363B-ED9C-4CFB-AB5E-CD7B1D1EF3C3@nvidia.com>
-In-Reply-To: <20260522150009.121603-4-npache@redhat.com>
-References: <20260522150009.121603-1-npache@redhat.com>
- <20260522150009.121603-4-npache@redhat.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR20CA0045.namprd20.prod.outlook.com
- (2603:10b6:208:235::14) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WYw2iXHO"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-6611669cd16so120256d50.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Jun 2026 09:06:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780675574; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BzGj9u5sonHc1ryi/W5hOOfXum+T91l11keiy+9dPi2JwYOcWDhOUFeJ8BBO9M3GHF
+         SsTXu/QthQW6oo5UIYxPI6/EpllYX4t+tkh/DJJG+ypLsFV8rW7/mVlMxaKNyh553AW8
+         eheswGD7H1iRaAEKh1B+GuJBBiMW+3Alz/vNjKCBwZUc/+t85gnq/VLl4qGvNVuDO+lH
+         Hq7AxoPKuhqyqul6Vmvs+LydkR2q8WNue0qIS/O5fh9TQxAvmiNdRX0E5g5HhUVGCV2R
+         ditTSufbfdWqH83u5VvpQIHFqlMlh87o8PhuLXWSIJfmuMqY/8iPmNdRZydu8PHCKd/8
+         ZVbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qpweCGcPTYVu/t4xYY3lqhavrFen0DWkq0lhTltrHoo=;
+        fh=gee7PEzVbjyziB32gM9Bw1rHWNvMQ/aoumOSsAlssy0=;
+        b=aE/fGJ3ozrG+6slpj6W22+fAbOUYbd8dTiX+QCrd/Ff5kf78pY8E4MWg/p51rTAfgO
+         wyZ10NPUJcR61CPkW3Es/JDJXGFvlML0v12/+AmZHtxERhruNvCZwAtChn1x22s2/zJk
+         CtM0rAElFbaaF9+m27zgDKIKgxkM2fVp4PuN9jeVVosJyaaclAu6fg8DV9+gj2zQbFFs
+         IyLFvrkpSC+QAnRQPT/e9KJu6wbh0b6z4z0nMRxh6GCZEnki8wXKLIM6GxsnaN8Wzlxb
+         dzaHtTXkJzwKYfm3TXAPziV2rotQGloDFMHMK5VW/nMCBAnDn1KzJx5TL9hS3hbbqRSX
+         ELGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780675574; x=1781280374; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qpweCGcPTYVu/t4xYY3lqhavrFen0DWkq0lhTltrHoo=;
+        b=WYw2iXHOew+BVshvJs3UfrU4HFPekt6Fb8/tqKm4amfDigUZ6hWHjh7r8YmjoU9Ce9
+         fBHImGVFkweW4lLujv8L1j3m0/zSU9xH6jtigm2fcG96IxbZIqOpUMWi7lliz0/Hrtnk
+         vevzrHl0YIIsR/g7BcnK3ryi1PLU+zA4Q/NgwHHv+XEsErNfiJK2fpTL8tpYeGAdhZjd
+         jZp/Rp4d68R4LkJB4UHFMslX+FEClMg1Zdt4YADT+WQ6HPD4x0ptwJ4yTKrEaw1M/YLy
+         08DZyxvggsVzvq4Eqjvw8U7OiQWeMk7jdRsrmh2m/UpyZI5Pf6uu6ZZtKerOAGuVB1fM
+         md5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780675574; x=1781280374;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qpweCGcPTYVu/t4xYY3lqhavrFen0DWkq0lhTltrHoo=;
+        b=RdUsY+u/7/kpjicSp0Ii4fGPinArzDzzGXOQXT58rBopw4tcVFEZJaCHXe+kohoX5m
+         OFmJ1vbKO4ou4FUE40eKhQUAqco+4sLIgUPZ/ZVvaEUfzUj93HN4kh1iG6a2gPngJCYn
+         Uc65jLSFCaCNCATrTunw3P1dRePzm+NIl28hQBYeyaywV9CdbGNk/xaFm8EHsNSRItxq
+         ZEfdzL2xsbjZ3WX61TIYI3VaOW3H+MZVfvuXmhbvJzIx/S0Um32bXKXXWleU4T3cdLqx
+         VawhWItW4sSrbWLSGj+aDJqfnoziPr1FvloIXM1PEnxJ2LpCEnyBbQgPhinOTVF4LCUk
+         JyZA==
+X-Forwarded-Encrypted: i=1; AFNElJ8cWMLJ5yw1FQrRAYhMPr2NnQvpX/tggBK14dyznK7sokV8R7R5D9aq6kMr6OoAGkyhbRYbryWLjn8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6TwPx84w8QczG/dStQB7wp6lITyifXl7CsrUm2VC6/s/o3BCg
+	GhWJIEYZfU09m1tYVLvMm+n8QJ+mT5xkPtMKd5LFkKS8DVf7pXKIYZ3H/aW8eFcvgaWk7fKtoT5
+	H8mJw1DXGqc/GBSC2oq1hyqKpCgetVOHdqRsBEVL5
+X-Gm-Gg: Acq92OHUlgGGLDWi/Ybt0PAcAV/NQE/8p5OTjt9EmokdU3bcPmWG49aufylwmZt6C8E
+	GOz29gYSg7ZRQ1ENGWwMnJGtc+51ddj+DpXUFe/iREaXIbP40eHm9JMEm7aLXrU4UTFG0HpYpQW
+	aR+fyD7CgWdoOR2K7OXY52GqVSaJSahZ7NsCzSNuNhItpibOfudTz0TXtJ3UUC4jDVa+pUXgDPl
+	Xy2Su9fX5TMc/PEa1IfsWsz7Dof9bJhq+Bok1Q8ZDon14h3L5oKhTMAF4Q6naU8nCJmwfveOHLZ
+	/swS0LEmi68V51cocJZCYY3JKoOG3aAaOMPXv+lQS/xJNNUO9wg=
+X-Received: by 2002:a53:e306:0:b0:660:3426:3ff1 with SMTP id
+ 956f58d0204a3-66106f583b0mr2916376d50.34.1780675573532; Fri, 05 Jun 2026
+ 09:06:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH2PR12MB4085:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9ebe9da-549c-4bf8-9d2d-08dec31c312c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|6133799003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	2Q/oMjzoU8jL+MMBnOsc5smPPVDUXzOZaTHbix4gAaItzK8b2i0F+66fDPrognR7h/0MwCZlO62iqiLWVH0dIHXR/4DpYOaBunrbfwEO79d1Ht/4s8qc2MehmbTchYs/zw2n8uCSwtPE3SbWOXeo7vO4UWufDPDBjGUVgqoqLZMy5CFsEq0nR+wT5dhP3Xz/Fpdy/YywX/pOCvGstM2bUkLufiLovFlM7ErrkQvedYxIAsSg9fUlfGWS1br1vegYjb2SrjOHFibDZcm8USo3ftaUZEYAgWkx3qgtkl8U1dn3DIRCVbttDz5vYkppB5ZPARJS2ba4ax+V79ERU4yvJIy1KUGCDO574Y6aJkiP/QdNxmzP67Jl3pTDv4c+fKccIPccvoVLqYkIJtWryg+POUqRKeb/LjSuV1XV88IYXkvTFD2CLCQeAWqHIIq6TLAxlhmnF7UYBaViogfSU9xEZwXnTCDJCRaVd+fxGjrmzoUCc5CTdRsshynjYHIAdFXvRLWW02RmfTl6Uy6eNVP7E5GMFj1ZITtgXtub+Z6+3w0L+lIw64at3XaqTa9FpJHfyBv8kWszjHc9VXoojDVeZ9JqgA1L6NYfMCbpYX3H8J0LO9jSpJmJ30Anw/LQBD1QlKoQEssdaBy56x3UHSiDpZBoVB3JQOX1l1/fTMN/F02Zp7cLIx+GveaBwyChCQFZ
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(6133799003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?J6GPxZrLZB/si2C0XXw0NvEsg0MCidp2w1XapKMXO0XnIRXFrU+9drYiWxnt?=
- =?us-ascii?Q?CNBMtYeNKZ7aNIC3EbzCs0YhzRVTaTUCvzFziga5jOlw1QpJQod4xbfvnoDW?=
- =?us-ascii?Q?0cyoSoBn7WwVooPY6/It1FfX6bNYvGIb1uFlxbxul50uv49HYdFsPKLw85D3?=
- =?us-ascii?Q?1nUS/qNtQlnzNsmEoaYLTieSisxB9PghD7oaCLaOCiQniUlh/m7zjsI3iYPl?=
- =?us-ascii?Q?6idq8Qfs/UYXk1/cQClxj6BrutF4m8Xq0bfRNnjDJBMbbb1gt9VJOD2IVbcy?=
- =?us-ascii?Q?0oe5nUdAMUqzFSPY/IsVYnxNMj7Rx/+tucwOdML0Sve428H6DN4FsYitO5BR?=
- =?us-ascii?Q?e0d5AomMxZSdDZZ9DbZwLiXGGsOLY2JY3kUjZKKz9GdXlrl4Qj1McPJJDakO?=
- =?us-ascii?Q?l6CBkM8De13LGxzZs87Gff8chwL15SXRSFyZ99/8Y/l+1QMClQpFLdNkIdek?=
- =?us-ascii?Q?Swh2IHuMb7xBQfRCrwoLhqpt7tF+2yyo5ty7i/jKIO8g0YgDgqU2KKwyQdRI?=
- =?us-ascii?Q?TjBE3ygDlDrlVsUPdrPpjufQy0OJhz/5w02eZ5VwUhgBRNimZYPArIs6qoIG?=
- =?us-ascii?Q?SP+9HCH9xJZX9NRcj60107FIVyFcgbj1XaWDGS7YHhjkZ56SuMab3/TUI78A?=
- =?us-ascii?Q?gEzVrajAppR533mmfB2c3HEx4buTdhhWYn4yzHrw7/FbqkCcDYiumLgqT9J4?=
- =?us-ascii?Q?Kh1r0FwLkj36iaIguh6JU7pp/Jh1qTAvJGgHQ2ruJSo38cG+8F29PSplkqUS?=
- =?us-ascii?Q?CQF1jc0MbkdxEGB8WZ2XWJt4/v3RzCXHWzzr5sx2ZFsOQm+2L8bp1Cg1tiDF?=
- =?us-ascii?Q?7UDhukPs6rNalNtBZD5GUX3tqf19YCmFBDKdqeRzQJ4NS5YQQhYAlOFe3E7R?=
- =?us-ascii?Q?EYF7s6X8FdJxQqdyMpqdibxwvdxCPKKx1l3rI3NDvSeUuQC3deHf3wc+oRx1?=
- =?us-ascii?Q?TCCw4YDafRua91gzVHOByqjTBKEFWINiwo2TSJSw8I5bLDMnswsO3CYbRkOu?=
- =?us-ascii?Q?rduok/lhrdZgKYUugotjU2IGqAR6h5KAe2l6+U5UAF5HZsryh1PaimUl+nA4?=
- =?us-ascii?Q?DPPhORq60BVtySv9e+3PZj3d9bzV2cmu4GVbLhURe8ywi8ucEHZ08asG2guY?=
- =?us-ascii?Q?ZxjOR0JgfN7XAO2huUQwh5pYhc6ruQXzc3P/OG6+NCtexewa8M0GWWVpIDEl?=
- =?us-ascii?Q?ELjGP5HmnGV042h6XXRPGOUS35NmYaZg8iagBNDVAb7CM6h9Jx7hcIVh8Hbt?=
- =?us-ascii?Q?w75m8RyIiJIJE/fuBzRySseLdauB9GCCA6x0aVxOSZhFzStx331wbdn+A73Y?=
- =?us-ascii?Q?tXxiT3gly0g7TiliCv1AGoZkjusMj+11UQJQ3s+nro8C2bsSQ6Y4iYuSFHma?=
- =?us-ascii?Q?zDgOmI9hsbiNW5kdQHbAI4zvc4Vw2+KxrcotFqKMyqE4qXzFjimTbRNfr0Gn?=
- =?us-ascii?Q?nPZcjKxuExNU4bxKi2rh2AV8tGKNywT13WTTaBiiHwCoWwKfV5PkkQKdGiUz?=
- =?us-ascii?Q?GvXt7E/zgtMqHB490nkwwQP61ElxX13+Odb8tGch+Jbt1Vob8wzv4BOXZAfw?=
- =?us-ascii?Q?nLxeUKQTMreV6qj6JB6guFJEVJxQiLlCEnc+PD7Lz9VmxC3R3GYlIRJOPZZB?=
- =?us-ascii?Q?Or7KxosjNsIUdmnAM8gGWRRUEg9vfmZ94eo73awAxaU4QUJOSLxmno7/WPot?=
- =?us-ascii?Q?ghrHpjJwX91XS/UJ07QdLw0ckjefTO4xc/OvMghAJYNKU/mV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9ebe9da-549c-4bf8-9d2d-08dec31c312c
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 16:04:58.6284
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H6OYTTiYEWw06o3OhSW+WYPDEj5+Bi8TzHvW4kHOjwVBYV0J3WA9L+NTrZ8iMWGZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4085
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech> <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
+In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-1-fee0939de2c4@est.tech>
+From: Alexander Potapenko <glider@google.com>
+Date: Fri, 5 Jun 2026 18:05:34 +0200
+X-Gm-Features: AVVi8CdtIWJrRUEJnQQQB7BanVCY0Gd9ha8SThOa2A947QiJHGGMsBgLigo__P8
+Message-ID: <CAG_fn=UMJJz+3zipowaC4uTvcbC0gvXbBRaF0UUJ_1AW+oWNGA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/6] kcov: add per-task dataflow tracking for
+ function arguments/return values
+To: Yunseong Kim <yunseong.kim@est.tech>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 22 May 2026, at 10:59, Nico Pache wrote:
+> - Per-task buffer: task->kcov_df_area with atomic xadd reservation
 
-> The following cleanup reworks all the max_ptes_* handling into helper
-> functions. This increases the code readability and will later be used to
-> implement the mTHP handling of these variables.
+I don't understand this line...
+
+> - Recursion-safe: notrace __no_sanitize_coverage noinline
+> - ERR_PTR aware: skips struct expansion for error pointers
+
+... and this.
+
 >
-> With these changes we abstract all the madvise_collapse() special casing
-> (do not respect the sysctls) away from the functions that utilize them.
-> And will be used later in this series to cleanly restrict the mTHP
-> collapse behavior.
+> The callbacks (__sanitizer_cov_trace_args/ret) are inserted by the
+> compiler when -fsanitize-coverage=3Ddataflow-args,dataflow-ret is used.
+> The Kconfig options depend on cc-option to verify compiler support.
 >
-> No functional change is intended; however, we are now only reading the
-> sysfs variables once per scan, whereas before these variables were being
-> read on each loop iteration.
+> Buffer format (TLV records, all u64):
+>   area[0]: atomic word count
+>   [pos+0]: type_and_seq (0xE=3Dentry, 0xF=3Dreturn in upper 4 bits)
+>   [pos+1]: PC
+>   [pos+2]: meta (arg_idx | arg_size | ptr)
+>   [pos+3..N]: field values read via copy_from_kernel_nofault()
 >
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+> This is completely independent from legacy /sys/kernel/debug/kcov.
+> Existing users (syzkaller, oss-fuzz) are unaffected.
+
+Does oss-fuzz even use kcov?
+
+>
+> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
 > ---
->  mm/khugepaged.c | 120 +++++++++++++++++++++++++++++++++---------------
->  1 file changed, 84 insertions(+), 36 deletions(-)
+>  include/linux/sched.h |   8 ++
+>  kernel/kcov.c         | 291 ++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  lib/Kconfig.debug     |  22 ++++
+>  3 files changed, 321 insertions(+)
 >
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index c4433c185ad8..03be4b495f70 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -1533,6 +1533,14 @@ struct task_struct {
+>         /* KCOV sequence number: */
+>         int                             kcov_sequence;
+>
+> +       /* KCOV dataflow per-task sequence counter for TLV records: */
+> +       u32                             kcov_dataflow_seq;
+> +
+> +       /* KCOV dataflow: separate buffer for trace-args/trace-ret */
+> +       unsigned int                    kcov_df_size;
+> +       void                            *kcov_df_area;
+> +       bool                            kcov_df_enabled;
+> +
+>         /* Collect coverage from softirq context: */
+>         unsigned int                    kcov_softirq;
+>  #endif
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 1df373fb562b..d3c9c0efe961 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -353,6 +353,288 @@ void notrace __sanitizer_cov_trace_switch(kcov_u64 =
+val, void *arg)
+>  EXPORT_SYMBOL(__sanitizer_cov_trace_switch);
+>  #endif /* ifdef CONFIG_KCOV_ENABLE_COMPARISONS */
+>
+> +#if defined(CONFIG_KCOV_DATAFLOW_ARGS) || defined(CONFIG_KCOV_DATAFLOW_R=
+ET)
+> +/*
+> + * KCOV Dataflow: /sys/kernel/debug/kcov_dataflow
+> + *
+> + * Completely separate from legacy /sys/kernel/debug/kcov.
 
-userfaultfd_armed() and cc->is_khugepaged check results are now folded
-into collapse_max_ptes_*() return values, using 0 and HPAGE_PMD_NR.
-It simplifies the caller code. LGTM.
+Since this code is completely separate, could it be put into a separate fil=
+e?
+I think kcov.c is too big already.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+> + * Own buffer, own ioctl, own mmap. No printk =E2=80=94 buffer only.
 
-Best Regards,
-Yan, Zi
+Can you please not use these long dashes in C code?
+
+> +/*
+> + * Core write function =E2=80=94 no printk, no locks, just atomic buffer=
+ write.
+
+I think it's okay to omit what this function is not doing.
+
+
+> +
+> +       /* Atomic reservation */
+> +       pos =3D 1 + xadd((unsigned long *)&area[0], record_len);
+> +       if (unlikely(pos + record_len > max_pos)) {
+> +               xadd((unsigned long *)&area[0], -(long)record_len);
+> +               return;
+> +       }
+
+Have you tried compiling this code on ARM64?
+I am pretty sure they don't have xadd(), so it won't work.
+But why do we need an atomic increment here at all? write_comp_data()
+performs the same job, and does not need it.
+Or am I missing something?
