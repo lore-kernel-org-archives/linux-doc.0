@@ -1,170 +1,117 @@
-Received: from lankhorst.se (unknown [141.105.120.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D986F4D2ED9;
-	Fri,  5 Jun 2026 11:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8E2419318
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 11:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780658831; cv=none; b=SnuPQV4kO0LWP5NnlnRqx1kNkZvIkLGiIyaYUNzkvZgKmeRxndkeEL18XMmYhbiJw9vQdbaaD3+Apl+RZo22/OfnwYbXgHqUMUtFfM9FsUMLq75ESTNZGhWigaUJgc58tE4cCrBxzMD7eVC2OH0qiRL6O1x7iAwvNZgIJcQYlBg=
+	t=1780659782; cv=none; b=WYACXjkC4FPBXVz2e00FBxIOMkBt8p7wLzyLev8Jcw1Um1bQdbbhVn5hT6zk1ciXPXFyFasKzPfGHOAv76Y44iQv+QtnU2wXWrdU4hbYNfF5A066BaUm0j+66a57e7zDEM4oLvsVHw7hFmyXPSHsP2+tNmJn6+fCBb30sOJ+lQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780658831; c=relaxed/simple;
-	bh=grJWHPyWHk8AoQrPfPCjbyowZDDAMw3aAx81Y2+OkBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h6PsYXVIAjWE/dSpHEjyX0rQwLWP7//i0MftUI0VJhYf59l3YIsDDxPOXq9kRpvt7MYcwY4DyATz5v6r/oFYccktPQJbB9fdhtckXPbnZGxDootWsMwevjaP4QL/IUnW85nrUKnW5ZE1HthtMqpsS9pXM+POJGIsecULP+TxF5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=N74i+GGN; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
+	s=arc-20240116; t=1780659782; c=relaxed/simple;
+	bh=vfXXqLlOtJN8aZcbY5EAxkL5IWkZ7JVgfcav9z4SLU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPpqjGrXfn17Y3xqk/16vwNwhxBJMsisNcaGeO36sc5ksriSfrAms4rif8aoYaHL9w2kZYUdu0ytoAhTVd99JIM/FGEbz4uX0I5oGWD1X6xL9r9fTekemdCkDHOYT/dnmlh8Qe6LtKC47OLeWyWbulAMH01qL2NmuRH3JO9ReIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMC21LFK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="N74i+GGN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1780658828;
-	bh=grJWHPyWHk8AoQrPfPCjbyowZDDAMw3aAx81Y2+OkBE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=N74i+GGNoRR0g17Ffnu3NiFljaOwuwpxqDTJa+TTkHeJKzoXGffMgGBLgkNZy6V9P
-	 FW0Imepg0M0DhWM8mTNCenAbBV4/lME5xB9WI8+e/iouz18LG0s9xNjLqerAsABoEW
-	 LlEeOcceVMFODm5FuCtxrHcqbrh/PRJCZ8cEZVOpemUnWLXhoas7Bkfmkvai0zSHKV
-	 0xCxUlhn1ewaBnBdUNOe1z1vXFWJaJyL1CE5/0svZmq4cTKPhwiTaqDiUfkrw6AuPA
-	 Mqs2bk0KvRWGChOHirz1VP6jjLrxCeFCQ834fPxVyLumz1+ltC+Ptp+UXJh3KShG5r
-	 8gU5ZyT/srkBg==
-Message-ID: <158bc103-7f99-4df4-8d3b-2da9b04ac0ed@lankhorst.se>
-Date: Fri, 5 Jun 2026 13:27:09 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMC21LFK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC581F00893;
+	Fri,  5 Jun 2026 11:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780659781;
+	bh=UvHXc8Wa99igeIl7xckPhI70Cop5FhBGDIa6jmltA4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JMC21LFKDA1kPlweR0clo954/ecOI5AU9OS9Zp07y3eR91V1xOl8O6J5r3seIzpRU
+	 ZGndTfupFYhckhpPW0to+Izj1rzvohHlzVRe+Ew0QwUNAUTZbXc1W1TjaHM8ug1/0J
+	 f5icpYSDKct/0/MNLgtK+uCSYMPbFsiN3MHxXQSDTRl/lHE1bT7iuYpE++MQzwCHE+
+	 nXYhbhFoN/pYVgVEoxLV5yWirylWZ6zn0bRr7d1Q9Z2Mmot5pjdb6ozaSeOVmSYfJZ
+	 0tlMK4JZjrEENpZdbKEH18Sn/WRBkH2/o12am0effAE1ufKvlcKfazl83erZ8HLFQo
+	 Sd5Brrgu74WSA==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A5B16F4007E;
+	Fri,  5 Jun 2026 07:42:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 05 Jun 2026 07:42:59 -0400
+X-ME-Sender: <xms:Q7YiagGo4p1mC9UkkVMbbzreAkrAzX0Cvz1bY3igE4JC9BJ09WshfA>
+    <xme:Q7YiaraxMuvzRQMRiK9r85BuT2JtizvmiAn7Z-C8feXKnzsIpl2e8eSU6N_3KmuU4
+    a1KWqC0vpJmiHJXGf4f3wBLy7BAMl1dW05_hLoSKtYg16yi9OMpvnc>
+X-ME-Received: <xmr:Q7YiaoQ03NAB-nX6EMWSpLVuokzrLP1jZ3dcbrGUsEAP6VyJ_pIUs8JGWbwzew>
+X-ME-Proxy-Cause: dmFkZTFYaIvxv9MP+iw0KsftJJWaFrp5VUjXabHoGf57vb2raD7+CO9Kp337Bre/hKBoAK
+    9IO/oXQejZtUBc2brjuFlQ4eTz6ohV5VY3IyFbCZl5laikyvbqiUnR0DIJEjq/7qfrFmS9
+    KkSKe2NHawg5KaGREDOHaStqlk3hw9Wddz5brumMPPgS0g5DcCsX9Ay2osLqaNLq5py/ib
+    s/mLxh+NqzybNG41UqbojayVEHkL7mySQTTIOfS+WzFElTpWWcy14u5vmuiOt+AlaYLPQm
+    xRMtTWF2kevkwye8RZm17o7WSC3MHDeHxQkDtei5bGD3keIPOXIkhIpgZffYLuaGdI5ae6
+    V/0nc/4ps2b8RU+qff2+EF1Jq6EZkXzd51RI/1MhCfAC34KfYaZKTaeabwgmxC/Y5qSPVQ
+    Ja2vXI9tPDFsa4XRPzXt9YvQBkaBhPc0OXasZaAb6Fe069yaJlNv1xwAC7Z7Xr2KI5H/EU
+    aaHMQZc/+m3WwhYc0TRtt2B4zSk8oznh8yiAwDbs3HLvUTQRp7W6NCDiDHqWbq2fWxFpqd
+    5DPc0vyXqVq4EknQgyYzjTnp1U3LfT1QJWC5WyZoFw4AhksjVRarENAifITjHSfQKgQ5AI
+    wrGxTUsJ3YPwqaeFRh4R24yc6carEM8iUOrHP+NQZzFlcvh33Rb9itatbU5w
+X-ME-Proxy: <xmx:Q7YianBodlK9I_FscX7uFhfmBzN2f0k0z4MMrB3gmEdt6HaaLUPdLw>
+    <xmx:Q7Yiai51kYAdfaI8HBCAvuWs_2mK4-l39rZmY7vNqKn5RX0MX1WdEA>
+    <xmx:Q7YiavA6wiqYkIysquuVFuPGZO2GYYoUUC9vL6xnnBqV77sXIjrYlA>
+    <xmx:Q7Yiau5JJ0_T8rOH5OCoGaLrs_VzPk87rSdzL49CDz7SrwgTrBu5Cg>
+    <xmx:Q7YiajvNsJrn3ZWwPQTsrmbq05jobKiz1J7aPkGi1jpQ5fovWvLdX_3k>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Jun 2026 07:42:57 -0400 (EDT)
+Date: Fri, 5 Jun 2026 12:42:52 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Chao Gao <chao.gao@intel.com>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, 
+	"Huang, Kai" <kai.huang@intel.com>, "Hansen, Dave" <dave.hansen@intel.com>, 
+	"Zhao, Yan Y" <yan.y.zhao@intel.com>, "seanjc@google.com" <seanjc@google.com>, 
+	"mingo@redhat.com" <mingo@redhat.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "nik.borisov@suse.com" <nik.borisov@suse.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "Annapurve, Vishal" <vannapurve@google.com>, 
+	"bp@alien8.de" <bp@alien8.de>, 
+	"kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>
+Subject: Re: [PATCH v6 06/11] x86/virt/tdx: Optimize tdx_pamt_get/put()
+Message-ID: <aiK1_q8beMcIEiwO@thinkstation>
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
+ <20260526023515.288829-7-rick.p.edgecombe@intel.com>
+ <ahVghgNAe4JrmlQH@intel.com>
+ <fe08f03a22acfe758cd97f7c2880deeafbc5fe58.camel@intel.com>
+ <aiGq7XjmMrsqdBY5@thinkstation>
+ <aiJhScChLZkH44eB@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] cgroup/dmem: add dmem.memcg control file for
- double-charging to memcg
-To: Eric Chanudet <echanude@redhat.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
- <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>,
- Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- Dave Airlie <airlied@gmail.com>, linux-doc@vger.kernel.org
-References: <20260519-cgroup-dmem-memcg-double-charge-v2-0-db4d1407062b@redhat.com>
- <20260519-cgroup-dmem-memcg-double-charge-v2-2-db4d1407062b@redhat.com>
- <ahBxB5a9sX9DEWvl@localhost.localdomain> <ahXKFYBdCMDBvc_N@x1nano>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <ahXKFYBdCMDBvc_N@x1nano>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aiJhScChLZkH44eB@intel.com>
 
-Hey,
+On Fri, Jun 05, 2026 at 01:40:25PM +0800, Chao Gao wrote:
+> On Thu, Jun 04, 2026 at 05:59:02PM +0100, Kiryl Shutsemau wrote:
+> >On Tue, May 26, 2026 at 04:42:24PM +0000, Edgecombe, Rick P wrote:
+> >> On Tue, 2026-05-26 at 16:57 +0800, Chao Gao wrote:
+> >> > > -	scoped_guard(spinlock, &pamt_lock) {
+> >> > 
+> >> > This converts the scoped_guard() added by the previous patch to
+> >> > explicit lock/unlock and goto. It would reduce code churn if the
+> >> > previous patch used that form directly.
+> >> 
+> >> Yea, it's a good point. I actually debated doing it, but decided not to because
+> >> the scoped version is cleaner for the non-optimized version. But for
+> >> reviewability, never doing the scoped version is probably better.
+> >
+> >I don't see a reason why we can't keep the scoped_guard() on get side.
+> 
+> One additional reason to drop scoped_guard() is that it mixes cleanup helpers
+> with goto, which is discouraged. See [*]
+> 
+>  :Lastly, given that the benefit of cleanup helpers is removal of “goto”, and
+>  :that the “goto” statement can jump between scopes, the expectation is that
+>  :usage of “goto” and cleanup helpers is never mixed in the same function.
 
-On 5/26/26 18:59, Eric Chanudet wrote:
-> On Fri, May 22, 2026 at 05:26:16PM +0200, Michal Koutný wrote:
->> Hello Eric.
->>
->> On Tue, May 19, 2026 at 11:59:02AM -0400, Eric Chanudet <echanude@redhat.com> wrote:
->>> Add a root-only cgroupfs file "dmem.memcg" that lets an administrator
->>> configure whether allocations in a dmem region should also be charged to
->>> the memory controller.
->>
->> This kinda makes sense as it is not unlike io.cost.* device
->> configurators.
->>
->> Just for my better understanding -- will there be a space for userspace
->> to switch this? (No charged dmem allocations happen before responsible
->> userspace runs, so that the attribute remains unlocked.)
->>
->> (I'm rather indifferent about the actual double charging/non-charging
->> matter.)
-> 
-> Yes, this is intended to be configured before the user space stack that
-> would start allocating things is started. Once it has started (and tried
-> to charge something), the configuration is locked
-> 
->>
->>>
->>> To handle inheritance, dmem adds a depends_on the memory controller,
->>> unless MEMCG isn't configured in.
->>>
->>> Double-charging is disabled by default. Once a charge is attempted, the
->>> setting is locked to prevent inconsistent accounting by a small 4-state
->>> machine (off, on, locked off, locked on).
->>>
->>> The memcg to charge is derived from the pool's cgroup, since the pool
->>> holds a reference to the dmem cgroup state that keeps the cgroup alive
->>> until it gets uncharged.
->>>
->>> Signed-off-by: Eric Chanudet <echanude@redhat.com>
->>> ---
->>>  Documentation/admin-guide/cgroup-v2.rst |  23 +++++
->>>  kernel/cgroup/dmem.c                    | 158 +++++++++++++++++++++++++++++++-
->>>  2 files changed, 178 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->>> index 6efd0095ed995b1550317662bc1b56c7a7f3db23..1d2fa55ddf0faa17baa916a8914d3033e8e42359 100644
->>> --- a/Documentation/admin-guide/cgroup-v2.rst
->>> +++ b/Documentation/admin-guide/cgroup-v2.rst
->>> @@ -2828,6 +2828,29 @@ DMEM Interface Files
->>>  	  drm/0000:03:00.0/vram0 12550144
->>>  	  drm/0000:03:00.0/stolen 8650752
->>>  
->>> +  dmem.memcg
->>> +	A readwrite nested-keyed file that exists only on the root
->>> +	cgroup.
->>
->> Strictly speaking this is not nested-keyed but flat keyed [1],
-> 
-> Indeed,
-> 
->> which leads me to realization that this is the first instance of a boolean.
->> All in call, such a composition comes to my mind (latter is RO):
->>
->> 	drm/0000:03:00.0/vram0 enable=0|1 locked=0|1
->>
-> 
-> So per[1] 1 key, 2 sub-keys (enable RW, locked RO), that looks better
-> and match the documentation, thanks!
-> 
->>
->>
->>> +static ssize_t dmem_cgroup_memcg_write(struct kernfs_open_file *of, char *buf,
->>> +				       size_t nbytes, loff_t off)
->>> +{
->>> +	while (buf) {
->>> +		struct dmem_cgroup_region *region;
->>> +		char *options, *name;
->>> +		bool flag;
->>> +
->>> +		options = buf;
->>> +		buf = strchr(buf, '\n');
->>> +		if (buf)
->>> +			*buf++ = '\0';
->>
->> I recall there was a discussion about accepting only a single device per
->> write(2) (at the same time I see this idiom is still present in other
->> dmem.* files, so this is nothing to change in _this_ patch).
-> 
-> I would second that. When setting say dmem.max for 2 regions, with a
-> typo on the second, the first one is set, but write still get EINVAL.
-> 
-> Also, I just notice dmemcg_limit_write() returns EINVAL if the region is
-> not found (this patch returns ENODEV).
-> 
->>
->> Thanks,
->> Michal
->>
->> [1] https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html#format
-> 
-> 
-> 
+Fair enough.
 
-Perhaps a bit late, but before we start adding this UAPI we should enforce a
-single region per write?
+But it can also be address if we free the PAMT page array with the guard
+too :P
 
-Kind regards,
-~Maarten Lankhorst
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
