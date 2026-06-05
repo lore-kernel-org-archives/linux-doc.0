@@ -1,224 +1,701 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2273BB139
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD013CBE95
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780630465; cv=none; b=S0/8Rnq3slL3eaDoF6+HWpdujwpSfOjgqEuMhfSyzMz3dC0WlMqIa8Tu10HW6AZVfgB+FLH1mvK2zRARz65UpIWi8KNSkBbeyFgIC/gm3qoShe1VsDca8sXMAN02jU6lq0Mo4trfC+I1Gi/RR60KQP8wsaMFeceSNnQl/irleg8=
+	t=1780631434; cv=none; b=AIrKrM4J8dx4Ts4QIWCmtBnMh8xD9aY/fCSMjwnsUfGrkNqgqXNm19GoaGgcRns1xU6rGluCvVDlDwP7HyOBQhZ76DbFqu5GG/Kl9EvVQZhgw5rLdkZjPxcf3U1/gODaFJ/cV2+MJH30XC4AeOIl9Tvkjt78P1L+LIhkvxZ4K1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780630465; c=relaxed/simple;
-	bh=EryfO6BIhkEjNjxl4nuOnpJQVHpd6RmCotJcy7+BaGQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GY957zLnMCFkQAYvhuGx2Q5KaNBnkK6tqkt8WMI8MMQZLy7kA7lO8r6VAqYUQIvsdTAUuTHQpEXuPKhCQYCxcxDmoqTbCODtpBG5s4Ste0xSvCPhZutXyP0MPlWNt/JjlP3drwIrjuriEiQPQ7H3dLHQyW6KJ8CPbiEXH+7E7t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fpwL7b4m; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780631434; c=relaxed/simple;
+	bh=OzGiLhv6mH0UTVkPefYL9cM+XAnRKT5wM9cHyi6P9Us=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvApg4HaOmNlRlXPGBjGX8pWxGk3PW84MpC1UP/h7jXWyrUl5WvczAzBr3gVPmkVDSt88LySD6GVSpOj5TXgAIwJQAOOEkZxZgEBHUByCSIyX6AwncHe6tH73Zcr+5hCGF8atAJQuCVdC8WAsEvH/Moxfoxdv7GZ8ExYE+07pK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LPE01rSR; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fpwL7b4m"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51764768c36so20941931cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:34:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LPE01rSR"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8422a92b6d6so774680b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780630463; x=1781235263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rfxlNkzCx8TA3SebJdSu06wI/is0K0+hQNvlMemiJzs=;
-        b=fpwL7b4mVbU5SWWgO7SMj/OjXxWa785AG4w3MSGrnRIBYHpNpz3QZRhK7EvOP96BzM
-         89Ep7ecmEBt1skBHo3gW3OBBseh91kz75FC3z6aOVnx0utwLmcmRGHpzovaZxwrpLmBo
-         +3nATnatQF4+QDE/0Wh8t09jaBDtHxVwboemJu7RofMpZhSmaF1TCgQFDZ7X4+MLwY1D
-         sff4Uu1SBOVncw92VZ1WHAy8MlBj8k2NYg22YwjcZB0z2UdXZHPOLRD0JdpU7kGkzP59
-         fnDVDYTeskdhJ8KVqWftlhEErYj4rMOwpsm6CfnPyACWhyN26ee/JAAebnslaGSmmUMw
-         YchA==
+        d=gmail.com; s=20251104; t=1780631431; x=1781236231; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FBpzua9UFewjkDMOiANBoxTvSsSeBFno2QoKdiR8KiI=;
+        b=LPE01rSRD6SAf8OG4NRG/Nez5ekf+thyh9OFENYHtHq3DWbiJDx2U1Ow6Vo/03/QXk
+         qRLOsGORQcyaBcQSmarbq3bW0IT3cMEegtbzFuYLOYaANjBVKcbGUP3hf84ZfBldmEsJ
+         /ySTFKFQ6X5sw35FhUh4pLNkTBS9dOPEDL/mqlkSSMfPR7nRoqJSb1cxPzWOaXDantCh
+         wpvuP5oHYdPGtbd/JsayF9j4AYCwRhhka+SPxXfDf/MXawwGasBRRbqhjA9IZvuSpj9t
+         hGnxU6TAoyG5D3pODulR7z/FJCbxX0ohR87diB48jJA9sbdjO5Gf3T7svhVbNFRB8iig
+         dyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780630463; x=1781235263;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rfxlNkzCx8TA3SebJdSu06wI/is0K0+hQNvlMemiJzs=;
-        b=VNOUsvxvnilb6eNkmrFg0f3GYVPQcgYaiHUKp88d7UZCCPJLOerybJU2LagqDuQClC
-         MU6a8ZrR9Gkqi3CNIJArBn4hR6Bshn78o4tqPlSyOcjmm/dPE7LUhMkZYzAHDEqLFbsc
-         CEV22BtaZHPHpo/XsJPir/BDQH/6iFY+1cmezB5Y9Ybx/mC7mPnizDYhFr9kFNzHXjtv
-         pmo8+Fl4cbcwK8yDqkrv5eZBXFoWJSp6R9reKLFq4x11s+z24tGl16bJA3OrEHpgGRsE
-         iqYcPw4xFQeCidrtINC26aMKG5Qbnp185wQUtTWSvaSlcVzTiM3R/3KL6nYwACsz+LYm
-         zdLQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/GzAG31ILTS2GEpYNWhJXnXY1A0eZJE0jv5+l0od1UjyVztosDo/GfU7FtzhoIibWAiyoDQRGw8+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhLfERiW4EgnPC5LexVZpPsrl7BsH1UMYdA9+B6xCjl6n7VTjE
-	jDPu799pkZKtoQXskwx9Rmevci+b3W2TxAxFyYY3guWo/ruVnZ3WR7bVDuyVazuoMYk=
-X-Gm-Gg: Acq92OHgWlnEyBMoEQNysISN4iIl8ER5BCqhGiZ95mI5gMbwE5dsZycY7SbAY/phR2k
-	v9y3oM2Nwmev1S49EA1QpYlknuZNK+xRLlp8Q+FQ5S0pdCGzB1bNiTd4azQlp4uuOxBep1wkqTB
-	F433M1s3nZzz61cHZ26BGUoOx6ULhFOqb3N20byIU7b1x6Qopgxd8y2m2v+C8OvS7zvkJdEx39w
-	+iIhllhCXyeNG5cAHT9F2mZpXB+X2mosTiQUOAa56D9gFzMvvZ3AOFNtKMVWD5NG0WrNxQK5f/I
-	87lad9qOcukvjnCS+rhWZGbjs0SfV73O4tnl/T58Fwxpf42y85jgmtXoNJL0gPe2tpx+DgvMPuC
-	BtshkRJ8D5MDDdSCM0W0f5S8KMyMPas5xT7Td41rb9o5J/8pYMtdPAynxpA73SyBtRnrD2ehj0r
-	nJbqhCiIZXZCIEZth5r2I9MDhAbp/f4IYPR+5SHBlgqguVNUmkgWXWAOrcHYlBoA==
-X-Received: by 2002:a05:622a:4106:b0:517:6665:2a9a with SMTP id d75a77b69052e-51795c920f2mr28080531cf.50.1780630463488;
-        Thu, 04 Jun 2026 20:34:23 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775df4dd6sm67871381cf.27.2026.06.04.20.34.22
+        d=1e100.net; s=20251104; t=1780631431; x=1781236231;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FBpzua9UFewjkDMOiANBoxTvSsSeBFno2QoKdiR8KiI=;
+        b=KyIoyoE0qeE9AsYdXWFq9XTCgbGT6k4xENreIkEJTEJECWDUfJ1DKKuIw/TzTLuAXt
+         uYjpMgpOytGW4sca8TD5tFtweoKGUzX5CU87FwmqsU/7tRrEZY/0byO1OyO9wc1bE4O0
+         0nE7RoqAGR5tc/i28oRPSAqSgR5XACafbaSEeTQ7FuZnc3TJtBqgOmsbGIPiqhoFp3Gn
+         UYcJsnHDL/AI54N46FcVDQnrltGahTjOI+ucq4pexnXzTouFy4OrylZTZ/9t4KD1vmI6
+         pd758VKAPB7wcX47lgMyyYVEBy2l9EpyBikc4MwjepGlEp+RuQJZnODTvtMPpPTiGpFQ
+         hpGg==
+X-Gm-Message-State: AOJu0Ywi+O3oJW6dfVEmyycoznSg57H1+Mx8WH7YX0LNQN4u3m170Afb
+	8R947+xuYv4g1Fu37cUdP/Tl/NqWqE9ravnu1hRa3HqMrkeKUZrU6D6M
+X-Gm-Gg: Acq92OH7B+XVn9OBahwWB0s7Qj3IeYllp/8O0LvaUKmx/ZJonOwzIVj2N4XVtVpT9bI
+	fPtba0skaOGcS/PgimBbNnTXbuA3tjXzWG4RKxPfTL63nBoZ4IOwPuO5edtNZ5SkY3rfAu9p9QC
+	+WxCmdwMDssdeqTAGrK0k/YaC2fn+VM8UBrj0YL1SDkPs8Xct8wRWAl9g6cGEjtmZmAOXCYrtYE
+	7f+dZTx9gUd+8K4m/FCCr6dM7nxYUA9/JK3GYP/Wlr+fI4oahI8WLhj9e9jV+S2jeP2ysnlF2A7
+	c32mHk40psjovGM3bttyn59Mi+CUt10AlRK91J4xz1vHtHRg4925xB8A6svaopz8KjchBCsRAEl
+	vsZwrdQPqFZAwnKrtk5AQriL+3aqpQ4sx9168N78vAafbRT7QoEYaVLcYIiq4pPiI9Q8amF6hom
+	wgfmugWAxNMGVF4F/vQ+QcbqrkCXMR0HSHdQ==
+X-Received: by 2002:a05:6a00:148d:b0:82c:1cd0:2f7e with SMTP id d2e1a72fcca58-842b67ed4b7mr606788b3a.20.1780631431110;
+        Thu, 04 Jun 2026 20:50:31 -0700 (PDT)
+Received: from localhost ([2001:19f0:8001:1b2d:5400:5ff:fefa:a95d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828cb2bdsm8106793b3a.41.2026.06.04.20.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:34:23 -0700 (PDT)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: linux-kselftest@vger.kernel.org,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	akpm@linux-foundation.org,
-	linux-mm@kvack.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	jasonmiu@google.com,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	ran.xiaokai@zte.com.cn,
-	pasha.tatashin@soleen.com,
-	kexec@lists.infradead.org,
-	pratyush@kernel.org,
-	graf@amazon.com
-Subject: [RFC v1 9/9] liveupdate: add KUnit test to verify alphabetical order of compatibility strings
-Date: Fri,  5 Jun 2026 03:32:35 +0000
-Message-ID: <20260605033235.717351-10-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260605033235.717351-1-pasha.tatashin@soleen.com>
-References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
+        Thu, 04 Jun 2026 20:50:30 -0700 (PDT)
+Date: Fri, 5 Jun 2026 11:50:08 +0800
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Guodong Xu <docular.xu@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <atish.patra@linux.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Shuah Khan <shuah@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@sifive.com>, 
+	Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org, spacemit@lists.linux.dev, 
+	sophgo@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Andrew Jones <andrew.jones@oss.qualcomm.com>, Charles Jenkins <thecharlesjenkins@gmail.com>, 
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH v3 11/15] riscv: dts: sophgo: sg2044: Add Zic64b ISA
+ extension
+Message-ID: <aiJG85NxiVQWOAQt@inochi.infowork>
+References: <20260603-rva23u64-hwprobe-v2-v3-0-5529a7b28384@gmail.com>
+ <20260603-rva23u64-hwprobe-v2-v3-11-5529a7b28384@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603-rva23u64-hwprobe-v2-v3-11-5529a7b28384@gmail.com>
 
-Introduce a KUnit test suite to verify that composite compatibility
-strings are formatted correctly, specifically ensuring that all KHO
-sub-component compatibility strings are unique and strictly sorted
-in alphabetical order.
+On Wed, Jun 03, 2026 at 07:12:06AM -0400, Guodong Xu wrote:
+> The SG2044 cores have 64-byte cache blocks, described by their
+> cbom/cbop/cboz-block-size of 64, so they implement Zic64b.  Declare it in
+> each core's riscv,isa-extensions.
+> 
+> Signed-off-by: Guodong Xu <docular.xu@gmail.com>
 
-Maintaining alphabetical order in composite compatibility strings
-is required to guarantee consistent, predictable, and reproducible
-compatibility string representation across different system configurations.
+I have confirmed SG2044 supports this features.
 
-The test suite validates:
-- KHO_FDT_COMPATIBLE (the root composite compatibility string)
-- LUO_ABI_COMPATIBLE (the LUO composite compatibility string)
-- MEMFD_LUO_FH_COMPATIBLE (the memfd file handler composite compatibility string)
+Acked-by: Inochi Amaoto <inochiama@gmail.com>
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- kernel/liveupdate/Kconfig                 | 15 ++++++
- kernel/liveupdate/Makefile                |  2 +
- kernel/liveupdate/liveupdate_test.c       | 56 +++++++++++++++++++++++
- tools/testing/selftests/liveupdate/config |  1 +
- 4 files changed, 74 insertions(+)
- create mode 100644 kernel/liveupdate/liveupdate_test.c
+Regards,
+Inochi
 
-diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-index c13af38ba23a..617a31dcee73 100644
---- a/kernel/liveupdate/Kconfig
-+++ b/kernel/liveupdate/Kconfig
-@@ -86,4 +86,19 @@ config LIVEUPDATE_MEMFD
- 
- 	  If unsure, say N.
- 
-+config LIVEUPDATE_KUNIT_TEST
-+	tristate "KUnit tests for LUO and KHO" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	depends on LIVEUPDATE
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Enable KUnit tests for LUO and KHO. These tests verify that the
-+	  composite KHO, LUO, and memfd compatibility strings remain unique
-+	  and sorted alphabetically.
-+
-+	  For more information on KUnit and unit tests in general, please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- endmenu
-diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
-index b481e21a311a..5e0deb85e1b1 100644
---- a/kernel/liveupdate/Makefile
-+++ b/kernel/liveupdate/Makefile
-@@ -17,3 +17,5 @@ obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
- obj-$(CONFIG_KEXEC_HANDOVER_DEBUGFS)	+= kexec_handover_debugfs.o
- 
- obj-$(CONFIG_LIVEUPDATE)		+= luo.o
-+obj-$(CONFIG_LIVEUPDATE_KUNIT_TEST)		+= liveupdate_test.o
-+
-diff --git a/kernel/liveupdate/liveupdate_test.c b/kernel/liveupdate/liveupdate_test.c
-new file mode 100644
-index 000000000000..15688d69735e
---- /dev/null
-+++ b/kernel/liveupdate/liveupdate_test.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * KUnit test for Live Update compatibility strings.
-+ */
-+#include <kunit/test.h>
-+#include <linux/string.h>
-+#include <linux/kho/abi/kexec_handover.h>
-+#include <linux/kho/abi/luo.h>
-+#include <linux/kho/abi/memfd.h>
-+
-+/* Verify that compatibility sub-components are unique and sorted alphabetically */
-+static bool is_alphabetical_unique(const char *compat)
-+{
-+	char buf[1024];
-+	char *string = buf;
-+	char *token;
-+	char *prev = NULL;
-+	char *sub;
-+
-+	strscpy(buf, compat, sizeof(buf));
-+
-+	sub = strchr(string, ';');
-+	if (!sub)
-+		return true;
-+
-+	sub++;
-+
-+	while ((token = strsep(&sub, ";")) != NULL) {
-+		if (prev && strcmp(prev, token) >= 0)
-+			return false;
-+		prev = token;
-+	}
-+
-+	return true;
-+}
-+
-+static void test_compatibility_alphabetical(struct kunit *test)
-+{
-+	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(KHO_FDT_COMPATIBLE));
-+	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(LUO_ABI_COMPATIBLE));
-+	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(MEMFD_LUO_FH_COMPATIBLE));
-+}
-+
-+static struct kunit_case liveupdate_test_cases[] = {
-+	KUNIT_CASE(test_compatibility_alphabetical),
-+	{}
-+};
-+
-+static struct kunit_suite liveupdate_test_suite = {
-+	.name = "liveupdate-compatibility",
-+	.test_cases = liveupdate_test_cases,
-+};
-+
-+kunit_test_suite(liveupdate_test_suite);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
-index 91d03f9a6a39..28c54bb473b8 100644
---- a/tools/testing/selftests/liveupdate/config
-+++ b/tools/testing/selftests/liveupdate/config
-@@ -6,6 +6,7 @@ CONFIG_KEXEC_HANDOVER_DEBUGFS=y
- CONFIG_KEXEC_HANDOVER_DEBUG=y
- CONFIG_LIVEUPDATE=y
- CONFIG_LIVEUPDATE_TEST=y
-+CONFIG_LIVEUPDATE_KUNIT_TEST=y
- CONFIG_MEMFD_CREATE=y
- CONFIG_TMPFS=y
- CONFIG_SHMEM=y
--- 
-2.53.0
-
+> ---
+> v3: New patch.
+> ---
+>  arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi | 128 ++++++++++++++--------------
+>  1 file changed, 64 insertions(+), 64 deletions(-)
+> 
+> diff --git a/arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi b/arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi
+> index 3135409c21492..2ac4a41bbc3a7 100644
+> --- a/arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi
+> +++ b/arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi
+> @@ -31,7 +31,7 @@ cpu0: cpu@0 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -67,7 +67,7 @@ cpu1: cpu@1 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -103,7 +103,7 @@ cpu2: cpu@2 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -139,7 +139,7 @@ cpu3: cpu@3 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -175,7 +175,7 @@ cpu4: cpu@4 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -211,7 +211,7 @@ cpu5: cpu@5 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -247,7 +247,7 @@ cpu6: cpu@6 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -283,7 +283,7 @@ cpu7: cpu@7 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -319,7 +319,7 @@ cpu8: cpu@8 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -355,7 +355,7 @@ cpu9: cpu@9 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -391,7 +391,7 @@ cpu10: cpu@10 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -427,7 +427,7 @@ cpu11: cpu@11 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -463,7 +463,7 @@ cpu12: cpu@12 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -499,7 +499,7 @@ cpu13: cpu@13 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -535,7 +535,7 @@ cpu14: cpu@14 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -571,7 +571,7 @@ cpu15: cpu@15 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -607,7 +607,7 @@ cpu16: cpu@16 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -643,7 +643,7 @@ cpu17: cpu@17 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -679,7 +679,7 @@ cpu18: cpu@18 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -715,7 +715,7 @@ cpu19: cpu@19 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -751,7 +751,7 @@ cpu20: cpu@20 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -787,7 +787,7 @@ cpu21: cpu@21 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -823,7 +823,7 @@ cpu22: cpu@22 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -859,7 +859,7 @@ cpu23: cpu@23 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -895,7 +895,7 @@ cpu24: cpu@24 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -931,7 +931,7 @@ cpu25: cpu@25 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -967,7 +967,7 @@ cpu26: cpu@26 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1003,7 +1003,7 @@ cpu27: cpu@27 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1039,7 +1039,7 @@ cpu28: cpu@28 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1075,7 +1075,7 @@ cpu29: cpu@29 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1111,7 +1111,7 @@ cpu30: cpu@30 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1147,7 +1147,7 @@ cpu31: cpu@31 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1183,7 +1183,7 @@ cpu32: cpu@32 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1219,7 +1219,7 @@ cpu33: cpu@33 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1255,7 +1255,7 @@ cpu34: cpu@34 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1291,7 +1291,7 @@ cpu35: cpu@35 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1327,7 +1327,7 @@ cpu36: cpu@36 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1363,7 +1363,7 @@ cpu37: cpu@37 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1399,7 +1399,7 @@ cpu38: cpu@38 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1435,7 +1435,7 @@ cpu39: cpu@39 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1471,7 +1471,7 @@ cpu40: cpu@40 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1507,7 +1507,7 @@ cpu41: cpu@41 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1543,7 +1543,7 @@ cpu42: cpu@42 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1579,7 +1579,7 @@ cpu43: cpu@43 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1615,7 +1615,7 @@ cpu44: cpu@44 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1651,7 +1651,7 @@ cpu45: cpu@45 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1687,7 +1687,7 @@ cpu46: cpu@46 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1723,7 +1723,7 @@ cpu47: cpu@47 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1759,7 +1759,7 @@ cpu48: cpu@48 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1795,7 +1795,7 @@ cpu49: cpu@49 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1831,7 +1831,7 @@ cpu50: cpu@50 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1867,7 +1867,7 @@ cpu51: cpu@51 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1903,7 +1903,7 @@ cpu52: cpu@52 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1939,7 +1939,7 @@ cpu53: cpu@53 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -1975,7 +1975,7 @@ cpu54: cpu@54 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2011,7 +2011,7 @@ cpu55: cpu@55 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2047,7 +2047,7 @@ cpu56: cpu@56 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2083,7 +2083,7 @@ cpu57: cpu@57 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2119,7 +2119,7 @@ cpu58: cpu@58 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2155,7 +2155,7 @@ cpu59: cpu@59 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2191,7 +2191,7 @@ cpu60: cpu@60 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2227,7 +2227,7 @@ cpu61: cpu@61 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2263,7 +2263,7 @@ cpu62: cpu@62 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> @@ -2299,7 +2299,7 @@ cpu63: cpu@63 {
+>  					       "svinval", "svnapot", "svpbmt",
+>  					       "zawrs", "zba", "zbb", "zbc",
+>  					       "zbs", "zca", "zcb", "zcd",
+> -					       "zfa", "zfbfmin", "zfh", "zfhmin",
+> +					       "zfa", "zfbfmin", "zfh", "zfhmin", "zic64b",
+>  					       "zicbom", "zicbop", "zicboz", "ziccrse",
+>  					       "zicntr", "zicond","zicsr", "zifencei",
+>  					       "zihintntl", "zihintpause", "zihpm",
+> 
+> -- 
+> 2.43.0
+> 
+> 
+> -- 
+> kvm-riscv mailing list
+> kvm-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kvm-riscv
