@@ -1,63 +1,63 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDEC3D1A98
-	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2273BB139
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 03:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780630454; cv=none; b=PsI+VSEL2XeGd2bcXdOkpE4DdT5MfceoZ7mv5br98vkrI9MmdoI/Rb7cIOQOMvEqD0x1obczsYcdkcN3pyXTH5eS0ebByzsLtCkAuUAfGy9N1F8ewYvaxC76UVzrGXgCDxnUiueKUePeR9/BR4aZxwZfCe1cIztWfNFXRZLrU6A=
+	t=1780630465; cv=none; b=S0/8Rnq3slL3eaDoF6+HWpdujwpSfOjgqEuMhfSyzMz3dC0WlMqIa8Tu10HW6AZVfgB+FLH1mvK2zRARz65UpIWi8KNSkBbeyFgIC/gm3qoShe1VsDca8sXMAN02jU6lq0Mo4trfC+I1Gi/RR60KQP8wsaMFeceSNnQl/irleg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780630454; c=relaxed/simple;
-	bh=gG+BMzTQAvQ99ajXilaSRudbxpmfCpeFzhzw+IUPT7Y=;
+	s=arc-20240116; t=1780630465; c=relaxed/simple;
+	bh=EryfO6BIhkEjNjxl4nuOnpJQVHpd6RmCotJcy7+BaGQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eOzd0y/Y6o4z38+cYxfTbuv10TkQTOY0+A8y1Wx6md57FtauEzqyxr8LnXLzn3yK8cq7vUCLZvlu521jgKY/hz+uBBigV9+SEl8OrLa0oOlVLEFSD32A164z/5SDdLqBUc6jbguxITIdp/na6vQjMNoSq5DfGkBJ3kbLDIiKpc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=lGJL4ynJ; arc=none smtp.client-ip=209.85.222.178
+	 MIME-Version; b=GY957zLnMCFkQAYvhuGx2Q5KaNBnkK6tqkt8WMI8MMQZLy7kA7lO8r6VAqYUQIvsdTAUuTHQpEXuPKhCQYCxcxDmoqTbCODtpBG5s4Ste0xSvCPhZutXyP0MPlWNt/JjlP3drwIrjuriEiQPQ7H3dLHQyW6KJ8CPbiEXH+7E7t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fpwL7b4m; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="lGJL4ynJ"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9157b94a07aso211435885a.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:34:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fpwL7b4m"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51764768c36so20941931cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Jun 2026 20:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780630452; x=1781235252; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1780630463; x=1781235263; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2YcWKgEizOcY9z0vq5q3df4Dwqk/3q2KHCFvnTeL730=;
-        b=lGJL4ynJqM5hV2myVR4/CaQ0T32pZ5fy4ZVzaNNabzCaj0xXm9co9facJb0a2boji3
-         YRtpNZVdrcCoqWRh9LL9YTI2nquCLecmsJIlqWuDItCpG+rKuV9/7ZPbD6iFxR38AJvT
-         J1lVBTiaj3eVEiBBUOJgeGygq2+gYEDXHVib157pFnbR6g9gEgmdUYN1pJ1GhLBHduuD
-         gK5ZJ/V5sfQ/jUgQrkaXHmoIbvlzEgn32w/bgr7MKuetzuDz0kWPGZdlywMtQxtRqfKK
-         VbUU+5fBF7+KGKd5T7YUlb9Gt7KpZd3sk2X82RC5eBYOjA2naZWxpoqVtUDYdXx9IPSS
-         VAQA==
+        bh=rfxlNkzCx8TA3SebJdSu06wI/is0K0+hQNvlMemiJzs=;
+        b=fpwL7b4mVbU5SWWgO7SMj/OjXxWa785AG4w3MSGrnRIBYHpNpz3QZRhK7EvOP96BzM
+         89Ep7ecmEBt1skBHo3gW3OBBseh91kz75FC3z6aOVnx0utwLmcmRGHpzovaZxwrpLmBo
+         +3nATnatQF4+QDE/0Wh8t09jaBDtHxVwboemJu7RofMpZhSmaF1TCgQFDZ7X4+MLwY1D
+         sff4Uu1SBOVncw92VZ1WHAy8MlBj8k2NYg22YwjcZB0z2UdXZHPOLRD0JdpU7kGkzP59
+         fnDVDYTeskdhJ8KVqWftlhEErYj4rMOwpsm6CfnPyACWhyN26ee/JAAebnslaGSmmUMw
+         YchA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780630452; x=1781235252;
+        d=1e100.net; s=20251104; t=1780630463; x=1781235263;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2YcWKgEizOcY9z0vq5q3df4Dwqk/3q2KHCFvnTeL730=;
-        b=C9uND+JM3EOpisDuAPz9aUG0WM39mxCBjuiaqFzPmmRcnXU2AYkkw/I/XTsrZMUOgO
-         YyOsS1HEY9eX10h4AAo9XcRrgW8dyb4iKe4QLVLkd3aHXZxqFkAjDcxTEIx1MGxl8QI9
-         XTU34UznUo2AODMJTxLOIYsknJjMwMT+6HLICO9xjAgJO7B86wZMt0EcZ3AevJr4CBkK
-         P2QF2NPcNyT0ceCO+04pybVXBYOiWIqm+CVeY9FvyrQnqa37UB0S4l8kgI8VyPkl0Kxj
-         1pNYZ8gQTgvXDpgT1UqPJ6TO+6h6Z3OxtGmq2BKkNzeElcORI8Ui6F8K7Z3fODno7IgL
-         kTlA==
-X-Forwarded-Encrypted: i=1; AFNElJ9LJr2VkDI9EdfVidj/foVWAJHI7yhn9vKaSLc75aW26zdhPjJdrKnTTfWKBQUvqlR2OvLEPn7S6nc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDtlNs2ICGG71ppHb8XvJ8Jzax91AlKMmily4g4pYNruUtO/a+
-	R/7mKk488slcyd034Jc0oIkyatDT3Gk6oKAbT3Q2kYfnJfQTeabMyR8VdsGYtSC7H2I=
-X-Gm-Gg: Acq92OFvcTtW0zuQfHrSxUgnDr2fHr4r4Iac6i+r+EAtfoRZQzUMyDcAwVAkA8oHsKx
-	3OmHu5UPNgjOl05TQp2LfyfjnZb7fvr5nmFmJJoQgv88SRwoMZ76zaRrVAhKuRwZro3bg0O2jzF
-	J1Tj0khEqDHqqT4XsLq/+GXFOs9AMc6PPZD3tYj0Pr21mg9RP6/VLAiuxtZltcNKCaNU8+AlxLu
-	rIbqCE5P6baRPDnetJWIw7esSVblu2Uru7xrEgwCUkK4o+ldqeb77FV0psojZCWmY3laBj2Tnk9
-	8Jb2+YKy6PODy1Ls8bHjIKdCDSi1t64U+yTEo6AX9QPTBDm0n736s9GdfApNwTaxvDK0ei6HlDW
-	D68VzG078cw4b4P7jEkqEF91gq5flJnac8oA+1bu3CKABWCZBDbYjpeMHFpriGs73AVTd1hK5SE
-	DJGT26jLO+T5xnlBWKZ/9lfrtCPQU3//Xc0By4BhTbP+U1iqJbIPMdoFOGylUN5g==
-X-Received: by 2002:a05:620a:f0e:b0:915:a953:4b93 with SMTP id af79cd13be357-915a9c4b267mr362733285a.3.1780630451754;
-        Thu, 04 Jun 2026 20:34:11 -0700 (PDT)
+        bh=rfxlNkzCx8TA3SebJdSu06wI/is0K0+hQNvlMemiJzs=;
+        b=VNOUsvxvnilb6eNkmrFg0f3GYVPQcgYaiHUKp88d7UZCCPJLOerybJU2LagqDuQClC
+         MU6a8ZrR9Gkqi3CNIJArBn4hR6Bshn78o4tqPlSyOcjmm/dPE7LUhMkZYzAHDEqLFbsc
+         CEV22BtaZHPHpo/XsJPir/BDQH/6iFY+1cmezB5Y9Ybx/mC7mPnizDYhFr9kFNzHXjtv
+         pmo8+Fl4cbcwK8yDqkrv5eZBXFoWJSp6R9reKLFq4x11s+z24tGl16bJA3OrEHpgGRsE
+         iqYcPw4xFQeCidrtINC26aMKG5Qbnp185wQUtTWSvaSlcVzTiM3R/3KL6nYwACsz+LYm
+         zdLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/GzAG31ILTS2GEpYNWhJXnXY1A0eZJE0jv5+l0od1UjyVztosDo/GfU7FtzhoIibWAiyoDQRGw8+U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhLfERiW4EgnPC5LexVZpPsrl7BsH1UMYdA9+B6xCjl6n7VTjE
+	jDPu799pkZKtoQXskwx9Rmevci+b3W2TxAxFyYY3guWo/ruVnZ3WR7bVDuyVazuoMYk=
+X-Gm-Gg: Acq92OHgWlnEyBMoEQNysISN4iIl8ER5BCqhGiZ95mI5gMbwE5dsZycY7SbAY/phR2k
+	v9y3oM2Nwmev1S49EA1QpYlknuZNK+xRLlp8Q+FQ5S0pdCGzB1bNiTd4azQlp4uuOxBep1wkqTB
+	F433M1s3nZzz61cHZ26BGUoOx6ULhFOqb3N20byIU7b1x6Qopgxd8y2m2v+C8OvS7zvkJdEx39w
+	+iIhllhCXyeNG5cAHT9F2mZpXB+X2mosTiQUOAa56D9gFzMvvZ3AOFNtKMVWD5NG0WrNxQK5f/I
+	87lad9qOcukvjnCS+rhWZGbjs0SfV73O4tnl/T58Fwxpf42y85jgmtXoNJL0gPe2tpx+DgvMPuC
+	BtshkRJ8D5MDDdSCM0W0f5S8KMyMPas5xT7Td41rb9o5J/8pYMtdPAynxpA73SyBtRnrD2ehj0r
+	nJbqhCiIZXZCIEZth5r2I9MDhAbp/f4IYPR+5SHBlgqguVNUmkgWXWAOrcHYlBoA==
+X-Received: by 2002:a05:622a:4106:b0:517:6665:2a9a with SMTP id d75a77b69052e-51795c920f2mr28080531cf.50.1780630463488;
+        Thu, 04 Jun 2026 20:34:23 -0700 (PDT)
 Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a00b474sm768496585a.10.2026.06.04.20.34.10
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775df4dd6sm67871381cf.27.2026.06.04.20.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 20:34:10 -0700 (PDT)
+        Thu, 04 Jun 2026 20:34:23 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -74,9 +74,9 @@ To: linux-kselftest@vger.kernel.org,
 	kexec@lists.infradead.org,
 	pratyush@kernel.org,
 	graf@amazon.com
-Subject: [RFC v1 8/9] kho: decouple vmalloc compatibility from global KHO version and update memfd
-Date: Fri,  5 Jun 2026 03:32:34 +0000
-Message-ID: <20260605033235.717351-9-pasha.tatashin@soleen.com>
+Subject: [RFC v1 9/9] liveupdate: add KUnit test to verify alphabetical order of compatibility strings
+Date: Fri,  5 Jun 2026 03:32:35 +0000
+Message-ID: <20260605033235.717351-10-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260605033235.717351-1-pasha.tatashin@soleen.com>
 References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
@@ -88,104 +88,137 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Decouple the vmalloc preservation compatibility version from the global
-KHO compatibility version KHO_FDT_COMPATIBLE.
+Introduce a KUnit test suite to verify that composite compatibility
+strings are formatted correctly, specifically ensuring that all KHO
+sub-component compatibility strings are unique and strictly sorted
+in alphabetical order.
 
-Define the independent compatibility version "vmalloc-v1" for vmalloc
-preservation KHO_VMALLOC_COMPATIBLE in vmalloc.h.
+Maintaining alphabetical order in composite compatibility strings
+is required to guarantee consistent, predictable, and reproducible
+compatibility string representation across different system configurations.
 
-Integrate KHO_VMALLOC_COMPATIBLE into the composite root compatibility
-string KHO_FDT_COMPATIBLE.
-
-Additionally, update the memfd compatibility string
-MEMFD_LUO_FH_COMPATIBLE to include the vmalloc compatibility dependency,
-and add a static assertion to verify its length limit.
+The test suite validates:
+- KHO_FDT_COMPATIBLE (the root composite compatibility string)
+- LUO_ABI_COMPATIBLE (the LUO composite compatibility string)
+- MEMFD_LUO_FH_COMPATIBLE (the memfd file handler composite compatibility string)
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/kho/abi/kexec_handover.h | 4 +++-
- include/linux/kho/abi/memfd.h          | 9 ++++++++-
- include/linux/kho/abi/vmalloc.h        | 6 ++++--
- 3 files changed, 15 insertions(+), 4 deletions(-)
+ kernel/liveupdate/Kconfig                 | 15 ++++++
+ kernel/liveupdate/Makefile                |  2 +
+ kernel/liveupdate/liveupdate_test.c       | 56 +++++++++++++++++++++++
+ tools/testing/selftests/liveupdate/config |  1 +
+ 4 files changed, 74 insertions(+)
+ create mode 100644 kernel/liveupdate/liveupdate_test.c
 
-diff --git a/include/linux/kho/abi/kexec_handover.h b/include/linux/kho/abi/kexec_handover.h
-index 49ac4b47cc3d..f048bc95fed3 100644
---- a/include/linux/kho/abi/kexec_handover.h
-+++ b/include/linux/kho/abi/kexec_handover.h
-@@ -10,6 +10,7 @@
- #define _LINUX_KHO_ABI_KEXEC_HANDOVER_H
- #include <linux/kho/abi/compat.h>
- #include <linux/kho/abi/radix_tree.h>
-+#include <linux/kho/abi/vmalloc.h>
+diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+index c13af38ba23a..617a31dcee73 100644
+--- a/kernel/liveupdate/Kconfig
++++ b/kernel/liveupdate/Kconfig
+@@ -86,4 +86,19 @@ config LIVEUPDATE_MEMFD
  
- /**
-  * DOC: Kexec Handover ABI
-@@ -87,7 +88,8 @@
- #define KHO_FDT_COMPAT_BASE "kho-v4"
- #define KHO_FDT_COMPATIBLE						\
- 	KHO_FDT_COMPAT_BASE						\
--	KHO_SUB_COMPAT(KHO_RADIX_COMPATIBLE)
-+	KHO_SUB_COMPAT(KHO_RADIX_COMPATIBLE)				\
-+	KHO_SUB_COMPAT(KHO_VMALLOC_COMPATIBLE)
+ 	  If unsure, say N.
  
- /* The FDT property for the preserved memory map. */
- #define KHO_FDT_MEMORY_MAP_PROP_NAME "preserved-memory-map"
-diff --git a/include/linux/kho/abi/memfd.h b/include/linux/kho/abi/memfd.h
-index af310c0c9fdf..24ecbf48cbe1 100644
---- a/include/linux/kho/abi/memfd.h
-+++ b/include/linux/kho/abi/memfd.h
-@@ -11,7 +11,9 @@
- #ifndef _LINUX_KHO_ABI_MEMFD_H
- #define _LINUX_KHO_ABI_MEMFD_H
++config LIVEUPDATE_KUNIT_TEST
++	tristate "KUnit tests for LUO and KHO" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	depends on LIVEUPDATE
++	default KUNIT_ALL_TESTS
++	help
++	  Enable KUnit tests for LUO and KHO. These tests verify that the
++	  composite KHO, LUO, and memfd compatibility strings remain unique
++	  and sorted alphabetically.
++
++	  For more information on KUnit and unit tests in general, please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ endmenu
+diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+index b481e21a311a..5e0deb85e1b1 100644
+--- a/kernel/liveupdate/Makefile
++++ b/kernel/liveupdate/Makefile
+@@ -17,3 +17,5 @@ obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)	+= kexec_handover_debug.o
+ obj-$(CONFIG_KEXEC_HANDOVER_DEBUGFS)	+= kexec_handover_debugfs.o
  
-+#include <linux/kho/abi/compat.h>
- #include <linux/kho/abi/kexec_handover.h>
+ obj-$(CONFIG_LIVEUPDATE)		+= luo.o
++obj-$(CONFIG_LIVEUPDATE_KUNIT_TEST)		+= liveupdate_test.o
++
+diff --git a/kernel/liveupdate/liveupdate_test.c b/kernel/liveupdate/liveupdate_test.c
+new file mode 100644
+index 000000000000..15688d69735e
+--- /dev/null
++++ b/kernel/liveupdate/liveupdate_test.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * KUnit test for Live Update compatibility strings.
++ */
++#include <kunit/test.h>
++#include <linux/string.h>
++#include <linux/kho/abi/kexec_handover.h>
 +#include <linux/kho/abi/luo.h>
- #include <linux/kho/abi/vmalloc.h>
- #include <linux/types.h>
- 
-@@ -89,6 +91,11 @@ struct memfd_luo_ser {
- } __packed;
- 
- /* The compatibility string for memfd file handler */
--#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v2"
-+#define MEMFD_LUO_FH_COMPAT_BASE "memfd-v2"
-+#define MEMFD_LUO_FH_COMPATIBLE						\
-+	MEMFD_LUO_FH_COMPAT_BASE					\
-+	KHO_SUB_COMPAT(KHO_VMALLOC_COMPATIBLE)
++#include <linux/kho/abi/memfd.h>
 +
-+static_assert(KHO_COMPAT_ALIGN(MEMFD_LUO_FH_COMPATIBLE) <= LIVEUPDATE_HNDL_COMPAT_LENGTH);
- 
- #endif /* _LINUX_KHO_ABI_MEMFD_H */
-diff --git a/include/linux/kho/abi/vmalloc.h b/include/linux/kho/abi/vmalloc.h
-index 87650e1dd774..1847b82e147b 100644
---- a/include/linux/kho/abi/vmalloc.h
-+++ b/include/linux/kho/abi/vmalloc.h
-@@ -9,13 +9,13 @@
-  *
-  * The Kexec Handover ABI for preserving vmalloc'ed memory is defined by
-  * a set of structures and helper macros. The layout of these structures is a
-- * stable contract between kernels and is versioned by the KHO_FDT_COMPATIBLE
-+ * stable contract between kernels and is versioned by the KHO_VMALLOC_COMPATIBLE
-  * string.
-  *
-  * This interface is a contract. Any modification to the structure fields,
-  * compatible strings, or the layout of the serialization structures defined
-  * here constitutes a breaking change. Such changes require incrementing the
-- * version number in the `KHO_FDT_COMPATIBLE` string to prevent a new kernel
-+ * version number in the `KHO_VMALLOC_COMPATIBLE` string to prevent a new kernel
-  * from misinterpreting data from an old kernel.
-  *
-  * Changes are allowed provided the compatibility version is incremented;
-@@ -36,6 +36,8 @@
- #include <linux/types.h>
- #include <asm/page.h>
- 
-+#define KHO_VMALLOC_COMPATIBLE "vmalloc-v1"
++/* Verify that compatibility sub-components are unique and sorted alphabetically */
++static bool is_alphabetical_unique(const char *compat)
++{
++	char buf[1024];
++	char *string = buf;
++	char *token;
++	char *prev = NULL;
++	char *sub;
 +
- /* Helper macro to define a union for a serializable pointer. */
- #define DECLARE_KHOSER_PTR(name, type)	\
- 	union {                        \
++	strscpy(buf, compat, sizeof(buf));
++
++	sub = strchr(string, ';');
++	if (!sub)
++		return true;
++
++	sub++;
++
++	while ((token = strsep(&sub, ";")) != NULL) {
++		if (prev && strcmp(prev, token) >= 0)
++			return false;
++		prev = token;
++	}
++
++	return true;
++}
++
++static void test_compatibility_alphabetical(struct kunit *test)
++{
++	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(KHO_FDT_COMPATIBLE));
++	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(LUO_ABI_COMPATIBLE));
++	KUNIT_EXPECT_TRUE(test, is_alphabetical_unique(MEMFD_LUO_FH_COMPATIBLE));
++}
++
++static struct kunit_case liveupdate_test_cases[] = {
++	KUNIT_CASE(test_compatibility_alphabetical),
++	{}
++};
++
++static struct kunit_suite liveupdate_test_suite = {
++	.name = "liveupdate-compatibility",
++	.test_cases = liveupdate_test_cases,
++};
++
++kunit_test_suite(liveupdate_test_suite);
++
++MODULE_LICENSE("GPL");
+diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
+index 91d03f9a6a39..28c54bb473b8 100644
+--- a/tools/testing/selftests/liveupdate/config
++++ b/tools/testing/selftests/liveupdate/config
+@@ -6,6 +6,7 @@ CONFIG_KEXEC_HANDOVER_DEBUGFS=y
+ CONFIG_KEXEC_HANDOVER_DEBUG=y
+ CONFIG_LIVEUPDATE=y
+ CONFIG_LIVEUPDATE_TEST=y
++CONFIG_LIVEUPDATE_KUNIT_TEST=y
+ CONFIG_MEMFD_CREATE=y
+ CONFIG_TMPFS=y
+ CONFIG_SHMEM=y
 -- 
 2.53.0
 
