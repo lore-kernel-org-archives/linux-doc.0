@@ -1,81 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618CE472760;
-	Fri,  5 Jun 2026 07:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166D844B679
+	for <linux-doc@vger.kernel.org>; Fri,  5 Jun 2026 07:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780643455; cv=none; b=VorCeAQptLVh8raPmJvU8A/JI2TIyIHp9tmROTHOb42Wvp+/QH+p+LWZz2XNYJh1QZWMhrsjdEX6GTJyUDldqnt7VNvwspE6ue/+WJf9ULRLkcNzIXeH1TEBJn0b4X/fOLenr7x1j9Bb3J1MyITqo5yyIqN2mkkuEx5FvuUoUbk=
+	t=1780643715; cv=none; b=hEP/LPXhYNMGeTgN63CyJ+DWy3ZOCRxXtTSRL6ln0NA5bQWPqZIm75BS2U0T9KjMRkX5GcteUrcTkA5U6UoPBUoOVUTAWIIm7BqsYkNkVOkID5bgd62atZ/Is1sagq6nA4pNwDVprk+ioAnTIs5psYyBgjPwBHqKWM+4VvCNAhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780643455; c=relaxed/simple;
-	bh=4yU/OCT1/T1FXA0lrkmmn/qIMb1C05A/1eJwZ2V5vFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSRAxfX5prAqEhq8CXTzfnlDWfuDgGVrswt4y5TE9zQzzHkTZFJVGFEKteAj/kUAj/tcV8gCO35q5crZLEDX6Vbm2Nzx7pSnfokVLF+dzD99V6//fLAWLqD3/6IHw/4onwFfkv5lqRHm/WjTh1ZdlYlY8ou50yKPIdZz0az9dXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZCVS0xb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780643715; c=relaxed/simple;
+	bh=ClLeZPtNVYDiYwZfY+4ztE2EJMExj0X7wjvQKxuennQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cMdAMikQlpJAEUmy+0REEfEoieuSwP/NVgu+YI/ADH241xN1awdQrQtLhlwzybTcECyxi0ZDfbNG1+NQwjEZbV0kJ3uFF7twUjRRLufAoMpdCXI86zipoccBPpM5Ivry6ZSPsEoKuG9F9QSM3VGqU+RqYUSYLkmpP8z+Loj9yzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZBLy1tF; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZCVS0xb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0391F00893;
-	Fri,  5 Jun 2026 07:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780643454;
-	bh=ZqZI8J9nTj7elKUH2Z6q9tM5bBMN9BGf/tMB5WQW7IU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oZCVS0xbB3ept8DSn8zmqUUp5iXMZd7d9yU5v/PwJWzkKOaLp1f1qTcOsgpasGA1A
-	 dkiA4k7pvlrfxyr98E/QLxnp+BzfE5RE/HZmtWNLb6y1HOVc5hyZF44o9skt/x1j60
-	 0/BFeEsP738URWphjAne+2IJOJJR6xSfgDdae58W6MsLLoiqloHS4ooxUoiQfe0DjD
-	 OenxifPH2pOGaQdGwUcqJR3aJ1yBxx0uhzF1XDLn8HfGdYc5wO612zXTs7Y/1FfYew
-	 OMxNMJHIlQ5KtQ/txW7hEDbmE6smArXshNunEk7YVeCCNBxbcfzMKtLMoX3gqE1TYB
-	 9szQz5APYxn6w==
-Date: Fri, 5 Jun 2026 07:10:49 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
-	tfiga@chromium.org, senozhatsky@chromium.org
-Subject: Re: [PATCH v2 2/3] PM: dpm_watchdog: Allow disabling DPM watchdog by
- default
-Message-ID: <aiJ2eaxid2rwKHCG@google.com>
-References: <20260604090756.2884671-1-tzungbi@kernel.org>
- <20260604090756.2884671-3-tzungbi@kernel.org>
- <32fda49e-f246-4fae-9e4e-05c12fdb3ea6@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZBLy1tF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780643714; x=1812179714;
+  h=date:from:to:cc:subject:message-id;
+  bh=ClLeZPtNVYDiYwZfY+4ztE2EJMExj0X7wjvQKxuennQ=;
+  b=gZBLy1tFnoICLmrJwj1xIpXeci8frqt01nGHJdgvWnewvvU0Pnon2JIo
+   LQ1k0ZydUfNbRLdm2E+xE1Q2fAg3bS44bFyaKFIjqHNA8qJ4xrWus2qWi
+   DCoeQ1MQOjDCOk1IyjjfbhbjYLyGe/zJuGXCDUSUA/1Y4zb9hn3pmIfuw
+   nsXwmylCYdPaw19278qGzlAgqMZAf6WwRh+YYR4CI6q/lIUTwmp8qN/2J
+   K+GwqA5aftuIgJhBPyKDkLTzq+G58AdGzEoD8mXy2pLuKdDwOzeWoi3Q+
+   dArEh/TRCzDS7coV/JMtqPHfVUJ8X84rEijl91+Vt1CdBzYJvL03zmqJU
+   g==;
+X-CSE-ConnectionGUID: +KnW5XrDT0uaa7egeFdHyw==
+X-CSE-MsgGUID: 08S574ArQKSqLCDCun1A7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="85328562"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="85328562"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:15:12 -0700
+X-CSE-ConnectionGUID: BJtAPHzuSUGwtcE3DTTwTg==
+X-CSE-MsgGUID: fCugz1BuTneMr8weFvbjEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="249108125"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 05 Jun 2026 00:15:11 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVOlo-000000002VM-2nhq;
+	Fri, 05 Jun 2026 07:15:08 +0000
+Date: Fri, 05 Jun 2026 09:15:05 +0200
+From: kernel test robot <lkp@intel.com>
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ Alex Elder <elder@riscstar.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Warning: MAINTAINERS references a file that
+ doesn't exist:
+ Documentation/devicetree/bindings/net/toshiba,tc956x-dwmac.yaml
+Message-ID: <202606050946.JGkrxO1C-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <32fda49e-f246-4fae-9e4e-05c12fdb3ea6@infradead.org>
 
-On Thu, Jun 04, 2026 at 09:53:11PM -0700, Randy Dunlap wrote:
-> On 6/4/26 2:07 AM, Tzung-Bi Shih wrote:
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 00375193bd26..0a0d5340b0c7 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -5399,6 +5399,14 @@ Kernel parameters
-> >  			function to NULL. On Idle the CPU just reduces
-> >  			execution priority.
-> >  
-> > +	power.dpm_watchdog_enabled=
-> > +			[KNL] Enable or disable the device suspend/resume
-> 
-> I think that [KNL] isn't very useful here (nor in many of its uses in
-> kernel-parameters.txt).
-> What is required to use this option are:
->   CONFIG_PM_SLEEP, CONFIG_DPM_WATCHDOG
-> You should convey that information somehow.
-> 
-> Also, in kernel-parameters.txt, "pm_async=" is only valid when [PM]
-> is enabled, but "PM" is not defined/described anywhere.
-> That should be added near the beginning of kernel-parameters.txt (in
-> alphabetical order).
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-net-qca-qca808x-Add-regulator-properties/20260605-091912
+head:   a2cf643cd5401eea03d3f1a49d81e7d066ae6047
+commit: b6d9c722ce11c43b1e14ca3a15d993e470299502 dt-bindings: net: toshiba,tc9654-dwmac: add TC9564 Ethernet bridge
+date:   6 hours ago
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260605/202606050946.JGkrxO1C-lkp@intel.com/reproduce)
 
-Thank you for your review.  Will fix them in the next version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606050946.JGkrxO1C-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/net/toshiba,tc956x-dwmac.yaml
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
