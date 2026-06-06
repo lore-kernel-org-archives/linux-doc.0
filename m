@@ -1,206 +1,199 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E772F746D;
-	Sat,  6 Jun 2026 04:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780719014; cv=pass; b=Hv1RZKrYmiZUqvTmZUMARbcofUkMXg78CsGTCJR0TgrMZeNFpraESuFtRKKGZo49yZjCCQuuPsBjSaHXe3as3m82o7vxP3Fbacz8fHL5sQZXG8VMVAi9QwJWAoGt/Y7SOInDMAv1fKmhX44R5OzU1W0Jtw1jJ4QYUWyTf4cSvQg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780719014; c=relaxed/simple;
-	bh=jMj9c3IfP+tyqlgRZi1huwQY320WIuSY+aJDNsp9xgI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ODDRF46osIJIEOV5KYCZqFOtk33LFRGhdbntfvAm+/H93NQC7N49MC1VSQsGDP6EKFCHa9IuMitOJzzkQOM12b5i496kDfbOqlK0tkcsbeeQPvAfxmUCL4IJS7WfU4p02mNJqLmRIkt42dmkKyS5NdkUzvSpLIEFuLoM6JipSQA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=fSglB/z9; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8001A6813;
+	Sat,  6 Jun 2026 05:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780724569; cv=none; b=IJFkrtBst58rYJO/z7BqmsM/+doKEEBYezXsmyx2lTSP6R7q8SoVx6+OUpSl8Ghf5N6d46JmA+2pKwRQptrZq+UPi4mOhyYMRJ01ceBTYppN5c8RRMyP83SHXQOH+OaMoJRkXy4Kr4tndvDWw4VdGXfASbtSowIwNk8aft38uIA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780724569; c=relaxed/simple;
+	bh=+H+1R9OZ+SESM1gdy+ACCMkcS6fHa2p+8fepjhlqHBE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ov1mXrMweQ8o4Zsb6//cKh2feg/X/PQ+Mxc+/qA1U1hDdchDbG0QMZyflMIja734yrhmoTz6PxL7r0Af+pkdXbPsUQTQwYnlJY4TvKfAqrD9MF3kfivC5O9YX9viI8uM7211kqZnt1ROJ8zzCaEc2DkWtD1lVzur1tWGzKPb7wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8QJ5Ej2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="fSglB/z9"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id AE0C411973336;
-	Sat,  6 Jun 2026 13:00:04 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GZefMSO6J9hN; Sat,  6 Jun 2026 12:59:57 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1780718397;
-	b=CekU9abfAJQ23sScd+XT1hgAZUs2FKK8yLta374jATkIf21pUQuo4qZ6N6HOqNU8xe0k
-	 wdaBr4TFk1FYmVTe3eNCUBCW2XndpoXcQ2BBOeQWAFsiFZnyPR81qDBU4Fv1xBHW24pSx
-	 vGr62uKxueIh0g5o2VK10hmkizsHJi8DVk=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1780718397;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=y/wlgbokZzSMKCzQxd2CIBaPnIU1aD6YGe/tQNOoeks=;
-	b=waYzNfpdpIysYGAoGZ1gf9juwq7P/TuYYHBeYSWmt7PZJKypdIdq8V8YpfwhOsu7Wlcd
-	 RcJMEsWkox33y3G2lH8q2gHfM7YIyXd3NzbStPyR9WG1nR8d4cgdr+Zv5lv/yR0xmS7en
-	 3qCcBTuNsiiHddHV7xciNqHnCVPcgnkuvY=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id C1847102D0638; Sat,  6 Jun 2026 12:59:57 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org C1847102D0638
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1780718397;
-	bh=y/wlgbokZzSMKCzQxd2CIBaPnIU1aD6YGe/tQNOoeks=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fSglB/z9LjCdqSuZr52nPe4v3R3hpy1FULpp6G33yxTfi3RLQgO8cWo+sgXoH5Gac
-	 ZRXULpwl8c2Wxs1Cs8FEK7fzleD4QhlCHiwkI6IGDi1cfh4t+yItRAXwLnVg4Bg6WA
-	 1bS4ha70l1JAENwleufZaf9WosWGP2utYXCSZERs=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v1] docs/ja_JP: translate submitting-patches.rst (interleaved-replies)
-Date: Sat,  6 Jun 2026 12:59:54 +0900
-Message-ID: <20260606035954.27605-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8QJ5Ej2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4912DC2BCC4;
+	Sat,  6 Jun 2026 05:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780724569;
+	bh=+H+1R9OZ+SESM1gdy+ACCMkcS6fHa2p+8fepjhlqHBE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=f8QJ5Ej2pe2J5YRucmvvfC93qyQyHNvEa3LBf+Z/cOSmxY0dPlBheolB2428dfjPH
+	 kxjmuofUmM5uUPz84tlpEPCbXXXCVE/s8ONRD1KSGQhwqf4EPQTtsF/kefvVcenKYL
+	 4jU13zxvUVmGdLdTGnt0Df41hEsuABTdopiPH3GGstQj7PXFGpsZOp74MwQRz9SoPR
+	 rsCpeV5trOiLikNYSuElnO0nJtFJfHndw7HJUVAsg7Fi0fKCBfpkyMQpw0flPGTfP7
+	 vwMSDb1HEBouzWU0+sHkj/JMbVZzvm+2Wmrn+046GZ0Q7B89jZ0Za3d4LquREV2irH
+	 gl0gq5c7akiaw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F71DCD8C8F;
+	Sat,  6 Jun 2026 05:42:49 +0000 (UTC)
+From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Date: Fri, 05 Jun 2026 22:42:34 -0700
+Subject: [PATCH net-next v4 03/16] net: ethernet: oa_tc6: Move oa_tc6.c to
+ its own directory
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260605-s2500-mac-phy-support-v4-3-de0fbc13c6d8@onsemi.com>
+References: <20260605-s2500-mac-phy-support-v4-0-de0fbc13c6d8@onsemi.com>
+In-Reply-To: <20260605-s2500-mac-phy-support-v4-0-de0fbc13c6d8@onsemi.com>
+To: Andrew Lunn <andrew@lunn.ch>, 
+ Piergiorgio Beruto <pier.beruto@onsemi.com>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
+ Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jerry Ray <jerry.ray@microchip.com>, 
+ Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780724562; l=4480;
+ i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
+ bh=TddEWdaAcBzTr+dxkU5ER4ZrAEWHz31C6KRwvs3G1ro=;
+ b=CGhyURyY5vFb4OqomOoRzHes+kH4uojl1unGce3AG6BllfuWvM2jeUreK8N5KQWtiKQTt2/Lb
+ gXERlWouw+lAu4HCkbEGkBCjOt5uZdab2OhQS8tA7MFH4fOoNKBEdK5
+X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
+ pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
+X-Endpoint-Received: by B4 Relay for
+ Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
+X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Reply-To: Selvamani.Rajagopal@onsemi.com
 
-Translate the "Use trimmed interleaved replies in email discussions"
-and "Don't get discouraged - or impatient" sections in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Keep the wording close to the English text and wrap lines to match
-the style used in the surrounding Japanese translation.
+Moving oa_tc6.c to its own directory, drivers/net/ethernet/oa_tc6. This
+will facilitate adding more files to support other features
+defined by OPEN Alliance 10BASE-T1x Serial Interface specification
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+This patch series is adding two files, one for hardware
+timestamp related functions and one for PTP related APIs.
+
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 ---
- .../ja_JP/process/submitting-patches.rst      | 47 +++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ MAINTAINERS                                |  2 +-
+ drivers/net/ethernet/Kconfig               | 12 +-----------
+ drivers/net/ethernet/Makefile              |  2 +-
+ drivers/net/ethernet/oa_tc6/Kconfig        | 16 ++++++++++++++++
+ drivers/net/ethernet/oa_tc6/Makefile       |  7 +++++++
+ drivers/net/ethernet/{ => oa_tc6}/oa_tc6.c |  0
+ 6 files changed, 26 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 165cb3ed94ec..d31d469909e4 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -355,3 +355,50 @@ cover letter =E3=81=BE=E3=81=9F=E3=81=AF=E5=80=8B=E3=
-=80=85=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB ``patch changelog`` =E3=
-=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=80=81
-=20
- =E3=83=A1=E3=83=BC=E3=83=AB=E3=82=AF=E3=83=A9=E3=82=A4=E3=82=A2=E3=83=B3=
-=E3=83=88=E3=81=A8=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=
-=82=B9=E3=83=88=E3=81=A7=E3=81=AE=E4=BD=9C=E6=B3=95=E3=81=AB=E3=81=A4=E3=81=
-=84=E3=81=A6=E3=81=AE=E6=8E=A8=E5=A5=A8=E4=BA=8B=E9=A0=85=E3=81=AF=E3=80=81
- Documentation/process/email-clients.rst =E3=82=92=E5=8F=82=E7=85=A7=E3=81=
-=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+diff --git a/MAINTAINERS b/MAINTAINERS
+index eb8cdcc76324..7e6b28202e88 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20001,7 +20001,7 @@ M:	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/networking/oa-tc6-framework.rst
+-F:	drivers/net/ethernet/oa_tc6.c
++F:	drivers/net/ethernet/oa_tc6/oa_tc6*
+ F:	include/linux/oa_tc6.h
+ 
+ OPEN FIRMWARE AND FLATTENED DEVICE TREE
+diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
+index 78c79ad7bba5..49d93488ba52 100644
+--- a/drivers/net/ethernet/Kconfig
++++ b/drivers/net/ethernet/Kconfig
+@@ -134,6 +134,7 @@ source "drivers/net/ethernet/netronome/Kconfig"
+ source "drivers/net/ethernet/8390/Kconfig"
+ source "drivers/net/ethernet/nvidia/Kconfig"
+ source "drivers/net/ethernet/nxp/Kconfig"
++source "drivers/net/ethernet/oa_tc6/Kconfig"
+ source "drivers/net/ethernet/oki-semi/Kconfig"
+ 
+ config ETHOC
+@@ -146,17 +147,6 @@ config ETHOC
+ 	help
+ 	  Say Y here if you want to use the OpenCores 10/100 Mbps Ethernet MAC.
+ 
+-config OA_TC6
+-	tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support" if COMPILE_TEST
+-	depends on SPI
+-	select PHYLIB
+-	help
+-	  This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
+-	  Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
+-
+-	  To know the implementation details, refer documentation in
+-	  <file:Documentation/networking/oa-tc6-framework.rst>.
+-
+ source "drivers/net/ethernet/pasemi/Kconfig"
+ source "drivers/net/ethernet/pensando/Kconfig"
+ source "drivers/net/ethernet/qlogic/Kconfig"
+diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
+index bba55d9af387..77b11d5a7abf 100644
+--- a/drivers/net/ethernet/Makefile
++++ b/drivers/net/ethernet/Makefile
+@@ -71,6 +71,7 @@ obj-$(CONFIG_NET_VENDOR_NETRONOME) += netronome/
+ obj-$(CONFIG_NET_VENDOR_NI) += ni/
+ obj-$(CONFIG_NET_VENDOR_NVIDIA) += nvidia/
+ obj-$(CONFIG_LPC_ENET) += nxp/
++obj-$(CONFIG_OA_TC6) += oa_tc6/
+ obj-$(CONFIG_NET_VENDOR_OKI) += oki-semi/
+ obj-$(CONFIG_ETHOC) += ethoc.o
+ obj-$(CONFIG_NET_VENDOR_PASEMI) += pasemi/
+@@ -104,4 +105,3 @@ obj-$(CONFIG_NET_VENDOR_XILINX) += xilinx/
+ obj-$(CONFIG_NET_VENDOR_XIRCOM) += xircom/
+ obj-$(CONFIG_NET_VENDOR_SYNOPSYS) += synopsys/
+ obj-$(CONFIG_NET_VENDOR_PENSANDO) += pensando/
+-obj-$(CONFIG_OA_TC6) += oa_tc6.o
+diff --git a/drivers/net/ethernet/oa_tc6/Kconfig b/drivers/net/ethernet/oa_tc6/Kconfig
+new file mode 100644
+index 000000000000..97345f345fb9
+--- /dev/null
++++ b/drivers/net/ethernet/oa_tc6/Kconfig
+@@ -0,0 +1,16 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# OA TC6 10BASE-T1x MAC-PHY configuration
++#
 +
-+=E3=83=A1=E3=83=BC=E3=83=AB=E8=AD=B0=E8=AB=96=E3=81=A7=E3=81=AF=E4=B8=8D=
-=E8=A6=81=E3=81=AA=E5=BC=95=E7=94=A8=E3=82=92=E5=89=8A=E3=81=A3=E3=81=9F in=
-terleaved replies =E3=82=92=E4=BD=BF=E3=81=86
-+------------------------------------------------------------
++config OA_TC6
++	tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support"
++	depends on SPI
++	select PHYLIB
++	help
++	  This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
++	  Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
 +
-+Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E3=81=AE=E8=
-=AD=B0=E8=AB=96=E3=81=A7=E3=81=AF=E3=80=81top-posting =E3=81=AF=E5=BC=B7=E3=
-=81=8F=E9=9D=9E=E6=8E=A8=E5=A5=A8=E3=81=A8=E3=81=95=E3=82=8C=E3=81=A6=E3=81=
-=84=E3=81=BE=E3=81=99=E3=80=82
-+Interleaved replies=E3=80=81=E3=81=BE=E3=81=9F=E3=81=AF ``inline`` replies=
- =E3=82=92=E4=BD=BF=E3=81=86=E3=81=A8=E3=80=81=E4=BC=9A=E8=A9=B1=E3=81=AE=
-=E6=B5=81=E3=82=8C=E3=82=92
-+=E3=81=9A=E3=81=A3=E3=81=A8=E8=BF=BD=E3=81=84=E3=82=84=E3=81=99=E3=81=8F=
-=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AF=E6=
-=AC=A1=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
-=95=E3=81=84:
-+https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
++	  To know the implementation details, refer documentation in
++	  <file:Documentation/networking/oa-tc6-framework.rst>.
 +
-+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
-=E3=81=A7=E3=81=AF=E3=80=81=E3=82=88=E3=81=8F=E6=AC=A1=E3=81=AE=E3=82=88=E3=
-=81=86=E3=81=AB=E5=BC=95=E7=94=A8=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99::
+diff --git a/drivers/net/ethernet/oa_tc6/Makefile b/drivers/net/ethernet/oa_tc6/Makefile
+new file mode 100644
+index 000000000000..f24aae852ef2
+--- /dev/null
++++ b/drivers/net/ethernet/oa_tc6/Makefile
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Makefile for OA TC6 10BASE-T1x MAC-PHY
++#
 +
-+  A: http://en.wikipedia.org/wiki/Top_post
-+  Q: Where do I find info about this thing called top-posting?
-+  A: Because it messes up the order in which people normally read text.
-+  Q: Why is top-posting such a bad thing?
-+  A: Top-posting.
-+  Q: What is the most annoying thing in e-mail?
-+
-+=E5=90=8C=E6=A7=98=E3=81=AB=E3=80=81=E8=BF=94=E4=BF=A1=E3=81=AB=E9=96=A2=
-=E4=BF=82=E3=81=AE=E3=81=AA=E3=81=84=E4=B8=8D=E8=A6=81=E3=81=AA=E5=BC=95=E7=
-=94=A8=E3=81=AF=E3=81=99=E3=81=B9=E3=81=A6=E5=89=8A=E3=81=A3=E3=81=A6=E3=81=
-=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=9D=E3=81=86=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81=
-=E8=BF=94=E7=AD=94=E3=82=92=E8=A6=8B=E3=81=A4=E3=81=91=E3=82=84=E3=81=99=E3=
-=81=8F=E3=81=AA=E3=82=8A=E3=80=81=E6=99=82=E9=96=93=E3=81=A8=E5=AE=B9=E9=87=
-=8F=E3=82=92=E7=AF=80=E7=B4=84=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+=E8=A9=B3=E7=B4=B0=E3=81=AF=E6=AC=A1=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=
-=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84: http://daringfireball.net/20=
-07/07/on_top ::
-+
-+  A: No.
-+  Q: Should I include quotations after my reply?
-+
-+
-+=E8=90=BD=E8=83=86=E3=81=97=E3=81=AA=E3=81=84=E3=80=81=E3=81=9D=E3=81=97=
-=E3=81=A6=E6=80=A5=E3=81=8C=E3=81=AA=E3=81=84
-+--------------------------
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E6=8A=95=E7=A8=BF=E3=81=97=E3=81=9F=E5=BE=8C=
-=E3=81=AF=E3=80=81=E8=BE=9B=E6=8A=B1=E5=BC=B7=E3=81=8F=E5=BE=85=E3=81=A3=E3=
-=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=AC=E3=83=93=E3=83=
-=A5=E3=83=BC=E3=82=A2=E3=81=AF=E5=BF=99=E3=81=97=E3=81=84=E4=BA=BA=E3=81=9F=
-=E3=81=A1=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81
-+=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92=
-=E3=81=99=E3=81=90=E3=81=AB=E8=A6=8B=E3=82=89=E3=82=8C=E3=82=8B=E3=81=A8=E3=
-=81=AF=E9=99=90=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+
-+=E3=81=8B=E3=81=A4=E3=81=A6=E3=81=AF=E3=80=81=E3=83=91=E3=83=83=E3=83=81=
-=E3=81=8C=E4=BD=95=E3=81=AE=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=82=82=E3=
-=81=AA=E3=81=8F=E8=99=9A=E7=A9=BA=E3=81=B8=E6=B6=88=E3=81=88=E3=81=A6=E3=81=
-=84=E3=81=8F=E3=81=93=E3=81=A8=E3=82=82=E3=81=82=E3=82=8A=E3=81=BE=E3=81=97=
-=E3=81=9F=E3=81=8C=E3=80=81
-+=E7=8F=BE=E5=9C=A8=E3=81=AE=E9=96=8B=E7=99=BA=E3=83=97=E3=83=AD=E3=82=BB=
-=E3=82=B9=E3=81=AF=E3=81=9D=E3=82=8C=E3=82=88=E3=82=8A=E3=82=82=E5=86=86=E6=
-=BB=91=E3=81=AB=E6=A9=9F=E8=83=BD=E3=81=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=
-=99=E3=80=82=E6=95=B0=E9=80=B1=E9=96=93=E4=BB=A5=E5=86=85=E3=80=81
-+=E9=80=9A=E5=B8=B8=E3=81=AF 2=E3=80=9C3 =E9=80=B1=E9=96=93=E4=BB=A5=E5=86=
-=85=E3=81=AB=E3=82=B3=E3=83=A1=E3=83=B3=E3=83=88=E3=82=92=E5=8F=97=E3=81=91=
-=E5=8F=96=E3=82=8B=E3=81=AF=E3=81=9A=E3=81=A7=E3=81=99=E3=80=82=E3=81=9D=E3=
-=81=86=E3=81=AA=E3=82=89=E3=81=AA=E3=81=84=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=
-=81
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E6=AD=A3=E3=81=97=E3=81=84=E5=A0=B4=
-=E6=89=80=E3=81=B8=E9=80=81=E3=81=A3=E3=81=9F=E3=81=8B=E7=A2=BA=E8=AA=8D=E3=
-=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=86=8D=E6=8A=
-=95=E7=A8=BF=E3=81=97=E3=81=9F=E3=82=8A=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=
-=E3=82=A2=E3=81=AB
-+ping =E3=81=97=E3=81=9F=E3=82=8A=E3=81=99=E3=82=8B=E5=89=8D=E3=81=AB=E3=80=
-=81=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82 1 =E9=80=B1=E9=96=93=E3=81=
-=AF=E5=BE=85=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=
-merge window =E3=81=AE
-+=E3=82=88=E3=81=86=E3=81=AA=E5=BF=99=E3=81=97=E3=81=84=E6=99=82=E6=9C=9F=
-=E3=81=AB=E3=81=AF=E3=80=81=E3=81=95=E3=82=89=E3=81=AB=E9=95=B7=E3=81=8F=E5=
-=BE=85=E3=81=A4=E6=96=B9=E3=81=8C=E3=82=88=E3=81=84=E5=A0=B4=E5=90=88=E3=82=
-=82=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E6=95=B0=E9=80=B1=E9=96=93=E5=BE=8C=E3=81=AB=E3=80=81subject line =E3=81=
-=AB "RESEND" =E3=82=92=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=A6=E3=80=81=E3=83=
-=91=E3=83=83=E3=83=81=E3=81=BE=E3=81=9F=E3=81=AF
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E3=82=92=
-=E5=86=8D=E9=80=81=E3=81=97=E3=81=A6=E3=82=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=
-=81=9B=E3=82=93::
-+
-+   [PATCH Vx RESEND] sub/sys: Condensed patch summary
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=BE=E3=81=9F=E3=81=AF=E3=83=91=E3=83=83=
-=E3=83=81=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E3=81=AE=E4=BF=AE=E6=AD=A3=E7=
-=89=88=E3=82=92=E6=8A=95=E7=A8=BF=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=
-=AF=E3=80=81"RESEND" =E3=82=92
-+=E8=BF=BD=E5=8A=A0=E3=81=97=E3=81=AA=E3=81=84=E3=81=A7=E3=81=8F=E3=81=A0=
-=E3=81=95=E3=81=84=E3=80=82"RESEND" =E3=81=AF=E3=80=81=E5=89=8D=E5=9B=9E=E3=
-=81=AE=E6=8A=95=E7=A8=BF=E3=81=8B=E3=82=89=E4=B8=80=E5=88=87=E5=A4=89=E6=9B=
-=B4=E3=81=97=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=BE=E3=81=9F=E3=81=AF=E3=83=91=E3=83=83=
-=E3=83=81=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E3=82=92=E5=86=8D=E9=80=81=E3=
-=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AB=E3=81=AE=E3=81=BF=E4=BD=BF=E3=81=
-=84=E3=81=BE=E3=81=99=E3=80=82
---=20
-2.52.0
++obj-$(CONFIG_OA_TC6) := oa_tc6_mod.o
++oa_tc6_mod-objs := oa_tc6.o
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6/oa_tc6.c
+similarity index 100%
+rename from drivers/net/ethernet/oa_tc6.c
+rename to drivers/net/ethernet/oa_tc6/oa_tc6.c
+
+-- 
+2.43.0
+
 
