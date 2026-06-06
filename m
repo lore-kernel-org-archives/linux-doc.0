@@ -1,47 +1,83 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2821517B425;
-	Sat,  6 Jun 2026 20:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A772980A8
+	for <linux-doc@vger.kernel.org>; Sat,  6 Jun 2026 21:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780777156; cv=none; b=UdKLa1rBVghJcdRBbNqOrzdh+l516FOMgYaTP0G425HBrWoDH2lPapJbVnFTaV96pZuOyQXEOVqTAxug6K47TfA+Xh3VNDSUAAwnUGLfDKUgzFksJYWivSwq05Cfmu8dFkTM1cr8SWn6vXG3NA00eSJj6+HHQEaHzdvmEBTpkA8=
+	t=1780779829; cv=none; b=HDSLRxoIckB28PZ9fj4SZZmre/Yv0x+pec3oCXwzzbB+fnZDCiRv+KCkkllkso0Ig0bVgjAooaSwIMrNMSs+uWcK61wYIJSEdMVo56TCC/5XTwVeq1b0RZHxOKl8N7pJL3eX93GDLzNsgeAwLCaiCwoJ9T1EW7q1vMoyAcQ89Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780777156; c=relaxed/simple;
-	bh=6FrevDetvkb60F0vwZ8cvbynNZOisu9LM8VFn5Kv0jU=;
+	s=arc-20240116; t=1780779829; c=relaxed/simple;
+	bh=8aQsvQV92fCNEJtI42BLGSyXug3KVyb8/WsuBLmztq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rYBJubh1GE29LmxJV+ELwCa6ZTfR9Q2ActEEDKB8QOeoJOh8pZ7fAUp1FJ1PpYddRpGffZ+fYmHPZPuz5m2YuFQmZwTxjrmXf/YWQ7CLvp9uhQmUrrGp2zobGr1KMUMjHIWggXSdaBM6WKOlJbFLPpi59rHdYO2gSRsejqoiRNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LKiw7YU7; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=N8CEtgRipJegB6uYe65Ht2MDUDCVi0qBsFAF1ZQBNEXwusCcOnMWU0WVMPibYAFRje77p6XcQ84BVHuGcR2NHU0Gn2DJ3UyYlWZXX1mfcTdt3BBF7All1W+NaNxL7W06vSeKuPq05HQDeFQN3pLjpMK5WDrOOUcWyu0bgd4kaxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gyC2BOm7; arc=none smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LKiw7YU7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qn/GwpLQrIFJP6RrB5tk+eCxp+XsTc6Qi46I9/Pk/bg=; b=LKiw7YU7YB5iPci7joQBn8opCX
-	QPc4PL+SnIhhQ3mi23T/jG60gOhikMnbAGJW6eqbnMZKNGy2ei/X/uRgLrWL7puLUSdZUwsgu/6EJ
-	ktBNNPXlQR8OYKMHom7a1UajkkvcgYUAzx2ONDX5DCPBeYJFltj3ogCxfH15i0cdA2+Ewk//R70ya
-	Qy+Bkid7+kqgOrOUEZ++1Lk91q3rLOHxw0jpFf690VV6h3Prb8ZNRldrGiSwY1DnboVUtGXfdP+F7
-	iVWhHot6bDPX3Aej+0kdQue9LTn6F43cxhWGwUG9oJayhPCgyI1Hepdr/X7XIGquTs9XzwyuScixg
-	xHD6eaoQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wVxU0-0000000ApOr-3385;
-	Sat, 06 Jun 2026 20:19:04 +0000
-Date: Sat, 6 Jun 2026 21:19:04 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/mm: document slab cache isolation with SLAB_NO_MERGE
-Message-ID: <aiSAuP-qEhH_RoCn@casper.infradead.org>
-References: <20260606155856.15548-1-med08elkadiri@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gyC2BOm7"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-304d0ac5e3cso5301319eec.0
+        for <linux-doc@vger.kernel.org>; Sat, 06 Jun 2026 14:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780779828; x=1781384628; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IpsbdQ4HEXAu1DofK9GVpNtvbeL5V7mTYGQq3LB/EZo=;
+        b=gyC2BOm7S5VP72mgnsTuhnN9AFqyGpSdrXsm683Sebk4NIWJ7aOvSj1RrBs8RPIALg
+         ZlNdaZ6jaPPQp6+QNBHKWny3CXkarbqoUaGSz5nZFfgV0ETia4Zz6BiXd1JOg4UmlgeH
+         IuJxGxAfRFywUbRFS1iclf3mrzxm5/YMbwIWZh/Zvc2KUwvcPfGzQ1jPQS3SxbG4rzpd
+         I1JOn7YF+iLVtAt46bifoeGncS+O5KRdu/D51wKDROjvP6s93+ODmZRsr7ztmDXC/aAq
+         6gEML85fg84YhetACuEBdxXki7T3+TQ9/FzXnXlw0NSKYOaRFV/LYo5zSa/cyeDPxFUS
+         HWZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780779828; x=1781384628;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IpsbdQ4HEXAu1DofK9GVpNtvbeL5V7mTYGQq3LB/EZo=;
+        b=bSB7Je8K2/zR892Ap2jhWzQ9mme5bpqDMC5ubuYHaGdS47kbt804MrqcZJ0Ii7Ce84
+         DVuXiNmQyt1xwjx7Fb6/+iwfk29rzI1fH4dTZkFAcKzNDmSsKQd+GAur9l5ljb0hY654
+         fgIwFdotCEyB+cwlwbFWxbjg+b7MxeBCGNOxOGW92Rw1cBXHcoB8p3rxQx76mjewFEes
+         mpABB0jNL9trQQwU570w3zCgU/qegpvIDq7hRY5s6qC7/9pvlh48IIY+z4W6exWBqD7U
+         fRP2Vk1Le62Oeg6C1iN16oLE5ipSO+gnEO8pDc0nRrub30B8EWdwCM6PkuOTTPO1ZnLb
+         ou/A==
+X-Forwarded-Encrypted: i=1; AFNElJ+Th/DaTGcoUd7qc+B4pWjKZ+8PPPxHApqPZNnlrOOptywIp2FXYuzNW9gKRhBIHaKcCSJqWHSbgJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK+IIyGo3Ra1Up3g5dqhiBsU+b9r2XijpoMKsIR0+0T8WlwdTT
+	oZ8oWt92EowLbVbEUHMK6Kzb0Sps7ZHKVM3LjDJMWgWzlrLcMAOYTJQT
+X-Gm-Gg: Acq92OEvBauZdjKmcGNn4Bv43HNjRrll3zxCzcUgcyZxXREhYrvANbvgpLGNNh4dzR6
+	UH2/UO877L6twUkICAuUUC3l6fblwM5Y4IbSbTt5u1XIJxTxgasBKosoE6pRSOykbAsdxhBCvLE
+	stqqNTe6vD+jTnwwT4nkmyasHt+5cRPcX1GMg1lIdSp5Zlrfwwy7Qi00ehTsmoOSd36P/XI/hZx
+	p02f0sWCSc5YsTo4Zm35Ijn8eJvRJNaZGU3ZihuT2cokKaoNSW20n+f14roauh50IuF0w2yt0rw
+	+CQGHmLjGDvf8fS0VtBl6/ht2HxQ7QfdWx3kXfZF9/ruOZF7tVUPCT02LxqrDCXp8l1N1lIAJkq
+	ICWG0CuoA+5aC5gtATvp9s+FazLQm/POFUiR0qdtE0+IPL39nr5HbmIggN9f6tMRxYHvk+QBWsS
+	icf7sn5QD1oD6kZTXMG3IVaS1IB1muecQyn+TRZolci366u90b8rNYhcmh8mOrwIE5+4nqZDBA8
+	v6qLL4bL5Cvhw==
+X-Received: by 2002:a05:7301:5f0f:b0:2e6:e504:5431 with SMTP id 5a478bee46e88-3077b1de34bmr4945899eec.22.1780779827609;
+        Sat, 06 Jun 2026 14:03:47 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:bb2f:1c0b:386d:8909])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dea9226sm11772015eec.19.2026.06.06.14.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 14:03:46 -0700 (PDT)
+Date: Sat, 6 Jun 2026 14:03:43 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Lee Jones <lee@kernel.org>
+Cc: Akash Sukhavasi <akash.sukhavasi@gmail.com>, 
+	Conor Dooley <conor+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Andrew Lunn <andrew@lunn.ch>, linux-tegra@vger.kernel.org, linux-input@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, linux-media@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Vladimir Oltean <olteanv@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Eric Dumazet <edumazet@google.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Simon Horman <horms@kernel.org>, devicetree@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
+	netdev@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 4/4] dt-bindings: input: remove obsolete
+ matrix-keymap.txt
+Message-ID: <aiSK6_n4ZnB_KRd8@google.com>
+References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
+ <20260603-b4-remove-redirect-stubs-v2-4-c8c19876ab64@gmail.com>
+ <178052559618.2296868.8781332297681333925.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,119 +86,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260606155856.15548-1-med08elkadiri@gmail.com>
+In-Reply-To: <178052559618.2296868.8781332297681333925.robh@kernel.org>
 
-On Sat, Jun 06, 2026 at 04:58:55PM +0100, Mohammed EL Kadiri wrote:
-> +The SLUB allocator merges slab caches with compatible size, alignment, and
+On Wed, Jun 03, 2026 at 05:26:38PM -0500, Rob Herring (Arm) wrote:
+> 
+> On Wed, 03 Jun 2026 15:42:21 -0500, Akash Sukhavasi wrote:
+> > matrix-keymap.txt has been a single-line redirect to
+> > matrix-keymap.yaml since commit 639d6eda3b80 ("dt-bindings: input:
+> > Convert matrix-keymap to json-schema"), which introduced the .yaml
+> > schema and reduced the .txt to a stub in the same change. The .yaml
+> > has the same filename in the same directory, making this redirect
+> > unnecessary for discoverability.
+> > 
+> > Eight instances across six files still reference matrix-keymap.txt,
+> > forcing readers through an extra hop to reach the .yaml. The stub has
+> > not been touched since June 2020. Update all references across input
+> > and mfd binding documentation to point directly to matrix-keymap.yaml
+> > and remove the stub.
+> > 
+> > Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
+> > ---
+> > v2:
+> > - Patch 4/4: corrected commit message (eight references in six files,
+> >   not eight files), Sashiko review.
+> >   https://sashiko.dev/#/patchset/20260529052246.4934-1-akash.sukhavasi@gmail.com?part=4
+> > 
+> > v1: https://lore.kernel.org/all/20260529052246.4934-5-akash.sukhavasi@gmail.com/
+> > ---
+> >  Documentation/devicetree/bindings/input/brcm,bcm-keypad.txt    | 2 +-
+> >  Documentation/devicetree/bindings/input/clps711x-keypad.txt    | 2 +-
+> >  Documentation/devicetree/bindings/input/matrix-keymap.txt      | 1 -
+> >  Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt | 2 +-
+> >  Documentation/devicetree/bindings/input/pxa27x-keypad.txt      | 2 +-
+> >  Documentation/devicetree/bindings/input/st-keyscan.txt         | 2 +-
+> >  Documentation/devicetree/bindings/mfd/tc3589x.txt              | 6 +++---
+> >  7 files changed, 8 insertions(+), 9 deletions(-)
+> > 
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> 
 
-More of a question for Vlastimil ... do we want to continue to
-distinguish between slab (the API) and SLUB (the implementation)?
-I don't think we ever want to go back to a situation where we have
-multiple competing implementations of the slab API in the kernel.
-So shouldn't we deprecate uses of SLUB, particularly in the
-documentation?
+Lee, could you please ack for MFD piece and I can take it through input?
 
-> +flags to reduce memory fragmentation. While this improves memory efficiency,
-> +it allows objects of different types to share the same slab pages. This
+Thanks.
 
-s/ pages//
-
-> +enables cross-cache heap exploitation, where a use-after-free in one object
-> +type can be leveraged to corrupt an unrelated type.
-> +
-> +The `SLAB_NO_MERGE` flag prevents a cache from being merged, ensuring it
-> +receives dedicated slab pages.
-
-s/slab pages/a dedicated slab/
-
-> +2. *Actually mergeable*: The cache must not already be unmergeable.
-> +   A cache is already unmergeable if any of the following is true:
-> +
-> +   - It has a constructor (`ctor` argument is non-NULL).
-> +   - It has a non-zero `usersize` (with `CONFIG_HARDENED_USERCOPY`).
-> +   - It already has `SLAB_NO_MERGE` or another `SLAB_NEVER_MERGE` flag.
-
-I don't know if this is good advice for users of the API.  It's true
-that the slab will already be unmergable for these other reasons, but
-it's harmless to specify SLAB_NO_MERGE in that case.  And it
-communicates intent.  And in case somebody removes the ctor in the
-future, or we decide to change which flags are in SLAB_NEVER_MERGE,
-the slab will still be unmergable.
-
-> +3. *Bounded allocation volume*: The cache has a predictable number of
-> +   active objects, so the memory cost of dedicated slab pages is
-> +   acceptable.
-
-I don't understand why this is a criteria.
-
-> +How merging works
-> +=================
-> +
-> +When `kmem_cache_create()` is called:
-> +
-> +1. If `usersize` is non-zero, the merge path is skipped entirely.
-> +
-> +2. Otherwise, `find_mergeable()` in `mm/slab_common.c` searches for a
-> +   compatible existing cache. A merge is prevented if:
-> +
-> +   - The `slab_nomerge` boot parameter is set
-> +   - The new cache has a constructor
-> +   - The new cache's flags include `SLAB_NO_MERGE`
-> +   - No existing cache has compatible size and flags
-> +
-> +3. If a compatible cache is found, the new cache becomes an alias. Both
-> +   share the same slab pages.
-
-This feels like documenting internals rather than documenting how to use
-the flag.  I'd drop it entirely.
-
-> +The cross-cache attack class
-> +=============================
-> +
-> +Cross-cache attacks exploit slab merging to achieve type confusion:
-> +
-> +1. Attacker triggers a use-after-free in object type A.
-> +2. Type A's cache is merged with type B (they share slab pages).
-> +3. The freed type A slot is reallocated as type B.
-> +4. Attacker uses the dangling pointer to corrupt type B.
-> +5. Privilege escalation.
-> +
-> +CVE-2022-29582 demonstrates this technique: an io_uring use-after-free is
-> +exploited via cross-cache page-level reallocation to achieve root.
-> +
-> +`SLAB_NO_MERGE` prevents step 2: dedicated pages mean a freed slot of
-> +one type cannot be reallocated as a different type.
-
-Not sure this section adds anything to what was already described.
-
-> +Tradeoffs
-> +=========
-> +
-> +*Memory*: Isolated caches may have partially-filled slab pages that
-> +cannot be used by other types. For caches with bounded allocation counts,
-> +this is typically a few extra pages.
-> +
-> +*Performance*: Zero impact on `kmem_cache_alloc()` and
-> +`kmem_cache_free()`. The only effect is at boot when the cache is
-> +created.
-> +
-> +Relationship to other mitigations
-> +==================================
-> +
-> +`CONFIG_RANDOM_KMALLOC_CACHES`
-> +    Creates 16 copies of each `kmalloc` size class and randomly assigns
-> +    allocations among them. Only affects `kmalloc()` users. Does not
-> +    affect named caches created with `kmem_cache_create()`.
-> +
-> +`SLAB_TYPESAFE_BY_RCU`
-> +    Delays freeing the slab page by an RCU grace period. Does not delay
-> +    object slot reuse. Does not prevent cross-cache merging. Solves a
-> +    different problem: safe lockless access to freed-and-reallocated
-> +    objects of the same type.
-> +
-> +`slab_nomerge` boot parameter
-> +    Disables merging for all caches globally. `SLAB_NO_MERGE` provides
-> +    the same protection selectively for individual caches without the
-> +    global memory cost.
-
-These two sections also feel unnecessary.
+-- 
+Dmitry
