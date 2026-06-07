@@ -1,80 +1,75 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C412BEFFD
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 16:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC07F264A86
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 16:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780848296; cv=none; b=K5dr7D5GkdhCgGLZt86dPPaqHrsGEzX3vcfzVC1FbFuAMptPbUFcyJZroxgTTyrMUSiMVhQ3T29qF4bfEv7epeGxXFr8eltuHmbM5sD+hbqxfScG+SogBAF6OXumoTI8nTjeWnDKj/bhDVqx131aiVrKtdqJC9ax21LXHs8FEzg=
+	t=1780849255; cv=none; b=Mr7X4ha0MTDzFlFPJqw7f8wKxkTPeChFiAB/th/xO1mriTcQbCTPhgoRRHBDU9yh090+Zh0mZP72yDl1Pb+3mgpoNqjAEgnNLsTRR1z8koIWDjbV4eg/AwtOTYHdyO8qrgNwE5OFc50aqGXq7TkzYNKLCXogVNfa1vOZlIcqkBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780848296; c=relaxed/simple;
-	bh=eK8MSldLeofL6fbYcJNtrJmeIPFDwpepphNpG1jidfI=;
+	s=arc-20240116; t=1780849255; c=relaxed/simple;
+	bh=PrHdqXHWOtXY5GwqkXOIGw0IR8A7wbHv/1b/5m3/WWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L5Q7w178aU9bDmZbf5I5EzF8WCbg9axfvbFehIYh39xVt6N6uAWsWa9yniO8FEfA+5NpXqq/Dlm6zNQgbC32eD8yXOKytaowv/okBXSoqY4E4Q55F1AXwqDtMR0WWmiReiorWdOxHm/vdEQe0WttyehSz5kAA35Zq5qtNFYBccc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aG0tHHhG; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qzOyHZW1EQpKW1C8i4JLF2+u5E2hygjj0HgWXtWIdnuAAzwQd6MjhOEIpXqJMqeZ76/tUVYZau+8AOMGD+PUfK+8l03ts8Gn1j4rVGtiw7D9yceQg1/1S3itzcF9WvCNH3nDhe5YV3WEGqYkN/1OzdjHbASP7SWOeCNcdhipGes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ji5gRsrI; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aG0tHHhG"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-460166910e6so1749471f8f.2
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 09:04:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ji5gRsrI"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-91562bf6c12so456252685a.2
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 09:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780848292; x=1781453092; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1780849253; x=1781454053; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eK8MSldLeofL6fbYcJNtrJmeIPFDwpepphNpG1jidfI=;
-        b=aG0tHHhGNddc69ovQ3FRnBPZM/RXmmkhftdY7RM5+GzUdqU9kM/2gpzYesd2VnqwZP
-         2DBYb/DzG10Oi3fOda7YDtoKosauph+IG1DGDL2835beDtPznMuhF0zl2A/ealE8hlti
-         m+CIzK1z4iyxH7jEjySRohbnsrSMn6oxX+tpd1/35dTx9ECHD+CMRWniSQRUqPoQAXXZ
-         JjgG5kLgYEa7UqkhvCnBmlzYsnya5LTwy99pwS5J+fvVqIdPegrcNqfvMrs1mvcbtuMP
-         O9Pk+Zju0eiX56vkCedxvesaCLnKO3YZAu7KOvG9zCno3fa1TVx0WjlvKJlqktDStrS8
-         F0jw==
+        bh=6HrqFsYWh7IgIodQ4s8E7nh3lZZmydvw5nlZkHywms4=;
+        b=ji5gRsrIz5dSEIZLwMqnq5QzoSBPeGS1RI68PcNvlxkfHVEfVbXZIswgNsL0qHmmTx
+         c5j6OovcVkkdv0y22jNjA9kTZzsU0sDMAGB4QQGQnvv7ovvz9f+9mJQ+WW/N+2mt+Mmi
+         yz+3p2zZhg5dLBLb8DGwGDbqBuQZN+a0GGtAvIbRRNXRP+n0MHysNDQc3cfDZ1ukfLXy
+         s1+t0sZbneTCF4Z+WKgh7HDiffYXmq72z9p1ZwQjMk7FDa+EDz2BmJOrPN9kIw2PZR8w
+         49v5Yd1rZgvGXhG9PJ7cYHzR3uTMOIZ/o2R6HEgvfBmy99Zoh2zuH63QApHUFOaaf0Bq
+         Vu3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780848292; x=1781453092;
+        d=1e100.net; s=20251104; t=1780849253; x=1781454053;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eK8MSldLeofL6fbYcJNtrJmeIPFDwpepphNpG1jidfI=;
-        b=N9mFhrTRDibO/KArWqGaLJxBcHUViOmJHMdaLwIYMFemN8NIU12MYRsDC+tPAThVuJ
-         n/Cqxt2Z4+ImuphAz1UDt/2RzqUAszyjE2eoDXTT9AbkcBdHRl/sZS8h1fZ70DDUYsRC
-         hucsg/10inhl8j+oO60Y5kLZF5H2KEL2E4JM6OxWkJgr2RggWJNfOuJDHfmCahQV4nA6
-         MyL4eT6t+M10fyuOip9Jg238BWUGY7RZOUYIMUuVLpaECHyTE5tYp5nu1Bc3LR/Sbvjf
-         mnTu3Gy2XzViKmnRRYorgX+DZo2deF8xku3VBkESkwE1NulwmEQDO1LfI7TjuweqxAG7
-         gTdg==
-X-Forwarded-Encrypted: i=1; AFNElJ8LY6EWTP6AUowJBC4+Ur1ycdApwEkvo7CJ0VCxfKXXw6OP/C8xQuS4DfZGZC/Op68Tjs1/tLqJCnw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDClpp2ZX4GoqQc+A1ncvR3emot8K3LIh4yyeKf78hgJUWq3s2
-	IC6JYZWwFyjnbKOYjChTVuKO2IQqpDZ6oOF3D/YKDlzFLTJoPxBNGSFi
-X-Gm-Gg: Acq92OHSr8nHuiq3YUIz2TEWmUogIGP5xattGGkfX6oXNhdmZWj8bG3+VplKxtSqQ4/
-	HtUVNaEUYJGOBqJC34C7Dp9ZmR64Kuhb0gRy5xTg0PKdNuzwFb91QdyLZYIP5v1fMtYyMEZp81P
-	acwcRTWpxhB2CE/Ka/NhJKIK7oI+s1lRmLA4CuSc/Po3Ht5q4tBl5smbJzz9wj/vb8Il4SWgKho
-	GdGbjTNGaQ09L34FwOPp1wS3ygfKIM4ULTyRk911zE5Zy4KkHoJq2+kSG8dA4kQ7eCBQWtBtVHA
-	hij8tu4dzygnrJj8tp6aU4RZymjzuaCnUs3EkSlGBJeO2BLXvDhl6Oc3leogFz5+Povg99DW1Fj
-	kby1CCjIQ1SKAi1DICX/e2xIqFnoOmEpoSYTr+RQjQiF4yaRIFnrs4xpg7Z0OPHRwXjus13R7a/
-	aPVxoYAF33M6egBwFU99EAetp6IsFfEmLmheq9TOm4n+Tad2z92EgPqXDQyEK8qBqAAqqECInPs
-	DbqDzNjj7zogcLxo5tN4pJ6yGbxQ02NWpRaOb1ZO1SG
-X-Received: by 2002:a05:6000:2994:10b0:460:3233:f991 with SMTP id ffacd0b85a97d-4603233f9e2mr13227043f8f.40.1780848291905;
-        Sun, 07 Jun 2026 09:04:51 -0700 (PDT)
-Received: from fedora (cpc92878-cmbg18-2-0-cust539.5-4.cable.virginm.net. [86.16.54.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcbe3sm41826482f8f.8.2026.06.07.09.04.50
+        bh=6HrqFsYWh7IgIodQ4s8E7nh3lZZmydvw5nlZkHywms4=;
+        b=FRQ6F/Q16Fv+ktjuTVi4zSYUSj2Wrkb7MGUSXNwCvJKBfHoi1j59oB4UcU39UFniNT
+         73u7Uf+nNyaibkBY48zEmDqZmY+E0RYf/hTXJLCoGsOdPKP6nHr4cGdCXAUZG36h5yry
+         yEel/AUUnmxsi7F81Ja67Sa4nBz33pJYzdDZvsVxyy+bKlSMZh27V9zAvzYFUz08QdGU
+         W8VNYNp4E4t7r9aLSeZ/gWkrmPh+GjeUReQNt9kv0M8dpP9IVs1MxXpbgGr+oE8Wur9w
+         STjbSlsstPRGprzDKO2jfUsjKT1IELlHOeTTBqptbpXLbGKDx7Y1+7KRG4PnZAdm4brB
+         Y3Hw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Vp//q4mllMKzl3ZSZDcNC+Wc+Xe+1EfINtglPWX+DzHQEVr7pPU7BeQD8oLcKsC2tLhbV7kqEn00=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1ETCkQFlI+Fbwv2q7ar+y5XSb6npndhE9dXxFft8c5YVGCZZ8
+	+zlXaV+NeYw+AXEvA/eCKo2xOBRx19QBA9baUz1M6oS0glbLlCbQu5m+0g8oz0uo4ng=
+X-Gm-Gg: Acq92OHV+bWF6XEI8fw9koOIaTgCactkPQGdHkfIyKdyjzROFYssH4BPY29hmGAoUUQ
+	uYsazpHy+9uHrpy4KCeMYX6Ys0R10FmY9QBGje2znK7XpkVb5PDvDCkVBQKWQaWVNu/uP8FKYxK
+	xKWUdB3ywFIIygGvDkTTLb2EuyesDelSGQFWc7A86lKUZcEYuKYxDotvTDGw59nApvmMjCRv0bV
+	5ccLIfHhobZdPtdNXMQ7NOg5P0m3SDBMkQKgfb3lwzy8Tts1iOj9OCXJjZBXDxHokTs+7H1QyTm
+	/B8tevYIg8dPFqZ68rFg0qUtDZstu+/JpQ/KIKQp2vlu8Z2IbSZCcdBA30o2S0gCQP1Mbamqczw
+	N0LNRPAoR+trU0J2KvE6rig+q/JNvjg7hBM1M5IZXgBLfod4niKCeYm65+dWhW+KZslaNazpoDm
+	RY2BJkhamjiRwfk1P2ZzCyrqjdQ58gynztK24UVodWg8VgtdIxRb/S2jmJpn8keU6cjbiZXUMD
+X-Received: by 2002:a05:620a:29d4:b0:915:cda5:2803 with SMTP id af79cd13be357-915cda52c57mr287390585a.56.1780849252787;
+        Sun, 07 Jun 2026 09:20:52 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a37cab6sm1456344985a.22.2026.06.07.09.20.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 09:04:51 -0700 (PDT)
-Date: Sun, 7 Jun 2026 17:04:49 +0100
-From: Vishal Moola <vishal.moola@gmail.com>
-To: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs/mm/slab: document cache isolation with
- SLAB_NO_MERGE
-Message-ID: <aiWWoUuQyADfIA7I@fedora>
-References: <20260606155856.15548-1-med08elkadiri@gmail.com>
- <20260607070645.9559-1-med08elkadiri@gmail.com>
+        Sun, 07 Jun 2026 09:20:51 -0700 (PDT)
+Date: Sun, 7 Jun 2026 16:20:50 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, jasonmiu@google.com, 
+	linux-kernel@vger.kernel.org, corbet@lwn.net, ran.xiaokai@zte.com.cn, 
+	kexec@lists.infradead.org, pratyush@kernel.org, graf@amazon.com
+Subject: Re: [RFC v1 1/9] kho: split out radix tree tracker into kho_radix.c
+Message-ID: <aiWYZhoSOAruIIM3@plex>
+References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
+ <20260605033235.717351-2-pasha.tatashin@soleen.com>
+ <178083348873.1648214.11020626647820932506.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,18 +78,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260607070645.9559-1-med08elkadiri@gmail.com>
+In-Reply-To: <178083348873.1648214.11020626647820932506.b4-review@b4>
 
-On Sun, Jun 07, 2026 at 08:06:45AM +0100, Mohammed EL Kadiri wrote:
-> Add documentation to slab.rst explaining when and how to use
-> SLAB_NO_MERGE to protect security-critical slab caches from
-> cross-cache heap exploitation.
+On 06-07 14:58, Mike Rapoport wrote:
+> On Fri, 05 Jun 2026 03:32:27 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> > Move the radix tree tracker implementation from the core KHO code
+> 
+> It's radix tree data structure implementation, kho memory tracker is it's
+> user. Please rephrase to keep the semantics clear.
 
-Thanks for helping improve the documentation. I haven't looked at the
-patch, but have some comments in regards to the process.
+Yeap, I will update it.
 
-We prefer to send new iterations of patches as separate threads,
-with the exception being small fixes/cleanups.
+> 
+> >
+> >
+> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> > index eec9d3ae07eb..a3ee8a5c27a2 100644
+> > --- a/kernel/liveupdate/Makefile
+> > +++ b/kernel/liveupdate/Makefile
+> > @@ -7,7 +7,11 @@ luo-y :=								\
+> >  		luo_flb.o						\
+> >  		luo_session.o
+> >  
+> > -obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+> > +kho-y :=								\
+> > +		kexec_handover.o					\
+> 
+> I don't see much value in moving kexec_handover.o to a separate line,
+> btw, the same is true for luo_core.o, but it's not important enough to
+> change.
 
-Also, I'd recommend waiting a bit longer between versions to let the
-maintainers comment since getting documentation is pretty particular.
+This is purely for consistency. I wanted to use the exact same style in 
+the Makefile instead of having two different ways of declaring the 
+object lists.
+
+This:
+    luo-y :=                                \
+            luo_core.o                      \
+            luo_file.o                      \
+            luo_flb.o                       \
+            luo_session.o
+
+    kho-y :=                                \
+            kexec_handover.o                \
+            kho_radix.o                     \
+            kho_block.o                     \
+            kho_vmalloc.o
+
+Or this:
+
+    obj-$(CONFIG_LIVEUPDATE)        += luo_core.o
+    obj-$(CONFIG_LIVEUPDATE)        += luo_file.o
+    obj-$(CONFIG_LIVEUPDATE)        += luo_flb.o
+    obj-$(CONFIG_LIVEUPDATE)        += luo_session.o
+
+    obj-$(CONFIG_KEXEC_HANDOVER)        += kexec_handover.o
+    obj-$(CONFIG_KEXEC_HANDOVER)        += kho_radix.o
+    obj-$(CONFIG_KEXEC_HANDOVER)        += kho_vmalloc.o
+    obj-$(CONFIG_KEXEC_HANDOVER)        += kho_block.o
+
+I do not care which way is chosen as long as it is consistent. Since 
+this series adds new separate files for KHO, and does not touch LUO, I 
+used  LUO as template, but we can do the other way around.
