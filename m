@@ -1,165 +1,193 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6879D31F98C
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 19:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940632720C
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 20:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780860329; cv=none; b=UN6yXAXGHgIC1DizTqNn8wShPV56I1NUKkEIpax1BPNsX0TlSR/MtDA17QTxUufGblVKHfFbr2F6dnCAs1Qygwf3whu3v/+FGHyBKDRW6pWTO6x5U53ZVvDJ6GRdgASVtu7porWPRC1NDF3HV3fXbSOIdDLKj/i6ZIwxmFNvb5I=
+	t=1780864678; cv=none; b=g71XSpB6OJBaO4lVY6EZIut8Dqd1VoDN2sR8yBS8SlkYse5DSjDD11dEcBJSGtkTZ2NpAE8Mu34+8zUnvnnaXVLg8XHMFUqIxu1rQCqDbLgIsCpHYKaAlllLrtfUkjElsDewFRKJoI6WS0X8J5/P/lECh7YfrdVGRyZHH6DnuIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780860329; c=relaxed/simple;
-	bh=fk/2zasvFxHfI6QPVrYH25t/RG6QU83oAjl0mh2nSLI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=m52pJrfL2TfL1/fdfT3MPhKIC72fcRFvY93AT1aP+UG+vg0afwSy2mYy1lW/A0YaPSkJvMLKakZ0Xudaee2sRHP3sM49crseaQb+ZS7cU0frONd/xbNTX36WUpxUdZcf7ucHHn1gikLD1O2ruzVcfZm0jmo8W+6+NISKT13NXaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=NAW/8vxB; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1780864678; c=relaxed/simple;
+	bh=Kz0XEIVs2B4+UTHQmu6Y86Ku+I6D2eYakWtDHsOXm9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=axS3IAMa1cCCOZ6tJBY7419PkvZedBUJz20GITt/Yd9ycyShsnkYVaR1PglKMlgxUuBMNlfwr80lEz+DtZiXJyuYxPNXsunksHtnDWm5AzPCW/r4ot7aUXq+cWwv8ZmYxmv4IYXTFTHIHecKQ76XhwyUQ3BnRC6WJ2rZVGZgNQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QlN/6d76; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="NAW/8vxB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1780860322;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fk/2zasvFxHfI6QPVrYH25t/RG6QU83oAjl0mh2nSLI=;
-	b=NAW/8vxBeEG7DSVautFnRtfEke7FVlhURrxF6pZIjZ3U2IgS1nKL4ExznkVO9YIYgMBwJA
-	n3ycEfHBK4fRPOPTJboceJPFTTRkWd0KiGX8KhWGOICKU3hZO+7DBEZvWo+zOYOkg0KFKH
-	K5iDq0c8c1oT42EWBUG/WtsQN7wGwIGxnhcUB8FPLDFd3nvfTcYmYX+YYKFlM3g5GTdpTo
-	Z7je4FV4O8nVvfp2lISaGc2GsPHuHNIYU0tqo2iCThe/P/8iHw1PmW0epCO9KrTg2R15FS
-	JKKFZjR3veOA5Kw0E86DnqLqP0H3y603Pud0N/D5Ow8bMWXzdtOkMjkdvDAP4A==
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010070.outbound.protection.outlook.com [52.101.56.70])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id usb-mta-56-IKby01FGPjuM4z3wWvVDLg-1; Sun,
- 07 Jun 2026 12:25:15 -0700
-X-MC-Unique: IKby01FGPjuM4z3wWvVDLg-1
-X-Mimecast-MFC-AGG-ID: IKby01FGPjuM4z3wWvVDLg_1780860310
-Received: from CY8PR02MB9249.namprd02.prod.outlook.com (2603:10b6:930:9c::17)
- by IA3PR02MB10698.namprd02.prod.outlook.com (2603:10b6:208:50c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.11; Sun, 7 Jun 2026
- 19:25:07 +0000
-Received: from CY8PR02MB9249.namprd02.prod.outlook.com
- ([fe80::e437:4ba8:6506:4cda]) by CY8PR02MB9249.namprd02.prod.outlook.com
- ([fe80::e437:4ba8:6506:4cda%3]) with mapi id 15.21.0092.011; Sun, 7 Jun 2026
- 19:25:07 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Andrew Lunn <andrew@lunn.ch>,
-	Piergiorgio Beruto <Pier.Beruto@onsemi.com>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Richard Cochran
-	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
-	<jerry.ray@microchip.com>
-Subject: RE: [PATCH net-next v4 13/16] onsemi: s2500: Add driver support for
- TS2500 MAC-PHY
-Thread-Topic: [PATCH net-next v4 13/16] onsemi: s2500: Add driver support for
- TS2500 MAC-PHY
-Thread-Index: AQHc9XdYGYcKsDzw8Ea3BGxNoVFNILYymcMAgADhaQA=
-Date: Sun, 7 Jun 2026 19:25:07 +0000
-Message-ID: <CY8PR02MB924965A7F4990D6684920CBA831F2@CY8PR02MB9249.namprd02.prod.outlook.com>
-References: <20260605-s2500-mac-phy-support-v4-0-de0fbc13c6d8@onsemi.com>
- <20260605-s2500-mac-phy-support-v4-13-de0fbc13c6d8@onsemi.com>
- <7b100b6a-40c5-407d-8de0-7b1edb82a16c@infradead.org>
-In-Reply-To: <7b100b6a-40c5-407d-8de0-7b1edb82a16c@infradead.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR02MB9249:EE_|IA3PR02MB10698:EE_
-x-ms-office365-filtering-correlation-id: 6664fd3a-6e1f-4f8f-8ab9-08dec4ca7bc9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|921020|38070700021|56012099006|11063799006|4143699003|22082099003|18002099003
-x-microsoft-antispam-message-info: beBSUQ+rTFRjRYGFQ4aYIlvPofApWcuZgX6B/CFcUUl0I3eOWJlZQMdNp+oNvPwdym9U/STtMwoUS6mMc8EkWC9ripTAzvpx17Tc+lrsLvbA77CIwq2DfGCravWF6zcPh9ShdZs0AwIGHq3hOcnMQNGa0SaGe5sjPzjxg6yFvycCQmuT+TIbJSbckUe0AsXmayNpjyYT1cgA+Zgf7dNwez+0rn/oK5KgjlD+nbmHaks0pMiMyntijscjb+O236NhRDF5toF8qkrqRsmfUKYjPGe+we41UT+Z5oeRZ7R5Az0DaPHDGYLCVIVrhVzpWB8ArSCKW/87JosiSZ/IPPvd+fnHIHs0VGlTqP6mQ3qTlcVHRuweMIcFU0bF8Mg8Cpux7BvgwuPf3gHYtw6eHI6pp0P5vIEpuvqcE/4+x1zATUl9u4ODEG1dAG92BVHOsYOnyK1PNhcTMM4/4pYWgtQHDPES/ja7TGTAaViJYhFh7OxlIPR25IV0LUsB6HWI+7H/N5N00pjb+uIhjG3MVkkuy0kzmDYpcrETkbQUy1dUc5o8GVKyCKMUXIblI5VAc5kdfNwtXTtafsDJIV/Y0O8HECGN1OX3XnAhQyq5OtrgiyA5RCL4ipPRbKU3DDfFsG8RPcJL8jVxisXD8pS+DBqhEr3E6QTm6AkCA/QH/pKSbOdu9hMqx9xSxBhuzSP339GfHsVfMR7h+pETPdo8j2iXM5Oxc0pZtXWB19bJd74y1Q0gsCYlIsJ2JjBOMtM4OUpiJQlKNMgMuvwoxVehH3uJTA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR02MB9249.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020)(38070700021)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZGlXN3VzWlBaZjcxelhLNERaWWRWVkhRTjF3SXltd1p0NC80V0FzY2swVWpF?=
- =?utf-8?B?Tzh0VzljTElkNlpvaENaM3RFQ0JTM2tjU3J0dHV6aS9GMVpyckVJVW4yVjUv?=
- =?utf-8?B?Z2RINUNlUUZyOG93a2F3QmtQekwrMUVBZUExLzJEMW9aUnNNZ1NNclQwL1NL?=
- =?utf-8?B?ZTFMaXh4dzA1c0I0MkF6WTY1TDlncEtNdDk3anRJV05Wak5YMEUyOXZ5VkNT?=
- =?utf-8?B?ZnNoS0EwOEM4T1pwK2oxY1BYcVRrMEpMQVBIcHFqTGFsRGt6dDY4dUtBbHhs?=
- =?utf-8?B?dUp3bXZuUmZNZXoxUVBYOCtGOEJjcXZXZHlHU05nS1hsS21jNDkyeEptdjh5?=
- =?utf-8?B?bThwZXRTd3lCcUZFYzZVbkZYZVVkQVdYcHFrWWxCczJFODV0K1F1ZFlDRURI?=
- =?utf-8?B?b0dDNlBuT0djTnlXOWRxc2VnQVp1Qnh1RnVUbEZ5WkNpaGlPWVhvWEpZNWFw?=
- =?utf-8?B?YlVCTTJNN3E0ZlJLZm5tZ2VEckRvSGhYSWxUcUY1SmJQK3lWL3NoMXZsUU56?=
- =?utf-8?B?K1R2TENkNEVoNVFRMkxoZjJKUmcxZk9RVHFKbXhwamlrV2JLekR4TG4zVSto?=
- =?utf-8?B?bW81cjQzcXpOVDBTeU1BaEFuOHNPMXZQU3dSSTdEcHBPdHZHeWtBOW9KUU5z?=
- =?utf-8?B?MnIrSStaelpORXdkTjNWTDdJYXhJWXBkZEc3SHdCWG9rWGR5Y2hnT1BsMVBO?=
- =?utf-8?B?SzlCUUhOeGh1cE1KRDhwWHgzKzlwTFRvdExLa3dLNUFleVN6eEwycXlGbmhu?=
- =?utf-8?B?RVoyOFU5NVN4eUlMZisxdFIxQ1pzV0R2YTZCcGpnblA1WW9EaTdESm10RmFZ?=
- =?utf-8?B?UHpzblN2Q1NGZEt3R3I2ajFRUUlKaW1DOU03RXdvZldWY3VaNEh2d0YrMlA0?=
- =?utf-8?B?Yy92ck0yeTZUVHBiYUpmdkxuUklkd0EvVUtiSytlWEZ6SnhHYzNhV1pNSkNn?=
- =?utf-8?B?aHpzTTd3cGJLSDdldnp4N2VVbkFYSDhNandhRmFlcW5uWW9CQUxsYm5oWmpy?=
- =?utf-8?B?cVBuemVWcjNwQTkxdEk4R0k2OUczN1d0UGk4SVlvUllWUCtCMW9hVFprdDBo?=
- =?utf-8?B?d2N2TzErZ1ptWVBObHNhcjlCcE84UCs0WkJKbEFBSkx0YlBSSUNIWFJUbGNQ?=
- =?utf-8?B?c2w1Qnp5MzdCdkJGRE1PbU1wdHBucTh4M1lPYldoaDgveEdzd2dEWCtHdDNM?=
- =?utf-8?B?S0NQR2tPTWVueFI2SzRiblF2WDZURnk5NkJyYTFuNGdKakN1dTNTRFJGREds?=
- =?utf-8?B?WllGajdXOW8yazA1VnVVVVNPMHVkeWNjZytXTCt5SHYzbWU5N3FjUDAzWWtY?=
- =?utf-8?B?L0NnZFB4WFdFMFpnWWhiTjlBY2xhTUZsNG0wRS9tekRkM1d1K2FXWC9MYnd6?=
- =?utf-8?B?MHZVUVVXRVBSTURsWE9YQ0U0dHJrMWFvREJDa3p1bWZoSlNvWGF4aEFacmRM?=
- =?utf-8?B?S3g5dWQyRngrc0Q1bnV6RnNBREUxaktHOFl3UXl2YVk5dzRlTEV3TE8yS1dq?=
- =?utf-8?B?SlZPZjlqVEI2OTRiZW9yTGJHNzkyTENTUDVtLy94M2pqQ2toTXRaNndIbll5?=
- =?utf-8?B?SFRaaXpZL09ZcmZwMWRUSk9Cb3JTUEtSRUh2MEFGSnRINjVzZWFQcFAvWGpv?=
- =?utf-8?B?Z29hblNqMzJyR1F5UjJnY1hjQWNHc3hOcFh2R1VYU013T0JLdUVCR0k4dHht?=
- =?utf-8?B?RTgxQzF1RElILzZWeXByU0ZIb3JXZDBuTUM2REREOUVJM2F0ZUlhSEpLWTJK?=
- =?utf-8?B?Z1I5bUIxSkVPUHZFVDgvcENLWlVXazBnZTF2WjBaVi9MQ2F5WFdiRGZHODdq?=
- =?utf-8?B?ZGNrTVVhN0FIS2RYSXM4bzJvNHE3MUk2WFg4elBDNGlmWWdvSjhEL0hPcE9G?=
- =?utf-8?B?cjBvVVVsNVpLYklpNlVBRVFpcm40NS9Ra05DRExJSVd6SjNGZ3ZzS3NubEJ2?=
- =?utf-8?B?dERhTm9OR3BxdmlLRUd5UDk0NWJLaTdlR0ZhaTZRajJ5SmRKazVBaXZaeDdI?=
- =?utf-8?B?WjFFVU1VTU11WU1FWDVuQjArMUFKRDUvczhhSmUzVTNHaERTL3NHMzhBOUNt?=
- =?utf-8?B?RnZQL09vQ2QrTWIwdVptSDUzalJoRzdHSnVxeU1IZEdQS0E2cWRDQlVmUTBv?=
- =?utf-8?B?VkhxMFBTVVd1OVlJR1d2NDY0N1pyWGxqb2ZZKzJoSzhQcU5HOFBabGVmbk9v?=
- =?utf-8?B?TWVWQXlmellpZ3BvUWRoN1p0akRPRmhVTWEyU0laZlNkU3ZibnpwR3R5YUdi?=
- =?utf-8?B?TWo0NTdZMWFGY1BuQTUwL2lxbTFLU0dncW5SU2V1SXNXdnZFa2g0SHhDY21l?=
- =?utf-8?B?T2VES1MxTGZGTkU2MG5KUitMMTl2V3p2bkNkQWNwcXg0YmJ0MmRpOXVTQmNW?=
- =?utf-8?Q?MqebfZ0FwUFTKdbo=3D?=
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QlN/6d76"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1336742714fso24457c88.1
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 13:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780864677; x=1781469477; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oir9rCALH4eHYpJVikC6mAKB9V6wqMG19r6g7e/slSE=;
+        b=QlN/6d76TcjLhL7wCB8tFMgesQip4JCKw5rAGi6wty1JQDp3mNWqydW44dB5pcbPuS
+         z4Ei5UMM3NFQRxOWFtetVQt1tIl7elloCR6o1IPb4w692YFPZVOujgRPzkaN2W7JWVlb
+         De+EtJej8lhRP91y4pygaIVffkJ4XEfpFxz+8BydRlNukFR9nPQrWKU1KQFj58pR7PYj
+         +HZ+MhlXfWX8HTVyW+yG/jrrDm/HeY0zvoLh/ttUvglOV2eDYkCHFjttXWLOxknoz4PC
+         ZWbFNjB1QiAeA2MJ7/g6nmb1pk4I3uQTt4AtEkuRS3Qlc4J7cThckX86nxbq03leX4lp
+         T0ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780864677; x=1781469477;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oir9rCALH4eHYpJVikC6mAKB9V6wqMG19r6g7e/slSE=;
+        b=S2ZKQI25EJHpW50d5iQn0e24H06eaahf4pqc+rAEcw3TF8yVae1G+b0pR44u/lbnpW
+         i1aC5Joe8Rxc+NgOPje54JrwthbIADcLQx9dVRZqxa48fF4C2t3ZJh8cXipb8X997efA
+         EXl9aqFjB9U2YO9T4L3E8E1e/mfk3FEvoORgsEsALKlvyZBM/Foped1YYUIpPWY+WmmT
+         K5L6WhcpJYAODFBAc9sTQz3xWa/VmnjjqnxwJ5uakhkQjv997btaFwclLlARyd/xXGpR
+         Ve+W6UE6lG/Fp5j6DMceLPmwSrEmYJgjQU40PwV/4GHpzAchos2XVP4BcDHUkgT6zlJR
+         poxA==
+X-Forwarded-Encrypted: i=1; AFNElJ/+AzaYN5KdeV6N9LcJwQ/CBhz3SywNQX+3ckXL04a9iBRIggNPg5d963c18Ae4xyGGm4bIyzbFHxQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJ+zPPkPBp7vf8Rm3hb3TB2hNEiPMOrFLrtHPlF5Bg8P4y3nQi
+	cgBBH0mMoRdAHKlYQIS5MHko0TVx4WSObD2nnM3I9pP6wEATagOZOcjmvKcOYxw4Fw==
+X-Gm-Gg: Acq92OE1S89WcEd3Gv9vVmAUPobuDNdeNcXkuuI4UDlbtu7CPY168+a5amuOts5xE5j
+	V0RYXKLqvImvVkdl2CI0Ss5x0sC4eOaD+ef0/QRHzdFHyliP+DonGePffr+dP5RjJLo5oy0vyrS
+	MNIcVVWfYu3VU2uoN+iqlhg09RjWY5dYkfM69SFETR0flCaif//i8yfG01qZNpoCUkusvxf1PEL
+	JCilRaK3OE5uW5SRA1jcpUkamanEi57TksJ9m160IVuSpZLsErUsZGxU36lfiSSGZCyXY3aXIOL
+	stFnuPv+7NJh9qV5y5xDG6evyh0gbHuMWf2UAZ9RHqvY8PgviijkTfatOM9keQ56eb9hpH94T00
+	kXGe0zX7YTJlepOX4kB8WrdE3DPs26mlDYfY8hE20SbPXhheJ1AyyPKT1FXbZ+c9GuyMmliLmEp
+	s3hiuQ5xCGJhCccxDbvYy+G5ScBDKbjj+rpN9sTl8OZlXs3yfkBtBuuvPW38319JiV/qjPffw=
+X-Received: by 2002:a05:7022:504:b0:134:fc89:410b with SMTP id a92af1059eb24-13807c7c2e5mr279135c88.15.1780864674937;
+        Sun, 07 Jun 2026 13:37:54 -0700 (PDT)
+Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1381495bb00sm4230734c88.3.2026.06.07.13.37.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jun 2026 13:37:54 -0700 (PDT)
+Date: Sun, 7 Jun 2026 20:37:45 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 08/12] PCI: liveupdate: Inherit ACS flags in incoming
+ preserved devices
+Message-ID: <aiXWmR-ettxin4LC@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-9-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Y5qV7o6MisGWh1ZPWCFNYNEP29uaCMCB6Ek4BXpWNG1xS9KkdfN6l0PICaLuYDrkmugZ5kUZsqMnvrSLA+ayI+xR5wYgKkK7UBwNxheYbfo2XKPxqEsuOP0zGAE3XYylr1pLGwAilCq7F7TG9uNoJr93eL76PCgoKORO1kCwbxyy7ty6LrDjSmzhSeDM+NYhDtEDoIiVxjykzCE1zEp43oQFVvxjH+V+FKRI5gjQhnmfHye5uEMgi36ZWVQ21J6Gw/A6lgREs8UAmDFije050+LRP/xCg3/rnfisirBq5xhshnBIFrYSRdhSIg3C5eG/lVMmvbSCr8rBNMwqOkpZWw==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR02MB9249.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6664fd3a-6e1f-4f8f-8ab9-08dec4ca7bc9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2026 19:25:07.2275
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aHmnVP/4qpLW/3d8JtSmpVmLTeVOlkuLoPzaZPk/K1fylwpKPYKQMlP+PJovSwhgBwu2p7iNR0dhBeT+FtKySttfRCgIkcFLDqtF7/ZJeqM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR02MB10698
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: IdRZJgN2jb9MKfGjM0JhlDh-9thFUmrCeFV584vF23s_1780860310
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260522202410.3104264-9-dmatlack@google.com>
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIG5ldC1uZXh0IHY0IDEzLzE2XSBvbnNlbWk6IHMyNTAwOiBB
-ZGQgZHJpdmVyIHN1cHBvcnQgZm9yIFRTMjUwMA0KPiBNQUMtUEhZDQo+IA0KPiA+ICsgdGhlIHF1
-ZXN0aW9ucyBhYm91dCBvbnNlbWkgZXRoZXJuZXQgZGV2aWNlcy4gSWYgeW91IHNheSBZLCB5b3UN
-Cj4gPiArIHdpbGwgYmUgYXNrZWQgZm9yIHlvdXIgc3BlY2lmaWMgY2FyZCBpbiB0aGUgZm9sbG93
-aW5nIHF1ZXN0aW9ucy4NCj4gDQo+IEFib3ZlIGxpbmUgc2hvdWxkIGJlIGluZGVudGVkIHdpdGgg
-b25lIHRhYiArIHNwYWNlcy4NCg0KDQpTb3JyeSBhYm91dCB0aGF0LiBXaWxsIGZpeCB0aGUgZm9y
-bWF0dGluZyBpc3N1ZSBpbiBib3RoIEtjb25maWcgZmlsZXMsDQpvbmUgdW5kZXIgb25zZW1pIGFu
-ZCBvbmUgdW5kZXIgb25zZW1pL3MyNTAwLg0KDQoNCj4gPiArIC8qKg0KPiANCj4gVXNlIC8qDQo+
-IHNpbmNlIHRoaXMgaXMgbm90IGEga2VybmVsLWRvYyBjb21tZW50Lg0KPiANCg0KWWVzLiB3aWxs
-IGZpeCBpdC4NCg0KDQo+ID4gKyAqIENvbnZlcnQgdW5zaWduZWQgc2NhbGVkX3BwbSB0byBhdHRv
-LXNlY29uZHMgcGVyIGNsb2NrIGN5Y2xlcy4NCj4gPiArICogVGhlIHNjYWxlZF9wcG0gZm9ybWF0
-IGlzIFF4LjE2IC0tPiAxIGxzYiA9IDEvNjU1MzYgcHBtLg0KPiA+ICsgKiBUaGUgY2xvY2sgcGVy
-aW9kIG9mIHRoZSBTMjUwMCBpcyA4bnMgKDEyNSBNSHopLCBzbyAxIGxzYiBvZg0KDQo=
+On Fri, May 22, 2026 at 08:24:06PM +0000, David Matlack wrote:
+> Inherit Access Control Services (ACS) flags on all incoming preserved
+> devices (endpoints and upstream bridges) during a Live Update.
+> 
+> Inheriting ACS flags avoids changing routing rules while memory
+> transactions are in flight from preserved devices. This is also strictly
+> necessary to ensure that IOMMU group assignments do not change across
+> a Live Update for preserved devices, as changing ACS configurations can
+> split or merge IOMMU groups.
+> 
+> Cache the inherited ACS controls established by the previous kernel in
+> struct pci_dev so that ACS controls do not change after a reset
+> (pci_restore_state() calls pci_enable_acs()).
+> 
+> To simplify ACS inheritance, reject preserving any devices that require
+> quirks to enable ACS as those quirks would also have to take Live Update
+> into account.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/liveupdate.c       | 68 ++++++++++++++++++++++++++++++++++
+>  drivers/pci/liveupdate.h       | 11 ++++++
+>  drivers/pci/pci.c              |  5 +++
+>  drivers/pci/pci.h              |  5 +++
+>  drivers/pci/quirks.c           |  7 ++++
+>  include/linux/pci_liveupdate.h |  6 +++
+>  6 files changed, 102 insertions(+)
+> 
 
+[...]
+
+>  
+> +void pci_liveupdate_init_acs(struct pci_dev *dev)
+> +{
+> +	guard(rwsem_read)(&pci_liveupdate.rwsem);
+> +
+> +	if (!dev->acs_cap || !dev->liveupdate.incoming)
+> +		return;
+> +
+> +	pci_read_config_word(dev, dev->acs_cap + PCI_ACS_CTRL, &dev->liveupdate.acs_ctrl);
+
+I might be thinking out loud here, but as an attacker, this motivates me
+to somehow hack the EP FW to mis-report the PCI_ACS_CTRL register across
+a liveupdate to fool the incoming kernel. If the FW feeds a 0, it silently
+strips ACS protections.
+
+Should we also serialize ACS state in ser somehow to ensure we aren't 
+fooled by something like this?
+
+> +}
+> +
+> +int pci_liveupdate_enable_acs(struct pci_dev *dev)
+> +{
+> +	u16 acs_ctrl = dev->liveupdate.acs_ctrl;
+> +	u16 acs_cap = dev->acs_cap;
+> +
+> +	/*
+> +	 * Use liveupdate.was_preserved instead of liveupdate.incoming since the
+> +	 * device's ACS controls should not change even after the device is
+> +	 * finished participating in the Live Update.
+> +	 */
+> +	if (!dev->liveupdate.was_preserved)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * The previous kernel should not have preserved any devices that
+> +	 * require device-specific quirks to enable ACS, but if such a device is
+> +	 * detected, log a big warning and fall back to the normal enable ACS
+> +	 * path.
+> +	 */
+
+Nit: It might be worth adding a note here that this can also happen if a
+new device-specific ACS quirk is introduced in the incoming kernel for a
+device that was preserved by the old kernel (which didn't have the quirk).
+In such cases, the two kernels are essentially non-LUO-compatible..
+
+> +	if (pci_need_dev_specific_enable_acs(dev)) {
+> +		pci_warn(dev, "Device-specific quirk required to enable ACS!\n");
+> +		WARN_ON_ONCE(true);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (acs_cap)
+> +		pci_write_config_word(dev, acs_cap + PCI_ACS_CTRL, acs_ctrl);
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
+>   * @dev: The PCI device to check
+
+[...]
+
+Thanks,
+Praan
