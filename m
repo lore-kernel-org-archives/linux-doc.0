@@ -1,165 +1,180 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90FA2BF3E2
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 21:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7CC3370EC
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 23:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780867022; cv=none; b=iPYVKSHINQgHZfUNbzl1lWvqxoStCfeeFUO59OjCnFolIY8LAxIioQwoWrEaR3V4nq1tUOJ3d4QbqFqlq3BVDdxu+/d+oALCtEQ97xPaZS2KvwWo9K7NGVF2wJ+6/UQ5SEgbm2lFsw581HpM9XvB8RNp/CllgkG2fNXNSgE0SIs=
+	t=1780875911; cv=none; b=TD+ELzdAQfB2m7eYB+EmQNYtu4OP305PamFRpLmVis7pqN3o0mqq3Iuvdvt5H70U/WurhaKfsUCdvylXLetxqXpSKGQpjfLT+xjUOzhnCX37S0+8rDh2yXkeGNKVJRGoYnOAnjBZMLvJPm2yqxb56cqklxCGWMJJTig+hwANPw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780867022; c=relaxed/simple;
-	bh=K05rDR/kI8f6Lkx/1x5sjLiZhZshxFfSfklW9pxpF8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qcxbsBeotGhYDtfY2ifH7OXudDWdZS3pAFYoLAMkr28Xs7caLQnm/KpdGsfo5kd4FrOwjg4ieItlEMrtaNN8dAr4KjxgH4d/sIllLkCD0WPbfnHVsfGK3adEMUQ88OSjngXB2vmKjVE8xx8MrQ33XE+o7inmM5uw/pt9KowHvj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=But72Gez; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fX5Zc6r/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1780875911; c=relaxed/simple;
+	bh=ZIwLVrv1HgnG73iPHOUTfKF++AsJf71N/rHMQbqfk4s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MpeFcTNdCXn6P/sNtOTThEv2MjiE5gMsjYOTSVFVL5E+Ej9bhqR2rMug3upbx3whAoOoFPxhoO/2oE0RozsX0l9/zkosFaEl/mfdKKCaSW6sdw4jzvrFuI98NbxQOeZYKCC+VASNP5Keghx19OJw1FZfSkOsfO/Xt9mmseobSu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXdzl0yA; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="But72Gez";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fX5Zc6r/"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 657Ek9f7336060
-	for <linux-doc@vger.kernel.org>; Sun, 7 Jun 2026 21:17:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=b7j6fWH2ZTuBoYf3DikwUXDF
-	crJUfkjfuq65I6UYILE=; b=But72Gezh3J8O2kC7pcCgCeUO5B83TzWPdicivQA
-	g19bqR3eLMsg6WosHQ36cxQOtkV5o6n+puHlydTYJg9M+usFF2y/WDRnVMD/m5tC
-	LI4wPKcHTMp5c+znAZb4hadOrDuF1f60I6rywu0fRAkeKosyfnwZd9Uxr9HHTDfW
-	KwRXI8Xq1Xnr7nDD0TVtDmCQLFeb04rNMSgc4ZAwJ8OoalbIu330DN5gPgPmsbZa
-	RSKO85OmfXjzkldAeL90tkekubBWeWcWRwQv6CEt6YLnpTotwTGNzIuU+MUT/vYP
-	8eyF/eliV3HLq6qYlVZMJ2ptEHT30V8N/QOm0w4exF9mDw==
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4emcqgvg8t-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 21:17:01 +0000 (GMT)
-Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-59ece6adf0cso3168973e0c.3
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 14:17:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXdzl0yA"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c85a2ca7bf7so1329479a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 16:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780867020; x=1781471820; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b7j6fWH2ZTuBoYf3DikwUXDFcrJUfkjfuq65I6UYILE=;
-        b=fX5Zc6r/Oh1mwVQawEJISygcP40wRFIw3XowHuTduIdxR1AMfR0yoInw7HOtvWNAEt
-         UfvcE6rSmD7XFbXJJSAShi35ilY1MMAD9W3NlpVf7MoeKi4KMFDJcL1K8UqEKZteuSKy
-         dRVnZHzlQAlT8QyJ3LwZSLJYryj8GCnR6UJAU3gQFDlQEudID5RjLABibXQ+YDGoOgHe
-         9NDKccf42CBDSMDnD9cFbYSFROkuqNXiu1anGzDSZhmH2yB/Qvl2DloRoPiWOBDA2UH9
-         oLWe2nbDmjFKQq4g0oWmK7RWLfXj/eNU6aV9NgHioJC7hKW+k034O+WChYP4k9W+KnA9
-         N9YA==
+        d=gmail.com; s=20251104; t=1780875909; x=1781480709; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JqkSLcaCVqTAnIwMjGmi7aDRUogvZTPKJm11XJXrxi0=;
+        b=WXdzl0yAAMiVR5dWPdJvdy79IJSYK+AqFQabUGBFW1vmxXLxNbmgo+kkeREa+YTq0a
+         9AgTD4PUlCb5NNbg2O1VrfnQRc3lu7FHEluIinwX8ugDnGrTj0Qa7BdEOeh5mIlraTpl
+         DZUkxUwcTEB6Q/76XmMQCVvxA2fpaybvB1+P3LITMOfCx9DcRtE2+MHAfMAz4iAuZWTO
+         PPb68VcFqeaMjNple+JT9Zg7+jWss1cS5nhHlwhvhB5SMowc1yJtrcwNyezD5wgw9d5Y
+         2mvaUkjNWZyLVp7XsLKihB771t0SMFXFXRUxTaZa5Gd9o1gXxzMFV2aUn0lsF1Xpl9pq
+         X/Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780867020; x=1781471820;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b7j6fWH2ZTuBoYf3DikwUXDFcrJUfkjfuq65I6UYILE=;
-        b=FL/GlHuebhJAqQqvxibPrBZazuVrTGMYjQ6pbLxZgaV+lGm9UcPr1ztaagdliXTy/y
-         5K4dJFrmqqk37teq3hkF+1jSKJ0mPPAadZ3/DR/ZUhXbWynT67C5M76Pn9903tcZxBze
-         kt/Sx8qVDsnq8lmIaZAsQ4iNyDFYbhi1fuJzFvb+S0R822WgG2meDiStbsN5IxspNNR0
-         8uXA6E+3Gsm2/f85194ub/6GXvSZmQxG2gd3P2CXtGu0OZkEzqRghdPyDQeIN0oMfg15
-         0z82nV2Z4K7+jTjdJqulFbCsL0Y9tj2CFnJ1HMMZF6SmJNDD8jbweQhPLm6Vn8S+5WSu
-         EpaA==
-X-Forwarded-Encrypted: i=1; AFNElJ9M/zkhwU7diK3TY90k/UGVj56TXxosXLwed1HawFmYD71KKBFRechn2yHglE9ytSN+UvBOsic/R4E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAWldX7F7Rfdit2CeKd8EIeg/5MKXsjvRPMpVg/yo+tzRyCiAC
-	BpNxMf/PiAgX30HnsVpVATC+6928U1PpMw5ZZduSSawOZi7IMZkDzeMfspYh4yGL+4cSNo0dOw9
-	p8sYA7zDf/m58Zc6l4+hLClFPNFJ93RHdovsL/tgAM9pkLSpthMAaliu6b1O4W8g=
-X-Gm-Gg: Acq92OEIAJXBTLLQ719ewfPcmlGPK3x/n8+LRt4L7xNKWD+djvCFJn27NuwcT838lWR
-	XhxHfVriY47mdfw9IOhTseS0HZaz+YeqRranGCbIXed0Bi+zZp7RDYzwZCeiBuy+kFttWe/2ziH
-	q/Ezq4MEs624E8qX9qEy9hn7WqsrIqbFEhaLWB7MuFJW8UcRce17FvTnx8rTwxtFCgtLIMSzcuo
-	dxBFzgKAyv2Kq3yvAeZSll9EAgK1fkrX6KziYf4c5cTra6j+Gzdz50CMvCuO5rV96JGbwgCeGlE
-	eERf5KrYS+uZno9GhQ26Ml5GPix8AxyW8XyW4wm8u0g9L1k1C2zr1EdIkS/833uBNGEadcnQtfr
-	Zv8mmDe5lUPc3L5Qr/iVLzQMO4yH+0oR6CWitTY7ju1xNNEc/7EOg5gBWBX8Opg4o2qCgJ5Jfrz
-	6rH31oyM/bZi22TooyandEzIathkg48dv7WWYM/erJ5kM4TQ==
-X-Received: by 2002:a05:6102:4191:b0:634:a573:c097 with SMTP id ada2fe7eead31-6fef36392d5mr4964748137.13.1780867020067;
-        Sun, 07 Jun 2026 14:17:00 -0700 (PDT)
-X-Received: by 2002:a05:6102:4191:b0:634:a573:c097 with SMTP id ada2fe7eead31-6fef36392d5mr4964739137.13.1780867019635;
-        Sun, 07 Jun 2026 14:16:59 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b9040fesm3273761e87.31.2026.06.07.14.16.58
+        d=1e100.net; s=20251104; t=1780875909; x=1781480709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JqkSLcaCVqTAnIwMjGmi7aDRUogvZTPKJm11XJXrxi0=;
+        b=Nvvx8RagGzYWlORHpXrsQO1+8iuEX5yazFUOPWdKYOsKGGzL8hVJy0MvhNKpRgYzmu
+         HSFQ+Zbbj8W1zXgZn4YrV0r4vq16UFtu4gYws+dSCg3A0xcfGMPySo+67/Gn1uTPg9LX
+         6tI4ZIkSVcjzsuEGapuqcaM9q2hfG2/clvHT0waHx133bKucrGWymXXoXpID+ZIDjZpX
+         J9Mx0uVCg5cn7z159O7b0A56vQxxDZRX6a8x532bJWJoFXAtOcedE86fq/FIrnMPQEJi
+         Oe0kpY2GYRC4hQp5PuSHj6BBj77yi49n/3LqKvBKoqn3FSV6xTKnaFWYozKFV3rBVVnQ
+         wPmw==
+X-Forwarded-Encrypted: i=1; AFNElJ+l4ThN1RvEuv+tFCYx2poqflN5CKqlaW5gv4VpvghC4HsqKvbLmgfhrOdkEwd1qMhpygWlV7wqJWI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBgA7MYss3TAq+8SRhZHSv8yanADR6jGbPsilWHkPWigFRcTUp
+	0JCRksGOsY9X4ALbTYmQONtCvca/t80zVCwL7iqBkY5pDlk331prX+6q
+X-Gm-Gg: Acq92OFoZU+a9RHeQWeLVSi3hv8SdAOz820RCGlALCa1x0nR1ZJe9jXVaM4MF9mFHKa
+	9s24un9nSxqINi0egH1QIcCUm6m6pMo38RINIJH6200JwcwjmbhQrnUVpwaCrrN72adq1BrgfCX
+	bv1iLM0gVCt2efMzEyAuglQQZOmJjy9myrnPDr+duWVYfbwSM8GwuKPYv6u+mta6eQEfHMJMO74
+	if3NtOlCcrlONwQFo4a2wB2NluyAbuycB3wlZFBkPNryDa6+M20B09If1QuigiD0MVIdTjxXXAX
+	AiFf/68b9ejlf1m0CEINiDU2A7V2chrguTA6jXL64zatwb7U1JBVBlFIeZnjZ480RMhY6+JuReI
+	Gf5qz7dKQAABMRV+WX2ExbC/2/5iOWAcpN4VlaEHqjAOK+3M9fsAJxZHDbf1eeSf6/gl8iZRl6Q
+	dujpQd9aL5oqyd6jWl4+4p5Nvsc7fBqNT2gXKz7c1W7Ty4PP3PLg+P08tTCdNkQ8BLtmjibw+KJ
+	AxdHZIdoU//I7aIGoWwiBKPz9nxfzPm+444yxo1GTJ6njb6
+X-Received: by 2002:a05:6a00:908c:b0:842:688f:3089 with SMTP id d2e1a72fcca58-842b106519amr13270527b3a.30.1780875909261;
+        Sun, 07 Jun 2026 16:45:09 -0700 (PDT)
+Received: from DESKTOP-G3E0OSP.localdomain ([112.172.255.242])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828d6bd1sm19257732b3a.44.2026.06.07.16.45.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 14:16:58 -0700 (PDT)
-Date: Mon, 8 Jun 2026 00:16:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        robin.clark@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 13/15] accel/qda: Add DSP process creation and release
-Message-ID: <5gz4m3mfsnlwmyfiqtl34rgt7krgo546l6kslux2ibyinep3td@zs7xjxrk557o>
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
- <20260519-qda-series-v1-13-b2d984c297f8@oss.qualcomm.com>
- <w44qzw2ryg7bpbte3hegopmtkfjd2gby532rdjarm4i3tylpv2@2rmruincfdgc>
- <568987b0-6f54-4b51-b1c0-416435e3f564@oss.qualcomm.com>
+        Sun, 07 Jun 2026 16:45:08 -0700 (PDT)
+From: Jinseob Kim <kimjinseob88@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	linux-iio@vger.kernel.org
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH RFC v4 0/6] iio: add Open Sensor Fusion IIO driver
+Date: Mon,  8 Jun 2026 08:43:37 +0900
+Message-ID: <20260607234343.22109-1-kimjinseob88@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <568987b0-6f54-4b51-b1c0-416435e3f564@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=dJGWXuZb c=1 sm=1 tr=0 ts=6a25dfcd cx=c_pps
- a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=DtFIhfJECZ_mmoY6xYkA:9
- a=CjuIK1q_8ugA:10 a=vmgOmaN-Xu0dpDh8OwbV:22
-X-Proofpoint-GUID: fh4H2k_Du7kV0yUoD1yg4qWnPJWBvp6_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA3MDIxNCBTYWx0ZWRfX56lwx3KLcNJp
- ii09wH5EHNur9YOqMIf+i8Ox8j7aNf0uXNb8iSsL5tG/8a/6VHA62eztwWhoIDCDGjDcvJhKycc
- heSWHmfTAnQVh5773nNQcc0jnPfPF+7/OLFVpvvPqpxNO4fsfAjRHrtJPP8tBWtUjDBztWZOXvi
- 4EPqY23JeuVzSw7FVBJ7NIVzbgr1PsccGQABNxOE9twiQsLBuG26OC9mccMYTzP++QIUIJcNSey
- CwVJKgTBPeGNF9SBrxMYKZVspIeGJHyiNyF/hOWeoQ+8asri1E286euenG+wkNtnpdp8BJQLMTN
- qt3DylfeLmwUtH4Zz7CGK5TaqRpeNwIszbFZKAMNLuIEUyZKhuwl5/zCviYdc5qD9kEJrcI1uSl
- D4CoGK+KgYSHMd4oa06yRSfRnHZSPiTKFKtI6tgUq5QBsOMjaghUJOCdZKvLY28hQcX/n2kzwlQ
- D7UNk9YjGpJwSPZbNIg==
-X-Proofpoint-ORIG-GUID: fh4H2k_Du7kV0yUoD1yg4qWnPJWBvp6_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-07_04,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606070214
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 04, 2026 at 10:47:13AM +0530, Ekansh Gupta wrote:
-> On 20-05-2026 19:30, Dmitry Baryshkov wrote:
-> > On Tue, May 19, 2026 at 11:46:03AM +0530, Ekansh Gupta via B4 Relay wrote:
-> >>  
-> >> +/**
-> >> + * qda_ioctl_init_create() - Create a DSP process
-> >> + * @dev: DRM device structure
-> >> + * @data: User-space data (struct drm_qda_init_create)
-> >> + * @file_priv: DRM file private data
-> >> + *
-> >> + * Return: 0 on success, negative error code on failure
-> >> + */
-> >> +int qda_ioctl_init_create(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> >> +{
-> >> +	return fastrpc_invoke(FASTRPC_RMID_INIT_CREATE, dev, data, file_priv);
-> > 
-> > Where is INIT_CREATE_ATTR, which you described earlier?
-> INIT_CREATE_ATTR is used while `sc` creation so the DSP considers the
-> request is coming with some attributes, the ioctl functions are going to
-> be the same in both the cases, so keeping it unchanged and the decision
-> is taken while `sc` is getting created.>
+This RFC series adds an Industrial I/O driver for Open Sensor Fusion
+sensor aggregation devices.
 
-Ack, I missed it earlier.
+Open Sensor Fusion is an open hardware project for sensor
+aggregation devices. The Linux IIO driver is an initial host-side
+implementation for OSF devices. The driver receives OSF frames over
+UART, uses device capability reports to discover supported sensor
+streams, and exposes supported raw sensor data through IIO devices.
 
+This series is still marked RFC because the DT binding identity, the
+supported OSF protocol subset, and protocol extension and backward
+compatibility rules are still under review. The v4 series
+intentionally models the Linux device as a generic Open Sensor Fusion
+device rather than an OSF GREEN board-specific device. OSF GREEN is
+the prototype board used for current runtime testing, not the Linux DT
+compatible or driver identity.
+
+The current wire format uses the OSF0 magic for protocol major
+version 0. That is kept as an internal wire-format detail for
+compatibility with existing firmware, tools, and runtime smoke
+evidence. The public driver identity remains Open Sensor Fusion / OSF,
+with protocol versioning handled by the protocol major/minor fields.
+
+Project links:
+https://www.opensensorfusion.org/
+https://github.com/opensensorfusion
+https://github.com/opensensorfusion/opensensorfusion-hardware
+https://github.com/opensensorfusion/opensensorfusion-linux
+
+Runtime testing so far has used an OSF GREEN prototype connected to a
+Raspberry Pi over UART. On Raspberry Pi 6.12.75+rpt-rpi-v8, the
+driver registered osf-accel, osf-gyro, osf-magn, and osf-temp from a
+capability report. Raw reads and software kfifo buffer reads were
+tested for all four IIO devices.
+
+Changes since v3:
+
+* Explain why the series is still RFC.
+* Move the DT binding out of iio/imu because the device is a sensor
+  aggregation device rather than an IMU.
+* Replace the OSF GREEN board-specific compatible with the generic
+  opensensorfusion,osf compatible.
+* Treat OSF GREEN as tested prototype hardware / board model
+  information, not as the Linux compatible string.
+* Rename the kernel documentation to open-sensor-fusion.rst and
+  reduce it to a driver-facing overview.
+* Add the IIO documentation toctree entry.
+* Keep full protocol details and compatibility rules in project
+  documentation rather than duplicating the full wire specification in
+  the kernel tree.
+* Avoid using OSF0 as the public driver identity; keep it only as the
+  current wire magic for protocol major version 0.
+* Add FourCC-style wire magic handling in the decoder.
+* Use GENMASK() for the capability flags mask.
+* Clarify signed 32-bit little-endian sample decoding.
+* Stop counting normal partial UART receive waits as partial frame
+  errors.
+* Avoid decoding complete frames twice in the stream/core path.
+* Remove the local scan[] bounce before
+  iio_push_to_buffers_with_ts_unaligned() and pass the values buffer
+  directly.
+* Remove the meaningless temperature available_scan_masks entry.
+* Update MAINTAINERS paths for the new binding and documentation
+  names.
+
+Jinseob Kim (6):
+  dt-bindings: iio: add Open Sensor Fusion device
+  Documentation: iio: add Open Sensor Fusion driver overview
+  iio: osf: add protocol decoding
+  iio: osf: add stream parser
+  iio: osf: add UART transport
+  iio: osf: register IIO devices from capabilities
+
+ .../iio/imu/opensensorfusion,osf-green.yaml   |  43 ---
+ .../bindings/iio/opensensorfusion,osf.yaml    |  43 +++
+ Documentation/iio/index.rst                   |   1 +
+ .../iio/open-sensor-fusion-protocol-v0.rst    | 308 ------------------
+ Documentation/iio/open-sensor-fusion.rst      |  62 ++++
+ MAINTAINERS                                   |  26 +-
+ drivers/iio/opensensorfusion/Kconfig          |   4 +-
+ drivers/iio/opensensorfusion/osf_core.c       |   9 +-
+ drivers/iio/opensensorfusion/osf_iio.c        |  15 +-
+ drivers/iio/opensensorfusion/osf_protocol.c   |   4 +-
+ drivers/iio/opensensorfusion/osf_protocol.h   |   4 +-
+ drivers/iio/opensensorfusion/osf_serdev.c     |   2 +-
+ drivers/iio/opensensorfusion/osf_stream.c     |  38 +--
+ 13 files changed, 145 insertions(+), 414 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/iio/imu/opensensorfusion,osf-green.yaml
+ create mode 100644 Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
+ delete mode 100644 Documentation/iio/open-sensor-fusion-protocol-v0.rst
+ create mode 100644 Documentation/iio/open-sensor-fusion.rst
 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
