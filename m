@@ -1,251 +1,164 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.common-net.org (mail.common-net.org [139.28.148.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF8138910E
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 13:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AAF2253EE;
+	Sun,  7 Jun 2026 14:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.148.254
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780839793; cv=none; b=puVmDhzHkTSm+TmOjWpinDS5Jo5gYRQhwlbItWL55snVtlY+JGJv5Cw9s6oBTeo8+z0mjGlosNkxDJyLOOS24Ri8vgbJF7uzk4P1UR1gztbSAcUuYXHBkBuku4+KE4bXT6OLxKXRE8NCURRYOa29j++ZRgP1A4sVDv/VGNKdmdY=
+	t=1780840885; cv=none; b=ngHJgYSbFk6xBbWE21BgYDf1+FBa/KdwVZP+HjWNE8ZANIOEgO3hBU6h9PauRO4jw1E9wC6rcggzUgjIlInzt6XQk9Zc6OJb1O4Ltpci91DOzaNKRXVRvCSSsZ3CH1xqlYja66tCugqCctmgO9pJYK4ILDR1J9kLwmZytpt1weE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780839793; c=relaxed/simple;
-	bh=Yo2T+crBrnIPw1FsPV22gFWsI07IndQmTQOuDrcH9tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UjjLhsfD22G7F9bPnYSmGESWNaF7eAAuFG6ivmqOm7byzKLWWj4VFmKTLYkMdl1IzPUE9+3xkdXjFeMqb8/mFjBEe8VeWr1ombuv97XM298veGwikM1v4LokaDFrx46lpry/SkicCcSZFHnfKZj7tNL9TFcvEh2q6Job2NEI35M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=kA/TIw3D; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780840885; c=relaxed/simple;
+	bh=7IIMnHWhVf+twJaSVJxFuCA1jrlaS+iWejGB0SPwmUI=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=sbfHbGKNsLoSUBp7sH+TCcnh0R+DJrKsan8dezDrtLgqr2akSgOTpajAA41b0DFTS25+W93OycPUNQyRbqeoDLegIvqs+bIsBuiz9TaJLrgPWZT6/7/sCrRj4ENiZkeGcwAmh3WcYtUmkGXhzQe8rOyoTbYditZVeXaMe7UqLh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org; spf=pass smtp.mailfrom=common-net.org; dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b=t/HU8RzL; arc=none smtp.client-ip=139.28.148.254
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=common-net.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="kA/TIw3D"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccf181a52bso34134426d6.3
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 06:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780839791; x=1781444591; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1i1ZZY3NH0NksSKwhex65P8mcwZtC9iSbou0/cGuXtQ=;
-        b=kA/TIw3DaMXpzDIQc9rYbQ+Vf+PjPP+aOOMzFq4hkbokjma2MkYufzDNpq6XDAtFeM
-         eU6Z2kVP5gbBRu7cqrXDmdcSQWt50DrGM1MSC36XQz05KtlQJxHC2sMsViHVxlCsYLj/
-         m4kGhQRWoDXxw96N1pVDhuqb106ftMMfk1Da/5G5PVBtgeRaKOEhvR91+ISu/TRPhtnT
-         EQSXBrJLVN1li53BXyr9CpnZ5AowmfuAbaEuuFsKPEanKsvUDGOgjbwcHgF8phRlDen/
-         rhIm8ytCLNkEQkESYGIiNSE0VHf55o3eUROQTxnQJyHs6BUyK6O3fYZ6ky1t73hCnqkC
-         j21Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780839791; x=1781444591;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1i1ZZY3NH0NksSKwhex65P8mcwZtC9iSbou0/cGuXtQ=;
-        b=QMOz/zHtC6+ayKYmEduBsz3QBVE+O2JauBhwerDevqiU2XjBdThK3q1CwRb1GrNeVh
-         uI4gE4Y3n994gsWQDRjL0Su3jw4U8wok0i3n4UiyInEcDbbefKu5qayygeJtulnRFLn6
-         bpXnDKpiH14+J/B/iQ2QDrSFklAZcx/pSj83njK6FORE0WCv70sWHN9QgICxMJb/DbUg
-         VPRvn1k/cBWHPIfPWjLgk8hs6pG34vfOGeOSiki5KXxWe5t5IIvk3DiCGF+BTC8cy0m3
-         7DLNoTRCu3TUsQd9wWBBFgTir6yOS3h2lsHNvsgaSb6OzdjU/xA6BjC+ErixnUN9qAQH
-         Wb0g==
-X-Forwarded-Encrypted: i=1; AFNElJ8znQFVfjkapZAyfVETtX9NCPNdWdutlgy6vreBACbRkFjnKajKXP9XKB1j79QtVwJ20YJOGcNRFTQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZLdY2mHp71jDimhnHSz+tMDb1kIt8Fextrp++8EFyK2p/wCTH
-	mwdyOdcOZ5vl6xUgJj/yfENbwHoqskWwyscFLWFGLvmw+5f6q+B8VWgkxZUsBWc4wrQ=
-X-Gm-Gg: Acq92OH0y89Ue0BfYd0R1X1uTuIOsBPiLfuY8ejH0992pmF5IRjaC6NQMjyY6dGmgiI
-	YvrPZrKhv54QIFZ7TqLl6h3wZDMuqbj0SDolEueA34+FZk2VeaqXawEvCDpHyD7KY+ojzFtXKUh
-	sz+ZQwmGcbqktPec3yh9SUStUy15HEY8hn2GNMhpVp1053AI1suTqW8TIG9M0fd2MoCUCw1xspO
-	DcwmvCLpbQNc7H7BMmPKQoDsLFLzq5uwoLJyzrHgMWE+XQj9iSmuGhsErP42ax8LXGL5+uW4b6Q
-	6r7giYCQuzFLxVjclBpHLnqtxbzs+HV6UlXPeF/7P6kwq4YOsDrEZY++YhDgwjwbQ5Sj+Pt2r85
-	iWACwWg0vlHNyy4Hf4Gx5j9eo+QiM9FHsK352esyY9pNZSRjCEVUfWNU73aW5OTfNF+2wqbo769
-	ieWMuImy/XIN5zXH9ErM0Gaf4NmGlnOHQEXVNOmk6G856V/wQDnCprsVJ16EyVtA==
-X-Received: by 2002:a05:620a:2990:b0:915:6e30:5bdf with SMTP id af79cd13be357-915a9cad06cmr1888383385a.19.1780839790896;
-        Sun, 07 Jun 2026 06:43:10 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a40d566sm1415396285a.47.2026.06.07.06.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 06:43:10 -0700 (PDT)
-Date: Sun, 7 Jun 2026 13:43:09 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, jasonmiu@google.com, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, ran.xiaokai@zte.com.cn, 
-	kexec@lists.infradead.org, pratyush@kernel.org, graf@amazon.com
-Subject: Re: [RFC v1 0/9] kho: granular compatibility and header decoupling
-Message-ID: <aiVp5RlbWRz5VnPB@plex>
-References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
- <178083348872.1648214.17778188633648887952.b4-review@b4>
+	dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b="t/HU8RzL"
+Received: from lubuntu-18.04 (host-80-116-255-177.pool80116.interbusiness.it [80.116.255.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.common-net.org (Postfix) with ESMTPSA id AE0FA6D20B88;
+	Sun,  7 Jun 2026 16:01:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=common-net.org;
+	s=mail; t=1780840880;
+	bh=7IIMnHWhVf+twJaSVJxFuCA1jrlaS+iWejGB0SPwmUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=t/HU8RzL4/U+SOIbtwUDTdZ1tq6YpQE+B8fu/n6ihwN5scNcji7geBeqComDRMyI+
+	 kfU0amV1PGzXCJtIFhguAYQNjEo0zr03dOqkwjgKlLrg2454pF3vpWQGohnSuJaFDO
+	 mV/bXt7sgJHOQbsu2XxAZTsFO0PZ/y5iExEvod5M=
+Date: Sun, 7 Jun 2026 16:01:19 +0200
+From: Andrea Mayer <andrea@common-net.org>
+To: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, David Ahern <dsahern@kernel.org>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Justin Iurman <justin.iurman@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it, ahabdels@cisco.com,
+ Andrea Mayer <andrea.mayer@uniroma2.it>, andrea@common-net.org
+Subject: Re: [PATCH v2 5/7] seg6: add End.M.GTP6.D.Di behavior
+Message-Id: <20260607160119.ed2022e8a358d700e1134318@common-net.org>
+In-Reply-To: <20260505-seg6-mobile-v2-5-9e8022bdfdb6@gmail.com>
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+	<20260505-seg6-mobile-v2-5-9e8022bdfdb6@gmail.com>
+Organization: Common Net
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178083348872.1648214.17778188633648887952.b4-review@b4>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 06-07 14:58, Mike Rapoport wrote:
-> On Fri, 05 Jun 2026 03:32:26 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> 
-> Hi,
-> 
-> > [...]
-> > data structure. Keeping all of this within the same `kexec_handover.c`
-> > file, and also under the same global version, is no longer sustainable.
-> > 
-> > To address this, this series:
-> > 1. Refactors and reorganizes the code by splitting out radix tree
-> >    and vmalloc into separate files.
-> 
-> I'd keep vmalloc where it is, it's more of a memory preservation primitive
-> rather than a data structure of it's own. The data structure it uses is an
-> implementation detail.
+On Tue, 05 May 2026 01:30:15 +0900
+Yuya Kusakabe <yuya.kusakabe@gmail.com> wrote:
 
-kho vmalloc is absolutely a data structure. KHO core only provides the
-basic handover mechanism (FDT nodes, physical memory ranges). vmalloc
-is a structured representation on top of KHO, and should provide its own
-versioned ABI.
+Hi Yuya,
 
-If we change any of the vmalloc serialized structures (like kho_vmalloc,
-kho_vmalloc_chunk, or kho_vmalloc_hdr), then vmalloc won't work and
-compatibility will break.
+I do not repeat below the points from the cover letter thread and patch
+1-4 replies (drop reasons, OIF/VRF removal, C helper, coding style, etc.).
 
-Core KHO does not need vmalloc; nothing in kexec_handover.c uses it.
+The patch 4 review applies here, except for the parts where Section 6.4 is
+implemented instead of Section 6.3 (which is incorrectly implemented in
+patch 4).
 
-Instead, vmalloc has external customers:
-- memfd (uses it to preserve serialized folio metadata)
-- KHO test suite in lib/test_kho.c (uses it to preserve physical address arrays)
+> Add the End.M.GTP6.D.Di drop-in mode variant of End.M.GTP6.D
+> (RFC 9433 Section 6.4).  Unlike End.M.GTP6.D, the drop-in variant
+> does NOT fold the GTP-U identifiers into Args.Mob.Session: the
+> original outer IPv6 destination is preserved at SRH[0] of the new
+> SRH, so the destination side can keep the original address
+> untouched while still benefiting from SR Policy steering.
+>
+> The augmented SRH builder/destroyer is shared with End.M.GTP6.D.
+> The TEID and QFI parsed out of the inbound GTP-U header are
+> intentionally discarded for this variant (matching RFC 9433
+> Section 6.4).
+>
+> When net.netfilter.nf_hooks_lwtunnel=1, the inner T-PDU traverses
+> NF_INET_PRE_ROUTING between the GTP-U strip and the SRv6 push,
+> mirroring End.DX4 / End.DX6.
+>
+> Non-T-PDU GTP-U messages are forwarded the same way as in
+> End.M.GTP6.D: passed through via the lwtunnel's saved orig_input
+> to a downstream peer that owns the GTP-U control plane.
+>
+> Configuration:
+>
+>   ip -6 route add 2001:db8:f::/64 \
+>       encap seg6local action End.M.GTP6.D.Di \
+>           srh segs 2001:db8:2::e,2001:db8:3::e \
+>           src 2001:db8:2::1 \
+>       dev <dev>
+>
+> Link: https://www.rfc-editor.org/rfc/rfc9433.html#section-6.4
+> Signed-off-by: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+> ---
+>  include/uapi/linux/seg6_local.h                    |   2 +
+>  net/ipv6/seg6_local.c                              | 222 +++++++++++
+>  tools/testing/selftests/net/Makefile               |   1 +
+>  .../selftests/net/srv6_end_m_gtp6_d_di_test.sh     | 427 +++++++++++++++++++++
+>  4 files changed, 652 insertions(+)
+>
+> diff --git a/include/uapi/linux/seg6_local.h b/include/uapi/linux/seg6_local.h
+> index 7d3d3d245b47..326da65ad5aa 100644
+> --- a/include/uapi/linux/seg6_local.h
+> +++ b/include/uapi/linux/seg6_local.h
+> @@ -80,6 +80,8 @@ enum {
+>  	SEG6_LOCAL_ACTION_END_M_GTP6_E	= 19,
+>  	/* IPv6/GTP-U decap into SRv6 (RFC 9433 Section 6.3) */
+>  	SEG6_LOCAL_ACTION_END_M_GTP6_D	= 20,
+> +	/* IPv6/GTP-U decap into SRv6, drop-in mode (RFC 9433 Section 6.4) */
+> +	SEG6_LOCAL_ACTION_END_M_GTP6_D_DI = 21,
+>
+>  	__SEG6_LOCAL_ACTION_MAX,
+>  };
+> diff --git a/net/ipv6/seg6_local.c b/net/ipv6/seg6_local.c
+> index 09e912e17df8..a6cd57ebcbde 100644
+> --- a/net/ipv6/seg6_local.c
+> +++ b/net/ipv6/seg6_local.c
 
-> Let's minimize the churn where possible for the sake of git blame and
-> backports.
+> + [snip]
 
-It is much better to do the right cleanups now while KHO is young. Once more
-subsystems are added, this refactoring will be twice as hard. Modularizing the
-code now guarantees a simpler, safer, and scalable design. Placing each data
-structure in its own file gives us code that is easier to maintain, review, and
-less prone to bugs.
+input_action_end_m_gtp6_d_di() and its finish callback are largely
+identical to the patch 4 functions (input_action_end_m_gtp6_d() and its
+finish): the SRH check, GTP-U dispatch, outer strip, inner protocol
+detection, and NF_HOOK invocation are identical. The duplication should be
+reduced via shared helpers.
 
-> > 2. Moves and organizes internal and ABI headers into structured
-> >    directories under include/linux/kho/ and include/linux/kho/abi/.
-> >    Instead of cluttering include/linux/ with prefix-styled headers like
-> >    kho_block.h or kho_radix_tree.h, we use the already existing
-> >    include/linux/kho/ directory (e.g., kho/block.h and
-> >    kho/radix_tree.h).
-> 
-> This looks to me like unnecessary churn.
-> These all are bundled with KHO anyway, there is no header dependencies
-> that justify small headers for each two functions and netiher
-> linux/kexec_handover.h nor linux/kho/abi/kexec_handover.h are that long
-> to start splitting them.
+> +static int input_action_end_m_gtp6_d_di(struct sk_buff *skb,
+> +					struct seg6_local_lwt *slwt)
+> +{
 
-External users only need to include the headers they actually use. For
-example, LUO shouldn't have to pull vmalloc or radix tree KHO
-declarations, and memfd does not need block.
+> + [snip]
 
-From a maintenance point of view, it is much easier to catch ABI
-changes when the file with the appropriate version has been changed,
-and most likely the version of that file should be updated. If a single
-header contains compatibility versions for several different data
-structures, it is easier to miss the correct version update.
+> +		gtp_hdrlen = seg6_mobile_parse_gtpu(skb,
+> +						    upper_off + sizeof(*uh),
+> +						    &teid, &qfi);
+> +		if (gtp_hdrlen == -EOPNOTSUPP)
+> +			return seg6_mobile_passthrough_non_tpdu(skb);
+> +		if (gtp_hdrlen < 0) {
+> +			reason = SKB_DROP_REASON_SEG6_MOBILE_BAD_GTPU;
+> +			goto drop;
+> +		}
+> +		(void)teid;
+> +		(void)qfi;
 
-Since we are splitting the source files (like kho_radix.c and
-kho_vmalloc.c), the headers should logically follow the same
-modularity.
+D.Di does not use teid or qfi, so these variables and the (void) casts are
+dead code and should be avoided. For example, seg6_mobile_parse_gtpu() could
+accept NULL for teid and qfi so callers that do not need them can pass NULL
+directly.
 
-> 
-> > 3. Introduces a standard set of compatibility helpers in
-> >    kho/abi/compat.h.
-> > 4. Decouples the compatibility strings of individual KHO subsystems
-> >    (radix tree, vmalloc, and block) from the global KHO version.
-> >    This enables independent, granular compatibility versioning.
-> 
-> I agree that we should decouple versioning of these components from the
-> global KHO versioning.
-> Can't say I agree with the way you propose to do it.
-> 
-> I don't like that each user of a KHO component should include that
-> component version in its own version string (or whatever it may become
-> later).
-> 
-> It requires ABI headers update each time a user decides to add a new
-> data structure and worse when there is a change to that data structure.
-> It creates coupling of the data structure user with its particular
-> version and just looks ugly IMHO.
+Thanks,
 
-It is actually the opposite.
+Ciao,
+Andrea
 
-If a user adds a new data structure, that new data structure will have
-its own compatibility version. Instead of the current approach where
-the global version string needs to be updated, only the new version
-string would be added.
-
-Also, if someone updates their code to use the new data structure, their
-compatibility string is going to be updated anyway, as part of using
-the data structure requires including the dependency in their
-compatibility.
-
-
-> Suppose we added new fields to vmalloc, but made the implementation of
-> restore to be able to cope with both old and new versions. 
-> How this would be reflected in memfd versioning?
-> We'll add both versions of vmalloc to memfd version? And all other vmalloc
-> users?
-
-Backward compatibility is not in scope at the moment, but we can make
-the version parsing more granular in the future.
-
-Instead of a simple strncmp(), we can introduce a standard callback
-interface for data structures. Each data structure implementation would
-implement this interface, and we would pass the parsed version string
-to the data-structure-specific version check.
-
-> Or, say, we add support to kmalloc() and use it in kho_block.
-> Then we'd have to add kmalloc() versioning to all kho_block users, right?
-
-I was thinking about this. Since we don't have examples of data
-structures depending on each other right now, I simply made sure
-there are no duplicates in the compatibility strings.
-
-If data structures have interdependencies in the future, we can easily
-remove this uniqueness restriction. The users of block will still
-include the block compatibility string (which automatically includes
-kmalloc), and if user also depends on kmalloc, they will include it
-as well.
-
-> I think the versioning of each component should be handled by ->restore()
-> of that component. If it sees an incompatible version in the preserved
-> data, it returns an error. The versions can be stored e.g. in the base KHO
-> fdt.
-
-Hm, I think, checking compatibility inside ->restore() of each component may be
-too late in the boot sequence.
-
-By checking the composite compatibility strings upfront (before invoking
-the actual restore/retrieve callbacks), we can guarantee that the entire
-state configuration is fully compatible. If any mismatch is found, we
-can cleanly abort the live update.
-
-Additionally, keeping the versioning managed via composite strings on the
-serialized data and registered handlers keeps the KHO core completely
-decoupled from individual component ABIs, avoiding the need to bloat the
-base KHO FDT with subsystem-specific versions.
-
-> > 5. Adds a KUnit test suite to verify that the composite compatibility
-> >    strings of different subsystems remain unique and sorted in
-> >    alphabetical order, guaranteeing a consistent and predictable
-> >    representation across configurations.
-> 
-> Without "composite compatibility strings" we don't need to care about
-> them "remaining unique and sorted in alphabetical order".
-
-These are not strict runtime requirements; they are simply there to enforce
-code cleanliness and prevent human errors like accidental duplicates or
-mismatched orders.
-
-Even with a simple strncmp(), it works perfectly fine as long as the
-strings match exactly. If the uniqueness or sorting constraints are too
-strict, they can easily be removed.
-
-In the future, we can transition to a more sophisticated version checker
-that parses the composite string into individual subsystem version tokens
-and verifies them one-by-one, rather than relying on a strict literal
-strcmp() string comparison.
-
-> The need for this test alone is already a red flag ;-)
-
-I will remove test ;-)
+P.S. I am temporarily writing from another address due to a mail
+delivery issue at my @uniroma2.it address. Please always Cc my default
+andrea.mayer@uniroma2.it address on replies.
