@@ -1,316 +1,101 @@
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F721DA23
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 00:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFBA175A91;
+	Sun,  7 Jun 2026 00:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780792540; cv=none; b=AH2AK/MBNB1MYB3G3qyDkh6feZvObhQ8yVFSz7e0AzwjHiCcYotWwSjr6oHiuOs+C6x5yv209fmwEXuIsSYzxdZI5bZ7qqsS+VTjBOwKbpq2AXPPxY0aYm6nl4T20Z1vYfOu+uKXinPgdK6a6y5jg3i2mLmDaxEUN4CsUR1y6ww=
+	t=1780793460; cv=none; b=n3vAzeWqD3Aod8n5wHYfCJ7Rl1ugZl0ycSl472+PYfrv9AJNEBlPESH3gaHrYlb51dYDGzEqno6j7EV/u+jAEh/496iwPtyx3gdAsDrQKkt0PhA4w/M0jhOx7t3sLb5zGSrw6SWl91h40iHQNDlM3pGXO71jiCdyaWOPHqRVbiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780792540; c=relaxed/simple;
-	bh=qq1VbnX7+kKmSmHgF89KknczUl189NZt0ovFZK6e3P4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OyBOx64ECDBMjSQNqbZEXcA9jkr52hoG0bAJ31uv43VGT14N5DZh3cv9L4ERxJzLiIW5FceOG3Z4TBQPaLAbkgxqYgVHMiELwKP0MvhffMaeoOXkNw7+/SDPMOGxDBo3ALY9XeFbOiVLgSleskTUo8d67/clWHT69E/83yoPjxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NTVH4EMZ; arc=none smtp.client-ip=209.85.218.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1780793460; c=relaxed/simple;
+	bh=0X47tu+dMiH9XQzKE5bAFNNUDDOJU2Zt2qW6tbg+l7M=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=XhL9FCBcYLKQ62+yhr5FRO7u4NL8TROChWu0diOLPncK3qu02zdKaA3aKkYErz8K0MPihTUvvFjKVd+PGzGrakONrsjce9gsCUojPcA8P28fM6IkLHVj0BLMJo3qIxfV8jGmagHBjdWa5Q1LrzaYxAoPij1dOUNjwyHSQji2AVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMmoJEjK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NTVH4EMZ"
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bf5ea9d140eso25854666b.1
-        for <linux-doc@vger.kernel.org>; Sat, 06 Jun 2026 17:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780792537; x=1781397337; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nufJSt5jy4ZHePo5cxkV3VuIDe3pE4bQw98uSuP49B0=;
-        b=NTVH4EMZCN1HIMDif0h/ulbqcZKfq3OuZ9HwVN3KKPaXHbBj3aSur4q1+b3sGwyIpy
-         NpSlqYiFGezJpAFCmxl/FX9+JClQFN0/VtASZGkCXlev9pHONRkizy2S4CipY4ZHiW8/
-         17A7UujytSkEWIM5bVzd9EsDrTfEARJnYmytcebridRnahqYZvdTcm3W9iOlG/Rhe4P6
-         cqeX38waCk+x6ukgqjvtQ21+hdGKmtcCoscblAPS+XzuDQuFIJYRhYEXVWsR5lLpSKtq
-         7EST2Bl7eXfftxFW9g2BH1s5OBJO1ajghRkGHhLGuNaBVOSx384mcmSN7jAGoBiUBFmO
-         ZueQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780792537; x=1781397337;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nufJSt5jy4ZHePo5cxkV3VuIDe3pE4bQw98uSuP49B0=;
-        b=D5oo+c5HXaOcKy9kvsjQEskrAghfg8nJALJ1HP5ArVdUh0KVRKBCWk/k9+eyiBtLem
-         C59ZL03abzJIzYA/Yvsp9psp7XeLS1MwlbBghFGz6wi6VW2fePqc1z2KtoKflvTu2lS1
-         ox8I6fScuxq3NutGRkfvaXGgZJcOU29ekB3Xm/fBplvRiHXdWUmv+RHQzXW9FmEXkqxx
-         bU70aeKlHnHpEOAgrU0DQ1Ua/hPQLMWFY31oyToKaMwonaGqbX9oE/XJoyFd7LieE8mo
-         rcJk4PW8V8EG+B0xbr0losKEqrlZGuaHXgnxfNs1EbaZ2+Smo2gqM9dNIc8N/MYOYqUZ
-         AahA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DlVjaH2p7s6HrAbWiqlZWPdRyd9Kx++f6SfL1WGFm1UNnJuLVpW/aufmMEKtOw5T4rf5FVknWnRA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykMhYi7aUa2Jt7WZN7T65buGppgXypsArXtzwMkLN3+oJsTagb
-	ywmfO1LrFV33iNahVHf81qDg2D00LMaz0fVsVM5zZ9KoZIB6Zj2Ubs5VKpL81ctea6uTGY01zxa
-	g/1+i4o90uiQQ222v6g==
-X-Received: from ejbuz29.prod.google.com ([2002:a17:907:119d:b0:bcb:78f9:cf78])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:75ed:b0:bec:a1b4:1bb4 with SMTP id a640c23a62f3a-bf3a7302f33mr285294566b.10.1780792536653;
- Sat, 06 Jun 2026 17:35:36 -0700 (PDT)
-Date: Sun, 07 Jun 2026 00:35:35 +0000
-In-Reply-To: <c054ba0fb2639932bbe354420d3f4f84cce84905.1780676742.git.tarunsahu@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMmoJEjK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE571F00893;
+	Sun,  7 Jun 2026 00:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780793459;
+	bh=DBgS/IeCcJwTQBGQhv8ELU0KEo6N/7Ws5o60dsxB8Lg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=oMmoJEjKw0xCvmUahHG0oLab5Eko7Yg5SUOvguR1eJIvYLSbU2gIlU6BcJFcwHYan
+	 FVn+47gECBhDwEf9tPwwPOVvYyLYYtrIyC/SKX0byIMM6xIJbu8dG17qfUQxbIZ93K
+	 vLwLtjIrxtVmu0rS9AyoRrEUyJ11D/F/7H+DJOG4K7+D5mm3A0n2qGDdIImKHBxvOr
+	 DCflpYTRgLkT0bBZbAoFuNjgaNhwitpR41+syjrxajpnoXUbtgdbKgG0qBzUG3BXXe
+	 JT9m7pyLIIv7RXy9uLCMHITotL78jY+A6dTNKzSuilhtMF1luPnzn8iM8UIKCbOPOT
+	 Ef63FyHb+7frA==
+Date: Sat, 6 Jun 2026 18:50:55 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: =?ISO-8859-15?Q?Miquel_Sabat=E9_Sol=E0?= <mssola@mssola.com>
+cc: linux-riscv@lists.infradead.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+    pjw@kernel.org, palmer@dabbelt.com, alex@ghiti.fr, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] riscv: enable HAVE_CMPXCHG_{DOUBLE,LOCAL}
+In-Reply-To: <20260605141247.253315-1-mssola@mssola.com>
+Message-ID: <f63eefc9-769d-409c-4099-274254432129@kernel.org>
+References: <20260605141247.253315-1-mssola@mssola.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1780676742.git.tarunsahu@google.com> <c054ba0fb2639932bbe354420d3f4f84cce84905.1780676742.git.tarunsahu@google.com>
-Message-ID: <9huzik7vxk4o.fsf@tarunix.c.googlers.com>
-Subject: Re: [RFC PATCH v2 01/10] liveupdate: luo_file: Add internal APIs for
- file preservation
-From: tarunsahu@google.com
-To: Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, fvdl@google.com, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, 
-	aneesh.kumar@kernel.org, skhawaja@google.com, vipinsh@google.com, 
-	ackerleytng@google.com, Pratyush Yadav <pratyush@kernel.org>, david@redhat.com, 
-	dmatlack@google.com, mark.rutland@arm.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	seanjc@google.com, axelrasmussen@google.com
-Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: multipart/mixed; BOUNDARY="8323329-331715424-1780791531=:1833245"
+Content-ID: <4f54938e-d337-ae77-26a3-588b02bb1cdf@kernel.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-331715424-1780791531=:1833245
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <d56e784a-c6ea-d849-a556-126111a2ab60@kernel.org>
 
 Hi,
 
-I am sorry for incorrect layout of this series. After copy-pasting
-I forgot to change the message id in header and the cover letter is not
-attached to the same thread.
+On Fri, 5 Jun 2026, Miquel Sabaté Solà wrote:
 
-Please find the V2 cover letter here:
-https://lore.kernel.org/all/cover.1780667929.git.tarunsahu@google.com/
-
-Also for latest discussion related to scope:
-https://lore.kernel.org/all/9huzldcrxkch.fsf@tarunix.c.googlers.com/
-
-Thankyou
-
-Tarun Sahu <tarunsahu@google.com> writes:
-
-> From: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> The core liveupdate mechanism allows userspace to preserve file
-> descriptors. However, kernel subsystems often manage struct file
-> objects directly and need to participate in the preservation process
-> programmatically without relying solely on userspace interaction.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Signed-off-by: Samiullah Khawaja <skhawaja@google.com>
-> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+> Support for atomic Compare-And-Swap instructions has been in the RISC-V
+> port of the Linux kernel for a long time. That being said, we apparently
+> never bothered to set HAVE_CMPXCHG_DOUBLE and HAVE_CMPXCHG_LOCAL in the
+> Kconfig, despite having all the framework to support them.
+> 
+> Signed-off-by: Miquel Sabaté Solà <mssola@mssola.com>
 > ---
->  include/linux/liveupdate.h       | 21 ++++++++++
->  kernel/liveupdate/luo_file.c     | 69 ++++++++++++++++++++++++++++++++
->  kernel/liveupdate/luo_internal.h | 17 ++++++++
->  3 files changed, 107 insertions(+)
->
-> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-> index 30c5a39ff9e9..de052438eaac 100644
-> --- a/include/linux/liveupdate.h
-> +++ b/include/linux/liveupdate.h
-> @@ -24,6 +24,7 @@ struct file;
->  /**
->   * struct liveupdate_file_op_args - Arguments for file operation callbacks.
->   * @handler:          The file handler being called.
-> + * @session:          The session this file belongs to.
->   * @retrieve_status:  The retrieve status for the 'can_finish / finish'
->   *                    operation. A value of 0 means the retrieve has not been
->   *                    attempted, a positive value means the retrieve was
-> @@ -44,6 +45,7 @@ struct file;
->   */
->  struct liveupdate_file_op_args {
->  	struct liveupdate_file_handler *handler;
-> +	struct liveupdate_session *session;
->  	int retrieve_status;
->  	struct file *file;
->  	u64 serialized_data;
-> @@ -240,6 +242,13 @@ void liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
->  
->  int liveupdate_flb_get_incoming(struct liveupdate_flb *flb, void **objp);
->  int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb, void **objp);
-> +/* kernel can internally retrieve files */
-> +int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
-> +				 struct file **filep);
-> +
-> +/* Get a token for an outgoing file, or -ENOENT if file is not preserved */
-> +int liveupdate_get_token_outgoing(struct liveupdate_session *s,
-> +				  struct file *file, u64 *tokenp);
->  
->  #else /* CONFIG_LIVEUPDATE */
->  
-> @@ -285,5 +294,17 @@ static inline int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb,
->  	return -EOPNOTSUPP;
->  }
->  
-> +static inline int liveupdate_get_file_incoming(struct liveupdate_session *s,
-> +					       u64 token, struct file **filep)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int liveupdate_get_token_outgoing(struct liveupdate_session *s,
-> +						struct file *file, u64 *tokenp)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
->  #endif /* CONFIG_LIVEUPDATE */
->  #endif /* _LINUX_LIVEUPDATE_H */
-> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> index a0a419085e28..0aa0b4e5339f 100644
-> --- a/kernel/liveupdate/luo_file.c
-> +++ b/kernel/liveupdate/luo_file.c
-> @@ -323,6 +323,7 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
->  	mutex_init(&luo_file->mutex);
->  
->  	args.handler = fh;
-> +	args.session = luo_session_from_file_set(file_set);
->  	args.file = file;
->  	err = fh->ops->preserve(&args);
->  	if (err)
-> @@ -380,6 +381,7 @@ void luo_file_unpreserve_files(struct luo_file_set *file_set)
->  					   struct luo_file, list);
->  
->  		args.handler = luo_file->fh;
-> +		args.session = luo_session_from_file_set(file_set);
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
->  		args.private_data = luo_file->private_data;
-> @@ -411,6 +413,7 @@ static int luo_file_freeze_one(struct luo_file_set *file_set,
->  		struct liveupdate_file_op_args args = {0};
->  
->  		args.handler = luo_file->fh;
-> +		args.session = luo_session_from_file_set(file_set);
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
->  		args.private_data = luo_file->private_data;
-> @@ -432,6 +435,7 @@ static void luo_file_unfreeze_one(struct luo_file_set *file_set,
->  		struct liveupdate_file_op_args args = {0};
->  
->  		args.handler = luo_file->fh;
-> +		args.session = luo_session_from_file_set(file_set);
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
->  		args.private_data = luo_file->private_data;
-> @@ -621,6 +625,7 @@ int luo_retrieve_file(struct luo_file_set *file_set, u64 token,
->  	}
->  
->  	args.handler = luo_file->fh;
-> +	args.session = luo_session_from_file_set(file_set);
->  	args.serialized_data = luo_file->serialized_data;
->  	err = luo_file->fh->ops->retrieve(&args);
->  	if (err) {
-> @@ -654,6 +659,7 @@ static int luo_file_can_finish_one(struct luo_file_set *file_set,
->  		struct liveupdate_file_op_args args = {0};
->  
->  		args.handler = luo_file->fh;
-> +		args.session = luo_session_from_file_set(file_set);
->  		args.file = luo_file->file;
->  		args.serialized_data = luo_file->serialized_data;
->  		args.retrieve_status = luo_file->retrieve_status;
-> @@ -671,6 +677,7 @@ static void luo_file_finish_one(struct luo_file_set *file_set,
->  	guard(mutex)(&luo_file->mutex);
->  
->  	args.handler = luo_file->fh;
-> +	args.session = luo_session_from_file_set(file_set);
->  	args.file = luo_file->file;
->  	args.serialized_data = luo_file->serialized_data;
->  	args.retrieve_status = luo_file->retrieve_status;
-> @@ -924,3 +931,65 @@ void liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
->  	luo_flb_unregister_all(fh);
->  	list_del(&ACCESS_PRIVATE(fh, list));
->  }
-> +EXPORT_SYMBOL_GPL(liveupdate_unregister_file_handler);
-> +
-> +/**
-> + * liveupdate_get_token_outgoing - Get the token for a preserved file.
-> + * @s:      The outgoing liveupdate session.
-> + * @file:   The file object to search for.
-> + * @tokenp: Output parameter for the found token.
-> + *
-> + * Searches the list of preserved files in an outgoing session for a matching
-> + * file object. If found, the corresponding user-provided token is returned.
-> + *
-> + * This function is intended for in-kernel callers that need to correlate a
-> + * file with its liveupdate token.
-> + *
-> + * Context: It must be called with session mutex acquired.
-> + * Return: 0 on success, -ENOENT if the file is not preserved in this session.
-> + */
-> +int liveupdate_get_token_outgoing(struct liveupdate_session *s,
-> +				  struct file *file, u64 *tokenp)
-> +{
-> +	struct luo_file_set *file_set = luo_file_set_from_session_locked(s);
-> +	struct luo_file *luo_file;
-> +	int err = -ENOENT;
-> +
-> +	list_for_each_entry(luo_file, &file_set->files_list, list) {
-> +		if (luo_file->file == file) {
-> +			if (tokenp)
-> +				*tokenp = luo_file->token;
-> +			err = 0;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return err;
-> +}
-> +
-> +/**
-> + * liveupdate_get_file_incoming - Retrieves a preserved file for in-kernel use.
-> + * @s:      The incoming liveupdate session (restored from the previous kernel).
-> + * @token:  The unique token identifying the file to retrieve.
-> + * @filep:  On success, this will be populated with a pointer to the retrieved
-> + *          'struct file'.
-> + *
-> + * Provides a kernel-internal API for other subsystems to retrieve their
-> + * preserved files after a live update. This function is a simple wrapper
-> + * around luo_retrieve_file(), allowing callers to find a file by its token.
-> + *
-> + * The caller receives a new reference to the file and must call fput() when it
-> + * is no longer needed. The file's lifetime is managed by LUO and any userspace
-> + * file descriptors. If the caller needs to hold a reference to the file beyond
-> + * the immediate scope, it must call get_file() itself.
-> + *
-> + * Context: It must be called with session mutex acquired of a restored session.
-> + * Return: 0 on success. Returns -ENOENT if no file with the matching token is
-> + *         found, or any other negative errno on failure.
-> + */
-> +int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
-> +				 struct file **filep)
-> +{
-> +	return luo_retrieve_file(luo_file_set_from_session_locked(s),
-> +				 token, filep);
-> +}
-> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-> index 875844d7a41d..08b198802e7f 100644
-> --- a/kernel/liveupdate/luo_internal.h
-> +++ b/kernel/liveupdate/luo_internal.h
-> @@ -79,6 +79,23 @@ struct luo_session {
->  
->  extern struct rw_semaphore luo_register_rwlock;
->  
-> +static inline struct liveupdate_session *luo_session_from_file_set(struct luo_file_set *file_set)
-> +{
-> +	struct luo_session *session;
-> +
-> +	session = container_of(file_set, struct luo_session, file_set);
-> +
-> +	return (struct liveupdate_session *)session;
-> +}
-> +
-> +static inline struct luo_file_set *luo_file_set_from_session_locked(struct liveupdate_session *s)
-> +{
-> +	struct luo_session *session = (struct luo_session *)s;
-> +
-> +	lockdep_assert_held(&session->mutex);
-> +	return &session->file_set;
-> +}
-> +
->  int luo_session_create(const char *name, struct file **filep);
->  int luo_session_retrieve(const char *name, struct file **filep);
->  int __init luo_session_setup_outgoing(void *fdt);
-> -- 
-> 2.54.0.1032.g2f8565e1d1-goog
+> This is a resend of [1], rebased on top of the latest commit from the
+> for-next branch.
+> 
+> I have built this patch with multiple configurations and ran it with KVM
+> (the VisionFive2 board that I have lacks the needed extensions). All seems
+> to work, but I do wonder if we did not enable these for a reason or this
+> just slipped through. So far in the code I believe everything is in place,
+> and I haven't seen any commit in the git log stating otherwise.
+> 
+> [1] https://lore.kernel.org/all/20260220074449.8526-1-mssola@mssola.com/
+
+Thanks for the patch.  Your comments above are why I've been hesitant to 
+merge it.  I'm not aware of any publicly available hardware that supports 
+Zacas/Zabha.  No one has stepped forward to provide any Tested-by:s on 
+hardware that hasn't been released yet.  You mention that you tested on 
+your VisionFive2 board, but it would not have exercised those code paths.
+
+Of course, we already have Zacas/Zabha support, merged back in 2024, in 
+cmpxchg.h.  I assume (?) that it was tested in QEMU, but I don't see any 
+comments about that in the patch series.  No one sent any Tested-by:s 
+then, either.
+
+It would be good if you (and ideally others) could put this patch through 
+some testing on QEMU with Zacas and Zabha enabled, before we merge it.  
+The affected code paths for HAVE_CMPXCHG_LOCAL seem to primarily involve 
+per-CPU counters and MM zone counters, so those would be the areas to 
+focus.  HAVE_CMPXCHG_DOUBLE seems to do nothing useful other than 
+preventing the AMD IOMMU driver from being selected if it's not present, 
+so that part of the patch seems fairly useless.  In fact I'd suggest 
+dropping that from the patch and just sending a separate patch to remove 
+HAVE_CMPXCHG_DOUBLE from the kernel completely.
+
+
+- Paul
+--8323329-331715424-1780791531=:1833245--
