@@ -1,213 +1,154 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f196.google.com (mail-dy1-f196.google.com [74.125.82.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14564071DA;
-	Sun,  7 Jun 2026 05:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D8D1DF72C
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 06:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780811781; cv=none; b=rs7W+Tg55ovkkbtBENV/ZstcYIwIy8HhK0PLzFFcsb5Hkpx7Fsq3uDo3dySm4qPu1QVY2urmhYNrqMxjaZvurDbURlTRK3DlKsx8CK41qjVzQ7lNhrR8lmQIf0DmDie+SdlUO8PvO7sGF/uVrCeGkcgvJRff9xoLE4tBE/+Yea8=
+	t=1780814466; cv=none; b=tsycwKeGThf60yng6uBvtYQ1dQ5OcCUtZ7SHGMkZMaaLpig/OfCxdk1zmEIQWcTp6lSQn0JawWycGezKYkS7kYi9NuD7Cy97Wvy84nciI6v7Q40wgeJ/a5EZjVzv+b6UBzlCDq2ytQFGqr6DuRBzn9Jolz1Uhd+Sz6s9sJYde+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780811781; c=relaxed/simple;
-	bh=O9bbc55RP/7DjZLkIIfk+yflRtnl8laxQO5F2O17ctk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hm3e94Na2LcpzgKlLAza07MyQDrkFRoo6oSGMrsLDY652P0r5o35uArrFA+B0WUd1pnbcvvfjvk9qBtY4utyRM78hKiqArr9jUHUCwrL4GtLmyAYuO+/ITYx5jJ9U6a8kacXtVBC8nWEdw5d0uK14/QwsYy3aYxhR4kO9mZa4Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=l37jFAbX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1780814466; c=relaxed/simple;
+	bh=UN1Ug31Azzv9rf4QmvaFWgW/3REkOEopYBll24EcvV4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dGuVRx6h/azGyHRSucnEMHITL5Ihkqk7wfMkfOWJX7fC2yiJxvB3NyLTPAGAEY4NEmauYQofz3N2jRwCJApUpkQJoJK5vrvGrGAiJScxYqJbxnaKGvjf3ptX/NtI64k1jjailTVPvKidia3gyk6CHSlddNa6pQkDtBWxDRKt9wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYHV6kfe; arc=none smtp.client-ip=74.125.82.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="l37jFAbX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=NeQ6BYZhusOLotH8hK5nOEdFbaxx2YSTHNnlF45nJRw=; b=l37jFAbXe/eOSoJeT1rV1vGLYM
-	bxLPOzGyVCqg7uJymupQNnvwoAsw2whFY6fP+PC1+rXT5rRgMg6kVbEFVwcMC1egm1nnDninToJy5
-	RjMIezei0nTogdZG+dopGVR8lcmHsqYSUzpvgClHnczxuzyy9qc/UD16Iu22rLHILG+0njdOZ7IPH
-	KFVzdHCCMIpI9dB2H+ty7GK7v4YEVRdnf/8bECD2fpfR7eje8TWWW+jLH0Y9ZRNKl/HWut97xMZBp
-	rDMxKKU9pp7OOJW8dfK2o+fGQp5pXCzG3soN4X9VuNHctUQv1CUi4KftJNwMBXlpw9j1XxWq7fxgI
-	od1kRvRQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wW6UZ-000000023dZ-4AMN;
-	Sun, 07 Jun 2026 05:56:16 +0000
-Message-ID: <7b100b6a-40c5-407d-8de0-7b1edb82a16c@infradead.org>
-Date: Sat, 6 Jun 2026 22:56:14 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYHV6kfe"
+Received: by mail-dy1-f196.google.com with SMTP id 5a478bee46e88-304f590dd91so3520866eec.0
+        for <linux-doc@vger.kernel.org>; Sat, 06 Jun 2026 23:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780814464; x=1781419264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8HhuuqF5LxBBn4MixHfYOj/pYBiy8lGyW0X7+8esu9E=;
+        b=BYHV6kfeN18F10FCwEpv8l47A2NQO+P6n7cJeQlM9gQDrVv9f5VGmNMzZyn0W4QayP
+         On3SdVpfTVxa6VDG+eCOKxj8eL5uSoyImZU8eluv0siokOUmjHT/X6ENVOI3AAN3BFOn
+         eVL259FNmq67BQhZNYIGZZ9dq8gbG9XxHyXBg2wxSyI/EkJ8PUfdofiKJBSi1xXEQQ+F
+         pG9pcefy920o8r5lDa0C4QqqSUNkuJ21DdZAFBJsIpZorPvyz2iZ9ZyjgUJyZlYniBPg
+         DgTKNHcrpExjSoJopqg3wCXEQzE+Uve2TaceRFkgS2EphtpP5x8mKlcWg1LPMDOYjOAQ
+         pNMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780814464; x=1781419264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8HhuuqF5LxBBn4MixHfYOj/pYBiy8lGyW0X7+8esu9E=;
+        b=duijPZp0Kw2lJU3fqlfbleGej55UMmL77oofkrwVbbtcEUDaQb5Ap1CpkF3fsiYpzM
+         pIf0Oui+7OLEjoUasU1ObXc4FGe2Y2LKqcfZtEu/mgPflnL+tib1tDSiWPNNGTXKB/hi
+         53VxQ3xs4bcvcumm7870fx8kguOesvDEh64H2riUqRISLbeh3M6FsVskG5dePpbo4C9I
+         gjWBbE1egFOLpiYgKSFj9sujZjAyGxwt36yWIB5hV3x+m/kxX6o54eTaXdin+fqd3jdZ
+         IsCbiJmxjZX4CTK4iWrfLtYH8FojEVeK44z9qcJm7tvR9ljTlhXu9O1BuAHgJ83WllNK
+         Q87w==
+X-Gm-Message-State: AOJu0YyDqQ6hM7Swn+Ce7GYGGcgykuHEohtjMR18Ke05emOaJKon0f61
+	J9RrkJxh1hmyHn1TP3fTZx8P3AQfkCkqlitizH/33ZnWoraMLamRYv51PGg2Wfy9
+X-Gm-Gg: Acq92OFBbiTP9+y5kzAbZtQzpYmTBhRmJeAK+Clbz5PIAqQAtCH6Wtt4ko3kyPOyc6F
+	7wbzPul3GZpPbnoFBUoY7bJPtIS656BgFQsxfowmdNxDo1FnMB/tsMLLizsQTJvFAni52i6MleR
+	F0tzgk2j08MgNlEZdG8ExIPlw6wqwiA+dqB2FYmyhZl3ulAXfZf0H3X22Rj9mGOHce75+bIILHQ
+	r2OQQ6Lp7vPxD58RMwDqveXRCuZPEqbk474G07Ow8lBBsyuXXE0Hv11yVk+ddYayRyrOiZJWDXm
+	cpop0ZqgymaRZ2wc2EBe4PbCdyD7Pj3fsx9dRJGGP1OlXmzaHlwIAwNsSx1rLElP8RUWtvtUhWb
+	PcLx5KNNmUNWDuSIyvoF91zPt/06YWelKU/tJG/C1Wp5JQ+aJshe2NCG+v/e/gUrpsjjVLSMp8l
+	MEz2mPxzFm2gPwV6ai0hpurSV+wXUcShG/ytEOdpsjRvMjzGGDiZ0pryITdL4l3hI5ZNlBSJw5Z
+	tvvs9g0cy+ihFsRhQrs9ilrB2Qxn00FfgnXAbIkcIQ3YLGWT1KY7A0JLJGXGh27wsp2zCDRibph
+	ZcPECVfKRIQdkEeubVrpuPTFwzWiS7j8T2Y5s34=
+X-Received: by 2002:a05:7300:d517:b0:304:de94:1c2c with SMTP id 5a478bee46e88-3077b866467mr6790455eec.34.1780814463977;
+        Sat, 06 Jun 2026 23:41:03 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dcad34esm18462755eec.11.2026.06.06.23.41.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 23:41:03 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	stable@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: [PATCH] ata: pata_legacy: remove documentation for removed module parameters
+Date: Sat,  6 Jun 2026 23:40:49 -0700
+Message-ID: <20260607064053.195166-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 13/16] onsemi: s2500: Add driver support for
- TS2500 MAC-PHY
-To: Selvamani.Rajagopal@onsemi.com, Andrew Lunn <andrew@lunn.ch>,
- Piergiorgio Beruto <pier.beruto@onsemi.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- Jerry Ray <jerry.ray@microchip.com>
-References: <20260605-s2500-mac-phy-support-v4-0-de0fbc13c6d8@onsemi.com>
- <20260605-s2500-mac-phy-support-v4-13-de0fbc13c6d8@onsemi.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260605-s2500-mac-phy-support-v4-13-de0fbc13c6d8@onsemi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") removed
+several module parameters from the pata_legacy driver, but neglected to
+remove their documentation. Remove it.
 
+Fixes: 3c4d783f6922 ("ata: pata_legacy: remove VLB support")
+Cc: stable@vger.kernel.org # 7.0+
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ .../admin-guide/kernel-parameters.txt         | 37 -------------------
+ 1 file changed, 37 deletions(-)
 
-On 6/5/26 10:42 PM, Selvamani Rajagopal via B4 Relay wrote:
-> From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-> 
-> Support for onsemi's S2500, 802.3 cg compliant Ethernet
-> transceiver with integrated MAC-PHY. Works with
-> Open Alliance TC6 framework.
-> 
-> adjtime callback is implemented using adjfine. If time
-> delta is too big, bigger than 1 second, using adjtime
-> would take long to reduce the delta. In those cases,
-> settime callback is used to reduce the delta. Once delta
-> becomes less than a second, it uses adjfine to reduce
-> the drift further.
-> 
-> Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-> ---
->  MAINTAINERS                                       |   7 +
->  drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h      |   2 +-
->  drivers/net/ethernet/onsemi/Kconfig               |  21 +
->  drivers/net/ethernet/onsemi/Makefile              |   7 +
->  drivers/net/ethernet/onsemi/s2500/Kconfig         |  21 +
->  drivers/net/ethernet/onsemi/s2500/Makefile        |   7 +
->  drivers/net/ethernet/onsemi/s2500/s2500_ethtool.c | 347 ++++++++++++
->  drivers/net/ethernet/onsemi/s2500/s2500_hw_def.h  | 225 ++++++++
->  drivers/net/ethernet/onsemi/s2500/s2500_main.c    | 632 ++++++++++++++++++++++
->  drivers/net/ethernet/onsemi/s2500/s2500_ptp.c     | 233 ++++++++
->  10 files changed, 1501 insertions(+), 1 deletion(-)
-> 
-
-> diff --git a/drivers/net/ethernet/onsemi/Kconfig b/drivers/net/ethernet/onsemi/Kconfig
-> new file mode 100644
-> index 000000000000..8dd3a3f074a2
-> --- /dev/null
-> +++ b/drivers/net/ethernet/onsemi/Kconfig
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# onsemi network device configuration
-> +#
-> +
-> +config NET_VENDOR_ONSEMI
-> +	bool "onsemi network devices"
-> +	help
-> +	  If you have a network card belonging to this class, say Y.
-> +
-> +	  Note that the answer to this question doesn't directly affect the
-> +	  kernel: saying N will just cause the configurator to skip all
-> +	  the questions about onsemi ethernet devices. If you say Y, you
-> +          will be asked for your specific card in the following questions.
-
-Above line should be indented with one tab + spaces.
-
-> +
-> +if NET_VENDOR_ONSEMI
-> +
-> +source "drivers/net/ethernet/onsemi/s2500/Kconfig"
-> +
-> +endif # NET_VENDOR_ONSEMI
-> +
-
-
-> diff --git a/drivers/net/ethernet/onsemi/s2500/Kconfig b/drivers/net/ethernet/onsemi/s2500/Kconfig
-> new file mode 100644
-> index 000000000000..22b0afad7a21
-> --- /dev/null
-> +++ b/drivers/net/ethernet/onsemi/s2500/Kconfig
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# onsemi S2500 Driver Support
-> +#
-> +
-> +if NET_VENDOR_ONSEMI
-> +
-> +config S2500_MACPHY
-> +	help
-> +	tristate "S2500 support"
-> +	depends on SPI
-> +	select NCN26000_PHY
-> +	select OA_TC6
-> +	  Support for the onsemi TS2500 MACPHY Ethernet chip.
-> +          It works under the framework that conform to OPEN Alliance
-> +          10BASE-T1x Serial Interface specification.
-> +
-> +          To compile this driver as a module, choose M here. The module will be
-> +          called s2500.
-
-Kconfig help text should be indented with one tab + 2 spaces (applies to
-all lines following the "Support for the ..." line).
-
-> +
-> +endif # NET_VENDOR_ONSEMI
-> diff --git a/drivers/net/ethernet/onsemi/s2500/s2500_ptp.c b/drivers/net/ethernet/onsemi/s2500/s2500_ptp.c
-> new file mode 100644
-> index 000000000000..fd6617c7ac79
-> --- /dev/null
-> +++ b/drivers/net/ethernet/onsemi/s2500/s2500_ptp.c
-
-
-> +static int s2500_ptp_adjfine(struct ptp_clock_info *ptp, long scaled_ppm)
-> +{
-> +	struct s2500_info *priv = container_of(ptp, struct s2500_info,
-> +					       ptp_clock_info);
-> +	u32 sign_bit = 0;
-> +	long adj;
-> +	u32 val;
-> +	u64 ppm;
-> +
-> +	if (scaled_ppm < 0) {
-> +		/* split sign / mod */
-> +		sign_bit = 1U << 31;
-> +		scaled_ppm = ~scaled_ppm + 1;
-> +	}
-> +
-> +	/**
-
-Use	/*
-since this is not a kernel-doc comment.
-
-> +	 * Convert unsigned scaled_ppm to atto-seconds per clock cycles.
-> +	 * The scaled_ppm format is Qx.16 --> 1 lsb = 1/65536 ppm.
-> +	 * The clock period of the S2500 is 8ns (125 MHz), so 1 lsb of
-> +	 * adj register LSB is 1 atto-sec / 8ns = 0.000125 ppm.
-> +	 * Represented in Qx.16 format, this is 0.000125 * 2^16 = 8(.192)
-> +	 * To convert scaled_ppm into a register value we need to divide
-> +	 * it by the LSB value, hence adj = (scaled_ppm * 1000) / 8192 to
-> +	 * minimize the precision loss due to the integer arithmetic.
-> +	 * That further reduces to (scaled_ppm * 125) / 1024.
-> +	 */
-> +	ppm = (u64)scaled_ppm * 125;
-> +	do_div(ppm, 1024);
-> +	adj = (long)ppm;
-> +
-> +	/* check overflow */
-> +	if (adj >= (1L << 28))
-> +		return -ERANGE;
-> +
-> +	val = (u32)adj | sign_bit;
-> +	return oa_tc6_write_register_mms(priv->tc6, S2500_REG_VS_PTP_ADJ,
-> +					 OA_TC6_PHY_C45_VS_MMS12, val);
-> +}
-
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 97007f4f69d4..47bccc148a54 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4935,18 +4935,6 @@ Kernel parameters
+ 			Set to non-zero if a chip is present that snoops speed
+ 			changes.  Disabled by default.
+ 
+-	pata_legacy.ht6560a=	[HW,LIBATA]
+-			Format: <int>
+-			Set to 1, 2, or 3 for HT 6560A on the primary channel,
+-			the secondary channel, or both channels respectively.
+-			Disabled by default.
+-
+-	pata_legacy.ht6560b=	[HW,LIBATA]
+-			Format: <int>
+-			Set to 1, 2, or 3 for HT 6560B on the primary channel,
+-			the secondary channel, or both channels respectively.
+-			Disabled by default.
+-
+ 	pata_legacy.iordy_mask=	[HW,LIBATA]
+ 			Format: <int>
+ 			IORDY enable mask.  Set individual bits to allow IORDY
+@@ -4959,18 +4947,6 @@ Kernel parameters
+ 			with the sequence.  By default IORDY is allowed across
+ 			all channels.
+ 
+-	pata_legacy.opti82c46x=	[HW,LIBATA]
+-			Format: <int>
+-			Set to 1, 2, or 3 for Opti 82c611A on the primary
+-			channel, the secondary channel, or both channels
+-			respectively.  Disabled by default.
+-
+-	pata_legacy.opti82c611a=	[HW,LIBATA]
+-			Format: <int>
+-			Set to 1, 2, or 3 for Opti 82c465MV on the primary
+-			channel, the secondary channel, or both channels
+-			respectively.  Disabled by default.
+-
+ 	pata_legacy.pio_mask=	[HW,LIBATA]
+ 			Format: <int>
+ 			PIO mode mask for autospeed devices.  Set individual
+@@ -4994,19 +4970,6 @@ Kernel parameters
+ 			the first port in the list above (0x1f0), and so on.
+ 			By default all supported ports are probed.
+ 
+-	pata_legacy.qdi=	[HW,LIBATA]
+-			Format: <int>
+-			Set to non-zero to probe QDI controllers.  By default
+-			set to 1 if CONFIG_PATA_QDI_MODULE, 0 otherwise.
+-
+-	pata_legacy.winbond=	[HW,LIBATA]
+-			Format: <int>
+-			Set to non-zero to probe Winbond controllers.  Use
+-			the standard I/O port (0x130) if 1, otherwise the
+-			value given is the I/O port to use (typically 0x1b0).
+-			By default set to 1 if CONFIG_PATA_WINBOND_VLB_MODULE,
+-			0 otherwise.
+-
+ 	pata_platform.pio_mask=	[HW,LIBATA]
+ 			Format: <int>
+ 			Supported PIO mode mask.  Set individual bits to allow
 -- 
-~Randy
+2.43.0
 
