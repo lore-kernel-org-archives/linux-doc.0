@@ -1,64 +1,64 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D56333A03A
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 23:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EB0338595
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 23:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780875923; cv=none; b=UFwZyqMBOhm6sp0nBwu9NqP2adbugT6e1f6DY4sUTLAnxObMJiiOvJ5FMgvdig0Xh8mzLnWhjxWfmutXMKssZXF4EwPjRNvPosN96lVfSqC7xERiTJUwJpVgPxMirIcN0OczQoD3yQobSwTrJnQiuSrfdIsKaz5GaWpX+1YOygk=
+	t=1780875929; cv=none; b=rIuUtiisCe7VpvjmT7pyxX7Us5zR+hps83QSpgKXI3vTtMoI5JlR5hPeFzPjuQBJx09cCgPCUt4bkjFqJLNnlzNiBJLP8l6bcZGQldlXin71rz4u0fG8HATFLeYM8+lCsliEdqI0QnRrJBXZXnxuZzsKt2GGs0dFlLMqKFmsMVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780875923; c=relaxed/simple;
-	bh=J+az5RicRenEneEDG27NK4Kvad9Qms6Iox6ODxzmpTU=;
+	s=arc-20240116; t=1780875929; c=relaxed/simple;
+	bh=KJTRCy7wNY+N6IrE/mRVGcB/+axShhI0D7cUwSRv3Es=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fPpFQK8iuOYKw5yFoc+6lOoa5Zgd4Plt8xM8dtZD7X/C6/ddWEZbb5tSLns3dZoH6KagRVnlhIG/7z+Fbl9D/oal4ZhCrZLIhzeEviY1/9eV5XnujcaerMn1NL8/xB+IF9XrozgbBb88KaRLPeWRdTIp8n/sJlexCnIY0ese1gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3LDUBy+; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=fuyme3PwUJOKsCpC2yvPSBCj14lDurB1iFdNc1NAAIGXmW7YYhz1jpxgRwLVCI1OHS3f63n0PEwNiVcze58WV3dPhW/5+AcFrA3WzCF7D9gMJ6t7eKfwOMTLqDU0fAy3vYxNiVPIdJZA2moh4mESU92mtrMUfv7ONSBq90l+Shk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NfXaCEIz; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3LDUBy+"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8422524cb38so1130401b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 16:45:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NfXaCEIz"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8423f1d8902so1407339b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 16:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780875921; x=1781480721; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780875927; x=1781480727; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Moxyp6VJ7Jh2y4csvP0jcOZ0gGOtSLLwcv7kOefBRHI=;
-        b=I3LDUBy+dwT5F4MV21F4/qE3Up91ZVyXpULmZ9tYyLoabjXA0hR9xHhQbv3Wt9jk3f
-         97r8eP4h1e3KWIZbhLqmiYBicIKA89kbMEyVT7miwXqQh3guAxyWWS6KgW3lsriPoMS6
-         yMErxXb0IgNL06qo5zIALfl1mOPoxflsmqq3XKBrNLLQHEJtCY2Vqtkcx26WzK2phKII
-         3TUtNj/iAYttvecv6Ufm4RRlzztkISzsgcB6RID1ngXHhk9shh0SbU2kcDDSAyoVjq8F
-         MDLlIMouS0Nw3ZYeTD8PT7P6Ccl9zqZ8NdJ9GhWHCA20Fx4lM8b5D772ua26jVduWWDq
-         i2kA==
+        bh=TaQl7dtgCPoeeJ0ksgq85IpZKAoo0yYD7cImexjDLms=;
+        b=NfXaCEIzgPw9KMgLquOrieq1tveEjSb1X+Osk33RZeynIwunbKnR+mjfEhLYS0smB0
+         2tnklm4n7mrS2qtsI2lMcDCPf5KFq46B4OsHHwO8+DHQWtpc4ccoXWi0rHxdwwQ7cmee
+         aCRmpSq1ZGkXqWgq3mFOtuDc+cX/08mbTAzQFkdrt48q8CEza4MgJJy2zu0Zu8BtJI1C
+         ngFpXkBSRrQhXD0pr8GbD/IzoDHVnTb+s2dXqrD5tsGkJZy6VhDNr1EMqy/P+OuE5iXS
+         raUCeAZh4BiMb8VZj7btGI2iKdSAQCcX4xF5Hky7MQEEi81jbdzNQctkookv5ougt3Ry
+         nkJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780875921; x=1781480721;
+        d=1e100.net; s=20251104; t=1780875927; x=1781480727;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Moxyp6VJ7Jh2y4csvP0jcOZ0gGOtSLLwcv7kOefBRHI=;
-        b=AQgyGKlzQyX0BNWiJSVRNajVt6Ctw2MILMee+NtjOoXA7zTD0B47f+Pdho2iD/QzZf
-         S4UGvNTaRiUBz9ynRwZk3kpb87uJ0w2mYS4S+msNKdx0+RVPBT0TRAS1N3dom7az6PBc
-         BithDkcgQJhKd3JTrjFVdBHeFUoBFU4BeceKiPIe8PHFXRYkYh3xz8+16Kdz6Lm9KGnl
-         xEVsIT2MazZlp1yxvzZ0u73gf6UKmC4BtxoV/HLh+9LAK4R/zWnk45OLgoKt/jfHgBEy
-         oTfZBLpNtUgip/+3AGlnwzlJXL3pb7p8yJqrKczuZKKgblEwtDHnb+BaJWbk4A9HzhkG
-         bPoQ==
-X-Forwarded-Encrypted: i=1; AFNElJ//qDteCdFfM1sMr0v2WvwHwygMQKS8MfGZvQNvn0sVjeFQjQEI6Lu9Sv3lLYDhN3wWBEG2n/ynl5g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2RIkEp8qBJhx7E9nBkakAP3oLXA/bsBX5FQZ00lR1QLLN9Viv
-	AN/syLakB/jwcBpUDylPlryiRYc+UHLFUA3TjHacqSiFSskSMkrh35oh
-X-Gm-Gg: Acq92OH9xCveUlqFF9DD509BOP8tCrsqS2F5llWne3SjwRi5+3l85NLOPWyb2F6zxvW
-	WnC1FWSvdhUb9kZ8hFHWXb+YbjIkF83T/l+Kfc7+ymwN5JVVLDujo429wNTKzyQL6FKir/TaSk5
-	RPbAYyjem7GfUFg8611NuodJLNz15oWMqJOYed7EYoPYulFJCYYUbpfaTuxeZEnvJeHy1KqiPQ0
-	jcptHyYe9UpQmPoHID6U6M9U4E2q9UsvsjfOWhUk+YVFt+YXPRdr1Q2cwNWssj2EjeSWrFSto8y
-	ucgJ2eOMHhjLPEDlexjKPJ5cdotoGMhhr65LRHzTbTzcx3nem1b17Mi8oipSL40WQYecL5H61P8
-	ujM7CCbq2cPFNR3nKYBKl0zo+w1wQ8tBZqUKhwAZMSBrArtIQwOT+6Odw1LYlsMx4SunLIaWWXz
-	kyB2RjzeytElJtvEgmG1V+RbOqi51oFERarFUPH2CK4qyA0VolKJRVKxLB8itDSesFfuclmz2H8
-	z5gCPGRLy4SFZODVJsWSSmxLhcIraXmJGuWnNHDSIAV5Drl
-X-Received: by 2002:a05:6a00:4390:b0:842:6a3b:60ea with SMTP id d2e1a72fcca58-842b0fbbb03mr13296464b3a.40.1780875921415;
-        Sun, 07 Jun 2026 16:45:21 -0700 (PDT)
+        bh=TaQl7dtgCPoeeJ0ksgq85IpZKAoo0yYD7cImexjDLms=;
+        b=Pn2opiOAeiYsIi762OdQs1KPAtUIWdIZjsJ6Y87tXU5OfbaJvHnSNIjN9TUqS6alqC
+         r077wurr1cABc+NFwH82TTOouieKBcOvn4SGbnYKBtezuV4oQyQYdwwxIBOBq7vyekjl
+         PwYeABHctQ7d4UuPSXlhkap+sj8WeMPU/+r7faPnKyqp5mV2bIJHprfdXw5VYMd9Tlo7
+         wWcrCewCzEcHBiRKkX6xC7HcpllIjbi+YrgSjtnR0wAnEyd5m9e4may8WqgEhQeGprXt
+         08nlBD01xOciLEp0g/Xwpm2QGJwzhu/FRH7x+ZC/nmnxF7AmQEgiYUxsEmXdPOsyxyur
+         PuLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9gDKPbOzKfByuL+q2i37nqJnbKHu8s3NCmUk2AnppyVelGktxN7dU4gPmTYjcUYGnQY2MFupluufc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8IGhHaXPgmwuGwNLct/O/ju8RaL40mDSgqH83P0di2984OMFQ
+	/yZEPIahbDX587rrYs8Yh93bEtbiUfsdK9HlYNRm19+8BccMPcm2cn7N
+X-Gm-Gg: Acq92OH5vbSYjWXhJia9BxYVs9g/aZEvL+F7MHM/6JWEH/F5VaVvmBMwEP9n7s8B3nK
+	dzSjOKzSN0hdfJYVL41NJkBQmSCCbi2CUwdWAs4b38TnfKQxCBVAykfjlnocHgpgLjG3I1cfzu8
+	Xjb7NmjXf5jGjpSaV4IxioUVViGiIiwSTLz24aaDBzNVR6pJoB8QsHDh6Ha1Pgy+zr/oB9z60Fv
+	Cywt3gDro3t5yLI5Ui8RUMdUCD0iumfS+gE5I1rOuDXRNAgT/PlNoY3IKgv3Dcfg0N//WKbC/tM
+	Itxhed6QzHu0Ib/Bl6l3+dBhbvv2TjvSwLphSy2hW0Scu13NgawkRsqezawxYnN++vEtLZCiVd0
+	zuQqChUIl6CrdKrZY+eKL4Qa118xn5rS8ISyuQ9pJvtt79Dpg86C4GMnkSXosu5eAlJ8ZKgtvMJ
+	DdmcX5nfRNUomRgCDdS3uBOTWw8YAg0sDWDxhOcM8dIyu5DO+sEmkjJwpKXc+WFQkMjH53Z3nLd
+	sSs69Tt2pStTDzaCIOh6gdWUUUpidnimuJZuYeRZ4h4mqIa
+X-Received: by 2002:a05:6a00:3d4a:b0:842:5712:c2c2 with SMTP id d2e1a72fcca58-842b0fb6d60mr11804229b3a.41.1780875927308;
+        Sun, 07 Jun 2026 16:45:27 -0700 (PDT)
 Received: from DESKTOP-G3E0OSP.localdomain ([112.172.255.242])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828d6bd1sm19257732b3a.44.2026.06.07.16.45.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828d6bd1sm19257732b3a.44.2026.06.07.16.45.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 16:45:21 -0700 (PDT)
+        Sun, 07 Jun 2026 16:45:27 -0700 (PDT)
 From: Jinseob Kim <kimjinseob88@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	linux-iio@vger.kernel.org
@@ -73,9 +73,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH RFC v4 3/6] iio: osf: add protocol decoding
-Date: Mon,  8 Jun 2026 08:43:40 +0900
-Message-ID: <20260607234343.22109-4-kimjinseob88@gmail.com>
+Subject: [PATCH RFC v4 4/6] iio: osf: add stream parser
+Date: Mon,  8 Jun 2026 08:43:41 +0900
+Message-ID: <20260607234343.22109-5-kimjinseob88@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260607234343.22109-1-kimjinseob88@gmail.com>
 References: <20260607234343.22109-1-kimjinseob88@gmail.com>
@@ -87,74 +87,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use a FourCC-style wire magic comparison.
+Keep the parser focused on frame assembly.
 
-Document signed little-endian sample handling.
+Let the core decode complete frames once.
 
 Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
 ---
- drivers/iio/opensensorfusion/osf_protocol.c | 4 +++-
- drivers/iio/opensensorfusion/osf_protocol.h | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ drivers/iio/opensensorfusion/osf_stream.c | 38 ++++++-----------------
+ 1 file changed, 9 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/iio/opensensorfusion/osf_protocol.c b/drivers/iio/opensensorfusion/osf_protocol.c
-index ed91d3dd5..5bee545f3 100644
---- a/drivers/iio/opensensorfusion/osf_protocol.c
-+++ b/drivers/iio/opensensorfusion/osf_protocol.c
-@@ -11,6 +11,7 @@
+diff --git a/drivers/iio/opensensorfusion/osf_stream.c b/drivers/iio/opensensorfusion/osf_stream.c
+index a2739c987..957f73716 100644
+--- a/drivers/iio/opensensorfusion/osf_stream.c
++++ b/drivers/iio/opensensorfusion/osf_stream.c
+@@ -62,8 +62,6 @@ static size_t osf_stream_discard_to_magic(struct osf_stream *stream)
  
- #define OSF_CRC32_INIT		GENMASK(31, 0)
- #define OSF_CRC32_XOROUT	GENMASK(31, 0)
-+#define OSF_FRAME_MAGIC		0x3046534f /* "OSF0" little-endian */
- 
- static bool osf_sensor_type_valid(u16 sensor_type)
+ static int osf_stream_process(struct osf_stream *stream)
  {
-@@ -38,7 +39,7 @@ int osf_protocol_decode_frame(const u8 *buf, size_t len,
- 	if (len < OSF_FRAME_MIN_LEN)
- 		return -EMSGSIZE;
+-	struct osf_frame frame;
+-	size_t decoded_len;
+ 	size_t discarded;
+ 	size_t frame_len;
+ 	u32 payload_len;
+@@ -82,10 +80,8 @@ static int osf_stream_process(struct osf_stream *stream)
+ 		if (!stream->len)
+ 			break;
  
--	if (buf[0] != 'O' || buf[1] != 'S' || buf[2] != 'F' || buf[3] != '0')
-+	if (get_unaligned_le32(buf) != OSF_FRAME_MAGIC)
- 		return -EPROTO;
+-		if (stream->len < OSF_FRAME_HEADER_LEN) {
+-			stream->stats.partial_frames++;
++		if (stream->len < OSF_FRAME_HEADER_LEN)
+ 			break;
+-		}
  
- 	major = buf[4];
-@@ -136,6 +137,7 @@ int osf_protocol_sensor_sample_value(const struct osf_sensor_sample *sample,
- 	if (index >= sample->channel_count)
- 		return -ERANGE;
+ 		if (get_unaligned_le16(stream->buf + 6) !=
+ 		    OSF_FRAME_HEADER_LEN) {
+@@ -106,34 +102,18 @@ static int osf_stream_process(struct osf_stream *stream)
+ 		}
  
-+	/* Samples are little-endian two's-complement signed values. */
- 	*value = (s32)get_unaligned_le32(sample->samples + index * sizeof(s32));
+ 		frame_len = OSF_FRAME_HEADER_LEN + payload_len + OSF_FRAME_CRC_LEN;
+-		if (stream->len < frame_len) {
+-			stream->stats.partial_frames++;
++		if (stream->len < frame_len)
+ 			break;
+-		}
+-
+-		ret = osf_protocol_decode_frame(stream->buf, frame_len, &frame,
+-						&decoded_len);
+-		if (ret) {
+-			if (ret == -EBADMSG)
+-				stream->stats.bad_crc_frames++;
+-			stream->stats.dropped_bytes++;
+-			osf_stream_drop_invalid_head(stream);
+-			if (!first_err)
+-				first_err = ret;
+-			continue;
+-		}
+-
+-		if (decoded_len != frame_len) {
+-			stream->stats.dropped_bytes++;
+-			osf_stream_drop_invalid_head(stream);
+-			if (!first_err)
+-				first_err = -EMSGSIZE;
+-			continue;
+-		}
  
- 	return 0;
-diff --git a/drivers/iio/opensensorfusion/osf_protocol.h b/drivers/iio/opensensorfusion/osf_protocol.h
-index 4b6fb131a..c62c2c254 100644
---- a/drivers/iio/opensensorfusion/osf_protocol.h
-+++ b/drivers/iio/opensensorfusion/osf_protocol.h
-@@ -2,6 +2,7 @@
- #ifndef _OSF_PROTOCOL_H
- #define _OSF_PROTOCOL_H
- 
-+#include <linux/bits.h>
- #include <linux/types.h>
- 
- #define OSF_PROTOCOL_MAJOR		0
-@@ -14,7 +15,7 @@
- #define OSF_DEVICE_STATUS_LEN		20
- #define OSF_CAP_REPORT_BASE_LEN		4
- #define OSF_CAP_SENSOR_ENTRY_LEN		20
--#define OSF_CAPABILITY_FLAGS_MASK	0x00000003U
-+#define OSF_CAPABILITY_FLAGS_MASK	GENMASK(1, 0)
- 
- enum osf_message_type {
- 	OSF_MSG_SENSOR_SAMPLE		= 0x0001,
-@@ -44,6 +45,7 @@ struct osf_frame {
- 	u64 sequence;
- 	u64 timestamp_us;
- 	u32 flags;
-+	/* payload points into the caller-owned frame buffer. */
- 	const u8 *payload;
- 	u32 crc;
- };
+ 		ret = osf_core_receive_frame(stream->osf, stream->buf, frame_len);
+ 		if (ret) {
+-			osf_stream_discard(stream, frame_len);
++			if (ret == -EBADMSG) {
++				stream->stats.bad_crc_frames++;
++				stream->stats.dropped_bytes++;
++				osf_stream_drop_invalid_head(stream);
++			} else {
++				osf_stream_discard(stream, frame_len);
++			}
+ 			if (!first_err)
+ 				first_err = ret;
+ 			continue;
 -- 
 2.43.0
 
