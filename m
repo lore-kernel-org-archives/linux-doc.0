@@ -1,164 +1,132 @@
-Received: from mail.common-net.org (mail.common-net.org [139.28.148.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9AAF2253EE;
-	Sun,  7 Jun 2026 14:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.148.254
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1514D1DA23
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 14:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780840885; cv=none; b=ngHJgYSbFk6xBbWE21BgYDf1+FBa/KdwVZP+HjWNE8ZANIOEgO3hBU6h9PauRO4jw1E9wC6rcggzUgjIlInzt6XQk9Zc6OJb1O4Ltpci91DOzaNKRXVRvCSSsZ3CH1xqlYja66tCugqCctmgO9pJYK4ILDR1J9kLwmZytpt1weE=
+	t=1780843497; cv=none; b=DvfIbuQckZb9QeNZokyD+h2qyc4L+wjW/Cx9VLHNr+rX0H/c3vwTUB6hz62goiken2GORC+ixFUUF6uIi9KYlVXIAeyM7y2Nvo3psNLpGrsbDVPhT0zL6mAF5jmEuN3zXpB/KAHNgdRKY/ziZxq3mpSLraDoxZ07RVRMrAFGFcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780840885; c=relaxed/simple;
-	bh=7IIMnHWhVf+twJaSVJxFuCA1jrlaS+iWejGB0SPwmUI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=sbfHbGKNsLoSUBp7sH+TCcnh0R+DJrKsan8dezDrtLgqr2akSgOTpajAA41b0DFTS25+W93OycPUNQyRbqeoDLegIvqs+bIsBuiz9TaJLrgPWZT6/7/sCrRj4ENiZkeGcwAmh3WcYtUmkGXhzQe8rOyoTbYditZVeXaMe7UqLh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org; spf=pass smtp.mailfrom=common-net.org; dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b=t/HU8RzL; arc=none smtp.client-ip=139.28.148.254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=common-net.org
+	s=arc-20240116; t=1780843497; c=relaxed/simple;
+	bh=kxINBfME1DycLCerbjJmzqLubr59t4fd7N5s0uKnc5I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e/aV2BuW1c2408VhOlqjlCqyigIBxs+KAuhVoY4OKy+I0WydfxEZfPzC2Dq2GdmhMu/qioaXqKUD8pWsb4hFl0g02HkaIJK4m8C3/M4MG5oyypEhJP9WPOxAKnVqCGHQplZoaMLnW2K03EXGkeE2W1rWL67SJNUOR0f9aIeuESM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjdzt74D; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b="t/HU8RzL"
-Received: from lubuntu-18.04 (host-80-116-255-177.pool80116.interbusiness.it [80.116.255.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.common-net.org (Postfix) with ESMTPSA id AE0FA6D20B88;
-	Sun,  7 Jun 2026 16:01:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=common-net.org;
-	s=mail; t=1780840880;
-	bh=7IIMnHWhVf+twJaSVJxFuCA1jrlaS+iWejGB0SPwmUI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=t/HU8RzL4/U+SOIbtwUDTdZ1tq6YpQE+B8fu/n6ihwN5scNcji7geBeqComDRMyI+
-	 kfU0amV1PGzXCJtIFhguAYQNjEo0zr03dOqkwjgKlLrg2454pF3vpWQGohnSuJaFDO
-	 mV/bXt7sgJHOQbsu2XxAZTsFO0PZ/y5iExEvod5M=
-Date: Sun, 7 Jun 2026 16:01:19 +0200
-From: Andrea Mayer <andrea@common-net.org>
-To: Yuya Kusakabe <yuya.kusakabe@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, David Ahern <dsahern@kernel.org>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Justin Iurman <justin.iurman@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it, ahabdels@cisco.com,
- Andrea Mayer <andrea.mayer@uniroma2.it>, andrea@common-net.org
-Subject: Re: [PATCH v2 5/7] seg6: add End.M.GTP6.D.Di behavior
-Message-Id: <20260607160119.ed2022e8a358d700e1134318@common-net.org>
-In-Reply-To: <20260505-seg6-mobile-v2-5-9e8022bdfdb6@gmail.com>
-References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
-	<20260505-seg6-mobile-v2-5-9e8022bdfdb6@gmail.com>
-Organization: Common Net
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjdzt74D"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490a76757e5so21541825e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 07:44:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780843494; x=1781448294; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iSKb4Co68AkxuyD+X3nlTFn4HBTTLSES8AUS4z8O11A=;
+        b=cjdzt74Dy2a1LxF6dinhaFdRPKVwcP1CY+anY2e9mrlqETFjQq+oF1NPAn/OggJ/to
+         EZLCicGGh5hzsyodE8fMyVoXVd5SWm6m4sQHsnYfPttxK5ToEyQZuXCd2uTTcjsosc+x
+         CHiuZO46eItnb2q30Fjplme2dYT/5do1kMlE2RKRS5W118t6Bf4yXDQsGaKwLdYSsiXJ
+         1FYCT2ex2sPtbyOUu5/aVklKA4V/zCaKqDH7qy1898hbQbKxNHTz/SVEKiykj+ONXRPq
+         4YaQ2AUoALYPejm0ecpFLHpm65aTAMnZm7nuCP0gYhbqaIzoAfCnhoT16ITONY4BfwPR
+         dmqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780843494; x=1781448294;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iSKb4Co68AkxuyD+X3nlTFn4HBTTLSES8AUS4z8O11A=;
+        b=tR+gUUJJ+vTYt9uFjaYbeiy3oVOXc6gBzrLyIdwnSEJ2LgvF2ukHtFNtu+w/7aYWsQ
+         j9QEaezrGZUa1HLnHw1eZvoleg59v1petgu1QEXA6bwX3Qkcm14XkoCnmrIgfTGLDrs5
+         0fiuy8vjTU/kpYi6p8HFSByvaPUMSUMJcSokmxL9UV/dAZKPGji2+VDVP96+dYPL8ZLB
+         qfLBEiGRmV6dmfQqNcfb1jIvab2uE+bmg+SVMHlTBDOax50vnzplyj1ZC9FxDiU3V2rz
+         qyFbOue1bZfS3NhlWaHecgWASq98PmWq0oBElS/hbrAPcvABApDKlFOmu234JnlLJaSR
+         Vv5w==
+X-Forwarded-Encrypted: i=1; AFNElJ+8yC1UR6VN9uQSKDyomkqHtyxvbEK5OpSGHv/C3zDVxaAd+rgAW50U7k7pzSdl+sRGIFfcx6r64bE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqGT/N8Q8cxHHuVvgg2OJZBley2qdkQbrsfopg8LdSVLxH2WtB
+	LabJ+a4Mu2OL4tkp3l+b2ddOOeZ/VEiS23y3BFhnxZOHn+I2mVgwoo/Qd22atowJtt4=
+X-Gm-Gg: Acq92OGo3sEgZRkODns9w8AhCpuRYZsB1bGdIclgU2MFYz4tq4X7qwxyRpFyAIuh7RV
+	/Wvg8vZvAXxy/CtbR1SoQavcNd2rF0q5PNy2wSXQdqHOkONj81hoJCDrL7gcKNX8dDe//umdqiT
+	oHDHJ3RMxh0UsluVloiRSXY/lAoUQz/upJkI7DJAuF9FAJUMbNyZe5ETz3S3Dcer6S4JKDdWnEI
+	LeXJNXWv4k+fRHIbTFEeujO8iBc6iXPjNq8ZUoh9Nv0/U+5nTqKZVAjvOxthzSTsT0H9OOs04OJ
+	Rs8ZX4qzBSexJ/ges1cr9kDyZeT8HpQhLaNJZOQiITtUUYFObXiD4nNLbsQPlgceznKC29yu6ks
+	LGzA77KE+HnrjMqHoBJQCLGQjInWElEwdPGPUF6OZRPBP0nUunRrCQbWwiSwbwtrcwkA1ixSHUH
+	foV0yjTGdjYMAlmpLUrDPNnyQj6D4+p2/j4KUR4caYEHAuCUsmdlQ=
+X-Received: by 2002:a05:600c:5488:b0:490:9d1b:f07f with SMTP id 5b1f17b1804b1-490c25b1277mr228088655e9.12.1780843494385;
+        Sun, 07 Jun 2026 07:44:54 -0700 (PDT)
+Received: from puma.museclub.art ([185.189.115.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cc0f8sm314427815e9.8.2026.06.07.07.44.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jun 2026 07:44:53 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Brian Downey <bdowne01@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org (open list:HARDWARE MONITORING),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] hwmon: (asus-ec-sensors) add ROG MAXIMUS Z790 EXTREME
+Date: Sun,  7 Jun 2026 16:42:25 +0200
+Message-ID: <20260607144238.128259-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 05 May 2026 01:30:15 +0900
-Yuya Kusakabe <yuya.kusakabe@gmail.com> wrote:
+From: Brian Downey <bdowne01@gmail.com>
 
-Hi Yuya,
+Add support for ROG MAXIMUS Z790 EXTREME
 
-I do not repeat below the points from the cover letter thread and patch
-1-4 replies (drop reasons, OIF/VRF removal, C helper, coding style, etc.).
+Signed-off-by: Brian Downey <bdowne01@gmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ drivers/hwmon/asus-ec-sensors.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-The patch 4 review applies here, except for the parts where Section 6.4 is
-implemented instead of Section 6.3 (which is incorrectly implemented in
-patch 4).
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 9ad3f0a57f55..60f1a6036538 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -29,6 +29,7 @@ Supported boards:
+  * ROG MAXIMUS XI HERO
+  * ROG MAXIMUS XI HERO (WI-FI)
+  * ROG MAXIMUS Z690 FORMULA
++ * ROG MAXIMUS Z790 EXTREME
+  * ROG STRIX B550-E GAMING
+  * ROG STRIX B550-I GAMING
+  * ROG STRIX B650E-I GAMING WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 070bb368f2b7..171f06a4f120 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -509,6 +509,13 @@ static const struct ec_board_info board_info_maximus_z690_formula = {
+ 	.family = family_intel_600_series,
+ };
+ 
++static const struct ec_board_info board_info_maximus_z790_extreme = {
++	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
++		SENSOR_SET_TEMP_WATER | SENSOR_FAN_WATER_FLOW,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
++	.family = family_intel_700_series,
++};
++
+ static const struct ec_board_info board_info_prime_x470_pro = {
+ 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+@@ -857,6 +864,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_maximus_x_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z690 FORMULA",
+ 					&board_info_maximus_z690_formula),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z790 EXTREME",
++					&board_info_maximus_z790_extreme),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-E GAMING",
+ 					&board_info_strix_b550_e_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-I GAMING",
+-- 
+2.54.0
 
-> Add the End.M.GTP6.D.Di drop-in mode variant of End.M.GTP6.D
-> (RFC 9433 Section 6.4).  Unlike End.M.GTP6.D, the drop-in variant
-> does NOT fold the GTP-U identifiers into Args.Mob.Session: the
-> original outer IPv6 destination is preserved at SRH[0] of the new
-> SRH, so the destination side can keep the original address
-> untouched while still benefiting from SR Policy steering.
->
-> The augmented SRH builder/destroyer is shared with End.M.GTP6.D.
-> The TEID and QFI parsed out of the inbound GTP-U header are
-> intentionally discarded for this variant (matching RFC 9433
-> Section 6.4).
->
-> When net.netfilter.nf_hooks_lwtunnel=1, the inner T-PDU traverses
-> NF_INET_PRE_ROUTING between the GTP-U strip and the SRv6 push,
-> mirroring End.DX4 / End.DX6.
->
-> Non-T-PDU GTP-U messages are forwarded the same way as in
-> End.M.GTP6.D: passed through via the lwtunnel's saved orig_input
-> to a downstream peer that owns the GTP-U control plane.
->
-> Configuration:
->
->   ip -6 route add 2001:db8:f::/64 \
->       encap seg6local action End.M.GTP6.D.Di \
->           srh segs 2001:db8:2::e,2001:db8:3::e \
->           src 2001:db8:2::1 \
->       dev <dev>
->
-> Link: https://www.rfc-editor.org/rfc/rfc9433.html#section-6.4
-> Signed-off-by: Yuya Kusakabe <yuya.kusakabe@gmail.com>
-> ---
->  include/uapi/linux/seg6_local.h                    |   2 +
->  net/ipv6/seg6_local.c                              | 222 +++++++++++
->  tools/testing/selftests/net/Makefile               |   1 +
->  .../selftests/net/srv6_end_m_gtp6_d_di_test.sh     | 427 +++++++++++++++++++++
->  4 files changed, 652 insertions(+)
->
-> diff --git a/include/uapi/linux/seg6_local.h b/include/uapi/linux/seg6_local.h
-> index 7d3d3d245b47..326da65ad5aa 100644
-> --- a/include/uapi/linux/seg6_local.h
-> +++ b/include/uapi/linux/seg6_local.h
-> @@ -80,6 +80,8 @@ enum {
->  	SEG6_LOCAL_ACTION_END_M_GTP6_E	= 19,
->  	/* IPv6/GTP-U decap into SRv6 (RFC 9433 Section 6.3) */
->  	SEG6_LOCAL_ACTION_END_M_GTP6_D	= 20,
-> +	/* IPv6/GTP-U decap into SRv6, drop-in mode (RFC 9433 Section 6.4) */
-> +	SEG6_LOCAL_ACTION_END_M_GTP6_D_DI = 21,
->
->  	__SEG6_LOCAL_ACTION_MAX,
->  };
-> diff --git a/net/ipv6/seg6_local.c b/net/ipv6/seg6_local.c
-> index 09e912e17df8..a6cd57ebcbde 100644
-> --- a/net/ipv6/seg6_local.c
-> +++ b/net/ipv6/seg6_local.c
-
-> + [snip]
-
-input_action_end_m_gtp6_d_di() and its finish callback are largely
-identical to the patch 4 functions (input_action_end_m_gtp6_d() and its
-finish): the SRH check, GTP-U dispatch, outer strip, inner protocol
-detection, and NF_HOOK invocation are identical. The duplication should be
-reduced via shared helpers.
-
-> +static int input_action_end_m_gtp6_d_di(struct sk_buff *skb,
-> +					struct seg6_local_lwt *slwt)
-> +{
-
-> + [snip]
-
-> +		gtp_hdrlen = seg6_mobile_parse_gtpu(skb,
-> +						    upper_off + sizeof(*uh),
-> +						    &teid, &qfi);
-> +		if (gtp_hdrlen == -EOPNOTSUPP)
-> +			return seg6_mobile_passthrough_non_tpdu(skb);
-> +		if (gtp_hdrlen < 0) {
-> +			reason = SKB_DROP_REASON_SEG6_MOBILE_BAD_GTPU;
-> +			goto drop;
-> +		}
-> +		(void)teid;
-> +		(void)qfi;
-
-D.Di does not use teid or qfi, so these variables and the (void) casts are
-dead code and should be avoided. For example, seg6_mobile_parse_gtpu() could
-accept NULL for teid and qfi so callers that do not need them can pass NULL
-directly.
-
-Thanks,
-
-Ciao,
-Andrea
-
-P.S. I am temporarily writing from another address due to a mail
-delivery issue at my @uniroma2.it address. Please always Cc my default
-andrea.mayer@uniroma2.it address on replies.
