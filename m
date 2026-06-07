@@ -1,193 +1,156 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940632720C
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 20:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34BD32861F;
+	Sun,  7 Jun 2026 20:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780864678; cv=none; b=g71XSpB6OJBaO4lVY6EZIut8Dqd1VoDN2sR8yBS8SlkYse5DSjDD11dEcBJSGtkTZ2NpAE8Mu34+8zUnvnnaXVLg8XHMFUqIxu1rQCqDbLgIsCpHYKaAlllLrtfUkjElsDewFRKJoI6WS0X8J5/P/lECh7YfrdVGRyZHH6DnuIs=
+	t=1780864700; cv=none; b=JcjZ+FvldJzmizaaLFIwkec6QTtNYkQ4uLcVcEWOyAjdcL51GPJ/K5dLkNIO3ZUMpk188Cg4QMEft05tL36xVOV5ukr/yQFrzt4ZrsNYG55/mDeKRYhFVBdHUFvbWbsjiW3PJjTJtET69wHc65o/mZp5u91zd0Kr0XCeMs33KX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780864678; c=relaxed/simple;
-	bh=Kz0XEIVs2B4+UTHQmu6Y86Ku+I6D2eYakWtDHsOXm9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=axS3IAMa1cCCOZ6tJBY7419PkvZedBUJz20GITt/Yd9ycyShsnkYVaR1PglKMlgxUuBMNlfwr80lEz+DtZiXJyuYxPNXsunksHtnDWm5AzPCW/r4ot7aUXq+cWwv8ZmYxmv4IYXTFTHIHecKQ76XhwyUQ3BnRC6WJ2rZVGZgNQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QlN/6d76; arc=none smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780864700; c=relaxed/simple;
+	bh=IV0D+QwztpWEC3jAEjejMcsYHJbgVfTknVEP0s88fuA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D+FS5p9DcGTWXCTF1YQXL+EvF8sary2mYXGGrYNmRRMHLm0v2Zg/atyJ6CxeEnU3WkDKgbQ7S2K9cO+5TxLyP8ShsSUOcejczTdEEJ1ba/n83KYbNT/J9DQGKRIUMSrBvc8gcDo0OXFhuPaoWiwm1nmAhKC9eZm5BcAMTBDZJ+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com; spf=fail smtp.mailfrom=mssola.com; dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b=fDu1MHAQ; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mssola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QlN/6d76"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1336742714fso24457c88.1
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 13:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780864677; x=1781469477; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oir9rCALH4eHYpJVikC6mAKB9V6wqMG19r6g7e/slSE=;
-        b=QlN/6d76TcjLhL7wCB8tFMgesQip4JCKw5rAGi6wty1JQDp3mNWqydW44dB5pcbPuS
-         z4Ei5UMM3NFQRxOWFtetVQt1tIl7elloCR6o1IPb4w692YFPZVOujgRPzkaN2W7JWVlb
-         De+EtJej8lhRP91y4pygaIVffkJ4XEfpFxz+8BydRlNukFR9nPQrWKU1KQFj58pR7PYj
-         +HZ+MhlXfWX8HTVyW+yG/jrrDm/HeY0zvoLh/ttUvglOV2eDYkCHFjttXWLOxknoz4PC
-         ZWbFNjB1QiAeA2MJ7/g6nmb1pk4I3uQTt4AtEkuRS3Qlc4J7cThckX86nxbq03leX4lp
-         T0ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780864677; x=1781469477;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oir9rCALH4eHYpJVikC6mAKB9V6wqMG19r6g7e/slSE=;
-        b=S2ZKQI25EJHpW50d5iQn0e24H06eaahf4pqc+rAEcw3TF8yVae1G+b0pR44u/lbnpW
-         i1aC5Joe8Rxc+NgOPje54JrwthbIADcLQx9dVRZqxa48fF4C2t3ZJh8cXipb8X997efA
-         EXl9aqFjB9U2YO9T4L3E8E1e/mfk3FEvoORgsEsALKlvyZBM/Foped1YYUIpPWY+WmmT
-         K5L6WhcpJYAODFBAc9sTQz3xWa/VmnjjqnxwJ5uakhkQjv997btaFwclLlARyd/xXGpR
-         Ve+W6UE6lG/Fp5j6DMceLPmwSrEmYJgjQU40PwV/4GHpzAchos2XVP4BcDHUkgT6zlJR
-         poxA==
-X-Forwarded-Encrypted: i=1; AFNElJ/+AzaYN5KdeV6N9LcJwQ/CBhz3SywNQX+3ckXL04a9iBRIggNPg5d963c18Ae4xyGGm4bIyzbFHxQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ+zPPkPBp7vf8Rm3hb3TB2hNEiPMOrFLrtHPlF5Bg8P4y3nQi
-	cgBBH0mMoRdAHKlYQIS5MHko0TVx4WSObD2nnM3I9pP6wEATagOZOcjmvKcOYxw4Fw==
-X-Gm-Gg: Acq92OE1S89WcEd3Gv9vVmAUPobuDNdeNcXkuuI4UDlbtu7CPY168+a5amuOts5xE5j
-	V0RYXKLqvImvVkdl2CI0Ss5x0sC4eOaD+ef0/QRHzdFHyliP+DonGePffr+dP5RjJLo5oy0vyrS
-	MNIcVVWfYu3VU2uoN+iqlhg09RjWY5dYkfM69SFETR0flCaif//i8yfG01qZNpoCUkusvxf1PEL
-	JCilRaK3OE5uW5SRA1jcpUkamanEi57TksJ9m160IVuSpZLsErUsZGxU36lfiSSGZCyXY3aXIOL
-	stFnuPv+7NJh9qV5y5xDG6evyh0gbHuMWf2UAZ9RHqvY8PgviijkTfatOM9keQ56eb9hpH94T00
-	kXGe0zX7YTJlepOX4kB8WrdE3DPs26mlDYfY8hE20SbPXhheJ1AyyPKT1FXbZ+c9GuyMmliLmEp
-	s3hiuQ5xCGJhCccxDbvYy+G5ScBDKbjj+rpN9sTl8OZlXs3yfkBtBuuvPW38319JiV/qjPffw=
-X-Received: by 2002:a05:7022:504:b0:134:fc89:410b with SMTP id a92af1059eb24-13807c7c2e5mr279135c88.15.1780864674937;
-        Sun, 07 Jun 2026 13:37:54 -0700 (PDT)
-Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1381495bb00sm4230734c88.3.2026.06.07.13.37.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 13:37:54 -0700 (PDT)
-Date: Sun, 7 Jun 2026 20:37:45 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 08/12] PCI: liveupdate: Inherit ACS flags in incoming
- preserved devices
-Message-ID: <aiXWmR-ettxin4LC@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-9-dmatlack@google.com>
+	dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b="fDu1MHAQ"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gYRnr4yqsz9tSw;
+	Sun,  7 Jun 2026 22:38:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mssola.com; s=MBO0001;
+	t=1780864688;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mIGX2vLPaySQ+YHOkpYztytA+Unn1qR/6yK9NhrEodo=;
+	b=fDu1MHAQP9rk9bXNBg7aTb+lIOBQjMdRMGtXh5bRe3hiHklRPY8Yv92JczRWQ9ZOM22aRY
+	oKqpu8VtyBR+mGcb05swEE71CBSPC38VnNLSOQib9qbU5ZzXZkp4M+q7hyVLZ01UOuZTT+
+	ybXBgqoTuVVsS3z7z/1Z9aHzdgplEN+17yfv/dIGUxZpPL410WhUA6YHiQQ4gJEhl5MhBD
+	BpDnIYPE4lO8iv/CiYDntxtTTwuoWvOWdOIWjNo6565dIYHweacdbAPeNL/olbql7DNeKo
+	XjrOUd9FGDmu9HkgsLYbnRla3tFqmY5cJLWfZkwvCe7mBDhPggcQCBI6y7oGcw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=temperror (outgoing_mbo_mout: error in processing during lookup of mssola@mssola.com: DNS error) smtp.mailfrom=mssola@mssola.com
+From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mssola@mssola.com>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: linux-riscv@lists.infradead.org,  corbet@lwn.net,
+  skhan@linuxfoundation.org,  palmer@dabbelt.com,  alex@ghiti.fr,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] riscv: enable HAVE_CMPXCHG_{DOUBLE,LOCAL}
+In-Reply-To: <f63eefc9-769d-409c-4099-274254432129@kernel.org> (Paul
+	Walmsley's message of "Sat, 6 Jun 2026 18:50:55 -0600 (MDT)")
+References: <20260605141247.253315-1-mssola@mssola.com>
+	<f63eefc9-769d-409c-4099-274254432129@kernel.org>
+Date: Sun, 07 Jun 2026 22:38:05 +0200
+Message-ID: <87a4t6w0gi.fsf@>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522202410.3104264-9-dmatlack@google.com>
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4gYRnr4yqsz9tSw
 
-On Fri, May 22, 2026 at 08:24:06PM +0000, David Matlack wrote:
-> Inherit Access Control Services (ACS) flags on all incoming preserved
-> devices (endpoints and upstream bridges) during a Live Update.
-> 
-> Inheriting ACS flags avoids changing routing rules while memory
-> transactions are in flight from preserved devices. This is also strictly
-> necessary to ensure that IOMMU group assignments do not change across
-> a Live Update for preserved devices, as changing ACS configurations can
-> split or merge IOMMU groups.
-> 
-> Cache the inherited ACS controls established by the previous kernel in
-> struct pci_dev so that ACS controls do not change after a reset
-> (pci_restore_state() calls pci_enable_acs()).
-> 
-> To simplify ACS inheritance, reject preserving any devices that require
-> quirks to enable ACS as those quirks would also have to take Live Update
-> into account.
-> 
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->  drivers/pci/liveupdate.c       | 68 ++++++++++++++++++++++++++++++++++
->  drivers/pci/liveupdate.h       | 11 ++++++
->  drivers/pci/pci.c              |  5 +++
->  drivers/pci/pci.h              |  5 +++
->  drivers/pci/quirks.c           |  7 ++++
->  include/linux/pci_liveupdate.h |  6 +++
->  6 files changed, 102 insertions(+)
-> 
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+Hi,
 
->  
-> +void pci_liveupdate_init_acs(struct pci_dev *dev)
-> +{
-> +	guard(rwsem_read)(&pci_liveupdate.rwsem);
-> +
-> +	if (!dev->acs_cap || !dev->liveupdate.incoming)
-> +		return;
-> +
-> +	pci_read_config_word(dev, dev->acs_cap + PCI_ACS_CTRL, &dev->liveupdate.acs_ctrl);
+Paul Walmsley @ 2026-06-06 18:50 -06:
 
-I might be thinking out loud here, but as an attacker, this motivates me
-to somehow hack the EP FW to mis-report the PCI_ACS_CTRL register across
-a liveupdate to fool the incoming kernel. If the FW feeds a 0, it silently
-strips ACS protections.
+> Hi,
+>
+> On Fri, 5 Jun 2026, Miquel Sabat=C3=A9 Sol=C3=A0 wrote:
+>
+>> Support for atomic Compare-And-Swap instructions has been in the RISC-V
+>> port of the Linux kernel for a long time. That being said, we apparently
+>> never bothered to set HAVE_CMPXCHG_DOUBLE and HAVE_CMPXCHG_LOCAL in the
+>> Kconfig, despite having all the framework to support them.
+>>
+>> Signed-off-by: Miquel Sabat=C3=A9 Sol=C3=A0 <mssola@mssola.com>
+>> ---
+>> This is a resend of [1], rebased on top of the latest commit from the
+>> for-next branch.
+>>
+>> I have built this patch with multiple configurations and ran it with KVM
+>> (the VisionFive2 board that I have lacks the needed extensions). All see=
+ms
+>> to work, but I do wonder if we did not enable these for a reason or this
+>> just slipped through. So far in the code I believe everything is in plac=
+e,
+>> and I haven't seen any commit in the git log stating otherwise.
+>>
+>> [1] https://lore.kernel.org/all/20260220074449.8526-1-mssola@mssola.com/
+>
+> Thanks for the patch.  Your comments above are why I've been hesitant to
+> merge it.  I'm not aware of any publicly available hardware that supports
+> Zacas/Zabha.  No one has stepped forward to provide any Tested-by:s on
+> hardware that hasn't been released yet.  You mention that you tested on
+> your VisionFive2 board, but it would not have exercised those code paths.
 
-Should we also serialize ACS state in ser somehow to ensure we aren't 
-fooled by something like this?
+No, I mention that I ran it _only_ on KVM, as my VisionFive2 board lacks
+these extensions and hence I couldn't possible have tested this there :)
 
-> +}
-> +
-> +int pci_liveupdate_enable_acs(struct pci_dev *dev)
-> +{
-> +	u16 acs_ctrl = dev->liveupdate.acs_ctrl;
-> +	u16 acs_cap = dev->acs_cap;
-> +
-> +	/*
-> +	 * Use liveupdate.was_preserved instead of liveupdate.incoming since the
-> +	 * device's ACS controls should not change even after the device is
-> +	 * finished participating in the Live Update.
-> +	 */
-> +	if (!dev->liveupdate.was_preserved)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * The previous kernel should not have preserved any devices that
-> +	 * require device-specific quirks to enable ACS, but if such a device is
-> +	 * detected, log a big warning and fall back to the normal enable ACS
-> +	 * path.
-> +	 */
+>
+> Of course, we already have Zacas/Zabha support, merged back in 2024, in
+> cmpxchg.h.  I assume (?) that it was tested in QEMU, but I don't see any
+> comments about that in the patch series.  No one sent any Tested-by:s
+> then, either.
+>
+> It would be good if you (and ideally others) could put this patch through
+> some testing on QEMU with Zacas and Zabha enabled, before we merge it.
+> The affected code paths for HAVE_CMPXCHG_LOCAL seem to primarily involve
+> per-CPU counters and MM zone counters, so those would be the areas to
+> focus.  HAVE_CMPXCHG_DOUBLE seems to do nothing useful other than
+> preventing the AMD IOMMU driver from being selected if it's not present,
+> so that part of the patch seems fairly useless.  In fact I'd suggest
+> dropping that from the patch and just sending a separate patch to remove
+> HAVE_CMPXCHG_DOUBLE from the kernel completely.
 
-Nit: It might be worth adding a note here that this can also happen if a
-new device-specific ACS quirk is introduced in the incoming kernel for a
-device that was preserved by the old kernel (which didn't have the quirk).
-In such cases, the two kernels are essentially non-LUO-compatible..
+To be fair, on QEMU I only "tested" it by booting it, running a few
+things for some time and ensuring that nothing got totally broken in the
+process while taking a look at the kernel logs.
 
-> +	if (pci_need_dev_specific_enable_acs(dev)) {
-> +		pci_warn(dev, "Device-specific quirk required to enable ACS!\n");
-> +		WARN_ON_ONCE(true);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (acs_cap)
-> +		pci_write_config_word(dev, acs_cap + PCI_ACS_CTRL, acs_ctrl);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * pci_liveupdate_is_incoming() - Check if a device is incoming-preserved
->   * @dev: The PCI device to check
+In any case, let me double check with QEMU with these extensions enabled
+and I'll try to be more thorough about it. I'll do just that whenever I
+have some spare time during the following week :)
 
-[...]
+As for HAVE_CMPXCHG_DOUBLE, removing it makes sense. Let me just take
+another look and I will send a separate patch whenever I'm ready for it.
 
-Thanks,
-Praan
+>
+>
+> - Paul
+
+Thanks for your input!
+Miquel
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJiBAEBCgBMFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmol1q0bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyEhxtc3NvbGFAbXNzb2xhLmNvbQAKCRCWvoxv2J1l
+ZbPMEAC7Y/Qp2rixtfdlr2FQG6bybg7g9iwMX1kUJvH3I7LtZHORk6OQ3N46OSmY
+NR7FZVTWRilOz8C1YfIAt2tOuPFaMUSuLKnFJoTk4ENQVmeMt+FDxxA77qKYidq2
+OZ0YulnWXcmteR/GOur88J+t2V4DzzBbJkLOMq8El4aiX3hWOhKbRgzcdxDg658Q
+vbVSYwD06+1SqzpUqxPBOXDrSKjXVLHLiGxpkcLvNLuvsB/qP8xFfa1R+8sQFCZK
+bILM9RR2Uhq7dZ4DWKiHuMNgvt328Wo5yneHS+2qfxWmtwg8d7Q9iM4vIw/V9fq3
+xfH1dbByDUtXEV+0oL9276XfYfyfry3bh9Q0CoFdu+62h22u9TfhbKMuzhgoVdif
+idzkep6eVRoRONUIlAAoSiW4qUGTQnWQHmQz8JCY4B7INDUnvSLrylKHioFPvrhf
+otCB9/slsAOLK5eMKpnmFqHYPfHpIMv6wZVPGGKmzI/pRvgLbUutF1ldOY5rP4hx
+Y+7dRm/7FjY5fjbIzflN58CUL8Zh+Avm72KH/lGnZnxpFd2zRYzpi+IB+p2trn4v
+XwfqGxP2KCBSorspaeHSNNgiYtJzcQ5b3Mbw+smQRjRGglSMkmtFsNSwqrJTbnUv
+6w4XcMyj7RD6BjvbFHw0eHKchFgUUv1zCa0SnNt53fNqQKWvWw==
+=/8zA
+-----END PGP SIGNATURE-----
+--=-=-=--
