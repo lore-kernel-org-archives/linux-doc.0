@@ -1,174 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890A0175A91
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 17:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43C1220F2D;
+	Sun,  7 Jun 2026 17:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780851774; cv=none; b=Vls2jEkJZfAx8NBElsqUz1MQin1/AgjK+VDFYDjgFi7c7rE3GQgaXDk7NSM4AuEeTpYnokAMAt+dWlOmWfkQlER7hH1J9O4w9260ipTcu9igsw+t7OJlQFQFdkzWVzl9/1+7lr1aNLCGSF8KudtYQ4d50T3zMnyjmTUA7Q0N6os=
+	t=1780852389; cv=none; b=Amn2+uvsgr+A56+7PTvTEvT4zxDM3WY0rOIo2rxirmlb0OH++D53NhF4n0IvyiI+chkrlSkwCKrFlVKsz7Q1a8j3oDBXAjyGBxLWnUNXoDv/1/ZHhDfGis/CsVqSp4XTN7K6/6fcc49+jhrXynCD2syfVdUkuwvlXt/gj6ohyK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780851774; c=relaxed/simple;
-	bh=bpKK9UxFK9PGXLvFYFdtW7zRIDlLupmIyZnBtKjY9+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pake493t3DEwz1OhPKRMKFgQtHWvGw+RLcfRl71Fmlitse6BkH36/Yvf1j48Oia2XnrAU2omBtRA6JYwkoWa7QzYm/fcAsXYskcxqBiC9xo2UnWL1+U9AaZMlVwueIoO2JoIYfk++Lfz4rzTGXa77jNNm6MJkPhdD7rgwQGuiNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkRnWvGw; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780852389; c=relaxed/simple;
+	bh=UHOrwhIddpp61bKZYue79ECpscxqyH8KhLDhF8d0fkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=THAFU8JJBqbMaNaldtXK7Q7dAdWAxSif9uPg25Wm8Bhazj0OOG2pYm042qU0VA2ULRH2DZDK91FE7j9ILab6xCexp0qo7NADrz5qXF41DlCR/blshSRAEVjt9wan5ILh9tW45qZ17OedJSaI9x4gXf+xHDLPgmD+Q8RlrRKxg9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o/xBFDVA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkRnWvGw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780851773; x=1812387773;
-  h=date:from:to:cc:subject:message-id;
-  bh=bpKK9UxFK9PGXLvFYFdtW7zRIDlLupmIyZnBtKjY9+o=;
-  b=fkRnWvGw/j4cHj5hSAyRLUHDxMRwoKsFfm5iZk2W4h2O/8YsQCCsYAgq
-   v+0CatDsY9WmJd1ikhbyfHLiNV9GW7P6rWSMLpOBaWWZ5RxQBIDGxKp7J
-   WCMKXQ9zyLlc6/dkQ+iMdo6JqAfdYj7bati8uhZOlNb6EylEqQbiXt3r/
-   po47xRqr0CWoH1T9MS3aAEZ8bDgvSpIgkdJB8CI9Blvk4LllaLPRVS17C
-   l20p4i3CvnWODLE5XRf0SlpOWhUXKw0CZWHUp1gerdIGuxBD4WOXd0avm
-   5vjN4fuVKkYp/MKxmKzgThDX+58ds8OG9Qjgpjs61it//xwuY2txuH65g
-   w==;
-X-CSE-ConnectionGUID: NDqCVlMaQae8o8bz4YufyA==
-X-CSE-MsgGUID: EWOL31vFQjGQ2YpCfenbKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="81599319"
-X-IronPort-AV: E=Sophos;i="6.24,192,1774335600"; 
-   d="scan'208";a="81599319"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2026 10:02:53 -0700
-X-CSE-ConnectionGUID: k47Hh8x3QJeRMUOaREd2ag==
-X-CSE-MsgGUID: /hlXrveoQpeOnrGnzyPD8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,193,1774335600"; 
-   d="scan'208";a="250427593"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Jun 2026 10:02:50 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wWGtc-0000000034H-0HSD;
-	Sun, 07 Jun 2026 17:02:48 +0000
-Date: Sun, 07 Jun 2026 19:02:24 +0200
-From: kernel test robot <lkp@intel.com>
-To: Julian Anastasov <ja@ssi.bg>
-Cc: oe-kbuild-all@lists.linux.dev,
- Pablo Neira Ayuso <pablo@netfilter.org>, linux-doc@vger.kernel.org
-Subject: [netfilter-nf-next:for-netdev-nf-next-26-06-07 1/15]
- htmldocs: Documentation/networking/ipvs-sysctl.rst:76: WARNING: Block quote
- ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202606071851.Dc1H7hOO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o/xBFDVA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5oMknEXe36qU1bPGmnb8gDZjM7NiqJWhpG1ba25rvls=; b=o/xBFDVATbF7i+hIvfAEHdFtZI
+	nqytBHAymVHRtd6JTPJsz7xHAvJWXkErSetcwTLm3m5icBIaZ8/RkV2MMjYCA0ejRwUO5FDRX8Nd3
+	KIIcwIxllpRP4xKEl6ue6fsKH/3UlN+8Y/GokjHII7JVagEOzKdxrr2SfiuhcLAXA5cxlqVmH90SF
+	cmz7hJlbKjTdApYfx4ZYxnCcs9ZFRgwveTtQzKfhyHYlnHYnatL6QSgvnrjyuJgJH9RglF3Gsv0Jx
+	O8Pp3YRwa7sLY4gQr2gbKfXZTgTrc9euauT9kfcbqfZJHqdUjdO1cx7pIF7Z4zgViLF4rQUXKbNd9
+	wMxbW2RQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wWH3Y-00000002MRH-3CB5;
+	Sun, 07 Jun 2026 17:13:04 +0000
+Message-ID: <570aef33-c7fc-41dc-9042-d3871d58de0a@infradead.org>
+Date: Sun, 7 Jun 2026 10:13:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git for-netdev-nf-next-26-06-07
-head:   d3bf9eae486490832bd08fd62ab0ac601f346bd4
-commit: 4a15044a2b06748c99a8c8c3c6b3ee0a01f8004d [1/15] ipvs: add conn_max sysctl to limit connections
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260607/202606071851.Dc1H7hOO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606071851.Dc1H7hOO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
->> Documentation/networking/ipvs-sysctl.rst:76: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/networking/ipvs-sysctl.rst:76: ERROR: Unexpected section title or transition.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ata: pata_legacy: remove documentation for removed module
+ parameters
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org
+Cc: stable@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Damien Le Moal <dlemoal@kernel.org>
+References: <20260607064053.195166-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260607064053.195166-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +76 Documentation/networking/ipvs-sysctl.rst
 
-     9	
-    10	am_droprate - INTEGER
-    11		default 10
-    12	
-    13		It sets the always mode drop rate, which is used in the mode 3
-    14		of the drop_rate defense.
-    15	
-    16	amemthresh - INTEGER
-    17		default 1024
-    18	
-    19		It sets the available memory threshold (in pages), which is
-    20		used in the automatic modes of defense. When there is no
-    21		enough available memory, the respective strategy will be
-    22		enabled and the variable is automatically set to 2, otherwise
-    23		the strategy is disabled and the variable is  set  to 1.
-    24	
-    25	backup_only - BOOLEAN
-    26		- 0 - disabled (default)
-    27		- not 0 - enabled
-    28	
-    29		If set, disable the director function while the server is
-    30		in backup mode to avoid packet loops for DR/TUN methods.
-    31	
-    32	conn_lfactor - INTEGER
-    33		Possible values: -8 (larger table) .. 8 (smaller table)
-    34	
-    35		Default: -4
-    36	
-    37		Controls the sizing of the connection hash table based on the
-    38		load factor (number of connections per table buckets):
-    39	
-    40			2^conn_lfactor = nodes / buckets
-    41	
-    42		As result, the table grows if load increases and shrinks when
-    43		load decreases in the range of 2^8 - 2^conn_tab_bits (module
-    44		parameter).
-    45		The value is a shift count where negative values select
-    46		buckets = (connection hash nodes << -value) while positive
-    47		values select buckets = (connection hash nodes >> value). The
-    48		negative values reduce the collisions and reduce the time for
-    49		lookups but increase the table size. Positive values will
-    50		tolerate load above 100% when using smaller table is
-    51		preferred with the cost of more collisions. If using NAT
-    52		connections consider decreasing the value with one because
-    53		they add two nodes in the hash table.
-    54	
-    55		Example:
-    56		-4: grow if load goes above 6% (buckets = nodes * 16)
-    57		2: grow if load goes above 400% (buckets = nodes / 4)
-    58	
-    59	conn_max - INTEGER
-    60		Limit for number of connections, per netns.
-    61	
-    62		Controls the soft and hard limit for number of connections.
-    63		Initially, the platform specific limit is assigned for init_net.
-    64		The value can be changed and later the soft limit propagated
-    65		to other networking namespaces.
-    66	
-    67		Privileged admin can change both limits up to the value of the
-    68		platform limit while the unprivileged admin can change only the
-    69		soft limit up to the value of the hard limit.
-    70	
-    71		For setups using conntrack=1 (CONFIG_IP_VS_NFCT for
-    72		Netfilter connection tracking) the connections can be
-    73		limited also by nf_conntrack_max.
-    74	
-    75					soft limit	hard limit
-  > 76		=====================================================
-    77		init_net:
-    78		create netns		platform	platform
-    79		priv admin		0 .. platform	0 .. platform
-    80		=====================================================
-    81		new netns:
-    82		create netns		init_net:soft	init_net:soft
-    83		priv admin		0 .. platform	0 .. platform
-    84		unpriv admin		0 .. hard	N/A
-    85	
-    86		Limits per platform:
-    87		1,073,741,824 (2^30 for 64-bit)
-    88		   16,777,216 (2^24 for 32-bit)
-    89	
-    90		Possible values: 0 .. platform limit
-    91	
-    92		Default: platform limit
-    93	
+On 6/6/26 11:40 PM, Ethan Nelson-Moore wrote:
+> Commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") removed
+> several module parameters from the pata_legacy driver, but neglected to
+> remove their documentation. Remove it.
+> 
+> Fixes: 3c4d783f6922 ("ata: pata_legacy: remove VLB support")
+> Cc: stable@vger.kernel.org # 7.0+
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 37 -------------------
+>  1 file changed, 37 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 97007f4f69d4..47bccc148a54 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4935,18 +4935,6 @@ Kernel parameters
+>  			Set to non-zero if a chip is present that snoops speed
+>  			changes.  Disabled by default.
+>  
+> -	pata_legacy.ht6560a=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to 1, 2, or 3 for HT 6560A on the primary channel,
+> -			the secondary channel, or both channels respectively.
+> -			Disabled by default.
+> -
+> -	pata_legacy.ht6560b=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to 1, 2, or 3 for HT 6560B on the primary channel,
+> -			the secondary channel, or both channels respectively.
+> -			Disabled by default.
+> -
+>  	pata_legacy.iordy_mask=	[HW,LIBATA]
+>  			Format: <int>
+>  			IORDY enable mask.  Set individual bits to allow IORDY
+> @@ -4959,18 +4947,6 @@ Kernel parameters
+>  			with the sequence.  By default IORDY is allowed across
+>  			all channels.
+>  
+> -	pata_legacy.opti82c46x=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to 1, 2, or 3 for Opti 82c611A on the primary
+> -			channel, the secondary channel, or both channels
+> -			respectively.  Disabled by default.
+> -
+> -	pata_legacy.opti82c611a=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to 1, 2, or 3 for Opti 82c465MV on the primary
+> -			channel, the secondary channel, or both channels
+> -			respectively.  Disabled by default.
+> -
+>  	pata_legacy.pio_mask=	[HW,LIBATA]
+>  			Format: <int>
+>  			PIO mode mask for autospeed devices.  Set individual
+> @@ -4994,19 +4970,6 @@ Kernel parameters
+>  			the first port in the list above (0x1f0), and so on.
+>  			By default all supported ports are probed.
+>  
+> -	pata_legacy.qdi=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to non-zero to probe QDI controllers.  By default
+> -			set to 1 if CONFIG_PATA_QDI_MODULE, 0 otherwise.
+> -
+> -	pata_legacy.winbond=	[HW,LIBATA]
+> -			Format: <int>
+> -			Set to non-zero to probe Winbond controllers.  Use
+> -			the standard I/O port (0x130) if 1, otherwise the
+> -			value given is the I/O port to use (typically 0x1b0).
+> -			By default set to 1 if CONFIG_PATA_WINBOND_VLB_MODULE,
+> -			0 otherwise.
+> -
+>  	pata_platform.pio_mask=	[HW,LIBATA]
+>  			Format: <int>
+>  			Supported PIO mode mask.  Set individual bits to allow
+
+-- 
+~Randy
