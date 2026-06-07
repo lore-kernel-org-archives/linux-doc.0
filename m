@@ -1,32 +1,32 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482932BE644
-	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 15:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8FA2D2397
+	for <linux-doc@vger.kernel.org>; Sun,  7 Jun 2026 15:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780845526; cv=none; b=GESy1XcTVoXKgpfgSs9+u4KklD69bepnzlJNHAYsKR5L12791sOtSpMXYBb+2uKLslyFMnO9xt9Fg9OkGpx9FCw26Ik5khqsBEYWUwiRZseNBeGBYMYTPZ4SV8UHMiGgwnheMRjZkJTtMazWDFDEcmIzUaoDZtF8RbOeWgxhuH4=
+	t=1780845532; cv=none; b=OubztHtPtnhthLPxoTLsqSzFz+YKC7caQHTs8QN+WGKjD3UIDN2cTXHsAbDVY+iBvWkRzPZcItWrbubhxnkEnTsVUXH+m25iR7nnDgtz1nMUBbVkxBTw2cvAAcS81vh5M5f6jV3NfLuj9fC9fQB8Hc1SBdOLi9hzjVwrYBUA1p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780845526; c=relaxed/simple;
-	bh=Jhyde+qVXhwYKT+jfqAojkE5MDc+zEv4Q/4BXY9Wek4=;
+	s=arc-20240116; t=1780845532; c=relaxed/simple;
+	bh=rHECXCEW8xWVS/Yest4w8oz1GJgdRW8jNbhEpHbgujA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s0kqNd6HJK5cM1I9ZHKbRemuLLOLiDn3aArltVyk8C4UbCJ/V9u1oEAOi8AaFL1Ojof+4nSCSDMGDy4SF6FjpzPXXKsSD9CwPg+i5jewtmTePYSmbXU82cvYz50LIp7nYdgt2PTjueGNTNkKeMr6nW1pIQDvNZjMR3bk7h3g1UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wO0G6jGX; arc=none smtp.client-ip=91.218.175.184
+	 MIME-Version; b=qxKOYnsNnJvtVsJTI04pk3xxdaqnc2IT+T7syyP4m4xgSm7L8oFWuWdYUR1DKib9RI2SckGXAkmzvE2XRPhsLANr+kUwOVd++OYGMLFQ70cNVEbfhH8CoMtg+nyFYsHjJrfEj6gjJLXj5dn1NYOsWlJZekRG1MAa9LNgQRBUjjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ihExTOWc; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wO0G6jGX"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ihExTOWc"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780845523;
+	t=1780845524;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PH+ap9Z9jRyHTeU0JE3+i1OoIv68/HHTxd5g9JcEcPs=;
-	b=wO0G6jGX2+HmbCmRIDLyXk3Kgh03RW3nqrx/tcDtUf0tywBJljKK17xm5Uh9v/XRSLs3Ss
-	Jooi8bhcLKKkS8f48SFlzbKn+AqUcfrSQfv9gsV1+Ag1RCO1o0PeOOFYGFojn22VPs+WIj
-	bzUNeGQ5ytXhilO9M3aV0Z8uohVUiSQ=
+	bh=x1Q5oRNAeFDnB5QhTx9pvk1aNFFzW3nQLKiFuG72XZQ=;
+	b=ihExTOWchc5o/4OJHNzRNSwbzAy7oD7bDCP+5P37mcBIF8aAFMq850JjoL88zjwFVfubaU
+	57b0iyp0S7WU9dmiBF0JViiW63Clff9gcxzD+5jJcw3iBax/0ClZrEaIqA3JM8W/Wu3ZyA
+	0zx/c7GvbArfWzix57m0iYPDoWfWFWc=
 From: Thorsten Blum <thorsten.blum@linux.dev>
 To: Andy Lutomirski <luto@kernel.org>,
 	Thomas Gleixner <tglx@kernel.org>,
@@ -42,9 +42,9 @@ Cc: x86@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Thorsten Blum <thorsten.blum@linux.dev>
-Subject: [PATCH 2/3] x86/vdso: use kstrtouint() to validate vdso32= boot parameter
-Date: Sun,  7 Jun 2026 17:16:17 +0200
-Message-ID: <20260607151614.79567-7-thorsten.blum@linux.dev>
+Subject: [PATCH 3/3] Documentation/arch/x86: remove obsolete vdso32=2 compatibility note
+Date: Sun,  7 Jun 2026 17:16:18 +0200
+Message-ID: <20260607151614.79567-8-thorsten.blum@linux.dev>
 In-Reply-To: <20260607151614.79567-5-thorsten.blum@linux.dev>
 References: <20260607151614.79567-5-thorsten.blum@linux.dev>
 Precedence: bulk
@@ -53,55 +53,43 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1839; i=thorsten.blum@linux.dev; h=from:subject; bh=Jhyde+qVXhwYKT+jfqAojkE5MDc+zEv4Q/4BXY9Wek4=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFmq3R5LhN7FbQpcGntnQ1DV9jmRjN94zsboPTfmt7+22 sxyUn5gRykLgxgXg6yYIsuDWT9m+JbWVG4yidgJM4eVCWQIAxenAExEO5iR4UC14urp05Y/mPWS d+7bFXImm54KLnkoKnDq3YLWD0KHL71hZLjt1BAvPuXQ6TKmUIkENQUb19vzZqZWV7VHrVeSfR5 pyQ8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1420; i=thorsten.blum@linux.dev; h=from:subject; bh=rHECXCEW8xWVS/Yest4w8oz1GJgdRW8jNbhEpHbgujA=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFmq3R6P7Ta/Wfu0TWwuS/AH+c/hHar7O789UxJmu5p21 /7VLcPPHSUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCRBVcZ/hn8CuCK3rh30+vG KXJ9Iu+qdx63Wyrus7bh5s+JwivZniYx/JhzWaM1Y2VCjWLCFdsFjD5On//d6dM6M2OGn1746d8 GbAA=
 X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Replace the deprecated simple_strtoul() with kstrtouint() when parsing
-the vdso32= boot parameter and its X86_32 vdso= alias.
+Commit b0b49f2673f0 ("x86, vdso: Remove compat vdso support") removed
+compat vDSO support and documented vdso32=2 as an alias for vdso32=0.
 
-simple_strtoul() accepts partial input and silently converts invalid
-input to 0. Use kstrtouint() for strict input validation instead and
-reject malformed input. Accept only 0 and 1; warn and disable vDSO
-support otherwise.
+However, since commit c06989da39cd ("x86/vdso: Ensure vdso32_enabled
+gets set to valid values only"), vdso32_setup() accepts only 0 and 1.
 
-kstrtouint() converts the input string directly to an unsigned int,
-avoiding an implicit conversion when assigning to vdso32_enabled.
-
-Update the vdso32= handler comment to reflect the supported values.
+Remove the obsolete vdso32=2 compatibility note and document only the
+supported values.
 
 Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- arch/x86/entry/vdso/vdso32-setup.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/arch/x86/entry/vdso/vdso32-setup.c b/arch/x86/entry/vdso/vdso32-setup.c
-index 8894013eea1d..5f3e548ebf19 100644
---- a/arch/x86/entry/vdso/vdso32-setup.c
-+++ b/arch/x86/entry/vdso/vdso32-setup.c
-@@ -30,10 +30,8 @@ unsigned int __read_mostly vdso32_enabled = VDSO_DEFAULT;
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 97007f4f69d4..ce1c630d6859 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8249,15 +8249,12 @@ Kernel parameters
  
- static int __init vdso32_setup(char *s)
- {
--	vdso32_enabled = simple_strtoul(s, NULL, 0);
+ 	vdso32=		[X86] Control the 32-bit vDSO
+ 			vdso32=1: enable 32-bit VDSO
+-			vdso32=0 or vdso32=2: disable 32-bit VDSO
++			vdso32=0: disable 32-bit VDSO
+ 
+ 			See the help text for CONFIG_COMPAT_VDSO for more
+ 			details.  If CONFIG_COMPAT_VDSO is set, the default is
+ 			vdso32=0; otherwise, the default is vdso32=1.
+ 
+-			For compatibility with older kernels, vdso32=2 is an
+-			alias for vdso32=0.
 -
--	if (vdso32_enabled > 1) {
--		pr_warn("vdso32 values other than 0 and 1 are no longer allowed; vdso disabled\n");
-+	if (kstrtouint(s, 0, &vdso32_enabled) || vdso32_enabled > 1) {
-+		pr_warn("vdso32= values other than 0 and 1 are invalid; vdso disabled\n");
- 		vdso32_enabled = 0;
- 	}
- 
-@@ -41,9 +39,9 @@ static int __init vdso32_setup(char *s)
- }
- 
- /*
-- * For consistency, the argument vdso32=[012] affects the 32-bit vDSO
-+ * For consistency, the argument vdso32=[01] affects the 32-bit vDSO
-  * behavior on both 64-bit and 32-bit kernels.
-- * On 32-bit kernels, vdso=[012] means the same thing.
-+ * On 32-bit kernels, vdso=[01] means the same thing.
-  */
- __setup("vdso32=", vdso32_setup);
+ 			Try vdso32=0 if you encounter an error that says:
+ 			dl_main: Assertion `(void *) ph->p_vaddr == _rtld_local._dl_sysinfo_dso' failed!
  
