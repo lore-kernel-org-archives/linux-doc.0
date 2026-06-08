@@ -1,141 +1,201 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.common-net.org (mail.common-net.org [139.28.148.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A221D5CE0
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 00:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DE0F9D9;
+	Mon,  8 Jun 2026 00:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.148.254
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780878151; cv=none; b=gYqpaIoc/giNfMqIprFCSsOZQbup4TClJ0pQyzmvJSGWtKX4g5AXqBxS2/IYlXrCce0m5wLTFeIlzWK9DNCggVzHV/rKHtite8b/YJxeUaqJgEVKCLuTtGHuJT3iNyUHxM1QpowUPK/Is7IBi1EKApUVqobBRXHen1//U09Rwzs=
+	t=1780879204; cv=none; b=thNZTqbx7F2Q7kn1TnO2nPNrT5LsXGat04eu0uYryGuwm49mtFXPfdQ6XXaJG6oAcalkRYgJDUsKan03D44GRAYpBO874eppExeave6B8WGR2nAwZ4/EgcXvDHTqKapYm7ktgkacorjqWW4JM58OD4fQrEdOpd5FaLblpiSvD2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780878151; c=relaxed/simple;
-	bh=HefiMDs5T1KyjSP2zDY9X7nzX1TtrbHziBskoJWjJmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkxCe+6tGyJNZ0lhGIphSriJQRYYNc5k5MT3Mjon37LJrTGwX+oMzrL9czV3MDC1sJPnWsTYqv+8yuqSWWZoZdh4CsagNk2M83scL9M0D7DM/XsF2aoYO9MQHehdjjTY2X9eMzTc5KvdPknI7dS+VisuQ1Qacn3/oKrt79NEBxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IxoBVJ4L; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780879204; c=relaxed/simple;
+	bh=fE/ADlnkBPH9pTGhVSqA6lM2fhCG+KALo3TglJMi/KE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=NhCenHf/yyqwwFIxbr8Qn5e66/lSo05VMO+mXxjFDC+orbDbyTvZAUB3FDNbqNr9oYxvIHtkxSUX+mHgW82CYE5AYSyRQiQQhUOvxFzcYlr97HFRe147J0+OgBTs+9VfJbyMuf8ZcuUApDRUzmdx2b37dXWdaoXpmvrN0jyQju8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org; spf=pass smtp.mailfrom=common-net.org; dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b=Bcpq/5xV; arc=none smtp.client-ip=139.28.148.254
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=common-net.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=common-net.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IxoBVJ4L"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3075ce9c05aso6720951eec.1
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 17:22:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780878149; x=1781482949; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LjF0EWl7MQGGTkR5fyBPqpK6B4Vr2VFhRJBsPsGHejw=;
-        b=IxoBVJ4L5jl+myLgaqUXCsTjl8JmfSWkmXXR/O0rmnZdhJMrh+97bpYEYrCIxOXkgu
-         XFcz6bMK2EDc+mvWQeAgXNW2aYDhZ3RT9L5vy1+5Z+FWMfmQjH+/yvfzRkOJNAvDzNr4
-         5X9cAXa+Phgqh4hrcI/k+3nohkNEHYiOOku5EBZfMQbFiqWNlDDFZzQNskGdWAdeuEfh
-         FZtnQWf0lYecAGdz3PSpTbVkg8D9iqXgL0ncbbjw7yPEKblDvznO6OQagBYhz3rS6DtH
-         dWMhRrmXgk2E2OhQ0s+vBXGfRFXOWZHgGs5qgxForthlTXJ/ttuJzMke8oEwSOngm4QJ
-         qOgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780878149; x=1781482949;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LjF0EWl7MQGGTkR5fyBPqpK6B4Vr2VFhRJBsPsGHejw=;
-        b=J9aByf7bEKdgXgNoHOVgyVRH2bouaLE/om6hE4eEnl6MFrA6TxG39yb7D6mBaAfpvP
-         +KvWaUePaCLRuSITtp9lkqF3vyBSkGZKiYnYxzyoj5daVC42xW8QXGaccF8G2CvsmPJc
-         q+oVvl+MjioHdQYSM6tYK4w10l+hRBHTeHiZg3T0RO2tE2NkX1397n97SjUgyB/z1gxM
-         tCdcR58JhDYULqw5VsaaHcCip7bpDAGxMm7AeIGt64CJVkjVIA3+tuwMS2M8GLbVZSv7
-         IYSeimkeqjctVlrt4lOQRKAcZD5btKjaWYSCI6M/b8MGmDBA9ffsYHBXNcs2BRuTgfRn
-         o3pw==
-X-Forwarded-Encrypted: i=1; AFNElJ/xE0AUn0afCnNinTrn2/UhApHUL1JmVmz+Q0CuCcONLKpY0RfPQF46zgjz6jNe0MyxqCYUMfcaCck=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyViCOrhS7LkS/jv6Duln0DeskF5zX8ZBYZWCoaaq9ooqN93BjM
-	llFG/qx3snmyzIcL5292/WSabsI7BG3yNmu/LgC4i7/b65GJNeva6aXr
-X-Gm-Gg: Acq92OEWKazDRtztGT/K+qx5PElA/Tx6M4U16AjXm1SF8Q2D7oUE6u1Pkk6A7F61KPc
-	hTDh+D83WQSe4yn/WWe2Z1YUa5SLAfN2FhXJjIWrGZAYWxy+qyX2/O0oYJPk9sKcokyJQmgbTTj
-	g2Zkbh+8K8IiqnnFeHHzYYhgbZJKcr2xRB1vNIFcZCEy7Te0qNZgeBkONOZS5yBfJhSogrra6xo
-	OhaZW4/eNoK1AFrZxdTBqylhmhZ9bKIRhSARuQJX6gxZ8/IMZ6E85a1jZZcVPAly3LMwvQ1hrTT
-	VWV1CClguTppbI1kyL8RTMPrsVFHU2buk7dRmtxgzYjYXRydxD2o0jX4Eeo6TyIVXgLRfKeukxC
-	cSq0PkKuf6jCehKdnE4vEMcA1TX5eNkl+A82OhyVvuanoYAcMic4lWvcuHzgLtujNI+Jd9UPEId
-	584Of/R+PQdwY+yn905EuQ8UvWqA+hgjUFLXCTOfnQ1ViPibDnxiv/dwdHuA==
-X-Received: by 2002:a05:7300:8cac:b0:304:fa0d:85ba with SMTP id 5a478bee46e88-3077af576f4mr7794021eec.12.1780878148924;
-        Sun, 07 Jun 2026 17:22:28 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dea8708sm15964925eec.15.2026.06.07.17.22.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 17:22:28 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 7 Jun 2026 17:22:27 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX B850-E GAMING WIFI
-Message-ID: <385707f2-db47-4dd0-b90e-bf6f58a91518@roeck-us.net>
-References: <20260607123626.100630-1-eugene.shalygin@gmail.com>
+	dkim=pass (1024-bit key) header.d=common-net.org header.i=@common-net.org header.b="Bcpq/5xV"
+Received: from lubuntu-18.04 (host-80-116-255-177.retail.telecomitalia.it [80.116.255.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.common-net.org (Postfix) with ESMTPSA id 966276D20B88;
+	Mon,  8 Jun 2026 02:39:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=common-net.org;
+	s=mail; t=1780879193;
+	bh=fE/ADlnkBPH9pTGhVSqA6lM2fhCG+KALo3TglJMi/KE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Bcpq/5xVd5Jc8Qd0t3so+RQsmrD8gSiyi51MwZEGXJ2KjbCZc2NDXka6s2g4064oO
+	 WBGniBVD1Yy9RviQC0TXX1PwwJYusFIZ1dMyLQ1qEM+wcfXwG3B+UUkalekrTtme8v
+	 LpAqxrH+3H8aGF8yOCp944Th+pBKMV6ux4THqHZs=
+Date: Mon, 8 Jun 2026 02:39:51 +0200
+From: Andrea Mayer <andrea@common-net.org>
+To: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, David Ahern <dsahern@kernel.org>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Justin Iurman <justin.iurman@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, stefano.salsano@uniroma2.it, ahabdels@cisco.com,
+ Andrea Mayer <andrea.mayer@uniroma2.it>, andrea@common-net.org
+Subject: Re: [PATCH v2 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433)
+ behaviors
+Message-Id: <20260608023951.ccd278890d7c489dbfe21113@common-net.org>
+In-Reply-To: <CAGCJULPdm8jbveZsUm467_LBHRf5g=Jqd=XvCVKdNE1F2U99jg@mail.gmail.com>
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+	<20260516182556.66af27a9c63208435911990b@uniroma2.it>
+	<CAGCJULPdm8jbveZsUm467_LBHRf5g=Jqd=XvCVKdNE1F2U99jg@mail.gmail.com>
+Organization: Common Net
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260607123626.100630-1-eugene.shalygin@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 07, 2026 at 02:36:16PM +0200, Eugene Shalygin wrote:
-> The board has a similar sensor configuration to the
-> ROG STRIX B850-I GAMING WIFI, but includes an additional
-> T-Sensor header. The patch was provided via GitHub [1].
-> 
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+On Wed, 20 May 2026 12:12:08 +0900
+Yuya Kusakabe <yuya.kusakabe@gmail.com> wrote:
 
-Applied.
+Hi Yuya,
+
+Thanks for the reply. Inline answers below.
+
+> On Sun, May 17, 2026 at 1:26 AM Andrea Mayer <andrea.mayer@uniroma2.it>
+> wrote:
+>
+> > RFC 9433 Section 6 is titled "SRv6 Segment Endpoint Mobility
+> > Behaviors", but Section 6.7 defines H.M.GTP4.D as "SR Policy Headend
+> > with tunnel decapsulation and map to an SRv6 policy". This behavior
+> > receives IPv4 packets and is not bound to any SID, so it does not fit
+> > the endpoint model that seg6_local implements. Placing it there
+> > required relaxing the ETH_P_IPV6 guard to accept ETH_P_IP and adding
+> > input_family to seg6_action_desc, for a single behavior that does not
+> > share the endpoint model.
+> >
+> > seg6_local is not the natural place for this behavior. The UAPI cannot
+> > be undone once merged, so where it should live needs discussion on the
+> > list before we proceed.
+> >
+> > Given the volume, moving the MUP code into a separate seg6_mobile.c
+> > (say CONFIG_IPV6_SEG6_MUP) would keep seg6_local focused on the RFC
+> > 8986 endpoint framework.
+>
+> I will move the MUP code out of seg6_local into a new
+> net/ipv6/seg6_mobile.c under a new Kconfig symbol, and register the
+> behaviors under a new lwtunnel encap type rather than
+> LWTUNNEL_ENCAP_SEG6_LOCAL.
+>
+
+On the placement, the new lwtunnel encap type you propose could be a way to
+implement the seg6_mobile.c separation. Since this touches UAPI in
+include/uapi/linux/lwtunnel.h beyond the SRv6 subsystem and cannot be
+undone once merged, it needs careful design.
+
+> For naming I was thinking CONFIG_IPV6_SEG6_MOBILE and
+> LWTUNNEL_ENCAP_SEG6_MOBILE to match the file name, but I have no strong
+> preference over CONFIG_IPV6_SEG6_MUP if the list prefers that.
+
+On the Kconfig symbol I agree, CONFIG_IPV6_SEG6_MOBILE matches the RFC 9433
+Section 6 terminology better than CONFIG_IPV6_SEG6_MUP. Section 6 is titled
+"SRv6 Segment Endpoint Mobility Behaviors".
+
+> Once LWTUNNEL_ENCAP_SEG6_MOBILE is its own encap type, it feels
+> natural to me to put H.M.GTP4.D there too rather than adding a
+> separate LWTUNNEL_ENCAP_SEG6_MOBILE_HEADEND. What do you think?
+
+H.M.GTP4.D in v2 shares the SEG6_LOCAL_MOBILE_* attributes and processing
+helpers with the End.M.* behaviors. A separate
+LWTUNNEL_ENCAP_SEG6_MOBILE_HEADEND would require its own attribute set,
+lwtunnel_encap_ops, and iproute2 parser, similar to the current
+implementation of RFC 8986 in the kernel (seg6 and seg6local).
+
+As far as I can see, RFC 9433 has only one Headend behavior, and no L2 or
+reduced variants. So a single LWTUNNEL_ENCAP_SEG6_MOBILE handling both
+End.M.* and H.M.GTP4.D could be viable if accepting both input families
+(ETH_P_IPV6 for End.M.*, ETH_P_IP for H.M.GTP4.D) is treated as a design
+choice of the new encap type, not a stretching of the seg6_local endpoint
+processing model.
+
+These trade-offs are worth weighing in the final design. The patchset
+rework (shared helper functions, the layout of the new UAPI attributes,
+etc.) feeds into this decision. Like the encap type above, this is a UAPI
+choice and cannot be undone once merged. I think the lwtunnel direction
+will need feedback and comments from its community and maintainers.
+
+> Will do, following the End.DT4/End.DT6/End.DT46 model: one patchset
+> per behavior, with the behavior, helpers, and selftest as separate
+> patches. The new code will be aligned with seg6_local.c style as
+> part of this rework.
+
+Sounds good.
+
+> The mobile behaviors will define their own SEG6_MOBILE_* attribute
+> namespace under LWTUNNEL_ENCAP_SEG6_MOBILE, with no reuse of any
+> SEG6_LOCAL_* attribute. That keeps the established SEG6_LOCAL_*
+> semantics untouched.
+
+If LWTUNNEL_ENCAP_SEG6_MOBILE is added, using SEG6_MOBILE_* attributes
+instead of SEG6_LOCAL_* removes the NH6/SRH/OIF overload raised in v2.
+After solving the above, additional issues remain in the patchset,
+for example src is overloaded across MUP behaviors, and v4_mask_len
+needs revision. These are independent of the lwtunnel decision.
+
+> I will drop VRF support from the initial behaviors and revisit it
+> later as a separate optional attribute.
+
+OK.
+
+> Good idea. The prep patchset would introduce the SRv6-level reasons
+> (SEG6_INVALID_SRH, SEG6_HMAC, ...) and convert the existing
+> seg6_local and seg6_iptunnel call sites to use them. The
+> mobile-specific reasons (BAD_SID, BAD_GTPU) would then be added
+> together with the first behavior that uses them and reused by
+> subsequent behaviors. NOMEM and MTU_EXCEEDED would be dropped in
+> favor of the existing generic reasons, and the current
+> INVALID_SRH_SL / BAD_INNER misuses would be replaced by the new
+> SRv6-level reasons from the prep patchset.
+>
+> Would you prefer to lead on the prep patchset yourself, or would you
+> like me to prepare it?
+
+I can lead it. I have been evaluating the SRv6 drop reasons with my
+research group, alongside other pending SRv6 patches.
+
+We can sync offline on which SRv6 reasons fit your MUP behaviors, which
+v2 MUP-specific reasons would fit better as SRv6 or generic, and what
+stays MUP-specific.
+
+> I will replace the python3/scapy heredocs with a statically compiled
+> C helper for packet construction and validation, and extend the
+> selftests to cover the cases you mention (SRH / no-SRH input paths,
+> missing SRH where required, malformed SRH, and invalid attribute
+> values).
+
+Thanks. Maybe also worth covering bad packets, like fragmented input or
+malformed GTP-U extensions.
+
+> Thanks for taking that on. Given the cb/dst issues you described, I
+> am inclined to drop NF_HOOK support from the initial mobile
+> behaviors and add it in a follow-up patchset once your fix lands.
+> The initial behaviors would then do a direct input -> output flow
+> without the cb-context/finish-callback pattern, which avoids the
+> issues entirely on day one and decouples this series from the
+> pre-existing fix. Does that work for you, or would you prefer
+> NF_HOOK to be present from the start and rebased on top of your fix?
+
+Works for me. What matters is that the upcoming patches are well structured
+so NF_HOOK can be wired in cleanly in the follow-up.
+
+I am already working on the fix.
 
 Thanks,
-Guenter
+Andrea
 
-> 
-> [1] https://github.com/zeule/asus-ec-sensors/pull/105
-> ---
->  Documentation/hwmon/asus_ec_sensors.rst |  1 +
->  drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-> index 9ad3f0a57f55..9669e729bb8b 100644
-> --- a/Documentation/hwmon/asus_ec_sensors.rst
-> +++ b/Documentation/hwmon/asus_ec_sensors.rst
-> @@ -32,6 +32,7 @@ Supported boards:
->   * ROG STRIX B550-E GAMING
->   * ROG STRIX B550-I GAMING
->   * ROG STRIX B650E-I GAMING WIFI
-> + * ROG STRIX B850-E GAMING WIFI
->   * ROG STRIX B850-I GAMING WIFI
->   * ROG STRIX X470-F GAMING
->   * ROG STRIX X470-I GAMING
-> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-> index b5d97a27f80d..27e39138011e 100644
-> --- a/drivers/hwmon/asus-ec-sensors.c
-> +++ b/drivers/hwmon/asus-ec-sensors.c
-> @@ -628,6 +628,14 @@ static const struct ec_board_info board_info_strix_b650e_i_gaming = {
->  	.family = family_amd_600_series,
->  };
->  
-> +static const struct ec_board_info board_info_strix_b850_e_gaming_wifi = {
-> +	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-> +		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
-> +		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CPU_OPT,
-> +	.mutex_path = ASUS_HW_ACCESS_MUTEX_SB_PCI0_SBRG_SIO1_MUT0,
-> +	.family = family_amd_800_series,
-> +};
-> +
->  static const struct ec_board_info board_info_strix_b850_i_gaming_wifi = {
->  	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
->  		SENSOR_TEMP_MB | SENSOR_TEMP_VRM,
-> @@ -868,6 +876,8 @@ static const struct dmi_system_id dmi_table[] = {
->  					&board_info_strix_b550_i_gaming),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B650E-I GAMING WIFI",
->  					&board_info_strix_b650e_i_gaming),
-> +	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B850-E GAMING WIFI",
-> +					&board_info_strix_b850_e_gaming_wifi),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B850-I GAMING WIFI",
->  					&board_info_strix_b850_i_gaming_wifi),
->  	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X470-F GAMING",
+P.S. I am temporarily writing from another address due to a mail
+delivery issue at my @uniroma2.it address. Please always Cc my default
+andrea.mayer@uniroma2.it address on replies.
