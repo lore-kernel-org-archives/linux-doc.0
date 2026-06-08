@@ -1,119 +1,97 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10C022576E;
-	Mon,  8 Jun 2026 02:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC434CB5B;
+	Mon,  8 Jun 2026 02:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780884828; cv=none; b=GQdDvQvi3s32YKbJMUBN0XzHqOuZm40Snpm+voZvVa0Q7Adr7G7xPejC4a+3GbSiMHtVsF2Qzb2vZXnrxxoLgQsx3A0JDVkX8QbE7X+sb4675WUEd85qJblsTjL7cQtatV+8hLInYFGWbXICpfIN+8kEGIP/5yabBXr0QSuS8SY=
+	t=1780884962; cv=none; b=ZXlQkEPJQiW1s6NRTnspqCz0vMiXLVcgza2zdrhzua35IslgHTVq70QJKgsNq5memPe1/yCs3wLxQF4cCBD8wKF0d2jfrw27VyD8/27DjsYxL8zfqud4vlL0gYLWYF/VTYrmhxZUgml0+KiwlXdKD8r5RCgKqqfpF25zm8gAIcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780884828; c=relaxed/simple;
-	bh=ye/7h8vRT/vmH/8DPzh8vp+7gQ/40g53kFNbXSkrZko=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aS1xQ+JeSu54wdezBHeN0aON5xC5+RcsulQHHkvn9Qau0GJVM2emFDi9UXRuJDYV7tfiIhrfrIGginmgQ0o3E6ZYKIXd9t5S+4h2xTnOtGaU+jO3i7FC7tBv01sEYGQwpDqBzTMjLkuupdx6Xpwj9TiZTqVj3X1fCWoVEtcE2fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrADXmjYgJSZqtVcXAA--.18428S2;
-	Mon, 08 Jun 2026 10:12:48 +0800 (CST)
-Received: from [10.12.169.28] (unknown [10.12.169.28])
-	by gateway (Coremail) with SMTP id _____wCHgAcXJSZqS16oAQ--.47447S2;
-	Mon, 08 Jun 2026 10:12:39 +0800 (CST)
-Message-ID: <20bde227-fe15-42f2-bc83-51801e1f795d@hust.edu.cn>
-Date: Mon, 8 Jun 2026 10:12:39 +0800
+	s=arc-20240116; t=1780884962; c=relaxed/simple;
+	bh=as1cn8I3sAvGEeC+Ccs5oMsBbu5PT+oFi1OPh3uD+8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CjIKQQy1kRK4rT2ZvNUuY2Y93LcSf3dtvKzQwNPVkGWpxmUkWY9rZ/CzIHTG4Kz0i58+pCtd11k67AYeounZ9zRfqst/e7zyzRMXKF3/cJi9OiFA2Z15P1QJOMA+nozj5STTIIh+NvaLFCtiObZTCGVs8MCtcVFH9a1tGpZg5AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCWDI/bY; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCWDI/bY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45651F00893;
+	Mon,  8 Jun 2026 02:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780884961;
+	bh=TdKMJPGr34VAMb6PbEzE4fJdx7m/8TjEUcQyEL/oeJ4=;
+	h=From:To:Cc:Subject:Date;
+	b=dCWDI/bYKJ2I0hjp/fmSUDPN+b7dbVqLQPrUhzqB0zZPywlc2OEDhhOnaQNILWtZQ
+	 QUbIKD+17fSqtYLz71FgGb0FmSRj4GF2i2IyreQrx6xj4FDgNBz490SAGlezkXllMu
+	 WtMXx+i3U8mNq8LAeqAAwUntCIxt+nKSk86HRbY69aHZNMJQG+o14rChKdi96y0ugL
+	 re257J5SAB6dfU4m89MIHhmywCg2LvYwNaDvGKHKRgWEjKHAzUTJi0EmfzZi4P1BaO
+	 BhnxFIs5k/mQ/BSjO5eWgaAhnvsvc30LZvB6Z/MfDZ+zWRNg7tT1oMEO5JVN+JsYpF
+	 sI2/j6cXC41cQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3 0/3] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Mon,  8 Jun 2026 02:15:23 +0000
+Message-ID: <20260608021526.1023248-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.54.0.1099.g489fc7bff1-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] docs/zh: update DAMON usage sysfs documentation
-To: Doehyun Baek <doehyunbaek@gmail.com>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, damon@lists.linux.dev
-References: <20260523094420.741003-1-doehyunbaek@gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260523094420.741003-1-doehyunbaek@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrADXmjYgJSZqtVcXAA--.18428S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy8CFy5Xw15Kr17Gw4fGrg_yoW5Xryfp3
-	Z8CFyIqa13t343Xr13J34UZa1fJFWfJ3yYgF9Fqwn5JF1vqa4kK3WUKryagFyqvrySqFy5
-	AFZ8t34xG3W7urJanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
+This series improves the configurability of the DPM watchdog.
 
-On 5/23/26 5:44 PM, Doehyun Baek wrote:
-> Hi,
->
-> The Simplified and Traditional Chinese DAMON usage translations are
-> missing selected updates that are already documented in the English file.
-> As a result, parts of the translated sysfs hierarchy and descriptions are
-> stale, and the translations also lack the newer introduction of DAMON's
-> special-purpose modules.
+Currently, the DPM watchdog timeouts are fixed at compile time, and the
+watchdog is always enabled if compiled in.  Also, the module parameters
+defined in drivers/base/power/main.c use the generic and non-descriptive
+"main" prefix.
 
-Hi Doehyun,
+This series addresses these limitations.
 
-Thanks for your patch. To track the translation status of the 
-documentation in different locales, we define a uniform format in 
-how-to.rst [1]. Please revise the commit message of two patches.
+Patch 1 renames the module parameter prefix for drivers/base/power/main.c
+from "main" to "power".
 
-	docs/zh_CN: Add/Update self-protection index Chinese translation
+Patch 2 introduces the CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED to allow the DPM
+watchdog to be disabled by default at compile time.  It also exposes the
+"power.dpm_watchdog_enabled" module parameter to allow enabling/disabling
+the watchdog at boot time and runtime.
 
-	Translate .../security/self-protection.rst into Chinese.
+Patch 3 introduces sysctl knobs under /proc/sys/kernel/ to allow
+configuring the DPM watchdog timeouts at runtime.
 
-	Update the translation through commit b080e52110ea
-	("docs: update self-protection __ro_after_init status")
-	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
+---
+v3:
+- Address review comments on patch 2.
 
-	Signed-off-by: Yanteng Si <si.yanteng@linux.dev>
-	# 如果您前面的步骤正确执行，该行会自动显示，否则请检查 gitconfig 文件
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
 
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst#n252
+v1: Doesn't exist.
 
->
-> The gaps correspond to the following English documentation commits:
->
->    commit a7bb1e754559 ("Docs/admin-guide/mm/damon/usage: document 'nid' file")
->    commit e85e965bdbec ("Docs/admin-guide/mm/damon/usage: document refresh_ms file")
->    commit e0c725455fd5 ("Docs/admin-guide/mm/damon/usage: document addr_unit file")
->    commit e06469cdf1fd ("Docs/admin-guide/mm/damon/usage: document obsolete_target file")
->    commit 2584dd7496c5 ("Docs/admin-guide/mm/damon/usage: update for max_nr_snapshots")
->    commit 652fd06d20da ("Docs/admin-guide/mm/damon/usage: update stats update process for refresh_ms")
->    commit e7df7a0bfc90 ("Docs/admin-guide/mm/damon/usage: introduce DAMON modules at the beginning")
->    commit d9cfe515d36e ("Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file")
->
+Tzung-Bi Shih (3):
+  PM: core: Rename module parameters prefix to "power"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+  PM: dpm_watchdog: Add sysctl interface for DPM watchdog timeouts
 
-> Update both translations only for those stale DAMON usage entries,
-> including refresh_ms, addr_unit, obsolete_target, goal_tuner, nid, and
-> max_nr_snapshots.
->
-> Doehyun Baek (2):
->    docs/zh_CN: update DAMON usage sysfs documentation
->    docs/zh_TW: update DAMON usage sysfs documentation
->
->   .../zh_CN/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
->   .../zh_TW/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
->   2 files changed, 80 insertions(+), 32 deletions(-)
->
->
-> base-commit: 79bd2dded182b1d458b18e62684b7f82ffc682e5
+ .../admin-guide/kernel-parameters.txt         |  8 ++
+ drivers/base/power/main.c                     | 75 ++++++++++++++++++-
+ kernel/power/Kconfig                          | 10 +++
+ 3 files changed, 89 insertions(+), 4 deletions(-)
+
+-- 
+2.54.0.1099.g489fc7bff1-goog
 
