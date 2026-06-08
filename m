@@ -1,62 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41B72ED84A;
-	Mon,  8 Jun 2026 19:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68383E717D
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 19:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780945246; cv=none; b=sHarnPmDE9vMdsRxnfZ3m8pEqIAi4FdyVPWhZyPBIFhSB8Ar8m8DnassmEZ5r7/if/JyNp/LPk11kRI1mlZbPJD6K8KKWQKLiC0Xk5r7RMlqUJqFu1xC9Y5eiYVEua2flrEYG9/C1EAkuZ5jt329DKWEhDbhyqMXL0MJoK54z9Y=
+	t=1780948238; cv=none; b=SGDZtEy6mKsODxcLsxpgu1TR+ky/7h0KMk1y54TsdHHzrzmybS2V5VNIX/VNDywT3cL0mQ9AdavJJNNabQR/VgA3uMN4pPnz3u/z+K3dJvS3aMQ3gnPP/lXMjq6Dq+57UZG+Z/mRyXJs9vm6MWGkV46Kw54G6UCeUvcWlpYq/ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780945246; c=relaxed/simple;
-	bh=IMl6yXurRIPChvDnklny7S5D7DBtCG4R3eBg/Oi5cks=;
+	s=arc-20240116; t=1780948238; c=relaxed/simple;
+	bh=QbpVzfVc4z1sGneEviDuKx+1h4GgvHHeeDGNVEAHAfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PRuo3gPrkKe8OlZXoDQDa9wAj3QR5UcbyqyoiwU22EQy6qsC/I4pPk/3/9ovgg5nDasFIYT9IHg2dn3Oh4rIF27UfbECcQiRM52xkQYnQ3gRnDQ6pxLTUo3/Mh0S64wnJDAIVBiRDb/i90PIphnNbpFxu9cQ6iN5Tgi+7KZE5Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KfHoG14j; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NiMODl6EHri5zlfu7TdXWT4JyHa6tmGcSTJSWZb2/oG7NNSyhTIYVowjUdVuY1ockuQOY0LGdK35xnIDrU/7G2DKheZfwW7XwZ4h5Jcx6SgaZEYQDYAdnfg7k9+/r3ntt8U4ta9OFgA7AT4Kc8Eo3Li/3RCmAYieeGcoKqxoXBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=c2/gonYM; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KfHoG14j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 086C71F00893;
-	Mon,  8 Jun 2026 19:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780945245;
-	bh=BoJRT4fDwZJIZj1sKJWduqL1Uc3KtHVy4pz1d5Skq5E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KfHoG14jTkmfniNdtVxNENuQMvpWd/NiZFxhjbAOH2qflTZKJQmKrpo5v28Wi+WAs
-	 KVXrcoLV9U6kz2x6PapzUAFAESu9QX1LfppzjVC8N46Zjz4Z7sNH1yZ4d/WStaY/Db
-	 /X0KZN7bD6W6UX1cOzLU6ci7UDbYfFPVdFgj4ieVJdmN5wwduOPBAUYDy3CVZ0PKTV
-	 7jDWA8qALbwrzMysH63nL/ognc+jgZzyQkks66irzQLutLZp6uiVnUjco/Ovf8T61F
-	 Hl+i3nfOLaRFfs63ImgogaFfuCOgrM1qeCvRY3e4N9d9jlLv5gNamEcIoZ6c2B1GDW
-	 t1bYS9/awuJHw==
-Date: Mon, 8 Jun 2026 22:00:22 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
-	skhan@linuxfoundation.org, catalin.marinas@arm.com, will@kernel.org,
-	chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
-	pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
-	saravanak@kernel.org, bhe@redhat.com, pasha.tatashin@soleen.com,
-	pratyush@kernel.org, ruirui.yang@linux.dev, rdunlap@infradead.org,
-	peterz@infradead.org, feng.tang@linux.alibaba.com,
-	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
-	kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org,
-	paulmck@kernel.org, leitao@debian.org, coxu@redhat.com,
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, osandov@fb.com,
-	jbohac@suse.cz, cfsworks@gmail.com, tangyouling@kylinos.cn,
-	sourabhjain@linux.ibm.com, ritesh.list@gmail.com,
-	adityag@linux.ibm.com, liaoyuanhong@vivo.com, seanjc@google.com,
-	fuqiang.wang@easystack.cn, ardb@kernel.org, chenjiahao16@huawei.com,
-	guoren@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org
-Subject: Re: [PATCH v16 00/10] arm64/riscv: Add support for crashkernel CMA
- reservation
-Message-ID: <aicRRrAmuCkTI68e@kernel.org>
-References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
- <20260608091000.d88d7f5cc1bc4fa17f5774fe@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="c2/gonYM"
+Date: Mon, 8 Jun 2026 12:50:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780948224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gpMcdQqQNsSXJkHf7o33LPCAH/sDumLYvx0osSZwQns=;
+	b=c2/gonYMrRlOyUbx6j7slsmXtXB/NhjBZq7g94qgLh/kp1ZYqDCE+V3jnmCSdBXVF9PVPq
+	jsm3Fnnh3v1Xi6aHkZM9o1sgYR2Thfk/7YUjCIPUFQBqZDQ3YQ8qjkvXsR/Lend79SC2X3
+	tHEq9iEQPu6KM9KQ7LjZiPKoUudHkUk=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
+	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>, youngjun.park@lge.com
+Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
+Message-ID: <aicZ-5GX9De3MAU7@linux.dev>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-3-jiahao.kernel@gmail.com>
+ <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
+ <aho_VtLCmIRsNyvO@google.com>
+ <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
+ <aiBqzOtEv5iAC_qC@google.com>
+ <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
+ <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
+ <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
+ <aicJBVT4pBvmyooT@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,26 +55,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260608091000.d88d7f5cc1bc4fa17f5774fe@linux-foundation.org>
+In-Reply-To: <aicJBVT4pBvmyooT@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jun 08, 2026 at 09:10:00AM -0700, Andrew Morton wrote:
-> On Mon, 8 Jun 2026 15:34:49 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
-> 
-> > The crash memory allocation, and the exclude of crashk_res, crashk_low_res
-> > and crashk_cma memory are almost identical across different architectures,
-> > This patch set handle them in crash core in a general way, which eliminate
-> > a lot of duplication code.
++Youngjun
+
+On Mon, Jun 08, 2026 at 11:30:30AM -0700, Shakeel Butt wrote:
+> On Wed, Jun 03, 2026 at 10:36:07PM -0700, Yosry Ahmed wrote:
+> > > >> But doesn't it make more sense to specify the compressed size, which is
+> > > >> ultimately the amount of memory you actually want to reclaim.
+> > > >>
+> > > >
+> > > > I personally prefer compressed size to pre-compressed size. That's
+> > > > kinda what user cares about, no?
+> > > >
+> > > > One thing we can do is let users prescribe a compressed size, but
+> > > > internally, we can multiply that by the average compression ratio.
+> > > > That gives us a guesstimate of how many pages we need to reclaim, and
+> > > > you can follow the rest of your implementation as is (perhaps with
+> > > > short-circuit when we reach the goal with fewer pages reclaimed).
+> > >
+> > > Got it. I will change it to use the compressed size in the next version.
+> > >
+> > > Yosry, Nhat, should we continue using the zswap_writeback_only key to
+> > > trigger proactive writeback?
 > > 
-> > And add support for crashkernel CMA reservation for arm64 and riscv.
+> > I *really* want the memcg maintainers to chime in here, it's
+> > ultimately their call.
+> > 
+> > Michal? Johannes? Shakeel? Roman? Anyone? :D
 > 
-> fyi, AI review might have found a bunch of issues in arch-specific
-> code, all of them pre-existing.
+> Between the options of having an explicit interface (i.e.
+> memory.zswap.writeback*) or a key (i.e. zswap_writeback_only) to memory.reclaim
+> interface, I prefer the key option. I have not looked into how much proactively
+> reclaiming zswap memory or proactively triggering zswap writeback makes sense
+> but from the perspective of memcg interface, I think the key option would give a
+> more clean solution if we decide in the future that this whole thing was a bad
+> idea.
+> 
+> Next regarding future proofing zswap writeback trigger, do we expect any
+> potential additions/changes/new-features for this interface? For example do we
+> expect in future we may want to trigger the zswap writeback only from a specific
+> node or lowest memory tier?
 
-v15 grew to 23 patches because of them and Baoquan suggested to split the
-fixes into a separate series.
- 
-> 	https://sashiko.dev/#/patchset/20260608073459.3119290-1-ruanjinjie@huawei.com
+Youngjun is working on swap tiers. At the moment he is more interested in
+allowing a specific swap device to a memcg or not. I can imagine in future there
+will be use-cases where there will be a need to demote data on higher tier swap
+to lower tier swap. What would be the appropriate interface?
 
--- 
-Sincerely yours,
-Mike.
+BTW does zswap folks think of zswap as a top swap tier or something different?
