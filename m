@@ -1,32 +1,32 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CA134E745
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 07:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0292E718F
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 07:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902851; cv=none; b=Ucg6I+ERkcmmS8MZYBas7UNSF5zvTJWCxT8wmBcynSCQBuXpPpWhqc7PbWbjZrfYCdF/fwYOlRKeJSsf+LQsWPwvbNS2jKkNEyZcr9sBLktsPva6vSQJhguQyAYKv5z88ut9eKSXZMvxmOvYrqYsAtf95BJnKHVh+EB5/7MjYkI=
+	t=1780903169; cv=none; b=hJwNd5v+Rb/bIoyTgNnfmSfqTCQ5s+7/Smmo6K3H4XzvG4iVCBr7URoSsY3pFmaIZZVsVZJF80BTv5OR9xGNC189Cct8G5nqNeVy1sQ9M6AG8Tn144i59qF3F4SGHJjXCmoMVHhM9i4Odq/F9MGSYBpSesBTDwqrxPwMZ6CJ/Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902851; c=relaxed/simple;
-	bh=VA+9r/z3n+RbhWNhQjtlm5cjRKLYAfjlBGhasnng8WE=;
+	s=arc-20240116; t=1780903169; c=relaxed/simple;
+	bh=2l3Ys9A0d7kMMYqyWyEIIwgaM2b28UgnM/Zf6Rmaavs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rTsbBBZqzxcUdvt6gnaKqknTKFzrHVC9WLzS2aLhbH8zpUMB3ky0H7i95LXzLSMQ3hP02Qw9SlVFSKPIdevngMS2SoCLST+ju6YlPtrDCFO8K8QhhZBAA0U+DiuOxcZiKTiFQCpTxiCh/BphdMq0bObMjP8KHBptZPFf1zdPmgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rHBdi2+z; arc=none smtp.client-ip=91.218.175.179
+	 MIME-Version:Content-Type; b=qxzLUT0U7TEMilEUcuY6IDaO1fLaWnt03CdzIhks8erMoOlJlqIviebb/sg1LFdtGTW0KXZVlhO3mFasTn3LC5OphC62YwbpEMJj0gJdKS67dC3yBvbunHjF2rhQiSUfk2K+LFyxpoCROOEQ8bXoHGuAf2swsowqIbZJX/D8CB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D0JOnQZu; arc=none smtp.client-ip=91.218.175.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rHBdi2+z"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D0JOnQZu"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780902846;
+	t=1780903164;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=t3DfQ5vwWCckZGkA87/DSfdL+GVPQKWQGnRbRGwtS94=;
-	b=rHBdi2+zew9CwX9JzM5CIi0bAAjqQd2xi3+2yfyULKQaqBBpfay7Z6/nK5Y6px4dq86NAt
-	H3KNQz9QRnC3ymTmBRIrbdi3ShIKJibCXsKvCwwJdBfGnNZG9jvrXc3IQb6RkxXPpB7Xlm
-	pdcWF/RCLj52b0xE2Pdn+dpnpyCMK8w=
+	bh=2l3Ys9A0d7kMMYqyWyEIIwgaM2b28UgnM/Zf6Rmaavs=;
+	b=D0JOnQZuPDhZzxZuSjhJhdOLC+GZpAev1ypxJ6uQBHSkd6EdY6SwAOV915TmagKr2IOF6x
+	TGVaaIZy2hJhjPEDqYrjbCaLBN31Ph86m1L1SuK8edrzff325L4wKYQ0RTMz0JxzpCb/dT
+	SEFZsbuASzgj7yeeY4Bv/8kqMJIbhyI=
 From: Lance Yang <lance.yang@linux.dev>
 To: npache@redhat.com
 Cc: linux-doc@vger.kernel.org,
@@ -87,11 +87,11 @@ Cc: linux-doc@vger.kernel.org,
 	ying.huang@linux.alibaba.com,
 	ziy@nvidia.com,
 	zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v19 08/14] mm/khugepaged: add per-order mTHP collapse failure statistics
-Date: Mon,  8 Jun 2026 15:13:52 +0800
-Message-Id: <20260608071352.77428-1-lance.yang@linux.dev>
-In-Reply-To: <20260605161422.213817-9-npache@redhat.com>
-References: <20260605161422.213817-9-npache@redhat.com>
+Subject: Re: [PATCH mm-unstable v19 09/14] mm/khugepaged: improve tracepoints for mTHP orders
+Date: Mon,  8 Jun 2026 15:19:13 +0800
+Message-Id: <20260608071913.81568-1-lance.yang@linux.dev>
+In-Reply-To: <20260605161422.213817-10-npache@redhat.com>
+References: <20260605161422.213817-10-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -103,33 +103,12 @@ Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-On Fri, Jun 05, 2026 at 10:14:15AM -0600, Nico Pache wrote:
->Add three new mTHP statistics to track collapse failures for different
->orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
->
->- collapse_exceed_swap_pte: Increment when mTHP collapse fails due to
->	encountering a swap PTE.
->
->- collapse_exceed_none_pte: Counts when mTHP collapse fails due to
->  	exceeding the none PTE threshold for the given order
->
->- collapse_exceed_shared_pte: Counts when mTHP collapse fails due to
->	encountering a shared PTE.
->
->These statistics complement the existing THP_SCAN_EXCEED_* events by
->providing per-order granularity for mTHP collapse attempts. The stats are
->exposed via sysfs under
->`/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
->supported hugepage size.
->
->As we currently do not support collapsing mTHPs that contain a swap or
->shared entry, those statistics keep track of how often we are
->encountering failed mTHP collapses due to these restrictions.
->
->We will add support for mTHP collapse for anonymous pages next; lets also
->track when this happens at the PMD level within the per-mTHP stats.
+On Fri, Jun 05, 2026 at 10:14:16AM -0600, Nico Pache wrote:
+>Add the order to the mm_collapse_huge_page<_swapin,_isolate> tracepoints to
+>give better insight into what order is being operated at for.
 >
 >Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+>Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 >Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 >Signed-off-by: Nico Pache <npache@redhat.com>
 >---
