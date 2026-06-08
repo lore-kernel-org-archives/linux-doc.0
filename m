@@ -1,77 +1,181 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B5A3D47B5
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6C035E922
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:50:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780937298; cv=none; b=g7Gf8I33hrQsL8kRkf2Nx+VZJHMkTJSB7+w6TzCYa1jJnbT55DIIOqo6PKXko665oRpS6YmXFjJ1hKMfz/gtPXbmwnZMNLff7rSQoLV8QtNQgQj2WCxAx/6pBT+AiW/4WbPbAy26K2oTcS3O1wsqHf3Hs7cQjeyIxvfQzGcgwKo=
+	t=1780937421; cv=none; b=fmgwlplu+Mt6IppXlS+RhL7B0Au1gv/J+6VzdbaGqEKY42FfdkSlrRo/G+U+/211m0v/kxGpAJ0WXVQbBV784tp+OMRDeCXAlJ3+NZ++nOPl0mOa4pNERY+QuPLTX0DA8n+AxPrhGTaZSxCG14/5GJzvTVM1S5hYNf3QUv1GUbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780937298; c=relaxed/simple;
-	bh=r+1aT7JV1mm9b1js3VgiqFC8zPbQnRMTHWbScZDq/ik=;
+	s=arc-20240116; t=1780937421; c=relaxed/simple;
+	bh=4lxaymcvpRvTb+P4rhHZMiRlDZAoiqemYjKpznBeLVQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dUzJEUpIvKme9ngnzmyZzq4nBLEi7jbgss+VSFLfutRVSE4/Da9EneUx9McMrglaXo4oGaOtAtbsO/zEczBfuZYWJLysNKQ0PQbL3cY3r3TdKtG7xs/rrzLFDoZlxY/KHyPsRjTxwKDyKfRluO+2kb4MiLaYpTbY25pCJHLNe7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gNFl4nbi; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=sWbVcbj6QTJ/hATLl7JrJuYoSOd1K+VaML+J8+mZqWcMyQCTPqn1bXvIRkyPG7HsI2pAsiEiKSVCfpCw/EO11fwKWsuoQezyMsUmweKSbXsys9qBS/VXURpalP+x2W9Yhm1mhATPdqpvfBc7Y8JmPvSyKkc5E2mLrJkHAC9B4WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HT2IVy3e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gNFl4nbi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7021F008A1
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:48:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HT2IVy3e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CB01F0089B
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:50:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780937297;
-	bh=r+1aT7JV1mm9b1js3VgiqFC8zPbQnRMTHWbScZDq/ik=;
+	s=k20260515; t=1780937420;
+	bh=npHWDqU6yjbT+OwbndMJs/FFPuIRk81q7S8clauz25k=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=gNFl4nbioyUbS6BJnQJHKF5QVe2+IOnv4urftYscKD/Ynp8ZqY+uyzuPjUQcBPikZ
-	 UmBbJ4vXk/1Q6RysVfuW7H+mMIjRUShk8S7S+xrtGBiW6SMTHxD79GA4+jbCkJaGQM
-	 HYlRe5jCiCDwhqLMKIeEixgrKlU4tE71VyGMan6XOl/kFmuY8w1WN4f+mK0pDQo/Wa
-	 uzpPvpmdz6bBzz0ZPESbXzEO8zxV8fpiqTA6bYOtZsSjcQ+zppsLY0D+Fg2dNUBhky
-	 esSDPU3/X4JBUSzLW3ux34eejv4w6lkczMheMMOx4F/2PXILOXa0v5e0+7Yo4zgJYm
-	 pAt5j/yDoQbuw==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68c19f1f3ceso7080368a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:48:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9d8L/IQ9kzXSji3DIPbLOvTlmFopmX6nYcRdDM5Yyqq5RI3EU3jVnJr5dfc3Ly+FX5G7AOQb9cHFs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE8irNyfopWSf7SFpBOpnIng4aozzWZEamAbz5nXOsrha/JsKL
-	viFGE6Tka3AnsWdKUoRaGCsw3vr1xzj4kIJ/EvPY05CaYQFItClvkDnMRXbpIARNZojk8IEHTzu
-	KHj0Utu3rTu/Te512xncfjtYxwCa3eP0=
-X-Received: by 2002:a17:907:c247:b0:bed:6e53:bb16 with SMTP id
- a640c23a62f3a-bf3743e5c7dmr827142166b.43.1780937296187; Mon, 08 Jun 2026
- 09:48:16 -0700 (PDT)
+	b=HT2IVy3eeze5yh4BI7BGaoBZEg44QRKJCSXMjCV+7WeIMGaddZsUGq5i2C347mYa6
+	 Zic/NKR8wutbg5oU17SwIt8dxGwZcfiXaNW5IHKN7vGwsmfMwqHWGJW9wTMthN0fdA
+	 7OrTlkL983bhxe1J7T3QSgIlU7CFYnuCLVoCSROXYgSk0s49Qud+HEPajg9vHmBnQV
+	 KjVyHHKSj18sI1vZbdjZoOlBWg3UplvgumocHjJdA30DiX6l+BYKX4hWIvjqh7DrWe
+	 xFU7reeSazzc2DrIL+/Fl7QAX81EeuoFoWwXJrz3cpFdz5B51gRErZ+qlZRwyx41v7
+	 GtCpDWTgkyAIA==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aa68d7d757so4892195e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:50:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9oeI8XLemzS7KuZhGD4Lurn+7MJ0lAzmm1lQnt89eQcK4YRtPKt/xjzkr3YgNWDhKKeOrQndZJ1LE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9qW53/mUNTW6WHTOoONK8em2uSiW7NrXonhLS0PvdhHgh6yy6
+	xuUwaUAxsj5XTlqIoSGy3CLRsRIBwrJPjO1+ybSy/FOMp2SeAcCmr6hbNUuyGMjYHnyr3vEVttj
+	Dvf3/d/Iu6aZTyeln7QcK1Eg1mTAZoHs=
+X-Received: by 2002:a05:6512:61d9:10b0:5aa:75f2:c996 with SMTP id
+ 2adb3069b0e04-5aa87bb9a8emr3078487e87.16.1780937418842; Mon, 08 Jun 2026
+ 09:50:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com> <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com> <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
- <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com> <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
-In-Reply-To: <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 8 Jun 2026 09:48:04 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
-X-Gm-Features: AVVi8CeeTbVJuFLU_KkBwyY-XLqJGYP-jt-HrmqRJi6DEDHgaMpdFvhUoRLKrPE
-Message-ID: <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, akpm@linux-foundation.org, tj@kernel.org, 
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
-	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
+References: <20260528090913.2759118-1-pierre.gondois@arm.com>
+ <20260528090913.2759118-4-pierre.gondois@arm.com> <CAJZ5v0hwYcvYZJ1jCSo_5vpynOLBciW-4-KeracQTyUCw7fSGw@mail.gmail.com>
+ <6447f46d-5a60-45a2-b585-9835c9c26893@arm.com>
+In-Reply-To: <6447f46d-5a60-45a2-b585-9835c9c26893@arm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 8 Jun 2026 18:50:07 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hqjdd79J-Hi=mSLMm2Fxhia+xa6iguJwZy2-pRBSJ6gA@mail.gmail.com>
+X-Gm-Features: AVVi8CeORZeGIlAC3kCCNf5xvinM_kGWNcToWxlEjA_NxQU5ebuMifvlZvQHeDc
+Message-ID: <CAJZ5v0hqjdd79J-Hi=mSLMm2Fxhia+xa6iguJwZy2-pRBSJ6gA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] cpufreq: Remove driver default policy->min/max init
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org, 
+	Jie Zhan <zhanjie9@hisilicon.com>, Lifeng Zheng <zhenglifeng1@huawei.com>, 
+	Ionela Voinescu <ionela.voinescu@arm.com>, Sumit Gupta <sumitg@nvidia.com>, 
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Huang Rui <ray.huang@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> But OTOH, this does seem like a recipe for inefficient reclaim. We
-> might exhaust hotter memory of a cgroup while sparing colder memory of
-> another cgroup... But maybe if they're all cold anyway, then who
-> cares, and eventually you'll get to the cold stuff of other child?
+Hi,
 
-Forgot to respond to this part, the unfairness is limited to the batch
-size per-invocation, so it should be fine as long as you don't divide
-the amount over 100 iterations for some reason. Also yes, all memory
-in zswap is cold, the relative coldness is not that important (e.g.
-compared to relative coldness during reclaim).
+On Wed, Jun 3, 2026 at 9:49=E2=80=AFAM Pierre Gondois <pierre.gondois@arm.c=
+om> wrote:
+>
+> Hello Rafael,
+>
+> On 6/1/26 20:08, Rafael J. Wysocki wrote:
+> > On Thu, May 28, 2026 at 11:10=E2=80=AFAM Pierre Gondois <pierre.gondois=
+@arm.com> wrote:
+> >> Prior to [1], drivers were setting policy->min/max and
+> >> the value was used as a QoS constraint. After that change,
+> >> the values were only temporarily used: cpufreq_set_policy()
+> >> ultimately overriding them through:
+> >> cpufreq_policy_online()
+> >> \-cpufreq_init_policy()
+> >>    \-cpufreq_set_policy()
+> >>      \-/* Set policy->min/max */
+> >>
+> >> This patch reinstate the initial behaviour. This will allow
+> >> drivers to request min/max QoS frequencies if desired.
+> >> For instance, the cppc driver advertises a lowest non-linear
+> >> frequency, which should be used as a min QoS value.
+> >>
+> >> To avoid having drivers setting policy->min/max to default
+> >> values which are considered as QoS values (i.e. the reason
+> >> why [1] was introduced), remove the initialization of
+> >> policy->min/max in .init() callbacks wherever the
+> >> policy->min/max values are identical to the
+> >> policy->cpuinfo.min/max_freq.
+> >>
+> >> Indeed, the previous patch ("cpufreq: Set default
+> >> policy->min/max values for all drivers") makes this initialization
+> >> redundant.
+> >>
+> >> The only drivers where these values are different are:
+> >> - gx-suspmod.c (min)
+> >> - cppc-cpufreq.c (min)
+> >> - longrun.c
+> >>
+> >> [1]
+> >> commit 521223d8b3ec ("cpufreq: Fix initialization of min and
+> >> max frequency QoS requests")
+> >>
+> >> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+> >> Acked-by: Jie Zhan <zhanjie9@hisilicon.com>
+> > sashiko.dev has some feedback on this patch and appears to have a point=
+:
+> >
+> > https://sashiko.dev/#/patchset/20260528090913.2759118-1-pierre.gondois%=
+40arm.com
+> >
+> > Can you have a look at it please?
+> >
+> [sashiko]
+>
+>  > Does removing the policy->max =3D max_freq assignment here break UAPI
+>  > expectations by exposing the unlisted boost frequency in
+> scaling_max_freq?
+>  >
+>  > Commit 538b0188da4653 intentionally allowed drivers like acpi-cpufreq
+> to set
+>  > policy->cpuinfo.max_freq to a higher boost frequency while relying on
+>  > cpufreq_frequency_table_cpuinfo() to clamp policy->max to the frequenc=
+y
+>  > table's nominal maximum (max_freq). This ensured that user-space
+> tools saw
+>  > the nominal maximum in scaling_max_freq.
+>  >
+>  > Although commit 521223d8b3ec temporarily disrupted this by defaulting
+> the QoS
+>  > max to -1, a subsequent patch in this series changes the core to
+> initialize
+>  > the QoS request using policy->max.
+>
+> Effectively PATCH [4/4] cpufreq: Use policy->min/max init as QoS request
+> now uses the policy->max value set by the .init() callback to set
+> the max_freq_req QoS constraint.
+>
+>  >
+>  > If the policy->max =3D max_freq assignment were preserved, the subsequ=
+ent
+>  > patch would successfully use the nominal frequency as the QoS max
+> request,
+>  > restoring the correct clamping behavior.
+>
+> IIUC this suggests to use the nominal freq. as the QoS max request.
+> This was behaving like that prior to 521223d8b3ec. However doing
+> that would mean that if boost is enabled and the max_freq_req sysfs
+> is not updated, then the frequency would still be clamped by
+> the max_freq_req. 521223d8b3ec intended to correct that.
+>
+> Sashiko seems to suggest modifications to come back to the
+> pre-521223d8b3ec behaviour, but I think 521223d8b3ec is correct
+> and we should conserve this behaviour.
+
+So there is some confusion in the patch changelogs of this series, but
+not in the code, regarding the role of the last argument of
+freq_qos_add_request().  Namely, that argument is the initial request
+value for the given request object which is subsequently managed by
+user space.  User space may in fact change it to whatever value it
+wants (either lower or higher) and it is only taken into account along
+with the other requests in the given chain.  IMV it is better to
+clarify that, so I have updated the changelogs when applying the
+patches.
+
+Please see
+
+https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/=
+?h=3Dbleeding-edge&id=3D8c83947c5dbbd49b36d08bb99e344327c6278781
+
+and its ancestors and let me know if there's anything missing in the
+changelogs thereof.
+
+Thanks!
