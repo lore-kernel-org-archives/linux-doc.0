@@ -1,266 +1,310 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C363451B3;
-	Mon,  8 Jun 2026 15:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780931830; cv=fail; b=lKdOuZXfDRztuitOxXWkmeefaWbikLHEqcH5lOe7t4Mb4GTPESNpZ1K9uXT2UIdvgjfus9brAVflg+vsZAK3yLxH/QpDhlBhIEbolg+R/iqRSo7C1beY9kp5nRVEqb9B/SSn1YcOuVtqm91IJUfi8eY+KwqyzAOxGhuff9Hj9Ro=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780931830; c=relaxed/simple;
-	bh=k87A8Aa6v2RWcHqhzEFTMaftIYpU8PFUNlrDcai8OM8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=d2aa1OmCGx6ji0v8gUQbEsYVS28JxPwr2227Rm7KbPliVzDIsXrarTPMFaurZ23irUnLBy+T0mNfcpZakA+qZqAMLYGMdHdj7TA4Etv/GfFbZFvVAfQrzUqAkiUsS/wFNDcDikblzUWj0yXAhe8iEYzIFYELxPLnGfJoUHXBQaE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrHSnT9o; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C6F3FBEC2
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 15:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780932318; cv=none; b=VupGGywteULNRTXqpwJO4b4Mm0WLqobWJzbOSYeUOODp05fkiBaAPavtp6CvsoZE+CRVEW7+ULbD6NuEOUXRX+ZxF+C4GyLHylYdbLBbVoRtRsyF2sdC232e6sj7qX25i7MHXtt0jpIcMjm8fahe+imiQPyCc1THonBMhOcRhkI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780932318; c=relaxed/simple;
+	bh=Jfb67EGEmTnY0y0CSlnJaQqcG/N3JhPxbkmiRukseSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DOPX1mH62hdMjUiWeDtlg30BZ3i4UqhKIPY45Fq+Zc4CXTqFpXy7ikPf2mFmeDpSNEkMob+MH51B0HOJV3Kdau4I8g3rxLrCBXeVwpDGaLVuVqyyYde8D6FCCVWrZZKopj2G5C4/YZQc2mHWETOT6a738+wt5YVRLiGOrEBJX6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YOULEcnT; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrHSnT9o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780931827; x=1812467827;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=k87A8Aa6v2RWcHqhzEFTMaftIYpU8PFUNlrDcai8OM8=;
-  b=nrHSnT9owT+sBbAiXB/SAEsPmSiDmsolDpj/g4OfML3hKLytcLxediY5
-   hvpnWpX/4tpp3VezwQGgjmZwUZphsUnrOf+RirTJbsegBKOQxfdYa6SuX
-   4B50PyqMnN5oWmWvg+Fo+dz3PqvLXB/+Z+fowIp8wUETOOf4OljbmlyUD
-   rnsnKVgF8ln4JfBNImGVdbB3KCOFNpS/40dI7hDI7regNKGH/cjSxVpwe
-   2OW4cGuq3dEdwcbbAC7RB830bEQMFSBW7pqI1eiKo7GtgJ20uYkAuqPnV
-   VQ/V8e5VcrhkGZjQE0c42joQwNUU92+YIM0iox2wIxxArX6PXQgFE0oGM
-   Q==;
-X-CSE-ConnectionGUID: SPD7cjuEQeWa95yVqCdgHQ==
-X-CSE-MsgGUID: 6ChR+HH9RaiwG7bIv8CMfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="91994931"
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="91994931"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 08:17:07 -0700
-X-CSE-ConnectionGUID: ceW6ZNcoTrKVrfMUiDFm5g==
-X-CSE-MsgGUID: Y0C+gAr7Q6eijEYNusv14A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="283661441"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 08:17:07 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 8 Jun 2026 08:17:06 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 8 Jun 2026 08:17:06 -0700
-Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.59) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 8 Jun 2026 08:17:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tQx86JZE5Lmawo011wOkno94dA5U6giAJChX5JDpmcNeEEjeI1KN/SSroJi54GOHOXh6urxhAQJrJfr6KSpP5BlI6suL2gHRpu0gbqe8P71brFm4cOsql+RfhxUR8NlQ8Jl1fPurfI/FA4dK/a5XFt5qzBJBpaspoxR26+QtYx1lmaHVKUPoeGqn2Raomvu++7o95gSCNbbOW0HL2ItY5R+Q4n8BG84Uig9N28CvuL9YO8mrNtS6lTYxnbWUS60hCS4FirL9nsKmRTmqPUNxKtb2AKLhuyqR8Hd3IFPPpSjSP4QgXsVEvzYfxp5u+xT6a7d3qQJjZLNLNKUpfFBcvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qo6bfxd9fXo8M0SEI29QQ2uOgkJtvXcJmGiAlRgZ1zc=;
- b=c8eq8NdwSCk+Qb6/tT6wb1mUtTO+GkauPdH/aUdGZqKtC9Ql2OYOYI7hI/liKDGiph8+gVQ+j1zdSoJrqrsCOP0Lc+oHcqGH53uujY3wY8CBhLc0JHTl65m+6ZWc0jUWdU4O0u4RDZ/sxCoK4ZjTWCmG80oQPuAlGLCuK+nbb86ZNJiV6X6FLjezVjN+jYCz4d9kWU550TBgz/de6w2h4vhHh+h12sVk8TGqb3zoa1AJcz6tzDN4PDykLsitPnb8pQM/auuUYDjt55oqp6aZ9iJxyhGTeDEC65TaFmNPupZjIXdYF2ErThANwznspabs5FdibOVZ/dMfrZsxtoxyHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
- by SA1PR11MB8811.namprd11.prod.outlook.com (2603:10b6:806:467::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
- 15:16:57 +0000
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c%6]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 15:16:57 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: "Zaremba, Larysa" <larysa.zaremba@intel.com>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>
-CC: "Lobakin, Aleksander" <aleksander.lobakin@intel.com>, "Samudrala, Sridhar"
-	<sridhar.samudrala@intel.com>, Michal Swiatkowski
-	<michal.swiatkowski@linux.intel.com>, "Zaremba, Larysa"
-	<larysa.zaremba@intel.com>, "Fijalkowski, Maciej"
-	<maciej.fijalkowski@intel.com>, "Tantilov, Emil S"
-	<emil.s.tantilov@intel.com>, "Chittim, Madhu" <madhu.chittim@intel.com>,
-	"Hay, Joshua A" <joshua.a.hay@intel.com>, "Keller, Jacob E"
-	<jacob.e.keller@intel.com>, "Shanmugam, Jayaprakash"
-	<jayaprakash.shanmugam@intel.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
-	<richardcochran@gmail.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Salin,
- Samuel" <samuel.salin@intel.com>
-Subject: RE: [Intel-wired-lan] [PATCH iwl-next v8 08/15] idpf: refactor idpf
- to use libie_pci APIs
-Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v8 08/15] idpf: refactor idpf
- to use libie_pci APIs
-Thread-Index: AQHc91UMBFEvrd0V3Ui4XoyTyo0a+LY0xIbA
-Date: Mon, 8 Jun 2026 15:16:57 +0000
-Message-ID: <IA3PR11MB898641BC991D8EAB20EEA185E51C2@IA3PR11MB8986.namprd11.prod.outlook.com>
-References: <20260608144127.2751230-1-larysa.zaremba@intel.com>
- <20260608144127.2751230-9-larysa.zaremba@intel.com>
-In-Reply-To: <20260608144127.2751230-9-larysa.zaremba@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|SA1PR11MB8811:EE_
-x-ms-office365-filtering-correlation-id: d61554c4-41cf-4d8a-b9f9-08dec570fb0b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|11063799006|56012099006|4143699003|6133799003|18002099003|22082099003|38070700021;
-x-microsoft-antispam-message-info: gkO/W3QwVjBZxqB0oxvtWQ1qz2uuaYsz0LCk0sx9ms9ZWiAql4kOKKRv2fCmKUlM8iBfEl6R/LVUphEVVB/FV//HwD90YWot1h3l1RMjrJzSq1JjQrSem8r47xopH1LeI03sLMLCrVhqG987lAn+gK205eDqoXKyAevkiTMg2b/gNduuFU7RKiv0dXcCxyY25hNoZhEEnVm+QFlX7d4XszNG8zXKCDqoxGNzq4Oydie5cfChfE6E2G8M9LPGItQq4yWfMK3Wh2AmYblGXPqPaoXofm3Lvp095i/bwl1150cjQ9tsulAMS2PQFHVVrxTN+gDs93Z9LOmWMz4e5mCruxDo3cP3QHgZTBMUE+J3pNrl8xmrYdVCMzw+C3s0tHvc2IGVxdeX96ko0O+5/NEMkXk+qKoK8nFPEYT7dzPVV6fhpswHr2pZThRXXcZ9Mo5kbq2I3myV9nePsPMKfcaE8kBSj8533qYZFXRls1EGJbVRNJtnGan6Z3WDO/J+NHCFkxlF9A5AOPbE1reQRxwSae+LQbae40q7iEUPWWY5y8nkG8dywQ3rF01CkeM5+ZXypzjXHvikh+d7vCt3gMrJtwv4+TFWWNcG+CJGYpUalCt+wvV+8iDFT0sc0NXpZ5FKVFoyzkJhUhngMgpFE67zL8KpQiRbN8LVWnFXktWp2XfDVwvNx3nKpYUFFIL+IMBebJgCvPe354xyRae0E5UdqQPcEfQ6MIVkASkMBojaNUA1+/RO2td5WiqbrmbS9miP
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(11063799006)(56012099006)(4143699003)(6133799003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HBQksBRAiJRpamtYiwcfWF/heSsvVXkYFUJrE/fGcEx8I/YYRKwgGyCUmKmO?=
- =?us-ascii?Q?Sc/QBPM0dTKNNi3Ykl2uUoo50EJZtgfWWJTxADRHfQ/763Iz9K1L9FfdqlEs?=
- =?us-ascii?Q?rwGZcxKg/oa+ou777EAwq8rE7LjdhslaeZOlECpgflACaR1qquZ6pYeHq42F?=
- =?us-ascii?Q?ortpR8H3TqBFq598+uaGSDIzBMeWYJLoqqgNLevlNuik06Sq4rcA6tG1AEoj?=
- =?us-ascii?Q?oT9M6hGqi3+G0LA5+kWs3NVzlJEHnz25MK6C606FMGoXUtoj3aQV64D5ouzf?=
- =?us-ascii?Q?smS0jx5sTuHWnQb/zU4yzMvT8gIU457/O97kYqO04WEbn5EwDqAlADyi74c1?=
- =?us-ascii?Q?MvfzT56VocgMyAm4FP64h7xNSstQt/kTGcsjiCY1bK2ienQTIgZaImVd3EGg?=
- =?us-ascii?Q?C9djolS/tVaiNYSHkXMgz2dTppl6pAwVCZUZuUcbc1DPWR1iYFPw4HEqCUB8?=
- =?us-ascii?Q?iBlWacps+p0g04PxiyOKdSIardQ7b6wQ6t4p9AYsGEGeoBpXw13Zr+rtYY39?=
- =?us-ascii?Q?i9vjKgW041thRNX3zA1HC9LiXjMTWypcjqxwYCBo1oDsXR6yigOczaztaGNL?=
- =?us-ascii?Q?Ybk0de9NoSDL8ExwZ47GJz1x8A8Z3OFO6sX6f/CIKzVEbFo+r6XKh0EhQUis?=
- =?us-ascii?Q?1G3fdK5gzvBHNFc5pHrYKkyQH9ZLShEYOwHkUPjcB4EGYj3GGCH5qrKfuL0D?=
- =?us-ascii?Q?xScmobeLBHFQ373NvqdJJhtNn7qBYQUWObJh1Fo9ISNsoFoRcR9+M8s+I6Kc?=
- =?us-ascii?Q?4Rud0JlpSZCbhvsWAgBfAL2dpNVD7olwZSQ9RGGpvkFyJm35qlUoiuP1bNGH?=
- =?us-ascii?Q?o/gkNXykyQDQvk2ui/FQCgV7U9euT9ZUe4OqLB+8lRSTjsSw/5Wu027P6zOx?=
- =?us-ascii?Q?fBar9GrS4A3kWTyiFLqK4R1nXaCfpD7GovTGDe3uScSHAkNgnWjDf9rK0rbW?=
- =?us-ascii?Q?BEBWHM0NQNtyT+Mu6hi5SQ/BjdG/mDDoRRrNnasnPWQ6x3Z+TTe8JsQ/0Urc?=
- =?us-ascii?Q?vMFZP01N1EgFl7by/yzMhhpqq/Fk+u8SD0NI8KGhlqMB6cdmZYe+FeyLzEKj?=
- =?us-ascii?Q?wEFXZddiN8JyynRwYu6M4wx34mw64Dzwyihf4MkWm79dEeI3fDWAWcERVgH0?=
- =?us-ascii?Q?me5CCmIwz85/hCviWD9+HBWrf0tJwH788oGOGOYHBKSrOQCvzMqmbfMa3eHq?=
- =?us-ascii?Q?lgCbCOr0hiSheLD0uUXeUWf2Yu9WRVNF8mg5ncNLsU6mJkWoncrUtTpZeMc5?=
- =?us-ascii?Q?qixtMysOAPB6l44jVG+1YlVLQzYCAMZ+1mQtjV3BkKKR8hk6egjvbeaz5VuS?=
- =?us-ascii?Q?ujAPWgAtzokrRIhrQYHZAYDTxEKWYrYFJrLW5I8o0JEiOGSmAK6oSFx0opqV?=
- =?us-ascii?Q?cblo266iz4fydnwbJcKn7qjA9JxpXMKFLNToanFWXkJp+gTH1KQBNSyEBLL5?=
- =?us-ascii?Q?Px68KB8J/szv2BTgnTiYdo1iP+5aXaYtyjAJxTyVtz2wwcZoyVxPcrSb8Zcp?=
- =?us-ascii?Q?XAFEmb3jntpPBzC5/0LRpR9h0+m4KgD7ihUDBBQ33cJ5F9+wEDBDgGaKl4n0?=
- =?us-ascii?Q?6qJTvOH/jgjyN7LJ+7vShJOOoA34CSNmp1kQMztZJMsvqFsI2TlvFhCJ2BOJ?=
- =?us-ascii?Q?7GhCbb5uRv0cH6MVqbzqvwqwhgAH1oV1gY4eKtpNPRxkNO/bn3zMUF/qpDUx?=
- =?us-ascii?Q?Honx9r4ZlxS3CnqFidIaVk6UA9PoPyQ1H7//8I0ewTF42DdfvlYamzsGJJPa?=
- =?us-ascii?Q?zZ3vI0JSOGwWb0ehQg7wvOVdP0Ozsqo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YOULEcnT"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b9318997so33096355e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 08:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1780932315; x=1781537115; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hr7c+3FOU2JcV480M9kUOHZt6iGvTylWPKVomVAcFf4=;
+        b=YOULEcnTfYh8JTAguXOb+7th/9u6TSITKI2mQpOTfi8NuMhNq/YwPiKpHL3IZAGk/I
+         3N0bMkToHrk3tvoGfKtxLPxxLGMwpvsp494grBVdC+Ue/5zT5nnXfLJSt2biRsKaI7xL
+         3SPvB07xnHYbODVikFpbuW3wf9zxsuaHYgk0y76LRIIcPDr3TI6kOqwbr89+yiLSR1HA
+         e2jRNrxvzPeZy1UnrzLdYHMf8U2ybqhdbXA3g/FsMnj2oCffDLrE0grjQ1IY/ubpQIMr
+         YyHtpeOqCuu+jBUS36HLD0knobXk4P3qfRe5azGtEUq5OKPRc7C2NC3SOOamHIeZpt95
+         grQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780932315; x=1781537115;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hr7c+3FOU2JcV480M9kUOHZt6iGvTylWPKVomVAcFf4=;
+        b=q6CxpSm9LwcKZ9CdS5MMJj4zz9hcLgn9RNa7tgUx1rPAFouDFRaFd92jWt/E4o1h/O
+         HM94SIEz8JD72fmanVWKwY2xHhTke9VfS7bxBoIKN3q+gY3O5gui9/xQr7Feaw2On853
+         fHkZefa648eJXbZ0HqP41zQoRzmYs6554BZYkPolAQD7PEM1k7SjwqQQpyrPaHRdm1bz
+         j6me/Vrgo+ghmYnvUTvfTj/3BKhUXSeRnHmrk3Wb65ykhIRTpQcLcpE1h+shzas90W2Z
+         zmNvwizCg7T7xDT40/6HOt9DhE5auP3n4RPZNX95kIb9oRSpdRBOiRldrwFckyoPWwys
+         GolA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ZACH8yIVLAfaFuSbZGkbpNu8FLroBer8nnnCFevu6uYiFTOMJKL7SN25T/CPxr8rLovBZs9cpIxc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjSFPL5QVSdmBsKSwAy69qO1j5cX7LcLhZ1mikc0Od7bQqE4Kx
+	SoB2L0NHl8DF114hPQAK6pDBSnCnzvBLEOQYkh2VFvbe8qGzwg4QYRUs5T1ncNa74l0=
+X-Gm-Gg: Acq92OGwiprKui+fZPdmhSK54rinL90UXjbaM+sIE2ssGOvgZPFI1SPmB9abM5XALHK
+	mh6GB8U5unRf8p7YPYtErqFftTimwTLSeen9Ra/gQq57SxIJEKAc7QIkbvPbC8mbIWOcrTIPwBc
+	zTuCjDh99yI7K9Gd7TxR1YLT9J+XME1JRaZYMWA1FamGmdsT/QJQO/6aI5Q5uoLgBqvzv76l/FY
+	mSFhqok7EpQM7x00Ew3zo0ni7kqA7VEo8IchbvFv0H8oXc5AIxw8VXx9YK/9CvXg4bH+9wIo2Dc
+	+YS3l/IlvvpH+bpSqwSdtHKpgqD2BnASWK3ytQV6CyfN0pvdggwtPYF4Lm+5OOF9ykOaMePL/SU
+	XaQGrn3zewlVYyOM8/7uChH4UirupP3rVfRmgREFlmmITSxO7QvjoYn3oV2+Rcky96qSMfkMM5z
+	VBRl8HLVKyBbTGcTEQJQA+ZBZaFYsZp3EYXIsl
+X-Received: by 2002:a05:600c:34c3:b0:490:5e2a:f924 with SMTP id 5b1f17b1804b1-490c2599e11mr294852765e9.7.1780932314828;
+        Mon, 08 Jun 2026 08:25:14 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3b5b06sm369305055e9.3.2026.06.08.08.25.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 08:25:14 -0700 (PDT)
+Date: Mon, 8 Jun 2026 17:25:11 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH RFC 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+Message-ID: <aibe12WcrLxVWTez@pathway.suse.cz>
+References: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
+ <20260601-deprecate_boot_delay-v1-3-c34c187142a6@thegoodpenguin.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: SJUbipMAXUvCp3ShRglr456HW7iMsRHZY1mjSOj7zOWDl34LJQxcdtxhY9a42m79fpCQaVEfNRj+1hmolk1R3cxMFpmyWO7eV8z2kWhHErwhUkWiGfXyMOsxqkGl431OLf1SyxwEzq0bbd6yLb44RJV8AQY2BclaKHuJVFmJIDpQnXjSazrtfKx6qXhD+9Bb4UA8r9y59asIR4Iud81mk//jGk9ikctv6LV3lmRmGH17v3oX7MfjioYNSbIkZJOgXIzrog1rkS3GDUCvxKFUHc4cfCZcxceV4puMtHVp3N9+0FPiSToDUEwMctxzYi0wmeI8VNGeEq6Ue5CCYSEkNg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d61554c4-41cf-4d8a-b9f9-08dec570fb0b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2026 15:16:57.1756
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QOni89BdRigA4sS+rkpEPLypk05H1+qVTzfm1Mb+msk+RQZ0eOEC1qrh2g0Czt3o8OpJr/oVpy/rA+d7S8QLHTDzwI+sdgQ8orZG23e0ssw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8811
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601-deprecate_boot_delay-v1-3-c34c187142a6@thegoodpenguin.co.uk>
 
+On Mon 2026-06-01 00:17:39, Andrew Murray wrote:
+> The printk_delay and boot_delay features are helpful for debugging
+> as kernel output can be slowed down during boot allowing messages to
+> be seen before scrolling off the screen, or to correlate timing between
+> some physical event and console output.
+> 
+> However, since the introduction of nbcon and the legacy printer thread
+> for PREEMPT_RT kernels, printk records are now emited to the console
+> asynchronously to the caller of printk. Thus, any printk delay added by
+> boot_delay/printk_delay continues to slow down the calling process but
+> may not have any impact to the rate in which records are emited to the
+> console.
+> 
+> Let's address this by moving the printk delay from the calling code
+> to the console emiting code instead. Whilst this ensures that delays
+> are still observed (especially for slower consoles), it doesn't improve
+> the use-case of using boot_delay/printk_delay to correlate timings
+> between physical events and console output.
+> 
+> --- a/include/linux/printk.h
+> +++ b/include/linux/printk.h
 
+The declaration is needed just inside kernel/printk/ directory.
+It should better be done via kernel/printk/internal.h
 
-> -----Original Message-----
-> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
-> Of Larysa Zaremba
-> Sent: Monday, June 8, 2026 4:41 PM
-> To: intel-wired-lan@lists.osuosl.org; Nguyen, Anthony L
-> <anthony.l.nguyen@intel.com>
-> Cc: Lobakin, Aleksander <aleksander.lobakin@intel.com>; Samudrala,
-> Sridhar <sridhar.samudrala@intel.com>; Michal Swiatkowski
-> <michal.swiatkowski@linux.intel.com>; Zaremba, Larysa
-> <larysa.zaremba@intel.com>; Fijalkowski, Maciej
-> <maciej.fijalkowski@intel.com>; Tantilov, Emil S
-> <emil.s.tantilov@intel.com>; Chittim, Madhu <madhu.chittim@intel.com>;
-> Hay, Joshua A <joshua.a.hay@intel.com>; Keller, Jacob E
-> <jacob.e.keller@intel.com>; Shanmugam, Jayaprakash
-> <jayaprakash.shanmugam@intel.com>; Jiri Pirko <jiri@resnulli.us>;
-> David S. Miller <davem@davemloft.net>; Eric Dumazet
-> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
-> <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Jonathan Corbet
-> <corbet@lwn.net>; Richard Cochran <richardcochran@gmail.com>; Kitszel,
-> Przemyslaw <przemyslaw.kitszel@intel.com>; Andrew Lunn
-> <andrew+netdev@lunn.ch>; netdev@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Salin, Samuel
-> <samuel.salin@intel.com>
-> Subject: [Intel-wired-lan] [PATCH iwl-next v8 08/15] idpf: refactor
-> idpf to use libie_pci APIs
->=20
-> From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
->=20
-> Use libie_pci init and MMIO APIs where possible, struct idpf_hw cannot
-> be deleted for now as it also houses control queues that will be
-> refactored later. Use libie_cp header for libie_ctlq_ctx that contains
-> mmio info from the start in order to not increase the diff later.
->=20
-> Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
-> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Tested-by: Samuel Salin <Samuel.salin@intel.com>
-> Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> ---
->  drivers/net/ethernet/intel/idpf/Kconfig       |   1 +
->  drivers/net/ethernet/intel/idpf/idpf.h        |  70 +-------
->  .../net/ethernet/intel/idpf/idpf_controlq.c   |  26 ++-
->  .../net/ethernet/intel/idpf/idpf_controlq.h   |   2 -
->  drivers/net/ethernet/intel/idpf/idpf_dev.c    |  61 ++++---
->  drivers/net/ethernet/intel/idpf/idpf_idc.c    |  38 ++--
->  drivers/net/ethernet/intel/idpf/idpf_lib.c    |   7 +-
->  drivers/net/ethernet/intel/idpf/idpf_main.c   | 114 ++++++------
->  drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |  57 +++---
->  .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 169 +++++++++--------
-> -
->  .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  58 +++---
->  11 files changed, 288 insertions(+), 315 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/intel/idpf/Kconfig
-> b/drivers/net/ethernet/intel/idpf/Kconfig
-> index adab2154125b..586df3a4afe9 100644
-> --- a/drivers/net/ethernet/intel/idpf/Kconfig
-> +++ b/drivers/net/ethernet/intel/idpf/Kconfig
-> @@ -6,6 +6,7 @@ config IDPF
->  	depends on PCI_MSI
->  	depends on PTP_1588_CLOCK_OPTIONAL
->  	select DIMLIB
-
-...
-
-> +56,14 @@ static void idpf_ctlq_reg_init(struct idpf_adapter *adapter,
->   */
->  static void idpf_mb_intr_reg_init(struct idpf_adapter *adapter)  {
-> +	struct libie_mmio_info *mmio =3D &adapter->ctlq_ctx.mmio_info;
->  	struct idpf_intr_reg *intr =3D &adapter->mb_vector.intr_reg;
->  	u32 dyn_ctl =3D le32_to_cpu(adapter->caps.mailbox_dyn_ctl);
->=20
-> -	intr->dyn_ctl =3D idpf_get_reg_addr(adapter, dyn_ctl);
-> +	intr->dyn_ctl =3D libie_pci_get_mmio_addr(mmio, dyn_ctl);
-Probable NULL dereference: libie_pci_get_mmio_addr(mmio, dyn_ctl) can retur=
-n NULL.
-It looks like no checks were made.
-
->  	intr->dyn_ctl_intena_m =3D PF_GLINT_DYN_CTL_INTENA_M;
->  	intr->dyn_ctl_itridx_m =3D PF_GLINT_DYN_CTL_ITR_INDX_M;
-
-...
-
->=20
->  	return 0;
+> @@ -209,6 +209,7 @@ extern bool nbcon_device_try_acquire(struct console *con);
+>  extern void nbcon_device_release(struct console *con);
+>  void nbcon_atomic_flush_unsafe(void);
+>  bool pr_flush(int timeout_ms, bool reset_on_progress);
+> +void printk_delay(bool use_atomic);
+>  #else
+>  static inline __printf(1, 0)
+>  int vprintk(const char *s, va_list args)
+> @@ -326,6 +327,9 @@ static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
+>  {
+>  	return true;
 >  }
-> --
-> 2.47.0
+> +static inline void printk_delay(bool use_atomic)
+> +{
+> +}
+>  
+>  #endif
+>  
+> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+> index d7044a7a214bdd4537a5e20d876d99bc3ffe8b3a..a507a2fed5bf4366e24330f763b842a698ecf6f7 100644
+> --- a/kernel/printk/nbcon.c
+> +++ b/kernel/printk/nbcon.c
+> @@ -1267,11 +1267,16 @@ static int nbcon_kthread_func(void *__console)
+>  
+>  		con_flags = console_srcu_read_flags(con);
+>  
+> +		wctxt.len = 0;
+> +
+>  		if (console_is_usable(con, con_flags, false))
+>  			backlog = nbcon_emit_one(&wctxt, false);
+>  
+>  		console_srcu_read_unlock(cookie);
+>  
+> +		if (backlog && wctxt.len > 0)
 
+Heh, this is tricky. It might probably work but it is not guarantted
+by design.
+
+The "backlog" name is a bit misleading. The value is basically
+wctxt.ctxt.backlog. The real meaning is that printk_get_next_message()
+was able to read a message. It means that there _was_ a backlog.
+But it is not clear whether there are still pending messages or not.
+
+Also it is not clear that whether the message was pushed to the
+console or not. It might have been supressed in which case
+(wctxt.len == 0). But it might also be emitted only partially
+when a higher priority context took over the console context
+ownership.
+
+I would prefer to explicitely set some flag when
+nbcon_emit_next_record() really called con->write*().
+See below.
+
+> +			printk_delay(false);
+> +
+>  		cond_resched();
+>  
+>  	} while (backlog);
+> @@ -1525,6 +1530,8 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
+>  	}
+>  
+>  	progress = nbcon_emit_one(&wctxt, use_atomic);
+> +	if (progress && wctxt.len > 0)
+
+Same here.
+
+> +		printk_delay(use_atomic);
+>  
+>  	if (use_atomic) {
+>  		start_critical_timings();
+> @@ -1584,6 +1591,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+>  			if (!nbcon_context_try_acquire(ctxt, false))
+>  				return -EPERM;
+>  
+> +			wctxt.len = 0;
+> +
+>  			/*
+>  			 * nbcon_emit_next_record() returns false when
+>  			 * the console was handed over or taken over.
+> @@ -1595,7 +1604,9 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+>  			nbcon_context_release(ctxt);
+>  		}
+>  
+> -		if (!ctxt->backlog) {
+> +		if (ctxt->backlog && wctxt.len > 0) {
+> +			printk_delay(true);
+> +		} else {
+
+This changes the semantic. The original code call this when
+no message was read. The new code would call this path also
+when the output was suppressed. It would probably work.
+But still.
+
+>  			/* Are there reserved but not yet finalized records? */
+>  			if (nbcon_seq_read(con) < stop_seq)
+>  				err = -ENOENT;
+
+
+As mentioned above, I would add a flag which would be set when
+con->write*() was called.
+
+It modifies the type of unsafe_takeover in struct nbcon_write_context.
+But it actually makes it more compatible with struct nbcon_state.
+
+My proposal (on top of this patch):
+
+diff --git a/include/linux/console.h b/include/linux/console.h
+index 5520e4477ad7..5a86942e55ef 100644
+--- a/include/linux/console.h
++++ b/include/linux/console.h
+@@ -290,6 +290,7 @@ struct nbcon_context {
+  * @outbuf:		Pointer to the text buffer for output
+  * @len:		Length to write
+  * @unsafe_takeover:	If a hostile takeover in an unsafe state has occurred
++ * @emitted:		The write context tried to emit the message. Might be incomplete.
+  * @cpu:		CPU on which the message was generated
+  * @pid:		PID of the task that generated the message
+  * @comm:		Name of the task that generated the message
+@@ -298,7 +299,8 @@ struct nbcon_write_context {
+ 	struct nbcon_context	__private ctxt;
+ 	char			*outbuf;
+ 	unsigned int		len;
+-	bool			unsafe_takeover;
++	unsigned char		unsafe_takeover	:  1;
++	unsigned char		emitted : 1
+ #ifdef CONFIG_PRINTK_EXECUTION_CTX
+ 	int			cpu;
+ 	pid_t			pid;
+diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+index a507a2fed5bf..060534becefc 100644
+--- a/kernel/printk/nbcon.c
++++ b/kernel/printk/nbcon.c
+@@ -1069,6 +1069,9 @@ static bool nbcon_emit_next_record(struct nbcon_write_context *wctxt, bool use_a
+ 	else
+ 		con->write_thread(con, wctxt);
+ 
++	/* Tried to emit something. Might be incomplete. */
++	wctxt.emitted = 1;
++
+ 	if (!wctxt->outbuf) {
+ 		/*
+ 		 * Ownership was lost and reacquired by the driver. Handle it
+@@ -1267,14 +1270,14 @@ static int nbcon_kthread_func(void *__console)
+ 
+ 		con_flags = console_srcu_read_flags(con);
+ 
+-		wctxt.len = 0;
++		wctxt.emitted = 0;
+ 
+ 		if (console_is_usable(con, con_flags, false))
+ 			backlog = nbcon_emit_one(&wctxt, false);
+ 
+ 		console_srcu_read_unlock(cookie);
+ 
+-		if (backlog && wctxt.len > 0)
++		if (wctxt.emitted)
+ 			printk_delay(false);
+ 
+ 		cond_resched();
+@@ -1530,7 +1533,7 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
+ 	}
+ 
+ 	progress = nbcon_emit_one(&wctxt, use_atomic);
+-	if (progress && wctxt.len > 0)
++	if (wctxt.emitted)
+ 		printk_delay(use_atomic);
+ 
+ 	if (use_atomic) {
+@@ -1591,7 +1594,7 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+ 			if (!nbcon_context_try_acquire(ctxt, false))
+ 				return -EPERM;
+ 
+-			wctxt.len = 0;
++			wctxt.emitted = 0;
+ 
+ 			/*
+ 			 * nbcon_emit_next_record() returns false when
+@@ -1604,9 +1607,10 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+ 			nbcon_context_release(ctxt);
+ 		}
+ 
+-		if (ctxt->backlog && wctxt.len > 0) {
++		if (wctxt.emitted)
+ 			printk_delay(true);
+-		} else {
++
++		if (!ctxt->backlog) {
+ 			/* Are there reserved but not yet finalized records? */
+ 			if (nbcon_seq_read(con) < stop_seq)
+ 				err = -ENOENT;
