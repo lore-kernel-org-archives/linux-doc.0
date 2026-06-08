@@ -1,50 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185A0308F38;
-	Mon,  8 Jun 2026 02:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A10C022576E;
+	Mon,  8 Jun 2026 02:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780884726; cv=none; b=g/hyHnRCV/uXJM8eY1NnGuVOzI01gBLzTc1HJrPmfnUwLARaZS7OJN+1pLTwJJqb0Jw9tP/7oFq7YafFf0ACo4RXE4mLUO7PLytFvsN5E7rFhlpmC4BqmRHH0WQs6Vodx8RJGP+ZVTFxubxulnINfyHz8bUCONP3V6N2bTTegUg=
+	t=1780884828; cv=none; b=GQdDvQvi3s32YKbJMUBN0XzHqOuZm40Snpm+voZvVa0Q7Adr7G7xPejC4a+3GbSiMHtVsF2Qzb2vZXnrxxoLgQsx3A0JDVkX8QbE7X+sb4675WUEd85qJblsTjL7cQtatV+8hLInYFGWbXICpfIN+8kEGIP/5yabBXr0QSuS8SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780884726; c=relaxed/simple;
-	bh=YgjuCXZBdnyQCB48NR1QWbyj9Tv6nwGaCdrC3cGHDfs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=d35RfAr506oYzFNPoEO0M8uCvHsIIbsGZGcwbfBslyCaOPAHgXlxfSp/eM087IqJOKUo7P7PpxTUpNhHHnl/mNl7wbJT/d1hR06q36KphFwDwl1H1PP9FmYLaMPWB8Zbi0qNt8XwQARbRNSskcOlM5+nqAWgxaMWOA1WWPOlMzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZeJbxQjn; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeJbxQjn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780884725; x=1812420725;
-  h=message-id:date:mime-version:from:subject:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=YgjuCXZBdnyQCB48NR1QWbyj9Tv6nwGaCdrC3cGHDfs=;
-  b=ZeJbxQjn2odwHVbogbNe1YHqlLzCr6tHnm9B3TfI2lbiCIcmZzNU3UL4
-   RSWrhMYTzepPT2T010WmKeuop1E9kIx0ZCtxN7rWpDf41VRxTS05srjEK
-   wecsVYru4LJLsunqOnyKW+XyVpPT0AF+wIDdi9HKZrLL1TilfukXBkAQ2
-   MCHOu5gb4W5g7QjmqBCYsdtEySQotM3Gmg1iHHyacVrV32gJqUQS12nDk
-   58FrDb9TAN/S+t8Dn+S3su1OldtRwY5CPr7emkg0k99MU9UaEsLRAycDr
-   Nd9u92D7VTmmn5I4g9UKX5+omEWEQXobm99K7IcdSQWTuAyA69hcy9G0+
-   Q==;
-X-CSE-ConnectionGUID: Htwy/bvoRhGI3Pqkzv6w1A==
-X-CSE-MsgGUID: CoA3DyNBT/+U4pSGm8XjAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="107055631"
-X-IronPort-AV: E=Sophos;i="6.24,193,1774335600"; 
-   d="scan'208";a="107055631"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2026 19:12:04 -0700
-X-CSE-ConnectionGUID: XWql3BO6TiOyjGs+DduoGQ==
-X-CSE-MsgGUID: eVxYfKnOTNS8Eudre30V4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,193,1774335600"; 
-   d="scan'208";a="240961559"
-Received: from unknown (HELO [10.238.2.24]) ([10.238.2.24])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2026 19:12:00 -0700
-Message-ID: <50566572-6379-4100-8845-404f695e59cd@linux.intel.com>
-Date: Mon, 8 Jun 2026 10:11:58 +0800
+	s=arc-20240116; t=1780884828; c=relaxed/simple;
+	bh=ye/7h8vRT/vmH/8DPzh8vp+7gQ/40g53kFNbXSkrZko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aS1xQ+JeSu54wdezBHeN0aON5xC5+RcsulQHHkvn9Qau0GJVM2emFDi9UXRuJDYV7tfiIhrfrIGginmgQ0o3E6ZYKIXd9t5S+4h2xTnOtGaU+jO3i7FC7tBv01sEYGQwpDqBzTMjLkuupdx6Xpwj9TiZTqVj3X1fCWoVEtcE2fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrADXmjYgJSZqtVcXAA--.18428S2;
+	Mon, 08 Jun 2026 10:12:48 +0800 (CST)
+Received: from [10.12.169.28] (unknown [10.12.169.28])
+	by gateway (Coremail) with SMTP id _____wCHgAcXJSZqS16oAQ--.47447S2;
+	Mon, 08 Jun 2026 10:12:39 +0800 (CST)
+Message-ID: <20bde227-fe15-42f2-bc83-51801e1f795d@hust.edu.cn>
+Date: Mon, 8 Jun 2026 10:12:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,104 +27,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Binbin Wu <binbin.wu@linux.intel.com>
-Subject: Re: [PATCH v6 03/11] x86/virt/tdx: Add tdx_alloc/free_control_page()
- helpers
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org,
- kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com,
- pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org,
- vannapurve@google.com, x86@kernel.org, chao.gao@intel.com,
- yan.y.zhao@intel.com, kai.huang@intel.com,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com>
- <20260526023515.288829-4-rick.p.edgecombe@intel.com>
-Content-Language: en-US
-In-Reply-To: <20260526023515.288829-4-rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 5/26/2026 10:35 AM, Rick Edgecombe wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> Add helpers to use when allocating or preparing pages that are handed to
-> the TDX-Module for use as control/S-EPT pages, and thus need Dynamic PAMT
-> adjustments.
-> 
-> The TDX module tracks some state for each page of physical memory that it
-> might use. It calls this state the PAMT. It includes separate state for
-> each page size a physical page could be utilized at within the TDX module
-> (1GB, 2MB, 4KB). In Dynamic PAMT, only the 4KB page size state is
-> allocated dynamically. So for pages that TDX will use as 2MB physically
-> contiguous pages, Dynamic PAMT backing is not needed.
-> 
-> KVM will need to hand pages to the TDX module that it will use at 4KB
-> granularity. So these pages will need Dynamic PAMT backing added before
-> they are used by the TDX module, and removed afterwards.
-> 
-> Add tdx_alloc_control_page() and tdx_free_control_page() to handle both
-> page allocation and Dynamic PAMT installation. Make them behave like
-> normal alloc/free functions where allocation can fail in the case of no
-> memory, but free (with any necessary Dynamic PAMT release) always
-> succeeds. Do this so they can support the existing TDX flows that require
-> teardowns to succeed.
-> 
-> Also create tdx_pamt_get/put() to handle installing Dynamic PAMT 4KB
-> backing for pages that are already allocated (such as KVM's use of S-EPT
-> page tables or guest private memory). Have them take a pfn instead of a
-> struct page, as future changes will want to use these helpers for guest
-> pages which are tracked by PFN.
-> 
-> Don't CLFLUSH the Dynamic PAMT pages handed to the TDX module, as is done
-> for some other SEAMCALLs, as the TDX docs specify that this is only
-> needed on "TD private memory or TD control structure page".
-> 
-> Since these allocations will be easily user triggerable, account the
-> memory.
-> 
-> Leave logic to handle concurrency issues for future changes.
-> 
-> Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7 Sashiko:claude-opus-4-6
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-
-One comment below.
+Subject: Re: [PATCH 0/2] docs/zh: update DAMON usage sysfs documentation
+To: Doehyun Baek <doehyunbaek@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, damon@lists.linux.dev
+References: <20260523094420.741003-1-doehyunbaek@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260523094420.741003-1-doehyunbaek@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrADXmjYgJSZqtVcXAA--.18428S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFy8CFy5Xw15Kr17Gw4fGrg_yoW5Xryfp3
+	Z8CFyIqa13t343Xr13J34UZa1fJFWfJ3yYgF9Fqwn5JF1vqa4kK3WUKryagFyqvrySqFy5
+	AFZ8t34xG3W7urJanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-> 
-> diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
-> index 82dc27aecf297..74e75db5728c7 100644
-> --- a/arch/x86/include/asm/tdx.h
-> +++ b/arch/x86/include/asm/tdx.h
-> @@ -37,6 +37,7 @@
->  
->  #include <uapi/asm/mce.h>
->  #include <asm/tdx_global_metadata.h>
-> +#include <linux/mm.h>
+On 5/23/26 5:44 PM, Doehyun Baek wrote:
+> Hi,
+>
+> The Simplified and Traditional Chinese DAMON usage translations are
+> missing selected updates that are already documented in the English file.
+> As a result, parts of the translated sysfs hierarchy and descriptions are
+> stale, and the translations also lack the newer introduction of DAMON's
+> special-purpose modules.
 
-I think the header is not needed here.
+Hi Doehyun,
 
->  #include <linux/pgtable.h>
->  
->  /*
-> @@ -160,6 +161,12 @@ void tdx_guest_keyid_free(unsigned int keyid);
->  
->  void tdx_quirk_reset_paddr(unsigned long base, unsigned long size);
->  
-> +/* Number PAMT pages to be provided to TDX module per 2MB region of PA */
-> +#define TDX_DPAMT_ENTRY_PAGE_CNT 2
-> +
-> +struct page *tdx_alloc_control_page(void);
-> +void tdx_free_control_page(struct page *page);
-> +
->  struct tdx_td {
->  	/* TD root structure: */
->  	struct page *tdr_page;
-> diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
-> index 9ebd192cb5c17..9e0812d87ab06 100644[...]
+Thanks for your patch. To track the translation status of the 
+documentation in different locales, we define a uniform format in 
+how-to.rst [1]. Please revise the commit message of two patches.
+
+	docs/zh_CN: Add/Update self-protection index Chinese translation
+
+	Translate .../security/self-protection.rst into Chinese.
+
+	Update the translation through commit b080e52110ea
+	("docs: update self-protection __ro_after_init status")
+	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
+
+	Signed-off-by: Yanteng Si <si.yanteng@linux.dev>
+	# 如果您前面的步骤正确执行，该行会自动显示，否则请检查 gitconfig 文件
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst#n252
+
+>
+> The gaps correspond to the following English documentation commits:
+>
+>    commit a7bb1e754559 ("Docs/admin-guide/mm/damon/usage: document 'nid' file")
+>    commit e85e965bdbec ("Docs/admin-guide/mm/damon/usage: document refresh_ms file")
+>    commit e0c725455fd5 ("Docs/admin-guide/mm/damon/usage: document addr_unit file")
+>    commit e06469cdf1fd ("Docs/admin-guide/mm/damon/usage: document obsolete_target file")
+>    commit 2584dd7496c5 ("Docs/admin-guide/mm/damon/usage: update for max_nr_snapshots")
+>    commit 652fd06d20da ("Docs/admin-guide/mm/damon/usage: update stats update process for refresh_ms")
+>    commit e7df7a0bfc90 ("Docs/admin-guide/mm/damon/usage: introduce DAMON modules at the beginning")
+>    commit d9cfe515d36e ("Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file")
+>
+
+> Update both translations only for those stale DAMON usage entries,
+> including refresh_ms, addr_unit, obsolete_target, goal_tuner, nid, and
+> max_nr_snapshots.
+>
+> Doehyun Baek (2):
+>    docs/zh_CN: update DAMON usage sysfs documentation
+>    docs/zh_TW: update DAMON usage sysfs documentation
+>
+>   .../zh_CN/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
+>   .../zh_TW/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
+>   2 files changed, 80 insertions(+), 32 deletions(-)
+>
+>
+> base-commit: 79bd2dded182b1d458b18e62684b7f82ffc682e5
+
