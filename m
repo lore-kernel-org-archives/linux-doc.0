@@ -1,150 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30583AA4F8
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1E38E8D4;
+	Mon,  8 Jun 2026 20:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780949987; cv=none; b=AQkPOgeevX7iT/VYVNjrvEZOV3aijMj/3QWGmW3+fUNKpLlXqccTV8zZAgPHk62JAFSivQy87UEWfGx5U8gOIsZjFeHPqJkoE5f3qix62jWeXU3DvSTBg7JtN30Jb7XNpSUeZwylR3fe+5eAOY5kgKTQVsbEjCIRYGByw/o7Gfw=
+	t=1780950632; cv=none; b=qAUf6ntDygVV1PP6aIYD8VEOqwm6jbq7dADTPIBuC+UStkjuxsdYvy1cK+0lwcEehjNaOYOQlt/PMOUagPmr9SZQXwVdgJFM3NCqPSCDkrSnCzFoj+Qu3MhdP/muPoCfEN4cP2WNzrfw400x1b3AkX4SEXT3H/5/2h54MXssOCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780949987; c=relaxed/simple;
-	bh=2E8zGT5xOyDSmdwu3J6sYJf2Yq5VI7x+0ZWpD9LyuJc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IxyUM8L8rDlx1MUTOE84OLym4mTtvL6jmxR+WaIaBKu2KC6qaYkQH2A8GuX8BMMWrrbaWcL4UwSa/Ix0cOgYsiR/35wOIUVIExXeZ1MAdyr2Q9fn69BN/3ssGXxfsVH3TjNMmYnEwP7K1TjQMxYup91EDB9Iz3ifIZN3nKpoiz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CCaq9/IJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780950632; c=relaxed/simple;
+	bh=ro13X8bYyZN635AsD1TAc0Se21/nyspGsLYa8UAWjSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V3ER+b8z8I9camCrZ2uD6imXHw06An2RhxJV0O4Y6bmBQ0lxh600XEg3P2VtL8MOIXwedK+0VyhqDhnQvTYbfDLD2OOwk4bbpDUwpqDy+Yv4bL8pQDeFRovrYO3/e1i7ocDYhujEBcv8FUFEHIZEeM2hf+ls/KMCjlcqORiiq48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+RR+km9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CCaq9/IJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF651F00893
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:19:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+RR+km9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9B41F00893;
+	Mon,  8 Jun 2026 20:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780949984;
-	bh=2E8zGT5xOyDSmdwu3J6sYJf2Yq5VI7x+0ZWpD9LyuJc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CCaq9/IJBxuXvV6cfEUyYGqZZ353g2VavYVoMHw1Mj4h5NVjZQEIv1MgkROtD1YJZ
-	 gh0mQJlrVUQzwSufctn/wjDP1PV/3djpyJngB01kGvXnGK+OVsuLdA38arOor7pWfG
-	 lTIAxSurAPDs1exx2/1WemHtIy7dgJNXs/FQx17zYEFRBP5mZRfGUw60iW27LLuTns
-	 702QcNjyLcS695xsH9orvhNN8wlZl0GAlt8imcu2xZQxJRGhAbkmAdAxtWjqciUWcZ
-	 qZTkoRkmnCw4O/tKRQlxWwSoR/v6D7lcoULAnhP87wZNM8C17IP1/OWHlmZUgPelis
-	 1ooxkgVGXhHzA==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bed19623d6eso614872266b.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 13:19:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+/Bu3jsRQETuhiojY2zDV1w0sEYB0aaJH2lCKyMqL21fd4iczs4TjeVPxtDyHw2AzqSB5wapfAkrA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDJpm4Fr+llyPhf3uyQw+oo4mPJ913vKgKvOGCv/XOIMiN6Kar
-	ci5g7TwkTfq5rC1to3N4fn3tXF7+6j8dTrdK2ZtWQx22wQgcHXx1xsZY0+4A/dGyasWU2RiZL78
-	BAZH8f5qWjL+zifK+LOJN2yqri4ZlEtk=
-X-Received: by 2002:a17:907:9812:b0:bec:18d5:ddec with SMTP id
- a640c23a62f3a-bf37311392cmr824666966b.41.1780949983628; Mon, 08 Jun 2026
- 13:19:43 -0700 (PDT)
+	s=k20260515; t=1780950631;
+	bh=BDDI0zZ85tZ3dra1dzCyCbAmBdm/ZjszTpTSBf91ICk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=H+RR+km9F27/4FtD/nDVbbsskwOtzC3R+aaRnoK93RfDjLtT0P1d0+Vvj/oIZ7Ytx
+	 4Yq94jO7XGV2gcXKD4cl/8tcnEF6f6HuMrgHtevN41QbQ7T63wcm38+7Py0yNWpktj
+	 pwX/PwCeEYUO0L7oUu97Yj73OKH7CpIbY7bd2bZrICfzfNrv4sy5GkCNiAZFhvpOZ9
+	 Ntu5+0aRb6a5VoJeI0XntIfSNP4diIMlz8UD36rhBprJUcmtc+sRbx2QtCVVGBSqIF
+	 fDE+FDl7eU3HTyBklFfw4cORoaHSVqt0QlCHpb8kMh6teJ8vIJUaUDGNgNtQYb2mvZ
+	 eYFxS98Gok2BA==
+Date: Mon, 8 Jun 2026 13:30:29 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Simon Horman <horms@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Saeed Mahameed
+ <saeedm@nvidia.com>, "Leon Romanovsky" <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, "Matthieu Baerts
+ (NGI0)" <matttbe@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Carolina Jubran <cjubran@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>,
+ Moshe Shemesh <moshe@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Daniel Zahka <daniel.zahka@gmail.com>, Shahar Shitrit
+ <shshitrit@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jacob Keller
+ <jacob.e.keller@intel.com>, Parav Pandit <parav@nvidia.com>, Adithya
+ Jayachandran <ajayachandra@nvidia.com>, "Shay Drori" <shayd@nvidia.com>,
+ Kees Cook <kees@kernel.org>, Daniel Jurgens <danielj@nvidia.com>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, Gal Pressman <gal@nvidia.com>
+Subject: Re: [PATCH net-next V5 00/12] devlink: add per-port resource
+ support
+Message-ID: <20260608133029.3e1ef109@kernel.org>
+In-Reply-To: <20260407194107.148063-1-tariqt@nvidia.com>
+References: <20260407194107.148063-1-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-3-jiahao.kernel@gmail.com> <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
- <aho_VtLCmIRsNyvO@google.com> <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
- <aiBqzOtEv5iAC_qC@google.com> <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com> <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
- <aicJBVT4pBvmyooT@linux.dev> <aicZ-5GX9De3MAU7@linux.dev>
-In-Reply-To: <aicZ-5GX9De3MAU7@linux.dev>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 8 Jun 2026 13:19:32 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
-X-Gm-Features: AVVi8CeXOXcjGUkNg7x1wCjnQhVCU2d5Mo_U0_PWWSBCHknTzqRDtrc94LmYLm8
-Message-ID: <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
-	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
-	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, chengming.zhou@linux.dev, 
-	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, youngjun.park@lge.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 8, 2026 at 12:50=E2=80=AFPM Shakeel Butt <shakeel.butt@linux.de=
-v> wrote:
->
-> +Youngjun
->
-> On Mon, Jun 08, 2026 at 11:30:30AM -0700, Shakeel Butt wrote:
-> > On Wed, Jun 03, 2026 at 10:36:07PM -0700, Yosry Ahmed wrote:
-> > > > >> But doesn't it make more sense to specify the compressed size, w=
-hich is
-> > > > >> ultimately the amount of memory you actually want to reclaim.
-> > > > >>
-> > > > >
-> > > > > I personally prefer compressed size to pre-compressed size. That'=
-s
-> > > > > kinda what user cares about, no?
-> > > > >
-> > > > > One thing we can do is let users prescribe a compressed size, but
-> > > > > internally, we can multiply that by the average compression ratio=
-.
-> > > > > That gives us a guesstimate of how many pages we need to reclaim,=
- and
-> > > > > you can follow the rest of your implementation as is (perhaps wit=
-h
-> > > > > short-circuit when we reach the goal with fewer pages reclaimed).
-> > > >
-> > > > Got it. I will change it to use the compressed size in the next ver=
-sion.
-> > > >
-> > > > Yosry, Nhat, should we continue using the zswap_writeback_only key =
-to
-> > > > trigger proactive writeback?
-> > >
-> > > I *really* want the memcg maintainers to chime in here, it's
-> > > ultimately their call.
-> > >
-> > > Michal? Johannes? Shakeel? Roman? Anyone? :D
-> >
-> > Between the options of having an explicit interface (i.e.
-> > memory.zswap.writeback*) or a key (i.e. zswap_writeback_only) to memory=
-.reclaim
-> > interface, I prefer the key option. I have not looked into how much pro=
-actively
-> > reclaiming zswap memory or proactively triggering zswap writeback makes=
- sense
-> > but from the perspective of memcg interface, I think the key option wou=
-ld give a
-> > more clean solution if we decide in the future that this whole thing wa=
-s a bad
-> > idea.
-> >
-> > Next regarding future proofing zswap writeback trigger, do we expect an=
-y
-> > potential additions/changes/new-features for this interface? For exampl=
-e do we
-> > expect in future we may want to trigger the zswap writeback only from a=
- specific
-> > node or lowest memory tier?
+On Tue, 7 Apr 2026 22:40:55 +0300 Tariq Toukan wrote:
+> Userspace patches for iproute2:
+> https://github.com/ohartoov/iproute2/tree/port_resources
 
-The way I see it, zswap writeback is just a "special" type of
-proactive reclaim, but the goal is still proactively freeing cold
-memory. In that regard, I think it makes sense to have things like
-node-specific reclaim. Not sure about other extensions, but Hao
-initially suggested making this age-based, so I think the answer is
-yes.
-
-For both of these examples (node-specific reclaim, age-based reclaim),
-I think the same semantics could apply to memory.reclaim in general,
-which is why I suggested making it a part of memory.reclaim. I also
-like the idea of having a single proactive reclaim interface in
-general, but maybe we don't want to overload it too much.
-
-> Youngjun is working on swap tiers. At the moment he is more interested in
-> allowing a specific swap device to a memcg or not. I can imagine in futur=
-e there
-> will be use-cases where there will be a need to demote data on higher tie=
-r swap
-> to lower tier swap. What would be the appropriate interface?
->
-> BTW does zswap folks think of zswap as a top swap tier or something diffe=
-rent?
-
-I haven't been following the swap tiers work closely, but personally I
-do think of zswap as a top swap tier. Things will probably get more
-blurry with memory tiers and compressed memory nodes though.
+Hi! As far as I can tell these iproute2 patches have not even been
+posted? Please try to get them upstream ASAP, we have to manually 
+carry them in the CI right now.
