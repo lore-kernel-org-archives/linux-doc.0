@@ -1,158 +1,279 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6707413227
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 15:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA28D3C9EF3;
+	Mon,  8 Jun 2026 15:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780930970; cv=pass; b=k8IqJ4qIxkV6wMwLEDolLW6WoPz29o120ZtGbzCdOo9ZIh+cZ6PLtrb3qvNYC0sGWjUFXmKg/svvMFMRCnBZCEFcoXM9wgm5Bd+BrJ8eyNl/aRU3GiRKAirjkHLCoDRqcCtAw4ELwBF4uG2dwd3Y+YZwSypzZ6To0ynhCxVSxAg=
+	t=1780931326; cv=fail; b=l7qhYjTpyFyiuKsVQuX6rBuwBbeKBU7ozE0X4wMJ+nHqAbHWOqj+rlQ7/vgu8tn0g5jiN4j5VtcCUtT3PqK13Jkq8zeUJBPbXYxxky1Fg+FwQK53oXj+glx1HrETlwZ7l9T+GxtcvLpvgR7iOUXsvBZVBrESGCk98ECDjMC/KvA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780930970; c=relaxed/simple;
-	bh=g51x3Dke8m4hq5BD7mWP1JIENWwriEm4dzZwpkBeih4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U0h5qcVLIzt/ptGEmZuXX5dLVqtvju6tfpVHOQvQyeikCECm2F/VASsxaO0iKq4vJvOwO7+5+tXg24wdR9Jnce/VW4rq+yIl/URgPDQKQk8RAsyTQzSOBzp6VHCMDXaxLLj1AryoC1MycedVvhHLhx5K12OSw1Y/acFh3vPSxIg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SN4g2w+7; arc=pass smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780931326; c=relaxed/simple;
+	bh=JT8t0MwJqxczxX7tns6+dp/k+SeoCDMpeGOXl9iTtCg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jmonKyx9aza8HuDQJQ657HNB0VyeNA74Q4vRaTBigD4ORWe83cGp3vm8VwN9+HGNrIrZ/ZKdYTnZQHMmU+MKdJeLZElAWYLK1eEiTao7BvV49D4Xvzk0gyj2Nap2tyjabuuQGKLXkesJQdh3TL5pCjQx5MpAS3IBPrCI2cBrIao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpesk7is; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SN4g2w+7"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-68d22476e88so29125a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 08:02:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780930963; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UtDGCUsIDQWAhnQ+2j5/eQopS48mVvX+tpinLZ2PpiZ2oN2X3kPCIMPibcgX3octlH
-         XWBoWn96MS+VfJaBPXB7Kgj9e26EiD5EQLUVTooYj8ev8j2tez0cgVZmUd29MR2d9G0M
-         aHHiwzQI08H6kIHCtuCTzKSQayCMQYFZezGBFLBSUhCqcbuD8GSruwnpIkIEbSIcja/K
-         KSb+1yVCLBX3YqFNFeZqkWvP1VFF37aBmQKdElsvfZNx9ni2NrPXjp0+3dZEuj9EJi+Y
-         5BrnyYHYZC7oTN+OGZgWhXalTrkAZUuJPNacv/HktZ0qhaSPru1aDwrG9lCMuDMWDl6I
-         v+bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g51x3Dke8m4hq5BD7mWP1JIENWwriEm4dzZwpkBeih4=;
-        fh=w5Vp6g/C9ro7O3ay6Flqo9I+i9O4rI6s+AXd7JaY6WM=;
-        b=kViBnyquRPmWdIBqyWLWy5Vrcj/oqua74pjNnWy8LaSh/zWGTrKK3Qd4Zpnb/+91vG
-         kviKlHnX8d8q4IRNGejgnzMzN1xl4U85Nw4R0Geji7a95nejl4K/P4J7AdJCgASGEP5X
-         0Rr2ZRfey9/mZCwkoDQ5eM/hsk++nSfIlBabJsFzEDgeuSSaVVHpVWfa/UwVW4PcJX9X
-         ZHOFjSgR1oVZvanbwJBwaVDOBfAGTuXBcZ+e69PY4XNMfwda5VhFgMS6TssFXqzrsmZ5
-         WReQo62iJpp+fecOpLL8W81cUPrhEOjbLtM+zwVPw7z4hlWHyINnH9ADWusDDa5SGQXJ
-         kSXw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780930963; x=1781535763; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g51x3Dke8m4hq5BD7mWP1JIENWwriEm4dzZwpkBeih4=;
-        b=SN4g2w+7L37u55NOHnH62hsXGmHRkvICDQ97Qol/4mqxJN6kaeE8TAGexGnPVk+0Sj
-         vOwhOYMqgm/ZclL9AVkos/+Rx8n4xUQp6WI17G0GvGaF7oUhQmM6qa4pgZfpehiTajlm
-         1SDyEkqnzK56xnyHFwufRSwSX0EjLVEUE9paFJ3tapzaLxxpDd9MLsnbyCvYHXQ8eyRx
-         jqeFQF/H5AIlNqAkFEFS+VpK/60tXK9rrfMmWz4xC7aWMinwx328dqWwShlEraX65KC1
-         MjGPFslpEltXzdQ+rgN6o+Eovk1f5szk3IXtjEeBQEUbHxqXHqaAtVntDNampvk7JuT5
-         Eqbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780930963; x=1781535763;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g51x3Dke8m4hq5BD7mWP1JIENWwriEm4dzZwpkBeih4=;
-        b=tI09PM028i2DX//yW35TT2eLmhJ57LRbhACJIWMYxKcACi4BnW58sIEjZcFAny5qFW
-         wAeZh7rqkoZEND4476orT+vYb1Tnu50w8uvQfQ1yAihhyHCnyNJqzMv8F9eI7U3xCips
-         sVTX7ZlIyWDAFJZ0JZ1XiIYE3ujwquzYNWoZEKQR2a0VXvSQFs9ODmcpPFjRd9TUUkv9
-         H+Kh1zvqE4nzjdbRU/wfeuJdW54z/vJIKJ4x5BqSkQXxWcAZkF40aA8QpmdfZBwZRsil
-         eI7V7PkfkVmP9BIwkjFAADgXe5Uu3axDJvFeBpRMgpX8qAnRWWRtlHVzRuYlW1d1T9E/
-         oVrw==
-X-Forwarded-Encrypted: i=1; AFNElJ/OnI/tAsq1FHnjAxFHNHllzm/kMpbAVvvdQFKx4lskAS4xe9BJlxnemk7WqeKgVznpsgxHNidpQGU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGDd+foxLFmptBDLv7smHRpNvPD0yMdZzsZKteTTC/Wau9dVGp
-	euxID5/2xLXufJ/5SVpw/lJU/REGVEx961P2K1e3VzJguwUG/Lh6+yuvFve24OIIT30IMQxkq4k
-	ksyu6ORWJVJelNxzBOaJxu16MI8DRyzDwc42aiwTg
-X-Gm-Gg: Acq92OFP4zFqLHfzWyFKS5BCDVd4HAGLFT97G4pSdNtwy5XSQn1g1KEm+FZ/B2OWaNZ
-	qjnUdV24Y5BO/y9pwR4S4HqrWY85o1BBbqhQUUgw0j5gfMtvVfPIpS5TwlT9mXO2iw9DNg86hAr
-	17zYOPgLWwU1ZNO2FIHs819r7f7nmBZjwm3mjQZ3GuIjjaTmnqRgDKhtZobDiASvAykd+Ljo8px
-	CHKZ42MCAIVz+RHrtKN1sZdHDXAkt2kiy8i4p9k60MBzE9mGsVzZtGKYVHaPZjWiWaeW8C8BaeZ
-	RWMFSctCK8rMT/rjxTw0YsXoV+0g9QcTzUo7H4Km8fme6lnh
-X-Received: by 2002:aa7:d848:0:b0:68f:d41d:ca5d with SMTP id
- 4fb4d7f45d1cf-68fe907ab8amr167661a12.11.1780930962621; Mon, 08 Jun 2026
- 08:02:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpesk7is"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780931325; x=1812467325;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JT8t0MwJqxczxX7tns6+dp/k+SeoCDMpeGOXl9iTtCg=;
+  b=jpesk7isetp3U4g3gpKy/QCBML8sW4b78OhAk8pONBcW34Tasj1Y/owX
+   M0t1xfhKZ2Y9HZDu+a2AD1FPI4TvsSdh+S4A9C+phBxvN3jdt6+2kQzMh
+   Q7QGfdwbXlGyx9mUWuTP5LScMF06qziLkCLiha7b48v4tenccUC2Pbihi
+   Lic/rhYiX5pVz/MSCZ6COTYOnsgXAP9ZZxU+BDg7UR9WC4JSPqBsOcTsx
+   h2D+wpq8PRXRv2r5RGbojYdN6mWeb+3tVb9pUC+CeW3rkMT6mfZRaBZKH
+   nhtiytX+Vhmx10EFRKHW/GIw+a0TCp6duRv62AXrW/y0I0aedAhPeK6yL
+   g==;
+X-CSE-ConnectionGUID: CVZLA1MnRy2+5fICLm/9wQ==
+X-CSE-MsgGUID: UmHe5cuzRae6cxQ8LZSL+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="80801364"
+X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
+   d="scan'208";a="80801364"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 08:08:44 -0700
+X-CSE-ConnectionGUID: ncRzkKTQSTG3pZAGpRC/Vw==
+X-CSE-MsgGUID: ZBzO0OkuROeS0y6oUdXnmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
+   d="scan'208";a="242610809"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 08:08:44 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 8 Jun 2026 08:08:40 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 8 Jun 2026 08:08:40 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.0) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 8 Jun 2026 08:08:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EDAGj/ZqL2lK35QvVCb+RfyjS27K7zm8Yr78CIfEac2E6d8u28HtYoMXCCPAcde9v6ChjTtjcUpyFaj3+aQsQjZWRlAvTqRG/4eDJ2pH99SIagUlPUR9I9nJLjoMe8kUz+SFkHUmdKR7RRezJZEIn+3ZdRX3ZInMJ6oFN2Gu6hMFFWeB+k47RLOdjPtwIg+DLY5f0ZoJt8tc48rVAh1McpkaJqN0OO0rJlonmlqcvdZWeA97Faz2VBCIL87NJMjN5ujOramojn0S1iHb0cQ1PXHgEOgORAqv266u9P7adfLWJu1QCSUpxggB+dxEeE3y3lQwHJ2ekewAfxWdZtt4Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8i6XZ/EGYfn/sMSq3cRBmgMpptYfXjov9q50jzFfsc8=;
+ b=cOEkBmeXOp/yErrMe+itprRe+xiUT2SMVpE2piHsQSvWbjlEcMUTbUlUnxdmp/4nYeSs2MSV5oQaKSy+Ni2HEivY+nHTKWn5vMq650WNtgHbSvvodP8ikWoPlzOYfRu/K9BKXffuHgHsCtn/CA8o9MV7SJwwhpDhneOzL3IsQtR+T2gBwIz3IN3QYIfFcflNB/jAhFsa9tbBFsglJifxVQVkjTUlkToXXhU+sXAbdkzJif1u2QwuwaijIZUCs2uz17ZqCVWGR7/AZGpNByzmRssNl1YtagyMyg810729OPF7vRAQnuNgtMN3olzTQd1bKpugfdOWRsdcYU0eeLYT7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
+ by MN2PR11MB4631.namprd11.prod.outlook.com (2603:10b6:208:262::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
+ 15:08:29 +0000
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c%6]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
+ 15:08:29 +0000
+From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+To: "Zaremba, Larysa" <larysa.zaremba@intel.com>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>
+CC: "Lobakin, Aleksander" <aleksander.lobakin@intel.com>, "Samudrala, Sridhar"
+	<sridhar.samudrala@intel.com>, Michal Swiatkowski
+	<michal.swiatkowski@linux.intel.com>, "Zaremba, Larysa"
+	<larysa.zaremba@intel.com>, "Fijalkowski, Maciej"
+	<maciej.fijalkowski@intel.com>, "Tantilov, Emil S"
+	<emil.s.tantilov@intel.com>, "Chittim, Madhu" <madhu.chittim@intel.com>,
+	"Hay, Joshua A" <joshua.a.hay@intel.com>, "Keller, Jacob E"
+	<jacob.e.keller@intel.com>, "Shanmugam, Jayaprakash"
+	<jayaprakash.shanmugam@intel.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
+	<richardcochran@gmail.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Salin,
+ Samuel" <samuel.salin@intel.com>
+Subject: RE: [Intel-wired-lan] [PATCH iwl-next v8 01/15] virtchnl: move
+ virtchnl and virtchnl2 headers to 'include/linux/net/intel'
+Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v8 01/15] virtchnl: move
+ virtchnl and virtchnl2 headers to 'include/linux/net/intel'
+Thread-Index: AQHc91T6149WsKLmFkaLMhatbPt8prY0woaQ
+Date: Mon, 8 Jun 2026 15:08:28 +0000
+Message-ID: <IA3PR11MB898614A46016327AA546C9ABE51C2@IA3PR11MB8986.namprd11.prod.outlook.com>
+References: <20260608144127.2751230-1-larysa.zaremba@intel.com>
+ <20260608144127.2751230-2-larysa.zaremba@intel.com>
+In-Reply-To: <20260608144127.2751230-2-larysa.zaremba@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|MN2PR11MB4631:EE_
+x-ms-office365-filtering-correlation-id: 371bc451-d9cd-45e0-ec2a-08dec56fcc16
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|11063799006|4143699003|56012099006|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: H0dqquOaaF72TIsOcEOzJBoYXi6khreylz8Y8GYtaC2GSz3gM4WrJIFDEFGuOth3lQk5wW6MVJGj2Wu9I2xp2r4nFwayQoH0u876w4aHLnzWYQTnrK7XsGhhsUu+f2M6Y1BA1NXLpCpM/MHIPwUOBLbFWwszTz98tGwDg68ZHDg+h+z+xctRjRtjtr1uPT5UimRemuS891DRydaobY2wjFS6khUhD5Lu9ZZhCjOqxZ2YrlABU6mVXCKuhbX2LWv85eFPaD+bE9dska56ElgNvq5q7dpdeoVhehKWuP+5g8b6gocwJFsPedTKbXO0pCFqiPa/RyDYyEE8I2pTEUsxfvlEKDkFxpNzW5cYzDkhDf3zvD5wvz9BwPMWF1G4ULUYHRi483ipcZlAnzj0qRAMmtwo6ieQ4Pz6pUHOoZ/tqJ2QZ2Fh2Ont5G1WlYDQ7SY18IB5Ipi23SV0PFf/WIXY504DAOV+fNhEnszUM77Fp+N0/9slLxiLZyJqlfxWcyMg7+pasGtATLUY9m/eE9Ii5VImFmk5EH969wtVEfNx/AiFhtZ6QPdEqTT4UTYavcsNVU8hJ6M3zQ7+uKas/2IF0OFs5V43dYz/39NOeRoUkyJQRc7IK33LfgFcNUjjfSVwiBj6vxd0ex01s5WJIaLosR/sa2IXlk7aH8yi/0EAsZcAgSYPEvkLk3+zYE4jDcRtOkR4wEiXHa5WFRHeXSbKhVjSuSAfGa0k/MINH1g7XZ/0lxwwIa3TrNPVg5QUg5Yk
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kSgXwlSyAtOSWt+mPAgIb7iOFirZvK3ugEzJHd54reQ4B4NQCOIJobZSn6dX?=
+ =?us-ascii?Q?NpZrwdNuISKgvxFR4o/dwpIifACXFsm8TqD8gvWnLUGWJkZuHUbWqPzy+BU/?=
+ =?us-ascii?Q?mGTXFzGvnbMAVcBCQ5HfFeH70sfwIDLz+ObbjABAH/SltBT8Vpw8ur4bs4u1?=
+ =?us-ascii?Q?kQKlyTHj8XiV3tNHNWVGpvAPAx44ld/GxGottwHsXC1qy49gQoUqHoQCOnrd?=
+ =?us-ascii?Q?jsW4n5cWyOUrH0400e3d0tZmcmEtzufD9dBcYuMiss78DK8e44KDbswL9N+V?=
+ =?us-ascii?Q?rVWR77YAw1Ps7POy/RiWcwtmbf1BkQYkzMNlgGlD3u6+zDYwP5zzSBGRqpL3?=
+ =?us-ascii?Q?AYXNEQwoY2K1wfPNpjOn6wJ9z20d+ETWxbx/lrg2S/JjaYEYNgBIOXHi0LLo?=
+ =?us-ascii?Q?oUDBIBhiSlWaCkREZYgjwHL1pSO/VVx4aolpBVtlRBA1f9OubbuJP4pBqhdZ?=
+ =?us-ascii?Q?fO/EnjD5hSMjtMhvs5LXj0jPsa1BGFOjolcM9VX4jvJ/uPLkZiWnlDIZNoMa?=
+ =?us-ascii?Q?5hOxG980JQCiUZnuTbfZ4Ad5F28MvUPvU9uNgy7wcHHVKrhK4lnOCoxG7D9h?=
+ =?us-ascii?Q?Nk9RIFfMncEypT/LHEaxWXlYYiGdHR3Ljjq7e1mdYUXKg9JEinMTWWUnWtQI?=
+ =?us-ascii?Q?SFkIs4gRR7hJcL45VT6Z6vumtBy9WniTD3lIwuchOMYcgyWpqPFnm8nB8JE7?=
+ =?us-ascii?Q?YZs8rcIX0YRZwVlWrdpLSxDZdBFPiYGwUy2l2u/C0GN1xQbPET+Bdoyc76WL?=
+ =?us-ascii?Q?Pk8HCveeOGON9+zE4Z/1R0VMoOcatTaH5OKro0IeiwIM3efQ/sy6QTgmfbTF?=
+ =?us-ascii?Q?X2W69fbZdtAoaiff2IIuV+S8kYECyyMhHZkAqq3BYkqKjulTf0CUmhQE8tky?=
+ =?us-ascii?Q?bNBcFXDJJZ87o5BmsXYYYuGOjmHIUNlUX7Dw0GOFLRLOlxpmciW1F1awrEme?=
+ =?us-ascii?Q?WYiuBxgQbRDyK96i7lbTmcTcEhT1uYMiGhr25HN2tMsXyqwl5izPsPvQWjns?=
+ =?us-ascii?Q?zeqSXCE7QiE7cED/fFG5Uxyi6+SIDeeTk+NeXORG0ArtklTBVyNSLwkesYoI?=
+ =?us-ascii?Q?5l9DfLHxCJ1oBhJ3IeWqEgGsie6XfpLaZkvxySt0RcSD3q3ZI3DQQDBMsPjn?=
+ =?us-ascii?Q?LQcLgONAWpu6/mtw0vEaDFEhKyuraRpKl90zIHJilwcLqgOs4WMgu6uR5if7?=
+ =?us-ascii?Q?m26ZRAaN5YX45ro6gt9y/xYoZUEMYdoP1Jf7Dv4XgmP4mkxNxD/uRzt4O0bg?=
+ =?us-ascii?Q?wLY7RCmpPuVJDj2Ba5DlnjQbCF56bhf8a3VyYA9OlIn8DVo2nQU5sqwvKv23?=
+ =?us-ascii?Q?KryJAqWC0gsQ1NLb69EkJoA+fCiWdbPb9+Fl7PG7sCbwOiV7Kd36b7+FpynQ?=
+ =?us-ascii?Q?OefXhkJjMznoCRbzhxuJbHV5TWgxpWxcYAih5El8s6EkhPv6AvpirAV3l3Bw?=
+ =?us-ascii?Q?Gy9uGIa8oDOGYuKvrSR0oXbUwvvpFiG0j+HMEnfl+boPNDRPohsCKFTN2uwd?=
+ =?us-ascii?Q?HFk2csjD77D5OeN80sMTnSC9QZthtCQC0WlIxXrHl00HhK06S82fElYN07sP?=
+ =?us-ascii?Q?6/z9lSQfNEefSuhq5OMWnb+aV5a52QkjvJsB/8U4KHN43T0t+YxVY02JvkJl?=
+ =?us-ascii?Q?/Lvmm4mgtkFYm2kUDlIzm0tU6Y9zPXOPYFFAbkYa+4Fc/ztVqYh8DGT6m+bO?=
+ =?us-ascii?Q?UmYeheKUJl0lYCpQSrfrLr0FAPiuUctBm6ZkYOKQwd5zm376bhuGZPv5QXyX?=
+ =?us-ascii?Q?+3j6Bv3VgXjmYHqclJI2xka+lUQTbfE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528095235.2491226-1-me@linux.beauty> <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
-In-Reply-To: <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 8 Jun 2026 17:02:06 +0200
-X-Gm-Features: AVVi8CcAEOXMmuMTSZ94akkMqWU1PSwZDT3Kns1-hWwyFL18yvP1h0y8fjumjnQ
-Message-ID: <CAG48ez38OEE8ZPLyU6nr9=cYx-hMsdoh5WRrv-GMZGMDKyyOTA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-To: Mateusz Guzik <mjguzik@gmail.com>, Christian Brauner <brauner@kernel.org>
-Cc: Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, x86@kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: hjTj3gdEW0e7x1EbIoCPn1vx0C9EZNXGydY7Q4Nw1ti1MTPECorWXTApdLiGJMqV+u0HFc23kcgM8mLHVu/w9hexJMkHH0t9QNmrVSI6N+7Nm+2tHEuflPF1b5GfgmWEcY9CQU5VfGaW5FNPzqzxD4CwPK3GHojiRpKyK8i50QmzcVFtuomO/IwWLM50wNwQiDPZH06CrztMr607g22acEKWMbSfzkw+XkUU6dik1ESJAh0FVyun5TkzMQbBxswfu0Efgd9MQecFJ0NHzjzGQtI+4a7ZTKimseeVhFNRC9TU/9nyJUb/vprG0AU15mtKRU8RdMoCKlT2UfXDlOvGhw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 371bc451-d9cd-45e0-ec2a-08dec56fcc16
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2026 15:08:28.8950
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xRM7EMP9/Cg9cNOdeZBgB6L51Q9vYXnR2RBRc8DWRnzYZPQiGYThPCv28vVis+jg0+oCnznkrgqSqUhno79odbPFKBo6jyom/wH5PEAWDDM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4631
+X-OriginatorOrg: intel.com
 
-On Thu, May 28, 2026 at 2:55=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com> w=
-rote:
-> This problem is dear to my heart and I have been pondering it on and off
-> for some time now. The entire fork + exec idiom is terrible and needs to
-> be retired.
 
-It seems to me like vfork+exec is a decent UAPI building block, on
-which you can build nice-looking userspace APIs, though I agree that
-this is not an ideal direct interface for application code.
 
-> Additionally there is a known problem where transiently copied file
-> descriptors on fork + exec cause a headache in multithreaded programs
-> doing something like this in parallel. I only did cursory reading, it
-> seems your patchset keeps the same problem in place.
+> -----Original Message-----
+> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
+> Of Larysa Zaremba
+> Sent: Monday, June 8, 2026 4:41 PM
+> To: intel-wired-lan@lists.osuosl.org; Nguyen, Anthony L
+> <anthony.l.nguyen@intel.com>
+> Cc: Lobakin, Aleksander <aleksander.lobakin@intel.com>; Samudrala,
+> Sridhar <sridhar.samudrala@intel.com>; Michal Swiatkowski
+> <michal.swiatkowski@linux.intel.com>; Zaremba, Larysa
+> <larysa.zaremba@intel.com>; Fijalkowski, Maciej
+> <maciej.fijalkowski@intel.com>; Tantilov, Emil S
+> <emil.s.tantilov@intel.com>; Chittim, Madhu <madhu.chittim@intel.com>;
+> Hay, Joshua A <joshua.a.hay@intel.com>; Keller, Jacob E
+> <jacob.e.keller@intel.com>; Shanmugam, Jayaprakash
+> <jayaprakash.shanmugam@intel.com>; Jiri Pirko <jiri@resnulli.us>;
+> David S. Miller <davem@davemloft.net>; Eric Dumazet
+> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
+> <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Jonathan Corbet
+> <corbet@lwn.net>; Richard Cochran <richardcochran@gmail.com>; Kitszel,
+> Przemyslaw <przemyslaw.kitszel@intel.com>; Andrew Lunn
+> <andrew+netdev@lunn.ch>; netdev@vger.kernel.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Salin, Samuel
+> <samuel.salin@intel.com>
+> Subject: [Intel-wired-lan] [PATCH iwl-next v8 01/15] virtchnl: move
+> virtchnl and virtchnl2 headers to 'include/linux/net/intel'
+>=20
+> From: Victor Raj <victor.raj@intel.com>
+>=20
+> virtchnl2 headers will be used by both idpf and ixd drivers, so they
+> have to be moved to an include directory. On top of that, it would be
+> useful to place all iavf headers together with other intel networking
+> headers.
+>=20
+> Move abovementioned intel header files into 'include/linux/net/intel'.
+>=20
+> Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
+> Signed-off-by: Victor Raj <victor.raj@intel.com>
+> Tested-by: Samuel Salin <Samuel.salin@intel.com>
+> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> ---
+>  MAINTAINERS                                                   | 1 -
+>  drivers/net/ethernet/intel/i40e/i40e.h                        | 2 +-
+>  drivers/net/ethernet/intel/i40e/i40e_common.c                 | 2 +-
+>  drivers/net/ethernet/intel/i40e/i40e_prototype.h              | 2 +-
+>  drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.h            | 2 +-
+>  drivers/net/ethernet/intel/iavf/iavf.h                        | 2 +-
+>  drivers/net/ethernet/intel/iavf/iavf_common.c                 | 2 +-
+>  drivers/net/ethernet/intel/iavf/iavf_prototype.h              | 3 ++-
+>  drivers/net/ethernet/intel/iavf/iavf_types.h                  | 4 +--
+> -
+>  drivers/net/ethernet/intel/ice/ice.h                          | 2 +-
+>  drivers/net/ethernet/intel/ice/ice_common.h                   | 2 +-
+>  drivers/net/ethernet/intel/ice/ice_vf_lib.h                   | 2 +-
+>  drivers/net/ethernet/intel/ice/virt/virtchnl.h                | 2 +-
+>  drivers/net/ethernet/intel/idpf/idpf.h                        | 2 +-
+>  drivers/net/ethernet/intel/idpf/idpf_txrx.h                   | 2 +-
+>  drivers/net/ethernet/intel/idpf/idpf_virtchnl.h               | 2 +-
+>  include/linux/{avf =3D> net/intel}/virtchnl.h                   | 0
+>  .../intel/idpf =3D> include/linux/net/intel}/virtchnl2.h        | 0
+>  .../idpf =3D> include/linux/net/intel}/virtchnl2_lan_desc.h     | 0
+>  19 files changed, 16 insertions(+), 18 deletions(-)  rename
+> include/linux/{avf =3D> net/intel}/virtchnl.h (100%)  rename
+> {drivers/net/ethernet/intel/idpf =3D>
+> include/linux/net/intel}/virtchnl2.h (100%)  rename
+> {drivers/net/ethernet/intel/idpf =3D>
+> include/linux/net/intel}/virtchnl2_lan_desc.h (100%)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index eb8cdcc76324..952f09b40711 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12917,7 +12917,6 @@ T:	git
+> git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
+>  F:	Documentation/networking/device_drivers/ethernet/intel/
+>  F:	drivers/net/ethernet/intel/
+>  F:	drivers/net/ethernet/intel/*/
 
-I think we almost have UAPI that would let you avoid this issue?
-You can use clone() with CLONE_FILES, then unshare the FD table with
-close_range(3, UINT_MAX, CLOSE_RANGE_UNSHARE). That is not currently
-implemented to be atomic with stuff that happens on other threads, but
-if we changed that, and it doesn't provide a good way to carry some
-FDs across, but it feels to me like this could be fixed with a variant
-of close_range() that removes O_CLOEXEC FDs except ones listed in an
-array.
+...
 
-> There are numerous impactful ways to speed up execs both in terms of
-> single-threaded cost and their multicore scalability, most of which
-> would be immediately usable by all programs without an opt-in. imo these
-> needs to be exhausted before something like a "template" can be
-> considered.
+>=20
+>  #define IDPF_VC_XN_DEFAULT_TIMEOUT_MSEC	(60 * 1000)
+>  #define IDPF_VC_XN_IDX_M		GENMASK(7, 0)
+> diff --git a/include/linux/avf/virtchnl.h
+> b/include/linux/net/intel/virtchnl.h
+> similarity index 100%
+> rename from include/linux/avf/virtchnl.h rename to
+> include/linux/net/intel/virtchnl.h
+> diff --git a/drivers/net/ethernet/intel/idpf/virtchnl2.h
+> b/include/linux/net/intel/virtchnl2.h
+> similarity index 100%
+> rename from drivers/net/ethernet/intel/idpf/virtchnl2.h
+> rename to include/linux/net/intel/virtchnl2.h
+> diff --git a/drivers/net/ethernet/intel/idpf/virtchnl2_lan_desc.h
+> b/include/linux/net/intel/virtchnl2_lan_desc.h
+> similarity index 100%
+> rename from drivers/net/ethernet/intel/idpf/virtchnl2_lan_desc.h
+> rename to include/linux/net/intel/virtchnl2_lan_desc.h
+> --
+> 2.47.0
 
-(I think probably a large part of this would be stuff that happens in
-userspace, like dynamic linking.)
 
-> Per the above, the primary win would stem from *NOT* messing with mm.
-
-As you write below, I think we have that with CLONE_MM? The C function
-vfork() is kind of a terrible API because of its returns-twice
-behavior, but I think if process cloning with CLONE_VM|CLONE_VFORK was
-wrapped by libc in a way similar to clone() (with the child executing
-a separate handler function), or if it was used in the implementation
-of some higher-level process-spawning API, it would be a perfectly
-fine API?
-
-Or am I misunderstanding what you mean by "messing with mm"?
-
-> As in, whatever the interface, it needs to create an "empty" target
-> process (for lack of a better term).
->
-> In terms of userspace-visible APIs, a clean solution escapes me.
-
-I think we already have relatively good API for this - you can use
-clone() to create something that initially shares almost all the state
-that a thread would, and then incrementally unshare resources and go
-through execve().
+Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
