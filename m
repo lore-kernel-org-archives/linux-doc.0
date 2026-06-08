@@ -1,249 +1,145 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2306434F255
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 06:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5643329C33F
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 06:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780898634; cv=none; b=o4jxpbJ9trAVA9UFfSYXpthRnmKzPSLr3yg7h89u0RKU0sMdvXDmovFRQLPb41kdXleM2cSj/9M/CkLanHl05tEO97fFa72J48ImUmJhhugqJOI1C1DtsAF/+hEvpXjRevzTx08DOVtY+O9hyGTP64sxapZuGpefBGkGRUjKpZY=
+	t=1780898942; cv=none; b=pt0Lp3dXSYDkr1Yfn5RgomoN1VXa0abEii14S8oKWyu2ToakBZ+aBxD1m6IZC03ztrUEwDenw2YgwCSoL/ej6PAMyYr72E+/sFYVyuzfRKsEJP9yi3PAPXKrcAe1Dgw2HD6Nj6rUzG9DDnNtsL+8B6gk7sdx9EpTo6MngKb02ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780898634; c=relaxed/simple;
-	bh=FFhIP7BTbbw9cki8cXXHzmIP0TXcM2mazihadDvSN2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ylg7aC6w/xSIeRh7/HaYWUMKoa3iwp0zh8XuOsBBDxlYmYpIoRA4JWIKXJA6QuIHlr1eBl0BrRwEWtdh61PTeA0sQIRVz3EehNzt0aYabEwL2/cK439XrzjpcQ9up+QBTHdnP+av0QRAYQNp9Btn2kO1EKzaAFLZBs8c9e+Ps40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mopoAV/a; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1780898942; c=relaxed/simple;
+	bh=0lPFtNBdWRvBYnXPyFHieSVNBHMCubr7WUXsnwYbK40=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H27At9afaNTAqXUFE4zW9JPpi51vQ3i2PX3WjR2GIvfugtOlzzfqKfCLl6Ta8aQM3BWWZAw684af0oE/byWdyI4b3PBRr35ZfzCRZcFsYVVnLPXfqjus04cD3QgznDdVfFCb0Z9v70GjX91ERAf3aa9I+zblEAil+rmAc3Qd3WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f9mHgSvl; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mopoAV/a"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490a762c8d5so4332865e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 23:03:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f9mHgSvl"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45eee266c6cso3164037f8f.1
+        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 23:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780898630; x=1781503430; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fWaDRBNstbxfSINjd7BBh+qbUuVbuMy0CLtcMumXtTQ=;
-        b=mopoAV/aEOdc+08rCA9pb3O34hZRnlyNdvL6uhgMcgms9Qi3ybtrFvZ4ONidyzOApn
-         VeNJNx1zrF7EMxs0PGupPt5QPJ7wWtogRo8g+PZJbBKziY/lxtOnZOR0ECJ0KSY1DLth
-         IGq6WdSiW8Nd+SKSf9W4WNp+5FdLjOsSUfymRk1Nh3nz+MkM34IatMmcpmVxmrStjB5T
-         /dGgqsclu+Cb9wy6WYf/ImyBM5ZbqESRHlFMqFpW5Q1I7dpWnLIvNE8XLWFpfV7AVlxR
-         be24/msN8JJEaf7I5uVdC7sOduD5Bf07CBwLKBd2VaRh0mldqg+ixd7Hu7RE0zGl5V1G
-         AbdA==
+        d=gmail.com; s=20251104; t=1780898940; x=1781503740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RqsXDC7hrVugJjB8a32rNLms35wnnkCAO8b65jTuBio=;
+        b=f9mHgSvliMuMOVvRUSmiHnuJlRf7ZxqcTntkorHQfxEjLPtP5TYWdYF9vnRN+4C6cl
+         NfAzhxwE+Ieq2Jc9xs8wmcWPrVEi9xyLFlzTe4P05CCd+/Gc9kLUX49bfr6TrWDi1Tmd
+         hrpPMkDxZ3A8W/YIPZYHV/yfdHOppD+qzDo9sLqkJhyb4wsqYt53K4aH39wox9XlG4PJ
+         gWzNPwMfI7t006+qdBcMpzs/WNMvq6TxVdd2IuqgAGsRhn0ZnFREvZXsH3LLa7bws39g
+         U/4zQYep4QX8CrSIA06DKTZA5VJG6jaxFjumcahFeEzTzAJ6G/rx1hkgwQSFuNlZlRvD
+         WqnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780898630; x=1781503430;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fWaDRBNstbxfSINjd7BBh+qbUuVbuMy0CLtcMumXtTQ=;
-        b=cvzJ8NlSTaMWFB6+mB4avvwQS45T0y4msYI8hT+ZU7NxdtOEH+UThLww9kWOngCvGv
-         5gb43NgzB33CPeUF75zGrGyDsr5azmyWUJlHOLbQsKqWL3Fo3Q0EWjMzZ53sbvS8Bl62
-         ssY1sKtyQ88DvDv1/2BWflhj66vWPZKk6yRyVr93MTzy7nz1P4aEhMhhpxXSrKTFlbm/
-         x+0OE2YdD7ho+HeKdCq4kwXuHDf8MvJerKDtLX8Z3YcvPDGW4SiuYRkwllrWMN8xXuND
-         /IHwGRTjJFEbi4TvVbOHDyATH+9D9PuritKlECpbYuNfKiGZHCuLe0wsRFPy2H+SRfxD
-         8ysw==
-X-Forwarded-Encrypted: i=1; AFNElJ+v/TPswD/jzVlVBQlmeAW12tG/HaJQZs7rVnQ6QEsb00RqGi4Q6kjUTgk8qeOxBn+VcgXE+OFbuQE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1DLQtvrBIVZxMkPUDuQkwIQ1327IwJedLsa9VMTkTrP5hFHu6
-	t7XZO5zL7Wmhdv2/fjfCLkWE7ODotvanOs4x/fDegSUC2Y3ewwxBvrM+
-X-Gm-Gg: Acq92OFub048LK3laC1tfHHO3sjb67gDBRwwxKFS0+lGKtczNDRgSW1xfyccdw+UDVI
-	T2A2ZZh57zfo+ght7pBCK8AxL9iMSmrT1Dwalm3c+0f+Y69qkYA+KSjB846hwxb1vPKpuASSTKc
-	moC5+d05sz/vSqj/K01Qvjb6ANT0Zj8wm4Fkf+DydRnrg8iOwEgKh+hzDUdMx7dBltyaTGZoNSN
-	jH4M2rCSVwiY+24HbQZhFQWomwo0U9Voac2CRss1g/lca9I25dysruaMd3OXBUXyxojAJajlGqu
-	O9v/8d61y7Tnzyc1Sv2N1lIDWieQQulsP5xggw1CEvMIoAxEfkLBepLdl/9qG+QF3TvwvWZzAg2
-	lydkyySyM/w0qawRsXYejOXOmrrJZAKEjW1x0rRe3EntCLw7ZwM2xHXC5cXONfv3uU8mdGk0NLP
-	F50xZp5CDKtUee0Ey8aUbqTWr/K8VLiKWsIGwYoJhx6bdENAhQ1aOBEadrSZh4C+U51oJoA5o2A
-	wpRf/HoMACwtLMpkLrJoYyBRs0IXCEvsO+msA==
-X-Received: by 2002:a05:600c:8b82:b0:490:abf1:2ddb with SMTP id 5b1f17b1804b1-490c2603825mr103344495e9.6.1780898630330;
-        Sun, 07 Jun 2026 23:03:50 -0700 (PDT)
-Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490be1f69bcsm392992805e9.8.2026.06.07.23.03.49
+        d=1e100.net; s=20251104; t=1780898940; x=1781503740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RqsXDC7hrVugJjB8a32rNLms35wnnkCAO8b65jTuBio=;
+        b=S+28JCENNUReGk+chKZGB4lA2m0RBmY7TrmAuXExdjbcAHzJ56+sOiCnIT4akFZoKY
+         gQYN2COqyZjwS/OOjM+c7e3JDguSTp/3VZAclE4YFk4n4bwfbEQn1fK9FOGzaHdmx0+4
+         kqEgEDI9XyuGqDj/gFw8dq3sijWG+fqr25Id837oY+/Ks51jBfg6D6ljO9TG3RdLd2BM
+         vpe/kee1+9xD1AtdOZ2xpY32kKLP+N8spfAFimt/iTMVfJ7DaSXO7xEuNk2KjcJRiQmy
+         MXm6nLAj8TBpbOjIHhjFIpqhrOvPdippaY7WB4a/VYzQReL+dJsZrhFLW4tgnnUQIuD3
+         47Tw==
+X-Forwarded-Encrypted: i=1; AFNElJ/upOIfty4POGfZKG/1Oh4JAxDZ4EfqxqcepAaHJ6UgpcWaUe356ODCYC3mJdxVhEtYz1N7Jo+BbdI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXtKEoTS0Qr3vaFvv/M/KoPzCRf68mFD9iTvro9YMkzfZjU+++
+	qYFHUtAZG1Y8p+0oGE4YHcdFJmI5uw5giYp+BP9ewhHd36lJm2lz1rEf
+X-Gm-Gg: Acq92OGdM5yI95fNk/vuZLHltTxYLfDWR3AyWafPXg5DfzTfU9XLuL3cvpsYjbf+r8S
+	4LsmyR/lmaxyY9OMaAmYE1Hbl6Hwi8XL7tRiy3st2fQ4hgy8eSzWq8vXsTwzUvdrKDlirbqIZmH
+	CKyTUCQRouNE/RVLPnhhihP574CSiwcc8nIlJ1wHuVmBqzALQAYniXSrAMVFbmZt7flksnIHVBv
+	ilxerQa7Rv771eDckUt+m7bzyPEi9qBU91cf8i1skL9hmT33qSKbE4CAa5NqRCdcM8x6fqXqr+Q
+	Z4iZCiKm9oB0Hdpqu73zxslHo6I79EKmaSMfP1Ug3Nid0S699QLBVQ1dVe+UHNs1aaaG4HmW0z7
+	y9baWLnKwILaJJoUlJxVXxwD1SEbm4TV7YgZ/nbbyRKDWI0PGT2cyV3CX4nDhgeDqHC3rLcTscY
+	ZXAlVD6F3htCPazM0b0uSv/CGzM8Evkg8O8GydOyw8qTGbskTKIuT2
+X-Received: by 2002:adf:f947:0:b0:43f:e934:50ac with SMTP id ffacd0b85a97d-460302e0899mr16283297f8f.7.1780898939531;
+        Sun, 07 Jun 2026 23:08:59 -0700 (PDT)
+Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcae2sm52023475f8f.6.2026.06.07.23.08.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 23:03:49 -0700 (PDT)
-From: Doehyun Baek <doehyunbaek@gmail.com>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>,
+        Sun, 07 Jun 2026 23:08:59 -0700 (PDT)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Brian Downey <bdowne01@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	SeongJae Park <sj@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	damon@lists.linux.dev,
-	Doehyun Baek <doehyunbaek@gmail.com>
-Subject: [PATCH v2 2/2] docs/zh_TW: update DAMON usage Traditional Chinese translation
-Date: Mon,  8 Jun 2026 06:03:02 +0000
-Message-ID: <20260608060302.1564003-3-doehyunbaek@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260608060302.1564003-1-doehyunbaek@gmail.com>
-References: <20260523094420.741003-1-doehyunbaek@gmail.com>
- <20260608060302.1564003-1-doehyunbaek@gmail.com>
+	linux-hwmon@vger.kernel.org (open list:HARDWARE MONITORING),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] hwmon: (asus-ec-sensors) add ROG MAXIMUS Z790 EXTREME
+Date: Mon,  8 Jun 2026 08:08:41 +0200
+Message-ID: <20260608060855.40469-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update the translation of .../admin-guide/mm/damon/usage.rst into
-Traditional Chinese.
+From: Brian Downey <bdowne01@gmail.com>
 
-Update the translation through commit d9cfe515d36e
-("Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file")
+Add support for ROG MAXIMUS Z790 EXTREME
 
-Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+Signed-off-by: Brian Downey <bdowne01@gmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 ---
- .../zh_TW/admin-guide/mm/damon/usage.rst      | 56 +++++++++++++------
- 1 file changed, 40 insertions(+), 16 deletions(-)
+ Documentation/hwmon/asus_ec_sensors.rst |  1 +
+ drivers/hwmon/asus-ec-sensors.c         | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-index d3fd4f850793..debe455723af 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-@@ -15,6 +15,10 @@
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 9ad3f0a57f55..60f1a6036538 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -29,6 +29,7 @@ Supported boards:
+  * ROG MAXIMUS XI HERO
+  * ROG MAXIMUS XI HERO (WI-FI)
+  * ROG MAXIMUS Z690 FORMULA
++ * ROG MAXIMUS Z790 EXTREME
+  * ROG STRIX B550-E GAMING
+  * ROG STRIX B550-I GAMING
+  * ROG STRIX B650E-I GAMING WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 070bb368f2b7..0e78750de34a 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -399,6 +399,12 @@ static const struct ec_sensor_info sensors_family_intel_700[] = {
+ 	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x33),
+ 	[ec_sensor_fan_cpu_opt] =
+ 		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
++	[ec_sensor_fan_water_flow] =
++		EC_SENSOR("Water_Flow", hwmon_fan, 2, 0x00, 0xbc),
++	[ec_sensor_temp_water_in] =
++		EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
++	[ec_sensor_temp_water_out] =
++		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
+ };
  
- DAMON 爲不同的用戶提供了下面這些接口。
+ /* Shortcuts for common combinations */
+@@ -509,6 +515,13 @@ static const struct ec_board_info board_info_maximus_z690_formula = {
+ 	.family = family_intel_600_series,
+ };
  
-+- *專用DAMON模塊。*
-+  :ref:`這 <damon_modules_special_purpose>` 是爲構建、發佈或管理帶有專用DAMON用法的內
-+  核的用戶準備的。使用它，用戶可以在構建、啓動或運行時以簡單的方式爲給定目的使用DAMON的主要
-+  功能。
- - *DAMON用戶空間工具。*
-   `這 <https://github.com/damonitor/damo>`_ 爲有這特權的人， 如系統管理員，希望有一個剛好
-   可以工作的人性化界面。
-@@ -55,14 +59,14 @@ DAMON sysfs接口的文件層次結構如下圖所示。在下圖中，父子關
- 
-     /sys/kernel/mm/damon/admin
-     │ kdamonds/nr_kdamonds
--    │ │ 0/state,pid
-+    │ │ 0/state,pid,refresh_ms
-     │ │ │ contexts/nr_contexts
--    │ │ │ │ 0/operations
-+    │ │ │ │ 0/operations,addr_unit
-     │ │ │ │ │ monitoring_attrs/
-     │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ targets/nr_targets
--    │ │ │ │ │ │ 0/pid_target
-+    │ │ │ │ │ │ 0/pid_target,obsolete_target
-     │ │ │ │ │ │ │ regions/nr_regions
-     │ │ │ │ │ │ │ │ 0/start,end
-     │ │ │ │ │ │ │ │ ...
-@@ -73,10 +77,12 @@ DAMON sysfs接口的文件層次結構如下圖所示。在下圖中，父子關
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-     │ │ │ │ │ │ │ │ age/min,max
--    │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms
-+    │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms,goal_tuner
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-+    │ │ │ │ │ │ │ │ goals/nr_goals
-+    │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid
-     │ │ │ │ │ │ │ watermarks/metric,interval_us,high,mid,low
--    │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds
-+    │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds,nr_snapshots,max_nr_snapshots
-     │ │ │ │ │ │ │ tried_regions/
-     │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age
-     │ │ │ │ │ │ │ │ ...
-@@ -104,7 +110,8 @@ kdamonds/
- kdamonds/<N>/
- -------------
- 
--在每個kdamond目錄中，存在兩個文件（``state`` 和 ``pid`` ）和一個目錄( ``contexts`` )。
-+在每個kdamond目錄中，存在三個文件（``state``、``pid`` 和 ``refresh_ms``）和一個目錄
-+(``contexts``)。
- 
- 讀取 ``state`` 時，如果kdamond當前正在運行，則返回 ``on`` ，如果沒有運行則返回 ``off`` 。
- 寫入 ``on`` 或 ``off`` 使kdamond處於狀態。向 ``state`` 文件寫 ``update_schemes_stats`` ，
-@@ -117,6 +124,10 @@ kdamonds/<N>/
- 
- 如果狀態爲 ``on``，讀取 ``pid`` 顯示kdamond線程的pid。
- 
-+用戶可以要求內核通過 ``refresh_ms`` 文件週期性地更新顯示自動調優參數和DAMOS統計信息的文件。
-+向該文件寫入希望的更新時間間隔（毫秒）。如果間隔爲零，則禁用週期性更新。讀取該文件會顯示當前
-+設置的時間間隔。
++static const struct ec_board_info board_info_maximus_z790_extreme = {
++	.sensors = SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
++		SENSOR_SET_TEMP_WATER | SENSOR_FAN_WATER_FLOW,
++	.mutex_path = ASUS_HW_ACCESS_MUTEX_RMTW_ASMX,
++	.family = family_intel_700_series,
++};
 +
- ``contexts`` 目錄包含控制這個kdamond要執行的監測上下文的文件。
- 
- kdamonds/<N>/contexts/
-@@ -129,8 +140,8 @@ kdamonds/<N>/contexts/
- contexts/<N>/
- -------------
- 
--在每個上下文目錄中，存在一個文件(``operations``)和三個目錄(``monitoring_attrs``,
--``targets``, 和 ``schemes``)。
-+在每個上下文目錄中，存在兩個文件（``operations`` 和 ``addr_unit``）和三個目錄
-+（``monitoring_attrs``、``targets`` 和 ``schemes``）。
- 
- DAMON支持多種類型的監測操作，包括對虛擬地址空間和物理地址空間的監測。你可以通過向文件
- 中寫入以下關鍵詞之一，並從文件中讀取，來設置和獲取DAMON將爲上下文使用何種類型的監測操作。
-@@ -138,6 +149,8 @@ DAMON支持多種類型的監測操作，包括對虛擬地址空間和物理地
-  - vaddr: 監測特定進程的虛擬地址空間
-  - paddr: 監視系統的物理地址空間
- 
-+``addr_unit`` 文件用於設置和獲取操作集的 :ref:`地址單位 <damon_design_addr_unit>` 參數。
-+
- contexts/<N>/monitoring_attrs/
- ------------------------------
- 
-@@ -161,11 +174,15 @@ contexts/<N>/targets/
- targets/<N>/
- ------------
- 
--在每個目標目錄中，存在一個文件(``pid_target``)和一個目錄(``regions``)。
-+在每個目標目錄中，存在兩個文件（``pid_target`` 和 ``obsolete_target``）和一個目錄
-+（``regions``）。
- 
- 如果你把 ``vaddr`` 寫到 ``contexts/<N>/operations`` 中，每個目標應該是一個進程。你
- 可以通過將進程的pid寫到 ``pid_target`` 文件中來指定DAMON的進程。
- 
-+用戶可以向 ``obsolete_target`` 文件寫入非零值並提交它（向 ``state`` 文件寫入 ``commit``），
-+從目標數組中間選擇性地刪除目標。
-+
- targets/<N>/regions
- -------------------
- 
-@@ -239,14 +256,20 @@ schemes/<N>/quotas/
- 當預計超過配額限制時，DAMON會根據 ``目標訪問模式`` 的大小、訪問頻率和年齡，對找到的內存區域
- 進行優先排序。爲了進行個性化的優先排序，用戶可以爲這三個屬性設置權重。
- 
--在 ``quotas`` 目錄下，存在三個文件（``ms``, ``bytes``, ``reset_interval_ms``）和一個
--目錄(``weights``)，其中有三個文件(``sz_permil``, ``nr_accesses_permil``, 和
--``age_permil``)。
-+在 ``quotas`` 目錄下，存在四個文件（``ms``、``bytes``、``reset_interval_ms`` 和
-+``goal_tuner``）和兩個目錄（``weights`` 和 ``goals``）。
- 
- 你可以設置以毫秒爲單位的 ``時間配額`` ，以字節爲單位的 ``大小配額`` ，以及以毫秒爲單位的 ``重
- 置間隔`` ，分別向這三個文件寫入數值。你還可以通過向 ``weights`` 目錄下的三個文件寫入數值來設
- 置大小、訪問頻率和年齡的優先權，單位爲千分之一。
- 
-+你可以通過向 ``goal_tuner`` 文件寫入算法名稱，設置要使用的基於目標的有效配額自動調優算法。
-+讀取該文件會返回當前選定的調優器算法。
-+
-+``goals`` 目錄用於設置自動配額調優目標。每個目標目錄包含 ``target_metric``、
-+``target_value``、``current_value`` 和 ``nid`` 文件。用戶可以讀寫這些文件來設置和獲取配額
-+自動調優目標的參數。
-+
- schemes/<N>/watermarks/
- -----------------------
- 
-@@ -271,10 +294,11 @@ schemes/<N>/stats/
- DAMON統計每個方案被嘗試應用的區域的總數量和字節數，每個方案被成功應用的區域的兩個數字，以及
- 超過配額限制的總數量。這些統計數據可用於在線分析或調整方案。
- 
--可以通過讀取 ``stats`` 目錄下的文件(``nr_tried``, ``sz_tried``, ``nr_applied``,
--``sz_applied``, 和 ``qt_exceeds``)）分別檢索這些統計數據。這些文件不是實時更新的，所以
--你應該要求DAMON sysfs接口通過在相關的 ``kdamonds/<N>/state`` 文件中寫入一個特殊的關鍵字
--``update_schemes_stats`` 來更新統計信息的文件內容。
-+可以通過讀取 ``stats`` 目錄下的文件（``nr_tried``、``sz_tried``、``nr_applied``、
-+``sz_applied``、``qt_exceeds``、``nr_snapshots`` 和 ``max_nr_snapshots``）分別檢索這些
-+統計數據。這些文件默認不是實時更新的。你應該要求DAMON sysfs接口通過 ``refresh_ms`` 週期性地
-+更新這些文件，或者通過在相關的 ``kdamonds/<N>/state`` 文件中寫入一個特殊的關鍵字
-+``update_schemes_stats`` 來執行一次性更新。
- 
- schemes/<N>/tried_regions/
- --------------------------
+ static const struct ec_board_info board_info_prime_x470_pro = {
+ 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+ 		SENSOR_TEMP_T_SENSOR | SENSOR_TEMP_VRM |
+@@ -857,6 +870,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_maximus_x_hero),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z690 FORMULA",
+ 					&board_info_maximus_z690_formula),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG MAXIMUS Z790 EXTREME",
++					&board_info_maximus_z790_extreme),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-E GAMING",
+ 					&board_info_strix_b550_e_gaming),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-I GAMING",
 -- 
-2.43.0
+2.54.0
 
