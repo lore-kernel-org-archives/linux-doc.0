@@ -1,181 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6C035E922
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEFF3D3324;
+	Mon,  8 Jun 2026 16:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780937421; cv=none; b=fmgwlplu+Mt6IppXlS+RhL7B0Au1gv/J+6VzdbaGqEKY42FfdkSlrRo/G+U+/211m0v/kxGpAJ0WXVQbBV784tp+OMRDeCXAlJ3+NZ++nOPl0mOa4pNERY+QuPLTX0DA8n+AxPrhGTaZSxCG14/5GJzvTVM1S5hYNf3QUv1GUbA=
+	t=1780937591; cv=none; b=DE00JDnr69VCnQsQYXQtTflEsavcU57+Hl7AWmQyz6pwVLM269gMsxfYQ6KtZJCOUL/hbnqBwQQa3moWBCKb1Y2+2s3VwuPHRGy6ACbxDTwyfdieFf/ufaJQEvcmHZT/DBYEY0aOy3lOcfcYMB3b32ENMJiWWEkIr4vipzKjGaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780937421; c=relaxed/simple;
-	bh=4lxaymcvpRvTb+P4rhHZMiRlDZAoiqemYjKpznBeLVQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sWbVcbj6QTJ/hATLl7JrJuYoSOd1K+VaML+J8+mZqWcMyQCTPqn1bXvIRkyPG7HsI2pAsiEiKSVCfpCw/EO11fwKWsuoQezyMsUmweKSbXsys9qBS/VXURpalP+x2W9Yhm1mhATPdqpvfBc7Y8JmPvSyKkc5E2mLrJkHAC9B4WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HT2IVy3e; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780937591; c=relaxed/simple;
+	bh=lajAjpnnoujYGkUPN8vIDBCKOYpPLEXuGU9S7aZdnkU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=qk74jKKZbHDRu75Eq37u/fUyzuCrhM5Smakfg1eRlo6iIIrhCvn30xBzurURDruQuSm+8krWo3mRpp7eVZKHcdZ0JdiIvIWjlwFBkl8mwwDsfOZpGR0BY3P5WKiHQseYaY52WGnjNGiJIeXWJP5TN07IxWJmku8V4C/VYJ3IvOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHN8r6c9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HT2IVy3e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CB01F0089B
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:50:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHN8r6c9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D053D1F00893;
+	Mon,  8 Jun 2026 16:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780937420;
-	bh=npHWDqU6yjbT+OwbndMJs/FFPuIRk81q7S8clauz25k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=HT2IVy3eeze5yh4BI7BGaoBZEg44QRKJCSXMjCV+7WeIMGaddZsUGq5i2C347mYa6
-	 Zic/NKR8wutbg5oU17SwIt8dxGwZcfiXaNW5IHKN7vGwsmfMwqHWGJW9wTMthN0fdA
-	 7OrTlkL983bhxe1J7T3QSgIlU7CFYnuCLVoCSROXYgSk0s49Qud+HEPajg9vHmBnQV
-	 KjVyHHKSj18sI1vZbdjZoOlBWg3UplvgumocHjJdA30DiX6l+BYKX4hWIvjqh7DrWe
-	 xFU7reeSazzc2DrIL+/Fl7QAX81EeuoFoWwXJrz3cpFdz5B51gRErZ+qlZRwyx41v7
-	 GtCpDWTgkyAIA==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aa68d7d757so4892195e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:50:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9oeI8XLemzS7KuZhGD4Lurn+7MJ0lAzmm1lQnt89eQcK4YRtPKt/xjzkr3YgNWDhKKeOrQndZJ1LE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9qW53/mUNTW6WHTOoONK8em2uSiW7NrXonhLS0PvdhHgh6yy6
-	xuUwaUAxsj5XTlqIoSGy3CLRsRIBwrJPjO1+ybSy/FOMp2SeAcCmr6hbNUuyGMjYHnyr3vEVttj
-	Dvf3/d/Iu6aZTyeln7QcK1Eg1mTAZoHs=
-X-Received: by 2002:a05:6512:61d9:10b0:5aa:75f2:c996 with SMTP id
- 2adb3069b0e04-5aa87bb9a8emr3078487e87.16.1780937418842; Mon, 08 Jun 2026
- 09:50:18 -0700 (PDT)
+	s=k20260515; t=1780937590;
+	bh=X2ZgdLij1/sVQajgSfKAIK8jhMPGr2TnsrqDbVGe1AU=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=eHN8r6c92FN+3+E4fVx9L1226GabKJOtDq/FZ31NPua1kkYkxsUC7nLJEUsAUCmDi
+	 AfhXgE6UxrRCkP5+LTncog+fYvoCpmKb6zNerrM86G/At3/FyO9yIAFCg4jCJ9LmDH
+	 tjkfulGD3dw7a/ZZ4GXgz9mgR495iAsyNTlNCX2Phlch50m/mBl9PtbaB0vf73xwpr
+	 5L1M5S2mcC0V+q0XAtteIG5/lVazAZ0iSBjrZjGzPNV4Ray3bzFjUucknLqh6cfgC4
+	 g6WAvuthzLhF6whuXvxfK6WiRExO8t6Mmt3S0/9Moo4MBLu8QCoIwFmrWxQe43kroI
+	 pe9WVNb5Tj3zw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 18775F40081;
+	Mon,  8 Jun 2026 12:53:09 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 08 Jun 2026 12:53:09 -0400
+X-ME-Sender: <xms:dPMmatYYHy_4_R4edDVYbAk43sU8VCccd_X9aGxybfHJqcFPKLyciA>
+    <xme:dPMmavOqZFXe7BcrJ-5qSqN5OWREJMCO4fXoZ9pRHL-4r4dUb5IbIILCc0f8I5q-y
+    b4uA4aPIt9gD7zrAL9873KnGwYWy8e-mGabmz1yOQP0kYVZOG5FQpw>
+X-ME-Proxy-Cause: dmFkZTGuxUbHR9LzJEIvgkv9xchPjz+OlD15rjaP2w0bLL4J77GqY2ESJeRrWXx0A0nch2
+    PIo1PGxqNiZJPC/JlWtE8oDvDWg4NU57KWF3X7eX2VmCRWjl/T5TXDZ2c6SPAD8bDn7nDd
+    QBbWOKV+yTqQP1IAkIAy8mDbds0+TDVEGj5S0pZSZlXfiflBlxOGd2uyUirVO9UlAxRE0v
+    dVOzwGguqZjpNQw+UGwasOWYV/mXVKpvDBGXbf7SRvB33iEMTYiWflQEXxFhauRfLwtfib
+    fc6X9qI02sjmlEoUrU9/WnvXhrWPdEdCBcdgxcw2Nmqq7A67R8qr/BShIqosGunxES0+Gi
+    /nxWwA0fp+91HS7QQ5VS3YU1Gz9dkFn+j1Ky3R6RfcxzbRpxA1wQdRORLQw7RhPuuuDF9/
+    Pxz2yf6s+8yY5uKu0FTziFlMhBWZxClcRq8xlSsmUV5dyefIvqfQVmsCV4TSaiHBmEX9k+
+    fx7L2hWjYcALjYr2u7HfW1kEENcD+Q/w1i+ih3AV+QPQjTsLnp7m9K96FOGi8IytVBux5B
+    3RkoqFMbvbxOTyLWJgTIFgY1oXO47R8d6lDyU0O7P6SMf/avHEjCl3MWyl6QkjxFlSGmoh
+    J6wly4+IBNy3gMM7dVEhwciBD2Mwczk3vEIS48jUMmxXzeByx7SmimMwMfpg
+X-ME-Proxy: <xmx:dfMmaqD8F0IlWddjftN9iA9QwM4V3a6obQ4-qmyADJWbQF07VEb5EA>
+    <xmx:dfMmarnmCRWwa-I7S8hDulv58UxeaDurKUuOS4BdfPJOT6GCAzLOUw>
+    <xmx:dfMmalSU1wRzlDefhDGsttq5Eo55lUXR-0u3In9A_sSXl8V6S41WEg>
+    <xmx:dfMmavJTjB5hFwlvf-uch9P4oSJvRxLnHwx3ZRDNbt0vv88YC0Rpwg>
+    <xmx:dfMmar83_dKTr7m41yzmhrupKZYFumyDUIPNwqaRhmdhef_dCEQJyhC8>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DDA6F780070; Mon,  8 Jun 2026 12:53:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260528090913.2759118-1-pierre.gondois@arm.com>
- <20260528090913.2759118-4-pierre.gondois@arm.com> <CAJZ5v0hwYcvYZJ1jCSo_5vpynOLBciW-4-KeracQTyUCw7fSGw@mail.gmail.com>
- <6447f46d-5a60-45a2-b585-9835c9c26893@arm.com>
-In-Reply-To: <6447f46d-5a60-45a2-b585-9835c9c26893@arm.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 8 Jun 2026 18:50:07 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hqjdd79J-Hi=mSLMm2Fxhia+xa6iguJwZy2-pRBSJ6gA@mail.gmail.com>
-X-Gm-Features: AVVi8CeORZeGIlAC3kCCNf5xvinM_kGWNcToWxlEjA_NxQU5ebuMifvlZvQHeDc
-Message-ID: <CAJZ5v0hqjdd79J-Hi=mSLMm2Fxhia+xa6iguJwZy2-pRBSJ6gA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] cpufreq: Remove driver default policy->min/max init
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org, 
-	Jie Zhan <zhanjie9@hisilicon.com>, Lifeng Zheng <zhenglifeng1@huawei.com>, 
-	Ionela Voinescu <ionela.voinescu@arm.com>, Sumit Gupta <sumitg@nvidia.com>, 
-	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Huang Rui <ray.huang@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: A_rAEqOGWjyN
+Date: Mon, 08 Jun 2026 12:52:48 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <35918046-66e3-4361-adc3-bce328ce9821@app.fastmail.com>
+In-Reply-To: <20260522-dir-deleg-v5-7-542cddfad576@kernel.org>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+ <20260522-dir-deleg-v5-7-542cddfad576@kernel.org>
+Subject: Re: [PATCH v5 07/21] nfsd: add callback encoding and decoding linkages for
+ CB_NOTIFY
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On Wed, Jun 3, 2026 at 9:49=E2=80=AFAM Pierre Gondois <pierre.gondois@arm.c=
-om> wrote:
->
-> Hello Rafael,
->
-> On 6/1/26 20:08, Rafael J. Wysocki wrote:
-> > On Thu, May 28, 2026 at 11:10=E2=80=AFAM Pierre Gondois <pierre.gondois=
-@arm.com> wrote:
-> >> Prior to [1], drivers were setting policy->min/max and
-> >> the value was used as a QoS constraint. After that change,
-> >> the values were only temporarily used: cpufreq_set_policy()
-> >> ultimately overriding them through:
-> >> cpufreq_policy_online()
-> >> \-cpufreq_init_policy()
-> >>    \-cpufreq_set_policy()
-> >>      \-/* Set policy->min/max */
-> >>
-> >> This patch reinstate the initial behaviour. This will allow
-> >> drivers to request min/max QoS frequencies if desired.
-> >> For instance, the cppc driver advertises a lowest non-linear
-> >> frequency, which should be used as a min QoS value.
-> >>
-> >> To avoid having drivers setting policy->min/max to default
-> >> values which are considered as QoS values (i.e. the reason
-> >> why [1] was introduced), remove the initialization of
-> >> policy->min/max in .init() callbacks wherever the
-> >> policy->min/max values are identical to the
-> >> policy->cpuinfo.min/max_freq.
-> >>
-> >> Indeed, the previous patch ("cpufreq: Set default
-> >> policy->min/max values for all drivers") makes this initialization
-> >> redundant.
-> >>
-> >> The only drivers where these values are different are:
-> >> - gx-suspmod.c (min)
-> >> - cppc-cpufreq.c (min)
-> >> - longrun.c
-> >>
-> >> [1]
-> >> commit 521223d8b3ec ("cpufreq: Fix initialization of min and
-> >> max frequency QoS requests")
-> >>
-> >> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
-> >> Acked-by: Jie Zhan <zhanjie9@hisilicon.com>
-> > sashiko.dev has some feedback on this patch and appears to have a point=
-:
-> >
-> > https://sashiko.dev/#/patchset/20260528090913.2759118-1-pierre.gondois%=
-40arm.com
-> >
-> > Can you have a look at it please?
-> >
-> [sashiko]
->
->  > Does removing the policy->max =3D max_freq assignment here break UAPI
->  > expectations by exposing the unlisted boost frequency in
-> scaling_max_freq?
->  >
->  > Commit 538b0188da4653 intentionally allowed drivers like acpi-cpufreq
-> to set
->  > policy->cpuinfo.max_freq to a higher boost frequency while relying on
->  > cpufreq_frequency_table_cpuinfo() to clamp policy->max to the frequenc=
-y
->  > table's nominal maximum (max_freq). This ensured that user-space
-> tools saw
->  > the nominal maximum in scaling_max_freq.
->  >
->  > Although commit 521223d8b3ec temporarily disrupted this by defaulting
-> the QoS
->  > max to -1, a subsequent patch in this series changes the core to
-> initialize
->  > the QoS request using policy->max.
->
-> Effectively PATCH [4/4] cpufreq: Use policy->min/max init as QoS request
-> now uses the policy->max value set by the .init() callback to set
-> the max_freq_req QoS constraint.
->
->  >
->  > If the policy->max =3D max_freq assignment were preserved, the subsequ=
-ent
->  > patch would successfully use the nominal frequency as the QoS max
-> request,
->  > restoring the correct clamping behavior.
->
-> IIUC this suggests to use the nominal freq. as the QoS max request.
-> This was behaving like that prior to 521223d8b3ec. However doing
-> that would mean that if boost is enabled and the max_freq_req sysfs
-> is not updated, then the frequency would still be clamped by
-> the max_freq_req. 521223d8b3ec intended to correct that.
->
-> Sashiko seems to suggest modifications to come back to the
-> pre-521223d8b3ec behaviour, but I think 521223d8b3ec is correct
-> and we should conserve this behaviour.
 
-So there is some confusion in the patch changelogs of this series, but
-not in the code, regarding the role of the last argument of
-freq_qos_add_request().  Namely, that argument is the initial request
-value for the given request object which is subsequently managed by
-user space.  User space may in fact change it to whatever value it
-wants (either lower or higher) and it is only taken into account along
-with the other requests in the given chain.  IMV it is better to
-clarify that, so I have updated the changelogs when applying the
-patches.
+On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> Add routines for encoding and decoding CB_NOTIFY messages. These call
+> into the code generated by xdrgen to do the actual encoding and
+> decoding.
 
-Please see
+The commit message needs to explain that the encoder is not yet functional.
+Something like: "The encoder is a stub; payload encoding (stateid, fh, and
+cna_changes) is deferred."
 
-https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/=
-?h=3Dbleeding-edge&id=3D8c83947c5dbbd49b36d08bb99e344327c6278781
 
-and its ancestors and let me know if there's anything missing in the
-changelogs thereof.
+> diff --git a/fs/nfsd/nfs4callback.c b/fs/nfsd/nfs4callback.c
+> index 25bbf5b8814d..ea3e7deb06fa 100644
+> --- a/fs/nfsd/nfs4callback.c
+> +++ b/fs/nfsd/nfs4callback.c
+> @@ -865,6 +865,51 @@ static void encode_stateowner(struct xdr_stream 
+> *xdr, struct nfs4_stateowner *so
+>  	xdr_encode_opaque(p, so->so_owner.data, so->so_owner.len);
+>  }
+> 
+> +static void nfs4_xdr_enc_cb_notify(struct rpc_rqst *req,
+> +				   struct xdr_stream *xdr,
+> +				   const void *data)
+> +{
+> +	const struct nfsd4_callback *cb = data;
+> +	struct nfs4_cb_compound_hdr hdr = {
+> +		.ident = 0,
+> +		.minorversion = cb->cb_clp->cl_minorversion,
+> +	};
+> +	struct CB_NOTIFY4args args = { };
+> +
+> +	WARN_ON_ONCE(hdr.minorversion == 0);
+> +
+> +	encode_cb_compound4args(xdr, &hdr);
+> +	encode_cb_sequence4args(xdr, cb, &hdr);
+> +
+> +	/*
+> +	 * FIXME: get stateid and fh from delegation. Inline the cna_changes
+> +	 * buffer, and zero it.
+> +	 */
+> +	WARN_ON_ONCE(!xdrgen_encode_CB_NOTIFY4args(xdr, &args));
+> +
+> +	hdr.nops++;
+> +	encode_cb_nops(&hdr);
+> +}
 
-Thanks!
+There are a number of problems with this, but since there are no
+callers yet, we can let some of those issues stand.
+
+What is problematic in the longer-term is that this is a client-side
+encoder (since this is the server's NFSv4 callback client).
+
+xdrgen_encode_CB_NOTIFY4args() is an argument encoder, which is
+client-side functionality, but it resides in fs/nfsd/nfs4xdr_gen.c,
+which is server-side. Let's not mix these purposes.
+
+I replaced the comment and WARN_ON with this:
+
++       xdr_stream_encode_u32(xdr, OP_CB_NOTIFY);
++
++       /* FIXME: encode stateid, fh, and cna_changes from delegation */
+
+You can use xdrgen functions for individual data items, but for
+full argument and response structures, only server-side is supported
+at the moment. In the later patch that completes this code, I'll cover
+the other fields, which can be a mix of open code and xdrgen.
+
+
+> diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
+> index e1c40f8b5d01..790282781243 100644
+> --- a/fs/nfsd/state.h
+> +++ b/fs/nfsd/state.h
+> @@ -190,6 +190,13 @@ struct nfs4_cb_fattr {
+>  	u64 ncf_cur_fsize;
+>  };
+> 
+> +/*
+> + * FIXME: the current backchannel encoder can't handle a send buffer longer
+> + *        than a single page (see bc_alloc/bc_free).
+> + */
+
+Nit: The allocator function name is bc_malloc
+
+
+-- 
+Chuck Lever
