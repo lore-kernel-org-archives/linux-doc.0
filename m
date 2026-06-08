@@ -1,211 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D463D413C
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 14:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDF638A72B;
+	Mon,  8 Jun 2026 14:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780928577; cv=none; b=fXWWokFvUbQIYGQIaXGT9ya71KbUMB52ynSxd3ayoaLYBkI0huZlLTfxafuUiXntEsrGckEHaJFYbbOyADj7tJ9BEtJZulRKCfYQa30wEuCGQ8n6vJ2rrnZpbZF++duGm0kgkA4W4kQR6x+D4CEGnBxZLKIOSWhdvdukpApnWnA=
+	t=1780928662; cv=none; b=MryxTjjiIaFZclZHBTgw3OxNYl3jUq9tcPo0GLhDLEnp0ZvyEYLVftKLuvupeEyE/QtJWAGJ5WmLl3ot2rZFG/0vMD+HVD1yos0FlZNiXqyVzvU+vgq/7tU3fb0tbEZVuaBH1h7N43wV6+wZeivlVnZHjXtT5diWGq+lVr0Ommg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780928577; c=relaxed/simple;
-	bh=VuB9xCUPG5CPdshkBpreNadVER9e5F8P16Kq7nsXLLU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XehKCYlERRtk8v0YY5cGdXcvgsvmchUM6R/lIKWl1/WIs8AUbm3fh1qhBnLPL4RKBk31zgGvQYZkpJOmhZ4Lz7kQ4hvaBbhTgkLRH2qI471WsH6NUej0BvbOqg60gWlLZ0yU/q2w5X+pEesXDJagUaxVU8SLq3xihS42oNOc7is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hiAoJxMY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780928662; c=relaxed/simple;
+	bh=QRE7yBxmt6dZDSBRemCh6llijh3yzWyacNI7zuU+HTw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i8j22oY+twjH9+eeDn9wgUPFI9d1ebBh437zmmP5eJx+ycO6aC6rkwdr7qr0giXI7S3xEcFk8VoUs4CNoSLChZ0zdzsRz+Sr75elrMmS+kPtObdFok2nOQX80AWK+ELypyUfXiylc98w8+imNZ568sxTboNsQcykUWEhFPgDtfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f77AGlaS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hiAoJxMY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 368C51F00A01
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 14:22:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f77AGlaS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C0F1F00893;
+	Mon,  8 Jun 2026 14:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780928576;
-	bh=H+mBsB5jor7WTQVPkKZI+SdiyFIv/mhsg/57Abzj2VU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=hiAoJxMYV7sPhK9RrLF3qNIQDo2wu8lwwWLX2mRmh4fzd9njzCvF5WXMnZXbTydwA
-	 Sgrn+e+aCfIWwsCwALwj2Oq5Bk9+rU4W35mvI41pAyezquKdRsjsWpVTlf8TAVBpEE
-	 NZqm2ELIO+D1gbqKjllDusFN1aIjAMGcC3EJ+pg10x9rtplSqirGiJ0FkC1xdY3PmY
-	 qUGdZ0a5V0/5DJpkQ/Kaxt74l5iTb/8jdVmeiDIy6WgvEZzK3vAZh1OBUITdrYPKo9
-	 QjHOUHwy1CIIhGGtIY+xYQzEp396Dg4nUBF/BIdjKYga/nPEniy4XIxA1lGqbhx0/I
-	 +UlH0hLsEx9Rg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3965f215817so39432011fa.3
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 07:22:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+7YCxqUxNwl0nESpo5+x9sYi3lIsFN+tV1Bm5Q5z1WciILPe9lQQ6XmOR1E6Bv53HWVOH0pYuO8aE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIkS0c0QrBYt/fI67yvEgKPEN+wIyEQo4aaEf2wit0jyIQhRO+
-	I++zdwcb3XuNt138KfoVwHMIQ8ipU1qLNvuuintY6gIY7O/5TRt1R2F4bffMHCsK84kfD5mEXjU
-	/YvgMhbICn0Q1uvYVIrf/hVZKds2tURI=
-X-Received: by 2002:a05:6512:140d:b0:5aa:7779:803b with SMTP id
- 2adb3069b0e04-5aa87b8a6b6mr4500005e87.5.1780928574579; Mon, 08 Jun 2026
- 07:22:54 -0700 (PDT)
+	s=k20260515; t=1780928661;
+	bh=cjX8+061TbVjwdZkrMpGGF5UrC/j9HGWiAY7267pDNU=;
+	h=From:To:Cc:Subject:Date;
+	b=f77AGlaS6HBVxqhZkkJaK6b99hh1j5WLUqwlOcQ4XHW6uh23v4gv3Axcvhfndj9rA
+	 fm623nHWTCJHysS1H1cXErOtZ6ooF6tjKuANecAJVYPssg25xjy6XY7/B7Q2YKzwMA
+	 eya8VzYYnbDujPfFUHYWWn++cY4jOZUCzfOQEbYJKW6WI5UZA0Nh5nQQ3+WlnYnBaU
+	 5QasU3GPek1KhPSyQJ3KkQsg24UACh4cDz6F5Tuldh7J10Tpl5TSziNCrENGJeI4dS
+	 vxRklYAiC8owVwkeDW4pkiENIsSKAPZcty9tPgFnnro/M54q5zUoDfPJLJi7egOwZp
+	 Xoor4wX2gLUyg==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH 0/7] tracing/probes: Add more typecast features
+Date: Mon,  8 Jun 2026 23:24:16 +0900
+Message-ID: <178092865666.163648.10457567771536160909.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608021526.1023248-1-tzungbi@kernel.org> <20260608021526.1023248-4-tzungbi@kernel.org>
-In-Reply-To: <20260608021526.1023248-4-tzungbi@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 8 Jun 2026 16:22:35 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
-X-Gm-Features: AVVi8CekT83yVQauQvXIw2JTKFETj3NWRq4IFI_tZjKdEJQmv1ylGzWwl8d1-MA
-Message-ID: <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] PM: dpm_watchdog: Add sysctl interface for DPM
- watchdog timeouts
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
-	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
-	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 8, 2026 at 4:16=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> Introduce sysctl knobs to allow configuring DPM watchdog timeouts at
-> runtime.
->
-> Currently, these timeouts are fixed at compile time via
-> CONFIG_DPM_WATCHDOG_TIMEOUT and CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT.
-> This limits flexibility if the timeouts need to be adjusted for
-> different testing scenarios or hardware behaviors without rebuilding
-> the kernel.
->
-> Add the following sysctl files under /proc/sys/kernel/:
-> - dpm_watchdog_timeout_secs: The total timeout before panic. The
->   maximum value is capped at CONFIG_DPM_WATCHDOG_TIMEOUT to prevent
->   unreasonably large timeouts.
-> - dpm_watchdog_warning_timeout_secs: The warning timeout. The maximum
->   value is capped at the current dpm_watchdog_timeout_secs.
-> Both sysctls have a minimum value of 1.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
-> v3:
-> - No changes.
->
-> v2: https://lore.kernel.org/all/20260604090756.2884671-4-tzungbi@kernel.o=
-rg
-> - New to the series.
->
-> v1: Doesn't exist.
->
->  drivers/base/power/main.c | 61 ++++++++++++++++++++++++++++++++++++---
->  1 file changed, 57 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index 7822c29b7c8d..c1a4b30fafb2 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -28,6 +28,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/sched.h>
->  #include <linux/sched/debug.h>
-> +#include <linux/sysctl.h>
->  #include <linux/async.h>
->  #include <linux/suspend.h>
->  #include <trace/events/power.h>
-> @@ -539,6 +540,58 @@ static bool __read_mostly dpm_watchdog_enabled =3D
->  module_param(dpm_watchdog_enabled, bool, 0644);
->  MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
->
-> +static unsigned int __read_mostly dpm_watchdog_timeout =3D CONFIG_DPM_WA=
-TCHDOG_TIMEOUT;
-> +static unsigned int __read_mostly dpm_watchdog_warning_timeout =3D
-> +                                               CONFIG_DPM_WATCHDOG_WARNI=
-NG_TIMEOUT;
-> +static const unsigned int dpm_watchdog_timeout_max =3D CONFIG_DPM_WATCHD=
-OG_TIMEOUT;
-> +
-> +static int proc_dodpm_watchdog_timeout_secs(const struct ctl_table *tabl=
-e,
-> +                                           int write, void *buffer,
-> +                                           size_t *lenp, loff_t *ppos)
-> +{
-> +       struct ctl_table ctl =3D *table;
-> +       unsigned int val =3D dpm_watchdog_timeout;
-> +       int ret;
-> +
-> +       ctl.data =3D &val;
-> +       ret =3D proc_douintvec_minmax(&ctl, write, buffer, lenp, ppos);
-> +       if (ret || !write)
-> +               return ret;
-> +
-> +       if (val < dpm_watchdog_warning_timeout)
-> +               dpm_watchdog_warning_timeout =3D val;
-> +       dpm_watchdog_timeout =3D val;
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct ctl_table dpm_watchdog_sysctls[] =3D {
-> +       {
-> +               .procname       =3D "dpm_watchdog_timeout_secs",
-> +               .maxlen         =3D sizeof(unsigned int),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D proc_dodpm_watchdog_timeout_secs,
-> +               .extra1         =3D SYSCTL_ONE,
-> +               .extra2         =3D (void *)&dpm_watchdog_timeout_max,
-> +       },
-> +       {
-> +               .procname       =3D "dpm_watchdog_warning_timeout_secs",
-> +               .data           =3D &dpm_watchdog_warning_timeout,
-> +               .maxlen         =3D sizeof(unsigned int),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D proc_douintvec_minmax,
-> +               .extra1         =3D SYSCTL_ONE,
-> +               .extra2         =3D (void *)&dpm_watchdog_timeout,
-> +       },
-> +};
-> +
-> +static int __init dpm_watchdog_sysctl_init(void)
-> +{
-> +       register_sysctl_init("kernel", dpm_watchdog_sysctls);
-> +       return 0;
-> +}
-> +subsys_initcall(dpm_watchdog_sysctl_init);
-> +
->  /**
->   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
->   * @t: The timer that PM watchdog depends on.
-> @@ -564,9 +617,9 @@ static void dpm_watchdog_handler(struct timer_list *t=
-)
->                         dev_driver_string(wd->dev), dev_name(wd->dev));
->         }
->
-> -       time_left =3D CONFIG_DPM_WATCHDOG_TIMEOUT - CONFIG_DPM_WATCHDOG_W=
-ARNING_TIMEOUT;
-> +       time_left =3D dpm_watchdog_timeout - dpm_watchdog_warning_timeout=
-;
->         dev_warn(wd->dev, "**** DPM device timeout after %u seconds; %u s=
-econds until panic ****\n",
-> -                CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT, time_left);
-> +                dpm_watchdog_warning_timeout, time_left);
->         show_stack(wd->tsk, NULL, KERN_WARNING);
->
->         wd->fatal =3D true;
-> @@ -587,11 +640,11 @@ static void dpm_watchdog_set(struct dpm_watchdog *w=
-d, struct device *dev)
->
->         wd->dev =3D dev;
->         wd->tsk =3D current;
-> -       wd->fatal =3D CONFIG_DPM_WATCHDOG_TIMEOUT =3D=3D CONFIG_DPM_WATCH=
-DOG_WARNING_TIMEOUT;
-> +       wd->fatal =3D dpm_watchdog_timeout =3D=3D dpm_watchdog_warning_ti=
-meout;
->
->         timer_setup_on_stack(timer, dpm_watchdog_handler, 0);
->         /* use same timeout value for both suspend and resume */
-> -       timer->expires =3D jiffies + HZ * CONFIG_DPM_WATCHDOG_WARNING_TIM=
-EOUT;
-> +       timer->expires =3D jiffies + HZ * dpm_watchdog_warning_timeout;
->         add_timer(timer);
->  }
->
-> --
+Hi,
 
-I think that this can be applied without the other two patches in the
-series, so please let me know if you want me to apply it separately.
+Here is a series of patches to introduce more typecast features
+to probe events, which includes 1. expanding BTF typecast to
+fprobe and kprobe events, 2. introducing container_of like typecst
+option, 3. supporting nested typecast, 4. adding $current special
+variable support, 5. adding per-cpu dereference support, 6. adding
+a testcase to check typecasts.
 
-Thanks!
+Steve introduced BTF typecast feature for eprobe[1].
+This series extends it and add more options:
+
+1. Expanding BTF typecast to kprobe and fprobe.
+   (currently only function entry/exit)
+
+2. Introduce container_of like typecast. This adds a "assigned
+   member" option to the typecast.
+
+   (STRUCT,MEMBER)VAR->ANOTHER_MEMBER
+
+   This casts VAR to STRUCT type but the VAR is as the address
+   of STRUCT.MEMBER. In C, it is:
+
+   container_of(VAR, STRUCT, MEMBER)->ANOTHER_MEMBER
+
+3. Support nested typecast, e.g.
+
+   (STRUCT)((STRUCT2)VAR->MEMBER2)->MEMBER
+
+   the nest level must be smaller than 3.
+
+4. Add $current variable to point "current" task_struct.
+   This is useful with typecast, e.g.
+
+   (task_struct)$current->pid
+
+5. per-cpu dereference support.
+
+   +CPU(VAR) is the same as this_cpu_read(VAR), and
+   +PCPU(VAR) is the same as this_cpu_ptr(VAR).
+   Also, "this_cpu_ptr(VAR)" is available. This is good
+   with nesting expression.
+
+   (STRUCT)(this_cpu_ptr(VAR))->MEMBER
+
+   (However, it might be better to allow a special way to omit
+    parentheses for thi_cpu_ptr())
+
+And added a test script to test part of them.
+
+[1] https://lore.kernel.org/all/20260601130746.2139d926@gandalf.local.home/
+
+
+---
+
+Masami Hiramatsu (Google) (7):
+      tracing/probes: Support typecast for various probe events
+      tracing/probes: Support nested typecast
+      tracing/probes: Support field specifier option for typecast
+      tracing/probes: Add $current variable support
+      tracing/probes: Add +CPU() and +PCPU() dereference method to fetcharg
+      tracing/probes: Support reserved this_cpu_ptr() method
+      tracing/probes: Add a new testcase for BTF typecasts
+
+
+ Documentation/trace/eprobetrace.rst                |   11 +
+ Documentation/trace/fprobetrace.rst                |   11 +
+ Documentation/trace/kprobetrace.rst                |   12 +
+ kernel/trace/trace.c                               |    6 
+ kernel/trace/trace_probe.c                         |  312 +++++++++++++++-----
+ kernel/trace/trace_probe.h                         |   12 +
+ kernel/trace/trace_probe_tmpl.h                    |   33 ++
+ samples/trace_events/trace-events-sample.c         |   38 ++
+ samples/trace_events/trace-events-sample.h         |   34 ++
+ .../ftrace/test.d/dynevent/btf_probe_event.tc      |   52 +++
+ 10 files changed, 422 insertions(+), 99 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+
+--
+Signature
