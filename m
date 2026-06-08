@@ -1,199 +1,174 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C0039B949;
-	Mon,  8 Jun 2026 08:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317F83A1A2D;
+	Mon,  8 Jun 2026 08:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780906106; cv=none; b=B2Nod0u1PWS/9ZaHXaAhetcD3Y5KfLDSJeySYRLLd3xohGuBJlfQXqih2iMr3sxC7czq+FkDjiLRScgUoP02bQEBpfJazDsf1+5QCKublfJN6s1wtfrjJecNHCvLQYgvDn0GWPicRxK8OmNFXONlHwGyblWpZHsSgBKzx/rX0VM=
+	t=1780906603; cv=none; b=LrumSVoVHRzLaKWlvhUBL7EnQuNnjALcxwJFBa2EP4kDIuRnxSKhTDSHTF2CFAE9YSauG9ZD1uv6N5gNN0RlgXmHCpdFYM5tdRRiDXTGUqmAvHR8ArTXwnneJE4Gtm/uNrA9su1+GlIMafu4de0KlTlnFdKd5QZB6W6kdchSHv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780906106; c=relaxed/simple;
-	bh=pD9wTBkwc0OG4EoG/KBOlsQltrnEMHaxKnXurrzizuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ltv147sO34DVdzid6ZVafsZR8FxudyFcZIPxwcOrdc0cHCuPGjNk1Gxt9TL3SwAOACqfGvzeQNjKtCHviVLU7hjWn7f3CZFy9fuQcFf/c4n8aSeLJ1thUPRET72Gr/b6EtL26CCDSTjAxBe0UKCWcxfLZHbUVQXgpewYBGHGGOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ngvO5U+O; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ngvO5U+O; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ngvO5U+O";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ngvO5U+O"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=1O0W+PMFaImUEHS11h0qPr/2bHJpUyc1ctnF0elS/cQ=;
-	b=ngvO5U+Ohxn3umzASf6kJP2ao1O9uIHiDkFzKhI8AJYyg2zqXO9PDGtwpygvXHUrjwDUqKDRw
-	ZSjEBkAgKLP5QhHH+29zOBe7hN9fmcJDxbOQ9rsbVSqLB6TkIBwxUiIA+jis3a7Beccw0Eb6Bv1
-	IXRRaH15EfFKmS7gS/058Gg=
-Received: from canpmsgout09.his.huawei.com (unknown [172.19.92.135])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4gYl5v3cT7z1BHM4;
-	Mon,  8 Jun 2026 16:08:03 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=1O0W+PMFaImUEHS11h0qPr/2bHJpUyc1ctnF0elS/cQ=;
-	b=ngvO5U+Ohxn3umzASf6kJP2ao1O9uIHiDkFzKhI8AJYyg2zqXO9PDGtwpygvXHUrjwDUqKDRw
-	ZSjEBkAgKLP5QhHH+29zOBe7hN9fmcJDxbOQ9rsbVSqLB6TkIBwxUiIA+jis3a7Beccw0Eb6Bv1
-	IXRRaH15EfFKmS7gS/058Gg=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gYkwv1JqMz1cyPM;
-	Mon,  8 Jun 2026 16:00:15 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id E864C40565;
-	Mon,  8 Jun 2026 16:08:06 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 8 Jun 2026 16:08:03 +0800
-Message-ID: <f26bc61d-14ad-450d-bdfa-59b039ae660c@huawei.com>
-Date: Mon, 8 Jun 2026 16:08:03 +0800
+	s=arc-20240116; t=1780906603; c=relaxed/simple;
+	bh=npSKpn2mPguRbhZHnmDVJZ8K052ijPWXXnumdzaiILs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JZ2z7gnJ9FWfwexWjvf6aHW5BeD79E53YMu3hImon9tK8lGUAG4gw7AUKacXuVYTHFzRnlb39eOp+AqkF1rxXpMHa/PUjEtme9b9Av1OXURyjqROILjmYvPVY6GwTHlh24zL3IF2r6rghTpKjvs5P6D9RQTLWrWJ9UlkYlombEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 5dfcf786631211f1a87c2323a98e90a4-20260608
+X-CID-CACHE: Type:Local,Time:202606081614+08,HitQuantity:7
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:6ee38e8c-0106-452a-9e01-486af36d8b57,IP:0,U
+	RL:25,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:e276073,CLOUDID:7c47cfa4-9ef7-4489-861a-e83b251ece46,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:0,Content:0|14|50,EDM:-3,IP:nil,URL:11|94|82|106|1,File:130,RT:-1,B
+	ulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
+	:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5dfcf786631211f1a87c2323a98e90a4-20260608
+Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 793136157; Mon, 08 Jun 2026 16:16:36 +0800
+X-UUID: 5a797328631211f1943831befd1aa4bc-20260608
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:4266c7f6-32e6-46d7-a334-2702d8dc500a,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:2b2f702a-13d2-4d29-83ea-b8014339a000,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
+	888|898,TC:-5,Content:-10|-8|-5|14|50,EDM:-3,IP:nil,URL:11|94|82|106|1,Fil
+	e:130,RT:-1,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DK
+	R:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5a797328631211f1943831befd1aa4bc-20260608
+Received: from sdbmbx13.tpe.compalcomm.com [(10.113.2.137)] by sdmg11.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 570636317; Mon, 08 Jun 2026 16:16:30 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX13.tpe.compalcomm.com (10.113.2.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
+ Mon, 8 Jun 2026 16:16:28 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
+ 15.02.2562.029; Mon, 8 Jun 2026 16:16:28 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: "Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>, Loic Poulain
+	<loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh
+	<shi-wei.yeh@mediatek.com>, Minano Tseng <Minano.tseng@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH 01/11] net: wwan: t9xx: Add PCIe core
+Thread-Topic: [PATCH 01/11] net: wwan: t9xx: Add PCIe core
+Thread-Index: AQHc8bhcdmgibeQV+0mP7OG8OB0FzrYt9Hq3gAXWO4CAAInHl4AABd2t
+Date: Mon, 8 Jun 2026 08:16:28 +0000
+Message-ID: <bacf828774754822870877ea59532313@compal.com>
+References: <20260529-t9xx_driver_v1-v1-0-bdbfe2c01e57@compal.com>
+ <20260529-t9xx_driver_v1-v1-1-bdbfe2c01e57@compal.com>,<PH0PR11MB5902127C590230B9FE50F78AF0152@PH0PR11MB5902.namprd11.prod.outlook.com>
+ <c9e80369a7ec449a814cd85269f1135e@compal.com>,<PH0PR11MB5902CCC89F0B7C8EB3DE84E4F01C2@PH0PR11MB5902.namprd11.prod.outlook.com>,<bfecf94780ad458b91a26d18d832cdd1@compal.com>
+In-Reply-To: <bfecf94780ad458b91a26d18d832cdd1@compal.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29994.005
+x-tm-as-result: No-10--12.856700-8.000000
+x-tmase-matchedrid: IDcII6LbfMAuv++HU7VXryRFbfQbCufdN0X64jGy2db7+pncqRJfyx3E
+	y8bUOyJjaUPlBsIyPQqQd7hqnnHt1ITLlkTaHclrGG92L3YEEC50pPFWgq1KNgSjtG4gy/zQk3M
+	PpgxG+BYZ+O+6wWe+rfJ3yfksIbvtUohvb26/VwDIUNmTDb0ad1XyfUSvLyzCLlyTQpkPM/muL/
+	wQL67inHpDwkRjycbm5qWmJpeeRGrxPy/KTnXd847tl5XBMfR0GfP6Q7XnYodvlBCrK8pGQDEVg
+	wwZHfKtcQQjXLG6PQHW4nEWqErTWXohGpceJQZ8+1ee9G3wijaVmuhG06IIbe/bYoUSKfqauJCI
+	QB6CcSAUniOR5wPtVfpgVVYHPd+B6FXDqHhzf++hHa4ajj4rLHJdOCvX33ZJSNuzoTmS1wVSGht
+	saB9Y8PoHz/xoqkhb8Q9k+ZQpzmofJ8WtENJ4xuL0Mdyrs1C+i9V1e7G8XUjm4kfqYdQJGXJtKF
+	u5zOx/r3RRr3ptPn2DrdGzSk8YQY1g3zDt1sv5D4I+2Qtnp0WiWLhmiI4dPyDilljGyWFts2R4R
+	gZsli6DG4IEHJUquTFZQVzIOU+Yd6RfXt3YMtMRsDS3Qlo4C7Nbolk9uKBt
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--12.856700-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29994.005
+x-tm-snts-smtp: 093F413311FB7B08C4AC994EA4DE7698500C8608CD52C3CCA11167296C04F8D02000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 06/10] riscv: kexec_file: Use crash_prepare_headers()
- helper to simplify code
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
-	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
-	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
-	<rdunlap@infradead.org>, <peterz@infradead.org>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <kuba@kernel.org>,
-	<lirongqing@baidu.com>, <ebiggers@kernel.org>, <paulmck@kernel.org>,
-	<leitao@debian.org>, <coxu@redhat.com>, <Liam.Howlett@oracle.com>,
-	<ryan.roberts@arm.com>, <osandov@fb.com>, <jbohac@suse.cz>,
-	<cfsworks@gmail.com>, <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <adityag@linux.ibm.com>, <liaoyuanhong@vivo.com>,
-	<seanjc@google.com>, <fuqiang.wang@easystack.cn>, <ardb@kernel.org>,
-	<chenjiahao16@huawei.com>, <guoren@kernel.org>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
-References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
- <20260608073459.3119290-7-ruanjinjie@huawei.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260608073459.3119290-7-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- dggpemf500011.china.huawei.com (7.185.36.131)
 
-
-
-On 6/8/2026 3:34 PM, Jinjie Ruan wrote:
-> Use the newly introduced crash_prepare_headers() function to replace
-> the existing prepare_elf_headers(), allocate cmem and exclude crash kernel
-> memory in the crash core, which reduce code duplication.
-> 
-> Only the following two architecture functions need to be implemented:
-> - arch_get_system_nr_ranges(). Call get_nr_ram_ranges_callback()
->   to pre-counts the max number of memory ranges.
-> 
-> - arch_crash_populate_cmem(). Use prepare_elf64_ram_headers_callback()
->   to collects the memory ranges and fills them into cmem.
-
-
-The below AI reported TOCTOU bug is an existing artifact and completely
-unrelated to the core CMA implementation introduced here. Therefore, we
-will skip fixing it in this series to avoid unnecessary noise.
-
-Link:
-https://lore.kernel.org/all/20260608075420.8C5871F00893@smtp.kernel.org/
-
-> 
-> Cc: Paul Walmsley <pjw@kernel.org>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Cc: Alexandre Ghiti <alex@ghiti.fr>
-> Cc: Guo Ren <guoren@kernel.org>
-> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Acked-by: Baoquan He <bhe@redhat.com>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  arch/riscv/kernel/machine_kexec_file.c | 47 +++++++-------------------
->  1 file changed, 12 insertions(+), 35 deletions(-)
-> 
-> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
-> index 3f7766057cac..439cbc50dfa6 100644
-> --- a/arch/riscv/kernel/machine_kexec_file.c
-> +++ b/arch/riscv/kernel/machine_kexec_file.c
-> @@ -44,6 +44,15 @@ static int get_nr_ram_ranges_callback(struct resource *res, void *arg)
->  	return 0;
->  }
->  
-> +unsigned int arch_get_system_nr_ranges(void)
-> +{
-> +	unsigned int nr_ranges = 2; /* For exclusion of crashkernel region */
-> +
-> +	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
-> +
-> +	return nr_ranges;
-> +}
-> +
->  static int prepare_elf64_ram_headers_callback(struct resource *res, void *arg)
->  {
->  	struct crash_mem *cmem = arg;
-> @@ -55,41 +64,9 @@ static int prepare_elf64_ram_headers_callback(struct resource *res, void *arg)
->  	return 0;
->  }
->  
-> -static int prepare_elf_headers(void **addr, unsigned long *sz)
-> +int arch_crash_populate_cmem(struct crash_mem *cmem)
->  {
-> -	struct crash_mem *cmem;
-> -	unsigned int nr_ranges;
-> -	int ret;
-> -
-> -	nr_ranges = 2; /* For exclusion of crashkernel region */
-> -	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
-> -
-> -	cmem = kmalloc_flex(*cmem, ranges, nr_ranges);
-> -	if (!cmem)
-> -		return -ENOMEM;
-> -
-> -	cmem->max_nr_ranges = nr_ranges;
-> -	cmem->nr_ranges = 0;
-> -	ret = walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-> -	if (ret)
-> -		goto out;
-> -
-> -	/* Exclude crashkernel region */
-> -	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
-> -	if (ret)
-> -		goto out;
-> -
-> -	if (crashk_low_res.end) {
-> -		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
-> -		if (ret)
-> -			goto out;
-> -	}
-> -
-> -	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
-> -
-> -out:
-> -	kfree(cmem);
-> -	return ret;
-> +	return walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
->  }
->  
->  static char *setup_kdump_cmdline(struct kimage *image, char *cmdline,
-> @@ -281,7 +258,7 @@ int load_extra_segments(struct kimage *image, unsigned long kernel_start,
->  	if (image->type == KEXEC_TYPE_CRASH) {
->  		void *headers;
->  		unsigned long headers_sz;
-> -		ret = prepare_elf_headers(&headers, &headers_sz);
-> +		ret = crash_prepare_headers(true, &headers, &headers_sz, NULL);
->  		if (ret) {
->  			pr_err("Preparing elf core header failed\n");
->  			goto out;
-
+PiA+ID4gU2VudDogRnJpZGF5LCBNYXkgMjksIDIwMjYgMTI6MzIgUE0NCj4gPiA+DQo+ID4gPiA+
+ICsNCj4gPiA+DQo+ID4gPiBwbGVhc2UgYWxzbyB0YWtlIGEgbG9vayBvbiBzYXNoaWtvIG5vdGVz
+LCB0aGVyZSBpcyBzb21lIG51bWJlciBvZiB0aGVtDQo+ID4NCj4gPiBIaSBKYWdpZWxza2ksDQo+
+ID4NCj4gPiBUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3LiBXZSBoYXZlIGZpeGVkIHNvbWUgaXNz
+dWVzIGFuZCBhcmUgc3RpbGwNCj4gPiBkaXNjdXNzaW5nIG90aGVycyB3aXRoIE1lZGlhVGVrLiBB
+bGwgb2YgdGhlbSB3aWxsIGJlIGFkZHJlc3NlZCBpbiBWMi4NCj4gPg0KPiA+IFJlZ2FyZGluZyBz
+YXNoaWtvIG5vdGVzLCBob3cgc2hvdWxkIEkgaGFuZGxlIHRoZW0gaWYgZGlzY3Vzc2lvbiBpcyBu
+ZWVkZWQ/IEkNCj4gPiBjYW5ub3QgZmluZCBzYXNoaWtvJ3MgZW1haWwgYWRkcmVzcywgYW5kIGl0
+cyB3ZWJzaXRlIGRvZXMgbm90IGhhdmUgYSByZXBseQ0KPiA+IG9wdGlvbi4NCj4gPg0KPg0KPiBJ
+IGd1ZXNzIGRpc2N1c3Npb24gaXMgbmVlZGVkIHdoZW4gYW55IG9mIHRoZSByZXZpZXdlcnMgZGly
+ZWN0bHkgcmVmZXJzDQo+IHRvIGFueSBvZiB0aGUgbm90ZXMgcG9zdGVkIGJ5IHNhc2hpa28uDQo+
+DQo+IElmIGFueSBvZiB0aGUgbm90ZXMgd2FzIG5vdCBkaXJlY3RseSBwb2ludGVkIG91dCBieSBh
+bnlib2R5IHBsZWFzZSBqdXN0DQo+IGNoZWNrIHdoaWNoIG9mIHNhc2hpa28gbm90ZXMgYXJlIHZh
+bGlkIGFuZCBmaXggdGhlbSByZXNwZWN0aXZlbHkNCj4gaWYgbmVlZGVkLg0KPg0KPg0KPiA+IEZv
+ciBleGFtcGxlOg0KPiA+IGh0dHBzOi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC8yMDI2MDUyOS10
+OXh4X2RyaXZlcl92MS12MS0wLWJkYmZlMmMwMWU1NyU0MGNvbXBhbC5jb20/cGFydD0yDQo+ID4N
+Cj4gPiBRMTogVGhlIGNvbW1pdCBtZXNzYWdlIG1lbnRpb25zIGltcGxlbWVudGluZyBUWCBhbmQg
+Ulggc2VydmljZXMsIGJ1dCB0aGUNCj4gPiBwYXRjaCBwcmltYXJpbHkgYWRkcyBlbXB0eSBzdHJ1
+Y3R1cmVzIGFuZCBib2lsZXJwbGF0ZSBjb2RlLiBJcyB0aGUgcGF0Y2gNCj4gPiBtaXNzaW5nIHRo
+ZSBhY3R1YWwgVFgvUlggaW1wbGVtZW50YXRpb24gZGVzY3JpYmVkIGhlcmU/DQo+ID4NCj4gPiBS
+ZXBseToNCj4gPiBXZSBwbGFuIHRvIHVwZGF0ZSB0aGUgY29tbWl0IG1lc3NhZ2UuIFdvdWxkIHRo
+ZSBmb2xsb3dpbmcgYmUgYWNjZXB0YWJsZT8NCj4NCj4gSSBiZWxpZXZlIGlmIHlvdSB3YW50IHRv
+IGNoZWNrIGlmIHNhc2hpa28gaGFzIG5vIGFueSBsb25nZXIgcHJvYmxlbXMgd2l0aCBpdA0KPiB5
+b3UNCj4gbmVlZCB0byBzZW5kIHYyIGFuZCBjaGVjayB0aGF0IHdheSwgdW5sZXNzIGltIG5vdCBh
+d2FyZSBvZiBzb21ldGhpbmcNCj4NCj4gPg0KPiA+IEFkZCB0aGUgY29udHJvbCBwbGFuZSB0cmFu
+c2FjdGlvbiBsYXllciBmcmFtZXdvcmsgZm9yIHRoZSB0OXh4DQo+ID4gV1dBTiBkcml2ZXIsIGlu
+Y2x1ZGluZyBjb25maWd1cmF0aW9uIG9wdGlvbnMsIGRldmljZSBzdHJ1Y3R1cmUNCj4gPiBkZWZp
+bml0aW9ucywgYW5kIGluaXRpYWxpemF0aW9uL2NsZWFudXAgZnVuY3Rpb25zLg0KPiA+DQo+ID4g
+VGhlIGFjdHVhbCBUWC9SWCBzZXJ2aWNlIGltcGxlbWVudGF0aW9ucyB0aGF0IHVzZSB0aGlzIGZy
+YW1ld29yaw0KPiA+IGFyZSBpbnRyb2R1Y2VkIGluIHN1YnNlcXVlbnQgcGF0Y2hlcy4NCj4gPg0K
+PiA+DQo+ID4gVGhhbmtzLg0KDQpIaSBKYWdpZWxza2ksDQoNClRoYW5rIHlvdSBmb3IgdGhlIGNs
+YXJpZmljYXRpb24uIEl0IG1ha2VzIHBlcmZlY3Qgc2Vuc2Ugbm93Lg0KDQpSZWdhcmRpbmcgdGhl
+IHNhc2hpa28gbm90ZXMsIHRoZXJlIGFyZSBhIGZldyB0aGF0IHdlIGJlbGlldmUgYXJlIGZhbHNl
+DQpwb3NpdGl2ZXMgb3IgZG8gbm90IHJlcXVpcmUgbW9kaWZpY2F0aW9ucyBiYXNlZCBvbiBvdXIg
+aGFyZHdhcmUgZGVzaWduLg0KU2luY2Ugbm9ib2R5IGhhcyBkaXJlY3RseSBwb2ludGVkIHRoZW0g
+b3V0LCB3ZSB3aWxsIGFkZHJlc3Mgb25seSB0aGUNCnZhbGlkIG9uZXMgYW5kIGxlYXZlIHRoZSBy
+ZXN0IHVuY2hhbmdlZCBmb3IgVjIuDQoNCkFzIGZvciB0aGUgVjIgc3VibWlzc2lvbiB0aW1pbmcs
+IEkgYW0gc3RpbGwgd2FpdGluZyBmb3IgZmVlZGJhY2sgZnJvbSB0aGUNCldXQU4gbWFpbnRhaW5l
+cnMvcmV2aWV3ZXJzLCBzcGVjaWZpY2FsbHk6DQotIExvaWMgUG91bGFpbiA8bG9pYy5wb3VsYWlu
+QG9zcy5xdWFsY29tbS5jb20+DQotIFNlcmdleSBSeWF6YW5vdiA8cnlhemFub3Yucy5hQGdtYWls
+LmNvbT4NCi0gSm9oYW5uZXMgQmVyZyA8am9oYW5uZXNAc2lwc29sdXRpb25zLm5ldD4NCg0KU2hv
+dWxkIEkgd2FpdCB1bnRpbCBJIHJlY2VpdmUgY29tbWVudHMgZnJvbSBhbGwgb2YgdGhlbSBiZWZv
+cmUgc3Bpbm5pbmcgVjIsDQpvciBpcyBpdCBhY2NlcHRhYmxlIHRvIHNlbmQgVjIgb25jZSB0aGUg
+Y3VycmVudCBmZWVkYmFjayBoYXMgYmVlbiBhZGRyZXNzZWQ/DQoNClRoYW5rcywNCkphY2sNCg0K
+DQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpUaGlzIG1l
+c3NhZ2UgbWF5IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdl
+ZCBvciBjb25maWRlbnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNzLCBJbmMuIElmIHlvdSBhcmUg
+bm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2Ugbm90aWZ5
+IHRoZSBzZW5kZXIgYW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNzYWdlLiBBbnkgcmV2aWV3LCBy
+ZXRyYW5zbWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yIHRha2luZyBv
+ZiBhbnkgYWN0aW9uIGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZvcm1hdGlvbiwgYnkgcGVyc29u
+cyBvciBlbnRpdGllcyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQgaXMgcHJvaGli
+aXRlZC4NCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg==
