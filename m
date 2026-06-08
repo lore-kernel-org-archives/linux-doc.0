@@ -1,100 +1,202 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE59734FF5D
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50C73CC7F1;
+	Mon,  8 Jun 2026 16:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780936467; cv=none; b=ERD91+XR1UR8HBdOdsAyi3XHVJyqi+L0WMUGf0nH5PXiU/JQGTeJ7zJdA1gohIyGSrYKS5T6YpwNNyoe878bX2Mj2QrYgMOjorJ4tHo6KIHMCgVIa9KJyO+KqTu//FoapfEM/d7Blo+qebbjOhqJhmy/skxt5nmO24Uu2876pAY=
+	t=1780936684; cv=none; b=F+hL2yYIKroid0C0ekitP7wLtVmAtfUUbZOWNJMumIWJ6R6ElidKDflDXZodiZIUOeksklXmfq+dU+iLKoFLfEkeSP/9gd60oBkkOhXkjPOGcpisII1oAQZMZ/8OOGtKF9oHOlILOxonkNoLlll+e081uTQrMpmpTjAkDrX60EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780936467; c=relaxed/simple;
-	bh=6aboxZNTHmGRlVVTElDaIhAgkk+pkJbOucCA+q+fG88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlSOZhvBXPZZnbEvS6yR5G8f/nP5HEtMNn2RME6DWX2lPpZPkoUne4y+c8mBp8acRN4er5GEbT9qZgJ0nyi3b63tMA6TlGuTbZqQL4ywgw2Hv1PEbZdPlJ5Z/HypYnUqgJtvP0WbEvKORhI1Vw2lt486dIds3JNKKIPx57IKPFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lWp4KC5c; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780936684; c=relaxed/simple;
+	bh=5DdLkMzRrEAvhwAc0qIEJQIrYipvLT7MDtA/eZEnF0U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ALvAhKza5z8qmnOF8cfgVyaoVqQIxzCeXh3Kpik7bUsGja0elRb7nWzgqVY478fwIMF8enQr3mSKkPmhuHqx+zCV0wDCZln2T/lOlo3G7zkkFVfo/UbTdqPFFFwBYo7jMNp6Zdrx555RlFJpRtAiTit3U3alCeHs5iAPFpxxPOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jM8L3Z/1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lWp4KC5c"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3045c195251so4192851eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780936465; x=1781541265; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I+2qeA95DLaZ9BgMbSdRs9Zeos2A7MyNzkJXZ9cO6hM=;
-        b=lWp4KC5ccM/uqEPJrSh9vH7+0YrIUk/gS2IWSbrEOBKuXtGH5Ykz1Aq7QygQvJawpG
-         mTQ16ZSayKA5xoGEHDuIV/44cvdk6vUN8IJ/Y4pBmYeYOYjFRIfQIwa0lgf9ogHJAq7L
-         0iB5mL4OUdiIeaUIqfIBfAG05GfbV2/nrZpWRlXAsJ3tmQvky3Pzp3TQe2/A86KqZF9s
-         Es1n6hqiyIvphUiHVPOg6TbKE4c/+At77ih0NGoLWAUnlwLjCgDzOa/KYOdiVTY48A8q
-         OFEwLIwbkinyuZuT8d+aoh6Gr1KzAfylMtxMFPROYeAo1Q+gIf/0ldOxpRoZ7EOCWqQ/
-         BbPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780936465; x=1781541265;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=I+2qeA95DLaZ9BgMbSdRs9Zeos2A7MyNzkJXZ9cO6hM=;
-        b=a7Gzv8LjH6+tkQKGp95KfADbgDIOLt+Fc/LO/VS2yZkO5h2otvNDUpE0yb1vdR84t2
-         J+Z5/SWL6zGrZ9kDaB2yHK8fHtENVlZLnDIyX/EP8PIBAjlRUKY+z20bTNDCmajo5JkN
-         ZMP7kecMxlGUEmTzobIjnRoc0u2uB7ft+JI4A7odzcDpwa85D741KfAhnvdKF+DO+Wyw
-         hAc3I0sJorxt7pIcAYvhysRG7es7wcVmAGWQdMmhC/Q+h7aQCWwA13bPpgHNUAK4cTiS
-         zssdcohsvUwZabHN2mnFJxzP9n/+v5DHAH5S6McNc6ePkARJHo+XzM/8lazYIkz3hDu7
-         naIQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9hpQnytzoBeLfWTFB8SMCtIUMXa7aCorTdQCn9mJx9FwPTkXtuWTZQolT+/I1d/WPtPt75AZwNZwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYaa9IN+yz5qmU3Ou5wnRWqSOA5HONZn1fpxng1eKyggD7/kA9
-	wxaBjy1YMVIiR91HyJNl4qAzVUgx9wBO+E27MBw57ql6c85wYNOlGlb3j5Gv4ZJ2
-X-Gm-Gg: Acq92OF9+JZICSiOyYVB30zLowekso0NfakifbRSnz/veo4yH0U+a6DZShOtg1U35Yn
-	O0nxY10HR/Zc9ewxVhFgUywqX/lsyLVvUSTz+L8DkaZEsz8wcRsJiYT+YYl8Uyz1S3qtlhTMB5/
-	M8Y01gcDSw/FrxfyLkzD+CimsFlVUyFIylIKOtsyCIMzpWfJTKxV7wNvvUQRIF+1AoBqC/056w4
-	cBfp2xvXzDKALl9tDCI4U8E6UETkgJx5WzFR7cQGJZMm9q2sThYRbq+pKEQ4Dgh2iZ9CpG3iACu
-	kO0g6WX8yDxBaaSYWYZpTmEM3cD+9M8ssVgTFH6IsGaze/381DtCDBbTuQjTY7w0U2GuAkDtNqf
-	qFUV9O8qR2IiYIiIytXM5mCYFPSIDZ4r1VXxbtOoyB6d0YPgoojIJ1CCW3ZrhY0SB7a41BehzH3
-	/eIZiiU4j4YlJXsB5llHGvIn9bbxsWUKDmyCDGfhlYauNpZyfqM9InFkPPng==
-X-Received: by 2002:a05:7300:8cac:b0:306:f474:738c with SMTP id 5a478bee46e88-3077b084d97mr8582773eec.13.1780936465006;
-        Mon, 08 Jun 2026 09:34:25 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db85e10sm17075287eec.7.2026.06.08.09.34.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 09:34:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 8 Jun 2026 09:34:23 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	richard.leitner@linux.dev
-Subject: Re: [PATCH v2 2/3] hwmon: Add update_interval_us chip attribute
-Message-ID: <01f74dc7-c923-4d1e-9ded-129d17508587@roeck-us.net>
-References: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
- <20260608-hwmon-ina238-update-interval-us-v2-v2-2-2d939fbb2ea1@advastore.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jM8L3Z/1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AAC1F00893;
+	Mon,  8 Jun 2026 16:38:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780936682;
+	bh=DApU5TlrL6usYvvj36d0vAgMIrDrbdr3UKG4H5QMHbc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=jM8L3Z/1eYjYYYmMAY34lAcE3FiA04Earphy34DOwZn6+AIcKWF/oKsvra7PO4gmf
+	 zAYShSjUkplmDu2RA97dy3e09xO5SQG2u6o6rC4aAus59cmnjywevd4faxpxDbWro4
+	 tUqn1ghgDaBGgETEloRGR5j+5hUTY5mWG1MtWCiwGtDYE4RUIiZh/1jlk/Z35EnDL3
+	 lwxLsUyNl+Nn6rqTUvE2L/ckKP4TJhi8kx3t2yZKg+wWuhK8XnCf80c8m4oj3XfykE
+	 sEm+Jluk4TiyAN4OwvFDqphqSkspiEhW2aZUaitdc+Nm6VJVkkgq724MrVW5+i2lYs
+	 x5bG9FXiQY8MQ==
+Message-ID: <906ff2a1fa578558954b82941ce0809c4257e443.camel@kernel.org>
+Subject: Re: [PATCH v4 03/21] nfs_common: add new NOTIFY4_* flags proposed
+ in RFC8881bis
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
+ Ngo <Dai.Ngo@oracle.com>,  Tom Talpey <tom@talpey.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>
+Cc: Alexander Aring <alex.aring@gmail.com>, Amir Goldstein
+ <amir73il@gmail.com>,  Jan Kara <jack@suse.cz>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner	 <brauner@kernel.org>, Calum
+ Mackay <calum.mackay@oracle.com>, 	linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-nfs@vger.kernel.org
+Date: Mon, 08 Jun 2026 12:37:59 -0400
+In-Reply-To: <bf852bf8-2d80-4b12-8d7c-bb0770c8b379@app.fastmail.com>
+References: <20260522-dir-deleg-v4-0-2acb883ac6bc@kernel.org>
+	 <20260522-dir-deleg-v4-3-2acb883ac6bc@kernel.org>
+	 <bf852bf8-2d80-4b12-8d7c-bb0770c8b379@app.fastmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608-hwmon-ina238-update-interval-us-v2-v2-2-2d939fbb2ea1@advastore.com>
 
-On Mon, Jun 08, 2026 at 03:03:55PM +0200, Ferdinand Schwenk wrote:
-> From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
-> 
-> Some hardware monitoring chips support update intervals below one
-> millisecond. The existing update_interval attribute uses millisecond
-> granularity, which causes sub-millisecond steps to round to the same
-> value and become inaccessible from userspace.
-> 
-> Introduce update_interval_us, a companion chip-level attribute that
-> expresses the same update interval in microseconds. Drivers
-> implementing this attribute should also implement update_interval for
-> compatibility with millisecond-based userspace interfaces.
+On Mon, 2026-06-08 at 12:23 -0400, Chuck Lever wrote:
+> Unfortunately, reviewing this series slipped off my radar. I'm just now
+> getting to it. I'm going to do this in order and some of the earlier
+> reviews are cosmetic. But there are some significant changes needed
+> later on, so I expect we'll need to redrive this series and punt it to
+> v7.3.
+>=20
 
-Unfortunately, Signed-off-by: is missing. Otherwise looks good.
+That's reasonable. We had some unrelated new bugs crop up near the end
+of the cycle that made it hard to get this in and tested properly. I'd
+like to propose that we keep the VFS bits
 
-This also affects the other patches of the series.
+> One thing you might update before you repost is to remove the "Acked-by:
+> Chuck Lever" throughout the series.
+>=20
 
-Guenter
+Ok. I think b4 added that.
+
+>=20
+> Nit: the Subject: prefix should be "nfsd:" not "nfs_common:"
+>=20
+
+include/linux/sunrpc/xdrgen/nfs4_1.h is a shared header. Anna will
+presumably need this patch as well.
+
+>=20
+> On Fri, May 22, 2026, at 8:28 AM, Jeff Layton wrote:
+> > RFC8881bis adds some new flags to GET_DIR_DELEGATION that we very much
+> > need to support.
+>=20
+> Nit: Let's say: "RFC8881bis adds new flags to GET_DIR_DELEGATION
+> that later patches consume."
+>=20
+> One recent private comment to me was a question about whether we can
+> trust the stability of the specification, which is still a WG document
+> and has been for years. This patch's commit message should address
+> that.
+>=20
+
+That's definitely an open question. We are definitely adopting these
+changes before the ink is dry. We might have to modify things later,
+especially once there is more client-side experience.
+
+I'm open to verbiage suggestions here.
+
+
+>=20
+> > diff --git a/Documentation/sunrpc/xdr/nfs4_1.x=20
+> > b/Documentation/sunrpc/xdr/nfs4_1.x
+> > index 632f5b579c39..aa14b590b524 100644
+> > --- a/Documentation/sunrpc/xdr/nfs4_1.x
+> > +++ b/Documentation/sunrpc/xdr/nfs4_1.x
+> > @@ -416,7 +416,21 @@ enum notify_type4 {
+> >          NOTIFY4_REMOVE_ENTRY =3D 2,
+> >          NOTIFY4_ADD_ENTRY =3D 3,
+> >          NOTIFY4_RENAME_ENTRY =3D 4,
+> > -        NOTIFY4_CHANGE_COOKIE_VERIFIER =3D 5
+> > +        NOTIFY4_CHANGE_COOKIE_VERIFIER =3D 5,
+> > +        /*
+> > +         * Added in NFSv4.1 bis document
+> > +         */
+>=20
+> I clarified this comment: "/* Proposed in RFC8881bis */"
+>=20
+> I rebuilt the generated source to confirm that it hasn't been altered
+> by recent changes to xdrgen or this comment change. The only thing
+> that changed in the output was the header's timestamp.
+>=20
+
+Sounds good.
+--=20
+Jeff Layton <jlayton@kernel.org>
