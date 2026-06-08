@@ -1,123 +1,368 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD0F348866
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 12:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C277E378833;
+	Mon,  8 Jun 2026 12:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780920128; cv=none; b=emYydVuLib4JDpl7wNS+tMzd+piaPy5Knv0KD+84dB7MWzvatIEQjtjjwL04MqmASsCZYMTud4g+HUdbbd/En/PmX9iKqOHKjQepqGWTyZKz6n90CR62ZcASYGA9/WRgFpD+OWDjhFMnhHhZqPEm/yfkSqSH9OMA2N5uCygwAgk=
+	t=1780921799; cv=none; b=R/zWxuG0ykNHHFfd4MgB63C2V81TlqqfyUx2ww9waHHPjPTJTn5t5XuOn7lNktFwgFyhbGaNS7BUIP6jMvH5GZIhsjYSvTAHeMK/QY1oUSjWUyUef+o76BKpo1dZmtzVSgqraWK8J2Cay7bWDVjxzc72QoMNx1oqmQACpVSuzko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780920128; c=relaxed/simple;
-	bh=5h565UQOW9a2IJHasBszuWYVo0+DZmzIhsjI+wT8Ku0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P4aLpFQbZr+65kXTyIBXtRBvOURldDMGflWt5SRnz4Tbh6MDOMDnIJlRDbAPn/Bxw1Hyt51Dw/d7XjH6yQmMSt/yu2MtDeyE3UntepiN/HUFjwI6EexqwCDFNRyjDjK3tgaEVMoTN01Mbxc2zKumHl23C3nN/BIwXgNGfHX+Pso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=brlsmJ+R; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="brlsmJ+R"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bf22c18ad3so374205ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 05:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780920126; x=1781524926; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tJaMwlHdD5ukSuw9Ddmz9W921lhUeR/xfWp0HtFNkEA=;
-        b=brlsmJ+Ruh5zlmyZfJ2JLvhLAsoJ22cOQzIzuhos+aSu4YzmcIDO2+BQWGW6VWA/wh
-         uH5C//BLz7m6ENna1PzhFSx6+eu8TbobCmBHdPje3sJLCJNxkCvQDHbVIJftBvOafA+X
-         qfuzPPuH7WLsSn7riShKgzcc6T+KqpZmc55eUKrCXlXzB4KhlRj7evb09iOnI6zy0uxU
-         V6IlvZUBUcbO2IuMYYq4PQE85rZbwZsth1FlfxUbbWk56WDSuT0hKnqkpHJGh3DQ5RM8
-         EyuL/kpwXI+xfSSkrcXDgR7f3SdcXEkQpxU35eyGpnKc/jLt/0+1JYrOwqm1tFHZyJXE
-         TbUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780920126; x=1781524926;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tJaMwlHdD5ukSuw9Ddmz9W921lhUeR/xfWp0HtFNkEA=;
-        b=M+gabFe0SU3TdAiTmR+47oBKCVqwbxgNDusr7rIFBwngzxsiS6neTMPfb6BCewfxqv
-         jM2Ph3mfQoHGCDbgNIt44q+7tOqaukN1W3E04ibY4ACrcM9kRlV2iII6oOrnL6tIIdsv
-         b3KesYO+PtVhQ0XNe2WlPwK7iDRggJNLVeTsdtQLEvzHio0hsOw7K2HNgsTQy27KUz/r
-         k9uqqA2D6g2STPQySo3dQb7sUTv9hnyn+ZdG86nv953Q63DtulP8NNdDtxUPxLeuWode
-         Nl5/N2OvLeJmOLdy/OSA/IlfghPZ+dy1duagG08YGSWsv3TJqJMh+wMP9ml2Ie0dwb0B
-         XL2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+sCYRNdXghdIQ11gN0EtilmL0xZHg2lw8FHi+wD7p9AZ2vDNDr7hBbV/fn3bp+D73XzpDj/FzDj+w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzppldUNxWBVPew9x0mucOZYRHoufMlGXZ40qONcaDyjAzSyhCv
-	xtXsysaGfhI3MlFHi1/y9nrXQglkNm/K0Ecz+ZnLv4oNnW3tPUN2fIEFQM0JzPpQiw==
-X-Gm-Gg: Acq92OH4R1RgH5AGgJ0Y8UdPtoNWBKvj4pp0TJujQtN59kxY1FJ9plML+EepcFb8ura
-	yeFUlkhkJ1RhZ0OUst7i8IUGfrGXkRedXjY12YPCNhM1LCQli/ufpFef4lcgMGYtWIM7rL4BcRA
-	WRJWeNI88tAcfnKljmYGZTcnN3akFpHe9Ly9v79mq9hY5BuSp9Jp7xcQ4kAzmnTvgrAypqViO+3
-	vx8HyvN79xQxw9Eo8o00yUCzHMN+fSnjwMkjHuIw8eQNPfeevngbsZ7Gg4Oi4UdR3GScYRhljUM
-	g0UdbeFNFUL3MTJmVMfLFehlSxeDNnirdLCLRtkoF9cCwV2xphw2co7/EfMb45Z8eYFGh0RqQtk
-	zf6hsB4+IFVKIO6TdQlXJV+p0PvqhlCOmZ0dkyCo3rbR8qaKs8kinC4DrvLm74AeBpQybPU2xzo
-	B3gmlCEe3ifLbS5VncLXMqMnZMur/QawvJbNUuvCfoMGqREZjcRKzCxenLWxgYXkH8XW4U8jqnP
-	D21kQTtCg==
-X-Received: by 2002:a17:903:ac6:b0:2b0:aee4:afe7 with SMTP id d9443c01a7336-2c1eb1dbf25mr5272565ad.10.1780920124143;
-        Mon, 08 Jun 2026 05:02:04 -0700 (PDT)
-Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f85de1sm180971895ad.20.2026.06.08.05.01.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 05:02:03 -0700 (PDT)
-Date: Mon, 8 Jun 2026 12:01:55 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 12/12] Documentation: PCI: Add documentation for Live
- Update
-Message-ID: <aiavM2JWPds-mEfD@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-13-dmatlack@google.com>
+	s=arc-20240116; t=1780921799; c=relaxed/simple;
+	bh=ANGn6rs0yhDXw2n+hTfHlll77cRn3Gb04giF2Uy06iE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qa8xcd84XsHXeYfkaOxJiJWadgfb1+wzrHBCln2reuFPY1sigLXhCa0GST+8oAmfugDuEcuS+R6fpMzsOxZ4Z1SWEGI3vsOXpmZT4PfgWziRjsmnna/BnYlJSAv75G0LgpZKYZZx51ug1mPyq56aHG8cb0sPU0HfSXaDNLhfMEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAA3DjWntSZq4mgYAA--.20284S2;
+	Mon, 08 Jun 2026 20:29:27 +0800 (CST)
+Received: from [10.12.169.28] (unknown [10.12.169.28])
+	by gateway (Coremail) with SMTP id _____wDXD+qltSZqI1wCAA--.3812S2;
+	Mon, 08 Jun 2026 20:29:26 +0800 (CST)
+Message-ID: <deeb7c45-3353-4696-9d86-b2f23763fd9e@hust.edu.cn>
+Date: Mon, 8 Jun 2026 20:29:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522202410.3104264-13-dmatlack@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] docs/zh_CN: update DAMON usage Chinese translation
+To: Doehyun Baek <doehyunbaek@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, damon@lists.linux.dev
+References: <20260523094420.741003-1-doehyunbaek@gmail.com>
+ <20260608065745.1587885-1-doehyunbaek@gmail.com>
+ <20260608065745.1587885-2-doehyunbaek@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260608065745.1587885-2-doehyunbaek@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAA3DjWntSZq4mgYAA--.20284S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoW3urW7tr1UWr1xZFyUGr48WFg_yoW8Cr4xuo
+	WUurW3Aw1DJr1fJry8tr47Jr4kJrnrCr4jy3y3Xr1DGr47XFn5WF4UtwsxJw13tr43Jr4U
+	tr15tw15Awn7J3WUn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOy7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUv6pPUUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, May 22, 2026 at 08:24:10PM +0000, David Matlack wrote:
-> Add documentation files for the PCI subsystem's participation in Live
-> Update.
-> 
-> These documentation files are generated from the kernel-doc comments
-> in the PCI Live Update source code. They describe the File-Lifecycle
-> Bound (FLB) API, the device tracking API, and the specific policies
-> applied to preserved devices (such as bus number inheritance and bus
-> mastering preservation).
-> 
-> Signed-off-by: David Matlack <dmatlack@google.com>
+
+On 6/8/26 2:57 PM, Doehyun Baek wrote:
+> Update the translation of .../admin-guide/mm/damon/usage.rst into Chinese.
+>
+> Update the translation through commit d9cfe515d36e
+> ("Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file")
+>
+> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+
+ From my experience, you need to double check your patched translation 
+with the original English documentation. This will make sure your 
+translation matches the latest documenation.
+
+Dongliang Mu
+
 > ---
->  Documentation/PCI/index.rst           |  1 +
->  Documentation/PCI/liveupdate.rst      | 29 +++++++++++++++++++++++++++
->  Documentation/core-api/liveupdate.rst |  1 +
->  MAINTAINERS                           |  1 +
->  4 files changed, 32 insertions(+)
+>   .../zh_CN/admin-guide/mm/damon/usage.rst      | 92 +++++++++++++------
+>   1 file changed, 65 insertions(+), 27 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+> index 9d7cb51be493..4a31210b948e 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+> @@ -15,6 +15,10 @@
+>   
+>   DAMON 为不同的用户提供了下面这些接口。
+>   
+> +- *专用DAMON模块。*
+> +  :ref:`这 <damon_modules_special_purpose>` 是为构建、发布或管理带有专用DAMON用法的内
+Please change to the reference in the Chinese translation. And double 
+check all the references.
+> +  核的用户准备的。使用它，用户可以在构建、启动或运行时以简单的方式为给定目的使用DAMON的主要
+> +  功能。
+>   - *DAMON用户空间工具。*
+>     `这 <https://github.com/damonitor/damo>`_ 为有这特权的人， 如系统管理员，希望有一个刚好
+>     可以工作的人性化界面。
+> @@ -55,30 +59,37 @@ DAMON sysfs接口的文件层次结构如下图所示。在下图中，父子关
+>   
 
-The kernel-doc directives seem to be wired up properly, along with 
-formatting/indentation while keeping MAINTAINERS in sync in the same go.
+|.. parsed-literal:: :ref:`/sys/kernel/mm/damon <sysfs_root>`/admin │ 
+:ref:`kdamonds <sysfs_kdamonds>`/nr_kdamonds │ │ :ref:`0 
+<sysfs_kdamond>`/state,pid,refresh_ms │ │ │ :ref:`contexts 
+<sysfs_contexts>`/nr_contexts │ │ │ │ :ref:`0 
+<sysfs_context>`/avail_operations,operations,addr_unit │ │ │ │ │ 
+:ref:`monitoring_attrs <sysfs_monitoring_attrs>`/ │ │ │ │ │ │ 
+intervals/sample_us,aggr_us,update_us │ │ │ │ │ │ │ 
+intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us │ │ │ │ │ │ 
+nr_regions/min,max │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets │ 
+│ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target │ │ │ │ │ │ 
+│ :ref:`regions <sysfs_regions>`/nr_regions │ │ │ │ │ │ │ │ :ref:`0 
+<sysfs_region>`/start,end │ │ │ │ │ │ │ │ ... │ │ │ │ │ │ ... │ │ │ │ │ 
+:ref:`schemes <sysfs_schemes>`/nr_schemes │ │ │ │ │ │ :ref:`0 
+<sysfs_scheme>`/action,target_nid,apply_interval_us │ │ │ │ │ │ │ 
+:ref:`access_pattern <sysfs_access_pattern>`/ │ │ │ │ │ │ │ │ sz/min,max 
+│ │ │ │ │ │ │ │ nr_accesses/min,max │ │ │ │ │ │ │ │ age/min,max │ │ │ │ 
+│ │ │ :ref:`quotas 
+<sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes,goal_tuner │ 
+│ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil │ │ │ │ │ 
+│ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals │ │ │ │ │ │ │ │ 
+│ 0/target_metric,target_value,current_value,nid,path │ │ │ │ │ │ │ 
+:ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low │ │ 
+│ │ │ │ │ :ref:`{core_,ops_,}filters <sysfs_filters>`/nr_filters │ │ │ │ 
+│ │ │ │ 
+0/type,matching,allow,memcg_path,addr_start,addr_end,target_idx,min,max 
+│ │ │ │ │ │ │ :ref:`dests <damon_sysfs_dests>`/nr_dests │ │ │ │ │ │ │ │ 
+0/id,weight │ │ │ │ │ │ │ :ref:`stats 
+<sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds,nr_snapshots,max_nr_snapshots 
+│ │ │ │ │ │ │ :ref:`tried_regions 
+<sysfs_schemes_tried_regions>`/total_bytes │ │ │ │ │ │ │ │ 
+0/start,end,nr_accesses,age,sz_filter_passed │ │ │ │ │ │ │ │ ... │ │ │ │ 
+│ │ ... │ │ │ │ ... │ │ ... |
 
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-Thanks,
-Praan
+
+This part changes a lot. Please take a look the original English 
+documentation.
+
+
+>       /sys/kernel/mm/damon/admin
+>       │ kdamonds/nr_kdamonds
+> -    │ │ 0/state,pid
+> +    │ │ 0/state,pid,refresh_ms
+>       │ │ │ contexts/nr_contexts
+> -    │ │ │ │ 0/operations
+> +    │ │ │ │ 0/avail_operations,operations,addr_unit
+>       │ │ │ │ │ monitoring_attrs/
+>       │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
+> +    │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
+>       │ │ │ │ │ │ nr_regions/min,max
+>       │ │ │ │ │ targets/nr_targets
+> -    │ │ │ │ │ │ 0/pid_target
+> +    │ │ │ │ │ │ 0/pid_target,obsolete_target
+>       │ │ │ │ │ │ │ regions/nr_regions
+>       │ │ │ │ │ │ │ │ 0/start,end
+>       │ │ │ │ │ │ │ │ ...
+>       │ │ │ │ │ │ ...
+>       │ │ │ │ │ schemes/nr_schemes
+> -    │ │ │ │ │ │ 0/action
+> +    │ │ │ │ │ │ 0/action,target_nid,apply_interval_us
+>       │ │ │ │ │ │ │ access_pattern/
+>       │ │ │ │ │ │ │ │ sz/min,max
+>       │ │ │ │ │ │ │ │ nr_accesses/min,max
+>       │ │ │ │ │ │ │ │ age/min,max
+> -    │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms
+> +    │ │ │ │ │ │ │ quotas/ms,bytes,reset_interval_ms,effective_bytes,goal_tuner
+>       │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
+> +    │ │ │ │ │ │ │ │ goals/nr_goals
+> +    │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
+>       │ │ │ │ │ │ │ watermarks/metric,interval_us,high,mid,low
+> -    │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds
+> -    │ │ │ │ │ │ │ tried_regions/
+> -    │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age
+> +    │ │ │ │ │ │ │ {core_,ops_,}filters/nr_filters
+> +    │ │ │ │ │ │ │ │ 0/type,matching,allow,memcg_path,addr_start,addr_end,target_idx,min,max
+> +    │ │ │ │ │ │ │ dests/nr_dests
+> +    │ │ │ │ │ │ │ │ 0/id,weight
+> +    │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds,nr_snapshots,max_nr_snapshots
+> +    │ │ │ │ │ │ │ tried_regions/total_bytes
+> +    │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age,sz_filter_passed
+>       │ │ │ │ │ │ │ │ ...
+>       │ │ │ │ │ │ ...
+>       │ │ │ │ ...
+> @@ -104,7 +115,8 @@ kdamonds/
+>   kdamonds/<N>/
+>   -------------
+>   
+> -在每个kdamond目录中，存在两个文件（``state`` 和 ``pid`` ）和一个目录( ``contexts`` )。
+> +在每个kdamond目录中，存在三个文件（``state``、``pid`` 和 ``refresh_ms``）和一个目录
+> +(``contexts``)。
+>   
+>   读取 ``state`` 时，如果kdamond当前正在运行，则返回 ``on`` ，如果没有运行则返回 ``off`` 。
+>   写入 ``on`` 或 ``off`` 使kdamond处于状态。向 ``state`` 文件写 ``update_schemes_stats`` ，
+> @@ -117,6 +129,10 @@ kdamonds/<N>/
+>   
+>   如果状态为 ``on``，读取 ``pid`` 显示kdamond线程的pid。
+>   
+> +用户可以要求内核通过 ``refresh_ms`` 文件周期性地更新显示自动调优参数和DAMOS统计信息的文件。
+> +向该文件写入希望的更新时间间隔（毫秒）。如果间隔为零，则禁用周期性更新。读取该文件会显示当前
+> +设置的时间间隔。
+> +
+>   ``contexts`` 目录包含控制这个kdamond要执行的监测上下文的文件。
+>   
+>   kdamonds/<N>/contexts/
+> @@ -129,15 +145,19 @@ kdamonds/<N>/contexts/
+>   contexts/<N>/
+>   -------------
+>   
+> -在每个上下文目录中，存在一个文件(``operations``)和三个目录(``monitoring_attrs``,
+> -``targets``, 和 ``schemes``)。
+> +在每个上下文目录中，存在三个文件（``avail_operations``、``operations`` 和
+> +``addr_unit``）和三个目录（``monitoring_attrs``、``targets`` 和 ``schemes``）。
+>   
+> -DAMON支持多种类型的监测操作，包括对虚拟地址空间和物理地址空间的监测。你可以通过向文件
+> -中写入以下关键词之一，并从文件中读取，来设置和获取DAMON将为上下文使用何种类型的监测操作。
+> +DAMON支持多种类型的监测操作，包括对虚拟地址空间和物理地址空间的监测。你可以通过读取
+> +``avail_operations`` 文件获取可用的监测操作集列表。你可以通过向 ``operations`` 文件中写入
+> +``avail_operations`` 文件列出的关键词之一，并从文件中读取，来设置和获取DAMON将为上下文使用
+> +何种类型的监测操作。
+>   
+>    - vaddr: 监测特定进程的虚拟地址空间
+>    - paddr: 监视系统的物理地址空间
+>   
+> +``addr_unit`` 文件用于设置和获取操作集的 :ref:`地址单位 <damon_design_addr_unit>` 参数。
+> +
+>   contexts/<N>/monitoring_attrs/
+>   ------------------------------
+>   
+> @@ -161,11 +181,15 @@ contexts/<N>/targets/
+>   targets/<N>/
+>   ------------
+>   
+> -在每个目标目录中，存在一个文件(``pid_target``)和一个目录(``regions``)。
+> +在每个目标目录中，存在两个文件（``pid_target`` 和 ``obsolete_target``）和一个目录
+> +（``regions``）。
+>   
+>   如果你把 ``vaddr`` 写到 ``contexts/<N>/operations`` 中，每个目标应该是一个进程。你
+>   可以通过将进程的pid写到 ``pid_target`` 文件中来指定DAMON的进程。
+>   
+> +用户可以向 ``obsolete_target`` 文件写入非零值并提交它（向 ``state`` 文件写入 ``commit``），
+> +从目标数组中间选择性地删除目标。
+
+This is the original English text.
+
+Users can selectively remove targets in the middle of the targets array by
+writing non-zero value to ``obsolete_target``file and committing it (writing
+``commit``to ``state``file). DAMON will remove the matching targets from its
+internal targets array. Users are responsible to construct target 
+directories
+again, so that those correctly represent the changed internal targets array.
+
+You missed many translations.
+
+> +
+>   targets/<N>/regions
+>   -------------------
+>   
+> @@ -203,8 +227,9 @@ contexts/<N>/schemes/
+>   schemes/<N>/
+>   ------------
+>   
+> -在每个方案目录中，存在五个目录(``access_pattern``、``quotas``、``watermarks``、
+> -``stats`` 和 ``tried_regions``)和一个文件(``action``)。
+> +在每个方案目录中，存在九个目录（``access_pattern``、``quotas``、``watermarks``、
+> +``core_filters``、``ops_filters``、``filters``、``dests``、``stats`` 和
+> +``tried_regions``）和三个文件（``action``、``target_nid`` 和 ``apply_interval_us``）。
+
+Here I found a typo in the English documenation. The directory should be 
+nine other than 8.
+
+The correct order is to first submit a patch to fix this typo. Then this 
+translation is correct. And this patch should be merged after the typo 
+fix. @Jon, am I right?
+
+>   
+>   ``action`` 文件用于设置和获取你想应用于具有特定访问模式的内存区域的动作。可以写入文件
+>   和从文件中读取的关键词及其含义如下。
+> @@ -218,6 +243,9 @@ schemes/<N>/
+>    - ``lru_deprio``: 对区域的LRU列表进行降低优先处理。
+>    - ``stat``: 什么都不做，只计算统计数据
+>   
+> +``target_nid`` 文件用于设置迁移目标节点，仅当 ``action`` 为 ``migrate_hot`` 或
+> +``migrate_cold`` 时有意义。``apply_interval_us`` 文件用于以微秒为单位设置和获取方案的应用间隔。
+> +
+
+"``apply_interval_us`` 文件用于以微秒为单位设置和获取方案的应用间隔。" is in a separate paragraph.
+
+>   schemes/<N>/access_pattern/
+>   ---------------------------
+>   
+> @@ -239,14 +267,20 @@ schemes/<N>/quotas/
+>   当预计超过配额限制时，DAMON会根据 ``目标访问模式`` 的大小、访问频率和年龄，对找到的内存区域
+>   进行优先排序。为了进行个性化的优先排序，用户可以为这三个属性设置权重。
+>   
+> -在 ``quotas`` 目录下，存在三个文件（``ms``, ``bytes``, ``reset_interval_ms``）和一个
+> -目录(``weights``)，其中有三个文件(``sz_permil``, ``nr_accesses_permil``, 和
+> -``age_permil``)。
+> +在 ``quotas`` 目录下，存在五个文件（``ms``、``bytes``、``reset_interval_ms``、
+> +``effective_bytes`` 和 ``goal_tuner``）和两个目录（``weights`` 和 ``goals``）。
+>   
+>   你可以设置以毫秒为单位的 ``时间配额`` ，以字节为单位的 ``大小配额`` ，以及以毫秒为单位的 ``重
+>   置间隔`` ，分别向这三个文件写入数值。你还可以通过向 ``weights`` 目录下的三个文件写入数值来设
+>   置大小、访问频率和年龄的优先权，单位为千分之一。
+>   
+> +你可以通过向 ``goal_tuner`` 文件写入算法名称，设置要使用的基于目标的有效配额自动调优算法。
+> +读取该文件会返回当前选定的调优器算法。读取 ``effective_bytes`` 会返回当前有效大小配额。
+> +
+> +``goals`` 目录用于设置自动配额调优目标。每个目标目录包含 ``target_metric``、
+> +``target_value``、``current_value``、``nid`` 和 ``path`` 文件。用户可以读写这些文件来设置
+> +和获取配额自动调优目标的参数。
+
+You can set the goal-based effective quota auto-tuning algorithm to use, by
+writing the algorithm name to ``goal_tuner`` file.  Reading the file returns
+the currently selected tuner algorithm.  Refer to the design documentation of
+:ref:`automatic quota tuning goals <damon_design_damos_quotas_auto_tuning>` for
+the background design of the feature and the name of the selectable algorithms.
+Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
+setup.
+
+The above is the original English text. It seems your translation does 
+not match it.
+
+> +
+>   schemes/<N>/watermarks/
+>   -----------------------
+>   
+> @@ -271,16 +305,21 @@ schemes/<N>/stats/
+>   DAMON统计每个方案被尝试应用的区域的总数量和字节数，每个方案被成功应用的区域的两个数字，以及
+>   超过配额限制的总数量。这些统计数据可用于在线分析或调整方案。
+>   
+> -可以通过读取 ``stats`` 目录下的文件(``nr_tried``, ``sz_tried``, ``nr_applied``,
+> -``sz_applied``, 和 ``qt_exceeds``)）分别检索这些统计数据。这些文件不是实时更新的，所以
+> -你应该要求DAMON sysfs接口通过在相关的 ``kdamonds/<N>/state`` 文件中写入一个特殊的关键字
+> -``update_schemes_stats`` 来更新统计信息的文件内容。
+> +可以通过读取 ``stats`` 目录下的文件（``nr_tried``、``sz_tried``、``nr_applied``、
+> +``sz_applied``、``sz_ops_filter_passed``、``qt_exceeds``、``nr_snapshots`` 和
+> +``max_nr_snapshots``）分别检索这些
+> +统计数据。这些文件默认不是实时更新的。你应该要求DAMON sysfs接口通过 ``refresh_ms`` 周期性地
+> +更新这些文件，或者通过在相关的 ``kdamonds/<N>/state`` 文件中写入一个特殊的关键字
+> +``update_schemes_stats`` 来执行一次性更新。
+>   
+>   schemes/<N>/tried_regions/
+>   --------------------------
+>   
+> +该目录开始时有一个文件 ``total_bytes``。
+> +
+>   当一个特殊的关键字 ``update_schemes_tried_regions`` 被写入相关的 ``kdamonds/<N>/state``
+> -文件时，DAMON会在这个目录下创建从 ``0`` 开始命名的整数目录。每个目录包含的文件暴露了关于每个
+> +文件时，DAMON会更新 ``total_bytes`` 文件，使读取该文件返回方案尝试区域的总大小，并在这个目录下
+> +创建从 ``0`` 开始命名的整数目录。每个目录包含的文件暴露了关于每个
+>   内存区域的详细信息，在下一个 :ref:`聚集区间 <sysfs_monitoring_attrs>`，相应的方案的 ``动作``
+>   已经尝试在这个目录下应用。这些信息包括地址范围、``nr_accesses`` 以及区域的 ``年龄`` 。
+>   
+> @@ -290,9 +329,8 @@ schemes/<N>/tried_regions/
+>   tried_regions/<N>/
+>   ------------------
+>   
+> -在每个区域目录中，你会发现四个文件(``start``, ``end``, ``nr_accesses``, and ``age``)。
+> -读取这些文件将显示相应的基于DAMON的操作方案 ``动作`` 试图应用的区域的开始和结束地址、``nr_accesses``
+> -和 ``年龄`` 。
+> +在每个区域目录中，你会发现五个文件（``start``、``end``、``nr_accesses``、``age`` 和
+> +``sz_filter_passed``）。读取这些文件将显示相应的基于DAMON的操作方案 ``动作`` 试图应用的区域属性。
+>   
+>   用例
+>   ~~~~
+
