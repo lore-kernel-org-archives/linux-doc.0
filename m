@@ -1,741 +1,241 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E963637EFFB;
-	Mon,  8 Jun 2026 12:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4147827E05E
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 12:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780922219; cv=none; b=lTZ0vV6YQXw8i38FIZVIU3aqhHZKpI2oQodMmDRBiUtHLp9VUpLZtZ9BAgo8OEGLMt6ZJ0PB8RRCKa6zwHkQakdETJrhVDBcttguAyUbySb8tNIZEl4pzfvshrlwNHSu9pHJyvWO3s9euzF2fPH5Rsu8VNQh1dX8bVpBehUjOqQ=
+	t=1780923031; cv=none; b=ATjkdfLpSzOt8NTclP3eUEbXOfpskXXv9r1pgahiq/j1otDtLvImMsHR4bAM9B1Tv2VDXanxVpu7juQj024BwoTxfT8IgwR4QfWSxH24vxoO9XfDpHrYkdor70UjY0zcTdkVEa/ZLIJK6+hO1JbJHyVXSKipXnvOvutt7snUCIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780922219; c=relaxed/simple;
-	bh=5T7WMKQsyFWoKX0HR/qxiva15gpZYuIi8E9QKK9I5RE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WUmxPE67uRVctuuRB9S982+EMiQiLuACYPJ0ZCzl3Yc0JDetCvBDRlC/JajvWsoHs8/5w2Ra7rAF+iSwYMZyLuU21k5xGjwaIRf1Mfe9+/3zBgE4PyYYSS58BbKt3k+xv0GoBu7bU65wThj27RZ/acSvGDo6K6pQzz6EHb//uDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=iM7ab6kK; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1780923031; c=relaxed/simple;
+	bh=TG6r/3Lp+ODfq+/oUWl3Qo2qwI2yFx1wavbyGgxzkRg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DYh9OZGhAmVVhLhI617yCsnK/8HqF0DTENwbvsO1HFi/8amcZrjyZflNuicCrmNNWC7pX8GmTmWQbvXMH6v5RgLvKjIaK4cRVYvt3NMLK1fuohAYtVhp+qC2FXrrDyFBMM4/F6PRZ+zZ4/EFwFY51cv6MaILOWF9ekNd95KZDrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDEEEbcw; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="iM7ab6kK"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=EapudLRiFlWwjiEXxNoQFndZUmAlTb0VSs7mMmqeVHI=;
-	b=iM7ab6kKdPlHuK+Tt5gHT8gV9iLr3wgO/Z9DbfPpciBBdy8G8wgZ6W03hHy6SjsGsTymk/72T
-	HEbQorfuvaPrAdQ47jwW4Bhv/vkmIqe+VSBoQ1PvILr5P7PcYexCoR3SY+mEHuNF/bSfrIB9oOF
-	HkoOPGJkJjfX4ziA17oue9s=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gYrtw2P15zLlSV;
-	Mon,  8 Jun 2026 20:28:56 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0788F40571;
-	Mon,  8 Jun 2026 20:36:49 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 8 Jun 2026 20:36:47 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
-	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
-	<ioana.ciornei@nxp.com>, Mohsin Bashir <mohsin.bashr@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: [PATCH net-next v08 4/5] hinic3: Add ethtool rss ops
-Date: Mon, 8 Jun 2026 20:36:33 +0800
-Message-ID: <c9945323626546592031f3a2c65c798cfa66fdc9.1780907605.git.wudi234@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <cover.1780907605.git.wudi234@huawei.com>
-References: <cover.1780907605.git.wudi234@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDEEEbcw"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso3665629a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 05:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780923030; x=1781527830; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DiIdK82JBJK4ZmshrTXuh1DETm09pI5fnq4TS+v0gOw=;
+        b=TDEEEbcw5RoeiTZWI0FoBMax+eR8C2tcdBXsoC+PVkb2kta9/b0PKb+Cryf5bxVHk9
+         EXPPksQj/YtwtXgbDHTY3JQOJ2Nv6FluWu5JO5iPqok0/j/Ha3g8Kwnio4Qkf6wqdZoH
+         F3Z+eqfxbLHS9xrmNQ6pM1dy8aSKtU4csj1lrP29ZHYowwpqmQnYnMYH0G2stf+oH2Ub
+         RZ2uPCmsfX6MKtKxwBmj9eFS7ESqVI5Jk6eldnDE1yu+/W+Tkwv1nCqTl7Zsoa0yq9pQ
+         6L0dacSQlLRGULqGdfFEKRBg9atT7bR5DArD2+zguLh+IVU9a01pvi+daWLHuCxHX+vp
+         io7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780923030; x=1781527830;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DiIdK82JBJK4ZmshrTXuh1DETm09pI5fnq4TS+v0gOw=;
+        b=ivbKs4pXl1gchBMZ+Xkrf0+F9phV/liHIkQKEOxbVS81q6HkOC+n98EakB/N8JXMy3
+         Sap5NpKFaF4pd0w8DUVH2u0UYu8cL4YMCz6mMSF7J9AkBlhjiQBpTDtkkLFQjiY3w0RW
+         cWa7CnRRSBmqJ3NxrFkLlnwd2TIor6jwnxk8oU/ySckNLv6P2O/ciI0RtHCuBzCD2LZ8
+         8VSJaxJFTeIqdsL6cNzUbqLC2VLLDhDP+KOQNoBMeuiZ6rdMJ4QpvTJJdECDP/x1haXX
+         rsaK3xNthtHgaVNeFnPhrVzFCyeRqXKDJB/b0wYprHOPK162+P1Ij9HJUDbftprEUmiy
+         BQfw==
+X-Forwarded-Encrypted: i=1; AFNElJ+GWD795q7X/EKVegofM0yJqe4A2byUvWrT5gyFqR1naDLcibjrtUTIDKKkyYpr5gVKo35opzNJHLM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7MhQSALqmxgLn/+LiBKaZ3TvWIHNSQQJ7UG9pjFdeJu0HDrL+
+	DZTNGiCRL2TsjTAiQ3/gCIZWcFOjEH6vdZzJCeWSKjSQAMnwCXAssUHi
+X-Gm-Gg: Acq92OGzRzOnI2DTWErhxd/k3u9/T3T9QNWNkYH8KQ0TPSh1m87TpuvpQ3Vop8l34fl
+	M3L882DaO7vFeqPSx+kAXpUuqGOeJ0/lmqWeulQLJSeNa9O06KFgNAQtSLjUQ2ahgjkfXiPjnfF
+	Aux+kMAlTxY7U9m8xfuvNuW7lA2DQ9G+XOI/MTJ/R3BttdUmI+1hWb2wP5Ht9D++H9bSiiaHdbj
+	rKfPt7CyYxrjTUuRm4plHdtYeGSNR2WQ5GrwhLyEQg1a18Cs9GAx+eoP/MwgLAm80E88sqC7dtt
+	T6fq61b7/QP6xe9uRx/0VVEjw9Rm1E7wve3YTSvQ5oFqSHOLNHJZJRGn5abDRBDsU8b8W9Wl55W
+	S8pnT67f64jkHcaCaRI7sVUd7gPnMfFIZB9oESYNiJiRKEQisb27avvb/V12HHmcsoek2vE6yJT
+	BnbeCGSRQ9h6wwqDdrwZfRm0418aIGWRmoo/cjuJCNnCxI1kYdC+L8uQ==
+X-Received: by 2002:a17:90b:5345:b0:35c:30a8:330 with SMTP id 98e67ed59e1d1-370ebff342fmr15636109a91.0.1780923029551;
+        Mon, 08 Jun 2026 05:50:29 -0700 (PDT)
+Received: from [10.125.192.72] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1663981basm179520225ad.67.2026.06.08.05.50.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 05:50:29 -0700 (PDT)
+Message-ID: <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
+Date: Mon, 8 Jun 2026 20:50:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org,
+ hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
+ mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
+ roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
+ <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
+ <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
+ <aiBpibRNi0BcM1Zu@google.com>
+ <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+ <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
+ <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
 
-  Implement following ethtool callback function:
-.get_rxnfc
-.set_rxnfc
-.get_channels
-.set_channels
-.get_rxfh_indir_size
-.get_rxfh_key_size
-.get_rxfh
-.set_rxfh
 
-  These callbacks allow users to utilize ethtool for detailed
-RSS parameters configuration and monitoring.
 
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_ethtool.c   |   9 +
- .../huawei/hinic3/hinic3_mgmt_interface.h     |   2 +
- .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 539 +++++++++++++++++-
- .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  19 +
- 4 files changed, 567 insertions(+), 2 deletions(-)
+On 2026/6/5 01:23, Nhat Pham wrote:
+> On Thu, Jun 4, 2026 at 6:06 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
+>>
+>>
+>>
+>> On 2026/6/4 13:34, Yosry Ahmed wrote:
+>>>>>> For instance, suppose a parent memcg has two children, memcg1 and memcg2,
+>>>>>> each with 200MB of zswap (100MB inactive). Triggering proactive writeback on
+>>>>>> the parent memcg will exhaust memcg1's inactive zswap pages. After that,
+>>>>>> even though memcg2 still has plenty of inactive zswap pages, it will
+>>>>>> continue to write back memcg1's active zswap pages. Writing back active
+>>>>>> zswap pages causes the user-space agent to prematurely abort the writeback
+>>>>>> because it detects that certain memcg metrics have exceeded predefined
+>>>>>> thresholds.
+>>>>>
+>>>>> This will only happen if the reclaim size is smaller than the batch
+>>>>> size, right? Otherwise the kernel should reclaim more or less equally
+>>>>> from both memcgs?
+>>>>>
+>>>>
+>>>> I gave it some thought. Not using a cursor could lead to unfairness
+>>>> issues with certain writeback sizes:
+>>>>
+>>>>     - If the writeback size is an odd multiple of WB_BATCH (e.g.,
+>>>> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
+>>>> writeback ratio might end up being 2:1.
+>>>>     - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
+>>>> triggered, it might repeatedly write back from only the first 2 child
+>>>> cgroups.
+>>>>
+>>>> Although setting a smaller WB_BATCH might mitigate this unfairness, it
+>>>> could hurt writeback efficiency. Let's just use per-memcg cursors to
+>>>> completely fix these corner cases.
+>>>
+>>> Exactly, the batch size should be small enough that any unfairness is
+>>> not a problem. I would honestly just do batching without a per-memcg
+>>> cursor, unless we have numbers to prove that the efficiency is
+>>> affected when we use a small batch size. Let's only introduce
+>>> complexity when needed please.
+> 
+> I'm impartial towards the complexity of per-memcg cursor. I don't
+> think it's that big of a deal, but only if it's warranted.
+> 
+> Hao, if you're convinced that doing small batch is not efficient,
+> could you run some experiments to show the improvement bigger batchign
+> and fairness? Maybe implement a small batch, no-memcg cursor first.
+> Then implement a patch on top of it to add per-memcg cursor, and show
+> how much performance win we can get from that patch on top of the
+> patch series?
+> 
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-index 0f01e52830fb..d63807c4c7f5 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-@@ -16,6 +16,7 @@
- #include "hinic3_hw_comm.h"
- #include "hinic3_nic_dev.h"
- #include "hinic3_nic_cfg.h"
-+#include "hinic3_rss.h"
- 
- #define HINIC3_MGMT_VERSION_MAX_LEN     32
- /* Coalesce time properties in microseconds */
-@@ -1245,6 +1246,14 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.get_pause_stats                = hinic3_get_pause_stats,
- 	.get_coalesce                   = hinic3_get_coalesce,
- 	.set_coalesce                   = hinic3_set_coalesce,
-+	.get_rxnfc                      = hinic3_get_rxnfc,
-+	.set_rxnfc                      = hinic3_set_rxnfc,
-+	.get_channels                   = hinic3_get_channels,
-+	.set_channels                   = hinic3_set_channels,
-+	.get_rxfh_indir_size            = hinic3_get_rxfh_indir_size,
-+	.get_rxfh_key_size              = hinic3_get_rxfh_key_size,
-+	.get_rxfh                       = hinic3_get_rxfh,
-+	.set_rxfh                       = hinic3_set_rxfh,
- };
- 
- void hinic3_set_ethtool_ops(struct net_device *netdev)
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-index 76c691f82703..3c1263ff99ff 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-@@ -282,6 +282,7 @@ enum l2nic_cmd {
- 	L2NIC_CMD_SET_VLAN_FILTER_EN  = 26,
- 	L2NIC_CMD_SET_RX_VLAN_OFFLOAD = 27,
- 	L2NIC_CMD_CFG_RSS             = 60,
-+	L2NIC_CMD_GET_RSS_CTX_TBL     = 62,
- 	L2NIC_CMD_CFG_RSS_HASH_KEY    = 63,
- 	L2NIC_CMD_CFG_RSS_HASH_ENGINE = 64,
- 	L2NIC_CMD_SET_RSS_CTX_TBL     = 65,
-@@ -301,6 +302,7 @@ enum l2nic_ucode_cmd {
- 	L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX  = 0,
- 	L2NIC_UCODE_CMD_CLEAN_QUEUE_CTX   = 1,
- 	L2NIC_UCODE_CMD_SET_RSS_INDIR_TBL = 4,
-+	L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL = 6,
- };
- 
- /* hilink mac group command */
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-index 25db74d8c7dd..4852c99acc29 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-@@ -155,7 +155,7 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
- 				       L2NIC_CMD_SET_RSS_CTX_TBL, &msg_params);
- 
- 	if (ctx_tbl.msg_head.status == MGMT_STATUS_CMD_UNSUPPORTED) {
--		return MGMT_STATUS_CMD_UNSUPPORTED;
-+		return -EOPNOTSUPP;
- 	} else if (err || ctx_tbl.msg_head.status) {
- 		dev_err(hwdev->dev, "mgmt Failed to set rss context offload, err: %d, status: 0x%x\n",
- 			err, ctx_tbl.msg_head.status);
-@@ -165,6 +165,41 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
- 	return 0;
- }
- 
-+static int hinic3_get_rss_type(struct hinic3_hwdev *hwdev,
-+			       struct hinic3_rss_type *rss_type)
-+{
-+	struct l2nic_cmd_rss_ctx_tbl ctx_tbl = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	ctx_tbl.func_id = hinic3_global_func_id(hwdev);
-+
-+	mgmt_msg_params_init_default(&msg_params, &ctx_tbl, sizeof(ctx_tbl));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
-+				       L2NIC_CMD_GET_RSS_CTX_TBL,
-+				       &msg_params);
-+	if (ctx_tbl.msg_head.status == MGMT_STATUS_CMD_UNSUPPORTED) {
-+		return -EOPNOTSUPP;
-+	} else if (err || ctx_tbl.msg_head.status) {
-+		dev_err(hwdev->dev, "Failed to get hash type, err: %d, status: 0x%x\n",
-+			err, ctx_tbl.msg_head.status);
-+		return -EINVAL;
-+	}
-+
-+	rss_type->ipv4         = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV4);
-+	rss_type->ipv6         = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV6);
-+	rss_type->ipv6_ext     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV6_EXT);
-+	rss_type->tcp_ipv4     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, TCP_IPV4);
-+	rss_type->tcp_ipv6     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, TCP_IPV6);
-+	rss_type->tcp_ipv6_ext = L2NIC_RSS_TYPE_GET(ctx_tbl.context,
-+						    TCP_IPV6_EXT);
-+	rss_type->udp_ipv4     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, UDP_IPV4);
-+	rss_type->udp_ipv6     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, UDP_IPV6);
-+
-+	return 0;
-+}
-+
- static int hinic3_rss_cfg_hash_type(struct hinic3_hwdev *hwdev, u8 opcode,
- 				    enum hinic3_rss_hash_type *type)
- {
-@@ -264,7 +299,8 @@ static int hinic3_set_hw_rss_parameters(struct net_device *netdev, u8 rss_en)
- 	if (err)
- 		return err;
- 
--	hinic3_fillout_indir_tbl(netdev, nic_dev->rss_indir);
-+	if (!netif_is_rxfh_configured(netdev))
-+		hinic3_fillout_indir_tbl(netdev, nic_dev->rss_indir);
- 
- 	err = hinic3_config_rss_hw_resource(netdev, nic_dev->rss_indir);
- 	if (err)
-@@ -334,3 +370,502 @@ void hinic3_try_to_enable_rss(struct net_device *netdev)
- 	clear_bit(HINIC3_RSS_ENABLE, &nic_dev->flags);
- 	nic_dev->q_params.num_qps = nic_dev->max_qps;
- }
-+
-+static int hinic3_set_l4_rss_hash_ops(const struct ethtool_rxnfc *cmd,
-+				      struct hinic3_rss_type *rss_type)
-+{
-+	u8 rss_l4_en;
-+
-+	switch (cmd->data & (RXH_L4_B_0_1 | RXH_L4_B_2_3)) {
-+	case 0:
-+		rss_l4_en = 0;
-+		break;
-+	case (RXH_L4_B_0_1 | RXH_L4_B_2_3):
-+		rss_l4_en = 1;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+		rss_type->tcp_ipv4 = rss_l4_en;
-+		break;
-+	case TCP_V6_FLOW:
-+		rss_type->tcp_ipv6 = rss_l4_en;
-+		break;
-+	case UDP_V4_FLOW:
-+		rss_type->udp_ipv4 = rss_l4_en;
-+		break;
-+	case UDP_V6_FLOW:
-+		rss_type->udp_ipv6 = rss_l4_en;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_update_rss_hash_opts(struct net_device *netdev,
-+				       struct ethtool_rxnfc *cmd,
-+				       struct hinic3_rss_type *rss_type)
-+{
-+	int err;
-+
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+	case TCP_V6_FLOW:
-+	case UDP_V4_FLOW:
-+	case UDP_V6_FLOW:
-+		err = hinic3_set_l4_rss_hash_ops(cmd, rss_type);
-+		if (err)
-+			return err;
-+
-+		break;
-+	case IPV4_FLOW:
-+		rss_type->ipv4 = 1;
-+		break;
-+	case IPV6_FLOW:
-+		rss_type->ipv6 = 1;
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported flow type\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_set_rss_hash_opts(struct net_device *netdev,
-+				    struct ethtool_rxnfc *cmd)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_rss_type rss_type;
-+	int err;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		cmd->data = 0;
-+		netdev_err(netdev, "RSS is disable, not support to set flow-hash\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	/* RSS only supports hashing of IP addresses and L4 ports */
-+	if (cmd->data & ~(RXH_IP_SRC | RXH_IP_DST |
-+			  RXH_L4_B_0_1 | RXH_L4_B_2_3))
-+		return -EINVAL;
-+
-+	/* Both IP addresses must be part of the hash tuple */
-+	if (!(cmd->data & RXH_IP_SRC) || !(cmd->data & RXH_IP_DST))
-+		return -EINVAL;
-+
-+	/* L4 hash bits are not valid for pure L3 flow types */
-+	if ((cmd->flow_type == IPV4_FLOW || cmd->flow_type == IPV6_FLOW) &&
-+	    (cmd->data & (RXH_L4_B_0_1 | RXH_L4_B_2_3)))
-+		return -EINVAL;
-+
-+	err = hinic3_get_rss_type(nic_dev->hwdev, &rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to get rss type\n");
-+		return err;
-+	}
-+
-+	err = hinic3_update_rss_hash_opts(netdev, cmd, &rss_type);
-+	if (err)
-+		return err;
-+
-+	err = hinic3_set_rss_type(nic_dev->hwdev, rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to set rss type\n");
-+		return err;
-+	}
-+
-+	nic_dev->rss_type = rss_type;
-+
-+	return 0;
-+}
-+
-+static void convert_rss_l3_type(u8 rss_opt, struct ethtool_rxnfc *cmd)
-+{
-+	if (!rss_opt)
-+		cmd->data &= ~(RXH_IP_SRC | RXH_IP_DST);
-+}
-+
-+static void convert_rss_l4_type(u8 rss_opt, struct ethtool_rxnfc *cmd)
-+{
-+	if (rss_opt)
-+		cmd->data |= RXH_L4_B_0_1 | RXH_L4_B_2_3;
-+}
-+
-+static int hinic3_convert_rss_type(struct net_device *netdev,
-+				   struct hinic3_rss_type *rss_type,
-+				   struct ethtool_rxnfc *cmd)
-+{
-+	cmd->data = RXH_IP_SRC | RXH_IP_DST;
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+		convert_rss_l4_type(rss_type->tcp_ipv4, cmd);
-+		break;
-+	case TCP_V6_FLOW:
-+		convert_rss_l4_type(rss_type->tcp_ipv6, cmd);
-+		break;
-+	case UDP_V4_FLOW:
-+		convert_rss_l4_type(rss_type->udp_ipv4, cmd);
-+		break;
-+	case UDP_V6_FLOW:
-+		convert_rss_l4_type(rss_type->udp_ipv6, cmd);
-+		break;
-+	case IPV4_FLOW:
-+		convert_rss_l3_type(rss_type->ipv4, cmd);
-+		break;
-+	case IPV6_FLOW:
-+		convert_rss_l3_type(rss_type->ipv6, cmd);
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported flow type\n");
-+		cmd->data = 0;
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_get_rss_hash_opts(struct net_device *netdev,
-+				    struct ethtool_rxnfc *cmd)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_rss_type rss_type;
-+	int err;
-+
-+	cmd->data = 0;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags))
-+		return 0;
-+
-+	err = hinic3_get_rss_type(nic_dev->hwdev, &rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to get rss type\n");
-+		return err;
-+	}
-+
-+	return hinic3_convert_rss_type(netdev, &rss_type, cmd);
-+}
-+
-+int hinic3_get_rxnfc(struct net_device *netdev,
-+		     struct ethtool_rxnfc *cmd, u32 *rule_locs)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err = 0;
-+
-+	switch (cmd->cmd) {
-+	case ETHTOOL_GRXRINGS:
-+		cmd->data = nic_dev->q_params.num_qps;
-+		break;
-+	case ETHTOOL_GRXFH:
-+		err = hinic3_get_rss_hash_opts(netdev, cmd);
-+		break;
-+	default:
-+		err = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return err;
-+}
-+
-+int hinic3_set_rxnfc(struct net_device *netdev, struct ethtool_rxnfc *cmd)
-+{
-+	int err;
-+
-+	switch (cmd->cmd) {
-+	case ETHTOOL_SRXFH:
-+		err = hinic3_set_rss_hash_opts(netdev, cmd);
-+		break;
-+	default:
-+		err = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return err;
-+}
-+
-+static u16 hinic3_max_channels(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	u8 tcs = netdev_get_num_tc(netdev);
-+
-+	return tcs ? nic_dev->max_qps / tcs : nic_dev->max_qps;
-+}
-+
-+static u16 hinic3_curr_channels(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+
-+	if (netif_running(netdev))
-+		return nic_dev->q_params.num_qps ?
-+				nic_dev->q_params.num_qps : 1;
-+	else
-+		return min_t(u16, hinic3_max_channels(netdev),
-+			     nic_dev->q_params.num_qps);
-+}
-+
-+void hinic3_get_channels(struct net_device *netdev,
-+			 struct ethtool_channels *channels)
-+{
-+	channels->max_rx = 0;
-+	channels->max_tx = 0;
-+	channels->max_other = 0;
-+	/* report maximum channels */
-+	channels->max_combined = hinic3_max_channels(netdev);
-+	channels->rx_count = 0;
-+	channels->tx_count = 0;
-+	channels->other_count = 0;
-+	/* report flow director queues as maximum channels */
-+	channels->combined_count = hinic3_curr_channels(netdev);
-+}
-+
-+static int
-+hinic3_validate_channel_parameter(struct net_device *netdev,
-+				  const struct ethtool_channels *channels)
-+{
-+	u16 max_channel = hinic3_max_channels(netdev);
-+	unsigned int count = channels->combined_count;
-+
-+	if (!count) {
-+		netdev_err(netdev, "Unsupported combined_count=0\n");
-+		return -EINVAL;
-+	}
-+
-+	if (channels->tx_count || channels->rx_count || channels->other_count) {
-+		netdev_err(netdev, "Setting rx/tx/other count not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	if (count > max_channel) {
-+		netdev_err(netdev, "Combined count %u exceed limit %u\n", count,
-+			   max_channel);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_rss_update_num_qps_and_reprogram(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err;
-+
-+	if (!netif_is_rxfh_configured(netdev))
-+		hinic3_rss_set_indir_tbl(nic_dev->hwdev, nic_dev->rss_indir);
-+
-+	if (!netif_running(netdev))
-+		return 0;
-+
-+	err = hinic3_set_hw_rss_parameters(netdev, 1);
-+	if (err)
-+		netdev_err(netdev,
-+			   "Failed to update RSS parameters after changing channels\n");
-+
-+	return err;
-+}
-+
-+int hinic3_set_channels(struct net_device *netdev,
-+			struct ethtool_channels *channels)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	unsigned int count = channels->combined_count;
-+	struct hinic3_dyna_txrxq_params q_params;
-+	int err;
-+
-+	err = hinic3_validate_channel_parameter(netdev, channels);
-+	if (err)
-+		return err;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "This function doesn't support RSS, only support 1 queue pair\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	netdev_dbg(netdev, "Set max combined queue number from %u to %u\n",
-+		   nic_dev->q_params.num_qps, count);
-+
-+	if (netif_running(netdev)) {
-+		q_params = nic_dev->q_params;
-+		q_params.num_qps = (u16)count;
-+		q_params.txqs_res = NULL;
-+		q_params.rxqs_res = NULL;
-+		q_params.irq_cfg = NULL;
-+
-+		err = hinic3_change_channel_settings(netdev, &q_params);
-+		if (err) {
-+			netdev_err(netdev, "Failed to change channel settings\n");
-+			return err;
-+		}
-+	} else {
-+		nic_dev->q_params.num_qps = (u16)count;
-+	}
-+
-+	err = hinic3_rss_update_num_qps_and_reprogram(netdev);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+u32 hinic3_get_rxfh_indir_size(struct net_device *netdev)
-+{
-+	return L2NIC_RSS_INDIR_SIZE;
-+}
-+
-+static int hinic3_set_rss_rxfh(struct net_device *netdev,
-+			       const u32 *indir, u8 *key)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	u16 temp_indir[L2NIC_RSS_INDIR_SIZE];
-+	int err;
-+	u32 i;
-+
-+	if (indir) {
-+		for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-+			temp_indir[i] = (u16)indir[i];
-+
-+		err = hinic3_rss_set_indir_tbl(nic_dev->hwdev, temp_indir);
-+		if (err) {
-+			netdev_err(netdev, "Failed to set rss indir table\n");
-+			return err;
-+		}
-+
-+		memcpy(nic_dev->rss_indir, temp_indir, L2NIC_RSS_INDIR_SIZE);
-+	}
-+
-+	if (key) {
-+		err = hinic3_rss_set_hash_key(nic_dev->hwdev, key);
-+		if (err) {
-+			netdev_err(netdev, "Failed to set rss key\n");
-+			return err;
-+		}
-+
-+		memcpy(nic_dev->rss_hkey, key, L2NIC_RSS_KEY_SIZE);
-+	}
-+
-+	return 0;
-+}
-+
-+u32 hinic3_get_rxfh_key_size(struct net_device *netdev)
-+{
-+	return L2NIC_RSS_KEY_SIZE;
-+}
-+
-+static int hinic3_rss_get_indir_tbl(struct hinic3_hwdev *hwdev,
-+				    u32 *indir_table)
-+{
-+	struct hinic3_cmd_buf_pair pair;
-+	__le16 *indir_tbl = NULL;
-+	int err, i;
-+
-+	err = hinic3_cmd_buf_pair_init(hwdev, &pair);
-+	if (err) {
-+		dev_err(hwdev->dev, "Failed to allocate cmd_buf.\n");
-+		return err;
-+	}
-+
-+	memset(pair.in->buf, 0, pair.in->size);
-+
-+	err = hinic3_cmdq_detail_resp(hwdev, MGMT_MOD_L2NIC,
-+				      L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL,
-+				      pair.in, pair.out, NULL);
-+	if (err) {
-+		dev_err(hwdev->dev, "Failed to get rss indir table\n");
-+		goto err_get_indir_tbl;
-+	}
-+
-+	indir_tbl = (__le16 *)pair.out->buf;
-+	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-+		indir_table[i] = le16_to_cpu(*(indir_tbl + i));
-+
-+err_get_indir_tbl:
-+	hinic3_cmd_buf_pair_uninit(hwdev, &pair);
-+
-+	return err;
-+}
-+
-+int hinic3_get_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err = 0;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "Rss is disabled\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	rxfh->hfunc =
-+		nic_dev->rss_hash_type == HINIC3_RSS_HASH_ENGINE_TYPE_XOR ?
-+		ETH_RSS_HASH_XOR : ETH_RSS_HASH_TOP;
-+
-+	if (rxfh->indir) {
-+		err = hinic3_rss_get_indir_tbl(nic_dev->hwdev, rxfh->indir);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (rxfh->key)
-+		memcpy(rxfh->key, nic_dev->rss_hkey, L2NIC_RSS_KEY_SIZE);
-+
-+	return err;
-+}
-+
-+static int hinic3_update_hash_func_type(struct net_device *netdev, u8 hfunc)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	enum hinic3_rss_hash_type new_rss_hash_type;
-+	int err;
-+
-+	switch (hfunc) {
-+	case ETH_RSS_HASH_NO_CHANGE:
-+		return 0;
-+	case ETH_RSS_HASH_XOR:
-+		new_rss_hash_type = HINIC3_RSS_HASH_ENGINE_TYPE_XOR;
-+		break;
-+	case ETH_RSS_HASH_TOP:
-+		new_rss_hash_type = HINIC3_RSS_HASH_ENGINE_TYPE_TOEP;
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported hash func %u\n", hfunc);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (new_rss_hash_type == nic_dev->rss_hash_type)
-+		return 0;
-+
-+	err = hinic3_rss_set_hash_type(nic_dev->hwdev, nic_dev->rss_hash_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to set RSS hash type to HW\n");
-+		return err;
-+	}
-+
-+	nic_dev->rss_hash_type = new_rss_hash_type;
-+
-+	return 0;
-+}
-+
-+int hinic3_set_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh,
-+		    struct netlink_ext_ack *extack)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "Not support to set rss parameters when rss is disable\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	err = hinic3_update_hash_func_type(netdev, rxfh->hfunc);
-+	if (err)
-+		return err;
-+
-+	err = hinic3_set_rss_rxfh(netdev, rxfh->indir, rxfh->key);
-+
-+	return err;
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-index 78d82c2aca06..9f1b77780cd4 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-@@ -5,10 +5,29 @@
- #define _HINIC3_RSS_H_
- 
- #include <linux/netdevice.h>
-+#include <linux/ethtool.h>
- 
- int hinic3_rss_init(struct net_device *netdev);
- void hinic3_rss_uninit(struct net_device *netdev);
- void hinic3_try_to_enable_rss(struct net_device *netdev);
- void hinic3_clear_rss_config(struct net_device *netdev);
- 
-+int hinic3_get_rxnfc(struct net_device *netdev,
-+		     struct ethtool_rxnfc *cmd, u32 *rule_locs);
-+int hinic3_set_rxnfc(struct net_device *netdev, struct ethtool_rxnfc *cmd);
-+
-+void hinic3_get_channels(struct net_device *netdev,
-+			 struct ethtool_channels *channels);
-+int hinic3_set_channels(struct net_device *netdev,
-+			struct ethtool_channels *channels);
-+
-+u32 hinic3_get_rxfh_indir_size(struct net_device *netdev);
-+u32 hinic3_get_rxfh_key_size(struct net_device *netdev);
-+
-+int hinic3_get_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh);
-+int hinic3_set_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh,
-+		    struct netlink_ext_ack *extack);
-+
- #endif
--- 
-2.43.0
+Thanks for the suggestion!
 
+I ran some tests and found that neither the per-memcg cursor nor 
+different batch sizes have a significant impact on proactive writeback 
+performance. However, exactly as we suspected, without the per-memcg 
+cursor, the writeback distribution among child memcgs is highly unfair.
+
+Test Setup:
+
+   zswap config: 18G capacity, LZ4 compression.
+   cgroup hierarchy: 1 parent test memcg with 10 child memcgs.
+   Allocation: Allocated 1600MB of anonymous pages in each child memcg. 
+To ensure compressibility, the first half of each page was filled with 
+random data and the second half with zeros.
+   Force to zswap: Ran echo "1600M" > memory.reclaim on each child memcg 
+to squeeze all their memory into zswap.
+   Trigger writeback: Ran echo "<size> zswap_writeback_only" > 
+memory.reclaim on the parent cgroup 200 times, with a 2-second interval 
+between each run.
+   Metric: Monitored the zswpwb_proactive metric in memory.stat to 
+observe the writeback volume.
+   **Note**: The size here refers to the uncompressed memory size. Also, 
+since the second-chance algorithm would cause many writebacks to fall 
+short of the target size, I **bypassed** it during these tests to avoid 
+interference.
+
+Without cursor (size: 1M, batch: 32)
+   child        wb_pages        wb_MB     share%
+   child0           6368        24.88      12.50
+   child1           6368        24.88      12.50
+   child2           6368        24.88      12.50
+   child3           6368        24.88      12.50
+   child4           6368        24.88      12.50
+   child5           6368        24.88      12.50
+   child6           6368        24.88      12.50
+   child7           6368        24.88      12.50
+   child8              0         0.00       0.00
+   child9              0         0.00       0.00
+Without cursor (size: 1M, batch: 128)
+   child        wb_pages        wb_MB     share%
+   child0          25472        99.50      50.00
+   child1          25472        99.50      50.00
+   child2              0         0.00       0.00
+   child3              0         0.00       0.00
+   child4              0         0.00       0.00
+   child5              0         0.00       0.00
+   child6              0         0.00       0.00
+   child7              0         0.00       0.00
+   child8              0         0.00       0.00
+   child9              0         0.00       0.00
+Without cursor (size: 6M, batch: 128)
+   child        wb_pages        wb_MB     share%
+   child0          51200       200.00      16.67
+   child1          51200       200.00      16.67
+   child2          25600       100.00       8.33
+   child3          25600       100.00       8.33
+   child4          25600       100.00       8.33
+   child5          25600       100.00       8.33
+   child6          25600       100.00       8.33
+   child7          25600       100.00       8.33
+   child8          25600       100.00       8.33
+   child9          25600       100.00       8.33
+
+
+With cursor (size: 1M, batch: 32)
+   child        wb_pages        wb_MB     share%
+   child0           5120        20.00      10.00
+   child1           5120        20.00      10.00
+   child2           5120        20.00      10.00
+   child3           5120        20.00      10.00
+   child4           5120        20.00      10.00
+   child5           5120        20.00      10.00
+   child6           5120        20.00      10.00
+   child7           5120        20.00      10.00
+   child8           5120        20.00      10.00
+   child9           5120        20.00      10.00
+With cursor (size: 1M, batch: 128)
+   child        wb_pages        wb_MB     share%
+   child0           5120        20.00      10.00
+   child1           5120        20.00      10.00
+   child2           5120        20.00      10.00
+   child3           5120        20.00      10.00
+   child4           5120        20.00      10.00
+   child5           5120        20.00      10.00
+   child6           5120        20.00      10.00
+   child7           5120        20.00      10.00
+   child8           5120        20.00      10.00
+   child9           5120        20.00      10.00
+
+Thakns,
+Hao
