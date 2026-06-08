@@ -1,113 +1,148 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05BB397E9A
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 07:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780905403; cv=pass; b=f/+/UPXo+m6y3DH6NXC53GPy1jdm8Kov5pAanZlYsA8zFDUZ+Xw1QZ/5rYT8DJtyarijg2RwlWIuMvFC2zj7yk1/xcML8i1HVC+WPFYlbyFt8tQZYnmclaz7gD3RyYh9aOxHEUcr5b7sSPrHWBZwoQHOYZqsYOlyUAA4q6SJioQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780905403; c=relaxed/simple;
-	bh=v7MhUyKLpco5Pty2ROnWb6vWgtSRv98FtHcFuzCTDt0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KY0qz6r3PiJBqoiR1khM9jMcmlxivJI9J8ELsCfqqYPuOCV6moo+7EJan5Hm6+2xurcB/0moLMNMVbU0wKlx5tKJG5VzEENSjJOXcYxoB2LmZaTNk6Dy5lvpY+GP6ZIe25Or56tx4SUfCP7zc34TSgbvkYyZWZHmmfaEhuyJlvo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SibH7Gmz; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0700239E17E;
+	Mon,  8 Jun 2026 08:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780905969; cv=none; b=rrw5Awrwo5/7d7+YGTBgD98X5Z3lcFgh4yyZZNqobsnwifnzhL2nCK3PJ80DC+aPkMCbiuF32nQmgy8xanboaoS/X9RwcHDK07si0a8PkQ1x/ef2v5PiocGin4/cQPbgNjFCHxGPG5jE7e4PynL6KEh8zNQpZfSJ4SlxKrg+DkE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780905969; c=relaxed/simple;
+	bh=6PToavIyNhE+y/44j2T3NXffLZJqLNWCsQCag1hvqhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=KKdWMTZrin9Fqb2LIPhC7ZSBYNTsao+ZSAoddJVIDRXPD21E4UOTLRKB37+xPXQhAPtVNxBGs9XQE7o76M5kc+c9lI1CL+QsXhhjYOvJKFAt8QODcXZ0Dn8PDvRBxXvcumu4iGRMpEjmsoNKIIG+bdkVRHDqTnngzEU0kof3oWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=joffotyX; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SibH7Gmz"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-691c5776f35so527160a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 00:56:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780905401; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jgquHYEpi4lUsCBxCmU49Ai+a1zXTYNdgeViX1kvq9MnoZ9M9VXpb3E6OFHULZj7WU
-         qdvffgXn8P7wU/yuh+rpgJMG/ZdOtGO5MbyPH1tloAeN54GaoZWtHaq6hMRqHv9k7Njt
-         tYgz0Hz8dbeQlcDXMl/u1LFTQ2Vs0VcOaM+VVtRb6Ff8f3aZSl+A/vfR26R+SVw+w0r9
-         ysDzEG5Z/lWtD5m3nBDyFVdCBeTa+eLxWmiT/jIZHGOjbpkLDO+u39kIqFbBXGSkpv9k
-         ImLHFBqgWP1/NXesFuXS/8fV8/7LMAa6Bb69UfNg9U0a3a+Lo4kD+yRVdJDTyYKDvPt8
-         93JQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=v7MhUyKLpco5Pty2ROnWb6vWgtSRv98FtHcFuzCTDt0=;
-        fh=jxTTZj/PRrKNX2Ua3Qy+rIhaMGjfFPWK1NYOkFNwIus=;
-        b=iJV7neFoioaqIAYVbVYXv/DjWuiPVb7QDtkLT/GqE/TF4nr4le2Ow8DmJWc3kvMeJZ
-         F4/Pn8/NkxYcXrW4wAMskoWPoEiPpzyGutSaiJJTwKSs0w1qu0yUwYEjRG8G/LhgWLxD
-         hGl+11Kucz1XT9eJkI54IKA5U0Ob1B5Lg2umCqDaH6cR3tO3dTfpXR2340PHKl7jZA0X
-         +Q2BeklicdW3mWChLLuXpTSrwfX+3JbK4g81mRn80eyb1I/qq2WpnSJJt+3yM+APtCqj
-         1MgL/gfjCLjZCrunK5rh5YqKUDWIj2te9au3dlpwO9RO+1knZvWJ/4vhNTsXwPGHDyxb
-         ltng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780905401; x=1781510201; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v7MhUyKLpco5Pty2ROnWb6vWgtSRv98FtHcFuzCTDt0=;
-        b=SibH7GmzNgkR6oeMTY/ftMT89eYk5qojSEXtv7wBe8+YVD7wVrj1mwK3NNyQzT3RRE
-         PtrKqhDaOq1x/3GkjxYJwl3VZ4HP0f2zcOiEJMUfNChjt8BFO4Orn4DNnYqm9ur+jOJK
-         m62Q9kk/I3XPiZ0OFdWD2Yq+HJX7od2Qe4ioPMXDFl1x+/2Vca7UtKr5m05wa7g0An9o
-         vnA7IVQvojkIAAT9/wRWvsXsp7PZC89lEDMT0xKmhr+9a4nvsqAPBRCerQQCYccrPwiS
-         lCAW/uHFCHhPCVU3cCSxRqjMqkL90nWLCfWin1YmQLdh7iyPgxwr96y2+Rg/EVvEJ5Xd
-         UhJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780905401; x=1781510201;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v7MhUyKLpco5Pty2ROnWb6vWgtSRv98FtHcFuzCTDt0=;
-        b=jJIMK+ht71anOmNOG3zkhd5cufn69+Lpzm8kW+/WaIild9lK4TgtCtLJP3kYHIMUiU
-         5nof/tiMX0rQ/Bql+DHbkgu8E56F640Vw0I4s6HiIyDPEyIqV7D4OA9GZWwtfEUFReEU
-         1NwNWUgG24W6HBpOQIlZdsneVD/+GVaRnMgu7PX10T8oe6/RDmiOJzsg71zLXW3r+y39
-         Cc6z4P7Wyn0fLEG1xrXlEb4HP2CtKmq/3exx0gU90CeClpqtbnTgOE4JQJZdhnD/lDsc
-         1JA4DocJ+7UTh6yyjrNM+d5Yb4yAXAMtZ1cqUd2qkJvXVldRvrFfD+rmIFRf5eHleMPm
-         aXOA==
-X-Forwarded-Encrypted: i=1; AFNElJ/9Xf8evoVC+yypCdB05Dv/rB+fObHZ3mmQRUPsPmqhuhukFl5R43jbwJRthrvIMSjYuHRB8R528Fk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTf8slWjjUTqgcWCzp8adIZS54vfaOS8ex5+IGSqz0PHecSMMb
-	cb6DJ56l7CBPaBYtF7EqUObBt580CXKbYRGkzVO3AcWx77U/640kwfLcQUSJsVSf6QAHJUpv4VM
-	f0hJjjJHwA0yE9/ZnDWd7A9jnuBz7huYEsz43sSi/
-X-Gm-Gg: Acq92OG8IeBzHNs1RtVFObzZCrehCjkj9XvIeD/uVUxmE6hGZb8Bw7N7kv71DwHFdYA
-	nm/Nvc9hSlNqs+IDGcY0fH5hHhjEHW/gqH0esslb7zAcopjHeLzR4GmrN/d4kSagJhCuAimQ4Jr
-	lmeZU2apGhk6xyzhspRiGFzgOsm6bArs1S4F8bMGWZB48TcRoX0MWeIfQ0Ou1tpKbjTpFoc4TvP
-	A5MY4Wh8H02GTdPFDc0/YOZpJSMQmctfavMhx7IKUeOqZ8hzcglFycTCv41j+gRyPa5ME8eGY7+
-	UGwOZP1ownzDjfMEG7h7JruuXFzQLLpXNQsTWjQKMsznyJ9y2u97QphbIA6yPoTFsVuxT6/cNl7
-	C9ZTtqkWfxlFjICuACw==
-X-Received: by 2002:a17:907:96a1:b0:bd5:ca8:768c with SMTP id
- a640c23a62f3a-bf37234aa66mr653540266b.31.1780905400661; Mon, 08 Jun 2026
- 00:56:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="joffotyX"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=aATu7tVImBgCqv4P2EM9m+x6dmXEraQ/Wp+e4Xtstw4=;
+	b=joffotyX/LhOXzhiBQJ687sy38LBkFUJN+eZBQ6HwEnnv/WXYE9RFRQJPrwqs8ryCNuwygPha
+	aAN8S1aw1FDh7M8xsSR8XCsX1aJg2rLh13a7TIeKPo7PJIDFzY3c2nVzw9l2WmLjko13Jw1dYzD
+	ObI9uC8v6xFF6F/dj6RUeS4=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gYktX2fCTznTVw;
+	Mon,  8 Jun 2026 15:58:12 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9A16F40571;
+	Mon,  8 Jun 2026 16:06:02 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 8 Jun 2026 16:05:59 +0800
+Message-ID: <45fa93e6-dbeb-4844-bb19-f36fe642f362@huawei.com>
+Date: Mon, 8 Jun 2026 16:05:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260606155856.15548-1-med08elkadiri@gmail.com>
- <20260607070645.9559-1-med08elkadiri@gmail.com> <7906bad7-4e64-40c0-a724-f55ac44e12ab@kernel.org>
-In-Reply-To: <7906bad7-4e64-40c0-a724-f55ac44e12ab@kernel.org>
-From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
-Date: Mon, 8 Jun 2026 08:56:29 +0100
-X-Gm-Features: AVVi8CcGNyoLbmamtMoNx2-0ZzTmIKgNBdQkv4HaB4rzJNFkS3LOZowcqOrQKLA
-Message-ID: <CAAMeuQQFgyS1KR9tG_fW3yXhftmt1Oo7wALnc4WhnNuRG0x40A@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/mm/slab: document cache isolation with SLAB_NO_MERGE
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Kees Cook <kees@kernel.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 01/10] riscv: kexec_file: Fix crashk_low_res not
+ exclude bug
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <rppt@kernel.org>,
+	<pasha.tatashin@soleen.com>, <pratyush@kernel.org>, <ruirui.yang@linux.dev>,
+	<rdunlap@infradead.org>, <peterz@infradead.org>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<kees@kernel.org>, <elver@google.com>, <kuba@kernel.org>,
+	<lirongqing@baidu.com>, <ebiggers@kernel.org>, <paulmck@kernel.org>,
+	<leitao@debian.org>, <coxu@redhat.com>, <Liam.Howlett@oracle.com>,
+	<ryan.roberts@arm.com>, <osandov@fb.com>, <jbohac@suse.cz>,
+	<cfsworks@gmail.com>, <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
+	<ritesh.list@gmail.com>, <adityag@linux.ibm.com>, <liaoyuanhong@vivo.com>,
+	<seanjc@google.com>, <fuqiang.wang@easystack.cn>, <ardb@kernel.org>,
+	<chenjiahao16@huawei.com>, <guoren@kernel.org>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
+References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
+ <20260608073459.3119290-2-ruanjinjie@huawei.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260608073459.3119290-2-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-Hi Vlastimil, Vishal,
 
-Thank you both for the honest feedback.
 
-Vlastimil, understood, I will drop this patch. I can send a small
-patch adding a comment above the SLAB_NO_MERGE define if that would
-be useful. Otherwise I will focus on code contributions going
-forward, written and reviewed manually. Appreciate the guidance.
+On 6/8/2026 3:34 PM, Jinjie Ruan wrote:
+> As done in commit 944a45abfabc ("arm64: kdump: Reimplement crashkernel=X")
+> and commit 4831be702b95 ("arm64/kexec: Fix missing extra range for
+> crashkres_low.") for arm64, while implementing crashkernel=X,[high,low],
+> riscv should have excluded the "crashk_low_res" reserved ranges from
+> the crash kernel memory to prevent them from being exported through
+> /proc/vmcore, and the exclusion would need an extra crash_mem range.
+> 
+> Just simply tested on qemu with crashkernel=4G with kexec in [1] mentioned
+> in [2]. And the second kernel can be started normally.
+> 
+> 	# dmesg | grep crash
+> 	[    0.000000] crashkernel low memory reserved: 0xf8000000 - 0x100000000 (128 MB)
+> 	[    0.000000] crashkernel reserved: 0x000000017fe00000 - 0x000000027fe00000 (4096 MB)
+> 
+> Cc: Guo Ren <guoren@kernel.org>
+> Cc: Baoquan He <bhe@redhat.com>
+> [1]: https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+> [2]: https://lore.kernel.org/all/20230726175000.2536220-1-chenjiahao16@huawei.com/
+> Fixes: 5882e5acf18d ("riscv: kdump: Implement crashkernel=X,[high,low]")
+> Reviewed-by: Guo Ren <guoren@kernel.org>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-I will follow Vishal's feedback and send new iterations as separate
-threads going forward.
 
-Thanks,
-Mohammed
+The below AI reported TOCTOU bug is an existing artifact and completely
+unrelated to this fix here. Therefore, we will skip fixing it in this
+series to avoid unnecessary noise.
+
+Link:
+https://lore.kernel.org/all/20260608074809.EE4201F00893@smtp.kernel.org/
+
+> ---
+>  arch/riscv/kernel/machine_kexec_file.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
+> index 54e2d9552e93..3f7766057cac 100644
+> --- a/arch/riscv/kernel/machine_kexec_file.c
+> +++ b/arch/riscv/kernel/machine_kexec_file.c
+> @@ -61,7 +61,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  	unsigned int nr_ranges;
+>  	int ret;
+>  
+> -	nr_ranges = 1; /* For exclusion of crashkernel region */
+> +	nr_ranges = 2; /* For exclusion of crashkernel region */
+>  	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
+>  
+>  	cmem = kmalloc_flex(*cmem, ranges, nr_ranges);
+> @@ -76,8 +76,16 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  
+>  	/* Exclude crashkernel region */
+>  	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+> -	if (!ret)
+> -		ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+> +	if (ret)
+> +		goto out;
+> +
+> +	if (crashk_low_res.end) {
+> +		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+>  
+>  out:
+>  	kfree(cmem);
+
