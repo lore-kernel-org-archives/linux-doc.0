@@ -1,167 +1,64 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26293603D7
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 11:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9CB33DED9;
+	Mon,  8 Jun 2026 11:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780918399; cv=none; b=Gy/1quMR+98V7O8gs/q6jUf9EH4NCMRedh9J8ZmWq5ie/thMiuAyp5572Bj3qv2lX7X8OvE+1mMEPrN0hMXWenkvgq2NG3H9Ebh5TjrG1ZbtuXXHWWQLtoIHVhOZaH/iGC+Qkkb1itQhRhDXibe2vY//MpSLEILcK1jcyVDfZY4=
+	t=1780919014; cv=none; b=CJ177ozlbNDBPQ/ujM9IeHD5R6hBSEJnFjlZAy187PzmanLcPzptYIVMni6rRvCGZ5xY0afxW0q5vTLQSRnSvyl28ZKzhsrPAzjQ4SeREE+gDUWeyvBqWK0hoo0H5xxJDOAxg+puJhNZRblDHI+I/asAsz/gmTOd8csjjhVIKCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780918399; c=relaxed/simple;
-	bh=eHyGunCkEOCT/+vgrLK+pZ8fYBfJ59/R1TOD7yr0PNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V4UWSylPMYZz48lC3jdGLiGMcEp4gSxB3bbU1DKrw1MNTcSqtbG+m4aGdhCsJFeGyBR59zQLXN+/JT9hZYAjFquqOfQXINuFeWOEw39rWFYaulN3+PpES4YWN0i7PHgcpPJMWGLmmelmgUjzDV3s+ueR2JYFjkgXkuyLWPWRyL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HRHtpz+i; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780919014; c=relaxed/simple;
+	bh=NsuGiHwdu+aQ+9U789licK2umfvuTZy68oIxrYbfUcs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P/gvvfqS9XcsW/VC6Xv0xhVA9qU1JdXGNErFfgTH9WMujeEEYXomf6SmaZpprp+zN+sAxBnkSO8IoY3xPp2eMpdv5HvrDybLRR2nsqgg6g9LUWrBhqrmbmeNiJz98UdirSQTW1PEyuQV2C+3O6KVQjujH06BTs6CQCNapWzmURo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bWf5FjWx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HRHtpz+i"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0b1a48855so369005ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 04:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780918397; x=1781523197; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/AClK5b2UGJLL9HjNCJk/rNNqh+8+sTLcKYFLOrhzbk=;
-        b=HRHtpz+iT7e8oEEhWle0XNZ6kadxAoQOUYX+a0adQBWGWSHavLa6QOEJjqMaQT2akw
-         XU4x/Eep9A9YIZqKQDf0DTKExiNnynaTRvFzoryvEN5axBsImSWSpqjNNOjXamz3PBTf
-         ikPFf7lcyJWrA9+5EePXsfolsC+S39c1m1Br/kQFzGERMZ8LGCQHp/TDTQcnGidVHCer
-         Y5jE8mLR2jFZP0u4nFZEf1aG2kjyyEilhTEGHp66jRtwih8ffQtENlglWdSguvx+ymXJ
-         J1IDYUgQeXPksKkAMD5qm2uR/FOgXptEMP3xTPIGP60u5FV4dzgauV4TGaT+zMJteXpg
-         TyTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780918397; x=1781523197;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/AClK5b2UGJLL9HjNCJk/rNNqh+8+sTLcKYFLOrhzbk=;
-        b=qfVMmy1b2WtkXkmrj0tZLkXj/xfH7j7xD+igbvh3g4PotR/JW7HUefVvghyXTZtftY
-         OBdymGanzaKIHSzjrPDJi8geiDvpkU8jBz+RvSraZdr6kDCErxUV9BIf38PvXjdRzTo2
-         zHv00zy0yT2vfUspKLEXO71f7vfRwr63eGGFdS4TNFtmFZsAcMnce1McGpbOevOGWle2
-         odun0LjW/U6u4fO7B4P1PPyKzGeuAIeamsNUyRW+Cqsl7+pzGsMLNEei9mWDeH+tqtKF
-         K2fGuq6v5PF0lw7k8JESA6khlyveBh06uzxg/Z+F2xw7SEgd+RHG/WfuvpFWTLisuJC3
-         Q2bQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/bNrBBQ5RTePKpz5Wjy9JHZauyNMOcwVankqkUQdWZyXYjTepIHFrxYNk02Nmi5xNKYweMQMXrxtM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3V9GZgyoNlp3hFHDfvvwzmu4nXxrySdmeu9p+lSzdB9Qvk5Zg
-	WPTUxYqFYFEsVBdWCEB8dOT0dqHUaZKBiaXJ0bWwYJVcIUsqV0igTAXT6Td78D0+HA==
-X-Gm-Gg: Acq92OHxXcjYcOMZ4X/Ct5pmcajavwb0gS1gDn/9+5Qy1mvyiKp/piN+F1dj/THIlxF
-	N5Qd5EMjetgKDYfYKy69j21fvn8/68bXIXKeFjoJNOat5YXaQC4lo4oD6voC415DDWJSIvil9xG
-	Udzrs4F3hW9otVqezWI4TH3bYttvJ7uHHE1+ON0n78cKTij2JOwLs+1G77dFle4iNOTrGiWJ8EJ
-	ZNT7G/EmAhXmH8ukfyyJpB2+IIC9sRE2ChpPPhLpt9Z9aPBB/qO+YXea+c99uPoQplpmRZFG8Yv
-	hmbI6IbtALJ1eGE+w4qb1AlRqQbkVnVB/3Je1+BDnxIq3NelJEdk+16RNC+qzyLjqFgKp40h6OO
-	9pGR8X1cXSRpN/7RMYqbb6PYDeNASJIKu8V4flJFRLvUBbuVaYWvor1mNCe+WwTaisUFoWQg4uy
-	/sGf9FmEnfXw5QiQkryzcIswf43Tt4pdn9ZERvPP8HJCr+dFCt4RufsSUKDl7mqosPbju/5Vo=
-X-Received: by 2002:a17:903:2349:b0:2bd:3c1b:3073 with SMTP id d9443c01a7336-2c1ebea9c71mr4318635ad.16.1780918396547;
-        Mon, 08 Jun 2026 04:33:16 -0700 (PDT)
-Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f9ed6csm182143405ad.31.2026.06.08.04.33.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 04:33:15 -0700 (PDT)
-Date: Mon, 8 Jun 2026 11:33:07 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 09/12] PCI: liveupdate: Inherit ARI Forwarding Enable
- on preserved bridges
-Message-ID: <aiaoc6Y6qeF_5Wn9@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-10-dmatlack@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bWf5FjWx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F081F00893;
+	Mon,  8 Jun 2026 11:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780919013;
+	bh=c4KQmWAFbwvAHdHK+YZw55+mKgkoGrzLFa35PKtZIxc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bWf5FjWxSQW1bNKfipzPMcrRjx1FScPh3uSDFMNZcA/Unc8xmjsGJG2YJ8DZWlpl+
+	 DZ9JUAM2hOQ5YjtMWNDInxKl6aHc9irZ7sVGHv3acKjxWBS2JUhsFkw+aB2VYjxO0M
+	 hChDHgDcUdRNP1TlzWe0AgWKcXsmn7d7o2PtcdDrA+V8OqnR89scuG0Mhf0C60StI3
+	 wlM4h6RxDpFxDlfUNU4iPBSdtdTf0p3OGrGz5qZjPRk9RFtgeV1c4txl4walZ0XeZx
+	 RZhK3s0gjChBixZ2zkbf8dLABDKOXP2tFPrOHigP7wg/qHdiU0zy6l2Z0u1ri2Wsz5
+	 KVCMd9ttpuGkQ==
+Message-ID: <6f86dc2a-27c0-46a7-8d28-8e07ecb77566@kernel.org>
+Date: Mon, 8 Jun 2026 19:43:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260522202410.3104264-10-dmatlack@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ata: pata_legacy: remove documentation for removed module
+ parameters
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org
+Cc: stable@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260607064053.195166-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260607064053.195166-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 22, 2026 at 08:24:07PM +0000, David Matlack wrote:
-> Inherit the ARI Forwarding Enable on preserved bridges and update
-> pci_dev->ari_enabled accordingly during a Live Update. This ensures that
-> the preserved devices on the bridge's secondary bus can be identified
-> with the same expanded 8-bit function number after a Live Update.
+On 2026/06/07 14:40, Ethan Nelson-Moore wrote:
+> Commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") removed
+> several module parameters from the pata_legacy driver, but neglected to
+> remove their documentation. Remove it.
 > 
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->  drivers/pci/liveupdate.c | 18 ++++++++++++++++++
->  drivers/pci/liveupdate.h |  6 ++++++
->  drivers/pci/pci.c        |  8 +++++++-
->  3 files changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> index a93b7ef065f2..701276ef6cfb 100644
-> --- a/drivers/pci/liveupdate.c
-> +++ b/drivers/pci/liveupdate.c
-> @@ -128,6 +128,10 @@
->   *    way after Live Update and ensures that IOMMU groups do not change. Note
->   *    that a device will use its inherited ACS flags for the lifetime of its
->   *    struct pci_dev (i.e. even after pci_liveupdate_finish()).
-> + *
-> + *  * The PCI core inherits ARI Forwarding Enable on all bridges with downstream
-> + *    preserved devices to ensure that all preserved devices on the bridge's
-> + *    secondary bus are addressable after the Live Update.
->   */
->  
->  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
-> @@ -756,6 +760,20 @@ int pci_liveupdate_enable_acs(struct pci_dev *dev)
->  	return 0;
->  }
->  
-> +int pci_liveupdate_configure_ari(struct pci_dev *dev)
-> +{
-> +	u16 val;
-> +
-> +	guard(rwsem_read)(&pci_liveupdate.rwsem);
-> +
-> +	if (!dev->liveupdate.incoming)
-> +		return -EINVAL;
-> +
-> +	pcie_capability_read_word(dev, PCI_EXP_DEVCTL2, &val);
+> Fixes: 3c4d783f6922 ("ata: pata_legacy: remove VLB support")
+> Cc: stable@vger.kernel.org # 7.0+
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-Again, I might be thinking out loud here, but since these are
-hot-pluggable devices, with some FW / SW running on them, I'm a little
-worried while assuming the HW registers can be trusted across a kexec.
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
-Say, if the bridge experiences a reset (e.g. link drop etc) during the
-kexec blackout, the PCI_EXP_DEVCTL2 register could revert to its default
-state, meaning the ARI bit will be 0.
-
-In that scenario, pci_liveupdate_configure_ari() will read 0, set
-bridge->ari_enabled = false, and bypass the pci_configure_ari() logic
-as well, permanently leaving ARI disabled on the bridge. Any preserved
-downstream devices with function numbers > 7 will instantly become
-unaddressable, breaking the Live Update. Even if that's desired it gets
-hard to identify why the Liveupdate broke.
-
-Should ari_enabled be serialized with bridge's pci_ser to ensure we
-correctly restore / match it in case HW changed it during the kexec?
-
-> +	dev->ari_enabled = !!(val & PCI_EXP_DEVCTL2_ARI);
-> +	return 0;
-> +}
-> +
-
-[...]
-
-Thanks,
-Praan
+-- 
+Damien Le Moal
+Western Digital Research
