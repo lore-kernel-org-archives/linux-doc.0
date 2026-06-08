@@ -1,129 +1,61 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEB2348C46
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 04:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FB7351C3B;
+	Mon,  8 Jun 2026 05:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780894484; cv=none; b=RPqMGnRUjgAvwfCpGOercyF4LYqVi11wrsHuFkqdKUYU8CR7/lAVQ3kN6ENoBEamsLSSA0EuUmzbGs8Mv003BjruOF9YS24hIhWjOmcsuyTZks+nhJnHjxXG6reDEhcX5bmWn/KU8btsAsCoumwMgIo/vegpbS4CCkTEnge348s=
+	t=1780895363; cv=none; b=uerk/MaMuvi0WOdeKoMRMohKwkj2TPEQ2W3Qi5Gd643jreGYK/BNStdeqn5rN3Pyow3aFcRsd5ToYFbVTUt2rXtu7BL+t4qoNMU0OLNW/EqnyriABnhc4G3CYyIlgv8ERL8Z+0+kb3X/2L837q14rJMlVV4l/llfZdiyS1Q4Pq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780894484; c=relaxed/simple;
-	bh=nJZD1v0uKmRwmTPQY9fhrdbUR6X2mcRzW3srSSIJVBc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cgioYX4BVqUOMlQjmW7l9KDKyznrwZHIcy2aLgdsN7A7pLMiscmZFFscndxjpaAhbh60IzPsdnnUxSzkRgBExS8QO1MjEEPb4aP3TIrwJottPFF+F6y1LEmdtG83a1vaZHqbi/mXJY4gjDrGPN/S9NXf3rcijcX/S90t7bQbxb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BBmW8jOL; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BBmW8jOL"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780894470;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJZD1v0uKmRwmTPQY9fhrdbUR6X2mcRzW3srSSIJVBc=;
-	b=BBmW8jOL6IGP4OdE9Tk2dDZ6XAZ07VWn9whCfkMIctmLJAFFQ8LHl3pqu76fyNCyFSDjaq
-	tqprhwUKy/lu381KF5DjqtOYK7/1NHPLjz2i56t5p5q7L9rYSQF2gDaL7zqSaVdhlFOy1m
-	42nqER2YRyBfnjvZfD8in49rQbw+DNw=
-From: Lance Yang <lance.yang@linux.dev>
-To: npache@redhat.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	aarcange@redhat.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v19 06/14] mm/khugepaged: generalize collapse_huge_page for mTHP collapse
-Date: Mon,  8 Jun 2026 12:54:13 +0800
-Message-Id: <20260608045413.70658-1-lance.yang@linux.dev>
-In-Reply-To: <20260605161422.213817-7-npache@redhat.com>
-References: <20260605161422.213817-7-npache@redhat.com>
+	s=arc-20240116; t=1780895363; c=relaxed/simple;
+	bh=0nv6nlIkvBiTD1u3V4UCm9ndYB57nlyx4ezw9HhOQwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RTeCjDXbx9+wa4QDAdDhjlkwr2g2G9GUuIJ/QLk5HKyNt++/o4YAGHSsXmJtlLBbWKFnZC5fMDOnPA5WLSrJNzz0KlnvNO6uIOxw1lhme3n545AIGMjL0FryBEuuekb9onQFj6eR2fZWAUMdHfMphoG3FQEjOkQX+UXB2fnIS84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A67B168B05; Mon,  8 Jun 2026 07:09:11 +0200 (CEST)
+Date: Mon, 8 Jun 2026 07:09:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 1/4] block: add a macro to initialize the status table
+Message-ID: <20260608050910.GB21313@lst.de>
+References: <20260605184441.590927-1-hch@lst.de> <20260605184441.590927-2-hch@lst.de> <aiMZ-PXXQ-NxOHT4@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiMZ-PXXQ-NxOHT4@casper.infradead.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
+On Fri, Jun 05, 2026 at 07:48:24PM +0100, Matthew Wilcox wrote:
+> On Fri, Jun 05, 2026 at 08:44:27PM +0200, Christoph Hellwig wrote:
+> > Prepare for adding a new value to the error table by adding a macro
+> > to fill it.
+> 
+> > +#define ENT(_tag, _errno, _desc)	\
+> > +[BLK_STS_##_tag] = {				\
+> > +	.errno		= _errno,		\
+> > +	.name		= _desc,		\
+> 
+> Bleh.  I hate this.  Before, I can grep for BLK_STS_NOSPC and find it.
 
-On Fri, Jun 05, 2026 at 10:14:13AM -0600, Nico Pache wrote:
->Pass an order to collapse_huge_page to support collapsing anon memory to
->arbitrary orders within a PMD. order indicates what mTHP size we are
->attempting to collapse to.
->
->For non-PMD collapse we must leave the anon VMA write locked until after
->we collapse the mTHP-- in the PMD case all the pages are isolated, but in
->the mTHP case this is not true, and we must keep the lock to prevent
->access/changes to the page tables. This can happen if the rmap walkers hit
->a pmd_none while the PMD entry is currently unavailable due to being
->temporarily removed during the collapse phase.
->
->To properly establish the page table hierarchy without violating any
->expectations from certain architectures (e.g. MIPS), we must make sure to
->have the PMD reinstalled before the PTEs, and hold both PTE/PMD locks
->before calling update_mmu_cache_range() (if they are distinct locks).
->
->Signed-off-by: Nico Pache <npache@redhat.com>
->---
+You will still find BLK_STS_NOSPC itself in include/linux/blk_types.h
 
-Nothing else jumped out at me. Anything left can be sorted out later, as
-David and Lorenzo said :)
+> After, I can't.  Yes, I know we have a lot of such things already, but
+> I don't like adding more.
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+I'm not a huge fan off CPP pasting, and especially thing we should never
+use it to define global symbols (hi page/folio flag helpers!), and in
+general try to avoid using them as much as possible.  But I think here
+the need to keep the names in sync with the tags exposed in debugfs is
+more important than the grepability.  Especially as this sits in _the_
+core block file, so it can't be easily missed.
