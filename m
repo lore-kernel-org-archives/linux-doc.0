@@ -1,139 +1,105 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB91435F5F7
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 22:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0613B14D0;
+	Mon,  8 Jun 2026 22:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780957368; cv=none; b=ijfR+JbSCWIbQWmt57O6CzYTUZYM7cdQEsfc8QAkrcxp7xBitQKcsxFwGUa7LvW9hjTNRdBejfEGYNlkX7RhG4VoTTbrfq0PKCfVjsaJxuC9irKnMcLXgBGNEZdkC/7XAYIZ4tQZfa2SFg8RIyWpiVi8kZUACskj5MMw2AaSYho=
+	t=1780957500; cv=none; b=Kee2+kAsglSzTl8lUMAX7EFW+x686+iQcISCl0Tc4b6UX7hENtB1gzthFCb85nkQhWuCoSLhNETdCo5ImOZdeBj5mnxTgIQmZ8sWpB5yhFKXE1Frna6lm/mKd13TELrZyC6Kope8WfNAdww4Df5cF46YK2YVuIjRdHrafY+zhkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780957368; c=relaxed/simple;
-	bh=N/Kx6UFiSjnN9IKIgSSU0gbEzC3dQsfgY6CHdb8yTZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q65KQnL2JJtyYill7DNUjN75rKdm42TJ44tLB3+CzIWkBefl+f1bmFBY3m7JUvq+HRaCwXTqk5JQ+5X2WdFssd3e3ZDj29dXMjgn80nVkZdlQuYsBEkan/Hzl7mphlBtbI0ce1KqrS0P9kwqbQt3s0uMXRIopm9shzk2xVUIE4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PWqt6F9C; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780957500; c=relaxed/simple;
+	bh=RujqqrWbjkdAFsXFMnqINKyZg8ETbccdJ4rLk6oLWHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e15znWMSPUjvt1s9nSNmQLtQ06QIKJXS6UDb0dEw6UwrRSgM7CpMeKWS5n5Ie1leLV3F4975kNcbju1zQJfmm22OudUJaucDlItI81HW7Not0wwRAhckDXNqvWR6mu8Nj8wivRXowIuyuzdmUCHyga+jEbaSyGWWkzcZAsN7Efw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+Ecnwjk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PWqt6F9C"
-Date: Mon, 8 Jun 2026 15:22:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780957354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QMaWH3U/PUxuaTtJVkRr3vzg+Jb8ytHkTkyCatAiMdE=;
-	b=PWqt6F9CKEwPgQ//P+2rVaSaqvWcRHhLi/Biw7KvgfDFqSvA49YeL8y+4/aoK+8pIISmWd
-	W/NjR3Pz+A+qcCcgQrEnSOWgUpxdAwrhzANRo9RfUy7qD6FF9WpNsecqZ/k9E50d2uCTDP
-	rD6zmztQ0AiUQ8YKBbjcgNm+TdNkAHU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
-	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, youngjun.park@lge.com
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-Message-ID: <aictKA0XWMWbxFdN@linux.dev>
-References: <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
- <aho_VtLCmIRsNyvO@google.com>
- <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
- <aiBqzOtEv5iAC_qC@google.com>
- <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
- <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
- <aicJBVT4pBvmyooT@linux.dev>
- <aicZ-5GX9De3MAU7@linux.dev>
- <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+Ecnwjk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DEA41F00893;
+	Mon,  8 Jun 2026 22:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780957499;
+	bh=KvXp+1P6AtbDNcD1+SpBwuR8V5/iTedBIFhFKp1j9iI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=X+EcnwjkPuRJ8wtgQyMIykB9IZbqA3iyPCCGBQlQIS6jFuRkpYm1AcZ+R6NMq8nVV
+	 O+TXEs38C6ZO+x/YIvyDXyDm5EjVpaJ34k1+ijO7lbKpTogVyRkAzG0GkQCGVl+7Ze
+	 eT3esN8W5BINCMiqg4VvIkNH/yGURLwUoJbo+lPzAvPHu52dctsA4lIbTRAQFcTSAK
+	 c9uG9/eAZ5gcjQnzkhkqshtX4gp11jVeiKAC56wKE3M7sa/LehiexW20KrXcNOVehB
+	 byueeGgPgynrOIvreLU9v9XHwn0nwFmnK/N/AO5kqtkK9/NeR5aZ1nXL6JBoq6lU9h
+	 Tn0QeCn7l1Xbg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Leo Yan <leo.yan@arm.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	linux-kernel@vger.kernel.org,
+	coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>,
+	linux-modules@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	Sumit Gupta <sumitg@nvidia.com>
+Subject: Re: [PATCH v5 0/4] Enable sysfs module symlink for more built-in drivers
+Date: Tue,  9 Jun 2026 00:24:48 +0200
+Message-ID: <20260608222448.1353773-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jun 08, 2026 at 01:19:32PM -0700, Yosry Ahmed wrote:
-> On Mon, Jun 8, 2026 at 12:50 PM Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> >
-> > +Youngjun
-> >
-> > On Mon, Jun 08, 2026 at 11:30:30AM -0700, Shakeel Butt wrote:
-> > > On Wed, Jun 03, 2026 at 10:36:07PM -0700, Yosry Ahmed wrote:
-> > > > > >> But doesn't it make more sense to specify the compressed size, which is
-> > > > > >> ultimately the amount of memory you actually want to reclaim.
-> > > > > >>
-> > > > > >
-> > > > > > I personally prefer compressed size to pre-compressed size. That's
-> > > > > > kinda what user cares about, no?
-> > > > > >
-> > > > > > One thing we can do is let users prescribe a compressed size, but
-> > > > > > internally, we can multiply that by the average compression ratio.
-> > > > > > That gives us a guesstimate of how many pages we need to reclaim, and
-> > > > > > you can follow the rest of your implementation as is (perhaps with
-> > > > > > short-circuit when we reach the goal with fewer pages reclaimed).
-> > > > >
-> > > > > Got it. I will change it to use the compressed size in the next version.
-> > > > >
-> > > > > Yosry, Nhat, should we continue using the zswap_writeback_only key to
-> > > > > trigger proactive writeback?
-> > > >
-> > > > I *really* want the memcg maintainers to chime in here, it's
-> > > > ultimately their call.
-> > > >
-> > > > Michal? Johannes? Shakeel? Roman? Anyone? :D
-> > >
-> > > Between the options of having an explicit interface (i.e.
-> > > memory.zswap.writeback*) or a key (i.e. zswap_writeback_only) to memory.reclaim
-> > > interface, I prefer the key option. I have not looked into how much proactively
-> > > reclaiming zswap memory or proactively triggering zswap writeback makes sense
-> > > but from the perspective of memcg interface, I think the key option would give a
-> > > more clean solution if we decide in the future that this whole thing was a bad
-> > > idea.
-> > >
-> > > Next regarding future proofing zswap writeback trigger, do we expect any
-> > > potential additions/changes/new-features for this interface? For example do we
-> > > expect in future we may want to trigger the zswap writeback only from a specific
-> > > node or lowest memory tier?
-> 
-> The way I see it, zswap writeback is just a "special" type of
-> proactive reclaim, but the goal is still proactively freeing cold
-> memory. In that regard, I think it makes sense to have things like
-> node-specific reclaim. Not sure about other extensions, but Hao
-> initially suggested making this age-based, so I think the answer is
-> yes.
-> 
-> For both of these examples (node-specific reclaim, age-based reclaim),
-> I think the same semantics could apply to memory.reclaim in general,
-> which is why I suggested making it a part of memory.reclaim. I also
-> like the idea of having a single proactive reclaim interface in
-> general, but maybe we don't want to overload it too much.
+On Mon, 18 May 2026 19:19:56 +0900, Shashank Balaji wrote:
+> [PATCH v5 0/4] Enable sysfs module symlink for more built-in drivers
 
-IMHO it is fine.
+Applied, thanks!
 
-> 
-> > Youngjun is working on swap tiers. At the moment he is more interested in
-> > allowing a specific swap device to a memcg or not. I can imagine in future there
-> > will be use-cases where there will be a need to demote data on higher tier swap
-> > to lower tier swap. What would be the appropriate interface?
-> >
-> > BTW does zswap folks think of zswap as a top swap tier or something different?
-> 
-> I haven't been following the swap tiers work closely, but personally I
-> do think of zswap as a top swap tier.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-Same for me though I imagine swap tiers would introduce some duplication i.e.
-different way (interface) to set limits for swap tiers for a given memcg.
+[1/4] soc/tegra: cbb: Move driver registration from pure_initcall to core_initcall
+      commit: cd6e95e7ab29
+[2/4] kernel: param: initialize module_kset in a pure_initcall
+      commit: c82dfce47833
+[3/4] coresight: pass THIS_MODULE implicitly through a macro
+      commit: efc22b3f89a3
+[4/4] driver core: platform: set mod_name in driver registration
+      commit: a7a7dc5c46a0
 
-> Things will probably get more
-> blurry with memory tiers and compressed memory nodes though.
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-I think there will still be distinction between byte addressable and fault on
-access devices.
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
