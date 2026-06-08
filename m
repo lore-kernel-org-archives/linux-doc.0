@@ -1,385 +1,231 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDD6340414
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FBB3469FC;
+	Mon,  8 Jun 2026 16:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780935181; cv=none; b=Oq68Xse/tO5iLLB4V9KlapXsn25uU7HT5oCFEAcAnZZR9A32zJz0S2vQniTB+Zo/LQFVxR9SWyF52b7KCagTE6OIdjz1FcalSY1cFY6yEAj9KlZtH/nGGjFDXofIorhv7f0zZgW0Ob2fTrlODsCu25qVVPMjQzSW62gajChMLcU=
+	t=1780935697; cv=none; b=VYh0TH+podPmXr+Cq8Ghliqp1ci3ozhd3LdQmKOd7S7YdctVX/1/iggiehoXiYj0wvF9FffPPMLg5dEb3n3Q8+su/q/gJwhJcPXLjCO4mO5CUwygCew63CQfyZBFk2FWylgNPWMDsovmU15Ltb/BAMry+VUg+7md2JdE+L+PIUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780935181; c=relaxed/simple;
-	bh=X8vqXa+g+F4+jpfKdvboJr2CkJsH22TSkmfdozsNYsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggi/MJyfcGZ6WBE2qBp0ktpokz2Qe+n47R/fTqgwcDJUaz7/GUYBcSJKnCi5D/FSfjSCi541nJT7pRSGqH0ArYG8Kg98K7rT5CZ+Wo+JRq4aWPhsXemftqn1F6gUfXv4jKTHt0zAcdpr/xfC21XRqjeH8DBjLSy/Kw2lt3rXQyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=AYC3cukT; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1780935697; c=relaxed/simple;
+	bh=v3MaV/Co+8L1uir+O5xPbYzfEfB68PG7V7O3aJfnrvc=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=CWW2AjHxJXUc8/YKCZspDwTU4rOvLLP4Ey9I2VQnZVjHs49j/u9MR0Nxkt+uPFux8xg/RRvPxXwSd0FlfJxDisdJvhlsmnYN2G7Itrvv3EWHXfrS2HLPwKwUH75Ou/hXocwSe2uF2agRcDTFlnMOIVcfygLToEQnUeoYg7ymzi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=paTHSMAO; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="AYC3cukT"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-9157b949fc7so510656685a.3
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1780935178; x=1781539978; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=G7BP0s37Q+khF0GZ143YoXVWV8LzH4rQFimf53xc42o=;
-        b=AYC3cukTslkI3sFKLoCWn3is6TQhWOnK8c7DbTU1LlFLpy0oM/JeA8tKu3eURfVs8V
-         mzFu/b4AGSCKPGWOfr5HLSXUWxejV+ab7Ek/rj/VQXiPvt07acfSAnxnRWRz623KtbKm
-         rHT7uVZmpUh9nJ3I8250Syo/CERNvNiPeOzVTgF1RiBGa7hUGuzHL8QZ0M794NLdtvcM
-         4Dy4UqNlsg6Bd5c7RskztDZm6ajZuRlYLiCAUvKdCviPnz7uOPb9fi7Ji1jayiaRfKbG
-         2vfBaIRheTS709kr3qwOy6kzX9/HNBmbA7Z009mLUUwUB7vDPfDGosSh5RE/eUBmOQi7
-         WjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780935178; x=1781539978;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G7BP0s37Q+khF0GZ143YoXVWV8LzH4rQFimf53xc42o=;
-        b=NRp6792ZBfA5Ts/EyYKcm5kK2PXH30mCbsogV6L+6LUcWq+xxnZunRFH5VP+PJBnfA
-         SlGOjtCnnrJdLSonaApL7wrj3k/zixOsZVuvZc+blvTiB428xR5IK8oPlJ/dbo+1x7H3
-         YVXlpaEtaLSUS76SwSQRSYc1Ub6UAKaHaxInCW6V9FofqUyUCNRDdUbOJh/bLIIvRbeP
-         RODC6HkiYT8wGHeaQ7LFtzOPg02QgaMg8KFUrFPk375qKnSHSgVutLbiYseiViTo2wng
-         oePhyGvO7rN4S9DVNKtk22gLAufUU0J6FaDKh03DihjTmb90vpdnHhzF7VSA/FHVDTA9
-         k4gQ==
-X-Forwarded-Encrypted: i=1; AFNElJ98jbShaWv6KT/ipGc0auRv2wps37v7jJ8EYfmC+UBqK+raBAxbxGVHMzpxNVIYjolMAgvbCss68y0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKMDtQifH0zX/jzF9ddqfjSz8LBagbfuKWhhM4QYTFGaNBD5vm
-	ofyn6YHUoBehWDY63+Qy9NHsLzzwW/XD0FZJaRFLeQ29mBSUNVWdD6PBs/WgZZ+pEH4=
-X-Gm-Gg: Acq92OG15+1rpC11ELqILA/i4ECLLTwkZHVPQ7/Rk3HiVct8KJhWHyNO7LgtN9qw32x
-	ZavY7nIdaM2ItQET3UpKYd0ceKMbC6DjUZPVFSDpeE3Tr4LSnnwu8wnDBhSXykS+4wfHqkZ8nk3
-	rVGqPjmhatsv9Z80eqco1BJUgSX06Gtjp/WQjV2ifZmpbftsu0UOxvoChrpsucSQHezklSXeyr7
-	xrV00kFqaSb1uSuQQIpywVyzGY8oH0kcxpmJK0aUhC0cpsa6G93q2jVIm684LVUbR1kkypZvO+b
-	8VWiKMZ/sSrbczzcDlYmY0DqPJJpn54xbfcGywwW3MCgpABd4OSDE/E4lLF6fYYRzV8iD4kWSKW
-	5XYBCzAKBVZHE3mkqZD08t3IFir+lDyoLHLA/8in9rUh61dzQRF6ULI3/nBtkf0ND1T6vfp2FiP
-	TXlvlB/qz34U5SQWLAkIRWXqym4AM1AP3QxcPcC0SIVKX9QGeyC5sJT6+w+LYPdA==
-X-Received: by 2002:a05:620a:1988:b0:8cf:c106:faca with SMTP id af79cd13be357-915a9d899a6mr2683778685a.36.1780935178189;
-        Mon, 08 Jun 2026 09:12:58 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a00ba04sm1761661385a.7.2026.06.08.09.12.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 09:12:57 -0700 (PDT)
-Date: Mon, 8 Jun 2026 16:12:56 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	linux-kselftest@vger.kernel.org, shuah@kernel.org, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, jasonmiu@google.com, 
-	linux-kernel@vger.kernel.org, corbet@lwn.net, ran.xiaokai@zte.com.cn, 
-	kexec@lists.infradead.org, pratyush@kernel.org, graf@amazon.com
-Subject: Re: [RFC v1 0/9] kho: granular compatibility and header decoupling
-Message-ID: <aibYJvzQQnpoN6YW@plex>
-References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
- <178083348872.1648214.17778188633648887952.b4-review@b4>
- <aiVp5RlbWRz5VnPB@plex>
- <178091437240.1648214.10761111570005003901.b4-reply@b4>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="paTHSMAO"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 658DhXCW2849834;
+	Mon, 8 Jun 2026 16:21:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=2Z686q
+	A0PFjUcaAAImBwPxXGO3nXVtHFA8fkpcfa3Gs=; b=paTHSMAOsNKJodwrTo/Qzw
+	xWXGIUcobGbBL1KZBLNM1PyW4+RG1S/sWjlSAET2C12MgQdOtJmi1JLtcSOpIjOR
+	aFWvUZ6T+hFAFXnsA8eX3KwFIdw4lEYRvWm0wQmoDCILy+hUSHblD0WfPmsJdJkb
+	Rb+GH4pN6POXux0SDF8ft5sUlbG4RT0+HM4YtsFufRcRQWjmxu8f5WdhNdP42Dxp
+	qgbsquMqkoNjecfrUvm3WeiIqC7g0RMEqCq1dGm6YV2n3u7egkNJTiF/LiYT9Me+
+	gus7u2IamZTX13funUF9w11VcIpSyM04JfCqW/OcmMczwYOd7EGZ3QoQNhwfwJBQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4emb9586y4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jun 2026 16:21:04 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 658GJiMD018275;
+	Mon, 8 Jun 2026 16:21:03 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4emycgx1gj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Jun 2026 16:21:03 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 658GL2rQ11403880
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Jun 2026 16:21:02 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8E4FD58045;
+	Mon,  8 Jun 2026 16:21:02 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 09EF158050;
+	Mon,  8 Jun 2026 16:21:01 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.149.251])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  8 Jun 2026 16:21:00 +0000 (GMT)
+Message-ID: <22debae414a07a3cbdb62e723dfb737d6d4bd693.camel@linux.ibm.com>
+Subject: Re: [PATCH v7 00/12] ima: Exporting and deleting IMA measurement
+ records from kernel memory
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
+        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+In-Reply-To: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
+References: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jun 2026 12:21:00 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <178091437240.1648214.10761111570005003901.b4-reply@b4>
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=N4UZ0W9B c=1 sm=1 tr=0 ts=6a26ebf0 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=i0EeH86SAAAA:8
+ a=veqT70qKwYKqTZjYeGoA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: rWOIk9THD1O5MGkph097CQJrRU-jqhw_
+X-Proofpoint-GUID: S4-J6idJEmYCWSVqSK2PwPI0D3IzTR67
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDE1MyBTYWx0ZWRfX7sAsKwaNIQTZ
+ Ivu98Gl95got185xnNxqyQCiYOVGzQiOHZXfSfZhxNDjbdSxCtTSoI6s2vHmPQmmV1+WrtFA4sn
+ kcI9zeOvFTrk9YCbSZr3oZYTPXllL5nBnF/sakkwlA3+gCVTO5siEByhvnkAtlbjLOPknkJFASP
+ FSY/uk877mnIdQNsPx/IMq6FX00tFqEw7DXm7FiF7B0ESypySSMzXsEFK11BeQHk1lc74xHCevM
+ 2J4/QAw7+7PnLZC2swX1zRdHoHGAvY2ZOoovKDSioDb2WzwYhbZTVRJHfiYKBONo5qSoWgQvqO9
+ DgK9aQ3J1wsrYEtCo7/huSZ/jSP5WkIhXquL52Sopvr13lOBU64yhxhoiU0RCOqRpxqxSqZqggA
+ B1cwmvQH4myz1oFObva3SmnRS2vSfqPMUETanfCI0uMmfQOekufoQlEjk3j1/J3VVK5LeVcJbgv
+ uxq5G+lwXmuuZSfeyug==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-08_04,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
+ phishscore=0 impostorscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606080153
 
-On 06-08 13:26, Mike Rapoport wrote:
-> On 2026-06-07 13:43:09+00:00, Pasha Tatashin wrote:
-> > On 06-07 14:58, Mike Rapoport wrote:
-> > 
-> > > On Fri, 05 Jun 2026 03:32:26 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
-> > > 
-> > > Hi,
-> > > 
-> > > 
-> > > I'd keep vmalloc where it is, it's more of a memory preservation primitive
-> > > rather than a data structure of it's own. The data structure it uses is an
-> > > implementation detail.
-> > 
-> > kho vmalloc is absolutely a data structure. KHO core only provides the
-> > basic handover mechanism (FDT nodes, physical memory ranges). vmalloc
-> > is a structured representation on top of KHO, and should provide its own
-> > versioned ABI.
-> 
-> kho_preserve_vmalloc() has the same semantics as kho_preserve_folio().
-> It's not intended to be used as a data structure. The data structure is
-> an implementation detail unlike with kho_block and kho_radix_tree that
-> are intended to be used as data structures and expose clear data
-> structure APIs.
-> 
-> Yes, vmalloc should have versioning, but that does not mean it must move
-> to different files.
+On Fri, 2026-06-05 at 19:22 +0200, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> Introduction
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> The IMA measurements list is currently stored in the kernel memory.
+> Memory occupation grows linearly with the number of records, and can
+> become a problem especially in environments with reduced resources.
+>=20
+> While there is an advantage in keeping the IMA measurements list in
+> kernel memory, so that it is always available for reading from the
+> securityfs interfaces, storing it elsewhere would make it possible to
+> free precious memory for other kernel usage.
+>=20
+> The IMA measurements list needs to be retained and safely stored for new
+> attestation servers to validate it. Assuming the IMA measurements list
+> is properly saved, storing it outside the kernel does not introduce
+> security issues, since its integrity is anyway protected by the TPM.
+>=20
+> Hence, the new IMA staging mechanism is introduced to export IMA
+> measurements to user space and delete them from kernel space.
+>=20
+> Staging consists in atomically moving the current measurements list to a
+> temporary list, so that measurements can be deleted afterwards. The
+> staging operation locks the hot path (racing with addition of new
+> measurements) for a very short time, only for swapping the list
+> pointers. Deletion of the measurements instead is done locklessly, away
+> from the hot path.
+>=20
+> There are two flavors of the staging mechanism. In the staging with
+> prompt, all current measurements are staged, read and deleted upon
+> confirmation. In the staging and deleting flavor, N measurements are
+> staged from the beginning of the current measurements list and
+> immediately deleted without confirmation.
+>=20
+>=20
+> Usage
+> =3D=3D=3D=3D=3D
+>=20
+> The IMA staging mechanism can be enabled from the kernel configuration
+> with the CONFIG_IMA_STAGING option. This option prevents inadvertently
+> removing the IMA measurement list on systems which do not properly save
+> it.
+>=20
+> If the option is enabled, IMA duplicates the current securityfs
+> measurements interfaces (both binary and ASCII), by adding the _staged
+> file suffix. Both the original and the staging interfaces gain the write
+> permission for the root user and group, but require the process to have
+> CAP_SYS_ADMIN set.
+>=20
+> The staging mechanism supports two flavors.
+>=20
+> Staging with prompt
+> ~~~~~~~~~~~~~~~~~~~
+>=20
+> The current measurement list is moved to a temporary staging area,
+> allowing it to be saved to external storage, before being deleted upon
+> confirmation.
+>=20
+> This staging process is achieved with the following steps.
+>=20
+>   1.  echo A > <_staged interface>: the user requests IMA to stage the
+>       entire measurements list;
+>   2.  cat <_staged interface>: the user reads the staged measurements;
+>   3.  echo D > <_staged interface>: the user requests IMA to delete
+>       staged measurements.
+>=20
+> Staging and deleting
+> ~~~~~~~~~~~~~~~~~~~~
+>=20
+> N measurements are staged to a temporary staging area, and immediately
+> deleted without further confirmation.
+>=20
+> This staging process is achieved with the following steps.
+>=20
+>   1.  cat <original interface>: the user reads the current measurements
+>       list and determines what the value N for staging should be;
+>   2.  echo N > <original interface>: the user requests IMA to delete N
+>       measurements from the current measurements list.
+>=20
+>=20
+> Management of Staged Measurements
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Since with the staging mechanism measurement records are removed from
+> the kernel, the staged measurements need to be saved in a storage and
+> concatenated together, so that they can be presented during remote
+> attestation as if staging was never done. This task can be accomplished
+> by a remote attestation agent modified to support staging, or a system
+> service.
+>=20
+>=20
+> Patch set content
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Patches 1-8 are preparatory patches to quickly replace the hash table,
+> maintain separate counters for the different measurements list types,
+> mediate access to the measurements list interface, and simplify the stagi=
+ng
+> patches.
+>=20
+> Patch 9 introduces the staging with prompt flavor. Patch 10 makes it
+> possible to flush the hash table when deleting all the staged measurement=
+s.
+> Patch 11 introduces the staging and deleting flavor. Patch 12 adds the
+> documentation of the staging mechanism.
+>=20
+>=20
+> Changelog
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> v6:
+>  - Make ima_extend_list_mutex as static since it is not needed anymore by
+>    ima_dump_measurement_list() (suggested by Mimi)
+>  - Export ima_flush_htable in patch 11 instead of 10 (suggested by Mimi)
+>  - Add clarification in the documentation regarding a proactive remote
+>    attestation agent, and storing all the measurements in the storage
+>    (suggested by Mimi)
 
-Core KHO preserves contiguous ranges of unmovable physical memory, that 
-is it. Preserving physical addresses and folios falls into that 
-category, and everything else is built on top of it.
+Roberto, thank you for making these and all the other changes.  The patch s=
+et is
+now queued in next-integrity.
 
-The underlying implementation is where the ABI contract is defined. 
-Unlike kho_preserve_pages(), which just tracks raw physical ranges, 
-kho_preserve_vmalloc() must serialize non-contiguous virtual memory. To 
-do this, it passes metadata kho_vmalloc, kho_vmalloc_hdr, linked list of 
-PFN arrays.
-
-I do not understand why you are so against the modularization of 
-higher-level implementations on top of KHO. Moving them to dedicated 
-files makes the codebase cleaner and easier to maintain. For instance, 
-at some point we might support sparse or partially filled vmalloc areas 
-where VA size > PA size, or areas that have holes.
-
-Keeping all of that in a single KHO file is the wrong approach and goes 
-against how other logically separated subsystems in Linux are organized 
-(e.g., mm/vmap.c, mm/vmalloc.c, etc.). Yes, there are some messier 
-places in the kernel as well, but keeping this in its own dedicated 
-kho_vmalloc.c file makes complete sense to me.
-
-> 
-> And, btw, moving KHOSER_PTR() infra along with vmalloc is wrong. It was
-> my oversight that I didn't insist on using it for most of the
-> serializeable pointers instead of open coded
-> virt_to_phys()/phys_to_virt(). We need to fix it.
-
-The only reason it was moved to vmalloc.h in this series is because kho 
-vmalloc is currently the only user of DECLARE_KHOSER_PTR / 
-KHOSER_STORE_PTR in the tree. I can move it to the newly introduced 
-compat.h to keep it in a shared place.
-
-However, overall enforcing the use of KHOSER is unrelated to this work. 
-I have my own thoughts on this, and perhaps with proper versioning, 
-using KHOSER_PTR everywhere would be appropriate, but let's keep that as 
-a separate work.
-
-> > If we change any of the vmalloc serialized structures (like kho_vmalloc,
-> > kho_vmalloc_chunk, or kho_vmalloc_hdr), then vmalloc won't work and
-> > compatibility will break.
-> > 
-> > Core KHO does not need vmalloc; nothing in kexec_handover.c uses it.
-> > 
-> > Instead, vmalloc has external customers:
-> > - memfd (uses it to preserve serialized folio metadata)
-> > - KHO test suite in lib/test_kho.c (uses it to preserve physical address arrays)
-> 
-> Following this logic, kho_presrve_folio() should be moved out because
-> it's not used by KHO but has external customers. And radix tree should
-> forever remain in kexec_handover.c because KHO uses it ;-)
-> 
-> > > Let's minimize the churn where possible for the sake of git blame and
-> > > backports.
-> > 
-> > It is much better to do the right cleanups now while KHO is young. Once more
-> > subsystems are added, this refactoring will be twice as hard. Modularizing the
-> > code now guarantees a simpler, safer, and scalable design. Placing each data
-> > structure in its own file gives us code that is easier to maintain, review, and
-> > less prone to bugs.
-> 
-> dependencies
-> > > that justify small headers for each two functions and netiher
-> > > linux/kexec_handover.h nor linux/kho/abi/kexec_handover.h are that long
-> > > to start splitting them.
-> > 
-> > External users only need to include the headers they actually use. For
-> > example, LUO shouldn't have to pull vmalloc or radix tree KHO
-> > declarations, and memfd does not need block.
-> > 
-> > From a maintenance point of view, it is much easier to catch ABI
-> > changes when the file with the appropriate version has been changed,
-> > and most likely the version of that file should be updated. If a single
-> > header contains compatibility versions for several different data
-> > structures, it is easier to miss the correct version update.
-> 
-> No matter in what files the definition lives, someone can forget to
-> update version and we may miss it during review.
-> 
-> Would be better to spend this time and energy to add kho-specific prompt
-> to LLM review to catch such issues ;-)
-
-LLMs are great, and we should absolutely rely on them. Spending time 
-defining LLM rules and helps in the long term, but none of that is an 
-excuse for keeping the codebase messier than necessary. Having the 
-codebase logically separated and modularized is still the right 
-approach; ease of human review should always be prioritized, even with 
-LLM assistants.
-
-Localized context is incredibly powerful for preventing human error. 
-When a developer modifies a structure in vmalloc.h, the corresponding 
-compatibility version is right there in front of them in the same file, 
-making it far more obvious that a version bump is required. In a 
-monolithic header, it's easy to modify a structure on line 100 and 
-completely overlook a global version defined on line 10.
-
-Modular files drastically reduce noise in git history and diffs. If a 
-reviewer sees a patch touching include/linux/kho/abi/vmalloc.h, it is an 
-immediate, high-signal flag that a specific ABI is being altered.
-
-Even LLMs behave much better when the context window is smaller. An LLM 
-can read a focused file and understand the interactions much more 
-accurately, compared to polluting its context with a unrelated 
-subsystems.
-
-> > Since we are splitting the source files (like kho_radix.c and
-> > kho_vmalloc.c), the headers should logically follow the same
-> > modularity.
->  
-> They could. Doesn't mean they have to.
-
-This is not a logical argument, nothing is have to... Keeping headers 
-aligned 1:1 with their implementation files provides clean 
-encapsulation, prevents transitive dependency pollution, and ensures 
-that ABI changes are tightly localized.
-
-> > > I agree that we should decouple versioning of these components from the
-> > > global KHO versioning.
-> > > Can't say I agree with the way you propose to do it.
-> > > 
-> > > I don't like that each user of a KHO component should include that
-> > > component version in its own version string (or whatever it may become
-> > > later).
-> > > 
-> > > It requires ABI headers update each time a user decides to add a new
-> > > data structure and worse when there is a change to that data structure.
-> > > It creates coupling of the data structure user with its particular
-> > > version and just looks ugly IMHO.
-> > 
-> > It is actually the opposite.
-> > 
-> > If a user adds a new data structure, that new data structure will have
-> > its own compatibility version. Instead of the current approach where
-> > the global version string needs to be updated, only the new version
-> > string would be added.
-> > 
-> > Also, if someone updates their code to use the new data structure, their
-> > compatibility string is going to be updated anyway, as part of using
-> > the data structure requires including the dependency in their
-> > compatibility.
-> 
-> Sorry I wasn't clear. I agree that kho_vmalloc, block and radix tree
-> should have their own versioning rather than rely on global KHO version.
-> 
-> What I don't like in your proposal is mixing versioning of a component
-> with its dependencies.
-> 
-> I think that versioning should be completely local to each component.
-> LUO should not care about kho_block "on wire" layout. This should be
-> encapsulated in kho_block.
-
-That is a fair point.
-
-As I mentioned in my previous reply, we can definitely look into making 
-the version checking more modular. For example, each component could 
-implement a standard compatibility-checking interface.
-
-These checks could run early in boot to determine whether each component 
-is capable of accepting the incoming preserved data format.
-
-Whenever the component is later used by LUO, memfd, etc., we can query 
-that cached status. This achieves four key benefits:
-
-1. It avoids delaying the compatibility check to the actual time of data 
-retrieval, which is too late to safely abort.
-
-2. It prevents a local incompatibility from triggering a global kernel 
-panic, allowing us to handle failures gracefully for just that specific 
-component or session.
-
-3. It keeps the local version local, as you suggested, so it is checked 
-only by the consumers of that specific component.
-
-4. It provides a clean path for backward compatibility, as components 
-can individually decide whether they understand the incoming data 
-format.
-
-> > Backward compatibility is not in scope at the moment, but we can make
-> > the version parsing more granular in the future.
-
-100% Agreed.
-
-> > Instead of a simple strncmp(), we can introduce a standard callback
-> > interface for data structures. Each data structure implementation would
-> > implement this interface, and we would pass the parsed version string
-> > to the data-structure-specific version check.
-> 
-> Backward compatibility will be in scope sooner or later and string
-> parsing is surely not the way to deal with multiple versions.
-> 
-> How do you suggest to represent support for multiple versions?
-> "luo-v2;luo-v3;block-v2;block-v3;block-v4"?
-> 
-> > > Or, say, we add support to kmalloc() and use it in kho_block.
-> > > Then we'd have to add kmalloc() versioning to all kho_block users, right?
-> > 
-> > I was thinking about this. Since we don't have examples of data
-> > structures depending on each other right now, I simply made sure
-> > there are no duplicates in the compatibility strings.
-> > 
-> > If data structures have interdependencies in the future, we can easily
-> > remove this uniqueness restriction. The users of block will still
-> > include the block compatibility string (which automatically includes
-> > kmalloc), and if user also depends on kmalloc, they will include it
-> > as well.
-> > 
-> > > I think the versioning of each component should be handled by ->restore()
-> > > of that component. If it sees an incompatible version in the preserved
-> > > data, it returns an error. The versions can be stored e.g. in the base KHO
-> > > fdt.
-> > 
-> > Hm, I think, checking compatibility inside ->restore() of each component may be
-> > too late in the boot sequence.
-> >
-> > By checking the composite compatibility strings upfront (before invoking
-> > the actual restore/retrieve callbacks), we can guarantee that the entire
-> > state configuration is fully compatible. If any mismatch is found, we
-> > can cleanly abort the live update.
-> 
-> If a ->restore() returned an error (for any reason) we anyway need to
-> reboot, don't we? 
-> 
-> What do we do if memfd discovered incompatibility, but, say hugetlb
-> global state was already restored?
-> 
-> If you really want to run the compatibility check upfront, we need a
-> mechanism for that. And that should probably happen even before
-> kho_mem_init().
-> 
-> > Additionally, keeping the versioning managed via composite strings on the
-> > serialized data and registered handlers keeps the KHO core completely
-> > decoupled from individual component ABIs, avoiding the need to bloat the
-> > base KHO FDT with subsystem-specific versions.
-> 
-> Actually FDT "compatible" handles versioning nicer than composite strings
-> You can have
-> 
-> 	compatible="kho-v4", "vmalloc-v1", "radix-v1", "block-v2";
-> 
-> and check fdt_node_check_compatible("vmalloc-v1") for vmalloc and
-> fdt_node_check_compatible("block-v2") for block.
-
-That is actually very similar to what I am proposing—individual version 
-tokens (which in my current series are concatenated into a composite 
-compatibility string separated by ';').
-
-But let's not get too fixated on the composite string formatting. I 
-actually really like what you are proposing: using integers for versions 
-and having each registered component carry its own "NAME" and version 
-number in the KHO FDT.
-
-> And we wouldn't need to reimplement string parsing ;-)
-> 
-> But yeah, I do see value of making components versioning and KHO global
-> versioning independent. I just don't like composite strings and I don't
-> like mixing versioning with dependencies.
-> 
-> Since we are moving from FDT for the most things, version should become
-> a number rather than a string and version compatibility should be
-
-AFAIK, for everything but KHO itself is going to be FDT free. I would 
-like to be strict about that going forward :-)
-
-> independently verified by each component.
-> Then dependencies between components will remain at API level rather
-> than brought into the ABI.
-> 
-> If you think ->restore() is too late for compatibility check, we should
-> work on a mechanism for upfront compatibility verification.
-
-+1.
-
-Pasha
+Mimi
