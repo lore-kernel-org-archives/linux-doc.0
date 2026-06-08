@@ -1,204 +1,222 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3446337C10A;
-	Mon,  8 Jun 2026 16:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780935802; cv=none; b=mkYLdi4u4r1BVDuJjYEvQ9Ge2kcLAT6t0IxNO8IxDBE3g5D9Ly00IISJmOhYCMZdjF95ImttfiPoagkIfVYid7NomFycanC5Gbx7YHY/5Z3yGNwcfu0Ftx2ReCZbCeH49cPeiJAMRZGdUi3WdNIdvlI/N/XhNOCBfASid+8NOTQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780935802; c=relaxed/simple;
-	bh=UtJgtwgXfwps+s5sNmF1cfHJzyuekBijtL+cgdHbWS0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OXN6/ymXdyu/s0K0rHkBi2Dz7z+/WD1q+3Z469+dn34C94UdkP6FaoRBpAApuNdOdAGUy1j7KIZJYvpsuGAagcqHA3YGBtUIDHE+MvM3ZE07jGTn8VawePDibYupael7VCN/4tpLWPulEsa5rW3hnuXQvTXhMEeqTMre0nUz2Ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.224.235])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gYxz03Pnrz1HChG;
-	Tue,  9 Jun 2026 00:17:48 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 2F1554056C;
-	Tue,  9 Jun 2026 00:23:11 +0800 (CST)
-Received: from [10.204.63.22] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwCnt41k7CZq3ACTAA--.56391S2;
-	Mon, 08 Jun 2026 17:23:10 +0100 (CET)
-Message-ID: <96b1b56987e0d0272027d0e207c779157058a344.camel@huaweicloud.com>
-Subject: Re: [PATCH v7 00/12] ima: Exporting and deleting IMA measurement
- records from kernel memory
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
- skhan@linuxfoundation.org,  dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, paul@paul-moore.com,  jmorris@namei.org,
- serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
-	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-Date: Mon, 08 Jun 2026 18:22:59 +0200
-In-Reply-To: <22debae414a07a3cbdb62e723dfb737d6d4bd693.camel@linux.ibm.com>
-References: <20260605172236.2042045-1-roberto.sassu@huaweicloud.com>
-	 <22debae414a07a3cbdb62e723dfb737d6d4bd693.camel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E6B3C76A0
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 16:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780935807; cv=pass; b=B3lLjhz8opEpXmZwZGX3SZaZKX1Y+EaMWpWnE3dXeKt1RBLT6Oar373RcjENcHvbWAib7KlM7uC5w6FOa0AMdB6Ni8DeE0c4bBRRxjl3Cb20O5AtrCwt6JO70IcglYhDTayM+UVx1sYY1o5uhKUsAdwA69N3BXEf0MP+SlKAkow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780935807; c=relaxed/simple;
+	bh=msHcKQxLBsII2jE8+s87uUuYhtqoC8UsJJE4Ma2eSao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MTjtolO4od6yXGb4DxHCmVEtOUWp+4OQB+CnpyIIQY75YGZdvI1VuPncWc2jJRi6PQB9V0oaseBBwgTAjJHynV7VqkQxrNta6ax2FcPthuWmcBTz5fwZ84tT7HfNpkXpu35dpyQMfhZLOTFkQr2JKlL8+P6hwDGe5v9pHHNAyqM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JtHmSKsX; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JtHmSKsX"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-46013161068so2241705f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 09:23:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780935804; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FYRBdurye0P+2FrrR6vtwT3J+7+i6FRNDz0+AQ47XtORD/25OXFJQWDb0qJtG+7cuV
+         jaKq/QIQmGEoyd9VQ+59PCuTCVm9bqLMKiTqxckUP6+RFfeX7tZGU9QbH5Z0jLvDZxHa
+         se1JlnbinPcfgjFjTkWm9VU6pc0TgXqJ6hPXGV9D5ps55T6+2qQ9PCkRaPpZzgnJvxmF
+         YSNVug7YWDyu+dZL1nGtv+n5dEKYV7l2Hy9XJNWo6zDv2LQgwwEakVaThorch2CykHs7
+         wobSscyxZ2TMy8h/uvIzkk9yTqTuiWD7sEaewlYG6uKfEpATD/dh8P2rZPIMNbpb9Vp2
+         HYGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jPv+U/wIjO6pXhd0p8FcM6eyTjtkG314lWJDeM8Dul8=;
+        fh=6kbT0TqwJojUjzvH6tJcA0Zk9YsFZLSs5DHUNYNqUAU=;
+        b=SKiHi9kVVlRugDxX2diXT83+kdzlYbkd8y9e6KBxTFPqdBNdVn31Py/5mCZ6sWn+k5
+         6lXwpI9rD8kuT8siEGbhC8n9BkjlRaQvm9/5fuL0AimKLhn5oaJBEJOwQr/HlVkXE1BT
+         RDA4FzlTxdLNW+aY7KJXcZQfdz8OxKtP+bC/yAkBMgak+wFDNoANS/VKng/j+C7ef4cZ
+         1XSfJV6yVjpA+GoGusdlzztGGaDWDugl20JhwuJ3u/77ZSzLUqjpBi5+Aa06+tKh09w5
+         FNwJHsbUanmKhSOYoglU2UtzNhHL/G1g5XugDY8KBX5byPl6Mt5np7nR+FIq3X0zC+YK
+         UNGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780935804; x=1781540604; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jPv+U/wIjO6pXhd0p8FcM6eyTjtkG314lWJDeM8Dul8=;
+        b=JtHmSKsXJkKirWcUHlx0Tx0KRB2JjH5avxG1Bs1/edk/J79tVdOFOeyaqGBvjIwwXe
+         Ju3X44Ls090yo1QbQRBJCZhQNq544qC7JFUtXlnYjAnp75Ct8moSHVjudaUUfALTbAZs
+         PAastllztlVcP5kam3ivPBdUzKeYMiPiWOcNsJEJUVd+33QyZxPY1GyCwauII1bfcVhr
+         HPHIaTKiuc+pHKphcrqE1goroh+MzhmiOGs0HwZwC5oSxX3Z4e7hV8J3GOU2u/JYPH1T
+         yTEWHdjg+64jalGalQNE4I6NZCjmkIsPJU0P4H/SmcjFTao0aZNt6wYoGW1whrovuhzq
+         1/Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780935804; x=1781540604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jPv+U/wIjO6pXhd0p8FcM6eyTjtkG314lWJDeM8Dul8=;
+        b=P8T2KCmOKdhXTFz68fp4/ZZ3H+Qhi7WnB10HqFaw1fT+BfJrXiHY/tiQ634466bIX6
+         i5Qtp+BsqUEbhNUrx/bnjalytZVJXzTaCEJ5Uo6DCr7LKX2Gl+laaJbHrOye9dvGAoG1
+         7Hob5s/YmHP/2z9/yun+4uOwC5lXHT3pPN1SLgW2pTUtZEtiSYr0XerlUHzkEPK3blWI
+         at4fUQkquHz2X6Idrzd2uFXY+d1K0Lvy4CJbG2rR4FA3tLhp+mWirjQ82s6heAvJlTLo
+         kdynVfsXXC0gplf/KCLoZsFwdLwi2cMC7aooNhIju4VAQCpfBnJ/2sG+DZGQKpVADrNJ
+         16kA==
+X-Forwarded-Encrypted: i=1; AFNElJ8FzGp1W2YkCisD9ye7TTjgfMl99ZW04dEk3iGMdYkAEumsTz7y4/CityTi+SVbk5+2E8j64b96sO0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVNRyWHAhjFqNID0Yx1mH8+yk9c2AbjYpGpQNLZ1ImoNY6U/VK
+	G/8vJsJJ989TtoDt0V3xees8IVZgmM35axJuH8O21M4/uAqECcG/D2tmzVEF9VoUl6BwZSOGySt
+	R31SDyX75jIYVdDBzFjQBYJmZHtuSSyRpvvVwanc=
+X-Gm-Gg: Acq92OGjhDO5EpvvNqsQqWjVWjLScbKYwMetN1+L4taXErnuuIqV+21RUECvFNT3Z3C
+	29h07iVvqmEtjkckdHKZlz5VX7827tnQRQwD7CD01h4hnHXKUAmgeDc2KQOxHhEVElB587BWsgn
+	SYWt+0PQfcwEIyyiF5aupXr8QJLUZHQhEdSaC1CbfsL4MORlchAmT7IZhTmC+YxWdxmrWi2f8rT
+	BtnasTqffFDbdVxkSXwC0bUVHBrtib48t/Nrj5IBlVzUm48EbSa1fizABeeHwwMSZFr72Hxs7lZ
+	DiD5gkH1zvPK4EMD7EJgN17WvxV4EvSLqB/W+T0Z8cx0+96G413t6eaQSHK4
+X-Received: by 2002:a05:600c:3f1b:b0:490:bcf6:46bf with SMTP id
+ 5b1f17b1804b1-490c2599fecmr275598275e9.9.1780935803894; Mon, 08 Jun 2026
+ 09:23:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwCnt41k7CZq3ACTAA--.56391S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XF4kAF1kAFW3Jw4xGF4fuFg_yoW7Xryrpa
-	9aqayIk395J34rAw1xtw48Jw4Fv3yfKa1DGrn5Jw1xAF1DWFyvvr4YkrWY9F9Igr10vryj
-	vw42qrW5ua1qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUoY
-	FADUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgASBGomL7gSHwABsD
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com> <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com> <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com> <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com> <aiBpibRNi0BcM1Zu@google.com>
+ <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com> <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com> <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+ <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
+In-Reply-To: <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 8 Jun 2026 09:23:11 -0700
+X-Gm-Features: AVVi8CcQa0JXhG_fDPPqHmrr3OFhGwIKj95CSTSdP9Q_mQuoQWpHKZOKlZLp87U
+Message-ID: <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org, 
+	hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org, 
+	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-06-08 at 12:21 -0400, Mimi Zohar wrote:
-> On Fri, 2026-06-05 at 19:22 +0200, Roberto Sassu wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >=20
-> > Introduction
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > The IMA measurements list is currently stored in the kernel memory.
-> > Memory occupation grows linearly with the number of records, and can
-> > become a problem especially in environments with reduced resources.
-> >=20
-> > While there is an advantage in keeping the IMA measurements list in
-> > kernel memory, so that it is always available for reading from the
-> > securityfs interfaces, storing it elsewhere would make it possible to
-> > free precious memory for other kernel usage.
-> >=20
-> > The IMA measurements list needs to be retained and safely stored for ne=
-w
-> > attestation servers to validate it. Assuming the IMA measurements list
-> > is properly saved, storing it outside the kernel does not introduce
-> > security issues, since its integrity is anyway protected by the TPM.
-> >=20
-> > Hence, the new IMA staging mechanism is introduced to export IMA
-> > measurements to user space and delete them from kernel space.
-> >=20
-> > Staging consists in atomically moving the current measurements list to =
-a
-> > temporary list, so that measurements can be deleted afterwards. The
-> > staging operation locks the hot path (racing with addition of new
-> > measurements) for a very short time, only for swapping the list
-> > pointers. Deletion of the measurements instead is done locklessly, away
-> > from the hot path.
-> >=20
-> > There are two flavors of the staging mechanism. In the staging with
-> > prompt, all current measurements are staged, read and deleted upon
-> > confirmation. In the staging and deleting flavor, N measurements are
-> > staged from the beginning of the current measurements list and
-> > immediately deleted without confirmation.
-> >=20
-> >=20
-> > Usage
-> > =3D=3D=3D=3D=3D
-> >=20
-> > The IMA staging mechanism can be enabled from the kernel configuration
-> > with the CONFIG_IMA_STAGING option. This option prevents inadvertently
-> > removing the IMA measurement list on systems which do not properly save
-> > it.
-> >=20
-> > If the option is enabled, IMA duplicates the current securityfs
-> > measurements interfaces (both binary and ASCII), by adding the _staged
-> > file suffix. Both the original and the staging interfaces gain the writ=
-e
-> > permission for the root user and group, but require the process to have
-> > CAP_SYS_ADMIN set.
-> >=20
-> > The staging mechanism supports two flavors.
-> >=20
-> > Staging with prompt
-> > ~~~~~~~~~~~~~~~~~~~
-> >=20
-> > The current measurement list is moved to a temporary staging area,
-> > allowing it to be saved to external storage, before being deleted upon
-> > confirmation.
-> >=20
-> > This staging process is achieved with the following steps.
-> >=20
-> >   1.  echo A > <_staged interface>: the user requests IMA to stage the
-> >       entire measurements list;
-> >   2.  cat <_staged interface>: the user reads the staged measurements;
-> >   3.  echo D > <_staged interface>: the user requests IMA to delete
-> >       staged measurements.
-> >=20
-> > Staging and deleting
-> > ~~~~~~~~~~~~~~~~~~~~
-> >=20
-> > N measurements are staged to a temporary staging area, and immediately
-> > deleted without further confirmation.
-> >=20
-> > This staging process is achieved with the following steps.
-> >=20
-> >   1.  cat <original interface>: the user reads the current measurements
-> >       list and determines what the value N for staging should be;
-> >   2.  echo N > <original interface>: the user requests IMA to delete N
-> >       measurements from the current measurements list.
-> >=20
-> >=20
-> > Management of Staged Measurements
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > Since with the staging mechanism measurement records are removed from
-> > the kernel, the staged measurements need to be saved in a storage and
-> > concatenated together, so that they can be presented during remote
-> > attestation as if staging was never done. This task can be accomplished
-> > by a remote attestation agent modified to support staging, or a system
-> > service.
-> >=20
-> >=20
-> > Patch set content
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > Patches 1-8 are preparatory patches to quickly replace the hash table,
-> > maintain separate counters for the different measurements list types,
-> > mediate access to the measurements list interface, and simplify the sta=
-ging
-> > patches.
-> >=20
-> > Patch 9 introduces the staging with prompt flavor. Patch 10 makes it
-> > possible to flush the hash table when deleting all the staged measureme=
-nts.
-> > Patch 11 introduces the staging and deleting flavor. Patch 12 adds the
-> > documentation of the staging mechanism.
-> >=20
-> >=20
-> > Changelog
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > v6:
-> >  - Make ima_extend_list_mutex as static since it is not needed anymore =
-by
-> >    ima_dump_measurement_list() (suggested by Mimi)
-> >  - Export ima_flush_htable in patch 11 instead of 10 (suggested by Mimi=
-)
-> >  - Add clarification in the documentation regarding a proactive remote
-> >    attestation agent, and storing all the measurements in the storage
-> >    (suggested by Mimi)
->=20
-> Roberto, thank you for making these and all the other changes.  The patch=
- set is
-> now queued in next-integrity.
+On Mon, Jun 8, 2026 at 5:50=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> wr=
+ote:
+> On 2026/6/5 01:23, Nhat Pham wrote:
+> >
+>
+> Thanks for the suggestion!
+>
+> I ran some tests and found that neither the per-memcg cursor nor
+> different batch sizes have a significant impact on proactive writeback
+> performance. However, exactly as we suspected, without the per-memcg
+> cursor, the writeback distribution among child memcgs is highly unfair.
+>
+> Test Setup:
+>
+>    zswap config: 18G capacity, LZ4 compression.
+>    cgroup hierarchy: 1 parent test memcg with 10 child memcgs.
+>    Allocation: Allocated 1600MB of anonymous pages in each child memcg.
+> To ensure compressibility, the first half of each page was filled with
+> random data and the second half with zeros.
+>    Force to zswap: Ran echo "1600M" > memory.reclaim on each child memcg
+> to squeeze all their memory into zswap.
+>    Trigger writeback: Ran echo "<size> zswap_writeback_only" >
+> memory.reclaim on the parent cgroup 200 times, with a 2-second interval
+> between each run.
+>    Metric: Monitored the zswpwb_proactive metric in memory.stat to
+> observe the writeback volume.
+>    **Note**: The size here refers to the uncompressed memory size. Also,
+> since the second-chance algorithm would cause many writebacks to fall
+> short of the target size, I **bypassed** it during these tests to avoid
+> interference.
+>
+> Without cursor (size: 1M, batch: 32)
+>    child        wb_pages        wb_MB     share%
+>    child0           6368        24.88      12.50
+>    child1           6368        24.88      12.50
+>    child2           6368        24.88      12.50
+>    child3           6368        24.88      12.50
+>    child4           6368        24.88      12.50
+>    child5           6368        24.88      12.50
+>    child6           6368        24.88      12.50
+>    child7           6368        24.88      12.50
+>    child8              0         0.00       0.00
+>    child9              0         0.00       0.00
+> Without cursor (size: 1M, batch: 128)
+>    child        wb_pages        wb_MB     share%
+>    child0          25472        99.50      50.00
+>    child1          25472        99.50      50.00
+>    child2              0         0.00       0.00
+>    child3              0         0.00       0.00
+>    child4              0         0.00       0.00
+>    child5              0         0.00       0.00
+>    child6              0         0.00       0.00
+>    child7              0         0.00       0.00
+>    child8              0         0.00       0.00
+>    child9              0         0.00       0.00
+> Without cursor (size: 6M, batch: 128)
+>    child        wb_pages        wb_MB     share%
+>    child0          51200       200.00      16.67
+>    child1          51200       200.00      16.67
+>    child2          25600       100.00       8.33
+>    child3          25600       100.00       8.33
+>    child4          25600       100.00       8.33
+>    child5          25600       100.00       8.33
+>    child6          25600       100.00       8.33
+>    child7          25600       100.00       8.33
+>    child8          25600       100.00       8.33
+>    child9          25600       100.00       8.33
+>
+>
+> With cursor (size: 1M, batch: 32)
+>    child        wb_pages        wb_MB     share%
+>    child0           5120        20.00      10.00
+>    child1           5120        20.00      10.00
+>    child2           5120        20.00      10.00
+>    child3           5120        20.00      10.00
+>    child4           5120        20.00      10.00
+>    child5           5120        20.00      10.00
+>    child6           5120        20.00      10.00
+>    child7           5120        20.00      10.00
+>    child8           5120        20.00      10.00
+>    child9           5120        20.00      10.00
+> With cursor (size: 1M, batch: 128)
+>    child        wb_pages        wb_MB     share%
+>    child0           5120        20.00      10.00
+>    child1           5120        20.00      10.00
+>    child2           5120        20.00      10.00
+>    child3           5120        20.00      10.00
+>    child4           5120        20.00      10.00
+>    child5           5120        20.00      10.00
+>    child6           5120        20.00      10.00
+>    child7           5120        20.00      10.00
+>    child8           5120        20.00      10.00
+>    child9           5120        20.00      10.00
+>
 
-Perfect, thank you!
+Yeah OTOH, we don't really make fairness an API contract here. When
+you set up a proactive reclaim scheme, if you decide to target a
+cgroup (and not its children separately), everything underneath it is
+fair game to the kernel in any split that we fancy. If you want true
+fairness or a desired split, you have to treat them as independent
+memory domains and set up proactive reclaim to hit each child cgroup
+separately (i.e one "echo > memory.reclaim" for each of them). This is
+necessary for example if each child represents a separate, isolated
+service/container/tenant. And maybe this is actually what you really
+want - hit the ancestor cgroup very lightly for the stuff it owns, but
+then dedidcate most of the reclaim effort at the leaf cgroups
+independently?
 
-Roberto
+But OTOH, this does seem like a recipe for inefficient reclaim. We
+might exhaust hotter memory of a cgroup while sparing colder memory of
+another cgroup... But maybe if they're all cold anyway, then who
+cares, and eventually you'll get to the cold stuff of other child?
 
+Yosry, what's the concern here? Is it space overhead, or overall code
+complexity?
