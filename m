@@ -1,241 +1,158 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4147827E05E
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 12:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD4D2DCF61;
+	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780923031; cv=none; b=ATjkdfLpSzOt8NTclP3eUEbXOfpskXXv9r1pgahiq/j1otDtLvImMsHR4bAM9B1Tv2VDXanxVpu7juQj024BwoTxfT8IgwR4QfWSxH24vxoO9XfDpHrYkdor70UjY0zcTdkVEa/ZLIJK6+hO1JbJHyVXSKipXnvOvutt7snUCIE=
+	t=1780923872; cv=none; b=sGtS0lQa7Qfno30NE7mpwXuZ71r1Sqr8yF5y/wNjMwgI7nu36RYyxr+ryGKWZ+VsiwRJ0C+xNlQFb/yMDdRY1CpFpWH8oPDJtsMUOcFyLmv1X21oMIFPnGUpbSvY4uvzfXkR2miuelFX0qB3qkETSqbqt3YhOn7tqC6C5IQMtI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780923031; c=relaxed/simple;
-	bh=TG6r/3Lp+ODfq+/oUWl3Qo2qwI2yFx1wavbyGgxzkRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DYh9OZGhAmVVhLhI617yCsnK/8HqF0DTENwbvsO1HFi/8amcZrjyZflNuicCrmNNWC7pX8GmTmWQbvXMH6v5RgLvKjIaK4cRVYvt3NMLK1fuohAYtVhp+qC2FXrrDyFBMM4/F6PRZ+zZ4/EFwFY51cv6MaILOWF9ekNd95KZDrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDEEEbcw; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780923872; c=relaxed/simple;
+	bh=zPxTtbsa7WrsOYN3+mq/8LQ5vUJNuCmxdq1/sxR2zS8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qqZq8nnsM4u/6x4PmoNONh1xxhOyaMfh0R1PVjVsshG2uwBDZelIfo95JvOna3lvLbS55gaSJsMt5Dou0J2dM17AcgJCHmFVYygZkjNZYETverPT+zZdA9hf80wCBPh3wawEPiwbSI8nXsd1FBYL8LiWgB0RkKXoC2JTjQQyWqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqNKg9Ug; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDEEEbcw"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso3665629a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 05:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780923030; x=1781527830; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DiIdK82JBJK4ZmshrTXuh1DETm09pI5fnq4TS+v0gOw=;
-        b=TDEEEbcw5RoeiTZWI0FoBMax+eR8C2tcdBXsoC+PVkb2kta9/b0PKb+Cryf5bxVHk9
-         EXPPksQj/YtwtXgbDHTY3JQOJ2Nv6FluWu5JO5iPqok0/j/Ha3g8Kwnio4Qkf6wqdZoH
-         F3Z+eqfxbLHS9xrmNQ6pM1dy8aSKtU4csj1lrP29ZHYowwpqmQnYnMYH0G2stf+oH2Ub
-         RZ2uPCmsfX6MKtKxwBmj9eFS7ESqVI5Jk6eldnDE1yu+/W+Tkwv1nCqTl7Zsoa0yq9pQ
-         6L0dacSQlLRGULqGdfFEKRBg9atT7bR5DArD2+zguLh+IVU9a01pvi+daWLHuCxHX+vp
-         io7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780923030; x=1781527830;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DiIdK82JBJK4ZmshrTXuh1DETm09pI5fnq4TS+v0gOw=;
-        b=ivbKs4pXl1gchBMZ+Xkrf0+F9phV/liHIkQKEOxbVS81q6HkOC+n98EakB/N8JXMy3
-         Sap5NpKFaF4pd0w8DUVH2u0UYu8cL4YMCz6mMSF7J9AkBlhjiQBpTDtkkLFQjiY3w0RW
-         cWa7CnRRSBmqJ3NxrFkLlnwd2TIor6jwnxk8oU/ySckNLv6P2O/ciI0RtHCuBzCD2LZ8
-         8VSJaxJFTeIqdsL6cNzUbqLC2VLLDhDP+KOQNoBMeuiZ6rdMJ4QpvTJJdECDP/x1haXX
-         rsaK3xNthtHgaVNeFnPhrVzFCyeRqXKDJB/b0wYprHOPK162+P1Ij9HJUDbftprEUmiy
-         BQfw==
-X-Forwarded-Encrypted: i=1; AFNElJ+GWD795q7X/EKVegofM0yJqe4A2byUvWrT5gyFqR1naDLcibjrtUTIDKKkyYpr5gVKo35opzNJHLM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7MhQSALqmxgLn/+LiBKaZ3TvWIHNSQQJ7UG9pjFdeJu0HDrL+
-	DZTNGiCRL2TsjTAiQ3/gCIZWcFOjEH6vdZzJCeWSKjSQAMnwCXAssUHi
-X-Gm-Gg: Acq92OGzRzOnI2DTWErhxd/k3u9/T3T9QNWNkYH8KQ0TPSh1m87TpuvpQ3Vop8l34fl
-	M3L882DaO7vFeqPSx+kAXpUuqGOeJ0/lmqWeulQLJSeNa9O06KFgNAQtSLjUQ2ahgjkfXiPjnfF
-	Aux+kMAlTxY7U9m8xfuvNuW7lA2DQ9G+XOI/MTJ/R3BttdUmI+1hWb2wP5Ht9D++H9bSiiaHdbj
-	rKfPt7CyYxrjTUuRm4plHdtYeGSNR2WQ5GrwhLyEQg1a18Cs9GAx+eoP/MwgLAm80E88sqC7dtt
-	T6fq61b7/QP6xe9uRx/0VVEjw9Rm1E7wve3YTSvQ5oFqSHOLNHJZJRGn5abDRBDsU8b8W9Wl55W
-	S8pnT67f64jkHcaCaRI7sVUd7gPnMfFIZB9oESYNiJiRKEQisb27avvb/V12HHmcsoek2vE6yJT
-	BnbeCGSRQ9h6wwqDdrwZfRm0418aIGWRmoo/cjuJCNnCxI1kYdC+L8uQ==
-X-Received: by 2002:a17:90b:5345:b0:35c:30a8:330 with SMTP id 98e67ed59e1d1-370ebff342fmr15636109a91.0.1780923029551;
-        Mon, 08 Jun 2026 05:50:29 -0700 (PDT)
-Received: from [10.125.192.72] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1663981basm179520225ad.67.2026.06.08.05.50.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2026 05:50:29 -0700 (PDT)
-Message-ID: <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
-Date: Mon, 8 Jun 2026 20:50:19 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqNKg9Ug"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B578C2BCC7;
+	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780923872;
+	bh=zPxTtbsa7WrsOYN3+mq/8LQ5vUJNuCmxdq1/sxR2zS8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=mqNKg9Ugb/Sr0oORSVEsbjWYwtZZS8b+Jks2iZ4F03obMS4rVDGfRINxdSxNFvvCD
+	 /KpJvrm3mUW/oPaGjlIrf+DK1qEwXn5+oS02mBPz+Olej9yUJbL/siF6BHTCpLHKWP
+	 zY0a2C9RiUjC7tVUFeXPT2wy/DSn0ovY6yR7ZxR3PW7u9hxZtn0Thp9S3KaJ7+wEsh
+	 DnxlvvfDaw+7kj3PBOzxFnqcGRQb0ihvTbIo/JDepcCY4Zwe8kHqe58xWhQudOUJqI
+	 C0I5SBJphWQZOZJRTQSbs5z/btPw7/KG43cxjeaofF55QOkuNu/zuQDDkY98Nu+vJV
+	 a8yTCauOEjPlQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C349CD8CA4;
+	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
+From: Ferdinand Schwenk via B4 Relay <devnull+ferdinand.schwenk.advastore.com@kernel.org>
+Date: Mon, 08 Jun 2026 15:03:55 +0200
+Subject: [PATCH v2 2/3] hwmon: Add update_interval_us chip attribute
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
- per-memcg
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, akpm@linux-foundation.org, tj@kernel.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, mhocko@kernel.org,
- mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com>
- <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
- <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
- <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
- <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
- <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
- <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260608-hwmon-ina238-update-interval-us-v2-v2-2-2d939fbb2ea1@advastore.com>
+References: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
+In-Reply-To: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
+To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, richard.leitner@linux.dev, 
+ ferdinand.schwenk@advastore.com
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780923870; l=3761;
+ i=ferdinand.schwenk@advastore.com; h=from:subject:message-id;
+ bh=ELOnjfl7Dn3Giu687ra69+/+CdOra2o1Nm0Uowf4NgA=;
+ b=DWmKn7iigDqsaqFGdT15Qyzg8ASYqenNdUqsJphTmIWTlVq41CDJF3aYq86BmIVIEvoJOkfAP
+ hy2YyOuvUQOD76sfnpjhRToLtDmDOHOkZPaE+aT04m1f9RDa+dcCbww
+X-Developer-Key: i=ferdinand.schwenk@advastore.com; a=ed25519;
+ pk=HyA9NdHJ7NystP+1SyuWJeyXNH2EO4A09FXli9mfs9Q=
+X-Endpoint-Received: by B4 Relay for
+ ferdinand.schwenk@advastore.com/default with auth_id=788
+X-Original-From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
+Reply-To: ferdinand.schwenk@advastore.com
+
+From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
+
+Some hardware monitoring chips support update intervals below one
+millisecond. The existing update_interval attribute uses millisecond
+granularity, which causes sub-millisecond steps to round to the same
+value and become inaccessible from userspace.
+
+Introduce update_interval_us, a companion chip-level attribute that
+expresses the same update interval in microseconds. Drivers
+implementing this attribute should also implement update_interval for
+compatibility with millisecond-based userspace interfaces.
+---
+ Documentation/ABI/testing/sysfs-class-hwmon | 14 ++++++++++++++
+ Documentation/hwmon/sysfs-interface.rst     |  4 ++++
+ drivers/hwmon/hwmon.c                       |  1 +
+ include/linux/hwmon.h                       |  2 ++
+ 4 files changed, 21 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
+index cfd0d0bab483..b185bdfc7186 100644
+--- a/Documentation/ABI/testing/sysfs-class-hwmon
++++ b/Documentation/ABI/testing/sysfs-class-hwmon
+@@ -27,6 +27,20 @@ Description:
+ 		Some devices have a variable update rate or interval.
+ 		This attribute can be used to change it to the desired value.
+ 
++What:		/sys/class/hwmon/hwmonX/update_interval_us
++Description:
++		The interval at which the chip will update readings,
++		expressed in microseconds.
++		Unit: microsecond
++
++		RW
++
++		Some devices have a variable update rate or interval and
++		require finer-than-millisecond control.
++		This attribute can be used to change it to the desired value.
++		Drivers implementing this attribute should also implement
++		update_interval for millisecond-based userspace interfaces.
++
+ What:		/sys/class/hwmon/hwmonX/inY_min
+ Description:
+ 		Voltage min value.
+diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
+index f76e9f8cc1ad..94e1bbce172a 100644
+--- a/Documentation/hwmon/sysfs-interface.rst
++++ b/Documentation/hwmon/sysfs-interface.rst
+@@ -106,6 +106,10 @@ Global attributes
+ `update_interval`
+ 		The interval at which the chip will update readings.
+ 
++`update_interval_us`
++		The interval at which the chip will update readings,
++		expressed in microseconds for finer resolution.
++
+ 
+ ********
+ Voltages
+diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+index 9695dca62a7e..c481bb535e35 100644
+--- a/drivers/hwmon/hwmon.c
++++ b/drivers/hwmon/hwmon.c
+@@ -572,6 +572,7 @@ static const char * const hwmon_chip_attrs[] = {
+ 	[hwmon_chip_curr_reset_history] = "curr_reset_history",
+ 	[hwmon_chip_power_reset_history] = "power_reset_history",
+ 	[hwmon_chip_update_interval] = "update_interval",
++	[hwmon_chip_update_interval_us] = "update_interval_us",
+ 	[hwmon_chip_alarms] = "alarms",
+ 	[hwmon_chip_samples] = "samples",
+ 	[hwmon_chip_curr_samples] = "curr_samples",
+diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
+index 301a83afbd66..5a5882fee299 100644
+--- a/include/linux/hwmon.h
++++ b/include/linux/hwmon.h
+@@ -39,6 +39,7 @@ enum hwmon_chip_attributes {
+ 	hwmon_chip_power_reset_history,
+ 	hwmon_chip_register_tz,
+ 	hwmon_chip_update_interval,
++	hwmon_chip_update_interval_us,
+ 	hwmon_chip_alarms,
+ 	hwmon_chip_samples,
+ 	hwmon_chip_curr_samples,
+@@ -55,6 +56,7 @@ enum hwmon_chip_attributes {
+ #define HWMON_C_POWER_RESET_HISTORY	BIT(hwmon_chip_power_reset_history)
+ #define HWMON_C_REGISTER_TZ		BIT(hwmon_chip_register_tz)
+ #define HWMON_C_UPDATE_INTERVAL		BIT(hwmon_chip_update_interval)
++#define HWMON_C_UPDATE_INTERVAL_US	BIT(hwmon_chip_update_interval_us)
+ #define HWMON_C_ALARMS			BIT(hwmon_chip_alarms)
+ #define HWMON_C_SAMPLES			BIT(hwmon_chip_samples)
+ #define HWMON_C_CURR_SAMPLES		BIT(hwmon_chip_curr_samples)
+
+-- 
+2.54.0
 
 
-
-On 2026/6/5 01:23, Nhat Pham wrote:
-> On Thu, Jun 4, 2026 at 6:06 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
->>
->>
->>
->> On 2026/6/4 13:34, Yosry Ahmed wrote:
->>>>>> For instance, suppose a parent memcg has two children, memcg1 and memcg2,
->>>>>> each with 200MB of zswap (100MB inactive). Triggering proactive writeback on
->>>>>> the parent memcg will exhaust memcg1's inactive zswap pages. After that,
->>>>>> even though memcg2 still has plenty of inactive zswap pages, it will
->>>>>> continue to write back memcg1's active zswap pages. Writing back active
->>>>>> zswap pages causes the user-space agent to prematurely abort the writeback
->>>>>> because it detects that certain memcg metrics have exceeded predefined
->>>>>> thresholds.
->>>>>
->>>>> This will only happen if the reclaim size is smaller than the batch
->>>>> size, right? Otherwise the kernel should reclaim more or less equally
->>>>> from both memcgs?
->>>>>
->>>>
->>>> I gave it some thought. Not using a cursor could lead to unfairness
->>>> issues with certain writeback sizes:
->>>>
->>>>     - If the writeback size is an odd multiple of WB_BATCH (e.g.,
->>>> triggering a writeback of 3 * WB_BATCH), with 2 child cgroups, the
->>>> writeback ratio might end up being 2:1.
->>>>     - If a memcg has 5 child cgroups and a writeback of 2 * WB_BATCH is
->>>> triggered, it might repeatedly write back from only the first 2 child
->>>> cgroups.
->>>>
->>>> Although setting a smaller WB_BATCH might mitigate this unfairness, it
->>>> could hurt writeback efficiency. Let's just use per-memcg cursors to
->>>> completely fix these corner cases.
->>>
->>> Exactly, the batch size should be small enough that any unfairness is
->>> not a problem. I would honestly just do batching without a per-memcg
->>> cursor, unless we have numbers to prove that the efficiency is
->>> affected when we use a small batch size. Let's only introduce
->>> complexity when needed please.
-> 
-> I'm impartial towards the complexity of per-memcg cursor. I don't
-> think it's that big of a deal, but only if it's warranted.
-> 
-> Hao, if you're convinced that doing small batch is not efficient,
-> could you run some experiments to show the improvement bigger batchign
-> and fairness? Maybe implement a small batch, no-memcg cursor first.
-> Then implement a patch on top of it to add per-memcg cursor, and show
-> how much performance win we can get from that patch on top of the
-> patch series?
-> 
-
-Thanks for the suggestion!
-
-I ran some tests and found that neither the per-memcg cursor nor 
-different batch sizes have a significant impact on proactive writeback 
-performance. However, exactly as we suspected, without the per-memcg 
-cursor, the writeback distribution among child memcgs is highly unfair.
-
-Test Setup:
-
-   zswap config: 18G capacity, LZ4 compression.
-   cgroup hierarchy: 1 parent test memcg with 10 child memcgs.
-   Allocation: Allocated 1600MB of anonymous pages in each child memcg. 
-To ensure compressibility, the first half of each page was filled with 
-random data and the second half with zeros.
-   Force to zswap: Ran echo "1600M" > memory.reclaim on each child memcg 
-to squeeze all their memory into zswap.
-   Trigger writeback: Ran echo "<size> zswap_writeback_only" > 
-memory.reclaim on the parent cgroup 200 times, with a 2-second interval 
-between each run.
-   Metric: Monitored the zswpwb_proactive metric in memory.stat to 
-observe the writeback volume.
-   **Note**: The size here refers to the uncompressed memory size. Also, 
-since the second-chance algorithm would cause many writebacks to fall 
-short of the target size, I **bypassed** it during these tests to avoid 
-interference.
-
-Without cursor (size: 1M, batch: 32)
-   child        wb_pages        wb_MB     share%
-   child0           6368        24.88      12.50
-   child1           6368        24.88      12.50
-   child2           6368        24.88      12.50
-   child3           6368        24.88      12.50
-   child4           6368        24.88      12.50
-   child5           6368        24.88      12.50
-   child6           6368        24.88      12.50
-   child7           6368        24.88      12.50
-   child8              0         0.00       0.00
-   child9              0         0.00       0.00
-Without cursor (size: 1M, batch: 128)
-   child        wb_pages        wb_MB     share%
-   child0          25472        99.50      50.00
-   child1          25472        99.50      50.00
-   child2              0         0.00       0.00
-   child3              0         0.00       0.00
-   child4              0         0.00       0.00
-   child5              0         0.00       0.00
-   child6              0         0.00       0.00
-   child7              0         0.00       0.00
-   child8              0         0.00       0.00
-   child9              0         0.00       0.00
-Without cursor (size: 6M, batch: 128)
-   child        wb_pages        wb_MB     share%
-   child0          51200       200.00      16.67
-   child1          51200       200.00      16.67
-   child2          25600       100.00       8.33
-   child3          25600       100.00       8.33
-   child4          25600       100.00       8.33
-   child5          25600       100.00       8.33
-   child6          25600       100.00       8.33
-   child7          25600       100.00       8.33
-   child8          25600       100.00       8.33
-   child9          25600       100.00       8.33
-
-
-With cursor (size: 1M, batch: 32)
-   child        wb_pages        wb_MB     share%
-   child0           5120        20.00      10.00
-   child1           5120        20.00      10.00
-   child2           5120        20.00      10.00
-   child3           5120        20.00      10.00
-   child4           5120        20.00      10.00
-   child5           5120        20.00      10.00
-   child6           5120        20.00      10.00
-   child7           5120        20.00      10.00
-   child8           5120        20.00      10.00
-   child9           5120        20.00      10.00
-With cursor (size: 1M, batch: 128)
-   child        wb_pages        wb_MB     share%
-   child0           5120        20.00      10.00
-   child1           5120        20.00      10.00
-   child2           5120        20.00      10.00
-   child3           5120        20.00      10.00
-   child4           5120        20.00      10.00
-   child5           5120        20.00      10.00
-   child6           5120        20.00      10.00
-   child7           5120        20.00      10.00
-   child8           5120        20.00      10.00
-   child9           5120        20.00      10.00
-
-Thakns,
-Hao
