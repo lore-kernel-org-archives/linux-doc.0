@@ -1,63 +1,63 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F823A6B78
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610053AF641
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 21:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780952273; cv=none; b=F4jydmxJtWH7YLSq9Fgehp+oVJz9NJwqV6Mde4pZKWoVN0lBD+TBS2yP6QgnPXJSUF5skC2AxT7eOOTUS05aCvSX1XYECqK/ZqVZ95ePScHQaS0qeUWB/BoaJVM1A2HzPV4QudHYbCKwY84z5YUQYoVzuWJDO2HP9Bp3sKTWx5M=
+	t=1780954504; cv=none; b=t1x8Qa5nuFCbK0FdxugZRbZ4m9DUgwg4uoO7goMC3OPQwU0AZbeEzFNH6bmPH1HIpqTUFA+jVSSavYofZGVdmiSYcUnIt1fZBPNbU2+FPvox07tuc1mNk01LEvasqN+dfKJwLBPbO5816RN5IxXqUIFlcvOHpe0rHDQZtv2F84I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780952273; c=relaxed/simple;
-	bh=aW1vlaAzlGeVp8NwgxYNRRi9jC/+aJgXk5gzUko5PHo=;
+	s=arc-20240116; t=1780954504; c=relaxed/simple;
+	bh=FADgUrimHtN+qEZsfk3vUT/NgVunEpha4jpRBuiDoYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UXMStg2lMc8mVg/8cj9CO0q+eI4BWPgwXYOh9z1Fiq91pKQ4jagcXpTjNwkOuwgWJZUXDFo/35DonPbFQHRmWfSAAcwiExSL/AvnE2GG6gOp/6MhsbgzeJIgyPnr832704qzLk2MlXecsdr14bMQwZZmcC2kabD2E4mZMMtViY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e23YwxKM; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=GCNKVsfnNHWh6+txU1D4McPUiPCUWrALehZVtgcymCiW+/EqwRpveDz7Z0WoMZkIPp8VurUtl6DPP76qWqhh+qMyTnDhdxAHHsh3wRvAOyYJ7FDWvSMLJ+Gt20LNAOuxzMahmeLI6knTyzClUjp9E6lAvx8hohq2qTIWIMnfAIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UMmsSExK; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e23YwxKM"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c168baac83so22138955ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 13:57:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UMmsSExK"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2c0c32f6ce1so32400065ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 14:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780952270; x=1781557070; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1780954502; x=1781559302; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KwWXYyLBedswXBpDr6XhVLr7hKW6gX2W2Wf9GCvWRA8=;
-        b=e23YwxKMeJOorOZBDJcPNtmazHkUc893LdFEpvDlmmy5xS6A59owzsTcG1q8cPij0+
-         ALXxy3aOaBuUcAJbCNSwwRiQHrdRPmU4NzRf05tPTacvnDbFp6fqivOp4kyAe34am4wY
-         duPaPZY6WaQ/hSMXuS1Wv3QnVQe9hF7/jCr73WDwq9Ks6J3D3znQphGSmkimfyFsDkT8
-         NAigvTYNrti8IlGOEZrUqsCJUhPUSBFKyHog2LJLOv+Cmev5kHLY+rLMLLz6W9UAF+a2
-         bUXGIAUrq667Q1uteMixT+YLAeRWW957PTj1os73Re4wI9uZoEQyVUuVbDhw/EWk/EyK
-         niuQ==
+        bh=Mok13K1oI/5oKqM9t1zh4zoQDrWvB1QlqYCZOP0VV4Q=;
+        b=UMmsSExKC3kF0ZY5LwxiZigzkAd+jd+HWct3x0m677Cb+Lpe6HCQv1i7z5609q2GiT
+         KcXo2w52baFgfzRNg9utPHtxWpMMV+8qgOaLnpw/B1nTjVcUnN60IpSELPhRixEhv0A4
+         r0WLjSiETe4fTU2pwXEAbL6j1H+2IyQKlSKw+d650lTc0HoYIJP4/akpmG/e77ejvtwA
+         +6ycFzQv3sawUifNXsNiCgT7wIklej49jg9JMBqc20+XcAUyDLlxKmE14SINvxGHRd6Q
+         YlfAUcY/HmYYrbu01PK5QTj3zR5KI2qXHQianz0dwR73PUs1oo6Y6+6c+K2tjA4bXo/F
+         /wng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780952270; x=1781557070;
+        d=1e100.net; s=20251104; t=1780954502; x=1781559302;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KwWXYyLBedswXBpDr6XhVLr7hKW6gX2W2Wf9GCvWRA8=;
-        b=J0/bmSwlbaWmL/KDRqfawEgYasVzgoo7u+UcIgmGU9tltS29T4gNo8Pu0zZjrA9BRI
-         RUyQkkO0lFgVbuUaYDGZwt29X0xSfZ36vsk7dz3lv5mP1ECDgwqkLuw+UgIhiTetTUn5
-         PYo2d2v4dyEd67zUnXFwDCY/XFTeXaR0RhGF6ou64LdD5rMyfzO86HBcaSVJwJtCSKdu
-         ZhNobFbdPZ1y4mg+/QRhqLpSuEJM3fjD7RhNX1Dl0nNreevJaEcxQVnSogRFh82rjvl8
-         Zw09p+JpHxdeUW31wbxXGvFveejYN4e4HS5NVP5eR0wMqoy05i/Y3Q7s+JU13LcQYVzP
-         5WFQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/McvA7uoMY0K143Oz1Z4YSPPaGkR5INxNcfKqWuTvi0WnIS0BE+wTW289lYomL/4Yigl6Dyotsl44=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+Ofb7cBVzsCseYp+hh8/0q3p6Psx6XtuYBAvXX4oGa8lmD8bS
-	0TsFhmVANGIyYeQkvnosAP8TeeI8AWSfqK9V33HB7JEk6cn//PBWwihTmp65a2ZctQ==
-X-Gm-Gg: Acq92OH02V6moXwQ0M7l/E5gI9YkTmA/BNRcTbASric0snj5+UUqYheB0cOZRY0FBhs
-	/zGd0Y6xZuHW1oK59u2paJZoHvQOsJJqpvy0a+Fq6IrHrXxxrEmTmV4zV4FlmHkzNwv3VFMsHyi
-	81I16NtfBS3B1T48vRCQnW+4cyMVk52U6+E3QWTrjEdPUDJzVfiPJTUMDDhVD2/+qd3qwCOAY6e
-	97UpLoQMHNUT8q8D/SOyrZjBYi3pcEb8To1pwWuzBr7jl7yFdzjxLnGt7a5ZqL3P/ax4rGb7C6w
-	vBqT8mOuni8CBKCI8FdH+YXkPJvQuHwdeZCjzOdSB4wMmpP9kTTkVdwHrDYPBy/klDOZ9L9x+6u
-	YfWxs35wpHEJsgBDVlmfgK9DoyuAr2LKwfvVEwKuWfieBvZoSZN30BDN/0/RCQeJuqIM7YjRnEx
-	oTjz3sF+GYuxJLRRYelPKmGNdBx9KQJG4fK2tOY/bpZqmfhjP2FU9ep4WxWUyCACUovAKd/Z4Y
-X-Received: by 2002:a17:902:6ac7:b0:2bf:bd17:90d4 with SMTP id d9443c01a7336-2c1e820b41fmr143853655ad.28.1780952269772;
-        Mon, 08 Jun 2026 13:57:49 -0700 (PDT)
+        bh=Mok13K1oI/5oKqM9t1zh4zoQDrWvB1QlqYCZOP0VV4Q=;
+        b=RvRe7ivC1T62c/72u91I/lTAS0upkz6wPA3p1bCwutz2Hj44j67n2/wO/Mq/DaTX8r
+         jn5phtZAFh+nT3wArVBmRJaqwtQlD/AJqB2ZxmW2JmqX3/gWGbZHE9dncQwu91RPsidI
+         ReXV3KRlGJl9qvbTe02Jk89tKEwyo+1swsbE7vAzX7yKaIqJw9bQ7cKFrUjIA35B1L8I
+         nf5TLOP7ae6gQ4/UwKcEyBta0qRin47/wVLUk/XTPDMwXimx6tUvh8j7bKzxg7HcqKcl
+         WBlUDoIRO4E1zR1SiqFe0G5HmlQiOfERTXuGH939L5b216r5ljFcCgCBURavwqTFy7am
+         cQ9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/U14lvzKNNvHAl4r/zwVE2633tvAX3/VOrneaVwdZF7sculApSK0QiIwK0JG7Q8EjFh+jvcG9sEvo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuHlGYb140IHHtYSYiuBkLMTyKPGcg1u/Xz0Qv3Q69k5GqyQhr
+	JDSX0oo6uNIdtQq25tKzhpZFV+AwX2qzoW3D+nb+pVpsIq1YzEhOMRSEVryeVxVUtg==
+X-Gm-Gg: Acq92OEufsxhq+1DS3NwVgHsVUq3UZA3nrq9TR/gEYNiKw114m0MVZz0TVP7t9YHjPr
+	cxSV48vuGaNfobKi3oJHlzuUOZyACNLtMt8aHkK6FC+gKAWbWG2Ow45/QAxmrheOKXB5Hgn0E0i
+	H3NgF+4d0OZBcToHLo3xuu8f7fLz6kgwk+ewx905GoTU5hVPn0+oCYSSWb5BvZNRUa1l76DDBI2
+	5qEudr6QpA0JU2rRRUie3geh3cZMvb52a+6s68qpT5talmTc6QqfX3O84JNyIyrFDcXBQrOtwym
+	gkbEwrze3LCsB9iwYKdk0QQ7gTOjwAebcMOzgzAusLegU3Rnmf+tjP2vJ1vSMAUOSEaPociaRO1
+	AUia53xIbmzxfyPmokV+yitDkZnPbqZaMB4LfmQv0MZznO+72jtjCYgmnLqp5MIzTvpPuIO57Hy
+	2FrVOvBXu4Yt43CJ1aU55ySoWiZzJ6gzWWzqKdyCHoebvkIx/c3vRDX9+7D/qXz3aH6t9hlHDO
+X-Received: by 2002:a17:903:2451:b0:2c0:d99a:2fc with SMTP id d9443c01a7336-2c1e78e4e7fmr195316255ad.2.1780954501183;
+        Mon, 08 Jun 2026 14:35:01 -0700 (PDT)
 Received: from google.com (56.149.168.34.bc.googleusercontent.com. [34.168.149.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f890b2sm191929635ad.26.2026.06.08.13.57.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e05fsm197449205ad.54.2026.06.08.14.35.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 13:57:49 -0700 (PDT)
-Date: Mon, 8 Jun 2026 20:57:45 +0000
+        Mon, 08 Jun 2026 14:35:00 -0700 (PDT)
+Date: Mon, 8 Jun 2026 21:34:57 +0000
 From: David Matlack <dmatlack@google.com>
 To: Pranjal Shrivastava <praan@google.com>
 Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
@@ -80,12 +80,12 @@ Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
 	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI
- devices
-Message-ID: <aicsyesGrqcWj7vu@google.com>
+Subject: Re: [PATCH v6 06/12] PCI: liveupdate: Auto-preserve upstream bridges
+ across Live Update
+Message-ID: <aic1gdmisIT4sqEN@google.com>
 References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-4-dmatlack@google.com>
- <aiPxVxu2sUVQfG9D@google.com>
+ <20260522202410.3104264-7-dmatlack@google.com>
+ <aiSb85Ec6jW4xPaE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,166 +94,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aiPxVxu2sUVQfG9D@google.com>
+In-Reply-To: <aiSb85Ec6jW4xPaE@google.com>
 
-On 2026-06-06 10:08 AM, Pranjal Shrivastava wrote:
-> On Fri, May 22, 2026 at 08:24:01PM +0000, David Matlack wrote:
-> > During PCI enumeration, the previous kernel might have passed state about
-> > devices that were preserved across kexec. The PCI core needs to fetch
-> > this state to identify which devices are "incoming" and require special
-> > handling.
+On 2026-06-06 10:15 PM, Pranjal Shrivastava wrote:
+> On Fri, May 22, 2026 at 08:24:04PM +0000, David Matlack wrote:
+> > When a PCI device is preserved across a Live Update, all of its upstream
+> > bridges up to the root port must also be preserved. This enables the PCI
+> > core and any drivers bound to the bridges to manage bridges correctly
+> > across a Live Update.
 > > 
-> > Add pci_liveupdate_setup_device() which is called during device setup
-> > to fetch the serialized state (struct pci_ser) from the Live Update
-> > Orchestrator. The first time this happens, pci_flb_retrieve() will run
-> > and convert the array of pci_dev_ser structs into an xarray so that it
-> > can be looked up efficiently.
+> > Notably, this will be used in subsequent commits to ensure that
+> > preserved devices can continue performing memory transactions without a
+> > disruption or change in routing.
 > > 
-> > If a device is found in the xarray, the PCI core stores a pointer to its
-> > state in dev->liveupdate_incoming and holds a reference to the incoming
-> > FLB until pci_liveupdate_finish() is called by the driver.
-> > 
-> > This ensures proper lifecycle management for incoming preserved devices
-> > and allows the PCI core and drivers to apply specific Live Update
-> > logic to them in subsequent commits.
-> > 
-> > Drivers can check if a device is an incoming preserved device (e.g.
-> > during probe) by calling pci_liveupdate_is_incoming().
-> > 
-> > CONFIG_64BIT is now required to enable CONFIG_PCI_LIVEUPDATE so that the
-> > domain and bdf can be guaranteed to fit in an unsigned long and be used
-> > as the xarray key.
+> > To preserve bridges, the PCI core tracks the number of downstream
+> > devices preserved under each bridge using a reference count in struct
+> > pci_dev_ser. This allows a bridge to remain preserved until all its
+> > downstream preserved devices are unpreserved or finish their
+> > participation in the Live Update.
 > > 
 > > Signed-off-by: David Matlack <dmatlack@google.com>
 > > ---
-> >  MAINTAINERS                    |   1 +
-> >  drivers/pci/Kconfig            |   2 +-
-> >  drivers/pci/liveupdate.c       | 230 ++++++++++++++++++++++++++++++++-
-> >  drivers/pci/liveupdate.h       |   5 +
-> >  drivers/pci/probe.c            |   3 +
-> >  include/linux/pci_liveupdate.h |  13 ++
-> >  6 files changed, 251 insertions(+), 3 deletions(-)
+> >  drivers/pci/liveupdate.c    | 136 +++++++++++++++++++++++++++++++-----
+> >  include/linux/kho/abi/pci.h |   5 +-
+> >  2 files changed, 122 insertions(+), 19 deletions(-)
 > > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 6c618830cf61..0e262c0ceb43 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -20537,6 +20537,7 @@ L:	linux-pci@vger.kernel.org
-> >  S:	Maintained
-> >  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
-> >  F:	drivers/pci/liveupdate.c
-> > +F:	drivers/pci/liveupdate.h
-> >  F:	include/linux/kho/abi/pci.h
-> >  F:	include/linux/pci_liveupdate.h
-> >  
-> > diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-> > index 10c9b65aa242..e68ae5c172d4 100644
-> > --- a/drivers/pci/Kconfig
-> > +++ b/drivers/pci/Kconfig
-> > @@ -330,7 +330,7 @@ config VGA_ARB_MAX_GPUS
-> >  
-> >  config PCI_LIVEUPDATE
-> >  	bool "PCI Live Update Support"
-> > -	depends on PCI && LIVEUPDATE
-> > +	depends on PCI && LIVEUPDATE && 64BIT
-> 
-> I see that the static assertions in Patch 1 work because of the 64BIT
-> enforcement here. In that case, should we have the assertions check u64?
-
-The static asserts have nothing to do with the 64BIT enforcement here.
-The static asserts just verify that the array elements in struct pci_ser
-are naturally aligned (unsigned long) so they can be accessed
-efficiently. The requirement here for CONFIG_64BIT is for the xarray
-key.
-
-Theoretically if we got the xarray to work with 32-bit architectures
-then we could drop the CONFIG_64BIT requirement here.
-
-> 
-> >  	help
-> >  	  Enable PCI core support for preserving PCI devices across Live
-> >  	  Update. This, in combination with support in a device's driver,
-> >
 > 
 > [...]
 > 
-> >  static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
-> >  {
-> > -	args->obj = phys_to_virt(args->data);
-> > +	struct pci_ser *ser = phys_to_virt(args->data);
-> > +	struct pci_flb_incoming *incoming;
-> > +	int ret = -ENOMEM;
-> > +	u32 i;
 > > +
-> > +	incoming = kmalloc_obj(*incoming);
-> > +	if (!incoming)
-> > +		goto err_restore_free;
+> > +#define for_each_pci_dev_in_path(_d, _start, _end) \
+> > +	for ((_d) = (_start); (_d) != (_end); (_d) = (_d)->bus->self)
 > > +
-> > +	incoming->ser = ser;
-> > +	xa_init(&incoming->xa);
+> > +static void __pci_liveupdate_unpreserve_path(struct pci_ser *ser,
+> > +					     struct pci_dev *start,
+> > +					     struct pci_dev *end)
+> > +{
+> > +	struct pci_dev *dev;
 > > +
-> > +	for (i = 0; i < incoming->ser->max_nr_devices; i++) {
-> > +		struct pci_dev_ser *dev_ser = &incoming->ser->devices[i];
-> > +		unsigned long key;
+> > +	for_each_pci_dev_in_path(dev, start, end) {
+> > +		if (pci_liveupdate_unpreserve_device(ser, dev))
+> 
+> I might be reading this wrong but are we leaking some upstream devs if 
+> an intermediate node fails?
+> 
+> 			  EP0
+> 			/
+> Assume we have: RC -> B1 -> B2 
+> 				\
+> 				 EP1
+> 
+> and EP0 & EP1 were preserved successfully.
+> 
+> And then we try unpreserving EP1, we follow:
+> 
+> unpreserve EP1 -> unpreserve B2 failed due to a corruption.
+> 
+> This aborts the loop, skipping B1 and RC completely?
+> Their refcounts remain elevated, effectively leaking them as preserved 
+> state permanently? (i.e. if we unpreserve EP0 after this, B1 & RC will
+> still get preserved).
+
+Yes, but that would only happen if there is some sort of kernel bug or
+silent data corruption. I guess we could proceed with trying to
+unpreserve the bridges upstream. But I opted to log a big warning and
+bail immediately.
+
+pci_liveupdate_finish_path() has the same behavior BTW.
+
+> 
+> > +			return;
+> > +	}
+> > +}
 > > +
-> > +		if (!dev_ser->refcount)
-> > +			continue;
+> > +static void pci_liveupdate_unpreserve_path(struct pci_ser *ser,
+> > +					   struct pci_dev *start)
+> > +{
+> > +	__pci_liveupdate_unpreserve_path(ser, start, /*end=*/NULL);
+> > +}
 > > +
-> > +		key = pci_ser_xa_key(dev_ser->domain, dev_ser->bdf);
-> > +		ret = xa_insert(&incoming->xa, key, dev_ser, GFP_KERNEL);
-> > +		if (ret)
-> > +			goto err_xa_destroy;
+> > +static int pci_liveupdate_preserve_path(struct pci_ser *ser,
+> > +					struct pci_dev *start)
+> > +{
+> > +	struct pci_dev *dev;
+> > +	int ret;
+> > +
+> > +	for_each_pci_dev_in_path(dev, start, NULL) {
+> > +		ret = pci_liveupdate_preserve_device(ser, dev);
+> > +		if (ret) {
+> > +			__pci_liveupdate_unpreserve_path(ser, start, dev);
+> > +			return ret;
+> > +		}
 > > +	}
 > > +
-> > +	args->obj = incoming;
-> >  	return 0;
+> > +	return 0;
+> > +}
 > > +
-> > +err_xa_destroy:
-> > +	xa_destroy(&incoming->xa);
-> > +	kfree(incoming);
-> > +err_restore_free:
-> > +	kho_restore_free(ser);
+> >  /**
+> >   * pci_liveupdate_preserve() - Preserve a PCI device across Live Update
+> >   * @dev: The PCI device to preserve.
+> > @@ -321,6 +403,9 @@ static int pci_liveupdate_preserve_device(struct pci_ser *ser, struct pci_dev *d
+> >   * pci_liveupdate_preserve() from their struct liveupdate_file_handler
+> >   * preserve() callback to ensure the outgoing struct pci_ser is already set up.
+> >   *
+> > + * pci_liveupdate_preserve() automatically preserves all bridges upstream of
+> > + * @dev.
+> > + *
+> >   * Returns: 0 on success, <0 on failure.
+> >   */
+> >  int pci_liveupdate_preserve(struct pci_dev *dev)
+> > @@ -336,7 +421,7 @@ int pci_liveupdate_preserve(struct pci_dev *dev)
+> >  	if (IS_ERR(ser))
+> >  		return PTR_ERR(ser);
+> >  
+> > -	return pci_liveupdate_preserve_device(ser, dev);
+> > +	return pci_liveupdate_preserve_path(ser, dev);
 > 
-> I tend to partly agree with Sashiko[1] here.. it raises a policy-hole.
-> We may need a policy here, the options I have in mind are:
-> 
-> 1. Retrieve shall ONLY be tried once, if it fails (like -ENOMEM in the
->    xArray alloc), it's a liveupdate failure. We can't retry liveupdate.
-> 
-> 2. Retrying retrieve is allowed.
-> 
-> The only downside with option 1 is, the user may want flexibility due to
-> certain subsystems OR may choose NOT to use the proposed LUOd and instead
-> have its own user-space component which might try funny things or have a
-> different use-case.
-> 
-> In such a situation, the system may have transiently run out of memory
-> during the kexec transition (for e.g. a subsystem uses GFP_ATOMIC to
-> allocate memory and temporarily runs out of the atomic pool). [Note we
-> removed it in IOMMU v1 [2] but subsystems may have a use-case for it]
-> 
-> If the kernel frees the KHO page on the first failure, it removes any
-> chance of recovery. :/
-> 
-> Thus, it might make sense to let the user decide if it wants to fail the
-> liveupdate or retry again based on the failure type / source?
+> Minor nit: I might be too nitpicky here (and it's NOT a strong opinion)
+> but naming it pci_liveupdate_preserve_path_for_dev() reads better to me.
 
-The plan is to have LUO enforce that retrieve() is only called once:
+Noted :). I'll keep the current name for now since that is pretty long,
+but if anyone else votes for it I'm happy to be overridden.
 
-  https://lore.kernel.org/kexec/20260528174140.1921129-3-dmatlack@google.com/
-
-Supporting retry gets complicated since there's many different places
-where retrieve() could have failed.
-
+> >  }
+> >  EXPORT_SYMBOL_GPL(pci_liveupdate_preserve);
+> >  
 > 
 > [...]
-> 
-> The changes LGTM, except for policy-based, kho_restore_free discussion.
-> 
-> Reviewed-by: Pranjal Shrivastava <praan@google.com>
 > 
 > Thanks,
 > Praan
-> 
-> [1] https://lore.kernel.org/all/20260522211333.D56A21F000E9@smtp.kernel.org/
-> [2] https://lore.kernel.org/all/20260203220948.2176157-2-skhawaja@google.com/
