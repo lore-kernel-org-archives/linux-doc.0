@@ -1,629 +1,281 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC4D348896
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 03:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547918BBAE
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 04:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780889654; cv=none; b=sPaFXj4tMr6aKE3oVO9yNYQ94Xjb0vavXZ32FPTo6USnf0flGslfBYeSVqbuzjwyxxUxBHWKXPSZdjdly+KsVvAJWbrM3jz8advUyPh+nl+7OFvDNJdKvV73I5VtBlwzMBG5PUNHxGJqom1xdx/CWwzYmms9bRSaGtPjUIgSwbc=
+	t=1780891823; cv=none; b=ToofV1Xmkg9D0KNNTcEATBSc2HWyCCJHlT9dfLEPuCP/0xyBaP/1DbM1O+ppXUuoYGkem8zTic7KSOteQmGML9FWFSVGPdm2JdapnnPlVY05cDMs9YqpjUthIzDpyggms9fRfSIJzdHCTveGYjuDDtcVIQuO+yEmJnyQNY8NNc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780889654; c=relaxed/simple;
-	bh=cJY46STgIA6TyAenxOUlDlnzysrmflNCaD5Gv0ZZ5wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mBY+Epxtev1kVh6wgTqhU2AdnpSjy6QX6mwRmNESIypDrTUq26AJABtP1TYbM/OOFtUx+PMrhFjhXmzBEhLzhPjNbpGRowChp1aaU9V4HMed8A2EogXJEsRrB9qrMoacfZIR1VJYeSCV6eaU6iQfSeFDbipxKq7Gi84QquYAf3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCO+h2uU; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780891823; c=relaxed/simple;
+	bh=+esi5+wmEbzr0U6tFH3wrxjSlcekmUCxuh42Y1DjLXU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZsSMDo9SdVsMjGXQ1gxZRBsZrfjwJRRmwMFn9fDDT6msM+G+AIFSpuPTWjaXFtTaNHZe3PyG2jHnUaPzeT/+9KhTtORYTQKaDfbetNtRz9d5VYPOsX/YJb1vqozbjDRGbN4bBnFejYcsr3lIAZJF5cKh1G3xQv+XLIRVXMY3Oto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PhJQmJ4C; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCO+h2uU"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso3268506a91.1
-        for <linux-doc@vger.kernel.org>; Sun, 07 Jun 2026 20:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780889651; x=1781494451; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mjptvaqMFpkJ5ciR5zDYcgVGEGYgvQ+MyYxJKKdThD0=;
-        b=ZCO+h2uUaWUNELAcPkZX/+EZW9Cbr7v2FHGnFymNbxxCrpwUCgWy5ayp93tMawaTNK
-         2mJDzcwFIs1NAmovoS6rbA60greN+D3Qqs+JQdjx/BpXB6Ycv2xT0GxwlC5ZVHWkJy/I
-         griFLS+WLFDDbqbyYFWzt3vuNZPK/bmtk6vbUbhZMgxKdh0iRq6DlFqiDrQAq8h8rpqi
-         RxS07vlOp6zH6yHVqCWR/mdXKdFyyDqbmX1u7Xpvx72liqbhr5Db2KVqkrDLTNPyRo4Z
-         xM9cZAc8dJYU4EkiUsLz8spK3lTBV4dIvzVxC5v9C9sfrIP9mMy9F/czU5ntbab4iMhA
-         SSrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780889651; x=1781494451;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mjptvaqMFpkJ5ciR5zDYcgVGEGYgvQ+MyYxJKKdThD0=;
-        b=XUkGdpDeSKTNNnnITbZB/7pD0tQ34D5ebpdyhTwqIoYwwaMQuTavFJX6wLjFUOkaUi
-         EFNO5n+raVoLL6xG9M42z12ibO9st9I02WT3Gza6h1K3KoVJuJDNwxpXvqwOo3nOwkN7
-         6LIxm1Qlsi4JPGQzp1uZZeZBKTHhScZlf8gcC/5UGGQo3q9/YhAqaUtkJoF4nRrB0XpZ
-         f7Dr7is7ngDQ9nCcQ1LEODwFEkHM6Vqaurx+6mNRX8xqjpRX0elFdR2Ma+/k1Jh/36DC
-         2XB4B2Oo9FR20FIy8Ic50z8zU6IWjcEQ/9i9K1F2Oz0sFSlB4sKwOX4J2eVFfdgAHxmu
-         38Mw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Rulg3cFReuPIgby5wVB3IgQ/muyRE9DSpZJeSilHrKN6vUBsCguCb3Y7qeANttQF+IMaBREjuouk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylgHz50ydN+ofBENJH/zD7LQJAaVTMRiH74Q1GbGjprOdsvVEr
-	mn5AOsX0bZ6coBPpQctndZB4VaMUrROd6JnwlS1Qv0/xLdvzCa+g3vit
-X-Gm-Gg: Acq92OFGWv1dstsQtxzf+8/l3MUT1ABu4PhEU3gNCW0dAhU9rYCh/y090fJ2Fwue7vM
-	nMi+znIimj5xPFfnn9/DGs80W4V25MMaTpkx8pcc6mUz7ue5NPpslK2O+1Frver+41ZTA1+R/ol
-	C1RsyTlAp6DvpqoqCaALCqi1BXZko6zAiVPaIWdpZkb+hA03/JvNcqAcSb/aFfOe/+dvTjjhv7K
-	/5wt+H+MEaqfsBiqwoR1r6zVfiXIiASKYP7NvW5Xi8rvCaw/aCVUwMECwfqjmC+IWj0FRMIKu0J
-	5fqCM1gtyv9taJL3GEHQaTTSiyM8nTnEORCTkRyBE1BH7SeiOauWDN6vsKe0HgWbBTeZDwm/+CN
-	e++N99d95GCTn2134wUoq8Eu9OC8m3Mi91UUKIh7gPpog9HhnaOFTIIl7wM9taZd0QrK0gNuZoz
-	p2HKTobGHBtNls37G0CQpY2tNKOZmfSk0up/5LfVhy3qiUO00=
-X-Received: by 2002:a17:902:ecc8:b0:2be:39bd:8dd8 with SMTP id d9443c01a7336-2c1e83455c4mr147137575ad.33.1780889650914;
-        Sun, 07 Jun 2026 20:34:10 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6e86dsm166052735ad.8.2026.06.07.20.34.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 20:34:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 7 Jun 2026 20:34:09 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ziming Zhu <zmzhu0630@163.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Ziming Zhu <ziming.zhu@silergycorp.com>
-Subject: Re: [PATCH v2 2/3] hwmon: pmbus: Add support for Silergy SQ24860
-Message-ID: <c1c7e115-b490-4859-873d-e48d19054ba4@roeck-us.net>
-References: <20260605063042.91776-1-zmzhu0630@163.com>
- <20260605063042.91776-3-zmzhu0630@163.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PhJQmJ4C"
+Message-ID: <5d77fadd-13a9-40ed-a8e8-2982ceb69af2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780891818;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RQr+FS5WTq4T7wFBMSLf3go6FakMkvtgbNGjQKWlmw8=;
+	b=PhJQmJ4C/cVE3UbVc5wYGTEjz2tdfRoaX48ehWPeZGWP7Nl/U5dlWYmpKB1nM2j5tvtc1F
+	TO+/1SxF/Rg2fTp6M1SiLweIkGXWaSsWgQCzz3tFTWcWSg8Oqo4qT8Zv9umC7GkENoV4QC
+	MLD6Yv9D6n9IuOrQPo76T96avYRGiaA=
+Date: Mon, 8 Jun 2026 12:09:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260605063042.91776-3-zmzhu0630@163.com>
+Subject: Re: [PATCH v3 3/6] alloc_tag: add size-based filtering to ioctl
+To: Abhishek Bapat <abhishekbapat@google.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>
+References: <cover.1780701922.git.abhishekbapat@google.com>
+ <ef88e52368463e312086a966f10287a29d0edeca.1780701922.git.abhishekbapat@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <ef88e52368463e312086a966f10287a29d0edeca.1780701922.git.abhishekbapat@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jun 05, 2026 at 02:30:41PM +0800, Ziming Zhu wrote:
-> From: Ziming Zhu <ziming.zhu@silergycorp.com>
-> 
-> Add PMBus hwmon support for the Silergy SQ24860 eFuse.
-> 
-> The driver reports input voltage, output voltage, auxiliary voltage,
-> input current, input power, and temperature. It also exposes peak,
-> average, and minimum history attributes, sample count configuration,
-> and maps the manufacturer-specific VIREF register to the generic input
-> over-current fault limit attribute.
-> 
-> The IMON resistor value is read from the silergy,rimon-micro-ohms device
-> property and used to configure the input current calibration gain.
-> 
-> Signed-off-by: Ziming Zhu <ziming.zhu@silergycorp.com>
+Hi Abhishek
 
-checkpatch --strict says:
 
-total: 0 errors, 3 warnings, 6 checks, 464 lines checked
+Thanks for the new version.
 
-The MAINTAINERS and the DT warning can be ignored, but I expect the rest
-to be fixed.
 
+On 2026/6/6 07:36, Abhishek Bapat wrote:
+> Extend the allocinfo filtering mechanism to allow users to filter tags
+> based on the total number of bytes allocated [min_size, max_size]. The
+> size range is inclusive.
+>
+> Filtering by size involves retrieving allocinfo per-CPU counters, which
+> is an expensive operation. Hence, the performance of size-based
+> filtering will be worse than other filters.
+>
+> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
 > ---
->  drivers/hwmon/pmbus/Kconfig   |  19 ++
->  drivers/hwmon/pmbus/Makefile  |   1 +
->  drivers/hwmon/pmbus/sq24860.c | 432 ++++++++++++++++++++++++++++++++++
->  3 files changed, 452 insertions(+)
->  create mode 100644 drivers/hwmon/pmbus/sq24860.c
-> 
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 8f4bff375ecb..a905b5af137c 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -612,6 +612,25 @@ config SENSORS_STEF48H28
->  	  This driver can also be built as a module. If so, the module will
->  	  be called stef48h28.
->  
-> +config SENSORS_SQ24860
-> +	tristate "Silergy SQ24860"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for Silergy
-> +	  SQ24860 eFuse.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called sq24860.
-> +
-> +config SENSORS_SQ24860_REGULATOR
-> +	bool "Regulator support for SQ24860"
-> +	depends on SENSORS_SQ24860 && REGULATOR
-> +	default SENSORS_SQ24860
-> +	help
-> +	  If you say yes here you get regulator support for Silergy SQ24860.
-> +	  The regulator is registered through the PMBus regulator framework and
-> +	  can be used to control the output exposed by the device.
-> +	  This option is only useful if regulator framework support is needed.
-> +
->  config SENSORS_STPDDC60
->  	tristate "ST STPDDC60"
->  	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index 7129b62bc00f..86bc93c6c091 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -60,6 +60,7 @@ obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
->  obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
->  obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
->  obj-$(CONFIG_SENSORS_STEF48H28)	+= stef48h28.o
-> +obj-$(CONFIG_SENSORS_SQ24860)	+= sq24860.o
->  obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
->  obj-$(CONFIG_SENSORS_TDA38640)	+= tda38640.o
->  obj-$(CONFIG_SENSORS_TPS25990)	+= tps25990.o
-> diff --git a/drivers/hwmon/pmbus/sq24860.c b/drivers/hwmon/pmbus/sq24860.c
-> new file mode 100644
-> index 000000000000..43a2cb542169
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/sq24860.c
-> @@ -0,0 +1,432 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// Copyright (c) 2024.
-> +// Author: Ziming Zhu <ziming.zhu@silergycorp.com>
-
-Please do not mix C++ and C comments. Yes, I understand that the first
-line must be a C++ comment. The rest of the driver must use a consistent
-comment style.
-
-> +#include <linux/bitfield.h>
-> +#include <linux/debugfs.h>
-
-I do not see where this include file is used.
-
-> +#include <linux/err.h>
-> +#include <linux/hwmon-sysfs.h>
-
-I do not see where this include file is used.
-
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +
-> +#include "pmbus.h"
-> +
-> +#define SQ24860_IIN_CAL_GAIN		0x38
-> +#define SQ24860_READ_VAUX		0xd0
-> +#define SQ24860_READ_VIN_MIN		0xd1
-> +#define SQ24860_READ_VIN_PEAK		0xd2
-> +#define SQ24860_READ_IIN_PEAK		0xd4
-> +#define SQ24860_READ_PIN_PEAK		0xd5
-> +#define SQ24860_READ_TEMP_AVG		0xd6
-> +#define SQ24860_READ_TEMP_PEAK		0xd7
-> +#define SQ24860_READ_VOUT_MIN		0xda
-> +#define SQ24860_READ_VIN_AVG		0xdc
-> +#define SQ24860_READ_VOUT_AVG		0xdd
-> +#define SQ24860_READ_IIN_AVG		0xde
-> +#define SQ24860_READ_PIN_AVG		0xdf
-> +#define SQ24860_VIREF			0xe0
-> +#define SQ24860_PK_MIN_AVG		0xea
-> +#define PK_MIN_AVG_RST_PEAK		BIT(7)
-> +#define PK_MIN_AVG_RST_AVG		BIT(6)
-> +#define PK_MIN_AVG_RST_MIN		BIT(5)
-> +#define PK_MIN_AVG_AVG_CNT		GENMASK(2, 0)
-> +#define SQ24860_MFR_WRITE_PROTECT	0xf8
-> +#define SQ24860_UNLOCKED		BIT(7)
-> +
-> +#define SQ24860_8B_SHIFT		2
-> +#define SQ24860_IIN_OCF_NUM		1000000
-> +#define SQ24860_IIN_OCF_DIV		129278
-> +#define SQ24860_IIN_OCF_OFF		165
-> +
-> +#define PK_MIN_AVG_RST_MASK		(PK_MIN_AVG_RST_PEAK | \
-> +					 PK_MIN_AVG_RST_AVG  | \
-> +					 PK_MIN_AVG_RST_MIN)
-> +#define SQ24860_MAX_SAMPLES		BIT(FIELD_MAX(PK_MIN_AVG_AVG_CNT))
-> +/*
-> + * Arbitrary default Rimon value: 1.6kOhm
-> + */
-> +#define SQ24860_DEFAULT_RIMON		1600000000
-> +#define SQ24860_DEFAULT_GIMON		18180
-> +
-> +#define SQ24860_VAUX_DIV		20
-> +
-> +static int sq24860_write_iin_cal_gain(struct i2c_client *client, u32 rimon,
-> +					u32 gimon)
+>   include/uapi/linux/alloc_tag.h |  8 +++-
+>   lib/alloc_tag.c                | 68 +++++++++++++++++++++++++++-------
+>   2 files changed, 62 insertions(+), 14 deletions(-)
+>
+> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
+> index cffb0c46e0b1..0e648192df4d 100644
+> --- a/include/uapi/linux/alloc_tag.h
+> +++ b/include/uapi/linux/alloc_tag.h
+> @@ -39,13 +39,17 @@ enum {
+>   	ALLOCINFO_FILTER_FUNCTION,
+>   	ALLOCINFO_FILTER_FILENAME,
+>   	ALLOCINFO_FILTER_LINENO,
+> -	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_LINENO
+> +	ALLOCINFO_FILTER_MIN_SIZE,
+> +	ALLOCINFO_FILTER_MAX_SIZE,
+> +	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_MAX_SIZE
+>   };
+>   
+>   #define ALLOCINFO_FILTER_MASK_MODNAME		(1 << ALLOCINFO_FILTER_MODNAME)
+>   #define ALLOCINFO_FILTER_MASK_FUNCTION		(1 << ALLOCINFO_FILTER_FUNCTION)
+>   #define ALLOCINFO_FILTER_MASK_FILENAME		(1 << ALLOCINFO_FILTER_FILENAME)
+>   #define ALLOCINFO_FILTER_MASK_LINENO		(1 << ALLOCINFO_FILTER_LINENO)
+> +#define ALLOCINFO_FILTER_MASK_MIN_SIZE		(1 << ALLOCINFO_FILTER_MIN_SIZE)
+> +#define ALLOCINFO_FILTER_MASK_MAX_SIZE		(1 << ALLOCINFO_FILTER_MAX_SIZE)
+>   
+>   #define ALLOCINFO_FILTER_MASKS \
+>   	((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> @@ -53,6 +57,8 @@ enum {
+>   struct allocinfo_filter {
+>   	__u64 mask; /* bitmask of the filter fields used */
+>   	struct allocinfo_tag fields;
+> +	__u64 min_size;
+> +	__u64 max_size;
+>   };
+>   
+>   struct allocinfo_get_at {
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index 93bc976ac505..ddc6946f56ab 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -191,15 +191,26 @@ static int allocinfo_cmp_str(const char *str, const char *template)
+>   	return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
+>   }
+>   
+> +/* Fetch the per-CPU counters */
+> +static inline struct alloc_tag_counters allocinfo_prefetch_counters(struct codetag *ct)
 > +{
-> +	u64 temp = (u64)6400 * 1000000000 * 1000;
-> +	u64 denom;
-> +	u64 word;
+> +	return alloc_tag_read(ct_to_alloc_tag(ct));
+> +}
 > +
-> +	if (!rimon || !gimon)
+>   /*
+>    * Populates the UAPI allocinfo_tag_data structure with active runtime
+>    * profiling counters extracted from the given kernel codetag.
+>    */
+>   static void allocinfo_to_params(struct codetag *ct,
+> -				struct allocinfo_tag_data *data)
+> +				struct allocinfo_tag_data *data,
+> +				struct alloc_tag_counters *counters)
+>   {
+> -	struct alloc_tag *tag = ct_to_alloc_tag(ct);
+> -	struct alloc_tag_counters counter = alloc_tag_read(tag);
+> +	struct alloc_tag_counters local_counters;
+> +
+> +	if (!counters) {
+> +		local_counters = allocinfo_prefetch_counters(ct);
+> +		counters = &local_counters;
+> +	}
+>   
+>   	if (ct->modname)
+>   		allocinfo_copy_str(data->tag.modname, ct->modname);
+> @@ -208,9 +219,9 @@ static void allocinfo_to_params(struct codetag *ct,
+>   	allocinfo_copy_str(data->tag.function, ct->function);
+>   	allocinfo_copy_str(data->tag.filename, ct->filename);
+>   	data->tag.lineno = ct->lineno;
+> -	data->counter.bytes = counter.bytes;
+> -	data->counter.calls = counter.calls;
+> -	data->counter.accurate = !alloc_tag_is_inaccurate(tag);
+> +	data->counter.bytes = counters->bytes;
+> +	data->counter.calls = counters->calls;
+> +	data->counter.accurate = !alloc_tag_is_inaccurate(ct_to_alloc_tag(ct));
+>   }
+>   
+>   /*
+> @@ -234,7 +245,9 @@ static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
+>    * Verifies whether a given codetag satisfies the active filtering criteria by
+>    * matching it's characteristics against the specified filter.
+>    */
+> -static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
+> +static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter,
+> +			   struct alloc_tag_counters *counters,
+> +			   bool *fetched_counters)
+>   {
+>   	if (!filter || !filter->mask)
+>   		return true;
+> @@ -247,20 +260,34 @@ static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter)
+>   				return false;
+>   		} else if (allocinfo_cmp_str(ct->modname, filter->fields.modname))
+>   			return false;
+> +		}
+It seems an extra } was accidentally added here
+>   	}
+>   
+>   	if ((filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) &&
+> -	    ct->function && (allocinfo_cmp_str(ct->function, filter->fields.function)))
+> +	    ct->function && allocinfo_cmp_str(ct->function, filter->fields.function))
+>   		return false;
+>   
+This should be fixed in the second patch; it's unrelated to current 
+functionality.
+>   	if ((filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) &&
+> -	    ct->filename && (allocinfo_cmp_str(ct->filename, filter->fields.filename)))
+> +	    ct->filename && allocinfo_cmp_str(ct->filename, filter->fields.filename))
+>   		return false;
+
+Ditto
+
+
+Thanks
+
+Best Regards
+
+Hao
+
+>   	if ((filter->mask & ALLOCINFO_FILTER_MASK_LINENO) &&
+>   	    ct->lineno != filter->fields.lineno)
+>   		return false;
+>   
+> +	if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
+> +		if (!*fetched_counters) {
+> +			*counters = allocinfo_prefetch_counters(ct);
+> +			*fetched_counters = true;
+> +		}
+> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +		    counters->bytes < filter->min_size)
+> +			return false;
+> +		if ((filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +		    counters->bytes > filter->max_size)
+> +			return false;
+> +	}
+> +
+>   	return true;
+>   }
+>   
+> @@ -274,6 +301,8 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	struct codetag *ct;
+>   	struct allocinfo_get_at params = {0};
+>   	__u64 skip_count;
+> +	struct alloc_tag_counters counters;
+> +	bool fetched_counters;
+>   
+>   	if (copy_from_user(&params, arg, sizeof(params)))
+>   		return -EFAULT;
+> @@ -281,6 +310,11 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+>   		return -EINVAL;
+>   
+> +	if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +	    (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +	    params.filter.min_size > params.filter.max_size)
 > +		return -EINVAL;
 > +
-> +	denom = (u64)rimon * gimon;
-> +	word = div_u64(temp, denom);
-> +	if (word > U16_MAX)
-> +		return -ERANGE;
-
-This is not "Math result not representable". Return -EINVAL.
-
-Also, please make sure to fix the problem reported by Sashiko, or explain
-why it does not apply.
-
-> +
-> +	return i2c_smbus_write_word_data(client, SQ24860_IIN_CAL_GAIN,
-> +						(u16)word);
-> +}
-> +
-> +static int sq24860_mfr_write_protect_set(struct i2c_client *client,
-> +					  u8 protect)
-> +{
-> +	u8 val;
-> +
-> +	switch (protect) {
-> +	case 0:
-> +		val = 0xa2;
-> +		break;
-> +	case PB_WP_ALL:
-> +		val = 0x0;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return pmbus_write_byte_data(client, -1, SQ24860_MFR_WRITE_PROTECT,
-> +				     val);
-> +}
-> +
-> +static int sq24860_mfr_write_protect_get(struct i2c_client *client)
-> +{
-> +	int ret = pmbus_read_byte_data(client, -1, SQ24860_MFR_WRITE_PROTECT);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return (ret & SQ24860_UNLOCKED) ? 0 : PB_WP_ALL;
-> +}
-> +
-> +static int sq24860_read_word_data(struct i2c_client *client,
-> +				   int page, int phase, int reg)
-> +{
-> +	int ret;
-> +
-> +	switch (reg) {
-> +	case PMBUS_VIRT_READ_VIN_MAX:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VIN_PEAK);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_VIN_MIN:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VIN_MIN);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_VIN_AVG:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VIN_AVG);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_VOUT_MIN:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VOUT_MIN);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_VOUT_AVG:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VOUT_AVG);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_IIN_AVG:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_IIN_AVG);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_IIN_MAX:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_IIN_PEAK);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_TEMP_AVG:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_TEMP_AVG);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_TEMP_MAX:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_TEMP_PEAK);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_PIN_AVG:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_PIN_AVG);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_PIN_MAX:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_PIN_PEAK);
-> +		break;
-> +
-> +	case PMBUS_VIRT_READ_VMON:
-> +		ret = pmbus_read_word_data(client, page, phase,
-> +					   SQ24860_READ_VAUX);
-> +		if (ret < 0)
+>   	priv = m->private;
+>   
+>   	mutex_lock(&priv->ioctl_lock);
+> @@ -304,7 +338,8 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+>   
+>   	while (ct) {
+> -		if (matches_filter(ct, &priv->filter)) {
+> +		fetched_counters = false;
+> +		if (matches_filter(ct, &priv->filter, &counters, &fetched_counters)) {
+>   			if (skip_count == 0)
+>   				break;
+>   			skip_count--;
+> @@ -313,7 +348,7 @@ static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
+>   	}
+>   
+>   	if (ct) {
+> -		allocinfo_to_params(ct, &params.data);
+> +		allocinfo_to_params(ct, &params.data, fetched_counters ? &counters : NULL);
+>   		priv->positioned = true;
+>   	}
+>   
+> @@ -339,6 +374,8 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
+>   	struct codetag *ct;
+>   	struct allocinfo_tag_data params;
+>   	int ret = 0;
+> +	struct alloc_tag_counters counters;
+> +	bool fetched_counters;
+>   
+>   	memset(&params, 0, sizeof(params));
+>   	priv = m->private;
+> @@ -352,10 +389,15 @@ static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
+>   	}
+>   
+>   	ct = codetag_next_ct(&priv->ioctl_iter);
+> -	while (ct && !matches_filter(ct, &priv->filter))
+> +	while (ct) {
+> +		fetched_counters = false;
+> +		if (matches_filter(ct, &priv->filter, &counters, &fetched_counters))
 > +			break;
-> +		ret = DIV_ROUND_CLOSEST(ret, SQ24860_VAUX_DIV);
-> +		break;
-> +
-> +	case PMBUS_VIN_UV_WARN_LIMIT:
-> +	case PMBUS_VIN_UV_FAULT_LIMIT:
-> +	case PMBUS_VIN_OV_WARN_LIMIT:
-> +	case PMBUS_VIN_OV_FAULT_LIMIT:
-> +	case PMBUS_VOUT_UV_WARN_LIMIT:
-> +	case PMBUS_IIN_OC_WARN_LIMIT:
-> +	case PMBUS_OT_WARN_LIMIT:
-> +	case PMBUS_OT_FAULT_LIMIT:
-> +	case PMBUS_PIN_OP_WARN_LIMIT:
-> +		/*
-> +		 * These registers provide an 8 bits value instead of a
-> +		 * 10bits one. Just shifting twice the register value is
-> +		 * enough to make the sensor type conversion work, even
-> +		 * if the datasheet provides different m, b and R for
-> +		 * those.
-> +		 */
-> +		ret = pmbus_read_word_data(client, page, phase, reg);
-> +		if (ret < 0)
-> +			break;
-> +		ret <<= SQ24860_8B_SHIFT;
-> +		break;
-> +
-> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> +		/*
-> +		 * VIREF directly sets the over-current limit at which the eFuse
-> +		 * will turn the FET off and trigger a fault. Expose it through
-> +		 * this generic property instead of a manufacturer specific one.
-> +		 */
-> +		ret = pmbus_read_byte_data(client, page, SQ24860_VIREF);
-> +		if (ret < 0)
-> +			break;
-> +		ret = DIV_ROUND_CLOSEST(ret * SQ24860_IIN_OCF_NUM,
-> +					SQ24860_IIN_OCF_DIV);
-> +		ret += SQ24860_IIN_OCF_OFF;
-> +		break;
-> +
-> +	case PMBUS_VIRT_SAMPLES:
-> +		ret = pmbus_read_byte_data(client, page, SQ24860_PK_MIN_AVG);
-> +		if (ret < 0)
-> +			break;
-> +		ret = BIT(FIELD_GET(PK_MIN_AVG_AVG_CNT, ret));
-> +		break;
-> +
-> +	case PMBUS_VIRT_RESET_TEMP_HISTORY:
-> +	case PMBUS_VIRT_RESET_VIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_IIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_PIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_VOUT_HISTORY:
-> +		ret = 0;
-> +		break;
-> +
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
+>   		ct = codetag_next_ct(&priv->ioctl_iter);
 > +	}
 > +
-> +	return ret;
-> +}
-> +
-> +static int sq24860_write_word_data(struct i2c_client *client,
-> +				    int page, int reg, u16 value)
-> +{
-> +	int ret;
-> +
-> +	switch (reg) {
-> +	case PMBUS_VIN_UV_WARN_LIMIT:
-> +	case PMBUS_VIN_UV_FAULT_LIMIT:
-> +	case PMBUS_VIN_OV_WARN_LIMIT:
-> +	case PMBUS_VIN_OV_FAULT_LIMIT:
-> +	case PMBUS_VOUT_UV_WARN_LIMIT:
-> +	case PMBUS_IIN_OC_WARN_LIMIT:
-> +	case PMBUS_OT_WARN_LIMIT:
-> +	case PMBUS_OT_FAULT_LIMIT:
-> +	case PMBUS_PIN_OP_WARN_LIMIT:
-> +		value >>= SQ24860_8B_SHIFT;
-> +		value = clamp_val(value, 0, 0xff);
-> +		ret = pmbus_write_word_data(client, page, reg, value);
-> +		break;
-> +
-> +	case PMBUS_IIN_OC_FAULT_LIMIT:
-> +		value -= SQ24860_IIN_OCF_OFF;
-
-What if value is < SQ24860_IIN_OCF_OFF ?
-
-(also reported by Sashiko)
-
-> +		value = DIV_ROUND_CLOSEST(((unsigned int)value) * SQ24860_IIN_OCF_DIV,
-> +					  SQ24860_IIN_OCF_NUM);
-> +		value = clamp_val(value, 0, 0x3f);
-> +		ret = pmbus_write_byte_data(client, page, SQ24860_VIREF, value);
-> +		break;
-> +
-> +	case PMBUS_VIRT_SAMPLES:
-> +		value = clamp_val(value, 1, SQ24860_MAX_SAMPLES);
-> +		value = ilog2(value);
-> +		ret = pmbus_update_byte_data(client, page, SQ24860_PK_MIN_AVG,
-> +					     PK_MIN_AVG_AVG_CNT,
-> +					     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
-> +		break;
-> +
-> +	case PMBUS_VIRT_RESET_TEMP_HISTORY:
-> +	case PMBUS_VIRT_RESET_VIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_IIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_PIN_HISTORY:
-> +	case PMBUS_VIRT_RESET_VOUT_HISTORY:
-> +		/*
-> +		 * SQ24860 has history resets based on MIN/AVG/PEAK instead of per
-> +		 * sensor type. Exposing this quirk in hwmon is not desirable so
-> +		 * reset MIN, AVG and PEAK together. Even is there effectively only
-> +		 * one reset, which resets everything, expose the 5 entries so
-> +		 * userspace is not required map a sensor type to another to trigger
-> +		 * a reset
-> +		 */
-> +		ret = pmbus_update_byte_data(client, 0, SQ24860_PK_MIN_AVG,
-> +					     PK_MIN_AVG_RST_MASK,
-> +					     PK_MIN_AVG_RST_MASK);
-> +		break;
-> +
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int sq24860_read_byte_data(struct i2c_client *client,
-> +				   int page, int reg)
-> +{
-> +	int ret;
-> +
-> +	switch (reg) {
-> +	case PMBUS_WRITE_PROTECT:
-> +		ret = sq24860_mfr_write_protect_get(client);
-> +		break;
-> +
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int sq24860_write_byte_data(struct i2c_client *client,
-> +				    int page, int reg, u8 byte)
-> +{
-> +	int ret;
-> +
-> +	switch (reg) {
-> +	case PMBUS_WRITE_PROTECT:
-> +		ret = sq24860_mfr_write_protect_set(client, byte);
-> +		break;
-> +
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +#if IS_ENABLED(CONFIG_SENSORS_SQ24860_REGULATOR)
-> +static const struct regulator_desc sq24860_reg_desc[] = {
-> +	PMBUS_REGULATOR_ONE_NODE("vout"),
-> +};
-> +#endif
-> +
-> +static const struct pmbus_driver_info sq24860_base_info = {
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = direct,
-> +	.m[PSC_VOLTAGE_IN] = 64,
-> +	.b[PSC_VOLTAGE_IN] = 0,
-> +	.R[PSC_VOLTAGE_IN] = 0,
-> +	.format[PSC_VOLTAGE_OUT] = direct,
-> +	.m[PSC_VOLTAGE_OUT] = 64,
-> +	.b[PSC_VOLTAGE_OUT] = 0,
-> +	.R[PSC_VOLTAGE_OUT] = 0,
-> +	.format[PSC_TEMPERATURE] = direct,
-> +	.m[PSC_TEMPERATURE] = 1,
-> +	.b[PSC_TEMPERATURE] = 0,
-> +	.R[PSC_TEMPERATURE] = 0,
-> +	/*
-> +	* Current and power measurements depend on the calibration gain
-> +	* programmed from the board-specific IMON resistor value.
-> +	*/
-
-Comment alignment is off (see checkpatch results).
-
-> +	.format[PSC_CURRENT_IN] = direct,
-> +	.m[PSC_CURRENT_IN] = 16,
-> +	.b[PSC_CURRENT_IN] = 0,
-> +	.R[PSC_CURRENT_IN] = 0,
-> +	.format[PSC_POWER] = direct,
-> +	.m[PSC_POWER] = 2,
-> +	.b[PSC_POWER] = 0,
-> +	.R[PSC_POWER] = 0,
-> +	.func[0] = (PMBUS_HAVE_VIN |
-> +		    PMBUS_HAVE_VOUT |
-> +		    PMBUS_HAVE_VMON |
-> +		    PMBUS_HAVE_IIN |
-> +		    PMBUS_HAVE_PIN |
-> +		    PMBUS_HAVE_TEMP |
-> +		    PMBUS_HAVE_STATUS_VOUT |
-> +		    PMBUS_HAVE_STATUS_IOUT |
-> +		    PMBUS_HAVE_STATUS_INPUT |
-> +		    PMBUS_HAVE_STATUS_TEMP |
-> +		    PMBUS_HAVE_SAMPLES),
-
-Unnecessary ( ).
-
-> +	.read_word_data = sq24860_read_word_data,
-> +	.write_word_data = sq24860_write_word_data,
-> +	.read_byte_data = sq24860_read_byte_data,
-> +	.write_byte_data = sq24860_write_byte_data,
-> +
-> +#if IS_ENABLED(CONFIG_SENSORS_SQ24860_REGULATOR)
-> +	.reg_desc = sq24860_reg_desc,
-> +	.num_regulators = ARRAY_SIZE(sq24860_reg_desc),
-> +#endif
-> +};
-> +
-> +static const struct i2c_device_id sq24860_i2c_id[] = {
-> +	{ "sq24860" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, sq24860_i2c_id);
-> +
-> +static const struct of_device_id sq24860_of_match[] = {
-> +	{ .compatible = "silergy,sq24860" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, sq24860_of_match);
-> +
-> +static int sq24860_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct pmbus_driver_info *info;
-> +	u32 rimon = SQ24860_DEFAULT_RIMON;
-> +	u32 gimon = SQ24860_DEFAULT_GIMON;
-
-gimon is a constant. Why pass it as parameter to sq24860_write_iin_cal_gain(),
-and why validate it there instead of just using a constant ?
-
-> +	int ret;
-> +
-> +	ret = device_property_read_u32(dev, "silergy,rimon-micro-ohms", &rimon);
-> +	if (ret < 0 && ret != -EINVAL)
-> +		return dev_err_probe(dev, ret, "failed to get rimon\n");
-
-I am a bit lost here. Why accept -EINVAL (invalid arguments) ?
-
-> +
-> +	ret = sq24860_write_iin_cal_gain(client, rimon, gimon);
-> +	if (ret < 0)
-> +		return dev_err_probe(&client->dev, ret,
-> +					     "Failed to set gain\n");
-> +	info = devm_kmemdup(dev, &sq24860_base_info, sizeof(*info), GFP_KERNEL);
-> +	if (!info)
-> +		return -ENOMEM;
-> +
-> +	return pmbus_do_probe(client, info);
-> +}
-> +
-> +static struct i2c_driver sq24860_driver = {
-> +	.driver = {
-> +		.name = "sq24860",
-> +		.of_match_table = sq24860_of_match,
-> +	},
-> +	.probe = sq24860_probe,
-> +	.id_table = sq24860_i2c_id,
-> +};
-> +module_i2c_driver(sq24860_driver);
-> +
-> +MODULE_AUTHOR("Ziming Zhu <ziming.zhu@silergycorp.com>");
-> +MODULE_DESCRIPTION("PMBUS driver for SQ24860 eFuse");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("PMBUS");
+>   	if (ct)
+> -		allocinfo_to_params(ct, &params);
+> +		allocinfo_to_params(ct, &params, fetched_counters ? &counters : NULL);
+>   
+>   	if (!ct) {
+>   		priv->positioned = false;
