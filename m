@@ -1,108 +1,157 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B4E32609C5;
-	Mon,  8 Jun 2026 06:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CBB39E6CD;
+	Mon,  8 Jun 2026 06:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780901927; cv=none; b=T/4ikXpv2bIFEYFlZ4fWdo0BG2fPxwu2sLL390j6E4tGIxCCDmqVJX2jq53r5o48oMBnTl8E75oWJP/wWfK50W87vRFPF+wgA2WZuMoDp6vAS4hvAdb9ZAjbsmlKAsLdaxEbo3DQd+h5bf2kUhgU+47LCDaURke3qVZqpU79M98=
+	t=1780901990; cv=none; b=A+ow1roFvazTSBLghf9kUVQ2XrKEOZVo7H2Ls1kKnKgsVGOGQDeoryd9GWreyhYWlxMGaapPb9oUIVA2+xLhEZngcwhqhrX+DNumAwCW1l/iapz5O2f2vZow/fZh7u0Rj9Lmqe/13Ugk90BfRNu/fgfCzmF7xslLFtX+w4bNN0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780901927; c=relaxed/simple;
-	bh=4j2NsQcX3l+LMH7OnGZvlcFy69ikfwcYFnc4uco+C4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OJ7jtnjNf2ynZ7HOveHgNG76TyJX0Obx8aXNEhNGMl4rbeRpSyw5I13urwCJxtdpabsCXGK6WGxwhWDglwcsuRRZrLT/7R0W8voLQ4LtoTLiPhU+F2MAa8LKleYM1mC1PeIDBK/8JIyr5oGJ4ghV2Cbdj9ubiRT4fDNdLWN6FDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrABnZ6D7ZyZq9_NnAA--.32519S2;
-	Mon, 08 Jun 2026 14:58:03 +0800 (CST)
-Received: from [10.12.169.28] (unknown [10.12.169.28])
-	by gateway (Coremail) with SMTP id _____wB3fwv4ZyZqW+QyAA--.62654S2;
-	Mon, 08 Jun 2026 14:58:01 +0800 (CST)
-Message-ID: <150c4c64-f3fb-439f-b15f-e04cab3d232f@hust.edu.cn>
-Date: Mon, 8 Jun 2026 14:58:00 +0800
+	s=arc-20240116; t=1780901990; c=relaxed/simple;
+	bh=S6gLya0AdKg0zcUdyzdBhBdBUKql8AmIkZI/Kjnkprc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZLiKurpdvPlwe8CkilOqGjoub1iKQg4qdXL9HfHVnQMJQONeeoCPHx5Oomb/iEZTt9kawucu3+ME/QWm6kYgl5lNYWh70SvxBFLfks8G0az7YXgWru9dm4hddwA95xClp8X4svM17cZEv12j/afQeZCcLXsOXOGM5G4pxSly07I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EUapOzUX; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EUapOzUX"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780901976;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y3/06Trq5FpnxHyx8TwAa3S5P3cfEJjPOzAapv5j8wo=;
+	b=EUapOzUXzSldul+SfubS/o+1vi1bdkmgOGo33ORWMjo36vmrsTNcL+aaGW03/YjqAZSW2R
+	k6K4Jlx7h9j38VtG8xzTPjXnNZRTsV7JRAyL8HPHWR9Zi+NmmnQyClmfyWfUeVsdt9mjuP
+	MnaxxTrabdkE3hKr88UNKrlypvcKGKk=
+From: Lance Yang <lance.yang@linux.dev>
+To: npache@redhat.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com,
+	usama.arif@linux.dev
+Subject: Re: [PATCH mm-unstable v19 07/14] mm/khugepaged: skip collapsing mTHP to smaller orders
+Date: Mon,  8 Jun 2026 14:59:06 +0800
+Message-Id: <20260608065906.66125-1-lance.yang@linux.dev>
+In-Reply-To: <20260605161422.213817-8-npache@redhat.com>
+References: <20260605161422.213817-8-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] docs/zh: update DAMON usage sysfs documentation
-To: Doehyun Baek <doehyunbaek@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, damon@lists.linux.dev,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Hu Haowen <2023002089@link.tyut.edu.cn>
-References: <20260523094420.741003-1-doehyunbaek@gmail.com>
- <20260608060302.1564003-1-doehyunbaek@gmail.com>
- <CAN-j9UrkjjrO-1fs9Q4_HQMTM5Gj1qjyNLF5F1JG+Wzimd5naw@mail.gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <CAN-j9UrkjjrO-1fs9Q4_HQMTM5Gj1qjyNLF5F1JG+Wzimd5naw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrABnZ6D7ZyZq9_NnAA--.32519S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7GrykXry3Gr48CF4fGF4rXwb_yoWDtFg_Zr
-	W8ZFy7Z3yYqas8JFWkKrnxCrWDuF40qws8Za4Dt3yUArs0qa1DAr1kW39Y934xXr4kAFZx
-	Crn0qa1furnxujkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbm8YjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j6a0QUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-Migadu-Flow: FLOW_OUT
 
 
-On 6/8/26 2:05 PM, Doehyun Baek wrote:
-> Hi, thanks for your kind reply.
+On Fri, Jun 05, 2026 at 10:14:14AM -0600, Nico Pache wrote:
+>khugepaged may try to collapse a mTHP to a folio of equal or smaller size,
+>possibly resulting in a partially mapped source folio, which is undesired.
+>Skip these cases until we have a way to check if its ok to collapse to a
+>smaller mTHP size (like in the case of a partially mapped folio). This
+>check is not done during the scan phase as the current collapse order is
+>unknown at that time.
 >
-> Sorry for not following the how-to.rst. I should have taken more care.
+>This patch is inspired by Dev Jain's work on khugepaged mTHP support [1].
 >
-> I updated the commit messages and sent v2 patches.
+>[1] https://lore.kernel.org/lkml/20241216165105.56185-11-dev.jain@arm.com/
+>
+>Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+>Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>Acked-by: David Hildenbrand (arm) <david@kernel.org>
+>Acked-by: Usama Arif <usama.arif@linux.dev>
+>Co-developed-by: Dev Jain <dev.jain@arm.com>
+>Signed-off-by: Dev Jain <dev.jain@arm.com>
+>Signed-off-by: Nico Pache <npache@redhat.com>
+>---
+> mm/khugepaged.c | 8 ++++++++
+> 1 file changed, 8 insertions(+)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index c2769d82a719..191e529c185c 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -697,6 +697,14 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+> 				goto out;
+> 			}
+> 		}
+>+		/*
+>+		 * TODO: In some cases of partially-mapped folios, we'd actually
+>+		 * want to collapse.
+>+		 */
 
-Thanks for your quick feedback. But please keep a rule in mind - Do not 
-top-posting in the LKML.
+Partially mapped folios can be handled later :)
 
-I will review patch v2 ASAP.
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
 
-Dongliang Mu
-
->
-> Best,
->
-> On Mon, Jun 8, 2026 at 8:03 AM Doehyun Baek <doehyunbaek@gmail.com> wrote:
->
->     Changes since v1:
->     - Revise both commit messages to follow the translation update format
->       documented in Documentation/translations/zh_CN/how-to.rst.
->
->     Doehyun Baek (2):
->       docs/zh_CN: update DAMON usage Chinese translation
->       docs/zh_TW: update DAMON usage Traditional Chinese translation
->
->      .../zh_CN/admin-guide/mm/damon/usage.rst      | 56
->     +++++++++++++------
->      .../zh_TW/admin-guide/mm/damon/usage.rst      | 56
->     +++++++++++++------
->      2 files changed, 80 insertions(+), 32 deletions(-)
+>+		if (!is_pmd_order(order) && folio_order(folio) >= order) {
+>+			result = SCAN_PTE_MAPPED_HUGEPAGE;
+>+			goto out;
+>+		}
+> 
+> 		if (folio_test_large(folio)) {
+> 			struct folio *f;
+>-- 
+>2.54.0
 >
 >
->     base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
->     -- 
->     2.43.0
->
->
->
-> -- 
-> Doehyun Baek
-
