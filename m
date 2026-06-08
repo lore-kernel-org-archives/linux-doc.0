@@ -1,95 +1,160 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC2E3E024E;
-	Mon,  8 Jun 2026 18:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FE13BFAFC
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 18:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780943450; cv=none; b=aWzbtca2cONVMSRYrBzSdAYiYyQq40H2d/j2UgEdG5cXrVxAdJrSzln7hv5MYXM4DtpCijdseZnpcmkLy0uFApku8oEe7btNaiuoz/qqQQ+FokTbeHpMptvj36Mb7t8llhSgYfkgHCbH1QNlpenYoFn5xH8n9z8AzJDwkp0+w6A=
+	t=1780944827; cv=none; b=e+YTuEkjpKqBE3ZwugpIbMGSxwGQ85eaEg5DCsPi1TEnIDKEbBtgbdIZSrslFJh/ndV4HLPf4PRK/OtR1D9ek6WPlJkh3ce2rd41+wlt62qTk0en2Zq0NuIoWcZK+pXdoLSPEjaNChtLwP7FfJWs0W3IHcBUd5deY/QzLybVk98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780943450; c=relaxed/simple;
-	bh=l2CCe2FiwM7hImDt3P/B27P9SswDzM2ynXhOYSi6Kwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UrAxBssduEGnIdCT1PtRy7iJvwR26GQI6SYOj681u79Iu2u9tfI3WQkDbpEw2HsZvF4JmSeWxfqAab/mHQUWl7fpxhIVGA9RB1Zs7Q/T86bo/jgqaz6nJnd3nTuyur17WhgxaZA1R+etMQ3I+AGWPHMvMiYw6EbtHJsLx6HU6Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RQ4Z9Jmt; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780944827; c=relaxed/simple;
+	bh=JhJiYHBQMlgqVMI+Byg96PgAXdUSZc6+MFD16ZcFtqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pXI18/IM/5+Rbu3NEkNUmxdixGDIxnvSWe8yXWyaqU/qymBUgs+WeX+Nv3OpA3vKrj8LyWxSQPIvO4uXEv1uePyWu+o1x9lyK+gJEKbliqce0HZKcZYKO6TEvjhRdR5bImKBMnakJ45O8ah46qeYE+sMJzrTgAfVsJIq7VyAGlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rp7AqRvg; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RQ4Z9Jmt"
-Date: Mon, 8 Jun 2026 11:30:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780943437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PmLJLwbACmSpy0OGKa5SysPCZAKs+2N+AqhTk3vlywA=;
-	b=RQ4Z9JmtTMCyeeCpVsedvqzD/00GplaWZelxpPu7MKe0hgH/D4oq26BfXkKgbAsc8aVISx
-	0dVOaVhOg8P/GOPke6vFPYnbnj3hglW6W/RYv8cGOgz68ReHBb9gD2cscXKE0rVhqsM94E
-	cClwVTCnUo4rVdQ9Xs9yHCXOJuV3R0U=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
-	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-Message-ID: <aicJBVT4pBvmyooT@linux.dev>
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-3-jiahao.kernel@gmail.com>
- <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
- <aho_VtLCmIRsNyvO@google.com>
- <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
- <aiBqzOtEv5iAC_qC@google.com>
- <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
- <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rp7AqRvg"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf2e8ccca1so33452885ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 11:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780944825; x=1781549625; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=adpIDBscFhAxzJ7fCV0yB9YyfcwaYNNFcmJcu4Yqx0o=;
+        b=rp7AqRvgm7OBSepiQQcP/Y2Set/W6cvhf8iziOmF0kVwqf212mW86t+kjFHsmW+XBR
+         vQTTAN1NV1C5sLy7r9zoEVgfuzGs9IpQMpd3mTaMvFK4dlLXEIKmE3drQRMd1cf8zx2T
+         H0Nl+MDP0Lyx30pkGYAwbB2z/UbR1n1URljYh3hkO8PGzHPhn+4bi6PEWkoA0O5f5fyU
+         HLtTKlIfe8zG6ZHzm/sAkhc6uZfYa/PROA4oymSclbCOAKAvZQzrqb7Zs9dsBv05/pSY
+         Um/9fs6YCTa1mIE8td9zBtl3wazkSo1yhJ2zPrfNAKumsc0n2KMHqetvKXZx3iuA3oON
+         8j2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780944825; x=1781549625;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=adpIDBscFhAxzJ7fCV0yB9YyfcwaYNNFcmJcu4Yqx0o=;
+        b=Xxisyt7AdpK3sAhaZzsu1vx0M17N3NEx2irC8lZi9x4PHHGRN0WEANpc/0XjAHLrd6
+         ZaG5wTlPrAKadlv/OvWtGDKDa9U9oVMPjdp0vi64mAD4icVfqwEUjragbNA/hHPVUiPX
+         l1FdBSGNbXzeKMkzt+5aIAbGIAxt1R1lzzvN+jkvIkWz/qWOWx8nOZ2N1xsI3gOeV/2B
+         IIyEnz9OAKWGiIavuqnIs8qk7F+jyOUbfODWhww5f9hejS+4fTYR41hfwy+od262eahx
+         wh786CQ3jr/sAVjGgauqWXXP/J43cnt7Yb31slLL06UmA2G2jqFBH3cx1Ou8s0SZgXGb
+         V4fA==
+X-Forwarded-Encrypted: i=1; AFNElJ8hWXshqjyuxjzdryH5acjvX91mvMOTyB5sFUykaRPORimFxadWPp6GrBhcR0l/juMqURda4kcXJ7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+cyBuHxqLDF7aeOX/vJXCP30QM8LVCFHMotCjtBWGajG5MXRV
+	T9p6LQe7z2JveUd6zEbU41N9UHDl6ukig4yImlCUQjOFkKX6mhVm+gaQ
+X-Gm-Gg: Acq92OGklmrUE+PAV6yMlMnCtUn92Yo+1oX1QQiovZFAzs21p782Br/bPNoYgAYxQEH
+	8XWy0B9JSCjjhVUvHsfokVWyDWrFN8tFxL47GkVtzGH/xs1yQzeMVO51cSxg9dX2Q0ntyQLiOJk
+	fkxSyGQlGwXIE0YiKQTqTWephAXnXFR6QV8bkJNiTeUNbcoNwamwENj11w9cQ9hrmrpT4p8UBKw
+	NmxTRrQMFyCoqrZkqsh4hwn2JGLtyAVjMDzOI+XIOPG6eqaSh4PX4+/6IO42GKT6U6Un6Ey1RI+
+	p167nRSCG0yfK/VbMWJRbPfuRaXGmdRdnplKdvpoYuAJsehtJGMWINtfMdB2h5+j2ePObJxBn45
+	b6f1FuYiXsVQWuvbvHJabp3QtBxeH0ob5A/Q17cUdrMDOcNXap0kHBgJ5CsDNz7o95cRhwHnA3C
+	lDGqIgvZEj7scijjhX6zdQjVjZJ9IgBULC00S2exdxDE4wln5xnJId63DTB789QecwYVYTB1HrQ
+	Nyc32YxJlA=
+X-Received: by 2002:a17:902:d48e:b0:2c2:9a1e:6099 with SMTP id d9443c01a7336-2c29a1e63f3mr11148545ad.23.1780944825427;
+        Mon, 08 Jun 2026 11:53:45 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649bde7sm191933075ad.72.2026.06.08.11.53.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 11:53:44 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <fdbbce52-6831-4a2c-970c-ff0951483947@roeck-us.net>
+Date: Mon, 8 Jun 2026 11:53:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] watchdog: improve comments & Documentation
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-watchdog@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20260529212024.2119204-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260529212024.2119204-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 03, 2026 at 10:36:07PM -0700, Yosry Ahmed wrote:
-> > >> But doesn't it make more sense to specify the compressed size, which is
-> > >> ultimately the amount of memory you actually want to reclaim.
-> > >>
-> > >
-> > > I personally prefer compressed size to pre-compressed size. That's
-> > > kinda what user cares about, no?
-> > >
-> > > One thing we can do is let users prescribe a compressed size, but
-> > > internally, we can multiply that by the average compression ratio.
-> > > That gives us a guesstimate of how many pages we need to reclaim, and
-> > > you can follow the rest of your implementation as is (perhaps with
-> > > short-circuit when we reach the goal with fewer pages reclaimed).
-> >
-> > Got it. I will change it to use the compressed size in the next version.
-> >
-> > Yosry, Nhat, should we continue using the zswap_writeback_only key to
-> > trigger proactive writeback?
+On 5/29/26 14:20, Randy Dunlap wrote:
+> Add the missing devm_watchdog_register_device() to watchdog-kernel-api.rst.
+> Convert some struct and function comments to kernel-doc format.
+> Add some UAPI comments for quick reference.
+> Correct some grammar and bulleted list format.
 > 
-> I *really* want the memcg maintainers to chime in here, it's
-> ultimately their call.
+> v2: modify comments in patch 3/5 per sashiko review
 > 
-> Michal? Johannes? Shakeel? Roman? Anyone? :D
+> [PATCH v2 1/5] watchdog: add devm_watchdog_register_device() to watchdog-kernel-api
+> [PATCH v2 2/5] watchdog: linux/watchdog.h: repair kernel-doc comments
+> [PATCH v2 3/5] watchdog: uapi: add comments for what bit masks apply to
+> [PATCH v2 4/5] watchdog: core: clean up some comments
+> [PATCH v2 5/5] watchdog: dev: convert to kernel-doc comments
+> 
+>   Documentation/watchdog/watchdog-kernel-api.rst |    8 ++++
+>   drivers/watchdog/watchdog_core.c               |   12 +++---
+>   drivers/watchdog/watchdog_dev.c                |   30 +++++++--------
+>   include/linux/watchdog.h                       |    8 +++-
+>   include/uapi/linux/watchdog.h                  |    2 +
+>   5 files changed, 37 insertions(+), 23 deletions(-)
+> 
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: linux-watchdog@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
 
-Between the options of having an explicit interface (i.e.
-memory.zswap.writeback*) or a key (i.e. zswap_writeback_only) to memory.reclaim
-interface, I prefer the key option. I have not looked into how much proactively
-reclaiming zswap memory or proactively triggering zswap writeback makes sense
-but from the perspective of memcg interface, I think the key option would give a
-more clean solution if we decide in the future that this whole thing was a bad
-idea.
+Series applied.
 
-Next regarding future proofing zswap writeback trigger, do we expect any
-potential additions/changes/new-features for this interface? For example do we
-expect in future we may want to trigger the zswap writeback only from a specific
-node or lowest memory tier?
+Thanks,
+Guenter
+
