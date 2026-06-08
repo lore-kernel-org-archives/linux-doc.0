@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD4D2DCF61;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE812DECDE;
 	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780923872; cv=none; b=sGtS0lQa7Qfno30NE7mpwXuZ71r1Sqr8yF5y/wNjMwgI7nu36RYyxr+ryGKWZ+VsiwRJ0C+xNlQFb/yMDdRY1CpFpWH8oPDJtsMUOcFyLmv1X21oMIFPnGUpbSvY4uvzfXkR2miuelFX0qB3qkETSqbqt3YhOn7tqC6C5IQMtI0=
+	t=1780923872; cv=none; b=aSt8XsTXd925pLmKg+QL3LC/b5Xx41/7zK5e7L+MdWftEtw9QVECa2ROOcuV0YT4N1xFgUshBml0ksCNuLc3Rgp8PJiB/38EvJxcmoT9d4yValb9ZhnzUYC99Bjo/ElqPkDgsDkbphv6ufYm02M9MVhlbAkdsqCdrOuxe2pC3PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780923872; c=relaxed/simple;
-	bh=zPxTtbsa7WrsOYN3+mq/8LQ5vUJNuCmxdq1/sxR2zS8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qqZq8nnsM4u/6x4PmoNONh1xxhOyaMfh0R1PVjVsshG2uwBDZelIfo95JvOna3lvLbS55gaSJsMt5Dou0J2dM17AcgJCHmFVYygZkjNZYETverPT+zZdA9hf80wCBPh3wawEPiwbSI8nXsd1FBYL8LiWgB0RkKXoC2JTjQQyWqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqNKg9Ug; arc=none smtp.client-ip=10.30.226.201
+	bh=knZSIpSnPyE8xSKnsSBICwc7zFH7EviJsK2ZsdUIYnE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=k8qmXS20A+kHib8gcxKrbi3ruJUtJLQMcB4KydKaatB5PwFC4Klf6JLZVmqEhk/Be1eWUhLmM0E+EYRASTO5KRUizYp3iJ6lPJWf74CEsfKsztnRcc35IQWGQosECJ0ogIi+ttfCeGCKWbyiB4nxX1NBWUwN+1x8ShlIhW260xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rISwU/tW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqNKg9Ug"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B578C2BCC7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rISwU/tW"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 132FAC2BCB0;
 	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780923872;
-	bh=zPxTtbsa7WrsOYN3+mq/8LQ5vUJNuCmxdq1/sxR2zS8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=mqNKg9Ugb/Sr0oORSVEsbjWYwtZZS8b+Jks2iZ4F03obMS4rVDGfRINxdSxNFvvCD
-	 /KpJvrm3mUW/oPaGjlIrf+DK1qEwXn5+oS02mBPz+Olej9yUJbL/siF6BHTCpLHKWP
-	 zY0a2C9RiUjC7tVUFeXPT2wy/DSn0ovY6yR7ZxR3PW7u9hxZtn0Thp9S3KaJ7+wEsh
-	 DnxlvvfDaw+7kj3PBOzxFnqcGRQb0ihvTbIo/JDepcCY4Zwe8kHqe58xWhQudOUJqI
-	 C0I5SBJphWQZOZJRTQSbs5z/btPw7/KG43cxjeaofF55QOkuNu/zuQDDkY98Nu+vJV
-	 a8yTCauOEjPlQ==
+	bh=knZSIpSnPyE8xSKnsSBICwc7zFH7EviJsK2ZsdUIYnE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rISwU/tWKJr9ayrMHDqlBuAtj95K6grT9KWL+pfdkw9bStIG4Us7SUDTCL/vS2LUJ
+	 BlOFauBPiqy6Pvm18Q+JrlnhptZbug+7FuGZcUtzgzL3/CGh5vwvXwotBSSoIXzSaN
+	 PHleM5LjPFf2E9y23VHBgZhWKrzMDd1tASNSx0CXaVFjDdlSF7Vr9RwavFGupHPIXd
+	 q60az/sYpgR+qXZ/oVH3UILZqPDU3t7Z5gud3kmm4gIl2IwNxI0KLSbLcnzkgE1vEi
+	 xx7HXtJxZrM7Rm+PMXqla2mZozB0Ydue6vf+74aGT4gTegwr4GzMX7K7+Aj5fKqC8E
+	 L7f5xXr39jnTQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C349CD8CA4;
-	Mon,  8 Jun 2026 13:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F0DCD8C92;
+	Mon,  8 Jun 2026 13:04:31 +0000 (UTC)
 From: Ferdinand Schwenk via B4 Relay <devnull+ferdinand.schwenk.advastore.com@kernel.org>
-Date: Mon, 08 Jun 2026 15:03:55 +0200
-Subject: [PATCH v2 2/3] hwmon: Add update_interval_us chip attribute
+Subject: [PATCH v2 0/3] hwmon: ina238: add samples and update_interval_us
+ support
+Date: Mon, 08 Jun 2026 15:03:53 +0200
+Message-Id: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,20 +41,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260608-hwmon-ina238-update-interval-us-v2-v2-2-2d939fbb2ea1@advastore.com>
-References: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
-In-Reply-To: <20260608-hwmon-ina238-update-interval-us-v2-v2-0-2d939fbb2ea1@advastore.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2N0QqDMAwAf0XyvECWipT9ythDWOMMbFFa7Qbiv
+ 6/4eHDc7VA0mxa4dTtkrVZs9gZ86eA5ib8ULTUGJh5ooIjT9zM7mguHiNuSZG2Kr5qrvHErWBm
+ voe9jUhKKAVpoyTra75zcH8fxB21awOR0AAAA
+X-Change-ID: 20260608-hwmon-ina238-update-interval-us-v2-13448de0a083
 To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>
 Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, richard.leitner@linux.dev, 
  ferdinand.schwenk@advastore.com
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780923870; l=3761;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780923870; l=2059;
  i=ferdinand.schwenk@advastore.com; h=from:subject:message-id;
- bh=ELOnjfl7Dn3Giu687ra69+/+CdOra2o1Nm0Uowf4NgA=;
- b=DWmKn7iigDqsaqFGdT15Qyzg8ASYqenNdUqsJphTmIWTlVq41CDJF3aYq86BmIVIEvoJOkfAP
- hy2YyOuvUQOD76sfnpjhRToLtDmDOHOkZPaE+aT04m1f9RDa+dcCbww
+ bh=knZSIpSnPyE8xSKnsSBICwc7zFH7EviJsK2ZsdUIYnE=;
+ b=karf5InTqgmwXUQey41hm4GWNyEIIzDyLm8CEDUcT6bGJBWHKWYy1U7e84zX0gZvGBv/6TyNa
+ SA6Mb74wTlCCpux0f9J1u697Iyv/Tzb26dJLd3/KYJEKyWmwQe6IfFx
 X-Developer-Key: i=ferdinand.schwenk@advastore.com; a=ed25519;
  pk=HyA9NdHJ7NystP+1SyuWJeyXNH2EO4A09FXli9mfs9Q=
 X-Endpoint-Received: by B4 Relay for
@@ -61,98 +63,50 @@ X-Endpoint-Received: by B4 Relay for
 X-Original-From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
 Reply-To: ferdinand.schwenk@advastore.com
 
-From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
+The INA238 family exposes ADC averaging and conversion timing controls
+through ADC_CONFIG. Add support for the samples and update_interval
+chip attributes and introduce a generic update_interval_us companion
+attribute for devices that need sub-millisecond resolution.
 
-Some hardware monitoring chips support update intervals below one
-millisecond. The existing update_interval attribute uses millisecond
-granularity, which causes sub-millisecond steps to round to the same
-value and become inaccessible from userspace.
+The shortest INA238 conversion time steps are below 1 ms, so several
+valid hardware settings collapse to the same update_interval value when
+reported only in milliseconds. Keep update_interval in milliseconds as
+required by the existing hwmon ABI and provide update_interval_us to
+report and program the same total conversion cycle time with microsecond
+resolution.
 
-Introduce update_interval_us, a companion chip-level attribute that
-expresses the same update interval in microseconds. Drivers
-implementing this attribute should also implement update_interval for
-compatibility with millisecond-based userspace interfaces.
+Patch 1 adds samples and update_interval support for the INA238 family.
+Patch 2 adds the generic hwmon update_interval_us attribute and
+documents it.
+Patch 3 wires the new attribute up in the INA238 driver.
+
+Link: https://lore.kernel.org/all/20260522-hwmon-ina238-add-samples-update-interval-v1-0-e1acfceb447e@advastore.com/
 ---
- Documentation/ABI/testing/sysfs-class-hwmon | 14 ++++++++++++++
- Documentation/hwmon/sysfs-interface.rst     |  4 ++++
- drivers/hwmon/hwmon.c                       |  1 +
- include/linux/hwmon.h                       |  2 ++
- 4 files changed, 21 insertions(+)
+v2:
+- keep update_interval in milliseconds to preserve the existing ABI
+- add the generic update_interval_us hwmon chip attribute and documentation
+- implement update_interval_us for ina238
+- report and program intervals using the active averaging count
 
-diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
-index cfd0d0bab483..b185bdfc7186 100644
---- a/Documentation/ABI/testing/sysfs-class-hwmon
-+++ b/Documentation/ABI/testing/sysfs-class-hwmon
-@@ -27,6 +27,20 @@ Description:
- 		Some devices have a variable update rate or interval.
- 		This attribute can be used to change it to the desired value.
- 
-+What:		/sys/class/hwmon/hwmonX/update_interval_us
-+Description:
-+		The interval at which the chip will update readings,
-+		expressed in microseconds.
-+		Unit: microsecond
-+
-+		RW
-+
-+		Some devices have a variable update rate or interval and
-+		require finer-than-millisecond control.
-+		This attribute can be used to change it to the desired value.
-+		Drivers implementing this attribute should also implement
-+		update_interval for millisecond-based userspace interfaces.
-+
- What:		/sys/class/hwmon/hwmonX/inY_min
- Description:
- 		Voltage min value.
-diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
-index f76e9f8cc1ad..94e1bbce172a 100644
---- a/Documentation/hwmon/sysfs-interface.rst
-+++ b/Documentation/hwmon/sysfs-interface.rst
-@@ -106,6 +106,10 @@ Global attributes
- `update_interval`
- 		The interval at which the chip will update readings.
- 
-+`update_interval_us`
-+		The interval at which the chip will update readings,
-+		expressed in microseconds for finer resolution.
-+
- 
- ********
- Voltages
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index 9695dca62a7e..c481bb535e35 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -572,6 +572,7 @@ static const char * const hwmon_chip_attrs[] = {
- 	[hwmon_chip_curr_reset_history] = "curr_reset_history",
- 	[hwmon_chip_power_reset_history] = "power_reset_history",
- 	[hwmon_chip_update_interval] = "update_interval",
-+	[hwmon_chip_update_interval_us] = "update_interval_us",
- 	[hwmon_chip_alarms] = "alarms",
- 	[hwmon_chip_samples] = "samples",
- 	[hwmon_chip_curr_samples] = "curr_samples",
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index 301a83afbd66..5a5882fee299 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -39,6 +39,7 @@ enum hwmon_chip_attributes {
- 	hwmon_chip_power_reset_history,
- 	hwmon_chip_register_tz,
- 	hwmon_chip_update_interval,
-+	hwmon_chip_update_interval_us,
- 	hwmon_chip_alarms,
- 	hwmon_chip_samples,
- 	hwmon_chip_curr_samples,
-@@ -55,6 +56,7 @@ enum hwmon_chip_attributes {
- #define HWMON_C_POWER_RESET_HISTORY	BIT(hwmon_chip_power_reset_history)
- #define HWMON_C_REGISTER_TZ		BIT(hwmon_chip_register_tz)
- #define HWMON_C_UPDATE_INTERVAL		BIT(hwmon_chip_update_interval)
-+#define HWMON_C_UPDATE_INTERVAL_US	BIT(hwmon_chip_update_interval_us)
- #define HWMON_C_ALARMS			BIT(hwmon_chip_alarms)
- #define HWMON_C_SAMPLES			BIT(hwmon_chip_samples)
- #define HWMON_C_CURR_SAMPLES		BIT(hwmon_chip_curr_samples)
+---
+Ferdinand Schwenk (3):
+      hwmon: ina238: add support for samples and update_interval
+      hwmon: Add update_interval_us chip attribute
+      hwmon: ina238: add update_interval_us attribute
 
+ Documentation/ABI/testing/sysfs-class-hwmon |  14 +++
+ Documentation/hwmon/ina238.rst              |   4 +
+ Documentation/hwmon/sysfs-interface.rst     |   4 +
+ drivers/hwmon/hwmon.c                       |   1 +
+ drivers/hwmon/ina238.c                      | 160 +++++++++++++++++++++++++++-
+ include/linux/hwmon.h                       |   2 +
+ 6 files changed, 183 insertions(+), 2 deletions(-)
+---
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
+change-id: 20260608-hwmon-ina238-update-interval-us-v2-13448de0a083
+
+Best regards,
 -- 
-2.54.0
+Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
 
 
