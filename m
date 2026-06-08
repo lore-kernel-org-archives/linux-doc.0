@@ -1,106 +1,151 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68383E717D
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 19:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25AA350A05;
+	Mon,  8 Jun 2026 20:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780948238; cv=none; b=SGDZtEy6mKsODxcLsxpgu1TR+ky/7h0KMk1y54TsdHHzrzmybS2V5VNIX/VNDywT3cL0mQ9AdavJJNNabQR/VgA3uMN4pPnz3u/z+K3dJvS3aMQ3gnPP/lXMjq6Dq+57UZG+Z/mRyXJs9vm6MWGkV46Kw54G6UCeUvcWlpYq/ko=
+	t=1780949929; cv=none; b=l8YM6TEwY9lRkXw5kWv7XRTGoGFWv5aXIBVe1f3j9kcxM2fspJdY+BycdrsaECZJYweXRXNxWa3+XbWVCfWx3T9kaQvYYzLOoNzO23PI6RWx+aW6pjVs8VPglm784ivITTWtajnBTVRdj1v92ka9MrK5D8ALfd1YE2fNacrbQ14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780948238; c=relaxed/simple;
-	bh=QbpVzfVc4z1sGneEviDuKx+1h4GgvHHeeDGNVEAHAfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NiMODl6EHri5zlfu7TdXWT4JyHa6tmGcSTJSWZb2/oG7NNSyhTIYVowjUdVuY1ockuQOY0LGdK35xnIDrU/7G2DKheZfwW7XwZ4h5Jcx6SgaZEYQDYAdnfg7k9+/r3ntt8U4ta9OFgA7AT4Kc8Eo3Li/3RCmAYieeGcoKqxoXBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=c2/gonYM; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780949929; c=relaxed/simple;
+	bh=zkCy7ZbUyKxmWX9iJHWq8kboagFoaOWaihLlM2Uy8Y0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=F5DHlqsWUhRxQyamB167xRmvDR6yJGGGgI7gAAfqfaTtn2Pj9ErwcH9UcmqSA6ygDoyWr6nNz3pigIoeC7LD5fbVh7aEPlVLHNN+sRE6rnmAK5Gz1bQGUljsVVE4TNPlNuA5R5dahQIK2hDR8HsP71IDVgu00GUAnx8aIlr2YL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+43Rb23; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="c2/gonYM"
-Date: Mon, 8 Jun 2026 12:50:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780948224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gpMcdQqQNsSXJkHf7o33LPCAH/sDumLYvx0osSZwQns=;
-	b=c2/gonYMrRlOyUbx6j7slsmXtXB/NhjBZq7g94qgLh/kp1ZYqDCE+V3jnmCSdBXVF9PVPq
-	jsm3Fnnh3v1Xi6aHkZM9o1sgYR2Thfk/7YUjCIPUFQBqZDQ3YQ8qjkvXsR/Lend79SC2X3
-	tHEq9iEQPu6KM9KQ7LjZiPKoUudHkUk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Hao Jia <jiahao.kernel@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
-	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, youngjun.park@lge.com
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-Message-ID: <aicZ-5GX9De3MAU7@linux.dev>
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-3-jiahao.kernel@gmail.com>
- <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
- <aho_VtLCmIRsNyvO@google.com>
- <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
- <aiBqzOtEv5iAC_qC@google.com>
- <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
- <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
- <aicJBVT4pBvmyooT@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+43Rb23"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F891F00899;
+	Mon,  8 Jun 2026 20:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780949928;
+	bh=9JIpOL9jynq221RYhFtl6wvHMOB90agMSVGCmlflxck=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=E+43Rb23F/TeC2jS3QxM7i2QCwsebeUDB1s2JyRSFaNcpQO3OBvhUGWl+MlHLiGAj
+	 MaBgcwEhD/tKDpn7wcIeemxbr3hN+BBOUhB00A4gUGPxLKtSZaPqsR0+kCa/CpGVYt
+	 bK2qd5JTWLoG6MEC9hVlp/5WWMm9ULOuXU/cdeBOVknvpJRgQ93dTqWRwTCd4XkjyK
+	 U1rZo+QyyH+QLK9UWetdsnJ/AGj/ArK0VSwwwiWxYiFhDgtqTs9/vqmyfgFgo14GCc
+	 UFxWsxkhQVHBNBPlDTlUNKDfJf3FE0goV65AadHi8OqDWXvsK0iS7jY4oAhYsasQ6y
+	 u7XDh7dFbmOQg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 6CC50F4007D;
+	Mon,  8 Jun 2026 16:18:47 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 08 Jun 2026 16:18:47 -0400
+X-ME-Sender: <xms:pyMnasY5iEExsI72rC30IBqZzj1-PSGA95daF3sYSLShWGkrDoCa7g>
+    <xme:pyMnaiNR_xy1yOl9eOPMnTzbAarjS91DFVvWIMAXE9P2s80zcnFVk8kFxeSSh7183
+    GRU06qIr07r1F8F8fBtMTgSxr1veFz4e3NoUvUHQrn9iLQIT_5LFnaM>
+X-ME-Proxy-Cause: dmFkZTGHPggZzlgsaUEswWux71So2C9txG/i+VzijxF0YhQPto13bxlbgvh4lqSDPpawDs
+    slVRfhYQxnQZXIO1gUSEimRMHsQuiPX7kLiLB7r+e6oYegUDEU5U6A6UGLISUe/k0KzZGm
+    OGh67TR+rBBdkvtZS8HsSmOeYWvMjDibtpP/uAm94vJddG+DW7Ig6JbcWi5RVtb44io76D
+    aivdj1pWbR0ectF4azQB1cnYpS2ZszGFWtcy46brsz49ltyGFftFU0lMP9WN0LuST0lfvN
+    A9GulhN9VXqssV10xVP3Mv82foMEYvWBectQ/XPSYc3LSreBypsmSXoAJqASLZKidlGmK2
+    h3xMt+KuiLCktmOSfTZO7q7GZRigFCZM+7cVICDP85KdCEroTYNc3z8HmfNhj05PFulqpO
+    EuV2lTSnSVqzB3sRyyBt9cteIJsaoLpWuhKp2/5UmK8Z0j3x3CCtiMtWZXKRwNV3PtXu4Q
+    3cOz2s0H1QRuP+lqTDC7sqp5BpjaY6tPGzfycnlbZV77Gtzjzd2FEHVNs0h2Uy/5QD55Xw
+    uiDPdj0KuHhgQJFqEig9JhKASOFWABOR+Jg0GJh0T/dFEiFIL9jgACNf9mr7VcW2FZFm+n
+    lTraLT3DyFYhd3XpfRiDHM+50rb0w2QqDtxfPbocxy+aI1Hjr4CxJu5+A0AQ
+X-ME-Proxy: <xmx:pyMnapAcL1Mdh5uFHt2_p4LROnLLgFDbfgtDnMWvrFOavnxrctUN_A>
+    <xmx:pyMnaukf1LP6VAEPCyhsrOXIL3B3wa0zSP0ilpClPRs8bH89bLsC_A>
+    <xmx:pyMnasQNk6g6zvUtJg6MFRntrjZJ-zuZoL366_VFqKSwgzPFs5U5vw>
+    <xmx:pyMnaqKouVd66QndLsye5jMchF2lEy8M9vkzcIBVpCoegb8qOqnwcw>
+    <xmx:pyMnaq9moJfAc8rBqO5CE3Yw0c5r4O_kJJiWoZvVn2YRv90eQn1eb34V>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 4436C780070; Mon,  8 Jun 2026 16:18:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aicJBVT4pBvmyooT@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+X-ThreadId: Aa4qv74Ug3eB
+Date: Mon, 08 Jun 2026 16:18:26 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <566fd48c-bf10-4974-9ee4-1afc30b7a69c@app.fastmail.com>
+In-Reply-To: <20260522-dir-deleg-v5-9-542cddfad576@kernel.org>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+ <20260522-dir-deleg-v5-9-542cddfad576@kernel.org>
+Subject: Re: [PATCH v5 09/21] nfsd: add data structures for handling CB_NOTIFY
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-+Youngjun
 
-On Mon, Jun 08, 2026 at 11:30:30AM -0700, Shakeel Butt wrote:
-> On Wed, Jun 03, 2026 at 10:36:07PM -0700, Yosry Ahmed wrote:
-> > > >> But doesn't it make more sense to specify the compressed size, which is
-> > > >> ultimately the amount of memory you actually want to reclaim.
-> > > >>
-> > > >
-> > > > I personally prefer compressed size to pre-compressed size. That's
-> > > > kinda what user cares about, no?
-> > > >
-> > > > One thing we can do is let users prescribe a compressed size, but
-> > > > internally, we can multiply that by the average compression ratio.
-> > > > That gives us a guesstimate of how many pages we need to reclaim, and
-> > > > you can follow the rest of your implementation as is (perhaps with
-> > > > short-circuit when we reach the goal with fewer pages reclaimed).
-> > >
-> > > Got it. I will change it to use the compressed size in the next version.
-> > >
-> > > Yosry, Nhat, should we continue using the zswap_writeback_only key to
-> > > trigger proactive writeback?
-> > 
-> > I *really* want the memcg maintainers to chime in here, it's
-> > ultimately their call.
-> > 
-> > Michal? Johannes? Shakeel? Roman? Anyone? :D
+
+On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> Add the data structures, allocation helpers, and callback operations
+> needed for directory delegation CB_NOTIFY support:
+
+> diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
+> index 9c6e2e7abc82..505fabf8f1bf 100644
+> --- a/fs/nfsd/state.h
+> +++ b/fs/nfsd/state.h
+> @@ -197,6 +197,44 @@ struct nfs4_cb_fattr {
+>  #define NOTIFY4_EVENT_QUEUE_SIZE	3
+>  #define NOTIFY4_PAGE_ARRAY_SIZE		1
 > 
-> Between the options of having an explicit interface (i.e.
-> memory.zswap.writeback*) or a key (i.e. zswap_writeback_only) to memory.reclaim
-> interface, I prefer the key option. I have not looked into how much proactively
-> reclaiming zswap memory or proactively triggering zswap writeback makes sense
-> but from the perspective of memcg interface, I think the key option would give a
-> more clean solution if we decide in the future that this whole thing was a bad
-> idea.
-> 
-> Next regarding future proofing zswap writeback trigger, do we expect any
-> potential additions/changes/new-features for this interface? For example do we
-> expect in future we may want to trigger the zswap writeback only from a specific
-> node or lowest memory tier?
+> +struct nfsd_notify_event {
+> +	refcount_t	ne_ref;		// refcount
+> +	u32		ne_mask;	// FS_* mask from fsnotify callback
+> +	struct dentry	*ne_dentry;	// dentry reference to target
+> +	u32		ne_namelen;	// length of ne_name
+> +	char		ne_name[];	// name of dentry being changed
 
-Youngjun is working on swap tiers. At the moment he is more interested in
-allowing a specific swap device to a memcg or not. I can imagine in future there
-will be use-cases where there will be a need to demote data on higher tier swap
-to lower tier swap. What would be the appropriate interface?
+Nit: checkpatch doesn't like the C++ comment style.
 
-BTW does zswap folks think of zswap as a top swap tier or something different?
+
+> +};
+> +
+> +static inline struct nfsd_notify_event *nfsd_notify_event_get(struct 
+> nfsd_notify_event *ne)
+> +{
+> +	refcount_inc(&ne->ne_ref);
+> +	return ne;
+> +}
+> +
+> +static inline void nfsd_notify_event_put(struct nfsd_notify_event *ne)
+> +{
+> +	if (refcount_dec_and_test(&ne->ne_ref)) {
+> +		dput(ne->ne_dentry);
+> +		kfree(ne);
+> +	}
+> +}
+> +
+> +/*
+> + * Represents a directory delegation. The callback is for handling 
+> CB_NOTIFYs.
+> + * As notifications from fsnotify come in, allocate a new event, take 
+> the ncn_lock,
+> + * and add it to the ncn_evt queue. The CB_NOTIFY prepare handler will 
+> take the
+> + * lock, clean out the list and process it.
+> + */
+> +struct nfsd4_cb_notify {
+> +	spinlock_t			ncn_lock;	// protects the evt queue and count
+> +	int				ncn_evt_cnt;	// count of events in ncn_evt
+> +	int				ncn_nf_cnt;	// count of valid entries in ncn_nf
+> +	struct nfsd_notify_event	*ncn_evt[NOTIFY4_EVENT_QUEUE_SIZE]; // list 
+> of events
+> +	struct page			*ncn_pages[NOTIFY4_PAGE_ARRAY_SIZE]; // for encoding
+> +	struct notify4			*ncn_nf;	// array of notify4's to be sent
+> +	struct nfsd4_callback		ncn_cb;		// notify4 callback
+> +};
+
+Ditto.
+
+
+-- 
+Chuck Lever
