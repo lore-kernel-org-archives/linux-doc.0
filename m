@@ -1,294 +1,651 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72483947AC
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864F8309F09;
+	Mon,  8 Jun 2026 20:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780950716; cv=none; b=nuu00BChoYmVslweFcTArxoJd7pwFGcUwT9Hvt4dfMq/1ygyDW9HS0yUEVISLp82ymKZK+gX6jxSgMTDd3xlB3XYX+PN6NvBRpSLEMecy071o4t/0AR6/gq9RjJkWO5h1rnemftYFLAe4LY6x87je9i8ZKSeCDJg5BIrYWf01PU=
+	t=1780951224; cv=none; b=We0vQl6wwBYevB4x/zZAEJ7PXsKyjXvmZqirnmtapdb17PppwfxhdFvtO3ibOl0Em6Nray+XEV7CKkCsNgVLOLUe7IOoKNTqIYvwdJQJAHJQCZIMgxSTl76j0nAMkic8GwcSJu5mjGkA//isTdrHSKLcpxCV34i5YyReZeJD0m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780950716; c=relaxed/simple;
-	bh=/R+qFNq2MRWIRpASjDvEa9edwehTODKYWPwF4Ig6JSA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UfKDd5un0IgsrON0JL6bf+KW6mLyOdYQuzSbMWGzy1Kw6sOlqkZ7EWVpv9EiakUW6BB11j86UUvMKO5tgdFTwrWdkWfx47qL5X3P2+aZ1xlxaTgw9C9ixqgi7Mko8K63+ZGc7C+k2k4GRnQuQDOXoeGSXS9wcpc9AutL7iaSNCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IdXurBZu; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780951224; c=relaxed/simple;
+	bh=0+eedel6mipb5uH1WwrFw2dzSPdwW0cEOIdhrABhsWc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=RSjpGm5hJ20gMoIhb8Ayg8WzuW4sTNixSZOpuhdpim6DktflR7PkjYb52NecdwKybpg2yKl6tKPsiCEjRg2z52PhoRXD+xTBeeerGKi8qO61ZJE6XkHEfbxMkwQ3WXKYhO9l7amkvkJczeLG7mmrgoj2H5E/OpFFdcKfJQ+lgL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMTfDOOP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdXurBZu"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490afc47455so24500445e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 13:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780950713; x=1781555513; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J7aA46O1Kidp9EIBCKXaMzxYNS525jaJND8WlxgPNm4=;
-        b=IdXurBZuK2RfTtY1M8I6fmwT6fbiUpxs1/8okyjjucPbI4CSf82ha4Nu0GyWGGCOEy
-         VGb1y+YVqoqCp5b4CnT10gtQ/3DcZTgvibP+URzjmpzvfL7x1ZNLSVZErzPQlGtaqZCb
-         pKPemInwLjxz/8Wf6ukhj198sAvdZjwnGeNrpsl0Rsj7R39hflukI5QPqqsy+nle5u+F
-         JF1Ksy1dAOFsoQPCHI9Y0YOnAHFniMYq+nb8x+NlPH5qIOfpdPwnLy6h0M/g0uzcXpz2
-         tJh50CG5kS8/xI5jPf9X5hW496v+GvFklo4XB9bN+7BrmoOlirmRoxUNse+knCuJB//n
-         ECbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780950713; x=1781555513;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J7aA46O1Kidp9EIBCKXaMzxYNS525jaJND8WlxgPNm4=;
-        b=l7xR2mzVvY7Ry0mmy9wz4DdsamBYueL5eVp0IeGSvoHzx0PMizGfglvx7C2rGD3jR6
-         B82gBTDNyiKcP+Rb3bofv07HVbSltgKGXYfEjNVRfUX2jBGZt/xauaFPrcvyMQhEcDNQ
-         4kFlN5liQ68LdkA/vs78Y88QNPcqHGMZqawuO2hCx5yllQ2KpvloJ0A18XwNfjyAeKjC
-         kGMXEqw4uzh3bVeWuqbKTegvZ1hwsCww4xwe9vKyaRFrXiucLDsZENT/eJTdIRIenmlT
-         x2WZMRlL7Yh03OCht1F83hc4JQiEH1Xs7ayaaDtsaXDJFhWG921gsFNR3V/6r6NhoQyg
-         bssA==
-X-Forwarded-Encrypted: i=1; AFNElJ8niN9YSdCgAwo28eSMa42vu/38Ckqg/C1/dedQaUxEULveg2RPfgYhbPauVAmuL5BcbTK/SNiTXcs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoorZRdqGrn5OiQ3wQvUqAtT00SBzemKKYma03vlhzdmZv4mLQ
-	KRXHR1N3nIca3t+bsi10yfPl11JTUDkc/06+DYJoEw9LN/RNoHk5t58T
-X-Gm-Gg: Acq92OFXbDhDZbjR50R54VA6dy96kA5MF/7l1oaHCWbLOCXEMZyvVqPJ9tMmp7TWq4S
-	ndHS1/srWJVtSFy755p9JhP0kXpziEJ1y0qZnTKrkYgu99vSohNG/nrF4jFD4VK4+fsIHXJk4wq
-	IP9jfTnBiMFctJoQsdR7H2SO7m+8ZctrjsKUOMuGNYKCad++fccwpNwEAyNj5igSxJy4fXEuG6W
-	3M1xNpRfYD4z5cuEsKN/8CfbKXlvVKHJM6jT/BQggoVTKTo8wTEOur7wqNjc9Z6zNaq+MXaYozo
-	H5A7PA9qEtV6JNtbdJLlHrWhxPphMuecz1HKXkuGnG8sTq9jCXgNaS2rnDWh8AuoZOkvnvsOqtK
-	8F+AtxV69ZSLjOo2k/GwEQ4nfGdvzr3Oz8LDnyl42NDelT49/TOnLgKgij3OkXx1flX7hXEk3ls
-	HaVAGz5+kjEDjrq8rweJ5g6dsg5gG9XHAMq2d+KrTOF/D5TxkifrYlSDWU3BN97TzGyxXIalm7G
-	O18YaY1Y0d1LWLqH25q0MY=
-X-Received: by 2002:a05:600c:4e43:b0:490:b9c3:6c69 with SMTP id 5b1f17b1804b1-490c2622cf7mr276459415e9.30.1780950713229;
-        Mon, 08 Jun 2026 13:31:53 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc413541sm452900015e9.14.2026.06.08.13.31.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 13:31:52 -0700 (PDT)
-Message-ID: <93063cd749aa8bc5f650bfa4188abb8c4cb8aec9.camel@gmail.com>
-Subject: Re: [PATCH v16 08/14] iio: core: add decimal value formatting into
- 64-bit value
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux@analog.com
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>,  Andy Shevchenko	 <andy@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,  Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>,  Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Date: Mon, 08 Jun 2026 21:32:58 +0100
-In-Reply-To: <20260604-adf41513-iio-driver-v16-8-1a7d09143bc2@analog.com>
-References: <20260604-adf41513-iio-driver-v16-0-1a7d09143bc2@analog.com>
-	 <20260604-adf41513-iio-driver-v16-8-1a7d09143bc2@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMTfDOOP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8143F1F00898;
+	Mon,  8 Jun 2026 20:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780951222;
+	bh=VOyjEd6IeaUnnlNFj4thBeKhwojy1IHeDf9xk8ITyOc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=jMTfDOOPuBlV2Tnt+HCnrJOgg7B/ruVa+u8c+rBAlQfavqY3Mvpb2ULxnCJB/JY6/
+	 XtvoQ1YvXUqMLUEsseZQNe4k5WCtbmRLTzbVP2ZsVcucRRvWioCiVzvIcUhWsgMUz8
+	 xb4lizzZl8C6D5u2JUS3rUbbOI6eFKFyuxLZXQhOHndMPkB6s7cSbne0+ox5X9+3o/
+	 9097uRj7hR8CHYlOVK8sx3qrKdHIQ6F61ftO7Z7q4VVShqFl0eA2V//Hbw/2OaObzQ
+	 3vLkf5Aoqv52rYEo+3M7KQiRh0VILhS054ddyXIK0uLiDZ8B9D5XvsQI7xVD6fWix2
+	 zAyRB3PwPb3Cw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id AF8B3F40089;
+	Mon,  8 Jun 2026 16:40:20 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 08 Jun 2026 16:40:20 -0400
+X-ME-Sender: <xms:tCgnapADnY9dAEb9a9ezoMi_tBxouotoEpZnupdvcP03RktduGknkw>
+    <xme:tCgnaiW4XDscxwzMiCyW_Fswqfr4Mz9JkzX0aq0YxTIDzrNqcy7lh1VHX4CRzAY9-
+    FmcCrsBirtOjso0jyt5kQYyPYv6vxvsCuOESuwb5z9ijbeN8-nxjig>
+X-ME-Proxy-Cause: dmFkZTFT2O+HdKDAhgr+0TOb6E/PBLacKqvt+TRWetq7dpFuhdvX1o1c8d7oe8zP2/KXOt
+    m34/PCv0fmNYXRPoEHHIOy/3akaA/Q1hXZqzbS2haFSiBnGhFTxRaljosoIsXxcvWZ8ACd
+    Gz7AjVyUs4bfyPQ8Ii9ZiFVJhOR7ODPi8T3bpFe12zcr/0SYMwW9ik95wHlXTbaL/vP7WA
+    svHXlFC733AfVNqNj75tFVSeUfAbniOaL8Dg01U9btTMEJ9DZdXbZDVid/RfCdjFJiO5th
+    OrvSdu3YCQyy3XcQD+q06t/NlOd8Psdh9Pg1WgJG4OJglrSjh1xm7CQi8DvJ28FAIeiDrG
+    q6+hbsh30BmLl0nysaHdBYQoNVEwRkkduFapNBDc6/odIdnzdl0NwS01ve1Ag3YMV2cLIj
+    IdLYYjEMIBbW9U9pJHSHEZJsEe+tygiBAnvN1FrWqcDAfaCzLPyDf6BOxx2ofoPDK4K1IB
+    rRtLxl/yaEyRqgLNqX8Ccj7ngBA/+ik4vPKz+ieHXilWBYBYxMyVyGfWyDnyE5UqV2TsNY
+    KUw5ZKOc873IXhbiB6Dx6m/hzWMpGl4B+GJ09juLKDvMYt6/8MWCzNCMSv9omwGYY3Gd6X
+    Q7HQwKQstmtPvwFTAeL0TQ/FSWs1JPezOtM5wl6CMwiv99SIXEBWvCLgu9xA
+X-ME-Proxy: <xmx:tCgnavpsW_G0qzAqw0kWigDcoa-vHfOlyswjf8E1exFjftCmKmd1QQ>
+    <xmx:tCgnaguZqerOdEzYyEP8efrHb_QtrryN8x90QCyFb8uQfwi7V-LqbQ>
+    <xmx:tCgnaj4tpPOBwYoJU6_olXTNJZysZ8qAVE4-wrtcZFqq9xfeEiOUkw>
+    <xmx:tCgnapSrw4BGGX2bqR5DSk8zhZ1fbVbtkiSFpd_U8fT11Swaw0fUHA>
+    <xmx:tCgnarkToaLnTvPRV2-y_ypk2lWqTNaZGkS3fXRwDu5UOrbRhV0HQxMn>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7DBEF780075; Mon,  8 Jun 2026 16:40:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-ThreadId: AQ9KwGDGHELs
+Date: Mon, 08 Jun 2026 16:40:00 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <344ed039-86ce-4125-8476-2e5d22e40fdc@app.fastmail.com>
+In-Reply-To: <20260522-dir-deleg-v5-10-542cddfad576@kernel.org>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+ <20260522-dir-deleg-v5-10-542cddfad576@kernel.org>
+Subject: Re: [PATCH v5 10/21] nfsd: add notification handlers for dir events
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2026-06-04 at 10:59 +0100, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->=20
-> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
-> defines the representation of fixed decimal point values into a single
-> 64-bit number. This new format increases the range of represented values,
-> allowing for integer parts greater than 2^32, as bits are not "wasted"
-> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
-> IIO_VAL_INT_PLUS_NANO. Helpers are created to compose and decompose 64-bi=
-t
-> decimals into integer values used in IIO formatting interfaces, which
-> creates consistency and avoid error-prone manual assignments when using
-> wordpart macros. When doing the parsing, kstrtodec64() is used with the
-> scale defined by the specific decimal format type.
->=20
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-> =C2=A0drivers/iio/industrialio-core.c | 49 ++++++++++++++++++++++++++++++=
-++---------
-> =C2=A0include/linux/iio/types.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 20 =
-+++++++++++++++++
-> =C2=A02 files changed, 59 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-c=
-ore.c
-> index ffe0dc49c4b9..93c2540d4cd2 100644
-> --- a/drivers/iio/industrialio-core.c
-> +++ b/drivers/iio/industrialio-core.c
-> @@ -19,6 +19,7 @@
-> =C2=A0#include <linux/idr.h>
-> =C2=A0#include <linux/kdev_t.h>
-> =C2=A0#include <linux/kernel.h>
-> +#include <linux/math64.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/mutex.h>
-> =C2=A0#include <linux/poll.h>
-> @@ -26,7 +27,6 @@
-> =C2=A0#include <linux/sched.h>
-> =C2=A0#include <linux/slab.h>
-> =C2=A0#include <linux/wait.h>
-> -#include <linux/wordpart.h>
-> =C2=A0
-> =C2=A0#include <linux/iio/buffer.h>
-> =C2=A0#include <linux/iio/buffer_impl.h>
-> @@ -656,6 +656,7 @@ static ssize_t __iio_format_value(char *buf, size_t o=
-ffset,
-> unsigned int type,
-> =C2=A0				=C2=A0 int size, const int *vals)
-> =C2=A0{
-> =C2=A0	int tmp0, tmp1;
-> +	int l =3D 0;
-> =C2=A0	s64 tmp2;
-> =C2=A0	bool scale_db =3D false;
-> =C2=A0
-> @@ -699,7 +700,6 @@ static ssize_t __iio_format_value(char *buf, size_t o=
-ffset,
-> unsigned int type,
-> =C2=A0	case IIO_VAL_INT_MULTIPLE:
-> =C2=A0	{
-> =C2=A0		int i;
-> -		int l =3D 0;
-> =C2=A0
-> =C2=A0		for (i =3D 0; i < size; ++i)
-> =C2=A0			l +=3D sysfs_emit_at(buf, offset + l, "%d ", vals[i]);
-> @@ -708,8 +708,25 @@ static ssize_t __iio_format_value(char *buf, size_t =
-offset,
-> unsigned int type,
-> =C2=A0	case IIO_VAL_CHAR:
-> =C2=A0		return sysfs_emit_at(buf, offset, "%c", (char)vals[0]);
-> =C2=A0	case IIO_VAL_INT_64:
-> -		tmp2 =3D (s64)((((u64)vals[1]) << 32) | (u32)vals[0]);
-> -		return sysfs_emit_at(buf, offset, "%lld", tmp2);
-> +		return sysfs_emit_at(buf, offset, "%lld",
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 iio_val_s64_compose(vals[0], vals[1]));
-> +	case IIO_VAL_DECIMAL64_MILLI:
-> +	case IIO_VAL_DECIMAL64_MICRO:
-> +	case IIO_VAL_DECIMAL64_NANO:
-> +	case IIO_VAL_DECIMAL64_PICO:
-> +	{
-> +		int scale =3D type - IIO_VAL_DECIMAL64_BASE;
-> +		s64 frac;
+On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> Add the necessary parts to accept a fsnotify callback for directory
+> change event and create a CB_NOTIFY request for it. When a dir nfsd_file
+> is created set a handle_event callback to handle the notification.
+>
+> Use that to allocate a nfsd_notify_event object and then hand off a
+> reference to each delegation's CB_NOTIFY. If anything fails along the
+> way, recall any affected delegations.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+There are some significant-looking sashiko review findings which I did
+not follow up on.
+
+
+> diff --git a/fs/nfsd/nfs4callback.c b/fs/nfsd/nfs4callback.c
+> index ea3e7deb06fa..1964a213f80e 100644
+> --- a/fs/nfsd/nfs4callback.c
+> +++ b/fs/nfsd/nfs4callback.c
+> @@ -870,21 +870,30 @@ static void nfs4_xdr_enc_cb_notify(struct 
+> rpc_rqst *req,
+>  				   const void *data)
+>  {
+>  	const struct nfsd4_callback *cb = data;
+> +	struct nfsd4_cb_notify *ncn = container_of(cb, struct 
+> nfsd4_cb_notify, ncn_cb);
+> +	struct nfs4_delegation *dp = container_of(ncn, struct 
+> nfs4_delegation, dl_cb_notify);
+>  	struct nfs4_cb_compound_hdr hdr = {
+>  		.ident = 0,
+>  		.minorversion = cb->cb_clp->cl_minorversion,
+>  	};
+> -	struct CB_NOTIFY4args args = { };
+> +	struct CB_NOTIFY4args args;
+> +	__be32 *p;
+> 
+>  	WARN_ON_ONCE(hdr.minorversion == 0);
+> 
+>  	encode_cb_compound4args(xdr, &hdr);
+>  	encode_cb_sequence4args(xdr, cb, &hdr);
+> 
+> -	/*
+> -	 * FIXME: get stateid and fh from delegation. Inline the cna_changes
+> -	 * buffer, and zero it.
+> -	 */
+> +	p = xdr_reserve_space(xdr, 4);
+> +	*p = cpu_to_be32(OP_CB_NOTIFY);
 > +
-> +		tmp2 =3D div64_s64_rem(iio_val_s64_compose(vals[0], vals[1]),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 int_pow(10, scale), &frac);
-> +		if (tmp2 =3D=3D 0 && frac < 0)
-> +			l +=3D sysfs_emit_at(buf, offset, "-");
-> +
-> +		l +=3D sysfs_emit_at(buf, offset + l, "%lld.%0*lld", tmp2, scale,
-> +				=C2=A0=C2=A0 abs(frac));
-> +		return l;
-> +	}
-> =C2=A0	default:
-> =C2=A0		return 0;
-> =C2=A0	}
-> @@ -979,6 +996,7 @@ static ssize_t iio_write_channel_info(struct device *=
-dev,
-> =C2=A0	struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> =C2=A0	struct iio_dev_attr *this_attr =3D to_iio_dev_attr(attr);
-> =C2=A0	int ret, fract_mult =3D 100000;
-> +	int type, dec_scale =3D 0;
-> =C2=A0	int integer, fract =3D 0;
-> =C2=A0	long long integer64;
-> =C2=A0	bool is_char =3D false;
-> @@ -989,9 +1007,11 @@ static ssize_t iio_write_channel_info(struct device=
- *dev,
-> =C2=A0	if (!indio_dev->info->write_raw)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> -	if (indio_dev->info->write_raw_get_fmt)
-> -		switch (indio_dev->info->write_raw_get_fmt(indio_dev,
-> -			this_attr->c, this_attr->address)) {
-> +	if (indio_dev->info->write_raw_get_fmt) {
-> +		type =3D indio_dev->info->write_raw_get_fmt(indio_dev,
-> +							=C2=A0 this_attr->c,
-> +							=C2=A0 this_attr->address);
-> +		switch (type) {
-> =C2=A0		case IIO_VAL_INT:
-> =C2=A0			fract_mult =3D 0;
-> =C2=A0			break;
-> @@ -1007,12 +1027,19 @@ static ssize_t iio_write_channel_info(struct devi=
-ce *dev,
-> =C2=A0		case IIO_VAL_CHAR:
-> =C2=A0			is_char =3D true;
-> =C2=A0			break;
-> +		case IIO_VAL_DECIMAL64_MILLI:
-> +		case IIO_VAL_DECIMAL64_MICRO:
-> +		case IIO_VAL_DECIMAL64_NANO:
-> +		case IIO_VAL_DECIMAL64_PICO:
-> +			dec_scale =3D type - IIO_VAL_DECIMAL64_BASE;
-> +			fallthrough;
-> =C2=A0		case IIO_VAL_INT_64:
-> =C2=A0			is_64bit =3D true;
-> =C2=A0			break;
-> =C2=A0		default:
-> =C2=A0			return -EINVAL;
-> =C2=A0		}
-> +	}
-> =C2=A0
-> =C2=A0	if (is_char) {
-> =C2=A0		char ch;
-> @@ -1021,12 +1048,14 @@ static ssize_t iio_write_channel_info(struct devi=
-ce *dev,
-> =C2=A0			return -EINVAL;
-> =C2=A0		integer =3D ch;
-> =C2=A0	} else if (is_64bit) {
-> -		ret =3D kstrtoll(buf, 0, &integer64);
-> +		if (dec_scale)
-> +			ret =3D kstrtodec64(buf, dec_scale, &integer64);
-> +		else
-> +			ret =3D kstrtoll(buf, 0, &integer64);
-> =C2=A0		if (ret)
-> =C2=A0			return ret;
-> =C2=A0
-> -		fract =3D upper_32_bits(integer64);
-> -		integer =3D lower_32_bits(integer64);
-> +		iio_val_s64_decompose(integer64, &integer, &fract);
-> =C2=A0	} else {
-> =C2=A0		ret =3D __iio_str_to_fixpoint(buf, fract_mult, &integer, &fract,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 scale_db);
-> diff --git a/include/linux/iio/types.h b/include/linux/iio/types.h
-> index 4e3099defc1d..924ac9dc6893 100644
-> --- a/include/linux/iio/types.h
-> +++ b/include/linux/iio/types.h
-> @@ -7,6 +7,9 @@
-> =C2=A0#ifndef _IIO_TYPES_H_
-> =C2=A0#define _IIO_TYPES_H_
-> =C2=A0
-> +#include <linux/types.h>
-> +#include <linux/wordpart.h>
-> +
-> =C2=A0#include <uapi/linux/iio/types.h>
-> =C2=A0
-> =C2=A0enum iio_event_info {
-> @@ -34,6 +37,23 @@ enum iio_event_info {
-> =C2=A0#define IIO_VAL_FRACTIONAL_LOG2 11
-> =C2=A0#define IIO_VAL_CHAR 12
-> =C2=A0
-> +#define IIO_VAL_DECIMAL64_BASE		32
-> +#define IIO_VAL_DECIMAL64_MILLI		(IIO_VAL_DECIMAL64_BASE + 3)
-> +#define IIO_VAL_DECIMAL64_MICRO		(IIO_VAL_DECIMAL64_BASE + 6)
-> +#define IIO_VAL_DECIMAL64_NANO		(IIO_VAL_DECIMAL64_BASE + 9)
-> +#define IIO_VAL_DECIMAL64_PICO		(IIO_VAL_DECIMAL64_BASE + 12)
-> +
-> +static inline s64 iio_val_s64_compose(s32 val0, s32 val1)
+> +	args.cna_stateid.seqid = dp->dl_stid.sc_stateid.si_generation;
+> +	memcpy(&args.cna_stateid.other, &dp->dl_stid.sc_stateid.si_opaque,
+> +	       ARRAY_SIZE(args.cna_stateid.other));
+> +	args.cna_fh.len = dp->dl_stid.sc_file->fi_fhandle.fh_size;
+> +	args.cna_fh.data = dp->dl_stid.sc_file->fi_fhandle.fh_raw;
+> +	args.cna_changes.count = ncn->ncn_nf_cnt;
+> +	args.cna_changes.element = ncn->ncn_nf;
+>  	WARN_ON_ONCE(!xdrgen_encode_CB_NOTIFY4args(xdr, &args));
+> 
+>  	hdr.nops++;
+
+I want to avoid the need to use xdrgen to encode the CB_NOTIFY arguments.
+How about this:
+
++       struct nfsd4_cb_notify *ncn = container_of(cb, struct nfsd4_cb_notify, ncn_cb);
++       struct nfs4_delegation *dp = container_of(ncn, struct nfs4_delegation, dl_cb_notify);
+
+   ...
+
++       encode_stateid4(xdr, &dp->dl_stid.sc_stateid);
++       encode_nfs_fh4(xdr, &dp->dl_stid.sc_file->fi_fhandle);
++       xdr_stream_encode_u32(xdr, ncn->ncn_nf_cnt);
++       for (u32 i = 0; i < ncn->ncn_nf_cnt; i++)
++               (void)xdrgen_encode_notify4(xdr, &ncn->ncn_nf[i]);
+
+And then add a "pragma public notify4;" in nfs4_1.x .
+
+
+> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> index b0652c755b3b..20477144475b 100644
+> --- a/fs/nfsd/nfs4state.c
+> +++ b/fs/nfsd/nfs4state.c
+
+> @@ -3461,19 +3462,131 @@ nfsd4_cb_getattr_release(struct nfsd4_callback *cb)
+>  	nfs4_put_stid(&dp->dl_stid);
+>  }
+> 
+> +static void nfsd_break_one_deleg(struct nfs4_delegation *dp)
 > +{
-> +	return (s64)(((u64)val1 << 32) | (u32)val0);
+> +	bool queued;
+> +
+> +	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &dp->dl_recall.cb_flags))
+> +		return;
+> +
+> +	/*
+> +	 * We're assuming the state code never drops its reference
+> +	 * without first removing the lease.  Since we're in this lease
+> +	 * callback (and since the lease code is serialized by the
+> +	 * flc_lock) we know the server hasn't removed the lease yet, and
+> +	 * we know it's safe to take a reference.
+> +	 */
+> +	refcount_inc(&dp->dl_stid.sc_count);
+> +	queued = nfsd4_run_cb(&dp->dl_recall);
+> +	WARN_ON_ONCE(!queued);
+> +	if (!queued)
+> +		refcount_dec(&dp->dl_stid.sc_count);
 > +}
 > +
-> +static inline void iio_val_s64_decompose(s64 dec64, s32 *val0, s32 *val1=
-)
+> +static bool
+> +nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
 > +{
-> +	*val0 =3D lower_32_bits(dec64);
-> +	*val1 =3D upper_32_bits(dec64);
+> +	struct nfsd4_cb_notify *ncn = container_of(cb, struct 
+> nfsd4_cb_notify, ncn_cb);
+> +	struct nfs4_delegation *dp = container_of(ncn, struct 
+> nfs4_delegation, dl_cb_notify);
+> +	struct nfsd_notify_event *events[NOTIFY4_EVENT_QUEUE_SIZE];
+> +	struct xdr_buf xdr = { .buflen = PAGE_SIZE * NOTIFY4_PAGE_ARRAY_SIZE,
+> +			       .pages  = ncn->ncn_pages };
+> +	struct xdr_stream stream;
+> +	struct nfsd_file *nf;
+> +	int count, i;
+> +	bool error = false;
+> +
+> +	xdr_init_encode_pages(&stream, &xdr);
+> +
+> +	spin_lock(&ncn->ncn_lock);
+> +	count = ncn->ncn_evt_cnt;
+> +
+> +	/* spurious queueing? */
+> +	if (count == 0) {
+> +		spin_unlock(&ncn->ncn_lock);
+> +		return false;
+> +	}
+> +
+> +	/* we can't keep up! */
+> +	if (count > NOTIFY4_EVENT_QUEUE_SIZE) {
+> +		spin_unlock(&ncn->ncn_lock);
+> +		goto out_recall;
+> +	}
+> +
+> +	memcpy(events, ncn->ncn_evt, sizeof(*events) * count);
+> +	ncn->ncn_evt_cnt = 0;
+> +	spin_unlock(&ncn->ncn_lock);
+> +
+> +	rcu_read_lock();
+> +	nf = 
+> nfsd_file_get(rcu_dereference(dp->dl_stid.sc_file->fi_deleg_file));
+> +	rcu_read_unlock();
+> +	if (!nf) {
+> +		for (i = 0; i < count; ++i)
+> +			nfsd_notify_event_put(events[i]);
+> +		goto out_recall;
+> +	}
+> +
+> +	for (i = 0; i < count; ++i) {
+> +		struct nfsd_notify_event *nne = events[i];
+> +
+> +		if (!error) {
+> +			u32 *maskp = (u32 *)xdr_reserve_space(&stream, sizeof(*maskp));
+> +			u8 *p;
+> +
+> +			if (!maskp) {
+> +				error = true;
+> +				goto put_event;
+> +			}
+> +
+> +			p = nfsd4_encode_notify_event(&stream, nne, dp, nf, maskp);
+> +			if (!p) {
+> +				pr_notice("Could not generate CB_NOTIFY from fsnotify mask 0x%x\n",
+> +					  nne->ne_mask);
+> +				error = true;
+> +				goto put_event;
+> +			}
+> +
+> +			ncn->ncn_nf[i].notify_mask.count = 1;
+> +			ncn->ncn_nf[i].notify_mask.element = maskp;
+> +			ncn->ncn_nf[i].notify_vals.data = p;
+> +			ncn->ncn_nf[i].notify_vals.len = (u8 *)stream.p - p;
+> +		}
+> +put_event:
+> +		nfsd_notify_event_put(nne);
+> +	}
+> +	if (!error) {
+> +		ncn->ncn_nf_cnt = count;
+> +		nfsd_file_put(nf);
+> +		return true;
+> +	}
+> +	nfsd_file_put(nf);
+> +out_recall:
+> +	nfsd_break_one_deleg(dp);
+> +	return false;
 > +}
 > +
-> =C2=A0enum iio_available_type {
-> =C2=A0	IIO_AVAIL_LIST,
-> =C2=A0	IIO_AVAIL_RANGE,
+>  static int
+>  nfsd4_cb_notify_done(struct nfsd4_callback *cb,
+>  				struct rpc_task *task)
+>  {
+> +	struct nfsd4_cb_notify *ncn = container_of(cb, struct 
+> nfsd4_cb_notify, ncn_cb);
+> +	struct nfs4_delegation *dp = container_of(ncn, struct 
+> nfs4_delegation, dl_cb_notify);
+> +
+>  	switch (task->tk_status) {
+>  	case -NFS4ERR_DELAY:
+>  		rpc_delay(task, 2 * HZ);
+>  		return 0;
+>  	default:
+> +		/* For any other hard error, recall the deleg */
+> +		nfsd_break_one_deleg(dp);
+> +		fallthrough;
+> +	case 0:
+>  		return 1;
+>  	}
+>  }
+> 
+> +static void nfsd4_run_cb_notify(struct nfsd4_cb_notify *ncn);
+> +
+>  static void
+>  nfsd4_cb_notify_release(struct nfsd4_callback *cb)
+>  {
+> @@ -3482,6 +3595,9 @@ nfsd4_cb_notify_release(struct nfsd4_callback *cb)
+>  	struct nfs4_delegation *dp =
+>  			container_of(ncn, struct nfs4_delegation, dl_cb_notify);
+> 
+> +	/* Drain events that arrived while this callback was in flight */
+> +	if (ncn->ncn_evt_cnt > 0)
+> +		nfsd4_run_cb_notify(ncn);
+
+The above check needs to be serialized with modification of
+ncn_evt_cnt:
+
++       bool pending;
+ 
++       /* Drain events that arrived while this callback was in flight */
++       spin_lock(&ncn->ncn_lock);
++       pending = ncn->ncn_evt_cnt > 0;
++       spin_unlock(&ncn->ncn_lock);
++       if (pending)
++               nfsd4_run_cb_notify(ncn);
+
+
+>  	nfs4_put_stid(&dp->dl_stid);
+>  }
+> 
+
+> @@ -9858,3 +9954,133 @@ void nfsd_update_cmtime_attr(struct file *f, 
+> unsigned int flags)
+>  				      MINOR(inode->i_sb->s_dev),
+>  				      inode->i_ino, ret);
+>  }
+> +
+> +static void
+> +nfsd4_run_cb_notify(struct nfsd4_cb_notify *ncn)
+> +{
+> +	struct nfs4_delegation *dp = container_of(ncn, struct 
+> nfs4_delegation, dl_cb_notify);
+> +
+> +	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &ncn->ncn_cb.cb_flags))
+> +		return;
+> +
+> +	if (!refcount_inc_not_zero(&dp->dl_stid.sc_count))
+> +		clear_bit(NFSD4_CALLBACK_RUNNING, &ncn->ncn_cb.cb_flags);
+> +	else
+> +		nfsd4_run_cb(&ncn->ncn_cb);
+> +}
+> +
+> +static struct nfsd_notify_event *
+> +alloc_nfsd_notify_event(u32 mask, const struct qstr *q, struct dentry 
+> *dentry,
+> +			struct inode *target)
+> +{
+> +	struct nfsd_notify_event *ne;
+> +
+> +	ne = kmalloc(sizeof(*ne) + q->len + 1, GFP_NOFS);
+> +	if (!ne)
+> +		return NULL;
+> +
+> +	memcpy(&ne->ne_name, q->name, q->len);
+> +	refcount_set(&ne->ne_ref, 1);
+> +	ne->ne_mask = mask;
+> +	ne->ne_name[q->len] = '\0';
+> +	ne->ne_namelen = q->len;
+> +	ne->ne_dentry = dget(dentry);
+> +	ne->ne_target = target;
+> +	if (ne->ne_target)
+> +		ihold(ne->ne_target);
+> +	return ne;
+> +}
+> +
+> +static bool
+> +should_notify_deleg(u32 mask, struct file_lease *fl)
+> +{
+> +	/* Don't notify the client generating the event */
+> +	if (nfsd_breaker_owns_lease(fl))
+> +		return false;
+> +
+> +	/* Skip if this event wasn't ignored by the lease */
+> +	if ((mask & FS_DELETE) && !(fl->c.flc_flags & FL_IGN_DIR_DELETE))
+> +		return false;
+> +	if ((mask & FS_CREATE) && !(fl->c.flc_flags & FL_IGN_DIR_CREATE))
+> +		return false;
+> +	if ((mask & FS_RENAME) && !(fl->c.flc_flags & FL_IGN_DIR_RENAME))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static void
+> +nfsd_recall_all_dir_delegs(const struct inode *dir)
+> +{
+> +	struct file_lock_context *ctx = locks_inode_context(dir);
+> +	struct file_lock_core *flc;
+> +
+> +	spin_lock(&ctx->flc_lock);
+> +	list_for_each_entry(flc, &ctx->flc_lease, flc_list) {
+> +		struct file_lease *fl = container_of(flc, struct file_lease, c);
+> +
+> +		if (fl->fl_lmops == &nfsd_lease_mng_ops)
+> +			nfsd_break_deleg_cb(fl);
+> +	}
+> +	spin_unlock(&ctx->flc_lock);
+> +}
+> +
+> +int
+> +nfsd_handle_dir_event(u32 mask, const struct inode *dir, const void 
+> *data,
+> +		      int data_type, const struct qstr *name)
+> +{
+> +	struct dentry *dentry = fsnotify_data_dentry(data, data_type);
+> +	struct inode *target = fsnotify_data_rename_target(data, data_type);
+> +	struct file_lock_context *ctx;
+> +	struct file_lock_core *flc;
+> +	struct nfsd_notify_event *evt;
+> +
+> +	/* Normalize cross-dir rename events to create/delete */
+> +	if (mask & FS_MOVED_FROM) {
+> +		mask &= ~FS_MOVED_FROM;
+> +		mask |= FS_DELETE;
+> +	}
+> +	if (mask & FS_MOVED_TO) {
+> +		mask &= ~FS_MOVED_TO;
+> +		mask |= FS_CREATE;
+> +	}
+> +
+
+I inserted an extra check here for rename notifications:
+
++       /*
++        * FS_RENAME fires on the source directory even for a cross-dir
++        * rename, where the moved entry now lives under a different
++        * parent. NOTIFY4_RENAME_ENTRY describes an in-place rename, so
++        * reporting it here would advertise a name absent from this
++        * directory.
++        */
++       if ((mask & FS_RENAME) && dentry && d_inode(dentry->d_parent) != dir)
++               mask &= ~FS_RENAME;
+
+
+> +	/* Don't do anything if this is not an expected event */
+> +	if (!(mask & (FS_CREATE|FS_DELETE|FS_RENAME)))
+> +		return 0;
+> +
+> +	ctx = locks_inode_context(dir);
+> +	if (!ctx || list_empty(&ctx->flc_lease))
+> +		return 0;
+> +
+> +	evt = alloc_nfsd_notify_event(mask, name, dentry, target);
+> +	if (!evt) {
+> +		nfsd_recall_all_dir_delegs(dir);
+> +		return 0;
+> +	}
+> +
+> +	spin_lock(&ctx->flc_lock);
+> +	list_for_each_entry(flc, &ctx->flc_lease, flc_list) {
+> +		struct file_lease *fl = container_of(flc, struct file_lease, c);
+> +		struct nfs4_delegation *dp = flc->flc_owner;
+> +		struct nfsd4_cb_notify *ncn = &dp->dl_cb_notify;
+> +
+
+I added:
+
++               if (fl->fl_lmops != &nfsd_lease_mng_ops)
++                       continue;
+
+Otherwise the loop treats every lease on the inode as an nfsd delegation
+unconditionally.
+
+
+> +		if (!should_notify_deleg(mask, fl))
+> +			continue;
+> +
+> +		spin_lock(&ncn->ncn_lock);
+> +		if (ncn->ncn_evt_cnt >= NOTIFY4_EVENT_QUEUE_SIZE) {
+> +			/* We're generating notifications too fast. Recall. */
+> +			spin_unlock(&ncn->ncn_lock);
+> +			nfsd_break_deleg_cb(fl);
+> +			continue;
+> +		}
+> +		ncn->ncn_evt[ncn->ncn_evt_cnt++] = nfsd_notify_event_get(evt);
+> +		spin_unlock(&ncn->ncn_lock);
+> +
+> +		nfsd4_run_cb_notify(ncn);
+> +	}
+> +	spin_unlock(&ctx->flc_lock);
+> +	nfsd_notify_event_put(evt);
+> +	return 0;
+> +}
+> diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
+> index e17488a911f7..31df04675713 100644
+> --- a/fs/nfsd/nfs4xdr.c
+> +++ b/fs/nfsd/nfs4xdr.c
+> @@ -4172,6 +4172,127 @@ nfsd4_encode_fattr4(struct svc_rqst *rqstp, 
+> struct xdr_stream *xdr,
+>  	goto out;
+>  }
+> 
+> +static bool
+> +nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream 
+> *xdr,
+> +			  struct dentry *dentry, struct nfs4_delegation *dp,
+> +			  struct nfsd_file *nf, char *name, u32 namelen)
+> +{
+> +	uint32_t *attrmask;
+> +
+> +	/* Reserve space for attrmask */
+> +	attrmask = xdr_reserve_space(xdr, 3 * sizeof(uint32_t));
+> +	if (!attrmask)
+> +		return false;
+> +
+> +	ne->ne_file.data = name;
+> +	ne->ne_file.len = namelen;
+> +	ne->ne_attrs.attrmask.element = attrmask;
+> +
+> +	attrmask[0] = 0;
+> +	attrmask[1] = 0;
+> +	attrmask[2] = 0;
+> +	ne->ne_attrs.attr_vals.data = NULL;
+> +	ne->ne_attrs.attr_vals.len = 0;
+> +	ne->ne_attrs.attrmask.count = 1;
+> +	return true;
+> +}
+> +
+> +/**
+> + * nfsd4_encode_notify_event - encode a notify
+> + * @xdr: stream to which to encode the fattr4
+> + * @nne: nfsd_notify_event to encode
+> + * @dp: delegation where the event occurred
+> + * @nf: nfsd_file on which event occurred
+> + * @notify_mask: pointer to word where notification mask should be set
+> + *
+> + * Encode @nne into @xdr. Returns a pointer to the start of the event, 
+> or NULL if
+> + * the event couldn't be encoded. The appropriate bit in the 
+> notify_mask will also
+> + * be set on success.
+> + */
+
+Nit: Let's use the usual kdoc style to describe the return value.
+
++ * Encode @nne into @xdr. The matching bit in @notify_mask is set on
++ * success.
++ *
++ * Return: pointer to the start of the encoded event, or NULL if the
++ * event could not be encoded.
++ */
+
+
+> +u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct 
+> nfsd_notify_event *nne,
+> +			      struct nfs4_delegation *dp, struct nfsd_file *nf,
+> +			      u32 *notify_mask)
+> +{
+> +	u8 *p = NULL;
+> +
+> +	*notify_mask = 0;
+> +
+> +	if (nne->ne_mask & FS_DELETE) {
+> +		struct notify_remove4 nr = { };
+> +
+> +		if (!nfsd4_setup_notify_entry4(&nr.nrm_old_entry, xdr, 
+> nne->ne_dentry, dp,
+> +					       nf, nne->ne_name, nne->ne_namelen))
+> +			goto out_err;
+> +		p = (u8 *)xdr->p;
+> +		if (!xdrgen_encode_notify_remove4(xdr, &nr))
+> +			goto out_err;
+> +		*notify_mask |= BIT(NOTIFY4_REMOVE_ENTRY);
+> +	} else if (nne->ne_mask & FS_CREATE) {
+> +		struct notify_add4 na = { };
+> +		struct notify_remove4 old = { };
+> +
+> +		if (!nfsd4_setup_notify_entry4(&na.nad_new_entry, xdr, 
+> nne->ne_dentry, dp,
+> +					       nf, nne->ne_name, nne->ne_namelen))
+> +			goto out_err;
+> +
+> +		/* If a file was overwritten, report it in nad_old_entry */
+> +		if (nne->ne_target) {
+> +			if (!nfsd4_setup_notify_entry4(&old.nrm_old_entry, xdr,
+> +						       NULL, dp, nf,
+> +						       nne->ne_name, nne->ne_namelen))
+> +				goto out_err;
+> +			na.nad_old_entry.count = 1;
+> +			na.nad_old_entry.element = &old;
+> +		}
+> +
+> +		p = (u8 *)xdr->p;
+> +		if (!xdrgen_encode_notify_add4(xdr, &na))
+> +			goto out_err;
+> +
+> +		*notify_mask |= BIT(NOTIFY4_ADD_ENTRY);
+> +	} else if (nne->ne_mask & FS_RENAME) {
+> +		struct notify_rename4 nr = { };
+> +		struct notify_remove4 old = { };
+> +		struct name_snapshot n;
+> +		bool ret;
+> +
+> +		/* Don't send any attributes in the old_entry since they're the same 
+> in new */
+> +		if (!nfsd4_setup_notify_entry4(&nr.nrn_old_entry.nrm_old_entry, xdr,
+> +					       NULL, dp, nf, nne->ne_name,
+> +					       nne->ne_namelen))
+> +			goto out_err;
+> +
+> +		take_dentry_name_snapshot(&n, nne->ne_dentry);
+> +		ret = nfsd4_setup_notify_entry4(&nr.nrn_new_entry.nad_new_entry, xdr,
+> +					       nne->ne_dentry, dp, nf, (char *)n.name.name,
+> +					       n.name.len);
+> +
+> +		/* If a file was overwritten, report it in nad_old_entry */
+> +		if (ret && nne->ne_target) {
+> +			ret = nfsd4_setup_notify_entry4(&old.nrm_old_entry, xdr,
+> +							NULL, dp, nf,
+> +							(char *)n.name.name, n.name.len);
+> +			if (ret) {
+> +				nr.nrn_new_entry.nad_old_entry.count = 1;
+> +				nr.nrn_new_entry.nad_old_entry.element = &old;
+> +			}
+> +		}
+> +
+> +		if (ret) {
+> +			p = (u8 *)xdr->p;
+> +			ret = xdrgen_encode_notify_rename4(xdr, &nr);
+> +		}
+> +		release_dentry_name_snapshot(&n);
+> +		if (!ret)
+> +			goto out_err;
+> +		*notify_mask |= BIT(NOTIFY4_RENAME_ENTRY);
+> +	}
+> +	return p;
+> +out_err:
+> +	pr_warn("nfsd: unable to marshal notify_rename4 to xdr stream\n");
+
+Nit: The warning needs to match the semantics of nfsd4_encode_notify_event().
+How about:
+
++       pr_warn("nfsd: unable to marshal notify event to xdr stream\n");
+
+
+> +	return NULL;
+> +}
+> +
+
+
+-- 
+Chuck Lever
