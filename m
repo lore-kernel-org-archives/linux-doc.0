@@ -1,160 +1,90 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FE13BFAFC
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 18:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41B72ED84A;
+	Mon,  8 Jun 2026 19:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780944827; cv=none; b=e+YTuEkjpKqBE3ZwugpIbMGSxwGQ85eaEg5DCsPi1TEnIDKEbBtgbdIZSrslFJh/ndV4HLPf4PRK/OtR1D9ek6WPlJkh3ce2rd41+wlt62qTk0en2Zq0NuIoWcZK+pXdoLSPEjaNChtLwP7FfJWs0W3IHcBUd5deY/QzLybVk98=
+	t=1780945246; cv=none; b=sHarnPmDE9vMdsRxnfZ3m8pEqIAi4FdyVPWhZyPBIFhSB8Ar8m8DnassmEZ5r7/if/JyNp/LPk11kRI1mlZbPJD6K8KKWQKLiC0Xk5r7RMlqUJqFu1xC9Y5eiYVEua2flrEYG9/C1EAkuZ5jt329DKWEhDbhyqMXL0MJoK54z9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780944827; c=relaxed/simple;
-	bh=JhJiYHBQMlgqVMI+Byg96PgAXdUSZc6+MFD16ZcFtqM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pXI18/IM/5+Rbu3NEkNUmxdixGDIxnvSWe8yXWyaqU/qymBUgs+WeX+Nv3OpA3vKrj8LyWxSQPIvO4uXEv1uePyWu+o1x9lyK+gJEKbliqce0HZKcZYKO6TEvjhRdR5bImKBMnakJ45O8ah46qeYE+sMJzrTgAfVsJIq7VyAGlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rp7AqRvg; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780945246; c=relaxed/simple;
+	bh=IMl6yXurRIPChvDnklny7S5D7DBtCG4R3eBg/Oi5cks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRuo3gPrkKe8OlZXoDQDa9wAj3QR5UcbyqyoiwU22EQy6qsC/I4pPk/3/9ovgg5nDasFIYT9IHg2dn3Oh4rIF27UfbECcQiRM52xkQYnQ3gRnDQ6pxLTUo3/Mh0S64wnJDAIVBiRDb/i90PIphnNbpFxu9cQ6iN5Tgi+7KZE5Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KfHoG14j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rp7AqRvg"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf2e8ccca1so33452885ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 11:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780944825; x=1781549625; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=adpIDBscFhAxzJ7fCV0yB9YyfcwaYNNFcmJcu4Yqx0o=;
-        b=rp7AqRvgm7OBSepiQQcP/Y2Set/W6cvhf8iziOmF0kVwqf212mW86t+kjFHsmW+XBR
-         vQTTAN1NV1C5sLy7r9zoEVgfuzGs9IpQMpd3mTaMvFK4dlLXEIKmE3drQRMd1cf8zx2T
-         H0Nl+MDP0Lyx30pkGYAwbB2z/UbR1n1URljYh3hkO8PGzHPhn+4bi6PEWkoA0O5f5fyU
-         HLtTKlIfe8zG6ZHzm/sAkhc6uZfYa/PROA4oymSclbCOAKAvZQzrqb7Zs9dsBv05/pSY
-         Um/9fs6YCTa1mIE8td9zBtl3wazkSo1yhJ2zPrfNAKumsc0n2KMHqetvKXZx3iuA3oON
-         8j2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780944825; x=1781549625;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=adpIDBscFhAxzJ7fCV0yB9YyfcwaYNNFcmJcu4Yqx0o=;
-        b=Xxisyt7AdpK3sAhaZzsu1vx0M17N3NEx2irC8lZi9x4PHHGRN0WEANpc/0XjAHLrd6
-         ZaG5wTlPrAKadlv/OvWtGDKDa9U9oVMPjdp0vi64mAD4icVfqwEUjragbNA/hHPVUiPX
-         l1FdBSGNbXzeKMkzt+5aIAbGIAxt1R1lzzvN+jkvIkWz/qWOWx8nOZ2N1xsI3gOeV/2B
-         IIyEnz9OAKWGiIavuqnIs8qk7F+jyOUbfODWhww5f9hejS+4fTYR41hfwy+od262eahx
-         wh786CQ3jr/sAVjGgauqWXXP/J43cnt7Yb31slLL06UmA2G2jqFBH3cx1Ou8s0SZgXGb
-         V4fA==
-X-Forwarded-Encrypted: i=1; AFNElJ8hWXshqjyuxjzdryH5acjvX91mvMOTyB5sFUykaRPORimFxadWPp6GrBhcR0l/juMqURda4kcXJ7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+cyBuHxqLDF7aeOX/vJXCP30QM8LVCFHMotCjtBWGajG5MXRV
-	T9p6LQe7z2JveUd6zEbU41N9UHDl6ukig4yImlCUQjOFkKX6mhVm+gaQ
-X-Gm-Gg: Acq92OGklmrUE+PAV6yMlMnCtUn92Yo+1oX1QQiovZFAzs21p782Br/bPNoYgAYxQEH
-	8XWy0B9JSCjjhVUvHsfokVWyDWrFN8tFxL47GkVtzGH/xs1yQzeMVO51cSxg9dX2Q0ntyQLiOJk
-	fkxSyGQlGwXIE0YiKQTqTWephAXnXFR6QV8bkJNiTeUNbcoNwamwENj11w9cQ9hrmrpT4p8UBKw
-	NmxTRrQMFyCoqrZkqsh4hwn2JGLtyAVjMDzOI+XIOPG6eqaSh4PX4+/6IO42GKT6U6Un6Ey1RI+
-	p167nRSCG0yfK/VbMWJRbPfuRaXGmdRdnplKdvpoYuAJsehtJGMWINtfMdB2h5+j2ePObJxBn45
-	b6f1FuYiXsVQWuvbvHJabp3QtBxeH0ob5A/Q17cUdrMDOcNXap0kHBgJ5CsDNz7o95cRhwHnA3C
-	lDGqIgvZEj7scijjhX6zdQjVjZJ9IgBULC00S2exdxDE4wln5xnJId63DTB789QecwYVYTB1HrQ
-	Nyc32YxJlA=
-X-Received: by 2002:a17:902:d48e:b0:2c2:9a1e:6099 with SMTP id d9443c01a7336-2c29a1e63f3mr11148545ad.23.1780944825427;
-        Mon, 08 Jun 2026 11:53:45 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649bde7sm191933075ad.72.2026.06.08.11.53.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2026 11:53:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <fdbbce52-6831-4a2c-970c-ff0951483947@roeck-us.net>
-Date: Mon, 8 Jun 2026 11:53:43 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KfHoG14j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 086C71F00893;
+	Mon,  8 Jun 2026 19:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780945245;
+	bh=BoJRT4fDwZJIZj1sKJWduqL1Uc3KtHVy4pz1d5Skq5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KfHoG14jTkmfniNdtVxNENuQMvpWd/NiZFxhjbAOH2qflTZKJQmKrpo5v28Wi+WAs
+	 KVXrcoLV9U6kz2x6PapzUAFAESu9QX1LfppzjVC8N46Zjz4Z7sNH1yZ4d/WStaY/Db
+	 /X0KZN7bD6W6UX1cOzLU6ci7UDbYfFPVdFgj4ieVJdmN5wwduOPBAUYDy3CVZ0PKTV
+	 7jDWA8qALbwrzMysH63nL/ognc+jgZzyQkks66irzQLutLZp6uiVnUjco/Ovf8T61F
+	 Hl+i3nfOLaRFfs63ImgogaFfuCOgrM1qeCvRY3e4N9d9jlLv5gNamEcIoZ6c2B1GDW
+	 t1bYS9/awuJHw==
+Date: Mon, 8 Jun 2026 22:00:22 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
+	skhan@linuxfoundation.org, catalin.marinas@arm.com, will@kernel.org,
+	chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+	pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
+	saravanak@kernel.org, bhe@redhat.com, pasha.tatashin@soleen.com,
+	pratyush@kernel.org, ruirui.yang@linux.dev, rdunlap@infradead.org,
+	peterz@infradead.org, feng.tang@linux.alibaba.com,
+	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+	kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org,
+	paulmck@kernel.org, leitao@debian.org, coxu@redhat.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, osandov@fb.com,
+	jbohac@suse.cz, cfsworks@gmail.com, tangyouling@kylinos.cn,
+	sourabhjain@linux.ibm.com, ritesh.list@gmail.com,
+	adityag@linux.ibm.com, liaoyuanhong@vivo.com, seanjc@google.com,
+	fuqiang.wang@easystack.cn, ardb@kernel.org, chenjiahao16@huawei.com,
+	guoren@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org
+Subject: Re: [PATCH v16 00/10] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Message-ID: <aicRRrAmuCkTI68e@kernel.org>
+References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
+ <20260608091000.d88d7f5cc1bc4fa17f5774fe@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] watchdog: improve comments & Documentation
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-watchdog@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260529212024.2119204-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260529212024.2119204-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260608091000.d88d7f5cc1bc4fa17f5774fe@linux-foundation.org>
 
-On 5/29/26 14:20, Randy Dunlap wrote:
-> Add the missing devm_watchdog_register_device() to watchdog-kernel-api.rst.
-> Convert some struct and function comments to kernel-doc format.
-> Add some UAPI comments for quick reference.
-> Correct some grammar and bulleted list format.
+On Mon, Jun 08, 2026 at 09:10:00AM -0700, Andrew Morton wrote:
+> On Mon, 8 Jun 2026 15:34:49 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
 > 
-> v2: modify comments in patch 3/5 per sashiko review
+> > The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+> > and crashk_cma memory are almost identical across different architectures,
+> > This patch set handle them in crash core in a general way, which eliminate
+> > a lot of duplication code.
+> > 
+> > And add support for crashkernel CMA reservation for arm64 and riscv.
 > 
-> [PATCH v2 1/5] watchdog: add devm_watchdog_register_device() to watchdog-kernel-api
-> [PATCH v2 2/5] watchdog: linux/watchdog.h: repair kernel-doc comments
-> [PATCH v2 3/5] watchdog: uapi: add comments for what bit masks apply to
-> [PATCH v2 4/5] watchdog: core: clean up some comments
-> [PATCH v2 5/5] watchdog: dev: convert to kernel-doc comments
-> 
->   Documentation/watchdog/watchdog-kernel-api.rst |    8 ++++
->   drivers/watchdog/watchdog_core.c               |   12 +++---
->   drivers/watchdog/watchdog_dev.c                |   30 +++++++--------
->   include/linux/watchdog.h                       |    8 +++-
->   include/uapi/linux/watchdog.h                  |    2 +
->   5 files changed, 37 insertions(+), 23 deletions(-)
-> 
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-watchdog@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
+> fyi, AI review might have found a bunch of issues in arch-specific
+> code, all of them pre-existing.
 
-Series applied.
+v15 grew to 23 patches because of them and Baoquan suggested to split the
+fixes into a separate series.
+ 
+> 	https://sashiko.dev/#/patchset/20260608073459.3119290-1-ruanjinjie@huawei.com
 
-Thanks,
-Guenter
-
+-- 
+Sincerely yours,
+Mike.
