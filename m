@@ -1,81 +1,87 @@
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57863101D8;
-	Mon,  8 Jun 2026 22:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C4B28B4E2;
+	Mon,  8 Jun 2026 22:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780956538; cv=none; b=bkMmddVELcXZNx09W2EHdypbrMoinPxTcTqQ2dGOBNXVD5J/0aPbIxe/2ZI/gQND+sirH/31jq3l3vXNIU7Bv2K2YMuAGFGivgXM1t6TfmQ+oma776QZZ8VX3QB/pVWTnXvglnvaqYksbkcvfc8IYIDxg/khBeMc/EcJgqHDZQI=
+	t=1780956984; cv=none; b=r57ibNYa0rixYuUu9o4MnUiLG+4U/OBAvx+PKLfpgWw1CKKeKn36DoNpPW+rqoiNYvjGWcQB0XZdQI8HGoOumjpAqVcmHiR0/+OeiK+ISrxNp143zpJ8j8u3pewn+vxmC/Ywy8lN09OBfzQtSnIZnj3h9y8EyKu0JYbB7EedPxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780956538; c=relaxed/simple;
-	bh=NI7kIqJ0JDHO8c6kE8RZpGg2SY9/hT3h8+Fx19eN7lE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H9YaiLBifANt9ySXcfWXMX77pHrmJxuhqLTpVWQdyVnfncW23xXA5PhDk41aUJf8Ce2IPivkgwNbrAi88IT/CMC7gtS25zk+ePvsDEONYzqZ4kie8gbXm/xMIYJ2UuZwQlpTxx4QqvZgmXNLZUJi5vqOuCzEkMO18Rl/NJuACGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=pvMZtQWx; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1780956984; c=relaxed/simple;
+	bh=DDeO704qEU0EQ7Hlae5DWAs8z0G55TJg/i7FGO7u500=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=n+7G2wC6YGl9e7OXiIYc3ZVOlTf1jG3viRJAQFL2p+AujmdK8uaKCRG/6by5KCRzmaubBDpuF0vz3dH8keEwnY5UArCDVORZXZm1WXXsW6EtRXb/pxr2QQKEFOVueLR4S9zbSN1dUF9a2JWSFtPUws+A6702ZWnz7f78liAKM+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLbqrydL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="pvMZtQWx"
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gZ5m56xTqz1XM0p0;
-	Mon,  8 Jun 2026 22:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1780956530; x=1783548531; bh=SjAXtcd79qVKmBUTGcBdNIte
-	N01h2qsin0bEWHUuQho=; b=pvMZtQWxOhMbRgCBBz3wQVL/FHMgitTF3n2dch1Z
-	ypse+qBaXHbX7L5k/XBaAGCzJY8eoxZSH7WkMyiK5MHJCb74RKIQO+T2nLGFkuls
-	tai09QN/HujhIQWczZxD0wQWXuhq4pW8lWf3CExIB3+m6mqmlHpzGlAeNnUFe2Sc
-	JJwAXrXsx3g2LuBIXCjlksiP+bGC+CGfpcgT/BD79uITzT+pAXSFQ5dzVvKYQcEB
-	s3bZDGWdy54gZD+GIDPdeLTZKXjZyQdJYW0ZuecC4HnmNA+0Mk4eK056eiG1JZ29
-	VvxlKSKqfFXwkglc+MZXv33+TtF/W0cnlv6EcN42eJDs7w==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id g2UZKBNNSb37; Mon,  8 Jun 2026 22:08:50 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gZ5m01FpZz1XM0ns;
-	Mon,  8 Jun 2026 22:08:47 +0000 (UTC)
-Message-ID: <3b276ff3-2065-4cd5-adcf-6664606d1eea@acm.org>
-Date: Mon, 8 Jun 2026 15:08:47 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLbqrydL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B047A1F00893;
+	Mon,  8 Jun 2026 22:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780956983;
+	bh=s3x5kdRepi1J7M2cEklCCm2sZSMg7DeC+hQ4uJgl+jo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=ZLbqrydL7uyVtFWzj+G/HXsf6Sz2tjT7ZGEGgMUDd6H07Gcz5KOZ0rkOR9SUuGpMf
+	 KUH0jpIikh9r5wEV+cMU2AtHmfmjXOkNUrhQG3lbI78brINcYV+RX5lunaFFgeMdzA
+	 2f0TIi3VeS4lHUxE1kpeVtdA2KXX4BC7HemIGdtTPAdoT684mUe4/ET1KCVAd039Ax
+	 9wAn/nDnK/rWEiXfQwgez5TprRHKpTADfNPsp7hqbGS9T8wM2PEtiUW3e4z2oJD80u
+	 0VERCKS2tDxSPFMfAekh/YB0Hw4UmBvQjDKdpcIiRrVofwwiRND1Z+iTkhkTN9VPeB
+	 OlYVhEWVBecvw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] block: add configurable error injection
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
- Hannes Reinecke <hare@kernel.org>
-References: <20260608051416.1205282-1-hch@lst.de>
- <20260608051416.1205282-5-hch@lst.de>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260608051416.1205282-5-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 Jun 2026 00:16:15 +0200
+Message-Id: <DJ40K3IBQUBY.EAMZAFC3091I@kernel.org>
+Subject: Re: [PATCH v5 0/4] Enable sysfs module symlink for more built-in
+ drivers
+Cc: "Suzuki K Poulose" <suzuki.poulose@arm.com>, "James Clark"
+ <james.clark@linaro.org>, "Alexander Shishkin"
+ <alexander.shishkin@linux.intel.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
+ <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Aaron
+ Tomlin" <atomlin@atomlin.com>, "Mike Leach" <mike.leach@arm.com>, "Leo Yan"
+ <leo.yan@arm.com>, "Thierry Reding" <thierry.reding@kernel.org>, "Jonathan
+ Hunter" <jonathanh@nvidia.com>, "Rahul Bukte" <rahul.bukte@sony.com>,
+ <linux-kernel@vger.kernel.org>, <coresight@lists.linaro.org>,
+ <linux-arm-kernel@lists.infradead.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Daniel
+ Palmer" <daniel.palmer@sony.com>, "Tim Bird" <tim.bird@sony.com>,
+ <linux-modules@vger.kernel.org>, <linux-tegra@vger.kernel.org>, "Sumit
+ Gupta" <sumitg@nvidia.com>
+To: "Shashank Balaji" <shashank.mahadasyam@sony.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
+ <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+In-Reply-To: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
 
-On 6/7/26 10:14 PM, Christoph Hellwig wrote:
-> +Configurable error injection allows injecting specific block layer status codes
-> +for ranges of a block device.  Errors can be injected unconditionally, or with a
+On Mon May 18, 2026 at 12:19 PM CEST, Shashank Balaji wrote:
+> Shashank Balaji (4):
+>       soc/tegra: cbb: Move driver registration from pure_initcall to core=
+_initcall
+>       kernel: param: initialize module_kset in a pure_initcall
+>       coresight: pass THIS_MODULE implicitly through a macro
+>       driver core: platform: set mod_name in driver registration
 
-ranges -> sector ranges?
+Picking this up now, so it can still make it for 7.2-rc1 and get some time =
+in
+linux-next.
 
-> +static void error_inject_removall(struct gendisk *disk)
- > +{
-
-Is a letter "e" perhaps missing from the above function name? (remov -> 
-remove)
+Suzuki, since I haven't heard back I figured it should be fine to also pick=
+ the
+coresight change as it is purely mechanic and driver-core motivated, but pl=
+ease
+let me know if you have any concerns.
 
 Thanks,
-
-Bart.
+Danilo
