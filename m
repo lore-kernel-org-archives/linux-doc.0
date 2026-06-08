@@ -1,105 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0613B14D0;
-	Mon,  8 Jun 2026 22:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957BE3B0ADB
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 22:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780957500; cv=none; b=Kee2+kAsglSzTl8lUMAX7EFW+x686+iQcISCl0Tc4b6UX7hENtB1gzthFCb85nkQhWuCoSLhNETdCo5ImOZdeBj5mnxTgIQmZ8sWpB5yhFKXE1Frna6lm/mKd13TELrZyC6Kope8WfNAdww4Df5cF46YK2YVuIjRdHrafY+zhkk=
+	t=1780957641; cv=none; b=uIuCw52HDwk+j/o6CmX8hnCTMvjQppP+kyEzkbJ0orsfboQvj3hUdRmcgCoqkveQEXZR/c7C5ur9QScnhefkylivxx3cNoxy3Vq4AULN7RklngXov1p3O4h1iANRJCimc+pAMxOCWYxOW1rRsIkUq8BPAePXu/ef31VZUP9IlMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780957500; c=relaxed/simple;
-	bh=RujqqrWbjkdAFsXFMnqINKyZg8ETbccdJ4rLk6oLWHc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e15znWMSPUjvt1s9nSNmQLtQ06QIKJXS6UDb0dEw6UwrRSgM7CpMeKWS5n5Ie1leLV3F4975kNcbju1zQJfmm22OudUJaucDlItI81HW7Not0wwRAhckDXNqvWR6mu8Nj8wivRXowIuyuzdmUCHyga+jEbaSyGWWkzcZAsN7Efw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+Ecnwjk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780957641; c=relaxed/simple;
+	bh=ZnzXMKmNNQcMAsK3GQJoXlxxelkBmMuFNwdAjWqeeDg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WRLbUG1htP6td4LFk37AKlOLrmlIHOhSnt5V5elvI4VrnGJ8V2OMWolyFmgSY7npPF2jXVtqC/1O0lID6vxGii5Rgks0H0F9zrVgX4nuGGO9vFEJtQqXc+/h9zHHUh/202XvQ6VF9MVRt0jWrKxH0RDyakkybdgSrk0dYubKfuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvpMmVGo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+Ecnwjk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DEA41F00893;
-	Mon,  8 Jun 2026 22:24:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvpMmVGo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EA91F0089A
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 22:27:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780957499;
-	bh=KvXp+1P6AtbDNcD1+SpBwuR8V5/iTedBIFhFKp1j9iI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=X+EcnwjkPuRJ8wtgQyMIykB9IZbqA3iyPCCGBQlQIS6jFuRkpYm1AcZ+R6NMq8nVV
-	 O+TXEs38C6ZO+x/YIvyDXyDm5EjVpaJ34k1+ijO7lbKpTogVyRkAzG0GkQCGVl+7Ze
-	 eT3esN8W5BINCMiqg4VvIkNH/yGURLwUoJbo+lPzAvPHu52dctsA4lIbTRAQFcTSAK
-	 c9uG9/eAZ5gcjQnzkhkqshtX4gp11jVeiKAC56wKE3M7sa/LehiexW20KrXcNOVehB
-	 byueeGgPgynrOIvreLU9v9XHwn0nwFmnK/N/AO5kqtkK9/NeR5aZ1nXL6JBoq6lU9h
-	 Tn0QeCn7l1Xbg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Mike Leach <mike.leach@arm.com>,
-	Leo Yan <leo.yan@arm.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Rahul Bukte <rahul.bukte@sony.com>,
-	linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>,
-	linux-modules@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	Sumit Gupta <sumitg@nvidia.com>
-Subject: Re: [PATCH v5 0/4] Enable sysfs module symlink for more built-in drivers
-Date: Tue,  9 Jun 2026 00:24:48 +0200
-Message-ID: <20260608222448.1353773-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
-References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
-X-Patch-Reply: applied
+	s=k20260515; t=1780957640;
+	bh=ZnzXMKmNNQcMAsK3GQJoXlxxelkBmMuFNwdAjWqeeDg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MvpMmVGoRMm3zfigrF0uV+iRgX42h36CoAm4KPvTx70waksQrU19h5rGcqgk1CPug
+	 Bopifo2qojt34FmwIkzh2ghSJjAiUNaqXroRBUWNx0Hs93HFkIbvjjV51NNzVV5KLc
+	 2y/MuzC032dWidywn7akmnTutYBP7iqrA0pBW+dffg9t7jLYMQr+dDRwCTzc7Jgyr1
+	 Ibxb+R8UVC3j3qzBqej09gIOZB11mgKUZIt0wUawHHLZ824KQ1h3aHhKsn+QVGClm8
+	 R5nAuFpmgu1ZN93yc5fFyliPwzqwrskQX1rHU7SCOklp3a8k0KKF/AAE7PeSkd5FFw
+	 mondi24qgGMxw==
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-691c5776f35so1934411a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 15:27:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+kaH28j4W1pCzfPLZ0XLDZahfKdaw+iYJ/+2LEQV5rgWxjrXBVHOWImy/TLiDCbm9w2AebrOuTQqU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxssCwVXJft4SzRw3gEn9LZrw91VcFt+REkpKtK2Tte5sKue+H3
+	XUVqNDf+Ev67aFeGx2UXjbjwDcABjsWqMX9Jiga7rFbUmsYvDQvmch0mZ4SJkB2UgIq17LiZEPd
+	2T2z+Sl9Ww44xjBvfvr5hj4m21WDy6S0=
+X-Received: by 2002:a17:906:d552:b0:bf1:1d19:cf95 with SMTP id
+ a640c23a62f3a-bf37077232cmr900655166b.12.1780957639295; Mon, 08 Jun 2026
+ 15:27:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MQe_KFZe2vBXQYh0aa-x+E8AzNwmyjJGJk4tDoS9ML3A@mail.gmail.com>
+ <aho_VtLCmIRsNyvO@google.com> <6deeaea7-3cd1-4403-29fc-d2dc55c297f8@gmail.com>
+ <aiBqzOtEv5iAC_qC@google.com> <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
+ <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com> <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
+ <aicJBVT4pBvmyooT@linux.dev> <aicZ-5GX9De3MAU7@linux.dev> <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+ <aictKA0XWMWbxFdN@linux.dev>
+In-Reply-To: <aictKA0XWMWbxFdN@linux.dev>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Mon, 8 Jun 2026 15:27:07 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+X-Gm-Features: AVVi8CcbjjP-avdNaGSAeiW9slgw-LB5QMjLbgQUyQtJGqfa4iRAJG4WdDe98uo
+Message-ID: <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
+	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
+	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, chengming.zhou@linux.dev, 
+	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>, youngjun.park@lge.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 18 May 2026 19:19:56 +0900, Shashank Balaji wrote:
-> [PATCH v5 0/4] Enable sysfs module symlink for more built-in drivers
+> > > Youngjun is working on swap tiers. At the moment he is more interested in
+> > > allowing a specific swap device to a memcg or not. I can imagine in future there
+> > > will be use-cases where there will be a need to demote data on higher tier swap
+> > > to lower tier swap. What would be the appropriate interface?
+> > >
+> > > BTW does zswap folks think of zswap as a top swap tier or something different?
+> >
+> > I haven't been following the swap tiers work closely, but personally I
+> > do think of zswap as a top swap tier.
+>
+> Same for me though I imagine swap tiers would introduce some duplication i.e.
+> different way (interface) to set limits for swap tiers for a given memcg.
+>
+> > Things will probably get more
+> > blurry with memory tiers and compressed memory nodes though.
+>
+> I think there will still be distinction between byte addressable and fault on
+> access devices.
 
-Applied, thanks!
-
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-
-[1/4] soc/tegra: cbb: Move driver registration from pure_initcall to core_initcall
-      commit: cd6e95e7ab29
-[2/4] kernel: param: initialize module_kset in a pure_initcall
-      commit: c82dfce47833
-[3/4] coresight: pass THIS_MODULE implicitly through a macro
-      commit: efc22b3f89a3
-[4/4] driver core: platform: set mod_name in driver registration
-      commit: a7a7dc5c46a0
-
-The patches will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patches are in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+Yeah, I think it makes sense to define "swap" as fault on access
+(zswap, SSD, etc), and memory tiers as byte-addressable (even if you
+put an SSD behind CXL and make it byte-addressable). But I also
+remember seeing discussions about unifying memory tiers and swap in a
+way, and it makes sense from a reclaim perspective (swap or demote
+first?).
