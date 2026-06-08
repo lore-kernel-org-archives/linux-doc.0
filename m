@@ -1,190 +1,267 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECC338AC65
-	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D04338AC65
+	for <linux-doc@vger.kernel.org>; Mon,  8 Jun 2026 20:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780951868; cv=none; b=FhI/XyPxJ0nsojcgwEsYpSmqXoMwItfslVUMAVE/2o090/15DVinwlPioJeXBizLMOPPch6ThoD5qIDhk02O7xxXXO557gzPC6bXlBXvqSA+zbzuaMPXTY+xNhf9edF30IRZKbLsxaFF38Q0p0RJdgSKq1GnCETwbtyd7C8JGNY=
+	t=1780951956; cv=none; b=bxfVNFoCnAjMAdJ5pwhri5VXZQgecueAqzyiPeFH/Y96cWm3JGyKA7vue20QbUcP/o1ZX7gHU6py8+4i9hikTEoLAvaeeAZd6DCS99XJNH6JqewdfzKcqjBU2oHrh0oKSniK1H+ChpBZcRIC0d4UdSvAvTFE4jyfLisQCfJYFD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780951868; c=relaxed/simple;
-	bh=RgrBSzRAxPq1hTiEITmRzTE416WdMM+7VkSjXwkwPk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0zdweDpPosGcBLU9CRkVh8y//KJELZcN+sQPSUFlhPMXMLq8AvRCPkF23cYVsiKsmO6DmGcwqoC62ut+xALvZVpsj0jW862Ff4DVVd2w4wqer4X8nmmRVvK8/MIQ4XkaUsgiIMOml2OGzX0SEV3S3n+a2gvcg0H2djcICqkmLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eZe/h+O/; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780951956; c=relaxed/simple;
+	bh=7AQJgwuCOtpyf2wp8xnP2NfKnPK3qGH5lUH5SaEzyWA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=dDbm9VpnHVIhwShIDAKvhhiZC1Um0fl90bhEk18TyhYbLpU1EzRrleVRV6VbXEM7MsYKfAt/R58s9PADVTk2XNi4erFtDseEvzrxUW+vdTp66YxVhTi9jpFPl2HED63HoHdqq5f49uwo+yaIEoWYHOL6Rg5BwPzovtiPoFhxCnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AMswiLxO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eZe/h+O/"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c86307c4e6bso502195a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 13:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780951867; x=1781556667; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OqANBGSP00mnERvECbdyBZ/QnoUicIMj2Z9x9A+M1D8=;
-        b=eZe/h+O/8Oa/XTt7FeXjKP9js+XVO8RqJQUg68yRxQTmgI50v+Q+NGutCCzPtthJL8
-         RqKn3xUkoNpsQtW8Tb1nqfEOWLd4dFgts1suLFyvf+baW7TKAlV3kiZBrj1OjcMe8TVm
-         jqe2KHIm0dA60iVTjn10RS439nJYTL0Cf91F4+1QJUilaaxZQSf7RxDHySgniJI7aHAz
-         s/xZV5L2ItrQyLc3RHU5+HL2RwdfzkscC2cP4HTC77zdEFMA+V/9OjsitA8OZtIesjo6
-         3o6MeQ9iNETHAHIYxu0qMgShoZGKtyQ+11xUo9fGe/nyA2ZMKqBzMMX3KL4oasN9H5GW
-         RMrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780951867; x=1781556667;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OqANBGSP00mnERvECbdyBZ/QnoUicIMj2Z9x9A+M1D8=;
-        b=G7flhiCYRU3lGa2SJLPjxDihENcKXOVIobJl9Dtg8cU+8piYWQoqZ543ml/WIo9Ajw
-         8DIRCgq05D9a3u1E+667/xUzH3tXQn3bi5bkjSicU33I3/dXmsuMULQYYk5dxSkC3g/y
-         xjngtajzYkDAlUrvu874F5nbxJ1/ULoU4i3L7vuKaOlaCa96TPhMDDxxOwF6hkii0ioK
-         AHNUxY3/TathoMi7dmGQVic6BM00pv0YjrAOZNbNBRIf6tk34MIkMBlixhFc9PQ7Mx0g
-         80Yccev4gNIxz84u/sPsjmmPqC494nxtUiK/NvLzSehVrWnG7nSiKEf7phd8XxNJedK6
-         PfTA==
-X-Forwarded-Encrypted: i=1; AFNElJ9nDUwyiJ9aeKzT2mQtB0KiAZ6VyIUAK0C1yzLDfb1qo7RhZ8SbjwqXhTEKmjaga4m2IFymt4+ZTIA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJcAVdH8KynTs2IdS1JHpPVJQDO4tBnriZvOzT83C/ihaamKs9
-	HfV7oa9gqw9UFJNqtfrY87C9+X12yF+XDDzp1FEG7KVLedIGQQYNWNBxFEVQ0E26lA==
-X-Gm-Gg: Acq92OF9cOp7/TyJ1XiGOgVLM5lXvUaubhbBgIm0Lc7SPHe/hiNUoTneYQOZruPalIL
-	ChzOUV+wSNPWqv81n1C8fsKJEN3/OgMhSZcmwFqHEsZ2wODIkh3+R+TTLr3xOhjuMeIVxjf/xCC
-	tkqQnlJnCwn8yKq8R3tnF2RL72WEePZRUlZ4YWbePblBzWF1E0rWuSysvHlcQQlD/vvkXjOWll9
-	5wJAPGJLWJ8XL4KUK5VQeJT9NTMtBBRLaxGq7CLpxGVNGQGPwtU+ghYy1MaSSXcT22Ql9GnORny
-	baGLmuNiL0V1ojYsWtKbSninAHxxMafnGtQ4+dXuGX1BdxEA7g/MRJuGXgKV5Fl+UkXqLCXvodO
-	caTS0tsEYuIHZ1S8XOfuoUiOF48AacXKXeo3I4/UMHlBAMhGUP4uddTJUdfeiX6YLcLRmMsWzNN
-	tDSJV35xQmmzIvZoMR4UvzmqHIEo+BirowaeLHNHwbIOYxpdqcZvYCS57gcgWTGlmdyfd6x+7P
-X-Received: by 2002:a05:6a21:a38b:b0:3b4:904f:c9cd with SMTP id adf61e73a8af0-3b4cccffc4fmr20088541637.6.1780951866181;
-        Mon, 08 Jun 2026 13:51:06 -0700 (PDT)
-Received: from google.com (56.149.168.34.bc.googleusercontent.com. [34.168.149.56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0b315esm15840734a12.26.2026.06.08.13.51.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 13:51:04 -0700 (PDT)
-Date: Mon, 8 Jun 2026 20:51:00 +0000
-From: David Matlack <dmatlack@google.com>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <aicrNNVrMBtJD2iZ@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-2-dmatlack@google.com>
- <aiJhoq_Yj6-1Hl5r@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AMswiLxO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 908B01F00898;
+	Mon,  8 Jun 2026 20:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780951955;
+	bh=3+fvK8yYxol+0X1JKSuaTouiFfE+wJ2Iic9GGDxU8ns=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=AMswiLxOecnSkDMwzH/YCd5bK3b+4vE12r1EivWhG7N2NVM/OIpfYT11D3TAZBfxd
+	 FoJqfLq8Di8BqBNqg72Dgqx13IuvA3ODukkcIAhQT8DIsWtPMqfJbTZ2KRpjCCIaml
+	 iKUH+LLMvOeN8rLt4o7j9eemERYE65V99n4dPgkbYLqS1UkWD27kzuqxTWlgrw719R
+	 vrLL0N7r5gPW3zGEoxd0tN5yFhzehtJyBPBgdOYBwzeqvlppKgLIt4k4z/GMj5a7UI
+	 LssKs4yQiNu0mrIrNb2Xhx0G6KNChgl8rK+shSfZ52MaVfHZI6xb4yOAUkwitontka
+	 ZfVutr2YtKYVQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id C20E9F40077;
+	Mon,  8 Jun 2026 16:52:33 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 08 Jun 2026 16:52:33 -0400
+X-ME-Sender: <xms:kSsnamErNj2qtO9vgo4ei9DEQbT5BSBZFrZHofKN3XWCca-ZAH6HJg>
+    <xme:kSsnaiJyBLJqN_ZEvkg8vUbci82QjWu3FxqTFey6QmniB908RbGkPPiLu_kgMgqwl
+    kD00OpU_DcsCCJU_xieSalvTwIwlprkHJPJ4GteGCUj7pG9vGffLXE>
+X-ME-Proxy-Cause: dmFkZTE53NSH2Ai9dcnnD064uA8AGJ5CyOsUmbT6fIvUVVT//4JaS6V7ZGp0w7sfDPnR2c
+    j5gk+JvfMCPj5DAzhsnwH92+o8VJt89yZkwoamQ0DlpltNT7p1rWofwCWQVNySWbUtdohA
+    /WVVyd+Ac6j21n48AN1P+gUXJSjcEnF1vOSfVjd8x5vfPY4SLjRdV34hv6lDnBV9Q3hiV8
+    G9X8oAQEnaIsiHuRov9Lyv5zfTIAQAsEmefCQZKPus/F1McMLxE05xJAHRkTFYIgl6Z/tc
+    ElmY/TVLBxVZuggmEyjZp79/0OKSamXULncfHhsjimPVqiOfRWa2QFU6o+qKs6hknryOTX
+    WEThxWn7sTgWromsTPN6lWA9mcIjlbO0qb5VFAWJzdG6+7Pl1hvbdb2ZnGEPjVXCzpRmOl
+    i+pi3mxa0Qa1wMkl39uHgvtzmUd5um9XXiCrY3enc7SQHq47eb9pfshhPxOeDWSt3URJkQ
+    jRfLv1C7y4pNHqiN30CJjM3GWgAeuWnfZnxnclMyQ0NZGiM0d8pgIgfZkzI19ss1GwlRDT
+    02BoJ/MTKRqMvdWYbjp4q15m+xoEDryi2/rD+XH72CaNvwyL5flcaxiP8P7dsJngWZLUG/
+    k0UsZy4MjxUF0N3r1bJGqeRye04GPUQs1Wbfv4QOV50fR8nLBsQTHmPuQ0RQ
+X-ME-Proxy: <xmx:kSsnatsyNdbPy4BH219RP5AvW4POIYuMNAXtYMQ6Y59Q6cc3GPVagg>
+    <xmx:kSsnatj_lowNmNGcO-5M-bcGreE7Yh7x2gsODNy6nU8XhJ5jhhpVKw>
+    <xmx:kSsnaocgEbu3Nfd-2aiHA4eBvTjdAYh77ubHCNE-UxeSP-O_GYeCeQ>
+    <xmx:kSsnaqnXBuKrUXAbzyLx9vYUIU_bnL-5X-CaDfkUKG0l3C-V8emYCQ>
+    <xmx:kSsnaqq2MT-PS3OR1KghRjOmoi0J0RAXIyAOrEIX_yIAp0LmkzjzeazU>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 98568780070; Mon,  8 Jun 2026 16:52:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aiJhoq_Yj6-1Hl5r@google.com>
+X-ThreadId: AQ9KwGDGHELs
+Date: Mon, 08 Jun 2026 16:52:12 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <efdade0b-38f2-4e5e-b6dc-567d9eea97a9@app.fastmail.com>
+In-Reply-To: <20260522-dir-deleg-v5-10-542cddfad576@kernel.org>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+ <20260522-dir-deleg-v5-10-542cddfad576@kernel.org>
+Subject: Re: [PATCH v5 10/21] nfsd: add notification handlers for dir events
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2026-06-05 05:41 AM, Pranjal Shrivastava wrote:
-> On Fri, May 22, 2026 at 08:23:59PM +0000, David Matlack wrote:
-> > Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
-> > it to participate in the preservation of PCI devices across Live Update.
-> > Essentially, this commit enables the PCI core to allocate a struct
-> > (struct pci_ser) and preserve it across a Live Update whenever at least
-> > one device is preserved.
-> > 
-> > Preserving PCI devices across Live Update is built on top of the Live
-> > Update Orchestrator's (LUO) support for file preservation. Drivers are
-> > expected to expose a file to userspace to represent a single PCI device
-> > and support preservation of that file. This is intended primarily to
-> > support preservation of PCI devices bound to VFIO drivers.
-> > 
-> > This commit enables drivers to register their liveupdate_file_handler
-> > with the PCI core so that the PCI core can do its own tracking and
-> > enforcement of which devices are preserved.
-> > 
-> >   pci_liveupdate_register_flb(driver_file_handler);
-> >   pci_liveupdate_unregister_flb(driver_file_handler);
-> > 
-> > When the first file (with a handler registered with the PCI core) is
-> > preserved, the PCI core will be notified to allocate its tracking struct
-> > (pci_ser). When the last file is unpreserved (i.e. preservation
-> > cancelled) the PCI core will be notified to free struct pci_ser.
-> > 
-> > This struct is preserved across a Live Update using KHO and can be
-> > fetched by the PCI core during early boot (e.g. during device
-> > enumeration) so that it knows which devices were preserved.
-> > 
-> > Note: This commit only allocates struct pci_ser and preserves it across
-> > Live Update. A subsequent commit will add an API for drivers to tell the
-> > PCI core exactly which devices are being preserved.
-> > 
-> > Note: There is no reason to check for kho_is_enabled() since it can be
-> > assumed to return true. If KHO was not enabled then Live Update would
-> > not be enabled and these routines would never run.
-> > 
-> 
-> [...]
-> 
-> > +/**
-> > + * struct pci_dev_ser - Serialized state about a single PCI device.
-> > + *
-> > + * @domain: The device's PCI domain number (segment).
-> > + * @bdf: The device's PCI bus, device, and function number.
-> > + * @padding: Padding to naturally align struct pci_dev_ser.
-> > + */
-> > +struct pci_dev_ser {
-> > +	u32 domain;
-> > +	u16 bdf;
-> > +	u16 padding;
-> > +} __packed;
-> > +
-> > +/**
-> > + * struct pci_ser - PCI Subsystem Live Update State
-> > + *
-> > + * This struct tracks state about all devices that are being preserved across
-> > + * a Live Update for the next kernel.
-> > + *
-> > + * @max_nr_devices: The length of the devices[] flexible array.
-> > + * @nr_devices: The number of devices that were preserved.
-> > + * @devices: Flexible array of pci_dev_ser structs for each device.
-> > + */
-> > +struct pci_ser {
-> > +	u32 max_nr_devices;
-> > +	u32 nr_devices;
-> > +	struct pci_dev_ser devices[];
-> > +} __packed;
-> > +
-> > +/* Ensure all elements of devices[] are naturally aligned. */
-> > +static_assert(offsetof(struct pci_ser, devices) % sizeof(unsigned long) == 0);
-> > +static_assert(sizeof(struct pci_dev_ser) % sizeof(unsigned long) == 0);
-> 
-> Minor Nit: Shall we consider using specific bitwidth types here?
-> I'm wondering if down the line another u32 field is added to 
-> struct pci_dev_ser.. in that case on a 32-bit machine 12 % 4 == 0 but on
-> a 64-bit machine 12 % 8 != 0..
 
-I think natural alignment is what matters for efficient access of the
-array elements. So failing the assert only on 64-bit architectures seems
-like the correct behavior.
 
+On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> Add the necessary parts to accept a fsnotify callback for directory
+> change event and create a CB_NOTIFY request for it. When a dir nfsd_file
+> is created set a handle_event callback to handle the notification.
+
+> diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
+> index e17488a911f7..31df04675713 100644
+> --- a/fs/nfsd/nfs4xdr.c
+> +++ b/fs/nfsd/nfs4xdr.c
+> @@ -4172,6 +4172,127 @@ nfsd4_encode_fattr4(struct svc_rqst *rqstp, 
+> struct xdr_stream *xdr,
+>  	goto out;
+>  }
 > 
-> [...]
-> 
-> With the nit:
-> 
-> Reviewed-by: Pranjal Shrivastava <praan@google.com>
-> 
-> Thanks,
-> Praan
+> +static bool
+> +nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream 
+> *xdr,
+> +			  struct dentry *dentry, struct nfs4_delegation *dp,
+> +			  struct nfsd_file *nf, char *name, u32 namelen)
+> +{
+> +	uint32_t *attrmask;
+> +
+> +	/* Reserve space for attrmask */
+> +	attrmask = xdr_reserve_space(xdr, 3 * sizeof(uint32_t));
+> +	if (!attrmask)
+> +		return false;
+> +
+> +	ne->ne_file.data = name;
+> +	ne->ne_file.len = namelen;
+> +	ne->ne_attrs.attrmask.element = attrmask;
+> +
+> +	attrmask[0] = 0;
+> +	attrmask[1] = 0;
+> +	attrmask[2] = 0;
+> +	ne->ne_attrs.attr_vals.data = NULL;
+> +	ne->ne_attrs.attr_vals.len = 0;
+> +	ne->ne_attrs.attrmask.count = 1;
+> +	return true;
+> +}
+> +
+> +/**
+> + * nfsd4_encode_notify_event - encode a notify
+> + * @xdr: stream to which to encode the fattr4
+> + * @nne: nfsd_notify_event to encode
+> + * @dp: delegation where the event occurred
+> + * @nf: nfsd_file on which event occurred
+> + * @notify_mask: pointer to word where notification mask should be set
+> + *
+> + * Encode @nne into @xdr. Returns a pointer to the start of the event, 
+> or NULL if
+> + * the event couldn't be encoded. The appropriate bit in the 
+> notify_mask will also
+> + * be set on success.
+> + */
+> +u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct 
+> nfsd_notify_event *nne,
+> +			      struct nfs4_delegation *dp, struct nfsd_file *nf,
+> +			      u32 *notify_mask)
+> +{
+> +	u8 *p = NULL;
+> +
+> +	*notify_mask = 0;
+> +
+> +	if (nne->ne_mask & FS_DELETE) {
+> +		struct notify_remove4 nr = { };
+> +
+> +		if (!nfsd4_setup_notify_entry4(&nr.nrm_old_entry, xdr, 
+> nne->ne_dentry, dp,
+> +					       nf, nne->ne_name, nne->ne_namelen))
+> +			goto out_err;
+> +		p = (u8 *)xdr->p;
+> +		if (!xdrgen_encode_notify_remove4(xdr, &nr))
+> +			goto out_err;
+> +		*notify_mask |= BIT(NOTIFY4_REMOVE_ENTRY);
+> +	} else if (nne->ne_mask & FS_CREATE) {
+> +		struct notify_add4 na = { };
+> +		struct notify_remove4 old = { };
+> +
+> +		if (!nfsd4_setup_notify_entry4(&na.nad_new_entry, xdr, 
+> nne->ne_dentry, dp,
+> +					       nf, nne->ne_name, nne->ne_namelen))
+> +			goto out_err;
+> +
+> +		/* If a file was overwritten, report it in nad_old_entry */
+> +		if (nne->ne_target) {
+> +			if (!nfsd4_setup_notify_entry4(&old.nrm_old_entry, xdr,
+> +						       NULL, dp, nf,
+> +						       nne->ne_name, nne->ne_namelen))
+> +				goto out_err;
+> +			na.nad_old_entry.count = 1;
+> +			na.nad_old_entry.element = &old;
+> +		}
+> +
+> +		p = (u8 *)xdr->p;
+> +		if (!xdrgen_encode_notify_add4(xdr, &na))
+> +			goto out_err;
+> +
+> +		*notify_mask |= BIT(NOTIFY4_ADD_ENTRY);
+> +	} else if (nne->ne_mask & FS_RENAME) {
+> +		struct notify_rename4 nr = { };
+> +		struct notify_remove4 old = { };
+> +		struct name_snapshot n;
+> +		bool ret;
+> +
+> +		/* Don't send any attributes in the old_entry since they're the same 
+> in new */
+> +		if (!nfsd4_setup_notify_entry4(&nr.nrn_old_entry.nrm_old_entry, xdr,
+> +					       NULL, dp, nf, nne->ne_name,
+> +					       nne->ne_namelen))
+> +			goto out_err;
+> +
+> +		take_dentry_name_snapshot(&n, nne->ne_dentry);
+> +		ret = nfsd4_setup_notify_entry4(&nr.nrn_new_entry.nad_new_entry, xdr,
+> +					       nne->ne_dentry, dp, nf, (char *)n.name.name,
+> +					       n.name.len);
+
+Now once I got all of the previous edits in place, all three LLM
+reviewers identified an issue here that might require a significant
+rewrite. This is why I stopped the minor editing here and decided
+it was time for you to consider restructuring (or not). I haven't
+looked at patches 11-21.
+
+  I think the new name here has a time-of-use problem.
+  
+  nrn_old_entry uses nne->ne_name, which alloc_nfsd_notify_event() copied
+  when fsnotify delivered the rename.  nrn_new_entry instead reads the
+  live dentry via take_dentry_name_snapshot() at callback-prepare time,
+  which can run long after the event was queued.
+
+  CB_NOTIFY is asynchronous: nfsd_handle_dir_event() queues the event on
+  ncn_evt[] and nothing holds ne_dentry stable until the work runs.
+  d_move() reuses the same dentry and rewrites d_name in place, so a
+  second rename of the entry before the queued callback encodes leaves
+  the dget'd ne_dentry carrying the later name.  An A->B event then
+  encodes as A->C, and a client holding the directory delegation applies
+  the wrong old->new mapping to its cache.  The old name is immune
+  because it was snapshotted up front; only the new name is read late.
+
+  The new name is available at notification time -- fsnotify_move() passes
+  &moved->d_name as new_name, and ne_dentry is that moved dentry -- so
+  alloc_nfsd_notify_event() can snapshot it alongside the old name.
+
+What I haven't assessed is whether the suggested restructuring is
+now vulnerable to misbehavior during memory exhaustion.
+
+
+> +
+> +		/* If a file was overwritten, report it in nad_old_entry */
+> +		if (ret && nne->ne_target) {
+> +			ret = nfsd4_setup_notify_entry4(&old.nrm_old_entry, xdr,
+> +							NULL, dp, nf,
+> +							(char *)n.name.name, n.name.len);
+> +			if (ret) {
+> +				nr.nrn_new_entry.nad_old_entry.count = 1;
+> +				nr.nrn_new_entry.nad_old_entry.element = &old;
+> +			}
+> +		}
+> +
+> +		if (ret) {
+> +			p = (u8 *)xdr->p;
+> +			ret = xdrgen_encode_notify_rename4(xdr, &nr);
+> +		}
+> +		release_dentry_name_snapshot(&n);
+> +		if (!ret)
+> +			goto out_err;
+> +		*notify_mask |= BIT(NOTIFY4_RENAME_ENTRY);
+> +	}
+> +	return p;
+> +out_err:
+> +	pr_warn("nfsd: unable to marshal notify_rename4 to xdr stream\n");
+> +	return NULL;
+> +}
+> +
+>  static void svcxdr_init_encode_from_buffer(struct xdr_stream *xdr,
+>  				struct xdr_buf *buf, __be32 *p, int bytes)
+>  {
+
+
+-- 
+Chuck Lever
