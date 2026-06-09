@@ -1,140 +1,131 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6E33EFFDE
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 10:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A453876B8
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 10:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780999634; cv=none; b=s5y2LXBCBEuPj/8GDkvsgIFlshb4wA6fvHWLHekJMoF0Gd8DqhSXT4RKFTERlCQME+pnQuT8RKs1gYQDeUiMVz3FpOVP73jTlvoXbyI6Gjb6/is8dOCZNht80PueSOOMb2MCFDCXq4cOoS4m0gulvVJqg8cMbsUpTxJ8Qf5iQ4Q=
+	t=1781000345; cv=none; b=XHIKrDbGm0GLCFxeZaxvmbLBsIYZObeWxSkAJ7dMVRVbJEqu5NPMxO4alhWGTC451dV01LmYk6TImpuHZieYJ4bkYNtx9XfWLztE1UIPkMWcm4EoulN5Y68KjLyc7F8v94mP/3y40jiHd78sgyVj82z0UeadVbcMnvBuCi3G8BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780999634; c=relaxed/simple;
-	bh=4C8PgQ9FE9L7n6/Z7yWqH9fic/Jpg5Q4xG+oktm/EO8=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
-	 References:In-Reply-To; b=AxYaFfG8iNRDSJBQV4MPiZkGJOA4l1WxDkqEQoEHNho8hDqxHxTtafu+H68Weus4VR9Ey39pzaIel6JSspiBVH9a7hz59osPVz4QOb9RzvQktN7metNBqeW4qmB4/vJQPlyJVFuR60O+AWIaUbNL58hk3zbrZ85YSKtw1rcrNBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=bdqaCboN; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1781000345; c=relaxed/simple;
+	bh=aTgcaHq96O96cNqr2TemkSTEHHUjgU/vx5s9EOQWy+A=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YPHvXDwYmqTvLI2HfBmkE+BVeOAoQjPrN/3rdskeb9p0yzbjjaEzzjj+WTlBrSoQMRZ8sZolm9xQEYpKCrqR4znaVeuyHTcn8fmc1dNLRzevVptdqa8H+7WcdlmsPkbjJ9xg2Qog2GzNwEfIUu+Yt612DHxUEzV04yngCvLDX1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=JlveCJyQ; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="bdqaCboN"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso43765645e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 03:07:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="JlveCJyQ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490c0c92cffso37521215e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 03:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1780999629; x=1781604429; darn=vger.kernel.org;
-        h=in-reply-to:references:mime-version:content-transfer-encoding:to
-         :from:subject:cc:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=24+9tIBKRIB6Fi/lgC4G5fEyDREBkP8hCdRX4h9xXVU=;
-        b=bdqaCboNeSqvPSJGLJTAX4qvk+8Zu3IV9qBSjIMyPqe9aFdw4uQaAFm5TIOks6fBZa
-         8eIn2+dwlfAshEneN4LYMBxNuzUBiFc7lc3/gJck4ldnCZlXZhrP7OvZbDWwZaj0MCDU
-         C1xGRAGUWMQSULQ+UYoi/IdFRYhygaihCu858NsvtAiyCzJKSmavJU7fz3n9d3k8DVMQ
-         97YXLvisbgucwWtTxc1FfXJWhHQFZiiFG0twHyWsyGsLO0JAwGWppEyT39Q8/kXXNRcz
-         9e/0Hc6WzKJmVCrOu+RgCRX1VbUwKCpnuCwF0XYKlAcftM3S7jyGhHCAuNYO/oyatI54
-         l5Jg==
+        d=9elements.com; s=google; t=1781000342; x=1781605142; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kg//50A/gpUcIHuzGOz/tzazOMCNZ+P/7s0h3ZDZtUE=;
+        b=JlveCJyQeT2XOP9y7mHyTVbTPrIosUmr0biBLrtHM7/HsELMMHXZw7tyuGTDjQqY+q
+         A3RqtGgpYpGu/6wBqL+1D9nIgmzyY75IP2M5xLzXBHuO5ZZ8Bhppp0PIvIpQcJARGXUE
+         MaOAUW7ediHD+xSPgk9r5Kd5IjD8kW/Fp21aKrItyrwlYkN40rHxq/odXAl+z+RMTgnw
+         Jw3xlJIgnQC0m94bfWkzKUlBOY2fmtKyZvQRVkWakAsz7K2g1/99rrf4+FZtUJjaEHXr
+         RrLgLfDytBaE2IrTzhumt5SIdDKsG3XcsaJKGLYC11tRQHoPT/w2kiRy/ifs9F6trqt3
+         LVTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780999629; x=1781604429;
-        h=in-reply-to:references:mime-version:content-transfer-encoding:to
-         :from:subject:cc:message-id:date:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=24+9tIBKRIB6Fi/lgC4G5fEyDREBkP8hCdRX4h9xXVU=;
-        b=ILpKP3/fhSKRSkTOePhk2BiuMA/niqZ/cCHiD386IF0AKGHQJjLDZ3Q6wTaXSzwd4S
-         BrKvPWX91aD7I9/CDJ+Y8fh38rIMHOE10lLFBkjRV6dZ0bcpieYWe3KlL0jEg0VL2oGj
-         d+zN4T1gOlFzEWOkfJJLL22dFbljMr3g090k9ZGPg9DcqIyyho0agPodoySdBMSrUKeb
-         tHPlSJbt+9dIfq12NARlfB4L1J12O+Vq+W0aV/uG3O3MHd8BpmHPmSfO76p6mBWVBQt4
-         eBvcp4WnoY2dbwgYzKNLp2OyQ3adVAOMbxIdktg56hbR/tQgOohIbTqKAbkf9pB0VSP9
-         N79Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+Y0PlgE2wP3Hzv+C3+SYyuSQ+A6AB5z3VS02QQ6630fhWMVDD0gxjXQWeiggz2SdXfX0aSrXOPBGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJBUF0/lV+9/gePhMuJB3ipAM8duni20ANcWLzAfW7t999c2xC
-	M4fchZ7eXaR3+as3SvJHzDUlhOdkuUHiMnhQptTgaEtrGfvLGWAkJdYvOepedxRGfg==
-X-Gm-Gg: Acq92OHddnKshbrvD4I3r+wW1G7bvG4fcaVVTx72lyuNExqqrEDdDnLSGc/Xzj6o6Ha
-	LDfxta0qLgoFtIugX5/sJ+qJm331SPzBuM6por15zChUkDYyuM6FXT/KMEiq+RvnVZUTYmZhPEs
-	/evtCrHR1IXdzlqclkBZOSrVKIBf9Aq+IZMK2gYYtBuTT5ytUbGQO1046E0B2eWShhDDBaAuAQl
-	M74ZaM0Ubj4riLDNn2SEuUWlqh1U072LlD+UXB3YVVduoxf+PCAOOhejzMHozoKtN5ou31X2qjZ
-	9eJ8nL7u0jKgODwjkU5P7kW1hp+8NY/6+kUQWw6g6XnksnGtTLx+mk8yMcefCj1DUhpOQkhYWHt
-	UOaZmxqknZCKYbXXgiWxO5R7Wy4a5i7ww+tFdcNsaFElabKkSrb17BCphNeS53oIX3cjPo/TOpN
-	GTTOqByJbLnCCM/xuQ26ogmAjYS3GQtNRS9f3dQUI=
-X-Received: by 2002:a05:600d:8444:20b0:490:48b7:c1ff with SMTP id 5b1f17b1804b1-490d72239damr17568855e9.17.1780999629113;
-        Tue, 09 Jun 2026 03:07:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781000342; x=1781605142;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kg//50A/gpUcIHuzGOz/tzazOMCNZ+P/7s0h3ZDZtUE=;
+        b=ZmictGSclKty9aTmi2IH+7fY3nGWTXvXQ9gcZ46lYGfjWAoHSlo7P+L8sRIV1frqTO
+         ekQ1hQx3wczOS/Ya2ZYilikXsPkVTwCPJRDVLagS3F+ubSymVneat299sQg3YBbcAkSL
+         6KV5d3/NQzpBNqG22LnYrVKlAETvr0WLhtqdtXba7Hk+L/YhE29lBwbuKDXzLqTT82IY
+         70/LurzTMINHV41Lr6R7LPp7sTaPUAeL8dpqpPiFmkhh+qFSItBguWP/bglvt7x9p0O4
+         6po91nto/30N19FIPL6nnAIybjGSrab9KJbhLaYccrV129Ia0ZlAnwfsjZpxOwN4c/uY
+         VN0w==
+X-Forwarded-Encrypted: i=1; AFNElJ8lWjUMd55D7amp7e5gBqtJWcfRhwHS+eL7RtxWXtI6QisoPyHmFmeA1z3csFq2c2KRNBGsxr9Ovv0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwINmsSfRJ0XbnzWfBAClLPCDHFUUdrK/quD4x13VEUwXCJv8l
+	0gDrzTRFB0SG60E40x+kpc7I1++G/rxin3qowUktQrkszYsHltohUPT99IJadkU/ag==
+X-Gm-Gg: Acq92OHjU1hkd+0OsJMWTPSDq7PyAqohYkin3ffk+n/YT9WXY3Jlj/UgeCoudmXJ9Mg
+	QzfN1vqYNmTx5ErAN3zt6iuTz/YxDG9CHOblbeZ55vPeFkhCLeawH1DJ8MFf86f7tLDLPZKiqqo
+	Cifn9J2p/j/J4Xi4+o33CIjumf9U605yeQIs1fP+GfHpT7SUUrg/aJEHsjq9VBAxgq6iRlOOEfI
+	klO/f5zdEktYQHwCnLCiOHrtW1xHyWAGbx3g3i3j9BSS6beqSrD3YN9x3GsQuFcew7QmJbC+6R8
+	udGl+d2Hmn2AWKB0QV20Gyz8+XSlQGyktdg2ZbdW7XFigR1CNsCN4Ij7jnP7gJJmENy6HUx2zAc
+	K+EehwuJlNZDQsV3Sx0Vf5leiJmicHRr/GFKvd/DkD2ZLkWDcgHz0e6dvmMPM1eeLROjbf9RTKm
+	802KsBwQvXqsPkz7EncIvUAF+JJF+EjVB4SS6x7JU=
+X-Received: by 2002:a05:600c:8b68:b0:490:bad7:3634 with SMTP id 5b1f17b1804b1-490c25e1104mr335337855e9.19.1781000342117;
+        Tue, 09 Jun 2026 03:19:02 -0700 (PDT)
 Received: from localhost ([188.111.3.154])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46028a6dcbdsm49395986f8f.7.2026.06.09.03.07.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3a87dasm455345945e9.7.2026.06.09.03.19.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 03:07:08 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Jun 2026 12:07:07 +0200
-Message-Id: <DJ4FODTOAKGE.IWG0EYLWZEK4@9elements.com>
-Cc: "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez" <da.gomez@kernel.org>, "Aaron
- Tomlin" <atomlin@atomlin.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH 1/2] module: add CONFIG_MODULE_RESTRICT_AUTOLOAD
-From: "Michal Gorlas" <michal.gorlas@9elements.com>
-To: "Sami Tolvanen" <samitolvanen@google.com>
-Content-Transfer-Encoding: quoted-printable
+        Tue, 09 Jun 2026 03:19:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 09 Jun 2026 12:19:00 +0200
+Message-Id: <DJ4FXHE7ZXQ8.1SGVBE57KSLDI@9elements.com>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez" <da.gomez@kernel.org>, "Aaron
+ Tomlin" <atomlin@atomlin.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH 2/2] module: restrict autoload to CAP_SYS_ADMIN if
+ CONFIG_MODULE_RESTRICT_AUTOLOAD
+From: "Michal Gorlas" <michal.gorlas@9elements.com>
+To: "Sami Tolvanen" <samitolvanen@google.com>
 X-Mailer: aerc 0.21.0
 References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
- <20260515-autoload_restrict-v1-1-40b7c03ddd04@9elements.com>
- <20260605182517.GA2939956@google.com>
-In-Reply-To: <20260605182517.GA2939956@google.com>
+ <20260515-autoload_restrict-v1-2-40b7c03ddd04@9elements.com>
+ <20260605183002.GB2939956@google.com>
+In-Reply-To: <20260605183002.GB2939956@google.com>
 
-On Fri Jun 5, 2026 at 8:25 PM CEST, Sami Tolvanen wrote:
-> On Fri, May 15, 2026 at 07:20:19PM +0200, Michal Gorlas wrote:
->> Add CONFIG_MODULE_RESTRICT_AUTOLOAD and modrestrict parameter
->> documentation.
+On Fri Jun 5, 2026 at 8:30 PM CEST, Sami Tolvanen wrote:
+> On Fri, May 15, 2026 at 07:20:20PM +0200, Michal Gorlas wrote:
+>> Restrict module auto-loading to CAP_SYS_ADMIN if
+>> CONFIG_MODULE_RESTRICT_AUTOLOAD is enabled, cmdline parameter
+>> modrestrict=3Dtrue, or kernel.modrestrict=3D1 is set with sysctl.
 >>=20
 >> Signed-off-by: Michal Gorlas <michal.gorlas@9elements.com>
 >> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  5 +++++
->>  kernel/module/Kconfig                           | 15 +++++++++++++++
->>  2 files changed, 20 insertions(+)
+>>  kernel/module/internal.h |  1 +
+>>  kernel/module/kmod.c     |  5 +++++
+>>  kernel/module/main.c     | 11 +++++++++++
+>>  3 files changed, 17 insertions(+)
 >>=20
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documenta=
-tion/admin-guide/kernel-parameters.txt
->> index 03a550630644..1013104f0943 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -4185,6 +4185,11 @@ Kernel parameters
->>  			For details see:
->>  			Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+>> diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+>> index 061161cc79d9..496d8703f0c6 100644
+>> --- a/kernel/module/internal.h
+>> +++ b/kernel/module/internal.h
+>> @@ -46,6 +46,7 @@ struct kernel_symbol {
 >> =20
->> +	modrestrict=3D<bool>
->> +			Control the restriction of module auto-loading to
->> +			CAP_SYS_ADMIN. If no <bool> value is specified, this
->> +			is set to the value of CONFIG_MODULE_RESTRICT_AUTOLOAD.
->
-> Doesn't this default to true if no bool value is specified? It only uses
-> the config if modrestrict is not passed to the kernel at all.
-
-Right. Will adjust the description here.
-
->
->>  	<module>.async_probe[=3D<bool>] [KNL]
->>  			If no <bool> value is specified or if the value
->>  			specified is not a valid <bool>, enable asynchronous
->> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
->> index 43b1bb01fd27..c9e01bb848c0 100644
->> --- a/kernel/module/Kconfig
->> +++ b/kernel/module/Kconfig
->> @@ -337,6 +337,21 @@ config MODULE_SIG_HASH
+>>  extern struct mutex module_mutex;
+>>  extern struct list_head modules;
+>> +extern bool module_autoload_restrict;
 >> =20
->>  endif # MODULE_SIG || IMA_APPRAISE_MODSIG
+>>  extern const struct module_attribute *const modinfo_attrs[];
+>>  extern const size_t modinfo_attrs_count;
+>> diff --git a/kernel/module/kmod.c b/kernel/module/kmod.c
+>> index a25dccdf7aa7..58b28c23f571 100644
+>> --- a/kernel/module/kmod.c
+>> +++ b/kernel/module/kmod.c
+>> @@ -156,6 +156,11 @@ int __request_module(bool wait, const char *fmt, ..=
+.)
+>>  	if (ret)
+>>  		return ret;
 >> =20
->> +config MODULE_RESTRICT_AUTOLOAD
->> +	bool "Restrict module auto-loading to privileged users"
->> +	default n
+>> +	if (module_autoload_restrict && !capable(CAP_SYS_ADMIN)) {
+>> +		pr_alert("denied attempt to auto-load module %s\n", module_name);
 >
-> You don't need to specify default n here.
->
-> Also, I think you can just squash the two patches. There's no benefit
-> in splitting the config/documentation into a separate patch.
+> Is pr_alert appropriate here or can this be a warning? Also, use the _rat=
+elimited
+> variant like the pre-existing warning in this function.
 
-Alright, will squash them in v2.
+pr_alert was here in the grsec version (thus I assumed it makes sense
+here), but agree, pr_warn_ratelimited makes more sense.=20
 
 Best,
 Michal
-
