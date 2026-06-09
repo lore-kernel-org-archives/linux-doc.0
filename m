@@ -1,90 +1,94 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838FA4A340F
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 16:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8469402427;
+	Tue,  9 Jun 2026 16:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781022711; cv=none; b=itgGgOR0c8DAOWBW9vNSfVwSyOcTElMXLaFqLgrenskOtudzrIl6rw+keHnYY424nPM5r24S/RyThZVct2OZe0n+ccujCIO59SmT75sh2fbYAfs+9b6+k42Hb7CmtVXqKdVnpG+NPxSJqN6K4NKVaM2uHdRsJLfHZa0aRbxWM4Y=
+	t=1781024214; cv=none; b=RwAP/zHPOKQ9GIcLijyiImUneaqdebZF1ApTt+a8floJUlOe9wSsmh0TxebcoX4fm1gZBREeUO67t2eCME3p0SmDuLP+xP/C/rkNJ0kk/+rbAQ016te2isUSqeY6csftMH17NTZrPn+h3FGPhejif8GpTkmgXSwL1puFOfIcjeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781022711; c=relaxed/simple;
-	bh=O27sB/RmwD8YNtwCKvnPaA0JgOPXO4OvaUEYOLLtvOM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iKlLM1pqKZ8PE4Dspx6cs2+pCvD2d1vgMwb+QbENZi7Fa9/rT8KjPBBmAWSnsO6dzpXTcS2vQSwG2MFgSs6BosHY3UFJKiRntBF/SGDVPQTKtAQOxo90Q7zNrtLZBAUBek6j13fldEkVMyZXtaR1W2fAAseiE9zey46BgvhU7T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aLL5ixZt; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1781024214; c=relaxed/simple;
+	bh=yVSgqA1YRqHOPUZzRZRDiGjbH7YpDugPsDgNSCyNE18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=YR00n2fVOQDxZjN6FmKagOp6qw63t1EmQAMi5pTC+hAldobiiu/bMRTdndIazIL00iaprYdfNNa9E5bRHCfBisX0FMUkEqV/WJTwV68sS+tC1xRQdFgFPQqtQ6+P/IRTfqUL/YBfW+kqL9MlFFWLibwYoNEUg5LEifP7Jn/Ur+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Bj+wqivD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aLL5ixZt"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2c0c1e08848so78563895ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 09:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781022710; x=1781627510; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y+25TWd2l8G/N6ggT97DlYSDMeVMta32S9PytI7couQ=;
-        b=aLL5ixZtjTtisXi4tNTjuYmGXvoGBQeqoPee4Ibs5Wk6kTTDm273wwpAAFZziBQ41N
-         zCYDofGf1OLuqanbJf/9um3EHvTOttyhSXETSXPfODW2ZjNA9LJ5kXA3wgtykEbIpWoN
-         hwcZreEJKgNeim+I5mkTGWPiyfq4sHmxHu3cWbYTfM3Qu+7Jb2ErnSCnblCXYQRNzo+N
-         kKNoeoWhemTyyepe7+s5qx7JuuKlDXEHROq3r0XeJkvp1my/zvemtHzDS0gr3P4/UoXY
-         8z3W1gTifTTfGozfIKOPifIm+b/818uDkGW4xtHaQTIn0cO1E9BlftwCNC1/M7YFuHx1
-         XyXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781022710; x=1781627510;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Y+25TWd2l8G/N6ggT97DlYSDMeVMta32S9PytI7couQ=;
-        b=YiivP8HS3erAjtx/XV8uvPMRdW2M7kZBYZS5VKn98ZqAs5SinhPI1gpE/OzESH/cMx
-         APG7x4/oS25oytuxnuZ0yumJQj2WVD/L7fBISf5Kj5E9kzsMTKF+Bj/Qgaps3885V4i6
-         YVIblTuAPE8vy7uCe8UttjqKCwhwaIhVxhRunJEsSwnQVlQ4W83X1TZCl1Fxs4mDOv0P
-         mjYyXHZH4Ja+0K8sIpTyNuNdwchFNhBxlIr2GaKAhehL+NXxqwclHteSHr9ZuqFcIJne
-         KUvSpQYBwOOMj6eDSMOn+3CE8prydIAqJE2OvZ9Zn0QBY1gf5Vpi/pJbK2KhvYr2qiN5
-         5FJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9LKna3uVV4CAhCXA5iD1rFdQbNfhY37APVoysWdAAWTTrdh6QtJPWYgGdXAD7ZPg0Ljjm2pF7a46I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz27IoSerMMffIhrAj1+mTfBVGshvlxVd//Z7qLLswDx5I0iFXG
-	fcxHq4VT7N6jMauW5Hvi+0bLG2WpMEt+fMAdWrnMSqAhKtaGKR9gLsBpangdkt5943EdRrolNXX
-	yy8srpQ==
-X-Received: from pfnv24.prod.google.com ([2002:aa7:8518:0:b0:842:4162:a47c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3d07:b0:841:dcbf:e82b
- with SMTP id d2e1a72fcca58-8430a66e82fmr4540257b3a.12.1781022709581; Tue, 09
- Jun 2026 09:31:49 -0700 (PDT)
-Date: Tue,  9 Jun 2026 09:31:30 -0700
-In-Reply-To: <20260603114504.814647-2-clopez@suse.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Bj+wqivD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=5nClrPMG+OpAu8aP+72MzAHYsBT4h/EZHiaG3Bb1jtU=; b=Bj+wqivDZg3cNXZcVQvduoRLN7
+	8wlCoQrxzyjlo0QI3yIgbnGE27ZoDASLk4NczHzAGjWHr5BS9ZcIXqbUCuA0Kv5IZp9Nw0Ny/z8qI
+	Z6y2LMswOgQQ51KLM4bqNQ1fSLN2ynViLQKqLamBuAh/fWWPLQEKYDJHup+ACw53UbLPzM3ngey/P
+	XWG4tKAkCugd8lr3VGnl0hlQRcJ4lHEQTh4stA41+2TFNfD79dhdmzokyeCJVJMgFVO354f7rrIKa
+	oOJjpdKInJFI5SvL0rP1eiGFEs1oORR0MPsdmIgHYeWhOadFx/4X7CGRe0trw2nQewnQ4mTlyNqFu
+	MVgFNqsg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wWzkw-000000065uL-1Y2T;
+	Tue, 09 Jun 2026 16:56:50 +0000
+Message-ID: <cbb6b92f-815d-46b1-8ba6-8e25c35f3450@infradead.org>
+Date: Tue, 9 Jun 2026 09:56:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260603114504.814647-2-clopez@suse.de>
-X-Mailer: git-send-email 2.54.0.1099.g489fc7bff1-goog
-Message-ID: <178102228042.2735004.16823159723918988940.b4-ty@google.com>
-Subject: Re: [PATCH] Documentation: KVM: Synchronize x86 VM types
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"=?UTF-8?q?Carlos=20L=C3=B3pez?=" <clopez@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Ashish Kalra <ashish.kalra@amd.com>, 
-	Michael Roth <michael.roth@amd.com>, Brijesh Singh <brijesh.singh@amd.com>, 
-	Isaku Yamahata <isaku.yamahata@intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: Fix minor grammatical error
+To: Brigham Campbell <me@brighamcampbell.com>,
+ Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "open list:DOCUMENTATION REPORTING ISSUES" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260609070618.12566-1-me@brighamcampbell.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260609070618.12566-1-me@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 03 Jun 2026 13:45:04 +0200, Carlos L=C3=B3pez wrote:
-> KVM has reflected KVM_X86_SNP_VM to userspace since 1dfe571c12cf
-> ("KVM: SEV: Add initial SEV-SNP support"), and KVM_X86_TDX_VM since
-> 161d34609f9b ("KVM: TDX: Make TDX VM type supported"). Update the
-> documentation to reflect this fact.
->=20
->=20
 
-Applied to kvm-x86 misc, thanks!
 
-[1/1] Documentation: KVM: Synchronize x86 VM types
-      https://github.com/kvm-x86/linux/commit/65aa483f32ec
+On 6/9/26 12:06 AM, Brigham Campbell wrote:
+> Fix minor grammatical error in the administration guide.
+> 
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 
---
-https://github.com/kvm-x86/linux/tree/next
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+> 
+> Since v1:
+> * Drop pedantic line re-wrapping.
+> 
+> In hindsight, I should have guessed that reflowing the paragraph was
+> overzealous. Thanks for the guidance, Randy, Thorsten. I'll remember it
+> if I make minor doc fixes in the future.
+> 
+>  Documentation/admin-guide/quickly-build-trimmed-linux.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> index cb178e0a6208..3432dc8e1a85 100644
+> --- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> +++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> @@ -217,7 +217,7 @@ again.
+>  
+>     There is a catch: 'localmodconfig' is likely to disable kernel features you
+>     did not use since you booted your Linux -- like drivers for currently
+> -   disconnected peripherals or a virtualization software not haven't used yet.
+> +   disconnected peripherals or virtualization software not currently in use.
+>     You can reduce or nearly eliminate that risk with tricks the reference
+>     section outlines; but when building a kernel just for quick testing purposes
+>     it is often negligible if such features are missing. But you should keep that
+> 
+> base-commit: 738bb6e6c8d992f33335b3cbcce051ab118a33dc
+
+-- 
+~Randy
