@@ -1,80 +1,80 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C8F382374
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 20:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EE1382374
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 20:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781038410; cv=pass; b=DB3taPHrx/IjFWBOSbaCcha+PD2nRWV5GW4W2N5eBMkZKFUeyM7JaLywnZs9uYSGYA+dcnHtLGPi1TAp5ewucrcA0uDbXS5UQ/YCxrAai+mAt077VfzJfpsau6ucVe8vphGWHASfBFk0cAV8B2lWz9GqIL5XpKnO55MHJOrEv2s=
+	t=1781038466; cv=pass; b=TBeFma5SVNaK9o3n6QAl/h4GjBP58UMH1sS+nTmIT/PhRTrxx3bdJyLi+ah/xvFTMSfgoW3rxYw8ERUbDZofwIpTKeruA6VEsDSe+kx4w+jWiIy+/kXK6raeftDAzJSrCc7x5OjIQbonAlguzM/mSHVAgookvFbWxQdh9/6NpO0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781038410; c=relaxed/simple;
-	bh=ShToL7Atw4J6Owi3Dn7CmEnwZlXr6wCEVWj67kGZsuY=;
+	s=arc-20240116; t=1781038466; c=relaxed/simple;
+	bh=rxULBCsb94YSnUURsfkYXKFfi85nVU4r0MYrCaO0Ssw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Li8wZ8WEHu2Dp93en5gNlfu+FIHD9L3llPW+HHRqOVT8k7OGu5LqcRJZQG4MT0YIkdbNpxibOf93PHhzQz+eXN3jyDSgOCapikUzsFWy5NP+cvBZpX3a6qbBHnevcSkflwD7FOjQCy63zwUHokHBNcap0oT4f31EPK6aJRn80Zc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rwQyFE2x; arc=pass smtp.client-ip=209.85.214.170
+	 To:Cc:Content-Type; b=bAJf3eorv9MrVxWp/bBtTTRJbM69SwNQss9C5E1AqYFdygnVSOLcU9wzhTMYGuBviv4v/3GbGAJESTYemKS4laVAk8U/Kut4OGktpDaB3vjaeAnQejoc5n9lXGknj20MHAWt6bfLr0vByt46BWSMWbEyj80evxBnonijwDIiAuU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K37Pjueb; arc=pass smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rwQyFE2x"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf2911f93cso3655ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 13:53:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781038407; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K37Pjueb"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2c0b1a48855so5495ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 13:54:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781038464; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZZdABsJwFxm+TKVrgD/VXCjXyS/8M+MTq4bmkL63u2ZjNEnLTmozOv3vECZaKOuzQ2
-         lx/hwNkSaMbeAHVQWHditmgFbuSvXzNArNBQCKcNGhgmX5eijEO47iwdVydQ6+XpIUtz
-         KM0a+RO6NkSbYdh2IkIwAPekuysC/z5cEZJN8ukqcjGwexUGuv3dGxtVawSz/xpBjyVr
-         gnw09m4UYe1kCbb0UrUTXbHH+E1//2i8x3ujb5BlugljrtLUjN+zY/LPEuP2a3IpPePx
-         tvoR9EkBSsW/bsDl5wRGVu71AKflOFw7qFBa/R3TzeuFJq73XCCja5lqiRvUF6mfZro2
-         Z+Hg==
+        b=VaOt+bL5gNK+a91xFwU/UlIKk6IeJrJ8AZudosioencr5QwyxD9rnfhTVeyTLLIrVA
+         gJ2EPB62yYfz7pXT958EEeRT7VNPIqh3svtiLCoKeWkxyk1cijog83QyJo6+g3Nd4KDQ
+         BIi75uGQlX/K1swz3fVD66NnpwHX9DN/cs3wdgHyYPIddX0w8zlcQf8/++5qZ6Ogij3G
+         UzH51P+kYLTGeis950FrLU6fzXTH6y5TpTMWyc1M7RlJ/L76QtCkt/XSgVUJZ5m6ZJW2
+         XgxIudQlTq2NZYFS3SjB+l7nSV2ItpeH4AxcWd/K+gSo22fcO7l+vJ/U+yxum6IRtAz+
+         JeRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ciPLz0BxzGV6iVw62tuwMuRgsc1E7ocBiaZ0b0Nuy6o=;
-        fh=GSG0gl3x48JeJnJK4bVdHkuFZd8KI4njna4bdgi379s=;
-        b=MHrdf3nsKy9ILKOyeL3kAYhAsK3jsXcUUnBRhpGfj7dNA7A5Or1i7p5kTXMcOfUW4A
-         rfXWzorKyuF6xAIYVU5pjOxF11M7Xd6qmr9gwnT6K7qbEWxi2L8yidwyRePlOUC/N3oF
-         ZO0atjeJIEi7jnkIJTTg6lZwA8qqJUac4lQIvrSup8r4b1tkykxa8kE0XVRIvqAzz3/n
-         Tfib9sZFk6rplts+ylpegPmflGuHEXdWjvhRWNZv7CtQYQFSshxXni7eojNN1demkPhq
-         XkFa7biCEzOjJ9X1LY4A0L+R32YqA/U3F8vAo8uxCZin2lI0xBe5PWCDb5nRBP6UUX8G
-         ppnA==;
+        bh=tqqw2hwIdYKgB5JLRszYpZYql7zN6WelT6xH9FGqWa0=;
+        fh=Cg+/rXsDfiQ9hRFKwiBqRDCFPfzLk9DnZ4PUVpp9Bac=;
+        b=TEt2ff46UC8z241Dfy7PY+A8aCmZdqlDCH7htn9lh2Lw/dYlaBpZIkmKL240keJ0zR
+         R8jPCsudUVLfB2+vOAtMfAea1uxyCBcRDBz7Nnu0fFb1LeFN9FvZxb79nA9235wnurd3
+         FzwKnZ4b9yYq/hkmat2rKbIna4aqt/b0R2WVn13InYiC5H4+edbY6zLYFqqseseY2nsA
+         awzG5Ld/VEISETlPT9K9vW3jojw43lXiEKW1KAwi4D97PyBGTC07k0Ust0iLqP+didUi
+         Y4LQq3t0Lt1Q8Dlr9ZfluKUfKzwJLmD0T1aru3k9Hi/oQu+16hMofjCfttCMQ+wfwudr
+         O24w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781038407; x=1781643207; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1781038464; x=1781643264; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ciPLz0BxzGV6iVw62tuwMuRgsc1E7ocBiaZ0b0Nuy6o=;
-        b=rwQyFE2xfi3L2euRfbE7DDKODF8oMmTcD96dfHnkoVMRvIognOxSW1ejqG6K+PhWBL
-         yAR9qw7+eWywExDDmkOUfRmY8+g2PuxMz4dXQwRRPp+/3D374g3KUFxbs8AkVuWY+DPN
-         bImR0SQpnW8q5noUDBpPPw8LBpCGgle3ZPiCQqIHT3RB5XOjVEh6xxCQHu0efvlZ8OWN
-         P41HZzi0XyWVyABqLn3IRKo40xp9qPfs3sggexuLe9v1cuLd5sRyCfT5Cs8QE/jxPx+I
-         D4J3djIq0xMEQ5u1BkuHF61ceTOKpdMAMEMuLDx+ctqfUgyq8T4XryaLD2YYUPx9/iXu
-         zWYQ==
+        bh=tqqw2hwIdYKgB5JLRszYpZYql7zN6WelT6xH9FGqWa0=;
+        b=K37PjuebiDSSwM2T3bOsyzau2n1JEmpw3q0/W4PX590YBJQCqZ+sQFLeHwVNzdRIm6
+         r3u/Okd1vW4l7AXTEzMD0YoffAvgEbpBCaXrIrXgT1aAGxNabRNxJhkBRuoHF6p+rnI7
+         C8trckR+mnmABS3sOzBwlBxT6WJcSzOjRsNZgh0bSOsIH31EI5idYTR3xDFmfytMIRVi
+         lEid+T6SS72a2ATein9fTdQMHM3a9+1BsYbiFiBcwsXJ7phgeri2H1sDhCnOYYgDkE3x
+         GmcNO0oe5PTky2K3F/10xMWeawDcb/L8PsG7LgGBO05ydJt5CCo2bIj8nVvaLzArnd4S
+         UOpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781038407; x=1781643207;
+        d=1e100.net; s=20251104; t=1781038464; x=1781643264;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ciPLz0BxzGV6iVw62tuwMuRgsc1E7ocBiaZ0b0Nuy6o=;
-        b=dnYCJWavq61JKKB9n+Kaz6c5Iqeuzi9aR0NLN/DfUwVQ+O3EfKRboOmo3h8vDVNk8S
-         ZHLhcFZBAEyUOgphNeqLL0mI69FXxNJYmrZvMqTtXyfg6wBj+ONeViHqizWlhn3gh6Vn
-         m5GBqtTvHkej2GdoUspw73Fq8TkdEULNBGZ9LFEyNNwMi9gg4dTn2G4IMCKZeR+ejUBb
-         SS35IowN4PQ34JpRo7MR4GzrqvVWlG/SWJZmnLfeptPl9c2kyTlZ23Htk/XSf246Jqyc
-         Xpd7Wu3N8VqCoW0j9k0QaidLznXN3jUnA4Lza1w98v2v5kzz3//K8a9CV/Tl5u/zdzAu
-         3KkA==
-X-Forwarded-Encrypted: i=1; AFNElJ+hC9eSnRjsMsJb/eyaig11KPNwpyGRJVoi8xlcD1j0XwcTlorJEiBQJl1K5koBKePP/nlCPBK5TW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7vhe1mcwwTmdcBELbGX5kRyMqgUumjIAkdj73qCfINUNIqPWs
-	C8Kju9qsp9gi8Rr/wtvTiGIDXp1+83Eq7mK2Kie5HgIlG+iL3HQkOa0dDi+tzEmRWMPb28s0JlT
-	Pe2+pRIUX+NIsbdS7cHcqTlbmifmTIK0CwdTwMtA6
-X-Gm-Gg: Acq92OHv6DVL6gIO9+ER+hP/DLYmPmL8VXNWIP4949pnYCp/IETWpNdygKt7jBK38Kj
-	ydvF28DP+0eQLOK8JHry1kyINJRBbFGKhglKJZ/d46HEg+38HmprwyvLQx0XViLU6l19C/UVRSJ
-	/waXrvyqGMI6ZteZEWeao32JMb6USe7qJtd1z+mzM8xMTgch7NDNLbsFU+bRp++VBTJGOnt+qDy
-	wAyGSS0NUcrXJku9fogHV6tNlEg8dvSUkOiuF3nE0tDIiNl5DPOsD4s61XGb1DCg4bgG4SnkOPF
-	XuCNTUqThLrG3c5YnweD4qYlwMaXeipF8c8oi2QRsh3bmNb43Xys+guy9EE=
-X-Received: by 2002:a17:903:2283:b0:2c0:b19c:2e10 with SMTP id
- d9443c01a7336-2c1ea96cbb5mr8374015ad.0.1781038406624; Tue, 09 Jun 2026
- 13:53:26 -0700 (PDT)
+        bh=tqqw2hwIdYKgB5JLRszYpZYql7zN6WelT6xH9FGqWa0=;
+        b=OL6KOvbXeASQhGzPI6FyJVUsvLyMphIl5aYVGySVZW7LwdvGRH9CFwXMGiX7k6dgG5
+         1I65Jn+/uBLHugroYXuI3AJPS6IIXL7ZZqzEtLQQcCSyCiKi5OgdPWLwG8FJMP1KoccH
+         ORxfQbEv7ai912f/xOP+HcRvEg5b6+sOAFC8wB7AbKJsJ24m1E586iX3RrmF9up5nEQg
+         YROzRFJrbM/c4Adrk41Uc2yyb7TC8Kf/2jxJKe7gUnIJDXQ8//9aV66k1FPAUXgv30Z2
+         5SQo+ysjGEhDFAagi0lIQUcGO+pgKazfMRuj7cm+OPgzT7xQNohtIf9jZlQdnOzPts3F
+         SQhQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+jg6om2qn4kVBQJ6MZ5UQXXbvdJhrNdxL3LDh2sZTmSBI6tCF8Pz3igwjbdiy9rOQqbCw+/FuZ8xA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpFd6kSQhXL+9PlVQIjAE8UmI3gn0crLfqo6cNwbeilSFipMob
+	taiRUFyKxJpnRtmY3tABYAnwx1qNcyFB9XqNe3aPF0yb4CZQVvgnqGqzEVz9KJ5v292dAchr4lz
+	EaIHd1LBkC4CCZqNsrDRr0OMSgT1XilTJiS2L0yN8
+X-Gm-Gg: Acq92OEpUMgRJS+upo00doe4WM5I9AEqcUFInjb2lYVzQrwc8WCapujHtv0DPGM+4Fi
+	X1Ctgh0J2lWgmT1aHxq4aj1HBWCmGRLIuQMxx9lfZAVDtwtiHG9uLOKwZ7yUwwFg6z6fUzfjNVs
+	hiDqnyJmBkFWlynTzRDBIPpfJ1rlY6GeqW9gG1NL06cUehPW2JM6pyMecGV/T680eyBGEH4xc7W
+	sueAVr4J1K+BEnjLAm4X1hiehoK4dGn8+ePoz70lQo+m9RawQ7fl0Xl5W9mJ5AOAgJ3FysHT32p
+	RUAO8shwHgMwiMaG9sZF7CZMq1MBUvCJLcOudtoZALBt3qMC
+X-Received: by 2002:a17:902:cf0b:b0:2c1:68ba:aa7b with SMTP id
+ d9443c01a7336-2c1ebfd6b21mr8209025ad.20.1781038463230; Tue, 09 Jun 2026
+ 13:54:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,228 +82,137 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <cover.1780701922.git.abhishekbapat@google.com>
- <b608a6f7d71e3b728f766dbc6dfa1d1753ddcff5.1780701922.git.abhishekbapat@google.com>
- <1ec17313-cd2b-4389-a05d-998757af30b3@linux.dev> <a58e659e-5f54-4511-9a29-dc921002d102@linux.dev>
- <CAJuCfpHtdd=9D68cfRp4HDHHHCZdzTNP_RH9i2D-f9tJXht56A@mail.gmail.com>
- <ebcbe4a8-127b-4d12-83f1-dec93f0a9c61@linux.dev> <CAJuCfpGbxO0zu_UAWCYNNv8RHgT=E4AF0tgG-kWoLXECOL3byA@mail.gmail.com>
-In-Reply-To: <CAJuCfpGbxO0zu_UAWCYNNv8RHgT=E4AF0tgG-kWoLXECOL3byA@mail.gmail.com>
+ <2e55b3b1388a4f7a59f670a83f222ba6c836ac4e.1780701922.git.abhishekbapat@google.com>
+ <49f725a7-577d-4036-bd5a-5a33fc9e17c3@linux.dev> <26193499-e9dd-45e7-afc2-365685d6a749@linux.dev>
+In-Reply-To: <26193499-e9dd-45e7-afc2-365685d6a749@linux.dev>
 From: Abhishek Bapat <abhishekbapat@google.com>
-Date: Tue, 9 Jun 2026 13:53:14 -0700
-X-Gm-Features: AVVi8Cfn78ORqX4oA_nr5VyV7O6esWdCgDaXx8ANezh2vF1JBG6XK4Z31C3kswU
-Message-ID: <CAL41Mv7pdX-m8rOQE+PjwTUkXi4x5FffR=6Yjhe2N7-DBaR2VA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] alloc_tag: add accuracy based filtering to ioctl
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Hao Ge <hao.ge@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>, 
+Date: Tue, 9 Jun 2026 13:54:12 -0700
+X-Gm-Features: AVVi8CdOb3SxpKX0t1hUfhz3i-rs5b_W0BECNgZZ22bjrm9-dLjLeFjugSjrW90
+Message-ID: <CAL41Mv7Pg4jMeFc=nnpBntv11y=J=N-pj-DGCrWLvQgyQwwcGQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] kselftest: alloc_tag: add kselftest for ioctl interface
+To: Hao Ge <hao.ge@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan <surenb@google.com>, 
 	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 7:41=E2=80=AFAM Suren Baghdasaryan <surenb@google.co=
-m> wrote:
+On Mon, Jun 8, 2026 at 11:27=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
 >
-> On Mon, Jun 8, 2026 at 6:26=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
-> >
-> > Hi Suren
-> >
-> >
-> > On 2026/6/9 04:55, Suren Baghdasaryan wrote:
-> > > On Mon, Jun 8, 2026 at 1:25=E2=80=AFAM Hao Ge <hao.ge@linux.dev> wrot=
-e:
-> > >>
-> > >> On 2026/6/8 14:22, Hao Ge wrote:
-> > >>> Hi Abhishek
-> > >>>
-> > >>>
-> > >>> On 2026/6/6 07:36, Abhishek Bapat wrote:
-> > >>>> Extend the allocinfo filtering mechanism to allow users to filter =
-tags
-> > >>>> based on their accuracy.
-> > >>>>
-> > >>>> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> > >>>> ---
-> > >>>>    include/uapi/linux/alloc_tag.h | 3 +++
-> > >>>>    lib/alloc_tag.c                | 8 ++++++++
-> > >>>>    2 files changed, 11 insertions(+)
-> > >>>>
-> > >>>> diff --git a/include/uapi/linux/alloc_tag.h
-> > >>>> b/include/uapi/linux/alloc_tag.h
-> > >>>> index 0e648192df4d..42445bdb11c5 100644
-> > >>>> --- a/include/uapi/linux/alloc_tag.h
-> > >>>> +++ b/include/uapi/linux/alloc_tag.h
-> > >>>> @@ -20,6 +20,7 @@ struct allocinfo_tag {
-> > >>>>        char function[ALLOCINFO_STR_SIZE];
-> > >>>>        char filename[ALLOCINFO_STR_SIZE];
-> > >>>>        __u64 lineno;
-> > >>>> +    __u64 inaccurate;
-> > >>>
-> > >>> I was wondering if it would make sense to define inaccurate as a fl=
-ags
-> > >>> field
-> > >>>
-> > >>> (e.g. __u64 flags with ALLOCINFO_TAG_F_INACCURATE (1 <<0)),
-> > >>>
-> > >>> so that only bit 0 is used today and the upper bits are reserved fo=
-r
-> > >>> future use,
-> > >>>
-> > >>> aligning with current kernel codebase.
-> > >>>
-> > >>> This design also allows for better extensibility if we need to
-> > >>>
-> > >>> add new flags for any reason in the future.
-> > >>>
-> > >>> We also need to add flag validity checks if we go this route.
-> > >>>
-> > >> And I've reviewed the issue reported by Sashiko, and I think it's va=
-lid.
-> > >>
-> > >> When we expand the allocinfo_tag_data structure
-> > >>
-> > >> struct allocinfo_tag_data{
-> > >>
-> > >>       char modname[64];
-> > >>
-> > >>       char function[64];
-> > >>
-> > >>       char filename[64];
-> > >>
-> > >>       __u64 lineno;
-> > >>
-> > >>       __u64 inaccurate;
-> > >>
-> > >>       __u64 bytes;
-> > >>
-> > >>       __u64 calls;
-> > >>
-> > >>       __u8 accurate;
-> > >>     /* padding */
-> > >>
-> > >> }
-> > >>
-> > >> I think user space may see two fields related to inaccuracy.
-> > > Yes but one field (inside allocinfo_tag) is the input parameter which
-> > > user provides to specify the filtering criteria and the other is the
-> > > returned tag information. It's similar to any other tag attribute
-> > > which you can be included in the filters.
-> > >
-> > >> How do you like these modifications?
-> > >>
-> > >>
-> > >> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/all=
-oc_tag.h
-> > >> --- a/include/uapi/linux/alloc_tag.h
-> > >> +++ b/include/uapi/linux/alloc_tag.h
-> > >> @@ -20,7 +20,6 @@ struct allocinfo_tag {
-> > >>        char function[ALLOCINFO_STR_SIZE];
-> > >>        char filename[ALLOCINFO_STR_SIZE];
-> > >>        __u64 lineno;
-> > >> -    __u64 inaccurate;
-> > >>    };
-> > >>
-> > >>    /* The alignment ensures 32-bit compatible interfaces are not bro=
-ken */
-> > >> @@ -40,7 +39,7 @@ enum {
-> > >>        ALLOCINFO_FILTER_FUNCTION,
-> > >>        ALLOCINFO_FILTER_FILENAME,
-> > >>        ALLOCINFO_FILTER_LINENO,
-> > >> -    ALLOCINFO_FILTER_INACCURATE,
-> > >> +    ALLOCINFO_FILTER_FLAGS,
-> > >>        ALLOCINFO_FILTER_MIN_SIZE,
-> > >>        ALLOCINFO_FILTER_MAX_SIZE,
-> > >>        __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
-> > >> @@ -50,16 +49,20 @@ enum {
-> > >>    #define ALLOCINFO_FILTER_MASK_FUNCTION        (1 <<
-> > >> ALLOCINFO_FILTER_FUNCTION)
-> > >>    #define ALLOCINFO_FILTER_MASK_FILENAME        (1 <<
-> > >> ALLOCINFO_FILTER_FILENAME)
-> > >>    #define ALLOCINFO_FILTER_MASK_LINENO        (1 << ALLOCINFO_FILTE=
-R_LINENO)
-> > >> -#define ALLOCINFO_FILTER_MASK_INACCURATE    (1 <<
-> > >> ALLOCINFO_FILTER_INACCURATE)
-> > >> +#define ALLOCINFO_FILTER_MASK_FLAGS        (1 << ALLOCINFO_FILTER_F=
-LAGS)
-> > >>    #define ALLOCINFO_FILTER_MASK_MIN_SIZE        (1 <<
-> > >> ALLOCINFO_FILTER_MIN_SIZE)
-> > >>    #define ALLOCINFO_FILTER_MASK_MAX_SIZE        (1 <<
-> > >> ALLOCINFO_FILTER_MAX_SIZE)
-> > >>
-> > >>    #define ALLOCINFO_FILTER_MASKS \
-> > >>        ((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
-> > >>
-> > >> +#define ALLOCINFO_FILTER_F_INACCURATE    (1ULL << 0)
-> > >> +#define ALLOCINFO_FILTER_FLAGS_ALL ALLOCINFO_FILTER_F_INACCURATE
-> > >> +
-> > >>    struct allocinfo_filter {
-> > >>        __u64 mask; /* bitmask of the filter fields used */
-> > >>        struct allocinfo_tag fields;
-> > >> +    __u64 flags; /* bitmask of ALLOCINFO_FILTER_F_* */
-> > >>        __u64 min_size;
-> > >>        __u64 max_size;
-> > >>    };
-> > >> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> > >> --- a/lib/alloc_tag.c
-> > >> +++ b/lib/alloc_tag.c
-> > >> @@ -249,8 +249,6 @@ static bool matches_filter(struct codetag *ct,
-> > >> struct allocinfo_filter *filter,
-> > >>                   struct alloc_tag_counters *counters,
-> > >>                   bool *fetched_counters)
-> > >>    {
-> > >> -    bool inaccurate;
-> > >> -
-> > >>        if (!filter || !filter->mask)
-> > >>            return true;
-> > >>
-> > >> @@ -277,10 +275,11 @@ static bool matches_filter(struct codetag *ct,
-> > >> struct allocinfo_filter *filter,
-> > >>            ct->lineno !=3D filter->fields.lineno)
-> > >>            return false;
-> > >>
-> > >> -    if (filter->mask & ALLOCINFO_FILTER_MASK_INACCURATE) {
-> > >> -        inaccurate =3D !!(ct->flags & CODETAG_FLAG_INACCURATE);
-> > >> -        if (inaccurate !=3D !!(filter->fields.inaccurate))
-> > >> -            return false;
-> > >> +    if (filter->mask & ALLOCINFO_FILTER_MASK_FLAGS) {
-> > >> +        if (filter->flags & ALLOCINFO_FILTER_F_INACCURATE) {
-> > >> +            if (!(ct->flags & CODETAG_FLAG_INACCURATE))
-> > > How would you filter records which have only accurate data?
+>
+> On 2026/6/9 14:09, Hao Ge wrote:
+> > Hi Abhishek
 > >
 > >
-> > Sorry, I overlooked this case.
-> >
-> > Since allocinfo_tag_data exposes both inaccurate (from allocinfo_tag) a=
-nd
-> >
-> > accurate (from allocinfo_counter), userspace developers might mistakenl=
+> > On 2026/6/6 07:36, Abhishek Bapat wrote:
+> >> Introduce a kselftest to verify the new IOCTL-based interface for
+> >> /proc/allocinfo. The test covers:
+> >>
+> >> 1. Validation of the filename filter.
+> >> 2. Validation of the function filter.
+> >>
+> >> The first test validates the functionality of the filename filter. Usi=
+ng
+> >> "mm/memory.c" as the candidate filename filter, it retrieves filtered
+> >> entries from both procfs and ioctl and matches the first VEC_MAX_ENTRI=
+ES
+> >> entries.
+> >>
+> >> The second test validates the functionality of the function filter.
+> >> It uses "dup_mm" as the candidate function as we do not expect this
+> >> function name to change frequently and hence won't be needing to modif=
 y
-> > read
+> >> this test often.
+> >>
+> >> Note that both the tests match line no, function name and file name
+> >> fields. Bytes allocated and calls are not matched as those values may
+> >> change in the time when the data is being read from procfs and ioctl a=
+nd
+> >> hence can lead to false negatives.
+> >>
+> >> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> >> ---
+> >>   MAINTAINERS                                   |   1 +
+> >>   tools/testing/selftests/alloc_tag/Makefile    |   9 +
+> >>   .../alloc_tag/allocinfo_ioctl_test.c          | 313 ++++++++++++++++=
+++
+> >>   3 files changed, 323 insertions(+)
+> >>   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+> >>   create mode 100644
+> >> tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 77f3fc487691..80560f5f1292 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -16713,6 +16713,7 @@ F:    include/linux/alloc_tag.h
+> >>   F:    include/linux/pgalloc_tag.h
+> >>   F:    include/uapi/linux/alloc_tag.h
+> >>   F:    lib/alloc_tag.c
+> >> +F:    tools/testing/selftests/alloc_tag/
+> >>     MEMORY CONTROLLER DRIVERS
+> >>   M:    Krzysztof Kozlowski <krzk@kernel.org>
+> >> diff --git a/tools/testing/selftests/alloc_tag/Makefile
+> >> b/tools/testing/selftests/alloc_tag/Makefile
+> >> new file mode 100644
+> >> index 000000000000..f2b8fc022c3b
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/alloc_tag/Makefile
+> >> @@ -0,0 +1,9 @@
+> >> +# SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +TEST_GEN_PROGS :=3D allocinfo_ioctl_test
+> >> +
+> >> +CFLAGS +=3D -Wall
+> >> +CFLAGS +=3D -I../../../../usr/include
+> >> +
+> >> +include ../lib.mk
+> >> +
+> >> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> >> b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> >> new file mode 100644
+> >> index 000000000000..5c3c16e86c23
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> >> @@ -0,0 +1,313 @@
+> >> +// SPDX-License-Identifier: GPL-2.0-only
+> >> +
+> >> +/* kselftest for allocinfo ioctl
+> >> + * allocinfo ioctl retrives allocinfo data through ioctl
 > >
-> > inaccurate instead of accurate when checking accuracy.
 > >
-> > How about we add a comment to clarify?
+> > nit: s/retrives/retrieves/
 > >
-> > struct allocinfo_tag {
 > >
-> >      /* ... */
+> > I've applied the full patch series locally and ran the kselftest, all
+> > 4 tests pass:
 > >
-> >      __u64 lineno;
+> > [root@localhost alloc_tag]# ./allocinfo_ioctl_test
+> > 1..4
+> > ok 1 test_filename_filter
+> > ok 2 test_function_filter
+> > ok 3 test_size_filter
+> > ok 4 test_lineno_filter
+> > # Totals: pass:4 fail:0 xfail:0 xpass:0 skip:0 error:0
 > >
-> >      /* filter criteria only; see allocinfo_counter.accurate for actual
-> > accuracy */
+> > But there are no tests for ALLOCINFO_FILTER_MASK_MODNAME and
 > >
-> >      __u64 inaccurate;
+> > ALLOCINFO_FILTER_MASK_INACCURATE.
 >
-> I think we had comments showing which block of parameters are inputs
-> and which ones are outputs but I'm not opposed to an additional
-> reminder here.
 >
-Ack, I'll include the recommended comment.
-> >
-> > };
-> >
-> >
-> > LGTM for the rest.
+> Sorry, please disregard my suggestion about adding tests for
+>
+> ALLOCINFO_FILTER_MASK_MODNAME and ALLOCINFO_FILTER_MASK_INACCURATE.
+>
+> ALLOCINFO_FILTER_MASK_MODNAME depends on kernel config and also requires
+>
+> the module to be loaded. ALLOCINFO_FILTER_MASK_INACCURATE entries may not
+>
+> be common, unless we can find a stable way to produce them.
+>
+>
+Ack, those are non-trivial to repro and hence we left them out.
 > >
 > >
 > > Thanks
@@ -312,97 +221,349 @@ Ack, I'll include the recommended comment.
 > >
 > > Hao
 > >
-> > > Overall I would prefer ALLOCINFO_FILTER_MASK_INACCURATE rather than
-> > > ALLOCINFO_FILTER_MASK_FLAGS. The fact that this attribute is a
-> > > single-bit flag is a technical detail. It's still a tag attribuite
-> > > like file and module names and IMO deserves its own filter.
-> > >
-> > >
-> > >
-> > >> +                return false;
-> > >> +        }
-> > >>        }
-> > >>
-> > >>        if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE |
-> > >> ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
-> > >> @@ -318,6 +317,10 @@ static int allocinfo_ioctl_get_at(struct seq_fi=
-le
-> > >> *m, void __user *arg)
-> > >>        if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
-> > >>            return -EINVAL;
-> > >>
-> > >> +    if ((params.filter.mask & ALLOCINFO_FILTER_MASK_FLAGS) &&
-> > >> +        (params.filter.flags & ~ALLOCINFO_FILTER_FLAGS_ALL))
-> > >> +        return -EINVAL;
-> > >> +
-> > >>        if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
-> > >>            (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
-> > >>            params.filter.min_size > params.filter.max_size)
-> > >>
-> > >>
-> > >> Thanks
-> > >>
-> > >> Best Regards
-> > >>
-> > >> Hao
-> > >>
-> > >>
-> > >>> Thanks
-> > >>>
-> > >>> Best Regards
-> > >>>
-> > >>> Hao
-> > >>>
-> > >>>
-> > >>>>    };
-> > >>>>      /* The alignment ensures 32-bit compatible interfaces are not
-> > >>>> broken */
-> > >>>> @@ -39,6 +40,7 @@ enum {
-> > >>>>        ALLOCINFO_FILTER_FUNCTION,
-> > >>>>        ALLOCINFO_FILTER_FILENAME,
-> > >>>>        ALLOCINFO_FILTER_LINENO,
-> > >>>> +    ALLOCINFO_FILTER_INACCURATE,
-> > >>>>        ALLOCINFO_FILTER_MIN_SIZE,
-> > >>>>        ALLOCINFO_FILTER_MAX_SIZE,
-> > >>>>        __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
-> > >>>> @@ -48,6 +50,7 @@ enum {
-> > >>>>    #define ALLOCINFO_FILTER_MASK_FUNCTION        (1 <<
-> > >>>> ALLOCINFO_FILTER_FUNCTION)
-> > >>>>    #define ALLOCINFO_FILTER_MASK_FILENAME        (1 <<
-> > >>>> ALLOCINFO_FILTER_FILENAME)
-> > >>>>    #define ALLOCINFO_FILTER_MASK_LINENO        (1 <<
-> > >>>> ALLOCINFO_FILTER_LINENO)
-> > >>>> +#define ALLOCINFO_FILTER_MASK_INACCURATE    (1 <<
-> > >>>> ALLOCINFO_FILTER_INACCURATE)
-> > >>>>    #define ALLOCINFO_FILTER_MASK_MIN_SIZE        (1 <<
-> > >>>> ALLOCINFO_FILTER_MIN_SIZE)
-> > >>>>    #define ALLOCINFO_FILTER_MASK_MAX_SIZE        (1 <<
-> > >>>> ALLOCINFO_FILTER_MAX_SIZE)
-> > >>>>    diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> > >>>> index ddc6946f56ab..cbcd12c4ef9c 100644
-> > >>>> --- a/lib/alloc_tag.c
-> > >>>> +++ b/lib/alloc_tag.c
-> > >>>> @@ -249,6 +249,8 @@ static bool matches_filter(struct codetag *ct,
-> > >>>> struct allocinfo_filter *filter,
-> > >>>>                   struct alloc_tag_counters *counters,
-> > >>>>                   bool *fetched_counters)
-> > >>>>    {
-> > >>>> +    bool inaccurate;
-> > >>>> +
-> > >>>>        if (!filter || !filter->mask)
-> > >>>>            return true;
-> > >>>>    @@ -275,6 +277,12 @@ static bool matches_filter(struct codetag =
-*ct,
-> > >>>> struct allocinfo_filter *filter,
-> > >>>>            ct->lineno !=3D filter->fields.lineno)
-> > >>>>            return false;
-> > >>>>    +    if (filter->mask & ALLOCINFO_FILTER_MASK_INACCURATE) {
-> > >>>> +        inaccurate =3D !!(ct->flags & CODETAG_FLAG_INACCURATE);
-> > >>>> +        if (inaccurate !=3D !!(filter->fields.inaccurate))
-> > >>>> +            return false;
-> > >>>> +    }
-> > >>>> +
-> > >>>>        if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE |
-> > >>>> ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
-> > >>>>            if (!*fetched_counters) {
-> > >>>>                *counters =3D allocinfo_prefetch_counters(ct);
+> >> + * Copyright (C) 2026 Google, Inc.
+> >> + */
+> >> +
+> >> +#include <errno.h>
+> >> +#include <fcntl.h>
+> >> +#include <stdio.h>
+> >> +#include <stdlib.h>
+> >> +#include <string.h>
+> >> +#include <stdbool.h>
+> >> +#include <unistd.h>
+> >> +#include <sys/ioctl.h>
+> >> +#include <linux/types.h>
+> >> +#include <linux/alloc_tag.h>
+> >> +#include "../kselftest.h"
+> >> +
+> >> +#define MAX_LINE_LEN        512
+> >> +#define ALLOCINFO_PROC        "/proc/allocinfo"
+> >> +
+> >> +enum ioctl_ret {
+> >> +    IOCTL_SUCCESS =3D 0,
+> >> +    IOCTL_FAILURE =3D 1,
+> >> +    IOCTL_INVALID_DATA =3D 2,
+> >> +};
+> >> +
+> >> +#define VEC_MAX_ENTRIES 32
+> >> +
+> >> +struct allocinfo_tag_data_vec {
+> >> +    struct allocinfo_tag_data tag[VEC_MAX_ENTRIES];
+> >> +    __u64 count;
+> >> +};
+> >> +
+> >> +static inline int __allocinfo_get_content_id(int dev_fd, struct
+> >> allocinfo_content_id *params)
+> >> +{
+> >> +    return ioctl(dev_fd, ALLOCINFO_IOC_CONTENT_ID, params);
+> >> +}
+> >> +
+> >> +static inline int __allocinfo_get_at(int dev_fd, struct
+> >> allocinfo_get_at *params)
+> >> +{
+> >> +    return ioctl(dev_fd, ALLOCINFO_IOC_GET_AT, params);
+> >> +}
+> >> +
+> >> +static inline int __allocinfo_get_next(int dev_fd, struct
+> >> allocinfo_tag_data *params)
+> >> +{
+> >> +    return ioctl(dev_fd, ALLOCINFO_IOC_GET_NEXT, params);
+> >> +}
+> >> +
+> >> +static bool match_entry(const struct allocinfo_tag_data *procfs_entry=
+,
+> >> +            const struct allocinfo_tag_data *tag_data,
+> >> +            bool match_bytes, bool match_calls, bool match_lineno,
+> >> +            bool match_function, bool match_filename)
+> >> +{
+> >> +    if (match_bytes && tag_data->counter.bytes !=3D
+> >> procfs_entry->counter.bytes) {
+> >> +        ksft_print_msg("size retrieved through ioctl does not match
+> >> procfs\n");
+> >> +        return false;
+> >> +    }
+> >> +
+> >> +    if (match_calls && tag_data->counter.calls !=3D
+> >> procfs_entry->counter.calls) {
+> >> +        ksft_print_msg("call count retrieved through ioctl does not
+> >> match procfs\n");
+> >> +        return false;
+> >> +    }
+> >> +
+> >> +    if (match_lineno && tag_data->tag.lineno !=3D
+> >> procfs_entry->tag.lineno) {
+> >> +        ksft_print_msg("lineno retrieved through ioctl does not
+> >> match procfs\n");
+> >> +        return false;
+> >> +    }
+> >> +
+> >> +    if (match_function &&
+> >> +        strncmp(tag_data->tag.function, procfs_entry->tag.function,
+> >> ALLOCINFO_STR_SIZE)) {
+> >> +        ksft_print_msg("function retrieved through ioctl does not
+> >> match procfs\n");
+> >> +        return false;
+> >> +    }
+> >> +
+> >> +    if (match_filename &&
+> >> +        strncmp(tag_data->tag.filename, procfs_entry->tag.filename,
+> >> ALLOCINFO_STR_SIZE)) {
+> >> +        ksft_print_msg("filename retrieved through ioctl does not
+> >> match procfs\n");
+> >> +        return false;
+> >> +    }
+> >> +    return true;
+> >> +}
+> >> +
+> >> +static bool match_entries(const struct allocinfo_tag_data_vec
+> >> *procfs_entries,
+> >> +              const struct allocinfo_tag_data_vec *tags,
+> >> +              bool match_bytes, bool match_calls, bool match_lineno,
+> >> +              bool match_function, bool match_filename)
+> >> +{
+> >> +    __u64 i;
+> >> +
+> >> +    if (procfs_entries->count !=3D tags->count) {
+> >> +        ksft_print_msg("Entry count mismatch. ioctl entries: %llu,
+> >> proc entries: %llu\n",
+> >> +                   tags->count, procfs_entries->count);
+> >> +        return false;
+> >> +    }
+> >> +    for (i =3D 0; i < procfs_entries->count; i++) {
+> >> +        if (!match_entry(&procfs_entries->tag[i], &tags->tag[i],
+> >> +                 match_bytes, match_calls, match_lineno,
+> >> +                 match_function, match_filename)) {
+> >> +            ksft_print_msg("%lluth entry does not match.\n", i);
+> >> +            return false;
+> >> +        }
+> >> +    }
+> >> +    return true;
+> >> +}
+> >> +
+> >> +static int get_filtered_procfs_entries(struct allocinfo_tag_data_vec
+> >> *procfs_entries,
+> >> +                       const struct allocinfo_filter *filter, int fd)
+> >> +{
+> >> +    FILE *fp =3D fdopen(fd, "r");
+> >> +    char line[MAX_LINE_LEN];
+> >> +    int matches;
+> >> +    struct allocinfo_tag_data procfs_entry;
+> >> +
+> >> +    if (!fp) {
+> >> +        ksft_print_msg("Failed to open " ALLOCINFO_PROC " for
+> >> reading\n");
+> >> +        return 1;
+> >> +    }
+> >> +    memset(procfs_entries, 0, sizeof(*procfs_entries));
+> >> +    while (fgets(line, sizeof(line), fp) && procfs_entries->count <
+> >> VEC_MAX_ENTRIES) {
+> >> +
+> >> +        memset(&procfs_entry, 0, sizeof(procfs_entry));
+> >> +        matches =3D sscanf(line, "%llu %llu %[^:]:%llu func:%s",
+> >> +                 &procfs_entry.counter.bytes,
+> >> +                 &procfs_entry.counter.calls,
+> >> +                 procfs_entry.tag.filename,
+> >> +                 &procfs_entry.tag.lineno,
+> >> +                 procfs_entry.tag.function);
+> >> +
+> >> +        if (matches !=3D 5)
+> >> +            continue;
+> >> +
+> >> +        if (filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) {
+> >> +            if (strncmp(procfs_entry.tag.filename,
+> >> +                    filter->fields.filename, ALLOCINFO_STR_SIZE))
+> >> +                continue;
+> >> +        }
+> >> +        if (filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) {
+> >> +            if (strncmp(procfs_entry.tag.function,
+> >> +                    filter->fields.function, ALLOCINFO_STR_SIZE))
+> >> +                continue;
+> >> +        }
+> >> +        if (filter->mask & ALLOCINFO_FILTER_MASK_LINENO) {
+> >> +            if (procfs_entry.tag.lineno !=3D filter->fields.lineno)
+> >> +                continue;
+> >> +        }
+> >> +        if (filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) {
+> >> +            if (procfs_entry.counter.bytes < filter->min_size)
+> >> +                continue;
+> >> +        }
+> >> +        if (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) {
+> >> +            if (procfs_entry.counter.bytes > filter->max_size)
+> >> +                continue;
+> >> +        }
+> >> +
+> >> + memcpy(&procfs_entries->tag[procfs_entries->count++], &procfs_entry,
+> >> +               sizeof(procfs_entry));
+> >> +    }
+> >> +    return 0;
+> >> +}
+> >> +
+> >> +static enum ioctl_ret get_filtered_ioctl_entries(struct
+> >> allocinfo_tag_data_vec *tags,
+> >> +                         const struct allocinfo_filter *filter, int f=
+d,
+> >> +                         __u64 start_pos)
+> >> +{
+> >> +    struct allocinfo_content_id start_cont_id, end_cont_id;
+> >> +    struct allocinfo_get_at get_at_params;
+> >> +    const int max_retries =3D 10;
+> >> +    int retry_count =3D 0;
+> >> +    int status;
+> >> +
+> >> +    /*
+> >> +     * __allocinfo_get_content_id may return different values if a
+> >> kernel module was loaded
+> >> +     * between the two calls. If that happens, the data gathered
+> >> cannot be considered consistent
+> >> +     * and hence needs to be fetched again to avoid flakiness.
+> >> +     */
+> >> +    do {
+> >> +        if (__allocinfo_get_content_id(fd, &start_cont_id)) {
+> >> +            ksft_print_msg("allocinfo_get_content_id failed\n");
+> >> +            return IOCTL_FAILURE;
+> >> +        }
+> >> +
+> >> +        memset(tags, 0, sizeof(*tags));
+> >> +        memset(&get_at_params, 0, sizeof(get_at_params));
+> >> +        memcpy(&get_at_params.filter, filter, sizeof(*filter));
+> >> +        get_at_params.pos =3D start_pos;
+> >> +        if (__allocinfo_get_at(fd, &get_at_params)) {
+> >> +            ksft_print_msg("allocinfo_get_at failed\n");
+> >> +            return IOCTL_FAILURE;
+> >> +        }
+> >> +        memcpy(&tags->tag[tags->count++], &get_at_params.data,
+> >> sizeof(get_at_params.data));
+> >> +
+> >> +        while (tags->count < VEC_MAX_ENTRIES &&
+> >> +               __allocinfo_get_next(fd, &tags->tag[tags->count]) =3D=
+=3D 0)
+> >> +            tags->count++;
+> >> +
+> >> +        if (__allocinfo_get_content_id(fd, &end_cont_id)) {
+> >> +            ksft_print_msg("allocinfo_get_content_id failed\n");
+> >> +            return IOCTL_FAILURE;
+> >> +        }
+> >> +
+> >> +        if (start_cont_id.id =3D=3D end_cont_id.id) {
+> >> +            status =3D IOCTL_SUCCESS;
+> >> +        } else {
+> >> +            ksft_print_msg("allocinfo_get_content_id mismatch,
+> >> retrying...\n");
+> >> +            status =3D IOCTL_INVALID_DATA;
+> >> +        }
+> >> +    } while (status =3D=3D IOCTL_INVALID_DATA && retry_count++ <
+> >> max_retries);
+> >> +
+> >> +    return status;
+> >> +}
+> >> +
+> >> +static int run_filter_test(const struct allocinfo_filter *filter)
+> >> +{
+> >> +    int fd;
+> >> +    struct allocinfo_tag_data_vec *tags =3D malloc(sizeof(*tags));
+> >> +    struct allocinfo_tag_data_vec *procfs_entries =3D
+> >> malloc(sizeof(*procfs_entries));
+> >> +    int ioctl_status;
+> >> +    int ret =3D KSFT_PASS;
+> >> +
+> >> +    if (!tags || !procfs_entries) {
+> >> +        ksft_print_msg("Memory allocation failed.\n");
+> >> +        ret =3D KSFT_FAIL;
+> >> +        goto freemem;
+> >> +    }
+> >> +
+> >> +    fd =3D open(ALLOCINFO_PROC, O_RDONLY);
+> >> +    if (fd < 0) {
+> >> +        ksft_exit_skip("Failed to open " ALLOCINFO_PROC ": %s\n",
+> >> strerror(errno));
+> >> +        ret =3D KSFT_FAIL;
+> >> +        goto freemem;
+> >> +    }
+> >> +
+> >> +    if (get_filtered_procfs_entries(procfs_entries, filter, fd)) {
+> >> +        ksft_print_msg("Error retrieving entries from "
+> >> ALLOCINFO_PROC "\n");
+> >> +        ret =3D KSFT_FAIL;
+> >> +        goto exit;
+> >> +    }
+> >> +
+> >> +    if (procfs_entries->count =3D=3D 0) {
+> >> +        ksft_print_msg("No entries found in " ALLOCINFO_PROC ",
+> >> skipping test\n");
+> >> +        ret =3D KSFT_SKIP;
+> >> +        goto exit;
+> >> +    }
+> >> +
+> >> +    ioctl_status =3D get_filtered_ioctl_entries(tags, filter, fd, 0);
+> >> +    if (ioctl_status =3D=3D IOCTL_INVALID_DATA) {
+> >> +        ksft_print_msg("Trouble retrieving valid IOCTL entries,
+> >> skipping.\n");
+> >> +        ret =3D KSFT_SKIP;
+> >> +        goto exit;
+> >> +    }
+> >> +    if (ioctl_status =3D=3D IOCTL_FAILURE) {
+> >> +        ksft_print_msg("Error retrieving IOCTL entries.\n");
+> >> +        ret =3D KSFT_FAIL;
+> >> +        goto exit;
+> >> +    }
+> >> +
+> >> +    if (!match_entries(procfs_entries, tags, false, false, true,
+> >> true, true))
+> >> +        ret =3D KSFT_FAIL;
+> >> +
+> >> +exit:
+> >> +    close(fd);
+> >> +freemem:
+> >> +    free(tags);
+> >> +    free(procfs_entries);
+> >> +    return ret;
+> >> +}
+> >> +
+> >> +static int test_filename_filter(void)
+> >> +{
+> >> +    struct allocinfo_filter filter;
+> >> +    const char *target_filename =3D "mm/memory.c";
+> >> +
+> >> +    memset(&filter, 0, sizeof(filter));
+> >> +    filter.mask |=3D ALLOCINFO_FILTER_MASK_FILENAME;
+> >> +    strncpy(filter.fields.filename, target_filename,
+> >> ALLOCINFO_STR_SIZE);
+> >> +
+> >> +    return run_filter_test(&filter);
+> >> +}
+> >> +
+> >> +static int test_function_filter(void)
+> >> +{
+> >> +    struct allocinfo_filter filter;
+> >> +    const char *target_function =3D "dup_mm";
+> >> +
+> >> +    memset(&filter, 0, sizeof(filter));
+> >> +    filter.mask |=3D ALLOCINFO_FILTER_MASK_FUNCTION;
+> >> +    strncpy(filter.fields.function, target_function,
+> >> ALLOCINFO_STR_SIZE);
+> >> +
+> >> +    return run_filter_test(&filter);
+> >> +}
+> >> +
+> >> +int main(int argc, char *argv[])
+> >> +{
+> >> +    int ret;
+> >> +
+> >> +    ksft_set_plan(2);
+> >> +
+> >> +    ret =3D test_filename_filter();
+> >> +    if (ret =3D=3D KSFT_SKIP)
+> >> +        ksft_test_result_skip("Skipping test_filename_filter\n");
+> >> +    else
+> >> +        ksft_test_result(ret =3D=3D KSFT_PASS, "test_filename_filter\=
+n");
+> >> +
+> >> +    ret =3D test_function_filter();
+> >> +    if (ret =3D=3D KSFT_SKIP)
+> >> +        ksft_test_result_skip("Skipping test_function_filter\n");
+> >> +    else
+> >> +        ksft_test_result(ret =3D=3D KSFT_PASS, "test_function_filter\=
+n");
+> >> +
+> >> +    ksft_finished();
+> >> +}
