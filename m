@@ -1,216 +1,398 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14D334D3B5;
-	Tue,  9 Jun 2026 14:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781016071; cv=none; b=j1CPubpXXu4oxqgC2vXKqEBaX50cc+xcT8tv1vAeoZosCICBzEFEteHdE9rlSWZZE0N7sEwH/0unZHyqn+gvFug8gYrzccYKdMcxlVsaqT7twtACMWT0HgbFSds9ej6blFtVf61GcmcwYr/zEz3Gb+UQxvkUjC2rFRgdCQD6qZ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781016071; c=relaxed/simple;
-	bh=/u81EElxj1ij8xTBPIpvX9Ln3B+z5bXSRr+bxSSwy78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jhmp2kHJYYx9PTDaq6u/S9ejHP0i48FhTpK1/zpLA0zIPR5ntEy61LI4pkDwwD7F8GF+wrzKI/gJvZ5rE///5KmMEnqke0ePU7zofe60iLJEotGZKd2079J/D4xvCH63tKmjS+t62IqSB1Zqy9ahzfH01/kaZv2AzqHuVY2CYko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MooxQ3yX; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29E2352017
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781016078; cv=pass; b=RzA279H8iAyIfFePiHlJfME3zElxzmlqLBsTuivEbW4RRs+pbJzG8f88S3PZxpkx1Ep59t/7wjw2D3q4UwrllHSU+iLuTId02Whob6odGzqAWjtjk7yH1xt1CZIVbpdgA4Kr3i6xSe+BFi7eRKCZxb0gasvNQd4o6AQG8Jqr6nY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781016078; c=relaxed/simple;
+	bh=vkYMiT15IDgP+UyvD48tHe2RSv3IfqAlFEWxzpklv7o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WjnzkyEB8ztKxbdYiddLjDN97R1K7IaudtMcdK/cHNYtmdPc723mZa1ZocAj+QXhPj3zEmCvKHPsiexoaUbpo3qJSN8C2AQaHbgL8tdyZEknDisRbF8Brjo6cJ1ffS5HZswXT1aJFMc8ZeRic9t0kJiPU/D6IDqiIRE+WCpe9mY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Yx8SDW2Z; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MooxQ3yX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7892E1F00893;
-	Tue,  9 Jun 2026 14:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781016069;
-	bh=njEURiQmXFZM6WEGnC38JEeiBkoFTQqy3aaC8k9YWik=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MooxQ3yXGNmCMYmAPyS4YaT8WUSTSGiIaRoRUrQlfEEfZaPRJGr8nQsjCwZjSEYvW
-	 +VA8sZQvyoU3Gf9pqv7RAk0VGxiNzXbLySE+VosNUgKSApgJo0GMEy6xxKdAeaCzfY
-	 MgXL+725kEpcMEFLegVCB/FbW/IjOL3awFxiXIwi4g5kkaj/smuNvNe0nMg35Vi/Gn
-	 uvlnuUidgLUMTg5zoyiegeYecMwZr/wKe/+PsawghTVFtmMV5hWirungglBGyBa6Zy
-	 9C1ym/GFh0SPxD68AHX6upnJiFfuOlXDd9nhoIG87kQ90npFnHjPWSD3O9MvVIEBH0
-	 0Gg6RJVuddH1A==
-Message-ID: <174b8d76-5514-4942-af5d-c975ff95ee03@kernel.org>
-Date: Tue, 9 Jun 2026 16:41:01 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Yx8SDW2Z"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5177d1ff061so2300871cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:41:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781016075; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FfXSPtzN+tDTFS921n8YkUDVRu12YGDyPmqv8EgkK9cG0fW8BedxPHsSOi1IKLfWWX
+         ftFq1D9Co0sINrWRsUEQOkfZsPEk0SRCQActTAttX2XKaF0/e3hxRoqhBp48keZQEvwJ
+         1Jb0TwRRdKxNh7Yy1dCZ0MKZDx+umqMmLk4pZ6gaNCJLqLaSRKFPE5hTaA/zxbFAOpas
+         edKvzey9/XCHptrrQvzPSH95trdDpiWJ9xR01uStT6QZhC9jdbb3njKKFOQSBubdik5n
+         FllwkAI6JCECnVOVe8XW/2JB27iNka348dAOxJ8sqJLNy1JPNv3byhDeT2DP8n8AcwDw
+         waHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Cs6tgEzoVHYpv7k21ybqH49sF46z7hX0J0ePiR98zrw=;
+        fh=oCn0eNBkV2YHDfwN8dP3BUyKrCupMJSbLX90oLdKxcg=;
+        b=W09gkH373BVoRgijh6xS3Y86lu1heBx94UlcDgGHjj0sPRp/pm7BA70TpnkQC+BuCk
+         MZAIrmN8yriLJKXDHFTHXNZsO5nsLt7nUS1iXCg+njDOxupI2S+uaGSHxaL6gvpGA5Cx
+         fnBi+1YSDPkpdREXGEC7Y7N7YFxvEWbcjKZHyeU63ZPFAGVkt02fFEwwnoDp9W9tVWqa
+         twKTH+W/86SxIdh0yRN30jg0rp7L5+nCxv2bB3G2rrEOBPUy9eZnkGzM/ejMk4bkdHdX
+         eCMGiBT616xdailPD0oIIvftQXI2PaNuxLLfjKZyMBY1EgyIpih1OncT15nvZEI0gud/
+         tkxw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781016075; x=1781620875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cs6tgEzoVHYpv7k21ybqH49sF46z7hX0J0ePiR98zrw=;
+        b=Yx8SDW2Z6utMLswVPGCnmTS6LZk8w5ASde6KP2N1gdUxn0c1hdhgfra9nRXklnziFn
+         A7pmU1TCRz0wJawW9cOYa7lYOlsyU/WV/TWL2jqAUu2H3Vu6hl9sJ7lfgaGJ6IKjoy0x
+         aEuBWbz/06K5RfW6W5hiD5bj7uD2kghsbnaeJjlAhVIXtqPNbg1gUPch3Y58/RfgDyCr
+         x0SxtyNWu0j5Ah2kL7XiJKjUwpR/egTKQawKLpbmZAMEafmkTiQ4NxxMv5eYH81+xEFb
+         tTNWTFS5Wym0zjndlZD7PxwniaVffs/Mjst3Bp5smJoZflA55XWpz92IU6fwFWdQOIi9
+         iFXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781016075; x=1781620875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Cs6tgEzoVHYpv7k21ybqH49sF46z7hX0J0ePiR98zrw=;
+        b=A4v3A/zmW1Yl6PLNg1x4ccbO9nsU/ZyzY1zSjwapMaT754+UnY2/tZezIMHmae4hpi
+         sqtoF5Yrkdp9Lnr+X60eW+KE4BkNDcgE/xUs+WZD+eIOWLPp4WGu0GZ5Z5nRd1tx5nPB
+         nxy+3/j3ECefZqSC4ZCKhb4CVZmZAtI+8AxRQxtdP3ye6tb6C6vqhXTONHyJ7zUGqW8y
+         BylhHjElS6GPhCfKj2ikpAz4hjZW23c/4aI+WEkiF3ZdcJEzWE/kvWb8aYXOsIpoldMj
+         t2UuqMBdClRQILK0a/amL6wVpflYXaKNICVacKMf7vfJfqXAcY5/a2S7N4OfnUAHY9IX
+         zDNA==
+X-Forwarded-Encrypted: i=1; AFNElJ8FhmhCJ/JvgrrbASGqnFZY0CrBNMJt61ELaa0DpypOvxS8XColwaJuNSJhGlSWz3V4G1CFIpXY/BI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPoT4o85qZVRYr116fDCAPXK4bLZ14t5gSEmrI/AuG9UE/CNwm
+	g5Sryt760ELz3P6t65xiI4Ovgt7VHQseauGKMMHG4AJ2yqwmMrLJ+/QWAA7CZWnOUVWD6qfU/Wi
+	QqpCPv9pwAQZ7I7CTNNTgSyMTnYUQmQLtPXACCWLe
+X-Gm-Gg: Acq92OHODBkDHGyu8vSewl5eRngbVMOh7o60JHARBv449K3gqr7G4OKJgt/tJK/Po50
+	1DZ+Eb9/hROkxh+l4XkGghqleoOA5uGUUvbB5YOVxIf4zuVRwuFQI2V1t8mknoph009OX47Qbke
+	xXtUjQbKA3l6rMzPOWC3jR+akF7P13sxWdLbiXVl3TT1QmA84kfz/4MGdYdVazjfnOgNfE3FoIG
+	7jLGESPFHJ5COOpGSO4x9GrPGfwfjiv2O7h96oThE2kaXonypbIKG8SxgVQUd8uxV4VA6wvtFEA
+	5uk2PlGKEZwWxsw/pRdirs2vlwgR+yvBwPcfvrWVDR3dFX3h
+X-Received: by 2002:a05:622a:aa4a:20b0:517:5ec3:b59c with SMTP id
+ d75a77b69052e-51798027065mr33863531cf.2.1781016074112; Tue, 09 Jun 2026
+ 07:41:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-To: Breno Leitao <leitao@debian.org>, Miaohe Lin <linmiaohe@huawei.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
- <20260609-ecc_panic-v9-2-432a74002e74@debian.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260609-ecc_panic-v9-2-432a74002e74@debian.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1780701922.git.abhishekbapat@google.com>
+ <b608a6f7d71e3b728f766dbc6dfa1d1753ddcff5.1780701922.git.abhishekbapat@google.com>
+ <1ec17313-cd2b-4389-a05d-998757af30b3@linux.dev> <a58e659e-5f54-4511-9a29-dc921002d102@linux.dev>
+ <CAJuCfpHtdd=9D68cfRp4HDHHHCZdzTNP_RH9i2D-f9tJXht56A@mail.gmail.com> <ebcbe4a8-127b-4d12-83f1-dec93f0a9c61@linux.dev>
+In-Reply-To: <ebcbe4a8-127b-4d12-83f1-dec93f0a9c61@linux.dev>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 9 Jun 2026 07:41:01 -0700
+X-Gm-Features: AVVi8Cd8Mw9UFnLHYjZB_VFyvF_jL4KOSZdNa8eQSyaG7dF5Q3xsZiPC-kanxu4
+Message-ID: <CAJuCfpGbxO0zu_UAWCYNNv8RHgT=E4AF0tgG-kWoLXECOL3byA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] alloc_tag: add accuracy based filtering to ioctl
+To: Hao Ge <hao.ge@linux.dev>
+Cc: Abhishek Bapat <abhishekbapat@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/9/26 12:56, Breno Leitao wrote:
-> get_any_page() collapses every HWPoisonHandlable() rejection into a
-> single -EIO via the __get_hwpoison_page() -> -EBUSY -> shake_page()
-> -> retry path.  That is correct for the transient case (a userspace
-> folio briefly off LRU during migration or compaction, which a later
-> shake can drag back), but wrong for stable kernel-owned pages: slab,
-> page-table, large-kmalloc and PG_reserved pages will never become
-> HWPoisonHandlable(), so the retry loop is wasted work and the final
-> -EIO loses the "this is structurally unrecoverable" information.
-> memory_failure() then maps -EIO into MF_MSG_GET_HWPOISON, which the
-> panic-on-unrecoverable sysctl deliberately does not act on.
-> 
-> Introduce HWPoisonKernelOwned(), a small predicate that positively
-> identifies pages the hwpoison handler cannot recover from:
-> 
->   HWPoisonKernelOwned(p, flags) :=
->       !(MF_SOFT_OFFLINE && page_has_movable_ops(p)) &&
->       (PageReserved(p) ||
->        PageSlab(head) || PageTable(head) || PageLargeKmalloc(head))
-> 
->   where head = compound_head(p).
-> 
-> PG_reserved is a per-page flag (PF_NO_COMPOUND) and is tested on the
-> page directly.  The slab, page-table and large-kmalloc page-type bits
-> are only stored on the head page, so those tests resolve the compound
-> head first, then re-read compound_head(page) afterwards: a concurrent
-> split or compound free that moves head invalidates the just-read flags
-> and the loop retries.  The lookup still takes no refcount, mirroring
-> the rest of get_any_page(); the recheck closes the common split race,
-> and a residual free->alloc->free in the same window can only mis-tag
-> a genuinely poisoned page, never reclassify a handlable one.
-> 
-> The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors the
-> same exception in HWPoisonHandlable(): soft-offline is allowed to
-> migrate movable_ops pages even though they are not on the LRU, and
-> we must not pre-empt that with an unrecoverable verdict.
-> 
-> The list is intentionally not exhaustive.  vmalloc and kernel-stack
-> pages, for example, do not carry a page_type bit and would need a
-> different oracle; they keep going through the existing retry path
-> unchanged.  This is the smallest set we can identify with certainty
-> by page type.
-> 
-> Wire the helper into the top of get_any_page() to short-circuit
-> those pages before the retry loop runs.  On a hit, drop the caller's
-> MF_COUNT_INCREASED reference (if any) and return -ENOTRECOVERABLE
-> straight away.  Pages outside the helper's positive list still take
-> the existing retry path and return -EIO, leaving operator-visible
-> behaviour for those cases unchanged.
-> 
-> Extend the unhandlable-page pr_err() to fire for either errno and
-> update the get_hwpoison_page() kerneldoc to document the new return.
-> 
-> memory_failure() still folds every negative return into
-> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
-> this patch on its own only changes the errno that soft_offline_page()
-> can propagate to its callers.  A follow-up wires -ENOTRECOVERABLE
-> through memory_failure() and reports MF_MSG_KERNEL for the
-> unrecoverable cases, which is what the
-> panic_on_unrecoverable_memory_failure sysctl observes.
-> 
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Suggested-by: Lance Yang <lance.yang@linux.dev>
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/memory-failure.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 58 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index f4d3e6e20e13..eed9de387694 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -1325,6 +1325,46 @@ static inline bool HWPoisonHandlable(struct page *page, unsigned long flags)
->  	return PageLRU(page) || is_free_buddy_page(page);
->  }
->  
-> +/*
-> + * Positive identification of pages the hwpoison handler cannot recover.
-> + * These page types are owned by kernel internals (no userspace mapping
-> + * to unmap, no file mapping to invalidate, no migration target), so the
-> + * shake_page() / retry loop in get_any_page() can never turn them into
-> + * something HWPoisonHandlable() will accept.  Short-circuit them to
-> + * -ENOTRECOVERABLE so callers can panic on operator request instead of
-> + * spinning through retries that exit as a transient-looking -EIO.
-> + *
-> + * The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors
-> + * HWPoisonHandlable(): soft-offline is allowed to migrate movable_ops
-> + * pages even though they are not on the LRU.
-> + */
-> +static inline bool HWPoisonKernelOwned(struct page *page, unsigned long flags)
-> +{
-> +	struct page *head;
-> +
-> +	if ((flags & MF_SOFT_OFFLINE) && page_has_movable_ops(page))
-> +		return false;
-> +
+On Mon, Jun 8, 2026 at 6:26=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
+>
+> Hi Suren
+>
+>
+> On 2026/6/9 04:55, Suren Baghdasaryan wrote:
+> > On Mon, Jun 8, 2026 at 1:25=E2=80=AFAM Hao Ge <hao.ge@linux.dev> wrote:
+> >>
+> >> On 2026/6/8 14:22, Hao Ge wrote:
+> >>> Hi Abhishek
+> >>>
+> >>>
+> >>> On 2026/6/6 07:36, Abhishek Bapat wrote:
+> >>>> Extend the allocinfo filtering mechanism to allow users to filter ta=
+gs
+> >>>> based on their accuracy.
+> >>>>
+> >>>> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> >>>> ---
+> >>>>    include/uapi/linux/alloc_tag.h | 3 +++
+> >>>>    lib/alloc_tag.c                | 8 ++++++++
+> >>>>    2 files changed, 11 insertions(+)
+> >>>>
+> >>>> diff --git a/include/uapi/linux/alloc_tag.h
+> >>>> b/include/uapi/linux/alloc_tag.h
+> >>>> index 0e648192df4d..42445bdb11c5 100644
+> >>>> --- a/include/uapi/linux/alloc_tag.h
+> >>>> +++ b/include/uapi/linux/alloc_tag.h
+> >>>> @@ -20,6 +20,7 @@ struct allocinfo_tag {
+> >>>>        char function[ALLOCINFO_STR_SIZE];
+> >>>>        char filename[ALLOCINFO_STR_SIZE];
+> >>>>        __u64 lineno;
+> >>>> +    __u64 inaccurate;
+> >>>
+> >>> I was wondering if it would make sense to define inaccurate as a flag=
+s
+> >>> field
+> >>>
+> >>> (e.g. __u64 flags with ALLOCINFO_TAG_F_INACCURATE (1 <<0)),
+> >>>
+> >>> so that only bit 0 is used today and the upper bits are reserved for
+> >>> future use,
+> >>>
+> >>> aligning with current kernel codebase.
+> >>>
+> >>> This design also allows for better extensibility if we need to
+> >>>
+> >>> add new flags for any reason in the future.
+> >>>
+> >>> We also need to add flag validity checks if we go this route.
+> >>>
+> >> And I've reviewed the issue reported by Sashiko, and I think it's vali=
+d.
+> >>
+> >> When we expand the allocinfo_tag_data structure
+> >>
+> >> struct allocinfo_tag_data{
+> >>
+> >>       char modname[64];
+> >>
+> >>       char function[64];
+> >>
+> >>       char filename[64];
+> >>
+> >>       __u64 lineno;
+> >>
+> >>       __u64 inaccurate;
+> >>
+> >>       __u64 bytes;
+> >>
+> >>       __u64 calls;
+> >>
+> >>       __u8 accurate;
+> >>     /* padding */
+> >>
+> >> }
+> >>
+> >> I think user space may see two fields related to inaccuracy.
+> > Yes but one field (inside allocinfo_tag) is the input parameter which
+> > user provides to specify the filtering criteria and the other is the
+> > returned tag information. It's similar to any other tag attribute
+> > which you can be included in the filters.
+> >
+> >> How do you like these modifications?
+> >>
+> >>
+> >> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc=
+_tag.h
+> >> --- a/include/uapi/linux/alloc_tag.h
+> >> +++ b/include/uapi/linux/alloc_tag.h
+> >> @@ -20,7 +20,6 @@ struct allocinfo_tag {
+> >>        char function[ALLOCINFO_STR_SIZE];
+> >>        char filename[ALLOCINFO_STR_SIZE];
+> >>        __u64 lineno;
+> >> -    __u64 inaccurate;
+> >>    };
+> >>
+> >>    /* The alignment ensures 32-bit compatible interfaces are not broke=
+n */
+> >> @@ -40,7 +39,7 @@ enum {
+> >>        ALLOCINFO_FILTER_FUNCTION,
+> >>        ALLOCINFO_FILTER_FILENAME,
+> >>        ALLOCINFO_FILTER_LINENO,
+> >> -    ALLOCINFO_FILTER_INACCURATE,
+> >> +    ALLOCINFO_FILTER_FLAGS,
+> >>        ALLOCINFO_FILTER_MIN_SIZE,
+> >>        ALLOCINFO_FILTER_MAX_SIZE,
+> >>        __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
+> >> @@ -50,16 +49,20 @@ enum {
+> >>    #define ALLOCINFO_FILTER_MASK_FUNCTION        (1 <<
+> >> ALLOCINFO_FILTER_FUNCTION)
+> >>    #define ALLOCINFO_FILTER_MASK_FILENAME        (1 <<
+> >> ALLOCINFO_FILTER_FILENAME)
+> >>    #define ALLOCINFO_FILTER_MASK_LINENO        (1 << ALLOCINFO_FILTER_=
+LINENO)
+> >> -#define ALLOCINFO_FILTER_MASK_INACCURATE    (1 <<
+> >> ALLOCINFO_FILTER_INACCURATE)
+> >> +#define ALLOCINFO_FILTER_MASK_FLAGS        (1 << ALLOCINFO_FILTER_FLA=
+GS)
+> >>    #define ALLOCINFO_FILTER_MASK_MIN_SIZE        (1 <<
+> >> ALLOCINFO_FILTER_MIN_SIZE)
+> >>    #define ALLOCINFO_FILTER_MASK_MAX_SIZE        (1 <<
+> >> ALLOCINFO_FILTER_MAX_SIZE)
+> >>
+> >>    #define ALLOCINFO_FILTER_MASKS \
+> >>        ((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> >>
+> >> +#define ALLOCINFO_FILTER_F_INACCURATE    (1ULL << 0)
+> >> +#define ALLOCINFO_FILTER_FLAGS_ALL ALLOCINFO_FILTER_F_INACCURATE
+> >> +
+> >>    struct allocinfo_filter {
+> >>        __u64 mask; /* bitmask of the filter fields used */
+> >>        struct allocinfo_tag fields;
+> >> +    __u64 flags; /* bitmask of ALLOCINFO_FILTER_F_* */
+> >>        __u64 min_size;
+> >>        __u64 max_size;
+> >>    };
+> >> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> >> --- a/lib/alloc_tag.c
+> >> +++ b/lib/alloc_tag.c
+> >> @@ -249,8 +249,6 @@ static bool matches_filter(struct codetag *ct,
+> >> struct allocinfo_filter *filter,
+> >>                   struct alloc_tag_counters *counters,
+> >>                   bool *fetched_counters)
+> >>    {
+> >> -    bool inaccurate;
+> >> -
+> >>        if (!filter || !filter->mask)
+> >>            return true;
+> >>
+> >> @@ -277,10 +275,11 @@ static bool matches_filter(struct codetag *ct,
+> >> struct allocinfo_filter *filter,
+> >>            ct->lineno !=3D filter->fields.lineno)
+> >>            return false;
+> >>
+> >> -    if (filter->mask & ALLOCINFO_FILTER_MASK_INACCURATE) {
+> >> -        inaccurate =3D !!(ct->flags & CODETAG_FLAG_INACCURATE);
+> >> -        if (inaccurate !=3D !!(filter->fields.inaccurate))
+> >> -            return false;
+> >> +    if (filter->mask & ALLOCINFO_FILTER_MASK_FLAGS) {
+> >> +        if (filter->flags & ALLOCINFO_FILTER_F_INACCURATE) {
+> >> +            if (!(ct->flags & CODETAG_FLAG_INACCURATE))
+> > How would you filter records which have only accurate data?
+>
+>
+> Sorry, I overlooked this case.
+>
+> Since allocinfo_tag_data exposes both inaccurate (from allocinfo_tag) and
+>
+> accurate (from allocinfo_counter), userspace developers might mistakenly
+> read
+>
+> inaccurate instead of accurate when checking accuracy.
+>
+> How about we add a comment to clarify?
+>
+> struct allocinfo_tag {
+>
+>      /* ... */
+>
+>      __u64 lineno;
+>
+>      /* filter criteria only; see allocinfo_counter.accurate for actual
+> accuracy */
+>
+>      __u64 inaccurate;
 
-On a second look: Do we really need that? The page types below never support
-migration. So I guess that check is not required?
+I think we had comments showing which block of parameters are inputs
+and which ones are outputs but I'm not opposed to an additional
+reminder here.
 
-Apart from that, looks good with two comments:
-
-a) HWPoisonKernelOwned: this is not the common style for us to name functions.
-
-is_kernel_owned_page() or sth like that would do.
-
-b) The function doc can likely be simplified a bit. No need to mention the
-short-circuit stuff, for example, IMHO.
-
--- 
-Cheers,
-
-David
+>
+> };
+>
+>
+> LGTM for the rest.
+>
+>
+> Thanks
+>
+> Best Regards
+>
+> Hao
+>
+> > Overall I would prefer ALLOCINFO_FILTER_MASK_INACCURATE rather than
+> > ALLOCINFO_FILTER_MASK_FLAGS. The fact that this attribute is a
+> > single-bit flag is a technical detail. It's still a tag attribuite
+> > like file and module names and IMO deserves its own filter.
+> >
+> >
+> >
+> >> +                return false;
+> >> +        }
+> >>        }
+> >>
+> >>        if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE |
+> >> ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
+> >> @@ -318,6 +317,10 @@ static int allocinfo_ioctl_get_at(struct seq_file
+> >> *m, void __user *arg)
+> >>        if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+> >>            return -EINVAL;
+> >>
+> >> +    if ((params.filter.mask & ALLOCINFO_FILTER_MASK_FLAGS) &&
+> >> +        (params.filter.flags & ~ALLOCINFO_FILTER_FLAGS_ALL))
+> >> +        return -EINVAL;
+> >> +
+> >>        if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> >>            (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> >>            params.filter.min_size > params.filter.max_size)
+> >>
+> >>
+> >> Thanks
+> >>
+> >> Best Regards
+> >>
+> >> Hao
+> >>
+> >>
+> >>> Thanks
+> >>>
+> >>> Best Regards
+> >>>
+> >>> Hao
+> >>>
+> >>>
+> >>>>    };
+> >>>>      /* The alignment ensures 32-bit compatible interfaces are not
+> >>>> broken */
+> >>>> @@ -39,6 +40,7 @@ enum {
+> >>>>        ALLOCINFO_FILTER_FUNCTION,
+> >>>>        ALLOCINFO_FILTER_FILENAME,
+> >>>>        ALLOCINFO_FILTER_LINENO,
+> >>>> +    ALLOCINFO_FILTER_INACCURATE,
+> >>>>        ALLOCINFO_FILTER_MIN_SIZE,
+> >>>>        ALLOCINFO_FILTER_MAX_SIZE,
+> >>>>        __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
+> >>>> @@ -48,6 +50,7 @@ enum {
+> >>>>    #define ALLOCINFO_FILTER_MASK_FUNCTION        (1 <<
+> >>>> ALLOCINFO_FILTER_FUNCTION)
+> >>>>    #define ALLOCINFO_FILTER_MASK_FILENAME        (1 <<
+> >>>> ALLOCINFO_FILTER_FILENAME)
+> >>>>    #define ALLOCINFO_FILTER_MASK_LINENO        (1 <<
+> >>>> ALLOCINFO_FILTER_LINENO)
+> >>>> +#define ALLOCINFO_FILTER_MASK_INACCURATE    (1 <<
+> >>>> ALLOCINFO_FILTER_INACCURATE)
+> >>>>    #define ALLOCINFO_FILTER_MASK_MIN_SIZE        (1 <<
+> >>>> ALLOCINFO_FILTER_MIN_SIZE)
+> >>>>    #define ALLOCINFO_FILTER_MASK_MAX_SIZE        (1 <<
+> >>>> ALLOCINFO_FILTER_MAX_SIZE)
+> >>>>    diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> >>>> index ddc6946f56ab..cbcd12c4ef9c 100644
+> >>>> --- a/lib/alloc_tag.c
+> >>>> +++ b/lib/alloc_tag.c
+> >>>> @@ -249,6 +249,8 @@ static bool matches_filter(struct codetag *ct,
+> >>>> struct allocinfo_filter *filter,
+> >>>>                   struct alloc_tag_counters *counters,
+> >>>>                   bool *fetched_counters)
+> >>>>    {
+> >>>> +    bool inaccurate;
+> >>>> +
+> >>>>        if (!filter || !filter->mask)
+> >>>>            return true;
+> >>>>    @@ -275,6 +277,12 @@ static bool matches_filter(struct codetag *c=
+t,
+> >>>> struct allocinfo_filter *filter,
+> >>>>            ct->lineno !=3D filter->fields.lineno)
+> >>>>            return false;
+> >>>>    +    if (filter->mask & ALLOCINFO_FILTER_MASK_INACCURATE) {
+> >>>> +        inaccurate =3D !!(ct->flags & CODETAG_FLAG_INACCURATE);
+> >>>> +        if (inaccurate !=3D !!(filter->fields.inaccurate))
+> >>>> +            return false;
+> >>>> +    }
+> >>>> +
+> >>>>        if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE |
+> >>>> ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
+> >>>>            if (!*fetched_counters) {
+> >>>>                *counters =3D allocinfo_prefetch_counters(ct);
