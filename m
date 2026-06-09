@@ -1,105 +1,127 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173D748C3EB
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 15:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D7C49250F
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 15:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781019052; cv=none; b=mhqNXnpMNjgGfET1mzDeWi5y1ASCAX8HtN/SHlLtOzNJUbpdfQQvSaPKLuUBu3giOLxk03w9dP/XLXZv7O68pvIKN7wAzLfyWw4s7Dz/QQHa5cMnYa9VS5RPkN8ZLWNe2r0sUJFCMYFLoXLj+qv97iFvtPKGumOtHdQh3EQ5onM=
+	t=1781019309; cv=none; b=ajzu5LpGNdhxmbMUidcqyfPaLaYM2nkQlhwlBI6zZZ+PDtvuYAAizVdLX+sN4BE8HmSFwZ3HsLqQ/7F2xaU1rgM2azVrn26gMv9Y7PgHtCccrQ4DBB17bKVMG5Ez7uCQ2D3545S+aMvg7yjbx4tAJ3B4L9Xqe+nkGmXWZn8FrIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781019052; c=relaxed/simple;
-	bh=11WhgqEt9zgT+ZWXS7ElY2GogLk4HG1AB68dGIPIaxc=;
+	s=arc-20240116; t=1781019309; c=relaxed/simple;
+	bh=IqA7ece+KivQIz+QnTfJlr8GYFK3bFrh9+lzAaVoLks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uO3akO8kL4+98SKgwEIGPWPbGwhB1LEkLxV1hXg68ImEhOAx5vbjI2CAf3LSlmWuISzunlz1dZkZRtARdx4gHRfduHPcRskm1faQgbczMRTe7G1LNg8Y7yaISEbj5AgiAueLZe4WwVKGkv1G8I+Da6NPML8ve6tKSIJBU5EgBXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wg0j8zQz; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlM8hVezpzO0m258Ke1VLH9bH+nLi65x42fXI/+vl+uX5gcRy/nAUhsd1qvulQ6p8cvAIeJBxS9OkmRfAjuFCqat+O+J+9qIlOYJmt8GgwTyXnrTRAU62MQW4rn196EUxEWv374GQ/1NjrfWcNxcCy9Sb7t1/nCr4VH/ikZyp84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VKwEITMm; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wg0j8zQz"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c8589498839so2525529a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 08:30:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VKwEITMm"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2bf22c18ad3so538025ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 08:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781019050; x=1781623850; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tfoL8NhaievxojnidDqV0SnsthszxSn+iRp8X4DAOXY=;
-        b=Wg0j8zQzHW+KSie6yZ/U++pU00g4DfbwbKgfhdhwDo+L8alXDCAoKCDwdR35iNGHd3
-         NR9fXMEv+dCP+Ye8xUVd0lPBk0DvAgflS9t4X4JbxNBlitoSjqihqYgL6It5FfZOFVaT
-         OzuVWZvpt+IJzRLTUitlgechxgoDbhqVGrpQk+L6fCH/R3/9WI8ojLk7a1aqW1XpLur7
-         LvJerYtEkxvA6LhVp6mEp8ZnDdsq6LN4vYbcUnbbSl41KCpiDgPVDbQn7RQ14sO3ke2S
-         TdVx1J+/3Vj2xx+YTWx4flEGhJgQEuipu6YUfq9FmOTQY3wB95M/wirg6gH7DgjXTgnC
-         rCvw==
+        d=google.com; s=20251104; t=1781019306; x=1781624106; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UyfvIUyYOvTVt/UpRIulwDCiz4s89QiTYmiwF1UuTbs=;
+        b=VKwEITMmY+vIF7jLHPm/G3ujxm+/qQAK6QbACHBRHkH8m32SFVruEegpcyXlaCBVqu
+         VCjsa/rdPcJp35mI2h6n9tpOuGNWUuaQ672kL87BfJ8fA4XiLfAS8dzGhYCMsiHiMQAQ
+         u+kAUtHMKxkaqatkoNqFsJd2xRtBbkpXfUlfDm8dXmz3XNIG7/GWlufKlgCvlVJQWpoj
+         jT//BncqBAcfCRJDw4CjgvZ8fILeeTX7hsPJYxq050U22ausROyCbFBo/3kXBtTRKTKb
+         gMtpCGmO2VbnxSeFNsp1948l+WUDylvlTrkzF2nmXkyoGoJxP90a3jZkRqTpBHs/ayhw
+         x7CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781019050; x=1781623850;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tfoL8NhaievxojnidDqV0SnsthszxSn+iRp8X4DAOXY=;
-        b=sBKwG/sTRHeq/iIii1ZdW3LvdEHbswPYoG/NTG4jHsexakfDJYcy6XXUC+qIaKovcq
-         QuYDSLtDouGkXSxwJLPHEoDYXAgQ7xKoaZuoiLj6vHzt+fiky8jLMD+Pc5UEY1b18df7
-         5Ha0I8g6kFPPmijUTaljxdPscDWYKYtb2xIRLpntq5aVezOXXV9yhteXeEWyq1JqC5ep
-         x9AaqwwFLznZZhW5jZGIGmwG/A9HODT1alJyRXciztoRB/fYuFzILmUfmKuXNNsyLEjp
-         fCvBC7vqT6DzMu0AFbYYi2C2kbZD/fNXbtvm+mM/LFqcca1JQSejahKz5ddWUVfsRzxd
-         x5qw==
-X-Forwarded-Encrypted: i=1; AFNElJ9HL5cJBnFqXMosiw6Qni5HptSrviHfEuJykYwnYUYCeozZDUJT80RG69Eo57bDbveeJaS6+Kn0x7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJve5A9E94NsY0F7wHagyrJUyhCYAZEAiWW8OEJlfZX4srwJ2m
-	J5nzcXWTtTEem24o9uARcsgNblCzD/kZFYqa+Z4YIjXXgIndU/4weCVO
-X-Gm-Gg: Acq92OF055g2SHwJjLrtCTFgpo2c06WXbOhDcV7CED1tQsVBCMfFmnFECczi59ya2ss
-	un/YTKRYmYnrAPbvCHHFBqpMTgO5RHfgcj6xRhQcsESm8lCd76w1zZxPb5uJEzpBbLrCcZkzHVy
-	s0CxCFE3PWzmfMgiwDG1+T4dp3vD+/5SYoDAKzw+WOOTRH43wtUUzsA6F6hLlf8QBZQIcOBWtZo
-	UWcGGuFTMZi3wniUQ23wqjwhac7ELYQbNmiB944ZGG/Qwn/qfXbnyFbzAAkmwFtrSzGoF9y2WLU
-	zq9M4a8DpBfKu23a8KwIi6sdRtVIi+aps2hxAZbLtzDIwCKUVE9pSh1xHIaDS7tcVwbw3O1m2XB
-	WT6Z/393SAdYGTdkTs5AQ7Vy2LbHOhzrHxysh7W0ZgggHaUGc4vxta5DdWgvsQ67egjBvDp5OS8
-	FuWISSWNpskChg1bE1LYr2WHoeFdt8RfC7wPI5657t+N5/z3U=
-X-Received: by 2002:a05:6a00:928a:b0:842:5a8d:3036 with SMTP id d2e1a72fcca58-842b0fb6e13mr21005108b3a.35.1781019050176;
-        Tue, 09 Jun 2026 08:30:50 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8428221c3e4sm22494788b3a.5.2026.06.09.08.30.49
+        d=1e100.net; s=20251104; t=1781019306; x=1781624106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UyfvIUyYOvTVt/UpRIulwDCiz4s89QiTYmiwF1UuTbs=;
+        b=EMzz9tEo4440Io3/X5n4emoPdE1EJHEKsFhnzusp9wG6wfli991qG9u+WujVkH9r+w
+         n7+hBPgUaC+twsHUcrz5TKKJtqv3o7JmouhqUV/4e73JEhTtxZeJz1zptWK1Rm1lIl/U
+         oEKJfjyPTlmgPFUNjfeZglri6oSZbjKtKoWA8aAfpzI7TOctN+IqYAMMkHEOQJ2GTnEo
+         L1IgJBdj3CWGf0UDFMhxIMHf2tDoo/7/WICT7BOCsN+OkLuiTwmcuSN4P1+QEpz9LkWj
+         Ku3+ZslHH3p9DwIoWdcDZpAFbnYyLZMgW0ae5C1HqjBolQ0JxllghezdKnvsD8R1VaUk
+         IiOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8jaaLuWLZVA0FG0W2OKJzpUWzdtV+b1UWJKWVppCaEd6NIrs8ZmbFT3ZpggGsNsADPXvY9r1xxIJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDe8opru/U176gNx/n8WAaGuXDUiJX2FxIKXz8WU7tjj76pPkU
+	rT2CtMScN8639A4JuvZvPVIVsx1ltlDkVSru+UGPAfFNP9MoFeHmbcuWnlct+eENQg==
+X-Gm-Gg: Acq92OGTikrxp8aXl3c6p9WixaRp5cIcD1P5vWzVPVfxCea3LvNPOPItsA3lvzA8itv
+	8DeanhU5svMKPXMj9kw7IdUB3e2E5IdCgvSVFboPeo0mw7rMXPtbTHGVzeWd3qegtrxb4henLJH
+	HDqPZppOYi6qFwjfmQXa7+6jmA+mWLjF800//m6e/wF9O3k/xaaKlbaEH8mEJnsYg9Nd/w1+jHB
+	gbIS5TY+X4N6p4E8RUdyLjah4podjFZrSTAW2Oarbspoe8wsUhxJibSDBQeW1inRrMWRv0W3s6S
+	cdOpj6KSPclHYsZQPsyWVtyU2Z5U+997qkogz1s4OyKhjJ/zbEJgR/0aOjhWxkMcl+z6MRcrq2q
+	OFfDCnzqg35HFl2N/tSi/uqD7ODwRoePDW0fQPgxvk0JRdJHd56EAOyDknzyFIhfXIzzQsRgRwX
+	Z0a4Z4lDzenLQYoOTE1AHtMq9GJq08c+McZYyDUk9uYKumDT2xMnSBKBozZeppiDuFGHWZTKX87
+	O9og5nsdQ==
+X-Received: by 2002:a17:902:e885:b0:2bd:7e8e:ad56 with SMTP id d9443c01a7336-2c1eafba702mr7653595ad.6.1781019305283;
+        Tue, 09 Jun 2026 08:35:05 -0700 (PDT)
+Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6bf827e6sm24737580a91.1.2026.06.09.08.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 08:30:49 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 9 Jun 2026 08:30:48 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH v13 3/3] gpio: gpio-ltc4283: Add support for the LTC4283
- Swap Controller
-Message-ID: <6a33cc01-e6a4-4e3b-a629-66fda71d8ef7@roeck-us.net>
-References: <20260502-ltc4283-support-v13-0-1c206542e652@analog.com>
- <20260502-ltc4283-support-v13-3-1c206542e652@analog.com>
+        Tue, 09 Jun 2026 08:35:04 -0700 (PDT)
+Date: Tue, 9 Jun 2026 15:34:55 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 08/12] PCI: liveupdate: Inherit ACS flags in incoming
+ preserved devices
+Message-ID: <aigyn66-xQ_9JBW6@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-9-dmatlack@google.com>
+ <aiXWmR-ettxin4LC@google.com>
+ <aiaeOVomxQZhoM3K@google.com>
+ <20260608181640.GO1962447@nvidia.com>
+ <aigtS3UDdhUGp3m0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260502-ltc4283-support-v13-3-1c206542e652@analog.com>
+In-Reply-To: <aigtS3UDdhUGp3m0@google.com>
 
-On Sat, May 02, 2026 at 10:56:54AM +0100, Nuno Sá wrote:
-> From: Nuno Sá <nuno.sa@analog.com>
+On Tue, Jun 09, 2026 at 03:12:11PM +0000, Pranjal Shrivastava wrote:
+> On Mon, Jun 08, 2026 at 03:16:40PM -0300, Jason Gunthorpe wrote:
+> > On Mon, Jun 08, 2026 at 10:49:29AM +0000, Pranjal Shrivastava wrote:
+> > 
+> > > My point was that a FW exploit can meddle with the bitfields of the
+> > > ACS_CTRL to spoof and mis-report the ACS flags.
+> > 
+> > Devices can also ignore the ACS flags. I don't think this is an area
+> > where we should be worrying about devices being actively hostile.
 > 
-> The LTC4283 device has up to 8 pins that can be configured as GPIOs.
+> I'm wondering what happens if we preserve IOMMU groups across a kexec,
+> but a switch's ACS capability is dropped or the ACS_RR bit gets cleared?
+> The incoming kernel assumes that it's the same ACS cap from the old one
 > 
-> Note that PGIO pins are not set as GPIOs by default so if they are
-> configured to be used as GPIOs we need to make sure to initialize them
-> to a sane default. They are set as inputs by default.
-> 
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> Now, the incoming kernel restores the groups assuming they're still 
+> isolated, but the hardware no longer enforces it, silently allowing DMAs
+> & breaking isolation? 
 
-Applied.
+Again, to clarify, I'm aware that we aren't preserving IOMMU groups,
+the incoming kernel has to rebuild the groups. My concern is that if the 
+ACS_RR bit is cleared during the kexec window, the produced grouping would
+be different than the old kernel. What happens if two devices on the
+same bridge were assigned to 2 different VMs?
 
 Thanks,
-Guenter
+Praan
