@@ -1,182 +1,224 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013036.outbound.protection.outlook.com [52.101.72.36])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FAF416CF6;
-	Tue,  9 Jun 2026 14:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.36
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781017196; cv=fail; b=uTr3+VgpYYoYfoSlKhdDFtONi313uRb7GrePOU+Llavjbwtn/EScqDlB7LiviE9dhod0VOLHiJULbWZ2FgOMPHvftk3ELc43dL7IiMoi48zIt6U3XomzAyktfCoOoiuQy3zlbd2Lud6BQjEhHDnhdXGs9N2xFi8Cj1JQPkwuTNs=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781017196; c=relaxed/simple;
-	bh=ZYt1DikWz+SjDpm1pSxIbjXI0PeMu2E0SRyovxuDeXM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qeenah2C/XDysV2uv+12gp51+15rZzRCiBceSt4QvlI4flg6DK7AE1A3P/3wpBeJ8oURZzEYhwH4724RjofsbC8mJPYIpGGraC5I2nIFOeIGZUOWCLTXWNr2PFLRRaDhFN7hZuVAd5TZqEV5Blm5qYh+5L0NzA+ahyG7sXyyAyM=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KnRlby6o; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KnRlby6o; arc=fail smtp.client-ip=52.101.72.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389D737882B;
+	Tue,  9 Jun 2026 15:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781017286; cv=none; b=NT4c9RiVSyZJN3ZA+2wdP0TC05JDZAO/DgLYR0j5bWIK9MqUH8CgJgJ1sHdG9XslRS/3kkO1yVFuEaKLFBNKqNKQAl6LrlnVICiixqL5fRqwMjf9Ib5cXxCaycuKzRzoGWI+cesb3xEkw/p/c27XQWmuwpuivjW/9JFNG3Rw44Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781017286; c=relaxed/simple;
+	bh=osuIgOhwLk4A6x1vMgUY4WOqFjQ6Lj1LwO6l4YH496I=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=A/Ua2TET4qbYiHxxVW7oAJGwc2CFbRzrgjnBYETdp25UcEBe5uiyIWP2S/x5ZNiFkWTyZzqcyR53XC4tVdI1GwQbMPdxOS/oz+wgpg/c3Y9FcH7Y1Aup1r3MxgkVzB3q5n93qNQPJ0Aisux5K/AbUlsMZO/oF74bUdbFFleHJVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=TlprrHzY; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KnRlby6o";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KnRlby6o"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=ZPE8U/PMSPRpDchfpVVMYVeIzI4AM/MDy28sriGwtmq4UXf2BF7Zr2CCfaYBYlmy64e7AhBG/Z0/8MzY3uJD07TKJuS6YV8tFtXEiq7B/wecNRBiDtL1jScIcm9uxdFX4z3/k/+g7+oBctdhI0Oh5MmTNEPHrq2TqR8ltoUcfwyG5WhKxWs9HuCJn8s/TQu70tck6UWxSmum97L+74iFGfbHtGibCnBrmfYS7vVBw1j8/B3jjLxDUzQWyFczo4+3/d8+6R+W0i7WZmfIUZwmPtJ2H8g9T0S5psKP7PIRRrXFOcdK3bVrNYS4nc47j8d+6mW9t2lCZ7KmqJy+szoAkw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NW9OWfMtrNL5L9Zx1uOIbXbLALvL+VT54pSx0Yt2itM=;
- b=xHZ1UtG3W3lJp/8BEVMAOAxn0yCV9zYcYCOWyFpNeUgQIErh201Lg0p+7+Zol5H6hpY2a2CTUPKlAIGvJlXx2GMMambQ8Knzqft3am8pGwRthO08rTWAwYgpVX+TDfVl0iT1ZklWhLNKz2W7yESTWIQDqUZtDOlc/0D3qnsTefdtHJVu2RcFSkp/40mxJ5Ek8HvK1ML1ZsS6x8rUnZLi+VGWgMvJj2c3yAWjMcblJ5AgmXZTjO7LXoI4BfUxvSxHTWcOPZi/r1gDt8ZY+SWmhxCzVt08LWSKkG4cEfrCREvJNZPgKBz1M4esAIHUPzhWFv791onSvn2xYCfOCqYeng==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NW9OWfMtrNL5L9Zx1uOIbXbLALvL+VT54pSx0Yt2itM=;
- b=KnRlby6oYoU+ExFtgT+1c8pttw0wt8GNoWVRwklIF4CuMquyjkK4n2Pq1UjuB7ZiTr89OEi/oFpuyv2f6vW3R7IHvoXk2AyCShOQjWrSSU4tv5r3vtL1xapotSZfN7hf4mNya1ZtWSdcT1x0ky2dO4QXFJaQgXfTtRmV+GhGkCA=
-Received: from AM0PR10CA0046.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::26)
- by DB9PR08MB8387.eurprd08.prod.outlook.com (2603:10a6:10:3d8::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
- 14:59:44 +0000
-Received: from AMS1EPF0000004C.eurprd04.prod.outlook.com
- (2603:10a6:20b:150:cafe::39) by AM0PR10CA0046.outlook.office365.com
- (2603:10a6:20b:150::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.14 via Frontend Transport; Tue, 9
- Jun 2026 14:59:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS1EPF0000004C.mail.protection.outlook.com (10.167.16.137) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
- via Frontend Transport; Tue, 9 Jun 2026 14:59:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IJ0fVt4f74ROOJgWpWsh5h3NT4VXKaRxiFmKadazjk6CPnaG59Izhw/LYKXA5gPjwbH3tIePqCZJcom6TKyHMR2aV8ekFNPln5nZCNBY6nG61r20CGiys9MZ1jIxN3HM5sLNjI0nV+0lUAgDReYMRPNfdv8Nj5Tc5KRpUYZtGl7kPy/218wdwwFSsVIcsxs8PgZ0riksNiLKAG5aidkPpPsKVDjZ58lkySHdO5irg4C53zZ6MEX16PrCjvrmNdh6rDYUUEZae6txPmZhrWBtrqyqqJV3SCXPQlz2rBMUq0mrtfs6nBrdQ8NpLTfIWiHrLskyXJTG3D43URB2FmYyiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NW9OWfMtrNL5L9Zx1uOIbXbLALvL+VT54pSx0Yt2itM=;
- b=XEoo8B84zFETlRWHan4Tc9Ftnx/OqlAacfmPjjmHBk3UjvsNAgEQEqijBXOqVvhcpmhNvKlVnc7C9Br5Ws/eG3dm1WbPt84Omf7butV3CDRe6qzniy0LezvQYFsc/FGrKFvsmFLaTBbdZFCZAeZwviGmjKiNo87En+ylLvKIT+y5XWQLNYygsYJO/RH4NrJucEto+3N0FUjaDdL5TKMogPgn7j0j3fWLxQ/M22HNMnZPbvh0WauGDy1tZJjGNt9a58Wwhr8cB2M89KzXMZd4kcV96MRA4w+1oXv5VJOCMVeT3v213dd9NboolPp71AAo53C2LDoCsfB3ZSScmC8jPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NW9OWfMtrNL5L9Zx1uOIbXbLALvL+VT54pSx0Yt2itM=;
- b=KnRlby6oYoU+ExFtgT+1c8pttw0wt8GNoWVRwklIF4CuMquyjkK4n2Pq1UjuB7ZiTr89OEi/oFpuyv2f6vW3R7IHvoXk2AyCShOQjWrSSU4tv5r3vtL1xapotSZfN7hf4mNya1ZtWSdcT1x0ky2dO4QXFJaQgXfTtRmV+GhGkCA=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com (2603:10a6:800:324::5)
- by DU5PR08MB10399.eurprd08.prod.outlook.com (2603:10a6:10:520::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Tue, 9 Jun 2026
- 14:58:34 +0000
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd]) by VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd%5]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
- 14:58:34 +0000
-Message-ID: <a3f56756-2865-4c70-9356-38fc09be5132@arm.com>
-Date: Tue, 9 Jun 2026 15:58:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 07/10] ACPI: APEI: introduce GHES helper
-Content-Language: en-GB
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
- <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-7-2e0500d42642@arm.com>
- <20260529172113.74c4ca05@jic23-huawei>
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-In-Reply-To: <20260529172113.74c4ca05@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0065.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::19) To VI0PR08MB11823.eurprd08.prod.outlook.com
- (2603:10a6:800:324::5)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="TlprrHzY"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 659CpMh81070513;
+	Tue, 9 Jun 2026 11:00:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=XtUbU8sJECamcrz2bW2ccJZ9/Tm
+	AZpnRb32KkDPytdk=; b=TlprrHzY2v7teGY9xXED5DI7i1HXFsDaJSXv8623cqr
+	Wepvj1qTxWNr6q+fNvTwUKjFixR/pb+J0L3X03vGdik9qH8FHW/n9rAf9Q/IJpW3
+	3BaFC1NQKUcV2DLwWQDkat/d619kZhBaqVYse6fF/L4dZl21DCF6FLJaWBKVJ/Jp
+	MmY8mN/DdyqdmO+XVGZg2xFPutXGHa7BGkfZ3yimyUeTdobCvuopLubfhmWvNbT0
+	VtEr+4oA/ASA7upACzUnww1Rn9xbNTJsFxyGyB2lTMdTLpk6oYR/kPjrOAVY14En
+	tU4avQUX2eAta7VemRKETqBmeldUaaVr2fDSavxdZvg==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4epaa2jd50-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Jun 2026 11:00:53 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 659F0qZa007380
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 9 Jun 2026 11:00:52 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 9 Jun 2026 11:00:52 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 9 Jun 2026 11:00:52 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Tue, 9 Jun 2026 11:00:52 -0400
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.60] (may be forged))
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 659F0au1031316;
+	Tue, 9 Jun 2026 11:00:38 -0400
+From: Janani Sunil <janani.sunil@analog.com>
+Subject: [PATCH v4 0/2] iio: dac: Add support for AD5529R DAC
+Date: Tue, 9 Jun 2026 17:00:19 +0200
+Message-ID: <20260609-ad5529r-driver-v4-0-2e4c02234a1a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI0PR08MB11823:EE_|DU5PR08MB10399:EE_|AMS1EPF0000004C:EE_|DB9PR08MB8387:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fd11507-269a-4e2a-0732-08dec637bd5d
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|376014|7416014|1800799024|56012099006|4143699003|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info-Original:
- LQIvQkZ+Fa1NLJLgnIPwVFrARu0swBR8fsF5t1PsmMpalqG4iRmqWLV1HvAT4wFWq7Ej9kc+iQsQceA47f2BZq8u7o3bq1ikewfw5Zf1wRENgAaiEDXiWWWi4F+OE4bI2fU0kdEXAX0I1ApqhieM7N6wYetvPlsUSkIiJHfqQRzc9uzx4/PrpEd3FncKXXofnKMUQ0ZOEDiQQkfPgrOzwCjmHmeNO2ShIBxYG5UDPTLcJcspKq7BmbnTXi9oS6HJKFjlN/XX3LQJC7G3AXlzhQGkVc6BPqASHBhRqDiBmctQRp74zGTYQYfX97aqZIuqJFaAFbY59fohrzDeX+TDsl7qPUsNj0yQZvNE2AAXdPp6z5j4xjQpCR/dasXSQWvGN0G21706/9JiquvxttzTAQcU1Utel0DmGi9+sXVFw8TuThTN9x0GS1wG9dO6nhOLfb1l3WViAU9hhxGYOhR2ljqNS5udJViZEiYbHi22BkeyB3dmgrWmhAvhlRJd7isZRcMnnpn+omxCiWOzDdZ+gZGRi6+EfjoSoK1MJ/0U744QRl6MIIjOgY4djQBLd3c9lwl9Xf9TmQhbUaP/j+QZTrpUlts7PmuBX66a6ILjg7vMO0OcrYjKP+F+EzDmxGKkpRbrti2/aAMF/LnGB3Yi6njPYY/JgzEyKij/1NbgRG8kDJSqV/KkczEd39oiB18o
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB11823.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- j8ZFqylHIe8X1ihbW7A/5y5jK/q42M1YA7WnAvbC1tbOzWdsIXyQoWU4QqaNjFDipUbigCDMCWl7DccO1jSVCfViuRzUFTWysYeXfyNgEQThP/Apj3+A5TzBN2irXunoJipJRJfymdK3w/fX8gd+vXJM4x8oukexbKvFdZLoZmKD+3PmSkrdON0061SCprazaj//wPbat4u1cHH47L5LChyJAYPxQFRKNrQJzT1RZp4TnmqHjOel9ua4dtgwavm18nnVRpig9JR5tUI+7016kJlTCmggLjR7G8VqQqsf2TWJ0zCfvs3sGi1ArwZJYxOdahz/7jz26nJ9UKJJK1N8Kg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10399
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AMS1EPF0000004C.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	1cafedc7-5bbf-4e19-438b-08dec63793e9
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|7416014|14060799003|82310400026|35042699022|1800799024|18002099003|22082099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	eBLbv0cvlGl2dFfWqvQhW3xy7jcI5Vv8eTkck/MujVgz7FNUARx6pAE8V0HyOjaj62VzuGjNZDc//iey+6tj4lIgcBIQFme4ONSDqrjN7w8yVm69YXZ2x7EFQ2cw65xplbgXeU1mqlHZZMPv8hyti778T31HENvFgWHpeo98V0PIKY3+4N+qOagIr3OFYRpBiLczUannyVyoWJ6w/WYUTWyv3/KPfiep9mUy4EZtq3gW1NCONNy/xEk4PQeZTGfPKQpy9mMrexAV5qCZg4jhxdWIGtPCVpPr7aL7H9qS2/U5Ojr4JxNp45sLX9gIplyZoZh2k6gcu00nAWqTqyhRF3EKbi5dnEsYK2QWXyk9O1rbvMrgR9e4ow5YGrM3NZbRl912FSKosmS1LyczgZei/HJYujj2JsiJje/aZBKx1VIUbQS/5PjPs72l4KbEMiJKN1XLn2srB+yWWssfGo1Bzpr00eRXXtmOLJKzKtVEf7jlr3G2VKNw44lovGGsYqOAmaqTeQ9oCEhKbf/XL3JjMEK094+doog73f+smIbygBB12CNUefZyiJf/y5mYGrKI1CsHaRzeqvqMTgSYdfFyGgI1dXqw6l7bzL3FsHcSQ1iXfcYg4hD3pzRjeCO4MfwtbZl+plsQxpYKpjcG3HmyYvAhdO4qMn3yH4Armw/CsGJar+Hwv5c9S2yXhJ5kzvk1YrFedVJlphZ12IUWdc9qdKNlbNzk8U+qXPRoZ1VL42s=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(7416014)(14060799003)(82310400026)(35042699022)(1800799024)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	4jf/K8IJgaq8cKXnfGJNMkTSBTGOhk9YaQImWzChKvbW8zeFTPlgRukDJL7A0k94+DbSHnWPTxiJMuWpem08xo+2GGPSeR3qoEme28HKZyP4zlPm1pTcu3QnmvE8AWkyTQ4qG3lvyS2FQhhSYiKcsRednX9bkfMZ3MtOo6Ld3pVs0C6g7JFbZlRydlamJ5T4ynEF5WGQpNtL+j6HdQE0++PbOltYjQF8CARjZeWn3QQSIh0r5AE5mHqRVysqXCVUs7dqhuctJtdQztGceUgoeen0MhmSaEBVM7JvMNdjHznFecMh6wDQXcEn9rGe4ZYRGw5Dv8EtD4/S36bYoZaF6tUB31q5Re+0z5jcuUNsyeTdSBdi/pHbiY24OXf5CJ9HE0kayQRS2B7JMuEI2/Q2TYz5Al4APh50KBH+K5bXFIB+8YnhVJcwOUGolcWdyYnL
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 14:59:43.4686
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fd11507-269a-4e2a-0732-08dec637bd5d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AMS1EPF0000004C.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8387
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIMqKGoC/3XMTQrCMBCG4auUrI3kP9GV9xAXaTJtA9pIIkEpv
+ btpV5XiavgGnndCGVKAjM7NhBKUkEMc6xCHBrnBjj3g4OtGjDBFJNHYeinZKWGfQoGEjVJt671
+ RwgOq6JmgC+81eL3VPYT8iumz9gtdvn9ThWKCWyEU6birt7vY0d5jf3TxgZZWYVtvdp5VD5xKI
+ agy0uud5xtPTzvPq2dKO6I5tVaZHz/P8xfziwwXLQEAAA==
+X-Change-ID: 20260507-ad5529r-driver-866bbdd864de
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "David
+ Lechner" <dlechner@baylibre.com>,
+        =?utf-8?q?Nuno_S=C3=A1?=
+	<nuno.sa@analog.com>,
+        Andy Shevchenko <andy@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Janani Sunil
+	<jan.sun97@gmail.com>,
+        Janani Sunil <janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781017235; l=4679;
+ i=janani.sunil@analog.com; s=20260507; h=from:subject:message-id;
+ bh=osuIgOhwLk4A6x1vMgUY4WOqFjQ6Lj1LwO6l4YH496I=;
+ b=7DoXAT98tTnUIbVckMTXHxq9Ge6pV9mv8pwM1krmXpAXhSB01mv5d0ucHM5BhxB+fTZlxa5x5
+ JloPFbjDJFiBFOwMen3ZqLY6zzGR57w6wBnUAoYuHfYrrFnAStuEKu2
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=O6gJeh9W c=1 sm=1 tr=0 ts=6a282aa5 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=TO-HZfrkYtFgNpTHoC0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDE0MiBTYWx0ZWRfX7wBUHzqQD/pd
+ RSxjVHp9DvIO4NZv0hF2xpI2ZRDTETao4yG/udQ5+82/2pK3CFLFN2pPrtt+kpy8NiDahFVcqx8
+ wW4wuj0LbObSFJFs5IUXbJMKvqb1G5DxuVTKCw7w3PDrqW1PE/zOrJczjoVBfFIylTXiov3TByJ
+ fFOe7RheFDQmVi7onObtRbfZu13I53Dq3HBYz6W4+vO8GvPIoXE7F1GIRaNytEZnj0L9PtE2h67
+ QToYaH+9AKCEKZAuuTdVku75NfaTFfZLRaFbJX1fOjOZ4QF22TG6VJgEDN6oIW1PxRSHen9qRI8
+ 3g1jBA1XhpyCX5DmH5woWkbTHBR1LYwHb7+XGHu61C+PCImTjAEaK7M5Xn9S+bMXWco3tW0YIPi
+ HAcL9iHPSn+bXwq7bIK/LD282pIwqEaLYmSt6E4shEe0QLL0euP+6fA/CzO7I4ndQ/eIx22NMBP
+ qXG/4e+KFjPP+9Wgedg==
+X-Proofpoint-ORIG-GUID: tUJ8aP-tZ1MoD6AdWx2ae_PdeaP4HhfE
+X-Proofpoint-GUID: tUJ8aP-tZ1MoD6AdWx2ae_PdeaP4HhfE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-09_03,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 spamscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606090142
 
-On 29/05/2026 17:21, Jonathan Cameron wrote:
-> On Fri, 29 May 2026 10:50:47 +0100
-> Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-> 
->> Add a dedicated GHES_CPER_HELPERS Kconfig entry so the shared helper code
->> can be built even when ACPI_APEI_GHES is disabled. Update the build glue
->> and headers to depend on the new symbol.
->>
->> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> I guess it doesn't matter too much as in practice all exiting CXL systems
-> are ACPI based, but is this new symbol sufficient for the
-> CONFIG_CXL_RAS dependency?
-> 
-> Rest of this looks fine to me.
+This patch series adds support for Analog Devices AD5529R, a 16 channel
+16 and 12 bit voltage Digital-to-Analog Converter (DAC) with integrated
+precision reference. The AD5529R operates from both unipolar and
+bipolar supplies. The device communicates via SPI interface.
 
+**Device Overview:**
+The AD5529R features 16 independent DAC channels, with 16 or 12 bit
+resolution, allowing independently programmable output ranges. The
+internal 4.096V precision reference sets the accuracy of the output
+voltage.
 
-CONFIG_CXL_RAS still depends on ACPI_APEI_GHES which in turn selects
-GHES_CPER_HELPERS so the existing dependency for CXL RAS is unchanged.
-The new symbol is intended as internal build glue under ACPI_APEI_GHES, 
-rather than a change to the CXL RAS dependency model.
+**Features Implemented:**
+- Support for AD5529R 12-bit and 16-bit variants via device match data.
+- Reset support via GPIO.
+- Dual regmap configuration to handle 8 and 16 bit registers.
+- Per-channel output range configuration from devicetree.
+- Optional external reference and bipolar supply handling.
 
-Ahmed
+**Patch Summary:**
+1. **dt-bindings**: Binding documentation with channel configuration.
+2. **driver**: Implement IIO DAC Driver with regmap support.
+
+**Testing:**
+The driver was compiled and tested on the EVAL-AD5529R-ARDZ using a
+coraZ7 with a mainline v7.0 kernel.
+
+**Driver Rationale:**
+AD5529R introduces:
+1. A unique register layout
+2. Mixed 8-bit and 16-bit register accesses
+3. Hardware specific features like function generators, multi-die
+hotpath registers etc.
+
+The device warrants its own drivers due to these fundamental
+architectural differences, that would require substantial changes to
+existing drivers without providing reusable benefits. The standalone
+driver also allows future extensions for related devices in the same
+family.
+
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+---
+Changes in v4:
+- Fix DT child-node regex for hexadecimal channel addresses.
+- Wrap long DT binding description lines.
+- Simplify optional `vref-supply` and `hvss-supply` handling.
+- Update REF_SEL programming for optional external reference use.
+- Clean up range parsing and error messages.
+- Simplify debugfs register access by calling regmap helpers directly.
+- Add clarifying comments for reset settling time and RAW reads from `DAC_INPUT_A`.
+- Remove an unused vref regulator pointer and an include.
+- Rename the REF_SEL bit define and clean up small driver details.
+- Toggle pins defined as PWM pins, instead of GPIOs
+- Update cover letter to sync up latest changes.
+- Link to v3: https://lore.kernel.org/r/20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com
+
+Changes in v3:
+- Split into adi,ad5529r-16 and adi,ad5529r-12 device tree compatibles
+- Add DT-based output range configuration via adi,output-range-microvolt
+- Expand DT binding: vref-supply, clear/tg GPIOs, interrupts, muxout
+- Correct power supply voltage specifications as per datasheet
+- Reduce SPI frequency limit to 25MHz as per datasheet specs
+- Switch to autoincrement addressing mode, remove +1 register offsets
+- Use DT match data instead of device ID detection for fallback support
+- Implement dynamic scale/offset calculation per configured channel range
+- Added explicit val_format_endian and reg_stride for 16-bit regmap bus
+- Code cleanup: alphabetical includes, ARRAY_SIZE(), unused defines
+- Minor: .sign→.format field, simplify read/write order, optional hvss-supply
+- Remove redundant driver documentation ad5529r.rst
+- Link to v2: https://lore.kernel.org/r/20260508-ad5529r-driver-v2-0-e315441685d7@analog.com
+
+Changes in v2:
+- Fix IIO scale to use millivolts per ABI requirement
+- Fix documentation voltage calculations (2.5V not 2.048V)
+- Fix bipolar ranges in documentation (±5V, ±10V, ±15V, ±20V)
+- Fix alphabetical ordering in documentation index
+- Add missing newline to documentation file
+- Fix scale units description (millivolts not microvolts)
+- Include a section for driver rationale in the cover letter
+- Reword contents in cover letter 12/16 bit generic->variant
+- Add dependency array for spi-cpha and spi-cpol properties
+- Link to v1: https://lore.kernel.org/r/20260507-ad5529r-driver-v1-0-b4460f3cb44f@analog.com
+
+---
+Janani Sunil (2):
+      dt-bindings: iio: dac: Add AD5529R
+      iio: dac: Add AD5529R DAC driver support
+
+ .../devicetree/bindings/iio/dac/adi,ad5529r.yaml   | 208 +++++++++
+ MAINTAINERS                                        |   8 +
+ drivers/iio/dac/Kconfig                            |  17 +
+ drivers/iio/dac/Makefile                           |   1 +
+ drivers/iio/dac/ad5529r.c                          | 517 +++++++++++++++++++++
+ 5 files changed, 751 insertions(+)
+---
+base-commit: 93df88612859e8e19dec93c69d563b4b73e9bd4b
+change-id: 20260507-ad5529r-driver-866bbdd864de
+
+Best regards,
+-- 
+Janani Sunil <janani.sunil@analog.com>
 
