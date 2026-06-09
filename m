@@ -1,176 +1,233 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204173F86FC
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 11:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE8A3FD132
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 11:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781003027; cv=none; b=QKwIEFBKC026KsxVH50pewfxGtWobp1MbVvZm0m9tHOhTaN694dz740MMkUjIZsx3Me0UKXVf454m2TcKBp+BaiGNvKlwkpC0JcqE4To5VVumGtNqXLUBXm+sDQpduOIsqOAbtjE0UdgqX4IV5Ppy9bzvTxciRMaye96hrg6ADE=
+	t=1781003300; cv=none; b=oM6zzMXYYuhGNIhQuZlUTxiCqbtB1WmdWkL58s+7XR0YeHCic8GA7hfoKThJuiSalQwKPCult/L0N7MhcmiBWxkxnsuLMtFqz1yeNsW6WyUOcZA6H3Y0ad+eKdp79MPQxdgiPyjijDzis1E7dFRIMicQ2a8PEzqS3jyUnyb13go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781003027; c=relaxed/simple;
-	bh=xkkl0udaz9W3T//+bJkSkUYm0arZNGaKOIo7NWjbcVc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CNg4QNoduz1xao3p4z+q615oTSoZBWSMfy5S6g7aNPAoxDfDKRpqEd1vj5cC+4qF21hTALome67qdKR9vA4IOsednC3HUaZgZ9zDcVbYbgd2NZxlb7xglkpkSOiyQrVYz/ri2cCPuAvKKLkVER7TKBAli58VDj7v6KxZ78SxNX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QPtJyjnA; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781003300; c=relaxed/simple;
+	bh=WnpEEbeV6Xf8HOrAvMNaDaoMIMuMt0nxS5cI/2qJSD4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jSkeSznHrSxoKA/CrszpZ5Fz+dCDJNPEsRE97Hy2z5XKKss2UNTxXgzrobclTx3wUbbqvsVFOiIMMPDISFXtFGlUDY34Gay2yCrg6lidJhTGcLmVTb+jSCzOgzYiUpQbvr7PVa+hlqGUwoB4Mcmu+DWC7aa3jT9BkCTLXLL7yQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WMlt9VeW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QPtJyjnA"
-Message-ID: <4fa58f7c-f3c5-484e-a8ca-7dfef50a1679@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781003011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dI5cOHs81stexVS+TJ0IdzvicKkzLLJVhtLgf3ExdLM=;
-	b=QPtJyjnAVUpuKkOipFitQws2650ZZAmAmPAlY7FzBYw2ZmhXpnnfb91djH0or0I7+kaPw8
-	Ph62G3GKtpA94JAQIBnHvYjTzNr3gSvUUhmTn2f8pe7wSsC2rhthFsnjmCiBbyXHiW77lL
-	7hGV1SDD3Sn4iMWUYYlTyxe/K4ZEevM=
-Date: Tue, 9 Jun 2026 19:01:51 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WMlt9VeW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C841F00899
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 11:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781003299;
+	bh=uAcx1TLJhxHxE1DspdQDFqFbxQb8Zirx9f+KX82czck=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WMlt9VeWVQHy3iBMNR1/23qeLuPvROgoJSbvw9dujLcNO71APQQmufKz/kVTemajv
+	 ImESC5mCRGD3Iah2N49TstG5nSvRVCIeSWcFP4IwUAR8+emql84ksfO21OwCUwxBn8
+	 lAJ8d1DpssI6nzObdD/ouH8/WviYLpRt3/g9oFzO+Hzqrhb66sNpXSP8MJ0AsBY2Z9
+	 vGrRGwfwcVY6wAwTm7b58KuLdunpfVtNHazDmUHIdQOr6T0h83qJkQ9XH8l44OoiRX
+	 NJDhnsGGSKJSwxieRfSA/TMrdG1rFEiEjijs6gCWg/aqlpBa06aWibIIYQLVFQNl30
+	 SaBXgU/UJzKAQ==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3967724bed1so57780991fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 04:08:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+F/z4U+tqvU1msAVyzWaaPi5W0LsTr/30+7UQf9DgUVR74wkq6voPUm8xsBH5u+vXE57ogIsS56VQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnvD3qKVd7X3E0TOZoXEwPwBSfMscEHDj6U9gOCD0eWssD53Lv
+	eunZ007rMS1lr3wnseRRpmKB1QzFVhuqC+A8aaqv8h/okYOiZPQ2Yhmw9DpD/X/duG22LNEnHsX
+	BIdFm7sHFPdYr/ZVLvJt9w1Ue6ct6+Zk=
+X-Received: by 2002:a05:6512:3ca8:b0:5aa:64b4:13dc with SMTP id
+ 2adb3069b0e04-5aa87b3ff0fmr6452458e87.5.1781003297675; Tue, 09 Jun 2026
+ 04:08:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH mm-unstable v19 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-Content-Language: en-US
-To: Nico Pache <npache@redhat.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, liam@infradead.org, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260605161422.213817-12-npache@redhat.com>
- <20260606102800.26940-1-lance.yang@linux.dev>
- <2553caae-9e0e-42a7-8b61-d1216f1e81fa@kernel.org>
- <CAA1CXcBY_2372eJru8VoCq90rUMxn7w23hHou68MmXRv48NRXg@mail.gmail.com>
- <b7fb4184-7a99-42c7-8ee2-4c7fa20827c4@kernel.org>
- <CAA1CXcAhw8V+_dYcrqmtZ9ht4Pqz5PPB8EOcDrVCp4DA4y7pLg@mail.gmail.com>
- <7e36f7f0-b4d5-41c9-b399-9e0079907d33@linux.dev>
- <CAA1CXcD7WAiA1b9GTLAuNZ+kHaFx0SzZwpBkqAZ=s+RHsTUaow@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <CAA1CXcD7WAiA1b9GTLAuNZ+kHaFx0SzZwpBkqAZ=s+RHsTUaow@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260608021526.1023248-1-tzungbi@kernel.org> <20260608021526.1023248-4-tzungbi@kernel.org>
+ <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com> <aifWjW93SOQiv_Eh@google.com>
+In-Reply-To: <aifWjW93SOQiv_Eh@google.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 9 Jun 2026 13:08:06 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jHutbyvPRfzLYLkxiP=iAejGyC6n-czzOcLScKwGWx1A@mail.gmail.com>
+X-Gm-Features: AVVi8Ce605rLSlVkeJ9Nh1ILn9h0ylh1zgMK9ZdLiNODLKV3i_tgNr8o99GPckQ
+Message-ID: <CAJZ5v0jHutbyvPRfzLYLkxiP=iAejGyC6n-czzOcLScKwGWx1A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] PM: dpm_watchdog: Add sysctl interface for DPM
+ watchdog timeouts
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
+	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jun 9, 2026 at 11:02=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Mon, Jun 08, 2026 at 04:22:35PM +0200, Rafael J. Wysocki wrote:
+> > On Mon, Jun 8, 2026 at 4:16=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.or=
+g> wrote:
+> > >
+> > > Introduce sysctl knobs to allow configuring DPM watchdog timeouts at
+> > > runtime.
+> > >
+> > > Currently, these timeouts are fixed at compile time via
+> > > CONFIG_DPM_WATCHDOG_TIMEOUT and CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT.
+> > > This limits flexibility if the timeouts need to be adjusted for
+> > > different testing scenarios or hardware behaviors without rebuilding
+> > > the kernel.
+> > >
+> > > Add the following sysctl files under /proc/sys/kernel/:
+> > > - dpm_watchdog_timeout_secs: The total timeout before panic. The
+> > >   maximum value is capped at CONFIG_DPM_WATCHDOG_TIMEOUT to prevent
+> > >   unreasonably large timeouts.
+> > > - dpm_watchdog_warning_timeout_secs: The warning timeout. The maximum
+> > >   value is capped at the current dpm_watchdog_timeout_secs.
+> > > Both sysctls have a minimum value of 1.
+> > >
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> > > v3:
+> > > - No changes.
+> > >
+> > > v2: https://lore.kernel.org/all/20260604090756.2884671-4-tzungbi@kern=
+el.org
+> > > - New to the series.
+> > >
+> > > v1: Doesn't exist.
+> > >
+> > >  drivers/base/power/main.c | 61 ++++++++++++++++++++++++++++++++++++-=
+--
+> > >  1 file changed, 57 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > > index 7822c29b7c8d..c1a4b30fafb2 100644
+> > > --- a/drivers/base/power/main.c
+> > > +++ b/drivers/base/power/main.c
+> > > @@ -28,6 +28,7 @@
+> > >  #include <linux/interrupt.h>
+> > >  #include <linux/sched.h>
+> > >  #include <linux/sched/debug.h>
+> > > +#include <linux/sysctl.h>
+> > >  #include <linux/async.h>
+> > >  #include <linux/suspend.h>
+> > >  #include <trace/events/power.h>
+> > > @@ -539,6 +540,58 @@ static bool __read_mostly dpm_watchdog_enabled =
+=3D
+> > >  module_param(dpm_watchdog_enabled, bool, 0644);
+> > >  MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
+> > >
+> > > +static unsigned int __read_mostly dpm_watchdog_timeout =3D CONFIG_DP=
+M_WATCHDOG_TIMEOUT;
+> > > +static unsigned int __read_mostly dpm_watchdog_warning_timeout =3D
+> > > +                                               CONFIG_DPM_WATCHDOG_W=
+ARNING_TIMEOUT;
+> > > +static const unsigned int dpm_watchdog_timeout_max =3D CONFIG_DPM_WA=
+TCHDOG_TIMEOUT;
+> > > +
+> > > +static int proc_dodpm_watchdog_timeout_secs(const struct ctl_table *=
+table,
+> > > +                                           int write, void *buffer,
+> > > +                                           size_t *lenp, loff_t *ppo=
+s)
+> > > +{
+> > > +       struct ctl_table ctl =3D *table;
+> > > +       unsigned int val =3D dpm_watchdog_timeout;
+> > > +       int ret;
+> > > +
+> > > +       ctl.data =3D &val;
+> > > +       ret =3D proc_douintvec_minmax(&ctl, write, buffer, lenp, ppos=
+);
+> > > +       if (ret || !write)
+> > > +               return ret;
+> > > +
+> > > +       if (val < dpm_watchdog_warning_timeout)
+> > > +               dpm_watchdog_warning_timeout =3D val;
+> > > +       dpm_watchdog_timeout =3D val;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static const struct ctl_table dpm_watchdog_sysctls[] =3D {
+> > > +       {
+> > > +               .procname       =3D "dpm_watchdog_timeout_secs",
+> > > +               .maxlen         =3D sizeof(unsigned int),
+> > > +               .mode           =3D 0644,
+> > > +               .proc_handler   =3D proc_dodpm_watchdog_timeout_secs,
+> > > +               .extra1         =3D SYSCTL_ONE,
+> > > +               .extra2         =3D (void *)&dpm_watchdog_timeout_max=
+,
+> > > +       },
+> > > +       {
+> > > +               .procname       =3D "dpm_watchdog_warning_timeout_sec=
+s",
+> > > +               .data           =3D &dpm_watchdog_warning_timeout,
+> > > +               .maxlen         =3D sizeof(unsigned int),
+> > > +               .mode           =3D 0644,
+> > > +               .proc_handler   =3D proc_douintvec_minmax,
+> > > +               .extra1         =3D SYSCTL_ONE,
+> > > +               .extra2         =3D (void *)&dpm_watchdog_timeout,
+> > > +       },
+> > > +};
+> > > +
+> > > +static int __init dpm_watchdog_sysctl_init(void)
+> > > +{
+> > > +       register_sysctl_init("kernel", dpm_watchdog_sysctls);
+> > > +       return 0;
+> > > +}
+> > > +subsys_initcall(dpm_watchdog_sysctl_init);
+> > > +
+> > >  /**
+> > >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+> > >   * @t: The timer that PM watchdog depends on.
+> > > @@ -564,9 +617,9 @@ static void dpm_watchdog_handler(struct timer_lis=
+t *t)
+> > >                         dev_driver_string(wd->dev), dev_name(wd->dev)=
+);
+> > >         }
+> > >
+> > > -       time_left =3D CONFIG_DPM_WATCHDOG_TIMEOUT - CONFIG_DPM_WATCHD=
+OG_WARNING_TIMEOUT;
+> > > +       time_left =3D dpm_watchdog_timeout - dpm_watchdog_warning_tim=
+eout;
+> > >         dev_warn(wd->dev, "**** DPM device timeout after %u seconds; =
+%u seconds until panic ****\n",
+> > > -                CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT, time_left);
+> > > +                dpm_watchdog_warning_timeout, time_left);
+> > >         show_stack(wd->tsk, NULL, KERN_WARNING);
+> > >
+> > >         wd->fatal =3D true;
+> > > @@ -587,11 +640,11 @@ static void dpm_watchdog_set(struct dpm_watchdo=
+g *wd, struct device *dev)
+> > >
+> > >         wd->dev =3D dev;
+> > >         wd->tsk =3D current;
+> > > -       wd->fatal =3D CONFIG_DPM_WATCHDOG_TIMEOUT =3D=3D CONFIG_DPM_W=
+ATCHDOG_WARNING_TIMEOUT;
+> > > +       wd->fatal =3D dpm_watchdog_timeout =3D=3D dpm_watchdog_warnin=
+g_timeout;
+> > >
+> > >         timer_setup_on_stack(timer, dpm_watchdog_handler, 0);
+> > >         /* use same timeout value for both suspend and resume */
+> > > -       timer->expires =3D jiffies + HZ * CONFIG_DPM_WATCHDOG_WARNING=
+_TIMEOUT;
+> > > +       timer->expires =3D jiffies + HZ * dpm_watchdog_warning_timeou=
+t;
+> > >         add_timer(timer);
+> > >  }
+> > >
+> > > --
+> >
+> > I think that this can be applied without the other two patches in the
+> > series, so please let me know if you want me to apply it separately.
+>
+> Ack.  The patch does have adjacent hunks with the preceding patch, which
+> might cause minor contextual conflicts if applied independently.
 
+That's not a problem.
 
-On 2026/6/9 18:50, Nico Pache wrote:
-> On Tue, Jun 9, 2026 at 4:37 AM Lance Yang <lance.yang@linux.dev> wrote:
->>
->>
->>
->> On 2026/6/9 17:32, Nico Pache wrote:
->>> On Tue, Jun 9, 2026 at 3:26 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
->>>>
->>>> On 6/9/26 11:06, Nico Pache wrote:
->>>>> On Mon, Jun 8, 2026 at 8:57 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
->>>>>>
->>>>>> On 6/6/26 12:28, Lance Yang wrote:
->>>>>>>
->>>>>>>
->>>>>>> Looks broken for swap PTEs in PMD collapse ...
->>>>>>>
->>>>>>> collapse_scan_pmd() allows them up to max_ptes_swap and record them in
->>>>>>> unmapped, but they don't get a bit in mthp_present_ptes. And then
->>>>>>> mthp_collapse() does the check above:
->>>>>>
->>>>>> Right. I assumed this is implicitly handled by the optimization in collapse_scan_pmd:
->>>>>>
->>>>>>           if (enabled_orders != BIT(HPAGE_PMD_ORDER))
->>>>>>                   max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->>>>>>
->>>>>> But we perform the check a second time.
->>>>>>
->>>>>>>
->>>>>>> nr_occupied_ptes >= nr_ptes - max_ptes_none
->>>>>>>
->>>>>>> So max_ptes_none=0 + 511 present PTEs + one allowed swap PTE won't even
->>>>>>> call collapse_huge_page() for PMD order.
->>>>>>>
->>>>>>> Shouldn't we account for them in the PMD-order check? Something like:
->>>>>>>
->>>>>>> if (is_pmd_order(order))
->>>>>>>         nr_occupied_ptes += unmapped;
->>>>>
->>>>> This solution seems good for a temporary fixup. but longterm we may
->>>>> want something else. I'm still not sure how we plan on supporting
->>>>> swapin without causing creep. So I'd be ok with adding a fix for
->>>>> legacy PMD behavior until we know how to handle mTHP creep correctly.
->>>>>
->>>>>> As an alternative, we could either 1) skip the check there for
->>>>>> pmd order (as the check was already done); or 2) introduce+maintain
->>>>>> a bitmap that tracks non-present PTEs.
->>>>>>
->>>>>> @@ -1475,7 +1477,9 @@ static enum scan_result mthp_collapse(struct mm_struct *mm,
->>>>>>                   nr_occupied_ptes = bitmap_weight_from(cc->mthp_present_ptes, offset,
->>>>>>                                                         offset + nr_ptes);
->>>>>>
->>>>>> -               if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->>>>>> +               /* Check was already done in the caller. */
->>>>>> +               if (is_pmd_order(order) ||
->>>>>> +                   nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->>>>>>                           enum scan_result ret;
->>>>>>
->>>>>>                           collapse_address = address + offset * PAGE_SIZE;
->>>>>>
->>>>>> 2) would probably be cleanest long-term.
->>>>>
->>>>> That would be best for future swapin support in mTHP, but I still
->>>>> don't think it solves the creep issue.
->>>>
->>>> It wouldn't, we'd simply maintain the state we collect + rely on in separate
->>>> bitmaps. On swapin, we'd have to update/refresh bitmaps I guess.
->>>
->>> Yeah, I'm saying for the future, it obviously solves this issue here
->>> as well, but if we have positional tracking of the swapout, shared,
->>> and none PTEs, I think we can use this to determine whether the
->>> collapse would lead to creep. If we detect creep would happen it may
->>> be best to automatically collapse to the N+1 (or greater) candidate.
->>> Just thinking outloud here.
->>>
->>>>
->>>>> Perhaps we could combine the
->>>>> two bitmaps to determine if it would make the future collapse eligible
->>>>> again? Not sure but ill start thinking about it.
->>>>>
->>>>> Should I send a fixup for this using Lance's solution? Or does Lance
->>>>> want to send a patch out with the fixes tag?
->>>>
->>>> If Lance could send a fixup, explaining the situation, that would be nice.
->>
->> Sure, happy to send a fixup :P
->>
->> Should I send it as a fixup to be folded into this patch, or as a
->> separate patch with a Fixes: tag?
-> 
-> Id assume a seperate patch so you can keep credit for the discovery :)
+> Would you want me to reorder the series in the next version to make this
+> the first patch?  In case the rest two patches may still take some time
+> to review.
 
-Okay :D
-
-> Thank you for all the review you provided on this series, its been
-> really helpful!
-
-Appreciate it!
-
-Nice work getting it this far. Nice one, Nico :P
+I'll pick it up as is, so it can make it into 7.2.
