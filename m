@@ -1,68 +1,68 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88EE355F28
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E8235DA79
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015488; cv=none; b=sUJArRwmnBp3j+kQAvz3IVCONO4u+8AbFfA5iu8Epliq8kE8SVzBhZbJmCNpRimznPRaB9db4dVsTO/0uxPdNkPDzfaJ396uEbHCgR3446IG55yIbx/UPu4YfJzh3VIAYsY+cgX0jPVnS0YynC6e0pmJsDDdU7cT7JZtPJtNFbc=
+	t=1781015491; cv=none; b=tog6k5uZEViNihKPYUCdaHnhFnHvaJxhTWkgbpPoILXsDHOKBaNP8JxXHV8cHvHfb4JwkL04xBzRIBjAhtTQMqqhu8ffTNrdtaBHddFSvAmgLfs++yLvm6PCla4IqQBdobksH8qnK6kaCbTpoW7bbpsSYFVbjb2F60LaVjfjIws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015488; c=relaxed/simple;
-	bh=2n7NJ22D4CS+P0i5+qEOUx8FKIjlEa2CLZ8182tHs0s=;
+	s=arc-20240116; t=1781015491; c=relaxed/simple;
+	bh=z/CK3SgmlZ9m2fa4g/8u8Ev0tF8YBHx5+5672AAbTpI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eEoHdBF8Xd4AtI6ghFdRYpIdlINtL2f5A33iH1DbaO96CWkSmmJIXLw+NDP6JLzRJsKggehImWpKzdDdHQy0VJKgEPm2fPPMFWzO60vsKjSUR7tb4m8xes97AvdUsw7ODIbGqXy8smm2o9l6j5Fz0e5FriM1XP36ulO+QXwY/hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=USz6GKc2; arc=none smtp.client-ip=209.85.128.50
+	 In-Reply-To:To:Cc; b=tdVRu6rWXDbtiWSAz3osTS4hJEKOrlKCtnM4a5rUTdr3vyZVM9xYO3ywqHZmeL2R1ILZceiBQ9M0a+mzgq/UQGi9EzbvXaRNysgLEMQyg+nUPAwYZLP2+HUePuLgCFMV8DibAC+Av3gz92HVZNXkTauWUJv10y5pmaY8EsbkbN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lM0tb1B3; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="USz6GKc2"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so28075085e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lM0tb1B3"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so4138794f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781015485; x=1781620285; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1781015488; x=1781620288; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K+VAHnkL1slPIQmaFlO30PHwtm50BBgiqOE4SfSQTuk=;
-        b=USz6GKc2BoZU+8xDN8mR1heECcY+zpmoT4KZafOB2RqHYqHy+5L/6BkQcIHF8T3VQe
-         h0q6VD7KO6CsQYA/UTgYeOza5H67nevOTpDFZRt1ebf6hNODzBtJgSVGvKUuqbfZI6/B
-         2svktL+X1+hLf0rKKX58Mp8lLS6p/wsRqrjj5cxhUn0mNfcZcAYiqLS9n9kF6BdbtWeS
-         399ionh0NrtjjXkuMS0C0m2gUBauzdESQA5X4OMNLMiA2ogo8p7gWlscCJU+OoixblYi
-         j6g90ZDXVCSnYjidtA0zixLfAuyJRW7dB8qFaLMy2WR6ZoYZym0S7V1efDqfhwPI0TDc
-         aVPg==
+        bh=26hfOEeOS0Wp3zVqiYKicdVNnt8eBmuZdvoqTuUrIFc=;
+        b=lM0tb1B3qTslKooVKv2zQ/miywEtBFXTS/3TBPOofF6uYTYJixd9caB4Gkv7HKMHNb
+         1uU9LFwZwQ8VV7N1bQOmZu2fZdUJ+BNe4pkLVCuHqgERgQLKsm0MK03BIzJXj3gOxvvp
+         pPb9pfRmJN1H6wsvgX92tCDMroVixShtp5cNUfDKlKn+8/nRAjRcS81m8bP7Uq0hSq6I
+         ykq0UwsH27zvVh01BcGTi26Vs72Nb2gN1FFbv/c74qgUxyFlpcoVujm4QmIM2WSKZGTg
+         dimsfmPA4Rd4m1XRQHkOdMJdeL6akhMzBr6smUZPcHG2qN/tHQlhbKAJPVU+Hbsl1DjE
+         Turw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015485; x=1781620285;
+        d=1e100.net; s=20251104; t=1781015488; x=1781620288;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=K+VAHnkL1slPIQmaFlO30PHwtm50BBgiqOE4SfSQTuk=;
-        b=kaVtxrV4vqx270DusWd7eWeObfi7KP7L3ZRzYH7C2Xy4rIPI/73W4+2YNhJtq8vgrp
-         JI+7i/20TlAy+Vlm7vC9ku65pgluQZ42IdIK+aE8i+a3qByFeGs+PJdwkhnN6/iRTwEp
-         gp34HLGymWa9PbCqR+Tuw79cx/WoZ0QsSnC24q3QV3/n/VKsOosUm1d7AejHgGjBkLr1
-         tQzZ9x6JxHNDwWNwI9ry3cD3+KciYCci5AlZ0Dfng7XvKR8cPuN4c4KCVUc0akyAzYxP
-         gK10Icn+5kbCvJuqaLm+35Oznko+QsFRnnX9E/iusEXzRu4XVcsGnMVYPrsc5+7zKdPU
-         9hDQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/zWrnkJcdUWLdnHB5IKoZRl0BBn1p9eswoptjw2t/sIKqOAn74iveSdTzQDShk7X8PB6cRAmrK6tc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvKvBcDeBIFu0qd6S4Hw4+XKJTy/THi++V27Y6qqjwwFjvOYb3
-	IZfHzXi1g+t+wctbXq55MapJOiu56sJ85Exw1iVC6K8hrqTJHoNAfyk2NFc5XcjyQrK1TBqZNpf
-	w2H17DrA=
-X-Gm-Gg: Acq92OGbf6Ji1q6wfWIRBS+YWiiXclAXgJoRwKcgtRMv5dNtek+9CbBMB4IhNZTEvV8
-	bKXIORA5xlc/pRCSfRTGMtytickGmDyr2oct01djszsZk6sGQsrWTjY64YS/G9XjjdyiA1CIhA8
-	UaSspAFN1X9nV8r53iBX/XwOAIBGUVq6FcA7vaMstH0Ui6AF0R5QD4Ud4NDpfMVv+ykG5920xs8
-	CXP3RvMiLSXqKEOaS/EDJuVwIHHljHF6GZ5ExtpP/rhu5Vc2nqXOhDS4GUCy7BwM0/EnkcgGsKR
-	5807J4OS4dhJTLameQvjIr1TNT0NcI8k8ySArmbZWnOyq3bwBp6JugA+CQQepPv1wVSVEBHNlF5
-	eNRiOurEDCrR5cJmfzsKESGXe1UmABPjRRVYIHJKUI2VzJzdxZuvWfaDk1HPXSK5VSfpmjvVk8X
-	7U5P/alV8MlYtj2kCYGxioqJ/sORwKU1LJIAB9hgoLtU4=
-X-Received: by 2002:a05:600c:818c:b0:490:b0e1:2161 with SMTP id 5b1f17b1804b1-490c25b39fdmr371063965e9.2.1781015485062;
-        Tue, 09 Jun 2026 07:31:25 -0700 (PDT)
+        bh=26hfOEeOS0Wp3zVqiYKicdVNnt8eBmuZdvoqTuUrIFc=;
+        b=UfGUlpz2/wb8cQL1L7crrx994VmWbhuCNDk51bHgpN1TpirZU5PWgVMAMX5oUmJcTF
+         r0G/VW7bfSxNIHB+9YWOpXx5AX3tUQ8zImNJUtuQCd4nwzGNEWGO2fWLw4d/G4SVJ9ad
+         zEdo8iE430OzfTv+dSotzfhhxf8l3P0a+hCSYrMI2Ip81llBCPkI7zIieVXQR6VW7Vga
+         XsICYWnnMNU9RRosBfOq195T4Cmy21hke5w5pPpZg+YpfZvuLwi5o76x/tqBa23QOd9f
+         G1r23u+8EwTLtMukrH/UYR+JwXmX8hRyeMcUpHybUe5Thi/Dahwgr3wCVnlk3OnyFfND
+         hohQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/x/FpnNiqJLkSurDQAOqkATxqoaum3Rjs79O1LQk/VsgK0yTU+nPaxoUL5znLbeySefgJ0Hz9SgWY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyPOgjIsFEUzfMdW5GaV+jRvcG+39FRQahjVPe8tkot2joRAPz
+	7aQJwFxNeDCl9eC4OvSR5Ert0lGLAwsUPzkf+tYxswi7YxlSbHE6qdZDAdmu8AA+XOg1HfdeXSm
+	OzzQMznw=
+X-Gm-Gg: Acq92OH/AVJZuJhYGNpLw3/Tv5DcJJsjjjJ1xErE/AyvjZ3vMwiiKB4B/2qDEK8S5ni
+	xl6OWT3T7hLwKPtJ4X00frXaJSZw8iI9ft0M4VEtGI47RUHW+NVpSoMTzT34QzqcAT3WqNRGKG1
+	ChsYXTCzZg0/R3rmz6DwYAztHkCpVdvXrCmp0WGv/DNPMkcf5VCTVBvoWBmXR0ZoaIAAz5taP2D
+	MBJga6qfp1TNxqGRU9LfoFKF5ybbI1W0gs2yyOo8j/7tyWtYtREMnxD4eR6+teZlXhAoM4Yrgwj
+	8pVodQp7WewF3BdJl9Qu0t7gYG1OoAmDbNg8HsdklEjdGPZlJIJjlMPCGrx/S2jjXO3pJNP4d/s
+	anXdkMIhML+fctmm6VDz9XGL+k/Z3BkJqCOPhpFubahcH7XqePborPVgchFNP/76ChA7l//ntrO
+	KbFU9dMBu+kp2+CqzwpLPf875flSQ5c7KCAFwty+tv8CQ=
+X-Received: by 2002:adf:fe01:0:b0:45e:ec18:f207 with SMTP id ffacd0b85a97d-460305061ecmr22846190f8f.25.1781015488377;
+        Tue, 09 Jun 2026 07:31:28 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 07:31:24 -0700 (PDT)
+        Tue, 09 Jun 2026 07:31:27 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 09 Jun 2026 15:30:59 +0100
-Subject: [PATCH v4 06/19] perf test cs-etm: Replace unroll loop thread with
- deterministic decode test
+Date: Tue, 09 Jun 2026 15:31:01 +0100
+Subject: [PATCH v4 08/19] perf test cs-etm: Replace memcpy test with raw
+ dump stress test
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-james-cs-context-tracking-fix-v4-6-44f9fb9e5c42@linaro.org>
+Message-Id: <20260609-james-cs-context-tracking-fix-v4-8-44f9fb9e5c42@linaro.org>
 References: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 In-Reply-To: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -86,118 +86,42 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Testing a long sequence without branches seems like it would be better
-as a decoder unit test, and this test doesn't test decoding either, so
-it's not clear what bugs this is trying to catch.
+Like asm_pure_loop, this memcpy test only checks that 10 of each of a
+few trace packet types occur after recording a lot of trace, which isn't
+more specific than other existing Coresight tests.
 
-The new deterministic workload has somewhat long sequences when built
-unoptimized, and we can always increase them later if we want to. But
-now we test that decoding always gives the same result for the same
-sequence of code which we've never had before.
+Assume it was supposed to be a stress test for dumping and replace it
+with one that doesn't require a custom binary and checks for a specific
+amount of raw output. Don't bother checking for packets because the
+other tests that test decoding will catch issues with malformed data.
+
+This also adds coverage for exit snapshot mode which was missing.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/tests/shell/coresight/deterministic.sh  | 72 ++++++++++++++++++++++
- .../tests/shell/coresight/unroll_loop_thread_10.sh | 22 -------
- 2 files changed, 72 insertions(+), 22 deletions(-)
+ .../tests/shell/coresight/memcpy_thread_16k_10.sh  | 22 ----------
+ .../perf/tests/shell/coresight/raw_dump_stress.sh  | 47 ++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 22 deletions(-)
 
-diff --git a/tools/perf/tests/shell/coresight/deterministic.sh b/tools/perf/tests/shell/coresight/deterministic.sh
-new file mode 100755
-index 000000000000..75d4973056f0
---- /dev/null
-+++ b/tools/perf/tests/shell/coresight/deterministic.sh
-@@ -0,0 +1,72 @@
-+#!/bin/bash -e
-+# CoreSight deterministic workload decode (exclusive)
-+
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# If CoreSight is not available, skip the test
-+perf list pmu | grep -q cs_etm || exit 2
-+
-+tmpdir=$(mktemp -d /tmp/__perf_test.coresight_deterministic.XXXXX)
-+
-+cleanup() {
-+	rm -rf "${tmpdir}"
-+	trap - EXIT TERM INT
-+}
-+
-+trap_cleanup() {
-+	cleanup
-+	exit 1
-+}
-+trap trap_cleanup EXIT TERM INT
-+
-+cf="$tmpdir/ctl"
-+af="$tmpdir/ack"
-+mkfifo "$cf" "$af"
-+
-+# Start disabled and use the control FIFO to only record the workload and not
-+# startup.
-+perf record -o "$tmpdir/data" -e cs_etm//u -D -1 --control fifo:"$cf","$af" -- \
-+	perf test --record-ctl fifo:"$cf","$af" -w deterministic > /dev/null 2>&1
-+
-+perf script -i "$tmpdir/data" --itrace=i1i -F ip,srcline | \
-+	grep "deterministic.c" | uniq > "$tmpdir/script" 2>/dev/null
-+
-+
-+# Remove brace lines and call sites as they may not be hit or may have
-+# extra hits after returning, depending on the compiler.
-+sed -i \
-+  -e '/deterministic.c:8$/d' \
-+  -e '/deterministic.c:12$/d' \
-+  -e '/deterministic.c:15$/d' \
-+  -e '/deterministic.c:19$/d' \
-+  -e '/deterministic.c:23$/d' \
-+  -e '/deterministic.c:28$/d' \
-+  -e '/deterministic.c:34$/d' \
-+  -e '/deterministic.c:36$/d' \
-+  -e '/deterministic.c:37$/d' \
-+  "$tmpdir/script"
-+
-+cat > "$tmpdir/expected" << EOF
-+  deterministic.c:24
-+  deterministic.c:25
-+  deterministic.c:26
-+  deterministic.c:9
-+  deterministic.c:10
-+  deterministic.c:11
-+  deterministic.c:30
-+  deterministic.c:31
-+  deterministic.c:32
-+  deterministic.c:16
-+  deterministic.c:17
-+  deterministic.c:18
-+EOF
-+
-+if ! diff -q "$tmpdir/script" "$tmpdir/expected"; then
-+	echo "FAIL: line numbers don't match expected: "
-+	head -n 100 "$tmpdir/script"
-+	cleanup
-+	exit 1
-+fi
-+
-+cleanup
-+exit 0
-diff --git a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh b/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
+diff --git a/tools/perf/tests/shell/coresight/memcpy_thread_16k_10.sh b/tools/perf/tests/shell/coresight/memcpy_thread_16k_10.sh
 deleted file mode 100755
-index cb3e97a0a89f..000000000000
---- a/tools/perf/tests/shell/coresight/unroll_loop_thread_10.sh
+index 1f765d69acc3..000000000000
+--- a/tools/perf/tests/shell/coresight/memcpy_thread_16k_10.sh
 +++ /dev/null
 @@ -1,22 +0,0 @@
 -#!/bin/bash -e
--# CoreSight / Unroll Loop Thread 10 (exclusive)
+-# CoreSight / Memcpy 16k 10 Threads (exclusive)
 -
 -# SPDX-License-Identifier: GPL-2.0
 -# Carsten Haitzler <carsten.haitzler@arm.com>, 2021
 -
--TEST="unroll_loop_thread"
+-TEST="memcpy_thread"
 -
 -# shellcheck source=../lib/coresight.sh
 -. "$(dirname $0)"/../lib/coresight.sh
 -
--ARGS="10"
--DATV="10"
+-ARGS="16 10 1"
+-DATV="16k_10"
 -# shellcheck disable=SC2153
 -DATA="$DATD/perf-$TEST-$DATV.data"
 -
@@ -207,6 +131,59 @@ index cb3e97a0a89f..000000000000
 -
 -err=$?
 -exit $err
+diff --git a/tools/perf/tests/shell/coresight/raw_dump_stress.sh b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
+new file mode 100755
+index 000000000000..b4b4f2503fee
+--- /dev/null
++++ b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
+@@ -0,0 +1,47 @@
++#!/bin/bash -e
++# CoreSight raw dump stress (exclusive)
++
++# SPDX-License-Identifier: GPL-2.0
++
++if [ "$(id -u)" != 0 ]; then
++	# Requires root for larger buffer size
++	echo "[Skip] No root permission"
++	exit 2
++fi
++
++# If CoreSight is not available, skip the test
++perf list pmu | grep -q cs_etm || exit 2
++
++tmpdir=$(mktemp -d /tmp/__perf_test.coresight_raw_dump_stress.XXXXX)
++
++cleanup() {
++	rm -r "${tmpdir}"
++	trap - EXIT TERM INT
++}
++
++trap_cleanup() {
++	cleanup
++	exit 1
++}
++trap trap_cleanup EXIT TERM INT
++
++# Use exit snapshot to record 2M of trace to make about 80MB of raw dump data.
++echo "Recording..."
++perf record -e cs_etm/timestamp=0/u -m,2M -Se -o "$tmpdir/data" -- \
++	perf test -w brstack 20000 > /dev/null 2>&1
++
++# Test raw dump runs to completion but don't decode because that's too slow for
++# a test
++echo "Dumping raw trace..."
++perf report --dump-raw-trace -i "$tmpdir/data" 2>/dev/null > "$tmpdir/rawdump"
++
++size=$(stat -c%s "$tmpdir/rawdump")
++if [ $size -gt $((50 * 1024 * 1024)) ]; then
++	echo "PASS: Raw dump file is larger than 50MB"
++	cleanup
++	exit 0
++fi
++
++echo "FAIL: Got less than 50MB (${size} bytes)"
++cleanup
++exit 1
 
 -- 
 2.34.1
