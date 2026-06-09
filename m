@@ -1,538 +1,198 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA16A4964F
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 09:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780995653; cv=pass; b=hvK8Cxvlhw7NhOb59hH8lexVyUSkVNzW3dwiGC5eyq06T4w8csDX1i+UFwF7J+Jd60NEHvv3JWLlvfPLMBAkvhod+VRQGZeLf1IwZiI+s+Fh+mPgLJhd2qWy9bIFvMmwM7pKKDwEUkLNAOL69/XouIHddYJsX1SPqMwV1gQ/9Qg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780995653; c=relaxed/simple;
-	bh=HXIFuGB/G3Gv0XFcP5OG11UIhiNPhNFFgQpVqecxxVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GiDXOS17xm2gd/YPGcUqo4zFnCqZP+byoi7de2pn4h+hLZLjSIc4rLi/8GlSFq/pn/ZVe+VvHII6uc+BraHhFNouOwllp0+5H2zCPWD5xxXicdg+esW1+QcPE+TxRRnKN4CHbVfLhZt2zudqCzB+k+GR1Q4xatj9PBvuLZm4sqo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SkS6DqUY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ql9IH5Sg; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE918194AE6;
+	Tue,  9 Jun 2026 09:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780995730; cv=none; b=CYJ7LoeNKcYZxT54YG/CXHYihmofHzZsL3zjUOtAZvVP9HTttwuoS5YgSM1YdLfIKEm5xe/TQU9IGteMsLU1q9qig6um5z0wwCSEYgiDWzGeAAMRhI2XhNEOrU3HhQVRAZ8KoQ7/x92sEhtmOxPu5UrqrwazjJ+il1PM4VTD0WE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780995730; c=relaxed/simple;
+	bh=X3kZXLgoD4loR4hnj6Wp7oHH03sW8coNdu2AD6gnsos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMbGROZ4CK+MpNkBPv5s6TBvfOTi2bJkreAOfr/L3ncZFSNy9gTnm9CniC4nBn89MzJ8yQmpEST2pNGVPiYy5PSHMw1nmYNL261zwp7NVsV733oQv7Z8fjxsz2cA6/QRHZ6lawovwH2bk5tymFSq72tAaCrRUHERJ6gwYNGYyds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W82I8wBU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SkS6DqUY";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ql9IH5Sg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780995651;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CjCzWhaSCTVXHkacb15DHG/H0gGLa5q4EBPfTFRAYrs=;
-	b=SkS6DqUYwI3KZUjSQ4IPZKlmzSXYfWW/Yr0+izVQwmH3Cn3y34apOO6G6cK08nXuBmGJrq
-	Oq2XFAU9w7P7ayGVprU7u7/00cxoOoM+4e9fTnXfU3nth2RW8d/kWT6PReN0pKuPlCPs4K
-	E9Ms31ZYXApcCQW9GZu/wSGZOqJ4PJk=
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
- [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-213-sli6O6TzOceqXsrjn8qJiw-1; Tue, 09 Jun 2026 05:00:49 -0400
-X-MC-Unique: sli6O6TzOceqXsrjn8qJiw-1
-X-Mimecast-MFC-AGG-ID: sli6O6TzOceqXsrjn8qJiw_1780995649
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-6605859ed2eso7728195d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 02:00:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780995649; cv=none;
-        d=google.com; s=arc-20240605;
-        b=j6w1FxPgiUEJRM8PGgRx29FDfRRGAe7LmKvCiu6aUtsM5gqvRgCeL71LOZy1kvjq+Y
-         kH3Aux7NimfLCSOLaWmmKPLUU98TU1v6SkTJHuClQ6sPgpjh5OK3NI1p9Ev3TbPpYNTf
-         kFmj9l/awyJ/B8J0UDA+f4qmYIc54WdSB7ammpxuwl7b4x/Z+1r/xd5hgtyFSH44Ds9c
-         H94S+6/N7cV/o/hB9hratYQhsebWNsKV9Ta7T/XS14ZCnD6/hjYeuMi3Ts6E1xRRzRqA
-         XMFtRmucNIegXa3xtUplvyU2EJsNVChdfD1X1JVURtoBa5obXaWayezUsZIdhkuicZtj
-         Dzow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CjCzWhaSCTVXHkacb15DHG/H0gGLa5q4EBPfTFRAYrs=;
-        fh=/Zx+XU+1HHk4Acx7QwlldthIwSJ+IUnl+N2so9LKFX8=;
-        b=Gp1RoUqeNAPj32DeGJ7p5RtMjn1SvsQ2zjorrw2EGrfuoqQF5wke8ZbmSNNDcAWVlD
-         lm6Hbq9cWhPWNbao5cfBNm7aXpfZAlTs9R4T+0rk1Wbh6WdTddWyARaP4To4bLPdj0rS
-         tw6SnXKgzq2JE1PUEDtwuJiI3e4UipUG/0sr6DG0Dyb1xytarZm4TIFACaHi7Tj3dxfw
-         EgCGLD1DhikEgHyITPI+v3afJ8HVNHRxTbx/1TBsExmILvNy0IZTS+d5on7GB7G07IGD
-         z6rYktBFnYRkXuhL65QIMH4jO+VdNPFROAf1cr2X9a4KRwC9GEJpIggazCfEw1p+/It7
-         q8ng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780995649; x=1781600449; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CjCzWhaSCTVXHkacb15DHG/H0gGLa5q4EBPfTFRAYrs=;
-        b=ql9IH5SgM0db5mdeF37/jmz2UZZ1iKzHUWLg5rnAm3RsYBLpvkF4c+HZA0fseuEjaw
-         qKVh4B7Na8Znn8zqLGThbTtybNQInHMQu9TGBYYikRDDGHQKXF8MNySPQDnLcD+PbBDo
-         y8iaWIHqnQVPzmPlVNmUnn9tOAIhANosHvKtyTVCqFtoR/oBK05Qg15Byo3RAVS8uhKS
-         sEUnGaTUxjS4NjOdP63tFLxUUOleXdfFWh7/sVEOh8wMIXf+SeIdVo16+xa8yMZcaSxl
-         9PqWmgjBaigZGxjq/0Tlts1XEP7/unzJDmZffzLNbfTtBcL0kAEYjsj4da921wEKq2lp
-         dEew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780995649; x=1781600449;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CjCzWhaSCTVXHkacb15DHG/H0gGLa5q4EBPfTFRAYrs=;
-        b=W1GzPUMuIHsnVCXHThMDfX4rsWH6HVZ91rrUWNFBNywzdi/zTSGYyp/f1Ei0Uvh3uQ
-         Y/VE+OkODcUdiLVRPrsh5j/fo7OGOr+c6Ach2QI/N0fMMBJH5QAbeKRj0EcusbCp6RGh
-         +FQbLItcho6pcciaHhMMgy6jkP8u9ka038+8TVmxDB6CtkGw9vexMMQv+wy2ofNwiyi0
-         rw3pq6MJf2AXGU4lHm4ehBc++efzhVzEC2t9stP3lt1foBT+u+d+rGNzWE0LjgHwe/IK
-         TJTI0G0kffcKD2BKOPra+/PHyL7nuL37mzpLHTRVBqHhPshbxfDt8HnuPjAp4paU80CQ
-         mEDA==
-X-Gm-Message-State: AOJu0Ywm4KsqGGwaSo7htGFResO2BD7JX5HueZExu9zEONRq6a0LecRb
-	PtH8Olp+OlzSE109XNiTaiz60Br7DTC9I8V2fTXRKXOG1k8dGwZST4Xhlnrapz8sdidHSklb7qY
-	DQ7ytqFBZqeQkuOpTdEUcX2CaYm9tBoct173dPbFVSQ8mFjtXlfVHf2RZe1L5JyGeLcNk3aZ8ls
-	V5oE4vU1cOpJl7lAzgeET/xs9ysmEMRgVJhHkr
-X-Gm-Gg: Acq92OEVYzTjeyypgyWkBNHOqBO4Agg4ovLQbntavj+TQX4BFjqPLnYAIXoE+U72yy0
-	UGCeAW2Ol7sPn+ARV2/mJ9IajMoiCDLnKJ7t2oRPeL7JOhpJmPeD9ItBdlcz0YB6WaakucGYnUF
-	n7CIBfJIN5xAZXLgC9HdDEpUU1acRC246EjWSa9aVjQk0OoID0QV1IZHxWQoauup7ZqkYKO8tPt
-	nbWqVWoSi8g7aV7
-X-Received: by 2002:a53:e10c:0:b0:65c:6220:5fca with SMTP id 956f58d0204a3-66106f5d8b5mr13373195d50.47.1780995648771;
-        Tue, 09 Jun 2026 02:00:48 -0700 (PDT)
-X-Received: by 2002:a53:e10c:0:b0:65c:6220:5fca with SMTP id
- 956f58d0204a3-66106f5d8b5mr13373123d50.47.1780995647934; Tue, 09 Jun 2026
- 02:00:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W82I8wBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB431F00893;
+	Tue,  9 Jun 2026 09:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780995729;
+	bh=WWSmiCs23IJGI57Vs2GNr1UcM+JoQenB5W5KVqFSLKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W82I8wBU6gWYB5R991WEtHqMaAfW+LFNWdS8l8tEheYLu4CVNM9JEP7htjvZC+80M
+	 B12yPMW/uhwP6yVvtWD5OJp5CxS6cE0WkZBYZaic1kO5cIAKOlw2gYhxtYL+3HaV3h
+	 3GhbYPJ9HoAqYsPxFSJ48yWXfdQFHycX9vkgTj5AxRPo68dYkjZWBRJ6CEzIHXUI27
+	 AzHAbqnyFgXPsSkniSHtNe//p9sYgCgSEa1+MvM1LHMqCsx7dNaWk2XSiqkefVQj8J
+	 Q41OZTKjqvL8BHtOzt2rI4cgSYcpOfQmm3kCGaTnEV3nH7CfkHP+X0TbfAaHfJtudW
+	 act8fdFCNhhRQ==
+Date: Tue, 9 Jun 2026 09:02:05 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+	tfiga@chromium.org, senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 3/3] PM: dpm_watchdog: Add sysctl interface for DPM
+ watchdog timeouts
+Message-ID: <aifWjW93SOQiv_Eh@google.com>
+References: <20260608021526.1023248-1-tzungbi@kernel.org>
+ <20260608021526.1023248-4-tzungbi@kernel.org>
+ <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260605161422.213817-1-npache@redhat.com> <20260605161422.213817-12-npache@redhat.com>
- <aiMTuXKQ5qxKYo60@lucifer>
-In-Reply-To: <aiMTuXKQ5qxKYo60@lucifer>
-From: Nico Pache <npache@redhat.com>
-Date: Tue, 9 Jun 2026 03:01:34 -0600
-X-Gm-Features: AVVi8Ceb-6YJHdLO-Do9on3gYeTalQbWiy2iQSDdl1jmDvd6DrN3iUNFll2LRL0
-Message-ID: <CAA1CXcDo-UduPyTvzxXwCaheBebsuYnPcHanqfK-tLn4EeBGxQ@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v19 11/14] mm/khugepaged: Introduce mTHP
- collapse support
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
-	joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev, 
-	liam@infradead.org, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
-	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
-	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, 
-	rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
-	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
-	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
 
-On Fri, Jun 5, 2026 at 12:38=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> wr=
-ote:
->
-> On Fri, Jun 05, 2026 at 10:14:18AM -0600, Nico Pache wrote:
-> > Enable khugepaged to collapse to mTHP orders. This patch implements the
-> > main scanning logic using a bitmap to track occupied pages and the
-> > algorithm to find optimal collapse sizes.
+On Mon, Jun 08, 2026 at 04:22:35PM +0200, Rafael J. Wysocki wrote:
+> On Mon, Jun 8, 2026 at 4:16 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
 > >
-> > Previous to this patch, PMD collapse had 3 main phases, a light weight
-> > scanning phase (mmap_read_lock) that determines a potential PMD
-> > collapse, an alloc phase (mmap unlocked), then finally heavier collapse
-> > phase (mmap_write_lock).
+> > Introduce sysctl knobs to allow configuring DPM watchdog timeouts at
+> > runtime.
 > >
-> > To enabled mTHP collapse we make the following changes:
+> > Currently, these timeouts are fixed at compile time via
+> > CONFIG_DPM_WATCHDOG_TIMEOUT and CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT.
+> > This limits flexibility if the timeouts need to be adjusted for
+> > different testing scenarios or hardware behaviors without rebuilding
+> > the kernel.
 > >
-> > During PMD scan phase, track occupied pages in a bitmap. When mTHP
-> > orders are enabled, we remove the restriction of max_ptes_none during t=
-he
-> > scan phase to avoid missing potential mTHP collapse candidates. Once we
-> > have scanned the full PMD range and updated the bitmap to track occupie=
-d
-> > pages, we use the bitmap to find the optimal mTHP size.
+> > Add the following sysctl files under /proc/sys/kernel/:
+> > - dpm_watchdog_timeout_secs: The total timeout before panic. The
+> >   maximum value is capped at CONFIG_DPM_WATCHDOG_TIMEOUT to prevent
+> >   unreasonably large timeouts.
+> > - dpm_watchdog_warning_timeout_secs: The warning timeout. The maximum
+> >   value is capped at the current dpm_watchdog_timeout_secs.
+> > Both sysctls have a minimum value of 1.
 > >
-> > Implement mthp_collapse() to walk forward through the bitmap and
-> > determine the best eligible order for each naturally-aligned region. Th=
-e
-> > algorithm starts at the beginning of the PMD range and, for each offset=
-,
-> > tries the highest order that fits the alignment. If the number of
-> > occupied PTEs in that region satisfies the max_ptes_none threshold for
-> > that order, a collapse is attempted. On failure, the order is
-> > decremented and the same offset is retried at the next smaller size. On=
-ce
-> > the smallest enabled order is exhausted (or a collapse succeeds), the
-> > offset advances past the region just processed, and the next attempt
-> > starts at the highest order permitted by the new offset's natural
-> > alignment.
->
-> I think still it might have been nice to discuss why we are not
-> e.g. greedily trying to find the biggest possible mTHP size (if we did, w=
-e
-> would try the highest offset first), but we can save that for adding some
-> documentation somewhere later tbh.
-
-We are, the algorithm tries PMD, then order 8, then order 7, and so
-on. Due to the required alignment, if the N-1 order succeeds, we try
-the same order at the neighboring offset.
-
-So if we collapse a order 8, the following collapse attempt will be
-order 8 at 256. We always try the highest order allowed for a given
-offset :)
-
->
-> This commit message is long enough as it is :>)
->
-> >
-> > The algorithm works as follows:
-> >     1) set offset=3D0 and order=3DHPAGE_PMD_ORDER
-> >     2) if the order is not enabled, go to step (5)
-> >     3) count occupied PTEs in the (offset, order) range using
-> >        bitmap_weight_from()
-> >     4) if the count satisfies the max_ptes_none threshold, attempt
-> >        collapse; on success, advance to step (6)
-> >     5) if a smaller enabled order exists, decrement order and retry
-> >        from step (2) at the same offset
-> >     6) advance offset past the current region and compute the next
-> >        order from the new offset's natural alignment via __ffs(offset),
-> >        capped at HPAGE_PMD_ORDER
-> >     7) repeat from step (2) until the full PMD range is covered
-> >
-> > mTHP collapses reject regions containing swapped out or shared pages.
-> > This is because adding new entries can lead to new none pages, and thes=
-e
-> > may lead to constant promotion into a higher order mTHP. A similar
-> > issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
-> > introducing at least 2x the number of pages, and on a future scan will
-> > satisfy the promotion condition once again. This issue is prevented via
-> > the collapse_max_ptes_none() function which imposes the max_ptes_none
-> > restrictions above.
-> >
-> > We currently only support mTHP collapse for max_ptes_none values of 0
-> > and HPAGE_PMD_NR - 1. resulting in the following behavior:
-> >
-> >     - max_ptes_none=3D0: Never introduce new empty pages during collaps=
-e
-> >     - max_ptes_none=3DHPAGE_PMD_NR-1: Always try collapse to the highes=
-t
-> >       available mTHP order
-> >
-> > Any other max_ptes_none value will emit a warning and default mTHP
-> > collapse to max_ptes_none=3D0. There should be no behavior change for P=
-MD
-> > collapse.
-> >
-> > Once we determine what mTHP sizes fits best in that PMD range a collaps=
-e
-> > is attempted. A minimum collapse order of 2 is used as this is the lowe=
-st
-> > order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
-> >
-> > Currently madv_collapse is not supported and will only attempt PMD
-> > collapse.
-> >
-> > We can also remove the check for is_khugepaged inside the PMD scan as
-> > the collapse_max_ptes_none() function handles this logic now.
->
-> It'd be nice to have kept the ASCII diagram here too :'( but this is fine=
-,
->
-> >
-> > Signed-off-by: Nico Pache <npache@redhat.com>
->
-> This all LGTM, and we can fix up any issues that arise later if anything
-> does break. So:
->
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-
-Thanks for reviewing :)
-
->
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > > ---
-> >  mm/khugepaged.c | 146 +++++++++++++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 138 insertions(+), 8 deletions(-)
+> > v3:
+> > - No changes.
 > >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index ec886a031952..430047316f43 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -99,6 +99,8 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM=
-_SLOTS_HASH_BITS);
+> > v2: https://lore.kernel.org/all/20260604090756.2884671-4-tzungbi@kernel.org
+> > - New to the series.
 > >
-> >  static struct kmem_cache *mm_slot_cache __ro_after_init;
+> > v1: Doesn't exist.
 > >
-> > +#define KHUGEPAGED_MIN_MTHP_ORDER    2
+> >  drivers/base/power/main.c | 61 ++++++++++++++++++++++++++++++++++++---
+> >  1 file changed, 57 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > index 7822c29b7c8d..c1a4b30fafb2 100644
+> > --- a/drivers/base/power/main.c
+> > +++ b/drivers/base/power/main.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/interrupt.h>
+> >  #include <linux/sched.h>
+> >  #include <linux/sched/debug.h>
+> > +#include <linux/sysctl.h>
+> >  #include <linux/async.h>
+> >  #include <linux/suspend.h>
+> >  #include <trace/events/power.h>
+> > @@ -539,6 +540,58 @@ static bool __read_mostly dpm_watchdog_enabled =
+> >  module_param(dpm_watchdog_enabled, bool, 0644);
+> >  MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
+> >
+> > +static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
+> > +static unsigned int __read_mostly dpm_watchdog_warning_timeout =
+> > +                                               CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +static const unsigned int dpm_watchdog_timeout_max = CONFIG_DPM_WATCHDOG_TIMEOUT;
 > > +
-> >  struct collapse_control {
-> >       bool is_khugepaged;
-> >
-> > @@ -110,6 +112,9 @@ struct collapse_control {
-> >
-> >       /* nodemask for allocation fallback */
-> >       nodemask_t alloc_nmask;
+> > +static int proc_dodpm_watchdog_timeout_secs(const struct ctl_table *table,
+> > +                                           int write, void *buffer,
+> > +                                           size_t *lenp, loff_t *ppos)
+> > +{
+> > +       struct ctl_table ctl = *table;
+> > +       unsigned int val = dpm_watchdog_timeout;
+> > +       int ret;
 > > +
-> > +     /* Each bit represents a single occupied (!none/zero) page. */
-> > +     DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
-> >  };
-> >
+> > +       ctl.data = &val;
+> > +       ret = proc_douintvec_minmax(&ctl, write, buffer, lenp, ppos);
+> > +       if (ret || !write)
+> > +               return ret;
+> > +
+> > +       if (val < dpm_watchdog_warning_timeout)
+> > +               dpm_watchdog_warning_timeout = val;
+> > +       dpm_watchdog_timeout = val;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static const struct ctl_table dpm_watchdog_sysctls[] = {
+> > +       {
+> > +               .procname       = "dpm_watchdog_timeout_secs",
+> > +               .maxlen         = sizeof(unsigned int),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_dodpm_watchdog_timeout_secs,
+> > +               .extra1         = SYSCTL_ONE,
+> > +               .extra2         = (void *)&dpm_watchdog_timeout_max,
+> > +       },
+> > +       {
+> > +               .procname       = "dpm_watchdog_warning_timeout_secs",
+> > +               .data           = &dpm_watchdog_warning_timeout,
+> > +               .maxlen         = sizeof(unsigned int),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_douintvec_minmax,
+> > +               .extra1         = SYSCTL_ONE,
+> > +               .extra2         = (void *)&dpm_watchdog_timeout,
+> > +       },
+> > +};
+> > +
+> > +static int __init dpm_watchdog_sysctl_init(void)
+> > +{
+> > +       register_sysctl_init("kernel", dpm_watchdog_sysctls);
+> > +       return 0;
+> > +}
+> > +subsys_initcall(dpm_watchdog_sysctl_init);
+> > +
 > >  /**
-> > @@ -1440,20 +1445,130 @@ static enum scan_result collapse_huge_page(str=
-uct mm_struct *mm, unsigned long s
-> >       return result;
+> >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+> >   * @t: The timer that PM watchdog depends on.
+> > @@ -564,9 +617,9 @@ static void dpm_watchdog_handler(struct timer_list *t)
+> >                         dev_driver_string(wd->dev), dev_name(wd->dev));
+> >         }
+> >
+> > -       time_left = CONFIG_DPM_WATCHDOG_TIMEOUT - CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       time_left = dpm_watchdog_timeout - dpm_watchdog_warning_timeout;
+> >         dev_warn(wd->dev, "**** DPM device timeout after %u seconds; %u seconds until panic ****\n",
+> > -                CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT, time_left);
+> > +                dpm_watchdog_warning_timeout, time_left);
+> >         show_stack(wd->tsk, NULL, KERN_WARNING);
+> >
+> >         wd->fatal = true;
+> > @@ -587,11 +640,11 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
+> >
+> >         wd->dev = dev;
+> >         wd->tsk = current;
+> > -       wd->fatal = CONFIG_DPM_WATCHDOG_TIMEOUT == CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
+> >
+> >         timer_setup_on_stack(timer, dpm_watchdog_handler, 0);
+> >         /* use same timeout value for both suspend and resume */
+> > -       timer->expires = jiffies + HZ * CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       timer->expires = jiffies + HZ * dpm_watchdog_warning_timeout;
+> >         add_timer(timer);
 > >  }
 > >
-> > +/* Return the highest naturally aligned order that fits at @offset wit=
-hin a PMD. */
-> > +static unsigned int max_order_from_offset(unsigned int offset)
-> > +{
-> > +     if (offset =3D=3D 0)
-> > +             return HPAGE_PMD_ORDER;
-> > +
-> > +     return min_t(unsigned int, __ffs(offset), HPAGE_PMD_ORDER);
-> > +}
->
-> Thanks this is better! I wonder if we can ever actually see an
-> __ffs(offset) that's > HPAGE_PMD_ORDER but probably better safe than sorr=
-y
-> here with the min_t.
-
-I don't think so unless offset somehow exceeds 512 (it shouldn't), but
-like you said, better safe than sorry.
-
->
-> > +
-> > +/*
-> > + * mthp_collapse() consumes the bitmap that is generated during
-> > + * collapse_scan_pmd() to determine what regions and mTHP orders fit b=
-est.
-> > + *
-> > + * Each bit in cc->mthp_present_ptes represents a single occupied (!no=
-ne/zero)
-> > + * page. We start at the PMD order and check if it is eligible for col=
-lapse;
-> > + * if not, we check the left and right halves of the PTE page table we=
- are
-> > + * examining at a lower order.
-> > + *
-> > + * For each of these, we determine how many PTE entries are occupied i=
-n the
-> > + * range of PTE entries we propose to collapse, then we compare this t=
-o a
-> > + * threshold number of PTE entries which would need to be occupied for=
- a
-> > + * collapse to be permitted at that order (accounting for max_ptes_non=
-e).
-> > + *
-> > + * If a collapse is permitted, we attempt to collapse the PTE range in=
-to a
-> > + * mTHP.
-> > + */
-> > +static enum scan_result mthp_collapse(struct mm_struct *mm,
-> > +             unsigned long address, int referenced, int unmapped,
-> > +             struct collapse_control *cc, unsigned long enabled_orders=
-)
-> > +{
-> > +     unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
-> > +     enum scan_result last_result =3D SCAN_FAIL;
-> > +     int collapsed =3D 0;
-> > +     bool alloc_failed =3D false;
-> > +     unsigned long collapse_address;
-> > +     unsigned int offset =3D 0;
-> > +     unsigned int order =3D HPAGE_PMD_ORDER;
-> > +
-> > +     while (offset < HPAGE_PMD_NR) {
-> > +             nr_ptes =3D 1UL << order;
-> > +
-> > +             if (!test_bit(order, &enabled_orders))
-> > +                     goto next_order;
-> > +
-> > +             max_ptes_none =3D collapse_max_ptes_none(cc, NULL, order)=
-;
-> > +             nr_occupied_ptes =3D bitmap_weight_from(cc->mthp_present_=
-ptes, offset,
-> > +                                                   offset + nr_ptes);
-> > +
-> > +             if (nr_occupied_ptes >=3D nr_ptes - max_ptes_none) {
-> > +                     enum scan_result ret;
-> > +
-> > +                     collapse_address =3D address + offset * PAGE_SIZE=
-;
-> > +                     ret =3D collapse_huge_page(mm, collapse_address, =
-referenced,
-> > +                                              unmapped, cc, order);
-> > +                     switch (ret) {
-> > +                     /* Cases where we continue to next collapse candi=
-date */
-> > +                     case SCAN_SUCCEED:
-> > +                             collapsed +=3D nr_ptes;
-> > +                             fallthrough;
-> > +                     case SCAN_PTE_MAPPED_HUGEPAGE:
-> > +                             goto next_offset;
-> > +                     /* Cases where lower orders might still succeed *=
-/
-> > +                     case SCAN_ALLOC_HUGE_PAGE_FAIL:
-> > +                             alloc_failed =3D true;
-> > +                             last_result =3D ret;
-> > +                             goto next_order;
-> > +                     /* Cases where no further collapse is possible */
-> > +                     case SCAN_PMD_MAPPED:
-> > +                             fallthrough;
-> > +                     default:
-> > +                             last_result =3D ret;
-> > +                             goto done;
-> > +                     }
-> > +             }
-> > +
-> > +next_order:
-> > +             /*
-> > +              * Continue with the next smaller order if there is still
-> > +              * any smaller order enabled. When at the smallest order
-> > +              * we must always move to the next offset.
-> > +              */
-> > +             if (order > KHUGEPAGED_MIN_MTHP_ORDER &&
-> > +                     (enabled_orders & GENMASK(order - 1, 0))) {
->
-> Honestly wasn't aware of GENMASK() before :)
-
-I wasn't either! (thanks David ;) )
-
->
-> > +                     order--;
-> > +                     continue;
-> > +             }
-> > +next_offset:
-> > +             /*
-> > +              * Advance past the region we just processed and determin=
-e the
-> > +              * highest order we can attempt next. Since huge pages mu=
-st be
-> > +              * naturally aligned, the max order we can attempt next i=
-s
-> > +              * limited by the alignment of the new offset.
-> > +              * E.g. if we collapsed a order-2 mTHP at offset 0, offse=
-t
-> > +              * becomes 4 and __ffs(4) =3D=3D 2, so the next attempt s=
-tarts at
-> > +              * order 2.
-> > +              */
->
-> Great comment thanks!
->
-> > +             offset +=3D nr_ptes;
-> > +             order =3D max_order_from_offset(offset);
-> > +     }
-> > +done:
-> > +     if (collapsed)
-> > +             return SCAN_SUCCEED;
-> > +     if (alloc_failed)
-> > +             return SCAN_ALLOC_HUGE_PAGE_FAIL;
-> > +     return last_result;
-> > +}
-> > +
-> >  static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
-> >               struct vm_area_struct *vma, unsigned long start_addr,
-> >               bool *lock_dropped, struct collapse_control *cc)
-> >  {
-> > -     const unsigned int max_ptes_none =3D collapse_max_ptes_none(cc, v=
-ma, HPAGE_PMD_ORDER);
-> >       const unsigned int max_ptes_shared =3D collapse_max_ptes_shared(c=
-c, HPAGE_PMD_ORDER);
-> >       const unsigned int max_ptes_swap =3D collapse_max_ptes_swap(cc, H=
-PAGE_PMD_ORDER);
-> > +     unsigned int max_ptes_none =3D collapse_max_ptes_none(cc, vma, HP=
-AGE_PMD_ORDER);
-> > +     enum tva_type tva_flags =3D cc->is_khugepaged ? TVA_KHUGEPAGED : =
-TVA_FORCED_COLLAPSE;
-> >       pmd_t *pmd;
-> > -     pte_t *pte, *_pte;
-> > +     pte_t *pte, *_pte, pteval;
-> > +     int i;
-> >       int none_or_zero =3D 0, shared =3D 0, referenced =3D 0;
-> >       enum scan_result result =3D SCAN_FAIL;
-> >       struct page *page =3D NULL;
-> >       struct folio *folio =3D NULL;
-> >       unsigned long addr;
-> > +     unsigned long enabled_orders;
-> >       spinlock_t *ptl;
-> >       int node =3D NUMA_NO_NODE, unmapped =3D 0;
-> >
-> > @@ -1465,8 +1580,19 @@ static enum scan_result collapse_scan_pmd(struct=
- mm_struct *mm,
-> >               goto out;
-> >       }
-> >
-> > +     bitmap_zero(cc->mthp_present_ptes, MAX_PTRS_PER_PTE);
-> >       memset(cc->node_load, 0, sizeof(cc->node_load));
-> >       nodes_clear(cc->alloc_nmask);
-> > +
-> > +     enabled_orders =3D collapse_possible_orders(vma, vma->vm_flags, t=
-va_flags);
-> > +
-> > +     /*
-> > +      * If PMD is the only enabled order, enforce max_ptes_none, other=
-wise
-> > +      * scan all pages to populate the bitmap for mTHP collapse.
-> > +      */
-> > +     if (enabled_orders !=3D BIT(HPAGE_PMD_ORDER))
-> > +             max_ptes_none =3D KHUGEPAGED_MAX_PTES_LIMIT;
-> > +
-> >       pte =3D pte_offset_map_lock(mm, pmd, start_addr, &ptl);
-> >       if (!pte) {
-> >               cc->progress++;
-> > @@ -1474,11 +1600,13 @@ static enum scan_result collapse_scan_pmd(struc=
-t mm_struct *mm,
-> >               goto out;
-> >       }
-> >
-> > -     for (addr =3D start_addr, _pte =3D pte; _pte < pte + HPAGE_PMD_NR=
-;
-> > -          _pte++, addr +=3D PAGE_SIZE) {
-> > +     for (i =3D 0; i < HPAGE_PMD_NR; i++) {
-> > +             _pte =3D pte + i;
-> > +             addr =3D start_addr + i * PAGE_SIZE;
-> > +             pteval =3D ptep_get(_pte);
-> > +
-> >               cc->progress++;
-> >
-> > -             pte_t pteval =3D ptep_get(_pte);
-> >               if (pte_none_or_zero(pteval)) {
-> >                       if (++none_or_zero > max_ptes_none) {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> > @@ -1558,6 +1686,8 @@ static enum scan_result collapse_scan_pmd(struct =
-mm_struct *mm,
-> >                       }
-> >               }
-> >
-> > +             /* Set bit for occupied pages */
-> > +             __set_bit(i, cc->mthp_present_ptes);
-> >               /*
-> >                * Record which node the original page is from and save t=
-his
-> >                * information to cc->node_load[].
-> > @@ -1616,9 +1746,9 @@ static enum scan_result collapse_scan_pmd(struct =
-mm_struct *mm,
-> >       if (result =3D=3D SCAN_SUCCEED) {
-> >               /* collapse_huge_page expects the lock to be dropped befo=
-re calling */
-> >               mmap_read_unlock(mm);
-> > -             result =3D collapse_huge_page(mm, start_addr, referenced,
-> > -                                         unmapped, cc, HPAGE_PMD_ORDER=
-);
-> > -             /* collapse_huge_page will return with the mmap_lock rele=
-ased */
-> > +             result =3D mthp_collapse(mm, start_addr, referenced,
-> > +                                    unmapped, cc, enabled_orders);
-> > +             /* mmap_lock was released above, set lock_dropped */
-> >               *lock_dropped =3D true;
-> >       }
-> >  out:
 > > --
-> > 2.54.0
-> >
->
-> Cheers, Lorenzo
->
+> 
+> I think that this can be applied without the other two patches in the
+> series, so please let me know if you want me to apply it separately.
 
+Ack.  The patch does have adjacent hunks with the preceding patch, which
+might cause minor contextual conflicts if applied independently.
+
+Would you want me to reorder the series in the next version to make this
+the first patch?  In case the rest two patches may still take some time
+to review.
