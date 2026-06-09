@@ -1,139 +1,142 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011046.outbound.protection.outlook.com [40.93.194.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9413624D7
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 03:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780975121; cv=none; b=nJ9QIWmhSTruLlTlcDKSUi+iXgm4DGt1fzGUKUa+Yn2WvNTGj9Zgq83itXPAQk1Qfn72srkxTweNevuKFRmROts8Wk60hmoZPfkzxEcnEWfGbgHqknimRkCvC2D9E3RZ7Ff62yuj3WuapwzjA47YnRGJuxag+0T57skkrExLL7U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780975121; c=relaxed/simple;
-	bh=yESwecBwMv/jD2yQrJM4oBpPmBZy0jCTscK7ky2wtrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mYt34oLxdXCwIRnFs78v91vq0W6dlmFqoD/XxbVllFPTO0dzHh0N9AnlxCKOE1U/vUciwTQaXShWhDVvgJ+6EyjV1eOYBRQ1zF9mlO/ltp/xo+hNMdFJ/QldqAQV97HyBxASPX3XQNbcwtZnBk0lBIuVhDkjFpZjnByYkqgCIVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1DkyNrA; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB7B3815D9;
+	Tue,  9 Jun 2026 03:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780977236; cv=fail; b=VarOSmTWKEq60is5Fx3K6TQKpVMZ5cLX1NWQ/QI3RvmZkUoEYxzuiAinYPYeXh2r3jp8GaLYPA6Q2X40PYlZg9FO2kLmyX8cOheqI00sGgXYsHmrbChSZ42UKZqZH4WzLqcu2MOcdG5ctewqETu7MuonFUqN5efmb7tNO0hSmMQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780977236; c=relaxed/simple;
+	bh=29spU32gP0NJSkxsMed7YmDdkTVsT7yf65GhyDmUwYY=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UjvqSBnjUfivbGYu4ad/9lS9mC+9A8sZoxstdl6yNCk+jnenZusJrmf0qAzdBPxTciRKw+EBXrtEFm9WEkiie3wvrJknHJo/FoY51yM6PEYS/A377FuYhpDMfgHhstYX/145rn8QvMcuQAyalbpZTGeSUsfnA/heBNIKivkZJ98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QW9jh64t; arc=fail smtp.client-ip=40.93.194.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1DkyNrA"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36b9d265355so2967799a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 20:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780975120; x=1781579920; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w8MhYUiXWRAVVrdhX1Xj1vk/zHhvhBV8KDCeIyuVj2g=;
-        b=F1DkyNrAn358F/khTOVTxqVTN/gI+4PsSZBEeNj6zsve4FaIgH58VGz5i9Bo4+dDgq
-         bQBV4dXk4GO7RgIZbh7D+kzW3/nqEo9laD6GDgeYz/NPLhG2/QqQYhUczc72KZWoNLSE
-         +mPyxnwsfwRYKur6MG6yfS97F+55tOi+HmjcGWQc0ZvtQEF9vCrGic2h7VgmYeJuRkUG
-         lERMzi+CtBUxC8LgdGC1D8xxARX23ahSh1JqIki1wbGopOAsX11MHbwdvvZFTrzEy9f+
-         XaJ9a1huLjRyT4K4VJwpAvuozAUl2N/QAo3Op8eYUNhRfpa4+ymGQxulj2IxAVaKqcOM
-         DAjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780975120; x=1781579920;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w8MhYUiXWRAVVrdhX1Xj1vk/zHhvhBV8KDCeIyuVj2g=;
-        b=iYpjYcS1ylf7Qve9vRjO7UxjdoRUHgi4oqvkdEfN5FrMxvlGJ3PbV/bbQXMO1n9zy9
-         z5T1L8+WUeExuwKQg8MXXXqEVfPHqgPGhUpfGkxTAcJakmZFaKV3FbSQOw0VTXQ+zTJf
-         BgSaJPyYeCtvi1l397aMU2chacYlO2wMzE1/Cu/lsRtzr6MsRKFCukC3cZWog30fgp5K
-         Cf7NSJcvO9z+BmqV6ADrAahQFa5+r6dQDBGg71mySyJpr+0tVN2y/cGwb6DMMPsJg4DK
-         KgSOs98i8aDVXzHaj9fnT/pRgd/wn3Zr2OE9o6RULTIA9oi9pCKiZxLUIUlzX+xip0DQ
-         YcWw==
-X-Forwarded-Encrypted: i=1; AFNElJ9UjXmlG6/23mEsI9KLbnDHkPjjvFYSsz6zHTDHkRX4yZwNREj+Y1G/Bo4luREKnEl6nK7YH7RTZdw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMXIthuIoWFLJ4uErEcwNP6vvLlN8nZCFxOx3BVyXQ7a3KEF1V
-	tuhVJjCPRekmPKCHw4bX95/LollWMNg+CfD5lHriQZRYGX7hNEPh4quU
-X-Gm-Gg: Acq92OEspFMEI4dSw9W0rNOysA/w05HJRCczWs1I+aesQWWB46d64mZbWYAj3DmmsxO
-	VE/tT3fwsm4gAI1nFbzUGvpiMlVui0QsSQtHghiJwNWtDK8/WFFKP8sQKiWidg+QGHNsrE5ESxP
-	XcLiopZeLmgtWUSFddqvW+9tLKp6OzNOo8LIzlFM/NbIv2Tezp4OFwpv3OIQFbM/qdXroBNZoBR
-	WhEl1Mok7mkgdXgJ6rwCpv1KTxaIrGtpX3QRnfiYCW6A60DirHfuk084MEjW+h8cwaASc9aBz2m
-	D7GS8yCqtP+Flaf2EE4+Qx8NctmpIREYd9N1mAuEzbKFhcEomdsR/AqmORCu66PMFF8hx9xA5t3
-	gKDNxf/EWpxCOPPyIel1OfceyAOa6v4wsD55RBkbQSOjWohO6HirIWjObY/MJFlzxXjGOt2CS3U
-	X5uCL/60t9eegUuDT/o7vzZxqW+qXIyDZ+eSgLncJWm7eO2SfGmVw1YQ==
-X-Received: by 2002:a17:90b:1809:b0:368:6998:b49d with SMTP id 98e67ed59e1d1-370eeff6b37mr20150357a91.10.1780975119848;
-        Mon, 08 Jun 2026 20:18:39 -0700 (PDT)
-Received: from [10.125.192.72] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f8bc5asm204871655ad.27.2026.06.08.20.18.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2026 20:18:39 -0700 (PDT)
-Message-ID: <1c25650e-bf98-2863-d505-9b94c385668b@gmail.com>
-Date: Tue, 9 Jun 2026 11:18:26 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QW9jh64t"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T+MTiai5PZBY0g0asktAE7Qx0KJvbB6lLzidcXJFeoiKuOr7DkewzTsVXDG9Phyr7JVB6rjqU1p+N7DW6obMg+ecf3vQQLK9zcPNA4hmMfL3QNt+tdlc21WWmF+rSzojHGTokd/syqIbaWzLo2Csewzy3uFMRcYVSN+iXMXCrceBN5lC6jZHj9ZcCA5P81nN5aY+ociIRo4SlWq8SPOzeqepF94jdAoiL1mz47JT7xYCpotCjRP3hzED/qygOeiMGE0l7fCU8zZ8mKDf27mbdFcGT4d4ONjeKXwzvU7cKDR4ndwOpVIxzN5O6QPJElLBE4ZZdEJwMKAvKOfOcdCvCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yhW868Xp6mP77t5wirse7yDQXlbkDUs4be2za0EXcJU=;
+ b=GVbeNvkDQdnslZ6AWQTaWzBx31gJ5+32ecBxxfl2vFEWIzg5SJ07hg/RjeRmmj0S3JYVSAXy/JcF8abS48yGdrZH6c4oAEWIg6v6jM4cdWuneTzG926MSSxSbXT1QBc+9k7eznH7R2XAqW1wlPr31G5G/GL9NpdKhdIgYp87fJgnET5zHHw+qURJp6acO5oabf6NDqCkXvtpV5mxI+CdspaXdpIJnwKbesZdjxDeh2DhSu023RGqhUAEh376VqkmGFvY1W3A1du9/ZpIpQk6ynvWSwQSr4iTnw8h+6D67fjsILEUnUiA82uyoUABRs9eP41DzaN8XnQ6CLRMQ+naDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yhW868Xp6mP77t5wirse7yDQXlbkDUs4be2za0EXcJU=;
+ b=QW9jh64tiJPKzW4+MKENhYRGCX2rBUBLuapraMFHZtz8fgBkdBIs8Mex+2gGNw5Op28OR+lTlvu1DIgv5vycQoCxYPIwNffveNn211QQZlnIgIZ/ulsRaOnxAPNHfF3RJ9ek8sXoF9sHqf8r8t+7Vz6Y5AwySoNeMbRWWT7h650=
+Received: from BN0PR04CA0012.namprd04.prod.outlook.com (2603:10b6:408:ee::17)
+ by CH3PR12MB7500.namprd12.prod.outlook.com (2603:10b6:610:148::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
+ 03:53:44 +0000
+Received: from BN1PEPF00004680.namprd03.prod.outlook.com
+ (2603:10b6:408:ee:cafe::72) by BN0PR04CA0012.outlook.office365.com
+ (2603:10b6:408:ee::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.13 via Frontend Transport; Tue, 9
+ Jun 2026 03:53:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN1PEPF00004680.mail.protection.outlook.com (10.167.243.85) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Tue, 9 Jun 2026 03:53:43 +0000
+Received: from BLR-L1-NDADHANI (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 8 Jun
+ 2026 22:53:39 -0500
+From: Nikunj A Dadhania <nikunj@amd.com>
+To: Carlos =?utf-8?Q?L=C3=B3pez?= <clopez@suse.de>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: Carlos =?utf-8?Q?L=C3=B3pez?= <clopez@suse.de>, Paolo Bonzini
+	<pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Ashish Kalra <ashish.kalra@amd.com>, "Michael
+ Roth" <michael.roth@amd.com>, Brijesh Singh <brijesh.singh@amd.com>, "Isaku
+ Yamahata" <isaku.yamahata@intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Subject: Re: [PATCH] Documentation: KVM: Synchronize x86 VM types
+In-Reply-To: <20260603114504.814647-2-clopez@suse.de>
+References: <20260603114504.814647-2-clopez@suse.de>
+Date: Tue, 9 Jun 2026 03:53:36 +0000
+Message-ID: <85bjdkjrnj.fsf@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
- per-memcg
-To: Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>,
- shakeel.butt@linux.dev
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev,
- muchun.song@linux.dev, roman.gushchin@linux.dev, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
- <20260526114601.67041-2-jiahao.kernel@gmail.com>
- <aho7nepN5jZtKmef@google.com>
- <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
- <ah4ZZGl7GYJf54Wz@google.com>
- <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
- <ah9i3uhh3PFiS0Uk@google.com>
- <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
- <aiBpibRNi0BcM1Zu@google.com>
- <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
- <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
- <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
- <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
- <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
- <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
- <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004680:EE_|CH3PR12MB7500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 162ff0f0-4329-49a8-98f2-08dec5dab33f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	PHLTkDkU0koj0omFEu32bcXylDEBgIxjFHxcENQRvd5IfJDQ5wmTAURQ+UM32+MB6qVxsPAuqH1G4lNaJjJQiC9clEwnQSmkvT6LfhodHI6SXb8Rq5xLB7J16Ajd/bdRecHykQuzaJmw8fqWrMyKOBvVctG5BWU6lt4z3YmOyRkMqAUQNF71OwYScZFlk91XRKvaISaR1dkoIoE3PHuyPdjFeXCOZaFDdIHtOKufMOB5aa1Am1Sc8gbBXC1T7Tt8CdIPnU/hxmcBAg5k0aU/D3aOQonQuPR8aiKW+rO7ZpHuNWDlb3OGOpRafMU3BTfhzt4nQlv/0gZmUinV842f4OhLNW+1UafAd8aovtau+dlyN8O+Wwe3uPV1yFjo/mRkppPT0TTyhDGccqA/PSgPfa33XXGo4PCS0HzwRHD08TT6EpgDWM9qcoz2ySU4ohb4nNzzQZFt/1AZfuasu/dMqTE2+8Zd2jq5dkJsOyx2cDIjxgbcZoNm4vVwWlCvdl5iqA6p0hTjwezIU7uuii7iXuplyNulNkGmB6b7PrmqMbpm3qcJ2w1J6sm7n9IifbChQ1heiOJq/J9q5JpNy3fZ1o5xYOafB0JD4byVvUNqX+GdhwnX8PLMVfjoa2wnq2660RhoATo/ULQk+k2NUH0o2p4VxSuhyWf+su/2ooNDEUS/3wCo4Y2KNwMfMtYVfGe8WGGXn4eXJeQv2E9NTr6YlapxKpSqZcgxPJxs2vPMWq8=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	N4Ts7INwN0Eme6PqLOCyGCvezqpFpxem9RmVpSOSZO+Neg1P6rohlNa6ZMaRavA+6ouYPmropbWmSGK1zWSvDkPBZS5vuhCMMbBbrjHFvni539mElzFqMWUADdwP9XcWTxYtV3OY5Agd5jq6KmTcPT3eeRZuOcX814m0HJXgIBRUyno2ur5+48icujscJDN88rGGhja/Zwe/hECMNc1sL9/8qXP13JuNLBCvP2kLoS1XzWvCH85J4O/doVDJPcQi/VhXhuv+CQDgiRhyO27/5eJXG85n2ziojSBR4isOQpkk2EfdGn+xLDYz6F65DFxOrRUveo6QX2kR3OiQ/jk3OSaFj0xcz47XsHLJzms3HMex13QznY2YHcR3EiZTBl+lckldCj6pEVOEOQAAuJDhlr+GXdTlN7ot7BVWkFDlzm66kwzxko2glwF5UZScfAJe
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 03:53:43.3624
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 162ff0f0-4329-49a8-98f2-08dec5dab33f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00004680.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7500
 
+Carlos L=C3=B3pez <clopez@suse.de> writes:
 
+> KVM has reflected KVM_X86_SNP_VM to userspace since 1dfe571c12cf
+> ("KVM: SEV: Add initial SEV-SNP support"), and KVM_X86_TDX_VM since
+> 161d34609f9b ("KVM: TDX: Make TDX VM type supported"). Update the
+> documentation to reflect this fact.
+>
+> Fixes: 1dfe571c12cf ("KVM: SEV: Add initial SEV-SNP support")
+> Fixes: 161d34609f9b ("KVM: TDX: Make TDX VM type supported")
+> Signed-off-by: Carlos L=C3=B3pez <clopez@suse.de>
 
-On 2026/6/9 02:01, Nhat Pham wrote:
-> On Mon, Jun 8, 2026 at 9:48 AM Yosry Ahmed <yosry@kernel.org> wrote:
->>
->>> But OTOH, this does seem like a recipe for inefficient reclaim. We
->>> might exhaust hotter memory of a cgroup while sparing colder memory of
->>> another cgroup... But maybe if they're all cold anyway, then who
->>> cares, and eventually you'll get to the cold stuff of other child?
->>
->> Forgot to respond to this part, the unfairness is limited to the batch
->> size per-invocation, so it should be fine as long as you don't divide
->> the amount over 100 iterations for some reason. Also yes, all memory
->> in zswap is cold, the relative coldness is not that important (e.g.
->> compared to relative coldness during reclaim).
-> 
-> Ok then yeah, I think we should shelve per-memcg cursor for the next
-> version. Down the line, if we have more data that unfairness is an
-> issue, we can always fix it. One step at a time :)
+Reviewed-by: Nikunj A Dadhania <nikunj@amd.com>
 
-Thanks a lot to Yosry, Nhat, and Shakeel for the great suggestions!
-
-Let me summarize what I plan to do in the next version to make sure we 
-are on the same page:
-
-  - Drop the per-memcg cursor and keep the root cgroup cursor 
-(zswap_next_shrink) logic intact.
-  - Stick to using the zswap_writeback_only key, and change the 
-proactive writeback size to use the compressed size.
-  - Consolidate and reuse the logic between shrink_worker() and 
-shrink_memcg(). Enable batch writeback in the shrink_worker() path, 
-while keeping the writeback behavior in the zswap_store() path unchanged.
-
-Please let me know if I missed or misunderstood anything. Thanks again 
-for clearing things up!
-
-Thanks，
-Hao
+> ---
+>  Documentation/virt/kvm/api.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index 52bbbb553ce1..3ec574a41f60 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -9363,6 +9363,8 @@ means the VM type with value @n is supported.  Poss=
+ible values of @n are::
+>    #define KVM_X86_SW_PROTECTED_VM	1
+>    #define KVM_X86_SEV_VM	2
+>    #define KVM_X86_SEV_ES_VM	3
+> +  #define KVM_X86_SNP_VM		4
+> +  #define KVM_X86_TDX_VM		5
+>=20=20
+>  Note, KVM_X86_SW_PROTECTED_VM is currently only for development and test=
+ing.
+>  Do not use KVM_X86_SW_PROTECTED_VM for "real" VMs, and especially not in
+> --=20
+> 2.51.0
