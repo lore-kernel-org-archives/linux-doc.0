@@ -1,67 +1,67 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B623F871C
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2855425CDE
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015499; cv=none; b=C8Ig4jiXfMZf0D9MmNNttErO/D5pB/9Yicg/j3FfqmyxrF3u2wyzxtlGXu8xT5a7kocqBHbNC/nunGFc+7BtQ6o6lsiOmbglFaa7hoXD4A6YHGC4e4VDg8aXdlM28avMHCG55rji1kPqY/Und9CJ0R99EotFnn1HuI3I32iIgmc=
+	t=1781015502; cv=none; b=D6jbK6S5CWhF1vJBrx1wStiiUfuQn+Tx9ByY05oBdE0nwaBacZDg3vDEHVUsrx4mNcFDm4aHaaIwTfC/5zRe7owWmJwCrBT3Up1jTqjmCMn4WBmbR+LWVBdkXkNLzmLmE1T4uw9q080F482YEZMvoE6FAQrOn9l9qW1LjM3IibE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015499; c=relaxed/simple;
-	bh=JQDAylSrWLAHes5gxsm3uG5xwu2zN9a3IzjF5B5oWaM=;
+	s=arc-20240116; t=1781015502; c=relaxed/simple;
+	bh=FSMtqVRVy7D3pvypIs3gLf7OFxrFfmQrY4e2IbRbIqU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FlElniB3EjvELQGGsdUZA+AkovyHQUhThumhNLCu3XZKUQmw1fXcOZjP8P1fcSc+qUv/v6aYiz3j6Bz/Rnqca7otCbPAG+8GANzLaoHtknv79H1Ig1wDEb5NY1DQBLzHoOFBV1Q8cWe96IhJYNX8Z9G+bnXWXsfLJYeskC5CU2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aznoaGQW; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:To:Cc; b=I9gJEpjMf0tr+dgCz4pllzdZvrBmlVZt1M+k75yaai1MGU/+K9tRGxMv/Js/g6cKxQIXRKBW+4zSxFt8DdXHnabKfkmY5cAvC5Aw69HrBDm89sCcy5aoixT+JkR0SKfYEJCUtdqdhvuwAVUFWz9koe5dAcExNfnd/hnew1jYfxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YuIvH9q/; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aznoaGQW"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490ac357c55so61382095e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YuIvH9q/"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso46460785e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781015496; x=1781620296; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1781015498; x=1781620298; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4tCZA64ZljHdNthuUJI8G+lKrRp8mWLWbXdPVNi3pLg=;
-        b=aznoaGQW4Cn8IoXnyNL9FK9/L8Wr10nMzvLXRtmkMWku79n8a3y46U0jKYydLSDwAd
-         fOLHT57qFTO4OjImF/7hzDVg+UJL5hI5kgiaLeTcK2n8uzu5af0MEMDFvSAqyuz/mHAu
-         QngP5okINBGTcN7Hy9zec0cAVMcRnB/4ddzHeJViq/9suQ8DSvLgM60EAaBeGkkcVKc9
-         7PC5POdRRYUziJRxqxz+nMAstMCxOCrwi4wv+JXP01TBClNt66XvYMsjqHrgMLlCJoBv
-         f2TtXayxu4ZhfaxMK0B1zAb8seXGVvLT4DKXWhTnn4b0eceYKeb5W8vnfhhCWVgAiZ+G
-         8HGg==
+        bh=Ng7BXZAmfD6H6DnpoBma7BIsuVaWOeOAye3IPeJCbwg=;
+        b=YuIvH9q/a+Oz3zM2/6119F4NLMJbEpUTw+3PARabiwM/c3YAxuSGxDkwbJuCLtRbmR
+         7B+BSE8RzdTPTw95vnlqpvJ90/0V/EBvAZJ770QvkONS2Y4x2tPj4Ae9i2h3HjZe1Q3A
+         ErtgwBAHkbF6ERQpvlJPIR2In5oau6w11OW2GjHxUNW0BiUWGTFC/beYrRi6n4tUXElS
+         Mm6Ud8GyUD8XwaR/S5F6Hf7GPkBPDvc3w2xyHvBU14CK3yh9DR7qqBMcW2PlG1EerCjD
+         kNySwy3PUK3ARnq3MB1TrDYstIbHBByAkXnY1r4lj0p+obP8E4JcZIOH5Js/tc8qIQnG
+         iHGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015496; x=1781620296;
+        d=1e100.net; s=20251104; t=1781015498; x=1781620298;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=4tCZA64ZljHdNthuUJI8G+lKrRp8mWLWbXdPVNi3pLg=;
-        b=Qn7/1v6uFjj05e/V10bdHCxJYZJQDRvYvtGCOvzKRD0hWITn74545bK8X0XY5hNs6d
-         bK+Rz7LsiRlPJtwqVE9WvQfOwxeoQesXWfCCel6+GGWkRhurMzTGxT45qfoygAmMupTf
-         ACbP2USyrkZIjGTcT18PVaVV2aIq/9X58b2cSmK2zPjQ6OY0ydIZOynBg3Cy9V1B/P0w
-         KCNvlk2eN07PwIAeUkevsEJj4jEgsBLBkEds1rrbYLwMqpOXmdTKTTU1MZWuhktTm18g
-         7CaxC7LVijr0KXsd3tGZbieGzF9T3Mh/JBWw5kQDXSOVScJAk1GSw3ewdIN20iJQIfcT
-         H/cA==
-X-Forwarded-Encrypted: i=1; AFNElJ/uYtGR+/qKzuAEeHn+JB2Ayv+KLFW07vLGny8Yr2/skrB0iDHqLNk39ErUNOxF9F7ULAojQScu84c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMVNc1SEj3XqUgmeGVFYvK2/aOXuDKEOvm7O1zJ47lCnoU+Z+d
-	uPh/LrpFeqt/79AO95b0JeZdGY319/O8DvrfMl8ZKZOG8iz4PXBltck/bfyPVGD8WIVB5b8dnqF
-	yaZzGUws=
-X-Gm-Gg: Acq92OFc2nRsKAOxYnEcMTrBg0o+ZXgWne+mg9UsIoSQhnkwSn2XSy5MdsstxXe5ub0
-	poJooZQw2wIxwddJ5Zz8WVv5p5HdWm0r+llOLNvxmDtUg0WOx2cZgRoFpawoDGfiuaGuRrmNQzE
-	vCl15HTFGfsXCZuGUih5JhIE4CGykhlfeT6Uukr9iqejEfopgi78bYoTwquBklTiSLBmbrXY7h+
-	pTdJ928GCb7csWrpV7yFZc8JObQ5vhjG+qognE3UV7f6ubXsj50m79CnMShKY4/MhXVQ2KGKdct
-	irJHG4xUqUu4ARMoyDNkO/TstRiAA9q+19XtEwtxX5EB4A4EQ0CKBagX7G9M4ZnLf81vKQCpEtE
-	9WgSg9wa1itkU1WHFcGW/xQReCH6pk48/O/sFNKnQUsFZ4KsyjwylsTyhJt5aVm41tqEC2RrkP0
-	Y1VDmrk9RxbFpc1abulVx5Udetvnaz82RaDtba+lyOtQY=
-X-Received: by 2002:a05:600d:8444:20b0:490:c6c2:52 with SMTP id 5b1f17b1804b1-490c6c20071mr173501595e9.3.1781015496173;
-        Tue, 09 Jun 2026 07:31:36 -0700 (PDT)
+        bh=Ng7BXZAmfD6H6DnpoBma7BIsuVaWOeOAye3IPeJCbwg=;
+        b=OkIUByeFt0qP8HWJj3So3vrwIg8z3D9OyNNieY/nMoyiSFLPje4y7JOlZ0F+OZxAnu
+         zW/1Wx+oLX6Vzr6rbn8613shm2JZ3d/ibfyuNuzadHIH+w2KmFcqs+v34iVHkWOffsCx
+         dUTJZS5W3qVkMWbEopkuWgcuO6CE0jENbhL9nGQSghXa0F75S1aJo0pwRVdrpTdqCaRz
+         D7oE3YX0HSosO2lRszocjV3eRniOCvZx0MbCn+cA75yRHfdW3sWQe4Hxdluv/WWFid3b
+         45kPcOmciIL+wquYElHBrBjqgfUxNpNl38ExOYC84CVwcCDX/7HCwCODZTCSVIsVQ5yy
+         G1iw==
+X-Forwarded-Encrypted: i=1; AFNElJ9UFejj9EMrqxa+YuzdzFSJ1+OZ/wolx5jZnGbiBtAY/t6jSjTbOXEt5duaBV+CScRC0F5Pv+m90OY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAzOVpe7u9PhdUFl6ydhBx4KPWhRnJ7jqZerSA2ZhDAwmhMwtb
+	KystSPOs2v6NiJ2NMUY5msHon165t0a2VlX15JvrCoiCTLeLyukZHksfTMUd10FgscI9cwi4YKP
+	c9JZdnR8=
+X-Gm-Gg: Acq92OEJPHmuEBmojx6fQF2i58pDA187tgMBu11eWBC6K4tTBu/CgFFR2RoNPHbIVI8
+	Wne14emTnO2lk2UrU7G5TjadE8cFm2GYP+YKziNo6CkcP7UgOKf0Qp4q8sGYcjSCLD/efD3dgCv
+	hnnmhm8l2e1dhWQRyaSbE5KtlB9X0Z88u8Jo/b0LjOsd9X2NG9SVeVNbHUKyV805s/JTMoVeRQF
+	9FCmOGaLGQf/FL6aasA7/19u6w7r4RJwUh7Peo0zZq6KCaX+Q2uXUULDcBTAHIVLu+KoFY94ab2
+	6DO+8LN2iq4xnvxxgLGV8FUWNe5i2GrGPMWSWETHDaofk152F2vLp2Z6tSFqzZWM3U4bT//gv/e
+	sH5J+1rCTzlRVWPWIdVilfRdhsDQbcVPtLaIAgdNiPXWzLXpyr7ahRPREKNC58RMiNKY4MI99Xa
+	SrTmWDOby0Q3CPVdxQXsBBu2I/3DKHqDQ7jtO+20nLS/M=
+X-Received: by 2002:a05:600c:8b88:b0:490:d354:bd00 with SMTP id 5b1f17b1804b1-490d722a2f4mr35057025e9.25.1781015497865;
+        Tue, 09 Jun 2026 07:31:37 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 07:31:35 -0700 (PDT)
+        Tue, 09 Jun 2026 07:31:36 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 09 Jun 2026 15:31:06 +0100
-Subject: [PATCH v4 13/19] perf test cs-etm: Reduce snapshot size
+Date: Tue, 09 Jun 2026 15:31:07 +0100
+Subject: [PATCH v4 14/19] perf test cs-etm: Speed up basic test
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-james-cs-context-tracking-fix-v4-13-44f9fb9e5c42@linaro.org>
+Message-Id: <20260609-james-cs-context-tracking-fix-v4-14-44f9fb9e5c42@linaro.org>
 References: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 In-Reply-To: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -85,28 +85,55 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-The default buffer size for root is 4MB which is very slow to decode. We
-only need a few KB to verify that the dd process is hit so reduce the
-size to 128KB.
+Like the name says, this should be the most basic test possible. Kernel
+recording is slow and already has coverage on the systemwide test. Perf
+report output also has coverage elsewhere. 'ls' also produces more trace
+than 'true'.
+
+We only want to test if the combination of recording options works at
+all, so fix all of these things to make it as fast as possible.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/tests/shell/test_arm_coresight.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/perf/tests/shell/test_arm_coresight.sh | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/tools/perf/tests/shell/test_arm_coresight.sh b/tools/perf/tests/shell/test_arm_coresight.sh
-index 8ed2c934c87d..da2f599393e2 100755
+index da2f599393e2..83295a8fe179 100755
 --- a/tools/perf/tests/shell/test_arm_coresight.sh
 +++ b/tools/perf/tests/shell/test_arm_coresight.sh
-@@ -156,7 +156,7 @@ arm_cs_etm_system_wide_test() {
+@@ -179,10 +179,9 @@ arm_cs_etm_snapshot_test() {
  
- arm_cs_etm_snapshot_test() {
- 	echo "Recording trace with snapshot mode"
--	perf record -o ${perfdata} -e cs_etm// -S \
-+	perf record -o ${perfdata} -e cs_etm// -S -m,128K \
- 		-- dd if=/dev/zero of=/dev/null > /dev/null 2>&1 &
- 	PERFPID=$!
+ arm_cs_etm_basic_test() {
+ 	echo "Recording trace with '$*'"
+-	perf record -o ${perfdata} "$@" -m,8M -- ls > /dev/null 2>&1
++	perf record -o ${perfdata} "$@" -- true > /dev/null 2>&1
+ 
+-	perf_script_branch_samples ls &&
+-	perf_report_instruction_samples ls
++	perf_script_branch_samples true
+ 
+ 	err=$?
+ 	arm_cs_report "CoreSight basic testing with '$*'" $err
+@@ -246,12 +245,12 @@ arm_cs_etm_snapshot_test
+ 
+ # Test all combinations of per-thread, system-wide and normal mode with
+ # and without timestamps
+-arm_cs_etm_basic_test -e cs_etm/timestamp=0/ --per-thread
+-arm_cs_etm_basic_test -e cs_etm/timestamp=1/ --per-thread
+-arm_cs_etm_basic_test -e cs_etm/timestamp=0/ -a
+-arm_cs_etm_basic_test -e cs_etm/timestamp=1/ -a
+-arm_cs_etm_basic_test -e cs_etm/timestamp=0/
+-arm_cs_etm_basic_test -e cs_etm/timestamp=1/
++arm_cs_etm_basic_test -e cs_etm/timestamp=0/u --per-thread
++arm_cs_etm_basic_test -e cs_etm/timestamp=1/u --per-thread
++arm_cs_etm_basic_test -e cs_etm/timestamp=0/u -a
++arm_cs_etm_basic_test -e cs_etm/timestamp=1/u -a
++arm_cs_etm_basic_test -e cs_etm/timestamp=0/u
++arm_cs_etm_basic_test -e cs_etm/timestamp=1/u
+ 
+ arm_cs_etm_sparse_cpus_test
  
 
 -- 
