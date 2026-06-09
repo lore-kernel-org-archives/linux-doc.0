@@ -1,149 +1,139 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D389714A4F0;
-	Tue,  9 Jun 2026 02:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9413624D7
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 03:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780972770; cv=none; b=YvZSsK299BDLlPiYs5yLDC67BUOdYo6EJ5frdvYqLqJZAwm1OrWY+CDOWHDfVGQX/NxtEX/H6Az/3c9ggNb8PRtFlw+OIxs2PkL7InU1IVwYBCrwDzHOysNND1cNNVgMKa4IhmQ3ZKDYkBB8BUPzbG8uHux+q8cNdIsBeZGJUGU=
+	t=1780975121; cv=none; b=nJ9QIWmhSTruLlTlcDKSUi+iXgm4DGt1fzGUKUa+Yn2WvNTGj9Zgq83itXPAQk1Qfn72srkxTweNevuKFRmROts8Wk60hmoZPfkzxEcnEWfGbgHqknimRkCvC2D9E3RZ7Ff62yuj3WuapwzjA47YnRGJuxag+0T57skkrExLL7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780972770; c=relaxed/simple;
-	bh=vzdTQlRHvXBtfIlvsJDtPDa3vYd7r9SNEh4wl0vmZMQ=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=b0+82L63u7DHmdOhfSBtdlrkx3ew66xGIWHzAhEffL6RpIqVgCbz2swy4W8TWxqq7zqN8A2/I6iXKMzcBcr9ZMf71qkcuRpi3HsEk9scbX0/Y1JwhZII15kOCQ4aIS5vKeyHdR/KBYe5MVfee3wA5U3enUx/unVPYg1VnWRvoYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=TjAn0LW9; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1780975121; c=relaxed/simple;
+	bh=yESwecBwMv/jD2yQrJM4oBpPmBZy0jCTscK7ky2wtrE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mYt34oLxdXCwIRnFs78v91vq0W6dlmFqoD/XxbVllFPTO0dzHh0N9AnlxCKOE1U/vUciwTQaXShWhDVvgJ+6EyjV1eOYBRQ1zF9mlO/ltp/xo+hNMdFJ/QldqAQV97HyBxASPX3XQNbcwtZnBk0lBIuVhDkjFpZjnByYkqgCIVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1DkyNrA; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="TjAn0LW9"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=BtlygfYK5ZWM60nS1lbLJPtb40nPfh/c6avQxVCJIow=;
-	b=TjAn0LW9zPesqYG48M58ZA86DLn9aCGiPpV8lYTfGKl/80+2Y6G284eU1iW+QJDF6X0Y25+Ey
-	jeJ58Srr9xJ8MXSzFpaF+5L8tjs1ov2Q4iNAxrZWIfUdNhpmxdnQQRotp0akqHhiuppgywBvEgS
-	P6STz6TQKtOMYtM6UnrQig8=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gZCbC4gMvzpTKY;
-	Tue,  9 Jun 2026 10:31:35 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2BDB24056D;
-	Tue,  9 Jun 2026 10:39:24 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 9 Jun 2026 10:39:23 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 9 Jun 2026 10:39:22 +0800
-Subject: Re: [PATCH v8 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-To: Breno Leitao <leitao@debian.org>, "David Hildenbrand (Arm)"
-	<david@kernel.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Lance Yang
-	<lance.yang@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>
-References: <20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org>
- <20260527-ecc_panic-v8-2-9ea0cfa16bb0@debian.org>
- <19f968f5-1289-f573-4406-e5c91dcd8923@huawei.com>
- <e3d023f1-ab6e-4424-b304-55f1294480c3@kernel.org>
- <33ef8821-c809-b7d1-ea77-6e8a07a6e784@huawei.com>
- <21732071-14a1-486a-951c-34de97b7c757@kernel.org>
- <4b27467e-935f-5587-2f48-5a794c30a592@huawei.com>
- <aiKXrovzrNN-gExm@gmail.com>
- <f1a742be-80cb-4256-b1f9-e50a0f83cb15@kernel.org>
- <aibN4osY_QF1Rejh@gmail.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <4953bcee-5a0f-2bc5-7295-63e5e7513e8b@huawei.com>
-Date: Tue, 9 Jun 2026 10:39:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1DkyNrA"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36b9d265355so2967799a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 20:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780975120; x=1781579920; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w8MhYUiXWRAVVrdhX1Xj1vk/zHhvhBV8KDCeIyuVj2g=;
+        b=F1DkyNrAn358F/khTOVTxqVTN/gI+4PsSZBEeNj6zsve4FaIgH58VGz5i9Bo4+dDgq
+         bQBV4dXk4GO7RgIZbh7D+kzW3/nqEo9laD6GDgeYz/NPLhG2/QqQYhUczc72KZWoNLSE
+         +mPyxnwsfwRYKur6MG6yfS97F+55tOi+HmjcGWQc0ZvtQEF9vCrGic2h7VgmYeJuRkUG
+         lERMzi+CtBUxC8LgdGC1D8xxARX23ahSh1JqIki1wbGopOAsX11MHbwdvvZFTrzEy9f+
+         XaJ9a1huLjRyT4K4VJwpAvuozAUl2N/QAo3Op8eYUNhRfpa4+ymGQxulj2IxAVaKqcOM
+         DAjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780975120; x=1781579920;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w8MhYUiXWRAVVrdhX1Xj1vk/zHhvhBV8KDCeIyuVj2g=;
+        b=iYpjYcS1ylf7Qve9vRjO7UxjdoRUHgi4oqvkdEfN5FrMxvlGJ3PbV/bbQXMO1n9zy9
+         z5T1L8+WUeExuwKQg8MXXXqEVfPHqgPGhUpfGkxTAcJakmZFaKV3FbSQOw0VTXQ+zTJf
+         BgSaJPyYeCtvi1l397aMU2chacYlO2wMzE1/Cu/lsRtzr6MsRKFCukC3cZWog30fgp5K
+         Cf7NSJcvO9z+BmqV6ADrAahQFa5+r6dQDBGg71mySyJpr+0tVN2y/cGwb6DMMPsJg4DK
+         KgSOs98i8aDVXzHaj9fnT/pRgd/wn3Zr2OE9o6RULTIA9oi9pCKiZxLUIUlzX+xip0DQ
+         YcWw==
+X-Forwarded-Encrypted: i=1; AFNElJ9UjXmlG6/23mEsI9KLbnDHkPjjvFYSsz6zHTDHkRX4yZwNREj+Y1G/Bo4luREKnEl6nK7YH7RTZdw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMXIthuIoWFLJ4uErEcwNP6vvLlN8nZCFxOx3BVyXQ7a3KEF1V
+	tuhVJjCPRekmPKCHw4bX95/LollWMNg+CfD5lHriQZRYGX7hNEPh4quU
+X-Gm-Gg: Acq92OEspFMEI4dSw9W0rNOysA/w05HJRCczWs1I+aesQWWB46d64mZbWYAj3DmmsxO
+	VE/tT3fwsm4gAI1nFbzUGvpiMlVui0QsSQtHghiJwNWtDK8/WFFKP8sQKiWidg+QGHNsrE5ESxP
+	XcLiopZeLmgtWUSFddqvW+9tLKp6OzNOo8LIzlFM/NbIv2Tezp4OFwpv3OIQFbM/qdXroBNZoBR
+	WhEl1Mok7mkgdXgJ6rwCpv1KTxaIrGtpX3QRnfiYCW6A60DirHfuk084MEjW+h8cwaASc9aBz2m
+	D7GS8yCqtP+Flaf2EE4+Qx8NctmpIREYd9N1mAuEzbKFhcEomdsR/AqmORCu66PMFF8hx9xA5t3
+	gKDNxf/EWpxCOPPyIel1OfceyAOa6v4wsD55RBkbQSOjWohO6HirIWjObY/MJFlzxXjGOt2CS3U
+	X5uCL/60t9eegUuDT/o7vzZxqW+qXIyDZ+eSgLncJWm7eO2SfGmVw1YQ==
+X-Received: by 2002:a17:90b:1809:b0:368:6998:b49d with SMTP id 98e67ed59e1d1-370eeff6b37mr20150357a91.10.1780975119848;
+        Mon, 08 Jun 2026 20:18:39 -0700 (PDT)
+Received: from [10.125.192.72] ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f8bc5asm204871655ad.27.2026.06.08.20.18.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2026 20:18:39 -0700 (PDT)
+Message-ID: <1c25650e-bf98-2863-d505-9b94c385668b@gmail.com>
+Date: Tue, 9 Jun 2026 11:18:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <aibN4osY_QF1Rejh@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.0
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+To: Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosry@kernel.org>,
+ shakeel.butt@linux.dev
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
+ mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Hao Jia <jiahao1@lixiang.com>
+References: <20260526114601.67041-1-jiahao.kernel@gmail.com>
+ <20260526114601.67041-2-jiahao.kernel@gmail.com>
+ <aho7nepN5jZtKmef@google.com>
+ <8c0e60e1-5713-69f0-a687-088c87e75764@gmail.com>
+ <ah4ZZGl7GYJf54Wz@google.com>
+ <ff344c9f-51da-8b3a-e7a9-c4a7f4702ef8@gmail.com>
+ <ah9i3uhh3PFiS0Uk@google.com>
+ <c7870fe2-3588-79db-cbfb-bd6a2b78f594@gmail.com>
+ <aiBpibRNi0BcM1Zu@google.com>
+ <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+ <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
+ <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+ <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
+ <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
+ <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
+ <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
+From: Hao Jia <jiahao.kernel@gmail.com>
+In-Reply-To: <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2026/6/8 22:15, Breno Leitao wrote:
-> On Fri, Jun 05, 2026 at 11:42:53AM +0200, David Hildenbrand (Arm) wrote:
->> On 6/5/26 11:35, Breno Leitao wrote:
->>> On Wed, Jun 03, 2026 at 10:33:04AM +0800, Miaohe Lin wrote:
->>>> On 2026/6/2 17:41, David Hildenbrand (Arm) wrote:
->>>>>
->>>>> Races are fine. We might miss some pages, but that can happen on races either way.
->>>>>
->>>>>
->>>>> I'd just do something like
->>>>>
->>>>> if (PageReserved(page))
->>>>> 	return true;
->>>>>
->>>>> head = compound_head(page);
->>>>
->>>> If @head is split just after compound_head. And then @head is freed into buddy and re-allocated as slab
->>>> page while @page is still in the buddy. We would panic on this scene as @head is PageSlab. But we were
->>>> supposed to successfully handle @page. Or am I miss something?
->>>
->>> You're right that it is racy, but I think it is an acceptable race here.
->>>
+
+
+On 2026/6/9 02:01, Nhat Pham wrote:
+> On Mon, Jun 8, 2026 at 9:48 AM Yosry Ahmed <yosry@kernel.org> wrote:
 >>
->> I mean, any such races can currently already happen one way or the other?
+>>> But OTOH, this does seem like a recipe for inefficient reclaim. We
+>>> might exhaust hotter memory of a cgroup while sparing colder memory of
+>>> another cgroup... But maybe if they're all cold anyway, then who
+>>> cares, and eventually you'll get to the cold stuff of other child?
 >>
->> Really, the only way to not get races is to tryget the (compound)page,
->> revalidate that the page is still part of the compound page.
->>
->> I'm not sure if that's really a good idea.
->>
->> But my memory is a bit vague in which scenarios we already hold a page reference
->> here to prevent any concurrent freeing?
+>> Forgot to respond to this part, the unfairness is limited to the batch
+>> size per-invocation, so it should be fine as long as you don't divide
+>> the amount over 100 iterations for some reason. Also yes, all memory
+>> in zswap is cold, the relative coldness is not that important (e.g.
+>> compared to relative coldness during reclaim).
 > 
-> No, we don't hold one here in the case that matters.
-> 
-> HWPoisonKernelOwned() runs at the very top of get_any_page(), before
-> try_again: and before __get_hwpoison_page(). The first refcount taken in
-> the whole path is the folio_try_get() inside __get_hwpoison_page(), which
-> runs *after* the short-circuit.
-> 
-> So get_any_page() itself never holds a reference at the check -- the only way
-> one exists is if the caller passed MF_COUNT_INCREASED (count_increased ==
-> true).
-> 
-> So on the MCE/GHES path -- the one this panic option exists for -- no
-> reference is held when HWPoisonKernelOwned() does its compound_head() +
-> PageSlab()/PageTable()/PageLargeKmalloc() checks.
-> 
-> Given that, I'd rather keep it racy and take no refcount than add a
-> tryget + revalidate purely for this check. As I've said earleir, an operator
+> Ok then yeah, I think we should shelve per-memcg cursor for the next
+> version. Down the line, if we have more data that unfairness is an
+> issue, we can always fix it. One step at a time :)
 
-Would it be acceptable to add a simple recheck? Something like below:
+Thanks a lot to Yosry, Nhat, and Shakeel for the great suggestions!
 
-retry:
-head = compound_head(page);
-PageSlab()/PageTable()/PageLargeKmalloc() checks
-if (head != compound_head(page))
-	goto retry
+Let me summarize what I plan to do in the next version to make sure we 
+are on the same page:
 
-Thanks both.
-.
+  - Drop the per-memcg cursor and keep the root cgroup cursor 
+(zswap_next_shrink) logic intact.
+  - Stick to using the zswap_writeback_only key, and change the 
+proactive writeback size to use the compressed size.
+  - Consolidate and reuse the logic between shrink_worker() and 
+shrink_memcg(). Enable batch writeback in the shrink_worker() path, 
+while keeping the writeback behavior in the zswap_store() path unchanged.
 
-> who enabled it has chosen to crash rather than run on corrupted memory;
-> mis-attributing one such rare, genuinely-poisoned page is within that contract.
-> .
-> 
+Please let me know if I missed or misunderstood anything. Thanks again 
+for clearing things up!
 
+Thanks，
+Hao
