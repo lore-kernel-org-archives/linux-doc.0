@@ -1,197 +1,177 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71FD4192FB;
-	Tue,  9 Jun 2026 12:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781009360; cv=pass; b=jQte3lBXK5uwGPUPsdLDt7y6HJZt3w3Z/7fnKTgkL375pXtSdafHKSKV0jOlN19iJoegKkXwqpCMIhrfKcSyPK3A92wC6N6LkQQivpyV1qiOMl9L70mKL7sWYaprCtfHDYOX0Ex+Gu8F841K7CyixRffTcsOUbpgswb1ZHX7kq8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781009360; c=relaxed/simple;
-	bh=U3RcUFU14pjZ2oHK9MQxEmnaHfY05p88OkoMlO1O1Jg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fZdtSLhI54/NMJqQ0+O2R9Bky+Q8F+pNjKyJgUqB6moTJAnB9fQwYzrA2M3Oa3ZWy8YGZ9ZNo3Wn/wVtxqhCXlH9aQR/2ppxHhY7gyCbJJv23y4RK60R8Vw1VaMF0JFS5JvHANuphylV3//jcRrz+b+fwqMoXA7wGc3jALEdpeY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=TZOtp8AQ; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFBA40B395
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 12:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781009764; cv=none; b=LLAIUw2seUwQ3GRP0yzjyYHgPgBPxkv0U4Oejx8VDSqvPcGwnX97hRKFvPYM5iyub6iXrad0NcNA6CxkoT51WJUgHnyaR4I9/wPsCugs42yh/+mNs1AvOJwdtXBua63ic2K6eQvB83BEIWmBIyOMr6ga8ZQL/bEEhVZZzm7xqJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781009764; c=relaxed/simple;
+	bh=jxFHhMrA7cT4OQhAjjGP+coknNZz/PyhxcDuiGcOgRU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ipbLYfkzo9gBAZDPCo9voyN/60s1kmTMkM6iDaqOBU/38zyDMv/AoiXH1ZDcIYhK+2UATMopVK/I0F4ap+SfEM/lQtnsdaEojRuRo03YB8HJsnQuQAxQLYQgpvY2uJL9p+/eqsB5uAyzeWRf34TMycmLAkvRr7g30+EPLqm6/U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rcr6FKei; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TZOtp8AQ"
-ARC-Seal: i=1; a=rsa-sha256; t=1781009320; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GH7myePk3LRGsbgAmGXuH3EGnYY5p1aWd2TQOT9JXuNCUb2ZaygjDvf3dpXQXiTxD7g09h+g3Yykx1HLZ7JuD9aGEDbD0hWm7aG1DG7oySA9Z0Q3gzy2q8Ddz9Z6BYPyevKS+HDL60WJ0lqlz/ZiwOmSNmwYPKfJFAiEvTIsEW0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781009320; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=62KYxCZxFK08w+RoMa7NxzfH3ErdgYCWI77kkaQwXBw=; 
-	b=abLDcoRckTiNhs1dSvBk8+q1eGiXMBaqLVAARsf1J9WRzKtFKEAuL8ksgwAczZnQSav7qXoxC5DHlkcAEnzJiNLjWpmaUk+tN+yR21EOMeUcRlvMNDL8d8jB5xIiBhA8eOPlO4CxxNDOAqjhnmKxkMir8JhuUoxsPp8UsyjmV2E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781009320;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=62KYxCZxFK08w+RoMa7NxzfH3ErdgYCWI77kkaQwXBw=;
-	b=TZOtp8AQuNu7JEwZOdLH8trhDXm8lhVECu/0faPGLeeugrfwxkljmmyY9YA85Lta
-	FuIWuNjs9NNPEMA3Q51HXgQfvrv+f9bqgn6tRkRbDGHUOocl0uMHbbDbTsr60KnpDmp
-	4dRiEFGWBdo3AZcYj1qN3Ryy+N3BjVFKann7zHLM=
-Received: by mx.zohomail.com with SMTPS id 1781009319488398.85945429547075;
-	Tue, 9 Jun 2026 05:48:39 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 09 Jun 2026 14:44:15 +0200
-Subject: [PATCH v17 28/28] drm/i915/dp: Implement "color format" DRM
- property
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rcr6FKei"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-842319576d5so3111814b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 05:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781009763; x=1781614563; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=OPsd5p+bgGWj9idOjFXHdxR+Xw6jiD+Pwhu8ahFJY28=;
+        b=rcr6FKei2JQZQgqSMmJSCiIjo/H8JAjjZJdU6S7nAEnYAuLpkZMVbt/Ix2RlU44Xvw
+         uBp07V5TYoHJhfMDLBHO7QOoxRG/MPfYZIkdGOzS8eziVcgJoqim0s/NXK+tmiOuz96N
+         1ZvQpFHHBJzsdXzkEn0Pp4EfHJCg/woVZV+q7MEkdMIiU4ayM8N0kz7UNFnAmn8LvbFd
+         ZQbUSXAFdVw8GD3uNk5G+5W2Nws83VomolrGUfmqTvO3Mh/h8l0mChiBucWHJNPLg9EH
+         wNZoDvNLyHHI0zZkqKZ5/SZ2aAX6krPSX1IaSRfKQmf09V1zqbL3xFg5IaRo43VZXBYc
+         yCuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781009763; x=1781614563;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OPsd5p+bgGWj9idOjFXHdxR+Xw6jiD+Pwhu8ahFJY28=;
+        b=pwaR2SnaFJUnUU+5CQfd2/HezOGtRGiVmd6m3k9CUaC+1rVXdEmAU2EAEhR3ZKe+cK
+         FgSmxGipM0Tkw6LThz/6xbqe28U6kklpmiB3uDq4Wq1bsWjWC1k3PHSiG6MUb5Z7ZgV6
+         V4wl8e/egXzl4Fuu2hqq+RHoRFeAlgb42Bv0UB00uNLJ6LLu4uk/QbmVIWJ/bAXe8DGy
+         nWHHB/OgM7UD8bX0K8fpIQspuJ4OPjhFVWzXWj8Ugi7u/clNqaoAzp8/78+3s0ozZW+M
+         NoSM1w5BRmlQ7+l7dLikyrss1Rlx4lNfPoLo4carW0x9OJ3L2Si5NFlZJV5YKzsmiTOM
+         erVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9kmE+BeCJQN7V5ZcsQUprALchNDJLp2lwz75BYa49eDlLReUrwEdBNHNA0slhYZmRKeQt+OYyn46U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyelITwNlG4N142RvN2B3Nt9YaEGZ2dRCRm5A3rMWq3aN+aq4hC
+	joabjZOCUl9tAGjjHmzOAc/D8RBxbmjkn5v8VNtZ/5tg5B+RUE2qsAgn
+X-Gm-Gg: Acq92OFjXn/JYN+iqXnCPpPoeP93IWHfPlDjLP+DBjiC5oEqZKw8OPUOfpEDG+zQX4N
+	oR2klhoR1AbqM8xItw6tGI+R3CZWCmHCc9pXHdTxZ6WueoNQheZ8/yEht+KddUC13VVxb+cHL30
+	m7fGLFrJzhHoJmfWNnwkL9qZCBS2JEc5JV48Py6hVDTprTOb6229FFkd6fS9DxVZnQy7GGqnN9m
+	09DcBDU0J2FYfmOkxTlvBhF3AAvyoqhTc8+cUi/WjIRugND9uc10lNQOCpxsfLG3/i+uK+akj9U
+	pUa3GOVLBeQP/c8PQvu7My+zDcvJfEyYqtCBocVRD5WzO0wokUD/gvbI0kJMbnF6GuB6vrWnCqQ
+	3WoCwVpWuVY0P7DCmeaWjI49+vrMbCEuBE2j7jtvkMm+dSCSgtf/WC032oySKoZakdAUBfqFj8h
+	sdMXP6SV3jwanBQVLtfuRkUWCVGy80O4fQih9nlCmmfaq6wDjShpBMKEtIjd8YORJuDb/TzFYn0
+	iIPEOhXiY8=
+X-Received: by 2002:a05:6a00:3e1e:b0:82d:556b:7a01 with SMTP id d2e1a72fcca58-8430a6731a4mr3004260b3a.16.1781009762535;
+        Tue, 09 Jun 2026 05:56:02 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282379db0sm20259163b3a.24.2026.06.09.05.56.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 05:56:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <35577504-76cf-4dd3-8f98-5fde03fc0a1f@roeck-us.net>
+Date: Tue, 9 Jun 2026 05:56:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: add a driver for the temp/voltage sensor on
+ PolarFire SoC
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, Lars Randers <lranders@mail.dk>,
+ Conor Dooley <conor.dooley@microchip.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Daire McNamara <daire.mcnamara@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Valentina.FernandezAlanis@microchip.com
+References: <20260603-ongoing-brunette-51e35be6d93e@spud>
+ <fd92d7c9-9594-47b9-bd84-a6bd5ebae66d@roeck-us.net>
+ <20260609-estrogen-entangled-da00ac932481@spud>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260609-estrogen-entangled-da00ac932481@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-color-format-v17-28-35739b5782cc@collabora.com>
-References: <20260609-color-format-v17-0-35739b5782cc@collabora.com>
-In-Reply-To: <20260609-color-format-v17-0-35739b5782cc@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Daniel Stone <daniel@fooishbar.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
 
-Implement the "color format" DRM property for DP. The values of the
-property include RGB, YCbCr420, YCbCr444 and Auto. Auto will pick RGB,
-with a fallback to YCbCr420.
+On 6/9/26 02:43, Conor Dooley wrote:
+> On Mon, Jun 08, 2026 at 10:03:48AM -0700, Guenter Roeck wrote:
+>> On 6/3/26 06:19, Conor Dooley wrote:
+>>> From: Lars Randers <lranders@mail.dk>
+>>>
+>>> Add a driver for the temperature and voltage sensors on PolarFire SoC.
+>>> The temperature reports how hot the die is, and the voltages are the
+>>> SoC's 1.05, 1.8 and 2.5 volt rails respectively.
+>>>
+>>> The hardware supports alarms in theory, but there is an erratum that
+>>> prevents clearing them once triggered, so no support is added for them.
+>>>
+>>> The hardware measures voltage with 16 bits, of which 1 is a sign bit and
+>>> the remainder holds the voltage as a fixed point integer value. It's
+>>> improbable that the hardware will work if the voltages are negative, so
+>>> the driver ignores the sign bits.
+>>>
+>>> There's no dt support etc here because this is the child of a simple-mfd
+>>> syscon.
+>>>
+>>> Signed-off-by: Lars Randers <lranders@mail.dk>
+>>> Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
+>>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>>
+>> Comments inline.
+> 
+> Cheers.
+> 
+...
+>>
+>> If regmap never returns errors this needs to be documented in the driver.
+> 
+> It's an mmio regmap via a syscon, it evaluates to readl()/writel() so
+> there's nothing that can fail /and/ return an error.
+> I mean, I can add if (ret) return ret, there's not a clean place to put
+> a comment about it I don't think.
+> 
 
-The mask of supported formats by the source exposed by the property is
-an optimistic scenario, as specific DFP-related caveats can't be
-established before an EDID is present.
+No, there is no need to add dummy error checks.  Just add a comment
+either at the top of the driver or maybe even better where the regmap
+is initialized and explain the above.
 
-Should the explicitly requested color format not be supported by the
-sink (or by the source in combination with the sink), then an error is
-returned to userspace, so that it can make a better choice.
-
-Reviewed-by: Daniel Stone <daniel@fooishbar.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c | 61 ++++++++++++++++++++++++++++++---
- 1 file changed, 57 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 7c69d3badf9f..8c189e784adb 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -3434,10 +3434,10 @@ intel_dp_compute_output_format(struct intel_encoder *encoder,
- }
- 
- static int
--intel_dp_compute_formats(struct intel_encoder *encoder,
--			 struct intel_crtc_state *crtc_state,
--			 struct drm_connector_state *conn_state,
--			 bool respect_downstream_limits)
-+intel_dp_compute_formats_auto(struct intel_encoder *encoder,
-+			      struct intel_crtc_state *crtc_state,
-+			      struct drm_connector_state *conn_state,
-+			      bool respect_downstream_limits)
- {
- 	struct intel_display *display = to_intel_display(encoder);
- 	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-@@ -3473,6 +3473,34 @@ intel_dp_compute_formats(struct intel_encoder *encoder,
- 	return ret;
- }
- 
-+static int
-+intel_dp_compute_formats(struct intel_encoder *encoder,
-+			 struct intel_crtc_state *crtc_state,
-+			 struct drm_connector_state *conn_state,
-+			 bool respect_downstream_limits)
-+{
-+	switch (conn_state->color_format) {
-+	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-+		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-+						      respect_downstream_limits,
-+						      INTEL_OUTPUT_FORMAT_RGB);
-+	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
-+		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-+						      respect_downstream_limits,
-+						      INTEL_OUTPUT_FORMAT_YCBCR444);
-+	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
-+		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-+						      respect_downstream_limits,
-+						      INTEL_OUTPUT_FORMAT_YCBCR420);
-+	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-+		return intel_dp_compute_formats_auto(encoder, crtc_state, conn_state,
-+						     respect_downstream_limits);
-+	default:
-+		MISSING_CASE(conn_state->color_format);
-+		return -EINVAL;
-+	}
-+}
-+
- void
- intel_dp_audio_compute_config(struct intel_encoder *encoder,
- 			      struct intel_crtc_state *pipe_config,
-@@ -7027,6 +7055,29 @@ intel_dp_has_gamut_metadata_dip(struct intel_encoder *encoder)
- 	return false;
- }
- 
-+static void
-+intel_dp_attach_color_format_property(struct intel_dp *intel_dp)
-+{
-+	struct intel_connector *connector = intel_dp->attached_connector;
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
-+	unsigned long fmts = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444);
-+	bool has_pcon = false;
-+
-+	if (!connector)
-+		return;
-+
-+	if (dig_port && intel_bios_encoder_is_lspcon(dig_port->base.devdata))
-+		has_pcon = true;
-+
-+	if (has_pcon || source_can_output(intel_dp, INTEL_OUTPUT_FORMAT_YCBCR420))
-+		fmts |= BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
-+
-+	if (has_pcon || source_can_output(intel_dp, INTEL_OUTPUT_FORMAT_YCBCR444))
-+		fmts |= BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444);
-+
-+	drm_connector_attach_color_format_property(&connector->base, fmts);
-+}
-+
- static void
- intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *_connector)
- {
-@@ -7059,6 +7110,8 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *_connec
- 
- 	if (HAS_VRR(display))
- 		drm_connector_attach_vrr_capable_property(&connector->base);
-+
-+	intel_dp_attach_color_format_property(intel_dp);
- }
- 
- static void
-
--- 
-2.54.0
+Guenter
 
