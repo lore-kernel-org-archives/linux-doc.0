@@ -1,45 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C8C4192FE;
-	Tue,  9 Jun 2026 12:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7929B3A9616;
+	Tue,  9 Jun 2026 12:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781009140; cv=pass; b=h9C695p7JpFp1Fm/m9yXaY8pqzciAE68ZtwDheuV3bzZD/ojMwPtQFm79jWC0ppFL/sioSGN99rDXoI/wBeHXBYwG6jwvxYSN9SJ18Ud0fmX9NHuPcMgLQQ8irDMXGph9kSP65Q6rc+XkTdNr9B2f/k0DiQTuraIgtqhygQF/D0=
+	t=1781009149; cv=pass; b=LuCFbO0jSnr6MtBLuI8TA20Ya48r03TI7Tb78nbeNn1sb31ggM0tlwaEXgNm8SDMb3F2U799i5UTVgMbQB09xF/oNu78Cb2qWANLVZoslxwFnvAHbm9C4/3IoGZEOvLoTfZrvOmZMmlPHOETdd9WHvPVnUiODce945GC5EGGe/Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781009140; c=relaxed/simple;
-	bh=BpiqF65pYehd2l0y3CiyMKjkAs0qkLyYYxoMr58/Cdw=;
+	s=arc-20240116; t=1781009149; c=relaxed/simple;
+	bh=qF6w8711HF81DFh/+pv3Ld/8q3mJn/TFLLBMaHqIxsE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qpYWGO8DZKACANp9Gr3kSBooc6dxv1U0AOJEUmz7MVqTOIhThkFmlZttZflVNiRP6jPQ8ei54EYa1FQZARh9zfykRLzQuhuFeZylP1gH0/vhUj1W3TveF5NlZaE1BxOQJZ2daKJ8EnA+v4P/xwGag41acB4hkK1SC42tISze8bc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=j83cIzoc; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=oBitG0nI0+K+cvc3dAZf1b3SyENJrP25N5RUQCk4S1sLENjMViq3A/wQjmxKm7f7oCTnvNjYmh8q023AqyWyoo+7KBggFgHbO4+hmcBulF+mJTEKvglgy3Ob6BEHoqAtiSsTAJoJriKcBXE+e1i2V5C3uvMZXndVfEl7Kr+X3YI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=krV3myC6; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="j83cIzoc"
-ARC-Seal: i=1; a=rsa-sha256; t=1781009095; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="krV3myC6"
+ARC-Seal: i=1; a=rsa-sha256; t=1781009105; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=dGZSnWXWLh9tgkiDl1lrAnlQ+tFAq9MqdKQM0xqEmACdyFVX3xC2Cx1vuSh6bVMkRlxXuYlp4eo14LazAc8REfVqwc6xFEEKWXvG7VPCgkTq3n+oLni2ibORZ+PXCgcctP5mZ7yFedUmjwNVEKgmwJFfMedF5MTyTYBqTf89b98=
+	b=JTE/TIbKwPgKVJ+LlfMUo2jlQAEj2yud6a/bJfipZq14OwVDSSa9q2zJdHnBhPuQ48Cjjtw5NDzmQMkERSPwFPNNxID6zHCLez7N8ZwfCseXcwta+udgmcu9mloC0sOD8BNcE+Jvvv+tvwrz/cBG/aHoPE7pLK6ZPumujS+pXR4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781009095; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4tUUIKSX5o9lLF0adoAh7xXUMEysvTPjeMUVVMFRltE=; 
-	b=ZjW3yURe8mC6j4aN2kbK9Jv7RyMhvGep7ZJXa2LSBQif0ls0hCNA9miiFfLPSG/JHsz7pA069lkqn0cD1CSpdBvYTB4dtZCxYFOloU/HstKaPOMX15O+Sr02wK3pXRgtABhDlZNVKJRwQ0oHKs33M/V+PFuOqNu2V3Ncj1vKS5E=
+	t=1781009105; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xT8eNiV+R92IoR+xDb7ijRo4xGRp/ja8R6JYAyMBFaE=; 
+	b=h/EOs0iJziebb4/OQfydbOiU58rUgOUU1cvxB2MTuoAQIAv8qFrJF5b5/c2Eyc4rk73uAzLp0IuOzncVe4QzEWrU4ptYu7LL7Px7M/Vu1gtKUbHKLcI/uhB1u2XfohnjN1NF6+eYOYodwsZj1ZyTN5ySjlTAC2RbeUIml0u+lD0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781009095;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781009105;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=4tUUIKSX5o9lLF0adoAh7xXUMEysvTPjeMUVVMFRltE=;
-	b=j83cIzocQJTT6ZjBFa378Q3xqDoSBcRyUn4A19p7sSIOMMkDRBhKLm0Tkzq/27BY
-	RYh79jXdzlm2m0t8ZOwyEhdioJg+8I5AgZ47bP72TSEIBIAC92IUFqWtficdAK7bC+y
-	3AAEs3BRDd1BvmFjsfm+KMmg7InYPbEX0OAB3UTM=
-Received: by mx.zohomail.com with SMTPS id 1781009094272636.6716829060467;
-	Tue, 9 Jun 2026 05:44:54 -0700 (PDT)
+	bh=xT8eNiV+R92IoR+xDb7ijRo4xGRp/ja8R6JYAyMBFaE=;
+	b=krV3myC6CZebjq5eEJL2S1cKsfV+MkRflnXeebQz2nR7RQ79qWaA6Tq6ys/3V1t5
+	gy43R7mJC0QWUw29/JS09QXLMIo40EA44QvBTveM11qkDkAWrq8mDWG58NA3wY7WrXw
+	JPr8Xjr53bJgx2eDU7h7/Q8vHDRveYn84MoHwYCs=
+Received: by mx.zohomail.com with SMTPS id 1781009103666380.38912731714424;
+	Tue, 9 Jun 2026 05:45:03 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 09 Jun 2026 14:43:51 +0200
-Subject: [PATCH v17 04/28] drm/connector: Let connectors have a say in
- their color format
+Date: Tue, 09 Jun 2026 14:43:52 +0200
+Subject: [PATCH v17 05/28] drm/display: bridge_connector: Use HDMI color
+ format for HDMI conns
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-color-format-v17-4-35739b5782cc@collabora.com>
+Message-Id: <20260609-color-format-v17-5-35739b5782cc@collabora.com>
 References: <20260609-color-format-v17-0-35739b5782cc@collabora.com>
 In-Reply-To: <20260609-color-format-v17-0-35739b5782cc@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -81,79 +81,63 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
 
-Add a function to get the connector color format from a connector state,
-and a new function pointer in drm_connector_funcs to allow connectors to
-override what connector color format it returns.
+For bridge connectors which contain an HDMI bridge at some stage, the
+HDMI state helpers' format selection logic should be involved.
 
-This is useful for the bridge chain recursive bus format selection code,
-which does not wish to implement connector implementation specific
-checks like whether it involves HDMI.
+Add an implementation for the drm_bridge_funcs color_format function,
+which translates from the HDMI state's output format to a connector
+format for bridge connectors involving an HDMI bridge, but return the
+connector state's color_format member unchanged otherwise.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Reviewed-by: Daniel Stone <daniel@fooishbar.org>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/drm_connector.c | 16 ++++++++++++++++
- include/drm/drm_connector.h     | 12 ++++++++++++
- 2 files changed, 28 insertions(+)
+ drivers/gpu/drm/display/drm_bridge_connector.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 296195087a4c..95c65ed18709 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -3694,6 +3694,22 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index cafa498c3848..92f8a2d7aab4 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -283,6 +283,29 @@ drm_bridge_connector_create_state(struct drm_connector *connector)
+ 	return conn_state;
  }
- EXPORT_SYMBOL(drm_connector_oob_hotplug_event);
  
-+/**
-+ * drm_connector_get_color_format - Return connector color format of @conn_state
-+ * @conn_state: pointer to the &struct drm_connector_state to go check
-+ *
-+ */
-+enum drm_connector_color_format
-+drm_connector_get_color_format(const struct drm_connector_state *conn_state)
++static enum drm_connector_color_format
++drm_bridge_connector_color_format(const struct drm_connector_state *conn_state)
 +{
-+	struct drm_connector *connector = conn_state->connector;
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(conn_state->connector);
 +
-+	if (connector->funcs->color_format)
-+		return connector->funcs->color_format(conn_state);
++	if (bridge_connector->bridge_hdmi) {
++		switch (conn_state->hdmi.output_format) {
++		default:
++		case DRM_OUTPUT_COLOR_FORMAT_RGB444:
++			return DRM_CONNECTOR_COLOR_FORMAT_RGB444;
++		case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
++			return DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
++		case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
++			return DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
++		case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
++			return DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
++		}
++	}
 +
 +	return conn_state->color_format;
 +}
-+EXPORT_SYMBOL(drm_connector_get_color_format);
- 
- /**
-  * DOC: Tile group
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index e1f6072ce7c9..4317166562cf 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1803,6 +1803,16 @@ struct drm_connector_funcs {
- 	 * Allows connectors to create connector-specific debugfs files.
- 	 */
- 	void (*debugfs_init)(struct drm_connector *connector, struct dentry *root);
 +
-+	/**
-+	 * @color_format:
-+	 *
-+	 * Allows connectors to return a connector color format other than
-+	 * @conn_state.color_format for purposes of e.g. display protocol
-+	 * specific helper logic having already mapped it to an output format.
-+	 */
-+	enum drm_connector_color_format (*color_format)(
-+		const struct drm_connector_state *conn_state);
+ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+ 	.detect = drm_bridge_connector_detect,
+ 	.force = drm_bridge_connector_force,
+@@ -292,6 +315,7 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ 	.debugfs_init = drm_bridge_connector_debugfs_init,
+ 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
++	.color_format = drm_bridge_connector_color_format,
  };
  
- /**
-@@ -2619,6 +2629,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
- 
- void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
- 				     enum drm_connector_status status);
-+enum drm_connector_color_format
-+drm_connector_get_color_format(const struct drm_connector_state *conn_state);
- const char *drm_get_connector_type_name(unsigned int connector_type);
- const char *drm_get_connector_status_name(enum drm_connector_status status);
- const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ /* -----------------------------------------------------------------------------
 
 -- 
 2.54.0
