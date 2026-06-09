@@ -1,64 +1,64 @@
 Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79872DC357
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC0C344DAD
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015684; cv=none; b=DndF2bnR5+bNA8HrMFj5DNs0X/lpIBqSt11Qv9mWhDenrHlX4rHXC0j5zj2RSfIlUMLpdBd8VGDJg+7UsJElEKqngeVUnnoeyh1nDDnfIMgnqDSdiDnXRvqSnhQQ/XotzI6A64XzLJKz095UFjoqjTFPZZyqTPtkv62xplvAWsA=
+	t=1781015699; cv=none; b=oc3gANkPfvJPyzzorFpQbDasZ/fPJiY6YtWHbTjaKnxMT3N4F6MI5cZE8oaaIGi5GYfE9IFUy/RLj+wkaCX8/8F/dRgnd0Hj6HOmnslLnun3+2+U1hzaIk9+9g+8UNRBiqh9Uq9CzJh6ZpWWv+q453Rd/fCC8H09D0rB9sfBmUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015684; c=relaxed/simple;
-	bh=OsTW4W33/dOPYebmwIgRMD90tqv9rvMiSMFARTYGp+E=;
+	s=arc-20240116; t=1781015699; c=relaxed/simple;
+	bh=pnHV3Ye+jcw8HhYnQc+Fnxg3Gl5lWmUXPzdc9v3HAMY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Iw5kmaWeTvAhY3GQkGeIOTksgl6D7rySO//4wCTHi7UK+Vkyqjd/PZyutX1RPLQzR75FU2kateuFHTDYWU6d27x6L9yMLfroFde5e71iBD4eWLiRN6sD+32AZn+YH33dpYC5rBS9EJensbdu7ALlDe7PAaTChJGE3ADuciEGBsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4zWO/R1; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version; b=KSlcfM7NQOyhqkUJKZq1K2XOaiiJoVaBmNeEA/7iOS5gCqzgLTGp2CKxhr7/OCsnuh69mIJshRi2csmldylMPw2liYpamBxj1BZgXuoXb+aory0vpP6q+MN0oDgfCWlyD6hCI8m1AZkbD3g3Lv2N3FDW0HObmOryKBGcheEoovM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DCuPeqOd; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4zWO/R1"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490a767521dso6215945e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:34:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DCuPeqOd"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b1aefe1cso5968925e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781015681; x=1781620481; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781015696; x=1781620496; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T+p2KLWGB60/y0hWSjB13j8Ag8QaYpZolde8d8AEva4=;
-        b=I4zWO/R19u8ZptccQCijl0uTmvLYjb11nzUxg0yoK+nL8NODjLV4/TafKo3TFCPPdF
-         m4vvlNXiZSPJhkbnK+PjYIhFeXxlWiIKNAq26sJCOiNHkUpfw0cUsRrwBm/Sj7egZ5f5
-         7AqLxCAsHmd6ogSi39eoqeqriuIZRJCqH5Hh+KQsz/ft+B4adfXs8Jsy7Gif0TOhlAp4
-         9BXNlJb9MBspfnuPMRlbeLH3o1j32yLuEVlsMro9JXdTafHMOcp3n3KDGGY4U/RLdFjB
-         QwUxUWdItv2rPBcTxvNBpZkbCy2xYcJn4zDoOv/DpVtpSkFyvFUwGir3nXPi2y/xsgiK
-         6o0g==
+        bh=zR5qTeZU+1AMo8bRv3wnu4lu6ZsL0raW9iT7/dFj7UM=;
+        b=DCuPeqOdicg+vI5BvsSjmW5J8Z2qyh0QX73giFzzGaOBe9rI1j3zreuLaqC0RN7sGU
+         5+mzcK0wOcvgMav3pGl2pCTqE5ZC2l6u3qTdbMXw4eGlDud3NrEumos+h/D2f/e0e96j
+         yMXjD4ajup10i00RJu1WgII13W6kDay6F3cYfEcJO5nUIzhJZtn2WJqZV4t5a/LwUD1Q
+         uX9y4f2BthlprFaxfmPeQsTitASQXdUrdVQJeBdEpaBzIVRzu/AVQjb4KCnZrqwTTut6
+         y5vwidroMxCQ66y0gghDv97uYKCpPGJBNZE/Khl39NshpfczaxR6QnULs+PtrVw53dF5
+         AsdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015681; x=1781620481;
+        d=1e100.net; s=20251104; t=1781015696; x=1781620496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=T+p2KLWGB60/y0hWSjB13j8Ag8QaYpZolde8d8AEva4=;
-        b=HIsqVV066O6Q50x3M3lqiEZyo7REarIM1gJ4wBh+h85jkY/xg48n8+5RXwNhgnVsaq
-         JmPo6K1YpZ2LKy4dC2XZMI0dtAaS/gWlQ/+1pWQmNo7YBQ5816oBK1r3+RPMoVns9Zya
-         rDxrOta4zTXETXE4tiu+Jhs4uTazhjcF5gwTAmje4dKjo/qODY8/NX9CN25bEAIpCCeT
-         MKJxbT0prJUVjj96sf1RBKWDxnWy9+BPAioCxnWZV5HRyCuuTOsLxFf1ehzCsYE1//RP
-         Wzx8qX9e3IoofbatRi3UEVk6C67m0YyBebQHDEN2I36+dH39KRcpnWikDgQd2SkJzwnw
-         jgOA==
-X-Forwarded-Encrypted: i=1; AFNElJ9wwNkZORlOTIqiDAEtFwvWD1dcownlteNrvwVT5P9AcAW0StZy8c+pBNcPWEbUFN3ss9FWVBy7BFE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAI6u8itQjy4qjENkZCX8to+K20tfbU0d0eHsi0j62S5ilsR87
-	N4XuNdwGOo2HTG2j4j8OXMtYnB0ewYmWlbE3ztId565hFfWXab4e3Auc
-X-Gm-Gg: Acq92OGlcjLUrDgkc8tB/82Fx2iRs9kZCT8Jd4HlPqCFKqu79Mz01oPQJx8mqpYGjPI
-	tkRIStmeJUt7DPzT0r4Mc0pqZiEy7HubJe8/jQf6jv4Q75FFeMApDwWw9L3cU3FduOgnQujFaoL
-	HSX54jLG4bFuVFXf+JehCKBZiVcDY6g7PTxNDg9KMxdidITz6cLnSPz5MsVT8+RJLxN4BVTol0v
-	JwoP47W5ad8fITDfD1z4+9ci4aVFtpEdDCfPujbRm2yon/QeLk8/ONgX9rtbF0eraGQ6qliIGpd
-	jNt7JVs29OHbgFmX5gWNUEIBSQ7bL4GGUbXNtEd5WYIyxexzRTm8PpQd9IUhgs65yPRdnhdjL9O
-	DXpl7R4OfHIKiTCR8FBWgmemqGfCpzB/RvxFshlAfO477xupF1KPUzYtGtsNhDbHXWkQnnRWcnr
-	7Z1wOQi3nVgMGhty1Dh8z8A4E0mTwamg356qgPFU6XI7DJGoJIqr9+6VnsMiYX520sKG5as3bWQ
-	Q7ChMNERDpG+PZVyigeD+taK+v6ONe5H/V6tA==
-X-Received: by 2002:a05:600c:45d1:b0:490:6e0f:2a10 with SMTP id 5b1f17b1804b1-490c260ffafmr146105085e9.7.1781015681040;
-        Tue, 09 Jun 2026 07:34:41 -0700 (PDT)
+        bh=zR5qTeZU+1AMo8bRv3wnu4lu6ZsL0raW9iT7/dFj7UM=;
+        b=hahm8B6c3B2848TSbwNvm6N4rw/hpzVmMe9BwXTM+jR8J/+7NsDh3u9JtdzWh+DYRH
+         ewEBjmmBEBnR2TJih7DXsLSEbY4beXEHTVNe/pgvlxRSh3ymAJ2CDiPMM6uuZrwLRuN1
+         PsHqLzuuaQQKCWkDv/4cnxXYc0j29MbCJ6RSfG6kCpBjDcfuNPzNjAknMdXWAVft/EDw
+         kTBTM/Jvqn4bcVxSUCBXSeGvF0bUDkmNkDYOWZqkXnQ45GZGYAIcUrKcYCYLMC/jmo6M
+         s7CwpSFydQuY3yBkEz+CknCEzHaZgLmk3N+rzhxvgNLxnnxv4t4k7jK0qxFSaCCxtKl2
+         iH+w==
+X-Forwarded-Encrypted: i=1; AFNElJ8S6wLUP5P1Q05NmIAbQCwgS6x7Yy8GYPdkCZkmn1iHpGWwzF7nScDfqwHVklR4uu8dT/zQhGGjq+I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4QYF9rnuJMH77EN47Iv6T7tKqio52eumzNuKKLn8w5Erm2Rus
+	Fkqfa+CX5oujF6iweECqO+9lZga/WMgzDcXkSbhTpXjh/8QdbZTvhz5Q
+X-Gm-Gg: Acq92OEYuS9U0tMOjaojdcd35xwp/Dz1PJUcIQqzRu9w4lGe4aNiw8dO8ffXyzO7sGW
+	BYgaXzNDRFTJs4WA3eKeWc3b2DAUn+sb+gyrDs1kyZBfeHG7VavQ1dOxecHScGRHEgWey89CYd0
+	PTkz/ir23pXXYYqG8NYIBvMhuk71FI0qMCj6MPf4oxr0IaB2xK85v35cBB0keXB0IhA09WOEcD2
+	bXT1KqRMRwmaRPJSmZyMV+IHIiHllLbzZUAxqM/pkJP73SMfyzsZoDGPObh0act6ecrSDrq4xFQ
+	HmOrrYNkH2tocXgcVLtOf8R65EsQSL2N7FBmHu//96w5NHBO1/n8TkB+mT1v32uvWst+pJKYYDr
+	b1LeegPjC4LK6DZnqFqpnhCpuNBOgw3zVsLQvgTPzzj7LNax0R01g/j2n3PFk9cos7Ehalfw05t
+	labadDbv0KKSA0LNtj7vOIlqPCCrh2G+HqN3jlUa08PCxfVllIXbF20CsEZZd1j2146RiEDqvC8
+	XEL+bCTuGYSHuUAICJgvhgb+tHhXDc380PVOw==
+X-Received: by 2002:a05:600c:8b82:b0:490:abf1:2ddb with SMTP id 5b1f17b1804b1-490c2603825mr148448535e9.6.1781015696216;
+        Tue, 09 Jun 2026 07:34:56 -0700 (PDT)
 Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm68670615f8f.5.2026.06.09.07.34.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm68670615f8f.5.2026.06.09.07.34.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 07:34:40 -0700 (PDT)
+        Tue, 09 Jun 2026 07:34:55 -0700 (PDT)
 From: Doehyun Baek <doehyunbaek@gmail.com>
 To: Dongliang Mu <dzm91@hust.edu.cn>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -71,12 +71,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org,
 	damon@lists.linux.dev,
 	Doehyun Baek <doehyunbaek@gmail.com>
-Subject: [PATCH v4 0/2] docs/mm/damon: fix docs and update zh_CN
-Date: Tue,  9 Jun 2026 14:34:24 +0000
-Message-ID: <cover.1781015560.git.doehyunbaek@gmail.com>
+Subject: [PATCH v4 1/2] docs/mm/damon: fix DAMON documentation details
+Date: Tue,  9 Jun 2026 14:34:25 +0000
+Message-ID: <2ef77f90822cdd3231b6d4b0acd5f4b458f9b1bc.1781015560.git.doehyunbaek@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260523094420.741003-1-doehyunbaek@gmail.com>
-References: <20260523094420.741003-1-doehyunbaek@gmail.com>
+In-Reply-To: <cover.1781015560.git.doehyunbaek@gmail.com>
+References: <cover.1781015560.git.doehyunbaek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,47 +85,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-First of all, thank you very much, Dongliang, for your time and
-dedication in reviewing the previous versions.
+Fix minor DAMON documentation issues.  Correct the sysfs scheme file name
+apply_interval_us, the scheme directory count, the DAMON_STAT module count,
+a malformed reference, a misplaced label indentation, and a few typos.
 
-This v4 sends the original English DAMON documentation fixes as the
-first patch, and the Simplified Chinese translation update as the
-second patch.
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 12 ++++++------
+ Documentation/mm/damon/design.rst            | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-For zh_CN, I translated the current DAMON usage.rst paragraph by
-paragraph, and added missing pieces such as stat.rst and the related
-index/design references.  The zh_TW changes from earlier versions are
-dropped from this series.
-
-The translation text is paragraph-by-paragraph.  Some references cannot
-point to the exact zh_CN design sections because zh_CN design.rst is still
-behind the English design document.  I added selected translated design
-sections/anchors needed by this series.  If requested, I will also update
-the Chinese design.rst further.
-
-Changes from v3:
-- Split English documentation fixes into the first patch.
-- Reworked zh_CN usage.rst as a paragraph-by-paragraph translation of
-  the current English document.
-- Added zh_CN stat.rst and related index/design references.
-- Dropped the zh_TW translation patch from this series.
-
-Tested with:
-- make SPHINXDIRS='translations/zh_CN' htmldocs
-
-Doehyun Baek (2):
-  docs/mm/damon: fix DAMON documentation details
-  docs/zh_CN: update DAMON documentation translation
-
- Documentation/admin-guide/mm/damon/usage.rst  |  12 +-
- Documentation/mm/damon/design.rst             |  12 +-
- .../zh_CN/admin-guide/mm/damon/index.rst      |   1 +
- .../zh_CN/admin-guide/mm/damon/stat.rst       |  80 +++
- .../zh_CN/admin-guide/mm/damon/usage.rst      | 541 ++++++++++++------
- .../translations/zh_CN/mm/damon/design.rst    | 145 ++++-
- 6 files changed, 615 insertions(+), 176 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
-
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 534e1199cf09..e6ad1b4106ef 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -232,7 +232,7 @@ writing to and reading from the files.
+ Under ``nr_regions`` directory, two files for the lower-bound and upper-bound
+ of DAMON's monitoring regions (``min`` and ``max``, respectively), which
+ controls the monitoring overhead, exist.  You can set and get the values by
+-writing to and rading from the files.
++writing to and reading from the files.
+ 
+ For more details about the intervals and monitoring regions range, please refer
+ to the Design document (:doc:`/mm/damon/design`).
+@@ -250,7 +250,7 @@ Please refer to  the :ref:`design document of the feature
+ <damon_design_monitoring_intervals_autotuning>` for the internal of the tuning
+ mechanism.  Reading and writing the four files under ``intervals_goal``
+ directory shows and updates the tuning parameters that described in the
+-:ref:design doc <damon_design_monitoring_intervals_autotuning>` with the same
++:ref:`design doc <damon_design_monitoring_intervals_autotuning>` with the same
+ names.  The tuning starts with the user-set ``sample_us`` and ``aggr_us``.  The
+ tuning-applied current values of the two intervals can be read from the
+ ``sample_us`` and ``aggr_us`` files after writing ``update_tuned_intervals`` to
+@@ -337,10 +337,10 @@ to ``N-1``.  Each directory represents each DAMON-based operation scheme.
+ schemes/<N>/
+ ------------
+ 
+-In each scheme directory, eight directories (``access_pattern``, ``quotas``,
++In each scheme directory, nine directories (``access_pattern``, ``quotas``,
+ ``watermarks``, ``core_filters``, ``ops_filters``, ``filters``, ``dests``,
+ ``stats``, and ``tried_regions``) and three files (``action``, ``target_nid``
+-and ``apply_interval``) exist.
++and ``apply_interval_us``) exist.
+ 
+ The ``action`` file is for setting and getting the scheme's :ref:`action
+ <damon_design_damos_action>`.  The keywords that can be written to and read
+@@ -677,7 +677,7 @@ show results using tracepoint supporting tools like ``perf``.  For example::
+ 
+ Each line of the perf script output represents each monitoring region.  The
+ first five fields are as usual other tracepoint outputs.  The sixth field
+-(``target_id=X``) shows the ide of the monitoring target of the region.  The
++(``target_id=X``) shows the id of the monitoring target of the region.  The
+ seventh field (``nr_regions=X``) shows the total number of monitoring regions
+ for the target.  The eighth field (``X-Y:``) shows the start (``X``) and end
+ (``Y``) addresses of the region in bytes.  The ninth field (``X``) shows the
+@@ -687,7 +687,7 @@ counter).  Finally the tenth field (``X``) shows the ``age`` of the region
+ (refer to :ref:`design <damon_design_age_tracking>` for more details of the
+ counter).
+ 
+-If the event was ``damon:damos_beofre_apply``, the ``perf script`` output would
++If the event was ``damon:damos_before_apply``, the ``perf script`` output would
+ be somewhat like below::
+ 
+     kdamond.0 47293 [000] 80801.060214: damon:damos_before_apply: ctx_idx=0 scheme_idx=0 target_idx=0 nr_regions=11 121932607488-135128711168: 0 136
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index afc7d52bda2f..aff89f73ca56 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -79,7 +79,7 @@ To know how user-space can do the configuration via :ref:`DAMON sysfs interface
+ documentation.
+ 
+ 
+- .. _damon_design_vaddr_target_regions_construction:
++.. _damon_design_vaddr_target_regions_construction:
+ 
+ VMA-based Target Address Range Construction
+ -------------------------------------------
+@@ -858,11 +858,11 @@ control parameters for the usage would also need to be optimized for the
+ purpose.
+ 
+ To support such cases, yet more DAMON API user kernel modules that provide more
+-simple and optimized user space interfaces are available.  Currently, two
+-modules for proactive reclamation and LRU lists manipulation are provided.  For
+-more detail, please read the usage documents for those
+-(:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim` and
+-:doc:`/admin-guide/mm/damon/lru_sort`).
++simple and optimized user space interfaces are available.  Currently, three
++modules for access monitoring statistics, proactive reclamation, and LRU lists
++manipulation are provided.  For more detail, please read the usage documents for
++those (:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim`
++and :doc:`/admin-guide/mm/damon/lru_sort`).
+ 
+ .. _damon_design_special_purpose_modules_exclusivity:
+ 
 -- 
 2.43.0
 
