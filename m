@@ -1,372 +1,203 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012012.outbound.protection.outlook.com [52.101.43.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BB83C945A
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 04:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780980099; cv=none; b=m5s4Om1tHhc2d0cmai4Eu3c2wWCFOyBvSkSWAnFOnGeGuqWnQn+6m50Uk0nrOQuAY8rBv7jaJtj6xEoo0Sr+Eg/nh4t3Y3ZaN10KL90d96H2swdF8zxBremU7Cmhukv/QQE2SbSaCc7dFN9cbr/mZhcMjlMgaTuc5ivm78TXcMA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780980099; c=relaxed/simple;
-	bh=q5+kv26/nrZW6zX2FC2B8QfgxpMMxjfWrvpFimff1Mk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ugk6WjLKP5F+KlHChMcAIPVdcMTwgQGsy6bBOwblvo9AjliuMFqvfmpD+YxKNw9s+WnLC4lqI7U9xAEyvdeS/5IqwPqTRbSFpQDl+fAoWr0Em5o6H3OP2Sa19MXVzPZ3QKx/vBturE7F9ZBvxRgV8dZ3S8ZAl4/qXTsG5CYFLc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PKrfU4Ey; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FF33C4540;
+	Tue,  9 Jun 2026 05:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780983653; cv=fail; b=MaxwGO/d81oBewyK1Uv8ldlORteailO6LgH2Zbx+98diZNv3QGci2J9wDIa1TINDO8quj+gacmiMQi11Yp9H4vxSwoB1K8CQuZK6U023I1o4Lm3n+A4pUh1RKjyE3ADtWcWFdqXTzpXoTlywg1wuCEnYtT97E36IYi3W7f3al9o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780983653; c=relaxed/simple;
+	bh=O314YEvG5JW+bc6Ip8Tlr0U8MW1y8VJ7Dpq6Z3U5/84=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f2Zf6jdLCvVxYFnZW+Vnb0W0sXdsZy7+94WUwK4c2tdXTjVgTU708225DFe0zmPy4/XeCLkoWtEIT7rGvRuDkjAa1I4JP5yryy7dwsccgR5s5W6aHtefQpz7NxKvUbpfMkI1GSXsFAshhlIIs1YnWV1uOHulPxdxtMYP6nyGrmw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YHzEr/wi; arc=fail smtp.client-ip=52.101.43.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PKrfU4Ey"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2bf114b0cf9so44480855ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Jun 2026 21:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1780980093; x=1781584893; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YqxZiyw+e+cflpM3UG3hv/pwSFqmoCoCJh93jY7BBN0=;
-        b=PKrfU4EybXKq036yiOpy1cmPNVTmSBTPM1Q7MXm9CCWLDO+lZJXVcmnqW+ISL97J0h
-         sui2sh4qjXw3mA5HfnGz+Z0Iv35NdLWtVCEWtr2I6ZQ84r+GnNaB2HcRQ6VLcjamJUOA
-         FYp1RAymqlA1gTz+4NTy2ZQJL6QrogmC+rtDQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780980093; x=1781584893;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YqxZiyw+e+cflpM3UG3hv/pwSFqmoCoCJh93jY7BBN0=;
-        b=VCcWcloOVcKcb+PSYlb9xVEcazOqdT5gj7qmj6NlqiHvqiDk0h8ynAavfPgxOfhvvN
-         y9J/ltKaNUvxC6wuquax5JRO7Fso4sDvfM7IRHQMlNDQulXdqWkLZrluA6wMSXcsxErV
-         KPg67f+zWNMkSwD7UgC/g2WcbIxxX3WjJY3cXFS3TsjBdVP6/pCZkKopuIQ168U3bYm6
-         rVKMo32q+EmaXH3WkFTzBw6+aJ/UjXtE0nBxrQeRHYityyZh24Z5H4AQ3uZWIdFmdMoF
-         ZXO8AwxESmrtVUtmpRuSjbSecV2p0frh9ySxdgMc0BfLCloJSN2p4z8sOI8/9ymmPItD
-         4VMg==
-X-Forwarded-Encrypted: i=1; AFNElJ/xYSIVBx7hjTp+NfzNfmkL9eQuD334cH6EvED+ThhDt+bcdCktuqIrwrjueo05pLm8aJvx1Vh9lpA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz+2cHN12OESHoGZezCVHXX58bhtPTzSXaSy+Uh2oZ3PNAGtAS
-	vyHQMad1zflEhz061LituysZiD8bHcx5cGOuAgXSBNtBt6g8q5qN5lPEO3MEYFjGww==
-X-Gm-Gg: Acq92OHeLWA1bCZaER3pxukQqdOEZykXfXtB4gqqPDQTksb6R27XUNpX0TXwAyTrx0S
-	W9i51c/AfJPf8DJEKViH1JiQsXbwQglQvZgWvImsi5sy7D2fNbYLZZm0f5wkQr3pq8xrN5ehNA5
-	d71hYTBM33b2GJBC0X4WW4LagptJyrsfhY8KEgMbdlLaMpQj4pKGQTCEyUaD158rpH4j1ccnhQk
-	S4zAsVFlu5eDuC/P2EZHXIpZN/e4m0GYR98LuciK2AmYmOyO34XpfdTB7PAr1Jao/cl0gv7vdwv
-	d5f5Xgb9B8gmiaeEGEFBzpvfq0q1fBBJmsvgX/U5NB783Rb3n+uOGkPHVDDTn2DG7h0uF3lr8XN
-	NSfSUrF65f4g0B1piy8UOXdjuOXW+7dQY2K38T/BjlK4mHZ5wWrpklviW4KBmIfkn6phc1HRHyC
-	zrd5EkY2mBHYxV3L9hARsFRB7w5naURzYeAxOnNXJLGmfpMhSWZH7tfgUhfMG040/3PX48lhnzM
-	gyYRjCyFMkf5h25gav8mNXmEBQxPcgcFbjN38eJpwn/
-X-Received: by 2002:a17:902:ce8f:b0:2bf:1e59:d99 with SMTP id d9443c01a7336-2c1e80f9ea3mr211630235ad.8.1780980092709;
-        Mon, 08 Jun 2026 21:41:32 -0700 (PDT)
-Received: from jingyliang-input-linux.c.googlers.com (111.169.168.34.bc.googleusercontent.com. [34.168.169.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1664a67b0sm200736065ad.80.2026.06.08.21.41.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 21:41:32 -0700 (PDT)
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Tue, 09 Jun 2026 04:41:02 +0000
-Subject: [PATCH v4 11/11] HID: spi-hid: add panel follower support
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YHzEr/wi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PLOz4xnnSdLEd/udtEFPtFksTcap5NgU4c1zQwTIToiJqNMbiKaWfvTUiLUl6M4E7CioMs57fjHt5ovGtDgBJ7DggTrfvLG9HKTMjgzb9lwc+igo0x3bv/92jofDrLyJv7Dt8v3+Aw6HHeo99n73jN3RNyZxFjzUSL5OH4/7d/5KKvGw0NfiuYhSEyitR+1SEafjSKQkT93DpEjy/AbrJ2O184RrHU++wV4iaG/LpQWnELB56K874tTgVvFzZpAj8sZv2HOG6d7aFiDOZUK2bEcbJ8uh9+NqCSGd8xVgDbPukYoTX5E/Nb1wpnXu4kWWB7YGkYvj27S0AM3n/PaaoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5gQfz0qjAQFoOdhCeIPSqsb7Wx1GPva0gwy1T5k3UJo=;
+ b=OawdYAOqRp3tnRDLOZTPokXyhN/lPvFeaSZRqQ/+41RpgWZ2SjjVlBVY2Wt1gBGxh7zXoOmS1OfSnM7RB81h9/CFJTLAh6RXPl6tOWT5fGBxqF6cA1o0xXt79skVZleWALtLzhLAPXIhz9HLvUDoedV4iP7Maw+vno2oTuNW0UYDq8CmCGXvM3iUaV0x9tGUifZ2jT7JFxb4iutYfOZymMona8TteoROU06nXT4DS1V3dYYWNr+Qc1fkwmEmUoWArHKZfBfG7KB0b8YEC30qynEORbV8azhrxZG42BUgg8+ssAOMmvuzvZX74nldhUNcYho+MOHLLY5+zOgXLJUh2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=networkplumber.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5gQfz0qjAQFoOdhCeIPSqsb7Wx1GPva0gwy1T5k3UJo=;
+ b=YHzEr/wiTLiRV4lQE5DUmj8yozlbGC5xAiKHs+G2x7WGVX/oNJnKDiWrUfsD3Hxk5oZuVgKEmm0aR0/cfQjJR1ggVwWNxuAFwz4mpQjhNJmAbVRtY0k8bB+h1AaPA6BX1WWvOZXKjrrDXgwu3xWbbUxMlU0eWhjdCa25/10vET/2TGhnfd/q3i4sr6+GevswzZHT7U7Q/I59X3G4a45mFMXVWGrGJCRVdUpJWFFZZpE7TXHXFfvDXKHq9B8tLeZxlfBURtuH9EhsZdSk8+D7ITpFM/xSBQYQyJkxgnMNvv1c3JamT6YRC0+Tq+wYX55i65qxrlU5/o1CHnldiJuqng==
+Received: from PH8P221CA0026.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:2d8::29)
+ by MN0PR12MB5859.namprd12.prod.outlook.com (2603:10b6:208:37a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Tue, 9 Jun 2026
+ 05:40:47 +0000
+Received: from SA2PEPF00001507.namprd04.prod.outlook.com
+ (2603:10b6:510:2d8:cafe::9d) by PH8P221CA0026.outlook.office365.com
+ (2603:10b6:510:2d8::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.10 via Frontend Transport; Tue, 9
+ Jun 2026 05:40:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ SA2PEPF00001507.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Tue, 9 Jun 2026 05:40:46 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 8 Jun
+ 2026 22:40:33 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Mon, 8 Jun 2026 22:40:32 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Mon, 8 Jun 2026 22:40:23 -0700
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Stephen Hemminger <stephen@networkplumber.org>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+	<davem@davemloft.net>
+CC: David Ahern <dsahern@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+	Simon Horman <horms@kernel.org>, Jiri Pirko <jiri@resnulli.us>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Saeed
+ Mahameed" <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq
+ Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan
+	<shuah@kernel.org>, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, "Chuck
+ Lever" <chuck.lever@oracle.com>, Or Har-Toov <ohartoov@nvidia.com>, "Carolina
+ Jubran" <cjubran@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Shay Drori
+	<shayd@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Daniel Zahka
+	<daniel.zahka@gmail.com>, Shahar Shitrit <shshitrit@nvidia.com>, Jacob Keller
+	<jacob.e.keller@intel.com>, Cosmin Ratiu <cratiu@nvidia.com>, Parav Pandit
+	<parav@nvidia.com>, Kees Cook <kees@kernel.org>, Adithya Jayachandran
+	<ajayachandra@nvidia.com>, Daniel Jurgens <danielj@nvidia.com>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, "Ido
+ Schimmel" <idosch@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Petr Machata
+	<petrm@nvidia.com>
+Subject: [PATCH iproute2-next 0/7] devlink: add per-port resource support
+Date: Tue, 9 Jun 2026 08:39:46 +0300
+Message-ID: <20260609053953.487152-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-send-upstream-v4-11-b843d5e6ced3@chromium.org>
-References: <20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org>
-In-Reply-To: <20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- hbarnor@chromium.org, tfiga@chromium.org, 
- Jingyuan Liang <jingyliang@chromium.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780980084; l=8112;
- i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=q5+kv26/nrZW6zX2FC2B8QfgxpMMxjfWrvpFimff1Mk=;
- b=glvstjxXTBww/N19Xbya/aWrvvQvSaP5TaaNakkGljtc3CQiYDCF/jG8C+3to9vC/UUJC+Lw1
- L1aAmFYVyZHAVg5Rm3YlkNvXaA8FPyjOfXvG8V9rGwrxZwz789SFwD1
-X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
- pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|MN0PR12MB5859:EE_
+X-MS-Office365-Filtering-Correlation-Id: f13f0f69-1bd4-4487-c3a2-08dec5e9a79e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700016|82310400026|1800799024|11063799006|56012099006|6133799003|18002099003|3023799007|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	nk5J50wIfsofyv7/0JFzH46omqHICMwWUTGJ0FZKuepO57rhFtMsQKU0jbTWEVckCDEPZEMKm3vvREYUMdy06LZzpKa+mZj/9yNM1SAr8n8h4GmK+oQpJUChbXa00RVWCULw4b2iJXhj+yZJteeeJGnCDP/2eC7tY8v7nFi8CM914JgJLAs1tAnubue0YA8SExUz2tYIZ4hHm8k2tIPkEtgaaQAX+EVAdzbMkFBD/+ppsgIuwUTM6SAFFeEoZCwhyWGi7kz+96UKGtTSVb6D9AiqDgPBd4gbSz7OBjnew9kqkuzI6HhSxDi/169UxSSah2NMQ5j+V/Z12uA+ao2KHSS8UOyzyAehrURY6ZwZlkjEEuwGe1gGBApyNTBPKuOC3cxLq7ZazPmYyjzxkUzji5xRsXmdNbPZ7RXgziE0EEX8SBnrudkcQbuhn8xkfvxBB4vEJo/RulKPhrt4EGEg6D7BnNED2WLn3QaQmEEMb1F6eyc2kCMuma8IqwLa6e5pKf7J5EMBszjcz2/lzM6yTZykGqo3Hwdi33/vp4P1zwaaYDMBoIEI8pH9nFC2DekkDfDomV8WTDNvukVRJerTRQTtNjJNKNz5iwMpR49TBOVwnAjEfnu39Qen83SbZKwKxB7PjGIrydlhM2uGmEFn7VVZ8OOqj2ziDrqUJ4wHZAuxMkxPuK9P8RdFPe7doml+3P5mqruTtAnXg59HEmcLPIq8DyDCHoWymsvqH0fe+5x3uvWK4iplyify/T1vRQ/n
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(82310400026)(1800799024)(11063799006)(56012099006)(6133799003)(18002099003)(3023799007)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	1spcJajCy8cyvOPRp2onwVdy8YCArYSsiI0pU1ABCoclJgpnZhRl7yeurYKTaFUlclZk9SgTdZo8nOXCoSUAhiX828GpbUWbBf1nQ+SgMMzoijznBv02aIRiWZuK4Tx5y1CTUyMNPva4flpvG0XIGJc3lYNBV/kdeX82n8e3SAWqlkXMlB+l9N12digUDjZAk4IW2m8JF8buLUKGNOEa/TnE5Yoo2yvGk1bteignpXus9jvflgLS3lg8NU9K0ctSgAzHaZCGG8u9Fqe1jmeiwIQi30J42z9MeLdx7VccapLR40YYJ3BxgskCUn8uuszKcuWj97UCVpnNjS00QkMS30xDsrpDY6CNOVwWsSlcpb/QtesZOeLx+8cu0dNCu81c+AlNt8kPsgywXPanhJpV3UOi79jxX6Mwh6e/tGvTJCq4sl5aPmFaxBNZ+gGP8Vmc
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 05:40:46.1936
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f13f0f69-1bd4-4487-c3a2-08dec5e9a79e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00001507.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5859
 
-Add support to spi-hid to be a panel follower.
+Hi,
 
-Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
----
- drivers/hid/spi-hid/spi-hid-core.c | 164 ++++++++++++++++++++++++++++++-------
- drivers/hid/spi-hid/spi-hid-core.h |   7 ++
- 2 files changed, 142 insertions(+), 29 deletions(-)
+Currently, devlink resource show only supports querying a specific
+device and displays device-level resources. However, some resources
+are per-port, such as the maximum number of SFs that can be created
+on a specific PF port.
 
-diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
-index 517f06913477..27f25d95ed28 100644
---- a/drivers/hid/spi-hid/spi-hid-core.c
-+++ b/drivers/hid/spi-hid/spi-hid-core.c
-@@ -1281,6 +1281,106 @@ const struct attribute_group *spi_hid_groups[] = {
- };
- EXPORT_SYMBOL_GPL(spi_hid_groups);
- 
-+/*
-+ * At the end of probe we initialize the device:
-+ *   0) assert reset, bias the interrupt line
-+ *   1) sleep minimal reset delay
-+ *   2) power up the device
-+ *   3) deassert reset (high)
-+ * After this we expect an IRQ with a reset response.
-+ */
-+static int spi_hid_dev_init(struct spi_hid *shid)
-+{
-+	struct spi_device *spi = shid->spi;
-+	struct device *dev = &spi->dev;
-+	int error;
-+
-+	shid->ops->assert_reset(shid->ops);
-+
-+	shid->ops->sleep_minimal_reset_delay(shid->ops);
-+
-+	error = shid->ops->power_up(shid->ops);
-+	if (error) {
-+		dev_err(dev, "%s: could not power up\n", __func__);
-+		shid->regulator_error_count++;
-+		shid->regulator_last_error = error;
-+		return error;
-+	}
-+
-+	shid->ops->deassert_reset(shid->ops);
-+
-+	enable_irq(spi->irq);
-+
-+	return 0;
-+}
-+
-+static void spi_hid_panel_follower_work(struct work_struct *work)
-+{
-+	struct spi_hid *shid = container_of(work, struct spi_hid,
-+					    panel_follower_work);
-+	int error;
-+
-+	if (!shid->desc.hid_version)
-+		error = spi_hid_dev_init(shid);
-+	else
-+		error = spi_hid_resume(shid);
-+	if (error)
-+		dev_warn(&shid->spi->dev, "Power on failed: %d\n", error);
-+	else
-+		WRITE_ONCE(shid->panel_follower_work_finished, true);
-+}
-+
-+static int spi_hid_panel_follower_resume(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	/*
-+	 * Powering on a touchscreen can be a slow process. Queue the work to
-+	 * the system workqueue so we don't block the panel's power up.
-+	 */
-+	WRITE_ONCE(shid->panel_follower_work_finished, false);
-+	schedule_work(&shid->panel_follower_work);
-+
-+	return 0;
-+}
-+
-+static int spi_hid_panel_follower_suspend(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	cancel_work_sync(&shid->panel_follower_work);
-+
-+	if (!READ_ONCE(shid->panel_follower_work_finished))
-+		return 0;
-+
-+	return spi_hid_suspend(shid);
-+}
-+
-+static const struct drm_panel_follower_funcs
-+				spi_hid_panel_follower_prepare_funcs = {
-+	.panel_prepared = spi_hid_panel_follower_resume,
-+	.panel_unpreparing = spi_hid_panel_follower_suspend,
-+};
-+
-+static int spi_hid_register_panel_follower(struct spi_hid *shid)
-+{
-+	struct device *dev = &shid->spi->dev;
-+
-+	shid->panel_follower.funcs = &spi_hid_panel_follower_prepare_funcs;
-+
-+	/*
-+	 * If we're not in control of our own power up/power down then we can't
-+	 * do the logic to manage wakeups. Give a warning if a user thought
-+	 * that was possible then force the capability off.
-+	 */
-+	if (device_can_wakeup(dev)) {
-+		dev_warn(dev, "Can't wakeup if following panel\n");
-+		device_set_wakeup_capable(dev, false);
-+	}
-+
-+	return drm_panel_add_follower(dev, &shid->panel_follower);
-+}
-+
- int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		       struct spi_hid_conf *conf)
- {
-@@ -1300,6 +1400,7 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	shid->ops = ops;
- 	shid->conf = conf;
- 	set_bit(SPI_HID_RESET_PENDING, &shid->flags);
-+	shid->is_panel_follower = drm_is_panel_follower(&spi->dev);
- 
- 	spi_set_drvdata(spi, shid);
- 
-@@ -1313,6 +1414,7 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	init_completion(&shid->output_done);
- 
- 	INIT_WORK(&shid->reset_work, spi_hid_reset_work);
-+	INIT_WORK(&shid->panel_follower_work, spi_hid_panel_follower_work);
- 
- 	/*
- 	 * We need to allocate the buffer without knowing the maximum
-@@ -1323,20 +1425,6 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	if (error)
- 		return error;
- 
--	/*
--	 * At the end of probe we initialize the device:
--	 *   0) assert reset, bias the interrupt line
--	 *   1) sleep minimal reset delay
--	 *   2) request IRQ
--	 *   3) power up the device
--	 *   4) deassert reset (high)
--	 * After this we expect an IRQ with a reset response.
--	 */
--
--	shid->ops->assert_reset(shid->ops);
--
--	shid->ops->sleep_minimal_reset_delay(shid->ops);
--
- 	error = devm_request_threaded_irq(dev, spi->irq, NULL, spi_hid_dev_irq,
- 					  IRQF_ONESHOT | IRQF_NO_AUTOEN, dev_name(&spi->dev), shid);
- 	if (error) {
-@@ -1351,22 +1439,28 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		}
- 	}
- 
--	error = shid->ops->power_up(shid->ops);
--	if (error) {
--		dev_err(dev, "%s: could not power up\n", __func__);
--		if (device_may_wakeup(dev))
--			dev_pm_clear_wake_irq(dev);
--		return error;
-+	if (shid->is_panel_follower) {
-+		error = spi_hid_register_panel_follower(shid);
-+		if (error) {
-+			dev_err_probe(dev, error,
-+				      "Failed to register panel follower");
-+			goto err_wake_irq;
-+		}
-+	} else {
-+		error = spi_hid_dev_init(shid);
-+		if (error)
-+			goto err_wake_irq;
- 	}
- 
--	shid->ops->deassert_reset(shid->ops);
--
--	enable_irq(spi->irq);
--
- 	dev_dbg(dev, "%s: d3 -> %s\n", __func__,
- 		spi_hid_power_mode_string(shid->power_state));
- 
- 	return 0;
-+
-+err_wake_irq:
-+	if (device_may_wakeup(dev))
-+		dev_pm_clear_wake_irq(dev);
-+	return error;
- }
- EXPORT_SYMBOL_GPL(spi_hid_core_probe);
- 
-@@ -1376,15 +1470,21 @@ void spi_hid_core_remove(struct spi_device *spi)
- 	struct device *dev = &spi->dev;
- 	int error;
- 
--	disable_irq(spi->irq);
-+	if (shid->is_panel_follower)
-+		drm_panel_remove_follower(&shid->panel_follower);
-+	else
-+		disable_irq(spi->irq);
-+
- 	cancel_work_sync(&shid->reset_work);
- 
- 	spi_hid_stop_hid(shid);
- 
--	shid->ops->assert_reset(shid->ops);
--	error = shid->ops->power_down(shid->ops);
--	if (error)
--		dev_err(dev, "failed to disable regulator\n");
-+	if (shid->power_state != HIDSPI_OFF) {
-+		shid->ops->assert_reset(shid->ops);
-+		error = shid->ops->power_down(shid->ops);
-+		if (error)
-+			dev_err(dev, "failed to disable regulator\n");
-+	}
- 
- 	if (device_may_wakeup(dev))
- 		dev_pm_clear_wake_irq(dev);
-@@ -1395,6 +1495,9 @@ static int spi_hid_core_pm_suspend(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
-+	if (shid->is_panel_follower)
-+		return 0;
-+
- 	return spi_hid_suspend(shid);
- }
- 
-@@ -1402,6 +1505,9 @@ static int spi_hid_core_pm_resume(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
-+	if (shid->is_panel_follower)
-+		return 0;
-+
- 	return spi_hid_resume(shid);
- }
- 
-diff --git a/drivers/hid/spi-hid/spi-hid-core.h b/drivers/hid/spi-hid/spi-hid-core.h
-index 293e2cfcfbf7..261b2fd7f332 100644
---- a/drivers/hid/spi-hid/spi-hid-core.h
-+++ b/drivers/hid/spi-hid/spi-hid-core.h
-@@ -10,6 +10,8 @@
- #include <linux/hid-over-spi.h>
- #include <linux/spi/spi.h>
- 
-+#include <drm/drm_panel.h>
-+
- /* Protocol message size constants */
- #define SPI_HID_READ_APPROVAL_LEN		5
- #define SPI_HID_OUTPUT_HEADER_LEN		8
-@@ -56,6 +58,10 @@ struct spi_hid {
- 	struct spi_hid_input_buf *input;	/* Input buffer. */
- 	struct spi_hid_input_buf *response;	/* Response buffer. */
- 
-+	struct drm_panel_follower panel_follower;
-+	bool	is_panel_follower;
-+	bool	panel_follower_work_finished;
-+
- 	u16 response_length;
- 	u16 bufsize;
- 
-@@ -66,6 +72,7 @@ struct spi_hid {
- 	unsigned long flags;	/* device flags. */
- 
- 	struct work_struct reset_work;
-+	struct work_struct panel_follower_work;
- 
- 	/* Control lock to ensure complete output transaction. */
- 	struct mutex output_lock;
+This series extends devlink resource show with full support for
+port-level resources, including a dump mode, per-port querying syntax,
+and scope filtering. In preparation for these features, the first two
+patches refactor how dpipe tables are handled to unblock dump support
+and ensure errors in secondary queries are non-fatal.
 
+The series is organized as follows:
+
+Patch 1 splits the dpipe tables display into a separate function.
+
+Patch 2 moves the dpipe tables query into the per-device resource show
+callback, ensuring it behaves correctly during a multi-device dump.
+
+Patch 3 fixes a pre-existing memory leak in resource_ctx_fini.
+
+Patch 4 adds dump support to resource show (no device required).
+
+Patch 5 shows port-level resources returned in a dump reply.
+
+Patch 6 adds DEV/PORT_INDEX syntax to resource show.
+
+Patch 7 adds scope filter to resource show.
+
+With this series, users can query resources at all levels:
+
+$ devlink resource show
+pci/0000:03:00.0:
+  name local_max_SFs size 508 unit entry
+  name external_max_SFs size 508 unit entry
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+
+$ devlink resource show scope dev
+pci/0000:03:00.0:
+  name local_max_SFs size 508 unit entry
+  name external_max_SFs size 508 unit entry
+
+$ devlink resource show scope port
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+
+$ devlink resource show pci/0000:03:00.0/196608
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+
+This series is the userspace counterpart to the kernel series:
+https://lore.kernel.org/all/20260407194107.148063-1-tariqt@nvidia.com/
+
+Ido Schimmel (2):
+  devlink: Split dpipe tables output to a separate function
+  devlink: Move dpipe tables query to resources show callback
+
+Or Har-Toov (5):
+  devlink: fix memory leak in resource_ctx_fini
+  devlink: add dump support for resource show
+  devlink: show port resources in resource dump
+  devlink: add per-port resource show support
+  devlink: add scope filter to resource show
+
+ bash-completion/devlink     |   8 ++
+ devlink/devlink.c           | 202 +++++++++++++++++++++++++++---------
+ man/man8/devlink-resource.8 |  34 +++++-
+ 3 files changed, 192 insertions(+), 52 deletions(-)
+
+
+base-commit: 7340b539841dc739bc0b813e8e86825bc1eb5a4c
 -- 
-2.54.0.1064.gd145956f57-goog
+2.44.0
 
