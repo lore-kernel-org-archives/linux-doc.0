@@ -1,201 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A7C38CFE7;
-	Tue,  9 Jun 2026 20:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5866C384238
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 20:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781035951; cv=none; b=IFFdV6fnXjnAuXlBzgE9BgOvy8UXZ1OTvK2BpfYPeBmBhA8BAZWzwLBQSzFIa4vHwlArvGydhq8JEriwkEzh05n/LncWgNdYHuol5KNXkyR0nQyf8bqbqD30l2/4deZkFsg6bRseQIzrhdbHAFdouyq1qKtZjdEpVwQ/MgH8n6A=
+	t=1781037903; cv=none; b=UMGJJQgIaV2r+EnirmArk08tGz9d00ZVPq5ng5Uh3cFxXg+jQhQms5t1ZXG5zU2pbHWsv3KGJmpaROngqHOE+Qs8LH5qPaZbcw4HWluUMfs5C0Zde8HzxTVXe8tYQSpC87q+L2EG84/zisHAGHC82rh3UzeyDmAUW7V3/I8dvxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781035951; c=relaxed/simple;
-	bh=D7/Mzo5e+5VWLEtVYVgkwc3DygrunrzHZAWo1Yrfk4c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iTSbgpzFO7Tzjn0T6o7PJZZNBt4eDX/hQ1WNJa2h437vBEcMdm/AibUa9zSynmbrW2VR/pb8aneIXdT63ZIiCwZQIfEo69prPc+qzkpu9dxbHCTL7QSZ4qb/nadnTcdsF6OzM20sDwojd5c2tyr1JDgnEI6iV/7gC0ntzPMRYhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAENGndj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781037903; c=relaxed/simple;
+	bh=4RkrfyrzqKnxXYZ6+DDtnXffS/hfXv67PVBEUezmkB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=afRMl8OfmuqXRZOZr+/lwDMWZcNzDMPM4gJBlNmnjQ0V9ap1RhL8Ruqul3ol0YondcWJWzRrXCGxn1gBoiaqWtjHEHbBpyBVoHOhDn/cj1NT13hB2AGVOsk0CE5xAsjIKSoCYsr7nQb2WBd7GD2QuEtBGmjwbpzxdYrjFNYJ0q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBV4YqQ7; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAENGndj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88D21F00893;
-	Tue,  9 Jun 2026 20:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781035949;
-	bh=MpH5v7DVv18T+ddYArDGKMK3ROzq6Z3ud0/C2F8Yez4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=iAENGndjkV7VfPS4uQ6HbD3iW7BCAUB33VXKE6+WpRPeK4lXbOF40065xNARysX5J
-	 riq4RUfeX0bBrMQZ7x9Tv8RmL0a1k/xhSWXQxs54WWfixacD9aZU9KA6B9ENc1B3Fa
-	 n29vkI5OvXfoFX+SZUChAuICFY8akoi3CLX6idcq3dCgj293X3Q3mex2Jj9V9Y25Rd
-	 WLZmbH3T+hgMobMmkcDRJrCtBbRiaSPs5AlWrz6L/ZpVDOxBApZs5j+8U8GcFErlcW
-	 tV20dcs08OnYOW/iWswZ4qvP0+TKBDtmVV8igSnlUeKCGYiq463DA2jmvJf355EQPc
-	 cgXjdiyXCuadA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	jiri@resnulli.us,
-	skhan@linuxfoundation.org
-Subject: [PATCH net-next 3/3] docs: net: fix minor issues with devlink docs
-Date: Tue,  9 Jun 2026 13:12:24 -0700
-Message-ID: <20260609201224.1191391-4-kuba@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260609201224.1191391-1-kuba@kernel.org>
-References: <20260609201224.1191391-1-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBV4YqQ7"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2bf2247e38eso62673455ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 13:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781037901; x=1781642701; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DrbFaHt/sfzoTAd9VNUt1Zfwuflm4DlAD1twm0YxE+I=;
+        b=HBV4YqQ74V8iCEO0Fma8zFD7njmRZH+yFkHEJKvI/KbjUvJ4mplaCk3c1huefqGuWW
+         RXscgnWT9ih+vnOimQdWMb1pOndN0AjWIpjf92D1D8l53Qa22TgEkb3nLdTFyHT4fiEh
+         g3pdG5W0Midm4zG95l/Mk+Z3kwnQfeiMvgwIhVEEXLPVtCL0RNpZIxdcK8rk8LHBDplq
+         /tRTdUlNt4WaS5YFK8RgiOxnbXcIzdfH0rOh7VN+IcZf2J/ruTGf8NkNDe8dfwJXL82W
+         ik4piOraqlrZxjaKTmdiZlLWL2tIMj93V+a2dcai+dNgCA6QyRiH0+olvqJ8ZeOcsEXY
+         xGtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781037901; x=1781642701;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DrbFaHt/sfzoTAd9VNUt1Zfwuflm4DlAD1twm0YxE+I=;
+        b=awFgL41krCYzTez0+LTE1nRjoiw1dlv87sBHpTnLFRYm+h5SoVXSVdpx1h61orsrhk
+         9aFafL7402JuWpmzT97CsPj/IqR62HqLXTnfPIJ2TQYb5nc7oCaCU5qUD8AVlZC9viM3
+         eS5LeQSDikZHfFi0e8cQ24VfLadqWxgPN2+mJYgT3gkAJJkcmIK0t2TJ6VRFVkG3eQLK
+         uJUXejfvf7VV4MMb/nvh/8/XvkP2gZCLidGcyNA6p0WSM+M0yqGkhOuF1ErAWGoMRWmP
+         PaECinUAi8kDBIohg1gYKwgwYizE8AvwFaP0G8v57/VrTEzvdLtc5e0+ieTmrhy7hFDX
+         dQWA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ufeDafi+mJ30o8uzniEqynKa1Qm6G+jvVwefk7fzxoT6cD6FTGZbqNISLW68Ezthq9AG0xxqpph8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynC6V/qb3zXDIXif+ID/wU/zhqC2pEZPqlU21XxGLz84WvSFxn
+	F7KQ9SWCLlFLWJrpO6Tb830MseOfwDeV9S6pYDbTWX8rX9UFHLAdYL1n
+X-Gm-Gg: Acq92OFZUfreQ7LeCzLfiJqO3iLuHE1R1Da4+AFaO2nnjQDagdroEGO5IpG9EYWgM+J
+	UPLVvYjsgj6gZQYONVtdjngTN8IBYwr29KQPraOOCIoTzgkv+Z5jJYVeC11NQcx+zbYPs+PN7go
+	BDeWFQH/2NNUQmSE1TWl3ZPICH/G6rboX0YxKdRqkmVwfLF1s7Nayn0vKTnRtn9l+VnetNbjoF/
+	ICUzeFdh+usHQd76oHRohHrx7pzQIV4KylUBXv/N7vT1Rbs03Y4/GhPQaUmFAFr8OUf3xtC7SkF
+	4QSEdIxAc3Go2omgphNvaUIFXnx4OEcxvqw+2nEt1BFQSqxW6FSf6dPzzwJJiKGUSQKLpA6DkTZ
+	yTyvar+d3/qUnT+btm30wnFRZFVN3z6uQzIAMoN1B+oyTVzSVJD7BP6M4S107CWEdnYq6coMGVo
+	XtzpRAJqIsmvtsm9QKQbKGmkB1Q8BG9+z5Uuzom710mlnKxvg=
+X-Received: by 2002:a17:903:1246:b0:2ba:924b:3948 with SMTP id d9443c01a7336-2c1e821dcbbmr254657545ad.15.1781037901551;
+        Tue, 09 Jun 2026 13:45:01 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6cea3sm218492375ad.7.2026.06.09.13.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 13:45:00 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 9 Jun 2026 13:44:58 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	richard.leitner@linux.dev
+Subject: Re: [PATCH v3 1/3] hwmon: ina238: add support for samples and
+ update_interval
+Message-ID: <32a5275f-17fa-4439-8bc7-eec824f0584c@roeck-us.net>
+References: <20260609-hwmon-ina238-update-interval-us-v2-v3-0-016b55567950@advastore.com>
+ <20260609-hwmon-ina238-update-interval-us-v2-v3-1-016b55567950@advastore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260609-hwmon-ina238-update-interval-us-v2-v3-1-016b55567950@advastore.com>
 
-Update devlink documentation to match current code:
+On Tue, Jun 09, 2026 at 09:43:10PM +0200, Ferdinand Schwenk wrote:
+> From: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
+> 
+> Expose INA238 ADC averaging count (AVG) and conversion timing
+> (VBUSCT/VSHCT/VTCT) through chip-level hwmon attributes:
+> 
+>   chip/samples
+>   chip/update_interval
+> 
+> Use per-chip conversion-time lookup tables so the same helpers work
+> for INA228/INA237/INA238/INA700/INA780 and SQ52206. Cache ADC_CONFIG
+> in driver data and update it on writes to avoid extra register reads
+> during read-modify-write updates.
+> 
+> Report update_interval in milliseconds as required by the hwmon ABI.
+> Compute it from raw ADC cycle time multiplied by the active averaging
+> count, and apply the inverse mapping on writes so programmed conversion
+> time tracks the selected sample count.
+> 
+> Clamp user-provided update_interval before unit scaling to prevent
+> overflow in arithmetic conversions.
+> 
+> Also combine chip attributes in HWMON_CHANNEL_INFO using a bitwise OR
+> for a single logical chip channel.
+> 
+> Signed-off-by: Ferdinand Schwenk <ferdinand.schwenk@advastore.com>
 
-- describe health reporter defaults (it's currently under "callbacks"),
-  best-effort auto-dump, and port-scoped reporters
-- fix generic parameter names and values
-- fix nested devlink setup wording and registration ordering
+Applied.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: jiri@resnulli.us
-CC: corbet@lwn.net
-CC: skhan@linuxfoundation.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/devlink/devlink-health.rst | 12 ++++++++----
- Documentation/networking/devlink/devlink-params.rst |  2 +-
- Documentation/networking/devlink/devlink-port.rst   |  5 ++++-
- Documentation/networking/devlink/devlink-trap.rst   |  8 +++++---
- Documentation/networking/devlink/index.rst          | 10 +++++-----
- 5 files changed, 23 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/networking/devlink/devlink-health.rst b/Documentation/networking/devlink/devlink-health.rst
-index 4d10536377ab..bedac58a2f36 100644
---- a/Documentation/networking/devlink/devlink-health.rst
-+++ b/Documentation/networking/devlink/devlink-health.rst
-@@ -33,7 +33,9 @@ asynchronously. All health reports handling is done by ``devlink``.
-   * Recovery procedures
-   * Diagnostics procedures
-   * Object dump procedures
--  * Out Of Box initial parameters
-+
-+Drivers also provide default values for generic reporter parameters when
-+creating a health reporter.
- 
- Different parts of the driver can register different types of health reporters
- with different handlers.
-@@ -45,8 +47,9 @@ Actions
- 
-   * A log is being send to the kernel trace events buffer
-   * Health status and statistics are being updated for the reporter instance
--  * Object dump is being taken and saved at the reporter instance (as long as
--    auto-dump is set and there is no other dump which is already stored)
-+  * Object dump is being taken and saved at the reporter instance. This is
-+    best effort and skipped when recovery is aborted, auto-dump is disabled,
-+    no dump callback is registered, or a dump is already stored.
-   * Auto recovery attempt is being done. Depends on:
- 
-     - Auto-recovery configuration
-@@ -75,7 +78,8 @@ User Interface
- ==============
- 
- User can access/change each reporter's parameters and driver specific callbacks
--via ``devlink``, e.g per error type (per health reporter):
-+via ``devlink``, e.g. per error type (per health reporter). Reporters may be
-+registered for the whole devlink instance or for a specific devlink port.
- 
-   * Configure reporter's generic parameters (like: disable/enable auto recovery)
-   * Invoke recovery procedure
-diff --git a/Documentation/networking/devlink/devlink-params.rst b/Documentation/networking/devlink/devlink-params.rst
-index ea17756dcda6..ca19ee3e63c8 100644
---- a/Documentation/networking/devlink/devlink-params.rst
-+++ b/Documentation/networking/devlink/devlink-params.rst
-@@ -122,7 +122,7 @@ own name.
-    * - ``enable_iwarp``
-      - Boolean
-      - Enable handling of iWARP traffic in the device.
--   * - ``internal_err_reset``
-+   * - ``internal_error_reset``
-      - Boolean
-      - When enabled, the device driver will reset the device on internal
-        errors.
-diff --git a/Documentation/networking/devlink/devlink-port.rst b/Documentation/networking/devlink/devlink-port.rst
-index 5e397798a402..9374ebe70f48 100644
---- a/Documentation/networking/devlink/devlink-port.rst
-+++ b/Documentation/networking/devlink/devlink-port.rst
-@@ -38,7 +38,7 @@ Devlink port flavours are described below.
-      - This indicates an eswitch port representing a port of PCI
-        subfunction (SF).
-    * - ``DEVLINK_PORT_FLAVOUR_VIRTUAL``
--     - This indicates a virtual port for the PCI virtual function.
-+     - Any virtual port facing the user.
- 
- Devlink port can have a different type based on the link layer described below.
- 
-@@ -134,6 +134,9 @@ Users may also set the IPsec crypto capability of the function using
- Users may also set the IPsec packet capability of the function using
- `devlink port function set ipsec_packet` command.
- 
-+The ``migratable`` attribute may be set only on ports with
-+``DEVLINK_PORT_FLAVOUR_PCI_VF``.
-+
- Users may also set the maximum IO event queues of the function
- using `devlink port function set max_io_eqs` command.
- 
-diff --git a/Documentation/networking/devlink/devlink-trap.rst b/Documentation/networking/devlink/devlink-trap.rst
-index 5885e21e2212..ac5bf9337198 100644
---- a/Documentation/networking/devlink/devlink-trap.rst
-+++ b/Documentation/networking/devlink/devlink-trap.rst
-@@ -516,9 +516,11 @@ Generic Packet Trap Groups
- 
- Generic packet trap groups are used to aggregate logically related packet
- traps. These groups allow the user to batch operations such as setting the trap
--action of all member traps. In addition, ``devlink-trap`` can report aggregated
--per-group packets and bytes statistics, in case per-trap statistics are too
--narrow. The description of these groups must be added to the following table:
-+action of all member drop traps whose action may legally change. Exception and
-+control traps remain unchanged. In addition, ``devlink-trap`` can report
-+aggregated per-group packets and bytes statistics, in case per-trap statistics
-+are too narrow. The description of these groups must be added to the following
-+table:
- 
- .. list-table:: List of Generic Packet Trap Groups
-    :widths: 10 90
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index f7ba7dcf477d..32f70879ddd0 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -13,8 +13,8 @@ new APIs prefixed by ``devl_*``. The older APIs handle all the locking
- in devlink core, but don't allow registration of most sub-objects once
- the main devlink object is itself registered. The newer ``devl_*`` APIs assume
- the devlink instance lock is already held. Drivers can take the instance
--lock by calling ``devl_lock()``. It is also held all callbacks of devlink
--netlink commands.
-+lock by calling ``devl_lock()``. It is also held across all callbacks of
-+devlink netlink commands.
- 
- Drivers are encouraged to use the devlink instance lock for their own needs.
- 
-@@ -33,11 +33,11 @@ devlink instances created underneath. In that case, drivers should make
-    lock of both nested and parent instances at the same time, devlink
-    instance lock of the parent instance should be taken first, only then
-    instance lock of the nested instance could be taken.
-- - Driver should use object-specific helpers to setup the
--   nested relationship:
-+ - Driver should use object-specific helpers to setup the nested relationship
-+   before registering the nested devlink instance:
- 
-    - ``devl_nested_devlink_set()`` - called to setup devlink -> nested
--     devlink relationship (could be user for multiple nested instances.
-+     devlink relationship (could be used for multiple nested instances).
-    - ``devl_port_fn_devlink_set()`` - called to setup port function ->
-      nested devlink relationship.
-    - ``devlink_linecard_nested_dl_set()`` - called to setup linecard ->
--- 
-2.54.0
-
+Thanks,
+Guenter
