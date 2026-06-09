@@ -1,169 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797DC4219FF
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 13:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDBD317153;
+	Tue,  9 Jun 2026 14:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781012421; cv=none; b=p2+DiavcJ5VoWpsX6npukCLV8HJle32YS4mGYHg3HbgLFKnqJ1CLyeL9YjGJoIcbP+fk67c8eRINM3LfRtsfSC0umrFAPs0YemDVZKtEGy2niB3msIkzN/coZoFtplw7lYoTRv/pb6AeFBRbUaPhu98kw3Yzk3KTnhOvGVQXt/A=
+	t=1781013954; cv=none; b=llTzVGvyHco+48k/YFGpjsKd7JivevrGjQ1d1fiifoqDCBV73gCwB8p22G0KcGHLefYcIPG2/F26TGkewy3WISFDHwOMzcBDnpJX+U+f1DPvI2MKW0f6hnlxM6vsyagVoynia8u/RU3Pesax309O5i+/HFj6NBMhsj67gsdQyQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781012421; c=relaxed/simple;
-	bh=dSWGAlI7EA9TLy4vX7dpisHZHNe6K8ocNi17nNb0J0s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HvLOkAZ6Z7kMO4jl7dMda4+f2Xjej6/W89gZhu/DxADPZeEGfnsvEOYapxcEvwkrN489+iZdW9r1lFs6HfFY5NnDKIsKXVYb22DQ+XBWyLQmaEEtW29YKrv2mjQM1Z7TPSp3uiKtkEZyP2yTR4e3Kqc1i90CII/owGyIU2mLlYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTGbgnhS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781013954; c=relaxed/simple;
+	bh=p9ceCAe/cxupmbFwPLJqZ8wK4kbl3qLke/+hH+iki1w=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nidIgvvRfQFawUUURK6g1U+erGHhsBXwloQ95Xf/BW7+AHygH1KDKoIOvc93ag9lVZdCWy9QaAN2ZPOgs+bpMA+yKPR/gi0P+0yhwvSKzD2x1rx9E7cGF+PeQzHa9kRjxtRFRxTI2LooPMz7XRbUirnxeS9pFYGw8QKwpfEHWAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=ht4sr0sS; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTGbgnhS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF61E1F0089B
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 13:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781012419;
-	bh=1DWgvi50ejEFOdpZ7+rZart0C1EsGxaux+mvXfSzyGY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QTGbgnhSdolkIAYf5VSgvezDJfkvUp28uXtFSmmUf3tugMueH+EnyxSH+gWd7y4Wm
-	 Xfw9fjkdK/ubaC0tHEggN7iWAUxszIdXxxf44/RJT98GIl5MWigks2cNx9G4iVPn78
-	 uY6Yt9TEYyyzrHr3T8R0yWi9WNQOjOz0jhKQp7Zf++A4P3n6Y65jglmoqtIDPO0Z8c
-	 82RSIuO2R6Agh5m9NF4h+DoMKrVHxKfl9CSxtZJWVCd0oawXLK4IpKS1OVHxig5M1F
-	 YvlD5PgfL3+WxuWOoqiRNeP6/I5mCjYcJFEoSn8opvmiRaV98BBx7SFBajMnROgwQx
-	 COTbfk11MuAmQ==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so5967547e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 06:40:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+oJDwBTwfbeCOwpfCW/NJwzRJJ93bfPSY5AzaMFLtvLXvkax8IM91cUrd+XSjp/+He8SwlfWqLFq8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8paVRXfspu+aXiUwl9iYJN5IbiI4G4+wnfJYdr7kEv7FAhGL2
-	ZRyTwGTaK+3BN2jyREwgVkoBFmkFmONN846/NpvDZaR+8l+rluxljXpVKSPjDdab9ofdQl3Sg9Y
-	3jcGIpEcke7wMT6P4KccKo0ex63m7WDE=
-X-Received: by 2002:a05:6512:3193:b0:5aa:6c05:f0e with SMTP id
- 2adb3069b0e04-5acf680fbf2mr954818e87.7.1781012417208; Tue, 09 Jun 2026
- 06:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="ht4sr0sS"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 259C9205E5;
+	Tue,  9 Jun 2026 16:05:49 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id t2WAbfeIgnUF; Tue,  9 Jun 2026 16:05:48 +0200 (CEST)
+Received: from EXCH-01.secunet.de (rl1.secunet.de [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 0C0F32019D;
+	Tue,  9 Jun 2026 16:05:48 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 0C0F32019D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1781013948;
+	bh=2Y79YA406WVMDOn1t2thR2Tgqj/FyeSsaBX5XBihyro=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=ht4sr0sSSO743VMrOIEVM6+vIjACjb1vnzhB93MdHkaVvH66miSfcJFRulDZZUDVU
+	 URraHMl98PCWoXWIErrA59FmTVwRqJ4+sHA+UzJzz/myr9tOH4mrnu6LKOrg3BPkdK
+	 xYiFsYcxXs4rbw2gg4QIelOZp3o3E70pmhoc91cJ5OgVqE2N9csO2eWTyUMdVdL/y9
+	 KmiZJxzDJwOT992eAK1PzEzxRg5sx9hoAxoVfDKvRqceSPgtwuBl8sO3DFZyZwO7V2
+	 ZbkvMNruXanpzu9156Uz85qhpxviteLTMN+5rc+J5QeEspSrN3F+eP3OrapiLGzxDp
+	 0Lbg4D9OCv9NA==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 9 Jun
+ 2026 16:05:46 +0200
+Received: (nullmailer pid 1306013 invoked by uid 1000);
+	Tue, 09 Jun 2026 14:05:45 -0000
+Date: Tue, 9 Jun 2026 16:05:45 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Antony Antony <antony.antony@secunet.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, David Ahern <dsahern@kernel.org>, Masahide NAKAMURA
+	<nakam@linux-ipv6.org>, Paul Moore <paul@paul-moore.com>, Stephen Smalley
+	<stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Sabrina Dubroca <sd@queasysnail.net>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Chiachang Wang <chiachangwang@google.com>, Yan
+ Yan <evitayan@google.com>, <devel@linux-ipsec.org>
+Subject: Re: [PATCH ipsec-next v9 00/16] xfrm: XFRM_MSG_MIGRATE_STATE new
+ netlink message
+Message-ID: <aigducMLaXYKn6sa@secunet.com>
+References: <migrate-state-v9-0-ad9947e4ae74@secunet.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260608021526.1023248-1-tzungbi@kernel.org> <20260608021526.1023248-2-tzungbi@kernel.org>
- <CAJZ5v0jy75R24NztKJ0w4NMyRB7G+DcsC+gaQ0xZOQMfTfA5Ww@mail.gmail.com>
- <aifWwEyHuFejW4ac@google.com> <CAJZ5v0ja1ocM+W4hbVsHoZ=fFdmQ-=z4xzviNwo0eEyWT8ssBA@mail.gmail.com>
- <CAAFQd5Bmm4VeJ2ygOJeQYmdTq1DLBsQdvDkhstA-tUPZr0rB1A@mail.gmail.com> <aigPNvkxRIz36dWm@google.com>
-In-Reply-To: <aigPNvkxRIz36dWm@google.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 9 Jun 2026 15:40:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gQTx_k9j2pGha7NKxAjdPS1J_ySZNYiL1=_+_M9znQ_g@mail.gmail.com>
-X-Gm-Features: AVVi8Cfb-dmw9-IC7N2A_LvxvwKaTBGWr3lmBS7Ntwi4giC7OXUU71ndltEu1VE
-Message-ID: <CAJZ5v0gQTx_k9j2pGha7NKxAjdPS1J_ySZNYiL1=_+_M9znQ_g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] PM: core: Rename module parameters prefix to "power"
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Tomasz Figa <tfiga@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, senozhatsky@chromium.org, 
-	Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <migrate-state-v9-0-ad9947e4ae74@secunet.com>
+X-ClientProxiedBy: EXCH-03.secunet.de (10.32.0.183) To EXCH-01.secunet.de
+ (10.32.0.171)
 
-On Tue, Jun 9, 2026 at 3:03=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> w=
-rote:
->
-> On Tue, Jun 09, 2026 at 08:17:03PM +0900, Tomasz Figa wrote:
-> > On Tue, Jun 9, 2026 at 8:10=E2=80=AFPM Rafael J. Wysocki <rafael@kernel=
-.org> wrote:
-> > >
-> > > On Tue, Jun 9, 2026 at 11:03=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel=
-.org> wrote:
-> > > >
-> > > > On Mon, Jun 08, 2026 at 04:11:30PM +0200, Rafael J. Wysocki wrote:
-> > > > > On Mon, Jun 8, 2026 at 4:16=E2=80=AFAM Tzung-Bi Shih <tzungbi@ker=
-nel.org> wrote:
-> > > > > >
-> > > > > > Currently, the module parameters defined in drivers/base/power/=
-main.c
-> > > > > > use the default prefix "main" (derived from the filename).  The=
- prefix
-> > > > > > "main" is too generic and non-descriptive for power management
-> > > > > > parameters.
-> > > > > >
-> > > > > > Redefine MODULE_PARAM_PREFIX to "power." at the beginning of th=
-e file
-> > > > > > to group the module parameters under the "power" namespace inst=
-ead.
-> > > > > > This makes the parameters more descriptive.
-> > > > > >
-> > > > > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > > > > > ---
-> > > > > > v3:
-> > > > > > - No changes.
-> > > > > >
-> > > > > > v2: https://lore.kernel.org/all/20260604090756.2884671-2-tzungb=
-i@kernel.org
-> > > > > > - New to the series.
-> > > > > >
-> > > > > > v1: Doesn't exist.
-> > > > > >
-> > > > > >  drivers/base/power/main.c | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/base/power/main.c b/drivers/base/power/mai=
-n.c
-> > > > > > index ed48c292f575..cd864f3a2799 100644
-> > > > > > --- a/drivers/base/power/main.c
-> > > > > > +++ b/drivers/base/power/main.c
-> > > > > > @@ -40,6 +40,9 @@
-> > > > > >  #include "../base.h"
-> > > > > >  #include "power.h"
-> > > > > >
-> > > > > > +#undef MODULE_PARAM_PREFIX
-> > > > > > +#define MODULE_PARAM_PREFIX "power."
-> > > > >
-> > > > > "power" may be confused with the power supply support, so I'd rat=
-her
-> > > > > use "pm" or even "pm_sleep" (in which case the "dpm_" prefix coul=
-d be
-> > > > > dropped from the new module param name in the next patch).
-> > > >
-> > > > Ack, will use "pm_sleep" in the next version.
-> > > >
-> > > > Regarding dropping the "dpm_" prefix, should this also apply to the=
- existing
-> > > > dpm_watchdog_all_cpu_backtrace parameter?  Or should we leave it as=
--is to
-> > > > avoid breaking existing configurations?
-> > >
-> > > Breaking things for someone would be unfortunate.
-> > >
-> > > For consistency, let's retain the "dpm_watchdog" part in this name an=
-d
-> > > use it in the new one.
-> >
-> > Hmm, doesn't the prefix change already break things?
->
-> Theoretically yes, though it's worth noting that this parameter is
-> relatively new.  It was introduced in v6.19 (Oct 2025) via commit
-> a67818f74512 ("PM: dpm_watchdog: add module param to backtrace all CPUs")=
-.
->
-> To my knowledge, the flag was originally introduced for ChromeOS [1], whi=
-ch
-> doesn't actually rely on this module parameter in its production
-> configuration yet [2].
->
-> That said, I can't know the status of all other Linux distributions.  If =
-we
-> want to be 100% safe against breaking existing setups, retaining the "mai=
-n"
-> prefix is definitely the safest.
->
-> Given its recent introduction and limited known usage, this might be the
-> best window to rename the prefix before it gains wider adoption.
->
-> What are your thoughts?
+On Tue, May 26, 2026 at 09:05:38PM +0200, Antony Antony wrote:
+> The current XFRM_MSG_MIGRATE interface is tightly coupled to policy and
+> SA migration, and it lacks the information required to reliably migrate
+> individual SAs. This makes it unsuitable for IKEv2 deployments,
+> dual-stack setups (IPv4/IPv6), and scenarios where policies are managed
+> externally (e.g., by daemons other than the IKE daemon).
+> 
+> Mandatory SA selector list
+> The current API requires a non-empty SA selector list, which does not
+> reflect the IKEv2 use case.
+> A single Child SA may correspond to multiple policies,
+> and SA discovery already occurs via address and reqid matching. With
+> dual-stack Child SAs this leads to excessive churn: the current method
+> would have to be called up to six times (in/out/fwd × v4/v6) on SA,
+> while the new method only requires two calls.
+> 
+> Selectors lack SPI (and marks)
+> XFRM_MSG_MIGRATE cannot uniquely identify an SA when multiple SAs share
+> the same policies (per-CPU SAs, SELinux label-based SAs, etc.). Without
+> the SPI, the kernel may update the wrong SA instance.
+> 
+> Reqid cannot be changed
+> Some implementations allocate reqids based on traffic selectors. In
+> host-to-host or selector-changing scenarios, the reqid must change,
+> which the current API cannot express.
+> 
+> Because strongSwan and other implementations manage policies
+> independently of the kernel, an interface that updates only a specific
+> SA - with complete and unambiguous identification - is required.
+> 
+> SA Selector, x->sel, can't be changed, especially Transport mode.
+> 
+> XFRM_MSG_MIGRATE_STATE provides that interface. It supports migration
+> of a single SA via xfrm_usersa_id (including SPI) and we fix
+> encap removal in this patch set, reqid updates, address changes,
+> and other SA-specific parameters. It avoids the structural limitations
+> of XFRM_MSG_MIGRATE and provides a simpler, extensible mechanism for
+> precise per-SA migration without involving policies.
+> This method also allows migtrating SA selectors typically used with
+> host-to-host in Transport mode.
+> 
+> New migration steps: first install block policy, remove the old policy,
+> call XFRM_MSG_MIGRATE_STATE for each state, then re-install the
+> policies and remove the block policy.
+> 
+> If the target SA tuple (daddr, SPI, proto, family) is already
+> occupied, the operation returns -EEXIST. In this case the original
+> SA is not preserved. Userspace must handle -EEXIST by
+> re-establishing the SA at the IKE level and manage policies.
+> 
+> ---
+> v8->v9: address v8 review Sabrina and Steffen
+> 	- split const xuo cleanup
+> 	- input validation
+> 
+> Link to v8: https://lore.kernel.org/all/migrate-state-v8-0-4578fb016965@secunet.com/
+> v7->v8: - removed the unknown-flags validation block
+> 
+> Link to v7: https://patch.msgid.link/migrate-state-v7-14-44eb2440b91c@secunet.com
+> v6->v7: - add SA selectoor migration
+> 	- fixes to commit messages
+> 	- white space removal
+> 
+> Link to v6: https://lore.kernel.org/r/migrate-state-v6-0-9df9764ddb9e@secunet.com
+> v5->v6: - add mark to look up SA.
+> 	- restrict netlink attributes in new method
+> 	- address review feedback from Sabrina
+> 	- add new patch to fix existing inter-family address comparison
+> 	- add extack xfrm_state_init()
+> 	- Feedback from Yan : omit-to-inherit add migrating marks
+> 	- Drop missing __rcu annotation on nlsk, Sabrina has a better patch
+> 
+> Link to v5: https://lore.kernel.org/all/cover.1769509130.git.antony.antony@secunet.com/
+> v4->v5: add synchronize after migrate and delete it inside a lock
+> 	- split xfrm_state_migrate into create and install functions
+> 
+> Link to v4: https://lore.kernel.org/all/cover.1768811736.git.antony.antony@secunet.com/
+> v3->v4: add patch to fix pre-existing missing __rcu annotation on nlsk
+> 
+> v2->v3: - fix commit message formatting
+> 
+> Link to v2: https://lore.kernel.org/all/cover.1768462955.git.antony.antony@secunet.com/
+> 
+> Lint to v1: https://lore.kernel.org/all/cover.1767964254.git.antony@moon.secunet.de/
+> v1->v2: dropped 6/6. That check is already there where the func is called
+> 	- merged patch 4/6 and 5/6, to fix use uninitialized value
+> 	- fix commit messages
+> 
+> ---
+> Antony Antony (16):
+>       xfrm: remove redundant assignments
+>       xfrm: add extack to xfrm_init_state
+>       xfrm: allow migration from UDP encapsulated to non-encapsulated ESP
+>       xfrm: fix NAT-related field inheritance in SA migration
+>       xfrm: rename reqid in xfrm_migrate
+>       xfrm: split xfrm_state_migrate into create and install functions
+>       xfrm: check family before comparing addresses in migrate
+>       xfrm: add state synchronization after migration
+>       xfrm: add error messages to state migration
+>       xfrm: move encap and xuo into struct xfrm_migrate
+>       xfrm: refactor XFRMA_MTIMER_THRESH validation into a helper
+>       xfrm: extract address family and selector validation helpers
+>       xfrm: make xfrm_dev_state_add xuo parameter const
+>       xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+>       xfrm: restrict netlink attributes for XFRM_MSG_MIGRATE_STATE
+>       xfrm: add documentation for XFRM_MSG_MIGRATE_STATE
 
-If somebody complains about it, we can reconsider, but using "main" as
-a prefix for power management module parameters is definitely
-confusing.
-
-> [1] https://chromium-review.git.corp.google.com/c/chromiumos/third_party/=
-kernel/+/7414781
-> [2] https://chromium-review.git.corp.google.com/c/chromiumos/third_party/=
-kernel/+/7414721
+Series appled, thanks a lot for your effort Antony!
