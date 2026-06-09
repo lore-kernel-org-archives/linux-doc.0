@@ -1,68 +1,67 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FC3382292
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D593AA9D4
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 14:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015494; cv=none; b=EBLkYBf9JQy0yuYeAB09lg9id2VjPFCj06zP9ynKo2U8Z9+vhqYugSRZVoGUfXxV8N3GW6F6WybsSzU8qQklbpd0yH3kOb3sSume2rZmTEgbT472Z76fSWgS/iMG82In2ffCuss8Xoozek9fG1t8j1nxpQb+uW6+upS6oJCco4o=
+	t=1781015496; cv=none; b=inMhBHCZSL5cBPeS50IB2LX+or/IpzVz/36Qr1RfDJm57OyfsWz0kRviuK3y6AhlYcszRpnSGr/FE7lers1D78VZNsPEa0EaJvMasNdvm0IvH7OJrxYVNDpeLJCM0mnXjpqI1qCpFMWHQBc8laDhnq5UveJ1uog9Ro0/osQKI2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015494; c=relaxed/simple;
-	bh=JYW1wo5ab8agRdVZbjqrOWWaceuU0TjELaoVo7f/di4=;
+	s=arc-20240116; t=1781015496; c=relaxed/simple;
+	bh=zBP33YW94/R1hHZYuHZFRO5gh0N+cAj5cBmAyLWmp6U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=n0IOfAqjSPglFQaQXlGRqLXU69GoD5ioGEy7o69UAGqFPV3p4/sxxRLby6NBUjCJiLitIOof0ikcdr9rjjfGk4AdJvYvqhgID2us84WJ4NLb+doAVgBIrZmsMplvuoADY3/BPPd1yLW/w4KtpbaUOKcTfExQf+cP2GtHVDJTto4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EjZ/pIYj; arc=none smtp.client-ip=209.85.221.41
+	 In-Reply-To:To:Cc; b=jjejDnJiTHCbe5euF4CCr/zFqNcx1x8LtWOW2wZGslGmGxYTda+g9xEBwMQpc3qUbpunPvoEgHUcVi7/Sy2DmjfhYednBTMrNhmc3BMlaXZ6kRAEdIbAcEJIujFEIw4yqKNYijsYoi071ZMn/CCVbV2QHdQlBa98GJEWdr77h7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lrKr2O7J; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EjZ/pIYj"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef1198766so3235586f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lrKr2O7J"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso4009467f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 07:31:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781015491; x=1781620291; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1781015493; x=1781620293; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AWKqHsTkFl2zrGvjPzv1+aBtZDDjn0PHucQTDAlzntI=;
-        b=EjZ/pIYjNUEd1AE0INJ7Cit7NgCLPkwP6uWAJSBZq1lQVOqzusEgsCsMiY5OjYD6np
-         ra+gGLPNcVuBEY7U7zeQDrLo3zlpZ/I7Cc76U3o+HOHppWbX6kzeeF7/yOQgQN7m1v4x
-         nZdk01TcvOUKfd1WoSPhzidayWRhRkFrUj29IDFcmbzbGFMKsXhtnBcEBN/1AIxA8qoN
-         iOlgtUN5s87V0STWjEqCOLU+v9kAa2FaSfFGG6FOqRwGz2POS4kR06tz2n2FeWUFaqrf
-         zdJFzfu/sLgoRH6dM1YJ0UPCmnwtaZ/wR+Lt2rA+QkM1x7sScf9jjhIRxF0yJ5Z4/SLN
-         g/pQ==
+        bh=2h78YxBKDueLh+9yt6/S9EMI77LVr/N7bEn44d3CK8g=;
+        b=lrKr2O7Jd0SgNdAnYOGSNDXrvB3MNlxwHmj+Vow0FZiLRmS9Q460/p1RsBDOUlG8/k
+         3G5ABPbuxVnakgv+dJeM5J5rd9GJSISQ9MqH4fwsKOCtlyP8zJl5lRYin0J/DOiQA6vi
+         vlKh5RGZwPFjC54PoJSp/D/aA3Kvs6MAx+YBGNxJHwq/7HYwTKcBSCc4riHGsnnQzSF4
+         LaTbsOTDuJxoubBcFpialSQ7+zjxC984XWcOmvoF3CKgnjubPTMPOy5x+JkP0qYQIbjM
+         Bq5YuXlzEjPcR68+/3unUE9AAXH/YFFLwldOtM7yGlzt07p/rm0SGPSFqPYsY0JNtzwE
+         PivA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781015491; x=1781620291;
+        d=1e100.net; s=20251104; t=1781015493; x=1781620293;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AWKqHsTkFl2zrGvjPzv1+aBtZDDjn0PHucQTDAlzntI=;
-        b=syLZaDBjtWGXm5MYNws9TG7UtTn0Iq4VvfNcym3DzlN6Y0tOGWdysytnjl156Ou621
-         ju802JyhcTFVF2xN+R4XamI6iZB+4ozw1KOf+wrZ4Xbq9wWWjIaJ+NsVn9ujorKuNxnv
-         /OMQMsb1Lg5wNuifATRqBckgjQA5czIWTdYBi9lhkdwYt87iX+B4ERU1Q/JhEbdPUVAw
-         JDDUbs+KmGxfDrYGcwfxmpqVn/47PhlmJzlmkUZlnzLDv7gcj9lUQU5PwRIXXTZfVsA8
-         dtpZ0frN0gyv5dOheELM94WI9P5BzB2C+sWmzwwuUip5nIpAIpcAAPdbCfPjWaqiAwFo
-         Cj3g==
-X-Forwarded-Encrypted: i=1; AFNElJ8v1bLDPkJPpr1FBH2NGumx3NdWV8b4gZA4nt3aMFUup1Bj4vfwB7/s7sA1x3z4HRMs+WDDG+oj0eA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJwy20HyKADBUjoKT2fLBt36YtvohZJvLfB03nleyhSPn2hDfr
-	74/E+Vvo92eS1cmtnlqmVaJchDdJa74wWROoZgAqUWCMWTDCurdaIOGDp2ciH1xE0wVpIiVSPE+
-	CIDYOHZQ=
-X-Gm-Gg: Acq92OFqvK5SpjdjGgL+2ogpq5bRNin8Us9hi3qMpF6Glx0LL5ywoTZOq2wJ++ai13A
-	9h65PdjfNeQSesiF2crYPpSeJjmwBxWL1xEuRE4urR56IVJ5dOdZAUiqvPrommqp+RukSc6QX9D
-	Irp5bg80Z1AhyjnYKexnqHarwahtv/5IEEiOelfy3lWOYXcbQBEyVPCNGiohvaJ48ndQ1FghxZS
-	eAHveotdGuwJJMz25faOMZanmiCgRMqAwEScBTgwz3N1O4S5SY5dUtQh3aDiFCPOHgrctxkZXQh
-	PZ8qppUPSwtcPvxdMzRhelUOm66ekOFjyVhf1Z6k43L+U4o5pRWVH3BePTeSdRgjtjUmAx3sEpC
-	DPanZ8xfsjhjs4MH/s6KXL6vh32l8LlKHmQhUZ492acObYVM9bxN1ckI2RMfC5itckOlf9JKuF8
-	OF4vjhUYleb4xop3eJYv9b6MYguy2YAmR6ahxJg5lKYJk=
-X-Received: by 2002:a05:6000:298f:20b0:45e:73a1:8d04 with SMTP id ffacd0b85a97d-46032b61217mr19196157f8f.1.1781015491574;
-        Tue, 09 Jun 2026 07:31:31 -0700 (PDT)
+        bh=2h78YxBKDueLh+9yt6/S9EMI77LVr/N7bEn44d3CK8g=;
+        b=EXbeHO6wsr8MBGtRHJIWLU6nbLVcF0/9rx/xOXRmDSvf1Ltb46RUmO88tymyI0WZoK
+         08Ocn9lGKOuncdH7P6iuWLJGxiSZcqs+jWi0iHUrjgvrOOdm8vqrKUm92Az44Q5RydoD
+         XaG/fB2FyYWFTizqLrtsz6Pne5HOGckaQ0GfZ2QK6iQFBuHfd6GUFaj2zdrFhi+Tg3yn
+         zDGVMkcd4pt0SInL42yXyMpxbI0L1PzxP/GqyA9U6YiAaSU7PjtkILxq3zyC1ZX5avuU
+         /ffkmxBUYc9RPuTJuCGfONQ+wsZOosFonjn9hLTbMrsCl+Zyzvb+vngb5vlnzb0f+aT0
+         U7GQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/XzThmd1fjkWJQzWdutVJ9FYLwWf2nyNicxiGROtOerxZKKkq+Xgkb2u7L8/NXr/M8mKVMScfGg3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHgKLSonmHXjVzfSI8i8BPoHZTRSfAz7Cwtqu+JjdyReOD6C4+
+	eLLpmV3j72uRxSsJS8ww9vJDomL+p0lajIyrL3NB84Ak9vC1qOboyMdSm0nabJD3IKDv8VGESIE
+	b7QcG374=
+X-Gm-Gg: Acq92OH9PYoBMSIXUCCVJWCbwd5DyX48pn8mHRaSqUAMqmD6usABpQwnI156uuIm2a5
+	94cCwdktfAQuCoWimzaBNs0Cn0FUjaACqSSYMDPPBwbiE3WRG/PzjQucoZarERp8iwNb2/XSe2E
+	pS7M9O3UPorVu0jJxjtf7g7EHgc3HLSBtpJjQ2amL6WzftSOTARfJFg5dmfm0Z6/25B+b+Y56+H
+	7YZsCCDeCZPyfxNv18/vv+dAglbV/gcVeah3CxFpNR57J35IfPtmZHgx3W0LszzseMBP8WT4I/n
+	awlfdHvcrzp84BEC5ICBZsnku+Ze2r2a3dBCrfvaKfVNG4nv9Rpys1cBQBBt2U6TdZYDUg3oXRi
+	7BXQxRG1KQrMsA+/lJZN6DCFZCV8JvPDtoMe4W2BuQHQV+pFyNFSzGs0SRMU4ggsTTuNfJyzGKf
+	aBArEss1zS6yTa+EEvtReZ6X6NGgtW3p1Wu0xMVWUQDZroXu8h+0+9lw==
+X-Received: by 2002:a05:6000:46d6:b0:45e:ea46:ce13 with SMTP id ffacd0b85a97d-460304f9d74mr21292365f8f.10.1781015493072;
+        Tue, 09 Jun 2026 07:31:33 -0700 (PDT)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f3444fesm62738388f8f.20.2026.06.09.07.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 07:31:30 -0700 (PDT)
+        Tue, 09 Jun 2026 07:31:32 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 09 Jun 2026 15:31:03 +0100
-Subject: [PATCH v4 10/19] perf test cs-etm: Test decoding for concurrent
- threads test
+Date: Tue, 09 Jun 2026 15:31:04 +0100
+Subject: [PATCH v4 11/19] perf test cs-etm: Remove duplicate branch tests
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-james-cs-context-tracking-fix-v4-10-44f9fb9e5c42@linaro.org>
+Message-Id: <20260609-james-cs-context-tracking-fix-v4-11-44f9fb9e5c42@linaro.org>
 References: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 In-Reply-To: <20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -86,132 +85,78 @@ Cc: coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
  linux-doc@vger.kernel.org, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-The thread_loop test only looks for context IDs in the raw trace.
-There's a lot more that can go wrong when decoding these, so replace it
-with a test that looks at the final output for matching thread names and
-symbols.
+We already test branch output in perf script mode, but then retest it in
+Perf report mode. This is more of a test of Perf itself than Coresight
+because Perf uses the same samples to generate both outputs. Also we're
+already testing instruction output in Perf report mode.
 
-In the future we might use timestamps and context switch events to track
-threads, so looking at context IDs in the raw trace wouldn't always
-work.
+Remove this test for a speedup. On the systemwide test also remove the
+Perf report test because systemwide mode records a lot more data so
+running multiple tests on it has a big runtime impact.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- .../tests/shell/coresight/concurrent_threads.sh    | 45 ++++++++++++++++++++++
- .../shell/coresight/thread_loop_check_tid_10.sh    | 23 -----------
- .../shell/coresight/thread_loop_check_tid_2.sh     | 23 -----------
- 3 files changed, 45 insertions(+), 46 deletions(-)
+ tools/perf/tests/shell/test_arm_coresight.sh | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/tools/perf/tests/shell/coresight/concurrent_threads.sh b/tools/perf/tests/shell/coresight/concurrent_threads.sh
-new file mode 100755
-index 000000000000..3349fff8c767
---- /dev/null
-+++ b/tools/perf/tests/shell/coresight/concurrent_threads.sh
-@@ -0,0 +1,45 @@
-+#!/bin/bash -e
-+# CoreSight concurrent threads (exclusive)
-+
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# If CoreSight is not available, skip the test
-+perf list pmu | grep -q cs_etm || exit 2
-+
-+tmpdir=$(mktemp -d /tmp/__perf_test.coresight_concurrent_threads.XXXXX)
-+
-+cleanup() {
-+	rm -rf "${tmpdir}"
-+	trap - EXIT TERM INT
-+}
-+
-+trap_cleanup() {
-+	cleanup
-+	exit 1
-+}
-+trap trap_cleanup EXIT TERM INT
-+
-+cf="$tmpdir/ctl"
-+af="$tmpdir/ack"
-+mkfifo "$cf" "$af"
-+
-+nthreads=10
-+
-+# Timestamps off to reduce trace size, start disabled and use the control FIFO
-+# to only record the workload and not startup.
-+perf record -o "$tmpdir/data" -e cs_etm/timestamp=0/u -D -1 --control fifo:"$cf","$af" \
-+	-- perf test --record-ctl fifo:"$cf","$af" -w named_threads $nthreads 1 > /dev/null 2>&1
-+
-+perf script -i "$tmpdir/data" > "$tmpdir/script" 2>/dev/null
-+
-+# Check all threads were traced and they have the correct thread name and symbol
-+for i in $(seq 1 $nthreads); do
-+	if ! grep -q "thread${i} .* named_threads_thread${i}" "$tmpdir/script"; then
-+		echo "Error: thread${i} missing" >&2
-+		cleanup
-+		exit 1
-+	fi
-+done
-+
-+cleanup
-+exit 0
-diff --git a/tools/perf/tests/shell/coresight/thread_loop_check_tid_10.sh b/tools/perf/tests/shell/coresight/thread_loop_check_tid_10.sh
-deleted file mode 100755
-index 7f43a93a2ac2..000000000000
---- a/tools/perf/tests/shell/coresight/thread_loop_check_tid_10.sh
-+++ /dev/null
-@@ -1,23 +0,0 @@
--#!/bin/bash -e
--# CoreSight / Thread Loop 10 Threads - Check TID (exclusive)
+diff --git a/tools/perf/tests/shell/test_arm_coresight.sh b/tools/perf/tests/shell/test_arm_coresight.sh
+index bbf89e944e7b..39553702c1f3 100755
+--- a/tools/perf/tests/shell/test_arm_coresight.sh
++++ b/tools/perf/tests/shell/test_arm_coresight.sh
+@@ -52,17 +52,6 @@ perf_script_branch_samples() {
+ 		grep -E " +$1 +[0-9]+ .* +branches:(.*:)? +" > /dev/null 2>&1
+ }
+ 
+-perf_report_branch_samples() {
+-	echo "Looking at perf.data file for reporting branch samples:"
 -
--# SPDX-License-Identifier: GPL-2.0
--# Carsten Haitzler <carsten.haitzler@arm.com>, 2021
+-	# Below is an example of the branch samples reporting:
+-	#   73.04%    73.04%  touch    libc-2.27.so      [.] _dl_addr
+-	#    7.71%     7.71%  touch    libc-2.27.so      [.] getenv
+-	#    2.59%     2.59%  touch    ld-2.27.so        [.] strcmp
+-	perf report --stdio -i ${perfdata} 2>&1 | \
+-		grep -E " +[0-9]+\.[0-9]+% +[0-9]+\.[0-9]+% +$1 " > /dev/null 2>&1
+-}
 -
--TEST="thread_loop"
--
--# shellcheck source=../lib/coresight.sh
--. "$(dirname $0)"/../lib/coresight.sh
--
--ARGS="10 1"
--DATV="check-tid-10th"
--# shellcheck disable=SC2153
--DATA="$DATD/perf-$TEST-$DATV.data"
--STDO="$DATD/perf-$TEST-$DATV.stdout"
--
--SHOW_TID=1 perf record -s $PERFRECOPT -o "$DATA" "$BIN" $ARGS > $STDO
--
--perf_dump_aux_tid_verify "$DATA" "$STDO"
--
--err=$?
--exit $err
-diff --git a/tools/perf/tests/shell/coresight/thread_loop_check_tid_2.sh b/tools/perf/tests/shell/coresight/thread_loop_check_tid_2.sh
-deleted file mode 100755
-index a94d2079ed06..000000000000
---- a/tools/perf/tests/shell/coresight/thread_loop_check_tid_2.sh
-+++ /dev/null
-@@ -1,23 +0,0 @@
--#!/bin/bash -e
--# CoreSight / Thread Loop 2 Threads - Check TID (exclusive)
--
--# SPDX-License-Identifier: GPL-2.0
--# Carsten Haitzler <carsten.haitzler@arm.com>, 2021
--
--TEST="thread_loop"
--
--# shellcheck source=../lib/coresight.sh
--. "$(dirname $0)"/../lib/coresight.sh
--
--ARGS="2 20"
--DATV="check-tid-2th"
--# shellcheck disable=SC2153
--DATA="$DATD/perf-$TEST-$DATV.data"
--STDO="$DATD/perf-$TEST-$DATV.stdout"
--
--SHOW_TID=1 perf record -s $PERFRECOPT -o "$DATA" "$BIN" $ARGS > $STDO
--
--perf_dump_aux_tid_verify "$DATA" "$STDO"
--
--err=$?
--exit $err
+ perf_report_instruction_samples() {
+ 	echo "Looking at perf.data file for instruction samples:"
+ 
+@@ -123,7 +112,6 @@ arm_cs_iterate_devices() {
+ 
+ 			record_touch_file $device_name $2 &&
+ 			perf_script_branch_samples touch &&
+-			perf_report_branch_samples touch &&
+ 			perf_report_instruction_samples touch
+ 
+ 			err=$?
+@@ -154,9 +142,7 @@ arm_cs_etm_system_wide_test() {
+ 
+ 	# System-wide mode should include perf samples so test for that
+ 	# instead of ls
+-	perf_script_branch_samples perf &&
+-	perf_report_branch_samples perf &&
+-	perf_report_instruction_samples perf
++	perf_script_branch_samples perf
+ 
+ 	err=$?
+ 	arm_cs_report "CoreSight system wide testing" $err
+@@ -179,7 +165,6 @@ arm_cs_etm_snapshot_test() {
+ 	wait $PERFPID
+ 
+ 	perf_script_branch_samples dd &&
+-	perf_report_branch_samples dd &&
+ 	perf_report_instruction_samples dd
+ 
+ 	err=$?
+@@ -191,7 +176,6 @@ arm_cs_etm_basic_test() {
+ 	perf record -o ${perfdata} "$@" -m,8M -- ls > /dev/null 2>&1
+ 
+ 	perf_script_branch_samples ls &&
+-	perf_report_branch_samples ls &&
+ 	perf_report_instruction_samples ls
+ 
+ 	err=$?
 
 -- 
 2.34.1
