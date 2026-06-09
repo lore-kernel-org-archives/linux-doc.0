@@ -1,185 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8723815F7;
-	Tue,  9 Jun 2026 09:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780997165; cv=none; b=kVvYhSMKFZ5NpWznFImvRh18SELL7w7kkRar6uvmzEARibT93BrOfYRXL6+olQOvDG7vIEiq6Qit8IJ1uOSU3xNSPlYNw1l/6zFnymF11o3HFdY/Cl7tnwejvxQFzRT1EPngBSfA+tFs3Rkx7pC85MJo+xH9mqvyImg3f2XJ8IA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780997165; c=relaxed/simple;
-	bh=34MML08FBTDFDD24qBSC9zZmBTrmdwWh3AT3fRHG56k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTy5f/zgRsCbN8QwUzm6SrdzvEHdfpemktH8vjYyimA3zmrAYOCQL1vIqjvtx9WX2GB5Kvf1B/TXArfPR3XjOUyL7elHxbcVCIZZAJlE0tiQl3W7mbTkkjiKSMjuaA+GO8/dHFi8wpJju6evClSILxDttpK0nrC2jNeRm72Fahc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZF1jpp6v; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C14390223
+	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 09:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780997504; cv=pass; b=MaPiOhZ6KAyx33yQnerZ59pJQ8WRFWfTq7zMKkKGjSRazRcR6TtxRlfg58W8494SACeP6VQDs7xHwkXgZ5cDX9gnehpF6aW7tMqNVGZAellHzTNNBDqB3Xtl2hk0v+G9rOXiKvTHMYbkY8Y+gN35wp15T2bsf75owkrUNutu+/Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780997504; c=relaxed/simple;
+	bh=Cwau/jZkcWGVugU2u/fXyZ9zAkf/THWESmE7T4IK7oM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F1qg+Y+wxb4qTuybU5+N9Uv/OtQTWYdU5J5E3yX+E3lZI7LT22of4aCNk3PWh4O7ED/Gzxh1Uv+PEbwzFsiwEqTPM0kHSVM8FLFGPywrbpLj0utHTOIaRhGYy/xKA8owvj1AQI7mj11jsbNvryrOb38MwhP5B1UWmanq4g4TIk0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hAyAPAPW; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fCRNBwmU; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZF1jpp6v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852971F00898;
-	Tue,  9 Jun 2026 09:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780997164;
-	bh=fT247pCf2/V6ARxuw9Ry4Z2KZS4dVDh/CvQ+WKMkRLs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZF1jpp6v/dXCeWr7H1p7HtA++QO5V5PbD/834AWaM1fA5wfB5NOwDk70hyhVOoyJs
-	 ciupynr8vusnykDt6q/Xl2hxtnA/TLwYsL8xtFB6w0WVWhqkVahhEgywOv5lVpQ/yj
-	 Me4eyQsUzWJWqEWFgDLzQFPgLQvsuskD1QicKh+dCqivZBb8Igy5YB3fAlk8FQZNlg
-	 6PUqHLqlwO1KbLESLAntW2eYdlMQHFlFDxnIS3oGGn0XLPxi6+IhWD5wwI9kF7VWH1
-	 YletVPTwk0H1Kkqkjd+VxK/+F3pC5locj+t7miBietqXB6RidJJ89yPA8aN7vdi3C1
-	 1BIN16E1qzTog==
-Message-ID: <b7fb4184-7a99-42c7-8ee2-4c7fa20827c4@kernel.org>
-Date: Tue, 9 Jun 2026 11:25:49 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hAyAPAPW";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fCRNBwmU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780997502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2iTl0SUAAjGLBMgcBlGMkkP/SoLVtYGQlCb7tbJPhgM=;
+	b=hAyAPAPWcPnRb2uw5VhLjRupr5xEBbGkzWiodyZS//OTtmL9hJQtSz+s3i4ZklkG5PTO2o
+	gzeHvlUrmnCqPrHBhCca+xtZm+NnaNpjMb194lH1HMAaZ/GbG+rgk7Ug/SQ6JUQ0kdG7G2
+	HXAPQj4Oyw21GRz4uQByH/M6JjTjN1k=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-204-LlT4RiqoMral9gbguRCPWw-1; Tue, 09 Jun 2026 05:31:41 -0400
+X-MC-Unique: LlT4RiqoMral9gbguRCPWw-1
+X-Mimecast-MFC-AGG-ID: LlT4RiqoMral9gbguRCPWw_1780997500
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-660668ea5cdso3383495d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 02:31:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780997500; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JEc7gTcnbUsNllpNidRKe4LQFbsjXw4UIEvgNUBkh1jKTxxy/d5ep5hw5xhAm3Of9p
+         cXrrd03pIAxOsmrg40B6xqPddBPYatkHRxpDxK9ak7RdSZsKvgVF216oGDDxa+B3KATM
+         2LR8HKWCfKgyO2EDqQBMM94UjfPd+tYozd85nKVnIn7/8d3AFYwWcmB1BJaWuBWoMbIk
+         kDAxS5/zG+ppWmM8NDOqGSTQjcanxvS69F5iaj0SsGlnbvxNNZBnoosihv3EYbCLp8a+
+         fjLf+51d/mEUgrPS66xyE80eFzpfB/vJzHe6L7CD0qFjaml1RxnMpGNuPkqzfamR8Bjh
+         RXHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2iTl0SUAAjGLBMgcBlGMkkP/SoLVtYGQlCb7tbJPhgM=;
+        fh=WFHxidUoE8J4+fctFHUGH0WHn+tvGRxgoNkVlvaZuvg=;
+        b=IevWxs3o6jwhjDr32qz5qLPJHCoqzB8V+z+VkUGzBXjeGQ5db+FwH3FzhpJRPbErd+
+         ohwsPgrDVwdBAHDaiJSu5FCQHTtmHLgktIQxO3zucVKTd+suJd1l555DCZdowGIf3B+W
+         dC0LGEH3Bd3PHujWfurVmgiv7wcPqoTENT9KrFZwL4E4V/DUv32lJddO26X+0pJNjpLE
+         xsPodfKQjI2VXiUGnaCT80IL2NGaj0ISCDyQ3F7IUse69N7VflQg+7Tg05axf+3KH2G0
+         JcPA67dct/NFls9mMrm1zgFcboqA20M+9JVWCym/DStnNj3S94Yp3F/6oeGUj5zJn2fq
+         u24Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1780997500; x=1781602300; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2iTl0SUAAjGLBMgcBlGMkkP/SoLVtYGQlCb7tbJPhgM=;
+        b=fCRNBwmUd7jToTXJF51i1urZQ2IFnXMlUZHk7g1rc91llf6FQPNUTLUP1+0vN71MOh
+         D+qhkNyCBMJbdgQlwGkVrqLUPYqaPNN1fu68gBi01TDRB77IQ0sAAulaQSh4AWL5IJns
+         VkpgXCpqZ5oeJV34+0hj+UE1jsoSdVLjqxF4/vq57fdGgg1v22wyf2cqCYQehENXHCX7
+         tvbeMt6CwvTmZkCkjpP7hMLzeLQtedLxXYHLspdYZhoRDyWGLq3IRqrPF0YcNxuWiZlm
+         7Z6edoATVJb8V0RwXibHBWWR/EOZojge770lOWtJ9b20ne5tNy39X1MsWMpP0mdOL0dV
+         059g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780997500; x=1781602300;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2iTl0SUAAjGLBMgcBlGMkkP/SoLVtYGQlCb7tbJPhgM=;
+        b=Oj9wa1q1ue6MDEZx3ijQ/7JKblx4XJVKtvELi2gkqqTCl0EKvXEAFzL2nsp0r7mVKf
+         3gre9w8TwhghIgDF79+gbv3d29L9neud5APUoBGpnCEkRKh+rKNLVMepXYC25+l2H4Yn
+         v1ET8poQ3HOZxaMAoyCnSXgPkipVIr+AVPzPSNMihQD2E7w2MOKBK6bPAw8L2c5iz+uk
+         S3yI7tv3QglTs7XQ3TxWop1L7yfgFqncRcHbPFTCRaEBVsk33aJM4vAE9YmZtSME4Hv6
+         f3OTs+jWfa6fb/SDAPCXJZV2HLk4CsR9rj0EeGJpwvcEs21F1jDTo3AtY1xZvNdjbdOu
+         fPRg==
+X-Forwarded-Encrypted: i=1; AFNElJ8j9114yT1ysB6aOWLwo71JFlyhswGyql96P6fyD1oz7DK5PNrBPSjWye8DuR5cNLwD5KSqU1mPykU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5qcFbHuzuPpsJyAt7n9aMMjx4WAQcr+8O9vXWKECtGL/Kw+9W
+	B3HeWAhBKH9ULCJffWogcAvDT91xGanWH2JrlzYr3/FtU82u3sCqqo+Kc87euGoAFmHVCkGIMIV
+	puawRe3qTTIu6EIkVbI7TW9JOrX6y9zeraZ/3oCvmrvPism6+gcOyLMJdnaMXT+GCjiGcf1tBEv
+	p7reLG9PqwHz7FzKqx8oTNdbidpeL7NAGQRFaK
+X-Gm-Gg: Acq92OH/lLwT7QWfOvjkNFfX35J7ZaqfypX5AQsyFmE2Uy38uCSkxtjQWBBASg6FHSp
+	9xmdP2oMVr5CCbZFE9VLKSxWXsew3Wa4b+KAmssh/E6lQdIG5Hy7SXZLf0+MesGF7WWe1oZX3cq
+	cyGrwcOrj59XcwgPO6JhBnQfcXpvYuCEoaybJuHKIB89f7MwrC4DGcQLPl3SCBHa4x84G4r2KWx
+	5C9Zi6JAddZPyC1
+X-Received: by 2002:a05:690e:4395:b0:660:6f06:ae6e with SMTP id 956f58d0204a3-661070ce78amr11702498d50.64.1780997500228;
+        Tue, 09 Jun 2026 02:31:40 -0700 (PDT)
+X-Received: by 2002:a05:690e:4395:b0:660:6f06:ae6e with SMTP id
+ 956f58d0204a3-661070ce78amr11702475d50.64.1780997499604; Tue, 09 Jun 2026
+ 02:31:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260605161422.213817-12-npache@redhat.com> <20260606102800.26940-1-lance.yang@linux.dev>
+ <2553caae-9e0e-42a7-8b61-d1216f1e81fa@kernel.org> <CAA1CXcBY_2372eJru8VoCq90rUMxn7w23hHou68MmXRv48NRXg@mail.gmail.com>
+ <b7fb4184-7a99-42c7-8ee2-4c7fa20827c4@kernel.org>
+In-Reply-To: <b7fb4184-7a99-42c7-8ee2-4c7fa20827c4@kernel.org>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 9 Jun 2026 03:32:26 -0600
+X-Gm-Features: AVVi8Cfncpxkxzck5Whc94MJ57VmWeE0wGEzvVhdZp86lxoGqXC5OmGR9iRBiTY
+Message-ID: <CAA1CXcAhw8V+_dYcrqmtZ9ht4Pqz5PPB8EOcDrVCp4DA4y7pLg@mail.gmail.com>
 Subject: Re: [PATCH mm-unstable v19 11/14] mm/khugepaged: Introduce mTHP
  collapse support
-To: Nico Pache <npache@redhat.com>, Lance Yang <lance.yang@linux.dev>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, liam@infradead.org, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260605161422.213817-12-npache@redhat.com>
- <20260606102800.26940-1-lance.yang@linux.dev>
- <2553caae-9e0e-42a7-8b61-d1216f1e81fa@kernel.org>
- <CAA1CXcBY_2372eJru8VoCq90rUMxn7w23hHou68MmXRv48NRXg@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAA1CXcBY_2372eJru8VoCq90rUMxn7w23hHou68MmXRv48NRXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Lance Yang <lance.yang@linux.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	liam@infradead.org, ljs@kernel.org, mathieu.desnoyers@efficios.com, 
+	matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com, 
+	peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com, 
+	rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com, 
+	rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com, 
+	sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com, 
+	tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/9/26 11:06, Nico Pache wrote:
-> On Mon, Jun 8, 2026 at 8:57 AM David Hildenbrand (Arm) <david@kernel.org> wrote:
->>
->> On 6/6/26 12:28, Lance Yang wrote:
->>>
->>>
->>> Looks broken for swap PTEs in PMD collapse ...
->>>
->>> collapse_scan_pmd() allows them up to max_ptes_swap and record them in
->>> unmapped, but they don't get a bit in mthp_present_ptes. And then
->>> mthp_collapse() does the check above:
->>
->> Right. I assumed this is implicitly handled by the optimization in collapse_scan_pmd:
->>
->>         if (enabled_orders != BIT(HPAGE_PMD_ORDER))
->>                 max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
->>
->> But we perform the check a second time.
->>
->>>
->>> nr_occupied_ptes >= nr_ptes - max_ptes_none
->>>
->>> So max_ptes_none=0 + 511 present PTEs + one allowed swap PTE won't even
->>> call collapse_huge_page() for PMD order.
->>>
->>> Shouldn't we account for them in the PMD-order check? Something like:
->>>
->>> if (is_pmd_order(order))
->>>       nr_occupied_ptes += unmapped;
-> 
-> This solution seems good for a temporary fixup. but longterm we may
-> want something else. I'm still not sure how we plan on supporting
-> swapin without causing creep. So I'd be ok with adding a fix for
-> legacy PMD behavior until we know how to handle mTHP creep correctly.
-> 
->> As an alternative, we could either 1) skip the check there for
->> pmd order (as the check was already done); or 2) introduce+maintain
->> a bitmap that tracks non-present PTEs.
->>
->> @@ -1475,7 +1477,9 @@ static enum scan_result mthp_collapse(struct mm_struct *mm,
->>                 nr_occupied_ptes = bitmap_weight_from(cc->mthp_present_ptes, offset,
->>                                                       offset + nr_ptes);
->>
->> -               if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->> +               /* Check was already done in the caller. */
->> +               if (is_pmd_order(order) ||
->> +                   nr_occupied_ptes >= nr_ptes - max_ptes_none) {
->>                         enum scan_result ret;
->>
->>                         collapse_address = address + offset * PAGE_SIZE;
->>
->> 2) would probably be cleanest long-term.
-> 
-> That would be best for future swapin support in mTHP, but I still
-> don't think it solves the creep issue. 
+On Tue, Jun 9, 2026 at 3:26=E2=80=AFAM David Hildenbrand (Arm) <david@kerne=
+l.org> wrote:
+>
+> On 6/9/26 11:06, Nico Pache wrote:
+> > On Mon, Jun 8, 2026 at 8:57=E2=80=AFAM David Hildenbrand (Arm) <david@k=
+ernel.org> wrote:
+> >>
+> >> On 6/6/26 12:28, Lance Yang wrote:
+> >>>
+> >>>
+> >>> Looks broken for swap PTEs in PMD collapse ...
+> >>>
+> >>> collapse_scan_pmd() allows them up to max_ptes_swap and record them i=
+n
+> >>> unmapped, but they don't get a bit in mthp_present_ptes. And then
+> >>> mthp_collapse() does the check above:
+> >>
+> >> Right. I assumed this is implicitly handled by the optimization in col=
+lapse_scan_pmd:
+> >>
+> >>         if (enabled_orders !=3D BIT(HPAGE_PMD_ORDER))
+> >>                 max_ptes_none =3D KHUGEPAGED_MAX_PTES_LIMIT;
+> >>
+> >> But we perform the check a second time.
+> >>
+> >>>
+> >>> nr_occupied_ptes >=3D nr_ptes - max_ptes_none
+> >>>
+> >>> So max_ptes_none=3D0 + 511 present PTEs + one allowed swap PTE won't =
+even
+> >>> call collapse_huge_page() for PMD order.
+> >>>
+> >>> Shouldn't we account for them in the PMD-order check? Something like:
+> >>>
+> >>> if (is_pmd_order(order))
+> >>>       nr_occupied_ptes +=3D unmapped;
+> >
+> > This solution seems good for a temporary fixup. but longterm we may
+> > want something else. I'm still not sure how we plan on supporting
+> > swapin without causing creep. So I'd be ok with adding a fix for
+> > legacy PMD behavior until we know how to handle mTHP creep correctly.
+> >
+> >> As an alternative, we could either 1) skip the check there for
+> >> pmd order (as the check was already done); or 2) introduce+maintain
+> >> a bitmap that tracks non-present PTEs.
+> >>
+> >> @@ -1475,7 +1477,9 @@ static enum scan_result mthp_collapse(struct mm_=
+struct *mm,
+> >>                 nr_occupied_ptes =3D bitmap_weight_from(cc->mthp_prese=
+nt_ptes, offset,
+> >>                                                       offset + nr_ptes=
+);
+> >>
+> >> -               if (nr_occupied_ptes >=3D nr_ptes - max_ptes_none) {
+> >> +               /* Check was already done in the caller. */
+> >> +               if (is_pmd_order(order) ||
+> >> +                   nr_occupied_ptes >=3D nr_ptes - max_ptes_none) {
+> >>                         enum scan_result ret;
+> >>
+> >>                         collapse_address =3D address + offset * PAGE_S=
+IZE;
+> >>
+> >> 2) would probably be cleanest long-term.
+> >
+> > That would be best for future swapin support in mTHP, but I still
+> > don't think it solves the creep issue.
+>
+> It wouldn't, we'd simply maintain the state we collect + rely on in separ=
+ate
+> bitmaps. On swapin, we'd have to update/refresh bitmaps I guess.
 
-It wouldn't, we'd simply maintain the state we collect + rely on in separate
-bitmaps. On swapin, we'd have to update/refresh bitmaps I guess.
+Yeah, I'm saying for the future, it obviously solves this issue here
+as well, but if we have positional tracking of the swapout, shared,
+and none PTEs, I think we can use this to determine whether the
+collapse would lead to creep. If we detect creep would happen it may
+be best to automatically collapse to the N+1 (or greater) candidate.
+Just thinking outloud here.
 
-> Perhaps we could combine the
-> two bitmaps to determine if it would make the future collapse eligible
-> again? Not sure but ill start thinking about it.
-> 
-> Should I send a fixup for this using Lance's solution? Or does Lance
-> want to send a patch out with the fixes tag?
+>
+> > Perhaps we could combine the
+> > two bitmaps to determine if it would make the future collapse eligible
+> > again? Not sure but ill start thinking about it.
+> >
+> > Should I send a fixup for this using Lance's solution? Or does Lance
+> > want to send a patch out with the fixes tag?
+>
+> If Lance could send a fixup, explaining the situation, that would be nice=
+.
 
-If Lance could send a fixup, explaining the situation, that would be nice.
+OK, I'd appreciate that :)
 
--- 
 Cheers,
+-- Nico
 
-David
+>
+> --
+> Cheers,
+>
+> David
+>
+
