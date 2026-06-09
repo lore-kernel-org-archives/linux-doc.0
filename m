@@ -1,589 +1,299 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8581A346FB5
-	for <linux-doc@vger.kernel.org>; Tue,  9 Jun 2026 01:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09E119E992;
+	Tue,  9 Jun 2026 01:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780969451; cv=none; b=K4RYwOTYYCm5QI5wKmghiaXVCyUh2/xRMYCzMLC5PHgoeteTl2LxTfwbgSrGo0A9k9PCNcPwfWqdCRCkVWjKwAQ327N8vyx4fQyexdq0hTduonEu5K/QBOaEJNyfXzkdXQCmdQBruGRSVZLUpDD6Micr38lHl2V40R8GFFVny3k=
+	t=1780970007; cv=none; b=GjcOsouGXTbn5Zx/BRWIvwxEyIT4QSczdmJkKlkI3z6/6/9g8ZZwdm6bg9IUwKifkYBZXalo7C3qyiumFjV0IOgOOND2nDCtQkmOLUxsG/msEOjevkRuASx5yCx7QPXVZBaXJ110FtAYnfCLbzDRR6VFAFpv8z22rjIXioJX6lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780969451; c=relaxed/simple;
-	bh=qAkKQ/LAkEszyHfX1YdCpuZNl6IoW85FCezUFWx55Ik=;
+	s=arc-20240116; t=1780970007; c=relaxed/simple;
+	bh=3rEZS9nrFXppbBYvYEkboBLsa8gOn1O8HkJNrIWEt84=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpnWpMNjAF7ObQTxUKAWqZFk9vYbDo0U4vDFTapdQ2TDliAAZ6yt8aRyb564bMVLY2crOCnXtm9jlbGngdqnJw4EenqHwQbRle+yLCOmG5PdkiY2dLDBzz3042RPaDaY4THx9je2Ul4uOiXLtJ1jaHK58CsPwQfLHZV70SXJi3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=k6Q9WdvM; arc=none smtp.client-ip=91.218.175.174
+	 In-Reply-To:Content-Type; b=ESNZU1PMaVh1DJ6fEUfoO8hGFKR2zCUs6XHPOes0DGgZ7ZR1Tmr0AnVPWLm+Fut5EERQqMzgJiqNRkKT5C48zy3eoQMeYVQzB4BtvY0fjPK8tHJdu9ICndLzaV2I3mEHOSySbB2OGI07JmJhvJPVkeXRwjITrSAxIx/ujLLde/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nr0e3yEp; arc=none smtp.client-ip=95.215.58.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="k6Q9WdvM"
-Message-ID: <2b7fa423-c721-4157-96ba-93bee5010044@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nr0e3yEp"
+Message-ID: <de647abc-b016-4425-9c82-96ea00bfaca5@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780969437;
+	t=1780969993;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KN2NpTJpJ6jSCQrNwdqnWftbSZQXv3T7wLZL+abW+Ds=;
-	b=k6Q9WdvM8HuZyQdPUOsfaVbJ1UgmF1LGHvXePtAJuA0I+QODdwbKHO3L0DEA6/YFqwMA4Z
-	BTiDK7/2SvVFuaptwYYKRrx9iuWiWQnwWQfVhy5WqS1E1/MVWO9xKcWK7rq4uWQD3PIffS
-	HyxDrPjyVpAezLlUh2OdXu6csZeciNw=
-Date: Tue, 9 Jun 2026 09:43:16 +0800
+	bh=lMwoIGwmHL5jq6k7DRmMIiOP7MlJzA+Jmp+TngHbG40=;
+	b=nr0e3yEplrSOJ9/zRyoUG5133F42jJgtk8LiVp8IlkZ8OU+hq9sC5Lnu8Aqbdk7lMAoj97
+	Ci+0TjQ2xmwhb7jN5i5uuvwGbdGjGbgEgrn7KxgV4wcAF9cKT1J5GXlzQCqBBOZuGcCbVx
+	ByIF1fkzg2gLezDl2KCiJi2fBqSf3WM=
+Date: Tue, 9 Jun 2026 09:52:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/6] alloc_tag: add ioctl to /proc/allocinfo
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>
-References: <cover.1780701922.git.abhishekbapat@google.com>
- <0e91fdd3a88dbe5220d15c4c8ff7b8f66e86af7c.1780701922.git.abhishekbapat@google.com>
- <41a7ebb9-1113-4f13-abbf-6f55d99d62f3@linux.dev>
- <CAL41Mv7jOJ0rtAEDZP2DEGa5d1GfTbK=DXg8k1BL5qjFuQjNuA@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v19 11/14] mm/khugepaged: Introduce mTHP
+ collapse support
 Content-Language: en-US
+To: david@kernel.org
+Cc: npache@redhat.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
+ hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
+ jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
+ kas@kernel.org, liam@infradead.org, ljs@kernel.org,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
+ rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
+ richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
+ rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
+ sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
+ tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
+ vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
+ willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+References: <2553caae-9e0e-42a7-8b61-d1216f1e81fa@kernel.org>
+ <20260608162612.27122-1-lance.yang@linux.dev>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <CAL41Mv7jOJ0rtAEDZP2DEGa5d1GfTbK=DXg8k1BL5qjFuQjNuA@mail.gmail.com>
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20260608162612.27122-1-lance.yang@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-Hi Abhishek
 
 
-On 2026/6/9 08:19, Abhishek Bapat wrote:
-> On Sun, Jun 7, 2026 at 6:53 PM Hao Ge <hao.ge@linux.dev> wrote:
->> Hi Suren and Abhishek
->>
->>
->> Thanks for the new version.
->>
->>
->> On 2026/6/6 07:36, Abhishek Bapat wrote:
->>> From: Suren Baghdasaryan <surenb@google.com>
+On 2026/6/9 00:26, Lance Yang wrote:
+> 
+> On Mon, Jun 08, 2026 at 04:56:37PM +0200, David Hildenbrand (Arm) wrote:
+>> On 6/6/26 12:28, Lance Yang wrote:
 >>>
->>> Add the following ioctl commands for /proc/allocinfo file:
+>>> On Fri, Jun 05, 2026 at 10:14:18AM -0600, Nico Pache wrote:
+>>>> Enable khugepaged to collapse to mTHP orders. This patch implements the
+>>>> main scanning logic using a bitmap to track occupied pages and the
+>>>> algorithm to find optimal collapse sizes.
+>>>>
+>>>> Previous to this patch, PMD collapse had 3 main phases, a light weight
+>>>> scanning phase (mmap_read_lock) that determines a potential PMD
+>>>> collapse, an alloc phase (mmap unlocked), then finally heavier collapse
+>>>> phase (mmap_write_lock).
+>>>>
+>>>> To enabled mTHP collapse we make the following changes:
+>>>>
+>>>> During PMD scan phase, track occupied pages in a bitmap. When mTHP
+>>>> orders are enabled, we remove the restriction of max_ptes_none during the
+>>>> scan phase to avoid missing potential mTHP collapse candidates. Once we
+>>>> have scanned the full PMD range and updated the bitmap to track occupied
+>>>> pages, we use the bitmap to find the optimal mTHP size.
+>>>>
+>>>> Implement mthp_collapse() to walk forward through the bitmap and
+>>>> determine the best eligible order for each naturally-aligned region. The
+>>>> algorithm starts at the beginning of the PMD range and, for each offset,
+>>>> tries the highest order that fits the alignment. If the number of
+>>>> occupied PTEs in that region satisfies the max_ptes_none threshold for
+>>>> that order, a collapse is attempted. On failure, the order is
+>>>> decremented and the same offset is retried at the next smaller size. Once
+>>>> the smallest enabled order is exhausted (or a collapse succeeds), the
+>>>> offset advances past the region just processed, and the next attempt
+>>>> starts at the highest order permitted by the new offset's natural
+>>>> alignment.
+>>>>
+>>>> The algorithm works as follows:
+>>>>     1) set offset=0 and order=HPAGE_PMD_ORDER
+>>>>     2) if the order is not enabled, go to step (5)
+>>>>     3) count occupied PTEs in the (offset, order) range using
+>>>>        bitmap_weight_from()
+>>>>     4) if the count satisfies the max_ptes_none threshold, attempt
+>>>>        collapse; on success, advance to step (6)
+>>>>     5) if a smaller enabled order exists, decrement order and retry
+>>>>        from step (2) at the same offset
+>>>>     6) advance offset past the current region and compute the next
+>>>>        order from the new offset's natural alignment via __ffs(offset),
+>>>>        capped at HPAGE_PMD_ORDER
+>>>>     7) repeat from step (2) until the full PMD range is covered
+>>>>
+>>>> mTHP collapses reject regions containing swapped out or shared pages.
+>>>> This is because adding new entries can lead to new none pages, and these
+>>>> may lead to constant promotion into a higher order mTHP. A similar
+>>>> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
+>>>> introducing at least 2x the number of pages, and on a future scan will
+>>>> satisfy the promotion condition once again. This issue is prevented via
+>>>> the collapse_max_ptes_none() function which imposes the max_ptes_none
+>>>> restrictions above.
+>>>>
+>>>> We currently only support mTHP collapse for max_ptes_none values of 0
+>>>> and HPAGE_PMD_NR - 1. resulting in the following behavior:
+>>>>
+>>>>     - max_ptes_none=0: Never introduce new empty pages during collapse
+>>>>     - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
+>>>>       available mTHP order
+>>>>
+>>>> Any other max_ptes_none value will emit a warning and default mTHP
+>>>> collapse to max_ptes_none=0. There should be no behavior change for PMD
+>>>> collapse.
+>>>>
+>>>> Once we determine what mTHP sizes fits best in that PMD range a collapse
+>>>> is attempted. A minimum collapse order of 2 is used as this is the lowest
+>>>> order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
+>>>>
+>>>> Currently madv_collapse is not supported and will only attempt PMD
+>>>> collapse.
+>>>>
+>>>> We can also remove the check for is_khugepaged inside the PMD scan as
+>>>> the collapse_max_ptes_none() function handles this logic now.
+>>>>
+>>>> Signed-off-by: Nico Pache <npache@redhat.com>
+>>>> ---
+>>>> mm/khugepaged.c | 146 +++++++++++++++++++++++++++++++++++++++++++++---
+>>>> 1 file changed, 138 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>>> index ec886a031952..430047316f43 100644
+>>>> --- a/mm/khugepaged.c
+>>>> +++ b/mm/khugepaged.c
+>>>> @@ -99,6 +99,8 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
+>>>>
+>>>> static struct kmem_cache *mm_slot_cache __ro_after_init;
+>>>>
+>>>> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
+>>>> +
+>>>> struct collapse_control {
+>>>> 	bool is_khugepaged;
+>>>>
+>>>> @@ -110,6 +112,9 @@ struct collapse_control {
+>>>>
+>>>> 	/* nodemask for allocation fallback */
+>>>> 	nodemask_t alloc_nmask;
+>>>> +
+>>>> +	/* Each bit represents a single occupied (!none/zero) page. */
+>>>> +	DECLARE_BITMAP(mthp_present_ptes, MAX_PTRS_PER_PTE);
+>>>> };
+>>>>
+>>>> /**
+>>>> @@ -1440,20 +1445,130 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+>>>> 	return result;
+>>>> }
+>>>>
+>>>> +/* Return the highest naturally aligned order that fits at @offset within a PMD. */
+>>>> +static unsigned int max_order_from_offset(unsigned int offset)
+>>>> +{
+>>>> +	if (offset == 0)
+>>>> +		return HPAGE_PMD_ORDER;
+>>>> +
+>>>> +	return min_t(unsigned int, __ffs(offset), HPAGE_PMD_ORDER);
+>>>> +}
+>>>> +
+>>>> +/*
+>>>> + * mthp_collapse() consumes the bitmap that is generated during
+>>>> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
+>>>> + *
+>>>> + * Each bit in cc->mthp_present_ptes represents a single occupied (!none/zero)
+>>>> + * page. We start at the PMD order and check if it is eligible for collapse;
+>>>> + * if not, we check the left and right halves of the PTE page table we are
+>>>> + * examining at a lower order.
+>>>> + *
+>>>> + * For each of these, we determine how many PTE entries are occupied in the
+>>>> + * range of PTE entries we propose to collapse, then we compare this to a
+>>>> + * threshold number of PTE entries which would need to be occupied for a
+>>>> + * collapse to be permitted at that order (accounting for max_ptes_none).
+>>>> + *
+>>>> + * If a collapse is permitted, we attempt to collapse the PTE range into a
+>>>> + * mTHP.
+>>>> + */
+>>>> +static enum scan_result mthp_collapse(struct mm_struct *mm,
+>>>> +		unsigned long address, int referenced, int unmapped,
+>>>> +		struct collapse_control *cc, unsigned long enabled_orders)
+>>>> +{
+>>>> +	unsigned int nr_occupied_ptes, nr_ptes, max_ptes_none;
+>>>> +	enum scan_result last_result = SCAN_FAIL;
+>>>> +	int collapsed = 0;
+>>>> +	bool alloc_failed = false;
+>>>> +	unsigned long collapse_address;
+>>>> +	unsigned int offset = 0;
+>>>> +	unsigned int order = HPAGE_PMD_ORDER;
+>>>> +
+>>>> +	while (offset < HPAGE_PMD_NR) {
+>>>> +		nr_ptes = 1UL << order;
+>>>> +
+>>>> +		if (!test_bit(order, &enabled_orders))
+>>>> +			goto next_order;
+>>>> +
+>>>> +		max_ptes_none = collapse_max_ptes_none(cc, NULL, order);
+>>>> +		nr_occupied_ptes = bitmap_weight_from(cc->mthp_present_ptes, offset,
+>>>> +						      offset + nr_ptes);
+>>>> +
+>>>> +		if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
 >>>
->>> ALLOCINFO_IOC_CONTENT_ID - gets content identifier which can be used
->>> to check whether the file content has changed specifically due to module
->>> load/unload. Every time a module is loaded / unloaded, the returned
->>> value will be different. By comparing the identifier value at the
->>> beginning and at the end of the content retrieval operation, users can
->>> validate retrieved information for consistency.
+>>> Looks broken for swap PTEs in PMD collapse ...
 >>>
->>> ALLOCINFO_IOC_GET_AT - gets the record at the specified position. This
->>> is the position of a record in /proc/allocinfo.
->>>
->>> ALLOCINFO_IOC_GET_NEXT - gets the record next to the last retrieved
->>> one. If no records were previously retrieved, returns the first
->>> record.
->>>
->>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->>> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
->>> ---
->>>    Documentation/mm/allocation-profiling.rst     |   5 +
->>>    .../userspace-api/ioctl/ioctl-number.rst      |   2 +
->>>    MAINTAINERS                                   |   1 +
->>>    include/linux/codetag.h                       |   2 +
->>>    include/uapi/linux/alloc_tag.h                |  54 ++++
->>>    lib/alloc_tag.c                               | 232 +++++++++++++++++-
->>>    lib/codetag.c                                 |  18 ++
->>>    7 files changed, 312 insertions(+), 2 deletions(-)
->>>    create mode 100644 include/uapi/linux/alloc_tag.h
->>>
->>> diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
->>> index 5389d241176a..c3a28467955f 100644
->>> --- a/Documentation/mm/allocation-profiling.rst
->>> +++ b/Documentation/mm/allocation-profiling.rst
->>> @@ -46,6 +46,11 @@ sysctl:
->>>    Runtime info:
->>>      /proc/allocinfo
->>>
->>> +  Profiling data can be retrieved either by reading `/proc/allocinfo` directly as
->>> +  text or programmatically via `ioctl()` calls defined in `<uapi/linux/alloc_tag.h>`.
->>> +  The ioctl interface supports structured binary data extraction as well as filtering
->>> +  by module name, function, file, line number, accuracy, or allocation size limits.
->>> +
->>>    Example output::
->>>
->>>      root@moria-kvm:~# sort -g /proc/allocinfo|tail|numfmt --to=iec
->>> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
->>> index 331223761fff..84f6808a8578 100644
->>> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
->>> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
->>> @@ -349,6 +349,8 @@ Code  Seq#    Include File                                             Comments
->>>                                                                           <mailto:luzmaximilian@gmail.com>
->>>    0xA5  20-2F  linux/surface_aggregator/dtx.h                            Microsoft Surface DTX driver
->>>                                                                           <mailto:luzmaximilian@gmail.com>
->>> +0xA6  00-0F  uapi/linux/alloc_tag.h                                    Memory allocation profiling
->>> +                                                                       <mailto:surenb@google.com>
->>>    0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->>>    0xAB  00-1F  linux/nbd.h
->>>    0xAC  00-1F  linux/raw.h
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index a31f6f207afd..77f3fc487691 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -16711,6 +16711,7 @@ S:    Maintained
->>>    F:  Documentation/mm/allocation-profiling.rst
->>>    F:  include/linux/alloc_tag.h
->>>    F:  include/linux/pgalloc_tag.h
->>> +F:   include/uapi/linux/alloc_tag.h
->>>    F:  lib/alloc_tag.c
->>>
->>>    MEMORY CONTROLLER DRIVERS
->>> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
->>> index ddae7484ca45..a25a085c2df1 100644
->>> --- a/include/linux/codetag.h
->>> +++ b/include/linux/codetag.h
->>> @@ -77,6 +77,8 @@ struct codetag_iterator {
->>>    void codetag_lock_module_list(struct codetag_type *cttype);
->>>    bool codetag_trylock_module_list(struct codetag_type *cttype);
->>>    void codetag_unlock_module_list(struct codetag_type *cttype);
->>> +unsigned long codetag_get_content_id(struct codetag_type *cttype);
->>> +unsigned int codetag_get_count(struct codetag_type *cttype);
->>>    struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
->>>    struct codetag *codetag_next_ct(struct codetag_iterator *iter);
->>>
->>> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
->>> new file mode 100644
->>> index 000000000000..901199bad514
->>> --- /dev/null
->>> +++ b/include/uapi/linux/alloc_tag.h
->>> @@ -0,0 +1,54 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->>> +/*
->>> + *  include/linux/alloc_tag.h
->> nit: it should be include/uapi/linux/alloc_tag.h
+>>> collapse_scan_pmd() allows them up to max_ptes_swap and record them in
+>>> unmapped, but they don't get a bit in mthp_present_ptes. And then
+>>> mthp_collapse() does the check above:
 >>
->> (I guess you may have missed the comment I brought up before. It is not
->> a critical problem though.)
+>> Right. I assumed this is implicitly handled by the optimization in collapse_scan_pmd:
 >>
-> Apologies, I missed that comment earlier. Included in the v4 patchset.
-> Thanks for bringing this up.
->
->>> + */
->>> +
->>> +#ifndef _UAPI_ALLOC_TAG_H
->>> +#define _UAPI_ALLOC_TAG_H
->>> +
->>> +#include <linux/types.h>
->>> +
->>> +#define ALLOCINFO_STR_SIZE   64
->>> +
->>> +struct allocinfo_content_id {
->>> +     __u64 id;
->>> +};
->>> +
->>> +struct allocinfo_tag {
->>> +     /* Longer names are trimmed */
->>> +     char modname[ALLOCINFO_STR_SIZE];
->>> +     char function[ALLOCINFO_STR_SIZE];
->>> +     char filename[ALLOCINFO_STR_SIZE];
->>> +     __u64 lineno;
->>> +};
->>> +
->>> +/* The alignment ensures 32-bit compatible interfaces are not broken */
->>> +struct allocinfo_counter {
->>> +     __u64 bytes;
->>> +     __u64 calls;
->>> +     __u8 accurate;
->>> +} __attribute__((aligned(8)));
->>> +
->>> +struct allocinfo_tag_data {
->>> +     struct allocinfo_tag tag;
->>> +     struct allocinfo_counter counter;
->>> +};
->>> +
->>> +struct allocinfo_get_at {
->>> +     __u64 pos;      /* input */
->>> +     struct allocinfo_tag_data data;
->>> +};
->>> +
->>> +#define _ALLOCINFO_IOC_CONTENT_ID    0
->>> +#define _ALLOCINFO_IOC_GET_AT                1
->>> +#define _ALLOCINFO_IOC_GET_NEXT              2
->>> +
->>> +#define ALLOCINFO_IOC_BASE           0xA6
->>> +#define ALLOCINFO_IOC_CONTENT_ID     _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_CONTENT_ID,     \
->>> +                                          struct allocinfo_content_id)
->>> +#define ALLOCINFO_IOC_GET_AT         _IOWR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_AT,        \
->>> +                                           struct allocinfo_get_at)
->>> +#define ALLOCINFO_IOC_GET_NEXT               _IOR(ALLOCINFO_IOC_BASE, _ALLOCINFO_IOC_GET_NEXT,       \
->>> +                                          struct allocinfo_tag_data)
->>> +
->>> +#endif /* _UAPI_ALLOC_TAG_H */
->>> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
->>> index d9be1cf5187d..a0577215eb3d 100644
->>> --- a/lib/alloc_tag.c
->>> +++ b/lib/alloc_tag.c
->>> @@ -5,6 +5,7 @@
->>>    #include <linux/gfp.h>
->>>    #include <linux/kallsyms.h>
->>>    #include <linux/module.h>
->>> +#include <linux/mutex.h>
->>>    #include <linux/page_ext.h>
->>>    #include <linux/pgalloc_tag.h>
->>>    #include <linux/proc_fs.h>
->>> @@ -14,6 +15,7 @@
->>>    #include <linux/string_choices.h>
->>>    #include <linux/vmalloc.h>
->>>    #include <linux/kmemleak.h>
->>> +#include <uapi/linux/alloc_tag.h>
+>> 	if (enabled_orders != BIT(HPAGE_PMD_ORDER))
+>> 		max_ptes_none = KHUGEPAGED_MAX_PTES_LIMIT;
+>>
+>> But we perform the check a second time.
+> 
+> Note that once lower orders are enabled, the scan *relaxes* max_ptes_none
+> only so it can cover the whole PMD and build the bitmap ...
+> 
 >>>
->>>    #define ALLOCINFO_FILE_NAME         "allocinfo"
->>>    #define MODULE_ALLOC_TAG_VMAP_SIZE  (100000UL * sizeof(struct alloc_tag))
->>> @@ -47,6 +49,10 @@ struct allocinfo_private {
->>>        struct codetag_iterator iter;
->>>        struct codetag_iterator reported_iter;
->>>        bool print_header;
->>> +     /* ioctl uses a separate iterator not to interfere with reads */
->>> +     struct codetag_iterator ioctl_iter;
->>> +     bool positioned; /* seq_open_private() sets to 0 */
->>> +     struct mutex ioctl_lock;
->>>    };
+>>> nr_occupied_ptes >= nr_ptes - max_ptes_none
 >>>
->>>    static void *allocinfo_start(struct seq_file *m, loff_t *pos)
->>> @@ -130,6 +136,229 @@ static const struct seq_operations allocinfo_seq_op = {
->>>        .show   = allocinfo_show,
->>>    };
+>>> So max_ptes_none=0 + 511 present PTEs + one allowed swap PTE won't even
+>>> call collapse_huge_page() for PMD order.
 >>>
->>> +/*
->>> + * Initializes seq_file operations and allocates private state when opening
->>> + * the /proc/allocinfo procfs entry.
->>> + */
->>> +static int allocinfo_open(struct inode *inode, struct file *file)
->>> +{
->>> +     int ret;
->>> +
->>> +     ret = seq_open_private(file, &allocinfo_seq_op,
->>> +                            sizeof(struct allocinfo_private));
->>> +     if (!ret) {
->>> +             struct seq_file *m = file->private_data;
->>> +             struct allocinfo_private *priv = m->private;
->>> +
->>> +             mutex_init(&priv->ioctl_lock);
->>> +     }
->>> +     return ret;
->>> +}
->>> +
->>> +/*
->>> + * Cleans up the seq_file state and frees up the private state allocated in
->>> + * allocinfo_open() when closing the /proc/allocinfo file descriptor.
->>> + */
->>> +static int allocinfo_release(struct inode *inode, struct file *file)
->>> +{
->>> +     return seq_release_private(inode, file);
->>> +}
->>> +
->>> +/*
->>> + * Returns a pointer to the suffix of a string so that its length fits within
->>> + * ALLOCINFO_STR_SIZE, preserving the trailing characters.
->>> + */
->>> +static const char *allocinfo_str(const char *str)
->>> +{
->>> +     size_t len = strlen(str);
->>> +
->>> +     /* Keep an extra space for the trailing NULL. */
->>> +     if (len >= ALLOCINFO_STR_SIZE)
->>> +             str += (len - ALLOCINFO_STR_SIZE) + 1;
->>> +     return str;
->>> +}
->>> +
->>> +/* Copy a string and trim from the beginning if it's too long */
->>> +static void allocinfo_copy_str(char *dest, const char *src)
->>> +{
->>> +     strscpy_pad(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE);
->>> +}
->>> +
->>> +/*
->>> + * Populates the UAPI allocinfo_tag_data structure with active runtime
->>> + * profiling counters extracted from the given kernel codetag.
->>> + */
->>> +static void allocinfo_to_params(struct codetag *ct,
->>> +                             struct allocinfo_tag_data *data)
->>> +{
->>> +     struct alloc_tag *tag = ct_to_alloc_tag(ct);
->>> +     struct alloc_tag_counters counter = alloc_tag_read(tag);
->>> +
->>> +     if (ct->modname)
->>> +             allocinfo_copy_str(data->tag.modname, ct->modname);
->>> +     else
->>> +             data->tag.modname[0] = '\0';
->>> +     allocinfo_copy_str(data->tag.function, ct->function);
->>> +     allocinfo_copy_str(data->tag.filename, ct->filename);
->>> +     data->tag.lineno = ct->lineno;
->>> +     data->counter.bytes = counter.bytes;
->>> +     data->counter.calls = counter.calls;
->>> +     data->counter.accurate = !alloc_tag_is_inaccurate(tag);
->>> +}
->>> +
->>> +/*
->>> + * Retrieves the unique content ID representing the current allocation tag module
->>> + * layout, allowing userspace to detect if modules were loaded / unloaded.
->>> + */
->>> +static int allocinfo_ioctl_get_content_id(struct seq_file *m, void __user *arg)
->>> +{
->>> +     struct allocinfo_content_id params;
->>> +
->>> +     codetag_lock_module_list(alloc_tag_cttype);
->>> +     params.id = codetag_get_content_id(alloc_tag_cttype);
->>> +     codetag_unlock_module_list(alloc_tag_cttype);
->>> +     if (copy_to_user(arg, &params, sizeof(params)))
->>> +             return -EFAULT;
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +/*
->>> + * Seeks the ioctl iterator to the specified 0-indexed tag position, reads its
->>> + * profiling data and returns it to userspace.
->>> + */
->>> +static int allocinfo_ioctl_get_at(struct seq_file *m, void __user *arg)
->>> +{
->>> +     struct allocinfo_private *priv;
->>> +     struct codetag *ct;
->>> +     __u64 pos;
->>> +     struct allocinfo_get_at params = {0};
->>> +
->>> +     if (copy_from_user(&params, arg, sizeof(params)))
->>> +             return -EFAULT;
->>> +
->>> +     priv = m->private;
->>> +     pos = params.pos;
->>> +
->>> +     mutex_lock(&priv->ioctl_lock);
->>> +     codetag_lock_module_list(alloc_tag_cttype);
->>> +
->>> +     if (pos >= codetag_get_count(alloc_tag_cttype)) {
->>> +             codetag_unlock_module_list(alloc_tag_cttype);
->>> +             mutex_unlock(&priv->ioctl_lock);
->>> +             return -ENOENT;
->>> +     }
->>> +
->>> +     /* Find the codetag */
->>> +     priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
->>> +     ct = codetag_next_ct(&priv->ioctl_iter);
->>> +     while (ct && pos--)
->>> +             ct = codetag_next_ct(&priv->ioctl_iter);
->>> +     if (ct) {
->>> +             allocinfo_to_params(ct, &params.data);
->>> +             priv->positioned = true;
->>> +     }
->>> +
->>> +     codetag_unlock_module_list(alloc_tag_cttype);
->>> +     mutex_unlock(&priv->ioctl_lock);
->>> +
->>> +     if (!ct)
->>> +             return -ENOENT;
->>> +
->>> +     if (copy_to_user(arg, &params, sizeof(params)))
->>> +             return -EFAULT;
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +/*
->>> + * Advances the ioctl iterator to the next allocation tag in the sequence and
->>> + * returns its profiling data to userspace.
->>> + */
->>> +static int allocinfo_ioctl_get_next(struct seq_file *m, void __user *arg)
->>> +{
->>> +     struct allocinfo_private *priv;
->>> +     struct codetag *ct;
->>> +     struct allocinfo_tag_data params;
->>> +     int ret = 0;
->>> +
->>> +     memset(&params, 0, sizeof(params));
->>> +     priv = m->private;
->>> +
->>> +     mutex_lock(&priv->ioctl_lock);
->>> +     codetag_lock_module_list(alloc_tag_cttype);
->>> +
->>> +     if (!priv->positioned) {
->>> +             priv->ioctl_iter = codetag_get_ct_iter(alloc_tag_cttype);
->>> +             priv->positioned = true;
->>> +     }
->>> +
->>> +     ct = codetag_next_ct(&priv->ioctl_iter);
->>> +     if (ct)
->>> +             allocinfo_to_params(ct, &params);
->>> +
->>> +     if (!ct) {
->>> +             priv->positioned = false;
->>> +             ret = -ENOENT;
->>> +     }
->>> +     codetag_unlock_module_list(alloc_tag_cttype);
->>> +     mutex_unlock(&priv->ioctl_lock);
->>> +
->>> +     if (ret == 0) {
->>> +             if (copy_to_user(arg, &params, sizeof(params)))
->>> +                     return -EFAULT;
->>> +     }
->>> +     return ret;
->>> +}
->>> +
->>> +/*
->>> + * Entry point ioctl function for /proc/allocinfo routing requests to fetch the
->>> + * layout content ID, seek to a specific tag, or read sequential tags.
->>> + */
->>> +static long allocinfo_ioctl(struct file *file, unsigned int cmd,
->>> +                         unsigned long __arg)
->>> +{
->>> +     void __user *arg = (void __user *)__arg;
->>> +     int ret;
->>> +
->>> +     switch (cmd) {
->>> +     case ALLOCINFO_IOC_CONTENT_ID:
->>> +             ret = allocinfo_ioctl_get_content_id(file->private_data, arg);
->>> +             break;
->>> +     case ALLOCINFO_IOC_GET_AT:
->>> +             ret = allocinfo_ioctl_get_at(file->private_data, arg);
->>> +             break;
->>> +     case ALLOCINFO_IOC_GET_NEXT:
->>> +             ret = allocinfo_ioctl_get_next(file->private_data, arg);
->>> +             break;
->>> +     default:
->>> +             ret = -ENOIOCTLCMD;
->>> +             break;
->>> +     }
->>> +
->>> +     return ret;
->>> +}
->>> +
->>> +#ifdef CONFIG_COMPAT
->>> +static long allocinfo_compat_ioctl(struct file *file, unsigned int cmd,
->>> +                                unsigned long arg)
->>> +{
->>> +     return allocinfo_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
->>> +}
->>> +#endif
->>> +
->>> +static const struct proc_ops allocinfo_proc_ops = {
->>> +     .proc_open              = allocinfo_open,
->>> +     .proc_read_iter         = seq_read_iter,
->>> +     .proc_lseek             = seq_lseek,
->>> +     .proc_release           = allocinfo_release,
->>> +     .proc_ioctl             = allocinfo_ioctl,
->>> +#ifdef CONFIG_COMPAT
->>> +     .proc_compat_ioctl      = allocinfo_compat_ioctl,
->>> +#endif
->>> +
->>> +};
->>> +
->>>    size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
->>>    {
->>>        struct codetag_iterator iter;
->>> @@ -993,8 +1222,7 @@ static int __init alloc_tag_init(void)
->>>                return 0;
->>>        }
+>>> Shouldn't we account for them in the PMD-order check? Something like:
 >>>
->>> -     if (!proc_create_seq_private(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_seq_op,
->>> -                                  sizeof(struct allocinfo_private), NULL)) {
->>> +     if (!proc_create(ALLOCINFO_FILE_NAME, 0400, NULL, &allocinfo_proc_ops)) {
->>>                pr_err("Failed to create %s file\n", ALLOCINFO_FILE_NAME);
->>>                shutdown_mem_profiling(false);
->>>                return -ENOMEM;
->>> diff --git a/lib/codetag.c b/lib/codetag.c
->>> index 4001a7ea6675..a9cda4c962a3 100644
->>> --- a/lib/codetag.c
->>> +++ b/lib/codetag.c
->>> @@ -19,6 +19,8 @@ struct codetag_type {
->>>        struct codetag_type_desc desc;
->>>        /* generates unique sequence number for module load */
->>>        unsigned long next_mod_seq;
->>> +     /* bumped on every module load and unload */
->>> +     unsigned long content_id;
->>>    };
->>>
->>>    struct codetag_range {
->>> @@ -50,6 +52,20 @@ void codetag_unlock_module_list(struct codetag_type *cttype)
->>>        up_read(&cttype->mod_lock);
->>>    }
->>>
->>> +unsigned long codetag_get_content_id(struct codetag_type *cttype)
->>> +{
->>> +     lockdep_assert_held(&cttype->mod_lock);
->>> +
->>> +     return cttype->content_id;
->>> +}
->>> +
->>> +unsigned int codetag_get_count(struct codetag_type *cttype)
->>> +{
->>> +     lockdep_assert_held(&cttype->mod_lock);
->>> +
->>> +     return cttype->count;
->>> +}
->>> +
->>>    struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
->>>    {
->>>        struct codetag_iterator iter = {
->>> @@ -204,6 +220,7 @@ static int codetag_module_init(struct codetag_type *cttype, struct module *mod)
->>>
->>>        down_write(&cttype->mod_lock);
->>>        cmod->mod_seq = ++cttype->next_mod_seq;
->>> +     ++cttype->content_id;
->> I have a comment on the content_id bump placement.
->>
->> ++cttype->content_id is placed before idr_alloc and the module_load
->>
->> callback. If idr_alloc fails or module_load returns an error
->>
->> (While the chance of this occurring is very low.), the idr entry gets
->>
->> rolled back but content_id has already been bumped. The actual
->>
->> content didn't change in this case, so userspace would see a
->>
->> different content_id and assume the data is inconsistent when it
->>
->> isn't.
->>
->>
->> Thanks
->>
->> Best Regards
->>
->> Hao
-> While I agree with your comment, I decided to place the counter
-> increment there because the chance of failure is low. Furthermore,
-> even if it falsely invalidates user data, the user will simply query
-> the content again. This placement also aligns with where the
-> previously used field (cttype->next_mod_seq) was incremented. Let me
-> know if you still think I should move it. Thanks!
+>>> if (is_pmd_order(order))
+>>> 	nr_occupied_ptes += unmapped;
+>> As an alternative, we could either 1) skip the check there for
+>> pmd order (as the check was already done); or 2) introduce+maintain
+> 
+> Yeah, skipping the check would do the trick, since isolate will check
+> max_ptes_none again later :)
 
-Sorry, I should have marked this as a nit when I raised the comment.
+In addition, that later check is rather late, we may have already
+allocated the folio and swapped in pages before isolate rejects
+the range :)
 
-Given its low probability of occurring, it doesn't block anything for now.
+>> a bitmap that tracks non-present PTEs.
+>>
+>> @@ -1475,7 +1477,9 @@ static enum scan_result mthp_collapse(struct mm_struct *mm,
+>>                 nr_occupied_ptes = bitmap_weight_from(cc->mthp_present_ptes, offset,
+>>                                                       offset + nr_ptes);
+>>
+>> -               if (nr_occupied_ptes >= nr_ptes - max_ptes_none) {
 
-The reason I raised this comment was just in case someone adds new logic
+So I'd still slightly prefer keeping this check and accounting
+unmapped for PMD order.
 
-in the feature  that could fail. But if that happens, we can move both 
-next_mod_seq
-
-and content_id down together.
+if (is_pmd_order(order))
+	nr_occupied_ptes += unmapped;
 
 
-Thanks
+>> +               /* Check was already done in the caller. */
+> 
+> This check is not quite redundant for PMD order, though. It avoids
+> entering collapse_huge_page() for a range that already exceeds
+> max_ptes_none for that order.
+> 
+>> +               if (is_pmd_order(order) ||
+>> +                   nr_occupied_ptes >= nr_ptes - max_ptes_none) {
+>>                         enum scan_result ret;
+>>
+>>                         collapse_address = address + offset * PAGE_SIZE;
+>>
+>> 2) would probably be cleanest long-term.
+> 
+> Yeah, Agreed.
 
-Best Regards
-
-Hao
-
->>>        mod_id = idr_alloc(&cttype->mod_idr, cmod, 0, 0, GFP_KERNEL);
->>>        if (mod_id >= 0) {
->>>                if (cttype->desc.module_load) {
->>> @@ -368,6 +385,7 @@ void codetag_unload_module(struct module *mod)
->>>                        cttype->count -= range_size(cttype, &cmod->range);
->>>                        idr_remove(&cttype->mod_idr, mod_id);
->>>                        kfree(cmod);
->>> +                     ++cttype->content_id;
->>>                }
->>>                up_write(&cttype->mod_lock);
->>>                if (found && cttype->desc.free_section_mem)
