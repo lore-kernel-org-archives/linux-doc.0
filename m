@@ -1,68 +1,69 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011020.outbound.protection.outlook.com [52.101.52.20])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012016.outbound.protection.outlook.com [40.107.209.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28B1374A0A;
-	Wed, 10 Jun 2026 12:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9763E95A9;
+	Wed, 10 Jun 2026 12:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781095816; cv=fail; b=NwU2OuGyKGvV+BgBprTCzWyVIPEqeVEJhO/l0MG1xqzj22OTogomagt0OiRbaOhB0kQSCAvNUgt3JCrBi3AScGpflOzPiylTZEdynUjprApEvMpByTgUKBzUIvIHrcuQ3nHjl0UOUxetRlURow2Arho40TNAhb1yCuNBR/O+lvQ=
+	t=1781096020; cv=fail; b=iBiO1U7yQ2fOuYMJyEyE6CBDAxkR1Bhxqxb6yuqs5cTdkxM8bqcrISifT19CqCzwySuDwJHnyIdKOlGgPT68D6dPiYd64GWe34J1dtsO+x9vN8wL8o2geWdjPw1tFR6QXYfMZBTFMnrVi2mRWXiVtqIgwjBU9vXRX66eVTID23k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781095816; c=relaxed/simple;
-	bh=DcIzUjfDxMKKIdMWDG8U/jKnU8VUJAA1JH9VPSsh7KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cAEWVSnwW0D5bbGaptLU3yysrIvzu6JdK/gPP6eQ7xLIhkFxdK9rsw9sjtinkxZAKXmSwl3KMkutyD8fsIAu+N5TYwvV06BqcASi7XnQ6AV5gRnSb5lQ9eIamOd/U/B+/4lbf4NeII37tAy0sEwanNGVvnvyqGyuRchWUF+CkTM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AV63dc3C; arc=fail smtp.client-ip=52.101.52.20
+	s=arc-20240116; t=1781096020; c=relaxed/simple;
+	bh=KQH1SXXk/qZd31WTc382ikd9sc9CmU8rYaWhJ92tFZk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kSbdbOfRWS3lFFAGDDRVGIaqeVUgfhxKVnQmZbQMtOiF4vMn+kDCtYyLmEHfqgRB08wdsxtjlE0b54JCt8nMlJu03a69VFXmJlbBPh/n56RQWbc7qcBykRBT9URfsZQMzqaqncvs8ARDZ0SUrbRxpwiiHXzoTZ8KjkxkkL3CCjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=e/7yFRiU; arc=fail smtp.client-ip=40.107.209.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AV63dc3C"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="e/7yFRiU"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZwcYrhW46+xA+n062VQYWIl77oCQfPKS+ts7LWr0IwNY7jbiH9EbdlDKzs7zUyWsRTYU9t/GQszx++lhNs1lZo3xe93MUMWR3bzr7rmVL6iLt6fq3m9tGwDl9PmTpQOgTLzX03hQukfsuMDByRzu6b2jSzE2piEAEkTh4x0PwFA0rO2yc9PWLDdCZMS5O/aCpj6UngCEKjJy7+AXfFz0tZBMblLODCnf5cWIauKrLyij0YBeq9ej3NLBB8DMxR+2FNa2P5CftSyHC2PZtxLu0CZh2Q5Cx/E2yFoYxjPB/Dn0byzc1NzhQPw39JgbVsWVOjEDOBkplM0P/dbTziA3EQ==
+ b=XYGsRoLmNhRcy18pxMqsVnvnbLmN4lnDiwqaKwb1gUHJAI68HxL8MbhceFTAjtkjbMRKoSBuLmvQA8vMRdBw7HUYq7iwPbfyVdNfhUCmF6ix2b56wp8pqKCXYBi2Ta61KoEIO1iT36027irhgkYwq3bnUjjoY8F9+uRl2E7RkhKkEZHPdZf4bZAAHXsvmH/a7W/zvDjYjSGrzkyH+ooe5cZnee48Ipn9TwcxCSJcJZfsDpVr3+xi81mnPQG+/+znSTNTaSJz+J4/me4fb2RwiCmdYyUpMwPvdB/GS3x4rI3xfQz4wzNy2UBiVmetCkD2R2BEoYFOqiyuo//rkD3YVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r94BeHOce8DTr81Gl+BgbzS46aKR8WB4LOn0YG+AOtQ=;
- b=PBqte2Z4yMCKrapPxHLd0g/UxZN7gfBcw10GGP7YG8Ksi4V9eQz/p3x94Sx99PUEYX0PI+39CixJ2Rz5F4jZBSDthtftBo4zO85H+UM6R5oc+trEYY4QNOG1a4zh9KTlmUEJCnxYgRy+P6PqW8/DWCoKFwwF9+tq4zUZzYiDfF09JW60A+gohKoAV23uy/PRJIu8MNTSYEcW9OnXp0Fvz+/VBznfpmWBIq/O1ps36GqjsPfB791HXT8ZwT+SxJdYXry+ViiajKNwWqSYr5y/pRyzYHEWvrHf1psOnKYPTq0dNsRvWSU/Ag4incea0p/xV+9ZNXM4psqlnvIId0zmIg==
+ bh=YWhguA2NJNqjk4wcLYWQIH0QVhcTicPth/pBkXixokQ=;
+ b=zHSctqAnOBlFWTR8mcOu0AW6lXvQUC6SZ0R+9SAUpNRVOF4pVanJ3iVggRlsPNjavVg+0Lj1mExyPkVXAdeB7D5v/gUeV/ET/x7pHzpZeIIBZjjWPMG8xGPp7IGhlOnpRpnCB5Z2UBgxne6HbMVX4dGlAp9IntVUkvg5aH3YPyMsnMELAHXJsNPAAi1Dpi3hgkOq+syVBi3JIa8WaU0DHZ6THh5qyksArhXBAnKVt2wQ3lwC0HxLDVNLJcBVyRXL9+n7ApKHj4PE9bLt6Lt+dOUzMar+ykZZKeBYsV33yAy5AmbE2ewG3Hi6kRlEQ9WiafyS48HkTbCw1QgsWe30mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r94BeHOce8DTr81Gl+BgbzS46aKR8WB4LOn0YG+AOtQ=;
- b=AV63dc3CcOfmZeDrO71PXcppVWymCe/xuyIBmZHbYEnHYTCcllN8H3TRa66YNDCjqSLfJUMVpONmtGioI7wbLtuGNPKKXDQDH4jy1z0XP9fb48h2fkJEM0WTD2h3ahUhRXZvmJO+cVCwoCAcHucoEnD3ktVPBT91HoAfFsMhixuDZACWNXUjrmgrnE9aP/EzM4ciz1U/s0wdhSKSnfWzq4tFE7HqSPJUavex3OVXarw2c2DSzlqrba5CJtI7VuC41OxiHv/SSrRdGXzqGAmq6ky66uaI4TTAyARAqUbQqxb+GDmPLFVbTMeJTxsMFILugayg5mLpvvDKEjfQ+IvQfQ==
+ bh=YWhguA2NJNqjk4wcLYWQIH0QVhcTicPth/pBkXixokQ=;
+ b=e/7yFRiUeLBSVmWLfKY7Mo/xrOnkMZ4Z0SeQQo+pft400NNDFMUDF/tJRq/a+BgBknoQQStKeIfsm6oqntYzmCpCUbgs1RAfER3XbPrveKl0cbsq2YwixpWrZLst6md8GTeye0V9USStUw35pvSAsaVawXygAiexs72ruoPmM5eDI/UIZKwyZnrbqVMwGWActrWqUMyzxItJSOJQNDcmcoQuWR8ndLU6WSouCxNtQCO8FjD0U3T2Ig9YTd/k2XVkK68DgTuxLAPlzUvW3vrM669hoLVJGCoO2KhzH3cgJoIJLLpgcaoST1K4ujbfEVviHL/L9bdIQqFznU3eKE+dgA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DS2PR12MB9776.namprd12.prod.outlook.com (2603:10b6:8:2bd::20) with
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
+ by DS4PR12MB9707.namprd12.prod.outlook.com (2603:10b6:8:278::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Wed, 10 Jun
- 2026 12:50:11 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
- 12:50:11 +0000
-Date: Wed, 10 Jun 2026 09:50:10 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Will Deacon <will@kernel.org>
-Cc: Shanker Donthineni <sdonthineni@nvidia.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-	Jason Sequeira <jsequeira@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Wed, 10 Jun
+ 2026 12:53:31 +0000
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Wed, 10 Jun 2026
+ 12:53:30 +0000
+Message-ID: <d12cfd71-3917-4834-9912-404baeca213c@nvidia.com>
+Date: Wed, 10 Jun 2026 07:53:15 -0500
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
  store/load ordering erratum
-Message-ID: <20260610125010.GS1962447@nvidia.com>
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Vladimir Murzin <vladimir.murzin@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+ Jason Sequeira <jsequeira@nvidia.com>, jgg@nvidia.com
 References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
  <ailKYTOX23EMnJsK@willie-the-truck>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Language: en-US
+From: Shanker Donthineni <sdonthineni@nvidia.com>
 In-Reply-To: <ailKYTOX23EMnJsK@willie-the-truck>
-X-ClientProxiedBy: MN0PR03CA0006.namprd03.prod.outlook.com
- (2603:10b6:208:52f::26) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0065.namprd13.prod.outlook.com
+ (2603:10b6:806:23::10) To IA1PR12MB6089.namprd12.prod.outlook.com
+ (2603:10b6:208:3ef::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,80 +71,376 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS2PR12MB9776:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3adc22e7-50f9-4189-b8c5-08dec6eecf24
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|DS4PR12MB9707:EE_
+X-MS-Office365-Filtering-Correlation-Id: c55a7450-9d95-4b28-40a1-08dec6ef45ef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|18002099003|22082099003|11063799006|4143699003|56012099006;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|4143699003|6133799003|18002099003|22082099003|56012099006|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	vJ3jkc6BNcKHSrGmet7pAfdBI+ZUiSDGoaDqGYE7eXyqFMH3aKJq7GQ/cZGPVZnQAI1/y51R3JpZFwfFxstRPONmmdiKUqUpRbnQB2gRe2FohUzKRqZ9Ba2dgaW3wctW06+EZ7kvrqPkk/p2GVknqQV00NQMcmEMAF+au6aU5bAD4a3HWjOfFlMa99CxDCXH9QKW46zCjBUkJOgH0+hsS7Bvnsa9MGEpQV6LtAhYVzXvQTNPU0i40c1AE9mYgLthbdfZPXz/xGUz3KUfitYujLFkp557K28NN89LZUwnh5ambGDVpLTiFM53jF/aB4C+DaJd3/vwta6RJFnfhAbCn21jw6SZIhiEZ89XP7ufGO+NSwtgj2z8mxgf+BpstfwtKvygcWVv8C50l5ZhctWmchHQ9sFq6b9wzVksvLPUMz4oUNlMCYEqyLigld3KcBdxiKfNU9j80b+Tubm5gVdG6gmE5JRRxUBGSDVy3WhvYaPqqfH2JQjKsihkax8LpF0NQcmJGIDD283MOG9UjN/A7HgprQuW7/X4NHLfk2VEop1afNsLSdZhkiwy+AS0rPDS32DmuCm9X6EUmtRoIV+70lQX9avI6T3BvaIXU6bJO8+LpsYUDJMfamg3Aiy4Hc2/EiQJPEtW417hxDG3IVmooYmkrR1birbqmK1Mt9EIzxorNkqTjpRfRQIRt5Fdhsip
+	Dap7Ib4iWHKYpAz4y+t7OOaqATHXaDqaNYNoHtaiBIznOYUcIvu8P+DUn7+2H7Sa68vHxFfGgIN9pNi2fgCDINT2aRSEue5CKBwgb0XKjIyK+KEsYlR82v7Dv5LADt/AiuR9dix9JJfc//pmtJ75Qi0hNzlTy8RXlTqrBcU9bQJg5qfhzigmTlwcTNo9sy5ALf1S5iT873DKBy/d4bvcXz3PYTUdMru2193FHl6wxKACAORDHLTAVnSIx049rFLLafn3J8YhKwjdWICVpFRAcNPKy5bR7DhCTAS/yCQ4+O488/syJ1ol+PDZ0Lo4wu5NPWH/7z4AnUS1ZLTrCOeG1iB4etzc7zqgDZAFHWpxa57HTDQSb+b3yeUmOFvfLVMDvtADrrmn6OHG84Z6hbVJmz2jr9ZXfrEiuDc9JnOmw0OVdGAWIWIHAtutfUMcl75O3uAASYssPFVEBtR3YrcsFZozZVMZR+8Uyyv3d/kBZjKV07ytJIT+uWg+a+26Owi4tUIc6dAwSdp+sd6dl6ZbSFTQNLYqzNf9+AIT79K8amVYieDEQWAvYqJX6d/t+la0SOWxv0ldcWDP28PuCW0quh/bbgbfNwFyI1sJRUqnIgsPv1bJnp6KaJuMe6xd3UpDEPdNyYEJ8m9YbkbitXUMwW9C1U3ecPN+obFjmo7y4W9f06lMq5es5qJ0Da4RNsjO
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(4143699003)(6133799003)(18002099003)(22082099003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?tAZJE/hBFb7jm43hJb1Yo/KGbL5BZ/QnWXxWERsridEMuAwpq0zcGQuy4pQf?=
- =?us-ascii?Q?dkTtir9BvnrBvI/FdGeEgI10Ap9YpqxpNk/dC058eR2m8iDvMLHZs4xv/i3r?=
- =?us-ascii?Q?V3bGjA2NNPT3DIsNM14NO1kMmcXd9goQyBq/0IySNI/c+B9tUrUrqzYpmZqJ?=
- =?us-ascii?Q?pY9Sul2xCgv8EheuxENbrmUT7HelU0OKQB13fzK5JrF0nbsu14CoUPGQO2JD?=
- =?us-ascii?Q?xTswn3NaOjBggO77KrECWB1oSDistoS4YZ/oDsCqiYad0Pxkx65hrCck2zuI?=
- =?us-ascii?Q?ucSKWnWDJCZt+JEIwtqmLCfeopKOgk3vBsryygza2T2sU/QD7rwaUUO+uUqp?=
- =?us-ascii?Q?wmTDInvhVs8CIF+ByZoHgbWEyz+2hqyJVx21xFA+s7lsecPKI6I18+7eyRks?=
- =?us-ascii?Q?tcMP4moKN/gcP7s8ztnhEbgoCQjB0NJXZWk4H6LIlYY4HeqNIDx5LC0DMvkp?=
- =?us-ascii?Q?aJtWfWMirNS8+8CZyqH3joByyv40djupkg5jTH9/nmdglfpJYbxznEvHq7j7?=
- =?us-ascii?Q?M3NbXtyQHEZi0WWdXLk7+O7ykBqGVd28+qmy/oDkOpJEByvPCXa9EvTemhat?=
- =?us-ascii?Q?pxYPBI7kzDqnI27jTXgn+SYfoi8NdZ2LJUvSEhqmBYCXhItslAFX0ZefK9mH?=
- =?us-ascii?Q?QVyaiPdn5v3KRvLHvK6glBZZ2NgQ9EYg4MR91gMsmbfF1CYOxS//bAJXJJwh?=
- =?us-ascii?Q?ULEcR32JuIsSHk6BQPeEDQbfZMnxl6wWIx6Iju5OKXMjGT3ezqnThEV/e3a7?=
- =?us-ascii?Q?lKz8OBV7s46lcVsX8U4PVT5azbzk1/+tGr7aU4nldYsBT1upn3urxBOOLfAY?=
- =?us-ascii?Q?q7X2RIwVYUxyoq5Y0lBhM1glpVliukruzjiIw8JMv81bkA7Ej+GWOW5wV4T+?=
- =?us-ascii?Q?K+91VJx2vDB/nfl83o0FlF3HblDfDakjg+bsv/3NdS0Tupj549cxcPaxVsmj?=
- =?us-ascii?Q?V47NhGbXmVT1om6eVi1R/AOfhuq/+e766NxBvT7IMS8iUPWeQws3+ofH0y4M?=
- =?us-ascii?Q?PtRuqWpZpWXoZ8++xDiiDhMyXBFaMvzKTIP3ynedaMcyt09e7vxNa5tz5RtZ?=
- =?us-ascii?Q?fdjgJ8/VQD/GB4fZMqKXPKGv+igjUIRNlLBSYD90i5e88yNXuNRjye2ANFY3?=
- =?us-ascii?Q?p/draOXpFhUaAwQs+eU/ewX3u6sHhnu+kPTB2kVVDBRY5mkLle4Ilb2xKbuz?=
- =?us-ascii?Q?/+5cbKtQzlrXIZSCLsrgOD3qxbVjN1dAATpQqATv7VFR3Aip7L9sQO8MtO3u?=
- =?us-ascii?Q?cg7Gqldvysznx9ZVLsFzn909jZOPbaHEFLC/0U4HfBpCWs/GEfAy6Xxfd5d4?=
- =?us-ascii?Q?lFV8debU/pr8BJDmSND7uqqhj48kTZoAXrEMheF6tB1kK4FIoB4EonScN6xG?=
- =?us-ascii?Q?R+TXOV0ZL+gCl9EGQORbaszxVmHJizdTMvkuzBUGr07T84Xb3Y+kbrks0sMy?=
- =?us-ascii?Q?1i74MpRHeam95qwffCfk5w69BPpyF9Z3CbN63+6lrNF9fhTBHRJT0KUjo+8J?=
- =?us-ascii?Q?M+zsPEt0U05VIMigf3Y/phPJGeangKmL3O2HM9u4vqIf73mti2BoE8Z5/aEC?=
- =?us-ascii?Q?kWSix8WjM4CrN0jH//XshWDH0/54Y9VeeZK+ORxgPx23KXswFi3nleUt7+no?=
- =?us-ascii?Q?8FndL8P1wjF1E/PYNjjdBmKIPkDH9wToRLdsfV8+x1mck/00uVC7GM+wU0/9?=
- =?us-ascii?Q?f5Ajkltv8cltADy15U9Gb3UMkCO4Nyjt0IEGyu61IDUcnYUa?=
+	=?utf-8?B?WFVUek1NWWJlM2JyOWFvZUU0dDk2bUgvdHNEbXhsNHdNY2VOaGEvdG9QOHZs?=
+ =?utf-8?B?b2pzTEhKVjNEUWRFeW1xNUc4SkNmOS9waVJ4MlNTQ2l5RE95VEdCZEc0MG9Q?=
+ =?utf-8?B?SVRUU3EyUFJ6c1hRQmsyUFhxRHMwTExOOFg5VnB6SHV2dk9qWVViNm0rNGhi?=
+ =?utf-8?B?UjI0NjVrak9TY1QvWjlFQTFmY1E0QjBxTVN1Wm1VMG9xREZuVnpjWkl0bmZo?=
+ =?utf-8?B?OGhBQXFmeWJ4M0h1TEpnSmVKSWU0Q3NzQVQ5Q3VyaFFhK0hLQXdMRkZPL251?=
+ =?utf-8?B?bmJ1Uk1Xb0hZQXV2Q0d3YVFEQ3FoOE5zSlBwRVlhcXNjdXVZTmVPMnFqZVl6?=
+ =?utf-8?B?UDl0a1lQS2hlYXppVkI4bjI5WUlZNld0ZkJXV0ViWmpHemhOaENGaGR5UGJ3?=
+ =?utf-8?B?YUtJZmVjb0x2S3VzN2JTcXJNYmFqdFZuY1F0QUMrUGdJa1l2ZkIyNVRReUE0?=
+ =?utf-8?B?UWpHMkYxUHJuYkFXaWJzdEN6RnU4Q2hFTlV3QWFUaWY5aThlUkd0SEFqUG11?=
+ =?utf-8?B?RW81ZUFqMGd2Y0hVZThLQnlzQlg5OUJPdmZLZERPL3hNeThDdkVYWkcwQmhT?=
+ =?utf-8?B?ODVJL0lyUkFNdHNFdEFQbHZuS3FQVVFqOXNMRm5kWitpbFZzNkI5YUxFSm9x?=
+ =?utf-8?B?QTl3cmtGMkM3aVp5UFFJaVpmODViOHZ0WWNibzM2OWZIOHR0cFBjOGN4cDVv?=
+ =?utf-8?B?RDNvOWQ3RVpJUk1FV3pEM3BvQXg0OGtibUlkNWFzaDJ4THdneWNaY0hYYlJv?=
+ =?utf-8?B?dHhxci9HeUs4N3dGcnoxKzZ1R25BQWdsckRkVWtDZ3p2NWhDTVVzZUNYcnFj?=
+ =?utf-8?B?UGJ0cnZFZENrZU55aEFoRk9yNWxZWVEvZWdGTXhRT3pkOFVkV3pPTXZxTk53?=
+ =?utf-8?B?QXIvamVHRFJOV3MvU1Z0VUVFM3hhRnR6Q0Iyc1o5S3pHUkhjdkFCWFh6UDJW?=
+ =?utf-8?B?VTdmN1R1Z3BDQ1lCUWZwb2d3ZEE4R1d3WWhGaFRlSUlMQ3pDRmpIY2lkM3A3?=
+ =?utf-8?B?enZTV1FkancwQ2RXS2ZTbktvVndZbWJtdFZzMHNRdERaU0Qrcnl6QTMzSzdz?=
+ =?utf-8?B?M0hkWTBWcngrUzEzeWlYS0h6cHFzVHlpUTBvaEg4cUFpVEt1ckVVLy9jQjlo?=
+ =?utf-8?B?ZkkxUXRLamJSQkpxY0xQVHp0T1RQZHNWK0txK0E1R2NQem5SRWQ0czFpK21T?=
+ =?utf-8?B?TUdYbUNEN0hDRDk3dWMrejRjZWNObFE1QWZPS1BDWVNkY1owd21RNlJ3T1Ns?=
+ =?utf-8?B?UE1xQzNySHJVOUtzNzdoSElqVDhyOGRyMHBPeVEyWVBUaENmRCt2MHkvdE0y?=
+ =?utf-8?B?L0VGNWU4VHAvLzQxNXFqN3BUNWRrMjZqRzEzTEV3cGlhSDliT1FBbTZNbTJB?=
+ =?utf-8?B?enFoOHA3YzZvUlNFM2VDajJ3bEZKTzJVamgrZ3MwSGVjTG1LQTVDbnhWcVNE?=
+ =?utf-8?B?Z3ZMNmJtYTJpK2diZ2VoRG1QaHdvVVpKeHRRWjBOQlFrZm01UkNBc3pDb0Qy?=
+ =?utf-8?B?cEhwZS9UVHhUemszRGZZQUR4Ky9Scy8yQ1haYldlWlZtSXQranliRlQzN1Zj?=
+ =?utf-8?B?eUhtQklPRnYvRnVUeFp3TlNhQVhIelBRcDhiVU1TYzRmQmRqTmlWR2NNYkk3?=
+ =?utf-8?B?V2xZaFoyL1RHRm9WeG4ybHcxUmV4RkY4NGJnVDB5UUFJbU5QTUpnZTFhMjVh?=
+ =?utf-8?B?WDlRRy9rUTJDcW83TDFwYmJqbkVGbk1KTkJhUDVhRHZ6ODRSMlp4WGdxS0Q2?=
+ =?utf-8?B?eUJDSVlKeGpzcE1BZnBiTTdFem5oRnlpZUlsWWdaZDg3YnhYS2V2MzVwWURV?=
+ =?utf-8?B?Sm9GWWYwbkhkNzRCTExVUndabzQyM1VndlNCblhxUmRLWTMvbGZQVjhGWmhR?=
+ =?utf-8?B?SnhLNllmdTNVS09pNVlYeDc3ZjYvS1Z2VXk3T0dvcEFQT1BNWlJvZGRXV1FC?=
+ =?utf-8?B?TFdwU3FlQjR0blBpd1ZES2E4L214Y1IyRGhQNlpFL1NTR3ZqbEsvdWJoMjEw?=
+ =?utf-8?B?VlFWVkNMMm8vSlNZa0tRRGtWckRrTGJwQmlLWEN6SFp3ekozbnZ6Qm5qSVEy?=
+ =?utf-8?B?QnI3V2hTai9uTmliekk5L1RjTkVIUzNCbTc5bHFZNnVWQS9hVHlxYmU0Zzlp?=
+ =?utf-8?B?SUVmS0FqdmFBckVQb3NRYUNEdVRiWEtNSU8zR1lrQVdUSmIrK3JtNGR0eHdz?=
+ =?utf-8?B?QkNuRGJnWmhTWWk4Vm92bUZwTjIvRXZoVW5zdTVOUUpXbVM3emFjUHNpdVNk?=
+ =?utf-8?B?N1J2L2ZEM2RoRlJmRUllWVp5N1lQbWNIUS84YUFzWXFKSGUyYTlPbkt2ejFo?=
+ =?utf-8?B?SVhpY2ZCaXVNMWt0Z1NFTzRzWW9EdVFudUtZblJ1Y3gzdjBKMW5Cdz09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3adc22e7-50f9-4189-b8c5-08dec6eecf24
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c55a7450-9d95-4b28-40a1-08dec6ef45ef
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 12:50:11.5637
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 12:53:30.7698
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eOPV/EBi/3mSp08ZA8zy6gP0stWJntdrEZhwCg0rwY4OrDG9wWz2cQB21BP5C+Pp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9776
+X-MS-Exchange-CrossTenant-UserPrincipalName: QPqkiZusKBhFAEySqre5/0yKjcdYcB7zJq5bkq8w1PcKFfzQHmEMGbcRA4d0noLxm6hdHSH7hMdKKBD2RTTqPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9707
 
-On Wed, Jun 10, 2026 at 12:28:33PM +0100, Will Deacon wrote:
-> > Note: stlr* only supports base-register addressing, so the raw accessors
-> > can no longer use the offset addressing introduced by commit d044d6ba6f02
-> > ("arm64: io: permit offset addressing"). The str* and stlr* alternates
-> > share a single inline-asm operand and the sequence is selected at boot,
-> > so the operand form is fixed at compile time; unaffected CPUs keep using
-> > str* but also revert to base-register addressing. This keeps the store
-> > side as simple as the existing load-side patching (load-acquire) and
-> > avoids adding complexity to the device write path; retaining offset
-> > addressing only for str* would otherwise require a runtime branch on
-> > every write.
-> 
+Hi Will,
+
+On 6/10/2026 6:28 AM, Will Deacon wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> [+Jason G]
+>
+> On Fri, Jun 05, 2026 at 09:45:51AM -0500, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>    - A PE executes a Device-nGnR* store followed by a younger
+>>      Device-nGnR* load.
+>>    - The store is not a store-release.
+>>    - The accesses target the same peripheral and do not overlap in bytes.
+>>    - There is at most one intervening Device-nGnR* store in program
+>>      order, and there are no intervening Device-nGnR* loads.
+>>    - There is no DSB, and no DMB that orders loads, between the store and
+>>      the load.
+>>    - Specific micro-architectural and timing conditions occur.
+>>
+>> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
+>> orders loads) between the store and the load, or make the store a
+>> store-release. A load-acquire on the load side would not help, because
+>> acquire semantics do not prevent a load from being observed ahead of an
+>> older store; only the store side (release or a barrier) closes the
+>> window.
+> I think you can drop the paragraph above. A store-release isn't enough
+> to order against a later load in the architecture either, so we're
+> clearly in micro-architecture territory and I don't think you need to
+> describe mechanisms that don't work here.
+
+Thanks, Will. I’ll drop paragraph and avoid describing store-release
+as an architectural ordering mechanism here.
+
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+>> to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not order
+>> the store against a subsequent readl(); the store-release promotion is
+>> what provides that ordering.
+> Sashiko points out that you're missing __const_memcpy_toio_aligned32().
+
+I’ll also cover __const_memcpy_toio_aligned32(); it currently emits plain
+STRs directly and can bypass the raw write helper workaround. I’ll audit
+the aligned64 path at the same time.
+
+>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+>> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+>> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+>> the plain str* sequence.
+>>
+>> Note: stlr* only supports base-register addressing, so the raw accessors
+>> can no longer use the offset addressing introduced by commit d044d6ba6f02
+>> ("arm64: io: permit offset addressing"). The str* and stlr* alternates
+>> share a single inline-asm operand and the sequence is selected at boot,
+>> so the operand form is fixed at compile time; unaffected CPUs keep using
+>> str* but also revert to base-register addressing. This keeps the store
+>> side as simple as the existing load-side patching (load-acquire) and
+>> avoids adding complexity to the device write path; retaining offset
+>> addressing only for str* would otherwise require a runtime branch on
+>> every write.
 > I seem to remember Jason caring about that, possibly because some CPUs
 > are very picky about write-combining?
 
-I think it was more a fall out of the work there, after looking at the
-assembly this minor edit to the constraint made a nice codegen
-impact. It is certainly a shame to loose it for this bug.
+For the offset-addressing concern, I’ll rework the raw accessors so
+unaffected CPUs keep the existing offset-addressed STR sequence, and
+only CPUs with ARM64_WORKAROUND_DEVICE_STORE_RELEASE take the base-register
+STLR path.
 
-If we care about write combining we can't have a branch anyhow, but
-that is most important for the specific memcpy operations (which will
-need a branch)
+I’ll post a v3 using the patched branch from alternative_has_cap_unlikely(),
+and include the memcpy_toio() aligned-helper coverage as shown below.
 
-Jason
+
+--- a/arch/arm64/include/asm/io.h
++++ b/arch/arm64/include/asm/io.h
+@@ -22,10 +22,46 @@
+  /*
+   * Generic IO read/write.  These perform native-endian accesses.
+   */
++static __always_inline bool arm64_needs_device_store_release(void)
++{
++       return alternative_has_cap_unlikely(
++                               ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
++}
++
++static __always_inline void __raw_writeb_stlr(u8 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writew_stlr(u16 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlrh %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writel_stlr(u32 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlr %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writeq_stlr(u64 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlr %x0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
+  #define __raw_writeb __raw_writeb
+  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+  {
+         volatile u8 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writeb_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -33,6 +69,12 @@ static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+  {
+         volatile u16 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writew_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("strh %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -40,6 +82,12 @@ static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+  {
+         volatile u32 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writel_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("str %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -47,6 +95,12 @@ static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
+  {
+         volatile u64 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writeq_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -147,6 +201,12 @@ static __always_inline void
+  __const_memcpy_toio_aligned32(volatile u32 __iomem *to, const u32 *from,
+                               size_t count)
+  {
++       if (arm64_needs_device_store_release()) {
++               while (count--)
++                       __raw_writel_stlr(*from++, to++);
++               return;
++       }
++
+         switch (count) {
+         case 8:
+                 asm volatile("str %w0, [%8, #4 * 0]\n"
+@@ -204,6 +264,12 @@ static __always_inline void
+  __const_memcpy_toio_aligned64(volatile u64 __iomem *to, const u64 *from,
+                               size_t count)
+  {
++       if (arm64_needs_device_store_release()) {
++               while (count--)
++                       __raw_writeq_stlr(*from++, to++);
++               return;
++       }
++
+         switch (count) {
+         case 8:
+                 asm volatile("str %x0, [%8, #8 * 0]\n"
+
+I'll post v3 patch with jump instruction patch.
+
+--- a/arch/arm64/include/asm/io.h
++++ b/arch/arm64/include/asm/io.h
+@@ -22,10 +22,46 @@
+  /*
+   * Generic IO read/write.  These perform native-endian accesses.
+   */
++static __always_inline bool arm64_needs_device_store_release(void)
++{
++       return alternative_has_cap_unlikely(
++                               ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
++}
++
++static __always_inline void __raw_writeb_stlr(u8 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writew_stlr(u16 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlrh %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writel_stlr(u32 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlr %w0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
++static __always_inline void __raw_writeq_stlr(u64 val,
++                                             volatile void __iomem *addr)
++{
++       asm volatile("stlr %x0, [%1]" : : "rZ" (val), "r" (addr));
++}
++
+  #define __raw_writeb __raw_writeb
+  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+  {
+         volatile u8 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writeb_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -33,6 +69,12 @@ static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+  {
+         volatile u16 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writew_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("strh %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -40,6 +82,12 @@ static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+  {
+         volatile u32 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writel_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("str %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -47,6 +95,12 @@ static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+  static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
+  {
+         volatile u64 __iomem *ptr = addr;
++
++       if (arm64_needs_device_store_release()) {
++               __raw_writeq_stlr(val, addr);
++               return;
++       }
++
+         asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
+  }
+@@ -147,6 +201,12 @@ static __always_inline void
+  __const_memcpy_toio_aligned32(volatile u32 __iomem *to, const u32 *from,
+                               size_t count)
+  {
++       if (arm64_needs_device_store_release()) {
++               while (count--)
++                       __raw_writel_stlr(*from++, to++);
++               return;
++       }
++
+         switch (count) {
+         case 8:
+                 asm volatile("str %w0, [%8, #4 * 0]\n"
+@@ -204,6 +264,12 @@ static __always_inline void
+  __const_memcpy_toio_aligned64(volatile u64 __iomem *to, const u64 *from,
+                               size_t count)
+  {
++       if (arm64_needs_device_store_release()) {
++               while (count--)
++                       __raw_writeq_stlr(*from++, to++);
++               return;
++       }
++
+         switch (count) {
+         case 8:
+                 asm volatile("str %x0, [%8, #8 * 0]\n"
+
+-Shanker
+
