@@ -1,110 +1,184 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1675F299A82;
-	Wed, 10 Jun 2026 23:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2835738E8B0
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 23:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781133681; cv=none; b=PP8/v77ABocUx6Zx/mH9Zb1rATWR1++xb36J5kqxy26wGiQLJojgh0fai3R7LgTvCiSBcHzPqnUHoO47Ufh8HI/9w31fEzRvPcucLLxyhJ4O7RKth9fxu6h6ef42+YjaadNoTrEY2xBuGUU5w5gohHFgnrO/imHnLnshKzYPXkY=
+	t=1781134867; cv=none; b=Fd+HLivJ0NT+s7MM/8Iy5RVfmc8GuZpOxIRflgYP/QiqifK3ckKE9da+xG0ULcgjl7u6LBSSUjAbVWjxC8Ts38wX/q+lQ02c6qTtBdDEW488YC9tMh3w9Nw1FL3a4JIJxRCzIzRzmPSXPcnJwx9rNhK8mTYdrK96AIadiIJuyLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781133681; c=relaxed/simple;
-	bh=0ADfnQ8czZLpWCsiojUzxdOuhYUqCYDerD2scETEEgY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hSR8pQCTzrYdU045Wjn3JHdZNrFHEFsa2GzDl+s+WumFEoSuYUhb6catpF9EcKq87epQRXRxj9P/fZeJAihdQqT6ZTmB7Rshj6pPW3PENJ2xY7ChUAIaDq1CRE6eVB7vsZgywlfL5mSoAh91wrAmk2V44xI9Yz4UAoAUnlGKPRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U3qJBmhZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781134867; c=relaxed/simple;
+	bh=WLKFSvoHBAuURbkH0azFPoXH0iTJec2iRBnKyq7YHT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wg6Se7EvGH7d4u0BdfaOOkzuPZP10IRBxOmGU45CYn8lWvtjm1lBA1F97aPw9nNK4jizFtKhdKfL/IYEhQJEjtaKNagHTdXNunIaqFi1hF2pjYeHwvMBeSFa2BO3g1JzsHIsDhb2756LlvYL0zk0cPGKnGBUJLJeBwrCKhJHiy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=slxb3N4b; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U3qJBmhZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=9wCKYk9ipCH/BA7MdLEIq6BkUVsdEsoO78w2x/7sZ2o=; b=U3qJBmhZf9CRxCeA9tY1a8rgQK
-	VvNBvitBupG4j41A1Ykgftr3bSAm13ZJ0N4DoyA6EgcFfHoTyGTgf8MuPFhEJZ4m9+yAQC6GFN+0F
-	4eYxlOSCkUY77IiU3VRCOxJ4e4USN+ibwSWtegvdo8Szvr3bac1IP0a7K55skCtAYL0lVB6ZPzBij
-	+4cAGwMm1CCKcvgjGXt424jkhsEIhvieJf+HCnTRRxv1grn1ByCaUJasJDvzgsHlgeUQAULnTnKXm
-	TmLpaw9y0Fx0kGpVnJVnsyF40yPZN68nSv0J7V1dhsXi79IA5S3d26gLRYcNvvt4cnNTCC/x7XnR6
-	ivK9G/5w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXSEX-00000008Sdk-3Vuf;
-	Wed, 10 Jun 2026 23:21:17 +0000
-Message-ID: <cf1a1f6d-df63-45cd-b73a-cd3e26f2ce4a@infradead.org>
-Date: Wed, 10 Jun 2026 16:21:15 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="slxb3N4b"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so3425055e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 16:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781134863; x=1781739663; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hItbBwzE/UemJbPm5Fn7DOlYpjoWK0GBfBYmIwvZBe8=;
+        b=slxb3N4bFW1Qs3memInulsiDuICRh2Zf9ZsFSF1rVQ6FbolbwDG06y5HMYqDQ+mfpH
+         Q3a9n74hereuyEvM9iVcgruLRnEeLYlPWIqVTVTkbFQ83+4U1mr2LyFN2OisN60VIRIu
+         VM06mzir7DHgGFkA1iRFyBHcrQPA3uBO4eajSfqiPHW/4rHOAioxIjoY1GJYYpI3LIGx
+         7FJFGIL25t2kEN0M90zrhuPf0rbhPVcfcH8Zb4DMekwwgReCijPDrG+wpiTPk2P4G9A5
+         28Py06VePTd2y10Rzca9UJfwv+h/fcBSHPRqr/cr1XhGgvGW3dfrV2xLYomD/lFwAyxl
+         wnGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781134863; x=1781739663;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hItbBwzE/UemJbPm5Fn7DOlYpjoWK0GBfBYmIwvZBe8=;
+        b=Zzf/zU6b/DWefqaLRy9K5A+XL4Xij5uwCbauZfFXNoxnPnXbPeW49ofpM0AyfYsHvm
+         +4sPqfKOIKHS+R7IIEaKP1TqnMnxgYBEYk7/ZnllMAlXHkj1wloUMH+CH5YrYvHp0Fni
+         dN7A/PndyfIlK0qRO1iZtJ+wo1lM1nzE3Gs4iaDPMkMst7R75r+bWlDiUKpYkzYIuobf
+         bPu4ZwdJbrQQgmGee9T3bBj2GWGFxBLwPJ1vh1CSZJ+RtDaEV4xY5Jy5t8IrLmtDVzSb
+         JaZZ5OU4XtRlgAgoh2dx/m+gwKvLoxzs6rXfUQWu3O1MvGEaC1NgpDB84XKPUj+9qs+I
+         CBDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9YX+q8wBEeICEgovSnZXiC0V79RXxTuhy7EFr6oAVVFN6BJmEs2iK3FrdrNf9BsZp7ScHHfHu7+1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNv9H9HMXCQNRjbsM9wEfof3ybU8RcbWIRecTL98kdYkFIRfAq
+	WOzXe3QozKwasqf4ZZsT4Jrw7fem8YCoJO3UsxkNJ5lwn8V0eofWFUR/
+X-Gm-Gg: Acq92OFU9/EUaozMcGd8vQfVwIIUoVLpslyczhMeiD1SuREV13qWNT/9b5RW+2mtfj+
+	J/kFl808u/0A45YqGmg3egGy7rqNJE6Xq7L7Mf0ZekEtLJeSmIQjdx5Q4zu1WxKjdAuxBido0Uj
+	/Gcv43RNpfGjCx1gm8eYCXrCiOFuGueAOzUKRPtFvJhqrybBdpp/CDMZzwjIHL5bTr6E3t+E2FS
+	v9w4xBS8qaxkrU7xuZCvStfdB39uFueUVswAI8+OjWqGVRdukdWhpzVQNT+dF9E203lCCJNYEG3
+	DLOa8yHEIZD0v01xPSm0nSpf91y6fRz55KRJ3sDWKQPPErKOWcbwW5USeezwcBSw0jqrPRDQV+X
+	2pb+x+XLu1Ref1zSpu23MUhLs9PAEC/LwzKdK34uIlUHZlXWMIDO4sPP4Tbkg7ytXiyHRHurP4M
+	3PKl9fj+0MZ1g7wo/5QoQ04w1y/Fqt2VNVFSA2gdbflrSICKFYLWLdSBfaodJQF0BNX1YTeiN9W
+	8pbM807cw==
+X-Received: by 2002:a05:600c:1554:b0:48f:e230:29f4 with SMTP id 5b1f17b1804b1-490e5318363mr872135e9.15.1781134863322;
+        Wed, 10 Jun 2026 16:41:03 -0700 (PDT)
+Received: from f (cst-prg-85-110.cust.vodafone.cz. [46.135.85.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e422e321sm4497435e9.0.2026.06.10.16.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 16:41:02 -0700 (PDT)
+Date: Thu, 11 Jun 2026 01:40:56 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: Li Chen <me@linux.beauty>
+Cc: John Ericson <mail@johnericson.me>, Andy Lutomirski <luto@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, linux-api <linux-api@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	linux-arch <linux-arch@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
+	linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
+Message-ID: <hd3i6pxxohsjesyid7nhuic6ppp6nyoxxpwa4mny6riqvpyqec@mylfprni2yaw>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+ <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+ <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
+ <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] Documentation: PCI: Add documentation for DOE
- endpoint support
-To: Aksh Garg <a-garg7@ti.com>, linux-pci@vger.kernel.org,
- linux-doc@vger.kernel.org, mani@kernel.org, kwilczynski@kernel.org,
- bhelgaas@google.com, corbet@lwn.net, kishon@kernel.org,
- skhan@linuxfoundation.org, lukas@wunner.de, cassel@kernel.org,
- alistair@alistair23.me
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
-References: <20260610100256.1889111-1-a-garg7@ti.com>
- <20260610100256.1889111-5-a-garg7@ti.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260610100256.1889111-5-a-garg7@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
 
+On Wed, Jun 10, 2026 at 08:29:06PM +0800, Li Chen wrote:
+>  ---- On Wed, 10 Jun 2026 01:27:47 +0800  John Ericson <mail@johnericson.me> wrote --- 
+>  > Hope the above answers your question? I suppose my ideas lean more on the
+>  > "future" than "empty" side --- there is indeed a thread in the thread group,
+>  > with real VM/namespace/file descriptor etc. state. Moreover, state gets
+>  > initialized before the process is started, so the actual start is a pretty
+>  > lightweight step of just letting the scheduler know the now-ready process can
+>  > be scheduled. The only thing that distinguishes the embryonic process from a
+>  > real one is simply that it isn't running --- i.e. isn't (yet) available to be
+>  > scheduled --- so the pidfds holders are free to poke at its state.
+>  > 
+> 
+> Thanks, this helped a lot. I looked at FreeBSD/OpenBSD/XNU after your
+> note. FreeBSD has P_INEXEC, OpenBSD has PS_INEXEC, and XNU seems even
+> closer with P_LINTRANSIT, described as "process in exec or in creation".
+> Linux does not seem to have a single equivalent today: current->in_execve
+> is only an LSM hint, while the real synchronization is spread across
+> exec_update_lock, cred_guard_mutex, and the exec path.
+> 
+> I am switching my local WIP from the two-fd builder model to one fd,
+> closer to Christian's sketch:
+> 
+> fd = pidfd_open(0, PIDFD_EMPTY);
+> pidfd_config(fd, ...);
+> pidfd_spawn_run(fd, ...);
+> 
+> In my current local version, I still use copy_process(), so the fd points
+> at a real task_struct/pid that is not woken until run. Following
+> Christian's point that existing APIs can handle this not-yet-running case
+> with ESRCH, I currently make ordinary pidfd operations that need a real
+> started process return -ESRCH before start.
+> 
+> I am not sure yet whether Linux should grow a general exec/creation
+> transition state like that, or whether a narrower future-process
+> lifecycle is enough for this API. I will think more about that when
+> working on the pristine process version.
+> 
 
+As I tried to explain in my previous e-mail this approach does not cut
+it because of NUMA.
 
-On 6/10/26 3:02 AM, Aksh Garg wrote:
-> Document the architecture and implementation details for the Data Object
-> Exchange (DOE) framework for PCIe Endpoint devices.
-> 
-> Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Signed-off-by: Aksh Garg <a-garg7@ti.com>
+Suppose you have a machine with 2 nodes. The parent-to-be is running
+on node 0 and the child is intended to exec something on node 1.
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+When the parent-to-be allocates and populates stuff, it takes place with
+memory backed by node 0. If you allocate task_struct, the file table and
+other frequently used (and modified!) objs in this way, you are
+guaranteeing performance loss due to interconnect traffic to access it.
 
-> ---
-> 
-> Changes from v4 to v5:
-> - Updated the DOE Abort handling setion.
-> 
-> Changes from v3 to v4:
-> - Updated the maximum size of the DOE object from 256KB to 1MB,
->   as per PCIe spec.
-> - Updated the DOE setup and cleanup sections.
-> 
-> Changes from v2 to v3:
-> - Rebased on 7.1-rc1.
-> 
-> Changes since v1:
-> - Squashed the patches [1] and [2], and moved the documentation file
->   to Documentation/PCI/endpoint/pci-endpoint-doe.rst to match the existing
->   naming scheme, as suggested by Niklas Cassel
-> - Updated the documentation as per the design and implementaion changes
->   made to previous patches in this series:
->   * Updated for static protocol array instead of dynamic registration
->   * Documented asynchronous callback model
->   * Updated request/response flow with new callback signature
->   * Updated memory ownership: DOE core frees request, driver frees response
->   * Updated initialization and cleanup sections for new APIs
-> 
-> v4: https://lore.kernel.org/all/20260522052434.802034-5-a-garg7@ti.com/
-> v3: https://lore.kernel.org/all/20260427051725.223704-5-a-garg7@ti.com/
-> v2: https://lore.kernel.org/all/20260401073022.215805-5-a-garg7@ti.com/
-> v1: [1] https://lore.kernel.org/all/20260213123603.420941-2-a-garg7@ti.com/
->     [2] https://lore.kernel.org/all/20260213123603.420941-5-a-garg7@ti.com/
-> 
->  Documentation/PCI/endpoint/index.rst          |   1 +
->  .../PCI/endpoint/pci-endpoint-doe.rst         | 333 ++++++++++++++++++
->  2 files changed, 334 insertions(+)
->  create mode 100644 Documentation/PCI/endpoint/pci-endpoint-doe.rst
+Trying to add plumbing so that all allocations respect numa placement is
+probably too cumbersome.
 
+The primary example for that is looking up the binary to exec in the
+first place.
 
--- 
-~Randy
+userspace likes to pass paths which don't exist, meaning checking for
+the binary before any hard work is a useful optimizaiton. Suppose the
+binary to be executed is in a container bound with a taskset using
+node 1 and the content of the fs part of the container is currently
+fully uncached.
+
+When you perform the lookup on node 0, you are populating a bunch of
+metadata (inode, dentry) using memory from that domain. But the intended
+user will only execute on node 1, again resulting in a performance loss.
+
+In order to not do it you would need to convince VFS to allocate memory
+elsewhere.
+
+So I stand by my previous claim that ultimately a pristine child has to
+be created (like in this patch), but which also has to do the work on
+its own.
+
+Suppose there is no explicit placement requested anywhere. Even in that
+case there are legitimate workloads which will eventually be forced to
+exec stuff on another node. Even these have a better chance retaining
+full locality if the child process does all the work.
+
+Per my previous message I don't see a clean interface to do it.
+something quasi-posix_spawn is probably the least bad way out, it will
+also allow userspace to easily wrap the new thing with posix_spawn
+itself.
+
+Also note there is another issue with the fd-based approach: the fd will
+get inherited on fork and will hang out in the child afterwards unless
+explicitly closed. Suppose you have a multithreaded program which likes
+to both fork(+no exec) and fork+exec. With the fd-based approach you
+have no means of stopping another thread from grabbing your state thanks
+to unix defaulting to copying everything. There was an attempt to fix
+this aspect with O_CLOFORK, but this got rejected.
+
+Whatever exactly happens, NUMA is a sad fact of computing and needs to
+be accounted for. The approach as proposed not only does not do it, but
+it actively hinders such deployments.
