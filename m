@@ -1,94 +1,197 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011056.outbound.protection.outlook.com [40.93.194.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A29D402BB7
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 13:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781097152; cv=none; b=pt/n1HHxiHy57rezM0tjMOB43wK4qw83BXg6W3YyN0v6Oy6HwKHZG+W53d6ZSrYLa3Sn9Ao7lMqYSrSST8LsXc0dTrwuG5ozwOtXInomntQ2OZ4ChkR08jkbS5xnLCVhg34TgVeWBgaEE2p8RTpigaxzKzqsGiANqM7qFVRteJU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781097152; c=relaxed/simple;
-	bh=ujnuTbuIA+/VMzsIw8mIg7lRwtphwwsiuTKrr7QIULQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBF2LhvzvmRY+3cWLOh1N7vhTh+OJKf0D4oYtD/dCOE0GN13hICCuGjJTNQs4436Yk7aZ8Hbbfst7cEeDoRen6/B4CWHTUSaJDaV9BnxSsdP1p/pQs0MfO5yIRcl2m7CF5YJwgu48BPP+lkUk1VBvsx58GrNiOkURmIIVEp7Ysc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qUE/wG40; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756151A23A6;
+	Wed, 10 Jun 2026 13:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781097648; cv=fail; b=uIjyWjwLvq6TvoJOKgG4tb+PG8wVLTSs1iG4BpicNJPLvzqqK/uIav6th/t3xcn5HbVoMfB00gTg+7Jlx2mCSOi+OqwNRpdXdsWihkdPPk2BheVKZJISnQusVM0NvNlAHEPQwCtkeY5hbNr4jCtjUghR3MNAvzUUQdq208XDMpo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781097648; c=relaxed/simple;
+	bh=D8y6jBFIcHgc45uQr5ztBYPGDfGA5c7VYE/3UcNv+xU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=f7vQZyN82Aq3sriIubJaOM1B4b2nLOWO5nvKY/Cefjp/JcmtL/STPWwcNyuhZqfEiy4DjfCQJQAN/Vs2hKOGKIVUJ5HUKzyvcmSJKkKGKmZNatGI34vE/ok0k0kV82K2jtE9WarnCEggAFdoP6/tYwwO+iH52VzcpavaZHs+RFo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Zsq6I8mR; arc=fail smtp.client-ip=40.93.194.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qUE/wG40"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c0c3315c5dso70277075ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 06:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781097151; x=1781701951; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FQ8w1vFi6aBokKM82WvjsJebJ9j4q6ueeVSB/POf8JY=;
-        b=qUE/wG40ru7ijpez3HL7ZLwhesVv1pDXuWXV4NR4Npnmb+DitMeSBXW+h4JXXLpogH
-         HyVcfb0NFEYLMX+/I8LSP9IN/JMUAP0GIMG5Wykc3SfXsjREAwKw+maH97fdgBlefMZo
-         rQWxr6BzoqQ9KApVUL61Ncb5CD/bkrMY1pngZk70HatIh4PgyhJ9NDRVGWp2U5tQEN22
-         lKjZNI4n7/wQKsswo5rtxmgpqBWahQGGPcfUY9DmCwWziAf3LhDyMDYcNJNlpa6FTsix
-         IesOBZeArFyOa4X04boQYMRYwEE8R5qD/P2mErHMT5wJ6SfXYkpDz2YqRR7NDq2HxtrK
-         xtUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781097151; x=1781701951;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FQ8w1vFi6aBokKM82WvjsJebJ9j4q6ueeVSB/POf8JY=;
-        b=S9aa1ZGj+Jwq5AzuhxLhGUqZPgZ9i54r0PWPw5mTXy6n+tsa8SmZiP3NyRN7qr69Qe
-         jFBzM1+ifDKKGFW8kRzOl6Rpt6OVZvEQxyIRVFKzj4TB6LO32KvQM36/EiW2G3IpSgIT
-         3owsNmmq0HwxK/tjQTxVr02Md1rWPstkg7Nrde+QXdjgZQ5voL2nrkrgxuJ0dq+827W9
-         3p0n8egLkdOpdxmjDeuwa6+Ek8YkWzWdt0k6C9zehVp4HCaG70VLgN87Ewht7aFYaw2p
-         2KSVcJKV34/1+ce1d2DgG3BeS/jtAU+fWuyxAI4k+8TUNH7ArromdhsXl877DYiGbI7u
-         ZkQg==
-X-Forwarded-Encrypted: i=1; AFNElJ9CgRLHBRUlG9A2TSzAn2eQ1sqXs+mgXh6vzS9LZPZaa7lW9Krk60Z7IfGKC2SmCyShnbIMHJstL38=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGW8oAmM9uvNxU5fm19Wf/gEeXU1oB16J6HIWCMpukEOewPxFS
-	I1DLrjHOZqELlk638lFWovasWCCwhIp5KInECDu5vxdj1gqjo+QKlBxu
-X-Gm-Gg: Acq92OFH/5u/6qDwee4+OpBXYpqnAwzPGEYffQOTNNegX/hPROppRK7aZ8yvIV+TuzA
-	FU76dBz3xjC9bod5stSf6StYDaE1MA2W8ndiCUl04+R7Mx50KjCrriSvFz+09F/kmKLW3gZwyA2
-	PbjVWY7nv/+BsiccSFwSZ/i7J1pU2Exd0d9K3gI1hDcaXo1QDd7HjfyjSzwneifnb9hmSZnFPWj
-	SxZqP6JvDd+YXo8eyqCroW2ohP0DMBOI+vWWZ6Qi7SrC9Z8JYyqSWiVTbDJCRyis1HrvR0yYigB
-	O75B4WBnQY+2s9i3p3+UCeD17+Gsn+lRtOs1g8uTzHj1spptQvxluz8Z3A4+0HPGNEGNElKdCGG
-	9Txa54uG77IGDAOngeY5k/JjySspJxiWGskVg0v8xyRhMR9L6wuYMCOUEM8OlCyA/QQuGgA5JhP
-	94PKWBrMSx961fu39TtE3kwxtSIVJqEoiMM7EkbqzMjsRb+KY=
-X-Received: by 2002:a17:903:90c:b0:2c0:b7e1:7f08 with SMTP id d9443c01a7336-2c1e859fc13mr303390475ad.28.1781097151017;
-        Wed, 10 Jun 2026 06:12:31 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f87920sm251348465ad.24.2026.06.10.06.12.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 06:12:30 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 10 Jun 2026 06:12:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (pmbus/max34440): add support adpm12250
-Message-ID: <3ea8d261-ccc5-4b33-8ee4-55c5e4b31670@roeck-us.net>
-References: <20260610-dev-adpm12250-v1-1-422760bb80da@analog.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zsq6I8mR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gyMUHL0TFcIFQynk30bOQjtn9cxIl6Rv+vntX84r+7C625TCYbxKQpghae/z58+1fVhtHOAyXJzcTIVtaCoYtaQk+IRRc/Z9vSuJsRyKa7J3L5Pq07JBMxRuJFJcgnYhynJ8YQJk/7j5/nQNTZh3LlQsymhW7D7LmTkfk8oo7K4GztH7od7kcKQdhPwhVx2ZXZ/myqZhqM8WVg/XupFUJXaarZoC2WXhv9X/OfJyC8oYUsAiLK/cciArLjU3XNVGTTlxdK4zmuEBreyV2wylLLtTIgNqYUHj1luLm+aV7tM14ygFIDfXNtBw1QSSE5xh4ank9UzGxAAw5clg4BQaVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2mw98UDti+w23bYsqEoXHV6+vUXcKMaT+r/hqgm+CvE=;
+ b=QCM/suTfjCgTFjaGp/zozt+fUOTom/AquZVLGoa14hiXUQiJPYk3MjCPa7AlkJWuftsHRBe72u2BRX9ow5skzDVWSQQavxbfbDzqlIVdyh+TWTBiNDNq26fhsWcx8mnHqN4NSYB0DrTFUJiTTA54+G9TA+tgk7JNNaZeZQb6iGFgurwjSklCvjaI6D/mrv4Jfc6FG8P1Nxv3FKKzskmAYT8Z7UEgFjeR7GJ0hNFQRAbEe5PEGdk2ZTo/vBH+a6mZrmDUqrEKWG/puEoKrdBinMPHQHKe2Spuzive5TzWfxfEaUf+J59nBz1pIFDHvhbEP0rrnLDfPK+HVg52RThFGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2mw98UDti+w23bYsqEoXHV6+vUXcKMaT+r/hqgm+CvE=;
+ b=Zsq6I8mRZv15CXs+J5jl12R5LcU0RAZZ5sFCu8qIom4c8Gcc9aq2qjQceEwW1xzERcvHwgWkS9+LN5CYzdNPP+baX7qJBstxXwY8knlpdYrrFiWBxD8fUWJ6TLsVNQPGetEBo8z3n/IE/93bZBAzMHg1XMw3CkRqqr+393Z14RFnedgmL0APX64bIbSk8jwpNPfXFoxFbALa/z5ihmLQVFN6+12e7JIjGuRxtBh1givLsNjVYjH6aFjXiReNTay0MRVW3xggg/cz9yjzl5u3vS7FqbNr6gajJ39GkZGxb+97/uGoXKsd3krDuf4U7JN5EuclXZ4xyAbPvdnrCUIaJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
+ by BL1PR12MB5778.namprd12.prod.outlook.com (2603:10b6:208:391::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 10 Jun 2026
+ 13:20:44 +0000
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Wed, 10 Jun 2026
+ 13:20:44 +0000
+Message-ID: <223c49ee-528c-4750-9885-fd8e0247151e@nvidia.com>
+Date: Wed, 10 Jun 2026 08:20:28 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Vladimir Murzin <vladimir.murzin@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+ Jason Sequeira <jsequeira@nvidia.com>, jgg@nvidia.com
+References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
+ <ailKYTOX23EMnJsK@willie-the-truck>
+Content-Language: en-US
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <ailKYTOX23EMnJsK@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DM6PR07CA0075.namprd07.prod.outlook.com
+ (2603:10b6:5:337::8) To IA1PR12MB6089.namprd12.prod.outlook.com
+ (2603:10b6:208:3ef::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260610-dev-adpm12250-v1-1-422760bb80da@analog.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|BL1PR12MB5778:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f33852c-c1f4-424b-13d9-08dec6f3139c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|4143699003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	yr77mem8kLNL63bU5Iv1vheGL7H/32BYe5ID+RYDS9lIYqj3OGQE3apmlOPOlnRzYgDl39l0S1norHyzRFjdvsG73YQt8slVj7Z4DP1bYRasC/SjwY1NpQQAfKJmzc4dhrxbCSjupd1GOxsLvi27NVzKC9G1bySVn6Y2So61S+tSy2bKlcd5hcv4T9GMSv6HAnKdW+RjiBfOlbVMznMVN4VwdIOeTWQ2k8mHQb8yJWWAEUz4U7Ib+fWGeVvouJBFhjANWX8YToRzs+D2U1syBe8OkvshIz5QSNx6yhbo7WZrlttQiivrVE0fZe4NuAZb31h7d76fI4xEPhdzkAD5CsUpxSQTvtTu2NSq6J17wDb3cgE0oRs57lvpXZe3VTEkdtNvaE6rWk4cmb0rkK9/KYxGjvHT6ZBavj1/S6S6ikR34nG4z0hYEOzAWN6Eb9rWoWoNDWmWsBrGXQyRcBkZR8z0POH3398iBcMqxW7gs3t3lz8TIh2awDQRHeIht6YrPMIqVjaEKQKyuRTIzngfGmgLGibnlaKGsw4aw8rDZznRywIzpz9KNwx2z1dI0EwU5z/IQ6fIEdCCCZNaGvkKldTER8Hwjwfo/g/npXQRoZr7Dn06p2Qq4Kwz8mHWsjs5IZFeqAzLzBECb4pISIRg1R4UISSBUs8ZN/OwJXyg0Ohq93I3hQmT7aJcQNRPgCRP
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MHhXSU5jQ2dzanhhV3oxcXA4Z1AwSjRKdTVZK0wwNGE1cDN3cU8zTmtIZHIv?=
+ =?utf-8?B?VVh6TExZbEJNaG0yRlB4Wkl5dFFKeTJEQlRDNWhqMlkrSU9HUXArUFRQY0w1?=
+ =?utf-8?B?WExjREZkZGQ0Z0dmM2NROThQY1FadVJjZ1MyUCs3T1dvdjF3VEpndmtIbWhM?=
+ =?utf-8?B?NWRnWjBjQmhyWExsTHNTcnNrZWFTRGRYTjZXTWxJcmczZ01BRUNHWmRWNWNi?=
+ =?utf-8?B?Y080UXRUZEZYMHF2dTZuMm5GQi91c0owVVgyREtLM0p0QnlTMDU3Mm85OTJP?=
+ =?utf-8?B?R1lUeE5QRkRRb0ZBSnJCMm1sK0NsMWw4amhzYmJKcHRQb1RWaWtYRUJIZHlS?=
+ =?utf-8?B?MnZEVnVwWDRRYzE4dGJHdGFUL3pta2RYVDd3YXN0ZlJWUVRyOUJ5T284akxm?=
+ =?utf-8?B?SWZrd1A4Z1ZFRXZrelFyMGw0QUtMSTBOT2dKSGNrcFAyR2lXZWtXVXNJR01q?=
+ =?utf-8?B?MU0za3ErWXRRRFVWSC9TLzN6S210RnZLNzk5czBrU3FZblViWkVoUnBJNE02?=
+ =?utf-8?B?aktXaDk3ekMvdHVtUVQwYU5ROVBFcENVSm9aVFREY1BKMVAwRFkxd0hvU0Vj?=
+ =?utf-8?B?V1N5SG9PaTI4T1NzRGlaR2hvMkJiWkRPZTExRG83UTVKOGlmeTd6SDZBNlhO?=
+ =?utf-8?B?MHpIVWlsS0htS2tNQnJUakovZG5RRS9qR0Q4RnlyY1dNMnRtblpnTmhKQkhV?=
+ =?utf-8?B?OVVNMG9qSkpYc2F6VjZKc2p5SmNRU0xDRHA3RjVhREswa2lqM0FvTkE1ZFZj?=
+ =?utf-8?B?OWlyd3M2SVJMSldFY2piMEdCMHgxMjZBcDRIOWI2cnlqcUtqZjdmcUl2UjBZ?=
+ =?utf-8?B?a3d6UnlxbkVsVy8za1JnSVRDb2drUWh3ODd4TjRMTUgzc3RSZ1RzaEtWMTlO?=
+ =?utf-8?B?K1ZGOUljRnBnbXNMd0dCUitac0JZa3J2RXZ4S0lBQWEvWDVOTjhNS1AyLzFz?=
+ =?utf-8?B?TE45cFFBWVpmTVlNeW8xSGhqT1Y2QVhnNVB4b3h3RlF5Z2FlS01zZm55QVBP?=
+ =?utf-8?B?UFlZVEdnWjRCaUVpR2lpVUI2T1pIQ3h1RGkraUNaMnlhSXZic09BaTVPMnZs?=
+ =?utf-8?B?cjhUcm9MNEhYRktVQnFqam1ocjBwd0ZtMjhOVWpQYzV1bHVINUdMREtXcStQ?=
+ =?utf-8?B?azV0VjdzZ2FxSE50cHZZZXJsUkVCenFjSlc0SjJWMmM2MG9MbnRlL3FxMlBG?=
+ =?utf-8?B?N1BtdlhQSXNPT3RHZEZmZEFXVWh5YlNvMVphYTVtWVQvZkJzUnFuZHRETmJ6?=
+ =?utf-8?B?RDk2c0o0KzNxVHdWWkg5RHFlbXowUElkWTVuTFZDdjZaSENQaUsvMzc0bklH?=
+ =?utf-8?B?cTZ6d3A5bk1GeHJwbWtDNWRUZVNMcVlIY1Q2VFd6SjFUaGY0ZFJCckxFMlZC?=
+ =?utf-8?B?ZjRXVUNVaHZnYXViV2IwN3NiZDQxR2pGd0ZzRFhmQVVmbFViWUR6N1BMRHlI?=
+ =?utf-8?B?bEJCT1FhT0E2UGZCd3dwZENNZlUxOVRIeCtEZ3lHZDcvMWoydFYzZEorR3Qx?=
+ =?utf-8?B?NFZ0UngvN05WY2tCWTRmRG5IQVJINUFBS0hEd3czSk1ha2RFejkzNmRrUFZB?=
+ =?utf-8?B?YVpqVjRUS2ZHQ1o4ZE1aTmRQK3RHRTFkeGFqSjZoVEJiS1RORGVUREN6NGUy?=
+ =?utf-8?B?RCtzVzdhT25YbDB5R29kSjNDQllmZWJJWEJ2aldBMTRpckJJUTlFU1JtWlZx?=
+ =?utf-8?B?RUlENnZMbWtKSEpWZU9VWWV1YlkzcDA4Q09Ud0djZ21QdXNkZGVOTDhLWi9v?=
+ =?utf-8?B?ZjhmVFUxTExOWm1McGF5Y09YYlJKS2R2ODRtOGttTTRIZ2ZYOFJqblMyZW1y?=
+ =?utf-8?B?YVd6ZFdUbU00QVh0L0EwL3RBck5rUHpMUElMRmR5bzFwU0lPZ1BzZmEvWUZo?=
+ =?utf-8?B?WDBJL3hlT2ErWmJGbzB6N0Q1YitvRmE2Wk9wTWNhcWRtTWRPOUdpUjVtSDYx?=
+ =?utf-8?B?Q05meVFNN01Ia0R2TENQVEhRMzROVGNodEZCbVhXQ3A2MndTRmZKdS94VWZt?=
+ =?utf-8?B?WEVDbm8vekY4TmFRQzREd2wzTlR2UkFrNHFDYUhuZDBpWjAxUUMwcGRqTUpy?=
+ =?utf-8?B?eGVwMW1XdXFxK205bzA3ZEw5SlFkOXEreVdFb0s0UUdJc3BBNWtxN2kyU0g2?=
+ =?utf-8?B?NkpJU0NVamwvYmo3TXpoRjd0NWc0RGRPWVlxY1ZVS3hIUHdnT00zZFg2YW5v?=
+ =?utf-8?B?dENmRnVFRFM0NGtPM0RzQkc3a2N6bzNJM0U5WkxhSVV4VXJ2NytnYWNadmN6?=
+ =?utf-8?B?ZERqcHlNT1lOazloYmZGQW9UUDNzZ2dKeFlZZkJzSDhXQnRIdlFDM0dyajY0?=
+ =?utf-8?B?S2NlaWxqVktJS25RekNudUsydmVyelhmM3hreHZxNkw1Y0NuOGhuQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f33852c-c1f4-424b-13d9-08dec6f3139c
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 13:20:44.2922
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WcMBVnoglsY7PbpHLA7M1eN8NstLCETbcxKn364WfVRuS56VYCXHkHriPLTRncxccBrKW4dz4kFEKykwbi1l2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5778
 
-On Wed, Jun 10, 2026 at 09:12:10AM +0800, Alexis Czezar Torreno wrote:
-> ADPM12250 is a quarter brick DC/DC Power Module. It is a high power
-> non-isolated converter capable of delivering regulated 12V with
-> continuous power level of 2500W. Uses PMBus.
-> 
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> Reviewed-by: Nuno Sá <nuno.sa@analog.com>
+Hi Will,
 
-Applied.
+On 6/10/2026 6:28 AM, Will Deacon wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> [+Jason G]
+>
+> On Fri, Jun 05, 2026 at 09:45:51AM -0500, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>    - A PE executes a Device-nGnR* store followed by a younger
+>>      Device-nGnR* load.
+>>    - The store is not a store-release.
+>>    - The accesses target the same peripheral and do not overlap in bytes.
+>>    - There is at most one intervening Device-nGnR* store in program
+>>      order, and there are no intervening Device-nGnR* loads.
+>>    - There is no DSB, and no DMB that orders loads, between the store and
+>>      the load.
+>>    - Specific micro-architectural and timing conditions occur.
+>>
+>> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
+>> orders loads) between the store and the load, or make the store a
+>> store-release. A load-acquire on the load side would not help, because
+>> acquire semantics do not prevent a load from being observed ahead of an
+>> older store; only the store side (release or a barrier) closes the
+>> window.
+> I think you can drop the paragraph above. A store-release isn't enough
+> to order against a later load in the architecture either, so we're
+> clearly in micro-architecture territory and I don't think you need to
+> describe mechanisms that don't work here.
+>
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+>> to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not order
+>> the store against a subsequent readl(); the store-release promotion is
+>> what provides that ordering.
 
-Thanks,
-Guenter
+Based on the existing code comments and after reviewing this path again,
+__const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
+appear to be intended for WC regions. Since the erratum is scoped to
+Device-nGnR* accesses, and WC mappings are Normal-NC on arm64, I donâ€™t
+think the STLR workaround should apply to these helpers by default.
+
+Applying it there would also break the contiguous STR grouping that
+this path relies on for write combining.
+
+-Shanker
+
+
