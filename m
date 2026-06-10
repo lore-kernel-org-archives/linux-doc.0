@@ -1,53 +1,46 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F20F371072;
-	Wed, 10 Jun 2026 04:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC2230C63B;
+	Wed, 10 Jun 2026 05:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781066172; cv=none; b=mgpDAmJ0AVf1NFvV4VFXRaGubfx3cnq8retAlCTGtzYq2vPvyckII5WD+F3yHdlgYnfN/Bu7k8KDYlmA23L6nmTFz+ndRH4U9xrYlsjR1eQyWAyvMSkZqnomlk/abT2wx59K4fEorGI1E3kkxph6zenhoVAOB+ILU3Wu7e7p+3c=
+	t=1781068222; cv=none; b=gBpoa1DFBWwZWMe8CPTS6xaaGa1kpQ8XDwiR9oKDWZ5mLA0NBkWCMDb+YVbWjOZCKvasDt5PzgFDqXtmnxqTtMJGj1nMFDXwsV+8jwOybT3gfPReguLYfhQb/V5Ybh1Xg8lP1bJUTm9kE6xRtOz76NZeh1unaD/6o1CyvF0TFX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781066172; c=relaxed/simple;
-	bh=OEb8s8uIWUkzmmIYC/yFpsUxXtXVEWIhB0oWagSx5ow=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hXw6zisWdwM59Hn2YH+Khq5pHXrUEPO62ox14niclYtdyQGFJSGqA3WRmMmKhuCuwwTfJ696iwFxWyqsrg84OIKM4vxJgONijZRpumWgXvnHX5gNyXOZIyG+2rvMJ/p8d+u8S/EohUbZLS9h0jXoGWKD8n0+Fefar1AFew1ir2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=B0+i+p9L; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1781068222; c=relaxed/simple;
+	bh=Ga0w4mOhyRAMdzhIK/IO32MHLe/xDoVb4wCIZopi4Y0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qAVTX6Oq4DpY9X1oaB5BMPDcdxMOZLWBWXHO0sUFHUc3LYDbuuoyfOQG2fBwQRzoPXUS9RLGxqUoIVxkjE4LB2Iv+pX3bh1JNq66AgyTIgOxlQl67pKJU0UDNlO8XMQpXUaTxqrRousUPy3SKYsFRD8mVvh4BMjWiDT0CQL5AYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R8bMuCzE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="B0+i+p9L"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75E904593;
-	Tue,  9 Jun 2026 21:36:00 -0700 (PDT)
-Received: from ergosum.cambridge.arm.com (ergosum.cambridge.arm.com [10.1.196.45])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C8D8A3FD88;
-	Tue,  9 Jun 2026 21:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781066165; bh=OEb8s8uIWUkzmmIYC/yFpsUxXtXVEWIhB0oWagSx5ow=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B0+i+p9L4YG+tmGIPZTd2fOVybIZ3ZnBqOTW3ea6KWDuo4bNuKKqSNmXb4uuhPRbB
-	 r+iGoR7xm1QpMKiHj6KctxPoBIjGeevTyE2dBEPuMzV0+O91dXWyyXDLrAImwS7A+Q
-	 1ayt01l8Hjo8DW600V2mzqvdcMDDVTAc1ltsPKU4=
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-mm@kvack.org
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Andy Whitcroft <apw@canonical.com>
-Subject: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
-Date: Wed, 10 Jun 2026 05:35:43 +0100
-Message-Id: <20260610043545.3725735-2-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20260610043545.3725735-1-anshuman.khandual@arm.com>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R8bMuCzE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=yz7YFWWMxtYCyliJrw7JdN2FfQ3bkv92qdzFJZi+9TM=; b=R8bMuCzEYUVx232lY3wAyGvoT/
+	+cXJXayJWRXI4+IH5d0CPwMWIXhgfJwlBgzH7wZJji3ZYMNUegKHwgV2dPh8z3/BieswMBzssB5DJ
+	zvuNpV8hOcYLmXp6UJiuFszhm3o9x6Bt4tdNCHHY/sWQohA3w2ilFJHHwiA/mchLKoQ57xSJV5MKM
+	fQ+viDwhw6ME4EIOklezLTwSqtuejN09XQfCXU7umAp31+SY4ZTIRTmKweaV9BUEGS1PHIaIUoj9e
+	60Ej+EdLKZf9q5dx14dGFc0s3nqVBamc1VBVh05p0Hy5xpNxwZKn8HRaW7t05BSM4VQkcrabjwJHz
+	78edRihw==;
+Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wXBCl-00000006oHa-369S;
+	Wed, 10 Jun 2026 05:10:20 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: configurable block error injection v4
+Date: Wed, 10 Jun 2026 07:08:01 +0200
+Message-ID: <20260610051015.1906799-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,156 +48,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add some print formats for pgtable entries at any pgtable level. These new
-formats are %pp[g|4|u|m|t][d|e] i.e %ppgd, %pp4d, %ppud, %ppmd, and %ppte.
-These currently support both 32 bit and 64 bit pgtable entries that can be
-extended up to 128 bit when required.
+Hi all,
 
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
+this series adds a new configurable block error injection facility.
+We already have a few to inject block errors, but unfortunately most
+of them are either not very useful or hard to use, or both:
 
- Documentation/core-api/printk-formats.rst | 19 ++++++++
- lib/vsprintf.c                            | 58 +++++++++++++++++++++++
- scripts/checkpatch.pl                     |  2 +-
- 3 files changed, 78 insertions(+), 1 deletion(-)
+ - The fail_make_request failure injection point can't distinguish
+   different commands, different ranges in the file and can only injection
+   plain I/O errors.
+ - the should_fail_bio 'dynamic' failure injection has all the same issues
+   as fail_make_request
+ - dm-error can only fail all command in the table using BLK_STS_IOERR
+   and requires setting up a new block device
+ - dm-flakey and dm-dust allow all kinds of configurability, but still
+   don't have good error selection, no good support for non-read/write
+   commands and are limited to the dm table alignment requirements,
+   which for zoned devices enforces setting them up for an entire zone.
+   They also once again require setting up a stacked block device,
+   which is really annoying in harnesses like xfstests
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index c0b1b6089307..e69f91a9dd9d 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -696,6 +696,25 @@ Rust
- Only intended to be used from Rust code to format ``core::fmt::Arguments``.
- Do *not* use it from C.
- 
-+Page Table Entry
-+----------------
-+
-+::
-+
-+        %p[pgd|p4dp|pud|pmd|pte]
-+
-+Print page table entry at any level.
-+
-+Passed by reference.
-+
-+Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
-+
-+        %ppte   0x0000000000c0ffee
-+        %ppmd   0x0000000000c0ffee
-+        %ppud   0x0000000000c0ffee
-+        %pp4d   0x0000000000c0ffee
-+        %ppgd   0x0000000000c0ffee
-+
- Thanks
- ======
- 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 9f359b31c8d1..d4ad3048a4db 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -856,6 +856,59 @@ static char *default_pointer(char *buf, char *end, const void *ptr,
- 	return ptr_to_id(buf, end, ptr, spec);
- }
- 
-+static char *pxd_pointer(char *buf, char *end, const void *ptr,
-+			 struct printf_spec spec, const char *fmt)
-+{
-+	if (check_pointer(&buf, end, ptr, spec))
-+		return buf;
-+
-+	if (fmt[1] == 't' && fmt[2] == 'e') {
-+		pte_t *pte = (pte_t *)ptr;
-+
-+		static_assert(sizeof(pte_t) == 4 ||
-+			      sizeof(pte_t) == 8,
-+			      "pte_t size must be 4 or 8 bytes");
-+		return special_hex_number(buf, end, pte_val(ptep_get(pte)), sizeof(pte_t));
-+	}
-+
-+	if (fmt[1] == 'm' && fmt[2] == 'd') {
-+		pmd_t *pmd = (pmd_t *)ptr;
-+
-+		static_assert(sizeof(pmd_t) == 4 ||
-+			      sizeof(pmd_t) == 8,
-+			      "pmd_t size must be 4 or 8 bytes");
-+		return special_hex_number(buf, end, pmd_val(pmdp_get(pmd)), sizeof(pmd_t));
-+	}
-+
-+	if (fmt[1] == 'u' && fmt[2] == 'd') {
-+		pud_t *pud = (pud_t *)ptr;
-+
-+		static_assert(sizeof(pud_t) == 4 ||
-+			      sizeof(pud_t) == 8,
-+			      "pud_t size must be 4 or 8 bytes");
-+		return special_hex_number(buf, end, pud_val(pudp_get(pud)), sizeof(pud_t));
-+	}
-+
-+	if (fmt[1] == '4' && fmt[2] == 'd') {
-+		p4d_t *p4d = (p4d_t *)ptr;
-+
-+		static_assert(sizeof(p4d_t) == 4 ||
-+			      sizeof(p4d_t) == 8,
-+			      "p4d_t size must be 4 or 8 bytes");
-+		return special_hex_number(buf, end, p4d_val(p4dp_get(p4d)), sizeof(p4d_t));
-+	}
-+
-+	if (fmt[1] == 'g' && fmt[2] == 'd') {
-+		pgd_t *pgd = (pgd_t *)ptr;
-+
-+		static_assert(sizeof(pgd_t) == 4 ||
-+			      sizeof(pgd_t) == 8,
-+			      "pgd_t size must be 4 or 8 bytes");
-+		return special_hex_number(buf, end, pgd_val(pgdp_get(pgd)), sizeof(pgd_t));
-+	}
-+	return default_pointer(buf, end, ptr, spec);
-+}
-+
- int kptr_restrict __read_mostly;
- 
- static noinline_for_stack
-@@ -2506,6 +2559,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
-  *		Without an option prints the full name of the node
-  *		f full name
-  *		P node name, including a possible unit address
-+ * - 'p[g|4|u|m|t|][d|e]' For a page table entry, this prints its
-+ *			  contents in a hexadecimal format
-+ *
-  * - 'x' For printing the address unmodified. Equivalent to "%lx".
-  *       Please read the documentation (path below) before using!
-  * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
-@@ -2615,6 +2671,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
- 		default:
- 			return error_string(buf, end, "(einval)", spec);
- 		}
-+	case 'p':
-+		return pxd_pointer(buf, end, ptr, spec, fmt);
- 	default:
- 		return default_pointer(buf, end, ptr, spec);
- 	}
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 0492d6afc9a1..f68955858e29 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6975,7 +6975,7 @@ sub process {
- 				my $fmt = get_quoted_string($lines[$count - 1], raw_line($count, 0));
- 				$fmt =~ s/%%//g;
- 
--				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*))/g) {
-+				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*)(pte|pmd|pud|p4d|pgd))/g) {
- 					$specifier = $1;
- 					$extension = $2;
- 					$qualifier = $3;
--- 
-2.30.2
+This series adds a new debugfs-based block layer error injection
+that allows to configure what operations and ranges the injection
+applied to, and what status to return.  It also allows to configure a
+failure ratio similar to the xfs errortag injection.
 
+Changes since v3:
+ - use a static branch to guard the new condition
+ - split out a new header so that jump_label.h doesn't get pulled into
+   blk.h
+ - more checking for impossible conditions in blk_status_to_tag
+ - more spelling fixes
+
+Changes since v2:
+ - improve the documentation a bit
+ - fix a spelling mistake in a comment
+
+Changes since v1:
+ - drop the should_fail_bio removal and cleanup depending on it, as it's
+   used by eBPF programs and thus a hidden UABI.
+ - as a result split the code out to it's own Kconfig symbol
+ - various error handling fixed pointed out by Keith
+ - documentation spelling fixes pointed out by Randy
+
+Diffstat:
+ Documentation/block/error-injection.rst |   59 ++++++
+ Documentation/block/index.rst           |    1 
+ block/Kconfig                           |    8 
+ block/Makefile                          |    1 
+ block/blk-core.c                        |   87 ++++++--
+ block/blk-sysfs.c                       |    5 
+ block/blk.h                             |    3 
+ block/error-injection.c                 |  314 ++++++++++++++++++++++++++++++++
+ block/error-injection.h                 |   21 ++
+ block/genhd.c                           |    4 
+ include/linux/blkdev.h                  |    6 
+ 11 files changed, 489 insertions(+), 20 deletions(-)
