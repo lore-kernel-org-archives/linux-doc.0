@@ -1,115 +1,147 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A30F7E792
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 04:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781064268; cv=pass; b=D6gjzZUSd26OiPcdRhphNV3bnFzD9dWRzqIRJIkeSl+7PBsnhiD/cI30vv94OVcVmoPH9j09VFUU7b1JBw110Z/ib2ICFnObTH47MMzRAANi74d6o9EAkTCgXhzJmM1x6R2+0W9DKq6DWC0Z/wS2ECQE3ay33NuA+mQ63+YAAc0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781064268; c=relaxed/simple;
-	bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h+zfyFm7Lup4IbH49+KCkO7z1rBgUKbx1kKUsW19DxWLgg0Du9w1TCDltELR7IAC1ZGfulfhmt1+EgrdL9MhdTlvRldCu4xBtsCalvZbbJknC9wB9lEEm4/3o9g3XwOlULQeJ77NckREZ1wffe271NDBjPb+rFOQHgh9ri60alY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e/+gZdUF; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C83370ADE;
+	Wed, 10 Jun 2026 04:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781066170; cv=none; b=BPUFvXR7UsPfExSUwDkE8pcNyF+yMCESH4kgNBsGGjGxRC7TYUMojVGeYRTPp5bGZL6n9IRwUWFWJ9i0+ucj4eRoe/rKgSZouZmMjT3Cujy5cUMxOiHU4/MtgqOj5ktyi0W9xPkWQMxA8CuohLjvdGreNWRjes12U4MzWMjpypw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781066170; c=relaxed/simple;
+	bh=EQ0kWJg0soLbAjU5hu5xaNnvVzvbJHppGej5Gc7U2sU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YngXfZhrnaPdJRc3g/Ren/hZJCyvZaPjLPSwxXO5wFQBNwdQtL8+ObwORbEdp/5sO1JOJ4lTk/VrY9Yh3VxCdytCfLD04QXCMjm1SccAwI77otYf8FpKnnr7RS6GXLdq2jgSTr93MoVrI09eEWMjRnvCVz/cdwd080PAD/nSHb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=p0XMTQr6; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e/+gZdUF"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51784eb2ba0so47827711cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 21:04:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781064266; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OT+4mfeND8H/FwrK30gE3FT/OGQhIEKwFcGO/q3rgHiZs0VqPZLgurDjKk0RUEJpcS
-         2OyyR5GkibduSvCeGwpA7BQl6QyqpDzlRkAvp3hTOysaDzm4OnjEOU4IMrmnY4SV5A3l
-         0cDjbTCi+ctFgFqzWzMyAH/JbGzMaT6b/v7a9GIYA3EeUTFW2YCjuk5fah5zwtLW40k7
-         MSpFdnLz7uOB9fB/GnOku1GVjLqBb1a1mrZiz4vGFsD+PHj09KjrLcZREM+Y52+Z0Xh/
-         1MIuQSFL3f00OhHOJIGfLyIiRUTlLcNERoOS8iEhbKtW+d6cglLpTnFyKVsPEJffdRVS
-         f5LQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
-        fh=KRDEWvyke7PrVQX/CPq+c0eNs8YINW/cAZ6bB3XWozo=;
-        b=gl6/NWLrky7b9fE0hq3KVBFwijhoNmNH6Hj2gol3zeA5jyHPdWbhAwnZ2IxNALKa+l
-         WKY5PmlsO3x2E6HXEJ9EiNMLxaf6hHTD8qpEKVK3yu3qijmi3n2/oFGO4HBZqoSbZe/V
-         BpLIU4kJzjYr7dco6vbQrmjIum+O3F5H52C4PBK2KR0o2SWNlHjnyVKtWvdQzVXS6o0f
-         +Niin7XOCqftgWJYvzT97lU3n2PTJc0VeoRVha/Gne0HzdmIKaRwsdtKcqkit87OUOrV
-         /aTbGc5QcbdYJ+u3zGyyZAL60Oi0PE7iXRg25gVRMPUaeiFfOFXqmUd55i0hkupeR2bV
-         CN8Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781064266; x=1781669066; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
-        b=e/+gZdUFaSnYmq+oa3A8g0IHAdWnnrm4k1lg2BBvufen+jX5O8Qe44w/lIh0z4ws2l
-         sVX8WCXZNxZlYxY0RuopKeMJ03BpnOPdzHfTL5CHlzw7gbvVeDaAUWEbDCXjguRJkttP
-         tNHkTjt4EXmPpZvBOdzJBRhwB8jwOl2HvSTsHr3UNGuVQRYeVnuakye5XQ/3Awe0eODY
-         ylyTxOh+Srh4UIEIWOnqdJsAQtP6aVpALRMzfr2rGvkQctpTuXi6O9Y8SmrFKmGIkqH3
-         JNSXGiclPUwwwwLO/097LDZAD+l8Rx1eDx6a4gsM/t71gJ6g3Dg5J0K8WlzSZ2g1TnKm
-         /nzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781064266; x=1781669066;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
-        b=mKmUFw/w4H5VBGq3zZmEh7DT2GkMaM0sn8BBCxfiU9AqkgNm/vcILMQOd21MaHRCsv
-         QhQstX4HOOEhOB+e0JS851xRM0sQHISrQyJ3qGt/yXwz4Cne0XIlCIRYVx+yon5/ktzh
-         nrwE2xVR9mBBy3vJ8Z8pY++6uNc3/GOzsZDv9bRje6o0l06r8zDzPkmBzecO3kBPRll9
-         sk3Y6xRRG3JnP0edloaa9JpOHe+OVva9tG1I1SSqwnkDjG2EfeVw/3heQf+7xFnPUVTv
-         VJ2kOccCSRWngQjzgwawiXedupOXwfsiPyPNJHi9HVtq67bvbRLLUYt42h6w5zGpDwy/
-         WkcA==
-X-Forwarded-Encrypted: i=1; AFNElJ8v/flnjvkb4Ec6TLl0Sa84LpTerlNgPpUL4qsLmDbTs9IDUNc3nyuPpBh/e40oFP334lZxFdUOQWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUls5x/bSmXDAhOLU5Q1rxmdjfAn6dKcQLeRXGEKMjN6bFdJOp
-	jVM5rcQ+znyJ7lgkhf/pH5fZAyV6EP1tEXOsZIn2xxYuoHCJ3Ui2709Ha2UNRaWyxsr+rmcR0iH
-	Q9b1uza6ZdlwNlYu7k8HGBvhP6WWQa0Dghe5v8oxn
-X-Gm-Gg: Acq92OEuPb9YipekuhTyCpS2RaayRU+Wc35l8N2y+kYcDjYsmuQVp4wFf17rJuvDbHK
-	C9IveBmjmjOcp8Q709/keZ00onxvBiroOnG9+oI5uce8A//gOmTF5Tq/H/PPDglTj/aevmPY39B
-	ljSsp63zYU1KJRYAJ2Ve2rs+/1sEXOxsOz3C7S5A8JNtl/LcqVFEA2dMO0kfzTrE4tRwoSUs5B8
-	FWkNmFRCAieLTx5dbTR5FFHbFP9/XaCcVk9VqoUAcbe4NiUPgPCRPAfA7dlNTQZQni9AGxup39O
-	58D6tAdsm0D6XcWydIds6H++PzgaSjMovf2jrlzQNNWqfyzCt0Gj6wsKBoXTuUGDUu25WTUreHm
-	HTItalkHOOJDy8rj6oK5gBW/1LkpTfFd22Fz9Cg6w
-X-Received: by 2002:a05:622a:251a:b0:516:dcbd:aaa3 with SMTP id
- d75a77b69052e-51795afe9f8mr282610471cf.26.1781064265597; Tue, 09 Jun 2026
- 21:04:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="p0XMTQr6"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9A0D471B;
+	Tue,  9 Jun 2026 21:36:02 -0700 (PDT)
+Received: from ergosum.cambridge.arm.com (ergosum.cambridge.arm.com [10.1.196.45])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A1FEC3FD88;
+	Tue,  9 Jun 2026 21:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781066167; bh=EQ0kWJg0soLbAjU5hu5xaNnvVzvbJHppGej5Gc7U2sU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=p0XMTQr6CwEoVcot48UChEGP9uQKE7daiKe/47nvZuQwoV8U6mrO/xYx2BZr2LdXv
+	 BI/Ivkn+7cTvWByYt+ww8TM1i/S107v8sdqUtHwkARvgDfNHf+qZ8mNOFtqm8g8VNJ
+	 AdwSsj67tRPGavtpY9I5neVLn1YzLK8K7nllVqok=
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-mm@kvack.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [RFC V2 2/3] kunit: printf: Add test for pgtable entries
+Date: Wed, 10 Jun 2026 05:35:44 +0100
+Message-Id: <20260610043545.3725735-3-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1781013810.git.sd@queasysnail.net> <c3c9ae09580a5c1d36b32b5ab3a5db398feddfe3.1781013810.git.sd@queasysnail.net>
-In-Reply-To: <c3c9ae09580a5c1d36b32b5ab3a5db398feddfe3.1781013810.git.sd@queasysnail.net>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 9 Jun 2026 21:04:14 -0700
-X-Gm-Features: AVVi8CfyMQNdfBxuCedY0XLw0cG0g593wzGRzIZOYWbRpG2SfiMV52ctWCjxjrg
-Message-ID: <CANn89iKy=kzfyRKtGt+dY8Fe-ScD95cD=uuy=Gkq79K0kcCdvw@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/2] tls: remove tls_toe and the related driver
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: netdev@vger.kernel.org, Ayush Sawal <ayush.sawal@chelsio.com>, 
-	John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Sven Schnelle <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 9, 2026 at 7:21=E2=80=AFAM Sabrina Dubroca <sd@queasysnail.net>=
- wrote:
->
-> The tls_toe feature and its single user (chelsio chtls) have been
-> unmaintained for multiple years. It also hooks into the core of the
-> TCP implementation, and bypasses most of the networking stack.
->
-> Signed-off-by: Sabrina Dubroca <sd@queasysnail.net>
+Add test for new pgtable entry print formats with entry size being 64 bits.
 
-Nice!
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-kernel@vger.kernel.org
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+ lib/tests/printf_kunit.c | 57 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index bb70b9cddadd..850bfc0e3409 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -791,6 +791,62 @@ errptr(struct kunit *kunittest)
+ #endif
+ }
+ 
++struct pgtable_test {
++	u64 val;
++	const char *name;
++};
++
++static struct pgtable_test pgtable_test_cases[] = {
++	{ .val = 0xc0ffee,		.name = "0x0000000000c0ffee"},
++	{ .val = 0xdeadbeef,		.name = "0x00000000deadbeef"},
++	{ .val = 0xaabbcc,		.name = "0x0000000000aabbcc"},
++	{ .val = 0xcc,			.name = "0x00000000000000cc"},
++	{ .val = 0x1,			.name = "0x0000000000000001"},
++	{ .val = 0x11,			.name = "0x0000000000000011"},
++	{ .val = 0x111,			.name = "0x0000000000000111"},
++	{ .val = 0x10000010001,		.name = "0x0000010000010001"},
++	{ .val = 0xc0ffeec0ffee,	.name = "0x0000c0ffeec0ffee"},
++	{ .val = 0x10000000000,		.name = "0x0000010000000000"},
++	{ .val = 0x11000000000,		.name = "0x0000011000000000"},
++	{ .val = 0x1000000000000001,	.name = "0x1000000000000001"},
++	{ .val = 0x1100000000000010,	.name = "0x1100000000000010"},
++	{ .val = 0x1110000000000100,	.name = "0x1110000000000100"},
++	{ .val = 0xfff000000000ff00,	.name = "0xfff000000000ff00"},
++};
++
++static void
++pgtable_ptr(struct kunit *kunittest)
++{
++	char buf[64];
++	int i;
++
++	if (sizeof(pte_t) != 8)
++		kunit_skip(kunittest, "pte_t size is not 64 bits");
++
++	for (i = 0; i < ARRAY_SIZE(pgtable_test_cases); i++) {
++		pte_t pte = __pte(pgtable_test_cases[i].val);
++		pmd_t pmd = __pmd(pgtable_test_cases[i].val);
++		pud_t pud = __pud(pgtable_test_cases[i].val);
++		p4d_t p4d = __p4d(pgtable_test_cases[i].val);
++		pgd_t pgd = __pgd(pgtable_test_cases[i].val);
++
++		snprintf(buf, sizeof(buf), "%ppte", &pte);
++		KUNIT_EXPECT_STREQ(kunittest, buf, pgtable_test_cases[i].name);
++
++		snprintf(buf, sizeof(buf), "%ppmd", &pmd);
++		KUNIT_EXPECT_STREQ(kunittest, buf, pgtable_test_cases[i].name);
++
++		snprintf(buf, sizeof(buf), "%ppud", &pud);
++		KUNIT_EXPECT_STREQ(kunittest, buf, pgtable_test_cases[i].name);
++
++		snprintf(buf, sizeof(buf), "%pp4d", &p4d);
++		KUNIT_EXPECT_STREQ(kunittest, buf, pgtable_test_cases[i].name);
++
++		snprintf(buf, sizeof(buf), "%ppgd", &pgd);
++		KUNIT_EXPECT_STREQ(kunittest, buf, pgtable_test_cases[i].name);
++	}
++}
++
+ static int printf_suite_init(struct kunit_suite *suite)
+ {
+ 	total_tests = 0;
+@@ -839,6 +895,7 @@ static struct kunit_case printf_test_cases[] = {
+ 	KUNIT_CASE(errptr),
+ 	KUNIT_CASE(fwnode_pointer),
+ 	KUNIT_CASE(fourcc_pointer),
++	KUNIT_CASE(pgtable_ptr),
+ 	{}
+ };
+ 
+-- 
+2.30.2
+
