@@ -1,97 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9F731353C;
-	Wed, 10 Jun 2026 20:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FC47DA66;
+	Wed, 10 Jun 2026 20:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781122991; cv=none; b=EUIKmDE8/uh41C2xKZGJlmz5eE8dcpMcnlaoy8akY0Af81wndd7NO2h3idlyM7lCs+00VfGY6mfAXJuO+ADsSBSTJSmNhuGUw8GqOM97mP6wGPyxRwc+lnsxs2PLo6x5sZLRxLHwpjeZ4vQ3RDDc1Iy89oVw8JG56lNg1faBMhI=
+	t=1781123926; cv=none; b=GM8uPIp/Jo8kYJcS9UIxQDIblo6M8b4yeF/kU+Gym+h8bfVCjIUS0EMmbf9Q2LrlRE4OBwXF3v3w7wVV/IaGLpLJiFCCNtw/cgO/uxw+jJQ+AVAddXy53/yiUIlQuzsPl9uIA0sInMc1eyl0y/v+IwJ3oVcPlzJmUs8BkdIX76M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781122991; c=relaxed/simple;
-	bh=DTOoGiG04hNAwdKyog+oW6k2jntrnWbRPypS84E/Mng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wd7ABi/uxvt19Y2Nxn1JJLZlKH0Nh8m1OKN+UQfFwffjqkudh6GDy0yCCR/OWUiIrxZNNAFRQseGVH/lM9TCNUZJLP8C1jscsok5ZuGNu9RwFiyMVeToorAcjz3Cq1I3hLE8i2vItCEKH39d5m+XJhZ5enZqHeJ4fIALMo12dSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtWAADDy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781123926; c=relaxed/simple;
+	bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLOabEL2KZLl+I=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZNziSeedN13SbLDzX2OVPsxyZscJFkaLslRzjVc4mn4j9ibUTasvkxOuvbD0hCNA1JJx1thT1LYQMg28GK/ktkm1/NXyDkpMaJKLdlTEVSbtkKc4heKlBQwr/oohJBuWRn2k0lu8919yNeEtM4uFtWyMLCm5ITQ/P8INZavC52s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me; spf=pass smtp.mailfrom=johnericson.me; dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b=RnQFdc1e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QRgU8rRJ; arc=none smtp.client-ip=202.12.124.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=johnericson.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=johnericson.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtWAADDy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25F791F00893;
-	Wed, 10 Jun 2026 20:23:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781122990;
-	bh=gTrL7Tyeuo4QVSWDitVGbLtjegWv9djHZTxLQNU7wlk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CtWAADDykj72u83HzQmtaRoEh5tcvDokkQ75xIGg/6QXAvT5YoaM/kz56hM4qEQ5y
-	 NQMq7ptAN1QzywQmXMW24rACo8PbYvPGcM6PVqJrvDVOJ4MhWE9F772YPUonjTyVU9
-	 rqPW6hyOQ+2fBF1T2loPNwZ8ioGiTWhHzLf93CgV/c70rTySJo4FKBKnH/Y7i37RrP
-	 +xSeyhqkedvSFnCxsJxjFjLL08BofkaPtXMqMp1NY0YZxZs2OHuwy1+CCQ6KrA5pXU
-	 GpKEESDLyMEqbhoPni6f00Mr8SQwef5so9qS04sob6SVnDUEtDPGn13jnMTF6k6T1E
-	 WJ8iFIKdFxn4A==
-Date: Wed, 10 Jun 2026 13:23:09 -0700
-From: Kees Cook <kees@kernel.org>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Michal Gorlas <michal.gorlas@9elements.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH 0/2] module: restrict module auto-loading to privileged
- users
-Message-ID: <202606101317.D23383F465@keescook>
-References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
- <20260605183646.GC2939956@google.com>
+	dkim=pass (2048-bit key) header.d=johnericson.me header.i=@johnericson.me header.b="RnQFdc1e";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QRgU8rRJ"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 19C1E1300074;
+	Wed, 10 Jun 2026 16:38:43 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-05.internal (MEProxy); Wed, 10 Jun 2026 16:38:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=johnericson.me;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1781123922; x=1781131122; bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLO
+	abEL2KZLl+I=; b=RnQFdc1ehookfxZskeYaO0LGYH4k+xPtvLoa3oFfYCkoTFn0
+	Ttg7K+wuvRAF0lBdwJlU+xe/XNjGunYkSuKCPEIknEhzPzuR+tLFnZFZp+ktFnRO
+	GtvOk4bBVFEkTto3BzClF+pC5PcukJAHw6OLfB5FVw9Z5v6StXjzNZpCwftoZA11
+	7GUuhQ+gmeG6cxKGRIIT9uYk64vQdXsOt6WnVeKNR88DPEnuo6S6Y9Anrp+fqIR8
+	jgVpp3+hDQgA6vuVO3RnkA6Er8+Jom9IEvjRo+vghEzZwEXK4LAhm3nCvT+bf3px
+	Q5FMMAeS/RTjX/X9FN7Y9OMRbhaFqlVCFS1w2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781123922; x=
+	1781131122; bh=bEDrxC0e7YHTg9BGEJLnFRHo2kndEcLOabEL2KZLl+I=; b=Q
+	RgU8rRJzIa4UEklCAnc+PAwkaoWMsC+u6PhAtkmGDKTEYl2fN+CtlEyzv1P1ToB+
+	epglkq6CbsdgT+alHGBdNXnURyXvky2HS7VQh/nLqR37Y9A134IoyA/ySO7fgvVw
+	Irwz7rIbnthhVKH5fgF0qGxvMs+ifWt6xUHAuevWd4KTckK0lhvTVbrwUNP/Vi5Y
+	WaGSvS1BZE/88VDpoxmxQ323V3szRJuzPKHYsJPfabCCJafHuRo5C743P29RFY1O
+	qCoLP1Hf/ASvZAQCHiNPC2STa8ZxfZaV6Vt/p6XXz0Em9ukXbwLiwm6Bo65rYqPT
+	uGd+rWiwYIfxBVjcJAJiQ==
+X-ME-Sender: <xms:Ucspaq7ROJCg94S7g4ApNvmWiIM15KYk-FwcGKB01eMGISMqqZWXNA>
+    <xme:UcspautuioAppC5EgckFH6FaPBCNDWxu3dOShwhdGeAAVatOQRQ9CxfhwKBfVsEo0
+    oJ7xrGp33oWrk_ayvA1VgPv-bTntZ_dF9hhtHT4Xsj6GS4ENM41VrQL>
+X-ME-Proxy-Cause: dmFkZTGaNeNTQ3G1F1+JWzJkMGql3D6L8AUgdkqFLx0WG5ejhftcD6XNOk17L4aaI3sLyo
+    JMs836zpWnZQRvY3wiKtPAVpFVuFdcwBGOM0exgvpRf4fra7IypSfeU+3Wp4jbrVCLy94M
+    NVooNMv5d55qj5zihBo2bVG0kwGZBVLwYdxuS4ieBQ4SBqpCBRuhhnAtTnBGICpgg0fcIe
+    nR3Hz/EB3Go9W8jzMC6yHEBv8uBcD2hYbb+iMMYQB2o60laEVAFrKuuSjBswonvVOCc3Gk
+    odcH87lSsUh/amBG/pxMLt5RblP2Wa+j2WlJhSp6SQ2RVeTNecZ/Rxy5QSf99EO5UNP9l3
+    Se6+hqZ/tYap9i/epw532BHzfBQkdEs5R9F/V1PLK6u6OgDA9T5ub7dSAmN4fFWW9BO637
+    EbIERqO3LWEweYPxuggu2I8QB5nG/ZPtxX8+uZKMIJcFOMDx8OzGhDh2c0vlu/dO1syAOq
+    svLYMTbXYfn/go0WBEHsfsmnlehos1beHVOBHH3XKslvDcpES7DepH9Ha/h9SZPRPbVkS2
+    v/lbpuDzk+lslHGotkLNybQ6pPEzlJI/q9jq3S7DK94vL5G+5dtvEesArzUM80edCJU8IL
+    O5fGVCoGommkM13WiiVPQnxH6+WuNSjbPGN3yuNQOUgS+iyp4cJJE3EMqvnw
+X-ME-Proxy: <xmx:UcspahQly0uFpZlUjGh--NhkJzJMv4OI3yFazQLn0Zj4Rv8sNw9s1w>
+    <xmx:UcspausIaR3QHHlo8gAv8Huxu_KvqCsyrCHfJZUoXhO-7cMmHCwcMQ>
+    <xmx:UcspavUtHS9qlU_-DywzPzzLAQrh-65e_La29NAujNrxgwZvHINEzg>
+    <xmx:UcspainAboznNphZuC_qA7s4dkyCtpJ5aA7zI5AwFtpde5H2t0LTXA>
+    <xmx:UsspahiyYw0Bh2a2JnJpgkhZM9oZYoc2lr4_FWH1CPIAoGZSxqg4pueu>
+Feedback-ID: ieb4144f1:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 59E002CC0083; Wed, 10 Jun 2026 16:38:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260605183646.GC2939956@google.com>
+X-ThreadId: AtGJywdvvpER
+Date: Wed, 10 Jun 2026 16:38:21 -0400
+From: "John Ericson" <mail@johnericson.me>
+To: "Li Chen" <me@linux.beauty>
+Cc: "Andy Lutomirski" <luto@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Al Viro" <viro@zeniv.linux.org.uk>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-api <linux-api@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-mm <linux-mm@kvack.org>, linux-arch <linux-arch@vger.kernel.org>,
+ linux-doc <linux-doc@vger.kernel.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>, x86 <x86@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+Message-Id: <48594f3a-2ae9-4e1c-a575-ae54a6e1536d@app.fastmail.com>
+In-Reply-To: <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+References: <20260528095235.2491226-1-me@linux.beauty>
+ <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+ <CALCETrWJQpLR4n1cpichBk8=uExSKLWTMGU3BufGdk_WE_p5UA@mail.gmail.com>
+ <19eacd64508.26b92c022125848.262962729296162879@linux.beauty>
+ <4e049396-377d-48a7-a34c-91318413a876@app.fastmail.com>
+ <19eb181fdd4.6d028f442844776.3737831021032223216@linux.beauty>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable
+ startup
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 05, 2026 at 06:36:46PM +0000, Sami Tolvanen wrote:
-> On Fri, May 15, 2026 at 07:20:18PM +0200, Michal Gorlas wrote:
-> > Add option to restrict the module auto-loading to CAP_SYS_ADMIN.
-> > This is heavily inspired by CONFIG_GRKERNSEC_MODHARDEN of the latest
-> > available Grsecurity patches [1]. Instead of checking whether the
-> > callers' UID is 0, check whether the calling process has CAP_SYS_ADMIN.
-> > The reasoning here is that many modules are autoloaded by systemd
-> > services which are running as privileged users, but do not have UID 0.
-> > While systemd-udevd runs as root, systemd-network (which often
-> > auto-loads a module) for example runs as system user (UID range 6 to
-> > 999).
-> > 
-> > When enabled, reduces attack surface where unprivileged users can trigger
-> > vulnerable module to be auto-loaded, to then exploit it. Recent LPEs
-> > (CopyFail [3], DirtyFrag [4]) for example, would have been mitigated
-> > with this option enabled as long as the vulnerable modules are not built-in
-> > (or already loaded at the point of running the exploit). 
-> 
-> This sounds potentially useful as an optional feature. Kees, you've
-> looked at grsec features in the past, do you have any thoughts about
-> this?
+On Wed, Jun 10, 2026, at 8:29 AM, Li Chen wrote:
+> Hi John,
+>
+> [...]
+>
+> Thanks, this helped a lot. I looked at FreeBSD/OpenBSD/XNU after your
+> note. FreeBSD has P_INEXEC, OpenBSD has PS_INEXEC, and XNU seems even
+> closer with P_LINTRANSIT, described as "process in exec or in creation=
+".
+> Linux does not seem to have a single equivalent today: current->in_exe=
+cve
+> is only an LSM hint, while the real synchronization is spread across
+> exec_update_lock, cred_guard_mutex, and the exec path.
 
-This doesn't really look like GRKERNSEC_MODHARDEN to me? In that
-feature, the credentials of the usermode helper are passed down so that
-udev or whatever can examine them and make choices (instead of seeing
-the uid-0 usermode helper credentials).
+Great! Glad to hear my suggestion (and the patch too I linked in the
+other email, I hope?) was useful.
 
-This looks like it is just doing a request-time policy check, but that's
-already covered by the security_kernel_module_request() call immediately
-before the proposed module_autoload_restrict check.
+> I am switching my local WIP from the two-fd builder model to one fd,
+> closer to Christian's sketch:
+>
+> fd =3D pidfd_open(0, PIDFD_EMPTY);
+> pidfd_config(fd, ...);
+> pidfd_spawn_run(fd, ...);
 
-Also note that module loading is _already_ controlled by CAP_SYS_MODULE,
-not uid 0 nor CAP_SYS_ADMIN.
+Glad to hear it is also one-fd now.
 
-Sashiko has similar feedback, and some other notes too:
-https://sashiko.dev/#/patchset/20260515-autoload_restrict-v1-0-40b7c03ddd04%409elements.com
+> In my current local version, I still use copy_process(), so the fd poi=
+nts
+> at a real task_struct/pid that is not woken until run.
 
-I'm not clear what problem this patch is trying to solve?
+So this is an interesting thing to think about. My hunch is that
+`copy_process` is, at least in the longer term, still doing too much! In
+particular, `struct kernel_clone_args` has many degrees of freedom, and
+might also make assumptions about preserving more of the parent process
+than is needed in this case.
 
--Kees
+This is a bit tangential, but one thing I have thought about is having
+"null namespaces". I think the current (i.e. existing clone API) default
+of "share with parent process" is a poor security practice (more
+privileges, i.e. sharing, should always be opt-in). But the opposite
+default of "unshare everything" is expensive since creating new
+namespaces is non-free. The goal of the null namespaces would be a cheap
+way of creating a more isolated and unprivileged process =E2=80=94 and "=
+cheap"
+here is literal: a null pointer in `nsproxy`, no allocation, no
+namespace object, no ID. This null state would be what
+`pidfd_open(0, PIDFD_EMPTY)` (using your example above, or really
+whatever the first step is) hands back.
 
--- 
-Kees Cook
+Then, from that maximally cheap and unprivileged initial state, the
+`pidfd_config(fd, ...);` calls (plural important, I think!) would opt
+into either sharing or unsharing namespaces between the child and parent
+as the parent sees fit.
+
+The larger point here is that insofar as there are not good defaults for
+things, there is pressure, whether in step 1 or step 2, to make larger
+everything-at-once configuration. But when we think a bit outside the
+box to create the good defaults where they didn't previously exist, we
+can end up in a situation where a minimal initial blank unstarted
+process, and the builder pattern to initialize it, are more "natural".
+
+> Following
+> Christian's point that existing APIs can handle this not-yet-running c=
+ase
+> with ESRCH, I currently make ordinary pidfd operations that need a real
+> started process return -ESRCH before start.
+
+Also glad to hear.
+
+> I am not sure yet whether Linux should grow a general exec/creation
+> transition state like that, or whether a narrower future-process
+> lifecycle is enough for this API. I will think more about that when
+> working on the pristine process version.
+
+Sounds good, as I think you can guess, my preference is for "yes", but I
+agree we can see what you end up with in the next patchset and make more
+informed decisions based on that.
+
+Cheers,
+
+John
