@@ -1,156 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578C0403AE3
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 13:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D198231A23;
+	Wed, 10 Jun 2026 14:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781099738; cv=none; b=H5PxO6rWdwqe9HUnsZoGRhYTdyxwegIYbCtvpmC8MjfE7/E9K/B2K2GWyotd7+Vmbn2J4bTnoBOFn+pRliEHc7/tJUfeOR0SptBeHhyxjKGKZYQ6Om1CXR05QC05od81st/BrvjHRAPnHahUrtRwP6/KcFALPsuoEG+j460y1/U=
+	t=1781100147; cv=none; b=GEGrZYg1pdFyec48lWwBFs1iamoHH4Z7tXe/mQh2bUIOVWbPHdJg8HmVK2Q7Gh+ithKnVIow2SYNkCtpWiKSsQ9prexMHHv/HyHMQ3CM03gqAQBBTw+Jg7AfKxL/ijfxSuOkt+zMvCTINtt8YC5LaHlyWl66EruuYCUkzQZRzzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781099738; c=relaxed/simple;
-	bh=sgVCmEXJ05yqMvmvKs4K15bBV1ue0Tix/Vri7Qtc2Gg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=k3C6OETjgZPy3bui5WyJbbJKX5lVasgrSMMEwuEzuxyEt8HbpMjfyx2hqpxSP5PrYONRrmU4D2G+hskHIW4Zsca6YStdBwQtM53nLsp79z23YPfvgID9RQOVsyKEzJIEQAf1ujL4gZ2LKXyxdlVbry79t81Unq8Oiz8uMZpNKmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpPtx8HR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781100147; c=relaxed/simple;
+	bh=F3XfSddtxoKja8HU5dC27AlxrWarHb8F2+GYeSpqugM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=El+tu9lb5XiOA4cmcwCWpLclcmHPTNAOS8XDtvKiXVA6o7p5ZosDOks3VnUyflLnbJ9YbuQ8/Y3FOXFGoOQUD/OweT2cp0oLXOdZnXFqrmu2O4iafDiD0LZrPadhZePsxx6sZTRr+xo0tX8it3x0zyEJC3TkZHaCpCmBBWlKRzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRtHvAXo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpPtx8HR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE901F0089C;
-	Wed, 10 Jun 2026 13:55:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRtHvAXo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3131B1F00893;
+	Wed, 10 Jun 2026 14:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781099736;
-	bh=EIptf/kZR7ZgZomdxqsw/QNW2ZGT5E521CikG/0aXYc=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=fpPtx8HRIc6J8ZD7Xf6Oa3CAcSCF0fKVx4Mk3ilZB35MdVCj0W1xmW9YFmDYINwSa
-	 6izgC0FGSSWssNwsreVZnO5x3gnEw0+kxDCzezfds6k3iMVCTJM4gln+YoeQbkHFfx
-	 6nlcdOmYQcDXEhLFJfx4C4nC9YTvfFtOxvUd/2w2A6GnF3iA3rNkhaKH4bxkrC1/hF
-	 egWfVx9GxFVebJw1RTpt1viNoJFzLvhSlMIOF1zzWL1M4BS0GDDm9vOLtgPbP3VFe2
-	 DFy1u9w4jRKlKjr4vWZMXu1KHvg43Gqs9f7HgJ7dNMgOGlEu2c83//IGYa8ABbEq6U
-	 IvzHQy1m1Z+eA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id CEE81F4007A;
-	Wed, 10 Jun 2026 09:55:34 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 10 Jun 2026 09:55:34 -0400
-X-ME-Sender: <xms:1mwpahfpM7jwyMhrNiv_621V7F4IiDdI5ZNYPLkoRodKdhmK94frSg>
-    <xme:1mwpaqC8R8CP9s16rd6Pp6NFTur-ak9bmtmEbyzGld2fPtqxzO6gi4x38ZMMTPglE
-    l5wxsCw8NAYVkgt4p8ORaOWNi4jRqpT6i4PO-r8QX8rZ7sZ3pv6Gg>
-X-ME-Proxy-Cause: dmFkZTGIkxF1Ha5m1RRadaxFl3ZQpD0qbpPfE6qIRzD29tBEXVylIvHGFe9yCz/+Fdx5kt
-    jkNvjrM3wSTkgWWqOWFEbJf0juO/IPtWe7tY71MzGbC1ONlCunxHyz3cm7UCcUiNtUU7/W
-    BHZcRHyiyuHUIjjze+JTBWwZsJgvItMWWqxW/GQuWnTWQbrhjJesKIlEjBiekt3cAIA6W6
-    +7B4GCyzF7pbzvm6TZPRupHSnGuuVyWtyrml0WTSlZM3Othe4S2bfbAmMnTdsXc2iwuvAW
-    Mf5ICCFFHoL7fo8QNmKyrQqQ7np4xRb+TM48fXPpPWFRcozbN5CLBTM6ruEKVAkg1OgdA6
-    aKv0do7+9MRDkhNzkpeUTTyMfFFWN5N9JimtU6tXUnl47Z78cupN+IK988u9xlWngvfttH
-    DQ2Q9U1YAUg1qbpOdknOgNTT2v4TtvaIbnMXvkra+6FrAjmcG0+aRdJzTGNBb5gtc/CYwz
-    uzShJGpm/VKSocP3Mz/bxEQgVVtP4a9nwHXpxCKVw502N/seBCPGNJtArjYLQogTK4K+Ff
-    VRTm3BGZVTIFDPRdjNbKYZx3pfmD5dqUo1CpmJX9AqqdSZuqBJM1IXvZbNny7DS2lcjSAr
-    kSOmLrSBW90RtPN1aNp0c171kQrR6wsrwAmoC2zgU2p1B1LuFtFrYDoh6PTg
-X-ME-Proxy: <xmx:1mwpavFho5Sm20ciTNwd0kpLqWdwB3hycqU3D9kNf8NHAdHHL-0RPQ>
-    <xmx:1mwpajbQFhxivQVtWdFpZDFWbhOcvTQEFq-P9rID81BTKU_m7TIguQ>
-    <xmx:1mwpao1MWUSQXbITRXuQN8c8sSfHiX8HxlRQIjisNzgXskIAQtQ4vA>
-    <xmx:1mwpajf61vZaAyjWkiM7og1pohCj-NhQ0YIC6ZZE9dOP7d-FoEdMKg>
-    <xmx:1mwpaiABxBltPoyPuxPmEIUFUof-rWX5oNWeLL5BFYHZpDeuq7aKhYrA>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A6E88780070; Wed, 10 Jun 2026 09:55:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1781100146;
+	bh=kuSmwGv7M+HksYo1sSLXZGpleDXHiSTOXzJAy0Yn9NU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=bRtHvAXofUN/bHMnFNyeLYvbtY2fqUAlw6qCSwASZSLvtXYAFhhF8Vn1DNQ0Cahgo
+	 uF6jFNlMHncw5BRQhEl9VaM/VNceaIEo8/iKKY5eZw77YSfajtexO5ODjyR5p6J5zQ
+	 OF0fFTE0dSYIaz/V9QXi2iUk4YYAu1Bzo1p8DAX7DXZhP6nymmK6QuD177j0fJeXh/
+	 vuGRJYo/oT90IY4oUz5DNYWeI7NCxHRka/qMppIP7L+13+ZQ0E0/iZonlC+spi2Zfc
+	 UB4kUi8bFlVE5KeTM+RPjCn390JzZs+B794BTMpNTcQSYSLjnnMcgEdQ90p+iJg7tQ
+	 G0KnDIFLM1HvQ==
+From: SeongJae Park <sj@kernel.org>
+To: Doehyun Baek <doehyunbaek@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Docs/{admin-guide,mm}/damon: fix DAMON documentation details
+Date: Wed, 10 Jun 2026 07:02:17 -0700
+Message-ID: <20260610140217.65110-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260610053951.553739-1-doehyunbaek@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AK594_Pyz8Yk
-Date: Wed, 10 Jun 2026 09:55:14 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Chuck Lever" <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: "Steven Rostedt" <rostedt@goodmis.org>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <6f0dab5e-dd60-4a82-b04f-4e3b168ce137@app.fastmail.com>
-In-Reply-To: <dd5836b365946641824dbde5b6edc5395271617d.camel@kernel.org>
-References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
- <20260522-dir-deleg-v5-5-542cddfad576@kernel.org>
- <e0e995e9-8272-44f6-b2e0-9e61ed0eef3b@app.fastmail.com>
- <dd5836b365946641824dbde5b6edc5395271617d.camel@kernel.org>
-Subject: Re: [PATCH v5 05/21] nfsd: update the fsnotify mark when setting or removing a
- dir delegation
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+On Wed, 10 Jun 2026 05:39:50 +0000 Doehyun Baek <doehyunbaek@gmail.com> wrote:
+
+> Fix minor DAMON documentation issues.  Correct the sysfs scheme file name
+> apply_interval_us, the DAMON_STAT module count, a malformed reference, a
+> misplaced label indentation, and a few typos.
+
+Nice catches, thank you for fixing those!
+
+> 
+> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+I applied  this patch to damon/next [1] tree.  We are now quite close to next
+merge window.  We (mm community) want to focus on making mm.git more stabilized
+and therefore ready for the next merge window, rather than adding more changes
+that are not really urgent.  I understand this patch is not really urgent.
+Hence, Andrew might not add this patch to mm.git until next -rc1 release.  In
+the case, I will request that after next -rc1 release.  So, no action from your
+side is needed for now.  Let me know if you think this is really urgent or I'm
+missing something, though.
+
+[1] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
 
 
+Thanks,
+SJ
 
-On Wed, Jun 10, 2026, at 9:49 AM, Jeff Layton wrote:
-> On Mon, 2026-06-08 at 12:38 -0400, Chuck Lever wrote:
-
->> > diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
->> > index 2a34ba457b74..efbc99f0a965 100644
->> > --- a/fs/nfsd/nfs4state.c
->> > +++ b/fs/nfsd/nfs4state.c
->> > @@ -1246,6 +1246,38 @@ static void 
->> > nfsd4_finalize_deleg_timestamps(struct nfs4_delegation *dp, struct f
->> >  	nfsd_update_cmtime_attr(f, ATTR_ATIME);
->> >  }
->> > 
->> > +static void nfsd_fsnotify_recalc_mask(struct nfsd_file *nf)
->> 
->> Since nfsd_fsnotify_recalc_mask() takes a single struct nfsd_file
->> as an argument, should this function reside in fs/nfsd/filecache.c
->> instead? The question might reflect my misunderstanding of the
->> new function's purpose.
->> 
->
-> The only caller is in this file, so by keeping it here we can make it
-> static. I can change that if you'd prefer it be in filecache.c.
-
-My thought was that the new function is accessing and modifying
-the internals of an nfsd_file -- it contains local knowledge about
-how the filecache manages fs notifications.
-
-
->> > +{
->> > +	struct inode *inode = file_inode(nf->nf_file);
->> > +	u32 lease_mask, set = 0, clear = 0;
->> > +	struct fsnotify_mark *mark;
->> > +
->> > +	/* This is only needed when adding or removing dir delegs */
->> > +	if (!S_ISDIR(inode->i_mode) || !nf->nf_mark)
->> > +		return;
->> > +
->> > +	/* Set up notifications for any ignored delegation events */
->> > +	lease_mask = inode_lease_ignore_mask(inode);
->> > +	mark = &nf->nf_mark->nfm_mark;
->> > +
->> > +	if (lease_mask & FL_IGN_DIR_CREATE)
->> > +		set |= FS_CREATE | FS_MOVED_TO;
->> > +	else
->> > +		clear |= FS_CREATE | FS_MOVED_TO;
->> > +
->> > +	if (lease_mask & FL_IGN_DIR_DELETE)
->> > +		set |= FS_DELETE | FS_MOVED_FROM;
->> > +	else
->> > +		clear |= FS_DELETE | FS_MOVED_FROM;
->> > +
->> > +	if (lease_mask & FL_IGN_DIR_RENAME)
->> > +		set |= FS_RENAME;
->> > +	else
->> > +		clear |= FS_RENAME;
->> > +
->> > +	fsnotify_modify_mark_mask(mark, set, clear);
->> > +}
->> > +
->> >  static void nfs4_unlock_deleg_lease(struct nfs4_delegation *dp)
->> >  {
->> >  	struct nfs4_file *fp = dp->dl_stid.sc_file;
-
-
--- 
-Chuck Lever
+[...]
