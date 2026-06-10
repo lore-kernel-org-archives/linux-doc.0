@@ -1,281 +1,219 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B43844CF5E;
-	Wed, 10 Jun 2026 15:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B578A439000;
+	Wed, 10 Jun 2026 15:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106467; cv=none; b=cEpkhb4dmkmp9NL/CN3DH49fxPpEQ6SG+GVPEzk3PWRPhBqpZFN8fCeL9aVS5GKrfZN6UrFJWnfehfjyEUjcVzvsM0JHkV2ybawdF67iBj2h+sXrgnqa11GS4/eysXpn3YBfxJIma7WwdwirNk1oHt0RhfFIqh75czSFysB1ouo=
+	t=1781106722; cv=none; b=jhmeaTRYywKM8ICIoSzN6ujfZKouVdf/SZgqZSqfq9svAe+RwRQWPzvaR6LnaLyskt7K8HSMt1OCITVCHfHQ0criUZPEY4jlyZ5BgxBQRDHMv2q5AtNcf6wFz68ru/O0I6EycA8q6IpgPj69M3JSReM59zl4HjTXPBsL+XZYdH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106467; c=relaxed/simple;
-	bh=T8Lchpu012glgLfKa6t5ZFIrNn531f4LU09fuGOBqK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYa0uyg9gLFWxMfG5WSdFPSAJDN45HEn32S+2M2QGXX8uin/Vl3THoIX2lcHNkA4Jx0kQ3ndd5ThHrfhGTyudOEftGWLnQ7ZvofLONcqO5PDgX5o3q00L3LP+lAy6iLqJa//swdhu1JIlsbusTxW/ryALC6Rw0T0uTEx5QI33EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pa6SHsBT; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1781106722; c=relaxed/simple;
+	bh=+xvIo1+BjAuiU8ReQhKX6UYs9PKxC1+6lv3XvYAV1Gk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qeHYDK36VWr6RUNbv522ermNVVKoDksfqbD0eqwuONO+ULGZqK0eygAG5NS5MExJFybI6g46v1zny2KeZPgeVkeGsRELtnFvzZf9bfJ72NvkXl0K+Pg9OzBJA0PjU3mIVPHJZx/H2plim3ZrYGdORNWhjEXGkecTUBgOgTy1ZQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/4oydsC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pa6SHsBT"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65AEdhiv2688319;
-	Wed, 10 Jun 2026 15:47:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=F9Hypa89gAReOQHmEvxQjPNyohIgM3
-	2phqPh11LBjt8=; b=pa6SHsBTWp0nMu3fzJxb/bGwc6BJK7ZKhF9FaR1fx0Ufxk
-	rfdJFLbpIXl5HUaoXnD1POVpjGUYYAUGd5TrphQJkqyKG72gBTMJD1CrIlcPFAkg
-	SqNgUpblFlpwtXh8Z5UNooPnAg00vjUlJCAKBLtGxruWOCrMhP+IPFLZ/YPzL/4e
-	y6ZayUbGAV4CU+gfALJthW45f77J4vY8j8XaKSghp811f0v0/q5nM7xsETIQcml5
-	mVXA0ros/AD2AbjeGkETiMQYG5KB6sDlM5yQY7B6WILm6KDlRiNSAtiao4t0H0Qa
-	f6khlivQ7ZyMpt+Qgwdl/l0o8mMihtWIzXVC5e9A==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4em9ye9gg6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:47:21 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AFYZbQ024799;
-	Wed, 10 Jun 2026 15:47:20 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4en0jyf15t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:47:20 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65AFlGNp42402180
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 10 Jun 2026 15:47:16 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 619D720043;
-	Wed, 10 Jun 2026 15:47:16 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B4F3620040;
-	Wed, 10 Jun 2026 15:47:13 +0000 (GMT)
-Received: from fedora (unknown [9.5.7.39])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 10 Jun 2026 15:47:13 +0000 (GMT)
-Date: Wed, 10 Jun 2026 21:17:15 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
-Subject: Re: [PATCH v3 2/5] KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and
- wire up ioctl
-Message-ID: <20260610211350.ff62b2d0-b2-amachhiw@linux.ibm.com>
-Mail-Followup-To: Vaibhav Jain <vaibhav@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, lkp@intel.com
-References: <20260522152744.55251-1-amachhiw@linux.ibm.com>
- <20260522152744.55251-3-amachhiw@linux.ibm.com>
- <87pl28z3nx.fsf@vajain21.in.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/4oydsC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2FE11F00893;
+	Wed, 10 Jun 2026 15:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781106721;
+	bh=CwNCLUffOLZ9FQ4DKwTWAbzR18kc3c+ttNJlSBuO3Co=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=A/4oydsCChnzYmYuHr76D/OAxwN2sUC4dpf5I/PWjp/oWeLc7tLeY8ejF2qxNx4fy
+	 bwNCYRS/GB3C8X2+qHQoxtMYyjXN3yILb/DPQVqJQTei63HicfDACFhLPwYmcS6+V+
+	 eBf30DxET1SK7BhqVo/NUJWtmuUYwlkZhq+JgsuxM9+1MInQ1UnKlH6hansat0uagv
+	 hQ7ZQehD3G+xsJVIGaHLP1BnAaPptCT5pV8/JWlPCkInQBmjAkCf6sfuWlr5DsLKmv
+	 rrEFxeNksvSNtiUaUhUZhyog1B/bhTp8tsXMoOFx3EEyLVZoBbDOTsKskylUpNwX9i
+	 /fPBK5XIfZ5ww==
+Message-ID: <eb2ddc1f6810926b7aadc9a68465f784b47a66fd.camel@kernel.org>
+Subject: Re: [PATCH v5 09/21] nfsd: add data structures for handling
+ CB_NOTIFY
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
+ Ngo <Dai.Ngo@oracle.com>,  Tom Talpey <tom@talpey.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,  Jonathan Corbet	
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Alexander Aring
+ <alex.aring@gmail.com>,  Amir Goldstein <amir73il@gmail.com>, Jan Kara
+ <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,  Christian
+ Brauner	 <brauner@kernel.org>, Calum Mackay <calum.mackay@oracle.com>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nfs@vger.kernel.org
+Date: Wed, 10 Jun 2026 11:51:57 -0400
+In-Reply-To: <566fd48c-bf10-4974-9ee4-1afc30b7a69c@app.fastmail.com>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+	 <20260522-dir-deleg-v5-9-542cddfad576@kernel.org>
+	 <566fd48c-bf10-4974-9ee4-1afc30b7a69c@app.fastmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pl28z3nx.fsf@vajain21.in.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDE0OCBTYWx0ZWRfX0C6egcHhst3L
- HPev97mR/2sUqiVqHluSoCUveOzqLg8IUomZovfeYzm6hzgIHu4DXlwtxctQQudS24RYcKOiISF
- vxAk6y+SGRbFbr0RiBLAT8aJgcR4OTl/yewY5V2mJ6d15SOblnxYbYw4UjfsZZtQMuNULCpRW5d
- b2YeiKI67pxJykJuP+br70Lmt9dWvfolBLElepOvQ6UbC0PBFerRFqALJzSZlQ97HqyGrASieov
- np8jpNPJGr0loGmY/6qGdI45uCURc0QN2B5n9XVVkbf4/RzCdxpeGm52HGwah9QQ1c5+tHtBR3U
- A9maXK3pi8Cc1zB2gaXhMipifU45oK9r/CEXYC7jzFTTWJrGPLpixclq/lPrA8HcH2i1oJzHFHc
- Kad1IscooJZgFrZSAjaYVhF+J3C19epnKJC/heAEvPC6qkFvBif7rgW6ZvqQVGihCmkatcx/ksO
- WDYOc2yhIXFYjAaZ+kw==
-X-Authority-Analysis: v=2.4 cv=QKhYgALL c=1 sm=1 tr=0 ts=6a298709 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=hyIHeesGBAN42lQhcX0A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: LyhLHReaSS3CryATyGIns3pCiYTxPKyl
-X-Proofpoint-ORIG-GUID: RF6bcsE0KgeEwzTJaYnq6IRHeV7H30aj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100148
 
-Hi Vaibhav,
-
-Thanks for reviewing the patches. Please find my response inline.
-
-On 2026/06/03 09:16 AM, Vaibhav Jain wrote:
-> Hi Amit,
-> 
-> Thanks for this patch. Few review comments below:
-> 
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > Introduce a new capability and ioctl to expose CPU compatibility modes
-> > supported by the host processor for nested guests.
-> >
-> > On IBM POWER systems, newer processor generations (N) can operate in
-> > compatibility modes corresponding to earlier generations, like (N-1) and
-> > (N-2). This is particularly relevant for nested virtualization, where
-> > nested KVM guests may need to run with a specific processor compatibility
-> > level.
-> >
-> > Introduce KVM_CAP_PPC_COMPAT_CAPS capability and the corresponding
-> > KVM_PPC_GET_COMPAT_CAPS vm ioctl. The ioctl returns a bitmap describing
-> > the compatibility modes supported by the host in respective bit numbers,
-> > allowing userspace (e.g., QEMU) to select an appropriate compatibility
-> > level when configuring nested KVM guests.
-> >
-> > The ioctl handling is added in kvm_arch_vm_ioctl() and retrieves host
-> > CPU compatibility capabilities via a PowerPC-specific backend
-> > implementation when available. If the capability is not supported, the
-> > ioctl returns success with no capabilities set, allowing userspace to
-> > fall back gracefully.
-> >
-> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> > ---
-> >  arch/powerpc/include/asm/kvm_ppc.h  |  1 +
-> >  arch/powerpc/include/uapi/asm/kvm.h |  6 ++++++
-> >  arch/powerpc/kvm/powerpc.c          | 21 +++++++++++++++++++++
-> >  include/uapi/linux/kvm.h            |  4 ++++
-> >  4 files changed, 32 insertions(+)
-> >
-> > diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/include/asm/kvm_ppc.h
-> > index 0953f2daa466..cadfb839e836 100644
-> > --- a/arch/powerpc/include/asm/kvm_ppc.h
-> > +++ b/arch/powerpc/include/asm/kvm_ppc.h
-> > @@ -319,6 +319,7 @@ struct kvmppc_ops {
-> >  	bool (*hash_v3_possible)(void);
-> >  	int (*create_vm_debugfs)(struct kvm *kvm);
-> >  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
-> > +	int (*get_compat_cpu_ver)(struct kvm_ppc_compat_caps *host_caps);
-> >  };
-> >  
-> >  extern struct kvmppc_ops *kvmppc_hv_ops;
-> > diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-> > index 077c5437f521..081d6c7f7f70 100644
-> > --- a/arch/powerpc/include/uapi/asm/kvm.h
-> > +++ b/arch/powerpc/include/uapi/asm/kvm.h
-> > @@ -437,6 +437,12 @@ struct kvm_ppc_cpu_char {
-> >  	__u64	behaviour_mask;		/* valid bits in behaviour */
-> >  };
-> >  
-> > +/* For KVM_PPC_GET_COMPAT_CAPS */
-> > +struct kvm_ppc_compat_caps {
-> > +	__u64	flags;			/* Reserved for future use */
-> Please introduce a size field also for the UAPI so that in this
-> structure can evolve in future without breaking kernel ABI.
-
-Sure, adding a size field for validations and future extensibility makes
-sense. I'll add it in the next version.
-
-> 
-> > +	__u64	compat_capabilities;	/* Capabilities supported by the host */
+On Mon, 2026-06-08 at 16:18 -0400, Chuck Lever wrote:
+>=20
+> On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> > Add the data structures, allocation helpers, and callback operations
+> > needed for directory delegation CB_NOTIFY support:
+>=20
+> > diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
+> > index 9c6e2e7abc82..505fabf8f1bf 100644
+> > --- a/fs/nfsd/state.h
+> > +++ b/fs/nfsd/state.h
+> > @@ -197,6 +197,44 @@ struct nfs4_cb_fattr {
+> >  #define NOTIFY4_EVENT_QUEUE_SIZE	3
+> >  #define NOTIFY4_PAGE_ARRAY_SIZE		1
+> >=20
+> > +struct nfsd_notify_event {
+> > +	refcount_t	ne_ref;		// refcount
+> > +	u32		ne_mask;	// FS_* mask from fsnotify callback
+> > +	struct dentry	*ne_dentry;	// dentry reference to target
+> > +	u32		ne_namelen;	// length of ne_name
+> > +	char		ne_name[];	// name of dentry being changed
+>=20
+> Nit: checkpatch doesn't like the C++ comment style.
+>=20
+>=20
 > > +};
 > > +
-> >  /*
-> >   * Values for character and character_mask.
-> >   * These are identical to the values used by H_GET_CPU_CHARACTERISTICS.
-> > diff --git a/arch/powerpc/kvm/powerpc.c b/arch/powerpc/kvm/powerpc.c
-> > index 00302399fc37..02b834ebd8d3 100644
-> > --- a/arch/powerpc/kvm/powerpc.c
-> > +++ b/arch/powerpc/kvm/powerpc.c
-> > @@ -697,6 +697,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
-> >  			}
-> >  		}
-> >  		break;
-> > +#if defined(CONFIG_KVM_BOOK3S_HV_POSSIBLE)
-> > +	case KVM_CAP_PPC_COMPAT_CAPS:
-> > +		r = 0;
-> > +		if (kvmhv_on_pseries())
-> > +			r = 1;
-> > +		break;
-> > +#endif /* CONFIG_KVM_BOOK3S_HV_POSSIBLE */
-> >  	default:
-> >  		r = 0;
-> >  		break;
-> > @@ -2463,6 +2470,20 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
-> >  		r = kvm->arch.kvm_ops->svm_off(kvm);
-> >  		break;
-> >  	}
-> > +	case KVM_PPC_GET_COMPAT_CAPS: {
-> > +		struct kvm_ppc_compat_caps host_caps;
+> > +static inline struct nfsd_notify_event *nfsd_notify_event_get(struct=
+=20
+> > nfsd_notify_event *ne)
+> > +{
+> > +	refcount_inc(&ne->ne_ref);
+> > +	return ne;
+> > +}
 > > +
-> > +		r = -ENOTTY;
-> > +		memset(&host_caps, 0, sizeof(host_caps));
-> > +		if (!kvm->arch.kvm_ops->get_compat_cpu_ver)
-> > +			goto out;
-> > +
-> > +		r = kvm->arch.kvm_ops->get_compat_cpu_ver(&host_caps);
-> > +		if (!r && copy_to_user(argp, &host_caps,
-> > +				     sizeof(host_caps)))
-> As mentioned above please introduce a size field in the structure thats
-> being copied to the userspace and use the size field to copy the
-> apporiate structure to the userspace. Otherwise a future kernel may
-> unintentionally overwrite unintended userspace memory if it happens to
-> be using a  larger structure size then what VMM knows about.
-
-Sure, I'll add a validation around the structure size.
-
-> 
-> > +			r = -EFAULT;
-> > +		break;
+> > +static inline void nfsd_notify_event_put(struct nfsd_notify_event *ne)
+> > +{
+> > +	if (refcount_dec_and_test(&ne->ne_ref)) {
+> > +		dput(ne->ne_dentry);
+> > +		kfree(ne);
 > > +	}
-> >  	default: {
-> >  		struct kvm *kvm = filp->private_data;
-> >  		r = kvm->arch.kvm_ops->arch_vm_ioctl(filp, ioctl, arg);
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index 6c8afa2047bf..1788a0068662 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -996,6 +996,7 @@ struct kvm_enable_cap {
-> >  #define KVM_CAP_S390_USER_OPEREXEC 246
-> >  #define KVM_CAP_S390_KEYOP 247
-> >  #define KVM_CAP_S390_VSIE_ESAMODE 248
-> > +#define KVM_CAP_PPC_COMPAT_CAPS 249
-> >  
-> >  struct kvm_irq_routing_irqchip {
-> >  	__u32 irqchip;
-> > @@ -1349,6 +1350,9 @@ struct kvm_s390_keyop {
-> >  #define KVM_GET_DEVICE_ATTR	  _IOW(KVMIO,  0xe2, struct kvm_device_attr)
-> >  #define KVM_HAS_DEVICE_ATTR	  _IOW(KVMIO,  0xe3, struct kvm_device_attr)
-> >  
-> > +/* Available with KVM_CAP_PPC_COMPAT_CAPS */
-> > +#define KVM_PPC_GET_COMPAT_CAPS	_IOR(KVMIO,  0xe4, struct
-> > kvm_ppc_compat_caps)
-> Minor: you may want to align the name of the newly introduced kvmppc_ops
-> to KVM CAP you are introducing here.
-
-Will do.
-
-Thanks,
-Amit
-
-> 
+> > +}
 > > +
-> >  /*
-> >   * ioctls for vcpu fds
-> >   */
-> > -- 
-> > 2.50.1 (Apple Git-155)
-> >
-> >
-> 
-> -- 
-> Cheers
-> ~ Vaibhav
+> > +/*
+> > + * Represents a directory delegation. The callback is for handling=20
+> > CB_NOTIFYs.
+> > + * As notifications from fsnotify come in, allocate a new event, take=
+=20
+> > the ncn_lock,
+> > + * and add it to the ncn_evt queue. The CB_NOTIFY prepare handler will=
+=20
+> > take the
+> > + * lock, clean out the list and process it.
+> > + */
+> > +struct nfsd4_cb_notify {
+> > +	spinlock_t			ncn_lock;	// protects the evt queue and count
+> > +	int				ncn_evt_cnt;	// count of events in ncn_evt
+> > +	int				ncn_nf_cnt;	// count of valid entries in ncn_nf
+> > +	struct nfsd_notify_event	*ncn_evt[NOTIFY4_EVENT_QUEUE_SIZE]; // list=
+=20
+> > of events
+> > +	struct page			*ncn_pages[NOTIFY4_PAGE_ARRAY_SIZE]; // for encoding
+> > +	struct notify4			*ncn_nf;	// array of notify4's to be sent
+> > +	struct nfsd4_callback		ncn_cb;		// notify4 callback
+> > +};
+>=20
+> Ditto.
+>=20
+
+
+I'll note that the code is littered with this comment style anyway,
+including a bunch of the new // SPDX- header comments. Personally, I
+find this more readable for documenting struct fields.
+
+AFAICT, the checkpatch rule was manufactured out of thin air.
+Documentation/dev-tools/checkpatch.rst says:
+
+  **C99_COMMENTS**
+    C99 style single line comments (//) should not be used.
+    Prefer the block comment style instead.
+
+    See:
+https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+
+...but that coding-style document says nothing about C99 comments. I
+move that we ignore checkpatch here.
+--=20
+Jeff Layton <jlayton@kernel.org>
