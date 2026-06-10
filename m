@@ -1,229 +1,150 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012020.outbound.protection.outlook.com [52.101.53.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B01444A71C;
-	Wed, 10 Jun 2026 15:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106818; cv=none; b=pks+CTN0hwaHhBsQgb5DmykxiJ0S5PhAirbvm9kFFy4meh+0T601z9J4ezck6vslBV/G1rqECRWIwr6Sk5xxzNsTWTc6aHfNoxPtcDR5aLxnrYLF9DoHNaS2oNBGgXmjMc0AEpiNw4DJhbSUpffN2MPifOgVhJBoU3lX5t/AWU8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106818; c=relaxed/simple;
-	bh=zdyLP7ouTkt+ILiSuCO1olIjLO1MUnak+VQbsyrfxUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPvIlH0PtICXfZmPFqHuX0Bo/Rcu2eLwCPzxvZ0D+21ffYYnHaaFy0NdJzbkKhyyvTUuxpzl2ZhkV4TJ7RxCWeXpvIsod1xeyTZ1NkdVWkYOC6tbyH9YGucWT4aK9n+wukf5mMVe7WRceYQAgjJ1NM5sUAMd9yXG60Hq2xXjscc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=bF+TY6su; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E738630DEDD;
+	Wed, 10 Jun 2026 16:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781107909; cv=fail; b=BfJJR3Z0Dn3swfQWWJ0bT79K1gYWa0UsHMWuOMv8Z+eqyQdF2CnJeGDtHqPZ6UweVxfFT9oR8+C2K1w5bJ59jm/1P/P5KAe7tDqd5pAzXyPlH1nSKtfnK15QmVgVmuYCFdnnqkmGxnaq9riHighimk94pC5y0WU5zDp5OGPIYzY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781107909; c=relaxed/simple;
+	bh=U34W4BU4z0qgFsNsQTrMczTghohKiX1ZtDvWXuKV7M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=kwEa4DXWuG6ZJgBG5Yiofr2sQGXbjUQAEkBgUr4BSoZkKA8dKFFv5dyKRhpojBEVfjqV2IhF9DatWBzyzUyCux+j08lsCV2YtG5oKotpzKAOthY/f3xd6RDTb8ai+yo1pJtBB/1eLgimjwYmKACb6uTlBWofYR/k4Md50ZezEnA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WMYWKRUV; arc=fail smtp.client-ip=52.101.53.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="bF+TY6su"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65A7m09X3513101;
-	Wed, 10 Jun 2026 15:53:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=g2E5FiZ63LRQIjfKGaaxoNu3uHCI5b
-	0O4yQZ5HCqp38=; b=bF+TY6suCU7NSUN42/xQ8hAiMiLkJ/omkP9OHFZtm6ufnm
-	oX8ejIdjOM7Vi7w+4ADrs71k99YhZLCe4I9UfZQh9GKAdLhlZl9zr/fL/YhPfD6J
-	DfcseSLIJXvANMmdwu0L4D2hSVAONj8sdlFJBfIpu1KRBodBNEHzyLVyz2wUgJjX
-	sEw9KnhsdIMQ8zBFZOcv7cXng+y0FQqjGO3cqS6ul59v4e80+RoQkDeoSh3xM8tS
-	JuYGDkbPgRSmU+q5nWQgBESFJZWvcAAUGqiuu63tUAxIaSLzbTzVI2KXZFJQKPzE
-	mvJvks8NCtcyUsc2dW9XPgPJvqxLBar7B3R41Y7w==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4emb241xt5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:53:22 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AFntBE004934;
-	Wed, 10 Jun 2026 15:53:21 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4en03g73b5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:53:21 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65AFrIe044368306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 10 Jun 2026 15:53:18 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4FF8920049;
-	Wed, 10 Jun 2026 15:53:18 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9C79E20040;
-	Wed, 10 Jun 2026 15:53:15 +0000 (GMT)
-Received: from fedora (unknown [9.5.7.39])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 10 Jun 2026 15:53:15 +0000 (GMT)
-Date: Wed, 10 Jun 2026 21:23:17 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
-Subject: Re: [PATCH v3 4/5] KVM: PPC: Book3S HV: Add support for compat CPU
- capabilities for KVM on PowerNV
-Message-ID: <20260610212254.3cec19b0-ef-amachhiw@linux.ibm.com>
-Mail-Followup-To: Vaibhav Jain <vaibhav@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, lkp@intel.com
-References: <20260522152744.55251-1-amachhiw@linux.ibm.com>
- <20260522152744.55251-5-amachhiw@linux.ibm.com>
- <87jysgz292.fsf@vajain21.in.ibm.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WMYWKRUV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EhJWAZS7AhIVjrYcGoQsF1GCqHBoqdTxQROk7Qq0e00jm0IrRIC5p7ta/sfq71OyokE+6bj7/I3C7sQK6u1EpCyinmfsspx+Wy2pv+gBhZ+w2g5fSWWfGWArlcJVQV7Pao1AohPX6WqnDCGX8qWQVXMcBl/f6/Cyxrz8/ps1ZesDTc9o0jKpjboefyW0tGVzVqHc+2LwaNhXwG9hD28PrA9JEDUielivsqw6dPeaNlWIqz/VqZSaHL2uwsLYOOTqvGI/yJHdvoVUWe1Gf0quSVK+Zc5FzaMsIyKdgBZ8D2D0M7ip9oXanABoAQIxB+QThQWHSWkxiQbEU1DfQGrcog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U34W4BU4z0qgFsNsQTrMczTghohKiX1ZtDvWXuKV7M0=;
+ b=qKWR38jncbVE2sh7TFVbHkHvL9z27ZF9cCQlPxkbjgPjZueTJwD1jEiW4LWMnBS+LwsN3rq4BVZ5JaZi/eZt9mEcKPSJt2AtQpGKGpCB8GAafX1+zyX4x/1HE+aJwvwIebvNON+iG+sVSRDEhsVrlA5M6muO3t+fO52NG4nYwGlkyQ47WIDtJuHixoSpSdWLAN138F7EHcaoL3RfvvSjOpmD9/Cgz4m74YP8jl6340jVA/AAd8TjjyE90eycL/XJIDl2bieJ1/3DuDJazNgjH/qsR9GajpRFSMzuO/vxnuDygRXWHvhdhGvTH9vnpn2nwznL9/AAOdrf+M5VU/lJzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U34W4BU4z0qgFsNsQTrMczTghohKiX1ZtDvWXuKV7M0=;
+ b=WMYWKRUVb9TMq9MMtCx10TjUEUCNoxl053Y3M2xPzceD6c+rwxgyG6c2ppi3LQP+zOieDxk0o1wCWuSfVVYBS/LEge+8kMPwG52iEuSHDEv0uQzv/XKkp2IB7iWVM9duJJJa9O+jbAX2ejD3CsCc9bvkPFoD7qwix/dtgDbAA21nf847ffgzfQ2hdVS4K+XxHlb+WXyXcyENhPDPIfjFk3s6jDpxcXKwVMFhovRLPwEEG/VRovsGh2RSQi9HGISzaUkmVtnvlNBGWdnrGxvwnC5UEkD8Vh1rS6i6XYpwywRt/IsgGqRvdeP6Ai1P1pmIqZDpOPLCm8yUgSBlCbfj4Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by LV2PR12MB999072.namprd12.prod.outlook.com (2603:10b6:408:354::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Wed, 10 Jun
+ 2026 16:11:45 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
+ 16:11:45 +0000
+Date: Wed, 10 Jun 2026 13:11:44 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Shanker Donthineni <sdonthineni@nvidia.com>
+Cc: Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+	Jason Sequeira <jsequeira@nvidia.com>
+Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+Message-ID: <20260610161144.GU1962447@nvidia.com>
+References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
+ <ailKYTOX23EMnJsK@willie-the-truck>
+ <223c49ee-528c-4750-9885-fd8e0247151e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <223c49ee-528c-4750-9885-fd8e0247151e@nvidia.com>
+X-ClientProxiedBy: YT3PR01CA0019.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::33) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jysgz292.fsf@vajain21.in.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=b4uCJNGx c=1 sm=1 tr=0 ts=6a298873 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
- a=C8Vz2Ujs2r1iiY_tozkA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: QS9JKwRuI7EoydCswWm4uUnL-s98AkHl
-X-Proofpoint-GUID: 3aN2sU-fgy2MYeKTz0nVVxtBonT1tyqA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDE0OCBTYWx0ZWRfX1EnIf+YbxpRy
- 5srb6zES9vsIinzvkbAQkr395H2uGvsOyOp8qiVIgTFdPlCiMkyHXSyJ+Eqgtb0XhTyD8j5PtzR
- v98Zcfe72P8lCipU5X0KKLmMWKNmW2wUoUXmDVOJe8eIyha+SglKBFqSW+WSQEV/sEhl9o9kIxY
- ezjZUxxJ5bqT+zOd8W+J0YvcWhjygs5yN5lcPfCFbtEdtBjWE1d1re/XzzsvPmvAQd8ZyofOsNm
- 9uTlFEWoal7hLg36rY9pJkjIFIQ6+MKrT7xxw2wn3Q79v9+9TUa07640Rt/6J/ERJhjoiiPyUmD
- vuwCIZ/aCOWo3jZV3zNhrf6eli+Au9Bovsm7MFIlTNSd9/JkDpOi5xlTgUkOmWx90kygmxwyy6K
- SLnwb9VKDgy0bPTGMRKYrvG+ZUEvEqbuxcUQZjDs8xMG22BN0ho20SHOnNYpByh6z1jPDSy64k+
- tZxQSK7Sig5c87Dp0jg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100148
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|LV2PR12MB999072:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7c72af4-b0e9-4b16-8bf0-08dec70af7cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|6133799003|18002099003|22082099003|11063799006|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	BOWZc76ndJBGsUhYwM2jhiKvSOA9u8wI1WT1PpENJQkKLB1hfU/wykzx7IOI/ewJSiL7xVbRY8rDkQschqOf2Ia8yMEKdpCMnlN/mvvel8cGhCWYCI4whixSXjNUizsG25t3Yfa82Bb26JmdkFYAodurpRrAxg2/xykJKfk2sxzrR/r814lW+U0rH0IJ/95xifDdBfyUQNAOYiNT9kWMoS+c/F91qvGPJUk3EDXdPCp2adI7MYtUrFxExgfXXIMIk99Ua2WowH/n2X47gqK0BcOGPt50tOIHtNSKsqa755+0NAU9XpvB0flWaKjA3XknAePU8jZQwSukqdJ7MVpdPIYwuX1WMpLrlZkE11EOthK8glQuMvlwTCFQ3gbUCMTmRgo8A24NEpwI7zltvmGOCULi8HqAAoMQwfhheb0uTzSKCPkcij5gbQ+Ngc33y24eflcPwgIHFjBcHgI83wV+FENTog0LOpDn0bt94a3x/lsykNyxsSQFJZVHlfW4Wf9r1Ph9Vp4LjsOb36GMUt8wYz4rW52BS3qZYcypph8Nx9O7NcG3PJXltKk1fW/QDyIiES/CQv9KFgEuk2XFKC9njrBtPpttqnFXMVO5EuVDLyjjb/8isCsOTqOh7BO8/m0r+OPgssUhDIhCmA8TPafiFGsO1hkKPIc/vtJ+HkTUDUhA1hP4KLv13i4wdhZDZK77
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(6133799003)(18002099003)(22082099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UEVNYm1uakdhRXM4VEsydDlBQ29HbEJqSzJVKzRUVWx2UFdFRllmNEc3WHlY?=
+ =?utf-8?B?aHlVVDZWYSs3cW1PRDYvYWY0c0ZFVE5vcjZWNlRJK3ZjTFpBWXJidUUrb2tv?=
+ =?utf-8?B?V0ZjVlh4Y2JLK0g0anFxSDM5Tzc4eXBRT00raXNVSmZXV2tDNWhzQUZqTDYv?=
+ =?utf-8?B?RU9YN0J6MVJCTG4ydU04dTVjUUljL0l6KzVLNEZOVWc3KzdwZStYaGFTb0dz?=
+ =?utf-8?B?d1Nic2VPSXVqOEE3aHJMNm5ZUGhaWnhXRVNSanZoTjNmY3ZnTHZnbUM5UHlY?=
+ =?utf-8?B?dFAwMlBra3ExUjYyMEdsYzAwRXRPcHF0M0J6M0tDaDNKQUxieGl6c0IybjNz?=
+ =?utf-8?B?TG1oMnRDQ0kwclowZnNNNGY1UmZLUzlvUkltK29vZFJyMklOTmQzK1o5ZFUx?=
+ =?utf-8?B?Z0FCRExuV2dBSnV4RmE1REZFdzRxbkhvWkZONDU5cXA0VG1ibk5sbWJleTlL?=
+ =?utf-8?B?VlZjSWdTaFF3QzZNRVp4RlVlNVhyeVZKdzNsVTBNOUZObndKbURpMW5OZlR3?=
+ =?utf-8?B?RXpQeFArQlU2bWlYVnFuZVA5R0RPNEVpSmJrRERvbFdFWTJZd3lLVEo1ZTY2?=
+ =?utf-8?B?dk9XT1hLZjQwaDB1WVdZNnQyMXg1VzErL21TNzc2K0JvYWtIMU91YW1aTHNm?=
+ =?utf-8?B?NVA1UjByT1VMUVp1dzU1ZzAwdVVoTzQzSkVZU0NHcG0xdWptZUdHZmE0KzRK?=
+ =?utf-8?B?OTM4N1FpdWRnd3dSeTEyVSt4UXdZMzUvZWMraktBbTdaM3ZSOERNZGU5Z1l5?=
+ =?utf-8?B?dnVZY1h0eXR4UXZmVlQ2cUZKQmhrOS9tMjM1UXlNWGVDaVFlUEFlcWdYei9X?=
+ =?utf-8?B?dUk4UkVsV2RLeERVZUFPRlhpb2hVWGUvL1FtV0lqSUZsdnZRcFNVanE5Ynlu?=
+ =?utf-8?B?VWtrTCs0ZHl4c1FWSksxbk1jSHZXbHVhS3VReWFidHhwNlUzUmpUWlcrMTMr?=
+ =?utf-8?B?YWhWYVhnN1V1SXpoaTJJbEVKMTRjVEdKN3JGbzAraGVDam1OS3c1V2RvTG80?=
+ =?utf-8?B?OUpNUlFOTXZ6UmJLTnpqQ2VITXdWTUJIUHF2ZHFGRkdEWUh1MlBDT3pCcjlG?=
+ =?utf-8?B?bHNrK0NPcVZlQU8ydFN4aHcxZWJHcU5LdkVvU3Zsd3hxVVRuT2lmS0JvR0NG?=
+ =?utf-8?B?Q3AwZ3U0QnZYN0NrcXYvczhDaUhidG5CRUlobWNyS1J4aVVkVzhFUlp6WDFK?=
+ =?utf-8?B?VG9JK3JMdDIzZ2UyVDQ2YWl6OGUvNWN5c3dDcTU1cjNnOHdjNVdyMEtEMWJs?=
+ =?utf-8?B?V0hCUGlpeCt1eTVONklQbmZzOCtsSUN4RHU2ZWNKMkVTTmY3aEdYS0RWREIv?=
+ =?utf-8?B?aHVXWHgyTUVwbGxpNzR2SGwzWjVSQW44WndkNjA4K1cyN3JRUzNlT3lYajB2?=
+ =?utf-8?B?MzQ0VFVuS1VwV2pnMDJpZ2hCcXhEdCtuNDVlT0wxODBabW5pRVNtY1Z1blhF?=
+ =?utf-8?B?WGJldEZvOWJ1anIyQUlrVS8wRVB6blRwSjFvdDdhTHg0VVhSQ0hJbkpWa3Mv?=
+ =?utf-8?B?TTZRYkM3aWNTdU10OTJyV0s3ampPUjVSaFBKdU1GY1gzNy93NzBVVHhDVHc3?=
+ =?utf-8?B?YTFkVW51SnVQRVE0YVAzQ2ptQk40NEhuelUwbFdDL2tlRHg2SmR6ZWpxRURj?=
+ =?utf-8?B?Z081d2tLMDA4U2hDSVdRV1VsUkFITjM3d0w2d3J3ZVJ5Vy9XYkxLd1NGVnVZ?=
+ =?utf-8?B?U3lXQ2M4dWp2UU1GbVVFVUxYV1FwYnhQNUdrYm8yUG5SUW8reThCd0huanZn?=
+ =?utf-8?B?WlE0bmdnRFdnV3hRdzF2Mm15bXhLQUtWaDl4L2EwRVVFTXR6c0diZnVIMW1N?=
+ =?utf-8?B?TmR1clptakU1V0xZbkdxcFJHUWFkQ3V0RHJrL1lvQndQemo1S3phaWlXOTBj?=
+ =?utf-8?B?NnVxV0cvd3g3SjJOaHlpV0ErOTljZUpzMW13Sy9CMzRweTN6QkdDOTM1RkZM?=
+ =?utf-8?B?NjhjZys1ZFgzVk5iejdCTTBIdnRxTW03cGF4akd3ODFvM2sySTg3eElpZlQ1?=
+ =?utf-8?B?REtLRllQUmk4eFArRThWNm1RdXN0NklrdkIwYUlmK2NSUjhnR3RHSHlGekJZ?=
+ =?utf-8?B?N0Q3T2QxaUYrMHh0Y0t4ZWhsVE1FbStFZ29ROHdZaG1lTXVFbjBPVXRxY3A1?=
+ =?utf-8?B?ZDNrc3FWd3c0dmFMQTVuZW9PeGgwQ2YxbXpEUlVlKzhjdkFIdXd4QnBHcHlq?=
+ =?utf-8?B?MGRLYTkzQkRySlMwOXlMUURUenFBTXYrVjFpS2FZU3h2OG9EWHRoWlRmSStq?=
+ =?utf-8?B?WjZFRjdJZmlWNnVFOHRaOXdBdU0yUUFKYWhJN2gzaXNBVUpGdFdwNjh5aUpv?=
+ =?utf-8?Q?ENKhRCjwTwNDnX9sfK?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7c72af4-b0e9-4b16-8bf0-08dec70af7cc
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 16:11:45.5745
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FDryyXGWoxd02iguiy2n7M+UhYGlO/UJ1wvDG1X8oESK8uQ/V/q8AJ+ZDbiEltip
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB999072
 
-On 2026/06/03 09:47 AM, Vaibhav Jain wrote:
-> Hi Amit,
-> 
-> Thanks for the patch. My review comments inline:
-> 
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > Currently, when booting a compatibility-mode KVM guest (L1) on a PowerNV
-> > hypervisor (L0), the guest runs with the expected processor
-> > compatibility level. However, when booting a nested KVM guest (L2)
-> > inside the L1, QEMU derives the CPU model from the raw host PVR and
-> > attempts to run the nested guest at that level, instead of honoring the
-> > compatibility mode of the L1.
-> >
-> > Extend host CPU compatibility capability reporting to support nested
-> > virtualization on PowerNV systems (PAPR nested API v1).
-> >
-> > For nested API v2 (PowerVM), compatibility capabilities are obtained
-> > from the hypervisor via the H_GUEST_GET_CAPABILITIES hcall. This
-> > information is not available on PowerNV systems.
-> >
-> > For nested API v1, derive the compatibility capabilities from the L1
-> > guest by reading the "cpu-version" property from the device tree, which
-> > reflects the effective (logical) processor compatibility level. Map this
-> > value to the corresponding compatibility capability bitmap.
-> >
-> > Introduce a helper to translate CPU version values into compatibility
-> > capability bits and integrate it into kvmppc_get_compat_cpu_caps().
-> >
-> > This allows userspace to query host CPU compatibility modes on both
-> > PowerVM and PowerNV platforms via the KVM_PPC_GET_COMPAT_CAPS ioctl.
-> >
-> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > Tested-by: Anushree Mathur <anushree.mathur@linux.ibm.com>
-> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> > ---
-> >  arch/powerpc/kvm/book3s_hv.c | 37 +++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 36 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> > index 38de7040e2b7..18774c49af85 100644
-> > --- a/arch/powerpc/kvm/book3s_hv.c
-> > +++ b/arch/powerpc/kvm/book3s_hv.c
-> > @@ -6522,15 +6522,50 @@ static bool kvmppc_hash_v3_possible(void)
-> >  	return true;
-> >  }
-> >  
-> > +static int kvmppc_map_compat_capabilities(const __be32 cpu_version,
-> > +				      unsigned long *capabilities)
-> > +{
-> > +	switch (cpu_version) {
-> > +	case PVR_ARCH_31_P11:
-> > +		*capabilities |= H_GUEST_CAP_POWER11;
-> > +		break;
-> > +	case PVR_ARCH_31:
-> > +		*capabilities |= H_GUEST_CAP_POWER10;
-> > +		break;
-> > +	case PVR_ARCH_300:
-> > +		*capabilities |= H_GUEST_CAP_POWER9;
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> >  
-> >  static int kvmppc_get_compat_cpu_caps(struct kvm_ppc_compat_caps *host_caps)
-> >  {
-> > +	struct device_node *np;
-> >  	unsigned long capabilities = 0;
-> > +	const __be32 *prop = NULL;
-> >  	long rc = -EINVAL;
-> > +	u32 cpu_version;
-> >  
-> >  	if (kvmhv_on_pseries()) {
-> > -		if (kvmhv_is_nestedv2())
-> > +		if (kvmhv_is_nestedv2()) {
-> >  			rc = plpar_guest_get_capabilities(0,
-> >  	&capabilities);
-> Need to mask capabilities as mentioned in the review comments for
-> previous patch. I would suggest creating a helper that performs the
-> hcall and applies the mask which can then be used at
-> plpar_guest_get_capabilities() call sites.
+On Wed, Jun 10, 2026 at 08:20:28AM -0500, Shanker Donthineni wrote:
 
-Sure, will do.
+> Based on the existing code comments and after reviewing this path again,
+> __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
+> appear to be intended for WC regions. Since the erratum is scoped to
+> Device-nGnR* accesses, and WC mappings are Normal-NC on arm64, I don’t
+> think the STLR workaround should apply to these helpers by default.
 
-Thanks,
-Amit
+Hmm, unfortunately I think the APIs mix together IO and WC both as
+__iomem things. However I recall when I was looking a this everyone
+was using it for WC.
 
-> 
-> > +		} else {
-> > +			for_each_node_by_type(np, "cpu") {
-> > +				prop = of_get_property(np, "cpu-version", NULL);
-> > +				if (prop) {
-> > +					cpu_version = be32_to_cpup(prop);
-> > +					break;
-> > +				}
-> > +			}
-> > +			if (!prop)
-> > +				return -EINVAL;
-> > +			rc = kvmppc_map_compat_capabilities(cpu_version,
-> > +								&capabilities);
-> > +		}
-> >  		host_caps->compat_capabilities = capabilities;
-> >  	}
-> >  
-> > -- 
-> > 2.50.1 (Apple Git-155)
-> >
-> 
-> -- 
-> Cheers
-> ~ Vaibhav
+Jason
