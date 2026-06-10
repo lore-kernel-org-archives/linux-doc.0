@@ -1,50 +1,83 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F187343D85;
-	Wed, 10 Jun 2026 05:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAEB2E7BD3
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 05:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781068237; cv=none; b=TmsE2S3UFm4EEsRweRbUDAs07+jFxkz7XU38/W5Oiw//9ehEpG008IzHps5n1MhXihbtudp9PiMisdzH3+jDKYHSl4E/H1o5YJIOT3e0ZPr77udzIoIDo+j1tVlqV0d18ERCo90dSyUPt00mKVknZApoNWVgGbGcEKiV9z+vVCU=
+	t=1781070009; cv=none; b=SLpMoaFqc88kDikTfhL/45LePfnDS3Y2/BHCQ1iscDMC78Eb8jaoyVabeaJYcHeaTrDLCzjEm2cwPibYdkubMa0ujQd0XvysB7h9q9/szlvQtgcOGGUEFfmAqiJOYz/gaI6PNKLt0R8BkptaWoKkAaHgaeQrRZpHGu9RPbf1Qks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781068237; c=relaxed/simple;
-	bh=/tRR0Eu2XLtq8wkjwZvXPQEOr5xXcdK0UOy6EyZ1UG8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BFf1h/stgSdo1+oI7yqSHUAdK7l81H/aCwpZmZwAf5G/o8qPP4R2/Loo5p68vpF5skm3WqfDl21HGdhFmD4N9OSYFxpqmFvBuEln+oU0qSh67fapdMcwDltS8yoSZxCEHPeZ58tSm7UqpMnAWIAso9g7QkUcZ0VAURfG+W56z0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mZohiN8C; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1781070009; c=relaxed/simple;
+	bh=Qux6qw0K8leQGi/4WMI+uwr8oZG72FXB/rZyakTsEdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mQr4PdxXlCHMlctQQ5Jl57sjAJ8cIp20YBiYTbI9JrOhZrUjtrWkTT53slDmF2jYpISglUQlvlpdZkOIIheYLIa1WpSy74h8FhQ4iCL0KI+SrO/qly90DdV++ZWWc91G102VxmdzRm2lf3m7IIfHfNshb3WtKlWkk18ZV2FIwIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0exQaLS; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mZohiN8C"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=5X6ZxL92+sY0yNNY9+qvGYqgdstX198qxoS6rqN9qVY=; b=mZohiN8CZShSnji8AX66tf44AH
-	CaqSLP96xHifS/ts8T0y9uX53xoHkoZpfA8XJRPppZG7AIrTe8CNrdflWFpayALkPqRrFmSxXFsp2
-	UfAfe3xz4G3QYmfVKxerNdZg3S4Yz+f61uK+5slfPH68HJJb/ZOafeuGtWPiMbCkFJ30TCAPGTpce
-	dOzDPoxKZnd7q3abuPSHywf7adn1WOq6HXWORLN2g7ld7OiJRpzErie7l2VAK+eBGv/Iyfe9lnzn6
-	wYhLEXl8JLCnpExp/EhqaNXEkGXWr0F1L2eRLxqncOpAhE1ur+P69R8A+Jw/GTWnqRsSzOM6lwQTr
-	4qvLqRGA==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXBD0-00000006oIx-3Uf1;
-	Wed, 10 Jun 2026 05:10:35 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0exQaLS"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ee45db96dso396112f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 22:40:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781070006; x=1781674806; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZXdRRa/zk7c1is5MErVAcERRsYOulHfSrsDOswfrhUg=;
+        b=N0exQaLSEHfqDcVb1wZwXb66ZyKD0Sbkdn3DU425L6s1sv6Ps7b3xmH508NcF69GIW
+         +Udy434mvylp9+Rh3dCpramWrh1w4vRp9UAfJK9UMQIFbPraA8n4HNgNBLqs79K7mYIY
+         fijEe9KgIxUz0zkvjA7Jse6lF2ipfK7KG2RUX4i/W4QSPDggwia0eLRtqVUnZ5LA6uOL
+         4xJ5/cAmnJ10yzAgSWVvEVwMDCqJxNy8hyWneaMTtNyN4ykopL8pmACLslVP/66nxo5o
+         T1UNCj0wzhv6D3HK+wynliQzTaRVmLzW3esKNQ3q2vgMKcnE6WfMZ14QnDDyFt832X/2
+         Ojag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781070006; x=1781674806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZXdRRa/zk7c1is5MErVAcERRsYOulHfSrsDOswfrhUg=;
+        b=Objy04ljFtBeX6dgmBDGwRoy6VukV55J7huYYgsZF5mpwyo/2NwrL25xBmEyDQ2+ib
+         KSHiGe2cmo9HFKz8LRIFCUMkHiCfYBjzIvwQNDh//OmDFRxVvTUV9zTnABKakj8niZ9e
+         1dw0ukExBYb0bVFVSKtP6kuC49Nejq4lX7hQoJelll0EuNFAJqOfmFse89Gwu1gnwSRh
+         20s7sZEsMr9ufzoVxDShFuVZ8Z21lqwcC+wiVq+0gQH2cLtsUeyehi944hzO4M1BJYH1
+         8qBkCoDPCbK047yoEPgzp9YVHQLHq5xJVWlK9aQNBu1ZYBANUXuLjIQuGPBlIO5DbjM7
+         vUBQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Yji1aA2xV+Meisa+BU3hMDhPB6NiR/HBZcl0K78PR6NjtscbyGi6ubYMnSSSLv3AcOxq4WcMWe58=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy23IArjEpHh+OR+HCHZ1X6DQlvLWyGenZactSY/Kh7QfucD8Bo
+	OuJq/l7+YDzGroGDJAz4rwcJbWJVYdOk4PU04Be0UmQ1HdBlQxZGZ8P6
+X-Gm-Gg: Acq92OFJrBzmZKvirwOwLDbyoEVJsUWWq62IQDWJXJYQaYTrHNT9RnwqK6iEHiXGE9m
+	3jgxKMEFcF4UamB3zfjYZBH+BAfASXpNwOfuXLLzKj7R0pDGLeeKBPkuzgY/Y0QZc/cp7/tHLfQ
+	QYW/jy2Jhn6eGBX2GV1HhkYRyOlGCJ7W6OPsxHaFT45Dy5+2o2RhgwisPu4J20zhvnFrkTniuM2
+	0J+V5GuT+OxJDPFb5xh9sWbLunkhlkeCaLLKPHCd6BLLh3Vkc21eBgBHsJmKnqul5E3OR0ngVSa
+	zCHvhMDUyT797gn55iL22zK968EG27EyZstTENhBjewGe3xiLPmQUc87fVzvxzX7Us8BCoD9ojf
+	CTF81c7SAtkCGmps/4sg3V7PEXRNAczvh9jSkIvPp+dTEAaaLz8bpVLmih5yEwBNagnLLUgsN+E
+	7Fcybkna0X0TE2hQCjJx6Y40GrH/Mrp4D6Dc/pVRRwQXCp6Wm1gL7btOy1X+Qps94daiUlL5BRv
+	G/M/F77MQ6KgAk4J6bfUI/1IcJSxscFgLfyu00zds9WU0Rm
+X-Received: by 2002:a05:6000:70f:b0:45e:8a08:93fa with SMTP id ffacd0b85a97d-460566c1c21mr3027030f8f.4.1781070005579;
+        Tue, 09 Jun 2026 22:40:05 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f2710sm53831009f8f.14.2026.06.09.22.40.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 22:40:05 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Doehyun Baek <doehyunbaek@gmail.com>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 4/4] block: add configurable error injection
-Date: Wed, 10 Jun 2026 07:08:05 +0200
-Message-ID: <20260610051015.1906799-5-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260610051015.1906799-1-hch@lst.de>
-References: <20260610051015.1906799-1-hch@lst.de>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5] Docs/{admin-guide,mm}/damon: fix DAMON documentation details
+Date: Wed, 10 Jun 2026 05:39:50 +0000
+Message-ID: <20260610053951.553739-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,573 +85,94 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add a new block error injection interface that allows to inject specific
-status code for specific ranges.
+Fix minor DAMON documentation issues.  Correct the sysfs scheme file name
+apply_interval_us, the DAMON_STAT module count, a malformed reference, a
+misplaced label indentation, and a few typos.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
 ---
- Documentation/block/error-injection.rst |  59 +++++
- Documentation/block/index.rst           |   1 +
- block/Kconfig                           |   8 +
- block/Makefile                          |   1 +
- block/blk-core.c                        |   4 +
- block/blk-sysfs.c                       |   5 +
- block/error-injection.c                 | 314 ++++++++++++++++++++++++
- block/error-injection.h                 |  21 ++
- block/genhd.c                           |   4 +
- include/linux/blkdev.h                  |   6 +
- 10 files changed, 423 insertions(+)
- create mode 100644 Documentation/block/error-injection.rst
- create mode 100644 block/error-injection.c
- create mode 100644 block/error-injection.h
+Changes from v4:
+- Rebased on mm-new.
+- Sent the English documentation fixes as a standalone patch.
+- Dropped the Chinese translation patch from this submission.
 
-diff --git a/Documentation/block/error-injection.rst b/Documentation/block/error-injection.rst
-new file mode 100644
-index 000000000000..81f31af82e65
---- /dev/null
-+++ b/Documentation/block/error-injection.rst
-@@ -0,0 +1,59 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================
-+Configurable Error Injection
-+============================
-+
-+Overview
-+--------
-+
-+Configurable error injection allows injecting specific block layer status codes
-+for sector ranges of a block device.  Errors can be injected unconditionally, or
-+with a given probability.
-+
-+To use configurable error injection, CONFIG_BLK_ERROR_INJECTION must be enabled.
-+
-+The only interface is the error_injection debugfs file, which is created for
-+each registered gendisk.  Writes to this file are used to create or delete rules
-+and reads return a list of the current error injection sites.
-+
-+Options
-+-------
-+
-+The following options specify the operations:
-+
-+===================	=======================================================
-+add			add a new rule
-+removeall		remove all existing rules
-+===================	=======================================================
-+
-+The following options specify the details of the rule for the add operation:
-+
-+===================	=======================================================
-+op=<string>		block layer operation this rule applies to.  This uses
-+			the XYZ for each REQ_OP_XYZ operation, e.g. READ, WRITE
-+			or DISCARD. Mandatory.
-+status=<string>		Status to return.  This uses XYZ for each BLK_STS_XYZ
-+			code, e.g. IOERR or MEDIUM. Mandatory.
-+start=<number>		First block layer sector the rule applies to.
-+			Optional, defaults to 0.
-+nr_sectors=<number>	Number of sectors this rule applies.
-+			Optional, defaults to the remainder of the device.
-+chance=<number>		Only return a failure with a likelihood of 1/chance.
-+			Optional, defaults to 1 (always).
-+===================	=======================================================
-+
-+Example
-+-------
-+
-+Return BLK_STS_IOERR for one in 10 reads of sector 0 of /dev/nvme0n1:
-+
-+	$ echo 'add,op=READ,start=0,status=IOERR,chance=10' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+Return BLK_STS_MEDIUM for every write to /dev/nvme0n1:
-+
-+	$ echo 'add,op=WRITE,start=0,status=MEDIUM' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+Remove all rules for /dev/nvme0n1:
-+
-+	$ echo 'removeall' > /sys/kernel/debug/block/nvme0n1/error_injection
-diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
-index 9fea696f9daa..bfa1bbd31ddf 100644
---- a/Documentation/block/index.rst
-+++ b/Documentation/block/index.rst
-@@ -22,3 +22,4 @@ Block
-    switching-sched
-    writeback_cache_control
-    ublk
-+   error-injection
-diff --git a/block/Kconfig b/block/Kconfig
-index 15027963472d..70e4a66d941f 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -221,6 +221,14 @@ config BLOCK_HOLDER_DEPRECATED
- config BLK_MQ_STACKING
- 	bool
+ Documentation/admin-guide/mm/damon/usage.rst |  8 ++++----
+ Documentation/mm/damon/design.rst            | 12 ++++++------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 011296f1e7c2..b2649ea011f9 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -246,7 +246,7 @@ writing to and reading from the files.
+ Under ``nr_regions`` directory, two files for the lower-bound and upper-bound
+ of DAMON's monitoring regions (``min`` and ``max``, respectively), which
+ controls the monitoring overhead, exist.  You can set and get the values by
+-writing to and rading from the files.
++writing to and reading from the files.
  
-+config BLK_ERROR_INJECTION
-+	bool "Enable block layer error injection"
-+	select JUMP_LABEL if HAVE_ARCH_JUMP_LABEL
-+	help
-+	  Enable inserting arbitrary block errors through a debugfs interface.
-+
-+	  See Documentation/block/error-injection.rst for details.
-+
- source "block/Kconfig.iosched"
+ For more details about the intervals and monitoring regions range, please refer
+ to the Design document (:doc:`/mm/damon/design`).
+@@ -264,7 +264,7 @@ Please refer to  the :ref:`design document of the feature
+ <damon_design_monitoring_intervals_autotuning>` for the internal of the tuning
+ mechanism.  Reading and writing the four files under ``intervals_goal``
+ directory shows and updates the tuning parameters that described in the
+-:ref:design doc <damon_design_monitoring_intervals_autotuning>` with the same
++:ref:`design doc <damon_design_monitoring_intervals_autotuning>` with the same
+ names.  The tuning starts with the user-set ``sample_us`` and ``aggr_us``.  The
+ tuning-applied current values of the two intervals can be read from the
+ ``sample_us`` and ``aggr_us`` files after writing ``update_tuned_intervals`` to
+@@ -377,7 +377,7 @@ schemes/<N>/
+ In each scheme directory, nine directories (``access_pattern``, ``quotas``,
+ ``watermarks``, ``core_filters``, ``ops_filters``, ``filters``, ``dests``,
+ ``stats``, and ``tried_regions``) and three files (``action``, ``target_nid``
+-and ``apply_interval``) exist.
++and ``apply_interval_us``) exist.
  
- endif # BLOCK
-diff --git a/block/Makefile b/block/Makefile
-index 54130faacc21..e7bd320e3d69 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -13,6 +13,7 @@ obj-y		:= bdev.o fops.o bio.o elevator.o blk-core.o blk-sysfs.o \
- 			genhd.o ioprio.o badblocks.o partitions/ blk-rq-qos.o \
- 			disk-events.o blk-ia-ranges.o early-lookup.o
+ The ``action`` file is for setting and getting the scheme's :ref:`action
+ <damon_design_damos_action>`.  The keywords that can be written to and read
+@@ -743,7 +743,7 @@ counter).  Finally the tenth field (``X``) shows the ``age`` of the region
+ (refer to :ref:`design <damon_design_age_tracking>` for more details of the
+ counter).
  
-+obj-$(CONFIG_BLK_ERROR_INJECTION) += error-injection.o
- obj-$(CONFIG_BLK_DEV_BSG_COMMON) += bsg.o
- obj-$(CONFIG_BLK_DEV_BSGLIB)	+= bsg-lib.o
- obj-$(CONFIG_BLK_CGROUP)	+= blk-cgroup.o
-diff --git a/block/blk-core.c b/block/blk-core.c
-index beaab7a71fba..73a41df98c9a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -50,6 +50,7 @@
- #include "blk-cgroup.h"
- #include "blk-throttle.h"
- #include "blk-ioprio.h"
-+#include "error-injection.h"
+-If the event was ``damon:damos_beofre_apply``, the ``perf script`` output would
++If the event was ``damon:damos_before_apply``, the ``perf script`` output would
+ be somewhat like below::
  
- struct dentry *blk_debugfs_root;
+     kdamond.0 47293 [000] 80801.060214: damon:damos_before_apply: ctx_idx=0 scheme_idx=0 target_idx=0 nr_regions=11 121932607488-135128711168: 0 136
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 2da7ca0d3d17..c16a3bb288d0 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -86,7 +86,7 @@ To know how user-space can do the configuration via :ref:`DAMON sysfs interface
+ documentation.
  
-@@ -767,6 +768,9 @@ static void __submit_bio_noacct_mq(struct bio *bio)
  
- void submit_bio_noacct_nocheck(struct bio *bio, bool split)
- {
-+	if (unlikely(blk_error_inject(bio)))
-+		return;
-+
- 	blk_cgroup_bio_start(bio);
+- .. _damon_design_vaddr_target_regions_construction:
++.. _damon_design_vaddr_target_regions_construction:
  
- 	if (!bio_flagged(bio, BIO_TRACE_COMPLETION)) {
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index f22c1f253eb3..520972676ab4 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -19,6 +19,7 @@
- #include "blk-wbt.h"
- #include "blk-cgroup.h"
- #include "blk-throttle.h"
-+#include "error-injection.h"
+ VMA-based Target Address Range Construction
+ -------------------------------------------
+@@ -930,11 +930,11 @@ control parameters for the usage would also need to be optimized for the
+ purpose.
  
- struct queue_sysfs_entry {
- 	struct attribute attr;
-@@ -933,6 +934,8 @@ static void blk_debugfs_remove(struct gendisk *disk)
+ To support such cases, yet more DAMON API user kernel modules that provide more
+-simple and optimized user space interfaces are available.  Currently, two
+-modules for proactive reclamation and LRU lists manipulation are provided.  For
+-more detail, please read the usage documents for those
+-(:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim` and
+-:doc:`/admin-guide/mm/damon/lru_sort`).
++simple and optimized user space interfaces are available.  Currently, three
++modules for access monitoring statistics, proactive reclamation, and LRU lists
++manipulation are provided.  For more detail, please read the usage documents for
++those (:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim`
++and :doc:`/admin-guide/mm/damon/lru_sort`).
  
- 	blk_debugfs_lock_nomemsave(q);
- 	blk_trace_shutdown(q);
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION))
-+		blk_error_injection_exit(disk);
- 	debugfs_remove_recursive(q->debugfs_dir);
- 	q->debugfs_dir = NULL;
- 	q->sched_debugfs_dir = NULL;
-@@ -963,6 +966,8 @@ int blk_register_queue(struct gendisk *disk)
+ .. _damon_design_special_purpose_modules_exclusivity:
  
- 	memflags = blk_debugfs_lock(q);
- 	q->debugfs_dir = debugfs_create_dir(disk->disk_name, blk_debugfs_root);
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION))
-+		blk_error_injection_init(disk);
- 	if (queue_is_mq(q))
- 		blk_mq_debugfs_register(q);
- 	blk_debugfs_unlock(q, memflags);
-diff --git a/block/error-injection.c b/block/error-injection.c
-new file mode 100644
-index 000000000000..7f7f0d3327bc
---- /dev/null
-+++ b/block/error-injection.c
-@@ -0,0 +1,314 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Christoph Hellwig.
-+ */
-+#include <linux/debugfs.h>
-+#include <linux/blkdev.h>
-+#include <linux/parser.h>
-+#include <linux/seq_file.h>
-+#include "blk.h"
-+#include "error-injection.h"
-+
-+struct blk_error_inject {
-+	struct list_head		entry;
-+	sector_t			start;
-+	sector_t			end;
-+	enum req_op			op;
-+	blk_status_t			status;
-+
-+	/* only inject every 1 / chance times */
-+	unsigned int			chance;
-+};
-+
-+DEFINE_STATIC_KEY_FALSE(blk_error_injection_enabled);
-+
-+bool __blk_error_inject(struct bio *bio)
-+{
-+	struct gendisk *disk = bio->bi_bdev->bd_disk;
-+	struct blk_error_inject *inj;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(inj, &disk->error_injection_list, entry) {
-+		if (bio->bi_iter.bi_sector <= inj->end &&
-+		    bio_end_sector(bio) > inj->start &&
-+		    bio_op(bio) == inj->op) {
-+			blk_status_t status = inj->status;
-+
-+			if (inj->chance > 1 &&
-+			    (get_random_u32() % inj->chance) != 0)
-+				continue;
-+
-+			pr_info_ratelimited("%pg: injecting %s error for %s at sector %llu:%u\n",
-+					disk->part0,
-+					blk_status_to_str(status),
-+					blk_op_str(inj->op),
-+					bio->bi_iter.bi_sector,
-+					bio_sectors(bio));
-+			rcu_read_unlock();
-+			bio_endio_status(bio, status);
-+			return true;
-+		}
-+	}
-+	rcu_read_unlock();
-+	return false;
-+}
-+
-+static int error_inject_add(struct gendisk *disk, enum req_op op,
-+		sector_t start, u64 nr_sectors, blk_status_t status,
-+		unsigned int chance)
-+{
-+	struct blk_error_inject *inj;
-+	int error = -EINVAL;
-+
-+	if (op == REQ_OP_LAST)
-+		return -EINVAL;
-+	if (status == BLK_STS_OK)
-+		return -EINVAL;
-+
-+	inj = kzalloc_obj(*inj);
-+	if (!inj)
-+		return -ENOMEM;
-+
-+	if (nr_sectors) {
-+		if (U64_MAX - nr_sectors < start)
-+			goto out_free_inj;
-+		inj->end = start + nr_sectors - 1;
-+	} else {
-+		inj->end = U64_MAX;
-+	}
-+
-+	inj->op = op;
-+	inj->start = start;
-+	inj->status = status;
-+	inj->chance = chance;
-+
-+	pr_debug_ratelimited("%pg: adding %s injection for %s at sector %llu:%llu\n",
-+			disk->part0, blk_status_to_str(status),
-+			blk_op_str(op),
-+			start, nr_sectors);
-+
-+	/*
-+	 * Add to the front of the list so that newer entries can partially
-+	 * override other entries.  This also intentionally allows duplicate
-+	 * entries as there is no real reason to reject them.
-+	 */
-+	mutex_lock(&disk->error_injection_lock);
-+	if (!disk_live(disk)) {
-+		mutex_unlock(&disk->error_injection_lock);
-+		error = -ENODEV;
-+		goto out_free_inj;
-+	}
-+	if (list_empty(&disk->error_injection_list))
-+		static_branch_inc(&blk_error_injection_enabled);
-+	list_add_rcu(&inj->entry, &disk->error_injection_list);
-+	set_bit(GD_ERROR_INJECT, &disk->state);
-+	mutex_unlock(&disk->error_injection_lock);
-+	return 0;
-+
-+out_free_inj:
-+	kfree(inj);
-+	return error;
-+}
-+
-+static void error_inject_removeall(struct gendisk *disk)
-+{
-+	struct blk_error_inject *inj;
-+
-+	mutex_lock(&disk->error_injection_lock);
-+	clear_bit(GD_ERROR_INJECT, &disk->state);
-+	while ((inj = list_first_entry_or_null(&disk->error_injection_list,
-+			struct blk_error_inject, entry))) {
-+		list_del_rcu(&inj->entry);
-+		mutex_unlock(&disk->error_injection_lock);
-+
-+		kfree_rcu_mightsleep(inj);
-+
-+		mutex_lock(&disk->error_injection_lock);
-+	}
-+	static_branch_dec(&blk_error_injection_enabled);
-+	mutex_unlock(&disk->error_injection_lock);
-+}
-+
-+enum options {
-+	Opt_add			= (1u << 0),
-+	Opt_removeall		= (1u << 1),
-+
-+	Opt_op			= (1u << 16),
-+	Opt_start		= (1u << 17),
-+	Opt_nr_sectors		= (1u << 18),
-+	Opt_status		= (1u << 19),
-+	Opt_chance		= (1u << 20),
-+
-+	Opt_invalid,
-+};
-+
-+static const match_table_t opt_tokens = {
-+	{ Opt_add,			"add",			},
-+	{ Opt_removeall,		"removeall",		},
-+	{ Opt_op,			"op=%s",		},
-+	{ Opt_start,			"start=%u"		},
-+	{ Opt_nr_sectors,		"nr_sectors=%u"		},
-+	{ Opt_status,			"status=%s"		},
-+	{ Opt_chance,			"chance=%u"		},
-+	{ Opt_invalid,			NULL,			},
-+};
-+
-+static int match_op(substring_t *args, enum req_op *op)
-+{
-+	const char *tag;
-+
-+	tag = match_strdup(args);
-+	if (!tag)
-+		return -ENOMEM;
-+	*op = str_to_blk_op(tag);
-+	if (*op == REQ_OP_LAST)
-+		pr_warn("invalid op '%s'\n", tag);
-+	kfree(tag);
-+	return 0;
-+}
-+
-+static int match_status(substring_t *args, blk_status_t *status)
-+{
-+	const char *tag;
-+
-+	tag = match_strdup(args);
-+	if (!tag)
-+		return -ENOMEM;
-+	*status = tag_to_blk_status(tag);
-+	if (!*status)
-+		pr_warn("invalid status '%s'\n", tag);
-+	kfree(tag);
-+	return 0;
-+}
-+
-+static ssize_t blk_error_injection_parse_options(struct gendisk *disk,
-+		char *options)
-+{
-+	enum { Unset, Add, Removeall } action = Unset;
-+	unsigned int option_mask = 0, chance = 1;
-+	enum req_op op = REQ_OP_LAST;
-+	u64 start = 0, nr_sectors = 0;
-+	blk_status_t status = BLK_STS_OK;
-+	substring_t args[MAX_OPT_ARGS];
-+	char *p;
-+
-+	while ((p = strsep(&options, ",\n")) != NULL) {
-+		int error = 0;
-+		ssize_t token;
-+
-+		if (!*p)
-+			continue;
-+		token = match_token(p, opt_tokens, args);
-+		option_mask |= token;
-+		switch (token) {
-+		case Opt_add:
-+			if (action != Unset)
-+				return -EINVAL;
-+			action = Add;
-+			break;
-+		case Opt_removeall:
-+			if (action != Unset)
-+				return -EINVAL;
-+			action = Removeall;
-+			break;
-+		case Opt_op:
-+			error = match_op(args, &op);
-+			break;
-+		case Opt_start:
-+			error = match_u64(args, &start);
-+			break;
-+		case Opt_nr_sectors:
-+			error = match_u64(args, &nr_sectors);
-+			break;
-+		case Opt_status:
-+			error = match_status(args, &status);
-+			break;
-+		case Opt_chance:
-+			error = match_uint(args, &chance);
-+			if (!error && chance == 0)
-+				error = -EINVAL;
-+			break;
-+		default:
-+			pr_warn("unknown parameter or missing value '%s'\n", p);
-+			error = -EINVAL;
-+		}
-+		if (error)
-+			return error;
-+	}
-+
-+	switch (action) {
-+	case Add:
-+		return error_inject_add(disk, op, start, nr_sectors, status,
-+				chance);
-+	case Removeall:
-+		if (option_mask & ~Opt_removeall)
-+			return -EINVAL;
-+		error_inject_removeall(disk);
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static ssize_t blk_error_injection_write(struct file *file,
-+		const char __user *ubuf, size_t count, loff_t *pos)
-+{
-+	struct gendisk *disk = file_inode(file)->i_private;
-+	char *options;
-+	int error;
-+
-+	options = memdup_user_nul(ubuf, count);
-+	if (IS_ERR(options))
-+		return PTR_ERR(options);
-+	error = blk_error_injection_parse_options(disk, options);
-+	kfree(options);
-+
-+	if (error)
-+		return error;
-+	return count;
-+}
-+
-+static int blk_error_injection_show(struct seq_file *s, void *private)
-+{
-+	struct gendisk *disk = s->private;
-+	struct blk_error_inject *inj;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(inj, &disk->error_injection_list, entry) {
-+		seq_printf(s, "%llu:%llu status=%s,chance=%u",
-+			inj->start, inj->end,
-+			blk_status_to_tag(inj->status), inj->chance);
-+		seq_putc(s, '\n');
-+	}
-+	rcu_read_unlock();
-+	return 0;
-+}
-+
-+static int blk_error_injection_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, blk_error_injection_show, inode->i_private);
-+}
-+
-+static int blk_error_injection_release(struct inode *inode, struct file *file)
-+{
-+	return single_release(inode, file);
-+}
-+
-+static const struct file_operations blk_error_injection_fops = {
-+	.owner		= THIS_MODULE,
-+	.write		= blk_error_injection_write,
-+	.read		= seq_read,
-+	.open		= blk_error_injection_open,
-+	.release	= blk_error_injection_release,
-+};
-+
-+void blk_error_injection_init(struct gendisk *disk)
-+{
-+	debugfs_create_file("error_injection", 0600, disk->queue->debugfs_dir,
-+			disk, &blk_error_injection_fops);
-+}
-+
-+void blk_error_injection_exit(struct gendisk *disk)
-+{
-+	error_inject_removeall(disk);
-+}
-diff --git a/block/error-injection.h b/block/error-injection.h
-new file mode 100644
-index 000000000000..9821d773abab
---- /dev/null
-+++ b/block/error-injection.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _BLK_ERROR_INJECTION_H
-+#define _BLK_ERROR_INJECTION_H 1
-+
-+#include <linux/jump_label.h>
-+
-+DECLARE_STATIC_KEY_FALSE(blk_error_injection_enabled);
-+
-+void blk_error_injection_init(struct gendisk *disk);
-+void blk_error_injection_exit(struct gendisk *disk);
-+bool __blk_error_inject(struct bio *bio);
-+static inline bool blk_error_inject(struct bio *bio)
-+{
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION) &&
-+	    static_branch_unlikely(&blk_error_injection_enabled) &&
-+	    test_bit(GD_ERROR_INJECT, &bio->bi_bdev->bd_disk->state))
-+		return __blk_error_inject(bio);
-+	return false;
-+}
-+
-+#endif /* _BLK_ERROR_INJECTION_H */
-diff --git a/block/genhd.c b/block/genhd.c
-index 7d6854fd28e9..f84b6a355b57 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1485,6 +1485,10 @@ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
- 	lockdep_init_map(&disk->lockdep_map, "(bio completion)", lkclass, 0);
- #ifdef CONFIG_BLOCK_HOLDER_DEPRECATED
- 	INIT_LIST_HEAD(&disk->slave_bdevs);
-+#endif
-+#ifdef CONFIG_BLK_ERROR_INJECTION
-+	mutex_init(&disk->error_injection_lock);
-+	INIT_LIST_HEAD(&disk->error_injection_list);
- #endif
- 	mutex_init(&disk->rqos_state_mutex);
- 	kobject_init(&disk->queue_kobj, &blk_queue_ktype);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 57e84d59a642..5070851cf924 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -176,6 +176,7 @@ struct gendisk {
- #define GD_SUPPRESS_PART_SCAN		5
- #define GD_OWNS_QUEUE			6
- #define GD_ZONE_APPEND_USED		7
-+#define GD_ERROR_INJECT			8
- 
- 	struct mutex open_mutex;	/* open/close mutex */
- 	unsigned open_partitions;	/* number of open partitions */
-@@ -227,6 +228,11 @@ struct gendisk {
- 	 */
- 	struct blk_independent_access_ranges *ia_ranges;
- 
-+#ifdef CONFIG_BLK_ERROR_INJECTION
-+	struct mutex		error_injection_lock;
-+	struct list_head	error_injection_list;
-+#endif
-+
- 	struct mutex rqos_state_mutex;	/* rqos state change mutex */
- };
- 
+
+base-commit: ce70d5abbf4f9930a07eddb06f40a0ea3494e33a
 -- 
-2.53.0
+2.43.0
 
