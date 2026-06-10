@@ -1,58 +1,44 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42B21F938;
-	Wed, 10 Jun 2026 09:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55BCC3E5EE7;
+	Wed, 10 Jun 2026 10:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781085266; cv=none; b=csVwTMs2PgFN+dcKxLpbTL7Mmyc5D2T/a74w9basfBHTVF5/1iakcewzCEfb+9AmAgR4TI0HFr192a1ryDxvLv2Wi1QWN1lPkCrbcOlLm4BYzALUpgLUHVhRQFDrOiTtdwwFJwsZGCfmLrorO2VaBqA7Yj4NU/hEMECOjfasv8Y=
+	t=1781085620; cv=none; b=C9XY7pRX4Xlj8zKbsf5js8trt8Co6+ocTl9WkBAbO2kMBLsUkzh1zAU26WHTtuqDepAfc7uVEw6RD3o0SyrHGkKVt7QVilosz+zu649kzhP0blwIheAm2lHovr36/jhGcNb3hZ/JuzUKzc6npzZQSwCHSoTOk4y6+SwiGhGh57c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781085266; c=relaxed/simple;
-	bh=8Pj1GunqJrcWqchsaEZS3wU/MEK03pcJuqgKQ3TmrBM=;
+	s=arc-20240116; t=1781085620; c=relaxed/simple;
+	bh=U2i/BzqvOeDZaVsXMtMz/mBhJTdVMdg3yMk1ZEcMUKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tvk8gXcYtoQ4OgcBCrfwZ+XVKECHHq96fdeH4LTbw8XA23+vJ//tu+nB8yMi/w6QglAMlWbI9uCDTac0RuFtDwscwt/9p0zTJU9jgDbc17lGjJImKfowB1BA70+WXlQIXDCAjSo03Zjr6YdVtGDe/30CHCTEv/76ksgk7URAapo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=jH67hAAN; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fg7j4/DivoxQLvR44cYTDkK9Zl2mQtdTL/uLhIh13CJAjPnSbMkEx8DeuCVVk+tKxOMAlXID92sBFlyunyRrY9z9ONfRT3mide0YGGhjS5G9lrJb5kASQ8ujakQrbTcVRJSMzqKZSASTpBFCIPIMlmxrujxk3eJLXxFxeK0i7iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=awfoF/IU; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="jH67hAAN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WJ+oozuTPWZxI5kixO5e7S8FM2lyDR3C9rSQw3An66c=; b=jH67hAANF8wuJYBMqz+qTNr8+T
-	nORRSP5pvnJJPbq5vwen1ZKCwTaW0SEbxnHjxJLzGVTBJM+PIWeXD4P1At/BzKrvIgotviRRpS+8g
-	7nhaiWFOrrg8OWXQBAEM9PYMeCgg5S23Y3cx4YqzHUs1UQyPSlLjbBngmrAkVBgCZwxE9UMe7Ckuz
-	XTy7BcjWOLSatFNmIjq1JmYPpB7j17bCoRVouLW5hy9fG1B4SUyE4zroqKZqNaYX+mWJYkfMzqLKg
-	AFWQA4DMtBH4hodbla/UBBN0qaG2+ifF7eHoK1DcAUT8OvNtBYyQXwwoic+fNS5hK1Z8zeYe5McY3
-	twfitMzw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wXFdG-0096hL-1t;
-	Wed, 10 Jun 2026 09:53:59 +0000
-Date: Wed, 10 Jun 2026 02:53:52 -0700
-From: Breno Leitao <leitao@debian.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v9 2/6] mm/memory-failure: surface unhandlable kernel
- pages as -ENOTRECOVERABLE
-Message-ID: <aikz-gW9DHeyrksy@gmail.com>
-References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
- <20260609-ecc_panic-v9-2-432a74002e74@debian.org>
- <174b8d76-5514-4942-af5d-c975ff95ee03@kernel.org>
- <aig7jzwDHfVCxikl@gmail.com>
- <cf2bb24e-9341-4ded-b238-064dca442a92@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="awfoF/IU"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56D9625E3;
+	Wed, 10 Jun 2026 03:00:12 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28C9E3FDE2;
+	Wed, 10 Jun 2026 03:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781085617; bh=U2i/BzqvOeDZaVsXMtMz/mBhJTdVMdg3yMk1ZEcMUKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=awfoF/IUr5HdAybfH+nRjakt4TUakG4zQraI/8G05d6OVdbsA1VRTQG6tMuk1mmbW
+	 rpMLhnpNYDG1vDF1h7K/9B60q6xKXfeaUZOMRBUfOWByxCBwQWkddeqNnm7LB73Vnq
+	 igCUjDizuohrFWBWhFUgkpf14BaCN7n59D8OENOU=
+Date: Wed, 10 Jun 2026 11:00:03 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Shanker Donthineni <sdonthineni@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Vikram Sethi <vsethi@nvidia.com>,
+	Jason Sequeira <jsequeira@nvidia.com>,
+	Alok Mooley <amooley@nvidia.com>, Rich Wiley <rwiley@nvidia.com>
+Subject: Re: [PATCH v1] arm64: errata: Mitigate TLBI errata on NVIDIA Olympus
+ CPU
+Message-ID: <aik1owW9Rz8B7rEz@J2N7QTR9R3>
+References: <20260609234044.3945938-1-sdonthineni@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,40 +47,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cf2bb24e-9341-4ded-b238-064dca442a92@kernel.org>
-X-Debian-User: leitao
+In-Reply-To: <20260609234044.3945938-1-sdonthineni@nvidia.com>
 
-On Tue, Jun 09, 2026 at 08:41:25PM +0200, David Hildenbrand (Arm) wrote:
-> On 6/9/26 18:15, Breno Leitao wrote:
-> > On Tue, Jun 09, 2026 at 04:41:01PM +0200, David Hildenbrand (Arm) wrote:
-
-> >> a) HWPoisonKernelOwned: this is not the common style for us to name functions.
-> >>
-> >> is_kernel_owned_page() or sth like that would do.
-> > 
-> > Ack, I will rename it is_kernel_owned_page()
-> > 
-> > In my defence, most of the functions similar to HWPoisonKernelOwned()
-> > has this name format, and I got this discussion earlier (with Lance?
-> > I think). Here are the similar function names in that file:
-> > 
-> >  * HWPoisonHandlable
-> >  * PageHWPoisonTakenOff()
-> >  * SetPageHWPoisonTakenOff
+On Tue, Jun 09, 2026 at 06:40:44PM -0500, Shanker Donthineni wrote:
+> NVIDIA Olympus cores are affected by the TLBI completion issue tracked as
+> CVE-2025-10263. The existing ARM64_ERRATUM_4118414 handling already uses
+> ARM64_WORKAROUND_REPEAT_TLBI to issue an additional broadcast TLBI;DSB
+> sequence and ensure affected memory write effects are globally observed.
 > 
-> Some of these probably date back to our old way of handling page flags and
-> things, like PageLRU.
+> Add MIDR_NVIDIA_OLYMPUS to the repeat-TLBI match list so the same
+> mitigation is enabled on affected Olympus systems. Also document the
+> NVIDIA Olympus erratum in the arm64 silicon errata table and list it in
+> the Kconfig help text.
 > 
-> But we really should stop :)
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> ---
+> Note: This patch depends on the following series as a prerequisite:
+> https://lore.kernel.org/all/20260609101203.1512409-1-mark.rutland@arm.com/
 
-Ack!
+FWIW:
 
-> > I will update in the new version.
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+I'll keep note of this when backporting the other patches; as a
+prerequisite we'll also need to pick commit
+
+  e185c8a0d842 ("arm64: cputype: Add NVIDIA Olympus definitions")
+
+I have one minor comment below, but that's more for Catalin/Will, and
+doesn't require a respin.
+
+>  Documentation/arch/arm64/silicon-errata.rst | 2 ++
+>  arch/arm64/Kconfig                          | 3 ++-
+>  arch/arm64/kernel/cpu_errata.c              | 1 +
+>  3 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> Thanks! Probably best to wait a bit, the merge window is coming up either way,
-> so this will have to wait a bit either way.
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index a01e916ede17..ad09bbb10da8 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -298,6 +298,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/A                         |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 48233b54c482..c65cef81be86 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1155,7 +1155,7 @@ config ARM64_ERRATUM_4193714
+>  	  If unsure, say Y.
+>  
+>  config ARM64_ERRATUM_4118414
+> -	bool "Cortex-*/Neoverse-*/C1-*: Completion of affected memory accesses might not be guaranteed by completion of a TLBI"
+> +	bool "Cortex-*/Neoverse-*/C1-*/Olympus: Completion of affected memory accesses might not be guaranteed by completion of a TLBI"
 
-no hurry at all,
+As this is getting increasingly long, maybe it's worth reducing this to
+"Various" in the title, i.e.
 
-Thanks for the review,
---breno
+	bool "Cortex-*/Neoverse: Completion of affected memory accesses might not be guaranteed by completion of a TLBI"
+
+... but as above, no need to respin for that.
+
+Mark.
+
+>  	default y
+>  	select ARM64_WORKAROUND_REPEAT_TLBI
+>  	help
+> @@ -1182,6 +1182,7 @@ config ARM64_ERRATUM_4118414
+>  	  * ARM Neoverse-V2 erratum 4193787
+>  	  * ARM Neoverse-V3 erratum 4193784
+>  	  * ARM Neoverse-V3AE erratum 4193784
+> +	  * NVIDIA Olympus erratum T410-OLY-1029
+>  
+>  	  On affected cores, some memory accesses might not be completed by
+>  	  broadcast TLB invalidation.
+> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> index fe6fe5de495b..d597896b0f7f 100644
+> --- a/arch/arm64/kernel/cpu_errata.c
+> +++ b/arch/arm64/kernel/cpu_errata.c
+> @@ -364,6 +364,7 @@ static const struct arm64_cpu_capabilities arm64_repeat_tlbi_list[] = {
+>  			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V2),
+>  			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V3),
+>  			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V3AE),
+> +			MIDR_ALL_VERSIONS(MIDR_NVIDIA_OLYMPUS),
+>  			{}
+>  		})),
+>  	},
+> -- 
+> 2.43.0
+> 
