@@ -1,248 +1,482 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED9E8C1F;
-	Wed, 10 Jun 2026 02:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6FC2D595D
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 03:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781059482; cv=none; b=qAyboosefp5Fm8mnLuuZrYeu8QvE1+Pq1xjMF6J7Q4IztuRvEBV5WwVMYd2GD7mqL6z8QkTwHkBaem/6TMcj/0VXTqBPSGol4rP7zxj9t2ejygSTJzAcvTBigOPkA0jhtW0eI7O2DQvEWsyw4z669D33NxlvcgSi5BCf0DzEOWY=
+	t=1781061488; cv=none; b=oj9wS858HRbr0QFM0GqX7flNgy/0H2UpaPw4eg+qD80y5wkq614V9ueQaIwA8txOpRD11psq7wdmMv6S384YVxUJdfEBxSetaaLt7IjEPQu1ES9snZ+s9Tw/X49xmHM5dQTo0xRFDNiphrtEp4AdsH5/2sYtYhv5uJLMoHakEek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781059482; c=relaxed/simple;
-	bh=6udu3FNjwCd5ZJ1LJlgWGcr5BF/n79v6iOWIbN6tnGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=W1pLjRo4iEIxkWlfsqvsrtMX8PBm26c22r8PsyqSQpD7yjNy93Kf8uJP65sE7Fncp+EhWL0Fsy2UhyvYpYMBCPxQl9zOf9rAx4xasoXm4Ufwrs97K72SmsxcA8Dl1TxyUTXyyaJXc5LiHszmlhZRJQLpMe/P2gDO65NNCXNb2Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cxhWVZTi; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1781061488; c=relaxed/simple;
+	bh=2zYuZqHOv0kKW1/hfSCAqswd1zSPay4llWORZLxrVaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MzdJUR1PoXhHaZJ/woc0jt1cHYCdfszyMqvoou7Kg8BuGMPTT4DtJO9bJEiszW1g0oEpMHuISp5B+60LsmXgULUZo9lNk8XQJ/Gw7rKg6lNCvEQthT5STHZPz9YRmpL/dlryb9hMPNi/DAiGjlNFVPZBx82Hm29jURYTk/smDCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PuANXqGq; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cxhWVZTi"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f4xaWuyj8rwMkkpgsjywwm4AjlD9p1v8Dm0nUsOx1uU=;
-	b=cxhWVZTisQUftj1zBxXOhInTOhsHTYJetk87grgs+N7RGHHaN6URfouuZOB6X5xpj8ULrfJks
-	1gI91k6aRis1amtVzrRKfUsvVKryCc+lqxAWJMZ6ArUiAJqmU2eRHHkS+5Ir2ftle3XwMbAvz58
-	hCSe5vU09TIIc4RflHp4Jxk=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gZqf6470sz1T4HP;
-	Wed, 10 Jun 2026 10:36:14 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2D53F40576;
-	Wed, 10 Jun 2026 10:44:35 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 10 Jun 2026 10:44:33 +0800
-Message-ID: <6a3aee41-7efe-4a0f-93ba-3d96d6d149a7@huawei.com>
-Date: Wed, 10 Jun 2026 10:44:33 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PuANXqGq"
+Message-ID: <8bcb0d28-46ad-43ab-adc3-bb1995976d95@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781061473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kLvNepM+fvnGmRz5Lyy+2TnRQiiRa5y+SkT2rn0uJ4Y=;
+	b=PuANXqGqHjOwEkDpFAKAj9bAJizWNfHsb8c1RZEYbJzRPCaQITaSZvDdcF/kxM0xLes1x2
+	RmfujFocFzr+F+YKp8KHt+7h/Q5YAOTpJBnD3AFTKkWRuxy8PGkOW50nE3sqSOlNmbBCxA
+	awPQ6rdI6Mzx6LLYtVh9I85YjVDsrpE=
+Date: Wed, 10 Jun 2026 11:17:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] cpu/hotplug: Fix NULL kobject warning in
- cpuhp_smt_enable()
-To: Catalin Marinas <catalin.marinas@arm.com>
-CC: Will Deacon <will@kernel.org>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <punit.agrawal@oss.qualcomm.com>,
-	<jic23@kernel.org>, <osama.abdelkader@gmail.com>, <chenl311@chinatelecom.cn>,
-	<fengchengwen@huawei.com>, <suzuki.poulose@arm.com>, <maz@kernel.org>,
-	<lpieralisi@kernel.org>, <timothy.hayes@arm.com>, <sascha.bischoff@arm.com>,
-	<arnd@arndb.de>, <mrigendra.chaubey@gmail.com>, <pierre.gondois@arm.com>,
-	<dietmar.eggemann@arm.com>, <yangyicong@hisilicon.com>,
-	<sudeep.holla@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20260520022023.126670-1-ruanjinjie@huawei.com>
- <ah65zXlOH6a9geD9@willie-the-truck>
- <02932ef7-5819-4cf5-8e78-8fd3fd40274f@huawei.com> <aihUPsuEytsM6Dly@arm.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <aihUPsuEytsM6Dly@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Subject: Re: [PATCH v4 5/6] kselftest: alloc_tag: add kselftest for ioctl
+ interface
+To: Abhishek Bapat <abhishekbapat@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan
+ <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+References: <cover.1781042698.git.abhishekbapat@google.com>
+ <dfc472e9d999318cfd74a9b753a563d225b3bc02.1781042698.git.abhishekbapat@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <dfc472e9d999318cfd74a9b753a563d225b3bc02.1781042698.git.abhishekbapat@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+
+Hi Abhishek
+
+
+On 2026/6/10 08:12, Abhishek Bapat wrote:
+> Introduce a kselftest to verify the new IOCTL-based interface for
+> /proc/allocinfo. The test covers:
+>
+> 1. Validation of the filename filter.
+> 2. Validation of the function filter.
+>
+> The first test validates the functionality of the filename filter. Using
+> "mm/memory.c" as the candidate filename filter, it retrieves filtered
+> entries from both procfs and ioctl and matches the first VEC_MAX_ENTRIES
+> entries.
+>
+> The second test validates the functionality of the function filter.
+> It uses "dup_mm" as the candidate function as we do not expect this
+> function name to change frequently and hence won't be needing to modify
+> this test often.
+>
+> Note that both the tests match line no, function name and file name
+> fields. Bytes allocated and calls are not matched as those values may
+> change in the time when the data is being read from procfs and ioctl and
+> hence can lead to false negatives.
+>
+> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+
+
+For this patch, I see two issues reported by sashiko.
+
+(https://sashiko.dev/#/patchset/cover.1781042698.git.abhishekbapat%40google.com)
+
+The second one (sscanf dropping module entries) can be ignored since
+
+we are not testing anything related to modname.
+
+For the first one, for the leak aspect, I don't think it matters because the
+
+OS will reclaim the memory when the process exits. However, the fd
+
+offset issue is indeed a real problem, and this issue does not exist in 
+this patch.
+
+It only appears in test_size_filter of the next patch.
+
+
+So for this patch, LGTM.
+
+
+Acked-by: Hao Ge <hao.ge@linux.dev>
 
 
 
-On 6/10/2026 1:58 AM, Catalin Marinas wrote:
-> Hi Jinjie,
-> 
-> On Wed, Jun 03, 2026 at 02:38:11PM +0800, Jinjie Ruan wrote:
->> On 6/2/2026 7:09 PM, Will Deacon wrote:
->>> On Wed, May 20, 2026 at 10:20:23AM +0800, Jinjie Ruan wrote:
->>>> When booting with ACPI, arm64 smp_prepare_cpus() currently sets all
->>>> enumerated CPUs as "present" regardless of their status in the MADT. This
->>>> causes issues with SMT hotplug control. For instance, with QEMU's
->>>> "-smp 4,maxcpus=8" configuration, the MADT GICC entries are populated as
->>>> follows: the first four CPUs are marked Enabled while the remaining four
->>>> are marked Online Capable to support potential hot-plugging.
->>>>
->>>> Fix this by:
->>>>
->>>> 1. When booting with ACPI, checking the ACPI_MADT_ENABLED flag in the GICC
->>>>    entry before calling set_cpu_present() during SMP initialization.
->>>>
->>>> 2. Properly managing the present mask in acpi_map_cpu() and
->>>>    acpi_unmap_cpu() to support actual CPU hotplug events, This aligns with
->>>>    other architectures like x86 and LoongArch.
->>>>
->>>> 3. Update the arm64 CPU hotplug documentation to no longer state that all
->>>>    online-capable vCPUs are marked as present by the kernel at boot time.
->>>>
->>>> This ensures that only physically available or explicitly enabled CPUs
->>>> are in the present mask, keeping the SMT control logic consistent with
->>>> the actual hardware state.
->>>
->>> Please can you check the Sashiko review comment?
->>>
->>> https://sashiko.dev/#/patchset/20260520022023.126670-1-ruanjinjie@huawei.com
->>
->> I think commit eba4675008a6 ("arm64: arch_register_cpu() variant to
->> check if an ACPI handle is now available.") introduced this bug.
->>
->> It introduced an architectural safety block inside
->> arch_unregister_cpu(). If a hot-unplug operation is determined to be a
->> physical hardware removal (where _STA evaluates to
->> !ACPI_STA_DEVICE_PRESENT), it aborts the unregistration transaction
->> early to protect unreadied arm64 infrastructure, thereby skipping
->> unregister_cpu().
->>
->> However, the generic ACPI processor driver path in
->> acpi_processor_post_eject() currently treats arch_unregister_cpu() as
->> an unconditional void operation. When arch_unregister_cpu() bails out
->> early, the subsequent cleanup flow blindly proceeds to call
->> acpi_unmap_cpu(), clears global per-cpu processor arrays, and
->> unconditionally free the 'struct acpi_processor' object.
->>
->> I think we can fix this by:
->>
->>     1. Refactoring arch_unregister_cpu() to return an integer
->> transaction status. It returns -EOPNOTSUPP when aborting due to physical
->> hot-remove blocking, -EINVAL/-EIO on firmware failures, and 0 only upon
->> successful unregistration.
->>
->>     2. Guarding the downstream execution flow in
->> acpi_processor_post_eject(). If arch_unregister_cpu() returns a error
->> code, the hot-unplug transaction is considered aborted.
-> 
-> I wonder whether we need all this guarding. In the worst case, we could
-> rewrite the function, something like below, to always unregister and
-> only warn:
-> 
-> void arch_unregister_cpu(int cpu)
-> {
-> 	acpi_handle acpi_handle = acpi_get_processor_handle(cpu);
-> 	struct cpu *c = &per_cpu(cpu_devices, cpu);
-> 	acpi_status status;
-> 	unsigned long long sta;
-> 
-> 	if (!acpi_handle) {
-> 		pr_err_once("Removing a CPU without associated ACPI handle\n");
-> 	} else {
-> 		status = acpi_evaluate_integer(acpi_handle, "_STA", NULL, &sta);
-> 		if (!ACPI_FAILURE(status) &&
-> 		    cpu_present(cpu) && !(sta & ACPI_STA_DEVICE_PRESENT))
-> 			pr_err_once("Changing CPU present bit is not supported\n");
-> 	}
-> 
-> 	unregister_cpu(c);
-> }
-> 
-> However, on the first condition, can we actually trigger !acpi_handle?
-> If not, we could just drop it. I tried to look up the paths and I don't
-> think we'd ever end up in this function with !acpi_handle. So this
-> leaves us with the next checks.
 
-You are absolutely right：
-
-Source Binding: During the CPU hot-add phase, acpi_add_single_object()
-directly binds a valid firmware handle to device->handle, which is then
-stored into per_cpu(processors, cpu) via acpi_processor_add().
-
-Identical Lifecycle: When the hot-unplug path later invokes
-acpi_get_processor_handle(), it retrieves the exact same active
-pr->handle managed by the ACPI device framework, guaranteeing that the
-returned handle is never NULL as long as the device exists.
-
-648 static struct acpi_scan_handler processor_handler = {
- 649 >-------.ids = processor_device_ids,
- 650 >-------.attach = acpi_processor_add,
- 651 #ifdef CONFIG_ACPI_HOTPLUG_CPU
- 652 >-------.post_eject = acpi_processor_post_eject,
- 653 #endif
- 654 >-------.hotplug = {
- 655 >------->-------.enabled = true,
- 656 >-------},
- 657 };
-
-acpi_bus_scan()
-  -> acpi_bus_check_add()
-     -> acpi_add_single_object(&device, handle, type, !first_pass)
-       -> acpi_init_device_object()
-          -> device->handle = handle
-
-acpi_processor_hotadd_init()
-  -> acpi_processor_set_per_cpu(pr, device)
-     -> per_cpu(processors, pr->id) = pr
-
-acpi_processor_add()
-  -> pr->handle = device->handle
-
-acpi_get_processor_handle()
-  -> pr = per_cpu(processors, cpu)
-  -> return pr->handle
-
-> 
-> On the second/third conditions, it's more about preventing physical CPU
-> hotplug as we haven't properly defined it for arm yet but we could just
-> add a WARN_ONCE() to make it more visible and still proceed with the
-> unregistering. I think with your proposal, we don't fully unroll the
-
-Agreed. Unregistering the CPU is absolutely necessary at this stage
-since we cannot fully roll back the state anyway, and adding a
-WARN_ONCE() is more than sufficient to flag unsupported physical CPU
-hot-unplug on ARM64 for now.
-
-> state anyway just by returning an error in arch_unregister_cpu(), so I'd
-> rather continue here.
-
-Exactly. Achieving a perfect rollback at this stage is extremely
-difficult and clean-up is rarely complete. It is much simpler and more
-robust to just force the unregistration and carry on, which is also
-consistent with how other architectures handle this by basically blindly
-unregistering the CPU anyway.
-
-> 
-> What does firmware do for virtual CPU hotplug w.r.t. _STA? I noticed a
-> slight change in wording in the cpu-hotplug.rst doc with your patch from
-> 
->   On virtual systems the _STA method must always report the CPU as
->   ``present``
-> 
-> to
-> 
->   On virtual systems the _STA method must report the CPU as ``present``
->   when it is activated by the firmware
-> 
-> Was your intention that _STA.PRESENT can become 0 when hot-unplugging
-> virtual CPUs?
-
-Sorry, that was not the intention but a mistake. On ARM64 virtual
-systems, _STA.PRESENT will always remain 1 even when a vCPU is
-hot-unplugged.Due to ARM64 architectural constraints (such as the GICv3
-Redistributor and KVM vGIC configuration which must be statically sized
-at boot), virtual CPU hotplug is emulated by keeping all possible vCPUs
-present in the system, while toggling their availability via the
-_STA.ENABLED bit.
-
-Expose below ACPI Status to Guest kernel:
-       a. Always _STA.Present=1 (all possible vCPUs)
-       b. _STA.Enabled=1 (plugged vCPUs)
-       c. _STA.Enabled=0 (unplugged vCPUs)
-
-Link: https://lists.gnu.org/archive/html/qemu-devel/2025-05/msg05076.html
-
-> 
-
+> ---
+>   MAINTAINERS                                   |   1 +
+>   tools/testing/selftests/alloc_tag/Makefile    |   9 +
+>   .../alloc_tag/allocinfo_ioctl_test.c          | 333 ++++++++++++++++++
+>   3 files changed, 343 insertions(+)
+>   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+>   create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 019cc4c285a3..6610dd42e484 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16715,6 +16715,7 @@ F:	include/linux/alloc_tag.h
+>   F:	include/linux/pgalloc_tag.h
+>   F:	include/uapi/linux/alloc_tag.h
+>   F:	lib/alloc_tag.c
+> +F:	tools/testing/selftests/alloc_tag/
+>   
+>   MEMORY CONTROLLER DRIVERS
+>   M:	Krzysztof Kozlowski <krzk@kernel.org>
+> diff --git a/tools/testing/selftests/alloc_tag/Makefile b/tools/testing/selftests/alloc_tag/Makefile
+> new file mode 100644
+> index 000000000000..f2b8fc022c3b
+> --- /dev/null
+> +++ b/tools/testing/selftests/alloc_tag/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +TEST_GEN_PROGS := allocinfo_ioctl_test
+> +
+> +CFLAGS += -Wall
+> +CFLAGS += -I../../../../usr/include
+> +
+> +include ../lib.mk
+> +
+> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> new file mode 100644
+> index 000000000000..cd9cf229ae1f
+> --- /dev/null
+> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+> @@ -0,0 +1,333 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +/* kselftest for allocinfo ioctl
+> + * allocinfo ioctl retrives allocinfo data through ioctl
+> + * Copyright (C) 2026 Google, Inc.
+> + */
+> +
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <stdbool.h>
+> +#include <unistd.h>
+> +#include <sys/ioctl.h>
+> +#include <linux/types.h>
+> +#include <linux/alloc_tag.h>
+> +#include "../kselftest.h"
+> +
+> +#define MAX_LINE_LEN		512
+> +#define ALLOCINFO_PROC		"/proc/allocinfo"
+> +
+> +enum ioctl_ret {
+> +	IOCTL_SUCCESS = 0,
+> +	IOCTL_FAILURE = 1,
+> +	IOCTL_INVALID_DATA = 2,
+> +};
+> +
+> +#define VEC_MAX_ENTRIES 32
+> +
+> +struct allocinfo_tag_data_vec {
+> +	struct allocinfo_tag_data tag[VEC_MAX_ENTRIES];
+> +	__u64 count;
+> +};
+> +
+> +static inline int __allocinfo_get_content_id(int dev_fd, struct allocinfo_content_id *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_CONTENT_ID, params);
+> +}
+> +
+> +static inline int __allocinfo_get_at(int dev_fd, struct allocinfo_get_at *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_AT, params);
+> +}
+> +
+> +static inline int __allocinfo_get_next(int dev_fd, struct allocinfo_tag_data *params)
+> +{
+> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_NEXT, params);
+> +}
+> +
+> +static bool match_entry(const struct allocinfo_tag_data *procfs_entry,
+> +			const struct allocinfo_tag_data *tag_data,
+> +			bool match_bytes, bool match_calls, bool match_lineno,
+> +			bool match_function, bool match_filename)
+> +{
+> +	if (match_bytes && tag_data->counter.bytes != procfs_entry->counter.bytes) {
+> +		ksft_print_msg("size retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_calls && tag_data->counter.calls != procfs_entry->counter.calls) {
+> +		ksft_print_msg("call count retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_lineno && tag_data->tag.lineno != procfs_entry->tag.lineno) {
+> +		ksft_print_msg("lineno retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_function &&
+> +	    strncmp(tag_data->tag.function, procfs_entry->tag.function, ALLOCINFO_STR_SIZE)) {
+> +		ksft_print_msg("function retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +
+> +	if (match_filename &&
+> +	    strncmp(tag_data->tag.filename, procfs_entry->tag.filename, ALLOCINFO_STR_SIZE)) {
+> +		ksft_print_msg("filename retrieved through ioctl does not match procfs\n");
+> +		return false;
+> +	}
+> +	return true;
+> +}
+> +
+> +static bool match_entries(const struct allocinfo_tag_data_vec *procfs_entries,
+> +			  const struct allocinfo_tag_data_vec *tags,
+> +			  bool match_bytes, bool match_calls, bool match_lineno,
+> +			  bool match_function, bool match_filename)
+> +{
+> +	__u64 i;
+> +
+> +	if (procfs_entries->count != tags->count) {
+> +		ksft_print_msg("Entry count mismatch. ioctl entries: %llu, proc entries: %llu\n",
+> +			       tags->count, procfs_entries->count);
+> +		return false;
+> +	}
+> +	for (i = 0; i < procfs_entries->count; i++) {
+> +		if (!match_entry(&procfs_entries->tag[i], &tags->tag[i],
+> +				 match_bytes, match_calls, match_lineno,
+> +				 match_function, match_filename)) {
+> +			ksft_print_msg("%lluth entry does not match.\n", i);
+> +			return false;
+> +		}
+> +	}
+> +	return true;
+> +}
+> +
+> +static const char *allocinfo_str(const char *str)
+> +{
+> +	size_t len = strlen(str);
+> +
+> +	if (len >= ALLOCINFO_STR_SIZE)
+> +		str += (len - ALLOCINFO_STR_SIZE) + 1;
+> +	return str;
+> +}
+> +
+> +static void allocinfo_copy_str(char *dest, const char *src)
+> +{
+> +	strncpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE - 1);
+> +	dest[ALLOCINFO_STR_SIZE - 1] = '\0';
+> +}
+> +
+> +static int get_filtered_procfs_entries(struct allocinfo_tag_data_vec *procfs_entries,
+> +				       const struct allocinfo_filter *filter, int fd)
+> +{
+> +	FILE *fp = fdopen(fd, "r");
+> +	char line[MAX_LINE_LEN];
+> +	int matches;
+> +	struct allocinfo_tag_data procfs_entry;
+> +
+> +	if (!fp) {
+> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for reading\n");
+> +		return 1;
+> +	}
+> +	memset(procfs_entries, 0, sizeof(*procfs_entries));
+> +	while (fgets(line, sizeof(line), fp) && procfs_entries->count < VEC_MAX_ENTRIES) {
+> +		char filename[MAX_LINE_LEN];
+> +		char function[MAX_LINE_LEN];
+> +
+> +		memset(&procfs_entry, 0, sizeof(procfs_entry));
+> +		matches = sscanf(line, "%llu %llu %[^:]:%llu func:%s",
+> +				 &procfs_entry.counter.bytes,
+> +				 &procfs_entry.counter.calls,
+> +				 filename,
+> +				 &procfs_entry.tag.lineno,
+> +				 function);
+> +
+> +		if (matches != 5)
+> +			continue;
+> +
+> +		allocinfo_copy_str(procfs_entry.tag.filename, filename);
+> +		allocinfo_copy_str(procfs_entry.tag.function, function);
+> +
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) {
+> +			if (strncmp(procfs_entry.tag.filename,
+> +				    filter->fields.filename, ALLOCINFO_STR_SIZE))
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) {
+> +			if (strncmp(procfs_entry.tag.function,
+> +				    filter->fields.function, ALLOCINFO_STR_SIZE))
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_LINENO) {
+> +			if (procfs_entry.tag.lineno != filter->fields.lineno)
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) {
+> +			if (procfs_entry.counter.bytes < filter->min_size)
+> +				continue;
+> +		}
+> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) {
+> +			if (procfs_entry.counter.bytes > filter->max_size)
+> +				continue;
+> +		}
+> +
+> +		memcpy(&procfs_entries->tag[procfs_entries->count++], &procfs_entry,
+> +		       sizeof(procfs_entry));
+> +	}
+> +	return 0;
+> +}
+> +
+> +static enum ioctl_ret get_filtered_ioctl_entries(struct allocinfo_tag_data_vec *tags,
+> +						 const struct allocinfo_filter *filter, int fd,
+> +						 __u64 start_pos)
+> +{
+> +	struct allocinfo_content_id start_cont_id, end_cont_id;
+> +	struct allocinfo_get_at get_at_params;
+> +	const int max_retries = 10;
+> +	int retry_count = 0;
+> +	int status;
+> +
+> +	/*
+> +	 * __allocinfo_get_content_id may return different values if a kernel module was loaded
+> +	 * between the two calls. If that happens, the data gathered cannot be considered consistent
+> +	 * and hence needs to be fetched again to avoid flakiness.
+> +	 */
+> +	do {
+> +		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
+> +			ksft_print_msg("allocinfo_get_content_id failed\n");
+> +			return IOCTL_FAILURE;
+> +		}
+> +
+> +		memset(tags, 0, sizeof(*tags));
+> +		memset(&get_at_params, 0, sizeof(get_at_params));
+> +		memcpy(&get_at_params.filter, filter, sizeof(*filter));
+> +		get_at_params.pos = start_pos;
+> +		if (__allocinfo_get_at(fd, &get_at_params)) {
+> +			ksft_print_msg("allocinfo_get_at failed\n");
+> +			return IOCTL_FAILURE;
+> +		}
+> +		memcpy(&tags->tag[tags->count++], &get_at_params.data, sizeof(get_at_params.data));
+> +
+> +		while (tags->count < VEC_MAX_ENTRIES &&
+> +		       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
+> +			tags->count++;
+> +
+> +		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
+> +			ksft_print_msg("allocinfo_get_content_id failed\n");
+> +			return IOCTL_FAILURE;
+> +		}
+> +
+> +		if (start_cont_id.id == end_cont_id.id) {
+> +			status = IOCTL_SUCCESS;
+> +		} else {
+> +			ksft_print_msg("allocinfo_get_content_id mismatch, retrying...\n");
+> +			status = IOCTL_INVALID_DATA;
+> +		}
+> +	} while (status == IOCTL_INVALID_DATA && retry_count++ < max_retries);
+> +
+> +	return status;
+> +}
+> +
+> +static int run_filter_test(const struct allocinfo_filter *filter)
+> +{
+> +	int fd;
+> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
+> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
+> +	int ioctl_status;
+> +	int ret = KSFT_PASS;
+> +
+> +	if (!tags || !procfs_entries) {
+> +		ksft_print_msg("Memory allocation failed.\n");
+> +		ret = KSFT_FAIL;
+> +		goto freemem;
+> +	}
+> +
+> +	fd = open(ALLOCINFO_PROC, O_RDONLY);
+> +	if (fd < 0) {
+> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC ": %s\n", strerror(errno));
+> +		ret = KSFT_SKIP;
+> +		goto freemem;
+> +	}
+> +
+> +	if (get_filtered_procfs_entries(procfs_entries, filter, fd)) {
+> +		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
+> +		ret = KSFT_FAIL;
+> +		goto exit;
+> +	}
+> +
+> +	if (procfs_entries->count == 0) {
+> +		ksft_print_msg("No entries found in " ALLOCINFO_PROC ", skipping test\n");
+> +		ret = KSFT_SKIP;
+> +		goto exit;
+> +	}
+> +
+> +	ioctl_status = get_filtered_ioctl_entries(tags, filter, fd, 0);
+> +	if (ioctl_status == IOCTL_INVALID_DATA) {
+> +		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
+> +		ret = KSFT_SKIP;
+> +		goto exit;
+> +	}
+> +	if (ioctl_status == IOCTL_FAILURE) {
+> +		ksft_print_msg("Error retrieving IOCTL entries.\n");
+> +		ret = KSFT_FAIL;
+> +		goto exit;
+> +	}
+> +
+> +	if (!match_entries(procfs_entries, tags, false, false, true, true, true))
+> +		ret = KSFT_FAIL;
+> +
+> +exit:
+> +	close(fd);
+> +freemem:
+> +	free(tags);
+> +	free(procfs_entries);
+> +	return ret;
+> +}
+> +
+> +static int test_filename_filter(void)
+> +{
+> +	struct allocinfo_filter filter;
+> +	const char *target_filename = "mm/memory.c";
+> +
+> +	memset(&filter, 0, sizeof(filter));
+> +	filter.mask |= ALLOCINFO_FILTER_MASK_FILENAME;
+> +	strncpy(filter.fields.filename, target_filename, ALLOCINFO_STR_SIZE);
+> +
+> +	return run_filter_test(&filter);
+> +}
+> +
+> +static int test_function_filter(void)
+> +{
+> +	struct allocinfo_filter filter;
+> +	const char *target_function = "dup_mm";
+> +
+> +	memset(&filter, 0, sizeof(filter));
+> +	filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
+> +	strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
+> +
+> +	return run_filter_test(&filter);
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	int ret;
+> +
+> +	ksft_set_plan(2);
+> +
+> +	ret = test_filename_filter();
+> +	if (ret == KSFT_SKIP)
+> +		ksft_test_result_skip("Skipping test_filename_filter\n");
+> +	else
+> +		ksft_test_result(ret == KSFT_PASS, "test_filename_filter\n");
+> +
+> +	ret = test_function_filter();
+> +	if (ret == KSFT_SKIP)
+> +		ksft_test_result_skip("Skipping test_function_filter\n");
+> +	else
+> +		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
+> +
+> +	ksft_finished();
+> +}
