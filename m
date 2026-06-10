@@ -1,125 +1,128 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF252EEE60
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 01:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A83BBA3D
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 01:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781056416; cv=none; b=tKPCgi0GLiPRrW1+4xOgF9BnDjZNiGjRY9CkzQe+0hKpfExsjePzvD2HCVvFwkMytBmYLGkSrYD9aAdn/PEVoffRzAem2y28hhfa7PCCcuKYmAZ/9vrWEzqElJC8cfU4iFoigIE8HoVkwi03YNsBZfFX14dXMcvFC/rJiqqmIWQ=
+	t=1781056579; cv=none; b=fWTjATz2Xc3bsRwADRVLydmhPWLV1KLI8K8dOh2MpAQqLnZ6MtNyMefYpt2Oii/kDKs6Vg8LgniFhUjYP0Xc8ETStdSNPAVZwvVCVxf+ROFJP9vIRe59DUiSPx36JvRafvl2Spp52l5halxSsdp/92iE+uXdI+I4PRd/eQqqsQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781056416; c=relaxed/simple;
-	bh=Aniz0i7zS31nm6ZpK5d4LZjgaKVO86jYotANxdvO/Q0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pi7a0I5Cl8evjQwPJ3LTdX3oW68gKCuYClAxgaMAOujK/bmyoGqkXW0yMEzfQorwo5+iq4Yse4SQyqo/e503Q2Ca92ZcwcKQk7877S8/wnctpIfj/oZZG0wwWfjU0L01emi+Ol6uSqz3AdqWT68bRqOC5THCwqxmiijhUp59TDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bbsvwp/d; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781056579; c=relaxed/simple;
+	bh=dqH9cDlBuMXBoZ3HqMA68EZSucgLQFDS0EJW9TLzHpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aGRZk3w+xLtknm9E6P+3dyfVVpTAf3kJs61fY1T9GraY7SO3rEzb81ooQePpwX3zqEsvxCQkfm0R1G5Ml/KPm55mbZkwLha8pue0QBgRum1qKR2NFqtOi1xsvDJHRioFtEUem5hjQjX5p6beFlSCZjtKz5wvDYU1hF3Z8H94J8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQYlERpf; arc=none smtp.client-ip=74.125.82.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bbsvwp/d"
-Message-ID: <c7a83b2f-ee5e-4de1-807c-311db839b4d5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781056410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FrmWqzviIqBB3IDNdu15PDEAaOUICtqvo3B9Gs8vRaM=;
-	b=bbsvwp/dxTTGFU3RSHnkuoHl/y+d0uyW4xm7CWNpqBW1pML/tXksWqhJhsHBKFqph+sFH1
-	VUw2Jhbbk3xza8B43C6LX8sOiyplrt59k6ZZYcMcrt9rkM/VF+k1vNX9igbWdCfqr9KFh/
-	KJAYQiN60SoRDXVMnxifP1B3OyY5p0c=
-Date: Wed, 10 Jun 2026 09:52:52 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQYlERpf"
+Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-1370417c01cso8215173c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 18:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781056578; x=1781661378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7CKpOtIEJX6VF9+gm1XQKFtxQTKoIy2N2bjbhGxBG8=;
+        b=RQYlERpf4qksD1ESWcxbYBF3aOEF75gcm9SXY/5DGakC/kPPEROLder8ZISKvDDczB
+         fhO/dEQ4fz7P9lEjisn1wCqBUeiPS5mMjz6qInyyA1K3VH6onnxTPgnmSbbDVPW57ayk
+         g/2R1oz/DVrjRpX+shWB7cW1PtMJV+7cbu11fUu7XBReVaS8924wm8avu0lf6MNI5hBY
+         Dv/L3ACTY/Bg/c4VmMzWH73PXb+WC+oGDQrs3X9yE8JCQhfFa/J50oEPHg6IYW/Gqi7A
+         HrfOnoMwSIDDQcf38fqneUpgsCKPpPdFaHmWcCZojI2HbF2HvDoI8vlETMb6jG49N1zn
+         qpNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781056578; x=1781661378;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O7CKpOtIEJX6VF9+gm1XQKFtxQTKoIy2N2bjbhGxBG8=;
+        b=WaRojRKNSvgrUw05rRxB+Lf1Ujxwa2X5F+k9s3Gg2g/aK/TtWadDDgncUNdYDJfrXB
+         y6oz32rIqt81pGNBhIefmvykf6cKVnp3HmLprL0XFvAB+oEfbAl/S7HDrQKIraauX4jV
+         ynmORkTCkRY5qVgl1Z8K31ZbKKTjgJejOaT5om3PWWEjukchSB/wY+8AdkQmOcTaJ+C4
+         aSDkZQ+vf+tHHFxMX28TIBdA3D5GzspYelzYdaMRH//BmgCyvcMo9cGZe4Vnz2rkGt8y
+         FZhcY4IoG3XR0NCniZQjXqmNpJS/M1pX34LWOBfk0InFRRDBNqLqxCEEwV4AYwf0BoUN
+         3jbA==
+X-Forwarded-Encrypted: i=1; AFNElJ81Vo5ZGnhjyqX1FTRQiLXoV3F0wT8ksX6spLicR1THbLuKaUxcEkH3J89HYg+eEWXrEnD1hsqQ9po=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpyeXoEEqznUj/j6rPq34JyufqIrQ4kDMUqZDXgeMCIQ0s/vF6
+	7yx2hqk/ZhbB893DDm/CSBYTB4HYjeDhqMpjltcMADZW9kTVHaVXTjCZ
+X-Gm-Gg: Acq92OHPjaU8di7OiFO8WV4ohcq60vmcOwaTG67R7g0c2rT9FQzJJn38pv86FkFhM55
+	Ottzp8afevkNDMJsgDKiO5ahmmaybldkIS0el1M8lD5ZGfmb0wq9SFOYSQIr8Zg7HhvUSIhcAMB
+	Nq3uS8iKjcw4IVn9O7+i3BLKZxXZnXNf8ZohSiTp7f2DxHU2RGMxo8UKvollmiIeDmrjsaZMpPI
+	IaVLi4FiNsTYTaEeHJLiELUwMtPBCERvtnjvE2+mmIHL2JcsungIoWlLvjX8/avyM2u34z6QIip
+	OLMV0SsVfdke4UBWT4k82HIlljEuJPXXbAy0eX1KRA55JpjE0rm3jcnP5Pi1hVyFmwWPdICmfu0
+	9ZpUygXekeGSzy73OR/JYcry9w6VO8rskKsQUm3ZUJKFdUz29JNTaK1nBh65XgoOs3KTALh/mft
+	9AkPqJJGImtLu6ag5v8DRA6M6gRMHPTgHk8Z1WLWFoQKjXkByO3x/cRRMMCcDYZrSDWV63wPdhR
+	lVQ10mb4bnT5fl6IUUcQ5UpNDkiLljSd/HJvmUpmk8vyCdmk2NbNMMR0R7yPbueYkrfMjNZkcaF
+	aWqGs031yW+0yzGHHnn/0xR6VuA6
+X-Received: by 2002:a05:7022:e997:b0:138:3742:fe5d with SMTP id a92af1059eb24-1383742ff6fmr1158962c88.18.1781056577445;
+        Tue, 09 Jun 2026 18:56:17 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f53f06c4sm16508829c88.0.2026.06.09.18.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 18:56:16 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rhys Tumelty <rhys@tumelty.co.uk>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] ALSA: docs: remove references to removed CONFIG_SND_HDA_POWER_SAVE
+Date: Tue,  9 Jun 2026 18:56:09 -0700
+Message-ID: <20260610015614.41530-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 4/6] alloc_tag: add accuracy based filtering to ioctl
-To: Abhishek Bapat <abhishekbapat@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>
-References: <cover.1781042698.git.abhishekbapat@google.com>
- <7f3a4ddb3f132464f17716eaae657a6367d6dd05.1781042698.git.abhishekbapat@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <7f3a4ddb3f132464f17716eaae657a6367d6dd05.1781042698.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
+The CONFIG_SND_HDA_POWER_SAVE option was removed in commit 83012a7ccbb9
+("ALSA: hda - Clean up CONFIG_SND_HDA_POWER_SAVE"), but references to
+it remained in documentation. Remove them.
 
-On 2026/6/10 08:12, Abhishek Bapat wrote:
-> Extend the allocinfo filtering mechanism to allow users to filter tags
-> based on their accuracy.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+Discovered while searching for CONFIG_* symbols referenced in code but
+not defined in any Kconfig file.
 
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ Documentation/sound/designs/powersave.rst | 5 +++--
+ Documentation/sound/hd-audio/notes.rst    | 3 ---
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-Acked-by: Hao Ge <hao.ge@linux.dev>
+diff --git a/Documentation/sound/designs/powersave.rst b/Documentation/sound/designs/powersave.rst
+index ca7d1e838b4d..4b9d6d0b0d98 100644
+--- a/Documentation/sound/designs/powersave.rst
++++ b/Documentation/sound/designs/powersave.rst
+@@ -3,8 +3,9 @@ Notes on Power-Saving Mode
+ ==========================
+ 
+ AC97 and HD-audio drivers have the automatic power-saving mode.
+-This feature is enabled via Kconfig ``CONFIG_SND_AC97_POWER_SAVE``
+-and ``CONFIG_SND_HDA_POWER_SAVE`` options, respectively.
++For HD-audio devices, this feature is enabled if ``CONFIG_PM`` is
++enabled. For AC97 devices, it is enabled via the Kconfig
++``CONFIG_SND_AC97_POWER_SAVE`` option.
+ 
+ With the automatic power-saving, the driver turns off the codec power
+ appropriately when no operation is required.  When no applications use
+diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
+index 6993bfa159b4..1412a8eabfa8 100644
+--- a/Documentation/sound/hd-audio/notes.rst
++++ b/Documentation/sound/hd-audio/notes.rst
+@@ -341,9 +341,6 @@ hwdep option above.  When enabled, you'll have some sysfs files under
+ the corresponding hwdep directory.  See "HD-audio reconfiguration"
+ section below.
+ 
+-``CONFIG_SND_HDA_POWER_SAVE`` option enables the power-saving feature.
+-See "Power-saving" section below.
+-
+ 
+ Codec Proc-File
+ ---------------
+-- 
+2.43.0
 
-
-> ---
->   include/uapi/linux/alloc_tag.h | 4 ++++
->   lib/alloc_tag.c                | 8 ++++++++
->   2 files changed, 12 insertions(+)
->
-> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_tag.h
-> index 7f5acbb44c14..6ea39c4869fe 100644
-> --- a/include/uapi/linux/alloc_tag.h
-> +++ b/include/uapi/linux/alloc_tag.h
-> @@ -26,6 +26,8 @@ struct allocinfo_tag {
->   	char function[ALLOCINFO_STR_SIZE];
->   	char filename[ALLOCINFO_STR_SIZE];
->   	__u64 lineno;
-> +	/* filter criteria only; see allocinfo_counter.accurate for actual accuracy */
-> +	__u64 inaccurate;
->   };
->   
->   /* The alignment ensures 32-bit compatible interfaces are not broken */
-> @@ -45,6 +47,7 @@ enum {
->   	ALLOCINFO_FILTER_FUNCTION,
->   	ALLOCINFO_FILTER_FILENAME,
->   	ALLOCINFO_FILTER_LINENO,
-> +	ALLOCINFO_FILTER_INACCURATE,
->   	ALLOCINFO_FILTER_MIN_SIZE,
->   	ALLOCINFO_FILTER_MAX_SIZE,
->   	__ALLOCINFO_FILTER_LAST = ALLOCINFO_FILTER_MAX_SIZE
-> @@ -54,6 +57,7 @@ enum {
->   #define ALLOCINFO_FILTER_MASK_FUNCTION		(1 << ALLOCINFO_FILTER_FUNCTION)
->   #define ALLOCINFO_FILTER_MASK_FILENAME		(1 << ALLOCINFO_FILTER_FILENAME)
->   #define ALLOCINFO_FILTER_MASK_LINENO		(1 << ALLOCINFO_FILTER_LINENO)
-> +#define ALLOCINFO_FILTER_MASK_INACCURATE	(1 << ALLOCINFO_FILTER_INACCURATE)
->   #define ALLOCINFO_FILTER_MASK_MIN_SIZE		(1 << ALLOCINFO_FILTER_MIN_SIZE)
->   #define ALLOCINFO_FILTER_MASK_MAX_SIZE		(1 << ALLOCINFO_FILTER_MAX_SIZE)
->   
-> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> index a936cf18611a..73fb3d0ab821 100644
-> --- a/lib/alloc_tag.c
-> +++ b/lib/alloc_tag.c
-> @@ -249,6 +249,8 @@ static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter,
->   			   struct alloc_tag_counters *counters,
->   			   bool *fetched_counters)
->   {
-> +	bool inaccurate;
-> +
->   	if (!filter || !filter->mask)
->   		return true;
->   
-> @@ -274,6 +276,12 @@ static bool matches_filter(struct codetag *ct, struct allocinfo_filter *filter,
->   	    ct->lineno != filter->fields.lineno)
->   		return false;
->   
-> +	if (filter->mask & ALLOCINFO_FILTER_MASK_INACCURATE) {
-> +		inaccurate = !!(ct->flags & CODETAG_FLAG_INACCURATE);
-> +		if (inaccurate != !!(filter->fields.inaccurate))
-> +			return false;
-> +	}
-> +
->   	if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE)) {
->   		if (!*fetched_counters) {
->   			*counters = allocinfo_prefetch_counters(ct);
