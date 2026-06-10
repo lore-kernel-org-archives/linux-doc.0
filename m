@@ -1,273 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD2B1F5821;
-	Wed, 10 Jun 2026 00:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781052755; cv=none; b=PZPUxCSSV4WlKmRtHkJQoFeyJDo2LJT2+M1Cm8gXV5KRwn+bbg++BrQTGGHUF0BSFw0iM1c2hnNR6Amz1vm4X8LjvPXCiHI7/299TfgDRRr34ol3++W1WsxsxmkNSWf2kOfC061aN3qxSM9j38RSjyYSvJ0sNGrdiM1svwKkdkE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781052755; c=relaxed/simple;
-	bh=cV9jAK8MaL3wh/9T19mzJ94yF/MQwfLbLtKRPTZzXNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXMdveUIG1+aGDjqUcxWD/5sy+ARATn9HsgwNcAWzK/xX1/Wxrett6QUhJAqjgNT707oAgm8KBaIx7vtV52QFyQ3LxkiQUxAk7tHvIgmHrZ8s+aI6Cw+owUzzlFFjxhEtYhWHQs9QDsA76rfv10lzb9iCEWj4mMsCQjWHi7Zz8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euboTlm4; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6784222565
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 01:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781053463; cv=pass; b=TnF8NNkBh5e9tmyThRrbX12tbmdcZJ9QOPKuPSdm4geaqMqyKWDL+QIXQG5sFeNoeNM3o/yzbY6fVbywfq2vRfJq2/egHIvP+AdKE1FF8LOj111zobhpR2EWq6kAL2i6ixiHlmJubIMnbJBBpfDsVe0//JysYqBpITj4JOWAQv0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781053463; c=relaxed/simple;
+	bh=4xThc03OT9rMdWbMfPKFLAzGxUKH3WR437iRvfZQFfI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AtRPfLTf6ugQ4W+zePhIC1q56pVgw+ttSoapEw6ozEAqck4bqHZoxNDozPGtHYHhP6tyhNEPbPHqJs4wJYxbFm7hKrxfvmsbIyEuNKMbHyMrnGrNGIBWC/prQiyxa/pi4GZPEoj5JlUfuMFdinzxdcZvVVm2LlaGG2DXcSUlK0s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=szrsohON; arc=pass smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euboTlm4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D871F00893;
-	Wed, 10 Jun 2026 00:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781052754;
-	bh=NQk2MWB061BFWxXIa45yh7aU52ezQW6+P2NfW1AS8F0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=euboTlm4UBJdSuftpWNfivpg213m03PkGPeAAWC9P4BsSV9vDU56MfFYaX55R1Slu
-	 l5CBQGVLyx9WQkUrLHFRJW+OdaZ+PSgmqpG8pVdaAiynlBWsYTNNcLZ3+n/3ComerS
-	 2F+/CJxa1SLkDVSw8v3+C/gVjKaJmmQNScqNh6a0onvuz1UwotcnNBg+ZnMeWazdLX
-	 U91bu1lEWMpVH55Gap+NKN8JjQp6S2vcS1SKoa1hOi3B03TR56HcjmDHR7shBklD1W
-	 sTHsQuuqtr+hyogtCZ6wnhNG/Qq1KdhFk0FSUY5cafxUYCVsIl+ypN99q5ukFr/4fP
-	 hpD/+ojBpAk0w==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH v2 7/7] tracing/probes: Add a new testcase for BTF typecasts
-Date: Wed, 10 Jun 2026 09:52:29 +0900
-Message-ID: <178105274972.21760.8801406760819772508.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178105268094.21760.13668249930524377840.stgit@devnote2>
-References: <178105268094.21760.13668249930524377840.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="szrsohON"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bf1cdcfd6deso756124766b.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 18:04:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781053460; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GWoF0R+uxXSWxTVu5GEM/mwpUeFjdbSVuIgHy5XoScT4ZZqe/f3BaIqgiM4XVjrRuk
+         Ff08FQi4iIqLF8n/Bizq397PhJDrFlPpORzBZR0i6yta4KhuJnBj7EsRr6gwcCGgcOKx
+         jpRBOfrSgskk+lBFZVpg/zNslO7xMgwW2j6+J+OojHiBIu1Qf6VPjWkkC2Px571+4Kjk
+         HxhmZqQngjvVtExuKMNfMrl8fPNfLKxJad5MTB8Efbf0uBr1ra776BxVA0dS0kMsbemY
+         A1JZ2jGtBbU83cRQIqhfxIO3369+Habq6TzL5xgym+2YwQV/khBPhqj/pw4N/Y8RH6PE
+         0aGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4xThc03OT9rMdWbMfPKFLAzGxUKH3WR437iRvfZQFfI=;
+        fh=WBfNmDYDhCQcxzBl81cisNuhrVG/twsS/noI3ZiCroQ=;
+        b=ddsfoKJkR/E2T/bSIbl4QUcrpXS2rw5EufsAcEHrITGCZ9gNnQiLdTvvtP/qnXOgSg
+         KbltaBcVYqS16fm0SOwk4ynT2QzJfm+M9KF3kWBLPrR3n4RZBp8kerh/cOfl5JDlGUFG
+         qjKf4EXiDbo2uXZs6Qz8UX9FbxZmFVrlrfrdKKD307VAdXar/boIPFaGIn4FIIoT1uLY
+         iRQOPxkH7YXQhylAOQxwGivzBxlke0lJ+QK47qejlNdizaHmCqrGil0pSYTLHAxr+CAd
+         Xz3uMLyHVzfbpT3e+Q1BaVGgmwYCK6naH0UY0CK1xTggfK7zQDmX9D0uS/hAWniXyJZ/
+         K4/Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781053460; x=1781658260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4xThc03OT9rMdWbMfPKFLAzGxUKH3WR437iRvfZQFfI=;
+        b=szrsohONf6pdslu5N1fob5foXrbAIlXZipZMpbYPqHYYRINTIMuf8GSjjHa1hoh/iI
+         cRxiuHEbD0QoWzlJDL9qzAiK4Ls3hEAMyNFwlZqFaFVk77StjRhXNXET/g/GANggXO7l
+         gmogQRDnQb2PhkPWrTal77Lclev/C3GQzoybVP9B3JmTPQIedxzAbde/vpDruOvMM6rJ
+         hMBzAh3O/wMUXaJOO17YUsOCHXzuucvJ5kQSH61f+1Yy31C7hvJ0Y74dqIpqsPPn7qsh
+         BeaeUYTYo+jaVwLlxF+rL7dpUIYEfzulgARhnHOb518GfvzgqqZk/5CpRAkLpvT7S2YO
+         9ZXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781053460; x=1781658260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4xThc03OT9rMdWbMfPKFLAzGxUKH3WR437iRvfZQFfI=;
+        b=oojvIUWJF80ctJSOW8RhXKnn6D55BewVHLGrWwm+2hmm9YOG4PL4gI5njwzn/E9dAw
+         dGq+g/DMWlt4bGJDqklWYdtybJ5n1STCrpPej0uHVxnUUuBUxAmjfLFhIlsXgaUC1aSh
+         EXJUQ0VLe9wunVesBCrrPka5RgAUEqaiemDWYt/sq7dy6Q5lqppgpOnMn34KfmC/mr0m
+         tts/tfkW43B6djYrQuUgk0JEALKclew+Z30GwP0D8faa9AxSnCSCTbTCjvKQ46EEUrBz
+         8/uTebpDA6rbqZtdsODN6/4nF63qdZAz4/PreBNmwZm3t39fZStTtC1YmyWDVmnK8GY9
+         Cd3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/LN69GQTNhuXZHHSe1e2Ql54Rtr3hx6F915OYB0iaWIeBttDKslbQ4YcIX2jCMlCP3Qf8PgDGVpB0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSUl3I86d0KYb3s3/3dcjOkfPj2r2fcgpA5T4/SQKssAm6Rq3A
+	H20T0YefR8qJA7W32mKPac9sVReW6qFAyTlWk3jfXqpDktjqIbC6YNTkDBHC5SvnsNMlJj65Rjt
+	/7Rn1pBnY82SZDsQ+0PoBxZIACZHkMvk=
+X-Gm-Gg: Acq92OE18MfW5s1wJ36FSDnhG+TKIILYiLaUXvxRpZMKIPYst3ghUxxG0UIk1wy0AuB
+	fr5xuEXFi/SCDCIbqddiuHEu7nCXa0mMbENhvc+rmARjy2rSHUpGXeDRrKqtSsH8dNa50GKmemE
+	hL+CQXAwSth5yBr0kHd8OqwRE27D3U9Iw6UDtUij6G9qdLFdl3jWz8YmEe+0h3tGq5c1CucpPHE
+	un4sbIkXuUHb8SGcbG5OvMCr0SMlUL//9cVnyKRBf0w01c67MSrGQTU43eUc/9oqzrQ3LnmMdVb
+	Cwqfn4P3z9tGFKtiBA==
+X-Received: by 2002:a17:907:180d:b0:bee:426:87ec with SMTP id
+ a640c23a62f3a-bf373406e26mr1072354066b.23.1781053459895; Tue, 09 Jun 2026
+ 18:04:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260509094755.2838-3-w@1wt.eu> <20260609083305.2382925-1-safinaskar@gmail.com>
+ <2026060955-zesty-cucumber-1a49@gregkh>
+In-Reply-To: <2026060955-zesty-cucumber-1a49@gregkh>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Wed, 10 Jun 2026 04:03:43 +0300
+X-Gm-Features: AVVi8CesfF4bLT9_Snc2YXPWKoSW60IqNZaAXq7DWSN-_1Z-KtDb-T9FSYBGXYU
+Message-ID: <CAPnZJGAKHu4rR8+W67KRQYVwRqi3x2Y+iWwhG7a2bY7oEawhfg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] Documentation: security-bugs: explain what is and
+ is not a security bug
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: w@1wt.eu, corbet@lwn.net, leon@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, security@kernel.org, skhan@linuxfoundation.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Thank you for answer!
 
-With the introduction of container_of-style BTF typecasting and
-per-CPU variable access support in trace probes, we need a way to
-verify their functionality and prevent regressions.
+On Tue, Jun 9, 2026 at 11:44=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+> > - If unprivileged user prevents privileged user from suspending
+> > system, is this security bug?
+>
+> Physical access of suspending a machine feels like an odd threat model
+> to be worried about :)
 
-Add a new ftrace kselftest and update the trace event sample module
-to test and validate these features.
+I think you didn't understand me here. I meant the following situation:
+unprivileged user without physical access was somehow able
+to prevent privileged user with physical access from suspending
+or hibernating the system.
 
-Specifically, update the trace-events-sample module to set up a
-periodic timer whose callback accesses a per-CPU counter. Introduce
-a new sample trace event, foo_timer_fn, to trace this callback
-and log the current counter value.
-
-Then, add a new test case, btf_probe_event.tc, which defines a
-dynamic probe on the timer callback. The probe uses BTF typecasting
-to recover the parent structure from the timer argument and
-this_cpu_read() to fetch the per-CPU counter. The test verifies
-the integrity of the implementation by ensuring the values
-recorded by the dynamic probe match those from the static tracepoint.
-
-Assisted-by: Antigravity:gemini-3.5-flash
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- Changes in v2:
-  - Use timer_shutdown_sync() instead of timer_delete_sync() for teardown.
----
- samples/trace_events/trace-events-sample.c         |   40 +++++++++++++++-
- samples/trace_events/trace-events-sample.h         |   34 ++++++++++++-
- .../ftrace/test.d/dynevent/btf_probe_event.tc      |   51 ++++++++++++++++++++
- 3 files changed, 120 insertions(+), 5 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-
-diff --git a/samples/trace_events/trace-events-sample.c b/samples/trace_events/trace-events-sample.c
-index b61766864b54..2a1f73533a38 100644
---- a/samples/trace_events/trace-events-sample.c
-+++ b/samples/trace_events/trace-events-sample.c
-@@ -93,6 +93,20 @@ static int simple_thread_fn(void *arg)
- 
- static DEFINE_MUTEX(thread_mutex);
- 
-+static struct foo_timer_data *foo_timer_data;
-+
-+static void sample_timer_cb(struct timer_list *t)
-+{
-+	struct foo_timer_data *data = container_of(t, struct foo_timer_data, timer);
-+
-+	get_cpu();
-+	trace_foo_timer_fn(data);
-+	(*this_cpu_ptr(data->counter))++;
-+	put_cpu();
-+
-+	mod_timer(t, jiffies + HZ);
-+}
-+
- int foo_bar_reg(void)
- {
- 	mutex_lock(&thread_mutex);
-@@ -124,9 +138,27 @@ void foo_bar_unreg(void)
- 
- static int __init trace_event_init(void)
- {
-+	foo_timer_data = kzalloc_obj(*foo_timer_data, GFP_KERNEL);
-+	if (!foo_timer_data)
-+		return -ENOMEM;
-+
-+	foo_timer_data->name = "sample_timer_counter";
-+	foo_timer_data->counter = alloc_percpu(int);
-+	if (!foo_timer_data->counter) {
-+		kfree(foo_timer_data);
-+		return -ENOMEM;
-+	}
-+
-+	timer_setup(&foo_timer_data->timer, sample_timer_cb, 0);
-+	mod_timer(&foo_timer_data->timer, jiffies + HZ);
-+
- 	simple_tsk = kthread_run(simple_thread, NULL, "event-sample");
--	if (IS_ERR(simple_tsk))
--		return -1;
-+	if (IS_ERR(simple_tsk)) {
-+		timer_shutdown_sync(&foo_timer_data->timer);
-+		free_percpu(foo_timer_data->counter);
-+		kfree(foo_timer_data);
-+		return PTR_ERR(simple_tsk);
-+	}
- 
- 	return 0;
- }
-@@ -139,6 +171,10 @@ static void __exit trace_event_exit(void)
- 		kthread_stop(simple_tsk_fn);
- 	simple_tsk_fn = NULL;
- 	mutex_unlock(&thread_mutex);
-+
-+	timer_shutdown_sync(&foo_timer_data->timer);
-+	free_percpu(foo_timer_data->counter);
-+	kfree(foo_timer_data);
- }
- 
- module_init(trace_event_init);
-diff --git a/samples/trace_events/trace-events-sample.h b/samples/trace_events/trace-events-sample.h
-index 1a05fc153353..816848a456a2 100644
---- a/samples/trace_events/trace-events-sample.h
-+++ b/samples/trace_events/trace-events-sample.h
-@@ -247,12 +247,14 @@
-  */
- 
- /*
-- * It is OK to have helper functions in the file, but they need to be protected
-- * from being defined more than once. Remember, this file gets included more
-- * than once.
-+ * It is OK to have helper functions and data structures in the file, but they
-+ * need to be protected from being defined more than once. Remember, this file
-+ * gets included more than once.
-  */
- #ifndef __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
- #define __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
-+#include <linux/timer.h>
-+
- static inline int __length_of(const int *list)
- {
- 	int i;
-@@ -270,6 +272,13 @@ enum {
- 	TRACE_SAMPLE_BAR = 4,
- 	TRACE_SAMPLE_ZOO = 8,
- };
-+
-+struct foo_timer_data {
-+	const char		*name;
-+	struct timer_list	timer;
-+	int __percpu		*counter;
-+};
-+
- #endif
- 
- /*
-@@ -595,6 +604,25 @@ TRACE_EVENT(foo_rel_loc,
- 		  __get_rel_bitmask(bitmask),
- 		  __get_rel_cpumask(cpumask))
- );
-+
-+TRACE_EVENT(foo_timer_fn,
-+
-+	TP_PROTO(struct foo_timer_data *data),
-+
-+	TP_ARGS(data),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,			data->name	)
-+		__field(	int,			count		)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->count	= *this_cpu_ptr(data->counter);
-+	),
-+
-+	TP_printk("name=%s count=%d", __get_str(name), __entry->count)
-+);
- #endif
- 
- /***** NOTICE! The #if protection ends here. *****/
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-new file mode 100644
-index 000000000000..96791e120b7d
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-@@ -0,0 +1,51 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: BTF event with typecast and percpu access
-+# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+# Check if the sample module is loaded
-+if ! lsmod | grep -q trace_events_sample; then
-+  modprobe trace-events-sample || exit_unsupported
-+fi
-+
-+echo 0 > events/enable
-+echo > dynamic_events
-+
-+# The sample_timer_cb(struct timer_list *t) is called.
-+# We want to check (STRUCT,FIELD)VAR typecast and this_cpu_read() access.
-+# (foo_timer_data,timer)t converts t to struct foo_timer_data * using container_of.
-+# data->counter is a per-cpu pointer to int.
-+# this_cpu_read(data->counter) should give the value of the counter.
-+
-+echo 'f:mysample/myevent sample_timer_cb name=(foo_timer_data,timer)t->name:string count=this_cpu_read((foo_timer_data,timer)t->counter)' >> dynamic_events
-+
-+echo 1 > events/mysample/myevent/enable
-+echo 1 > events/sample-trace/foo_timer_fn/enable
-+
-+sleep 2
-+
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+
-+# Compare the values.
-+MATCH=0
-+while read line; do
-+  if echo $line | grep -q "foo_timer_fn:"; then
-+    NAME=`echo $line | sed 's/.*name=\([^ ]*\) .*/\1/'`
-+    COUNT=`echo $line | sed 's/.*count=\([^ ]*\).*/\1/'`
-+    if grep -q "myevent:.*name=\"${NAME}\" count=$COUNT" trace; then
-+       MATCH=$((MATCH+1))
-+    fi
-+  fi
-+done < trace
-+
-+if [ $MATCH -eq 0 ]; then
-+  echo "No matching events found"
-+  exit_fail
-+fi
-+
-+# Clean up
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+echo > dynamic_events
-+clear_trace
-
+--=20
+Askar Safin
