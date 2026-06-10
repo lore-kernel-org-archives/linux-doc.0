@@ -1,30 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BDB257824;
-	Wed, 10 Jun 2026 04:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A008370D6F;
+	Wed, 10 Jun 2026 04:36:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781066170; cv=none; b=JSi0ndy7qxfmRltXHZpmus4igBQ/2jfQbNl9K+qo/6IOGBvbIvNw2tSQaZ/NDXS7ZJCwr8RUzA2ZhGKHTDzyvqGdiLakBQ1Qw6wYbQQqiKiMnNelgdenHonRZrOmacd1bqaJh2xzzjEUngbelMkrNamtYn3XxFGypYmI5rA3+f8=
+	t=1781066172; cv=none; b=d9YunrI2a2oZUXbHKGvSq+CVPgZOM+2EtA8454wTLIJuRR9yIBz62gHcZ7QQV7alRc2w7fgtRWPYRR0pNzUXXW9CcjCRmDiOVTgub3azMw9923BrYTKxLqtBhNDqx+NwWwFT8SBJGNEMC+UzroTce53x/Usy6MWOWTPXUmhWeQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781066170; c=relaxed/simple;
-	bh=3GXiGY517xe/UadGb37rObRReqoIjBTBisS6jBAfnwI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D3qUiB+ELzCCbkUGiAs/SY5RjKecfc/yOaz6D1/WCwY0Temyn9ZsDQQyNdcWbkfbYFwwZJona/6p+2KBoPWqI0w80MAGQDtWQYK50B/w4GhDrWXRr7kAA77UqlufGFs3I1LZe6HNxWf4q5JQiChcWul3LlCrWPZRFlCu1wjOtXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Hve/LHH2; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1781066172; c=relaxed/simple;
+	bh=Adf3UUubAzeI6nT0ruRbYrEdRb+IDFoKB/5Y4BllNRU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=EeRSmHeRn+61Qkj5WRJhfOXGvOkB1RSXmQhfAJJRHxzVXPwLBAEZ1hn6zUoM1TZy4HMHfs6+rBmO9F2C3x0jwfC+nKt1IB2IsyZ8sd4iX7E4KpuQP5t5Lj5/XotJIxMQWUDOlnzxMOWhiPynw4nQShG+CvRuao3FTB2Vn7ZFn54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QJTDO5S3; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Hve/LHH2"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QJTDO5S3"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C98025E3;
-	Tue,  9 Jun 2026 21:35:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92AC84723;
+	Tue,  9 Jun 2026 21:36:05 -0700 (PDT)
 Received: from ergosum.cambridge.arm.com (ergosum.cambridge.arm.com [10.1.196.45])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 649AB3FD88;
-	Tue,  9 Jun 2026 21:36:00 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0F52C3FD88;
+	Tue,  9 Jun 2026 21:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781066162; bh=3GXiGY517xe/UadGb37rObRReqoIjBTBisS6jBAfnwI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Hve/LHH2Etq+3KMCwxsq4ZEOskp1J2Nr8Z9uojcgE70CS6uPIvW1k9fRwrY2FGboV
-	 aCO2Afv0S7Bp3/bYEB3PLcRyhZ7PiPFYJSRRhT7gZG3whe+uQKwJKE2SXxNBuKmIkM
-	 ceqpLlWypcrtSf3RU+anYjwe5QHflJRBijB7520w=
+	t=1781066170; bh=Adf3UUubAzeI6nT0ruRbYrEdRb+IDFoKB/5Y4BllNRU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QJTDO5S39rsz+D7aX+2P7dXYCwOJ1lARvf3pcBiWVpOu7oWro/1B+TRRFQ7T77Vfu
+	 lenwi66r82vEP0f8KxHBHgrR546fRcMendj+3T1SW+OUTSps1MdwB6otBlnhSYrutB
+	 NRx5xHfCsgElhQP6pKoujBnPnEMznXbCcJqOmKMI=
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -37,11 +38,15 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	David Hildenbrand <david@redhat.com>,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC V2 0/3] lib/vsprintf: Add support for pgtable entries
-Date: Wed, 10 Jun 2026 05:35:42 +0100
-Message-Id: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+	linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Subject: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
+Date: Wed, 10 Jun 2026 05:35:45 +0100
+Message-Id: <20260610043545.3725735-4-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,60 +55,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Printing page table entries has been a common requirement both in generic
-and platform memory management for various purposes. Hence let's create a
-dedicated printk format for such entries which will also help standardize
-pgtable printing across different platforms.
+Replace all existing pgtable entry prints with recently added new format in
+__print_bad_page_map_pgtable().
 
-Also add a test for this new print format in lib/tests/printf_kunit.c via
-existing CONFIG_PRINTF_KUNIT_TEST.
-
-This series applies on v7.1-rc7
-
-This series has been tested on arm64 but built tested on several others
-including x86, powerpc, s390, riscv, and mips etc. Although it does not
-build on arm32 platform due to existing pgdp_get() concerns.
-
-Changes in V2:
-
-Accommodated most suggestions from Petr Mladek and others
-
-- Moved __print_bad_page_map_pgtable() changes into a separate patch
-- Added helper pxd_pointer() for pgtable print format
-- Added buffer check via check_pointer()
-- Added special_hex_number() for base case printing
-- Added static_assert() to ensure acceptable pxd_t size
-- Avoided direct dereferences and used pxdp_get() helpers instead
-- Improved printf KUNIT tests for all level page table entries
-
-Changes in V1:
-
-https://lore.kernel.org/all/20250618041235.1716143-1-anshuman.khandual@arm.com/
-
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
 Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
 Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
 
-Anshuman Khandual (3):
-  lib/vsprintf: Add support for pgtable entries
-  kunit: printf: Add test for pgtable entries
-  mm: Replace pgtable entry prints with new format
+ mm/memory.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
- Documentation/core-api/printk-formats.rst | 19 ++++++++
- lib/tests/printf_kunit.c                  | 57 ++++++++++++++++++++++
- lib/vsprintf.c                            | 58 +++++++++++++++++++++++
- mm/memory.c                               | 15 ++----
- scripts/checkpatch.pl                     |  2 +-
- 5 files changed, 140 insertions(+), 11 deletions(-)
-
+diff --git a/mm/memory.c b/mm/memory.c
+index 86a973119bd4..8a25790f7c24 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -521,7 +521,6 @@ static bool is_bad_page_map_ratelimited(void)
+ 
+ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
+ {
+-	unsigned long long pgdv, p4dv, pudv, pmdv;
+ 	p4d_t p4d, *p4dp;
+ 	pud_t pud, *pudp;
+ 	pmd_t pmd, *pmdp;
+@@ -532,34 +531,30 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+ 	 * see locking requirements for print_bad_page_map().
+ 	 */
+ 	pgdp = pgd_offset(mm, addr);
+-	pgdv = pgd_val(*pgdp);
+ 
+ 	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
+-		pr_alert("pgd:%08llx\n", pgdv);
++		pr_alert("pgd:%ppgd\n", pgdp);
+ 		return;
+ 	}
+ 
+ 	p4dp = p4d_offset(pgdp, addr);
+ 	p4d = p4dp_get(p4dp);
+-	p4dv = p4d_val(p4d);
+ 
+ 	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
+-		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
++		pr_alert("pgd:%ppgd p4d:%pp4d\n", pgdp, p4dp);
+ 		return;
+ 	}
+ 
+ 	pudp = pud_offset(p4dp, addr);
+ 	pud = pudp_get(pudp);
+-	pudv = pud_val(pud);
+ 
+ 	if (!pud_present(pud) || pud_leaf(pud)) {
+-		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
++		pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud\n", pgdp, p4dp, pudp);
+ 		return;
+ 	}
+ 
+ 	pmdp = pmd_offset(pudp, addr);
+ 	pmd = pmdp_get(pmdp);
+-	pmdv = pmd_val(pmd);
+ 
+ 	/*
+ 	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
+@@ -567,8 +562,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+ 	 * doing another map would be bad. print_bad_page_map() should
+ 	 * already take care of printing the PTE.
+ 	 */
+-	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
+-		 p4dv, pudv, pmdv);
++	pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud pmd:%ppmd\n", pgdp,
++		 p4dp, pudp, pmdp);
+ }
+ 
+ /*
 -- 
 2.30.2
 
