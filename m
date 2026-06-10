@@ -1,112 +1,110 @@
-Received: from mail-dy1-f196.google.com (mail-dy1-f196.google.com [74.125.82.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3885E1898FB
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 23:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1675F299A82;
+	Wed, 10 Jun 2026 23:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781133523; cv=none; b=dZbScfvMLv368OhmK1ZZaLx7jyfR/X98O6Tqd0zi3sfO/piwZWZ6R5bcufZk58f+AIJTrjnh3Jp1yCV0N9GeRtWUz0SiQsiDZQ7JdKp4qJGRcD7OiX0kZS/3Nr1aOOP88YfPmSV7bKoJIjVyJvge1QD/HUctN/r5cn48hMWH4KA=
+	t=1781133681; cv=none; b=PP8/v77ABocUx6Zx/mH9Zb1rATWR1++xb36J5kqxy26wGiQLJojgh0fai3R7LgTvCiSBcHzPqnUHoO47Ufh8HI/9w31fEzRvPcucLLxyhJ4O7RKth9fxu6h6ef42+YjaadNoTrEY2xBuGUU5w5gohHFgnrO/imHnLnshKzYPXkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781133523; c=relaxed/simple;
-	bh=rkjjO5pxzFctyrTr+CwayyXW2YpprIbiGXAM+INBvUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=M4a26z5SSvbJ8TyYxicffAr3Ct1yLYFmwJriDRyDzHvggIf68eUKdUE0oXwTC0llr8pO7c1ezMtaDhR4725F+8yfDim629ntsC2QcaIfdrSGGNX6kjN//K505PrCw4n/3lTIA6+9x6UO+nZY/OdhpvHcg3fOE4aPRaH7D18V2zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ezkTgP2A; arc=none smtp.client-ip=74.125.82.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781133681; c=relaxed/simple;
+	bh=0ADfnQ8czZLpWCsiojUzxdOuhYUqCYDerD2scETEEgY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hSR8pQCTzrYdU045Wjn3JHdZNrFHEFsa2GzDl+s+WumFEoSuYUhb6catpF9EcKq87epQRXRxj9P/fZeJAihdQqT6ZTmB7Rshj6pPW3PENJ2xY7ChUAIaDq1CRE6eVB7vsZgywlfL5mSoAh91wrAmk2V44xI9Yz4UAoAUnlGKPRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U3qJBmhZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ezkTgP2A"
-Received: by mail-dy1-f196.google.com with SMTP id 5a478bee46e88-304c520fe9aso3210106eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 16:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781133521; x=1781738321; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ANGtK4BeWqYmldrfLHPeqZJXCU59HxlJn1gO/V6BzGA=;
-        b=ezkTgP2ApWZp3OH5NtwTjT/1nDUi5cousXzmNJWpoYO/C1X2XMyEanSOT+Tun+FzG7
-         aO2Pzy5J6a789tjonO6AF8qt5uRkDNImGl2xuEJhnp1jeeGTQFHhohsEzfjBr27TD9l8
-         lwweVKd77U27dX4ykdkBmTod8D3Am7LYL4pMMMcuYnLs097ug1hDihAtV6BfN8N6dAKa
-         Eh6n+uxuA9MMYM+CWEgxDBHkPmpVHpv4yDq9cUSlve4AFNNJ1gRoFn/0OLANMoEspvE8
-         ipV4kZWGt+m8kg7GLHpvCuxozEq5PiTKVz1E8v3OzxrP9N7POYPGiHRJayn+MXX4bvYH
-         Jn1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781133521; x=1781738321;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ANGtK4BeWqYmldrfLHPeqZJXCU59HxlJn1gO/V6BzGA=;
-        b=hHcpjwG4wc5Z4WaClwSyPhi5zfzyKMNy8r5WfTUP2TBBTr2PmR5rDn4FPW4zEFOohk
-         dkYbcIYZrewyLbaVgqG8PhBcZu4FrEfui73WTeTWK7blzWOGQS8Q3+1XRlaC6dQCWnAb
-         PKvrnrWkYulL/Ug5oIYZrXC8WPHqMfqFw2EbbCc0yKZmfuBKouieaqeS/8zUmpFM0cGr
-         I+Feq3DYRVCCp+G8kzlLXKbCVFqaCyCk6f1TRAzAkNFxigr2vfW6I1kS2pajYVLCnY9s
-         WNa8TFH7Utb3xGm+NOi1d4MX5g8zWutSjWBhtj4TjUJH/oBy61MipaZNvsa6epmCt4r8
-         ixrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+YAzGY5n4HvW/s7+J6xW63+RZeKhmjpmtdUhWfz8xJ2Xp2thxBzsEhDUKYT8r/Pex8dbr+aAJ6lF8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaYiA7hr6o8QvKxZbt2Yw5VlNySROoZ/1W2WoxjjBpz8t/MFy6
-	D0B/ZwVESXVfBZ4ByskD4ZTyuQGa0HUH2M8zYt1f6RDcYQJFc04Vybqp
-X-Gm-Gg: Acq92OEkZfyB/mrhdb9K4GmY0rZmf6HTTwQgiHppLPCi4lgvZ3QKol8ngGIjXaJdB9U
-	fNfst0uz14a8EEzgBrL/J7jmheZEFGemGfTn5MfvlPwCwiGThQXvO9U1T+YpxxuiUnVlIr5MrvK
-	A3T0WV38YR0/svgHW5Z83C7KHTVyiXvThbELmnoSdisR0q6X4dxohbAaKfdoYCSPNgUT1KGrx1E
-	iOaHnTZ3zII0bAZmKjoeBVtXmar3SYaTnXnJG2/7k7rWn8F2AkoJP5uqD1XZARlyoDv39UztLRo
-	CP/alZ+SDmR5sZecLR7RuJt4ZuhpFoeUv0t+SR8WGElvdUd/HqRRBxHzgr0t6KLRm11cTHqUOp7
-	PkDD57YVl4ju1dPa1IpkNdnTtmnkVAUIXEpzJW3Khr6QgqPf4dWtG/kvZrdJOYcXWgvTh+flCIV
-	2YSnPVcXNVsOHI5GgxfpsCq1fjaqdLskXIyFDo/8yf2OkfamGL/Dq7VK2N/pRUFVYiZc2BrrwJR
-	V9cHwE/SwGu3w4RAZMPcYdEwbrhoD5g1HCKAerMplyN+FXBu8TmE91/eCTo6Limx9KL5Ev0ISdt
-	LmlbxOWY4PJwONzUHFc9HTt761pW
-X-Received: by 2002:a05:693c:3111:b0:304:8364:e95f with SMTP id 5a478bee46e88-30804a5e564mr255723eec.27.1781133521166;
-        Wed, 10 Jun 2026 16:18:41 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db528dcsm33754933eec.3.2026.06.10.16.18.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 16:18:40 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: Dongliang Mu <dzm91@hust.edu.cn>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kees Cook <kees@kernel.org>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs/zh_CN: fix CONFIG_CONPAT typo for CONFIG_COMPAT
-Date: Wed, 10 Jun 2026 16:18:29 -0700
-Message-ID: <20260610231836.186610-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U3qJBmhZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=9wCKYk9ipCH/BA7MdLEIq6BkUVsdEsoO78w2x/7sZ2o=; b=U3qJBmhZf9CRxCeA9tY1a8rgQK
+	VvNBvitBupG4j41A1Ykgftr3bSAm13ZJ0N4DoyA6EgcFfHoTyGTgf8MuPFhEJZ4m9+yAQC6GFN+0F
+	4eYxlOSCkUY77IiU3VRCOxJ4e4USN+ibwSWtegvdo8Szvr3bac1IP0a7K55skCtAYL0lVB6ZPzBij
+	+4cAGwMm1CCKcvgjGXt424jkhsEIhvieJf+HCnTRRxv1grn1ByCaUJasJDvzgsHlgeUQAULnTnKXm
+	TmLpaw9y0Fx0kGpVnJVnsyF40yPZN68nSv0J7V1dhsXi79IA5S3d26gLRYcNvvt4cnNTCC/x7XnR6
+	ivK9G/5w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wXSEX-00000008Sdk-3Vuf;
+	Wed, 10 Jun 2026 23:21:17 +0000
+Message-ID: <cf1a1f6d-df63-45cd-b73a-cd3e26f2ce4a@infradead.org>
+Date: Wed, 10 Jun 2026 16:21:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/4] Documentation: PCI: Add documentation for DOE
+ endpoint support
+To: Aksh Garg <a-garg7@ti.com>, linux-pci@vger.kernel.org,
+ linux-doc@vger.kernel.org, mani@kernel.org, kwilczynski@kernel.org,
+ bhelgaas@google.com, corbet@lwn.net, kishon@kernel.org,
+ skhan@linuxfoundation.org, lukas@wunner.de, cassel@kernel.org,
+ alistair@alistair23.me
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
+References: <20260610100256.1889111-1-a-garg7@ti.com>
+ <20260610100256.1889111-5-a-garg7@ti.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260610100256.1889111-5-a-garg7@ti.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The Simplified Chinese translation of security/self-protection.rst
-contains a typo CONFIG_CONPAT for CONFIG_COMPAT. Fix it.
 
-I don't speak Chinese, but I verified that CONFIG_COMPAT was what was
-intended via Google Translate.
 
-Discovered while searching for CONFIG_* symbols referenced in code but
-not defined in any Kconfig file.
+On 6/10/26 3:02 AM, Aksh Garg wrote:
+> Document the architecture and implementation details for the Data Object
+> Exchange (DOE) framework for PCIe Endpoint devices.
+> 
+> Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Signed-off-by: Aksh Garg <a-garg7@ti.com>
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
----
- Documentation/translations/zh_CN/security/self-protection.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-diff --git a/Documentation/translations/zh_CN/security/self-protection.rst b/Documentation/translations/zh_CN/security/self-protection.rst
-index 93de9cee5c1a..ad96bb4a4995 100644
---- a/Documentation/translations/zh_CN/security/self-protection.rst
-+++ b/Documentation/translations/zh_CN/security/self-protection.rst
-@@ -97,7 +97,7 @@ ARCH_OPTIONAL_KERNEL_RWX时的默认设置。
- --------------------
- 
- 对于64位系统，一种消除许多系统调用最简单的方法是构建时不启用
--CONFIG_CONPAT。然而，这种情况通常不可行。
-+CONFIG_COMPAT。然而，这种情况通常不可行。
- 
- “seccomp”系统为用户空间提供了一种可选功能，提供了一种减少可供
- 运行中进程使用内核入口点数量的方法。这限制了可以访问内核代码
+> ---
+> 
+> Changes from v4 to v5:
+> - Updated the DOE Abort handling setion.
+> 
+> Changes from v3 to v4:
+> - Updated the maximum size of the DOE object from 256KB to 1MB,
+>   as per PCIe spec.
+> - Updated the DOE setup and cleanup sections.
+> 
+> Changes from v2 to v3:
+> - Rebased on 7.1-rc1.
+> 
+> Changes since v1:
+> - Squashed the patches [1] and [2], and moved the documentation file
+>   to Documentation/PCI/endpoint/pci-endpoint-doe.rst to match the existing
+>   naming scheme, as suggested by Niklas Cassel
+> - Updated the documentation as per the design and implementaion changes
+>   made to previous patches in this series:
+>   * Updated for static protocol array instead of dynamic registration
+>   * Documented asynchronous callback model
+>   * Updated request/response flow with new callback signature
+>   * Updated memory ownership: DOE core frees request, driver frees response
+>   * Updated initialization and cleanup sections for new APIs
+> 
+> v4: https://lore.kernel.org/all/20260522052434.802034-5-a-garg7@ti.com/
+> v3: https://lore.kernel.org/all/20260427051725.223704-5-a-garg7@ti.com/
+> v2: https://lore.kernel.org/all/20260401073022.215805-5-a-garg7@ti.com/
+> v1: [1] https://lore.kernel.org/all/20260213123603.420941-2-a-garg7@ti.com/
+>     [2] https://lore.kernel.org/all/20260213123603.420941-5-a-garg7@ti.com/
+> 
+>  Documentation/PCI/endpoint/index.rst          |   1 +
+>  .../PCI/endpoint/pci-endpoint-doe.rst         | 333 ++++++++++++++++++
+>  2 files changed, 334 insertions(+)
+>  create mode 100644 Documentation/PCI/endpoint/pci-endpoint-doe.rst
+
+
 -- 
-2.43.0
-
+~Randy
