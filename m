@@ -1,65 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B795E23817E;
-	Wed, 10 Jun 2026 02:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301421DB13A;
+	Wed, 10 Jun 2026 02:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781056987; cv=none; b=Vm03Yz8EK+JfaIEymGcGTOX5zDqYCeoVzVbvL1zjjsAijdDlf1HU5mmjEwBrXNoyqLeH3WcA1AOEAogSAKoLP8FwKzbiujfVTKkO0LhI3ESJO1n6K2BRPMOnkj38nfZIQ3/b6xbNDpEA7ULcWKPB4P1zFMHwcwu4AVXeFgE3cUU=
+	t=1781057494; cv=none; b=uUL56zFkJmSL8AZhXvTLSuJiWUp6+AUvxUKliXjCu36iBtrOAeG8teB/BZ9I1MaZ6m/dQxr05lBwWsVn5T4pVeA2MH96Ro/qFBeXoXHIDS5f49X6liKrcyFw/QGpTQxRfQ2Gqyt8tzLaEFailV449Ub5UrB4+DhgDZQruxvnJWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781056987; c=relaxed/simple;
-	bh=W/5i041repKS0mG5elrQdpAcF0JJTGFCaAA6m5EyEgc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XZeSZtFQ/V85IeOUNNtw2SAZ38HibNTkFGsfNoR81WlVmiSiw/3HdNBs983b7Z/V4EuboVWe9zushEam4F5cfWZwhK0/zyw7Z0U1XNCX7axssEvqLYz8UIjAh6N5hYmJk7bFKB574ex9zzEN92dEn/a8yHvgZqBT+vI1xKCVBJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+X11G5I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781057494; c=relaxed/simple;
+	bh=gLSIjdG5BuDTMQwQwS1uDaeNaGsEX59WvN3iuG/bqs0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cuy7I82/ItwPsIhU/Ax2CNTnKFwlzTbBSgmJ5dCYIh7MrBDeqcqRCdASiZNxWVoCc5dlzmHjEtlPl6kRxHO8eyh9j/05TeBNMKilV4N47+WDzqliTzsviRJAnCpk4iSgd2s+TE27pBTB7WHzE4IDmWo+hZJMWlQHA37zuH7lFYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vb3hlGfU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+X11G5I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 931B71F00893;
-	Wed, 10 Jun 2026 02:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781056986;
-	bh=7l48xgA2RCbzfca0T82uFke0CpEFcH8eHBslok+lvCo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=L+X11G5Ix0WLRjS1ahDSYpy9KkQXYxZFk3bu4mR4HCbJmtXL/quMl8hRM60xBd5iD
-	 VwSmOBjEWF6s9U8/UFD9duB5DCaCf6I1Y7fBthwyE92M3O9u3XbURB/mHZSXZF1erw
-	 YFB6xmYWDT8N4Hz3Lke1e3sD1ym8R815H42D3R426c0i5GgCu5qcW5naDoPqsnHlGH
-	 0hcvEaHHaZxToBJCh7DvhlRkeOlMayOnB2ywW+gOC5BiUxt4VvzfHq9KehjoczWSZs
-	 y3oZKl2d4/klIGa4l75keBifWleSJfGFim7aW03/gI2UUDwGniMVJu0WzBp5BW7Ejt
-	 ev19jIm2/gkCA==
-Date: Tue, 9 Jun 2026 19:03:04 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>,
- <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana
- Ciornei <ioana.ciornei@nxp.com>, Mohsin Bashir <mohsin.bashr@gmail.com>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
- <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
- <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
- <shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v08 4/5] hinic3: Add ethtool rss ops
-Message-ID: <20260609190304.0e08826a@kernel.org>
-In-Reply-To: <c9945323626546592031f3a2c65c798cfa66fdc9.1780907605.git.wudi234@huawei.com>
-References: <cover.1780907605.git.wudi234@huawei.com>
-	<c9945323626546592031f3a2c65c798cfa66fdc9.1780907605.git.wudi234@huawei.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vb3hlGfU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=+332RfviDFmosxfnra0lv/IVT8wsowCDLEf5I3GvlTY=; b=Vb3hlGfUuMJJuhlyghliwYMSz8
+	q6qe4bLn8KyNUZkXxAldyvHJqlPgAGAkdtNgApcJShCMrcviS/1lgGw8q6FhIpVZzif9Bgw/BXZxf
+	GpOriiWnwrvmVRz1E9ZbW1ah+w4J9T2mccSiFyokCzNlKyr4d693Ox06l6vr3lF6mon0BkEzBciKo
+	XTqEtfnRbCT/yZYMCYs855fV8p8yz8hd/uMFzRziDhCIErzEp/4WiVJGa/EwouShL5ost+6FZnoxM
+	haLhQbDzosbTlFpWDydbfUGjQrgqacNgwjEdLgbNcm0gSXjYEsJgFZ/r6bXk+YEm+ZwfcdCZH4Xzn
+	PjW7AuDg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wX8Pi-00000006gXZ-0Q5y;
+	Wed, 10 Jun 2026 02:11:30 +0000
+Message-ID: <115493bd-8a8e-4192-ae75-6bfaf0e99a90@infradead.org>
+Date: Tue, 9 Jun 2026 19:11:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: docs: remove references to removed
+ CONFIG_SND_HDA_POWER_SAVE
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Rhys Tumelty <rhys@tumelty.co.uk>
+References: <20260610015614.41530-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260610015614.41530-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 8 Jun 2026 20:36:33 +0800 Fan Gong wrote:
-> +	}
-> +
-> +	indir_tbl = (__le16 *)pair.out->buf;
-> +	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-> +		indir_table[i] = le16_to_cpu(*(indir_tbl + i));
 
-This cast needs a __force
 
-drivers/net/ethernet/huawei/hinic3/hinic3_rss.c:771:9: warning: cast from restricted __le16
+On 6/9/26 6:56 PM, Ethan Nelson-Moore wrote:
+> The CONFIG_SND_HDA_POWER_SAVE option was removed in commit 83012a7ccbb9
+> ("ALSA: hda - Clean up CONFIG_SND_HDA_POWER_SAVE"), but references to
+> it remained in documentation. Remove them.
+> 
+> Discovered while searching for CONFIG_* symbols referenced in code but
+> not defined in any Kconfig file.
+> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+
+LGTM. Thanks.
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/sound/designs/powersave.rst | 5 +++--
+>  Documentation/sound/hd-audio/notes.rst    | 3 ---
+>  2 files changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/sound/designs/powersave.rst b/Documentation/sound/designs/powersave.rst
+> index ca7d1e838b4d..4b9d6d0b0d98 100644
+> --- a/Documentation/sound/designs/powersave.rst
+> +++ b/Documentation/sound/designs/powersave.rst
+> @@ -3,8 +3,9 @@ Notes on Power-Saving Mode
+>  ==========================
+>  
+>  AC97 and HD-audio drivers have the automatic power-saving mode.
+> -This feature is enabled via Kconfig ``CONFIG_SND_AC97_POWER_SAVE``
+> -and ``CONFIG_SND_HDA_POWER_SAVE`` options, respectively.
+> +For HD-audio devices, this feature is enabled if ``CONFIG_PM`` is
+> +enabled. For AC97 devices, it is enabled via the Kconfig
+> +``CONFIG_SND_AC97_POWER_SAVE`` option.
+>  
+>  With the automatic power-saving, the driver turns off the codec power
+>  appropriately when no operation is required.  When no applications use
+> diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
+> index 6993bfa159b4..1412a8eabfa8 100644
+> --- a/Documentation/sound/hd-audio/notes.rst
+> +++ b/Documentation/sound/hd-audio/notes.rst
+> @@ -341,9 +341,6 @@ hwdep option above.  When enabled, you'll have some sysfs files under
+>  the corresponding hwdep directory.  See "HD-audio reconfiguration"
+>  section below.
+>  
+> -``CONFIG_SND_HDA_POWER_SAVE`` option enables the power-saving feature.
+> -See "Power-saving" section below.
+> -
+>  
+>  Codec Proc-File
+>  ---------------
+
+-- 
+~Randy
