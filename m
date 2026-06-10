@@ -1,107 +1,149 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FD6D3FCB3A;
-	Wed, 10 Jun 2026 12:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781095421; cv=none; b=JgzGxcQXJSp1O2tAWqrH+fNLPte1iXoNmlvPYjKvavtwKJyJ3Hb+y5TnI/lBRpl0JXcZrY3MX16zaVdE8RmdaAWZqApdAGpSV8zhgdL3I7M03D5GnhJL2fWmslXmYJzgiFi+mOEtrbs7AG00MZp4IeVJYkr9e244VAkw1L0tlZY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781095421; c=relaxed/simple;
-	bh=kpajauAMier9YxqkV0PniCvx8btFDRzDQ7xNUMW78tA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJRpkLfD98p5Z3WjIJsNC4glrI4zL/yxSvkVL6W3cWzYAuAoR855UGu4yiLEMQTlhSk+hX8kQ6vqIRslgzer6b/trGAJhn1CBhuLzB2fESUPvvdc7IewXz5QOitRCNLVXgzkanrmLLzPi0ix6jD41vChBYLlzzJdJ5TZ8DuE7vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=JEmFMtRl; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011020.outbound.protection.outlook.com [52.101.52.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28B1374A0A;
+	Wed, 10 Jun 2026 12:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781095816; cv=fail; b=NwU2OuGyKGvV+BgBprTCzWyVIPEqeVEJhO/l0MG1xqzj22OTogomagt0OiRbaOhB0kQSCAvNUgt3JCrBi3AScGpflOzPiylTZEdynUjprApEvMpByTgUKBzUIvIHrcuQ3nHjl0UOUxetRlURow2Arho40TNAhb1yCuNBR/O+lvQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781095816; c=relaxed/simple;
+	bh=DcIzUjfDxMKKIdMWDG8U/jKnU8VUJAA1JH9VPSsh7KI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=cAEWVSnwW0D5bbGaptLU3yysrIvzu6JdK/gPP6eQ7xLIhkFxdK9rsw9sjtinkxZAKXmSwl3KMkutyD8fsIAu+N5TYwvV06BqcASi7XnQ6AV5gRnSb5lQ9eIamOd/U/B+/4lbf4NeII37tAy0sEwanNGVvnvyqGyuRchWUF+CkTM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AV63dc3C; arc=fail smtp.client-ip=52.101.52.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="JEmFMtRl"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D29725E3;
-	Wed, 10 Jun 2026 05:43:33 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 274743FDE2;
-	Wed, 10 Jun 2026 05:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781095418; bh=kpajauAMier9YxqkV0PniCvx8btFDRzDQ7xNUMW78tA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEmFMtRlvmXravXCOwPnwIcd4Uqy8sqeBkogah9vEUWATOZBlkG2G+ZaF2a1Xsma/
-	 eD4i+S1ghdIlEbri9qoFKCFpZiu3u41Z+EWBuptIkDfunELUV+UJyI+Rm12L1qsukp
-	 tf7oSn9QkU3/pV4BRC1QzTqiQqEFmfCMhc2ZCdMg=
-Date: Wed, 10 Jun 2026 13:43:32 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	punit.agrawal@oss.qualcomm.com, mrigendra.chaubey@gmail.com,
-	suzuki.poulose@arm.com, chenl311@chinatelecom.cn,
-	fengchengwen@huawei.com, maz@kernel.org, timothy.hayes@arm.com,
-	lpieralisi@kernel.org, arnd@arndb.de, gshan@redhat.com,
-	jic23@kernel.org, dietmar.eggemann@arm.com, sudeep.holla@kernel.org,
-	pierre.gondois@arm.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] cpu/hotplug: Fix NULL kobject warning in
- cpuhp_smt_enable()
-Message-ID: <ailb9N9PqXZUg9vA@arm.com>
-References: <20260610075202.3597031-1-ruanjinjie@huawei.com>
- <20260610075202.3597031-3-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AV63dc3C"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZwcYrhW46+xA+n062VQYWIl77oCQfPKS+ts7LWr0IwNY7jbiH9EbdlDKzs7zUyWsRTYU9t/GQszx++lhNs1lZo3xe93MUMWR3bzr7rmVL6iLt6fq3m9tGwDl9PmTpQOgTLzX03hQukfsuMDByRzu6b2jSzE2piEAEkTh4x0PwFA0rO2yc9PWLDdCZMS5O/aCpj6UngCEKjJy7+AXfFz0tZBMblLODCnf5cWIauKrLyij0YBeq9ej3NLBB8DMxR+2FNa2P5CftSyHC2PZtxLu0CZh2Q5Cx/E2yFoYxjPB/Dn0byzc1NzhQPw39JgbVsWVOjEDOBkplM0P/dbTziA3EQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r94BeHOce8DTr81Gl+BgbzS46aKR8WB4LOn0YG+AOtQ=;
+ b=PBqte2Z4yMCKrapPxHLd0g/UxZN7gfBcw10GGP7YG8Ksi4V9eQz/p3x94Sx99PUEYX0PI+39CixJ2Rz5F4jZBSDthtftBo4zO85H+UM6R5oc+trEYY4QNOG1a4zh9KTlmUEJCnxYgRy+P6PqW8/DWCoKFwwF9+tq4zUZzYiDfF09JW60A+gohKoAV23uy/PRJIu8MNTSYEcW9OnXp0Fvz+/VBznfpmWBIq/O1ps36GqjsPfB791HXT8ZwT+SxJdYXry+ViiajKNwWqSYr5y/pRyzYHEWvrHf1psOnKYPTq0dNsRvWSU/Ag4incea0p/xV+9ZNXM4psqlnvIId0zmIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r94BeHOce8DTr81Gl+BgbzS46aKR8WB4LOn0YG+AOtQ=;
+ b=AV63dc3CcOfmZeDrO71PXcppVWymCe/xuyIBmZHbYEnHYTCcllN8H3TRa66YNDCjqSLfJUMVpONmtGioI7wbLtuGNPKKXDQDH4jy1z0XP9fb48h2fkJEM0WTD2h3ahUhRXZvmJO+cVCwoCAcHucoEnD3ktVPBT91HoAfFsMhixuDZACWNXUjrmgrnE9aP/EzM4ciz1U/s0wdhSKSnfWzq4tFE7HqSPJUavex3OVXarw2c2DSzlqrba5CJtI7VuC41OxiHv/SSrRdGXzqGAmq6ky66uaI4TTAyARAqUbQqxb+GDmPLFVbTMeJTxsMFILugayg5mLpvvDKEjfQ+IvQfQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DS2PR12MB9776.namprd12.prod.outlook.com (2603:10b6:8:2bd::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Wed, 10 Jun
+ 2026 12:50:11 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
+ 12:50:11 +0000
+Date: Wed, 10 Jun 2026 09:50:10 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Will Deacon <will@kernel.org>
+Cc: Shanker Donthineni <sdonthineni@nvidia.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+	Jason Sequeira <jsequeira@nvidia.com>
+Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+Message-ID: <20260610125010.GS1962447@nvidia.com>
+References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
+ <ailKYTOX23EMnJsK@willie-the-truck>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ailKYTOX23EMnJsK@willie-the-truck>
+X-ClientProxiedBy: MN0PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:208:52f::26) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610075202.3597031-3-ruanjinjie@huawei.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DS2PR12MB9776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3adc22e7-50f9-4189-b8c5-08dec6eecf24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|18002099003|22082099003|11063799006|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	vJ3jkc6BNcKHSrGmet7pAfdBI+ZUiSDGoaDqGYE7eXyqFMH3aKJq7GQ/cZGPVZnQAI1/y51R3JpZFwfFxstRPONmmdiKUqUpRbnQB2gRe2FohUzKRqZ9Ba2dgaW3wctW06+EZ7kvrqPkk/p2GVknqQV00NQMcmEMAF+au6aU5bAD4a3HWjOfFlMa99CxDCXH9QKW46zCjBUkJOgH0+hsS7Bvnsa9MGEpQV6LtAhYVzXvQTNPU0i40c1AE9mYgLthbdfZPXz/xGUz3KUfitYujLFkp557K28NN89LZUwnh5ambGDVpLTiFM53jF/aB4C+DaJd3/vwta6RJFnfhAbCn21jw6SZIhiEZ89XP7ufGO+NSwtgj2z8mxgf+BpstfwtKvygcWVv8C50l5ZhctWmchHQ9sFq6b9wzVksvLPUMz4oUNlMCYEqyLigld3KcBdxiKfNU9j80b+Tubm5gVdG6gmE5JRRxUBGSDVy3WhvYaPqqfH2JQjKsihkax8LpF0NQcmJGIDD283MOG9UjN/A7HgprQuW7/X4NHLfk2VEop1afNsLSdZhkiwy+AS0rPDS32DmuCm9X6EUmtRoIV+70lQX9avI6T3BvaIXU6bJO8+LpsYUDJMfamg3Aiy4Hc2/EiQJPEtW417hxDG3IVmooYmkrR1birbqmK1Mt9EIzxorNkqTjpRfRQIRt5Fdhsip
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?tAZJE/hBFb7jm43hJb1Yo/KGbL5BZ/QnWXxWERsridEMuAwpq0zcGQuy4pQf?=
+ =?us-ascii?Q?dkTtir9BvnrBvI/FdGeEgI10Ap9YpqxpNk/dC058eR2m8iDvMLHZs4xv/i3r?=
+ =?us-ascii?Q?V3bGjA2NNPT3DIsNM14NO1kMmcXd9goQyBq/0IySNI/c+B9tUrUrqzYpmZqJ?=
+ =?us-ascii?Q?pY9Sul2xCgv8EheuxENbrmUT7HelU0OKQB13fzK5JrF0nbsu14CoUPGQO2JD?=
+ =?us-ascii?Q?xTswn3NaOjBggO77KrECWB1oSDistoS4YZ/oDsCqiYad0Pxkx65hrCck2zuI?=
+ =?us-ascii?Q?ucSKWnWDJCZt+JEIwtqmLCfeopKOgk3vBsryygza2T2sU/QD7rwaUUO+uUqp?=
+ =?us-ascii?Q?wmTDInvhVs8CIF+ByZoHgbWEyz+2hqyJVx21xFA+s7lsecPKI6I18+7eyRks?=
+ =?us-ascii?Q?tcMP4moKN/gcP7s8ztnhEbgoCQjB0NJXZWk4H6LIlYY4HeqNIDx5LC0DMvkp?=
+ =?us-ascii?Q?aJtWfWMirNS8+8CZyqH3joByyv40djupkg5jTH9/nmdglfpJYbxznEvHq7j7?=
+ =?us-ascii?Q?M3NbXtyQHEZi0WWdXLk7+O7ykBqGVd28+qmy/oDkOpJEByvPCXa9EvTemhat?=
+ =?us-ascii?Q?pxYPBI7kzDqnI27jTXgn+SYfoi8NdZ2LJUvSEhqmBYCXhItslAFX0ZefK9mH?=
+ =?us-ascii?Q?QVyaiPdn5v3KRvLHvK6glBZZ2NgQ9EYg4MR91gMsmbfF1CYOxS//bAJXJJwh?=
+ =?us-ascii?Q?ULEcR32JuIsSHk6BQPeEDQbfZMnxl6wWIx6Iju5OKXMjGT3ezqnThEV/e3a7?=
+ =?us-ascii?Q?lKz8OBV7s46lcVsX8U4PVT5azbzk1/+tGr7aU4nldYsBT1upn3urxBOOLfAY?=
+ =?us-ascii?Q?q7X2RIwVYUxyoq5Y0lBhM1glpVliukruzjiIw8JMv81bkA7Ej+GWOW5wV4T+?=
+ =?us-ascii?Q?K+91VJx2vDB/nfl83o0FlF3HblDfDakjg+bsv/3NdS0Tupj549cxcPaxVsmj?=
+ =?us-ascii?Q?V47NhGbXmVT1om6eVi1R/AOfhuq/+e766NxBvT7IMS8iUPWeQws3+ofH0y4M?=
+ =?us-ascii?Q?PtRuqWpZpWXoZ8++xDiiDhMyXBFaMvzKTIP3ynedaMcyt09e7vxNa5tz5RtZ?=
+ =?us-ascii?Q?fdjgJ8/VQD/GB4fZMqKXPKGv+igjUIRNlLBSYD90i5e88yNXuNRjye2ANFY3?=
+ =?us-ascii?Q?p/draOXpFhUaAwQs+eU/ewX3u6sHhnu+kPTB2kVVDBRY5mkLle4Ilb2xKbuz?=
+ =?us-ascii?Q?/+5cbKtQzlrXIZSCLsrgOD3qxbVjN1dAATpQqATv7VFR3Aip7L9sQO8MtO3u?=
+ =?us-ascii?Q?cg7Gqldvysznx9ZVLsFzn909jZOPbaHEFLC/0U4HfBpCWs/GEfAy6Xxfd5d4?=
+ =?us-ascii?Q?lFV8debU/pr8BJDmSND7uqqhj48kTZoAXrEMheF6tB1kK4FIoB4EonScN6xG?=
+ =?us-ascii?Q?R+TXOV0ZL+gCl9EGQORbaszxVmHJizdTMvkuzBUGr07T84Xb3Y+kbrks0sMy?=
+ =?us-ascii?Q?1i74MpRHeam95qwffCfk5w69BPpyF9Z3CbN63+6lrNF9fhTBHRJT0KUjo+8J?=
+ =?us-ascii?Q?M+zsPEt0U05VIMigf3Y/phPJGeangKmL3O2HM9u4vqIf73mti2BoE8Z5/aEC?=
+ =?us-ascii?Q?kWSix8WjM4CrN0jH//XshWDH0/54Y9VeeZK+ORxgPx23KXswFi3nleUt7+no?=
+ =?us-ascii?Q?8FndL8P1wjF1E/PYNjjdBmKIPkDH9wToRLdsfV8+x1mck/00uVC7GM+wU0/9?=
+ =?us-ascii?Q?f5Ajkltv8cltADy15U9Gb3UMkCO4Nyjt0IEGyu61IDUcnYUa?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3adc22e7-50f9-4189-b8c5-08dec6eecf24
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 12:50:11.5637
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eOPV/EBi/3mSp08ZA8zy6gP0stWJntdrEZhwCg0rwY4OrDG9wWz2cQB21BP5C+Pp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9776
 
-On Wed, Jun 10, 2026 at 03:52:02PM +0800, Jinjie Ruan wrote:
-> diff --git a/Documentation/arch/arm64/cpu-hotplug.rst b/Documentation/arch/arm64/cpu-hotplug.rst
-> index 8fb438bf7781..7c3379b704aa 100644
-> --- a/Documentation/arch/arm64/cpu-hotplug.rst
-> +++ b/Documentation/arch/arm64/cpu-hotplug.rst
-> @@ -47,11 +47,12 @@ ever have can be described at boot. There are no power-domain considerations
->  as such devices are emulated.
->  
->  CPU Hotplug on virtual systems is supported. It is distinct from physical
-> -CPU Hotplug as all resources are described as ``present``, but CPUs may be
-> -marked as disabled by firmware. Only the CPU's online/offline behaviour is
-> -influenced by firmware. An example is where a virtual machine boots with a
-> -single CPU, and additional CPUs are added once a cloud orchestrator deploys
-> -the workload.
-> +CPU Hotplug as all vCPU resources are statically described in the firmware
-> +configuration tables (e.g. MADT), meaning their maximum possible count is
-> +known at boot. However, vCPUs that are not enabled at boot are not marked
-> +as ``present`` by the kernel until they are hotplugged. An example is where
-> +a virtual machine boots with a single CPU, and additional CPUs are added
-> +once a cloud orchestrator deploys the workload.
->  
->  For a virtual machine, the VMM (e.g. Qemu) plays the part of firmware.
->  
-> @@ -60,16 +61,19 @@ brought online. Firmware can enforce its policy via PSCI's return codes. e.g.
->  ``DENIED``.
->  
->  The ACPI tables must describe all the resources of the virtual machine. CPUs
-> -that firmware wishes to disable either from boot (or later) should not be
-> -``enabled`` in the MADT GICC structures, but should have the ``online capable``
-> -bit set, to indicate they can be enabled later. The boot CPU must be marked as
-> -``enabled``.  The 'always on' GICR structure must be used to describe the
-> -redistributors.
-> +that are hot-pluggable must have the ``online capable`` bit set and the
-> +``enabled`` bit cleared in the MADT GICC structures to indicate they can be
-> +enabled later. The boot CPU must be marked as ``enabled`` with its
-> +``online capable`` bit cleared. The 'always on' GICR structure must be used
-> +to describe the redistributors.
->  
->  CPUs described as ``online capable`` but not ``enabled`` can be set to enabled
->  by the DSDT's Processor object's _STA method. On virtual systems the _STA method
-> -must always report the CPU as ``present``. Changes to the firmware policy can
-> -be notified to the OS via device-check or eject-request.
-> +must always set the ``ACPI_STA_DEVICE_PRESENT`` bit, while toggling the
-> +``ACPI_STA_DEVICE_ENABLED`` bit to reflect its plug status. The kernel will
-> +then dynamically mark the vCPU as ``present`` within the OS when the
-> +``ACPI_STA_DEVICE_ENABLED`` bit becomes set during hot-add. Changes to the
-> +firmware policy can be notified to the OS via device-check or eject-request.
+On Wed, Jun 10, 2026 at 12:28:33PM +0100, Will Deacon wrote:
+> > Note: stlr* only supports base-register addressing, so the raw accessors
+> > can no longer use the offset addressing introduced by commit d044d6ba6f02
+> > ("arm64: io: permit offset addressing"). The str* and stlr* alternates
+> > share a single inline-asm operand and the sequence is selected at boot,
+> > so the operand form is fixed at compile time; unaffected CPUs keep using
+> > str* but also revert to base-register addressing. This keeps the store
+> > side as simple as the existing load-side patching (load-acquire) and
+> > avoids adding complexity to the device write path; retaining offset
+> > addressing only for str* would otherwise require a runtime branch on
+> > every write.
+> 
+> I seem to remember Jason caring about that, possibly because some CPUs
+> are very picky about write-combining?
 
-The doc update looks fine as well, thanks for clarifying. My reviewed-by
-stands.
+I think it was more a fall out of the work there, after looking at the
+assembly this minor edit to the constraint made a nice codegen
+impact. It is certainly a shame to loose it for this bug.
 
--- 
-Catalin
+If we care about write combining we can't have a branch anyhow, but
+that is most important for the specific memcpy operations (which will
+need a branch)
+
+Jason
