@@ -1,482 +1,115 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6FC2D595D
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 03:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781061488; cv=none; b=oj9wS858HRbr0QFM0GqX7flNgy/0H2UpaPw4eg+qD80y5wkq614V9ueQaIwA8txOpRD11psq7wdmMv6S384YVxUJdfEBxSetaaLt7IjEPQu1ES9snZ+s9Tw/X49xmHM5dQTo0xRFDNiphrtEp4AdsH5/2sYtYhv5uJLMoHakEek=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781061488; c=relaxed/simple;
-	bh=2zYuZqHOv0kKW1/hfSCAqswd1zSPay4llWORZLxrVaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MzdJUR1PoXhHaZJ/woc0jt1cHYCdfszyMqvoou7Kg8BuGMPTT4DtJO9bJEiszW1g0oEpMHuISp5B+60LsmXgULUZo9lNk8XQJ/Gw7rKg6lNCvEQthT5STHZPz9YRmpL/dlryb9hMPNi/DAiGjlNFVPZBx82Hm29jURYTk/smDCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PuANXqGq; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A30F7E792
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 04:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781064268; cv=pass; b=D6gjzZUSd26OiPcdRhphNV3bnFzD9dWRzqIRJIkeSl+7PBsnhiD/cI30vv94OVcVmoPH9j09VFUU7b1JBw110Z/ib2ICFnObTH47MMzRAANi74d6o9EAkTCgXhzJmM1x6R2+0W9DKq6DWC0Z/wS2ECQE3ay33NuA+mQ63+YAAc0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781064268; c=relaxed/simple;
+	bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h+zfyFm7Lup4IbH49+KCkO7z1rBgUKbx1kKUsW19DxWLgg0Du9w1TCDltELR7IAC1ZGfulfhmt1+EgrdL9MhdTlvRldCu4xBtsCalvZbbJknC9wB9lEEm4/3o9g3XwOlULQeJ77NckREZ1wffe271NDBjPb+rFOQHgh9ri60alY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e/+gZdUF; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PuANXqGq"
-Message-ID: <8bcb0d28-46ad-43ab-adc3-bb1995976d95@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781061473;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kLvNepM+fvnGmRz5Lyy+2TnRQiiRa5y+SkT2rn0uJ4Y=;
-	b=PuANXqGqHjOwEkDpFAKAj9bAJizWNfHsb8c1RZEYbJzRPCaQITaSZvDdcF/kxM0xLes1x2
-	RmfujFocFzr+F+YKp8KHt+7h/Q5YAOTpJBnD3AFTKkWRuxy8PGkOW50nE3sqSOlNmbBCxA
-	awPQ6rdI6Mzx6LLYtVh9I85YjVDsrpE=
-Date: Wed, 10 Jun 2026 11:17:09 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e/+gZdUF"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51784eb2ba0so47827711cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 09 Jun 2026 21:04:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781064266; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OT+4mfeND8H/FwrK30gE3FT/OGQhIEKwFcGO/q3rgHiZs0VqPZLgurDjKk0RUEJpcS
+         2OyyR5GkibduSvCeGwpA7BQl6QyqpDzlRkAvp3hTOysaDzm4OnjEOU4IMrmnY4SV5A3l
+         0cDjbTCi+ctFgFqzWzMyAH/JbGzMaT6b/v7a9GIYA3EeUTFW2YCjuk5fah5zwtLW40k7
+         MSpFdnLz7uOB9fB/GnOku1GVjLqBb1a1mrZiz4vGFsD+PHj09KjrLcZREM+Y52+Z0Xh/
+         1MIuQSFL3f00OhHOJIGfLyIiRUTlLcNERoOS8iEhbKtW+d6cglLpTnFyKVsPEJffdRVS
+         f5LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
+        fh=KRDEWvyke7PrVQX/CPq+c0eNs8YINW/cAZ6bB3XWozo=;
+        b=gl6/NWLrky7b9fE0hq3KVBFwijhoNmNH6Hj2gol3zeA5jyHPdWbhAwnZ2IxNALKa+l
+         WKY5PmlsO3x2E6HXEJ9EiNMLxaf6hHTD8qpEKVK3yu3qijmi3n2/oFGO4HBZqoSbZe/V
+         BpLIU4kJzjYr7dco6vbQrmjIum+O3F5H52C4PBK2KR0o2SWNlHjnyVKtWvdQzVXS6o0f
+         +Niin7XOCqftgWJYvzT97lU3n2PTJc0VeoRVha/Gne0HzdmIKaRwsdtKcqkit87OUOrV
+         /aTbGc5QcbdYJ+u3zGyyZAL60Oi0PE7iXRg25gVRMPUaeiFfOFXqmUd55i0hkupeR2bV
+         CN8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781064266; x=1781669066; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
+        b=e/+gZdUFaSnYmq+oa3A8g0IHAdWnnrm4k1lg2BBvufen+jX5O8Qe44w/lIh0z4ws2l
+         sVX8WCXZNxZlYxY0RuopKeMJ03BpnOPdzHfTL5CHlzw7gbvVeDaAUWEbDCXjguRJkttP
+         tNHkTjt4EXmPpZvBOdzJBRhwB8jwOl2HvSTsHr3UNGuVQRYeVnuakye5XQ/3Awe0eODY
+         ylyTxOh+Srh4UIEIWOnqdJsAQtP6aVpALRMzfr2rGvkQctpTuXi6O9Y8SmrFKmGIkqH3
+         JNSXGiclPUwwwwLO/097LDZAD+l8Rx1eDx6a4gsM/t71gJ6g3Dg5J0K8WlzSZ2g1TnKm
+         /nzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781064266; x=1781669066;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ziLSvpDPefhMh1YLhfgYvQRoU+jpwrEU6vRhvYQI4WQ=;
+        b=mKmUFw/w4H5VBGq3zZmEh7DT2GkMaM0sn8BBCxfiU9AqkgNm/vcILMQOd21MaHRCsv
+         QhQstX4HOOEhOB+e0JS851xRM0sQHISrQyJ3qGt/yXwz4Cne0XIlCIRYVx+yon5/ktzh
+         nrwE2xVR9mBBy3vJ8Z8pY++6uNc3/GOzsZDv9bRje6o0l06r8zDzPkmBzecO3kBPRll9
+         sk3Y6xRRG3JnP0edloaa9JpOHe+OVva9tG1I1SSqwnkDjG2EfeVw/3heQf+7xFnPUVTv
+         VJ2kOccCSRWngQjzgwawiXedupOXwfsiPyPNJHi9HVtq67bvbRLLUYt42h6w5zGpDwy/
+         WkcA==
+X-Forwarded-Encrypted: i=1; AFNElJ8v/flnjvkb4Ec6TLl0Sa84LpTerlNgPpUL4qsLmDbTs9IDUNc3nyuPpBh/e40oFP334lZxFdUOQWk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUls5x/bSmXDAhOLU5Q1rxmdjfAn6dKcQLeRXGEKMjN6bFdJOp
+	jVM5rcQ+znyJ7lgkhf/pH5fZAyV6EP1tEXOsZIn2xxYuoHCJ3Ui2709Ha2UNRaWyxsr+rmcR0iH
+	Q9b1uza6ZdlwNlYu7k8HGBvhP6WWQa0Dghe5v8oxn
+X-Gm-Gg: Acq92OEuPb9YipekuhTyCpS2RaayRU+Wc35l8N2y+kYcDjYsmuQVp4wFf17rJuvDbHK
+	C9IveBmjmjOcp8Q709/keZ00onxvBiroOnG9+oI5uce8A//gOmTF5Tq/H/PPDglTj/aevmPY39B
+	ljSsp63zYU1KJRYAJ2Ve2rs+/1sEXOxsOz3C7S5A8JNtl/LcqVFEA2dMO0kfzTrE4tRwoSUs5B8
+	FWkNmFRCAieLTx5dbTR5FFHbFP9/XaCcVk9VqoUAcbe4NiUPgPCRPAfA7dlNTQZQni9AGxup39O
+	58D6tAdsm0D6XcWydIds6H++PzgaSjMovf2jrlzQNNWqfyzCt0Gj6wsKBoXTuUGDUu25WTUreHm
+	HTItalkHOOJDy8rj6oK5gBW/1LkpTfFd22Fz9Cg6w
+X-Received: by 2002:a05:622a:251a:b0:516:dcbd:aaa3 with SMTP id
+ d75a77b69052e-51795afe9f8mr282610471cf.26.1781064265597; Tue, 09 Jun 2026
+ 21:04:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 5/6] kselftest: alloc_tag: add kselftest for ioctl
- interface
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan
- <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-References: <cover.1781042698.git.abhishekbapat@google.com>
- <dfc472e9d999318cfd74a9b753a563d225b3bc02.1781042698.git.abhishekbapat@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <dfc472e9d999318cfd74a9b753a563d225b3bc02.1781042698.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <cover.1781013810.git.sd@queasysnail.net> <c3c9ae09580a5c1d36b32b5ab3a5db398feddfe3.1781013810.git.sd@queasysnail.net>
+In-Reply-To: <c3c9ae09580a5c1d36b32b5ab3a5db398feddfe3.1781013810.git.sd@queasysnail.net>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 9 Jun 2026 21:04:14 -0700
+X-Gm-Features: AVVi8CfyMQNdfBxuCedY0XLw0cG0g593wzGRzIZOYWbRpG2SfiMV52ctWCjxjrg
+Message-ID: <CANn89iKy=kzfyRKtGt+dY8Fe-ScD95cD=uuy=Gkq79K0kcCdvw@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/2] tls: remove tls_toe and the related driver
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: netdev@vger.kernel.org, Ayush Sawal <ayush.sawal@chelsio.com>, 
+	John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Sven Schnelle <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Abhishek
-
-
-On 2026/6/10 08:12, Abhishek Bapat wrote:
-> Introduce a kselftest to verify the new IOCTL-based interface for
-> /proc/allocinfo. The test covers:
+On Tue, Jun 9, 2026 at 7:21=E2=80=AFAM Sabrina Dubroca <sd@queasysnail.net>=
+ wrote:
 >
-> 1. Validation of the filename filter.
-> 2. Validation of the function filter.
+> The tls_toe feature and its single user (chelsio chtls) have been
+> unmaintained for multiple years. It also hooks into the core of the
+> TCP implementation, and bypasses most of the networking stack.
 >
-> The first test validates the functionality of the filename filter. Using
-> "mm/memory.c" as the candidate filename filter, it retrieves filtered
-> entries from both procfs and ioctl and matches the first VEC_MAX_ENTRIES
-> entries.
->
-> The second test validates the functionality of the function filter.
-> It uses "dup_mm" as the candidate function as we do not expect this
-> function name to change frequently and hence won't be needing to modify
-> this test often.
->
-> Note that both the tests match line no, function name and file name
-> fields. Bytes allocated and calls are not matched as those values may
-> change in the time when the data is being read from procfs and ioctl and
-> hence can lead to false negatives.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> Signed-off-by: Sabrina Dubroca <sd@queasysnail.net>
 
+Nice!
 
-For this patch, I see two issues reported by sashiko.
-
-(https://sashiko.dev/#/patchset/cover.1781042698.git.abhishekbapat%40google.com)
-
-The second one (sscanf dropping module entries) can be ignored since
-
-we are not testing anything related to modname.
-
-For the first one, for the leak aspect, I don't think it matters because the
-
-OS will reclaim the memory when the process exits. However, the fd
-
-offset issue is indeed a real problem, and this issue does not exist in 
-this patch.
-
-It only appears in test_size_filter of the next patch.
-
-
-So for this patch, LGTM.
-
-
-Acked-by: Hao Ge <hao.ge@linux.dev>
-
-
-
-
-> ---
->   MAINTAINERS                                   |   1 +
->   tools/testing/selftests/alloc_tag/Makefile    |   9 +
->   .../alloc_tag/allocinfo_ioctl_test.c          | 333 ++++++++++++++++++
->   3 files changed, 343 insertions(+)
->   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
->   create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 019cc4c285a3..6610dd42e484 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16715,6 +16715,7 @@ F:	include/linux/alloc_tag.h
->   F:	include/linux/pgalloc_tag.h
->   F:	include/uapi/linux/alloc_tag.h
->   F:	lib/alloc_tag.c
-> +F:	tools/testing/selftests/alloc_tag/
->   
->   MEMORY CONTROLLER DRIVERS
->   M:	Krzysztof Kozlowski <krzk@kernel.org>
-> diff --git a/tools/testing/selftests/alloc_tag/Makefile b/tools/testing/selftests/alloc_tag/Makefile
-> new file mode 100644
-> index 000000000000..f2b8fc022c3b
-> --- /dev/null
-> +++ b/tools/testing/selftests/alloc_tag/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +TEST_GEN_PROGS := allocinfo_ioctl_test
-> +
-> +CFLAGS += -Wall
-> +CFLAGS += -I../../../../usr/include
-> +
-> +include ../lib.mk
-> +
-> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> new file mode 100644
-> index 000000000000..cd9cf229ae1f
-> --- /dev/null
-> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> @@ -0,0 +1,333 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/* kselftest for allocinfo ioctl
-> + * allocinfo ioctl retrives allocinfo data through ioctl
-> + * Copyright (C) 2026 Google, Inc.
-> + */
-> +
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <stdbool.h>
-> +#include <unistd.h>
-> +#include <sys/ioctl.h>
-> +#include <linux/types.h>
-> +#include <linux/alloc_tag.h>
-> +#include "../kselftest.h"
-> +
-> +#define MAX_LINE_LEN		512
-> +#define ALLOCINFO_PROC		"/proc/allocinfo"
-> +
-> +enum ioctl_ret {
-> +	IOCTL_SUCCESS = 0,
-> +	IOCTL_FAILURE = 1,
-> +	IOCTL_INVALID_DATA = 2,
-> +};
-> +
-> +#define VEC_MAX_ENTRIES 32
-> +
-> +struct allocinfo_tag_data_vec {
-> +	struct allocinfo_tag_data tag[VEC_MAX_ENTRIES];
-> +	__u64 count;
-> +};
-> +
-> +static inline int __allocinfo_get_content_id(int dev_fd, struct allocinfo_content_id *params)
-> +{
-> +	return ioctl(dev_fd, ALLOCINFO_IOC_CONTENT_ID, params);
-> +}
-> +
-> +static inline int __allocinfo_get_at(int dev_fd, struct allocinfo_get_at *params)
-> +{
-> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_AT, params);
-> +}
-> +
-> +static inline int __allocinfo_get_next(int dev_fd, struct allocinfo_tag_data *params)
-> +{
-> +	return ioctl(dev_fd, ALLOCINFO_IOC_GET_NEXT, params);
-> +}
-> +
-> +static bool match_entry(const struct allocinfo_tag_data *procfs_entry,
-> +			const struct allocinfo_tag_data *tag_data,
-> +			bool match_bytes, bool match_calls, bool match_lineno,
-> +			bool match_function, bool match_filename)
-> +{
-> +	if (match_bytes && tag_data->counter.bytes != procfs_entry->counter.bytes) {
-> +		ksft_print_msg("size retrieved through ioctl does not match procfs\n");
-> +		return false;
-> +	}
-> +
-> +	if (match_calls && tag_data->counter.calls != procfs_entry->counter.calls) {
-> +		ksft_print_msg("call count retrieved through ioctl does not match procfs\n");
-> +		return false;
-> +	}
-> +
-> +	if (match_lineno && tag_data->tag.lineno != procfs_entry->tag.lineno) {
-> +		ksft_print_msg("lineno retrieved through ioctl does not match procfs\n");
-> +		return false;
-> +	}
-> +
-> +	if (match_function &&
-> +	    strncmp(tag_data->tag.function, procfs_entry->tag.function, ALLOCINFO_STR_SIZE)) {
-> +		ksft_print_msg("function retrieved through ioctl does not match procfs\n");
-> +		return false;
-> +	}
-> +
-> +	if (match_filename &&
-> +	    strncmp(tag_data->tag.filename, procfs_entry->tag.filename, ALLOCINFO_STR_SIZE)) {
-> +		ksft_print_msg("filename retrieved through ioctl does not match procfs\n");
-> +		return false;
-> +	}
-> +	return true;
-> +}
-> +
-> +static bool match_entries(const struct allocinfo_tag_data_vec *procfs_entries,
-> +			  const struct allocinfo_tag_data_vec *tags,
-> +			  bool match_bytes, bool match_calls, bool match_lineno,
-> +			  bool match_function, bool match_filename)
-> +{
-> +	__u64 i;
-> +
-> +	if (procfs_entries->count != tags->count) {
-> +		ksft_print_msg("Entry count mismatch. ioctl entries: %llu, proc entries: %llu\n",
-> +			       tags->count, procfs_entries->count);
-> +		return false;
-> +	}
-> +	for (i = 0; i < procfs_entries->count; i++) {
-> +		if (!match_entry(&procfs_entries->tag[i], &tags->tag[i],
-> +				 match_bytes, match_calls, match_lineno,
-> +				 match_function, match_filename)) {
-> +			ksft_print_msg("%lluth entry does not match.\n", i);
-> +			return false;
-> +		}
-> +	}
-> +	return true;
-> +}
-> +
-> +static const char *allocinfo_str(const char *str)
-> +{
-> +	size_t len = strlen(str);
-> +
-> +	if (len >= ALLOCINFO_STR_SIZE)
-> +		str += (len - ALLOCINFO_STR_SIZE) + 1;
-> +	return str;
-> +}
-> +
-> +static void allocinfo_copy_str(char *dest, const char *src)
-> +{
-> +	strncpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE - 1);
-> +	dest[ALLOCINFO_STR_SIZE - 1] = '\0';
-> +}
-> +
-> +static int get_filtered_procfs_entries(struct allocinfo_tag_data_vec *procfs_entries,
-> +				       const struct allocinfo_filter *filter, int fd)
-> +{
-> +	FILE *fp = fdopen(fd, "r");
-> +	char line[MAX_LINE_LEN];
-> +	int matches;
-> +	struct allocinfo_tag_data procfs_entry;
-> +
-> +	if (!fp) {
-> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for reading\n");
-> +		return 1;
-> +	}
-> +	memset(procfs_entries, 0, sizeof(*procfs_entries));
-> +	while (fgets(line, sizeof(line), fp) && procfs_entries->count < VEC_MAX_ENTRIES) {
-> +		char filename[MAX_LINE_LEN];
-> +		char function[MAX_LINE_LEN];
-> +
-> +		memset(&procfs_entry, 0, sizeof(procfs_entry));
-> +		matches = sscanf(line, "%llu %llu %[^:]:%llu func:%s",
-> +				 &procfs_entry.counter.bytes,
-> +				 &procfs_entry.counter.calls,
-> +				 filename,
-> +				 &procfs_entry.tag.lineno,
-> +				 function);
-> +
-> +		if (matches != 5)
-> +			continue;
-> +
-> +		allocinfo_copy_str(procfs_entry.tag.filename, filename);
-> +		allocinfo_copy_str(procfs_entry.tag.function, function);
-> +
-> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) {
-> +			if (strncmp(procfs_entry.tag.filename,
-> +				    filter->fields.filename, ALLOCINFO_STR_SIZE))
-> +				continue;
-> +		}
-> +		if (filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) {
-> +			if (strncmp(procfs_entry.tag.function,
-> +				    filter->fields.function, ALLOCINFO_STR_SIZE))
-> +				continue;
-> +		}
-> +		if (filter->mask & ALLOCINFO_FILTER_MASK_LINENO) {
-> +			if (procfs_entry.tag.lineno != filter->fields.lineno)
-> +				continue;
-> +		}
-> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) {
-> +			if (procfs_entry.counter.bytes < filter->min_size)
-> +				continue;
-> +		}
-> +		if (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) {
-> +			if (procfs_entry.counter.bytes > filter->max_size)
-> +				continue;
-> +		}
-> +
-> +		memcpy(&procfs_entries->tag[procfs_entries->count++], &procfs_entry,
-> +		       sizeof(procfs_entry));
-> +	}
-> +	return 0;
-> +}
-> +
-> +static enum ioctl_ret get_filtered_ioctl_entries(struct allocinfo_tag_data_vec *tags,
-> +						 const struct allocinfo_filter *filter, int fd,
-> +						 __u64 start_pos)
-> +{
-> +	struct allocinfo_content_id start_cont_id, end_cont_id;
-> +	struct allocinfo_get_at get_at_params;
-> +	const int max_retries = 10;
-> +	int retry_count = 0;
-> +	int status;
-> +
-> +	/*
-> +	 * __allocinfo_get_content_id may return different values if a kernel module was loaded
-> +	 * between the two calls. If that happens, the data gathered cannot be considered consistent
-> +	 * and hence needs to be fetched again to avoid flakiness.
-> +	 */
-> +	do {
-> +		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			return IOCTL_FAILURE;
-> +		}
-> +
-> +		memset(tags, 0, sizeof(*tags));
-> +		memset(&get_at_params, 0, sizeof(get_at_params));
-> +		memcpy(&get_at_params.filter, filter, sizeof(*filter));
-> +		get_at_params.pos = start_pos;
-> +		if (__allocinfo_get_at(fd, &get_at_params)) {
-> +			ksft_print_msg("allocinfo_get_at failed\n");
-> +			return IOCTL_FAILURE;
-> +		}
-> +		memcpy(&tags->tag[tags->count++], &get_at_params.data, sizeof(get_at_params.data));
-> +
-> +		while (tags->count < VEC_MAX_ENTRIES &&
-> +		       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
-> +			tags->count++;
-> +
-> +		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			return IOCTL_FAILURE;
-> +		}
-> +
-> +		if (start_cont_id.id == end_cont_id.id) {
-> +			status = IOCTL_SUCCESS;
-> +		} else {
-> +			ksft_print_msg("allocinfo_get_content_id mismatch, retrying...\n");
-> +			status = IOCTL_INVALID_DATA;
-> +		}
-> +	} while (status == IOCTL_INVALID_DATA && retry_count++ < max_retries);
-> +
-> +	return status;
-> +}
-> +
-> +static int run_filter_test(const struct allocinfo_filter *filter)
-> +{
-> +	int fd;
-> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-> +	int ioctl_status;
-> +	int ret = KSFT_PASS;
-> +
-> +	if (!tags || !procfs_entries) {
-> +		ksft_print_msg("Memory allocation failed.\n");
-> +		ret = KSFT_FAIL;
-> +		goto freemem;
-> +	}
-> +
-> +	fd = open(ALLOCINFO_PROC, O_RDONLY);
-> +	if (fd < 0) {
-> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC ": %s\n", strerror(errno));
-> +		ret = KSFT_SKIP;
-> +		goto freemem;
-> +	}
-> +
-> +	if (get_filtered_procfs_entries(procfs_entries, filter, fd)) {
-> +		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	if (procfs_entries->count == 0) {
-> +		ksft_print_msg("No entries found in " ALLOCINFO_PROC ", skipping test\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +
-> +	ioctl_status = get_filtered_ioctl_entries(tags, filter, fd, 0);
-> +	if (ioctl_status == IOCTL_INVALID_DATA) {
-> +		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +	if (ioctl_status == IOCTL_FAILURE) {
-> +		ksft_print_msg("Error retrieving IOCTL entries.\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	if (!match_entries(procfs_entries, tags, false, false, true, true, true))
-> +		ret = KSFT_FAIL;
-> +
-> +exit:
-> +	close(fd);
-> +freemem:
-> +	free(tags);
-> +	free(procfs_entries);
-> +	return ret;
-> +}
-> +
-> +static int test_filename_filter(void)
-> +{
-> +	struct allocinfo_filter filter;
-> +	const char *target_filename = "mm/memory.c";
-> +
-> +	memset(&filter, 0, sizeof(filter));
-> +	filter.mask |= ALLOCINFO_FILTER_MASK_FILENAME;
-> +	strncpy(filter.fields.filename, target_filename, ALLOCINFO_STR_SIZE);
-> +
-> +	return run_filter_test(&filter);
-> +}
-> +
-> +static int test_function_filter(void)
-> +{
-> +	struct allocinfo_filter filter;
-> +	const char *target_function = "dup_mm";
-> +
-> +	memset(&filter, 0, sizeof(filter));
-> +	filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
-> +	strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
-> +
-> +	return run_filter_test(&filter);
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	int ret;
-> +
-> +	ksft_set_plan(2);
-> +
-> +	ret = test_filename_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_filename_filter\n");
-> +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_filename_filter\n");
-> +
-> +	ret = test_function_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_function_filter\n");
-> +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
-> +
-> +	ksft_finished();
-> +}
+Reviewed-by: Eric Dumazet <edumazet@google.com>
