@@ -1,44 +1,47 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C272837A481;
-	Wed, 10 Jun 2026 11:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BAB23A782B;
+	Wed, 10 Jun 2026 11:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781090920; cv=none; b=j0FBnfgEwXEvVK6saW5OFszTJtsq1bEZk7Oj307lsamAdw6J+BFejTSk1wKk9h7IZkZNn01j+uWgIwQFrkC4bnnyUqIcwwr3wr3tirgWizcm0pxRDN588wg7g4ncVxrSP2hYBpgtISRRsWcECoBajebRYQGCGwuklZplARy5qOs=
+	t=1781091512; cv=none; b=QiHFcxXzJzt1pjZtm9oq/+Az2ejVUQl6HQD0rGBYtQNsMPWVvO36lwYUvzKRKQr1mM1IKytgSyOSmQhKt0wSS+Ulu+SewkFs5JmD4dM17Mq6zTP/p885gBXicDrum5OSTe/xBNMzBTwCqmx4iy398ZnnnIDCTJzZ/akW8RYbBbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781090920; c=relaxed/simple;
-	bh=sfVcg/dVJPtBBGLQOmu1fTf01VV2ub9fW2ujvrGFzhY=;
+	s=arc-20240116; t=1781091512; c=relaxed/simple;
+	bh=IX6LtUMmsf2vlnGeHD/63983rh0Y9HBJ2QJ31uk5kmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHXUMHS8h7kUIYfwNmCe9SXIjJnqJnQjpCT8ORK0Jf9s96zo0jd5f02gbMqarOE+C+sGoRpxu3RU9VwwpTZMNYnSd9ddxc1K3QGXKpL8XtQT/DPPdqDvhLPBhXLr6YOpzeQVmfWU+0F45gpUUbOyejbrx0lpa/zViTzLO++HYTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3qZkJvo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=eu61PtznKTrS1Xz0D6I4J10R2KQaXKoK9okHT1puRZ9Ij5TuhMYPDZEy7txz7tdOwpWxT8FrL53MfxG8R1nBcSuxcOnnXG6Rvk/pWp4C4HdrM1KeQzi97l9KWOJKal2/ZJyk6Vjxz0RgJ9pVvQFjpIXdy9AHjcwUHXBJAJDnFus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VXTfeNQq; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3qZkJvo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E441F00893;
-	Wed, 10 Jun 2026 11:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781090919;
-	bh=35brFKLgI4jP8jMGIASVe52ze60YIKvpJeWjQTiQRpk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=X3qZkJvoEvq9epIvVKXWq9CBcTuqjKAQjN2jjD1wzBWGG6vNi7YzvjNkyrwXonTtm
-	 WMz0GYrzVCgfZlTG1kAIzCrfrnTYaUjT23pMm0R07qN6rWfS999GkUC4B4v7+o7E17
-	 nepCYgGtE3X2ycKzFnoiTkTf00qXNUevr5onJTL+6WTrXujwJvV+SnpgieYTRtjYOp
-	 7Nrqw2yM/8cDqgtxjQRpk7O/Lcrnf0aP/K8MkqTL6aYVuwii/qopMuzWl7H1+Xe3oG
-	 8ycqTD2OoKZLYKb/tsmIOCrC5f6jtqpoli2nHwnvH4nI6TlMGr1Ke9ddyqHo3IxUbe
-	 1lIQmXzIt4SVQ==
-Date: Wed, 10 Jun 2026 12:28:33 +0100
-From: Will Deacon <will@kernel.org>
-To: Shanker Donthineni <sdonthineni@nvidia.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-	Jason Sequeira <jsequeira@nvidia.com>, jgg@nvidia.com
-Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-Message-ID: <ailKYTOX23EMnJsK@willie-the-truck>
-References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VXTfeNQq"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7480125E3;
+	Wed, 10 Jun 2026 04:38:25 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F0923FD88;
+	Wed, 10 Jun 2026 04:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781091510; bh=IX6LtUMmsf2vlnGeHD/63983rh0Y9HBJ2QJ31uk5kmU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VXTfeNQqSRNFjUTSHZpgYIIQlFGsLLyXII67TjUaJHzh4VW0XA+pPOcbymtdDCuac
+	 1emh1qFB4U3M7OLirkhEwwYRU44hhKygV7pU4bGjbJ741RO//JZBdAV7ktUlxQU8rL
+	 4jjw9yOmmm9i/AHV5QjmSCCz8pUbsZJIN28z2B/M=
+Date: Wed, 10 Jun 2026 12:38:20 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: will@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	punit.agrawal@oss.qualcomm.com, mrigendra.chaubey@gmail.com,
+	suzuki.poulose@arm.com, chenl311@chinatelecom.cn,
+	fengchengwen@huawei.com, maz@kernel.org, timothy.hayes@arm.com,
+	lpieralisi@kernel.org, arnd@arndb.de, gshan@redhat.com,
+	jic23@kernel.org, dietmar.eggemann@arm.com, sudeep.holla@kernel.org,
+	pierre.gondois@arm.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] arm64: smp: Fix hot-unplug tearing by forcing
+ unregistration
+Message-ID: <ailMrGQv1LQ0xmXe@arm.com>
+References: <20260610075202.3597031-1-ruanjinjie@huawei.com>
+ <20260610075202.3597031-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,71 +50,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260605144551.2004391-1-sdonthineni@nvidia.com>
+In-Reply-To: <20260610075202.3597031-2-ruanjinjie@huawei.com>
 
-[+Jason G]
-
-On Fri, Jun 05, 2026 at 09:45:51AM -0500, Shanker Donthineni wrote:
-> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
-> observed by a peripheral before an older, non-overlapping Device-nGnR*
-> store to the same peripheral. This breaks the program-order guarantee
-> that software expects for Device-nGnR* accesses and can leave a
-> peripheral in an incorrect state, as a load is observed before an
-> earlier store takes effect.
+On Wed, Jun 10, 2026 at 03:52:01PM +0800, Jinjie Ruan wrote:
+> Sashiko review pointed out the following issue[1].
 > 
-> The erratum can occur only when all of the following apply:
+> Commit eba4675008a6 ("arm64: arch_register_cpu() variant to check if
+> an ACPI handle is now available.") introduced architectural safety
+> blocks inside arch_unregister_cpu(). If a hot-unplug operation is
+> determined to be a physical hardware removal (where _STA evaluates to
+> !ACPI_STA_DEVICE_PRESENT), or if firmware evaluation fails, it aborts
+> the unregistration transaction early to protect unreadied arm64
+> infrastructure.
 > 
->   - A PE executes a Device-nGnR* store followed by a younger
->     Device-nGnR* load.
->   - The store is not a store-release.
->   - The accesses target the same peripheral and do not overlap in bytes.
->   - There is at most one intervening Device-nGnR* store in program
->     order, and there are no intervening Device-nGnR* loads.
->   - There is no DSB, and no DMB that orders loads, between the store and
->     the load.
->   - Specific micro-architectural and timing conditions occur.
+> However, returning early from arch_unregister_cpu() causes a catastrophic
+> state tearing because the generic ACPI layer (acpi_processor_post_eject())
+> unconditionally continues its cleanup flow. This leaves the stale sysfs
+> device leaked in the memory, deadlocking any subsequent hot-add attempts
+> on the same CPU.
 > 
-> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
-> orders loads) between the store and the load, or make the store a
-> store-release. A load-acquire on the load side would not help, because
-> acquire semantics do not prevent a load from being observed ahead of an
-> older store; only the store side (release or a barrier) closes the
-> window.
-
-I think you can drop the paragraph above. A store-release isn't enough
-to order against a later load in the architecture either, so we're
-clearly in micro-architecture territory and I don't think you need to
-describe mechanisms that don't work here.
-
-> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
-> to stlr* (Store-Release), which removes the "store is not a
-> store-release" condition for every device write the kernel issues.
-> Because writel() and writel_relaxed() are both built on __raw_writel()
-> in asm-generic/io.h, patching the raw variants covers both the
-> non-relaxed and relaxed APIs without touching the higher layers. Note
-> that writel()'s own barrier sits before the store, so it does not order
-> the store against a subsequent readl(); the store-release promotion is
-> what provides that ordering.
-
-Sashiko points out that you're missing __const_memcpy_toio_aligned32().
-
-> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
-> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
-> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
-> the plain str* sequence.
+> Fix it by simplifying arch_unregister_cpu() to always proceed with
+> the unregistration, as a pr_err_once() warning is sufficient to make
+> it more visible for currently not supported physical CPU removal.
+> Also remove the redundant NULL check on acpi_handle as it cannot be
+> NULL when calling arch_unregister_cpu().
 > 
-> Note: stlr* only supports base-register addressing, so the raw accessors
-> can no longer use the offset addressing introduced by commit d044d6ba6f02
-> ("arm64: io: permit offset addressing"). The str* and stlr* alternates
-> share a single inline-asm operand and the sequence is selected at boot,
-> so the operand form is fixed at compile time; unaffected CPUs keep using
-> str* but also revert to base-register addressing. This keeps the store
-> side as simple as the existing load-side patching (load-acquire) and
-> avoids adding complexity to the device write path; retaining offset
-> addressing only for str* would otherwise require a runtime branch on
-> every write.
+> [1]: https://sashiko.dev/#/patchset/20260520022023.126670-1-ruanjinjie@huawei.com
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: stable@vger.kernel.org
+> Fixes: eba4675008a6e ("arm64: arch_register_cpu() variant to check if an ACPI handle is now available.")
+> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-I seem to remember Jason caring about that, possibly because some CPUs
-are very picky about write-combining?
-
-Will
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
