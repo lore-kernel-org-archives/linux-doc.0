@@ -1,146 +1,133 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AE0335BA;
-	Wed, 10 Jun 2026 00:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC0317A305;
+	Wed, 10 Jun 2026 00:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781051779; cv=none; b=d5y1hQ+6NZEslrzkoz7dV8n61yREIrQzEazw7QxviUGJlEU6BNwIzgvS3TZox8QpDmNxagPh7C34nhIwLEBPrfOBaGXxJY987xjYlq7nce28ZxULUGzMPdA23Y8YDPMcBdCTWIvVybC6tC9RygpVfdlSUDqrPP4qqFM8KURCnCE=
+	t=1781052687; cv=none; b=VeLPNFEOPQqXcXmQR9eHftovLc2AcfmEtM4TBNCzh+fOfU65A4fKSw4QnHJoB9Ux+tqMONzSV1yOklIAE9TNTfl9HKUojOB3oWJPDGOxdNONkV7KO4RBbETRmEtOChY/T76WhNOroXDPVtbRWT4eshTEWdc7vUX+kEWUcR5mqE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781051779; c=relaxed/simple;
-	bh=CDuCLDL5z910qKUNbSYxMd0zz/vk1MGVtnZ91arSK4g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H5s8Q8TKMFfsaRhs2suGIQiLDFcinA5KuIDQaViZQXTzqcEJx/K3gq3vaXmyBqCraSwL81y7sQby8LnBesphCNsONWYEkJWEfX5+rIqurnsZCgRwX8T2vyHiRXdV2aa7tgLYOji4Xr7VqBVDS8QLYdRtL4NiR2VCpfL1myqoliI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j9mz7dvC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781052687; c=relaxed/simple;
+	bh=hHSweqaoPPOWP//CiRXcgp6ysK37O1r6QEAl6tA6cSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gddaDY3ePmUwINdZILnNKwuGuvuH2PUF4IIWLPB5gWn3wuN9k+MMW6ZjXlwDVbBXCnsyHOAWJpfumwJr7v9RIuASufb235lYx4v9fmkuAryp5RRrc9+uHLKMqR/yNHa30llxhaB28MsMQQaIKliOGkjYy0NB/BvvEVVFaCL3KYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kh29NEbW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j9mz7dvC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=X9n+0/2jd89hYZG+x6Z3Dpoobfrn1nZ5zeUbeSx3hCw=; b=j9mz7dvCX6XXnUEMqa5mEe6/un
-	sem8Q8LwP1PPx1cyxKmANwMMkRBVB0nf4hcrukcxTDktIsJI8IQ5X/uCBsv+GqfBFVjOEaFT/5N5c
-	hlsXEugZYU6Ku62pcfltcZqussh1EhKCXXAaF9FnYXQzB17KN5OKp4MVVb9asICvCq/vJ2fvRPUiV
-	BPswfVPWoqX5z8Hc4ZW6gQ1N3oBZLHAtyQgA2KXRDRRo85MLtTkLSgu/YDwzSZz5dU1UphPqC28dM
-	RWYs47/tC/MaYPZ6QagEY133KK76R9v/7Tl86RvA4far3BUXC93Dwgmr5v53OQChN2sdRdFdvypZx
-	B7O3gipg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wX6vW-00000006Ymp-0Sp0;
-	Wed, 10 Jun 2026 00:36:14 +0000
-Message-ID: <5477c02f-ee84-4166-9025-c0df914bde03@infradead.org>
-Date: Tue, 9 Jun 2026 17:36:13 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kh29NEbW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14041F00893;
+	Wed, 10 Jun 2026 00:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781052685;
+	bh=AknOC9ftrQ9npWsX4G287ronaobFlPP7dg7D/271fCg=;
+	h=From:To:Cc:Subject:Date;
+	b=Kh29NEbWMMf5Dwxam8iyR8o0632/X5Fn4bfelwOtb9BkK11MH65DqlmD0pqOmMqmF
+	 PZSo+WesGN+gUdNj6PQ5kwR347apZtnzxRJqiDChzymX97AIfxbbdsKVAkV6tjFUts
+	 eccMq3EBPzzvaiLzw1GWYOpA1Qxopto93ZvaUoEb7rgQ9WIeCT44heH9pxv88JuLFF
+	 lBUcFJudrS3jIJp1gll1aVlEDwESrUhRQic2HW5hFghoC7zZFihXboBIvlHu3tq9S0
+	 uUvXdQm8NaMjWpEV1rFEmx0cZLfOxK97OEwzN60rHaZ0tkbAMyPilMdpJ/2kONOSyw
+	 jHbusxyGvOtaw==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH v2 0/7] tracing/probes: Add more typecast features
+Date: Wed, 10 Jun 2026 09:51:21 +0900
+Message-ID: <178105268094.21760.13668249930524377840.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] pnp: Documentation improvements
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260609145117.1355753-2-u.kleine-koenig@baylibre.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260609145117.1355753-2-u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Hi,
+
+Here is the 2nd version of series to introduce more typecast features
+to probe events. The previous version is here:
+
+ https://lore.kernel.org/all/178092865666.163648.10457567771536160909.stgit@devnote2/
+
+In this version, I fixed various problems Sashiko reviewed and add
+a fix of sample code. Also drop +CPU/PCPU() and introduce this_cpu_read().
 
 
-On 6/9/26 7:51 AM, Uwe Kleine-König (The Capable Hub) wrote:
->  - Consistently use named initializers and simplify sentinel
->  - Skip assignment to .driver_data if all are 0
->  - Use consistent spacing to match Linux coding style
->  - Fix prototype of probe function
->  - s/pnp_id/pnp_device_id/
->  - Drop non-existing .card_id_table
-> 
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Steve introduced BTF typecast feature for eprobe[1].
+This series extends it and add more options:
 
-LGTM. Thanks.
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+1. Expanding BTF typecast to kprobe and fprobe.
+   (currently only function entry/exit)
 
-The only issue I have with this file following this patch is
-the use of "ex" for "Example" or "E.g.".
+2. Introduce container_of like typecast. This adds a "assigned
+   member" option to the typecast.
+
+   (STRUCT,MEMBER)VAR->ANOTHER_MEMBER
+
+   This casts VAR to STRUCT type but the VAR is as the address
+   of STRUCT.MEMBER. In C, it is:
+
+   container_of(VAR, STRUCT, MEMBER)->ANOTHER_MEMBER
+
+3. Support nested typecast, e.g.
+
+   (STRUCT)((STRUCT2)VAR->MEMBER2)->MEMBER
+
+   the nest level must be smaller than 3.
+
+4. Add $current variable to point "current" task_struct.
+   This is useful with typecast, e.g.
+
+   (task_struct)$current->pid
+
+5. per-cpu dereference support.
+
+   Intrdouce this_cpu_read(VAR) and this_cpu_ptr(VAR) to
+   access per-cpu data on the current CPU (accessing other CPU
+   data is not stable, because it can be changed.)
+
+   You can access the member of per-cpu data structure using
+   typecast like:
+
+   (STRUCT)this_cpu_ptr(VAR)->MEMBER
 
 
-> ---
->  Documentation/admin-guide/pnp.rst | 22 ++++++++++------------
->  1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/pnp.rst b/Documentation/admin-guide/pnp.rst
-> index 24d80e3eb309..14a0bf400d2d 100644
-> --- a/Documentation/admin-guide/pnp.rst
-> +++ b/Documentation/admin-guide/pnp.rst
-> @@ -203,12 +203,12 @@ The New Way
->  
->     ex::
->  
-> -	static const struct pnp_id pnp_dev_table[] = {
-> +	static const struct pnp_device_id pnp_dev_table[] = {
->  		/* Standard LPT Printer Port */
-> -		{.id = "PNP0400", .driver_data = 0},
-> +		{ .id = "PNP0400" },
->  		/* ECP Printer Port */
-> -		{.id = "PNP0401", .driver_data = 0},
-> -		{.id = ""}
-> +		{ .id = "PNP0401" },
-> +		{ }
->  	};
->  
->     Please note that the character 'X' can be used as a wild card in the function
-> @@ -217,14 +217,14 @@ The New Way
->     ex::
->  
->  	/* Unknown PnP modems */
-> -	{	"PNPCXXX",		UNKNOWN_DEV	},
-> +	{ .id = "PNPCXXX", .driver_data = UNKNOWN_DEV },
->  
->     Supported PnP card IDs can optionally be defined.
->     ex::
->  
-> -	static const struct pnp_id pnp_card_table[] = {
-> -		{	"ANYDEVS",		0	},
-> -		{	"",			0	}
-> +	static const struct pnp_device_id pnp_card_table[] = {
-> +		{ .id = "ANYDEVS" },
-> +		{ }
->  	};
->  
->  2. Optionally define probe and remove functions.  It may make sense not to
-> @@ -234,14 +234,13 @@ The New Way
->     ex::
->  
->  	static int
-> -	serial_pnp_probe(struct pnp_dev * dev, const struct pnp_id *card_id, const
-> -			struct pnp_id *dev_id)
-> +	serial_pnp_probe(struct pnp_dev *dev, const struct pnp_device_id *dev_id)
->  	{
->  	. . .
->  
->     ex::
->  
-> -	static void serial_pnp_remove(struct pnp_dev * dev)
-> +	static void serial_pnp_remove(struct pnp_dev *dev)
->  	{
->  	. . .
->  
-> @@ -253,7 +252,6 @@ The New Way
->  
->  	static struct pnp_driver serial_pnp_driver = {
->  		.name		= "serial",
-> -		.card_id_table	= pnp_card_table,
->  		.id_table	= pnp_dev_table,
->  		.probe		= serial_pnp_probe,
->  		.remove		= serial_pnp_remove,
-> 
-> base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
+And added a test script to test part of them.
 
--- 
-~Randy
+[1] https://lore.kernel.org/all/20260601130746.2139d926@gandalf.local.home/
+
+
+---
+
+Masami Hiramatsu (Google) (7):
+      tracing/events: Fix to check the simple_tsk_fn creation
+      tracing/probes: Support typecast for various probe events
+      tracing/probes: Support nested typecast
+      tracing/probes: Support field specifier option for typecast
+      tracing/probes: Add $current variable support
+      tracing/probes: Add this_cpu_read() and this_cpu_ptr() dereference method to fetcharg
+      tracing/probes: Add a new testcase for BTF typecasts
+
+
+ Documentation/trace/eprobetrace.rst                |   10 
+ Documentation/trace/fprobetrace.rst                |   10 
+ Documentation/trace/kprobetrace.rst                |   11 +
+ kernel/trace/trace.c                               |    6 
+ kernel/trace/trace_probe.c                         |  404 +++++++++++++++-----
+ kernel/trace/trace_probe.h                         |   18 +
+ kernel/trace/trace_probe_tmpl.h                    |   33 +-
+ samples/trace_events/trace-events-sample.c         |   56 ++-
+ samples/trace_events/trace-events-sample.h         |   34 ++
+ .../ftrace/test.d/dynevent/btf_probe_event.tc      |   51 +++
+ 10 files changed, 509 insertions(+), 124 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
