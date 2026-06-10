@@ -1,75 +1,82 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374393A3E73
-	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 08:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB5753E0B
+	for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 08:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781079749; cv=none; b=mza5VNRgb0VQNnJcb1Yt1RLoXR01hv42bArcWwjDTOrrheFXBj55oXsrSKSzmjY/sJi4LJ0u6cvwCkMK9KpuZMNOrLyiM9jfBYs+BAc9Jh3Rrd6z/U/upKx+PoDpRA1/TvBecm61T+pe8wdBfx+WDv5EevsC9b7zTh7pCZEPTlc=
+	t=1781081199; cv=none; b=M9mzkU6yjWh4dSejyKcJfQFA6LwFzg4j0uI3auyZBCodiNmAZOXeNnnhFPaoqupoeRY/ODeb42XZtVvmpfVq6zHTCboTJuTpMhpEaU6ujXLfemZF5RlEIq4FKOICfaWEQEOOTCzENfBE15SYjszqNFZgW+C13Bsw/r3zXLMDaCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781079749; c=relaxed/simple;
-	bh=vvXwFej9lj1lAXWCrG5lZjXXoPyaHSlpldTcl2itE9A=;
+	s=arc-20240116; t=1781081199; c=relaxed/simple;
+	bh=NeSx24dxZtQ9sy+qG7O9bCT4VY81zbpqh04/+x5duE0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QpWhRZrjwr1rluIu0rxFBcQkGf2VVgABcJTniQiMXdkaw2A0MZznRuQFrINuoTW/JPoJ1S0Dqp6gMAEMObYZuN/HPqEHpdA30fmmoHUWS2TZXHCLGxCWGXr4zIHexvxAhe5SpWSXSR58CswnmnC3Qw7MiDOX1TvuTuvMRg7ZAiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aipd9aq/; arc=none smtp.client-ip=209.85.128.52
+	 Content-Type:MIME-Version; b=oqoQidETzdeyzIu/Zx9CG+8VKy+4w/McVaaB82NOtuiIqnPAS1W+XajRpQKRXqXgBT8S3K1r41PsFjRLZxpLfvaxBy4vz8vOworqZErjOInz8pZpyaeEBeI6fVS1UOsrn27vClziHPWwu+MrhfyDrkbAHOQsSm4bo03Pbyi/E+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a1Ys3kQl; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aipd9aq/"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso74053535e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 01:22:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a1Ys3kQl"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b9318997so47492795e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 01:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781079747; x=1781684547; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781081195; x=1781685995; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=XxoZFC5RwuU1AtzTTwLIZclxEbkhraC7dqE6/SFyZN8=;
-        b=aipd9aq/H7OWGOBhXhCu+dbd5jMq03pRY4SJnPMdt85vnVmIrSzgoaVoubUceYZG7H
-         tZ6qUW9PC7V0ML05yCYY12ZcuDKHQ46qfFVD7b54I5cssyYnscprStZL/4R+woQckgfx
-         r1szP2qn/edEnXacEImkz5uD8kDkxs1mQBQ53n7Uw4twYRpBh/Sij1y7gcI3r1f3N6xX
-         6C8H2a+Z1XEaRYUq54J10esIwc3U2Du4s7vzqLn7BqTurYzXOeKb+Qs1ARu1Gb5prE+B
-         wXkzeXJGpZxDHunzvHB/GbZQr81Mf3bt77EpKoGKxFVIogMRPgAMPgDSWhHzz8Q/bXuN
-         x3nA==
+        bh=vGs0I+e0AtbncbbLJ8DSGgGvhYB2wML/1SYfsR+hrvs=;
+        b=a1Ys3kQl94Lv87Dzd1OpebprmA+jOlKGu2a/A4mqW7BToYQe8/B5ajmJKP9c/h+2pi
+         Nz5sRj8BoRYl5GSZR3apw+NedklHos2AJ5GllAn2q5PkfzvyHS0Yl9Y2UMXESevLgLlf
+         TveVcYVjcTLTTa2Yj8nKQ8cVpeROCyfAZ3AzZ9ouPyZuHs72olFPbdJyQSVHYevNCjfs
+         k71d9bBTclfULXpN0fA4YchJo2C9b91cSjCS+fIfrYI4NZ13x5hfpACcDPQnU2enXA0W
+         Znvwr+Rq4NGlIcXxkOJQjIwmHZg6R6RPPJ+5mrbMiVIgqjv7gA9b+572bd/TM/j496jC
+         lxWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781079747; x=1781684547;
+        d=1e100.net; s=20251104; t=1781081195; x=1781685995;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XxoZFC5RwuU1AtzTTwLIZclxEbkhraC7dqE6/SFyZN8=;
-        b=f0P0+xdMxUlw9oBHRNMsNeM+bdWh4jY/xIIlyp5RE3QdVjVTvHYN8WJFI9J6BDvsIa
-         FBmQ6y0GpJ30KH8tccq9G8bYxSkssWLokvGYo26vmdAgq24YsOoESvgq2HNxhRnh7RmP
-         iZkLAFQUw5qSuUpj6KaacPeXPTynWW/8syaJqnDQNTAsp6m82JgW52kth8ZgvoXm0ub3
-         Pu6r2AhuI997JA1A4tKtpCkbLDzC0wyBPcRpUHPOQCSZXU/Ccr1psjVtCW0HPUxGM6ls
-         hghAb+7yopRcjWQx1j/VgzdrTEo29bwOSvU4LlE+FayQLXA2B1XygTqUUDaU0id+vidQ
-         1hrw==
-X-Forwarded-Encrypted: i=1; AFNElJ81VXHoywRMgEm3hzB3+wPut8MMq+fkByxGcZJOpThNvwH5nX3t6eBasOQTVloaRq4h+38D7kDgCo4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2U4M9xSe6WoB967xFIEjXN4sOPf729AQr1qbok5RUxrZeOu8L
-	FuzaBTCApGHzm4VJcg3xcGHA43cTuuqnDIJdaNiCo7n474LWA6I2BT9f
-X-Gm-Gg: Acq92OFkDL06BWxJrGENE78RbGoFcJxGaQxcDitnEsb83jIAaRVoo8Tm7TNEHBsD1yj
-	5g0pJLA0HwjfPi4/dXJUjz41nkZ8VDo7/gDe6tqASg8frAGv9x1TihgczcV7RZ+A3EX5td/WbaH
-	GvCJlclUUeRI4l2r/bc9HqBe7qkO4880MMsckgb37cJcd3xt1oeBD1rbQun1/K6LjuEfxQOMZZf
-	C7pTjAN0EEn7/YTSK4T4m0chtpTrF7Jfj7a1dkeADb8wuAR8nO49dURCj1L7AZXKcR94lrzFIN3
-	HZ594ulNu1aYvxdcD27KHRD4+aMBFfrPIhpIg1shgn9a014cph19AES9M/P+K/DUPJMm2BdDF3c
-	EHsdwI+Q0E1sdkuX2mv9vWTo3wJYkqV+UQONlXBEoZbxadgkemYRknqCwVF7AOJLMkDSgOVTaOi
-	gddc1w/Gg+YJIM3RsizqZA+uP3/fCC2rm+QRe/5AGX3w2eYuFJOLIb+vUv3ehnM034vPSkBDA9m
-	SpDWo5Tm6VilvtXGAZxjfA=
-X-Received: by 2002:a05:600c:1d27:b0:490:add9:7f88 with SMTP id 5b1f17b1804b1-490c25dd709mr412096945e9.21.1781079746405;
-        Wed, 10 Jun 2026 01:22:26 -0700 (PDT)
+        bh=vGs0I+e0AtbncbbLJ8DSGgGvhYB2wML/1SYfsR+hrvs=;
+        b=W1J62SJVKr3ZeCRqZPS2XxI1/d39BwxC0JHqjafGbKyJtUFbLjQudiWgsiV2YLCQsn
+         tWe3jFbCcp/jjnRI2EtfMFnATCcLWnOOFwdIl6T73mhsno6xDPYuLIiH4glhRt5/GbHE
+         eRuk8MFU6xwh6vSIsCu0vDPnszqDx9ungUq0BFaH3RXBjaLMs4lQ+W9meudlTYX5XzzB
+         Ua3BvivD2VWvvsuH44c5lZpt2duspXPQazAKRNY2k5Vz5URCWi7KUzAzzXvDBDDsaG6i
+         2bp4dOD54Q5BxPGa6sBztmKGxd+O6uquLNiwM9JyFD3Dr1pN6ZpzujKcE3cDsWLesCOz
+         fETw==
+X-Forwarded-Encrypted: i=1; AFNElJ98o1T/gq5Cm7V9vy8WSVTDbXRkQu1XPQ+uYPjzAE7lMSu8o/S8ShXJET82A+J28YhiG2z/mLo8Hjc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfhM1KFh3Vx7tDhlPGYSXF4ZKvOxD5NSdgUMp0yRYLQKH01WW5
+	hAESVbNY2wHhdpwHaoRoVzFQz0/gxr1Y11bMsLK3FvCLSKEtp3VzWy7Tl0UaAw==
+X-Gm-Gg: Acq92OGBvXRg7uCtP2Nn8gSgF2A7BoxdkTb6kMAmNfEJmyhrarOcXvUBHVjREHkVQEx
+	isZaKpG5ZnBlVhWVpY+7rhmS9RbKMqE2HBylsnH6+ckEjbEClW8qnCZVwtGoaWqKp1feT7+84lp
+	FtnZDjsPFiyZ3ICSUVMzIECsFfs4Y6TeFal0QwGQV2cR1OvqFn3of+Zo5GvbC83mlKJTmxOy644
+	PmCof+6UgguND2Bzjv2bWZNPqUxmuTkXk8LFgs0IRqBQ3pQqR8lpI1LhJbWM8GwWWv1MsbOocZu
+	dgcbe1EjwzeI8E+8K4M5Eju2fqqudCdHDzfLhcRj3edqHZC6fXL4/lIes5eK780b4zR6EX+MrpM
+	9Ye0Cz+r4xw4AIHeFIE7puQYXQw+oruKKg5DMTgigeXEN/l2tGJdF39NHLhd/BWv/qddCoFzRQK
+	uYshLYW6PdDXMACovTF86FFBqyHgr+GfjJbVO7Vq3Ajox0WaB10kCsDUgoxxfhBTEV3kaacMFt5
+	4pbfbt4m/Q8
+X-Received: by 2002:a05:600c:529b:b0:48e:6db3:ff2e with SMTP id 5b1f17b1804b1-490c4e0219emr333241345e9.15.1781081195038;
+        Wed, 10 Jun 2026 01:46:35 -0700 (PDT)
 Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490dca8fcfbsm31123815e9.1.2026.06.10.01.22.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3c1149sm482668185e9.4.2026.06.10.01.46.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 01:22:26 -0700 (PDT)
-Message-ID: <22d2d0733485cb904eb3f53c9bb891d64435def7.camel@gmail.com>
-Subject: Re: [PATCH] hwmon: (pmbus/max34440): add support adpm12250
+        Wed, 10 Jun 2026 01:46:34 -0700 (PDT)
+Message-ID: <cd335556e16408bb8d3fa42cd30650b94ca1f28b.camel@gmail.com>
+Subject: Re: [PATCH v4 2/2] iio: dac: Add AD5529R DAC driver support
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>, Guenter Roeck
-	 <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	 <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 10 Jun 2026 09:23:32 +0100
-In-Reply-To: <20260610-dev-adpm12250-v1-1-422760bb80da@analog.com>
-References: <20260610-dev-adpm12250-v1-1-422760bb80da@analog.com>
+To: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner	
+ <dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko	 <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel	 <p.zabel@pengutronix.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+	 <jan.sun97@gmail.com>
+Date: Wed, 10 Jun 2026 09:47:40 +0100
+In-Reply-To: <20260609-ad5529r-driver-v4-2-2e4c02234a1a@analog.com>
+References: <20260609-ad5529r-driver-v4-0-2e4c02234a1a@analog.com>
+	 <20260609-ad5529r-driver-v4-2-2e4c02234a1a@analog.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
@@ -80,226 +87,633 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Wed, 2026-06-10 at 09:12 +0800, Alexis Czezar Torreno wrote:
-> ADPM12250 is a quarter brick DC/DC Power Module. It is a high power
-> non-isolated converter capable of delivering regulated 12V with
-> continuous power level of 2500W. Uses PMBus.
+On Tue, 2026-06-09 at 17:00 +0200, Janani Sunil wrote:
+> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
 >=20
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 > ---
-> ADPM12250 is a quarter brick DC/DC Power Module. It is a high power
-> non-isolated converter capable of delivering regulated 12V with continuou=
-s
-> power level of 2500W. Uses PMBus.
-> ---
+
+Nothing to add in addition to Andy's comment. With:
+
+* Sashiko point fixed
+* And the excess of parenthesis that Andy pointed out
 
 Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
 
-> =C2=A0Documentation/hwmon/max34440.rst | 27 ++++++++++++++++--------
-> =C2=A0drivers/hwmon/pmbus/max34440.c=C2=A0=C2=A0 | 45 +++++++++++++++++++=
-++++++++++++++++++---
-> =C2=A02 files changed, 60 insertions(+), 12 deletions(-)
+(The rest is up to you and Andy :))
+
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/iio/dac/Kconfig=C2=A0=C2=A0 |=C2=A0 17 ++
+> =C2=A0drivers/iio/dac/Makefile=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/iio/dac/ad5529r.c | 517 +++++++++++++++++++++++++++++++++++=
++++++++++++
+> =C2=A04 files changed, 536 insertions(+)
 >=20
-> diff --git a/Documentation/hwmon/max34440.rst b/Documentation/hwmon/max34=
-440.rst
-> index
-> d6d4fbc863d96c1008a1971d3e3245d9ce1ef688..e7421f4dbf38fc1436bbaeba71d4461=
-a00f8cefb
-> 100644
-> --- a/Documentation/hwmon/max34440.rst
-> +++ b/Documentation/hwmon/max34440.rst
-> @@ -19,6 +19,14 @@ Supported chips:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 320e84765ce6..143714e27d51 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1513,6 +1513,7 @@ L:	linux-iio@vger.kernel.org
+> =C2=A0S:	Supported
+> =C2=A0W:	https://ez.analog.com/linux-software-drivers
+> =C2=A0F:	Documentation/devicetree/bindings/iio/dac/adi,ad5529r.yaml
+> +F:	drivers/iio/dac/ad5529r.c
 > =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 Datasheet: -
+> =C2=A0ANALOG DEVICES INC AD5706R DRIVER
+> =C2=A0M:	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
+> index 657c68e75542..bb1d59889a2a 100644
+> --- a/drivers/iio/dac/Kconfig
+> +++ b/drivers/iio/dac/Kconfig
+> @@ -134,6 +134,23 @@ config AD5449
+> =C2=A0	=C2=A0 To compile this driver as a module, choose M here: the
+> =C2=A0	=C2=A0 module will be called ad5449.
 > =C2=A0
-> +=C2=A0 * ADI ADPM12250
+> +config AD5529R
+> +	tristate "Analog Devices AD5529R High Voltage DAC driver"
+> +	depends on SPI_MASTER
+> +	select REGMAP_SPI
+> +	help
+> +	=C2=A0 Say yes here to build support for Analog Devices AD5529R
+> +	=C2=A0 16-Channel, 12-Bit/16-Bit, 40V High Voltage Precision Digital to=
+ Analog
+> +	=C2=A0 Converter.
 > +
-> +=C2=A0=C2=A0=C2=A0 Prefixes: 'adpm12250'
+> +	=C2=A0 The device features multiple output voltage ranges from -20V to =
++20V,
+> +	=C2=A0 built-in 4.096V voltage reference, and digital functions includi=
+ng
+> +	=C2=A0 toggle, dither, and ramp modes. Supports both 12-bit and 16-bit
+> +	=C2=A0 resolution variants.
 > +
-> +=C2=A0=C2=A0=C2=A0 Addresses scanned: -
+> +	=C2=A0 To compile this driver as a module, choose M here: the
+> +	=C2=A0 module will be called ad5529r.
 > +
-> +=C2=A0=C2=A0=C2=A0 Datasheet: -
+> =C2=A0config AD5592R_BASE
+> =C2=A0	tristate
+> =C2=A0
+> diff --git a/drivers/iio/dac/Makefile b/drivers/iio/dac/Makefile
+> index 003431798498..f35e060b3643 100644
+> --- a/drivers/iio/dac/Makefile
+> +++ b/drivers/iio/dac/Makefile
+> @@ -18,6 +18,7 @@ obj-$(CONFIG_AD5446) +=3D ad5446.o
+> =C2=A0obj-$(CONFIG_AD5446_SPI) +=3D ad5446-spi.o
+> =C2=A0obj-$(CONFIG_AD5446_I2C) +=3D ad5446-i2c.o
+> =C2=A0obj-$(CONFIG_AD5449) +=3D ad5449.o
+> +obj-$(CONFIG_AD5529R) +=3D ad5529r.o
+> =C2=A0obj-$(CONFIG_AD5592R_BASE) +=3D ad5592r-base.o
+> =C2=A0obj-$(CONFIG_AD5592R) +=3D ad5592r.o
+> =C2=A0obj-$(CONFIG_AD5593R) +=3D ad5593r.o
+> diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
+> new file mode 100644
+> index 000000000000..d2d0287d0f95
+> --- /dev/null
+> +++ b/drivers/iio/dac/ad5529r.c
+> @@ -0,0 +1,517 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * AD5529R Digital-to-Analog Converter Driver
+> + * 16-Channel, 12/16-Bit, 40V High Voltage Precision DAC
+> + *
+> + * Copyright 2026 Analog Devices Inc.
+> + * Author: Janani Sunil <janani.sunil@analog.com>
+> + */
 > +
-> =C2=A0=C2=A0 * Maxim MAX34440
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 Prefixes: 'max34440'
-> @@ -87,11 +95,11 @@ This driver supports multiple devices: hardware monit=
-oring for
-> Maxim MAX34440
-> =C2=A0PMBus 6-Channel Power-Supply Manager, MAX34441 PMBus 5-Channel Powe=
-r-Supply
-> =C2=A0Manager and Intelligent Fan Controller, and MAX34446 PMBus Power-Su=
-pply Data
-> =C2=A0Logger; PMBus Voltage Monitor and Sequencers for MAX34451, MAX34460=
-, and
-> -MAX34461; PMBus DC/DC Power Module ADPM12160, and ADPM12200. The MAX3445=
-1
-> -supports monitoring voltage or current of 12 channels based on GIN pins.=
- The
-> -MAX34460 supports 12 voltage channels, and the MAX34461 supports 16 volt=
-age
-> -channels. The ADPM12160, and ADPM12200 also monitors both input and outp=
-ut
-> -of voltage and current.
-> +MAX34461; PMBus DC/DC Power Module ADPM12160, ADPM12200, and ADPM12250. =
-The
-> +MAX34451 supports monitoring voltage or current of 12 channels based on =
-GIN
-> +pins. The MAX34460 supports 12 voltage channels, and the MAX34461 suppor=
-ts 16
-> +voltage channels. The ADPM12160, ADPM12200, and ADPM12250 also monitors =
-both
-> +input and output of voltage and current.
-> =C2=A0
-> =C2=A0The driver is a client driver to the core PMBus driver. Please see
-> =C2=A0Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-> @@ -149,7 +157,7 @@ in[1-6]_reset_history	Write any value to reset histor=
-y.
-> =C2=A0.. note::
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 - MAX34446 only supports in[1-4].
-> -=C2=A0=C2=A0=C2=A0 - ADPM12160, and ADPM12200 only supports in[1-2]. Lab=
-el is "vin1"
-> +=C2=A0=C2=A0=C2=A0 - ADPM12160, ADPM12200, and ADPM12250 only supports i=
-n[1-2]. Label is "vin1"
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 and "vout1" respectively.
-> =C2=A0
-> =C2=A0Curr
-> @@ -172,8 +180,9 @@ curr[1-6]_reset_history	Write any value to reset hist=
-ory.
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 - in6 and curr6 attributes only exist for MAX344=
-40.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - MAX34446 only supports curr[1-4].
-> -=C2=A0=C2=A0=C2=A0 - For ADPM12160, and ADPM12200, curr[1] is "iin1" and=
- curr[2-6]
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 are "iout[1-5]".
-> +=C2=A0=C2=A0=C2=A0 - For ADPM12160, ADPM12200, and ADPM12250, curr[1] is=
- "iin1"
-> +=C2=A0=C2=A0=C2=A0 - For ADPM12160, and ADPM12200 curr[2-6] are "iout[1-=
-5]".
-> +=C2=A0=C2=A0=C2=A0 - For ADPM12250, curr[2-4] are "iout[1-3]".
-> =C2=A0
-> =C2=A0Power
-> =C2=A0~~~~~
-> @@ -209,7 +218,7 @@ temp[1-8]_reset_history	Write any value to reset hist=
-ory.
-> =C2=A0.. note::
-> =C2=A0=C2=A0=C2=A0 - temp7 and temp8 attributes only exist for MAX34440.
-> =C2=A0=C2=A0=C2=A0 - MAX34446 only supports temp[1-3].
-> -=C2=A0=C2=A0 - ADPM12160, and ADPM12200 only supports temp[1].
-> +=C2=A0=C2=A0 - ADPM12160, ADPM12200, and ADPM12250 only supports temp[1]=
-.
-> =C2=A0
-> =C2=A0
-> =C2=A0.. note::
-> diff --git a/drivers/hwmon/pmbus/max34440.c b/drivers/hwmon/pmbus/max3444=
-0.c
-> index
-> 4525b9fc56267479534251a1444aa09181615ac6..74876d2207fbe4014b8b54a9fd96823=
-70fc3bbed
-> 100644
-> --- a/drivers/hwmon/pmbus/max34440.c
-> +++ b/drivers/hwmon/pmbus/max34440.c
-> @@ -18,6 +18,7 @@
-> =C2=A0enum chips {
-> =C2=A0	adpm12160,
-> =C2=A0	adpm12200,
-> +	adpm12250,
-> =C2=A0	max34440,
-> =C2=A0	max34441,
-> =C2=A0	max34446,
-> @@ -97,7 +98,8 @@ static int max34440_read_word_data(struct i2c_client *c=
-lient, int
-> page,
-> =C2=A0		break;
-> =C2=A0	case PMBUS_VIRT_READ_IOUT_AVG:
-> =C2=A0		if (data->id !=3D max34446 && data->id !=3D max34451 &&
-> -		=C2=A0=C2=A0=C2=A0 data->id !=3D adpm12160 && data->id !=3D adpm12200)
-> +		=C2=A0=C2=A0=C2=A0 data->id !=3D adpm12160 && data->id !=3D adpm12200 =
-&&
-> +		=C2=A0=C2=A0=C2=A0 data->id !=3D adpm12250)
-> =C2=A0			return -ENXIO;
-> =C2=A0		ret =3D pmbus_read_word_data(client, page, phase,
-> =C2=A0					=C2=A0=C2=A0 MAX34446_MFR_IOUT_AVG);
-> @@ -182,7 +184,8 @@ static int max34440_write_word_data(struct i2c_client=
- *client,
-> int page,
-> =C2=A0		ret =3D pmbus_write_word_data(client, page,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 MAX34440_MFR_IOUT_PEAK, 0);
-> =C2=A0		if (!ret && (data->id =3D=3D max34446 || data->id =3D=3D max34451=
- ||
-> -			=C2=A0=C2=A0=C2=A0=C2=A0 data->id =3D=3D adpm12160 || data->id =3D=3D=
- adpm12200))
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 data->id =3D=3D adpm12160 || data->id =3D=3D=
- adpm12200 ||
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 data->id =3D=3D adpm12250))
-> =C2=A0			ret =3D pmbus_write_word_data(client, page,
-> =C2=A0					MAX34446_MFR_IOUT_AVG, 0);
-> =C2=A0
-> @@ -399,6 +402,40 @@ static struct pmbus_driver_info max34440_info[] =3D =
+> +#include <linux/array_size.h>
+> +#include <linux/bits.h>
+> +#include <linux/delay.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/err.h>
+> +#include <linux/errno.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/reset.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#define AD5529R_REG_INTERFACE_CONFIG_A		0x00
+> +#define AD5529R_REG_DEVICE_CONFIG		0x02
+> +#define AD5529R_REG_CHIP_GRADE			0x06
+> +#define AD5529R_REG_SCRATCH_PAD			0x0A
+> +#define AD5529R_REG_SPI_REVISION		0x0B
+> +#define AD5529R_REG_VENDOR_H			0x0D
+> +#define AD5529R_REG_STREAM_MODE			0x0E
+> +#define AD5529R_REG_INTERFACE_STATUS_A		0x11
+> +#define AD5529R_REG_MULTI_DAC_CH_SEL		0x14
+> +#define AD5529R_REG_OUT_RANGE_BASE		0x3C
+> +#define AD5529R_REG_OUT_RANGE(ch)		(AD5529R_REG_OUT_RANGE_BASE + (ch)
+> * 2)
+> +#define AD5529R_REG_DAC_INPUT_A_BASE		0x148
+> +#define AD5529R_REG_DAC_INPUT_A(ch)		(AD5529R_REG_DAC_INPUT_A_BASE +
+> (ch) * 2)
+> +#define AD5529R_REG_DAC_DATA_READBACK_BASE	0x16A
+> +#define AD5529R_REG_TSENS_ALERT_FLAG		0x18C
+> +#define AD5529R_REG_TSENS_SHTD_FLAG		0x18E
+> +#define AD5529R_REG_FUNC_BUSY			0x1A0
+> +#define AD5529R_REG_REF_SEL			0x1A2
+> +#define AD5529R_REG_INIT_CRC_ERR_STAT		0x1A4
+> +#define AD5529R_REG_MULTI_DAC_HOTPATH_SW_LDAC	0x1A8
+> +
+> +#define=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_SW_RESET	(BIT(7) | BIT(0)=
+)
+> +#define=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_ADDR_ASCENSION	BIT(5)
+> +#define=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_SDO_ENABLE	BIT(4)
+> +#define=C2=A0=C2=A0 AD5529R_REF_SEL_INTERNAL_REF		BIT(0)
+> +#define=C2=A0=C2=A0 AD5529R_MAX_REGISTER			0x232
+> +#define=C2=A0=C2=A0 AD5529R_8BIT_REG_MAX			0x13
+> +#define=C2=A0=C2=A0 AD5529R_SPI_READ_FLAG			0x80
+> +
+> +struct ad5529r_model_data {
+> +	const char *model_name;
+> +	unsigned int resolution;
+> +	const struct iio_chan_spec *channels;
+> +	unsigned int num_channels;
+> +};
+> +
+> +#define AD5529R_DAC_CHANNEL(chan, bits) {			\
+> +	.type =3D IIO_VOLTAGE,					\
+> +	.indexed =3D 1,						\
+> +	.output =3D 1,						\
+> +	.channel =3D (chan),					\
+> +	.info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW) |		\
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(IIO_CHAN_INFO_SCALE) |	\
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BIT(IIO_CHAN_INFO_OFFSET),	\
+> +	.scan_type =3D {						\
+> +		.format =3D 'u',					\
+> +		.realbits =3D (bits),				\
+> +		.storagebits =3D 16,				\
+> +	},							\
+> +}
+> +
+> +static const char * const ad5529r_supply_names[] =3D {
+> +	"vdd",
+> +	"avdd",
+> +	"hvdd",
+> +};
+> +
+> +static const struct iio_chan_spec ad5529r_channels_16bit[] =3D {
+> +	AD5529R_DAC_CHANNEL(0, 16),
+> +	AD5529R_DAC_CHANNEL(1, 16),
+> +	AD5529R_DAC_CHANNEL(2, 16),
+> +	AD5529R_DAC_CHANNEL(3, 16),
+> +	AD5529R_DAC_CHANNEL(4, 16),
+> +	AD5529R_DAC_CHANNEL(5, 16),
+> +	AD5529R_DAC_CHANNEL(6, 16),
+> +	AD5529R_DAC_CHANNEL(7, 16),
+> +	AD5529R_DAC_CHANNEL(8, 16),
+> +	AD5529R_DAC_CHANNEL(9, 16),
+> +	AD5529R_DAC_CHANNEL(10, 16),
+> +	AD5529R_DAC_CHANNEL(11, 16),
+> +	AD5529R_DAC_CHANNEL(12, 16),
+> +	AD5529R_DAC_CHANNEL(13, 16),
+> +	AD5529R_DAC_CHANNEL(14, 16),
+> +	AD5529R_DAC_CHANNEL(15, 16),
+> +};
+> +
+> +static const struct iio_chan_spec ad5529r_channels_12bit[] =3D {
+> +	AD5529R_DAC_CHANNEL(0, 12),
+> +	AD5529R_DAC_CHANNEL(1, 12),
+> +	AD5529R_DAC_CHANNEL(2, 12),
+> +	AD5529R_DAC_CHANNEL(3, 12),
+> +	AD5529R_DAC_CHANNEL(4, 12),
+> +	AD5529R_DAC_CHANNEL(5, 12),
+> +	AD5529R_DAC_CHANNEL(6, 12),
+> +	AD5529R_DAC_CHANNEL(7, 12),
+> +	AD5529R_DAC_CHANNEL(8, 12),
+> +	AD5529R_DAC_CHANNEL(9, 12),
+> +	AD5529R_DAC_CHANNEL(10, 12),
+> +	AD5529R_DAC_CHANNEL(11, 12),
+> +	AD5529R_DAC_CHANNEL(12, 12),
+> +	AD5529R_DAC_CHANNEL(13, 12),
+> +	AD5529R_DAC_CHANNEL(14, 12),
+> +	AD5529R_DAC_CHANNEL(15, 12),
+> +};
+> +
+> +static const struct ad5529r_model_data ad5529r_16bit_model_data =3D {
+> +	.model_name =3D "ad5529r-16",
+> +	.resolution =3D 16,
+> +	.channels =3D ad5529r_channels_16bit,
+> +	.num_channels =3D ARRAY_SIZE(ad5529r_channels_16bit),
+> +};
+> +
+> +static const struct ad5529r_model_data ad5529r_12bit_model_data =3D {
+> +	.model_name =3D "ad5529r-12",
+> +	.resolution =3D 12,
+> +	.channels =3D ad5529r_channels_12bit,
+> +	.num_channels =3D ARRAY_SIZE(ad5529r_channels_12bit),
+> +};
+> +
+> +enum ad5529r_output_range {
+> +	AD5529R_RANGE_0V_5V,
+> +	AD5529R_RANGE_0V_10V,
+> +	AD5529R_RANGE_0V_20V,
+> +	AD5529R_RANGE_0V_40V,
+> +	AD5529R_RANGE_NEG5V_5V,
+> +	AD5529R_RANGE_NEG10V_10V,
+> +	AD5529R_RANGE_NEG15V_15V,
+> +	AD5529R_RANGE_NEG20V_20V,
+> +};
+> +
+> +static const s32 ad5529r_output_ranges_mv[8][2] =3D {
+> +	[AD5529R_RANGE_0V_5V] =3D { 0, 5000 },
+> +	[AD5529R_RANGE_0V_10V] =3D { 0, 10000 },
+> +	[AD5529R_RANGE_0V_20V] =3D { 0, 20000 },
+> +	[AD5529R_RANGE_0V_40V] =3D { 0, 40000 },
+> +	[AD5529R_RANGE_NEG5V_5V] =3D { -5000, 5000 },
+> +	[AD5529R_RANGE_NEG10V_10V] =3D { -10000, 10000 },
+> +	[AD5529R_RANGE_NEG15V_15V] =3D { -15000, 15000 },
+> +	[AD5529R_RANGE_NEG20V_20V] =3D { -20000, 20000 },
+> +};
+> +
+> +struct ad5529r_state {
+> +	struct spi_device *spi;
+> +	const struct ad5529r_model_data *model_data;
+> +	struct regmap *regmap_8bit;
+> +	struct regmap *regmap_16bit;
+> +	enum ad5529r_output_range output_range_idx[16];
+> +};
+> +
+> +static const struct regmap_range ad5529r_8bit_readable_ranges[] =3D {
+> +	regmap_reg_range(AD5529R_REG_INTERFACE_CONFIG_A, AD5529R_REG_CHIP_GRADE=
+),
+> +	regmap_reg_range(AD5529R_REG_SCRATCH_PAD, AD5529R_REG_VENDOR_H),
+> +	regmap_reg_range(AD5529R_REG_STREAM_MODE, AD5529R_REG_INTERFACE_STATUS_=
+A),
+> +};
+> +
+> +static const struct regmap_range ad5529r_16bit_readable_ranges[] =3D {
+> +	regmap_reg_range(AD5529R_REG_MULTI_DAC_CH_SEL,
+> AD5529R_REG_INIT_CRC_ERR_STAT),
+> +	regmap_reg_range(AD5529R_REG_MULTI_DAC_HOTPATH_SW_LDAC,
+> AD5529R_MAX_REGISTER),
+> +};
+> +
+> +static const struct regmap_access_table ad5529r_8bit_readable_table =3D =
 {
-> =C2=A0		.read_word_data =3D max34440_read_word_data,
-> =C2=A0		.write_word_data =3D max34440_write_word_data,
-> =C2=A0	},
-> +	[adpm12250] =3D {
-> +		.pages =3D 19,
-> +		.format[PSC_VOLTAGE_IN] =3D direct,
-> +		.format[PSC_VOLTAGE_OUT] =3D direct,
-> +		.format[PSC_CURRENT_IN] =3D direct,
-> +		.format[PSC_CURRENT_OUT] =3D direct,
-> +		.format[PSC_TEMPERATURE] =3D direct,
-> +		.m[PSC_VOLTAGE_IN] =3D 125,
-> +		.b[PSC_VOLTAGE_IN] =3D 0,
-> +		.R[PSC_VOLTAGE_IN] =3D 0,
-> +		.m[PSC_VOLTAGE_OUT] =3D 125,
-> +		.b[PSC_VOLTAGE_OUT] =3D 0,
-> +		.R[PSC_VOLTAGE_OUT] =3D 0,
-> +		.m[PSC_CURRENT_IN] =3D 250,
-> +		.b[PSC_CURRENT_IN] =3D 0,
-> +		.R[PSC_CURRENT_IN] =3D -1,
-> +		.m[PSC_CURRENT_OUT] =3D 250,
-> +		.b[PSC_CURRENT_OUT] =3D 0,
-> +		.R[PSC_CURRENT_OUT] =3D -1,
-> +		.m[PSC_TEMPERATURE] =3D 1,
-> +		.b[PSC_TEMPERATURE] =3D 0,
-> +		.R[PSC_TEMPERATURE] =3D 2,
-> +		/* absent func below [18] are not for monitoring */
-> +		.func[2] =3D PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-> +		.func[4] =3D PMBUS_HAVE_STATUS_IOUT,
-> +		.func[5] =3D PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-> +		.func[6] =3D PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-> +		.func[9] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT,
-> +		.func[10] =3D PMBUS_HAVE_IIN | PMBUS_HAVE_STATUS_INPUT,
-> +		.func[14] =3D PMBUS_HAVE_IOUT,
-> +		.func[18] =3D PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-> +		.read_word_data =3D max34440_read_word_data,
-> +		.write_word_data =3D max34440_write_word_data,
+> +	.yes_ranges =3D ad5529r_8bit_readable_ranges,
+> +	.n_yes_ranges =3D ARRAY_SIZE(ad5529r_8bit_readable_ranges),
+> +};
+> +
+> +static const struct regmap_access_table ad5529r_16bit_readable_table =3D=
+ {
+> +	.yes_ranges =3D ad5529r_16bit_readable_ranges,
+> +	.n_yes_ranges =3D ARRAY_SIZE(ad5529r_16bit_readable_ranges),
+> +};
+> +
+> +static const struct regmap_range ad5529r_8bit_read_only_ranges[] =3D {
+> +	regmap_reg_range(AD5529R_REG_DEVICE_CONFIG, AD5529R_REG_CHIP_GRADE),
+> +	regmap_reg_range(AD5529R_REG_SPI_REVISION, AD5529R_REG_VENDOR_H),
+> +};
+> +
+> +static const struct regmap_range ad5529r_16bit_read_only_ranges[] =3D {
+> +	regmap_reg_range(AD5529R_REG_DAC_DATA_READBACK_BASE,
+> +			 (AD5529R_REG_DAC_DATA_READBACK_BASE + 15 * 2)),
+> +	regmap_reg_range(AD5529R_REG_TSENS_ALERT_FLAG,
+> AD5529R_REG_TSENS_SHTD_FLAG),
+> +	regmap_reg_range(AD5529R_REG_FUNC_BUSY, AD5529R_REG_FUNC_BUSY),
+> +	regmap_reg_range(AD5529R_REG_INIT_CRC_ERR_STAT,
+> AD5529R_REG_INIT_CRC_ERR_STAT),
+> +};
+> +
+> +static const struct regmap_access_table ad5529r_8bit_writeable_table =3D=
+ {
+> +	.no_ranges =3D ad5529r_8bit_read_only_ranges,
+> +	.n_no_ranges =3D ARRAY_SIZE(ad5529r_8bit_read_only_ranges),
+> +};
+> +
+> +static const struct regmap_access_table ad5529r_16bit_writeable_table =
+=3D {
+> +	.no_ranges =3D ad5529r_16bit_read_only_ranges,
+> +	.n_no_ranges =3D ARRAY_SIZE(ad5529r_16bit_read_only_ranges),
+> +};
+> +
+> +static const struct regmap_config ad5529r_regmap_8bit_config =3D {
+> +	.name =3D "ad5529r-8bit",
+> +	.reg_bits =3D 16,
+> +	.val_bits =3D 8,
+> +	.max_register =3D AD5529R_8BIT_REG_MAX,
+> +	.read_flag_mask =3D AD5529R_SPI_READ_FLAG,
+> +	.rd_table =3D &ad5529r_8bit_readable_table,
+> +	.wr_table =3D &ad5529r_8bit_writeable_table,
+> +};
+> +
+> +static const struct regmap_config ad5529r_regmap_16bit_config =3D {
+> +	.name =3D "ad5529r-16bit",
+> +	.reg_bits =3D 16,
+> +	.val_bits =3D 16,
+> +	.max_register =3D AD5529R_MAX_REGISTER,
+> +	.read_flag_mask =3D AD5529R_SPI_READ_FLAG,
+> +	.val_format_endian =3D REGMAP_ENDIAN_LITTLE,
+> +	.rd_table =3D &ad5529r_16bit_readable_table,
+> +	.wr_table =3D &ad5529r_16bit_writeable_table,
+> +	.reg_stride =3D 2,
+> +};
+> +
+> +static struct regmap *ad5529r_get_regmap(struct ad5529r_state *st,
+> +					 unsigned int reg)
+> +{
+> +	if (reg <=3D AD5529R_8BIT_REG_MAX)
+> +		return st->regmap_8bit;
+> +
+> +	return st->regmap_16bit;
+> +}
+> +
+> +static int ad5529r_reset(struct ad5529r_state *st)
+> +{
+> +	struct reset_control *rst;
+> +	int ret;
+> +
+> +	rst =3D devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return PTR_ERR(rst);
+> +
+> +	if (rst) {
+> +		ret =3D reset_control_deassert(rst);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		ret =3D regmap_write(st->regmap_8bit,
+> AD5529R_REG_INTERFACE_CONFIG_A,
+> +				=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_SW_RESET);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/*
+> +	 * Wait 10 ms for digital initialization to complete.
+> +	 * Per datasheet, Interface Status A register NOT_READY_ERR bit is
+> +	 * set if SPI transactions are attempted before digital initialization
+> +	 * completes.
+> +	 */
+> +	fsleep(10000);
+> +
+> +	return regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
+> +			=C2=A0=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_SDO_ENABLE |
+> +			=C2=A0=C2=A0=C2=A0 AD5529R_INTERFACE_CONFIG_A_ADDR_ASCENSION);
+> +}
+> +
+> +static int ad5529r_read_raw(struct iio_dev *indio_dev,
+> +			=C2=A0=C2=A0=C2=A0 struct iio_chan_spec const *chan,
+> +			=C2=A0=C2=A0=C2=A0 int *val, int *val2, long mask)
+> +{
+> +	struct ad5529r_state *st =3D iio_priv(indio_dev);
+> +	unsigned int reg_addr, reg_val_h;
+> +	int ret, range_idx, span_mv;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		/*
+> +		 * Read from DAC_INPUT_A register rather than DAC_DATA_READBACK.
+> +		 * The DAC operates in transparent mode and directly reflects
+> +		 * whatever value is written to the INPUT_A register.
+> +		 */
+> +		reg_addr =3D AD5529R_REG_DAC_INPUT_A(chan->channel);
+> +		ret =3D regmap_read(st->regmap_16bit, reg_addr, &reg_val_h);
+> +		if (ret)
+> +			return ret;
+> +
+> +		*val =3D reg_val_h;
+> +
+> +		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		range_idx =3D st->output_range_idx[chan->channel];
+> +
+> +		span_mv =3D ad5529r_output_ranges_mv[range_idx][1] -
+> +			=C2=A0 ad5529r_output_ranges_mv[range_idx][0];
+> +		*val =3D span_mv;
+> +		*val2 =3D st->model_data->resolution;
+> +
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	case IIO_CHAN_INFO_OFFSET:
+> +		range_idx =3D st->output_range_idx[chan->channel];
+> +
+> +		if (ad5529r_output_ranges_mv[range_idx][0] < 0)
+> +			*val =3D -(1 << (st->model_data->resolution - 1));
+> +		else
+> +			*val =3D 0;
+> +
+> +		return IIO_VAL_INT;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int ad5529r_write_raw(struct iio_dev *indio_dev,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_chan_spec const *chan,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 int val, int val2, long mask)
+> +{
+> +	struct ad5529r_state *st =3D iio_priv(indio_dev);
+> +	unsigned int reg_addr;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		if (val < 0 || val > GENMASK(st->model_data->resolution - 1, 0))
+> +			return -EINVAL;
+> +
+> +		reg_addr =3D AD5529R_REG_DAC_INPUT_A(chan->channel);
+> +
+> +		return regmap_write(st->regmap_16bit, reg_addr, val);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int ad5529r_find_output_range(const s32 *vals)
+> +{
+> +	for (unsigned int i =3D 0; i < ARRAY_SIZE(ad5529r_output_ranges_mv); i+=
++) {
+> +		if (vals[0] =3D=3D ad5529r_output_ranges_mv[i][0] * 1000 &&
+> +		=C2=A0=C2=A0=C2=A0 vals[1] =3D=3D ad5529r_output_ranges_mv[i][1] * 100=
+0)
+> +			return i;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int ad5529r_parse_channel_ranges(struct device *dev,
+> +					struct ad5529r_state *st)
+> +{
+> +	int ret, range_idx;
+> +	u32 ch;
+> +	s32 vals[2];
+> +
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		range_idx =3D AD5529R_RANGE_0V_5V;
+> +
+> +		ret =3D fwnode_property_read_u32(child, "reg", &ch);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Missing reg property in channel
+> node\n");
+> +
+> +		if (ch >=3D 16)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid channel number: %u\n", ch);
+> +
+> +		/* Read u32 property into s32 to handle negative voltage ranges */
+> +		if (!fwnode_property_read_u32_array(child,
+> +						=C2=A0=C2=A0=C2=A0 "adi,output-range-microvolt",
+> +						=C2=A0=C2=A0=C2=A0 (u32 *)vals,
+> ARRAY_SIZE(vals))) {
+> +			range_idx =3D ad5529r_find_output_range(vals);
+> +			if (range_idx < 0)
+> +				return dev_err_probe(dev, range_idx,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid range [%d %d] for ch
+> %u\n",
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 vals[0], vals[1], ch);
+> +		}
+> +
+> +		st->output_range_idx[ch] =3D range_idx;
+> +		ret =3D regmap_write(st->regmap_16bit,
+> +				=C2=A0=C2=A0 AD5529R_REG_OUT_RANGE(ch), range_idx);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to configure range for ch
+> %u\n",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 ch);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad5529r_reg_access(struct iio_dev *indio_dev,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int reg,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int writeval,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int *readval)
+> +{
+> +	struct ad5529r_state *st =3D iio_priv(indio_dev);
+> +
+> +	if (readval)
+> +		return regmap_read(ad5529r_get_regmap(st, reg), reg, readval);
+> +
+> +	return regmap_write(ad5529r_get_regmap(st, reg), reg, writeval);
+> +}
+> +
+> +static const struct iio_info ad5529r_info =3D {
+> +	.read_raw =3D ad5529r_read_raw,
+> +	.write_raw =3D ad5529r_write_raw,
+> +	.debugfs_reg_access =3D ad5529r_reg_access,
+> +};
+> +
+> +static int ad5529r_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev =3D &spi->dev;
+> +	struct iio_dev *indio_dev;
+> +	struct ad5529r_state *st;
+> +	bool external_vref;
+> +	int ret;
+> +
+> +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st =3D iio_priv(indio_dev);
+> +
+> +	st->spi =3D spi;
+> +
+> +	st->model_data =3D spi_get_device_match_data(spi);
+> +	if (!st->model_data)
+> +		return dev_err_probe(dev, -EINVAL, "Failed to identify device
+> variant\n");
+> +
+> +	ret =3D devm_regulator_bulk_get_enable(dev,
+> ARRAY_SIZE(ad5529r_supply_names),
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 ad5529r_supply_names);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get and enable regulators\n");
+> +
+> +	ret =3D devm_regulator_get_enable_optional(dev, "hvss");
+> +	if (ret && ret !=3D -ENODEV)
+> +		return dev_err_probe(dev, ret,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get and enable hvss regulator\n"=
+);
+> +
+> +	/*
+> +	 * The datasheet mentions a 4.096V external reference for correct
+> +	 * operation.
+> +	 */
+> +	ret =3D devm_regulator_get_enable_optional(dev, "vref");
+> +	if (ret && ret !=3D -ENODEV)
+> +		return dev_err_probe(dev, ret,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get and enable vref regulator\n"=
+);
+> +
+> +	external_vref =3D ret !=3D -ENODEV;
+> +
+> +	st->regmap_8bit =3D devm_regmap_init_spi(spi, &ad5529r_regmap_8bit_conf=
+ig);
+> +	if (IS_ERR(st->regmap_8bit))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap_8bit),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to initialize 8-bit regmap\n");
+> +
+> +	st->regmap_16bit =3D devm_regmap_init_spi(spi,
+> &ad5529r_regmap_16bit_config);
+> +	if (IS_ERR(st->regmap_16bit))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap_16bit),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to initialize 16-bit regmap\n");
+> +
+> +	ret =3D ad5529r_reset(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to reset device\n");
+> +
+> +	ret =3D regmap_assign_bits(st->regmap_16bit, AD5529R_REG_REF_SEL,
+> +				 AD5529R_REF_SEL_INTERNAL_REF,
+> +				 external_vref ? 0 :
+> AD5529R_REF_SEL_INTERNAL_REF);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to configure reference\n");
+> +
+> +	ret =3D ad5529r_parse_channel_ranges(dev, st);
+> +	if (ret)
+> +		return ret;
+> +
+> +	indio_dev->name =3D st->model_data->model_name;
+> +	indio_dev->info =3D &ad5529r_info;
+> +	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> +	indio_dev->channels =3D st->model_data->channels;
+> +	indio_dev->num_channels =3D st->model_data->num_channels;
+> +
+> +	return devm_iio_device_register(dev, indio_dev);
+> +}
+> +
+> +static const struct of_device_id ad5529r_of_match[] =3D {
+> +	{ .compatible =3D "adi,ad5529r-16", .data =3D &ad5529r_16bit_model_data=
+ },
+> +	{ .compatible =3D "adi,ad5529r-12", .data =3D &ad5529r_12bit_model_data=
+ },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ad5529r_of_match);
+> +
+> +static const struct spi_device_id ad5529r_id[] =3D {
+> +	{
+> +		.name =3D "ad5529r-16",
+> +		.driver_data =3D (kernel_ulong_t)&ad5529r_16bit_model_data,
 > +	},
-> =C2=A0	[max34440] =3D {
-> =C2=A0		.pages =3D 14,
-> =C2=A0		.format[PSC_VOLTAGE_IN] =3D direct,
-> @@ -635,7 +672,8 @@ static int max34440_probe(struct i2c_client *client)
-> =C2=A0		rv =3D max34451_set_supported_funcs(client, data);
-> =C2=A0		if (rv)
-> =C2=A0			return rv;
-> -	} else if (data->id =3D=3D adpm12160 || data->id =3D=3D adpm12200) {
-> +	} else if (data->id =3D=3D adpm12160 || data->id =3D=3D adpm12200 ||
-> +		=C2=A0=C2=A0 data->id =3D=3D adpm12250) {
-> =C2=A0		data->iout_oc_fault_limit =3D PMBUS_IOUT_OC_FAULT_LIMIT;
-> =C2=A0		data->iout_oc_warn_limit =3D PMBUS_IOUT_OC_WARN_LIMIT;
-> =C2=A0	}
-> @@ -646,6 +684,7 @@ static int max34440_probe(struct i2c_client *client)
-> =C2=A0static const struct i2c_device_id max34440_id[] =3D {
-> =C2=A0	{ .name =3D "adpm12160", .driver_data =3D adpm12160 },
-> =C2=A0	{ .name =3D "adpm12200", .driver_data =3D adpm12200 },
-> +	{ .name =3D "adpm12250", .driver_data =3D adpm12250 },
-> =C2=A0	{ .name =3D "max34440", .driver_data =3D max34440 },
-> =C2=A0	{ .name =3D "max34441", .driver_data =3D max34441 },
-> =C2=A0	{ .name =3D "max34446", .driver_data =3D max34446 },
->=20
-> ---
-> base-commit: 1723bc01ecc7ca2f30272685121314379ba5eb18
-> change-id: 20260610-dev-adpm12250-4ce6fc8c82ac
->=20
-> Best regards,
+> +	{
+> +		.name =3D "ad5529r-12",
+> +		.driver_data =3D (kernel_ulong_t)&ad5529r_12bit_model_data,
+> +	},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, ad5529r_id);
+> +
+> +static struct spi_driver ad5529r_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "ad5529r",
+> +		.of_match_table =3D ad5529r_of_match,
+> +	},
+> +	.probe =3D ad5529r_probe,
+> +	.id_table =3D ad5529r_id,
+> +};
+> +module_spi_driver(ad5529r_driver);
+> +
+> +MODULE_AUTHOR("Janani Sunil <janani.sunil@analog.com>");
+> +MODULE_DESCRIPTION("Analog Devices AD5529R 12/16-bit DAC driver");
+> +MODULE_LICENSE("GPL");
