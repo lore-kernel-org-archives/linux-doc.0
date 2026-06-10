@@ -1,197 +1,259 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011056.outbound.protection.outlook.com [40.93.194.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756151A23A6;
-	Wed, 10 Jun 2026 13:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781097648; cv=fail; b=uIjyWjwLvq6TvoJOKgG4tb+PG8wVLTSs1iG4BpicNJPLvzqqK/uIav6th/t3xcn5HbVoMfB00gTg+7Jlx2mCSOi+OqwNRpdXdsWihkdPPk2BheVKZJISnQusVM0NvNlAHEPQwCtkeY5hbNr4jCtjUghR3MNAvzUUQdq208XDMpo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781097648; c=relaxed/simple;
-	bh=D8y6jBFIcHgc45uQr5ztBYPGDfGA5c7VYE/3UcNv+xU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=f7vQZyN82Aq3sriIubJaOM1B4b2nLOWO5nvKY/Cefjp/JcmtL/STPWwcNyuhZqfEiy4DjfCQJQAN/Vs2hKOGKIVUJ5HUKzyvcmSJKkKGKmZNatGI34vE/ok0k0kV82K2jtE9WarnCEggAFdoP6/tYwwO+iH52VzcpavaZHs+RFo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Zsq6I8mR; arc=fail smtp.client-ip=40.93.194.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF2312826;
+	Wed, 10 Jun 2026 13:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781099363; cv=none; b=nZMM4uLyZ1YHvfv9H7TjrdFaublG56Ryw8pIYSf2IvL3WI8VzvK6j94xTlWnXa/ALHgp+nTjzWfHm2cCoS+lLHR/851XWYk96/ovdthRAEmx0RinXIFVjBnQJOII3bsUFsLL3Qj3XA/hfDZtq4RmNJVGQF2jMjSAhNvCMUG9h8A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781099363; c=relaxed/simple;
+	bh=kFiGDFr5RB/gATze20hBVw74cIAqG8HWvXTF4/7JrqQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UFu2NgnbuXBq6lRbxjvUYQaX385j7NChTokzdWPgEIglzSfCHdw/aUBw5dCHQ5K6q0j7oP+3QqoCWB/bL3XdQUVSVBtRA4ri2qj0xoYHV/HWQ0Cce9xtCYxV5/rH7BQdEJG3fcAN2MyG+G3jgHYncvq6dNTqVRhu55olOOeqaow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OW7jEMp7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zsq6I8mR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gyMUHL0TFcIFQynk30bOQjtn9cxIl6Rv+vntX84r+7C625TCYbxKQpghae/z58+1fVhtHOAyXJzcTIVtaCoYtaQk+IRRc/Z9vSuJsRyKa7J3L5Pq07JBMxRuJFJcgnYhynJ8YQJk/7j5/nQNTZh3LlQsymhW7D7LmTkfk8oo7K4GztH7od7kcKQdhPwhVx2ZXZ/myqZhqM8WVg/XupFUJXaarZoC2WXhv9X/OfJyC8oYUsAiLK/cciArLjU3XNVGTTlxdK4zmuEBreyV2wylLLtTIgNqYUHj1luLm+aV7tM14ygFIDfXNtBw1QSSE5xh4ank9UzGxAAw5clg4BQaVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2mw98UDti+w23bYsqEoXHV6+vUXcKMaT+r/hqgm+CvE=;
- b=QCM/suTfjCgTFjaGp/zozt+fUOTom/AquZVLGoa14hiXUQiJPYk3MjCPa7AlkJWuftsHRBe72u2BRX9ow5skzDVWSQQavxbfbDzqlIVdyh+TWTBiNDNq26fhsWcx8mnHqN4NSYB0DrTFUJiTTA54+G9TA+tgk7JNNaZeZQb6iGFgurwjSklCvjaI6D/mrv4Jfc6FG8P1Nxv3FKKzskmAYT8Z7UEgFjeR7GJ0hNFQRAbEe5PEGdk2ZTo/vBH+a6mZrmDUqrEKWG/puEoKrdBinMPHQHKe2Spuzive5TzWfxfEaUf+J59nBz1pIFDHvhbEP0rrnLDfPK+HVg52RThFGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2mw98UDti+w23bYsqEoXHV6+vUXcKMaT+r/hqgm+CvE=;
- b=Zsq6I8mRZv15CXs+J5jl12R5LcU0RAZZ5sFCu8qIom4c8Gcc9aq2qjQceEwW1xzERcvHwgWkS9+LN5CYzdNPP+baX7qJBstxXwY8knlpdYrrFiWBxD8fUWJ6TLsVNQPGetEBo8z3n/IE/93bZBAzMHg1XMw3CkRqqr+393Z14RFnedgmL0APX64bIbSk8jwpNPfXFoxFbALa/z5ihmLQVFN6+12e7JIjGuRxtBh1givLsNjVYjH6aFjXiReNTay0MRVW3xggg/cz9yjzl5u3vS7FqbNr6gajJ39GkZGxb+97/uGoXKsd3krDuf4U7JN5EuclXZ4xyAbPvdnrCUIaJQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
- by BL1PR12MB5778.namprd12.prod.outlook.com (2603:10b6:208:391::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 10 Jun 2026
- 13:20:44 +0000
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Wed, 10 Jun 2026
- 13:20:44 +0000
-Message-ID: <223c49ee-528c-4750-9885-fd8e0247151e@nvidia.com>
-Date: Wed, 10 Jun 2026 08:20:28 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- linux-arm-kernel@lists.infradead.org,
- Vladimir Murzin <vladimir.murzin@arm.com>,
- Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
- Jason Sequeira <jsequeira@nvidia.com>, jgg@nvidia.com
-References: <20260605144551.2004391-1-sdonthineni@nvidia.com>
- <ailKYTOX23EMnJsK@willie-the-truck>
-Content-Language: en-US
-From: Shanker Donthineni <sdonthineni@nvidia.com>
-In-Reply-To: <ailKYTOX23EMnJsK@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DM6PR07CA0075.namprd07.prod.outlook.com
- (2603:10b6:5:337::8) To IA1PR12MB6089.namprd12.prod.outlook.com
- (2603:10b6:208:3ef::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OW7jEMp7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18311F00893;
+	Wed, 10 Jun 2026 13:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781099361;
+	bh=P3XAwJ48/nUsXtOdnSazDW5BGO3gYiQky7/NCmEkI5s=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=OW7jEMp7uyaD2UR2jInuViFO6uOUaDdo88kQhANU9HUdnMT3phwlH8F5am4skRKeQ
+	 TT0BNloNiNPzORDWqTxiJqgs8Jx2ZcSztnjTzj+0GNxeAaLabRTOzDhywIahiKoJtX
+	 xqXjX7l4Khdvl8h8tjCmxklrCrLjJq4pLn8NT7i/ur898D+DgSX8Jmz/QCYt9wGLIP
+	 YC+ugkp4U0wf+mQucFxW/KeZNDKyBQQ/u9bwEzrgHNTg/9DAZRm2n/PC7EgQDIesHy
+	 Wr9m58tcxKmFjB+6gJUUVNAW4AY9LN5/KgbufFGYIutlbCujnmHwjc1mIx2ef/qveA
+	 aRB6HAeOPuS+w==
+Message-ID: <dd5836b365946641824dbde5b6edc5395271617d.camel@kernel.org>
+Subject: Re: [PATCH v5 05/21] nfsd: update the fsnotify mark when setting or
+ removing a dir delegation
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
+ Ngo <Dai.Ngo@oracle.com>,  Tom Talpey <tom@talpey.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,  Jonathan Corbet	
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Alexander Aring
+ <alex.aring@gmail.com>,  Amir Goldstein <amir73il@gmail.com>, Jan Kara
+ <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,  Christian
+ Brauner	 <brauner@kernel.org>, Calum Mackay <calum.mackay@oracle.com>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nfs@vger.kernel.org
+Date: Wed, 10 Jun 2026 09:49:17 -0400
+In-Reply-To: <e0e995e9-8272-44f6-b2e0-9e61ed0eef3b@app.fastmail.com>
+References: <20260522-dir-deleg-v5-0-542cddfad576@kernel.org>
+	 <20260522-dir-deleg-v5-5-542cddfad576@kernel.org>
+	 <e0e995e9-8272-44f6-b2e0-9e61ed0eef3b@app.fastmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|BL1PR12MB5778:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f33852c-c1f4-424b-13d9-08dec6f3139c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|56012099006|11063799006|4143699003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	yr77mem8kLNL63bU5Iv1vheGL7H/32BYe5ID+RYDS9lIYqj3OGQE3apmlOPOlnRzYgDl39l0S1norHyzRFjdvsG73YQt8slVj7Z4DP1bYRasC/SjwY1NpQQAfKJmzc4dhrxbCSjupd1GOxsLvi27NVzKC9G1bySVn6Y2So61S+tSy2bKlcd5hcv4T9GMSv6HAnKdW+RjiBfOlbVMznMVN4VwdIOeTWQ2k8mHQb8yJWWAEUz4U7Ib+fWGeVvouJBFhjANWX8YToRzs+D2U1syBe8OkvshIz5QSNx6yhbo7WZrlttQiivrVE0fZe4NuAZb31h7d76fI4xEPhdzkAD5CsUpxSQTvtTu2NSq6J17wDb3cgE0oRs57lvpXZe3VTEkdtNvaE6rWk4cmb0rkK9/KYxGjvHT6ZBavj1/S6S6ikR34nG4z0hYEOzAWN6Eb9rWoWoNDWmWsBrGXQyRcBkZR8z0POH3398iBcMqxW7gs3t3lz8TIh2awDQRHeIht6YrPMIqVjaEKQKyuRTIzngfGmgLGibnlaKGsw4aw8rDZznRywIzpz9KNwx2z1dI0EwU5z/IQ6fIEdCCCZNaGvkKldTER8Hwjwfo/g/npXQRoZr7Dn06p2Qq4Kwz8mHWsjs5IZFeqAzLzBECb4pISIRg1R4UISSBUs8ZN/OwJXyg0Ohq93I3hQmT7aJcQNRPgCRP
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MHhXSU5jQ2dzanhhV3oxcXA4Z1AwSjRKdTVZK0wwNGE1cDN3cU8zTmtIZHIv?=
- =?utf-8?B?VVh6TExZbEJNaG0yRlB4Wkl5dFFKeTJEQlRDNWhqMlkrSU9HUXArUFRQY0w1?=
- =?utf-8?B?WExjREZkZGQ0Z0dmM2NROThQY1FadVJjZ1MyUCs3T1dvdjF3VEpndmtIbWhM?=
- =?utf-8?B?NWRnWjBjQmhyWExsTHNTcnNrZWFTRGRYTjZXTWxJcmczZ01BRUNHWmRWNWNi?=
- =?utf-8?B?Y080UXRUZEZYMHF2dTZuMm5GQi91c0owVVgyREtLM0p0QnlTMDU3Mm85OTJP?=
- =?utf-8?B?R1lUeE5QRkRRb0ZBSnJCMm1sK0NsMWw4amhzYmJKcHRQb1RWaWtYRUJIZHlS?=
- =?utf-8?B?MnZEVnVwWDRRYzE4dGJHdGFUL3pta2RYVDd3YXN0ZlJWUVRyOUJ5T284akxm?=
- =?utf-8?B?SWZrd1A4Z1ZFRXZrelFyMGw0QUtMSTBOT2dKSGNrcFAyR2lXZWtXVXNJR01q?=
- =?utf-8?B?MU0za3ErWXRRRFVWSC9TLzN6S210RnZLNzk5czBrU3FZblViWkVoUnBJNE02?=
- =?utf-8?B?aktXaDk3ekMvdHVtUVQwYU5ROVBFcENVSm9aVFREY1BKMVAwRFkxd0hvU0Vj?=
- =?utf-8?B?V1N5SG9PaTI4T1NzRGlaR2hvMkJiWkRPZTExRG83UTVKOGlmeTd6SDZBNlhO?=
- =?utf-8?B?MHpIVWlsS0htS2tNQnJUakovZG5RRS9qR0Q4RnlyY1dNMnRtblpnTmhKQkhV?=
- =?utf-8?B?OVVNMG9qSkpYc2F6VjZKc2p5SmNRU0xDRHA3RjVhREswa2lqM0FvTkE1ZFZj?=
- =?utf-8?B?OWlyd3M2SVJMSldFY2piMEdCMHgxMjZBcDRIOWI2cnlqcUtqZjdmcUl2UjBZ?=
- =?utf-8?B?a3d6UnlxbkVsVy8za1JnSVRDb2drUWh3ODd4TjRMTUgzc3RSZ1RzaEtWMTlO?=
- =?utf-8?B?K1ZGOUljRnBnbXNMd0dCUitac0JZa3J2RXZ4S0lBQWEvWDVOTjhNS1AyLzFz?=
- =?utf-8?B?TE45cFFBWVpmTVlNeW8xSGhqT1Y2QVhnNVB4b3h3RlF5Z2FlS01zZm55QVBP?=
- =?utf-8?B?UFlZVEdnWjRCaUVpR2lpVUI2T1pIQ3h1RGkraUNaMnlhSXZic09BaTVPMnZs?=
- =?utf-8?B?cjhUcm9MNEhYRktVQnFqam1ocjBwd0ZtMjhOVWpQYzV1bHVINUdMREtXcStQ?=
- =?utf-8?B?azV0VjdzZ2FxSE50cHZZZXJsUkVCenFjSlc0SjJWMmM2MG9MbnRlL3FxMlBG?=
- =?utf-8?B?N1BtdlhQSXNPT3RHZEZmZEFXVWh5YlNvMVphYTVtWVQvZkJzUnFuZHRETmJ6?=
- =?utf-8?B?RDk2c0o0KzNxVHdWWkg5RHFlbXowUElkWTVuTFZDdjZaSENQaUsvMzc0bklH?=
- =?utf-8?B?cTZ6d3A5bk1GeHJwbWtDNWRUZVNMcVlIY1Q2VFd6SjFUaGY0ZFJCckxFMlZC?=
- =?utf-8?B?ZjRXVUNVaHZnYXViV2IwN3NiZDQxR2pGd0ZzRFhmQVVmbFViWUR6N1BMRHlI?=
- =?utf-8?B?bEJCT1FhT0E2UGZCd3dwZENNZlUxOVRIeCtEZ3lHZDcvMWoydFYzZEorR3Qx?=
- =?utf-8?B?NFZ0UngvN05WY2tCWTRmRG5IQVJINUFBS0hEd3czSk1ha2RFejkzNmRrUFZB?=
- =?utf-8?B?YVpqVjRUS2ZHQ1o4ZE1aTmRQK3RHRTFkeGFqSjZoVEJiS1RORGVUREN6NGUy?=
- =?utf-8?B?RCtzVzdhT25YbDB5R29kSjNDQllmZWJJWEJ2aldBMTRpckJJUTlFU1JtWlZx?=
- =?utf-8?B?RUlENnZMbWtKSEpWZU9VWWV1YlkzcDA4Q09Ud0djZ21QdXNkZGVOTDhLWi9v?=
- =?utf-8?B?ZjhmVFUxTExOWm1McGF5Y09YYlJKS2R2ODRtOGttTTRIZ2ZYOFJqblMyZW1y?=
- =?utf-8?B?YVd6ZFdUbU00QVh0L0EwL3RBck5rUHpMUElMRmR5bzFwU0lPZ1BzZmEvWUZo?=
- =?utf-8?B?WDBJL3hlT2ErWmJGbzB6N0Q1YitvRmE2Wk9wTWNhcWRtTWRPOUdpUjVtSDYx?=
- =?utf-8?B?Q05meVFNN01Ia0R2TENQVEhRMzROVGNodEZCbVhXQ3A2MndTRmZKdS94VWZt?=
- =?utf-8?B?WEVDbm8vekY4TmFRQzREd2wzTlR2UkFrNHFDYUhuZDBpWjAxUUMwcGRqTUpy?=
- =?utf-8?B?eGVwMW1XdXFxK205bzA3ZEw5SlFkOXEreVdFb0s0UUdJc3BBNWtxN2kyU0g2?=
- =?utf-8?B?NkpJU0NVamwvYmo3TXpoRjd0NWc0RGRPWVlxY1ZVS3hIUHdnT00zZFg2YW5v?=
- =?utf-8?B?dENmRnVFRFM0NGtPM0RzQkc3a2N6bzNJM0U5WkxhSVV4VXJ2NytnYWNadmN6?=
- =?utf-8?B?ZERqcHlNT1lOazloYmZGQW9UUDNzZ2dKeFlZZkJzSDhXQnRIdlFDM0dyajY0?=
- =?utf-8?B?S2NlaWxqVktJS25RekNudUsydmVyelhmM3hreHZxNkw1Y0NuOGhuQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f33852c-c1f4-424b-13d9-08dec6f3139c
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 13:20:44.2922
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WcMBVnoglsY7PbpHLA7M1eN8NstLCETbcxKn364WfVRuS56VYCXHkHriPLTRncxccBrKW4dz4kFEKykwbi1l2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5778
 
-Hi Will,
+On Mon, 2026-06-08 at 12:38 -0400, Chuck Lever wrote:
+>=20
+> On Fri, May 22, 2026, at 3:42 PM, Jeff Layton wrote:
+> > Add a new helper function that will update the mask on the nfsd_file's
+> > fsnotify_mark to be a union of all current directory delegations on an
+> > inode. Call that when directory delegations are added or removed.
+>=20
+> This commit message repeats what the diff below says. Can it instead
+> explain why this change is necessary?
+>=20
 
-On 6/10/2026 6:28 AM, Will Deacon wrote:
-> External email: Use caution opening links or attachments
->
->
-> [+Jason G]
->
-> On Fri, Jun 05, 2026 at 09:45:51AM -0500, Shanker Donthineni wrote:
->> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
->> observed by a peripheral before an older, non-overlapping Device-nGnR*
->> store to the same peripheral. This breaks the program-order guarantee
->> that software expects for Device-nGnR* accesses and can leave a
->> peripheral in an incorrect state, as a load is observed before an
->> earlier store takes effect.
->>
->> The erratum can occur only when all of the following apply:
->>
->>    - A PE executes a Device-nGnR* store followed by a younger
->>      Device-nGnR* load.
->>    - The store is not a store-release.
->>    - The accesses target the same peripheral and do not overlap in bytes.
->>    - There is at most one intervening Device-nGnR* store in program
->>      order, and there are no intervening Device-nGnR* loads.
->>    - There is no DSB, and no DMB that orders loads, between the store and
->>      the load.
->>    - Specific micro-architectural and timing conditions occur.
->>
->> Two ways to restore ordering: insert a barrier (any DSB, or a DMB that
->> orders loads) between the store and the load, or make the store a
->> store-release. A load-acquire on the load side would not help, because
->> acquire semantics do not prevent a load from being observed ahead of an
->> older store; only the store side (release or a barrier) closes the
->> window.
-> I think you can drop the paragraph above. A store-release isn't enough
-> to order against a later load in the architecture either, so we're
-> clearly in micro-architecture territory and I don't think you need to
-> describe mechanisms that don't work here.
->
->> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
->> to stlr* (Store-Release), which removes the "store is not a
->> store-release" condition for every device write the kernel issues.
->> Because writel() and writel_relaxed() are both built on __raw_writel()
->> in asm-generic/io.h, patching the raw variants covers both the
->> non-relaxed and relaxed APIs without touching the higher layers. Note
->> that writel()'s own barrier sits before the store, so it does not order
->> the store against a subsequent readl(); the store-release promotion is
->> what provides that ordering.
+The idea is that as new delegations are added or removed, the mask of
+events that nfsd requires from the VFS layer can change, since clients
+can request notifications of different events. I'll add that to the
+changelog.=20
 
-Based on the existing code comments and after reviewing this path again,
-__const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
-appear to be intended for WC regions. Since the erratum is scoped to
-Device-nGnR* accesses, and WC mappings are Normal-NC on arm64, I don’t
-think the STLR workaround should apply to these helpers by default.
+>=20
+> > Reviewed-by: Jan Kara <jack@suse.cz>
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> >  fs/nfsd/nfs4state.c | 34 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
+> >=20
+> > diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> > index 2a34ba457b74..efbc99f0a965 100644
+> > --- a/fs/nfsd/nfs4state.c
+> > +++ b/fs/nfsd/nfs4state.c
+> > @@ -1246,6 +1246,38 @@ static void=20
+> > nfsd4_finalize_deleg_timestamps(struct nfs4_delegation *dp, struct f
+> >  	nfsd_update_cmtime_attr(f, ATTR_ATIME);
+> >  }
+> >=20
+> > +static void nfsd_fsnotify_recalc_mask(struct nfsd_file *nf)
+>=20
+> Since nfsd_fsnotify_recalc_mask() takes a single struct nfsd_file
+> as an argument, should this function reside in fs/nfsd/filecache.c
+> instead? The question might reflect my misunderstanding of the
+> new function's purpose.
+>=20
 
-Applying it there would also break the contiguous STR grouping that
-this path relies on for write combining.
+The only caller is in this file, so by keeping it here we can make it
+static. I can change that if you'd prefer it be in filecache.c.
 
--Shanker
+>=20
+> > +{
+> > +	struct inode *inode =3D file_inode(nf->nf_file);
+> > +	u32 lease_mask, set =3D 0, clear =3D 0;
+> > +	struct fsnotify_mark *mark;
+> > +
+> > +	/* This is only needed when adding or removing dir delegs */
+> > +	if (!S_ISDIR(inode->i_mode) || !nf->nf_mark)
+> > +		return;
+> > +
+> > +	/* Set up notifications for any ignored delegation events */
+> > +	lease_mask =3D inode_lease_ignore_mask(inode);
+> > +	mark =3D &nf->nf_mark->nfm_mark;
+> > +
+> > +	if (lease_mask & FL_IGN_DIR_CREATE)
+> > +		set |=3D FS_CREATE | FS_MOVED_TO;
+> > +	else
+> > +		clear |=3D FS_CREATE | FS_MOVED_TO;
+> > +
+> > +	if (lease_mask & FL_IGN_DIR_DELETE)
+> > +		set |=3D FS_DELETE | FS_MOVED_FROM;
+> > +	else
+> > +		clear |=3D FS_DELETE | FS_MOVED_FROM;
+> > +
+> > +	if (lease_mask & FL_IGN_DIR_RENAME)
+> > +		set |=3D FS_RENAME;
+> > +	else
+> > +		clear |=3D FS_RENAME;
+> > +
+> > +	fsnotify_modify_mark_mask(mark, set, clear);
+> > +}
+> > +
+> >  static void nfs4_unlock_deleg_lease(struct nfs4_delegation *dp)
+> >  {
+> >  	struct nfs4_file *fp =3D dp->dl_stid.sc_file;
+> > @@ -1255,6 +1287,7 @@ static void nfs4_unlock_deleg_lease(struct=20
+> > nfs4_delegation *dp)
+> >=20
+> >  	nfsd4_finalize_deleg_timestamps(dp, nf->nf_file);
+> >  	kernel_setlease(nf->nf_file, F_UNLCK, NULL, (void **)&dp);
+> > +	nfsd_fsnotify_recalc_mask(nf);
+> >  	put_deleg_file(fp);
+> >  }
+> >=20
+>=20
+> I added the following edit to this patch>
+>=20
+> @@ -9597,8 +9629,7 @@ nfsd4_deleg_getattr_conflict(struct svc_rqst *rqstp=
+, struct dentry *dentry,
+>   * @nf: nfsd_file opened on the directory
+>   *
+>   * Given a GET_DIR_DELEGATION request @gdd, attempt to acquire a delegat=
+ion
+> - * on the directory to which @nf refers. Note that this does not set up =
+any
+> - * sort of async notifications for the delegation.
+> + * on the directory to which @nf refers.
+>   */
+>  struct nfs4_delegation *
+>  nfsd_get_dir_deleg
+>=20
+> The patch makes the above kerneldoc note ("does not set up any sort of as=
+ync
+> notifications") logically obsolete.
+>=20
 
+Thanks. I folded that change into this patch.
 
+>=20
+> > @@ -9682,6 +9715,7 @@ nfsd_get_dir_deleg(struct nfsd4_compound_state *c=
+state,
+> >=20
+> >  	if (!status) {
+> >  		put_nfs4_file(fp);
+> > +		nfsd_fsnotify_recalc_mask(nf);
+> >  		return dp;
+> >  	}
+> >=20
+> >=20
+> > --=20
+> > 2.54.0
+
+--=20
+Jeff Layton <jlayton@kernel.org>
