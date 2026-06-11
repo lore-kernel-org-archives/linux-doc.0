@@ -1,214 +1,236 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010069.outbound.protection.outlook.com [52.101.84.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD063612F3
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 20:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781209452; cv=none; b=F1/j676x5fb6P55bwrDZtfC807CwzUMYjYux1/jjw8le++VWEyZaSMACMB+YAcGQO0UmydxkbLb92XCnzckqFZojwriC9mxcvCVhi9Kwpurwn4u/3lgCIq4QO5pBw+ZXSMHqnQkcgnYBNmoDwR4cf5jRhhoUrHrRf7Bla7zHEwE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781209452; c=relaxed/simple;
-	bh=+xNeGwemUqzYFPVDgfqnrZWtgLJ4R1DhZ7ACEcpAM7k=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=oRHvb4cBewAl1QyX3sbjEdCVYkN66nK/gUjHtJMtKSa2A9VZxJu/E0BLu0NwGpjslekfacrP/34VAhhmO7TT9OWbkAKaGNCbfFqquAjSVfINg9YuqpIQhtGaDEaHxJzqp/ymVMCvJogRcOn9/rArf0YEOL9tF3Xr2cOwpjRd30g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7e6eeff3b75so499468a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 13:24:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781209449; x=1781814249;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9grvKRD1snOVoU/w8AWVaOix9sWh6XIsSpdq1MW8cvg=;
-        b=YSFimeNq6Q5/8UBEkcCySWXX4471RHvyzh9RVMvLsOknSjM4RKwTucWIjlMhIL3QJD
-         HO4dEJmDYpqaW8juRufBHnraqRrCVzAk4U+65kxQoeFk3pww/dt4vG7vLb89RiiNVTLW
-         zK8IcmT7Z6qCJR3jGr1er+7MnCzISYVtZi670WgwdZclqLlhCNExlWqv524spOMK3eX5
-         vgvbmJR9YDbbfOlOxOPPrd9uVeq3pCakobatIaCMf1oMlad5Lzcym7YMc6xkdntV0JLH
-         1skRebYsx6sJJyEWgbUiWVSW/udLFI/whhVgUI7w9ItMjKtIqd51GQ43zN3QyXkpnmLq
-         269Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/OBEBOFOLXx1uEHbRSNzQjZLNFSFK53hehysL+y4adqrFfWKY3R/i4mUbVJP41xIaESol9zr+Rh7Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvOXmZVTScleB0m1OPDHNxXDIrjTlvgsSC/0CZRTlf7sb298Nd
-	IoQyIKdyF0AAddMo4kOg0povF4qzbw/8SU2snr0Ota6o1zAubbAWoE7HMfDtpXnZMqNYUgfSVGX
-	FNMsl9Lmh/v0HrxnRJ3IdVLGqmRjBuSPFP+/qyB1heELiL2Q0r7MtT8WA9v8=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A2947A0BC;
+	Thu, 11 Jun 2026 20:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781210204; cv=fail; b=a7hA+7VEuA5pTReMFrVG2F+owZ9RtEbnoS2l7aiY41JE5OWtZKYLG9HVI3DL6Uc2ABvtTK6vJXM/0LOfPkGOOOe62qxRrI2zMVJfXDgn5XUYOJVjPw6H7W/6eEXyIDI3sLwPTr6ciXhpx2pBKPO0TDIeAx2thjX6hMe70FNzyeA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781210204; c=relaxed/simple;
+	bh=R/QD6REcXVerVwn0GXJbP8gjk4qyNFqFSNF/IRuQwmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=YwoWxbmfpYLvPsX3cy81pj3iLqU0oEIvGPKv4sU7ujrskf4JpIg2O4awksj2DQqarlfx9FkdlKS6ULzH0savwfpDvYf3P3es4fl5yb43ib4NlP1Oznv14YL6iroGaLsoXJZjbjhlshwMwdZvzRx6Ix9ByABQ/YenPO5y17BXPzY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=ji5pRgwz; arc=fail smtp.client-ip=52.101.84.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="ji5pRgwz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TP3hk0s5N7PleKi5blDHE+mzQ7u/VO8XPZGCpuN072BTv5x9OAeIeHdw93Ca8edfkQ+8560Dhv3r/PMLqaVjyvgOcVvn4ZK8Mv5enOnppFvbMOSrTE/SYccX9PGQfol+TfSbEGatlMmMLxlGiC0k4r4AN6Rd0IuYUxF73GJqlrR/Javp8v9vFvkbaisaxcvuuCfJQxcbJ0Z3IBuOsIrkFMBDAWKPSoHihm/I8BgCI6ov5sxN+cLmuh02ezBQJCEjBoyl7DbFK0RrsKpaqzNGVV37Zlzow5NU+UyfVql685GrlquUFuwJYIM96TlIFcEu4xvZuwsEqFDQCz76pMCQ7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/5UTtwM5OuIc7Acz3fKbkPp75x2lDE2VtbXtcDcY8J4=;
+ b=BgjyFP7LZE6+fPhquMIRoXaPhTXn0gLkiehwbwWO59JfzZqz1UPcITp/u3Bq4GqRa+Ts0lM1r0F2hvnZjlFCxE4+vtF2kFvO2Z04FxUsTHbF11B6rShAy2/nRA4hPt1tA4bL0qXNVzM7C5trBTHz+RfZR0wklQkw6D6Vy5WrJAE/ce0/kRkjaz1Ryq10tkRtSyngOKQKKINv3MZoTY3RxRfLrJiIjZtLaXoYJ4oY2RNhppMO/amr+zU1oWUiK+8fL03oeEOoJFvfmHY57Wc/eYy3RkcdLkn8kdyoT83GC9YS63v6o251t2LZKEB/FFGx9c9yuq/selvf02xcZFo8IQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/5UTtwM5OuIc7Acz3fKbkPp75x2lDE2VtbXtcDcY8J4=;
+ b=ji5pRgwz/ucW9ZDann5RkPn9dVreWWQaLGnqgA8sXnrgKMVJr1RECLp+RpKpt0D2xyanZhvtPJ4K3GBXiWcBlw7p8OlFy0UQJ3sRzldeMWc3RZGOruPr8/okESQTPgHI220tXgLf6u0YoTwpljc3zfys5qwoLqHQLq4VtQunP8ZZMmgaYvqeqySAA2zhaHT6BhFZpHcOdaSIHqLdGIVdb0gWXUawfdrYOejB4goiM9/psZ6xkvfF3dmU7ky8Z3TkLkQF+hMSlmnLsfbNHu7fHTQm7vS9shKKrfI4DJHZatyEVP8sehYhpRyuQIvWwXdEuff58zs0Ut3ND5AyL/gKVQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DB9PR04MB8463.eurprd04.prod.outlook.com (2603:10a6:10:2c0::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 20:36:40 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0092.016; Thu, 11 Jun 2026
+ 20:36:39 +0000
+Date: Thu, 11 Jun 2026 16:36:30 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Aksh Garg <a-garg7@ti.com>
+Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, mani@kernel.org,
+	kwilczynski@kernel.org, bhelgaas@google.com, corbet@lwn.net,
+	kishon@kernel.org, skhan@linuxfoundation.org, lukas@wunner.de,
+	cassel@kernel.org, alistair@alistair23.me,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
+Subject: Re: [PATCH v5 1/4] PCI/DOE: Move common definitions to the header
+ file
+Message-ID: <aiscTnplWtucrFfJ@lizhi-Precision-Tower-5810>
+References: <20260610100256.1889111-1-a-garg7@ti.com>
+ <20260610100256.1889111-2-a-garg7@ti.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610100256.1889111-2-a-garg7@ti.com>
+X-ClientProxiedBy: PH8P221CA0030.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:2d8::15) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:81c5:b0:69e:3dde:869d with SMTP id
- 006d021491bc7-69ecae5274emr3358153eaf.23.1781209449321; Thu, 11 Jun 2026
- 13:24:09 -0700 (PDT)
-Date: Thu, 11 Jun 2026 13:24:09 -0700
-In-Reply-To: <20260611061915.2354307-1-huangsj@hygon.cn>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a2b1969.5d79d3ce.e8697.0000.GAE@google.com>
-Subject: [syzbot ci] Re: mm: split the file's i_mmap tree for NUMA
-From: syzbot ci <syzbot+ci1ee4d53eb174bb4c@syzkaller.appspotmail.com>
-To: acme@kernel.org, adrian.hunter@intel.com, akpm@linux-foundation.org, 
-	alexander.shishkin@linux.intel.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, 
-	brian.ruley@gehealthcare.com, corbet@lwn.net, dave.anglin@bell.net, 
-	david@kernel.org, deller@gmx.de, dev.jain@arm.com, dinguyen@kernel.org, 
-	djbw@kernel.org, fangbaoshun@hygon.cn, harry@kernel.org, huangsj@hygon.cn, 
-	irogers@google.com, jack@suse.cz, james.bottomley@hansenpartnership.com, 
-	james.clark@linaro.org, jannh@google.com, jolsa@kernel.org, 
-	lance.yang@linux.dev, liam@infradead.org, linmiaohe@huawei.com, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-parisc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux@armlinux.org.uk, ljs@kernel.org, mark.rutland@arm.com, 
-	mhiramat@kernel.org, mhocko@suse.com, mingo@redhat.com, mjguzik@gmail.com, 
-	muchun.song@linux.dev, namhyung@kernel.org, nao.horiguchi@gmail.com, 
-	npache@redhat.com, nvdimm@lists.linux.dev, oleg@redhat.com, osalvador@suse.de, 
-	peterz@infradead.org
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DB9PR04MB8463:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3a201b7-991d-4f00-ba6c-08dec7f923a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|19092799006|23010399003|18002099003|22082099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	KujxZY7Io+5juasi6PXc15yL0uBBMhIhQq0u84aapeglF2y1qzRVTLoixDBx8OsIb6vbZNByAQXADlxJojVfb6UBVyQuMLRxZUiDPf7ta0zBXEwlkrJiyM0ctmGLKXL3rzVJ44Rzm1HqTPtOoac2RbUCGm8naKEzKztyxryFG8RypCjkqa2z9o0jcPQPb9KYA3k/Gh3tnIhwWkuNGmIyGuUmuz1/4vvevkoDhnIwWgoHZBx72rhr7+tOZ5UPHo/phFg5k8Qj6MqMrrQJ1LPCd9ta9TR7i52KTSL7ULlHrIY+MR7kBOLlMon/oOz0V1moXi3oWEBNGletg/Ry/oL07Xvzxt/1HremMyOZlmnxPUV8hfhq6ucbUJJW+uYExTXb1kr9xUGvuQM1mPY0OayFPqPpIMmvXTyu5rnbW6TjLa38Att3kVVht3p2sRa+tEtvpfjxZA6RBneVzZzA3c/y5a//KpoiXWeN+6QwaX9pXg2UevS1n9ppQHBBn7vE6MuDJpybTjjpfPTvSCaAW+bKfzQDjgKlWEy8tUL0VZsKlstSwcpQJIxBh1VK8YCsyXCJXsiqvo9zJuiWb92gSWYHBrksNgQ3OGP2JW+R+KM/f81ZdN+oB+ehq6Nqe1cWjcab0wP6TLmKlcmAY37mmHrItjGcQUx9KizbrWAB0uHqQ1JFB2mQiISgae2QU+eP2rIUn6dc3MjvGynyW+J4RHAmKw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(19092799006)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dZ3JFFTncjc5fJnEe2ZjD584obUxj2mdm2JxbqNcnbfc+1uadK6/7wtX0L2W?=
+ =?us-ascii?Q?QmZv40spLSDNF2rs8I1I6O2QDGkqCN2aTY/YP5pS8LQQCXKRytDeVNB5ja9+?=
+ =?us-ascii?Q?GmHpQjweeQXzw2l6flii02ODr6EPwe02g5wfUo/GQujKF7oZtrHxznfow6sN?=
+ =?us-ascii?Q?f8dXTpOClXj7WsBRS4/LZCPXT7mHewNN02GD8IZkw1Gfo5w3eJDoxf2osfAs?=
+ =?us-ascii?Q?kUYjFsnIz769CCKEXYXfCSvLJiRFsNGgnYLyXaWHznyqYuP8eOCJYAg3wXwT?=
+ =?us-ascii?Q?Ux1WdCIq2v/5VbUQ3hLQ08FTVLOREQluY9SmYZVic6+H76eldtoDzlFnMKR+?=
+ =?us-ascii?Q?mEtNm7508k6euxr2FVkAbi021SrQwqRvHoh+Dd5tyL0evlD3k4K2f30a7ZT/?=
+ =?us-ascii?Q?mdw52OJvs68Qbnb+lX6VyVWgplkf7KcHGLrOFVU7CbcF/PkD9iwr3cIkJ6Ui?=
+ =?us-ascii?Q?PgZLJTK2S9S1ORHZIDS3F7IbEs2ZQ4yLgVmKkCpUVDuzyYTAm75gsdITgx0l?=
+ =?us-ascii?Q?AxOqw7E2tYg7AgvVxLnR2prid/wEVJZ7IELyB/vUyuom0TGIozMGqH6IhpdS?=
+ =?us-ascii?Q?5Q3lA0Y6CT0k+DY4ILOzffUzfrXUEhKR5A0lqh6MYkN3JVisQcoPH6sgWEK/?=
+ =?us-ascii?Q?9MoDCZkg7HQEB4CPjiHojHrZOVXNiO8zsmqvjwQpWnfFTmTibO1b1Prn7qOe?=
+ =?us-ascii?Q?3Wz52aos91uM6Yr5pQQKHftlcF4wzXgA8tN8uK2jtHRtuKNA22G6N4ditUuv?=
+ =?us-ascii?Q?oo9lqZvk80ED4HZuDt8n+Jt2vf4gj4RzTL0IWoLv2uw90jT3+3BWc+t+NQNS?=
+ =?us-ascii?Q?qFv1Ow8o+K/pBzq8NvUqTcm6UHdBQKqVk3TB2rxHIDbvjYsKizxpXb+48yM2?=
+ =?us-ascii?Q?QCFsO8V66hHztcFEKbYFtOi7HN+DTB9RS/kI6CRSw7SH4syEMR4UXhg01FXi?=
+ =?us-ascii?Q?TS9qa+nKHOkHwzisVeRfCSU9hO2Pd/RQ0JphVVt07HpQKIwHQCEZE4KL4PeJ?=
+ =?us-ascii?Q?phz25iUDod4/uHfbGsqtzeS+k3RFQki6Vu+x0tIJe00vY7a839JLMK/e0iV3?=
+ =?us-ascii?Q?ScNMHIgzsFv3TNiCTOwEyW3P1SMdz/3sZnxuVYrXJKTrfFdVPQLmfc1v4qow?=
+ =?us-ascii?Q?TBoKs+kE6z/Mmly3MxD8z9CrR8LOhFMGh+XPD+YFQ2CGz7TJoA0Yo6QXUI/a?=
+ =?us-ascii?Q?OwGnyREh6gbDcaQugNIO0L65uNkdtS5uwHsYgtdzmPJSGSWsGCZg5sgvbmBY?=
+ =?us-ascii?Q?frcG2sSN0WdPC7z28y/Hh9Xd0HsAgqc6JcTgq/S10pTL+kU7to5SFQbZ+pDg?=
+ =?us-ascii?Q?FlACyY5zE7fP0BtCCaNHAsg8SWZxPOkks1KvEmd1BL0tDOdesjQKy0q1xvHm?=
+ =?us-ascii?Q?wKNhZLqAOKMmDyGdwx9qGHvuteb/LOE1RURrG2vkwzDztkxHfaD+9bsK9dse?=
+ =?us-ascii?Q?B5AOUjhZaWEwsa07GY+BTVFMn6re4YMA+W/shuveiMiJW0yGxqoSlV87RgN2?=
+ =?us-ascii?Q?OXi/QYTVZTPRzybKXluzh6YtjObYYgCcygKIzKYkuSLHuNdS0ZgBa647Jzqf?=
+ =?us-ascii?Q?habFN3XOjSL6wioFi+8gtLC0raioukE0rNLvgyU7VAxugLiyu1/EvvVKoLpT?=
+ =?us-ascii?Q?fjDdgEGtWLWMp8UHvN1qmpaFkg5kmuKSTAPd8uIfI0+MAiHWuYxMbVi9zN0x?=
+ =?us-ascii?Q?c9wlMgPkcnAEBQESuzuUq816sMNdGDxo4ImWqU9Q54+ZpxIrqe2ayWYA/Kno?=
+ =?us-ascii?Q?qctOj3O8QTGNYXgxxgXZgTWuwy1LVMDI0Plg481Cy6dcgUoJane9?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3a201b7-991d-4f00-ba6c-08dec7f923a5
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 20:36:39.5369
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cgz7vSQZtEqMtmNdIPYLpdqR12OHGN7qLgZBS7rxOcpS1yc62O6oIl2cBSQXHmYoitPjWIf30HLmZX8uhkZQWIdDk3FbfNZE+iZZ5ZjUyLZx5n1puletGFTamU8LmwWY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8463
 
-syzbot ci has tested the following series
+On Wed, Jun 10, 2026 at 03:32:53PM +0530, Aksh Garg wrote:
+> Move common macros and structures from drivers/pci/doe.c to
+> drivers/pci/pci.h to allow reuse across root complex and
+> endpoint DOE implementations.
+>
+> PCI_DOE_MAX_LENGTH macro can be used outside the PCI core as well,
+> hence move the macro to include/linux/pci-doe.h.
+>
+> These changes prepare the groundwork for the DOE endpoint implementation
+> that will reuse these common definitions.
+>
+> Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Signed-off-by: Aksh Garg <a-garg7@ti.com>
+> ---
 
-[v2] mm: split the file's i_mmap tree for NUMA
-https://lore.kernel.org/all/20260611061915.2354307-1-huangsj@hygon.cn
-* [PATCH v2 1/4] mm: use mapping_mapped to simplify the code
-* [PATCH v2 2/4] mm: use get_i_mmap_root to access the file's i_mmap
-* [PATCH v2 3/4] mm/fs: split the file's i_mmap tree
-* [PATCH v2 4/4] docs/mm: update document for split i_mmap tree
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-and found the following issue:
-INFO: trying to register non-static key in do_one_initcall
-
-Full report is available here:
-https://ci.syzbot.org/series/a9bada61-06e7-40d5-b423-5f2d69a60209
-
-***
-
-INFO: trying to register non-static key in do_one_initcall
-
-tree:      linux-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next
-base:      14546c7bef6c1036fc82e36c1a200b0caccd339a
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/2f92f704-660a-4108-9172-7e620e10ce46/config
-
-acpi PNP0A08:00: _OSC: platform does not support [PCIeHotplug LTR]
-acpi PNP0A08:00: _OSC: OS now controls [PME AER PCIeCapability]
-PCI host bridge to bus 0000:00
-pci_bus 0000:00: Unknown NUMA node; performance will be reduced
-pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
-pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
-pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
-pci_bus 0000:00: root bus resource [mem 0x80000000-0xafffffff window]
-pci_bus 0000:00: root bus resource [mem 0xc0000000-0xfebfffff window]
-pci_bus 0000:00: root bus resource [mem 0x240000000-0xa3fffffff window]
-pci_bus 0000:00: root bus resource [bus 00-ff]
-pci 0000:00:00.0: [8086:29c0] type 00 class 0x060000 conventional PCI endpoint
-pci 0000:00:01.0: [1234:1111] type 00 class 0x030000 conventional PCI endpoint
-pci 0000:00:01.0: BAR 0 [mem 0xfd000000-0xfdffffff pref]
-pci 0000:00:01.0: BAR 2 [mem 0xfebf0000-0xfebf0fff]
-pci 0000:00:01.0: ROM [mem 0xfebe0000-0xfebeffff pref]
-pci 0000:00:01.0: Video device with shadowed ROM at [mem 0x000c0000-0x000dffff]
-pci 0000:00:02.0: [1af4:1005] type 00 class 0x00ff00 conventional PCI endpoint
-pci 0000:00:02.0: BAR 0 [io  0xc080-0xc09f]
-pci 0000:00:02.0: BAR 1 [mem 0xfebf1000-0xfebf1fff]
-pci 0000:00:02.0: BAR 4 [mem 0xfe000000-0xfe003fff 64bit pref]
-pci 0000:00:03.0: [8086:100e] type 00 class 0x020000 conventional PCI endpoint
-pci 0000:00:03.0: BAR 0 [mem 0xfebc0000-0xfebdffff]
-pci 0000:00:03.0: BAR 1 [io  0xc000-0xc03f]
-pci 0000:00:03.0: ROM [mem 0xfeb80000-0xfebbffff pref]
-pci 0000:00:1f.0: [8086:2918] type 00 class 0x060100 conventional PCI endpoint
-pci 0000:00:1f.0: quirk: [io  0x0600-0x067f] claimed by ICH6 ACPI/GPIO/TCO
-pci 0000:00:1f.2: [8086:2922] type 00 class 0x010601 conventional PCI endpoint
-pci 0000:00:1f.2: BAR 4 [io  0xc0a0-0xc0bf]
-pci 0000:00:1f.2: BAR 5 [mem 0xfebf2000-0xfebf2fff]
-pci 0000:00:1f.3: [8086:2930] type 00 class 0x0c0500 conventional PCI endpoint
-pci 0000:00:1f.3: BAR 4 [io  0x0700-0x073f]
-ACPI: PCI: Interrupt link LNKA configured for IRQ 10
-ACPI: PCI: Interrupt link LNKB configured for IRQ 10
-ACPI: PCI: Interrupt link LNKC configured for IRQ 11
-ACPI: PCI: Interrupt link LNKD configured for IRQ 11
-ACPI: PCI: Interrupt link LNKE configured for IRQ 10
-ACPI: PCI: Interrupt link LNKF configured for IRQ 10
-ACPI: PCI: Interrupt link LNKG configured for IRQ 11
-ACPI: PCI: Interrupt link LNKH configured for IRQ 11
-ACPI: PCI: Interrupt link GSIA configured for IRQ 16
-ACPI: PCI: Interrupt link GSIB configured for IRQ 17
-ACPI: PCI: Interrupt link GSIC configured for IRQ 18
-ACPI: PCI: Interrupt link GSID configured for IRQ 19
-ACPI: PCI: Interrupt link GSIE configured for IRQ 20
-ACPI: PCI: Interrupt link GSIF configured for IRQ 21
-ACPI: PCI: Interrupt link GSIG configured for IRQ 22
-ACPI: PCI: Interrupt link GSIH configured for IRQ 23
-iommu: Default domain type: Translated
-iommu: DMA domain TLB invalidation policy: lazy mode
-INFO: trying to register non-static key.
-The code is fine but needs lockdep annotation, or maybe
-you didn't initialize this object before use?
-turning off the locking correctness validator.
-CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150
- assign_lock_key+0x133/0x150
- register_lock_class+0xcc/0x2e0
- __lock_acquire+0xad/0x2cf0
- lock_acquire+0x106/0x350
- down_write+0x96/0x200
- dma_resv_lockdep+0x39c/0x660
- do_one_initcall+0x250/0x870
- do_initcall_level+0x104/0x190
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x2a6/0x3e0
- kernel_init+0x1d/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-------------[ cut here ]------------
-DEBUG_RWSEMS_WARN_ON(sem->magic != sem): count = 0x1, magic = 0x0, owner = 0xffff888102a95940, curr 0xffff888102a95940, list not empty
-WARNING: kernel/locking/rwsem.c:1405 at up_write+0x1e2/0x410, CPU#0: swapper/0/1
-Modules linked in:
-CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:up_write+0x2b1/0x410
-Code: c0 c0 e6 cc 8b 49 c7 c2 a0 e6 cc 8b 4c 0f 44 d0 48 8b 7c 24 10 48 c7 c6 40 e8 cc 8b 48 8b 54 24 08 48 8b 0c 24 4d 89 f9 41 52 <67> 48 0f b9 3a 48 83 c4 08 e8 21 1f 0d 03 e9 b2 fd ff ff 90 0f 0b
-RSP: 0000:ffffc90000067480 EFLAGS: 00010246
-RAX: ffffffff8bcce6c0 RBX: ffffc900000677d0 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: ffffffff8bcce840 RDI: ffffffff90338290
-RBP: ffffc90000067830 R08: ffff888102a95940 R09: ffff888102a95940
-R10: ffffffff8bcce6c0 R11: fffff5200000cefc R12: ffffc90000067828
-R13: dffffc0000000000 R14: 1ffff9200000cf06 R15: ffff888102a95940
-FS:  0000000000000000(0000) GS:ffff88818dc9e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000e74a000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- dma_resv_lockdep+0x3a4/0x660
- do_one_initcall+0x250/0x870
- do_initcall_level+0x104/0x190
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x2a6/0x3e0
- kernel_init+0x1d/0x1d0
- ret_from_fork+0x514/0xb70
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+>
+> Changes from v4 to v5:
+> - None.
+>
+> Changes from v3 to v4:
+> - None.
+>
+> Changes from v2 to v3:
+> - Rebased on 7.1-rc1.
+>
+> Changes since v1:
+> - Moved the common macros that need not be visible outside the PCI core
+>   to drivers/pci/pci.h instead to include/linux/pci-doe.h as suggested
+>   by Lukas Wunner
+> - Removed the redundant empty inlines guarded with CONFIG_PCI_DOE in
+>   include/linux/pci-doe.h.
+>
+> v4: https://lore.kernel.org/all/20260522052434.802034-2-a-garg7@ti.com/
+> v3: https://lore.kernel.org/all/20260427051725.223704-2-a-garg7@ti.com/
+> v2: https://lore.kernel.org/all/20260401073022.215805-2-a-garg7@ti.com/
+> v1: https://lore.kernel.org/all/20260213123603.420941-3-a-garg7@ti.com/
+>
+>  drivers/pci/doe.c       | 11 -----------
+>  drivers/pci/pci.h       |  9 +++++++++
+>  include/linux/pci-doe.h |  3 +++
+>  3 files changed, 12 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
+> index 7b41da4ec11a..e8d9e95644b3 100644
+> --- a/drivers/pci/doe.c
+> +++ b/drivers/pci/doe.c
+> @@ -28,12 +28,6 @@
+>  #define PCI_DOE_TIMEOUT HZ
+>  #define PCI_DOE_POLL_INTERVAL	(PCI_DOE_TIMEOUT / 128)
+>
+> -#define PCI_DOE_FLAG_CANCEL	0
+> -#define PCI_DOE_FLAG_DEAD	1
+> -
+> -/* Max data object length is 2^18 dwords */
+> -#define PCI_DOE_MAX_LENGTH	(1 << 18)
+> -
+>  /**
+>   * struct pci_doe_mb - State for a single DOE mailbox
+>   *
+> @@ -63,11 +57,6 @@ struct pci_doe_mb {
+>  #endif
+>  };
+>
+> -struct pci_doe_feature {
+> -	u16 vid;
+> -	u8 type;
+> -};
+> -
+>  /**
+>   * struct pci_doe_task - represents a single query/response
+>   *
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 4a14f88e543a..5844deee2b5f 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -683,6 +683,15 @@ struct pci_sriov {
+>  	bool		drivers_autoprobe; /* Auto probing of VFs by driver */
+>  };
+>
+> +/* DOE Mailbox state flags */
+> +#define PCI_DOE_FLAG_CANCEL	0
+> +#define PCI_DOE_FLAG_DEAD	1
+> +
+> +struct pci_doe_feature {
+> +	u16 vid;
+> +	u8 type;
+> +};
+> +
+>  #ifdef CONFIG_PCI_DOE
+>  void pci_doe_init(struct pci_dev *pdev);
+>  void pci_doe_destroy(struct pci_dev *pdev);
+> diff --git a/include/linux/pci-doe.h b/include/linux/pci-doe.h
+> index bd4346a7c4e7..abb9b7ae8029 100644
+> --- a/include/linux/pci-doe.h
+> +++ b/include/linux/pci-doe.h
+> @@ -19,6 +19,9 @@ struct pci_doe_mb;
+>  #define PCI_DOE_FEATURE_CMA 1
+>  #define PCI_DOE_FEATURE_SSESSION 2
+>
+> +/* Max data object length is 2^18 dwords */
+> +#define PCI_DOE_MAX_LENGTH		(1 << 18)
+> +
+>  struct pci_doe_mb *pci_find_doe_mailbox(struct pci_dev *pdev, u16 vendor,
+>  					u8 type);
+>
+> --
+> 2.34.1
+>
