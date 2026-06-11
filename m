@@ -1,265 +1,459 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 091652BEFEB;
-	Thu, 11 Jun 2026 05:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4411334EEEE;
+	Thu, 11 Jun 2026 06:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781154924; cv=none; b=mecctDlEzbN7g+EFkOqdmCYo8NK774iZGnNA4thjbY/2ok2fRgKFymTd8qxrJf0RulN72Vqb//H9bexM/n4gUFOrma5vShRTKN75ZcWT0BUGGsR05E1LAFqzhBWFO234cZTbVKSDuWxZ7K2opm19td/vXm4xkknVQMw02iCW2cM=
+	t=1781157612; cv=none; b=aNmMnC/HhldWr/FyWTeK36LxgAlKcHjjV1tAXakXTl6Odtc3t3lXe7VDxgpuxoXlgaFIo7GLEAamv6bs77daP/Joq7RZZdnoUhi+AmjUeg78kg1Buu/EYjcZL3pFRvEO6j6cRR8EIYJFwyJ1JjmjQ8cRKI+dn12LZKRv9rwSeL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781154924; c=relaxed/simple;
-	bh=pH+sfdKdScjYmUghnyFVPRGy/nPtjO9y9SSPXvvHtmg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uuK3dAMTMWwhgkRQZipHtL1K8qArDsTNGD49E8L8IFnMv2zNQpaPhEvAKL5ob4dO7z6xRP9IVa4rdXo3rSJxLc6e3z0elngyYSwAnYY9nhKWTXzUQ3+eEJWghzZiLPuJUwBCee04fHTFz0FCk9/3/ahwsyuYBYLvo4QJM5IWbN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DKZeSYIW; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DKZeSYIW"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D3DE1CE0;
-	Wed, 10 Jun 2026 22:15:07 -0700 (PDT)
-Received: from [10.174.41.206] (unknown [10.174.41.206])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9D0D3FD88;
-	Wed, 10 Jun 2026 22:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781154912; bh=pH+sfdKdScjYmUghnyFVPRGy/nPtjO9y9SSPXvvHtmg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DKZeSYIWlSISVN8kuabxuHiC0PrAooIqi6wB9c8DowZp0v8z8DZk+uQpqcyUmOJhk
-	 if3aBfqMPt70Sg+RDV6ff8JFPVoMuB23AndBuvJ4zr4B7veefPH2DZBZY7elUji5Vc
-	 4y3CDenmfIYo5FcL3Q8GLF/EWi19doT7qsoeL3p8=
-Message-ID: <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
-Date: Thu, 11 Jun 2026 10:45:01 +0530
+	s=arc-20240116; t=1781157612; c=relaxed/simple;
+	bh=dYJQGbMTBOzCcpM0eOtwPLkai5WCxf5YM54gMHXRaBg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XAtILqhMlaZcEk1zm7ccyPkmtuXVpoShLfV6kxaQX7IV2DIv0PqSn3meUzB7asfiWuS8TNwHYWB6MU7b3IynS1P8VnT2r0uFvFmG9Vi29yD59AF06Hv+FqZiMCiQIgMVTCDnLGMTW7ZdNz9W/cik3++R7Qil4pZ4HqcTc2TkgVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-01 (Coremail) with SMTP id qwCowABnCdLiTipqti1FAQ--.55092S2;
+	Thu, 11 Jun 2026 14:00:02 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH v3] kconfig: add optional warnings for changed input values
+Date: Thu, 11 Jun 2026 14:00:00 +0800
+Message-ID: <20260611060000.23858-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
-To: Usama Arif <usama.arif@linux.dev>
-Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Andy Whitcroft <apw@canonical.com>
-References: <20260610111339.2465922-1-usama.arif@linux.dev>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20260610111339.2465922-1-usama.arif@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABnCdLiTipqti1FAQ--.55092S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3CrWDtrWrtF13KF17Kw1DGFg_yoW8JFWfGo
+	Z3WFn8Xw4xKr129wn7JwnIk3y7Wa1jkrWrXr47Jw4DXF1aq3WrC3W0yw4DZ3W5ZFWFy3W3
+	XF13W3yfW3W7JFn7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUYF7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+	j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+	x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
+	JVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU18sqt
+	UUUUU==
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
+When reading .config input, Kconfig stores user-provided values first
+and then resolves the final value after applying dependencies, ranges,
+and other constraints.
 
+If the final value differs from the user input, Kconfig already tracks
+that state internally, but it does not provide a focused diagnostic to
+show which explicit inputs were adjusted. This is particularly confusing
+for requested values that get forced down by unmet dependencies or
+clamped by ranges.
 
-On 10/06/26 4:43 PM, Usama Arif wrote:
-> On Wed, 10 Jun 2026 05:35:43 +0100 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> 
->> Add some print formats for pgtable entries at any pgtable level. These new
->> formats are %pp[g|4|u|m|t][d|e] i.e %ppgd, %pp4d, %ppud, %ppmd, and %ppte.
->> These currently support both 32 bit and 64 bit pgtable entries that can be
->> extended up to 128 bit when required.
->>
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: David Hildenbrand <david@kernel.org>
->> Cc: Lorenzo Stoakes <ljs@kernel.org>
->> Cc: Petr Mladek <pmladek@suse.com>
->> Cc: Steven Rostedt <rostedt@goodmis.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Andy Whitcroft <apw@canonical.com>
->> Cc: linux-mm@kvack.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: linux-doc@vger.kernel.org
->>
->>  Documentation/core-api/printk-formats.rst | 19 ++++++++
->>  lib/vsprintf.c                            | 58 +++++++++++++++++++++++
->>  scripts/checkpatch.pl                     |  2 +-
->>  3 files changed, 78 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
->> index c0b1b6089307..e69f91a9dd9d 100644
->> --- a/Documentation/core-api/printk-formats.rst
->> +++ b/Documentation/core-api/printk-formats.rst
->> @@ -696,6 +696,25 @@ Rust
->>  Only intended to be used from Rust code to format ``core::fmt::Arguments``.
->>  Do *not* use it from C.
->>  
->> +Page Table Entry
->> +----------------
->> +
->> +::
->> +
->> +        %p[pgd|p4dp|pud|pmd|pte]
-> 
-> s/p4dp/p4d to match others
+Add an opt-in diagnostic controlled by KCONFIG_WARN_CHANGED_INPUT. Emit
+the warnings from conf_write() and conf_write_defconfig() after value
+resolution. Print the diagnostic to stderr directly, not through the
+normal message callback, so it remains visible when conf is run with -s,
+such as from make -s.
 
-Will fix.
-> 
-> 
->> +
->> +Print page table entry at any level.
->> +
->> +Passed by reference.
->> +
->> +Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
->> +
->> +        %ppte   0x0000000000c0ffee
->> +        %ppmd   0x0000000000c0ffee
->> +        %ppud   0x0000000000c0ffee
->> +        %pp4d   0x0000000000c0ffee
->> +        %ppgd   0x0000000000c0ffee
->> +
->>  Thanks
->>  ======
->>  
->> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
->> index 9f359b31c8d1..d4ad3048a4db 100644
->> --- a/lib/vsprintf.c
->> +++ b/lib/vsprintf.c
->> @@ -856,6 +856,59 @@ static char *default_pointer(char *buf, char *end, const void *ptr,
->>  	return ptr_to_id(buf, end, ptr, spec);
->>  }
->>  
->> +static char *pxd_pointer(char *buf, char *end, const void *ptr,
->> +			 struct printf_spec spec, const char *fmt)
->> +{
->> +	if (check_pointer(&buf, end, ptr, spec))
->> +		return buf;
->> +
->> +	if (fmt[1] == 't' && fmt[2] == 'e') {
->> +		pte_t *pte = (pte_t *)ptr;
->> +
->> +		static_assert(sizeof(pte_t) == 4 ||
->> +			      sizeof(pte_t) == 8,
->> +			      "pte_t size must be 4 or 8 bytes");
->> +		return special_hex_number(buf, end, pte_val(ptep_get(pte)), sizeof(pte_t));
->> +	}
->> +
->> +	if (fmt[1] == 'm' && fmt[2] == 'd') {
->> +		pmd_t *pmd = (pmd_t *)ptr;
->> +
->> +		static_assert(sizeof(pmd_t) == 4 ||
->> +			      sizeof(pmd_t) == 8,
->> +			      "pmd_t size must be 4 or 8 bytes");
->> +		return special_hex_number(buf, end, pmd_val(pmdp_get(pmd)), sizeof(pmd_t));
->> +	}
->> +
->> +	if (fmt[1] == 'u' && fmt[2] == 'd') {
->> +		pud_t *pud = (pud_t *)ptr;
->> +
->> +		static_assert(sizeof(pud_t) == 4 ||
->> +			      sizeof(pud_t) == 8,
->> +			      "pud_t size must be 4 or 8 bytes");
->> +		return special_hex_number(buf, end, pud_val(pudp_get(pud)), sizeof(pud_t));
->> +	}
->> +
->> +	if (fmt[1] == '4' && fmt[2] == 'd') {
->> +		p4d_t *p4d = (p4d_t *)ptr;
->> +
->> +		static_assert(sizeof(p4d_t) == 4 ||
->> +			      sizeof(p4d_t) == 8,
->> +			      "p4d_t size must be 4 or 8 bytes");
->> +		return special_hex_number(buf, end, p4d_val(p4dp_get(p4d)), sizeof(p4d_t));
->> +	}
->> +
->> +	if (fmt[1] == 'g' && fmt[2] == 'd') {
->> +		pgd_t *pgd = (pgd_t *)ptr;
->> +
->> +		static_assert(sizeof(pgd_t) == 4 ||
->> +			      sizeof(pgd_t) == 8,
->> +			      "pgd_t size must be 4 or 8 bytes");
->> +		return special_hex_number(buf, end, pgd_val(pgdp_get(pgd)), sizeof(pgd_t));
-> 
-> You mentioned in the coverletter that pgdp_get() is the reason arm32 builds dont work.
-> Just wanted to check what the issue is?
-> 
-> I had a look at arch/arm/include/asm/pgtable.h and I couldnt understand why
-> it reads pgdp_get(pgpd) instead of pgdp_get(pgdp)?
+Keep the diagnostic out of the conf_message() formatting buffer so long
+warning lists are not truncated, and mark processed symbols as written
+before the SYMBOL_WRITE check so duplicate menu nodes cannot emit
+duplicate warnings.
 
-Right - that's a typo.
+Document the new environment variable and add tests for olddefconfig,
+savedefconfig, and the silent-conf path.
 
-Following arm32 pgtable header change enables the build.
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v2:
+https://lore.kernel.org/all/20260521022824.38591-1-pengpeng@iscas.ac.cn/
+- print the changed-input diagnostic to stderr directly so it remains
+  visible when conf is run with -s, as reported by Nathan
+- move the selftest expectation from stdout to stderr
+- add explicit silent-conf coverage for the KCONFIG_WARN_CHANGED_INPUT
+  warning path
+- keep Nicolas's v2 Reviewed-by/Tested-by out of this revision because
+  the warning output path changed
 
-diff --git a/arch/arm/include/asm/pgtable-2level-types.h b/arch/arm/include/asm/pgtable-2level-types.h
-index 650e793f4142..3f1d52402129 100644
---- a/arch/arm/include/asm/pgtable-2level-types.h
-+++ b/arch/arm/include/asm/pgtable-2level-types.h
-@@ -31,6 +31,7 @@ typedef struct { pteval_t pgprot; } pgprot_t;
- #define __pte(x)        ((pte_t) { (x) } )
- #define __pmd(x)        ((pmd_t) { (x) } )
- #define __pgprot(x)     ((pgprot_t) { (x) } )
-+#define __pgd(x)        ((pgd_t) { { (x), 0 } })
+ Documentation/kbuild/kconfig.rst              |   5 +
+ scripts/kconfig/confdata.c                    | 106 +++++++++++++++++-
+ scripts/kconfig/tests/conftest.py             |   8 +-
+ .../kconfig/tests/warn_changed_input/Kconfig  |  40 +++++++
+ .../tests/warn_changed_input/__init__.py      |  33 ++++++
+ .../kconfig/tests/warn_changed_input/config   |   3 +
+ .../tests/warn_changed_input/expected_config  |   6 +
+ .../warn_changed_input/expected_defconfig     |   1 +
+ .../tests/warn_changed_input/expected_stderr  |   4 +
+ 9 files changed, 200 insertions(+), 6 deletions(-)
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/Kconfig
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/__init__.py
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/config
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_config
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_defconfig
+ create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_stderr
 
- #else
- /*
-@@ -49,6 +50,7 @@ typedef pteval_t pgprot_t;
- #define __pte(x)        (x)
- #define __pmd(x)        (x)
- #define __pgprot(x)     (x)
-+#define __pgd(x)        { (x), 0 }
-
- #endif /* STRICT_MM_TYPECHECKS */
-
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index 982795cf4563..349e1f819385 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -141,7 +141,7 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
-
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
-
--#define pgdp_get(pgpd)         READ_ONCE(*pgdp)
-+#define pgdp_get(pgdp)         READ_ONCE(*pgdp)
-
- #define pud_page(pud)          pmd_page(__pmd(pud_val(pud)))
- #define pud_write(pud)         pmd_write(__pmd(pud_val(pud)))
->    
-> 
->> +	}
->> +	return default_pointer(buf, end, ptr, spec);
->> +}
->> +
->>  int kptr_restrict __read_mostly;
->>  
->>  static noinline_for_stack
->> @@ -2506,6 +2559,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
->>   *		Without an option prints the full name of the node
->>   *		f full name
->>   *		P node name, including a possible unit address
->> + * - 'p[g|4|u|m|t|][d|e]' For a page table entry, this prints its
->> + *			  contents in a hexadecimal format
->> + *
->>   * - 'x' For printing the address unmodified. Equivalent to "%lx".
->>   *       Please read the documentation (path below) before using!
->>   * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
->> @@ -2615,6 +2671,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
->>  		default:
->>  			return error_string(buf, end, "(einval)", spec);
->>  		}
->> +	case 'p':
->> +		return pxd_pointer(buf, end, ptr, spec, fmt);
->>  	default:
->>  		return default_pointer(buf, end, ptr, spec);
->>  	}
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index 0492d6afc9a1..f68955858e29 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -6975,7 +6975,7 @@ sub process {
->>  				my $fmt = get_quoted_string($lines[$count - 1], raw_line($count, 0));
->>  				$fmt =~ s/%%//g;
->>  
->> -				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*))/g) {
->> +				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*)(pte|pmd|pud|p4d|pgd))/g) {
->>  					$specifier = $1;
->>  					$extension = $2;
->>  					$qualifier = $3;
->> -- 
->> 2.30.2
->>
->>
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index fc4e845bc249..9b2625c768f0 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -59,6 +59,11 @@ Environment variables for ``*config``:
+     This environment variable makes Kconfig warn about all unrecognized
+     symbols in the config input.
+ 
++``KCONFIG_WARN_CHANGED_INPUT``
++    If set to a non-blank value, Kconfig prints optional warnings for
++    user-provided values that change after Kconfig resolves dependencies
++    or applies other constraints such as ranges.
++
+ ``KCONFIG_WERROR``
+     If set, Kconfig treats warnings as errors.
+ 
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index ac95661a1c9d..34be06d4b563 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -206,6 +206,78 @@ static void conf_message(const char *fmt, ...)
+ 	va_end(ap);
+ }
+ 
++static void conf_changed_input_warning(const char *s)
++{
++	fputs(s, stderr);
++}
++
++static bool conf_warn_changed_input_enabled(void)
++{
++	const char *env = getenv("KCONFIG_WARN_CHANGED_INPUT");
++
++	return env && *env;
++}
++
++static const char *sym_get_user_value_string(struct symbol *sym)
++{
++	switch (sym->type) {
++	case S_BOOLEAN:
++	case S_TRISTATE:
++		switch (sym->def[S_DEF_USER].tri) {
++		case yes:
++			return "y";
++		case mod:
++			return "m";
++		default:
++			return "n";
++		}
++	default:
++		return sym->def[S_DEF_USER].val ?: "";
++	}
++}
++
++static bool sym_user_value_changed(struct symbol *sym)
++{
++	if (!sym_has_value(sym) || sym->type == S_UNKNOWN)
++		return false;
++
++	switch (sym->type) {
++	case S_BOOLEAN:
++	case S_TRISTATE:
++		return sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym);
++	default:
++		return strcmp(sym_get_user_value_string(sym),
++			      sym_get_string_value(sym));
++	}
++}
++
++static void conf_clear_written_flags(void)
++{
++	struct symbol *sym;
++
++	for_all_symbols(sym)
++		sym->flags &= ~SYMBOL_WRITTEN;
++}
++
++static void conf_append_changed_input_warning(struct gstr *gs,
++					      struct symbol *sym,
++					      bool *changed_input_found)
++{
++	if (!sym_user_value_changed(sym))
++		return;
++
++	if (!*changed_input_found) {
++		str_printf(gs,
++			   "warning: user-provided values changed by Kconfig:\n");
++		*changed_input_found = true;
++	}
++
++	str_printf(gs, "  %s%s: %s -> %s\n",
++		   CONFIG_, sym->name,
++		   sym_get_user_value_string(sym),
++		   sym_get_string_value(sym));
++}
++
+ const char *conf_get_configname(void)
+ {
+ 	char *name = getenv("KCONFIG_CONFIG");
+@@ -759,11 +831,15 @@ int conf_write_defconfig(const char *filename)
+ {
+ 	struct symbol *sym;
+ 	struct menu *menu;
++	struct gstr gs;
+ 	FILE *out;
++	bool warn_changed_input = conf_warn_changed_input_enabled();
++	bool changed_input_found = false;
+ 
+ 	out = fopen(filename, "w");
+ 	if (!out)
+ 		return 1;
++	gs = str_new();
+ 
+ 	sym_clear_all_valid();
+ 
+@@ -772,10 +848,14 @@ int conf_write_defconfig(const char *filename)
+ 
+ 		sym = menu->sym;
+ 
+-		if (!sym || sym_is_choice(sym))
++		if (!sym || sym_is_choice(sym) || sym->flags & SYMBOL_WRITTEN)
+ 			continue;
+ 
+ 		sym_calc_value(sym);
++		if (warn_changed_input)
++			conf_append_changed_input_warning(&gs, sym,
++							  &changed_input_found);
++		sym->flags |= SYMBOL_WRITTEN;
+ 		if (!(sym->flags & SYMBOL_WRITE))
+ 			continue;
+ 		sym->flags &= ~SYMBOL_WRITE;
+@@ -798,6 +878,13 @@ int conf_write_defconfig(const char *filename)
+ 		print_symbol_for_dotconfig(out, sym);
+ 	}
+ 	fclose(out);
++
++	conf_clear_written_flags();
++
++	if (changed_input_found)
++		conf_changed_input_warning(str_get(&gs));
++
++	str_free(&gs);
+ 	return 0;
+ }
+ 
+@@ -809,7 +896,10 @@ int conf_write(const char *name)
+ 	const char *str;
+ 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
+ 	char *env;
++	struct gstr gs;
+ 	bool need_newline = false;
++	bool warn_changed_input = conf_warn_changed_input_enabled();
++	bool changed_input_found = false;
+ 
+ 	if (!name)
+ 		name = conf_get_configname();
+@@ -838,6 +928,7 @@ int conf_write(const char *name)
+ 	}
+ 	if (!out)
+ 		return 1;
++	gs = str_new();
+ 
+ 	conf_write_heading(out, &comment_style_pound);
+ 
+@@ -859,13 +950,16 @@ int conf_write(const char *name)
+ 		} else if (!sym_is_choice(sym) &&
+ 			   !(sym->flags & SYMBOL_WRITTEN)) {
+ 			sym_calc_value(sym);
++			if (warn_changed_input)
++				conf_append_changed_input_warning(&gs, sym,
++								  &changed_input_found);
++			sym->flags |= SYMBOL_WRITTEN;
+ 			if (!(sym->flags & SYMBOL_WRITE))
+ 				goto next;
+ 			if (need_newline) {
+ 				fprintf(out, "\n");
+ 				need_newline = false;
+ 			}
+-			sym->flags |= SYMBOL_WRITTEN;
+ 			print_symbol_for_dotconfig(out, sym);
+ 		}
+ 
+@@ -892,8 +986,12 @@ int conf_write(const char *name)
+ 	}
+ 	fclose(out);
+ 
+-	for_all_symbols(sym)
+-		sym->flags &= ~SYMBOL_WRITTEN;
++	conf_clear_written_flags();
++
++	if (changed_input_found)
++		conf_changed_input_warning(str_get(&gs));
++
++	str_free(&gs);
+ 
+ 	if (*tmpname) {
+ 		if (is_same(name, tmpname)) {
+diff --git a/scripts/kconfig/tests/conftest.py b/scripts/kconfig/tests/conftest.py
+index 2a2a7e2da060..87860b1bfd9f 100644
+--- a/scripts/kconfig/tests/conftest.py
++++ b/scripts/kconfig/tests/conftest.py
+@@ -37,7 +37,8 @@ class Conf:
+ 
+     # runners
+     def _run_conf(self, mode, dot_config=None, out_file='.config',
+-                  interactive=False, in_keys=None, extra_env={}):
++                  interactive=False, in_keys=None, extra_env={},
++                  silent=False):
+         """Run text-based Kconfig executable and save the result.
+ 
+         mode: input mode option (--oldaskconfig, --defconfig=<file> etc.)
+@@ -48,7 +49,10 @@ class Conf:
+         extra_env: additional environments
+         returncode: exit status of the Kconfig executable
+         """
+-        command = [CONF_PATH, mode, 'Kconfig']
++        command = [CONF_PATH]
++        if silent:
++            command.append('-s')
++        command += [mode, 'Kconfig']
+ 
+         # Override 'srctree' environment to make the test as the top directory
+         extra_env['srctree'] = self._test_dir
+diff --git a/scripts/kconfig/tests/warn_changed_input/Kconfig b/scripts/kconfig/tests/warn_changed_input/Kconfig
+new file mode 100644
+index 000000000000..69845e2f3fb3
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/Kconfig
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: GPL-2.0
++
++config DEP
++	bool "DEP"
++	help
++	  Test dependency symbol for Kconfig warning coverage.
++	  This is used by the warn_changed_input selftest.
++	  It intentionally stays unset in the input fragment.
++	  The test checks how dependent user input is adjusted.
++
++config A
++	bool "A"
++	depends on DEP
++	help
++	  Test bool symbol for changed-input diagnostics.
++	  The input fragment requests this symbol as built-in.
++	  The unmet dependency on DEP forces the final value to n.
++	  The warning should report that downgrade.
++
++config NUM
++	int "NUM"
++	range 10 20
++	help
++	  Test integer symbol for changed-input diagnostics.
++	  The input fragment requests a value outside the allowed range.
++	  Kconfig resolves it to the constrained in-range value.
++	  The warning should report that adjustment.
++
++config DUP
++	bool "DUP"
++	depends on DEP
++	help
++	  Test duplicate-definition handling for changed-input diagnostics.
++	  The input fragment requests this symbol as built-in.
++	  The duplicate definition below must not produce a duplicate warning.
++	  This keeps the warning output stable for repeated menu entries.
++
++config DUP
++	bool
++	depends on DEP
+diff --git a/scripts/kconfig/tests/warn_changed_input/__init__.py b/scripts/kconfig/tests/warn_changed_input/__init__.py
+new file mode 100644
+index 000000000000..4c3bca6af846
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/__init__.py
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: GPL-2.0
++"""
++Test optional warnings for user-provided values changed by Kconfig.
++
++Warnings should stay disabled by default, and should only appear when
++KCONFIG_WARN_CHANGED_INPUT is enabled.
++"""
++
++
++def test(conf):
++    assert conf.olddefconfig('config') == 0
++    assert 'user-provided values changed by Kconfig' not in conf.stderr
++
++    assert conf._run_conf('--olddefconfig', dot_config='config',
++                          extra_env={
++                              'KCONFIG_WARN_CHANGED_INPUT': '1',
++                          }) == 0
++    assert conf.stderr_contains('expected_stderr')
++    assert conf.config_matches('expected_config')
++
++    assert conf._run_conf('--olddefconfig', dot_config='config',
++                          extra_env={
++                              'KCONFIG_WARN_CHANGED_INPUT': '1',
++                          }, silent=True) == 0
++    assert conf.stderr_contains('expected_stderr')
++
++    assert conf._run_conf('--savedefconfig=defconfig', dot_config='config',
++                          out_file='defconfig',
++                          extra_env={
++                              'KCONFIG_WARN_CHANGED_INPUT': '1',
++                          }) == 0
++    assert conf.stderr_contains('expected_stderr')
++    assert conf.config_matches('expected_defconfig')
+diff --git a/scripts/kconfig/tests/warn_changed_input/config b/scripts/kconfig/tests/warn_changed_input/config
+new file mode 100644
+index 000000000000..dbe93ff26408
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/config
+@@ -0,0 +1,3 @@
++CONFIG_A=y
++CONFIG_NUM=30
++CONFIG_DUP=y
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_config b/scripts/kconfig/tests/warn_changed_input/expected_config
+new file mode 100644
+index 000000000000..fe8bbec66c53
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_config
+@@ -0,0 +1,6 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# Main menu
++#
++# CONFIG_DEP is not set
++CONFIG_NUM=20
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_defconfig b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
+new file mode 100644
+index 000000000000..af9e34851d2a
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
+@@ -0,0 +1 @@
++CONFIG_NUM=20
+diff --git a/scripts/kconfig/tests/warn_changed_input/expected_stderr b/scripts/kconfig/tests/warn_changed_input/expected_stderr
+new file mode 100644
+index 000000000000..9ec8446b4ac2
+--- /dev/null
++++ b/scripts/kconfig/tests/warn_changed_input/expected_stderr
+@@ -0,0 +1,4 @@
++warning: user-provided values changed by Kconfig:
++  CONFIG_A: y -> n
++  CONFIG_NUM: 30 -> 20
++  CONFIG_DUP: y -> n
+-- 
+2.50.1 (Apple Git-155)
 
