@@ -1,335 +1,176 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013049.outbound.protection.outlook.com [40.107.162.49])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB45235AC0C;
-	Thu, 11 Jun 2026 20:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210850; cv=fail; b=WNDIwaF+5y19zEq1hNzX12DnA1AGcFewXlqpCkwZNhIIJVYOWfwq9BswTBQsz4l0pR7hnSYP+JMyw2ofBYtYVQKrQPAxeAOriNPfN9LNUjdrmEsXpnuX4JMZ8A0KzCSb9ssPAkna9MT7DAN82Hk1h9y4ara6nGFr1vIHEsfJ01g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781210850; c=relaxed/simple;
-	bh=r39DvU8bMGYrNOQIRiouhjTcL8W7z4rs75hUPDjtFOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oydzHXjq1rIzSm4Y8U20qYpovuxpqLtaRwIBfILON+ujGj80eydu+P9c9V1HjlyxT1HmFOkalJZbwgu5CDu4cW0XErJfFCtmqQD1S9HZxuNkN2kC27S05JZ4w0cJutQqTDKrt11KUUTY29Q5XorS/00es4rhjygq8GFUFxwkFHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=J6ZICj1c; arc=fail smtp.client-ip=40.107.162.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA04374192
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 20:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781211013; cv=none; b=U6jYdEvCj5/q0MD+4+iiYVK9QNeIZ5LvzrPvfYCzbAMg+/YJ2txd+Zv8vCrj0U/HLgj9OUXysnwHfETwaE0ULraKZi/GFoT8ZH777SNgEYHGUQfwUZTrYyfjvOyRAWI9rpGtaLS95ZQpOi+IBjO+o8PGjxoXw6S/Bog39WZvP1k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781211013; c=relaxed/simple;
+	bh=Mk4MD85wpIgW8gaPfr7INIh+M9eBh/sQU1QLVtpoaoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KmnpF386ol00oa+3F26lruLPvtolRS39MbXk5BQIPwEe61eDNVRf5aLpf6q+vBjBJMKAM6pDokfvHSc7VXmBzyAYa77kbSVJq6ntkBfWJXbrWa+MOnfsknZ/pRp8E6DGXnEHASNfkQkthOxaeEoWA0QfxNjkJi7/uEhQqYdS6Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b33fGFdm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZB7s3G1k; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="J6ZICj1c"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pUM35Pwh36iRIrjxQ6hqzwBUWWYPpmgvefoQOBC7HabOHq2DDmwS3LsgVYuTdyieb2f03HBzznSf5UhiGQgyOLm9xdcbPbpf9cyocGQ1c779g3flS9QwTOJBihnpiG9mUeIFArG4b0jXn/TsEm24iflWj5o0Hjj+Ms/x5xXDmRAWCG8EFXZFKlUv7pG36MbBBOZrpIYXHNINyt7GL4lkPrZNuZs4A043K6FTvX+Ri6BvVMrEeOpNyGGCwq7jUymh/lOvzqkSJmTQUKqEJJCg1h/spLDcOQ30a8VeVMPbIHCrqR0mhxpRlvVKVIa5RZj5U0SoQkuYZ5CtaCG/ClcAAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kp0V96hQHO0Vi6EebPNh77DUKMaBtTyx0jyQfV8ieCY=;
- b=phRVnClxZlgmVEreYwslKEMOP50dqZ/No5ROIq70+X8LSsC0KE+HlyOXoqBv0DM9E7kujzgbqJgzZd7yG9DcQWAC4VT8XxC3HKB7paZ4VhwQoDFXGP0Dwx8bqZYbrENHrb539RUKfei8OgQBhds4W7tFrqEtLCVBHoKMUBUF2smTxYM+E9JCpN3XwpO/nfpP72IIYsQIZOlD6FvGedqcJ2ilzuE8R/+Il2vSBmZB6oj9lgdhXOpcNEo5RLzoFumUE8aXE8mQwaFTme4F1WdqK99pPqADb0REY1eIKSHY7VI1zqrqKNEh2oLS7LDDwWqB5UI5fW8lbTv9ZVOmFGWiaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kp0V96hQHO0Vi6EebPNh77DUKMaBtTyx0jyQfV8ieCY=;
- b=J6ZICj1c+jk6ovcrpBB+bAq3GSCPXAR/a0ise4JfCVX3XIsobtRQVAT7dDYtvlEIMUPm8pIAYJe7kE3UOY4o2qvq+YgAprZeQUuqCjQmX6gvC4a6Bqg8hKpmCFHDyEgpq3mY/k3P+uKMu7kN+jQRIxSiKWhK2eS8feERZCyrdIoK1nncsGcsqZedahJ43NH/EnlGEjcfGwP/WBMMN+EWMvIFyqBCUHTUyefDSu2RtRTmnvmvKEB1Lw8g9Wy9xxaTiM7r6jCk8KX+0ocnJA0BUrQtcvwRCFKVFslXs1/HawA2a0M7TBR/sLqew+BB4U6OkLLvN2yolNcXTp1Lpyav+A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DB8PR04MB6796.eurprd04.prod.outlook.com (2603:10a6:10:11e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Thu, 11 Jun
- 2026 20:47:25 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0092.016; Thu, 11 Jun 2026
- 20:47:25 +0000
-Date: Thu, 11 Jun 2026 16:47:18 -0400
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Aksh Garg <a-garg7@ti.com>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, mani@kernel.org,
-	kwilczynski@kernel.org, bhelgaas@google.com, corbet@lwn.net,
-	kishon@kernel.org, skhan@linuxfoundation.org, lukas@wunner.de,
-	cassel@kernel.org, alistair@alistair23.me,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
-Subject: Re: [PATCH v5 0/4] PCI: Add DOE support for endpoint
-Message-ID: <aise1tIyTj4WLU89@lizhi-Precision-Tower-5810>
-References: <20260610100256.1889111-1-a-garg7@ti.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610100256.1889111-1-a-garg7@ti.com>
-X-ClientProxiedBy: SA1P222CA0176.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c4::12) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b33fGFdm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZB7s3G1k"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65BJ3LAp1527044
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 20:50:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=7U12GqzKZ3dJsiu7QWLZpQE1
+	HJAiLvJ1NIcLGrlb2b8=; b=b33fGFdmUmHrcWlfymGF3o/dulCmz3LRdm9ooGYr
+	A74OgzAgDg/YYlewa5wd14Nlzi8BIlGZdEwQLu8DshZF2rFrVdHDjT79f50f+TrP
+	6CbQOBykIMAXFDZTspCj7K/q8nPzO5C6xm2zOkOOttY8Ocny8Nv5Ng1PcefMWFHC
+	Gb/Mk2sY4arsQ2Ky7NAQcahmI9qHgIhxy1jq4sCwmo58UWIXkNtFkeUwbd94VwL/
+	nbuQRkMk+0/Wx/2RWCDCRUuYaa7NoIqiBSN4XSvQckfGYI1dhYmxEhusqZFO3tat
+	ryxAxSA5vJsmH18JS/KiFRlhXVzh8vv1ZUqwq9/8xFcEzg==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4er29urhnv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 20:50:10 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-304dd917645so599977eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 13:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781211010; x=1781815810; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7U12GqzKZ3dJsiu7QWLZpQE1HJAiLvJ1NIcLGrlb2b8=;
+        b=ZB7s3G1k0NOpnTbng9TWrCpkGNGTtv5MSNGMGrVIRL7LfO2nYF5Usv8sTLCdkhaUbv
+         jfrU4bCGWY17vl8nMBX54sy+FTsn4mzRsvP+suxdTY4jft1yU2YCJAEeMmkSQxf2WYuW
+         UQFjTMiVMgdHHGBxZa1l+Pwuo89sc1Drkx+hFLZd4KiibKs3YOOzHfPiKOM2FSI1ZRdW
+         SkfI8zNMUpXZ4Gnx2EU6xVhid9uN8Ob7tP/McPM7rKQjeXM/tmxoAbXeuwdNAO3pGwHr
+         gML/Ct4BtKUqcDXwq18sRCaKbaP0BZFQHSpuoU+sI6gSk2ct+OQDvi3Hn6SMXsCfap7r
+         r4eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781211010; x=1781815810;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7U12GqzKZ3dJsiu7QWLZpQE1HJAiLvJ1NIcLGrlb2b8=;
+        b=ewe+RTYYikPgGMlLYmzNf12pTUzkiHu1rt/IBnkSCYmGjeupiRxo/maBYtAEReYTXV
+         XNLz91rriH8kz6Yu/mqPzaLkbU1u8Qckp3/TQmLUUqEEyMhbn54f77qTY3exsohy2Tgl
+         k2KWLrWWzO6UM3LCWy/3e/xE/HlWwSF72z8q2vMucLj7SaCaxWJY0PlBcSc9uMN93+QD
+         vfB29rLawZk1B0P8rAGLvSKrXf+MNbtakNV7fcFpmnsaBlVoE9TVOFscug9DHQFtNOMb
+         DQ/zpLz9sPWVE2smrDd6zUrOvQqt9utNCajbxpobwyNc/uqPwl8djQg9MYkb8lMC0WNN
+         Ik3A==
+X-Forwarded-Encrypted: i=1; AFNElJ8Fio/2MmGN8I36EYfS8aD1RitZq3HkyWc0ypmoFqfggSyBx99GW4gFrXqo7KU5X0MbfKYDmQL0zqk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzw9E+2YrHG6UIle3t/mWNigURLWTQ/fXu83jJdQd0m6alqe6rT
+	q5xV8DvDSK+IwfmW1jVMbHs3LBr4Od2ERay7Ib9qT2Jz6EXy4OOPo/vIAXotPWRC8IdNJyOrx6u
+	NzOsgKfpkuAOlADyFj1kUisN/BDn8pj0pp2I4aP7ciqazipn8y+fAlpcHyY3pZlA=
+X-Gm-Gg: Acq92OEES4qco6am5y0jWNAZ3tYX3PdSUCUNONLGYefaw/1mMFn7jJ2d3P3oEgHFyZv
+	W5jcC/kROKTjRcbMkSzJfmBI79UTJiUQLqy71iXw3i5qayqk3EZp+1NP2WGP5GKBIY0kvwtygbN
+	Sk4fhYssiYL7ct6tvEdbZpirK0Fqr8YNTKz+Uo1A0Z00VEMA/u8BmOUv+3M+tTrnLDfaPEEQ8o8
+	1ETVIpKtdqfjUKxJprbFW5SMKLIdg4R5BllpXtBffH3r5aBO1q4fw5isszAzjEVi6BLdpLdDLwJ
+	jiK9qKrsrJi2TOW0pcpeguy7LzL8lKucX9B62+XrGssATBEMCJJtTsAcXm6KWoplslS+BJkJvg3
+	XcZpiSJjmUDcFEL5XTD+H3LHMcg6JuQ==
+X-Received: by 2002:a05:7300:1481:b0:2d9:6373:ad0a with SMTP id 5a478bee46e88-308047729dcmr3430165eec.11.1781211009846;
+        Thu, 11 Jun 2026 13:50:09 -0700 (PDT)
+X-Received: by 2002:a05:7300:1481:b0:2d9:6373:ad0a with SMTP id 5a478bee46e88-308047729dcmr3430111eec.11.1781211009350;
+        Thu, 11 Jun 2026 13:50:09 -0700 (PDT)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081ea4fe55sm303031eec.25.2026.06.11.13.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 13:50:08 -0700 (PDT)
+Date: Thu, 11 Jun 2026 15:50:07 -0500
+From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+To: Guodong Xu <docular.xu@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>, Atish Patra <atish.patra@linux.dev>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        Inochi Amaoto <inochiama@gmail.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
+        spacemit@lists.linux.dev, sophgo@lists.linux.dev,
+        linux-kselftest@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
+        Qingwei Hu <qingwei.hu@bytedance.com>
+Subject: Re: [PATCH v4 09/16] riscv: Add Zic64b to cpufeature and hwprobe
+Message-ID: <uttb7qknse5hk6suato3nelqatkrkoyo7r342pqay4wh6vyr4x@xestyyhoygtn>
+References: <20260611-rva23u64-hwprobe-v2-v4-0-3f01a2449488@gmail.com>
+ <20260611-rva23u64-hwprobe-v2-v4-9-3f01a2449488@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DB8PR04MB6796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 237a1f7e-3cf4-461b-d55e-08dec7faa4d3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|19092799006|6133799003|18002099003|22082099003|11063799006|56012099006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	G/CR8Zfrn9UJEOR9xkT0sOTJVen0nxxT299+lvbtgnNB0U4BRDsgmQhLbxJ2ftERA1XhLStPpLvpxRBLO2GsPDOqO4UvWG33rkVgvV1rKM4aIR6veTe4kl7dUVWWe7+P+XxQ8QwfMZnIfGJKbEJdSoUGbglRHq6+EdYm2HTxvaIoKkNsOlOp/pe4a7sc1GwvTqTUQg/X4ItoXoqYPH/zzV1DAe7LwsdQVUlZ4fa6kRzz43lc32pVRGoR6yn42oc5b4uyWaec7Eut4wCO4ay+48IH8mBzn90yE2J4JkmPRfFHYd7Vr/XHsZ0wUV94RNryYrM/mzp3Ze0rM5+31umhDI74LC3O8QxNvdanQ6QvuBCZaMLPcTn0xcA3SQVsyL5NwJHv8FcUtN64KhurgEP/CQxbRWnD8QweQ6IQOrmaL0hQWn4kJ/QbK+gKn7b9qTjX3dgqH1zwL4aNFL1G7XrGld/yEjlK49/OnST7+gJPYmos1VTZVEK7GtbVA5FLdMKqk7kGGVu+anhXuVonJTXslRdEQTvw1+lvysc15mswmzafxtSm0zsmqVGkl/7ALdLs7NIWe+zq8329OMyuiSfhyzIjBh5D1l0+ASqfv60JEHvtR1eXgW8y3UlFqABR2pkg19TjhRF/r6ToQddI+Yi/LnJJMcPGKfAi+5BljEoC9QoJbiiJQAUXUQIW0y5rQ2dEOrzeEbekcLwpV8//6Zgmbw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(19092799006)(6133799003)(18002099003)(22082099003)(11063799006)(56012099006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?h8SGX/prKXwgyELifkCcbf+WSK1n+yvXBDQ0JZXwTk2nD9d982lXnOMvjDNH?=
- =?us-ascii?Q?+JQ4jvFkpXmsi+KyGglduBdaP1bKAv3mtD7VNR/hcf8j3K4uTa3F7jPCeuNX?=
- =?us-ascii?Q?yOlLysrmIq1OTNZtn1KmYtHv4Ejr4EnWX/w+aVnIc7+YdrCAFaDLz3SkQ447?=
- =?us-ascii?Q?At9k4go3C/jTtilOKUQnB3XaewsNmZmw4cv1KwwE6tbtE6Z6xses3OAjelIf?=
- =?us-ascii?Q?7r8AwcZ5e1WIhqhYO/ecbOnHLal9G5WRlUdK1WpgVNqrYIf6LvFAXz9gsEMn?=
- =?us-ascii?Q?fDmUT4UatM2rrFCPTc8yif6LAPbmpB5e1UdZq1TrlHLU64MKJ9sdHJptrVmp?=
- =?us-ascii?Q?lGr6j59U3x/3wOH5RKtABDUHhlRE2+rVyybu5a1qcgqvoXrqP2GLnNjB5k+F?=
- =?us-ascii?Q?eZOCJUDgc6GiRHkgVYu68dl/DOTicGpndA1fT/exSDXkjcKzX1tDJx9ASH3Y?=
- =?us-ascii?Q?kJVqTIhntunmV71xxi5Z8E7Vwcs0aNl3M8bIM3aV8QyUpRv/4/gDiuYRkOlo?=
- =?us-ascii?Q?bOpP7wEEVajx7iJOkX6uFDnlwEkXb4OpW4+3YxESKx4YKhlHmZURkdCf8EUJ?=
- =?us-ascii?Q?HeCLC74AxCfZJNbkFd2wz06rDUbwdQS54B5FwD92Lp8+R8XSc1Mgp5cZ4AyP?=
- =?us-ascii?Q?Qd3QtAa4i1MJKO+Jelh5WIaRVDzOVHm0wDBNj03Ll0DmGn/HBPH4DLYbgtHq?=
- =?us-ascii?Q?NVnx5RIAsiHo9M9lcdnVq685l9ZJ6vmLyfR0HwZhvHoSanNJT9Iy7nxw4rYu?=
- =?us-ascii?Q?m5r3mzadyYPdSyaA11d5RmnHI91+DR69zdD4VkTi3rdjLNYpEhtPHPB6bDil?=
- =?us-ascii?Q?EuokuOl56P5CclDNxzs46NExYF6Kk8N7Etmf4ccRvta0ss5BEKxj8S7AvY/O?=
- =?us-ascii?Q?Q6Bdyn9VsE6UZIZaNJ2poLvUUOdRI+sQF8m3OHvdx7W1IIiovayyJ0qT+yK5?=
- =?us-ascii?Q?k4ipfiMYbxcLNZDyjpKx2UA6Y7vfKdUvmkZVcVgIW0ihiw2a2D9vGVsdpOX5?=
- =?us-ascii?Q?Z3+xj9YkWTwBXd65OhlBR+u9ukRstjMzvLWQiOqsWOX23zXJetM0rmKmJ9ZB?=
- =?us-ascii?Q?D2f6S8dGyTzAsWXr0GSzIfwwRoqTToW0xzELQwponScJqiIBojjr0PExa5Lz?=
- =?us-ascii?Q?EzT/sutn86xBhz44R5NxmZUa0VXzcLAyyBMhIfyxD+DKISHOOe3r6MEtKOIL?=
- =?us-ascii?Q?we0nFfahTeMYLKpj0HdpldoytNU/xotxEiv+vPfus0fZ7SdfDUcl/+P4d5RM?=
- =?us-ascii?Q?mVP5r9fvH1qMM3NTh4jSTmKQfZwOWlnJHxcl7BfY74G3SGbGODjUvqL/opYU?=
- =?us-ascii?Q?YlzLYkO4vzi0+jQC7y5upw4v/a0HZzl0clH5ljZ6RLPKqrnTMYXbjY0mt/tc?=
- =?us-ascii?Q?mMhWseqvMRTtwYWCUmJyxfd+4u/2hW0QHFYSrAKX9xqq4rphQYFvhRXNit0/?=
- =?us-ascii?Q?IA5Lw5t65VxoU5N7Lwg0EY41Mh4gl7IMvTnc+6bhS6XIM0zjsgIbmPXRWji7?=
- =?us-ascii?Q?OcA/9r4BehxeSwsVWBKyk1x7XtTYUZmoxm6M+WRIobKuIhEYP4WxkAVD8mdn?=
- =?us-ascii?Q?D4BGmoQ6dLNhqpmAuDFxaGjELwEuAgFI/Zm4F16tq7uXKRXqED0LUrGx3oPv?=
- =?us-ascii?Q?0IHjhXAwR1gM+C8+4kCxdE2ehXgJZ0WlQFLH98cf+c1kckBWMm0XF9jJwWri?=
- =?us-ascii?Q?Ba/4E39BYCD84BltjZQy2xZyxYDsvlU2KkLRSc3yvQAZZi2FNOyYoYabO1ag?=
- =?us-ascii?Q?y4NOkljRKQnju0eGinFcgSqLWZIQFO4geenx5yhP1zBWbieWlCw9?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 237a1f7e-3cf4-461b-d55e-08dec7faa4d3
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 20:47:25.7166
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2ljzym62vfXqDVm18irSrRhKtuyKUcGQg69mQxBGLZfahT2TiwSuNf0gPXGfr6EHOxm55h+3XZaF3MpCn1XljjRsjZeYCGQsgNm8Zat5q1XXTswoiDRVCkCvW/lz8PBc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6796
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611-rva23u64-hwprobe-v2-v4-9-3f01a2449488@gmail.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDIwOSBTYWx0ZWRfX3+hDUDBWcB5b
+ sRMIlf18CPi82+cx69ts08ipPNYp6h3yWT1yIy/1rErxvalAbfloz0SBFQeFcIpgST0uf2lPgnf
+ EhiSoMsexyYpNqVnBuczhgUf3IDKuis=
+X-Proofpoint-GUID: 3pSPMua7Qnz1xhzxe2-h602Ains1ALWZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDIwOSBTYWx0ZWRfX4iQSmwk3free
+ eSCBXXPg52Wgw7ysMWFHNKNhZKEa461XqILIjng0DBmjUMnCzlw2w9rw5jNVdI5fjmJxgqilfb+
+ +aQBGPbkIR7w9OPrcnBcf12hUuxVs+j9Y1dFN2tE706CZYConKk/UuvwxI38X91zf3ozdLxH/P+
+ 4wjrVyJhQJBc98PvmCsemflZM5zd4LQN20AKQarqg2TcIqMNOztUgZ+lfhBxwB9SNdyya3pWkf8
+ diwra934a5B/DmeGo+c1y1S7h0eBTFFji0+aTO04lGERmWuopKi6psHVNvL4oiH2NQRLnfOnhRi
+ 7Zu0EgBgzcT9jmhIUBj9qiR0LybBWdbNZsu8pZipncM8AL1nRE2h4aNY8ECdE++CLjhWTJCMfS/
+ u5Sw4E7edJmD065tVVD9eGmlv6N9EUWMaiZlUK1KX+UZMBobIdLvIQZWPR8RfrM/pbFoOAg2XGX
+ 4qi4JCUUGhtJV/TlwuA==
+X-Authority-Analysis: v=2.4 cv=DppmPm/+ c=1 sm=1 tr=0 ts=6a2b1f82 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+ a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=HwFc7jivAAAA:8 a=968KyxNXAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
+ a=acXkj6VtvC73PAOtBy8A:9 a=CjuIK1q_8ugA:10 a=bBxd6f-gb0O0v-kibOvt:22
+ a=kr7TZk85JJIQSqC0cl8G:22
+X-Proofpoint-ORIG-GUID: 3pSPMua7Qnz1xhzxe2-h602Ains1ALWZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-11_04,2026-06-11_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606110209
 
-On Wed, Jun 10, 2026 at 03:32:52PM +0530, Aksh Garg wrote:
-> This patch series introduces the framework for supporting the Data
-> Object Exchange (DOE) feature for PCIe endpoint devices. Please refer
-> to the documentation added in patch 4 for details on the feature and
-> implementation architecture.
->
-> The implementation provides a common framework for all PCIe endpoint
-> controllers, not specific to any particular SoC vendor.
+On Thu, Jun 11, 2026 at 04:12:46PM -0400, Guodong Xu wrote:
+> From: Qingwei Hu <qingwei.hu@bytedance.com>
+> 
+> Zic64b mandates 64-byte naturally aligned cache blocks and is a
+> mandatory extension of the RVA22 and RVA23 profiles.  Allocate a
+> RISCV_ISA_EXT_ZIC64B id, parse "zic64b" from the ISA string with a
+> validate callback that requires each cbom/cbop/cboz cache block size to
+> be 64 bytes when it is present, and export it through hwprobe.
+> 
+> Link: https://lists.riscv.org/g/tech-unprivileged/topic/question_about_zic64b_and/119631059
+> Signed-off-by: Qingwei Hu <qingwei.hu@bytedance.com>
+> Co-developed-by: Guodong Xu <docular.xu@gmail.com>
+> Signed-off-by: Guodong Xu <docular.xu@gmail.com>
+> ---
+> v4:
+> - Credit Qingwei Hu's earlier Zic64b cpufeature patch: set him as
+>   author, with Co-developed-by (Guodong Xu).
+> - Validate only the cbom/cbop/cboz block sizes that are present; Zic64b
+>   does not imply the CMO extensions (Conor, Qingwei, Greg).
+> - Add a Link: to Greg's confirmation on the tech-unprivileged list.
+> - Add the missing blank line before the ZIC64B hwprobe.rst entry
+>   (Andrew).
+> - Did not carry Andrew Jones's v3 Reviewed-by: the validation was
+>   rewritten (present block sizes only) and the patch is now authored by
+>   Qingwei, so it warrants a fresh review.
+> v3: New patch.
+> ---
+>  Documentation/arch/riscv/hwprobe.rst  |  4 ++++
+>  arch/riscv/include/asm/hwcap.h        |  1 +
+>  arch/riscv/include/uapi/asm/hwprobe.h |  1 +
+>  arch/riscv/kernel/cpufeature.c        | 19 +++++++++++++++++++
+>  arch/riscv/kernel/sys_hwprobe.c       |  1 +
+>  5 files changed, 26 insertions(+)
 >
 
-General question, does DOE generate irq when received msg for HOST? I have
-not related irq handle code.
-
-Any program to test it? such as pci_endpoint_test, need at least one real
-user to use it.
-
-Frank
-
-> The changes since v1 are documented in the respective patch descriptions.
->
-> v4: https://lore.kernel.org/all/20260522052434.802034-1-a-garg7@ti.com/
-> v3: https://lore.kernel.org/all/20260427051725.223704-1-a-garg7@ti.com/
-> v2: https://lore.kernel.org/all/20260401073022.215805-1-a-garg7@ti.com/
-> v1 (RFC): https://lore.kernel.org/all/20260213123603.420941-1-a-garg7@ti.com/
->
-> Below is a code demonstration showing the integration of DOE-EP APIs with
-> EPC drivers.
->
-> Note: The provided code is just to show how an EPC driver is expected to
->       utilize the pci_ep_doe_process_request() and pci_ep_doe_abort() APIs,
->       and might not cover all the corner cases. The below implementation
->       also expects the EPC hardware to have some memory buffer to store the
->       data from(for) write_mailbox(read_mailbox) DOE capability registers.
->
-> ============================================================================
->
-> /* ========== DOE Completion Callback (invoked by DOE-EP core) ========== */
->
-> static void doe_completion_cb(struct pci_epc *epc, u8 func_no, u16 cap_offset,
-> 			       int status, u16 vendor, u8 type,
-> 			       void *response_pl, size_t response_pl_sz)
-> {
-> 	struct epc_driver *drv = epc_get_drvdata(epc);
-> 	u32 *response = (u32 *)response_pl;
-> 	u32 header1, header2;
-> 	int payload_dw, i;
->
-> 	if (readl(drv->base + PF_DOE_CTRL_REG(func_no, cap_offset)) & DOE_CTRL_ABORT) {
-> 		/* Aborted: do not send response */
-> 		goto free;
-> 	}
->
-> 	if (status < 0) {
-> 		/* Error: set ERROR bit in DOE Status register */
-> 		writel(1 << DOE_STATUS_ERROR,
-> 		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
-> 		goto free;
-> 	}
->
-> 	/* Success: write DOE headers first, then response to the read memory */
->
-> 	/* Header 1: Vendor ID (bits 15:0) | Type (bits 23:16) */
-> 	header1 = (type << 16) | vendor;
-> 	writel(header1, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
->
-> 	/* Header 2: Length in DW (including 2 DW of headers + payload) */
-> 	payload_dw = DIV_ROUND_UP(response_pl_sz, sizeof(u32));
-> 	header2 = 2 + payload_dw;  /* 2 header DWs + payload */
-> 	writel(header2, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
->
-> 	/* Set READY bit to signal response ready */
-> 	writel(1 << DOE_STATUS_READY,
-> 	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
->
-> 	/* Write response payload DWORDs to Read memory */
-> 	for (i = 0; i < payload_dw; i++)
-> 		writel(response[i],
-> 		       drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
->
-> 	/* Wait for the memory to empty before clearing the READY bit */
-> 	while (!RD_MEMORY_EMPTY()) {/* wait */}
->
-> 	writel(0 << DOE_STATUS_READY,
-> 	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
->
-> free:
-> 	/* unset BUSY bit */
-> 	writel(0 << DOE_STATUS_BUSY,
-> 	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
->
-> 	kfree(response_pl);
-> }
->
-> /* ========== DOE Interrupt Handler (triggered on GO bit from root complex) ========== */
->
-> static irqreturn_t doe_interrupt_handler(int irq, void *priv)
-> {
-> 	struct epc_driver *drv = priv;
-> 	u16 cap_offset = extract_cap_offset_from_irq(irq);
-> 	u8 func_no = extract_func_from_irq(irq);
-> 	u32 header1, header2, length_dw, *request;
-> 	u16 vendor;
-> 	u8 type;
-> 	int i, ret;
->
-> 	/* Read first header DWORD: Vendor ID (bits 15:0) | Type (bits 23:16) */
-> 	header1 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
-> 	vendor = header1 & 0xFFFF;
-> 	type = (header1 >> 16) & 0xFF;
->
-> 	/* Read second header DWORD: Length in DW (includes 2 DW of headers) */
-> 	header2 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
-> 	length_dw = header2 & 0x3FFFF;  /* Bits 17:0 */
->
-> 	if (!length_dw)
-> 		length_dw = PCI_DOE_MAX_LENGTH;
->
-> 	length_dw -= 2;  /* Subtract 2 DW of headers to get payload length */
-> 	/* Allocate buffer for complete request (headers + payload) */
-> 	request = kzalloc(length_dw * sizeof(u32), GFP_ATOMIC);
-> 	if (!request) {
-> 		writel(1 << DOE_STATUS_ERROR,
-> 		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
-> 		return IRQ_HANDLED;
-> 	}
->
-> 	/* Read remaining payload DWORDs from Write memory */
-> 	for (i = 0; i < length_dw; i++) {
-> 		while (WR_MEMORY_EMPTY()) { /* wait */ }
-> 		request[i] = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
-> 	}
->
-> 	mutex_lock(&lock);
-> 	/* Check the ABORT bit, if set then return */
-> 	if (readl(drv->base + PF_DOE_CTRL_REG(func_no, cap_offset)) & DOE_CTRL_ABORT) {
-> 		kfree(request);
-> 		mutex_unlock(&lock);
-> 		return IRQ_HANDLED;
-> 	}
->
-> 	/* Set BUSY bit */
-> 	writel(1 << DOE_STATUS_BUSY,
-> 	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
-> 	mutex_unlock(&lock);
->
-> 	/* Hand off to DOE-EP core for asynchronous processing */
-> 	ret = pci_ep_doe_process_request(drv->epc, func_no, cap_offset,
-> 					 vendor, type, (void *)request,
-> 					 length_dw * sizeof(u32),
-> 					 doe_completion_cb);
-> 	if (ret) {
-> 		writel(1 << DOE_STATUS_ERROR,
-> 		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
-> 		kfree(request);
-> 	}
->
-> 	return IRQ_HANDLED;
-> }
->
-> /* ========== Abort Handler (triggered on ABORT bit from root complex) ========== */
->
-> static irqreturn_t doe_abort_handler(int irq, void *priv)
-> {
-> 	struct epc_driver *drv = priv;
-> 	u16 cap_offset = extract_cap_offset_from_irq(irq);
-> 	u8 func_no = extract_func_from_irq(irq);
->
-> 	mutex_lock(&lock);
->
-> 	/* call abort API only if BUSY bit set (pci_ep_doe_process_request() called) */
-> 	if (readl(drv->base + PF_DOE_STATUS_REG(func_no, cap_offset)) & DOE_STATUS_BUSY)
-> 		pci_ep_doe_abort(drv->epc, func_no, cap_offset);
->
-> 	mutex_unlock(&lock);
->
-> 	/* Discard Write memory contents */
-> 	writel(DOE_WR_MEMORY_CTRL_DISCARD,
-> 	       drv->base + PF_DOE_WR_MEMORY_CTRL_REG(func_no, cap_offset));
->
-> 	/* Clear status bits */
-> 	writel((0 << DOE_STATUS_ERROR) | (0 << DOE_STATUS_READY),
-> 	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
->
-> 	return IRQ_HANDLED;
-> }
->
-> ====================================================================================
->
-> Aksh Garg (4):
->   PCI/DOE: Move common definitions to the header file
->   PCI: endpoint: Add DOE mailbox support for endpoint functions
->   PCI: endpoint: Add support for DOE initialization and setup in EPC
->     core
->   Documentation: PCI: Add documentation for DOE endpoint support
->
->  Documentation/PCI/endpoint/index.rst          |   1 +
->  .../PCI/endpoint/pci-endpoint-doe.rst         | 333 ++++++++++
->  drivers/pci/doe.c                             |  11 -
->  drivers/pci/endpoint/Kconfig                  |  14 +
->  drivers/pci/endpoint/Makefile                 |   1 +
->  drivers/pci/endpoint/pci-ep-doe.c             | 594 ++++++++++++++++++
->  drivers/pci/endpoint/pci-epc-core.c           | 104 +++
->  drivers/pci/pci.h                             |  48 ++
->  include/linux/pci-doe.h                       |   8 +
->  include/linux/pci-epc.h                       |   9 +
->  10 files changed, 1112 insertions(+), 11 deletions(-)
->  create mode 100644 Documentation/PCI/endpoint/pci-endpoint-doe.rst
->  create mode 100644 drivers/pci/endpoint/pci-ep-doe.c
->
-> --
-> 2.34.1
->
+Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
