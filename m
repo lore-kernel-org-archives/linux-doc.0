@@ -1,365 +1,276 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE1637F014
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 21:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781213627; cv=none; b=KCrXGE/QVo912eh7nv/vJSOcwKR2vFMB9Yd6fbf2ju5fSVdUr/jATVupFhf2JLg1My3/vF9t4yYrA7fmMWLF6iuGfscFsGkMHptus7gcP6DKSj/OeQbMozA9XzNkPoctoc0/DGLIPE8k4DVSQ3SmuHYtU4vRT7Co1oClkZ4dQ+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781213627; c=relaxed/simple;
-	bh=K8lIvci/F8SDAKMdJB7BnX6zqQWLsHApGUSZHS5jaIw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=YFowHU2aA8lSqt795z1rljdMjAo4fTYj5L0TJaj8x4bJyhE5HFhX7iJ+ewFFUsxPPXow70Twwb90S176k/ixdJR4OO3vx9vJV6QwIfF0TvIZnGpverwyCAR7OSfF1lg0Ff7ZzpzVY09pUUx2pCyVHLDBxBdlvBPZ8026nggu1Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpGgt4YU; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38EE37B402;
+	Thu, 11 Jun 2026 21:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781214803; cv=fail; b=JCJ4xZwlnJ/89A1NQPjW+IOU3Ie2tc/Kn2yCeIVKDkklcrVLsfvibdLdx87mopqCIBqTrZTH4d4B+pG1RrvPmrzNNW+/CG9yU9ZxLebNgSFcp/97bAlRr+aEEJXtbuAOPqzFs3YeOw0uhzXsV2+aZ1zbOFozM6lptX9tWkc/bGU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781214803; c=relaxed/simple;
+	bh=qRS8uGXIfisqsXMnUo5b1d17V8co4st5csoa+DBaLck=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ChV174ZxQl5QnZEWIgsKTNt67U4k7zVk+ygXLyKXTeM8byJoUs6JpsMAA5xkly0ZXR/HUgjBAJDg5kCVcm63/KbJ52iHaxyEj3NKNrSgsKnBHJJEjW8sFWSE+6JPMIcFfGJw52oXrSbZ9W33gI625omcTNMNcMEerVQGHOnWSuw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJEXLb4K; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpGgt4YU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB77A1F00A3D;
-	Thu, 11 Jun 2026 21:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781213625;
-	bh=paONQ3+/JxsYzY9c7eX9yCDzQxkvA7sdMubyl11cOKY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=JpGgt4YUfW02ykAS3pLRQ8YsA82uaaXCsFgxcG2BS/MEN4L+T2mq8/JiP/osJ/1we
-	 yDsAYSM4y7jx6Hfz3gj2XiQUrSvP5TUCdfC0K8A8n8Up8PN7+wfzZUqlEIMMB8Fzd0
-	 37FpUXKUKlkBpPGZKGqJmakPr3V2E8x4fZxJMFJdE8nrmoepzjGPvYnQvzI+kod0Bt
-	 p6CvQbJhWC90OCUyLWDNqe7X6KPv2GaKcme0lJwAh4XPfbAL2kl+w5yvYxgd+0CpRA
-	 +FNDuX/j7xGXzRvallCFE24SQfPQoR8wr2mfna6l07t0QT2SJQBCJVYw7viBQLl1VT
-	 PLVguEx8rd9Xw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 34A0BF4007A;
-	Thu, 11 Jun 2026 17:33:44 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Thu, 11 Jun 2026 17:33:44 -0400
-X-ME-Sender: <xms:uCkraop8e50CHXyzlnyBtJ1fua1WU7GpxyKbJsnbeC3QYh9SZfiC3Q>
-    <xme:uCkrapfWPlYr5B9LnW6D8BUJ99Yq07sTA-QW52M60siDy-ZsrFwIl5VadiJyZHw2B
-    UASfT2LRjqkIu4aklVrCHeChcxyMcg_hE4NHA9QdI0fSccVlvsNnn18>
-X-ME-Proxy-Cause: dmFkZTE2/sgOU1xp1hUhRw/3940WN0vNnwsUttBVn00lxnxCZPmCdMHTTNpyDYnGpSuBhU
-    i+yiKJREczGwWisOS51wW2DNa9R/moquxJOWf2Fdvrds2fAGH2UXGURt7EvpJGkCBijaDC
-    FxfUZ76yX1GFxEOht9f0rKtZsTdGbUHv3KiGJhyTw0c4/Zv5ZcubcQ8xuBe1u92jvSyylC
-    mKxZO0wxPYJ9/jIDjhc85sT/fWIY8qmxMXo0IDA5jjQ1PZSU67jVspO4BBv/LROS6aoL/E
-    QLFId6Ap7OwrQP7NLZ/LZnb2LBa50QPQmRHHJgWyPEHFySRlKabeQVgVUiOOnZBhaZ/7DP
-    SeY8kc+gSy7tNWwubBk+KhgE8mlf9vbbCDe+G/Nnf5A3IBGJH0mkQ3j0ZEe0E2BMxZEdFE
-    lO/vqsu7sCp1ivDxEagEw38HFR/BwKnWaPwnknpFqgSn9ZoQi018zv8l6/a4TevjqGOF10
-    hm7PuEPl7fnSMnDoJCbHjf9/cFgwy1axBZAF7wPwjcNKJDsNKe2NlHWDxjxHdJaEXqTB77
-    /ToTHukBF+4ff0zFgQbH+hlGv3EK75JCAYmuQGN1C74iWCHD35SVCYiu77Q4Uq6rundWO1
-    GJJb4NSsHMw77ItEcFtNsGbpb9cQdOCyfy4jj21bb+bFHyjgahw1sYxVQ9kA
-X-ME-Proxy: <xmx:uCkrauCuR5XiDSwxSRPKzzti0wu-b0QMgV7RZFDq1ZEfuujuxt2Dxg>
-    <xmx:uCkrataM9OndfMGmz34gknkaw9xnySpfkdlppc4hMLgy3b7Ih13fVw>
-    <xmx:uCkraqKDPPAfaYJU0Ld_RKcv8tH1z6jbOPmoGTnUdAXhRuG5Dn0Vbw>
-    <xmx:uCkrauDmYlnQUa49_PNPUPaglJGYusoH4Dh4D-SbnkxHEi60_qT7yw>
-    <xmx:uCkramN0HQrHY7RrB1cbShAb6ikZEZtgLnsM87LC2Zg0TaKhWz19mBXp>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 06E44780070; Thu, 11 Jun 2026 17:33:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJEXLb4K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781214802; x=1812750802;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=qRS8uGXIfisqsXMnUo5b1d17V8co4st5csoa+DBaLck=;
+  b=XJEXLb4K4rHLEc8+6Tiwm4d7P5yn5e+WIyQA1Vomcq0+5BJpAehjqvSG
+   mskwl9S7JVGvlMtWjSAcT10EXHLIWJEFvw5yRjiQO3dL+SMLT3ksNPT7H
+   2nDT6IRzBW1iE8VafvHdf1iVry4VGRtLrYKzRHfJI4OE8LPm6Y5ILGwHz
+   l15LVkEB4sYMNCs2viPsURtNqDCk7Az9lEIa3nU+mE1IhLTgpHBZFaYZ7
+   9/hFjmW8EWniMnBAll4yJD237zjpoSQtyz1eo7dVYvx/LPoOnnTrgXTsB
+   Ny/aABMgBb+vxCZsQISALNSoBMRAm0+Hwy6rEOA0PggIyxRksjx+v6RxP
+   A==;
+X-CSE-ConnectionGUID: T1c/6F1eS6Clkw93Ib4GgA==
+X-CSE-MsgGUID: n2BZWvgVQhC8Df/UT6EJ2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85942061"
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="85942061"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 14:53:21 -0700
+X-CSE-ConnectionGUID: JPhfNF3ZTBGuhjpkOG7QYw==
+X-CSE-MsgGUID: Box8wo2xT1Kzom4wgmD/dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="250555298"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 14:53:20 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 14:53:20 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 11 Jun 2026 14:53:20 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.10) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 14:53:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BL7w1swG7Hqb80hofZ8ugdLtXlVIPqzurh+mw1pQD1teWnWIDbuU8WzdjgRuqVH3SHiUOI/xeCxI2hZKeAdZctTkHLl50cunCio/k9eklkUqo0mXeAXpv2ScmqOZBMQxQeeheSRx8r4aKZ3hJWzjKFwMeqhHSAimE74ZLo6FnB1a8V2dM7LACAgwoG5SGfnrZl3rSMymEvwzuQx57TuHqeHQr62GAl2Ns/NL5oDQPXZkp4xVMClrPcSu+KGPTIDOqaaFPm5X8PBFWK1Bdp5zt8+mxxU3wd/iuXo+w2PloQdCZYXIwsSc7/B3FiDHWli2j7U4OADOPQ/Cpp9HmwJaPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k0VTtk0zwg2TYY8TXOXaWM3iUfrGxOmqvuo8FR0e3TE=;
+ b=s/9QHn2TgirakMy2U+WHQH2irZ7IeKqd5i4EdrZ9/9i0MmwZemF+4zhopAkrTytJGvBzxY6NVl4JMsu/XstY7ysx12NpxOWLzhdVJmtOY79eMI0PPElBn4iry0ndv41003OxcQlmrp29BMBJkxfZgIIfBBtolmIQRFxAngYbvt4+dR1qbJMjvBJYn+1Sc25Xm3m6Rot2xyUYZJ+ge05/A7HDVfyyoDKOC3FX+IWxOmyWiIIMI234yZY9kc0/15Q3phVPWrvfKSajekC7Xp54mkSJiJWtoG/lnEtwkdl6vaN3TD1VfQXbIK3q3k5w0lcMNP+qvKUNi4VO0AvXxc7bIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by DM4PR11MB5293.namprd11.prod.outlook.com (2603:10b6:5:390::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 21:53:11 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%4]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
+ 21:53:11 +0000
+Message-ID: <a1dbbb1a-ef78-468a-a80c-572a85220bbe@intel.com>
+Date: Thu, 11 Jun 2026 14:53:08 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/12] [PATCH v3 00/12] x86/resctrl: Add kernel-mode
+ (e.g., PLZA) support to the resctrl subsystem
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <rdunlap@infradead.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<lirongqing@baidu.com>, <paulmck@kernel.org>, <bhelgaas@google.com>,
+	<seanjc@google.com>, <alexandre.chartre@oracle.com>, <yazen.ghannam@amd.com>,
+	<peterz@infradead.org>, <chang.seok.bae@intel.com>, <kim.phillips@amd.com>,
+	<xin@zytor.com>, <naveen@kernel.org>, <thomas.lendacky@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <peternewman@google.com>,
+	<sos-linux-ext-patches@mailman-svr.amd.com>
+References: <cover.1777591496.git.babu.moger@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <cover.1777591496.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0214.namprd03.prod.outlook.com
+ (2603:10b6:303:b9::9) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A11Uoc6bJND3
-Date: Thu, 11 Jun 2026 17:33:23 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: "Steven Rostedt" <rostedt@goodmis.org>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <9119f5c0-cf25-4f30-bad2-b928a2db239d@app.fastmail.com>
-In-Reply-To: <20260611-dir-deleg-v6-2-4c45080e5f3f@kernel.org>
-References: <20260611-dir-deleg-v6-0-4c45080e5f3f@kernel.org>
- <20260611-dir-deleg-v6-2-4c45080e5f3f@kernel.org>
-Subject: Re: [PATCH v6 02/20] nfsd: add protocol support for CB_NOTIFY
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|DM4PR11MB5293:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecd4cdd7-e583-44c0-91be-08dec803d4b4
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|56012099006|11063799006|5023799004|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: rgQp7Y8gyqlw/9ywNfLJj2W/6LS9yGg9yp8zW1k2/SssvZXdLjLnNVpun3y/naJ1BlGSBGs/CsooUOb6lRuoWNa2OmGVVQjpOVQaWxVdJHcZyq8LPOnLxb6w69LFQsW/bM14OtivGIqWBYWxq0VuMCLgzDuBPjHSEs/gcfTgKbm4xvE/2TKcmuX5lfHDswQMUuvqktKVEGetOGTMRq3PaUhIiI+1NBwnTCocNsrIbRn5dBcoN0zeUhhSHln4h023rhORvU+RZ2ayKzwHkW9wpZaLMNcnitamp3pYOxyYiZy9mqsSao+Xo0l10rMEfUQN3WlypbRCqklo6JPdTb0IPr8h7OUxY+xpFbkYHWeEqZDnEU37XFvTtI9DURigksL1m6P8qYPvbV1BWt5qNH8iF0PcfQVMDGkirJR+AWnlAh25OjK8jE2MFbe6wO/dmm0hUe2AWgGUWCodz2VNnpo4BBqiXQo/Q2J+05K5LeH8sLZL7vlVf/kANIZXSY3ph3s3QLzxEJHwhX/9mTPtGKK04ycD5Evo1sQjBgZ0OdBLZ1SBf74zm2FOZaGAasWYuBWHLnYPsnAfnLaPg7qDZQstNaaiSH1IDQw98PORvBuSkV0l9iO5yynxqtjfBeBn1aE219GM7GIN8c9Q+NS6z6jDwG1VBlbF4x9b+8ruVoq50qmsJTEpVg6FzpVREACYhV07V1x44TqT23cm//9z+W2B6g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(56012099006)(11063799006)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFN0Ym13QTVmbzZrWEk2eWlMdkNoRkRDV01DRlpQYWhrYkFVMk9UQ0Z1M3Rp?=
+ =?utf-8?B?bklyWHFJZFBMMTNSRkNRWmVzQnhML3lCbkJ3L3lyTjBXZTBuTTdEVjBVcWg5?=
+ =?utf-8?B?RGNzWDhLb2F1ZVFpZ29ycHBLelFOeCtJTUFGaCt0RlQyQllKemdaSUF0QzlI?=
+ =?utf-8?B?bmVWQThESGNjcHc0S3dwUkpMcFh0eHVwUnQxRGdHM1lMYVlCSlhBSFVRUHEw?=
+ =?utf-8?B?QzE3OS9HT2h5b0hQcUhJa3Fmay93b0phT0xCV3JpcHFwbW03K2grM01rUWRa?=
+ =?utf-8?B?Y3RLcFo4bysvd25ldytoZ3R4RTIrTVhPN3BYd1V6R0wrbi9UdDZmQTFEdklI?=
+ =?utf-8?B?MVFuZDVhWW5FMnp3cWxjeE1HZDdHcHEyZ3ZLZExYcHg2Z1pCcEY0WndTKzhW?=
+ =?utf-8?B?d1NOUCtxUG5UZ0xHZ09ZZkw3bkphNU9oQ3BwQkRqWmZqcXFsNy9vNTFPZFFt?=
+ =?utf-8?B?dC9QamJEYjJsVFdCUTRUVlNKR3FBQWpEbGtadGxwdWU3OU9CZi9Ka0Uzd0tK?=
+ =?utf-8?B?OTNjbzd5K2F0Y0JiZ2lZK1hGdmtCaVFVOVRwRWFSZGpDV0dlS2NxeXpwTnQ1?=
+ =?utf-8?B?V0F0cmYzdWNwSFRYN0tzU1QwNFhvR2NON2J3K3IyUHJINUdEbkF5TFdvUEcv?=
+ =?utf-8?B?RURHTGg1bGY4YnNMYkhiajNVS3lNRWVTdWhqVldrRktEQTlGM1BjQUk3bmho?=
+ =?utf-8?B?dDIzbjRSQnBUTW41UFpsVFN3azNQOTBHV0NhUE9Fa0VqWDM1a2lUWG5sV1lX?=
+ =?utf-8?B?ZFBiVGhkME84MkFDSHJiQWdsSnZ4NFRBc2dPcllpcG5uODFlaWphQUFUdHYr?=
+ =?utf-8?B?YjI1VXE1ck9EWkxwK3BTcmRvSzEvSFB3aU44cXRpN3hRL0U1NDRnVlZKcEcx?=
+ =?utf-8?B?WVM2VXViZTR3akhBRjRaczIrenNWYlBySjRQZnRRbmlweUhpV3BmSnFxSURV?=
+ =?utf-8?B?amxJUEhZMWcwVzFMZzNwcXlPTG55NUJWMStCVDFZejd4VzRiaWYwdkhOTlB4?=
+ =?utf-8?B?cUVjM1hQL3BRQ0FnY0RScU1XczNhRzZ3UWhGNWFpRzVGUHcreWJKcnVpL1ZB?=
+ =?utf-8?B?a1dOa0pXWGZSU2lJUWMrQVJUOHBPNHNqSlE1RGh4YlJRaDVJT1FIc1pvQXRZ?=
+ =?utf-8?B?UDVhWVMwVjVuNExjNnFweXptaVNFbm1UYjhKNnJ4S3VMNUg5Qkd0eWZMNFEx?=
+ =?utf-8?B?VVZid2lrNGJhWEtsSlBLeTNjM3kxcmpTOXcvT2tTeDFXbEdPUG5CdHNpMkZM?=
+ =?utf-8?B?NFZ1SU0vQnNwaElndnV0UWpKRGxoQ3dCVTk1RmljMXNlbEhxeGlDeVcyT0Ry?=
+ =?utf-8?B?UVdSSUFNbDJpS3liM00zS1FNeE5FRWJjNHdCZEYxUlJIYTJNWklGd2IyU0hx?=
+ =?utf-8?B?dDVybXgzY20wdHhZTSs1YkpaZk9MVDcrSmo0RVdnMTFld01RU095QTFVQk5a?=
+ =?utf-8?B?MG5Lb0pZdXplUlZ2cnRRb0piRGcrSXJvYXpxYWJaQmRIZDBvd05GaGhZc1hV?=
+ =?utf-8?B?aXM5RU9xM21SVmtmUjkrRGYwQUR5Y1VpMittdTJqUnVUSHozUEttaHhEZEE0?=
+ =?utf-8?B?TFFsRGF0TFVpQUdsOU1PMmNkWlJXVm94ZHZsSHpWTHpNWnFJY0pCNWd1Wmtw?=
+ =?utf-8?B?YitxVVE1TFZEdy8vRDBUem9JQXhTbFB5QnNPV1RzVkhtMlgrT2V4RXQ4K0R2?=
+ =?utf-8?B?OU5oMDNwdjVRU05ITmczQXpVbFpDNjhlYzlvd29wcW5YMU91dTFuM0wwV2V3?=
+ =?utf-8?B?V0t3bVZVVVltejRiTTRVeUs5SkFpTWVZdFo0YzRvVVc5YVN6bzZOeFpvRWFW?=
+ =?utf-8?B?d2tCL3B6aUNNdUk3Q0tyREV2Z0Z4RFpOb2toc29zaWFGZFRIOUZyNzhzM2o2?=
+ =?utf-8?B?MThXNVhGaEduUCtVNGNwelpwTUZxMzlRbDU2NnBTeDczSnAvSmwzRW9ac2l3?=
+ =?utf-8?B?V1QxNUhXbjNWZXlXRThHS0tIWHhqQVdJYzFsWGd5clBWZGJCdVc3SzB4V0t5?=
+ =?utf-8?B?SjYyR3ZmZnAzMjNxQ1JMaTk4WlRZQ3M5eU1maGpIUTNCc3FVQ0NkZm44TUZB?=
+ =?utf-8?B?Qk02clU1NDd0OVN0UjhxTHdLaWxqSVpaQVQzcVdxUG5jUDJFNUtsblpCLzFq?=
+ =?utf-8?B?K3VqeFRzUisxanFXeEV4U1dSZTZnSnpES0szWkhZZER6NUdGSDZJZXJFWWs1?=
+ =?utf-8?B?VVd2eHNHOWZJc015UG55NVJWWks1VjIrb2plcUNXbXlxQksremlaOWRZNldm?=
+ =?utf-8?B?bDMrdlNrQjNrQjM1MERXZXJDcmJtZldFbzdnRWNOTUs3M2J0RzdkL3lrWHJF?=
+ =?utf-8?B?TkxwVWt4N1lRN2RkSy9ZcHczSjY2SGY2dk5raHRZUHNxd0tBQ2tpU0w2eGhJ?=
+ =?utf-8?Q?7hGSmsNrCuP9S/Tc=3D?=
+X-Exchange-RoutingPolicyChecked: sbd/oJdGbDInDur7czipY2QV1MggXkck+9xd1og2V08DiWzWCC5ywB7fFJ5lge9pYvPSCo85Mw2C8xjR7NGczZTtCLGt2ky/NNdqMLa9MkI68DguBavWmj/R59j/vRi/+9Zc+Ao6yqF47CDHoNoDh5F/c2KzQtSy64/nuCrucjemQHYuvG7ehFRVmVoIiEdSIfefNFjheHWlyA0fU1+CIIQhZQYq8C0z0UcIB5eOC9742vqtEoK7znhET6iWSWy58bt34qmC2O0nGFD2iGd0yVWxxGhMYFIV1RbvXgzQOcCJKnaqyOJf0+smaa3NCF5vSHvonemBCU6Af9Az9Op25g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecd4cdd7-e583-44c0-91be-08dec803d4b4
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 21:53:11.3830
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wdX//cmeaw8aEMmPeRmCq97dncmosKtLc3LKX6Ce3BI587r+fvN0mqqzhC0vcqRmpI7ccMhqoFYmYnjZfZKXpaLHkTPuyTXzKacPUiL6UuE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5293
+X-OriginatorOrg: intel.com
+
+Hi Babu,
+
+On 4/30/26 4:24 PM, Babu Moger wrote:
+> Design
+> ======
+> 
+> A new sysfs file, info/kernel_mode, holds a single global policy that
+> selects what kernel work is steered and which rdtgroup it is steered
+
+How should "selects *what* kernel work is steered" be interpreted? Do these
+modes not all apply to *all* kernel work? 
+
+> to.  Reads describe the supported modes and the currently-active
+> binding; writes change the policy or rebind to a different group.
+> Look at the thread below for design discussion.
+> https://lore.kernel.org/lkml/14a8ad0a-e842-4268-871a-0762f1169e03@intel.com/
+> 
+
+...
+
+> Examples
+> ========
+> 
+> (See Documentation/filesystems/resctrl.rst, "kernel_mode" and
+> "kmode_cpus" sections, for the full UAPI.)
+> 
+>   # Mount resctrl
+>   # mount -t resctrl resctrl /sys/fs/resctrl
+>   # cd /sys/fs/resctrl
+> 
+>   # Read the supported modes.  The active mode is bracketed and reports
+>   # the bound "<ctrl>/<mon>/" group; other supported modes report
+>   # ":group=none" because nothing is bound to them.
+>   # cat info/kernel_mode
+>   [inherit_ctrl_and_mon:group=//]
+
+This is unexpected since associating a group to this mode implies that this
+group is used to manage allocations and monitoring of kernel work but this
+is not true, right? From what I understand there should be no group associated with
+this default "inherit_ctrl_and_mon" mode. 
+
+>   global_assign_ctrl_inherit_mon_per_cpu:group=none
+>   global_assign_ctrl_assign_mon_per_cpu:group=none
+
+nit: "none" does not reflect state as clearly as "unset"/"uninitialized"/"NA" 
+
+> 
+>   # Create a CTRL_MON group plus a MON child and bind both the kernel
+>   # CLOSID and RMID to them.
+>   # mkdir ctrl1
+>   # mkdir ctrl1/mon_groups/mon1
+>   # echo "global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/" \
+>           > info/kernel_mode
+>   # cat info/kernel_mode
+>   inherit_ctrl_and_mon:group=none
+>   global_assign_ctrl_inherit_mon_per_cpu:group=none
+>   [global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/]
+> 
+>   # kmode_cpus and kmode_cpus_list are visible only on the bound group.
+>   # ls ctrl1/kmode_cpus*
+>   ctrl1/kmode_cpus  ctrl1/kmode_cpus_list
+
+Since it is ctrl1/mon1 that was bound, should these CPU files not appear
+in ctrl1/mon_groups/mon1 ?
+
+> 
+>   # Restrict the binding to a CPU subset; the write is incremental.
+
+Does "incremental" mean that if the file contains CPUs 0-3 then writing
+"4" would set the CPUs to 0-4? This does not sound right since it is
+expected that user space can remove CPUs also?
+
+>   # echo 0-3 > ctrl1/kmode_cpus_list
+>   # cat ctrl1/kmode_cpus
+>   f
+>   # cat ctrl1/kmode_cpus_list
+>   0-3
+> 
+>   # Empty masks are rejected; use info/kernel_mode to reset to
+>   # "every online CPU".
+>   # echo "" > ctrl1/kmode_cpus_list
+>   bash: echo: write error: Invalid argument
+>   # cat info/last_cmd_status
+>   Empty mask not allowed; use info/kernel_mode to unbind
+
+Why are empty masks rejected/not allowed?
+
+> 
+>   # Disable kernel-mode steering (back to inherit, default group).
+
+This sounds like kernel work is steered to default group which I 
+do not think is accurate for the "inherit_ctrl_and_mon" mode.
+
+>   # echo "inherit_ctrl_and_mon" > info/kernel_mode
+> 
+> Tested on AMD with PLZA; the generic bits build clean on x86 without
+> PLZA support and are no-ops at runtime.
+
+Reinette
 
 
-On Thu, Jun 11, 2026, at 1:50 PM, Jeff Layton wrote:
-
-> diff --git a/Documentation/sunrpc/xdr/nfs4_1.x 
-> b/Documentation/sunrpc/xdr/nfs4_1.x
-> index 5b45547b2ebc..632f5b579c39 100644
-> --- a/Documentation/sunrpc/xdr/nfs4_1.x
-> +++ b/Documentation/sunrpc/xdr/nfs4_1.x
-> @@ -45,19 +45,165 @@ pragma header nfs4;
->  /*
->   * Basic typedefs for RFC 1832 data type definitions
->   */
-> -typedef hyper		int64_t;
-> -typedef unsigned int	uint32_t;
-> +typedef int                  int32_t;
-> +typedef unsigned int         uint32_t;
-> +typedef hyper                int64_t;
-> +typedef unsigned hyper       uint64_t;
-> +
-> +const NFS4_VERIFIER_SIZE        = 8;
-> +const NFS4_FHSIZE               = 128;
-> +
-> +enum nfsstat4 {
-> + NFS4_OK                = 0,    /* everything is okay      */
-> + NFS4ERR_PERM           = 1,    /* caller not privileged   */
-> + NFS4ERR_NOENT          = 2,    /* no such file/directory  */
-> + NFS4ERR_IO             = 5,    /* hard I/O error          */
-> + NFS4ERR_NXIO           = 6,    /* no such device          */
-> + NFS4ERR_ACCESS         = 13,   /* access denied           */
-> + NFS4ERR_EXIST          = 17,   /* file already exists     */
-> + NFS4ERR_XDEV           = 18,   /* different filesystems   */
-> +
-> + /*
-> +  * Please do not allocate value 19; it was used in NFSv3
-> +  * and we do not want a value in NFSv3 to have a different
-> +  * meaning in NFSv4.x.
-> +  */
-> +
-> + NFS4ERR_NOTDIR         = 20,   /* should be a directory   */
-> + NFS4ERR_ISDIR          = 21,   /* should not be directory */
-> + NFS4ERR_INVAL          = 22,   /* invalid argument        */
-> + NFS4ERR_FBIG           = 27,   /* file exceeds server max */
-> + NFS4ERR_NOSPC          = 28,   /* no space on filesystem  */
-> + NFS4ERR_ROFS           = 30,   /* read-only filesystem    */
-> + NFS4ERR_MLINK          = 31,   /* too many hard links     */
-> + NFS4ERR_NAMETOOLONG    = 63,   /* name exceeds server max */
-> + NFS4ERR_NOTEMPTY       = 66,   /* directory not empty     */
-> + NFS4ERR_DQUOT          = 69,   /* hard quota limit reached*/
-> + NFS4ERR_STALE          = 70,   /* file no longer exists   */
-> + NFS4ERR_BADHANDLE      = 10001,/* Illegal filehandle      */
-> + NFS4ERR_BAD_COOKIE     = 10003,/* READDIR cookie is stale */
-> + NFS4ERR_NOTSUPP        = 10004,/* operation not supported */
-> + NFS4ERR_TOOSMALL       = 10005,/* response limit exceeded */
-> + NFS4ERR_SERVERFAULT    = 10006,/* undefined server error  */
-> + NFS4ERR_BADTYPE        = 10007,/* type invalid for CREATE */
-> + NFS4ERR_DELAY          = 10008,/* file "busy" - retry     */
-> + NFS4ERR_SAME           = 10009,/* nverify says attrs same */
-> + NFS4ERR_DENIED         = 10010,/* lock unavailable        */
-> + NFS4ERR_EXPIRED        = 10011,/* lock lease expired      */
-> + NFS4ERR_LOCKED         = 10012,/* I/O failed due to lock  */
-> + NFS4ERR_GRACE          = 10013,/* in grace period         */
-> + NFS4ERR_FHEXPIRED      = 10014,/* filehandle expired      */
-> + NFS4ERR_SHARE_DENIED   = 10015,/* share reserve denied    */
-> + NFS4ERR_WRONGSEC       = 10016,/* wrong security flavor   */
-> + NFS4ERR_CLID_INUSE     = 10017,/* clientid in use         */
-> +
-> + /* NFS4ERR_RESOURCE is not a valid error in NFSv4.1 */
-> + NFS4ERR_RESOURCE       = 10018,/* resource exhaustion     */
-> +
-> + NFS4ERR_MOVED          = 10019,/* filesystem relocated    */
-> + NFS4ERR_NOFILEHANDLE   = 10020,/* current FH is not set   */
-> + NFS4ERR_MINOR_VERS_MISMATCH= 10021,/* minor vers not supp */
-> + NFS4ERR_STALE_CLIENTID = 10022,/* server has rebooted     */
-> + NFS4ERR_STALE_STATEID  = 10023,/* server has rebooted     */
-> + NFS4ERR_OLD_STATEID    = 10024,/* state is out of sync    */
-> + NFS4ERR_BAD_STATEID    = 10025,/* incorrect stateid       */
-> + NFS4ERR_BAD_SEQID      = 10026,/* request is out of seq.  */
-> + NFS4ERR_NOT_SAME       = 10027,/* verify - attrs not same */
-> + NFS4ERR_LOCK_RANGE     = 10028,/* overlapping lock range  */
-> + NFS4ERR_SYMLINK        = 10029,/* should be file/directory*/
-> + NFS4ERR_RESTOREFH      = 10030,/* no saved filehandle     */
-> + NFS4ERR_LEASE_MOVED    = 10031,/* some filesystem moved   */
-> + NFS4ERR_ATTRNOTSUPP    = 10032,/* recommended attr not sup*/
-> + NFS4ERR_NO_GRACE       = 10033,/* reclaim outside of grace*/
-> + NFS4ERR_RECLAIM_BAD    = 10034,/* reclaim error at server */
-> + NFS4ERR_RECLAIM_CONFLICT= 10035,/* conflict on reclaim    */
-> + NFS4ERR_BADXDR         = 10036,/* XDR decode failed       */
-> + NFS4ERR_LOCKS_HELD     = 10037,/* file locks held at CLOSE*/
-> + NFS4ERR_OPENMODE       = 10038,/* conflict in OPEN and I/O*/
-> + NFS4ERR_BADOWNER       = 10039,/* owner translation bad   */
-> + NFS4ERR_BADCHAR        = 10040,/* utf-8 char not supported*/
-> + NFS4ERR_BADNAME        = 10041,/* name not supported      */
-> + NFS4ERR_BAD_RANGE      = 10042,/* lock range not supported*/
-> + NFS4ERR_LOCK_NOTSUPP   = 10043,/* no atomic up/downgrade  */
-> + NFS4ERR_OP_ILLEGAL     = 10044,/* undefined operation     */
-> + NFS4ERR_DEADLOCK       = 10045,/* file locking deadlock   */
-> + NFS4ERR_FILE_OPEN      = 10046,/* open file blocks op.    */
-> + NFS4ERR_ADMIN_REVOKED  = 10047,/* lockowner state revoked */
-> + NFS4ERR_CB_PATH_DOWN   = 10048,/* callback path down      */
-> +
-> + /* NFSv4.1 errors start here. */
-> +
-> + NFS4ERR_BADIOMODE      = 10049,
-> + NFS4ERR_BADLAYOUT      = 10050,
-> + NFS4ERR_BAD_SESSION_DIGEST = 10051,
-> + NFS4ERR_BADSESSION     = 10052,
-> + NFS4ERR_BADSLOT        = 10053,
-> + NFS4ERR_COMPLETE_ALREADY = 10054,
-> + NFS4ERR_CONN_NOT_BOUND_TO_SESSION = 10055,
-> + NFS4ERR_DELEG_ALREADY_WANTED = 10056,
-> + NFS4ERR_BACK_CHAN_BUSY = 10057,/*backchan reqs outstanding*/
-> + NFS4ERR_LAYOUTTRYLATER = 10058,
-> + NFS4ERR_LAYOUTUNAVAILABLE = 10059,
-> + NFS4ERR_NOMATCHING_LAYOUT = 10060,
-> + NFS4ERR_RECALLCONFLICT = 10061,
-> + NFS4ERR_UNKNOWN_LAYOUTTYPE = 10062,
-> + NFS4ERR_SEQ_MISORDERED = 10063,/* unexpected seq.ID in req*/
-> + NFS4ERR_SEQUENCE_POS   = 10064,/* [CB_]SEQ. op not 1st op */
-> + NFS4ERR_REQ_TOO_BIG    = 10065,/* request too big         */
-> + NFS4ERR_REP_TOO_BIG    = 10066,/* reply too big           */
-> + NFS4ERR_REP_TOO_BIG_TO_CACHE =10067,/* rep. not all cached*/
-> + NFS4ERR_RETRY_UNCACHED_REP =10068,/* retry & rep. uncached*/
-> + NFS4ERR_UNSAFE_COMPOUND =10069,/* retry/recovery too hard */
-> + NFS4ERR_TOO_MANY_OPS   = 10070,/*too many ops in [CB_]COMP*/
-> + NFS4ERR_OP_NOT_IN_SESSION =10071,/* op needs [CB_]SEQ. op */
-> + NFS4ERR_HASH_ALG_UNSUPP = 10072, /* hash alg. not supp.   */
-> +                                /* Error 10073 is unused.  */
-> + NFS4ERR_CLIENTID_BUSY  = 10074,/* clientid has state      */
-> + NFS4ERR_PNFS_IO_HOLE   = 10075,/* IO to _SPARSE file hole */
-> + NFS4ERR_SEQ_FALSE_RETRY= 10076,/* Retry != original req.  */
-> + NFS4ERR_BAD_HIGH_SLOT  = 10077,/* req has bad highest_slot*/
-> + NFS4ERR_DEADSESSION    = 10078,/*new req sent to dead sess*/
-> + NFS4ERR_ENCR_ALG_UNSUPP= 10079,/* encr alg. not supp.     */
-> + NFS4ERR_PNFS_NO_LAYOUT = 10080,/* I/O without a layout    */
-> + NFS4ERR_NOT_ONLY_OP    = 10081,/* addl ops not allowed    */
-> + NFS4ERR_WRONG_CRED     = 10082,/* op done by wrong cred   */
-> + NFS4ERR_WRONG_TYPE     = 10083,/* op on wrong type object */
-> + NFS4ERR_DIRDELEG_UNAVAIL=10084,/* delegation not avail.   */
-> + NFS4ERR_REJECT_DELEG   = 10085,/* cb rejected delegation  */
-> + NFS4ERR_RETURNCONFLICT = 10086,/* layout get before return*/
-> + NFS4ERR_DELEG_REVOKED  = 10087, /* deleg./layout revoked   */
-> + NFS4ERR_PARTNER_NOTSUPP = 10088,
-> + NFS4ERR_PARTNER_NO_AUTH = 10089,
-> + NFS4ERR_UNION_NOTSUPP = 10090,
-> + NFS4ERR_OFFLOAD_DENIED = 10091,
-> + NFS4ERR_WRONG_LFS = 10092,
-> + NFS4ERR_BADLABEL = 10093,
-> + NFS4ERR_OFFLOAD_NO_REQS = 10094,
-> + NFS4ERR_NOXATTR = 10095,
-> + NFS4ERR_XATTR2BIG = 10096,
-> +
-> + /* always set this to one more than the last one in the enum */
-> + NFS4ERR_FIRST_FREE = 10097
-> +};
-
-This value can be leaked onto the wire. The basic enum encoder
-checks that these values are part of the .x before sticking
-them on the wire.
-
-Please keep the .x document aligned with the specification. If
-you need a "maximum value" symbolic constant, please define it
-in one of the hand-rolled headers. (I guess this one was copied
-over from the existing hand-rolled NFS4ERR definitions).
-
-I see that NFS4ERR_FIRST_FREE is used to determine the numeric
-value for NFSERR_EOF.
-
-fs/nfsd/nfs3xdr.c:              if (xdr_stream_encode_bool(xdr, resp->common.err == nfserr_eof) < 0)
-fs/nfsd/nfs4xdr.c:      return nfsd4_encode_bool(xdr, readdir->common.err == nfserr_eof);
-fs/nfsd/nfsd.h: __be32                  err;    /* 0, nfserr, or nfserr_eof */
-fs/nfsd/nfsd.h:#define  nfserr_eof              cpu_to_be32(NFSERR_EOF)
-fs/nfsd/nfsxdr.c:               if (xdr_stream_encode_bool(xdr, resp->common.err == nfserr_eof) < 0)
-fs/nfsd/vfs.c:          cdp->err = nfserr_eof; /* will be cleared on successful read */
-fs/nfsd/vfs.c:  if (err == nfserr_eof || err == nfserr_toosmall)
-
-A better interim approach might be to select an impossible value
-for NFSERR_EOF, as is done for the internal NLM error status codes:
-
-fs/lockd/lockd.h:#define nlm__int__drop_reply   cpu_to_be32(30000)
-fs/lockd/lockd.h:#define nlm__int__deadlock     cpu_to_be32(30001)
-fs/lockd/lockd.h:#define nlm__int__stale_fh     cpu_to_be32(30002)
-fs/lockd/lockd.h:#define nlm__int__failed       cpu_to_be32(30003)
-
-
-> @@ -245,3 +406,88 @@ const FATTR4_ACL_TRUEFORM	= 89;
->  const FATTR4_ACL_TRUEFORM_SCOPE	= 90;
->  const FATTR4_POSIX_DEFAULT_ACL	= 91;
->  const FATTR4_POSIX_ACCESS_ACL	= 92;
-> +
-> +/*
-> + * Directory notification types.
-> + */
-> +enum notify_type4 {
-> +        NOTIFY4_CHANGE_CHILD_ATTRS = 0,
-> +        NOTIFY4_CHANGE_DIR_ATTRS = 1,
-> +        NOTIFY4_REMOVE_ENTRY = 2,
-> +        NOTIFY4_ADD_ENTRY = 3,
-> +        NOTIFY4_RENAME_ENTRY = 4,
-> +        NOTIFY4_CHANGE_COOKIE_VERIFIER = 5
-> +};
-> +
-> +/* Changed entry information.  */
-> +struct notify_entry4 {
-> +        component4      ne_file;
-> +        fattr4          ne_attrs;
-> +};
-> +
-> +/* Previous entry information */
-> +struct prev_entry4 {
-> +        notify_entry4   pe_prev_entry;
-> +        /* what READDIR returned for this entry */
-> +        nfs_cookie4     pe_prev_entry_cookie;
-> +};
-> +
-> +struct notify_remove4 {
-> +        notify_entry4   nrm_old_entry;
-> +        nfs_cookie4     nrm_old_entry_cookie;
-> +};
-> +pragma public notify_remove4;
-> +
-> +struct notify_add4 {
-> +        /*
-> +         * Information on object
-> +         * possibly renamed over.
-> +         */
-> +        notify_remove4      nad_old_entry<1>;
-> +        notify_entry4       nad_new_entry;
-> +        /* what READDIR would have returned for this entry */
-> +        nfs_cookie4         nad_new_entry_cookie<1>;
-> +        prev_entry4         nad_prev_entry<1>;
-> +        bool                nad_last_entry;
-> +};
-> +pragma public notify_add4;
-> +
-> +struct notify_attr4 {
-> +        notify_entry4   na_changed_entry;
-> +};
-> +pragma public notify_attr4;
-> +
-> +struct notify_rename4 {
-> +        notify_remove4  nrn_old_entry;
-> +        notify_add4     nrn_new_entry;
-> +};
-> +pragma public notify_rename4;
-> +
-> +struct notify_verifier4 {
-> +        verifier4       nv_old_cookieverf;
-> +        verifier4       nv_new_cookieverf;
-> +};
-> +
-> +/*
-> + * Objects of type notify_<>4 and
-> + * notify_device_<>4 are encoded in this.
-> + */
-> +typedef opaque notifylist4<>;
-> +
-> +struct notify4 {
-> +        /* composed from notify_type4 or notify_deviceid_type4 */
-> +        bitmap4         notify_mask;
-> +        notifylist4     notify_vals;
-> +};
-> +
-> +struct CB_NOTIFY4args {
-> +        stateid4    cna_stateid;
-> +        nfs_fh4     cna_fh;
-> +        notify4     cna_changes<>;
-> +};
-> +pragma public CB_NOTIFY4args;
-> +
-> +struct CB_NOTIFY4res {
-> +        nfsstat4    cnr_status;
-> +};
-> +pragma public CB_NOTIFY4res;
-
-Let's add the "pragma public" directives in the patches where
-they are first needed, instead of here. As subsequent patches
-are modified, the need for these directives might vanish.
-
-
--- 
-Chuck Lever
