@@ -1,25 +1,66 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DB0347FEE
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 08:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB5B34B410
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 08:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781166429; cv=none; b=sVJoMtHhXyEj56tqtkzBuOB5M28Kx68M3yI94K83ocC8gPuZFqgBu5i2ZKTHrZ3BVD+c2vjFS+QrcANlznE9FqCu8TcRspePlvIAglbfaWnMdFkI3IppiaPMAVx6VjszdXu0JL4l0W9HLIroEp7cxp5LLOZuJG+gcl89fU99AVk=
+	t=1781167028; cv=none; b=ZQTWfp8s8NBkishy41HtNy9C4Qp23EaOf1gXIdM1TX4tod+4rvBShpRulHLqrlTqISRUxk/cDkwDwE+csqZUKf8cSTgf248oYxj+c4bvYEYTRHjRf+RuGJ3vxMSzGhd2XTras6vfwx/rsktBr5BlKjy2S+fJw9QQZ7LnqNRTIks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781166429; c=relaxed/simple;
-	bh=6csxml0vDZfUJp/eLnBdqsfGZE+idJUQ517bVscKWyI=;
+	s=arc-20240116; t=1781167028; c=relaxed/simple;
+	bh=hgm46owwgzMaUFcHl+HzgyGCs3IA4eHkTIzGrzQLmes=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qI2wlA3QE1FKzRz3sOnfAbiOy15HSGDpWX+ZOBFtaPKDtgbNAK5pVS8d7UUj7qo4PnLdJ5lvwmM398IBpxMSHFLmNKHwU8dnF2cUnU9DGgmGQmctKpFRGwq+7eEhdk0rWoAxV4jMYgC5d83SyMidfJuqkZjmJ+O9m1jfXExf+y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrAA3DqMxcSpqhH2EAA--.64846S2;
-	Thu, 11 Jun 2026 16:26:25 +0800 (CST)
-Received: from [192.168.1.27] (unknown [58.19.0.202])
-	by gateway (Coremail) with SMTP id _____wBnbwstcSpqwwpCAA--.6687S2;
-	Thu, 11 Jun 2026 16:26:24 +0800 (CST)
-Message-ID: <e121f878-1c77-4c55-91bd-fbde5a29c0ce@hust.edu.cn>
-Date: Thu, 11 Jun 2026 16:26:21 +0800
+	 In-Reply-To:Content-Type; b=RLcbsnzXNsWneiT1pw/w6Jl7FpKPTmU4pvj13JGsp46y1XIySmHjub2Nu4tp1bpZe0QDGJudg5qk7Z4MHXfVbLAJ9S0u26+gA1NwgVYeJoucqcKuRPrmqrynQnvs7S/Db3xLmKYUdx9zOVO3wGcJo5CJM7eowPAt38h9wOx+M9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aWkF66MV; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aWkF66MV"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bec3f69d343so1170733066b.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 01:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1781167025; x=1781771825; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BPKGA+9bAXXUvMOMX/aVwRfsICeQnV0LevsQ5Yfaev4=;
+        b=aWkF66MVQgqb6PXpyOi6H+Nyw69qgvxGpI4cZuz4cqFUKA7pT+m8mH27iRXfTgl000
+         zF6X0B81D21XMfonJVo89YuQKxc1cU7eVcllNWrrpKlHDswfW6AJX/6cEW2bJ6XA7ZNw
+         /+e/sQ4EWgSXAsNXMp9gUSjK1yYPbKggmTQN2LJdbl9v8W4+7aBRlmp78Yh80+y7pQIG
+         auHva1AgS7Mr9FSpIQyh94olBelvn8talms+ooio39HWMfCHt/fenzTf12wrO1NOKieB
+         HP4ysmPC04gm9PCrKWmQT4+vOcFmsZSVx2EM9xHYR1QxEPjOwSOzgmVugY3qopSU7YAn
+         w4jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781167025; x=1781771825;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BPKGA+9bAXXUvMOMX/aVwRfsICeQnV0LevsQ5Yfaev4=;
+        b=l41TUpZw+tccYH/IvcLuDshvdzv11ZU8GuIUM5mSPt8su3mlqEOcQ2EkIFHRdqo4xU
+         DVpHKPcOkIgLRY0wez0SdwDmKledQ34vGYf1ILP3tsu/3SMHlZaqTwAF2NeqfbE7wvQo
+         lSnxwmJ6hnJwS1ouvX3TcsaRfEMAFdkdi87ZqGZeBpvWqDLXGAi6sxYxYTeVYe6Yq7dn
+         43bCJ3CddkLSPcEgZHDClDzkBnuYlmW5N2pa5X8MlvE+IL97uuHsvhf1ZvOTNiBJwfk6
+         yPKFTIZeblsqVBM3MhkgMxIvz35XzXaxG07SnsPEtGv/b0OffHnVmpwmQQVkHRACoCta
+         2daw==
+X-Forwarded-Encrypted: i=1; AFNElJ/hCxf4HzwStNXNXj6IeD/WGGJEornQab4vRo2RsWDj289IK8pcavG0F0rk13SOKbnW84EroelMm8Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxL5xvBUIi451OqNHZ9Nai2MM78lSv3RpZghxKy9XSWmkxmhRx3
+	8u6YMscVO0Y7LrbRQCyJLzHEk/OxiI+2JIZ4+a0puBtU1X4/Xjkr53ZUJptNiOQf0kw=
+X-Gm-Gg: Acq92OEA3Gt4IzETTRS+OG5Zsv9TTU6Twg6O06UaSsdbrIv07lrQdbKTjfPcNqDwbAB
+	zZoKuAOqGfDQXqN184gZwSkBt4i4BebltEx/3OR4C801qQAaz7OfO9ybvvvfa7l1QIy54ioJ0fq
+	zeCpGK9swb8wltq0uowuC6jluSrBD31vJO1Po4gqSTxEgom265t2cQJVCwuLhYd3uufWMtaEUwN
+	gAf7EtilSxYpOGig2hen1lyocr5kFRNZ5JhKOr+5iox74omoUvMZv6bFmZkhpPZsJ8sx8ssri0q
+	NkoARLcuFeqC2U+/ppVhCQNSzBXoYa4e5pxBlO0as+/aoex2YnqrgPldQuUZEhf/ghvEx5kJ+Eu
+	Dr4dGJW1fg0S5V1S5ATzdmCoouRMX7da9GdToUjLzQK89CUX+Y/jHgdXeDx+1LPwoPRRs+qLGis
+	TP5w/a/ICK+/tMR5WKCarGjavWtDfGaSJfX8+eSM0=
+X-Received: by 2002:a17:906:45a3:b0:bef:12f:346b with SMTP id a640c23a62f3a-bfc85a69a60mr53713466b.15.1781167024810;
+        Thu, 11 Jun 2026 01:37:04 -0700 (PDT)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfcb0f15621sm30523066b.13.2026.06.11.01.37.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 01:37:04 -0700 (PDT)
+Message-ID: <b22d3e31-754f-4490-9ae6-a47131383bb8@linaro.org>
+Date: Thu, 11 Jun 2026 09:37:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,113 +68,173 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/{it_it,sp_SP,zh_CN,zh_TW}: update references to
- removed CONFIG_DEBUG_SLAB
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Avadhut Naik <avadhut.naik@amd.com>,
- linux-doc@vger.kernel.org, Alex Shi <alexs@kernel.org>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Jonathan Corbet
- <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
-References: <20260611010014.412841-1-enelsonmoore@gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260611010014.412841-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH v5 00/19] perf cs-etm: Queue context packets for frontend
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>,
+ Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Ian Rogers <irogers@google.com>, Amir Ayupov <aaupov@meta.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Paschalis Mpeis <Paschalis.Mpeis@arm.com>, coresight@lists.linaro.org,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org
+References: <20260609-james-cs-context-tracking-fix-v5-0-d53a7d096a19@linaro.org>
+ <ainFqtxdLwhbRqrI@x1>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <ainFqtxdLwhbRqrI@x1>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAA3DqMxcSpqhH2EAA--.64846S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFW8XF4xWw4UAFWUAFW8Zwb_yoWrKryrpF
-	10g3WfX3Wktw15GrW2krWkGF95tFy7GFsrZr1xXw1rXrWkJayFkFWqkrZ8CFZ8XryrAay8
-	XFZagr1fuF12ywUanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU3YFADUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Transfer-Encoding: 7bit
 
 
-On 6/11/26 9:00 AM, Ethan Nelson-Moore wrote:
-> CONFIG_DEBUG_SLAB was removed in commit 2a19be61a651 ("mm/slab: remove
-> CONFIG_SLAB from all Kconfig and Makefile"), but references to it
-> remained in documentation. The English documentation was updated to
-> refer to CONFIG_SLUB_DEBUG in commit 5969fbf30274 ("docs:
-> submit-checklist: structure by category"), but these translations were
-> never similarly updated. Update them.
->
-> Discovered while searching for CONFIG_* symbols referenced in the
-> kernel but not defined in any Kconfig file.
->
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> ---
->   Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
->   Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
->   Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
->   Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
 
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+On 10/06/2026 9:14 pm, Arnaldo Carvalho de Melo wrote:
+> On Tue, Jun 09, 2026 at 03:40:05PM +0100, James Clark wrote:
+>> Fix thread tracking when decoding Coresight trace and add a new test for
+>> it.
+> 
+> The issues found by sashiko seem mild and you can address them in follow
+> up patches, I think.
+> 
+> So for the benefit of having perf-tools-next available for linux-next
+> testing and the window is closing soon, so I've merged this, ok?
+> 
+> - Arnaldo
+>   
 
->   4 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/translations/it_IT/process/submit-checklist.rst b/Documentation/translations/it_IT/process/submit-checklist.rst
-> index 5bf1b4adebc1..c58d773fd297 100644
-> --- a/Documentation/translations/it_IT/process/submit-checklist.rst
-> +++ b/Documentation/translations/it_IT/process/submit-checklist.rst
-> @@ -122,7 +122,7 @@ Verificate il vostro codice
->   
->   1) La patch è stata verificata con le seguenti opzioni abilitate
->      contemporaneamente: ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -   ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->      ``CONFIG_PROVE_RCU`` e ``CONFIG_DEBUG_OBJECTS_RCU_HEAD``.
->   
-> diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rst b/Documentation/translations/sp_SP/process/submit-checklist.rst
-> index e7107cc97001..aedf55eb3b80 100644
-> --- a/Documentation/translations/sp_SP/process/submit-checklist.rst
-> +++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
-> @@ -76,7 +76,7 @@ y en otros lugares con respecto al envío de parches del kernel de Linux.
->       cualquier problema.
->   
->   12) Ha sido probado con ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->       ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``
->       ``CONFIG_PROVE_RCU`` y ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos
->       habilitados simultáneamente.
-> diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rst b/Documentation/translations/zh_CN/process/submit-checklist.rst
-> index 0e524f1c1af5..18411b426122 100644
-> --- a/Documentation/translations/zh_CN/process/submit-checklist.rst
-> +++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
-> @@ -65,7 +65,7 @@ Linux内核补丁提交检查单
->       :ref:`kernel-doc <kernel_doc_zh>` 并修复任何问题。
->   
->   12) 通过以下选项同时启用的测试： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->       ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->       ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
->   
-> diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
-> index a0cb91a6945f..06aa635a659c 100644
-> --- a/Documentation/translations/zh_TW/process/submit-checklist.rst
-> +++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
-> @@ -68,7 +68,7 @@ Linux內核補丁提交檢查單
->       :ref:`kernel-doc <kernel_doc_zh>` 並修復任何問題。
->   
->   12) 通過以下選項同時啓用的測試： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->       ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->       ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
->   
+Thanks! I'll send any I think need fixes but I was going to mostly 
+ignore them, or I already replied to the same comments from it on 
+previous versions.
+
+>> The new test is added as a Perf test workload instead of a custom binary
+>> with its own build system, but this requires a new feature in Perf test
+>> to pass in control pipes which can enable and disable events. This
+>> scopes the recording to just the workload and helps to reduce the amount
+>> of data recorded in tracing tests.
+>>
+>> With this new feature we can re-write all of the Coresight tests to make
+>> use of it and remove the remaining binaries which fixes the following
+>> issues:
+>>
+>>   * They didn't work in out of source builds
+>>   * A lot of the tests unnecessarily required root and didn't skip
+>>     without it
+>>   * They were mainly qualitative tests which didn't look for specific
+>>     behavior
+>>
+>> Most importantly, the long build and runtime has been reduced. On a
+>> Radxa Orion O6, unroll_loop_thread.c took 37s to compile which is longer
+>> than the entire Perf build. Now the build time is negligible and the
+>> before and after test runtimes for all the Coresight tests are:
+>>
+>>            |   N1SDP   |   Orion O6
+>>    -----------------------------------
+>>    Before  |   4m  0s  |    14m 49s
+>>    After   |      26s  |        56s
+>>    -----------------------------------
+>>
+>> Signed-off-by: James Clark <james.clark@linaro.org>
+>> ---
+>> Changes in v5:
+>> - Forgot to include this change:
+>>    - Test for actual length of expected raw dump (Leo)
+>> - Link to v4: https://lore.kernel.org/r/20260609-james-cs-context-tracking-fix-v4-0-44f9fb9e5c42@linaro.org
+>>
+>> Changes in v4:
+>> - Rename workload-ctl to record-ctl and improve docs (Leo)
+>> - Use new packet argument everywhere in
+>>    cs_etm__synth_instruction_sample() (Sashiko)
+>> - Test for actual length of expected raw dump (Leo)
+>> - Use -fno-inline instead of keyword (Leo)
+>> - Don't test any brace or call lines in deterministic test
+>> - Make sure context switch loop test does cleanup on failure (Sashiko)
+>> - Remove undef int overflows in workloads (Sashiko)
+>> - Link to v3: https://lore.kernel.org/r/20260603-james-cs-context-tracking-fix-v3-0-c392945d9ed5@linaro.org
+>>
+>> Changes in v3:
+>> - Minor sashiko comments
+>>    - Close some more pipes
+>>    - Fix warning messages
+>>    - Error handling improvements
+>> - Pass packet into cs_etm__synth_instruction_sample()
+>> - Fixup stale comment (Leo)
+>> - Link to v2: https://lore.kernel.org/r/20260602-james-cs-context-tracking-fix-v2-0-85b5ce6f55c6@linaro.org
+>>
+>> Changes in v2:
+>> - Add --workload-ctl option to Perf test
+>> - Re-write all the Coresight tests and speed them up
+>> - Pass packet to memory access function so frontend can use either the
+>>    previous or current packet's EL
+>> - Link to v1: https://lore.kernel.org/r/20260526-james-cs-context-tracking-fix-v1-0-ebd602e18287@linaro.org
+>>
+>> ---
+>> James Clark (19):
+>>        perf cs-etm: Queue context packets for frontend
+>>        perf test: Add workload-ctl option
+>>        perf test: Add a workload that forces context switches
+>>        perf test cs-etm: Test process attribution
+>>        perf test: Add deterministic workload
+>>        perf test cs-etm: Replace unroll loop thread with deterministic decode test
+>>        perf test cs-etm: Remove asm_pure_loop test
+>>        perf test cs-etm: Replace memcpy test with raw dump stress test
+>>        perf test: Add named_threads workload
+>>        perf test cs-etm: Test decoding for concurrent threads test
+>>        perf test cs-etm: Remove duplicate branch tests
+>>        perf test cs-etm: Skip if not root
+>>        perf test cs-etm: Reduce snapshot size
+>>        perf test cs-etm: Speed up basic test
+>>        perf test cs-etm: Remove unused Coresight workloads
+>>        perf test cs-etm: Make disassembly test use kcore
+>>        perf test cs-etm: Add all branch instructions to test
+>>        perf test cs-etm: Speed up disassembly test
+>>        perf test cs-etm: Move existing tests to coresight folder
+>>
+>>   Documentation/trace/coresight/coresight-perf.rst   |  78 +------
+>>   MAINTAINERS                                        |   2 -
+>>   tools/perf/Documentation/perf-test.txt             |  24 ++-
+>>   tools/perf/Makefile.perf                           |  14 +-
+>>   tools/perf/scripts/python/arm-cs-trace-disasm.py   |  20 +-
+>>   tools/perf/tests/builtin-test.c                    | 187 +++++++++++++++-
+>>   tools/perf/tests/shell/coresight/Makefile          |  29 ---
+>>   .../perf/tests/shell/coresight/Makefile.miniconfig |  14 --
+>>   tools/perf/tests/shell/coresight/asm_pure_loop.sh  |  22 --
+>>   .../tests/shell/coresight/asm_pure_loop/.gitignore |   1 -
+>>   .../tests/shell/coresight/asm_pure_loop/Makefile   |  34 ---
+>>   .../shell/coresight/asm_pure_loop/asm_pure_loop.S  |  30 ---
+>>   .../tests/shell/coresight/concurrent_threads.sh    |  45 ++++
+>>   .../tests/shell/coresight/context_switch_thread.sh |  69 ++++++
+>>   tools/perf/tests/shell/coresight/deterministic.sh  |  72 +++++++
+>>   .../tests/shell/coresight/memcpy_thread/.gitignore |   1 -
+>>   .../tests/shell/coresight/memcpy_thread/Makefile   |  33 ---
+>>   .../shell/coresight/memcpy_thread/memcpy_thread.c  |  80 -------
+>>   .../tests/shell/coresight/memcpy_thread_16k_10.sh  |  22 --
+>>   .../perf/tests/shell/coresight/raw_dump_stress.sh  |  65 ++++++
+>>   .../shell/{ => coresight}/test_arm_coresight.sh    |  43 ++--
+>>   .../{ => coresight}/test_arm_coresight_disasm.sh   |  23 +-
+>>   .../tests/shell/coresight/thread_loop/.gitignore   |   1 -
+>>   .../tests/shell/coresight/thread_loop/Makefile     |  33 ---
+>>   .../shell/coresight/thread_loop/thread_loop.c      |  85 --------
+>>   .../shell/coresight/thread_loop_check_tid_10.sh    |  23 --
+>>   .../shell/coresight/thread_loop_check_tid_2.sh     |  23 --
+>>   .../shell/coresight/unroll_loop_thread/.gitignore  |   1 -
+>>   .../shell/coresight/unroll_loop_thread/Makefile    |  33 ---
+>>   .../unroll_loop_thread/unroll_loop_thread.c        |  75 -------
+>>   .../tests/shell/coresight/unroll_loop_thread_10.sh |  22 --
+>>   tools/perf/tests/shell/lib/coresight.sh            | 134 ------------
+>>   tools/perf/tests/tests.h                           |   3 +
+>>   tools/perf/tests/workloads/Build                   |   4 +
+>>   tools/perf/tests/workloads/context_switch_loop.c   | 110 ++++++++++
+>>   tools/perf/tests/workloads/deterministic.c         |  39 ++++
+>>   tools/perf/tests/workloads/named_threads.c         | 109 ++++++++++
+>>   tools/perf/util/cs-etm-decoder/cs-etm-decoder.c    |  21 +-
+>>   tools/perf/util/cs-etm.c                           | 236 ++++++++++++---------
+>>   tools/perf/util/cs-etm.h                           |   8 +-
+>>   40 files changed, 926 insertions(+), 942 deletions(-)
+>> ---
+>> base-commit: 351a37f2fda4db668cff8ba12f2992d73dccdaea
+>> change-id: 20260515-james-cs-context-tracking-fix-754998bae7ed
+>>
+>> Best regards,
+>> -- 
+>> James Clark <james.clark@linaro.org>
 
