@@ -1,399 +1,171 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011051.outbound.protection.outlook.com [40.93.194.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014DC2882D6;
-	Thu, 11 Jun 2026 16:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781193637; cv=fail; b=cGOwCjVpDXrPfdTwTCt2IKLoXusmyloG5XkziP6d2wfEFPqXv7Ff94BO+ZFU9MPy4Vr5L2wySZ1iswgyYpdjoF/P6uHWX1C+Dlnsvv0xPbXbr1+WTQWNuxKETgSLe4ybjxd9w18Vn/lHEus11GCTYbuVYx+ZiEykVLgS0yw7upg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781193637; c=relaxed/simple;
-	bh=9ccfiYDVqTwuJfwTZZNZ+dh3DNTwxiyuTaNZcir4zaw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BMcU60XPWlh7b+yRjD9UVGO+BCwIk9ZMmTULQVgzEe+M3HWVKrA/aON3XbjjxiRZWYM+W/121xZ6Xfwz3JJReNKmzLas9VsvYZCfDUWtRUSU22HuinuKjJdEetrHmh7fBtD0/C8YCMGPE5RK0ud9p2nvGEWikstz/1aD4tYUTy8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=X5CXXDJ1; arc=fail smtp.client-ip=40.93.194.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E033FD94C;
+	Thu, 11 Jun 2026 16:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781193669; cv=none; b=q5jhENJANKH0OfH+Ks65/73R0sK/V3ZtxOu/jyEbgZfLL8MqYa6h7P8GezwH0MkUSyIuppI5RtAUslVb3tctYHYbYfQ/A7QMstiXG8FgXhe/LKvBzGAOR6j5MPGoQqX0KrkgsqxdinBu/jD5ABC1bxAVe6e1aoewLY0jCxYuOts=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781193669; c=relaxed/simple;
+	bh=8Fh4IVoDtk0GLFrzgFzfzN0FNODMW++KeLv36dKvg3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tR+W8IdwrrLFzToXzj0OFuPtIWRQTqAwyJaTrna3Mqzu9Lf3JzErD+i59HsSQoS3pKp9RiMGG8R3PJCKBcTP4pAF7T4jg9ZYLNkUkLmYvEsVImhMJjPyU/hXBghJzNC5BZSpeLh3/xCjL4KfCLiIegjSTozso/Po2M0veh4BWiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Agon439w; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="X5CXXDJ1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zr25G2+Jvf8rzC9bls3X4ZuLjBRoa9vmEMJueIlvXrlYRTUUB7vFQ538at5K/+FywU0gaLwRME0y9lGaU57hy11xBmCfDN/5HhNZUEIDXLE0tT7HqAu4w81IhxYop5/70ACPe+W1hu9R+Gbt3wVCcuV0Hv0WVUoGkHoSQp+Ai0jfCGjzO0FT9BnR+pAG6gwZzE2DAgh//2syhyWJZrmlyT4o1sHWnXhpYdjUBipmDhKlRpDQfp3fryd2SNf5vLOKp98shXmDK7IoJU0f3NMD3I7B3Nzo0v43uc9qOR9t903zdfTyxYoy+Mf/SRM2lYC0wtwOMYS5jhNWGDXyyIbZIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9/MK1ao9zPl4RAYelaqHVYdscWhgWXiO+OZmvWUbBz0=;
- b=EY9tkpi5d8ypk2oly56d+DRWP0fLXBY+X2ISabu2i36WQD6ppArluG0GIrVkvuvPJFqZ5INEecgQq5FL73yowo2FV8Ivr17fFPiKOLbeIgmqQh3PBSNQybw7M5rCbXJdAZUKEAwFZbr/pInWCRufe02ReapwtjETKdR8YeZqMjqaAr0LkeOH/ugVAprHxbxTnPX3a6PsNem6FtnUVGyS9YMXdhaI861ENrYhSySCOjxVyFeypdo7FKfKIZIOEUyA3o2lNc9nVPYYqE6dmutcucrgCLBtshCgMGF3si77BvgAVDecHCWkFUCktpu968Jwf+pXkjKFEaRF8XXhEtfT0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9/MK1ao9zPl4RAYelaqHVYdscWhgWXiO+OZmvWUbBz0=;
- b=X5CXXDJ1mneOg8HvrV+f9TH1zbIJp4gfyTNQvlRgozEMwnVZ5wP9HGvewEDw5S6t0XjktTT0OAJ+xvWOoimmbLv+89VpYGXDbn/aEvnjkBZl2hTgkIt0AIkTTDVegr+ma7GBbYioEnSPhFicQcCoK5YgzCcMCcNiT/hOLuOVIHzn/a1xCapvOQynAQ63tpe+eAQ7y7x2eK9+4/4TzkRYKlG5z6YrpWGZOfHhPas3Z7pjKzsrSm25M/MqBDu3a+PY1fuELjvEzHRw0xSse19Jqsxl7jEqpaBzspY999GSzv9KWLo3kqX1Gs8LD73hShGtAqiO65iRbiUJIDni5DlklA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
- by IA1PR12MB6114.namprd12.prod.outlook.com (2603:10b6:208:3ea::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.17; Thu, 11 Jun
- 2026 16:00:28 +0000
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
- 16:00:28 +0000
-Message-ID: <1ac28eb7-99d1-434c-b0d9-0dff1814c807@nvidia.com>
-Date: Thu, 11 Jun 2026 11:00:13 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-To: Vladimir Murzin <vladimir.murzin@arm.com>, Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Jason Gunthorpe <jgg@nvidia.com>, linux-arm-kernel@lists.infradead.org,
- Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
- Jason Sequeira <jsequeira@nvidia.com>
-References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
- <aiq5VigmtZq9GlAm@willie-the-truck>
- <aee00047-81b9-4562-be47-500b2643f7f6@arm.com>
-Content-Language: en-US
-From: Shanker Donthineni <sdonthineni@nvidia.com>
-In-Reply-To: <aee00047-81b9-4562-be47-500b2643f7f6@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7P222CA0025.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::35) To IA1PR12MB6089.namprd12.prod.outlook.com
- (2603:10b6:208:3ef::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Agon439w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7491F00893;
+	Thu, 11 Jun 2026 16:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781193667;
+	bh=OwWE4lbKK0T3ZfG4RSM1mqAP2yW+nfdYO3kCAr+3V9g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Agon439wUBrQ/uonepv6QEQHD/Z6m9RS5Xb1WWxv0Q0wtFCqyeaUMDuH0YQ8F7h0k
+	 poSBPrZ26U6e7yClapl80sHwPywpSo1ut24RqLlXqmKw9hqFEnVKp4lveByc+2vqB3
+	 EclGyTzkzaf/JuT0Y3YBNKGWeKbjVkE7GFozcXEUaXdNNGcdC3plff9fkmEzUEr8SF
+	 yLRHAf/w30nkrr5M5sh+jsu8VOfRlN45yDsLJie0TAMYvIFEMuSK4TFwnyZ712ahH2
+	 NhS25Ts0oai4t03guxudm8WtA2u3sbx6tJpv0YIWL+aZL2eWXqKdHCQGfxrg1QzJzC
+	 +XiDkTpLLoHog==
+Date: Thu, 11 Jun 2026 17:00:49 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Huang Shijie <huangsj@hygon.cn>
+Cc: akpm@linux-foundation.org, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, 
+	surenb@google.com, mjguzik@gmail.com, liam@infradead.org, vbabka@kernel.org, 
+	shakeel.butt@linux.dev, rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux@armlinux.org.uk, dinguyen@kernel.org, 
+	schuster.simon@siemens-energy.com, James.Bottomley@hansenpartnership.com, deller@gmx.de, 
+	djbw@kernel.org, willy@infradead.org, peterz@infradead.org, mingo@redhat.com, 
+	acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, 
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, 
+	james.clark@linaro.org, mhiramat@kernel.org, oleg@redhat.com, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	baohua@kernel.org, lance.yang@linux.dev, linmiaohe@huawei.com, 
+	nao.horiguchi@gmail.com, jannh@google.com, pfalcato@suse.de, riel@surriel.com, 
+	harry@kernel.org, will@kernel.org, brian.ruley@gehealthcare.com, 
+	rmk+kernel@armlinux.org.uk, dave.anglin@bell.net, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn
+Subject: Re: [PATCH v2 0/4] mm: split the file's i_mmap tree for NUMA
+Message-ID: <airY5q_SspdbQDbi@lucifer>
+References: <20260611061915.2354307-1-huangsj@hygon.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|IA1PR12MB6114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1231cc31-af52-44e5-0682-08dec7d28e98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|18002099003|22082099003|3023799007|56012099006|4143699003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	/M3t0uqc1x9qcEBIATfFKHazhAnQeA/jclMU5qLCyIqCtIWOrprfIFSL2p7ODLUjj+h49e9Xez9syFJCaW1qqnkxGCUTZTyXDT75+PoipCKkvgQ67IZJP2X2xpxnuihvw6nz1eYBLMX31vbHdRHtbFN/DUcyrIrvLT8TpgzusFkpI/RZ+W6P0TzQKmoIUww6OAhS4bLdUh4TBqejZnjdYGrxdYuH3bwrUCrpDh4TkXedkDS99xyjOcSxLtcntlPsufnBm9YE9OgPYdNxAj8dNA4/rKIKubAPuGIdvc3o7pvEPL7bBb8BskD9havygnGr2gRnJeRDXL3DVh3iZtYmgGFCR0uxaCStLnuJujasfWCY72hCHXGV0rjm2Y6tkBX5JVIIJRzkQXsCU/c74Zm4RJwo2eG8uoT6h/UQzNS/e48lILcV490ThdfS4gLVoWXtzmU+h8DKS7bgTgPtDuJwWpRTy1OBN4x4l7xE37bCHKN5FuaAwFFfEAzE+t4xeC68eIekF+kzh6Kw8hWiWZXSd/mTwv+oAqZ3aMf8IJXo9kYPZ8CQ2XYIv3Mh03iH9wRd4ez2tNiVj+C2ca1K86gOgkJPtJkVkK47W6TJMbV7ZU5GzwDJZQMcnz4+m8x3+XkC2jGPR1w9s7TZ1eDP6nY+an88LvUsMhzJHVbmehhSERQLFFz2GlaKcKUpVrE0JwOv
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(3023799007)(56012099006)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cjQ0Y3QrVjF6RG82amtHd2NEaTJ6aWZPekRtVzF4R3h2TnB4dXZrQkRNRFN5?=
- =?utf-8?B?enlJa0VsaldadmpxbWo1RVdiL29CUmc1VThDNGVEYkErK0h0MitkekgrTFJY?=
- =?utf-8?B?L2YvMnJqWWNxK01ycFg1N3VRRUZOZklSRnh6UEIrZzVPSFF6b2lpeis0NTJq?=
- =?utf-8?B?YlNyRjJtaWJVNEk1U1NxV2NSanJCVFAxV1Q0U2RrUnZqeHJlNDZ4UGlzWGZD?=
- =?utf-8?B?MVNCbThLNitDTHRiUVB6QXU5WGNqVmNjMyt0bXRXNWlQelZZb0xBeG9GNmZH?=
- =?utf-8?B?MkRHMngrRFU4K09OdDNLZ1luU3VBd0NPRnFCK1pET2hCTlIvSnJsSlljTzl4?=
- =?utf-8?B?NDVrOHdiMmhtd3IrQTdGODM1TlRTSWRtVmgvbGtVdi9lNjZocWo2VlI2SzZp?=
- =?utf-8?B?d2V1K2NONEJXUnp4eFdXVU0waHJCOHE4U3JBTU5lQ0NXcnhjN0NkMWdRbzVT?=
- =?utf-8?B?WmlFZnNLVzViNGNZaDliUmN3NGRkZHpmbjUrZEZTT3d2QXFqSEYyelZpcEpq?=
- =?utf-8?B?THBvY2pQM1liZlRucjlMcDhBZWRjWERKengyNUJnMW40YmtGTTZpNHBMRThU?=
- =?utf-8?B?azlKNXRqbENRTjY4M3ZtUWloTWRBakNXWlFWcnFEaSt6eHNMcDJMYjNDUUJJ?=
- =?utf-8?B?bUJwVG5Yd0ZRakdmc0IzWjE4dURqNzhQYkFHOVJtcElkRHp6Vng1ZjQyZGlK?=
- =?utf-8?B?ckNiWkxIelAvSUF0aUl5dGFFZ3hZVlU4cDdZVlA5cDYzQjRxZk1pY0xxcmJo?=
- =?utf-8?B?YzJEVG44MFFleStKYkhyaXQ2UVJLL1p6V0ZQMnFXbXJsS3U0aitSRzc3VTIx?=
- =?utf-8?B?SkxFcVBYRG1jang3dmkxRlJHRkpEb3hqT0RTY21YZFVJN25mTVVRbEpVOHdx?=
- =?utf-8?B?UlJFMVAzWktVempzTWpGWmNlMlFXL3U3WlM0MHJSZmh6R1pWaGNpVFpCTFY0?=
- =?utf-8?B?YkpIRTV3ZzJFYnRic3JNbGNGTVV2VDdFQnZGTnRkWVhhODE2RFpMK3pDWVBT?=
- =?utf-8?B?Ykh2TVhXQ3RyQVk1ODUyMHZEUGRpL0xGSitJdlBIZDhzN1hHVGMxUmtwYnh6?=
- =?utf-8?B?dTRNWlRoejhpNitxa2J1eWFqT2wvTERTb3JiMFYvOG03Ymd4OUFNckdsL3ZK?=
- =?utf-8?B?VlBDNjJzdUVsNFFWUm1qSXRicXBaUEQ4WDk5bzk2b3lsQXgyTVJaR1VKdncr?=
- =?utf-8?B?cDN5dFBjdlJtVGVhbHJraHdPTi9VMVgrbEZKUjV1VjI1dnc3QjhwQlk2K2Rm?=
- =?utf-8?B?MmFtcTRrb1hNZThzMW9VU1dYdjRtNlc0NUdFdytTQkVKc01ZZnJEdFR2aUp1?=
- =?utf-8?B?cWc3Mlh6dTFVa25kc1cvRjhlUlg4bkJIOHJjOVBrS0JrQlQweGg2WkoyampR?=
- =?utf-8?B?NHFQV3ZWREdjaEZKZTlSUXc2cWZPSFBWVWU4MVFlUVptMXdTdDZEdC8rUFlC?=
- =?utf-8?B?Y0tLU3IzVGplT2hhVXpKVWFWUTY3Y2FNdGpWU3pBczZhUnFSSXpZU1VHdnND?=
- =?utf-8?B?RXN6NnpjbGpLRWV3Y09nZzNOM1U1cnRucW1RVlF3Z1BWOUJ2ODNlNm8wTFBO?=
- =?utf-8?B?RW5UT0xmSG44bzRJWjZSdGh4SlJrTVJZd0RhZlBwZ2lEZ25oSFVvSEVzeHRV?=
- =?utf-8?B?dm1DbDFKbXhRdE02QzFTVkRpOGNaaTU4bW1lTUluWml1ZW5ZQTNrQytBbk1n?=
- =?utf-8?B?MkFOeWFkK01lYTFvN21SUDFoc3NwcmFvaGtGaXEwajJGaHRpSjdIWWdNaW9Y?=
- =?utf-8?B?Zm90NXRJY2xGeldISG1uYktWV1ZBWEZ5WjlHNFpiMTFoSlNGVEJLMk41Tzhk?=
- =?utf-8?B?YUdmTDg1NWw5anFZZ0txZk1HTHpobnR5WWZlT0ZIVUE0eWo2WDVHRGlqNWkz?=
- =?utf-8?B?eVhkd3RIUngyNGRZMzl2dXU4bmJyUVNNWFdpMFVLa09zYkc0NDNiVDhOZDVq?=
- =?utf-8?B?dW1yQTdEUFptWEF3VnNxT01QZ0JvOGkxNWxzeW1WL3U4L2VrUHBLK2kxZXVl?=
- =?utf-8?B?OXFId0JYN2daMVk4Q0pFQUd1MGZ2MnJJcW5lMStRbE1JYkFmSTJJUmhuajlV?=
- =?utf-8?B?WDhrcHRWT1lJZFU2QldDdFErcjNPNm0vY1YxWDFqbzlDVzVTK2lFeEt1Vk9C?=
- =?utf-8?B?eHM0MFVvWmMwNFp6QUJ3YXZXVmx0TVV3OVhFaHUyOHZvdW9SMkNPRys3WkhQ?=
- =?utf-8?B?c2FiWUJmbmRteVRaWUhQcGlqelMrRFRiUEVEZURnTDJxQ1MyRjAyUE1iMG1r?=
- =?utf-8?B?YzVuNC8wZ3JEa3hNbWtFTDlWMHZzWWQ4YWZQcWh3OERocExDdnpaczc4Z2lo?=
- =?utf-8?B?a1dJdXJOTW84WnZVNEUzM09VSVAvWVlNTDgrRWo0T2RGanhBTThRUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1231cc31-af52-44e5-0682-08dec7d28e98
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 16:00:28.4611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JHwy0leU2Md2Ycm3STaMfcbjrQqdncTXm3PebByHm3S80HRH1aD34BmupfFVt2dKnRnHr/QuVjf4fjHbLZaf1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6114
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611061915.2354307-1-huangsj@hygon.cn>
 
-Hi Vladimir,
+Hi Huang,
 
-On 6/11/2026 10:08 AM, Vladimir Murzin wrote:
-> External email: Use caution opening links or attachments
->
->
-> Hi,
->
-> On 6/11/26 14:34, Will Deacon wrote:
->> On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
->>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
->>> observed by a peripheral before an older, non-overlapping Device-nGnR*
->>> store to the same peripheral. This breaks the program-order guarantee
->>> that software expects for Device-nGnR* accesses and can leave a
->>> peripheral in an incorrect state, as a load is observed before an
->>> earlier store takes effect.
->>>
->>> The erratum can occur only when all of the following apply:
->>>
->>>    - A PE executes a Device-nGnR* store followed by a younger
->>>      Device-nGnR* load.
->>>    - The store is not a store-release.
->>>    - The accesses target the same peripheral and do not overlap in bytes.
->>>    - There is at most one intervening Device-nGnR* store in program
->>>      order, and there are no intervening Device-nGnR* loads.
->>>    - There is no DSB, and no DMB that orders loads, between the store and
->>>      the load.
->>>    - Specific micro-architectural and timing conditions occur.
->>>
->>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
->>> to stlr* (Store-Release), which removes the "store is not a
->>> store-release" condition for every device write the kernel issues.
->>> Because writel() and writel_relaxed() are both built on __raw_writel()
->>> in asm-generic/io.h, patching the raw variants covers both the
->>> non-relaxed and relaxed APIs without touching the higher layers. Note
->>> that writel()'s own barrier sits before the store, so it does not order
->>> the store against a subsequent readl(); the store-release promotion is
->>> what provides that ordering.
->>>
->>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
->>> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
->>> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
->>> the plain str* sequence.
->>>
->>> Note: stlr* only supports base-register addressing, so affected CPUs use
->>> a base-register stlr* path. Unaffected CPUs keep the original
->>> offset-addressed str* sequence introduced by commit d044d6ba6f02
->>> ("arm64: io: permit offset addressing").
->>>
->>> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
->>> helpers are left unchanged. These helpers are intended for
->>> write-combining mappings, which are Normal-NC on arm64. Replacing their
->>> contiguous str* groups would defeat the write-combining behavior used to
->>> improve store performance.
->>>
->>> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
->>> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
->>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
->>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
->>> ---
->>> Changes since v2:
->>>    - Reworked the raw MMIO write helpers so unaffected CPUs keep the
->>>      existing offset-addressed STR sequence, while affected CPUs use the
->>>      base-register STLR path.
->>>    - Updated the commit message to match the code changes.
->>>    - Rebased on top of the arm64 for-next/errata branch:
->>>      https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
->>>
->>> Changes since v1:
->>>    - Updated the commit message based on feedback from Vladimir Murzin.
->>>
->>>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
->>>   arch/arm64/Kconfig                          | 23 ++++++++++++++++
->>>   arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
->>>   arch/arm64/kernel/cpu_errata.c              |  8 ++++++
->>>   arch/arm64/tools/cpucaps                    |  1 +
->>>   5 files changed, 64 insertions(+)
->>>
->>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
->>> index ad09bbb10da80..fc45125dc2f80 100644
->>> --- a/Documentation/arch/arm64/silicon-errata.rst
->>> +++ b/Documentation/arch/arm64/silicon-errata.rst
->>> @@ -298,6 +298,8 @@ stable kernels.
->>>   +----------------+-----------------+-----------------+-----------------------------+
->>>   | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
->>>   +----------------+-----------------+-----------------+-----------------------------+
->>> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
->>> ++----------------+-----------------+-----------------+-----------------------------+
->>>   | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
->>>   +----------------+-----------------+-----------------+-----------------------------+
->>>   | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
->>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->>> index c65cef81be86a..d633eb70de1ac 100644
->>> --- a/arch/arm64/Kconfig
->>> +++ b/arch/arm64/Kconfig
->>> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
->>>
->>>         If unsure, say Y.
->>>
->>> +config NVIDIA_OLYMPUS_1027_ERRATUM
->>> +    bool "NVIDIA Olympus: device store/load ordering erratum"
->>> +    default y
->>> +    help
->>> +      This option adds an alternative code sequence to work around an
->>> +      NVIDIA Olympus core erratum where a Device-nGnR* store can be
->>> +      observed by a peripheral after a younger Device-nGnR* load to the
->>> +      same peripheral. This breaks the program order that drivers rely
->>> +      on for MMIO and can leave a device in an incorrect state.
->>> +
->>> +      The workaround promotes the raw MMIO store helpers
->>> +      (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
->>> +      required ordering. Because writel() and writel_relaxed() are built
->>> +      on __raw_writel(), both are covered without changes to the higher
->>> +      layers.
->>> +
->>> +      The fix is applied through the alternatives framework, so enabling
->>> +      this option does not by itself activate the workaround: it is
->>> +      patched in only when an affected CPU is detected, and is a no-op on
->>> +      unaffected CPUs.
->>> +
->>> +      If unsure, say Y.
->>> +
->>>   config ARM64_ERRATUM_834220
->>>       bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
->>>       depends on KVM
->>> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
->>> index 8cbd1e96fd50b..801223e754c90 100644
->>> --- a/arch/arm64/include/asm/io.h
->>> +++ b/arch/arm64/include/asm/io.h
->>> @@ -22,10 +22,22 @@
->>>   /*
->>>    * Generic IO read/write.  These perform native-endian accesses.
->>>    */
->>> +static __always_inline bool arm64_needs_device_store_release(void)
->>> +{
->>> +    return alternative_has_cap_unlikely(
->>> +                            ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
->>> +}
->>> +
->>>   #define __raw_writeb __raw_writeb
->>>   static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
->>>   {
->>>       volatile u8 __iomem *ptr = addr;
->>> +
->>> +    if (arm64_needs_device_store_release()) {
->>> +            asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
->>> +            return;
->>> +    }
->>> +
->>>       asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
->>>   }
->> Use an 'else' clause instead of the early return? (similarly for the other
->> changes).
-> Perhaps I'm missing something, but it is not clear to me why all that
-> complexity is required.
->
-> IIUC, benefits coming with d044d6ba6f02 ("arm64: io: permit offset
-> addressing") are from better code generation, so we:
->   - save code
->   - open opportunity for  write-combining
->
-> d044d6ba6f02 ("arm64: io: permit offset addressing") comes with simple
-> benchmark to measure effect of code generation:
->
-> | void writeq_zero_8_times(void *ptr)
-> | {
-> |        writeq_relaxed(0, ptr + 8 * 0);
-> |        writeq_relaxed(0, ptr + 8 * 1);
-> |        writeq_relaxed(0, ptr + 8 * 2);
-> |        writeq_relaxed(0, ptr + 8 * 3);
-> |        writeq_relaxed(0, ptr + 8 * 4);
-> |        writeq_relaxed(0, ptr + 8 * 5);
-> |        writeq_relaxed(0, ptr + 8 * 6);
-> |        writeq_relaxed(0, ptr + 8 * 7);
-> | }
->
-> which compiles to
->
-> | <writeq_zero_8_times>:
-> |        str     xzr, [x0]
-> |        str     xzr, [x0, #8]
-> |        str     xzr, [x0, #16]
-> |        str     xzr, [x0, #24]
-> |        str     xzr, [x0, #32]
-> |        str     xzr, [x0, #40]
-> |        str     xzr, [x0, #48]
-> |        str     xzr, [x0, #56]
->
->
-> v1/v2 compiles to
->
-> | <writeq_zero_8_times>:
-> |        str     xzr, [x0]
-> |        add     x1, x0, #0x8
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x10
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x18
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x20
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x28
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x30
-> |        str     xzr, [x1]
-> |        add     x0, x0, #0x38
-> |        str     xzr, [x0]
->
-> were alternatives are swapping str with stlr. In other words, we are
-> rolling back to the pre-d044d6ba6f02 implementation.
->
-> v3 compiles to:
->
-> | <writeq_zero_8_times>:
-> |        nop
-> |        str     xzr, [x0]
-> |        add     x1, x0, #0x8
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x10
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x18
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x20
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x28
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x1, x0, #0x30
-> |        nop
-> |        str     xzr, [x1]
-> |        add     x0, x0, #0x38
-> |        nop
-> |        str     xzr, [x0]
-> |        ret
->
-> where static branch swapping nop with branch to stlr and back to add.
->
-> So it looks to me that we're losing an opportunity for write
-> combining, but in terms of code size, v1/v2 seems to be the lesser of
-> two evils.
+You seem to be replacing the file rmap altogether here, so you really ought
+to have sent this as an RFC so we could discuss it as a community first.
 
-Thanks, that makes sense.
+Especially so as Pedro had publicly mentioned his plans to implement
+something similar here, so coordination would have been appreciated.
 
-My intent with the v3 change was to keep the offset-addressed STR sequence on
-unaffected CPUs and use the base-register STLR sequence only on affected CPUs.
-However, as you point out, because STLR only supports base-register addressing,
-the affected path still forces the address to be materialized in a register, and
-the alternative_has_cap_unlikely() check adds another instruction at each write
-site. So the generated code no longer preserves the benefit from d044d6ba6f02 in
-practice.
+Anyway, as Pedro has pointed out, the code is overly complicated, it's far
+too configurable (not always a good thing), and the locking implementation
+is questionable.
 
-Given that, I agree the extra complexity is not justified. I’ll simplify the raw
-MMIO write helpers back to the direct ALTERNATIVE() form from v1/v2, where both
-the STR and STLR paths use base-register addressing. That is still a regression
-from the offset-addressed STR sequence on unaffected CPUs, but it avoids the
-additional static-branch/nop overhead and is the smaller of the two options.
+You seem to be adding a whole bunch of open-coded complexity too, which is
+not something we want. Abstraction is key for the rmap.
 
--Shanker
+You're also not adding any kdoc comments or really many comments at all,
+and you've not added any tests (though perhaps it's difficult given how
+core this is).
 
+So I would suggest that perhaps any respin should be sent as an RFC so we
+can engage in that conversation and ensure we're all on the same page?
+
+Especially since Pedro plans to send an alternative, simpler, solution I
+believe.
+
+It's also not helpful that you haven't examined the non-NUMA case :)
+perhaps your particular server behaves a certain way that this approach
+aids, but regresses other NUMA configurations?
+
+We'd really need to be sure of this before accepting invasive changes like
+this.
+
+Thanks, Lorenzo
+
+On Thu, Jun 11, 2026 at 02:18:56PM +0800, Huang Shijie wrote:
+>   In NUMA, there are maybe many NUMA nodes and many CPUs.
+> For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
+> In the UnixBench tests, there is a test "execl" which tests
+> the execve system call.
+>
+>   When we test our server with "./Run -c 384 execl",
+> the test result is not good enough. The i_mmap locks contended heavily on
+> "libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have
+> over 6000 VMAs, all the VMAs can be in different NUMA mode.
+> The insert/remove operations do not run quickly enough.
+
+You really need to send detailed, statistically valid numbers across
+different NUMA configurations for changes like this to be considered.
+
+>
+> patch 1 & patch 2 are try to hide the direct access of i_mmap.
+> patch 3 splits the i_mmap into sibling trees, each tree has separate lock,
+> and we can get better performance with this patch set in our NUMA server:
+>     we can get over 400% performance improvement.
+>
+> I did not test the non-NUMA case, since I do not have such server.
+
+Yeah this isn't a great thing to hear :) you need to demonstrate this
+doesn't regress non-NUMA machines or NUMA machines of a different
+configuration.
+
+>
+> v1 --> v2:
+> 	Not only split the immap tree, but also split the lock.
+> 	v1 : https://lkml.org/lkml/2026/4/13/199
+>
+> Huang Shijie (4):
+>   mm: use mapping_mapped to simplify the code
+>   mm: use get_i_mmap_root to access the file's i_mmap
+>   mm/fs: split the file's i_mmap tree
+>   docs/mm: update document for split i_mmap tree
+>
+>  Documentation/mm/process_addrs.rst |  63 +++++++---
+>  arch/arm/mm/fault-armv.c           |   3 +-
+>  arch/arm/mm/flush.c                |   3 +-
+>  arch/nios2/mm/cacheflush.c         |   3 +-
+>  arch/parisc/kernel/cache.c         |   4 +-
+>  fs/Kconfig                         |   8 ++
+>  fs/dax.c                           |   3 +-
+>  fs/hugetlbfs/inode.c               |  30 +++--
+>  fs/inode.c                         |  75 +++++++++++-
+>  include/linux/fs.h                 | 179 ++++++++++++++++++++++++++++-
+>  include/linux/mm.h                 |  81 +++++++++++++
+>  include/linux/mm_types.h           |   3 +
+>  kernel/events/uprobes.c            |   3 +-
+>  mm/hugetlb.c                       |   7 +-
+>  mm/internal.h                      |   3 +-
+>  mm/khugepaged.c                    |   6 +-
+>  mm/memory-failure.c                |   8 +-
+>  mm/memory.c                        |   8 +-
+>  mm/mmap.c                          |  11 +-
+>  mm/nommu.c                         |  28 +++--
+>  mm/pagewalk.c                      |   4 +-
+>  mm/rmap.c                          |   2 +-
+>  mm/vma.c                           |  74 +++++++++---
+>  mm/vma_init.c                      |   3 +
+>  24 files changed, 534 insertions(+), 78 deletions(-)
+
+This is a _lot_ of changes you're making here. It therefore feels like the
+abstraction is broken somewhat?
+
+>
+> --
+> 2.53.0
+>
+>
+
+Thanks, Lorenzo
