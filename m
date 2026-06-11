@@ -1,178 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B581C2F7EFF;
-	Thu, 11 Jun 2026 02:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBD52571A9
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 02:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781143994; cv=none; b=rayZI42qG/ZzSn5zxdmvPcEjIvnSV6bV0QmOqOwMvnIfeLnCie8GTTQ27SWxSkgcWMhH1rCdBDzQ8lTUDSgbCXiPa38+A8SytScCekwEX4vC9T+Dun7GcH7bWXQPUkgZ2auvsQfXHUqMfXVhpHSxjT07fgLIqjFo1khrULgyPVI=
+	t=1781145449; cv=none; b=taF0I9RFE6+hQJt0eX/BAyhOzCks8Jb6/6QMJblTHBCEcf4utRLh3U+82OuPxTamPqFIOkA5Zc8EGd5MSpx8XDomVkoKG5uLPdzvUE7rRK30IkFDVBYR+lu7Rs4ogy0jgTwFoUsxOSG0qxlWD0ife4paaLmKERKupL+aZWwfDRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781143994; c=relaxed/simple;
-	bh=DPOBmC4tQy6fOnUI5tKm51m8YVEIZnst/dzdPa9jhxc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uh5USZ9phJKeiqF9VNBG3Bdm14x/ylLw7p5IzHwEireJge0uxFHV7BzYQMcAwCOKX2s4cP/6otwumviQ/SGSMMfgGMWtLs09OWPI+tjfMrjkyHLtnaCRZaRjHaqKDujEXpMyspvZjeqIt0oQG5S2vX5ahN2TfeFtpcuhU+yBr30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6d5VmFv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781145449; c=relaxed/simple;
+	bh=pIl+oGKJRW23Bb624XpDBUTR94UYRZy4fTNQdceZJT8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T71RG8N/P1uT9PdE2yXpV9hRoo8p8XSyhD+v1yVFjxiM+xbkJmY1DbpUAe1hSZNVsqOpzDfRdkf1qOSo6GZ5BsNg2emazv30R2/jrdkr5TktQkZ5sWdMzdBnShn/zUog92rS8CqyxObzLebHXefB+ZCACiUPvLS80mt+FQUKlFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xl3eHsWu; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6d5VmFv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0201F00899;
-	Thu, 11 Jun 2026 02:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781143992;
-	bh=tZh8aVX3T4lxDNr2d0shJe6MRko/3CBW0KGBOvkfXjI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=R6d5VmFvA2UoPZw2znDme9WtQriBEVF0Jl2lNJ+dQSzQaWrD9mxuPsAObgIMalv1U
-	 /Mt0J20yIJLfFFPvZrV8w42+anIQW1j+SoWQB/GQVN2PkqBU2DQQ+Qn+uEP3wNMgb4
-	 Wy437xIBA+IuY1LPbTGRRfmWic+tnP1h1dJmIg/CMqSLVsLwKSmTg4YFRwaO7/pTiy
-	 zjbrdHiSQH0m6iRJLtlCXRbIh2N89jgfktrdlintP49lbEHSZnolzxF0Z7bacwFsuE
-	 ElaoB8WBV7KHYKrDKZFpUANBzMstrbqFy5iTNfE/M4JnW/tx0dpf8bpWBtodLbw8Se
-	 Z1X59STj2oCCg==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	tzungbi@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	tfiga@chromium.org,
-	senozhatsky@chromium.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 2/2] PM: dpm_watchdog: Allow disabling DPM watchdog by default
-Date: Thu, 11 Jun 2026 02:12:18 +0000
-Message-ID: <20260611021219.2093476-3-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.54.0.1099.g489fc7bff1-goog
-In-Reply-To: <20260611021219.2093476-1-tzungbi@kernel.org>
-References: <20260611021219.2093476-1-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xl3eHsWu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=k07kbwRe+IR+jWJJhnZwkgFUSqgCb4sP6kwXFBFu7qE=; b=xl3eHsWuALYuaq07L38ZH1MZ5v
+	S/Cv69TMn+FwaMZnr/dnnhVYM/89foS0KQ59WgyCSUG4SljRRfBIjx5I1zccwu7Kt/qJ1nIDOEIh3
+	N234xHjXObWOioxZeQW881SFJvN686mx5e849DP4FLK30sVKoFB8lCoCM2yHyRHU5/8f49c+yWzqO
+	lAezcSiFr9Y5I2xxc0fvoodcdnv0Q3G+8RgUo0Czv5GQ7uoeRkTmOJQe7gOfHYHQm0XlsYLFxr381
+	jFbh1Kd+syD7s4PG2ffhPUEXwu9SM28ApOw7XTqcKIiF3n3AVJrG93CTmPjEIBAdtlYG5vaqGoREi
+	X3VQG59Q==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wXVIH-00000008a2e-0mdD;
+	Thu, 11 Jun 2026 02:37:21 +0000
+Message-ID: <e030cfac-7f01-4b8e-9cb4-c76a24009315@infradead.org>
+Date: Wed, 10 Jun 2026 19:37:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/{it_it,sp_SP,zh_CN,zh_TW}: update references to
+ removed CONFIG_DEBUG_SLAB
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Jonathan Corbet
+ <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@kernel.org>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Hu Haowen <2023002089@link.tyut.edu.cn>
+References: <20260611010014.412841-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260611010014.412841-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Introduce the "dpm_watchdog_enabled" module parameter to allow the DPM
-watchdog to be enabled or disabled at boot time and runtime.
 
-Additionally, introduce the CONFIG_DPM_WATCHDOG_ENABLED Kconfig option
-to set default value of the module parameter at compile time.
 
-This provides flexibility for systems that want the watchdog code
-compiled in but inactive by default, allowing it to be enabled only when
-needed.
+On 6/10/26 6:00 PM, Ethan Nelson-Moore wrote:
+> CONFIG_DEBUG_SLAB was removed in commit 2a19be61a651 ("mm/slab: remove
+> CONFIG_SLAB from all Kconfig and Makefile"), but references to it
+> remained in documentation. The English documentation was updated to
+> refer to CONFIG_SLUB_DEBUG in commit 5969fbf30274 ("docs:
+> submit-checklist: structure by category"), but these translations were
+> never similarly updated. Update them.
+> 
+> Discovered while searching for CONFIG_* symbols referenced in the
+> kernel but not defined in any Kconfig file.
+> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
----
-v4:
-- Rewrite the commit message to indicate the module parameter is the
-  main change in the patch.
-- DPM_WATCHDOG_DEFAULT_ENABLED -> DPM_WATCHDOG_ENABLED.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-v3: https://lore.kernel.org/all/20260608021526.1023248-3-tzungbi@kernel.org
-- Add "PM" tag (was missing).
-- Update the format and specify dependencies in kernel-parameters.txt.
-- Update the help message in Kconfig to reflect that dpm_watchdog_enabled
-  can be set at runtime as well.
+> ---
+>  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/translations/it_IT/process/submit-checklist.rst b/Documentation/translations/it_IT/process/submit-checklist.rst
+> index 5bf1b4adebc1..c58d773fd297 100644
+> --- a/Documentation/translations/it_IT/process/submit-checklist.rst
+> +++ b/Documentation/translations/it_IT/process/submit-checklist.rst
+> @@ -122,7 +122,7 @@ Verificate il vostro codice
+>  
+>  1) La patch è stata verificata con le seguenti opzioni abilitate
+>     contemporaneamente: ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
+> -   ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+> +   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+>     ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
+>     ``CONFIG_PROVE_RCU`` e ``CONFIG_DEBUG_OBJECTS_RCU_HEAD``.
+>  
+> diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rst b/Documentation/translations/sp_SP/process/submit-checklist.rst
+> index e7107cc97001..aedf55eb3b80 100644
+> --- a/Documentation/translations/sp_SP/process/submit-checklist.rst
+> +++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
+> @@ -76,7 +76,7 @@ y en otros lugares con respecto al envío de parches del kernel de Linux.
+>      cualquier problema.
+>  
+>  12) Ha sido probado con ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
+> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+>      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``
+>      ``CONFIG_PROVE_RCU`` y ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos
+>      habilitados simultáneamente.
+> diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rst b/Documentation/translations/zh_CN/process/submit-checklist.rst
+> index 0e524f1c1af5..18411b426122 100644
+> --- a/Documentation/translations/zh_CN/process/submit-checklist.rst
+> +++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
+> @@ -65,7 +65,7 @@ Linux内核补丁提交检查单
+>      :ref:`kernel-doc <kernel_doc_zh>` 并修复任何问题。
+>  
+>  12) 通过以下选项同时启用的测试： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
+> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+>      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
+>      ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
+>  
+> diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+> index a0cb91a6945f..06aa635a659c 100644
+> --- a/Documentation/translations/zh_TW/process/submit-checklist.rst
+> +++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+> @@ -68,7 +68,7 @@ Linux內核補丁提交檢查單
+>      :ref:`kernel-doc <kernel_doc_zh>` 並修復任何問題。
+>  
+>  12) 通過以下選項同時啓用的測試： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
+> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
+>      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
+>      ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
+>  
 
-v2: https://lore.kernel.org/all/20260604090756.2884671-3-tzungbi@kernel.org
-- Use module parameter and bool for dpm_watchdog_enabled.
-- Use IS_ENABLED().
-
-v1: https://lore.kernel.org/all/20260528103215.505795-1-tzungbi@kernel.org
-
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/base/power/main.c                       | 11 +++++++++++
- kernel/power/Kconfig                            | 10 ++++++++++
- 3 files changed, 28 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1abdb31fa126..718ea16ffaff 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -49,6 +49,7 @@
- 	PCI	PCI bus support is enabled.
- 	PCIE	PCI Express support is enabled.
- 	PCMCIA	The PCMCIA subsystem is enabled.
-+	PM	Power Management support is enabled.
- 	PNP	Plug & Play support is enabled.
- 	PPC	PowerPC architecture is enabled.
- 	PPT	Parallel port support is enabled.
-@@ -5365,6 +5366,12 @@ Kernel parameters
- 	pm_debug_messages	[SUSPEND,KNL]
- 			Enable suspend/resume debug messages during boot up.
- 
-+	pm_sleep.dpm_watchdog_enabled=
-+			[PM] Enable or disable the DPM watchdog.  Requires
-+			CONFIG_PM_SLEEP and CONFIG_DPM_WATCHDOG enabled.
-+			Format: <bool>
-+			Default value is set by CONFIG_DPM_WATCHDOG_ENABLED.
-+
- 	pnp.debug=1	[PNP]
- 			Enable PNP debug messages (depends on the
- 			CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index c6a3300cfb7a..f58945758868 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -535,6 +535,11 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0644);
- MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
- 		 "Backtrace all CPUs on DPM watchdog timeout");
- 
-+static bool __read_mostly dpm_watchdog_enabled =
-+				IS_ENABLED(CONFIG_DPM_WATCHDOG_ENABLED);
-+module_param(dpm_watchdog_enabled, bool, 0644);
-+MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
-+
- static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
- static unsigned int __read_mostly dpm_watchdog_warning_timeout =
- 						CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
-@@ -630,6 +635,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	wd->dev = dev;
- 	wd->tsk = current;
- 	wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
-@@ -648,6 +656,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *wd)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	timer_delete_sync(timer);
- 	timer_destroy_on_stack(timer);
- }
-diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
-index 530c897311d4..508ceabc4d2e 100644
---- a/kernel/power/Kconfig
-+++ b/kernel/power/Kconfig
-@@ -268,6 +268,16 @@ config DPM_WATCHDOG
- 	  captured in pstore device for inspection in subsequent
- 	  boot session.
- 
-+config DPM_WATCHDOG_ENABLED
-+	bool "Enable DPM watchdog by default"
-+	depends on DPM_WATCHDOG
-+	default y
-+	help
-+	  If you say Y here, the DPM watchdog will be enabled by default.
-+	  If you say N, it will be compiled in but disabled.  It can be
-+	  enabled at boot time via the "pm_sleep.dpm_watchdog_enabled"
-+	  kernel parameter or at runtime via sysfs.
-+
- config DPM_WATCHDOG_TIMEOUT
- 	int "Watchdog timeout to panic in seconds"
- 	range 1 120
 -- 
-2.54.0.1099.g489fc7bff1-goog
-
+~Randy
