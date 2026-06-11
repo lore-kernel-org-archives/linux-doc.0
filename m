@@ -1,110 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34C4408034;
-	Thu, 11 Jun 2026 17:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466553BD63C;
+	Thu, 11 Jun 2026 17:21:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781198305; cv=none; b=WhTQHw9F/3sHRueVQxkTtJ8BYxg1A7hldIz4ypJX3yro1tev2xZiUWXfgPqINeP/lDF66fkBgwsaHped7EXhJVvD7xkNDR5fIQBCG4HdEvvdTcpeFcajEidadiSmTVXaBy7F2YPHrQ42acC8WAbtdeZJ90JrUNQglDtf70xFBko=
+	t=1781198518; cv=none; b=Bs0Ja8TRq1vSkMSOOyrdRjKK/8/qIloko9Ygx8paUYOR28IxL9DPffxV+yq9mJEPzmL2dj3LvsRnoS9wbXWAf+5e6euVM3cNAo/GMb+mvet7FTxbWa1QKzX/fJfQciByHzvkPmXeecSAHMvKFU96G/6Rh706IACF+iHpFYo3Q1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781198305; c=relaxed/simple;
-	bh=2/4YhDGk8rS1eb9x1UZCiSNZtGtVwrSNHMRRH8/d9gA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RAj9brY7a9HNyT/0YGRFR2DQ6QUsv1/Z1DAne4cLkv0JLU2xCpf1uzzFB3FBkumrmN8odvZjjjJVrAtR+0N+rBYTKAYgaHzMpKJJUqWII5FT+0ixmIjPVzm3BRfCXT6GHaCupK/8j3A+QseZMrULrjXT9/N2xeOtTb0i7VV7t74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I793zi1X; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781198518; c=relaxed/simple;
+	bh=oyV1ai1PBM4DTWyjLYyA0QqbBh5MfSH/K+Y7AfR8B5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6rGtVV3xUqU5uQmcMK9qcZJpvOGAaE9+1SGFX/45kSC4dlSUsuo1n1cwbQHvV0ugic9jkb2wUh8BI5VxKJOKtFCVkSAN3ddBd9XZ79duIKx/zEFj13b3bpmCBcQcO0/1BqKZOtUFREOs/55qTFAP4Kt97CqRjzxAnAp9q0NJrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uk/9JU+m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I793zi1X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F384E1F00899;
-	Thu, 11 Jun 2026 17:18:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uk/9JU+m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238A31F00893;
+	Thu, 11 Jun 2026 17:21:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781198298;
-	bh=4ftVrlKfxNBZ5L1qsZ1tyjka8GLPo2zlURIhpvXfdyQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=I793zi1XTUiKfGJris+A1lqSuFB+TAYeOfOnqQoP590A4ZtsKdFN47EAGe9dqDFOx
-	 3XJfyWN5clsNSrgKpGDwhbXXYaosyPtcrKwX7x5SDkHSlrvj0i4r9L5OAo6G069HTt
-	 gu1QUveYay+06rM2IXCcp5+wQ+n+R/z4KgPk8EzS5tOjUjQ9TkrOHoa+Zsi2sq7OXO
-	 IO1L2c3nA46BNPQgAHkMOkvPAFNmmmWaOC/4mssqd8ERkTom3wZIIWor4ndqQnAMYN
-	 Zt6DUhDo+weFEaHt4temC2C5ASR6HudLCJGAPEen7MWbBg0auYtcb78zonoQ+/doro
-	 Qffh/ooXQ+V9w==
-Date: Thu, 11 Jun 2026 10:18:17 -0700
+	s=k20260515; t=1781198513;
+	bh=yMIRtVAbaSjolqJjcTWBcOrVYaBhk0KzhTLifQtt17w=;
+	h=From:To:Cc:Subject:Date;
+	b=Uk/9JU+mWXnTO3w4SnJCs2U3Tp2NoB4/vMjnvG+PYaEnCtnedp18/Eo4SrNNyNPxM
+	 mFvqs9bHmjKh5QJVKDAn0dRMaCU83O2Rgf1hHGU0MFvXtuEJdDdB6ATy7J6CnzdKNR
+	 IUzX6aGkT7A6VH++j0drGmy/cJOYO7ibHjVWj8yELWVAC/i8wr9Pkax2Izu1HdkY7D
+	 B/4AZsxwWv9EQ6QgfZie01awVaS2nqzzyS3AHQVXio58O9ohGqGsPo64yyXmhbGCSV
+	 cVmbnhL4BfpnQZbetq6mIm2oNliPbKXRNiq8lIYFohhAFoOUKpJTpkt7YcRiHFEjzE
+	 JUb2/FCxELLKw==
 From: Jakub Kicinski <kuba@kernel.org>
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org, john.fastabend@gmail.com,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH net-next 2/3] docs: net: tls-offload: document
- tls_dev_del, tls_dev_resync, and rekey
-Message-ID: <20260611101817.18964bd9@kernel.org>
-In-Reply-To: <ainR5GAK8LaHJYMP@krikkit>
-References: <20260609201224.1191391-1-kuba@kernel.org>
-	<20260609201224.1191391-3-kuba@kernel.org>
-	<ainR5GAK8LaHJYMP@krikkit>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Joe Damato <joe@dama.to>,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2] docs: networking: add guidance on what to push via extack
+Date: Thu, 11 Jun 2026 10:21:49 -0700
+Message-ID: <20260611172149.1877704-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Jun 2026 23:06:44 +0200 Sabrina Dubroca wrote:
-> > +The third TLS device callback is :c:member:`tls_dev_resync`, called by the core
-> > +to synchronize the TCP stream with the record boundaries:
-> > +
-> > +.. code-block:: c
-> > +
-> > +	int (*tls_dev_resync)(struct net_device *netdev,
-> > +			      struct sock *sk, u32 seq, u8 *rcd_sn,
-> > +			      enum tls_offload_ctx_dir direction);
-> > +
-> > +See the `Resync handling`_ section for details.  
-> 
-> Hmm, this callback is not mentioned at all in the "Resync handling"
-> section. I think it'd be good to add at least a quick note there about
-> how/when it's invoked, and what the arguments mean (at least the two
-> types of sequence numbers, since the rest is identical to the other
-> driver CBs).
+Every now and then someone tries to duplicated extack
+messages to dmesg. Document our guidance against this.
+Also indicate that system level faults should continue
+to go to system logs. The high level thinking is to try
+to distinguish between what's important to the user vs
+system admin.
 
-Something like this, you mean?
+Reviewed-by: Joe Damato <joe@dama.to>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2: some nit picks
 
---- a/Documentation/networking/tls-offload.rst
-+++ b/Documentation/networking/tls-offload.rst
-@@ -278,9 +278,9 @@ sequence number (as it will be updated from a different context).
-   bool tls_offload_tx_resync_pending(struct sock *sk)
- 
- Next time ``ktls`` pushes a record it will first send its TCP sequence number
--and TLS record number to the driver. Stack will also make sure that
--the new record will start on a segment boundary (like it does when
--the connection is initially added).
-+and TLS record number to the driver via the ``tls_dev_resync`` callback.
-+Stack will also make sure that the new record will start on a segment boundary
-+(like it does when the connection is initially added).
- 
- RX
- --
-@@ -372,9 +372,10 @@ all TLS record headers that have been logged since the resync request
- started.
- 
- The kernel confirms the guessed location was correct and tells the device
--the record sequence number. Meanwhile, the device had been parsing
--and counting all records since the just-confirmed one, it adds the number
--of records it had seen to the record number provided by the kernel.
-+the record sequence number via the ``tls_dev_resync`` callback. Meanwhile,
-+the device had been parsing and counting all records since the just-confirmed
-+one, it adds the number of records it had seen to the record number provided
-+by the kernel.
- At this point the device is in sync and can resume decryption at next
- segment boundary.
- 
-@@ -398,7 +399,8 @@ schedules resynchronization after it has received two completely encrypted
- records.
- 
- The stack waits for the socket to drain and informs the device about
--the next expected record number and its TCP sequence number. If the
-+the next expected record number and its TCP sequence number via the
-+``tls_dev_resync`` callback. If the
- records continue to be received fully encrypted stack retries the
- synchronization with an exponential back off (first after 2 encrypted
- records, then after 4 records, after 8, after 16... up until every
+CC: corbet@lwn.net
+CC: skhan@linuxfoundation.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/driver.rst | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/Documentation/networking/driver.rst b/Documentation/networking/driver.rst
+index 195a916dc0de..920c0ec98759 100644
+--- a/Documentation/networking/driver.rst
++++ b/Documentation/networking/driver.rst
+@@ -128,3 +128,16 @@ to be freed up.
+ If you return NETDEV_TX_BUSY from the ndo_start_xmit method, you
+ must not keep any reference to that SKB and you must not attempt
+ to free it up.
++
++Error message reporting
++=======================
++
++A number of driver configuration interfaces pass a Netlink extended ACK
++(``extack``) object to the driver (either directly as an argument or
++as a member of a parameter struct). The drivers should try to report
++most errors via the ``extack`` object. System level exceptions,
++indicating that system or device is misbehaving or is in bad state,
++should continue to be reported to system logs.
++
++Messages should be passed **either** via ``extack`` **or** to system logs.
++Drivers should not try to report the same information to both.
+-- 
+2.54.0
+
