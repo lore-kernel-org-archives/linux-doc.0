@@ -1,21 +1,21 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33025282F0A;
-	Thu, 11 Jun 2026 06:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01AD349CFD;
+	Thu, 11 Jun 2026 06:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781159990; cv=none; b=ETtY6cWaucHsjoQDZ84mQAqSSD+bWBxyXaz/0sHuJHaB03KKvJEBOQYkLE9iWNhcNJ+KWlwGxh4XH1/2SzkGZKHBYMeE/nZxuk0xc2ELKaQy+IfQYldcqlNeKjDz0ob+F1DcP9PLqYqVeb3JCFtbncm60Vvt7YPlxbEJx7rZ630=
+	t=1781159990; cv=none; b=etLAZl8Anz7SxV0dXvbFG7txqsSPakrDuk4m1KKseWyJt7VmZV9/jfXydDda4JFX8ba0BfwTlFJnDbaoqr4sCgyuawEs42iMJ8ViI7izlNTVdBSXtZZZQ3tch3dMVlaTytiM2ZSS+UC1ZwmuhjuY4zcx3Dyz9+pFyvOKsiS40RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781159990; c=relaxed/simple;
-	bh=JJP5wmbZ0MbmCSCbDlWpr53Mun31CkcKjMPRPaxPn24=;
+	bh=lz2HoZMBF8FNvI2A3QZXSeiccmu1krLrN+SYAnviS6k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bScE83I0SxtopHOQDqpsizUybJUMcRuVrZO23VYFjufXK3uQ/+4auXNIoqSFXzcom8F7PhVLfTuOB0Xrc6kOHdTWxBHOBKQA36iQp6HoNR5fow39akoXsAGQGmrzhk8PPNmHSWOp5Jmf6dlwE+XsWVcF7zk52vkZ0f0tNWHBkUA=
+	 MIME-Version; b=u/1ngpkFWaL+KIu9sf5dIlmka5zMpK7H+Aq1LcHVDfaW06gWYiPyF3JWAKiWEoO+bz6Xigax32l+2YqGYArbt1pvDA9FP42Nc/MJkroGkKE70ODJH/mzA95JdhXVO64Ci8io4qR2Z19z3hkEtC5N5A0lVK04MPnbVoYJxqw1juQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S5;
+	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S4;
 	Thu, 11 Jun 2026 14:39:29 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Vlastimil Babka <vbabka@kernel.org>,
@@ -37,9 +37,9 @@ Cc: Hao Li <hao.li@linux.dev>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [RFC PATCH 3/5] mm/slub: print previous object lifetime in debug reports
-Date: Thu, 11 Jun 2026 14:39:24 +0800
-Message-ID: <20260611063926.38111-4-pengpeng@iscas.ac.cn>
+Subject: [RFC PATCH 2/5] mm/slub: add optional previous lifetime user tracking
+Date: Thu, 11 Jun 2026 14:39:23 +0800
+Message-ID: <20260611063926.38111-3-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
 References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
@@ -50,12 +50,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFW3Kw43urW8uF4UCw47CFg_yoW5uFW7pF
-	W3Gr13KFWqqr47Cws3J3ykCr98Ca95uw1xWFWaga1S9r15tw1DAFn2yryjqFWrAr97ta42
-	yr1Y9F1Skr4UZ3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFy7Gr4fWr4kZw4DGF1UGFg_yoW7XF4Dp3
+	y8GF1Dtr4Iqr1xC397Jr4UC393Xa1v9r4jk398Xw1S9a48Jw1Yvry0kFyjqryrGFyjk34U
+	ZrnYv34Y9FWUZrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmF14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
 	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
 	Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
 	A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
@@ -66,105 +66,167 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxZFW3Kw43urW8uF4UCw47CFg_yoW5uFW7pF
 	Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
 	AY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
 	cVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x0pRl_MsUUUUU=
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+	KfnxnUUI43ZEXa7sRipB-tUUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-When SLAB_STORE_USER is enabled, each object stores one allocation track
-and one free track. Reusing the object overwrites the allocation track,
-while a later stale free can overwrite the free track. This can leave a
-report with the victim allocation and stale free but without the
-previous completed lifetime that explains where the stale pointer came
-from.
+SLAB_STORE_USER currently reserves two per-object tracks, one for the
+allocation and one for the free. Add an opt-in SLAB_STORE_HISTORY flag
+that extends the user tracking area to hold one previous completed
+lifetime.
 
-When SLAB_STORE_HISTORY is enabled, copy the current allocation/free pair
-to a previous-lifetime pair before recording the new allocation. Keep
-the existing TRACK_FREE semantics unchanged so current store_user and
-free_traces behavior is preserved. On SLUB error reports, print the
-previous completed lifetime when both records are available.
+Expose the option as slab_debug=H, but require it to be used together
+with U. This avoids silently enabling user tracking and its stack depot
+cost when a user only requested H. The option is not part of the default
+debug flags.
 
-The extra records are diagnostic information only. They do not infer
-semantic ownership or identify the root cause of a use-after-free.
+No history is recorded or printed yet; this only adds the flag, the
+object metadata layout, and the sysfs state file.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- mm/slub.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+ include/linux/slab.h |  3 +++
+ mm/slab.h            |  3 ++-
+ mm/slub.c            | 36 +++++++++++++++++++++++++++++++-----
+ 3 files changed, 36 insertions(+), 6 deletions(-)
 
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 2b5ab488e96b..78b9ec5bc17a 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -32,6 +32,7 @@ enum _slab_flag_bits {
+ 	_SLAB_CACHE_DMA,
+ 	_SLAB_CACHE_DMA32,
+ 	_SLAB_STORE_USER,
++	_SLAB_STORE_HISTORY,
+ 	_SLAB_PANIC,
+ 	_SLAB_TYPESAFE_BY_RCU,
+ 	_SLAB_TRACE,
+@@ -98,6 +99,8 @@ enum _slab_flag_bits {
+ #define SLAB_CACHE_DMA32	__SLAB_FLAG_BIT(_SLAB_CACHE_DMA32)
+ /* DEBUG: Store the last owner for bug hunting */
+ #define SLAB_STORE_USER		__SLAB_FLAG_BIT(_SLAB_STORE_USER)
++/* DEBUG: Store the previous object lifetime for bug hunting */
++#define SLAB_STORE_HISTORY	__SLAB_FLAG_BIT(_SLAB_STORE_HISTORY)
+ /* Panic if kmem_cache_create() fails */
+ #define SLAB_PANIC		__SLAB_FLAG_BIT(_SLAB_PANIC)
+ /**
+diff --git a/mm/slab.h b/mm/slab.h
+index bf2f87acf5e3..a6af35829f79 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -417,7 +417,8 @@ void flush_rcu_sheaves_on_cache(struct kmem_cache *s);
+ 			 SLAB_NO_USER_FLAGS | SLAB_KMALLOC | SLAB_NO_MERGE)
+ 
+ #define SLAB_DEBUG_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
+-			  SLAB_TRACE | SLAB_CONSISTENCY_CHECKS)
++			  SLAB_STORE_HISTORY | SLAB_TRACE | \
++			  SLAB_CONSISTENCY_CHECKS)
+ 
+ #define SLAB_FLAGS_PERMITTED (SLAB_CORE_FLAGS | SLAB_DEBUG_FLAGS)
+ 
 diff --git a/mm/slub.c b/mm/slub.c
-index 803c597351ce..2dfa8af00a49 100644
+index a9114dddc976..803c597351ce 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -1083,6 +1083,31 @@ static void set_track_update(struct kmem_cache *s, void *object,
- 	p->when = jiffies;
- }
+@@ -277,7 +277,7 @@ void *fixup_red_left(struct kmem_cache *s, void *p)
+  * issues when checking or reading debug information
+  */
+ #define SLAB_NO_CMPXCHG (SLAB_CONSISTENCY_CHECKS | SLAB_STORE_USER | \
+-				SLAB_TRACE)
++				SLAB_STORE_HISTORY | SLAB_TRACE)
  
-+static bool track_has_record(const struct track *track)
-+{
-+	return track->addr;
-+}
-+
-+static void save_previous_lifetime(struct kmem_cache *s, void *object)
-+{
-+	struct track *alloc, *free;
-+	struct track *prev_alloc, *prev_free;
-+
-+	if (!(s->flags & SLAB_STORE_HISTORY))
-+		return;
-+
-+	alloc = get_track(s, object, TRACK_ALLOC);
-+	free = get_track(s, object, TRACK_FREE);
-+	if (!track_has_record(alloc) || !track_has_record(free))
-+		return;
-+
-+	prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
-+	prev_free = get_track(s, object, TRACK_PREV_FREE);
-+
-+	*prev_alloc = *alloc;
-+	*prev_free = *free;
-+}
-+
- static __always_inline void set_track(struct kmem_cache *s, void *object,
- 				      enum track_item alloc, unsigned long addr, gfp_t gfp_flags)
+ 
+ /*
+@@ -285,7 +285,8 @@ void *fixup_red_left(struct kmem_cache *s, void *p)
+  * disabled when slab_debug=O is used and a cache's min order increases with
+  * metadata.
+  */
+-#define DEBUG_METADATA_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER)
++#define DEBUG_METADATA_FLAGS (SLAB_RED_ZONE | SLAB_POISON | \
++			      SLAB_STORE_USER | SLAB_STORE_HISTORY)
+ 
+ #define OO_SHIFT	16
+ #define OO_MASK		((1 << OO_SHIFT) - 1)
+@@ -316,14 +317,23 @@ struct track {
+ 	unsigned long when;	/* When did the operation occur */
+ };
+ 
+-enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
++enum track_item {
++	TRACK_ALLOC,
++	TRACK_FREE,
++	TRACK_PREV_ALLOC,
++	TRACK_PREV_FREE,
++	TRACK_NR,
++};
+ 
+ static inline unsigned int nr_user_tracks(struct kmem_cache *s)
  {
-@@ -1123,11 +1148,25 @@ static void print_track(const char *s, struct track *t, unsigned long pr_time)
- void print_tracking(struct kmem_cache *s, void *object)
- {
- 	unsigned long pr_time = jiffies;
-+	struct track *prev_alloc, *prev_free;
-+
  	if (!(s->flags & SLAB_STORE_USER))
- 		return;
+ 		return 0;
  
- 	print_track("Allocated", get_track(s, object, TRACK_ALLOC), pr_time);
- 	print_track("Freed", get_track(s, object, TRACK_FREE), pr_time);
+-	return TRACK_NR;
++	if (s->flags & SLAB_STORE_HISTORY)
++		return TRACK_NR;
 +
-+	if (!(s->flags & SLAB_STORE_HISTORY))
-+		return;
-+
-+	prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
-+	prev_free = get_track(s, object, TRACK_PREV_FREE);
-+	if (!track_has_record(prev_alloc) || !track_has_record(prev_free))
-+		return;
-+
-+	pr_err("Previous object lifetime:\n");
-+	print_track("Previous allocated", prev_alloc, pr_time);
-+	print_track("Previous freed", prev_free, pr_time);
++	return TRACK_PREV_ALLOC;
  }
  
- static void print_slab_info(const struct slab *slab)
-@@ -4505,8 +4544,10 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
- 	return NULL;
- 
- success:
--	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
-+	if (kmem_cache_debug_flags(s, SLAB_STORE_USER)) {
-+		save_previous_lifetime(s, object);
- 		set_track(s, object, TRACK_ALLOC, addr, gfpflags);
+ static inline unsigned int user_tracking_size(struct kmem_cache *s)
+@@ -1837,6 +1847,9 @@ parse_slub_debug_flags(const char *str, slab_flags_t *flags, const char **slabs,
+ 		case 'u':
+ 			*flags |= SLAB_STORE_USER;
+ 			break;
++		case 'h':
++			*flags |= SLAB_STORE_HISTORY;
++			break;
+ 		case 't':
+ 			*flags |= SLAB_TRACE;
+ 			break;
+@@ -1855,6 +1868,11 @@ parse_slub_debug_flags(const char *str, slab_flags_t *flags, const char **slabs,
+ 				pr_err("slab_debug option '%c' unknown. skipped\n", *str);
+ 		}
+ 	}
++	if ((*flags & SLAB_STORE_HISTORY) && !(*flags & SLAB_STORE_USER)) {
++		if (init)
++			pr_err("slab_debug option 'H' requires 'U'. skipped\n");
++		*flags &= ~SLAB_STORE_HISTORY;
 +	}
+ check_slabs:
+ 	if (*str == ',')
+ 		*slabs = ++str;
+@@ -1969,7 +1987,7 @@ slab_flags_t kmem_cache_flags(slab_flags_t flags, const char *name)
+ 	 * but let the user enable it via the command line below.
+ 	 */
+ 	if (flags & SLAB_NOLEAKTRACE)
+-		slub_debug_local &= ~SLAB_STORE_USER;
++		slub_debug_local &= ~(SLAB_STORE_USER | SLAB_STORE_HISTORY);
  
- 	return object;
- }
+ 	len = strlen(name);
+ 	next_block = slub_debug_string;
+@@ -9223,6 +9241,13 @@ static ssize_t store_user_show(struct kmem_cache *s, char *buf)
+ 
+ SLAB_ATTR_RO(store_user);
+ 
++static ssize_t store_history_show(struct kmem_cache *s, char *buf)
++{
++	return sysfs_emit(buf, "%d\n", !!(s->flags & SLAB_STORE_HISTORY));
++}
++
++SLAB_ATTR_RO(store_history);
++
+ static ssize_t validate_show(struct kmem_cache *s, char *buf)
+ {
+ 	return 0;
+@@ -9442,6 +9467,7 @@ static const struct attribute *const slab_attrs[] = {
+ 	&red_zone_attr.attr,
+ 	&poison_attr.attr,
+ 	&store_user_attr.attr,
++	&store_history_attr.attr,
+ 	&validate_attr.attr,
+ #endif
+ #ifdef CONFIG_ZONE_DMA
 -- 
 2.50.1 (Apple Git-155)
 
