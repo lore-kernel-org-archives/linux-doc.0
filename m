@@ -1,45 +1,59 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888963612E9;
-	Thu, 11 Jun 2026 06:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568F42F0C74;
+	Thu, 11 Jun 2026 06:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781159998; cv=none; b=gHax5XnwVCCU6KQ2a4v6yKdQVX60hz//wlx+RuR0upcoBdfmNd2THA27SPEdSAc23APAFac6t/hGQutybOmS9PfPMUfbmDXwBaeEFeoPXUZH11NBh02ckcWMGkTLFDTYI9LmKYxsC3rJtJJA8vRXVv12/tF4zSyF3BLe7+H2dZ8=
+	t=1781160224; cv=none; b=MPBxblgUIFOs9icX8khdwEIVtX3TgDqI5xXtti6WGuUFhRUN5jts5YD/EntD5KCQfGushccaqSPAKFje9Rn/dbnGuDJRchVNdNI2i0DKBsWW2HkvkR5JSlLP29IqFXXVey4DfJPxz+4MRArN1hAGFdBVF3XDwyr8qe39p7XLI2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781159998; c=relaxed/simple;
-	bh=54vBGeTdxA5doM24U7VWmpi0FaeDHI+XNnvNwaJMOcA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYFIuEEq881OBPiQa94NB/W//5iFkX+QxiiYryK78nldSRIzJ7oKx69VuciMlk/gVNGGIUvgtGRJvBjfmCaQ1xaiTkmb6PafmopoCW7OB+oxdfbywR1MFU99i+3RkCO4DxURBTH6Sue73d5Ulwvbls6TEgWUl5aNR3NpZcwA/bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S2;
-	Thu, 11 Jun 2026 14:39:28 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org
-Cc: Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	liam@infradead.org,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	s=arc-20240116; t=1781160224; c=relaxed/simple;
+	bh=Cxeo3yD8bQ4mghSwFEOqV7gQtN9YyWv36fuIIJbO480=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=apaFhNbZ6imX0TC1bnorrF8KG56ayl2FI7KNQ1+kG/qDqFli3fP5hHzeJhkWuYg3QMdW/cdzVlFcxmqA+4J3DEg+XFW22fK6ISFCLsyOp056oQ/f+mkgJWVvYbV4mQBbDSTqi8bxcnN0QPzk2KC2XdFL8emByWPaq6OGwzaQz+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RkUlCj6m; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fzxd0ba2; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RkUlCj6m";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fzxd0ba2"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gbY576zfPz9tnc;
+	Thu, 11 Jun 2026 08:43:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781160220;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KNOwnOoY59EO9KXyS6k+CkrGuIfKkYnDyF0oqjN2CzM=;
+	b=RkUlCj6mDCnAJzv0MZvezZZh0SA+0N2j2rXIiQiGjQcbQ6tGBNV4gBPOj3r8PaUTBC9ntY
+	7iTdNR7thm8Iryzg5ejcVkW8CVXkO4Gsq9T3k/u76FmASYUnGaMAMalzxFXhz9+rxvEDsk
+	5SZVAKCeOFeARDaXJzcTvtnGqh3OPhhi90UxDTWUAt75uy+i1JmdEnQZjObwR+3hqfiEa6
+	SKb8lzPCua5gfeu+z2cczTkxH/ctpmzohK3+Hcixs9Iy/r3fWAPLDzGkw2YhyKlbT8xg4t
+	sSevTxGb29VPUkaIRi+7EHgI33Xk2YhO+2RweMVtc8+OK3Scm6OHGfiX7roXzg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781160218;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KNOwnOoY59EO9KXyS6k+CkrGuIfKkYnDyF0oqjN2CzM=;
+	b=fzxd0ba2URYj9nf9wX0g6kBDOtR3GxytxHYvxydLPtu+rb6gsZeSnnxKEUX/b9pTEbDBLd
+	dPyb60uzIuxlhhmmGFW8sgSVnH8PMtklhf3QHh53xvQUIXidAuniQBqcz0n7EoF/kNkXoH
+	ijKVLYse5rdURS6JuG1RuPgn5ud9DIdF4qmtVRmHdCZin7waCdCCcona1OHI2TnBzbU5Od
+	TPMHjPbPD2H56Apvb8/LSTyAocvc8ywTljO0p1Q51O1zXx7SjCL8InOsjQWiNSbvjeHBkv
+	emeuUrbeOcDaBGfZRxc5zQb8dG0FFIL3Vb2Eknbmwo3bLwVTK/XcY6HVFmk6TA==
+To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
-Date: Thu, 11 Jun 2026 14:39:21 +0800
-Message-ID: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: process: fix brackets
+Date: Thu, 11 Jun 2026 08:43:12 +0200
+Message-ID: <20260611064311.117023-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,75 +61,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFy3WFWxuFy8ZF4rGFW3Wrg_yoW8tr13pr
-	43Kr4ftFnrJrWSkwsxC34kXrn5Zw4rW3y8WFyagr4Uur4rWr1FyFn7KFWYv3Wxury7CFy2
-	vrZYgasxCryDZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjTRNJ5oDUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-MBO-RS-ID: 378feb314aa5abd288d
+X-MBO-RS-META: ehysenq7k1f4mcbxfnym6dje5hcmcs1b
 
-SLAB_STORE_USER currently stores one allocation track and one free track
-for an object. This is useful, but it loses part of the previous lifetime
-when the object is reused: the new allocation overwrites the allocation
-track, and a later stale free can overwrite the free track.
+Fix missing ')' and needless ')'
 
-For free-after-reuse bugs, the report can therefore contain the victim
-allocation and the stale free, while the earlier alloc/free pair that
-explains where the stale pointer came from is no longer available.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+This is the first patch of a 'series', but I won't send them together
+because I'm still producing the patches and it will take me a couple weeks.
+ Documentation/process/deprecated.rst     | 2 +-
+ Documentation/process/maintainer-soc.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-This RFC adds an opt-in SLUB debug option to keep one previous completed
-object lifetime. The option is disabled by default, is not part of the
-default debug flags, and only takes effect when user tracking is already
-enabled:
-
-  slab_debug=UH,kmalloc-128
-
-The series intentionally does not attempt to infer semantic ownership or
-identify the root cause of a use-after-free. It only preserves and prints
-additional track records that SLUB already knows how to collect.
-
-This is sent as RFC because the user-visible interface and the cost/benefit
-tradeoff should be agreed on before this becomes a normal patch series.
-In particular, feedback would be useful on:
-
-- whether a separate H option is preferable to extending U directly
-- whether H should require U, as implemented here, or imply U
-- whether the extra per-object metadata is useful enough for this debug path
-
-Not included yet:
-
-- KUnit coverage or a standalone reproducer
-- object-size/order comparison data for representative caches
-- runtime benchmark data for slab_debug=U vs slab_debug=UH
-
-Those should be added before a non-RFC submission if the direction looks
-acceptable.
-
-Pengpeng Hou (5):
-  mm/slub: factor user tracking metadata size calculation
-  mm/slub: add optional previous lifetime user tracking
-  mm/slub: print previous object lifetime in debug reports
-  Documentation/mm: document SLUB previous lifetime tracking
-  mm/slub: sanitize previous lifetime tracking flags
-
- Documentation/admin-guide/mm/slab.rst |  22 ++++-
- include/linux/slab.h                  |   3 +
- mm/slab.h                             |   3 +-
- mm/slub.c                             | 118 ++++++++++++++++++++++----
- 4 files changed, 128 insertions(+), 18 deletions(-)
-
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index ac75b7ecac47..03de71f654c7 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -388,7 +388,7 @@ allocations. For example, these open coded assignments::
+ 	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+ 	ptr = kcalloc(count, sizeof(*ptr), gfp);
+ 	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+-	ptr = kmalloc(sizeof(struct foo, gfp);
++	ptr = kmalloc(sizeof(struct foo), gfp);
+ 
+ become, respectively::
+ 
+diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
+index a3a90a7d4c68..fa91dfc53783 100644
+--- a/Documentation/process/maintainer-soc.rst
++++ b/Documentation/process/maintainer-soc.rst
+@@ -60,7 +60,7 @@ All typical platform related patches should be sent via SoC submaintainers
+ shared defconfigs. Note that scripts/get_maintainer.pl might not provide
+ correct addresses for the shared defconfig, so ignore its output and manually
+ create CC-list based on MAINTAINERS file or use something like
+-``scripts/get_maintainer.pl -f drivers/soc/FOO/``).
++``scripts/get_maintainer.pl -f drivers/soc/FOO/``.
+ 
+ Submitting Patches to the Main SoC Maintainers
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
-2.50.1 (Apple Git-155)
+2.54.0
 
