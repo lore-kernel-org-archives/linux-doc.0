@@ -1,91 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E442C21D9;
-	Thu, 11 Jun 2026 09:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF4D43BCD07;
+	Thu, 11 Jun 2026 09:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781168433; cv=none; b=MtpNFaOkakRBgILT6HvW55h0ujxxUDEA2J863N7w2Os6VArStQnN2jm+vwCllbxY12OivNqqYT6XswQYttnTzf9wEEwWfVSrvJfLrfrfK3x0DIkBbWM03RHHVM5i3+CYmcJaPfWikB8j7WQqPzvByhr0Eukb4yWsxBfraPAXzxc=
+	t=1781171440; cv=none; b=HpTwJm39Bp0F7WtHfTk8jr5t81gz2eZF7Pb1W0Wkrrowl164eJUXMuWwNiFy98oehi1dopPPOfM8e7KCpXCzL54VgkeQNnKNVsGScNxaYQOMqw55va5zy1QbnvPJFE8tZxCBcFOUWpuE0uNT60fxhs71fbS8i3RQZrqDUP+8PKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781168433; c=relaxed/simple;
-	bh=1M5gUjbpW3qDXO5PZ4+Xq+o9JfPpWnNpLMac6opNScg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HcJtuHw+w655DmWuSJIQAR/tjYBWgLsFQqyft52tKyNvdtOrzgFowjpr3uJ3NjLHMmTmT/mhSvSHQwwiEdsbnab9LJ3qoTyCtTDVI7WfN54LunliUk8/2E4criybcUuwGYu/XcfpvN6x3gmiGMjQ98o4WgVwwJSMKfr4r0qlYqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kf9ub8+B; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781171440; c=relaxed/simple;
+	bh=giW2ha6I059T0G+qHAhzVhjSsPjt0+qNu14U4xR5Kok=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q02jSleJIYSNqGfW9vRSbMkr2jvlnqx3KIHC4rOASwvdAcCqLs4YSi/GMINjbyUn/cYwuLLDPDj3P2B7AshjTo4YgICUAXHfHX4vOPtF9AoVBnCNXEWNZpRhAdE7CYzTwquvzWX6+sXmahBDFJz//5xNdVSl/wuTZG6Q2adR/fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZaTrMu8m; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kf9ub8+B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 186571F00893;
-	Thu, 11 Jun 2026 09:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781168431;
-	bh=dBiQEyPYgAL0tseH1DOFeKLkbItEWq0+K9vLt73dVTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Kf9ub8+BMhfxHSSrYb31ZlyIkUI00iNanropMQakz2F7cdTEYJwi4BZyIu9g2qLzT
-	 NAzAyfORVXc/VXPhIsLPZXcp5qYByR74xf7Y/hXstMtTZ9jSnUasCvvbLXj/odVkjk
-	 zC+1Fz5dQN88PaAMa8fHTvZf6DzVXfKzdg3/OWkWEYONwhzBNeTTHD8DtWsV1pVz5i
-	 f2tC8HgeZRr+znQr5qhxeT4IdkKGvmCJJJoOQDZ2WQrpygnIc1i3Ut7P5XcPLp3UWn
-	 SMs+XyHVH9UBKPfyJcs05y1kBY44Dm2+Mj5fwnqDVrCwIxbk4o4eG5Cg/UkxaQZ1Mj
-	 c2BmaPxzet9qA==
-Date: Thu, 11 Jun 2026 12:00:17 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, rafael@kernel.org,
-	lenb@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
-	akpm@linux-foundation.org, rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
-	elver@google.com, kuba@kernel.org, ebiggers@kernel.org,
-	lirongqing@baidu.com, paulmck@kernel.org, dave.jiang@intel.com,
-	jic23@kernel.org, xueshuai@linux.alibaba.com, kai.huang@intel.com
-Subject: Re: [RFC PATCH 1/3] mm/numa: add exclusive node pool and
- numa=standby boot parameter
-Message-ID: <aip5IWmxg9CWg8hQ@kernel.org>
-References: <20260610014517.253609-1-gourry@gourry.net>
- <20260610014517.253609-2-gourry@gourry.net>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZaTrMu8m"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB5BA1E5E;
+	Thu, 11 Jun 2026 02:50:32 -0700 (PDT)
+Received: from [10.174.41.206] (unknown [10.174.41.206])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 723DF3F99C;
+	Thu, 11 Jun 2026 02:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781171437; bh=giW2ha6I059T0G+qHAhzVhjSsPjt0+qNu14U4xR5Kok=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZaTrMu8mAWfzsBKisoH3fnQkGfn0yNj/TxIkV+zx2PNNtyQQXWrVHo0eThpQs16p4
+	 VZaQ43d6LxXNzSq/wlTpvMWRbR3Tpjk7i1y9adDunaSF+7+4u2qsv34+d3e3SBuTCS
+	 jjxnQdSKzFNLvwdBFzq8OxGGg5ZmRV/TISIw9O6A=
+Message-ID: <d41a24c1-592e-495f-8adf-dd538b769904@arm.com>
+Date: Thu, 11 Jun 2026 15:20:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610014517.253609-2-gourry@gourry.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Andy Whitcroft <apw@canonical.com>
+References: <20260610111339.2465922-1-usama.arif@linux.dev>
+ <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
+ <aiphHAkLnG_L2kY2@ashevche-desk.local>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <aiphHAkLnG_L2kY2@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On Tue, Jun 09, 2026 at 09:45:15PM -0400, Gregory Price wrote:
-> It can be at times preferential to logically split up hotplug memory
-> capacity into more nodes than are described by BIOS at boot time.
+
+On 11/06/26 12:47 PM, Andy Shevchenko wrote:
+> On Thu, Jun 11, 2026 at 10:45:01AM +0530, Anshuman Khandual wrote:
+>> On 10/06/26 4:43 PM, Usama Arif wrote:
+>>> On Wed, 10 Jun 2026 05:35:43 +0100 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 > 
-> However, if nodes are not described at __init time, they are not
-> possible to add later on.
-
-...
- 
-> 1) Can we do dynamic addition of nodes?
+> ...
 > 
->    Not Trivially
+>>>> +		static_assert(sizeof(pte_t) == 4 ||
+>>>> +			      sizeof(pte_t) == 8,
+>>>> +			      "pte_t size must be 4 or 8 bytes");
 > 
->    Some services utilize num_possible_nodes() as a static value to
->    calculate the amount of resources to use at runtime (bpf, md/raid5).
-> 
->    Example: futex_init uses num_possible_nodes() as part of its
->             hashsize calculation during __init.
+> Besides occupying too many lines, why are these static asserts hidden here and
+> not declared in the global space? More wide Q is why they are needed at all?
 
-AFAIU, we don't add the additional nodes for generic hotplug memory but
-rather for exclusive use of by drivers/applications that are aware of these
-nodes.
-Wouldn't adding them to possible nodes actually skew the calculation of the
-resources by the services utilizing num_possible_nodes()?
+Sure, will move these static_assert just above pxd_pointer()
+These asserts ensure
 
-With the futex_init() example, won't be hashsize scaled down two much
-because we've added these special nodes to the possible mask?
+- Platforms have either 32 bit or 64 bit pgtable descriptors
+- special_hex_number() can be used to print such descriptors
 
--- 
-Sincerely yours,
-Mike.
