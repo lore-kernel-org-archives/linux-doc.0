@@ -1,206 +1,134 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7E32BD58A;
-	Thu, 11 Jun 2026 06:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FB324DFF9;
+	Thu, 11 Jun 2026 06:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781158941; cv=none; b=ucU+pqEWz54sbhNTY6rE559Jv6mydt2BYDqQ9Gglmg07DPOoe58YkxWuK9xPwbl/QdY9Y6YbhJbN4qmAnzag1MkTCWzMFQywrONRWXxDyJeOrAQvkrac2bguJcuZp9Q0L/Ik/94oDiVjkraLAWZYo+2aqT8lPZmGcVcOTsaMMPo=
+	t=1781159990; cv=none; b=rfahfM6Z+OxzFIVFyXyCoR33WNh5z9y7YavKXTslEkmTUYO7aHPn9fZHq/gheZiVcqVHXE97s7UdRjRRgH8/yclJ8J2IkjVEzaSzI8fRAyuoQvSw11F6vke3uK/Tvdty6AftDk5aHE6UcQ+JPUb2tnvGr8w7sgXcpMsfUvAW1Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781158941; c=relaxed/simple;
-	bh=HpKx7iNOoNn/W9ykpZyJTUq/2x/av0MA7ffeHEjPGko=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RmKGS8aHTmNFo5kwQH0CKxTzHTB4hCEF5AMehAMO7cWI4sj+PPIo/AxM1q/9y/HDf0u5uFmntdAfcCbswJvaQxT3WhO0Leywo+2gxrBlAmaeXlLdeaAbrd4yyAENbKlF5CV913nhVBL0qjosaHKUiYXIi4LTrZX6vdhq7tw1sEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXc774mMz1dd8x;
-	Thu, 11 Jun 2026 14:21:59 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXc66yN9z1dd8p;
-	Thu, 11 Jun 2026 14:21:58 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id A4BFA30004DB;
-	Thu, 11 Jun 2026 14:20:33 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.20.61) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 11 Jun 2026 14:21:53 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <jack@suse.cz>, <muchun.song@linux.dev>,
-	<osalvador@suse.de>, <david@kernel.org>
-CC: <surenb@google.com>, <mjguzik@gmail.com>, <liam@infradead.org>,
-	<ljs@kernel.org>, <vbabka@kernel.org>, <shakeel.butt@linux.dev>,
-	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <linux@armlinux.org.uk>, <dinguyen@kernel.org>,
-	<schuster.simon@siemens-energy.com>, <James.Bottomley@HansenPartnership.com>,
-	<deller@gmx.de>, <djbw@kernel.org>, <willy@infradead.org>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <james.clark@linaro.org>,
-	<mhiramat@kernel.org>, <oleg@redhat.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
-	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
-	<linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <riel@surriel.com>, <harry@kernel.org>,
-	<will@kernel.org>, <brian.ruley@gehealthcare.com>,
-	<rmk+kernel@armlinux.org.uk>, <dave.anglin@bell.net>, <linux-mm@kvack.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-parisc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-perf-users@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, Huang
- Shijie <huangsj@hygon.cn>
-Subject: [PATCH v2 4/4] docs/mm: update document for split i_mmap tree
-Date: Thu, 11 Jun 2026 14:19:00 +0800
-Message-ID: <20260611061915.2354307-5-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260611061915.2354307-1-huangsj@hygon.cn>
-References: <20260611061915.2354307-1-huangsj@hygon.cn>
+	s=arc-20240116; t=1781159990; c=relaxed/simple;
+	bh=4/ys4fFWTlhjrY0yRGYBF4Yos0uKlELZPEjWEnLjI1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=saHLBfceeVBoD9mqSXJoSkpKoiI+pwz8HZcfuMfDanaMHAz37s9JFYekLaK9dhZxqHilJ5bwTsrwhivt2az627Yjx9tfCQOCMwI/F3OQnQYRzZcPPaHWD5FsqBeLVhYo8rbGLpCFPaLnq/miBbBLdLMwQzNC0a8nfYGougyHdsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S7;
+	Thu, 11 Jun 2026 14:39:29 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Vlastimil Babka <vbabka@kernel.org>,
+	Harry Yoo <harry@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org
+Cc: Hao Li <hao.li@linux.dev>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	liam@infradead.org,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [RFC PATCH 5/5] mm/slub: sanitize previous lifetime tracking flags
+Date: Thu, 11 Jun 2026 14:39:26 +0800
+Message-ID: <20260611063926.38111-6-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
+X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S7
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr43KFWUCw13Cr15uw13CFg_yoW8uF15pa
+	y8GFn8tF48tr1fA3y7ArW8Wws3ZayrKFW2yFy5Ww1Svry5J3W5AFsakFyYvFyrJFyjya4D
+	AFWFya4FgFWUAr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
+	3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+	x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+	JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
+	ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
+	z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+	AF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
+	IxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+	1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
+	CTnIWIevJa73UjIFyTuYvjTRNdb1DUUUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Document the i_mmap locking changes introduced by the following patches:
-- Use mapping_mapped() to simplify the code
-- Use get_i_mmap_root() to access the file's i_mmap
-- Split the file's i_mmap tree (CONFIG_SPLIT_I_MMAP)
+SLAB_STORE_HISTORY only has meaning together with SLAB_STORE_USER because
+the previous lifetime records live in the user tracking metadata area.
 
-Add documentation for:
-- CONFIG_SPLIT_I_MMAP split i_mmap tree architecture with per-tree locks
-- New per-tree lock helpers: i_mmap_tree_lock_write/unlock_write
-- New vm_area_struct.tree_idx field for sibling tree selection
-- Updated i_mmap_lock_read/write semantics acquiring all per-tree locks
-- Updated lock ordering notes for split tree configuration
-- Updated page table freeing section for split tree scenario
+The slab_debug parser rejects H without U, but kmem_cache_create()
+callers may also pass debug flags directly. Clear SLAB_STORE_HISTORY
+whenever SLAB_STORE_USER is not present so caches cannot end up
+reporting store_history without any user tracking storage.
 
-Signed-off-by: Huang Shijie <huangsj@hygon.cn>
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- Documentation/mm/process_addrs.rst | 63 +++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 14 deletions(-)
+ mm/slub.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
-index 851680ead45f..4aed3100b249 100644
---- a/Documentation/mm/process_addrs.rst
-+++ b/Documentation/mm/process_addrs.rst
-@@ -60,6 +60,15 @@ Terminology
-   :c:func:`!i_mmap_[try]lock_write` for file-backed memory. We refer to these
-   locks as the reverse mapping locks, or 'rmap locks' for brevity.
+diff --git a/mm/slub.c b/mm/slub.c
+index 2dfa8af00a49..931e6d04ba2b 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -341,6 +341,14 @@ static inline unsigned int user_tracking_size(struct kmem_cache *s)
+ 	return nr_user_tracks(s) * sizeof(struct track);
+ }
  
-+  When :c:macro:`!CONFIG_SPLIT_I_MMAP` is enabled, the file-backed i_mmap tree
-+  is split into multiple sibling trees (one per NUMA node or a number based on
-+  CPU count), each with its own :c:type:`!struct i_mmap_tree` containing a
-+  red/black interval tree and a :c:type:`!struct rw_semaphore`. In this
-+  configuration, :c:func:`!i_mmap_lock_read` and :c:func:`!i_mmap_lock_write`
-+  acquire all per-tree locks, while VMA insert/remove operations use the
-+  per-tree granularity :c:func:`!i_mmap_tree_lock_write` to lock only the
-+  relevant sibling tree, significantly reducing lock contention.
++static inline slab_flags_t sanitize_user_tracking_flags(slab_flags_t flags)
++{
++	if ((flags & SLAB_STORE_HISTORY) && !(flags & SLAB_STORE_USER))
++		flags &= ~SLAB_STORE_HISTORY;
 +
- We discuss page table locks separately in the dedicated section below.
- 
- The first thing **any** of these locks achieve is to **stabilise** the VMA
-@@ -230,12 +239,16 @@ These are the core fields which describe the MM the VMA belongs to and its attri
-                                                            Updated under mmap read lock by
-                                                            :c:func:`!task_numa_work`.
-    :c:member:`!vm_userfaultfd_ctx`   CONFIG_USERFAULTFD    Userfaultfd context wrapper object of    mmap write,
--                                                           type :c:type:`!vm_userfaultfd_ctx`,      VMA write.
--                                                           either of zero size if userfaultfd is
--                                                           disabled, or containing a pointer
--                                                           to an underlying
--                                                           :c:type:`!userfaultfd_ctx` object which
--                                                           describes userfaultfd metadata.
-+                                                            type :c:type:`!vm_userfaultfd_ctx`,      VMA write.
-+                                                            either of zero size if userfaultfd is
-+                                                            disabled, or containing a pointer
-+                                                            to an underlying
-+                                                            :c:type:`!userfaultfd_ctx` object which
-+                                                            describes userfaultfd metadata.
-+   :c:member:`!tree_idx`             CONFIG_SPLIT_I_MMAP   The index of the sibling i_mmap tree     Written once on
-+                                                            that this VMA belongs to, set at         initial map.
-+                                                            VMA creation time based on the NUMA
-+                                                            node or the smallest sibling tree.
-    ================================= ===================== ======================================== ===============
- 
- These fields are present or not depending on whether the relevant kernel
-@@ -247,12 +260,18 @@ configuration option is set.
-    Field                               Description                               Write lock
-    =================================== ========================================= ============================
-    :c:member:`!shared.rb`              A red/black tree node used, if the        mmap write, VMA write,
--                                       mapping is file-backed, to place the VMA  i_mmap write.
--                                       in the
--                                       :c:member:`!struct address_space->i_mmap`
--                                       red/black interval tree.
-+                                        mapping is file-backed, to place the VMA  i_mmap write (or per-tree
-+                                        in the                                    i_mmap write when
-+                                        :c:member:`!struct address_space->i_mmap` :c:macro:`!CONFIG_SPLIT_I_MMAP`
-+                                        red/black interval tree (or one of the    is set).
-+                                        sibling trees when
-+                                        :c:macro:`!CONFIG_SPLIT_I_MMAP`
-+                                        is enabled).
-    :c:member:`!shared.rb_subtree_last` Metadata used for management of the       mmap write, VMA write,
--                                       interval tree if the VMA is file-backed.  i_mmap write.
-+                                        interval tree if the VMA is file-backed.  i_mmap write (or per-tree
-+                                                                                  i_mmap write when
-+                                                                                  :c:macro:`!CONFIG_SPLIT_I_MMAP`
-+                                                                                  is set).
-    :c:member:`!anon_vma_chain`         List of pointers to both forked/CoW’d     mmap read, anon_vma write.
-                                        :c:type:`!anon_vma` objects and
-                                        :c:member:`!vma->anon_vma` if it is
-@@ -490,6 +509,16 @@ There is also a file-system specific lock ordering comment located at the top of
- Please check the current state of these comments which may have changed since
- the time of writing of this document.
- 
-+.. note:: When :c:macro:`!CONFIG_SPLIT_I_MMAP` is enabled, the single
-+   ``mapping->i_mmap_rwsem`` is replaced by an array of per-tree locks
-+   ``mapping->i_mmap[i]->rwsem``. The lock ordering positions of
-+   ``mapping->i_mmap_rwsem`` above apply to each per-tree lock
-+   equivalently. VMA insert/remove operations acquire only the relevant
-+   per-tree lock via :c:func:`!i_mmap_tree_lock_write`, while operations
-+   that require all trees to be locked (such as
-+   :c:func:`!unmap_mapping_range`) acquire all per-tree locks via
-+   :c:func:`!i_mmap_lock_write` or :c:func:`!i_mmap_lock_read`.
++	return flags;
++}
 +
- ------------------------------
- Locking Implementation Details
- ------------------------------
-@@ -704,11 +733,15 @@ traversed or referenced by concurrent tasks.
+ #ifdef SLAB_SUPPORTS_SYSFS
+ static int sysfs_slab_add(struct kmem_cache *);
+ #else
+@@ -1910,7 +1918,7 @@ parse_slub_debug_flags(const char *str, slab_flags_t *flags, const char **slabs,
+ 	if ((*flags & SLAB_STORE_HISTORY) && !(*flags & SLAB_STORE_USER)) {
+ 		if (init)
+ 			pr_err("slab_debug option 'H' requires 'U'. skipped\n");
+-		*flags &= ~SLAB_STORE_HISTORY;
++		*flags = sanitize_user_tracking_flags(*flags);
+ 	}
+ check_slabs:
+ 	if (*str == ',')
+@@ -2052,7 +2060,7 @@ slab_flags_t kmem_cache_flags(slab_flags_t flags, const char *name)
  
- It is insufficient to simply hold an mmap write lock and VMA lock (which will
- prevent racing faults, and rmap operations), as a file-backed mapping can be
--truncated under the :c:struct:`!struct address_space->i_mmap_rwsem` alone.
-+truncated under the :c:struct:`!struct address_space->i_mmap_rwsem` alone
-+(or, when :c:macro:`!CONFIG_SPLIT_I_MMAP` is enabled, under all per-tree
-+``mapping->i_mmap[i]->rwsem`` locks acquired via
-+:c:func:`!i_mmap_lock_write`).
+ 			if (!strncmp(name, iter, cmplen)) {
+ 				flags |= block_flags;
+-				return flags;
++				return sanitize_user_tracking_flags(flags);
+ 			}
  
- As a result, no VMA which can be accessed via the reverse mapping (either
- through the :c:struct:`!struct anon_vma->rb_root` or the :c:member:`!struct
--address_space->i_mmap` interval trees) can have its page tables torn down.
-+address_space->i_mmap` interval trees, or the sibling trees when
-+:c:macro:`!CONFIG_SPLIT_I_MMAP` is enabled) can have its page tables torn down.
+ 			if (!*end || *end == ';')
+@@ -2061,7 +2069,7 @@ slab_flags_t kmem_cache_flags(slab_flags_t flags, const char *name)
+ 		}
+ 	}
  
- The operation is typically performed via :c:func:`!free_pgtables`, which assumes
- either the mmap write lock has been taken (as specified by its
-@@ -729,7 +762,9 @@ cleared without page table locks (in the :c:func:`!pgd_clear`, :c:func:`!p4d_cle
- .. note:: It is possible for leaf page tables to be torn down independent of
-           the page tables above it as is done by
-           :c:func:`!retract_page_tables`, which is performed under the i_mmap
--          read lock, PMD, and PTE page table locks, without this level of care.
-+          read lock (or all per-tree ``mapping->i_mmap[i]->rwsem`` locks in
-+          read mode when :c:macro:`!CONFIG_SPLIT_I_MMAP` is enabled), PMD, and
-+          PTE page table locks, without this level of care.
- 
- Page table moving
- ^^^^^^^^^^^^^^^^^
+-	return flags | slub_debug_local;
++	return sanitize_user_tracking_flags(flags | slub_debug_local);
+ }
+ #else /* !CONFIG_SLUB_DEBUG */
+ static inline void setup_object_debug(struct kmem_cache *s, void *object) {}
 -- 
-2.53.0
-
+2.50.1 (Apple Git-155)
 
