@@ -1,244 +1,153 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD67348A2D0;
-	Thu, 11 Jun 2026 18:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781203033; cv=none; b=PDMgK7l0UhoZK8Mqw6Bnc1jy40WfvxIdKkU3SRwuZdwRtSppzT3DYEX37DgIfVMi+EhxYaAMdnmS7SXprzneTKBNu+dTJAQdBfrW/mH2lyqrZ0WyWC9NLf5LVUHjlG7pX7fN4hPouE6D4JzEKEw3QSh8IO89ngoQG0OalyoTwn8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781203033; c=relaxed/simple;
-	bh=xdT3L8Dv1uqNF2Q7l8GE7prCeJm1fbeqrupCUwjLkYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GoNmxS/rXygotdK5iSpa8Qjew/EEluJ70yK8J/9s9EP7HYPlweJkW7U9LI4v92MDIDlysc0fq4T+GRa7NE7lVYscX9Jk6kvPFh/LkphvFNzRsrgSP7lWnvkFuO5WuIsF8tpXe9vxmF8gXEqgfTXaILmsrAU/dChq8arQX4elT34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dDcc08x0; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yHxSM7TA; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634D54C956C
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 18:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781203644; cv=pass; b=AnKRoHKnM9nQltzU9u+L6q0nqZD5HhbmflVLdeWf/f95Ytl9qwqeTc22L3HtC26LSzFbtB47D93dGmqa8JTkyyinGhMdZglGqzzxSp9r6mtmxZri84APEQ9dhFSRaaak9Yv2NCaNA7BIuf/xzP3Xpq5Si6m/Y3bsu1SUt1NcTk8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781203644; c=relaxed/simple;
+	bh=MrFHJAtiz3l/SoMxwQsRd+iR3vzlfSRyOn6rVwZE7gw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l/0QFCOgAWWg6Pz38oaGWEBXyNqr6d+s/4RnAGLs2XAEiupSPty8tZxnivemQq/d+UZ/L61jzeD1Eq5PEldVCdiR0OTApSTIqFyfbFsC/+mTGA+0Hfi8J4hO/oAbOaLJqiOjIvvPHRpNbc39uRbzEqVxMzHiyNeeMYZHqAZaIFQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GlOyrWWX; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dDcc08x0";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yHxSM7TA"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gbrwN2g2kz9tWv;
-	Thu, 11 Jun 2026 20:37:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781203028;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
-	b=dDcc08x0dcrKswHlCVxuROso1L8H2qo5xxLwb2GdvV2xY4AFA5F9RTOimgpKn5pxzpRufh
-	tuzqlDg4A/rMg7HKbaHXE3Vn8IMzlSkyObAvpKbFCrjOXigEghkfPqHyz21cbPm/v+RB2l
-	lKbNlYW77r7imN2qll75tefdhZS8Z9cFOW+c5+P8mS+wPK4d4VwSyRmVXFe92peAB8WLng
-	A5/8uiQVtk2fibFWyO1c3OU9AeUBbNZgE1rYZdsN/u0W8kE0k69/i6qInDr/o2vEse8Kkc
-	7lH0fpN/C1Hu12dfoxky+PSj7B3F9OEOn08lRas9tdnimqiR3kdSw4VZBudakg==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781203022;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
-	b=yHxSM7TAtkgtiG7evw5aBg+nfR1e5mMA5TA7y6XTlvnRHkWVkwOgn7nzTTVwgiJfxrlSPw
-	Fq6b2wdI56NyVbncWKl66lO/iR9AszePqYiGiIJS1Lnjbk/DbXPERUSPgNsiAwW8Xv8gBr
-	9sJTd5vM8OCzoTh48DBrJTg+X4eYfzigRIXzj5phRIFhp3mxRKM/hXHh9qnPi3MkMWml1z
-	9AbAxExj8Rl6A86dy7oZMZIJIUm83Z4Y6TQoBFXIF9dNdlS3J1vNIZLdCAFK8O2yqXcnEj
-	+bODCeBRbhc1fQWZrgL1UmtZcarxtrM5WqAJEGAWdVgLtWZN++53G17Pw0dPfw==
-To: Vineet Gupta <vgupta@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
-	linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
-	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT))
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH] Documentation: arch: fix brackets
-Date: Thu, 11 Jun 2026 20:35:20 +0200
-Message-ID: <20260611183525.153058-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GlOyrWWX"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51765531803so106011cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 11:47:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781203642; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Si0ct6uFS7P0n+jQBPl+kgdAEIxuKwHKxkZmtM+l+MSyCAhoeZrlKT2GPuDdmtazWW
+         Hg4LP6DuZZe2rWcdRex0+cYpqyKq3uhxupehRSmQdoMC3VvQ8cyMwKUkGjaXwCWR86/X
+         AG9TB1gz30kM5DjM0Bumg8oDn7PKKQVfm/7NxZFmfLpE4kAXuAUE4ycJIS686+XQXB6Q
+         BMAgYowTMnpRTz616E65E01EM0uvCq+Nz8zdNotrewKjHVXSByQDJ9XNWn2NXvUl/dYQ
+         CV1VHe5U2Xozk4kzeCmgZt/buygqi1ipW2GpOj8rKezd9lBY1NQijata4bxC0PiryIKN
+         jTnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MrFHJAtiz3l/SoMxwQsRd+iR3vzlfSRyOn6rVwZE7gw=;
+        fh=O/dO05ADQ+lFiv7tZ5dHx5rnt5P/dNXvLUm5J7pTC7I=;
+        b=fy8q0aa8MjbobKulKqo/twgWzUXse7pYGEt0wHqUXbOK78qZZx0+BgEPCuuVYn9sm6
+         XwjAhxpfVHELHTfAbplE56QBgMIuHcI7xOoT5cB0dVG7xkAp/XQKqajMbDkjCbDLJ6p2
+         8qr+Kr4Dci4rPOvfLY02/P4AJ8Brtsxp/+LtK5xCJXZ0GKlO3pKgdKdgHMrtYfSduf1F
+         fdJKcvCM3u8EGsvp3sDWhm+LpQm6O9MZl9rveQHWMh4JPGXwILinavlS4yG8xo3y6+4/
+         XfLlte7Ouh6KKw4H0OKhONQLrCYGud6bnozVUH5FkU+T49XPEqrAVN9J3b4lj7W2zF/z
+         TDEg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781203642; x=1781808442; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MrFHJAtiz3l/SoMxwQsRd+iR3vzlfSRyOn6rVwZE7gw=;
+        b=GlOyrWWXyljN57w0qcrCOHSnEEGulh0DSdQKHSXkgJMO18VmFRkrb33ghtMLuUR6h4
+         KaaR//NRqeu1LIQWvgvTFx76WEHDAXx50Dp74g0WlagMa1KG0TOd3ZnvohTemqpTQnky
+         X2WuLNAUN/WnMlaxn+DdQBUU0PpYoD1T85N40ObuQih5PIhPJL0e0RgrG51TBYS+fPi0
+         rBeRa4cEUQy2rw9CwjehyYGysbvN3jNeK7yZaRR16J5UqIynngIpS7v+WhXhhvNMT2kL
+         ZRFomvexRap8ulrCfL6u8ZZKSXXVH4GeL1ZiV79lv7n/t9KtzEvHpzPPkOKMQIkjcX+7
+         I2Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781203642; x=1781808442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MrFHJAtiz3l/SoMxwQsRd+iR3vzlfSRyOn6rVwZE7gw=;
+        b=sfnNwnHDxdUkw7gabUO1b8Z8RjtW4+SszAidC3/n3epCk6PgnVXKSqPXvF4ycV0EFc
+         PgeyskOM2a6XGhDj7oqyWEDZEPpUY1G8vpUkw4QQkMkC/V5gyKyCjASt1tYdNdfs9vGc
+         FFyP4bwKNIZ4LtWkp0bzA0/y1YTOYPsH3J0EzT9ufgLoa/Js0v9I7B598Lhn0dxh1WiG
+         /1JtzOJEad/WIa8XEV2a3kl5wQDHDCgKY4O/GP4H41yUblsDaM/bKC0xzDkGDuj3vEvX
+         x4I8Ko6ndAVeV7ggf1sCbvhtda6Z790ab1zedqj/BQr1yJ28N2D0fFhFlTwM4NNVRie6
+         0CJA==
+X-Forwarded-Encrypted: i=1; AFNElJ/BJUt19SC59ipRTSta6WIJ1DO2VZjQymGiJT/CqBH3l7KBeiaSoGq+8u7v+jxCLBKeDj6dOXya6U4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAqGupFiq2cx8h/52cyjPmjBn9hqYuNdBenSHrl/scC/5JCBbC
+	+IPM+sx/ShZz7D/A2IILOPPM4+FzlqzlHpzOeFDY3dSs1K4SeIKAQEIZ1BzsBnLAmBxpsK3hwik
+	8XSHSY9oIygL0SZuVsfJNQLjvx84yklXuYnsTugKh
+X-Gm-Gg: Acq92OEzm4PMN8+cjhx62Xr5IkZ6yieQOJriYJhZZ517rTatU955F00J/QfVHPYIcvy
+	7VlIsp9VzFbzX07co8ImidZ3KHJfHoMbz20qTvcSgHksVCrHkIcG34CWlNGWJ/X+UGl4BG3LLwc
+	171CyvmF8XBToaQtIWiMk3M0o1gY1zwHKOxUpTA2cihK+DbS//HAhhD+tX0ny1QJ7AA1keU8DHx
+	2lN76uyeYqrfPN1LOfQBFdsh7GB8rLbb4Gp4Dljhxzst0hvToEtaxCR//7Ws7OIIoW2EL88XFOR
+	v1h6fyYdu2ukwk9PfvA/XKh2nXTSlgVlZSP1dhvr
+X-Received: by 2002:ac8:7f96:0:b0:517:38aa:c2b3 with SMTP id
+ d75a77b69052e-517fb07577dmr1124901cf.14.1781203641487; Thu, 11 Jun 2026
+ 11:47:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: f6zk6t8i7udhsfuxo6bwkb9axkpyzqtj
-X-MBO-RS-ID: 29289ebd505fa1394bb
+References: <20260526023515.288829-1-rick.p.edgecombe@intel.com> <20260526023515.288829-3-rick.p.edgecombe@intel.com>
+In-Reply-To: <20260526023515.288829-3-rick.p.edgecombe@intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Thu, 11 Jun 2026 11:47:09 -0700
+X-Gm-Features: AVVi8CfMS_qzgZKmmT0RbAyGSJmggudRfRKARlOu3o-uoZD12JuItpxRuWOmlpo
+Message-ID: <CAGtprH-TzqYbwp0_8ah0VJcccOwHnUz11Ve2Fk8Y-zwqqGFMsA@mail.gmail.com>
+Subject: Re: [PATCH v6 02/11] x86/virt/tdx: Allocate page bitmap for Dynamic PAMT
+To: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
+	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
+	pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org, x86@kernel.org, 
+	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Binbin Wu <binbin.wu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add missing and remove needless parentheses, brackets and curly braces.
+On Mon, May 25, 2026 at 7:35=E2=80=AFPM Rick Edgecombe
+<rick.p.edgecombe@intel.com> wrote:
+>
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+> The TDX Physical Address Metadata Table (PAMT) holds data about the
+> physical memory used by TDX, and must be allocated by the kernel during
+> TDX module initialization.
+>
+> The exact size of the required PAMT memory is determined by the TDX modul=
+e
+> and may vary between TDX module versions. Currently it is approximately
+> 0.4% of the system memory. This is a significant commitment, especially i=
+f
+> it is not known upfront whether the machine will run any TDX guests.
+>
+> Each memory region that the TDX module might use needs three separate PAM=
+T
+> allocations. One for each supported page size (1GB, 2MB, 4KB). The
+> TDX module supports a new feature designed to reduce PAMT overhead called
+> Dynamic PAMT. At a high level, Dynamic PAMT still has the 1GB and 2MB
+> levels allocated on TDX module initialization, but the 4KB level is
+> allocated dynamically during runtime.
+>
+> However, in the details, Dynamic PAMT still needs some smaller per 4KB
+> page scoped data (currently it is 1 bit per page). The TDX module exposes
+> the number of bits as a separate piece of metadata than the 4KB static
+> allocation for regular PAMT. Although the size is enumerated differently,
+> it is handed to the TDX module in the same way the 4KB page size PAMT
+> allocation is for regular, non-dynamic PAMT.
+>
+> Begin to implement Dynamic PAMT in the kernel by reading the bits-per-pag=
+e
+> needed for Dynamic PAMT. Calculate the size needed for the bitmap,
+> and use it instead of the 4KB size determined for normal PAMT, in the cas=
+e
+> of Dynamic PAMT.
+>
+> Unlike the existing metadata reading code, this code is not generated by =
+a
+> script. So adjust the comment to be more generic. Also, start to adopt a
+> more normal kernel code style without the tenary statements and if
+> conditionals assignments that the auto generated code has.
+>
+> Assisted-by: Sashiko:claude-opus-4-6
+> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/arch/arc/arc.rst                 |  2 +-
- .../arm/samsung/clksrc-change-registers.awk    |  2 +-
- Documentation/arch/arm/vlocks.rst              |  4 ++--
- .../arch/arm64/memory-tagging-extension.rst    |  2 +-
- Documentation/arch/powerpc/vas-api.rst         |  2 +-
- Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
- Documentation/arch/sparc/oradax/oracle-dax.rst |  3 ++-
- 7 files changed, 17 insertions(+), 16 deletions(-)
+Kirill's comment make sense to me.
 
-diff --git a/Documentation/arch/arc/arc.rst b/Documentation/arch/arc/arc.rst
-index 6c4d978f3f4e..553851f43be7 100644
---- a/Documentation/arch/arc/arc.rst
-+++ b/Documentation/arch/arc/arc.rst
-@@ -36,7 +36,7 @@ Important note on ARC processors configurability
- 
- ARC processors are highly configurable and several configurable options
- are supported in Linux. Some options are transparent to software
--(i.e cache geometries, some can be detected at runtime and configured
-+(i.e cache geometries), some can be detected at runtime and configured
- and used accordingly, while some need to be explicitly selected or configured
- in the kernel's configuration utility (AKA "make menuconfig").
- 
-diff --git a/Documentation/arch/arm/samsung/clksrc-change-registers.awk b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
-index 7be1b8aa7cd9..48464397088c 100755
---- a/Documentation/arch/arm/samsung/clksrc-change-registers.awk
-+++ b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
-@@ -163,4 +163,4 @@ BEGIN {
-     }
- }
- 
--// && ! /clksrc_clk.*=.*{/ { print $0 }
-+// && ! /clksrc_clk.*=.*{/ { print $0 }}
-diff --git a/Documentation/arch/arm/vlocks.rst b/Documentation/arch/arm/vlocks.rst
-index 737aa8661a21..b0ac33263086 100644
---- a/Documentation/arch/arm/vlocks.rst
-+++ b/Documentation/arch/arm/vlocks.rst
-@@ -102,10 +102,10 @@ Features and limitations
- 	if (I_won) {
- 		/* we won the town election, let's go for the state */
- 		my_state = states[(this_cpu >> 8) & 0xf];
--		I_won = vlock_lock(my_state, this_cpu & 0xf));
-+		I_won = vlock_lock(my_state, this_cpu & 0xf);
- 		if (I_won) {
- 			/* and so on */
--			I_won = vlock_lock(the_whole_country, this_cpu & 0xf];
-+			I_won = vlock_lock(the_whole_country, this_cpu & 0xf);
- 			if (I_won) {
- 				/* ... */
- 			}
-diff --git a/Documentation/arch/arm64/memory-tagging-extension.rst b/Documentation/arch/arm64/memory-tagging-extension.rst
-index 679725030731..e6fe428f0e2a 100644
---- a/Documentation/arch/arm64/memory-tagging-extension.rst
-+++ b/Documentation/arch/arm64/memory-tagging-extension.rst
-@@ -222,7 +222,7 @@ programs should not retry in case of a non-zero system call return.
- address ABI control and MTE configuration of a process as per the
- ``prctl()`` options described in
- Documentation/arch/arm64/tagged-address-abi.rst and above. The corresponding
--``regset`` is 1 element of 8 bytes (``sizeof(long))``).
-+``regset`` is 1 element of 8 bytes (``sizeof(long)``).
- 
- Core dump support
- -----------------
-diff --git a/Documentation/arch/powerpc/vas-api.rst b/Documentation/arch/powerpc/vas-api.rst
-index a9625a2fa0c6..1d0d055356e3 100644
---- a/Documentation/arch/powerpc/vas-api.rst
-+++ b/Documentation/arch/powerpc/vas-api.rst
-@@ -293,7 +293,7 @@ Simple example
- 				//Format CRB request with compression or
- 				//uncompression
- 				// Refer tests for vas_copy/vas_paste
--				vas_copy((&crb, 0, 1);
-+				vas_copy(&crb, 0, 1);
- 				vas_paste(addr, 0, 1);
- 				// Poll on csb.flags with timeout
- 				// csb address is listed in CRB
-diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-index ef1a4c2bf08b..ef6088aeaa66 100644
---- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
-+++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
-@@ -457,7 +457,7 @@ bits set, and terminate at a CCB that has the Conditional bit set, but not the P
- Offset   Size   Field Description
-                 Bits         Field Description
-                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
--                             “Secondary Input Element Size”
-+                             “Secondary Input Element Size”)
-                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
-                 [9]          Padding Direction selector: A value of 1 causes padding bytes
-                              to be added to the left side of output elements. A value of 0
-@@ -656,7 +656,7 @@ Offset         Size            Field Description
-                                [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
-                                             Element Offsets”)
-                                [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
--                                            “Secondary Input Element Size”
-+                                            “Secondary Input Element Size”)
-                                [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
-                                [9:5]        Operand size for first scan criteria value. In a scan value
-                                             operation, this is one of two potential exact match values.
-@@ -793,13 +793,13 @@ Offset   Size   Field Description
-                 [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
-                              Element Offsets”)
-                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
--                             “Secondary Input Element Size”
-+                             “Secondary Input Element Size”)
-                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
-                 [9]          Reserved
-                 [8:0]        Test value used for comparison against the most significant bits
-                              in the input values, when using 2 or 3 byte input elements.
--8        8      Completion (same fields as Section 36.2.1.2, “Extract command”
--16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”
-+8        8      Completion (same fields as Section 36.2.1.2, “Extract command)”
-+16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”)
- 24       8      Data Access Control (same fields as Section 36.2.1.2, “Extract command”,
-                 except Primary Input Length Format may not use the 0x0 value)
- 32       8      Secondary Input, if used by Primary Input Format. Same fields as Primary
-@@ -880,7 +880,7 @@ Offset   Size   Field Description
-                                        [18:16]     Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
-                                                    Element Offsets”)
-                                        [15:14]     Secondary Input Element Size (see Section 36.2.1.1.4,
--                                                   “Secondary Input Element Size”
-+                                                   “Secondary Input Element Size”)
- 
- 
-                                                       524
-@@ -895,8 +895,8 @@ Offset   Size   Field Description
-                                                     causes padding bytes to be added to the right side of output
-                                                     elements.
-                                        [8:0]        Reserved
--        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”
--        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”
-+        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”)
-+        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”)
-         24             8               Data Access Control (same fields as Section 36.2.1.2, “Extract command”)
-         32             8               Secondary Bit Vector Input. Same fields as Primary Input.
-         40             8               Reserved
-@@ -949,7 +949,7 @@ Offset   Size   Field Description
-                                    [31]        If set, this CCB functions as a Sync command. If clear, this
-                                                CCB functions as a No-op command.
-                                    [30:0]      Reserved
--       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”
-+       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”)
-        16            46            Reserved
- 
- 36.2.2. CCB Completion Area
-diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
-index d1e14d572918..67867ea7be40 100644
---- a/Documentation/arch/sparc/oradax/oracle-dax.rst
-+++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
-@@ -438,7 +438,8 @@ that in user land::
- The output bitmap is ready for consumption immediately after the
- completion status indicates success.
- 
--Excer[t from UltraSPARC Virtual Machine Specification
-+Excer?t from UltraSPARC Virtual Machine Specification
-+i guess this is wrong, but i don't know what's correct
- =====================================================
- 
-  .. include:: dax-hv-api.txt
--- 
-2.54.0
-
+Reviewed-by: Vishal Annapurve <vannapurve@google.com>
