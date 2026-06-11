@@ -1,137 +1,275 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBD52571A9
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 02:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4247B3126D6
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 02:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781145449; cv=none; b=taF0I9RFE6+hQJt0eX/BAyhOzCks8Jb6/6QMJblTHBCEcf4utRLh3U+82OuPxTamPqFIOkA5Zc8EGd5MSpx8XDomVkoKG5uLPdzvUE7rRK30IkFDVBYR+lu7Rs4ogy0jgTwFoUsxOSG0qxlWD0ife4paaLmKERKupL+aZWwfDRE=
+	t=1781146800; cv=none; b=hFkdJLg+SLs6074SqTjKr6ppP/m3+9CbCb5x5aMHlHyV2rTN0/8yu9dMWzQ9KlXIkzpMMaUfi4d8Gfe8IKPhisAgoqhO+ROny5oxQUJyizOudepNgBoR1p1XwkNvJdYsvFpYbVyHujcdttSqKkAhbxY+AbiyU+wNNbh5fl6XzgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781145449; c=relaxed/simple;
-	bh=pIl+oGKJRW23Bb624XpDBUTR94UYRZy4fTNQdceZJT8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T71RG8N/P1uT9PdE2yXpV9hRoo8p8XSyhD+v1yVFjxiM+xbkJmY1DbpUAe1hSZNVsqOpzDfRdkf1qOSo6GZ5BsNg2emazv30R2/jrdkr5TktQkZ5sWdMzdBnShn/zUog92rS8CqyxObzLebHXefB+ZCACiUPvLS80mt+FQUKlFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xl3eHsWu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781146800; c=relaxed/simple;
+	bh=VXQtPS98erG3uINeejISc2Pvz0T6AF9YAdqN+flVs5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=vBfJ+OYrIm+iknorXGUWcaHHxKPiwoVOPuIqb2dHL1Bjq9luqJHvDTgkl52EGneayzVLdzzy1NCqmQu3fQSBj0ZAwQ0Ri/gV82n4XVxh8DQTS08Z8S28XCodXe4BNhnas21Tn+IlxHVOk64l9fxh3dFOGHegLFKn6EQbh2JVdeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m0rFJIjS; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xl3eHsWu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=k07kbwRe+IR+jWJJhnZwkgFUSqgCb4sP6kwXFBFu7qE=; b=xl3eHsWuALYuaq07L38ZH1MZ5v
-	S/Cv69TMn+FwaMZnr/dnnhVYM/89foS0KQ59WgyCSUG4SljRRfBIjx5I1zccwu7Kt/qJ1nIDOEIh3
-	N234xHjXObWOioxZeQW881SFJvN686mx5e849DP4FLK30sVKoFB8lCoCM2yHyRHU5/8f49c+yWzqO
-	lAezcSiFr9Y5I2xxc0fvoodcdnv0Q3G+8RgUo0Czv5GQ7uoeRkTmOJQe7gOfHYHQm0XlsYLFxr381
-	jFbh1Kd+syD7s4PG2ffhPUEXwu9SM28ApOw7XTqcKIiF3n3AVJrG93CTmPjEIBAdtlYG5vaqGoREi
-	X3VQG59Q==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXVIH-00000008a2e-0mdD;
-	Thu, 11 Jun 2026 02:37:21 +0000
-Message-ID: <e030cfac-7f01-4b8e-9cb4-c76a24009315@infradead.org>
-Date: Wed, 10 Jun 2026 19:37:20 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0rFJIjS"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8419ab3a297so3329912b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Jun 2026 19:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781146798; x=1781751598; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VXQtPS98erG3uINeejISc2Pvz0T6AF9YAdqN+flVs5c=;
+        b=m0rFJIjSMq5RE6Yz9DcsY+d6M1PU0s/39VNmzoSadCt59dLViccucbLslFDhvR1gLW
+         sSh8hne7QACc+/r+2xoe4e/nwpKEDmupcIwNf+L1C77taf6uX+lKsqgNS1u0yTmntv1g
+         Gcf+nH+Qaub0ObVSNBFt4dfbwXSh4HPU34ZxpTCrCe0Va2f2PRr2omjc6ghpof4VIoTb
+         iYM38z1KRnJfK4mgmSGYt9pjb/NuAGSn63ogBcviLRnZAArnqfUyoxeHIzX4/HUF/QlY
+         Iy9oP04AW/uaQawgzcFGvpDQ5Asmam891apIOAVaRzSyETGFyB9fpEX7sbw+je7H1/yc
+         ugOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781146798; x=1781751598;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VXQtPS98erG3uINeejISc2Pvz0T6AF9YAdqN+flVs5c=;
+        b=EnzPqKm/FaD6QTXqdhfY2w27yXYslKs1ACGwq8VcZXcQhQwc9o6VUMhzopPYTnazOK
+         3LguJtT3gFqjSLm4Qk24P2M0X97/4dnuSFTvHmCmJL0oi+uW58GcURKAVhuGsPY2QYF0
+         nvfzmw1+eYpBw+9Eu16tw0g0cXhiMLelr4L0qQKZTmIgx+oDeCK+KZbVLgqWTnrMB5Zy
+         FVhRDEHfsALUZSpRBjfZftwk4QKW8ZQsxMdbQgGb0xKFlddMVSAg7+nfgrGWoZrffhYd
+         Xyi2EFww0EpNU5jtXgSf+lXDE5q136y2cAcyaHl66C7X/SZvjZvbJc03Pqm8U+Gk+ctp
+         1s6A==
+X-Forwarded-Encrypted: i=1; AFNElJ9+mmEU81GDeHytcKCa9v97C5Cg3MD30oQYJ6YJxfL/mLKpxd79xd3kqHSYN8+GiVotv1zlXdsvQqU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+PyMhohe5+m+4NVYLCktWVRgwCrtzGcdZ1ElyNHg/82+ez4rH
+	biTlEDKFHF5mHT/9mrnV+PSelI9esku123iVKbR0bO+leUwlEnXEqKD5
+X-Gm-Gg: Acq92OEVW474nih/U51q6YxWnXaqKU5KzwdVWRMem56fbkVyFxOAwq4sQQWnLvayKcu
+	Fvx1U0ImkSmt8jYirWSYeCPfVkZTa9eMuQy+PqHU7nB/uxxS+dXmmItOUmx1jvUGyhcdenerhbH
+	G1ewMvh96zIAzN9RujQiMyigRZ6jXcp+UgMQ+EIQXVezOzmtxBtZwHItzy6MlmytNTbLidKXODn
+	j1ABXlaGu/6mZ8CJCqh0iMWpRZCQbNaoI9R7SRHTleno3TpQKF/2kWLJIGNZGU9DDqrWbXde5gZ
+	f8GYKqq75Ix4YzsHd1vV9Luf0yHXPIrvrSqaK34l4GUg5V4udG0SuKglq4vAl8qU0o4L2SDB5kS
+	ht6Cz3Etxf9nYYrwj3DDSfktgNmTVrC6gfgdJGUmzyc7ydeazC3m70gcOQczEmgF9dROMa8IeXo
+	vle46C6x05B8jYT8AEaA7Z/SVuOPdCbpmPUApQsw==
+X-Received: by 2002:a05:6a00:3988:b0:82c:ebae:3cb with SMTP id d2e1a72fcca58-84336df67c2mr793546b3a.43.1781146798371;
+        Wed, 10 Jun 2026 19:59:58 -0700 (PDT)
+Received: from dev ([163.43.103.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84337beaab7sm264039b3a.25.2026.06.10.19.59.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 19:59:57 -0700 (PDT)
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+To: andrea.mayer@uniroma2.it
+Cc: Yuya Kusakabe <yuya.kusakabe@gmail.com>,
+	davem@davemloft.net,
+	edumazet@google.com,
+	dsahern@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	justin.iurman@gmail.com,
+	shuah@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	stefano.salsano@uniroma2.it,
+	ahabdels@cisco.com
+Subject: Re: [PATCH v2 2/7] seg6: add End.M.GTP4.E behavior
+Date: Thu, 11 Jun 2026 11:59:46 +0900
+Message-ID: <20260611025946.1065565-1-yuya.kusakabe@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260527030907.52bc613c27be26d6c1d59e36@uniroma2.it>
+References: <20260527030907.52bc613c27be26d6c1d59e36@uniroma2.it>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/{it_it,sp_SP,zh_CN,zh_TW}: update references to
- removed CONFIG_DEBUG_SLAB
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Avadhut Naik <avadhut.naik@amd.com>,
- Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Jonathan Corbet
- <corbet@lwn.net>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Hu Haowen <2023002089@link.tyut.edu.cn>
-References: <20260611010014.412841-1-enelsonmoore@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260611010014.412841-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Hi Andrea,
 
+Thank you for the detailed review. I intend to address every point
+below in the rework agreed in the cover letter thread (one RFC series
+per behavior, on a new lwtunnel encap type with its own SEG6_MOBILE_*
+attribute namespace); answers to your questions inline.
 
-On 6/10/26 6:00 PM, Ethan Nelson-Moore wrote:
-> CONFIG_DEBUG_SLAB was removed in commit 2a19be61a651 ("mm/slab: remove
-> CONFIG_SLAB from all Kconfig and Makefile"), but references to it
-> remained in documentation. The English documentation was updated to
-> refer to CONFIG_SLUB_DEBUG in commit 5969fbf30274 ("docs:
-> submit-checklist: structure by category"), but these translations were
-> never similarly updated. Update them.
-> 
-> Discovered while searching for CONFIG_* symbols referenced in the
-> kernel but not defined in any Kconfig file.
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> There are three issues with the End.M.GTP4.E UAPI behavior:
+>
+> (1) In the example, v4_mask_len = 32 and the src value is required but not
+> used.
+[...]
+> (2) With v4_mask_len < 32, the low bits of the IPv4 SA that the inbound
+> packet does not carry come from src.
+[...]
+> (3) With v4_mask_len < 32, the low bits of the IPv4 DA that the SID does
+> not carry are set to zero.
+[...]
+> Together with the IPv4 SA behavior in (2), does it make sense to support
+> v4_mask_len values other than 32?
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Agreed on all three, and no, I see no practical use for v4_mask_len
+values other than 32. I will drop both v4_mask_len and the src
+template from End.M.GTP4.E: the next version will recover the full
+32-bit IPv4 DA from the SID right after the locator, and the full
+32-bit IPv4 SA from the inbound IPv6 SA at bit offset
+v6_src_prefix_len (default 64), per RFC 9433 Figures 9 and 10. That
+leaves no required attribute whose value can be unused or partially
+discarded.
 
-> ---
->  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
->  Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
->  Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
->  Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/translations/it_IT/process/submit-checklist.rst b/Documentation/translations/it_IT/process/submit-checklist.rst
-> index 5bf1b4adebc1..c58d773fd297 100644
-> --- a/Documentation/translations/it_IT/process/submit-checklist.rst
-> +++ b/Documentation/translations/it_IT/process/submit-checklist.rst
-> @@ -122,7 +122,7 @@ Verificate il vostro codice
->  
->  1) La patch è stata verificata con le seguenti opzioni abilitate
->     contemporaneamente: ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -   ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->     ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->     ``CONFIG_PROVE_RCU`` e ``CONFIG_DEBUG_OBJECTS_RCU_HEAD``.
->  
-> diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rst b/Documentation/translations/sp_SP/process/submit-checklist.rst
-> index e7107cc97001..aedf55eb3b80 100644
-> --- a/Documentation/translations/sp_SP/process/submit-checklist.rst
-> +++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
-> @@ -76,7 +76,7 @@ y en otros lugares con respecto al envío de parches del kernel de Linux.
->      cualquier problema.
->  
->  12) Ha sido probado con ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``
->      ``CONFIG_PROVE_RCU`` y ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` todos
->      habilitados simultáneamente.
-> diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rst b/Documentation/translations/zh_CN/process/submit-checklist.rst
-> index 0e524f1c1af5..18411b426122 100644
-> --- a/Documentation/translations/zh_CN/process/submit-checklist.rst
-> +++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
-> @@ -65,7 +65,7 @@ Linux内核补丁提交检查单
->      :ref:`kernel-doc <kernel_doc_zh>` 并修复任何问题。
->  
->  12) 通过以下选项同时启用的测试： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->      ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
->  
-> diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
-> index a0cb91a6945f..06aa635a659c 100644
-> --- a/Documentation/translations/zh_TW/process/submit-checklist.rst
-> +++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
-> @@ -68,7 +68,7 @@ Linux內核補丁提交檢查單
->      :ref:`kernel-doc <kernel_doc_zh>` 並修復任何問題。
->  
->  12) 通過以下選項同時啓用的測試： ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
-> -    ``CONFIG_DEBUG_SLAB``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
-> +    ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
->      ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
->      ``CONFIG_PROVE_RCU`` 和 ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` 。
->  
+> This check cannot trigger at runtime.
+> seg6_mobile_v4_validate() already rejects v6_src_prefix_len > 96 at install
+> time, and the default (64) leaves p_bits at most 96.
+> If kept for defense in depth, or if you plan to reuse this helper
+> elsewhere, the silent return of 0 produces an outgoing IPv4 packet with SA
+> = 0.0.0.0 without any error.
+> Nit: the (unsigned int) cast on p_bits can be removed.
 
--- 
-~Randy
+Will fix: the range will be enforced only at build_state time with an
+extack message, so the data path helper cannot fail silently, and the
+cast will go away.
+
+> seg6_mobile_skb_prefix_bits() reads the matched route prefix length from
+> the FIB on every packet. [...]
+> Caching it in slwt->mobile_info at validate would let the data path read
+> minfo->locator_bits directly.
+[...]
+> The operator cannot configure the IPv4 DA to start at a position different
+> from where the route prefix ends. Is this intentional?
+
+It was, but it does not survive your first point: deriving the
+locator length from the matched route prefix couples the SID layout
+to the routing table and costs a per-packet FIB read. I will replace
+it with an explicit locator-length attribute (sr_prefix_len, validated
+at build_state time), which removes the per-packet rcu/container_of
+walk and the 128 fallback, and also decouples the IPv4 DA position
+from the route prefix, so one route can cover SIDs whose locator is
+longer than the route prefix.
+
+> Nit: skb_push() returns void * so the explicit casts on two of the three
+> calls are unnecessary.
+
+Will fix.
+
+> orig_dst may be NULL or stale. This is an NF_HOOK finish callback, and
+> Netfilter processing during NF_INET_PRE_ROUTING can drop or replace the
+> skb dst. skb->cb is not guaranteed to be untouched (IPCB/IP6CB aliases it).
+
+As agreed in the cover letter thread, the initial per-behavior series
+will drop the NF_HOOK split entirely: each behavior becomes a single
+input function with no skb->cb context and no finish callback. To be
+revisited on top of your seg6 netfilter fix.
+
+> Same four-sizeof sum as ovhd above. Move ovhd to function scope to avoid
+> the repetition.
+
+Will fix; with iptunnel_handle_offloads() below, the GSO-vs-MTU check
+itself goes away, leaving a single worst-case skb_cow_head().
+
+> input_action_end_m_gtp4_e_finish() never calls iptunnel_handle_offloads(),
+> so GSO of the outer UDP tunnel cannot operate correctly. The call should
+> go between skb_cow_head() and seg6_mobile_push_gtpu().
+[...]
+> The fix needs end-to-end testing to confirm it works correctly.
+
+Will do exactly as you describe. I will also add a GSO case to the
+per-behavior selftest so the fix gets end-to-end coverage.
+
+> The caller already reserves worst-case headroom, so the skb_cow_head()
+> calls inside seg6_mobile_push_gtpu() are always no-ops. Could they be
+> removed?
+
+Yes, will remove them and make the helper non-failing; the caller
+reserves the worst case once.
+
+> Does this mirror the drivers/net/gtp.c data-path convention
+> (src == dst == 2152)?
+
+Yes -- drivers/net/gtp.c transmits from its bound socket port, so its
+packets also leave with src == dst == 2152.
+
+> The comment says the packet "traverses NF_INET_LOCAL_OUT", but dst_output()
+> goes through NF_INET_POST_ROUTING only. [...]
+> IMHO, gateways that do protocol transformation can set rp_filter=0. Using
+> ip_route_input() + dst_input() and documenting the rp_filter requirement is
+> preferable to silently bypassing the FORWARD chain.
+
+Agreed; will switch to ip_route_input() + dst_input() so the rebuilt
+IPv4 packet traverses NF_INET_PRE_ROUTING and NF_INET_FORWARD like
+the other behaviors, and will document the rp_filter=0 requirement on
+the ingress device (code comment and the iproute2 man page).
+
+> The anonymous { } scope block should be avoided. rt and fl4 should be
+> declared at the function top. The same pattern appears in other patches
+> of this series.
+[...]
+> Variable declarations are not in reverse Christmas tree order. Same issue
+> in the other functions introduced by this patch.
+
+Will fix both across the series, splitting the egress half into its
+own helper with all declarations at function top.
+
+> This pskb_may_pull pulls the OUTER IPv6 header, not the inner T-PDU.
+> BAD_INNER is the wrong drop reason here. [...]
+> Same BAD_INNER misuse: ipv6_skip_exthdr() is parsing the OUTER IPv6
+> extension headers [...]
+
+Right. Per the cover letter thread the MUP-specific drop reasons will
+be left out of the initial per-behavior series; the behaviors will
+adopt the SRv6-level reasons from your prep series once it lands, and
+BAD_SID / BAD_GTPU will return with correct scoping at that point.
+
+> frag_off is not checked after ipv6_skip_exthdr(). [...] Adding
+> "if (frag_off) goto drop;" after the ipv6_skip_exthdr() call would handle
+> this.
+
+Will add the check, plus a fragmented-input case to the selftests as
+discussed in the cover letter thread.
+
+> Same seg6_mobile_get_validated_srh() bug described in my reply to patch 1.
+
+Will fix as discussed there: the helper will return a three-state
+result (absent / present / malformed) so an absent SRH is
+distinguishable from a malformed one, with HMAC validated whenever an
+SRH is present.
+
+> RFC 6040 Section 1.1 scopes the document to ECN field processing in
+> IP-in-IP tunnels. The patch cites it for DSCP and Hop Limit/TTL on a
+> protocol conversion (the IPv6 outer is popped, not encapsulated). Could
+> you clarify the RFC 6040 reference?
+
+You are right, the citation was over-scoped. I will drop the
+reference and describe the DSCP/ECN and Hop Limit to TTL propagation
+in plain words.
+
+> The inner_nfproto-based size selection appears several times:
+> pskb_may_pull, skb->protocol, and skb_set_transport_header. Computing a
+> local inner_hdr_len once inside the switch would replace all three. Same
+> pattern in every other behavior.
+
+Will fix in every behavior.
+
+> parse_nla_mobile_pdu_type() accepts the full 4-bit range 0..15, but the
+> function comment in seg6_mobile_push_gtpu() notes that only 0 (downlink)
+> and 1 (uplink) have a defined meaning.
+> RFC 9433 describes the E behaviors in the downlink packet flows (Section
+> 5.3.1.2 and 5.3.2.2). How are PDU Type 1 (uplink) and the reserved values
+> supposed to be used with the GTP*.E behaviors?
+> UAPI cannot be tightened after merge. IMHO, if a type is not supported
+> yet, the parser should reject it and notify userspace.
+
+Agreed. RFC 9433 describes End.M.GTP4.E only in the downlink toward
+the gNB (Sections 6.6 and 5.3.2.2), so the End.M.GTP4.E series will
+accept only PDU Type 0 (DL) and reject everything else with an
+extack message. PDU Type 1 (UL) belongs to End.M.GTP6.E, which
+regenerates uplink GTP-U in the drop-in mode (Section 5.4: "There is
+one instance of the End.M.GTP6.E SID per PDU type"), so it will be
+enabled by that series; the reserved values 2..15 stay rejected
+there too.
+
+Thanks,
+Yuya
