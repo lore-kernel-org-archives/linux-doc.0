@@ -1,310 +1,265 @@
-Received: from out28-76.mail.aliyun.com (out28-76.mail.aliyun.com [115.124.28.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2E6368D72;
-	Thu, 11 Jun 2026 05:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.76
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 091652BEFEB;
+	Thu, 11 Jun 2026 05:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781154329; cv=none; b=fPoya0vbukPcp0ZU535E8UWB97V1w0jkCHFf0Q96mHuYdrcJ3k9Afz9fGn8B7ZZr/OiGwc70uBYKGedIIVWkczmDnIbb07NTsCnEJU5FoaRBM9ui2bIsh7h2ReRGPazxUpEsVlaUMadH+vJB3TuEM2+Se2K87CEzK92+ZVGJvYA=
+	t=1781154924; cv=none; b=mecctDlEzbN7g+EFkOqdmCYo8NK774iZGnNA4thjbY/2ok2fRgKFymTd8qxrJf0RulN72Vqb//H9bexM/n4gUFOrma5vShRTKN75ZcWT0BUGGsR05E1LAFqzhBWFO234cZTbVKSDuWxZ7K2opm19td/vXm4xkknVQMw02iCW2cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781154329; c=relaxed/simple;
-	bh=X1F1eW+dcZHT6ymjcAhtxNh3PbMwqR1Jfrf8le2Jaa8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rS3ADfSnvPB0EhO5kFd44eFbT5SkELcqBEYECqIYhMzMmiyGtckGwdnCuV6lTPDm7+OaKIfB18MS4Qf41o2SpBad+JN6uoDTMBRduRQ68cNjVb5xMxgBEyFD2ELBqG9J0lbr76CODHFeJ49E4yDbSpvbJ1/7hjs9YF59PLvoY/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06712908|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00656462-0.000511196-0.992924;FP=16894548243514023442|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068016216;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=18;RT=18;SR=0;TI=SMTPD_---.hv5E8Ze_1781153372;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.hv5E8Ze_1781153372 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 11 Jun 2026 12:49:33 +0800
-From: "illusion.wang" <illusion.wang@nebula-matrix.com>
-To: dimon.zhao@nebula-matrix.com,
-	illusion.wang@nebula-matrix.com,
-	alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com,
-	netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	kuba@kernel.org,
-	horms@kernel.org,
-	linux-doc@vger.kernel.org,
-	pabeni@redhat.com,
-	vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com,
-	edumazet@google.com,
-	enelsonmoore@gmail.com,
-	skhan@linuxfoundation.org,
-	hkallweit1@gmail.com,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v18 net-next 10/11] net/nebula-matrix: add common/ctrl dev init/reinit operation
-Date: Thu, 11 Jun 2026 12:49:09 +0800
-Message-ID: <20260611044916.2383-11-illusion.wang@nebula-matrix.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260611044916.2383-1-illusion.wang@nebula-matrix.com>
-References: <20260611044916.2383-1-illusion.wang@nebula-matrix.com>
+	s=arc-20240116; t=1781154924; c=relaxed/simple;
+	bh=pH+sfdKdScjYmUghnyFVPRGy/nPtjO9y9SSPXvvHtmg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uuK3dAMTMWwhgkRQZipHtL1K8qArDsTNGD49E8L8IFnMv2zNQpaPhEvAKL5ob4dO7z6xRP9IVa4rdXo3rSJxLc6e3z0elngyYSwAnYY9nhKWTXzUQ3+eEJWghzZiLPuJUwBCee04fHTFz0FCk9/3/ahwsyuYBYLvo4QJM5IWbN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DKZeSYIW; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DKZeSYIW"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D3DE1CE0;
+	Wed, 10 Jun 2026 22:15:07 -0700 (PDT)
+Received: from [10.174.41.206] (unknown [10.174.41.206])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9D0D3FD88;
+	Wed, 10 Jun 2026 22:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781154912; bh=pH+sfdKdScjYmUghnyFVPRGy/nPtjO9y9SSPXvvHtmg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DKZeSYIWlSISVN8kuabxuHiC0PrAooIqi6wB9c8DowZp0v8z8DZk+uQpqcyUmOJhk
+	 if3aBfqMPt70Sg+RDV6ff8JFPVoMuB23AndBuvJ4zr4B7veefPH2DZBZY7elUji5Vc
+	 4y3CDenmfIYo5FcL3Q8GLF/EWi19doT7qsoeL3p8=
+Message-ID: <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
+Date: Thu, 11 Jun 2026 10:45:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
+To: Usama Arif <usama.arif@linux.dev>
+Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Andy Whitcroft <apw@canonical.com>
+References: <20260610111339.2465922-1-usama.arif@linux.dev>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20260610111339.2465922-1-usama.arif@linux.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Common Device Setup: nbl_dev_setup_common_dev configures mailbox queues,
-registers cleanup tasks, and MSI-X interrupt counter initialization.
-Control Device Setup (optional): nbl_dev_setup_ctrl_dev initializes
-the chip and configures all channel queues.
 
-Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
----
- .../nebula-matrix/nbl/nbl_core/nbl_dev.c      | 173 ++++++++++++++++++
- .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |  31 ++++
- 2 files changed, 204 insertions(+)
 
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-index 5deb21e35f8e..b520b9e922dd 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
-@@ -6,6 +6,160 @@
- #include <linux/pci.h>
- #include "nbl_dev.h"
- 
-+static void nbl_dev_init_msix_cnt(struct nbl_dev_mgt *dev_mgt)
-+{
-+	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
-+	struct nbl_msix_info *msix_info = &dev_common->msix_info;
-+
-+	msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num = 1;
-+}
-+
-+/* ----------  Channel config  ---------- */
-+static void nbl_dev_setup_chan_qinfo(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
-+{
-+	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-+	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
-+
-+	if (!chan_ops->check_queue_exist(priv, chan_type))
-+		return;
-+
-+	chan_ops->cfg_chan_qinfo_map_table(priv);
-+}
-+
-+static int nbl_dev_setup_chan_queue(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
-+{
-+	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-+	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
-+	int ret = 0;
-+
-+	if (chan_ops->check_queue_exist(priv, chan_type))
-+		ret = chan_ops->setup_queue(priv, chan_type);
-+
-+	return ret;
-+}
-+
-+static int nbl_dev_remove_chan_queue(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
-+{
-+	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-+	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
-+	int ret = 0;
-+
-+	if (chan_ops->check_queue_exist(priv, chan_type))
-+		ret = chan_ops->teardown_queue(priv, chan_type);
-+
-+	return ret;
-+}
-+
-+static void nbl_dev_register_chan_task(struct nbl_dev_mgt *dev_mgt,
-+				       u8 chan_type, struct work_struct *task)
-+{
-+	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-+
-+	if (chan_ops->check_queue_exist(dev_mgt->chan_ops_tbl->priv, chan_type))
-+		chan_ops->register_chan_task(dev_mgt->chan_ops_tbl->priv,
-+					     chan_type, task);
-+}
-+
-+/* ----------  Tasks config  ---------- */
-+static void nbl_dev_clean_mailbox_task(struct work_struct *work)
-+{
-+	struct nbl_dev_common *common_dev =
-+		container_of(work, struct nbl_dev_common, clean_mbx_task);
-+	struct nbl_dev_mgt *dev_mgt = common_dev->dev_mgt;
-+	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
-+
-+	chan_ops->clean_queue_subtask(dev_mgt->chan_ops_tbl->priv,
-+				      NBL_CHAN_TYPE_MAILBOX);
-+}
-+
-+/* ----------  Dev init process  ---------- */
-+static int nbl_dev_setup_common_dev(struct nbl_adapter *adapter)
-+{
-+	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-+	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
-+	struct nbl_dispatch_mgt *priv = dev_mgt->disp_ops_tbl->priv;
-+	struct nbl_common_info *common = dev_mgt->common;
-+	struct nbl_dev_common *common_dev;
-+	int ret;
-+
-+	common_dev = devm_kzalloc(&adapter->pdev->dev, sizeof(*common_dev),
-+				  GFP_KERNEL);
-+	if (!common_dev)
-+		return -ENOMEM;
-+	common_dev->dev_mgt = dev_mgt;
-+
-+	ret = nbl_dev_setup_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
-+	if (ret)
-+		return ret;
-+
-+	INIT_WORK(&common_dev->clean_mbx_task, nbl_dev_clean_mailbox_task);
-+	common->vsi_id = disp_ops->get_vsi_id(priv, NBL_VSI_DATA);
-+	if (common->vsi_id == U16_MAX) {
-+		ret = -ENOENT;
-+		goto err_cleanup;
-+	}
-+	ret = disp_ops->get_eth_id(priv, common->vsi_id, &common->eth_num,
-+			     &common->eth_id, &common->logic_eth_id);
-+	if (ret)
-+		goto err_cleanup;
-+	nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX,
-+				   &common_dev->clean_mbx_task);
-+
-+	dev_mgt->common_dev = common_dev;
-+	nbl_dev_init_msix_cnt(dev_mgt);
-+
-+	return 0;
-+err_cleanup:
-+	nbl_dev_remove_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
-+	return ret;
-+}
-+
-+static void nbl_dev_remove_common_dev(struct nbl_adapter *adapter)
-+{
-+	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-+	struct nbl_dev_common *common_dev = dev_mgt->common_dev;
-+
-+	if (!common_dev)
-+		return;
-+	nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX, NULL);
-+	cancel_work_sync(&common_dev->clean_mbx_task);
-+	nbl_dev_remove_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
-+}
-+
-+static int nbl_dev_setup_ctrl_dev(struct nbl_adapter *adapter)
-+{
-+	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-+	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
-+	int ret;
-+
-+	ret = disp_ops->init_chip_module(dev_mgt->disp_ops_tbl->priv);
-+	if (ret)
-+		return ret;
-+
-+	nbl_dev_setup_chan_qinfo(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
-+
-+	return 0;
-+}
-+
-+/*
-+ * This is intentional.  The qinfo registers are managed by the chip
-+ * firmware, not by the driver.  Setting driver status to false is the
-+ * designed teardown mechanism — it notifies the firmware, which then
-+ * performs its own cleanup of all per-PF state including the qinfo
-+ * registers.
-+ * An inverse helper would duplicate work that the firmware already
-+ * does, and would add error-path complexity for no benefit.  We keep
-+ * the deinit path minimal and rely on the firmware cleanup for
-+ * correctness, including in abnormal reset scenarios.
-+ */
-+static void nbl_dev_remove_ctrl_dev(struct nbl_adapter *adapter)
-+{
-+	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
-+	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
-+
-+	disp_ops->deinit_chip_module(dev_mgt->disp_ops_tbl->priv);
-+}
-+
- static struct nbl_dev_mgt *nbl_dev_setup_dev_mgt(struct nbl_common_info *common)
- {
- 	struct nbl_dev_mgt *dev_mgt;
-@@ -38,11 +192,30 @@ int nbl_dev_init(struct nbl_adapter *adapter)
- 	dev_mgt->chan_ops_tbl = chan_ops_tbl;
- 	adapter->core.dev_mgt = dev_mgt;
- 
-+	ret = nbl_dev_setup_common_dev(adapter);
-+	if (ret)
-+		return ret;
-+
-+	if (common->has_ctrl) {
-+		ret = nbl_dev_setup_ctrl_dev(adapter);
-+		if (ret)
-+			goto setup_ctrl_dev_fail;
-+	}
-+
- 	return 0;
-+
-+setup_ctrl_dev_fail:
-+	nbl_dev_remove_common_dev(adapter);
-+	return ret;
- }
- 
- void nbl_dev_remove(struct nbl_adapter *adapter)
- {
-+	struct nbl_common_info *common = &adapter->common;
-+
-+	if (common->has_ctrl)
-+		nbl_dev_remove_ctrl_dev(adapter);
-+	nbl_dev_remove_common_dev(adapter);
- }
- 
- /* ----------  Dev start process  ---------- */
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
-index 9b71092b99a0..b51c8a4424c5 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
-@@ -18,10 +18,41 @@
- #include "../nbl_include/nbl_def_common.h"
- #include "../nbl_core.h"
- 
-+#define NBL_STRING_NAME_LEN			32
-+
-+enum nbl_msix_serv_type {
-+	/* virtio_dev has a config vector_id, and the vector_id need is 0 */
-+	NBL_MSIX_VIRTIO_TYPE = 0,
-+	NBL_MSIX_NET_TYPE,
-+	NBL_MSIX_MAILBOX_TYPE,
-+	NBL_MSIX_TYPE_MAX
-+};
-+
-+struct nbl_msix_serv_info {
-+	char irq_name[NBL_STRING_NAME_LEN];
-+	u16 num;
-+	u16 base_vector_id;
-+	/* true: hw report msix, hw need to mask actively */
-+	bool hw_self_mask_en;
-+};
-+
-+struct nbl_msix_info {
-+	struct nbl_msix_serv_info serv_info[NBL_MSIX_TYPE_MAX];
-+};
-+
-+struct nbl_dev_common {
-+	struct nbl_dev_mgt *dev_mgt;
-+	struct nbl_msix_info msix_info;
-+	char mailbox_name[NBL_STRING_NAME_LEN];
-+	/* for ctrl-dev/net-dev mailbox recv msg */
-+	struct work_struct clean_mbx_task;
-+};
-+
- struct nbl_dev_mgt {
- 	struct nbl_common_info *common;
- 	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
- 	struct nbl_channel_ops_tbl *chan_ops_tbl;
-+	struct nbl_dev_common *common_dev;
- };
- 
- #endif
--- 
-2.47.3
+On 10/06/26 4:43 PM, Usama Arif wrote:
+> On Wed, 10 Jun 2026 05:35:43 +0100 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+> 
+>> Add some print formats for pgtable entries at any pgtable level. These new
+>> formats are %pp[g|4|u|m|t][d|e] i.e %ppgd, %pp4d, %ppud, %ppmd, and %ppte.
+>> These currently support both 32 bit and 64 bit pgtable entries that can be
+>> extended up to 128 bit when required.
+>>
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: David Hildenbrand <david@kernel.org>
+>> Cc: Lorenzo Stoakes <ljs@kernel.org>
+>> Cc: Petr Mladek <pmladek@suse.com>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Andy Whitcroft <apw@canonical.com>
+>> Cc: linux-mm@kvack.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Cc: linux-doc@vger.kernel.org
+>>
+>>  Documentation/core-api/printk-formats.rst | 19 ++++++++
+>>  lib/vsprintf.c                            | 58 +++++++++++++++++++++++
+>>  scripts/checkpatch.pl                     |  2 +-
+>>  3 files changed, 78 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+>> index c0b1b6089307..e69f91a9dd9d 100644
+>> --- a/Documentation/core-api/printk-formats.rst
+>> +++ b/Documentation/core-api/printk-formats.rst
+>> @@ -696,6 +696,25 @@ Rust
+>>  Only intended to be used from Rust code to format ``core::fmt::Arguments``.
+>>  Do *not* use it from C.
+>>  
+>> +Page Table Entry
+>> +----------------
+>> +
+>> +::
+>> +
+>> +        %p[pgd|p4dp|pud|pmd|pte]
+> 
+> s/p4dp/p4d to match others
+
+Will fix.
+> 
+> 
+>> +
+>> +Print page table entry at any level.
+>> +
+>> +Passed by reference.
+>> +
+>> +Examples for a 64 bit page table entry, given &(u64)0xc0ffee::
+>> +
+>> +        %ppte   0x0000000000c0ffee
+>> +        %ppmd   0x0000000000c0ffee
+>> +        %ppud   0x0000000000c0ffee
+>> +        %pp4d   0x0000000000c0ffee
+>> +        %ppgd   0x0000000000c0ffee
+>> +
+>>  Thanks
+>>  ======
+>>  
+>> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+>> index 9f359b31c8d1..d4ad3048a4db 100644
+>> --- a/lib/vsprintf.c
+>> +++ b/lib/vsprintf.c
+>> @@ -856,6 +856,59 @@ static char *default_pointer(char *buf, char *end, const void *ptr,
+>>  	return ptr_to_id(buf, end, ptr, spec);
+>>  }
+>>  
+>> +static char *pxd_pointer(char *buf, char *end, const void *ptr,
+>> +			 struct printf_spec spec, const char *fmt)
+>> +{
+>> +	if (check_pointer(&buf, end, ptr, spec))
+>> +		return buf;
+>> +
+>> +	if (fmt[1] == 't' && fmt[2] == 'e') {
+>> +		pte_t *pte = (pte_t *)ptr;
+>> +
+>> +		static_assert(sizeof(pte_t) == 4 ||
+>> +			      sizeof(pte_t) == 8,
+>> +			      "pte_t size must be 4 or 8 bytes");
+>> +		return special_hex_number(buf, end, pte_val(ptep_get(pte)), sizeof(pte_t));
+>> +	}
+>> +
+>> +	if (fmt[1] == 'm' && fmt[2] == 'd') {
+>> +		pmd_t *pmd = (pmd_t *)ptr;
+>> +
+>> +		static_assert(sizeof(pmd_t) == 4 ||
+>> +			      sizeof(pmd_t) == 8,
+>> +			      "pmd_t size must be 4 or 8 bytes");
+>> +		return special_hex_number(buf, end, pmd_val(pmdp_get(pmd)), sizeof(pmd_t));
+>> +	}
+>> +
+>> +	if (fmt[1] == 'u' && fmt[2] == 'd') {
+>> +		pud_t *pud = (pud_t *)ptr;
+>> +
+>> +		static_assert(sizeof(pud_t) == 4 ||
+>> +			      sizeof(pud_t) == 8,
+>> +			      "pud_t size must be 4 or 8 bytes");
+>> +		return special_hex_number(buf, end, pud_val(pudp_get(pud)), sizeof(pud_t));
+>> +	}
+>> +
+>> +	if (fmt[1] == '4' && fmt[2] == 'd') {
+>> +		p4d_t *p4d = (p4d_t *)ptr;
+>> +
+>> +		static_assert(sizeof(p4d_t) == 4 ||
+>> +			      sizeof(p4d_t) == 8,
+>> +			      "p4d_t size must be 4 or 8 bytes");
+>> +		return special_hex_number(buf, end, p4d_val(p4dp_get(p4d)), sizeof(p4d_t));
+>> +	}
+>> +
+>> +	if (fmt[1] == 'g' && fmt[2] == 'd') {
+>> +		pgd_t *pgd = (pgd_t *)ptr;
+>> +
+>> +		static_assert(sizeof(pgd_t) == 4 ||
+>> +			      sizeof(pgd_t) == 8,
+>> +			      "pgd_t size must be 4 or 8 bytes");
+>> +		return special_hex_number(buf, end, pgd_val(pgdp_get(pgd)), sizeof(pgd_t));
+> 
+> You mentioned in the coverletter that pgdp_get() is the reason arm32 builds dont work.
+> Just wanted to check what the issue is?
+> 
+> I had a look at arch/arm/include/asm/pgtable.h and I couldnt understand why
+> it reads pgdp_get(pgpd) instead of pgdp_get(pgdp)?
+
+Right - that's a typo.
+
+Following arm32 pgtable header change enables the build.
+
+diff --git a/arch/arm/include/asm/pgtable-2level-types.h b/arch/arm/include/asm/pgtable-2level-types.h
+index 650e793f4142..3f1d52402129 100644
+--- a/arch/arm/include/asm/pgtable-2level-types.h
++++ b/arch/arm/include/asm/pgtable-2level-types.h
+@@ -31,6 +31,7 @@ typedef struct { pteval_t pgprot; } pgprot_t;
+ #define __pte(x)        ((pte_t) { (x) } )
+ #define __pmd(x)        ((pmd_t) { (x) } )
+ #define __pgprot(x)     ((pgprot_t) { (x) } )
++#define __pgd(x)        ((pgd_t) { { (x), 0 } })
+
+ #else
+ /*
+@@ -49,6 +50,7 @@ typedef pteval_t pgprot_t;
+ #define __pte(x)        (x)
+ #define __pmd(x)        (x)
+ #define __pgprot(x)     (x)
++#define __pgd(x)        { (x), 0 }
+
+ #endif /* STRICT_MM_TYPECHECKS */
+
+diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
+index 982795cf4563..349e1f819385 100644
+--- a/arch/arm/include/asm/pgtable.h
++++ b/arch/arm/include/asm/pgtable.h
+@@ -141,7 +141,7 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
+
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
+
+-#define pgdp_get(pgpd)         READ_ONCE(*pgdp)
++#define pgdp_get(pgdp)         READ_ONCE(*pgdp)
+
+ #define pud_page(pud)          pmd_page(__pmd(pud_val(pud)))
+ #define pud_write(pud)         pmd_write(__pmd(pud_val(pud)))
+>    
+> 
+>> +	}
+>> +	return default_pointer(buf, end, ptr, spec);
+>> +}
+>> +
+>>  int kptr_restrict __read_mostly;
+>>  
+>>  static noinline_for_stack
+>> @@ -2506,6 +2559,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+>>   *		Without an option prints the full name of the node
+>>   *		f full name
+>>   *		P node name, including a possible unit address
+>> + * - 'p[g|4|u|m|t|][d|e]' For a page table entry, this prints its
+>> + *			  contents in a hexadecimal format
+>> + *
+>>   * - 'x' For printing the address unmodified. Equivalent to "%lx".
+>>   *       Please read the documentation (path below) before using!
+>>   * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
+>> @@ -2615,6 +2671,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+>>  		default:
+>>  			return error_string(buf, end, "(einval)", spec);
+>>  		}
+>> +	case 'p':
+>> +		return pxd_pointer(buf, end, ptr, spec, fmt);
+>>  	default:
+>>  		return default_pointer(buf, end, ptr, spec);
+>>  	}
+>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>> index 0492d6afc9a1..f68955858e29 100755
+>> --- a/scripts/checkpatch.pl
+>> +++ b/scripts/checkpatch.pl
+>> @@ -6975,7 +6975,7 @@ sub process {
+>>  				my $fmt = get_quoted_string($lines[$count - 1], raw_line($count, 0));
+>>  				$fmt =~ s/%%//g;
+>>  
+>> -				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*))/g) {
+>> +				while ($fmt =~ /(\%[\*\d\.]*p(\w)(\w*)(pte|pmd|pud|p4d|pgd))/g) {
+>>  					$specifier = $1;
+>>  					$extension = $2;
+>>  					$qualifier = $3;
+>> -- 
+>> 2.30.2
+>>
+>>
 
