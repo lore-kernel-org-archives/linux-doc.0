@@ -1,21 +1,20 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330A72D73A6;
-	Thu, 11 Jun 2026 06:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888963612E9;
+	Thu, 11 Jun 2026 06:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781159991; cv=none; b=dGbMW+94K599BoB+4QofL3BEsGi6ZxFV7hlT9ZdahPxM7FAdZzCjwBSFp6YJs7wa9DgEDaYjMqiIY63LD4Iv9s0JuLzEeDyfIEUZ824XOflDNwVRuZTUr5GqHL5YN66if3emP8DF/yIr/DTU2N1nZi+/vVrSaxSADPZNKzhxXTA=
+	t=1781159998; cv=none; b=gHax5XnwVCCU6KQ2a4v6yKdQVX60hz//wlx+RuR0upcoBdfmNd2THA27SPEdSAc23APAFac6t/hGQutybOmS9PfPMUfbmDXwBaeEFeoPXUZH11NBh02ckcWMGkTLFDTYI9LmKYxsC3rJtJJA8vRXVv12/tF4zSyF3BLe7+H2dZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781159991; c=relaxed/simple;
-	bh=GZeac2Q3yKN9bpQRwNtMJSguUt0rwpeBG3vba9+olmI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lWYj1UWlEzmvkaKW7Md2UAxCfWMoBMFXHCotTqQNlGTT2jji2w8v9VTyBuWe26qR05KfOD1JDHZ4TM4dBzg5cNHpuesSbc9FrcIs8z4/gWSArRRPKbE1DLWCTpCFWDkf22UPOIe1jpRuUkPK/qpUIOw824BQyHVaoGDJDGNq2Io=
+	s=arc-20240116; t=1781159998; c=relaxed/simple;
+	bh=54vBGeTdxA5doM24U7VWmpi0FaeDHI+XNnvNwaJMOcA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYFIuEEq881OBPiQa94NB/W//5iFkX+QxiiYryK78nldSRIzJ7oKx69VuciMlk/gVNGGIUvgtGRJvBjfmCaQ1xaiTkmb6PafmopoCW7OB+oxdfbywR1MFU99i+3RkCO4DxURBTH6Sue73d5Ulwvbls6TEgWUl5aNR3NpZcwA/bk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S3;
+	by APP-01 (Coremail) with SMTP id qwCowADHbdYgWCpqYOJFAQ--.1790S2;
 	Thu, 11 Jun 2026 14:39:28 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Vlastimil Babka <vbabka@kernel.org>,
@@ -37,12 +36,10 @@ Cc: Hao Li <hao.li@linux.dev>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [RFC PATCH 1/5] mm/slub: factor user tracking metadata size calculation
-Date: Thu, 11 Jun 2026 14:39:22 +0800
-Message-ID: <20260611063926.38111-2-pengpeng@iscas.ac.cn>
+Subject: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
+Date: Thu, 11 Jun 2026 14:39:21 +0800
+Message-ID: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
-References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,131 +47,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFWxXr15CryDKFWrWF1UGFg_yoW5urWfpF
-	W7K3W7AF4UJrW2kw4rJ348uryfZrZayryxXFW3Ka4FvF98tF15ZFWIyFyjvFW8Ar97u34a
-	yrZ0kF15WrsFyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv
-	6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
-	02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
-	4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4
-	IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48J
-	MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
-	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8aiiDUUUUU==
+X-CM-TRANSID:qwCowADHbdYgWCpqYOJFAQ--.1790S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFy3WFWxuFy8ZF4rGFW3Wrg_yoW8tr13pr
+	43Kr4ftFnrJrWSkwsxC34kXrn5Zw4rW3y8WFyagr4Uur4rWr1FyFn7KFWYv3Wxury7CFy2
+	vrZYgasxCryDZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRNJ5oDUUUU
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-SLAB_STORE_USER stores one allocation track and one free track after the
-object. Several offset and size calculations open-code that as
-2 * sizeof(struct track).
+SLAB_STORE_USER currently stores one allocation track and one free track
+for an object. This is useful, but it loses part of the previous lifetime
+when the object is reused: the new allocation overwrites the allocation
+track, and a later stale free can overwrite the free track.
 
-Introduce helpers for the number and size of user tracking records, and
-use them for the existing metadata layout calculations. This is a
-preparatory cleanup for adding optional extra user tracking records
-without changing the current layout or behavior.
+For free-after-reuse bugs, the report can therefore contain the victim
+allocation and the stale free, while the earlier alloc/free pair that
+explains where the stale pointer came from is no longer available.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- mm/slub.c | 31 +++++++++++++++++++++----------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+This RFC adds an opt-in SLUB debug option to keep one previous completed
+object lifetime. The option is disabled by default, is not part of the
+default debug flags, and only takes effect when user tracking is already
+enabled:
 
-diff --git a/mm/slub.c b/mm/slub.c
-index a2bf3756ca7d..a9114dddc976 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -316,7 +316,20 @@ struct track {
- 	unsigned long when;	/* When did the operation occur */
- };
- 
--enum track_item { TRACK_ALLOC, TRACK_FREE };
-+enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
-+
-+static inline unsigned int nr_user_tracks(struct kmem_cache *s)
-+{
-+	if (!(s->flags & SLAB_STORE_USER))
-+		return 0;
-+
-+	return TRACK_NR;
-+}
-+
-+static inline unsigned int user_tracking_size(struct kmem_cache *s)
-+{
-+	return nr_user_tracks(s) * sizeof(struct track);
-+}
- 
- #ifdef SLAB_SUPPORTS_SYSFS
- static int sysfs_slab_add(struct kmem_cache *);
-@@ -740,7 +753,7 @@ static inline void set_orig_size(struct kmem_cache *s,
- 		return;
- 
- 	p += get_info_end(s);
--	p += sizeof(struct track) * 2;
-+	p += user_tracking_size(s);
- 
- 	*(unsigned long *)p = orig_size;
- }
-@@ -756,7 +769,7 @@ static inline unsigned long get_orig_size(struct kmem_cache *s, void *object)
- 		return s->object_size;
- 
- 	p += get_info_end(s);
--	p += sizeof(struct track) * 2;
-+	p += user_tracking_size(s);
- 
- 	return *(unsigned long *)p;
- }
-@@ -873,8 +886,7 @@ static unsigned int obj_exts_offset_in_object(struct kmem_cache *s)
- {
- 	unsigned int offset = get_info_end(s);
- 
--	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
--		offset += sizeof(struct track) * 2;
-+	offset += user_tracking_size(s);
- 
- 	if (slub_debug_orig_size(s))
- 		offset += sizeof(unsigned long);
-@@ -1077,7 +1089,7 @@ static void init_tracking(struct kmem_cache *s, void *object)
- 		return;
- 
- 	p = get_track(s, object, TRACK_ALLOC);
--	memset(p, 0, 2*sizeof(struct track));
-+	memset(p, 0, user_tracking_size(s));
- }
- 
- static void print_track(const char *s, struct track *t, unsigned long pr_time)
-@@ -1185,8 +1197,7 @@ static void print_trailer(struct kmem_cache *s, struct slab *slab, u8 *p)
- 
- 	off = get_info_end(s);
- 
--	if (s->flags & SLAB_STORE_USER)
--		off += 2 * sizeof(struct track);
-+	off += user_tracking_size(s);
- 
- 	if (slub_debug_orig_size(s))
- 		off += sizeof(unsigned long);
-@@ -1390,7 +1401,7 @@ static int check_pad_bytes(struct kmem_cache *s, struct slab *slab, u8 *p)
- 
- 	if (s->flags & SLAB_STORE_USER) {
- 		/* We also have user information there */
--		off += 2 * sizeof(struct track);
-+		off += user_tracking_size(s);
- 
- 		if (s->flags & SLAB_KMALLOC)
- 			off += sizeof(unsigned long);
-@@ -7845,7 +7856,7 @@ static int calculate_sizes(struct kmem_cache_args *args, struct kmem_cache *s)
- 		 * Need to store information about allocs and frees after
- 		 * the object.
- 		 */
--		size += 2 * sizeof(struct track);
-+		size += user_tracking_size(s);
- 
- 		/* Save the original kmalloc request size */
- 		if (flags & SLAB_KMALLOC)
+  slab_debug=UH,kmalloc-128
+
+The series intentionally does not attempt to infer semantic ownership or
+identify the root cause of a use-after-free. It only preserves and prints
+additional track records that SLUB already knows how to collect.
+
+This is sent as RFC because the user-visible interface and the cost/benefit
+tradeoff should be agreed on before this becomes a normal patch series.
+In particular, feedback would be useful on:
+
+- whether a separate H option is preferable to extending U directly
+- whether H should require U, as implemented here, or imply U
+- whether the extra per-object metadata is useful enough for this debug path
+
+Not included yet:
+
+- KUnit coverage or a standalone reproducer
+- object-size/order comparison data for representative caches
+- runtime benchmark data for slab_debug=U vs slab_debug=UH
+
+Those should be added before a non-RFC submission if the direction looks
+acceptable.
+
+Pengpeng Hou (5):
+  mm/slub: factor user tracking metadata size calculation
+  mm/slub: add optional previous lifetime user tracking
+  mm/slub: print previous object lifetime in debug reports
+  Documentation/mm: document SLUB previous lifetime tracking
+  mm/slub: sanitize previous lifetime tracking flags
+
+ Documentation/admin-guide/mm/slab.rst |  22 ++++-
+ include/linux/slab.h                  |   3 +
+ mm/slab.h                             |   3 +-
+ mm/slub.c                             | 118 ++++++++++++++++++++++----
+ 4 files changed, 128 insertions(+), 18 deletions(-)
+
 -- 
 2.50.1 (Apple Git-155)
 
