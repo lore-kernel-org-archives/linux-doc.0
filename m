@@ -1,459 +1,189 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011042.outbound.protection.outlook.com [40.107.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4411334EEEE;
-	Thu, 11 Jun 2026 06:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781157612; cv=none; b=aNmMnC/HhldWr/FyWTeK36LxgAlKcHjjV1tAXakXTl6Odtc3t3lXe7VDxgpuxoXlgaFIo7GLEAamv6bs77daP/Joq7RZZdnoUhi+AmjUeg78kg1Buu/EYjcZL3pFRvEO6j6cRR8EIYJFwyJ1JjmjQ8cRKI+dn12LZKRv9rwSeL8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781157612; c=relaxed/simple;
-	bh=dYJQGbMTBOzCcpM0eOtwPLkai5WCxf5YM54gMHXRaBg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XAtILqhMlaZcEk1zm7ccyPkmtuXVpoShLfV6kxaQX7IV2DIv0PqSn3meUzB7asfiWuS8TNwHYWB6MU7b3IynS1P8VnT2r0uFvFmG9Vi29yD59AF06Hv+FqZiMCiQIgMVTCDnLGMTW7ZdNz9W/cik3++R7Qil4pZ4HqcTc2TkgVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowABnCdLiTipqti1FAQ--.55092S2;
-	Thu, 11 Jun 2026 14:00:02 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v3] kconfig: add optional warnings for changed input values
-Date: Thu, 11 Jun 2026 14:00:00 +0800
-Message-ID: <20260611060000.23858-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008EA35893;
+	Thu, 11 Jun 2026 06:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781157739; cv=fail; b=SbcMICFdf6Q3qIFvScXvVKpi8tiUu9+qONkOeOVVVFp5L1fcYa1SMPyHa9Kn63P5aP9yxhotcmLuFrBb8xkihOFsm7WPw4L7BpRZOCI0qqGz2wcEZojVxSJ4yW7NH3JZ8h1z7kruE1gzxbv745sVdgkByvbW3cfSwJskzsr0ufg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781157739; c=relaxed/simple;
+	bh=AGaMfx6qymL4aYRm7Y6DAZzkjgnOo+T85oPoEcFCFQw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IT3gAx6WdGGqkqxvYDIdB36ZfKN5/U4Tg9VubVj6kJdI8daD0zH+sZmm9HA8LqA1WdadIyVIjwWME8l6sORFS1xo7K5ZxThyOx7bMFM5PJZq/MF8N6JInDHQoUi5jhNy/KqVhLqgiosHE83hXlVAQSHv4/bTN451yZCrBBjXz8Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=I4418Jbq; arc=fail smtp.client-ip=40.107.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="I4418Jbq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JBbUpJ6q0Em/vCl0kscqzzPoqT9d/zXf7OK/77gx03gT1pcWLKecJlAmm4rAC4nlGhaZHD0eqglsxOc9lMNsWdRms/lw4A6nB34o5CYcDkIv4QqPdoJwWp8N1+T8cTlfR8wfEe0U6vHMlv4wNW/9irsC897IdbKBWCn61j0ZsoIbB38GguFnKQrT+SfyQoG2ED93ttSRoS7egTEITLY4UaLlBATIM7klUE/aCFtJgEVQpMVtPIcn1SLCt1qUNTByyG+KFAXEPtJq6Yr3S3UloovYGEjERV36cxcWkppviNPVYQp7ON94YLhpebhhoHlnTfWpjgUM/ey3vG2mbKB6+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e11iZ0panKsnFkGIcpX3mcy5MycWQCrZuYFBqnfOio8=;
+ b=UmTxrusdBp3A+KErdB+8UAwaorzI0to30NctbuahHVSo0MHYpKuTZfp0+SJrtLnsw9bG4y7DJO77fQuA2/GTSu9hZbDstPBaTJmXMrx+vSqzCXJ/YPJG18nIBbwANdjESg7OU2082SXSYoXEdBqQjvqb/CtYqcbB0VnAdmBq3K0CuroooMMMDxj+UpJRXZO1XM39bcLfHckaN57AeN5CWq5ECMYmj+sM6IJGkiYSqPPtUcspYcT9FHy0+aZTdidTy1bOUnyGFdWWukDG+Rs1bSoSOLlkYKcSSW35lUpKIoT4MkNUP4b+1+GPZoP4h7WlZ2trDSGzqrnzStFdA0ElTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e11iZ0panKsnFkGIcpX3mcy5MycWQCrZuYFBqnfOio8=;
+ b=I4418JbqefIMb8Qz63l/AMTb8+FURcEKQ87rfCd0yevc7J+C0SqHcABXFMqBrtmHfqBGu8C83zfX3vGulNJaI7O+OkdLLKbMx+vGuQKXnmoiKzGH9r3FkkjtAaSM8zE4jfA+No0HYibKFpAdLDl7tEqYNhnKsEAt14zq+A12RFsbyjuwBDkMkparhT9S7TKl2ruUwM7mLlo2xgTxiB3vjA2Mp7psNmKMTYoSL6ezUq0rgln46PqzkNnHLqpJpVigh1Pc04RHfYGGLF+WouKahEJ+piy8Tjz5CwWiWDfINKHt98j8EynEOG4Ugi9W9JcPotjjXSAhWQX13yVdc3+M5w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by PH8PR12MB7026.namprd12.prod.outlook.com (2603:10b6:510:1bd::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Thu, 11 Jun
+ 2026 06:02:13 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0092.014; Thu, 11 Jun 2026
+ 06:02:13 +0000
+Message-ID: <eb525345-da07-414c-9d05-7e00e3eb472f@nvidia.com>
+Date: Thu, 11 Jun 2026 09:02:03 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V3 2/7] netdevsim: Register devlink after device
+ init
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jiri Pirko <jiri@resnulli.us>,
+ Simon Horman <horms@kernel.org>, Sunil Goutham <sgoutham@marvell.com>,
+ Linu Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+References: <20260605181030.3486619-1-mbloch@nvidia.com>
+ <20260605181030.3486619-3-mbloch@nvidia.com>
+ <20260610165053.7c91f331@kernel.org>
+Content-Language: en-US
+From: Mark Bloch <mbloch@nvidia.com>
+In-Reply-To: <20260610165053.7c91f331@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0099.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a9::17) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnCdLiTipqti1FAQ--.55092S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3CrWDtrWrtF13KF17Kw1DGFg_yoW8JFWfGo
-	Z3WFn8Xw4xKr129wn7JwnIk3y7Wa1jkrWrXr47Jw4DXF1aq3WrC3W0yw4DZ3W5ZFWFy3W3
-	XF13W3yfW3W7JFn7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUYF7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
-	j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-	x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
-	JVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU18sqt
-	UUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|PH8PR12MB7026:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f5f4b18-b485-4ec3-2633-08dec77efb41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|7416014|376014|1800799024|6133799003|5023799004|4143699003|56012099006|18002099003|11063799006|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	lVSDK/bCpLS3XB1H55aK20A2Z0xqWJtAzbXlmm6nOw8Fdvl3r4B3u7tc2jMuUxLhQlpKvcvRD+rdoRu0qkMk4z3eoN8WR2pprzVOBD5uYprCk9b2le9vmM0J8R20vvHEtF3gxwxTSB1AW1FNSXkx76vrJG8WDRXCliv2zRbXzv6KPW+jhJ0PnEY2O0MvcnTwM/v0/aDxuDp+p7f0GKuoNS+5cbTCUcYwvlExVUOiwYwk4RxLhd5pIwNnEBDPXhXbNKpGc03RYW1eMLM2O60yJvLZvv7KDoQYUFbicw4O3fce505DEfdx60MNgai9rm5qM3m/gHtaUaqKATUe5blrLii/Lq88cwTfLESxqmZei7qANzSlG8HDaYtet8jFWjBizUY6phe/YgID9Zi5RyB+hsOS9KZrruCvoj0zOvbBSEl9o0HrNv+MOLrBZAVoP1u1XvaY/b22L2/MS96TmtUBeLEk154+swgnN0oWYDDL6uedj6vDe5U7gepJ5QPAIgFlH6iVp6u92nCvQE3YIFc4ssxH/wULmaIz1wM3JAeHXnErJj6P6lNayohv/0P1MjePjOn3YJdFaYdj4VH8aySU6GsiqMDlWDAVFlDs+MmbBmwJQEU0PJXpZCksRjqV+fDWHhOCp0xxFfWveAy4vjHQTURfMcO2OA5GJvXHfEVmkEp/WMZgNuunTkudXxSZjfGO
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(7416014)(376014)(1800799024)(6133799003)(5023799004)(4143699003)(56012099006)(18002099003)(11063799006)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WGR0TnJSVTAxRkVWVnNVU3NZUFJvOUVuOU1jQmVoUnkzMktJRDdjQ0dNSDdm?=
+ =?utf-8?B?b0ZQMlBOWFMxRHBBNitFUVZyWHJKWnZqL2xsRTExY3cwZUk0RzF6S01EQXRu?=
+ =?utf-8?B?Ulg5UEtENnFpWlZyUExZYzk3c1BhYXFYb1h5R1FkNElVYkZVOFdIWTgvY2o3?=
+ =?utf-8?B?TGtxVFVlUnN3OHV0dHVONXJ0b2hLWWgvM2FuLzlqR1lhbzVWTW5wdjZmSjBy?=
+ =?utf-8?B?ZGFqYkFxRHdaT1g1ZmJTU01EN2ViOEpLRkVFbDNscS8rVndKR0V3MjIwdXFl?=
+ =?utf-8?B?K1VzZnlzV1ZQRVFQajZSVEJUV3dBQnZPUkxGSk5vQm9qdVRjWW1jQXhuczV6?=
+ =?utf-8?B?aGhzdmtteUUxWktQUU9vQ0xEaEY5NlFYUWNZNUsxaHlKMi8yMXVrS0I2UUZM?=
+ =?utf-8?B?U3NwK2NTV0dNbm5YS2EvTjhuMWVZbHltbXZVZkhQUTVIQlVtQ3RmbmlQMGYy?=
+ =?utf-8?B?WWtuV0c3c3l5UVF4UU85czExRk5CQnhERVpaY3VKaFl5c3RDVXNIc1kzQTM3?=
+ =?utf-8?B?VjZ2TkkyMXZ2SmpHWGxITXRkcFA5ejZ1ZklFUFJoSVhUN3RjSzZ2V2EyUlly?=
+ =?utf-8?B?RzVzdmk0eVZvUSsrZE5zTjAyWlhvSkFOVVd1clpkRWxBc2d2c0RYdTRQVVMx?=
+ =?utf-8?B?WFI1RzRhMFJ4a3RxOGs2SVE0bURJWWg0MTd2cXFMV2gySlcrRmV5eFZoSldu?=
+ =?utf-8?B?QzQ4QXdZQTh6N1pCQzBrcXRRMjNITUVUODYzSmRmSzZ6cGJRZERYMjFIcWVi?=
+ =?utf-8?B?dWtZa0d5cDRuSUtLRUJmTG9kRzZlekw1TjVvaFd3UFppVVdqRjN3emV5ajNG?=
+ =?utf-8?B?V3ZyakxjQ0l6aEVFdEQwNHBkbUNEY3FUelpuNXp4blNqUWxVY3VvMS9BVEN6?=
+ =?utf-8?B?UEZtNi9XTWVabi85OWJZSElmaTl0dVJReW9RQk1PS0FzWGZmb09Mb0VJbC9y?=
+ =?utf-8?B?SHAvcWZWcHBKT2U2c3dUUDZUTEY3c1VXS0k3dVlSRERZQkpPNmx2aytCMVpG?=
+ =?utf-8?B?YzgrVG5VMzRTVWJycHFJcXFJRzVOZnZmNG5WNldTMkVBbTkwYVZvd0E4NHV2?=
+ =?utf-8?B?YU5pRllqS2twSTErUDFJQ3dYOUVuRW1OWVVuSzVxSWxlUjFkcE13bGdlVUVB?=
+ =?utf-8?B?a2ZSYlh4WlEzWkk3eUdSdU1XdnAxaVRUV1VvYmtJeDMzcFAzM0xXaEthb3hC?=
+ =?utf-8?B?TDdHNTdmNTJTMkJKT0cxZ3JLY0Q3bHdrQ2RrblZwWHJMVHNpWEFWNFlWeWlS?=
+ =?utf-8?B?eS9LQ0R5L1UyeVlONTZPamZzdWxHd1lZUjNwMXQ4akZWcFpaTndOaSsrcHg0?=
+ =?utf-8?B?ZDlpUGpDdDBmYUpyN1ZMU3FXSEw1Yy9naVcwSTNObWhUZER3S0Z0cVpSNE9S?=
+ =?utf-8?B?b0drMEFTVEtZVG52SVNwZ0xHWmw4VHZmZ1lJQ0lNelVuR2pZNmduOThRRmVh?=
+ =?utf-8?B?UjZQNUVvb1FZV1YvRGhwRU1LOGw3bElYUXhlK2JvRUJTek4yZms2NWdDMklH?=
+ =?utf-8?B?SFVTNnFrZjNvaFBxcTl0azZxZTZtZWI5bVNhN2FWb05MYm9ROEpROFJPZTJ0?=
+ =?utf-8?B?MDRUei9QYmZLeUJCR2wvUXlOOUdXMTk1MTVvNXhpYnNKbFFsQnM3d2RvNVRv?=
+ =?utf-8?B?eGdKUjdVRWovd3NMd0tscUxtNDlDOEMwUDB6bzR0ZUpKVFIrUm5iRThYbGtB?=
+ =?utf-8?B?Z2VIbDlaTmFUVnhvN0I1WmNWa0lSSnZxSk1zU2p5TUZreEtkNDFmMDI1d2JU?=
+ =?utf-8?B?c01Hak1nQTB3TGJYZW1pdTRUVm9VTitwV2ZwbWNPRUYxc2l1UW1jUnc1S0pD?=
+ =?utf-8?B?WmxDY09PK1VJS2c5cEo0MGlQNmJyQ0lwRVpTNjAyMlp0R3dTS0xiODdLYnZD?=
+ =?utf-8?B?U1FFak15VElST3hlVWNUdzl4OFFqL09vYnVHdmxmTlQ0UlE2eG45RmIyaDhj?=
+ =?utf-8?B?VXlEblZCWkxkeXlGNUtyOUJwZkY5OHp5Q0hZVmtNTGFKUk1YVXFWWERBWWdP?=
+ =?utf-8?B?THRGc2M0aHlNaXhhUWt1Sk9SWTNncXdRVjhKbjhGVmtWYlE2SXd1VVJmY0J6?=
+ =?utf-8?B?RWZqRCtvazZrbWxNZ2RkVUNFR2xNbm9FYWYxVWV2R1BVN29xT0krWkMwNkJs?=
+ =?utf-8?B?bEc1RDdRSVF6ZDluUnRrNVlsSTFtOXVHNWZvMXk0VFYzeGllOWM5QW1IWHJM?=
+ =?utf-8?B?RVNTM2JQYmNDQjIzZ0doWUx4OE9xTUo2WmVYWGZtR0FWYzltSm1TWll5em5u?=
+ =?utf-8?B?ZFp3ZnBFbHJQVDBlVHdEWGFYYnRiajVPWGhqQXJPT0ptZk9Ra3hUckFIY0s4?=
+ =?utf-8?B?ZFRFZzJRZ2t2dnpKSm1iVjJsQmtPQmFlQ1hrK1VjVWNpMnJpWENNdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f5f4b18-b485-4ec3-2633-08dec77efb41
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 06:02:12.9755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BsHITia8B78tQWo5mT54NS+yvgprIuGhNTIGWC7SKDLSMUXs0tAWsvF2XlpxQoo6SCxtl3JMWl+BIpvTwLcycg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7026
 
-When reading .config input, Kconfig stores user-provided values first
-and then resolves the final value after applying dependencies, ranges,
-and other constraints.
 
-If the final value differs from the user input, Kconfig already tracks
-that state internally, but it does not provide a focused diagnostic to
-show which explicit inputs were adjusted. This is particularly confusing
-for requested values that get forced down by unmet dependencies or
-clamped by ranges.
 
-Add an opt-in diagnostic controlled by KCONFIG_WARN_CHANGED_INPUT. Emit
-the warnings from conf_write() and conf_write_defconfig() after value
-resolution. Print the diagnostic to stderr directly, not through the
-normal message callback, so it remains visible when conf is run with -s,
-such as from make -s.
+On 11/06/2026 2:50, Jakub Kicinski wrote:
+> On Fri, 5 Jun 2026 21:10:25 +0300 Mark Bloch wrote:
+>> devl_register() makes the devlink instance visible to userspace. A later
+>> patch also makes registration the point where devlink core may call
+>> eswitch_mode_set() to apply a boot-time default eswitch mode.
+>>
+>> Move netdevsim registration after all objects (resources, params, regions,
+>> traps, debugfs etc) are initialized, and after the initial eswitch mode is
+>> set to legacy.
+>>
+>> Move devl_unregister() to the beginning of nsim_drv_remove(), before those
+>> devlink objects are torn down. This keeps devlink register/unregister as
+>> the notification barrier and makes the later object teardown paths run
+>> after devlink is no longer registered, so they do not emit their own
+>> netlink DEL notifications.
+> 
+> This is going backwards. At some point someone from nVidia thought that
+> we can order our way out of locking, so mlx5 is likely ordered this way,
+> but this must not be required, or in any way normalized.
+> We (syzbot) quickly discovered that it doesn't cover all corner cases.
+> devl_lock() is exposed specifically to allow the driver to finish
+> whatever init it needs without letting user space invoke callbacks, yet.
+> Almost (?) all driver callbacks hold devl_lock(), so maybe the devlink
+> instance is "visible" to user space but that should not matter.
 
-Keep the diagnostic out of the conf_message() formatting buffer so long
-warning lists are not truncated, and mark processed symbols as written
-before the SYMBOL_WRITE check so duplicate menu nodes cannot emit
-duplicate warnings.
+Let me clarify.
 
-Document the new environment variable and add tests for olddefconfig,
-savedefconfig, and the silent-conf path.
+No locking is changed here, and I don't want to make register/unregister
+ordering a substitute for devl_lock().
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
-Changes since v2:
-https://lore.kernel.org/all/20260521022824.38591-1-pengpeng@iscas.ac.cn/
-- print the changed-input diagnostic to stderr directly so it remains
-  visible when conf is run with -s, as reported by Nathan
-- move the selftest expectation from stdout to stderr
-- add explicit silent-conf coverage for the KCONFIG_WARN_CHANGED_INPUT
-  warning path
-- keep Nicolas's v2 Reviewed-by/Tested-by out of this revision because
-  the warning output path changed
+The only requirement I have for this series is that devl_register() is called
+only once the driver is ready for devlink core to call eswitch_mode_set().
+That follows from the earlier direction to have the core apply the default
+mode from devl_register() instead of adding an explicit driver call.
 
- Documentation/kbuild/kconfig.rst              |   5 +
- scripts/kconfig/confdata.c                    | 106 +++++++++++++++++-
- scripts/kconfig/tests/conftest.py             |   8 +-
- .../kconfig/tests/warn_changed_input/Kconfig  |  40 +++++++
- .../tests/warn_changed_input/__init__.py      |  33 ++++++
- .../kconfig/tests/warn_changed_input/config   |   3 +
- .../tests/warn_changed_input/expected_config  |   6 +
- .../warn_changed_input/expected_defconfig     |   1 +
- .../tests/warn_changed_input/expected_stderr  |   4 +
- 9 files changed, 200 insertions(+), 6 deletions(-)
- create mode 100644 scripts/kconfig/tests/warn_changed_input/Kconfig
- create mode 100644 scripts/kconfig/tests/warn_changed_input/__init__.py
- create mode 100644 scripts/kconfig/tests/warn_changed_input/config
- create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_config
- create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_defconfig
- create mode 100644 scripts/kconfig/tests/warn_changed_input/expected_stderr
+So if the objection is to the commit message wording, I can fix that and drop
+the "notification barrier" language.
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index fc4e845bc249..9b2625c768f0 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -59,6 +59,11 @@ Environment variables for ``*config``:
-     This environment variable makes Kconfig warn about all unrecognized
-     symbols in the config input.
- 
-+``KCONFIG_WARN_CHANGED_INPUT``
-+    If set to a non-blank value, Kconfig prints optional warnings for
-+    user-provided values that change after Kconfig resolves dependencies
-+    or applies other constraints such as ranges.
-+
- ``KCONFIG_WERROR``
-     If set, Kconfig treats warnings as errors.
- 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index ac95661a1c9d..34be06d4b563 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -206,6 +206,78 @@ static void conf_message(const char *fmt, ...)
- 	va_end(ap);
- }
- 
-+static void conf_changed_input_warning(const char *s)
-+{
-+	fputs(s, stderr);
-+}
-+
-+static bool conf_warn_changed_input_enabled(void)
-+{
-+	const char *env = getenv("KCONFIG_WARN_CHANGED_INPUT");
-+
-+	return env && *env;
-+}
-+
-+static const char *sym_get_user_value_string(struct symbol *sym)
-+{
-+	switch (sym->type) {
-+	case S_BOOLEAN:
-+	case S_TRISTATE:
-+		switch (sym->def[S_DEF_USER].tri) {
-+		case yes:
-+			return "y";
-+		case mod:
-+			return "m";
-+		default:
-+			return "n";
-+		}
-+	default:
-+		return sym->def[S_DEF_USER].val ?: "";
-+	}
-+}
-+
-+static bool sym_user_value_changed(struct symbol *sym)
-+{
-+	if (!sym_has_value(sym) || sym->type == S_UNKNOWN)
-+		return false;
-+
-+	switch (sym->type) {
-+	case S_BOOLEAN:
-+	case S_TRISTATE:
-+		return sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym);
-+	default:
-+		return strcmp(sym_get_user_value_string(sym),
-+			      sym_get_string_value(sym));
-+	}
-+}
-+
-+static void conf_clear_written_flags(void)
-+{
-+	struct symbol *sym;
-+
-+	for_all_symbols(sym)
-+		sym->flags &= ~SYMBOL_WRITTEN;
-+}
-+
-+static void conf_append_changed_input_warning(struct gstr *gs,
-+					      struct symbol *sym,
-+					      bool *changed_input_found)
-+{
-+	if (!sym_user_value_changed(sym))
-+		return;
-+
-+	if (!*changed_input_found) {
-+		str_printf(gs,
-+			   "warning: user-provided values changed by Kconfig:\n");
-+		*changed_input_found = true;
-+	}
-+
-+	str_printf(gs, "  %s%s: %s -> %s\n",
-+		   CONFIG_, sym->name,
-+		   sym_get_user_value_string(sym),
-+		   sym_get_string_value(sym));
-+}
-+
- const char *conf_get_configname(void)
- {
- 	char *name = getenv("KCONFIG_CONFIG");
-@@ -759,11 +831,15 @@ int conf_write_defconfig(const char *filename)
- {
- 	struct symbol *sym;
- 	struct menu *menu;
-+	struct gstr gs;
- 	FILE *out;
-+	bool warn_changed_input = conf_warn_changed_input_enabled();
-+	bool changed_input_found = false;
- 
- 	out = fopen(filename, "w");
- 	if (!out)
- 		return 1;
-+	gs = str_new();
- 
- 	sym_clear_all_valid();
- 
-@@ -772,10 +848,14 @@ int conf_write_defconfig(const char *filename)
- 
- 		sym = menu->sym;
- 
--		if (!sym || sym_is_choice(sym))
-+		if (!sym || sym_is_choice(sym) || sym->flags & SYMBOL_WRITTEN)
- 			continue;
- 
- 		sym_calc_value(sym);
-+		if (warn_changed_input)
-+			conf_append_changed_input_warning(&gs, sym,
-+							  &changed_input_found);
-+		sym->flags |= SYMBOL_WRITTEN;
- 		if (!(sym->flags & SYMBOL_WRITE))
- 			continue;
- 		sym->flags &= ~SYMBOL_WRITE;
-@@ -798,6 +878,13 @@ int conf_write_defconfig(const char *filename)
- 		print_symbol_for_dotconfig(out, sym);
- 	}
- 	fclose(out);
-+
-+	conf_clear_written_flags();
-+
-+	if (changed_input_found)
-+		conf_changed_input_warning(str_get(&gs));
-+
-+	str_free(&gs);
- 	return 0;
- }
- 
-@@ -809,7 +896,10 @@ int conf_write(const char *name)
- 	const char *str;
- 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
- 	char *env;
-+	struct gstr gs;
- 	bool need_newline = false;
-+	bool warn_changed_input = conf_warn_changed_input_enabled();
-+	bool changed_input_found = false;
- 
- 	if (!name)
- 		name = conf_get_configname();
-@@ -838,6 +928,7 @@ int conf_write(const char *name)
- 	}
- 	if (!out)
- 		return 1;
-+	gs = str_new();
- 
- 	conf_write_heading(out, &comment_style_pound);
- 
-@@ -859,13 +950,16 @@ int conf_write(const char *name)
- 		} else if (!sym_is_choice(sym) &&
- 			   !(sym->flags & SYMBOL_WRITTEN)) {
- 			sym_calc_value(sym);
-+			if (warn_changed_input)
-+				conf_append_changed_input_warning(&gs, sym,
-+								  &changed_input_found);
-+			sym->flags |= SYMBOL_WRITTEN;
- 			if (!(sym->flags & SYMBOL_WRITE))
- 				goto next;
- 			if (need_newline) {
- 				fprintf(out, "\n");
- 				need_newline = false;
- 			}
--			sym->flags |= SYMBOL_WRITTEN;
- 			print_symbol_for_dotconfig(out, sym);
- 		}
- 
-@@ -892,8 +986,12 @@ int conf_write(const char *name)
- 	}
- 	fclose(out);
- 
--	for_all_symbols(sym)
--		sym->flags &= ~SYMBOL_WRITTEN;
-+	conf_clear_written_flags();
-+
-+	if (changed_input_found)
-+		conf_changed_input_warning(str_get(&gs));
-+
-+	str_free(&gs);
- 
- 	if (*tmpname) {
- 		if (is_same(name, tmpname)) {
-diff --git a/scripts/kconfig/tests/conftest.py b/scripts/kconfig/tests/conftest.py
-index 2a2a7e2da060..87860b1bfd9f 100644
---- a/scripts/kconfig/tests/conftest.py
-+++ b/scripts/kconfig/tests/conftest.py
-@@ -37,7 +37,8 @@ class Conf:
- 
-     # runners
-     def _run_conf(self, mode, dot_config=None, out_file='.config',
--                  interactive=False, in_keys=None, extra_env={}):
-+                  interactive=False, in_keys=None, extra_env={},
-+                  silent=False):
-         """Run text-based Kconfig executable and save the result.
- 
-         mode: input mode option (--oldaskconfig, --defconfig=<file> etc.)
-@@ -48,7 +49,10 @@ class Conf:
-         extra_env: additional environments
-         returncode: exit status of the Kconfig executable
-         """
--        command = [CONF_PATH, mode, 'Kconfig']
-+        command = [CONF_PATH]
-+        if silent:
-+            command.append('-s')
-+        command += [mode, 'Kconfig']
- 
-         # Override 'srctree' environment to make the test as the top directory
-         extra_env['srctree'] = self._test_dir
-diff --git a/scripts/kconfig/tests/warn_changed_input/Kconfig b/scripts/kconfig/tests/warn_changed_input/Kconfig
-new file mode 100644
-index 000000000000..69845e2f3fb3
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/Kconfig
-@@ -0,0 +1,40 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+config DEP
-+	bool "DEP"
-+	help
-+	  Test dependency symbol for Kconfig warning coverage.
-+	  This is used by the warn_changed_input selftest.
-+	  It intentionally stays unset in the input fragment.
-+	  The test checks how dependent user input is adjusted.
-+
-+config A
-+	bool "A"
-+	depends on DEP
-+	help
-+	  Test bool symbol for changed-input diagnostics.
-+	  The input fragment requests this symbol as built-in.
-+	  The unmet dependency on DEP forces the final value to n.
-+	  The warning should report that downgrade.
-+
-+config NUM
-+	int "NUM"
-+	range 10 20
-+	help
-+	  Test integer symbol for changed-input diagnostics.
-+	  The input fragment requests a value outside the allowed range.
-+	  Kconfig resolves it to the constrained in-range value.
-+	  The warning should report that adjustment.
-+
-+config DUP
-+	bool "DUP"
-+	depends on DEP
-+	help
-+	  Test duplicate-definition handling for changed-input diagnostics.
-+	  The input fragment requests this symbol as built-in.
-+	  The duplicate definition below must not produce a duplicate warning.
-+	  This keeps the warning output stable for repeated menu entries.
-+
-+config DUP
-+	bool
-+	depends on DEP
-diff --git a/scripts/kconfig/tests/warn_changed_input/__init__.py b/scripts/kconfig/tests/warn_changed_input/__init__.py
-new file mode 100644
-index 000000000000..4c3bca6af846
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/__init__.py
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: GPL-2.0
-+"""
-+Test optional warnings for user-provided values changed by Kconfig.
-+
-+Warnings should stay disabled by default, and should only appear when
-+KCONFIG_WARN_CHANGED_INPUT is enabled.
-+"""
-+
-+
-+def test(conf):
-+    assert conf.olddefconfig('config') == 0
-+    assert 'user-provided values changed by Kconfig' not in conf.stderr
-+
-+    assert conf._run_conf('--olddefconfig', dot_config='config',
-+                          extra_env={
-+                              'KCONFIG_WARN_CHANGED_INPUT': '1',
-+                          }) == 0
-+    assert conf.stderr_contains('expected_stderr')
-+    assert conf.config_matches('expected_config')
-+
-+    assert conf._run_conf('--olddefconfig', dot_config='config',
-+                          extra_env={
-+                              'KCONFIG_WARN_CHANGED_INPUT': '1',
-+                          }, silent=True) == 0
-+    assert conf.stderr_contains('expected_stderr')
-+
-+    assert conf._run_conf('--savedefconfig=defconfig', dot_config='config',
-+                          out_file='defconfig',
-+                          extra_env={
-+                              'KCONFIG_WARN_CHANGED_INPUT': '1',
-+                          }) == 0
-+    assert conf.stderr_contains('expected_stderr')
-+    assert conf.config_matches('expected_defconfig')
-diff --git a/scripts/kconfig/tests/warn_changed_input/config b/scripts/kconfig/tests/warn_changed_input/config
-new file mode 100644
-index 000000000000..dbe93ff26408
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/config
-@@ -0,0 +1,3 @@
-+CONFIG_A=y
-+CONFIG_NUM=30
-+CONFIG_DUP=y
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_config b/scripts/kconfig/tests/warn_changed_input/expected_config
-new file mode 100644
-index 000000000000..fe8bbec66c53
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_config
-@@ -0,0 +1,6 @@
-+#
-+# Automatically generated file; DO NOT EDIT.
-+# Main menu
-+#
-+# CONFIG_DEP is not set
-+CONFIG_NUM=20
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_defconfig b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
-new file mode 100644
-index 000000000000..af9e34851d2a
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
-@@ -0,0 +1 @@
-+CONFIG_NUM=20
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_stderr b/scripts/kconfig/tests/warn_changed_input/expected_stderr
-new file mode 100644
-index 000000000000..9ec8446b4ac2
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_stderr
-@@ -0,0 +1,4 @@
-+warning: user-provided values changed by Kconfig:
-+  CONFIG_A: y -> n
-+  CONFIG_NUM: 30 -> 20
-+  CONFIG_DUP: y -> n
--- 
-2.50.1 (Apple Git-155)
+For unregister, I can probably leave the old ordering as-is. I moved it only
+to mirror the register path, which felt cleaner, but it is not required for
+the default-mode change and as the lock is held I see no issue with doing
+that.
+
+Mark
 
