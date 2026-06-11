@@ -1,144 +1,203 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11012024.outbound.protection.outlook.com [52.101.126.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9665A3F8EAB;
-	Thu, 11 Jun 2026 12:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781182220; cv=fail; b=doMnULjI8eFAZlWudRL5SrT/63CSzkXiKP3HYj2Y1lRkn15dirpOjJO4vsHfPc14OZHrMdLyJNAbx2jdG95YhaIe39lsa6OffxZDLD5FnpJXVouf6pBMzENrwnZvFk3WfBR8GEOk8yaWKRzMdbOjflFCUr1Fsr6LWAB4mcHm4L4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781182220; c=relaxed/simple;
-	bh=mK1HjNIxps7HHVkgliVXwznfjZ+UdIpBjFtUTG9/ZS0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=j+bD0xfvJi8jtJMqWDcCu2KpvXZjwyTF2B9h1PLtQYIhIvdt89RHkNwK4K0RQltkxOb1zZZs/W6pyDwOeDwEWWBhzAW4Ozc3gmlv8OcuAKuh0OAQ0UzpXGZN+y1hTiHfcH7C8J49IoRsKvTqf4aHPXInBinISgCGhkyzV58E4Ns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=EWCIR7jE; arc=fail smtp.client-ip=52.101.126.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF2B29ACC5;
+	Thu, 11 Jun 2026 13:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781184860; cv=none; b=YvoZT9cgtVycD9tp0CvtO6ymH/0O6UG9ZVH9+CJVIUBvS6VEQFnyEzb5h6BFoRdwyCOqmaU5Hsvss6WjJOkdWaKt3VflK33qJefzeCExRZdIyv1L01IEFU8V3L9JpiaV3DcIY6V/qpo1fFWKCjNVS7UjhaGWt6dAKYf4cz5ZjW0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781184860; c=relaxed/simple;
+	bh=AcSqleQy633KBDTvAUOaQgvWk/xdJs6YJaDp0kqw48I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=usIJYUYzam4DJ9iBJsUFl8wLwyMcKmB9FqCOjoc9nOGf2fkdwnkUoSZ+sOBLFQ15QAaG/QFt6RDkxEjmlKr3vp75X/INRMpJ8a1ghJcPP1sUAvj9NTcZjv8CZKl4+yjLDOVoSqHftWUce9Q74nsDEU51QLVfewWJbcP7Lp/XyYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FH9zIwOl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="EWCIR7jE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M7YX5dRQOVuMHekpJSuYOVnRDQYMS4si9r+T3nkS3RUMurj0lEEO+jtekiPoC5nd0tD+6qobf0DR2+PPZ+P34AE/LK0AZfyjuQzLXu+m+P8d1iwPAp96g/1LJ0jpBvb6FvkzUdDxAN6zwj5POC1TFVuhLXz5UVZRPLMJ0j+qvMYdtCq0pxEdURck03ZGY05YkiOJoH7hyRywzPNuBMBncTRDODJyOumpo1QBUyWOjGCxW28cmscxG8zeKq2tnPWYGkIgIGjOkm5dq4dxVw74PMU07HZzbZ/gmTfebOVl9O1CrIQGCB7OtWX/WgTzMWKZXEKaVZ4kGsMojAVSaeltkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mK1HjNIxps7HHVkgliVXwznfjZ+UdIpBjFtUTG9/ZS0=;
- b=G5qDucPpW9alSDr78qSBEo+r/i/M5Kf2lICWCszyReQru6h6IuP5QMdkJTZaE8YpCvEFWEPemBcWvpLtRt3LUcYMKMg5vKltny2ntJcinNs4XeCzC5RJeksv/EqsA7QAb05IKMoAMO8GfNpQRausSjzWKIBrMvz5sd/zzUdBKniQ3nYdLpyiW+RUX/2hX7/MYFuXAqB6/trkSfcDHopoea+k3koFich/KI7Ul1cVWOFEiIvWjAfW4UqcxRgT5HZ6L+OK5x3hvIcPgR+yHv5hHXPMbckuy511Nh91SWc2fkX3lbn8wCqsESdVxN3/35ijCcBHemlyDKT4UKhMGPA42Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mK1HjNIxps7HHVkgliVXwznfjZ+UdIpBjFtUTG9/ZS0=;
- b=EWCIR7jEu15AEefQODYBuxfCNMFrid9xiOgvdEWiR3Q/ozuIwKManJ20B8hPF8tgWAPiCCoHyr70bWuJTwoCNL0P9SSZmhc5A9YOAbHGkyKkixAtwKzpfIohZibFVEZZUKbY7wvaPVz146UHzbp4KY/1W32CD1aLhwVPAO9h4MX5G2fJTQ1m1ZnpALqttBwfHbxxB8MnqguUjUFWuc3QwSZ59bK98BEbC7pPOdFWVaG/XVdHJaHB50puXv+A1EJDMPyTkelW6NaLZwoJJZ9yU0314MPXVBgfcvG5efd3SBh2NO2wSYt1SWz16EgMOOltJbTe3j1lflCh7S6CD1GNpg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
- by TYPPR06MB8236.apcprd06.prod.outlook.com (2603:1096:405:385::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 12:50:16 +0000
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::24bc:5613:3ffa:cb96]) by SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::24bc:5613:3ffa:cb96%6]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
- 12:50:15 +0000
-From: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
-To: ebiggers@kernel.org
-Cc: chao@kernel.org,
-	corbet@lwn.net,
-	jaegeuk@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fscrypt@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	tytso@mit.edu,
-	liaoyuanhong@vivo.com
-Subject: Re: [PATCH v2 0/3] f2fs: support encrypted inline data
-Date: Thu, 11 Jun 2026 20:50:06 +0800
-Message-Id: <20260611125006.508734-1-liaoyuanhong@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260602134104.348655-1-liaoyuanhong@vivo.com>
-References: <20260602134104.348655-1-liaoyuanhong@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYWPR01CA0022.jpnprd01.prod.outlook.com
- (2603:1096:400:aa::9) To SEZPR06MB5576.apcprd06.prod.outlook.com
- (2603:1096:101:c9::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FH9zIwOl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941681F00893;
+	Thu, 11 Jun 2026 13:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781184859;
+	bh=6689/69B9guEnN6lKaNQc6LOcGsLEeqwwQs2y9xMkRY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FH9zIwOlM3rulsEmtitgCVGpcJMCizKjJMC8SfwlTrf9z109JdVTcfGIx2pf5Uh5C
+	 V75kWs4R9bwupjCBZtEWpjb7DUEtA0+feRGxWz5Oj+J657z2AqOjkMuGPitIwTYkoy
+	 TgZItWRyW7UEHuitnoJTox+H8+jakS8lC8XZk2iAYI2KC5qGSq62ZQF6wKoNFSaLU7
+	 d4SvkM4QL4oT9kJikdpnxXUbkmi0+H9bMKZY2BNI95X0ty957Cg6y2TDqOrdR9lUoP
+	 /5SetZc4L3B1qaX5Y5xd7X6M+bS4ejZmH7kXgb+5A0S1xdjJIIELGq9nEMOpR8o5SU
+	 yUUd9RqabIwJQ==
+Date: Thu, 11 Jun 2026 14:34:14 +0100
+From: Will Deacon <will@kernel.org>
+To: Shanker Donthineni <sdonthineni@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+	Jason Sequeira <jsequeira@nvidia.com>
+Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+Message-ID: <aiq5VigmtZq9GlAm@willie-the-truck>
+References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|TYPPR06MB8236:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04850615-e8ed-4281-622d-08dec7b7fbef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|52116014|7416014|376014|22082099003|18002099003|38350700014|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	miL2lU6UmOKAbzIdWUfLkzn1D5bqhK1XSaY+s0Dh4UhRZE6oyUExeRVcBncDlf4UGiJW8nV44nCxRcX9+eFVtDIQYfBlhcIDexuDRWTrah/PTUqvhk6O2j+11SVbpaT21E6jb4pH+ZG5IjFkEiTBws3Dd/ADj/VdMyM9g0RWCHd+q3FSRXCwSjLBDTKL8AB4Fas7UnDyBQAigVKb6zWqMkAF91ypaxDv82KgmbX4g5ywFXrUQl4SZyb008QnezydGk09GZNctJhecupM+TBuFykGHaQYv4lFnjHjbpXoPHWrjO081NmN4OV45cprlPJd/VtW2UHb2OpVPIoY3qTLngo+x4quLWFMvZJepiBWhSvOMbpHpywFN4f+1TcgpIcxh9BEzdFxz0Gz22WClUHXrczx67vpnHwL+uu0Uv85/SQQ71MZKFwjMA/tTE+UZtVe92BlDhabczjHWCEXfmq2Fi+NlY7P0urXBFlqIuw4PsWXXvLzEpaIsYd6ngUqpi7oWrnsE7sDQzbd59GgRlLnkq3Bbk3krGLfJgLg7o874NB7lyuUr2BpauT7P27CJTu8gw+Fm9vL83GyU7H9A1L2rMS0DQc/T5GrvfShLQ6nj2/kjGoI6vHXEP0BlFN8JXg2TYV/fI20/qqZxNSA4lH1WuAo55BflabUyu8zXeio5584Pr1settjSqzt1o8H+/heOXtKGVcpw4xmsB50b+Q3gcS1WwZHXCsAs6mUaeJiQfbUUs60mw39J/wzK4DelSkD
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(52116014)(7416014)(376014)(22082099003)(18002099003)(38350700014)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oB+6P2K+kwD/Cvom3nHHQ7ZKrCuiDtCz/+Jd092+HfB//Zft8MrNnDrAm2Cl?=
- =?us-ascii?Q?+NDN+uEOKZZYGTZL0HMplg/Tw6ZIAVT96f+cU+KFzdQoZceVvcOdWEgEo7m9?=
- =?us-ascii?Q?pkojfrJ+1K4b5Sk7u7dOCzjn8cInd9TNZB7SHRYOkIlbhfBTHo1aMrH4Mexb?=
- =?us-ascii?Q?dZUh0dCGiarcJxIu4vKZAdY81vWpT4rs2IUWrTVUK6VxoiBmCVkn/9RmfYnt?=
- =?us-ascii?Q?kkte8lM2+cWpTzS3wdqk0hHZFIrGhyqb4lDEAe4hy/RxHZJPOYS9lJmYLu7m?=
- =?us-ascii?Q?/QPhVEe9gQbmzwb4J5IEeFZI9EPiCO0LU7WUY8Pys7jUJlF4UJLaJ2DRQWZc?=
- =?us-ascii?Q?uFc8LWNv2pQXEN2chsTpK28rCmMEYqzdl7cW2+Di9EfpdM3m8UOrSzbXN5zN?=
- =?us-ascii?Q?QYRErCbHY3XbBG7HtzU1vvrdy27xKrh2bY5nFceMYIMtcKwr/Qn2HLZmFgzG?=
- =?us-ascii?Q?xgxWk2J8EkGcIsxsgVm8IMQS7wMEidl/xHkgfJ8IIbp3dZ85MZMUW3U9CjId?=
- =?us-ascii?Q?vDa41kXRXkxlrPmSD+ehOdc0WZyi1kkAzpYj8D+VkHw9X4rVhABsQHbQABEW?=
- =?us-ascii?Q?qk4C4ghnrA1Lsou4RP+5K/Dtl9KXm2lOupS/DoZzyzkQHwd5P/L3tciZw1px?=
- =?us-ascii?Q?RFirJZyYzMh9Zf7h8s0mthhtx1BHPKJ2r/sn+q1wlW0AfNTtJKzYhBpQ4VFU?=
- =?us-ascii?Q?juCf6295fZWBh2o211CS/FOFtsEybTPg0wOxaOWffusf5NNP9nysSQU1ya1t?=
- =?us-ascii?Q?aKwbmz6oPnVXWtQz4PLCCV8uEcxwBV1lFcQXVbcLMAWeD6nSmV/KaS76Z37q?=
- =?us-ascii?Q?5YcjlJ0g4C7q8k65tsCaoai83ggtEbYbaqSTQA4euqhFR0Tw3QXMNnxLTCvM?=
- =?us-ascii?Q?7nPAKQ7aI2iheraQW0J59KLLabQc8d6lnma87/ljDs6TF5lQ30dQWbv0RN+4?=
- =?us-ascii?Q?/ooMTV4Xtaz33KaGqeKoo8HtQdlAPgLLGtyNisGphBrFIqLCrxtsPGwz/oD1?=
- =?us-ascii?Q?1AMdpfYPLB3GSuxZA5mzTLqrhx/HCpFSRejZiOBsuyPzkR2QiKQ6Trm9qqAz?=
- =?us-ascii?Q?LCCoBkzb1Vz1qhkMEW397r7c8J67QNQ1pOtKk919fqau7MALVThpV+EyWVci?=
- =?us-ascii?Q?gkQNWUYXeDWc6T66Y62jnYESFx5CekI9Gq3Uhh+ypZMyWOfNlVV736VRM4fw?=
- =?us-ascii?Q?nPWbnuX/F3th3yeVIdpwYkL/pAVT0L7AkDIErPhCV9Xo7XolfZMvoreVu1FC?=
- =?us-ascii?Q?soMd4ru8kpDyj0NEJZPleQk/zsq8LWxpFfFOyc/brML8Eqq7zkRCHskjsuNG?=
- =?us-ascii?Q?uSfmcGXy2Wq/evEntdj9MQteM8YDe8IFr7AX3EOWZjWrBvqSZajQh0kjb0p6?=
- =?us-ascii?Q?ocHs2txOKEfLTMYKfiw2zBhPNSSOd+POiGdFtXqSojlw4AszvATL5YuawQz4?=
- =?us-ascii?Q?+sefI+jKip8POnR9qBhrjWMEZdj7S8/hNxZKlfNPDFjuCOvTXxeAc/ofo40I?=
- =?us-ascii?Q?i6mHCfwZp/RSsf8MeZ8pFVJ//Bot8dAc02vQjMZZyhZ77qCpEk5k0nhl2uuf?=
- =?us-ascii?Q?hTh388+flvXtbr4fgLoIDbg4V8lXS/ZS8eldY+OROtjx3XhmRMlpzNy8q1aJ?=
- =?us-ascii?Q?tzeKZpxNq5XhO4yTKHgJGSNb2U4dm90WJzKivwaX+EY0RMXX6lzeY21zbd00?=
- =?us-ascii?Q?TMuvkW4pVXJ0e7nX6rPPUg0cyZusAKX9iL+PWFz7DzT6kqBnxcCeJBAyVG6Y?=
- =?us-ascii?Q?GtvuDxcRFQ=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04850615-e8ed-4281-622d-08dec7b7fbef
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 12:50:15.5313
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0/RJu8oZvxTLY2vFydRdOHujsjOXYw+nKMhtVF8DqAh7IDX4STbMjUP8/vFoi1T0i32+/gBUnu6phV6OMz6/KA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYPPR06MB8236
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610164822.4157248-1-sdonthineni@nvidia.com>
 
-Hi,
+On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
+> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+> observed by a peripheral before an older, non-overlapping Device-nGnR*
+> store to the same peripheral. This breaks the program-order guarantee
+> that software expects for Device-nGnR* accesses and can leave a
+> peripheral in an incorrect state, as a load is observed before an
+> earlier store takes effect.
+> 
+> The erratum can occur only when all of the following apply:
+> 
+>   - A PE executes a Device-nGnR* store followed by a younger
+>     Device-nGnR* load.
+>   - The store is not a store-release.
+>   - The accesses target the same peripheral and do not overlap in bytes.
+>   - There is at most one intervening Device-nGnR* store in program
+>     order, and there are no intervening Device-nGnR* loads.
+>   - There is no DSB, and no DMB that orders loads, between the store and
+>     the load.
+>   - Specific micro-architectural and timing conditions occur.
+> 
+> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+> to stlr* (Store-Release), which removes the "store is not a
+> store-release" condition for every device write the kernel issues.
+> Because writel() and writel_relaxed() are both built on __raw_writel()
+> in asm-generic/io.h, patching the raw variants covers both the
+> non-relaxed and relaxed APIs without touching the higher layers. Note
+> that writel()'s own barrier sits before the store, so it does not order
+> the store against a subsequent readl(); the store-release promotion is
+> what provides that ordering.
+> 
+> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+> the plain str* sequence.
+> 
+> Note: stlr* only supports base-register addressing, so affected CPUs use
+> a base-register stlr* path. Unaffected CPUs keep the original
+> offset-addressed str* sequence introduced by commit d044d6ba6f02
+> ("arm64: io: permit offset addressing").
+> 
+> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
+> helpers are left unchanged. These helpers are intended for
+> write-combining mappings, which are Normal-NC on arm64. Replacing their
+> contiguous str* groups would defeat the write-combining behavior used to
+> improve store performance.
+> 
+> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> ---
+> Changes since v2:
+>   - Reworked the raw MMIO write helpers so unaffected CPUs keep the
+>     existing offset-addressed STR sequence, while affected CPUs use the
+>     base-register STLR path.
+>   - Updated the commit message to match the code changes.
+>   - Rebased on top of the arm64 for-next/errata branch:
+>     https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
+> 
+> Changes since v1:
+>   - Updated the commit message based on feedback from Vladimir Murzin.
+> 
+>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                          | 23 ++++++++++++++++
+>  arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
+>  arch/arm64/kernel/cpu_errata.c              |  8 ++++++
+>  arch/arm64/tools/cpucaps                    |  1 +
+>  5 files changed, 64 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index ad09bbb10da80..fc45125dc2f80 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -298,6 +298,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index c65cef81be86a..d633eb70de1ac 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>  
+>  	  If unsure, say Y.
+>  
+> +config NVIDIA_OLYMPUS_1027_ERRATUM
+> +	bool "NVIDIA Olympus: device store/load ordering erratum"
+> +	default y
+> +	help
+> +	  This option adds an alternative code sequence to work around an
+> +	  NVIDIA Olympus core erratum where a Device-nGnR* store can be
+> +	  observed by a peripheral after a younger Device-nGnR* load to the
+> +	  same peripheral. This breaks the program order that drivers rely
+> +	  on for MMIO and can leave a device in an incorrect state.
+> +
+> +	  The workaround promotes the raw MMIO store helpers
+> +	  (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+> +	  required ordering. Because writel() and writel_relaxed() are built
+> +	  on __raw_writel(), both are covered without changes to the higher
+> +	  layers.
+> +
+> +	  The fix is applied through the alternatives framework, so enabling
+> +	  this option does not by itself activate the workaround: it is
+> +	  patched in only when an affected CPU is detected, and is a no-op on
+> +	  unaffected CPUs.
+> +
+> +	  If unsure, say Y.
+> +
+>  config ARM64_ERRATUM_834220
+>  	bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>  	depends on KVM
+> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+> index 8cbd1e96fd50b..801223e754c90 100644
+> --- a/arch/arm64/include/asm/io.h
+> +++ b/arch/arm64/include/asm/io.h
+> @@ -22,10 +22,22 @@
+>  /*
+>   * Generic IO read/write.  These perform native-endian accesses.
+>   */
+> +static __always_inline bool arm64_needs_device_store_release(void)
+> +{
+> +	return alternative_has_cap_unlikely(
+> +				ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
+> +}
+> +
+>  #define __raw_writeb __raw_writeb
+>  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>  {
+>  	volatile u8 __iomem *ptr = addr;
+> +
+> +	if (arm64_needs_device_store_release()) {
+> +		asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
+> +		return;
+> +	}
+> +
+>  	asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+>  }
 
-Gentle ping on this series.
+Use an 'else' clause instead of the early return? (similarly for the other
+changes).
 
-v2 tries to address the previous concerns by avoiding per-file software
-tfm growth, preparing the software transform lazily, and explicitly
-disabling unsupported key combinations.
+I still reckon you should do something with the memcpy-to-io routines.
+A simple option could be to make dgh() a dmb on parts with the erratum?
+That at least moves the barrier out of the loop.
 
-The main remaining limitation is hardware-wrapped keys. If this makes
-the feature unlikely to be accepted, please let me know. Otherwise, I
-would appreciate any review comments on the current direction.
-
-If maintainers have any feasible direction in mind, I would also
-appreciate hearing it.
-
-Thanks,
-Liao Yuanhong
+Will
