@@ -1,140 +1,244 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C426D4C6F0E
-	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 18:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781202333; cv=pass; b=rI2TSBN4QNVNIi+ts/ja4HdaQTDCc1hoUpkuI1ub4Se63W7O04yXxirIezLlseEy0MqEeK1lA4zFwAfFjRzD2okTkZSRgbFax4tj8Q+kkG4+SP5ybwUcG3+3GPujrCEk5v2X8wN/1gpraejgU6WdLbFWltZ5P+L/al4zkdOVJBI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781202333; c=relaxed/simple;
-	bh=9KXgna/nwfEIF7S1Yx4SAsalr5XgJDJshnViSXgFlJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jo/Jrn1biRJlGnjXL3XNFy0vnBbF7Vqwml1SY6E32lRQTLacONrlVKQ+U/uVKo9QcZFg7/ZcbWgvKk47xx85JYBGQn6f9upmWssjSrzTie6Jk0TOdpnhqOwfloLgs+cJHDkKw0YY4GxePNjr2zpgNiJXzaoDctADJ1bArDgYIAE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JHkfUxzF; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD67348A2D0;
+	Thu, 11 Jun 2026 18:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781203033; cv=none; b=PDMgK7l0UhoZK8Mqw6Bnc1jy40WfvxIdKkU3SRwuZdwRtSppzT3DYEX37DgIfVMi+EhxYaAMdnmS7SXprzneTKBNu+dTJAQdBfrW/mH2lyqrZ0WyWC9NLf5LVUHjlG7pX7fN4hPouE6D4JzEKEw3QSh8IO89ngoQG0OalyoTwn8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781203033; c=relaxed/simple;
+	bh=xdT3L8Dv1uqNF2Q7l8GE7prCeJm1fbeqrupCUwjLkYU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GoNmxS/rXygotdK5iSpa8Qjew/EEluJ70yK8J/9s9EP7HYPlweJkW7U9LI4v92MDIDlysc0fq4T+GRa7NE7lVYscX9Jk6kvPFh/LkphvFNzRsrgSP7lWnvkFuO5WuIsF8tpXe9vxmF8gXEqgfTXaILmsrAU/dChq8arQX4elT34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dDcc08x0; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yHxSM7TA; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JHkfUxzF"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51765531803so88591cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 11:25:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781202329; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LQvBYOHrxzUX3dESqsBPStyJpo5wgypMXa2M9HDOoh+lV7IstLia+9xHhDMJwcQlke
-         Urq6CR1vV3j1f33iGFvGSmpEbNDuEm7akmUpb3ybyroW4vSpWtjZcnoiWEx+blYN+Z1c
-         qow4jmstqZJwalcIPchfHcTbtlJWzeGj3kQIrBqNNMq3obNcm+S4cbxjrwrxawZz0aDW
-         AD49BHwq1NxQapmp8aqpBiX3r4CwOy3311IXrF8fg1O8cDC8PrTpcd1p+fNNs7xyIVAh
-         q5GFNMV/n9S9taSjpjo86+I9qcRRyJFmUFsHIiaiqGkOnIplbPVm1sjzLqvZAR3c3q1U
-         HHCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9KXgna/nwfEIF7S1Yx4SAsalr5XgJDJshnViSXgFlJs=;
-        fh=M0f0rYx2BgoKNCFt+cIpBhekOQcQJ969Oiusf7rWIcw=;
-        b=fpY3yDHkaIpuxKlxp+7qN7y8FZdUOp87yg88LdEsFLPscWSeJe96eVt/f3rSW0dkJR
-         Fne1ZMiNuWORiXpy96fGUIQIeSKIYb5VapffC71QumxVB/49ctfzQSiqjA8jVb3rxdoy
-         mYU7QG7KyiRsJttpDjqPtpbB+pRh0QBg5WCZBar/QQw9m2JJNmGHxdyDDzshoSF5TJry
-         3IHgaLmt95W0og53rLWvDEXxo8KEFSeFDpzESmmoD9lkN8tmt3K0xuGna3sTcEnz2l3R
-         RTpdCa9/6jbAFagDXbrPfL4zrSoL74badkHWQCk6SHEhUqSX52i+7V3vyUcg0U9UEZza
-         W27Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781202329; x=1781807129; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9KXgna/nwfEIF7S1Yx4SAsalr5XgJDJshnViSXgFlJs=;
-        b=JHkfUxzFAAfrd8HDda146VpzErGNBBsdqAq5syikVd8seQWWz93p2GikC6EZIxmvQn
-         JUQ8WHQgA74q0APZblxiqgqkY0lwkSePFBkTt3nOH8dmcB/ey0q9/ZtNIPkMungeseFE
-         aLkJLbvs/xnaGDwk86u6AuQM0DWQyrem73Yl5X9Fz4vs1QRfw4MxBk6S2svOr8Pm+xK2
-         F/F6UkP+WUmVKz0ZxpDzMgcT+QDZD0Mg+Jw9Js0hqjDxadOAIKfgBVyx5HnTx3DkI4Kz
-         QS0Oa05yi9yPp20naoUsAN45X6Mvxgzg5zqAtIJDeJFTyjoQaTfxFuw4TC5syMZmVfwW
-         pGqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781202329; x=1781807129;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9KXgna/nwfEIF7S1Yx4SAsalr5XgJDJshnViSXgFlJs=;
-        b=hTWZfn8IknwQjQf2LMjJ9MNcsW64yNVup1W0aMoW7ywYuQc+Id6SYYaJMb6UVuRvz8
-         rTj9U/8DVGe2yDOnmWjc0fRIfjqUNm1T38hgQ1P4SVv4Kdp6sMRgvZUfrN683jChRDjm
-         cgmgj7/eg8ksLGUy8G8ePbX4eIWP4QMCc52bcexKA4TEYa4vngpfWWzkTfl+C2828L7t
-         8slgtXHhCD2bvzRCowFlp13+nx0b7cLoMuctRmXZ8NDeKo3wJOrSsABcPzxgFMSoNU4B
-         yvc1hCEI5YbQRhdfj2qOkaSvZnr5dEx8IOMFPrS+gMi3XpfLEF2vw5hWCU4hWB/IhxC/
-         ac2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/wgtpkE06x4FNh+9Xdn2PGamvsLZvZtxOleRDOXS2hpi1WrvjMnEDdUZKC+IZ4stzOcyn+d4H4I/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwlKFSqbjCkUgw+yfjBGrUmBuJAg/Go3kwu68nFcvc3puJzQCy
-	s1/bUZRfgU2gk5FPBH1vHWsvj6T1lAZZT7OX0VVDUCZee2qhsAGdJQjzksHvZIWauL/G2tWJoSB
-	Y7XmSK+r+Be9Qwi7hcGtsfJ+JGW3xE0lupd7wiiOF
-X-Gm-Gg: Acq92OHwPQ0mYHd0jjTyYmKeiF8D2odULyLQvEHfwFicPHGa2CxhdzINKEeSd+sOpmv
-	Wx/K9avCAXAiCfxR9gLTcO6xiBpts2n2E7ZGBPj/VYHbv73lej2bvETz+REoykebcTXmPVfw3Fl
-	uXdv9VfO8TFcQNktYVPVQRlH+qyr8thH9p8UyYtwLlRn3sjBz42qxiPtFUUvu+//MhDo0RdboV4
-	pARcyJnsreZGi3D0TSYmxvKJHF6BgM8iECcS42zvS9YO4CTSX+ZT10DgbWUZpV/B6BMz6KlpucV
-	4Jm5j6LMKUFLfvhtnKHRtz6vq7Xlr5ZnFg9MUvBR
-X-Received: by 2002:ac8:5d16:0:b0:517:6dc0:698d with SMTP id
- d75a77b69052e-517facbda8fmr1217551cf.0.1781202327712; Thu, 11 Jun 2026
- 11:25:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dDcc08x0";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yHxSM7TA"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gbrwN2g2kz9tWv;
+	Thu, 11 Jun 2026 20:37:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781203028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
+	b=dDcc08x0dcrKswHlCVxuROso1L8H2qo5xxLwb2GdvV2xY4AFA5F9RTOimgpKn5pxzpRufh
+	tuzqlDg4A/rMg7HKbaHXE3Vn8IMzlSkyObAvpKbFCrjOXigEghkfPqHyz21cbPm/v+RB2l
+	lKbNlYW77r7imN2qll75tefdhZS8Z9cFOW+c5+P8mS+wPK4d4VwSyRmVXFe92peAB8WLng
+	A5/8uiQVtk2fibFWyO1c3OU9AeUBbNZgE1rYZdsN/u0W8kE0k69/i6qInDr/o2vEse8Kkc
+	7lH0fpN/C1Hu12dfoxky+PSj7B3F9OEOn08lRas9tdnimqiR3kdSw4VZBudakg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781203022;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Dkv0Y88H+SR6ILk9sT/YTT+0skYukMCzceYVycVftns=;
+	b=yHxSM7TAtkgtiG7evw5aBg+nfR1e5mMA5TA7y6XTlvnRHkWVkwOgn7nzTTVwgiJfxrlSPw
+	Fq6b2wdI56NyVbncWKl66lO/iR9AszePqYiGiIJS1Lnjbk/DbXPERUSPgNsiAwW8Xv8gBr
+	9sJTd5vM8OCzoTh48DBrJTg+X4eYfzigRIXzj5phRIFhp3mxRKM/hXHh9qnPi3MkMWml1z
+	9AbAxExj8Rl6A86dy7oZMZIJIUm83Z4Y6TQoBFXIF9dNdlS3J1vNIZLdCAFK8O2yqXcnEj
+	+bODCeBRbhc1fQWZrgL1UmtZcarxtrM5WqAJEGAWdVgLtWZN++53G17Pw0dPfw==
+To: Vineet Gupta <vgupta@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT))
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: arch: fix brackets
+Date: Thu, 11 Jun 2026 20:35:20 +0200
+Message-ID: <20260611183525.153058-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526023515.288829-1-rick.p.edgecombe@intel.com> <20260526023515.288829-2-rick.p.edgecombe@intel.com>
-In-Reply-To: <20260526023515.288829-2-rick.p.edgecombe@intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Thu, 11 Jun 2026 11:25:16 -0700
-X-Gm-Features: AVVi8Cc_4ND7d7yx-9ajFnqcQ8evQgoIAwHtu_wkSwUVPyjfFy-YFFdjIGUufDs
-Message-ID: <CAGtprH9HupUdHmLJbxk0QL=8bQ0kKNw=j_-fpvfAKTf=x7izgw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/11] x86/virt/tdx: Simplify tdmr_get_pamt_sz()
-To: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc: bp@alien8.de, dave.hansen@intel.com, hpa@zytor.com, kas@kernel.org, 
-	kvm@vger.kernel.org, linux-coco@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mingo@redhat.com, nik.borisov@suse.com, 
-	pbonzini@redhat.com, seanjc@google.com, tglx@kernel.org, x86@kernel.org, 
-	chao.gao@intel.com, yan.y.zhao@intel.com, kai.huang@intel.com, 
-	Binbin Wu <binbin.wu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: f6zk6t8i7udhsfuxo6bwkb9axkpyzqtj
+X-MBO-RS-ID: 29289ebd505fa1394bb
 
-On Mon, May 25, 2026 at 7:35=E2=80=AFPM Rick Edgecombe
-<rick.p.edgecombe@intel.com> wrote:
->
-> For each memory region that the TDX module might use (called TDMR), three
-> separate traditional PAMT allocations are needed. One for each supported
-> page size (1GB, 2MB, 4KB). These store information on each page in the
-> TDMR. In Linux, they are allocated out of one physically contiguous block=
-,
-> in order to more efficiently use some internal TDX module book keeping
-> resources. So some simple math is needed to break the single large
-> allocation into three smaller allocations for each page size.
->
-> There are some commonalities in the math needed to calculate the base and
-> size for each smaller allocation, and so an effort was made to share logi=
-c
-> across the three. Unfortunately doing this turned out unnaturally torture=
-d,
-> with a loop iterating over the three page sizes, only to call into a
-> function with cases statement for each page size. In the future Dynamic
-> PAMT will add more logic that is special to the 4KB page size, making the
-> benefit of the math sharing even more questionable.
->
-> Three is not a very high number, so get rid of the loop and just duplicat=
-e
-> the small calculation three times. In doing so, setup for future Dynamic
-> PAMT changes.
->
-> Since the loop that iterates over it is gone, further simplify the code b=
-y
-> dropping the array of intermediate size and base storage. Just store the
-> values to their final locations. Accept the small complication of having
-> to clear tdmr->pamt_4k_base in the error path, so that tdmr_do_pamt_func(=
-)
-> will not try to operate on the TDMR struct when attempting to free it.
->
-> Assisted-by: GitHub Copilot:claude-opus-4-6 Claude:claude-opus-4-7
-> Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Add missing and remove needless parentheses, brackets and curly braces.
 
-Reviewed-by: Vishal Annapurve <vannapurve@google.com>
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+ Documentation/arch/arc/arc.rst                 |  2 +-
+ .../arm/samsung/clksrc-change-registers.awk    |  2 +-
+ Documentation/arch/arm/vlocks.rst              |  4 ++--
+ .../arch/arm64/memory-tagging-extension.rst    |  2 +-
+ Documentation/arch/powerpc/vas-api.rst         |  2 +-
+ Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
+ Documentation/arch/sparc/oradax/oracle-dax.rst |  3 ++-
+ 7 files changed, 17 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/arch/arc/arc.rst b/Documentation/arch/arc/arc.rst
+index 6c4d978f3f4e..553851f43be7 100644
+--- a/Documentation/arch/arc/arc.rst
++++ b/Documentation/arch/arc/arc.rst
+@@ -36,7 +36,7 @@ Important note on ARC processors configurability
+ 
+ ARC processors are highly configurable and several configurable options
+ are supported in Linux. Some options are transparent to software
+-(i.e cache geometries, some can be detected at runtime and configured
++(i.e cache geometries), some can be detected at runtime and configured
+ and used accordingly, while some need to be explicitly selected or configured
+ in the kernel's configuration utility (AKA "make menuconfig").
+ 
+diff --git a/Documentation/arch/arm/samsung/clksrc-change-registers.awk b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
+index 7be1b8aa7cd9..48464397088c 100755
+--- a/Documentation/arch/arm/samsung/clksrc-change-registers.awk
++++ b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
+@@ -163,4 +163,4 @@ BEGIN {
+     }
+ }
+ 
+-// && ! /clksrc_clk.*=.*{/ { print $0 }
++// && ! /clksrc_clk.*=.*{/ { print $0 }}
+diff --git a/Documentation/arch/arm/vlocks.rst b/Documentation/arch/arm/vlocks.rst
+index 737aa8661a21..b0ac33263086 100644
+--- a/Documentation/arch/arm/vlocks.rst
++++ b/Documentation/arch/arm/vlocks.rst
+@@ -102,10 +102,10 @@ Features and limitations
+ 	if (I_won) {
+ 		/* we won the town election, let's go for the state */
+ 		my_state = states[(this_cpu >> 8) & 0xf];
+-		I_won = vlock_lock(my_state, this_cpu & 0xf));
++		I_won = vlock_lock(my_state, this_cpu & 0xf);
+ 		if (I_won) {
+ 			/* and so on */
+-			I_won = vlock_lock(the_whole_country, this_cpu & 0xf];
++			I_won = vlock_lock(the_whole_country, this_cpu & 0xf);
+ 			if (I_won) {
+ 				/* ... */
+ 			}
+diff --git a/Documentation/arch/arm64/memory-tagging-extension.rst b/Documentation/arch/arm64/memory-tagging-extension.rst
+index 679725030731..e6fe428f0e2a 100644
+--- a/Documentation/arch/arm64/memory-tagging-extension.rst
++++ b/Documentation/arch/arm64/memory-tagging-extension.rst
+@@ -222,7 +222,7 @@ programs should not retry in case of a non-zero system call return.
+ address ABI control and MTE configuration of a process as per the
+ ``prctl()`` options described in
+ Documentation/arch/arm64/tagged-address-abi.rst and above. The corresponding
+-``regset`` is 1 element of 8 bytes (``sizeof(long))``).
++``regset`` is 1 element of 8 bytes (``sizeof(long)``).
+ 
+ Core dump support
+ -----------------
+diff --git a/Documentation/arch/powerpc/vas-api.rst b/Documentation/arch/powerpc/vas-api.rst
+index a9625a2fa0c6..1d0d055356e3 100644
+--- a/Documentation/arch/powerpc/vas-api.rst
++++ b/Documentation/arch/powerpc/vas-api.rst
+@@ -293,7 +293,7 @@ Simple example
+ 				//Format CRB request with compression or
+ 				//uncompression
+ 				// Refer tests for vas_copy/vas_paste
+-				vas_copy((&crb, 0, 1);
++				vas_copy(&crb, 0, 1);
+ 				vas_paste(addr, 0, 1);
+ 				// Poll on csb.flags with timeout
+ 				// csb address is listed in CRB
+diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+index ef1a4c2bf08b..ef6088aeaa66 100644
+--- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
++++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+@@ -457,7 +457,7 @@ bits set, and terminate at a CCB that has the Conditional bit set, but not the P
+ Offset   Size   Field Description
+                 Bits         Field Description
+                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                             “Secondary Input Element Size”
++                             “Secondary Input Element Size”)
+                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                 [9]          Padding Direction selector: A value of 1 causes padding bytes
+                              to be added to the left side of output elements. A value of 0
+@@ -656,7 +656,7 @@ Offset         Size            Field Description
+                                [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                                             Element Offsets”)
+                                [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                                            “Secondary Input Element Size”
++                                            “Secondary Input Element Size”)
+                                [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                                [9:5]        Operand size for first scan criteria value. In a scan value
+                                             operation, this is one of two potential exact match values.
+@@ -793,13 +793,13 @@ Offset   Size   Field Description
+                 [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                              Element Offsets”)
+                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                             “Secondary Input Element Size”
++                             “Secondary Input Element Size”)
+                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                 [9]          Reserved
+                 [8:0]        Test value used for comparison against the most significant bits
+                              in the input values, when using 2 or 3 byte input elements.
+-8        8      Completion (same fields as Section 36.2.1.2, “Extract command”
+-16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”
++8        8      Completion (same fields as Section 36.2.1.2, “Extract command)”
++16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”)
+ 24       8      Data Access Control (same fields as Section 36.2.1.2, “Extract command”,
+                 except Primary Input Length Format may not use the 0x0 value)
+ 32       8      Secondary Input, if used by Primary Input Format. Same fields as Primary
+@@ -880,7 +880,7 @@ Offset   Size   Field Description
+                                        [18:16]     Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                                                    Element Offsets”)
+                                        [15:14]     Secondary Input Element Size (see Section 36.2.1.1.4,
+-                                                   “Secondary Input Element Size”
++                                                   “Secondary Input Element Size”)
+ 
+ 
+                                                       524
+@@ -895,8 +895,8 @@ Offset   Size   Field Description
+                                                     causes padding bytes to be added to the right side of output
+                                                     elements.
+                                        [8:0]        Reserved
+-        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”
+-        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”
++        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”)
++        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”)
+         24             8               Data Access Control (same fields as Section 36.2.1.2, “Extract command”)
+         32             8               Secondary Bit Vector Input. Same fields as Primary Input.
+         40             8               Reserved
+@@ -949,7 +949,7 @@ Offset   Size   Field Description
+                                    [31]        If set, this CCB functions as a Sync command. If clear, this
+                                                CCB functions as a No-op command.
+                                    [30:0]      Reserved
+-       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”
++       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”)
+        16            46            Reserved
+ 
+ 36.2.2. CCB Completion Area
+diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
+index d1e14d572918..67867ea7be40 100644
+--- a/Documentation/arch/sparc/oradax/oracle-dax.rst
++++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
+@@ -438,7 +438,8 @@ that in user land::
+ The output bitmap is ready for consumption immediately after the
+ completion status indicates success.
+ 
+-Excer[t from UltraSPARC Virtual Machine Specification
++Excer?t from UltraSPARC Virtual Machine Specification
++i guess this is wrong, but i don't know what's correct
+ =====================================================
+ 
+  .. include:: dax-hv-api.txt
+-- 
+2.54.0
+
