@@ -1,59 +1,63 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568F42F0C74;
-	Thu, 11 Jun 2026 06:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A156348C5C;
+	Thu, 11 Jun 2026 06:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781160224; cv=none; b=MPBxblgUIFOs9icX8khdwEIVtX3TgDqI5xXtti6WGuUFhRUN5jts5YD/EntD5KCQfGushccaqSPAKFje9Rn/dbnGuDJRchVNdNI2i0DKBsWW2HkvkR5JSlLP29IqFXXVey4DfJPxz+4MRArN1hAGFdBVF3XDwyr8qe39p7XLI2s=
+	t=1781160463; cv=none; b=XW5BwATBhcUg020wp6nVEh6a4TBvdZrI1u7GV872qEGiwoapfE256Kd7ksSRAypT+e8Mar1gXc5DsO8NX0thNi+NV6x5QfTDOlhLrLOz1yX6sq22r49GPuZFzHcRQbj1eBO3THfeCUOKzZ1mS/VFGLRA+2B0w1h7Loe2xm/VA0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781160224; c=relaxed/simple;
-	bh=Cxeo3yD8bQ4mghSwFEOqV7gQtN9YyWv36fuIIJbO480=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=apaFhNbZ6imX0TC1bnorrF8KG56ayl2FI7KNQ1+kG/qDqFli3fP5hHzeJhkWuYg3QMdW/cdzVlFcxmqA+4J3DEg+XFW22fK6ISFCLsyOp056oQ/f+mkgJWVvYbV4mQBbDSTqi8bxcnN0QPzk2KC2XdFL8emByWPaq6OGwzaQz+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RkUlCj6m; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fzxd0ba2; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RkUlCj6m";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fzxd0ba2"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gbY576zfPz9tnc;
-	Thu, 11 Jun 2026 08:43:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781160220;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KNOwnOoY59EO9KXyS6k+CkrGuIfKkYnDyF0oqjN2CzM=;
-	b=RkUlCj6mDCnAJzv0MZvezZZh0SA+0N2j2rXIiQiGjQcbQ6tGBNV4gBPOj3r8PaUTBC9ntY
-	7iTdNR7thm8Iryzg5ejcVkW8CVXkO4Gsq9T3k/u76FmASYUnGaMAMalzxFXhz9+rxvEDsk
-	5SZVAKCeOFeARDaXJzcTvtnGqh3OPhhi90UxDTWUAt75uy+i1JmdEnQZjObwR+3hqfiEa6
-	SKb8lzPCua5gfeu+z2cczTkxH/ctpmzohK3+Hcixs9Iy/r3fWAPLDzGkw2YhyKlbT8xg4t
-	sSevTxGb29VPUkaIRi+7EHgI33Xk2YhO+2RweMVtc8+OK3Scm6OHGfiX7roXzg==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781160218;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KNOwnOoY59EO9KXyS6k+CkrGuIfKkYnDyF0oqjN2CzM=;
-	b=fzxd0ba2URYj9nf9wX0g6kBDOtR3GxytxHYvxydLPtu+rb6gsZeSnnxKEUX/b9pTEbDBLd
-	dPyb60uzIuxlhhmmGFW8sgSVnH8PMtklhf3QHh53xvQUIXidAuniQBqcz0n7EoF/kNkXoH
-	ijKVLYse5rdURS6JuG1RuPgn5ud9DIdF4qmtVRmHdCZin7waCdCCcona1OHI2TnBzbU5Od
-	TPMHjPbPD2H56Apvb8/LSTyAocvc8ywTljO0p1Q51O1zXx7SjCL8InOsjQWiNSbvjeHBkv
-	emeuUrbeOcDaBGfZRxc5zQb8dG0FFIL3Vb2Eknbmwo3bLwVTK/XcY6HVFmk6TA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH] Documentation: process: fix brackets
-Date: Thu, 11 Jun 2026 08:43:12 +0200
-Message-ID: <20260611064311.117023-2-manuelebner@mailbox.org>
+	s=arc-20240116; t=1781160463; c=relaxed/simple;
+	bh=NwnuO8Z0UsG+3NUpzyI9s9wy3riFEcPQ4uqsjijXHjQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kGlF6pNQK6eoSS0y6DpE4XzDAEVJmi3s5grsg59atztoELRWGKa1lMJbeDEMXRg3lyXhZ+Eo5qPObS7a3MInhqKTcSKNcGqJTZTabdNm8S9Zn8qfW0uDfwdv96caS/QMWNwSPbQPWI0wonlD+lP/0ikJN1josPgVy4Q52MFq7GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXbn74Ckz12NXN;
+	Thu, 11 Jun 2026 14:21:41 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXbn6tJgz12NXN;
+	Thu, 11 Jun 2026 14:21:41 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id D585816CF;
+	Thu, 11 Jun 2026 14:21:23 +0800 (CST)
+Received: from hsj-2U-Workstation.hygon.cn (172.19.20.61) by
+ cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 11 Jun 2026 14:21:36 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <jack@suse.cz>, <muchun.song@linux.dev>,
+	<osalvador@suse.de>, <david@kernel.org>
+CC: <surenb@google.com>, <mjguzik@gmail.com>, <liam@infradead.org>,
+	<ljs@kernel.org>, <vbabka@kernel.org>, <shakeel.butt@linux.dev>,
+	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <linux@armlinux.org.uk>, <dinguyen@kernel.org>,
+	<schuster.simon@siemens-energy.com>, <James.Bottomley@HansenPartnership.com>,
+	<deller@gmx.de>, <djbw@kernel.org>, <willy@infradead.org>,
+	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
+	<namhyung@kernel.org>, <mark.rutland@arm.com>,
+	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
+	<irogers@google.com>, <adrian.hunter@intel.com>, <james.clark@linaro.org>,
+	<mhiramat@kernel.org>, <oleg@redhat.com>, <ziy@nvidia.com>,
+	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
+	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
+	<linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>, <jannh@google.com>,
+	<pfalcato@suse.de>, <riel@surriel.com>, <harry@kernel.org>,
+	<will@kernel.org>, <brian.ruley@gehealthcare.com>,
+	<rmk+kernel@armlinux.org.uk>, <dave.anglin@bell.net>, <linux-mm@kvack.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-parisc@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-perf-users@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, Huang
+ Shijie <huangsj@hygon.cn>
+Subject: [PATCH v2 1/4] mm: use mapping_mapped to simplify the code
+Date: Thu, 11 Jun 2026 14:18:57 +0800
+Message-ID: <20260611061915.2354307-2-huangsj@hygon.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260611061915.2354307-1-huangsj@hygon.cn>
+References: <20260611061915.2354307-1-huangsj@hygon.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,45 +65,64 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 378feb314aa5abd288d
-X-MBO-RS-META: ehysenq7k1f4mcbxfnym6dje5hcmcs1b
+Content-Type: text/plain
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-Fix missing ')' and needless ')'
+Use mapping_mapped() to simplify the code, make
+the code tidy and clean.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Signed-off-by: Huang Shijie <huangsj@hygon.cn>
 ---
-This is the first patch of a 'series', but I won't send them together
-because I'm still producing the patches and it will take me a couple weeks.
- Documentation/process/deprecated.rst     | 2 +-
- Documentation/process/maintainer-soc.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ fs/hugetlbfs/inode.c | 4 ++--
+ mm/memory.c          | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index ac75b7ecac47..03de71f654c7 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -388,7 +388,7 @@ allocations. For example, these open coded assignments::
- 	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- 	ptr = kcalloc(count, sizeof(*ptr), gfp);
- 	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
--	ptr = kmalloc(sizeof(struct foo, gfp);
-+	ptr = kmalloc(sizeof(struct foo), gfp);
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 78d61bf2bd9b..216e1a0dd0b2 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -614,7 +614,7 @@ static void hugetlb_vmtruncate(struct inode *inode, loff_t offset)
  
- become, respectively::
+ 	i_size_write(inode, offset);
+ 	i_mmap_lock_write(mapping);
+-	if (!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root))
++	if (mapping_mapped(mapping))
+ 		hugetlb_vmdelete_list(&mapping->i_mmap, pgoff, 0,
+ 				      ZAP_FLAG_DROP_MARKER);
+ 	i_mmap_unlock_write(mapping);
+@@ -675,7 +675,7 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
  
-diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
-index a3a90a7d4c68..fa91dfc53783 100644
---- a/Documentation/process/maintainer-soc.rst
-+++ b/Documentation/process/maintainer-soc.rst
-@@ -60,7 +60,7 @@ All typical platform related patches should be sent via SoC submaintainers
- shared defconfigs. Note that scripts/get_maintainer.pl might not provide
- correct addresses for the shared defconfig, so ignore its output and manually
- create CC-list based on MAINTAINERS file or use something like
--``scripts/get_maintainer.pl -f drivers/soc/FOO/``).
-+``scripts/get_maintainer.pl -f drivers/soc/FOO/``.
+ 	/* Unmap users of full pages in the hole. */
+ 	if (hole_end > hole_start) {
+-		if (!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root))
++		if (mapping_mapped(mapping))
+ 			hugetlb_vmdelete_list(&mapping->i_mmap,
+ 					      hole_start >> PAGE_SHIFT,
+ 					      hole_end >> PAGE_SHIFT, 0);
+diff --git a/mm/memory.c b/mm/memory.c
+index 86a973119bd4..5335077765e2 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4386,7 +4386,7 @@ void unmap_mapping_folio(struct folio *folio)
+ 	details.zap_flags = ZAP_FLAG_DROP_MARKER;
  
- Submitting Patches to the Main SoC Maintainers
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 	i_mmap_lock_read(mapping);
+-	if (unlikely(!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root)))
++	if (unlikely(mapping_mapped(mapping)))
+ 		unmap_mapping_range_tree(&mapping->i_mmap, first_index,
+ 					 last_index, &details);
+ 	i_mmap_unlock_read(mapping);
+@@ -4416,7 +4416,7 @@ void unmap_mapping_pages(struct address_space *mapping, pgoff_t start,
+ 		last_index = ULONG_MAX;
+ 
+ 	i_mmap_lock_read(mapping);
+-	if (unlikely(!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root)))
++	if (unlikely(mapping_mapped(mapping)))
+ 		unmap_mapping_range_tree(&mapping->i_mmap, first_index,
+ 					 last_index, &details);
+ 	i_mmap_unlock_read(mapping);
 -- 
-2.54.0
+2.53.0
+
 
