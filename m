@@ -1,94 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466553BD63C;
-	Thu, 11 Jun 2026 17:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD7B3FBA7;
+	Thu, 11 Jun 2026 17:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781198518; cv=none; b=Bs0Ja8TRq1vSkMSOOyrdRjKK/8/qIloko9Ygx8paUYOR28IxL9DPffxV+yq9mJEPzmL2dj3LvsRnoS9wbXWAf+5e6euVM3cNAo/GMb+mvet7FTxbWa1QKzX/fJfQciByHzvkPmXeecSAHMvKFU96G/6Rh706IACF+iHpFYo3Q1A=
+	t=1781198930; cv=none; b=l4Gd757o5M7Gni6Fa9eTS6F0PdzLjCmKsTRWAe1FqULvzleH1C1vhsRov8CV9e5CsB5eioVmgkmd0nDTfdzGNhU4Ja2ifDDBr6BmWJEBR0dmbAobr89xwi7eADEjKgUuJK8ERopDwAtoXPlaptrQ6pxgJWdGUOKKvqvvDs4ETbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781198518; c=relaxed/simple;
-	bh=oyV1ai1PBM4DTWyjLYyA0QqbBh5MfSH/K+Y7AfR8B5M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6rGtVV3xUqU5uQmcMK9qcZJpvOGAaE9+1SGFX/45kSC4dlSUsuo1n1cwbQHvV0ugic9jkb2wUh8BI5VxKJOKtFCVkSAN3ddBd9XZ79duIKx/zEFj13b3bpmCBcQcO0/1BqKZOtUFREOs/55qTFAP4Kt97CqRjzxAnAp9q0NJrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uk/9JU+m; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781198930; c=relaxed/simple;
+	bh=ZXArNUb0vXn9MYj0/ie2Bj4KZ6FMSdOXObadG81SJGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AKpy1fGsy8gVTPy1qCxC2nUzgRG9Tipnb/pOvsg/6OdB56L5EbGcliT0PViVui2UJlbBaoZPaeUZlKJ/fvIQfqeK/2hH3JIU2NZkP9lF+p4+5oT8UC0WUNyO2A7799333foZHcjah7SweKUSWerQcK8lFawqnTOmUbeCyybN2vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvfxdP+r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uk/9JU+m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238A31F00893;
-	Thu, 11 Jun 2026 17:21:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvfxdP+r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49561F00893;
+	Thu, 11 Jun 2026 17:28:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781198513;
-	bh=yMIRtVAbaSjolqJjcTWBcOrVYaBhk0KzhTLifQtt17w=;
-	h=From:To:Cc:Subject:Date;
-	b=Uk/9JU+mWXnTO3w4SnJCs2U3Tp2NoB4/vMjnvG+PYaEnCtnedp18/Eo4SrNNyNPxM
-	 mFvqs9bHmjKh5QJVKDAn0dRMaCU83O2Rgf1hHGU0MFvXtuEJdDdB6ATy7J6CnzdKNR
-	 IUzX6aGkT7A6VH++j0drGmy/cJOYO7ibHjVWj8yELWVAC/i8wr9Pkax2Izu1HdkY7D
-	 B/4AZsxwWv9EQ6QgfZie01awVaS2nqzzyS3AHQVXio58O9ohGqGsPo64yyXmhbGCSV
-	 cVmbnhL4BfpnQZbetq6mIm2oNliPbKXRNiq8lIYFohhAFoOUKpJTpkt7YcRiHFEjzE
-	 JUb2/FCxELLKw==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Joe Damato <joe@dama.to>,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2] docs: networking: add guidance on what to push via extack
-Date: Thu, 11 Jun 2026 10:21:49 -0700
-Message-ID: <20260611172149.1877704-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	s=k20260515; t=1781198929;
+	bh=HWs4bm/rOcWxeVbBEoGSUteHdOSPrbhiev/2SBxgXus=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DvfxdP+rbImPjs+2h+C21lPzXuRX4C0yT6SLl7vKFldC1J+Q/me6bzhPFwbna8XY3
+	 Wyci5XeHeNNTOqp6paVMm2A+/IWjG/m9w+csAwluBo8fpx+SNHtDJKR+y/S8tFk7pS
+	 /RfvimMU8vZZVGlXjNHJmA2dqEnmb5/ID0t0v3/37aRvZWaPcKjvg6nni2EPlYvp1c
+	 9TBhr7JZVOx1x8epKau7hI9/P/nOz6FIGDskte+RRiFig/yM6H5XLE/zuLf1GZ7PUf
+	 6MC9uRz0Fp6s1QQce7hF+NayIFQCsGE4KIcXAPy+jxg2LK1CLwWHruYPM8zwdihy/t
+	 Eirz2CaOmdZrw==
+Message-ID: <55b1b674-6487-4585-8a0d-919373e66d3a@kernel.org>
+Date: Thu, 11 Jun 2026 19:28:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
+Content-Language: en-US
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Harry Yoo <harry@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ liam@infradead.org, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Every now and then someone tries to duplicated extack
-messages to dmesg. Document our guidance against this.
-Also indicate that system level faults should continue
-to go to system logs. The high level thinking is to try
-to distinguish between what's important to the user vs
-system admin.
+On 6/11/26 08:39, Pengpeng Hou wrote:
+> SLAB_STORE_USER currently stores one allocation track and one free track
+> for an object. This is useful, but it loses part of the previous lifetime
+> when the object is reused: the new allocation overwrites the allocation
+> track, and a later stale free can overwrite the free track.
+> 
+> For free-after-reuse bugs, the report can therefore contain the victim
+> allocation and the stale free, while the earlier alloc/free pair that
+> explains where the stale pointer came from is no longer available.
+> 
+> This RFC adds an opt-in SLUB debug option to keep one previous completed
+> object lifetime. The option is disabled by default, is not part of the
+> default debug flags, and only takes effect when user tracking is already
+> enabled:
 
-Reviewed-by: Joe Damato <joe@dama.to>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v2: some nit picks
+Sounds useful!
 
-CC: corbet@lwn.net
-CC: skhan@linuxfoundation.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/driver.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+>   slab_debug=UH,kmalloc-128
+> 
+> The series intentionally does not attempt to infer semantic ownership or
+> identify the root cause of a use-after-free. It only preserves and prints
+> additional track records that SLUB already knows how to collect.
 
-diff --git a/Documentation/networking/driver.rst b/Documentation/networking/driver.rst
-index 195a916dc0de..920c0ec98759 100644
---- a/Documentation/networking/driver.rst
-+++ b/Documentation/networking/driver.rst
-@@ -128,3 +128,16 @@ to be freed up.
- If you return NETDEV_TX_BUSY from the ndo_start_xmit method, you
- must not keep any reference to that SKB and you must not attempt
- to free it up.
-+
-+Error message reporting
-+=======================
-+
-+A number of driver configuration interfaces pass a Netlink extended ACK
-+(``extack``) object to the driver (either directly as an argument or
-+as a member of a parameter struct). The drivers should try to report
-+most errors via the ``extack`` object. System level exceptions,
-+indicating that system or device is misbehaving or is in bad state,
-+should continue to be reported to system logs.
-+
-+Messages should be passed **either** via ``extack`` **or** to system logs.
-+Drivers should not try to report the same information to both.
--- 
-2.54.0
+Indeed, it would be generally impossible to infer I think.
+
+> This is sent as RFC because the user-visible interface and the cost/benefit
+> tradeoff should be agreed on before this becomes a normal patch series.
+> In particular, feedback would be useful on:
+> 
+> - whether a separate H option is preferable to extending U directly
+
+I think before we converted U to stackdepot, the memory overhead of the
+stacks was higher than U+H with stackdepot. So I think it would be
+acceptable to extend directly. If a user is willing to pay the current U
+overhead to debug something in production, the addition of U+H shouldn't
+make it suddenly unacceptable.
+
+> - whether H should require U, as implemented here, or imply U
+> - whether the extra per-object metadata is useful enough for this debug path
+
+One could think of scenarios where even longer object history would be
+needed to find the culprit. But adding one extra lifetime probably has the
+biggest impact.
+
+> Not included yet:
+> 
+> - KUnit coverage or a standalone reproducer
+
+That would be nice.
+
+> - object-size/order comparison data for representative caches
+
+Could be useful too.
+
+> - runtime benchmark data for slab_debug=U vs slab_debug=UH
+
+This is probably not necessary as we do expect debugging has a performance
+cost, and this is not doing anything extra slow, only copying the previous
+tracking info? In practice the overhead depends on the workload anyway.
+
+Thanks!
+
+> Those should be added before a non-RFC submission if the direction looks
+> acceptable.
+> 
+> Pengpeng Hou (5):
+>   mm/slub: factor user tracking metadata size calculation
+>   mm/slub: add optional previous lifetime user tracking
+>   mm/slub: print previous object lifetime in debug reports
+>   Documentation/mm: document SLUB previous lifetime tracking
+>   mm/slub: sanitize previous lifetime tracking flags
+> 
+>  Documentation/admin-guide/mm/slab.rst |  22 ++++-
+>  include/linux/slab.h                  |   3 +
+>  mm/slab.h                             |   3 +-
+>  mm/slub.c                             | 118 ++++++++++++++++++++++----
+>  4 files changed, 128 insertions(+), 18 deletions(-)
+> 
 
