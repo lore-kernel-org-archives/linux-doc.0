@@ -1,241 +1,138 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013069.outbound.protection.outlook.com [40.93.196.69])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E90A19DF62;
-	Thu, 11 Jun 2026 17:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781199815; cv=fail; b=FMhEuBLbTxEn+zaKHykW7OamPbLdJeA+kk3h4u3f5S9sN1YnzzH32NfoAEhJCFNrdNKIxI/vF/14Ati7T4YJRUhGYOAOphYsg+9RlvZ8ik33t92Nu5giIuqVQkjqDPGB57XkENUgrjH+tsGCjEbsV89yLVvGvqLTtZ/E14LNGqc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781199815; c=relaxed/simple;
-	bh=znLTNB1sYGxY5ykVINSRxZZqoFWsJPKPgEyOQukSXzU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=joVDLJkTrLgvC4N8tGhgGKoto72KTCxvwI0HcuCG7aO5+LjDFK3THd0lE5fG6ENtbVAf/q0ymgxgCY26IFWciIrCGQLdyeucIxyIbJivV0fOXm7vsnGszpP1k43rHYlBeSkyR9qtSm0iSOya9YdR4+19y77wA/wzeDC9bg7fd6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ovd5CQFj; arc=fail smtp.client-ip=40.93.196.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193A748B385;
+	Thu, 11 Jun 2026 17:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781199908; cv=none; b=VzEREAAgZZln3BkSl/ht/lg5KT4msYh3LkgX7DxBVvyQPScjqZHTePi9MPP8GYlRGy1vYC/fHIsKDdXZJdkCiBoBa8wtd3PONh6ZCBReW3gHdvaV5FN3XVPt0CFhAgB4rJl8mg2JJ3u4FyGEDeuXGZqwEtHHcAt1qxdzM0hCd+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781199908; c=relaxed/simple;
+	bh=0vBiCAY1y31EICrgx65F0heV7GNSgHg52mARy3JPODg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vBWXg4IxuwfapfdA3RgQZZ6iemxhdvu33u6bCNeorMPCf0H8ZG7RN8s6PhKHbCglFhiRwRzPQHp2gEZ8jHDYUfAOM/ro4nCJL4IfFzerrclQuwADzgg8SqqhRLetCahOdgINEvs2WXXhBeWxmmg2cDyQeO9OJXN5GJLtwMn4zdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLvD1dja; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ovd5CQFj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ukF44RdD8RBywGgXMCzDsUJbT+E8m2iwpbbzsYox6Q+YVKa6o2IO6je/knLGORdbFuwrP4au76fCmg60z4WzHpvlCJOBGq9y4Eg4GiOslU1cnnwrxdYBhzgsH82lojhnhm4wPmvmfe7R05xFfu1vcZUG9A6JqTT8iV1PxD7wyd1h15Tje7VuzxNnE4WseBsq8KyHKY8c4Q+conke3dnBK1mDSGd1w9LAsChDYj+2R6/gAtJ1sm8RR2dWtrnYI4SY4E5JuduxlGaERgTpEEoWldKVmHj4txPAgJwBVS7r5zSUSRhPvicgMPcBPT8TlkHMgzFglrYFT5yLNTigdRAp1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Usocpods56Um8V+3ts6MpOVtMfCyBVCI9gmtw7TUC88=;
- b=h5Wfdy8F5NYxJrrKNz6pQBKRU3mC9sqHRzOmMh4zSjAn8u84uMmwgUQLxnR/RD9WTHYqyw6RmLLlWBwb79cDEp5Ah8uPZpLesv6PouP2kV6LvG+x+b5xBy6xkId01cgyLmb7huoQWZ6vSpkDoRs0zjtZ+8NpnJy3yPobX3Tw6jxC28W5p9ATdMqdd0ILUW7vuOjC/GsE/0yAOY0U04Tsz4QzTM2oWTCnTvVbhpHMO8NmL1QgbPHqh7iJ6fJsbZLU10kHH2s0CannHMAan6Hd3B78BepxmCONMviKza7CYu77PqBMEQQLGwGNO5zmhtlBK79nAT9h3gjWK706TuHngA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Usocpods56Um8V+3ts6MpOVtMfCyBVCI9gmtw7TUC88=;
- b=ovd5CQFj+cheMybgNhb/6XFC6h8Ukx3e+5oHCEVontU/mLfGYBfCEBlhEaOQ+Es7mT7Yi/J/b+vEnMsSak3ThNGv9s/cb/Jn6ar27oKOfb7I+CGRxpIRjIhgdGHsnWPoawXDjsYDfb/JZ0Xc5/GxJ00LeVmKSdECjD1Tokx3HHgxmicbbDUyR3wNEmXWZuyNo5sGErdQGWWaAPqSHfp1S+vVJzgv6ikf6pAk7YN0qu8cmo6jGKBAQZ5DjT2VteA6nNelMkgj+sdBaouCn6z7sJ2CuEO+XELu3IuVrUZRfFsF5uk8KbZSGrl0LGylG7N2VcfF3JsA+q3djN25HK9Mrg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
- by DSWPR12MB999152.namprd12.prod.outlook.com (2603:10b6:8:36e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.17; Thu, 11 Jun
- 2026 17:43:29 +0000
-Received: from CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
- ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0092.014; Thu, 11 Jun 2026
- 17:43:28 +0000
-Message-ID: <f266dfa5-0c6c-4be0-b73e-b2185dadd6a7@nvidia.com>
-Date: Thu, 11 Jun 2026 20:43:22 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V3 2/7] netdevsim: Register devlink after device
- init
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Jiri Pirko <jiri@resnulli.us>,
- Simon Horman <horms@kernel.org>, Sunil Goutham <sgoutham@marvell.com>,
- Linu Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
- hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org
-References: <20260605181030.3486619-1-mbloch@nvidia.com>
- <20260605181030.3486619-3-mbloch@nvidia.com>
- <20260610165053.7c91f331@kernel.org>
- <eb525345-da07-414c-9d05-7e00e3eb472f@nvidia.com>
- <20260611085440.4fe36bf2@kernel.org>
-Content-Language: en-US
-From: Mark Bloch <mbloch@nvidia.com>
-In-Reply-To: <20260611085440.4fe36bf2@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TL2P290CA0006.ISRP290.PROD.OUTLOOK.COM (2603:1096:950:2::6)
- To CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLvD1dja"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CCE1F00893;
+	Thu, 11 Jun 2026 17:45:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781199907;
+	bh=y8cxqvFMDkblWaaUu15Mc6reR5WFsyNDXWf8l/ksL/Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PLvD1dja2zpwPeg3XS5BQsZ1Ozpipc8Xk4694DeZWeAkXOqUza9BthUuNRHH5iiz9
+	 d/UkZONrEgpHIPrtRY8wUZ2xc0MrCunp/dn7DpCChmOToGAc8HDCUpvzIU6fHDkGh3
+	 /MxJqjk1oULyhbETFfuTD4BncjvhVYKmmuT1M8AZkHGK0FAqan6zklx4pgEg/YK5f5
+	 c9k6QFnMWdZtvNg0y5Y/TvJiV6j/k00MtSfMB5J4j0FXyNAso7w0suH2MJILUIMnVn
+	 gtWdG8vSAahiQEDTTrE/ZxJAhQK4L9Rrl+y+7g/b589PBI/XGkWA8cPf2nzt9huMHm
+	 IDiCU/i8FOMKQ==
+Date: Thu, 11 Jun 2026 17:45:04 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: YoungJun Park <youngjun.park@lge.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, 
+	Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
+	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
+	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, chengming.zhou@linux.dev, 
+	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, 
+	chrisl@kernel.org, kasong@tencent.com, baoquan.he@linux.dev
+Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
+Message-ID: <airzE7jD9UtyR17J@google.com>
+References: <aiBqzOtEv5iAC_qC@google.com>
+ <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
+ <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
+ <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
+ <aicJBVT4pBvmyooT@linux.dev>
+ <aicZ-5GX9De3MAU7@linux.dev>
+ <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+ <aictKA0XWMWbxFdN@linux.dev>
+ <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|DSWPR12MB999152:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c72c9b9-0651-488d-280f-08dec7e0f24a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|11063799006|5023799004|4143699003|56012099006|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	+HLPAT6kXnuBlmc8hiTg8TZycATcQgynjFAEBkP/Hq1UZPk84XBIQqY6ll0HXbPAEu8meePiMeAJqhta5VnaiIBktj/1tl5mORKiLk2SVAyAz9udrKn9Es3H5L80ZdLp0ZCbloUPUz2cJc4umuOv8g/QtasFmvOCfzxaNAlGOka98i3ubQjIZXxwRncJLd1OifPrqe3Ww0jntQksOHBOVZFCxODU5pOf8MFC4fCAyPbgKfnZDaO9vGldR6JKNlOBwkW7MAKyOLP6yaC799lypbsoNzDujB9YT8hpaaglS1m9gsFoOuppDBM/1KKA1N0t+65EGTpmV/cQ9Tsb3irPXQH3372juCXc+6dCgGSBlm5VHI8wn99UD50h2sZqRKegTv8LcQB96XWB+LMRZ7+xHUvGFqUNkbJYPQZbG59wbJ6P/izvdXguJtENuIh+RIEOW3RLBDQb1sd/rLu/qxMIclGt9xKx42VH9qLLdQ09RL8ebNttYPcY33dcAO5K8UJClUBsn4xXMb/e785+blkcaloNninUtESMzUQ52zA5RBbEBCVNvWHuNZ3dDCeYyYrLdDyuXbGzAuhl/TyHG3wtm85Y9y15w8a1lad3uyQBymgLWF7+tHM5+pK/H8cCjc4P2gRDn338OISO7fERTUle9pmtvbXvSny1vD/iG4+gpKh9vM7atqv28o8a2KeAhT0/
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(11063799006)(5023799004)(4143699003)(56012099006)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c3R6NjhDeDh3UDlhMVlJbjFxOVBCWU8yMEl2WjBuOUE1RXRvcDFBSjlYSk54?=
- =?utf-8?B?anR5U2dYeDc4TEEzZXlIRzZCc0RNcjJEYXBZdEdtZVkxa3FpZ3NOdDllaDcz?=
- =?utf-8?B?VEFsOFVhUWUyMDRBeXpqQlQrMkUrekRqV3J0RE5NUW4vaU5yZ0lxeGRjWWNj?=
- =?utf-8?B?R1dxb3FrMUY4bHhZbzROQjYyeUltRXBYWnl4NFhXMVFWeS92S1ZQYmk1SjU4?=
- =?utf-8?B?M05NcFdUUmwvOENVTldGUjhwQVEwNFRNRGpYQVZlTmF2TG9vWUM4aGZDVkVx?=
- =?utf-8?B?aEpOMTh6NDdmN09qVkZYeUFqTXNJSUVQVVE1T2FaU0VPZkxsbzVDYzljajlv?=
- =?utf-8?B?ZEtpcWtiWmFNSEo4eFlRNVl6MU1LYkRQVHVqOUJId1lUVGhGejZYeDB6ZHNh?=
- =?utf-8?B?UnZrKzd1cEQ3YnVSM3ZoNTdrR1Y2RWJPN1RqL1R2K1dYOXhiNFoxN2M5aWVB?=
- =?utf-8?B?ZzdNTjRqN3Y1U2ltNVBIMWlWa2UxZVpxY2xzR1dvdGw4UHZWZnFGSTBpc284?=
- =?utf-8?B?bTI2dTg5UWhCOHNYbUtLbHZma2krZHBQQmdYWngybzRzcTU0VUIraXNVbWY5?=
- =?utf-8?B?NE1WcDhVK1NTNDhwYkYxL3BXS054TWE3azZBVXRLdnpYbGlEY0l5eU1kODVJ?=
- =?utf-8?B?YUlVcjNqREJvTE9nbU1MZUcydDNUTUJpYllyZk1MM1JlU3FKUUdvRURyUXZy?=
- =?utf-8?B?cjdBOUVtckJRZ2p4SWZ2VnFQQUxLalpiOUhJNXoxVGc2eWhiWHVuaTBaQzZj?=
- =?utf-8?B?Y3Z1d3FUNjBSVldaanQvZXdabXhFclZnNDNZdUxVRWphMkFDRnp4SUcvd0xh?=
- =?utf-8?B?QzcvZVg0RkZqbkd0WXJRTXhzUGo3T0JvWjlEQ1FkTXE3U2Q3em11V2NYRXVy?=
- =?utf-8?B?Y3RFWmE4VDFqWXRHNzlvOHMzcDFtZjlXZURqYmVrL2lqOGQzRWxoMlBWOERp?=
- =?utf-8?B?U2dCei9YdC9JRVFHZW9NRi9tdDJGN1BzUm5BajhjR3JmOVVDWnpPaUJsUFJ3?=
- =?utf-8?B?Umg1WHR0UVJFR1VPNDhSWnNyWFQ5eENIdTlickVZU1BiMkxuc1FWVEtIYXg4?=
- =?utf-8?B?VFhpWkJlemZsRzBQdzB3STBYaWV1eURScUp5NUU2NGx4anJpK21VeVdqaTA3?=
- =?utf-8?B?T3RXSkg5Vm1qczlFWC9Idmh6UWkxRVpkQy92ODlHbU5SeHVkbm5MbnJmKzBE?=
- =?utf-8?B?OHNLUzBCd3FvN0VweWRaRThiS21GU3BOdUorc0g5Q0kvV0ZEaXEvTlNvQU8x?=
- =?utf-8?B?MldYZllHZWlTWHFYQTJ1ZXgweTk0Rk5uN0RGMUtQYkozQmd6aW1CeGs3c3VE?=
- =?utf-8?B?OEI2ZUNTRmtDMTVYbVNqVFVxYW5PSmxGckdLWE0yRFpibGh3TCtIaEg0dDNa?=
- =?utf-8?B?RzNaZDNjdXRWcHNzVVdzTXB0UVVWd3orcFdYZFNaOXFKaW1EdXMwZy9wZVpl?=
- =?utf-8?B?MFI0R3NSdmt0enBOOUVhTWt1djFMaElzMElEcVlrVWVKQjJBRmUrQ2hsNVFY?=
- =?utf-8?B?U0FtaHE3V2oycmVtUzkzRGh1eDFxbUI2eW1EUSt2TjQzY0RNKzNHcERuKzcx?=
- =?utf-8?B?VkQ0d2dxemh6UjcvSjJjUmQrZnNEL3Uxbi8vaHFaNFZNMTR4UkpvS2lpVmxz?=
- =?utf-8?B?NjRMaVlyMWVCK0dFVmM3RXlDUTdxamIyT1FYaWwrZU11WWR6Z2EyVlBML2RH?=
- =?utf-8?B?aW1IRWgzaERRUlAwZVdJZmh4Qll0Vzh2NCtVMDRNZHcxd210aERESFdUZXZZ?=
- =?utf-8?B?cEQ1M2V0OFFaSnRQbFRRNW9hWms1VHY5K2pVaVcrSjViMVJLZVRSbWZGbSts?=
- =?utf-8?B?T3NPWnFCUG1SeVhJOG02eDRncmJIeDJvb0dRRUpOYTZxMWJUUkNjMEJWYy9z?=
- =?utf-8?B?UGFCQysybEc2NGhFaWRLVFE1NzFrRkNZWEtZZWd6SWNUOUJNUWpEQWVsR2Zt?=
- =?utf-8?B?bU5QNnorSVkvUkFCcCs1WldiZFpBYXNxM05oQit3WXVqNWcySFh3Sjgwb0ZE?=
- =?utf-8?B?MmZ2U3JuUWd0d0V3OEczWmZMNkMyalMxalZRTFlTVWY5a2lWSXhiRG9BQWxo?=
- =?utf-8?B?YjFtc0xWeGhKcUh1K3VsNU1pblcxVCtMemZ5Nk5Uclo1VU8xSVFiVnExcEhY?=
- =?utf-8?B?cVNNRzVRalA0eUZxRmhTdWl0ZXBUWFA4VFEwVmZ6aytGd0g3WlR2aWdZK0xj?=
- =?utf-8?B?WjNlajNvYmtnTHVacEQyazEwVFdvM1l6R0t4c2d3eGJwSmFWRndMdVRYWUxG?=
- =?utf-8?B?andqUGxZN1N0OVhjL2RFQ0E2cGgvM2wxSm5oSXVRNWtDREUrUWUxeGNOdWFV?=
- =?utf-8?B?cE9XbXQwRGdxSE9xWDdyY2Z2Mng0SFJnU3ZJK3pWQzhTOUoxWktTZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c72c9b9-0651-488d-280f-08dec7e0f24a
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 17:43:28.6486
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WpRqtLMu2sQdO0uNSYTdGU7H2oJJ8IuOorpyQxEdbRdBrFQf3X8VmR5OEP6AVbHc/mOgBl1fBzToYOgBtceKfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR12MB999152
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
 
-
-
-On 11/06/2026 18:54, Jakub Kicinski wrote:
-> On Thu, 11 Jun 2026 09:02:03 +0300 Mark Bloch wrote:
->> On 11/06/2026 2:50, Jakub Kicinski wrote:
->>> On Fri, 5 Jun 2026 21:10:25 +0300 Mark Bloch wrote:  
->>>> devl_register() makes the devlink instance visible to userspace. A later
->>>> patch also makes registration the point where devlink core may call
->>>> eswitch_mode_set() to apply a boot-time default eswitch mode.
->>>>
->>>> Move netdevsim registration after all objects (resources, params, regions,
->>>> traps, debugfs etc) are initialized, and after the initial eswitch mode is
->>>> set to legacy.
->>>>
->>>> Move devl_unregister() to the beginning of nsim_drv_remove(), before those
->>>> devlink objects are torn down. This keeps devlink register/unregister as
->>>> the notification barrier and makes the later object teardown paths run
->>>> after devlink is no longer registered, so they do not emit their own
->>>> netlink DEL notifications.  
->>>
->>> This is going backwards. At some point someone from nVidia thought that
->>> we can order our way out of locking, so mlx5 is likely ordered this way,
->>> but this must not be required, or in any way normalized.
->>> We (syzbot) quickly discovered that it doesn't cover all corner cases.
->>> devl_lock() is exposed specifically to allow the driver to finish
->>> whatever init it needs without letting user space invoke callbacks, yet.
->>> Almost (?) all driver callbacks hold devl_lock(), so maybe the devlink
->>> instance is "visible" to user space but that should not matter.  
->>
->> Let me clarify.
->>
->> No locking is changed here, and I don't want to make register/unregister
->> ordering a substitute for devl_lock().
->>
->> The only requirement I have for this series is that devl_register() is called
->> only once the driver is ready for devlink core to call eswitch_mode_set().
->> That follows from the earlier direction to have the core apply the default
->> mode from devl_register() instead of adding an explicit driver call.
+On Tue, Jun 09, 2026 at 01:19:13PM +0900, YoungJun Park wrote:
+> On Mon, Jun 08, 2026 at 03:27:07PM -0700, Yosry Ahmed wrote:
 > 
-> This is exactly what I'm objecting to. AFAIU we are trading off
-> explicit call to get the default value for an implicit behavior
-> depending on order of calls. We want to optimize for how easy it
-> is to get the API wrong, not for LoC.
-
-Right, the reason I moved in this direction is that in v1 I had
-the explicit driver call, and Jiri asked to make this transparent
-from devlink core instead.
-
+> +Chris +Kairui +Baoquan
 > 
-> If we don't have a clean way to implement this without driver
-> changes let's add the explicit API to get the default value.
-> If driver doesn't call it schedule a work to go via the callback
-> once devl_lock() is dropped. That way drivers which care can optimize
-> themselves by reading the default value upfront. Drivers which don't 
-> care will work correctly, and there's no API call order trap.
-
-The workqueue fallback is possible, but I think it makes the semantics
-more complicated.
-
-We would need to track devlink instances which still need the default
-applied, and the worker would have to skip/remove them once handled.
-
-More importantly, the worker can race with userspace setting the
-eswitch mode, so we would also need some state to tell whether the user
-already changed the mode. That feels more fragile than an explicit
-driver call.
-
+> Hello
 > 
-> Not ideal, but isn't that best we can do here?
-> I still have flashbacks of the fallout from the call ordering games, 
-> we have too many drivers to keep this straight...
-
-That's why I started with the explicit call in the first place.
-
-I can switch back to this model: drivers which support boot time eswitch
-defaults will opt in and call the helper once they are ready. This keeps
-the support explicit per driver and avoids making it depend on where
-devl_register() happens in the init path.
-
-With that, devlink can tell at register time whether the instance supports
-boot time eswitch defaults. If the user configured a default for an instance
-whose driver did not opt in, devlink can write to dmesg from
-devl_register().
-
-Not perfect, but at least the user gets a visible failure instead of the
-config being silently ignored.
-
-Mark
-
+> Thanks for inviting me to the discussion, Shakeel.
 > 
->> So if the objection is to the commit message wording, I can fix that and drop
->> the "notification barrier" language.
->>
->> For unregister, I can probably leave the old ordering as-is. I moved it only
->> to mirror the register path, which felt cleaner, but it is not required for
->> the default-mode change and as the lock is held I see no issue with doing
->> that.
+> > > > > Youngjun is working on swap tiers. At the moment he is more interested in
+> > > > > allowing a specific swap device to a memcg or not. I can imagine in future there
+> > > > > will be use-cases where there will be a need to demote data on higher tier swap
+> > > > > to lower tier swap. What would be the appropriate interface?
+> 
+> Speaking of my work on swap tiers, I recently submitted a patch and am
+> currently considering memcg integration:
+> https://lore.kernel.org/linux-mm/20260527062247.3440692-1-youngjun.park@lge.com/
+> 
+> The future use-cases imagined above seem to align with this
+> direction. (BTW, I am currently waiting for reviews/feedback from the memcg
+> folks on this patch. Any reviews would be highly appreciated!)
+> 
+> We could potentially assign a target tier
+> for writeback within the existing memory.zswap.writeback interface. 
+> 
+> For instance, '0' could mean disabled, while non-zero values could represent
+> specific tiers, which would maintain backward compatibility with the current
+> version. Alternatively, if zswap is treated as the default top tier, 
+> the `memory.swap.tiers` interface could potentially replace `memory.zswap.writeback`.
+> 
+> Furthermore, this could be expanded so that each swap tier can demote data
+> user-triggered demotion between swap tiers.
+> 
+> Based on the current patch's ideas combined with my swap tiers concept:
+> 
+> Assuming a hierarchy like:
+> zswap -> tier1 (SSD swap) -> tier2 (HDD swap) -> tier3 (Network swap)
+> 
+> We could configure the active tiers via a setting like `memory.swap.tiers`
+> (tier2 enabled, tier3 enabled).
+> 
+> For example, the concept of `echo "100M zswap_writeback_only > memory.reclaim"`
+> could be extended. A user could run `echo "100M tier2 > memory.reclaim"`
+> to explicitly trigger demotion from tier2 to tier3.
+> (BTW, if we combine these features, my personal preference for the keyword
+> format would be `<size> <demote_prefix><tier_name>`. I think it would be
+> better to explicitly indicate that it is a swap demotion by using a specific
+> prefix followed by the tier name. 
+> Or make demote prefix another key is also possible)
 
+I am not sure if proactive demotion between swap tiers would be driven
+by memory.reclaim, I am guessing a new interface might be more suitable.
+But yes, you are right that it's very possible that
+'zswap_writeback_only' with memory.reclaim will become obsolete once
+swap tiering matures and starts supporting things like proactive
+demotion.
+
+Part of me wants to wait until the swap tiering interfaces are figured
+out so that we don't end up with redundant interfaces, but I also don't
+want to hold Hao's work since it doesn't directly depend on swap
+tiering.
+
+Shakeel, how do you want to handle this? I think there's a few options:
+
+1. Add zswap_writeback_only now, and when we have swap tiering demotion
+it becomes a redundant interface, like memory.zswap.writeback -- or
+maybe we try to deprecate both of them at that point. It's difficult to
+remove interfaces tho, but maybe easier to stop supporting
+zswap_writeback_only.
+
+2. Add zswap_writeback_only behind an experimental config option, to
+unblock development but have a line of sight to dropping support once we
+have a swap tiering interface.
+
+3. Wait until we figure out the swap tiering interfaces and then add
+the proactive zswap writeback as part of it.
+
+WDYT?
