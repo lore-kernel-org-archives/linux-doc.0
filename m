@@ -1,134 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D21A35C1B2;
-	Thu, 11 Jun 2026 07:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765E4367F3D;
+	Thu, 11 Jun 2026 07:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781162386; cv=none; b=eBrveEbJv75f1dTQJq5Q3duKFhoaTL9AnUwQ6ESV6xLmwIofIQITbk6ew6qgwg4n7aAzA9ycN89Av5EQHBFyBgxsb7nnsuh90VjpQKNlz1SPCLQPX8B2vDFYR50UV9qTDsF9gTXWxHg0yF0ZRF5mLXtVbKHJmYNmrrs+EtauhN8=
+	t=1781163864; cv=none; b=qyHfrXupClwSBGyt15TkkOHOdOV7hXwTYKCW+hBIIpHy86hbAFLEdRsTwyVoa3hlg9Bkbk54tV60+Mo8oZMIQIym+7mdZ33bet25mI+l+77RxI73nJGadgiB9pZUMUmGi9lDHXxzZOSwW8UcVIuNw+4h9hlOf7o1E4+rqahEmWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781162386; c=relaxed/simple;
-	bh=ztIz45hab0AvLP/gnjehgcjg/V46iqjqRkXzJ26PE+c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b2C6G6kGEH+eBW0WKczUvj0YWc2BdflpBXJMzIFOa2AhHthLmgJSu5p9OuNdfEnqJisw/Ac62I7Sd7Zrk7CjChNMcX5yqv5UMSVoWv44drN04a4MO3IU0z/M1y9/prkczMj9yKLwP5BzeVMfGcK2XvMlFdNZmMwtAJCyfTQbCik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8lcB+cy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781163864; c=relaxed/simple;
+	bh=hKtJBj6NbpM+g6kmjkW4KSom4gFoNvlMbMdPkKuqkbg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Y+lU1IL/EuwCtdWWXJgZlHu7ADLyJ8w/OnwrwjT13VXxdGDIU4isdpKTbHY5Wfrpkxq0OqhJ9awmGMylYJSXiW1oyP7wqOfnCoWc6beJB28KrBRJefKCagI4eZutMk9jGGxiYyalXc0tHrhbZfm5aliKtRvXEDH6p7CMkl2PZqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=UUKJ7FxL; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8lcB+cy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CD01F00893;
-	Thu, 11 Jun 2026 07:19:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781162385;
-	bh=ztIz45hab0AvLP/gnjehgcjg/V46iqjqRkXzJ26PE+c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V8lcB+cykIyGjOy2dxrUzVV/Q3lA3bzfQKE0EKEaizxsQXtCLMAczPlwLgp7xGqQt
-	 u+Tv9KNbobe9s7mJxUh7I484+2aw3LoRmftl+hLQBDqVe9Lcuk7KCvhbIFHDowJaTU
-	 5qoD06COfhUXCd3IxkyNNS+lamaR0DJC1PLgzvRDaDCs4U/HKd2UExROWuQ94ik22t
-	 dbG6cloH+VyTLbJyHTBOkIpew5Q+MQD9qkDen+aLF+6OpvtJeuCjrdmvOqPChWH2sp
-	 FllECbyKhd6qro9ysbxGFJZYXs260Qxg9YO/M385HIqqKf0UuVpdCBmE7TvPRobA2f
-	 9gr5N/WB/0Fhg==
-Message-ID: <2b5577b0-d81a-4dee-b4e2-acadcf7f7db2@kernel.org>
-Date: Thu, 11 Jun 2026 16:19:40 +0900
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="UUKJ7FxL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=PQ
+	iPGhl1R3XE1rfbgWoU/FE0wGrBbGWg/k63y7WgUeQ=; b=UUKJ7FxLX5aYjFmiAC
+	dPkcyEZaIdLE+L55jYIHshTW23JFrZXYzovbqQF7DyF+CsuFOznG2Sjp078juJEI
+	v9GHDb+G9mNvfGTZnUSanN0NS6t7+AP2yWKHjEL9obyKvBDtl+cw8x47QAtoC9uN
+	K78AmzpibTDHqiCDtcoR+keAA=
+Received: from ZM.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3PvcqZypqI94RCw--.19273S3;
+	Thu, 11 Jun 2026 15:43:40 +0800 (CST)
+From: Ziming Zhu <zmzhu0630@163.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Ziming Zhu <ziming.zhu@silergycorp.com>
+Subject: [PATCH v3 1/3] dt-bindings: hwmon: pmbus: Add bindings for Silergy SQ24860
+Date: Thu, 11 Jun 2026 15:43:33 +0800
+Message-Id: <20260611074335.4415-2-zmzhu0630@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260611074335.4415-1-zmzhu0630@163.com>
+References: <20260611074335.4415-1-zmzhu0630@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- liam@infradead.org, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
-Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------63UUg0QDpUJ3o0cdIUnrfdpH"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3PvcqZypqI94RCw--.19273S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr18KF18uF15Xr4kWFy3Arb_yoW8Kw1DpF
+	Z5uF9rJr48XryxWw47GFykZ3W5Zr1kAa1j9r9xJw1SyF98XFsYvrZIkrW5XF1UCr10yFy3
+	ZFWqyryxt3s7Cr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jOjjDUUUUU=
+X-CM-SenderInfo: x2p2x3aqwtiqqrwthudrp/xtbCwA0KA2oqZy1OlwAA3X
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------63UUg0QDpUJ3o0cdIUnrfdpH
-Content-Type: multipart/mixed; boundary="------------RjLOUOXpcNn5GjJVTPq8Q6Ve";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- liam@infradead.org, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <2b5577b0-d81a-4dee-b4e2-acadcf7f7db2@kernel.org>
-Subject: Re: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
-References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
-In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+From: Ziming Zhu <ziming.zhu@silergycorp.com>
 
---------------RjLOUOXpcNn5GjJVTPq8Q6Ve
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Add devicetree binding documentation for the Silergy SQ24860 eFuse.
 
-Hi Pengpeng,
+The device is a PMBus hardware monitoring device which reports voltage,
+current, power, and temperature telemetry. The board-specific IMON
+resistor value is described with silergy,rimon-micro-ohms.
 
-On 6/11/26 3:39 PM, Pengpeng Hou wrote:
-> SLAB_STORE_USER currently stores one allocation track and one free trac=
-k
-> for an object. This is useful, but it loses part of the previous lifeti=
-me
-> when the object is reused: the new allocation overwrites the allocation=
+Signed-off-by: Ziming Zhu <ziming.zhu@silergycorp.com>
+---
+ .../bindings/hwmon/pmbus/silergy,sq24860.yaml | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
 
-> track, and a later stale free can overwrite the free track.
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+new file mode 100644
+index 000000000000..03ef82c11e1a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: http://devicetree.org/schemas/hwmon/pmbus/silergy,sq24860.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silergy SQ24860 eFuse
++
++maintainers:
++  - Ziming Zhu <ziming.zhu@silergycorp.com>
++
++description:
++  The Silergy SQ24860 is an integrated, high-current circuit protection and
++  power management device with PMBus interface.
++
++properties:
++  compatible:
++    const: silergy,sq24860
++
++  reg:
++    maxItems: 1
++
++  silergy,rimon-micro-ohms:
++    description:
++      Micro-ohms value of the resistance installed between the IMON pin and
++      the ground reference.
++
++  interrupts:
++    description: PMBus SMBAlert interrupt.
++    maxItems: 1
++
++  regulators:
++    type: object
++    description:
++      List of regulators provided by this controller.
++
++    properties:
++      vout:
++        $ref: /schemas/regulator/regulator.yaml#
++        type: object
++        unevaluatedProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - silergy,rimon-micro-ohms
++
++additionalProperties: false
++
++examples:
++  - |
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hw-monitor@40 {
++            compatible = "silergy,sq24860";
++            reg = <0x40>;
++
++            interrupt-parent = <&gpio>;
++            interrupts = <42 8>;
++            silergy,rimon-micro-ohms = <1600000000>;
++
++            regulators {
++                cpu0_vout: vout {
++                    regulator-name = "main_cpu0";
++                };
++            };
++        };
++    };
+-- 
+2.25.1
 
-I'm not sure what you meant by "stale free", UAF is accessing object
-that are freed. What makes the free "stale"?
-
-In general, I don't think slab_debug=3DUP is the right tool to debug
-use-after-frees, because slab will never know _when_ the object was
-overwritten. It can only tell that somebody has overwritten freed
-objects by checking if the object content is POISON_FREE or POISON_END.
-
-KASAN is a better tool to debug use-after-frees, because it can
-tell you which kernel code is accessing memory it shouldn't. (It also
-quarantines slab objects to avoid immediately reusing the object for
-better coverage).
-
-So I have to ask, "Why not use KASAN instead?" before enhancing
-slab_debug (neither is intended for production anyway).
-
-> For free-after-reuse bugs, the report can therefore contain the victim
-> allocation and the stale free, while the earlier alloc/free pair that
-> explains where the stale pointer came from is no longer available.
-
-Again, I'm confused. I have no idea what "free-after-reuse" means.
-Objects cannot be reused until they are not freed, no?
-
---=20
-Cheers,
-Harry / Hyeonggon
-
---------------RjLOUOXpcNn5GjJVTPq8Q6Ve--
-
---------------63UUg0QDpUJ3o0cdIUnrfdpH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCaiphjAAKCRCGXBN6rc5S
-1gaOAQChyWUETqFeUG2gvr9ZMZ3Il7reXckMo4X8MOCt7Rc7AAD/Qfkcf8YbQo18
-ItCpaSmOiByXdnbuV93+suelFfGbgQg=
-=kmYS
------END PGP SIGNATURE-----
-
---------------63UUg0QDpUJ3o0cdIUnrfdpH--
