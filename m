@@ -1,126 +1,93 @@
-Received: from mailgw1.hygon.cn (unknown [101.204.27.37])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2533546D7;
-	Thu, 11 Jun 2026 06:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.204.27.37
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05F0364E92;
+	Thu, 11 Jun 2026 07:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781160465; cv=none; b=CV8TmgadCjUnrbq/rZOVfXz1Ap99gGJYjJuqwsUQVRuZ+zc8s6dywIvHBfCW7teeSlmDLKSkqJCM4LRJrjiyeJoxLgstc8e4STRXoKa4av2qyM+ISER3xw2WV65USvXLJsndLzo6YoByUp/9oP3fYBBbzhz0oCm+bjzLspKHyCE=
+	t=1781162289; cv=none; b=CdB0xJ0R+F3LgW0OEmpXm2AdDdjmaqFUOR6l5cqCmIJ+3HGAlet7ALfUrk0zlvLQwkRHA32eHT+LeKhVtJlC+o0apCzhtB/kqyhbxvhWWk5xhT4SZURD+tFTlLaZ9BSDKgTgs6CqVONppNpBymulvoH2v4H0pmnFx1mnlJn7eEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781160465; c=relaxed/simple;
-	bh=qQjh1hPpEnkXFa73SRjJ9kqCtdzJ5Kh2Hsa46GK1zZk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rAIjr7VcTXBtTRWh34A40zpJig1DegYI3yBAlQqdUG5oGm3ska8DBluNfiGzATwfEzc2LFSmf1c29Qy+nOqOjuMi3m0+oXSUu1eFVkOOl29kC3lGsqPvdGD89vgzkjYEeVk9RBhhqWB7kpPH6ir09ULqyW7KP+pA3VPRq71qqLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn; spf=pass smtp.mailfrom=hygon.cn; arc=none smtp.client-ip=101.204.27.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
-Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXbk745pz1dd8Y;
-	Thu, 11 Jun 2026 14:21:38 +0800 (CST)
-Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
-	by mailgw1.hygon.cn (Postfix) with ESMTP id 4gbXbh5hZnz1dd8Y;
-	Thu, 11 Jun 2026 14:21:36 +0800 (CST)
-Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
-	by maildlp2.hygon.cn (Postfix) with ESMTPS id 7FE3430004DB;
-	Thu, 11 Jun 2026 14:20:11 +0800 (CST)
-Received: from hsj-2U-Workstation.hygon.cn (172.19.20.61) by
- cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 11 Jun 2026 14:21:31 +0800
-From: Huang Shijie <huangsj@hygon.cn>
-To: <akpm@linux-foundation.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <jack@suse.cz>, <muchun.song@linux.dev>,
-	<osalvador@suse.de>, <david@kernel.org>
-CC: <surenb@google.com>, <mjguzik@gmail.com>, <liam@infradead.org>,
-	<ljs@kernel.org>, <vbabka@kernel.org>, <shakeel.butt@linux.dev>,
-	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <linux@armlinux.org.uk>, <dinguyen@kernel.org>,
-	<schuster.simon@siemens-energy.com>, <James.Bottomley@HansenPartnership.com>,
-	<deller@gmx.de>, <djbw@kernel.org>, <willy@infradead.org>,
-	<peterz@infradead.org>, <mingo@redhat.com>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <mark.rutland@arm.com>,
-	<alexander.shishkin@linux.intel.com>, <jolsa@kernel.org>,
-	<irogers@google.com>, <adrian.hunter@intel.com>, <james.clark@linaro.org>,
-	<mhiramat@kernel.org>, <oleg@redhat.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
-	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
-	<linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>, <jannh@google.com>,
-	<pfalcato@suse.de>, <riel@surriel.com>, <harry@kernel.org>,
-	<will@kernel.org>, <brian.ruley@gehealthcare.com>,
-	<rmk+kernel@armlinux.org.uk>, <dave.anglin@bell.net>, <linux-mm@kvack.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-parisc@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-perf-users@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>, Huang
- Shijie <huangsj@hygon.cn>
-Subject: [PATCH v2 0/4] mm: split the file's i_mmap tree for NUMA
-Date: Thu, 11 Jun 2026 14:18:56 +0800
-Message-ID: <20260611061915.2354307-1-huangsj@hygon.cn>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1781162289; c=relaxed/simple;
+	bh=fiVJwTu9CK0mToLiHPUfmG+jQ0/gNkGEoV4Z9N/y9xY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKaiX3SYfJG7eFmEWZmVjzcQM4Oe0RS2sZLeblYE7pS2kbUJ/n+azi2QqkP7DWVUfgGZK7x9tcWlIMUnD8Ss/SN/H3OT7xuzuyJvlAj8t2q/rZdrHLiW4ZlkeRtWuwctAv01rfcpdXoVtl3fXgPuYu/QhruVEh1BXxgGM17fqFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZ5Vpfrz; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZ5Vpfrz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781162286; x=1812698286;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fiVJwTu9CK0mToLiHPUfmG+jQ0/gNkGEoV4Z9N/y9xY=;
+  b=KZ5VpfrzxVAdHwtgWnuYXt9LbafT+ly7oMVuUjBHEA63vslaUKi/rOoy
+   TTsChVglUnH0jSlggTTTIFLr4EmuCsSWWa3XeK1O6ihCIgM9hMnSTei64
+   QRPB9GLjf08HJGy9kokTHI8an5g348m7RSPLovk5tRz4/ICMqU8AfA0T1
+   5x6WlaMNRP9em0tkSxVH7a/MEwh+VWHJtTqnTbwMbSz4FmPOA3deTKdO0
+   N+2JcP4u32DSOR9GZiop3FS1IrpyFuh4vPtEw/3GYCzIpYehS4vLux1og
+   I++6Ixj1kG/X3zKlOHKNRz+VqpXQnj0V/zrELQZWp+rhA1hJ2ZtlplWmB
+   Q==;
+X-CSE-ConnectionGUID: crtZJBr/Sd+yNavd1r5YkQ==
+X-CSE-MsgGUID: lZldwgD4SiWtbmCbq5bw6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92645307"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="92645307"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:17:55 -0700
+X-CSE-ConnectionGUID: j3EipKBDSdOgy4NEcbSzHg==
+X-CSE-MsgGUID: YE83BYEYQ8iyqxgnDcNDiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="284485829"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:17:51 -0700
+Date: Thu, 11 Jun 2026 10:17:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>
+Subject: Re: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
+Message-ID: <aiphHAkLnG_L2kY2@ashevche-desk.local>
+References: <20260610111339.2465922-1-usama.arif@linux.dev>
+ <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
- (172.23.18.114)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-  In NUMA, there are maybe many NUMA nodes and many CPUs.
-For example, a Hygon's server has 12 NUMA nodes, and 384 CPUs.
-In the UnixBench tests, there is a test "execl" which tests
-the execve system call.
+On Thu, Jun 11, 2026 at 10:45:01AM +0530, Anshuman Khandual wrote:
+> On 10/06/26 4:43 PM, Usama Arif wrote:
+> > On Wed, 10 Jun 2026 05:35:43 +0100 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
 
-  When we test our server with "./Run -c 384 execl",
-the test result is not good enough. The i_mmap locks contended heavily on
-"libc.so" and "ld.so". For example, the i_mmap tree for "libc.so" can have 
-over 6000 VMAs, all the VMAs can be in different NUMA mode.
-The insert/remove operations do not run quickly enough.
+...
 
-patch 1 & patch 2 are try to hide the direct access of i_mmap.
-patch 3 splits the i_mmap into sibling trees, each tree has separate lock,
-and we can get better performance with this patch set in our NUMA server:
-    we can get over 400% performance improvement.
+> >> +		static_assert(sizeof(pte_t) == 4 ||
+> >> +			      sizeof(pte_t) == 8,
+> >> +			      "pte_t size must be 4 or 8 bytes");
 
-I did not test the non-NUMA case, since I do not have such server.    
-    
-v1 --> v2:
-	Not only split the immap tree, but also split the lock.
-	v1 : https://lkml.org/lkml/2026/4/13/199
-
-Huang Shijie (4):
-  mm: use mapping_mapped to simplify the code
-  mm: use get_i_mmap_root to access the file's i_mmap
-  mm/fs: split the file's i_mmap tree
-  docs/mm: update document for split i_mmap tree
-
- Documentation/mm/process_addrs.rst |  63 +++++++---
- arch/arm/mm/fault-armv.c           |   3 +-
- arch/arm/mm/flush.c                |   3 +-
- arch/nios2/mm/cacheflush.c         |   3 +-
- arch/parisc/kernel/cache.c         |   4 +-
- fs/Kconfig                         |   8 ++
- fs/dax.c                           |   3 +-
- fs/hugetlbfs/inode.c               |  30 +++--
- fs/inode.c                         |  75 +++++++++++-
- include/linux/fs.h                 | 179 ++++++++++++++++++++++++++++-
- include/linux/mm.h                 |  81 +++++++++++++
- include/linux/mm_types.h           |   3 +
- kernel/events/uprobes.c            |   3 +-
- mm/hugetlb.c                       |   7 +-
- mm/internal.h                      |   3 +-
- mm/khugepaged.c                    |   6 +-
- mm/memory-failure.c                |   8 +-
- mm/memory.c                        |   8 +-
- mm/mmap.c                          |  11 +-
- mm/nommu.c                         |  28 +++--
- mm/pagewalk.c                      |   4 +-
- mm/rmap.c                          |   2 +-
- mm/vma.c                           |  74 +++++++++---
- mm/vma_init.c                      |   3 +
- 24 files changed, 534 insertions(+), 78 deletions(-)
+Besides occupying too many lines, why are these static asserts hidden here and
+not declared in the global space? More wide Q is why they are needed at all?
 
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
 
 
