@@ -1,45 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF2B29ACC5;
-	Thu, 11 Jun 2026 13:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BB43BE63F
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 14:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781184860; cv=none; b=YvoZT9cgtVycD9tp0CvtO6ymH/0O6UG9ZVH9+CJVIUBvS6VEQFnyEzb5h6BFoRdwyCOqmaU5Hsvss6WjJOkdWaKt3VflK33qJefzeCExRZdIyv1L01IEFU8V3L9JpiaV3DcIY6V/qpo1fFWKCjNVS7UjhaGWt6dAKYf4cz5ZjW0=
+	t=1781186646; cv=none; b=ba4+uG/83ZYQ5OOp1Ly5SZOR9XFWyqUSXqjjEKF5wedSFJbCknJSb7AfaQYAkQWtVgpXB0TsGDpabOUVFHu0OHAfae8EeHSVv4rr0cQCwScQzOFyAyRXk24kgo0A2QfSiNUu/oT2kozwWbROznWwmHk4Qk26JigYJYUSuTJRO/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781184860; c=relaxed/simple;
-	bh=AcSqleQy633KBDTvAUOaQgvWk/xdJs6YJaDp0kqw48I=;
+	s=arc-20240116; t=1781186646; c=relaxed/simple;
+	bh=t6vDzwAQf6m71cw7ZAaMH7giGD8b6mi1NLg41KRjFFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usIJYUYzam4DJ9iBJsUFl8wLwyMcKmB9FqCOjoc9nOGf2fkdwnkUoSZ+sOBLFQ15QAaG/QFt6RDkxEjmlKr3vp75X/INRMpJ8a1ghJcPP1sUAvj9NTcZjv8CZKl4+yjLDOVoSqHftWUce9Q74nsDEU51QLVfewWJbcP7Lp/XyYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FH9zIwOl; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnq9ej2HazVszYeojYmQ2U32TTPc+qIRPXQfhmJcU9/WN62MudH7KXypT87AIuNgJNqndzxooExYL7nwBIbnMWfOv+CYolSHasOii/fSfSa9DwlpRAEJLKLa2Cf6WdeG07qbwuB883TqDG9rvObRSWdOSG+cxkzMq3gHdCckCM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fesk3KIa; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FH9zIwOl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941681F00893;
-	Thu, 11 Jun 2026 13:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781184859;
-	bh=6689/69B9guEnN6lKaNQc6LOcGsLEeqwwQs2y9xMkRY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FH9zIwOlM3rulsEmtitgCVGpcJMCizKjJMC8SfwlTrf9z109JdVTcfGIx2pf5Uh5C
-	 V75kWs4R9bwupjCBZtEWpjb7DUEtA0+feRGxWz5Oj+J657z2AqOjkMuGPitIwTYkoy
-	 TgZItWRyW7UEHuitnoJTox+H8+jakS8lC8XZk2iAYI2KC5qGSq62ZQF6wKoNFSaLU7
-	 d4SvkM4QL4oT9kJikdpnxXUbkmi0+H9bMKZY2BNI95X0ty957Cg6y2TDqOrdR9lUoP
-	 /5SetZc4L3B1qaX5Y5xd7X6M+bS4ejZmH7kXgb+5A0S1xdjJIIELGq9nEMOpR8o5SU
-	 yUUd9RqabIwJQ==
-Date: Thu, 11 Jun 2026 14:34:14 +0100
-From: Will Deacon <will@kernel.org>
-To: Shanker Donthineni <sdonthineni@nvidia.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Vladimir Murzin <vladimir.murzin@arm.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
-	Jason Sequeira <jsequeira@nvidia.com>
-Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-Message-ID: <aiq5VigmtZq9GlAm@willie-the-truck>
-References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fesk3KIa"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9155183b42cso145720885a.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 07:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1781186644; x=1781791444; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ENvnRZyJjnEps3yiVgsX7HBb3e0UX6vr9hqD2coNcvo=;
+        b=fesk3KIa2WZaCF+S33hAhBQlzcwgCxoS72qeS4zMaDv1u8hLG2+dxR+gahznY+1fk6
+         DdxjwFARz8yW5Ys721g364lxZLjkhn6xTd6ikbmtvEiJBmWJoTRWhSN5AJ6r0KX1QV+b
+         9nUwHhJ75yfxTKwMb0WCC6TNjkN4iYr5RLiy3c9Akgaldc+OKrH3bIohcOWiui0OEAML
+         NrA6Z9JidbKHkAOQGGXGBujsPYodSd+xmp2K22NFQBCc/R3uYeSQyTeqBUndoWVTRpMi
+         jnz1vMzfj+9asJSZuj/UjynhNATlXabH9DaZ3zXsXXDedUucxRS5U5RCtc0UQZSJLtnm
+         /Njg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781186644; x=1781791444;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ENvnRZyJjnEps3yiVgsX7HBb3e0UX6vr9hqD2coNcvo=;
+        b=L2uATufkVsLdOEpQsvS7J4c9D6KoSnV5ooUjShMGc+hz35ZoLj60k378dOleHeiz3T
+         ZyrBLhhZwbi2v7pOWUGGpipQ8oL7c8qn3j9e0ydG17k2h70uXwuKZ7ScO9CCcfqdx6m0
+         cuH5/44FTW6/UMhNCJk//PATcj+S2vOtLeg/GFYRkeyLAEhVdnUJ/AMTYTzb4gEw/den
+         b1wq8eJ/hEK983/8HKhoEugd6teSa4nYVDy5Sk9NTz+mDP1tHJb6+fa8InuPfR8xRV0W
+         MFQxxwk6LlHABHeJbNCN6BVGVMiy9MSiHW28Z28WQV+T9uEdlQCAEI5xGSStJIZlBbzv
+         KcaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/HPsbFq4fVVsxRiJmKTrtGt2z3fOsN+NHJqzCsfbkQKDTTTqeDuL2HkpCb565LooU8bBnfFfer+2U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh71yjdtGLwnZ0aV9yn3EOFkxk+yK3UpAqTYNoihGCVw763mmc
+	ZNIEc8TWPMxxoR1tUN5lX2GGKoG/E897sdxCby6PNUNgDsJYl2RWICr0R39fPdTaCqw=
+X-Gm-Gg: Acq92OEa0VdI4qMfqz3K93BUePN+3LCez46G5aVkIL+YwUyHn0shoPCilE3q/yiM42w
+	2XYhnueHGfCVjfRLFbCGt6AQ22E+9DG74JrCujM7DTk+GqCTNplgyi4eMlTtzRlJeRq2Jx20m8D
+	+eQClYNjoqJPWc+a7ih6rAv/p/vjlNJMsN8SN32cj3e4C6MXHMCm7FmxMWreaYZNI94cq39maBR
+	4KqVO4gtrV93yKdCA/lBLjppgWhAL8AVZa4RzigYMav3ivY/Qmuh7s1BbcOKHItX2gxiBhNynfD
+	hcndbQyERegcx4yV8hMtdWUJM2nMrGGtCq1uoGH7salUQxxsBcY5Fm7yfUvr0OW8zkmin1c2bc1
+	SUBHnhKLpmBMm8VffrWDMcl2ObRKpKReky+JhxhAmJYy1u2qmZzVJh5RFROPy6qgAbyeaVsTpjL
+	6ltgUjeQf/QaqDj2039R0s5D3wHVQhd12jtjl+ox+ZwbGzAcZXsIGF920q1CvSg6WFFA+urAKXW
+	ffAxUhwLc52UCGFcA==
+X-Received: by 2002:a05:620a:2728:b0:915:9fde:9da3 with SMTP id af79cd13be357-9160ade2a98mr334272485a.27.1781186644129;
+        Thu, 11 Jun 2026 07:04:04 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9160aca4293sm196905585a.14.2026.06.11.07.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 07:04:03 -0700 (PDT)
+Date: Thu, 11 Jun 2026 10:04:01 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, dave.hansen@linux.intel.com,
+	luto@kernel.org, peterz@infradead.org, tglx@kernel.org,
+	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, rafael@kernel.org,
+	lenb@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
+	akpm@linux-foundation.org, rdunlap@infradead.org,
+	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+	elver@google.com, kuba@kernel.org, ebiggers@kernel.org,
+	lirongqing@baidu.com, paulmck@kernel.org, dave.jiang@intel.com,
+	jic23@kernel.org, xueshuai@linux.alibaba.com, kai.huang@intel.com
+Subject: Re: [RFC PATCH 1/3] mm/numa: add exclusive node pool and
+ numa=standby boot parameter
+Message-ID: <airAUSrNjbSEwuti@gourry-fedora-PF4VCD3F>
+References: <20260610014517.253609-1-gourry@gourry.net>
+ <20260610014517.253609-2-gourry@gourry.net>
+ <aip5IWmxg9CWg8hQ@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,156 +87,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+In-Reply-To: <aip5IWmxg9CWg8hQ@kernel.org>
 
-On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
-> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
-> observed by a peripheral before an older, non-overlapping Device-nGnR*
-> store to the same peripheral. This breaks the program-order guarantee
-> that software expects for Device-nGnR* accesses and can leave a
-> peripheral in an incorrect state, as a load is observed before an
-> earlier store takes effect.
+On Thu, Jun 11, 2026 at 12:00:17PM +0300, Mike Rapoport wrote:
+> > 1) Can we do dynamic addition of nodes?
+> > 
+> >    Not Trivially
+> > 
+> >    Some services utilize num_possible_nodes() as a static value to
+> >    calculate the amount of resources to use at runtime (bpf, md/raid5).
+> > 
+> >    Example: futex_init uses num_possible_nodes() as part of its
+> >             hashsize calculation during __init.
 > 
-> The erratum can occur only when all of the following apply:
-> 
->   - A PE executes a Device-nGnR* store followed by a younger
->     Device-nGnR* load.
->   - The store is not a store-release.
->   - The accesses target the same peripheral and do not overlap in bytes.
->   - There is at most one intervening Device-nGnR* store in program
->     order, and there are no intervening Device-nGnR* loads.
->   - There is no DSB, and no DMB that orders loads, between the store and
->     the load.
->   - Specific micro-architectural and timing conditions occur.
-> 
-> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
-> to stlr* (Store-Release), which removes the "store is not a
-> store-release" condition for every device write the kernel issues.
-> Because writel() and writel_relaxed() are both built on __raw_writel()
-> in asm-generic/io.h, patching the raw variants covers both the
-> non-relaxed and relaxed APIs without touching the higher layers. Note
-> that writel()'s own barrier sits before the store, so it does not order
-> the store against a subsequent readl(); the store-release promotion is
-> what provides that ordering.
-> 
-> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
-> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
-> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
-> the plain str* sequence.
-> 
-> Note: stlr* only supports base-register addressing, so affected CPUs use
-> a base-register stlr* path. Unaffected CPUs keep the original
-> offset-addressed str* sequence introduced by commit d044d6ba6f02
-> ("arm64: io: permit offset addressing").
-> 
-> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
-> helpers are left unchanged. These helpers are intended for
-> write-combining mappings, which are Normal-NC on arm64. Replacing their
-> contiguous str* groups would defeat the write-combining behavior used to
-> improve store performance.
-> 
-> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
-> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
-> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-> ---
-> Changes since v2:
->   - Reworked the raw MMIO write helpers so unaffected CPUs keep the
->     existing offset-addressed STR sequence, while affected CPUs use the
->     base-register STLR path.
->   - Updated the commit message to match the code changes.
->   - Rebased on top of the arm64 for-next/errata branch:
->     https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
-> 
-> Changes since v1:
->   - Updated the commit message based on feedback from Vladimir Murzin.
-> 
->  Documentation/arch/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                          | 23 ++++++++++++++++
->  arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
->  arch/arm64/kernel/cpu_errata.c              |  8 ++++++
->  arch/arm64/tools/cpucaps                    |  1 +
->  5 files changed, 64 insertions(+)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index ad09bbb10da80..fc45125dc2f80 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -298,6 +298,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index c65cef81be86a..d633eb70de1ac 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
->  
->  	  If unsure, say Y.
->  
-> +config NVIDIA_OLYMPUS_1027_ERRATUM
-> +	bool "NVIDIA Olympus: device store/load ordering erratum"
-> +	default y
-> +	help
-> +	  This option adds an alternative code sequence to work around an
-> +	  NVIDIA Olympus core erratum where a Device-nGnR* store can be
-> +	  observed by a peripheral after a younger Device-nGnR* load to the
-> +	  same peripheral. This breaks the program order that drivers rely
-> +	  on for MMIO and can leave a device in an incorrect state.
-> +
-> +	  The workaround promotes the raw MMIO store helpers
-> +	  (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
-> +	  required ordering. Because writel() and writel_relaxed() are built
-> +	  on __raw_writel(), both are covered without changes to the higher
-> +	  layers.
-> +
-> +	  The fix is applied through the alternatives framework, so enabling
-> +	  this option does not by itself activate the workaround: it is
-> +	  patched in only when an affected CPU is detected, and is a no-op on
-> +	  unaffected CPUs.
-> +
-> +	  If unsure, say Y.
-> +
->  config ARM64_ERRATUM_834220
->  	bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
->  	depends on KVM
-> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
-> index 8cbd1e96fd50b..801223e754c90 100644
-> --- a/arch/arm64/include/asm/io.h
-> +++ b/arch/arm64/include/asm/io.h
-> @@ -22,10 +22,22 @@
->  /*
->   * Generic IO read/write.  These perform native-endian accesses.
->   */
-> +static __always_inline bool arm64_needs_device_store_release(void)
-> +{
-> +	return alternative_has_cap_unlikely(
-> +				ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
-> +}
-> +
->  #define __raw_writeb __raw_writeb
->  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
->  {
->  	volatile u8 __iomem *ptr = addr;
-> +
-> +	if (arm64_needs_device_store_release()) {
-> +		asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
-> +		return;
-> +	}
-> +
->  	asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
->  }
+> AFAIU, we don't add the additional nodes for generic hotplug memory but
+> rather for exclusive use of by drivers/applications that are aware of these
+> nodes.
 
-Use an 'else' clause instead of the early return? (similarly for the other
-changes).
+The intent is to use for "non-generic" hotplug (see the whole private
+node series [1]), which would eventually still use the hotplug mechanism
+just not for generic memory.
 
-I still reckon you should do something with the memcpy-to-io routines.
-A simple option could be to make dgh() a dmb on parts with the erratum?
-That at least moves the barrier out of the loop.
+[1] https://lore.kernel.org/linux-mm/20260222084842.1824063-1-gourry@gourry.net/
 
-Will
+> Wouldn't adding them to possible nodes actually skew the calculation of the
+> resources by the services utilizing num_possible_nodes()?
+> 
+> With the futex_init() example, won't be hashsize scaled down two much
+> because we've added these special nodes to the possible mask?
+>
+
+The result is the same as BIOS reserving nodes with PXM entries that
+don't get used.  The CXL ACPI Tables do this for CXL Fixed Memory
+Windows that may never be hotplugged.
+
+So really i think you're pointing out that futex_init() here probably
+shouldn't be using num_possible_nodes?
+
+~Gregory
