@@ -1,628 +1,304 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1F0231842;
-	Thu, 11 Jun 2026 15:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F808318EE7;
+	Thu, 11 Jun 2026 15:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781190098; cv=none; b=Prgjpzkm4mgxkOobQ7NeiP0yHztDqAHYH1GMbfDRlQBDark4d0zjKyXqG2F+hThEeiVnW9Eylah7ZYneiA0X015ybIxRwQgLJYcMKtnjHVcCQO0t2semrvjVeFzPb1BXca+B0MDq671p3bapniI5u3FLsDTzxBLKy0izdL08ggI=
+	t=1781190531; cv=none; b=dIf+zyagz6fd6DLCTEnPkYRU98H/DpXt1nr3XY4jkOgszVaYvjf9iSgUlH680+tlTY9hkQXX2QW+1zLVhdp4kVsCPgBcXNQ51gbLxyhZ5pDrlWREf9hael3ppwj0YodLH0B327aKK02lkeKKX1gE2bPI3/Ua0CTQgWf2m2vFOgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781190098; c=relaxed/simple;
-	bh=zVg9O0B1hNvvh2oXVlL70jC52p79nwRXiTyT1+TWm0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gjwzR8Y0InBO/rLGKYx51pfBO1YmLjAPDFzpdejdHf01ASuyWjXD56gTs/zyFMBTMs9z9zuHTRXiwqdV8m5enGB52yCViJlwz9cDtE8jLtEGAtWSETLUv8QXoFJZKGVuDcLiMenLptt3m+ppZUa+dqVMNihfAq/U4gj/RO/QCSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKScpbVN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781190531; c=relaxed/simple;
+	bh=GbY6Qf8KU1orTqznjUjA94aIa+Tq3l3bFPakpDInr70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G9GdpdivLffohf69X3kHVcxEaNoDx6RU6EjeiUtPQlo7Ghk4PaoTwHyx4Zk4iVJFEjM9/N2pbJhBF0W9WKIS75cHsU8MaDLNWXbj5yaMs2OLEW4jxUe4q50NsluAL7oGBiMutO7E58JL5L7eF2UAUNjEo99C0LkkqhbFJby1h70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Mt9OL6iX; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKScpbVN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 636D21F00898;
-	Thu, 11 Jun 2026 15:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781190096;
-	bh=Z0GqAAPTQKBPzIIt8uafV8BDYHl2vHkEVMrjmDmaxGE=;
-	h=From:To:Cc:Subject:Date;
-	b=VKScpbVNCk6sDIkegam5ps5HgPFy8FMGqebxBD7jp0amyveZ7/1cjO4pnXETtL9YY
-	 HninzylNzJNiwZSOVEP/BUq0LD0DoWJtsssV7iX5WbtX6v3fK7V3UL1N5FwXM3UmBQ
-	 cVstckZ4wTA5ShWO+qAzV2IE3JM6J+xDGKMMb4DUCFgAsSWeOaCh9RNRijsNbN1gNq
-	 5PThwsxdWKQqJAzYgmcJST0cUPKVOrRbzYkCDqxvtSDf9pTUXrijBIhncIfS0FlDG9
-	 6I0lK+cunT54p7+lRCqnzBc9mLZ7yfK90uNMAlJg1RtuTWSkkBBGV1CncO9LRjHY0u
-	 6bB1cj4VeUCsw==
-From: Conor Dooley <conor@kernel.org>
-To: linux-hwmon@vger.kernel.org
-Cc: conor@kernel.org,
-	Lars Randers <lranders@mail.dk>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Valentina.FernandezAlanis@microchip.com
-Subject: [PATCH v3] hwmon: add a driver for the temp/voltage sensor on PolarFire SoC
-Date: Thu, 11 Jun 2026 16:00:42 +0100
-Message-ID: <20260611-blank-footprint-5504b819baec@spud>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Mt9OL6iX"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8F031DB5;
+	Thu, 11 Jun 2026 08:08:43 -0700 (PDT)
+Received: from [10.57.71.234] (unknown [10.57.71.234])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A84CA3FB90;
+	Thu, 11 Jun 2026 08:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781190528; bh=GbY6Qf8KU1orTqznjUjA94aIa+Tq3l3bFPakpDInr70=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Mt9OL6iXTfg3qNxbb+/BcfDQca0fucZdA7RU/kmTEfgInxaS9TjvOjrlQGSVenCs8
+	 e0f/9nsru9qGaXAgUi8S35uRaZ/rYyzyELXR6+3NHy33h/wBFMnWwo1BmEhXSA9+JR
+	 rQ21Sh+Q+iz8VaORb6bP+4mjjnM04nzpYmj4G6j8=
+Message-ID: <aee00047-81b9-4562-be47-500b2643f7f6@arm.com>
+Date: Thu, 11 Jun 2026 16:08:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=16852; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=qtmy05In3vdCzGWaGfNJEe5AhieGnHLdbOqAXu/bJdQ=; b=owGbwMvMwCVWscWwfUFT0iXG02pJDFlaZ2fZzrH3Pe9YmGJ8i4eVp/PhO7kZO9YL6v1lt8vqu FSza15aRykLgxgXg6yYIkvi7b4WqfV/XHY497yFmcPKBDKEgYtTACYyI4GRoWH5gkdqpb9P/LC0 K6hu+9HHeqpiV/Y87uSUn4n3n3nevsXIMPVXDOOzE7v/KfPdVBdk7S8Oa7/7yMpZZqfOAfFL66Y mMwMA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Will Deacon <will@kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+ Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+ Jason Sequeira <jsequeira@nvidia.com>
+References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+ <aiq5VigmtZq9GlAm@willie-the-truck>
+Content-Language: en-GB
+From: Vladimir Murzin <vladimir.murzin@arm.com>
+In-Reply-To: <aiq5VigmtZq9GlAm@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Lars Randers <lranders@mail.dk>
+Hi,
 
-Add a driver for the temperature and voltage sensors on PolarFire SoC.
-The temperature reports how hot the die is, and the voltages are the
-SoC's 1.05, 1.8 and 2.5 volt rails respectively.
+On 6/11/26 14:34, Will Deacon wrote:
+> On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>   - A PE executes a Device-nGnR* store followed by a younger
+>>     Device-nGnR* load.
+>>   - The store is not a store-release.
+>>   - The accesses target the same peripheral and do not overlap in bytes.
+>>   - There is at most one intervening Device-nGnR* store in program
+>>     order, and there are no intervening Device-nGnR* loads.
+>>   - There is no DSB, and no DMB that orders loads, between the store and
+>>     the load.
+>>   - Specific micro-architectural and timing conditions occur.
+>>
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+>> to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not order
+>> the store against a subsequent readl(); the store-release promotion is
+>> what provides that ordering.
+>>
+>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+>> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+>> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+>> the plain str* sequence.
+>>
+>> Note: stlr* only supports base-register addressing, so affected CPUs use
+>> a base-register stlr* path. Unaffected CPUs keep the original
+>> offset-addressed str* sequence introduced by commit d044d6ba6f02
+>> ("arm64: io: permit offset addressing").
+>>
+>> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
+>> helpers are left unchanged. These helpers are intended for
+>> write-combining mappings, which are Normal-NC on arm64. Replacing their
+>> contiguous str* groups would defeat the write-combining behavior used to
+>> improve store performance.
+>>
+>> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>> ---
+>> Changes since v2:
+>>   - Reworked the raw MMIO write helpers so unaffected CPUs keep the
+>>     existing offset-addressed STR sequence, while affected CPUs use the
+>>     base-register STLR path.
+>>   - Updated the commit message to match the code changes.
+>>   - Rebased on top of the arm64 for-next/errata branch:
+>>     https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
+>>
+>> Changes since v1:
+>>   - Updated the commit message based on feedback from Vladimir Murzin.
+>>
+>>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>>  arch/arm64/Kconfig                          | 23 ++++++++++++++++
+>>  arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
+>>  arch/arm64/kernel/cpu_errata.c              |  8 ++++++
+>>  arch/arm64/tools/cpucaps                    |  1 +
+>>  5 files changed, 64 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+>> index ad09bbb10da80..fc45125dc2f80 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -298,6 +298,8 @@ stable kernels.
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>>  | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+>> ++----------------+-----------------+-----------------+-----------------------------+
+>>  | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
+>>  +----------------+-----------------+-----------------+-----------------------------+
+>>  | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index c65cef81be86a..d633eb70de1ac 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>>  
+>>  	  If unsure, say Y.
+>>  
+>> +config NVIDIA_OLYMPUS_1027_ERRATUM
+>> +	bool "NVIDIA Olympus: device store/load ordering erratum"
+>> +	default y
+>> +	help
+>> +	  This option adds an alternative code sequence to work around an
+>> +	  NVIDIA Olympus core erratum where a Device-nGnR* store can be
+>> +	  observed by a peripheral after a younger Device-nGnR* load to the
+>> +	  same peripheral. This breaks the program order that drivers rely
+>> +	  on for MMIO and can leave a device in an incorrect state.
+>> +
+>> +	  The workaround promotes the raw MMIO store helpers
+>> +	  (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+>> +	  required ordering. Because writel() and writel_relaxed() are built
+>> +	  on __raw_writel(), both are covered without changes to the higher
+>> +	  layers.
+>> +
+>> +	  The fix is applied through the alternatives framework, so enabling
+>> +	  this option does not by itself activate the workaround: it is
+>> +	  patched in only when an affected CPU is detected, and is a no-op on
+>> +	  unaffected CPUs.
+>> +
+>> +	  If unsure, say Y.
+>> +
+>>  config ARM64_ERRATUM_834220
+>>  	bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>>  	depends on KVM
+>> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+>> index 8cbd1e96fd50b..801223e754c90 100644
+>> --- a/arch/arm64/include/asm/io.h
+>> +++ b/arch/arm64/include/asm/io.h
+>> @@ -22,10 +22,22 @@
+>>  /*
+>>   * Generic IO read/write.  These perform native-endian accesses.
+>>   */
+>> +static __always_inline bool arm64_needs_device_store_release(void)
+>> +{
+>> +	return alternative_has_cap_unlikely(
+>> +				ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
+>> +}
+>> +
+>>  #define __raw_writeb __raw_writeb
+>>  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>>  {
+>>  	volatile u8 __iomem *ptr = addr;
+>> +
+>> +	if (arm64_needs_device_store_release()) {
+>> +		asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
+>> +		return;
+>> +	}
+>> +
+>>  	asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+>>  }
+> Use an 'else' clause instead of the early return? (similarly for the other
+> changes).
 
-The hardware supports alarms in theory, but there is an erratum that
-prevents clearing them once triggered, so no support is added for them.
+Perhaps I'm missing something, but it is not clear to me why all that
+complexity is required.
 
-The hardware measures voltage with 16 bits, of which 1 is a sign bit and
-the remainder holds the voltage as a fixed point integer value. It's
-improbable that the hardware will work if the voltages are negative, so
-the driver ignores the sign bits.
+IIUC, benefits coming with d044d6ba6f02 ("arm64: io: permit offset
+addressing") are from better code generation, so we:
+ - save code
+ - open opportunity for  write-combining
 
-There's no dt support etc here because this is the child of a simple-mfd
-syscon.
+d044d6ba6f02 ("arm64: io: permit offset addressing") comes with simple
+benchmark to measure effect of code generation:
 
-Signed-off-by: Lars Randers <lranders@mail.dk>
-Co-developed-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-v3:
-- clamp interval values
-- note that 0-8 ms is the range for update_interval
-- return -ENODATA for invalid data
-- do write bounds checking once
-- comment on MMIO regmap return value checks
+| void writeq_zero_8_times(void *ptr)
+| {
+|        writeq_relaxed(0, ptr + 8 * 0);
+|        writeq_relaxed(0, ptr + 8 * 1);
+|        writeq_relaxed(0, ptr + 8 * 2);
+|        writeq_relaxed(0, ptr + 8 * 3);
+|        writeq_relaxed(0, ptr + 8 * 4);
+|        writeq_relaxed(0, ptr + 8 * 5);
+|        writeq_relaxed(0, ptr + 8 * 6);
+|        writeq_relaxed(0, ptr + 8 * 7);
+| }
 
-v2:
-- Fix some minor things pointed out by Sashiko including inaccurate
-  comments, bounds checking of values read from sysfs and Kconfig
-  dependencies.
-- Make update_interval use milliseconds instead of microseconds
-  (I'll add update_interval_us support when that lands, there's a
-  proposed workaround for the erratum circulating internally, so it'll
-  probably come alongside alarm support).
+which compiles to
 
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Daire McNamara <daire.mcnamara@microchip.com>
-CC: linux-hwmon@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-riscv@lists.infradead.org
-CC: Valentina.FernandezAlanis@microchip.com
----
- Documentation/hwmon/index.rst    |   1 +
- Documentation/hwmon/tvs-mpfs.rst |  53 +++++
- MAINTAINERS                      |   1 +
- drivers/hwmon/Kconfig            |  13 ++
- drivers/hwmon/Makefile           |   1 +
- drivers/hwmon/tvs-mpfs.c         | 388 +++++++++++++++++++++++++++++++
- 6 files changed, 457 insertions(+)
- create mode 100644 Documentation/hwmon/tvs-mpfs.rst
- create mode 100644 drivers/hwmon/tvs-mpfs.c
+| <writeq_zero_8_times>:
+|        str     xzr, [x0]
+|        str     xzr, [x0, #8]
+|        str     xzr, [x0, #16]
+|        str     xzr, [x0, #24]
+|        str     xzr, [x0, #32]
+|        str     xzr, [x0, #40]
+|        str     xzr, [x0, #48]
+|        str     xzr, [x0, #56]
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8b655e5d6b68..84a5339e1d6f 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -262,6 +262,7 @@ Hardware Monitoring Kernel Drivers
-    tps53679
-    tps546d24
-    tsc1641
-+   tvs-mpfs
-    twl4030-madc-hwmon
-    ucd9000
-    ucd9200
-diff --git a/Documentation/hwmon/tvs-mpfs.rst b/Documentation/hwmon/tvs-mpfs.rst
-new file mode 100644
-index 000000000000..1035812f363a
---- /dev/null
-+++ b/Documentation/hwmon/tvs-mpfs.rst
-@@ -0,0 +1,53 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver tvs-mpfs
-+======================
-+
-+Supported chips:
-+
-+  * PolarFire SoC
-+
-+Authors:
-+
-+   - Conor Dooley <conor.dooley@microchip.com>
-+   - Lars Randers <lranders@mail.dk>
-+
-+Description
-+-----------
-+
-+This driver implements support for the temperature and voltage sensors on
-+PolarFire SoC. The temperature reports how hot the die is, and the voltages are
-+the SoC's 1.05, 1.8 and 2.5 volt rails respectively.
-+
-+
-+Usage Notes
-+-----------
-+
-+update_interval has a permitted range of 0 to 8 milliseconds.
-+
-+Temperatures are read in millidegrees Celsius, but the hardware measures in
-+degrees Kelvin, storing the result as 11.4 fixed point data, for a maximum
-+value of 2047.9375 degrees Kelvin.
-+
-+Voltages are read in millivolts. The hardware measures in millivolts, storing
-+the value as 12.3 fixed point data, for a maximum of 4095.875 millivolts.
-+The minimum value reportable by the driver is 0 volts, although the hardware
-+is capable of measuring negative values.
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported. update_interval is read-write, as are
-+the enables. All other attributes are read only.
-+
-+======================= ====================================================
-+temp1_label		Fixed name for channel.
-+temp1_input		Measured temperature for channel.
-+temp1_enable		Enable/disable for channel.
-+
-+in[0-2]_label		Fixed name for channel.
-+in[0-2]_input		Measured voltage for channel.
-+in[0-2]_enable		Enable/disable for channel.
-+
-+update_interval		The interval at which the chip will update readings.
-+======================= ====================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fb1c75afd16..a492cf5ad0fc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22938,6 +22938,7 @@ F:	drivers/char/hw_random/mpfs-rng.c
- F:	drivers/clk/microchip/clk-mpfs*.c
- F:	drivers/firmware/microchip/mpfs-auto-update.c
- F:	drivers/gpio/gpio-mpfs.c
-+F:	drivers/hwmon/tvs-mpfs.c
- F:	drivers/i2c/busses/i2c-microchip-corei2c.c
- F:	drivers/mailbox/mailbox-mpfs.c
- F:	drivers/pci/controller/plda/pcie-microchip-host.c
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 14e4cea48acc..2b9622b1db95 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -930,6 +930,19 @@ config SENSORS_JC42
- 	  This driver can also be built as a module. If so, the module
- 	  will be called jc42.
- 
-+config SENSORS_POLARFIRE_SOC_TVS
-+	tristate "PolarFire SoC (MPFS) temperature and voltage sensor"
-+	depends on POLARFIRE_SOC_SYSCONS || COMPILE_TEST
-+	depends on MFD_SYSCON
-+	help
-+	  This driver adds support for the PolarFire SoC (MPFS) Temperature and
-+	  Voltage Sensor.
-+
-+	  To compile this driver as a module, choose M here. the
-+	  module will be called tvs-mpfs.
-+
-+	  If unsure, say N.
-+
- config SENSORS_POWERZ
- 	tristate "ChargerLAB POWER-Z USB-C tester"
- 	depends on USB
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 4788996aa137..b58d249e4cf4 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -194,6 +194,7 @@ obj-$(CONFIG_SENSORS_NZXT_SMART2) += nzxt-smart2.o
- obj-$(CONFIG_SENSORS_PC87360)	+= pc87360.o
- obj-$(CONFIG_SENSORS_PC87427)	+= pc87427.o
- obj-$(CONFIG_SENSORS_PCF8591)	+= pcf8591.o
-+obj-$(CONFIG_SENSORS_POLARFIRE_SOC_TVS)  += tvs-mpfs.o
- obj-$(CONFIG_SENSORS_POWERZ)	+= powerz.o
- obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
- obj-$(CONFIG_SENSORS_PT5161L)	+= pt5161l.o
-diff --git a/drivers/hwmon/tvs-mpfs.c b/drivers/hwmon/tvs-mpfs.c
-new file mode 100644
-index 000000000000..48de8d98b344
---- /dev/null
-+++ b/drivers/hwmon/tvs-mpfs.c
-@@ -0,0 +1,388 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Author: Lars Randers <lranders@mail.dk>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/err.h>
-+#include <linux/freezer.h>
-+#include <linux/hwmon.h>
-+#include <linux/io.h>
-+#include <linux/kthread.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define MPFS_TVS_CTRL 0x08
-+#define MPFS_TVS_OUTPUT0 0x24
-+#define MPFS_TVS_OUTPUT1 0x28
-+
-+#define MPFS_TVS_CTRL_TEMP_VALID	BIT(19)
-+#define MPFS_TVS_CTRL_V2P5_VALID	BIT(18)
-+#define MPFS_TVS_CTRL_V1P8_VALID	BIT(17)
-+#define MPFS_TVS_CTRL_V1P05_VALID	BIT(16)
-+
-+#define MPFS_TVS_CTRL_TEMP_ENABLE	BIT(3)
-+#define MPFS_TVS_CTRL_V2P5_ENABLE	BIT(2)
-+#define MPFS_TVS_CTRL_V1P8_ENABLE	BIT(1)
-+#define MPFS_TVS_CTRL_V1P05_ENABLE	BIT(0)
-+#define MPFS_TVS_CTRL_ENABLE_ALL	GENMASK(3, 0)
-+
-+/*
-+ * For all of these the value in millivolts is stored in 16 bits, with an upper
-+ * sign bit and a lower 3 bits of decimal. These masks discard the sign bit and
-+ * decimal places, because if Linux is running these voltages cannot be negative
-+ * and so avoid having to convert to two's complement.
-+ */
-+#define MPFS_OUTPUT0_V1P8_MASK	GENMASK(30, 19)
-+#define MPFS_OUTPUT0_V1P05_MASK	GENMASK(14, 3)
-+#define MPFS_OUTPUT1_V2P5_MASK	GENMASK(14, 3)
-+
-+/*
-+ * The register map claims that the temperature is stored in bits 31:16, but
-+ * application note "AN4682: PolarFire FPGA Temperature and Voltage Sensor"
-+ * says that 31 is reserved. Temperature is in kelvin, so what's probably a
-+ * sign bit has no value anyway.
-+ */
-+#define MPFS_OUTPUT1_TEMP_MASK GENMASK(30, 16)
-+
-+#define MPFS_TVS_INTERVAL_MASK GENMASK(15, 8)
-+#define MPFS_TVS_INTERVAL_OFFSET 8
-+/* The interval register is in increments of 32 us */
-+#define MPFS_TVS_INTERVAL_SCALE 32
-+/* with 254 usable increments of 32 us available, 8 ms is the integer limit */
-+#define MPFS_TVS_INTERVAL_MAX_MS 8U
-+
-+/* 273.1875 in 11.4 fixed-point notation */
-+#define MPFS_TVS_K_TO_C 0x1113
-+
-+enum mpfs_tvs_sensors {
-+	SENSOR_V1P05 = 0,
-+	SENSOR_V1P8,
-+	SENSOR_V2P5,
-+};
-+
-+static const char * const mpfs_tvs_voltage_labels[] = { "1P05", "1P8", "2P5" };
-+
-+struct mpfs_tvs {
-+	struct regmap *regmap;
-+};
-+
-+static int mpfs_tvs_voltage_read(struct mpfs_tvs *data, u32 attr,
-+				 int channel, long *val)
-+{
-+	u32 tmp, control;
-+
-+	if (attr != hwmon_in_input && attr != hwmon_in_enable)
-+		return -EOPNOTSUPP;
-+
-+	regmap_read(data->regmap, MPFS_TVS_CTRL, &control);
-+
-+	switch (channel) {
-+	case SENSOR_V2P5:
-+		if (attr == hwmon_in_enable) {
-+			*val = FIELD_GET(MPFS_TVS_CTRL_V2P5_ENABLE, control);
-+			break;
-+		}
-+
-+		if (!(control & MPFS_TVS_CTRL_V2P5_VALID))
-+			return -ENODATA;
-+
-+		regmap_read(data->regmap, MPFS_TVS_OUTPUT1, &tmp);
-+		*val = FIELD_GET(MPFS_OUTPUT1_V2P5_MASK, tmp);
-+		break;
-+	case SENSOR_V1P8:
-+		if (attr == hwmon_in_enable) {
-+			*val = FIELD_GET(MPFS_TVS_CTRL_V1P8_ENABLE, control);
-+			break;
-+		}
-+
-+		if (!(control & MPFS_TVS_CTRL_V1P8_VALID))
-+			return -ENODATA;
-+
-+		regmap_read(data->regmap, MPFS_TVS_OUTPUT0, &tmp);
-+		*val = FIELD_GET(MPFS_OUTPUT0_V1P8_MASK, tmp);
-+		break;
-+	case SENSOR_V1P05:
-+		if (attr == hwmon_in_enable) {
-+			*val = FIELD_GET(MPFS_TVS_CTRL_V1P05_ENABLE, control);
-+			break;
-+		}
-+
-+		if (!(control & MPFS_TVS_CTRL_V1P05_VALID))
-+			return -ENODATA;
-+
-+		regmap_read(data->regmap, MPFS_TVS_OUTPUT0, &tmp);
-+		*val = FIELD_GET(MPFS_OUTPUT0_V1P05_MASK, tmp);
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_voltage_write(struct mpfs_tvs *data, u32 attr,
-+				  int channel, long val)
-+{
-+	u32 tmp;
-+
-+	if (attr != hwmon_in_enable)
-+		return -EOPNOTSUPP;
-+
-+	if (val > 1 || val < 0)
-+		return -EINVAL;
-+
-+	switch (channel) {
-+	case SENSOR_V2P5:
-+		tmp = FIELD_PREP(MPFS_TVS_CTRL_V2P5_ENABLE, val);
-+		regmap_update_bits(data->regmap, MPFS_TVS_CTRL,
-+				   MPFS_TVS_CTRL_V2P5_ENABLE, tmp);
-+		break;
-+	case SENSOR_V1P8:
-+		tmp = FIELD_PREP(MPFS_TVS_CTRL_V1P8_ENABLE, val);
-+		regmap_update_bits(data->regmap, MPFS_TVS_CTRL,
-+				   MPFS_TVS_CTRL_V1P8_ENABLE, tmp);
-+		break;
-+	case SENSOR_V1P05:
-+		tmp = FIELD_PREP(MPFS_TVS_CTRL_V1P05_ENABLE, val);
-+		regmap_update_bits(data->regmap, MPFS_TVS_CTRL,
-+				   MPFS_TVS_CTRL_V1P05_ENABLE, tmp);
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_temp_read(struct mpfs_tvs *data, u32 attr, long *val)
-+{
-+	u32 tmp, control;
-+
-+	if (attr != hwmon_temp_input && attr != hwmon_temp_enable)
-+		return -EOPNOTSUPP;
-+
-+	regmap_read(data->regmap, MPFS_TVS_CTRL, &control);
-+
-+	if (attr == hwmon_temp_enable) {
-+		*val = FIELD_GET(MPFS_TVS_CTRL_TEMP_ENABLE, control);
-+		return 0;
-+	}
-+
-+	if (!(control & MPFS_TVS_CTRL_TEMP_VALID))
-+		return -ENODATA;
-+
-+	regmap_read(data->regmap, MPFS_TVS_OUTPUT1, &tmp);
-+	*val = FIELD_GET(MPFS_OUTPUT1_TEMP_MASK, tmp);
-+	*val -= MPFS_TVS_K_TO_C;
-+	*val = (1000 * *val) >> 4; /* fixed point (11.4) to millidegrees */
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_temp_write(struct mpfs_tvs *data, u32 attr, long val)
-+{
-+	u32 tmp;
-+
-+	if (attr != hwmon_temp_enable)
-+		return -EOPNOTSUPP;
-+
-+	if (val > 1 || val < 0)
-+		return -EINVAL;
-+
-+	tmp = FIELD_PREP(MPFS_TVS_CTRL_TEMP_ENABLE, val);
-+	regmap_update_bits(data->regmap, MPFS_TVS_CTRL,
-+			   MPFS_TVS_CTRL_TEMP_ENABLE, tmp);
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_interval_read(struct mpfs_tvs *data, u32 attr, long *val)
-+{
-+	u32 tmp;
-+
-+	if (attr != hwmon_chip_update_interval)
-+		return -EOPNOTSUPP;
-+
-+	regmap_read(data->regmap, MPFS_TVS_CTRL, &tmp);
-+	*val = FIELD_GET(MPFS_TVS_INTERVAL_MASK, tmp);
-+	*val *= MPFS_TVS_INTERVAL_SCALE;
-+	*val /= 1000;
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_interval_write(struct mpfs_tvs *data, u32 attr, long val)
-+{
-+	unsigned long temp = val;
-+
-+	if (attr != hwmon_chip_update_interval)
-+		return -EOPNOTSUPP;
-+
-+	temp = clamp(temp, 0U, MPFS_TVS_INTERVAL_MAX_MS);
-+
-+	temp *= 1000;
-+	temp /= MPFS_TVS_INTERVAL_SCALE;
-+
-+	temp <<= MPFS_TVS_INTERVAL_OFFSET;
-+	regmap_update_bits(data->regmap, MPFS_TVS_CTRL,
-+			   MPFS_TVS_INTERVAL_MASK, temp);
-+
-+	return 0;
-+}
-+
-+static umode_t mpfs_tvs_is_visible(const void *data,
-+				   enum hwmon_sensor_types type,
-+				   u32 attr, int channel)
-+{
-+	if (type == hwmon_chip && attr == hwmon_chip_update_interval)
-+		return 0644;
-+
-+	if (type == hwmon_temp) {
-+		switch (attr) {
-+		case hwmon_temp_enable:
-+			return 0644;
-+		case hwmon_temp_input:
-+		case hwmon_temp_label:
-+			return 0444;
-+		default:
-+			return 0;
-+		}
-+	}
-+
-+	if (type == hwmon_in) {
-+		switch (attr) {
-+		case hwmon_in_enable:
-+			return 0644;
-+		case hwmon_in_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		default:
-+			return 0;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int mpfs_tvs_read(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long *val)
-+{
-+	struct mpfs_tvs *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		return mpfs_tvs_temp_read(data, attr, val);
-+	case hwmon_in:
-+		return mpfs_tvs_voltage_read(data, attr, channel, val);
-+	case hwmon_chip:
-+		return mpfs_tvs_interval_read(data, attr, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int mpfs_tvs_write(struct device *dev, enum hwmon_sensor_types type,
-+			  u32 attr, int channel, long val)
-+{
-+	struct mpfs_tvs *data = dev_get_drvdata(dev);
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		return mpfs_tvs_temp_write(data, attr, val);
-+	case hwmon_in:
-+		return mpfs_tvs_voltage_write(data, attr, channel, val);
-+	case hwmon_chip:
-+		return mpfs_tvs_interval_write(data, attr, val);
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int mpfs_tvs_read_labels(struct device *dev,
-+				enum hwmon_sensor_types type,
-+				u32 attr, int channel,
-+				const char **str)
-+{
-+	switch (type) {
-+	case hwmon_temp:
-+		*str = "Die Temp";
-+		return 0;
-+	case hwmon_in:
-+		*str = mpfs_tvs_voltage_labels[channel];
-+		return 0;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static const struct hwmon_ops mpfs_tvs_ops = {
-+	.is_visible = mpfs_tvs_is_visible,
-+	.read_string = mpfs_tvs_read_labels,
-+	.read = mpfs_tvs_read,
-+	.write = mpfs_tvs_write,
-+};
-+
-+static const struct hwmon_channel_info *mpfs_tvs_info[] = {
-+	HWMON_CHANNEL_INFO(chip,
-+			   HWMON_C_REGISTER_TZ | HWMON_C_UPDATE_INTERVAL),
-+	HWMON_CHANNEL_INFO(temp,
-+			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_ENABLE),
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_LABEL | HWMON_I_ENABLE,
-+			   HWMON_I_INPUT | HWMON_I_LABEL | HWMON_I_ENABLE,
-+			   HWMON_I_INPUT | HWMON_I_LABEL | HWMON_I_ENABLE),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info mpfs_tvs_chip_info = {
-+	.ops = &mpfs_tvs_ops,
-+	.info = mpfs_tvs_info,
-+};
-+
-+static int mpfs_tvs_probe(struct platform_device *pdev)
-+{
-+	struct device *hwmon_dev;
-+	struct mpfs_tvs *data;
-+
-+	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->regmap = device_node_to_regmap(pdev->dev.parent->of_node);
-+	if (IS_ERR(data->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(data->regmap),
-+				     "Failed to find syscon regmap\n");
-+
-+	/*
-+	 * It's an MMIO regmap with no resources, there's nothing that can fail
-+	 * and return an error
-+	 */
-+	regmap_write(data->regmap, MPFS_TVS_CTRL, MPFS_TVS_CTRL_ENABLE_ALL);
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "mpfs_tvs",
-+							 data,
-+							 &mpfs_tvs_chip_info,
-+							 NULL);
-+	if (IS_ERR(hwmon_dev))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(hwmon_dev),
-+				     "hwmon device registration failed.\n");
-+
-+	return 0;
-+}
-+
-+static struct platform_driver mpfs_tvs_driver = {
-+	.probe = mpfs_tvs_probe,
-+	.driver = {
-+		.name = "mpfs-tvs",
-+	},
-+};
-+module_platform_driver(mpfs_tvs_driver);
-+
-+MODULE_AUTHOR("Lars Randers <lranders@mail.dk>");
-+MODULE_DESCRIPTION("PolarFire SoC temperature & voltage sensor driver");
-+MODULE_LICENSE("GPL");
--- 
-2.53.0
+
+v1/v2 compiles to
+
+| <writeq_zero_8_times>:
+|        str     xzr, [x0]
+|        add     x1, x0, #0x8
+|        str     xzr, [x1]
+|        add     x1, x0, #0x10
+|        str     xzr, [x1]
+|        add     x1, x0, #0x18
+|        str     xzr, [x1]
+|        add     x1, x0, #0x20
+|        str     xzr, [x1]
+|        add     x1, x0, #0x28
+|        str     xzr, [x1]
+|        add     x1, x0, #0x30
+|        str     xzr, [x1]
+|        add     x0, x0, #0x38
+|        str     xzr, [x0]
+
+were alternatives are swapping str with stlr. In other words, we are
+rolling back to the pre-d044d6ba6f02 implementation.
+
+v3 compiles to:
+
+| <writeq_zero_8_times>:
+|        nop
+|        str     xzr, [x0]
+|        add     x1, x0, #0x8
+|        nop
+|        str     xzr, [x1]
+|        add     x1, x0, #0x10
+|        nop
+|        str     xzr, [x1]
+|        add     x1, x0, #0x18
+|        nop
+|        str     xzr, [x1]
+|        add     x1, x0, #0x20
+|        nop
+|        str     xzr, [x1]
+|        add     x1, x0, #0x28
+|        nop
+|        str     xzr, [x1]
+|        add     x1, x0, #0x30
+|        nop
+|        str     xzr, [x1]
+|        add     x0, x0, #0x38
+|        nop
+|        str     xzr, [x0]
+|        ret
+
+where static branch swapping nop with branch to stlr and back to add.
+
+So it looks to me that we're losing an opportunity for write
+combining, but in terms of code size, v1/v2 seems to be the lesser of
+two evils.
+
+Cheers
+Vladimir
+
+> 
+> I still reckon you should do something with the memcpy-to-io routines.
+> A simple option could be to make dgh() a dmb on parts with the erratum?
+> That at least moves the barrier out of the loop.
+> 
+> Will
+> 
 
