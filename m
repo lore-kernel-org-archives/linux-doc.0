@@ -1,129 +1,96 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A852D73A6;
-	Thu, 11 Jun 2026 19:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5C32C08BB;
+	Thu, 11 Jun 2026 19:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781206323; cv=none; b=VpzFIAXrMbqZtPdXTBzEbGFyQv89kgWVN9yzrAN3yIIcXN+muQdocioflyNIDHOIdErJRUPW7rNyJYQjzKCjLxGwRq5Nl6fh4Vsfiza78sQP8fXolxUEZcLHAVjn+G/pvTK6v13e8o0C7PPxPksgu8P3kBOfQcjwEREjf1BjGng=
+	t=1781206422; cv=none; b=aBMKpr9ZR3TgJ5ySp8L5h82+D/XbWg8JKd5Oal6fwv+SD9kXbk2EtssBXqsILPrNI2XbmwLCOMu02wwV1YhIutfLTKZmHJYs97sx5kAMKX09mPA6/wq8K7HNpB1k+eMt1CpsobjBryZDL9A8MSxVqzGZuOsA8zfTgsIm0yu7Bbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781206323; c=relaxed/simple;
-	bh=260eALo52JL67I5BXXirsBFEo7RheHsKr6WGe8VJtcw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=dF+Cp+vfNKRI/4xYd9FU4F/BrVuEuKaG5WHmbmGnm8NvY25gSRUbDWHtBcYG6w9sJ2nrSdEfiqoOEBAQzi91ZE/qAcEoSukUig5NaitJa4KZyjvev2miL7rsHwkzpycLwCDTpePRD8Pt/POA4eJ8f2+PaNp80PMQvXs7kM2K9rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LNBc0IqM; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781206422; c=relaxed/simple;
+	bh=NIR3HYw2JEH9d+Wwq9mB8fwmfiQAFUYzbs2IS3Faf5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlbJ07OxW4Z3DR1Ok95ydQfYHULF6hEOIP3e/uoXcOsAQDXrVgMHikAchH7aHfWSIBactSGUsBGFKEwPAdr+7gBrmg+Y6fYHRTB0Ma0XbmtMAI3NTlmQQa2UMRefDZozddnFOIApEDEk3WWFkvTyR/e3XYNyt9ilaHm7SaCt9XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfFjcYBx; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LNBc0IqM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=dzHuIpFbYrCgFwipPgG7Z1jCCHIP4pv/lJwgbnEmeHI=; b=LNBc0IqM7rCyEMAI2eK+n7euOK
-	EL5tl1qU5tthxVnxNyHYfmyt7uh+YodDHxRY7kb/0zCqPJtfg1SmBxAo5buBIQ6IcPuj+tWmnMr++
-	UsU+Ylgt9hBplMU/D6nl3sv3jan3dF1UVtWpZQFSOPttuT/e89rMwcrlZioZ0DLMvDI7ULWRdrL2W
-	dkzaDKtT3Lf5UsARBNJGWGckkhuUhNpvsbtSYCeN06t46Qu+XfhIDcZ+9ntdETBR5Y2LZ3vAujiNz
-	ibshv6mzE8J6MFQzkNdxvtkrVddEqUPtCKz9s7Uv3JvIIOvkylLANPbrZQQ097sSpO5o+/bNCASnv
-	QszFYwZA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXl86-00000009wz2-1JvM;
-	Thu, 11 Jun 2026 19:31:54 +0000
-Message-ID: <ac98ff55-99df-4c90-8e6b-ab1dde219b5a@infradead.org>
-Date: Thu, 11 Jun 2026 12:31:52 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfFjcYBx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781206421; x=1812742421;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NIR3HYw2JEH9d+Wwq9mB8fwmfiQAFUYzbs2IS3Faf5A=;
+  b=FfFjcYBx9MQIIR1Frhud//03y/aeGDQMfvoQEGTyYULwQDP4NRJSf2aG
+   kTnEQ6GMrGdmpFOARPlA8ntgNXHXd3tidUkfkxwbdUAVRgDpbN+hTKJHx
+   XUeYwABl+EJN9IwKpUaVbPSfMSbvDMDKGYMj+kOboItesPd5PV6gVvwvZ
+   H+dd+Ap5b0oQxL8embAMAWVNC8wJW1SovWAngYRaZduWaMXNjqV2XarbA
+   stIu2xhIjmfnVRTym6g2oRXj9D5cdzxDLf/ptaqdO1FUUoxUxQa9BQaS+
+   4UHp0ONaCNEcZwjDVMhuGek9xsDmzlS50wSbvZEpvsn/yO/oahrLJvhmk
+   Q==;
+X-CSE-ConnectionGUID: DEVnIBUKT2S39H9gWKjS/Q==
+X-CSE-MsgGUID: e3Ocs9cdT1yLYovnd9CFnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93423640"
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="93423640"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 12:33:40 -0700
+X-CSE-ConnectionGUID: 0wSjZKvyRlKvpIUqpBVZeg==
+X-CSE-MsgGUID: 1y256R2mT72GQJAJDpkyFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="270614781"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 12:33:37 -0700
+Date: Thu, 11 Jun 2026 22:33:35 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [RFC V2 0/3] lib/vsprintf: Add support for pgtable entries
+Message-ID: <aisNjxHW369cbKiq@ashevche-desk.local>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+ <aisJbeVVxxNuYxQ6@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: arch: fix brackets
-To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta <vgupta@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
- <linux-samsung-soc@vger.kernel.org>,
- "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>
-References: <20260611183525.153058-2-manuelebner@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260611183525.153058-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aisJbeVVxxNuYxQ6@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
-A couple of comments but overall this is a nice cleanup.
-
-
-On 6/11/26 11:35 AM, Manuel Ebner wrote:
-> Add missing and remove needless parentheses, brackets and curly braces.
+On Thu, Jun 11, 2026 at 08:15:57PM +0100, Matthew Wilcox wrote:
+> On Wed, Jun 10, 2026 at 05:35:42AM +0100, Anshuman Khandual wrote:
+> > Printing page table entries has been a common requirement both in generic
+> > and platform memory management for various purposes. Hence let's create a
+> > dedicated printk format for such entries which will also help standardize
+> > pgtable printing across different platforms.
 > 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> ---
->  Documentation/arch/arc/arc.rst                 |  2 +-
->  .../arm/samsung/clksrc-change-registers.awk    |  2 +-
->  Documentation/arch/arm/vlocks.rst              |  4 ++--
->  .../arch/arm64/memory-tagging-extension.rst    |  2 +-
->  Documentation/arch/powerpc/vas-api.rst         |  2 +-
->  Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
->  Documentation/arch/sparc/oradax/oracle-dax.rst |  3 ++-
->  7 files changed, 17 insertions(+), 16 deletions(-)
+> You didn't address my objection here:
 > 
-> diff --git a/Documentation/arch/arc/arc.rst b/Documentation/arch/arc/arc.rst
-> index 6c4d978f3f4e..553851f43be7 100644
-> --- a/Documentation/arch/arc/arc.rst
-> +++ b/Documentation/arch/arc/arc.rst
-> @@ -36,7 +36,7 @@ Important note on ARC processors configurability
->  
->  ARC processors are highly configurable and several configurable options
->  are supported in Linux. Some options are transparent to software
-> -(i.e cache geometries, some can be detected at runtime and configured
-> +(i.e cache geometries), some can be detected at runtime and configured
+> https://lore.kernel.org/linux-mm/aFQP8LzVMctf6XH5@casper.infradead.org/
+> 
+> ie there is now no typechecking possible.  So you've made it more
+> dangerous.  I reiterate my NACK to the concept, not to the implementation.
 
-   (i.e., cache geometries),
-or even
-   (e.g., cache geometries),
+But this is more of a global question, how do we check the validity of
+the parameters of pointer extensions in the kernel? Does anybody go to
+commit into GCC plugin or so for this job?
 
->  and used accordingly, while some need to be explicitly selected or configured
->  in the kernel's configuration utility (AKA "make menuconfig").
->  
-
-
-> diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
-> index d1e14d572918..67867ea7be40 100644
-> --- a/Documentation/arch/sparc/oradax/oracle-dax.rst
-> +++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
-> @@ -438,7 +438,8 @@ that in user land::
->  The output bitmap is ready for consumption immediately after the
->  completion status indicates success.
->  
-> -Excer[t from UltraSPARC Virtual Machine Specification
-> +Excer?t from UltraSPARC Virtual Machine Specification
-
-   Excerpt
-
-> +i guess this is wrong, but i don't know what's correct
->  =====================================================
->  
->   .. include:: dax-hv-api.txt
-
-and then you can add
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
 -- 
-~Randy
+With Best Regards,
+Andy Shevchenko
+
+
