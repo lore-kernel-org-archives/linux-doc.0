@@ -1,185 +1,266 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8233DD508;
-	Thu, 11 Jun 2026 11:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781177529; cv=none; b=Q2jXcF19ji24dCmoU6+dOCUFRu3kK/CVuiODgSmSyZFRuPz4MhlvcIuLVriG4npUBslDlb4AXbQwmKr2yLkYkT0k3oIYm0m1fmXj+9ddR8ziOYA/Lm5OW8+DD4dDUubfUh8v+EWrqrGgaajD0NQ7gNpuBtgMon9a+tsJLMUD0wo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781177529; c=relaxed/simple;
-	bh=FlKOldUaE1jFWvm7/OCjtIiziDaHw2q6Ce6cL4faQUk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=egeyuszkQWHJCJSgu/IM2SoH+qpIB/KDHlkPAXOZZh652gNi+1C61Lb/mN/88yhPlsWWcIvZIKt0kEHbUb9HUFz8UENTdFlLJosBpmbA+PYvQsUickuNQ0KrJ3CBG0MTX0nQG2w/zeOSlOQVw+c5KK86DLaVxuRvG1zpVEtHqGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJYjJvRp; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAE03EB0EC
+	for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 11:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781178269; cv=pass; b=YlLz+sfPuWRrerXHfP8UjFGq57nU7N/lDJaldA6GWzT+wRPomQ4+QwfiGQfJfQ0VH9aMlWNba8VPZL9ijOslQ21e2mAfb3h2k1Q3dOSifyNnd8CvJ29+NpXZQ9MGpICatXYoA2x/M1Zu7HUaCrsRrBboTOBZtxHR9LuXOFC8bys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781178269; c=relaxed/simple;
+	bh=u0l12GK251wv3DytcvATpkwIc7MpVJPzcrdqPx2x+qg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XwbHZrNKpWdnGhh1xtLvL30l3ACoueUr6TXXtJ5a51vqtjE7eh0QBt2OmddGPuFlkiwoSoBlTX8i7SAdsaWUAdJ1G//ckgd6Nfs5wgHRY7jetLwyOVyZpaijxOyGstsb3L3oe964SJhQDVtS12IAClZDEekeLDy8C10dyJCpCSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UhRg9Vgl; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJYjJvRp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72AE1F00893;
-	Thu, 11 Jun 2026 11:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781177528;
-	bh=4xTgTbhBDpE6VEa4/wt6KZD5I+oX8VuV/K3HmDwrD/Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=PJYjJvRpjJy3Mi9CZIoy5gpn2D0kCw24xmCwJtmkGuON6KegMYfAROnmP+6+09BnD
-	 ZMLtTn6IW67urY7nAPp3UnuweZxA7y+WD8XR0/rwj3zWkttEgAZ9uelY0vEP+y1YIr
-	 sKB2X6wM/OOm+CdyueVjYiZAg+3Va+QJoFCjy0yBYRi4UPdnnhMUMDjf/sAss8iiMj
-	 53fspT7IZhycoDRFv8oYeUMpACgLPMrpBr/Xu8XHH5IjW4PQkATib5Cd+1wlyf9lPW
-	 b6rbg2pOyluMo5n3m/uecscaAaHUUTZ7KHoN77qPgYZ7J+pz8wjmhx3OQwZ/d7wUoN
-	 CJkSQ+9RZ7Rhg==
-Message-ID: <e9d77384-fda3-4557-841e-9e5242938838@kernel.org>
-Date: Thu, 11 Jun 2026 13:32:02 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UhRg9Vgl"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68e5f7c1131so14820617a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 04:44:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781178263; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bnHCopl7VL0YJskzK08SaXDz8tlTWo80HuD/QL9jmkMxIdcvwVPMJtvz2uznKkjpq1
+         OB9cfw5doJj5VwpD2RlN4HgTrD/ar9JKIarWJNS2RKOB2fcEOIzPZlVVJ9/xcCi3kY8r
+         GPBosGzyYM6wqz4Si7o6kzl/zFMLzyO10HVlERBL2P5ZJwqlaOrjwdvsVyWOvIScq6bI
+         OtpsRq1YAJSVr4+qBUlfFu4zSuEKre4uF7YE/qhdhcgUxjU/8W4SfOgtL/DjNxe/ZD0p
+         pTdIgBdHH7++0uwSqt9cJU99nnpdW4TA31IQQMBjfUmXwUuHDrJXwyMVbP9DzfBJiydy
+         udGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Q/Tdlvp6c2L+uM9YnfN/q8tY2YDVcYxunw2VmcNUyXs=;
+        fh=n0/GlIZw9tZkLLpKDYVfXW03zV/lpTxGbPFQpcByLns=;
+        b=RcOlnJ9zAxIF4hJPKrlMAKXFwvvgjS2YEgJ7mPpVMuhd6Cuthg/QBUnnTGkimOf31q
+         rnbnUHlz5aTY2g4tJ8uIB+f2r1Yv7ZPRbCnRwbVcpb6XQaND8k9Psq381lMB1klvhQnA
+         HSLRmkcDI5doCcwsnCG0UQMV0ymizdhj1CwqIn7Lnr3TM0vrg2tsR43NnteBgy6RpoZF
+         ztdJro7UdgKLkInJteffuX4yoVHbAdi29Ob51h9ZEPQXYlSl5EtsuUft7v9tHXMfd2nt
+         oj4lHIrSx8KeKZjvZfrfXBlu7XbLXYE6xubXEL8mKcJllLF6qXLkPNyHD1YgTF/42Bjd
+         ZpjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781178263; x=1781783063; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q/Tdlvp6c2L+uM9YnfN/q8tY2YDVcYxunw2VmcNUyXs=;
+        b=UhRg9Vglm0EAClZLiAWhp9KUekhJJU3aSk1EMMmp+qpNhXMi3jEO8i++Lcd7mGQlTv
+         0z57LxS4NNIaERPZu9GVhUwvkao6wuowE7hnid0rs7cSJo1KZFqGgJ0R98izm5Rsug8Z
+         t0WRxuHDaqyj6A/VMJ8kbmQFiOjUZo83tqeA4P4gWWbq9iHY9CCaYW9VBInHMJxxPLrV
+         J5pfPvxocOOFC9hu6QV3Gm+jbhXrBFDy8cgNsaYB+ORK9cqzXyxS0hTLwZG78j9dBdXN
+         ojw9Wk+WPc1t79kG+Q8/NPhwXkK+0Zi+mocThhx1xC8lv9i6XOEWivmAUQwpG645UOf7
+         P1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781178263; x=1781783063;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Q/Tdlvp6c2L+uM9YnfN/q8tY2YDVcYxunw2VmcNUyXs=;
+        b=nAX1SieEPnb76mpVpNz3Ma5VBbXG78mYtuE4RsT1KP+5G9OObHtKex81inSLxuikBE
+         7E/Iw5i8Op9IpWl2Ti+o8fQQ53t0uf8TOh2Y/kTgpjlUg9Q4U/iu6JY6pmOcQJEQoAXx
+         R1+c13569giJGPmU60aAqAvlCmez7VReMS6hyex0uzjvNkWRY/KW/ppXelDcKMp5IMDt
+         v4vf3wabpIehEnZE7GFzQm6Qx4mxOfJOOmwqgOobWi686cZbFvuFLF/XHGhxRrRIjQ03
+         JknzMlxDtpgr8DfomkgOaY5hGln5ojAjo9laDk7qkOxQ6auC4e2nqveV9M9Q1gwKNAe2
+         u4Ag==
+X-Forwarded-Encrypted: i=1; AFNElJ+NTJzPNcC6pCwMmT4rf8SKNu2k6nt8Gjqu53sxn7Qf1r/arS1gT/K8dgEu8WN9gDQl6bErz4Sr+Ek=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxgp5zHI7tMCe8tgGzYDPaNm7CYaj+8KxfEbQF+rZ5kVKc1DfNQ
+	Qjg7iTM7NkbZXit4H36MCDFyt4dz+jIYLbflMh+2B8ZabbQoKkLg2J35ivC1jlpI7sA4007N6r/
+	/UD1r9m9msvRII9vEafK9PB/xNG3YIWDAm7bdtIhS
+X-Gm-Gg: Acq92OFcPcsdV1vIBzVwcOt8Tdi58mIzSy61p2JIb+IrPZNiZYMKwoBTERlh40JzTew
+	6zX9PltIIBSQvCxHpYUrC1eYfRr1CDnhKjoEg+T6jKBXf7hgVBOMfXgA5KoDfTvCZKAP58CN0AM
+	lIZbf7e8DNsHdW3TImzUNJ8io18rDWz9+QWlra6einjt2eKNp3GKL5tsr9XQXEMv4cxr+1vsyNp
+	TNEpp9mtnMA6GoQapXEVRwXaQQeiTTm7Ae7ifCnNM+SFBAgc+NSYKpLrqy293WjKqKxa/kvCV8E
+	qc1L1Q48yDOU09pOcOmaiq/S9ktv09+Ix2231jlIrVT7PKI=
+X-Received: by 2002:a17:906:4787:b0:beb:a431:6750 with SMTP id
+ a640c23a62f3a-bfc87bfb90emr115609866b.29.1781178262321; Thu, 11 Jun 2026
+ 04:44:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <20260610043545.3725735-4-anshuman.khandual@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260610043545.3725735-4-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1777591496.git.babu.moger@amd.com> <0cfd813e10072eefc8f4d84328e83bd9a6220ad4.1777591497.git.babu.moger@amd.com>
+ <agzPTMvJ_LdEmKXe@agluck-desk3> <1a410ca9-f4a2-4956-8477-033d61a733be@amd.com>
+ <ag4ywKHsH1Fc15wH@agluck-desk3> <a56f8ecc-cf1e-48a4-836d-7e7723072c38@amd.com>
+In-Reply-To: <a56f8ecc-cf1e-48a4-836d-7e7723072c38@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 11 Jun 2026 13:44:10 +0200
+X-Gm-Features: AVVi8CedvYMnYvHwCmqlZGq9ykfYUOfyxRV3aN9y8cBd0plibH6YTiQnpO5_ouQ
+Message-ID: <CALPaoCj=UTSvk42n3+OY8LZ_mrEmDpsNXJ53oJd5t+9QVXA6Uw@mail.gmail.com>
+Subject: Re: [PATCH v3 04/12] x86,fs/resctrl: Program PLZA through kmode arch hooks
+To: "Moger, Babu" <bmoger@amd.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>, corbet@lwn.net, 
+	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com, 
+	tglx@kernel.org, bp@alien8.de, dave.hansen@linux.intel.com, 
+	skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com, hpa@zytor.com, 
+	akpm@linux-foundation.org, rdunlap@infradead.org, 
+	pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com, 
+	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com, 
+	lirongqing@baidu.com, paulmck@kernel.org, bhelgaas@google.com, 
+	seanjc@google.com, alexandre.chartre@oracle.com, yazen.ghannam@amd.com, 
+	peterz@infradead.org, chang.seok.bae@intel.com, kim.phillips@amd.com, 
+	xin@zytor.com, naveen@kernel.org, thomas.lendacky@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com, 
+	sos-linux-ext-patches@mailman-svr.amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/10/26 06:35, Anshuman Khandual wrote:
-> Replace all existing pgtable entry prints with recently added new format in
-> __print_bad_page_map_pgtable().
-> 
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
-> 
->  mm/memory.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 86a973119bd4..8a25790f7c24 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -521,7 +521,6 @@ static bool is_bad_page_map_ratelimited(void)
->  
->  static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
->  {
-> -	unsigned long long pgdv, p4dv, pudv, pmdv;
->  	p4d_t p4d, *p4dp;
->  	pud_t pud, *pudp;
->  	pmd_t pmd, *pmdp;
-> @@ -532,34 +531,30 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * see locking requirements for print_bad_page_map().
->  	 */
->  	pgdp = pgd_offset(mm, addr);
-> -	pgdv = pgd_val(*pgdp);
->  
->  	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
-> -		pr_alert("pgd:%08llx\n", pgdv);
-> +		pr_alert("pgd:%ppgd\n", pgdp);
->  		return;
->  	}
->  
->  	p4dp = p4d_offset(pgdp, addr);
->  	p4d = p4dp_get(p4dp);
-> -	p4dv = p4d_val(p4d);
->  
->  	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
-> +		pr_alert("pgd:%ppgd p4d:%pp4d\n", pgdp, p4dp);
->  		return;
->  	}
->  
->  	pudp = pud_offset(p4dp, addr);
->  	pud = pudp_get(pudp);
-> -	pudv = pud_val(pud);
->  
->  	if (!pud_present(pud) || pud_leaf(pud)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
-> +		pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud\n", pgdp, p4dp, pudp);
->  		return;
->  	}
->  
->  	pmdp = pmd_offset(pudp, addr);
->  	pmd = pmdp_get(pmdp);
-> -	pmdv = pmd_val(pmd);
->  
->  	/*
->  	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
-> @@ -567,8 +562,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * doing another map would be bad. print_bad_page_map() should
->  	 * already take care of printing the PTE.
->  	 */
-> -	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
-> -		 p4dv, pudv, pmdv);
-> +	pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud pmd:%ppmd\n", pgdp,
-> +		 p4dp, pudp, pmdp);
->  }
->  
->  /*
+Hi Babu,
 
-I like that! I guess having per-level format identifiers is the right approach
-given that we have per-level types.
+On Thu, May 21, 2026 at 1:09=E2=80=AFAM Moger, Babu <bmoger@amd.com> wrote:
+>
+> Hi Tony,
+>
+> On 5/20/2026 5:16 PM, Luck, Tony wrote:
+> > On Wed, May 20, 2026 at 12:49:25PM -0500, Babu Moger wrote:
+> >> Hi Tony,
+> >>
+> >>
+> >> On 5/19/26 15:59, Luck, Tony wrote:
+> >>> On Thu, Apr 30, 2026 at 06:24:49PM -0500, Babu Moger wrote:
+> >>>> +void resctrl_arch_configure_kmode(cpumask_var_t cpu_mask, u32 closi=
+d, u32 rmid, bool enable)
+> >>>> +{
+> >>>> +  union msr_pqr_plza_assoc plza =3D { 0 };
+> >>>> +
+> >>>> +  plza.split.rmid =3D rmid;
+> >>>> +  plza.split.rmid_en =3D 1;
+> >>>
+> >>> Shouldn't there be a parameter for the value of rmid_en?
+> >>
+> >>
+> >> I realized that behavior is not required=E2=80=94it was actually due t=
+o a mistake in
+> >> my v2 series implementation.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Really? This is in fact the only behavior we wanted:
+
+https://lore.kernel.org/lkml/CABPqkBSq=3Dcgn-am4qorA_VN0vsbpbfDePSi7gubicpR=
+OB1=3Ddjw@mail.gmail.com/
+
+-Peter
 
 
--- 
-Cheers,
-
-David
+> >>
+> >> Below are the relevant definitions:
+> >>
+> >>
+> >> GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU:
+> >> The CLOSID is applied to kernel work, while the RMID used for monitori=
+ng is
+> >> inherited from the currently running user task.
+> >> No separate monitoring group is assigned for kernel work, so kernel
+> >> execution naturally inherits the user-space RMID.
+> >>
+> >>
+> >> GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU:
+> >> Both CLOSID and RMID are explicitly assigned to kernel work.
+> >> This allows assigning a dedicated monitoring group for kernel executio=
+n and
+> >> therefore requires a separate RMID.
+> >>
+> >> Example: For GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU:
+> >>
+> >> # mount -t resctrl resctrl /sys/fs/resctrl
+> >>
+> >> # cat /sys/fs/resctrl/info/kernel_mode
+> >> [inherit_ctrl_and_mon:group=3D//]
+> >> global_assign_ctrl_inherit_mon_per_cpu:group=3Dnone
+> >> global_assign_ctrl_assign_mon_per_cpu:group=3Dnone
+> >>
+> >> # mkdir /sys/fs/resctrl/ctrl1   (PQR_ASSOC closid=3D1 rmid=3D1)
+> >>
+> >> This configures all the CPU threads to use closid=3D1 and rmid=3D1 for=
+ both
+> >> allocation and monitoring across user and kernel modes.
+> >>
+> >>
+> >> # echo "global_assign_ctrl_inherit_mon_per_cpu:group=3Dctrl1//" \
+> >>    > /sys/fs/resctrl/info/kernel_mode
+> >>
+> >> # cat /sys/fs/resctrl/info/kernel_mode
+> >> inherit_ctrl_and_mon:group=3Dnone
+> >> [global_assign_ctrl_inherit_mon_per_cpu:group=3Dctrl1//]
+> >> global_assign_ctrl_assign_mon_per_cpu:group=3Dnone
+> >>
+> >> This overrides the previous configuration, and PQR_PLZA_ASSOC is writt=
+en.
+> >>
+> >> Possible options:
+> >>
+> >> 1. (closid=3D1, rmid_en=3D0, rmid=3D1)
+> >> Here, hardware uses closid=3D1 for kernel work, but RMID tracking is d=
+isabled
+> >> for kernel mode.
+> >>
+> >> As a result, reading RMID 1 reports only user-mode activity
+> >> This contradicts the definition of this mode, since kernel work is exp=
+ected
+> >> to inherit the user RMID for monitoring.
+> >>
+> >> 2. (closid=3D1, rmid_en=3D1, rmid=3D1)
+> >> In this case, RMID tracking is enabled for both user and kernel modes.
+> >>
+> >> Reading RMID 1 reports combined user + kernel activity
+> >> This aligns with the expected inherit_monitoring behavior
+> >>
+> >>
+> >> The preferred approach is to separate kernel monitoring by assigning i=
+t a
+> >> dedicated monitoring group and updating PQR_PLZA_ASSOC to use a differ=
+ent
+> >> RMID (e.g., closid=3D1, rmid_en=3D1, rmid=3D2). This is exactly the be=
+havior
+> >> implemented by GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU.
+> >
+> > So maybe I'm just confused by the name "global_assign_ctrl_inherit_mon_=
+per_cpu"
+> >
+> > That sounds like "Use the CLOSID from PLZA, but keep the RMID from
+> > legacy PQR_ASSOC.
+>
+> Yes. That is correct. We need to work on naming this correctly.
+>
+> >
+> > So:
+> >
+> > # mkdir ctrl1 # maybe gets CLOSID=3D1, RMID=3D1
+> > # echo global_assign_ctrl_inherit_mon_per_cpu:group=3Dctrl1//" > info/k=
+ernel_mode
+>
+> This makes kernel mode run with CLOSID 1 and RMID 1(Use the same RMID as
+> the user mode). [1]
+>
+> > # mkdir ctrl2 # maybe gets CLOSID=3D2, RMID=3D2
+> > # echo $$ > ctrl2/tasks
+> >
+> > My shell, and all children run with CLOSID=3D2 and RMID=3D2 from ctrl2.=
+ But
+> > when they do system calls, take page faults or there is an interrupt I'=
+d
+> > expect the code in the kernel to run with the CLOSID=3D1, while inherit=
+ing
+> > RMID=3D2.
+>
+> ctrl2 is not a PLZA group. So, RMID 2 is not connected to PLZA.
+> >
+> > To make that happen, I thing the PLZA MSR should have rmid_en =3D 0. Bu=
+t
+> > the only code I see that sets this always sets rmid_en=3D1.
+>
+> Setting rmid_en =3D 0 in [1] disables counting of kernel usage for RMID 1
+> (from ctrl1).
+>
+> The key difference between the two modes is:
+>
+> In one mode, user and kernel usage are counted together.
+> In the other mode, kernel usage is counted separately from user usage.
+>
+> Please feel free to continue the discussion if anything is still unclear.
+>
+>
+> Thanks,
+> Babu
+>
