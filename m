@@ -1,68 +1,129 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94BD2DCF55;
-	Thu, 11 Jun 2026 19:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A852D73A6;
+	Thu, 11 Jun 2026 19:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781205375; cv=none; b=BcLt/J8hEM89ZyBl5js/LQew3iqQzALrpPlEkINpEdt7cYxARQxb03GG7JkClQSmrMf7Js8ToXDQyjy/L2v41cwfpl2rI7px2b0JOmvI8hJaLqbLsVN1bA71rko4dYMR+0VTjd6A8lQwFzO76hdHO3wUD2ZTjafWZcFfzh+R5Ps=
+	t=1781206323; cv=none; b=VpzFIAXrMbqZtPdXTBzEbGFyQv89kgWVN9yzrAN3yIIcXN+muQdocioflyNIDHOIdErJRUPW7rNyJYQjzKCjLxGwRq5Nl6fh4Vsfiza78sQP8fXolxUEZcLHAVjn+G/pvTK6v13e8o0C7PPxPksgu8P3kBOfQcjwEREjf1BjGng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781205375; c=relaxed/simple;
-	bh=6ExX3LobtHFEu3Vm8rooNNo5Kn+8vTXzVf9LIEUwGaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nlC6WYhHzy96sqeLjVdV/hgDB1jqenLANYcfdd0TTR7FzQJC0dN4I725EBR53flJ72bsmPXHOy1EJlYFsdIFOaCw0Gyq9/mGFjNMmTHd6zn3W3WYaTMQEbCK8++B7M1YxzYcf61Nz5M4VdqTvFJWxhzVXvUUteYjEiKi9PMRd94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DjhVC2O3; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1781206323; c=relaxed/simple;
+	bh=260eALo52JL67I5BXXirsBFEo7RheHsKr6WGe8VJtcw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=dF+Cp+vfNKRI/4xYd9FU4F/BrVuEuKaG5WHmbmGnm8NvY25gSRUbDWHtBcYG6w9sJ2nrSdEfiqoOEBAQzi91ZE/qAcEoSukUig5NaitJa4KZyjvev2miL7rsHwkzpycLwCDTpePRD8Pt/POA4eJ8f2+PaNp80PMQvXs7kM2K9rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LNBc0IqM; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DjhVC2O3"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LNBc0IqM"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rZd4WLjqq4XvQwHB47ThdrCyV6Re/i6LgV+u2yu9EGA=; b=DjhVC2O3x2oTgn/xwo1dHD8O76
-	yREnZrPW3PKdThR4vYr/3TZle42hkbSQDwk507HmsgtNWQbHG+SmAMQogfrUq6FQK6NPe3Bg28K/k
-	5nfCDnlYa8uHKllJ7gswJjxhDCyy8avOiX83lqv2wbvaZZaTlWFyN0fd6QhRMmMjSwYAO4notbPs9
-	L1tr9+hkWAeGKwJc8EPFH5IhO40P3igMiFM/FqFfsZG4460RJwLFjRqZ8qpCjmT3pgMe0jd6fD9+Q
-	lhO6cvnWgF0E5PXRr+0w4C4jxu72ApfALVtT/+ldjp0n/H1XtVw93sD/VwRFZAgonMnjMvYDaGa4v
-	80OhGT7w==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXksf-00000002S6h-3zk7;
-	Thu, 11 Jun 2026 19:15:57 +0000
-Date: Thu, 11 Jun 2026 20:15:57 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC V2 0/3] lib/vsprintf: Add support for pgtable entries
-Message-ID: <aisJbeVVxxNuYxQ6@casper.infradead.org>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=dzHuIpFbYrCgFwipPgG7Z1jCCHIP4pv/lJwgbnEmeHI=; b=LNBc0IqM7rCyEMAI2eK+n7euOK
+	EL5tl1qU5tthxVnxNyHYfmyt7uh+YodDHxRY7kb/0zCqPJtfg1SmBxAo5buBIQ6IcPuj+tWmnMr++
+	UsU+Ylgt9hBplMU/D6nl3sv3jan3dF1UVtWpZQFSOPttuT/e89rMwcrlZioZ0DLMvDI7ULWRdrL2W
+	dkzaDKtT3Lf5UsARBNJGWGckkhuUhNpvsbtSYCeN06t46Qu+XfhIDcZ+9ntdETBR5Y2LZ3vAujiNz
+	ibshv6mzE8J6MFQzkNdxvtkrVddEqUPtCKz9s7Uv3JvIIOvkylLANPbrZQQ097sSpO5o+/bNCASnv
+	QszFYwZA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wXl86-00000009wz2-1JvM;
+	Thu, 11 Jun 2026 19:31:54 +0000
+Message-ID: <ac98ff55-99df-4c90-8e6b-ab1dde219b5a@infradead.org>
+Date: Thu, 11 Jun 2026 12:31:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: arch: fix brackets
+To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta <vgupta@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
+ <linux-samsung-soc@vger.kernel.org>,
+ "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
+ <linuxppc-dev@lists.ozlabs.org>
+References: <20260611183525.153058-2-manuelebner@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260611183525.153058-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 10, 2026 at 05:35:42AM +0100, Anshuman Khandual wrote:
-> Printing page table entries has been a common requirement both in generic
-> and platform memory management for various purposes. Hence let's create a
-> dedicated printk format for such entries which will also help standardize
-> pgtable printing across different platforms.
+Hi,
+A couple of comments but overall this is a nice cleanup.
 
-You didn't address my objection here:
 
-https://lore.kernel.org/linux-mm/aFQP8LzVMctf6XH5@casper.infradead.org/
+On 6/11/26 11:35 AM, Manuel Ebner wrote:
+> Add missing and remove needless parentheses, brackets and curly braces.
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> ---
+>  Documentation/arch/arc/arc.rst                 |  2 +-
+>  .../arm/samsung/clksrc-change-registers.awk    |  2 +-
+>  Documentation/arch/arm/vlocks.rst              |  4 ++--
+>  .../arch/arm64/memory-tagging-extension.rst    |  2 +-
+>  Documentation/arch/powerpc/vas-api.rst         |  2 +-
+>  Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
+>  Documentation/arch/sparc/oradax/oracle-dax.rst |  3 ++-
+>  7 files changed, 17 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/arch/arc/arc.rst b/Documentation/arch/arc/arc.rst
+> index 6c4d978f3f4e..553851f43be7 100644
+> --- a/Documentation/arch/arc/arc.rst
+> +++ b/Documentation/arch/arc/arc.rst
+> @@ -36,7 +36,7 @@ Important note on ARC processors configurability
+>  
+>  ARC processors are highly configurable and several configurable options
+>  are supported in Linux. Some options are transparent to software
+> -(i.e cache geometries, some can be detected at runtime and configured
+> +(i.e cache geometries), some can be detected at runtime and configured
 
-ie there is now no typechecking possible.  So you've made it more
-dangerous.  I reiterate my NACK to the concept, not to the implementation.
+   (i.e., cache geometries),
+or even
+   (e.g., cache geometries),
+
+>  and used accordingly, while some need to be explicitly selected or configured
+>  in the kernel's configuration utility (AKA "make menuconfig").
+>  
+
+
+> diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> index d1e14d572918..67867ea7be40 100644
+> --- a/Documentation/arch/sparc/oradax/oracle-dax.rst
+> +++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> @@ -438,7 +438,8 @@ that in user land::
+>  The output bitmap is ready for consumption immediately after the
+>  completion status indicates success.
+>  
+> -Excer[t from UltraSPARC Virtual Machine Specification
+> +Excer?t from UltraSPARC Virtual Machine Specification
+
+   Excerpt
+
+> +i guess this is wrong, but i don't know what's correct
+>  =====================================================
+>  
+>   .. include:: dax-hv-api.txt
+
+and then you can add
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+thanks.
+-- 
+~Randy
