@@ -1,138 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013050.outbound.protection.outlook.com [40.107.201.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193A748B385;
-	Thu, 11 Jun 2026 17:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781199908; cv=none; b=VzEREAAgZZln3BkSl/ht/lg5KT4msYh3LkgX7DxBVvyQPScjqZHTePi9MPP8GYlRGy1vYC/fHIsKDdXZJdkCiBoBa8wtd3PONh6ZCBReW3gHdvaV5FN3XVPt0CFhAgB4rJl8mg2JJ3u4FyGEDeuXGZqwEtHHcAt1qxdzM0hCd+M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781199908; c=relaxed/simple;
-	bh=0vBiCAY1y31EICrgx65F0heV7GNSgHg52mARy3JPODg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vBWXg4IxuwfapfdA3RgQZZ6iemxhdvu33u6bCNeorMPCf0H8ZG7RN8s6PhKHbCglFhiRwRzPQHp2gEZ8jHDYUfAOM/ro4nCJL4IfFzerrclQuwADzgg8SqqhRLetCahOdgINEvs2WXXhBeWxmmg2cDyQeO9OJXN5GJLtwMn4zdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLvD1dja; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C261364959;
+	Thu, 11 Jun 2026 17:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781200206; cv=fail; b=j5IhJTpKkoTIdgokO2lG8geO6lydph2+Srpk9eEjO4TfCWSoHr3LjxWPhfj/P3q6gKwbjqx/QSYlv2tJB3cbjqhDZOR+JHliR494x86VIUaKvUPUYtVes9tkSMvFNnRpBCaeyJwRU8cPqCR4Oa25ox7TJnP0/ZKpZgyJWiBUjrM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781200206; c=relaxed/simple;
+	bh=p7trRAciVdCncW/jCg7adNHCzyno7EJS++2s9o9cjvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BI8fQuVxb2oXyVWg+ApuXakp5hbI6NZ0j9sd3SwpRHHXm07myVjHTK4YN1Yt33qZwTQYSmOQwy0mna/1XRsNv7W1kGNsAKBInRcaxfPiv/kZGcL6J3EOVlkIKWusQAvJOqqJDcBDxZssr/VDKr0WEK+n4cNoN3kSMQw6L09Ko0s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rzOY+dII; arc=fail smtp.client-ip=40.107.201.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLvD1dja"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CCE1F00893;
-	Thu, 11 Jun 2026 17:45:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781199907;
-	bh=y8cxqvFMDkblWaaUu15Mc6reR5WFsyNDXWf8l/ksL/Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PLvD1dja2zpwPeg3XS5BQsZ1Ozpipc8Xk4694DeZWeAkXOqUza9BthUuNRHH5iiz9
-	 d/UkZONrEgpHIPrtRY8wUZ2xc0MrCunp/dn7DpCChmOToGAc8HDCUpvzIU6fHDkGh3
-	 /MxJqjk1oULyhbETFfuTD4BncjvhVYKmmuT1M8AZkHGK0FAqan6zklx4pgEg/YK5f5
-	 c9k6QFnMWdZtvNg0y5Y/TvJiV6j/k00MtSfMB5J4j0FXyNAso7w0suH2MJILUIMnVn
-	 gtWdG8vSAahiQEDTTrE/ZxJAhQK4L9Rrl+y+7g/b589PBI/XGkWA8cPf2nzt9huMHm
-	 IDiCU/i8FOMKQ==
-Date: Thu, 11 Jun 2026 17:45:04 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: YoungJun Park <youngjun.park@lge.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, 
-	Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
-	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
-	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, chengming.zhou@linux.dev, 
-	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, 
-	chrisl@kernel.org, kasong@tencent.com, baoquan.he@linux.dev
-Subject: Re: [PATCH v3 2/4] mm/zswap: Implement proactive writeback
-Message-ID: <airzE7jD9UtyR17J@google.com>
-References: <aiBqzOtEv5iAC_qC@google.com>
- <CAKEwX=OhxUxRCEfvZMnWzXy=Fa4jgzL3DuP-RmaVzdK65m4bew@mail.gmail.com>
- <6db27a22-cc7a-9a94-db3f-c912fd39aa32@gmail.com>
- <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
- <aicJBVT4pBvmyooT@linux.dev>
- <aicZ-5GX9De3MAU7@linux.dev>
- <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
- <aictKA0XWMWbxFdN@linux.dev>
- <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
- <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rzOY+dII"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IsbuC408quE5btQf2JJpcNZQAMQYSim9pd2DSMrqlX1S9sKxRevLqOuwnPqz0Q+WZ/AFM+xBUcfrYMd0eqVaovMZ2sgXF/CjLOw35A6Pl5CfcjrqHc0kqh+llnNhL+tepbnuLDpuRUWcN1Ri1Uvb16bFt8YBY55VeRdsbBVp78gqUgVvyFHIHl19WV9p+mIg0E3joKsBkiJOQTRlWm6hAhJuEBGGSgwBPjqca1tvCoozTPIZkdfL34XgMWE9KixEkvxZd0+an9GIekVAo7SGbHXiqd6c6nY+/cBs86aOHYIOS0C04xTNn+M6t3UIOOODy3BeTjnohWyzTR7lx31rQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p7trRAciVdCncW/jCg7adNHCzyno7EJS++2s9o9cjvc=;
+ b=WIbvjt0lHWxRJm3ir9KwCGObvqYVED5Qk9pNcleoQLSFpBXdvvO8w/m8MsUR7iR5+kgzzMR9r4PB/f/Vv+XO94yK4Z9k6oiHxQB/Hk+f9ZMZrun8+y54lgxh0AVIqzq6upi1Fqj7jDh3VLnA9EPnQLFW+ksyvbxaA4O94KH5x/OcIQJYDKqaqYHK9NbuLr7OOwrPp0SU9Ogq2gzNhGw2a2u26k0OAucVSZTFUy+wKQTwYU9FOZ0icIQAI2N9M3/bfZClp0kkRFSlUhxHS7vj7PWsvWj1A9ajXBWAkpUEZLsM123ixFN2LPpIW1yEnvkxSszid84p4YxAkvtIfP3DMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p7trRAciVdCncW/jCg7adNHCzyno7EJS++2s9o9cjvc=;
+ b=rzOY+dIIaJCL4rkavF7b8EXTBuiqq8vwV7633nJeX+vvBQsTp8siuRIQuPqQC7Dx9hADJZ3fk/nRzUvBRZDP9GItW2lsb1EJ/tbXoT1DIIREDRDecZxe9tQFPt4J9z2EQKHbddb8WxPccwdPStu1v6o45EUGhaHqbox8H3oWTzPRV7RjdPEIv9cS/iORsm/Pd67LyFaA+fasuB2diKMlZTUa04WGBUFtZ65EHiwrqSmHL5cEx0DBtUvcpEVCtSzu+DW9jopRlaac5o4DrdfTSrIKlN07WRsLXM+wj2LkzgskeQfQ090PGti4m2EbfHkN1of2VWnnHGvyUJzkVsJKog==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by SA1PR12MB8988.namprd12.prod.outlook.com (2603:10b6:806:38e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 17:49:55 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
+ 17:49:55 +0000
+Date: Thu, 11 Jun 2026 14:49:54 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Will Deacon <will@kernel.org>
+Cc: Shanker Donthineni <sdonthineni@nvidia.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Vladimir Murzin <vladimir.murzin@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Vikram Sethi <vsethi@nvidia.com>,
+	Jason Sequeira <jsequeira@nvidia.com>
+Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+Message-ID: <20260611174954.GC1962447@nvidia.com>
+References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+ <aiq5VigmtZq9GlAm@willie-the-truck>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiq5VigmtZq9GlAm@willie-the-truck>
+X-ClientProxiedBy: YT4P288CA0038.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d3::16) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SA1PR12MB8988:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8a4692e-c9ce-4432-7465-08dec7e1d8ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|22082099003|18002099003|4143699003|56012099006|6133799003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	rS0jf/EgwjgPMV2TI1UzMUpmCijgoCTzdfYBZfdH4rZnKiiTJeQAXAL6EbgzpQx/gBL+gV1FILfkUJkhZBi4o/yMmqD3xBEBWrad+2fBAEK/CII07XDgCvQMNSGG8YGAE82blmUL29D/l4htgZdjh9ZRxpPzvhTKFCCjxCjRgqxpgJTvWRklkKYcJABpJTLWxdUsK/iVZ58kF3PX/hRamdsu+Y/T/+yIGDQ/G9g6G9BgptX9AXojGPI9z9wWDHWofDK2GkHGWbU1/PdJHYaqoTNMLxevbD/StctJp6uunY+dbIQ/HCr61FIWmTCxpuTvBUdgUwCfphQlBFmqaGHU3jcVVBKox/PuPjAGuYDsucBSdF1fSuM7MevWX1tw7eBw5b0etplgZ+pci+4msT9KvpXPKndXZmgmjBbJNWqhcU4pSz0u3BVYZfeb/LsYMYr6vXOo6Mb+p69RNsG4e3SN1RCcUZVyzL0HtUxmC+xMOkLLe++7BuUgUDJOxhsUyEuQ4XkHdeKCjFcgSwC+OVGP0g0/LuHNMWXoUK3FyjkiOFz/W4VYWmtNl0DI3ju8+We5v2vqtnmcOrZC60mKFzIxMfoR3ojLkSDB4p51H0LhVbXR6MszXu8eOu5cG23fxjN1CsjzKojbe7J36AeuMJA5fHI2ul2nlVTjuxExwBGqac801WmLAyk4RDRf6h4hLbYk
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(22082099003)(18002099003)(4143699003)(56012099006)(6133799003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gQ5MhAK8EI911y0VxUaeZYeXrHQsIpUyfnCfO1URZcO1Kufhy1sCiBoaKfoT?=
+ =?us-ascii?Q?t6s0YHGniSJIjv78gqhh6v4MMePYTAbF+T2c+WQtfPVy7pbK1sMqSbgQEWWr?=
+ =?us-ascii?Q?nOUz/6mbMn3zQOp786VxrYQ6xj+WE6mMN/5VdewvjHbcM6Z4zEh8KLYqcn/5?=
+ =?us-ascii?Q?bFJ2+Nv3QZjcXdV34FLxGGM6pw3b62Vvu0zEV1xg7von6rp+0UmMqEqf93R2?=
+ =?us-ascii?Q?Ka+Yl7mIlnKzESTvTbwhKKLbwY8RaJuHZJy+rAH6mDR9AOmB2/KypsIcTRZb?=
+ =?us-ascii?Q?eG3xswGEUrWn3UkHLkEoroKTZWoKH1O01oIKvEKxuAO8vVauel5+Pgq4vLCz?=
+ =?us-ascii?Q?rmciVgFUY6c6sIVeREMI4cf0aHG18nf46QXAG8QBC7HUE9kT5JG7y/6K5xHF?=
+ =?us-ascii?Q?IsUpUSsQ83BgvcoSE6ygbdXrN6hLGxhqegNSHd2fWrYQ5i1MQ5dZ2JnIhe0d?=
+ =?us-ascii?Q?T1irMnfo3FjOyBgZCDr407zmW/DBVzVdlrgDN5xReA0PsSKJwL4wyOwnDrnv?=
+ =?us-ascii?Q?kZwMALd7kNxrYYeGYL5ZUqI7lMbbqN46r3pmqEi2bUxM/QTnwfrkLXlGOLI+?=
+ =?us-ascii?Q?H+Nu7ErC9775mZ4fWpb8ayJNF66lXmjMy+760VtRwe1PK2kK6EVTSMMRPhEv?=
+ =?us-ascii?Q?T0wNoKFmtQaDkSalnK2zA6xDGpLAndTnzcc5nr+c2wSFPz36gy3cDkiEjeaL?=
+ =?us-ascii?Q?F/eiRWucv8Qel/S4VmMNUEza73J1WvbzvqR6LZnsrzr0TG7I5KVxgyukr9PA?=
+ =?us-ascii?Q?v3ydUk/CGHCRRLwu0ymOdARoC3ZpcKloc1iz9ObJcruBmAC276lNmGSZqVLz?=
+ =?us-ascii?Q?Rl+DA3vphg4foH9WAJTiFpD8bCnkVk5vuOUbyL1P23BiNd1ErSEp1cwJWxKX?=
+ =?us-ascii?Q?hzrja+O+O14fJnyVR5A1T15TO7ixXjoNHMxzrqpwEV8Tvk5Ste1OUQxKavsF?=
+ =?us-ascii?Q?6O19OjBajAmT7q+urLLsfLyTvYPzPRuoxGSag53VfRcgeMgUhZkopiOArukF?=
+ =?us-ascii?Q?KWXDQY6ysa4bUlcAJTicf1saazdJSw+iTVUyW39fImLM92EvCvek1X/Uj67/?=
+ =?us-ascii?Q?/q7fPSI51NcZ8K5s8IpRKAkqYGuCeCvHW85CcdEmJUWxOEcj2YLWD/oDBqID?=
+ =?us-ascii?Q?Spjj4IR/6iDSSqGnXOXgyAlpqMlkrfiWs92LXvafjBJ/Mi4k+jMt/NBh6oDX?=
+ =?us-ascii?Q?moXDmVR0cgQPB13wCp3UUGcOxx084OXRlVPp9ZsDc0ocRdkgy6hbGOyGYDX8?=
+ =?us-ascii?Q?+Paa5JnYltN2DEnnF7liPMdnryFUrqBRSVNDiozKbc81flu6lO9RreFi0x49?=
+ =?us-ascii?Q?gao3aV48F8tn5GXlgIY2+O4GPUbX3zgTxZ7CKmkPLPfS3w1bkOD5ypwtY6B+?=
+ =?us-ascii?Q?PXWmMPGceG/6Sfo3t2dlbospXJh6cfxNNO+UwYELrXo6gJfN/5t6Rb+r8TEi?=
+ =?us-ascii?Q?jM9VUUlKH7g2ilg5GirVLAysa9sPJ35wmPqlg6Uu4EUWCz95pH1jIiWB4mh7?=
+ =?us-ascii?Q?Va9RZ6lb8w4F4JZxy6C6sYBVIK3sqtHJqJ0U6NKA6TE95quX6qoM5HPN4ZXE?=
+ =?us-ascii?Q?9mVacixBtLGIyziNSkH0STC3ef7T2X6o3KDwUZ+x+xVjWELnLPZmjEqYoK9M?=
+ =?us-ascii?Q?0J5/nuxZSQDBBdneLda1arV/rXY48r17luUWVSyGcOiNa+kB7VVkvzH6BlXM?=
+ =?us-ascii?Q?1ua+cgZIxEf9xxpToz1Fk+6IXRHxTKkW9wAxqlSp00rCO7BD?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8a4692e-c9ce-4432-7465-08dec7e1d8ab
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 17:49:55.1718
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dJuaIsvFGCiNM8oJpz/RECSuF28vuIJAwTc1gwB1nFFYqGtlayQKxTpCo+EShC9I
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8988
 
-On Tue, Jun 09, 2026 at 01:19:13PM +0900, YoungJun Park wrote:
-> On Mon, Jun 08, 2026 at 03:27:07PM -0700, Yosry Ahmed wrote:
-> 
-> +Chris +Kairui +Baoquan
-> 
-> Hello
-> 
-> Thanks for inviting me to the discussion, Shakeel.
-> 
-> > > > > Youngjun is working on swap tiers. At the moment he is more interested in
-> > > > > allowing a specific swap device to a memcg or not. I can imagine in future there
-> > > > > will be use-cases where there will be a need to demote data on higher tier swap
-> > > > > to lower tier swap. What would be the appropriate interface?
-> 
-> Speaking of my work on swap tiers, I recently submitted a patch and am
-> currently considering memcg integration:
-> https://lore.kernel.org/linux-mm/20260527062247.3440692-1-youngjun.park@lge.com/
-> 
-> The future use-cases imagined above seem to align with this
-> direction. (BTW, I am currently waiting for reviews/feedback from the memcg
-> folks on this patch. Any reviews would be highly appreciated!)
-> 
-> We could potentially assign a target tier
-> for writeback within the existing memory.zswap.writeback interface. 
-> 
-> For instance, '0' could mean disabled, while non-zero values could represent
-> specific tiers, which would maintain backward compatibility with the current
-> version. Alternatively, if zswap is treated as the default top tier, 
-> the `memory.swap.tiers` interface could potentially replace `memory.zswap.writeback`.
-> 
-> Furthermore, this could be expanded so that each swap tier can demote data
-> user-triggered demotion between swap tiers.
-> 
-> Based on the current patch's ideas combined with my swap tiers concept:
-> 
-> Assuming a hierarchy like:
-> zswap -> tier1 (SSD swap) -> tier2 (HDD swap) -> tier3 (Network swap)
-> 
-> We could configure the active tiers via a setting like `memory.swap.tiers`
-> (tier2 enabled, tier3 enabled).
-> 
-> For example, the concept of `echo "100M zswap_writeback_only > memory.reclaim"`
-> could be extended. A user could run `echo "100M tier2 > memory.reclaim"`
-> to explicitly trigger demotion from tier2 to tier3.
-> (BTW, if we combine these features, my personal preference for the keyword
-> format would be `<size> <demote_prefix><tier_name>`. I think it would be
-> better to explicitly indicate that it is a swap demotion by using a specific
-> prefix followed by the tier name. 
-> Or make demote prefix another key is also possible)
+On Thu, Jun 11, 2026 at 02:34:14PM +0100, Will Deacon wrote:
+> I still reckon you should do something with the memcpy-to-io routines.
+> A simple option could be to make dgh() a dmb on parts with the erratum?
+> That at least moves the barrier out of the loop.
 
-I am not sure if proactive demotion between swap tiers would be driven
-by memory.reclaim, I am guessing a new interface might be more suitable.
-But yes, you are right that it's very possible that
-'zswap_writeback_only' with memory.reclaim will become obsolete once
-swap tiering matures and starts supporting things like proactive
-demotion.
+AFAIK only callers that know they are using WC memory should be
+calling dgh() and in that case we know it is NORMAL-NC and we don't
+need a different barrier
 
-Part of me wants to wait until the swap tiering interfaces are figured
-out so that we don't end up with redundant interfaces, but I also don't
-want to hold Hao's work since it doesn't directly depend on swap
-tiering.
+Other random users calling memcpy_to_io functions on real IO don't
+have to do dgh(), and AFAIK it doesn't do anything on the Device
+memory types?
 
-Shakeel, how do you want to handle this? I think there's a few options:
-
-1. Add zswap_writeback_only now, and when we have swap tiering demotion
-it becomes a redundant interface, like memory.zswap.writeback -- or
-maybe we try to deprecate both of them at that point. It's difficult to
-remove interfaces tho, but maybe easier to stop supporting
-zswap_writeback_only.
-
-2. Add zswap_writeback_only behind an experimental config option, to
-unblock development but have a line of sight to dropping support once we
-have a swap tiering interface.
-
-3. Wait until we figure out the swap tiering interfaces and then add
-the proactive zswap writeback as part of it.
-
-WDYT?
+Jason
