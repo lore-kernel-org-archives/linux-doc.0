@@ -1,307 +1,220 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010003.outbound.protection.outlook.com [52.101.201.3])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013057.outbound.protection.outlook.com [52.101.72.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA6B40D57A;
-	Thu, 11 Jun 2026 14:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781186913; cv=fail; b=rOh0hoMEXur8ETbe9UqivIP1JW5YOZAcUKx+yieon8igdOx9pqCmwUvgoyECbSzEZLHNu6/pcZagHW6LSNA4nBBAt4tYZ4SXfhEdph/0AVQyEwcaL6XacNdSDtnQfsqzHwZRkdcSstkjJgeVWBazg1dITq238qNNeuQzooganKU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781186913; c=relaxed/simple;
-	bh=Ew8bsTW3sB9CsxXA+INEy3TAGRIUCGk8YUDaQPRa6Ko=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACBF313E0D;
+	Thu, 11 Jun 2026 14:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.57
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781188484; cv=fail; b=R/PifHinQfb/ZD6y8fwE7ElO+lbPYx1anMS5mWhJXGWmhT2MCnM4q+5LM1iwlAnhrH7y9KRiVgtUFWPnN6s2nff1IYWWvP6wWMcZ1yvaCGQjBitdh4aAjyeJFj+dP4W5NNNWaAk4UogSjS5vyvdxgkPdsyyEWtflOsrlblnVLxY=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781188484; c=relaxed/simple;
+	bh=ht0b77bJejHH1e6rwV31v24ktBAtvG7cXt89KuNE37s=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=e6hUWRmBGWNyRSTtiJrMUPz06szCoAEYPo2mN9x/cOE/176xGSc7ozm24Mf8+l6SzII7e1m5JwsUmNXufL8AY2/La4qKHaP0E+lVARKZf3uaNRVpWl0Ee0zudp+GEc5dgvszDDuep4G49UGBVkJCATP+8nrOW2GqlKCDZKe3mPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WD9789y6; arc=fail smtp.client-ip=52.101.201.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	 Content-Type:MIME-Version; b=MT6BoosjAq1ztiJOpIpWskvPZrbpKTPxyU5XnPjy2Bt43Wvoe7GDSAu9aK5/1u/X0YYSsHr0fUTb+jqzKKqasvgrz9bXPnJS3UCABpdbJYyt2a1C5ZA8gHpFI3mjL7eyP/OVKyV033CsFJUM93BrITEq1T8/SVbKvmqkCOeAsQg=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QXyh4Bx1; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QXyh4Bx1; arc=fail smtp.client-ip=52.101.72.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WD9789y6"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QXyh4Bx1";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QXyh4Bx1"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=vw19qmstjmFm6h7PHGi9/UH/9VlKMhi9yWds17+bNjAgolXmXgNiL/CU7h4ziZ/SFN0O1j+EFhiWlp/O6cEiSq+LLZnN+Eu0sJr9IrfMTnlX1d9puwgZrsWUVr7771KHOLIzTYsJPo3eTpcc2CTLB2PZ1bJLBQ2xLO1emmi5O1sFX4CgVErfR6WMCPO7egolc+L726hKy8Af715v7bXffj4crrY0Ur5Mhnvow+sCqWqohFdYNWaQXQgUoyZ4Fq2G6GR57XokImi9VGMzxpITW3BOY4fXV7SedVALLmxAElPv6J7AT1wptZqt44kZhMrXcoRwMA6veo8QOH2+h30i8g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rpDHl4kWzHPjzFTkqmp9d3T/R3DdhzekhK1ju+ENzq0=;
+ b=D0ztxqVG/faopZkYGIzyFXXALuPA810tuX1OWy2RcNvIgd2a71yl/AVwQsgJvI4JnAd2wUvRsXEU2rm4LlEr7fM64t2CNVNZqsKR1cJadLwU+f8xNTU2H02kspzH4WGAbWRRPD/CbQMlS+G70wRYYUo0/AOGY5F96X+EMSZpzHIg9vVe52lBUeoMMv6xMaiCTa4Bhy3WJD+oEOCdsHvjDvpfoLDZud31hUyJJC+D7DU33FiLrN5lCpUuKTUx/EaxJPOtPr0StPcZOG3rXuuG+Q88I/mDHxwCy7tu7yFFsNCTnn1OUdwebAu/llJoDD0SvjPQSf5HqBf4TdtXt0w2jw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rpDHl4kWzHPjzFTkqmp9d3T/R3DdhzekhK1ju+ENzq0=;
+ b=QXyh4Bx1mW1aDbeBN1vBm13U8mOiRZpbQ7/iWJeNdabKnOj0mMorja/HYfBKsAsmxCa7kyxWwtHpcUhjQRgc8lVnyc+l2QyTB9/plzggX/eTp/h/L9PWMe+ayO3OqGb/cuPT+tUiB6VvL4T8Rx80n9JOpH87x5H9Anp8gmAcNes=
+Received: from DU2PR04CA0189.eurprd04.prod.outlook.com (2603:10a6:10:28d::14)
+ by DBBPR08MB5930.eurprd08.prod.outlook.com (2603:10a6:10:200::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.17; Thu, 11 Jun
+ 2026 14:34:32 +0000
+Received: from DB1PEPF000509F6.eurprd02.prod.outlook.com
+ (2603:10a6:10:28d:cafe::b) by DU2PR04CA0189.outlook.office365.com
+ (2603:10a6:10:28d::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.11 via Frontend Transport; Thu,
+ 11 Jun 2026 14:34:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB1PEPF000509F6.mail.protection.outlook.com (10.167.242.152) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
+ via Frontend Transport; Thu, 11 Jun 2026 14:34:32 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o/PHRYf5QxqTf+2DzcqUdholfA9LnDCR3loM65nZDABqxy6lMV/k/Ux4m71dcfO0IaMpck3He+Xj5CaTWSED0b7wWelb0Xsqg3IGyJuHaXdG/ruKk8u/p4KvRxpV+wVTwALDFxjZb/kuMqkvGIeBTz6q8lVE7aQIrwDO5hwgqHrIJGS5uN2YK6Ti5NSDjBtrVOf3Wbbr5rkNSmlXJ4X0Bj0Uf/X+PwYMYiR/GkPENs6VR9NaEmySI6LuUzwEcbVFIn/Bcu232oifIOxdUO4iFRaGZgeMWTj8L9RyuRzRIpggBs1BiX2Ans4h2IgQaEEVlG3zWi4w60Ylx4j4rnYbzg==
+ b=hwv1rKvnB4+1We7K53b8nt4c2Q6beNaMFGN1/bIPszFfOISZtgA4Uha9W23UsBC/+++S1ZvvYX/VTLOair5235KcbDSoSw+Nn6Y4EhXz1bCofRmSMygDoQEtxBeJFxqd895/Dh3H4vJFAPYv1FryUGYg44CyhsvTGwESHQZ9lR8Javzex+iRo1AmECi3YScxfpCMq0bi1WgbIG0AQPyYj2uFRwzfqIKZeI/MaMmAhHrq78g19Z2VbA/CxrAKMgv+IKv7KYuR9Q9yEsyNcw5Nb+XE/5do1Vp/sL2zjosvdyKwYME57avFatVMBQkeKKcGmmZFlT/ic7FMAnvAq8XEOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tahsPdcHCKKg/i9fnusVY9tzzlk4YRJ/+PiYsoL8v04=;
- b=yD372Jpo4LtEimUsL0JHztn16POKqeiYywemZdwOq2wLkmZy090ITP4eutTYz1oh3aVN/dEPA+hu9G+eebOthp5ybONQOw8WXPI1PHiat1zoRV64/oqS/+FxccYt6p/DWaWvVkW8zD0+wHBfRckDy8grgQlbAws2SAKPSRBz0AmG4uHBcRJhe5PJoAyvktUGfbQoH6+SZ1J+l0dELC3VmoaUPVs7eeG9KRqe12v8QwLSAzvC9hK9TmX3rTffGNil5udMfdXGvEJ9l7SBQODzOIt3EvAXiL5ddLvu1HMzRtcwcGVUXdTp7iNSAMVNTCwRsFaAyWPWWtJ7j/l65qZcTw==
+ bh=rpDHl4kWzHPjzFTkqmp9d3T/R3DdhzekhK1ju+ENzq0=;
+ b=Kwur24hXUOyA/tn/DURvfThNmWWCmosxysX4tkrXhZcmNrsxAt5y7kO/QImj9QK8lblXR3TL13AFSI8Qi8dqh00dHAWxJjnTS86QPI7vCkwelu0oLbBDQ4zBedSCI0l64imd2nMODvDkBXe++E5UOG58zJ6MPxUXd0H3yFcARowecGAvSm3sxU/qiYPalj7b0gF7IOSYRfWIAbETl74cTti/vR/gy06xPNP+HmMmaGdfUuDfmzs0dgnbXxdazuXVBzcaPbHQTyGWcFTI7B+oMOYIh6aFIgDXU68E2e5EDQh+p1AcC8mwrF1rHJ2JnjK6UcrofdSLW9XMuCR/5wvnNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tahsPdcHCKKg/i9fnusVY9tzzlk4YRJ/+PiYsoL8v04=;
- b=WD9789y6u7OJjdzYuMqf1ZwCCofIBz7JiBZakccvAGjKcBjwFpz2yfxRftqzqgir9MUyHhDHQnEPsNYAt24ADYczx8PgMVWCOQytxFSbF3D9HjTahtENGNAfABnCMq0zBqUgyLFxpBh94Lb+A2vSaRejK/bu0uf5gZ6Lo4BLsepFiZygw3d++rdQb7Wj7Q4o7glWAQGkKHkQHJTzKQJhL7Xbxekgf/xpoqL0kiXznXbuN430ebOLpA1cMbxnI0M47PfQiyURY9E4Z9vvZgi7RPa1OY7t7gH6MX6v2M8vCv0Yki+DrENFqTHMnVSXUqatdNdlY0fx4AwHRZ+GlUQ8rg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
- by PH0PR12MB5608.namprd12.prod.outlook.com (2603:10b6:510:143::13) with
+ bh=rpDHl4kWzHPjzFTkqmp9d3T/R3DdhzekhK1ju+ENzq0=;
+ b=QXyh4Bx1mW1aDbeBN1vBm13U8mOiRZpbQ7/iWJeNdabKnOj0mMorja/HYfBKsAsmxCa7kyxWwtHpcUhjQRgc8lVnyc+l2QyTB9/plzggX/eTp/h/L9PWMe+ayO3OqGb/cuPT+tUiB6VvL4T8Rx80n9JOpH87x5H9Anp8gmAcNes=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from MRWPR08MB11806.eurprd08.prod.outlook.com (2603:10a6:501:9a::22)
+ by GVXPR08MB11637.eurprd08.prod.outlook.com (2603:10a6:150:326::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 14:08:25 +0000
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
- 14:08:25 +0000
-Message-ID: <aaad3692-74d5-4048-ac5c-ca47ef65c32d@nvidia.com>
-Date: Thu, 11 Jun 2026 09:08:09 -0500
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Thu, 11 Jun
+ 2026 14:22:24 +0000
+Received: from MRWPR08MB11806.eurprd08.prod.outlook.com
+ ([fe80::20ea:c85e:c8c9:a8d4]) by MRWPR08MB11806.eurprd08.prod.outlook.com
+ ([fe80::20ea:c85e:c8c9:a8d4%4]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
+ 14:22:23 +0000
+Message-ID: <ceb19cb6-7083-44ad-a262-a8198f489257@arm.com>
+Date: Thu, 11 Jun 2026 15:22:21 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Vladimir Murzin <vladimir.murzin@arm.com>, Jason Gunthorpe <jgg@nvidia.com>,
- linux-arm-kernel@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Vikram Sethi <vsethi@nvidia.com>, Jason Sequeira <jsequeira@nvidia.com>
-References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
- <aiq5VigmtZq9GlAm@willie-the-truck>
-Content-Language: en-US
-From: Shanker Donthineni <sdonthineni@nvidia.com>
-In-Reply-To: <aiq5VigmtZq9GlAm@willie-the-truck>
+Subject: Re: [PATCH v5 09/10] dt-bindings: firmware: add arm,ras-cper
+Content-Language: en-GB
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
+ mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
+ tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
+ skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
+ corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
+ krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
+ alison.schofield@intel.com, conor+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
+ devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
+References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
+ <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-9-2e0500d42642@arm.com>
+ <20260529174407.7081ad0b@jic23-huawei>
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+In-Reply-To: <20260529174407.7081ad0b@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR13CA0023.namprd13.prod.outlook.com
- (2603:10b6:806:130::28) To IA1PR12MB6089.namprd12.prod.outlook.com
- (2603:10b6:208:3ef::9)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PA7P264CA0057.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:34a::12) To MRWPR08MB11806.eurprd08.prod.outlook.com
+ (2603:10a6:501:9a::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|PH0PR12MB5608:EE_
-X-MS-Office365-Filtering-Correlation-Id: e69a758e-b155-4d3d-5755-08dec7c2e712
+X-MS-TrafficTypeDiagnostic:
+	MRWPR08MB11806:EE_|GVXPR08MB11637:EE_|DB1PEPF000509F6:EE_|DBBPR08MB5930:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6e63af9-7be5-4135-117b-08dec7c68d95
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|6133799003|18002099003|22082099003|4143699003|56012099006|11063799006|3023799007;
+X-Microsoft-Antispam-Message-Info-Original:
+ wnxnZ2hgF8s+X0OSjJrM5JMRLUaKsT03WF17kjOqXbIfX7bkzIUGsyybXMUUw/o+lV5Z3GnlCXsmAZC7VkixIOv1ujsNwvmsy/j/5vluJYBW+RWutfx6eHpitUeqgydtW/L2VNJIEF6e5naLTGHtwubGCV8gSulNOzHkG/h8i6W4TfflgcMOmj1UHAv5HOhYVM2RSul4J+VEtXs0HbcEj2cKspwTQOidg+rGRuR1ZswY4eEE7Owx8OIkMoOkBpi0/J3p/5OKu7zLwuCceZh0cWj045xYjI45RDi0n3rohso1y+FxRdrDr8AgYQnb/0XT1w8GNBHbgcFepH614j7iUuOrxyw/uCOZrM+JHo8fZjFyWe8q79+ExZapsSMoHIL4lueb0Ef3oEsyWqqZVRknKqAOaYQs+oAGGuOEBZ0d10NedvPQDKJnJEqpQtT5fz52iHpkRS/Q+NEa6Nve7GBWC25GDee9uqNDB6niQs1vk+8pVlwkblsd0HO6rgn6706VVTUTwT7Z3iN4Kr3y2VrG5xwetU5GsY6Pflrr9YTphT1Y1xIkMxIMP2TJrSMsD5RrBE/tg6I2a6Sf/Um2ZkV9nR9yzPRarYUhfmkGRNdHG6rCsWsxqWuoDugEJ3r6pQ9r/pB08S4ynwKM0oP1NGgO6w==
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWPR08MB11806.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(6133799003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ Z9aFDiYj5T/FYiN7mAD9MGAG4ZE8F2+G8drKAvBplD8aIMoWEM6CIizDc0OoaAtK7PZmHAHGwsmmQHQuKFpoMnGeXYuL2dfkmuMbsLB/AU6jKxeAdaJ8vOncUf4pt5xKlMfIxAKDQg0uKHWxu1grdZ+8PHWe5hfhfoNANVSr08dIw0ce1Ni0q/2wmyXLuu6usCwEUpc7fGBmdKWRQesbxgdRtRfeg+JbU7ZyKh+d1S7z+tPhrdPf+9Wci1MF0eDgeJNfPljKs2nNt0P/FV/7lFcK562jpvx5P4jMMnapEHbkc+dxaIz++FeaTiP9kd0xnhlla1Iyu8tUKDthQbdAxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11637
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DB1PEPF000509F6.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	f974b14c-ee2c-4eec-1c6f-08dec7c4dad8
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|4143699003|11063799006|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|35042699022|36860700016|23010399003|1800799024|376014|7416014|82310400026|14060799003|56012099006|11063799006|4143699003|3023799007|6133799003|13003099007|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	DVP8axl2FWHSR8s+wiyYl+s6VDk6BfZ2x2B4BRwhH2ZnVkV8qJUPS7QmD3Mue2GEwoRhLLqBcqS9gMY9jmaQa7OWMVVO7iSfTK92eaJJkfQ4W6986/yadBfC5NkFNUICM8nUcI/tAWu4hOHvPcE0jEHEjIB0oGtmN4QlSBdUOKF26parCodZVaFIO86BbsIG7yZkwAot71I/1U+VcNE+nRsm9v+f6Zn0HhNctCFMsg3zcpv5XM++u2QrPN7BA4jz2Mkl7NhBcD8ujOi0SmWkQxsA1M8hsmIcw8nKcJhA6Jy+T5O0l4MgmCGtJaPmZe35Gu9oAOHHD5RbDdTfQTfr6SLvUMaCgcQ+RdDO4O5ree0OmZZvnnsQ26ulF7eqFSMvNjBwoGG1rTmTQBU0yQcLvecJfdqXKtUa45oMkcEaPFQzn9EJ3OISci3JaFmjcqSZm0bKBwWLx0hT6iRhwOK+HzahpgSGABZ5dLcCFQiijp1ycfX0QVtoj+cELphTwTsAkGHQOyOV4/zJMdKSFzLVF3WOhDRSkwXNSkq/jxSyU4k/oDl1HnqGW+llNMOj5Xlj3fPd4w6Q5mWWdTwZcUjX7lIcQvgw+8ulyCYDc0a4Ekpp0acbkCbhGmE6g3+R0UyP1iHsEUD+r6fhG6JuGkQV6xR6OYNm0VrKKa1hkgP5j7yDdJIIyPLza6oKLS2Sorh2kXHEbI4Tx8K3s4tD9J5mMQ==
+	mmn/9+EaBLr66MN4FTJEYcXVENnu561k2To2iNSW5ISwBVgsKPl1+YCPWJBa19YvpWRRbRKwi7iOGHKax++P8usmyWD2OHE6TNzB9w0XUlnB5pN+i8jZXivPKgldcoz3/nkl5w0Ocy46X3gvTkrdIOKD/Q+EHvNQUbrshMqg1Ozj4YmGErhMsFTq6PoYMfloCFjd0M+XwbpanvRhCu/p88xZEw+bXl1n9rKqMqJsnNBnCEdMCMMdaAxjSWedaAPzzcbpvo04QO6f9mmpsy3OcbcvqPXKKTsFXvrqDb4z4aQFUJjUi5yVS4eljF+JSCvj/MmDJTAlj0QMQxXbpoxcn/0blN1JbmUHGWkcHTU1KGpqu5c8gse83oI622iA/ewia1+SRiG36entZrcTz/9xibU4qe3NrsQo1paLiRqr9zX9qbkw/zHX5ABtsNRvSMt5xaguY+zlXwZKTqJDfVS6QsNPV42uEV4IXQPkvW9m2jX439aPnkJ9pD+FiDO3OwWRvHQm1ld/zryNdCf+MYVRwz3Du0lgUn4dIATbqr4zPU8l2qIKAemKgIzRccSndYyvxEYSZIDMMbP7xRVGH9vYJ+GeyHA7f4dsM+xHZRgrOFeAj4ZW2h3CLMCsNQuMGmP57+J+29HMnRMkDZexClZPQMxbSJwUbuRhpJXrhJAAIItlJgIeIAwUxU/JSC9ysYke
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(36860700016)(23010399003)(1800799024)(376014)(7416014)(82310400026)(14060799003)(56012099006)(11063799006)(4143699003)(3023799007)(6133799003)(13003099007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UWI4ZGdXRUFUeUoyOHdkWkg4WFJNdExDMmsvOEJNdnY4UGtpcnNFdmtTUnYx?=
- =?utf-8?B?c2tRRmpzYVNqckpBeFRQWmczSm5SeWExaW9tbk40ZTZBUEtCa0lRdmRkR2Rj?=
- =?utf-8?B?eFFPUHR0SGJTU3ZSMXRnVjBVelhnbTQ3V1F4ZnlHeUtoNlNIbEdLRmxiQ3Y5?=
- =?utf-8?B?dmEySDJ1WkpvamoraVJ2QWVpVWRBL2NBTS9CNWdFSzZXdlZiNUlZa2hES1Uw?=
- =?utf-8?B?ME5TK05tY2pwTWpGRkljU1JyNUNxRzBvRFlOSlowN3FqaGF0VG52RFZ0enFG?=
- =?utf-8?B?Rm4wMHlIQ1FmdmdCY0RvOHdkYXFsQVNWMXpFcWRpelJsc3pET0p5SGZCaW1y?=
- =?utf-8?B?MFNwS0tQNXJoVWlQcUZYS1gxcEJHMjVVMnVkeE9yalhKZ1AzK1B5c3Rhb2to?=
- =?utf-8?B?KzRPd3JFUmQxZGpVbGJtRzcwaFcyLzhHcFc1K280Q3d2OVgwVjBuR2VhV2R1?=
- =?utf-8?B?WXdYcFVJdWIwa1N2Z3ZuVkJ4UCtOeHJJVzUvWElkSENuM3MyRW41SVZ3dGdV?=
- =?utf-8?B?NzVGZlFDMnZDbEU3STE3UkY3eTI2VFRNRTFSb2pmcktYN0JrUkRsdkVzNlFr?=
- =?utf-8?B?Q1RiN1NSbVVXQkJjNTdoOFRUVUhFRDd5T1B5ek5YOEtzV0pxbkxlUzI4SHpJ?=
- =?utf-8?B?REk3YSthNm04MHdQUmNsRG9qK0JZRXVkdWRPSlk5a050NitNWVg0OWErUXhR?=
- =?utf-8?B?eGd1WlFuV0E0ZUhWNHd1NDVmVVNTUnZXeUIzeVhQWHJocWtBVmU2SFJnY2FP?=
- =?utf-8?B?aEVYdllRdjgxbVRNNHZTaFJNL09OUm9SL1diajY5TFp0MkdwK3NpVjRaSStI?=
- =?utf-8?B?K1dkaE9LbHlodjVZSm81TFdxYi9la05mRWc5UnR6dWxpSXFrYlptWUo1Qms5?=
- =?utf-8?B?SGJldU5aN2FqTXBqandHcHY5QVVGaGR5bjJDdnk1WGdQSVk1dFk1WjcxNEtw?=
- =?utf-8?B?aSttbVh6U3pMeW0ybHk5dHA5YXFENFZ4aWpZSlpwUmt4QTc5LzlxNHVPbjh1?=
- =?utf-8?B?RkhpdzFjTHlNMldwWmtTNjkyVU1KY3pRSkFETFQ3bGhGUjdZNzhvcDUya0FQ?=
- =?utf-8?B?VExCTzFvV1QvTFFhQW5FMWRBdkFtZ1N6SVNKQk51RmhFOUlIOGlZK3hmUWx1?=
- =?utf-8?B?MHVNeUpydE9KZlhCeis4ZTRXbm10YkxJbndncEkvejdRTkpSOWlvZmJpNmVY?=
- =?utf-8?B?cTgxbktJc1FacjBCakMrTGFKRVdCTk54SnVvc3o0MUg2NWVtNWZtUDAvb0dL?=
- =?utf-8?B?aU9MeHRWai84aDM0THg4TXdCWDF4bnVKMnVqTFk3L2Z2MU5Id2h3alAvVjRk?=
- =?utf-8?B?eFJFNlIxY0pDdkUxOXlyNldHR04xcTY5eDZ5bTNJQnhKYXRKakxscklSVDYv?=
- =?utf-8?B?eEsrZXl6MVUwYXVuRlBCS2M1QnRXUS9Yc3g5SEt2NGZwcHJaSVVrTGhlMU9M?=
- =?utf-8?B?cXNkVFMzNXgwNklMQWZrdWJKNTJ4Q1hCOGxsOEpWUlcrMjkySXhRbnZpK3RP?=
- =?utf-8?B?dzEzQlRiRTcyK0wwWWhCMkVYaXFGTXl2VnQvR000QWo2RC9ZakpHQXZReTFu?=
- =?utf-8?B?U29VNkdzc1BrMllMN1FwNVZjaHV2VmJNK1FHdXlrSWgzejhVbmt1eEpmMldN?=
- =?utf-8?B?ajNiTExCMmkzUGVkME80Z3BHTWtBZDMyK0lnbnI3QjU3NERNSUJMNThBYWZo?=
- =?utf-8?B?aHMyOXQ1S3NwZVJOejhRUW1LVy92dGV6Nk9lcjVFYWRrYStZZXhsTTJJamN1?=
- =?utf-8?B?ZWlWbDhVU3BkSWd3UmpIK2NDSDVxNVR5TnNYN3QrM3dIaXVKMHFOSWhGSHI3?=
- =?utf-8?B?OENMNmpYbThaOTF2WWdFdHJ3ZGhXS3RTMFJUYitmTERMVUUrak9kTDA4WkN0?=
- =?utf-8?B?NUF4cVR4T282aG50SERoRHFLUHRIa1BSQVVXNXo2WHEzZW5UNmhVZk5TS3ZN?=
- =?utf-8?B?SHJMMW0zYzJ4djZucDJjYlZudE9QY0R6VFZlNkkzRzM3RmJPTGV1TGxWZFNp?=
- =?utf-8?B?M2ZUdEo1cWg1RTI0a05MZzcrbEwrZDNxOXlLb2pUMGtpcm81eXhaUzZiMEF2?=
- =?utf-8?B?WDNWazVGcDNnY2RRSEZBV0dXQjN6TVNYaGdvVTREcU9ZVXh3VStPNHI2T1ZQ?=
- =?utf-8?B?U3V5Y1RYT0gxQWc0cWgrVFhFaFNWMm92dW1RdmR0a2lIRzc3eUI1cndKV0xa?=
- =?utf-8?B?QzhJQWgzQUZ2TU1QZXdlblJBWmxPbnZpMFh6djJEaG84aW13ZXlLVms1K3Js?=
- =?utf-8?B?YlZZMWJHY0V1MEg0VGpBa3FuQUlFbldvYTEyREFGM0ZMcWVDOG1EMzZhL1h3?=
- =?utf-8?B?QWd0d3gyUjhuRUZiZkhlelZZbTZXK3VVTjhOL0xzejRQcS9pZzA3UT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e69a758e-b155-4d3d-5755-08dec7c2e712
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 14:08:25.0049
+	tJwR+bvJuA1BliMdUCl9r0BhbgdGOuL6xevrS0IyHbNCohcBgvRyKjbN7aWR66l03oIqYvDcUJPvHxTpnM9viAYHl2ZrBkzjXBYH11qFtVU2r2gLs2HD3zfee58A7ap95YVlFzD7dMNRg6IDHqXigZu0yypYUzRqB2fGYq5WQGbjxGZwjATMSW8B3ANZmyjZDBsKPquUR6EjMNm+y+89mhRTsnN+dTVVWsB5tawoO3GjaTiN3T5cujam8+fBlN7TuwLtPrFZ11a8+iEMxiZ2hcgwAudtx2wL9+gsZOqUhdg0Cm3LgHsAOTbVQ7FksaSPO7zBCQUO/8H6nRF1ABuTg4zLbmEWhIo0KVZHSfcHhD3dhBKwWc9nyfrbbFWXaXVsjj4faEP/ynmJnVGVFgQQbhPtjdR3iJzqTfSwQG0ePwUISimNTt0Cb7xKScoXR+8+
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 14:34:32.5001
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V5OZvyhaIj9WJIMinaNbWWzekCxhVsKftAsb1qR2kfXOvhLpSq/F0tzoLkg8o/wcEodAjBOBuSKAedh5iTJDug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5608
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6e63af9-7be5-4135-117b-08dec7c68d95
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509F6.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB5930
 
-Hi Will,
-
-On 6/11/2026 8:34 AM, Will Deacon wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
->> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
->> observed by a peripheral before an older, non-overlapping Device-nGnR*
->> store to the same peripheral. This breaks the program-order guarantee
->> that software expects for Device-nGnR* accesses and can leave a
->> peripheral in an incorrect state, as a load is observed before an
->> earlier store takes effect.
+On 29/05/2026 17:44, Jonathan Cameron wrote:
+> On Fri, 29 May 2026 10:50:49 +0100
+> Ahmed Tiba<ahmed.tiba@arm.com> wrote:
+>>   .../devicetree/bindings/firmware/arm,ras-cper.yaml | 54 ++++++++++++++++++++++
+>>   MAINTAINERS                                        |  5 ++
+>>   2 files changed, 59 insertions(+)
 >>
->> The erratum can occur only when all of the following apply:
->>
->>    - A PE executes a Device-nGnR* store followed by a younger
->>      Device-nGnR* load.
->>    - The store is not a store-release.
->>    - The accesses target the same peripheral and do not overlap in bytes.
->>    - There is at most one intervening Device-nGnR* store in program
->>      order, and there are no intervening Device-nGnR* loads.
->>    - There is no DSB, and no DMB that orders loads, between the store and
->>      the load.
->>    - Specific micro-architectural and timing conditions occur.
->>
->> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
->> to stlr* (Store-Release), which removes the "store is not a
->> store-release" condition for every device write the kernel issues.
->> Because writel() and writel_relaxed() are both built on __raw_writel()
->> in asm-generic/io.h, patching the raw variants covers both the
->> non-relaxed and relaxed APIs without touching the higher layers. Note
->> that writel()'s own barrier sits before the store, so it does not order
->> the store against a subsequent readl(); the store-release promotion is
->> what provides that ordering.
->>
->> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
->> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
->> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
->> the plain str* sequence.
->>
->> Note: stlr* only supports base-register addressing, so affected CPUs use
->> a base-register stlr* path. Unaffected CPUs keep the original
->> offset-addressed str* sequence introduced by commit d044d6ba6f02
->> ("arm64: io: permit offset addressing").
->>
->> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
->> helpers are left unchanged. These helpers are intended for
->> write-combining mappings, which are Normal-NC on arm64. Replacing their
->> contiguous str* groups would defeat the write-combining behavior used to
->> improve store performance.
->>
->> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
->> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
->> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
->> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
->> ---
->> Changes since v2:
->>    - Reworked the raw MMIO write helpers so unaffected CPUs keep the
->>      existing offset-addressed STR sequence, while affected CPUs use the
->>      base-register STLR path.
->>    - Updated the commit message to match the code changes.
->>    - Rebased on top of the arm64 for-next/errata branch:
->>      https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
->>
->> Changes since v1:
->>    - Updated the commit message based on feedback from Vladimir Murzin.
->>
->>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
->>   arch/arm64/Kconfig                          | 23 ++++++++++++++++
->>   arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
->>   arch/arm64/kernel/cpu_errata.c              |  8 ++++++
->>   arch/arm64/tools/cpucaps                    |  1 +
->>   5 files changed, 64 insertions(+)
->>
->> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
->> index ad09bbb10da80..fc45125dc2f80 100644
->> --- a/Documentation/arch/arm64/silicon-errata.rst
->> +++ b/Documentation/arch/arm64/silicon-errata.rst
->> @@ -298,6 +298,8 @@ stable kernels.
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
->>   +----------------+-----------------+-----------------+-----------------------------+
->> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
->> ++----------------+-----------------+-----------------+-----------------------------+
->>   | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
->>   +----------------+-----------------+-----------------+-----------------------------+
->>   | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index c65cef81be86a..d633eb70de1ac 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
->>
->>          If unsure, say Y.
->>
->> +config NVIDIA_OLYMPUS_1027_ERRATUM
->> +     bool "NVIDIA Olympus: device store/load ordering erratum"
->> +     default y
->> +     help
->> +       This option adds an alternative code sequence to work around an
->> +       NVIDIA Olympus core erratum where a Device-nGnR* store can be
->> +       observed by a peripheral after a younger Device-nGnR* load to the
->> +       same peripheral. This breaks the program order that drivers rely
->> +       on for MMIO and can leave a device in an incorrect state.
+>> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+>> new file mode 100644
+>> index 000000000000..3d4de096093f
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+>> @@ -0,0 +1,54 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id:http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
+>> +$schema:http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +       The workaround promotes the raw MMIO store helpers
->> +       (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
->> +       required ordering. Because writel() and writel_relaxed() are built
->> +       on __raw_writel(), both are covered without changes to the higher
->> +       layers.
+>> +title: Arm RAS CPER provider
 >> +
->> +       The fix is applied through the alternatives framework, so enabling
->> +       this option does not by itself activate the workaround: it is
->> +       patched in only when an affected CPU is detected, and is a no-op on
->> +       unaffected CPUs.
+>> +maintainers:
+>> +  - Ahmed Tiba<ahmed.tiba@arm.com>
 >> +
->> +       If unsure, say Y.
+>> +description:
+>> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
+>> +  a firmware-first CPER error source directly via DeviceTree. Firmware
+>> +  provides the CPER Generic Error Status block and notifies the OS through
+>> +  an interrupt.
+> I'd like some spec references in here if possible.
+I can add a reference to the UEFI CPER specification for the Generic
+Error Status record format.
+
+For the firmware-first DT description itself I do not have a more 
+specific public reference to cite.
+
 >> +
->>   config ARM64_ERRATUM_834220
->>        bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
->>        depends on KVM
->> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
->> index 8cbd1e96fd50b..801223e754c90 100644
->> --- a/arch/arm64/include/asm/io.h
->> +++ b/arch/arm64/include/asm/io.h
->> @@ -22,10 +22,22 @@
->>   /*
->>    * Generic IO read/write.  These perform native-endian accesses.
->>    */
->> +static __always_inline bool arm64_needs_device_store_release(void)
->> +{
->> +     return alternative_has_cap_unlikely(
->> +                             ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
->> +}
+>> +properties:
+>> +  compatible:
+>> +    const: arm,ras-cper
 >> +
->>   #define __raw_writeb __raw_writeb
->>   static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
->>   {
->>        volatile u8 __iomem *ptr = addr;
->> +
->> +     if (arm64_needs_device_store_release()) {
->> +             asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
->> +             return;
->> +     }
->> +
->>        asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
->>   }
-> Use an 'else' clause instead of the early return? (similarly for the other
-> changes).
+>> +  memory-region:
+>> +    minItems: 1
+>> +    items:
+>> +      - description:
+>> +          CPER Generic Error Status block exposed by firmware.
+>> +      - description:
+>> +          Optional firmware-owned ack buffer used on platforms
+>> +          where firmware needs an explicit "ack" handshake before overwriting
+>> +          the CPER buffer. Firmware watches bit 0 and expects the OS to set it
+>> +          once the current status block has been consumed.
+> Does the arm spec really make this optional?  Can we constraint it to not be
+> just to make our lives easier?  I've never been sure how you would actually
+> make a working platform without the ack support.
+I will update the binding to require both memory-region entries.
 
-I agree. I’ll rework the raw write helpers to use an explicit if/else
-form instead of returning early from the STLR path.
+Best regards,
+Ahmed
 
->
-> I still reckon you should do something with the memcpy-to-io routines.
-> A simple option could be to make dgh() a dmb on parts with the erratum?
-> That at least moves the barrier out of the loop.
 
-For the memcpy-to-IO routines, would it be acceptable to address the erratum by
-patching dgh() to a DMB OSH on affected CPUs, as shown below? I’ll also sync
-with the Olympus CPU hardware team to confirm this approach for the v4 patch.
-
-#define dgh()		asm volatile(ALTERNATIVE("hint #6", "dmb osh",	\
-					ARM64_WORKAROUND_DEVICE_STORE_RELEASE) \
-				     : : : "memory")
-
-This keeps the existing memcpy-to-IO store sequences unchanged while placing the
-ordering barrier outside the copy loop as you suggested.
-
--Shanker
 
