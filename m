@@ -1,93 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05F0364E92;
-	Thu, 11 Jun 2026 07:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D21A35C1B2;
+	Thu, 11 Jun 2026 07:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781162289; cv=none; b=CdB0xJ0R+F3LgW0OEmpXm2AdDdjmaqFUOR6l5cqCmIJ+3HGAlet7ALfUrk0zlvLQwkRHA32eHT+LeKhVtJlC+o0apCzhtB/kqyhbxvhWWk5xhT4SZURD+tFTlLaZ9BSDKgTgs6CqVONppNpBymulvoH2v4H0pmnFx1mnlJn7eEk=
+	t=1781162386; cv=none; b=eBrveEbJv75f1dTQJq5Q3duKFhoaTL9AnUwQ6ESV6xLmwIofIQITbk6ew6qgwg4n7aAzA9ycN89Av5EQHBFyBgxsb7nnsuh90VjpQKNlz1SPCLQPX8B2vDFYR50UV9qTDsF9gTXWxHg0yF0ZRF5mLXtVbKHJmYNmrrs+EtauhN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781162289; c=relaxed/simple;
-	bh=fiVJwTu9CK0mToLiHPUfmG+jQ0/gNkGEoV4Z9N/y9xY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKaiX3SYfJG7eFmEWZmVjzcQM4Oe0RS2sZLeblYE7pS2kbUJ/n+azi2QqkP7DWVUfgGZK7x9tcWlIMUnD8Ss/SN/H3OT7xuzuyJvlAj8t2q/rZdrHLiW4ZlkeRtWuwctAv01rfcpdXoVtl3fXgPuYu/QhruVEh1BXxgGM17fqFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZ5Vpfrz; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781162386; c=relaxed/simple;
+	bh=ztIz45hab0AvLP/gnjehgcjg/V46iqjqRkXzJ26PE+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b2C6G6kGEH+eBW0WKczUvj0YWc2BdflpBXJMzIFOa2AhHthLmgJSu5p9OuNdfEnqJisw/Ac62I7Sd7Zrk7CjChNMcX5yqv5UMSVoWv44drN04a4MO3IU0z/M1y9/prkczMj9yKLwP5BzeVMfGcK2XvMlFdNZmMwtAJCyfTQbCik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8lcB+cy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZ5Vpfrz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781162286; x=1812698286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fiVJwTu9CK0mToLiHPUfmG+jQ0/gNkGEoV4Z9N/y9xY=;
-  b=KZ5VpfrzxVAdHwtgWnuYXt9LbafT+ly7oMVuUjBHEA63vslaUKi/rOoy
-   TTsChVglUnH0jSlggTTTIFLr4EmuCsSWWa3XeK1O6ihCIgM9hMnSTei64
-   QRPB9GLjf08HJGy9kokTHI8an5g348m7RSPLovk5tRz4/ICMqU8AfA0T1
-   5x6WlaMNRP9em0tkSxVH7a/MEwh+VWHJtTqnTbwMbSz4FmPOA3deTKdO0
-   N+2JcP4u32DSOR9GZiop3FS1IrpyFuh4vPtEw/3GYCzIpYehS4vLux1og
-   I++6Ixj1kG/X3zKlOHKNRz+VqpXQnj0V/zrELQZWp+rhA1hJ2ZtlplWmB
-   Q==;
-X-CSE-ConnectionGUID: crtZJBr/Sd+yNavd1r5YkQ==
-X-CSE-MsgGUID: lZldwgD4SiWtbmCbq5bw6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92645307"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="92645307"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:17:55 -0700
-X-CSE-ConnectionGUID: j3EipKBDSdOgy4NEcbSzHg==
-X-CSE-MsgGUID: YE83BYEYQ8iyqxgnDcNDiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="284485829"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:17:51 -0700
-Date: Thu, 11 Jun 2026 10:17:48 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Usama Arif <usama.arif@linux.dev>, linux-mm@kvack.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Andy Whitcroft <apw@canonical.com>
-Subject: Re: [RFC V2 1/3] lib/vsprintf: Add support for pgtable entries
-Message-ID: <aiphHAkLnG_L2kY2@ashevche-desk.local>
-References: <20260610111339.2465922-1-usama.arif@linux.dev>
- <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8lcB+cy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CD01F00893;
+	Thu, 11 Jun 2026 07:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781162385;
+	bh=ztIz45hab0AvLP/gnjehgcjg/V46iqjqRkXzJ26PE+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=V8lcB+cykIyGjOy2dxrUzVV/Q3lA3bzfQKE0EKEaizxsQXtCLMAczPlwLgp7xGqQt
+	 u+Tv9KNbobe9s7mJxUh7I484+2aw3LoRmftl+hLQBDqVe9Lcuk7KCvhbIFHDowJaTU
+	 5qoD06COfhUXCd3IxkyNNS+lamaR0DJC1PLgzvRDaDCs4U/HKd2UExROWuQ94ik22t
+	 dbG6cloH+VyTLbJyHTBOkIpew5Q+MQD9qkDen+aLF+6OpvtJeuCjrdmvOqPChWH2sp
+	 FllECbyKhd6qro9ysbxGFJZYXs260Qxg9YO/M385HIqqKf0UuVpdCBmE7TvPRobA2f
+	 9gr5N/WB/0Fhg==
+Message-ID: <2b5577b0-d81a-4dee-b4e2-acadcf7f7db2@kernel.org>
+Date: Thu, 11 Jun 2026 16:19:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <919d334b-16a3-4412-82f4-b4cd6a35be0d@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ liam@infradead.org, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------63UUg0QDpUJ3o0cdIUnrfdpH"
 
-On Thu, Jun 11, 2026 at 10:45:01AM +0530, Anshuman Khandual wrote:
-> On 10/06/26 4:43 PM, Usama Arif wrote:
-> > On Wed, 10 Jun 2026 05:35:43 +0100 Anshuman Khandual <anshuman.khandual@arm.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------63UUg0QDpUJ3o0cdIUnrfdpH
+Content-Type: multipart/mixed; boundary="------------RjLOUOXpcNn5GjJVTPq8Q6Ve";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ liam@infradead.org, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <2b5577b0-d81a-4dee-b4e2-acadcf7f7db2@kernel.org>
+Subject: Re: [RFC PATCH 0/5] mm/slub: preserve previous object lifetime
+References: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
+In-Reply-To: <20260611063926.38111-1-pengpeng@iscas.ac.cn>
 
-...
+--------------RjLOUOXpcNn5GjJVTPq8Q6Ve
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> >> +		static_assert(sizeof(pte_t) == 4 ||
-> >> +			      sizeof(pte_t) == 8,
-> >> +			      "pte_t size must be 4 or 8 bytes");
+Hi Pengpeng,
 
-Besides occupying too many lines, why are these static asserts hidden here and
-not declared in the global space? More wide Q is why they are needed at all?
+On 6/11/26 3:39 PM, Pengpeng Hou wrote:
+> SLAB_STORE_USER currently stores one allocation track and one free trac=
+k
+> for an object. This is useful, but it loses part of the previous lifeti=
+me
+> when the object is reused: the new allocation overwrites the allocation=
 
--- 
-With Best Regards,
-Andy Shevchenko
+> track, and a later stale free can overwrite the free track.
 
+I'm not sure what you meant by "stale free", UAF is accessing object
+that are freed. What makes the free "stale"?
 
+In general, I don't think slab_debug=3DUP is the right tool to debug
+use-after-frees, because slab will never know _when_ the object was
+overwritten. It can only tell that somebody has overwritten freed
+objects by checking if the object content is POISON_FREE or POISON_END.
+
+KASAN is a better tool to debug use-after-frees, because it can
+tell you which kernel code is accessing memory it shouldn't. (It also
+quarantines slab objects to avoid immediately reusing the object for
+better coverage).
+
+So I have to ask, "Why not use KASAN instead?" before enhancing
+slab_debug (neither is intended for production anyway).
+
+> For free-after-reuse bugs, the report can therefore contain the victim
+> allocation and the stale free, while the earlier alloc/free pair that
+> explains where the stale pointer came from is no longer available.
+
+Again, I'm confused. I have no idea what "free-after-reuse" means.
+Objects cannot be reused until they are not freed, no?
+
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------RjLOUOXpcNn5GjJVTPq8Q6Ve--
+
+--------------63UUg0QDpUJ3o0cdIUnrfdpH
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCaiphjAAKCRCGXBN6rc5S
+1gaOAQChyWUETqFeUG2gvr9ZMZ3Il7reXckMo4X8MOCt7Rc7AAD/Qfkcf8YbQo18
+ItCpaSmOiByXdnbuV93+suelFfGbgQg=
+=kmYS
+-----END PGP SIGNATURE-----
+
+--------------63UUg0QDpUJ3o0cdIUnrfdpH--
