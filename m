@@ -1,625 +1,307 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010003.outbound.protection.outlook.com [52.101.201.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E94840D57A;
-	Thu, 11 Jun 2026 14:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781186845; cv=none; b=fn2Ou3FkcO/QQc81dZs/CiIBoUZdyhepXMR10gTehjI2PqFATSyy9tzmrEjDJDZ8wnaD3BUOKSP2Phcg6KikRBQj/uEd/SyFOJgLhDuikzEdnvB5wOPP5zsuMEP6EOV2BAwfJHNzZbcfndxMIt+NItGA/5E6Dd6VXrZRT1lUG94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781186845; c=relaxed/simple;
-	bh=BqMpVQQtddwPjASciVPJEFJhv6/1Xr7gZLLyKaDOz1U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XAOpuD/TETcx6nWPckEExWRoChqABn/u44ZErBcnvrc5LDWc9mJqw6U4HoDChH/+4eeVcBUGXvmWPYyLrvM69CkWbNwnl6AsKxpxY1DDMEZUaV/cFfVz1nQNEQn5IeCES14fZB4bTfRLaaXAYSKSwz2DP5zeSUGEbiUacf/vhJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3OvjXG9U; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA6B40D57A;
+	Thu, 11 Jun 2026 14:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781186913; cv=fail; b=rOh0hoMEXur8ETbe9UqivIP1JW5YOZAcUKx+yieon8igdOx9pqCmwUvgoyECbSzEZLHNu6/pcZagHW6LSNA4nBBAt4tYZ4SXfhEdph/0AVQyEwcaL6XacNdSDtnQfsqzHwZRkdcSstkjJgeVWBazg1dITq238qNNeuQzooganKU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781186913; c=relaxed/simple;
+	bh=Ew8bsTW3sB9CsxXA+INEy3TAGRIUCGk8YUDaQPRa6Ko=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=e6hUWRmBGWNyRSTtiJrMUPz06szCoAEYPo2mN9x/cOE/176xGSc7ozm24Mf8+l6SzII7e1m5JwsUmNXufL8AY2/La4qKHaP0E+lVARKZf3uaNRVpWl0Ee0zudp+GEc5dgvszDDuep4G49UGBVkJCATP+8nrOW2GqlKCDZKe3mPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WD9789y6; arc=fail smtp.client-ip=52.101.201.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3OvjXG9U"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=+gFrY0UqKBXEo5p2R7xo6dmYactaLWqDZQipR71hJhQ=; b=3OvjXG9Uo4/tcm1tUO4CCQdDQ3
-	Og/L1jp3sQ0PiUNEZh3tM/2N3Qg9qNmifx+O2UwStUMX3RNHjJBRWu9DoCeCgGnQPHMFgXrbmUxAW
-	wWfxpbGoQ+/isUE+E/g/LbFL1xRzikwGreZzBEd2ts838d4IMtiSTD5aJObg+XIPdyldreYA5aegE
-	qWfMZ1Hp0IpZjThwYrs6iR1y45jedsuOXq0L12sTSHtWwlhh0g9M1uai0zpkjusKbS4xnn4o1QgkO
-	9gWgQUiOJRRz5K0k+uBcbo7bM/s+cdGeZbRAd9udiWumMHKYe2y6O2dhQ/x5T1zCogoDH+xjTMalp
-	pUaTJLAg==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wXg43-00000009ZZ5-0aR5;
-	Thu, 11 Jun 2026 14:07:23 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 4/4] block: add configurable error injection
-Date: Thu, 11 Jun 2026 16:06:47 +0200
-Message-ID: <20260611140703.2401204-5-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260611140703.2401204-1-hch@lst.de>
-References: <20260611140703.2401204-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WD9789y6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o/PHRYf5QxqTf+2DzcqUdholfA9LnDCR3loM65nZDABqxy6lMV/k/Ux4m71dcfO0IaMpck3He+Xj5CaTWSED0b7wWelb0Xsqg3IGyJuHaXdG/ruKk8u/p4KvRxpV+wVTwALDFxjZb/kuMqkvGIeBTz6q8lVE7aQIrwDO5hwgqHrIJGS5uN2YK6Ti5NSDjBtrVOf3Wbbr5rkNSmlXJ4X0Bj0Uf/X+PwYMYiR/GkPENs6VR9NaEmySI6LuUzwEcbVFIn/Bcu232oifIOxdUO4iFRaGZgeMWTj8L9RyuRzRIpggBs1BiX2Ans4h2IgQaEEVlG3zWi4w60Ylx4j4rnYbzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tahsPdcHCKKg/i9fnusVY9tzzlk4YRJ/+PiYsoL8v04=;
+ b=yD372Jpo4LtEimUsL0JHztn16POKqeiYywemZdwOq2wLkmZy090ITP4eutTYz1oh3aVN/dEPA+hu9G+eebOthp5ybONQOw8WXPI1PHiat1zoRV64/oqS/+FxccYt6p/DWaWvVkW8zD0+wHBfRckDy8grgQlbAws2SAKPSRBz0AmG4uHBcRJhe5PJoAyvktUGfbQoH6+SZ1J+l0dELC3VmoaUPVs7eeG9KRqe12v8QwLSAzvC9hK9TmX3rTffGNil5udMfdXGvEJ9l7SBQODzOIt3EvAXiL5ddLvu1HMzRtcwcGVUXdTp7iNSAMVNTCwRsFaAyWPWWtJ7j/l65qZcTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tahsPdcHCKKg/i9fnusVY9tzzlk4YRJ/+PiYsoL8v04=;
+ b=WD9789y6u7OJjdzYuMqf1ZwCCofIBz7JiBZakccvAGjKcBjwFpz2yfxRftqzqgir9MUyHhDHQnEPsNYAt24ADYczx8PgMVWCOQytxFSbF3D9HjTahtENGNAfABnCMq0zBqUgyLFxpBh94Lb+A2vSaRejK/bu0uf5gZ6Lo4BLsepFiZygw3d++rdQb7Wj7Q4o7glWAQGkKHkQHJTzKQJhL7Xbxekgf/xpoqL0kiXznXbuN430ebOLpA1cMbxnI0M47PfQiyURY9E4Z9vvZgi7RPa1OY7t7gH6MX6v2M8vCv0Yki+DrENFqTHMnVSXUqatdNdlY0fx4AwHRZ+GlUQ8rg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
+ by PH0PR12MB5608.namprd12.prod.outlook.com (2603:10b6:510:143::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 14:08:25 +0000
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Thu, 11 Jun 2026
+ 14:08:25 +0000
+Message-ID: <aaad3692-74d5-4048-ac5c-ca47ef65c32d@nvidia.com>
+Date: Thu, 11 Jun 2026 09:08:09 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Vladimir Murzin <vladimir.murzin@arm.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ linux-arm-kernel@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Vikram Sethi <vsethi@nvidia.com>, Jason Sequeira <jsequeira@nvidia.com>
+References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+ <aiq5VigmtZq9GlAm@willie-the-truck>
+Content-Language: en-US
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <aiq5VigmtZq9GlAm@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR13CA0023.namprd13.prod.outlook.com
+ (2603:10b6:806:130::28) To IA1PR12MB6089.namprd12.prod.outlook.com
+ (2603:10b6:208:3ef::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|PH0PR12MB5608:EE_
+X-MS-Office365-Filtering-Correlation-Id: e69a758e-b155-4d3d-5755-08dec7c2e712
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|4143699003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DVP8axl2FWHSR8s+wiyYl+s6VDk6BfZ2x2B4BRwhH2ZnVkV8qJUPS7QmD3Mue2GEwoRhLLqBcqS9gMY9jmaQa7OWMVVO7iSfTK92eaJJkfQ4W6986/yadBfC5NkFNUICM8nUcI/tAWu4hOHvPcE0jEHEjIB0oGtmN4QlSBdUOKF26parCodZVaFIO86BbsIG7yZkwAot71I/1U+VcNE+nRsm9v+f6Zn0HhNctCFMsg3zcpv5XM++u2QrPN7BA4jz2Mkl7NhBcD8ujOi0SmWkQxsA1M8hsmIcw8nKcJhA6Jy+T5O0l4MgmCGtJaPmZe35Gu9oAOHHD5RbDdTfQTfr6SLvUMaCgcQ+RdDO4O5ree0OmZZvnnsQ26ulF7eqFSMvNjBwoGG1rTmTQBU0yQcLvecJfdqXKtUa45oMkcEaPFQzn9EJ3OISci3JaFmjcqSZm0bKBwWLx0hT6iRhwOK+HzahpgSGABZ5dLcCFQiijp1ycfX0QVtoj+cELphTwTsAkGHQOyOV4/zJMdKSFzLVF3WOhDRSkwXNSkq/jxSyU4k/oDl1HnqGW+llNMOj5Xlj3fPd4w6Q5mWWdTwZcUjX7lIcQvgw+8ulyCYDc0a4Ekpp0acbkCbhGmE6g3+R0UyP1iHsEUD+r6fhG6JuGkQV6xR6OYNm0VrKKa1hkgP5j7yDdJIIyPLza6oKLS2Sorh2kXHEbI4Tx8K3s4tD9J5mMQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UWI4ZGdXRUFUeUoyOHdkWkg4WFJNdExDMmsvOEJNdnY4UGtpcnNFdmtTUnYx?=
+ =?utf-8?B?c2tRRmpzYVNqckpBeFRQWmczSm5SeWExaW9tbk40ZTZBUEtCa0lRdmRkR2Rj?=
+ =?utf-8?B?eFFPUHR0SGJTU3ZSMXRnVjBVelhnbTQ3V1F4ZnlHeUtoNlNIbEdLRmxiQ3Y5?=
+ =?utf-8?B?dmEySDJ1WkpvamoraVJ2QWVpVWRBL2NBTS9CNWdFSzZXdlZiNUlZa2hES1Uw?=
+ =?utf-8?B?ME5TK05tY2pwTWpGRkljU1JyNUNxRzBvRFlOSlowN3FqaGF0VG52RFZ0enFG?=
+ =?utf-8?B?Rm4wMHlIQ1FmdmdCY0RvOHdkYXFsQVNWMXpFcWRpelJsc3pET0p5SGZCaW1y?=
+ =?utf-8?B?MFNwS0tQNXJoVWlQcUZYS1gxcEJHMjVVMnVkeE9yalhKZ1AzK1B5c3Rhb2to?=
+ =?utf-8?B?KzRPd3JFUmQxZGpVbGJtRzcwaFcyLzhHcFc1K280Q3d2OVgwVjBuR2VhV2R1?=
+ =?utf-8?B?WXdYcFVJdWIwa1N2Z3ZuVkJ4UCtOeHJJVzUvWElkSENuM3MyRW41SVZ3dGdV?=
+ =?utf-8?B?NzVGZlFDMnZDbEU3STE3UkY3eTI2VFRNRTFSb2pmcktYN0JrUkRsdkVzNlFr?=
+ =?utf-8?B?Q1RiN1NSbVVXQkJjNTdoOFRUVUhFRDd5T1B5ek5YOEtzV0pxbkxlUzI4SHpJ?=
+ =?utf-8?B?REk3YSthNm04MHdQUmNsRG9qK0JZRXVkdWRPSlk5a050NitNWVg0OWErUXhR?=
+ =?utf-8?B?eGd1WlFuV0E0ZUhWNHd1NDVmVVNTUnZXeUIzeVhQWHJocWtBVmU2SFJnY2FP?=
+ =?utf-8?B?aEVYdllRdjgxbVRNNHZTaFJNL09OUm9SL1diajY5TFp0MkdwK3NpVjRaSStI?=
+ =?utf-8?B?K1dkaE9LbHlodjVZSm81TFdxYi9la05mRWc5UnR6dWxpSXFrYlptWUo1Qms5?=
+ =?utf-8?B?SGJldU5aN2FqTXBqandHcHY5QVVGaGR5bjJDdnk1WGdQSVk1dFk1WjcxNEtw?=
+ =?utf-8?B?aSttbVh6U3pMeW0ybHk5dHA5YXFENFZ4aWpZSlpwUmt4QTc5LzlxNHVPbjh1?=
+ =?utf-8?B?RkhpdzFjTHlNMldwWmtTNjkyVU1KY3pRSkFETFQ3bGhGUjdZNzhvcDUya0FQ?=
+ =?utf-8?B?VExCTzFvV1QvTFFhQW5FMWRBdkFtZ1N6SVNKQk51RmhFOUlIOGlZK3hmUWx1?=
+ =?utf-8?B?MHVNeUpydE9KZlhCeis4ZTRXbm10YkxJbndncEkvejdRTkpSOWlvZmJpNmVY?=
+ =?utf-8?B?cTgxbktJc1FacjBCakMrTGFKRVdCTk54SnVvc3o0MUg2NWVtNWZtUDAvb0dL?=
+ =?utf-8?B?aU9MeHRWai84aDM0THg4TXdCWDF4bnVKMnVqTFk3L2Z2MU5Id2h3alAvVjRk?=
+ =?utf-8?B?eFJFNlIxY0pDdkUxOXlyNldHR04xcTY5eDZ5bTNJQnhKYXRKakxscklSVDYv?=
+ =?utf-8?B?eEsrZXl6MVUwYXVuRlBCS2M1QnRXUS9Yc3g5SEt2NGZwcHJaSVVrTGhlMU9M?=
+ =?utf-8?B?cXNkVFMzNXgwNklMQWZrdWJKNTJ4Q1hCOGxsOEpWUlcrMjkySXhRbnZpK3RP?=
+ =?utf-8?B?dzEzQlRiRTcyK0wwWWhCMkVYaXFGTXl2VnQvR000QWo2RC9ZakpHQXZReTFu?=
+ =?utf-8?B?U29VNkdzc1BrMllMN1FwNVZjaHV2VmJNK1FHdXlrSWgzejhVbmt1eEpmMldN?=
+ =?utf-8?B?ajNiTExCMmkzUGVkME80Z3BHTWtBZDMyK0lnbnI3QjU3NERNSUJMNThBYWZo?=
+ =?utf-8?B?aHMyOXQ1S3NwZVJOejhRUW1LVy92dGV6Nk9lcjVFYWRrYStZZXhsTTJJamN1?=
+ =?utf-8?B?ZWlWbDhVU3BkSWd3UmpIK2NDSDVxNVR5TnNYN3QrM3dIaXVKMHFOSWhGSHI3?=
+ =?utf-8?B?OENMNmpYbThaOTF2WWdFdHJ3ZGhXS3RTMFJUYitmTERMVUUrak9kTDA4WkN0?=
+ =?utf-8?B?NUF4cVR4T282aG50SERoRHFLUHRIa1BSQVVXNXo2WHEzZW5UNmhVZk5TS3ZN?=
+ =?utf-8?B?SHJMMW0zYzJ4djZucDJjYlZudE9QY0R6VFZlNkkzRzM3RmJPTGV1TGxWZFNp?=
+ =?utf-8?B?M2ZUdEo1cWg1RTI0a05MZzcrbEwrZDNxOXlLb2pUMGtpcm81eXhaUzZiMEF2?=
+ =?utf-8?B?WDNWazVGcDNnY2RRSEZBV0dXQjN6TVNYaGdvVTREcU9ZVXh3VStPNHI2T1ZQ?=
+ =?utf-8?B?U3V5Y1RYT0gxQWc0cWgrVFhFaFNWMm92dW1RdmR0a2lIRzc3eUI1cndKV0xa?=
+ =?utf-8?B?QzhJQWgzQUZ2TU1QZXdlblJBWmxPbnZpMFh6djJEaG84aW13ZXlLVms1K3Js?=
+ =?utf-8?B?YlZZMWJHY0V1MEg0VGpBa3FuQUlFbldvYTEyREFGM0ZMcWVDOG1EMzZhL1h3?=
+ =?utf-8?B?QWd0d3gyUjhuRUZiZkhlelZZbTZXK3VVTjhOL0xzejRQcS9pZzA3UT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e69a758e-b155-4d3d-5755-08dec7c2e712
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 14:08:25.0049
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V5OZvyhaIj9WJIMinaNbWWzekCxhVsKftAsb1qR2kfXOvhLpSq/F0tzoLkg8o/wcEodAjBOBuSKAedh5iTJDug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5608
 
-Add a new block error injection interface that allows to inject specific
-status code for specific ranges.
+Hi Will,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
----
- Documentation/block/error-injection.rst |  59 +++++
- Documentation/block/index.rst           |   1 +
- block/Kconfig                           |   8 +
- block/Makefile                          |   1 +
- block/blk-core.c                        |   4 +
- block/blk-sysfs.c                       |   5 +
- block/error-injection.c                 | 315 ++++++++++++++++++++++++
- block/error-injection.h                 |  21 ++
- block/genhd.c                           |   4 +
- include/linux/blkdev.h                  |   6 +
- 10 files changed, 424 insertions(+)
- create mode 100644 Documentation/block/error-injection.rst
- create mode 100644 block/error-injection.c
- create mode 100644 block/error-injection.h
+On 6/11/2026 8:34 AM, Will Deacon wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>    - A PE executes a Device-nGnR* store followed by a younger
+>>      Device-nGnR* load.
+>>    - The store is not a store-release.
+>>    - The accesses target the same peripheral and do not overlap in bytes.
+>>    - There is at most one intervening Device-nGnR* store in program
+>>      order, and there are no intervening Device-nGnR* loads.
+>>    - There is no DSB, and no DMB that orders loads, between the store and
+>>      the load.
+>>    - Specific micro-architectural and timing conditions occur.
+>>
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain str*
+>> to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not order
+>> the store against a subsequent readl(); the store-release promotion is
+>> what provides that ordering.
+>>
+>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a new
+>> ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only activated on
+>> parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs continue to use
+>> the plain str* sequence.
+>>
+>> Note: stlr* only supports base-register addressing, so affected CPUs use
+>> a base-register stlr* path. Unaffected CPUs keep the original
+>> offset-addressed str* sequence introduced by commit d044d6ba6f02
+>> ("arm64: io: permit offset addressing").
+>>
+>> The __const_memcpy_toio_aligned32() and __const_memcpy_toio_aligned64()
+>> helpers are left unchanged. These helpers are intended for
+>> write-combining mappings, which are Normal-NC on arm64. Replacing their
+>> contiguous str* groups would defeat the write-combining behavior used to
+>> improve store performance.
+>>
+>> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>> ---
+>> Changes since v2:
+>>    - Reworked the raw MMIO write helpers so unaffected CPUs keep the
+>>      existing offset-addressed STR sequence, while affected CPUs use the
+>>      base-register STLR path.
+>>    - Updated the commit message to match the code changes.
+>>    - Rebased on top of the arm64 for-next/errata branch:
+>>      https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
+>>
+>> Changes since v1:
+>>    - Updated the commit message based on feedback from Vladimir Murzin.
+>>
+>>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>>   arch/arm64/Kconfig                          | 23 ++++++++++++++++
+>>   arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
+>>   arch/arm64/kernel/cpu_errata.c              |  8 ++++++
+>>   arch/arm64/tools/cpucaps                    |  1 +
+>>   5 files changed, 64 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+>> index ad09bbb10da80..fc45125dc2f80 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -298,6 +298,8 @@ stable kernels.
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+>> ++----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index c65cef81be86a..d633eb70de1ac 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>>
+>>          If unsure, say Y.
+>>
+>> +config NVIDIA_OLYMPUS_1027_ERRATUM
+>> +     bool "NVIDIA Olympus: device store/load ordering erratum"
+>> +     default y
+>> +     help
+>> +       This option adds an alternative code sequence to work around an
+>> +       NVIDIA Olympus core erratum where a Device-nGnR* store can be
+>> +       observed by a peripheral after a younger Device-nGnR* load to the
+>> +       same peripheral. This breaks the program order that drivers rely
+>> +       on for MMIO and can leave a device in an incorrect state.
+>> +
+>> +       The workaround promotes the raw MMIO store helpers
+>> +       (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+>> +       required ordering. Because writel() and writel_relaxed() are built
+>> +       on __raw_writel(), both are covered without changes to the higher
+>> +       layers.
+>> +
+>> +       The fix is applied through the alternatives framework, so enabling
+>> +       this option does not by itself activate the workaround: it is
+>> +       patched in only when an affected CPU is detected, and is a no-op on
+>> +       unaffected CPUs.
+>> +
+>> +       If unsure, say Y.
+>> +
+>>   config ARM64_ERRATUM_834220
+>>        bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>>        depends on KVM
+>> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+>> index 8cbd1e96fd50b..801223e754c90 100644
+>> --- a/arch/arm64/include/asm/io.h
+>> +++ b/arch/arm64/include/asm/io.h
+>> @@ -22,10 +22,22 @@
+>>   /*
+>>    * Generic IO read/write.  These perform native-endian accesses.
+>>    */
+>> +static __always_inline bool arm64_needs_device_store_release(void)
+>> +{
+>> +     return alternative_has_cap_unlikely(
+>> +                             ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
+>> +}
+>> +
+>>   #define __raw_writeb __raw_writeb
+>>   static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>>   {
+>>        volatile u8 __iomem *ptr = addr;
+>> +
+>> +     if (arm64_needs_device_store_release()) {
+>> +             asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
+>> +             return;
+>> +     }
+>> +
+>>        asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
+>>   }
+> Use an 'else' clause instead of the early return? (similarly for the other
+> changes).
 
-diff --git a/Documentation/block/error-injection.rst b/Documentation/block/error-injection.rst
-new file mode 100644
-index 000000000000..81f31af82e65
---- /dev/null
-+++ b/Documentation/block/error-injection.rst
-@@ -0,0 +1,59 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================
-+Configurable Error Injection
-+============================
-+
-+Overview
-+--------
-+
-+Configurable error injection allows injecting specific block layer status codes
-+for sector ranges of a block device.  Errors can be injected unconditionally, or
-+with a given probability.
-+
-+To use configurable error injection, CONFIG_BLK_ERROR_INJECTION must be enabled.
-+
-+The only interface is the error_injection debugfs file, which is created for
-+each registered gendisk.  Writes to this file are used to create or delete rules
-+and reads return a list of the current error injection sites.
-+
-+Options
-+-------
-+
-+The following options specify the operations:
-+
-+===================	=======================================================
-+add			add a new rule
-+removeall		remove all existing rules
-+===================	=======================================================
-+
-+The following options specify the details of the rule for the add operation:
-+
-+===================	=======================================================
-+op=<string>		block layer operation this rule applies to.  This uses
-+			the XYZ for each REQ_OP_XYZ operation, e.g. READ, WRITE
-+			or DISCARD. Mandatory.
-+status=<string>		Status to return.  This uses XYZ for each BLK_STS_XYZ
-+			code, e.g. IOERR or MEDIUM. Mandatory.
-+start=<number>		First block layer sector the rule applies to.
-+			Optional, defaults to 0.
-+nr_sectors=<number>	Number of sectors this rule applies.
-+			Optional, defaults to the remainder of the device.
-+chance=<number>		Only return a failure with a likelihood of 1/chance.
-+			Optional, defaults to 1 (always).
-+===================	=======================================================
-+
-+Example
-+-------
-+
-+Return BLK_STS_IOERR for one in 10 reads of sector 0 of /dev/nvme0n1:
-+
-+	$ echo 'add,op=READ,start=0,status=IOERR,chance=10' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+Return BLK_STS_MEDIUM for every write to /dev/nvme0n1:
-+
-+	$ echo 'add,op=WRITE,start=0,status=MEDIUM' > /sys/kernel/debug/block/nvme0n1/error_injection
-+
-+Remove all rules for /dev/nvme0n1:
-+
-+	$ echo 'removeall' > /sys/kernel/debug/block/nvme0n1/error_injection
-diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
-index 9fea696f9daa..bfa1bbd31ddf 100644
---- a/Documentation/block/index.rst
-+++ b/Documentation/block/index.rst
-@@ -22,3 +22,4 @@ Block
-    switching-sched
-    writeback_cache_control
-    ublk
-+   error-injection
-diff --git a/block/Kconfig b/block/Kconfig
-index 15027963472d..70e4a66d941f 100644
---- a/block/Kconfig
-+++ b/block/Kconfig
-@@ -221,6 +221,14 @@ config BLOCK_HOLDER_DEPRECATED
- config BLK_MQ_STACKING
- 	bool
- 
-+config BLK_ERROR_INJECTION
-+	bool "Enable block layer error injection"
-+	select JUMP_LABEL if HAVE_ARCH_JUMP_LABEL
-+	help
-+	  Enable inserting arbitrary block errors through a debugfs interface.
-+
-+	  See Documentation/block/error-injection.rst for details.
-+
- source "block/Kconfig.iosched"
- 
- endif # BLOCK
-diff --git a/block/Makefile b/block/Makefile
-index 54130faacc21..e7bd320e3d69 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -13,6 +13,7 @@ obj-y		:= bdev.o fops.o bio.o elevator.o blk-core.o blk-sysfs.o \
- 			genhd.o ioprio.o badblocks.o partitions/ blk-rq-qos.o \
- 			disk-events.o blk-ia-ranges.o early-lookup.o
- 
-+obj-$(CONFIG_BLK_ERROR_INJECTION) += error-injection.o
- obj-$(CONFIG_BLK_DEV_BSG_COMMON) += bsg.o
- obj-$(CONFIG_BLK_DEV_BSGLIB)	+= bsg-lib.o
- obj-$(CONFIG_BLK_CGROUP)	+= blk-cgroup.o
-diff --git a/block/blk-core.c b/block/blk-core.c
-index beaab7a71fba..73a41df98c9a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -50,6 +50,7 @@
- #include "blk-cgroup.h"
- #include "blk-throttle.h"
- #include "blk-ioprio.h"
-+#include "error-injection.h"
- 
- struct dentry *blk_debugfs_root;
- 
-@@ -767,6 +768,9 @@ static void __submit_bio_noacct_mq(struct bio *bio)
- 
- void submit_bio_noacct_nocheck(struct bio *bio, bool split)
- {
-+	if (unlikely(blk_error_inject(bio)))
-+		return;
-+
- 	blk_cgroup_bio_start(bio);
- 
- 	if (!bio_flagged(bio, BIO_TRACE_COMPLETION)) {
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index f22c1f253eb3..520972676ab4 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -19,6 +19,7 @@
- #include "blk-wbt.h"
- #include "blk-cgroup.h"
- #include "blk-throttle.h"
-+#include "error-injection.h"
- 
- struct queue_sysfs_entry {
- 	struct attribute attr;
-@@ -933,6 +934,8 @@ static void blk_debugfs_remove(struct gendisk *disk)
- 
- 	blk_debugfs_lock_nomemsave(q);
- 	blk_trace_shutdown(q);
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION))
-+		blk_error_injection_exit(disk);
- 	debugfs_remove_recursive(q->debugfs_dir);
- 	q->debugfs_dir = NULL;
- 	q->sched_debugfs_dir = NULL;
-@@ -963,6 +966,8 @@ int blk_register_queue(struct gendisk *disk)
- 
- 	memflags = blk_debugfs_lock(q);
- 	q->debugfs_dir = debugfs_create_dir(disk->disk_name, blk_debugfs_root);
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION))
-+		blk_error_injection_init(disk);
- 	if (queue_is_mq(q))
- 		blk_mq_debugfs_register(q);
- 	blk_debugfs_unlock(q, memflags);
-diff --git a/block/error-injection.c b/block/error-injection.c
-new file mode 100644
-index 000000000000..d24c90e9a25f
---- /dev/null
-+++ b/block/error-injection.c
-@@ -0,0 +1,315 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2026 Christoph Hellwig.
-+ */
-+#include <linux/debugfs.h>
-+#include <linux/blkdev.h>
-+#include <linux/parser.h>
-+#include <linux/seq_file.h>
-+#include "blk.h"
-+#include "error-injection.h"
-+
-+struct blk_error_inject {
-+	struct list_head		entry;
-+	sector_t			start;
-+	sector_t			end;
-+	enum req_op			op;
-+	blk_status_t			status;
-+
-+	/* only inject every 1 / chance times */
-+	unsigned int			chance;
-+};
-+
-+DEFINE_STATIC_KEY_FALSE(blk_error_injection_enabled);
-+
-+bool __blk_error_inject(struct bio *bio)
-+{
-+	struct gendisk *disk = bio->bi_bdev->bd_disk;
-+	struct blk_error_inject *inj;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(inj, &disk->error_injection_list, entry) {
-+		if (bio_op(bio) != inj->op)
-+			continue;
-+		/*
-+		 * This never matches 0-sized bios like empty WRITEs with
-+		 * REQ_PREFLUSH or ZONE_RESET_ALL.  While adding a special case
-+		 * for them would be trivial, that means any WRITE rule would
-+		 * trigger for flushes.  So before we can make this work
-+		 * properly, we'll need to start using REQ_OP_FLUSH for pure
-+		 * flushes at the bio level like we already do in blk-mq.
-+		 */
-+		if (bio->bi_iter.bi_sector > inj->end ||
-+		    bio_end_sector(bio) <= inj->start)
-+			continue;
-+		if (inj->chance > 1 && (get_random_u32() % inj->chance) != 0)
-+			continue;
-+
-+		pr_info_ratelimited("%pg: injecting %s error for %s at sector %llu:%u\n",
-+				disk->part0, blk_status_to_str(inj->status),
-+				blk_op_str(inj->op), bio->bi_iter.bi_sector,
-+				bio_sectors(bio));
-+		bio->bi_status = inj->status;
-+		rcu_read_unlock();
-+		bio_endio(bio);
-+		return true;
-+	}
-+	rcu_read_unlock();
-+	return false;
-+}
-+
-+static int error_inject_add(struct gendisk *disk, enum req_op op,
-+		sector_t start, u64 nr_sectors, blk_status_t status,
-+		unsigned int chance)
-+{
-+	struct blk_error_inject *inj;
-+	int error = -EINVAL;
-+
-+	if (op == REQ_OP_LAST)
-+		return -EINVAL;
-+	if (status == BLK_STS_OK)
-+		return -EINVAL;
-+
-+	inj = kzalloc_obj(*inj);
-+	if (!inj)
-+		return -ENOMEM;
-+
-+	if (nr_sectors) {
-+		if (U64_MAX - nr_sectors < start)
-+			goto out_free_inj;
-+		inj->end = start + nr_sectors - 1;
-+	} else {
-+		inj->end = U64_MAX;
-+	}
-+
-+	inj->op = op;
-+	inj->start = start;
-+	inj->status = status;
-+	inj->chance = chance;
-+
-+	pr_debug_ratelimited("%pg: adding %s injection for %s at sector %llu:%llu\n",
-+			disk->part0, blk_status_to_str(status),
-+			blk_op_str(op),
-+			start, nr_sectors);
-+
-+	/*
-+	 * Add to the front of the list so that newer entries can partially
-+	 * override other entries.  This also intentionally allows duplicate
-+	 * entries as there is no real reason to reject them.
-+	 */
-+	mutex_lock(&disk->error_injection_lock);
-+	if (!disk_live(disk)) {
-+		mutex_unlock(&disk->error_injection_lock);
-+		error = -ENODEV;
-+		goto out_free_inj;
-+	}
-+	if (list_empty(&disk->error_injection_list))
-+		static_branch_inc(&blk_error_injection_enabled);
-+	list_add_rcu(&inj->entry, &disk->error_injection_list);
-+	set_bit(GD_ERROR_INJECT, &disk->state);
-+	mutex_unlock(&disk->error_injection_lock);
-+	return 0;
-+
-+out_free_inj:
-+	kfree(inj);
-+	return error;
-+}
-+
-+static void error_inject_removeall(struct gendisk *disk)
-+{
-+	struct blk_error_inject *inj;
-+
-+	mutex_lock(&disk->error_injection_lock);
-+	clear_bit(GD_ERROR_INJECT, &disk->state);
-+	while ((inj = list_first_entry_or_null(&disk->error_injection_list,
-+			struct blk_error_inject, entry))) {
-+		list_del_rcu(&inj->entry);
-+		kfree_rcu_mightsleep(inj);
-+	}
-+	static_branch_dec(&blk_error_injection_enabled);
-+	mutex_unlock(&disk->error_injection_lock);
-+}
-+
-+enum options {
-+	Opt_add			= (1u << 0),
-+	Opt_removeall		= (1u << 1),
-+
-+	Opt_op			= (1u << 16),
-+	Opt_start		= (1u << 17),
-+	Opt_nr_sectors		= (1u << 18),
-+	Opt_status		= (1u << 19),
-+	Opt_chance		= (1u << 20),
-+
-+	Opt_invalid,
-+};
-+
-+static const match_table_t opt_tokens = {
-+	{ Opt_add,			"add",			},
-+	{ Opt_removeall,		"removeall",		},
-+	{ Opt_op,			"op=%s",		},
-+	{ Opt_start,			"start=%u"		},
-+	{ Opt_nr_sectors,		"nr_sectors=%u"		},
-+	{ Opt_status,			"status=%s"		},
-+	{ Opt_chance,			"chance=%u"		},
-+	{ Opt_invalid,			NULL,			},
-+};
-+
-+static int match_op(substring_t *args, enum req_op *op)
-+{
-+	const char *tag;
-+
-+	tag = match_strdup(args);
-+	if (!tag)
-+		return -ENOMEM;
-+	*op = str_to_blk_op(tag);
-+	if (*op == REQ_OP_LAST)
-+		pr_warn("invalid op '%s'\n", tag);
-+	kfree(tag);
-+	return 0;
-+}
-+
-+static int match_status(substring_t *args, blk_status_t *status)
-+{
-+	const char *tag;
-+
-+	tag = match_strdup(args);
-+	if (!tag)
-+		return -ENOMEM;
-+	*status = tag_to_blk_status(tag);
-+	if (!*status)
-+		pr_warn("invalid status '%s'\n", tag);
-+	kfree(tag);
-+	return 0;
-+}
-+
-+static ssize_t blk_error_injection_parse_options(struct gendisk *disk,
-+		char *options)
-+{
-+	enum { Unset, Add, Removeall } action = Unset;
-+	unsigned int option_mask = 0, chance = 1;
-+	enum req_op op = REQ_OP_LAST;
-+	u64 start = 0, nr_sectors = 0;
-+	blk_status_t status = BLK_STS_OK;
-+	substring_t args[MAX_OPT_ARGS];
-+	char *p;
-+
-+	while ((p = strsep(&options, ",\n")) != NULL) {
-+		int error = 0;
-+		ssize_t token;
-+
-+		if (!*p)
-+			continue;
-+		token = match_token(p, opt_tokens, args);
-+		option_mask |= token;
-+		switch (token) {
-+		case Opt_add:
-+			if (action != Unset)
-+				return -EINVAL;
-+			action = Add;
-+			break;
-+		case Opt_removeall:
-+			if (action != Unset)
-+				return -EINVAL;
-+			action = Removeall;
-+			break;
-+		case Opt_op:
-+			error = match_op(args, &op);
-+			break;
-+		case Opt_start:
-+			error = match_u64(args, &start);
-+			break;
-+		case Opt_nr_sectors:
-+			error = match_u64(args, &nr_sectors);
-+			break;
-+		case Opt_status:
-+			error = match_status(args, &status);
-+			break;
-+		case Opt_chance:
-+			error = match_uint(args, &chance);
-+			if (!error && chance == 0)
-+				error = -EINVAL;
-+			break;
-+		default:
-+			pr_warn("unknown parameter or missing value '%s'\n", p);
-+			error = -EINVAL;
-+		}
-+		if (error)
-+			return error;
-+	}
-+
-+	switch (action) {
-+	case Add:
-+		return error_inject_add(disk, op, start, nr_sectors, status,
-+				chance);
-+	case Removeall:
-+		if (option_mask & ~Opt_removeall)
-+			return -EINVAL;
-+		error_inject_removeall(disk);
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static ssize_t blk_error_injection_write(struct file *file,
-+		const char __user *ubuf, size_t count, loff_t *pos)
-+{
-+	struct gendisk *disk = file_inode(file)->i_private;
-+	char *options;
-+	int error;
-+
-+	options = memdup_user_nul(ubuf, count);
-+	if (IS_ERR(options))
-+		return PTR_ERR(options);
-+	error = blk_error_injection_parse_options(disk, options);
-+	kfree(options);
-+
-+	if (error)
-+		return error;
-+	return count;
-+}
-+
-+static int blk_error_injection_show(struct seq_file *s, void *private)
-+{
-+	struct gendisk *disk = s->private;
-+	struct blk_error_inject *inj;
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(inj, &disk->error_injection_list, entry) {
-+		seq_printf(s, "%llu:%llu status=%s,chance=%u",
-+			inj->start, inj->end,
-+			blk_status_to_tag(inj->status), inj->chance);
-+		seq_putc(s, '\n');
-+	}
-+	rcu_read_unlock();
-+	return 0;
-+}
-+
-+static int blk_error_injection_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, blk_error_injection_show, inode->i_private);
-+}
-+
-+static int blk_error_injection_release(struct inode *inode, struct file *file)
-+{
-+	return single_release(inode, file);
-+}
-+
-+static const struct file_operations blk_error_injection_fops = {
-+	.owner		= THIS_MODULE,
-+	.write		= blk_error_injection_write,
-+	.read		= seq_read,
-+	.open		= blk_error_injection_open,
-+	.release	= blk_error_injection_release,
-+};
-+
-+void blk_error_injection_init(struct gendisk *disk)
-+{
-+	debugfs_create_file("error_injection", 0600, disk->queue->debugfs_dir,
-+			disk, &blk_error_injection_fops);
-+}
-+
-+void blk_error_injection_exit(struct gendisk *disk)
-+{
-+	error_inject_removeall(disk);
-+}
-diff --git a/block/error-injection.h b/block/error-injection.h
-new file mode 100644
-index 000000000000..9821d773abab
---- /dev/null
-+++ b/block/error-injection.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _BLK_ERROR_INJECTION_H
-+#define _BLK_ERROR_INJECTION_H 1
-+
-+#include <linux/jump_label.h>
-+
-+DECLARE_STATIC_KEY_FALSE(blk_error_injection_enabled);
-+
-+void blk_error_injection_init(struct gendisk *disk);
-+void blk_error_injection_exit(struct gendisk *disk);
-+bool __blk_error_inject(struct bio *bio);
-+static inline bool blk_error_inject(struct bio *bio)
-+{
-+	if (IS_ENABLED(CONFIG_BLK_ERROR_INJECTION) &&
-+	    static_branch_unlikely(&blk_error_injection_enabled) &&
-+	    test_bit(GD_ERROR_INJECT, &bio->bi_bdev->bd_disk->state))
-+		return __blk_error_inject(bio);
-+	return false;
-+}
-+
-+#endif /* _BLK_ERROR_INJECTION_H */
-diff --git a/block/genhd.c b/block/genhd.c
-index 7d6854fd28e9..f84b6a355b57 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1485,6 +1485,10 @@ struct gendisk *__alloc_disk_node(struct request_queue *q, int node_id,
- 	lockdep_init_map(&disk->lockdep_map, "(bio completion)", lkclass, 0);
- #ifdef CONFIG_BLOCK_HOLDER_DEPRECATED
- 	INIT_LIST_HEAD(&disk->slave_bdevs);
-+#endif
-+#ifdef CONFIG_BLK_ERROR_INJECTION
-+	mutex_init(&disk->error_injection_lock);
-+	INIT_LIST_HEAD(&disk->error_injection_list);
- #endif
- 	mutex_init(&disk->rqos_state_mutex);
- 	kobject_init(&disk->queue_kobj, &blk_queue_ktype);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 57e84d59a642..5070851cf924 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -176,6 +176,7 @@ struct gendisk {
- #define GD_SUPPRESS_PART_SCAN		5
- #define GD_OWNS_QUEUE			6
- #define GD_ZONE_APPEND_USED		7
-+#define GD_ERROR_INJECT			8
- 
- 	struct mutex open_mutex;	/* open/close mutex */
- 	unsigned open_partitions;	/* number of open partitions */
-@@ -227,6 +228,11 @@ struct gendisk {
- 	 */
- 	struct blk_independent_access_ranges *ia_ranges;
- 
-+#ifdef CONFIG_BLK_ERROR_INJECTION
-+	struct mutex		error_injection_lock;
-+	struct list_head	error_injection_list;
-+#endif
-+
- 	struct mutex rqos_state_mutex;	/* rqos state change mutex */
- };
- 
--- 
-2.53.0
+I agree. I’ll rework the raw write helpers to use an explicit if/else
+form instead of returning early from the STLR path.
+
+>
+> I still reckon you should do something with the memcpy-to-io routines.
+> A simple option could be to make dgh() a dmb on parts with the erratum?
+> That at least moves the barrier out of the loop.
+
+For the memcpy-to-IO routines, would it be acceptable to address the erratum by
+patching dgh() to a DMB OSH on affected CPUs, as shown below? I’ll also sync
+with the Olympus CPU hardware team to confirm this approach for the v4 patch.
+
+#define dgh()		asm volatile(ALTERNATIVE("hint #6", "dmb osh",	\
+					ARM64_WORKAROUND_DEVICE_STORE_RELEASE) \
+				     : : : "memory")
+
+This keeps the existing memcpy-to-IO store sequences unchanged while placing the
+ordering barrier outside the copy loop as you suggested.
+
+-Shanker
 
