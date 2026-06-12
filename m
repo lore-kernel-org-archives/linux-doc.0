@@ -1,95 +1,168 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012035.outbound.protection.outlook.com [52.101.48.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D4E3DC4B7;
-	Fri, 12 Jun 2026 07:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781249956; cv=none; b=Tv8lu4A2FqjNjIUhCDQ6sD7XE45E95nqkFtckAwtjsDJ3bPL2J/e5PaUmhjSKFr8NMqEgnr2f4m2FmjfeU7HQW1ajcSfahAIIWyyEwCzn8qDjFghelVYHelQk7DM/A1TamabVrXng2sxvmCZFmT301m3vA/F9p3ZZywt/pE1gUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781249956; c=relaxed/simple;
-	bh=8EIgVIlC6JCHjwC8WE7jBSyv3q6eIlfqccBGuSSJMUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AoWx4v6P/gx+R+TmQ3PTYW/c98dqFjP5p/brAbMugkyOTMw2qWAaYks0eVoHNQY0l6D0fCRKgFVe4PgT7VWN+lF40PlaWDmHyOC42K0j+Hc0M0eSwBZFiF8wyPl84n2V2CzPU497i8NdaA0EtOsRG9RHFiMZxu3K62pMkSZfKVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BRCECrHE; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F35396D14;
+	Fri, 12 Jun 2026 07:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781249992; cv=fail; b=JFBFJlhvdlbJKPfy4v9CSDmB1h89OEu/l2DN6TrdZx1Jomj1X3IoeAM1B+3QvnfIE8OLi9Gj/N6AhzcR1ugRq+uGtOiMGy+X9YDdSLR5rxpHBwpuwIJEnfmzYTaZ8amWTJS4V3WoAKnPVQQJ8qCYzrg7dRyDOytxbVi3Jcp9Yr4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781249992; c=relaxed/simple;
+	bh=h5IOnQOE/20l9uNU6217dy5xFeKYoqGhLhcohIm1hrM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=R+WnBjFyAjkJnjfM0NHQWmzrLd/kVK9dJ7MRvh71GIO9EwO1Wh+Sn1nWZmUY7fS7y8dRCh5O+7fIJkpy/TvmvBRA7ICVJ3mjdkIZJGsdrqzfReQlmPuy1p2EmnihBMjJALilXas83+oM4bnbmq/xtQIwKTsZHL16p8J49lTYZtk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KY8vLsWj; arc=fail smtp.client-ip=52.101.48.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BRCECrHE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=aFXH3ZvaCn7gj4KBpQ0PbXpZaSVf5vHbLJnf4+8FvJs=; b=BRCECrHEKbSK7ToV1zkhTBOAoU
-	tyYAD+eXJQnzEJ9srI6eR9w4GMnnZnihCp33HS3mFaA+mKrVYxUehR/AKrqSqTLtmeEkRi3g6ro+a
-	XNuB7gtV0YqbZpPE76ZgfV3JXf8zgdlLPPUtnVDkh30cbfb8bSGvC/PGUZTSZNHVlYuwt0kQQiSCM
-	LDg+R1tYYQWi75de+dpQbRQKOfaGW1jF/ar6FcqgmXb6STYww3PakfL3gGHx50bRo/8ds0DfBavDm
-	YyefOln/xEX7YahrfemWrxz/hY5gnoA8BSX01StzDd4oxjZctE9FvxBjAQn0HGmd9EXS7Qw87JXrM
-	jy2k0bcw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wXwTk-000000068Ie-3n31;
-	Fri, 12 Jun 2026 07:39:01 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 85171300673; Fri, 12 Jun 2026 09:38:58 +0200 (CEST)
-Date: Fri, 12 Jun 2026 09:38:58 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
- function boundaries
-Message-ID: <20260612073858.GS187714@noisy.programming.kicks-ass.net>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
- <20260604084026.GY3126523@noisy.programming.kicks-ass.net>
- <513c68a8-e530-4461-a8e5-36e5d3d5858f@est.tech>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KY8vLsWj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HepqWIyJrsGI2XaxyFIHdHRhkbfsekjmCtAcnu3wqUHsolbBrL0IDVpyqq1njvR1sxSEhwP6vnIP1q37ONXNkdq9QS3XFfrLd/q+KyDMT5YMXGChN7b92DjvA+GnZziq7k3mAtwrTCLk7H1jEfIqXeEONkfOwrKGZnAbXo3KY7XCLpb1iVCLMyYnhUNuGNNM+O6rx4Esm5yNPLqopReLIZGd+hhb1W9fDdO349npKxWgWwqh8tRVvyNZwYXh0NTyy1DQSsIHAvJU9RaJGv2RdZGBZBvzSAwsqF0dARKxEU5vxUIizhBGJyNNMq71G2O5hMclsB4ztMUAiJ9nRKcLmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nJdD6cpTPifGYy7OFaKdV6UfGhCrss85UphO3cSVB/M=;
+ b=UY9t+s/NLAyY7LrPAuLByPXqIKbLPQZVSASnF0smGeqFFQPJ4RiQyfbRTG/mz4K3BUqHdXHrR90mRhLokk4gGU/6z3D4Xquh10qbhnd3LzhqMrMsIEaDhIutiH3RwDm/IOhtWoecBVTD6lXG6z4gljzx5dNa+PTeqAEPbOmLotI7MaUABWAHnnbHtpY0R3TtwzN/n8BBsMK6xC3wsqoK8Vn/wGYZuj91CFRvLQMk8gY7qP90uGwmEET9T21s5aS9NRHG+HHD01K+v39SNapv0oIdmz3U1/8WozyGY1f/EB902N6dq8GG8Ao6k2UFCelBx6+IubhDXf37rlpSBhxlVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nJdD6cpTPifGYy7OFaKdV6UfGhCrss85UphO3cSVB/M=;
+ b=KY8vLsWjOgbnlYAaqT8tKNIRb6Hn97LKxbN6BasrFcfrKykK7ZbC/mQppv7ufXsTGtXIj4a8cHzMMAKF5l+oenwdcDE/XjqbZuDwVWB5xgmjUq+flUx01eV79vpKBokIiis6hmWlvSgUXp4eRi7PrXTWbpPrlUJWIwtaO2BiXjE=
+Received: from DS1PR04CA0006.namprd04.prod.outlook.com (2603:10b6:8:44f::6) by
+ PH0PR10MB5644.namprd10.prod.outlook.com (2603:10b6:510:fb::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.14; Fri, 12 Jun 2026 07:39:48 +0000
+Received: from CY4PEPF0000EE33.namprd05.prod.outlook.com
+ (2603:10b6:8:44f:cafe::4f) by DS1PR04CA0006.outlook.office365.com
+ (2603:10b6:8:44f::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.15 via Frontend Transport; Fri,
+ 12 Jun 2026 07:39:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ CY4PEPF0000EE33.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Fri, 12 Jun 2026 07:39:46 +0000
+Received: from DFLE209.ent.ti.com (10.64.6.67) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 12 Jun
+ 2026 02:39:12 -0500
+Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 12 Jun
+ 2026 02:39:12 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Fri, 12 Jun 2026 02:39:12 -0500
+Received: from [172.24.231.152] (danish-tpc.dhcp.ti.com [172.24.231.152])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65C7d5043591894;
+	Fri, 12 Jun 2026 02:39:05 -0500
+Message-ID: <ab7242c4-0c8f-4199-a9f6-02cd36755a89@ti.com>
+Date: Fri, 12 Jun 2026 13:09:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <513c68a8-e530-4461-a8e5-36e5d3d5858f@est.tech>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 0/3] Add standard stats for HSR/PRP
+To: Andrew Lunn <andrew@lunn.ch>, Felix Maurer <fmaurer@redhat.com>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Roger Quadros
+	<rogerq@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Meghana Malladi
+	<m-malladi@ti.com>, Jacob Keller <jacob.e.keller@intel.com>, David Carlier
+	<devnexen@gmail.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Kevin Hao
+	<haokexin@gmail.com>, Markus Elfring <elfring@users.sourceforge.net>,
+	"Hangbin Liu" <liuhangbin@gmail.com>, Fernando Fernandez Mancera
+	<fmancera@suse.de>, Jan Vaclav <jvaclav@redhat.com>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>, Luka
+ Gejak <luka.gejak@linux.dev>
+References: <20260611095035.852370-1-danishanwar@ti.com>
+ <e8965004-f286-4589-a834-309ccaa1d575@lunn.ch>
+Content-Language: en-US
+From: MD Danish Anwar <danishanwar@ti.com>
+In-Reply-To: <e8965004-f286-4589-a834-309ccaa1d575@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE33:EE_|PH0PR10MB5644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17304a49-e89f-422e-81e3-08dec855c6bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|23010399003|7416014|376014|36860700016|22082099003|18002099003|6133799003|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	/A+HdPp/MHa54fYcWXvKPT0oplIRjJRdzRbiRHqflXzY2HJeVu+3GMrjClLGpCWiRD3PPxNeeEN4w5y9vQuEIW4JTg1YlGnsf5h7RFrtPSrJOja3xmY64P240gaTovXC2WGD2Z8Xx1LiUlYkxeJzW87TrA8bzf5vx/T9msdYZq9eQs0ZoaOhPIM1o7rhPO7tcXf1w5YTlAPCue4Y3u+oDKhUMpLHRo20rBRzpWKJEBL3TI7AAfj7IpowWg8XhuC320R6urh8UQrs4paAW3d+EMOxM5pxLqNl70XiOeCL7+Na7BHa5enFdMsDpqBQbx5Wqx/A9dhoWrgAaAdkPBLAkrRzDrOriFxkYazSg8QHjcSJNekz6apLwqdhvAuuhlERIieEPAqN0FZCGhvGj97LN5UAk+cS8KfogG0ssgngrG9W4q8P1xzUouZ8c0crVf5pXXEhziInDzdhzeBK3u4C76d1n9cDvihqVx+PD+N+XnRkvKRQQ9TQyXO6kck+v/UzZ7gbc7XJoTujb/qsrmjAcvsOZXp3Xl1AMW3t3KzbKc3f/VTRcr+DWcgvktWV1ZltO1W/iSqAhzmfsLPQU/5KRBasUW/568DAes1FnwKRmqsuTQkJwjcPZY2e6aJzjrtHd7jZ3sadSQr0uR4gKqY1alLZsatY9il/axefeZyoHyIV/CuaqSSrekQmh8Bleiwlu+Zxv6RauTgNzvVHmx/mwdK4LlO4V0onuikaxfIEKhc=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(23010399003)(7416014)(376014)(36860700016)(22082099003)(18002099003)(6133799003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	EUeK0mbGZKwMkmttCJqe3GReK3lgVOc+tUZPQzFwtI3VLTfnncS7b5dradjstjR2zlGn5ccxA4RBppJsdsdpN03iGxebEUB01srIAnT3svQc8WRaWNgTnkBr63UP/oikFjTtyHGTq8Z7n4sNGQh7JapLCzpzxK3xtLxNRVlFJbtuWVk801XbFnJSj1Ugd/XjF11C+wJV9jFemAvh6NSK/OHIE3IZPHz2eVsD3vFEMRn13LKOn+pbRWXHJnp2q2pTr1pMBV1kmAdpFUX/AyUL1PmYDFRLijRSraRvqxfospYHqKfugLygroSSLOpduYyFbwCNTxrlw2U5UVXxYwLKvfHqr+8cXGv5pxKl29UYWN+inSO19CZnNk8ARx9OJQ2KB06q89hhiwqTXmoSban8xK2KQ0YpjxshERREyTYWotvyCp5OnYp2INx1H4s+HKuz
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 07:39:46.4244
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17304a49-e89f-422e-81e3-08dec855c6bb
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE33.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5644
 
-On Fri, Jun 12, 2026 at 09:37:40AM +0200, Yunseong Kim wrote:
-> Hi Peter,
-> 
-> > On Wed, Jun 03, 2026 at 07:43:27PM +0200, Yunseong Kim wrote:
-> >> CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL instruments every function in the
-> >> kernel. 
-> > 
-> > Well, I would hope it would very much not instrument noinstr functions.
-> 
-> Thank you for your guidance. I updated the default
-> CONFIG_KCOV_DATAFLOW_NO_INLINE to n.
+Hi Andrew,
 
-That's not really the point. The compiler extension *must* respect
-noinstr. If there it no function attribute to suppress this kcov stuff,
-then its an absolute non-starter.
+On 11/06/26 9:20 pm, Andrew Lunn wrote:
+> On Thu, Jun 11, 2026 at 03:20:32PM +0530, MD Danish Anwar wrote:
+>> Add standard stats for HSR / PRP. This series was initially adding HSR/PRP
+>> related stats for ICSSG driver. Based on maintainers' comments on v2 I am
+>> now adding support to dump standard stats for HSR/PRP.
+>>
+>> The drivers which support offload can populate these standard stats.
+>>
+>> This series only implements offloaded stats. For software-only interfaces
+>> Felix Maurer had said he will do it later [1]
+> 
+> That is ideally the wrong way around. Offloading it used to accelerate
+> what Linux can already do in software. Statistics should be part of
+> this, you first define software statistics, and then get the hardware
+> to report those.
+
+On v2 of the series Felix commented saying I should go ahead with the
+hardware stats first and he can later implement for software only
+interfaces [1]. This is the reason I went ahead with this. Initially
+this series was not standardizing the stats of HSR/PPR interfaces, it
+was only meant for dumping those stats for ICSSG via ethtool -S.
+
+Felix and Jakub commented saying I should standardize these stats.
+
+Hi Felix, When can you implement the same for software only interfaces?
+If we can't add support for hardware interfaces before software only
+interfaces, then what should be the next steps?
+
+[1]
+https://lore.kernel.org/all/ag87pBZfOyccPZTc@thinkpad/#:~:text=(no%20need%20to%20implement%20it%20for%20the%20software%2Donly%20interfaces%0Ain%20this%20patch%20series%2C%20I%20can%20do%20that%20afterwards%20as%20well)
+
+> 
+> So please get the software statistics merged first.
+> 
+>    Andrew
+
+-- 
+Thanks and Regards,
+Danish
+
