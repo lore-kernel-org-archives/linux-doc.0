@@ -1,80 +1,101 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8120937996C;
-	Fri, 12 Jun 2026 19:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274A72C032E
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781292616; cv=none; b=Yi0XdStkBW5oQ7uXVfNPywNuAXRSTckl+6OMOIDExFFUrRITN7ShCoIUyvECS+kQAojFqHUpLSxl4Cs9tZgBAt7QP63IPhnUqZ5V2mqYF6qHCxKU+HF2jok7Gmf8ho+vHO218ToB6mwnQwmauhxlEF2E75o3Utm5MSYzUlUugGg=
+	t=1781292860; cv=none; b=LCleJpIuZSpS8lUjaNAOFhn5spoMU5NKLd7ZTrxDHkLo1+3eAZbB5orjVA2BuaVtf5Nn4JBbSwP7DUxNohwQQSzo55vbNVKjGnW35Dlc6HjScpsE91bv3WN1Fn9F1L7rWyRqLE5RRaaCCzIxOhwmRJ2t6olnrNoOWRQmSysFaCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781292616; c=relaxed/simple;
-	bh=0SDtyoVSJyItDBbD4B5Mp2m2e2H6XhoWcDWodq9BhA8=;
+	s=arc-20240116; t=1781292860; c=relaxed/simple;
+	bh=GHwWXb66w9j9VHS79WBsu2PC0wvKhAf+OQwXA00oUsU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Rj4avbF0LXahwIHbEMIKGHvgy8Z7hGADYbzUrmhMbkOM1+fmTlhWRwc0sgVynJjT6qH7dRs0KKxPqP7x7ueFZrcNN0cyzjWhQOvkiRnKbjLw4do5XYS/zbUl8Bh9UkDkhcosZUkQqVHPXlwzI+PbmKQa4FEU1uo1ewyjWq6OIoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ayGp/6G7; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=DyEbdBTNSKmJikbDy9lmmD1X8a8GZFRLrHdWVl085m4e/c0goQTvuDOKHUPHe9JeFc0qzeZjkm8P7vaMJ9S0NEnZAnpIDvOMaN9P5L+HhOkXOX5p0DhA/CyjVS+HZoLdR6U3uSsoG2Zib7SYpB/FkR75mrXCJpsKtyyhD5XDVcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=V228jfR/; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ayGp/6G7"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C93B940430
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="V228jfR/"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7499040430
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1781292614; bh=U8v5VnyHUfQsush5/KvVWjDOODuQ0xY3gHngR/hSAvA=;
+	t=1781292858; bh=+jrRHXPPn/G5yx22VWfBGHFMZGcTrU0+4kulvsrKkJM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ayGp/6G77F6ugff3ebd16kwMpGKHyTOE/egwpj7LWnEQ/KXgFTNamzospR/d1yVlb
-	 v2XrlXMkiA07JJuKB9OhHLbMlL4SXB3MHkMuDyIQkz650o5LAhyXRUp1hj4dOpsWm3
-	 76cN1YogUmfsY583tmihxDf56KBQroNQ6vzy4lTSws22xXEPooVXN6J4sw1WuQsp2b
-	 1iad0rljqW+LRKLWQYkXl9ub6OFrvpE/vVFdmD3e68HTb5VUb4X559FQBOk0+vSsom
-	 v7Z0C1AIPeP/Q3idrTCDk4eHrUPdMjqLmZ5YXm+/zX7hHcoNr8UPSf1YdlgFDZOr9T
-	 FFknQpVrTU6wQ==
+	b=V228jfR/s1z9KSaw8MSvkcG2egSYhBI5B4POYvEQu0EoQyQmSeLKMI8/12Oyxxrom
+	 tcG59WHIn43JIF7rn7L9oFZ7TjpWOZ3ZloS8Jzlk3VjGA2d3fzjr8x5Vot74PLffDP
+	 QOY71Nn9n2IJImx/iepU7choXUnadCq2fN6QVdjzW6SPyXLu8uDn6yBD2OxMzByOFB
+	 Vp74hymfAh+nL38NWxg4mnXAqfGrC3mb+YmRkBUirFBr4JQ5vmX8KfADjEuEL6sekJ
+	 9Uli+MZCEQ6RL2JH3qssrYMyu/q+wRMcNENz48pmZLnXotDeEANgXtWlatI1KBhz3r
+	 0sdoS1v0dRgIA==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C93B940430;
-	Fri, 12 Jun 2026 19:30:14 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7499040430;
+	Fri, 12 Jun 2026 19:34:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH] Documentation: index.rst: add entry of other sub-directory
-In-Reply-To: <20260603080430.344391-2-manuelebner@mailbox.org>
-References: <20260603080430.344391-2-manuelebner@mailbox.org>
-Date: Fri, 12 Jun 2026 13:30:13 -0600
-Message-ID: <87pl1v5zga.fsf@trenco.lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, Dan Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] kdoc: xforms: ignore special static/inline macros
+In-Reply-To: <20260602031214.2817411-1-rdunlap@infradead.org>
+References: <20260602031214.2817411-1-rdunlap@infradead.org>
+Date: Fri, 12 Jun 2026 13:34:17 -0600
+Message-ID: <87ldcj5z9i.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> add reference to scheduler/sched-rt-group.rst
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c contains 7 (for
+> now) functions that use STATIC_IFN_KUNIT or INLINE_IFN_KUNIT macros for
+> function qualifiers (static or not, inline or not).
 >
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> These cause parse warnings from kernel-doc:
+> Invalid C declaration: Expected identifier in nested name, got keyword:
+>   struct [error at 29]
+> STATIC_IFN_KUNIT const struct drm_color_lut * __extract_blob_lut (const
+>   struct drm_property_blob *blob, uint32_t *size)
+>
+> Handle these in kernel-doc to prevent multiple warnings.
+>
+> Fixes: 647d1fd04652 ("drm/amd/display: Add KUnit test for color helpers")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->  Documentation/core-api/real-time/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Alex Hung <alex.hung@amd.com>
+> Cc: Ivan Lipski <ivan.lipski@amd.com>
+> Cc: Dan Wheeler <daniel.wheeler@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
 >
-> diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
-> index f08d2395a22c..661b419e7f8f 100644
-> --- a/Documentation/core-api/real-time/index.rst
-> +++ b/Documentation/core-api/real-time/index.rst
-> @@ -15,3 +15,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
->     differences
->     hardware
->     architecture-porting
-> +   Real-Time group scheduling <../../scheduler/sched-rt-group>
+>  tools/lib/python/kdoc/xforms_lists.py |    2 ++
+>  1 file changed, 2 insertions(+)
+>
+> --- linux-next-20260601.orig/tools/lib/python/kdoc/xforms_lists.py
+> +++ linux-next-20260601/tools/lib/python/kdoc/xforms_lists.py
+> @@ -104,6 +104,8 @@ class CTransforms:
+>          (CMatch("__context_unsafe"), ""),
+>          (CMatch("__attribute_const__"), ""),
+>          (CMatch("__attribute__"), ""),
+> +        (CMatch("STATIC_IFN_KUNIT"), ""),
+> +        (CMatch("INLINE_IFN_KUNIT"), ""),
 
-This file already appears in the toctree in
-Documentation/scheduler/index.rst; adding it elsewhere can create build
-problems.  If you really want a link here, the way to do it is to add a
-cross reference instead.
+So I can't get this one to apply; which tree did you patch here?
+
+Thanks,
 
 jon
