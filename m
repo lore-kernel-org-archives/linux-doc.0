@@ -1,239 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F3D382392;
-	Fri, 12 Jun 2026 10:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E7637DAD6
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 10:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781261041; cv=none; b=ROMYlv8NP7kbdmalhUgnnZXFwGJG4SpRuOk91xuX6vqigTc9fhsaq1Ot+JWd2SMgt5P6Ii0TqsBkHBalr7VP83JrZCU7fTw9KTO5K2REc7SId7In9TTZDWeiOhUUqYTMVDyUQTA5+iEh6NwKhUWbi9qkz7y1QSfib1sCVeqUA6E=
+	t=1781261236; cv=none; b=EPDdabEerB9ki1sGt/hLQ1tdR83AIB+Lz5wD787oqp/0d3+LdUwRTVJUxh2ekcUIwHRhDC7raYmPnS02xA75KSFPX5nr/PmgWXNUgzyad6q5LOYCvbS+B9TjvoGj3xB9lmoP0rO+xec1lPG+lbdsmcwNfakuGszTRXpCb1PQVUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781261041; c=relaxed/simple;
-	bh=QIwtv6XbCJdtzrWDSo1RwW5JsW31id8AtVf9GPkT/9Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gTCQSgBYIi6zOCCo50VqjU2AlZ7XGRQ24NXqfiB/sXS5VkRvFLrZfTbd8A/14UWWcSHjp5Z0LknIw9xRtpN/TSOpr6lu3rnkEBF1kUxIOqPs3ww23ZBOINBSl07uf9XqQgtL8FQwY+S6z0pyDR/aDmkNcKKWIC+wiRIacGyexzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTS1pZp+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781261236; c=relaxed/simple;
+	bh=klfiiHVrid71PPzvcY6gYtk5jDnKIjwVEJeiVajF+y0=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=Vzfyj1SpVE5JqFYClPuwkuTYTGCMaNMAtAk0i+MmB0XOcvmgGojhGCrZ5Z292Omv0QZOjzSMgIPW8ABUnNzL1F0XGxqoyRMaRuTJQrWIliYP3J2GtvJgHShtKsnybpRSfgFmX7kgP86XCzFMuxogS62Hgztnemk6ffGBG1Bw0b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S/IWrQnK; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTS1pZp+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4871F00A3A;
-	Fri, 12 Jun 2026 10:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781261039;
-	bh=jQbMfs73vXY/1+2J2uFtoNyupZeXRCVPTMVFi6cnBn0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=MTS1pZp+MgtFarJjoaODYtqJTD6oynJhsyOMuc+MlcUGcmNU+M5S7ZybnIg+MOewt
-	 U8HZ2sxOv5kBe035B/q574gj3t2fnqqEVegQdPSmXnqOMjBw1bx2LEVTCXsxCg9BCV
-	 XV4r1Y4me1T8E9H492GZxHXDJO+xOmmW5YXsmGQHg5aN/fQgRFClzJGXzpCFVnmWDW
-	 CmlGrQiR3qFdkp9iLmTGISabOwkGbblLhQt2QI2CqYSRxqAm2wNpDzTYU6r5ob+HIX
-	 2p1H6uecUzD3WaORSYsCPqw1agz24LpYSgDJ7qRJTFHcv0enzoEAkjPHmvWztbgImt
-	 k23jfN2US+GZQ==
-Message-ID: <cc490279-9a28-4d94-b66a-d529af66cb20@kernel.org>
-Date: Fri, 12 Jun 2026 12:43:55 +0200
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S/IWrQnK"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9158629a220so97107585a.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 03:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1781261233; x=1781866033; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4YX03BK2qmjHf2a7Mv9URt0qeSBupGSFb+1E3T4/eV8=;
+        b=S/IWrQnKuZD3jseVTxrVbQGsgBXfYl5JEkycf9tY64QFDmCN9IKuEGW7aHCltOlR/p
+         jQuzA8bAcOo864Te0CTac4QShc3Aysa5NwrkB8y6tPQO1fNsDzAuyNTUlLFbb7VUtBQX
+         cm35JSwMRqACP02Yu6LlrIaYbbJXChnGkZ7ujXyPBEoeHmhK26TWmfa7Fh40od/o10JG
+         g4m7pXV9dO10QAor+WOdl07Q2ycGctIOGl5rbc/LpqkEiEHPtX/Lrn3MMt5OrZxQ196y
+         9EtkvSj3l+hdzdA3xItKOdz/rASeglOSwhJZqOjGd/p/ZlTjgI4+lIqD4iG9fqw4/usF
+         aaaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781261233; x=1781866033;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4YX03BK2qmjHf2a7Mv9URt0qeSBupGSFb+1E3T4/eV8=;
+        b=WTIcJ4sxeDLnLiEBV+Bnw58K0J876qxxMBTIecWTBkzZZiolhCh7f4cUtdFAx2UDur
+         6dLwrH2yw7ViKZNP3353vdLXaZdy6F1V4FGztGLsu/VrEsLGFuc1KYeRUTB1YJZGtOrW
+         TGkhhV0Hgb+2aX/z8AKn+OMaHGMcKC0+IslR2F/k5o+sVJ+Ebp+6oPOKBpdVqMTdPgM9
+         r8i7hJ8GVidVm2lQcNSd1ZhHbB+zULrALN0EpJKFstrF449S51FYlCdhlE4gFhcm1zIx
+         wkXTe3FMxDK/Q+UcyW6AgcGGku1TUzti+HmmRfRA16nXlRQ0HllP4921ZzV4uGcqTbcp
+         QNPA==
+X-Forwarded-Encrypted: i=1; AFNElJ+3HX8kOwLDLaUp2jnlwES7s6LhoqO+83NXuGRGo+r20dS+LMRPlq4vlJmJDq75yGs+OjM1XQ1ac8k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzb74C1YmKVJjd17WLdj30t7GUkwZKnDl08dWX3QF4OZTY9p4+Q
+	2HN0Kco3MEoAqnUFRYRxArNcWWXsD9x/goQhYfeRzqx9+f3wYdbr9t0X+B8kTpJ4M2k=
+X-Gm-Gg: Acq92OGrdSRHpEmwuxpK2ZlJgVtn1OqwQwR0jPUzw4mtRhZHYy+u53RkLh26exnV+nL
+	UuU2Wym7uvD9l0lCa5LnLE39QcwUBgTbD0vdNBlWH2I3ilCVXG7vbwDsN/vG2V9ELRPB/dBnBG4
+	mgDO4XoBsHz3ei8TAwAOXq01HOLEpJQo9c0jxJTw/OSlACK9+LFJnLjLyjI8zQsk0gSTkkCD5Gx
+	GSeo8zFo9j3AuG438/wQLTx+L2Zw7mP76aOrRvd4u4HNzg28vQBw0+0dFEhY2/K+VEUOasz5Vkk
+	lVP4VMQDTHNrlA9wpKqvWWg86z6D02+e7x5lIgK9l4uwgRWnP031Wx2e2Z8x+81TAi/v+nHfM75
+	KHboweqJCURRkTQdaL8uIULb8uwtqgQNycNNnkG7tf6ZNpUSsO9HoiDtKpB6B4h2IHJbPw7eN5V
+	pRyN3sXvm20T5Dv6ydc1dlh4NazXmfaZRw8xL2kbY9iPSArD8iYh1vY4RrSkBl
+X-Received: by 2002:a05:620a:2894:b0:915:d5cd:8ce5 with SMTP id af79cd13be357-9161bb00960mr256901885a.20.1781261232925;
+        Fri, 12 Jun 2026 03:47:12 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30457764esm19942056d6.26.2026.06.12.03.47.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 03:47:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIIHYzXSBtbS9tZW1wb29sOiBVbnRhbmds?=
- =?UTF-8?Q?e_CONFIG=5FSLUB=5FDEBUG=5FON_abuse_and_switch_to_static_key?=
-Content-Language: en-US
-To: "Li,Rongqing" <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Harry Yoo <harry@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
-References: <20260604110318.2089-1-lirongqing@baidu.com>
- <d06d13c4aebe44a2abca4aee0083644f@baidu.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <d06d13c4aebe44a2abca4aee0083644f@baidu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the
+ PCI core
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ David Matlack <dmatlack@google.com>, kexec@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Parav Pandit <parav@nvidia.com>, Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <aiutNINqxhtlm2Dt@kernel.org>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-2-dmatlack@google.com>
+ <178124130274.908199.14827357870284807134.b4-review@b4>
+ <aiutNINqxhtlm2Dt@kernel.org>
+Date: Fri, 12 Jun 2026 10:47:10 +0000
+Message-Id: <178126123047.908199.12042730612990730743.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=862;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=klfiiHVrid71PPzvcY6gYtk5jDnKIjwVEJeiVajF+y0=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqK+OvGft7vBLOTTPKIur68ZEWcTau1cnkC3skC
+ zr1NiV+qhmJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCaivjrwAKCRC7dyhM23N6
+ 3gyZEACjBtejaa5EWZ+XlEJc8O4GIePljN4Z+SFApZu13G3wo00ycXVVPBN6V5+aetDEBlFZrNY
+ xw5OagriLkgPclJeE/mSxyOeT440nRV0zQFEVcf8vhFBQLQKCxAyB4642/MrXNo3B/PkoAoh0Me
+ 5aOMfam+XcBbudOzksGfJ7ZLSORV98BsXPrQ2Gsb6dTXgHFl//fyMWjL5VR6c1NBooV7xs5ZAO0
+ OyLNZhDXi7tnur55gyTJ/0gH3Of9YOHVcrWYvVldEyhPy8lii0HEPojuUI5xhRYj+yZLO4kKpik
+ FxHBtPVm01/VoKz953HN8d8gCvKq8fV/OXil9B8twhGfhtiAy9trrIboh49Hu9Y6rxKp8OMT3Dd
+ YNjvpceH8opcMcU/iVBCcdU9MQUUtHcImaw1YvucE4iPfFH+ReeBRJfJ7KWFzAQbqwPUctLC4Je
+ OSAgwwcEBo0QmBxa+F8FNfgRqKBMV8G9vlEkD5ZmjiCsmA74UHfOgL89LOWmLzxYFnubGLMUU/2
+ 25SbVIJ/Zdyyjp71SESgIGRiKKuS3NfU7976kXg7Jclio/CVpIz9cwvxf3WMC0ZKYqgUjX84syz
+ 6JjnY7o6rWtYmf1Cous+o64R7Pxmwz2jyxzHbudSfK2qe8Lcx3aT1oGWKJA/9LSyKcHdQv9dcrd
+ zelYBz9lnBEqGvQ==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On 6/12/26 12:12, Li,Rongqing wrote:
->> 主题: [PATCH v3] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse
->> and switch to static key
->> 
->> From: Li RongQing <lirongqing@baidu.com>
->> 
->> The mempool subsystem historically wrapped its debugging logic inside an
->> merely defines compile-time defaults for SLUB and caused two flaws:
->> 
->> 1. On production kernels where CONFIG_SLUB_DEBUG=y but
->>    CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely
->> compiled out
->>    at compile time.
->> 2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed
->> active
->>    even if a user explicitly disabled slub debugging at boot time.
->> 
->> Clean up this mess by removing the #ifdef and switching to a runtime static
->> key (mempool_debug_enabled), allowing mempool debugging to be toggled
->> cleanly via its own boot parameter.
->> 
-> Ping 
+On 2026-06-12 09:54:44+03:00, Mike Rapoport wrote:
+> On Fri, Jun 12, 2026 at 05:15:02AM +0000, Pasha Tatashin wrote:
 > 
-> Thanks
+> > On Fri, 22 May 2026 20:23:59 +0000, David Matlack <dmatlack@google.com> wrote:
+> > 
+> > Please add Pratyush, Mike, and myself so we are notified directly of 
+> > incoming patches, the same as with other areas where the liveupdate/ 
+> > tree is specified.
+> 
+> Or we can add PCI liveupdate files to LIVEUPDATE entry.
 
-Sorry, missed this. Since it's just before merge window and it's not
-critical, will queue it after merge window for 7.3. Thanks!
+That will not work, as we cannot serve as maintainers for 
+PCI/VFIO/IOMMU/KVM, etc. David Matlack will be the maintainer for the 
+PCI components, and we will accept patches once they have been approved 
+by him.
 
-> [Li,Rongqing] 
-> 
-> 
-> 
->> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->> Signed-off-by: Li RongQing <lirongqing@baidu.com>
->> Cc: Vlastimil Babka <vbabka@kernel.org>
->> Cc: Harry Yoo <harry@kernel.org>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Hao Li <hao.li@linux.dev>
->> Cc: Christoph Lameter <cl@gentwo.org>
->> Cc: David Rientjes <rientjes@google.com>
->> Cc: Roman Gushchin <roman.gushchin@linux.dev>
->> Cc: Matthew Wilcox <willy@infradead.org>
->> Cc: Usama Arif <usama.arif@linux.dev>
->> ---
->> Diff with v2: Move the check out of check_element/poison_element Diff with
->> v1: Rewrite commit message, change early_param to __setup
->> 
->>  Documentation/admin-guide/kernel-parameters.txt |  5 ++++
->>  mm/mempool.c                                    | 35
->> +++++++++++++++++--------
->>  2 files changed, 29 insertions(+), 11 deletions(-)
->> 
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt
->> b/Documentation/admin-guide/kernel-parameters.txt
->> index 642659b..89b5994 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -3980,6 +3980,11 @@ Kernel parameters
->>  			Note that even when enabled, there are a few cases where
->>  			the feature is not effective.
->> 
->> +	mempool_debug	[MM]
->> +			Enable mempool debugging. This enables element
->> +			poison checking when freeing elements back to the
->> +			pool. Useful for debugging mempool corruption.
->> +
->>  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
->>  			Format: <integer>
->>  			default : 0 <disable>
->> diff --git a/mm/mempool.c b/mm/mempool.c index db23e0e..dabe05c
->> 100644
->> --- a/mm/mempool.c
->> +++ b/mm/mempool.c
->> @@ -16,11 +16,28 @@
->>  #include <linux/export.h>
->>  #include <linux/mempool.h>
->>  #include <linux/writeback.h>
->> +#include <linux/static_key.h>
->> +#include <linux/init.h>
->>  #include "slab.h"
->> 
->>  static DECLARE_FAULT_ATTR(fail_mempool_alloc);
->>  static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
->> 
->> +/*
->> + * Debugging support for mempool using static key.
->> + *
->> + * This allows enabling mempool debug at boot time via:
->> + *   mempool_debug
->> + */
->> +static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
->> +
->> +static int __init mempool_debug_setup(char *str) {
->> +	static_branch_enable(&mempool_debug_enabled);
->> +	return 1;
->> +}
->> +__setup("mempool_debug", mempool_debug_setup);
->> +
->>  static int __init mempool_faul_inject_init(void)  {
->>  	int error;
->> @@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)  }
->> late_initcall(mempool_faul_inject_init);
->> 
->> -#ifdef CONFIG_SLUB_DEBUG_ON
->>  static void poison_error(struct mempool *pool, void *element, size_t size,
->>  			 size_t byte)
->>  {
->> @@ -140,14 +156,6 @@ static void poison_element(struct mempool *pool,
->> void *element)  #endif
->>  	}
->>  }
->> -#else /* CONFIG_SLUB_DEBUG_ON */
->> -static inline void check_element(struct mempool *pool, void *element) -{ -}
->> -static inline void poison_element(struct mempool *pool, void *element) -{ -}
->> -#endif /* CONFIG_SLUB_DEBUG_ON */
->> 
->>  static __always_inline bool kasan_poison_element(struct mempool *pool,
->>  		void *element)
->> @@ -175,7 +183,10 @@ static void kasan_unpoison_element(struct
->> mempool *pool, void *element)  static __always_inline void
->> add_element(struct mempool *pool, void *element)  {
->>  	BUG_ON(pool->min_nr != 0 && pool->curr_nr >= pool->min_nr);
->> -	poison_element(pool, element);
->> +
->> +	if (static_branch_unlikely(&mempool_debug_enabled))
->> +		poison_element(pool, element);
->> +
->>  	if (kasan_poison_element(pool, element))
->>  		pool->elements[pool->curr_nr++] = element;  } @@ -186,7 +197,9
->> @@ static void *remove_element(struct mempool *pool)
->> 
->>  	BUG_ON(pool->curr_nr < 0);
->>  	kasan_unpoison_element(pool, element);
->> -	check_element(pool, element);
->> +
->> +	if (static_branch_unlikely(&mempool_debug_enabled))
->> +		check_element(pool, element);
->>  	return element;
->>  }
->> 
->> --
->> 2.9.4
-> 
+The simplification we could do is to create an email alias 
+for the live-update tree maintainers. This would allow us to use a 
+single entry instead of listing all three of us individually.
 
