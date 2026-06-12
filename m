@@ -1,51 +1,52 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013040.outbound.protection.outlook.com [40.93.196.40])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010010.outbound.protection.outlook.com [52.101.46.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C52C3A75B8;
-	Fri, 12 Jun 2026 16:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98FE3815FB;
+	Fri, 12 Jun 2026 17:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781283373; cv=fail; b=WZJh/nUpORwN60HBAUfCsUsLqHaYPpWyzZ1pJSsNSFtWR+8dc112OHqyv2MAmuvbmHW6DnzW5FTp8nykNUvL6yXaAQ670vS8lWhmyfpDvMm2fWIT29BKzaGrKYfBv4WIrtdiWS3KRgGliLhBvPKa7fA5wfSlTEdqICBNvc3Bkm0=
+	t=1781283628; cv=fail; b=fJMIbVFz7HftK0wIfx2HD7sWE/1w5H6MOyEeQr7byT8ocW9vLqgJNNlUGkcfLmYf0SQZf/EQX7r41/nIjP9t9ooKBjkk2TqOqI2osslTLiqL3fF0DRwtJNjeoj8dh9nopbyTRhXL5BR1pQu4h1qdnQvwFnBtVbRaG9Znxo/Qeo4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781283373; c=relaxed/simple;
-	bh=0/s/c98b5XUMYNHwGFjWIF1X7zPhbtQI87HRoviXkAw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Sw9EB1JnGXHjA49zepTwzgGWLR9zV44kfEu4gL7w5gdMBHnxe6qqjC/+E9q/+ZZBdIkctnJGLmO1PjZIYhD/+yRt946jFkzgnkC5/cIkTXHdVWXjX3D50WO9PvGEhFhYkoM6yfrjXhSlr0eCZJvHTqTdJkM1ynle6qUg3NWkw1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zZ8QbkmA; arc=fail smtp.client-ip=40.93.196.40
+	s=arc-20240116; t=1781283628; c=relaxed/simple;
+	bh=MMK/g8rNZ28ip3pG8E1lQhL+z0dFeEOnsLBYDNr3Gk8=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ls8gqa9QALHMSwyiMexhetQgwQgi8odA84SKwNNvfptrNS8nk+DjKu2GfjRoPDwXt0QCoaSYi+2w1NobV7j8dQdTOxYhlLaXW+0TnJ5ek7jG1ZZVO0qeP5NZsMq8pAmf9OJDkPe4q8BsgupMssr/c6IE4wBIZAknKn/kfGxYiws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EcFqm7mD; arc=fail smtp.client-ip=52.101.46.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zZ8QbkmA"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EcFqm7mD"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lcFaJ9tZy9hvrycs7h9JCUa7g7Yy2M3phdiAGb3mjVRjG6Cd3T8bp6Kv8UiQ/s6XFTpcR6zu7/c/A2+n6ynquvnd3wpiJcQwqaLDC51Yw3gXosJWn4giHvfzUP5yjbaObGhMmEtqIrQlpNQekh92/mOblEm83pkexSxc4sdQ4Ko8A5zofFxH+mwqNaMcKRNGrL+pWSq0CAcJ5/jgFKaYCYxq3V+grLA8w8UltLr1pMAjqPl+68fMWj7wQRFKRurb7AexRjwSpk7cs6D7PjJFiDjyQX9HPKdt46vBhZWJJwrXILmkoB1aEn5w1Hs2sdsspWAwnNyaaiLYedDyDbXPdw==
+ b=gJNcP7veR5mFfhi6vratBO+e6X2P/Nagg+oluJa4DfC7NN+AbyQR7VIsZ1AEt2koa8cmm4uh9ptGp6Z7JeQVfYpAj0xmcVd9IWRdi0q2pjWWvvGO+vmQW+ZZurpLbUVIz3SWxBbq56WDjKfwTcI9LpQ09SAR6L2ku2rigC6vAY+t3SL1CSAi9Rbj9XnmSo5HY4ypoOVSb9qcaOsE6U2m35iM2SAYPjDdjyzF1FX/E/Fp0ZrcUtJ+iyX3NM0y3PasXp1GdtOu24jk5M9mjU9gKAs7ae8N5FIH8facyqzOmqBiO1lATBL+mW3T58IsrQ7ciDDCvTx0Y8kq2+c0jCEH4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PG1cN47k9t7ElZJiR557+yXRott7kA1ySzlqL1vsEjY=;
- b=bJ0g57Uu3iFhMkeUTB8jvJSw9o+TblT5+AyJxiK2Bve1wCeAoxnkR4OqRbE4qMhqpPmOuBA/TAbc5RS5VqaiDqn7rJA4v+eGeNyJeCJvdG9YuOFvKv3OpboEfrODRHWxl9qndnw+1JKhv9Vbt4YXtwjJcmvxKwNbfNlitWI14fPzFFbismZ6+rU2BYalpuHcKH+uw3Jh4VGXITPih1IX82CLzcsBt8Ga8jB6Bwh9M7fQ3NVUeXFyvD+U2BkyF7+YDJebpM/8AN2vLaFjIpsQcYbpgqvxkcDb8hY2o+7HIe2cGt4IVWG4OuFdplAqpXHNfyJw5FxV1GGWlfj6/zM4Xg==
+ bh=wO8raafiy3bDxJOizswybXolxCUgZqHi2DiqFH+q7jY=;
+ b=e4X2s/HxHY2Uc579LhJxPte29O4tP27qK5nW6uEjX9NmsMfwTN9vWYGk+6uIdhRZjCq6Kt9+hz6CF5RtXc8Qk4/07f89aF1wYs1pNRNnm2wZ5AZHTZCZ1h9wAnzKX++ZoY6u6z8l3bZv1FecVoOYE2tlWsD4fuM/5MUODfLy0oF1rCrSWRb28PtOPjqltEQ3i3McNwRX2GqWeW6WJpPEB2AiC3tmMJP6awUA229pglo3I+kveV39PtYgTeGoXa7dMOqyx2Cm/bYBe5Rs6js7dE0N71zr+35dh+jdubznabi/e5yr52LlyvSB2RlTE4FD1d8nyrdKRrpe7cRTJyDURA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PG1cN47k9t7ElZJiR557+yXRott7kA1ySzlqL1vsEjY=;
- b=zZ8QbkmA1OsDPVPqYNu7prIBFQeMO7ysvM96Cd4WscpXAsMQPo3UpzbyEYytWSD/q/vsR1fneIEqGYU7wpHE1kMEzB/ot5gtunGMbuG6OHQEgpSm3CH93i7HnJ2trsa7ruoyS5dPOtO4fnf7QX9aMypqiw0h9cF/A2MhiZiwsak=
+ bh=wO8raafiy3bDxJOizswybXolxCUgZqHi2DiqFH+q7jY=;
+ b=EcFqm7mDK8Wy01DE09gQmafV0zx0WYx0iDAt6yVzNbSkBLKCpGReR/AugQwlJ0J9dT7C46G4eCuAdgfsvmwPpRLO7+5VO56wu8Z8wMya5UeKck/uv/9HvlhjUc0OecK9htpm8cz5DebkOYnWUwbPdVPpMdkJfXEVCSfbw7OOwIA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by LV5PR12MB9828.namprd12.prod.outlook.com (2603:10b6:408:304::19) with
+ by SN7PR12MB6887.namprd12.prod.outlook.com (2603:10b6:806:261::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.15; Fri, 12 Jun
- 2026 16:56:08 +0000
+ 2026 17:00:20 +0000
 Received: from BL1PR12MB5320.namprd12.prod.outlook.com
  ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
  ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0113.014; Fri, 12 Jun 2026
- 16:56:08 +0000
-Message-ID: <a737ae9e-9cbc-46bb-b565-0b888e69f0ea@amd.com>
-Date: Fri, 12 Jun 2026 11:56:04 -0500
+ 17:00:20 +0000
+Message-ID: <bb603c09-cd23-4fd4-8a50-e7f9f9648a5e@amd.com>
+Date: Fri, 12 Jun 2026 12:00:16 -0500
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 01/12] x86/resctrl: Support Privilege-Level Zero
  Association (PLZA)
+From: "Moger, Babu" <bmoger@amd.com>
 To: Reinette Chatre <reinette.chatre@intel.com>,
  Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
  Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
@@ -63,13 +64,13 @@ Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
 References: <cover.1777591496.git.babu.moger@amd.com>
  <f59c7f5404f29b2901af68d8032ee615b7f0efea.1777591496.git.babu.moger@amd.com>
  <081b5cd6-37a3-4aaf-862b-b41e9536bb66@intel.com>
+ <a737ae9e-9cbc-46bb-b565-0b888e69f0ea@amd.com>
 Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <081b5cd6-37a3-4aaf-862b-b41e9536bb66@intel.com>
+In-Reply-To: <a737ae9e-9cbc-46bb-b565-0b888e69f0ea@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH5PR04CA0016.namprd04.prod.outlook.com
- (2603:10b6:610:1f4::24) To BL1PR12MB5320.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN7PR04CA0032.namprd04.prod.outlook.com
+ (2603:10b6:806:120::7) To BL1PR12MB5320.namprd12.prod.outlook.com
  (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -78,197 +79,125 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|LV5PR12MB9828:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4c8491c-903b-4ada-a742-08dec8a37feb
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SN7PR12MB6887:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e3f1529-5e4d-4605-2c98-08dec8a4163a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|23010399003|376014|366016|4143699003|3023799007|56012099006|11063799006|22082099003|18002099003|13003099007;
+	BCL:0;ARA:13230040|1800799024|7416014|23010399003|376014|366016|4143699003|56012099006|11063799006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	RXaPWRqUvWRlmJRO7ysOnWJblXcXdBKVnf9d1cQWUe8NnoczTiODNredAS9ZODAeRLRSzrB9zgTO6DDTDHKMy3Eb7o2z0dhJ6/Y1NdGiDT7goEmaRkRLc44LNyuG49pYD9Os2EgsZCG6r4cC0nwRT8VWwXSheoP4gLUs9cITj9eKzHGedFw5D4QCo+xAalISnJ5Jdez4//SzV5OJxALrwhQI6SlP2Pw+8kOLUqrlRLKs5cy942QOciLfz47Z9hOBmL4LKNqSRMbkm3HPC4Tg3shh496N/QZqJbgX6G3ZkFTIpEQdxoVm3uNF4mGpDYyOWk9DYZLOcO1IIQDvbQmuZ7CTiz5bSEI/50L9yKoj787dtfC4yY8dTR0/7rBJKqlRCJYsaW6TsgEvryftSwDYIeVLfMDZJ2gV3LHJAjBnNCTYDqRwLbVCLvh80cnR/k8DvP8GMmF3OX2t3EzdlPoBxsC/LIuShScuqfehO63UsLtsd713Et8V0kyxNCXiVc6+sn54+7Ggjyu/Yndt9cQVAv9ZDpZCj+IIjwm4SPRQXOaRRSZrNEwqwWSRO4hgf2nFfGmV4Zy55INxN4iOE07aotwnxM/rO5lo8+lGkZBfQUyScvWARtr40omvMh16d/RuS8g24xau89M4UxSQFBo5CyCerlHaeFJavSk463JTco9EeR9FfDAkwYqvqeLQfa9i0oWBcukq5ciM3SM/r+mOSg==
+	i5z26j0z87EVXDIFAyDQ1VJ8csZ58tJ1NMdA2aOhWyFD4+Z/EizZctO6ZlYzEHjTfVelnVajpdSW7JF7qIWLglbuN1Z7SxxoIQ71XWi8fvP2v0sDnA1LJR3rdzQU6FI/vLEBSren95QnCKv0DDuJz21WoMicqEFOM70uX3EzPNkESl1naW8GFQ5rJnsBHei2GH6jD1aJJuMzBPUT1w7a+9A1D5D1xzBVQyT1U9czI0dTrJ5s7iNWYBl7u28nur6iQes70fYIE82jLTaibTlIj47gsibMHPZcraFU1UuxavUnJAwjxAtnDGa+Z4PVut1N76xG5VG5VVe8DZWTscC8SW/QqzWP8oHFiuLhWk07nISuZxCws+qmYUg55d/wYerLGji57x1WHaYj2xggo75tjV0w9ZB7fDzwnfsfPnDWGtsVfGmsUn1XBWTpt0GDSj7LyaOh+BSLvRll9Q9PFCRs27Bpf8WotpeotW+S1ye6VkCcROsy+a1FvnaemAi0Y75gHF1BFH63RxGgeMMU2ZXHQlDfrWmqrs76vI0j+kAS2H33w/tGzmxWeH2zAs+4C/IGcHqsrKK57kn0Wy5ENDItYnF8wZ5zY63um57dNExRE5OZFrn9/hK0RGTZwEnWAqKPI7AnRG6+sPwoVi9Vy7u597rM7nlrIQ/9veWvbBfzA4GudzEfIWPt7MLy1smXPi1u
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(23010399003)(376014)(366016)(4143699003)(3023799007)(56012099006)(11063799006)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(23010399003)(376014)(366016)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WEJIcFU2VnI1eUpEODBLM05BQzJndkErVG15b1V6VXo1NUtQdEJmb0tad2t4?=
- =?utf-8?B?ZENIR0ZGdlUwNkVGa1llc3ZFa3JncTZKOHBUZU9kVnZLc05Ga1lWdzEzdUpC?=
- =?utf-8?B?QU5HS1dYZHRaWVZvZi9SaVRSTlgvTkVkUHozeVJqWDFjRDFxSkh0Y1pUUTla?=
- =?utf-8?B?bjdOMEF0bFdYNHVuYXQ0WDBodG1iNUluQVM0eXpUUWtkS1hoL08yZzFqUzVv?=
- =?utf-8?B?L1BEbi8wYnJXUzE1Yy9uem9ZNm9Hbms1QngwSVJzZU1yMXp3ODVKTURJa1ov?=
- =?utf-8?B?NHFZRmE2SWF4ejdZcTczdDZjOXRTeGxwc3hjZ1BDOUNMVzJrSHNZUFVTM0l2?=
- =?utf-8?B?TUJRWThhMlBvcWo2Z3NoRUZxU2N1RS9FaE56RnlrU2JvczFhKzRBaFFZTWF4?=
- =?utf-8?B?YjZIajA3N3Rmb2dBUzF5RTl2YWtraUZWUjFNZDRWUXBpUmRBSVd2SEVtZ1FV?=
- =?utf-8?B?UFMxTGhZVTh2WDVCZmtDbWsrSitYR0ZtQVpabnZLMXlSRGxLWmZGZlZtYWtW?=
- =?utf-8?B?c2pJZ1VUZUU2KzlLVlZuM3U4Q0ovVlpUdXQvY1dHWVV1aHd0cjRYbGc2U083?=
- =?utf-8?B?NitKSnNzK29OOElZQi9SWExvaG9QMkR2bTRsYzFrY08wbUU1Zk1zbTgwcmhH?=
- =?utf-8?B?d1ZSRkxjR3ZQdW0xMUdZaWoxbU5UQ0duN3ZqZEFibGZJc1g5Y2E3U0dJOEdU?=
- =?utf-8?B?KysxWEFncEZRc2NsbE9NOGRLRFBvamR5WFBaZGZjNEV3U3ZrS1I5OGlESlow?=
- =?utf-8?B?VTVSTHUvWnYrVTJlVXVqL3hJUDFDZ1pmMUdhcGlReTI5d09oK0RsRmhGeTAw?=
- =?utf-8?B?L2JlOXlscWZxOWN6QWcwZTh0WkI0QTRpVFFZUEVGOCtKUXh0a2NOajcxNDZ0?=
- =?utf-8?B?UkFqV1RzSnRzVHRhVkhjOWdKRHRyUlAySGZDcUZNRXVDTVVNaHNOcmtCMHkr?=
- =?utf-8?B?Mk9Rc0RKTHNGdTZ2aGFPcjYxMVhwTldLRE0xcUprTmUrMThxYVFKRzR2L2VG?=
- =?utf-8?B?Y2YrY1pVNFVIV1cxZDZiNWZITEdGdGVuYnppV1VaUk5SSXJKN25LNXZ0SXBC?=
- =?utf-8?B?c1J5bHhTcVBhWnBZWFp1aHE4dkZWaHdlbWVaNEdlMDVFSU9HK1I2T1oyM1Nw?=
- =?utf-8?B?QVR2cGFscTFtaE1sb3lYSW1xbDI4R1NYaWtTQnB4MzdFVWZmMDBNc0N3YTRi?=
- =?utf-8?B?dmVrdWprUENIamVIbDgwR2JKWXUvWWlLcDVoU1JXYnVkeWMzUitRaW53bmVE?=
- =?utf-8?B?MzZlRjZxTlVKdnljekFOREZOb1Q1eVVNK3dZb3VLTldLN1pwK1FZb2I3QXhI?=
- =?utf-8?B?SENUWDh3R2Z0M0MrS3YxWEZ4SDRUemt6ZDRqU3NLWU0yakNCdUFjb2lha2Nu?=
- =?utf-8?B?Z2JJNnc2UFgvbmFoYzI3UzUvWUtMb241WVNTTkJRbnpmMnIxSG02V0NKaE9H?=
- =?utf-8?B?djdaMUZFWnNhMXVsTDhHalBaMnlqWE1zU0ZmcEpsMDBHQ29rYnMwTndmcWNK?=
- =?utf-8?B?dkp3d042L2VkZ2d1bHNINWczV3pNclN6aVRtR3dGYUQ1cDgrWkI0aVVwTEsx?=
- =?utf-8?B?Q3VFTGpkeU5xVlFkVU5DcitFRldqSkhMNi94SlpPQStCd1MvTzZsdVJCcWNY?=
- =?utf-8?B?Z3dzV3JjUGFLbVI3QmVmYW5QbXZCQnN4aDlTdVUzRXJWWE5yYURkUjdENHBr?=
- =?utf-8?B?ekFTWWVlT2k3OStXYWh3QWlMT2Q3aFMvSHZxTVk3Y20yaVBDSFRPanJ0V01x?=
- =?utf-8?B?QTdvVTk4cC9tS3RLODYzTitOdVp3UFNPcWlCQ2RwNktLVWxmR3BkL2dpVzZo?=
- =?utf-8?B?Vm1IUlMvb3l3QjU5K2ZsY1VOeGV4YVh2U2d4a0pPek1TNVM3dUJQUzE3Q0lZ?=
- =?utf-8?B?elp3OUVEL1N4WDBMdE8ya0dvdExXb214YXFzMmJHRDJzOEZxTVViQXNtNTJr?=
- =?utf-8?B?VEREVUpOT09sSFVHNFpxbmV6V1VYa0NMYS9mNTNlNlRuekQzUGVYM0tBK2dR?=
- =?utf-8?B?aGdBcStmN3pQM1Q5Mm5xM2oxb2lkeDhlOEx2TlIyQlFtV2s0R1VtSE5BSkww?=
- =?utf-8?B?LzdlYzFZZTBlSWI0TDhrNUhsSXMrU1huZGF3d2tYaWdnUUtZTmdXUmQ1V3Bw?=
- =?utf-8?B?elFLYVJ0RFlQZ2lBNDQ4ZU1iTkN4UTFZeG5RTzlQTnVpbWQvNWFnbi9sUkpw?=
- =?utf-8?B?SW1KZHovYUdTT3dvTFJSendRT3pzRDZrUDRTR3BQRnVUaEZiWm0zUGlaL1Ez?=
- =?utf-8?B?eEtqaWVZVU45S1Fwa3hMWUlETGlML2tUZlpQYTdPY0xkRHNFbVdxclBTdnFt?=
- =?utf-8?Q?/Ml+rWmOsyjYbvME1B?=
+	=?utf-8?B?eXg5Vk82b0d2TFE3bGVGZmp0R3lqVVBIdzI4QTFMczA5elpKeVBoRXNmRDVq?=
+ =?utf-8?B?U3ZlSmczMktBYkxzVjJxNExXNW9iUzZPNkM4TldTOWp3VldjbHJUK25TM3g1?=
+ =?utf-8?B?Z0FxQXdOS0UvbTJUbHkxUmJXOUUrYjZ6bnN0a2UvVHNpbVdGOUo1Qm9LQlBZ?=
+ =?utf-8?B?RUVGVmtjeVNqbGVaQ3Y5SHdOZm9TaTB4WmlJTTFyZ09sS3Y3QUFNMll3WGRH?=
+ =?utf-8?B?Z1V0YmxJL3htRkVvYjhVd1MydTFhQW9OQUlOMkRUZHJIWWpoVms0anFwcmho?=
+ =?utf-8?B?VExqQm55QjVweWhPRWJKVUN4eE1qcEdjdkErNHdmQi9URkc2REV6Uk11dFRP?=
+ =?utf-8?B?SEltNGNIeG1COUJmc3FadjhuakZ4SDlHTlBrS09Qb09NaVV2TkVMVXVoYkll?=
+ =?utf-8?B?VXNYNXVhRHZQUzFCS3ViOHN1aG1MVnBpOVI1U1hrR0gwN0lmeXcrSnNtdzZW?=
+ =?utf-8?B?N2N1TDRVdlVpRXZuRHBsMTJ2WkFHczZwRWRSek90TStRUGlneHB3bFdjdjhS?=
+ =?utf-8?B?S3NscTZ4N0ZCc1NlLy9TOTAycENmYTNpdWhGVkVOR1labDVzN3g0MGlhcWNp?=
+ =?utf-8?B?TkJPcWN3QUdNOGlzaFg2K3c1Rk5sVmpOYitoZHV4WXdWWVBTaTVKZVZQUXpv?=
+ =?utf-8?B?ZFZHak1VdmpjVDZjNUZVeGM4cU1IS0trOWUxNXNRVDk3bnBvOThUaCtpQVRM?=
+ =?utf-8?B?ZTBXZVIzNHc5QTBaNDNKdER3RE10SjBKZXcwVFptdTFNcjhLT09jR29KN0hp?=
+ =?utf-8?B?WW9UeHhwT015YlBrdDI1VDhHMk5xR3FFa1VwbVVQL01oQjl5M0NKNkFGcnNV?=
+ =?utf-8?B?UmZXYlYzSjhCYnJobTJWcjl5bDF3bi9FNmZNbk00Z1g4c0x6ZTU1Sjdyd2pr?=
+ =?utf-8?B?UXFtM0FpdTJZK3BNZWE0M0g4dnp6Yk45UWZWb1pqWVluUEE5TSt6ZklpYkVU?=
+ =?utf-8?B?YzN0aEpveUlEMXBveWxJS1RGaW1rbG1Jai9tRm96MFZuWEhCSEdqamlsMkxh?=
+ =?utf-8?B?WW9NVkhLR0EySkp1ZnBRMTUxUkJaMytaU2plbzhUMGxxZWxqSTg2aUVadHQ4?=
+ =?utf-8?B?ME5hUmFONGpha1NPdGpmaldXREgrS3hpZW1oOXoyc2hxeXg4NjFOdGJVVFIr?=
+ =?utf-8?B?NmhwM29PZ0laNnM5YjFIYXRQZG5BMTl4MjBIQS9nRE1McWFReFgvMk9tTXNr?=
+ =?utf-8?B?NGRzcmMwNWNBNE9KQlBUOFhDOHNUV1RPRndpQm9yUnJHZmcyUmorYjlsUSs4?=
+ =?utf-8?B?V2h1TGZEOWxvTWFXeUlDR0JkcE8yUUdLdFVzRU5VU1ZZaEZBc1JLS2hLaElK?=
+ =?utf-8?B?N3JCNWtFZUpyYU5aMWR5KzVhMEg0Qng2UEpvdHZkeEVEM2h6eEJMckNBd0U3?=
+ =?utf-8?B?V0k5cG8vZ0VwcFJpUCsxdVdVMUROUzV3aVBaYkc2dmZiQVh3bEkrZlpLLzRw?=
+ =?utf-8?B?VnBWdE5SQlNqblFZbmV2QkI2bno2dGw3UWpLc2V1QzA2SnFPd0lMTnVHZWd1?=
+ =?utf-8?B?dGZVcUw3N1VvNmtVTjVTYnI1anBPbkV6RURvVkRoOTBhV3dIcFFWUVpYQS9R?=
+ =?utf-8?B?NVRYSnA4aUpTZzJpc0QzUFkzSDdmcVNyNUxzeW5lL0hrV1JhdjI1bzhGNmJt?=
+ =?utf-8?B?eS9pSmR5NUpxQ0Z0Y1lBbWRSdzVMemgvUXB0emF0SDhSWUlia3NmTnFDaGly?=
+ =?utf-8?B?MThqZ3AzT25nUlJlcVY3elhIcUJJb3VVRDF1eS9tNkxKc29TZXNzTUY4bWd4?=
+ =?utf-8?B?bmtMbEp5VXROSHJHNFVKdTVzT2sySDJrUW9ic3l1NnFhTGJrOWplYjU4a0Fm?=
+ =?utf-8?B?V3ZoNlNaRHBNSG5xdWV0U2E3TnlTNmVGVXZQVWJuWUQ3aUJrWlF1SXl1TmQr?=
+ =?utf-8?B?VG5JWjlOZGd6MTJMMk5QaHpQR1oyWDdiMzB0Y29aVUg0WkdHWFgyczV0dTAr?=
+ =?utf-8?B?Tk03WHNOZVlId201SDl2Mk1vSXh2d1VSWWJnQzRXK2ZGbVdkRVIrdlhqdDY5?=
+ =?utf-8?B?TGFrY0pUWWRGanpRLzcwOHpLUlBQVC9wT3Z5bWZiTUVrM1dWSDZ1L1JESWZT?=
+ =?utf-8?B?dEZ4STFiajYrd3MwQ3lXcW1PM2VXdWwwVUUwWmpmYk1hOVI5VkpKSko1WE9E?=
+ =?utf-8?B?dVU1cUliMmN0cW1SU0RlVnErQnFBdTJJa0tyWjkzaVBMMkhNQ2J3VFZkK21u?=
+ =?utf-8?B?WVlwdTF2YjVrNEFkQVJhUkxURHBobFhJblV2VlBnbnM4bEc3dk5zbC9HRm1u?=
+ =?utf-8?B?ZlQrb0ptdVpCTzEvZW41cTRBSUZrL1JlQ0xNTzZ6ZURTOXRxdGdURkNJMWFH?=
+ =?utf-8?Q?IhfCikk0LXfz96sOuZ?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4c8491c-903b-4ada-a742-08dec8a37feb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e3f1529-5e4d-4605-2c98-08dec8a4163a
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 16:56:08.5664
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 17:00:20.7180
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h739u40VKdXP92fVOG65HMUJk4oUsA5DGaS9gxfaPoISs5/ywFadNONT2j2VeJNt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9828
+X-MS-Exchange-CrossTenant-UserPrincipalName: PnFA6gV9L0Uv6SfA+kd1cpb7GmTLZ8j5bnXYlqzgNVpoHTURuMOd0MyysfKCu61y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6887
 
 Hi Reinette,
 
-On 6/11/2026 6:23 PM, Reinette Chatre wrote:
-> Hi Babu,
+Missed typo again.
+
+On 6/12/2026 11:56 AM, Moger, Babu wrote:
+> Hi Reinette,
 > 
-> On 4/30/26 4:24 PM, Babu Moger wrote:
->> Customers have identified an issue while using the QoS resource Control
-> 
-> "Control" -> "control"?
-> 
-
-ack
-
->> feature. If a memory bandwidth associated with a CLOSID is aggressively
-> 
-> "a memory bandwidth" -> "memory bandwidth"?
-
-ack.
-
-> 
->> throttled, and it moves into Kernel mode, the Kernel operations are also
-> 
-> What does "it" refer to here? From text it seems to be the "CLOSID" but that
-> does not sound right? Should "it" instead be something like "a task with that
-> CLOSID"?
-
-sure.
-
-> 
-> "Kernel" -> "kernel"?
-
-ack.
-> 
->> aggressively throttled. This can stall forward progress and eventually
->> degrade overall system performance. AMD hardware supports a feature
->> Privilege-Level Zero Association (PLZA) to change the association of the
->> thread as soon as it begins executing.
-> 
-> "change the association of the thread as soon as it begins executing." I am
-> not able to parse this.
-
-How about ?
-
-Customers have identified an issue while using the QoS resource Control
-feature. If memory bandwidth associated with a CLOSID is aggressively
-throttled, and a task with that CLOSID moves into kernel mode, the 
-kernel operations are also aggressively throttled. This can stall 
-forward progress and eventually degrade overall system performance.
-AMD hardware supports a feature Privilege-Level Zero Association (PLZA)
-to change the CPU association at the user-to-kernel transition, so the 
-kernel execution can use a different association than user mode.
-
-Privilege-Level Zero Association (PLZA) allows the user to specify a 
-CLOSID and/or RMID associated with execution in Privilege-Level Zero. 
-When enabled on a CPU, as the CPU enters Privilege-Level Zero, 
-allocation and monitoring for that CPU will be associated with the PLZA 
-CLOSID and/or RMID. Otherwise, the CPU will be associated with the 
-CLOSID and RMID given by PQR_ASSOC.
-
-
+> On 6/11/2026 6:23 PM, Reinette Chatre wrote:
+>> Hi Babu,
 >>
->> Privilege-Level Zero Association (PLZA) allows the user to specify a CLOSID
->> and/or RMID associated with execution in Privilege-Level Zero. When enabled
->> on a HW thread, when the thread enters Privilege-Level Zero, transactions
-> 
-> Could you please use consistent terminology throughout this series? This patch
-> uses "HW thread"/"thread", the next patch then switches to "logical processor",
-> and then by patch #4 the term seems to settle on "CPU". Could this just be
-> "CPU" from here and throughout series to be consistent and easier to read?
-> 
-> What is meant with "transactions"?  Is this just about memory transactions?
-> Using this term combined with earlier "memory bandwidth" related problem description
-> hints that this feature just impacts memory bandwidth allocation but from what
-> I understand this impacts all allocation (CLOSID of all resources) and monitoring.
-> 
-> Could "transactions" be replaced with "allocation and monitoring" and be
-> more accurate?
-> 
->> associated with that thread will be associated with the PLZA CLOSID and/or
->> RMID. Otherwise, the HW thread will be associated with the CLOSID and RMID
->> identified by PQR_ASSOC.
+>> On 4/30/26 4:24 PM, Babu Moger wrote:
+>>> Customers have identified an issue while using the QoS resource Control
 >>
->> Add PLZA support to resctrl and introduce a kernel parameter that allows
->> enabling or disabling the feature at boot time.
+>> "Control" -> "control"?
 >>
->> The GLBE feature details are documented in:
 > 
-> "GLBE" -> "PLZA"?
+> ack
 > 
-
-ack.
-
+>>> feature. If a memory bandwidth associated with a CLOSID is aggressively
 >>
->>    AMD64 Zen6 Platform Quality of Service (PQOS) Extensions:
->>    Publication # 69193 Revision: 1.00, Issue Date: March 2026
+>> "a memory bandwidth" -> "memory bandwidth"?
+> 
+> ack.
+> 
 >>
->> available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> 
-> Please follow same style as what you used in the assignable counter enabling where
-> this URL is provided via a "Link:" tag and then the text can refer to it. Specifically,
-> 	Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537 # [1]
-> 
-
-Sure.
-
+>>> throttled, and it moves into Kernel mode, the Kernel operations are also
 >>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v3: Code did not change. Patch order cahnged.
->>      Added documentation link.
+>> What does "it" refer to here? From text it seems to be the "CLOSID" 
+>> but that
+>> does not sound right? Should "it" instead be something like "a task 
+>> with that
+>> CLOSID"?
+> 
+> sure.
+> 
 >>
->> v2: Rebased on top of the latest tip.
->> ---
->>   Documentation/admin-guide/kernel-parameters.txt | 2 +-
->>   arch/x86/include/asm/cpufeatures.h              | 1 +
->>   arch/x86/kernel/cpu/resctrl/core.c              | 2 ++
->>   arch/x86/kernel/cpu/scattered.c                 | 1 +
+>> "Kernel" -> "kernel"?
 > 
-> Please split changes to other subsystems and make these changes
-> obvious with their own subject prefix to avoid sneaking changes into
-> other subsystems via resctrl.
+> ack.
+>>
+>>> aggressively throttled. This can stall forward progress and eventually
+>>> degrade overall system performance. AMD hardware supports a feature
+>>> Privilege-Level Zero Association (PLZA) to change the association of the
+>>> thread as soon as it begins executing.
+>>
+>> "change the association of the thread as soon as it begins executing." 
+>> I am
+>> not able to parse this.
 > 
+> How about ?
+> 
+> Customers have identified an issue while using the QoS resource Control
 
-Ok. Will be two patches.
-1. For Documentation/admin-guide/kernel-parameters.txt
-2.  arch/x86/include/asm/cpufeatures.h
-     arch/x86/kernel/cpu/resctrl/core.c
-     arch/x86/kernel/cpu/scattered.c
+Control > control
 
-thanks
+Thanks
+
 Babu
+
