@@ -1,260 +1,259 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FCE83905F9;
-	Fri, 12 Jun 2026 04:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEAE39A4D8
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 05:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781239509; cv=none; b=eDU2b7+G5gnCmcGOz1RwNn89s2lnOkuP8xZMjjA8evjZqPtaAFDCPBFea6RgzhnLr8HGUKPG2ezmallvCiXgrY1BIKgZGUXZPgk+KIyqjktO0v03TLJEUpDXZ6icEuh866wVgviL1h0jiytvDDxcvQBHbIg2fezqLKpNBHLEGGY=
+	t=1781241313; cv=none; b=bAVboKkBtV1iuVBZ9tQf1dTwUCGj2158r5t6NhOM5oWulL7Whedktux7jq0PVqBa51fftVwz9h6zyt+Wd+U/EzYD4jOwJwRRPO+bkZo2zZf0Vo5nI6X7M5jrBKv+CqLPomAhTkiPtgNq4MZvtH6i/xQfrgK8cxEI2dwO8fyBlx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781239509; c=relaxed/simple;
-	bh=adMGJ7PXZloqurqObpZQmC4xZiFQ3So5xjocDZ6UB6w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F22r+A92IwsC4PN2/N9egGQVzLvsDhsPWIaoSDpnuEb1RfbqWeLfLdAvQBaGqkVkL3fBh9uOx7gRVOfLo0SBUPfghU4pgGSbyK7qvLuvaXBrsoWPRIQLwARo79mdTEo8OHxkCJUWmSVbTFwtyGOvlKBosPqoo1CeYJ/PGLiGU6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dyprqNRX; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1781241313; c=relaxed/simple;
+	bh=EzD98ff1aItiQM04E7u7INRRf8aew7gIPA1oAqmmEbk=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=G+PYR/u5VoaX1nenYGI6aRJ1iU7pSvGBI4BF4MW8SLR2B3XrDJR/dSAuT/XQzv4JcZc2mrUfN9kZBJ96fHoAScngWV5SuRKQ7oSgggauqktxHsptwin9czEXwLN62klV4kr8I1uEsEol4ZLCwfIl/Dm1G7yJ/7liyQYEY69sSXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=LE48o4T+; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dyprqNRX"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5263B2E91;
-	Thu, 11 Jun 2026 21:45:01 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-01.blr.arm.com (cesw-amp-gbt-1s-m12830-01.blr.arm.com [10.164.195.31])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6A98E3FAF5;
-	Thu, 11 Jun 2026 21:45:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781239506; bh=adMGJ7PXZloqurqObpZQmC4xZiFQ3So5xjocDZ6UB6w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dyprqNRXfh9wVKf2O2t0oY3N9NZr2vJGqiN+CzR4ogevyLghQcFeqWH+CH6APm3GX
-	 ZX6ZCMglBYa+Nsi28vNnVLgYd7ZSS3Yymcm7FvevGna/IiGmKmLZKE1D/XZ92HG1ZO
-	 R4nwE7x14jL8zdcxhGbU84hVARQ1ZI5lZut0W+Qw=
-From: Dev Jain <dev.jain@arm.com>
-To: ryabinin.a.a@gmail.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net
-Cc: Dev Jain <dev.jain@arm.com>,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	ryan.roberts@arm.com,
-	anshuman.khandual@arm.com,
-	kaleshsingh@google.com,
-	21cnbao@gmail.com,
-	david@kernel.org,
-	will@kernel.org,
-	catalin.marinas@arm.com
-Subject: [RFC PATCH 2/2] kasan: hw_tags: Add boot option to elide free time poisoning
-Date: Fri, 12 Jun 2026 04:44:24 +0000
-Message-ID: <20260612044425.763060-3-dev.jain@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
-References: <20260612044425.763060-1-dev.jain@arm.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="LE48o4T+"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51788280e71so6198721cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 22:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1781241311; x=1781846111; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ytd7iPwY/amgpO/lDKmmEiHlsDrpfROrVFTbD1YMi6c=;
+        b=LE48o4T+WfVyhfYfuEIX5KMQL84366Qymw+OHUQ+O6n3DPG1tHzC2jU2tv5RuWJvjA
+         kdEIj16CUvyCsCH7CLQ/8+icfm4uJ0kPAxHjA48sogb0+vBebD0gsuonryQ5OnU+l4x/
+         yFSDiLJWu7EryD5s4o/lL/wa/JnUcEeseQ2utQb3XtX7eeJ5jUgdiSKk6h+WhcDaTg+Q
+         qqrVltTm2jUuTN38AGZFHAe5LtaEXEwcM33hlnafeonlGetYyzouB+k2X1NSuuvjtFTP
+         doIyZ00FqjeNrqW2ZqqsXLBsHizr/MZQ9x1nIF/hgQ5O1HiD6X+ewLTafvlykIkvDLms
+         809w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781241311; x=1781846111;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ytd7iPwY/amgpO/lDKmmEiHlsDrpfROrVFTbD1YMi6c=;
+        b=K2TvWzuZ6Wd1FY1uSBRL7RRrWh586NqV8rwfjjwKcgGnOP+cTGei8/Tt9sIKO3spD6
+         SvQ9LFdZBcwY108Zn90lEPAO+y6EtxrICwnwK1lfh5nHEyNJ9pWY7ac0fMaboGfy5Lro
+         OHp8oGfmNUBw6wI8o5RGL9MgYZ00VqLTQAG7xbBRut0JKKJdXdzoP2G9uzzIrdeuW8Kr
+         xOuDOs8JbNquLI+9UkMBwOOX8K905cV+DFJa9SCwzeDR33GGgqDrjtgOy5cACTXeOzR9
+         oDlbqzoIPLtKzxTrD499E4B2ncdNxMgeughDGt1B9wKfKa8nMFKjhTCpaPyPn14F19vB
+         utNw==
+X-Forwarded-Encrypted: i=1; AFNElJ95DZn3eD/RgxUGoW4jXJFYcjzB0eC7oTVkWmscQi6zeOj/8Yd0e3QS+AmozNtjv8n/vVNIOk6Ts0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqy3vBt7gZL5fbk8AeFJJVigUSXLEDNyJ+bVAiwQBiF9mF5aYr
+	wfBX1/kjnofixGDb2qzozBAIGkuPbiRw6NdcCfnxMLESWIpeK5tsCx6zULNHVJkc2Q8=
+X-Gm-Gg: Acq92OHg6c5R4VFVR+AcLuI36UYQa0K0xrVpkADJlaOl4TR43qhPP+WgxKqPHJAEjtN
+	fWy28w+kN0VbA8OD+Myh7dPG3/R9jIybXHhwuA/niIaLybm4psrMQ97oS3mLXi3FdMIVumEINrD
+	Jgmfn56NLW7Tq/2vRVV0qesSNqLJno4yp2zRZOwT2e8xpQC8lbGt6JkUnq5Tr5aH1xjrJ9jXGfw
+	tEox2MpeSbV2bf/InT3nWGC/2IjCHNOaMiG550vriqxHYM8FD8XQtIqiTqpVcRQdH7el1pL+oRU
+	ekJ4shLlxv5CFWVYmP0cUJX7CrTTWycdb0kSYEYIdbwea/0s/b9hCjnQrLhbZP+K9Rx0Vq+TtpI
+	1Mfh6WIKLkn0F1lfUmMNPVJGJR5pupNPzxpFtV+9pFY2qZ2au3qC/YreLt5mY+Mws4T7XLXMQvz
+	6T9OaSzkAbeFXu5yt8z4YpGML2turX0kPFRONCAdfENjfeNoEVzC29EOEFox97
+X-Received: by 2002:a05:622a:60c:b0:517:6b31:8058 with SMTP id d75a77b69052e-517fe50614bmr16606071cf.40.1781241310554;
+        Thu, 11 Jun 2026 22:15:10 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb7e8900sm12732291cf.23.2026.06.11.22.15.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 22:15:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the
+ PCI core
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+ Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <20260522202410.3104264-2-dmatlack@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-2-dmatlack@google.com>
+Date: Fri, 12 Jun 2026 05:15:02 +0000
+Message-Id: <178124130274.908199.14827357870284807134.b4-review@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4474;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=EzD98ff1aItiQM04E7u7INRRf8aew7gIPA1oAqmmEbk=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqK5Xc6OMuwmCG+aG2z1N7L1TcMXvQcxKu7DUJX
+ +1rPXHL7kiJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCaiuV3AAKCRC7dyhM23N6
+ 3sl4D/49rTQw3AtcTrHTcVdJeLsKzlzrERbSSrQdqByRDKt/VZ3tYXxZ42pX6dtH57jB2TwPimJ
+ fosBa4kw60OkjlCXDe0327bTsC/RBIpO8fpRg1nrQ4mdgxcxCA9WDOPf7nJKIGccIBHIyBSvzMH
+ F1ist4SEhl3S9htSG08rn/5MOMDrQMbyPYpiMXJkCX8jmEnu+IhogD/W9GVaoN48kPyeW1BSYys
+ rlDCm4C1C+TpXxkc9eQoTDokqxutzb6n9L+BmuGFXMZzLRT+Cvyy2XYoSMZ7h/ca1urQmGkcYQI
+ C94Kxe+cqfGA4hE2Id/Dtrfj2Cv5PJVKahykKX4kp5vdFS8qGiWiexcvY5qrgFRIkuR467BP+WH
+ IjdCg6yY0k1YvqmZTee/96z3eDX+BL7agDjBDpQJ6P92fVdayoI0kDL71lX9FhtUoobW0gUipjR
+ UEi/3DifS9I2vz9+U7MN2RA4kPvyOQjqLtNmo9v4FSBa/YkCLnoyRA0LlRsIjF9d9WdtKu8M1ad
+ CMeu4L4tloS40kHaM4VoOCDpVOxau7uk165pKvOGsyGdRN5wGMShHp0btN7htAjYMh9jz2E1mw7
+ uMP27uJMOKTo6YqcPACF1qa4YPc+FVG+bLp/Qp6ddOr+7jiJvg9s9XVb469tJ1qe/BZiKMpm5tf
+ 9wtlEwOJSVNY0UA==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-Introduce a boot option to tag only at allocation time of the objects. This
-reduces KASAN MTE overhead, the tradeoff being reduced ability
-of catching bugs.
+On Fri, 22 May 2026 20:23:59 +0000, David Matlack <dmatlack@google.com> wrote:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2fb1c75afd16..6c618830cf61 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20530,6 +20530,16 @@ L:	linux-pci@vger.kernel.org
+>  S:	Supported
+>  F:	Documentation/PCI/pci-error-recovery.rst
+>  
+> +PCI LIVE UPDATE
+> +M:	David Matlack <dmatlack@google.com>
 
-Now, when a memory object will be freed, it will retain the random tag it
-had at allocation time. This compromises on catching UAF bugs, till the
-time the object is not reallocated.
+Please add Pratyush, Mike, and myself so we are notified directly of 
+incoming patches, the same as with other areas where the liveupdate/ 
+tree is specified.
 
-Hence, not catching "use-after-free-before-reallocation" and not catching
-"double-free" will be the compromise for reduced KASAN overhead.
+>
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> new file mode 100644
+> index 000000000000..737e7b9366db
+> --- /dev/null
+> +++ b/drivers/pci/liveupdate.c
+> @@ -0,0 +1,145 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Copyright (c) 2026, Google LLC.
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +/**
+> + * DOC: PCI Live Update
+> + *
+> + * The PCI subsystem participates in the Live Update process to enable drivers
+> + * to preserve their PCI devices across kexec.
+> + *
+> + * File-Lifecycle-Bound (FLB) Data
+> + * ===============================
 
-Keep this as a boot time feature to prevent building two kernel images.
+...
 
-To implement the feature, we need to effectively render kasan_poison()
-redundant for hw tags case, but keep it working in the case where it is
-used not in an object-freeing code path, but the redzoning path (which
-means, poisoning the tail end of a vmalloc or kmalloc allocation).
+> + *
+> + * PCI device preservation across Live Update is built on top of the Live Update
+> + * Orchestrator's (LUO) support for file preservation across kexec. Drivers
 
-We achieve this by overloading the poison values for the hw tags case: we
-define the four poison values as 0x0E, 0x1E, 0x2E, 0x3E. In kasan_poison(),
-if we arrive with KASAN_SLAB_REDZONE or KASAN_PAGE_REDZONE, do a bitwise
-OR on the value of the tag to make it equal to KASAN_TAG_INVALID.
+I prefer to just use acronyms FLB, and LUO, but have links to the actual 
+documentations about them.
 
-If not, then, if init is true, zero out the memory and bail out.
+So, something like this:
 
-Signed-off-by: Dev Jain <dev.jain@arm.com>
----
- Documentation/dev-tools/kasan.rst |  4 +++
- mm/kasan/hw_tags.c                | 43 ++++++++++++++++++++++++++++++-
- mm/kasan/kasan.h                  | 23 ++++++++++++++++-
- 3 files changed, 68 insertions(+), 2 deletions(-)
+  * :ref:`FLB <flb>` Data
+  * =====================
+  *
+  * PCI device preservation across Live Update is built on top of the
+  * :ref:`LUO <luo>` support for file preservation across kexec. Drivers
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 4968b2aa60c80..b0c30584b5062 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -146,6 +146,10 @@ disabling KASAN altogether or controlling its features:
- - ``kasan.vmalloc=off`` or ``=on`` disables or enables tagging of vmalloc
-   allocations (default: ``on``).
- 
-+- ``kasan.tag_only_on_alloc=off`` or ``=on`` disables or enables skipping
-+  free-time tagging (poisoning) while keeping allocation-time tagging enabled
-+  (default: ``off``).
-+
- - ``kasan.page_alloc.sample=<sampling interval>`` makes KASAN tag only every
-   Nth page_alloc allocation with the order equal or greater than
-   ``kasan.page_alloc.sample.order``, where N is the value of the ``sample``
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index c1a2b48808ed7..a392e34d11e3a 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -41,9 +41,16 @@ enum kasan_arg_vmalloc {
- 	KASAN_ARG_VMALLOC_ON,
- };
- 
-+enum kasan_arg_tag_only_on_alloc {
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_DEFAULT,
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF,
-+	KASAN_ARG_TAG_ONLY_ON_ALLOC_ON,
-+};
-+
- static enum kasan_arg kasan_arg __ro_after_init;
- static enum kasan_arg_mode kasan_arg_mode __ro_after_init;
- static enum kasan_arg_vmalloc kasan_arg_vmalloc __initdata;
-+static enum kasan_arg_tag_only_on_alloc kasan_arg_tag_only_on_alloc __initdata;
- 
- /*
-  * Whether the selected mode is synchronous, asynchronous, or asymmetric.
-@@ -63,6 +70,10 @@ EXPORT_SYMBOL_GPL(kasan_flag_vmalloc);
- /* Whether to check write accesses only. */
- static bool kasan_flag_write_only = false;
- 
-+/* Whether to skip free-time tagging. */
-+DEFINE_STATIC_KEY_FALSE(kasan_flag_tag_only_on_alloc);
-+EXPORT_SYMBOL_GPL(kasan_flag_tag_only_on_alloc);
-+
- #define PAGE_ALLOC_SAMPLE_DEFAULT	1
- #define PAGE_ALLOC_SAMPLE_ORDER_DEFAULT	3
- 
-@@ -154,6 +165,23 @@ static int __init early_kasan_flag_write_only(char *arg)
- }
- early_param("kasan.write_only", early_kasan_flag_write_only);
- 
-+/* kasan.tag_only_on_alloc=off/on */
-+static int __init early_kasan_flag_tag_only_on_alloc(char *arg)
-+{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (!strcmp(arg, "off"))
-+		kasan_arg_tag_only_on_alloc = KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF;
-+	else if (!strcmp(arg, "on"))
-+		kasan_arg_tag_only_on_alloc = KASAN_ARG_TAG_ONLY_ON_ALLOC_ON;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+early_param("kasan.tag_only_on_alloc", early_kasan_flag_tag_only_on_alloc);
-+
- static inline const char *kasan_mode_info(void)
- {
- 	if (kasan_mode == KASAN_MODE_ASYNC)
-@@ -270,14 +298,27 @@ void __init kasan_init_hw_tags(void)
- 		break;
- 	}
- 
-+	switch (kasan_arg_tag_only_on_alloc) {
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_DEFAULT:
-+		/* Default is specified by kasan_flag_tag_only_on_alloc. */
-+		break;
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_OFF:
-+		static_branch_disable(&kasan_flag_tag_only_on_alloc);
-+		break;
-+	case KASAN_ARG_TAG_ONLY_ON_ALLOC_ON:
-+		static_branch_enable(&kasan_flag_tag_only_on_alloc);
-+		break;
-+	}
-+
- 	kasan_init_tags();
- 
- 	/* KASAN is now initialized, enable it. */
- 	kasan_enable();
- 
--	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, stacktrace=%s, write_only=%s)\n",
-+	pr_info("KernelAddressSanitizer initialized (hw-tags, mode=%s, vmalloc=%s, tag_only_on_alloc=%s, stacktrace=%s, write_only=%s)\n",
- 		kasan_mode_info(),
- 		str_on_off(kasan_vmalloc_enabled()),
-+		str_on_off(kasan_tag_only_on_alloc_enabled()),
- 		str_on_off(kasan_stack_collection_enabled()),
- 		str_on_off(kasan_flag_write_only));
- }
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index fc9169a547662..4fa8abb312faa 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -33,6 +33,7 @@ static inline bool kasan_stack_collection_enabled(void)
- #include "../slab.h"
- 
- DECLARE_STATIC_KEY_TRUE(kasan_flag_vmalloc);
-+DECLARE_STATIC_KEY_FALSE(kasan_flag_tag_only_on_alloc);
- 
- enum kasan_mode {
- 	KASAN_MODE_SYNC,
-@@ -52,6 +53,11 @@ static inline bool kasan_vmalloc_enabled(void)
- 	return static_branch_likely(&kasan_flag_vmalloc);
- }
- 
-+static inline bool kasan_tag_only_on_alloc_enabled(void)
-+{
-+	return static_branch_unlikely(&kasan_flag_tag_only_on_alloc);
-+}
-+
- static inline bool kasan_async_fault_possible(void)
- {
- 	return kasan_mode == KASAN_MODE_ASYNC || kasan_mode == KASAN_MODE_ASYMM;
-@@ -145,12 +151,17 @@ static inline bool kasan_requires_meta(void)
- #define KASAN_SLAB_REDZONE	0xFC  /* redzone for slab object */
- #define KASAN_SLAB_FREE		0xFB  /* freed slab object */
- #define KASAN_VMALLOC_INVALID	0xF8  /* inaccessible space in vmap area */
-+#elif defined(CONFIG_KASAN_HW_TAGS)
-+#define KASAN_PAGE_FREE		0x0E
-+#define KASAN_PAGE_REDZONE	0x1E
-+#define KASAN_SLAB_REDZONE	0x2E
-+#define KASAN_SLAB_FREE		0x3E
- #else
- #define KASAN_PAGE_FREE		KASAN_TAG_INVALID
- #define KASAN_PAGE_REDZONE	KASAN_TAG_INVALID
- #define KASAN_SLAB_REDZONE	KASAN_TAG_INVALID
- #define KASAN_SLAB_FREE		KASAN_TAG_INVALID
--#define KASAN_VMALLOC_INVALID	KASAN_TAG_INVALID /* only used for SW_TAGS */
-+#define KASAN_VMALLOC_INVALID	KASAN_TAG_INVALID
- #endif
- 
- #ifdef CONFIG_KASAN_GENERIC
-@@ -478,6 +489,16 @@ static inline u8 kasan_random_tag(void) { return 0; }
- 
- static inline void kasan_poison(const void *addr, size_t size, u8 value, bool init)
- {
-+	if (kasan_tag_only_on_alloc_enabled()) {
-+		if ((value != KASAN_SLAB_REDZONE) && (value != KASAN_PAGE_REDZONE)) {
-+			if (init)
-+				memset((void *)kasan_reset_tag(addr), 0, size);
-+			return;
-+		}
-+	}
-+
-+	value |= 0xF0;
-+
- 	if (WARN_ON((unsigned long)addr & KASAN_GRANULE_MASK))
- 		return;
- 	if (WARN_ON(size & KASAN_GRANULE_MASK))
+And also add _luo and _flb to Documentation/core-api/liveupdate.rst
+
+.. _luo:
+
+ ========================
+ Live Update Orchestrator
+ ========================
+
+.. _flb:
+
+ LUO File Lifecycle Bound Global Data
+ ====================================
+
+> [ ... skip 17 lines ... ]
+> + *
+> + *  * ``pci_liveupdate_register_flb(driver_file_handler)``
+> + *  * ``pci_liveupdate_unregister_flb(driver_file_handler)``
+> + */
+> +
+> +#define pr_fmt(fmt) "PCI: liveupdate: " fmt
+
+Nit, may be:
+
+> +
+> +#include <linux/io.h>
+> +#include <linux/kexec_handover.h>
+> +#include <linux/kho/abi/pci.h>
+> +#include <linux/liveupdate.h>
+> +#include <linux/mutex.h>
+> +#include <linux/mm.h>
+
+Please sort alphabetically.
+
+> [ ... skip 12 lines ... ]
+> +	 * future to increase the chances that there is enough room to preserve
+> +	 * devices that are not yet present on the system (e.g. VFs, hot-plugged
+> +	 * devices).
+> +	 */
+> +	for_each_pci_dev(dev)
+> +		max_nr_devices++;
+
+I think, we want to use kho_block [1] (it is in liveupdate/next branch) 
+to allow number of supported devices to be dynamic.
+
+To support this, we would redefine the ABI and tracking structures like 
+so:
+
+/* include/linux/kho/abi/pci.h */
+struct pci_ser {
+	u64 devices;      /* Phys address of the first block header of kho_block_set */
+	u64 nr_devices;   /* Total count of active preserved devices */
+} __packed;
+
+/* drivers/pci/liveupdate.c */
+struct pci_flb_outgoing {
+	struct pci_ser *ser;            /* Points to the FDT/KHO-allocated ABI struct */
+	struct kho_block_set block_set;  /* Controls the active blocks on the fly */
+};
+
+In  __pci_liveupdate_preserve_device() , we would search for 
+and reuse any inactive  pci_dev_ser  slot first, and only call 
+kho_block_set_grow() to expand if no inactive slots are available.
+
+In pci_liveupdate_unpreserve_device(), we would simply 
+mark the  pci_dev_ser as inactive.
+
+>
+> diff --git a/include/linux/pci_liveupdate.h b/include/linux/pci_liveupdate.h
+> new file mode 100644
+> index 000000000000..8ec98beefcb4
+> --- /dev/null
+> +++ b/include/linux/pci_liveupdate.h
+> @@ -0,0 +1,30 @@
+> [ ... skip 24 lines ... ]
+> +static inline void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
+> +{
+> +}
+> +#endif
+> +
+> +#endif /* LINUX_PCI_LIVEUPDATE_H */
+
+[1] https://lore.kernel.org/all/20260603154402.468928-1-pasha.tatashin@soleen.com/
+
+Preserving: In  __pci_liveupdate_preserve_device() , we would search for 
+Unpreserving: In  pci_liveupdate_unpreserve_device(), we would simply
+
+Preserving: In  __pci_liveupdate_preserve_device() , we would search for 
+Unpreserving: In  pci_liveupdate_unpreserve_device(), we would simply 
+
 -- 
-2.43.0
-
+Pasha Tatashin <pasha.tatashin@soleen.com>
