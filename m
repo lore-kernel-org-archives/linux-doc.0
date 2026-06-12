@@ -1,99 +1,93 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BBA33F5BF
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 23:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAAF3749F4
+	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 00:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781307901; cv=none; b=fkIjjG2w1EnJn555VFYvxpoF0LlBx5DalAvJ2pQ8pdL5CrDPn5wPg2FvSI8qi6W5dIje8jEPua+CpXqe+lZpvhaSxGYqfF0AVNWOyL9rsQBSJ9veYIh/R6b0mI0724jDZyYR61qqgFcxSoLqwKYmU2pphi33Co5el3elcSJjCN0=
+	t=1781308818; cv=none; b=LduuWT6ctw66Otw1LU8VM+JBQcjv+Kbj/PU0X5oCBoxCsbRinmnu1cTstxpnlgPXCK4eQmSwliHym95SpJDssWVLnj0jW2YHB7GPfgebRalkyXS0JNWh8ElgP47UTzAc283VIVuZkfsR80OJusvGXUYBY2NhXBN9JnonmJi3hQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781307901; c=relaxed/simple;
-	bh=iCo2373DNYWqzXVExFS1qh557JYf6/r+Hoo43HQH+D0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uL6X/vwDqPAvOdq1Jpxd20TBBMR7fUJufIQD8Wn4O3f/dBbVJgDKdon9FdlOF/uMdUizlOKJzckoSoajChzmVr/iQZJR1Y6lKEJ5S+xv3gvK6nJ++kLj152GL5fKzAy/zr/Ehu/tpaDiYPogud1089QxhQ9S6O4vLtY10aSSLeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gZt+NKjA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781308818; c=relaxed/simple;
+	bh=y+7RZirpY2ycZGndRWUsjJpfLXO3DfIZnzX4kCr0ns4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=X6PQib1iSLWKbR4/FBB36cfWMzGDQ5w9/Eacu3P77RYsZvOKd/8AUmJ5GfMVWGYC+l4EdBFDh26mScpM6LBTxev2V11sjtnbdiGdWRaUz7IvkhK2lp1AAYPOE0hNUHMvRxJX5tItylpQvWJBd2yCEi1FyhG5vlC81Q3WBUO4vaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQdb1z6g; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gZt+NKjA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=OaR4szg3hTCiTSjz207EtEIC5B9GahQqwiezvnSwekU=; b=gZt+NKjA02f2IwzEh1KqPiNI3z
-	7kB/IBN88yXBAS+YORdUcKqI4JV4hrwNU4EJSCMNsHJ+TUhmvBS4nAllInDsZJDicijfwSWzdeCFh
-	87Pd2fM9hshftE+zKqLOIdNTTvZ60AjlsJZsr/BI2qQfc/+Dsbq1WvAJ11s2pqkS8DMgkwYXFyTSC
-	UT2BXRTZ0jx3O+4gXzioYD1Pgyy+i26LPyjQsHZH8CPMxFcqJ34GoBV/bVFhnbbeN5VqUbNZ2weBi
-	MsDKC4qcoSuop9vmrUj48J4FeQCnHa0ZoYmAGUOpIa+Rc3QZWCX6KGUvWi/EdPoHhaLRMAnL2tZlf
-	N2hMThsg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYBYY-0000000BlyE-3O9Y;
-	Fri, 12 Jun 2026 23:44:58 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Ivan Lipski <ivan.lipski@amd.com>,
-	Dan Wheeler <daniel.wheeler@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH v2] kdoc: xforms: ignore special static/inline macros
-Date: Fri, 12 Jun 2026 16:44:56 -0700
-Message-ID: <20260612234458.1084156-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQdb1z6g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781308817; x=1812844817;
+  h=date:from:to:cc:subject:message-id;
+  bh=y+7RZirpY2ycZGndRWUsjJpfLXO3DfIZnzX4kCr0ns4=;
+  b=JQdb1z6g0fBTa+GVBNptUGjX57plWnzk/5QnorZW8bCI1DOTEgyIfqpT
+   9vh2P8S+EysJAX0FY79mli3ZBuTQTECFX4QSosvJKMt9j9Ut8zFbAUF+7
+   N3uxI4Wun7yrjggaMRF0sbjC3P80ut1CGax+Rg+0QX60eTlysWlwNHzNa
+   Z9wJnfGM6oULwqxYVkZAYfn6Xw7bhmKCR2erTBC7sEmbgTz8yXjGW7Sqt
+   ipPxbgtyaUKluWC4vVErXEASCXhygwcA2btVmQwTzWIj2ts5jMqKJZ4B2
+   TlZ6WXfo44fQByNkkZunOeCTTN3n9xjP3O7Y1isrlQn3R+DM+2/dJpTwW
+   w==;
+X-CSE-ConnectionGUID: S+rFAMm+R+iDTpRpRWlwFw==
+X-CSE-MsgGUID: WhG+ww48S/6E1Y+koMvSWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="93261288"
+X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
+   d="scan'208";a="93261288"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 17:00:16 -0700
+X-CSE-ConnectionGUID: wOfw7rbjSF22qjB9sPZU2g==
+X-CSE-MsgGUID: VV4/js8rQSOIHpcjjAmA/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
+   d="scan'208";a="251886704"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2026 17:00:14 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wYBnH-000000004N3-2UXr;
+	Sat, 13 Jun 2026 00:00:11 +0000
+Date: Sat, 13 Jun 2026 01:59:20 +0200
+From: kernel test robot <lkp@intel.com>
+To: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
+ Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
+ linux-doc@vger.kernel.org
+Subject: [robh:for-next 42/47] htmldocs:
+ Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2134: WARNING:
+ Inline emphasis start-string without end-string. [docutils]
+Message-ID: <202606130111.ldC96rqf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c contains 7 (for
-now) functions that use STATIC_IFN_KUNIT or INLINE_IFN_KUNIT macros for
-function qualifiers (static or not, inline or not).
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+head:   030e2f5b9260c29ce85c21c004714742fa9f8d55
+commit: f71f07bee9b56b94f7828cf3082ea19ec590de36 [42/47] of: Factor arguments passed to of_map_id() into a struct
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260613/202606130111.ldC96rqf-lkp@intel.com/reproduce)
 
-These cause parse warnings from kernel-doc:
-Invalid C declaration: Expected identifier in nested name, got keyword:
-  struct [error at 29]
-STATIC_IFN_KUNIT const struct drm_color_lut * __extract_blob_lut (const
-  struct drm_property_blob *blob, uint32_t *size)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606130111.ldC96rqf-lkp@intel.com/
 
-Handle these in kernel-doc to prevent multiple warnings.
+All warnings (new ones prefixed by >>):
 
-Fixes: 647d1fd04652 ("drm/amd/display: Add KUnit test for color helpers")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v2: drop an unsubmitted patch so that this one applies with no problem
+   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+   ------------------------------------------------------------------------------------------------^
+   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+   --------------------------------------------------------------------------------------------^
+>> Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2134: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2260: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Ivan Lipski <ivan.lipski@amd.com>
-Cc: Dan Wheeler <daniel.wheeler@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-
- tools/lib/python/kdoc/xforms_lists.py |    2 ++
- 1 file changed, 2 insertions(+)
-
---- linext-2026-0610.orig/tools/lib/python/kdoc/xforms_lists.py
-+++ linext-2026-0610/tools/lib/python/kdoc/xforms_lists.py
-@@ -102,6 +102,8 @@ class CTransforms:
-         (CMatch("__no_context_analysis"), ""),
-         (CMatch("__attribute_const__"), ""),
-         (CMatch("__attribute__"), ""),
-+        (CMatch("STATIC_IFN_KUNIT"), ""),
-+        (CMatch("INLINE_IFN_KUNIT"), ""),
- 
-         #
-         # HACK: this is similar to process_export() hack. It is meant to
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
