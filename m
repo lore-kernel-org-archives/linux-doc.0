@@ -1,122 +1,102 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325BB27281E
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 14:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C5924886E;
+	Fri, 12 Jun 2026 14:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781273422; cv=none; b=FZlhme4W+iDzwuR7qZzj9nG01GjR8S8oLS+PoGZPh2azFhw5DarPCsnZekfkRqc7Yq9DGNw6WokpzUR+x+xe/3FM9VT5qjr670bXpDQ4VQOaTbM6NlRVaEMkJTqDoLlOd5zqrEaU/B+r9CweP9oSVe7Za/re0VYD/EvjM/A7y/0=
+	t=1781275752; cv=none; b=obDdfYmmv18HRn4PiO6Lp832JxM2LSWIzoNG76IGF5pFXxXmi7DGooWWEFUYsK9dnGCmgowcPjq592ptXtyYI9uOP9layRpYPA0IlgMzCXakmSCgqdcd/gJUW7O1GlABSH7B7SUEhUZSb2c6iaD1v5fLTDa+tZOT4Hlk/ziVGE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781273422; c=relaxed/simple;
-	bh=SwcMhVo3e/OSlG5u9jKKasCTCA1E0yZ6CzAo5ieB8Pw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GuYmBbyTRJfdPTczlhu8CKMhm7jJYbfss4kklN3BE8AStU5X+5RQIE110Fpnqe4RFpy40NtxX1qjI8r4qP/WAamDCOpEP7aXd43WL24Kw+MmN8SnlJBIBghWRPZh/KBEmvDd/5j+eXhKHtklwwdlfBX48W+sOpRDNsAqVx0Je0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tylXjQFX; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781275752; c=relaxed/simple;
+	bh=BJFzGzOnd+wP2T3OXbmcSnUl6hlCrHcAS6mwQMT6zrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZPE2YdBVMcS9MLX8rgH8LdOvVPHY+xqdTfzS65Jf8TAWx5n1R2S9CdOZDnQx7NkWDu697q7ndEZTeFW4/MQF5aNFtiYf+MR94enFAakbmsnqy1UCRFbv6Rg0iLBmHf8O9+DukgeBwUpbT36w5T8UC+W0kP+LaiW/ZnWve6X/Xy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqQ3m+ji; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tylXjQFX"
-Message-ID: <33309e37-e999-4c4c-a2b6-5eff22b1e933@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781273409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VgkFgiq3UgWO4mv31jMB1PbxwSyhPsMP6dnk06G777U=;
-	b=tylXjQFXt9nqjJiTMazYQ6lwhdfPDtErq2oXG2P57stw+kOht1lpyupI4/HoeVo9nbbQUj
-	TxlvRg0sqjAOU6uWisuUa52BhH0vLhbWuijbf01r6ibi9CZ7aQN3edFG+GoqhMcm6Hs1K/
-	gTrNXgiGEmNhn5RufSkLile51kJd1Sk=
-Date: Fri, 12 Jun 2026 16:10:06 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqQ3m+ji"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC861F000E9;
+	Fri, 12 Jun 2026 14:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781275751;
+	bh=qhPHLYbQyUfvef9/xCIIY8vt5USpJP7O50ve0Xr9Fco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KqQ3m+jibMcuY8vurw+rG7VdytA6Y6cMHo3roJQ8ImJswxu7g5OQsf6U9DmgKL9Ok
+	 tMoVfnttQQhbTRLujJvFm4Z3bZ7gZzKPvuegSKFNGFlYLiavZptALOMGNFohVAJBsU
+	 S2cf3GfT9s6pAt3G7PxxKl9WEcH0ikXnznL9+1kH7Dm5xiZa7amZAbjMwEevZ45B4a
+	 vJr8GleYk5liMgzbxAkB3mPRM5aQevk6Yqrzi9aFtqJTDnvJHo9OtiT8zww01quWWU
+	 JZFWZqvYd6+3/nlD+3b8S1gml9lQE6KMYyGi9pVigyovlwi1JcYwRC3L4eQz6SwZW2
+	 qxF4lWtteSQaQ==
+Date: Fri, 12 Jun 2026 09:49:10 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, will@kernel.org,
+	xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
+	mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org,
+	bp@alien8.de, tony.luck@intel.com, guohanjun@huawei.com,
+	lenb@kernel.org, skhan@linuxfoundation.org,
+	vishal.l.verma@intel.com, rafael@kernel.org, corbet@lwn.net,
+	ira.weiny@intel.com, dave.jiang@intel.com, krzk+dt@kernel.org,
+	catalin.marinas@arm.com, alison.schofield@intel.com,
+	conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	Michael.Zhao2@arm.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
+	Dmitry.Lamerov@arm.com, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
+	acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v5 09/10] dt-bindings: firmware: add arm,ras-cper
+Message-ID: <20260612144910.GA989816-robh@kernel.org>
+References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
+ <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-9-2e0500d42642@arm.com>
+ <20260529174407.7081ad0b@jic23-huawei>
+ <ceb19cb6-7083-44ad-a262-a8198f489257@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: configurable block error injection v5
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Cc: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>,
- Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
- linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260611140703.2401204-1-hch@lst.de>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Haris Iqbal <haris.iqbal@linux.dev>
-In-Reply-To: <20260611140703.2401204-1-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ceb19cb6-7083-44ad-a262-a8198f489257@arm.com>
 
+On Thu, Jun 11, 2026 at 03:22:21PM +0100, Ahmed Tiba wrote:
+> On 29/05/2026 17:44, Jonathan Cameron wrote:
+> > On Fri, 29 May 2026 10:50:49 +0100
+> > Ahmed Tiba<ahmed.tiba@arm.com> wrote:
+> > >   .../devicetree/bindings/firmware/arm,ras-cper.yaml | 54 ++++++++++++++++++++++
+> > >   MAINTAINERS                                        |  5 ++
+> > >   2 files changed, 59 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+> > > new file mode 100644
+> > > index 000000000000..3d4de096093f
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
+> > > @@ -0,0 +1,54 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id:http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
+> > > +$schema:http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Arm RAS CPER provider
+> > > +
+> > > +maintainers:
+> > > +  - Ahmed Tiba<ahmed.tiba@arm.com>
+> > > +
+> > > +description:
+> > > +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
+> > > +  a firmware-first CPER error source directly via DeviceTree. Firmware
+> > > +  provides the CPER Generic Error Status block and notifies the OS through
+> > > +  an interrupt.
+> > I'd like some spec references in here if possible.
+> I can add a reference to the UEFI CPER specification for the Generic
+> Error Status record format.
+> 
+> For the firmware-first DT description itself I do not have a more specific
+> public reference to cite.
 
+Is there a platform actually using this with DT (FVP doesn't really 
+count)?
 
-On 6/11/26 16:06, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series adds a new configurable block error injection facility.
-> We already have a few to inject block errors, but unfortunately most
-> of them are either not very useful or hard to use, or both:
-> 
->   - The fail_make_request failure injection point can't distinguish
->     different commands, different ranges in the file and can only injection
->     plain I/O errors.
->   - the should_fail_bio 'dynamic' failure injection has all the same issues
->     as fail_make_request
->   - dm-error can only fail all command in the table using BLK_STS_IOERR
->     and requires setting up a new block device
->   - dm-flakey and dm-dust allow all kinds of configurability, but still
->     don't have good error selection, no good support for non-read/write
->     commands and are limited to the dm table alignment requirements,
->     which for zoned devices enforces setting them up for an entire zone.
->     They also once again require setting up a stacked block device,
->     which is really annoying in harnesses like xfstests
-> 
-> This series adds a new debugfs-based block layer error injection
-> that allows to configure what operations and ranges the injection
-> applied to, and what status to return.  It also allows to configure a
-> failure ratio similar to the xfs errortag injection.
-> 
-> Changes since v4:
->   - don't unlock in removeall to avoid a race between removeall and setup
->   - document why we can't match 0-sized bios
-> 
-> Changes since v3:
->   - use a static branch to guard the new condition
->   - split out a new header so that jump_label.h doesn't get pulled into
->     blk.h
->   - more checking for impossible conditions in blk_status_to_tag
->   - more spelling fixes
-> 
-> Changes since v2:
->   - improve the documentation a bit
->   - fix a spelling mistake in a comment
-> 
-> Changes since v1:
->   - drop the should_fail_bio removal and cleanup depending on it, as it's
->     used by eBPF programs and thus a hidden UABI.
->   - as a result split the code out to it's own Kconfig symbol
->   - various error handling fixed pointed out by Keith
->   - documentation spelling fixes pointed out by Randy
-> 
-> Diffstat:
->   Documentation/block/error-injection.rst |   59 +++++
->   Documentation/block/index.rst           |    1
->   block/Kconfig                           |    8
->   block/Makefile                          |    1
->   block/blk-core.c                        |   87 ++++++--
->   block/blk-sysfs.c                       |    5
->   block/blk.h                             |    3
->   block/error-injection.c                 |  315 ++++++++++++++++++++++++++++++++
->   block/error-injection.h                 |   21 ++
->   block/genhd.c                           |    4
->   include/linux/blkdev.h                  |    6
->   11 files changed, 490 insertions(+), 20 deletions(-)
-
-Thank you for this series. It is a nice addition.
-
-
-Reviewed-by: Md Haris Iqbal <haris.iqbal@linux.dev>
-(for the whole series)
-
-> 
-
+Rob
