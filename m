@@ -1,175 +1,247 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3981B349CD0;
-	Fri, 12 Jun 2026 16:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B84135CBC3;
+	Fri, 12 Jun 2026 16:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781280186; cv=none; b=jn5sAgOZQgO+QIV0uqIXon7DCH0ultX0dRTiI4KlXjHAPzuNjErdSK1tMm/nHFIWvPes34Sh8WhlaUoEcTsGIsb7yOB5gZmybbkOQtlA6vnJ7aw7Vx63hvdYc1w4u52/2lwq7BXSbAqwjmSxnoIWhembL8RiP0/O44G7bM/4ToU=
+	t=1781280470; cv=none; b=s0CXXekvVv9hSIU0eIgJ9SV1cqe++MgUSxREllz7jkgv4UVEfGtAr3YB4YLnprq8PnUtq94a9Uzo1MWjen834mZPmQaQdnHhJTT5dLPnbINoqIM5vC5b66emZcCgQjPsWJRL/ObjpP3yPfwb1ILp51AfHGV4lvh/R8ZZKtIgRIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781280186; c=relaxed/simple;
-	bh=mw6XEzpUHgFyX/3CQtJiGQS3wlyuzRzkAVcdVgqLqtM=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mrcjBG7uD6PiNUpw9Urid13aCRBNkkI5XdCDZVTy/F/VEPABIZHNt8h1NKAsB+IpAW7yUoWctG/q6l2PeKMvpDv9J3v7PZvPQ8WrcIFwEHY9TUksVc30qDv7mSMWAXt2JPra+wcT1FvYYX2VJVl5G1cIUBSUXic0R3v4ZfQxgN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zmFDSfxq; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1781280470; c=relaxed/simple;
+	bh=PM7ZGiMgqzvDevJ43e24iFiCX3mlYcDvWstcDsODdT0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lqK/0y5SCM9LX7zFT1tKlhKcKhlIjd4x5vWizKwD+HeFob+BmQSoeWOKg9v5x8ydyxH2AGb/AIZekz7slR/Rg6MocUAChvcU9fZI24e8/lizaPVs4FJOtD+NIUvnK5Yo/XruTQVgGm+iwI9rHYUzgK0yJcZUwKuLGvbBe/fDzHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GoFSUE26; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zmFDSfxq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1781280179; bh=5K9LmwVu9oORjjSCeF/aiuH8N36KFvnRHm/K+VIXTic=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GoFSUE26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28621F000E9;
+	Fri, 12 Jun 2026 16:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781280467;
+	bh=F8HKmkgMfnWSpRy+B4aGMkwUWIdFXIhB0ADkhsPsHow=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=zmFDSfxqzCWSDDFjPAZn/fnxFRhbx45wcMEhJLf4ncpOe9VyABQsBf5XRkkXfowPi
-	 tm2DBStp/T7VHMasPHRCk8a6XngQYAnP3FGaC5kiSQ1S2SzVqZA3Fxmuh//VIkTvQ8
-	 JhiGHKLblz23W5pHOxJ5wYgFfjAkdtbb8FZQWnHY=
-Received: from 172-1-1-128.lightspeed.hstntx.sbcglobal.net.localdomain ([27.38.179.189])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id EDDB30C4; Fri, 12 Jun 2026 23:59:29 +0800
-X-QQ-mid: xmsmtpt1781279977tkpwkjfmu
-Message-ID: <tencent_9C8FD8C64E11E0DED95D122C95B326EE1209@qq.com>
-X-QQ-XMAILINFO: Nx5J06Esz7r7KXFrWB0Rw4KPvtKFEcvA6MDQcKdpmvOqnfcAbo0b/uMnUnKOs9
-	 sEG+tYmdKPZI0XqylRj6fcOVSvK1+eEmzSRCWmMZbD6AeYoHhEVk2TkoDof8GD4LHT9uE1svlif6
-	 dMLT/Id0oYbzax01XQoY0QI6Dmb0Be3A+jX+JPFMKHKQxwMVPkJ28tYr/L5Oin+8bALHzpRg2/VV
-	 KyTKbtozKvhvaDR4k9mESN4QJQG8PP+JdOAm0iOmMKYGBTJBnRM1D7AnAGqknjB1U0WRAzRrBDGG
-	 eZmSezWnfa/TNlXmwfX1pbA8TrwkWBUelwQALGdhT37kTk1DoQT1jgMUeCraV+yzsak8vkwFK5WT
-	 AQAxM/mpwKIJj+ES/GltKR3vdwtD8wSfkx9AuRWOrl+bAfLaTfSC5OjomHfhwSMlIy/90LuDNG2A
-	 NHsC7bxdV+Ja9Wq0G7Wyyq4rKdXZXhTfdqdWDIEY2MjPo6+9sd1ZJo9UuG0e+qBsDm1yhoQZeRTH
-	 1skXOI34jtx4ZHPmSmiHVhfmsn+YfGdCMCP0WoNh4+i4vdliuoGVusXIJAmi3fhwJI/lFJZfWnfN
-	 E4i7z5uXQ0L2kSK6IW4IgkH9dl5YhAf9q+ss2Tn0ZPyRNwXhv7L/uUaS9zPnEWDrBmI5vEpvtl4j
-	 z7j8B8NwnR/0mtktxZLDrwjYz7jpIKJM553uXnddx4AoWw+RA2zm62Ajo6H6ivLzfPw7pqKYffBW
-	 oFKAzwm98k4In5M9+2mS/ZmSUVMEH0zi1ld5xPM9IDKILYZZGPFZMXXZOj+djhiSrFppUjTabuSy
-	 sCLRqS7jochfc3eV9IJB0KJ5tUV+Y9xKdUFNEsKjaWoeATFmFe8PzY+Qefe+Ta4Dyvr3LbtgKF5T
-	 zYLMXZAwn122wXyeR/Jc8DOp89bLjnE8Mt2bCcqh7ynQvX5sLHkqELFuHY4XS503Py+ilztkLHhh
-	 rmQKFPN/XixoQ9nA30WWnc7TENqvW0dMwKX5lchtRCe7YeziMIrflhaGf/i8fTtieCJAy64Do1Oc
-	 Z8HsXDRdTFGfKMbvrydiSG9Ex8TyyCfOO2/bS/UD4qGaBT92FK5zQUNUFEUGfZg2RYsSqFEmIafP
-	 vsA8+th7ujo/SkCpL3L/A7C6sOEdHERKThvQ9gTi8D3bYA+ulb0V4mvTALnZdmf9xChPoo
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Yan Zhu <zhuyan2015@qq.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net,
-	mic@digikod.net
-Cc: dzm91@hust.edu.cn,
-	skhan@linuxfoundation.org,
-	gnoack@google.com,
-	zhuyan2015@qq.com,
+	b=GoFSUE26dIRsAC/9P56FPrymI4gJRC+ATFFDJnH89jw4DVDJVylmCR3i0mQjYJQJ/
+	 SfxVNnDYPCD68SP/yhS5qOr76wrbyPr9weSDd2qxznCS45UkYtnC+udKLstQ/Z+NdA
+	 SZIdP+Yu2R/s/kT6NxDVOvAxHaNxTg89vJ8vzTlte48tUhkCzYsvIgpZEDtffKE3wq
+	 nQo/4XWW7KUWxPUW/wVu4LVHtyRlkPLWeVONcWfW/374nVQHbfy24VjrbBO7QANUMK
+	 5Bdf5vuA/VG5cT/vra0El0LlW3KqoVksdARH513TFCB3nQ75/+O7sAizXjUGL8kpKa
+	 LGufhvmrjEIeQ==
+From: Simon Horman <horms@kernel.org>
+To: gongfan1@huawei.com
+Cc: Simon Horman <horms@kernel.org>,
+	wudi234@huawei.com,
+	tengpeisen@huawei.com,
+	netdev@vger.kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	ioana.ciornei@nxp.com,
+	mohsin.bashr@gmail.com,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-Date: Fri, 12 Jun 2026 23:58:27 +0800
-X-OQ-MSGID: <ba3fc742adf3247666399050689ac1c9d3ac4fe0.1781105672.git.zhuyan2015@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1781105672.git.zhuyan2015@qq.com>
-References: <cover.1781105672.git.zhuyan2015@qq.com>
+	luosifu@huawei.com,
+	guoxin09@huawei.com,
+	zhoushuai28@huawei.com,
+	wulike1@huawei.com,
+	shijing34@huawei.com,
+	zhengjiezhen@h-partners.com,
+	maxime.chevallier@bootlin.com
+Subject: Re: [PATCH net-next v09 1/5] hinic3: Add ethtool queue ops
+Date: Fri, 12 Jun 2026 17:06:53 +0100
+Message-ID: <20260612160653.690379-1-horms@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <02e87952a65aa268526ade2f03de6c76fbc1fe9d.1781062575.git.wudi234@huawei.com>
+References: <02e87952a65aa268526ade2f03de6c76fbc1fe9d.1781062575.git.wudi234@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/admin-guide/LSM/SafeSetID.rst into Chinese.
-
-Update the translation through commit c34921670736
-("Documentation: Fix admin-guide typos")
-
-Assisted-by: Claude:deepseek-4-pro
-Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev
 ---
- .../zh_CN/admin-guide/LSM/SafeSetID.rst       | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
+hinic3: Add ethtool queue ops
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst b/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
-new file mode 100644
-index 000000000000..3f96df3ed776
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
-@@ -0,0 +1,82 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/LSM/SafeSetID.rst
-+:翻译:
-+ 朱岩 Yan Zhu <zhuyan2015@qq.com>
-+
-+
-+=========
-+SafeSetID
-+=========
-+
-+SafeSetID 是一个 LSM 模块，用于对 setid 系列系统调用进行门控，限制 UID/GID
-+的转变只能在系统范围的白名单中批准的 UID/GID 之间进行。这些限制还禁止给定的
-+UID/GID 获得与 ``CAP_SET{U/G}ID`` 关联的辅助特权，例如允许用户设置用户命名空
-+间的 UID/GID 映射。
-+
-+背景
-+====
-+在缺少文件能力的情况下，需要切换到其他用户的进程必须具备 ``CAP_SETUID`` 权限。
-+``CAP_SETUID`` 只授予以 root 身份运行的程序或显式获得 ``CAP_SETUID`` 运行时
-+能力的非 root 程序。相较于文件能力，通常更推荐使用 Linux 运行时能力，因为使
-+用文件能力以提升的权限运行程序会带来潜在的安全风险——任何拥有该文件访问权限的
-+用户都可以通过 ``exec()`` 运行该程序来获得提升的特权。
-+
-+虽然可以通过为完整的 ``CAP_SET{U/G}ID`` 能力给进程树授予权限来实现，但这与在
-+非 root 用户下运行进程树的目标相冲突。尤其 ``CAP_SETUID`` 允许切换到系统上任
-+何用户，包括 root，这在很多场景中过于强大。实际中多数程序仅调用 ``setuid()``
-+降低特权，而非提升特权。Linux 并未提供通用机制限制用户通过 ``setuid()`` 能切
-+换到的 UID 范围，除非允许其切换到系统上任意用户。SafeSetID LSM 正是为了解决
-+这一问题。
-+
-+主要使用场景是允许非 root 程序在不拥有完整 ``CAP_SETUID`` 能力的情况下，安全
-+地切换到其他非受信任的 UID。该非 root 程序仍需 ``CAP_SETUID`` 才能执行任何转
-+变，但SafeSetID 施加的额外限制，使其成为 ``CAP_SETUID`` 的“安全版”，防止其进
-+行未授权操作（如切换到 UID 0 或创建/进入新的用户命名空间）。这为系统服务提供
-+基于UID 的沙箱化提供了可能，而无需在大量非 root 程序上分配完整的
-+``CAP_SETUID``。
-+
-+其他已考虑的方案
-+================
-+
-+在用户空间解决此问题
-+--------------------
-+可以通过在用户空间完全移除 setid 能力并使用特权帮助程序来完成进程的 UID/GID
-+转换。然而，这会影响大量与进程生成相关的语义，如 ``fork()`` 后不立即
-+``exec()`` 的行为、父进程自定义环境变量或命令行参数、以及文件句柄跨
-+``fork()/exec()`` 的继承等。因此，此类方案对依赖特定进程生成语义的现有项目
-+支持度较低。
-+
-+使用用户命名空间
-+----------------
-+另一种思路是在独立的用户命名空间中运行进程树，并在该命名空间内授予 setid 能力。
-+这样，进程可以在自己的命名空间内自由切换 UID/GID，但只能映射到系统范围白名单
-+中的 UID/GID。遗憾的是，用户命名空间往往需要与其他命名空间配合使用，例如网络
-+或 PID 命名空间，否则会导致失去 ``CAP_NET_ADMIN`` 等关键能力，限制了实际可用
-+性。
-+
-+使用已有 LSM
-+------------
-+当前树中没有任何其他 LSM 能够对 setid 转换进行门控，也没有实现
-+``security_task_fix_setuid`` 钩子。SELinux 对此钩子声明：
-+"由于setuid仅影响当前进程，并且由于SELinux的权限控制不基于Linux标识属性。
-+因此，SELinux不需要控制此操作。"
-+
-+使用方法
-+========
-+SafeSetID 在 ``securityfs`` 中通过写入 ``safesetid/uid_allowlist_policy``
-+与 ``safesetid/gid_allowlist_policy`` 文件来配置策略。策略的格式为
-+``<UID>:<UID>`` 或 ``<GID>:<GID>``（使用十进制数字），并以换行符结束，例如
-+``123:456\n``。写入空字符串 ``""`` 可清空策略。为特定 UID/GID 配置策略后，将
-+阻止该 UID/GID 获得 ``CAP_SET{U/G}ID`` 相关的辅助特权，例如设置用户命名空间
-+UID/GID 映射。
-+
-+GID 策略与 ``setgroups()``
-+==========================
-+在 v5.9 中已加入对 ``CAP_SETGID`` 限制的支持，与之前对 ``CAP_SETUID`` 的处理
-+相同。然而，为了兼容用户空间常见的沙箱化代码规范，目前允许具有 ``CAP_SETGID``
-+限制的进程调用任意 ``setgroups()``。这意味着在这些 ``setgroups()`` 限制策略
-+检查代码就位之前，**当前的 GID 策略并未提供任何有意义的安全保障**。
-+``setgroups()`` 的限制将在未来版本中加入策略检查代码后真正生效，该代码将依赖
-+于 v5.9 中加入的 GID 策略配置代码。
--- 
-2.43.0
+This commit implements ethtool callback functions .get_ringparam and
+.set_ringparam. These callbacks allow users to utilize ethtool for detailed
+queue depth configuration and monitoring.
 
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> index 90fc16288de95..be9992a235f7b 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
+[ ... ]
+> @@ -409,6 +410,96 @@ hinic3_get_link_ksettings(struct net_device *netdev,
+>  	return 0;
+>  }
+>  
+> +static void hinic3_get_ringparam(struct net_device *netdev,
+> +				 struct ethtool_ringparam *ring,
+> +				 struct kernel_ethtool_ringparam *kernel_ring,
+> +				 struct netlink_ext_ack *extack)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +
+> +	ring->rx_max_pending = HINIC3_MAX_RX_QUEUE_DEPTH;
+> +	ring->tx_max_pending = HINIC3_MAX_TX_QUEUE_DEPTH;
+> +	ring->rx_pending = nic_dev->q_params.rq_depth;
+> +	ring->rx_pending = nic_dev->q_params.sq_depth;
+
+[Severity: High]
+Does this code accidentally assign rx_pending twice and omit tx_pending?
+Querying the interface will return 0 for the Tx queue depth and an
+incorrect value for the Rx queue depth, which also breaks partial
+ring updates.
+
+> +}
+> +
+[ ... ]
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> index e7d6c2033b451..bc4d879f9be4e 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+> @@ -137,7 +137,8 @@ static int hinic3_set_interrupt_moder(struct net_device *netdev, u16 q_id,
+>  	struct hinic3_interrupt_info info = {};
+>  	int err;
+>  
+> -	if (q_id >= nic_dev->q_params.num_qps)
+> +	if (q_id >= nic_dev->q_params.num_qps ||
+> +	    !mutex_trylock(&nic_dev->change_res_mutex))
+>  		return 0;
+
+[Severity: High]
+Is it safe to silently return 0 (success) without applying the interrupt
+moderation if the mutex is contended? This appears to drop hardware
+configuration updates without informing the caller.
+
+>  
+>  	info.interrupt_coalesc_set = 1;
+[ ... ]
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+> index 0a888fe4c975b..c87624a5e5dcd 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+[ ... ]
+> @@ -315,6 +316,9 @@ static void hinic3_link_status_change(struct net_device *netdev,
+>  {
+>  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+>  
+> +	if (!mutex_trylock(&nic_dev->change_res_mutex))
+> +		return;
+> +
+
+[Severity: High]
+Can this usage of mutex_trylock cause physical link status events to be
+discarded? If the lock is held (e.g., during an ethtool ring size change),
+the OS link state could permanently diverge from the physical link state.
+
+>  	if (link_status_up) {
+>  		if (netif_carrier_ok(netdev))
+>  			return;
+
+[Severity: Critical]
+Does this early return path leak the mutex? We acquired change_res_mutex
+earlier, but it looks like we exit without unlocking it, which would
+cause subsequent deadlocks.
+
+> @@ -330,6 +334,8 @@ static void hinic3_link_status_change(struct net_device *netdev,
+>  		netif_carrier_off(netdev);
+>  		netdev_dbg(netdev, "Link is down\n");
+>  	}
+> +
+> +	mutex_unlock(&nic_dev->change_res_mutex);
+>  }
+
+[Severity: Critical]
+There is another early return just above this code:
+        if (!netif_carrier_ok(netdev))
+                return;
+Similarly, does this early return also forget to call mutex_unlock()?
+
+>  
+>  static void hinic3_port_module_event_handler(struct net_device *netdev,
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> index da73811641a9d..047214cfc7532 100644
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+[ ... ]
+> @@ -428,6 +439,74 @@ static void hinic3_vport_down(struct net_device *netdev)
+>  	}
+>  }
+>  
+> +int
+> +hinic3_change_channel_settings(struct net_device *netdev,
+> +			       struct hinic3_dyna_txrxq_params *trxq_params)
+> +{
+[ ... ]
+> +	err = hinic3_vport_up(netdev);
+> +	if (err)
+> +		goto err_close_channel;
+> +
+> +	hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_params);
+> +
+> +	mutex_unlock(&nic_dev->change_res_mutex);
+> +
+> +	return 0;
+> +
+> +err_close_channel:
+> +	hinic3_close_channel(netdev);
+> +err_qp_irq_reset:
+> +	nic_dev->q_params = cur_trxq_params;
+> +
+> +	if (trxq_params->num_qps > cur_trxq_params.num_qps)
+> +		hinic3_qp_irq_change(netdev, cur_trxq_params.num_qps);
+> +	hinic3_free_qp_ctxts(nic_dev);
+
+[Severity: High]
+Is hinic3_free_qp_ctxts() called twice sequentially in this error path?
+The err_close_channel block calls hinic3_close_channel(), which internally
+invokes hinic3_free_qp_ctxts(). The flow then falls through to
+err_qp_irq_reset which explicitly calls hinic3_free_qp_ctxts() again.
+
+> +err_uninit_qps:
+> +	hinic3_get_cur_qps(nic_dev, &new_qp_params);
+> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
+> +	hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_params);
+
+[Severity: Critical]
+Does this error path destroy both the new and the old working channel
+resources? By calling hinic3_free_channel_resources() on cur_qp_params,
+we leave dangling pointers in nic_dev->q_params and nic_io. It seems
+subsequent packet transmissions would trigger a use-after-free, and
+closing the interface later would trigger a double-free.
+
+> +	mutex_unlock(&nic_dev->change_res_mutex);
+> +
+> +	return err;
+> +}
+> +
+>  static int hinic3_open(struct net_device *netdev)
+>  {
+>  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> @@ -458,6 +537,10 @@ static int hinic3_open(struct net_device *netdev)
+>  
+>  	hinic3_init_qps(nic_dev, &qp_params);
+>  
+> +	err = hinic3_prepare_channel(netdev, &nic_dev->q_params);
+> +	if (err)
+> +		goto err_uninit_qps;
+> +
+>  	err = hinic3_open_channel(netdev);
+>  	if (err)
+>  		goto err_uninit_qps;
+
+[Severity: High]
+Does jumping to err_uninit_qps leak the QP contexts allocated by
+hinic3_prepare_channel()?
+
+Since hinic3_prepare_channel() calls hinic3_init_qp_ctxts(), it looks like
+we bypass the cleanup that happens inside hinic3_close_channel(), which
+would permanently leak the root context configuration and associated DMA
+memory.
