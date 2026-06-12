@@ -1,109 +1,108 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A623E377567
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 21:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A201331ECC
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 21:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781299610; cv=none; b=ccSMpJzsVmwm819daAhhfiz3QQokxQwZ0uUlubX8meUBsOi6inQyj+buKLZUZQixbm33j+Qp4zozfrzEwnmi2WhqD4b5d7pnzH19pITdqEHl8lgsU9E8kxue7F7wEfbXukOjJkc63bEGf76OO5qgZkAEVO/knE2ENc34iZVQX/c=
+	t=1781299914; cv=none; b=ekjEgvzc8g+CnnU+ZYOxravbS6rkOcKrAIWKgWATJum2jUcP3QJ71jfNkPkqh2QhNyd6CkpycM6XlKZOUfsow9AdKtpzsFf5rXW6QZUGwWRoVhCd8jNklofFyWpSPNUGd3DzHGxCi3emXSSQqLvIqVn+zfhPOYrzak1jIlIdDJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781299610; c=relaxed/simple;
-	bh=vQRs/qjGkOUg+kGpHxYMeuOyoLjb6dULYqqS+cIUfWw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=KH4Y5fYTOEPUKdqf5Jk5iCi7BbYPddywkWf8+DPYU4VjIz9jizw+Fir+d9y4HN4p+FGmlxlU3AB9V2ijKgHelckNmbZP46EZuITzzGWvdWfnCz0UCh3AFmf0oCJACU4Ay9DnelejG7qJVb7d8FUka1zO3imam123EZ/moHQSVGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ovUtcy/H; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781299914; c=relaxed/simple;
+	bh=b8PD9i0sOIQmZK1FI66pR0cqwDLEgrFW+rulxA1LOvE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AgbtGknKD3hDZMKUo/DIBn1oXiX5ck1fY+ZA4xV2Gl6587a1ceIqM2+g4ioC5ZX0TO/H1N99Yx8qmedaPBMuR+vM4kxtymwqTIOdPoB7AW8hxo274EsYPr3cCvmZF8qSVKZfMxnPr211oCQjI7GaJOKIChW1aK+FumCWXFW5YMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2C9aLsH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ovUtcy/H"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7e053987001so28367947b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 14:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781299609; x=1781904409; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QoqQNxNPBqMismqzNgaeaEvZMlSF3o7CK1/OdEQIGC0=;
-        b=ovUtcy/HEKEPeWMBQwJpucSBLLBXqg3n9RuyvSoNzvLV1UtoMGi81aHVSu9D2uDZ1m
-         Wagzj6LtRPCCAJiGQWh1RkaqsP9f15FS+TS5habJh9p4czgPvkEB4REfjzezFZuqxasO
-         CHqzEbmPpsP5F2kvi7dG5PTgkqAkA8WKDXT9UkPCJW88nhGJirh0EiCtoMknK9eouYe4
-         JKXT1j56VBHuIKPpMZ3XVN6727Ts5NnPqsi8QkLVyip0aaSL+XKSSArvKcoqKkAv18nA
-         XbJdPjui8EKvuUOIRWebq4lXL/bHLbI/EqA9RsvFD0O+78/mpLQsy2uF8SXpqTVC/YN6
-         0/xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781299609; x=1781904409;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QoqQNxNPBqMismqzNgaeaEvZMlSF3o7CK1/OdEQIGC0=;
-        b=VEwY6OSYXIBjqZ4Oq/uLwWL561gwXk36U+Cxy6wR2HcGyNpRK1X5GppxPfVeuCWNwM
-         3Qwrtjd4W57GkQHZ3oCvnlv6Ij0fPCIG9kHJvBHGLPSYiUzsYGl6IVl2oYsQoy4nlZdu
-         Fn9T7CzdS0q6NRfZaDHSPoYUuiFjVQX/N9itjuYCaR3OHuisXd+ltFoG2YH4yikvggXw
-         azAaHes8tmGCQQYE/mG+05qzzI3Zmi7co/DY03DI/3gywEw7q5IzvFYltj2VJNouq6qf
-         AgglPGewIEXk/QDy5HRHwHqiN38pSvptL7EtcdUYpRvMJV9cRMDRan7YiCuXYAKnHJV4
-         t17w==
-X-Forwarded-Encrypted: i=1; AFNElJ+yOsN18mpy2a9j6hyPo9mOBgBnBiYd4mcSY2QPTjCWEM/HF1ea+Gra6o+i8x9Lx3Q7jZL0DZ69OI4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0zdPdLFXCI94Kfj1juittMehzOFPGLXUrjaQiNitFy5Ch7PBx
-	ppCNvdeOgSzvkM0vTYas2QAipkNlwN3C82/qIfEUtqwU0UBYusqokM9XcI90+WOLUA==
-X-Gm-Gg: Acq92OH0dEN/R1OxY+SPPYJ9W1h0/XJRvHpyMxLqLGK9xIurpZfrkvYzW+ZzJ//gDb7
-	YnL98i4Tvl43394ch2AqPPj3JLZyhZu9CTqcTmbDACzC0F9P9og2/knIx3mjxzseejxA2AmCgB0
-	034rDvkxc6nECsH8hP2xSD6VzSjJ3izXSBvVxhQ+qztYR7/dOEG5gsGJH8PQBsvvEE4RgPHkVAr
-	BAccIkqPLCOiiXuo75UMNHE+tB/tgiz8jrg8SFoyeMz8QgjrLnde+/N8dbhfhFJ6+eGxRScQQUS
-	5KMALsCbOMsSbGFpomHtsLA7sRdqJeRXPkrzdmKcv+J7wueQAxdBLwoSQ+rxasBZGg7j/dADDZy
-	7Y+sSe4gGwYe5Ln030KcsVd91NNVhs6eTDoGUJdnnQP+l81HT/R7FJ2r6JOE73ozlMvZaQBisCp
-	Zofod0mENVxfOMayV361aFC/WTK9CB3I96OaVxil+7UbO5Bw4NWSM5ARhIYqCfPnGeyUI0MDxuU
-	x5eoRAM2g==
-X-Received: by 2002:a05:690c:3a0:b0:7db:d527:b8c5 with SMTP id 00721157ae682-7f797da207amr45590297b3.16.1781299608152;
-        Fri, 12 Jun 2026 14:26:48 -0700 (PDT)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7f76e8991dcsm15341147b3.17.2026.06.12.14.26.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 14:26:47 -0700 (PDT)
-Date: Fri, 12 Jun 2026 14:26:34 -0700 (PDT)
-From: Hugh Dickins <hughd@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-    Sergey Senozhatsky <senozhatsky@chromium.org>, 
-    Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-    Jonathan Corbet <corbet@lwn.net>, 
-    Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-    linux-doc@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-In-Reply-To: <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
-Message-ID: <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com> <20260610043545.3725735-4-anshuman.khandual@arm.com> <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2C9aLsH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7BD1F0155E
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 21:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781299912;
+	bh=b8PD9i0sOIQmZK1FI66pR0cqwDLEgrFW+rulxA1LOvE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=d2C9aLsHpl2K7U/kj2lmpOhu7UxHqUtJWjFxMsV4jzRnjD4dDsd6DM8L5D8aMxjzD
+	 HKUussFsE2Aj2dF67WLXQK2lKQMI+epPQZsCkS4q/hZlaSqaMWRwImwEQ0HhyFfzBb
+	 KHN1WdwnSCg5InR0RuLVVXj12FurveOnrpJeoW/qnmA1/bgUfmFDO16OdAxDq/sv6a
+	 ke1GlUnZiCNe7gy8LJ/P8ZYl75dWiKQPsS7D6pneZN0cay9wdmAkDUDu4/sglNktFH
+	 eSIMmRPluyUZswmvuOoFwvdRKouZQA5zQUU0mdOopTRxqbjPMA0IgoMPK7i7aNNBdq
+	 SI2JWlVnF6qWQ==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-68cc6c7df99so2202222a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 14:31:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8NAm68GmvSZ8RfxE4QJkrjhbxCrNawDMqqiWswELO9DPTfsbHSXJqGPMJdKIdEQpJZ5GIrFOkMkaM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjBaf66albbx7/ev6H0B06cEswsn1dYXE61X9kXnA23qB17N9P
+	IjR89pEs3W4TSFItNpL0Ucits9RUT7TS8oyuGgH6bEpeUqbdU0DtDnSJWpI/I0siATwg35SRkEv
+	UFSqVv9PSzsaPNsD5IPDviXBRuH524V4=
+X-Received: by 2002:a17:907:e143:b0:bfe:ed16:2841 with SMTP id
+ a640c23a62f3a-bfeed1638f4mr80835566b.53.1781299911645; Fri, 12 Jun 2026
+ 14:31:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <CAO9r8zM4SDdTgz9L2s1VfXL8K2VBjMD9ej2BTDxaGge1t2+quA@mail.gmail.com>
+ <aicJBVT4pBvmyooT@linux.dev> <aicZ-5GX9De3MAU7@linux.dev> <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+ <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
+ <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330> <aiw2p5ANjsQUCIHA@linux.dev>
+In-Reply-To: <aiw2p5ANjsQUCIHA@linux.dev>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Fri, 12 Jun 2026 14:31:40 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zNi4-QC4sUi=xXWHt9WMeG39mbyoSf8kON9vLOZ=cbCmw@mail.gmail.com>
+X-Gm-Features: AVVi8CcO7wY2xTke3qmgBmUl7EfCwgtSKSiK31KON1wLQrtykLxRuXz4sDM4eoU
+Message-ID: <CAO9r8zNi4-QC4sUi=xXWHt9WMeG39mbyoSf8kON9vLOZ=cbCmw@mail.gmail.com>
+Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
+ proactive writeback
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: YoungJun Park <youngjun.park@lge.com>, Hao Jia <jiahao.kernel@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
+	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, kasong@tencent.com, 
+	baoquan.he@linux.dev, joshua.hahnjy@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 12 Jun 2026, David Hildenbrand (Arm) wrote:
-...
-> 
-> After some off-list discussion, I wonder if we can make our life easier.
-> 
-> I think, even with your patch, there is still the case:
-> 
-> pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
-> 	 pgtable_level_to_str(level), entry);
-> 
-> Where we cast all entries to an "unsigned long" in the callers. We'd have to rework all
-> that for 128bit entries either way (passing them in some struct instead).
-> 
-> I really just extended what we used to do here in print_bad_pte() before commit ec63a44011d.
-> 
-> Maybe we should just drop the "print the involved page table entries" thing?
-> 
-> I mean, we do have the actual page, and we do have the address in the address space, which
-> we all print.
-> 
-> Not sure if the actual page table entries are that relevant?
+> > > Is Hao's work needed for some followup work/development? The earliest Hao's
+> > > work can is 7.3, so if we aim to figure out swap tiering interfaces in next
+> > > couple of weeks then option 3 is the way to go. If swap tiers take more time
+> > > then we can discuss other options as well.
+> > > However I would need zswap folks (Yosry & Nhat) help in figuring out swap tiers
+> > > interfaces. Zswap is the current top tier swap usage in real world. I want
+> > > zswap users to eaily (and hopefully transparently) migrate to swap tiers.
+> >
+> > I am looking forward to the discussion on this interface!
+> >
+> > To help boost the discussion and progress, I would like to share a few of my thoughts.
+> > We could either introduce a new interface to trigger demotion/promotion,
+> > or we could reuse the existing one (using tier just internally)
+> >
+> > Based on the memcg interface currently proposed in swap_tier
+> > (memory.swap.tiers, memory.swap.tiers.effective), I think it aligns well
+> > with the current direction. It provides a foundation for selectively
+> > targeting devices in tier order.
+>
+> Here instead of cpuset like interface, we may want more zswap like interface
+> where you can put limit on the usage i.e. memory.swap.tier*.max. We can start
+> with allowing only two values i.e. 0 and max which effectively will be the
+> same as what you need.
+>
+> I will respond to your other points later when I have time.
 
-The page table entry is BUGgily Bad: we want to see what it looks like
-(sometimes, a sequence of bad page map entries may even show up as ASCII).
+If we will have one interface for all the tiers for memory tiering,
+I'd rather we do the swap for swap tiering. So maybe
+memory.swap.tiers.max or memory.swap.tiered max?
 
-Hugh
+The file can show the limits for all tiers when read, and maybe write
+something like "echo 'tierX max' > memory.swap.tiers.max" to it to set
+a new limit. We can support only 0/max for now to enable/disable
+tiers. In the future, we can also allow something like "auto" to
+automatically scale the limit based on the swapfile size and
+memory.swap.max, similar to the direction memory tiering is heading
+in.
+
+I think we can start with just this interface for now, and expand
+incrementally. For proactive zswap writeback, we can add
+memory.swap.tiers.demote or something, and only support zswap
+initially?
