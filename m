@@ -1,48 +1,51 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC773793A9;
-	Fri, 12 Jun 2026 19:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247303793A9
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781292053; cv=none; b=NdPP53brDMuzF01In8X41BJc+AXjK5zpg3TGJyTnP+bPtgR2NQsnKW1kZkKIWS+e2JTRBMuusgTQFMx33Y0ATAIZ97wEW3QT8lfCmWerTPRjVF804IyPM1noZV5st4NFhXcciRDzrjSY2wu0/4b6NmSVitZ2jX0Z3q+BCxBMnWs=
+	t=1781292112; cv=none; b=e81CmjwX21h/iUTE1WcC380HFD5evCbFYgU3RZDglcj22Vju8YGxf6mPD3yebsU7nlTUXWf550MSyBnDDlYUu8v8Ee8cChpAEwOKBPn7wU5Nsu7zfOXs8hq2nNB6P+ueu/wTFXhYEYfKcypESb7AQxGjBKdq17PSskgfgt0sSq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781292053; c=relaxed/simple;
-	bh=BJa17qIuJY4RG7VnuxZTBKCt7UpY8DhM4Xd6RHzIMzM=;
+	s=arc-20240116; t=1781292112; c=relaxed/simple;
+	bh=rGxGeIlyQROGNdwC3iIogkKw2subYwsPutbMqa2IoQU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AaDeaIMMxOz87OnogJXsEsbWxc4zrRBUqlxwdhfvulOG18fYDoia23saaDlZtkl+tEP1ZT4rCx7T62Yc/094F2C2l6al0luINW9pu9oWivXfnqteUQ26yGFc8f0k+BPzTSY+QG4+3KBEF4T0lHo5AVJRXJZvmmVke949dosuWPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ruBKkg8u; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=GSGoIWs7toacUiaYLtg5/qzq2F8VToqyFtlTcaA5nIf0Nqf7H4LVeL5i+QKBgoo0CDki2ChuHPaqw3k6mvZB/yGiIoPUMsxbQxviSY9rMMRQ9OTaJHyPbZayx+evmNBm+XfNJctAhW60N0ssFu0cIwxwA1lGKj900b3gFytiXhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e65oY+5S; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ruBKkg8u"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D6DAC410AA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e65oY+5S"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7305440E4D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1781292039; bh=MGMghaRsZ1QS+Ihmf72LLL5qYKRppPIOFD+FpKtXvZU=;
+	t=1781292110; bh=iBXUBw5EYTIyF/PB1MWw7I5XspGR6xCDiVEcV9Takoc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ruBKkg8uie6ntjpdaNfPlA0vfpSXl1RzRj2F7QkqF3b9ZLvAcQN8HrL6xRQMAd1wS
-	 /LzIS5xLob0Z+pWdgutQnf3V3VhiPvNeNMTAxIO4XGf/qGNfaIjYzOJcZNL+jGiCzr
-	 yWw6g3IzsxCW7pU+xSYvKmXNECh8uICwPqXDn9P81ol1pjz7xHHC3pPVN9HpRYtA9D
-	 Ye4zQhnOyRM6F9HfElZRrIyLnqM4qLLhTZ+Sbo1eShhsdAXDND8uf9+5qUxaJQO3tV
-	 PIlD+Sk7PilavGWRK1KbencW/3w6EwxcbnoNIdrUhzAB6Z7WKHpdzs5wWWjnV2qtat
-	 zIFWLS4sc5NHA==
+	b=e65oY+5SEzmXxkA0vvv6nGjtadvfzBGW6L70w0CtNvYlpcq2kVjO3yu6lUL6O63ub
+	 BGhZVSEmlSA7TVF2IHLjsRK3aYZe+a0bXGHbzd4ci3qRsbhEuJN9NrfOCde1sigKsB
+	 ILWyxu2NDxRqFO6VeYdLBJyXxGPejGmWgHZ0GABcGk8LV5+wn2+8OkwGVdfaRr3iHI
+	 BHzKRbsPCK7NuUiaAIT7dlfccQaAKy3vCKBrghLvc9MGoojRW9RaOHDi6ENBbhZ8PL
+	 xinEkV/f9lUkrqidxEf6mnjFAX4hSmX0XOrfO2HeVzcd81OA0mIBDAV/rCYQv8PBpj
+	 XAFMTtM+ubxaw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D6DAC410AA;
-	Fri, 12 Jun 2026 19:20:38 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7305440E4D;
+	Fri, 12 Jun 2026 19:21:50 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS"
- <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH] Documentation: process: fix brackets
-In-Reply-To: <20260611064311.117023-2-manuelebner@mailbox.org>
-References: <20260611064311.117023-2-manuelebner@mailbox.org>
-Date: Fri, 12 Jun 2026 13:20:37 -0600
-Message-ID: <87ik7n7egq.fsf@trenco.lwn.net>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Avadhut Naik <avadhut.naik@amd.com>,
+ Dongliang Mu <dzm91@hust.edu.cn>, "GitAuthor: Ethan Nelson-Moore"
+ <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao
+ <carlos.bilbao@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
+Subject: Re: [PATCH] docs/{it_it,sp_SP,zh_CN,zh_TW}: update references to
+ removed CONFIG_DEBUG_SLAB
+In-Reply-To: <20260611010014.412841-1-enelsonmoore@gmail.com>
+References: <20260611010014.412841-1-enelsonmoore@gmail.com>
+Date: Fri, 12 Jun 2026 13:21:49 -0600
+Message-ID: <87ecib7eeq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,17 +54,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
+Ethan Nelson-Moore <enelsonmoore@gmail.com> writes:
 
-> Fix missing ')' and needless ')'
+> CONFIG_DEBUG_SLAB was removed in commit 2a19be61a651 ("mm/slab: remove
+> CONFIG_SLAB from all Kconfig and Makefile"), but references to it
+> remained in documentation. The English documentation was updated to
+> refer to CONFIG_SLUB_DEBUG in commit 5969fbf30274 ("docs:
+> submit-checklist: structure by category"), but these translations were
+> never similarly updated. Update them.
 >
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Discovered while searching for CONFIG_* symbols referenced in the
+> kernel but not defined in any Kconfig file.
+>
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 > ---
-> This is the first patch of a 'series', but I won't send them together
-> because I'm still producing the patches and it will take me a couple weeks.
->  Documentation/process/deprecated.rst     | 2 +-
->  Documentation/process/maintainer-soc.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 
 Applied, thanks.
 
