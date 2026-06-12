@@ -1,60 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956552F7EF7;
-	Fri, 12 Jun 2026 19:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E189E2F7EF7;
+	Fri, 12 Jun 2026 19:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781291837; cv=none; b=BNsjd6Yv1Mz3DBh00j0eVY+ky8QiOQrWN0y5SzYB6iJOwSZIX3JJyE0kbAGSVzNGaMTT6tqIFvybmnwKuUIGY97ryKBh9GGL/qjz6B/NdypOo+kwie52oladPzCBl7a4yZlMnjot9op1+PolBZY5/e3SRVLsnqRLL37l6ZjjK04=
+	t=1781291934; cv=none; b=bFxxu++LRJ4Qfe0yEx0J94fCsYhZXgZT/ylo6OoFEH7aGqA3qA7UmUx/54ZpygAyUgRBGBE4F0irNizDd3OmH+AgBctbQfMYSLH6ZyQrELNPvGHRFXytLyYfq3j1g2V5MAtV1eBuHpyuJJeVjjVFweeCQFHEXqrLHkceQ23Mmbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781291837; c=relaxed/simple;
-	bh=OwNFJwn6yQkAESIY+s+Av0XQ0kNUs3+OGgsFW4Z6wRY=;
+	s=arc-20240116; t=1781291934; c=relaxed/simple;
+	bh=LrMIAmidvmh9DGRCTN9kkeMDUAufFD2wTeWIQSPmOws=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ku/XmSGJOe8HLVOonzQKXih63HiGJktvJs3pgmJRFUR8ZIvi2Am/aLg1C7qbSekalXt6YGpsv6jJBOljHyN2IpDsO5jpRnA5djVd4V9RM1GRQ0vctqomJ9ESz4chITovzy0Hu0cty0FAji3tD7Wssv7yfk5y8bpCYIpMoanqhs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=B50uc+n8; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=oyucqA8M0xR3wyCBMcVzsqh/rZBZvbh1BIRbRt+rWc6/CR3dmTUUD1jqQhMjAMN8U5G9X6x50p16+5p4QheXVjw/g8sPMkW1ua43X3nKfnlvx2NY6Us6FH17ywyXzvoOV3Cn6FxaBoLBtNE8kgBwCg/Rj11EPRQHIx7fw99jsrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kyWhkEWo; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="B50uc+n8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A346640430
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kyWhkEWo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 484F840E4D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1781291835; bh=HH2moNpZWt+XN8tXRSKqJX51PwUlhD/ypigBEwKqVGs=;
+	t=1781291933; bh=a8hXTDjdIj3T1WUT5mbFahJEnuuxAhS1puwBFIjZFwE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=B50uc+n8SBBYjg70I3kRVsmnmUKcnKuIrmrZCYuEnV3ObcFO5GSJqKiwUjw+b9NZ/
-	 MYYeaKnItIe4jFDsrzZRiitkI4duonYB0L/MFQ+NKKZhD/P8vVuDH1Evmp7kPiWpRx
-	 z+eJ0zrEtOKFZUpGe1ifoAqueR1sWKsRFU6pxlWfXd2f8NNJK/WiDeFcJtCQAgQt59
-	 OlU0HBB9M/QY4VXufYDWDqtngGEYtwcRJK+60SVzbpF5DhDJ0nFfgVzQ2fav/4jvQa
-	 cJtNDppeMCYjSGOl+QiCeQiz9W2C2arD5leaSg1eN5b/PCtgWv/nmQZ0TwouTRAgbh
-	 1MkpAqIRQry+Q==
+	b=kyWhkEWodTXHn76sWb/kiN2JGhKPuzoR2ZOTWq6yhYrlRQasyCbSl3IOBvNXO47ZJ
+	 AjwVCKcoif12xtmoccvedoM03osgyJjGG7Mp7Rc087q7YQz6k91UnuFlo9+jb9UkCi
+	 fBFWKHkpa0R/88v5IVgwYd7HQuf4n9Dy5dW01Jhw8lapfTGL3qLTdGSyvrbMXsEmnA
+	 /1bJ0g4T2j/tsxF5CqMI7XmMwefqAk6w3QlxZPYh2VlN2eJnoxdpwp2TsRq5glzW2s
+	 U+OBPKfwGp0PZpbmfW/yQYtRV2OlnWJjmfMgLfJhEYInSZa5ixLu1lglQKTbecc3/P
+	 JFyIeTvSqzsnA==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A346640430;
-	Fri, 12 Jun 2026 19:17:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 484F840E4D;
+	Fri, 12 Jun 2026 19:18:53 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta
- <vgupta@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <chleroy@kernel.org>, "open list:SYNOPSYS ARC ARCHITECTURE"
- <linux-snps-arc@lists.infradead.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
- <linux-arm-kernel@lists.infradead.org>, "open list:ARM/SAMSUNG S3C, S5P
- AND EXYNOS ARM ARCHITECTURES" <linux-samsung-soc@vger.kernel.org>, "open
- list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
- <linuxppc-dev@lists.ozlabs.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH] v2 Documentation: arch: fix brackets
-In-Reply-To: <20260612095432.177759-2-manuelebner@mailbox.org>
-References: <20260612095432.177759-2-manuelebner@mailbox.org>
-Date: Fri, 12 Jun 2026 13:17:14 -0600
-Message-ID: <87qzmb7emd.fsf@trenco.lwn.net>
+To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: Re: [PATCH] Documentation: admin-guide: fix bracelets and
+ translation issue
+In-Reply-To: <20260611075513.124994-2-manuelebner@mailbox.org>
+References: <20260611075513.124994-2-manuelebner@mailbox.org>
+Date: Fri, 12 Jun 2026 13:18:52 -0600
+Message-ID: <87mrwz7ejn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,32 +54,17 @@ Content-Type: text/plain
 
 Manuel Ebner <manuelebner@mailbox.org> writes:
 
-> Add missing and remove needless parentheses, brackets and curly braces.
-> Fix typos.
+> Add missing ] and replace 'neuer Name' with 'new Name'.
 >
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
-> [v1] -> [v2]
-> "(i.e cache geometries)" -> "(e.g., cache geometries)"
-> "Excer[t" -> "Excerpt"
-> add Reviewed-by: Randy Dunlap
-> fixed my own typos.
-> ---
->  Documentation/arch/arc/arc.rst                 |  2 +-
->  .../arm/samsung/clksrc-change-registers.awk    |  2 +-
->  Documentation/arch/arm/vlocks.rst              |  4 ++--
->  .../arch/arm64/memory-tagging-extension.rst    |  2 +-
->  Documentation/arch/powerpc/vas-api.rst         |  2 +-
->  Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
->  Documentation/arch/sparc/oradax/oracle-dax.rst |  2 +-
->  Documentation/arch/x86/x86_64/fsgs.rst         |  4 ++--
->  8 files changed, 18 insertions(+), 18 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 6 +++---
+>  Documentation/admin-guide/media/bttv.rst        | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
-As Krzysztof pointed out, you formatted the subject incorrectly, meaning
-that the maintainer has to clean it up for you.  I have applied the
-patch and done that this time, but please pay attention to the
-formatting in the future.
+The patch looks OK, but when the patch itself introduces new typos in
+the subject line, I conclude that not a lot of attention is being paid.
+Please fix that and resubmit after the merge window.
 
 Thanks,
 
