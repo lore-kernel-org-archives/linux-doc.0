@@ -1,204 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C973932F4;
-	Fri, 12 Jun 2026 18:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35004380FFA
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 18:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781288015; cv=none; b=e7oMqL+O/+xg44oGNRAXLZdJ6sW6SXt4KMVZ55pKIp1HRn8ePOpXQGIYiP72uvmM/48oRz1L4v1gVNoDhCpWWuUMnBBiP0BNtChjFjfGeOb3we4Zjl19FMg4Ra2D3JxFMG+hZ5uApVAh3ndNmNOe6axDb81y5oqR4eyB5WEkKZY=
+	t=1781288120; cv=none; b=kbP5z+FGAUbvQ7KIZgWKjztDRa7ErQ5Dkuutm2xvFMdcANeS7ZbhAhOv2GKaiQLx20e7CCe3mfnFO3yRZYWlR2+u8f6BD6kKkWZlH+oTuyb3F6Lf8mTy8Wh/cX5xYqo1am+Gdpm6LwD6RnU3bJZvCeHBH5ktg6ml7KsZAvEm1tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781288015; c=relaxed/simple;
-	bh=6HS+7EANeU0a/eliioo0haT4yj3auG54Dz5W4PkwUGo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=NRZCWLl59jcoRqpRY2uipp6shGXhv4g8nNmfbNID1B8ztcZdCtt4N6GMGWvTSoAtgqVFCn2qxM73VlZ8dgDXrgdd3DvJaxTtdQ+eF/KYqmIxtTql600wJFRz65DGpXK4ytl28NMQU2KmQ5Ffr4SWB5gP1rIcYRi+DD/UzdKbYZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VyTQO9M9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781288120; c=relaxed/simple;
+	bh=ASQR4l5FNm9ueZF0d/XxnJAt0ijP5fBfVzs21ObM2PA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YT5VRKkasyGuDDa96qNRmhhUHKkEPUitDjnhjSj43z4gts5ivuEtXVqNIQtO5axvYoDC3kyn9nOlgYJGBxfQxEq30HHJHNs8PRByeH9AZYV7KoTNAwqxh6T5hk/zAGxYB4EWRe08ZwQkg+qSyDah6iGODiCPXIPtDrBo1Iy4gkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gX4Tbjhl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VyTQO9M9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3607A1F00A3A;
-	Fri, 12 Jun 2026 18:13:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gX4Tbjhl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA2B1F00ACF
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 18:15:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781288014;
-	bh=sLjsq1T3MX0IJn78wfDnVKzMzRWYjtJ3O4g0CyXp3bo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=VyTQO9M9kQi96pPAaSSFp6+iE2TJ/wcmdxNLupeFfWXBCIqhgxaSrgbSCL4v+rTEh
-	 HfWw5thQJ5dA+AQdnpa8Lo5OUrMKIaC/UBDMvXM/dxaAflIEAIJjzeio2TRCruWBFC
-	 KpatJH9FoM7dP0SQ0Af1e/74dl8tnTbRu9tpfTa0ZFPQuKfhvAlywuT6+VM9OKXLEx
-	 wSkuizr2y+unWHN3DG9pmRRNHxYjk5V3lckLzi+KeJxUM7dxaMIwPvsQfullmPd1ow
-	 bjDIuzE2/htluNmqtIn3JIc2gKK/ZRKre1OF1vWwRJFVWbN97mJG/9WdI1oA4cEEnr
-	 lK6ZPU368PEpw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 6CAF2F40077;
-	Fri, 12 Jun 2026 14:13:33 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Fri, 12 Jun 2026 14:13:33 -0400
-X-ME-Sender: <xms:TUwsapXlkFGzzfY6lEaaMT_LsRL-iZ-9l0fTqx9LoH-6SA2cYEb-5Q>
-    <xme:TUwsakZy4J_AhqGRI35d8Yw4zaYevBGtAjdtUzXbxhkoFYvLdgpJGiE1w-i6NWuy2
-    USsu15Vglo3EZ0WhsXZFczBqnSxE8iljUHOr4Ec1uhgkd0bV9806QwH>
-X-ME-Proxy-Cause: dmFkZTF4J7sICs8xauyVV5LkjQqlaYA/u3rBeL3u9pdsp43DLSQUjIzfJTc5impUjq1pau
-    mjYW9w1ajScS196LkNOiqsU71AnPyQFsM37wgc/Ad9+AVxPzEzlCvTWr7aAOwe8Qso/Kcj
-    xsrQ6eV+Rf4C1/iKVl4vO4fW/myPvzVGwiZgKIuSzvDdGgZrfJmOAc/NEVQRVCFo9WlLtu
-    BRR/VZqG8ve+7qvYq+RnAtv5cQA6kHswObv1CzJPwtgDB5GJTll9bDjmaKtLJFq077N16Z
-    lQsfsslFC38bXA5xygpVgDziVa32xqf7wvS2PS6CQWQRidPvye2V7M/gq6jPvfQfKH/vfC
-    ZJ2HvoQ+0mtUCSvV/yRnY+KJtq9eGu0yvuCbDA4bFyTe8/y15WTteKuzWOmmoAsWtoFM6u
-    UuaWvxDGMxBqz2TnaBmBaNfCS7T3xwSTSS+E+yUvx6FtjK+fkuvFGX6lXmx2a+PZSbeIcq
-    TPro/3AJFYPWrLai3DBMZsu9SEILUXDM7gdbALZg3SSSlRxSzlbi+unXLULxPJfTDA+jBe
-    9WT9FOtiWC+/He6imKWqpzxVOmvYLRsEc/GDEeyTf3mDtdgGIxwW6GQGRN+FPrUKwGQ81D
-    Kcgdi6Zhs8JAdSCMHUZknMskxgZctJs2wQYpwtKXWiM+PBw6NCPTYkDr/sng
-X-ME-Proxy: <xmx:TUwsajNmSw2UIiv8cCjUhSujuyO0fqMuU1TbyfyFo7vkavojyseLrQ>
-    <xmx:TUwsai0twlTEU3XkybD8OOsIYJppoy9j6FKiHiP_HL4h13AJ61QWoQ>
-    <xmx:TUwsaq3yC2reB29YkiXFkITdK2cdVLir0oyrfCZYfaZ-d6c3sv8_MA>
-    <xmx:TUwsao8QnXwtwjhvMrnEn0vaezmgIiLBvL3TfRVHcC1PE6qaD2Y3rg>
-    <xmx:TUwsauZtqHo5XpXdyePAZapzGRSsNRM1wA6byr0th10tMpPzKHHQs3kn>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 42111780075; Fri, 12 Jun 2026 14:13:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1781288119;
+	bh=E+A3vWRlzyJq18Mba78WFP87hbq4qTdszzF1tMKBnlk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=gX4Tbjhl4bG2tE+OxNMRMlqoWLx/8ZgEaj5GR6nMi6Yg07J30NtlBNO2b15YQ2Tlu
+	 xB+rvHoePTpRzYateQdnpWfC7cVu1w2KU81G5Agovv++53YO1Xg3Deck2RIZH2tZEX
+	 ewz0SRT+s7NOdpJBylJk2YQmiplbo7UDYmpcvYdnJJARhlQRvNkqPOGYkiibvGu98W
+	 FVIcla9en83brlfZEyogzAuty2rqktO729Jr/JsqnVrwa5Im9t2RaZJfb/RWS/dIhq
+	 5wfS4scqUZk3Z7qlHzylVZFH1PcQv1KDLZP13ZyIooLf+G4Oo6LBU1SMaZVw6yupWk
+	 ooyAdnJIZ6fqQ==
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68c19f1f3ceso2012331a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 11:15:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+H/cHBvya0QnyYRW7ZCdbT0wd6VPUJr+m84yjBsBDkchZ8QODoeHr32WL/NDXuppSogABxzCmmRsM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQQRLHR1TqyeJLBLxVuYN1xzVZpxRgHKUvlG0dkXophEV/1TLj
+	Nt8VZaoI1iEgV9n0QxbZ6ht9UktBGJfwnUHyTaQh3fm6krqGKDkNgCaaMAXVPRGX3i05CiN5lMQ
+	8GGS/gbmrqV82xISjasKUTI7It3wco5I=
+X-Received: by 2002:a17:907:1c9f:b0:bee:426:87ec with SMTP id
+ a640c23a62f3a-bfe2a21eb9dmr188658966b.23.1781288117842; Fri, 12 Jun 2026
+ 11:15:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Atlt45BGkTU7
-Date: Fri, 12 Jun 2026 14:13:12 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: "Steven Rostedt" <rostedt@goodmis.org>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <8dc1a997-0152-4a28-a58a-0cb131d89779@app.fastmail.com>
-In-Reply-To: <20260611-dir-deleg-v6-19-4c45080e5f3f@kernel.org>
-References: <20260611-dir-deleg-v6-0-4c45080e5f3f@kernel.org>
- <20260611-dir-deleg-v6-19-4c45080e5f3f@kernel.org>
-Subject: Re: [PATCH v6 19/20] nfsd: track requested dir attributes
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+ <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com> <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+ <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com> <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
+ <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
+ <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
+ <1c25650e-bf98-2863-d505-9b94c385668b@gmail.com> <airypNnKrJJ54k_0@google.com>
+ <aiw2JB1lZV9xuNSp@linux.dev>
+In-Reply-To: <aiw2JB1lZV9xuNSp@linux.dev>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Fri, 12 Jun 2026 11:15:06 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zM=CMtUfV0RX3YyztqMNcw=s8M3WX6Q0epR5YHUvwTTKw@mail.gmail.com>
+X-Gm-Features: AVVi8CfJgDpyGNP17lGySuExRPvTjQWDl5oLaxVnqf7oZO77PjDMo_CwkVZjPng
+Message-ID: <CAO9r8zM=CMtUfV0RX3YyztqMNcw=s8M3WX6Q0epR5YHUvwTTKw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor per-memcg
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
+	akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	mhocko@kernel.org, mkoutny@suse.com, chengming.zhou@linux.dev, 
+	muchun.song@linux.dev, roman.gushchin@linux.dev, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On Thu, Jun 11, 2026, at 1:50 PM, Jeff Layton wrote:
-> Track the union of requested and supported dir attributes in the
-> delegation. In a later patch this will be used to ensure that we
-> only encode the attributes in that union when sending
-> add/remove/rename updates.
+On Fri, Jun 12, 2026 at 9:40=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.de=
+v> wrote:
 >
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/nfsd/nfs4proc.c  |  9 ++++++---
->  fs/nfsd/nfs4state.c | 20 ++++++++++++++++----
->  fs/nfsd/state.h     |  2 ++
->  3 files changed, 24 insertions(+), 7 deletions(-)
+> On Thu, Jun 11, 2026 at 05:39:16PM +0000, Yosry Ahmed wrote:
+> > On Tue, Jun 09, 2026 at 11:18:26AM +0800, Hao Jia wrote:
+> > >
+> > >
+> > > On 2026/6/9 02:01, Nhat Pham wrote:
+> > > > On Mon, Jun 8, 2026 at 9:48=E2=80=AFAM Yosry Ahmed <yosry@kernel.or=
+g> wrote:
+> > > > >
+> > > > > > But OTOH, this does seem like a recipe for inefficient reclaim.=
+ We
+> > > > > > might exhaust hotter memory of a cgroup while sparing colder me=
+mory of
+> > > > > > another cgroup... But maybe if they're all cold anyway, then wh=
+o
+> > > > > > cares, and eventually you'll get to the cold stuff of other chi=
+ld?
+> > > > >
+> > > > > Forgot to respond to this part, the unfairness is limited to the =
+batch
+> > > > > size per-invocation, so it should be fine as long as you don't di=
+vide
+> > > > > the amount over 100 iterations for some reason. Also yes, all mem=
+ory
+> > > > > in zswap is cold, the relative coldness is not that important (e.=
+g.
+> > > > > compared to relative coldness during reclaim).
+> > > >
+> > > > Ok then yeah, I think we should shelve per-memcg cursor for the nex=
+t
+> > > > version. Down the line, if we have more data that unfairness is an
+> > > > issue, we can always fix it. One step at a time :)
+> > >
+> > > Thanks a lot to Yosry, Nhat, and Shakeel for the great suggestions!
+> > >
+> > > Let me summarize what I plan to do in the next version to make sure w=
+e are
+> > > on the same page:
+> > >
+> > >  - Drop the per-memcg cursor and keep the root cgroup cursor
+> > > (zswap_next_shrink) logic intact.
+> > >  - Stick to using the zswap_writeback_only key, and change the proact=
+ive
+> > > writeback size to use the compressed size.
+> > >  - Consolidate and reuse the logic between shrink_worker() and
+> > > shrink_memcg(). Enable batch writeback in the shrink_worker() path, w=
+hile
+> > > keeping the writeback behavior in the zswap_store() path unchanged.
+> > >
+> > > Please let me know if I missed or misunderstood anything. Thanks agai=
+n for
+> > > clearing things up!
+> >
+> > Sorry for the late response, yes I think this makes sense. However, I
+> > have some comment about how this interacts with swap tiering, let me
+> > reply to the other thread.
+> >
 >
-> diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
-> index caec82e77081..9e86f5907f06 100644
-> --- a/fs/nfsd/nfs4proc.c
-> +++ b/fs/nfsd/nfs4proc.c
-> @@ -2530,9 +2530,10 @@ nfsd4_verify(struct svc_rqst *rqstp, struct 
-> nfsd4_compound_state *cstate,
->  	return status == nfserr_same ? nfs_ok : status;
->  }
-> 
-> -#define SUPPORTED_NOTIFY_MASK	(BIT(NOTIFY4_REMOVE_ENTRY) |	\
-> -				 BIT(NOTIFY4_ADD_ENTRY) |	\
-> -				 BIT(NOTIFY4_RENAME_ENTRY) |	\
-> +#define SUPPORTED_NOTIFY_MASK	(BIT(NOTIFY4_CHANGE_DIR_ATTRS) |	\
-> +				 BIT(NOTIFY4_REMOVE_ENTRY) |		\
-> +				 BIT(NOTIFY4_ADD_ENTRY) |		\
-> +				 BIT(NOTIFY4_RENAME_ENTRY) |		\
->  				 BIT(NOTIFY4_GFLAG_EXTEND))
-> 
->  static __be32
-> @@ -2579,6 +2580,8 @@ nfsd4_get_dir_delegation(struct svc_rqst *rqstp,
->  	memcpy(&gdd->gddr_stateid, &dd->dl_stid.sc_stateid, 
-> sizeof(gdd->gddr_stateid));
->  	gdd->gddr_child_attributes[0] = dd->dl_child_attrs[0];
->  	gdd->gddr_child_attributes[1] = dd->dl_child_attrs[1];
-> +	gdd->gddr_dir_attributes[0] = dd->dl_dir_attrs[0];
-> +	gdd->gddr_dir_attributes[1] = dd->dl_dir_attrs[1];
->  	nfs4_put_stid(&dd->dl_stid);
->  	return nfs_ok;
->  }
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index 0e6e008c121e..12627afb604f 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -9945,6 +9945,15 @@ nfsd4_deleg_getattr_conflict(struct svc_rqst 
-> *rqstp, struct dentry *dentry,
->  				 FATTR4_WORD1_TIME_MODIFY |	\
->  				 FATTR4_WORD1_TIME_CREATE)
-> 
-> +#define GDD_WORD0_DIR_ATTRS	(FATTR4_WORD0_CHANGE |		\
-> +				 FATTR4_WORD0_SIZE)
-> +
-> +#define GDD_WORD1_DIR_ATTRS	(FATTR4_WORD1_NUMLINKS |	\
-> +				 FATTR4_WORD1_SPACE_USED |	\
-> +				 FATTR4_WORD1_TIME_ACCESS |	\
-> +				 FATTR4_WORD1_TIME_METADATA |	\
-> +				 FATTR4_WORD1_TIME_MODIFY)
-> +
->  /**
->   * nfsd_get_dir_deleg - attempt to get a directory delegation
->   * @cstate: compound state
-> @@ -10013,14 +10022,17 @@ nfsd_get_dir_deleg(struct 
-> nfsd4_compound_state *cstate,
->  		dp->dl_stid.sc_export =
->  			exp_get(cstate->current_fh.fh_export);
-> 
-> -	dp->dl_child_attrs[0] = gdd->gdda_child_attributes[0] & GDD_WORD0_CHILD_ATTRS;
-> -	dp->dl_child_attrs[1] = gdd->gdda_child_attributes[1] & GDD_WORD1_CHILD_ATTRS;
-> -
->  	/*
->  	 * NB: gddr_notification[0] represents the notifications that
->  	 * will be granted to the client
->  	 */
-> -	fl = nfs4_alloc_init_lease(dp, gdd->gddr_notification[0]);
-> +	dp->dl_notify_mask = gdd->gddr_notification[0];
-> +	dp->dl_child_attrs[0] = gdd->gdda_child_attributes[0] & GDD_WORD0_CHILD_ATTRS;
-> +	dp->dl_child_attrs[1] = gdd->gdda_child_attributes[1] & GDD_WORD1_CHILD_ATTRS;
-> +	dp->dl_dir_attrs[0] = gdd->gdda_dir_attributes[0] & GDD_WORD0_DIR_ATTRS;
-> +	dp->dl_dir_attrs[1] = gdd->gdda_dir_attributes[1] & GDD_WORD1_DIR_ATTRS;
-> +
-> +	fl = nfs4_alloc_init_lease(dp, dp->dl_notify_mask);
->  	if (!fl)
->  		goto out_put_stid;
-> 
-> diff --git a/fs/nfsd/state.h b/fs/nfsd/state.h
-> index 0763893bfd48..17be4011740d 100644
-> --- a/fs/nfsd/state.h
-> +++ b/fs/nfsd/state.h
-> @@ -299,7 +299,9 @@ struct nfs4_delegation {
->  	struct timespec64	dl_ctime;
-> 
->  	/* For dir delegations */
-> +	uint32_t		dl_notify_mask;
->  	uint32_t		dl_child_attrs[2];
-> +	uint32_t		dl_dir_attrs[2];
+> I think the swap tiers interaction will be figured out over next cycle. H=
+owever
+> Hao can/should continue to push and we may decide to let it in orthogonal=
+ to
+> swap tiers.
 
-Nit: Maybe these should be u32. uint32_t is a user space type.
-
-
->  };
-> 
->  static inline bool deleg_is_read(u32 dl_type)
->
-
-Bisectability: After this patch is applied, a client that requests
-NOTIFY4_CHANGE_DIR_ATTRS now gets that bit echoed in gddr_notification,
-but the callback path still only maps/encodes add, remove, and rename
-notifications (nfsd_notify_to_ignore(), nfsd_fsnotify_recalc_mask(),
-and nfsd4_encode_notify_event() have no dir-attr case). That lets the
-server grant a directory delegation while promising dir-attribute
-CB_NOTIFYs it cannot send until the follow-up support lands, so this
-bit should not be advertised in this patch.
-
-
--- 
-Chuck Lever
+Yeah I think there are a lot of changes we discussed outside of the
+memcg interface, so maybe keep the interface as-is for now, work on a
+new version with the other changes, and we can finalize the interface
+at the end?
