@@ -1,406 +1,432 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010042.outbound.protection.outlook.com [52.101.61.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3492D1913
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 00:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C361DF27D;
+	Fri, 12 Jun 2026 01:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781223843; cv=pass; b=LFiquEV3ri7hoEDd9s6zY7BeqApTGFbp9yxYOIraSkoMhjfV4I3c+fauUub3JiLSeCnElZbtg3entVKSCVtpVi6nZwWtOVMTs4Y/j0/eFjQuOY/NHJx1giVZJvoLw53OOmu9CBs3oNlf2bWlpQanGHkjzKiabgkqnt2Mj8l6r8Y=
+	t=1781226853; cv=fail; b=jZw6qeXoFZgaVG+jhHeLoo5XqZjSjV9ouVx4M/GEN4xSfa9IMbbCekJrHx2yCidLTrFg5zCg6MSMEaHAmp3irqvYtYxS3Va7wzcLYMfYZ5JW9r2w/9shAjJnIS0EE4vdyHIWgpuM+sf1nti5QXslQGU2ZXCVpRhKtvwgfbdM068=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781223843; c=relaxed/simple;
-	bh=cJlzdbdrKQFHeJd3rx15bsCh3W/wO0tSboOZVdhYDlM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c3Gbm+u2GBIwLaKoR4MXaHr4+rEjN1YtgFNxuDqtaiJOUYawrXVanhSbvzGJhv+PpSv/onehzyAiyWHn1lK8F+gOM0fvVFUYxgnD7NitvqEgShbK0QszojKex61w/NexU/NEFrkahG9fb4F8ZKcGLX4tkiRiaRdearhwqLYTFKM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KUniAkuU; arc=pass smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781226853; c=relaxed/simple;
+	bh=7JpjK13llEFvNphk8tmL4+RS/MsHOCs0FdshN1vXu+U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=vGL0xMtX7MdaEE2LGca6w47dhEJPo5nv1r8oANwvhZ33bjW/Xaq0GtEeLjeW+lsogApp4RGhfz0fthjkoAUOLXJSTTLmbK5UgmCzJEeDewBHSwTf+JLn4oinRXQsTWkAQEuWj4Vyzad8QthccrYrXw7M4w1pSJnMUzhW2+nJ6wA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GJ4BngJD; arc=fail smtp.client-ip=52.101.61.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KUniAkuU"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf22c18ad3so48885ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Jun 2026 17:24:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781223841; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gSnDiEL1r7MZt2CbbtYSXkrV9zYB8D8SZObW4LIRJlU2+UL9kpoJUT/oNCnWgl/5CS
-         fJRburq0HU/k8oJZq7ImAoy5KjPPzAcntX9E4VC8aa/GTz8sQGPCQoTUPUIv7pkHTuVs
-         pP0n1KuocdgO8AfX0NAX0ZoO0Tvw11I4oZHZ9nS69AS4sPPsgAaO6l8enkw+S4MQJy/e
-         TPXdhzKg2ee9g7LXfOk68PSGJy/Podfu+mB4Pauwa+AeqK1VYlzyd6ICLPggWHPZmHdr
-         6ECOWJQkihuYH3GeoDHD5nOZ3rYDC0bBNXf8el2bcW8gin0fOscdWBEAK0OB7XeHHANH
-         Io6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jyXrMUC0RjTC8nbXHDAOeHanWGsmOWhzs5+AVdeqrmM=;
-        fh=N28x4pkj1sYVd6UWxoNMciRwYKCLgkrJ4pCKloeo/7I=;
-        b=ImKzSsQYe1XHEMgn3iLr9MpUqRFRUn3jQhKNq7NUSOBay1wF9oJfkKGTMesvsKOiX1
-         qPQYW3LJM1CyuwlOzVP+jmdsa7AyQxyJjjOIEY/y/mt76+br4o9PQj8vuh3uGtKJ38L5
-         ja2TEIMSuUasn6aTvu7sE+3QDnCa25W5NApfex0ADiXeMdTUQAXy6jG5ziG4ibOe6L8l
-         bsVWBPTW2BlgWVqjmaEDB90sFHrIa3f3pwzI5RlXNM7pNGgnzKXqzCZlEP4DsJAQKCZr
-         cFgyU/KkrlCnSkYEvgMCCtjaH3BKNaJglQSvFNVvdiWW+ybYcKwYHXgaKcpPehfiD5wy
-         7e4Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781223841; x=1781828641; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jyXrMUC0RjTC8nbXHDAOeHanWGsmOWhzs5+AVdeqrmM=;
-        b=KUniAkuUP04sMZ7AZLJSXNEMPmdZD4AnhpLsA4t1W8j3JcKjkJ5vBSzkEnqnPOCN4d
-         wjO7olV4ymWiBZk3upo1YDi5SqtA22dXtg05xrnbcSnWuMCpoHJz9q62I8DOsBJU2Fiv
-         cG7UIsc+tpJWFgSzvneRaE/pOUgKnxlkicD3kEx0eDMDnQ6Jvd3MLdXhQplCnOjWQueF
-         OoMHvg077riCI7VUphGOzpeTeHf+R5BCFki4YsGPxIk/PSpeI09tdYtSMKnmUrg80Y/B
-         T5coMkz6XXG2ZBIE9UsT0m1kXar2m78WeEcFmw/28JKJ8niAaTt8ZjYcXXNwl0r3ILAV
-         pO3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781223841; x=1781828641;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jyXrMUC0RjTC8nbXHDAOeHanWGsmOWhzs5+AVdeqrmM=;
-        b=FadR9EjxuCRLz9fsnqAPh68LEdLLAHXEK7Ins41Pk7U9Xrju1VR0V+AmauVUs/qzan
-         f4tshkwoakbkyguzvvnIbMDK1Dpsp+N3MqINsg1BRsjiNZ4SVaW7Ge/a9i7rsxxoEZ8S
-         /3o0ia2phs5IpubBZTWlS+9nDVSdBCgM0iuShpn88Zp728RTnIh4Nz1LAfDrA1RnTa3w
-         XqDZpa381Tnijw+pJ/VFCkyDonXK7W9ERssYBGUOig9SxSKiGksNciLW8v0hYgL85fZ6
-         WHcZU+XC9pY4hS/0XtOI+0iinQ3Bz7ifOUKHHys/R6B6SrOigKpChJdp76Xh/A2E9XNW
-         vHjA==
-X-Forwarded-Encrypted: i=1; AFNElJ9dOytSI8bN0Sl84Odn+KzIYx+0aqHdQhtaoOXGdxPdoUrj5vAxASJyPA8UVh1IM79Qjav1H2ulVTc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjdH79qoVpkSCydFi9mD4tFaL2rH/UWpRiiMCvuPHu8MZp6KD1
-	CCK8GP8FIGWqKto1fyUkcD5nbwkrRrD/peS8ubOXiP43kw+zobGJxIpytFu5cMo5948ZqnDv30M
-	lXUm3gh+DwiHc1vPM00fsBT+TY84Glb5Fn/URdHRp
-X-Gm-Gg: Acq92OHjl3yeoKFBrl28FYwW1TrK46SX7+w83HE/N2f+oeB4urCrPqBuHQT2piQ91s5
-	y12YDGygSOYUxx3um/sLNlLzxoyEeM3eGAFJQopIvmvhwyxE8cmC3n50K01H/2r9xHSi5MziAm0
-	+jQcpmpbdFVcwSVaQKyjhbU4x+RJvLnkohW3bR/Ng0V5gzPjz0Kwbb3cZPUTX7vGvsvIv1JVuno
-	zga5GyVp4/8nujL9/G9R1AWEWSgrpyhPGe54Aj/R/8k7J11V6x4pZTHYSn1yiAEkRtc2fxt2qos
-	AWrWfw6CXCDfT56L106mV3cA2zyrVr6HkRVLeg==
-X-Received: by 2002:a17:903:2b03:b0:2bd:6727:d689 with SMTP id
- d9443c01a7336-2c3e10657b2mr1140345ad.12.1781223840341; Thu, 11 Jun 2026
- 17:24:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GJ4BngJD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eVRQ3NC4+bOYSAnYu+gAKtFrU1VDMNarkj5rjh6RB3TH1hIlVOgD3F8OdPlRb09xdIpoBUKfUz+RYoHno7PsNQeHwrxl435x520KL2nMLqg6/a//lFcQmRosiCiAoSEpwhIEBLF+7A9bahn6d1FUcmKEGFVIYLY9D2wg9lmqc+vcbUj38179j7+fYWEMu3XUb6Bb3L/CCnCQltWfV4/yuudlAT7TNQ3HQQ65nho47P9yUHPGjX/X1cli5oGpCdC1afgiszgPpVV+L1we7/apNUfq/rlQGDZ5MoXY2hrQWJnDUD1oYw5U5GEK0Ur8TiS0vidLC+JEAYiPzeX0+JMmVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uEu2wdrDPUr1xmF+qeBn232NQgBal7CFkQYY+pI/Nyk=;
+ b=qVO6JDLhEDfJaJVM+YCY2KvPV7ID1WGSf+UCEUPea9xexGOowtlX7gTxSvBNOj1j28GvRpCs8Xqv3Z721VtPoGyybNJ7sIlGEs47h4HeYfLhmB1m+HcjoO/bhPQvzoy4RrA7xkRK5gKG4LWLznamKemAGonMNdnAEY/LBsqM8iN+DK7RuHzE0aWr1yVfG8BmOqZ8enZMEtwHPmQOMSRLHbN9xy90X9N+q2X1rdtHys57aWwE0tOkRRbiO2SZqx8ApM2g1TVVz1H7a2ahQk8mIDuowYO6d5CkinozWJKY5ih2pVrGz242quOwDJlWmr1DmZXaUc60rdnN01kvVDtRXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uEu2wdrDPUr1xmF+qeBn232NQgBal7CFkQYY+pI/Nyk=;
+ b=GJ4BngJDcJVwM3GMee9+LD5ZivWaqBWyZxgHHAwuhYZO5ZqFJ9Vom2KQWZfLJIZOUSoaMeOJw6He83JnLHH7HMI+sFLhG+/Odp2hQzteTZJ+v5F9+HzUTZoIkUrU25NWdFPHT/gsg/5LaPkPz075j/ZuLsKPUc6M97ovNIPI1SW8+1c6rEh36yYtDBWiYprZNYMN1x1gcHnEerLAGwOQ3riIXiSbiSW0b7Cquc5QiNjs5lZLNXSwuvOIPGjzsCesc3JsPg1on5ssVW7rXEoFRgcraopsWSv8qEym+PUFpSK8aDJ2EMWc78uEIcP8+c/WA+XWUwT9ZD0lbZgNj/iJMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
+ by SJ0PR12MB7067.namprd12.prod.outlook.com (2603:10b6:a03:4ae::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.18; Fri, 12 Jun
+ 2026 01:14:04 +0000
+Received: from IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
+ ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0092.011; Fri, 12 Jun 2026
+ 01:14:03 +0000
+Message-ID: <851c4107-3f6d-46f3-b659-212ce4f69e6e@nvidia.com>
+Date: Thu, 11 Jun 2026 20:13:48 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
+ store/load ordering erratum
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+ Vladimir Murzin <vladimir.murzin@arm.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, Mark Rutland <mark.rutland@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Vikram Sethi <vsethi@nvidia.com>, Jason Sequeira <jsequeira@nvidia.com>,
+ Shanker Donthineni <sdonthineni@nvidia.com>
+References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
+ <aiq5VigmtZq9GlAm@willie-the-truck>
+ <IA1PR12MB6089049028A73A2078FC6831C71B2@IA1PR12MB6089.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+In-Reply-To: <IA1PR12MB6089049028A73A2078FC6831C71B2@IA1PR12MB6089.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0144.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c2::22) To IA1PR12MB6089.namprd12.prod.outlook.com
+ (2603:10b6:208:3ef::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1781042698.git.abhishekbapat@google.com>
- <d0a8308b4d0799876d24461a8ed9b5a71d3e1e89.1781042698.git.abhishekbapat@google.com>
- <c7ae2aa9-a1fb-4965-a213-f9cfb2aa101e@linux.dev>
-In-Reply-To: <c7ae2aa9-a1fb-4965-a213-f9cfb2aa101e@linux.dev>
-From: Abhishek Bapat <abhishekbapat@google.com>
-Date: Thu, 11 Jun 2026 17:23:48 -0700
-X-Gm-Features: AVVi8CfF5CHgoW_9yOQmI4p_7KWANitzcX4FWUhUywKGZOQVl_gGnfRVD-S8jvU
-Message-ID: <CAL41Mv5eoi=ms-x8roBnuxj4pzYKQjsSthzom_wzCM39JAXe+Q@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] kselftest: alloc_tag: extend the allocinfo ioctl kselftest
-To: Hao Ge <hao.ge@linux.dev>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|SJ0PR12MB7067:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2e39b29-7782-4060-05d3-08dec81fe447
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|4143699003|56012099006|11063799006|3023799007|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	14Nvx+F7YTOUd9+nve2IPQc3x00f1QLt1qN11lzNfZSYEORR5jRL0W0CXs1y3EA8JV8yfSObLPJj8tziwYtms3ZU4fLdes8ximxI1ApLWsEi39VTpD9iC62Gq3l/yFuGeVmSP/LHjQWOcVJE0FIMR6cgngcZUvYP2usivxEEVzrNm9sIiB0c6N5Xj5Mm3UeQpaNKXbY1lic8m9AyYhfegpoveCFwtP5nS+wUO2CwEYNJFT9eOVi6K/ffst1v7woCxfXP8QE5UJc11Qr3C1TiJeEKI1Q3Iev/hMSdjVEXi2zQ2LVEhc4xmr7eddrMc52LFzMEFYuVthG2iGTrfxEqDgI8Gqpwm7AVpw1wtdZrnQzPBe34fvZSoqxdBF/9XoU2uOvUaikf5fDaxM2Ul8Ke1cnr3hO5UP9njb7v29qpGUUWW17RzwA0xY5suTzwFKoBVkp50IGrOTv3DKKq3kVwEF8f1EmGRxDhvoG/Lr1C3HYIliBqSGvoOVDabIhW5uR/8KFQvXdPV1H5WARE9BXG3y/+GKIcbqrhVKW8KkJVuPS+6SyNE+5hcG9XUvGdTDVVfYVq9iYvvkFBrPKPneINnh6hCeCkyLzq28wtx5nWvxGC0STnVk6r+TmW/BmIopMGAURVuqqL5qe9raARtO8eUDOHQ5zYHOf0pwPbcQ9Y+dzLdWIGp6hkVdb3HrjH2Sb7AfPuTovTtvlK7EN0wcS18g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(4143699003)(56012099006)(11063799006)(3023799007)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UWJQMHYvUTVHcWVmZnhjTDRpZUFmTjRtSnBSZkdUeWt5RG1mQ0h5WTdZM21F?=
+ =?utf-8?B?U2p3MS9lOUlicGJiM2F1N0thLzQyV2MrWXVyb3Nxd01tS0ErT3Y4bXJrSDVN?=
+ =?utf-8?B?UzBOVkg4dzFCWGZaV09jTGVBWmFUUVZ6TElaTlJzUnpxZG9FTGduR1NPRFpS?=
+ =?utf-8?B?ZWlWWGl5bVpIUFN1VklUeGJlank0OEhIUkh5dlI0REpuTlBVTlpvVEp0dXZB?=
+ =?utf-8?B?UXNsTk5oWUl1aTVxN3psV3pKZnArSGo5R0N1SGJkZ0VTalI0eUg3cVVidUs4?=
+ =?utf-8?B?dk0rTi9pWVZ1NzRjajNTdXgvQk5nSmZxMkMxUFZWV3dNWHV6MHZ3dHhnWk5z?=
+ =?utf-8?B?Umszcm1xZXdLcVd5RzRqc05YSHpBWk9nYUZ4UUhPVEpGa2s1TEVWRFZzNW9N?=
+ =?utf-8?B?eUJFcldIcGpNdU9rUVBINTBoQndncTVzT3NSbGdrVkhEdFZMTWpKMWpvMkRI?=
+ =?utf-8?B?OCt6QzZVN28xVFRmRDlqaHBUemV1cEEzbHcyMFQwSUpnY0MyYTR1RDNvc0hO?=
+ =?utf-8?B?NUNIcHE1eHlIWm9NNTBCdFBwZ3IxV1lncjNLMVNGZDJCbnI5Wk9FT0Jvd1p5?=
+ =?utf-8?B?andoNUc5emMzLy9QNFZQNk83L2FtWVVlbzlGRHRMM1hGV2dXdTdjbDN4N2Rh?=
+ =?utf-8?B?eFh4NmlhS1dzR1JMWDZvaTl1aW9zWG9pczU3TkJXU1dDbi9FUHprb1pvZmdx?=
+ =?utf-8?B?cmU4V29iREdrbzVITDVBZGpFOGNDMkdCMVRzc1FhL0JMaHM3bVYvNkVOSmNN?=
+ =?utf-8?B?bXJZUlYrUWpQMzhDSzg0U24rMm9ybm1RL0k3bXVvL1QxVUw4c3M5WEhkNm96?=
+ =?utf-8?B?SmR2a2xNRnZrUlNQOXA5dFVDalczV0x3Ujl0MHdBSktmYm9SMDJMd3U5YitZ?=
+ =?utf-8?B?ekVFaXYyaGRFVzJmT0Q3Y2dwcFRIOEJWVytoalNaazI3ZVo5dWVVS1JNbitR?=
+ =?utf-8?B?ZjNJUG8xam1EcWpheXRSVEVnUkM0bnVzaHZjT09yL2I0cTRQbHZrSVdscllE?=
+ =?utf-8?B?M3QvcTB4RG1mRmNXNWZXQ0dGeW1HRWNWcGhYUE5jRGFwejJjOXcrV3RwNWMr?=
+ =?utf-8?B?ME1JdmFxd2dKL3c1SzhtRWYvNnJnRGhKNWY4dGlESGNvd1dKdlBSMk5UdWlT?=
+ =?utf-8?B?OFVUTTBPQWU5QTB2SlphMlEyNXo5OGZFdlBIRXFYUU00YUN3ZmpHeEx4WFJ5?=
+ =?utf-8?B?endZRndEN2tacmNMVzJyUmxjTnhFUXBlMExFZVYrSkNjdEx1VEpZS0pJS0FS?=
+ =?utf-8?B?T0Q4WDR2UUg2cUFyb3hmS3FZK1NpdWhYMVpHQTJJYldtLytLdzBoak1pL0l0?=
+ =?utf-8?B?L2NEMFp2R2w5MUpxUU1YZlZLbzFtVFQ1Zm9ZaWZIVVpFRzJkVGFNQXNHUUtu?=
+ =?utf-8?B?MzRUU200ZTZVNmhLdUpMbHc2TkZ2a3JVam5jcUt1RWhWY2tmQ3JrQXoxU0ho?=
+ =?utf-8?B?RFZ4d3o2anlSTmRJeis4YzkvSWZNWEtQejVlN04ydXNDQ01iU0lxUm93SmVy?=
+ =?utf-8?B?YVE4NE1kVzRFWjNOMERtNnRNaFZOdVZjZW1wTzhNSVNERjFYbWdnaDRIRXB3?=
+ =?utf-8?B?M05IY1dwTjlIVy9WU3NuY2hkVFYrQ3pPb2pFaEkrTEViaTFETE43WS9OVEJs?=
+ =?utf-8?B?ckplQlJWQjUxQ0NFYjlXR1VNYmZxQnhhbGVOZWxTR3hYOEFXdERpbzlyL25R?=
+ =?utf-8?B?aS9Pdm5oUDdEejVrUktwd1YySEZ0UHRQNytEcHhSalRvQ21CUCtFdy9mWFgy?=
+ =?utf-8?B?OWFPaGc0ZDRrblJMUUtBQzQ1NVNLWnFUU0haOGRsWm51djZYdzNESWM0ZUZm?=
+ =?utf-8?B?ZUlWWXJYQ2NBaDFCMUJ4YzFuSnkySWtPeGcxMHduU2xZODQ5K1p3dmZzR2tU?=
+ =?utf-8?B?dlJ5ZUcvbXlybVBuYlFncWswcXQ0bzY5OGFTTzZPSW90MlAyZ2xiTE5iNU9y?=
+ =?utf-8?B?L0hEem9LY1FQbXZwK2FvNys4WEEvNWZQa1dRbEFaLzdyK3BqL1dZMytnYVdO?=
+ =?utf-8?B?YXBTV1l0T0R3U2FTeFFIYVo5S3lQcUI2Sis5aXFEeTExRndnTzhqUUEwSUln?=
+ =?utf-8?B?TUpEY3RIaFFlUUtvbHdROXdBVkl2dmsrWTZnYlFUU2pyVkU1bTdOS0ZUZzFH?=
+ =?utf-8?B?WDg1b1NWZnc1TWM5ZjFGOWRPeFVTUFFqd3ZxSEhHSzh3UFc1b0JrVmN1alVj?=
+ =?utf-8?B?U0Y5TjB3enh6OE4ydUhURitUSXhWU3R4MVkzcUtGODkxY2dVbWxGRGs2NHp3?=
+ =?utf-8?B?MU5pc1gzMEJUNC8xMlNUZnJQSzBteEdjSEhYSW54MldhSlQ0TnA4WW1xTjdJ?=
+ =?utf-8?B?RkYvd2pmMXd5Z04yQkxuZFBwdTJLdVlTclFvdFhUY21mcGxyRDgwQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2e39b29-7782-4060-05d3-08dec81fe447
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 01:14:03.4442
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NPMdPiLuZj5cu40OaxDSl20+wQwYZ3chYFDOFI63k4aM4Zu+hU1OWi4exe2hIxe9/J7Lb5xEyyECdi3pQw9HiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7067
 
-On Wed, Jun 10, 2026 at 2:34=E2=80=AFAM Hao Ge <hao.ge@linux.dev> wrote:
->
-> Hi Abhishek
->
->
-> On 2026/6/10 08:12, Abhishek Bapat wrote:
-> > Add the following 2 scenarios to the allocinfo ioctl kselftest:
-> > 1. Validate size based filtering
-> > 2. Validate lineno based filtering
-> >
-> > The first test uses "do_init_module" as the candidate function for the
-> > test. This is because the associated site will only allocate memory whe=
-n
-> > a kernel module is loaded. The return value of get_content_id() changes
-> > every time modules are loaded or unloaded. Hence, as long as
-> > get_content_id() values at the start and the end of the test are the
-> > same, the memory allocated by the do_init_module call site should also
-> > remain the same. Consequently, the test can assume consistency between
-> > the value returned by the ioctl and the procfs resulting in less
-> > flakiness.
-> >
-> > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> > ---
-> >   .../alloc_tag/allocinfo_ioctl_test.c          | 204 +++++++++++++++++=
--
-> >   1 file changed, 203 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b=
-/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > index cd9cf229ae1f..5d2f13900a47 100644
-> > --- a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > @@ -311,11 +311,201 @@ static int test_function_filter(void)
-> >       return run_filter_test(&filter);
-> >   }
-> >
-> > +static int test_size_filter(void)
-> > +{
-> > +     int fd;
-> > +     struct allocinfo_tag_data_vec *tags =3D malloc(sizeof(*tags));
-> > +     struct allocinfo_tag_data_vec *procfs_entries =3D malloc(sizeof(*=
-procfs_entries));
-> > +     struct allocinfo_filter filter;
-> > +     int ret =3D KSFT_PASS;
-> > +     __u64 target_size, i, pos;
-> > +     bool found;
-> > +     const char *target_function =3D "do_init_module";
-> > +     struct allocinfo_content_id start_cont_id, end_cont_id;
-> > +     int retry =3D 0;
-> > +     const int max_retries =3D 10;
-> > +
-> > +     if (!tags || !procfs_entries) {
-> > +             ksft_print_msg("Memory allocation failed.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     fd =3D open(ALLOCINFO_PROC, O_RDONLY);
-> > +     if (fd < 0) {
-> > +             ksft_exit_skip("Failed to open " ALLOCINFO_PROC ": %s\n",=
- strerror(errno));
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     do {
-> > +             found =3D false;
-> > +             pos =3D 0;
-> > +
-> > +             if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-> > +                     ksft_print_msg("allocinfo_get_content_id failed\n=
-");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             memset(&filter, 0, sizeof(filter));
-> > +             filter.mask |=3D ALLOCINFO_FILTER_MASK_FUNCTION;
-> > +             strncpy(filter.fields.function, target_function, ALLOCINF=
-O_STR_SIZE);
-> > +
-> > +             if (get_filtered_procfs_entries(procfs_entries, &filter, =
-fd)) {
-> > +                     ksft_print_msg("Error retrieving entries from " A=
-LLOCINFO_PROC "\n");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
->
->
-> As I mentioned for patch 5, the retry loop in test_size_filter calls
->
-> get_filtered_procfs_entries() which reads fd to EOF via fdopen/fgets.
->
-> If a module load triggers a retry, the second call to
-> get_filtered_procfs_entries() gets EOF
->
-> immediately.
->
-> And Sashiko has also reported several minor issues.
->
->
-> Thanks
->
-> Best Regards
->
-> Hao
->
-Hi All,
+Hi Will,
 
-Please note that I am moving the file descriptor definitions inside
-each of the functions. That makes the code much cleaner and avoids the
-weird scenarios related to using the same file descriptor everywhere.
-I will include this change along with fixes for some of the other
-issues Sashiko identified.
+On 6/11/2026 8:39 AM, sdonthineni@nvidia.com wrote:
+>
+> -----Original Message-----
+> From: Will Deacon <will@kernel.org>
+> Sent: Thursday, June 11, 2026 8:34 AM
+> To: Shanker Donthineni <sdonthineni@nvidia.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>; Vladimir Murzin <vladimir.murzin@arm.com>; Jason Gunthorpe <jgg@nvidia.com>; linux-arm-kernel@lists.infradead.org; Mark Rutland <mark.rutland@arm.com>; linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org; Vikram Sethi <vsethi@nvidia.com>; Jason Sequeira <jsequeira@nvidia.com>
+> Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device store/load ordering erratum
+>
+> External email: Use caution opening links or attachments
+>
+>
+> On Wed, Jun 10, 2026 at 11:48:22AM -0500, Shanker Donthineni wrote:
+>> On systems with NVIDIA Olympus cores, a Device-nGnR* load can be
+>> observed by a peripheral before an older, non-overlapping Device-nGnR*
+>> store to the same peripheral. This breaks the program-order guarantee
+>> that software expects for Device-nGnR* accesses and can leave a
+>> peripheral in an incorrect state, as a load is observed before an
+>> earlier store takes effect.
+>>
+>> The erratum can occur only when all of the following apply:
+>>
+>>    - A PE executes a Device-nGnR* store followed by a younger
+>>      Device-nGnR* load.
+>>    - The store is not a store-release.
+>>    - The accesses target the same peripheral and do not overlap in bytes.
+>>    - There is at most one intervening Device-nGnR* store in program
+>>      order, and there are no intervening Device-nGnR* loads.
+>>    - There is no DSB, and no DMB that orders loads, between the store and
+>>      the load.
+>>    - Specific micro-architectural and timing conditions occur.
+>>
+>> Promote the raw MMIO store helpers (__raw_writeb/w/l/q) from plain
+>> str* to stlr* (Store-Release), which removes the "store is not a
+>> store-release" condition for every device write the kernel issues.
+>> Because writel() and writel_relaxed() are both built on __raw_writel()
+>> in asm-generic/io.h, patching the raw variants covers both the
+>> non-relaxed and relaxed APIs without touching the higher layers. Note
+>> that writel()'s own barrier sits before the store, so it does not
+>> order the store against a subsequent readl(); the store-release
+>> promotion is what provides that ordering.
+>>
+>> Like ARM64_ERRATUM_832075 on the load side, the change is gated on a
+>> new ARM64_WORKAROUND_DEVICE_STORE_RELEASE capability and only
+>> activated on parts that match MIDR_NVIDIA_OLYMPUS, so unaffected CPUs
+>> continue to use the plain str* sequence.
+>>
+>> Note: stlr* only supports base-register addressing, so affected CPUs
+>> use a base-register stlr* path. Unaffected CPUs keep the original
+>> offset-addressed str* sequence introduced by commit d044d6ba6f02
+>> ("arm64: io: permit offset addressing").
+>>
+>> The __const_memcpy_toio_aligned32() and
+>> __const_memcpy_toio_aligned64() helpers are left unchanged. These
+>> helpers are intended for write-combining mappings, which are Normal-NC
+>> on arm64. Replacing their contiguous str* groups would defeat the
+>> write-combining behavior used to improve store performance.
+>>
+>> Co-developed-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Vikram Sethi <vsethi@nvidia.com>
+>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+>> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+>> ---
+>> Changes since v2:
+>>    - Reworked the raw MMIO write helpers so unaffected CPUs keep the
+>>      existing offset-addressed STR sequence, while affected CPUs use the
+>>      base-register STLR path.
+>>    - Updated the commit message to match the code changes.
+>>    - Rebased on top of the arm64 for-next/errata branch:
+>>      
+>> https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h
+>> =for-next/errata
+>>
+>> Changes since v1:
+>>    - Updated the commit message based on feedback from Vladimir Murzin.
+>>
+>>   Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>>   arch/arm64/Kconfig                          | 23 ++++++++++++++++
+>>   arch/arm64/include/asm/io.h                 | 30 +++++++++++++++++++++
+>>   arch/arm64/kernel/cpu_errata.c              |  8 ++++++
+>>   arch/arm64/tools/cpucaps                    |  1 +
+>>   5 files changed, 64 insertions(+)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst
+>> b/Documentation/arch/arm64/silicon-errata.rst
+>> index ad09bbb10da80..fc45125dc2f80 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -298,6 +298,8 @@ stable kernels.
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+>>   
+>> +----------------+-----------------+-----------------+----------------
+>> -------------+
+>> +| NVIDIA         | Olympus core    | T410-OLY-1027   | NVIDIA_OLYMPUS_1027_ERRATUM |
+>> ++----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | Olympus core    | T410-OLY-1029   | ARM64_ERRATUM_4118414       |
+>>   +----------------+-----------------+-----------------+-----------------------------+
+>>   | NVIDIA         | T241 GICv3/4.x  | T241-FABRIC-4   | N/A                         |
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig index
+>> c65cef81be86a..d633eb70de1ac 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -564,6 +564,29 @@ config ARM64_ERRATUM_832075
+>>
+>>          If unsure, say Y.
+>>
+>> +config NVIDIA_OLYMPUS_1027_ERRATUM
+>> +     bool "NVIDIA Olympus: device store/load ordering erratum"
+>> +     default y
+>> +     help
+>> +       This option adds an alternative code sequence to work around an
+>> +       NVIDIA Olympus core erratum where a Device-nGnR* store can be
+>> +       observed by a peripheral after a younger Device-nGnR* load to the
+>> +       same peripheral. This breaks the program order that drivers rely
+>> +       on for MMIO and can leave a device in an incorrect state.
+>> +
+>> +       The workaround promotes the raw MMIO store helpers
+>> +       (__raw_writeb/w/l/q) to Store-Release (STLR), which restores the
+>> +       required ordering. Because writel() and writel_relaxed() are built
+>> +       on __raw_writel(), both are covered without changes to the higher
+>> +       layers.
+>> +
+>> +       The fix is applied through the alternatives framework, so enabling
+>> +       this option does not by itself activate the workaround: it is
+>> +       patched in only when an affected CPU is detected, and is a no-op on
+>> +       unaffected CPUs.
+>> +
+>> +       If unsure, say Y.
+>> +
+>>   config ARM64_ERRATUM_834220
+>>        bool "Cortex-A57: 834220: Stage 2 translation fault might be incorrectly reported in presence of a Stage 1 fault (rare)"
+>>        depends on KVM
+>> diff --git a/arch/arm64/include/asm/io.h b/arch/arm64/include/asm/io.h
+>> index 8cbd1e96fd50b..801223e754c90 100644
+>> --- a/arch/arm64/include/asm/io.h
+>> +++ b/arch/arm64/include/asm/io.h
+>> @@ -22,10 +22,22 @@
+>>   /*
+>>    * Generic IO read/write.  These perform native-endian accesses.
+>>    */
+>> +static __always_inline bool arm64_needs_device_store_release(void)
+>> +{
+>> +     return alternative_has_cap_unlikely(
+>> +                             ARM64_WORKAROUND_DEVICE_STORE_RELEASE);
+>> +}
+>> +
+>>   #define __raw_writeb __raw_writeb
+>>   static __always_inline void __raw_writeb(u8 val, volatile void
+>> __iomem *addr)  {
+>>        volatile u8 __iomem *ptr = addr;
+>> +
+>> +     if (arm64_needs_device_store_release()) {
+>> +             asm volatile("stlrb %w0, [%1]" : : "rZ" (val), "r" (addr));
+>> +             return;
+>> +     }
+>> +
+>>        asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));  }
+> Use an 'else' clause instead of the early return? (similarly for the other changes).
+>
+> I still reckon you should do something with the memcpy-to-io routines.
+> A simple option could be to make dgh() a dmb on parts with the erratum?
+> That at least moves the barrier out of the loop.
 
-> > +             if (procfs_entries->count =3D=3D 0) {
-> > +                     ksft_print_msg("Function %s not found in procfs\n=
-", target_function);
-> > +                     ret =3D KSFT_SKIP;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             target_size =3D procfs_entries->tag[0].counter.bytes;
-> > +
-> > +             memset(&filter, 0, sizeof(filter));
-> > +             filter.mask |=3D ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCIN=
-FO_FILTER_MASK_MAX_SIZE;
-> > +             filter.min_size =3D target_size;
-> > +             filter.max_size =3D target_size;
-> > +
-> > +             while (1) {
-> > +                     struct allocinfo_get_at get_at_params;
-> > +
-> > +                     memset(&get_at_params, 0, sizeof(get_at_params));
-> > +                     memcpy(&get_at_params.filter, &filter, sizeof(fil=
-ter));
-> > +                     get_at_params.pos =3D pos;
-> > +
-> > +                     if (__allocinfo_get_at(fd, &get_at_params))
-> > +                             break;
-> > +
-> > +                     tags->count =3D 0;
-> > +                     memcpy(&tags->tag[tags->count++], &get_at_params.=
-data,
-> > +                            sizeof(get_at_params.data));
-> > +
-> > +                     while (tags->count < VEC_MAX_ENTRIES &&
-> > +                            __allocinfo_get_next(fd, &tags->tag[tags->=
-count]) =3D=3D 0)
-> > +                             tags->count++;
-> > +
-> > +                     for (i =3D 0; i < tags->count; i++) {
-> > +                             if (strcmp(tags->tag[i].tag.function, tar=
-get_function) =3D=3D 0) {
-> > +                                     found =3D true;
-> > +                                     break;
-> > +                             }
-> > +                     }
-> > +
-> > +                     if (found || tags->count < VEC_MAX_ENTRIES)
-> > +                             break;
-> > +
-> > +                     pos +=3D tags->count;
-> > +             }
-> > +
-> > +             if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-> > +                     ksft_print_msg("allocinfo_get_content_id failed\n=
-");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             if (start_cont_id.id =3D=3D end_cont_id.id)
-> > +                     break;
-> > +
-> > +             ksft_print_msg("Module load detected during size verifica=
-tion, retrying...\n");
-> > +     } while (retry++ < max_retries);
-> > +
-> > +     if (start_cont_id.id =3D=3D end_cont_id.id && !found) {
-> > +             ksft_print_msg("Entry with function %s not found in IOCTL=
- results\n",
-> > +                            target_function);
-> > +             ret =3D KSFT_FAIL;
-> > +     }
-> > +
-> > +exit:
-> > +     close(fd);
-> > +freemem:
-> > +     free(tags);
-> > +     free(procfs_entries);
-> > +     return ret;
-> > +}
-> > +
-> > +static int test_lineno_filter(void)
-> > +{
-> > +     int fd;
-> > +     struct allocinfo_tag_data_vec *tags =3D malloc(sizeof(*tags));
-> > +     struct allocinfo_tag_data_vec *procfs_entries =3D malloc(sizeof(*=
-procfs_entries));
-> > +     struct allocinfo_filter filter;
-> > +     enum ioctl_ret ioctl_status;
-> > +     int ret =3D KSFT_PASS;
-> > +     __u64 target_lineno, i;
-> > +
-> > +     if (!tags || !procfs_entries) {
-> > +             ksft_print_msg("Memory allocation failed.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     fd =3D open(ALLOCINFO_PROC, O_RDONLY);
-> > +     if (fd < 0) {
-> > +             ksft_exit_skip("Failed to open " ALLOCINFO_PROC ": %s\n",=
- strerror(errno));
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     memset(&filter, 0, sizeof(filter));
-> > +
-> > +     if (get_filtered_procfs_entries(procfs_entries, &filter, fd)) {
-> > +             ksft_print_msg("Error retrieving entries from " ALLOCINFO=
-_PROC "\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto exit;
-> > +     }
-> > +     if (procfs_entries->count =3D=3D 0) {
-> > +             ksft_print_msg("Could not retrieve procfs entries\n");
-> > +             ret =3D KSFT_SKIP;
-> > +             goto exit;
-> > +     }
-> > +     /*
-> > +      * We depend on the result of procfs entries to create the ioctl_=
-filter. Hence we
-> > +      * cannot recycle the run_filter_test function here.
-> > +      */
-> > +     target_lineno =3D procfs_entries->tag[0].tag.lineno;
-> > +
-> > +     filter.mask |=3D ALLOCINFO_FILTER_MASK_LINENO;
-> > +     filter.fields.lineno =3D target_lineno;
-> > +
-> > +     ioctl_status =3D get_filtered_ioctl_entries(tags, &filter, fd, 0)=
-;
-> > +     if (ioctl_status =3D=3D IOCTL_INVALID_DATA) {
-> > +             ksft_print_msg("Trouble retrieving valid IOCTL entries, s=
-kipping.\n");
-> > +             ret =3D KSFT_SKIP;
-> > +             goto exit;
-> > +     }
-> > +     if (ioctl_status =3D=3D IOCTL_FAILURE) {
-> > +             ksft_print_msg("Error retrieving IOCTL entries.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     for (i =3D 0; i < tags->count; i++) {
-> > +             if (tags->tag[i].tag.lineno !=3D target_lineno) {
-> > +                     ksft_print_msg("IOCTL entry %llu has incorrect li=
-neno %llu.\n",
-> > +                                    i, tags->tag[i].tag.lineno);
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +     }
-> > +
-> > +exit:
-> > +     close(fd);
-> > +freemem:
-> > +     free(tags);
-> > +     free(procfs_entries);
-> > +     return ret;
-> > +}
-> > +
-> >   int main(int argc, char *argv[])
-> >   {
-> >       int ret;
-> >
-> > -     ksft_set_plan(2);
-> > +     ksft_set_plan(4);
-> >
-> >       ret =3D test_filename_filter();
-> >       if (ret =3D=3D KSFT_SKIP)
-> > @@ -329,5 +519,17 @@ int main(int argc, char *argv[])
-> >       else
-> >               ksft_test_result(ret =3D=3D KSFT_PASS, "test_function_fil=
-ter\n");
-> >
-> > +     ret =3D test_size_filter();
-> > +     if (ret =3D=3D KSFT_SKIP)
-> > +             ksft_test_result_skip("Skipping test_size_filter\n");
-> > +     else
-> > +             ksft_test_result(ret =3D=3D KSFT_PASS, "test_size_filter\=
-n");
-> > +
-> > +     ret =3D test_lineno_filter();
-> > +     if (ret =3D=3D KSFT_SKIP)
-> > +             ksft_test_result_skip("Skipping test_lineno_filter\n");
-> > +     else
-> > +             ksft_test_result(ret =3D=3D KSFT_PASS, "test_lineno_filte=
-r\n");
-> > +
-> >       ksft_finished();
-> >   }
+Thanks Will. I looked again at both the arm64 comments and the generic iomap_copy.c
+contract, and I’m not convinced that making dgh() a dmb is the right fit for this
+path. Based on the documented comments, callers should not assume ordering from
+these helpers; if ordering is required around a memcpy, the call site should already
+be providing the necessary barriers.
+
+Related data point in generic lib/iomap_copy.c:
+
+/**
+  * __iowrite32_copy - copy data to MMIO space, in 32-bit units
+  * @to: destination, in MMIO space (must be 32-bit aligned)
+  * @from: source (must be 32-bit aligned)
+  * @count: number of 32-bit quantities to copy
+  *
+  * Copy data from kernel space to MMIO space, in units of 32 bits at a
+  * time.  Order of access is not guaranteed, nor is a memory barrier
+  * performed afterwards.
+  */
+#ifndef __iowrite32_copy
+void __iowrite32_copy(void __iomem *to, const void *from, size_t count)
+
+/**
+  * __iowrite64_copy - copy data to MMIO space, in 64-bit or 32-bit units
+  * @to: destination, in MMIO space (must be 64-bit aligned)
+  * @from: source (must be 64-bit aligned)
+  * @count: number of 64-bit quantities to copy
+  *
+  * Copy data from kernel space to MMIO space, in units of 32 or 64 bits at a
+  * time.  Order of access is not guaranteed, nor is a memory barrier
+  * performed afterwards.
+  */
+#ifndef __iowrite64_copy
+void __iowrite64_copy(void __iomem *to, const void *from, size_t count)
+
+/**
+  * __iowrite32_copy - copy data to MMIO space, in 32-bit units
+  * @to: destination, in MMIO space (must be 32-bit aligned)
+  * @from: source (must be 32-bit aligned)
+  * @count: number of 32-bit quantities to copy
+  *
+  * Copy data from kernel space to MMIO space, in units of 32 bits at a
+  * time.  Order of access is not guaranteed, nor is a memory barrier
+  * performed afterwards.
+  */
+#ifndef __iowrite32_copy
+void __iowrite32_copy(void __iomem *to, const void *from, size_t count)
+
+
+The arm64 comment says in arch/arm64/asm/io.h:
+
+/*
+  * The ARM64 iowrite implementation is intended to support drivers that want to
+  * use write combining. For instance PCI drivers using write combining with a 64
+  * byte __iowrite64_copy() expect to get a 64 byte MemWr TLP on the PCIe bus.
+  *
+  * Newer ARM core have sensitive write combining buffers, it is important that
+  * the stores be contiguous blocks of store instructions. Normal memcpy
+  * approaches have a very low chance to generate write combining.
+  *
+  * Since this is the only API on ARM64 that should be used with write combining
+  * it also integrates the DGH hint which is supposed to lower the latency to
+  * emit the large TLP from the CPU.
+  */
+
+So my reading is that dgh() in the arm64 implementation is there for the
+write-combining/gathering behavior. Replacing it with dmb would make this
+path stronger than the generic API contract and could penalize performance
+of the WC use case.
+
+For the scalar MMIO helpers, the workaround promotes the raw writes to
+store-release on affected CPUs as v1/v2 shown below. For the memcpy-toIO
+helpers, could you please clarify the specific reason for adding a dmb despite
+the documented no-ordering contract? Is the concern that some drivers may
+be relying on ordering across memcpy_toio_*() today even though the API
+does not guarantee it, and that we should cover those cases defensively?
+
+Would prefer to avoid replacing DGH() with DMB unless there is a strong
+reason to do so. Please let me know if I can post the v4 patch with
+the change below, while keeping DGH() as-is in the memcpy-toIO path.
+
+  #define __raw_writeb __raw_writeb
+  static __always_inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+  {
+-       volatile u8 __iomem *ptr = addr;
+-       asm volatile("strb %w0, %1" : : "rZ" (val), "Qo" (*ptr));
++       asm volatile(ALTERNATIVE("strb %w0, [%1]",
++                                "stlrb %w0, [%1]",
++                                ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
++                    : : "rZ" (val), "r" (addr));
+  }
+
+  #define __raw_writew __raw_writew
+  static __always_inline void __raw_writew(u16 val, volatile void __iomem *addr)
+  {
+-       volatile u16 __iomem *ptr = addr;
+-       asm volatile("strh %w0, %1" : : "rZ" (val), "Qo" (*ptr));
++       asm volatile(ALTERNATIVE("strh %w0, [%1]",
++                                "stlrh %w0, [%1]",
++                                ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
++                    : : "rZ" (val), "r" (addr));
+  }
+
+  #define __raw_writel __raw_writel
+  static __always_inline void __raw_writel(u32 val, volatile void __iomem *addr)
+  {
+-       volatile u32 __iomem *ptr = addr;
+-       asm volatile("str %w0, %1" : : "rZ" (val), "Qo" (*ptr));
++       asm volatile(ALTERNATIVE("str %w0, [%1]",
++                                "stlr %w0, [%1]",
++                                ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
++                    : : "rZ" (val), "r" (addr));
+  }
+
+  #define __raw_writeq __raw_writeq
+  static __always_inline void __raw_writeq(u64 val, volatile void __iomem *addr)
+  {
+-       volatile u64 __iomem *ptr = addr;
+-       asm volatile("str %x0, %1" : : "rZ" (val), "Qo" (*ptr));
++       asm volatile(ALTERNATIVE("str %x0, [%1]",
++                                "stlr %x0, [%1]",
++                                ARM64_WORKAROUND_DEVICE_STORE_RELEASE)
++                    : : "rZ" (val), "r" (addr));
+  }
+
+
+-Shanker
+
