@@ -1,185 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD9537188B;
-	Fri, 12 Jun 2026 16:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F602264A7;
+	Fri, 12 Jun 2026 16:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781280507; cv=none; b=qIG1nidxYNjsJ0zFy9yGF5aRM294xz+ZkC3ofVXJO5TzZBphLB3D8/FxzEk+2fxJDfNswiygAHBjfRsMK6AXTQyjMdP/y2MkdBFRVbqcwil5cy/Tzn9/QDdVDp2dZbiDmse14Dyg2oQO9Huhpchdqajr9goXi83EMsYKSDnp6ZE=
+	t=1781280703; cv=none; b=dcEiBYg5q4Ms8gVNpmINGpvpGee2PV1+cSga5zxwJYAaacFHjhjb9erhjaI1tP4IeMQLUYM2SGnsat2wcyguvnRG2ULYaG/yLiIJLs+BhjdWvoFvaOMFC0zQKFiPEV+b0vpBGFSKirrBjxUJbun3eAVJaworPGGIAqoJDVgB/84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781280507; c=relaxed/simple;
-	bh=YDm9Y3X+BMD1MMeKdBZ+hd2k4h8UP63ReISLG8bNtCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BbsbSWzNl51j6eGlwYNVjJlp3CYeoGYgMOfWLMkGlEaakO3LHb7mgWC7JCUVhEUu3ORRrCXbPsaA5bZUldzMdbUqWm0q1Ul1sohOKa7G77deyQOHSxWIn2qdQPxUEG4eJ5gAkQwEMILyTn+iZ3SQKfRX96suqvpt2icFI7M+JB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gyt9cM8s; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781280703; c=relaxed/simple;
+	bh=4V0IOL7YlAQQ0EpOmlvSwODtyuV5WfMKOQz6whQk2GY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cg0COzFoAPXyVekj/PRiwfDO2r5i7rB42XttwtGmYQNKy5yj+x5bR20H/msYKxA5NmUiPVg4DDtMR2Q4KtgImSW+IlTpe+cZdf9pecQe8QpsrcIyms9kAUg/jVVLhdnW7q4/9aBRxoa0syWNS2DVrzDOM5Zb0eyZLzFzDH4QJhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=yLZdBF5h; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gyt9cM8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D6E21F000E9;
-	Fri, 12 Jun 2026 16:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781280506;
-	bh=c411ca9RcVodJSRBNrpG9pskyg/ZhgijZ1oAXidL7Ds=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Gyt9cM8sBPLv9z7CeII+316XLznuJQXYcs1FxIiFPnMg9TNnLbn39QV9k0ds+UzqT
-	 zdUBov8X8RQbwL5yEd1zTlc7ZYN4l/rQ5oB/NHBecitbQNx27emUaQEaXQoc5gOdtD
-	 5deIAY5l9p3enWlZGHscYiDBtL1BKLh2v4yQIWhrXBG1MFrZ3YgPrNlt004ebdEbQM
-	 E8V6A28UFYgIYGmwyvwpzmxmCu0WkMc9STAHrKo/y2aoYXBPlzeZh5E1Z2MDMv1uUt
-	 4txRegZidpzi7HSgx1xtN6GrhWtiO5uTKhfG5gVndVut26LFP79sKoDY89/CtaaUkT
-	 MhfgHc63RqVHQ==
-From: Simon Horman <horms@kernel.org>
-To: gongfan1@huawei.com
-Cc: Simon Horman <horms@kernel.org>,
-	wudi234@huawei.com,
-	tengpeisen@huawei.com,
-	netdev@vger.kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	ioana.ciornei@nxp.com,
-	mohsin.bashr@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	luosifu@huawei.com,
-	guoxin09@huawei.com,
-	zhoushuai28@huawei.com,
-	wulike1@huawei.com,
-	shijing34@huawei.com,
-	zhengjiezhen@h-partners.com,
-	maxime.chevallier@bootlin.com
-Subject: Re: [PATCH net-next v09 4/5] hinic3: Add ethtool rss ops
-Date: Fri, 12 Jun 2026 17:08:18 +0100
-Message-ID: <20260612160818.690620-1-horms@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <7d1a4375fdf7c3e7a5a6162382cee4f48991d5da.1781062575.git.wudi234@huawei.com>
-References: <7d1a4375fdf7c3e7a5a6162382cee4f48991d5da.1781062575.git.wudi234@huawei.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="yLZdBF5h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1781280696; bh=e2Flkizasq15JY9OfFzl9m1JufbWXvS/waAtDrX0mzo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=yLZdBF5hRt2OPv3xhRMH5v/4gcVFwnuf3uzBPUixqS9kFJGZDCC5HXLbPRxWA8voI
+	 F3ywnC2tHzwAjcs871A9VEbmizliY9YKXhuo7j3HyOyExcI8cmzIg8ctMyzJrGNmea
+	 JxIFBz5rJWSUQpbyciB0qJvz5mRWl3fhNC80c7Us=
+Received: from [192.168.1.3] ([27.38.179.189])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 2E09B2A5; Sat, 13 Jun 2026 00:11:32 +0800
+X-QQ-mid: xmsmtpt1781280692tp46q40e8
+Message-ID: <tencent_94CB9DE57F16CF5DCED1C6983002CD3BB106@qq.com>
+X-QQ-XMAILINFO: NmhoXJR/eu5x07qhCPSGAV8xT4ltbp9vVDXmE33u6+DF6JtDgyfhljErZOiQW6
+	 RqJuKW82CB4sUTi/ZYTNHgG1+VroQWFTrkHCdlAWFDKb3hdohifcsCNqGINRWK53m5pLLIQmo/ca
+	 iqBuW4YsuPPLv9s6CGTEC8a/lvd9qzXUQtONzveIEBIAzPNWVN69ArYCCYhmsGsAKqSbB+gEV60l
+	 v6B7+N5S+1imeojQ8dn9E4wnv8uCL+EgdNbxXy03U3g4OpbocqxyiVa+EGutF0Vmfye4YyOm5iRw
+	 vD3VvbMb/E383jpbnEPqKZh5gr/Q9nBrr1mpwG1mI+IqnJPcarlXj6NOBAAVfOMimV2Wq7PVdS29
+	 ScU0vHDiDV1P/dufQhinM3fHS6+91f/5tbVq7TERh3R+st1kMR5OM+EE6z5C3kix0BqUi9FDORIR
+	 dTwWZtIUIb0ngwnDtVhg7FjWBa4BhPpVZFcvcLt/OIYI60vIZThuV7CeVn6btFz2hjnxI9Q+MEbV
+	 YMJ6ThZBi5FxqbKJIv+Bo6pEmkDAleGov+Zcq8rfrpyv9ucmVrMFvxrLFUcsO4bRUqnoLuRjZcLl
+	 Xc8iecpA577I8XajwXrnY979fUB345PEo+tB/gfz8xiqnBGqeeEKX9/2AJvH02BSROBrNSwSsDYm
+	 Ac8V8IaW6EHciI1yhrhX/YPm20yKyjh5Fh1032eTemScoVFXNQx7yyYI+ryKfoMFHZAVHglo1Gxi
+	 cCpWweOl8dXcfvQpgYTxI0yMY3w4Ebc6l3xOzUMKA1TOTGkrIOx/lnjFEFlNzjHpgbgrmKNxp1tc
+	 xFzry6S1GNSCR9m9J0PpJtTblQFPSQJH+mnBnivP3pN892+9kVuFpc14cjPdGphP1uScTuwHRSo0
+	 lZLCdmvA8W0IuMI3lxvHA3V6NuSyw6N1f7PbSLfPsZTzThour0Dqx+ejMEC9moBoUeNfaLd6VHJH
+	 4MxonhucSNWyx5AaoGRsc9vEsD18yZPCrmjEbr6iaJqTTHyH5lqdpR8Odb0ywbpPl3rKq6xK9wkY
+	 8HDFyPHCYBuu+5n10n2wStCEB2A0jxXelTDuVaSMHFqNfvSHBwYJRWp100I9gnYh6fARU06X8gpP
+	 tHu6qUaZWKbNIy0Ak=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-OQ-MSGID: <84ed0f45-130c-4428-8d9b-79fe383716e3@qq.com>
+Date: Sat, 13 Jun 2026 00:11:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs/zh_CN: update admin-guide/index.rst translation
+To: Alex Shi <seakeel@gmail.com>
+Cc: dzm91@hust.edu.cn, alexs@kernel.org, corbet@lwn.net, frederic@kernel.org,
+ gpiccoli@igalia.com, jani.nikula@intel.com, kees@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, longman@redhat.com,
+ mchehab+huawei@kernel.org, si.yanteng@linux.dev, skhan@linuxfoundation.org,
+ tony.luck@intel.com
+References: <4534170c-700d-43b5-ad32-6b91455b3f14@hust.edu.cn>
+ <b7606f72-eb55-41a7-b685-00164050e159@gmail.com>
+From: Yan Zhu <zhuyan2015@qq.com>
+In-Reply-To: <b7606f72-eb55-41a7-b685-00164050e159@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://sashiko.dev
----
-hinic3: Add ethtool rss ops
 
-This commit implements ethtool callback functions for the hinic3 driver.
-These callbacks allow users to utilize ethtool for detailed RSS parameters
-configuration and monitoring.
+Hi Alex:
 
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+On 6/8/2026 9:40 AM, Alex Shi wrote:
+> Applied, Thanks!
 
-[ ... ]
+Can you confirm whether this patch has been merged? I couldn’t find it 
+in the repo: 
+https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/?h=docs-next
 
-> +int hinic3_set_channels(struct net_device *netdev,
-> +			struct ethtool_channels *channels)
-> +{
-[ ... ]
-> +	if (netif_running(netdev)) {
-> +		q_params = nic_dev->q_params;
-> +		q_params.num_qps = (u16)count;
-> +		q_params.txqs_res = NULL;
-> +		q_params.rxqs_res = NULL;
-> +		q_params.irq_cfg = NULL;
-> +
-> +		err = hinic3_change_channel_settings(netdev, &q_params);
-> +		if (err) {
-> +			netdev_err(netdev, "Failed to change channel settings\n");
-> +			return err;
-> +		}
-> +	} else {
-> +		nic_dev->q_params.num_qps = (u16)count;
-> +	}
-> +
-> +	err = hinic3_rss_update_num_qps_and_reprogram(netdev);
-> +	if (err)
-> +		return err;
+-- 
+Thanks
+Yan Zhu
 
-[Severity: Medium]
-If hinic3_rss_update_num_qps_and_reprogram() fails, the error code is
-returned to the caller, but the queue changes made earlier by
-hinic3_change_channel_settings() remain active. Is it expected that a failure
-leaves the newly requested channel configuration running?
-
-[ ... ]
-
-> +static int hinic3_set_rss_rxfh(struct net_device *netdev,
-> +			       const u32 *indir, u8 *key)
-> +{
-[ ... ]
-> +	if (indir) {
-> +		for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-> +			temp_indir[i] = (u16)indir[i];
-> +
-> +		err = hinic3_rss_set_indir_tbl(nic_dev->hwdev, temp_indir);
-> +		if (err) {
-> +			netdev_err(netdev, "Failed to set rss indir table\n");
-> +			return err;
-> +		}
-> +
-> +		memcpy(nic_dev->rss_indir, temp_indir, L2NIC_RSS_INDIR_SIZE);
-
-[Severity: High]
-Does this copy the entire indirection table? Since temp_indir is an array
-of u16 elements, copying L2NIC_RSS_INDIR_SIZE bytes instead of
-L2NIC_RSS_INDIR_SIZE * sizeof(u16) will only update the first half of the
-nic_dev->rss_indir array.
-
-[ ... ]
-
-> +static int hinic3_rss_get_indir_tbl(struct hinic3_hwdev *hwdev,
-> +				    u32 *indir_table)
-> +{
-[ ... ]
-> +	err = hinic3_cmdq_detail_resp(hwdev, MGMT_MOD_L2NIC,
-> +				      L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL,
-> +				      pair.in, pair.out, NULL);
-> +	if (err) {
-> +		dev_err(hwdev->dev, "Failed to get rss indir table\n");
-> +		goto err_get_indir_tbl;
-> +	}
-> +
-> +	indir_tbl = (__force __le16 *)pair.out->buf;
-> +	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-> +		indir_table[i] = le16_to_cpu(*(indir_tbl + i));
-
-[Severity: High]
-Should the response buffer words be swabbed using hinic3_cmdq_buf_swab32()
-before reading, similar to how it is handled in the set operation? Also,
-does the data start immediately at offset 0, or is there a 16-byte
-reserved prefix like the one defined in struct l2nic_cmd_rss_set_indir_tbl
-that needs to be skipped?
-
-[ ... ]
-
-> +static int hinic3_update_hash_func_type(struct net_device *netdev, u8 hfunc)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	enum hinic3_rss_hash_type new_rss_hash_type;
-> +	int err;
-[ ... ]
-> +	if (new_rss_hash_type == nic_dev->rss_hash_type)
-> +		return 0;
-> +
-> +	err = hinic3_rss_set_hash_type(nic_dev->hwdev, nic_dev->rss_hash_type);
-
-[Severity: Medium]
-Will this push the old hash type to the hardware instead of the newly
-requested one? It passes nic_dev->rss_hash_type rather than
-new_rss_hash_type.
-
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to set RSS hash type to HW\n");
-> +		return err;
-> +	}
-> +
-> +	nic_dev->rss_hash_type = new_rss_hash_type;
-> +
-> +	return 0;
-> +}
