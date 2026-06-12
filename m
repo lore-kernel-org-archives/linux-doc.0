@@ -1,337 +1,108 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEAE3E5EE3
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 16:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE573FE347
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 16:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281465; cv=none; b=LPpf4R6W6w4MDSj1AQD4wcXLDiqfBTzeDN+pMiMrXQlFSA6umbBqAasxwkKszC6BhVlNr5vi2LXS5PjmI4mh7sA9gpv6hR5+jKVIJB8QqEM/oCt2iEzboJSap2u261Xa8LQ6a8PEj8glcVWecUUj2xnzcLA+QExG6W8ao6Al9lg=
+	t=1781282466; cv=none; b=I6ZoMJ5/2FVkDJIzVtX2yFyAQCLIuQowouNtSdVh4jPMD4sEFXuK8AUN7KfIeePPX4ceQknGf8xkSZjPVYEcvF90oMcItY4sM7H3Q9FhjSaJgA0sp4TH6+tSSX1DFlUunCuZhNh6GPxfkQ9quKGZZo0B66fhKacHzuHAamLTE6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281465; c=relaxed/simple;
-	bh=vAClADCgCQBCt/qYeMJkO5SXTU35Ou+fa4NCteEDdtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gCWiuPDwPPnOdebqzOwGByt1krtVeXGpbpLJGh9Y+6lZAY1uwVN5+USk15vQsrgdTpV+BKmXMSHVLgU488wZbV2vu2GSz31VATTq7wphtPR9muEIoremHP2PamJLgOjS4UT7LXCkPr9Sahx3NrD2GwQsCxQCVSxXg+zixjJdpw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2iWDs44; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781282466; c=relaxed/simple;
+	bh=o0KCIObepWeLB7YjoDLBQa24DbSiN/ma/7Xcktrlx+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H5G+W2y+jU8+SxqByHjQYIQQo7CalynuXCFx0hRK1dacXVEDGun1G2FYY5bxv50DowIpKjVJ2qi7LOachHDgLwtx6ThHFgF5bOaWVtAq/YHbibBoz4wR4NdUXhaDqg6TT22XFb1i6BaGG2YejxF646nUMgbkS28FL61TWV5k45I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mpGbqHpq; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2iWDs44"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso14041745e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 09:24:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781281459; x=1781886259; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ow6Lcgf/RFgv5jAm1y7NuVlWFYYd0/JrOjI+zfS6dAY=;
-        b=S2iWDs44ogcjVukGLcI7YlzsV4PaID2rpGPZr1MqyAbWhW1rmgRyhQ1hTUKaqenRqz
-         aiebOIt8CE+ZtAVoRgmZw4j+hH9vIDuMOiejjqw1fMFu1fSEfTpz3DwipdEDjhBOAqXC
-         pbiSoMoPKidY02V8gTbdg/nHQdSWYLE3WhmDNSo/Rm8l6sm3Pp27dKRM8QI9ZgzlbHK0
-         YrMF4bKe8/uZG15etrB+wAyszZB2L8RaP9M2RdeKxJdlmMuprAHZZv8U6KgwRKm5tLcf
-         lrCHtDWTGnlgVR43bxJyXay4agd4Rx0YLC1hFIFVThEjtpbo8OLl9BeVhVMNbx0oJkkf
-         RvAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781281459; x=1781886259;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ow6Lcgf/RFgv5jAm1y7NuVlWFYYd0/JrOjI+zfS6dAY=;
-        b=R9omFogTpsGz4G0yoHcYaItwwyLPIpD8l/uOvteZN4IhN1oYKNsQB8lJopfa2tJfhL
-         vARxczZlcMZ+x7Wvyglcl9FA+2PIuHR9kW1w97IJztK2YC2hsya6egVewhXCZuObvxsP
-         s5UzNz6zQtz0ErIQQL9DGjEZdqYAD4nFretTLedC861AmTqwPJd+6cW8CfmrrmuwYrvt
-         8Qah989QtAUtDJmgyFzRWsOcOsr3JDZxMxjOdogVh4U4JwKaiuZ17XDyXSPyfG9Tbm7j
-         i2s9t41pNrx3TEvQLZl1Fz219lflDhepsDGKmtwOKcHZ62PXRc0mjImLu/632sFutc3r
-         SDiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ91zSGIYLFLhj0Mm5zT5p0lo1ETyCLUgbPA3AdWVrBEpw3jNPvhfzwbRJeb79bJ+yFHH+vMN+dDFW0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ7OyHUPM+mq+yDvk/XB5iUq70AgyOtJS2B0nFW/LnhoxjqueF
-	UqqHSSZwL0Q/OckNk/jLd6VOnRqgrBQXFpqgakh5057E7APsqSglNYqp
-X-Gm-Gg: Acq92OHKImfpulupKej28297Mio0CMtwNKqajm9P1CK1XH7aQ7wbZuOa2vuaulgnMkl
-	QnFHItzTJklDcy8q1HycpgXMTO2DhvrsO3aYQ3A5jmu3RqfAbfGedECb1aKK35XAlDsEFXZlIDO
-	YvItQFlbgURZ6X325wh4qWWaAB2RJGaPFQjW+/oG3op8fSkb84+MjPbahGERaHzwNt5GBL5aCIn
-	52yGy2QC61NNESOXz0PWbhPE78DTIKe10GV5R/D8rNHVxC6eNgmFS5UNpIzf7I910dePWZLOM9c
-	EQYX57Ik1vn42QDtHqy8+2DZJVANchUMu9KttO405+iDVMMqBKxHViDy1+f+GWwpzV5FDakOuUL
-	c6QJNv4WEW5kIXWZpQZWZsShLRkJe4VvaOsYXryW3FQmKn4Ysv6gCdoEVcTjgC9TaYPr0UdV3bp
-	cgpR9ix4DlxPdY2yhTNccZE7RK0gBdTSMNTAwlkZOpb+zTWJ/RwcyQYReNjz0EUA==
-X-Received: by 2002:a05:600c:4e48:b0:490:e60b:6860 with SMTP id 5b1f17b1804b1-4922005e235mr2153615e9.7.1781281459529;
-        Fri, 12 Jun 2026 09:24:19 -0700 (PDT)
-Received: from f4d4888f22f2.ant.amazon.com.com ([15.248.2.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea95c51dsm57620935e9.1.2026.06.12.09.24.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 12 Jun 2026 09:24:19 -0700 (PDT)
-From: Jack Thomson <jackabt.amazon@gmail.com>
-To: maz@kernel.org,
-	oupton@kernel.org,
-	pbonzini@redhat.com
-Cc: joey.gouly@arm.com,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	yuzenghui@huawei.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	shuah@kernel.org,
-	corbet@lwn.net,
-	vladimir.murzin@arm.com,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	isaku.yamahata@intel.com,
-	Jack Thomson <jackabt@amazon.com>
-Subject: [PATCH v5 5/5] KVM: selftests: Add nested pre-fault test for arm64
-Date: Fri, 12 Jun 2026 17:23:53 +0100
-Message-ID: <20260612162354.73378-6-jackabt.amazon@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260612162354.73378-1-jackabt.amazon@gmail.com>
-References: <20260612162354.73378-1-jackabt.amazon@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mpGbqHpq"
+Date: Fri, 12 Jun 2026 09:40:41 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781282450;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B+edMgHsajKp6EUG8qdjLHZUa6igBGAxNqzsWn/cqwg=;
+	b=mpGbqHpqnOqlz1Vq7gOTntaJ7OPxs83o6X27H+Dm7/LR1BULPsd9sVPzfGSBfSiwhepnuZ
+	m6s7sl433AprtRWEMaDYbKUSK+hIVvwgbXsLiZ2DnhDtA/TJZ2K4Jhy9OQgK0ZJzL3rWfg
+	3rT2pya67ARTrienUPLyJaINMkXBCbo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
+	akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, mhocko@kernel.org, 
+	mkoutny@suse.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
+ per-memcg
+Message-ID: <aiw2JB1lZV9xuNSp@linux.dev>
+References: <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
+ <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
+ <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
+ <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
+ <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
+ <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
+ <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
+ <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
+ <1c25650e-bf98-2863-d505-9b94c385668b@gmail.com>
+ <airypNnKrJJ54k_0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <airypNnKrJJ54k_0@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Jack Thomson <jackabt@amazon.com>
+On Thu, Jun 11, 2026 at 05:39:16PM +0000, Yosry Ahmed wrote:
+> On Tue, Jun 09, 2026 at 11:18:26AM +0800, Hao Jia wrote:
+> > 
+> > 
+> > On 2026/6/9 02:01, Nhat Pham wrote:
+> > > On Mon, Jun 8, 2026 at 9:48 AM Yosry Ahmed <yosry@kernel.org> wrote:
+> > > > 
+> > > > > But OTOH, this does seem like a recipe for inefficient reclaim. We
+> > > > > might exhaust hotter memory of a cgroup while sparing colder memory of
+> > > > > another cgroup... But maybe if they're all cold anyway, then who
+> > > > > cares, and eventually you'll get to the cold stuff of other child?
+> > > > 
+> > > > Forgot to respond to this part, the unfairness is limited to the batch
+> > > > size per-invocation, so it should be fine as long as you don't divide
+> > > > the amount over 100 iterations for some reason. Also yes, all memory
+> > > > in zswap is cold, the relative coldness is not that important (e.g.
+> > > > compared to relative coldness during reclaim).
+> > > 
+> > > Ok then yeah, I think we should shelve per-memcg cursor for the next
+> > > version. Down the line, if we have more data that unfairness is an
+> > > issue, we can always fix it. One step at a time :)
+> > 
+> > Thanks a lot to Yosry, Nhat, and Shakeel for the great suggestions!
+> > 
+> > Let me summarize what I plan to do in the next version to make sure we are
+> > on the same page:
+> > 
+> >  - Drop the per-memcg cursor and keep the root cgroup cursor
+> > (zswap_next_shrink) logic intact.
+> >  - Stick to using the zswap_writeback_only key, and change the proactive
+> > writeback size to use the compressed size.
+> >  - Consolidate and reuse the logic between shrink_worker() and
+> > shrink_memcg(). Enable batch writeback in the shrink_worker() path, while
+> > keeping the writeback behavior in the zswap_store() path unchanged.
+> > 
+> > Please let me know if I missed or misunderstood anything. Thanks again for
+> > clearing things up!
+> 
+> Sorry for the late response, yes I think this makes sense. However, I
+> have some comment about how this interacts with swap tiering, let me
+> reply to the other thread.
+> 
 
-Add an arm64 nested-virt selftest for KVM_PRE_FAULT_MEMORY. The guest
-enters vEL1 and exits to userspace with a nested/shadow stage-2 MMU as
-the vCPU's last-run context.
-
-Before prefaulting, userspace enables HCR_EL2.VM and points VTTBR_EL2 at
-an empty nested stage-2 root. A prefault implementation that incorrectly
-treats the userspace GPA as an L2 IPA will fail the ioctl; the correct
-path swaps to the canonical stage-2 and succeeds.
-
-Restore the original nested state before resuming the guest, then touch
-the prefaulted range to check that vEL1 still runs correctly.
-
-Signed-off-by: Jack Thomson <jackabt@amazon.com>
----
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../kvm/arm64/nv_pre_fault_memory_test.c      | 200 ++++++++++++++++++
- 2 files changed, 201 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
-
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 4609d8f23e38..63d79245b47d 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -170,6 +170,7 @@ TEST_GEN_PROGS_arm64 += arm64/debug-exceptions
- TEST_GEN_PROGS_arm64 += arm64/hello_el2
- TEST_GEN_PROGS_arm64 += arm64/host_sve
- TEST_GEN_PROGS_arm64 += arm64/hypercalls
-+TEST_GEN_PROGS_arm64 += arm64/nv_pre_fault_memory_test
- TEST_GEN_PROGS_arm64 += arm64/external_aborts
- TEST_GEN_PROGS_arm64 += arm64/page_fault_test
- TEST_GEN_PROGS_arm64 += arm64/psci_test
-diff --git a/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
-new file mode 100644
-index 000000000000..2bbd5540599c
---- /dev/null
-+++ b/tools/testing/selftests/kvm/arm64/nv_pre_fault_memory_test.c
-@@ -0,0 +1,200 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * nv_pre_fault_memory_test - Test KVM_PRE_FAULT_MEMORY on a vCPU whose
-+ * last-run context is nested.
-+ *
-+ * The guest starts at vEL2, mirrors its EL2 translation regime into the
-+ * real EL1 registers, drops HCR_EL2.TGE and ERETs to vEL1, then exits to
-+ * userspace from vEL1 so that the vCPU's last-run context selects a
-+ * shadow stage-2 MMU. Userspace then enables an empty nested stage-2
-+ * before prefaulting. Prefaulting must target the canonical stage-2,
-+ * regardless of the vCPU's nested state.
-+ */
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "test_util.h"
-+#include "ucall.h"
-+
-+#include <asm/sysreg.h>
-+#include <linux/sizes.h>
-+
-+#define TEST_MEM_SLOT		10
-+#define NESTED_S2_ROOT_SLOT	11
-+#define TEST_MEM_SIZE		SZ_2M
-+#define TEST_MEM_GPA		SZ_1G
-+#define NESTED_S2_ROOT_GPA	(TEST_MEM_GPA + TEST_MEM_SIZE)
-+
-+struct nested_s2_state {
-+	u64 hcr_el2;
-+	u64 vttbr_el2;
-+};
-+
-+static void guest_el1_code(void)
-+{
-+	u64 offset;
-+
-+	GUEST_ASSERT_EQ(get_current_el(), 1);
-+
-+	/* Exit to userspace with the vEL1 (nested) context live. */
-+	GUEST_SYNC(1);
-+
-+	/*
-+	 * Touch the prefaulted range. vstage-2 is disabled, so the shadow
-+	 * stage-2 is a 1:1 view of the canonical IPA space.
-+	 */
-+	for (offset = 0; offset < TEST_MEM_SIZE; offset += SZ_4K)
-+		READ_ONCE(*(u64 *)(TEST_MEM_GPA + offset));
-+
-+	GUEST_DONE();
-+}
-+
-+static void guest_code(void)
-+{
-+	u64 sp;
-+
-+	GUEST_ASSERT_EQ(get_current_el(), 2);
-+
-+	/*
-+	 * Mirror the EL2 translation regime into the real EL1 registers so
-+	 * that vEL1 runs on the test's stage-1 page tables. With E2H=1, the
-+	 * _EL1 accessors read the EL2 registers, and the _EL12 accessors
-+	 * write the real EL1 registers.
-+	 */
-+	write_sysreg_s(read_sysreg(sctlr_el1), SYS_SCTLR_EL12);
-+	write_sysreg_s(read_sysreg(tcr_el1), SYS_TCR_EL12);
-+	write_sysreg_s(read_sysreg(ttbr0_el1), SYS_TTBR0_EL12);
-+	write_sysreg_s(read_sysreg(mair_el1), SYS_MAIR_EL12);
-+	write_sysreg_s(read_sysreg(cpacr_el1), SYS_CPACR_EL12);
-+
-+	/* Run vEL1 on the same stack. */
-+	asm volatile("mov %0, sp" : "=r"(sp));
-+	write_sysreg(sp, sp_el1);
-+
-+	/*
-+	 * Drop TGE so that vEL1 is a nested context rather than host EL0.
-+	 * KVM backs it with a shadow stage-2 MMU even though vstage-2 is
-+	 * disabled (HCR_EL2.VM=0).
-+	 */
-+	write_sysreg(read_sysreg(hcr_el2) & ~HCR_EL2_TGE, hcr_el2);
-+	isb();
-+
-+	write_sysreg(PSR_MODE_EL1h | PSR_F_BIT | PSR_I_BIT | PSR_A_BIT |
-+		     PSR_D_BIT, spsr_el2);
-+	write_sysreg((u64)guest_el1_code, elr_el2);
-+	asm volatile("eret");
-+
-+	GUEST_ASSERT(false);
-+}
-+
-+static void pre_fault(struct kvm_vcpu *vcpu, u64 gpa, u64 size)
-+{
-+	struct kvm_pre_fault_memory range = {
-+		.gpa = gpa,
-+		.size = size,
-+	};
-+	int ret;
-+
-+	do {
-+		ret = __vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+	} while (ret < 0 && errno == EINTR);
-+
-+	TEST_ASSERT(!ret, "KVM_PRE_FAULT_MEMORY failed, ret: %d errno: %d",
-+		    ret, errno);
-+	TEST_ASSERT_EQ(range.size, 0);
-+}
-+
-+static struct nested_s2_state enable_empty_nested_s2(struct kvm_vcpu *vcpu)
-+{
-+	struct nested_s2_state state = {
-+		.hcr_el2 = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2)),
-+		.vttbr_el2 = vcpu_get_reg(vcpu,
-+					   KVM_ARM64_SYS_REG(SYS_VTTBR_EL2)),
-+	};
-+
-+	TEST_ASSERT(!(state.hcr_el2 & HCR_EL2_TGE),
-+		    "vCPU should be in nested/vEL1 context");
-+
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
-+		     NESTED_S2_ROOT_GPA);
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2),
-+		     state.hcr_el2 | HCR_EL2_VM);
-+
-+	return state;
-+}
-+
-+static void restore_nested_s2(struct kvm_vcpu *vcpu,
-+			      struct nested_s2_state *state)
-+{
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_HCR_EL2), state->hcr_el2);
-+	vcpu_set_reg(vcpu, KVM_ARM64_SYS_REG(SYS_VTTBR_EL2),
-+		     state->vttbr_el2);
-+}
-+
-+int main(void)
-+{
-+	struct nested_s2_state s2;
-+	struct kvm_vcpu_init init;
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+	u64 npages;
-+
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_ARM_EL2));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_PRE_FAULT_MEMORY));
-+
-+	vm = vm_create(1);
-+
-+	kvm_get_default_vcpu_target(vm, &init);
-+	init.features[0] |= BIT(KVM_ARM_VCPU_HAS_EL2);
-+	vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code);
-+	kvm_arch_vm_finalize_vcpus(vm);
-+
-+	npages = TEST_MEM_SIZE / vm->page_size;
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, TEST_MEM_GPA,
-+				    TEST_MEM_SLOT, npages, 0);
-+	virt_map(vm, TEST_MEM_GPA, TEST_MEM_GPA, npages);
-+
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    NESTED_S2_ROOT_GPA, NESTED_S2_ROOT_SLOT,
-+				    1, 0);
-+
-+	/* Run the guest until it has ERET'd from vEL2 to vEL1. */
-+	vcpu_run(vcpu);
-+	switch (get_ucall(vcpu, &uc)) {
-+	case UCALL_SYNC:
-+		TEST_ASSERT_EQ(uc.args[1], 1);
-+		break;
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+		break;
-+	default:
-+		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+	}
-+
-+	/*
-+	 * The vCPU's last-run context is vEL1, backed by a shadow stage-2
-+	 * MMU. Enable nested stage-2 with an empty root so that the ioctl
-+	 * fails if it tries to interpret the userspace GPA as an L2 IPA.
-+	 * Prefault in two halves so that the second ioctl exercises a
-+	 * repeated shadow-MMU attach and canonical stage-2 swap.
-+	 */
-+	s2 = enable_empty_nested_s2(vcpu);
-+	pre_fault(vcpu, TEST_MEM_GPA, TEST_MEM_SIZE / 2);
-+	pre_fault(vcpu, TEST_MEM_GPA + TEST_MEM_SIZE / 2, TEST_MEM_SIZE / 2);
-+	restore_nested_s2(vcpu, &s2);
-+
-+	/* Resume at vEL1 and touch the prefaulted range. */
-+	vcpu_run(vcpu);
-+	switch (get_ucall(vcpu, &uc)) {
-+	case UCALL_DONE:
-+		break;
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+		break;
-+	default:
-+		TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+	}
-+
-+	kvm_vm_free(vm);
-+	return 0;
-+}
--- 
-2.43.0
-
+I think the swap tiers interaction will be figured out over next cycle. However
+Hao can/should continue to push and we may decide to let it in orthogonal to
+swap tiers.
