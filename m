@@ -1,162 +1,217 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013018.outbound.protection.outlook.com [52.101.83.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BA33DEADD
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 12:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781268113; cv=none; b=KBasL4smPmattgsJWbiIqm+5UiLjRaK+BQT5AzGOH1hhS478w0KXJfZ5t8IV/QX1uwsilaMuABg5kd6MwhE+GUqhgOopXw3g75jgjvyNJ9L0fArA7X01tEk6rQddbeK8rgQ3wssOoINz1394cU6Vowj7ZX+cz9dlhty7X1+Hq5Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781268113; c=relaxed/simple;
-	bh=LMYu57gU8RUYV0LQ5OTarh15mKTlnPD1JC7e6c9SqXU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Bb+8fv5SpbHbepewQaZr/gEDsW+nZ18OMuXQL9U6+9AK1YkfSsU87frSL9crkCEvplIZ4pXReqhpJW6+dguEmxCKB1qnf2prfcSsbAlgWAN2jXdcDfMmmLbKxiHPfoRS27tDUGUXrimLbVFKSKHf13Lp8i/khgcK+eITnNPqiq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; spf=pass smtp.mailfrom=9elements.com; dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b=MZcSB/7k; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=9elements.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78801282F06;
+	Fri, 12 Jun 2026 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781268345; cv=fail; b=Qdk1d4EHaG/H02xlsui/7sw46ed40PWu9Z4cwwbBXdLpi8Xj41fP8Qlwsn/mxxbgPRy/nKZMpdxk+rBhHbV37M/XXqyPMH5YQmjhjDayeV0LQKlTObhRzFdKqWygVLFfjtgvbI9E4tgC58+54OzDfSo9TpaRhEokQIjOI32o2/s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781268345; c=relaxed/simple;
+	bh=mU6zfBZQE4BC22lPpyLdexvO7jSf2oiw4oRHf1ZNxuw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LQAg7UcRVYy8f5EbG5LCRv8P4mH10AAJ38F0Z95pkj81/j2nXm2dVHwUntE2nhPm4RWK+Fi3WpsJ5W5pRr6nk7KVOR82HivB9BWBaD+l4HQNLsKkYK4iW2sQYn5BkslWXcJKlSTgjdMxELKuvT0sw7bieLANiU5vsrU9cCewko8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=cPglFNhJ; arc=fail smtp.client-ip=52.101.83.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=9elements.com header.i=@9elements.com header.b="MZcSB/7k"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so18486625e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 05:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1781268110; x=1781872910; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LMYu57gU8RUYV0LQ5OTarh15mKTlnPD1JC7e6c9SqXU=;
-        b=MZcSB/7kLPyZuLn+TWmZsVGRt3CiWJg+vvYCE+2nLVS9a/ac7q8hRMMZpcr5BJpECe
-         indVjCCLUa6Dv03RYAHD4bXt1C8pc3mHOVVmTUpt7V4ea3WB06g9ivsPnyjZ88U7tVrW
-         NQw3SJTJNZKgxuohoQDhWtnuomygckypLo7Z2GxYCrm7CgvN/e8PNjkPy0itiQc9nvQF
-         H4qhtw2Daka/P6OaUhZzcnjnnEhJ9lTE2St1EYo8unxwbZ/SJes4QUJj362sSUlobgt/
-         pIn7QGLhtTjy0P5LZARh8ryMwlVkaLL12Qa/rHMXOgPtJJ2tAXKBp5wBsTbj4Zp/oR7J
-         jRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781268110; x=1781872910;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LMYu57gU8RUYV0LQ5OTarh15mKTlnPD1JC7e6c9SqXU=;
-        b=m8GxdnNfyySj5dqyrbVsJuTketE72r4XY9KCEbQLTvoH8GCR1Tw/86KxMRtfZHLtvl
-         P6E7iAudcDYN0OUNdVOotfk3T/revLLX4HZDN/dWnqjZhAIaJ0cifoEBmbnKkFIxSmO3
-         L8J3UY8nGFxK2oJfB4qTeG6E+FFXlm+1baCGqUmVf896KdrwyoNXw1UzKJML5JlOehi4
-         kpdRK9SL4kftIbpkkucU+pBVZLMZovkpSxHcAPo3hP7geGcrPg+Z3VGv9TLwzxoQu7Tr
-         hURpAhC3waU1icKmGSIaF13O2r2Nnl1vtSPhn7pNL+RBL5tXmVaKc7OxnkAQZR0y98VZ
-         NFkA==
-X-Forwarded-Encrypted: i=1; AFNElJ97168q1C8XMvrfjcuXbQ91Dih0eqkZmFrWza6Iqsm3r2GhhX61vco+zLEkh3NhgMhOfwHlaLUPHfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqybnEmJobJDPqd1j+6KGhhIO+TOJPCHrB2jx1B/wLDaU2P7mp
-	ayYT0sK9hu5jeCSytWc2sG/vZKegtwNULO0g94Ur8iqVIhc40BF9c73YbRwJpCWU0A==
-X-Gm-Gg: Acq92OHA/FYTTWxsozaYEwr+pheanf4HGgbO7EDC2BnJflbQmzoxP/JLsoKrUEatQQw
-	f21TPqq1xtmiNCh5x1TeK8fvJq8PLTRPbquv2OJ0Ly3c7xUDUC2GrKaBGZerHXg9YY9amwKK4l9
-	fjgTdD9LhoJ9tZR0nYCKcw27udLdSzJvBxIx48iIswnwKXCKRkdpP2G8zzhJcMvZu53T6FmSx20
-	m/rgr96thSE9qx5HcNjBN2wx4y49A6VEFZd99VUFCyBFL8vRhNxW/O7j51H3/1Y2/THVNnqhnV6
-	j7dp71oQC8HHS1HUch4zJUebIuYht+LLZjZ1naAIIp81iMWpVXkEhSbTmWOl8KUwWror7C84AC1
-	g7jfVr1lAido5hrObYS6yBl5Nkb+cJq14b/2qIO6yqrPFG2rUdkY1g1F1TELo8/BfQpgLTk5/ht
-	PxC8lfhAeV5PwdzfI4rA52Xz1mzBoP0DU=
-X-Received: by 2002:a05:600c:8b2a:b0:490:4b89:5372 with SMTP id 5b1f17b1804b1-490ec50a338mr30469575e9.11.1781268109862;
-        Fri, 12 Jun 2026 05:41:49 -0700 (PDT)
-Received: from localhost ([185.213.155.242])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea7c08fcsm72043615e9.1.2026.06.12.05.41.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2026 05:41:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="cPglFNhJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dfN06XDgwmU7dtDEJ9M52SPDDEWgvbAKlk2Ep4v9VpTRtZW6aB+tNT9j8jLLhMTJSXuD6Yxd5y25SbAsVYkiHz1dgI6bo4mKNUjX/8Ge0U7l2wvcarq19X/nmRzJgLEaguntdoNe4ao7MWA1v1uDceks23lVoq+jId7pD2dAQ7f4ocurCNgj7ou4VLC3Mz78RxJSP+A/D0SEtwf9m/imZ7D/LeHQIjT+Xg4ubKPLbCvJOdd03OpvK6IJZvcP3wKSuZcguwC7Qu0P1a6KMOwfsRxH2nsyPG9+bqP5K9jiiOZBLJmVlk8kojIpMZwHlmcOqmoe7wc5SSg7fpvsMimCIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=by5ZlX7G5fpV2fuz8CB39odUOXmn9mfcMl6iAXv0ss4=;
+ b=N0lRU0g6JwjxtL8buBRLXSpRY9k5EVXLUWD3ALVk1AuEWabdWjxQiXZeyAhdiVGo0GamGdTzeRNPl9uMR+c16eIi2+XWw41zAwicq3qHWGi+NrETIY4TBWawtn4HeKznluOaK2ABkW2XGWboT1tr95l1LvkWG3xIFaEnXSVxZfuUGW7A+YVdrthIOfrVcOzsnDebmEZ+Aj94QUYDTTn3bwGWDb3XR4WRMvzq+1RRKCNNJq6H158+9nYjPh/+LGRet1SwQ1AC25qvIBiVDkAdmwlp+ePJPdxFqI0++U8i5REv6gHjhqAZxRsSvH6FIozVPQRs10vXW6KvbbaAuG3amA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=by5ZlX7G5fpV2fuz8CB39odUOXmn9mfcMl6iAXv0ss4=;
+ b=cPglFNhJW2bNx8uba0Xx6Spw1F7Rm7o6Z4HIkODkAbgDLW2BiXWYaIYGt9NVhubuH2d8H0X7c7gfEu/3iVqLe0WGJHsQub981Hl9ilHk8x+aL9H/3/w323cNKvQb59azN8HTsNOQwxoz8/s6mREPEcupJvo/CkyGXMqAWI2mb5DI9StfYvz/yVhyDWr0rQnrh2rPF7yJl6iQqbmvrkmPA/23dIJA2R3E/UgzzufGkZkW4iGs1zc+ncLg7wG1/IGEh0XmZIh3nVYFT057+Aw0w3RlFjPBUNsZQYSvFCgiJ+SZxC/J4TakOf9I2VPlQ3KoGVrdDHiJ1GRZTtIpryDdQA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
+ by PA4P189MB1295.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
+ 2026 12:45:40 +0000
+Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
+ 12:45:39 +0000
+Message-ID: <7f116596-6d71-42b0-8796-4a82c4c922c4@est.tech>
+Date: Fri, 12 Jun 2026 14:45:37 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
+ function boundaries
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, llvm@lists.linux.dev,
+ linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ Yunseong Kim <ysk@kzalloc.com>, Yeoreum Yun <yeoreum.yun@arm.com>
+References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+ <20260604084026.GY3126523@noisy.programming.kicks-ass.net>
+ <513c68a8-e530-4461-a8e5-36e5d3d5858f@est.tech>
+ <20260612073858.GS187714@noisy.programming.kicks-ass.net>
+Content-Language: en-US
+From: Yunseong Kim <yunseong.kim@est.tech>
+In-Reply-To: <20260612073858.GS187714@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P123CA0098.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:139::13) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:39b::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 12 Jun 2026 14:41:47 +0200
-Message-Id: <DJ72UFZFSASR.27NR1EMT3MCTJ@9elements.com>
-Cc: "Michal Gorlas" <michal.gorlas@9elements.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Luis
- Chamberlain" <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>,
- "Daniel Gomez" <da.gomez@kernel.org>, "Aaron Tomlin" <atomlin@atomlin.com>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH 0/2] module: restrict module auto-loading to privileged
- users
-From: "Michal Gorlas" <michal.gorlas@9elements.com>
-To: "Kees Cook" <kees@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>
-X-Mailer: aerc 0.21.0
-References: <20260515-autoload_restrict-v1-0-40b7c03ddd04@9elements.com>
- <20260605183646.GC2939956@google.com> <202606101317.D23383F465@keescook>
-In-Reply-To: <202606101317.D23383F465@keescook>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|PA4P189MB1295:EE_
+X-MS-Office365-Filtering-Correlation-Id: c552db22-3e4e-47a9-8bf8-08dec8808200
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|22082099003|18002099003|56012099006|3023799007|6133799003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	TEh+vLFvoCTXdg1HoRBh3R2QOYTBy9jYdy9GMIe9I4pM4HgQ3y3JPrPRBtCIeTtNKbSvZEPQNuxNS1YPnCXewSMcfcOgWp9gzAa++ffpCF7pJ6RbXlX/TrgX5HcJTC3cMwBaEqN2SPW+2Gjj1v93oLlF5B064NYEjRH02Jsa/ID/iG/7jpehdInY47b6dQCqVX/y36wLzbf9wVqmCOV513r1VXhSrp0Evy+IAnD0lmmJ1KCzVqjwqJqKBe+c6YQOmPeXHPnYggjqQp9fSXQRnN2SyY0RcFbbKrPeTde0trjzVXXwWvxrO3uUMysh3SxSyYBDNpN/1f40uCCd0ksA1kAf6lN2VlNOMgEXOy1Qdwf/ONC14etipKVpif45niijYABp1cj8GbjwuzNE9L9VCFWMA0oyK3S7KDfNLq+6NJFTcfENdgouBOpqAiPjkLV8OAHObHpU1BOtOSObRfM+nL/LdgyIvjX3rDo//yf5EhQQHEs0VtmEcAPusWELd4P0SZBO+bP8/O73sRZ8rZ/na7ZM81G1ZxgXL+quHLtRTppqRVpN3M79/p2TzP0JMTCYujoHS+1f9ZOJsf8ZKKr7bYeHGdh6quwiyFtoz9GN1eRPvdL8zNUnVrALlBK51BqcyAALngoqUy5QCNS/MjdxJ6oQBX/ozDsflB5HF40pbVF8Ee0lh/37MvYoIj7FKz6bHHQBphoDg34O30s057cjMQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(22082099003)(18002099003)(56012099006)(3023799007)(6133799003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bktkU1M5eXZjenZka1crL0svMnFkNEprZksyMVNYWEZsNGRyMnZwS21sc1ZC?=
+ =?utf-8?B?WGVlWTE3SmZCWnF0M2s2a2ZEOVMzbWViajFkU1FzRk1FdnZQTkFad3psYXJX?=
+ =?utf-8?B?OVpvMHNUY0NnUVlFckd2NUdLc0phSmcyUW9iVTliSmFEMXBHdE1hWGNZME9w?=
+ =?utf-8?B?SnFyYU1rR2FjSXphTWR0U2JQZkhzTzROS2dUenZpbXRrbHRTeUdnUWwyK2gw?=
+ =?utf-8?B?NmNnVm1zZnRaTHdXR1VGZDhDK3A3Y2JPcDNnTis1L1g1ejlzWWlRMDNZMlZw?=
+ =?utf-8?B?Qmtibi9UZ3YyclJRekRpN0pxK2MvQTdRT3dibWRwVGZBQk44eFlOU2VMcklU?=
+ =?utf-8?B?WWdPczZFZXhLaysvOXY4alJtaWkvY1gvWVowRHFNa09EUHdPTVNid0FqQkc3?=
+ =?utf-8?B?a3JUWEdSUGM2cDBwNDNxM2JUS3IrdFNROXhjZnBKbHlkd01qY1p6QngzZVBt?=
+ =?utf-8?B?MEJFM1dzR25vR1lETzhUbFoyOEZLejJmb2dNcEpkb21ZUW9RanlyKytyM2FI?=
+ =?utf-8?B?emNyR0ZBTDUrV0FPNGRDSXE2Q1hVSXBlemhGZlVUZERnWXZaVGlodFdVR1hH?=
+ =?utf-8?B?SSszL0xmVndFejVYLzRTcnF3UzF4WitZWWVxSVFvbFY1aXQzTGtyZjhWMzUy?=
+ =?utf-8?B?MnNOc3ZubFViZmM3UWk5aisxVEJHWHNEMFA5ajBDUG9STitEVFlJNkc1dzNM?=
+ =?utf-8?B?clRXc3EyNUdiUVlYR29KSUo4bGhMMGVxYWJXSTc4d3FLZVFHQ3dyODBHOWJB?=
+ =?utf-8?B?K2Z5WUlScDJEZXpkTzZPZmdCYUowcHVOUmFybWYxYUlGT2tPdVJRY1JmTTFk?=
+ =?utf-8?B?T0EzbWJGeEZMenNGOTRnYVNHcVpINnJ5MlZ6R1ZMeGN4YURvUnFrMTQrLzFa?=
+ =?utf-8?B?Y011SUNKTG1Tbm5ES0lBWTBLYmJWdGpwYmpUUUl6Q3hqMkhFdy9YaEMzQ3pK?=
+ =?utf-8?B?RDc5aEZUYjBLTWtobEVlV2RlbHV3NGpUOE1UM2RzeXFpc0Y1cmFEdE5aSTZX?=
+ =?utf-8?B?M1VuU3UwczNZWUJvVnBGQUtOOFJSREExREx3NkZSN2tTTHhldk5jdzAzQU5K?=
+ =?utf-8?B?K0Eya2ZpZEFXcGZabS91anFKT1RvL2pFMXZtZG8yOEhRUzg2VTV0NjRxSnRm?=
+ =?utf-8?B?VXNIZlZLdm5uSldsV3Bzd2pITFg2QjlLMENOelk0RG9zdjZhSmcvWTF3bW4v?=
+ =?utf-8?B?NEtLdmJOY1hFbVEzREd3N2crSS9PVGRYRFoxUzF5Q3Z1VzZ6dDJSSzkwZjNK?=
+ =?utf-8?B?NVA1R2FWNG5nMFJxMlNxdjkzZ0IwRGUxaFRMWE8yc2g5Sm5kb1lObXVnbnpo?=
+ =?utf-8?B?Z3JZeGU4WFNzT3BmUCtaSGxzRXVtY3BIZnBkVXk1eVljNWR3UkErcjVESUdC?=
+ =?utf-8?B?ZFVocXBRL3h2cGs5OXdSaWpoeHVvR044b1AzRVBLZC9JTk9nRUszT3BCNWRW?=
+ =?utf-8?B?K2hYOGVhWjArd0pJSElkYk1rTm1GNXMydENiZDlEMmsyaUZsMFRZVWRyN3pw?=
+ =?utf-8?B?RWJ1NlZYTDRBRzUyNVVWU2F0M0FQL1VqTEJDdFltZGdDcDhScnZOc1FNVjdl?=
+ =?utf-8?B?VU9hZlhibXRDVFk0OCsvbCt2M0J3TzhhSHdvNTRaemFRa01SZnFnKzAzaExM?=
+ =?utf-8?B?akttSk93QWJqV1NNUVB4bVB4S2VUSmRNdzNiZ2lNS1hsR2ZNZnovQ2lrRVJX?=
+ =?utf-8?B?clhTT0NSRjNxeHExOWVmRFFhRDVybTVBV3JEWkwwRjNDR2RCTDRJZC9jSjN6?=
+ =?utf-8?B?YkcrbU0wSklMeUtEUkJrNmxQbVRoK000NFRiaUdadEk4RXRyYmRCYVo2RzE1?=
+ =?utf-8?B?T1hucThqNHhqdDBaODNmdDcrM1NZR1JhdFNPYkFzVUxPMUlQaEQxb0grb2Ni?=
+ =?utf-8?B?d0dwTDVGNmoyaXZQWnM4QTk0T0Fta09kSFBQQndodmRsOXFVTjhBYllKSWVm?=
+ =?utf-8?B?OTJma3hmVXlrdVJXejdJZ2t4ZVRuN1ZueDJqZ2RRR2RSbTN0eUY0NTc1WkNI?=
+ =?utf-8?B?TGJZSUdYQ3hJVkxjRFpURS9HcDIzRXowYjdBZHpxU2prSjNKTzFzcmlFY1B3?=
+ =?utf-8?B?ajNWTDRydVU4U1M2T2JGYk1LWnVMb3RsZlBURzVGbTJncjNwTFRSVXVYSHJ1?=
+ =?utf-8?B?NEV2QkZHcHVLWWpacHg0cG5uWWl5ekZSYW9Td1FyVTQ5eFJNNThQSGZwUnZy?=
+ =?utf-8?B?Vmx1cE5ralRmYUtObDdFeHlKZWtPV1ZxQlVDUWxtdlJoVEU4cm51ZGdrcGhJ?=
+ =?utf-8?B?MlBWbUs3Y0xQWFZRb2JERlEybDhIWVB0cG9PWEEva0lBUVRkQkxITkppUnQw?=
+ =?utf-8?B?OWlPYnR0bXhYeWNIeFNtYXF1dWczVTV4a0x2ZjAySUVxcmpnTTJkdz09?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: c552db22-3e4e-47a9-8bf8-08dec8808200
+X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 12:45:39.6883
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c2HAd+zpuEOyUp4ZjZ4UECAqIYZhWvaEYV9EsDie4tJN3ZSCrUeYjmzB+iOA+j9C7i9JjCMYBO4XfH26Rj2TGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4P189MB1295
 
-On Wed Jun 10, 2026 at 10:23 PM CEST, Kees Cook wrote:
-> On Fri, Jun 05, 2026 at 06:36:46PM +0000, Sami Tolvanen wrote:
->> On Fri, May 15, 2026 at 07:20:18PM +0200, Michal Gorlas wrote:
->> > Add option to restrict the module auto-loading to CAP_SYS_ADMIN.
->> > This is heavily inspired by CONFIG_GRKERNSEC_MODHARDEN of the latest
->> > available Grsecurity patches [1]. Instead of checking whether the
->> > callers' UID is 0, check whether the calling process has CAP_SYS_ADMIN=
-.
->> > The reasoning here is that many modules are autoloaded by systemd
->> > services which are running as privileged users, but do not have UID 0.
->> > While systemd-udevd runs as root, systemd-network (which often
->> > auto-loads a module) for example runs as system user (UID range 6 to
->> > 999).
->> >=20
->> > When enabled, reduces attack surface where unprivileged users can trig=
-ger
->> > vulnerable module to be auto-loaded, to then exploit it. Recent LPEs
->> > (CopyFail [3], DirtyFrag [4]) for example, would have been mitigated
->> > with this option enabled as long as the vulnerable modules are not bui=
-lt-in
->> > (or already loaded at the point of running the exploit).=20
->>=20
->> This sounds potentially useful as an optional feature. Kees, you've
->> looked at grsec features in the past, do you have any thoughts about
->> this?
->
-> This doesn't really look like GRKERNSEC_MODHARDEN to me? In that
-> feature, the credentials of the usermode helper are passed down so that
-> udev or whatever can examine them and make choices (instead of seeing
-> the uid-0 usermode helper credentials).
+Hi Peter,
 
-It is based on a part of GRKERNSEC_MODHARDEN policy check in=20
-____request_module in [1]. By no means it reasembles the full
-feature. Very similar check was proposed for linux-hardened
-tree few years back (with the difference of checking for=20
-CAP_SYS_MODULE) [2].
+> On Fri, Jun 12, 2026 at 09:37:40AM +0200, Yunseong Kim wrote:
+>> Hi Peter,
+>>
+>>> On Wed, Jun 03, 2026 at 07:43:27PM +0200, Yunseong Kim wrote:
+>>>> CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL instruments every function in the
+>>>> kernel. 
+>>>
+>>> Well, I would hope it would very much not instrument noinstr functions.
+>>
+>> Thank you for your guidance. I updated the default
+>> CONFIG_KCOV_DATAFLOW_NO_INLINE to n.
+> 
+> That's not really the point. The compiler extension *must* respect
+> noinstr. If there it no function attribute to suppress this kcov stuff,
+> then its an absolute non-starter.
 
->
-> This looks like it is just doing a request-time policy check, but that's
-> already covered by the security_kernel_module_request() call immediately
-> before the proposed module_autoload_restrict check.
->
-> Also note that module loading is _already_ controlled by CAP_SYS_MODULE,
-> not uid 0 nor CAP_SYS_ADMIN.
->
-> Sashiko has similar feedback, and some other notes too:
-> https://sashiko.dev/#/patchset/20260515-autoload_restrict-v1-0-40b7c03ddd=
-04%409elements.com
+Thank you again, for pointing that out.
 
-My understanding is that CAP_SYS_MODULE is for processes that are=20
-using load/unload directly (i.e. by doing init_module/delete_module=20
-syscall), and the kmod's__request_module, is a user mode call=20
-(at least that's what the comment in __request_module suggests),
-so CAP_SYS_MODULE does not have to be set for processes that are=20
-just using __request_module. One example of this is systemd-networkd=20
-(there are probably more but that's one that I tested), i.e. it will
-trigger the module autoload even though its not given CAP_SYS_MODULE.
-Please correct me if I am wrong here.
+I've been using the same mechanism that KCOV (trace-pc) already relies on.
+trace-args/ret shares the identical code path and attribute check.
 
->
-> I'm not clear what problem this patch is trying to solve?
+LLVM side:
 
-To have an option to completely disable module auto-loading for
-non-root in general. By root here I also think of system users so
-UID 1-999 [3] (had typo in cover for the patch, sorry for that).
-Not sure if this is a best approach, it could be also implemented
-as small LSM hook on security_kernel_module_request() (just a thought
-after you mentioned it). Either way, the idea is to limit the=20
-auto-loading, not direct loading.=20
+noinstr functions are never instrumented because the existing
+NoSanitizeCoverage attribute check at the top of the function-level pass
+covers all SanCov instrumentation types including trace-args/ret.
 
-[1] - https://github.com/minipli/linux-grsec/blob/v4.9.24-grsec/kernel/kmod=
-.c#L153
-[2] - https://github.com/anthraxx/linux-hardened/pull/23
-[3] - https://systemd.io/UIDS-GIDS/
+  1. Marked functions as noinstr expands to __no_sanitize_coverage, emits
+   __attribute__((no_sanitize("coverage")))
 
-Best,
-Michal
+  2. Clang translates that to Attribute::NoSanitizeCoverage
+
+  3. llvm/lib/Transforms/Instrumentation/SanitizerCoverage.cpp
+
+     if (F.hasFnAttribute(Attribute::NoSanitizeCoverage))
+
+     https://github.com/llvm/llvm-project/commit/280333021e95#diff-1b024748b036cfd10a7c3dfc7e9c53b0f752b27d7ea193939c59b2de60f69a70R445
+
+  4. skips ALL instrumentation including trace-args/trace-ret
+
+Dobule check with objtool:
+
+Even KCOV_DATAFLOW_NO_INLINE enabled kernel:
+
+  $ for fn in ct_nmi_enter ct_nmi_exit exc_nmi syscall_enter_from_user_mode; do
+      count=$(objdump -d vmlinux --disassemble=$fn | grep -c sanitizer_cov)
+      echo "$fn: $count sanitizer calls"
+    done
+  
+  ct_nmi_enter: 0 sanitizer calls
+  ct_nmi_exit: 0 sanitizer calls
+  exc_nmi: 0 sanitizer calls
+  syscall_enter_from_user_mode: 0 sanitizer calls
+
+If Rust noinstr functions are added in the future, they would use                          
+#[no_sanitize(coverage)]. This maps to the same Attribute::NoSanitizeCoverage                                                          
+LLVM attribute, yielding the exact same check and result.
+
+
+Best regards,
+Yunseong
+
