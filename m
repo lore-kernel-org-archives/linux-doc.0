@@ -1,145 +1,197 @@
-Received: from outbound.baidu.com (mx15.baidu.com [111.202.115.100])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 6C7D31C2324;
-	Fri, 12 Jun 2026 10:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.115.100
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC14736EAAC;
+	Fri, 12 Jun 2026 10:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781259193; cv=none; b=HLPAP7IIFJgMT2ITia1OQAs06IpuIWzO1Q6wmWCfyYgK/elMWdEv+uFC6YxV2bln8Z7ISZSqqWqP9g4hgFYcQW1VhRbnbTi6jkzKBoZlRdE4U7Xy56iupeCnm0QYJApymzrJerBY0eStWrbySRCstRiSFCzC7uxsNKdDo0+Bq0k=
+	t=1781259336; cv=none; b=cFGSTXiTmZ8Uy582wrEpsH896MBE572cNTHEvvr0vMF3jFtcYimxsJ7UsTb9vXTRxCOtomQmT1OC30DDDsHMzWHAywtUKftHKM0OkL11WCQ6UuZjn5+gkKkD6oH0Tf4OplGPRcgZsisAdAC4XaoB0mEJbJ1U11z/63qEjyH/jB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781259193; c=relaxed/simple;
-	bh=mE+veDDMTMJrWdkPgKGphSSzhcwJNzcc72PnTMcQdA4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mX1UJFX3M6dMryaFkeV5V8iRnRPCeuNAuWF30AFscvjba4/AWY8SU0YZyUorrmjlkMAFI+0jfYBGaz4HlMyT+emFWB0xTxeHaSwc7oi1tLOPai2N0IGjFsEcwYeoy3e+ks/ZinTaGePR5Hz6bASiiUmYPgWPjql7mOu/GBUzg0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b=oiGErC/k; arc=none smtp.client-ip=111.202.115.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+	s=arc-20240116; t=1781259336; c=relaxed/simple;
+	bh=WtwFBdcoNgVFnGaN7wYg5bPQTbJzZm3o2CtR/JVfPBw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BSNSziZ3B3EKbA9wBWMaQLbgymwAsPaxGmy8l6JYrsxFNxzjSHx84ysA5SLkvja0o8SSkznka4PAOn79tfMCCPAYmvBswAmIEHROFseApU03IiBXCZTif1n5wab6HH3S5QsTuqwwcF+S+TCQLRtjXUVOrhU2OIMdVqNuvirW++Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EQoBDBvf; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baidu.com header.i=@baidu.com header.b="oiGErC/k"
-X-MD-Sfrom: lirongqing@baidu.com
-X-MD-SrcIP: 172.31.50.45
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, "Christoph
- Lameter" <cl@gentwo.org>, David Rientjes <rientjes@google.com>, Roman
- Gushchin <roman.gushchin@linux.dev>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
-CC: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIHYzXSBtbS9tZW1wb29sOiBVbnRhbmdsZSBDT05GSUdf?=
- =?gb2312?B?U0xVQl9ERUJVR19PTiBhYnVzZSBhbmQgc3dpdGNoIHRvIHN0YXRpYyBrZXk=?=
-Thread-Topic: [PATCH v3] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse and
- switch to static key
-Thread-Index: AQHc9BHF11Lem2QgY0queNaRduhYGLY6v8sw
-Date: Fri, 12 Jun 2026 10:12:44 +0000
-Message-ID: <d06d13c4aebe44a2abca4aee0083644f@baidu.com>
-References: <20260604110318.2089-1-lirongqing@baidu.com>
-In-Reply-To: <20260604110318.2089-1-lirongqing@baidu.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EQoBDBvf"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781259331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cNePmwoejC9uECBwHhyf9ZCMhy83FpHG4lebaOpVm0M=;
+	b=EQoBDBvfHYiavI3vA2yTca4fC+KP7Jdm89S9rgLab6eg/3U8UnakmhSUbwGwZXDhFNXHC6
+	UZM2hqGg6Ri/TRseT5+w2zgSq53/sECP1UOqvX1emDa6+r7eJb9ro5J0Rmcp5qLbKDjRNd
+	XJoXg1rwWDXdr8bCEpzg3cCWhsGHzak=
+From: Usama Arif <usama.arif@linux.dev>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	jonathan.cameron@huawei.com,
+	elif.topuz@arm.com,
+	lukasz.luba@arm.com,
+	philip.radford@arm.com,
+	brauner@kernel.org,
+	souvik.chakravarty@arm.com
+Subject: Re: [PATCH v3 02/24] firmware: arm_scmi: Reduce the scope of protocols mutex
+Date: Fri, 12 Jun 2026 03:15:24 -0700
+Message-ID: <20260612101525.340337-1-usama.arif@linux.dev>
+In-Reply-To: <20260329163337.637393-3-cristian.marussi@arm.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=baidu.com;
-	s=selector1; t=1781259183;
-	bh=mE+veDDMTMJrWdkPgKGphSSzhcwJNzcc72PnTMcQdA4=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type;
-	b=oiGErC/k2ghGsTtaER4IsR3JRj5ouVOmsN9WzYAAI/BjIvBzaoGEQfTysg3mIBgoL
-	 g/x9rfWz+3i+G4DIuqaZiwfVhX6MU5CqRC5XVEACeHMgXpOb4U7KKaCg8DOmKCj1lo
-	 +xyLGvVvFfJZIGJtwsSFpFTU3wWXiRVzpT8uqdCR9splycS33WLKGgaw+Fe9/6hesv
-	 OlBto1ohMN9y9O7aZO1zaNNZh07+5/F9SWaXs1x8e8SSPoBHY/+LFk/WFRdwWtrJdz
-	 cLGqokz37cFmxpP42Tdvoln2/wnoQyLzafwoa64qD2ixb2fEeHXysRec8JdNN4/eBq
-	 Ja773PxKO8+cw==
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-PiDW98ziOiBbUEFUQ0ggdjNdIG1tL21lbXBvb2w6IFVudGFuZ2xlIENPTkZJR19TTFVCX0RFQlVH
-X09OIGFidXNlDQo+IGFuZCBzd2l0Y2ggdG8gc3RhdGljIGtleQ0KPiANCj4gRnJvbTogTGkgUm9u
-Z1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPg0KPiANCj4gVGhlIG1lbXBvb2wgc3Vic3lzdGVt
-IGhpc3RvcmljYWxseSB3cmFwcGVkIGl0cyBkZWJ1Z2dpbmcgbG9naWMgaW5zaWRlIGFuDQo+IG1l
-cmVseSBkZWZpbmVzIGNvbXBpbGUtdGltZSBkZWZhdWx0cyBmb3IgU0xVQiBhbmQgY2F1c2VkIHR3
-byBmbGF3czoNCj4gDQo+IDEuIE9uIHByb2R1Y3Rpb24ga2VybmVscyB3aGVyZSBDT05GSUdfU0xV
-Ql9ERUJVRz15IGJ1dA0KPiAgICBDT05GSUdfU0xVQl9ERUJVR19PTj1uLCBtZW1wb29sIGRlYnVn
-Z2luZyB3YXMgY29tcGxldGVseQ0KPiBjb21waWxlZCBvdXQNCj4gICAgYXQgY29tcGlsZSB0aW1l
-Lg0KPiAyLiBPbiBrZXJuZWxzIHdpdGggQ09ORklHX1NMVUJfREVCVUdfT049eSwgbWVtcG9vbCBk
-ZWJ1Z2dpbmcgc3RheWVkDQo+IGFjdGl2ZQ0KPiAgICBldmVuIGlmIGEgdXNlciBleHBsaWNpdGx5
-IGRpc2FibGVkIHNsdWIgZGVidWdnaW5nIGF0IGJvb3QgdGltZS4NCj4gDQo+IENsZWFuIHVwIHRo
-aXMgbWVzcyBieSByZW1vdmluZyB0aGUgI2lmZGVmIGFuZCBzd2l0Y2hpbmcgdG8gYSBydW50aW1l
-IHN0YXRpYw0KPiBrZXkgKG1lbXBvb2xfZGVidWdfZW5hYmxlZCksIGFsbG93aW5nIG1lbXBvb2wg
-ZGVidWdnaW5nIHRvIGJlIHRvZ2dsZWQNCj4gY2xlYW5seSB2aWEgaXRzIG93biBib290IHBhcmFt
-ZXRlci4NCj4gDQpQaW5nIA0KDQpUaGFua3MNCiANCg0KDQpbTGksUm9uZ3FpbmddIA0KDQoNCg0K
-PiBTdWdnZXN0ZWQtYnk6IFZsYXN0aW1pbCBCYWJrYSAoU1VTRSkgPHZiYWJrYUBrZXJuZWwub3Jn
-Pg0KPiBTaWduZWQtb2ZmLWJ5OiBMaSBSb25nUWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+
-IENjOiBWbGFzdGltaWwgQmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPg0KPiBDYzogSGFycnkgWW9v
-IDxoYXJyeUBrZXJuZWwub3JnPg0KPiBDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3Vu
-ZGF0aW9uLm9yZz4NCj4gQ2M6IEhhbyBMaSA8aGFvLmxpQGxpbnV4LmRldj4NCj4gQ2M6IENocmlz
-dG9waCBMYW1ldGVyIDxjbEBnZW50d28ub3JnPg0KPiBDYzogRGF2aWQgUmllbnRqZXMgPHJpZW50
-amVzQGdvb2dsZS5jb20+DQo+IENjOiBSb21hbiBHdXNoY2hpbiA8cm9tYW4uZ3VzaGNoaW5AbGlu
-dXguZGV2Pg0KPiBDYzogTWF0dGhldyBXaWxjb3ggPHdpbGx5QGluZnJhZGVhZC5vcmc+DQo+IENj
-OiBVc2FtYSBBcmlmIDx1c2FtYS5hcmlmQGxpbnV4LmRldj4NCj4gLS0tDQo+IERpZmYgd2l0aCB2
-MjogTW92ZSB0aGUgY2hlY2sgb3V0IG9mIGNoZWNrX2VsZW1lbnQvcG9pc29uX2VsZW1lbnQgRGlm
-ZiB3aXRoDQo+IHYxOiBSZXdyaXRlIGNvbW1pdCBtZXNzYWdlLCBjaGFuZ2UgZWFybHlfcGFyYW0g
-dG8gX19zZXR1cA0KPiANCj4gIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFt
-ZXRlcnMudHh0IHwgIDUgKysrKw0KPiAgbW0vbWVtcG9vbC5jICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAzNQ0KPiArKysrKysrKysrKysrKysrKy0tLS0tLS0tDQo+ICAyIGZp
-bGVzIGNoYW5nZWQsIDI5IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0
-DQo+IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4g
-aW5kZXggNjQyNjU5Yi4uODliNTk5NCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1p
-bi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1p
-bi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4gQEAgLTM5ODAsNiArMzk4MCwxMSBAQCBL
-ZXJuZWwgcGFyYW1ldGVycw0KPiAgCQkJTm90ZSB0aGF0IGV2ZW4gd2hlbiBlbmFibGVkLCB0aGVy
-ZSBhcmUgYSBmZXcgY2FzZXMgd2hlcmUNCj4gIAkJCXRoZSBmZWF0dXJlIGlzIG5vdCBlZmZlY3Rp
-dmUuDQo+IA0KPiArCW1lbXBvb2xfZGVidWcJW01NXQ0KPiArCQkJRW5hYmxlIG1lbXBvb2wgZGVi
-dWdnaW5nLiBUaGlzIGVuYWJsZXMgZWxlbWVudA0KPiArCQkJcG9pc29uIGNoZWNraW5nIHdoZW4g
-ZnJlZWluZyBlbGVtZW50cyBiYWNrIHRvIHRoZQ0KPiArCQkJcG9vbC4gVXNlZnVsIGZvciBkZWJ1
-Z2dpbmcgbWVtcG9vbCBjb3JydXB0aW9uLg0KPiArDQo+ICAJbWVtdGVzdD0JW0tOTCxYODYsQVJN
-LE02OEssUFBDLFJJU0NWLEVBUkxZXSBFbmFibGUgbWVtdGVzdA0KPiAgCQkJRm9ybWF0OiA8aW50
-ZWdlcj4NCj4gIAkJCWRlZmF1bHQgOiAwIDxkaXNhYmxlPg0KPiBkaWZmIC0tZ2l0IGEvbW0vbWVt
-cG9vbC5jIGIvbW0vbWVtcG9vbC5jIGluZGV4IGRiMjNlMGUuLmRhYmUwNWMNCj4gMTAwNjQ0DQo+
-IC0tLSBhL21tL21lbXBvb2wuYw0KPiArKysgYi9tbS9tZW1wb29sLmMNCj4gQEAgLTE2LDExICsx
-NiwyOCBAQA0KPiAgI2luY2x1ZGUgPGxpbnV4L2V4cG9ydC5oPg0KPiAgI2luY2x1ZGUgPGxpbnV4
-L21lbXBvb2wuaD4NCj4gICNpbmNsdWRlIDxsaW51eC93cml0ZWJhY2suaD4NCj4gKyNpbmNsdWRl
-IDxsaW51eC9zdGF0aWNfa2V5Lmg+DQo+ICsjaW5jbHVkZSA8bGludXgvaW5pdC5oPg0KPiAgI2lu
-Y2x1ZGUgInNsYWIuaCINCj4gDQo+ICBzdGF0aWMgREVDTEFSRV9GQVVMVF9BVFRSKGZhaWxfbWVt
-cG9vbF9hbGxvYyk7DQo+ICBzdGF0aWMgREVDTEFSRV9GQVVMVF9BVFRSKGZhaWxfbWVtcG9vbF9h
-bGxvY19idWxrKTsNCj4gDQo+ICsvKg0KPiArICogRGVidWdnaW5nIHN1cHBvcnQgZm9yIG1lbXBv
-b2wgdXNpbmcgc3RhdGljIGtleS4NCj4gKyAqDQo+ICsgKiBUaGlzIGFsbG93cyBlbmFibGluZyBt
-ZW1wb29sIGRlYnVnIGF0IGJvb3QgdGltZSB2aWE6DQo+ICsgKiAgIG1lbXBvb2xfZGVidWcNCj4g
-KyAqLw0KPiArc3RhdGljIERFRklORV9TVEFUSUNfS0VZX0ZBTFNFKG1lbXBvb2xfZGVidWdfZW5h
-YmxlZCk7DQo+ICsNCj4gK3N0YXRpYyBpbnQgX19pbml0IG1lbXBvb2xfZGVidWdfc2V0dXAoY2hh
-ciAqc3RyKSB7DQo+ICsJc3RhdGljX2JyYW5jaF9lbmFibGUoJm1lbXBvb2xfZGVidWdfZW5hYmxl
-ZCk7DQo+ICsJcmV0dXJuIDE7DQo+ICt9DQo+ICtfX3NldHVwKCJtZW1wb29sX2RlYnVnIiwgbWVt
-cG9vbF9kZWJ1Z19zZXR1cCk7DQo+ICsNCj4gIHN0YXRpYyBpbnQgX19pbml0IG1lbXBvb2xfZmF1
-bF9pbmplY3RfaW5pdCh2b2lkKSAgew0KPiAgCWludCBlcnJvcjsNCj4gQEAgLTM3LDcgKzU0LDYg
-QEAgc3RhdGljIGludCBfX2luaXQgbWVtcG9vbF9mYXVsX2luamVjdF9pbml0KHZvaWQpICB9DQo+
-IGxhdGVfaW5pdGNhbGwobWVtcG9vbF9mYXVsX2luamVjdF9pbml0KTsNCj4gDQo+IC0jaWZkZWYg
-Q09ORklHX1NMVUJfREVCVUdfT04NCj4gIHN0YXRpYyB2b2lkIHBvaXNvbl9lcnJvcihzdHJ1Y3Qg
-bWVtcG9vbCAqcG9vbCwgdm9pZCAqZWxlbWVudCwgc2l6ZV90IHNpemUsDQo+ICAJCQkgc2l6ZV90
-IGJ5dGUpDQo+ICB7DQo+IEBAIC0xNDAsMTQgKzE1Niw2IEBAIHN0YXRpYyB2b2lkIHBvaXNvbl9l
-bGVtZW50KHN0cnVjdCBtZW1wb29sICpwb29sLA0KPiB2b2lkICplbGVtZW50KSAgI2VuZGlmDQo+
-ICAJfQ0KPiAgfQ0KPiAtI2Vsc2UgLyogQ09ORklHX1NMVUJfREVCVUdfT04gKi8NCj4gLXN0YXRp
-YyBpbmxpbmUgdm9pZCBjaGVja19lbGVtZW50KHN0cnVjdCBtZW1wb29sICpwb29sLCB2b2lkICpl
-bGVtZW50KSAteyAtfQ0KPiAtc3RhdGljIGlubGluZSB2b2lkIHBvaXNvbl9lbGVtZW50KHN0cnVj
-dCBtZW1wb29sICpwb29sLCB2b2lkICplbGVtZW50KSAteyAtfQ0KPiAtI2VuZGlmIC8qIENPTkZJ
-R19TTFVCX0RFQlVHX09OICovDQo+IA0KPiAgc3RhdGljIF9fYWx3YXlzX2lubGluZSBib29sIGth
-c2FuX3BvaXNvbl9lbGVtZW50KHN0cnVjdCBtZW1wb29sICpwb29sLA0KPiAgCQl2b2lkICplbGVt
-ZW50KQ0KPiBAQCAtMTc1LDcgKzE4MywxMCBAQCBzdGF0aWMgdm9pZCBrYXNhbl91bnBvaXNvbl9l
-bGVtZW50KHN0cnVjdA0KPiBtZW1wb29sICpwb29sLCB2b2lkICplbGVtZW50KSAgc3RhdGljIF9f
-YWx3YXlzX2lubGluZSB2b2lkDQo+IGFkZF9lbGVtZW50KHN0cnVjdCBtZW1wb29sICpwb29sLCB2
-b2lkICplbGVtZW50KSAgew0KPiAgCUJVR19PTihwb29sLT5taW5fbnIgIT0gMCAmJiBwb29sLT5j
-dXJyX25yID49IHBvb2wtPm1pbl9ucik7DQo+IC0JcG9pc29uX2VsZW1lbnQocG9vbCwgZWxlbWVu
-dCk7DQo+ICsNCj4gKwlpZiAoc3RhdGljX2JyYW5jaF91bmxpa2VseSgmbWVtcG9vbF9kZWJ1Z19l
-bmFibGVkKSkNCj4gKwkJcG9pc29uX2VsZW1lbnQocG9vbCwgZWxlbWVudCk7DQo+ICsNCj4gIAlp
-ZiAoa2FzYW5fcG9pc29uX2VsZW1lbnQocG9vbCwgZWxlbWVudCkpDQo+ICAJCXBvb2wtPmVsZW1l
-bnRzW3Bvb2wtPmN1cnJfbnIrK10gPSBlbGVtZW50OyAgfSBAQCAtMTg2LDcgKzE5Nyw5DQo+IEBA
-IHN0YXRpYyB2b2lkICpyZW1vdmVfZWxlbWVudChzdHJ1Y3QgbWVtcG9vbCAqcG9vbCkNCj4gDQo+
-ICAJQlVHX09OKHBvb2wtPmN1cnJfbnIgPCAwKTsNCj4gIAlrYXNhbl91bnBvaXNvbl9lbGVtZW50
-KHBvb2wsIGVsZW1lbnQpOw0KPiAtCWNoZWNrX2VsZW1lbnQocG9vbCwgZWxlbWVudCk7DQo+ICsN
-Cj4gKwlpZiAoc3RhdGljX2JyYW5jaF91bmxpa2VseSgmbWVtcG9vbF9kZWJ1Z19lbmFibGVkKSkN
-Cj4gKwkJY2hlY2tfZWxlbWVudChwb29sLCBlbGVtZW50KTsNCj4gIAlyZXR1cm4gZWxlbWVudDsN
-Cj4gIH0NCj4gDQo+IC0tDQo+IDIuOS40DQoNCg==
+On Sun, 29 Mar 2026 17:33:13 +0100 Cristian Marussi <cristian.marussi@arm.com> wrote:
+
+> Currently the mutex dedicated to the protection of the list of registered
+> protocols is held during all the protocol initialization phase.
+> 
+> Such a wide locking region is not needed and causes problem when trying to
+> initialize notifications from within a protocol initialization routine.
+> 
+> Reduce the scope of the protocol mutex.
+
+I think this changes more than the mutex scope. scmi_get_protocol_instance()
+can now drop protocols_mtx after idr_find() while scmi_protocol_release()
+can concurrently drop the final reference, remove the IDR entry, and release
+the devres group. Does that leaves a use-after-free window around the returned
+pi?
+
+
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+> v1-->v2
+>  - Fixed improper mixed usage of cleanup and goto constructs
+> ---
+>  drivers/firmware/arm_scmi/driver.c | 50 ++++++++++++++----------------
+>  1 file changed, 24 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+> index 3e76a3204ba4..26f192b8d7a9 100644
+> --- a/drivers/firmware/arm_scmi/driver.c
+> +++ b/drivers/firmware/arm_scmi/driver.c
+> @@ -17,6 +17,7 @@
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/bitmap.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/export.h>
+> @@ -2190,7 +2191,6 @@ static void scmi_protocol_version_initialize(struct device *dev,
+>   * all resources management is handled via a dedicated per-protocol devres
+>   * group.
+>   *
+> - * Context: Assumes to be called with @protocols_mtx already acquired.
+>   * Return: A reference to a freshly allocated and initialized protocol instance
+>   *	   or ERR_PTR on failure. On failure the @proto reference is at first
+>   *	   put using @scmi_protocol_put() before releasing all the devres group.
+> @@ -2236,8 +2236,10 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+>  	if (ret)
+>  		goto clean;
+>  
+> -	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+> -			GFP_KERNEL);
+> +	/* Finally register the initialized protocol */
+> +	mutex_lock(&info->protocols_mtx);
+> +	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1, GFP_KERNEL);
+> +	mutex_unlock(&info->protocols_mtx);
+>  	if (ret != proto->id)
+>  		goto clean;
+>  
+> @@ -2284,27 +2286,25 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+>  static struct scmi_protocol_instance * __must_check
+>  scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
+>  {
+> -	struct scmi_protocol_instance *pi;
+>  	struct scmi_info *info = handle_to_scmi_info(handle);
+> +	const struct scmi_protocol *proto;
+>  
+> -	mutex_lock(&info->protocols_mtx);
+> -	pi = idr_find(&info->protocols, protocol_id);
+> -
+> -	if (pi) {
+> -		refcount_inc(&pi->users);
+> -	} else {
+> -		const struct scmi_protocol *proto;
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+> +		struct scmi_protocol_instance *pi;
+>  
+> -		/* Fails if protocol not registered on bus */
+> -		proto = scmi_protocol_get(protocol_id, &info->version);
+> -		if (proto)
+> -			pi = scmi_alloc_init_protocol_instance(info, proto);
+> -		else
+> -			pi = ERR_PTR(-EPROBE_DEFER);
+> +		pi = idr_find(&info->protocols, protocol_id);
+> +		if (pi) {
+> +			refcount_inc(&pi->users);
+> +			return pi;
+> +		}
+>  	}
+> -	mutex_unlock(&info->protocols_mtx);
+>  
+> -	return pi;
+> +	/* Fails if protocol not registered on bus */
+> +	proto = scmi_protocol_get(protocol_id, &info->version);
+> +	if (!proto)
+> +		return ERR_PTR(-EPROBE_DEFER);
+> +
+> +	return scmi_alloc_init_protocol_instance(info, proto);
+>  }
+>  
+>  /**
+> @@ -2335,10 +2335,11 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+>  	struct scmi_info *info = handle_to_scmi_info(handle);
+>  	struct scmi_protocol_instance *pi;
+>  
+> -	mutex_lock(&info->protocols_mtx);
+> -	pi = idr_find(&info->protocols, protocol_id);
+> -	if (WARN_ON(!pi))
+> -		goto out;
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+> +		pi = idr_find(&info->protocols, protocol_id);
+> +		if (WARN_ON(!pi))
+> +			return;
+> +	}
+>  
+>  	if (refcount_dec_and_test(&pi->users)) {
+>  		void *gid = pi->gid;
+> @@ -2357,9 +2358,6 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+>  		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
+>  			protocol_id);
+>  	}
+> -
+> -out:
+> -	mutex_unlock(&info->protocols_mtx);
+>  }
+>  
+>  void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
+> -- 
+> 2.53.0
+> 
+> 
