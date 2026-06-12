@@ -1,51 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247303793A9
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B7E3793A9;
+	Fri, 12 Jun 2026 19:23:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781292112; cv=none; b=e81CmjwX21h/iUTE1WcC380HFD5evCbFYgU3RZDglcj22Vju8YGxf6mPD3yebsU7nlTUXWf550MSyBnDDlYUu8v8Ee8cChpAEwOKBPn7wU5Nsu7zfOXs8hq2nNB6P+ueu/wTFXhYEYfKcypESb7AQxGjBKdq17PSskgfgt0sSq4=
+	t=1781292188; cv=none; b=c5TKj87x3jHY/gPo9W/10R2++//2pUoW+AhSWjF3OuY2lhWqqQsOaX/MnXEMxfhCimrymum9jX/sR5upgmqne37GqggpjECFMd5iSn38kTKwg0o1ZjAouRIYx72hV8nrPg+JxqfTy1636xyKqhF+4Qe1X0VTGPAFkXsaUEBgSvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781292112; c=relaxed/simple;
-	bh=rGxGeIlyQROGNdwC3iIogkKw2subYwsPutbMqa2IoQU=;
+	s=arc-20240116; t=1781292188; c=relaxed/simple;
+	bh=52UPQnVMpNlNFu4WAW2OkVwd2IKumYJCbA3UYhKYCco=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GSGoIWs7toacUiaYLtg5/qzq2F8VToqyFtlTcaA5nIf0Nqf7H4LVeL5i+QKBgoo0CDki2ChuHPaqw3k6mvZB/yGiIoPUMsxbQxviSY9rMMRQ9OTaJHyPbZayx+evmNBm+XfNJctAhW60N0ssFu0cIwxwA1lGKj900b3gFytiXhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e65oY+5S; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=WDCq9+Ec6iyklo+Hi7UaFd2ih2xf0929TVLMV/kiUZcOdL0QNRY5FbqYwmX0AIjyDxPPbESJ+MJBcfm0Pe9CuVESKRttPXVrrQf20E4PFg6smKSbHSq0pBf19ioie74DJG0d3+YUlgJ/+PDYtQWmKiT9snIrFgh6D95wr8mhozg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iYjyMCjC; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e65oY+5S"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7305440E4D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iYjyMCjC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 348EC40E4D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1781292110; bh=iBXUBw5EYTIyF/PB1MWw7I5XspGR6xCDiVEcV9Takoc=;
+	t=1781292187; bh=NbffFQIhIxCqMdIvQ5ur1CIIRP+bZGP9Cq3HmRKJd1w=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=e65oY+5SEzmXxkA0vvv6nGjtadvfzBGW6L70w0CtNvYlpcq2kVjO3yu6lUL6O63ub
-	 BGhZVSEmlSA7TVF2IHLjsRK3aYZe+a0bXGHbzd4ci3qRsbhEuJN9NrfOCde1sigKsB
-	 ILWyxu2NDxRqFO6VeYdLBJyXxGPejGmWgHZ0GABcGk8LV5+wn2+8OkwGVdfaRr3iHI
-	 BHzKRbsPCK7NuUiaAIT7dlfccQaAKy3vCKBrghLvc9MGoojRW9RaOHDi6ENBbhZ8PL
-	 xinEkV/f9lUkrqidxEf6mnjFAX4hSmX0XOrfO2HeVzcd81OA0mIBDAV/rCYQv8PBpj
-	 XAFMTtM+ubxaw==
+	b=iYjyMCjCflYxctQ6jKq1iqUMALrunl/Q3MYtqWpguhsqXl18K39Us/F/Y2ffhPlki
+	 z8oUQWaaRWXXBxWNAWfT6mEdiPqvuqiKevTAW7qCclFRy8fF//4Bv0lj7OKy+/HBQg
+	 6u7ADRXE/R1TdVz/tDcgmc3ZhrmeN9mCNYMjeMLfNeyvbDBtZLe7Fdwa3BVWtS0T3F
+	 CZ1uNoAMLOj5V0VZF4uhY51z7SnPrAblMUupXT9rzGJz1ZFzEdP5DpjlZkVgdE+PTR
+	 ZMAwazSLdhMQNx9QsI+ne56pTFSVCrMTZ4jEIY1f7wyA43zHz4AYaF3g2Ri2iRmJ0t
+	 2ODScTXprYS7A==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7305440E4D;
-	Fri, 12 Jun 2026 19:21:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 348EC40E4D;
+	Fri, 12 Jun 2026 19:23:07 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Avadhut Naik <avadhut.naik@amd.com>,
- Dongliang Mu <dzm91@hust.edu.cn>, "GitAuthor: Ethan Nelson-Moore"
- <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>, Carlos Bilbao
- <carlos.bilbao@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Hu Haowen <2023002089@link.tyut.edu.cn>
-Subject: Re: [PATCH] docs/{it_it,sp_SP,zh_CN,zh_TW}: update references to
- removed CONFIG_DEBUG_SLAB
-In-Reply-To: <20260611010014.412841-1-enelsonmoore@gmail.com>
-References: <20260611010014.412841-1-enelsonmoore@gmail.com>
-Date: Fri, 12 Jun 2026 13:21:49 -0600
-Message-ID: <87ecib7eeq.fsf@trenco.lwn.net>
+To: Brigham Campbell <me@brighamcampbell.com>, Thorsten Leemhuis
+ <linux@leemhuis.info>, Shuah Khan <skhan@linuxfoundation.org>, "open
+ list:DOCUMENTATION REPORTING ISSUES" <linux-doc@vger.kernel.org>, open
+ list <linux-kernel@vger.kernel.org>
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: Re: [PATCH v2] docs: Fix minor grammatical error
+In-Reply-To: <20260609070618.12566-1-me@brighamcampbell.com>
+References: <20260609070618.12566-1-me@brighamcampbell.com>
+Date: Fri, 12 Jun 2026 13:23:06 -0600
+Message-ID: <87a4sz7ecl.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,25 +51,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Ethan Nelson-Moore <enelsonmoore@gmail.com> writes:
+Brigham Campbell <me@brighamcampbell.com> writes:
 
-> CONFIG_DEBUG_SLAB was removed in commit 2a19be61a651 ("mm/slab: remove
-> CONFIG_SLAB from all Kconfig and Makefile"), but references to it
-> remained in documentation. The English documentation was updated to
-> refer to CONFIG_SLUB_DEBUG in commit 5969fbf30274 ("docs:
-> submit-checklist: structure by category"), but these translations were
-> never similarly updated. Update them.
+> Fix minor grammatical error in the administration guide.
 >
-> Discovered while searching for CONFIG_* symbols referenced in the
-> kernel but not defined in any Kconfig file.
->
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 > ---
->  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
->  Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
->  Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
->  Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> Since v1:
+> * Drop pedantic line re-wrapping.
+>
+> In hindsight, I should have guessed that reflowing the paragraph was
+> overzealous. Thanks for the guidance, Randy, Thorsten. I'll remember it
+> if I make minor doc fixes in the future.
+>
+>  Documentation/admin-guide/quickly-build-trimmed-linux.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> index cb178e0a6208..3432dc8e1a85 100644
+> --- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> +++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> @@ -217,7 +217,7 @@ again.
+>  
+>     There is a catch: 'localmodconfig' is likely to disable kernel features you
+>     did not use since you booted your Linux -- like drivers for currently
+> -   disconnected peripherals or a virtualization software not haven't used yet.
+> +   disconnected peripherals or virtualization software not currently in use.
+>     You can reduce or nearly eliminate that risk with tricks the reference
 
 Applied, thanks.
 
