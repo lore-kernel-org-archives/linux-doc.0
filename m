@@ -1,127 +1,185 @@
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A695282F06;
-	Fri, 12 Jun 2026 16:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD9537188B;
+	Fri, 12 Jun 2026 16:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781280498; cv=none; b=Bqz/ZMyv8+srTckm4dKr6Xr9Y1BMQJwMeieoIuNJZo6htuTp+3CM7TWIg1Qw/peVYVMtQbzec6iBjXwA0cyDflhEr7YCvt5+dgF4xDqLy5yP+L4aKZawydOVZ01pGJjdvQyCuUsxAmCw5yy0tqwKN2uZTp5vZ0hEDAYxKwa7x9A=
+	t=1781280507; cv=none; b=qIG1nidxYNjsJ0zFy9yGF5aRM294xz+ZkC3ofVXJO5TzZBphLB3D8/FxzEk+2fxJDfNswiygAHBjfRsMK6AXTQyjMdP/y2MkdBFRVbqcwil5cy/Tzn9/QDdVDp2dZbiDmse14Dyg2oQO9Huhpchdqajr9goXi83EMsYKSDnp6ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781280498; c=relaxed/simple;
-	bh=C4yDMJ/YOtLv28/s4/Pf+JBqBSSwrKjndXwButUTlqo=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NTJzFYQIoGj7Dg3i4fRHXxGYsHtyAtS7mNFJQxb5JKP62dVJ71WUxQvoTLiFhBd42aECnb3lkS54ypGqs7QZWQ53EHJeKPsxcbfAWSgdwYfnaOJUx+f4zNWN4Q0Qu2AaFnpMFqUT0n41nn6pi960njpbRHHzkDZEZC3U79AnRV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=An2VG86X; arc=none smtp.client-ip=203.205.221.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1781280507; c=relaxed/simple;
+	bh=YDm9Y3X+BMD1MMeKdBZ+hd2k4h8UP63ReISLG8bNtCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BbsbSWzNl51j6eGlwYNVjJlp3CYeoGYgMOfWLMkGlEaakO3LHb7mgWC7JCUVhEUu3ORRrCXbPsaA5bZUldzMdbUqWm0q1Ul1sohOKa7G77deyQOHSxWIn2qdQPxUEG4eJ5gAkQwEMILyTn+iZ3SQKfRX96suqvpt2icFI7M+JB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gyt9cM8s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="An2VG86X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1781280486; bh=UQp8VX9JypZ6E6O1OqUQjFmFxUx8YP9qAGPt+56zDhY=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gyt9cM8s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D6E21F000E9;
+	Fri, 12 Jun 2026 16:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781280506;
+	bh=c411ca9RcVodJSRBNrpG9pskyg/ZhgijZ1oAXidL7Ds=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=An2VG86X3EQ90g20+bcqcsw39Es0lz4u1b9mCgDUyA7XWZF+I28sxwT7xs9oU5B4B
-	 dvXhA6VUdAdJ5x9i8IAi3+wE6Z5Gv8iYOnB+dNn28HfSCR1QYZCdBocCZEEzU8c0bS
-	 Gf6Yf/TGMceF9yIjuR6gnD/xrg/TAejuquZI51+4=
-Received: from 172-1-1-128.lightspeed.hstntx.sbcglobal.net.localdomain ([27.38.179.189])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id F4B72B6; Sat, 13 Jun 2026 00:03:52 +0800
-X-QQ-mid: xmsmtpt1781280232taf7h5xff
-Message-ID: <tencent_F5C99221ABE8EEE4A8610C0DE1E1BDD8E505@qq.com>
-X-QQ-XMAILINFO: N6IfSeM/PG+tR7SiFRbKESHf2jgLdxAzdRFrx5jg1EiRiDaePdyaG45GBeNKva
-	 FP5tl7hGSmBMkLESnZHMOrT5T6ICpM+bGy7m/HnIkA6JzZf9sdVZhkAlvwT1J8k/T+VK1gxYZlha
-	 mRpL7uPmBVCSy0PBMrO7Hp/quvx/M08WopCTppfxmb1SsEUP8J7BiGrqc6sAbSKvL/UNXTGjyGdD
-	 Fu78OwC4BdaPbrUagnhL1Lyj0X6SSST6e2BnIC37nTWU8ymGqlvdgZYr4FYy6T3hUptDJdO2bWna
-	 DAh1iQBzwS1TtoYTjtDAITV78Aj+kasq5GdbR9bmWM7AQdOckd6bbcQ65DyZFR+kUwQMwUNKoO9k
-	 n4Wy6vekCgrKn37IrYHoKZuJz76NWLTZQul/zmc7pWcszCEL+b2GfcBD2qATNWJ4ilF3jbIxvr3p
-	 KyHyORqixr1RYAnYN5YaJjHQd5YQbV/qKXzJVQZh8iypF/zF1iP59HBcLFRNbxKMyO1DQZ6PXyTP
-	 iQGJL5jCSkyKfsRGyyq08H7bvEEMizevDAwW2KiYo/d8GWL+y34Fk0K2SSY854nVokp+AEAigeYz
-	 FhvL876IxNs/yz52/8C5CqfoGdaowYkuaWWHYWYHPbsnbn02cEI+w3CzIVuZGgUe66Pe/rK6a1xP
-	 nZ48FnXgj+3iazYtSnwILSIKe1ujd4TZ/MECIrpvbhzuDuBs/6FnY2R8fEhNYxE/RzKeHCsdaeQf
-	 gmQ6UaYlj1PCNb5rqfvQJ1x1UZpxTfRu2r6r6Xme3GFtATcFXRacdAUEpv2BdRzH+m/odPOmxNtF
-	 nMnS2SEqkedrCbi/DWMsESkuoRbh1y5cv5ZybODpntUeX/lUYz725BnE4yljk/etW9pSap8+Hjxs
-	 Wet+HHaj4qkDTWarlBP7sEfL2e11EaQ0LtQqZJTbClmtM+Gy7rcbrQGiZB8n+WnEe/HiG3Nv0eEW
-	 +AuY1kFgFnFxvlduW5ek6cocwY+klh1YNW1NVDG/mcBRenR4Jex36fxhtmLpn7Kbm19DimY75Qr/
-	 vbIfYylXMhdGFDBjshqXK+NU43bsP/m9ejBskOP12tsmFkQ1S8f5IBviwhCKwKMpoYOzAgNbZPyb
-	 DuEVftjlelVUf5X+sKz9BM8bL/rW4GnDQgGoydlwEuh+wu5reJ+GobfcNY8vu4pyb6DqsBZRKCGS
-	 wJKnA=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Yan Zhu <zhuyan2015@qq.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net,
-	mic@digikod.net
-Cc: dzm91@hust.edu.cn,
-	skhan@linuxfoundation.org,
-	gnoack@google.com,
-	zhuyan2015@qq.com,
+	b=Gyt9cM8sBPLv9z7CeII+316XLznuJQXYcs1FxIiFPnMg9TNnLbn39QV9k0ds+UzqT
+	 zdUBov8X8RQbwL5yEd1zTlc7ZYN4l/rQ5oB/NHBecitbQNx27emUaQEaXQoc5gOdtD
+	 5deIAY5l9p3enWlZGHscYiDBtL1BKLh2v4yQIWhrXBG1MFrZ3YgPrNlt004ebdEbQM
+	 E8V6A28UFYgIYGmwyvwpzmxmCu0WkMc9STAHrKo/y2aoYXBPlzeZh5E1Z2MDMv1uUt
+	 4txRegZidpzi7HSgx1xtN6GrhWtiO5uTKhfG5gVndVut26LFP79sKoDY89/CtaaUkT
+	 MhfgHc63RqVHQ==
+From: Simon Horman <horms@kernel.org>
+To: gongfan1@huawei.com
+Cc: Simon Horman <horms@kernel.org>,
+	wudi234@huawei.com,
+	tengpeisen@huawei.com,
+	netdev@vger.kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	ioana.ciornei@nxp.com,
+	mohsin.bashr@gmail.com,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-Date: Sat, 13 Jun 2026 00:03:39 +0800
-X-OQ-MSGID: <3c91369ba21c1bfab48f8dd49f04629128d97057.1781105672.git.zhuyan2015@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1781105672.git.zhuyan2015@qq.com>
-References: <cover.1781105672.git.zhuyan2015@qq.com>
+	luosifu@huawei.com,
+	guoxin09@huawei.com,
+	zhoushuai28@huawei.com,
+	wulike1@huawei.com,
+	shijing34@huawei.com,
+	zhengjiezhen@h-partners.com,
+	maxime.chevallier@bootlin.com
+Subject: Re: [PATCH net-next v09 4/5] hinic3: Add ethtool rss ops
+Date: Fri, 12 Jun 2026 17:08:18 +0100
+Message-ID: <20260612160818.690620-1-horms@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <7d1a4375fdf7c3e7a5a6162382cee4f48991d5da.1781062575.git.wudi234@huawei.com>
+References: <7d1a4375fdf7c3e7a5a6162382cee4f48991d5da.1781062575.git.wudi234@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/admin-guide/LSM/LoadPin.rst into Chinese.
-
-Update the translation through commit 0860b72d535f
-("security/loadpin: Update the changing interface in the source code.")
-
-Assisted-by: Claude:deepseek-4-pro
-Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev
 ---
- .../zh_CN/admin-guide/LSM/LoadPin.rst         | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+hinic3: Add ethtool rss ops
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
-new file mode 100644
-index 000000000000..d75a06f515f6
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
-@@ -0,0 +1,33 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/LSM/LoadPin.rst
-+:翻译:
-+ 朱岩 Yan Zhu <zhuyan2015@qq.com>
-+
-+
-+=======
-+LoadPin
-+=======
-+
-+LoadPin 是一种 Linux 安全模块（LSM），保证所有内核加载的文件（模块、固件等）
-+均来自同一文件系统，并且该文件系统应当以只读设备（如 dm-verity 或 CDROM）为后
-+端存储。这使得在拥有经过验证和/或不可更改的文件系统的系统上，能够在不对每个文
-+件单独签名的前提下，强制模块和固件的加载限制。
-+
-+该 LSM 在编译时通过 ``CONFIG_SECURITY_LOADPIN`` 进行选择，并且可以在启动时通
-+过内核命令行参数 ``loadpin.enforce`` 进行控制。默认情况下该功能是启用的，亦可
-+在启动时通过 ``loadpin.enforce=0`` 将其关闭。
-+
-+LoadPin 会在检测到首个文件被加载时开始生效。如果承载该文件系统的块设备不是只
-+读的，系统会创建一个 sysctl 条目 ``/proc/sys/kernel/loadpin/enabled`` 用于切
-+换锁定功能。可写的文件系统意味着锁定功能亦可被修改，但通过 sysctl 可以在可
-+写文件系统上便捷地进行测试。
-+
-+也可以使用内核命令行参数 ``loadpin.exclude`` 将特定文件类型从 LoadPin 中排除。
-+默认情况下所有文件均被包含，但可以通过
-+``loadpin.exclude=kernel-module,kexec-image`` 等方式排除相应类型。这允许在使
-+用 ``CONFIG_MODULE_SIG``、``CONFIG_KEXEC_VERIFY_SIG`` 等机制对内核模块和内核
-+镜像进行校验的同时，仍然利用 LoadPin 保护其他内核加载文件的完整性。有效文件类
-+型的完整列表可在 ``include/linux/kernel_read_file.h`` 中的
-+``kernel_read_file_str`` 找到。
--- 
-2.43.0
+This commit implements ethtool callback functions for the hinic3 driver.
+These callbacks allow users to utilize ethtool for detailed RSS parameters
+configuration and monitoring.
 
+> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+
+[ ... ]
+
+> +int hinic3_set_channels(struct net_device *netdev,
+> +			struct ethtool_channels *channels)
+> +{
+[ ... ]
+> +	if (netif_running(netdev)) {
+> +		q_params = nic_dev->q_params;
+> +		q_params.num_qps = (u16)count;
+> +		q_params.txqs_res = NULL;
+> +		q_params.rxqs_res = NULL;
+> +		q_params.irq_cfg = NULL;
+> +
+> +		err = hinic3_change_channel_settings(netdev, &q_params);
+> +		if (err) {
+> +			netdev_err(netdev, "Failed to change channel settings\n");
+> +			return err;
+> +		}
+> +	} else {
+> +		nic_dev->q_params.num_qps = (u16)count;
+> +	}
+> +
+> +	err = hinic3_rss_update_num_qps_and_reprogram(netdev);
+> +	if (err)
+> +		return err;
+
+[Severity: Medium]
+If hinic3_rss_update_num_qps_and_reprogram() fails, the error code is
+returned to the caller, but the queue changes made earlier by
+hinic3_change_channel_settings() remain active. Is it expected that a failure
+leaves the newly requested channel configuration running?
+
+[ ... ]
+
+> +static int hinic3_set_rss_rxfh(struct net_device *netdev,
+> +			       const u32 *indir, u8 *key)
+> +{
+[ ... ]
+> +	if (indir) {
+> +		for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
+> +			temp_indir[i] = (u16)indir[i];
+> +
+> +		err = hinic3_rss_set_indir_tbl(nic_dev->hwdev, temp_indir);
+> +		if (err) {
+> +			netdev_err(netdev, "Failed to set rss indir table\n");
+> +			return err;
+> +		}
+> +
+> +		memcpy(nic_dev->rss_indir, temp_indir, L2NIC_RSS_INDIR_SIZE);
+
+[Severity: High]
+Does this copy the entire indirection table? Since temp_indir is an array
+of u16 elements, copying L2NIC_RSS_INDIR_SIZE bytes instead of
+L2NIC_RSS_INDIR_SIZE * sizeof(u16) will only update the first half of the
+nic_dev->rss_indir array.
+
+[ ... ]
+
+> +static int hinic3_rss_get_indir_tbl(struct hinic3_hwdev *hwdev,
+> +				    u32 *indir_table)
+> +{
+[ ... ]
+> +	err = hinic3_cmdq_detail_resp(hwdev, MGMT_MOD_L2NIC,
+> +				      L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL,
+> +				      pair.in, pair.out, NULL);
+> +	if (err) {
+> +		dev_err(hwdev->dev, "Failed to get rss indir table\n");
+> +		goto err_get_indir_tbl;
+> +	}
+> +
+> +	indir_tbl = (__force __le16 *)pair.out->buf;
+> +	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
+> +		indir_table[i] = le16_to_cpu(*(indir_tbl + i));
+
+[Severity: High]
+Should the response buffer words be swabbed using hinic3_cmdq_buf_swab32()
+before reading, similar to how it is handled in the set operation? Also,
+does the data start immediately at offset 0, or is there a 16-byte
+reserved prefix like the one defined in struct l2nic_cmd_rss_set_indir_tbl
+that needs to be skipped?
+
+[ ... ]
+
+> +static int hinic3_update_hash_func_type(struct net_device *netdev, u8 hfunc)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	enum hinic3_rss_hash_type new_rss_hash_type;
+> +	int err;
+[ ... ]
+> +	if (new_rss_hash_type == nic_dev->rss_hash_type)
+> +		return 0;
+> +
+> +	err = hinic3_rss_set_hash_type(nic_dev->hwdev, nic_dev->rss_hash_type);
+
+[Severity: Medium]
+Will this push the old hash type to the hardware instead of the newly
+requested one? It passes nic_dev->rss_hash_type rather than
+new_rss_hash_type.
+
+> +	if (err) {
+> +		netdev_err(netdev, "Failed to set RSS hash type to HW\n");
+> +		return err;
+> +	}
+> +
+> +	nic_dev->rss_hash_type = new_rss_hash_type;
+> +
+> +	return 0;
+> +}
