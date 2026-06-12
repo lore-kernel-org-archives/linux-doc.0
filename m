@@ -1,230 +1,224 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012010.outbound.protection.outlook.com [40.93.195.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E55331EA5;
-	Fri, 12 Jun 2026 17:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781286594; cv=fail; b=JdIWCKpLLRflCbT7cS8h8PPaEkumGhkLIoezHNc44htc46Qp1zabokTWTMAp0lpaFJRWOdWTSJaNNlH+N2qwuY0eF0KBXg8Mfa+31gsHb56EN0uU5JTN7K1dWQ1QkEkxHcWASy5tWqjua9IV2y2z8nGJreYT0txjYDrs/BFx2pk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781286594; c=relaxed/simple;
-	bh=AAwJNXagyEhR9UQYbUUZ1ckOZRRrj8Lc07frUzgdn2c=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Lp7n1uEwGjrZJYajJX8XK8N7aD1q0bJQqmpqLF1vlOOG2exEyX5W6hruUSKnlRdAnSPG0RNKUpVu1KnxdRwhIpHNmatZ5EH/ZAwAWtcFJrO46RUvsEnEu3h0yRcw/AnXiC5gUuOxSMxemOfqJmRqt7PiuEMewGvIrm3NJ1FISdQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Y2Y+kg3W; arc=fail smtp.client-ip=40.93.195.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CDD36A37B
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 17:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781286708; cv=none; b=P2xuWYHHy1AEUPLaz5v2Bzil3txaWNBVEBMUCrSTFLiL4ccO0FktvDQtQHrCXcYaScakKDkdzLQsVH/WXtat6niVckDby5SfLyba58eknhAwP32y6AIkIAlUMe3l2pppmAK7n0WvxAD2fz22miFyLMsnHJUvWo0yEmkRiNfup6M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781286708; c=relaxed/simple;
+	bh=56Ivha6xKFQ4VCMPv3kiCPG/CApgmuASriV7K82gRoc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=f/SwsLXCMRryGWxMHnye+5pjJf3iYJ+wcIdqXNV1r89YN/z8BnaGSVSrQeZu1FTAUSoCGNVsuAq5702XAUPHl9DchrAJ2hqfW8gDvoKjoo0xFasU9XBdn8cULZk6t/VUrQDaPHo+kNTozMoWaba+90SVrGpDcnVo627koYUTy+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4odbrLc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Y2Y+kg3W"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=frDO4kq96RYa3up06Mjt8zVzG8VPXbk/JmniI/HU3hW5UtYjiLcf/jHx9m2RfPVwXZT0ovEj5cwKWiDbJ31CzZNUIkm2VS6WTDcBotQPXMk5Q6ql0Z9B0ZUVSsNFRcMF5ONd6+QUI5hnqOd0BFmH2ItSCrc+DjPzqZas/TCwPbiBmKedvW98k1qK9EInd9COQ8IB2xjlMDbCPAYAVm+lDQIL4VdcsP10sAHbWub1VfwGVxuRVZ4kygG4O/GFII3a/OEasIBVi8Yzu5WlHZH3MeoTQ4vmkbiXjiU9xndf1fDMCIA8tsj0uNUCOo7U8/XeP3UfyUpgbOfD9EjPt6ZEBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hCeSJIGekPx4EaYfzqScdOyAc6NZuPZ3yM4sCMdLmBE=;
- b=NyvAps7de9VEpB59CkdPSnuhmnNYBGVffkZYbtKhm8iNi17te3XbzfOGwHcLMNGhYkOFz3ZbVrYoyq8GkxpIvaoQkKtGIfQ918kLkMZ+v285JJOQYnMLAcwsawmWnR48YWJsrM9SCV7k7h1q/71v1f/e+Q/ddsnmgeJGHxy/9SL1GjApyuZL6OPBhbpxvkBl9oL33zNTjEtz/LidPhA8mwbCSBjEFf4JQhMG+gt2ddtD97slyYd2+o4TUc51cjx8B2Rua/NSzRP1YpAXopffoSlfa9a5khDdZIqt0Ji7UxLSdtRoXUc3aGov+3BFx5df3l9QWknRbCX9E0+P/qYUiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hCeSJIGekPx4EaYfzqScdOyAc6NZuPZ3yM4sCMdLmBE=;
- b=Y2Y+kg3WQb5+u1hPQ5AkKmODdZr17NuJwg+M25K3mFjTk6TJZTXXU2xTgfBwOndIJBPxYo9DHiCYaR8lX50kvGZeRM+p1kGcEL2CK46YUUG/d2cnvN9B8GIMEGPbVYofzVUpwQpAHoB5FKh8Eds7S9+BrVWkZ/l9s4vDF2zI0jU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by CYYPR12MB8752.namprd12.prod.outlook.com (2603:10b6:930:b9::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
- 2026 17:49:49 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0113.014; Fri, 12 Jun 2026
- 17:49:46 +0000
-Message-ID: <f2c6ca56-6a21-473f-a7f8-3cfe6f409138@amd.com>
-Date: Fri, 12 Jun 2026 12:49:42 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/12] x86/resctrl: Add data structures and definitions
- for PLZA configuration
-From: "Moger, Babu" <bmoger@amd.com>
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- hpa@zytor.com, akpm@linux-foundation.org, rdunlap@infradead.org,
- pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
- lirongqing@baidu.com, paulmck@kernel.org, bhelgaas@google.com,
- seanjc@google.com, alexandre.chartre@oracle.com, yazen.ghannam@amd.com,
- peterz@infradead.org, chang.seok.bae@intel.com, kim.phillips@amd.com,
- xin@zytor.com, naveen@kernel.org, thomas.lendacky@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- peternewman@google.com
-References: <cover.1777591496.git.babu.moger@amd.com>
- <e84fdbc324b312ff137d279ec154e3827c0aed81.1777591497.git.babu.moger@amd.com>
- <db9c0b3e-184c-4100-b59a-91f6e818fd31@intel.com>
- <190bf049-4928-411b-ab5c-30d39817f118@amd.com>
-Content-Language: en-US
-In-Reply-To: <190bf049-4928-411b-ab5c-30d39817f118@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7PR04CA0068.namprd04.prod.outlook.com
- (2603:10b6:806:121::13) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4odbrLc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE9D31F000E9;
+	Fri, 12 Jun 2026 17:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781286704;
+	bh=Q/9iUeEM2UpFf/86WWBloKEZXHGVhwttRlCQuzlZ5Ok=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=S4odbrLc26oeLyRs7t74pRqXzocdSCAEoQ+wSC+pmj9N5IcClemxvOavBqS5CtocE
+	 ftOrbCnHK7fjGvobylmvUR3RcXKqvQLwTRt4uaijIXqtJcJ/KsIxlbOUARIhlJZwd+
+	 VaL4UiMEjDYriNC1RtiN0JhRCJwMF9XWEwgTxJ1d43KLyhd6bR9bkVUAZuaxXGiwVe
+	 KdHoIefzJaP5Ee4OyN4SqV2iTyVqtUou5z1Jmfc08sLZKIMjwZxZ/mVCQr1EsYK4aQ
+	 wVHnWfJztPTIAVTVZ0kmmUwZ8RA31WvfmX3CIjSOSvdyNg77MiYxRj9tT147jm23O8
+	 cP0R3DP8rq8uA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E13FAF40074;
+	Fri, 12 Jun 2026 13:51:42 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 12 Jun 2026 13:51:42 -0400
+X-ME-Sender: <xms:LkcsampZbsE8djkJP2h1lwByf5GRs5c5juQxy9hlbTvmn09BKLH0ww>
+    <xme:LkcsavchmLWpJUWzn4J6KM0LiyDhcSp1YyVOO_vErcVGLivDMmGenEdA03EpfawBX
+    PtSj47QEN_UdBEdOdStMo2q_IIEziaC86BpY_RFHLBN2E4Yg3AoqeaT>
+X-ME-Proxy-Cause: dmFkZTF4dxDvwsonL4JVAx5hoEMaw5DXSAzJLG/s/8RSaT1MGvkn04K97aWX0zvht5wokp
+    z9DCWcc53ckBYUC2uxjOuSYa+pU60G0XVTbpKUTdKv4SihmvRFSYQXEMYtW9bApE7ZPLz+
+    dM7WFpB3WK0pS6i0tbbXIcgY8XOpMqlVDCeLNkPuewnClEAQk+vPMZ5I/MwXomyWpZRJLP
+    VhjUE5/ilpqL7X8i8hUqr9qP1YYPhqg0x3KrNI0Xfdrk+GlC8alkLnxIrdE5cf0ZHldEKy
+    VzOjxveHtaZEnhuzzWAKfscRWh1DwnNNnCpqrtN0XNtTdjRRA0sh0g8wdNf6YfXdmZPGS1
+    hug16szM/AkJxZMOBDUAj8MY/E9qPIMwTi+B6nFCKbdHV3KDZ6zPigw/dfXMlCqh73rAvU
+    /JXXFJ8kfItFbC9W3Fgca8jRID2uKrauAvQipiR4MMuVwR46tZgPqw+892t01bQ4Vs8SCS
+    0rEcY3xxfav0hff+8+mc5VmfvcYDssitkouwCYkwvhZC9logumym81mBSlwojDGfvvf/dP
+    nm8Xh7o5I9hITyug2AL3mWwekU9k2nT+GCKJeiTkfdIumU4SnYj+Xrd/wOOiQqvQEMtT1Z
+    UCllrYESWacOLfwVwlcLumxIJE/FTE+HuJuCcIUn1ULAg43O3qXtAKr3yvMQ
+X-ME-Proxy: <xmx:LkcsasAI6_F4hiBcJCcwAIREijRUOVK7-SwhMnRIJ65zcRSN-EzKow>
+    <xmx:LkcsajYRwThhZbjOi21_D3u79Hfpbtmt5_bMd8xlXyDk8fjTtqDfnw>
+    <xmx:LkcsaoIgv4Rf9SvvBvrxe75quivKdU2uPNPlC8ONoYrNBTaqCk-w1g>
+    <xmx:LkcsakDycMw7M9e7uTjERKgMyxvDEknPeqlTAEmG8DLFhhiCY9KdDg>
+    <xmx:LkcsakOM0GFZ2Th_rPl6IHbrhECv0iwe5M2aZMQ6Nd44l25sWGzPReL6>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B4E2B780070; Fri, 12 Jun 2026 13:51:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|CYYPR12MB8752:EE_
-X-MS-Office365-Filtering-Correlation-Id: 889ea95f-344a-4a3a-cd58-08dec8aafdc3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|3023799007|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	vlQE0K2j+miVAhmxZN2v3o00hnPbfUekkc7MhTYlT9axrvLe9dX6y1KoiOszu6rDDNai43ptFfCGZvGhm6Bl4xKtZ3poszKeai796kgZci6ISJ1ixbAk2Y+RPUz1TvxqntrGETZM0bPUkBPFIFFFN4E/9xNMrkZNFb1+YKaHETUOPy32CPPJhbVtcTXv+zh28ULqisWQxITLWDKEjln1basMFXjUBNoTElwc0FdKFr4eX1/hVnqD2JYXJfA33xoHMpIZpxn9wt8hCJdonBRMSrHhnBO3w9px2GZknzxhcYa/0fUReg4tS9k5QGG4tsr4/iQMFeapIAzoqQ55WBALthsca82YOiqfFd5PDJPWKkJ3Q5L/HXM7oT5XysQYMw6YwI9BmcjeujhNrAuCFlvLjMYIEqt7c+XgOsHZ83xB9E+8uPL+OvCGiPVxlwf6nV5qs6kgvsUc29e7sevHB8FCUNEyY0AEeLaJufKAg0L5MpYHHbgBHHP04mzl/Jhlcqt3qExd8Zx1PEdy8OiagxnvnIR+5kVdfGDKYlEdqXk19RkPOTonw/YynIElaF+MCKIXrocGFSDpDvBgFGXJgYmQhtzn0E0JhVCqCzYPr6MP/SJc84PToqnsZcZLArpG5vRNExKB6ekRHAF3yOe8MCCNKMr+HX3m9iN0mS6AWWhApX4HkJU+WogNpcwrqkVC61SAXjJs3OYsVBho0Xwpex49Uw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(3023799007)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VFFETTRaREt3d05UL3ZoMlBCamI0QTV5WXd1Mk1NZHVTRFFoQlZ2aVN2TlBL?=
- =?utf-8?B?U0lydEJSSnV5OFgxVUU4Y3BGSkUrNncrc1lrMTA1NmdVc2w5Z2E4OTVkbURk?=
- =?utf-8?B?Tjlka2FFUkMvVlFtYlZWMzMrT0w5aDBzaDA3ZkpMa04wcEg0YmtydTRtM2Yr?=
- =?utf-8?B?cUw0Zmh4UTRGSE1Md244Mkl4K1pkTWRtWWc3bW0ySUhYUElDZnVnbVZpRzJu?=
- =?utf-8?B?RkFseGtZMmhRdkVkQXdzY0E1OGswRStyVjNibjZxSjJVTm56VnBtRElWSERJ?=
- =?utf-8?B?UDBtQ1pITjZObmlHak1HUzcwM0h2cGUvS29Da1lDMFlOT1NRNXlnQ3RPeld3?=
- =?utf-8?B?M20wYUMrNWVqUGp5NWN3NzY5OFZXQTNpUHZORWNZb1RzSlpCb1VoN3hZbTNS?=
- =?utf-8?B?RDJWNExQYk1YMWFGL2RkNjBCWkI0QllDV2p5V0oxcFZNKzllRG0rbzB6M094?=
- =?utf-8?B?am92MmhRQ0pyWFFuMWN4QURsQzY3WSs3Z2RuWU1iQ0tEVkZKeUh2aFQvbTht?=
- =?utf-8?B?VUVpS0UyQ3hsalA3TXZqOFJEZmVITW9ZcGpEK24rbWNaMmpuK0VkdmdiRFF3?=
- =?utf-8?B?Q2d0R1hhWUdSWWFNSVVKcGd2QzFiaU5TRFl3cGw3dnM5TDdPSUp4SjhLOWFh?=
- =?utf-8?B?Vll3NEF4dDJNOXFMb2dFc3lUYzhMUCtMUDRLbEh5ZmY2T05nU2YxTjZLQUVH?=
- =?utf-8?B?T2hiVTlFYWdWRU1xdTRDeVNZck1RQVEwYUlqS3F4SSs2TW9ObDlVN2J1QzhD?=
- =?utf-8?B?djZ1VGdGc0ZITHphZjB1WFdUODZjNGpJSXRKcjlMOTZDTXhKNDNCZlZmbGZR?=
- =?utf-8?B?VTRTclVvYW1kTkg3bk1HcXI1S1NzVFZsaUk2T0Nad0hGZlFYeEVUcHhJT0U2?=
- =?utf-8?B?K05oY1lMK0x1dEMreFJxVDRhSm9PeStjTmlaeGJiM3BDZG41RU5ZZGRHUUxQ?=
- =?utf-8?B?b3lHKzIwRXczbTJvTjVJQmdVUGQ3WjRYeEtSaWJaaThKYjRMekQ1M3ZQa1Jq?=
- =?utf-8?B?TG02bVMxTUNMS3V0cUNNUmIzc0ZsRERkUXJsU0k3c3lUVmc2VDkwT1orM3VX?=
- =?utf-8?B?YWVDQStMVDJlK1dGZjVETmkvOFF0bkdpYTZOWnBlZldsK3ZwZXV5QXhDeDJm?=
- =?utf-8?B?Q0lrQlhOVlFRSWtmMnZMM1ZCRTh6eUJTSzUrMElNTHBkZ2FFR3A1aHV5aGxJ?=
- =?utf-8?B?SExycFg4VmY5REVldlNGTG5MR0V3TUM2QkJQYjhjRVFzamVRdVBjemlHV2o5?=
- =?utf-8?B?aVFSY04rT2E0Z3pHbFRLZlZHSHlIZ1VaeUxOT042N1duTDFFd0R1SVV5TUtk?=
- =?utf-8?B?SnBNTTNtcWpKZDFKNk1lQVZ6Y2dNTzhQZFU3ekcwcGd1M3BGT1g4dUFDa0FH?=
- =?utf-8?B?Z1ZxQkxCcENYM2ZQU1VvZ2ZsUXNVSGRVY2s4bmlWQzRKS2xJUlcvaFNJUWEr?=
- =?utf-8?B?cDVFRFhJd3MrZEowZk02ZlRJUEJNYTBock1QbVlFNldvelJnMWRxY0ZIOU4r?=
- =?utf-8?B?N3hJK2YzZkQrQVhCVW1uUExtVjE4S0x3dktXTnMrSTYzMVpLbTh4QjBSKzBS?=
- =?utf-8?B?YXdVMWhnUElnVlFlSXdsZm4wUlpSSk5sZ3hNNis5VFUwd2M4bWl1b0pjMnl2?=
- =?utf-8?B?YXQ5Wm5ITS9seU10OHlrN0g1cGlvQWhOelFaQ1hFNkl3TS9wVmNKTndBbDlJ?=
- =?utf-8?B?ekxDUVpGc045Z2dwajIzMTJPVXBtMXlsZ2I3ang0cTAwN1JyMkNnMlJPNlk1?=
- =?utf-8?B?SVYwcGlweFVxQy8zaEhYSVdRL3VJYy8ySUl5c2w4OEdxQUxXN2VseDY4VEFP?=
- =?utf-8?B?R3dUZkJvM25iQXBNNzdTTGhyNzZhdVpha2tXYit0ZllobWFaQTdXRkRYZTNB?=
- =?utf-8?B?V0RqTjlkYW14cTJXMXcrLzA1NjRQZ0J3bmJzRktoQUJwZ21xU0orZzZWOUFH?=
- =?utf-8?B?MTgvcTBwUFE3Z1ZqaEp3UnVhQnJwYzZ5eFAyTUZXVytIVHZxMjN2bm8ra0Zi?=
- =?utf-8?B?aUo3RXpyNGdpRmRrZklQN2hYd2M3QXN5Zzk4VTR0eThpVmFqU2l1UWk3VzRq?=
- =?utf-8?B?bnJZSERCQ0pKTXBCK1l3aFZ5dG5LK2JqVXkzdkU5NjVJdGRicDFCdXF2clpZ?=
- =?utf-8?B?L2pEZk5zWkxiQlFWOFpsTWxGbC9mU01TamN0WUtvc3owdWpweFpMQWV0SXBZ?=
- =?utf-8?B?N1BJTzZhU1FDQTNzV0c0cWpCM2RlRmwrN1ZpWUw3RW1CZlJHbXlrZ0gxZWl5?=
- =?utf-8?B?K1BlTFlxWlJFamlIcXFNb0w3UDBKTDJiNm9DZ0hPeVpsbHI5ZjlBVWZpYnBk?=
- =?utf-8?Q?BSLt4fJxDVqpcjWtiR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 889ea95f-344a-4a3a-cd58-08dec8aafdc3
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 17:49:46.1751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: owwc3s/qveKSnN8od16Zvg7TdN0DVXnpHLcJR7OuEfwGB4bE6alDIHZJVDMAXE2H
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8752
+X-ThreadId: AYZVHXguuuu-
+Date: Fri, 12 Jun 2026 13:51:22 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Steven Rostedt" <rostedt@goodmis.org>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Calum Mackay" <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <b94c3e40-0520-4e83-9b4f-53a9325cecfe@app.fastmail.com>
+In-Reply-To: <20260611-dir-deleg-v6-10-4c45080e5f3f@kernel.org>
+References: <20260611-dir-deleg-v6-0-4c45080e5f3f@kernel.org>
+ <20260611-dir-deleg-v6-10-4c45080e5f3f@kernel.org>
+Subject: Re: [PATCH v6 10/20] nfsd: add notification handlers for dir events
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
 
-On 6/12/2026 12:32 PM, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 6/11/2026 6:40 PM, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 4/30/26 4:24 PM, Babu Moger wrote:
->>> Privilege Level Zero Association (PLZA) is configured per logical 
->>> processor
->>> via MSR_IA32_PQR_PLZA_ASSOC (0xc00003fc). Software must program RMID and
->>> CLOSID association fields and their enable bits using the layout defined
->>> for the MSR.
->>>
->>> Define MSR_IA32_PQR_PLZA_ASSOC and the RMID_EN, CLOSID_EN, and 
->>> PLZA_EN bit
->>> masks in asm/msr-index.h. Add union msr_pqr_plza_assoc in arch resctrl
->>> internal.h
->>
->> Above paragraph captures what can be seen from the patch. Please check 
->> entire
->> series for this since many changelogs in this series verbatim 
->> describes the code
->> changes in patch without helping reader understand why those changes 
->> are made.
->>
-> 
-> Sure. Will rewrite the changelog. And will check other patches also.
-> 
->>
->>>
->>> Signed-off-by: Babu Moger <babu.moger@amd.com>
->>> ---
->>
->>> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/ 
->>> msr-index.h
->>> index 9dc6b610e4e2..623628d3c643 100644
->>> --- a/arch/x86/include/asm/msr-index.h
->>> +++ b/arch/x86/include/asm/msr-index.h
->>> @@ -1287,10 +1287,17 @@
->>>   /* - AMD: */
->>>   #define MSR_IA32_MBA_BW_BASE        0xc0000200
->>>   #define MSR_IA32_SMBA_BW_BASE        0xc0000280
->>> +#define MSR_IA32_PQR_PLZA_ASSOC        0xc00003fc
->>>   #define MSR_IA32_L3_QOS_ABMC_CFG    0xc00003fd
->>>   #define MSR_IA32_L3_QOS_EXT_CFG        0xc00003ff
->>>   #define MSR_IA32_EVT_CFG_BASE        0xc0000400
->>> +/* Lower 32 bits of MSR_IA32_PQR_PLZA_ASSOC */
->>> +#define RMID_EN                BIT(31)
->>> +/* Upper 32 bits of MSR_IA32_PQR_PLZA_ASSOC */
->>> +#define CLOSID_EN            BIT(15)
->>> +#define PLZA_EN                BIT(31)
->>> +
->>
->> This is unexpected. So far resctrl has only defined the MSR numbers in 
->> this file, not
->> the individual fields. This seems a legitimate use of msr-index.h but 
->> creates inconsistency
->> with how the fields of the other resctrl registers are defined. This 
->> may be ok so I am
->> looking past this for now. Since I am not familiar with this use I am 
->> looking at other
->> patterns of this and it seems that the register fields are usually 
->> defined right after
->> the register to make this relationship clear and also use more verbose 
->> naming to establish
->> this relationship ... I do not think such cryptic names should be used 
->> without context
->> in such a global scope. Please compare with how other fields are 
->> defined at this scope.
-> 
-> Sure. Will use the names tony suggested.
-> https://lore.kernel.org/lkml/ 
-> SJ1PR11MB6083C069F99FAB8A0BEB8518FC182@SJ1PR11MB6083.namprd11.prod.outlook.com/
-> 
-> Also will moving the register "MSR_IA32_PQR_PLZA_ASSOC" together with 
-> BIT definition. It will break the sorting order. Hope that is not a 
-> problem.
+On Thu, Jun 11, 2026, at 1:50 PM, Jeff Layton wrote:
+> Add the necessary parts to accept a fsnotify callback for directory
+> change event and create a CB_NOTIFY request for it. When a dir nfsd_file
+> is created set a handle_event callback to handle the notification.
+>
+> Use that to allocate a nfsd_notify_event object and then hand off a
+> reference to each delegation's CB_NOTIFY. If anything fails along the
+> way, recall any affected delegations.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
 
-Never mind. I don't need the bit definitions anymore. I don't need to 
-move the register.
+> diff --git a/fs/nfsd/nfs4callback.c b/fs/nfsd/nfs4callback.c
+> index ca4dd2f969eb..59378751d596 100644
+> --- a/fs/nfsd/nfs4callback.c
+> +++ b/fs/nfsd/nfs4callback.c
 
-Thanks
-Babu
+> @@ -904,13 +908,45 @@ static void nfs4_xdr_enc_cb_notify(struct rpc_rqst *req,
+>  	encode_cb_sequence4args(xdr, cb, &hdr);
+> 
+>  	/*
+> -	 * FIXME: get stateid and fh from delegation. Inline the cna_changes
+> -	 * buffer, and zero it.
+> +	 * nfsd4_cb_notify_prepare() sized the payload against a single page,
+> +	 * but did not account for the compound, sequence, stateid, and
+> +	 * filehandle encoded here. If the variable-length encode overflows the
+> +	 * backchannel send buffer, roll back to before the operation so that a
+> +	 * truncated CB_NOTIFY is never placed on the wire.
+>  	 */
+> -	xdrgen_encode_CB_NOTIFY4args(xdr, &args);
+> +	start = xdr_stream_pos(xdr);
+> +
+> +	p = xdr_reserve_space(xdr, 4);
+> +	if (!p)
+> +		goto out_err;
+> +	*p = cpu_to_be32(OP_CB_NOTIFY);
 
+Please use xdr_stream_encode_u32 for this purpose.
+
+
+> +
+> +	args.cna_stateid.seqid = dp->dl_stid.sc_stateid.si_generation;
+> +	memcpy(&args.cna_stateid.other, &dp->dl_stid.sc_stateid.si_opaque,
+> +	       ARRAY_SIZE(args.cna_stateid.other));
+> +	args.cna_fh.len = dp->dl_stid.sc_file->fi_fhandle.fh_size;
+> +	args.cna_fh.data = dp->dl_stid.sc_file->fi_fhandle.fh_raw;
+> +	args.cna_changes.count = ncn->ncn_nf_cnt;
+> +	args.cna_changes.element = ncn->ncn_nf;
+> +	if (!xdrgen_encode_CB_NOTIFY4args(xdr, &args))
+> +		goto out_err;
+> 
+>  	hdr.nops++;
+>  	encode_cb_nops(&hdr);
+> +	return;
+> +
+> +out_err:
+> +	/*
+> +	 * Drop the CB_NOTIFY op and emit a valid CB_SEQUENCE-only compound so
+> +	 * the client still advances its slot. Flag the failure so the done
+> +	 * handler recalls the delegation and the missed notification is not
+> +	 * silently lost. The flag is written here in the transmit path and read
+> +	 * in the done handler; the two are serialized phases of the same
+> +	 * rpc_task, so no additional barrier is needed.
+> +	 */
+> +	ncn->ncn_encode_err = true;
+
+This flag is zeroed only once, at allocation time in alloc_init_dir_deleg().
+It is never cleared in nfsd4_cb_notify_prepare().
+
+Since nfsd4_cb_notify_release() can requeue the callback (via
+nfsd4_run_cb_notify) when events arrive while a callback is in flight,
+->prepare may encode cleanly and return true, but nfsd4_cb_notify_done()
+still observes the stale ncn_encode_err == true and calls
+nfsd_break_one_deleg() -- discarding a good notification and recalling
+the delegation unnecessarily.
+
+
+> +	xdr_truncate_encode(xdr, start);
+> +	encode_cb_nops(&hdr);
+>  }
+> 
+>  static int nfs4_xdr_dec_cb_notify(struct rpc_rqst *rqstp,
+
+> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
+> index 0a15d7f3b543..513cbc1a583f 100644
+> --- a/fs/nfsd/nfs4state.c
+> +++ b/fs/nfsd/nfs4state.c
+
+> @@ -3471,19 +3472,146 @@ nfsd4_cb_getattr_release(struct nfsd4_callback *cb)
+>  	nfs4_put_stid(&dp->dl_stid);
+>  }
+> 
+> +static void nfsd_break_one_deleg(struct nfs4_delegation *dp)
+> +{
+> +	bool queued;
+> +
+> +	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &dp->dl_recall.cb_flags))
+> +		return;
+> +
+> +	/*
+> +	 * We're assuming the state code never drops its reference
+> +	 * without first removing the lease.  Since we're in this lease
+> +	 * callback (and since the lease code is serialized by the
+> +	 * flc_lock) we know the server hasn't removed the lease yet, and
+> +	 * we know it's safe to take a reference.
+> +	 */
+> +	refcount_inc(&dp->dl_stid.sc_count);
+> +	queued = nfsd4_run_cb(&dp->dl_recall);
+> +	WARN_ON_ONCE(!queued);
+> +	if (!queued) {
+> +		refcount_dec(&dp->dl_stid.sc_count);
+> +		clear_bit(NFSD4_CALLBACK_RUNNING, &dp->dl_recall.cb_flags);
+> +	}
+> +}
+
+nfsd_break_one_deleg() does an unconditional
+refcount_inc(&dp->dl_stid.sc_count), and its comment justifies this
+with "the lease code is serialized by the flc_lock." That invariant
+holds when called from nfsd_break_deleg_cb() under flc_lock, but
+nfsd4_cb_notify_prepare() runs on a workqueue WITHOUT flc_lock. Its
+out_recall: path calls nfsd_break_one_deleg(dp)
+directly. The delegation can be concurrently destroyed with sc_count
+already at zero, making this an inc-from-zero.
+
+The dispatch path nfsd4_run_cb_notify already does this correctly with
+refcount_inc_not_zero. The out_recall path needs the same guard (skip
+the recall / bail if the refcount is already zero).
+
+I notice that the last unapplied patch ("nfsd: add
+support to CB_NOTIFY for dir attribute changes") rewrites the guard
+"if (count > NOTIFY4_EVENT_QUEUE_SIZE)" into "if (count > limit)" with
+limit = NOTIFY4_EVENT_QUEUE_SIZE - 1 when NOTIFY4_CHANGE_DIR_ATTRS is
+requested. That turns the previously-dead overflow branch into a live,
+routine path to out_recall, which adds another normal-operation route
+into this unlocked recall.
+
+
+-- 
+Chuck Lever
