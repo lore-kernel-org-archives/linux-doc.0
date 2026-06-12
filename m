@@ -1,197 +1,239 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC14736EAAC;
-	Fri, 12 Jun 2026 10:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F3D382392;
+	Fri, 12 Jun 2026 10:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781259336; cv=none; b=cFGSTXiTmZ8Uy582wrEpsH896MBE572cNTHEvvr0vMF3jFtcYimxsJ7UsTb9vXTRxCOtomQmT1OC30DDDsHMzWHAywtUKftHKM0OkL11WCQ6UuZjn5+gkKkD6oH0Tf4OplGPRcgZsisAdAC4XaoB0mEJbJ1U11z/63qEjyH/jB0=
+	t=1781261041; cv=none; b=ROMYlv8NP7kbdmalhUgnnZXFwGJG4SpRuOk91xuX6vqigTc9fhsaq1Ot+JWd2SMgt5P6Ii0TqsBkHBalr7VP83JrZCU7fTw9KTO5K2REc7SId7In9TTZDWeiOhUUqYTMVDyUQTA5+iEh6NwKhUWbi9qkz7y1QSfib1sCVeqUA6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781259336; c=relaxed/simple;
-	bh=WtwFBdcoNgVFnGaN7wYg5bPQTbJzZm3o2CtR/JVfPBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BSNSziZ3B3EKbA9wBWMaQLbgymwAsPaxGmy8l6JYrsxFNxzjSHx84ysA5SLkvja0o8SSkznka4PAOn79tfMCCPAYmvBswAmIEHROFseApU03IiBXCZTif1n5wab6HH3S5QsTuqwwcF+S+TCQLRtjXUVOrhU2OIMdVqNuvirW++Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EQoBDBvf; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781261041; c=relaxed/simple;
+	bh=QIwtv6XbCJdtzrWDSo1RwW5JsW31id8AtVf9GPkT/9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gTCQSgBYIi6zOCCo50VqjU2AlZ7XGRQ24NXqfiB/sXS5VkRvFLrZfTbd8A/14UWWcSHjp5Z0LknIw9xRtpN/TSOpr6lu3rnkEBF1kUxIOqPs3ww23ZBOINBSl07uf9XqQgtL8FQwY+S6z0pyDR/aDmkNcKKWIC+wiRIacGyexzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTS1pZp+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EQoBDBvf"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781259331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cNePmwoejC9uECBwHhyf9ZCMhy83FpHG4lebaOpVm0M=;
-	b=EQoBDBvfHYiavI3vA2yTca4fC+KP7Jdm89S9rgLab6eg/3U8UnakmhSUbwGwZXDhFNXHC6
-	UZM2hqGg6Ri/TRseT5+w2zgSq53/sECP1UOqvX1emDa6+r7eJb9ro5J0Rmcp5qLbKDjRNd
-	XJoXg1rwWDXdr8bCEpzg3cCWhsGHzak=
-From: Usama Arif <usama.arif@linux.dev>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	jonathan.cameron@huawei.com,
-	elif.topuz@arm.com,
-	lukasz.luba@arm.com,
-	philip.radford@arm.com,
-	brauner@kernel.org,
-	souvik.chakravarty@arm.com
-Subject: Re: [PATCH v3 02/24] firmware: arm_scmi: Reduce the scope of protocols mutex
-Date: Fri, 12 Jun 2026 03:15:24 -0700
-Message-ID: <20260612101525.340337-1-usama.arif@linux.dev>
-In-Reply-To: <20260329163337.637393-3-cristian.marussi@arm.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTS1pZp+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4871F00A3A;
+	Fri, 12 Jun 2026 10:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781261039;
+	bh=jQbMfs73vXY/1+2J2uFtoNyupZeXRCVPTMVFi6cnBn0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=MTS1pZp+MgtFarJjoaODYtqJTD6oynJhsyOMuc+MlcUGcmNU+M5S7ZybnIg+MOewt
+	 U8HZ2sxOv5kBe035B/q574gj3t2fnqqEVegQdPSmXnqOMjBw1bx2LEVTCXsxCg9BCV
+	 XV4r1Y4me1T8E9H492GZxHXDJO+xOmmW5YXsmGQHg5aN/fQgRFClzJGXzpCFVnmWDW
+	 CmlGrQiR3qFdkp9iLmTGISabOwkGbblLhQt2QI2CqYSRxqAm2wNpDzTYU6r5ob+HIX
+	 2p1H6uecUzD3WaORSYsCPqw1agz24LpYSgDJ7qRJTFHcv0enzoEAkjPHmvWztbgImt
+	 k23jfN2US+GZQ==
+Message-ID: <cc490279-9a28-4d94-b66a-d529af66cb20@kernel.org>
+Date: Fri, 12 Jun 2026 12:43:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?B?UmU6IOetlOWkjTogW1BBVENIIHYzXSBtbS9tZW1wb29sOiBVbnRhbmds?=
+ =?UTF-8?Q?e_CONFIG=5FSLUB=5FDEBUG=5FON_abuse_and_switch_to_static_key?=
+Content-Language: en-US
+To: "Li,Rongqing" <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Harry Yoo <harry@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
+References: <20260604110318.2089-1-lirongqing@baidu.com>
+ <d06d13c4aebe44a2abca4aee0083644f@baidu.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <d06d13c4aebe44a2abca4aee0083644f@baidu.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On Sun, 29 Mar 2026 17:33:13 +0100 Cristian Marussi <cristian.marussi@arm.com> wrote:
+On 6/12/26 12:12, Li,Rongqing wrote:
+>> 主题: [PATCH v3] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse
+>> and switch to static key
+>> 
+>> From: Li RongQing <lirongqing@baidu.com>
+>> 
+>> The mempool subsystem historically wrapped its debugging logic inside an
+>> merely defines compile-time defaults for SLUB and caused two flaws:
+>> 
+>> 1. On production kernels where CONFIG_SLUB_DEBUG=y but
+>>    CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely
+>> compiled out
+>>    at compile time.
+>> 2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed
+>> active
+>>    even if a user explicitly disabled slub debugging at boot time.
+>> 
+>> Clean up this mess by removing the #ifdef and switching to a runtime static
+>> key (mempool_debug_enabled), allowing mempool debugging to be toggled
+>> cleanly via its own boot parameter.
+>> 
+> Ping 
+> 
+> Thanks
 
-> Currently the mutex dedicated to the protection of the list of registered
-> protocols is held during all the protocol initialization phase.
-> 
-> Such a wide locking region is not needed and causes problem when trying to
-> initialize notifications from within a protocol initialization routine.
-> 
-> Reduce the scope of the protocol mutex.
+Sorry, missed this. Since it's just before merge window and it's not
+critical, will queue it after merge window for 7.3. Thanks!
 
-I think this changes more than the mutex scope. scmi_get_protocol_instance()
-can now drop protocols_mtx after idr_find() while scmi_protocol_release()
-can concurrently drop the final reference, remove the IDR entry, and release
-the devres group. Does that leaves a use-after-free window around the returned
-pi?
+> [Li,Rongqing] 
+> 
+> 
+> 
+>> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+>> Cc: Vlastimil Babka <vbabka@kernel.org>
+>> Cc: Harry Yoo <harry@kernel.org>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Hao Li <hao.li@linux.dev>
+>> Cc: Christoph Lameter <cl@gentwo.org>
+>> Cc: David Rientjes <rientjes@google.com>
+>> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+>> Cc: Matthew Wilcox <willy@infradead.org>
+>> Cc: Usama Arif <usama.arif@linux.dev>
+>> ---
+>> Diff with v2: Move the check out of check_element/poison_element Diff with
+>> v1: Rewrite commit message, change early_param to __setup
+>> 
+>>  Documentation/admin-guide/kernel-parameters.txt |  5 ++++
+>>  mm/mempool.c                                    | 35
+>> +++++++++++++++++--------
+>>  2 files changed, 29 insertions(+), 11 deletions(-)
+>> 
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+>> b/Documentation/admin-guide/kernel-parameters.txt
+>> index 642659b..89b5994 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -3980,6 +3980,11 @@ Kernel parameters
+>>  			Note that even when enabled, there are a few cases where
+>>  			the feature is not effective.
+>> 
+>> +	mempool_debug	[MM]
+>> +			Enable mempool debugging. This enables element
+>> +			poison checking when freeing elements back to the
+>> +			pool. Useful for debugging mempool corruption.
+>> +
+>>  	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV,EARLY] Enable memtest
+>>  			Format: <integer>
+>>  			default : 0 <disable>
+>> diff --git a/mm/mempool.c b/mm/mempool.c index db23e0e..dabe05c
+>> 100644
+>> --- a/mm/mempool.c
+>> +++ b/mm/mempool.c
+>> @@ -16,11 +16,28 @@
+>>  #include <linux/export.h>
+>>  #include <linux/mempool.h>
+>>  #include <linux/writeback.h>
+>> +#include <linux/static_key.h>
+>> +#include <linux/init.h>
+>>  #include "slab.h"
+>> 
+>>  static DECLARE_FAULT_ATTR(fail_mempool_alloc);
+>>  static DECLARE_FAULT_ATTR(fail_mempool_alloc_bulk);
+>> 
+>> +/*
+>> + * Debugging support for mempool using static key.
+>> + *
+>> + * This allows enabling mempool debug at boot time via:
+>> + *   mempool_debug
+>> + */
+>> +static DEFINE_STATIC_KEY_FALSE(mempool_debug_enabled);
+>> +
+>> +static int __init mempool_debug_setup(char *str) {
+>> +	static_branch_enable(&mempool_debug_enabled);
+>> +	return 1;
+>> +}
+>> +__setup("mempool_debug", mempool_debug_setup);
+>> +
+>>  static int __init mempool_faul_inject_init(void)  {
+>>  	int error;
+>> @@ -37,7 +54,6 @@ static int __init mempool_faul_inject_init(void)  }
+>> late_initcall(mempool_faul_inject_init);
+>> 
+>> -#ifdef CONFIG_SLUB_DEBUG_ON
+>>  static void poison_error(struct mempool *pool, void *element, size_t size,
+>>  			 size_t byte)
+>>  {
+>> @@ -140,14 +156,6 @@ static void poison_element(struct mempool *pool,
+>> void *element)  #endif
+>>  	}
+>>  }
+>> -#else /* CONFIG_SLUB_DEBUG_ON */
+>> -static inline void check_element(struct mempool *pool, void *element) -{ -}
+>> -static inline void poison_element(struct mempool *pool, void *element) -{ -}
+>> -#endif /* CONFIG_SLUB_DEBUG_ON */
+>> 
+>>  static __always_inline bool kasan_poison_element(struct mempool *pool,
+>>  		void *element)
+>> @@ -175,7 +183,10 @@ static void kasan_unpoison_element(struct
+>> mempool *pool, void *element)  static __always_inline void
+>> add_element(struct mempool *pool, void *element)  {
+>>  	BUG_ON(pool->min_nr != 0 && pool->curr_nr >= pool->min_nr);
+>> -	poison_element(pool, element);
+>> +
+>> +	if (static_branch_unlikely(&mempool_debug_enabled))
+>> +		poison_element(pool, element);
+>> +
+>>  	if (kasan_poison_element(pool, element))
+>>  		pool->elements[pool->curr_nr++] = element;  } @@ -186,7 +197,9
+>> @@ static void *remove_element(struct mempool *pool)
+>> 
+>>  	BUG_ON(pool->curr_nr < 0);
+>>  	kasan_unpoison_element(pool, element);
+>> -	check_element(pool, element);
+>> +
+>> +	if (static_branch_unlikely(&mempool_debug_enabled))
+>> +		check_element(pool, element);
+>>  	return element;
+>>  }
+>> 
+>> --
+>> 2.9.4
+> 
 
-
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> ---
-> v1-->v2
->  - Fixed improper mixed usage of cleanup and goto constructs
-> ---
->  drivers/firmware/arm_scmi/driver.c | 50 ++++++++++++++----------------
->  1 file changed, 24 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
-> index 3e76a3204ba4..26f192b8d7a9 100644
-> --- a/drivers/firmware/arm_scmi/driver.c
-> +++ b/drivers/firmware/arm_scmi/driver.c
-> @@ -17,6 +17,7 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
->  #include <linux/bitmap.h>
-> +#include <linux/cleanup.h>
->  #include <linux/debugfs.h>
->  #include <linux/device.h>
->  #include <linux/export.h>
-> @@ -2190,7 +2191,6 @@ static void scmi_protocol_version_initialize(struct device *dev,
->   * all resources management is handled via a dedicated per-protocol devres
->   * group.
->   *
-> - * Context: Assumes to be called with @protocols_mtx already acquired.
->   * Return: A reference to a freshly allocated and initialized protocol instance
->   *	   or ERR_PTR on failure. On failure the @proto reference is at first
->   *	   put using @scmi_protocol_put() before releasing all the devres group.
-> @@ -2236,8 +2236,10 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
->  	if (ret)
->  		goto clean;
->  
-> -	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
-> -			GFP_KERNEL);
-> +	/* Finally register the initialized protocol */
-> +	mutex_lock(&info->protocols_mtx);
-> +	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1, GFP_KERNEL);
-> +	mutex_unlock(&info->protocols_mtx);
->  	if (ret != proto->id)
->  		goto clean;
->  
-> @@ -2284,27 +2286,25 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
->  static struct scmi_protocol_instance * __must_check
->  scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
->  {
-> -	struct scmi_protocol_instance *pi;
->  	struct scmi_info *info = handle_to_scmi_info(handle);
-> +	const struct scmi_protocol *proto;
->  
-> -	mutex_lock(&info->protocols_mtx);
-> -	pi = idr_find(&info->protocols, protocol_id);
-> -
-> -	if (pi) {
-> -		refcount_inc(&pi->users);
-> -	} else {
-> -		const struct scmi_protocol *proto;
-> +	scoped_guard(mutex, &info->protocols_mtx) {
-> +		struct scmi_protocol_instance *pi;
->  
-> -		/* Fails if protocol not registered on bus */
-> -		proto = scmi_protocol_get(protocol_id, &info->version);
-> -		if (proto)
-> -			pi = scmi_alloc_init_protocol_instance(info, proto);
-> -		else
-> -			pi = ERR_PTR(-EPROBE_DEFER);
-> +		pi = idr_find(&info->protocols, protocol_id);
-> +		if (pi) {
-> +			refcount_inc(&pi->users);
-> +			return pi;
-> +		}
->  	}
-> -	mutex_unlock(&info->protocols_mtx);
->  
-> -	return pi;
-> +	/* Fails if protocol not registered on bus */
-> +	proto = scmi_protocol_get(protocol_id, &info->version);
-> +	if (!proto)
-> +		return ERR_PTR(-EPROBE_DEFER);
-> +
-> +	return scmi_alloc_init_protocol_instance(info, proto);
->  }
->  
->  /**
-> @@ -2335,10 +2335,11 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
->  	struct scmi_info *info = handle_to_scmi_info(handle);
->  	struct scmi_protocol_instance *pi;
->  
-> -	mutex_lock(&info->protocols_mtx);
-> -	pi = idr_find(&info->protocols, protocol_id);
-> -	if (WARN_ON(!pi))
-> -		goto out;
-> +	scoped_guard(mutex, &info->protocols_mtx) {
-> +		pi = idr_find(&info->protocols, protocol_id);
-> +		if (WARN_ON(!pi))
-> +			return;
-> +	}
->  
->  	if (refcount_dec_and_test(&pi->users)) {
->  		void *gid = pi->gid;
-> @@ -2357,9 +2358,6 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
->  		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
->  			protocol_id);
->  	}
-> -
-> -out:
-> -	mutex_unlock(&info->protocols_mtx);
->  }
->  
->  void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
-> -- 
-> 2.53.0
-> 
-> 
