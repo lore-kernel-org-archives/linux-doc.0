@@ -1,615 +1,612 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B673267B89
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 22:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781302202; cv=pass; b=rSTMwqan8ZkszssZPrJBcjfAAKHeT2gBFezdTEI6MAnPcQK4gZxMufidN+BBx1SAE7WOyiLjeuYtQausigmtOczt6ESgq3pMPqpmjAj/Jn6PaE4k4i+tnlHgAmx3tk/Qss+F9dEDNyA4IfliC1iVeJCF45KFnWj2gq1ww6QCWm4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781302202; c=relaxed/simple;
-	bh=5k6yqdBaTPSP5JPVkYb+f2wIlhX/CpftvOgPEkPmKT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UtA4HzyquBBMs0OFwakd59WW3LMY35xGUNlSfbm9muovymW70tr9rwVWdfMwN96RXIwNxYyIECJqgicUHfyJjP7Adx4gaUIri0N+1UxmivV7lMUN6ND8a4dbReoG4MZJmRtMWprUKK1qej9P5P8h7Sjw9ZUoxveyECa9AZcx6Hs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZJr43n2M; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85C0A364022;
+	Fri, 12 Jun 2026 22:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781303918; cv=none; b=hcZ5CLkkZsCkQalCGm0WEIDpMBdg00OWWpjKgBPL6Rc+GCc7XcuxEbJ3R/QxOP1Fsg7ySiAp7nOaO0phUFbPsNFpyFg9tJh8oy5yiVFmq1kiccucj229L1AlwRjGhij4YI5FgjCh14ZKn1x4tVhieK8JW/31uU+yv/9d4Nfx6FM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781303918; c=relaxed/simple;
+	bh=x5vo2j5gyAO3KY5BoQQecUaPfbPxmhUlg6nEtl+WmBA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q0rTdtDeNj/stkjjlwN+I4qTdgiHpFZ7Axd4Jw9WBsqDpMCCzZ6hQ3SoNr2pbPUc4ywrYbDmG6WdLMoYc3O60s9oUV6meKhlw2Ql/Z9DlGhvOyc0DpgdLJSLZhmFXYDEFh+zeimq1JM+G1c8O3AlSusd6jRt1j3iiqU8rn9pyKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=G8g2/O1K; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZJr43n2M"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c0b1a48855so30875ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 15:10:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781302200; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XUJqbCcBPMrQEBkK6a5IfKAmcCw+GPetvDxUiSx0TzotN361jjYmseQmxES9BBgHfR
-         H0f1nNu0a+4Nl1xvgC9+W4LEjwzbf6933Wkmq9rMa1Iz5qR6NYBfY9rlHbs/sKQASF6F
-         9B62/Fyl6xUnczDYf4E7PdM+AO8scFnCsVTq4M8HEgVktrnIlpk07k/V+fAU+kZjQZms
-         8dTqGhGPxwOHuV7Qk3YoLa6a0HBSe41zQVxQk/nGrJ9gjIhFWcn/B5gDxVebF8av2F1J
-         Lbyvtq2C6JjogUeEx6I5C7e9TsLDIK7YP1b06zZ3qj2ioAB3xRa/whX1yEWahvH5t/Yp
-         vOMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QKE2ZtQnvdGOpkvugwRZpVP5AphORfxwr0s2buOnxRE=;
-        fh=4FjwqodCddeO8tqpd/GTKGLeKFWkvOUyEkqENVJjzUs=;
-        b=fRsLY9zPgNWMQKoZUQ3V501KTSBm+rJpZxyXRCm/bJVfL3uAZIRnG4pA+EWN0wihPt
-         R266eVYQu1mbhIPnIdRkwqYod3t2m1N6ypR3N0+BhbKq25uP0ucaycYfxOpnJpYIGy0k
-         ug3rYnDad4MUJ7xAVNp5EJYFmlnsf/sLQLJz9gp1pXzN1/tDOHI/Iwdttnv1lvELcEo7
-         NvP51YQ/kEMpjnqpI0KZUPknxh8LXMfl9UT+XKyT9qNBgj4ZbX/D8aKERLsrCCTemgj0
-         YjkzmMgoVl+RRI+jS4eVC1cByfxB5yyhwHSzxPVMviWX7EGPjiEkn8oJoTE58R3mbaNE
-         vVOQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781302200; x=1781907000; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QKE2ZtQnvdGOpkvugwRZpVP5AphORfxwr0s2buOnxRE=;
-        b=ZJr43n2MOgFRmV07dlOC1GsD+ReS3ToltuX8ypbkPT4ts88jyLZzSnuIkq882hDbjW
-         2G5EuOXxtLgAHu0s5th8ayeCg4tG3BkDeKX+ZqQyFYB4F6yNmAcea2GQKsPUOlBNa5M3
-         +D8TGj+hR24ik3nf4wdMeFDF+1iHQ3MEbaPwWYLKpoge5XwnSJHNPbSPbY6O/9sw3LBK
-         mxkdSAWsY+FiDOwbq6fXRZvnFhAYf+CI2h85kK4rSRYhYDKJzquO4jps2FP478Kv8/Te
-         3S4A7L3IuamGDgvGN0dXeR9z0mxBnzzsMg+abXsZdvTS76RhtHyRCK1+LtTsE4CY41MO
-         Jv1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781302200; x=1781907000;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QKE2ZtQnvdGOpkvugwRZpVP5AphORfxwr0s2buOnxRE=;
-        b=rRcVJ10UbsejsTltwOrje88yPNl3ttv9rszvpQfnmqqOrn5WCaZxzQ9goaNUwzcpWK
-         ihEdMOu/DIrcsJftQNLCGV5FeQVho6vnb+XQ8gKpfsy04zG81HIUzthi1Wr3FLqDMydq
-         0v3rLQuhbRfAAbgeCsyMJnL8SeiDRcrOLUrqUJuEn5VlUCVwLJheqv0wKX6/D4sKf3J3
-         y2tqEX1nd6X3cAqgClAYQynXuz/d2+EmsEC4wG+Q0ojDxNnwRziMiYL2g7dHo1L7YAxd
-         mR7HPR1nPDGzgmCCThhPZF8jDtZlFmJeXlEVzAGsToN2X0GYskNKv7Ty0UKHlqKAtwxN
-         vKew==
-X-Forwarded-Encrypted: i=1; AFNElJ9ICq25wJ6qPLZNenuHatZQDkDe5Vpqc4Fxmnim+6pWg7IWzWjlfsRfmrhWhKIEbt4yZZPM0WkxRl4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1HokeTtZqdxK55r0wM7zY/UO3yr7C6H1Fj6s32wOKa5Csp4+r
-	W7bx1nGYBR2m/Xewnyc8B8uDk6pNCBNo5M9tq/DWmtb3rDWM5ypWW6pFK5xPZf9Mg23DAA6MIaw
-	6tvSud2aCh1Z6tjX7k0xGWp+2kCYrDG3JVfzRe71v
-X-Gm-Gg: Acq92OHBz/BS1ISg75JFl+8hiAvjRcKbnXCj3INr+MsVkan7HnAwuYSdz9HMGSwvcdZ
-	Dz0xlGD49/DrngLjX525PGu3PjX7bhfJnVyPmNkLds9X1fnQXYAPcGzEfw6s2LT3GhFwMKNHBmJ
-	3FSfD8OSSczA4wq5z2vAkXmcZl3x7HxkO0MvcOUwKo+qKE7CEvsVLdIfqgM1W8t63E6plrV5rfp
-	O1z3bLyu2RsucJOWzTpC799qdchXUSwOpbQlbLp4vSOYZbVZuO/GTABPYqyLn/JgtMQwWc4izQ9
-	A7CNI8ruujlmWMAy2hgTeUUKzfjaIgd/mZfkIkgNrHnP0KU/j5ItTJnbC/r0vljKGOCt7NauPb9
-	AwXGD
-X-Received: by 2002:a17:903:1a10:b0:2c1:ee6e:be21 with SMTP id
- d9443c01a7336-2c665ee29acmr325995ad.31.1781302199752; Fri, 12 Jun 2026
- 15:09:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="G8g2/O1K"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC4C53543;
+	Fri, 12 Jun 2026 15:38:29 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFDF73FB7F;
+	Fri, 12 Jun 2026 15:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781303914; bh=x5vo2j5gyAO3KY5BoQQecUaPfbPxmhUlg6nEtl+WmBA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=G8g2/O1KI9NYR2hfQtDS5sdPX+vAB0SDsmYi1bp14mIvvQ5lIFgn5Kny/IoOSR/xi
+	 S+QiekVXOdn0X6XiMaCmrDZlsQjTKT/oxKiCxU0Bk794Q/DQuo3rgEA/ZQLY9eJPkr
+	 dmyxseolQUKuquoJqQ0h0Irepwy/aRT+ls9zN5QQ=
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	d-gole@ti.com,
+	jic23@kernel.org,
+	elif.topuz@arm.com,
+	lukasz.luba@arm.com,
+	philip.radford@arm.com,
+	brauner@kernel.org,
+	souvik.chakravarty@arm.com,
+	leitao@kernel.org,
+	kas@kernel.org,
+	puranjay@kernel.org,
+	usama.arif@linux.dev,
+	kernel-team@meta.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
+Date: Fri, 12 Jun 2026 23:37:30 +0100
+Message-ID: <20260612223802.1337232-1-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1781062575.git.wudi234@huawei.com> <02e87952a65aa268526ade2f03de6c76fbc1fe9d.1781062575.git.wudi234@huawei.com>
-In-Reply-To: <02e87952a65aa268526ade2f03de6c76fbc1fe9d.1781062575.git.wudi234@huawei.com>
-From: Harshitha Ramamurthy <hramamurthy@google.com>
-Date: Fri, 12 Jun 2026 15:09:48 -0700
-X-Gm-Features: AVVi8CdxJqeMmSzjQ53v5Dn8_bpQQKd9-BdDzC2HB19TjFcuu-SZVS7l5rWXz3Y
-Message-ID: <CAEAWyHe6np4FjBjckicWNQjJB7nf9s=EC6sTtMkJ6niyffmBCw@mail.gmail.com>
-Subject: Re: [PATCH net-next v09 1/5] hinic3: Add ethtool queue ops
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Wu Di <wudi234@huawei.com>, Teng Peisen <tengpeisen@huawei.com>, netdev@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, 
-	Mohsin Bashir <mohsin.bashr@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, luosifu <luosifu@huawei.com>, 
-	Xin Guo <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, 
-	Wu Like <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, 
-	Zheng Jiezhen <zhengjiezhen@h-partners.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 10, 2026 at 12:05=E2=80=AFAM Fan Gong <gongfan1@huawei.com> wro=
-te:
->
->   Implement following ethtool callback function:
-> .get_ringparam
-> .set_ringparam
->
->   These callbacks allow users to utilize ethtool for detailed
-> queue depth configuration and monitoring.
+Hi all,
 
-The patch adds a new mutex. Would be good to call it out in the commit mess=
-age.
+--------------------------------------------------------------------------------
+[TLDR Summary]
+This series introduces a new SCMI driver which uses a new Telemetry FS to expose
+and configure SCMI Telemetry Data Events retrieved from the platform SCMI FW
+at runtime. The patches carrying the new STLMFS Filesystem support are tagged
+with 'stlmfs'.
+--------------------------------------------------------------------------------
 
->
-> Co-developed-by: Wu Di <wudi234@huawei.com>
-> Signed-off-by: Wu Di <wudi234@huawei.com>
-> Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-> Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> ---
->  .../ethernet/huawei/hinic3/hinic3_ethtool.c   |  93 ++++++++++++++++
->  .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   5 +-
->  .../net/ethernet/huawei/hinic3/hinic3_main.c  |   6 +
->  .../huawei/hinic3/hinic3_netdev_ops.c         | 104 ++++++++++++++++--
->  .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |   9 ++
->  .../ethernet/huawei/hinic3/hinic3_nic_io.c    |   4 +-
->  .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   8 +-
->  .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   2 +-
->  8 files changed, 217 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/driver=
-s/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> index 90fc16288de9..be9992a235f7 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> @@ -9,6 +9,7 @@
->  #include <linux/errno.h>
->  #include <linux/etherdevice.h>
->  #include <linux/netdevice.h>
-> +#include <linux/netlink.h>
->  #include <linux/ethtool.h>
->
->  #include "hinic3_lld.h"
-> @@ -409,6 +410,96 @@ hinic3_get_link_ksettings(struct net_device *netdev,
->         return 0;
->  }
->
-> +static void hinic3_get_ringparam(struct net_device *netdev,
-> +                                struct ethtool_ringparam *ring,
-> +                                struct kernel_ethtool_ringparam *kernel_=
-ring,
-> +                                struct netlink_ext_ack *extack)
-> +{
-> +       struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
-> +
-> +       ring->rx_max_pending =3D HINIC3_MAX_RX_QUEUE_DEPTH;
-> +       ring->tx_max_pending =3D HINIC3_MAX_TX_QUEUE_DEPTH;
-> +       ring->rx_pending =3D nic_dev->q_params.rq_depth;
-> +       ring->rx_pending =3D nic_dev->q_params.sq_depth;
+the upcoming SCMI v4.0 specification [0] introduces a new SCMI protocol
+dedicated to System Telemetry.
 
-copy-paste error
+In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+runtime the set of Telemetry Data Events (DEs) available on a specific
+platform and provides the means to configure the set of DEs that a user is
+interested into, while reading them back using the collection method that
+is deeemed more suitable for the usecase at hand. (...amongst the various
+possible collection methods allowed by SCMI specification)
 
-> +}
-> +
-> +static void hinic3_update_qp_depth(struct net_device *netdev,
-> +                                  u32 sq_depth, u32 rq_depth)
-> +{
-> +       struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
-> +       u16 i;
-> +
-> +       nic_dev->q_params.sq_depth =3D sq_depth;
-> +       nic_dev->q_params.rq_depth =3D rq_depth;
-> +       for (i =3D 0; i < nic_dev->max_qps; i++) {
-> +               nic_dev->txqs[i].q_depth =3D sq_depth;
-> +               nic_dev->txqs[i].q_mask =3D sq_depth - 1;
-> +               nic_dev->rxqs[i].q_depth =3D rq_depth;
-> +               nic_dev->rxqs[i].q_mask =3D rq_depth - 1;
-> +       }
-> +}
-> +
-> +static int hinic3_check_ringparam_valid(struct net_device *netdev,
-> +                                       const struct ethtool_ringparam *r=
-ing,
-> +                                       struct netlink_ext_ack *extack)
-> +{
-> +       if (ring->tx_pending < HINIC3_MIN_QUEUE_DEPTH ||
-> +           ring->rx_pending < HINIC3_MIN_QUEUE_DEPTH) {
-> +               NL_SET_ERR_MSG_FMT_MOD(extack,
-> +                                      "Queue depth out of range tx[%d-%d=
-] rx[%d-%d]",
-> +                                      HINIC3_MIN_QUEUE_DEPTH,
-> +                                      HINIC3_MAX_TX_QUEUE_DEPTH,
-> +                                      HINIC3_MIN_QUEUE_DEPTH,
-> +                                      HINIC3_MAX_RX_QUEUE_DEPTH);
+Without delving into the gory details of the whole SCMI Telemetry protocol
+let's just say that the SCMI platform/server firmware advertises a number
+of Telemetry Data Events, each one identified by a 32bit unique ID, and an
+SCMI agent/client, like Linux, can discover them and read back at will the
+associated data value in a number of ways.
+Data collection is mainly intended to happen on demand via shared memory
+areas exposed by the platform firmware, discovered dynamically via SCMI
+Telemetry and accessed by Linux on-demand, but some DE can also be reported
+via SCMI Notifications asynchronous messages or via direct dedicated
+FastChannels (another kind of SCMI memory based access): all of this
+underlying mechanism is anyway hidden to the user since it is mediated by
+the kernel driver which will return the proper data value when queried.
 
-Consider updating this error message to only call out when the ring
-sizes are below the minimum supported value - since that's the check
-introduced here and also since ethtool core will reject any values
-that are higher than the maximum supported ring sizes.
+Anyway, the set of well-known architected DE IDs defined by the spec is
+limited to a dozen IDs, which means that the vast majority of DE IDs are
+customizable per-platform: as a consequence, though, the same ID, say
+'0x1234', could represent completely different things on different systems.
 
-> +
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int hinic3_set_ringparam(struct net_device *netdev,
-> +                               struct ethtool_ringparam *ring,
-> +                               struct kernel_ethtool_ringparam *kernel_r=
-ing,
-> +                               struct netlink_ext_ack *extack)
-> +{
-> +       struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
-> +       struct hinic3_dyna_txrxq_params q_params =3D {};
-> +       u32 new_sq_depth, new_rq_depth;
-> +       int err;
-> +
-> +       err =3D hinic3_check_ringparam_valid(netdev, ring, extack);
-> +       if (err)
-> +               return err;
-> +
-> +       new_sq_depth =3D 1U << ilog2(ring->tx_pending);
-> +       new_rq_depth =3D 1U << ilog2(ring->rx_pending);
+Precise definitions and semantic of such custom Data Event IDs are out of
+the scope of the SCMI Telemetry specification and of this implementation:
+they are supposed to be provided using some kind of JSON-like description
+file that will have to be consumed by a userspace tool which would be
+finally in charge of making sense of the set of available DEs.
 
-Why not use rounddown_pow_of_two()? More readable...
+IOW, in turn, this means that even though the DEs enumerated via SCMI come
+with some sort of topological and qualitative description provided by the
+protocol (like unit of measurements, name, topology info etc), kernel-wise
+we CANNOT be completely sure of "what is what" without being fed-back some
+sort of information about the DEs by the afore mentioned userspace tool.
 
-> +       if (new_sq_depth =3D=3D nic_dev->q_params.sq_depth &&
-> +           new_rq_depth =3D=3D nic_dev->q_params.rq_depth)
-> +               return 0;
-> +
-> +       if (new_sq_depth !=3D ring->tx_pending ||
-> +           new_rq_depth !=3D ring->rx_pending)
-> +               NL_SET_ERR_MSG_FMT_MOD(extack,
-> +                                      "Requested Tx/Rx ring depth %u/%u =
-trimmed to %u/%u",
-> +                                      ring->tx_pending, ring->rx_pending=
-,
-> +                                      new_sq_depth, new_rq_depth);
-> +
-> +       if (!netif_running(netdev)) {
-> +               hinic3_update_qp_depth(netdev, new_sq_depth, new_rq_depth=
-);
-> +       } else {
-> +               q_params =3D nic_dev->q_params;
-> +               q_params.sq_depth =3D new_sq_depth;
-> +               q_params.rq_depth =3D new_rq_depth;
-> +
-> +               err =3D hinic3_change_channel_settings(netdev, &q_params)=
-;
-> +               if (err)
-> +                       return err;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static const struct ethtool_ops hinic3_ethtool_ops =3D {
->         .supported_coalesce_params      =3D ETHTOOL_COALESCE_USECS |
->                                           ETHTOOL_COALESCE_PKT_RATE_RX_US=
-ECS,
-> @@ -417,6 +508,8 @@ static const struct ethtool_ops hinic3_ethtool_ops =
-=3D {
->         .get_msglevel                   =3D hinic3_get_msglevel,
->         .set_msglevel                   =3D hinic3_set_msglevel,
->         .get_link                       =3D ethtool_op_get_link,
-> +       .get_ringparam                  =3D hinic3_get_ringparam,
-> +       .set_ringparam                  =3D hinic3_set_ringparam,
->  };
->
->  void hinic3_set_ethtool_ops(struct net_device *netdev)
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/ne=
-t/ethernet/huawei/hinic3/hinic3_irq.c
-> index e7d6c2033b45..bc4d879f9be4 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-> @@ -137,7 +137,8 @@ static int hinic3_set_interrupt_moder(struct net_devi=
-ce *netdev, u16 q_id,
->         struct hinic3_interrupt_info info =3D {};
->         int err;
->
-> -       if (q_id >=3D nic_dev->q_params.num_qps)
-> +       if (q_id >=3D nic_dev->q_params.num_qps ||
-> +           !mutex_trylock(&nic_dev->change_res_mutex))
->                 return 0;
->
->         info.interrupt_coalesc_set =3D 1;
-> @@ -156,6 +157,8 @@ static int hinic3_set_interrupt_moder(struct net_devi=
-ce *netdev, u16 q_id,
->                 nic_dev->rxqs[q_id].last_pending_limit =3D pending_limit;
->         }
->
-> +       mutex_unlock(&nic_dev->change_res_mutex);
-> +
->         return err;
->  }
->
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/n=
-et/ethernet/huawei/hinic3/hinic3_main.c
-> index 0a888fe4c975..c87624a5e5dc 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> @@ -179,6 +179,7 @@ static int hinic3_sw_init(struct net_device *netdev)
->         int err;
->
->         mutex_init(&nic_dev->port_state_mutex);
-> +       mutex_init(&nic_dev->change_res_mutex);
->
->         nic_dev->q_params.sq_depth =3D HINIC3_SQ_DEPTH;
->         nic_dev->q_params.rq_depth =3D HINIC3_RQ_DEPTH;
-> @@ -315,6 +316,9 @@ static void hinic3_link_status_change(struct net_devi=
-ce *netdev,
->  {
->         struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
->
-> +       if (!mutex_trylock(&nic_dev->change_res_mutex))
-> +               return;
-> +
->         if (link_status_up) {
->                 if (netif_carrier_ok(netdev))
->                         return;
-> @@ -330,6 +334,8 @@ static void hinic3_link_status_change(struct net_devi=
-ce *netdev,
->                 netif_carrier_off(netdev);
->                 netdev_dbg(netdev, "Link is down\n");
->         }
-> +
-> +       mutex_unlock(&nic_dev->change_res_mutex);
->  }
->
->  static void hinic3_port_module_event_handler(struct net_device *netdev,
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/dri=
-vers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> index da73811641a9..047214cfc753 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> @@ -288,7 +288,8 @@ static void hinic3_free_channel_resources(struct net_=
-device *netdev,
->         hinic3_free_qps(nic_dev, qp_params);
->  }
->
-> -static int hinic3_open_channel(struct net_device *netdev)
-> +static int hinic3_prepare_channel(struct net_device *netdev,
-> +                                 struct hinic3_dyna_txrxq_params *qp_par=
-ams)
->  {
->         struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
->         int err;
-> @@ -299,16 +300,28 @@ static int hinic3_open_channel(struct net_device *n=
-etdev)
->                 return err;
->         }
->
-> -       err =3D hinic3_configure_txrxqs(netdev, &nic_dev->q_params);
-> +       err =3D hinic3_configure_txrxqs(netdev, qp_params);
->         if (err) {
->                 netdev_err(netdev, "Failed to configure txrxqs\n");
->                 goto err_free_qp_ctxts;
->         }
->
-> +       return 0;
-> +
-> +err_free_qp_ctxts:
-> +       hinic3_free_qp_ctxts(nic_dev);
-> +
-> +       return err;
-> +}
-> +
-> +static int hinic3_open_channel(struct net_device *netdev)
-> +{
-> +       int err;
-> +
->         err =3D hinic3_qps_irq_init(netdev);
->         if (err) {
->                 netdev_err(netdev, "Failed to init txrxq irq\n");
-> -               goto err_free_qp_ctxts;
-> +               return err;
->         }
->
->         err =3D hinic3_configure(netdev);
-> @@ -321,8 +334,6 @@ static int hinic3_open_channel(struct net_device *net=
-dev)
->
->  err_uninit_qps_irq:
->         hinic3_qps_irq_uninit(netdev);
-> -err_free_qp_ctxts:
-> -       hinic3_free_qp_ctxts(nic_dev);
->
->         return err;
->  }
-> @@ -428,6 +439,74 @@ static void hinic3_vport_down(struct net_device *net=
-dev)
->         }
->  }
->
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +                              struct hinic3_dyna_txrxq_params *trxq_para=
-ms)
-> +{
-> +       struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
-> +       struct hinic3_dyna_txrxq_params cur_trxq_params =3D {};
-> +       struct hinic3_dyna_qp_params new_qp_params =3D {};
-> +       struct hinic3_dyna_qp_params cur_qp_params =3D {};
-> +       int err;
-> +
-> +       cur_trxq_params =3D nic_dev->q_params;
-> +
-> +       hinic3_config_num_qps(netdev, trxq_params);
-> +
-> +       err =3D hinic3_alloc_channel_resources(netdev, &new_qp_params,
-> +                                            trxq_params);
-> +       if (err) {
-> +               netdev_err(netdev, "Failed to alloc channel resources\n")=
-;
-> +               return err;
-> +       }
-> +
-> +       mutex_lock(&nic_dev->change_res_mutex);
-> +       hinic3_vport_down(netdev);
-> +       hinic3_close_channel(netdev);
-> +       hinic3_get_cur_qps(nic_dev, &cur_qp_params);
-> +
-> +       hinic3_init_qps(nic_dev, &new_qp_params);
-> +
-> +       err =3D hinic3_prepare_channel(netdev, trxq_params);
-> +       if (err)
-> +               goto err_uninit_qps;
-> +
-> +       if (nic_dev->num_qp_irq > trxq_params->num_qps)
-> +               hinic3_qp_irq_change(netdev, trxq_params->num_qps);
-> +
-> +       nic_dev->q_params =3D *trxq_params;
-> +
-> +       err =3D hinic3_open_channel(netdev);
-> +       if (err)
-> +               goto err_qp_irq_reset;
-> +
-> +       err =3D hinic3_vport_up(netdev);
-> +       if (err)
-> +               goto err_close_channel;
-> +
-> +       hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_p=
-arams);
-> +
-> +       mutex_unlock(&nic_dev->change_res_mutex);
-> +
-> +       return 0;
-> +
-> +err_close_channel:
-> +       hinic3_close_channel(netdev);
-> +err_qp_irq_reset:
-> +       nic_dev->q_params =3D cur_trxq_params;
-> +
-> +       if (trxq_params->num_qps > cur_trxq_params.num_qps)
-> +               hinic3_qp_irq_change(netdev, cur_trxq_params.num_qps);
-> +       hinic3_free_qp_ctxts(nic_dev);
-> +err_uninit_qps:
-> +       hinic3_get_cur_qps(nic_dev, &new_qp_params);
-> +       hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params=
-);
-> +       hinic3_free_channel_resources(netdev, &cur_qp_params, &cur_trxq_p=
-arams);
-> +       mutex_unlock(&nic_dev->change_res_mutex);
-> +
-> +       return err;
-> +}
-> +
->  static int hinic3_open(struct net_device *netdev)
->  {
->         struct hinic3_nic_dev *nic_dev =3D netdev_priv(netdev);
-> @@ -458,6 +537,10 @@ static int hinic3_open(struct net_device *netdev)
->
->         hinic3_init_qps(nic_dev, &qp_params);
->
-> +       err =3D hinic3_prepare_channel(netdev, &nic_dev->q_params);
-> +       if (err)
-> +               goto err_uninit_qps;
-> +
->         err =3D hinic3_open_channel(netdev);
->         if (err)
->                 goto err_uninit_qps;
-> @@ -473,7 +556,7 @@ static int hinic3_open(struct net_device *netdev)
->  err_close_channel:
->         hinic3_close_channel(netdev);
->  err_uninit_qps:
-> -       hinic3_uninit_qps(nic_dev, &qp_params);
-> +       hinic3_get_cur_qps(nic_dev, &qp_params);
->         hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_par=
-ams);
->  err_destroy_num_qps:
->         hinic3_destroy_num_qps(netdev);
-> @@ -493,10 +576,15 @@ static int hinic3_close(struct net_device *netdev)
->                 return 0;
->         }
->
-> +       mutex_lock(&nic_dev->change_res_mutex);
->         hinic3_vport_down(netdev);
->         hinic3_close_channel(netdev);
-> -       hinic3_uninit_qps(nic_dev, &qp_params);
-> -       hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_par=
-ams);
-> +       hinic3_get_cur_qps(nic_dev, &qp_params);
-> +       hinic3_free_channel_resources(netdev, &qp_params,
-> +                                     &nic_dev->q_params);
-> +       hinic3_free_nicio_res(nic_dev);
-> +       hinic3_destroy_num_qps(netdev);
-> +       mutex_unlock(&nic_dev->change_res_mutex);
->
->         return 0;
->  }
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/driver=
-s/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> index 9502293ff710..005b2c01a988 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> @@ -10,6 +10,9 @@
->  #include "hinic3_hw_cfg.h"
->  #include "hinic3_hwdev.h"
->  #include "hinic3_mgmt_interface.h"
-> +#include "hinic3_nic_io.h"
-> +#include "hinic3_tx.h"
-> +#include "hinic3_rx.h"
->
->  #define HINIC3_VLAN_BITMAP_BYTE_SIZE(nic_dev)  (sizeof(*(nic_dev)->vlan_=
-bitmap))
->  #define HINIC3_VLAN_BITMAP_SIZE(nic_dev)  \
-> @@ -129,6 +132,8 @@ struct hinic3_nic_dev {
->         struct work_struct              rx_mode_work;
->         /* lock for enable/disable port */
->         struct mutex                    port_state_mutex;
-> +       /* mutex to serialize channel/resource changes */
-> +       struct mutex                    change_res_mutex;
->
->         struct list_head                uc_filter_list;
->         struct list_head                mc_filter_list;
-> @@ -143,6 +148,10 @@ struct hinic3_nic_dev {
->
->  void hinic3_set_netdev_ops(struct net_device *netdev);
->  int hinic3_set_hw_features(struct net_device *netdev);
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +                              struct hinic3_dyna_txrxq_params *trxq_para=
-ms);
-> +
->  int hinic3_qps_irq_init(struct net_device *netdev);
->  void hinic3_qps_irq_uninit(struct net_device *netdev);
->
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c b/drivers=
-/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> index 87e736adba02..0e7a0ccfba98 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-> @@ -484,8 +484,8 @@ void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
->         }
->  }
->
-> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
-> -                      struct hinic3_dyna_qp_params *qp_params)
-> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
-> +                       struct hinic3_dyna_qp_params *qp_params)
->  {
->         struct hinic3_nic_io *nic_io =3D nic_dev->nic_io;
->
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h b/drivers=
-/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> index 12eefabcf1db..571b34d63950 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> @@ -14,6 +14,10 @@ struct hinic3_nic_dev;
->  #define HINIC3_RQ_WQEBB_SHIFT      3
->  #define HINIC3_SQ_WQEBB_SIZE       BIT(HINIC3_SQ_WQEBB_SHIFT)
->
-> +#define HINIC3_MAX_TX_QUEUE_DEPTH  65536
-> +#define HINIC3_MAX_RX_QUEUE_DEPTH  16384
-> +#define HINIC3_MIN_QUEUE_DEPTH     128
-> +
->  /* ******************** RQ_CTRL ******************** */
->  enum hinic3_rq_wqe_type {
->         HINIC3_NORMAL_RQ_WQE =3D 1,
-> @@ -136,8 +140,8 @@ void hinic3_free_qps(struct hinic3_nic_dev *nic_dev,
->                      struct hinic3_dyna_qp_params *qp_params);
->  void hinic3_init_qps(struct hinic3_nic_dev *nic_dev,
->                      struct hinic3_dyna_qp_params *qp_params);
-> -void hinic3_uninit_qps(struct hinic3_nic_dev *nic_dev,
-> -                      struct hinic3_dyna_qp_params *qp_params);
-> +void hinic3_get_cur_qps(struct hinic3_nic_dev *nic_dev,
-> +                       struct hinic3_dyna_qp_params *qp_params);
->
->  int hinic3_init_qp_ctxts(struct hinic3_nic_dev *nic_dev);
->  void hinic3_free_qp_ctxts(struct hinic3_nic_dev *nic_dev);
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net=
-/ethernet/huawei/hinic3/hinic3_rx.c
-> index 309ab5901379..b5b601469517 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-> @@ -541,7 +541,7 @@ int hinic3_configure_rxqs(struct net_device *netdev, =
-u16 num_rq,
->                 rq_associate_cqes(rxq);
->
->                 pkts =3D hinic3_rx_fill_buffers(rxq);
-> -               if (!pkts) {
-> +               if (pkts < rxq->q_depth - 1) {
->                         netdev_err(netdev, "Failed to fill Rx buffer\n");
->                         return -ENOMEM;
->                 }
-> --
-> 2.43.0
->
->
+For these reasons, currently this series does NOT attempt to register any
+of these DEs with any of the usual in-kernel subsystems (like HWMON, IIO,
+PERF etc), simply because we cannot be sure which DE is suitable, or even
+desirable, for a given subsystem. This also means there are NO in-kernel
+users of these Telemetry data events as of now.
+
+So, while we do not exclude, for the future, to feed/register some of the
+discovered DEs to/with some of the above mentioned Kernel subsystems, as
+of now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+available to userspace tools.
+
+In deciding which kind of interface to expose SCMI Telemetry data to a
+user, this new SCMI Telemetry driver aims at satisfying 2 main reqs:
+
+ - exposing an FS-based human-readable interface that can be used to
+   discover, configure and access our Telemetry data directly also from
+   the shell without special tools
+
+ - exposing alternative machine-friendly, more-performant, binary
+   interfaces that can be used to avoid the overhead of multiple accesses
+   to the VFS and that can be more suitable to access with custom tools
+
+In the initial RFC posted a few months ago [1], the above was achieved
+with a combination of a SysFS interface, for the human-readable side of
+the story, and a classic chardev/ioctl for the plain binary access.
+
+Since V1, instead, we moved away from this combined approach, especially
+away from SysFS, for the following reason:
+
+ 1. "Abusing SysFS": SysFS is a handy way to expose device related
+      properties in a common way, using a few common helpers built on
+      kernfs; this means, though, that unfortunately in our scenario I had
+      to generate a dummy simple device for EACH SCMI Telemetry DataEvent
+      that I got to discover at runtime and attach to them, all of the
+      properties I need.
+      This by itself seemed to me abusing the SysFS framework, but, even
+      ignoring this, the impact on the system when we have to deal with
+      hundreds or tens of thousands of DEs is sensible.
+      In some test scenario I ended with 50k DE devices and half-a-millon
+      related property files ... O_o
+
+ 2. "SysFS constraints": SysFS usage itself has its well-known constraints
+      and best practices, like the one-file/one-value rule, and due to the
+      fact that any virtual file with a complex structure or handling logic
+      is frowned upon, you can forget about IOCTLs and mmap'ing to provide
+      a more performant interface within SysFs, which is the reason why,
+      in the previous RFC, there was an additional alternative chardev
+      interface.
+      These latter limitations around the implementation of files with a
+      more complex semantic (i.e. with a broader set of file_operations)
+      derive from the underlying KernFS support, so KernFS is equally not
+      suitable as a building block for our implementation.
+
+ 2. "Chardev limitations": Given the nature of the protocol, the hybrid
+      approach employing character devices was itself problematic: first
+      of all because there is an upper limit on the number of chardev we
+      can create, dictated by the range of available minor numbers, and
+      then because the fact itself to have to maintain 2 completely
+      different interfaces (FS + chardev) is painful.
+
+As a final remark, please NOTE THAT all of this is supposed to be available
+in production systems across a number of heterogeneous platforms: for these
+reasons the easy choice, debugFS, is NOT an option here.
+
+Due to the above reasoning, since V1 we opted for a new approach with the
+proposed interfaces now based on a full fledged, unified, virtual pseudo
+filesystem implemented from scratch, so that we can:
+
+ - expose all the DEs property we like as before with SysFS, but without
+   any of the constraint imposed by the usage of SysFs or kernfs.
+
+ - easily expose additional alternative views of the same set of DEs
+   using symlinking capabilities (e.g. alternative topological view)
+
+ - additionally expose a few alternative and more performant interfaces
+   by embedding in that same FS, a few special virtual files:
+
+   + 'control': to issue IOCTLs for quicker discovery and on-demand access
+   		to data
+   + 'pipe' [TBD]: to provide a stream of events using a virtual
+   		   infinite-style file
+   + 'raw_<N>' [TBD]: to provide direct memory mapped access to the raw
+   		      SCMI Telemetry data from userspace
+
+ - use a mount option to enable a lazy enumeration operation mode to delay
+   SCMI related background discovery activities to the effective point in
+   time when the user needs it (if ever) so as to mitigate the effect at
+   boot-time of the initial SCMI full discovery process
+
+
+INTERFACES
+===========
+
+We propose a couple of interfaces, both rooted in the same unified
+SCMI Telemetry Filesystem STLMFS, which can be mounted with:
+
+	mount -t stlmfs none /sys/fs/arm_telemetry/
+
+The new pseudo FS rationale, design and related ABI interface is documented
+in detail at:
+
+ - Documentation/filesystems/stlmfs.rst
+ - Documentation/ABI/testing/stlmfs
+
+...anyway, roughly, STLMFS exposes the following interfaces, rooted at
+different points in the FS:
+
+ 1. a FS based human-readable API tree
+
+   This API present the discovered DEs and DEs-groups rooted under a
+   structrure like this:
+
+	/sys/fs/arm_telemetry/tlm_0/
+	|-- all_des_enable
+	|-- all_des_tstamp_enable
+	|-- available_update_intervals_ms
+	|-- current_update_interval_ms
+	|-- de_implementation_version
+	|-- des
+	|   |-- 0x00000000/
+	|   |-- 0x00000016/
+	|   |-- 0x00001010/
+	|   |-- 0x0000A000/
+	|   |-- 0x0000A001/
+	|   |-- 0x0000A002/
+	|   |-- 0x0000A005/
+	|   |-- 0x0000A007/
+	|   |-- 0x0000A008/
+	|   |-- 0x0000A00A/
+	|   |-- 0x0000A00B/
+	|   |-- 0x0000A00C/
+	|   `-- 0x0000A010/
+	|-- des_bulk_read
+	|-- des_single_sample_read
+	|-- groups
+	|   |-- 0/
+	|   `-- 1/
+	|-- intervals_discrete
+	|-- reset
+	|-- tlm_enable
+	`-- version
+
+	At the top level we have general configuration knobs to:
+
+	- enable/disable all DEs with or without tstamp
+	- configure the update interval that the platform will use
+	- enable Telemetry as a whole
+	- read all the enabled DEs in a buffer one-per-line
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+	- des_single_sample_read to request an immediate updated read of
+	  all the enabled DEs in a single buffer one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+        
+	where each DE in turn is represented by a flat subtree like:
+
+	tlm_0/des/0x0000A001/
+	|-- compo_instance_id
+	|-- compo_type
+	|-- enable
+	|-- instance_id
+	|-- name
+	|-- persistent
+	|-- tstamp_enable
+	|-- tstamp_exp
+	|-- type
+	|-- unit
+	|-- unit_exp
+	`-- value
+
+	where, beside a bunch of description items, you can:
+
+	- enable/disable a single DE
+	- read back its tstamp and data from 'value' as in:
+		<TIMESTAMP>: <DATA_VALUE>
+
+	then for each (optionally) discovered group of DEs:
+
+	scmi_tlm_0/groups/0/
+	|-- available_update_intervals_ms
+	|-- composing_des
+	|-- current_update_interval_ms
+	|-- des_bulk_read
+	|-- des_single_sample_read
+	|-- enable
+	|-- intervals_discrete
+	`-- tstamp_enable
+
+	you can find the knobs to:
+	
+	- enable/disable the group as a whole
+	- lookup group composition
+	- set a per-group update interval (if supported)
+	- des_bulk_read to read all the enabled DEs for this group in a
+	  single buffer one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+	- des_single_sample_read to request an immediate updated read of
+	  all the enabled DEs for this group in a single buffer
+	  one-per-line:
+		<DE_ID> <TIMESTAMP> <DATA_VALUE>
+
+ 2. Leveraging the capabilities offered by the full-fledged filesystem
+    implementation and the topological information provided by SCMI
+    Telemetry we expose also and alternative view of the above tree, by
+    symlinking a few of the same entries above under another, topologically
+    sorted, subtree:
+
+
+        by-components/                                                           
+        ├── cpu                                                                  
+        │   ├── 0                                                                
+        │   │   ├── celsius                                                      
+        │   │   │   └── 0                                                        
+        │   │   │       └── 0x00000001[pe_0] -> ../../../../../des/0x00000001    
+        │   │   └── cycles                                                       
+        │   │       ├── 0                                                        
+        │   │       │   └── 0x00001010[] -> ../../../../../des/0x00001010        
+        │   │       └── 1                                                        
+        │   │           └── 0x00002020[] -> ../../../../../des/0x00002020        
+        │   ├── 1                                                                
+        │   │   └── celsius                                                      
+        │   │       └── 0                                                        
+        │   │           └── 0x00000002[pe_1] -> ../../../../../des/0x00000002    
+        │   └── 2                                                                
+        │       └── celsius                                                      
+        │           └── 0                                                        
+        │               └── 0x00000003[pe_2] -> ../../../../../des/0x00000003    
+        ├── interconnnect                                                        
+        │   └── 0                                                                
+        │       └── hertz                                                        
+        │           └── 0                                                        
+        │               ├── 0x0000A008[A008_de] -> ../../../../../des/0x0000A008 
+        │               └── 0x0000A00B[] -> ../../../../../des/0x0000A00B        
+        ├── mem_cntrl                                                            
+        │   └── 0                                                                
+        │       ├── bps                                                          
+        │       │   └── 0                                                        
+        │       │       └── 0x0000A00A[] -> ../../../../../des/0x0000A00A        
+        │       ├── celsius                                                      
+        │       │   └── 0                                                        
+        │       │       └── 0x0000A007[DRAM_temp] -> ../../../../../des/0x0000A007
+        │       └── joules                                                       
+        │           └── 0                                                        
+        │               └── 0x0000A002[DRAM_energy] -> ../../../../../des/0x0000A002
+        ├── periph                                                               
+        │   ├── 0                                                                
+        │   │   └── messages                                                     
+        │   │       └── 0                                                        
+        │   │           └── 0x00000016[device_16] -> ../../../../../des/0x00000016
+        │   ├── 1                                                                
+        │   │   └── messages                                                     
+        │   │       └── 0                                                        
+        │   │           └── 0x00000017[device_17] -> ../../../../../des/0x00000017
+        │   └── 2                                                                
+        │       └── messages                                                     
+        │           └── 0                                                        
+        │               └── 0x00000018[device_18] -> ../../../../../des/0x00000018
+        └── unspec                                                               
+                └── 0                                                            
+                    ├── celsius                                                  
+                    │   └── 0                                                    
+                    │       └── 0x0000A005[] -> ../../../../../des/0x0000A005    
+                    ├── counts                                                   
+                    │   └── 0                                                    
+                    │       └── 0x0000A00C[] -> ../../../../../des/0x0000A00C    
+                    ├── joules                                                   
+                    │   └── 0                                                    
+                    │       ├── 0x0000A000[SOC_Energy] -> ../../../../../des/0x0000A000
+                    │       └── 0x0000A001[] -> ../../../../../des/0x0000A001    
+                    └── state                                                    
+                        └── 0                                                    
+                            └── 0x0000A010[] -> ../../../../../des/0x0000A010    
+                                                                                 
+  ...so as to provide the human user with a more understandable topological
+  layout of the madness...
+
+All of this is nice and fancy human-readable, easily scriptable, but
+certainly not the fastest possible to access especially on huge trees...
+
+ ... so for the afore-mentioned reasons we alternatively expose
+
+ 3. a more performant API based on IOCTLs as described fully in:
+
+	include/uapi/linux/scmi.h
+
+   As described succinctly in the above UAPI header too, this API is meant
+   to be called on a few special files named 'control' that are populated
+   into the tree:
+
+   .
+   |-- all_des_enable
+   .....
+   |-- components
+   |   |-- cpu
+   |   |-- interconnnect
+   |   |-- mem_cntrl
+   |   |-- periph
+   |   `-- unspec
+   |-- control
+   .....................
+
+   |-- groups
+   |   |-- 0
+   |   |   |-- available_update_intervals_ms
+   |   |   |-- composing_des
+   |   |   |-- control
+   .....................
+   |   |-- 1
+   |   |   |-- available_update_intervals_ms
+   |   |   |-- composing_des
+   |   |   |-- control
+   .....................
+   |   `-- 2
+   |       |-- available_update_intervals_ms
+   |       |-- composing_des
+   |       |-- control
+   .....................
+
+  This allows a tool to:
+
+   - use some IOCTLs to configure a set of properties equivalent to the
+     ones above in FS
+   - use some other IOCTLs for direct access to data in binary format
+     for a single DEs or all of them
+
+ 4. [FUTURE/NOT IN THIS SERIES]
+    Add another alternative, completely binary, direct raw accessbinterface
+    via a new set of memory mappable special files so as to allow userspace
+    tools to access SCMI Telemetry data directly in binary form without any
+    kernel mediation.
+
+NOTE THAT this series, at the firmware interface level NOW supports ONLY
+the latest SCMI v4.0 specification [0].
+
+Missing feats & future steps
+----------------------------
+ - add direct access interface via mmap-able 'raw' files
+ - add streaming mode interface via 'pipe' file (tentative)
+ - evolve/enhance app in tools/testing/scmi/stlm to be interactive
+
+KNOWN ISSUES
+------------
+ - STLMFS code layout and location...nothing lives in fs/ and no distinct
+   FS Kconfig...but the SCMI Telemetry driver itself has no point in existing
+   without the FS that exposes...so should I split the pure FS part into fs/
+   anyway or not ?
+ - residual sparse/smatch static analyzers errors
+ - stlm tool utility is minimal for testing or development
+
+Based on V7.1-rc7, tested on an emulated setup.
+
+This series is available also at [2].
+
+If you still reading...any feedback welcome :P
+
+Thanks,
+Cristian
+
+----
+v3 --> v4
+ - rebased on v7.1-rc7
+ - updatded doc to detail Concurrency model
+ - bail out on FW_BUG errors
+ - make all_des_enable/all_des_tstamp_enable entry readable
+ - refactored access to TDE values
+ - refactored common accessors for tlm_priv (FIX WARN on kfree)
+ - make all files by default world readable and user writable (if needed)
+ - added uid/god/umask mount options (and docs)
+ - added generation counter to aid spotting config changes (and docs)
+ - added DebugFS configurable support to debug/dump SHMTI areas (and docs)
+ - hide FS entries when NOT supported (like des_simple_sample_read)
+ - fixed output format of des/<NNN>/value to -> <TS> <VALUE>
+ - renamed top-dir by_components to by-components
+ - add a .remove method to SCMI System Telemetry Driver
+ - use kzalloc_obj
+V2 --> V3
+ - rebased on v7.0-rc5
+ - ported the firmware interface to SCMI v4.0 BETA
+ - split the SCMI protocol layer in a lot of small patches
+ - completd filesystem and ABI documentation
+ - renamed components subtree to by_components
+ - fixed uninitialized var in scmi_telemetry_de_subdir_symlink
+ - renamd tstamp_exp to tstamp_rate
+ - swap logic in scmi_telemetry_initial_state_lookup
+ - use memcpy_from_le32 where required
+ - changed a dfew dev_err into Telemetry traces
+ - define and use new helper scmi_telemetry_de_unlink
+ - simplify a few assignments with ternary ops
+ - added a missing __mmust_check on the internal SCMI API
+ - reworked and clarified de_data_read returned errno:
+ 	ENODATA vs EINVAL vs ENODEV/ENOENT
+ - removed some risky/unneeded devres allocations
+ - various checkpatch fixes
+ - reworked and clarified usage of traces in Telemetry
+ - added the missing DT binding for protocol 0x1B
+ - split out unrelated change around notification from patch
+   adding support for protocol internal notifier
+ - more comments
+
+V1 --> V2
+ - rebased on v6.19-rc3
+ - harden TDCF shared memory areas accesses by using proper accessors
+ - reworked protocol resources lifecycle to allow lazy enumeration
+ - using NEW FS mount API
+ - reworked FS inode allocation to use a std kmem_cache
+ - fixed a few IOCTLs support routine to support lazy enumeration
+ - added (RFC) a new FS lazy mount option to support lazily population of
+   some subtrees of the FS (des/ groups/ components/)
+ - reworked implementation of components/ alternative FS view to use
+   symlinks instead of hardlinks
+ - added a basic simple (RFC) testing tool to exercise UAPI ioctls interface
+ - hardened Telmetry protocol and driver to support partial out-of-spec FW
+   lacking some cmds (best effort)
+ - reworked probing races handling
+ - reviewed behaviour on unmount/unload
+ - added support for Boot_ON Telemetry by supporting SCMI Telemetry cmds:
+   + DE_ENABLED_LIST
+   + CONFIG_GET
+ - added FS and ABI docs
+
+RFC --> V1
+---
+ - moved from SysFS/chardev to a full fledged FS
+ - added support for SCMI Telemetry BLK timestamps
+
+
+Thanks,
+Cristian
+
+[0]: https://developer.arm.com/documentation/den0056/f/?lang=en
+[1]: https://lore.kernel.org/arm-scmi/20250620192813.2463367-1-cristian.marussi@arm.com/
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git/log/?h=scmi_telemetry_unified_fs_V4
+
+Cristian Marussi (31):
+  firmware: arm_scmi: Add new SCMIv4.0 error codes definitions
+  firmware: arm_scmi: Reduce the scope of protocols mutex
+  firmware: arm_scmi: Allow registration of unknown-size events/reports
+  firmware: arm_scmi: Allow protocols to register for notifications
+  uapi: Add ARM SCMI definitions
+  dt-bindings: firmware: arm,scmi: Add support for telemetry protocol
+  include: trace: Add Telemetry trace events
+  firmware: arm_scmi: Add basic Telemetry support
+  firmware: arm_scmi: Add support to parse SHMTIs areas
+  firmware: arm_scmi: Add Telemetry configuration operations
+  firmware: arm_scmi: Add Telemetry DataEvent read capabilities
+  firmware: arm_scmi: Add support for Telemetry reset
+  firmware: arm_scmi: Add Telemetry notification support
+  firmware: arm_scmi: Add support for boot-on Telemetry
+  firmware: arm_scmi: Add Telemetry generation counter
+  firmware: arm_scmi: Add common per-protocol debugfs support
+  firmware: arm_scmi: Add Telemetry debugfs SHMTI dump support
+  firmware: arm_scmi: Add Telemetry debugfs ABI documentation
+  firmware: arm_scmi: stlmfs: Add System Telemetry filesystem driver
+  fs/stlmfs: Document ARM SCMI Telemetry filesystem
+  firmware: arm_scmi: stlmfs: Add basic mount options
+  fs/stlmfs: Document ARM SCMI Telemetry FS mount options
+  firmware: arm_scmi: stlmfs: Add ioctls support
+  fs/stlmfs: Document alternative ioctl based binary interface
+  firmware: arm_scmi: stlmfs: Add by-components view
+  fs/stlmfs: Document alternative topological view
+  firmware: arm_scmi: stlmfs: Add generation file
+  [RFC] docs: stlmfs: Document ARM SCMI Telemetry FS ABI
+  firmware: arm_scmi: stlmfs: Add lazy population support
+  fs/stlmfs: Document lazy mode and related mount option
+  [RFC] tools/scmi: Add SCMI Telemetry testing tool
+
+ Documentation/ABI/testing/debugfs-scmi        |   22 +
+ Documentation/ABI/testing/stlmfs              |  348 ++
+ .../bindings/firmware/arm,scmi.yaml           |    8 +
+ Documentation/filesystems/stlmfs.rst          |  342 ++
+ MAINTAINERS                                   |    1 +
+ drivers/firmware/arm_scmi/Kconfig             |   24 +
+ drivers/firmware/arm_scmi/Makefile            |    3 +-
+ drivers/firmware/arm_scmi/common.h            |   10 +
+ drivers/firmware/arm_scmi/driver.c            |   93 +-
+ drivers/firmware/arm_scmi/notify.c            |   30 +-
+ drivers/firmware/arm_scmi/notify.h            |    8 +-
+ drivers/firmware/arm_scmi/protocols.h         |   13 +
+ .../firmware/arm_scmi/scmi_system_telemetry.c | 3146 ++++++++++++++++
+ drivers/firmware/arm_scmi/telemetry.c         | 3300 +++++++++++++++++
+ include/linux/scmi_protocol.h                 |  203 +-
+ include/trace/events/scmi.h                   |   48 +-
+ include/uapi/linux/scmi.h                     |  289 ++
+ tools/testing/scmi/Makefile                   |   25 +
+ tools/testing/scmi/stlm.c                     |  434 +++
+ 19 files changed, 8307 insertions(+), 40 deletions(-)
+ create mode 100644 Documentation/ABI/testing/stlmfs
+ create mode 100644 Documentation/filesystems/stlmfs.rst
+ create mode 100644 drivers/firmware/arm_scmi/scmi_system_telemetry.c
+ create mode 100644 drivers/firmware/arm_scmi/telemetry.c
+ create mode 100644 include/uapi/linux/scmi.h
+ create mode 100644 tools/testing/scmi/Makefile
+ create mode 100644 tools/testing/scmi/stlm.c
+
+-- 
+2.54.0
+
