@@ -1,106 +1,125 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C9B3911CE
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 17:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3023A9D94;
+	Fri, 12 Jun 2026 17:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781284732; cv=none; b=j3gVxWwfhI+d48lbahTD9ULK7q3os9RIrREyb4iCxCuM9Uwok3MZDTo2eLFbmdchoG2f3LRnd4lM8wJYOsdeTySl3F0Z7TB0zhVCD3mS59k1Ei6H982tAk5m7XIWcdm83t3kzAwbERWJWU9/pubudC3C5WHoP95IdUHfZikwxK4=
+	t=1781285202; cv=none; b=M2tuiSMCRwLjfqbc5JFDHZ/WHklXU2LOWhLlF7UqvMT9DUWm9wKmQZxxIIduVOvmBCWeMja7vudbaiPlZDYJd8SwEp058T1L/NAyDfv+jZG57eMiWeas7fhwkcjn5MS95wNq9CQ55FsWTRy2qYL0st1NCb0H5EKqfT2IOxXtnr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781284732; c=relaxed/simple;
-	bh=yVPBwVMtjHWN3su2wCCWfu5/mrm7yRNsCI5ALzLUUgY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=RkkA+aRYo6sg3dhGoOalvlpk5vKwPgF/bVd43u91nd38g0X86oCiiDKR9BU1yKLCDhwHyUE9reYjPy02pu2osArIlpPKw8G/O07tbaiE7Zlw4kEr1BTmlU/xuZaijc1kGXEUy/qjZPMbAbPuA1v09qbKBo/raAo90nMXLOq+iIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FldVUUR5; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781285202; c=relaxed/simple;
+	bh=cLlR/53qZgbnqA7bcIY6C+gBJOjgHVcwZYmIoUb6B+Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JU1C0vIqET5qGsfw+UFsU2faUEWJfqc5AF6+D/CepIqlgga5RFcngNg57RXMg6VvXAGB36TAjOXhPGtxP2wt90pDhhoNwkJI4UWz49z9aYpE9D5cFYHV8PzUFDbtBksqMTkadrXulAlRkym/RMs1ZZE+hMTqoZabpwaLwsA3nZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ok0kQL5/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FldVUUR5"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36ba706ab46so791483a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 10:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781284731; x=1781889531; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=swbkGlj1oq37sWL58RG9e7scbRtZucFGbZOgNpgrpEc=;
-        b=FldVUUR5QtVbriYZJPjP5llIYbbrM/vlFgaAhuKVpaSXGmSmjeqRVcm3FE5ro3Jdmh
-         P2B2LM8BK6lE6uZ4B0qWjFktRSvFHq6MmGVbpr6Z7X15n5Z0CvTEqwntYXPH9itV/SQA
-         OPFuH6Glxj4ovDy+BOfj0TW0NC6LBfK9VMfYFbSQfunGXQ8d665XbbfFtNpULAB9qQrj
-         WeuJ2V6OKb87nUnvb++KOwGtfRUoagQwqnvc/fmj9Up+4ZRSmuCYzGm+iwTH4NK/wk6B
-         V/JGlAoPtxnab9M4kdXdZ5ervAk106JH7tBSB5mUbpLS69I5dncnUzYBddA54Z2Wh4KF
-         JqVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781284731; x=1781889531;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=swbkGlj1oq37sWL58RG9e7scbRtZucFGbZOgNpgrpEc=;
-        b=gdeelVdSfcrqKsQFfU2K/uwqGk4Ox6XVEXV4UGFIe9U56gkBz5Qml9ENlfw6azl20U
-         CrB3gUwjzi+AS+V9UE/+sBDeFz1iPnD7MsuC28p/tmEVOPFYZa4ivhM8Aiyt6UY/cSSC
-         DsLgRh2Z7RUUDzk44C145TKG0ovY1p8mYcLWSNca9IhYvJakGObETsRprxES+gHA5Uxy
-         NeHwHGbgUqWj+maBu+hdcc9H9ySAXAxEbIoo6LynDMmDWE/wIshF+rdONT6ClfLwOVL4
-         tOhMxk4Bjyd3BKogxhULHnxCkLLKtZ4rpS6ilq3SrOc+5Jxm6T0PfBf1R+QbigW9P/YZ
-         GXtA==
-X-Forwarded-Encrypted: i=1; AFNElJ+8EXJrw4hm0ZEi2S5RY5TjDIPZl7b6Ftv7R5tmKQadqVvjJM5IwjGHLhHNY9uDtO45h3PcysWzRIg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY6D0cj+2eFpjPDAksZU+sAp0JAvdAo2EHKEKxeM+zKo1SWJ6Y
-	Sy4NMKlf+xhwQJIBajoPwbmVYYv9yKYLErYb9IYcoifoGJi39i6WniNEk/rD3njIXTI=
-X-Gm-Gg: Acq92OGi3Uk/W+Q8K945o7ECORq0Rmg4ptSCY8WOheylrYTQddos932UVPAy7xgBNay
-	ibPivlAJfUggXtsgDEma3JMSgH0eCLMwKnC0bUoDE1J8Nc4GaMzARnZ7/vd1ngINtqJ6gEAwCWE
-	J/nXVtk8JzXtvyYc65FIO652xTdzibpZhO8X7RxzxhHVmenYs2aHYxIo2iJUqvqObzZGDB8726a
-	3vBj3ysHSaBDcMrk93nbpIqc2fZBi4A9462msrf21PWrrCqxm+/JBMef0ujx3SVFb20/pbOK97L
-	PESx8GLNi+XoqC88kpTQ0GFJxtrZf9oKJ0MuH8TitAn5Rc2u/SUsxhY9lMNCz79m2uhGhi6Z/mS
-	DmjOC/CEM91vH3+KWlYpwir1q0GJz+KkDB+5JyVUSHGEEVpQJCFO3Q3TmVaSh50O25ro1sudg4n
-	dJ0H0Gpzbu9lXAvSltlFF6+C4LwakuLkMhfyJKUg6mfMU/r8wR//c72/sGrVWxWojggf1dVyJ9B
-	i15PmQ=
-X-Received: by 2002:a17:90b:380e:b0:36d:79c6:1563 with SMTP id 98e67ed59e1d1-37a035f00e6mr4074983a91.17.1781284730623;
-        Fri, 12 Jun 2026 10:18:50 -0700 (PDT)
-Received: from shardul-ThinkPad-P16s-Gen-4-AMD.tail792e28.ts.net ([2401:4900:1c17:d4b4:80cb:f14b:59ec:7cab])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a262adbe3sm3249038a91.13.2026.06.12.10.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 10:18:50 -0700 (PDT)
-From: Shardul Deshpande <iamsharduld@gmail.com>
-To: Nam Tran <trannamatk@gmail.com>,
-	Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: leds: fix broken reference to the multicolor LED ABI
-Date: Fri, 12 Jun 2026 22:45:27 +0530
-Message-ID: <20260612171528.728111-1-iamsharduld@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ok0kQL5/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267F21F000E9;
+	Fri, 12 Jun 2026 17:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781285200;
+	bh=MJ66Jj49kATqUz5BO93tKqC2OHzrNh5fwYy14zcNuTE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Ok0kQL5/NwKsK9GE+i5ErzO1Kxq95eMSQFNJdy8wi8S1hGF3/Onf9ETYAxlMMmoIW
+	 cShhBAyiDp4wjlk531q/5xywqQxPRVkoBhgWIIbN4EPswenr1ZP4LwoFdK1E0uIJcF
+	 E2ploPelATzP8Lrk6I5tSxMM3aSHiJxlMsCJVQ0FIkbaWvpoxhRk7qgoVHRDmZPjXH
+	 ZWY0iuWqOD6b8ExNEg+SbaxD2PVemBybAhOvxHmqLt84ImEr93MBRm88uOrpDVcLny
+	 xm1uiiE56ASCW6VrNSqolgMOzxBdup3e0HmQ9Qr/3pf4Py0EYSMjL+Z0EMKijriSOM
+	 GI5KklgcWw1Vw==
+Message-ID: <1e606b8e-f2dd-459b-9766-7dcd493fac9c@kernel.org>
+Date: Fri, 12 Jun 2026 19:26:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] v2 Documentation: arch: fix brackets
+To: Manuel Ebner <manuelebner@mailbox.org>, Vineet Gupta <vgupta@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ "open list:SYNOPSYS ARC ARCHITECTURE" <linux-snps-arc@lists.infradead.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES"
+ <linux-samsung-soc@vger.kernel.org>,
+ "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)"
+ <linuxppc-dev@lists.ozlabs.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+References: <20260612095432.177759-2-manuelebner@mailbox.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260612095432.177759-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The reference pointed to a non-existent .rst file.  The ABI file is named
-sysfs-class-led-multicolor (without extension), so fix the reference to
-match the actual file and resolve the warning from
-tools/docs/documentation-file-ref-check.
+On 12/06/2026 11:54, Manuel Ebner wrote:
+> Add missing and remove needless parentheses, brackets and curly braces.
+> Fix typos.
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> [v1] -> [v2]
+> "(i.e cache geometries)" -> "(e.g., cache geometries)"
+> "Excer[t" -> "Excerpt"
+> add Reviewed-by: Randy Dunlap
 
-Signed-off-by: Shardul Deshpande <iamsharduld@gmail.com>
----
- Documentation/leds/leds-lp5812.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You mixed up subject.
 
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-index c2a6368d5..12e757d45 100644
---- a/Documentation/leds/leds-lp5812.rst
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -20,7 +20,7 @@ Sysfs Interface
- ===============
- 
- This driver uses the standard multicolor LED class interfaces defined
--in Documentation/ABI/testing/sysfs-class-led-multicolor.rst.
-+in Documentation/ABI/testing/sysfs-class-led-multicolor.
- 
- Each LP5812 LED output appears under ``/sys/class/leds/`` with its
- assigned label (for example ``LED_A``).
--- 
-2.43.0
+Please version your patches correctly, e.g. use b4 or git format-patch
+-vX.
 
+Best regards,
+Krzysztof
