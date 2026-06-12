@@ -1,33 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E389D305E28;
-	Fri, 12 Jun 2026 11:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A883C1F26
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 11:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781262859; cv=none; b=e9w/qSTYE8bpW1CLzTN88M/RLHgo8w1FZ5qmRNY++LQlyZwVi29qvWjTV6utVQF6EKX23Q3B/z+rcvHCwzHALnrjxnvX6IHYVF+HgkI9boZDwLPaZnSWEM49hcIPM+HMjHPDOEP2+0P3gjjKeiGbnefpfkzAWtRRFwDdwYNejaA=
+	t=1781264240; cv=none; b=T2bidDsvWcNffhbW71WYjC/U2ergpi2QALjG3thrjlCyufK2eSUQKCwjG3G/0+8+UmHQzO3T27fdnmQ95cya8bKQm/9xG+nvYgc4brqDYGlyFT1tVv2m3j5Ta2Fj1f5fSfDGW5RGnJFBhBQ1fSh6zzIHwBLf9jZt9eU2f8zcWIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781262859; c=relaxed/simple;
-	bh=J+9LWesfez5uYUFNLOKtrhGdIhGy9L/aeiQe+dudL+c=;
+	s=arc-20240116; t=1781264240; c=relaxed/simple;
+	bh=4bNEnXOnxP9R4p/TqJRZcA+o31g58k6pVxjAj3spyT4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=riep10v2syTKMngWxgrz4hY/cp6FCX55o8gzOugVzufLU1GrnJBa/QMA7rr3sa/LM0U5vlPpxMwsViwRJLur4Vw17IzNbC7Rd5k6haThK3oag1uBc3QavtWCOCYzFERjgj5hb4jSdRo28UmuRCBg921Hf70cntsAVV4mZuZQ7dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+h/dgKk; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=NVh8EjoK9s7s5vhkpJntSWrglQXVu0tzguD18cwyWEEAuRsnpH1iwRh8q1cYM4eeVp0KKFlIInJD1xxZJKI6r/foVkJcLPKM3zdp5/dDIg8M095tg+Qamin+MheSTFcqmGNUNibja17vzTwcD1OH10goY4dtiYlHV9UwOl0fwlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXjJtrEj; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+h/dgKk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E07F1F000E9;
-	Fri, 12 Jun 2026 11:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781262856;
-	bh=dP7e3JEtOPtC6CVM3VUIPHIKZe0OVbKMvYxoe2ZHRtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=n+h/dgKkcBlo/dGQjj1ub3s9bjOa0M2la6urtdxD0te37aVSmCofz0hyWaifbPk20
-	 mS8IHjwYOyPvqcGFKrUnRefPCHeAQFySphnvGxKPQLj4KzCYeGzPYq+BCR3cj4vCA6
-	 viFy8LB1SAvbHyu/PXVcxGxXFGzLV4lIpsWxWktEtHo8/sTXJB2/0K71s+fSdPIhB3
-	 nX9RflZcxKhiUeUSMoVeyVE4jZT8zOB7eNZFF7cKPGRJ0xB0z3EYGyPa61BN7W9knN
-	 4GxyBMUDop4P3Sk7/axoqTQA3bJ8OeJqcVc3VI47d8arWIzRyxwP4RvDi6JVUKjcj3
-	 qAM2UyRRNtqIg==
-Message-ID: <3603c37b-95b1-4d29-ab6f-fa3360dc17db@kernel.org>
-Date: Fri, 12 Jun 2026 13:14:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXjJtrEj"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490ac357c55so7865155e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 04:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781264235; x=1781869035; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=j9dyxygjV/3RofubGPQY9xrYK9q7NJvG8u++ttMJ7jM=;
+        b=gXjJtrEjaGEOql6CyedpqqOR5hAdC3d5xqCL+LsdpfNytEp0nHOzKcvEOQZ4gHsiPb
+         olJDwgrdrPOhmxS8eKIf0dj+P3YVAOZ4HGXQiSO2fAP/7tZGAbrSQ/OSX54fASP841HU
+         KIjBvbUyxguy1y9J4DO0HTFAPbrk01/cLE9CoBBuUabNDUJt1YJdc5nG6pbE6XH2BjYK
+         UhLoGUUw+gq/o9IidALv4PE5jVuyckHYWridIuakHe8Dg7DVzAJVqCBnKK59u9YgHbgn
+         M0DYLEIEIGcbs9bHY/ArMUTF1hK/VIQYDwVzchijqhqMCeIVT3BO2huV3LKvXNoITZR0
+         czLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781264235; x=1781869035;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j9dyxygjV/3RofubGPQY9xrYK9q7NJvG8u++ttMJ7jM=;
+        b=ZF2nH/ZRMdHvICwmPgLNTiKnfxKaJkoiCOrgYLYQxKfWw2MUUnA/EZPaNqXmgLFL+U
+         7Yzhg13R5ILrp/QxyK/SRmBMOZOMfOqXy1QOOR+29Hp71A7qTu11OwF2rCxpD4t5VuRl
+         8twc2vQlB2WwOB3cuN1zg4ZYuGQRqsS+2I2yJl8zQC7JnnmtwH6Th87+8XgcAGxX7R3q
+         BPcId2CW1bdT0uWxtbu+71z+SniObq++KwWO0fiPKQ9cHhTqI6THxB5pXE2dc6z4GN9D
+         6kHbW1wTsbJB75Tc/RDURknshdlUtfyAqG9fwLkDoUflQQ7637z8GW/rJnbseI4jqSQJ
+         hJ9g==
+X-Forwarded-Encrypted: i=1; AFNElJ8DeLr9+2yuRXnlxFp8AL6QqPMmJjqgeIvwegqLo7zybwgWY5iNA60ETzQ7tS84tjLonb7V3mC8ZLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXTuF2RbHfjmJD2oJOpwoADK2FXVYFAI3YQ0tzdzsaCrH2U6lo
+	JjPohArdv/VYZizfk+s7zP242ga/hca47CyWxbVC+Zh9tNirc+3ghRLP
+X-Gm-Gg: Acq92OFM7nbzZZ4xkwjQ+4cmK7SkMUMV0OrRw23jHIxXNEcpVdZaP25T+5t6LkpFv2M
+	NyXCwTBGir4wxM9L3g93SYNrHTsEO96LV48r18Ehv9xqOV8f6E1IHHe724TjaBoGa30lLE1EoBD
+	8NkvFa5B24dL+8eH5sOGR2LAYcbuH1c2lZ0GUG8mtNiE3I/Ghr1Q0bWt+6Vp8ZdT79nkJDIjMqU
+	Bf4DpYsxSD1CH1QkILzT3kBNIu/S8LWMPWcSR5YT69a7shfuP1eaZ6k80pYT1RCB8IBH13ToAml
+	YkWxga3G8yOg41q2U8l3Hkcjd1tvisaPuzbbxTdL0F9cFiCAyG+czadF4AwyxjHtLFNJx06GPuf
+	XEfJL/kwft3l3yiQvzMAnUvTSumvgIaIEMmjle5Mf8mh/LvuSgQQFHU7uMTka5v3ipYwY2TwzUU
+	57LSlx6cEeEVbrpSpO89805bast+hRoYES5uToHGILPxhr7Aye95iyvmIDreFdQZXLGkZz3wgVJ
+	ZhduHqRN2pXnIHHnuI=
+X-Received: by 2002:a05:600c:8486:b0:490:a298:acf7 with SMTP id 5b1f17b1804b1-490ec4ee700mr36638215e9.17.1781264235050;
+        Fri, 12 Jun 2026 04:37:15 -0700 (PDT)
+Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2637ccsm4885808f8f.6.2026.06.12.04.37.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2026 04:37:14 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <2e528372-aba4-4621-a9a3-7ce23571ef37@gmail.com>
+Date: Fri, 12 Jun 2026 12:37:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,111 +70,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 0/3] lib/vsprintf: Add support for pgtable entries
-To: Matthew Wilcox <willy@infradead.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <aisJbeVVxxNuYxQ6@casper.infradead.org>
- <aisNjxHW369cbKiq@ashevche-desk.local>
- <aisOi1B0o5KYyaQo@casper.infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [RFC PATCH v2 01/14] kcov: add per-task dataflow tracking for
+ function arguments/return values
+To: Yunseong Kim <yunseong.kim@est.tech>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ Yeoreum Yun <yeoreum.yun@arm.com>
+References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
+ <20260611-b4-kcov-dataflow-v2-v2-1-0a261da3987c@est.tech>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aisOi1B0o5KYyaQo@casper.infradead.org>
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260611-b4-kcov-dataflow-v2-v2-1-0a261da3987c@est.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/11/26 21:37, Matthew Wilcox wrote:
-> On Thu, Jun 11, 2026 at 10:33:35PM +0300, Andy Shevchenko wrote:
->> On Thu, Jun 11, 2026 at 08:15:57PM +0100, Matthew Wilcox wrote:
->>>
->>> You didn't address my objection here:
->>>
->>> https://lore.kernel.org/linux-mm/aFQP8LzVMctf6XH5@casper.infradead.org/
->>>
->>> ie there is now no typechecking possible.  So you've made it more
->>> dangerous.  I reiterate my NACK to the concept, not to the implementation.
->>
->> But this is more of a global question, how do we check the validity of
->> the parameters of pointer extensions in the kernel? Does anybody go to
->> commit into GCC plugin or so for this job?
-> 
-> I agree that it's a global question that it would be great for somebody
-> to answer.  But it's specifically a problem for this patchset because:
-> 
->  - It's really easy to get confused about which page table level you're
->    working on.  And hugetlbfs deliberately increases that confusion.
+On 6/11/26 17:21, Yunseong Kim wrote:
+> +config KCOV_DATAFLOW_RET
+> +	bool "Enable KCOV dataflow: return value capture"
+> +	depends on KCOV
+> +	depends on DEBUG_INFO
+> +	depends on $(cc-option,-fsanitize-coverage=trace-ret)
+> +	help
+> +	  Captures function return values via /sys/kernel/debug/kcov_dataflow.
+> +	  Struct pointer returns are auto-expanded using compiler DebugInfo
+> +	  metadata, recording individual field values at runtime.
+> +	  Enable per-module with: KCOV_DATAFLOW_file.o := y in the Makefile.
+> +	  Requires clang with -fsanitize-coverage=trace-ret support.
+> +
+> +config KCOV_DATAFLOW_NO_INLINE
+> +	bool "Disable inlining for dataflow-instrumented files"
+> +	default n
+In Kconfig, when you don't specify any default explicitly, it's
+implicitly 'default n'.
 
-Yeah ... so far I was assuming that for hugetlb, all relevant entries (what we
-call a PTE although it isn't ....) would have to be the same size. I mean, at
-least in the callers they are the same size (pte_t)
+I think either style (implicit or explicit) is fine and both are used
+throughout the kernel, but is there any reason to make it explicit only
+for KCOV_DATAFLOW_NO_INLINE, and implicit for the others?
 
->  - Different levels of the page tables actually do have different sizes
->    on some architectures, so if you think you're looking at a pointer to a
->    64-bit quantity when it's really a pointer to a 32-bit quantity, things
->    Will Go Wrong (or vice-versa.  And some architctures are big-endian)
-
-I see your point with the pass-by-pointer.
-
->  - But on x86-64, Everything Is Fine because all levels of the page table
->    are basically identical, so you'll never notice there's a problem.
-
-I assume on most architectures.
-
-
-Let's see if we can stop printing that information completely, so we can avoid
-messing with this at all.
-
--- 
-Cheers,
-
-David
+- Julian Braha
