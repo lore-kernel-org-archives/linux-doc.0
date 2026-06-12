@@ -1,294 +1,239 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC6D369D43;
-	Fri, 12 Jun 2026 18:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC57838C414
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781289371; cv=none; b=Ur6zhmkctqHM5MULEZsJr5pKertBMU/1R7pwdJ7GnrlBsVvKkK6juWjRBH8e8okM4Iy0Uqul1o8fa1U5mjxheYRxOIUIVsZqIxU0hFKR89d1PFdp7Dy3geG/jgqNMyCWdhKyQa4DaCgUZyDmxgnCugiS9e/UUxFYP75MAqmEuh4=
+	t=1781291308; cv=none; b=MTmE+UKA/i3dMNQYBa/m8SBjBO+nTJWXQlxp495uvsNKu/Ol60+93p72WY7UNhmb+i94K06tWuRscD2iCklAp8aUZVE9MJ4RMdOhQsLdDUO4GPWuVLsSNKctkEHmBR3RgfPdrhXMo2idjL4W0+/8YRcbNflnCxf9EM3JJ2G6S4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781289371; c=relaxed/simple;
-	bh=FsKCZjNbYaHzjYp5mZSgPaQ3xRkP8w4McKrXM0ieuJ0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aMyBJ3L+8HgMjJyNBE32F47UdTgC7SLjIAFJwfza/Mpu0/lmXVxO9chHKTcL51XAwkrBp/rx/z/NqN2kggOtdgnpvGDnUGXNnT+TJSsVOccGZEVvy6F4hHiHlWBEzAp3cAvKt343Z1mG9YzWMAb+dJKZNHTFcL4VZ7+yTysYeC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nYfMkxqn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781291308; c=relaxed/simple;
+	bh=6rW6wvm0s+0dDXzGD/rvCdVFfP5Yrd5N/fHeXn9JpWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+XDhvI5PzP+24ttd/w9DOM0Kx+ntTOrjgX5qf86TmSd+7z1MoM2bK74qjpKbKUjqgpzAWqcPWFYY3hv8gsPtHAoJ8WdXuneUemtLgfP8ZB22QhoLiwFh6kXWmDT306Q6e25DlJTcYWLof5+AZSYbWDIBbpOxV23jYWcIKSJh4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=aLe0GPNR; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nYfMkxqn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323081F000E9;
-	Fri, 12 Jun 2026 18:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781289370;
-	bh=6JRIp+0ZnHXaXJITWv4qytluPS2XYOyFtxmiaDvmY9Y=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=nYfMkxqncfS1V/SVPfxgd6qeCZgbmZXJt+JTxpHFMqVdWzi2WGqDyy/PCsDNsqakc
-	 fmPwP2lT/wwuWpKcysUSW60X2Ug+hzm9fdccLUpWL14tYGhl5keiupZbJacHGjp7fd
-	 vdsnGn5K1jZE47BqaW2sWYifEcmlnwJDYu1OyrKxpiCgq2dZydLAz5SDQ5rCSgARUS
-	 21hCC/NnTyNpn6mi3BOX/98mmgnZqbabNNuMwgVM56KxNot7Du7QI46UCtrIkd+pKB
-	 0qM6fjj8kT1lsBbofNyLxmnyl5ujvP3xqqVDAQ3M7cCUK2lEqluT4NUSYR+IMdT7Xr
-	 w6bh/r68qfqbw==
-Message-ID: <d2a53fc34760fc986315df31ca6887bb3a54f47d.camel@kernel.org>
-Subject: Re: [PATCH v6 10/20] nfsd: add notification handlers for dir events
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, Olga
- Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
- Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, Anna
- Schumaker <anna@kernel.org>, Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Alexander Aring
- <alex.aring@gmail.com>,  Amir Goldstein <amir73il@gmail.com>, Jan Kara
- <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,  Christian
- Brauner	 <brauner@kernel.org>, Calum Mackay <calum.mackay@oracle.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nfs@vger.kernel.org
-Date: Fri, 12 Jun 2026 14:36:06 -0400
-In-Reply-To: <b94c3e40-0520-4e83-9b4f-53a9325cecfe@app.fastmail.com>
-References: <20260611-dir-deleg-v6-0-4c45080e5f3f@kernel.org>
-	 <20260611-dir-deleg-v6-10-4c45080e5f3f@kernel.org>
-	 <b94c3e40-0520-4e83-9b4f-53a9325cecfe@app.fastmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="aLe0GPNR"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-91563382bcfso147701085a.0
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 12:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1781291306; x=1781896106; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=s08faKqvDPkMJtxJMkDBvBUzs4ZbUBDPlDmo4vFtWCY=;
+        b=aLe0GPNRQ7lFq6R/1cAQw/pWGvT1erGQFUZARUzkDH1SWXWKvHyqDDWiJjjEhJIhI0
+         dH9tsjgksS7XN1MgKB9qjO5x4aMGGBKHPeMBQULWSAEVvLXugm99HDBaX/+csPzjAHS+
+         doI/5D3ffJvF0+EyEwD0QuMIv91iqMlL0BI59aUoK+FF+h9DbW/vsi/7HkUrD5IfuYcd
+         WZfyP8+oKtygk6ESMgZ+ee4lNPFkYafp6EeMrssCv39m/SJ5B90x4MBngLD9ramSsmHK
+         3tchmbdaEoEHluV6CTEMEbW2jn+bX2OprfrsB4+xB0BYaLw0WK7Eu65/an5euEHF/DEN
+         Yf+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781291306; x=1781896106;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s08faKqvDPkMJtxJMkDBvBUzs4ZbUBDPlDmo4vFtWCY=;
+        b=Lscj79AdACssiNAUH2xT0MADtd/COUIISVYLeyV3ofNy3SFY9IVkRv06Iyq1srHYaS
+         dPR1/z48AkdQtb7ek0+75kSLEA8VFfBN8kaBC7isnvcCcQY4Yb12HyhCSP7iePaBY83b
+         h8GPU+YoN4qCbfjFRvrsRVGRnrfABux9t5P71e5XwOuTAXT55dAvDtHLafImHBjGTMOS
+         wrxPP5e2f8HU2gKCzqLu/qH20jrA8gVUpwWwI9SxmsaGsOk5+cMYPdpvv7sm8k3h5fJa
+         B2Fjz7h2Fd2aZYNBUq6Bg5CvE97GnVc79OBjzqCYEDaWNc+QVnSwPo6a8hS+yGQWx2z/
+         f2+A==
+X-Forwarded-Encrypted: i=1; AFNElJ8tVfSYkVO2B9m1OxTG+bJmy6E9F9l9BeB9mbmdtuamrOQj9cPDbCnNgjQm6RFHZe5xTwRgVUiIGR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXHJQzyykoQdxAFpiwHNFXhzRDU5Gvszn9cpLlNV0l2Mp8N/MI
+	17Bh1eC5KsCdZMsYAcqUFVsnHQ7s1IlN62hEhGbbRw3J4bXeyfN/6DuFh+LW4KHNJjg=
+X-Gm-Gg: Acq92OF+aqf4HmH5/e+qgsYyzfadxxOPLFTWn7oieD1l0fcBbDGOYTiJka067lJG/Jv
+	izcU4zOnQgrQH7iv5/TZMyag5sa/9oRbnecVLOV6Xnlig7+sYunaP+kZZ3WYXzdkpzTLOY0E3AT
+	9dhJvFNMyKCJiGlrK/AZ6MaB7y6gT112Kgq8xPyU/++qivOBw/fCFT8PdVwMpYJs3434SY1LHVR
+	UotegeVb72mqodSKXSZosCoO7LF1b1SeraN7pl68cWQZnwM5xrZ5EAhUnQr+S/fPqh5xeJpDw96
+	Z+WS4F5eebvD8320Ub8zs2vZ31/viCRUb+NmJ5cK+6zfJ2gfjB3hmkjenhwjAg2Zv4nQCLE69jT
+	SY3Qufms8y9SO4VfA5vLLfVHZSQ198w2439AavfkUls7IJ763gDKJTpim1pTmzjEri52mKViwFh
+	+5OlE7mvWfq/Is+0qS8RXH1l9BGV4yZZfp9Ze88jbPXBHyOfokd/s=
+X-Received: by 2002:a05:620a:c45:b0:915:c858:7d42 with SMTP id af79cd13be357-9161bae70eamr627465485a.18.1781291305692;
+        Fri, 12 Jun 2026 12:08:25 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619f2d6a5sm291127785a.20.2026.06.12.12.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 12:08:25 -0700 (PDT)
+Date: Fri, 12 Jun 2026 19:08:23 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Mike Rapoport <rppt@kernel.org>, linux-kselftest@vger.kernel.org, shuah@kernel.org, 
+	akpm@linux-foundation.org, linux-mm@kvack.org, skhan@linuxfoundation.org, 
+	linux-doc@vger.kernel.org, jasonmiu@google.com, linux-kernel@vger.kernel.org, 
+	corbet@lwn.net, ran.xiaokai@zte.com.cn, kexec@lists.infradead.org, 
+	graf@amazon.com, Logan Odell <loganodell@google.com>
+Subject: Re: [RFC v1 0/9] kho: granular compatibility and header decoupling
+Message-ID: <aixXuoCOCZZcBDci@plex>
+References: <20260605033235.717351-1-pasha.tatashin@soleen.com>
+ <178083348872.1648214.17778188633648887952.b4-review@b4>
+ <aiVp5RlbWRz5VnPB@plex>
+ <178091437240.1648214.10761111570005003901.b4-reply@b4>
+ <aibYJvzQQnpoN6YW@plex>
+ <2vxzo6hjss8z.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2vxzo6hjss8z.fsf@kernel.org>
 
-On Fri, 2026-06-12 at 13:51 -0400, Chuck Lever wrote:
-> On Thu, Jun 11, 2026, at 1:50 PM, Jeff Layton wrote:
-> > Add the necessary parts to accept a fsnotify callback for directory
-> > change event and create a CB_NOTIFY request for it. When a dir nfsd_fil=
-e
-> > is created set a handle_event callback to handle the notification.
-> >=20
-> > Use that to allocate a nfsd_notify_event object and then hand off a
-> > reference to each delegation's CB_NOTIFY. If anything fails along the
-> > way, recall any affected delegations.
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> > ---
->=20
-> > diff --git a/fs/nfsd/nfs4callback.c b/fs/nfsd/nfs4callback.c
-> > index ca4dd2f969eb..59378751d596 100644
-> > --- a/fs/nfsd/nfs4callback.c
-> > +++ b/fs/nfsd/nfs4callback.c
->=20
-> > @@ -904,13 +908,45 @@ static void nfs4_xdr_enc_cb_notify(struct rpc_rqs=
-t *req,
-> >  	encode_cb_sequence4args(xdr, cb, &hdr);
-> >=20
-> >  	/*
-> > -	 * FIXME: get stateid and fh from delegation. Inline the cna_changes
-> > -	 * buffer, and zero it.
-> > +	 * nfsd4_cb_notify_prepare() sized the payload against a single page,
-> > +	 * but did not account for the compound, sequence, stateid, and
-> > +	 * filehandle encoded here. If the variable-length encode overflows t=
-he
-> > +	 * backchannel send buffer, roll back to before the operation so that=
- a
-> > +	 * truncated CB_NOTIFY is never placed on the wire.
-> >  	 */
-> > -	xdrgen_encode_CB_NOTIFY4args(xdr, &args);
-> > +	start =3D xdr_stream_pos(xdr);
-> > +
-> > +	p =3D xdr_reserve_space(xdr, 4);
-> > +	if (!p)
-> > +		goto out_err;
-> > +	*p =3D cpu_to_be32(OP_CB_NOTIFY);
->=20
-> Please use xdr_stream_encode_u32 for this purpose.
->=20
+On 06-09 16:28, Pratyush Yadav wrote:
+> On Mon, Jun 08 2026, Pasha Tatashin wrote:
+> 
+> > On 06-08 13:26, Mike Rapoport wrote:
+> >> On 2026-06-07 13:43:09+00:00, Pasha Tatashin wrote:
+> >> > On 06-07 14:58, Mike Rapoport wrote:
+> >> > 
+> >> > > On Fri, 05 Jun 2026 03:32:26 +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> [...]
+> >> > External users only need to include the headers they actually use. For
+> >> > example, LUO shouldn't have to pull vmalloc or radix tree KHO
+> >> > declarations, and memfd does not need block.
+> >> > 
+> >> > From a maintenance point of view, it is much easier to catch ABI
+> >> > changes when the file with the appropriate version has been changed,
+> >> > and most likely the version of that file should be updated. If a single
+> >> > header contains compatibility versions for several different data
+> >> > structures, it is easier to miss the correct version update.
+> >> 
+> >> No matter in what files the definition lives, someone can forget to
+> >> update version and we may miss it during review.
+> 
+> Perhaps we should have some tests (maybe with kunit?) that can catch
+> this? If you change the format, the test fails. So you'd have to go and
+> update the test, and at that point it should be more obvious that ABI
+> version needs bumping.
+> 
+> [...]
+> >> 
+> >> Sorry I wasn't clear. I agree that kho_vmalloc, block and radix tree
+> >> should have their own versioning rather than rely on global KHO version.
+> >> 
+> >> What I don't like in your proposal is mixing versioning of a component
+> >> with its dependencies.
+> >> 
+> >> I think that versioning should be completely local to each component.
+> >> LUO should not care about kho_block "on wire" layout. This should be
+> >> encapsulated in kho_block.
+> >
+> > That is a fair point.
+> >
+> > As I mentioned in my previous reply, we can definitely look into making 
+> > the version checking more modular. For example, each component could 
+> > implement a standard compatibility-checking interface.
+> >
+> > These checks could run early in boot to determine whether each component 
+> > is capable of accepting the incoming preserved data format.
+> >
+> > Whenever the component is later used by LUO, memfd, etc., we can query 
+> > that cached status. This achieves four key benefits:
+> >
+> > 1. It avoids delaying the compatibility check to the actual time of data 
+> > retrieval, which is too late to safely abort.
+> >
+> > 2. It prevents a local incompatibility from triggering a global kernel 
+> > panic, allowing us to handle failures gracefully for just that specific 
+> > component or session.
+> 
+> I think the right time to do the compatibility check is _before_ kexec.
 
-Ok
+Absolutely agree; however, that is a bigger effort than what I am 
+attempting to do here. So, let's remove composite version strings and 
+integer strings from this series altogether, and simply make it more 
+granular. The versioning will be solved later once we are ready to 
+address the pre-kexec compatibility checking.
 
->=20
-> > +
-> > +	args.cna_stateid.seqid =3D dp->dl_stid.sc_stateid.si_generation;
-> > +	memcpy(&args.cna_stateid.other, &dp->dl_stid.sc_stateid.si_opaque,
-> > +	       ARRAY_SIZE(args.cna_stateid.other));
-> > +	args.cna_fh.len =3D dp->dl_stid.sc_file->fi_fhandle.fh_size;
-> > +	args.cna_fh.data =3D dp->dl_stid.sc_file->fi_fhandle.fh_raw;
-> > +	args.cna_changes.count =3D ncn->ncn_nf_cnt;
-> > +	args.cna_changes.element =3D ncn->ncn_nf;
-> > +	if (!xdrgen_encode_CB_NOTIFY4args(xdr, &args))
-> > +		goto out_err;
-> >=20
-> >  	hdr.nops++;
-> >  	encode_cb_nops(&hdr);
-> > +	return;
-> > +
-> > +out_err:
-> > +	/*
-> > +	 * Drop the CB_NOTIFY op and emit a valid CB_SEQUENCE-only compound s=
-o
-> > +	 * the client still advances its slot. Flag the failure so the done
-> > +	 * handler recalls the delegation and the missed notification is not
-> > +	 * silently lost. The flag is written here in the transmit path and r=
-ead
-> > +	 * in the done handler; the two are serialized phases of the same
-> > +	 * rpc_task, so no additional barrier is needed.
-> > +	 */
-> > +	ncn->ncn_encode_err =3D true;
->=20
-> This flag is zeroed only once, at allocation time in alloc_init_dir_deleg=
-().
-> It is never cleared in nfsd4_cb_notify_prepare().
->=20
-> Since nfsd4_cb_notify_release() can requeue the callback (via
-> nfsd4_run_cb_notify) when events arrive while a callback is in flight,
-> ->prepare may encode cleanly and return true, but nfsd4_cb_notify_done()
-> still observes the stale ncn_encode_err =3D=3D true and calls
-> nfsd_break_one_deleg() -- discarding a good notification and recalling
-> the delegation unnecessarily.
->=20
-
-Ok, so we need to reset this in ->prepare.
-
->=20
-> > +	xdr_truncate_encode(xdr, start);
-> > +	encode_cb_nops(&hdr);
-> >  }
-> >=20
-> >  static int nfs4_xdr_dec_cb_notify(struct rpc_rqst *rqstp,
->=20
-> > diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> > index 0a15d7f3b543..513cbc1a583f 100644
-> > --- a/fs/nfsd/nfs4state.c
-> > +++ b/fs/nfsd/nfs4state.c
->=20
-> > @@ -3471,19 +3472,146 @@ nfsd4_cb_getattr_release(struct nfsd4_callback=
- *cb)
-> >  	nfs4_put_stid(&dp->dl_stid);
-> >  }
-> >=20
-> > +static void nfsd_break_one_deleg(struct nfs4_delegation *dp)
-> > +{
-> > +	bool queued;
-> > +
-> > +	if (test_and_set_bit(NFSD4_CALLBACK_RUNNING, &dp->dl_recall.cb_flags)=
-)
-> > +		return;
-> > +
-> > +	/*
-> > +	 * We're assuming the state code never drops its reference
-> > +	 * without first removing the lease.  Since we're in this lease
-> > +	 * callback (and since the lease code is serialized by the
-> > +	 * flc_lock) we know the server hasn't removed the lease yet, and
-> > +	 * we know it's safe to take a reference.
-> > +	 */
-> > +	refcount_inc(&dp->dl_stid.sc_count);
-> > +	queued =3D nfsd4_run_cb(&dp->dl_recall);
-> > +	WARN_ON_ONCE(!queued);
-> > +	if (!queued) {
-> > +		refcount_dec(&dp->dl_stid.sc_count);
-> > +		clear_bit(NFSD4_CALLBACK_RUNNING, &dp->dl_recall.cb_flags);
-> > +	}
-> > +}
->=20
-> nfsd_break_one_deleg() does an unconditional
-> refcount_inc(&dp->dl_stid.sc_count), and its comment justifies this
-> with "the lease code is serialized by the flc_lock." That invariant
-> holds when called from nfsd_break_deleg_cb() under flc_lock, but
-> nfsd4_cb_notify_prepare() runs on a workqueue WITHOUT flc_lock. Its
-> out_recall: path calls nfsd_break_one_deleg(dp)
-> directly. The delegation can be concurrently destroyed with sc_count
-> already at zero, making this an inc-from-zero.
->=20
-> The dispatch path nfsd4_run_cb_notify already does this correctly with
-> refcount_inc_not_zero. The out_recall path needs the same guard (skip
-> the recall / bail if the refcount is already zero).
->=20
-> I notice that the last unapplied patch ("nfsd: add
-> support to CB_NOTIFY for dir attribute changes") rewrites the guard
-> "if (count > NOTIFY4_EVENT_QUEUE_SIZE)" into "if (count > limit)" with
-> limit =3D NOTIFY4_EVENT_QUEUE_SIZE - 1 when NOTIFY4_CHANGE_DIR_ATTRS is
-> requested. That turns the previously-dead overflow branch into a live,
-> routine path to out_recall, which adds another normal-operation route
-> into this unlocked recall.
->=20
-
-This wart has been there a long time, and we just papered over it with
-the lock.
-
-I think we need to do a refcount_inc_not_zero() in
-nfsd_break_one_deleg() and just return without queuing the callback if
-it's already at 0. That means that the recall is racing with the lease
-teardown, so I think the right thing to do is to not send the recall in
-that case.
---=20
-Jeff Layton <jlayton@kernel.org>
+> That is the only point where you can safely abort. Once you boot into
+> the new kernel and discover you can't understand the passed data, you
+> are in a bad spot already and should reboot. I don't think think you
+> really can gracefully handle these failures.
+> 
+> For example, say you fail to understand the incoming PCI data. So you
+> have no idea which devices are participating in live update and cannot
+> correctly probe any of them. Which effectively means you cannot resume
+> any of your guests since you have no idea how to restore their device
+> state. The only path you are left with is to reboot. I haven't read the
+> IOMMU series, but I imagine the same story applies there.
+> 
+> For a more benign example, let's assume one of your memfds that back VM
+> memory fail to restore.
+> 
+> In this case, you can safely leak that memory and run the other guests,
+> but at that point the host is in impaired state. You don't want to keep
+> running it in this state. You likely either do a reboot, or if you feel
+> more adventurous, you do another live update.
+> 
+> In either case, there is no "safely abort" after the kexec happens.
+> 
+> So I think our energy is better spent solving the versioning story
+> _before_ kexec. After kexec I think it is perfectly fine to error out
+> and panic or expect a reboot. You can't salvage much at that point
+> anyway.
+> 
+> And I think how the versioning format looks also should be based on the
+> design of this pre-kexec check, not the other way round.
+> 
+> >
+> > 3. It keeps the local version local, as you suggested, so it is checked 
+> > only by the consumers of that specific component.
+> >
+> > 4. It provides a clean path for backward compatibility, as components 
+> > can individually decide whether they understand the incoming data 
+> > format.
+> >
+> [...]
+> >> 
+> >> Actually FDT "compatible" handles versioning nicer than composite strings
+> >> You can have
+> >> 
+> >> 	compatible="kho-v4", "vmalloc-v1", "radix-v1", "block-v2";
+> >> 
+> >> and check fdt_node_check_compatible("vmalloc-v1") for vmalloc and
+> >> fdt_node_check_compatible("block-v2") for block.
+> 
+> I agree. Even if we don't use FDT, something more structured than
+> composite strings would be nice to have.
+> 
+> >
+> > That is actually very similar to what I am proposing—individual version 
+> > tokens (which in my current series are concatenated into a composite 
+> > compatibility string separated by ';').
+> >
+> > But let's not get too fixated on the composite string formatting. I 
+> > actually really like what you are proposing: using integers for versions 
+> > and having each registered component carry its own "NAME" and version 
+> > number in the KHO FDT.
+> 
+> There is another nice thing about numbers that Logan (+cc) recently
+> pointed out. You can tell which one is bigger.
+> 
+> At some point I think we will support multiple versions of a data
+> structure to allow for upgrades. At that point, it will help to know
+> which one is "newer". So if both kernel versions support version 3 and
+> 4, you can use 4 to serialize.
+> 
+> This of course is harder to do with strings.
+> 
+> >
+> >> And we wouldn't need to reimplement string parsing ;-)
+> >> 
+> >> But yeah, I do see value of making components versioning and KHO global
+> >> versioning independent. I just don't like composite strings and I don't
+> >> like mixing versioning with dependencies.
+> >> 
+> >> Since we are moving from FDT for the most things, version should become
+> >> a number rather than a string and version compatibility should be
+> [...]
+> 
+> -- 
+> Regards,
+> Pratyush Yadav
