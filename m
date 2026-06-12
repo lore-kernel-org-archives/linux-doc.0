@@ -1,242 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6506A37188B;
-	Fri, 12 Jun 2026 16:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A695282F06;
+	Fri, 12 Jun 2026 16:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781280493; cv=none; b=feeG4Qx+0fQu+ySUn0DQj+oPotJ9ySEbQV2lt1D+IaFwXpLzJxau8c2a43MKza0WQCpNb+tFh3XSPuTrkXbzi387xqT5pxJbq4U8g2HZElN1CXlArp9vuJ4FKoLDeq04nNKlKBx9TOiUmZU5JNb0FePtQPKa0stbSABx5T+d3gs=
+	t=1781280498; cv=none; b=Bqz/ZMyv8+srTckm4dKr6Xr9Y1BMQJwMeieoIuNJZo6htuTp+3CM7TWIg1Qw/peVYVMtQbzec6iBjXwA0cyDflhEr7YCvt5+dgF4xDqLy5yP+L4aKZawydOVZ01pGJjdvQyCuUsxAmCw5yy0tqwKN2uZTp5vZ0hEDAYxKwa7x9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781280493; c=relaxed/simple;
-	bh=M/wf3o0DP9VXFIEP8CbWkMlCCFbRkDPnne6Va5fgV1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KJQd2vsTAhDf4J6fpF9WN5/pS1jfL3m7b4tgL/Kw1yyOE9Pb8SxqMcIRj1aI1ACLUenBdCjZzIeGIxnq/537U+TY9BAlVji5vGPFx4UpiZ5LmVwZ4kulwD0VayPrqk8VcbwAseGVKkVFhWNE179XsqQWuoOOvPvEkUSWeizyraE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WOEGeQkG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781280498; c=relaxed/simple;
+	bh=C4yDMJ/YOtLv28/s4/Pf+JBqBSSwrKjndXwButUTlqo=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NTJzFYQIoGj7Dg3i4fRHXxGYsHtyAtS7mNFJQxb5JKP62dVJ71WUxQvoTLiFhBd42aECnb3lkS54ypGqs7QZWQ53EHJeKPsxcbfAWSgdwYfnaOJUx+f4zNWN4Q0Qu2AaFnpMFqUT0n41nn6pi960njpbRHHzkDZEZC3U79AnRV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=An2VG86X; arc=none smtp.client-ip=203.205.221.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WOEGeQkG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 512FF1F000E9;
-	Fri, 12 Jun 2026 16:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781280492;
-	bh=MTLXwO3pxjG0kNwRdFnumoaMgaDcU0lV/jCfpoGgX8s=;
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="An2VG86X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1781280486; bh=UQp8VX9JypZ6E6O1OqUQjFmFxUx8YP9qAGPt+56zDhY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WOEGeQkGJHeE0IkHfsvf2KNGaYCVqEMk5WYKW1x3onaLqjO4v0Ono3xde+hChJy5m
-	 3fvV6RsnIl/yYQmMo9h2Z6LiZrjjA/xJL0vwYDT/FWNmoMwnAtIc+0bR3MHrgAnToS
-	 9B3qmsorLl+mfi1X7XTP584uWwUAU3kTp31OIn3dh7pzujrv3fkOlK8OSrDPHo58Ww
-	 /72Nhbe3o+b9DI7B4E56d+Ag2eYEg6WHBxzgAcXw9NYJA4jnkcYOjKuroSUwslqYaF
-	 LZbe7XWhtvEzaSk8wYj079VuLBkiscKsjX4iiVJkFK2SmkSP63mTmmALuEr2dItLXW
-	 r8gmHJ5XQ3+gA==
-From: Simon Horman <horms@kernel.org>
-To: gongfan1@huawei.com
-Cc: Simon Horman <horms@kernel.org>,
-	wudi234@huawei.com,
-	tengpeisen@huawei.com,
-	netdev@vger.kernel.org,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	ioana.ciornei@nxp.com,
-	mohsin.bashr@gmail.com,
-	linux-kernel@vger.kernel.org,
+	b=An2VG86X3EQ90g20+bcqcsw39Es0lz4u1b9mCgDUyA7XWZF+I28sxwT7xs9oU5B4B
+	 dvXhA6VUdAdJ5x9i8IAi3+wE6Z5Gv8iYOnB+dNn28HfSCR1QYZCdBocCZEEzU8c0bS
+	 Gf6Yf/TGMceF9yIjuR6gnD/xrg/TAejuquZI51+4=
+Received: from 172-1-1-128.lightspeed.hstntx.sbcglobal.net.localdomain ([27.38.179.189])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id F4B72B6; Sat, 13 Jun 2026 00:03:52 +0800
+X-QQ-mid: xmsmtpt1781280232taf7h5xff
+Message-ID: <tencent_F5C99221ABE8EEE4A8610C0DE1E1BDD8E505@qq.com>
+X-QQ-XMAILINFO: N6IfSeM/PG+tR7SiFRbKESHf2jgLdxAzdRFrx5jg1EiRiDaePdyaG45GBeNKva
+	 FP5tl7hGSmBMkLESnZHMOrT5T6ICpM+bGy7m/HnIkA6JzZf9sdVZhkAlvwT1J8k/T+VK1gxYZlha
+	 mRpL7uPmBVCSy0PBMrO7Hp/quvx/M08WopCTppfxmb1SsEUP8J7BiGrqc6sAbSKvL/UNXTGjyGdD
+	 Fu78OwC4BdaPbrUagnhL1Lyj0X6SSST6e2BnIC37nTWU8ymGqlvdgZYr4FYy6T3hUptDJdO2bWna
+	 DAh1iQBzwS1TtoYTjtDAITV78Aj+kasq5GdbR9bmWM7AQdOckd6bbcQ65DyZFR+kUwQMwUNKoO9k
+	 n4Wy6vekCgrKn37IrYHoKZuJz76NWLTZQul/zmc7pWcszCEL+b2GfcBD2qATNWJ4ilF3jbIxvr3p
+	 KyHyORqixr1RYAnYN5YaJjHQd5YQbV/qKXzJVQZh8iypF/zF1iP59HBcLFRNbxKMyO1DQZ6PXyTP
+	 iQGJL5jCSkyKfsRGyyq08H7bvEEMizevDAwW2KiYo/d8GWL+y34Fk0K2SSY854nVokp+AEAigeYz
+	 FhvL876IxNs/yz52/8C5CqfoGdaowYkuaWWHYWYHPbsnbn02cEI+w3CzIVuZGgUe66Pe/rK6a1xP
+	 nZ48FnXgj+3iazYtSnwILSIKe1ujd4TZ/MECIrpvbhzuDuBs/6FnY2R8fEhNYxE/RzKeHCsdaeQf
+	 gmQ6UaYlj1PCNb5rqfvQJ1x1UZpxTfRu2r6r6Xme3GFtATcFXRacdAUEpv2BdRzH+m/odPOmxNtF
+	 nMnS2SEqkedrCbi/DWMsESkuoRbh1y5cv5ZybODpntUeX/lUYz725BnE4yljk/etW9pSap8+Hjxs
+	 Wet+HHaj4qkDTWarlBP7sEfL2e11EaQ0LtQqZJTbClmtM+Gy7rcbrQGiZB8n+WnEe/HiG3Nv0eEW
+	 +AuY1kFgFnFxvlduW5ek6cocwY+klh1YNW1NVDG/mcBRenR4Jex36fxhtmLpn7Kbm19DimY75Qr/
+	 vbIfYylXMhdGFDBjshqXK+NU43bsP/m9ejBskOP12tsmFkQ1S8f5IBviwhCKwKMpoYOzAgNbZPyb
+	 DuEVftjlelVUf5X+sKz9BM8bL/rW4GnDQgGoydlwEuh+wu5reJ+GobfcNY8vu4pyb6DqsBZRKCGS
+	 wJKnA=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Yan Zhu <zhuyan2015@qq.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net,
+	mic@digikod.net
+Cc: dzm91@hust.edu.cn,
+	skhan@linuxfoundation.org,
+	gnoack@google.com,
+	zhuyan2015@qq.com,
 	linux-doc@vger.kernel.org,
-	luosifu@huawei.com,
-	guoxin09@huawei.com,
-	zhoushuai28@huawei.com,
-	wulike1@huawei.com,
-	shijing34@huawei.com,
-	zhengjiezhen@h-partners.com,
-	maxime.chevallier@bootlin.com
-Subject: Re: [PATCH net-next v09 3/5] hinic3: Add ethtool coalesce ops
-Date: Fri, 12 Jun 2026 17:08:04 +0100
-Message-ID: <20260612160805.690542-1-horms@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <dda2f285e7314fa4a682a031328766e58f3137dc.1781062575.git.wudi234@huawei.com>
-References: <dda2f285e7314fa4a682a031328766e58f3137dc.1781062575.git.wudi234@huawei.com>
+	linux-security-module@vger.kernel.org
+Subject: [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
+Date: Sat, 13 Jun 2026 00:03:39 +0800
+X-OQ-MSGID: <3c91369ba21c1bfab48f8dd49f04629128d97057.1781105672.git.zhuyan2015@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1781105672.git.zhuyan2015@qq.com>
+References: <cover.1781105672.git.zhuyan2015@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://sashiko.dev
+Translate Documentation/admin-guide/LSM/LoadPin.rst into Chinese.
+
+Update the translation through commit 0860b72d535f
+("security/loadpin: Update the changing interface in the source code.")
+
+Assisted-by: Claude:deepseek-4-pro
+Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
 ---
-hinic3: Add ethtool coalesce ops
+ .../zh_CN/admin-guide/LSM/LoadPin.rst         | 33 +++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
 
-This patch implements the .get_coalesce and .set_coalesce ethtool callbacks
-for the hinic3 driver. It allows users to configure and monitor RX coalesce
-parameters.
+diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+new file mode 100644
+index 000000000000..d75a06f515f6
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+@@ -0,0 +1,33 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/LSM/LoadPin.rst
++:翻译:
++ 朱岩 Yan Zhu <zhuyan2015@qq.com>
++
++
++=======
++LoadPin
++=======
++
++LoadPin 是一种 Linux 安全模块（LSM），保证所有内核加载的文件（模块、固件等）
++均来自同一文件系统，并且该文件系统应当以只读设备（如 dm-verity 或 CDROM）为后
++端存储。这使得在拥有经过验证和/或不可更改的文件系统的系统上，能够在不对每个文
++件单独签名的前提下，强制模块和固件的加载限制。
++
++该 LSM 在编译时通过 ``CONFIG_SECURITY_LOADPIN`` 进行选择，并且可以在启动时通
++过内核命令行参数 ``loadpin.enforce`` 进行控制。默认情况下该功能是启用的，亦可
++在启动时通过 ``loadpin.enforce=0`` 将其关闭。
++
++LoadPin 会在检测到首个文件被加载时开始生效。如果承载该文件系统的块设备不是只
++读的，系统会创建一个 sysctl 条目 ``/proc/sys/kernel/loadpin/enabled`` 用于切
++换锁定功能。可写的文件系统意味着锁定功能亦可被修改，但通过 sysctl 可以在可
++写文件系统上便捷地进行测试。
++
++也可以使用内核命令行参数 ``loadpin.exclude`` 将特定文件类型从 LoadPin 中排除。
++默认情况下所有文件均被包含，但可以通过
++``loadpin.exclude=kernel-module,kexec-image`` 等方式排除相应类型。这允许在使
++用 ``CONFIG_MODULE_SIG``、``CONFIG_KEXEC_VERIFY_SIG`` 等机制对内核模块和内核
++镜像进行校验的同时，仍然利用 LoadPin 保护其他内核加载文件的完整性。有效文件类
++型的完整列表可在 ``include/linux/kernel_read_file.h`` 中的
++``kernel_read_file_str`` 找到。
+-- 
+2.43.0
 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-[ ... ]
-> @@ -975,9 +980,247 @@ static void hinic3_get_pause_stats(struct net_device *netdev,
-> +static int hinic3_set_queue_coalesce(struct net_device *netdev, u16 q_id,
-> +				     struct hinic3_intr_coal_info *coal,
-> +				     struct netlink_ext_ack *extack)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_intr_coal_info *intr_coal;
-> +	struct hinic3_interrupt_info info = {};
-> +	int err;
-> +
-> +	if (nic_dev->adaptive_rx_coal) {
-> +		NL_SET_ERR_MSG_MOD(extack,
-> +				   "Static coalesce not allowed in adaptive RX mode");
-> +		return -EINVAL;
-> +	}
-
-[Severity: High]
-When adaptive RX coalesce is enabled via ethtool, hinic3_set_coalesce()
-sets nic_dev->adaptive_rx_coal to 1 before calling this function.
-
-Will this check then unconditionally return -EINVAL, failing the operation
-while leaving the software state permanently incorrectly recording that
-adaptive mode is on?
-
-> +
-> +	if (!test_bit(HINIC3_INTF_UP, &nic_dev->flags) ||
-> +	    q_id >= nic_dev->q_params.num_qps)
-> +		return 0;
-> +
-> +	spin_lock(&nic_dev->coal_lock);
-> +
-> +	intr_coal = &nic_dev->intr_coalesce[q_id];
-
-[Severity: Medium]
-If the interface is down, this early return skips updating the software
-configuration struct.
-
-Will this cause the new coalesce parameters to be silently lost instead
-of being applied when the interface is later brought up?
-
-> +
-> +	intr_coal->coalesce_timer_cfg = coal->coalesce_timer_cfg;
-> +	intr_coal->pending_limit = coal->pending_limit;
-> +	intr_coal->rx_pending_limit_low = coal->rx_pending_limit_low;
-> +	intr_coal->rx_pending_limit_high = coal->rx_pending_limit_high;
-> +	spin_unlock(&nic_dev->coal_lock);
-> +
-> +	info.msix_index = nic_dev->q_params.irq_cfg[q_id].msix_entry_idx;
-> +	info.interrupt_coalesc_set = 1;
-> +	info.coalesc_timer_cfg = intr_coal->coalesce_timer_cfg;
-> +	info.pending_limit = intr_coal->pending_limit;
-> +	info.resend_timer_cfg = intr_coal->resend_timer_cfg;
-> +	err = hinic3_set_interrupt_cfg(nic_dev->hwdev, info);
-
-[Severity: High]
-Does hinic3_set_interrupt_cfg() need to be protected by change_res_mutex
-here?
-
-The DIM code path in hinic3_set_interrupt_moder() holds change_res_mutex
-when performing this same hardware configuration. Since ethtool commands
-and the DIM workqueue can run concurrently, could this lead to a race
-condition corrupting the read-modify-write hardware state?
-
-> +	if (err) {
-> +		NL_SET_ERR_MSG_FMT_MOD(extack,
-> +				       "Failed to set queue%u coalesce",
-> +				       q_id);
-> +		return err;
-> +	}
-
-[Severity: Medium]
-If hinic3_set_interrupt_cfg() fails, the software state in intr_coal
-has already been updated.
-
-Because hinic3_set_hw_coal_param() runs this in a loop over all queues,
-will a hardware configuration failure leave the software state permanently
-diverging from the actual physical hardware state?
-
-[ ... ]
-> +static int hinic3_get_coalesce(struct net_device *netdev,
-> +			       struct ethtool_coalesce *coal,
-> +			       struct kernel_ethtool_coalesce *kernel_coal,
-> +			       struct netlink_ext_ack *extack)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_intr_coal_info *interrupt_info;
-> +
-> +	memset(coal, 0, sizeof(*coal));
-
-[Severity: Medium]
-Is it safe to memset the entire ethtool_coalesce structure here?
-
-The core ethtool ioctl code pre-initializes the cmd field to
-ETHTOOL_GCOALESCE, so zeroing the entire struct will wipe the cmd field
-and break the ethtool UAPI.
-
-> +
-> +	interrupt_info = &nic_dev->intr_coalesce[0];
-> +
-> +	coal->use_adaptive_rx_coalesce = nic_dev->adaptive_rx_coal;
-> +
-> +	if (nic_dev->adaptive_rx_coal) {
-> +		coal->rx_max_coalesced_frames_low =
-> +			interrupt_info->rx_pending_limit_low *
-> +			COALESCE_PENDING_LIMIT_UNIT;
-> +		coal->rx_max_coalesced_frames_high =
-> +			interrupt_info->rx_pending_limit_high *
-> +			COALESCE_PENDING_LIMIT_UNIT;
-> +	} else {
-> +		/* TX/RX uses the same interrupt.
-> +		 * So we only declare RX ethtool_coalesce parameters.
-> +		 */
-> +		coal->rx_coalesce_usecs = interrupt_info->coalesce_timer_cfg *
-> +					  COALESCE_TIMER_CFG_UNIT;
-> +		coal->rx_max_coalesced_frames = interrupt_info->pending_limit *
-> +						COALESCE_PENDING_LIMIT_UNIT;
-> +	}
-
-[Severity: High]
-When adaptive mode is active, the static coalesce fields are left as 0,
-and vice versa.
-
-During an ethtool read-modify-write cycle, will the intermediate 0 values
-be passed back to hinic3_set_coalesce() and unconditionally overwrite
-the driver state, wiping out the inactive configuration?
-
-[ ... ]
-> +static int hinic3_set_coalesce(struct net_device *netdev,
-> +			       struct ethtool_coalesce *coal,
-> +			       struct kernel_ethtool_coalesce *kernel_coal,
-> +			       struct netlink_ext_ack *extack)
-> +{
-[ ... ]
-> +	intr_coal.coalesce_timer_cfg =
-> +		(u8)(coal->rx_coalesce_usecs / COALESCE_TIMER_CFG_UNIT);
-> +	intr_coal.pending_limit = (u8)(coal->rx_max_coalesced_frames /
-> +				      COALESCE_PENDING_LIMIT_UNIT);
-> +
-> +	nic_dev->adaptive_rx_coal = coal->use_adaptive_rx_coalesce;
-
-[Severity: High]
-When disabling adaptive RX coalesce, is it necessary to cancel any
-pending DIM work items before programming the hardware?
-
-If a rxq->dim.work item is already executing concurrently or scheduled,
-could it fire after the ethtool command completes and overwrite these newly
-configured static limits with stale dynamically calculated values?
-
-> +
-> +	intr_coal.rx_pending_limit_high =
-> +		(u8)(coal->rx_max_coalesced_frames_high /
-> +		     COALESCE_PENDING_LIMIT_UNIT);
-> +
-> +	intr_coal.rx_pending_limit_low =
-> +		(u8)(coal->rx_max_coalesced_frames_low /
-> +		     COALESCE_PENDING_LIMIT_UNIT);
-> +
-> +	/* coalesce timer or pending set to zero will disable coalesce */
-> +	if (!nic_dev->adaptive_rx_coal &&
-> +	    (!intr_coal.coalesce_timer_cfg || !intr_coal.pending_limit))
-> +		NL_SET_ERR_MSG_MOD(extack, "Coalesce will be disabled");
-> +
-> +	return hinic3_set_hw_coal_param(netdev, &intr_coal, extack);
-> +}
