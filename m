@@ -1,99 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEB4292B54
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 02:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049081D61B7;
+	Fri, 12 Jun 2026 03:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781233145; cv=none; b=loEeKq+AfC5BvtVwXqEfdhYx7Nrf4G2Jsa75rZjSsIyhhaflemxOIuf6We1SwKbzi8XkvWFQlrJZeXm7hjcOz12lpUpvICd6i2+KE5CvkEa3fBUzSCrUyVmX06cm4jjfwoiTcpDATfb22KU/PSY+6mHcpdD1Nxln8NOnEILNU/A=
+	t=1781233439; cv=none; b=EsUve6BmQ/ScfDHjXbx/P83bCfbXXvjiU8FChTkiKNLv0W+3id6kd+orq/UBAX0zb8LMneUgb/C0PXtvbjrkrmdRR3bJirWOZdeQ9JuSY+utACVr7vrE9UlyDCDzxAzG4oc0Pw2u3zFH7x0r76ft+Iac06xKZ6ubVfdHISDZ6kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781233145; c=relaxed/simple;
-	bh=TkwRG0/ENlzeRTd8lWeKV4YiviHGOUjHarx4Fs6ikeg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DqvV6pTfpmwK61XlnhtzvtSodyy93EbY6in76X5I5P7yp9PTDGujJJnYGDtqn/BVYWNp8KocWJpKgUL070ebFQHc8ykx77IB5FKCV5MWUkCchRvgalNMfRgmVaW1WZGRcoaDdQjvdQs2jp1PRiBpzh6IFNx5KlIbejnhZteHw/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Duc2zsW0; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781233439; c=relaxed/simple;
+	bh=j2X+MA84vAwBRu3ivgpQi5hMeG3DjxwkdB24V8JcI00=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BIOyxQvcofciuPqF37aPjHZQVVLEUr63CXRKEKglJLtBCrwgZivh10hF8cfOHoNqyWLp7Q+UoDFYw65ikZtGbOZAYlV7VFyYhKIHENgJbjgDraiH9rUM9zPkbRZTHtMqHUkoXJ0bP3RblYWvNdhoe+XQ6nIOkRTRHDjgH8Iyrgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=eA5+EoCF; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Duc2zsW0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781233144; x=1812769144;
-  h=date:from:to:cc:subject:message-id;
-  bh=TkwRG0/ENlzeRTd8lWeKV4YiviHGOUjHarx4Fs6ikeg=;
-  b=Duc2zsW0ISQLCFTVSqePxsfUmrZaNJIB0hnmH4qAOQGQIPrrZiuBYIJJ
-   sfE4qVLLuQG04BoGoD+K/2SN0f1fSnBBAYOmxD3u+YGfEOK02lrdKBVNV
-   iJM1/qEYuVdTvH4ld3+6TG9NHInrHna9CI4tsJwIcsU4yy8377RKKxyFD
-   VBKlUletbhkOHUoJmJPBgIZB8L1JDo5vkQ0SN5bePHdtNLnMlOyvxi+/3
-   7u55uBn20GBSfS2xkhjitkSzwI3BcER94NaOOA/OK186S5CVseApMna+P
-   P4YP2hU8fvInAPre+gdhpALF8Rs6dkOW70GuAOQJ1j7zhQMoX7g9GjSC1
-   Q==;
-X-CSE-ConnectionGUID: 666kdQ1MRIW98HNLR4ueDA==
-X-CSE-MsgGUID: K20lWpcQTHCAhclToeghFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93171183"
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="93171183"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 19:59:04 -0700
-X-CSE-ConnectionGUID: iNdg2bMNTymKAwhQfZaRkA==
-X-CSE-MsgGUID: Lo0hystFQnOoHzC9C6llaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="284800253"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2026 19:59:01 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXs6k-000000004BF-3Rhs;
-	Fri, 12 Jun 2026 02:58:58 +0000
-Date: Fri, 12 Jun 2026 04:58:18 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <noname.nuno@gmail.com>,
- Frank Li <Frank.Li@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-doc@vger.kernel.org
-Subject: [nsa:xlnx/fix/buf-mmap-multibuffer 27173/27391] htmldocs:
- Warning: MAINTAINERS references a file that doesn't exist:
- Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-Message-ID: <202606120453.2rP7tq7s-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="eA5+EoCF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=46
+	RsvdeETWrOH09RJ+ySWRL5LGyqtE6DLhYTz+CUvSg=; b=eA5+EoCFBlTtu+c0Qa
+	bMOSzxLXwEx+7on4xbH9KbY7B8N+NKN6wmU/8qnaAqyGsAQLl70XgeUet4+9BD4f
+	6M+q7vkZsEU0JNioNQLlF7qtlRVRyG1VdF8zCDuVdT6LjLxVJVkW0v5eZGdQUzbF
+	V+9NihQtDg4xTRxKizNfqfMdA=
+Received: from ZM.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDHAqHqditqPP4wDA--.45071S3;
+	Fri, 12 Jun 2026 11:03:10 +0800 (CST)
+From: Ziming Zhu <zmzhu0630@163.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Ziming Zhu <ziming.zhu@silergycorp.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v4 1/3] dt-bindings: hwmon: pmbus: Add bindings for Silergy SQ24860
+Date: Fri, 12 Jun 2026 11:03:02 +0800
+Message-Id: <20260612030304.5165-2-zmzhu0630@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260612030304.5165-1-zmzhu0630@163.com>
+References: <20260612030304.5165-1-zmzhu0630@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDHAqHqditqPP4wDA--.45071S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr18KF18uF15Xr4kWFy3Arb_yoW5JrWkpF
+	Z5uF9rGrW8XryxW3y7GFy8Z3W5Zr1kCa1jgr9xJw1SyF98XFsYvrZIkrW5XF1UCr10yFy3
+	ZFWqyryxt3s7CF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jb73kUUUUU=
+X-CM-SenderInfo: x2p2x3aqwtiqqrwthudrp/xtbC6A8+N2ordu80rgAA3s
 
-tree:   https://github.com/nunojsa/linux xlnx/fix/buf-mmap-multibuffer
-head:   a26a8baba71e866951f6abf4fc6c0504770c272e
-commit: c54362d581209a7421fe0d0caf70ff172289da75 [27173/27391] i3c: master: Add driver for Analog Devices I3C Controller IP
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260612/202606120453.2rP7tq7s-lkp@intel.com/reproduce)
+From: Ziming Zhu <ziming.zhu@silergycorp.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606120453.2rP7tq7s-lkp@intel.com/
+Add devicetree binding documentation for the Silergy SQ24860 eFuse.
 
-All warnings (new ones prefixed by >>):
+The device is a PMBus hardware monitoring device which reports voltage,
+current, power, and temperature telemetry. The board-specific IMON
+resistor value is described with silergy,rimon-micro-ohms.
 
-   from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
---
-     from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/iio/adc/adi,ltc2308.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/adc.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i3c/adi,i3c-master.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+Signed-off-by: Ziming Zhu <ziming.zhu@silergycorp.com>
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ .../bindings/hwmon/pmbus/silergy,sq24860.yaml | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+new file mode 100644
+index 000000000000..03ef82c11e1a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/silergy,sq24860.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: http://devicetree.org/schemas/hwmon/pmbus/silergy,sq24860.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silergy SQ24860 eFuse
++
++maintainers:
++  - Ziming Zhu <ziming.zhu@silergycorp.com>
++
++description:
++  The Silergy SQ24860 is an integrated, high-current circuit protection and
++  power management device with PMBus interface.
++
++properties:
++  compatible:
++    const: silergy,sq24860
++
++  reg:
++    maxItems: 1
++
++  silergy,rimon-micro-ohms:
++    description:
++      Micro-ohms value of the resistance installed between the IMON pin and
++      the ground reference.
++
++  interrupts:
++    description: PMBus SMBAlert interrupt.
++    maxItems: 1
++
++  regulators:
++    type: object
++    description:
++      List of regulators provided by this controller.
++
++    properties:
++      vout:
++        $ref: /schemas/regulator/regulator.yaml#
++        type: object
++        unevaluatedProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - silergy,rimon-micro-ohms
++
++additionalProperties: false
++
++examples:
++  - |
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        hw-monitor@40 {
++            compatible = "silergy,sq24860";
++            reg = <0x40>;
++
++            interrupt-parent = <&gpio>;
++            interrupts = <42 8>;
++            silergy,rimon-micro-ohms = <1600000000>;
++
++            regulators {
++                cpu0_vout: vout {
++                    regulator-name = "main_cpu0";
++                };
++            };
++        };
++    };
+-- 
+2.25.1
+
