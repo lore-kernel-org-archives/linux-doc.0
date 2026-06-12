@@ -1,111 +1,268 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF7B2DB791
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 09:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81085379C23;
+	Fri, 12 Jun 2026 09:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781255991; cv=none; b=EyMvbxD+x4fWvYjJmzG3CzSYZYCeLJMl+1XqD2rsyqdEOM0POfzWZsfaA99cS6OEQmn3fUKJPHXL7MK4IEccb2ilUD4t+iLu/HmthdJIfhwKX4x5aCteltZ1HY+1R8ydev33eHNhb7knt0T5n6SfVdh0Xz41GmpNiYo3SQGmrs8=
+	t=1781258258; cv=none; b=IlNG5U3P3hiBIYbVw5BCaCbk4nQcyyYcmGfHd2rklnS//8fiPBRLb0a8PR7P25+ikmLq7v8y4OUmsXbh3wj6R74ah1b6fkyVQQ6yd3DqVc9pANPo8T+VqQSazYjV/FPelTa90wwNM5aVcke5QYIq5O07ZDMjgoMoaRClWUE+myA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781255991; c=relaxed/simple;
-	bh=SbmTGWvc0FOhj12ebJqMZ3T8dM+uZs29bl/4qr57bgY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QATT3qolMe5szDCuMiTU7YIhkzbQ5cqYTQcTvEfMkHpHlJ9nnu1pOInupLooUMnx7Kqxs1G6JI31hYXmKmMbk4uhKBUKTLSQPNk9aKq9iHIJqVgjJrtu+q6eZ+jALzNNM/Ubrp5Jaxc2InlW1Pne070BWLjEdlV+O9BYsWYl0rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FeCXj5H0; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1781258258; c=relaxed/simple;
+	bh=NzzIuketYheAuYOcGULqCQhSphsx9v/bVAg3XmB6uw8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ah1Kk4wF+kPUiHVN5uiK5iR/U7FlJ4t4aI7oohEQkIcIUf8O5CKCKuHckOTMr27ZCxgm8fWz8qoFgOG+/ztho+N28ZOUbh0risL6vw/cK9I1gnIAZgkoRin99xKdGK2GvP7dKd+oNv+pTw6FQP3D/EeDoXJn9oPZQT3Wj9kO68A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=s1F3qdd9; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P+pZIcb6; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FeCXj5H0"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so4648355e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 02:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781255988; x=1781860788; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=71oGCFxYWbuyn3cYv7RICT96Uu1k+wrgJKqPwxGnJ+8=;
-        b=FeCXj5H0XCTnB4Z9QjCJPbWDLOv0jb0S/VlmfXLassmomFWL7qQPlWtKH3h7z7x43G
-         qqeXdDyGfDLVBJcW2MQOq/EjP0AGwAXP7Y9NI/MTzqcpf/UCn2DLHK0HEYrzb9SPwrFo
-         AvlwfRYr/3X5cPYSv8Z0OA4dJTU3tJUqgXCKQFeAnVeDKyfj/GWkUcOHAvAhxha8x20/
-         5keJPG/3VwMmLhqC6r6iLKpiozlt15ed68Ma8KXOtLMjzxgPctq0CB+yISqkMkhcD/LL
-         MzZ6vvJRMEn6B0L35AnRAfO/HIAdHMZcfO6N7gQR992gFoQRny3zBmZy4u7Z9vxr4Z3q
-         LSgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781255988; x=1781860788;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=71oGCFxYWbuyn3cYv7RICT96Uu1k+wrgJKqPwxGnJ+8=;
-        b=TCApIQd21kAIsMsj+gSY6af7nL+T1NYGe+lDMKhWHskzC8Z8XETo/vUTrOD7UbykeZ
-         mwahcWSVjbrCH9tOf5mBkmwNkXB7FrBqs7z8ftrV9vZ9qsFkmXTqqu5QyyJ8HZYPgb1A
-         aS0nRriELVOt8fbPg03CzbeCrlALnB5B4ioa2xxPTzvNOKa5+fsi9TVyrFnTb1z7BWiU
-         teC1jMewD0Ha5khg3Q6VonDdVf4/dkgk2kFzObTy4Z+ppXpOwPce1lwNeVNGOqcwS8JS
-         j1x35mcMlfk59Jd3uR4C6+3tLGRMmdH+bj2RwLGyOp2yu2C6kJiUtLeWdmkWAPRpDztB
-         1d4A==
-X-Forwarded-Encrypted: i=1; AFNElJ9XHdzSif8R3F2jdyMiiv8y29IdfUO+IFC73UlGNuv1/VZLZ+JzWOHr9IrsCCJYlVXUEMIE/sPVr3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPJmKh11nu0jiobGN1Uhs0Y/Ew1taE22B4lgPlXRpNASmIEjGF
-	5U7PX6abrYh+kZ6WDpX5NIPIGJl+OcU28sZDI4vVcsnwGpVBmHOFOd+89Vw1RfZWRXU=
-X-Gm-Gg: Acq92OElcb7hwj7sT14KvuY0frBjIN77kynCbaBWv2Q4to1L0j56F7y8mAiDWJg2T2g
-	z6S4bo7IRMwW+93g8JUuoIDiXduMYu6k84aL3kHr8ltcAFYQCWA9sc8Ve8Yr6ha2fVMYK1/+pet
-	5592XcapbtovokPLf8bmEjpVKaqZn9Qnam29vVKkfjhUWxy+1IIkxvtrtQsxI62TRPUQVx/bpqI
-	VrnaGJfAkVMkeQ048p/IsJsu1s3OP+R+Jd/0KgPmDh4lM8NXOVUDPJjOtdCgLvfM6yL5onyrL1Q
-	UzESzc9FmkG8CgpO3EYZuv2ZDZLCjXrPyYqEcm12SJczMyYdIE7P3GQchQWPTpNUcjuRlexuAkW
-	ndpT+4LFANRQ7sCzLZwGVdKHxFdhRFwjCSx4O8kYLP/sQm7XMSzi+Pt7N+sCeifETdUdmKQE0Xy
-	ZyJXFT2Sy+iR+RJpcyB+qKAlqmeg==
-X-Received: by 2002:a05:600c:3105:b0:490:e60b:6860 with SMTP id 5b1f17b1804b1-490ec4b5a3cmr25667615e9.7.1781255988326;
-        Fri, 12 Jun 2026 02:19:48 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea4b39e9sm36582425e9.0.2026.06.12.02.19.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 02:19:47 -0700 (PDT)
-Date: Fri, 12 Jun 2026 11:19:45 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	"Daniel J. Ogorchock" <djogorchock@gmail.com>,
-	Tamir Duberstein <tamird@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="s1F3qdd9";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P+pZIcb6"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gcFLQ2ZZLz9thq;
+	Fri, 12 Jun 2026 11:57:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781258254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sOatx03+Y4coDzuWmp5c1p33Lzh+TpfabzIJ4Oj6V+0=;
+	b=s1F3qdd9U4XVjxCBW/i/uPH2pKeTgpyBPgHQYB2f26mQHBVVCg+hktbRcSBV/TfnnGbTnb
+	GDCR4sQJbzqCQNRwJmNv8o5TtVfpuECQgmnzlI1pL9whhUAdhMlqu4eJZFtdE3ThZtKJv4
+	Y4n3Y9EEX2NkUWey/RJ5gcK1NYu+zUuT/75ITxyH9F5/klMnzJHP9OFCoMg5dXLI6r7EoT
+	IC5fQ+Q1wTMrLTRT6FFKYYfimnDJYKDDA03fdSYCHV6GasS/wVK/4hGsk7YXmoIAREL9Ly
+	iAKlz+uuA+pvBn2AX6Bn5S27MBtMaOC96LJ+NAvHEG7uWOW4CTIOH2UagGc2Dg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781258252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sOatx03+Y4coDzuWmp5c1p33Lzh+TpfabzIJ4Oj6V+0=;
+	b=P+pZIcb6gjPwDszM++dcZebKJPjN/pOLCFp+5Dy9ZIKa9yWLL0cGC3Qfpenshai3kIv7+s
+	Ov29mbsGZnR92TRpwky6/pdCttsHgIJ8K1sjF+c5gy8BQQEChjLB0OxmQ3C8JoKtJf/nTs
+	uMWybarE5KyyY8OrfZevyU94beCu7gQWJ5xTQmJzK88VqcdQNQYo+6Nw+1ovUJ8n1dJk9N
+	RRrDVC3OAY8PxCl9lp1q9UHy6TDvNDuWvQBFCRtGRLr0/s9pzPyBRumyRtwtxAAgZlI4yy
+	YPeRjLIiSXfw6sKOr/hq0vPWLkD5lg2zpZJmk2oTWBFoOzE7HG3qvFcbonehOQ==
+To: Vineet Gupta <vgupta@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 0/2] vsprintf: add upper case to %p[mM] et alia
-Message-ID: <aivPMQv5ImhWjpuR@pathway.suse.cz>
-References: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	linux-snps-arc@lists.infradead.org (open list:SYNOPSYS ARC ARCHITECTURE),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES),
+	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT))
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] v2 Documentation: arch: fix brackets
+Date: Fri, 12 Jun 2026 11:54:22 +0200
+Message-ID: <20260612095432.177759-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 060f6ef0ba5af3aaaf0
+X-MBO-RS-META: aotyjym6h6hrfmqj4cgbcszockbfspnn
 
-On Wed 2026-06-03 12:34:01, Andy Shevchenko wrote:
-> The first patch induced by Sashiko rightfully rises a concern on
-> potential ABI breakage. To avoid that and allow the user (patch 2)
-> to be converted to use unified output introduce %p[mM][...]U for
-> printing in upper case. Tests are included and passed.
-> 
-> Changelog v2:
-> - added first patch (Sashiko)
-> 
-> Andy Shevchenko (2):
->   vsprintf: Add upper case flavour to %p[mM]
->   HID: nintendo: Use %pM format specifier for MAC addresses
+Add missing and remove needless parentheses, brackets and curly braces.
+Fix typos.
 
-For the whole series:
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+[v1] -> [v2]
+"(i.e cache geometries)" -> "(e.g., cache geometries)"
+"Excer[t" -> "Excerpt"
+add Reviewed-by: Randy Dunlap
+fixed my own typos.
+---
+ Documentation/arch/arc/arc.rst                 |  2 +-
+ .../arm/samsung/clksrc-change-registers.awk    |  2 +-
+ Documentation/arch/arm/vlocks.rst              |  4 ++--
+ .../arch/arm64/memory-tagging-extension.rst    |  2 +-
+ Documentation/arch/powerpc/vas-api.rst         |  2 +-
+ Documentation/arch/sparc/oradax/dax-hv-api.txt | 18 +++++++++---------
+ Documentation/arch/sparc/oradax/oracle-dax.rst |  2 +-
+ Documentation/arch/x86/x86_64/fsgs.rst         |  4 ++--
+ 8 files changed, 18 insertions(+), 18 deletions(-)
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+diff --git a/Documentation/arch/arc/arc.rst b/Documentation/arch/arc/arc.rst
+index 6c4d978f3f4e..5923dee37a98 100644
+--- a/Documentation/arch/arc/arc.rst
++++ b/Documentation/arch/arc/arc.rst
+@@ -36,7 +36,7 @@ Important note on ARC processors configurability
+ 
+ ARC processors are highly configurable and several configurable options
+ are supported in Linux. Some options are transparent to software
+-(i.e cache geometries, some can be detected at runtime and configured
++(e.g., cache geometries), some can be detected at runtime and configured
+ and used accordingly, while some need to be explicitly selected or configured
+ in the kernel's configuration utility (AKA "make menuconfig").
+ 
+diff --git a/Documentation/arch/arm/samsung/clksrc-change-registers.awk b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
+index 7be1b8aa7cd9..48464397088c 100755
+--- a/Documentation/arch/arm/samsung/clksrc-change-registers.awk
++++ b/Documentation/arch/arm/samsung/clksrc-change-registers.awk
+@@ -163,4 +163,4 @@ BEGIN {
+     }
+ }
+ 
+-// && ! /clksrc_clk.*=.*{/ { print $0 }
++// && ! /clksrc_clk.*=.*{/ { print $0 }}
+diff --git a/Documentation/arch/arm/vlocks.rst b/Documentation/arch/arm/vlocks.rst
+index 737aa8661a21..b0ac33263086 100644
+--- a/Documentation/arch/arm/vlocks.rst
++++ b/Documentation/arch/arm/vlocks.rst
+@@ -102,10 +102,10 @@ Features and limitations
+ 	if (I_won) {
+ 		/* we won the town election, let's go for the state */
+ 		my_state = states[(this_cpu >> 8) & 0xf];
+-		I_won = vlock_lock(my_state, this_cpu & 0xf));
++		I_won = vlock_lock(my_state, this_cpu & 0xf);
+ 		if (I_won) {
+ 			/* and so on */
+-			I_won = vlock_lock(the_whole_country, this_cpu & 0xf];
++			I_won = vlock_lock(the_whole_country, this_cpu & 0xf);
+ 			if (I_won) {
+ 				/* ... */
+ 			}
+diff --git a/Documentation/arch/arm64/memory-tagging-extension.rst b/Documentation/arch/arm64/memory-tagging-extension.rst
+index 679725030731..e6fe428f0e2a 100644
+--- a/Documentation/arch/arm64/memory-tagging-extension.rst
++++ b/Documentation/arch/arm64/memory-tagging-extension.rst
+@@ -222,7 +222,7 @@ programs should not retry in case of a non-zero system call return.
+ address ABI control and MTE configuration of a process as per the
+ ``prctl()`` options described in
+ Documentation/arch/arm64/tagged-address-abi.rst and above. The corresponding
+-``regset`` is 1 element of 8 bytes (``sizeof(long))``).
++``regset`` is 1 element of 8 bytes (``sizeof(long)``).
+ 
+ Core dump support
+ -----------------
+diff --git a/Documentation/arch/powerpc/vas-api.rst b/Documentation/arch/powerpc/vas-api.rst
+index a9625a2fa0c6..1d0d055356e3 100644
+--- a/Documentation/arch/powerpc/vas-api.rst
++++ b/Documentation/arch/powerpc/vas-api.rst
+@@ -293,7 +293,7 @@ Simple example
+ 				//Format CRB request with compression or
+ 				//uncompression
+ 				// Refer tests for vas_copy/vas_paste
+-				vas_copy((&crb, 0, 1);
++				vas_copy(&crb, 0, 1);
+ 				vas_paste(addr, 0, 1);
+ 				// Poll on csb.flags with timeout
+ 				// csb address is listed in CRB
+diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+index ef1a4c2bf08b..49be62a9ce86 100644
+--- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
++++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+@@ -457,7 +457,7 @@ bits set, and terminate at a CCB that has the Conditional bit set, but not the P
+ Offset   Size   Field Description
+                 Bits         Field Description
+                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                             “Secondary Input Element Size”
++                             “Secondary Input Element Size”)
+                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                 [9]          Padding Direction selector: A value of 1 causes padding bytes
+                              to be added to the left side of output elements. A value of 0
+@@ -656,7 +656,7 @@ Offset         Size            Field Description
+                                [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                                             Element Offsets”)
+                                [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                                            “Secondary Input Element Size”
++                                            “Secondary Input Element Size”)
+                                [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                                [9:5]        Operand size for first scan criteria value. In a scan value
+                                             operation, this is one of two potential exact match values.
+@@ -793,13 +793,13 @@ Offset   Size   Field Description
+                 [18:16]      Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                              Element Offsets”)
+                 [15:14]      Secondary Input Element Size (see Section 36.2.1.1.4,
+-                             “Secondary Input Element Size”
++                             “Secondary Input Element Size”)
+                 [13:10]      Output Format (see Section 36.2.1.1.6, “Output Format”)
+                 [9]          Reserved
+                 [8:0]        Test value used for comparison against the most significant bits
+                              in the input values, when using 2 or 3 byte input elements.
+-8        8      Completion (same fields as Section 36.2.1.2, “Extract command”
+-16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”
++8        8      Completion (same fields as Section 36.2.1.2, “Extract command”)
++16       8      Primary Input (same fields as Section 36.2.1.2, “Extract command”)
+ 24       8      Data Access Control (same fields as Section 36.2.1.2, “Extract command”,
+                 except Primary Input Length Format may not use the 0x0 value)
+ 32       8      Secondary Input, if used by Primary Input Format. Same fields as Primary
+@@ -880,7 +880,7 @@ Offset   Size   Field Description
+                                        [18:16]     Secondary Input Starting Offset (see Section 36.2.1.1.5, “Input
+                                                    Element Offsets”)
+                                        [15:14]     Secondary Input Element Size (see Section 36.2.1.1.4,
+-                                                   “Secondary Input Element Size”
++                                                   “Secondary Input Element Size”)
+ 
+ 
+                                                       524
+@@ -895,8 +895,8 @@ Offset   Size   Field Description
+                                                     causes padding bytes to be added to the right side of output
+                                                     elements.
+                                        [8:0]        Reserved
+-        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”
+-        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”
++        8              8               Completion (same fields as Section 36.2.1.2, “Extract command”)
++        16             8               Primary Input (same fields as Section 36.2.1.2, “Extract command”)
+         24             8               Data Access Control (same fields as Section 36.2.1.2, “Extract command”)
+         32             8               Secondary Bit Vector Input. Same fields as Primary Input.
+         40             8               Reserved
+@@ -949,7 +949,7 @@ Offset   Size   Field Description
+                                    [31]        If set, this CCB functions as a Sync command. If clear, this
+                                                CCB functions as a No-op command.
+                                    [30:0]      Reserved
+-       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”
++       8             8             Completion (same fields as Section 36.2.1.2, “Extract command”)
+        16            46            Reserved
+ 
+ 36.2.2. CCB Completion Area
+diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
+index d1e14d572918..a5d53f240dc8 100644
+--- a/Documentation/arch/sparc/oradax/oracle-dax.rst
++++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
+@@ -438,7 +438,7 @@ that in user land::
+ The output bitmap is ready for consumption immediately after the
+ completion status indicates success.
+ 
+-Excer[t from UltraSPARC Virtual Machine Specification
++Excerpt from UltraSPARC Virtual Machine Specification
+ =====================================================
+ 
+  .. include:: dax-hv-api.txt
+diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
+index 6bda4d16d3f7..f8d483a7fb06 100644
+--- a/Documentation/arch/x86/x86_64/fsgs.rst
++++ b/Documentation/arch/x86/x86_64/fsgs.rst
+@@ -182,8 +182,8 @@ address spaces via an attribute based mechanism in Clang 2.6 and newer
+ versions:
+ 
+  ==================================== =====================================
+-  __attribute__((address_space(256))  Variable is addressed relative to GS
+-  __attribute__((address_space(257))  Variable is addressed relative to FS
++  __attribute__(address_space(256))   Variable is addressed relative to GS
++  __attribute__(address_space(257))   Variable is addressed relative to FS
+  ==================================== =====================================
+ 
+ FS/GS based addressing with inline assembly
+-- 
+2.54.0
 
-I am going to queue it via printk tree.
-
-Best Regards,
-Petr
-
-PS: I am sorry for "late" review. My queue is quite long
-    at the moment...
-    
