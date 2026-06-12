@@ -1,202 +1,104 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012046.outbound.protection.outlook.com [52.101.66.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B69F2D3ED1;
-	Fri, 12 Jun 2026 12:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781268961; cv=fail; b=ZAnKCqvxnjlxRNuG3wpvmpewQc9hXeLeU+REvPGcgn2e9mon6yLMzGa4KDoXb78Q9QlaxeRO3StmCmUJgMIZKOo+4OCvqGVpIvG7hO4ycX3rbAraOlC3yUeWJDeLyAsuy7Zz6FdmTrPYmkKrFUJ0zMWXV7iaYjAbPdogDfz3n+Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781268961; c=relaxed/simple;
-	bh=1SfwCcdqtBvChJoCjKFoXtMR9lcEiNlKUzVNVlrPPBs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TJmuX1y1L6NXdo0NAu55p5X9xF4BH3+f8zUdjnfK+VDoe+y5gqekIQe9UjJin8eCmDOzbD5YCZj3mD10xix8A4qq9wxgjmKjXX8HeIfgRymKx5qmBDh31mTtVtq6zId+8pZPEF7FsEZQ/aNTxJuDIvwjqsA6FUwO/PtXQz8z46E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=NNGEDVxb; arc=fail smtp.client-ip=52.101.66.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0523C3BFF
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 13:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781269441; cv=none; b=BQPFS8yAzYnzQbEa0VArwviNYmd/03EYR9F9nscHqEiXE4fQk2z1C4+c3foJS/y38Jp1z5HB3D2wYakDfq3lEnW0gJDq1JVGUjcWYRfDdC0dnql2O9vCl1uUDEj8OOYOPyGh8aR7bIS3Ziwv6Te+Q+d2j4c6HJXnGECk1wf4D/Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781269441; c=relaxed/simple;
+	bh=k+sFTi3ZhgfW4nApYetJ4lkoXUIXd5mBZUzjEevdCnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=atic8duTkm0Z7zZGm3Ft0Wgb2Ytdd+a0IAXiF+AyLEx65nrODxskonIbHF9j9pRBN2RiUOBkdCoC/rpZtF4I9WA8x1ZNO0p17bmoNc6pDgkk8p6GqTnl4jFl1f5HS6IcIUtXfR41WSNjFk8FXdu3ZHNShpRL26f3D302MlTEx24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=K5b2jGNs; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="NNGEDVxb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tDf5xsKvC5bzSBWImMZFlWpFsQZhddHtOgbRZ1shV7O75XAKrYEWNRacxff3tSJ3kchlkaYnS17wA5vxfXwM7UM8ir6PiYW4w4WMs8Yz7vR2kOV0hvOLb5MrerConRbT3I9oDlAfAcHT/IKdBJ1rqJKN2DWhu0WcqGlj+qJNQ5bJZwn1y2/CQAOiRq9xbyO7CuPGx4hKT9N1s5+ZzOLz47v2AJWmyTTbpV+XY2sYPoZ46OKgO8XY/N+T2BUTa9udIoL5FYFdvGGyqPb3mgZv6bqdAsfWFaZpOkQEHP3lVoTrwPE1JxB+igCjaTD1wr7BzfFqawycqKikYQIJYah3ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eO/6LqX1ou4Z3VRKAIDsM3acu8fUnJgiHoFfOZKSXGY=;
- b=I4IfMNb3iO1UzmRpC6YJbF/6tDI0bcSWfDu0QYTiWnrKypsuA2+B0fIbLBCOq3J1r/lv9qhoYCq61sE7OPGYBb45w1yL9hW1aHlfrYRFEptTOUMCQZatqL9YpgvuArSac87ntz4hFMxUsrL6MnGMiyDnBnX+gkSS28DVlYWAbtZsvkm1wquaWcLPBM4e6n1ZYBwXSVHOH7xHDwmzrkHTEHm8K4pIHobpE4mOYLf4uxk3FxyDOlD5QmuP7hCJKMxS9gF8ElT782taujccEVbSGJGiMnfcIhF7AHXxGSbE8TLxAcWYhK+oz//DoEAlxQtBCBBQu4zC5gMo3VyoxWk/pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eO/6LqX1ou4Z3VRKAIDsM3acu8fUnJgiHoFfOZKSXGY=;
- b=NNGEDVxb83KibfO2+9+QsrD+wUQ0Xto3ua0ky92PSloglX9CkQ+Cgl03FLKj71OGVO9t4fAK4K5u09bUMZ7a215Gxz66RrrrZneHdCq75Y0UCPalfdKYsQ4XsxsnmMPeToaDMznNQqu7RMS2ib8coSoXTok2VgsH6x6O3kqAXn9IHn2awm1GSvCsa3rJ9F3UCbMmuuj0TWNH3D8/Am66niXb+Yb5WEVHbiyr92u1mZe2F6TgK6ADNRi/uCRc1KYhAlpHL+GX7XGU6LzMBGjTBU/PmxesbbqwC8m3zaCK8MeRfflJpIaYNV0wPDbTPzOnkeuk+3XjpK8wgOUW4pyPMA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by VI0P189MB3236.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2b6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Fri, 12 Jun
- 2026 12:55:54 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
- 12:55:53 +0000
-Message-ID: <56f7bd56-db01-475e-83e6-65963974f613@est.tech>
-Date: Fri, 12 Jun 2026 14:55:50 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 03/14] kcov: add barriers to recursion guard in
- kcov_df_write
-To: Alexander Potapenko <glider@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Yeoreum Yun <yeoreum.yun@arm.com>,
- Yunseong Kim <ysk@kzalloc.com>, Yunseong Kim <yunseong.kim@ericsson.com>
-References: <20260611-b4-kcov-dataflow-v2-v2-0-0a261da3987c@est.tech>
- <20260611-b4-kcov-dataflow-v2-v2-3-0a261da3987c@est.tech>
- <CAG_fn=XRzSuFrxtFbz2t9jjY8HPUUhhnU3iWJiSV-X4+hg66cw@mail.gmail.com>
-From: Yunseong Kim <yunseong.kim@est.tech>
-Content-Language: en-US
-In-Reply-To: <CAG_fn=XRzSuFrxtFbz2t9jjY8HPUUhhnU3iWJiSV-X4+hg66cw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO2P123CA0082.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:138::15) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="K5b2jGNs"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490a76757e5so7187825e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 06:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1781269436; x=1781874236; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yf7j+ifXP1lxuhE6FFlnHvjVP9/k9ur1vllpVoVtwAs=;
+        b=K5b2jGNs/84o9wYeZ8dcDLfOZon+oILCookbgGaw+tfmpx8HVSZlc5jDwXau3sAN32
+         fWeJrSp5c0piUA3z/y7co4i3WmkcqeRZja5wqVXsqziCf4roaDgKDJTWcj0NohdaD5BU
+         uwM/SprEBsYXQ1lpE84RTHPCtDOQLDa91CREfgXiYiw+x28mSKNBVeBaWw/r2a2EpHXq
+         615j1HJcjMkqaQmK9j2VBy60xWD4frYUarAUae5OeGeXhfT+7AE4NoAVMigQl5gPNFel
+         AGDrfwTSd2Xz02gepjU/9OHrv3HvXanRYNyMezoaDPfLDvyoe96clktxc+KzxUMOHt/b
+         RY+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781269436; x=1781874236;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yf7j+ifXP1lxuhE6FFlnHvjVP9/k9ur1vllpVoVtwAs=;
+        b=S8armljKT5vfE1/V8ucvjbNEFYy1cM83s91WUAWAQ5ODAxGTlXxWMsXslMXQlFIaLN
+         1X9UTimhhb0J/QWYk6Upy90TmllWFu+eMezA/HmN9dSWp2IqKF8N6iA5E77apbbLI62U
+         o7/MTnqWfSwjSsuhR1VXlKmdyWc0Ga7V9b2od8xFMIisX4ADcAdOqu6HBRvjZKBPzKke
+         yVPc+q4QNTsetEChljtR8FfTBu3izOvovI1+CMFuxsbqYR3aEsTChWZWeZGUu7FmtTag
+         /iU8rjgUyZwYfzMtjOqjwDAvU6+igppV7ZJDZvO0cA4rljtK5xUYxxxnrkvTTZeDgSBW
+         zRAA==
+X-Forwarded-Encrypted: i=1; AFNElJ+jCdkTA2kaPKMwbqfPALOvboDappincwXV7Pvve2b5dWLEF7677xgsPkPvLla6/Bix7RvlhUZvV7I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx32ZN2VjISMVPj6y/8e7pEGwHTbDnhpkVhXy3XrgUTkdp1wxPl
+	0m3e70SNJkYRNLJz+5b2gUtDwQoyzgYnsRO+/CXdEZkLgOegA8hL032rAf9HGpabi1s=
+X-Gm-Gg: Acq92OH/CMlQMMHK2RMSsc+pOp8+A5K/DnVpKGtrqe0DjueS2sXgL2+1hdex9pUY3xU
+	nBlPP+oU6WValCM2JrdrTw5XPaZHIuQRZAmv+2dmbA0iQgx9m3RlepPLWXkY0S6tmndeOnm9jAw
+	OSydCW4MG1MTMWDpkiSwMqQrMixoWmCRJnGCXEkrRbJB8/fEN6fbVYIhEklKb4bCfjip7kjK2TT
+	pL+UwVs+yqUjfsAZPTz/bUrj4XsddNG1cAXFrB0x4Npefn1L8xnpeBf+UTL6uMUhSBUlJwGPGpK
+	xtXKdTn8Ig2w1ZUK3mjWrgBpU5Y/UtY+2PqicO7pknnWvytKs96zZnBZ4ndVPXINmPEp3DUXxVG
+	z13Zwi9m1fE/lBAFg/1Y1Gk/4nVC7vZjdk2Cmn8mxp13WmnJWOTpmkag4Kc9uwrzE5yofl3COF4
+	ysGvFbb7lbS6qE/rSz973/WyuD/A==
+X-Received: by 2002:a05:600c:83ca:b0:490:aef9:aa3b with SMTP id 5b1f17b1804b1-490ec523ef7mr34427875e9.32.1781269435437;
+        Fri, 12 Jun 2026 06:03:55 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea84cc32sm61170145e9.15.2026.06.12.06.03.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 06:03:55 -0700 (PDT)
+Date: Fri, 12 Jun 2026 15:03:53 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jiri Kosina <jikos@kernel.org>,
+	"Daniel J. Ogorchock" <djogorchock@gmail.com>,
+	Tamir Duberstein <tamird@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 0/2] vsprintf: add upper case to %p[mM] et alia
+Message-ID: <aiwDuXJSFtt9jlyf@pathway.suse.cz>
+References: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|VI0P189MB3236:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21059141-36fb-4598-f95f-08dec881f026
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|18002099003|22082099003|6133799003|11063799006|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	mBaOhkZLAGjNnmH3Tu8rXvMAuxONazSJ0VCfMd6Q5qTheCXEt/ZTGFv8G2SStr+FYlDtC+U68Dt4CpRZ1NTjRN5atCx2ZZchnZ6MLlcgGut6e+GmbY6c0PizUc1fENSV5kymfxMiW2l071h2BMcV8ttbhwNZ17WbvrJocyOdIKD6Iq++v63jCggGSVxBDSSKQ9e3l/bJOyz2Lxx7MuSmGcrGf7jXXznppJZjCkKx1RKwTc+ggSRFezzobBBqhRlVfvzg4msMZR0Dsd1uCI644uQbCFnAGg2AdfX0zUxk5SMy8f7F7EwAuql+7S2cITir6+Q1/O7KTKQTuAQ07HK73Z/D0wkpSH7fgeoqrPfpwPQZSS1JD7aMw4P3F8OXpJn7zimB/G6FgZFCVvi6f7kZGPpjLNwMvSXYYeNYZ5U3wIFPXGIhhvegvppBsupQCZG+hTmtgD4rXgE+kl26sgsPkSjDeVRvWrUVn5Ar432+wDuadt0Sjekgq/elWGkqXkuE2lAIGaaB+KBm/1hVHPhqgapQn653io05WQOOpB3r6bcgOkMeRP05sQx+ZBX/Y4BmnwN2DLoVNeyotCWNSXQvOws8HB63gPL8ciDZhY0fDKHZtw45rlc6PGr2VyiQwFy4IY3/Wnj2EVyy9R/zGjcT60semWJ76LC3PR6stTzXdLJy5GU5UjpFGGYC0kiYsm/C
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(18002099003)(22082099003)(6133799003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ekpxcWVWU3J4dW96aHFETks4M3k0VGpuQzI5ZDFGeWxrL2l0M0NoUXQ5Wllr?=
- =?utf-8?B?SWhYOTBXblMvV2RsalpmZkdZcjJkaEJPSTRYWjNGeFk0NExzOTFYeUtnQW9B?=
- =?utf-8?B?Y3NvUS9UdU1Da1pJc0FtQkx1ZEhXUmthQTFXV01UaEtJZVJ6YVBGbk1NdVhP?=
- =?utf-8?B?ZmFMOGdXTmd1N3dXeWJLcHFIU1l5V1NIeWpMVDJKUEk2ZlBhZVJBZForWVpV?=
- =?utf-8?B?ZlBjQU5BdWgvbnAyZmRseGRGQTk1WWsvYXEyZzlpZmMxMzhkRGtaZUQwOWs5?=
- =?utf-8?B?eDBCR1l0eGU5K1JzL3o0Zm5sTDErN2hZeXVscHNGdko5WmdMd010MVY5cXVp?=
- =?utf-8?B?Z0cvMG1uQ041cmxMRExCU1NHZ203d1dRTllsaDBlYjA0Z1BrZ2FObXFvNTZu?=
- =?utf-8?B?Slk1ak1mS1l2YzR2SDNmYzZEa2lmMDc4emRnR2lvY3dEL2lUeUhJZ3ZPVHdO?=
- =?utf-8?B?YWc3STRwa3BRQ3Vpam1GU2xvN285SjZLMWdnZGFEQVg5MEZCK1hxeUdnVVRZ?=
- =?utf-8?B?dTdSZTZzU3RYOEpIWEZsUVl1VSt2UktjQnV6VW5sdFRHY08rNlF5NnlBcThs?=
- =?utf-8?B?SGY1eHJqbFI5bEhCd0tDUjdqUTRTTUM4NHRqU3dqVnJiOU1oZHVYZTZubDZl?=
- =?utf-8?B?TFNGWCtZUG9iZDkzbXdyYy9JQWdyVDMyZkc5QkloaHdlZ29xZ2VhVkVMQThU?=
- =?utf-8?B?QkNldzEyRmdZdjRSd1YreE8weVp3djVQTXVFV3FUZFlJU0dnMktJaGRKcnJX?=
- =?utf-8?B?Q0VCZnE1NFM1ZVlGcUpUNXA0QXpkekRPRENCeVo5QWxTTmNSWU4rZkdIWXRN?=
- =?utf-8?B?WVgyMWxGanhUQ1hIdWZMUE5Lb0dhWlcxaS9wQ2tnMUxkQW5sYWFKMlNETnhn?=
- =?utf-8?B?bGRCcDRBdW1qNFMrckJRdkQzdVV3NWdLSnkyU2p6NU4ycjlXWlN5MzRsVG5l?=
- =?utf-8?B?UEJBUkpPdlI2NDdYZCtOcFBvVk5va0svanI5bjkyb1NJR1RISVBMV3lBT3pM?=
- =?utf-8?B?bGpjL0VKV2p4WWk2RVBsSG4xdG05K245NVRuRTlWN0F0ZjN1YWgydzRXOHpR?=
- =?utf-8?B?NlhKb0NPcWtmUGh0Mnl3TXFKQXpxN0FzOHJ2TXNCR3VROVk3OVV0MnVudzQr?=
- =?utf-8?B?MHFsbjF6aCtxcllsTjVGc20xQlhhWFo1N3locWpvK1BJRHhncUNndzg3UHh4?=
- =?utf-8?B?WU12QURvNE9JbGZMSlkxOFFGOXJzZE9xd1FUd25Qdm5nZXpuUlBkRG9waXl2?=
- =?utf-8?B?MGRGVDFjeUc0ZUFhODNNcGxFNWJ3WEMvZ1cxSVd4NGtLOUsxNVhUcFFkM3BM?=
- =?utf-8?B?S2lEc3pYTWw3YXgzaUxYRlU1djlHVUR0eVpXRzRHVmdrRW55bTFodlNtWXVt?=
- =?utf-8?B?VWs1aXFlamNLY2lJQm9WSFJMV3lqYmZxTFlid3hqT010TG1IYnZ5VjZta2xQ?=
- =?utf-8?B?RzNiZEJTcnNBaTBPNGlHbUdQeVp5Rmpia3d4K2hTbnV1R1lxUFBoR2VvUUhk?=
- =?utf-8?B?UXlOMnk5czdsejJCL2VBdjBpdkxaTXdsM24rWWtQZjU2Tzdib3pGY0VUWnRZ?=
- =?utf-8?B?eCtSeDZUZ1M2ZjliZ21PbzNuRUVmeXpxTDlJdWpNRngrdWJvNEhsSyt5Uk9B?=
- =?utf-8?B?QnE4ZjFybGlVRXRscWJ0eEIwekl0N3RxR2llQUpkaTV1WXQvUVVTUVhBOXM3?=
- =?utf-8?B?eTdsc2ppVmsyTkZRUXNWRlUxTGxXWHZYelllVVFlcHhrT0pSekxhb251M1Fz?=
- =?utf-8?B?VURHUitNQTVKOXNyNndWNUFJL2dSTUFWRFpqaStUclRieXBleVNQWDBlOWR1?=
- =?utf-8?B?eXRKVCtRQUY3dUU0NHU1VkJvNi9TRGQyckNYY3lHYzM5cWtVdU1Vdm5XdElZ?=
- =?utf-8?B?OHgwWU5wc0RQZnp2OWVaZndXcWQ5aG5ZMU93Y2pBMFU5d1lmTmoxdEpzaytT?=
- =?utf-8?B?T2hBc0QwSlF6NkFEVDN5Rm1kZW5TVE56RjYxczc0Z3I3OTdyYTIrMUdnamJH?=
- =?utf-8?B?OTl2b3pidzlnSkV4M1I3eDEwemVyNHl6NnNqSjB5VlQxUGpiZlBUNFFzc2Vr?=
- =?utf-8?B?M0ZpeUF3dVFxMHdJSFdWa3czOTIyU1N2QXhZYU4vbFZjblp1QVZzQXc2KzFE?=
- =?utf-8?B?RzZPZDVncVNOcWwzMW82dzB3WFdHOGdkTHBUVDFxUU1yR1BiMUFzcERnMnNC?=
- =?utf-8?B?Z0ZoNks4UXFrc2JLenRVcnI1RFlIRnR3MjdvYU9SQXk3cDNmL3J5VXdBQzho?=
- =?utf-8?B?Q2xPRS8wZWpYaGlFenBvbmJZaHVFU0dBZllwUFhsWkhmL3FhWDEwYStUNWtT?=
- =?utf-8?B?K3k5dkF4byszRmhRZmZJVjlpVjhsV0c0NEEycjcxbFNsM0FQU2lqZz09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21059141-36fb-4598-f95f-08dec881f026
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 12:55:53.9566
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZL1jHNSJseZfzeNrUNcvuzkLiXvCzovV7SbsVJKhprtiKwUZ79sUjryNmA09XdqIpTjqFAvAOp3512qLqgKjdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3236
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603104351.152085-1-andriy.shevchenko@linux.intel.com>
 
-Hi Alexander,
-
-> On Thu, Jun 11, 2026 at 6:21 PM Yunseong Kim <yunseong.kim@est.tech> wrote:
->>
->> The recursion guard (bit-31 of kcov_df_seq) prevents reentry when
->> copy_from_kernel_nofault() or other called functions are instrumented
->> with INSTRUMENT_ALL. Without compiler barriers, the guard set/clear
->> can be reordered relative to the function body, making the protection
->> ineffective under optimization.
->>
->> Add barrier() after setting the guard and before clearing it, ensuring
->> the compiler does not move instrumented operations outside the guarded
->> region.
->>
->> Cc: Peter Zijlstra <peterz@infradead.org>
->> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
->> ---
->>  kernel/kcov_dataflow.c | 2 ++
+On Wed 2026-06-03 12:34:01, Andy Shevchenko wrote:
+> The first patch induced by Sashiko rightfully rises a concern on
+> potential ABI breakage. To avoid that and allow the user (patch 2)
+> to be converted to use unified output introduce %p[mM][...]U for
+> printing in upper case. Tests are included and passed.
 > 
-> Please merge this patch into the one introducing kcov_dataflow.c
+> Changelog v2:
+> - added first patch (Sashiko)
 > 
+> Andy Shevchenko (2):
+>   vsprintf: Add upper case flavour to %p[mM]
+>   HID: nintendo: Use %pM format specifier for MAC addresses
 
-Understood. I'll merge them in v3.
+JFYI, the patchset has been committed into printk/linux.git,
+branch for-7.2-vsprintf-pmM-uppercase.
 
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/kernel/kcov_dataflow.c b/kernel/kcov_dataflow.c
->> index df7e8bf70bfa..5248293280d5 100644
->> --- a/kernel/kcov_dataflow.c
->> +++ b/kernel/kcov_dataflow.c
->> @@ -86,6 +86,7 @@ kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
->>         if (t->kcov_df_seq & (1U << 31))
->>                 return;
->>         t->kcov_df_seq |= (1U << 31);
->> +       barrier();
-> 
-> Please make sure barriers have comments explaining which barriers they
-> pair with (see kernel/kcov.c)
-
-Thanks for the pointer. I see the existing implementation now and will align
-my changes with it.
-
-Best regards,
-Yunseong
+Best Regards,
+Petr
