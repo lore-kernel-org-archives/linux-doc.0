@@ -1,133 +1,383 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E7637DAD6
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 10:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAF2286419;
+	Fri, 12 Jun 2026 11:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781261236; cv=none; b=EPDdabEerB9ki1sGt/hLQ1tdR83AIB+Lz5wD787oqp/0d3+LdUwRTVJUxh2ekcUIwHRhDC7raYmPnS02xA75KSFPX5nr/PmgWXNUgzyad6q5LOYCvbS+B9TjvoGj3xB9lmoP0rO+xec1lPG+lbdsmcwNfakuGszTRXpCb1PQVUI=
+	t=1781262491; cv=none; b=dclzmMzMQk1Nj87YZ2rm2nGAj6Wwy+dGa1XQVCpQbY8VPQqgRJXln8uyARpC7tR0NeyBV/Ts68S2wI0dse2l/YSm6mjBFsYDzeF7AhXHBAIiMiXivvonlGDhoxkcIJjnsGTTT22NRxSi9hXu4Bn3mIzSlYs3pIxyRWnAv0G+ExA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781261236; c=relaxed/simple;
-	bh=klfiiHVrid71PPzvcY6gYtk5jDnKIjwVEJeiVajF+y0=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=Vzfyj1SpVE5JqFYClPuwkuTYTGCMaNMAtAk0i+MmB0XOcvmgGojhGCrZ5Z292Omv0QZOjzSMgIPW8ABUnNzL1F0XGxqoyRMaRuTJQrWIliYP3J2GtvJgHShtKsnybpRSfgFmX7kgP86XCzFMuxogS62Hgztnemk6ffGBG1Bw0b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S/IWrQnK; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1781262491; c=relaxed/simple;
+	bh=yjFSbYe5GPin8NxxlTTETrBQsIdqMHKGI/NZPNb5Uxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UEQ0YiOWECXM6kEkhTdxSzWzSnz71HnI8BLNnRl7pSDGes9sgV3uJx3WLI0u232lXF9veUAfNVniGp0cyhvx1EaK2O2Pf/2n7lyUiTeFmqvT5aIUKPbm507oyxpChwD71chn6BD/YqvmtvU6jaNRYOxKUf7ffns/cKbhEBNzIwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKJ4XRDm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S/IWrQnK"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9158629a220so97107585a.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 03:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1781261233; x=1781866033; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4YX03BK2qmjHf2a7Mv9URt0qeSBupGSFb+1E3T4/eV8=;
-        b=S/IWrQnKuZD3jseVTxrVbQGsgBXfYl5JEkycf9tY64QFDmCN9IKuEGW7aHCltOlR/p
-         jQuzA8bAcOo864Te0CTac4QShc3Aysa5NwrkB8y6tPQO1fNsDzAuyNTUlLFbb7VUtBQX
-         cm35JSwMRqACP02Yu6LlrIaYbbJXChnGkZ7ujXyPBEoeHmhK26TWmfa7Fh40od/o10JG
-         g4m7pXV9dO10QAor+WOdl07Q2ycGctIOGl5rbc/LpqkEiEHPtX/Lrn3MMt5OrZxQ196y
-         9EtkvSj3l+hdzdA3xItKOdz/rASeglOSwhJZqOjGd/p/ZlTjgI4+lIqD4iG9fqw4/usF
-         aaaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781261233; x=1781866033;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4YX03BK2qmjHf2a7Mv9URt0qeSBupGSFb+1E3T4/eV8=;
-        b=WTIcJ4sxeDLnLiEBV+Bnw58K0J876qxxMBTIecWTBkzZZiolhCh7f4cUtdFAx2UDur
-         6dLwrH2yw7ViKZNP3353vdLXaZdy6F1V4FGztGLsu/VrEsLGFuc1KYeRUTB1YJZGtOrW
-         TGkhhV0Hgb+2aX/z8AKn+OMaHGMcKC0+IslR2F/k5o+sVJ+Ebp+6oPOKBpdVqMTdPgM9
-         r8i7hJ8GVidVm2lQcNSd1ZhHbB+zULrALN0EpJKFstrF449S51FYlCdhlE4gFhcm1zIx
-         wkXTe3FMxDK/Q+UcyW6AgcGGku1TUzti+HmmRfRA16nXlRQ0HllP4921ZzV4uGcqTbcp
-         QNPA==
-X-Forwarded-Encrypted: i=1; AFNElJ+3HX8kOwLDLaUp2jnlwES7s6LhoqO+83NXuGRGo+r20dS+LMRPlq4vlJmJDq75yGs+OjM1XQ1ac8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb74C1YmKVJjd17WLdj30t7GUkwZKnDl08dWX3QF4OZTY9p4+Q
-	2HN0Kco3MEoAqnUFRYRxArNcWWXsD9x/goQhYfeRzqx9+f3wYdbr9t0X+B8kTpJ4M2k=
-X-Gm-Gg: Acq92OGrdSRHpEmwuxpK2ZlJgVtn1OqwQwR0jPUzw4mtRhZHYy+u53RkLh26exnV+nL
-	UuU2Wym7uvD9l0lCa5LnLE39QcwUBgTbD0vdNBlWH2I3ilCVXG7vbwDsN/vG2V9ELRPB/dBnBG4
-	mgDO4XoBsHz3ei8TAwAOXq01HOLEpJQo9c0jxJTw/OSlACK9+LFJnLjLyjI8zQsk0gSTkkCD5Gx
-	GSeo8zFo9j3AuG438/wQLTx+L2Zw7mP76aOrRvd4u4HNzg28vQBw0+0dFEhY2/K+VEUOasz5Vkk
-	lVP4VMQDTHNrlA9wpKqvWWg86z6D02+e7x5lIgK9l4uwgRWnP031Wx2e2Z8x+81TAi/v+nHfM75
-	KHboweqJCURRkTQdaL8uIULb8uwtqgQNycNNnkG7tf6ZNpUSsO9HoiDtKpB6B4h2IHJbPw7eN5V
-	pRyN3sXvm20T5Dv6ydc1dlh4NazXmfaZRw8xL2kbY9iPSArD8iYh1vY4RrSkBl
-X-Received: by 2002:a05:620a:2894:b0:915:d5cd:8ce5 with SMTP id af79cd13be357-9161bb00960mr256901885a.20.1781261232925;
-        Fri, 12 Jun 2026 03:47:12 -0700 (PDT)
-Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30457764esm19942056d6.26.2026.06.12.03.47.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 03:47:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKJ4XRDm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF4D1F00A3A;
+	Fri, 12 Jun 2026 11:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781262489;
+	bh=UPM+ofoDT7OwP6EPF9T/WLKHhKdWs1UI7b0Z8Ec18eA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SKJ4XRDmQILjWaI8kvfTb0FVmvLRTBOaOQWepscAkVlk5PsAB+W7Rn0IbRTsuKghc
+	 E7Q2HYYBLar5Wrvpav3lmSaDLwkCfIHsgYH2KKXw4qqr0U1YmJpCC/RTaVBPvhK30T
+	 EI0VRspNpKBRddZTRCUGCHBWeVLGikp1d3HRNMt2ieyyW16Syr29mBZSW3OChCebD/
+	 B6RSHNqQcAAtdDTMxuoZ0/fezuRqa3he8ArOWgV4BRyXcJph+Ae5OOctJ8CAoaBQVm
+	 8TMFgfVLJF1MKGNNnBS5M3y/RbUSGDlKleDYomJGhzxPFpPf90yRXY/RBVEhx+MqyB
+	 bSFd82RlFp7sw==
+Message-ID: <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
+Date: Fri, 12 Jun 2026 13:08:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
+To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
+ <20260610043545.3725735-4-anshuman.khandual@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260610043545.3725735-4-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the
- PCI core
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
- David Matlack <dmatlack@google.com>, kexec@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
- David Rientjes <rientjes@google.com>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
- Parav Pandit <parav@nvidia.com>, Pranjal Shrivastava <praan@google.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <aiutNINqxhtlm2Dt@kernel.org>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-2-dmatlack@google.com>
- <178124130274.908199.14827357870284807134.b4-review@b4>
- <aiutNINqxhtlm2Dt@kernel.org>
-Date: Fri, 12 Jun 2026 10:47:10 +0000
-Message-Id: <178126123047.908199.12042730612990730743.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=862;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=klfiiHVrid71PPzvcY6gYtk5jDnKIjwVEJeiVajF+y0=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqK+OvGft7vBLOTTPKIur68ZEWcTau1cnkC3skC
- zr1NiV+qhmJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCaivjrwAKCRC7dyhM23N6
- 3gyZEACjBtejaa5EWZ+XlEJc8O4GIePljN4Z+SFApZu13G3wo00ycXVVPBN6V5+aetDEBlFZrNY
- xw5OagriLkgPclJeE/mSxyOeT440nRV0zQFEVcf8vhFBQLQKCxAyB4642/MrXNo3B/PkoAoh0Me
- 5aOMfam+XcBbudOzksGfJ7ZLSORV98BsXPrQ2Gsb6dTXgHFl//fyMWjL5VR6c1NBooV7xs5ZAO0
- OyLNZhDXi7tnur55gyTJ/0gH3Of9YOHVcrWYvVldEyhPy8lii0HEPojuUI5xhRYj+yZLO4kKpik
- FxHBtPVm01/VoKz953HN8d8gCvKq8fV/OXil9B8twhGfhtiAy9trrIboh49Hu9Y6rxKp8OMT3Dd
- YNjvpceH8opcMcU/iVBCcdU9MQUUtHcImaw1YvucE4iPfFH+ReeBRJfJ7KWFzAQbqwPUctLC4Je
- OSAgwwcEBo0QmBxa+F8FNfgRqKBMV8G9vlEkD5ZmjiCsmA74UHfOgL89LOWmLzxYFnubGLMUU/2
- 25SbVIJ/Zdyyjp71SESgIGRiKKuS3NfU7976kXg7Jclio/CVpIz9cwvxf3WMC0ZKYqgUjX84syz
- 6JjnY7o6rWtYmf1Cous+o64R7Pxmwz2jyxzHbudSfK2qe8Lcx3aT1oGWKJA/9LSyKcHdQv9dcrd
- zelYBz9lnBEqGvQ==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On 2026-06-12 09:54:44+03:00, Mike Rapoport wrote:
-> On Fri, Jun 12, 2026 at 05:15:02AM +0000, Pasha Tatashin wrote:
+On 6/10/26 06:35, Anshuman Khandual wrote:
+> Replace all existing pgtable entry prints with recently added new format in
+> __print_bad_page_map_pgtable().
 > 
-> > On Fri, 22 May 2026 20:23:59 +0000, David Matlack <dmatlack@google.com> wrote:
-> > 
-> > Please add Pratyush, Mike, and myself so we are notified directly of 
-> > incoming patches, the same as with other areas where the liveupdate/ 
-> > tree is specified.
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: linux-mm@kvack.org
+> Cc: linux-kernel@vger.kernel.org
 > 
-> Or we can add PCI liveupdate files to LIVEUPDATE entry.
+>  mm/memory.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 86a973119bd4..8a25790f7c24 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -521,7 +521,6 @@ static bool is_bad_page_map_ratelimited(void)
+>  
+>  static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
+>  {
+> -	unsigned long long pgdv, p4dv, pudv, pmdv;
+>  	p4d_t p4d, *p4dp;
+>  	pud_t pud, *pudp;
+>  	pmd_t pmd, *pmdp;
+> @@ -532,34 +531,30 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+>  	 * see locking requirements for print_bad_page_map().
+>  	 */
+>  	pgdp = pgd_offset(mm, addr);
+> -	pgdv = pgd_val(*pgdp);
+>  
+>  	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
+> -		pr_alert("pgd:%08llx\n", pgdv);
+> +		pr_alert("pgd:%ppgd\n", pgdp);
+>  		return;
+>  	}
+>  
+>  	p4dp = p4d_offset(pgdp, addr);
+>  	p4d = p4dp_get(p4dp);
+> -	p4dv = p4d_val(p4d);
+>  
+>  	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
+> -		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
+> +		pr_alert("pgd:%ppgd p4d:%pp4d\n", pgdp, p4dp);
+>  		return;
+>  	}
+>  
+>  	pudp = pud_offset(p4dp, addr);
+>  	pud = pudp_get(pudp);
+> -	pudv = pud_val(pud);
+>  
+>  	if (!pud_present(pud) || pud_leaf(pud)) {
+> -		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
+> +		pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud\n", pgdp, p4dp, pudp);
+>  		return;
+>  	}
+>  
+>  	pmdp = pmd_offset(pudp, addr);
+>  	pmd = pmdp_get(pmdp);
+> -	pmdv = pmd_val(pmd);
+>  
+>  	/*
+>  	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
+> @@ -567,8 +562,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+>  	 * doing another map would be bad. print_bad_page_map() should
+>  	 * already take care of printing the PTE.
+>  	 */
+> -	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
+> -		 p4dv, pudv, pmdv);
+> +	pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud pmd:%ppmd\n", pgdp,
+> +		 p4dp, pudp, pmdp);
+>  }
+>  
+>  /*
 
-That will not work, as we cannot serve as maintainers for 
-PCI/VFIO/IOMMU/KVM, etc. David Matlack will be the maintainer for the 
-PCI components, and we will accept patches once they have been approved 
-by him.
 
-The simplification we could do is to create an email alias 
-for the live-update tree maintainers. This would allow us to use a 
-single entry instead of listing all three of us individually.
+After some off-list discussion, I wonder if we can make our life easier.
 
+I think, even with your patch, there is still the case:
+
+pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+	 pgtable_level_to_str(level), entry);
+
+Where we cast all entries to an "unsigned long" in the callers. We'd have to rework all
+that for 128bit entries either way (passing them in some struct instead).
+
+I really just extended what we used to do here in print_bad_pte() before commit ec63a44011d.
+
+Maybe we should just drop the "print the involved page table entries" thing?
+
+I mean, we do have the actual page, and we do have the address in the address space, which
+we all print.
+
+Not sure if the actual page table entries are that relevant? Would clean up nicely:
+
+
+From a1673198f9687b307496903b3f516a3c00f76199 Mon Sep 17 00:00:00 2001
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Date: Fri, 12 Jun 2026 13:06:00 +0200
+Subject: [PATCH] tmp
+
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+ mm/memory.c | 80 +++++++++--------------------------------------------
+ 1 file changed, 13 insertions(+), 67 deletions(-)
+
+diff --git a/mm/memory.c b/mm/memory.c
+index d4b3540ae659..989f7d6b280d 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -519,58 +519,6 @@ static bool is_bad_page_map_ratelimited(void)
+ 	return false;
+ }
+ 
+-static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
+-{
+-	unsigned long long pgdv, p4dv, pudv, pmdv;
+-	p4d_t p4d, *p4dp;
+-	pud_t pud, *pudp;
+-	pmd_t pmd, *pmdp;
+-	pgd_t *pgdp;
+-
+-	/*
+-	 * Although this looks like a fully lockless pgtable walk, it is not:
+-	 * see locking requirements for print_bad_page_map().
+-	 */
+-	pgdp = pgd_offset(mm, addr);
+-	pgdv = pgd_val(*pgdp);
+-
+-	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
+-		pr_alert("pgd:%08llx\n", pgdv);
+-		return;
+-	}
+-
+-	p4dp = p4d_offset(pgdp, addr);
+-	p4d = p4dp_get(p4dp);
+-	p4dv = p4d_val(p4d);
+-
+-	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
+-		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
+-		return;
+-	}
+-
+-	pudp = pud_offset(p4dp, addr);
+-	pud = pudp_get(pudp);
+-	pudv = pud_val(pud);
+-
+-	if (!pud_present(pud) || pud_leaf(pud)) {
+-		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
+-		return;
+-	}
+-
+-	pmdp = pmd_offset(pudp, addr);
+-	pmd = pmdp_get(pmdp);
+-	pmdv = pmd_val(pmd);
+-
+-	/*
+-	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
+-	 * because the table should already be mapped by the caller and
+-	 * doing another map would be bad. print_bad_page_map() should
+-	 * already take care of printing the PTE.
+-	 */
+-	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
+-		 p4dv, pudv, pmdv);
+-}
+-
+ /*
+  * This function is called to print an error when a bad page table entry (e.g.,
+  * corrupted page table entry) is found. For example, we might have a
+@@ -584,8 +532,7 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
+  * page table lock.
+  */
+ static void print_bad_page_map(struct vm_area_struct *vma,
+-		unsigned long addr, unsigned long long entry, struct page *page,
+-		enum pgtable_level level)
++		unsigned long addr, struct page *page, enum pgtable_level level)
+ {
+ 	struct address_space *mapping;
+ 	pgoff_t index;
+@@ -596,9 +543,8 @@ static void print_bad_page_map(struct vm_area_struct *vma,
+ 	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
+ 	index = linear_page_index(vma, addr);
+ 
+-	pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+-		 pgtable_level_to_str(level), entry);
+-	__print_bad_page_map_pgtable(vma->vm_mm, addr);
++	pr_alert("BUG: Bad page map in process %s on %s level", current->comm,
++		 pgtable_level_to_str(level));
+ 	if (page)
+ 		dump_page(page, "bad page map");
+ 	pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
+@@ -627,8 +573,8 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
+ 	}
+ }
+ 
+-#define print_bad_pte(vma, addr, pte, page) \
+-	print_bad_page_map(vma, addr, pte_val(pte), page, PGTABLE_LEVEL_PTE)
++#define print_bad_pte(vma, addr, page) \
++	print_bad_page_map(vma, addr, page, PGTABLE_LEVEL_PTE)
+ 
+ /**
+  * __vm_normal_page() - Get the "struct page" associated with a page table entry.
+@@ -697,7 +643,7 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
+  */
+ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+ 		unsigned long addr, unsigned long pfn, bool special,
+-		unsigned long long entry, enum pgtable_level level)
++		enum pgtable_level level)
+ {
+ 	if (pgtable_level_has_pxx_special(level)) {
+ 		if (unlikely(special)) {
+@@ -710,7 +656,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+ 			if (is_zero_pfn(pfn) || is_huge_zero_pfn(pfn))
+ 				return NULL;
+ 
+-			print_bad_page_map(vma, addr, entry, NULL, level);
++			print_bad_page_map(vma, addr, NULL, level);
+ 			return NULL;
+ 		}
+ 		/*
+@@ -741,7 +687,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
+ 
+ 	if (unlikely(pfn > highest_memmap_pfn)) {
+ 		/* Corrupted page table entry. */
+-		print_bad_page_map(vma, addr, entry, NULL, level);
++		print_bad_page_map(vma, addr, NULL, level);
+ 		return NULL;
+ 	}
+ 	/*
+@@ -768,7 +714,7 @@ struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
+ 			    pte_t pte)
+ {
+ 	return __vm_normal_page(vma, addr, pte_pfn(pte), pte_special(pte),
+-				pte_val(pte), PGTABLE_LEVEL_PTE);
++				PGTABLE_LEVEL_PTE);
+ }
+ 
+ /**
+@@ -810,7 +756,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
+ 				pmd_t pmd)
+ {
+ 	return __vm_normal_page(vma, addr, pmd_pfn(pmd), pmd_special(pmd),
+-				pmd_val(pmd), PGTABLE_LEVEL_PMD);
++				PGTABLE_LEVEL_PMD);
+ }
+ 
+ /**
+@@ -851,7 +797,7 @@ struct page *vm_normal_page_pud(struct vm_area_struct *vma,
+ 		unsigned long addr, pud_t pud)
+ {
+ 	return __vm_normal_page(vma, addr, pud_pfn(pud), pud_special(pud),
+-				pud_val(pud), PGTABLE_LEVEL_PUD);
++				PGTABLE_LEVEL_PUD);
+ }
+ #endif
+ 
+@@ -1672,7 +1618,7 @@ static __always_inline void zap_present_folio_ptes(struct mmu_gather *tlb,
+ 		folio_remove_rmap_ptes(folio, page, nr, vma);
+ 
+ 		if (unlikely(folio_mapcount(folio) < 0))
+-			print_bad_pte(vma, addr, ptent, page);
++			print_bad_pte(vma, addr, page);
+ 	}
+ 	if (unlikely(__tlb_remove_folio_pages(tlb, page, nr, delay_rmap))) {
+ 		*force_flush = true;
+@@ -4812,7 +4758,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		} else if (softleaf_is_marker(entry)) {
+ 			ret = handle_pte_marker(vmf);
+ 		} else {
+-			print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
++			print_bad_pte(vma, vmf->address, NULL);
+ 			ret = VM_FAULT_SIGBUS;
+ 		}
+ 		goto out;
+-- 
+2.43.0
+
+
+
+-- 
+Cheers,
+
+David
