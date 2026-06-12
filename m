@@ -1,150 +1,63 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB91635E1B1
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 11:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C3D3D6CD8;
+	Fri, 12 Jun 2026 12:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781264345; cv=none; b=AlSAPIszgdx4OpDQUyYFrFdF/zShMV0uMRZJaMhew6WtGMw0AvmSBYFB394MP4w5ODNJYgIlv7oDDFwVBuA/HI8GaxiS31n+Lq+x2iuhqWNlDiDS/OLWzhFThCRJ6WlHM/E0KCBP9F2m3p/ncVH79fNATI6c7CeOscqaIn35cqA=
+	t=1781268075; cv=none; b=OclEBV56SdyDdA/3Ipm6ITmsBsXjEBiYq1mr4qoGEfB+ktn9KId2gcWOhOUg8zsyVMIpyUUCBbx9YgPk9UGWk1xAAPrnr3PnX7MuJjQucWAJu4nolhyw/W8xLWwVWH9XOhBCas9kQmYoZgCoLDQjaLk+IBzC7x0Lloqf4NkEPdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781264345; c=relaxed/simple;
-	bh=SX18arNH/qTxpgMw9xFDkGTsTcvB1jVfOazjLslA7NI=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=tCC4cVVrxPbqwIL6QAuzjAR8aohc+rK668aF+RmtqW/qPcRQgUVqM/RH3X6UsbQr/HjzaUxjY7DuS2P7S27OtLhD6RYg3+9HIUiSIJAJAb9l7eMnOeviAHVz6iX63TjP2z+nAeMHWupPmm3kxzqTdQHONfwgx7MOYmSXJtpXFCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=K9NWIVNs; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1781268075; c=relaxed/simple;
+	bh=6MlhDlUha3VJTuIZyXJwcWGd/xAPiFoKeqFo2YN2I9g=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ee6NIlHAiPQFHDVU0v5eU2w0ydVZ9T1jAeBRkeVIMIzU8QOTAguK62bvOSe6kBJjNfg+CxNAZOR9PkQzfx6gfZmEPXbD+/1ChpUJXgRD5qgw5PKvlCaq0zf275xyDSdInHU4gIoYT8l+lmkmxlOOJNFgw25theUQ75q2djBGjFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PX6Q2X7F; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="K9NWIVNs"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9155183b42cso110568385a.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 04:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1781264343; x=1781869143; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jVXPrAHp/BWzZQhw02rB+3vghjeNf6PQdvQ4HyaXKb8=;
-        b=K9NWIVNsU2wDd1kGPB8EJ6azgu8KKccTAwsPJ6QXvgV+u/n3c2koBVEy9I5QR/Svqs
-         v7o9vpCSG8G1ehLW8WzJUpmT6iTAkzTPjotzbXnDE9bG1rZKwH2UcaeLAQU/VbC2zZsJ
-         sd3sFeNeUroyDrJZeniejFcdd32drVxzWgHDqfg2wl5m1+1vhxQuehAb+P9WJbK8zfUY
-         v51sPt/mrOEyiazj2Y0DViDD4yuV0WFqaJqnWl8tZDas3dt3a6b5duVcfMExp8yf7N25
-         2TmFxQTZtlhqyLmTNuzvFvmtd3bS/Vxw+QXykLt0QV4ohUmgivMgiZn7Ks0L9JayEccT
-         Splg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781264343; x=1781869143;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jVXPrAHp/BWzZQhw02rB+3vghjeNf6PQdvQ4HyaXKb8=;
-        b=X3I3ZTIVeNJaqSnqlQ7Os0VGepZcuHutcKVxxDctZ25b5Y6YaL8riz3fuiovewgd0i
-         ACxBKoCSBfSFoo/pSOpIeKrPwdZ0EWggPfknEmAjZVZx7DB1HhALBQNRkMNzaeU0aYci
-         TT82dhtkXGE6t/Mlz9lMMUJVo+nTBjUnNNeDfnrAXAv8rOTs0xsrUSW3gVEtW44vcW3N
-         RHezV2sFhhInx2AzKjHaz0Db2lX2Esdtex92SBZKkP53A5O4SXEEEHg9pdoCSriMGhHm
-         YZ1501WuUnun72aapPPOjSjRpt7WjOYcDx17zaPg6PSwTPlbssafYCK2ivBn0Ad31MJT
-         LL/g==
-X-Forwarded-Encrypted: i=1; AFNElJ+8itEboWwxWmAIXUW1AoDR6AYYKxRSVZAHS/YsQ4vfpZuSigptr2zBpRnKw5Uk6xqgwIN7uj04zJw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD5eHMaoGnp7CtrGBu7tS8j7sgwnV4y0txKcgFD/4cpNBKaods
-	NMEtJcVbrE/fp6i1suKCOL9QDKrXujgx2aAL2arQ/36FxHzQa+kfJesCmdFMEWdPLPA=
-X-Gm-Gg: Acq92OFgV+ZrSVw2MfBDQbe/U/3soIJ6T7Ryq7a55yzX6hrPWshzzwA4WeH77TxUKR7
-	yvqGzgj6sK4lWPU36thr7yIHg439q4V/CdNoq7GSXLTNzwtcp2ifmwHoeaQyZcXkkDPDNnO46hl
-	p/C2HgzpMV0/vfwDnFqtFqk/Ks+R6Monvz91DgG3yjxe+lUDnJDB7Qnii3US8LEplUGlnUJ6cLJ
-	Mf4REN3IL6MuUWeh7YMyHAtiX3/1XVqpO/+eFiyocvJfd+Nzo6EoClW6RdBQ27+1WV5413O3SQl
-	+nP+wHUNt86B5N/Jn/9/qD7jx93WVfAZW5vr+Lwkw1H/bbPggk+siW7Eyplm+vx4r/ApOhA1sP1
-	MGj/tggcRQPRPxehakmsYmNFnm2ZhbSTeHexvdANHpE9TgleDB36ik4Ygkn+Qy/zSWBkJ1rfEaO
-	2kmQPZalEbQIM2tkSC9hQgLYt2xj0Sc5T38xVRxbZf7zATqy3VbwfnpL3lTod1YfZpqx9DMgA=
-X-Received: by 2002:a05:620a:7e2:b0:915:9931:3a3e with SMTP id af79cd13be357-91619f0170dmr269313085a.27.1781264342749;
-        Fri, 12 Jun 2026 04:39:02 -0700 (PDT)
-Received: from [127.0.1.1] ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9161a073548sm182029585a.46.2026.06.12.04.39.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 04:39:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PX6Q2X7F"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F0B6B41591
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1781268068; bh=6MlhDlUha3VJTuIZyXJwcWGd/xAPiFoKeqFo2YN2I9g=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=PX6Q2X7F+km+v0jdqXYUoBzXvuUPwJrmaNIGT9fpaIkuky0xRuXY65jX8wjM8Cm7q
+	 jWQmQ+MuggXIPWY0rJnmOAGMLdjdksX69KTCf6d5NPrca+bzMjt7sEVNLMX+jPJqrl
+	 yrKXWvKAjV5+UKxfyhxUyWkQ18p6Exph6i5/ffMDD5DdAIwg+5IL+8dEtct1Q+GCaa
+	 awPoqYWToHb+46xCkDiLIrkANPeRppes65CHX1uORddnKXZ/p5OrSKZIynKsEX4fBK
+	 GnF/UgHS3WFZ+q4Yhs9qEzwRjCJGjXbvamPM/pSxyp235NMLwnEGhBhccES9MOBlY+
+	 lIMKgfQZiq64A==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id F0B6B41591;
+	Fri, 12 Jun 2026 12:41:07 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, "open list:DOCUMENTATION PROCESS"
+ <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [Question] 5.posting.rst use To: or Cc:
+In-Reply-To: <f55eb34b92a01159e0224611296fc51fcfb5ec5d.camel@mailbox.org>
+References: <f55eb34b92a01159e0224611296fc51fcfb5ec5d.camel@mailbox.org>
+Date: Fri, 12 Jun 2026 06:41:07 -0600
+Message-ID: <87ik7o9bj0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 02/12] PCI: liveupdate: Track outgoing preserved PCI
- devices
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
- Adithya Jayachandran <ajayachandra@nvidia.com>, 
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
- David Rientjes <rientjes@google.com>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pranjal Shrivastava <praan@google.com>, 
- Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-In-Reply-To: <20260522202410.3104264-3-dmatlack@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-3-dmatlack@google.com>
-Date: Fri, 12 Jun 2026 11:38:56 +0000
-Message-Id: <178126433616.1046400.532221910811070690.b4-review@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1148;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=SX18arNH/qTxpgMw9xFDkGTsTcvB1jVfOazjLslA7NI=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqK+/U8DWh12WkUIvLfnzgjF1Th+7JSF+r0l0bC
- ujbcT2VfT+JAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCaivv1AAKCRC7dyhM23N6
- 3vNZD/0XZYuESCSVn19lFpaRZQiMEVxnc34vt0lwHhNqw9psTA8JmMZy5/0xcACkCF6DDLvnBIb
- rPj7XNZFS2EWttEzuKEWmy1wSAzAN+xBV8sv3ggddpviYBAOEYw2v2gNMD2W0nkZvmJxMEYROTz
- bd4Mk82xVHxraSEw4zTpmZiYjjTQXXWvUdUothtsU70yKAR9q7dlxiZHKm8xNM8hKggyyM09vZ6
- AjZN6fA8YA8oHuHgoc4Df3aeZLh91hm9lCKoC3R0kISiHmo96sILH7Pezp+wCiIJNib4pOK5Nwt
- Tm+wJRfpBQeRJzpD4M9wva96f+p9RJUfjfsy4L9CLjgD8KqF1dCLwjlgsh0KGjutoOOlUxHFWMs
- 9wd1nVjmbaTJuk4JJF0s9e+17XKlD98vGhPSYUwaZXSXC3KRhxU9tZkUpBkPNiVKzWEBcVZCcQh
- hFVrmlTqixTLle2wMo9MpJIngoeniVvSZpmvnTUXaBGvP4pKuF/jDQTK16DI0vEe9WA6tIBqiK4
- 6ZlYtNJipb/KJg7a9YHxB1jSCaO2lSsBPzs7pzkUruWpddbrUjeCGn27IflPmg5p3xf8yv6AWZ8
- R7zHIuQkdX1emMkBhhYohsL03LMG+Xk5QwOCWbAAUqTUXNyMwhtGdfvUgn8ntjx2PLYs02/yNJG
- Pf1CsA12jXbPL8g==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
+Content-Type: text/plain
 
-On Fri, 22 May 2026 20:24:00 +0000, David Matlack <dmatlack@google.com> wrote:
-> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> index 737e7b9366db..065d5af822f7 100644
-> --- a/drivers/pci/liveupdate.c
-> +++ b/drivers/pci/liveupdate.c
-> @@ -115,6 +150,138 @@ static struct liveupdate_flb pci_liveupdate_flb = {
-> [ ... skip 59 lines ... ]
-> +		dev_ser->bdf = pci_dev_id(dev);
-> +		dev_ser->refcount = 1;
-> +
-> +		dev->liveupdate.outgoing = dev_ser;
-> +		return 0;
-> +	}
+Manuel Ebner <manuelebner@mailbox.org> writes:
 
-This loop is compatible with KHO block iterators, as mentioned in the 
-previous email. It should be straightforward to convert to them.
+> so every time I send a mail to lists or maintainers I have to choose: To:
+> or Cc:. I did look for an answer in the Documentation but couldn't find
+> one.
+> I think if there is an answer then it could be added to 5.posting.rst .
 
->
-> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
-> index 6ebcf817fff4..85def616703d 100644
-> --- a/include/linux/kho/abi/pci.h
-> +++ b/include/linux/kho/abi/pci.h
-> @@ -23,19 +23,22 @@
-> [ ... skip 16 lines ... ]
->   */
->  struct pci_dev_ser {
->  	u32 domain;
->  	u16 bdf;
-> -	u16 padding;
-> +	u16 refcount;
+Normally you would To: the maintainers, CC: the rest, but the end result
+is the same either way - it really doesn't matter.
 
-Just add refcount to the previous patch, to reduce changes to your own 
-code.
-
-Otherwise looks good
-
--- 
-Pasha Tatashin <pasha.tatashin@soleen.com>
+jon
