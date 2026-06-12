@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAF2286419;
-	Fri, 12 Jun 2026 11:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E389D305E28;
+	Fri, 12 Jun 2026 11:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781262491; cv=none; b=dclzmMzMQk1Nj87YZ2rm2nGAj6Wwy+dGa1XQVCpQbY8VPQqgRJXln8uyARpC7tR0NeyBV/Ts68S2wI0dse2l/YSm6mjBFsYDzeF7AhXHBAIiMiXivvonlGDhoxkcIJjnsGTTT22NRxSi9hXu4Bn3mIzSlYs3pIxyRWnAv0G+ExA=
+	t=1781262859; cv=none; b=e9w/qSTYE8bpW1CLzTN88M/RLHgo8w1FZ5qmRNY++LQlyZwVi29qvWjTV6utVQF6EKX23Q3B/z+rcvHCwzHALnrjxnvX6IHYVF+HgkI9boZDwLPaZnSWEM49hcIPM+HMjHPDOEP2+0P3gjjKeiGbnefpfkzAWtRRFwDdwYNejaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781262491; c=relaxed/simple;
-	bh=yjFSbYe5GPin8NxxlTTETrBQsIdqMHKGI/NZPNb5Uxw=;
+	s=arc-20240116; t=1781262859; c=relaxed/simple;
+	bh=J+9LWesfez5uYUFNLOKtrhGdIhGy9L/aeiQe+dudL+c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEQ0YiOWECXM6kEkhTdxSzWzSnz71HnI8BLNnRl7pSDGes9sgV3uJx3WLI0u232lXF9veUAfNVniGp0cyhvx1EaK2O2Pf/2n7lyUiTeFmqvT5aIUKPbm507oyxpChwD71chn6BD/YqvmtvU6jaNRYOxKUf7ffns/cKbhEBNzIwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKJ4XRDm; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=riep10v2syTKMngWxgrz4hY/cp6FCX55o8gzOugVzufLU1GrnJBa/QMA7rr3sa/LM0U5vlPpxMwsViwRJLur4Vw17IzNbC7Rd5k6haThK3oag1uBc3QavtWCOCYzFERjgj5hb4jSdRo28UmuRCBg921Hf70cntsAVV4mZuZQ7dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+h/dgKk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKJ4XRDm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF4D1F00A3A;
-	Fri, 12 Jun 2026 11:08:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+h/dgKk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E07F1F000E9;
+	Fri, 12 Jun 2026 11:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781262489;
-	bh=UPM+ofoDT7OwP6EPF9T/WLKHhKdWs1UI7b0Z8Ec18eA=;
+	s=k20260515; t=1781262856;
+	bh=dP7e3JEtOPtC6CVM3VUIPHIKZe0OVbKMvYxoe2ZHRtY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SKJ4XRDmQILjWaI8kvfTb0FVmvLRTBOaOQWepscAkVlk5PsAB+W7Rn0IbRTsuKghc
-	 E7Q2HYYBLar5Wrvpav3lmSaDLwkCfIHsgYH2KKXw4qqr0U1YmJpCC/RTaVBPvhK30T
-	 EI0VRspNpKBRddZTRCUGCHBWeVLGikp1d3HRNMt2ieyyW16Syr29mBZSW3OChCebD/
-	 B6RSHNqQcAAtdDTMxuoZ0/fezuRqa3he8ArOWgV4BRyXcJph+Ae5OOctJ8CAoaBQVm
-	 8TMFgfVLJF1MKGNNnBS5M3y/RbUSGDlKleDYomJGhzxPFpPf90yRXY/RBVEhx+MqyB
-	 bSFd82RlFp7sw==
-Message-ID: <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
-Date: Fri, 12 Jun 2026 13:08:04 +0200
+	b=n+h/dgKkcBlo/dGQjj1ub3s9bjOa0M2la6urtdxD0te37aVSmCofz0hyWaifbPk20
+	 mS8IHjwYOyPvqcGFKrUnRefPCHeAQFySphnvGxKPQLj4KzCYeGzPYq+BCR3cj4vCA6
+	 viFy8LB1SAvbHyu/PXVcxGxXFGzLV4lIpsWxWktEtHo8/sTXJB2/0K71s+fSdPIhB3
+	 nX9RflZcxKhiUeUSMoVeyVE4jZT8zOB7eNZFF7cKPGRJ0xB0z3EYGyPa61BN7W9knN
+	 4GxyBMUDop4P3Sk7/axoqTQA3bJ8OeJqcVc3VI47d8arWIzRyxwP4RvDi6JVUKjcj3
+	 qAM2UyRRNtqIg==
+Message-ID: <3603c37b-95b1-4d29-ab6f-fa3360dc17db@kernel.org>
+Date: Fri, 12 Jun 2026 13:14:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,17 +35,19 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Subject: Re: [RFC V2 0/3] lib/vsprintf: Add support for pgtable entries
+To: Matthew Wilcox <willy@infradead.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
  <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
  Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <20260610043545.3725735-4-anshuman.khandual@arm.com>
+ <aisJbeVVxxNuYxQ6@casper.infradead.org>
+ <aisNjxHW369cbKiq@ashevche-desk.local>
+ <aisOi1B0o5KYyaQo@casper.infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -92,290 +94,50 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260610043545.3725735-4-anshuman.khandual@arm.com>
+In-Reply-To: <aisOi1B0o5KYyaQo@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/10/26 06:35, Anshuman Khandual wrote:
-> Replace all existing pgtable entry prints with recently added new format in
-> __print_bad_page_map_pgtable().
+On 6/11/26 21:37, Matthew Wilcox wrote:
+> On Thu, Jun 11, 2026 at 10:33:35PM +0300, Andy Shevchenko wrote:
+>> On Thu, Jun 11, 2026 at 08:15:57PM +0100, Matthew Wilcox wrote:
+>>>
+>>> You didn't address my objection here:
+>>>
+>>> https://lore.kernel.org/linux-mm/aFQP8LzVMctf6XH5@casper.infradead.org/
+>>>
+>>> ie there is now no typechecking possible.  So you've made it more
+>>> dangerous.  I reiterate my NACK to the concept, not to the implementation.
+>>
+>> But this is more of a global question, how do we check the validity of
+>> the parameters of pointer extensions in the kernel? Does anybody go to
+>> commit into GCC plugin or so for this job?
 > 
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@kernel.org>
-> Cc: Lorenzo Stoakes <ljs@kernel.org>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
+> I agree that it's a global question that it would be great for somebody
+> to answer.  But it's specifically a problem for this patchset because:
 > 
->  mm/memory.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 86a973119bd4..8a25790f7c24 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -521,7 +521,6 @@ static bool is_bad_page_map_ratelimited(void)
->  
->  static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
->  {
-> -	unsigned long long pgdv, p4dv, pudv, pmdv;
->  	p4d_t p4d, *p4dp;
->  	pud_t pud, *pudp;
->  	pmd_t pmd, *pmdp;
-> @@ -532,34 +531,30 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * see locking requirements for print_bad_page_map().
->  	 */
->  	pgdp = pgd_offset(mm, addr);
-> -	pgdv = pgd_val(*pgdp);
->  
->  	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
-> -		pr_alert("pgd:%08llx\n", pgdv);
-> +		pr_alert("pgd:%ppgd\n", pgdp);
->  		return;
->  	}
->  
->  	p4dp = p4d_offset(pgdp, addr);
->  	p4d = p4dp_get(p4dp);
-> -	p4dv = p4d_val(p4d);
->  
->  	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
-> +		pr_alert("pgd:%ppgd p4d:%pp4d\n", pgdp, p4dp);
->  		return;
->  	}
->  
->  	pudp = pud_offset(p4dp, addr);
->  	pud = pudp_get(pudp);
-> -	pudv = pud_val(pud);
->  
->  	if (!pud_present(pud) || pud_leaf(pud)) {
-> -		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
-> +		pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud\n", pgdp, p4dp, pudp);
->  		return;
->  	}
->  
->  	pmdp = pmd_offset(pudp, addr);
->  	pmd = pmdp_get(pmdp);
-> -	pmdv = pmd_val(pmd);
->  
->  	/*
->  	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
-> @@ -567,8 +562,8 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
->  	 * doing another map would be bad. print_bad_page_map() should
->  	 * already take care of printing the PTE.
->  	 */
-> -	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
-> -		 p4dv, pudv, pmdv);
-> +	pr_alert("pgd:%ppgd p4d:%pp4d pud:%ppud pmd:%ppmd\n", pgdp,
-> +		 p4dp, pudp, pmdp);
->  }
->  
->  /*
+>  - It's really easy to get confused about which page table level you're
+>    working on.  And hugetlbfs deliberately increases that confusion.
+
+Yeah ... so far I was assuming that for hugetlb, all relevant entries (what we
+call a PTE although it isn't ....) would have to be the same size. I mean, at
+least in the callers they are the same size (pte_t)
+
+>  - Different levels of the page tables actually do have different sizes
+>    on some architectures, so if you think you're looking at a pointer to a
+>    64-bit quantity when it's really a pointer to a 32-bit quantity, things
+>    Will Go Wrong (or vice-versa.  And some architctures are big-endian)
+
+I see your point with the pass-by-pointer.
+
+>  - But on x86-64, Everything Is Fine because all levels of the page table
+>    are basically identical, so you'll never notice there's a problem.
+
+I assume on most architectures.
 
 
-After some off-list discussion, I wonder if we can make our life easier.
-
-I think, even with your patch, there is still the case:
-
-pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
-	 pgtable_level_to_str(level), entry);
-
-Where we cast all entries to an "unsigned long" in the callers. We'd have to rework all
-that for 128bit entries either way (passing them in some struct instead).
-
-I really just extended what we used to do here in print_bad_pte() before commit ec63a44011d.
-
-Maybe we should just drop the "print the involved page table entries" thing?
-
-I mean, we do have the actual page, and we do have the address in the address space, which
-we all print.
-
-Not sure if the actual page table entries are that relevant? Would clean up nicely:
-
-
-From a1673198f9687b307496903b3f516a3c00f76199 Mon Sep 17 00:00:00 2001
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Fri, 12 Jun 2026 13:06:00 +0200
-Subject: [PATCH] tmp
-
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- mm/memory.c | 80 +++++++++--------------------------------------------
- 1 file changed, 13 insertions(+), 67 deletions(-)
-
-diff --git a/mm/memory.c b/mm/memory.c
-index d4b3540ae659..989f7d6b280d 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -519,58 +519,6 @@ static bool is_bad_page_map_ratelimited(void)
- 	return false;
- }
- 
--static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long addr)
--{
--	unsigned long long pgdv, p4dv, pudv, pmdv;
--	p4d_t p4d, *p4dp;
--	pud_t pud, *pudp;
--	pmd_t pmd, *pmdp;
--	pgd_t *pgdp;
--
--	/*
--	 * Although this looks like a fully lockless pgtable walk, it is not:
--	 * see locking requirements for print_bad_page_map().
--	 */
--	pgdp = pgd_offset(mm, addr);
--	pgdv = pgd_val(*pgdp);
--
--	if (!pgd_present(*pgdp) || pgd_leaf(*pgdp)) {
--		pr_alert("pgd:%08llx\n", pgdv);
--		return;
--	}
--
--	p4dp = p4d_offset(pgdp, addr);
--	p4d = p4dp_get(p4dp);
--	p4dv = p4d_val(p4d);
--
--	if (!p4d_present(p4d) || p4d_leaf(p4d)) {
--		pr_alert("pgd:%08llx p4d:%08llx\n", pgdv, p4dv);
--		return;
--	}
--
--	pudp = pud_offset(p4dp, addr);
--	pud = pudp_get(pudp);
--	pudv = pud_val(pud);
--
--	if (!pud_present(pud) || pud_leaf(pud)) {
--		pr_alert("pgd:%08llx p4d:%08llx pud:%08llx\n", pgdv, p4dv, pudv);
--		return;
--	}
--
--	pmdp = pmd_offset(pudp, addr);
--	pmd = pmdp_get(pmdp);
--	pmdv = pmd_val(pmd);
--
--	/*
--	 * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
--	 * because the table should already be mapped by the caller and
--	 * doing another map would be bad. print_bad_page_map() should
--	 * already take care of printing the PTE.
--	 */
--	pr_alert("pgd:%08llx p4d:%08llx pud:%08llx pmd:%08llx\n", pgdv,
--		 p4dv, pudv, pmdv);
--}
--
- /*
-  * This function is called to print an error when a bad page table entry (e.g.,
-  * corrupted page table entry) is found. For example, we might have a
-@@ -584,8 +532,7 @@ static void __print_bad_page_map_pgtable(struct mm_struct *mm, unsigned long add
-  * page table lock.
-  */
- static void print_bad_page_map(struct vm_area_struct *vma,
--		unsigned long addr, unsigned long long entry, struct page *page,
--		enum pgtable_level level)
-+		unsigned long addr, struct page *page, enum pgtable_level level)
- {
- 	struct address_space *mapping;
- 	pgoff_t index;
-@@ -596,9 +543,8 @@ static void print_bad_page_map(struct vm_area_struct *vma,
- 	mapping = vma->vm_file ? vma->vm_file->f_mapping : NULL;
- 	index = linear_page_index(vma, addr);
- 
--	pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
--		 pgtable_level_to_str(level), entry);
--	__print_bad_page_map_pgtable(vma->vm_mm, addr);
-+	pr_alert("BUG: Bad page map in process %s on %s level", current->comm,
-+		 pgtable_level_to_str(level));
- 	if (page)
- 		dump_page(page, "bad page map");
- 	pr_alert("addr:%px vm_flags:%08lx anon_vma:%px mapping:%px index:%lx\n",
-@@ -627,8 +573,8 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
- 	}
- }
- 
--#define print_bad_pte(vma, addr, pte, page) \
--	print_bad_page_map(vma, addr, pte_val(pte), page, PGTABLE_LEVEL_PTE)
-+#define print_bad_pte(vma, addr, page) \
-+	print_bad_page_map(vma, addr, page, PGTABLE_LEVEL_PTE)
- 
- /**
-  * __vm_normal_page() - Get the "struct page" associated with a page table entry.
-@@ -697,7 +643,7 @@ static inline bool pgtable_level_has_pxx_special(enum pgtable_level level)
-  */
- static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
- 		unsigned long addr, unsigned long pfn, bool special,
--		unsigned long long entry, enum pgtable_level level)
-+		enum pgtable_level level)
- {
- 	if (pgtable_level_has_pxx_special(level)) {
- 		if (unlikely(special)) {
-@@ -710,7 +656,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
- 			if (is_zero_pfn(pfn) || is_huge_zero_pfn(pfn))
- 				return NULL;
- 
--			print_bad_page_map(vma, addr, entry, NULL, level);
-+			print_bad_page_map(vma, addr, NULL, level);
- 			return NULL;
- 		}
- 		/*
-@@ -741,7 +687,7 @@ static inline struct page *__vm_normal_page(struct vm_area_struct *vma,
- 
- 	if (unlikely(pfn > highest_memmap_pfn)) {
- 		/* Corrupted page table entry. */
--		print_bad_page_map(vma, addr, entry, NULL, level);
-+		print_bad_page_map(vma, addr, NULL, level);
- 		return NULL;
- 	}
- 	/*
-@@ -768,7 +714,7 @@ struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
- 			    pte_t pte)
- {
- 	return __vm_normal_page(vma, addr, pte_pfn(pte), pte_special(pte),
--				pte_val(pte), PGTABLE_LEVEL_PTE);
-+				PGTABLE_LEVEL_PTE);
- }
- 
- /**
-@@ -810,7 +756,7 @@ struct page *vm_normal_page_pmd(struct vm_area_struct *vma, unsigned long addr,
- 				pmd_t pmd)
- {
- 	return __vm_normal_page(vma, addr, pmd_pfn(pmd), pmd_special(pmd),
--				pmd_val(pmd), PGTABLE_LEVEL_PMD);
-+				PGTABLE_LEVEL_PMD);
- }
- 
- /**
-@@ -851,7 +797,7 @@ struct page *vm_normal_page_pud(struct vm_area_struct *vma,
- 		unsigned long addr, pud_t pud)
- {
- 	return __vm_normal_page(vma, addr, pud_pfn(pud), pud_special(pud),
--				pud_val(pud), PGTABLE_LEVEL_PUD);
-+				PGTABLE_LEVEL_PUD);
- }
- #endif
- 
-@@ -1672,7 +1618,7 @@ static __always_inline void zap_present_folio_ptes(struct mmu_gather *tlb,
- 		folio_remove_rmap_ptes(folio, page, nr, vma);
- 
- 		if (unlikely(folio_mapcount(folio) < 0))
--			print_bad_pte(vma, addr, ptent, page);
-+			print_bad_pte(vma, addr, page);
- 	}
- 	if (unlikely(__tlb_remove_folio_pages(tlb, page, nr, delay_rmap))) {
- 		*force_flush = true;
-@@ -4812,7 +4758,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 		} else if (softleaf_is_marker(entry)) {
- 			ret = handle_pte_marker(vmf);
- 		} else {
--			print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
-+			print_bad_pte(vma, vmf->address, NULL);
- 			ret = VM_FAULT_SIGBUS;
- 		}
- 		goto out;
--- 
-2.43.0
-
-
+Let's see if we can stop printing that information completely, so we can avoid
+messing with this at all.
 
 -- 
 Cheers,
