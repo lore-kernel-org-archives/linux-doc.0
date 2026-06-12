@@ -1,54 +1,54 @@
-Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
+Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019FA3C6611
-	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFE63CCFD0
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 19:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781292570; cv=none; b=WTYPOJ6dCCZLRu1YbkbKuE7PoXX9mth8JZ/ebysCuZAJTn2bsf+xjGYMOE1OaPlEsbeQVb8OzeuuX41UNruvd+HSGJAZayNVysckQKNF4Nna4J4UQaiQnl8suU9e1oZcIMR6FSSNzplQP7VhDiPWTe7/fJ2yEjXU8JT4PnL8EOw=
+	t=1781292572; cv=none; b=bjIsttHWNxnHUqyY6kD5OvMC5n9Wioj6rB521z/Xq5GvWPsmTxc4PNwZGTo0psFdmn2pDV4UeIUZT1y7Y2Zuv2ZGlaVBIApzxYbfem4BunnDXywv8vRjxkMS8qjPIjusgnriI/ZlHlRBW4b7KgQHtGOXHI0CkG+IH6wbuujWKUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781292570; c=relaxed/simple;
-	bh=hQtQ+lw4+n6HuW7+A+bm2V5K6NpNQJho0t6eEcDukX8=;
+	s=arc-20240116; t=1781292572; c=relaxed/simple;
+	bh=zr3w7K53w0L/DQ3i6wl/ImOA8tm3WN8USWt9IWrAR68=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=t0niCVO9k+LYqKc6O52we2p0/NGpbMkEkQhblXgjiUOYZlT8kuPrWbjBYew/ZRot6IcwMRUIGe62XoHaWEN6w9/p8XKWRc9JBf538lVizTbGeo1ODY5SjEDkAmTpD0gRNsBJxGqfJ/Fvedq+AMX7Gw/sYUV57y+/PegfumDMmnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RzuZjBZa; arc=none smtp.client-ip=209.85.160.73
+	 To:Cc:Content-Type; b=sizgNjD7pEa5sFGGpOVgjpxMQ2lvpRUIb/q8kE3xze9CgUzycGwydBu1iDygEzmilao7B1dMBQF94PzOeJzpIx0EiaGRJk/Y9pxxYxgr//cisIHZm/tMjcC2MDJck3DSzfYvdcPue948MkaAoAVQrkkNwpRQfJotDwc0usJHpkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FOg1RiQK; arc=none smtp.client-ip=209.85.167.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RzuZjBZa"
-Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-440daf1956bso1374635fac.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 12:29:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FOg1RiQK"
+Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-4862fcd9a3cso1686219b6e.2
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 12:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781292564; x=1781897364; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1781292565; x=1781897365; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3mxqdo/FWgK9hnIRW4N9gL8LSmw3WCN8Nq0npc1NKo=;
-        b=RzuZjBZahkQeahX2QQEgsyUEtuFJDJhSt4qWj5YnrzZeda/rNnQ0TuYqoo3YsI0Ttv
-         Fn4+WBv2HUAgo5iiGw77NIVXEAuH9il+k4vvZtsoLpg6mJ1SOk7ez/Kd4+XnA8VfWAd0
-         50DL3cTH9QYG1b0GK3WWKYRroXGuubReiQyBYZMShBNRcyoVegRZaI59aJtr3KBWgHLc
-         26D1yfhVCjZiUCZlTGtbcASl8YsRAJRnhRTI0brGNKxL3lP7kp+05My3kGcINQYMulT7
-         ypVlZYQ74tJk+fa8CVKSbdMwR/3IttUHM03AMmxbFPGJBPA1QGnk9eCHmJIktvsIJb7X
-         g0zg==
+        bh=ffaCtse8d32sUz83GD9kE1zbC59Hof3u/dSFHSfc7mE=;
+        b=FOg1RiQKNPtE7T4zUJMeWQJojnT8H8BFcvetbRSDaLxyvCSwUNqOtJj4t+4lgjLC+1
+         i1d0H2EZSA08Q3+hC3L13bIZdQO5ZPJnX9PHYMvYwVK4ec5UQBjIVSSrRMQG0ByORsUu
+         KLDwStfnpr1rLZz0963EYVsBCIh6u48NFB0cWI3yLC9g4yCN0z96MUcLFzUPDQFR7o8J
+         yJ0aR2JUInDu7lcKTXCUkP1xN2wiE/tdew1Wa38hBfcdmstRl4cdeHcuUFskeF/iI5Mh
+         k0Hlv2TI7he8p+k0ZBH5fuQI+5c4PO65NyU5QHVPjz7zVMa/BsM8uqGXj06npiTcrV7b
+         5pHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781292564; x=1781897364;
+        d=1e100.net; s=20251104; t=1781292565; x=1781897365;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3mxqdo/FWgK9hnIRW4N9gL8LSmw3WCN8Nq0npc1NKo=;
-        b=QEVpPxYpgXcMqczMhtepnydvpemCFJuBQQ2YbVuLYsdJ5SYsY9czVEj47Kd7QEEuXb
-         TYNF5kbWzKUqsSjI7AvZogE8IrV7BOe3j1IuG5ryWUB8nEubBa9SnUdhvOoW1F1egETD
-         wE1RxicN3gnN9CCUAnJpqPYipslajLAEWi2AsWiAdBbDVtFQEK44K1Nbsu50/X6jIEdL
-         bEqzgzgHO0oFO9plQcccnx5icnXCKAKJ89c0fNm9T3TAeYpZS/ol0fk1oth56gb1twW0
-         T+DI/emPkCbBbXxFOJhIr7v7+OSzKXs4pe3PxaoHn7N1cy0dSbYsFnABW1eXJfY0Xc3S
-         eaDw==
-X-Forwarded-Encrypted: i=1; AFNElJ9HWFgg/hMZqHkgkNtmuJEu5luIkU+8OLH0j+Jw7zZZBWEgYQvkbXOhihxygbvlhr4agB6QTT4eHhU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwltiFqCulJKXZaUJwheosewRFiaCt6xrSV1on2EVCg9CuufrkT
-	NT85FCIFewyWwO4obUMn45+PFngK+y+0QWLmJXfz+fYZpGAgmiMpLttm7SMXoJ2+R/+EA0/69Q8
-	JPv7vBTucdSo+zi1IZsePePHeEA==
-X-Received: from oaqy19-n2.prod.google.com ([2002:a05:6871:2d3:20b0:440:e30e:488f])
+        bh=ffaCtse8d32sUz83GD9kE1zbC59Hof3u/dSFHSfc7mE=;
+        b=EqGqMoC4t8cIrgCsiwabRBhqo8yYfs0u4IWRCDxlMftkdLeAZbaj1fo+H8sndx1Dlh
+         5DI6PwS7LQ3SCgYLYp0Eu/zIb59tjqAea0ojnJGP0tmrnBTDqVbK6ZsaijX3mHfWFKRN
+         lEt3nd52+8DmH41iNf2JxKbgPuJnXKJHJpjkrNGjIWBRE/jLKQmL6kqJ1PcPmkrJ6ucC
+         bBRSx4BX/X6OFkA59UlFrUmrWLrKC/gBhcuqFIR25rbYyjRGKUnKdatRwA+uMu4YDFQP
+         LOgVXkIEGzx5pfQHimrtz2s81pXy3ppoC+4TL8Kckr2AAbYPa3/vzidp7lB/xMv3aNdI
+         vHKw==
+X-Forwarded-Encrypted: i=1; AFNElJ8hO9XHdmn836ahpVVAMrX1uMFCP8Wu7srHLSGSIV6THZiI8vo75YQNRSS7bjOl0+PCS2c6XyfbDw8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRdZQ6dC/e5BbGbaJgf/mSUE9oTnGfAYkqBocfOYmFz2i9mpbe
+	BtJdWi+KClxrFRQktFA9tmgtC6bU8WcE70p2u4Y/t+R1U+BvFyulAN2d8RjjMgsPB9cfn9kLViI
+	XzPKCvJTtaW7ehYYJ4Knojz3hyg==
+X-Received: from ilbcl18.prod.google.com ([2002:a05:6e02:3792:b0:4fa:269e:802])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:16a7:b0:69e:2bf1:764e with SMTP id 006d021491bc7-69eec98b283mr491295eaf.44.1781292563404;
- Fri, 12 Jun 2026 12:29:23 -0700 (PDT)
-Date: Fri, 12 Jun 2026 19:29:02 +0000
+ 2002:a05:6808:1b2a:b0:486:79ad:970e with SMTP id 5614622812f47-4872f389689mr2647217b6e.13.1781292565256;
+ Fri, 12 Jun 2026 12:29:25 -0700 (PDT)
+Date: Fri, 12 Jun 2026 19:29:04 +0000
 In-Reply-To: <20260612192909.1153907-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260612192909.1153907-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
-Message-ID: <20260612192909.1153907-15-coltonlewis@google.com>
-Subject: [PATCH 14/21] KVM: arm64: Apply dynamic guest counter reservations
+Message-ID: <20260612192909.1153907-17-coltonlewis@google.com>
+Subject: [PATCH 16/21] perf: arm_pmuv3: Handle IRQs for Partitioned PMU guest counters
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Alexandru Elisei <alexandru.elisei@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -75,123 +75,180 @@ Cc: Alexandru Elisei <alexandru.elisei@arm.com>, Paolo Bonzini <pbonzini@redhat.
 	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Apply dynamic guest counter reservations by checking if the requested
-guest mask collides with any events the host has scheduled and calling
-pmu_perf_resched_update() with a hook that updates the mask of
-available counters in between schedule out and schedule in.
+Because ARM hardware is not yet capable of direct PPI injection into
+guests, guest counters will still trigger interrupts that need to be
+handled by the host PMU interrupt handler. Clear the overflow flags in
+hardware to handle the interrupt as normal, but update the virtual overflow register for later injecting the interrupt into the guest.
 
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- arch/arm64/kvm/pmu-direct.c  | 69 +++++++++++++++++++++++++++++++++++-
- include/linux/perf/arm_pmu.h |  1 +
- 2 files changed, 69 insertions(+), 1 deletion(-)
+ arch/arm/include/asm/arm_pmuv3.h   |  6 ++++++
+ arch/arm64/include/asm/arm_pmuv3.h |  5 +++++
+ arch/arm64/kvm/pmu-direct.c        | 22 ++++++++++++++++++++++
+ drivers/perf/arm_pmuv3.c           | 24 +++++++++++++++++-------
+ include/kvm/arm_pmu.h              |  3 +++
+ 5 files changed, 53 insertions(+), 7 deletions(-)
 
+diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
+index f6031bd522718..896fc5d6add0c 100644
+--- a/arch/arm/include/asm/arm_pmuv3.h
++++ b/arch/arm/include/asm/arm_pmuv3.h
+@@ -180,6 +180,11 @@ static inline void write_pmintenset(u32 val)
+ 	write_sysreg(val, PMINTENSET);
+ }
+ 
++static inline u32 read_pmintenset(void)
++{
++	return read_sysreg(PMINTENSET);
++}
++
+ static inline void write_pmintenclr(u32 val)
+ {
+ 	write_sysreg(val, PMINTENCLR);
+@@ -239,6 +244,7 @@ static inline u64 kvm_pmu_host_counter_mask(struct arm_pmu *pmu)
+ {
+ 	return ~0;
+ }
++static inline void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr) {}
+ 
+ /* PMU Version in DFR Register */
+ #define ARMV8_PMU_DFR_VER_NI        0
+diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
+index 27c4d6d47da31..69ff4d014bf39 100644
+--- a/arch/arm64/include/asm/arm_pmuv3.h
++++ b/arch/arm64/include/asm/arm_pmuv3.h
+@@ -110,6 +110,11 @@ static inline void write_pmintenset(u64 val)
+ 	write_sysreg(val, pmintenset_el1);
+ }
+ 
++static inline u64 read_pmintenset(void)
++{
++	return read_sysreg(pmintenset_el1);
++}
++
+ static inline void write_pmintenclr(u64 val)
+ {
+ 	write_sysreg(val, pmintenclr_el1);
 diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
-index 49f1feb5d280c..044f011c9c84b 100644
+index bb1f3dca03869..64f40cfb31012 100644
 --- a/arch/arm64/kvm/pmu-direct.c
 +++ b/arch/arm64/kvm/pmu-direct.c
-@@ -87,6 +87,73 @@ u64 kvm_pmu_direct_pmcr_read(struct kvm_vcpu *vcpu)
- 		ARMV8_PMU_PMCR_N);
+@@ -405,3 +405,25 @@ void kvm_pmu_set_guest_owned(struct kvm_vcpu *vcpu)
+ 		kvm_arm_setup_mdcr_el2(vcpu);
+ 	}
  }
- 
-+/* Callback to update counter mask between perf scheduling */
-+static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
-+{
-+	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
-+	unsigned long *new_mask = data;
-+
-+	bitmap_copy(arm_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-+}
 +
 +/**
-+ * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
-+ * @cpu_pmu: struct arm_pmu to potentially modify
-+ * @guest_mask: new guest mask for the pmu
++ * kvm_pmu_handle_guest_irq() - Record IRQs in guest counters
++ * @pmu: PMU to check for overflows
++ * @pmovsr: Overflow flags reported by driver
 + *
-+ * Check if guest counters will interfere with current host events and
-+ * call into perf_pmu_resched_update if a reschedule is required.
++ * Set overflow flags in guest-reserved counters in the VCPU register
++ * for the guest to clear later.
 + */
-+static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
++void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr)
 +{
-+	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
-+	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
-+	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
-+	bool need_resched = false;
++	struct kvm_vcpu *vcpu = kvm_get_running_vcpu();
++	u64 mask = kvm_pmu_guest_counter_mask(pmu);
++	u64 govf = pmovsr & mask;
 +
-+	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
-+	bitmap_copy(new_mask, cpu_pmu->hw_cntr_impl, ARMPMU_MAX_HWEVENTS);
++	write_pmovsclr(govf);
 +
-+	if (guest_mask) {
-+		/* Subtract guest counters from available host mask */
-+		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
++	if (!vcpu)
++		return;
 +
-+		/* Did we collide with an active host event? */
-+		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
-+			int idx;
-+
-+			need_resched = true;
-+			cpuc->host_squeezed = true;
-+
-+			/* Look for pinned events that are about to be preempted */
-+			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
-+				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
-+				    cpuc->events[idx]->attr.pinned) {
-+					pr_warn_once("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
-+					break;
-+				}
-+			}
-+		}
-+	} else {
-+		/*
-+		 * Restoring to hw_cntr_impl.
-+		 * Only resched if we previously squeezed an event.
-+		 */
-+		if (cpuc->host_squeezed) {
-+			need_resched = true;
-+			cpuc->host_squeezed = false;
-+		}
-+	}
-+
-+	if (need_resched) {
-+		/* Collision: run full perf reschedule */
-+		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
-+	} else {
-+		/* Host was never using guest counters anyway */
-+		bitmap_copy(cpu_pmu->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-+	}
++	__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, |=, govf);
 +}
-+
- /**
-  * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
-  * @pmu: Pointer to arm_pmu struct
-@@ -209,6 +276,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
- 
- 	pmu = vcpu->kvm->arch.arm_pmu;
- 	guest_counters = kvm_pmu_guest_counter_mask(pmu);
-+	kvm_pmu_set_guest_counters(pmu, guest_counters);
- 	kvm_pmu_apply_event_filter(vcpu);
- 
- 	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
-@@ -317,7 +385,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
- 	/* Stop guest counters and disable interrupts in hardware. */
- 	write_sysreg(mask, pmcntenclr_el0);
- 	write_sysreg(mask, pmintenclr_el1);
--
- 	kvm_pmu_set_guest_counters(pmu, 0);
- 	preempt_enable();
+diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+index c187397134990..6ab15a5209608 100644
+--- a/drivers/perf/arm_pmuv3.c
++++ b/drivers/perf/arm_pmuv3.c
+@@ -774,16 +774,15 @@ static void armv8pmu_disable_event_irq(struct perf_event *event)
+ 	armv8pmu_disable_intens(BIT(event->hw.idx));
  }
-diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
-index 2e1e7a48e05ff..3139f80e877f7 100644
---- a/include/linux/perf/arm_pmu.h
-+++ b/include/linux/perf/arm_pmu.h
-@@ -75,6 +75,7 @@ struct pmu_hw_events {
  
- 	/* Active events requesting branch records */
- 	unsigned int		branch_users;
-+	bool host_squeezed;
- };
+-static u64 armv8pmu_getreset_flags(void)
++static u64 armv8pmu_getovf_flags(void)
+ {
+ 	u64 value;
  
- enum armpmu_attr_groups {
+ 	/* Read */
+ 	value = read_pmovsclr();
+ 
+-	/* Write to clear flags */
+-	value &= ARMV8_PMU_CNT_MASK_ALL;
+-	write_pmovsclr(value);
++	/* Only report interrupt enabled counters. */
++	value &= read_pmintenset();
+ 
+ 	return value;
+ }
+@@ -897,16 +896,17 @@ static void read_branch_records(struct pmu_hw_events *cpuc,
+ 
+ static irqreturn_t armv8pmu_handle_irq(struct arm_pmu *cpu_pmu)
+ {
+-	u64 pmovsr;
+ 	struct perf_sample_data data;
+ 	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+ 	struct pt_regs *regs;
++	u64 host_set = kvm_pmu_host_counter_mask(cpu_pmu);
++	u64 pmovsr;
+ 	int idx;
+ 
+ 	/*
+-	 * Get and reset the IRQ flags
++	 * Get the IRQ flags
+ 	 */
+-	pmovsr = armv8pmu_getreset_flags();
++	pmovsr = armv8pmu_getovf_flags();
+ 
+ 	/*
+ 	 * Did an overflow occur?
+@@ -914,6 +914,12 @@ static irqreturn_t armv8pmu_handle_irq(struct arm_pmu *cpu_pmu)
+ 	if (!armv8pmu_has_overflowed(pmovsr))
+ 		return IRQ_NONE;
+ 
++	/*
++	 * Guest flag reset is handled the kvm hook at the bottom of
++	 * this function.
++	 */
++	write_pmovsclr(pmovsr & host_set);
++
+ 	/*
+ 	 * Handle the counter(s) overflow(s)
+ 	 */
+@@ -955,6 +961,10 @@ static irqreturn_t armv8pmu_handle_irq(struct arm_pmu *cpu_pmu)
+ 		 */
+ 		perf_event_overflow(event, &data, regs);
+ 	}
++
++	if (pmu_is_partitioned(cpu_pmu))
++		kvm_pmu_handle_guest_irq(cpu_pmu, pmovsr);
++
+ 	armv8pmu_start(cpu_pmu);
+ 
+ 	return IRQ_HANDLED;
+diff --git a/include/kvm/arm_pmu.h b/include/kvm/arm_pmu.h
+index b77ddb94dc99b..25163a689ae80 100644
+--- a/include/kvm/arm_pmu.h
++++ b/include/kvm/arm_pmu.h
+@@ -106,6 +106,7 @@ u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu);
+ void kvm_pmu_load(struct kvm_vcpu *vcpu);
+ void kvm_pmu_put(struct kvm_vcpu *vcpu);
+ void kvm_pmu_set_guest_owned(struct kvm_vcpu *vcpu);
++void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr);
+ 
+ #define kvm_pmu_get_access(vcpu)	((vcpu)->arch.pmu.access)
+ 
+@@ -274,6 +275,8 @@ static inline u64 kvm_pmu_guest_counter_mask(void *kvm)
+ 	return 0;
+ }
+ 
++static inline void kvm_pmu_handle_guest_irq(struct arm_pmu *pmu, u64 pmovsr) {}
++
+ #endif
+ 
+ #endif
 -- 
 2.54.0.1136.gdb2ca164c4-goog
 
