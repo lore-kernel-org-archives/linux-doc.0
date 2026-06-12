@@ -1,75 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6B65C613;
-	Fri, 12 Jun 2026 17:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C9B3911CE
+	for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 17:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781283822; cv=none; b=tRfTVc3Y3JHA/g8UNotq2XENK5cU9rDdxGGaAyAxguhk/TbBqHd8GTkD1SXlTWn2ARB2tWQQN3XGBXzJ5VuVoWPE2Qw5a+WoPz9vUdCDWqLwEkPD+KeV7xpOMv5GUm1OM8qbjkn2BDC14Ag93X0BE8XnhvLFRK6HVOy4B95v2/k=
+	t=1781284732; cv=none; b=j3gVxWwfhI+d48lbahTD9ULK7q3os9RIrREyb4iCxCuM9Uwok3MZDTo2eLFbmdchoG2f3LRnd4lM8wJYOsdeTySl3F0Z7TB0zhVCD3mS59k1Ei6H982tAk5m7XIWcdm83t3kzAwbERWJWU9/pubudC3C5WHoP95IdUHfZikwxK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781283822; c=relaxed/simple;
-	bh=ocg+rYhU9qZGv1rkfibdEQveWLBUUpVYmeREplBrKMU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=gl/Mdhz5tLDIoDh3ckVz2Dk/2/g3B/RtVAGibgJWzEoZS/IkY8vWBMT7/7hZcDPzZLNlyYavx96EaBfbfAZ0ZLlZSroyvbRNripRCxVktzCuu6WfTvn3Fo6vskDSGM25FgANdf0CcEoZnyZGNY+19hBqbB8TSnfYSVBnKHWzUDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=itH55TE3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781284732; c=relaxed/simple;
+	bh=yVPBwVMtjHWN3su2wCCWfu5/mrm7yRNsCI5ALzLUUgY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=RkkA+aRYo6sg3dhGoOalvlpk5vKwPgF/bVd43u91nd38g0X86oCiiDKR9BU1yKLCDhwHyUE9reYjPy02pu2osArIlpPKw8G/O07tbaiE7Zlw4kEr1BTmlU/xuZaijc1kGXEUy/qjZPMbAbPuA1v09qbKBo/raAo90nMXLOq+iIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FldVUUR5; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="itH55TE3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C16D1F000E9;
-	Fri, 12 Jun 2026 17:03:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FldVUUR5"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36ba706ab46so791483a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 10:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1781283821;
-	bh=cwPb00goa9neMhnO3uK2pLz1hA0oe5oy8FoictjDQao=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=itH55TE31Vw9PM1BjU2oosGYS40FegVM1Q8hy1iOodrFz0/baAP75jQaixwzd49Mn
-	 9Q6twOCs9iJePz4HwIOqKdefPFGIX4RbG1gV7hna9jCbfMoh88KnIbgwEtiNJ1qbkf
-	 b0nZlLaXtQaLjoaCi6q9VqEcSgYJhO8sOFO+fAl4=
-Date: Fri, 12 Jun 2026 10:03:40 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Shardul Deshpande <iamsharduld@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm/damon/design: fix a typo in the Address Unit
- section
-Message-Id: <20260612100340.1243b191c643f288e1ce211c@linux-foundation.org>
-In-Reply-To: <20260612154054.720363-1-iamsharduld@gmail.com>
-References: <20260612154054.720363-1-iamsharduld@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20251104; t=1781284731; x=1781889531; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=swbkGlj1oq37sWL58RG9e7scbRtZucFGbZOgNpgrpEc=;
+        b=FldVUUR5QtVbriYZJPjP5llIYbbrM/vlFgaAhuKVpaSXGmSmjeqRVcm3FE5ro3Jdmh
+         P2B2LM8BK6lE6uZ4B0qWjFktRSvFHq6MmGVbpr6Z7X15n5Z0CvTEqwntYXPH9itV/SQA
+         OPFuH6Glxj4ovDy+BOfj0TW0NC6LBfK9VMfYFbSQfunGXQ8d665XbbfFtNpULAB9qQrj
+         WeuJ2V6OKb87nUnvb++KOwGtfRUoagQwqnvc/fmj9Up+4ZRSmuCYzGm+iwTH4NK/wk6B
+         V/JGlAoPtxnab9M4kdXdZ5ervAk106JH7tBSB5mUbpLS69I5dncnUzYBddA54Z2Wh4KF
+         JqVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781284731; x=1781889531;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=swbkGlj1oq37sWL58RG9e7scbRtZucFGbZOgNpgrpEc=;
+        b=gdeelVdSfcrqKsQFfU2K/uwqGk4Ox6XVEXV4UGFIe9U56gkBz5Qml9ENlfw6azl20U
+         CrB3gUwjzi+AS+V9UE/+sBDeFz1iPnD7MsuC28p/tmEVOPFYZa4ivhM8Aiyt6UY/cSSC
+         DsLgRh2Z7RUUDzk44C145TKG0ovY1p8mYcLWSNca9IhYvJakGObETsRprxES+gHA5Uxy
+         NeHwHGbgUqWj+maBu+hdcc9H9ySAXAxEbIoo6LynDMmDWE/wIshF+rdONT6ClfLwOVL4
+         tOhMxk4Bjyd3BKogxhULHnxCkLLKtZ4rpS6ilq3SrOc+5Jxm6T0PfBf1R+QbigW9P/YZ
+         GXtA==
+X-Forwarded-Encrypted: i=1; AFNElJ+8EXJrw4hm0ZEi2S5RY5TjDIPZl7b6Ftv7R5tmKQadqVvjJM5IwjGHLhHNY9uDtO45h3PcysWzRIg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY6D0cj+2eFpjPDAksZU+sAp0JAvdAo2EHKEKxeM+zKo1SWJ6Y
+	Sy4NMKlf+xhwQJIBajoPwbmVYYv9yKYLErYb9IYcoifoGJi39i6WniNEk/rD3njIXTI=
+X-Gm-Gg: Acq92OGi3Uk/W+Q8K945o7ECORq0Rmg4ptSCY8WOheylrYTQddos932UVPAy7xgBNay
+	ibPivlAJfUggXtsgDEma3JMSgH0eCLMwKnC0bUoDE1J8Nc4GaMzARnZ7/vd1ngINtqJ6gEAwCWE
+	J/nXVtk8JzXtvyYc65FIO652xTdzibpZhO8X7RxzxhHVmenYs2aHYxIo2iJUqvqObzZGDB8726a
+	3vBj3ysHSaBDcMrk93nbpIqc2fZBi4A9462msrf21PWrrCqxm+/JBMef0ujx3SVFb20/pbOK97L
+	PESx8GLNi+XoqC88kpTQ0GFJxtrZf9oKJ0MuH8TitAn5Rc2u/SUsxhY9lMNCz79m2uhGhi6Z/mS
+	DmjOC/CEM91vH3+KWlYpwir1q0GJz+KkDB+5JyVUSHGEEVpQJCFO3Q3TmVaSh50O25ro1sudg4n
+	dJ0H0Gpzbu9lXAvSltlFF6+C4LwakuLkMhfyJKUg6mfMU/r8wR//c72/sGrVWxWojggf1dVyJ9B
+	i15PmQ=
+X-Received: by 2002:a17:90b:380e:b0:36d:79c6:1563 with SMTP id 98e67ed59e1d1-37a035f00e6mr4074983a91.17.1781284730623;
+        Fri, 12 Jun 2026 10:18:50 -0700 (PDT)
+Received: from shardul-ThinkPad-P16s-Gen-4-AMD.tail792e28.ts.net ([2401:4900:1c17:d4b4:80cb:f14b:59ec:7cab])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a262adbe3sm3249038a91.13.2026.06.12.10.18.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 10:18:50 -0700 (PDT)
+From: Shardul Deshpande <iamsharduld@gmail.com>
+To: Nam Tran <trannamatk@gmail.com>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: leds: fix broken reference to the multicolor LED ABI
+Date: Fri, 12 Jun 2026 22:45:27 +0530
+Message-ID: <20260612171528.728111-1-iamsharduld@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Jun 2026 21:10:54 +0530 Shardul Deshpande <iamsharduld@gmail.com> wrote:
+The reference pointed to a non-existent .rst file.  The ABI file is named
+sysfs-class-led-multicolor (without extension), so fix the reference to
+match the actual file and resolve the warning from
+tools/docs/documentation-file-ref-check.
 
-> The "Address Unit" section misspelled the C type that the DAMON core
-> layer uses for monitoring target address ranges.  Correct it to read
-> "unsigned long".
-> 
-> ...
->
-> --- a/Documentation/mm/damon/design.rst
-> +++ b/Documentation/mm/damon/design.rst
-> @@ -140,7 +140,7 @@ as Idle page tracking does.
->  Address Unit
->  ------------
->  
-> -DAMON core layer uses ``unsinged long`` type for monitoring target address
-> +DAMON core layer uses ``unsigned long`` type for monitoring target address
->  ranges.  In some cases, the address space for a given operations set could be
->  too large to be handled with the type.  ARM (32-bit) with large physical
->  address extension is an example.  For such cases, a per-operations set
+Signed-off-by: Shardul Deshpande <iamsharduld@gmail.com>
+---
+ Documentation/leds/leds-lp5812.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Well we don't want our longs to be singed.
+diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
+index c2a6368d5..12e757d45 100644
+--- a/Documentation/leds/leds-lp5812.rst
++++ b/Documentation/leds/leds-lp5812.rst
+@@ -20,7 +20,7 @@ Sysfs Interface
+ ===============
+ 
+ This driver uses the standard multicolor LED class interfaces defined
+-in Documentation/ABI/testing/sysfs-class-led-multicolor.rst.
++in Documentation/ABI/testing/sysfs-class-led-multicolor.
+ 
+ Each LP5812 LED output appears under ``/sys/class/leds/`` with its
+ assigned label (for example ``LED_A``).
+-- 
+2.43.0
 
-`grep -ri singed .' shows quite a few typos.  "assinged" is popular. 
-Perhaps you could prepare a patch which fixes them all and adds
-"assinged" to scripts/spelling.txt?
