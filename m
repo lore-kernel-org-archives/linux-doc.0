@@ -1,470 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEFB32E729
-	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 09:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E891F1D63F0
+	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 12:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781342835; cv=none; b=Jwh1vyim47hwRflatKQIb6y2WtYSRmIr1EMMTdq4T6gN2opBQkqx/G7GERHfMTOpacZUJ4PJcrxCpNb3jUnDGJIWdRHkUp1K/3ZccVg3PGhSx90yp/qmXmwP6ZE0Rxp2+GP32eIEpTt3UUmWpMCU6eMw2tAzgtFN8sVcd247+S4=
+	t=1781354483; cv=none; b=N9bQI5XFNmVKyp2N+lohk7VwpxOCsU0CF91VcTKZoHO8iksBvzOJzsgm6SlGfEDEaMYKS7hh3Bh4PDmrEjFQ/zwnddbYOoeN2UHHKelzDDsgYToFz42QDdrHs7jO/LAJJRWb+vCXUAX7RJmacz17uWpgnYFoF4me5yeuYeuYQH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781342835; c=relaxed/simple;
-	bh=a2Z6Ady4K0H23tACMTBtTlfiHsqAoRQkWObnL6Grihw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=orLEHKKyoph8DWEZpFRAV0DNOLTsrf00dFQnJumVnPIjipt3y8bM7BY7jESwtW6SoUpLT2io02r/6raeQJayhwIKmc4JI56BS5q0dkSzFceMxknv0WTjG3DIQzJXxr3oZprYfSE2BOEjrcex8dVzkGvowagAd7hJVgVoAeqxFUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LsB75swd; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781354483; c=relaxed/simple;
+	bh=nGbiUz7Z+1D+r+FBABS+FEtN3soBgHBLvihdLpOaAwc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HPkICqdaUHVeaMZAEJm/41IFpaPzv4caMsPZ9FJajcGxkVpl/xRit5piVxFWtqFBcHiUQsUji1vCKUvMlkJ06uvoWJ6MYWssWSPUmEBEjmdiQ78e5I0vyEMYmgNAdQpLjyqQJNy0p0qtcXwSU4qjpDJR6vaZJN5pw7InhLxUslQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwLj/ju/; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LsB75swd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781342832;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zZ+pUo5K2YdLgPNo6Ciwj2KiVz343QZRMZTnIquFAlY=;
-	b=LsB75swdcxve+5jkw2rrBdlBppWM5hEqZQDfFN7MidWcyxt5ozU1HhbCzf0smz7G/fMUdb
-	wwNIx7l2LRZrKNcbVdSs5aAijIplh1UO3cpK/iQX2LXH9lgTYInjyJe3RkSm0CjcTCPnRZ
-	RHMP1fTHvr7hy3iJNrzQaS6UFOWEzRc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-103-O2T34K-6O1qeQKGd4YhaOQ-1; Sat,
- 13 Jun 2026 05:27:08 -0400
-X-MC-Unique: O2T34K-6O1qeQKGd4YhaOQ-1
-X-Mimecast-MFC-AGG-ID: O2T34K-6O1qeQKGd4YhaOQ_1781342825
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 07B6519560B6;
-	Sat, 13 Jun 2026 09:27:05 +0000 (UTC)
-Received: from gerbillo.redhat.com (unknown [10.22.88.28])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1ACE51955BC2;
-	Sat, 13 Jun 2026 09:26:58 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: ciprian.regus@analog.com
-Cc: parthiban.veerasooran@microchip.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	andrew@lunn.ch,
-	hkallweit1@gmail.com,
-	linux@armlinux.org.uk,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v4 13/13] net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
-Date: Sat, 13 Jun 2026 11:26:45 +0200
-Message-ID: <20260613092645.123432-1-pabeni@redhat.com>
-In-Reply-To: <20260609-adin1140-driver-v4-13-0753e28ee004@analog.com>
-References: <20260609-adin1140-driver-v4-13-0753e28ee004@analog.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwLj/ju/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781354482; x=1812890482;
+  h=date:from:to:cc:subject:message-id;
+  bh=nGbiUz7Z+1D+r+FBABS+FEtN3soBgHBLvihdLpOaAwc=;
+  b=DwLj/ju/h57EYm8UwsxXYgZTcXctV1jJsqbbHQltrDG1ZUrMPnAg2g6m
+   +oJ1oaJqVsuL27Che4ZCuleKLK4xNaRnd4saBda2Byqm09oMdhpgSdmLM
+   33Pa+DwZI1d67k2X7HKrWv7kAFIDV6d3+//4XJNZQF5pZG/rifCQBQzZQ
+   KugZYgoqSlyuU5zCwrGY4rNsdnOtUrBPVwAw85bwEt2OoPeMaMgDP+9eB
+   xrYNjS5WBqUsfEIPlli3grFdsMg6YzoRUbOs6GOVjc9wdgmMjn/X0frW4
+   qrh3reNAsCeTAB25xR5p3KeKNh3oVbiGV3rr311hxzIjJdQ6M0noPfEJN
+   A==;
+X-CSE-ConnectionGUID: +KbrddNPTO+vDPMgXsgB6A==
+X-CSE-MsgGUID: vn5ejNg0So2qokpIG1X+hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="81181084"
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="81181084"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 05:41:21 -0700
+X-CSE-ConnectionGUID: V9jXPt5ARROUS0kqPMFaHg==
+X-CSE-MsgGUID: 3XAzhCZbQcSIFadUuqmAGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="277245699"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 13 Jun 2026 05:41:20 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wYNfp-000000004UH-3VqZ;
+	Sat, 13 Jun 2026 12:41:17 +0000
+Date: Sat, 13 Jun 2026 14:40:21 +0200
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [cris:scmi_telemetry_unified_fs_V4 29/34] htmldocs:
+ Documentation/filesystems/stlmfs.rst:238: WARNING: Title underline too short.
+Message-ID: <202606131440.jdW5ZTeF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-From: AI Reviewer <ai@example.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_unified_fs_V4
+head:   ed28087005811783e972fe7a788446936878932f
+commit: c4f3df624c05557c708df87efde36b341fabff01 [29/34] fs/stlmfs: Document alternative topological view
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260613/202606131440.jdW5ZTeF-lkp@intel.com/reproduce)
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/
----
-net: ethernet: adi: Add a driver for the ADIN1140 MACPHY
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606131440.jdW5ZTeF-lkp@intel.com/
 
-This patch adds a driver for the ADIN1140 10BASE-T1S MAC-PHY which talks
-to the host over SPI using the OA TC6 protocol. It introduces a custom
-mii_bus to work around two hardware issues, and exposes both rtnl link
-stats and ethtool MAC stats from periodically polled hardware counters.
+All warnings (new ones prefixed by >>):
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 50f795dfa880..c3cab8f7b9ef 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1858,6 +1858,14 @@ S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	drivers/dma/dma-axi-dmac.c
->  
-> +ANALOG DEVICES INC ETHERNET DRIVERS
-> +M:	Ciprian Regus <ciprian.regus@analog.com>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +W:	https://ez.analog.com/linux-software-drivers
-> +F:	Documentation/devicetree/bindings/net/adi,ad3306.yaml
-> +F:	drivers/net/ethernet/adi/adin1140.c
+   ----------- [docutils]
+   WARNING: ./include/linux/virtio.h:188 struct member 'map' not described in 'virtio_device'
+   WARNING: ./include/linux/virtio.h:188 struct member 'vmap' not described in 'virtio_device'
+   WARNING: ./include/linux/netfs.h:764 function parameter 'ictx' not described in 'netfs_resize_file'
+   WARNING: ./include/linux/netfs.h:764 function parameter 'ictx' not described in 'netfs_resize_file'
+>> Documentation/filesystems/stlmfs.rst:238: WARNING: Title underline too short.
 
-[Medium]
-The MAINTAINERS entry references
-Documentation/devicetree/bindings/net/adi,ad3306.yaml, but that file is
-not added by this patch and does not appear elsewhere in the tree.
 
-The driver also introduces two new of compatibles:
+vim +238 Documentation/filesystems/stlmfs.rst
 
-	{ .compatible = "adi,ad3306" },
-	{ .compatible = "adi,adin1140" },
+   225	
+   226		scmi_tlm_0/groups/0/
+   227		|-- available_update_intervals_ms
+   228		|-- composing_des
+   229		|-- control
+   230		|-- current_update_interval_ms
+   231		|-- des_bulk_read
+   232		|-- des_single_sample_read
+   233		|-- enable
+   234		|-- intervals_discrete
+   235		`-- tstamp_enable
+   236	
+   237	by-components/
+ > 238	-----------
+   239	
 
-with no YAML schema. Should the binding document be added in this same
-series so that the F: line resolves and dt_binding_check can validate
-the new compatibles?
-
-> diff --git a/drivers/net/ethernet/adi/adin1140.c b/drivers/net/ethernet/adi/adin1140.c
-> new file mode 100644
-> index 000000000000..306e5de6faa5
-> --- /dev/null
-> +++ b/drivers/net/ethernet/adi/adin1140.c
-
-[ ... ]
-
-> +static int adin1140_mac_filter_set(struct adin1140_priv *priv,
-> +				   const u8 *addr, const u8 *mask,
-> +				   u8 slot)
-> +{
-> +	u32 reg_address;
-> +	u32 val;
-> +	int ret;
-> +
-> +	if (slot >= ADIN1140_MAC_FILT_MAX_SLOT)
-> +		return -ENOSPC;
-> +
-> +	reg_address = ADIN1140_MAC_ADDR_FILT_UPR_REG + 2 * slot;
-> +
-> +	ret = oa_tc6_write_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-> +					reg_address,
-> +					get_unaligned_be16(&addr[0]) |
-> +					ADIN1140_MAC_ADDR_FILT_APPLY2PORT1 |
-> +					ADIN1140_MAC_ADDR_FILT_TO_HOST);
-> +	if (ret)
-> +		return ret;
-> +
-> +	reg_address = ADIN1140_MAC_ADDR_FILT_LWR_REG + 2 * slot;
-> +	ret = oa_tc6_write_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-> +					reg_address,
-> +					get_unaligned_be32(&addr[2]));
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Only the first 2 destination MAC filter slots support masking.
-> +	 * For the other entries, the destination address in the received
-> +	 * frame must match exactly.
-> +	 */
-> +	if (slot >= ADIN1140_MAC_FILT_MASK_LIMIT)
-> +		return 0;
-> +
-> +	val = get_unaligned_be16(&mask[0]);
-> +	reg_address = ADIN1140_MAC_ADDR_MASK_UPR_REG + (2 * slot);
-> +
-> +	ret = oa_tc6_write_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-> +					reg_address, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	val = get_unaligned_be32(&mask[2]);
-> +	reg_address = ADIN1140_MAC_ADDR_MASK_LWR_REG + (2 * slot);
-> +
-> +	return oa_tc6_write_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-> +					 reg_address, val);
-> +}
-
-[Medium]
-adin1140_mac_filter_set() performs up to four sequential
-oa_tc6_write_register_mms() calls (filter upper, filter lower, mask
-upper, mask lower) and returns at the first error without rolling back
-the writes that already succeeded.
-
-If the upper-half write of a new MAC succeeds and the lower-half write
-fails, the slot is left programmed with (new high | old low). Callers
-treat this as single-shot:
-
-	ret = adin1140_mac_filter_set(priv, address->sa_data, mask,
-				      ADIN1140_MAC_FILT_UC_SLOT);
-	if (ret)
-		return ret;
-
-	eth_commit_mac_addr_change(netdev, addr);
-
-so adin1140_set_mac_address() leaves netdev->dev_addr at the old value
-while the hardware filter now matches a third, hybrid address. The same
-applies to adin1140_rx_mode_work() which just returns on the first
-error and leaves the dynamic filter table inconsistent with
-netdev->uc/mc.
-
-Should this function stage the writes (or perform a rollback / clear of
-the affected slot) so a partial failure cannot leave the hardware
-filter in a state that does not match the driver's view?
-
-[ ... ]
-
-> +static void adin1140_rx_mode_work(struct work_struct *work)
-> +{
-> +	struct adin1140_priv *priv = container_of(work, struct adin1140_priv,
-> +						  rx_mode_work);
-> +	struct netdev_hw_addr *ha;
-> +	bool all_multi, promisc;
-> +	u8 mask[ETH_ALEN];
-> +	u8 start, end;
-> +	u32 mac_addrs;
-> +	u8 slot, i;
-> +	int ret;
-> +
-> +	/* The ADIN1140 has 16 dest MAC address filter slots:
-> +	 * 0 - reserved for all multicast filter.
-> +	 * 1 - reserved for broadcast filter.
-> +	 * 2 - reserved for the device's own unicast MAC.
-> +	 * 3 -> 15 - available for other unicast/multicast filters.
-> +	 */
-> +
-> +	mac_addrs = netdev_uc_count(priv->netdev) +
-> +		    netdev_mc_count(priv->netdev);
-> +
-> +	if (priv->netdev->flags & IFF_PROMISC) {
-> +		promisc = true;
-> +		all_multi = false;
-> +	} else if (priv->netdev->flags & IFF_ALLMULTI) {
-> +		promisc = false;
-> +		all_multi = true;
-> +	} else if (mac_addrs <= ADIN1140_MAC_FILT_AVAIL) {
-> +		promisc = false;
-> +		all_multi = false;
-> +
-> +		slot = ADIN1140_MAC_FILT_UC_SLOT + 1;
-> +		memset(mask, 0xFF, ETH_ALEN);
-> +
-> +		netdev_for_each_uc_addr(ha, priv->netdev) {
-> +			ret = adin1140_mac_filter_set(priv, ha->addr, mask,
-> +						      slot);
-> +			if (ret)
-> +				return;
-> +
-> +			slot++;
-> +		}
-> +
-> +		netdev_for_each_mc_addr(ha, priv->netdev) {
-> +			ret = adin1140_mac_filter_set(priv, ha->addr, mask,
-> +						      slot);
-> +			if (ret)
-> +				return;
-> +
-> +			slot++;
-> +		}
-> +
-> +		for (i = slot; i < ADIN1140_MAC_FILT_MAX_SLOT; i++) {
-> +			ret = adin1140_mac_filter_clear(priv, i);
-> +			if (ret)
-> +				return;
-> +		}
-> +
-> +	} else {
-> +		/* The filter table is full. Enable promisc mode. */
-> +		promisc = true;
-> +		all_multi = false;
-> +
-> +		start = ADIN1140_MAC_FILT_UC_SLOT + 1;
-> +		end = ADIN1140_MAC_FILT_MAX_SLOT;
-> +		for (i = start; i < end; i++) {
-> +			ret = adin1140_mac_filter_clear(priv, i);
-> +			if (ret)
-> +				return;
-> +		}
-> +	}
-> +
-> +	ret = adin1140_promiscuous_mode(priv, promisc);
-> +	if (ret)
-> +		return;
-> +
-> +	adin1140_filter_all_multicast(priv, all_multi);
-> +}
-
-[High]
-This work iterates priv->netdev->uc and ->mc with no synchronization:
-
-	netdev_for_each_uc_addr(ha, priv->netdev) {
-		ret = adin1140_mac_filter_set(priv, ha->addr, mask, slot);
-		...
-	}
-
-	netdev_for_each_mc_addr(ha, priv->netdev) {
-		...
-	}
-
-netdev_for_each_uc_addr() and netdev_for_each_mc_addr() expand to
-plain list_for_each_entry() over dev->uc.list / dev->mc.list. Callers
-are required to hold netif_addr_lock_bh() (or rtnl) because dev_uc_add
-/ dev_uc_del / dev_mc_add / dev_mc_del can mutate those lists from
-user-space ip address/maddr changes.
-
-Inside the loop ha->addr is then handed to adin1140_mac_filter_set(),
-which performs SPI register writes that can sleep, so taking
-netif_addr_lock_bh() across the iteration is not directly viable.
-
-Can this race with a concurrent dev_uc_del() / dev_mc_del() and
-dereference freed list entries (or skip / duplicate filter slots)?
-Other ethernet drivers that need to issue sleeping ops while syncing
-the address lists use __dev_uc_sync() / __dev_mc_sync() which copy
-state under netif_addr_lock; would that pattern be more appropriate
-here?
-
-[Medium]
-In the IFF_PROMISC and IFF_ALLMULTI branches, slots 3..15 are not
-cleared:
-
-	if (priv->netdev->flags & IFF_PROMISC) {
-		promisc = true;
-		all_multi = false;
-	} else if (priv->netdev->flags & IFF_ALLMULTI) {
-		promisc = false;
-		all_multi = true;
-	} else if (mac_addrs <= ADIN1140_MAC_FILT_AVAIL) {
-		...
-		for (i = slot; i < ADIN1140_MAC_FILT_MAX_SLOT; i++) {
-			ret = adin1140_mac_filter_clear(priv, i);
-			...
-		}
-	} else {
-		...
-		for (i = start; i < end; i++) {
-			ret = adin1140_mac_filter_clear(priv, i);
-			...
-		}
-	}
-
-If a previous invocation populated slots 3..N with extra unicast or
-multicast filters and the user then enables IFF_ALLMULTI, those
-previously installed unicast filters remain active in hardware
-(carrying APPLY2PORT1 | TO_HOST). Should the IFF_ALLMULTI path also
-clear slots 3..15 so traffic for addresses no longer in netdev->uc/mc
-is not still forwarded to the host?
-
-[ ... ]
-
-> +static void adin1140_stats_work(struct work_struct *work)
-> +{
-> +	struct delayed_work *dwork = to_delayed_work(work);
-> +	u64 stat_buff[ADIN1140_STATS_CNT] = {};
-> +	struct adin1140_priv *priv;
-> +	u32 reg_val;
-> +	int ret;
-> +	u32 i;
-> +
-> +	priv = container_of(dwork, struct adin1140_priv, stats_work);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(adin1140_stat_regs); i++) {
-> +		ret = oa_tc6_read_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-> +					       adin1140_stat_regs[i],
-> +					       &reg_val);
-> +		if (ret)
-> +			break;
-> +
-> +		stat_buff[i] = reg_val;
-> +	}
-> +
-> +	scoped_guard(spinlock, &priv->stat_lock)
-> +		memcpy(&priv->stats, stat_buff, sizeof(priv->stats));
-> +
-> +	schedule_delayed_work(dwork, ADIN1140_STATS_CHECK_DELAY);
-> +}
-
-[Medium]
-stat_buff is zero-initialized and the loop break on a read error is
-followed unconditionally by:
-
-	scoped_guard(spinlock, &priv->stat_lock)
-		memcpy(&priv->stats, stat_buff, sizeof(priv->stats));
-
-If oa_tc6_read_register_mms() fails partway through, every entry from
-the failing index onwards is still zero, and that all-zero tail is
-copied over the previously valid u64 counters. Since priv->stats[] is
-read directly by adin1140_ndo_get_stats64(),
-adin1140_get_eth_mac_stats() and adin1140_get_ethtool_stats(), a
-single transient SPI/TC6 hiccup makes the rtnl_link_stats64 and
-ethtool_eth_mac_stats counters drop to zero before climbing again.
-Should the memcpy be skipped on error, or should partial updates be
-merged into priv->stats[] only for the indices that were read
-successfully?
-
-[Medium]
-The hardware counters at MMS1 0xA1..0xBA are read into u32 reg_val and
-then stored as-is into the u64 stat_buff[i]:
-
-	ret = oa_tc6_read_register_mms(priv->tc6, OA_TC6_MAC_MMS1,
-				       adin1140_stat_regs[i],
-				       &reg_val);
-	...
-	stat_buff[i] = reg_val;
-
-priv->stats[] feeds rtnl_link_stats64 and ethtool_eth_mac_stats, both
-of which document monotonic u64 counters. On 32-bit hardware register
-wrap (0xFFFFFFFF -> 0) the user-visible u64 value will go backwards,
-and with a 3-second poll interval a fast counter (e.g.
-FramesReceivedOK on a busy 10BASE-T1S segment) can wrap entirely
-between samples. Should the driver compute deltas with 32-bit wrap
-handling and accumulate them into a software u64 counter rather than
-overwriting?
-
-[ ... ]
-
-> +static void adin1140_get_ethtool_stats(struct net_device *netdev,
-> +				       struct ethtool_stats *stats, u64 *data)
-> +{
-> +	struct adin1140_priv *priv = netdev_priv(netdev);
-> +	u32 i;
-> +
-> +	scoped_guard(spinlock, &priv->stat_lock) {
-> +		for (i = 0; i < ARRAY_SIZE(adin1140_stats); i++)
-> +			data[i] = priv->stats[adin1140_stats[i].idx];
-> +	}
-> +}
-> +
-> +static void adin1140_get_ethtool_strings(struct net_device *netdev, u32 sset,
-> +					 u8 *p)
-> +{
-> +	u32 i;
-> +
-> +	switch (sset) {
-> +	case ETH_SS_STATS:
-> +		for (i = 0; i < ARRAY_SIZE(adin1140_stats); i++)
-> +			ethtool_puts(&p, adin1140_stats[i].name);
-> +
-> +		break;
-> +	}
-> +}
-
-[Medium]
-The driver implements both .ndo_get_stats64 and .get_eth_mac_stats,
-yet adin1140_stats[] adds private ethtool -S strings whose values are
-already exposed (or trivially derivable) through those standard uAPIs:
-
-	{.name = "rx_unicast_frames", .idx = rx_uc_frames},
-	{.name = "rx_preamble_errors", .idx = rx_preamble_errors},
-	{.name = "rx_ifg_errors", .idx = rx_ifg_errors},
-	{.name = "rx_addr_filter_dropped", .idx = rx_addr_filter_dropped},
-	{.name = "tx_unicast_frames", .idx = tx_uc_frames},
-
-rx_addr_filter_dropped is already aggregated into
-rtnl_link_stats64.rx_dropped by this same driver:
-
-	storage->rx_dropped = priv->stats[rx_fifo_full_dropped] +
-			      priv->stats[rx_addr_filter_dropped];
-
-rx_unicast_frames and tx_unicast_frames are derivable from
-ethtool_eth_mac_stats (FramesReceivedOK minus broadcast minus
-multicast, and the Xmitted equivalents) which are populated in
-__adin1140_eth_mac_stats.
-
-Per Documentation/networking/statistics.rst, should these counters be
-left out of ethtool -S since standard uAPIs already cover them?
--- 
-This is an AI-generated review.
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
