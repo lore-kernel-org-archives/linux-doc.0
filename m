@@ -1,68 +1,51 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9824E342CB3
-	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 12:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3AC2F3614;
+	Sat, 13 Jun 2026 15:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781354925; cv=none; b=JhofjCMGdx9KnuZhr6+UmyXYjGQfJywGYrnZWTw13fO9cmuIX39hbK+QIrhwQ7lDEMcArd/NtirUKhBsf6V/HTriOs0PPhzCs+oNb4NXxGUSJXda35hnYwyiJ4McQFHjQcCzhuiY4SmV3YHvz778Li2ng/Rac2i3djF2FeyyIAw=
+	t=1781363314; cv=none; b=lNXUGo0PHJll7RTsgys2Mxk8VdRhtwdTcHJOGDTpfXsa+7jfizYV+rzPWDMY7rqMgEx1BAAm/6eTpPl81GJ8tBvlIFpjTJfCq+eRDjbe4ZuzZQElfavMPWfrZ8U0DhxIotoIYtczByf6bwyPyqrhJY1T7t533JLZfrFHKsWnX/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781354925; c=relaxed/simple;
-	bh=swe7tHyGDAS0LgqXY5o7c8Rigm+T1uVKVB09wXPt760=;
+	s=arc-20240116; t=1781363314; c=relaxed/simple;
+	bh=9tJHIsmiB16UYTeCvyS8ahwRJcAYb8SWrmxsek0a/pE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U9EGZwu9Xs86RtU5yGd0DNh0Up2rWuUZWFlKnnJazNkbO5xVH/6TqBkS/3xsMTivgzVgcNa4UTdaaAyBFLzetlP+SBQuB9RxkL5KeqvHcLM3Zi1rA3DoVgmYrm2e6c/SpqRSA+I7FYNao/t7TyocoiN5Xuf0FEoo20QljtmRbkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vy16bRjB; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=kW8f4SNvgnnpITqvfusZq00h9xqDydXgocVvLbXs0zPn6qesjVgE2DrLIGsQrjKXsfXM7hGdn7SnA0BYRcrl4J+BZo0EQ5wJZ6Jj7jhZBSYYI/gfUPU93Xqx3Oe8ryIf3MyAWm4UGBDh1SKiFSJkqS7wBjfm1ehfCH0n+cp5X20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=AR1a04Z/; arc=none smtp.client-ip=203.205.221.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vy16bRjB"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b9318997so13432025e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 05:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781354922; x=1781959722; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=X6siKJ1w+rEnl9pZ3MoidjUGxh10zTJghXGxeG18mLU=;
-        b=Vy16bRjB+R+62Q9Rz5R6g711rQVmGjQSQDZGNRIHGhhIgxy7YjeSHu8hIMKTvwtaPJ
-         Si3JV7Qiw7yoNbE1yWKIum/52613DnODAwrvYY2J697Eh2QdWOnj+CH7OzyDh2zkNZhr
-         ABPUtMlPba6deHVGe7HBqTfP0cbwKzeaDqcNfbzqrj3G2F4QtxFlyl1nQuisqOrvwMWW
-         hI0SXjsuksdTO9fVu2JKZnm6bcw5K0llZlKEel2tIqciA8TuyBfFKg5vDvxQFb9GRw2r
-         WR9758nP/GvYpAq2S7Yzco2x+ECrxEH3RtXMdTeIoxmoADcccZY8vNrq7OF9/dzIsxCw
-         gozw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781354922; x=1781959722;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X6siKJ1w+rEnl9pZ3MoidjUGxh10zTJghXGxeG18mLU=;
-        b=tMjPK7OlCtGQTtDCpe2oP2vp/7+LjnH9ABvmwjxIn8kjHYjXVpJpAVIz/Nc+jECVJq
-         QTzPyKn+pAP+8T+ZoSgTqdEFnv5MkRKbz2yAeZ43EGYfUkZ3sXHroH+e0F7ZNq62AbPJ
-         Bc1RDifm199/4JSPa9EoMplWB02GxMpZnAhze1CNN2L7fhEkRd6TmWKiqdCSO3hKliK+
-         EdIjRpeYmFoApfeO/kRW9xIjf6aEN0DPOpJ9WUFPsOVmkQIkeQmTLGtc2prl6JYhomfR
-         sRR2lJKQQsWyAH4tvql2S+0r8+9FneH+PF5xR5TiMXC4eUeGJDbWqa35dxfMzB49BMgl
-         JrRQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+ociPIArGcOj1zmohv99CCrbYYr5C6U2f25S1m7lqVH+n2BFljV349Nh4+CQGpV8y16DoNnrUyJJc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJad6BNil9UUT/G81jgnDkbpbb4ZJzC9dpth7QyEusZ6j3bRw9
-	WQ9XHGHXaXqMg3dove/LkysLvKV4MFUCLvKVvhYn7AlULoxETC1s/sgq
-X-Gm-Gg: Acq92OHhfhUmXFeHJw1CMwA86y/UTDyPeKg+swR1UafMW5KFa+S3KvMeVogNfEx/4fK
-	RUeQOuEOJH2mBnOLnYn2/egcgmjjn/JMFbT3aKzVrqzT2wv2uWLbphHo9GYyHk2m3+NGCTFzm33
-	idtABhjDTCr+JoYMedy1uBF6pqCD0SyvPQWOHTNKZjfI/D/c+F/rSv/S7i6gHI/yWZI7EK4U3Tg
-	OBTKt5V6HAg2Be6xgHmcdjAjWYr11y+qQm+4bTRkhqWZr7SKIdlewyDi9gJgfmaCbzpmyAgJez2
-	Rmy2ch9d6/APbn2iPmxZcqDLSvRolOAaNXgzGVaGd4hCbNbaIsn/9QaS5xzwGLWIzgS6IlLSMeV
-	YziRKhtPhBBElusvMGpvkpSc7VAJxkuv93rIToNMjVrQJ/HkuZNBxRA3QrqyFhDCk8oBXni9A2z
-	/5PbVEZ5RSVu8Lhe05a+VAfTQHMac8+1OwFIR0SaBMy++S4iPyk+SdZd1I50tsiCGr5iCRnnP4A
-	XrQ4MtDVGYzeal+Mwg=
-X-Received: by 2002:a05:600c:3b16:b0:490:bb45:79ef with SMTP id 5b1f17b1804b1-4921fdefb5emr37427245e9.0.1781354921745;
-        Sat, 13 Jun 2026 05:48:41 -0700 (PDT)
-Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea95c512sm88407955e9.2.2026.06.13.05.48.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Jun 2026 05:48:41 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <7206bc69-c35d-4ce7-8083-ae6586e7543f@gmail.com>
-Date: Sat, 13 Jun 2026 13:48:40 +0100
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="AR1a04Z/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1781363305; bh=jvXyb3bzqNSE4elaPGKJ70LFqYbQj0Y+Rp2uMVBChpU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=AR1a04Z/C1vVWXZ2mUvvuekckgioRoR60FgO0ZMrd/eqZiwz3Qgv065eFpKYWALcp
+	 lQEIor31dKQ0NLCR075mTlKHs9k3/IFb7cXO2ci5H4E1HXdcbMRzcm52qaopif+LyV
+	 C+jlpduqCNsjyvtSQvMGoqkshSW3h95iZX/12AFg=
+Received: from [192.168.1.3] ([27.38.219.11])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 216072B9; Sat, 13 Jun 2026 23:08:22 +0800
+X-QQ-mid: xmsmtpt1781363302tvn0usdb6
+Message-ID: <tencent_EF8D392378BF3BBAB8583E67EDDDE51E950A@qq.com>
+X-QQ-XMAILINFO: MTEKjEyAppcsqcXzMT4kLapHPPHoqsWGXxHqb+ubq1DCyCDrjFrtq+dXt/XGrL
+	 mr/XkEgZhm/8aWGt/eFQlCrWQQBiptxWgPNG17owuKf5vt9m19tapBzxmKZzYJlKy7CqDzCxRuSW
+	 BNyYgn3LURn8l1wIFz03JsHsr6h7SsbJUWgbIibmRan8VXBMQfVj3pnT7V5Yth29CCDzsnEkQf/8
+	 QVLIp5BkA8C2nQA8lx1jSJjoyj54+UDXgVcT4R1893Bo9g4aLO3tuj5DyBUj7krGyjdmViuqio0I
+	 7V8yovyhrAP+PlSzrNA1Jk7K0UQoTZOu47MCJfQNHgqOwSGWimPTkaLtZzCcUV9TH+vbW3agP5SR
+	 5VeRfBNU/Cv8D54Nkj95BPBXNjmvf5O9jW5AaXFzEND+HFBWQlgwFziCSzZ5PsGNN5aYZRdaQXR2
+	 sDCWb1QWiXRx4sCUtSZDzHWznLvEgsbVXA4SzhXL1um1fthiMU7/0z3hNYSBwp6MurBFi+ytmr/a
+	 mFRbOuidhAlo8QmSmifYIzJK5h686Fgxox06OineOr1/tUeeUH8jUdh71kMUfSGKOpUIUvxjJIAi
+	 T+OvK7tsgDlK/QyvjUzY4tXPXyvbFvysYem70FG0pmTUyTKysLN3VpZFwfTlb3cJcdZ8S4SmauB6
+	 oMK4WeNGs+kmiwyt/MaobI/R2H47cg38ipAJ85f6g5i5XUrG2J082P+r6hZjc++jKCiuauFdjTgG
+	 Nguhk3epEAU56iFhKAjqurBqHs+6zyi7pUBl+U2HUmvzwDlIO01Ncg/cNl2ZUtRcLiQzDKoAmJPp
+	 5UGh9QbWkItpx8kfwJrKzF2IrTup9NiTVaLTs3P/KU14OO+SKK8fjQO87Z1P4tmpWxRT1f1Q3l5R
+	 irwBoVvW/sF/zn1i6MMkHwQoxVX4Gshvx9aiNqqEkA2wiDF/JKU2P/wVwXYa2G483+k33UPx3nfi
+	 4iehx62C7TTOPL7VIeR7k7EVd0+NgtEanIwdS3Gks0dmlpxSl4av819JUuEimyDj3lihyoYaKxiA
+	 0YFCCrLYM25Xd1PmvtvfqjG7JwOmsXw0UctDeZn3puMXBd4cWcj91lE5geaUOtjlYyHScR2/I9zt
+	 kPtVY9zMpFmO4ig35kWBoGduOzPB3q3FEYuvau
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-OQ-MSGID: <a2bf19bb-9e99-40b1-afb2-f6b08cab163b@qq.com>
+Date: Sat, 13 Jun 2026 23:08:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,38 +53,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] kconfig: add optional warnings for changed input
- values
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260611060000.23858-1-pengpeng@iscas.ac.cn>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260611060000.23858-1-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
+To: Fan Wu <wufan@kernel.org>
+Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net, mic@digikod.net,
+ dzm91@hust.edu.cn, skhan@linuxfoundation.org, gnoack@google.com,
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <cover.1781105672.git.zhuyan2015@qq.com>
+ <tencent_DADDE291CA580302EB7BB40B83A552D6F006@qq.com>
+ <CAKtyLkE3unhxMsH1LpqvjHQoKVgz1tcTsZWUxNHs+R6v2amf6w@mail.gmail.com>
+From: Yan Zhu <zhuyan2015@qq.com>
+In-Reply-To: <CAKtyLkE3unhxMsH1LpqvjHQoKVgz1tcTsZWUxNHs+R6v2amf6w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 6/11/26 07:00, Pengpeng Hou wrote:
-> When reading .config input, Kconfig stores user-provided values first
-> and then resolves the final value after applying dependencies, ranges,
-> and other constraints.
+On 6/13/2026 10:54 AM, Fan Wu wrote:
+> On Fri, Jun 12, 2026 at 8:59 AM Yan Zhu <zhuyan2015@qq.com> wrote:
+>>
+>> Translate Documentation/admin-guide/LSM/ipe.rst into Chinese.
+>>
+>> Update the translation through commit d7ba853c0e47
+>> ("ipe: Update documentation for script enforcement")
+>>
+>> Assisted-by: Claude:deepseek-4-pro
+>> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+>> ---
 > 
-> If the final value differs from the user input, Kconfig already tracks
-> that state internally, but it does not provide a focused diagnostic to
-> show which explicit inputs were adjusted. This is particularly confusing
-> for requested values that get forced down by unmet dependencies or
-> clamped by ranges.
- Hi Pengpeng,
+> Have you tried to refine the AI translation? IMO some are really bad translated.
 
-This change would be a huge QoL improvement for me, thank you. When I
-generate config files with external tooling, I need to do this check
-manually.
+I have double-checked it several times and manually corrected the 
+formatting and the accuracy of the translation.
 
-It would also be helpful if config options that are removed from .config
-would be printed, since there are config options that are only defined
-in certain architectures.
+> 
+> Also how does the doc translation project work? I do notice there is
+> another IPE design doc translation,
+> https://docs.kernel.org/next/translations/zh_CN/security/ipe.html
+> which has a wrong "original link".>
+> -Fan
 
-Tested-by: Julian Braha <julianbraha@gmail.com>
+The documents in the "admin-guide" directory are intended for both 
+administrators and users, focusing on usage; the documents in the 
+"security" directory are targeted at developers, emphasizing design and 
+development.
+
+-- 
+Thanks
+Yan Zhu
+
