@@ -1,89 +1,88 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A5221ABD7;
-	Sat, 13 Jun 2026 06:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D0733DEE6
+	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 08:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781330824; cv=none; b=SwWdR+IbNfn00VdyyV+y4DTKdSp+kX4GnrB1mjTuc9J+ibTCfj5KHLeUTri/+Es0GfxDVuYkKhBSTC429lwOsiboyXLvEpsYCPJywCb5E/bd5/O8aQsXxKK9hq/VWqbzx5u4sgDSzLC4KrzaKjho6CO+V8Pr/V0l9hEayVpAGSk=
+	t=1781340445; cv=none; b=IlbCR1wVXjVtOV6QZkAm9GKKoYmcLKKKt8HE31Ux+jo/0jtIMueRqMicPi5U4TB3pEJ5UgjsQop/VJ20vGMS+R9moeWtfnoCBfA1O0DF0j4FXQhFu14ohND9sr5QutyMYREYmspnF8EHVulpzKv5IPVM3bWBBPt/WMH8ZHXdleU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781330824; c=relaxed/simple;
-	bh=Syw7ULXdB5dW8ZcIfM7qGgtXBrTWdNGVXAYsbJq7l1s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Msx0Ylv8PbiL0ejvsauNdmxEvSCvu4e87KmAo0+bJ0GO+KhcPmd051fLVaXpdn9vsVMDpxBPFf2o+2Ap5rV/zQ4bbM7P+7+CmKYigxEFBJUg+zBZZbGAsf+iO/5CVtbe2VU2dDezrQjjiv//Gx6DqcMxtPkUP9wiQE7UZQLxsmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=M880zC7u; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781340445; c=relaxed/simple;
+	bh=Kgzsl0tncuHZeTuBwNzv6yFl+GswrXYwmaXTRoqwsag=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZPcnVKc8+Kn0nZQLw9mpppORBmCtwgdyceU9jome150XU57T6ci0NsjL5AbnkkhSrFfCQEmWvLE8dWIs6F0tR7BeGqr8SVFe2lRv9NNkluam8uGn1m1gHpmpspIK70ZGGOEwiRSoEnNx4nJz2sCfbwwdllnzIw39ozrp5y75xlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eA85ulGo; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="M880zC7u"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781330818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Syw7ULXdB5dW8ZcIfM7qGgtXBrTWdNGVXAYsbJq7l1s=;
-	b=M880zC7u2byTFN+N4Gq3ygEGJV6uJ/y323l98Uq2VwiDsDKwwbe3KSZIsE6fswnZXAIDQM
-	ncME5PeWmLbP9V5sIdSHUE8XEIhJI9+8OEhIAu5FhcUJagvyZNVQOVT5s3ZSRIrP6Q0Swr
-	Ebk61m5Zsus12EN++gCjPlzL6R/lrYY=
-From: Lance Yang <lance.yang@linux.dev>
-To: dev.jain@arm.com
-Cc: ryabinin.a.a@gmail.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	ryan.roberts@arm.com,
-	anshuman.khandual@arm.com,
-	kaleshsingh@google.com,
-	21cnbao@gmail.com,
-	david@kernel.org,
-	will@kernel.org,
-	catalin.marinas@arm.com,
-	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at allocation time
-Date: Sat, 13 Jun 2026 14:06:37 +0800
-Message-Id: <20260613060637.40039-1-lance.yang@linux.dev>
-In-Reply-To: <20260612044425.763060-1-dev.jain@arm.com>
-References: <20260612044425.763060-1-dev.jain@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eA85ulGo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781340441; x=1812876441;
+  h=date:from:to:cc:subject:message-id;
+  bh=Kgzsl0tncuHZeTuBwNzv6yFl+GswrXYwmaXTRoqwsag=;
+  b=eA85ulGov1kIGaZCkvVUWXOMnU0na7FNfQZckCmjxwceJkhcBVtq4CUd
+   AibJef1npLvKywOyRGdfw0QzYSZ+fgjgJpSKIF5OrFdJBxWB2K/CPIIsn
+   vW3a37hjzmGJEBIz45x+1UBdNasA5677nTdeghlZQsTE/YUQkCsy3j6JK
+   MX73pCdoS8BMfJfnJEXSYiko2CPmrIt1sfO/TozHUWRI0x6NnrC+9hNxN
+   74gZ9wT0H0tF0ZfyRqyh/yUOp8Ssoem9prp4E/kvLnR9A7Itv9ZF+L8mO
+   /WlDFWf+etk7ufkNpWg1dmg2HsVXLeD4k0hsLQrxziAVoDhBh1bhoUDNq
+   w==;
+X-CSE-ConnectionGUID: PERxIc/uQ3u4Ql9NVX/exQ==
+X-CSE-MsgGUID: OFCDeDVnQPGnzxWEyg3lFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="84731366"
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="84731366"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 01:47:20 -0700
+X-CSE-ConnectionGUID: imk3Wj0iTzeRjOpt91OhAg==
+X-CSE-MsgGUID: MD902VapTHyW2Hg3j5ozjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="247088685"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2026 01:47:19 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wYK1M-000000004T1-2gmb;
+	Sat, 13 Jun 2026 08:47:16 +0000
+Date: Sat, 13 Jun 2026 10:46:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [cris:scmi_telemetry_unified_fs_V4 23/34] htmldocs:
+ Documentation/filesystems/stlmfs.rst: WARNING: document isn't included in any
+ toctree [toc.not_included]
+Message-ID: <202606131001.iJbU6AyB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_unified_fs_V4
+head:   ed28087005811783e972fe7a788446936878932f
+commit: a4696bbff34cf8e311ab878fc616567844b576ee [23/34] fs/stlmfs: Document ARM SCMI Telemetry filesystem
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260613/202606131001.iJbU6AyB-lkp@intel.com/reproduce)
 
-On Fri, Jun 12, 2026 at 04:44:22AM +0000, Dev Jain wrote:
->Introduce a boot option to tag only at allocation time of the objects. This
->reduces KASAN MTE overhead, the tradeoff being reduced ability of
->catching bugs.
->
->Now, when a memory object will be freed, it will retain the random tag it
->had at allocation time. This compromises on catching UAF bugs, till the
->time the object is not reallocated, at which point it will have a new
->random tag.
->
->Hence, not catching "use-after-free-before-reallocation" and not catching
->"double-free" will be the compromise for reduced KASAN overhead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606131001.iJbU6AyB-lkp@intel.com/
 
-Hmm ... do we also need to teach the KASAN KUnit tests about this mode?
+All warnings (new ones prefixed by >>):
 
-With kasan.tag_only_on_alloc=on, free-time poisoning is skipped, so
-some UAF and double-free reports are skipped on purpose, but the tests
-still expect them :)
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/filesystems/stlmfs.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   WARNING: Documentation/ABI/testing/stlmfs not found
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
-Cheers, Lance
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
