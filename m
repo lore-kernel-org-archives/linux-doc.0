@@ -1,122 +1,78 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE741C860C
-	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 00:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F5425B0A3;
+	Sat, 13 Jun 2026 01:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781310190; cv=none; b=YhK3wOi9DF+xxWxWOPBwz407cWL3opL3fnILfQz2/y9o+l6y6onR3fpsUh1S7SQ9Ftc8nrAsxSlA1tgbr2Ovjf5jBTpebvw1SL4XxkemWqrsb0WiVPC/P7bX+vvaMqOOvMOFVjADzMzbE3uC2GYmVSFfB2gRrBtMQa4cDlqe2jo=
+	t=1781312434; cv=none; b=m4/1xlt75Pt0ibtzUC20YAiFQBSzghCuHAd8cm7WwjC79CAJENhhqti2wisyn58VOmcvnAWbnGKHWGh/r/6Ag1nfkorIHCerrN0Hzk1e0W64/VBmimnI9m5238vTg5disz1QAA50SkrapH3SfDf3qDXYLk+VttVS1pt/+w33IQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781310190; c=relaxed/simple;
-	bh=gGURmQ38JebTziLuKXD+s+29dgdWcr/VmctNb2MC550=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZW8QUYgvzS3/ZpzmXO5YIfIjoK67SNhjUNev/U3NRPYqz0d30wuhWbQ+c9NQ4Ah+/jo2ESz+K/ymVmnH3G5JR04chmXU2XYYwo43bPwRX/Ya/SeVbODbdrQksGS2zN+TowcpyHs61Wr16O3YxuC6OrTHsi6ONHY7cjg+UkkThc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z9aj3x6F; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781312434; c=relaxed/simple;
+	bh=WfYUEOPeK03EHpwPebn+MgtHwxpMs96r3pSiOwUJEUM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=IbIzIroSliFZ0/LaakMRtnY7W3nze0tnO/DYbYckabeX1fZQaq8HFI6dTRR9tCBuV62X4JiferSHJQ+9f9xtUMe+RDWPpOaB81BKyVS02VMCjT+JVfvhoYJqx9cHu3PiZnEKw9NROrOGS0HU/WSoRmTU/x/ONEx5lmswCbPfeu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TYere+vC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z9aj3x6F"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1336742714fso2025c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Jun 2026 17:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781310189; x=1781914989; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gQuTjrXkDdFV2QV/Z7GUPJ6mtkFqvtbAqj6efLfB6Xc=;
-        b=Z9aj3x6FxQWQYDk0L9alNpfTmM87F1bZcGTcxrggf4DU8hqEdU3qYU9FiMLeYQ/aQr
-         y8WjnEQRUQsQWJD2A1Y8r8wmKyTukxziUzun0Rfg+p+o7swMMGSkcpeSgqeJ1NimuD9w
-         KHIVXMMx8hh9jfxiOZP/6h94wu/D5bb+gFazYB8eY4s6b8T8Q50AUiD8Ar1rqoF4UfXt
-         ZvQ+UKqeBQriXUsq91dc/m+rKzBvvUKy4bRVLXWqKQmxqwb7IO2edi4GG+Fkx+nUCpQ8
-         GqSk8q089oJx5GJC1R2eYzrbnX7aguAAhYGVEoGOK/kSbLLl2t5q7LqeKg/CK2p9tj9i
-         vthw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781310189; x=1781914989;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gQuTjrXkDdFV2QV/Z7GUPJ6mtkFqvtbAqj6efLfB6Xc=;
-        b=cAYNxaz9Gys6aACu/r7H3Q7Z7cFZGAv4+kYeHxsSWlnXLFsjaxJHcRw08n7wgIpaHV
-         ieY2iHzR9Y5nMwK61iYA7q7L7HBJPHLgK3svp6PGxnBXNfdEFhNBmeQ3HvhBZfaT1KQt
-         3wjqL6+XhD+C6c+cr61I+iJ2JK6pF4Ne55W3mTD03UM6TT8aLtzqpzmBqxXVaMbp4Z+u
-         gy2NkwQsgsqWN4e/RtzjIjG99hHVDbnOcpxR1V4StnSLn471ISFogYOfTSZYUr+2dvnK
-         QpdKpy8WQXL2SoaEI5sXzZhZ2y6GMot5dHC6AAyw9tRTAp9v1ujhHw0IcIj7pzMmRF30
-         /MOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/IkIN8/Jkp4chjOnM23I9Tg/rb+67U7ORMtxDDWSzGoJR8I4X+Uh19PCO02kRtykW141xgXfPRaf8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi24eh1NTXu0jJISw8AUvfw0o4hgG2/SAIjEhi5pz3fsuY/0cx
-	zSvbgaWxyCaRJqLTHA/VJO1SyfXYuLKRCvHop6JqW+z71+7Bf7zK8W9k+O17/TLIgw==
-X-Gm-Gg: Acq92OEXpbeU4xGYADGmKfWACH3wgmqdxWwXp6880sFuu3g/W8mMi3VgFc1P6BLEDFW
-	pf0jcFKnfybqmeSPUSzbqijG/npHqjzdUaSqXiNTkEh1pIiRwYgtsfq94BmjLrXQJXX9ujqTgi0
-	c7jMT0DJHwFTxexybHHhXeizT+YJtUaEtVWoi5kYpL64KPgFa1KRG28p4ou1TN9csiZm1Fwhafs
-	LSn9UusGYddJmjGZBeGzjDaH/Lf2Clz/cAj2KdFgXAfOrlw5uogbLrMU1ofkihLg60UpWZ4T/lh
-	w0+7GxJOwr088mhkTRZSPi05Uq8IOiap/dw35b1/YjBjIYADAd6obMLUSvY2RQoq4wQB7pXkKS9
-	PFdbnPY7wzRVbOAn0J5HPyGRMi8UdbTILOi5mxGcaYNETskJXWVWf1OJGEYJPsavIQbDZ88ySkQ
-	VVF4+P9hJkuKF/Fi2ixpj61NoQHoeWU1WUUZmXAF/xXNv/cmbWOLtrbdqmozJQJV0H
-X-Received: by 2002:a05:7022:98f:b0:136:fcda:bd43 with SMTP id a92af1059eb24-138f3b6d806mr40653c88.5.1781310187835;
-        Fri, 12 Jun 2026 17:23:07 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2e51:8:e362:1a25:b90f:e3ee])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e489621sm5610188eec.6.2026.06.12.17.23.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 17:23:07 -0700 (PDT)
-Date: Fri, 12 Jun 2026 17:23:01 -0700
-From: Isaac Manjarres <isaacmanjarres@google.com>
-To: Dev Jain <dev.jain@arm.com>
-Cc: ryabinin.a.a@gmail.com, akpm@linux-foundation.org, corbet@lwn.net,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	ryan.roberts@arm.com, anshuman.khandual@arm.com,
-	kaleshsingh@google.com, 21cnbao@gmail.com, david@kernel.org,
-	will@kernel.org, catalin.marinas@arm.com
-Subject: Re: [RFC PATCH 2/2] kasan: hw_tags: Add boot option to elide free
- time poisoning
-Message-ID: <aiyi5flNkNNm0pSR@google.com>
-References: <20260612044425.763060-1-dev.jain@arm.com>
- <20260612044425.763060-3-dev.jain@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TYere+vC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80251F00A3A;
+	Sat, 13 Jun 2026 01:00:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781312432;
+	bh=Wn0Opc5jXMGzRmeoKDOhDr/j7UkqCcoDWwPQbDZbwhg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=TYere+vCg8GJynjh6ppeadGFRHg/TY3ukISithtp82fMR0fYjQgzZ5vuHpNbbwwXa
+	 XZ4yZlaT1KUhLZkC2uHb7APx7LsBpso643TpchRdawMwbHUuPKgt5MnSCOyXsAcDKG
+	 VbEhkDXm8SBzF2uteC2zk1cwdHbwz6xeM9xB8pZmivuT1TFXkZB3MkO8PTefUZ67Om
+	 p2kr0BojPEdBHDdhFlisbOuIvRODl9Ih5soKM6QHXNgaqCeI51bjBJIRFD6pjKaMgO
+	 9dLd/MWvZ7WyklILKDniP+dkARNBXXX4xJesXVKPwAt+gmZPMKurpxx9KiqWS5K4dO
+	 TO/FjquHlWBzQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939A739E9607;
+	Sat, 13 Jun 2026 01:00:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612044425.763060-3-dev.jain@arm.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] docs: networking: add guidance on what to
+ push
+ via extack
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178131242913.1315131.12921841859302513787.git-patchwork-notify@kernel.org>
+Date: Sat, 13 Jun 2026 01:00:29 +0000
+References: <20260611172149.1877704-1-kuba@kernel.org>
+In-Reply-To: <20260611172149.1877704-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, joe@dama.to,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
 
-On Fri, Jun 12, 2026 at 04:44:24AM +0000, Dev Jain wrote:
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index fc9169a547662..4fa8abb312faa 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
->  #ifdef CONFIG_KASAN_GENERIC
-> @@ -478,6 +489,16 @@ static inline u8 kasan_random_tag(void) { return 0; }
->  
->  static inline void kasan_poison(const void *addr, size_t size, u8 value, bool init)
->  {
-> +	if (kasan_tag_only_on_alloc_enabled()) {
-> +		if ((value != KASAN_SLAB_REDZONE) && (value != KASAN_PAGE_REDZONE)) {
-> +			if (init)
-> +				memset((void *)kasan_reset_tag(addr), 0, size);
-> +			return;
-> +		}
-> +	}
-> +
-> +	value |= 0xF0;
-> +
+Hello:
 
-I wonder if it would make more sense to have this as:
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-if (kasan_tag_only_on_alloc_enabled() && (value == KASAN_SLAB_FREE ||
-    value == KASAN_PAGE_FREE)) {
-	if (init)
-		memset((void *)kasan_reset_tag(addr), 0, size);
-	return;
-}
+On Thu, 11 Jun 2026 10:21:49 -0700 you wrote:
+> Every now and then someone tries to duplicated extack
+> messages to dmesg. Document our guidance against this.
+> Also indicate that system level faults should continue
+> to go to system logs. The high level thinking is to try
+> to distinguish between what's important to the user vs
+> system admin.
+> 
+> [...]
 
-That seems a bit clearer to me as to what it is that you're doing, and
-also makes it so that you don't have to do any bit manipulation
-on the value when you're filling in the redzones.
+Here is the summary with links:
+  - [net-next,v2] docs: networking: add guidance on what to push via extack
+    https://git.kernel.org/netdev/net-next/c/96fbe161e402
 
-Thanks,
-Isaac
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
