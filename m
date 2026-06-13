@@ -1,93 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAAF3749F4
-	for <linux-doc@vger.kernel.org>; Sat, 13 Jun 2026 00:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A1EE571;
+	Sat, 13 Jun 2026 00:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781308818; cv=none; b=LduuWT6ctw66Otw1LU8VM+JBQcjv+Kbj/PU0X5oCBoxCsbRinmnu1cTstxpnlgPXCK4eQmSwliHym95SpJDssWVLnj0jW2YHB7GPfgebRalkyXS0JNWh8ElgP47UTzAc283VIVuZkfsR80OJusvGXUYBY2NhXBN9JnonmJi3hQM=
+	t=1781309341; cv=none; b=omug8iQ77DLYjV2+Ts5E7kSug6r1zYcUySM3wtczJOK9SORwIaF+2tAyiL3n5HUShbHEq2tqgTE9fEGo6oETrvQ9vZkFmLE5I2J4O6uzmGCBsNp2ncJ+p7w1WeDj/pymZ41Y0RJ0Af8JpLecEGgeOsxr3Lb4Rjyo8PTrGtxEoz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781308818; c=relaxed/simple;
-	bh=y+7RZirpY2ycZGndRWUsjJpfLXO3DfIZnzX4kCr0ns4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=X6PQib1iSLWKbR4/FBB36cfWMzGDQ5w9/Eacu3P77RYsZvOKd/8AUmJ5GfMVWGYC+l4EdBFDh26mScpM6LBTxev2V11sjtnbdiGdWRaUz7IvkhK2lp1AAYPOE0hNUHMvRxJX5tItylpQvWJBd2yCEi1FyhG5vlC81Q3WBUO4vaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQdb1z6g; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781309341; c=relaxed/simple;
+	bh=lUURjHSIiLgxi8zWPDFGVEmDdY3l4ohEKl1HNP31F5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZKj8pJFrn5ng2Ws9aMkqB9UKJb/0owu9/ITgViH38vkFOT8a1JY9izcXsgWzhEtPWLIHnj59G5YM6KO0JfBGAgL8Kd6RIv0Q7BRD74AvU8due6AM1fPU7JhN/Qg4hucP3fm/Eu4Z+YvaOJh7lHYFbEQS7OZQOdTaYDB1oY2mit0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WT/RpASS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQdb1z6g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781308817; x=1812844817;
-  h=date:from:to:cc:subject:message-id;
-  bh=y+7RZirpY2ycZGndRWUsjJpfLXO3DfIZnzX4kCr0ns4=;
-  b=JQdb1z6g0fBTa+GVBNptUGjX57plWnzk/5QnorZW8bCI1DOTEgyIfqpT
-   9vh2P8S+EysJAX0FY79mli3ZBuTQTECFX4QSosvJKMt9j9Ut8zFbAUF+7
-   N3uxI4Wun7yrjggaMRF0sbjC3P80ut1CGax+Rg+0QX60eTlysWlwNHzNa
-   Z9wJnfGM6oULwqxYVkZAYfn6Xw7bhmKCR2erTBC7sEmbgTz8yXjGW7Sqt
-   ipPxbgtyaUKluWC4vVErXEASCXhygwcA2btVmQwTzWIj2ts5jMqKJZ4B2
-   TlZ6WXfo44fQByNkkZunOeCTTN3n9xjP3O7Y1isrlQn3R+DM+2/dJpTwW
-   w==;
-X-CSE-ConnectionGUID: S+rFAMm+R+iDTpRpRWlwFw==
-X-CSE-MsgGUID: WhG+ww48S/6E1Y+koMvSWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="93261288"
-X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="93261288"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 17:00:16 -0700
-X-CSE-ConnectionGUID: wOfw7rbjSF22qjB9sPZU2g==
-X-CSE-MsgGUID: VV4/js8rQSOIHpcjjAmA/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
-   d="scan'208";a="251886704"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2026 17:00:14 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wYBnH-000000004N3-2UXr;
-	Sat, 13 Jun 2026 00:00:11 +0000
-Date: Sat, 13 Jun 2026 01:59:20 +0200
-From: kernel test robot <lkp@intel.com>
-To: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
- Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
- linux-doc@vger.kernel.org
-Subject: [robh:for-next 42/47] htmldocs:
- Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2134: WARNING:
- Inline emphasis start-string without end-string. [docutils]
-Message-ID: <202606130111.ldC96rqf-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WT/RpASS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8ABC1F000E9;
+	Sat, 13 Jun 2026 00:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781309340;
+	bh=jwgdDxjpHcf51uQFCyHB9zZ8TZlVfxL9kvGTnnuc2og=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=WT/RpASSQHJBF/FCpzT7VvJcI/8vJCsTJVgtWdnX/u6SnGSXgt+9VBbPNygOHOuM3
+	 Xi5O97z8PSzS9rDITHCy/37Y0tPkWdYCaBgFOyfL8G0LHF26aTZ9m1nvmmgMCb4aUo
+	 4qxIbE4eYeEf9BA4rGrHfN1iz9LdP3D76YDWfmjYZsg9HyuXx1AMJtdwUnYfvyOgsn
+	 85GMHHWMt7zp8woZNLRcNrCwyD7bu4TpaKoJWLRiWEDY8A9xBixHpRlwbClICFyzJ0
+	 G2JLUEcyClWT3DaxJHlngGsOD25ag4WYye+S1Eu+2p/9OMU+NDO3xfOBUS97aMINZV
+	 BJJS2sdZA/EqQ==
+From: SeongJae Park <sj@kernel.org>
+To: Shardul Deshpande <iamsharduld@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/mm/damon/design: fix a typo in the Address Unit section
+Date: Fri, 12 Jun 2026 17:08:50 -0700
+Message-ID: <20260613000850.935-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260612154054.720363-1-iamsharduld@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   030e2f5b9260c29ce85c21c004714742fa9f8d55
-commit: f71f07bee9b56b94f7828cf3082ea19ec590de36 [42/47] of: Factor arguments passed to of_map_id() into a struct
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260613/202606130111.ldC96rqf-lkp@intel.com/reproduce)
+On Fri, 12 Jun 2026 21:10:54 +0530 Shardul Deshpande <iamsharduld@gmail.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606130111.ldC96rqf-lkp@intel.com/
+> The "Address Unit" section misspelled the C type that the DAMON core
+> layer uses for monitoring target address ranges.  Correct it to read
+> "unsigned long".
 
-All warnings (new ones prefixed by >>):
+Thank you!  I found you sent another patch having this change following
+Andrew's comment.  So I reviewed there.
 
-   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
-   ------------------------------------------------------------------------------------------------^
-   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
-   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
-   --------------------------------------------------------------------------------------------^
->> Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2134: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/devicetree/kernel-api:11: ./drivers/of/base.c:2260: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:370: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
-   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+[1] https://lore.kernel.org/20260613000715.791-1-sj@kernel.org
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Thanks,
+SJ
+
+[...]
