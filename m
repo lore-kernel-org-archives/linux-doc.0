@@ -1,69 +1,69 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE8637E31E
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 23:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4673806AF
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 23:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781481071; cv=none; b=NAFYYUuSI6fPtwuEdJDvTWvFVRfsIqNwQyk9gvyH/tZ3AT3SDW9L6IOFKuDTcatEzNlq/ARn09pgZtSTNxUzCr8BjtKw+EbhENOYNbl4Fv4ns5RGJsfF+CGFwQdhma692uXQSQ+WDkT8NVaRV9QuMknQrZsUcdI4KjTVyC4Dcx0=
+	t=1781481074; cv=none; b=LKLKaDAi7JCXdH6A0z6Hifo6kB8Leed6EpInyRD2krLdCo9c4mBIGbTJMUVjokWKWph/UOkg/1gLVycxQlTu0NqA+/4m9v+3tptyrubbjIlT6GT5GnhOL23NBw7To4wsGtUpsgbEyk5mw2qJs5EP1ltiDDaR2Z2HSyOw7Oq3U7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781481071; c=relaxed/simple;
-	bh=jtBRlhbM3Fvb5Tknqo6dbb0OT92amhqxAQgTpy5Vrl8=;
+	s=arc-20240116; t=1781481074; c=relaxed/simple;
+	bh=cxjsSAMsiLePo+WGGzI4VrHJrx5rMzzh/Mz+f59TvLQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eweBD4SVIpRyBC1xb4aH/akGu2lFYsHMijOIdoo9ZSyHxAZ72+Gz87eM/5SebqHOJQfLzCDNauLeKKPbssB9nUGPAVpny+toJGcqVxJe+JOCE4d1iJu1XzRY4H6cwuHW/EZAkjAVtxrQTqsGA9k2/F0BCkxzp4aIYEbOJj6gem4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUs26rMB; arc=none smtp.client-ip=209.85.221.180
+	 MIME-Version:Content-Type; b=RzxZokxabC+QHBXHv0bM3covu7X8ynFcT9tmEaTVmR42+o6VaJWhPugjLCWoDmuJYfjNRoL0n6Y4E1lGIIyqfNNC3EUx6UacsuNhdys9D9L7rKMLFW6KTIiP3khQ9h0mqOW7vobQ8n7uPgsfnMysYwqR1lvBhXxuKfUn0NmTD2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isUG/4Rm; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUs26rMB"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-59c1bacf871so1245294e0c.1
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 16:51:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isUG/4Rm"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-59ebcbfb2b0so952973e0c.2
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 16:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781481068; x=1782085868; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781481071; x=1782085871; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6GnrRjSsQQmW9GGbk8vDaJCzd/nZdQC5bEnmNtOmo0M=;
-        b=gUs26rMBNcSAUSk//3TB15PgNadT8GFVEC/xZjk43hTKFvxK2cmN+zHQ1oMGOI/1h9
-         6uD3nTYF+F8AtDx+aI/zQEzRqQAuVnTR7k51gRSDfBuDmj61s3hhQ1mQKWia7FzOa632
-         AJ+q0ifgV9RUcQzHZNh4u2H1mqaRXkadr+RJjN+Id4l/yLufP5DS2O0XBUuam/Waog2F
-         ktenqfnCJ9jGXyE1LxCsU+5SGkAaOEMCic0YApviqnkdMt+P1BSVwybYtJwmxEqnddnz
-         JEZjA3ZGP6bwu8LxA0wjIIKZrMdqKUMF+V5EZ0OWzE7fL+DFfBHDSLXOZHbDhshYoaZ3
-         FFHg==
+        bh=ndtUvin992hCKM8WZVe178maHaaYARyrrmx9R/Tk6z4=;
+        b=isUG/4RmqxJ8RTBKbhhmkMPcBetNqIeULL5+5ySnUS6r4cX56quGzVRqZaWmGTf31i
+         Qj3+3ZJduLe/KM+bJxgry2m8uhk6VD3mbrGCY3YG9GTrrO3QV7kokiqoGwSME7JTSImA
+         2R+2G6uJszJPwz+aXXG0xKyfmz454O1VNljrWGX6zH6xtuvj8w+92ZJ6jfEMv2FgfgS1
+         1OQ7vp+tiC5bFPJOmmdydwe6kw2cSDwK9JZdN9ihbiriC46lyKWYR49TcdxBKFr4x7Pu
+         +RotrJrsWvNlWikvVAif9Ansg645HUQbF1uSxjf76a8ObH5bZ5/QGX74Ry5MJdNGzwYE
+         2ueQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781481068; x=1782085868;
+        d=1e100.net; s=20251104; t=1781481071; x=1782085871;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6GnrRjSsQQmW9GGbk8vDaJCzd/nZdQC5bEnmNtOmo0M=;
-        b=NjhgkVawm58M1OpqbN82yi7xmIVdS07UgW2MTNkSXofJMMrhmB0Br166XWZDQwzJIi
-         gkldnwK2pdJ1IiAOxPcQn1LJurkjASgTHE6DZCi4k7T2aqM3UIySyajuVV5lA+Wlg8pn
-         2lU8yKWY16eDItTMvKSJG5Xey3dmWUCQGt4d8h4SO/PWZFTQvFqASrDopGfe3q7mxsnb
-         IAUWS3rfoRE+h3tiqbRsOCvxAlJWF6i9iagqYXJEVFsYEPYxkAx+anCgJ8dti8HLWgT6
-         PwPhecfZjWH9CJ84pGHsyzv2Kk0OffRzT+PCSFEgqQEfVXmWMUKg7kaHCrh7RaJ7bFsz
-         eDJg==
-X-Gm-Message-State: AOJu0YzdugT9801NxvfPj3TxjdlrXmL5RwxbJSFD7j4292Y0P67UdYxk
-	bCIPKaJW7NukF+c0ombrRJVm6zb8tzY72TXgzbZhLAw5/7FgRwnc+dDw
-X-Gm-Gg: Acq92OFvCszuXWvJ+b3+mZNRQEYMIMm/XVq/BsHQpDC7qSxqi0EkrY2/si5buriC+GM
-	VYkSrBhiv9ieHPpbe9xyACMeg82br0B6b8fucM3VeSyzGcEujc49eTOp4UQwZfYq+So/OsV6ua1
-	Ka3S9pltdeY9SPKHfYVvGCX6S1+QVZt62QOn1ylLOmm4oj37MiF5fdQm2ABHac5TOopZnxZKmPM
-	CqYDXIMBhdLDivhkoNaSmZgMh3t2De5ViqrPG0ffgE00Rps5AUTJ4Eq2FIYOFOOOjowYsNS9fJf
-	EUznhu96pAsmXIn4T3dz2OwzwLoCkLR5PLiEAc7WkY+6qokL1rlHrADFvj8qtBmNXJ4XWeLSRAo
-	6Xv2leYFrwJ1k/cEZoqAn288b0VPGPe+KTW5tfyqrF8pH4yiNS+9NzjjoHf49W3H2Vz4d37Vtq4
-	/C8XosdsSF6gYk+kbpqKKfWGMopaFiPRvC5CYV+obqNQaB6HnKaKQa/y+rrCy09sHNZGVO9fk=
-X-Received: by 2002:a05:6102:5989:b0:634:92c:bdce with SMTP id ada2fe7eead31-71f5ec0940emr3908320137.12.1781481067449;
-        Sun, 14 Jun 2026 16:51:07 -0700 (PDT)
+        bh=ndtUvin992hCKM8WZVe178maHaaYARyrrmx9R/Tk6z4=;
+        b=KwyVUb7z1cJAmzh+BoICWPvw2lMSo//9wJPEi8+LV9cGpCgynj5elZBA65dlQbM3tL
+         duyvBooNGOmFdtFzKQCWJHwQoLauVgAFnw8C0nSMS6xK6lGgdSjDadyQJxOyJpKwDaj5
+         ztB7S4f38SMBH+pR+HrX4GLLb/HOc8wNU8iY7nznq/1+3q+CMatcxpJ6gz/x2ZTHHhx/
+         wqQswzpGiKsDhC2CRLqvnRF44JfM2JG05aJk+x4aND+QOm3z8ouZT2F8HrMnbhC/89r+
+         8pBvxynWjJillDcn8O7qHStBrosBVY5LWWJG0P02o0py8oa5+hB0VEy/QFkWgmbi5Z6z
+         rCxQ==
+X-Gm-Message-State: AOJu0YwFe2AUXoJlaY+HnSD+MW0xXp4TFhPe4AmMh1zXyRfCC5DBak49
+	0wMWvn1cHsEKA72ZO/tSYBCAyOF2u1//3xLysharg8OXki6ZAav4ce6t
+X-Gm-Gg: Acq92OGu9+j/kUkzAEGqZ0ptHcFo0DhwbxEiHBB3ihqql6/GEd8UQzzUir9MYYcsPiN
+	JcD/Buq4tCkJ9Hl43eARIPmGO7HuhbxdA7fALJs1QRqeDo1y1QycH7+gd4sw+vhaDpk50TBlX+7
+	CPqZ+DXp6nZKqJy9ZyXCUgAWUyjKhQTEfXdf2eLKmK5A5l231HYxsMJK5vKJK8W//yH5/QWxX6Z
+	lb2kdOtZzRL1DE3z01pjQUkAcuL4OjId0WHTDRdi0zDZZ2SfwVSWtPW8ovr52bVyhr9JW1FUoi5
+	nkHOT3uV9a/AhF9V18nAkxQOaa5u/7iF+GLOBu1/9TJOfsZl3/efTCJJ+rkys3Qr4Zx3ybFQuZF
+	ME+/5Y3iz545NsrRI0/uBEYvwTBfXSxB4bPlPDfsLo/4bnxIm5Ow7yakv1nVqwtLliP7tP90U/x
+	Mjp7scZqlmljv2v0xYFu0+0K7yOjkRnSlcl89ftWp5AHjTzUu/sNBygrpRxFqCbvU5u3sSGBA=
+X-Received: by 2002:a05:6102:32c4:b0:6c2:e290:cc69 with SMTP id ada2fe7eead31-71f60e0fc5bmr4874937137.23.1781481070963;
+        Sun, 14 Jun 2026 16:51:10 -0700 (PDT)
 Received: from localhost.localdomain ([177.75.70.24])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7208788587esm1630195137.10.2026.06.14.16.51.05
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7208788587esm1630195137.10.2026.06.14.16.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 16:51:07 -0700 (PDT)
+        Sun, 14 Jun 2026 16:51:10 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 1/2] docs: pt_BR: Translate 4.coding.rst into Portuguese
-Date: Sun, 14 Jun 2026 20:50:40 -0300
-Message-ID: <20260614235044.42810-2-danielmaraboo@gmail.com>
+Subject: [PATCH 2/2] docs: pt_BR: Translate patch posting documentation
+Date: Sun, 14 Jun 2026 20:50:41 -0300
+Message-ID: <20260614235044.42810-3-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260614235044.42810-1-danielmaraboo@gmail.com>
 References: <20260614235044.42810-1-danielmaraboo@gmail.com>
@@ -76,475 +76,411 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate the chapter regarding coding standards and patch formatting
-rules ("4.Coding.rst") into Brazilian Portuguese.
+Translate the chapter regarding the process of formatting and sending
+patches ("5.Posting.rst") into Brazilian Portuguese.
 
-This translation helps Portuguese-speaking developers better understand
-the core guidelines required for kernel code contributions.
+Also, update the main index in "development-process.rst" to include
+the newly translated document into the documentation tree.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../translations/pt_BR/process/4.Coding.rst   | 440 ++++++++++++++++++
- .../pt_BR/process/development-process.rst     |   2 +
- 2 files changed, 442 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/4.Coding.rst
+ .../translations/pt_BR/process/5.Posting.rst  | 376 ++++++++++++++++++
+ .../pt_BR/process/development-process.rst     |   2 +-
+ 2 files changed, 377 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/process/5.Posting.rst
 
-diff --git a/Documentation/translations/pt_BR/process/4.Coding.rst b/Documentation/translations/pt_BR/process/4.Coding.rst
+diff --git a/Documentation/translations/pt_BR/process/5.Posting.rst b/Documentation/translations/pt_BR/process/5.Posting.rst
 new file mode 100644
-index 000000000..ca4c74774
+index 000000000..820a56b66
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/4.Coding.rst
-@@ -0,0 +1,440 @@
++++ b/Documentation/translations/pt_BR/process/5.Posting.rst
+@@ -0,0 +1,376 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Escrever o código corretamente
-+==============================
++Enviando patches
++================
 +
-+Embora haja muito o que se dizer sobre um processo de design sólido e orientado
-+à comunidade, a prova de qualquer projeto de desenvolvimento de kernel está no
-+código resultante. É o código que será examinado por outros desenvolvedores e
-+mesclado (ou não) na árvore principal (*mainline*). Portanto, é a qualidade
-+deste código que determinará o sucesso final do projeto.
-+
-+Esta seção examinará o processo de codificação. Começaremos analisando uma série
-+de maneiras pelas quais os desenvolvedores de kernel podem errar. Em seguida, o
-+foco mudará para como fazer as coisas do jeito certo e as ferramentas que podem
-+ajudar nessa busca.
-+
-+
-+Armadilhas
-+----------
-+
-+Estilo de Codificação
-+*********************
-+
-+O kernel há muito possui um estilo de codificação padrão, descrito em
-+:ref:`Documentation/process/coding-style.rst <codingstyle>`. Por grande parte
-+desse tempo, as políticas descritas naquele arquivo eram consideradas, no
-+máximo, como recomendações. Como resultado, há uma quantidade substancial
-+de código no kernel que não cumpre as diretrizes de estilo de codificação.
-+A presença desse código leva a dois riscos independentes para os
-+desenvolvedores do kernel.
-+
-+O primeiro deles é acreditar que os padrões de codificação do kernel não importam
-+e não são exigidos. A verdade é que adicionar novo código ao kernel é muito
-+difícil se esse código não estiver escrito de acordo com o padrão; muitos
-+desenvolvedores solicitarão que o código seja reformatado antes mesmo de
-+revisá-lo. Uma base de código tão grande quanto a do kernel exige certa
-+uniformidade para tornar possível que os desenvolvedores entendam rapidamente
-+qualquer parte dela. Portanto, não há mais espaço para códigos com formatações
-+estranhas.
-+
-+Ocasionalmente, o estilo de codificação do kernel entrará em conflito com o
-+estilo exigido por um empregador. Nesses casos, o estilo do kernel terá que
-+vencer para que o código possa ser mesclado. Colocar código no kernel significa
-+abrir mão de um certo grau de controle de várias maneiras — incluindo o controle
-+sobre como o código é formatado.
-+
-+A outra armadilha é presumir que o código já presente no kernel necessita
-+urgentemente de correções de estilo de codificação. Os desenvolvedores podem
-+começar a gerar patches de reformatação como uma forma de ganhar familiaridade
-+com o processo, ou como um meio de incluir seus nomes nos logs de alterações
-+(*changelogs*) do kernel  ou ambos. No entanto, patches puramente de estilo de
-+codificação são vistos como ruído pela comunidade de desenvolvimento; eles tendem
-+a receber uma recepção fria. Portanto, é melhor evitar esse tipo de patch. É
-+natural corrigir o estilo de um trecho de código ao trabalhar nele por outros
-+motivos, mas mudanças de estilo de codificação não devem ser feitas apenas por
-+fazer.
-+
-+O documento de estilo de codificação também não deve ser lido como uma lei
-+absoluta que nunca pode ser transgredida. Se houver um bom motivo para ir contra
-+o estilo (uma linha que se torna muito menos legível se for dividida para caber
-+no limite de 80 colunas, por exemplo), simplesmente faça isso.
-+
-+Note que você também pode usar a ferramenta ``clang-format`` para ajudá-lo com
-+essas regras, para reformatar rapidamente partes do seu código de forma automática
-+e para revisar arquivos completos a fim de identificar erros de estilo de
-+codificação, erros de digitação e possíveis melhorias. Ela também é útil para
-+ordenar ``#includes``, alinhar variáveis/macros, reajustar o fluxo de textos e
-+outras tarefas semelhantes. Veja o arquivo
-+:ref:`Documentation/dev-tools/clang-format.rst <clangformat>` para mais detalhes.
-+
-+Algumas configurações básicas do editor, como indentação e fins de linha,
-+serão definidas automaticamente se você estiver usando um editor compatível
-+com o EditorConfig. Consulte o site oficial do EditorConfig para obter mais
-+informações: https://editorconfig.org/
-+
-+Camadas de Abstração
-+********************
-+
-+Os professores de Ciência da Computação ensinam os alunos a fazerem uso
-+extensivo de camadas de abstração em nome da flexibilidade e da ocultação de
-+informações. Certamente o kernel faz uso extensivo de abstração; nenhum
-+projeto que envolva vários milhões de linhas de código poderia fazer o
-+contrário e sobreviver. No entanto, a experiência tem mostrado que a
-+abstração excessiva ou prematura pode ser tão prejudicial quanto a otimização
-+prematura. A abstração deve ser usada até o nível necessário e não além.
-+
-+Em um nível simples, considere uma função que possui um argumento que é
-+sempre passado como zero por todos os chamadores. Alguém poderia manter esse
-+argumento caso alguém eventualmente precise usar a flexibilidade extra que ele
-+oferece. A essa altura, no entanto, as chances são grandes de que o código que
-+implementa esse argumento extra tenha sido quebrado de alguma forma sutil que
-+nunca foi percebida — porque ele nunca foi usado. Ou, quando surge a
-+necessidade de flexibilidade extra, ela não ocorre de uma forma que corresponda
-+à expectativa inicial do programador. Os desenvolvedores do kernel enviam
-+patches rotineiramente para remover argumentos não utilizados; eles não devem,
-+em geral, ser adicionados em primeiro lugar.
-+
-+Camadas de abstração que ocultam o acesso ao hardware — frequentemente para
-+permitir que a maior parte de um driver seja usada com múltiplos sistemas
-+operacionais — são especialmente malvistas. Essas camadas obscurecem o código
-+e podem impor uma penalidade de desempenho; elas não pertencem ao kernel
-+Linux.
-+
-+Por outro lado, se você se pegar copiando quantidades significativas de código
-+de outro subsistema do kernel, é hora de perguntar se faria sentido, de fato,
-+extrair parte desse código em uma biblioteca separada ou implementar essa
-+funcionalidade em um nível superior. Não há valor em duplicar o mesmo código
-+por todo o kernel.
++Cedo ou tarde, chega o momento em que seu trabalho está pronto para ser
++apresentado à comunidade para revisão e, eventualmente, inclusão no kernel
++mainline. Sem surpresa, a comunidade de desenvolvimento do kernel evoluiu um
++conjunto de convenções e procedimentos que são usados no envio de patches;
++segui-los tornará a vida muito mais fácil para todos os envolvidos. Este
++documento tentará cobrir essas expectativas em detalhes razoáveis; mais
++informações também podem ser encontradas nos arquivos
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++e :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`.
 +
 +
-+Uso de #ifdef e do pré-processador em geral
-+*******************************************
++Quando enviar
++-------------
 +
-+O pré-processador C parece apresentar uma forte tentação para alguns
-+programadores C, que o veem como uma forma de codificar eficientemente uma grande
-+quantidade de flexibilidade em um arquivo-fonte. No entanto, o pré-processador
-+não é C, e o uso pesado dele resulta em um código muito mais difícil de ser lido
-+por outros e mais difícil para o compilador verificar a correção. O uso pesado
-+do pré-processador é quase sempre um sinal de código que precisa de algum
-+trabalho de limpeza.
++Existe uma tentação constante de evitar o envio de patches antes que eles
++estejam completamente "prontos". Para patches simples, isso não é um problema.
++No entanto, se o trabalho que está sendo feito for complexo, há muito a se
++ganhar obtendo feedback da comunidade antes que o trabalho esteja concluído.
++Portanto, você deve considerar o envio de trabalhos em andamento, ou até mesmo
++disponibilizar uma árvore git para que os desenvolvedores interessados possam
++acompanhar o seu trabalho a qualquer momento.
 +
-+A compilação condicional com #ifdef é, de fato, um recurso poderoso, e é
-+utilizada dentro do kernel. Mas há pouco desejo de ver um código que seja
-+salpicado liberalmente com blocos #ifdef. Como regra geral, o uso de #ifdef
-+deve ser confinado a arquivos de cabeçalho (headers) sempre que possível. O
-+código compilado condicionalmente pode ser confinado a funções que, se o código
-+não estiver presente, simplesmente se tornam vazias. O compilador irá então,
-+silenciosamente, otimizar e remover a chamada para a função vazia. O resultado
-+é um código muito mais limpo e fácil de acompanhar.
-+
-+As macros do pré-processador C apresentam uma série de riscos, incluindo a
-+possível avaliação múltipla de expressões com efeitos colaterais e a falta de
-+segurança de tipos. Se você se sentir tentado a definir uma macro, considere a
-+criação de uma função inline em seu lugar. O código resultante será o mesmo,
-+mas as funções inline são mais fáceis de ler, não avaliam seus argumentos
-+múltiplas vezes e permitem que o compilador realize a checagem de tipos nos
-+argumentos e no valor de retorno.
++Ao enviar um código que ainda não é considerado pronto para inclusão, é uma boa
++ideia dizer isso no próprio envio. Mencione também qualquer trabalho importante
++que ainda precise ser feito e quaisquer problemas conhecidos. Menos pessoas vão
++olhar para patches que sabidamente estão "meio cozidos" (half-baked), mas aqueles
++que o fizerem virão com a ideia de que podem ajudá-lo a conduzir o trabalho na
++direção certa.
 +
 +
-+Funções Inline
-+**************
++Antes de criar patches
++----------------------
 +
-+No entanto, as funções inline apresentam um perigo próprio. Os programadores
-+podem ficar encantados com a eficiência percebida inerente a evitar uma chamada
-+de função e encher um arquivo de código-fonte com funções inline. Essas
-+funções, contudo, podem na verdade reduzir o desempenho. Como seu código é
-+replicado em cada local de chamada, elas acabam inflando o tamanho do kernel
-+compilado. Isso, por sua vez, cria pressão nos caches de memória do
-+processador, o que pode desacelerar a execução drasticamente. As funções
-+inline, como regra, devem ser bastante pequenas e relativamente raras. O custo
-+de uma chamada de função, afinal de contas, não é tão alto; a criação de um
-+grande número de funções inline é um exemplo clássico de otimização prematura.
++Há uma série de coisas que devem ser feitas antes de você considerar o envio
++de patches para la comunidade de desenvolvimento. Elas incluem:
 +
-+Em geral, os programadores de kernel ignoram os efeitos de cache por sua própria
-+conta e risco. O clássico compromisso entre tempo e espaço (tradeoff) ensinado
-+nas aulas introdutórias de estruturas de dados frequentemente não se aplica ao
-+hardware contemporâneo. Espaço *é* tempo, no sentido de que um programa maior
-+será executado mais lentamente do que um que seja mais compacto.
++ - Teste o código tanto quanto puder. Faça uso das ferramentas de depuração
++   do kernel, garanta que o kernel seja compilado com todas as combinações
++   razoáveis de opções de configuração, use compiladores cruzados (cross-
++   compilers) para compilar para diferentes arquiteturas, etc. Adicione testes,
++   provavelmente usando um framework de testes existente como o KUnit, e
++   inclua-os como um membro separado da sua série (veja a próxima seção para
++   mais informações sobre séries de patches). Note que isso pode ser
++   obrigatório ao afetar alguns subsistemas. Por exemplo, funções de biblioteca
++   (localizadas sob lib/) são amplamente utilizadas em quase todos os lugares e
++   espera-se que sejam testadas adequadamente.
 +
-+Compiladores mais recentes desempenham um papel cada vez mais ativo em decidir
-+se uma determinada função deve ou não ser realmente inline. Portanto, a inserção
-+liberal da palavra-chave "inline" pode não apenas ser excessiva; ela também pode
-+ser irrelevante.
++ - Certifique-se de que seu código esteja em conformidade com as diretrizes de
++   estilo de codificação do kernel.
 +
++ - Sua alteração tem implicações no desempenho? Se sim, você deve executar
++   benchmarks mostrando qual é o impacto (ou benefício) da sua mudança; um
++   resumo dos resultados deve ser incluído junto ao patch.
 +
-+Mecanismo de Trava
-+******************
++ - Tenha certeza de que você tem o direito de enviar o código. Se este
++   trabalho foi feito para um empregador, o empregador provavelmente tem direito
++   sobre o trabalho e deve estar de acordo com a sua liberação sob a GPL.
 +
-+Em maio de 2006, a pilha de rede "Devicescape" foi, com grande alarde, lançada
-+sob a GPL e disponibilizada para inclusão no kernel mainline. Essa doação foi uma
-+notícia bem-vinda; o suporte para redes sem fio no Linux era considerado abaixo do
-+padrão, na melhor das hipóteses, e a pilha da Devicescape oferecia a promessa de
-+corrigir essa situação. No entanto, esse código só entrou de fato no mainline em
-+junho de 2007 (2.6.22). O que aconteceu?
-+
-+Esse código mostrava vários sinais de ter sido desenvolvido a portas fechadas em
-+ambiente corporativo. Mas um grande problema em particular era que ele não havia
-+sido projetado para funcionar em sistemas multiprocessados. Antes que essa pilha
-+de rede (agora chamada de mac80211) pudesse ser integrada, um esquema de locking
-+(bloqueio) precisou ser adaptado a ela.
-+
-+Era uma vez uma época em que o código do kernel Linux podia ser desenvolvido sem
-+pensar nos problemas de concorrência apresentados por sistemas multiprocessados.
-+Hoje, no entanto, este documento está sendo escrito em um laptop dual-core.
-+Mesmo em sistemas com um único processador, o trabalho feito para melhorar a
-+capacidade de resposta aumentará o nível de concorrência dentro do kernel. Os
-+dias em que o código do kernel podia ser escrito sem pensar em locking ficaram
-+há muito tempo no passado.
-+
-+Qualquer recurso (estruturas de dados, registradores de hardware, etc.) que
-+possa ser acessado concorrentemente por mais de uma linha de execução deve ser
-+protegido por uma trava (lock). O novo código deve ser escrito com esse
-+requisito em mente; adaptar o locking após o fato é uma tarefa consideravelmente
-+mais difícil. Os desenvolvedores do kernel devem dedicar um tempo para
-+compreender as primitivas de locking disponíveis bem o suficiente para escolher
-+a ferramenta certa para o trabalho. Códigos que mostrem falta de atenção à
-+concorrência terão um caminho difícil para entrar no mainline.
++Como regra geral, dedicar um pouco de reflexão extra antes de enviar o código
++quase sempre compensa o esforço em pouco tempo.
 +
 +
-+Regressions
-+***********
++Preparação de patches
++---------------------
 +
-+Um perigo final que vale a pena mencionar é este: pode ser tentador fazer uma
-+alteração (que pode trazer grandes melhorias) que faça algo quebrar para os
-+usuários existentes. Esse tipo de alteração é chamado de "regressão", e as
-+regressões tornaram-se totalmente indesejadas no kernel mainline. Com poucas
-+exceções, as alterações que causarem regressões serão revertidas se a regressão
-+não puder ser corrigida em tempo hábil. É muito melhor evitar a regressão em
-+primeiro lugar.
++A preparação de patches para envio pode dar uma quantidade surpreendente de
++trabalho, mas, mais uma vez, tentar economizar tempo aqui geralmente não é
++aconselhável, mesmo a curto prazo.
 +
-+Muitas vezes argumenta-se que uma regressão pode ser justificada se ela fizer as
-+coisas funcionarem para mais pessoas do que os problemas que ela cria. Por que
-+não fazer uma alteração se ela trouxer uma nova funcionalidade para dez sistemas
-+para cada um que ela quebrar? A melhor resposta para essa pergunta foi expressa
-+por Linus em julho de 2007:
++Os patches devem ser preparados contra uma versão específica do kernel. Como
++regra geral, um patch deve ser baseado no mainline atual encontrado na árvore
++git do Linus. Ao basear-se no mainline, comece a partir de um ponto de
++lançamento bem conhecido — um release estável ou -rc —, em vez de criar uma
++bifurcação (branch) a partir do mainline em um ponto arbitrário.
++
++No entanto, pode tornar-se necessário criar versões contra a árvore -mm,
++linux-next ou a árvore de um subsistema, para facilitar testes e revisões mais
++amplos. Dependendo da área do seu patch e do que está acontecendo em outros
++lugares, basear um patch contra essas outras árvores pode exigir uma quantidade
++significativa de trabalho para resolver conflitos e lidar com mudanças de API.
++
++Apenas as alterações mais simples devem ser formatadas como um único patch; tudo
++o mais deve ser feito como uma série lógica de mudanças. Dividir patches é uma
++arte; alguns desenvolvedores passam muito tempo descobrindo como fazer isso da
++maneira que a comunidade espera. Existem algumas regras práticas, no entanto,
++que podem ajudar consideravelmente:
++
++ - A série de patches que você envia quase certamente não será a série de
++   alterações encontrada no seu sistema de controle de versão de trabalho. Em
++   vez disso, as mudanças que você fez precisam ser consideradas em sua forma
++   final e, então, divididas de maneiras que façam sentido. Os desenvolvedores
++   estão interessados em alterações discretas e autocontidas, não no caminho
++   que você percorreu para chegar a essas alterações.
++
++ - Cada alteração logicamente independente deve ser formatada como um patch separado.
++   Essas alterações podem ser pequenas ("adicionar um campo a esta estrutura") ou
++   grandes (adicionar um driver totalmente novo, por exemplo), mas devem ser
++   conceitualmente pequenas e passíveis de uma descrição de uma única linha. Cada
++   patch deve fazer uma alteração específica que possa ser revisada por si só e
++   verificada para garantir que faz o que diz fazer.
++
++ - Como uma forma de reafirmar a diretriz acima: não misture diferentes tipos de
++   alterações no mesmo patch. Se um único patch corrige uma falha crítica de
++   segurança, reorganiza algumas estruturas e reformatará o código, há uma grande
++   chance de que ele seja ignorado e a correção importante seja perdida.
++
++ - Cada patch deve resultar em um kernel que compile e funcione corretamente; se
++   sua série de patches for interrompida no meio, o resultado ainda deve ser um
++   kernel funcional. A aplicação parcial de uma série de patches é um cenário
++   comum quando a ferramenta "git bisect" é usada para encontrar regressões; se o
++   resultado for um kernel quebrado, você tornará a vida mais difícil para os
++   desenvolvedores e usuários que estão engajados no nobre trabalho de rastrear
++   problemas.
++
++ - No entanto, não exagere. Certa vez, um desenvolvedor enviou um conjunto de
++   edições em um único arquivo como 500 patches separados — um ato que não o
++   tornou a pessoa mais popular na lista de discussão do kernel. Um único patch
++   pode ser razoavelmente grande, desde que ainda contenha uma única alteração
++   *lógica*.
++
++ - Pode ser tentador adicionar toda uma nova infraestrutura com uma série de
++   patches, mas deixar essa infraestrutura sem uso até que o patch final da série
++   ative tudo. Essa tentação deve ser evitada, se possível; se essa série
++   adicionar regressões, a bisseção (bisection) apontará o último patch como aquele
++   que causou o problema, mesmo que o bug real esteja em outro lugar. Sempre que
++   possível, um patch que adiciona código novo deve tornar esse código ativo
++   imediatamente.
++
++Trabalhar para criar a série de patches perfeita pode ser um processo
++frustrante, que exige bastante tempo e reflexão após o "trabalho real" ter sido
++concluído. Quando feito corretamente, no entanto, é um tempo bem gasto.
++
++
++Formatação de patches e logs de alterações
++------------------------------------------
++
++Então agora você tem uma série perfeita de patches para enviar, mas o trabalho
++ainda não terminou. Cada patch precisa ser formatado em uma mensagem que comunique
++de forma rápida e clara o seu propósito para o resto do mundo. Para esse fim,
++cada patch será composto pelo seguinte:
++
++ - Uma linha "From" opcional que nomeia o autor do patch. Esta linha só é
++   necessária se você estiver repassando o patch de outra pessoa via e-mail,
++   mas nunca é demais adicioná-la em caso de dúvida.
++
++ - Uma descrição de uma única linha sobre o que o patch faz. Esta mensagem deve
++   ser suficiente para que um leitor que a veja sem outro contexto consiga
++   compreender o escopo do patch; esta é a linha que aparecerá nos logs de
++   alterações (changelogs) de "forma curta". Esta mensagem geralmente é formatada
++   com o nome do subsistema relevante primeiro, seguido pelo propósito do patch.
++   Por exemplo:
++
++   ::
++
++     gpio: fix build on CONFIG_GPIO_SYSFS=n
++
++ - Uma linha em branco seguida por uma descrição detalhada do conteúdo do
++   patch. Esta descrição pode ser tão longa quanto necessário; ela deve dizer
++   o que o patch faz e por que ele deve ser aplicado ao kernel.
++
++ - Uma ou mais linhas de marcadores (tags) com, no mínimo, uma linha
++   "Signed-off-by:" do autor do patch. Os marcadores serão descritos em mais
++   detalhes abaixo.
++
++Os itens acima, juntos, formam o log de alterações (changelog) do patch. Escrever
++bons changelogs é uma arte crucial, mas frequentemente negligenciada; vale a
++pena dedicar mais um momento para discutir esse assunto. Ao escrever um
++changelog, você deve ter em mente que várias pessoas diferentes lerão suas
++palavras. Elas incluem mantenedores de subsistemas e revisores que precisam
++decidir se o patch deve ser incluído, distribuidores e outros mantenedores
++tentando decidir se um patch deve ser retroportado (backported) para outros
++kernels, caçadores de bugs se perguntando se o patch é responsável por um
++problema que estão perseguindo, usuários que querem saber como o kernel mudou e
++muito mais. Um bom changelog transmite a informação necessária para todas essas
++pessoas da maneira mais direta e concisa possível.
++
++Para esse fim, a linha de resumo deve descrever os efeitos e a motivação da
++alteração o melhor possível, dada a restrição de uma única linha. A descrição
++detalhada pode então ampliar esses tópicos e fornecer qualquer informação
++adicional necessária. Se o patch corrige um bug, cite o commit que introduziu o
++bug, se possível (e, por favor, forneça tanto o ID do commit quanto o título ao
++citar commits). Se um problema estiver associado a uma saída específica de log
++ou do compilador, inclua essa saída para ajudar outras pessoas que buscam uma
++solução para o mesmo problema. Se a mudança tem o objetivo de dar suporte a
++outras alterações que virão em um patch posterior, informe isso. Se as APIs
++internas forem alteradas, detalhe essas mudanças e como outros desenvolvedores
++devem reagir. Em geral, quanto mais você puder se colocar no lugar de todos que
++lerão seu changelog, melhor será esse changelog (e o kernel como um todo).
++
++Desnecessário dizer que o changelog deve ser o texto usado ao submeter (commit)
++a alteração em um sistema de controle de versão. Ele será seguido por:
++
++ - O patch em si, no formato de patch unificado ("-u"). O uso da opção "-p" no
++   diff associará os nomes das funções às alterações, tornando o patch resultante
++   mais fácil de ser lido por outras pessoas.
++
++As tags  já mencionadas brevemente acima são usados para fornecer
++informações sobre como o patch surgiu. Eles são descritos em detalhes no
++documento :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`;
++o que se segue aqui é um breve resumo.
++
++Um marcador é usado para se referir a commits anteriores que introduziram os
++problemas corrigidos pelo patch::
++
++	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
++
++Outro marcador é usado para vincular páginas da web com contextos ou detalhes
++adicionais, por exemplo, uma discussão anterior que levou ao patch ou um
++documento com uma especificação implementada pelo patch::
++
++  Link: https://example.com/somewhere.html  optional-other-stuff
++
++De acordo com as orientações do Pinguim-Chefe, um marcador Link
++só deve ser adicionado a um commit se ele levar a informações úteis que não
++são encontradas no próprio commit.
++
++Se a URL apontar para um relatório de bug público que está sendo corrigido pelo
++patch, use o marcador "Closes:" em seu lugar::
++
++	Closes: https://example.com/issues/1234  optional-other-stuff
++
++Alguns rastreadores de bugs têm a capacidade de fechar problemas de forma
++automática quando um commit com tal marcador é aplicado. Alguns bots que
++monitoram listas de discussão também podem rastrear esses marcadores e tomar certas
++ações. Rastreadores de bugs privados e URLs inválidas são proibidos.
++
++Outro tipo de marcador é usado para documentar quem esteve envolvido no
++desenvolvimento do patch. Cada um deles usa este formato::
++
++  tag: Full Name <email address>  optional-other-stuff
++
++Os marcadores de uso comum são:
++
++ - Signed-off-by: esta é uma certificação do desenvolvedor de que ele ou ela
++   tem o direito de enviar o patch para inclusão no kernel. É um acordo com o
++   Developer's Certificate of Origin (Certificado de Origem do Desenvolvedor),
++   cujo texto completo pode ser encontrado em
++   :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
++   Códigos sem um signoff adequado não podem ser mesclados (merged) no mainline.
++
++ - Co-developed-by: afirma que o patch foi criado em coautoria por vários
++   desenvolvedores; é usado para dar atribuição aos coautores (além do autor
++   atribuído pelo marcador From:) quando várias pessoas trabalham em um único
++   patch. Cada Co-developed-by: deve ser imediatamente seguido por um
++   Signed-off-by: do coautor associado. Detalhes e exemplos podem ser encontrados
++   em :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
++
++ - Acked-by: indica o acordo de outro desenvolvedor (frequentemente um
++   mantenedor do código relevante) de que o patch é apropriado para inclusão
++   no kernel.
++
++ - Tested-by: afirma que a pessoa nomeada testou o patch e verificou que ele
++   funciona.
++
++ - Reviewed-by: o desenvolvedor nomeado revisou o patch para verificar sua
++   correção; veja a declaração do revisor em
++   :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++   para mais detalhes.
++
++ - Reported-by: nomeia um usuário que relatou o problema que é corrigido por este
++   patch; este marcador é usado para dar crédito às pessoas (frequentemente sub-
++   valorizadas) que testam nosso código e nos informam quando as coisas não
++   funcionam corretamente. Nota: este marcador deve ser seguido por um marcador
++   Closes: apontando para o relato, a menos que o relato não esteja disponível na
++   web. O marcador Link: pode ser usado em vez de Closes: se o patch corrigir
++   apenas uma parte do(s) problema(s) relatado(s).
++
++ - A Suggested-by: este marcador indica que a ideia do patch foi sugerida pela
++   pessoa nomeada e garante o crédito a ela pela ideia. Isso, espera-se, irá
++   inspirá-la a nos ajudar novamente no futuro.
++
++ - Cc: a pessoa nomeada recebeu uma cópia do patch e teve a oportunidade de
++   comentar sobre ele.
++
++Tenha cuidado ao adicionar os marcadores mencionados acima aos seus patches, pois
++todos, exceto Cc:, Reported-by: e Suggested-by:, precisam de permissão explícita
++fontes da pessoa nomeada. Para esses três, a permissão implícita é suficiente se
++a pessoa contribuiu para o kernel Linux usando esse nome e endereço de e-mail de
++acordo com os arquivos do lore ou o histórico de commits — e, no caso de
++Reported-by: e Suggested-by:, se fizeram o relato ou a sugestão publicamente.
++Nota: o bugzilla.kernel.org é um local público nesse sentido, mas os endereços
++de e-mail usados lá são privados; portanto, não os exponha em marcadores, a menos
++que a pessoa os tenha usado em contribuições anteriores.
++
++
++Enviando o patch
++-----------------
++
++Antes de enviar seus patches por e-mail, há algumas outras coisas com as quais
++você deve se preocupar:
++
++ - Você tem certeza de que seu cliente de e-mail não vai corromper os patches?
++   Patches que sofreram alterações desnecessárias de espaço em branco ou quebra
++   de linha causadas pelo cliente de e-mail não serão aplicados na outra ponta
++   e, frequentemente, não serão examinados em detalhes. Se houver qualquer
++   dúvida, envie o patch para você mesmo e certifique-se de que ele chegue intacto.
++
++   O documento :ref:`Documentation/process/email-clients.rst <email_clients>`
++   possui algumas dicas úteis sobre como fazer clientes de e-mail específicos
++   funcionarem para o envio de patches.
++
++ - Você tem certeza de que seu patch está livre de erros bobos? Você deve sempre
++   passar os patches pelo scripts/checkpatch.pl e corrigir as reclamações que
++   ele apresentar. Por favor, tenha em mente que o checkpatch.pl, embora seja a
++   personificação de uma quantidade razoável de reflexão sobre como os patches do
++   kernel devem parecer, não é mais inteligente que você. Se corrigir uma
++   reclamação do checkpatch.pl piorar o código, não o faça.
++
++Os patches devem sempre ser enviados como texto simples (plain text). Por favor,
++não os envie como anexos; isso torna muito mais difícil para os revisores citarem
++trechos do patch em suas respostas. Em vez disso, coloque o patch diretamente no
++corpo da sua mensagem.
++
++Ao enviar patches por e-mail, é importante enviar cópias para qualquer pessoa
++que possa estar interessada neles. Ao contrário de alguns outros projetos, o
++kernel incentiva as pessoas a pecarem pelo excesso, enviando cópias demais; não
++assuma que as pessoas relevantes verão sua publicação nas listas de discussão. Em
++particular, as cópias devem ir para:
++
++- O(s) mantenedor(es) do(s) subsistema(s) afetado(s). Como descrito antes, o
++   arquivo MAINTAINERS é o primeiro lugar para procurar por essas pessoas.
++
++ - Outros desenvolvedores que estiveram trabalhando na mesma área — especialmente
++   aqueles que possam estar trabalhando lá agora. Usar o git para ver quem mais
++   modificou os arquivos nos quais você está trabalhando pode ser útil.
++
++ - Se você estiver respondendo a um relato de bug ou a uma solicitação de recurso
++   (feature request), envie uma cópia também para o autor original.
++
++ - Envie uma cópia para a lista de discussão relevante ou, se nada mais se
++   aplicar, para a lista linux-kernel.
++
++ - Se você estiver corrigindo um bug, pense se a correção deve ir para a próxima
++   atualização estável (stable update). Se sim, stable@vger.kernel.org deve
++   receber uma cópia do patch. Adicione também um "Cc: stable@vger.kernel.org"
++   aos marcadores (tags) dentro do próprio patch; isso fará com que a equipe do
++   stable receba uma notificação quando sua correção for integrada ao mainline.
++
++Ao selecionar os destinatários para um patch, é bom ter uma ideia de quem você
++acha que eventualmente aceitará o patch e fará a mesclagem (merge). Embora seja
++possível enviar patches diretamente para Linus Torvalds e fazer com que ele os
++mescle, as coisas normalmente não são feitas dessa forma. Linus está ocupado, e
++existem mantenedores de subsistemas que vigiam partes específicas do kernel. Em
++geral, você desejará que esse mantenedor mescle seus patches. Se não houver um
++mantenedor óbvio, Andrew Morton costuma ser o destino de patch de último recurso.
++
++Os patches precisam de boas linhas de assunto (subject lines). O formato canônico
++para a linha de um patch é algo como:
 +
 +::
 +
-+  Portanto, nós não corrigimos bugs introduzindo novos problemas. Esse caminho
-+  leva à loucura, e ninguém nunca sabe se você está realmente fazendo algum
-+  progresso real. São dois passos para frente, um passo para trás, ou um passo
-+  para frente e dois passos para trás?
 +
-+(https://lwn.net/Articles/243460/).
++  [PATCH nn/mm] subsys: descrição de uma linha do patch
 +
-+Um tipo de regressão especialmente indesejado é qualquer tipo de alteração na
-+ABI do espaço do usuário (user-space ABI). Uma vez que uma interface tenha sido
-+exportada para o espaço do usuário, ela deve receber suporte indefinidamente.
-+Esse fato torna a criação de interfaces de espaço do usuário particularmente
-+desafiadora: já que elas não podem ser alteradas de maneiras incompatíveis, elas
-+devem ser feitas corretamente na primeira vez. Por essa razão, exige-se sempre
-+muita reflexão, documentação clara e uma ampla revisão para as interfaces do
-+espaço do usuário.
++onde "nn" é o número ordinal do patch, "mm" é o número total de patches na
++série, e "subsys" é o nome do subsistema afetado. Claramente, nn/mm pode ser
++omitido no caso de um patch único e isolado (standalone).
 +
++Se você tiver uma série significativa de patches, é costumeiro enviar uma
++descrição introdutória como a parte zero. Essa convenção não é seguida
++universalmente, no entanto; se você a utilizar, lembre-se de que as informações
++da introdução não entram nos changelogs do kernel. Portanto, certifique-se de
++que os patches, em si, possuam informações completas em seus changelogs.
 +
-+Ferramentas de verificação de código
-+------------------------------------
-+
-+Por enquanto, pelo menos, a escrita de código livre de erros continua sendo um
-+ideal que poucos de nós conseguem alcançar. O que podemos esperar fazer, no
-+entanto, é capturar e corrigir o máximo possível desses erros antes que nosso
-+código entre no kernel mainline. Para esse fim, os desenvolvedores do kernel
-+reuniram um conjunto impressionante de ferramentas que podem capturar uma ampla
-+variedade de problemas obscuros de forma automatizada. Qualquer problema
-+capturado pelo computador é um problema que não afligirá um usuário mais tarde,
-+portanto, é lógico que as ferramentas automatizadas devem ser usadas sempre que
-+possível.
-+
-+O primeiro passo é simplesmente prestar atenção aos avisos (warnings) produzidos
-+com o compilador. As versões contemporâneas do gcc podem detectar (e alertar
-+sobre) um grande número de erros potenciais. Com bastante frequência, esses
-+avisos apontam para problemas reais. O código enviado para revisão deve, como
-+regra, não produzir nenhum aviso do compilador. Ao silenciar os avisos, tome o
-+cuidado de entender a real causa e tente evitar "correções" que façam o aviso
-+desaparecer sem resolver a sua origem.
-+
-+Note que nem todos os avisos do compilador ficam ativados por padrão. Compile o
-+kernel com "make KCFLAGS=-W" para obter o conjunto completo.
-+
-+O kernel fornece várias opções de configuração que ativam recursos de
-+depuração; a maioria delas é encontrada no submanu "kernel hacking". Várias
-+dessas opções devem ser ativadas para qualquer kernel usado para fins de
-+desenvolvimento ou teste. Em particular, você deve ativar:
-+
-+ - FRAME_WARN para obter avisos sobre quadros de pilha (stack frames) maiores
-+   que um determinado valor. A saída gerada pode ser volumosa, mas não é
-+   necessário se preocupar com os avisos de outras partes do kernel.
-+
-+ - DEBUG_OBJECTS adicionará código para rastrear o tempo de vida de vários
-+   objetos criados pelo kernel e alertará quando as ações forem feitas fora de
-+   ordem. Se você estiver adicionando um subsistema que cria (e exporta) seus
-+   próprios objetos complexos, considere adicionar suporte à infraestrutura de
-+   depuração de objetos.
-+
-+ - DEBUG_SLAB pode encontrar uma variedade de erros de alocação e uso de
-+   memória; ele deve ser usado na maioria dos kernels de desenvolvimento.
-+
-+ - DEBUG_SPINLOCK, DEBUG_ATOMIC_SLEEP e DEBUG_MUTEXES encontrarão uma série de
-+   erros comuns de locking (bloqueio).
-+
-+Existem várias outras opções de depuração, algumas das quais serão discutidas
-+abaixo. Algumas delas têm um impacto significativo no desempenho e não devem ser
-+usadas o tempo todo. Mas um tempo gasto aprendendo as opções disponíveis
-+provavelmente se pagará muitas vezes em pouco tempo.
-+
-+Uma das ferramentas de depuração mais pesadas é o verificador de locking, ou
-+"lockdep". Esta ferramenta rastreará a aquisição e a liberação de cada trava
-+(spinlock ou mutex) no sistema, a ordem em que as travas são adquiridas umas em
-+relação às outras, o ambiente de interrupção atual e muito mais. Ela pode,
-+então, garantir que as travas sejam sempre adquiridas na mesma ordem, que as
-+mesmas suposições de interrupção se apliquem em todas as situações e assim por
-+diante. Em outras palavras, o lockdep pode encontrar uma série de cenários nos
-+quais o sistema poderia, em raras ocasiões, entrar em deadlock. Esse tipo de
-+problema pode ser doloroso (tanto para desenvolvedores quanto para usuários) em
-+um sistema implantado; o lockdep permite que eles sejam encontrados de maneira
-+automatizada e antecipada. Códigos com qualquer tipo de locking não trivial
-+devem ser executados com o lockdep ativado antes de serem enviados para inclusão.
-+
-+Como um programador de kernel diligente, você irá, sem dúvida, verificar o
-+status de retorno de qualquer operação (como uma alocação de memória) que possa
-+falhar. O fato, porém, é que os caminhos de recuperação de falha resultantes
-+estão, provavelmente, completamente não testados. Código não testado tende a ser
-+código quebrado; você poderia estar muito mais confiante em seu código se todos
-+esses caminhos de tratamento de erros tivessem sido exercitados algumas vezes.
-+
-+O kernel fornece um framework de injeção de falhas (fault injection) que pode
-+fazer exatamente isso, especialmente onde alocações de memória estão
-+envolvidas. Com a injeção de falhas ativada, uma porcentagem configurável das
-+alocações de memória será forçada a falhar; essas falhas podem ser restritas a
-+um intervalo específico de código. Executar o código com a injeção de falhas
-+ativada permite ao programador ver como o código responde quando as coisas vão
-+mal. Veja Documentation/fault-injection/fault-injection.rst para mais
-+informações sobre como usar esse recurso.
-+
-+Outros tipos de erros podem ser encontrados com a ferramenta de análise estática
-+"sparse". Com o sparse, o programador pode ser alertado sobre confusões entre
-+endereços do espaço do usuário e do espaço do kernel, mistura de quantidades
-+big-endian e small-endian, a passagem de valores inteiros onde um conjunto de
-+sinalizadores de bits (bit flags) é esperado, e assim por diante. O sparse deve
-+ser instalado separadamente (ele pode ser encontrado em
-+https://sparse.wiki.kernel.org/index.php/Main_Page se a sua distribuição não o
-+incluir como pacote); ele pode então ser executado no código adicionando "C=1"
-+ao seu comando make.
-+
-+A ferramenta "Coccinelle" (http://coccinelle.lip6.fr/) é capaz de encontrar uma
-+ampla variedade de potenciais problemas de codificação; ela também pode propor
-+correções para esses problemas. Uma quantidade considerável de "patches
-+semânticos" para o kernel foi empacotada sob o diretório scripts/coccinelle;
-+executar "make coccicheck" passará por esses patches semânticos e relatará
-+quaisquer problemas encontrados. Veja
-+:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>`
-+para mais informações.
-+
-+Outros tipos de erros de portabilidade são encontrados mais facilmente ao
-+compilar seu código para outras arquiteturas. Se você por acaso não tiver um
-+sistema S/390 ou uma placa de desenvolvimento Blackfin à mão, ainda assim poderá
-+realizar a etapa de compilação. Um grande conjunto de compiladores cruzados
-+(cross-compilers) para sistemas x86 pode ser encontrado em:
-+
-+  https://www.kernel.org/pub/tools/crosstool/
-+
-+Um tempo gasto instalando e usando esses compiladores ajudará a evitar
-+constrangimentos mais tarde.
-+
-+
-+Documentação
-+-------------
-+
-+A documentação frequentemente tem sido mais a exceção do que a regra no
-+desenvolvimento do kernel. Mesmo assim, uma documentação adequada ajudará a
-+facilitar a integração de novos códigos ao kernel, tornará a vida mais fácil para
-+outros desenvolvedores e será útil para os seus usuários. Em muitos casos, a
-+adição de documentação tornou-se essencialmente obrigatória.
-+
-+A primeira parte da documentação de qualquer patch é o seu log de alterações
-+(changelog) associado. As entradas do log devem descrever o problema que está
-+sendo resolvido, a forma da solução, as pessoas que trabalharam no patch,
-+quaisquer efeitos relevantes no desempenho e qualquer outra coisa que possa ser
-+necessária para entender o patch. Certifique-se de que o changelog diga o
-+*porquê* de o patch valer a pena ser aplicado; um número surpreendente de
-+desenvolvedores falha em fornecer essa informação.
-+
-+Qualquer código que adicione uma nova interface de espaço do usuário — incluindo
-+novos arquivos sysfs ou /proc — deve incluir a documentação dessa interface, de
-+modo a permitir que os desenvolvedores do espaço do usuário saibam com o que
-+estão trabalhando. Veja Documentation/ABI/README para uma descrição de como essa
-+documentação deve ser formatada e quais informações precisam ser fornecidas.
-+
-+O arquivo :ref:`Documentation/admin-guide/kernel-parameters.rst
-+<kernelparameters>` descreve todos os parâmetros de boot do kernel. Qualquer
-+patch que adicione novos parâmetros deve adicionar as entradas apropriadas a
-+este arquivo.
-+
-+Quaisquer novas opções de configuração devem ser acompanhadas por um texto de
-+ajuda que explique claramente as opções e quando o usuário pode querer
-+selecioná-las.
-+
-+As informações de API interna de muitos subsistemas são documentadas por meio de
-+comentários com formatação especial; esses comentários podem ser extraídos e
-+formatados de várias maneiras pelo script "kernel-doc". Se você estiver
-+trabalhando em um subsistema que possui comentários kerneldoc, você deve
-+mantê-los e adicioná-los, conforme apropriado, para funções disponíveis
-+externamente. Mesmo em áreas que não tenham sido documentadas dessa forma, não há
-+mal nenhum em adicionar comentários kerneldoc para o futuro; de fato, esta pode
-+ser uma atividade útil para desenvolvedores iniciantes de kernel. O formato
-+desses comentários, junto com algumas informações sobre como criar modelos de
-+kerneldoc, pode ser encontrado em :ref:`Documentation/doc-guide/ <doc_guide>`.
-+
-+Qualquer pessoa que leia uma quantidade significativa de código existente do
-+kernel notará que, frequentemente, os comentários chamam a atenção por sua
-+ausência. Mais uma vez, as expectativas para códigos novos são mais altas do que
-+eram no passado; integrar código sem comentários será mais difícil. Dito isso,
-+há pouco interesse em códigos comentados de forma prolixa. O código deve, por si
-+só, ser legível, com os comentários explicando os aspectos mais sutis.
-+
-+Certas coisas devem sempre ser comentadas. O uso de barreiras de memória
-+(memory barriers) deve ser acompanhado por uma linha explicando por que a
-+barreira é necessária. As regras de locking (bloqueio) para estruturas de dados
-+geralmente precisam ser explicadas em algum lugar. Grandes estruturas de dados
-+precisam de uma documentação abrangente em geral. Dependências não óbvias entre
-+trechos distintos de código devem ser apontadas. Qualquer coisa que possa tentar
-+um "faxineiro de código" (code janitor) a fazer uma "limpeza" incorreta precisa
-+de um comentário dizendo por que foi feita daquela maneira. E assim por diante.
-+
-+
-+Alterações de API interna
-+-------------------------
-+
-+A interface binária fornecida pelo kernel para o espaço do usuário não pode ser
-+quebrada, exceto sob as circunstâncias mais graves. Por outro lado, as
-+interfaces de programação internas do kernel são altamente fluidas e podem ser
-+alteradas quando surgir a necessidade. Se você se encontrar tendo que criar uma
-+gambiarra para contornar uma API do kernel, ou simplesmente deixando de usar uma
-+funcionalidade específica porque ela não atende às suas necessidades, isso pode
-+ser um sinal de que a API precisa mudar. Como desenvolvedor de kernel, você tem
-+o poder de fazer tais alterações.
-+
-+Existem, é claro, algumas pegadinhas. Alterações de API podem ser feitas, mas
-+precisam ser bem justificadas. Portanto, qualquer patch que faça uma alteração de
-+API interna deve ser acompanhado por uma descrição do que é a mudança e do porquê
-+ela é necessária. Esse tipo de alteração também deve ser separado em um patch
-+independente, em vez de ser enterrado dentro de um patch maior.
-+
-+A outra pegadinha é que o desenvolvedor que altera uma API interna é geralmente
-+encarregado da tarefa de corrigir qualquer código dentro da árvore do kernel que
-+tenha sido quebrado pela mudança. Para uma função amplamente utilizada, esse
-+dever pode levar a literalmente centenas ou milhares de alterações — muitas das
-+quais provavelmente entrarão em conflito com o trabalho que está sendo feito por
-+outros desenvolvedores. Desnecessário dizer que isso pode ser um grande
-+trabalho, então é melhor ter certeza de que a justificativa é sólida. Note que
-+a ferramenta Coccinelle pode ajudar com alterações de API de amplo alcance.
-+
-+Ao fazer uma alteração incompatível de API, deve-se, sempre que possível,
-+garantir que o código que não foi atualizado seja capturado pelo compilador.
-+Isso ajudará você a ter certeza de que encontrou todos os usos dessa interface
-+dentro da árvore (in-tree). Isso também alertará os desenvolvedores de códigos
-+fora da árvore (out-of-tree) de que há uma mudança à qual eles precisam
-+responder. Dar suporte a código fora da árvore não é algo com que os
-+desenvolvedores do kernel precisem se preocupar, mas também não temos que
-+tornar a vida dos desenvolvedores fora da árvore mais difícil do que precisa ser.
++Em geral, a segunda parte e as subsequentes de um patch de múltiplas partes devem
++ser enviadas como uma resposta à primeira parte, de modo que todas formem uma
++única linha de discussão (thread) na ponta receptora. Ferramentas como o git e o
++quilt possuem comandos para enviar por e-mail um conjunto de patches com o
++encadeamento correto. Se você tiver uma série longa, contudo, e estiver usando o
++git, por favor, evite a opção --chain-reply-to para não criar um aninhamento
++excepcionalmente profundo.
 diff --git a/Documentation/translations/pt_BR/process/development-process.rst b/Documentation/translations/pt_BR/process/development-process.rst
-index 599c34c85..71f151f36 100644
+index 71f151f36..e9f04df62 100644
 --- a/Documentation/translations/pt_BR/process/development-process.rst
 +++ b/Documentation/translations/pt_BR/process/development-process.rst
-@@ -20,3 +20,5 @@ conhecimento profundo de programação de kernel para ser compreendida.
-    1.Intro
+@@ -21,4 +21,4 @@ conhecimento profundo de programação de kernel para ser compreendida.
     2.Process
     3.Early-stage
-+   4.Coding
-+   
+    4.Coding
+-   
++   5.Posting
 -- 
 2.47.3
 
