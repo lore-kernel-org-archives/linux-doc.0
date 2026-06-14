@@ -1,470 +1,342 @@
-Received: from mail-oi1-f202.google.com (mail-oi1-f202.google.com [209.85.167.202])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE5D3905E7
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 18:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781460642; cv=none; b=sdDqIPYCbmbB5mDlSmTAfdDrlPGOnN1KlSptRZ8L4aidN9cNmv0e1D20CyLXJW2fkwlUcTtRjxlwx9KIwkeEUjTTvAiFZ3uHJtcWZOOEIC3mZJ2W5JIm0nAikgYqyL8a6vJ/xOpx/dMkYuicELj3GLyOF8//kxTlXZTGKlQGutA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781460642; c=relaxed/simple;
-	bh=mnP0I6o8+LGFGdJlsrzM6Epl+Tpi9kxZMbYSdUIIBOk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=P3x9/zyoK4Vt5kGrtg2F3fVHqblqyB4J+Ed40lRsxSkhSCgclnkSrD89SemMVgYxL5bATeWaRGZ5xcIybRqLXU7FAx5IOOyQ9tWajI0C168jSb7D6nT289fyfMov61TxCKmnnFUZbJTU1SWn+6YCbgyCkEOsuxDVuB+7hJ+gQKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qS3/xCk2; arc=none smtp.client-ip=209.85.167.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E427D1E9906
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 19:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781464645; cv=pass; b=VI40Khlsdh+ZsDoUGI98sJHw/XXo/+usSqQEP7oKj19wta38KweE0cS0z69IZAmrTnzDAdLTYIk7Ov5NL4jIEOdWV2B3JsVpVPV+DeUNf3N3bIAG6xA5+Dw3fX68TokWtYpr6ZS2lFLSxOzJ2/r495dTLopNgsuJ3jZwSmrvK10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781464645; c=relaxed/simple;
+	bh=Cbv16bWSb7bD54u+omNlQ0fSl7jXbF+CDFxO+mNEHU8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R5WS+zgc0O6SgnwVUVf7jHHuSR0nzacA973eMIbRGM3whSw6DrgQawxXc9Lw4QPCWg5KVoBYxNBaGg9Ji7ko42SH7xmBdabqfMD/rb9qb72RtAZAkgLaVNFN0HDbgkM8ul1ZFifVMiBVSwepZfinRu7t+0eAVF4cMzXVw/mxLkc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=K+Qkityb; arc=pass smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qS3/xCk2"
-Received: by mail-oi1-f202.google.com with SMTP id 5614622812f47-486417cc069so4087719b6e.0
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 11:10:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="K+Qkityb"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-486b95fcdc7so1301301b6e.2
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 12:17:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781464643; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZvcE36suWQsTotNj/i6h2joET0og5QyMVzzS/8aASwNAyWU5rTELbeOTAjE+mh2zJo
+         a+eznFW3W/6XS7dGw0kgVCzgb5LjRV9t6OxpmLrBss3QJeFoaoFF9szwAYLpHkh94yh+
+         MFQqD6VHIA9GL2u4ScXy2XEcxzE4dARZ23FUPqGVnugZ0ZwdXUkr4qKgDrV4KMMn6QQF
+         iDTZqEaNnxflqNhT9DnTi4RJfy3vT4ajsqY+yoJaMs7jnBE/H63AtShYt1qDt6SbFgnH
+         XHSoiqlCqYtYdI8enuquOE3ZyI3zWi6t33sy+7LfUlEffjbSHidhMWJUrktPC/xkuza6
+         Ueqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
+        fh=8UOhfZKM9tHBGRE9R4DHsC39Jhgpz5f/p+tp3uPwHjE=;
+        b=jCr47HGGagb8h1Q9wks1T7WKyH2S06LSZTn1HgcXntZgqNvkHtwyVzhM9s+t41S/Sh
+         niDWI4GsSqojCv4WIHR+wVRVUyx+mk/c4HXRfqHX6DQr+xdi/LxMzMbe9Usn5wKlTw7k
+         mCQlKGgquL5H3PBaDxb/RhZkDKzwA7NNSMaYUvqSCsBegMLlcmYFHQWETq+XRUOBVCKN
+         thiMh0O4rGo+d1m64Ns49aaZyYFww3/CjeQA7DdRJDX6vFpTp3TwtANkGqmHVRMEtlkW
+         X3B+JGdMinK06C6j9QLwZ1GsNT6OoeuAJTd/n3ruWIKF2sY/QPpTqzMISQ6LY+T6YDSG
+         4RSg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781460639; x=1782065439; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VHKmJTx4oanchUFkxxe/K7AsoeHB5zPMqyzDXEHp9+o=;
-        b=qS3/xCk2soZZq8c6U5sgWwK/L3IMFQJ+/WZijmjESjCOe4QWMeG76VO4Tmo+JKroli
-         06PzcjSea6pe0qysCap2PJn8n3O5fM8UcUl2LRmmGrfYQEfFVP1XJqp4HOy9N4X0GVnh
-         clgx1EA8JL7HzcHNQqzs6Bk54nEApkSUe2iCE0dofkNQm/lFdOLgFciRT6v/pGRglSeb
-         Bl33n4yXuNRj4fkIXHddZ9cpPVcst80QN0jniZhjyfH1L7O+8rpEC04x9ywpD6qNUuSH
-         vXfI9lx47vmwN/U5I6uC72NPJlZCrEQnzljRab5KKGCa2ST5JTS5N2WTNylRm30aMfge
-         6rXg==
+        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1781464643; x=1782069443; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
+        b=K+Qkitybn4nQgsV+kHKimXTRwcShltBGYPL2KHOPAd6CEQL9o9iX+2weGhAsg6HhJP
+         ay+jblASEdVVb2B/F7wRAobicndtmtIodmMJ3SBATenD5makvuHFZ4kIQJjXLHUb+wCF
+         DZjzDoaAIIIUJJ/PvWccpib/kuR1aevRIFiC+7ZZ2NCSpjyXNxj/06fFp2FRZDszmZpC
+         hFVriaQeEXXXfxkbAIWAVCRvqV9Iaggu11CV1htjF0YNMw7JEqjaQlgYcByM+0CJZJAh
+         +RqAYHZFDORIdfyO49iX9ujgK4bJqMAg1shGapZef6D9QinT/jC13H3ig2BZZypgucW4
+         iZmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781460639; x=1782065439;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VHKmJTx4oanchUFkxxe/K7AsoeHB5zPMqyzDXEHp9+o=;
-        b=panZLd1957UGol3y3h5EA6wW1qD12rV4FJrUBV03KEcAqizTYQc7yzjxvgaAMr5HQz
-         LCdCvofC4DOO1fyQjf9bmfKYosxLLwmPzCpCKtz7Z0ELpNCtk/0xRrlluw5lg8eK9onS
-         Fhejvj2cBpEQMrp/htexUsQNKBFn4fwzBZfvfboLjG7jIxcUN9J2XgMo4XLxSVook0J1
-         aVmh4cTmuiU7tLfQrLE5LpJuwLHDx/8XMVW6Vi6ZcE97PSVevzNG6iPULHnz8jt8uJvV
-         jQvi/cdf0yVRAq3Ga/nHpxrltGKgkVeEdxYb0z/jqOSkFzZQX0cANGVkducGBFcKHipU
-         xS/g==
-X-Forwarded-Encrypted: i=1; AFNElJ+E3pz3OLXk2xkwm9SSwPzyt5hcOo/D+KIYxTRus8UXjtiLAZ/2vMC8hLF1kU/2nkv3emU1lsqDyeQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB1UDgCOpFEIa1vb0jO4COaQQzUiUOcSnd66p9jd8tcjMUk5L9
-	kpDVjvbdMv9UItNS09rSR70ex+/mtkeO/VCHZFOwztHpfZM3vSrZDFXcX8K+MtbB5GWWBCJjKj6
-	7cpJswzKtLw==
-X-Received: from ilqc8.prod.google.com ([2002:a92:c8c8:0:b0:502:1005:fde])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:6f8e:b0:485:1618:a84a
- with SMTP id 5614622812f47-4872f5a491dmr7433918b6e.37.1781460639065; Sun, 14
- Jun 2026 11:10:39 -0700 (PDT)
-Date: Sun, 14 Jun 2026 18:10:02 +0000
-In-Reply-To: <20260614181006.3648010-1-nkapron@google.com>
+        d=1e100.net; s=20251104; t=1781464643; x=1782069443;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
+        b=pIuauWyPylwPI7x4h5hBybb1LdjvFmKQE3guJWxqrk/UPsJx79orTltLi07LJ57IH+
+         4i9SeRa892NfyC1MM07fK9J3abFiiu8fUbUp2BuS5KaMs+ibd3WDh+mnvhtNKmudAr3R
+         M3c2sjFwtWXIzKd/2W0Rv2zzLLTn7zbvRH4hio+3iMMzA11Rydh06KedEvC8ZXgXz/DX
+         j/JF2oLGrZ+b8hQbzJXtO/iFPovdFv7ne2hGO2QAQSeYj9nOrMsqKAo1sPp/h/BHnCxP
+         IiAVnLpOMeg8m87FWYuzcjgGuaJNTUkgDHqHLYfXWnU7tRCCtqj0ghNWehMDOSnLj5Iy
+         1Yjw==
+X-Forwarded-Encrypted: i=1; AFNElJ+/6NFj5ZYzTaszqwlcQtPkqpBFXKwdJYwrwcvuWAyDIfq7tUCCzbJasInJ18m/Luht6c07z+I5wbg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCVBwL93C/74sua4ab4Uo3PkPwDLcFppfJEZDp7ETmintfiJoX
+	1WMTmJWL0rbfE+HKvnBf2F6Co62Pi5hJcjCuX0iS3xy8Y/DL/EZ68WDNs234ruZYSuQT5hHUpVo
+	4OXoi41d/dz2mKI/v4uh2AxWbynW4qjKx7VR9VVqLjg==
+X-Gm-Gg: Acq92OHYo6OGN1B8xpW0BlorEH1zFzRCe+qV1QMfD390ZFPEhgMOEV9FjedYUZNcvnx
+	t258r+Yl5VRBJbcFECYFY+SUyCjHUM04LrHhj8lihewKSqF2u7/dcwgzwdrrrztSGUYnvB9QcGk
+	Y9iAPE95Yj80BWo+f5Cc+oIBn1cPe/oofaxSiYsI0y0vSg+JTOw/xowEN+aikZBVKfhCUoqCGCg
+	9nbOXPZNH/h5cPuHVLOz7NbMd007PAR058vrHYsAY24fVzLMPaLKmxHnPIwo7A/ENgjAN4w5vXc
+	sQlY0q+IsDcmMxqkTbGVNe/di9ctI2faHSXR5lXyLcWTgVWfhNaWlNLvYjolVb+5/LO4jR3DzdH
+	Z5nywcQg2Wn4FT0yNNrSHUxYdcZVW8OKwx6RHmWw=
+X-Received: by 2002:a05:6808:178e:b0:485:41fc:71e1 with SMTP id
+ 5614622812f47-4872f4a0776mr6926903b6e.21.1781464642824; Sun, 14 Jun 2026
+ 12:17:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260614181006.3648010-1-nkapron@google.com>
-X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
-Message-ID: <20260614181006.3648010-4-nkapron@google.com>
-Subject: [PATCH 3/3] usb: gadget: f_fs: Introduce rw_proxy file descriptors
-From: Neill Kapron <nkapron@google.com>
-To: gregkh@linuxfoundation.org, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com, 
-	Neill Kapron <nkapron@google.com>
+MIME-Version: 1.0
+References: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
+ <20260601-deprecate_boot_delay-v1-3-c34c187142a6@thegoodpenguin.co.uk> <aibe12WcrLxVWTez@pathway.suse.cz>
+In-Reply-To: <aibe12WcrLxVWTez@pathway.suse.cz>
+From: Andrew Murray <amurray@thegoodpenguin.co.uk>
+Date: Sun, 14 Jun 2026 20:17:10 +0100
+X-Gm-Features: AVVi8Cd_wDbpoenWa3p5Qu6vcK4mwMkoHo9_Ly4qYzGijYT1qiw-VX-9B0ykX4w
+Message-ID: <CALqELGxjUGFgpo6sf3689RgSEQg3+owZkk4TZKwV=dSJxxka_Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/4] printk: nbcon: move printk_delay to console
+ emiting code
+To: Petr Mladek <pmladek@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Currently, FunctionFS exposes each USB endpoint as a separate,
-unidirectional file descriptor (e.g., `ep1` for IN, `ep2` for OUT).
-While this mirrors the underlying hardware structure, it forces
-userspace daemons implementing bidirectional protocols to manage
-multiple file descriptors. When dealing with legacy protocols which
-require exposing a single, bi-directional fd to userspace, this becomes
-problematic.
+On Mon, 8 Jun 2026 at 16:25, Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Mon 2026-06-01 00:17:39, Andrew Murray wrote:
+> > The printk_delay and boot_delay features are helpful for debugging
+> > as kernel output can be slowed down during boot allowing messages to
+> > be seen before scrolling off the screen, or to correlate timing between
+> > some physical event and console output.
+> >
+> > However, since the introduction of nbcon and the legacy printer thread
+> > for PREEMPT_RT kernels, printk records are now emited to the console
+> > asynchronously to the caller of printk. Thus, any printk delay added by
+> > boot_delay/printk_delay continues to slow down the calling process but
+> > may not have any impact to the rate in which records are emited to the
+> > console.
+> >
+> > Let's address this by moving the printk delay from the calling code
+> > to the console emiting code instead. Whilst this ensures that delays
+> > are still observed (especially for slower consoles), it doesn't improve
+> > the use-case of using boot_delay/printk_delay to correlate timings
+> > between physical events and console output.
+> >
+> > --- a/include/linux/printk.h
+> > +++ b/include/linux/printk.h
+>
+> The declaration is needed just inside kernel/printk/ directory.
+> It should better be done via kernel/printk/internal.h
+>
+> > @@ -209,6 +209,7 @@ extern bool nbcon_device_try_acquire(struct console *con);
+> >  extern void nbcon_device_release(struct console *con);
+> >  void nbcon_atomic_flush_unsafe(void);
+> >  bool pr_flush(int timeout_ms, bool reset_on_progress);
+> > +void printk_delay(bool use_atomic);
+> >  #else
+> >  static inline __printf(1, 0)
+> >  int vprintk(const char *s, va_list args)
+> > @@ -326,6 +327,9 @@ static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
+> >  {
+> >       return true;
+> >  }
+> > +static inline void printk_delay(bool use_atomic)
+> > +{
+> > +}
+> >
+> >  #endif
+> >
+> > diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+> > index d7044a7a214bdd4537a5e20d876d99bc3ffe8b3a..a507a2fed5bf4366e24330f763b842a698ecf6f7 100644
+> > --- a/kernel/printk/nbcon.c
+> > +++ b/kernel/printk/nbcon.c
+> > @@ -1267,11 +1267,16 @@ static int nbcon_kthread_func(void *__console)
+> >
+> >               con_flags = console_srcu_read_flags(con);
+> >
+> > +             wctxt.len = 0;
+> > +
+> >               if (console_is_usable(con, con_flags, false))
+> >                       backlog = nbcon_emit_one(&wctxt, false);
+> >
+> >               console_srcu_read_unlock(cookie);
+> >
+> > +             if (backlog && wctxt.len > 0)
+>
+> Heh, this is tricky. It might probably work but it is not guarantted
+> by design.
+>
+> The "backlog" name is a bit misleading. The value is basically
+> wctxt.ctxt.backlog. The real meaning is that printk_get_next_message()
+> was able to read a message. It means that there _was_ a backlog.
+> But it is not clear whether there are still pending messages or not.
+>
+> Also it is not clear that whether the message was pushed to the
+> console or not. It might have been supressed in which case
+> (wctxt.len == 0). But it might also be emitted only partially
+> when a higher priority context took over the console context
+> ownership.
+>
+> I would prefer to explicitely set some flag when
+> nbcon_emit_next_record() really called con->write*().
+> See below.
+>
+> > +                     printk_delay(false);
+> > +
+> >               cond_resched();
+> >
+> >       } while (backlog);
+> > @@ -1525,6 +1530,8 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
+> >       }
+> >
+> >       progress = nbcon_emit_one(&wctxt, use_atomic);
+> > +     if (progress && wctxt.len > 0)
+>
+> Same here.
+>
+> > +             printk_delay(use_atomic);
+> >
+> >       if (use_atomic) {
+> >               start_critical_timings();
+> > @@ -1584,6 +1591,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+> >                       if (!nbcon_context_try_acquire(ctxt, false))
+> >                               return -EPERM;
+> >
+> > +                     wctxt.len = 0;
+> > +
+> >                       /*
+> >                        * nbcon_emit_next_record() returns false when
+> >                        * the console was handed over or taken over.
+> > @@ -1595,7 +1604,9 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+> >                       nbcon_context_release(ctxt);
+> >               }
+> >
+> > -             if (!ctxt->backlog) {
+> > +             if (ctxt->backlog && wctxt.len > 0) {
+> > +                     printk_delay(true);
+> > +             } else {
+>
+> This changes the semantic. The original code call this when
+> no message was read. The new code would call this path also
+> when the output was suppressed. It would probably work.
+> But still.
+>
+> >                       /* Are there reserved but not yet finalized records? */
+> >                       if (nbcon_seq_read(con) < stop_seq)
+> >                               err = -ENOENT;
+>
+>
+> As mentioned above, I would add a flag which would be set when
+> con->write*() was called.
+>
+> It modifies the type of unsafe_takeover in struct nbcon_write_context.
+> But it actually makes it more compatible with struct nbcon_state.
+>
+> My proposal (on top of this patch):
+>
+> diff --git a/include/linux/console.h b/include/linux/console.h
+> index 5520e4477ad7..5a86942e55ef 100644
+> --- a/include/linux/console.h
+> +++ b/include/linux/console.h
+> @@ -290,6 +290,7 @@ struct nbcon_context {
+>   * @outbuf:            Pointer to the text buffer for output
+>   * @len:               Length to write
+>   * @unsafe_takeover:   If a hostile takeover in an unsafe state has occurred
+> + * @emitted:           The write context tried to emit the message. Might be incomplete.
+>   * @cpu:               CPU on which the message was generated
+>   * @pid:               PID of the task that generated the message
+>   * @comm:              Name of the task that generated the message
+> @@ -298,7 +299,8 @@ struct nbcon_write_context {
+>         struct nbcon_context    __private ctxt;
+>         char                    *outbuf;
+>         unsigned int            len;
+> -       bool                    unsafe_takeover;
+> +       unsigned char           unsafe_takeover :  1;
+> +       unsigned char           emitted : 1
+>  #ifdef CONFIG_PRINTK_EXECUTION_CTX
+>         int                     cpu;
+>         pid_t                   pid;
+> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
+> index a507a2fed5bf..060534becefc 100644
+> --- a/kernel/printk/nbcon.c
+> +++ b/kernel/printk/nbcon.c
+> @@ -1069,6 +1069,9 @@ static bool nbcon_emit_next_record(struct nbcon_write_context *wctxt, bool use_a
+>         else
+>                 con->write_thread(con, wctxt);
+>
+> +       /* Tried to emit something. Might be incomplete. */
+> +       wctxt.emitted = 1;
+> +
+>         if (!wctxt->outbuf) {
+>                 /*
+>                  * Ownership was lost and reacquired by the driver. Handle it
+> @@ -1267,14 +1270,14 @@ static int nbcon_kthread_func(void *__console)
+>
+>                 con_flags = console_srcu_read_flags(con);
+>
+> -               wctxt.len = 0;
+> +               wctxt.emitted = 0;
+>
+>                 if (console_is_usable(con, con_flags, false))
+>                         backlog = nbcon_emit_one(&wctxt, false);
+>
+>                 console_srcu_read_unlock(cookie);
+>
+> -               if (backlog && wctxt.len > 0)
+> +               if (wctxt.emitted)
 
-This patch introduces the `FUNCTIONFS_RW_PROXY_EPS` UAPI flag. When
-passed in the descriptor header during initialization, FunctionFS
-provisions a "rw_proxy" bidirectional file descriptor (e.g., `ep1_rw`)
-alongside every pair of IN/OUT endpoints.
 
-Implementation details:
-- RW proxy files act as a pure VFS alias, proxying operations
-  directly to the base ffs_epfile instances. A `read()` proxies to
-  the OUT endpoint's file, and a `write()` proxies to the IN file.
-- Because operations are proxied natively, they reuse the underlying
-  base endpoint's lock (`epfile->mutex`) and tracking state. This
-  serializes concurrent read or write operations, preventing buffer
-  corruption and race conditions even if userspace mixes transfers across
-  both the rw_proxy and base files. This approach allows full-duplex
-  synchronous operations to occur concurrently without serializing on a
-  single lock.
-- Control operations (like IOCTLs) and intentional stalls (via
-  reverse-direction I/O) must still be issued on the base endpoints, as the
-  rw_proxy returns `-ENOTTY` for IOCTLs and cannot trigger stalls.
+I think this (and the others) should be:
 
-Assisted-by: Antigravity:gemini-3.1-pro
-Signed-off-by: Neill Kapron <nkapron@google.com>
----
- Documentation/usb/functionfs.rst    |  56 ++++++++++++++
- drivers/usb/gadget/function/f_fs.c  | 109 +++++++++++++++++++++++-----
- drivers/usb/gadget/function/u_fs.h  |   8 +-
- include/uapi/linux/usb/functionfs.h |   1 +
- 4 files changed, 156 insertions(+), 18 deletions(-)
+if (backlog && wctxt.emitted)
 
-diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index 582e53549d5b..b189cf5626ba 100644
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -96,6 +96,58 @@ One such IOCTL is:
-     * ``-ENODEV``: The FunctionFS instance is not active.
-     * ``-EINVAL``: The endpoint is not an IN endpoint.
-     * ``-EFAULT``: Invalid user space pointer for the argument.
-+
-+RW Proxy Endpoints
-+==================
-+
-+If the ``FUNCTIONFS_RW_PROXY_EPS`` flag is passed in the descriptor header
-+(requires ``FUNCTIONFS_DESCRIPTORS_MAGIC_V2``), FunctionFS will provision a
-+bidirectional rw_proxy file descriptor (e.g., "ep1_rw") alongside each pair
-+of IN and OUT endpoints. The rw_proxy file aliases the underlying hardware
-+endpoints, allowing userspace to use a single file descriptor for both reading
-+(OUT) and writing (IN).
-+
-+This flag requires the total number of hardware endpoints to be an even number.
-+FunctionFS will automatically walk the provided endpoints and group them into
-+adjacent pairs (e.g., ep1 and ep2 form the first pair, ep3 and ep4 form the
-+second pair). Each pair must consist of exactly one IN endpoint and one OUT
-+endpoint.
-+
-+For each valid pair, a rw_proxy file is created and named after the first
-+endpoint in the pair with a "_rw" suffix. For example, if ep1 and ep2 are
-+paired, a rw_proxy file named "ep1_rw" is created. If ep3 and ep4 are paired,
-+"ep3_rw" is created.
-+
-+If the ``FUNCTIONFS_VIRTUAL_ADDR`` flag is also enabled, the endpoints will be
-+named using their physical endpoint address in hexadecimal instead of their
-+index. RW proxy files will inherit this naming convention. For example, if the
-+first endpoint of a pair maps to address 0x02, the rw_proxy file will be
-+named "ep02_rw".
-+
-+When this flag is enabled, userspace has the choice of performing data transfers
-+via the single rw_proxy file descriptor or the two base file descriptors. The
-+rw_proxy file descriptor acts as a pure VFS alias that proxies all operations
-+directly to the underlying base file descriptors.
-+
-+Because it is a pure proxy, there are no data races or buffer corruptions if
-+userspace uses both the rw_proxy endpoint and the base endpoints concurrently.
-+The native mutexes of the base endpoints perfectly serialize all concurrent
-+transfers. However, userspace should generally pick one method and stick to it
-+to avoid interleaving its own data stream.
-+
-+- **IOCTLs (Clear Halt, etc.):** RW proxy endpoints do not support IOCTLs and
-+  will return ``-ENOTTY``. To clear a host-initiated halt, userspace must issue
-+  the ``FUNCTIONFS_CLEAR_HALT`` ioctl directly on the corresponding base
-+  endpoint file descriptor.
-+- **Intentional Stalls:** The traditional mechanism for intentionally halting an
-+  endpoint by issuing a reverse-direction data operation (e.g., attempting to
-+  read from an IN endpoint) continues to work, but it must be issued on the
-+  base endpoint. RW proxy endpoints cannot be used to trigger a stall because
-+  they are fully bidirectional.
-+
-+Note that DMABUF data transfers (``FUNCTIONFS_DMABUF_TRANSFER``) are unsupported
-+via the rw_proxy endpoint because it does not support IOCTLs. If DMABUF
-+transfers are required, users must use the standard base endpoints.
- DMABUF interface
- ================
- 
-@@ -103,6 +155,10 @@ FunctionFS additionally supports a DMABUF based interface, where the
- userspace can attach DMABUF objects (externally created) to an endpoint,
- and subsequently use them for data transfers.
- 
-+Note: The DMABUF interface is unsupported on rw_proxy endpoints. See
-+the RW Proxy Endpoints section for details on using DMABUF alongside
-+the ``FUNCTIONFS_RW_PROXY_EPS`` flag.
-+
- A userspace application can then use this interface to share DMABUF
- objects between several interfaces, allowing it to transfer data in a
- zero-copy fashion, for instance between IIO and the USB stack.
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 4c1bafb3eef5..0ccfdcfb1810 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -159,7 +159,9 @@ struct ffs_epfile {
- 	struct mutex			mutex;
- 
- 	struct ffs_data			*ffs;
--	struct ffs_ep			*ep;	/* P: ffs->eps_lock */
-+	struct ffs_ep			*ep;		/* P: ffs->eps_lock */
-+	struct ffs_epfile		*epfile_in;	/* P: ffs->eps_lock */
-+	struct ffs_epfile		*epfile_out;	/* P: ffs->eps_lock */
- 
- 	/*
- 	 * Buffer for holding data from partial reads which may happen since
-@@ -219,17 +221,20 @@ struct ffs_epfile {
- 	struct ffs_buffer		*read_buffer;
- #define READ_BUFFER_DROP ((struct ffs_buffer *)ERR_PTR(-ESHUTDOWN))
- 
--	char				name[5];
-+	char				name[10];
- 
- 	unsigned char			in;	/* P: ffs->eps_lock */
- 	unsigned char			isoc;	/* P: ffs->eps_lock */
- 
- 	u8				zlp_enabled; /* P: ffs->eps_lock */
-+	bool				is_rw_proxy;
- 
- 	/* Protects dmabufs */
- 	struct mutex			dmabufs_mutex;
- 	struct list_head		dmabufs; /* P: dmabufs_mutex */
- 	atomic_t			seqno;
-+
-+	int				opened_count; /* P: ffs->eps_lock */
- };
- 
- struct ffs_buffer {
-@@ -978,9 +983,8 @@ static ssize_t __ffs_epfile_read_data(struct ffs_epfile *epfile,
- 	return ret;
- }
- 
--static struct ffs_ep *ffs_epfile_wait_ep(struct file *file)
-+static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file *file)
- {
--	struct ffs_epfile *epfile = file->private_data;
- 	struct ffs_ep *ep;
- 	int ret;
- 
-@@ -1007,17 +1011,22 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 	char *data = NULL;
- 	ssize_t ret, data_len = -EINVAL;
- 	int halt;
-+	bool is_rw_proxy = epfile->is_rw_proxy;
- 
- 	/* Are we still active? */
- 	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
- 		return -ENODEV;
- 
--	ep = ffs_epfile_wait_ep(file);
-+	/* Proxy to base endpoint if rw_proxy */
-+	if (is_rw_proxy)
-+		epfile = io_data->read ? epfile->epfile_out : epfile->epfile_in;
-+
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep))
- 		return PTR_ERR(ep);
- 
- 	/* Do we halt? */
--	halt = (!io_data->read == !epfile->in);
-+	halt = is_rw_proxy ? 0 : (!io_data->read == !epfile->in);
- 	if (halt && epfile->isoc)
- 		return -EINVAL;
- 
-@@ -1115,7 +1124,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->num_sgs = 0;
- 		}
- 
--		req->zero = epfile->zlp_enabled;
-+		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
- 		req->length = data_len;
- 
- 		io_data->buf = data;
-@@ -1168,7 +1177,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->num_sgs = 0;
- 		}
- 
--		req->zero = epfile->zlp_enabled;
-+		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
- 		req->length = data_len;
- 
- 		io_data->buf = data;
-@@ -1225,6 +1234,12 @@ ffs_epfile_open(struct inode *inode, struct file *file)
- 		spin_unlock_irq(&ffs->eps_lock);
- 		return -ENODEV;
- 	}
-+	if (epfile->is_rw_proxy) {
-+		epfile->epfile_in->opened_count++;
-+		epfile->epfile_out->opened_count++;
-+	} else {
-+		epfile->opened_count++;
-+	}
- 	ffs->opened++;
- 	spin_unlock_irq(&ffs->eps_lock);
- 
-@@ -1378,8 +1393,18 @@ ffs_epfile_release(struct inode *inode, struct file *file)
- 
- 	mutex_unlock(&epfile->dmabufs_mutex);
- 
--	__ffs_epfile_read_buffer_free(epfile);
--	ffs_data_closed(epfile->ffs);
-+	spin_lock_irq(&ffs->eps_lock);
-+	if (epfile->is_rw_proxy) {
-+		epfile->epfile_in->opened_count--;
-+		if (--epfile->epfile_out->opened_count == 0)
-+			__ffs_epfile_read_buffer_free(epfile->epfile_out);
-+	} else {
-+		if (--epfile->opened_count == 0)
-+			__ffs_epfile_read_buffer_free(epfile);
-+	}
-+	spin_unlock_irq(&ffs->eps_lock);
-+
-+	ffs_data_closed(ffs);
- 
- 	return 0;
- }
-@@ -1647,7 +1672,7 @@ static int ffs_dmabuf_transfer(struct file *file,
- 
- 	priv = attach->importer_priv;
- 
--	ep = ffs_epfile_wait_ep(file);
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep)) {
- 		ret = PTR_ERR(ep);
- 		goto err_attachment_put;
-@@ -1765,6 +1790,9 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
- 		return -ENODEV;
- 
-+	if (epfile->is_rw_proxy)
-+		return -ENOTTY;
-+
- 	switch (code) {
- 	case FUNCTIONFS_DMABUF_ATTACH:
- 	{
-@@ -1815,7 +1843,7 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	}
- 
- 	/* Wait for endpoint to be enabled */
--	ep = ffs_epfile_wait_ep(file);
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep))
- 		return PTR_ERR(ep);
- 
-@@ -2213,7 +2241,7 @@ static void ffs_data_closed(struct ffs_data *ffs)
- 
- 		if (epfiles)
- 			ffs_epfiles_destroy(ffs->sb, epfiles,
--					 ffs->eps_count);
-+					 ffs->epfiles_count);
- 
- 		if (ffs->setup_state == FFS_SETUP_PENDING)
- 			__ffs_ep0_stall(ffs);
-@@ -2271,7 +2299,7 @@ static void ffs_data_clear(struct ffs_data *ffs)
- 	 * copy of epfile will save us from use-after-free.
- 	 */
- 	if (epfiles) {
--		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->eps_count);
-+		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->epfiles_count);
- 		ffs->epfiles = NULL;
- 	}
- 
-@@ -2369,11 +2397,16 @@ static void functionfs_unbind(struct ffs_data *ffs)
- static int ffs_epfiles_create(struct ffs_data *ffs)
- {
- 	struct ffs_epfile *epfile, *epfiles;
--	unsigned i, count;
-+	unsigned int i, count, epfiles_count;
- 	int err;
- 
- 	count = ffs->eps_count;
--	epfiles = kzalloc_objs(*epfiles, count);
-+	epfiles_count = count;
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS)
-+		epfiles_count += count / 2;
-+	ffs->epfiles_count = epfiles_count;
-+
-+	epfiles = kzalloc_objs(*epfiles, epfiles_count);
- 	if (!epfiles)
- 		return -ENOMEM;
- 
-@@ -2396,6 +2429,32 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
- 		}
- 	}
- 
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
-+		struct ffs_epfile *comp = epfiles + count;
-+
-+		for (i = 0; i < count; i += 2, ++comp) {
-+			struct ffs_epfile *ep1 = &epfiles[i];
-+			struct ffs_epfile *ep2 = &epfiles[i + 1];
-+			bool ep1_in = ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK;
-+
-+			comp->ffs = ffs;
-+			comp->is_rw_proxy = true;
-+			comp->epfile_in = ep1_in ? ep1 : ep2;
-+			comp->epfile_out = ep1_in ? ep2 : ep1;
-+			mutex_init(&comp->mutex);
-+			mutex_init(&comp->dmabufs_mutex);
-+			INIT_LIST_HEAD(&comp->dmabufs);
-+			snprintf(comp->name, sizeof(comp->name), "%s_rw",
-+				 epfiles[i].name);
-+			err = ffs_sb_create_file(ffs->sb, comp->name,
-+						 comp, &ffs_epfile_operations);
-+			if (err) {
-+				ffs_epfiles_destroy(ffs->sb, epfiles, count + (i / 2));
-+				return err;
-+			}
-+		}
-+	}
-+
- 	ffs->epfiles = epfiles;
- 	return 0;
- }
-@@ -2972,7 +3031,8 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
- 			      FUNCTIONFS_VIRTUAL_ADDR |
- 			      FUNCTIONFS_EVENTFD |
- 			      FUNCTIONFS_ALL_CTRL_RECIP |
--			      FUNCTIONFS_CONFIG0_SETUP)) {
-+			      FUNCTIONFS_CONFIG0_SETUP |
-+			      FUNCTIONFS_RW_PROXY_EPS)) {
- 			ret = -ENOSYS;
- 			goto error;
- 		}
-@@ -3060,6 +3120,21 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
- 		goto error;
- 	}
- 
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
-+		if (ffs->eps_count % 2) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
-+		for (i = 1; i < ffs->eps_count; i += 2) {
-+			if ((ffs->eps_addrmap[i] & USB_ENDPOINT_DIR_MASK) ==
-+			    (ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK)) {
-+				ret = -EINVAL;
-+				goto error;
-+			}
-+		}
-+	}
-+
- 	ffs->raw_descs_data	= _data;
- 	ffs->raw_descs		= raw_descs;
- 	ffs->raw_descs_length	= data - raw_descs;
-diff --git a/drivers/usb/gadget/function/u_fs.h b/drivers/usb/gadget/function/u_fs.h
-index 6a80182aadd7..c280c495fbd2 100644
---- a/drivers/usb/gadget/function/u_fs.h
-+++ b/drivers/usb/gadget/function/u_fs.h
-@@ -252,8 +252,14 @@ struct ffs_data {
- 
- 	unsigned short			strings_count;
- 	unsigned short			interfaces_count;
-+
-+	/*
-+	 * eps_count tracks the number of underlying hardware endpoints.
-+	 * epfiles_count tracks the total number of VFS endpoint files.
-+	 * When companion endpoints are active, epfiles_count > eps_count.
-+	 */
- 	unsigned short			eps_count;
--	unsigned short			_pad1;
-+	unsigned short			epfiles_count;
- 
- 	/* filled by __ffs_data_got_strings() */
- 	/* ids in stringtabs are set in functionfs_bind() */
-diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-index 06134dca4e8a..290308c9dd92 100644
---- a/include/uapi/linux/usb/functionfs.h
-+++ b/include/uapi/linux/usb/functionfs.h
-@@ -25,6 +25,7 @@ enum functionfs_flags {
- 	FUNCTIONFS_EVENTFD = 32,
- 	FUNCTIONFS_ALL_CTRL_RECIP = 64,
- 	FUNCTIONFS_CONFIG0_SETUP = 128,
-+	FUNCTIONFS_RW_PROXY_EPS = 256,
- };
- 
- /* Descriptor of an non-audio endpoint */
--- 
-2.54.0.1136.gdb2ca164c4-goog
+Otherwise you may delay in instances where con->write_* was called but
+ownership is lost, for example if write_thread calls
+nbcon_enter_unsafe which returns false and doesn't write anything. I
+assume that when ownership is lost, the record will be reattempted in
+the future, thus it would presumably make sense to delay upon
+successful emit, rather than each/any partial attempt? Is that
+understanding correct?
 
+Thanks,
+
+Andrew Murray
+
+>
+>                         printk_delay(false);
+>
+>                 cond_resched();
+> @@ -1530,7 +1533,7 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
+>         }
+>
+>         progress = nbcon_emit_one(&wctxt, use_atomic);
+> -       if (progress && wctxt.len > 0)
+> +       if (wctxt.emitted)
+>                 printk_delay(use_atomic);
+>
+>         if (use_atomic) {
+> @@ -1591,7 +1594,7 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+>                         if (!nbcon_context_try_acquire(ctxt, false))
+>                                 return -EPERM;
+>
+> -                       wctxt.len = 0;
+> +                       wctxt.emitted = 0;
+>
+>                         /*
+>                          * nbcon_emit_next_record() returns false when
+> @@ -1604,9 +1607,10 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
+>                         nbcon_context_release(ctxt);
+>                 }
+>
+> -               if (ctxt->backlog && wctxt.len > 0) {
+> +               if (wctxt.emitted)
+>                         printk_delay(true);
+> -               } else {
+> +
+> +               if (!ctxt->backlog) {
+>                         /* Are there reserved but not yet finalized records? */
+>                         if (nbcon_seq_read(con) < stop_seq)
+>                                 err = -ENOENT;
