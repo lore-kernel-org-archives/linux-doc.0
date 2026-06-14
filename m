@@ -1,76 +1,111 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3BE171BB;
-	Sun, 14 Jun 2026 05:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870282BE7DB;
+	Sun, 14 Jun 2026 09:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781414706; cv=none; b=oE7h56tA56Ylx+uu+nr+jXJSeXTZqny7rF6xtzvj0wqPdlq6wcpZBypVFEPwMBKtG6xolsLgUkPxpduaR/6Mg9l/5VPxpLISenBW09vgU0Ri3L+6pLAskWqLqA8ElfL8+2kdE+Ih5vLUhXVnS+kCesfr3Y5OlBJXYWZWDzHm1hs=
+	t=1781428126; cv=none; b=T1hF31NTkIJmp7DsPTprIcgC1RO10Y6DLFZ4pVzBv9xaG4fCewP/5Zszh6KHq00lan9iIXRsVLLap6pcak7fjTLXg3M6Dq7JqAbqtdnPRLunLcVvpL0bQg4gTdlqFK2eytm0CO6AGScl7cE9WKlMyBjJF+bvDZ9nUWi3YYaasz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781414706; c=relaxed/simple;
-	bh=jKNFQoYyYRNM6RN88LE0ftXAaIzYOVu4XaPPMvfQ23w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DXS0Pi/sjm1P7Z4jXWMRoGRK66FRbRPS5SiA+PV5D9pKw6ZUkWTuI0NlV7pCEZl6cmLGtlALv8+J2ZBvE+KmyXSjDGqLtF8ScVXquMW/afkuySIUo8K0Kb7yvzZnDnEwHg6XBFAiDMnsDA3d3qOB0JQ3ixulX434tnDohAJaJjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FAl0yXEr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1781428126; c=relaxed/simple;
+	bh=ds1HsbZs+TpMLIF0S0Y/rsn8pgGEfs4bWpfItaniQG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RwoiIVADzaYeRY+zdP4cuFYKiBJNpNhAEeJslS2Dy9grm3Vjnc/LafUjKvSCcuuKVjUhfQpeWbnYB5/TNj/8O/050s+AjuJgUKNTHRcjJ3Quz2gpAVFZOZOTf1qNRM5CuqPSWiJ4R6284rkUK4b8DOSJqbytt8iuCHxmktO8Ku8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JmDgkLjt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FAl0yXEr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=4+ezzVnmGX883Tcu2dMk/g9oTPSI9CcgmXMGW8cRAkI=; b=FAl0yXErwl8YxSwUca7gGHKoZh
-	eAAh10O16P4MQMAPGfCm+gjTj/SU+ioDdlbs1ypa4JXUeAX+cWfQ4VG8DiJMA3rWEJPddarKW+e3l
-	cI5F72mKzJqZqpNHK5QnRgKwNUe4/TcuaPFtlHY35pSn/V9Gr8CgjT7096uf5/5LW1edVym+SV3Zk
-	Cd+fIB5GKmO1Hc/FdDXLcNg6hWpqBQZ+mCIWwYR38DFqCu4KQU5UyaX7BP3WWiJQA/7E8OYQ6aV5P
-	lM0JzOEutocCVbdvvH60SUJr06qb242WTN2zKmN1k2VfV4MyolRHcxeV0KLKU9SCoFGw5lQWMZaLN
-	TIJdLh5Q==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wYdL4-0000000ClD2-0NT5;
-	Sun, 14 Jun 2026 05:24:54 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	netfilter-devel@vger.kernel.org
-Subject: [PATCH] kdoc: xforms_lists: handle DECLARE_PER_CPU() in kernel-doc
-Date: Sat, 13 Jun 2026 22:24:52 -0700
-Message-ID: <20260614052452.1557987-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JmDgkLjt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CAE1F000E9;
+	Sun, 14 Jun 2026 09:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781428125;
+	bh=9LYN2F22JfxLMFILRwK47fnnXK4CRYMdn70feq0hkAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JmDgkLjtoZnLFZgAtR+vHMK67JuchCave9VSHr4gLxyba74SghnllzjeHu1vbkQOW
+	 XMApUd/vQy4am3/StkR3hL+lROIGeGWOtRo949v3aVeGb9zi8sfmGMdbwQGgC7T5fH
+	 i2A7clnIf1ZvlIDh41v0VNmHzZq2u55//0upr281SoxrShLFRXxfcU3mk6AJIyCr5N
+	 5YyVO6Fsl3tlEDNaZeeEUxHQTAN0b3oc9b8C6+IfnDtEEgxEseTYT2914AIAMH+r7c
+	 dqZeXh3ZbKvgMrRtOx1GuOwyKd7+ZYYMYz5+bgKsStmqg8oZrwzNSzAbLtGPuV6pkV
+	 xPkPs0FBsBsuQ==
+Date: Sun, 14 Jun 2026 12:08:31 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, dave.hansen@linux.intel.com,
+	luto@kernel.org, peterz@infradead.org, tglx@kernel.org,
+	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, rafael@kernel.org,
+	lenb@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
+	akpm@linux-foundation.org, rdunlap@infradead.org,
+	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+	elver@google.com, kuba@kernel.org, ebiggers@kernel.org,
+	lirongqing@baidu.com, paulmck@kernel.org, dave.jiang@intel.com,
+	jic23@kernel.org, xueshuai@linux.alibaba.com, kai.huang@intel.com
+Subject: Re: [RFC PATCH 1/3] mm/numa: add exclusive node pool and
+ numa=standby boot parameter
+Message-ID: <ai5vj_RjSxl_FLu-@kernel.org>
+References: <20260610014517.253609-1-gourry@gourry.net>
+ <20260610014517.253609-2-gourry@gourry.net>
+ <aip5IWmxg9CWg8hQ@kernel.org>
+ <airAUSrNjbSEwuti@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <airAUSrNjbSEwuti@gourry-fedora-PF4VCD3F>
 
-Add support for DECLARE_PER_CPU() as a var (variable) as used in
-<linux/netfilter/x_tables.h>.
+On Thu, Jun 11, 2026 at 10:04:01AM -0400, Gregory Price wrote:
+> On Thu, Jun 11, 2026 at 12:00:17PM +0300, Mike Rapoport wrote:
+> > > 1) Can we do dynamic addition of nodes?
+> > > 
+> > >    Not Trivially
+> > > 
+> > >    Some services utilize num_possible_nodes() as a static value to
+> > >    calculate the amount of resources to use at runtime (bpf, md/raid5).
+> > > 
+> > >    Example: futex_init uses num_possible_nodes() as part of its
+> > >             hashsize calculation during __init.
+> > 
+> > AFAIU, we don't add the additional nodes for generic hotplug memory but
+> > rather for exclusive use of by drivers/applications that are aware of these
+> > nodes.
+> 
+> The intent is to use for "non-generic" hotplug (see the whole private
+> node series [1]), which would eventually still use the hotplug mechanism
+> just not for generic memory.
+> 
+> [1] https://lore.kernel.org/linux-mm/20260222084842.1824063-1-gourry@gourry.net/
+> 
+> > Wouldn't adding them to possible nodes actually skew the calculation of the
+> > resources by the services utilizing num_possible_nodes()?
+> > 
+> > With the futex_init() example, won't be hashsize scaled down two much
+> > because we've added these special nodes to the possible mask?
+> >
+> 
+> The result is the same as BIOS reserving nodes with PXM entries that
+> don't get used.  The CXL ACPI Tables do this for CXL Fixed Memory
+> Windows that may never be hotplugged.
 
-Warning: include/linux/netfilter/x_tables.h:345 function parameter 'seqcount_t' not described in 'DECLARE_PER_CPU'
-Warning: include/linux/netfilter/x_tables.h:345 function parameter 'xt_recseq' not described in 'DECLARE_PER_CPU'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: netfilter-devel@vger.kernel.org
-
- tools/lib/python/kdoc/xforms_lists.py |    1 +
- 1 file changed, 1 insertion(+)
-
---- linext-2026-0610.orig/tools/lib/python/kdoc/xforms_lists.py
-+++ linext-2026-0610/tools/lib/python/kdoc/xforms_lists.py
-@@ -118,6 +118,7 @@ class CTransforms:
-         (CMatch("__guarded_by"), ""),
-         (CMatch("__pt_guarded_by"), ""),
-         (CMatch("LIST_HEAD"), r"struct list_head \1"),
-+        (CMatch("DECLARE_PER_CPU"), r"\1 \2[PER_CPU]; }"),
+Well, even without CXL there could be nodes that may never be hotplugged, I
+suppose that with CXL the difference between available and possible
+nodes can get much larger.
  
-         (KernRe(r"(?://.*)$"), ""),
-         (KernRe(r"(?:/\*.*\*/)"), ""),
+> So really i think you're pointing out that futex_init() here probably
+> shouldn't be using num_possible_nodes?
+
+I'd rather say that num_possible_nodes() with and without CXL (or other
+differentiated memory) has different semantics.
+Maybe we need to add a new primitive for possible differentiated nodes and
+keep num_possible_nodes() to mean "number of possible nodes with normal
+memory".
+ 
+> ~Gregory
+
+-- 
+Sincerely yours,
+Mike.
