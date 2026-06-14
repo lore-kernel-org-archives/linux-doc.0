@@ -1,333 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D068E1E832A;
-	Sun, 14 Jun 2026 14:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF48260566
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 15:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781448877; cv=none; b=alEGRS4W94He/1unQMU5y97xaGkdbuahnJPOM7X2hn8ZB/XgFEQHcw/U8KTl9s96G8Ck3h97RLTMDdzUrUuDkl46EjxfQGnwll38oCjbPhCDIFOOQIm0KWy+dsiMUVbkc/5UWSUtNKUazA5LOgBS+SfbAiOttt4iO7XtYL/Iw90=
+	t=1781449254; cv=none; b=uaWsKBJUzZqpnV//9DiSoZZ6tb8uYl+In6F58ZofzTztNKNqQE1n2eQoBqavgXD5ENo3vDaOxQji8LSA1jQrqXlVxtSWK+2sfRs/9iUB0YTCVqj8fbSAH6k2Kt2CJcCl+98NnolWUJYtwyQsrru8ZhqdbDHUI7/r3Ng4EcCmmiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781448877; c=relaxed/simple;
-	bh=i72LStz5JPKT4OjgIZTKVJYarb6vIrVQ6OzvLwXT11o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sFCFHWIR+INHQEHS7Ia9l8xvAJSoX26fc0HTKQcNAuLjl1x+F9PFLEeXs1eg4uOsg3FqzjbB3Rk3aJjo9iwN44wfr55/fN3fYWEZsD1y8qJJL1XAmnaUQVPaHx5pfY9DaUnzmuo2KvlPtGjQfT4ueYS0M5ir+z23hJ/V1ANpD8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGbCHVOh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781449254; c=relaxed/simple;
+	bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Siz9A2t+6mWsE8Q1aGnV9E9WFBdolUAmiCrWpoWeVWNWdB+RKonxpTRUycjm2dCCumZBYLiO9qSbz1NDxaN4MKd4OsxIUGMQiEM520fOzn/csj6oMXSujWW7iUEBRumG31NEy06NTpqG6LA3onuxeSvgUAj91DQ6BVVftW0S5fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKaWcFA0; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGbCHVOh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07411F000E9;
-	Sun, 14 Jun 2026 14:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781448875;
-	bh=vbYrakTfnKtA+OmusDKcwDdwvf0yeRD6NkdJsOQQveA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aGbCHVOhamLU+ioc8IfR1NpQsBnK2re3r805Q/hDg2YJpqToCNAseQ1gNUaaHMX2L
-	 0LrcsVz4mjblJPTvQzaqKyfEzNZfShMKqIGhXb8WpHvsIMBQpxCtkoeQheIY9FGWB8
-	 ytAnkk57IwiuHnONSGcce/plY5fLfO6WhrB1Obz+uKx2/KVZsCNYwr6iisRfXZzf5h
-	 fY7FDE4ZU4C58RA+eSS8o1Fq0ypNhJ5x0/DMPUjZ8ht35zcVMnX6v3yKDzkaBJ6O8t
-	 vhAtgLZZgfLmrnKHQhCtc/NRD3zsHyuE4nx7QLYmlf5Vw9CPW246i0PR+V5M6jpsPw
-	 DGZpgvSiXyflg==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 7/7] tracing/probes: Add a new testcase for BTF typecasts
-Date: Sun, 14 Jun 2026 23:54:31 +0900
-Message-ID: <178144887132.159464.5344508628040730804.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178144880282.159464.16882854283219530040.stgit@devnote2>
-References: <178144880282.159464.16882854283219530040.stgit@devnote2>
-User-Agent: StGit/0.19
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKaWcFA0"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b211ee6aso17949155e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 08:00:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781449252; x=1782054052; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+        b=KKaWcFA09XUjQ9WfBM7ZBHM88looRNGGP7zqgzPm3nqFlwY2wqxjZmmoSg4rs1063j
+         wr5fKqhdR0XIgAIhXsxSA7hWPuVoa++jv0GoFrZB17MgCkqNNREA3EGaBBfP3JOh5HvR
+         uPPBqFVEyd5VPkCOm0kOnqYbJr6cqHx7TDYPiPnz2J0USisk3qrDcQCWRNT6eTEpnbjW
+         r1GIs1W8X4woIK1UwGdKZvfoIO+FmeTsGIkFigdY8GY4V8y8FwCi0YFdA12CSYhxvCP9
+         sgVrSIe1fAtp+O197sdh5oAWmrGbvyl7kXKc3MGyS3OORXZOrLn3BU4Jz4HXBZX30fxj
+         Mdrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781449252; x=1782054052;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
+        b=RCigSxut1XbfV7nyzmTx6k2jdq6CFFMD//o4iAJEnf0P5eHwU9u/5KNUrOh6XY8jsD
+         t8T69CBCb79Nq+2wvPTbHxcBRAiVZV7YLeUje8W3StY8u58vKt4HP45n9ZUi/E990Pt+
+         JycEUgj/Zq7OAGh/NH2WtC808k6ct/R2CGcCknJytobCDBV0IwQ8R8pd87g32js+FgUR
+         Zvnqi2c/ed3oaU8OZuveSj1MqA9zEAoKKapajauvydXkKeqklg6k6uPyE93/vCWCaYJo
+         NnTCKqHAuqw3CH3MzWHCAB2xlfJVZQdDM0UV2QFglP/PqghVq2lN2PmIqJGVV+ikjjz5
+         yXBA==
+X-Forwarded-Encrypted: i=1; AFNElJ+XD8OAzOxC1P6t5WqKtezjLeC4qqY7pduNxQpBD8Z18kfpGZ3/J+5V7npeqAd5phwtrc8eB71npXE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8GaBetPQCFU3p1tBA/43WVQ2dJdjVJVZeQVOXv+xH5chZg/bL
+	h+49RoqVkmJAcR4WO3sf5uvQ73sQyf/pfFpb2abE6k5cokkoKA/CQ1Pb
+X-Gm-Gg: Acq92OH6zfddGQNLPjgLV4gKLoZ9f8yu9Lky7Yw8vqAYN7YG+fGbNIAmJey0ZjWDpFH
+	+MmlRBvAHz9T7DO/2Qe6bBKWdGp3X8c5F3a+qIeGme6d/z+d8yB8mA6kjc9eKAJYmDodFkxBHwt
+	E5tGvf/wD5+PsOCyjKOJ04rrEr5AIyCcCr+F2vlrMrsfCDNv4JWQ51YY/+S7vuq8/esAId78wMD
+	lsZzngC8aVjrtNzzL3bklXDVJjIWTyZQQnrKAX5D/iUNrUExt2dLjdsQPPGXlovQcAXvhh+S0TO
+	1WNgt+unH/Dm4fMed//zCq67gYwQVslI4RF9O4kw/PM83wjj+7du5gh+r/2KQ7bg3kahyFd0Z0k
+	IEWm8EOy2XHX7Y9uaSS24OpltZE3YyyXBFU66XVbUbgii5gl89qAL+z4jZNj6rYjJYoqxbyZfiA
+	hRyGhkKcfnsPofVDuDMAUcQGSvo/Ia+h+b6BZLcrhRjJSnkWDXpQ5Zd7xUFGqg04RZcDOcDsEF2
+	5GfUE8sVam1+dt5x/w=
+X-Received: by 2002:a05:600c:4754:b0:492:2100:aba2 with SMTP id 5b1f17b1804b1-4922100ac1emr78147525e9.4.1781449251459;
+        Sun, 14 Jun 2026 08:00:51 -0700 (PDT)
+Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203d2449sm153669105e9.14.2026.06.14.08.00.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Jun 2026 08:00:50 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <b677c9e4-edd7-42ab-ac0d-d721e7aaf2e3@gmail.com>
+Date: Sun, 14 Jun 2026 16:00:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kbuild: remove ISDN references in Makefile examples
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Chen Pei <cp0613@linux.alibaba.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Andrew Jones <andrew.jones@linux.dev>
+References: <20260613232830.147116-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260613232830.147116-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On 6/14/26 00:28, Ethan Nelson-Moore wrote:
+> Documentation/kbuild/makefiles.rst uses some extracts from now-removed
+> ISDN code as examples. While they are harmless, they appeared in my
+> checks for CONFIG_* symbols referenced but not defined in the kernel.
+Hi Ethan, are you using the kconfig-sym-check[1] that was recently
+merged? This dead symbol check should not have the false positives on
+documentation.
 
-With the introduction of container_of-style BTF typecasting and
-per-CPU variable access support in trace probes, we need a way to
-verify their functionality and prevent regressions.
+Though maybe your check also catches dead symbols in C, Rust, Makefiles?
 
-Add a new ftrace kselftest and update the trace event sample module
-to test and validate these features.
+[1]
+https://lore.kernel.org/all/20260527142703.107110-1-andrew.jones@linux.dev/
 
-Specifically, update the trace-events-sample module to set up a
-periodic timer whose callback accesses a per-CPU counter. Introduce
-a new sample trace event, foo_timer_fn, to trace this callback
-and log the current counter value.
-
-Then, add a new test case, btf_probe_event.tc, which defines a
-dynamic probe on the timer callback. The probe uses BTF typecasting
-to recover the parent structure from the timer argument and
-this_cpu_read() to fetch the per-CPU counter. The test verifies
-the integrity of the implementation by ensuring the values
-recorded by the dynamic probe match those from the static tracepoint.
-
-Assisted-by: Antigravity:gemini-3.5-flash
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- Changes in v3:
-  - Add syntax test case.
-  - Update testcase to use this_cpu_read()
- Changes in v2:
-  - Use timer_shutdown_sync() instead of timer_delete_sync() for teardown.
----
- samples/trace_events/trace-events-sample.c         |   40 +++++++++++++++-
- samples/trace_events/trace-events-sample.h         |   34 ++++++++++++-
- .../ftrace/test.d/dynevent/btf_probe_event.tc      |   51 ++++++++++++++++++++
- .../ftrace/test.d/dynevent/fprobe_syntax_errors.tc |    9 ++++
- .../ftrace/test.d/kprobe/kprobe_syntax_errors.tc   |    9 ++++
- .../ftrace/test.d/kprobe/uprobe_syntax_errors.tc   |    5 ++
- 6 files changed, 143 insertions(+), 5 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-
-diff --git a/samples/trace_events/trace-events-sample.c b/samples/trace_events/trace-events-sample.c
-index 82344a78e471..651f3e2138ab 100644
---- a/samples/trace_events/trace-events-sample.c
-+++ b/samples/trace_events/trace-events-sample.c
-@@ -94,6 +94,20 @@ static int simple_thread_fn(void *arg)
- static DEFINE_MUTEX(thread_mutex);
- static int simple_thread_cnt;
- 
-+static struct foo_timer_data *foo_timer_data;
-+
-+static void sample_timer_cb(struct timer_list *t)
-+{
-+	struct foo_timer_data *data = container_of(t, struct foo_timer_data, timer);
-+
-+	get_cpu();
-+	trace_foo_timer_fn(data);
-+	(*this_cpu_ptr(data->counter))++;
-+	put_cpu();
-+
-+	mod_timer(t, jiffies + HZ);
-+}
-+
- int foo_bar_reg(void)
- {
- 	mutex_lock(&thread_mutex);
-@@ -133,9 +147,27 @@ void foo_bar_unreg(void)
- 
- static int __init trace_event_init(void)
- {
-+	foo_timer_data = kzalloc_obj(*foo_timer_data, GFP_KERNEL);
-+	if (!foo_timer_data)
-+		return -ENOMEM;
-+
-+	foo_timer_data->name = "sample_timer_counter";
-+	foo_timer_data->counter = alloc_percpu(int);
-+	if (!foo_timer_data->counter) {
-+		kfree(foo_timer_data);
-+		return -ENOMEM;
-+	}
-+
-+	timer_setup(&foo_timer_data->timer, sample_timer_cb, 0);
-+	mod_timer(&foo_timer_data->timer, jiffies + HZ);
-+
- 	simple_tsk = kthread_run(simple_thread, NULL, "event-sample");
--	if (IS_ERR(simple_tsk))
--		return -1;
-+	if (IS_ERR(simple_tsk)) {
-+		timer_shutdown_sync(&foo_timer_data->timer);
-+		free_percpu(foo_timer_data->counter);
-+		kfree(foo_timer_data);
-+		return PTR_ERR(simple_tsk);
-+	}
- 
- 	return 0;
- }
-@@ -148,6 +180,10 @@ static void __exit trace_event_exit(void)
- 		kthread_stop(simple_tsk_fn);
- 	simple_tsk_fn = NULL;
- 	mutex_unlock(&thread_mutex);
-+
-+	timer_shutdown_sync(&foo_timer_data->timer);
-+	free_percpu(foo_timer_data->counter);
-+	kfree(foo_timer_data);
- }
- 
- module_init(trace_event_init);
-diff --git a/samples/trace_events/trace-events-sample.h b/samples/trace_events/trace-events-sample.h
-index 1a05fc153353..816848a456a2 100644
---- a/samples/trace_events/trace-events-sample.h
-+++ b/samples/trace_events/trace-events-sample.h
-@@ -247,12 +247,14 @@
-  */
- 
- /*
-- * It is OK to have helper functions in the file, but they need to be protected
-- * from being defined more than once. Remember, this file gets included more
-- * than once.
-+ * It is OK to have helper functions and data structures in the file, but they
-+ * need to be protected from being defined more than once. Remember, this file
-+ * gets included more than once.
-  */
- #ifndef __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
- #define __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
-+#include <linux/timer.h>
-+
- static inline int __length_of(const int *list)
- {
- 	int i;
-@@ -270,6 +272,13 @@ enum {
- 	TRACE_SAMPLE_BAR = 4,
- 	TRACE_SAMPLE_ZOO = 8,
- };
-+
-+struct foo_timer_data {
-+	const char		*name;
-+	struct timer_list	timer;
-+	int __percpu		*counter;
-+};
-+
- #endif
- 
- /*
-@@ -595,6 +604,25 @@ TRACE_EVENT(foo_rel_loc,
- 		  __get_rel_bitmask(bitmask),
- 		  __get_rel_cpumask(cpumask))
- );
-+
-+TRACE_EVENT(foo_timer_fn,
-+
-+	TP_PROTO(struct foo_timer_data *data),
-+
-+	TP_ARGS(data),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,			data->name	)
-+		__field(	int,			count		)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->count	= *this_cpu_ptr(data->counter);
-+	),
-+
-+	TP_printk("name=%s count=%d", __get_str(name), __entry->count)
-+);
- #endif
- 
- /***** NOTICE! The #if protection ends here. *****/
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-new file mode 100644
-index 000000000000..96791e120b7d
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-@@ -0,0 +1,51 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: BTF event with typecast and percpu access
-+# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+# Check if the sample module is loaded
-+if ! lsmod | grep -q trace_events_sample; then
-+  modprobe trace-events-sample || exit_unsupported
-+fi
-+
-+echo 0 > events/enable
-+echo > dynamic_events
-+
-+# The sample_timer_cb(struct timer_list *t) is called.
-+# We want to check (STRUCT,FIELD)VAR typecast and this_cpu_read() access.
-+# (foo_timer_data,timer)t converts t to struct foo_timer_data * using container_of.
-+# data->counter is a per-cpu pointer to int.
-+# this_cpu_read(data->counter) should give the value of the counter.
-+
-+echo 'f:mysample/myevent sample_timer_cb name=(foo_timer_data,timer)t->name:string count=this_cpu_read((foo_timer_data,timer)t->counter)' >> dynamic_events
-+
-+echo 1 > events/mysample/myevent/enable
-+echo 1 > events/sample-trace/foo_timer_fn/enable
-+
-+sleep 2
-+
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+
-+# Compare the values.
-+MATCH=0
-+while read line; do
-+  if echo $line | grep -q "foo_timer_fn:"; then
-+    NAME=`echo $line | sed 's/.*name=\([^ ]*\) .*/\1/'`
-+    COUNT=`echo $line | sed 's/.*count=\([^ ]*\).*/\1/'`
-+    if grep -q "myevent:.*name=\"${NAME}\" count=$COUNT" trace; then
-+       MATCH=$((MATCH+1))
-+    fi
-+  fi
-+done < trace
-+
-+if [ $MATCH -eq 0 ]; then
-+  echo "No matching events found"
-+  exit_fail
-+fi
-+
-+# Clean up
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+echo > dynamic_events
-+clear_trace
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-index fee479295e2f..b781ec07c0d0 100644
---- a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-@@ -112,6 +112,15 @@ check_error 'f vfs_read%return $retval->^foo'	# NO_PTR_STRCT
- check_error 'f vfs_read file->^foo'		# NO_BTF_FIELD
- check_error 'f vfs_read file^-.foo'		# BAD_HYPHEN
- check_error 'f vfs_read ^file:string'		# BAD_TYPE4STR
-+if grep -qF "[(structname" README ; then
-+check_error 'f vfs_read arg1=(task_struct)file^'		# TYPECAST_REQ_FIELD
-+check_error 'f vfs_read arg1=(f)((f)((f)((f)^((f)file->f)->f)->f)->f)->f'	# TOO_MANY_NESTED
-+check_error 'f vfs_read arg1=(task_struct,^in_execve)file->comm'	# TYPECAST_NOT_ALIGNED
-+check_error 'f vfs_read arg1=(task_struct,se^->group_node)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'f vfs_read arg1=(task_struct,^->pid)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'f vfs_read arg1=(task_struct,^.pid)file->comm'	# BTF_BAD_TID
-+check_error 'f vfs_read arg1=(task_struct,^.)file->comm'	# BTF_BAD_TID
-+fi
- fi
- 
- else
-diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-index 8f1c58f0c239..78f015c8c010 100644
---- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-@@ -115,6 +115,15 @@ check_error 'p vfs_read+20 ^$arg*'		# NOFENTRY_ARGS
- check_error 'p vfs_read ^hoge'			# NO_BTFARG
- check_error 'p kfree ^$arg10'			# NO_BTFARG (exceed the number of parameters)
- check_error 'r kfree ^$retval'			# NO_RETVAL
-+if grep -qF "[(structname" README ; then
-+check_error 'p vfs_read arg1=(task_struct)file^'		# TYPECAST_REQ_FIELD
-+check_error 'p vfs_read arg1=(f)((f)((f)((f)^((f)file->f)->f)->f)->f)->f'	# TOO_MANY_NESTED
-+check_error 'p vfs_read arg1=(task_struct,^in_execve)file->comm'	# TYPECAST_NOT_ALIGNED
-+check_error 'p vfs_read arg1=(task_struct,se^->group_node)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'p vfs_read arg1=(task_struct,^->pid)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'p vfs_read arg1=(task_struct,^.pid)file->comm'	# BTF_BAD_TID
-+check_error 'p vfs_read arg1=(task_struct,^.)file->comm'	# BTF_BAD_TID
-+fi
- else
- check_error 'p vfs_read ^$arg*'			# NOSUP_BTFARG
- fi
-diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-index c817158b99db..d5d5245bee6c 100644
---- a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-@@ -28,4 +28,9 @@ if grep -q ".*symstr.*" README; then
- check_error 'p /bin/sh:10 $stack0:^symstr'	# BAD_TYPE
- fi
- 
-+# $current is not supported by uprobe
-+if grep -q "\$current.*" README; then
-+check_error 'p /bin/sh:10 $current:^u8'	# BAD_VAR
-+fi
-+
- exit 0
-
+- Julian Braha
