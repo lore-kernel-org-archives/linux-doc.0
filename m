@@ -1,80 +1,152 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319BB221DAE
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 16:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B1A378826;
+	Sun, 14 Jun 2026 17:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781453763; cv=none; b=O9bP+Sp0NlOK+qIjEUtCC0bs5emTrH4n59Qg2WL4cyhcNIpg66X1iuOuhTFJeOAZay6Pea7W4davb7m2Fdroi06fwn+K8MeJqB6hppFu/dG1agVG/FPLBOOHXJEjcwBjSe2g64RHnGPzJrnBOEb9vreOao0vOkZ9SMqk1H+n9a8=
+	t=1781456465; cv=none; b=d7X/+glvAbA3sQm3PTGwjWlETKKU7aGmgqX4i2xE4+8sLtNlZAUpkqwDbRm6KdjLkKsztxod3v1+6FRAv7gCD2B17hja3w8/nwxjCTOqs0e0PES0mZSWjbsvjuzi/sycT7wGdZ5XB/iA6dRtNYnZ/1icLAvIzx11uwS5YhjFktw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781453763; c=relaxed/simple;
-	bh=0KjrcF1RfnmDOL7RpI0DWveoukUXC94l358vI81uumY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uWrp9BoAPOtjxpOVmoxQRyKSKBLWvvkVpX/hmB4D2NlDDmkq6RYlCeWmKD6fhP9TqO2leGphsnHGypnNJZ0XHqYsy6y5bb1fbehHW/P+dpFFJauGBGspdUapsfX9Zos7Oqr3YoF5tartUBTF6w2HXHoL+rcZYT3jKyFd6hrhp8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KYL0wfYW; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781456465; c=relaxed/simple;
+	bh=6MRO6vN3B7IlA1Ux4zPC9NTlO8N5cg83MY+qN5v8zE8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eqwm+knhZOZK0kgFj46Q7rFrCx5MhxWzzBTBs98F0aRt1GsWG2nQ2bE1FQYla7nimk60DXaA5IUzigIGuTbPY2RQC6bBJ5x0wZH4Ln8inaic5WoM4C9xXq18/JaPlPV26NiauPt9y9Yn8NZZHCFnxy19aidicyXmx06jTasb9OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WzbC0aEK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KYL0wfYW"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781453750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=kEYJ7xP+tYTB+MoyRGzw7SP2fpUDIwAj7Q+PSGirzZk=;
-	b=KYL0wfYWsGO/SQnhs8bYe00FmsSUGIDbLf2jBy8JeUE9Xqb/txgsOTJvSkHi9pkejt5U91
-	YVpvoPFE2Gyy2mtZBX2O/XLOP2qqc2HHQjtId3ItB890B5UboJKaoRe/kKwVdvfuvRR9Wx
-	BQtXlEbFz3MRBAnzlnDYsQFQatwYArQ=
-From: Zenghui Yu <zenghui.yu@linux.dev>
-To: linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: dave@stgolabs.net,
-	jic23@kernel.org,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	djbw@kernel.org,
-	gourry@gourry.net,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	Zenghui Yu <zenghui.yu@linux.dev>
-Subject: [PATCH] cxl: docs/linux/dax-driver - fix typos
-Date: Mon, 15 Jun 2026 00:14:58 +0800
-Message-ID: <20260614161458.88942-1-zenghui.yu@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WzbC0aEK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AEBFC4AF18;
+	Sun, 14 Jun 2026 17:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781456465;
+	bh=6MRO6vN3B7IlA1Ux4zPC9NTlO8N5cg83MY+qN5v8zE8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=WzbC0aEK/QMjr9xk4QPU89zkUxWHxG6PCqLOTMwHG9+7HNt8NvxlCFjWyPvqNEFAr
+	 uzL2Fb1rHVYD0oVqZbfFJCvB4Q7smkz+A7Y6kw1XLfv8v4uzPwNlpyJ2S5QOf9kHLH
+	 OY8Z4Q8USDcC3IvjNOu0o0PJTgdei1wxwC+L8fwqQ8g225pHDgTUWBI3o+/Y0AQuaz
+	 OKKRcf1lfHlKWxGJWcRANBQShARwreWz3bTBFLX+SfFw4OFgu7KBC+/ARTGmvjscXw
+	 i76IA4bAK9SqnGM/IH4T9FM9nJmUoZskDILwxZLVsvUAzzuJzIc0b49oZO9nb/lZz9
+	 t+5qqkliNGhgA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE3FCD98C7;
+	Sun, 14 Jun 2026 17:01:05 +0000 (UTC)
+From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Date: Sun, 14 Jun 2026 10:00:20 -0700
+Subject: [PATCH net-next v5 04/15] net: phy: microchip_t1s: Use generic
+ APIs for C45 read and write
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260614-s2500-mac-phy-support-v5-4-89874b72f725@onsemi.com>
+References: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
+In-Reply-To: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
+To: Andrew Lunn <andrew@lunn.ch>, 
+ Piergiorgio Beruto <pier.beruto@onsemi.com>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
+ Richard Cochran <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jerry Ray <jerry.ray@microchip.com>, 
+ Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781456463; l=2705;
+ i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
+ bh=HCjjokUdx1W5w+84nSMELSQPuuStnPKCwL0RzI0cpGk=;
+ b=JWDU4krYodqhjeF2A3f7NT5fmJZa16+SphgLO5769V+Lu0YGrqkSBtSMuydZYWpq/G9Cd7VJd
+ Vz1Df5j0q6iDCZi+0Aw3B7g4nPYAE3PAVKEET6doEkOWkQ1Y9Tvca31
+X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
+ pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
+X-Endpoint-Received: by B4 Relay for
+ Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
+X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Reply-To: Selvamani.Rajagopal@onsemi.com
 
-Fix two obvious typos in the "kmem conversion" section.
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+Replace vendor implementation with generic API to read and write
+PHY registers using C45 bus protocol.
+
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+
 ---
- Documentation/driver-api/cxl/linux/dax-driver.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+changes in v5
+  - no change
+changes in v4
+  - no change
+changes in v3
+  - Updated vendor specific phy_read_mmd/phy_write_mmd functions to
+    use genphy read/write APIs that is introduced
+  - First patch
+---
+ drivers/net/phy/microchip_t1s.c | 32 ++------------------------------
+ 1 file changed, 2 insertions(+), 30 deletions(-)
 
-diff --git a/Documentation/driver-api/cxl/linux/dax-driver.rst b/Documentation/driver-api/cxl/linux/dax-driver.rst
-index 10d953a2167b..72c85a0f8606 100644
---- a/Documentation/driver-api/cxl/linux/dax-driver.rst
-+++ b/Documentation/driver-api/cxl/linux/dax-driver.rst
-@@ -35,9 +35,9 @@ will be exposed to the kernel page allocator in the user-selected memory
- zone.
+diff --git a/drivers/net/phy/microchip_t1s.c b/drivers/net/phy/microchip_t1s.c
+index e601d56b2507..0c4dc70641d8 100644
+--- a/drivers/net/phy/microchip_t1s.c
++++ b/drivers/net/phy/microchip_t1s.c
+@@ -506,34 +506,6 @@ static int lan86xx_read_status(struct phy_device *phydev)
+ 	return 0;
+ }
  
- The :code:`memmap_on_memory` setting (both global and DAX device local)
--dictates where the kernell will allocate the :code:`struct folio` descriptors
-+dictates where the kernel will allocate the :code:`struct folio` descriptors
- for this memory will come from.  If :code:`memmap_on_memory` is set, memory
- hotplug will set aside a portion of the memory block capacity to allocate
- folios. If unset, the memory is allocated via a normal :code:`GFP_KERNEL`
--allocation - and as a result will most likely land on the local NUM node of the
-+allocation - and as a result will most likely land on the local NUMA node of the
- CPU executing the hotplug operation.
+-/* OPEN Alliance 10BASE-T1x compliance MAC-PHYs will have both C22 and
+- * C45 registers space. If the PHY is discovered via C22 bus protocol it assumes
+- * it uses C22 protocol and always uses C22 registers indirect access to access
+- * C45 registers. This is because, we don't have a clean separation between
+- * C22/C45 register space and C22/C45 MDIO bus protocols. Resulting, PHY C45
+- * registers direct access can't be used which can save multiple SPI bus access.
+- * To support this feature, set .read_mmd/.write_mmd in the PHY driver to call
+- * .read_c45/.write_c45 in the OPEN Alliance framework
+- * drivers/net/ethernet/oa_tc6.c
+- */
+-static int lan865x_phy_read_mmd(struct phy_device *phydev, int devnum,
+-				u16 regnum)
+-{
+-	struct mii_bus *bus = phydev->mdio.bus;
+-	int addr = phydev->mdio.addr;
+-
+-	return __mdiobus_c45_read(bus, addr, devnum, regnum);
+-}
+-
+-static int lan865x_phy_write_mmd(struct phy_device *phydev, int devnum,
+-				 u16 regnum, u16 val)
+-{
+-	struct mii_bus *bus = phydev->mdio.bus;
+-	int addr = phydev->mdio.addr;
+-
+-	return __mdiobus_c45_write(bus, addr, devnum, regnum, val);
+-}
+-
+ static struct phy_driver microchip_t1s_driver[] = {
+ 	{
+ 		PHY_ID_MATCH_EXACT(PHY_ID_LAN867X_REVB1),
+@@ -584,8 +556,8 @@ static struct phy_driver microchip_t1s_driver[] = {
+ 		.features           = PHY_BASIC_T1S_P2MP_FEATURES,
+ 		.config_init        = lan865x_revb_config_init,
+ 		.read_status        = lan86xx_read_status,
+-		.read_mmd           = lan865x_phy_read_mmd,
+-		.write_mmd          = lan865x_phy_write_mmd,
++		.read_mmd           = genphy_phy_read_mmd,
++		.write_mmd          = genphy_phy_write_mmd,
+ 		.get_plca_cfg	    = genphy_c45_plca_get_cfg,
+ 		.set_plca_cfg	    = lan86xx_plca_set_cfg,
+ 		.get_plca_status    = genphy_c45_plca_get_status,
+
 -- 
-2.53.0
+2.43.0
+
 
