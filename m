@@ -1,101 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A25303A35;
-	Sun, 14 Jun 2026 17:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E03B2E7162
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 18:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781459965; cv=none; b=PFrN5JsJFTyJWIQ2rEBT7+DDI3b02kfFMOlLjeMGyvexrUG6XAz/IwOaL9/AgNVvlFsbbeMhHOaUFnjhuV8CZVeHBrpNJ/7ZfEKJCPZa1EfgnpOdEWgSdqe/vvJftnE+T/abP5ukEb/T87GyC/Y2spNMXr0h3JTkU0icyOnTNPA=
+	t=1781460621; cv=none; b=P/xrwMvOxccxSxqKIW6ySj95vNkQDWgeZrE7bRycZcpgH6QjvXXk2dUTxU7ScVDPaMUioTNoYcyu2U6jRXJpXEXScT+uckt5AedBzt29WZiq52wrJ0Zbr6j+nhOEFyNSHedkUMuHELCMjZDuh75JVXBsPweaUkiVt9AygCSB/XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781459965; c=relaxed/simple;
-	bh=9RgBVtRmSO4+p71xu+1pGxV9mKVas2tvVlXuHY6Uv6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Egw8czki3TNTEg0MRFXiX8vSwUvull6CzYgR66hi3pa7yj76923d8oN+Mbl6QgDUT0lhbyJtVEP+bFpZ5fTvN/4lgUnDNfxP9b3gk6BDZ2b58N0zVu4mxTrhf0xKOAuTZzIF+o78CUKoaPNMlnVzGFsS5qbdI7X5S9w/h+Wd/1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxMSveGr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781460621; c=relaxed/simple;
+	bh=Ztl320bRV0CeN9v5pgOuj9s/hyNW06jjghOIwFROCDU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ibQKcZarorJWotCQQwR9fLibIqjMUwMkUw194jmEtPMSFA/6H9ly7Ynw/J8v1lKEZL7jzBH3SqAfb8LoQJ1YdT6XQAh7qTezG5rn1SzgjCdSztA0JuFz5S3V5a3UCm7YqJQ+zhByypzR61/WPhKEq8X7nRvhA5N7EcZ6i9ZHC1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vrMXv0oQ; arc=none smtp.client-ip=209.85.167.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxMSveGr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65631F000E9;
-	Sun, 14 Jun 2026 17:59:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781459963;
-	bh=v5lcDAqHXrJihCxk1fGEUdfaBsoj6/WVjF6AF/NVySg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VxMSveGrKC83JWbx5f88cjqQpli2V266ebEvXRC0z9wBOGH888+ehafpVIgjMJjEn
-	 ch3QeqfTpBRei3U6Q4EqqQYhZEajZV3V/XcrVtI6enAcKcsd8cExcw1nrobjJbc8Lc
-	 YgLlUHOtOBbLBtKboSkNWvTA3hiGfimaxsIdWvLlnwLkEyR7IOSkRIOL2t0CHJASFi
-	 OwDQ2o/7XgBn3xic7sEBx2fwUme8R9RrdZ83fnb7ZkaxgmGaHSH6wPRRAoQVrXOVOT
-	 MQcgDsDjEqFXvDRyOnpoUSp9DGg4V91xpNVkAY5X5WbAWUoyQwa7N6XZdQb+XAMSkr
-	 ve7VO/yKSC8HA==
-Date: Sun, 14 Jun 2026 18:59:14 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: linux-iio@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v4 2/6] Documentation: iio: add Open Sensor Fusion
- driver overview
-Message-ID: <20260614185914.6c14d376@jic23-huawei>
-In-Reply-To: <20260607234343.22109-3-kimjinseob88@gmail.com>
-References: <20260607234343.22109-1-kimjinseob88@gmail.com>
-	<20260607234343.22109-3-kimjinseob88@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vrMXv0oQ"
+Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-486d0cff483so7676725b6e.2
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 11:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781460619; x=1782065419; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sv1A/WniXeV/9AwyHTmngGxQOjB2Zbrdkiqo3uhJouI=;
+        b=vrMXv0oQrReE+7Lv/GDgygNb9Ii8CydzrclFubDeiix8rU32A2YlggAC7coQwyn34R
+         PHlQ6DDKSVc7GZ5tBCCIEMNlED9XqHjg8ehQ0eYnHIwfKHzgXBRRzpCXZr+41l8ul5KF
+         XRsr8Y3j/Po3gwUH3fdp1qGZ80kw1fThwpSPxNIVIMcJ/iu9qgvMk6OK7io/DuSlZDqc
+         fw08ym2EMBlUE7RlPruHGs0OGmU8qXFMpD7kFkeX4jxKLS2MlEh/MzjU0VLeuQtrRD9f
+         oAu6NXGZPoC6pE9ndNCWCUIM0F5N3zF2v1Jb9l9b8MjklgdwZ4OIHMtzED+1GkKQi2/A
+         W9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781460619; x=1782065419;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sv1A/WniXeV/9AwyHTmngGxQOjB2Zbrdkiqo3uhJouI=;
+        b=W0C40bvjDdBTL538UinD1mEhYtu4HI8WXUyhfx1hCTuHGEbENjYbEzVnTz/KfXZscj
+         BnRBErPX3gfnDvpsAS1Q6mlyAufXZcdTKJlkPqV6/gj8zuxv6Vl9ql5QW3ZKvuQwoKuM
+         J5h/zVYcs1DTj4/V2PS5janKvmuJ2cJqqEBjPPzuK+gRxO3PyLhSY9ewTMb21GVx6Ahw
+         6P9RScI7dQNDAL+7YGXg4EE2CMrtEy/A1Usc4DGh86LPY3J46QtBjubf3Jp8t3+JZ0su
+         nThKE2QZn3qi9yYyswrBNI3Gy0SF3CTUurDCsNEjT5K5vXiQQjKvu658QnMuha8lkLE1
+         qrZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9/c6INcuw3HmwYkU5gPQQu3A9xY2JhxoksK4W4UlrGLsvuWUPyHe1JohBZmcYpP63bp2/IFA5UpYM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvMGP/UC7Gor8+WxDzfLROwZPm7W4Xdgryr3bGn76cclkBOeDs
+	exZcXB0heaaMX95gEGnwqoLquW5Xua3rKQr1wIPEY/SNAkf5QIjo6shvGYNvrJGtlk+edSYOWzg
+	WDfkSSuUmQQ==
+X-Received: from jafr13-n1.prod.google.com ([2002:a05:6638:afcd:10b0:5e2:636f:6a1c])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6809:2cc:10b0:487:4d4e:bcf3
+ with SMTP id 5614622812f47-4874d4ebfe3mr2618878b6e.9.1781460619171; Sun, 14
+ Jun 2026 11:10:19 -0700 (PDT)
+Date: Sun, 14 Jun 2026 18:09:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
+Message-ID: <20260614181006.3648010-1-nkapron@google.com>
+Subject: [PATCH 0/3] usb: gadget: f_fs: Add R/W proxy EPs and ZLP support
+From: Neill Kapron <nkapron@google.com>
+To: gregkh@linuxfoundation.org, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com, 
+	Neill Kapron <nkapron@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon,  8 Jun 2026 08:43:39 +0900
-Jinseob Kim <kimjinseob88@gmail.com> wrote:
+We are working to deprecate a widely used, out of tree gadget driver by
+moving the functionality to userspace via functionfs. To do so, we have to
+maintain strict compatibility with the legacy driver, as there are many
+third party applications which can=E2=80=99t be modified and are reliant on=
+ this
+interface. Specifically, the following requirements must be met:
 
-> Add a short driver-facing overview.
-> 
-> Leave full protocol details to project docs.
-> 
-> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
-Same issue on needing this series to be against a suitable
-tree, not on top of your previous version.
+- The function must expose a single file descriptor to userspace for both
+  reads and writes,
+- It must block on writes when it can not handle more data,=20
+- It must handle arbitrary write transaction sizes,
+- It must automatically append a zero length packet (ZLP) when the write
+  transaction ends on a boundary of a multiple of the max packet size.
 
-> ---
->  Documentation/iio/index.rst                   |   1 +
->  .../iio/open-sensor-fusion-protocol-v0.rst    | 308 ------------------
->  Documentation/iio/open-sensor-fusion.rst      |  62 ++++
->  MAINTAINERS                                   |   3 +-
->  4 files changed, 64 insertions(+), 310 deletions(-)
->  delete mode 100644 Documentation/iio/open-sensor-fusion-protocol-v0.rst
->  create mode 100644 Documentation/iio/open-sensor-fusion.rst
-> 
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e227b9aff..2ddefc42d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20015,7 +20015,7 @@ OPEN SENSOR FUSION IIO DRIVER
->  M:	Jinseob Kim <kimjinseob88@gmail.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
-> -F:	Documentation/iio/open-sensor-fusion-protocol-v0.rst
-> +F:	Documentation/iio/open-sensor-fusion.rst
->  F:	drivers/iio/opensensorfusion/Kconfig
->  F:	drivers/iio/opensensorfusion/Makefile
->  F:	drivers/iio/opensensorfusion/osf_core.*
-> @@ -20024,7 +20024,6 @@ F:	drivers/iio/opensensorfusion/osf_protocol.*
->  F:	drivers/iio/opensensorfusion/osf_serdev.c
->  F:	drivers/iio/opensensorfusion/osf_stream.*
->  
-> -
-Check your series for things like this right before sending (we all make 
-mistakes like this when building up series!)  It clearly belongs in the
-previous patch.
+Initially, we pursued a compatibility layer in userspace which implemented
+a socket pair to combine the OUT and IN endpoint files. This approach
+proved problematic for several reasons.
 
->  OPENCOMPUTE PTP CLOCK DRIVER
->  M:	Vadim Fedorenko <vadim.fedorenko@linux.dev>
->  L:	netdev@vger.kernel.org
+To preserve the write transaction boundary for ZLP calculation, we
+attempted to use SOCK_SEQPACKET. This created problems as larger
+transactions required contiguous buffers to be allocated, and, even if we
+ignore the constraint to the arbitrary write size and limited it to 1MB,
+the socket would occasionally return -ENOBUFS to the end user if a write
+operation was attempted when other sockets on the system were consuming
+more than 7MB of the 8MB wmem_max limit.
+
+After significant investigation including switching to SOCK_STREAM and
+attempting a heuristic timeout approach, we decided the best path forward
+was to pursue a native proxy endpoint approach in the functionfs driver
+itself.
+
+This patchset introduces the `FUNCTIONFS_RW_PROXY_EPS` flag to functionfs
+which, when set, creates an additional proxy file for reading or writing
+to a pair of endpoints. In an attempt to limit the change to the UAPI
+surface, we added several constraints to this proxy file. We chose not to
+handle ioctls on this proxy file, as the current ioctls do not have a
+directionality associated with them, and would require essentially
+creating duplicate ioctls with a direction argument. To use this flag, an
+even number of in/out endpoints must be created, and a proxy ep is created
+for each pair of endpoints in the descriptors.
+
+With this new r/w proxy ep, we are able to transparently hand it to the
+end application. However, to match the legacy driver=E2=80=99s ZLP function=
+ality,
+a new ioctl is added, `FUNCTIONFS_ENDPOINT_ENABLE_ZLP`. This allows the
+userspace functionfs daemon to write the necessary descriptors, configure
+the auto ZLP functionality on the IN EP, then handoff the proxy ep to the
+application. When enabled, functionfs sets the req->zero flag. The UDC
+driver then automatically adds the ZLP if the transaction length % max
+packet size is 0.
+
+An addition, a patch is included which fixes an issue if certain ioctls
+(like the new `FUNCTIONFS_ENDPOINT_ENABLE_ZLP` or
+`FUNCTIONFS_DMABUF_ATTACH`) are called prior to the host being connected.
+
+This patchset has been tested on a kernel based on 7.1-rc7, as well as a
+backported version tested on 6.1. Existing functionfs implementations
+continue to work without modification, and the new functionality passes
+tests designed for our legacy kernel driver implementation.
+
+Neill Kapron (3):
+  usb: gadget: f_fs: Initialize epfile->in early to fix endpoint
+    direction checks
+  usb: gadget: f_fs: Add zero-length packet ioctl
+  usb: gadget: f_fs: Introduce rw_proxy file descriptors
+
+ Documentation/usb/functionfs.rst    |  80 +++++++++++++++++
+ drivers/usb/gadget/function/f_fs.c  | 132 ++++++++++++++++++++++++----
+ drivers/usb/gadget/function/u_fs.h  |   8 +-
+ include/uapi/linux/usb/functionfs.h |  24 +++++
+ 4 files changed, 226 insertions(+), 18 deletions(-)
+
+--=20
+2.54.0.1136.gdb2ca164c4-goog
 
