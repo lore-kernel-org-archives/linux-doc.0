@@ -1,342 +1,285 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E427D1E9906
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 19:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781464645; cv=pass; b=VI40Khlsdh+ZsDoUGI98sJHw/XXo/+usSqQEP7oKj19wta38KweE0cS0z69IZAmrTnzDAdLTYIk7Ov5NL4jIEOdWV2B3JsVpVPV+DeUNf3N3bIAG6xA5+Dw3fX68TokWtYpr6ZS2lFLSxOzJ2/r495dTLopNgsuJ3jZwSmrvK10=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781464645; c=relaxed/simple;
-	bh=Cbv16bWSb7bD54u+omNlQ0fSl7jXbF+CDFxO+mNEHU8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R5WS+zgc0O6SgnwVUVf7jHHuSR0nzacA973eMIbRGM3whSw6DrgQawxXc9Lw4QPCWg5KVoBYxNBaGg9Ji7ko42SH7xmBdabqfMD/rb9qb72RtAZAkgLaVNFN0HDbgkM8ul1ZFifVMiBVSwepZfinRu7t+0eAVF4cMzXVw/mxLkc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=K+Qkityb; arc=pass smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C48930EF89;
+	Sun, 14 Jun 2026 19:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781466309; cv=none; b=eUZVEMt56+ex9yNYKiE/8/VTXGSZzdpslHwiBRuVWgLMMFkGQ8geI82HvvE7KZzlIVw3SKqbRoDKhjfQQwrbH2lVw9tcYPk3xL5RxEfmyX41ArK1BNdVr7x9kHguWyYWJyIJWsr6tkkoXSWSoL/fpJBJsX62GWvOmsPPCzaWM7s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781466309; c=relaxed/simple;
+	bh=7ha0LiReNGNW/bxB6b9lPIfBwVFFY9y3NVorZGR09fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QY6ntKi4wrzJ1Rn9B9DmJsNvHvM8VUdNzsgC/jRl80c2xRL2jI7z5p3cJmhRGdLO3ASnUUDPiPq/wxeZUSL/r+MgDKQcg+oDQKG6NcvfALQlDKLELWiHRCazt5Ge2YukGEl7UKo06dRVwAn4nnBb5wDRXEAbjAdR/hcrC+/7EqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kK/wwZ7a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="K+Qkityb"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-486b95fcdc7so1301301b6e.2
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 12:17:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781464643; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZvcE36suWQsTotNj/i6h2joET0og5QyMVzzS/8aASwNAyWU5rTELbeOTAjE+mh2zJo
-         a+eznFW3W/6XS7dGw0kgVCzgb5LjRV9t6OxpmLrBss3QJeFoaoFF9szwAYLpHkh94yh+
-         MFQqD6VHIA9GL2u4ScXy2XEcxzE4dARZ23FUPqGVnugZ0ZwdXUkr4qKgDrV4KMMn6QQF
-         iDTZqEaNnxflqNhT9DnTi4RJfy3vT4ajsqY+yoJaMs7jnBE/H63AtShYt1qDt6SbFgnH
-         XHSoiqlCqYtYdI8enuquOE3ZyI3zWi6t33sy+7LfUlEffjbSHidhMWJUrktPC/xkuza6
-         Ueqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
-        fh=8UOhfZKM9tHBGRE9R4DHsC39Jhgpz5f/p+tp3uPwHjE=;
-        b=jCr47HGGagb8h1Q9wks1T7WKyH2S06LSZTn1HgcXntZgqNvkHtwyVzhM9s+t41S/Sh
-         niDWI4GsSqojCv4WIHR+wVRVUyx+mk/c4HXRfqHX6DQr+xdi/LxMzMbe9Usn5wKlTw7k
-         mCQlKGgquL5H3PBaDxb/RhZkDKzwA7NNSMaYUvqSCsBegMLlcmYFHQWETq+XRUOBVCKN
-         thiMh0O4rGo+d1m64Ns49aaZyYFww3/CjeQA7DdRJDX6vFpTp3TwtANkGqmHVRMEtlkW
-         X3B+JGdMinK06C6j9QLwZ1GsNT6OoeuAJTd/n3ruWIKF2sY/QPpTqzMISQ6LY+T6YDSG
-         4RSg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1781464643; x=1782069443; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
-        b=K+Qkitybn4nQgsV+kHKimXTRwcShltBGYPL2KHOPAd6CEQL9o9iX+2weGhAsg6HhJP
-         ay+jblASEdVVb2B/F7wRAobicndtmtIodmMJ3SBATenD5makvuHFZ4kIQJjXLHUb+wCF
-         DZjzDoaAIIIUJJ/PvWccpib/kuR1aevRIFiC+7ZZ2NCSpjyXNxj/06fFp2FRZDszmZpC
-         hFVriaQeEXXXfxkbAIWAVCRvqV9Iaggu11CV1htjF0YNMw7JEqjaQlgYcByM+0CJZJAh
-         +RqAYHZFDORIdfyO49iX9ujgK4bJqMAg1shGapZef6D9QinT/jC13H3ig2BZZypgucW4
-         iZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781464643; x=1782069443;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F4UrwTTSzIsxsEoiq28kNYEE7Qb/E3lbhaeDgdQ4yrs=;
-        b=pIuauWyPylwPI7x4h5hBybb1LdjvFmKQE3guJWxqrk/UPsJx79orTltLi07LJ57IH+
-         4i9SeRa892NfyC1MM07fK9J3abFiiu8fUbUp2BuS5KaMs+ibd3WDh+mnvhtNKmudAr3R
-         M3c2sjFwtWXIzKd/2W0Rv2zzLLTn7zbvRH4hio+3iMMzA11Rydh06KedEvC8ZXgXz/DX
-         j/JF2oLGrZ+b8hQbzJXtO/iFPovdFv7ne2hGO2QAQSeYj9nOrMsqKAo1sPp/h/BHnCxP
-         IiAVnLpOMeg8m87FWYuzcjgGuaJNTUkgDHqHLYfXWnU7tRCCtqj0ghNWehMDOSnLj5Iy
-         1Yjw==
-X-Forwarded-Encrypted: i=1; AFNElJ+/6NFj5ZYzTaszqwlcQtPkqpBFXKwdJYwrwcvuWAyDIfq7tUCCzbJasInJ18m/Luht6c07z+I5wbg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCVBwL93C/74sua4ab4Uo3PkPwDLcFppfJEZDp7ETmintfiJoX
-	1WMTmJWL0rbfE+HKvnBf2F6Co62Pi5hJcjCuX0iS3xy8Y/DL/EZ68WDNs234ruZYSuQT5hHUpVo
-	4OXoi41d/dz2mKI/v4uh2AxWbynW4qjKx7VR9VVqLjg==
-X-Gm-Gg: Acq92OHYo6OGN1B8xpW0BlorEH1zFzRCe+qV1QMfD390ZFPEhgMOEV9FjedYUZNcvnx
-	t258r+Yl5VRBJbcFECYFY+SUyCjHUM04LrHhj8lihewKSqF2u7/dcwgzwdrrrztSGUYnvB9QcGk
-	Y9iAPE95Yj80BWo+f5Cc+oIBn1cPe/oofaxSiYsI0y0vSg+JTOw/xowEN+aikZBVKfhCUoqCGCg
-	9nbOXPZNH/h5cPuHVLOz7NbMd007PAR058vrHYsAY24fVzLMPaLKmxHnPIwo7A/ENgjAN4w5vXc
-	sQlY0q+IsDcmMxqkTbGVNe/di9ctI2faHSXR5lXyLcWTgVWfhNaWlNLvYjolVb+5/LO4jR3DzdH
-	Z5nywcQg2Wn4FT0yNNrSHUxYdcZVW8OKwx6RHmWw=
-X-Received: by 2002:a05:6808:178e:b0:485:41fc:71e1 with SMTP id
- 5614622812f47-4872f4a0776mr6926903b6e.21.1781464642824; Sun, 14 Jun 2026
- 12:17:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kK/wwZ7a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97DEA1F000E9;
+	Sun, 14 Jun 2026 19:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781466307;
+	bh=fMUJLPXzP2s81hMzrXh6+NPZ/9tUeZuJA5qZT/vFyT8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=kK/wwZ7abRBhC96sNjunOCOKE+Fo9AFHPZ+fO4Te+tKWtJMNNAsvsYjayjimxgQWH
+	 D9rii8prKwzUyJYCZmccnI/SzPOFLbgfZi4GANAfohSMdsZ12ikz/a/j1OH0rW+wt5
+	 uwnpbmBQBWdFOI07elXGxr42OahnBTUsPrXtSTpH6x5FRU/C0YNI/iq2T90AFqpuNE
+	 KszxD+RZgM9ApB0h/X5RaTDnbq1ueF7CHbZLQtZ+A4nC9+Wzg/wclCtoo2mPlxGOSQ
+	 ODtZ/xvFwZuaE1X+e0zY5+OGtfB2d9iFoSQCE4mF17wTpC3U0K4+96TEweEXG+uLWr
+	 HfLCL2v7zBWAw==
+Date: Sun, 14 Jun 2026 20:44:55 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, Janani Sunil
+ <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260614204455.408c4d40@jic23-huawei>
+In-Reply-To: <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+	<20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+	<25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
+	<603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
- <20260601-deprecate_boot_delay-v1-3-c34c187142a6@thegoodpenguin.co.uk> <aibe12WcrLxVWTez@pathway.suse.cz>
-In-Reply-To: <aibe12WcrLxVWTez@pathway.suse.cz>
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Sun, 14 Jun 2026 20:17:10 +0100
-X-Gm-Features: AVVi8Cd_wDbpoenWa3p5Qu6vcK4mwMkoHo9_Ly4qYzGijYT1qiw-VX-9B0ykX4w
-Message-ID: <CALqELGxjUGFgpo6sf3689RgSEQg3+owZkk4TZKwV=dSJxxka_Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/4] printk: nbcon: move printk_delay to console
- emiting code
-To: Petr Mladek <pmladek@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 8 Jun 2026 at 16:25, Petr Mladek <pmladek@suse.com> wrote:
->
-> On Mon 2026-06-01 00:17:39, Andrew Murray wrote:
-> > The printk_delay and boot_delay features are helpful for debugging
-> > as kernel output can be slowed down during boot allowing messages to
-> > be seen before scrolling off the screen, or to correlate timing between
-> > some physical event and console output.
+On Tue, 9 Jun 2026 16:47:23 +0200
+Janani Sunil <jan.sun97@gmail.com> wrote:
+
+> On 5/26/26 15:11, Rodrigo Alencar wrote:
+> > On 26/05/19 05:42PM, Janani Sunil wrote:  
+> >> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> >> buffered voltage output digital-to-analog converter (DAC) with an
+> >> integrated precision reference.  
+> > ...
+> > Probably others may comment on that, but...
 > >
-> > However, since the introduction of nbcon and the legacy printer thread
-> > for PREEMPT_RT kernels, printk records are now emited to the console
-> > asynchronously to the caller of printk. Thus, any printk delay added by
-> > boot_delay/printk_delay continues to slow down the calling process but
-> > may not have any impact to the rate in which records are emited to the
-> > console.
+> > This parent node may support device addressing for multi-device support through
+> > those ID pins. I suppose that each device may have its own power supplies or
+> > other resources like the toggle pins or reset and enable.
 > >
-> > Let's address this by moving the printk delay from the calling code
-> > to the console emiting code instead. Whilst this ensures that delays
-> > are still observed (especially for slower consoles), it doesn't improve
-> > the use-case of using boot_delay/printk_delay to correlate timings
-> > between physical events and console output.
+> > That way I suppose that an example would look like...
+> >  
+> >> +
+> >> +patternProperties:
+> >> +  "^channel@([0-9]|1[0-5])$":
+> >> +    type: object
+> >> +    description: Child nodes for individual channel configuration
+> >> +
+> >> +    properties:
+> >> +      reg:
+> >> +        description: Channel number.
+> >> +        minimum: 0
+> >> +        maximum: 15
+> >> +
+> >> +      adi,output-range-microvolt:
+> >> +        description: |
+> >> +          Output voltage range for this channel as [min, max] in microvolts.
+> >> +          If not specified, defaults to 0V to 5V range.
+> >> +        oneOf:
+> >> +          - items:
+> >> +              - const: 0
+> >> +              - enum: [5000000, 10000000, 20000000, 40000000]
+> >> +          - items:
+> >> +              - const: -5000000
+> >> +              - const: 5000000
+> >> +          - items:
+> >> +              - const: -10000000
+> >> +              - const: 10000000
+> >> +          - items:
+> >> +              - const: -15000000
+> >> +              - const: 15000000
+> >> +          - items:
+> >> +              - const: -20000000
+> >> +              - const: 20000000
+> >> +
+> >> +    required:
+> >> +      - reg
+> >> +
+> >> +    additionalProperties: false
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >> +  - vdd-supply
+> >> +  - avdd-supply
+> >> +  - hvdd-supply
+> >> +
+> >> +dependencies:
+> >> +  spi-cpha: [ spi-cpol ]
+> >> +  spi-cpol: [ spi-cpha ]
+> >> +
+> >> +allOf:
+> >> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> >> +
+> >> +unevaluatedProperties: false
+> >> +
+> >> +examples:
+> >> +  - |
+> >> +    #include <dt-bindings/gpio/gpio.h>
+> >> +
+> >> +    spi {
+> >> +        #address-cells = <1>;
+> >> +        #size-cells = <0>;
+> >> +
+> >> +        dac@0 {
+> >> +            compatible = "adi,ad5529r-16";
+> >> +            reg = <0>;
+> >> +            spi-max-frequency = <25000000>;
+> >> +
+> >> +            vdd-supply = <&vdd_regulator>;
+> >> +            avdd-supply = <&avdd_regulator>;
+> >> +            hvdd-supply = <&hvdd_regulator>;
+> >> +            hvss-supply = <&hvss_regulator>;
+> >> +
+> >> +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> >> +
+> >> +            #address-cells = <1>;
+> >> +            #size-cells = <0>;
+> >> +
+> >> +            channel@0 {
+> >> +                reg = <0>;
+> >> +                adi,output-range-microvolt = <0 5000000>;
+> >> +            };
+> >> +
+> >> +            channel@1 {
+> >> +                reg = <1>;
+> >> +                adi,output-range-microvolt = <(-10000000) 10000000>;
+> >> +            };
+> >> +
+> >> +            channel@2 {
+> >> +                reg = <2>;
+> >> +                adi,output-range-microvolt = <0 40000000>;
+> >> +            };
+> >> +        };
+> >> +    };  
+> > ...
 > >
-> > --- a/include/linux/printk.h
-> > +++ b/include/linux/printk.h
->
-> The declaration is needed just inside kernel/printk/ directory.
-> It should better be done via kernel/printk/internal.h
->
-> > @@ -209,6 +209,7 @@ extern bool nbcon_device_try_acquire(struct console *con);
-> >  extern void nbcon_device_release(struct console *con);
-> >  void nbcon_atomic_flush_unsafe(void);
-> >  bool pr_flush(int timeout_ms, bool reset_on_progress);
-> > +void printk_delay(bool use_atomic);
-> >  #else
-> >  static inline __printf(1, 0)
-> >  int vprintk(const char *s, va_list args)
-> > @@ -326,6 +327,9 @@ static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
-> >  {
-> >       return true;
-> >  }
-> > +static inline void printk_delay(bool use_atomic)
-> > +{
-> > +}
+> > 	spi {
+> > 		#address-cells = <1>;
+> > 		#size-cells = <0>;
 > >
-> >  #endif
+> > 		multi-dac@0 {
+> > 			compatible = "adi,ad5529r-16";
+> > 			reg = <0>;
+> > 			spi-max-frequency = <25000000>;
 > >
-> > diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-> > index d7044a7a214bdd4537a5e20d876d99bc3ffe8b3a..a507a2fed5bf4366e24330f763b842a698ecf6f7 100644
-> > --- a/kernel/printk/nbcon.c
-> > +++ b/kernel/printk/nbcon.c
-> > @@ -1267,11 +1267,16 @@ static int nbcon_kthread_func(void *__console)
+> > 			#address-cells = <1>;
+> > 			#size-cells = <0>;
 > >
-> >               con_flags = console_srcu_read_flags(con);
+> > 			dac@0 {
+> > 				reg = <0>;
+> > 				vdd-supply = <&vdd_regulator>;
+> > 				avdd-supply = <&avdd_regulator>;
+> > 				hvdd-supply = <&hvdd_regulator>;
+> > 				hvss-supply = <&hvss_regulator>;
 > >
-> > +             wctxt.len = 0;
-> > +
-> >               if (console_is_usable(con, con_flags, false))
-> >                       backlog = nbcon_emit_one(&wctxt, false);
+> > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
 > >
-> >               console_srcu_read_unlock(cookie);
+> > 				#address-cells = <1>;
+> > 				#size-cells = <0>;
 > >
-> > +             if (backlog && wctxt.len > 0)
->
-> Heh, this is tricky. It might probably work but it is not guarantted
-> by design.
->
-> The "backlog" name is a bit misleading. The value is basically
-> wctxt.ctxt.backlog. The real meaning is that printk_get_next_message()
-> was able to read a message. It means that there _was_ a backlog.
-> But it is not clear whether there are still pending messages or not.
->
-> Also it is not clear that whether the message was pushed to the
-> console or not. It might have been supressed in which case
-> (wctxt.len == 0). But it might also be emitted only partially
-> when a higher priority context took over the console context
-> ownership.
->
-> I would prefer to explicitely set some flag when
-> nbcon_emit_next_record() really called con->write*().
-> See below.
->
-> > +                     printk_delay(false);
-> > +
-> >               cond_resched();
+> > 				channel@0 {
+> > 					reg = <0>;
+> > 					adi,output-range-microvolt = <0 5000000>;
+> > 				};
 > >
-> >       } while (backlog);
-> > @@ -1525,6 +1530,8 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
-> >       }
+> > 				channel@1 {
+> > 					reg = <1>;
+> > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > 				};
 > >
-> >       progress = nbcon_emit_one(&wctxt, use_atomic);
-> > +     if (progress && wctxt.len > 0)
->
-> Same here.
->
-> > +             printk_delay(use_atomic);
+> > 				channel@2 {
+> > 					reg = <2>;
+> > 					adi,output-range-microvolt = <0 40000000>;
+> > 				};
+> > 			}
 > >
-> >       if (use_atomic) {
-> >               start_critical_timings();
-> > @@ -1584,6 +1591,8 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-> >                       if (!nbcon_context_try_acquire(ctxt, false))
-> >                               return -EPERM;
+> > 			dac@1 {
+> > 				reg = <1>;
+> > 				vdd-supply = <&vdd_regulator>;
+> > 				avdd-supply = <&avdd_regulator>;
+> > 				hvdd-supply = <&hvdd_regulator>;
+> > 				hvss-supply = <&hvss_regulator>;
 > >
-> > +                     wctxt.len = 0;
-> > +
-> >                       /*
-> >                        * nbcon_emit_next_record() returns false when
-> >                        * the console was handed over or taken over.
-> > @@ -1595,7 +1604,9 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-> >                       nbcon_context_release(ctxt);
-> >               }
+> > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
 > >
-> > -             if (!ctxt->backlog) {
-> > +             if (ctxt->backlog && wctxt.len > 0) {
-> > +                     printk_delay(true);
-> > +             } else {
->
-> This changes the semantic. The original code call this when
-> no message was read. The new code would call this path also
-> when the output was suppressed. It would probably work.
-> But still.
->
-> >                       /* Are there reserved but not yet finalized records? */
-> >                       if (nbcon_seq_read(con) < stop_seq)
-> >                               err = -ENOENT;
->
->
-> As mentioned above, I would add a flag which would be set when
-> con->write*() was called.
->
-> It modifies the type of unsafe_takeover in struct nbcon_write_context.
-> But it actually makes it more compatible with struct nbcon_state.
->
-> My proposal (on top of this patch):
->
-> diff --git a/include/linux/console.h b/include/linux/console.h
-> index 5520e4477ad7..5a86942e55ef 100644
-> --- a/include/linux/console.h
-> +++ b/include/linux/console.h
-> @@ -290,6 +290,7 @@ struct nbcon_context {
->   * @outbuf:            Pointer to the text buffer for output
->   * @len:               Length to write
->   * @unsafe_takeover:   If a hostile takeover in an unsafe state has occurred
-> + * @emitted:           The write context tried to emit the message. Might be incomplete.
->   * @cpu:               CPU on which the message was generated
->   * @pid:               PID of the task that generated the message
->   * @comm:              Name of the task that generated the message
-> @@ -298,7 +299,8 @@ struct nbcon_write_context {
->         struct nbcon_context    __private ctxt;
->         char                    *outbuf;
->         unsigned int            len;
-> -       bool                    unsafe_takeover;
-> +       unsigned char           unsafe_takeover :  1;
-> +       unsigned char           emitted : 1
->  #ifdef CONFIG_PRINTK_EXECUTION_CTX
->         int                     cpu;
->         pid_t                   pid;
-> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-> index a507a2fed5bf..060534becefc 100644
-> --- a/kernel/printk/nbcon.c
-> +++ b/kernel/printk/nbcon.c
-> @@ -1069,6 +1069,9 @@ static bool nbcon_emit_next_record(struct nbcon_write_context *wctxt, bool use_a
->         else
->                 con->write_thread(con, wctxt);
->
-> +       /* Tried to emit something. Might be incomplete. */
-> +       wctxt.emitted = 1;
-> +
->         if (!wctxt->outbuf) {
->                 /*
->                  * Ownership was lost and reacquired by the driver. Handle it
-> @@ -1267,14 +1270,14 @@ static int nbcon_kthread_func(void *__console)
->
->                 con_flags = console_srcu_read_flags(con);
->
-> -               wctxt.len = 0;
-> +               wctxt.emitted = 0;
->
->                 if (console_is_usable(con, con_flags, false))
->                         backlog = nbcon_emit_one(&wctxt, false);
->
->                 console_srcu_read_unlock(cookie);
->
-> -               if (backlog && wctxt.len > 0)
-> +               if (wctxt.emitted)
+> > 				#address-cells = <1>;
+> > 				#size-cells = <0>;
+> >
+> > 				channel@0 {
+> > 					reg = <0>;
+> > 					adi,output-range-microvolt = <0 5000000>;
+> > 				};
+> >
+> > 				channel@1 {
+> > 					reg = <1>;
+> > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > 				};
+> > 			}
+> > 		};
+> > 	};
+> >
+> > then you might need something like:
+> >
+> > 	patternProperties:
+> > 		"^dac@[0-3]$":
+> >
+> > and put most of the things under this node pattern.
+> >
+> > So the main driver that you're putting together might need to handle up to four instances.
+> > Even if your current driver cannot handle this, the dt-bindings might need cover that.
+> >
+> > Need to double check if each dac node needs a separate compatible, so you would maybe populate
+> > a platform data to be shared with the child nodes, which would be a separate driver.
+> > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).  
+> 
+> Hi Rodrigo,
+> 
+> Thank you for looking at this.
+> 
+> For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
+> hardware/use case we have only needs one device node and the driver is written around that model as well.
+> While the device addressing pins could allow multi-device topology, we do not have an actual platform using
+> that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
+> speculatively without a validating use case.
+
+Interesting feature - kind of similar to address control on a typical i2c bus device, or
+looking at it another way a kind of distributed SPI mux.
+
+Challenge of a binding is we need to anticipate the future.  So I think we do need something
+like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
+That would leave the path open to supporting the addressing at a later date.
+An alternative might be to look at it like a chained device setup. In those we pretend there
+is just one device with a lot of channels etc.  The snag is that here things are more loosely
+coupled whereas for those devices it tends to be you have to read / write the same register
+in all devices in the chain as one big SPI message.
+
++CC Mark Brown as he may know of some precedence for this feature. For his reference..
+- Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
+value that matches that or they are ignored.  Thus a single bus + 1 chip select can
+be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
+longer term how to support it cleanly in SPI.
+
+Jonathan
 
 
-I think this (and the others) should be:
+> 
+> Best Regards,
+> Janani Sunil
+> 
+> 
 
-if (backlog && wctxt.emitted)
-
-Otherwise you may delay in instances where con->write_* was called but
-ownership is lost, for example if write_thread calls
-nbcon_enter_unsafe which returns false and doesn't write anything. I
-assume that when ownership is lost, the record will be reattempted in
-the future, thus it would presumably make sense to delay upon
-successful emit, rather than each/any partial attempt? Is that
-understanding correct?
-
-Thanks,
-
-Andrew Murray
-
->
->                         printk_delay(false);
->
->                 cond_resched();
-> @@ -1530,7 +1533,7 @@ bool nbcon_legacy_emit_next_record(struct console *con, bool *handover,
->         }
->
->         progress = nbcon_emit_one(&wctxt, use_atomic);
-> -       if (progress && wctxt.len > 0)
-> +       if (wctxt.emitted)
->                 printk_delay(use_atomic);
->
->         if (use_atomic) {
-> @@ -1591,7 +1594,7 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
->                         if (!nbcon_context_try_acquire(ctxt, false))
->                                 return -EPERM;
->
-> -                       wctxt.len = 0;
-> +                       wctxt.emitted = 0;
->
->                         /*
->                          * nbcon_emit_next_record() returns false when
-> @@ -1604,9 +1607,10 @@ static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
->                         nbcon_context_release(ctxt);
->                 }
->
-> -               if (ctxt->backlog && wctxt.len > 0) {
-> +               if (wctxt.emitted)
->                         printk_delay(true);
-> -               } else {
-> +
-> +               if (!ctxt->backlog) {
->                         /* Are there reserved but not yet finalized records? */
->                         if (nbcon_seq_read(con) < stop_seq)
->                                 err = -ENOENT;
