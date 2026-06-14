@@ -1,100 +1,167 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF48260566
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 15:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A698E3783AE
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 15:35:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781449254; cv=none; b=uaWsKBJUzZqpnV//9DiSoZZ6tb8uYl+In6F58ZofzTztNKNqQE1n2eQoBqavgXD5ENo3vDaOxQji8LSA1jQrqXlVxtSWK+2sfRs/9iUB0YTCVqj8fbSAH6k2Kt2CJcCl+98NnolWUJYtwyQsrru8ZhqdbDHUI7/r3Ng4EcCmmiw=
+	t=1781451342; cv=none; b=taYlLjaWrPMaXmSxjGmXABTaenTzqdc+NOyJrdUrm3vixsCD7I0sk8j1jRCKa6l+4gbeTpd7BAgEnN4bbR9vfhR9YMS/NGlqKeNQhGWhtqIoibnOhe96OTuFjk61kwUAfLITCkOnkH3wgMweYzTQOfJ0Rk28rDx0C5T95FU/Cs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781449254; c=relaxed/simple;
-	bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Siz9A2t+6mWsE8Q1aGnV9E9WFBdolUAmiCrWpoWeVWNWdB+RKonxpTRUycjm2dCCumZBYLiO9qSbz1NDxaN4MKd4OsxIUGMQiEM520fOzn/csj6oMXSujWW7iUEBRumG31NEy06NTpqG6LA3onuxeSvgUAj91DQ6BVVftW0S5fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKaWcFA0; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1781451342; c=relaxed/simple;
+	bh=YipMZO8vcbHpc9Uwgtl34KMkub+gxp1VqBvE4Awkxbs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rurw0wDbHqbX149AnAToog2FkdG6fZM0AzJ/OqGdC/b2VLtKO4ON7AZC4mKs+HzE9O4ZnTjW4FBMEbXrggy1G1s47d1HJfr9t9pbTArIlA3tHLXzdnxsfTboLRdnQJx9lsllzwuJfwKSGF0dc/McUPK3nmDeuM09Cb1spRl0waE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TjQ3bxJD; arc=none smtp.client-ip=74.125.82.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKaWcFA0"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b211ee6aso17949155e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 08:00:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TjQ3bxJD"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3074adb8fcaso3051005eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 08:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781449252; x=1782054052; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
-        b=KKaWcFA09XUjQ9WfBM7ZBHM88looRNGGP7zqgzPm3nqFlwY2wqxjZmmoSg4rs1063j
-         wr5fKqhdR0XIgAIhXsxSA7hWPuVoa++jv0GoFrZB17MgCkqNNREA3EGaBBfP3JOh5HvR
-         uPPBqFVEyd5VPkCOm0kOnqYbJr6cqHx7TDYPiPnz2J0USisk3qrDcQCWRNT6eTEpnbjW
-         r1GIs1W8X4woIK1UwGdKZvfoIO+FmeTsGIkFigdY8GY4V8y8FwCi0YFdA12CSYhxvCP9
-         sgVrSIe1fAtp+O197sdh5oAWmrGbvyl7kXKc3MGyS3OORXZOrLn3BU4Jz4HXBZX30fxj
-         Mdrw==
+        d=gmail.com; s=20251104; t=1781451339; x=1782056139; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pR8769p891UZMpH2W/uEW47L6qds0Zm441UJr101ko0=;
+        b=TjQ3bxJDzYcUOmMTJOpZ4H6fngnPEjLDNuLI/+pVANMM1nlcrXJ8IoeUXrUJ+biVMP
+         zxb9+PZp42x6FWZ5PQDiHJPKBjXyELd+Ext7SQgYQ0Lvsaz7KGHLdlsLHJIBkW7zGsEI
+         xdDDtQJWyzV9v4pQjgT2Z01P7EP63wZCTc2W5aSnysMBhftDkPQM0RgMERNZAmpOoeAA
+         4Uq9wP3W8TNuIUnN1RG9ku2Mj8yVLoqsvqi62AEuILrYbeoZCdQC7Q8W8J6s96265KZO
+         yH4IeFFZuSXNpJ798ItbVxDVyrVa3q4YEuSItXCXBwx9KAmowBXir22tevssOaiUOVaq
+         OVGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781449252; x=1782054052;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781451339; x=1782056139;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bnn83/VQiP0XKx1cDRZdXo5MQrAVpAi8pEi8lZj2+0k=;
-        b=RCigSxut1XbfV7nyzmTx6k2jdq6CFFMD//o4iAJEnf0P5eHwU9u/5KNUrOh6XY8jsD
-         t8T69CBCb79Nq+2wvPTbHxcBRAiVZV7YLeUje8W3StY8u58vKt4HP45n9ZUi/E990Pt+
-         JycEUgj/Zq7OAGh/NH2WtC808k6ct/R2CGcCknJytobCDBV0IwQ8R8pd87g32js+FgUR
-         Zvnqi2c/ed3oaU8OZuveSj1MqA9zEAoKKapajauvydXkKeqklg6k6uPyE93/vCWCaYJo
-         NnTCKqHAuqw3CH3MzWHCAB2xlfJVZQdDM0UV2QFglP/PqghVq2lN2PmIqJGVV+ikjjz5
-         yXBA==
-X-Forwarded-Encrypted: i=1; AFNElJ+XD8OAzOxC1P6t5WqKtezjLeC4qqY7pduNxQpBD8Z18kfpGZ3/J+5V7npeqAd5phwtrc8eB71npXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8GaBetPQCFU3p1tBA/43WVQ2dJdjVJVZeQVOXv+xH5chZg/bL
-	h+49RoqVkmJAcR4WO3sf5uvQ73sQyf/pfFpb2abE6k5cokkoKA/CQ1Pb
-X-Gm-Gg: Acq92OH6zfddGQNLPjgLV4gKLoZ9f8yu9Lky7Yw8vqAYN7YG+fGbNIAmJey0ZjWDpFH
-	+MmlRBvAHz9T7DO/2Qe6bBKWdGp3X8c5F3a+qIeGme6d/z+d8yB8mA6kjc9eKAJYmDodFkxBHwt
-	E5tGvf/wD5+PsOCyjKOJ04rrEr5AIyCcCr+F2vlrMrsfCDNv4JWQ51YY/+S7vuq8/esAId78wMD
-	lsZzngC8aVjrtNzzL3bklXDVJjIWTyZQQnrKAX5D/iUNrUExt2dLjdsQPPGXlovQcAXvhh+S0TO
-	1WNgt+unH/Dm4fMed//zCq67gYwQVslI4RF9O4kw/PM83wjj+7du5gh+r/2KQ7bg3kahyFd0Z0k
-	IEWm8EOy2XHX7Y9uaSS24OpltZE3YyyXBFU66XVbUbgii5gl89qAL+z4jZNj6rYjJYoqxbyZfiA
-	hRyGhkKcfnsPofVDuDMAUcQGSvo/Ia+h+b6BZLcrhRjJSnkWDXpQ5Zd7xUFGqg04RZcDOcDsEF2
-	5GfUE8sVam1+dt5x/w=
-X-Received: by 2002:a05:600c:4754:b0:492:2100:aba2 with SMTP id 5b1f17b1804b1-4922100ac1emr78147525e9.4.1781449251459;
-        Sun, 14 Jun 2026 08:00:51 -0700 (PDT)
-Received: from [10.128.10.215] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203d2449sm153669105e9.14.2026.06.14.08.00.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jun 2026 08:00:50 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <b677c9e4-edd7-42ab-ac0d-d721e7aaf2e3@gmail.com>
-Date: Sun, 14 Jun 2026 16:00:50 +0100
+        bh=pR8769p891UZMpH2W/uEW47L6qds0Zm441UJr101ko0=;
+        b=j61tXIO1PJShkQObZ+ihp5z2BtMZrn9DvasuFtLN8IM7/QEZGBdTwdVfta3qfVuc/c
+         dJTjagsIHSPRiEXsIIzuGilf/Qylw7F8guO/q5ZxIAhBqY+oywqGJUp3Jwtx/x6vzUBX
+         EMicOstvoqG/jOqOnL81yhPgGCjS/2fZ1g63bnWNtg45831yLhx0MJ6GQJcXC9Qzpjby
+         k6SsxmuxFe+OmGi+YPVmybJZc1pXha+zsnuCfyxhXO8VEJNWbT2CNkvP+U1nqPYc1skL
+         ytKZalp1ZzMuhn4S4ND9kH5qrguDJjCxJ4MuxwNO4p2SPDcvH6g6+bx/RAW4IdTyeKnj
+         uwcQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8F60X5krSHGpYO+HS2dAq9EcuxjK+nQ0dOgta1tLKex8/zsoia1lLa6vuTrRURob3ThNlP+2pV+oE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywmx3SPPNwpU8YwM5T+fv13Xan7dT1KL2xCHBApQ9nQD6yiRUuA
+	mFVoDv+3viKM/K7RFMVxtvRM2sWSX8hmk7Hv9JBJKx2sP/5zl7GynRpr
+X-Gm-Gg: Acq92OHfO6wcJD8531vP0j2e1MJYNeE7Oaiuxtd6w6mT40LSvReyi67c0uzDJNtT9wx
+	yPdHRGTDMmWfeqNtqY2Tkb+F0NqAOnYiJZAO4Er7ZruOKHjyzMsS9hcHZE/aOdGqEgR7hke+hHx
+	hrEK0/TNO2XHXvNJloX51DdFlLV+HdC0KFqxDabVnx4NE8BYEoRj3vS3K3Jl/+Xyua6MRkGzOpH
+	TlOrypNJ+ucGNuwWVf7hmbSVad8+8pwrveOCtLAXuL+LtXBOYgCIPUR749CpzMQme6C8CBZSaBx
+	OEmRHeUGBKTmXg3G9jHSg5ZTc4+h8qOyYFfgMgzQVnP88NpLdlOCbtFW9DQ08W/Xlinhzn336Qd
+	V9BnZcuRRq45hzmOzEwhbbqGTMCpvRZ//4k9wex+VRBonIWsoER6fh/dsT9WPmfmtUzyrLFUKUY
+	sDaBJD2byPfhIpSGMu3YD3HSxiX4GwuXF7jH2+mz0mdxXVAsr+708MBOjdfrxwAAMVT2NuXOQyt
+	A==
+X-Received: by 2002:a05:7301:9f0a:b0:304:dfae:68a with SMTP id 5a478bee46e88-30820213e52mr5158364eec.28.1781451338754;
+        Sun, 14 Jun 2026 08:35:38 -0700 (PDT)
+Received: from NV-J4GCB44.localdomain ([103.74.125.162])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0849sm12580632eec.7.2026.06.14.08.35.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 08:35:38 -0700 (PDT)
+From: Jianyue Wu <wujianyue000@gmail.com>
+Subject: [PATCH 0/3] mm/zram: route block swap I/O through swap_ops
+Date: Sun, 14 Jun 2026 23:35:28 +0800
+Message-Id: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kbuild: remove ISDN references in Makefile examples
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Chen Pei <cp0613@linux.alibaba.com>,
- Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Andrew Jones <andrew.jones@linux.dev>
-References: <20260613232830.147116-1-enelsonmoore@gmail.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260613232830.147116-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEDKLmoC/x3MQQ7CIBAAwK80nN0EKJDqV0wPCyyVaEvDNmps+
+ nfR41xmF0w1E4tLt4tKz8y5LA3q1Ilww2UiyLFZaKmddMrAp+IM/MIVysrgHyXcodKUeaMKqLw
+ OfTRkkxOtWCul/P7317HZIxOEMs95+6WD0cmqSBjRGXMeTJ8GpXxCrcn2DqVCsiiDOI4vt8GwP
+ 6kAAAA=
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christoph Hellwig <hch@lst.de>, Chris Li <chrisl@kernel.org>, 
+ Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>, 
+ Barry Song <baohua@kernel.org>, Kairui Song <kasong@tencent.com>, 
+ Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Youngjun Park <youngjun.park@lge.com>, Minchan Kim <minchan@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Jens Axboe <axboe@kernel.dk>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jianyue Wu <wujianyue000@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openssh-sha256; t=1781451334; l=2936;
+ i=wujianyue000@gmail.com; s=id_ed25519; h=from:subject:message-id;
+ bh=YipMZO8vcbHpc9Uwgtl34KMkub+gxp1VqBvE4Awkxbs=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgW51Zh3v9nG0Wlld2Ti8ylp1TnO7yB
+ H+z9CbXty/WEAQAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QLdreTA16fucfMYtRCr0kKLCyUAAQoxuzmykekFWnqFYKkGLmaOZIoZGMb0x7xF17AyieFiOMQI
+ NKjzX+rxzaQU=
+X-Developer-Key: i=wujianyue000@gmail.com; a=openssh;
+ fpr=SHA256:gVWBPJbHGWlCIw+V8F63Ff0k21S7AB5+rZt8+huemvg
 
-On 6/14/26 00:28, Ethan Nelson-Moore wrote:
-> Documentation/kbuild/makefiles.rst uses some extracts from now-removed
-> ISDN code as examples. While they are harmless, they appeared in my
-> checks for CONFIG_* symbols referenced but not defined in the kernel.
-Hi Ethan, are you using the kconfig-sym-check[1] that was recently
-merged? This dead symbol check should not have the false positives on
-documentation.
+This series builds on Christoph Hellwig's swap batching rework that
+moves block swap onto struct swap_iocb and per-backend struct
+swap_ops handlers [1].  Christoph's patches unify batching for
+ordinary block devices and swap files.  zram still needs a custom
+path because swap slots map to compressed pages, not disk sectors.
 
-Though maybe your check also catches dead symbols in C, Rust, Makefiles?
+The first patch adds swap_register_block_ops() so a block driver can
+install custom submit_read/submit_write handlers when swapon targets
+its block device.  The default swap_bdev_ops path is unchanged for
+devices that do not register.
 
-[1]
-https://lore.kernel.org/all/20260527142703.107110-1-andrew.jones@linux.dev/
+The second patch registers zram_swap_ops at module init.  On write,
+the swap core still batches folios into a swap_iocb.  zram maps each
+folio to a slot index and stores it through zram_write_page() instead
+of building one bio per page.  Read handling keeps slot_lock and
+mark_slot_accessed() in one critical section.  Writeback-enabled zram
+falls back to swap_bdev_submit_read() for ZRAM_WB slots.
 
-- Julian Braha
+The third patch moves slot_free_notify into swap_ops next to the
+other zram swap callbacks, and documents the locking contract for
+that hook.
+
+Applied on top of Christoph Hellwig's "better block swap batching and
+a different take on swap_ops" series [1].
+
+[1] https://lore.kernel.org/linux-mm/?q=better+block+swap+batching
+
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Chris Li <chrisl@kernel.org>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Nhat Pham <nphamcs@gmail.com>
+Cc: Barry Song <baohua@kernel.org>
+Cc: Kairui Song <kasong@tencent.com>
+Cc: Kemeng Shi <shikemeng@huaweicloud.com>
+Cc: Youngjun Park <youngjun.park@lge.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-block@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+
+Signed-off-by: Jianyue Wu <wujianyue000@gmail.com>
+---
+Jianyue Wu (3):
+      mm/page_io: let block drivers register custom swap I/O ops
+      mm/zram: handle swap read/write via swap_ops
+      mm/swap: route slot free notifications through swap_ops
+
+ Documentation/filesystems/locking.rst |   5 -
+ drivers/block/zram/zram_drv.c         | 215 +++++++++++++++++++++++++++-------
+ include/linux/blkdev.h                |   2 -
+ include/linux/swap.h                  |  47 ++++++++
+ mm/page_io.c                          | 187 ++++++++++++++++++++++++++++-
+ mm/swap.h                             |  18 +--
+ mm/swapfile.c                         |  17 +--
+ rust/kernel/block/mq/gen_disk.rs      |   1 -
+ 8 files changed, 414 insertions(+), 78 deletions(-)
+---
+base-commit: 842f51deada6449843f811bfa22e536a01ae5a0c
+change-id: 20260614-zram-swap-ops-block-register-a1b2c3d4e5f6
+
+Best regards,
+-- 
+Jianyue Wu <wujianyue000@gmail.com>
+
