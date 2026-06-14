@@ -1,124 +1,209 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3F82D5A01
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 12:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781441765; cv=pass; b=Gi7HOKKCai9dOzYxAjsESPdt/ikNM1aHaoim13UGKhu8K8FPG+1ZEnVxA6AY2XRfoeNGuycoEJC4xr76B221qjMWxU4WOsawtX7Ddf/JXhopP7hNuppWH6SuAEzYY82Kvkd8e/H7l33EQxyNund+QXWo1vylVTWrV0H/wPwzY0o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781441765; c=relaxed/simple;
-	bh=weXwqxQBZCGF/DjDGP8L+VzYsjiEKQCKAFEJ897yvck=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aWUXTmVNibjJVg48Yu6F3gmbTdSwJWhijDylfv6Oh5XwGljbxMHBdh2Nu3pS5w+1ky2SOvEOY23fhovfg1GYNom98g4K0vGD5N4nmDCc3ejTnU6e76byjQLg79ZTJdswV7i6ZukN1mPHvAtsdMIED6htaDY6Q2Nd9rGeyasXGLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=Jq3VySqC; arc=pass smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC03C2F6565
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 13:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781444330; cv=none; b=UXUsF87ZuNBeqvE3sN1PCInIQAYBgsxzvdgd79RCZI6gLYilqxgrNGxA16S4d6PA5/dB4tweT2nLzdWg1953YzojDLe+6fSeyRPnSPpiTbMe7+wKAVvgy/j4NkT5cdyOt+4Pwh4xhd7EzZ3cRqyja9okceaT/3e5c2KJ0GHAL2c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781444330; c=relaxed/simple;
+	bh=imkMf1LWuc5WHnOYfzLBjY+C/lZku32PXLp//Z5mGeY=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=DT9pfnBKCbKa+HNWLE0Q+tc7m2REzlbhjdvBUl3cZtia931/L+oxoJ1Z2Fv1z/IklO49W28G5BccyWbXDBllPswycjykXngyRuJLIID3h9fQAHnqcS/GSXUyGDVNBFofNOCB11iImt+lNTahB1RwvZSlSyJ5EmT895dZ34lHL/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FzkhWlvA; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="Jq3VySqC"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4864abba33fso1587421b6e.0
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 05:56:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781441764; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BitXcAkkmRqNBUEwLbw6wlSWLsHVD4JpNV2ZJBBRprlsrN6LRViqwdK0CkLrjhfbYo
-         miKy3d0Y5gSXAiVU4hA7dmBfd7ioTiWoTiaTeNkzcOoeLSD6kvndjbpKkUKvl/qxVYD3
-         TK0B1noiTSC5B2ApKFXIbWTFuO14GXchYmZJyxvlhOrjc5EgMSdZ69jCM6vUu90TvqYT
-         14dCK1pKXvD2l/+3BprClb61vFUAPymn5aXY/8g2ZSFqn86UKlZHCnOmnm7aQUJtuQWJ
-         DLFYa8slVP2vyhNjj1wfI2jn75mvR7RCLrmZNLNfZh3Xng5FAeX8oMYPTXmCQ/U9UAKu
-         Eyrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=weXwqxQBZCGF/DjDGP8L+VzYsjiEKQCKAFEJ897yvck=;
-        fh=6A+ZQKoNKSh0I3NKCC5nqDcuFM4FVZ7nhOgm+kBHzMw=;
-        b=BCscSYRaiaLOAD3Xe1KrARjIHVSxSamrDoWbVPLdXYtP/9FRgj5ZXqMgR5xmehgNUP
-         KFkodMFlaMykJ9lIMCS1EBJoDxN2DoaaQFdTlg1jxkmHydER3I4Jq2Ga87MsK60b395D
-         IwxKLxdM85h2Ce6ZEme3txNU+HbYNqxk+ehjNlYVCKEwGfPNYI+zFKe1g8HpztnOm+NL
-         c6EIMXK4OhqOZXIVUEgRrTSIp16pg5DlHamubp5/V/ZjLIHiTZe4CN3KZUyKlW1RIN3a
-         V3OSthowbeV6yR8oov4NziEo+6ydOUhO8bTVYGccXUhv3zCGKjxvIFF+tBn3c84BoOMJ
-         X2iw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FzkhWlvA"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-517dc520840so27705271cf.3
+        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 06:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1781441764; x=1782046564; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=weXwqxQBZCGF/DjDGP8L+VzYsjiEKQCKAFEJ897yvck=;
-        b=Jq3VySqCQocu2QqhUGHfXYrQRqmsfdvBMA4utTR0KI3NjpvK4P8+urgrl9yxTCm8hg
-         BQygwGwsx54Go0skCT4Aih3L7UOFSgAx+07FDZ604SyWDBWs629KlQ92gStjkf8XoHuL
-         p1J3XzWUh7g5LR/UQQAPGehjta/Gtwo71f5vlJMFOrEEqEzs9DN3vZ2q9Y+ziPPnYqie
-         gIRFNEeXa6Bo//0MTNUCweERl834Q/IZrHwsE2HztaN7+SQ79m8M3i0Tma9GNwg5J1Ju
-         WniaW51E1kll4XpRLP57+wyiCaPV2WfbdlEv8jYMZnxQ9rDJcnL4QqznP9YJ/C3pzCo6
-         JUtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781441764; x=1782046564;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1781444328; x=1782049128; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=weXwqxQBZCGF/DjDGP8L+VzYsjiEKQCKAFEJ897yvck=;
-        b=DFdf7WJzgt6tKF6qG/bhswbOOQyUbh8t+KudMegqomj4kYGt1VSmi93Sa0YpJnWsl1
-         +/cH0F1u/baikzYqOWzolkeClcK8vap+AgIzdJvQYWFAwu5ndYPgI4gy8MyVIDF8kn+2
-         sNF354eHs5UB7gb057PMPC1VP7Q8mIQDyl77D7i3f2L/EcuOL3x0WvvCtJzOEo/siTD7
-         mqf9paU684H7YkpB5l0i1gJSZ4uLHHvacSAwniY4b305S+hLjtcGHdkwZPydaIce3FfI
-         8PkWpo4tNAvQMdxD8jR7Krot+qQvxL+MN6UrP+GPd/wWNTurVcy3woXEMFjgPEBUPghH
-         IILg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ywHRKUk7lqWsX0sy0gpaF38FOGaganh4a7/68hR1QdUoyC0EGyXpqQV+MUubIs138pRGRxauTYPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDon9VXEFBwWCEgZLj9zy/OHJOyKGqzWohsptsOgmRRAEW/lVs
-	QBlRgCEvZU7TF+oAUYY3EsBmOZ2sbKq5iBYRtqR2Y5MWwCyIIsVoC0eNtQDRkP4HrCc2R7MBEdN
-	FIvl7aDoT5plB49Jcn3RnRnoExHRnQM8Chy2/p8aAVQ==
-X-Gm-Gg: Acq92OFeeRUGoN3rx0nkXbLoZR2JcGufNkwEAM20zUfqBwditSk9ZhjjDYL/+RqkNfH
-	/u3U3yDDMJWmYM4FslbDkSP4kvZWukp960cVh334tyGT7QmsEyoD8wimyEeu/3P02OZ31Vz89HK
-	EWkFAEXPhAUnGKLDYCQJ2Z5wgitSQsuG5IZQjITUjG2Gk0vMZTA1AviD6zICH7j9Xyn1G1arwJf
-	K/NnLUhBet122rdx54DPJv+O1i1c9hu8OEuCZp0FQxsD1rUDEcOHxiznEhve0Uqs18KCo8NhtJC
-	6DLzaYwwWcKSFfDgW0w3VfFsgPj6tW7g54Z4GpXU6GtYY2xg8GJUebGCckD6XXo8p4Wbk2U+mqV
-	SY4pPOH9RzcPmqgUzrJ3+hAxEx1SDXQ4rXnDkGG0=
-X-Received: by 2002:a05:6808:3025:b0:486:4b79:12b6 with SMTP id
- 5614622812f47-4872dde9912mr5576862b6e.9.1781441763846; Sun, 14 Jun 2026
- 05:56:03 -0700 (PDT)
+        bh=XXg+GT95yYO4T14XPgWTJKtcxJfATzJGx0/pfKwDeqA=;
+        b=FzkhWlvAinGRVWzFvkq0b8rhoeql2geAfWJe87dnHiKgbbwsvaO0UO1d+UjOUUK7zJ
+         bdznGBvnaT4k2ll8qSO+OlEcX5/ManmerWMwrLbWyX+oT12ApQPM+c/VfOA6ZJLGkMCq
+         cFcCMainMSBOPzY8IIqJ/bwYYBXNrjqPJdLUvhlnXYYvPyh/hhCBur6veftbCfKx8FbV
+         m7B6sBi2gbTp65Ufw7yFiZQyWo0qd0rhr5AgR79MQphRQNfVv2Lt2QeNdJJMxphTk1oE
+         WwBF7nAO3kelpIhqXaqZxeWQqQzQmuJbOeY2lKnwrudqgd9tvrFV9PSdmy+/JJAzImbh
+         2nVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781444328; x=1782049128;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XXg+GT95yYO4T14XPgWTJKtcxJfATzJGx0/pfKwDeqA=;
+        b=RnjHa0lQcB/eYVWzH4sr7Kwlf2BRqndTkWIs2zltsVJ52KDPg5R50iJxJcUEf3Efx9
+         19yTag1Zh6pwy26Q1PVx825+cXPeF4oLskscD/7DgWtHL7RRsyt0QF4HmOQg5VLD1I8S
+         NEpgHdW3BSenkwgFmPP2WS1GIB4u/NaxPJFINKwvgm6cR7gKBYdqfkX/ZfzlD7zG0uPt
+         wCl3jjG7+zCEPeyVgu4IJfOo5Xos/7kyqzWfS/nfCUjpRX8zsFVJrkVzKT7//Rccdsvn
+         fEnfQwN9qy9XDWrgvJ9ouJLdKz59b7EvQAE3U/QHZURhCEISkh0zgOEdpPb0mX6phkAM
+         riMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ptX7uwlnxZlB4ziRgWhko9CFJ13MLhGeNGi8X7sBUXsO/xqVZRABHidRRUm/d3FE54gr5owGzk28=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziWyFvqBD/mfgO/jYnr0VHSKtv+9LM5c8iREocfRZ3ZdXZ6wFl
+	Kt1eXacAJYNn3Nv99h3CsMzf51zt2ZjauuJcLBB21ybZ9diVm9/nIlnaJXsSk3+dRbA=
+X-Gm-Gg: Acq92OFrDyGqP12sVSXhWMEg5jNu+8LgxxRDnBv2+kk/bD1oZdH2DP4zSpv1Wlr88mG
+	JlR0T679Ks9qhGsAv5zjzCy9WiUS36gtgj/pgMxJ232zKncJ232FGg7gHQamPcZHXvRQycXF1LR
+	oVp6TjZfkz5HwGr2PaeUChfhM/8516eCaW7CIoZ1t83VKaz4rJyvBqqlZxNfFKkXDSYPx7Sfk7V
+	XMm8fTbkbTGjbE9L7BC4h5SdhqW53Hi1grWubVQU96evgqGYX7mmgTiRtCSyKq9u1CJ6wi/wGZW
+	GbKuBXXCe92WSpiNMWadGtN+bb3ADXDySuaLn3t00Z9DQxnSzXgYO7A1QBGByjeN57mFE29KbQ9
+	NRmlAqYCFIa3bVrTBpCzgzpptoXc4bviqZ2nx+vo28hLnK1DaJoIn0hS51q0U00VHe8se1IoaQU
+	htCMQkY2qZ6uwkiynk2a7T5m+s8o/mmHixEf01Id32WiisYJIAMq2T95yZgp0/
+X-Received: by 2002:a05:622a:8387:b0:50d:66b6:1564 with SMTP id d75a77b69052e-51953503dcbmr85951991cf.14.1781444327877;
+        Sun, 14 Jun 2026 06:38:47 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb7dad16sm73669631cf.21.2026.06.14.06.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 06:38:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601-deprecate_boot_delay-v1-0-c34c187142a6@thegoodpenguin.co.uk>
- <20260601-deprecate_boot_delay-v1-4-c34c187142a6@thegoodpenguin.co.uk> <aibfFQpK0Se-SiaT@pathway.suse.cz>
-In-Reply-To: <aibfFQpK0Se-SiaT@pathway.suse.cz>
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Sun, 14 Jun 2026 13:55:51 +0100
-X-Gm-Features: AVVi8CcZ8P3gD-g-OZJNOPUE3PVXT5e3I-du7zp9_GgQG2DxRwtKKm-rCROOcqc
-Message-ID: <CALqELGz7F0eL9e70OfJLMFLNKDhCG237hr0gG5qo-8pDuEo9Dw@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/4] Documentation/kernel-parameters: add/update printk_delay/boot_delay
-To: Petr Mladek <pmladek@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI
+ devices
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+ Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+ Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <20260522202410.3104264-4-dmatlack@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-4-dmatlack@google.com>
+Date: Sun, 14 Jun 2026 13:38:40 +0000
+Message-Id: <178144432039.1257322.9644414453415904478.b4-review@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3299;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=imkMf1LWuc5WHnOYfzLBjY+C/lZku32PXLp//Z5mGeY=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqLq7l1REohFN/W+c/zZvmZsiNBGib+GmmJ98Xn
+ Q+7rb16wzOJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCai6u5QAKCRC7dyhM23N6
+ 3kxIEADBd+AmGBTMM3+Eeu1O0iFW2mY7VSiDXVMIuYE2Aff07zDsPuFqh4iaxqw5y6yQq1RDRS9
+ C+LCuvNoHjr972Bm+MNjX7C07NBMYiDKF/eZq0xHbj1XYcvY3GjqVzl5O2NnP0UkUp3d5XxdB2U
+ kRMKTDUBoWa3SJaUak+oxi08sxN+Je36bFKJwqBY9dcpbDzgF/LY2TXsLUIsLhTK7mJJZ1Zua4D
+ UllLotthUK/tr3huxjhNXxTtHxzpkCFabCnjYT8xZjmKs/WZmMMSP5laKjVC95NnLsDcZQZJcaY
+ fVhlX1FaX9DSWDdZ7SsxAYVJ7Ur3pbt9FjS0jeI2lOhMlBGh/ybDkx4+LAnHvXuwa1taPVB55fP
+ eavqiJEVaCFIZWubPMrJDMotiK4Re7Jw1ldxwPS0Qef24xJe0PBaNgnXCwEFfIGun6uZ2ev1uiD
+ hsnw6UqUOs1u/utfaWudvAaNnZjzHo0l/k5+sc6C6QYbwAOSME6sT5ASpuABBfnrKTvMiveYmU9
+ iSshqRHWh3vmaVHLAuamw7P21HrLeUpe1rAs+hC2gyfZ3ZKwrw4ErSfhqVMgkOBVovFuHcx1P/7
+ lQyQjY82doo6RAVRWKXjvFekoAN0iqkrC5llrFeQHZvb2oyr/0eG3Rdd4Ga+VUaHcMzU3/xLWHV
+ PULRypTcExsyIYg==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On Mon, 8 Jun 2026 at 16:26, Petr Mladek <pmladek@suse.com> wrote:
->
-> On Mon 2026-06-01 00:17:40, Andrew Murray wrote:
-> > boot_delay has been deprecated in favour of an extended printk_delay,
-> > let's update kernel-parameters to reflect the addition of printk_delay
-> > and the deprecation of boot_delay.
-> >
-> > Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
->
-> LGTM:
->
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
->
-> Best Regards,
-> Petr
+On Fri, 22 May 2026 20:24:01 +0000, David Matlack <dmatlack@google.com> wrote:
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 10c9b65aa242..e68ae5c172d4 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -330,7 +330,7 @@ config VGA_ARB_MAX_GPUS
+>  
+>  config PCI_LIVEUPDATE
+>  	bool "PCI Live Update Support"
+> -	depends on PCI && LIVEUPDATE
+> +	depends on PCI && LIVEUPDATE && 64BIT
 
-Thanks for the reviews!
+Please move this to the first patch, fewer changes between patches, and 
+also KHO does not support anything but 64-bit mode.
 
-Andrew Murray
+>
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index 065d5af822f7..96c43b84532c 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -128,13 +157,49 @@ static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
+> [ ... skip 31 lines ... ]
+> +
+> +err_xa_destroy:
+> +	xa_destroy(&incoming->xa);
+> +	kfree(incoming);
+> +err_restore_free:
+> +	kho_restore_free(ser);
+
+This is the pattern we have been enforcing in other places in LUO. If 
+the first retrieval fails, return the same error thereafter.
+
+> @@ -270,6 +335,91 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
+>  
+> +static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
+> +{
+> +	struct pci_flb_incoming *incoming = NULL;
+> +	int ret;
+
+Maybe make the error return static, and avoid another search through compatible 
+FLBs if it failed before?
+
+1. Add "saved_err;"; if it is set, return it right away.
+2. Change all errors to use goto save_err;, and at the end of the 
+function, assign ret to saved_err;
+
+> [ ... skip 15 lines ... ]
+> +	 * This could mean that no PCI FLB data was passed by the previous
+> +	 * kernel, but it could also mean the previous kernel used a different
+> +	 * compatibility string (i.e. a different ABI).
+> +	 */
+> +	if (ret == -ENOENT) {
+> +		pr_info_once("No incoming FLB matched %s\n", pci_liveupdate_flb.compatible);
+
+I would assume this is very normal, e.g., no devices were preserved but 
+memfd+hugetlb was preserved. Maybe use pr_debug_once().
+
+> +		return NULL;
+> +	}
+> +
+> +	/*
+> +	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
+> +	 * but it cannot be retrieved.
+> +	 */
+> +	if (ret) {
+> +		WARN_ONCE(ret, "Failed to retrieve incoming FLB data\n");
+
+No need to print backtrace, please just print a warning:
+pr_warn_once("Failed to retrieve incoming FLB data: %pe\n", ERR_PTR(ret));
+
+> [ ... skip 34 lines ... ]
+> +	 * through pci_liveupdate_finish(). This can happen if PCI core probes
+> +	 * the same device multiple times, e.g. due to hotplug.
+> +	 */
+> +	if (!dev_ser->refcount) {
+> +		pci_liveupdate_flb_put_incoming();
+> +		return;
+
+Pleaes use 'goto put_incoming'
+
+> +	}
+> +
+> +	pci_info(dev, "Device was preserved by previous kernel across Live Update\n");
+> +	dev->liveupdate.incoming = dev_ser;
+> +
+> +	/*
+> +	 * Hold the ref on the incoming FLB until pci_liveupdate_finish() so
+> +	 * that dev->liveupdate.incoming does not get freed while it is in use.
+> +	 */
+
+How would that work? If finish is not called FLB stays around until the 
+next reboot.
+
+-- 
+Pasha Tatashin <pasha.tatashin@soleen.com>
