@@ -1,85 +1,76 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9D9D21FF2A
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 02:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3BE171BB;
+	Sun, 14 Jun 2026 05:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781403094; cv=none; b=k/66ANVeKwN/D1eUIg7YjTAZm0XyPniL1eI6Lijbufw1ZgzSrnH/Ed0z74R9k3eRTH1lJqR7VBYLWV6ueHIef/9XWmzKrcsn1pgANSQ1rkzB40XnhBXcmupp+Cf+skptBoskajj8kac54MAI3YwXaN0GRtndJki0lUO5oYi3Gl8=
+	t=1781414706; cv=none; b=oE7h56tA56Ylx+uu+nr+jXJSeXTZqny7rF6xtzvj0wqPdlq6wcpZBypVFEPwMBKtG6xolsLgUkPxpduaR/6Mg9l/5VPxpLISenBW09vgU0Ri3L+6pLAskWqLqA8ElfL8+2kdE+Ih5vLUhXVnS+kCesfr3Y5OlBJXYWZWDzHm1hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781403094; c=relaxed/simple;
-	bh=/TmpsURhEHqg14NcBlP2d3UQmMBclGEWmzmDYTVpvtA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rAj6fEvuweUH56W9Bc1PuXTDdDPfScCDIpeHqbwyve2rXGlY1P2yc64VKN/jOaq0K7L6cCbOmoeQ2EUgPYxoKBA2VeMc7UUkFWCXbr4oesTtvC1E9gqQklCqsD2Zkp0l9G0+Ti8y7c5PpTE/QQEAW7MA4CcQDtaiXy8GmM+CUpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAnCQ6qDS5q0sAkAA--.37873S2;
-	Sun, 14 Jun 2026 10:10:50 +0800 (CST)
-Received: from [172.31.11.49] (unknown [120.236.78.138])
-	by gateway (Coremail) with SMTP id _____wB3oBCpDS5q0SgeAA--.32977S2;
-	Sun, 14 Jun 2026 10:10:49 +0800 (CST)
-Message-ID: <0b7e4f61-c41c-4c15-9569-f059159816dd@hust.edu.cn>
-Date: Sun, 14 Jun 2026 10:10:49 +0800
+	s=arc-20240116; t=1781414706; c=relaxed/simple;
+	bh=jKNFQoYyYRNM6RN88LE0ftXAaIzYOVu4XaPPMvfQ23w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DXS0Pi/sjm1P7Z4jXWMRoGRK66FRbRPS5SiA+PV5D9pKw6ZUkWTuI0NlV7pCEZl6cmLGtlALv8+J2ZBvE+KmyXSjDGqLtF8ScVXquMW/afkuySIUo8K0Kb7yvzZnDnEwHg6XBFAiDMnsDA3d3qOB0JQ3ixulX434tnDohAJaJjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FAl0yXEr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FAl0yXEr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=4+ezzVnmGX883Tcu2dMk/g9oTPSI9CcgmXMGW8cRAkI=; b=FAl0yXErwl8YxSwUca7gGHKoZh
+	eAAh10O16P4MQMAPGfCm+gjTj/SU+ioDdlbs1ypa4JXUeAX+cWfQ4VG8DiJMA3rWEJPddarKW+e3l
+	cI5F72mKzJqZqpNHK5QnRgKwNUe4/TcuaPFtlHY35pSn/V9Gr8CgjT7096uf5/5LW1edVym+SV3Zk
+	Cd+fIB5GKmO1Hc/FdDXLcNg6hWpqBQZ+mCIWwYR38DFqCu4KQU5UyaX7BP3WWiJQA/7E8OYQ6aV5P
+	lM0JzOEutocCVbdvvH60SUJr06qb242WTN2zKmN1k2VfV4MyolRHcxeV0KLKU9SCoFGw5lQWMZaLN
+	TIJdLh5Q==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wYdL4-0000000ClD2-0NT5;
+	Sun, 14 Jun 2026 05:24:54 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	netfilter-devel@vger.kernel.org
+Subject: [PATCH] kdoc: xforms_lists: handle DECLARE_PER_CPU() in kernel-doc
+Date: Sat, 13 Jun 2026 22:24:52 -0700
+Message-ID: <20260614052452.1557987-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: fix CONFIG_CGROUP typo for CONFIG_CGROUPS
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20260613211300.86016-1-enelsonmoore@gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260613211300.86016-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAnCQ6qDS5q0sAkAA--.37873S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWrZF1xuFy7Gw1xKr47tw1UJrb_yoW8JF1DpF
-	Z7KrWxJ3WftF15C3ykC3y8W3WrJan7Gw45GFsrt3Zrtwn3JFWrJr4Yyry2gasxWryfAFWf
-	XrZ0kryq9asFywUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Xr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
-	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
-	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x0zRK-e5UUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
+Add support for DECLARE_PER_CPU() as a var (variable) as used in
+<linux/netfilter/x_tables.h>.
 
-On 6/14/26 5:12 AM, Ethan Nelson-Moore wrote:
-> The Simplified Chinese translation of accounting/psi.rst
-> contains a typo CONFIG_CGROUP for CONFIG_CGROUPS. Fix it.
->
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->   Documentation/translations/zh_CN/accounting/psi.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_CN/accounting/psi.rst b/Documentation/translations/zh_CN/accounting/psi.rst
-> index a0ddb7bd257c..703bc81ff9be 100644
-> --- a/Documentation/translations/zh_CN/accounting/psi.rst
-> +++ b/Documentation/translations/zh_CN/accounting/psi.rst
-> @@ -148,7 +148,7 @@ psi接口提供的均值即可。
->   Cgroup2接口
->   ===========
->   
-> -对于CONFIG_CGROUP=y及挂载了cgroup2文件系统的系统，能够获取cgroups内任务的psi。
-> +对于CONFIG_CGROUPS=y及挂载了cgroup2文件系统的系统，能够获取cgroups内任务的psi。
->   此场景下cgroupfs挂载点的子目录包含cpu.pressure、memory.pressure、io.pressure文件，
->   内容格式与/proc/pressure/下的文件相同。
->   
+Warning: include/linux/netfilter/x_tables.h:345 function parameter 'seqcount_t' not described in 'DECLARE_PER_CPU'
+Warning: include/linux/netfilter/x_tables.h:345 function parameter 'xt_recseq' not described in 'DECLARE_PER_CPU'
 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: netfilter-devel@vger.kernel.org
+
+ tools/lib/python/kdoc/xforms_lists.py |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- linext-2026-0610.orig/tools/lib/python/kdoc/xforms_lists.py
++++ linext-2026-0610/tools/lib/python/kdoc/xforms_lists.py
+@@ -118,6 +118,7 @@ class CTransforms:
+         (CMatch("__guarded_by"), ""),
+         (CMatch("__pt_guarded_by"), ""),
+         (CMatch("LIST_HEAD"), r"struct list_head \1"),
++        (CMatch("DECLARE_PER_CPU"), r"\1 \2[PER_CPU]; }"),
+ 
+         (KernRe(r"(?://.*)$"), ""),
+         (KernRe(r"(?:/\*.*\*/)"), ""),
