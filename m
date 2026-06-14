@@ -1,101 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from lgeamrelo03.lge.com (lgeamrelo03.lge.com [156.147.51.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C4D31714B
-	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 09:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F9E347C7
+	for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 09:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781428484; cv=none; b=Fg3IJooa2H4sXc8+3r3j++d/Vx+XsTD7pk06jlOVp/iFkWAVFQO9oxcfOGQIHZofSFUJc0fN/ABXzrxDGGVChWdQssPNZdgyOnBdwR9sYfHcMjB5A02RBTqtgX4HVPLglOGz7E1CfcyxrpGisboOBtYEE7AH8TgCQ7ADdM8pLDc=
+	t=1781428996; cv=none; b=Q8X/9kaSwvhHAYLItg6dUU2Z2HeK4W8jV13EXx0dlA1JTz+Ydl3JKcqUI9R/oHVnHDt5KY/gwPZ0WRG1bRQjHqUEIFCb1YkpIfR8+xr/NA/fVl+KLTBpkPPSMjG8WoA+/zG3j/S35PY38S3yxz5A6CgYurjyL56CQhPEHNTEwBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781428484; c=relaxed/simple;
-	bh=pMDQCbEdAremaxVE4eNOWM6qSqcfZc6GO4d6bu0Q+C4=;
+	s=arc-20240116; t=1781428996; c=relaxed/simple;
+	bh=ld+wVFU2oJQmVv/sNSfBsHnWdT8YxnJkps1+6Uwbkzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u0uvg3yT8FRcB3bz4kdqoSvgAPlDhIY/l5PW1a2DFOUc9ejPN8Li6oxQGdJVRXz0dAEiTLwbYEDjgmBsJPpCXpTf9GG/Gor3itfGSqP8l1trBPIo6ZxGtqgRjyHQ3nsrVxsQIgcQZwHgFBjY5FZ16QtEcMl1/hSRff1BDn6DJEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMx8Eb/8; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UMx8Eb/8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9BD81F000E9;
-	Sun, 14 Jun 2026 09:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781428482;
-	bh=PTdII44FGFmJdbMtCPKaS2eB6vk6Xg9WicWBVorhrQU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UMx8Eb/8JnZEGxjCkj5fbSZIF8ouy/FZaJqolliub6IojIr7yzYw9OXytXU+YyLzG
-	 1sfXtl3YbiZTHx4pobKS44wrOe/9MYhm2tWwd31Ert3JNdVaXqg114iI+UWTuy4OjW
-	 eEq7hlRisAo9IafOG18VOinIoj/K4b0RqrIZFDM1y5lIoa8PmtHJeKDDrIZSW/aEVw
-	 WaSKWCYHK5mZ04tE5rKZ8HuRwYBK/0w2yG1YGIlxnc5hKe4rk9Nn3wgPZK3PHPflvl
-	 Us+XMr6qFdCT9iRh/a2jnmp39Sb0AR4c4PW9TiXmXDwBbHO7SOyAGNjWnkqwUDaRak
-	 h+seQ0Hl9eOnw==
-Date: Sun, 14 Jun 2026 12:14:35 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs/mm: describe current criteria for enabling split
- page table lock for PTE tables
-Message-ID: <ai5w--zzNaUHuQ6S@kernel.org>
-References: <20260613221448.98657-1-enelsonmoore@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=N0yGPl4IuKM+geVWHlcjpJf+Kd7WJQjq9IeLMmK97jDApZBYhueBTgFlXh6Q5kfuzkcpYIjy/KH+suerRtatNVHE4AGCJgf9fJgiRWKBob7PUpGJFe2Ob71atRbeE8RLZl3/sE5YJO1VUrC8uzknJrYOV1LELqEjECypzgY3DQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
+Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
+	by 156.147.51.102 with ESMTP; 14 Jun 2026 18:23:03 +0900
+X-Original-SENDERIP: 10.177.112.156
+X-Original-MAILFROM: youngjun.park@lge.com
+Date: Sun, 14 Jun 2026 18:23:03 +0900
+From: YoungJun Park <youngjun.park@lge.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Yosry Ahmed <yosry@kernel.org>, Hao Jia <jiahao.kernel@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org,
+	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev,
+	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org,
+	chengming.zhou@linux.dev, muchun.song@linux.dev,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org,
+	kasong@tencent.com, baoquan.he@linux.dev, joshua.hahnjy@gmail.com
+Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
+ proactive writeback
+Message-ID: <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
+References: <aicJBVT4pBvmyooT@linux.dev>
+ <aicZ-5GX9De3MAU7@linux.dev>
+ <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+ <aictKA0XWMWbxFdN@linux.dev>
+ <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
+ <airzE7jD9UtyR17J@google.com>
+ <aisEWnb3pzmVC4dl@linux.dev>
+ <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
+ <aiw2p5ANjsQUCIHA@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260613221448.98657-1-enelsonmoore@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aiw2p5ANjsQUCIHA@linux.dev>
 
-On Sat, Jun 13, 2026 at 03:14:47PM -0700, Ethan Nelson-Moore wrote:
-> The mm documentation regarding split page table lock for PTE tables
-> refers to the CONFIG_SPLIT_PTLOCK_CPUS config option, which was
-> superseded by CONFIG_SPLIT_PTE_PTLOCKS in commit 394290cba966 ("mm:
-> turn USE_SPLIT_PTE_PTLOCKS / USE_SPLIT_PTE_PTLOCKS into Kconfig
-> options"). Update the documentation to refer to the current option and
-> document the situations in which this feature is not supported.
+....
+> >Based on the memcg interface currently proposed in swap_tier
+> > (memory.swap.tiers, memory.swap.tiers.effective), I think it aligns well
+> > with the current direction. It provides a foundation for selectively
+> > targeting devices in tier order.
 > 
-> Discovered while searching for CONFIG_* symbols referenced in the
-> kernel but not defined in any Kconfig file.
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> ---
->  Documentation/mm/split_page_table_lock.rst | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
-> index cc3cd46abd1b..c9d16024543b 100644
-> --- a/Documentation/mm/split_page_table_lock.rst
-> +++ b/Documentation/mm/split_page_table_lock.rst
-> @@ -37,9 +37,12 @@ There are helpers to lock/unlock a table and other accessor functions:
->   - pmd_lockptr()
->  	returns pointer to PMD table lock;
->  
-> -Split page table lock for PTE tables is enabled compile-time if
-> -CONFIG_SPLIT_PTLOCK_CPUS (usually 4) is less or equal to NR_CPUS.
-> -If split lock is disabled, all tables are guarded by mm->page_table_lock.
-> +Split page table lock for PTE tables is enabled compile-time (via
-> +CONFIG_SPLIT_PTE_PTLOCKS) if NR_CPUS is greater than or equal to 4 and an
-> +MMU is being used. However, it is not supported on ARM processors with
-> +virtually indexed, physically tagged caches, PA-RISC processors older than
-> +the PA-8000, or 32-bit SPARC processors. If split lock is disabled, all
+> Here instead of cpuset like interface, we may want more zswap like interface
+> where you can put limit on the usage i.e. memory.swap.tier*.max. We can start
+> with allowing only two values i.e. 0 and max which effectively will be the
+> same as what you need.
+>
 
-"it is not supported on some architectures" would be enough IMO.
+Good idea, and it's certainly feasible. When I considered this a while
+ago, the reasons I didn't take this direction were:
 
-> +tables are guarded by mm->page_table_lock.
->  
->  Split page table lock for PMD tables is enabled, if it's enabled for PTE
->  tables and the architecture supports it (see below).
-> -- 
-> 2.43.0
-> 
+1. There's no real-world usage for adjusting the swap tier amount (it's
+   either 0 or MAX). That said, your suggestion to initially allow only
+   0 and max is the killing point, and it's making me reconsider.
 
--- 
-Sincerely yours,
-Mike.
+2. The implementation cost seems high. The current implementation
+   handles this at runtime via simple masking.
+
+3. Relationship with swap.max:
+   - If we tie it to the current interface, wouldn't limiting the swap
+     amount within a selected tier already be possible? I wonder if
+     that alone is enough.
+   - If we add tier.max, it would need to be a subset of swap.max.
+     (Any other complexities here?)
+
+4. vswap enable/disable: vswap doesn't seem to have an amount-control
+   aspect, so an on/off semantic would be clearer.
+   https://lore.kernel.org/linux-mm/ai5kOOmR1LPTWs1J@yjaykim-PowerEdge-T330/T/#m8831ec057bf9387978d3bd698f51920600e09a04
+
+In that case, the internal logic could stay roughly the same rather
+than counting via a page counter. Something like:
+
+1. Change the interface shell: tier.*.max — allow only 0 ~ max.
+2. Keep the internal logic as is: 0 disables the mask (child memcgs
+   off too), max enables it (child memcgs on too).
+3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
+4. Extend later if use cases arise.
+
+On balance I still lean toward the current interface, but if a per-tier
+max is the better fit for memcg's direction and others feel the same,
+I'm happy to switch. I'd like to hear Shakeel's thoughts again, and I'm
+curious about others' opinions too.
+
+A few more perspectives on the points below.
+
+> I will respond to your other points later when I have time.
+
+> > 
+> > To summarize the discussions so far, the following points align well.
+> > 
+> > - Per-cgroup swap control, as I suggested.
+> > - Proactive zswap writeback (Hao's usecase)
+> > - Swap device target demotion(if it wants selective, then it is more better), as you mentioned:
+> >   https://lore.kernel.org/linux-mm/aicZ-5GX9De3MAU7@linux.dev/
+> > - Virtual Swap on/off in the future, as Nhat mentioned:
+> >   https://lore.kernel.org/linux-mm/20260528212955.1912856-1-nphamcs@gmail.com/
+> > - The memory.zswap.writeback alternative (no hierarchy model conflict)
+> > - zswap is first swap tier.
+> > - Promotion. (Also better for selectve usage)
+> > - tier based swap policy (e.g round-robin...)
+> > 
+> > To accelerate this work, I believe we should reach a consensus and
+> > merge the currently proposed swap_tier interface :)
+> > 
+> > If the above approach is difficult, I would like to suggest an
+> > alternative for progress with the memcg interfaces removed:
+> > 
+> > 1) We could make zswap the first tier and create
+> > a use case where memory.zswap.writeback internally is handled by tier logic.
+> > 
+> > 2) Or simply merge the swap_tier infrastructure itself first.
+> > 
+> > This would allow the swap_tier infrastructure to be merged and discussed
+> > more easily.
+> > 
+> > If it takes longer to adopt swap_tier anyway, by doing so we progress next step
+> > as a experimental feature.
+> > 
+> > - Apply per-cgroup swap as an experimental (debugfs) feature.
+> > - Apply Hao's use case experimentally or as it is as Yosry suggested.
+> > (future migration to swap tier)
+> > 
+> > How do you think?
+> > 
+> > (FYI: My emails to kernel.org are failing due to internal server issues.)
+> > 
+> > Thank you 
+> > Youngjun Park
+
+Let me clarify a part I wrote confusingly. Handling
+memory.zswap.writeback via tiers is possible, but I don't think the
+interface itself would be replaced even if memory.swap.tiers is adopted.
+
+Selecting only zswap in memory.swap.tiers would not just disable
+writeback.it would also block regular swap entirely, which differs
+slightly from the current semantic. (... "Per the cgroup v2 docs: a
+zswap-only tier setting is subtly different from setting
+memory.swap.max to 0, since it still allows pages to be written to the
+zswap pool; this has no effect if zswap is disabled, and swapping is
+allowed unless memory.swap.max is set to 0.")
+
+So the interface itself needs to be retained, and it could be extended
+toward selective writeback — e.g., passing a desired tier into
+memory.zswap.writeback so writeback targets only that tier. Currently
+it only controls on/off. Other tiers probably don't need this. demotion
+based on the selected tier should be enough.
+
+Thanks,
+Youngjun Park
