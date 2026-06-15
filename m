@@ -1,163 +1,71 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62959128816
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 02:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7DC28E0F;
+	Mon, 15 Jun 2026 03:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781491560; cv=none; b=NyQJYyyYQ0Ll3emxhVk9pkhhdvYEbFAsXGMoaUHrrjjQoKKPq1MkqOH3sc/tpCQY2tYS3PeZLdY5E3l9UBu5pm81pZX0grr2HhmWTXzjr7TxUMrz3W5VbUBgrjNPOQXkKASokCVytU+yHJPK+V+PUw4nK9faq14B6umZs1+nwuk=
+	t=1781492678; cv=none; b=FVgy+Y1Ec4vKGAYM6vKygd1dpQhv7apQKKU/kOwg1lp+tEQDn14Y5p+SQy1oadXTaCX5+SgfPFa7hcw90FmPmjmIhR6/5hyTrWzQB8wmjaN8WkeGq15eeRcVVWxmrdi5k7j6IUNbKlFTYVwbVz34M3Jgt9rS3tr+vq8LWOQCJQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781491560; c=relaxed/simple;
-	bh=aR4W3BEIH8IzDqlwprPAbjrY4D4yzLAM0ofXLYgoDYs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gw0BnZ3uc1e0IwfVYIg3mzttIEP8SinWu17Ll+XXilJw+oHQ2AtJY7of5Cviomro9fWcVQLV+yxYoC2I5w0oI44P6SaPfIfszBBp1S25iTyxHhPd99wzBEnlRb/I6gTvkzx4Z63cXemUGPbARbcFYv4m5Zhub2X6BWRj0jsoAeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jag6rI1F; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781492678; c=relaxed/simple;
+	bh=F21MQifZHkdI0LPJ7aH9/MswjVZZanEyqZpdCZalIQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkyl9EG6WhoS9CmepLZuKZ5FGQZbYv6/hyIB3Pp6zREj58YFgtkroEjomhwh7dUJ2/dvHeOUKTXOixO5kqubbAPzN0SB+fDgSNYuaSQ5DXL9vJdss89WQW9QfkjD7FIcBGkeZ0wqJS2iBtvqSfLgPRwS8Na2fyZsthfvyWMHQ4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVpgvAcA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jag6rI1F"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8423f869421so2211530b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 14 Jun 2026 19:45:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781491559; x=1782096359; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e8NLHGVjFApYnrN7TuvQPcE5946BfMaA9XvCk6482m8=;
-        b=Jag6rI1FMUqPi5tSLDwGSR6NxRdjU+vayODZsRp0rQ3m1EApo+64kJLcIGGhO8XDpy
-         FtPdzyOsJTJHkguVvLw5D+DKeuuRInNpzO6Ypj/a6wGADl6kIJy08JE9/Dof+KOwDlAf
-         nc8hdtZGmzlZ1VJf/0d7sLDvhONy09yOa9TgWpm6QJa+S4W5dTYVYvi1zVPw0fjZFYoL
-         6m0b2KReYsgGxpjNzz1VcDS6S+RVeFciMph+ISAgmQmcaVYOyht/qjM2a52BqoPNvoiJ
-         tTsn4lgdsljYSTAMk/iZZJ6buuDFA0hh7gvEQdAm9vVld9lMKMIwJ2QBqyqEiOz7yHcg
-         ZEcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781491559; x=1782096359;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e8NLHGVjFApYnrN7TuvQPcE5946BfMaA9XvCk6482m8=;
-        b=JMWPOX94T5xG2zf5WNdw1htT8zwTyEzGI2O6FEvhqDfGUra16xdqLG9DwbHh3vcKV6
-         8bEMtQ/cu3CWQuwYgAs5x5puy62d2H9tL8MjhCLGm0zeSGAWbq0jV0XTu4oxp7XAsYgk
-         Q0D/EodaaAnFNLTXbJgmZj+R1Ig/awJUcAP7PKFBXTP4LJmtJfQ0zCmWWOtRtvYFOeH0
-         cjDjerm0xCHTrXBcfAj83xc+faleuYTaQxBGoQ8Ync0sqtEEJwXY+ZdMUG7NDfZvQeHW
-         3P0NkqWiqGi03YTDQmqBFtONLbJD7MOqZjHgh+eGYz2Wocaln4+yyUDoq5L6KjAA0A/a
-         Mcaw==
-X-Forwarded-Encrypted: i=1; AFNElJ8sIC/QCHV5ja7idMPu/D7xl8s2qpasHgkb1yOrP1J6IsfsJ+GNku1M+SoL832VIVkxPgaStP/vBCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJSoo1lxtfaJN6bd+Uc9Spmn9mWML3rLn1q9HR+YTP8ct/HMDC
-	X7fpa8spsJ9EVmwzWPfhzQvvSJDvopv2yoONmkiVo4/nitIgsfGRyI4T
-X-Gm-Gg: Acq92OE0F5fr2AzfqyWtc4kE5UpiwEfCer4GKwoTcNg+L9fZC1JwYL+ivIoUeXN5Smq
-	P5RNfnWS3OfDAzfMWDfQeyUUDeSksR8VkFY9S3EJ0FfkENQEQ1qwI43dD3CDLWxz9oPQolnQDjc
-	bqIbV2DBXdKvItXVMgJ3mrQlo5hGsxqrE3ClV5t5gCfh/tGDhMmdoNVgHu8rxbU4FynZuCNj64h
-	QkRKwgq4MIv04q2GU/ulxS7kO0u7c3kDQsGsBs/BjYoZTYaKdZ2fBb3XnAfuNXipdiiSO/+dTBt
-	zwWNgy1AIdR1AGYh08xVvj0gy1BrAC2zzpE3AvOaH+l8KyDPvJfN+JpOWu9Bq5EviTLBO7CnaFz
-	AEM+yRUUVXAYVPVitlp+e89xJLtQ1eJm9xBc5BGsHPI2K89hBT8vUETAEXBYCIvvmE2d/zT3j1T
-	jr4mnrGSz1taCkRglbe6IJDuzOBB3yws/f2Z81qiaEvwSlBnTXBA==
-X-Received: by 2002:a05:6a00:400b:b0:83a:3135:edbd with SMTP id d2e1a72fcca58-844e1931335mr9663347b3a.7.1781491558659;
-        Sun, 14 Jun 2026 19:45:58 -0700 (PDT)
-Received: from [10.125.192.102] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b05921bsm8343847b3a.59.2026.06.14.19.45.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jun 2026 19:45:58 -0700 (PDT)
-Message-ID: <128c28a1-71b5-d435-fb1a-9882c23727ca@gmail.com>
-Date: Mon, 15 Jun 2026 10:45:20 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVpgvAcA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE221F000E9;
+	Mon, 15 Jun 2026 03:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781492677;
+	bh=2QNQXfLtdJq4zDVVS8/wh0UvbzBf1iUZMVkOAs61smM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KVpgvAcAv8BNr2qvLWHzto6NR0vi1yzqgQ8tIrUJ7se4eKE1bfLdxjpf46Jz8p0Ml
+	 YNa84vCmAwc2qByhW6mXLocL7ghqanKvxNsqyu/ImfAEQ4SlT3btNHjbE7HXaIyLGr
+	 9brBOs5TTeisTvvWftB8lY8sQpE0zD4cT6zH6jEdzT58VKsPk9gmSLFG1mNWRg95oJ
+	 9ZdOiQpc42qn3JUZeAGQVvFfB3BTTHX5WsqtDZRkC/RcXtpQTRWMlg4UxSKYc06yUq
+	 DZIUO4WPuYyWpZkG5fC77yjPFbqyl3druHN7kPyduNc6xhyHvNMZYedYkPf41C1egA
+	 vhpXbSaf8piCQ==
+Date: Mon, 15 Jun 2026 03:04:35 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+Cc: ebiggers@kernel.org, chao@kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, tytso@mit.edu
+Subject: Re: [PATCH v2 0/3] f2fs: support encrypted inline data
+Message-ID: <ai9rw8tjybY8Aiqu@google.com>
+References: <20260602134104.348655-1-liaoyuanhong@vivo.com>
+ <20260611125006.508734-1-liaoyuanhong@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-From: Hao Jia <jiahao.kernel@gmail.com>
-Subject: Re: [PATCH v3 1/4] mm/zswap: Make shrink_worker writeback cursor
- per-memcg
-To: Yosry Ahmed <yosry@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, tj@kernel.org,
- hannes@cmpxchg.org, mhocko@kernel.org, mkoutny@suse.com,
- chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev,
- cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <9898f83d-fae9-e284-6b85-c7f4089840a0@gmail.com>
- <CAO9r8zPBH6-0SQ6-_ZOhTQeyu=rz4F=ugikCrU-JR_skm6fEWA@mail.gmail.com>
- <a60eedb6-f3fd-4092-b726-04a17a695ace@gmail.com>
- <CAKEwX=MQ3xXBAY-2H8vA+XSX5GHNBubJ2GCYAXGD+Hra++ZM7A@mail.gmail.com>
- <90730fa7-62e7-d5f4-b638-23b22a8509f2@gmail.com>
- <CAKEwX=PF9hfERC_QMq+rjkSc-BsJyawMgTe+EhwR_86HiQKm=Q@mail.gmail.com>
- <CAO9r8zN6VVZz7dpjNrh8n7wbLkqcrsROPm70MQQxO49HJSmMFw@mail.gmail.com>
- <CAKEwX=MCFbsh9ndBtR0-bGRr_=v-6bBwTo=muzd9ZSD-LAK1nQ@mail.gmail.com>
- <1c25650e-bf98-2863-d505-9b94c385668b@gmail.com>
- <airypNnKrJJ54k_0@google.com> <aiw2JB1lZV9xuNSp@linux.dev>
- <CAO9r8zM=CMtUfV0RX3YyztqMNcw=s8M3WX6Q0epR5YHUvwTTKw@mail.gmail.com>
-In-Reply-To: <CAO9r8zM=CMtUfV0RX3YyztqMNcw=s8M3WX6Q0epR5YHUvwTTKw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611125006.508734-1-liaoyuanhong@vivo.com>
 
-
-
-On 2026/6/13 02:15, Yosry Ahmed wrote:
-> On Fri, Jun 12, 2026 at 9:40 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
->>
->> On Thu, Jun 11, 2026 at 05:39:16PM +0000, Yosry Ahmed wrote:
->>> On Tue, Jun 09, 2026 at 11:18:26AM +0800, Hao Jia wrote:
->>>>
->>>>
->>>> On 2026/6/9 02:01, Nhat Pham wrote:
->>>>> On Mon, Jun 8, 2026 at 9:48 AM Yosry Ahmed <yosry@kernel.org> wrote:
->>>>>>
->>>>>>> But OTOH, this does seem like a recipe for inefficient reclaim. We
->>>>>>> might exhaust hotter memory of a cgroup while sparing colder memory of
->>>>>>> another cgroup... But maybe if they're all cold anyway, then who
->>>>>>> cares, and eventually you'll get to the cold stuff of other child?
->>>>>>
->>>>>> Forgot to respond to this part, the unfairness is limited to the batch
->>>>>> size per-invocation, so it should be fine as long as you don't divide
->>>>>> the amount over 100 iterations for some reason. Also yes, all memory
->>>>>> in zswap is cold, the relative coldness is not that important (e.g.
->>>>>> compared to relative coldness during reclaim).
->>>>>
->>>>> Ok then yeah, I think we should shelve per-memcg cursor for the next
->>>>> version. Down the line, if we have more data that unfairness is an
->>>>> issue, we can always fix it. One step at a time :)
->>>>
->>>> Thanks a lot to Yosry, Nhat, and Shakeel for the great suggestions!
->>>>
->>>> Let me summarize what I plan to do in the next version to make sure we are
->>>> on the same page:
->>>>
->>>>   - Drop the per-memcg cursor and keep the root cgroup cursor
->>>> (zswap_next_shrink) logic intact.
->>>>   - Stick to using the zswap_writeback_only key, and change the proactive
->>>> writeback size to use the compressed size.
->>>>   - Consolidate and reuse the logic between shrink_worker() and
->>>> shrink_memcg(). Enable batch writeback in the shrink_worker() path, while
->>>> keeping the writeback behavior in the zswap_store() path unchanged.
->>>>
->>>> Please let me know if I missed or misunderstood anything. Thanks again for
->>>> clearing things up!
->>>
->>> Sorry for the late response, yes I think this makes sense. However, I
->>> have some comment about how this interacts with swap tiering, let me
->>> reply to the other thread.
->>>
->>
->> I think the swap tiers interaction will be figured out over next cycle. However
->> Hao can/should continue to push and we may decide to let it in orthogonal to
->> swap tiers.
+On 06/11, LiaoYuanhong-vivo wrote:
+> Hi,
 > 
-> Yeah I think there are a lot of changes we discussed outside of the
-> memcg interface, so maybe keep the interface as-is for now, work on a
-> new version with the other changes, and we can finalize the interface
-> at the end?
+> Gentle ping on this series.
+> 
+> v2 tries to address the previous concerns by avoiding per-file software
+> tfm growth, preparing the software transform lazily, and explicitly
+> disabling unsupported key combinations.
+> 
+> The main remaining limitation is hardware-wrapped keys. If this makes
+> the feature unlikely to be accepted, please let me know. Otherwise, I
+> would appreciate any review comments on the current direction.
 
-Okay, I will split the non-memcg interface parts into a few separate 
-patches. These will serve as the preparation work for proactive 
-writeback and enable batch writeback in the shrink_worker() path.
+Yeah, that'd be a big win, if we have the hardware-wrapped key support. By
+any chance, can you add it in the patch set?
 
-However, I will still send the complete patchset using the 
-zswap_writeback_only key approach in the next version. This should make 
-it easier to review whether the preparation logic is reasonable, and to 
-decide whether it should eventually be merged independently of the swap 
-tiers.
-
-Thanks,
-Hao
+> 
+> If maintainers have any feasible direction in mind, I would also
+> appreciate hearing it.
+> 
+> Thanks,
+> Liao Yuanhong
