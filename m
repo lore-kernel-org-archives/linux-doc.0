@@ -1,180 +1,87 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB553F39E7;
-	Mon, 15 Jun 2026 14:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3E42153EA;
+	Mon, 15 Jun 2026 14:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781534662; cv=none; b=tZNaV3/BmEE6DJVq05SBaNYcuFqidafvxnDPTcuFWI3489F5ZcUjknQ3FP0Lv6/CGd160KIyfJ0GhMyoeZ+X1xakP2oKWXBZq4uPTKpSBueQVOM3GyJSbOjrmy5DnrTIe8YWXCInniUi+YHHG5gS7B8mGcPxQ8aMevvXnXCe3eE=
+	t=1781535523; cv=none; b=lsNEqkYQyvfaQMxr+KrAy9GtR+Zov0cPOzmECeOuhTYqPyWcfz/Om7BneGt7a8qdJJYlTTQZ9YOGRRXGZ2xJBxKWspOeZTN2K90E1AdnH9jqCbwtZGveCu4pZNgfc75nOUn0INbJJ33pGRLLZ71FDHtbDSUZ9e3/4xYkETV35Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781534662; c=relaxed/simple;
-	bh=0uLKTvbEAK+Dn2jOLZxPcDA5FGg6UyplCkgx7XgWTI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kCsfQW3DCnb5/3wapJjZ0xLYAox9BepPZr/fopo1iTeYGuEKMnQNkWJ0xUvXDHnrAweqziD3uPfCuOaXogbrTb1U34PdruESlNUbcCBqKVRq48rdwkT1JXOz3mJM49sLYoB6yMxRNZjKj9YrO8/89cIOQLBOKCuxh//E7JwHlQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YFbbhTW9; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1781535523; c=relaxed/simple;
+	bh=gLobkqqLmgLevCDLJNxW6jVb9pHs+UE9NmjOS9c+o7M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZbVCA+7xbznBFl8bDowz65dX8h9gYIWel3HdQQDYTDInjsRsFyc81YWXy9bLDguvmOgtu9ZH6Cy+KQqL4sppcFK7q+KoFhCmLAh6niM6ePwdYku5yVPRAPuMNwoDgJvTmdPyKg7/VY2goxoFSSVXk3i89A91pa8aZaT3jInWmNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PC0UCGGY; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YFbbhTW9"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EF8B84E42F0D;
-	Mon, 15 Jun 2026 14:44:17 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A343460015;
-	Mon, 15 Jun 2026 14:44:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 528B2106C96A2;
-	Mon, 15 Jun 2026 16:44:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781534656; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=LNQ/A2/WUxw1qFzNZc5VEP3z3YtNzDc9swfW+wlF7i8=;
-	b=YFbbhTW99y38MgG/y6VAC2apnTEuaqt6BDTPv9X3YLQtVK46ALfjRfM6dV6JqDaRUgaKv1
-	Tl5JwKrF2HGbLIpA6BkSC+2OBNkydc3UsTtL6Qs1bij61KpbHSUaB2I5zj/9vHwdAslEjc
-	yxZ/sIka+VFvbfErdSPCAyXCr80uUYXDzHyhezFO2fiMGOdftv0vfRyoisP1Znms6bOc1U
-	NQDEJ6nnFnCxASwF6fHXoT0tny4ZJWkthBI6iRizavgRM6f8jvKuT39ZEl6DBL7M5T8xMu
-	5tP6/dIn7nfxVoVcmwa83SjNCEK9mT6utIwt+jm/qpxSMjTSRqDlNigCOg/iIQ==
-Message-ID: <0355da28-d3d7-41ee-ad85-632cc2e03951@bootlin.com>
-Date: Mon, 15 Jun 2026 16:44:08 +0200
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PC0UCGGY"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7167040430
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1781535515; bh=A/WCEYhquO1DFb2bk3Vy6AiRUGYQ1ZI5QBk77/Axasw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=PC0UCGGYazcRyWfBP5Co4tRTwTmdqJ8vuqIhTozE4Zh82TCHQU7IUjcn7SWoP6Ft1
+	 LzON+oNce4Y58oPO5M7OVk+pAVtYhSfwV3fHRsCr9T48hfT1OsAPZ0EN8TIRqIGRUl
+	 j5ydivTr48FiqBC4tDDA+twyRH4MKi59AZENKvQRzEAoLD2s46UsRoed73uhjOQZoM
+	 RETQgHJWddSNL9UlKW6I7L1zKIbG9K4siiqbUpTs2rXCpiO/yirpztHGFl3kT3HkUN
+	 d/NR1zLp0pcRfloNpkXXm8pVPB0i27jC0Rf315jUSQC/NVhKI5sK8kFz5GCV4/A/Gv
+	 7iOD0bkZPtdzA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7167040430;
+	Mon, 15 Jun 2026 14:58:35 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, Dan Carpenter
+ <error27@gmail.com>
+Cc: Kees Cook <keescook@chromium.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Stefano Zacchiroli <zack@upsilon.cc>, Steven
+ Rostedt <rostedt@goodmis.org>, Laura Abbott <labbott@kernel.org>, Julia
+ Lawall <julia.lawall@inria.fr>, Wenwen Wang <wenwen@cs.uga.edu>, "Gustavo
+ A . R . Silva" <gustavoars@kernel.org>, Thorsten Leemhuis
+ <linux@leemhuis.info>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Dawei Feng
+ <dawei.feng@seu.edu.cn>
+Subject: Re: [PATCH v3] Documentation/process: Add Researcher Guidelines
+In-Reply-To: <ajACprp9UJp2JSJM@black.igk.intel.com>
+References: <20220304181418.1692016-1-keescook@chromium.org>
+ <ahgaOigklcDCYvRp@stanley.mountain> <ajACprp9UJp2JSJM@black.igk.intel.com>
+Date: Mon, 15 Jun 2026 08:58:34 -0600
+Message-ID: <875x3j3l5x.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 05/12] net: phylink: support late PCS provider
- attach
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Saravana Kannan <saravanak@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-References: <20260615122950.22281-1-ansuelsmth@gmail.com>
- <20260615122950.22281-6-ansuelsmth@gmail.com>
- <867a39de-ccc2-4dcf-be24-ab2542d20ab6@bootlin.com>
- <6a3007ce.73de60af.3a056d.d903@mx.google.com>
- <7702ac09-75fd-49de-8ad2-fceaa122b627@bootlin.com>
- <6a300da0.d5af3cef.1ca29d.19c4@mx.google.com>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <6a300da0.d5af3cef.1ca29d.19c4@mx.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
 
+Andy Shevchenko <andriy.shevchenko@intel.com> writes:
 
+> On Thu, May 28, 2026 at 01:34:34PM +0300, Dan Carpenter wrote:
+>> On Fri, Mar 04, 2022 at 10:14:18AM -0800, Kees Cook wrote:
+>
+> ...
+>
+>> > +  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
+>> > +  11.2 show no new warnings, and LeakMagic no longer warns about this
+>> > +  code path. As we don't have a FooBar device to test with, no runtime
+>> > +  testing was able to be performed.
+>> 
+>> People have started sending commit messages in this exact template and
+>> normally I would ask them resend with the meta commentary from this
+>> paragraph below the --- cut off line.
+>> 
+>> Do we really want this "Compile tested only" stuff in the permanent git
+>> log?
+>
+> +1 here, can we rather avoid flooding commit messages with the meta, that
+> anyways is available in lore.kernel.org archives?
 
-On 6/15/26 16:35, Christian Marangi wrote:
-> On Mon, Jun 15, 2026 at 04:29:04PM +0200, Maxime Chevallier wrote:
->>
->>
->> On 6/15/26 16:10, Christian Marangi wrote:
->>> On Mon, Jun 15, 2026 at 04:07:03PM +0200, Maxime Chevallier wrote:
->>>> Hi Christian,
->>>>
->>>> On 6/15/26 14:29, Christian Marangi wrote:
->>>>> Add support for late PCS provider attachment to a phylink instance.
->>>>> This works by creating a global notifier for the PCS provider and
->>>>> making each phylink instance that makes use of fwnode subscribe to
->>>>> this notifier.
->>>>>
->>>>> The PCS notifier will emit the event FWNODE_PCS_PROVIDER_ADD every time
->>>>> a new PCS provider is added.
->>>>>
->>>>> phylink will then react to this event and will call the new function
->>>>> fwnode_phylink_pcs_get_from_fwnode() that will check if the PCS fwnode
->>>>> provided by the event is present in the pcs-handle property of the
->>>>> phylink instance.
->>>>>
->>>>> If a related PCS is found, then such PCS is added to the phylink
->>>>> instance PCS list.
->>>>>
->>>>> Then we link the PCS to the phylink instance and we refresh the supported
->>>>> interfaces of the phylink instance.
->>>>>
->>>>> Finally we check if we are in a major_config_failed scenario and trigger
->>>>> an interface reconfiguration in the next phylink resolve.
->>>>>
->>>>> In the example scenario where the link was previously torn down due to
->>>>> removal of PCS, the link will be established again as the PCS came back
->>>>> and is now available to phylink.
->>>>>
->>>>> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
->>>>> ---
->>>>
->>>> [...]
->>>>
->>>>> @@ -2151,6 +2204,10 @@ void phylink_destroy(struct phylink *pl)
->>>>>  	if (pl->link_gpio)
->>>>>  		gpiod_put(pl->link_gpio);
->>>>>  
->>>>> +	/* Unregister notifier for late PCS attach */
->>>>> +	if (pl->fwnode_pcs_nb.notifier_call)
->>>>> +		unregister_fwnode_pcs_notifier(&pl->fwnode_pcs_nb);
->>>>
->>>> I wanted to try this out, but I get :
->>>>
->>>> drivers/net/phy/phylink.c:2218:17: error: implicit declaration of function ‘unregister_fwnode_pcs_notifier’; did you mean ‘register_fwnode_pcs_notifier’? [-Werror=implicit-function-declaration]
->>>>  2218 |                 unregister_fwnode_pcs_notifier(&pl->fwnode_pcs_nb);
->>>>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>       |                 register_fwnode_pcs_notifier
->>>>
->>>> I guess you either need to stub this, or there's a missing Kconfig
->>>> dependency somewhere
->>>>
->>>
->>> Hi yes if you want toi test just enable CONFIG_FWNODE_PCS. I forgot to add
->>> the static declaration for unregister_fwnode_pcs_notifier. 
->>
->> I'll give it a go with this yeah, I have a few devices here I'd like to
->> try this on.
->>
->> Can you CC me for the next rounds ?
->>
-> 
-> Sure, if you can would be good to check also the other commit if everything
-> is logically correct.
+Perhaps somebody should send a patch correcting the wording to how they
+think it should be...?
 
-Absolutely, I'm planning on doing this :) This is quite the series though,
-I'll try to give it some deeper look in the upcoming days, I expect net-next
-to close soon anyways, so that's as good as it gets for reviewing this :)
+Thanks,
 
-Also, it's probably a good idea to have Sean in CC as well, I know a few people
-interested in the Xilinx PCS his series brought, hopefully he can follow-up on
-this series with the other new PCS drivers.
-
-> 
-> BTW by checking test from patchwork I can see also another fix is needed if
-> you want to test this revision.
-> 
-> phylink_create()
-> 
-> -if (config->num_possible_pcs && pl->mac_ops->mac_select_pcs) {
-> +if (config->num_possible_pcs && mac_ops->mac_select_pcs) {
-
-Ack, I'll test it with this change, thanks :)
-
-Maxime
-
-> 
-> Aside from these change I expect the current legacy code to be not
-> affected by these change.
-
-I'll probably have things to say about this "legacy" naming :)
-
-Thanks for driving this work forwards anyway, that's 
-
-> 
-
+jon
