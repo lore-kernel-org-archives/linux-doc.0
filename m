@@ -1,33 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A307B4071C3
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 15:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6DC4071C5
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 15:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781538460; cv=none; b=fgPN97Uf2XDlnPeUtDDTVdDlmghChvvkL3cKF1N8ScG45d7YLREt++wdCFi2z/yZVbENuwHh4LRUfFWxqNwqqxz67Uo7am5VT5ABv0A1ZQ7K6lsUp2vynDKV3vQL49Vj388EoVZATf+BoBhzqYLa9W1AQVA8E+BjUGj2XX2dHQs=
+	t=1781538754; cv=none; b=RokoTddZqyisu92JrzvdQ9I/6p/xKF9FIUsS1E0hRuK2Lbp5jeGKmGuWMZHXkpp7opWlNuCRp44lMjyWca/vA0hIVZsNVfgUsv3x+YY59yyBHdHpnNIs4d4u7nmOgtQVfO1nODXbZff+7QqZpuxTbfSEsZmnoylm6NHiERIt310=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781538460; c=relaxed/simple;
-	bh=X9SWhjTOyVoe6CzzkdbqhhMDilIK4wfnPAt2YfL+Ct8=;
+	s=arc-20240116; t=1781538754; c=relaxed/simple;
+	bh=9zvR7d2bxGBv+6jx2yOWEKLbgx5o/0Xfw3q2VZIx1hg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2gb6Qo6SLYkGJM8W/ZTgaIYUAqEBXQDABGF+iT/KNhO0GoRpVn7U8l0yLEIriWZgukLBUqtlV6+R0uOSXjTwADDrD578AvGSQQSPgKldvHpZwQyAPky8vWAZcRfYWw5h1u0U+BslyEf26ujSPM3pehM25ZDQ2HlNlcMExyxZEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XD1l10OZ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=gdNMWXRqX+gsJH7X3xF1kGa/UkPii5LjEIFKImbxHl+TSu70/oKP0R+be0vTh1fblASvK/BxOYV0Y1Vnf2Q2RYwqvHb+eOYyRk0REFr63RdWkJMIw8Lx5winjcapHTc2qV2YNbbRxdo3HDetteihrqm+cRoVMPf6wiDrLIH+s1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=umzFcqov; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XD1l10OZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 651721F00A3A;
-	Mon, 15 Jun 2026 15:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781538459;
-	bh=8wlkQUnOzOb4pgv36R2/gQxTUYbcXDdGyPa0fQejaVY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XD1l10OZaQsWRYQuGsJu6sThou6LIKqmp1c1LwZHFsESZ3+/sSUXLSUvubscAj9Dm
-	 LviJnyYkwQ1nXmLYVIU8XmYGaicQ9NhUSmKEiM5xIXCwm9UIxHtfSf3m9qg/IXoGPc
-	 UP2iPIh6ePArmE7VcPveGc+Pz+fRmfA8UeD+NNvJGwJEA0A8PaI10/Iu+a0o6WHeIo
-	 YsjcRbcrCDpjGyLpVjiKTpTEGJ7SbisTRSFYKNdi3/JMuz45gvOidwu8YtEL7zy6Ne
-	 ye6N/codKRDpWm4ZFADPKSM0HiVwD8Qd3UuLBJidzy8jKr8fvII1zviDMGWBCI3156
-	 nud6rrRlRuRZA==
-Message-ID: <f3f184a7-a04d-4c9c-a1d9-d2008469d9f7@kernel.org>
-Date: Mon, 15 Jun 2026 17:47:34 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="umzFcqov"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=jYaV5WCXzBUAdoXR+h71EK4mIBc5FZDr4Uq9Fy4JLYA=; b=umzFcqovUxlfNwPfAhBF703Kh3
+	aW3la5uuEFqbzcmlrD1+g1ePSmRbsCUGGwLHETDELn0Bll0s4QlIlxoQLlU/3CG9dbFcRv4z9i6d/
+	qs/xywBJdJU8YyVAEZ8aMDamAZb3dXLWdAmfi4WWSs0PmjhcSvYGw7NTqeS3zVrvUza7LaVfdKGAT
+	wG/MjQ8s9ddfGKlypZEiqb+djCim0xERl4HVHJoDO2LbaeGvOOJ82orgXJHrEpSzcssvJnBTYMoLB
+	QuQUTuSrABcF/PDixkUY6VZEvvL6CWg+nMb+L+q6smrqWWzWXtGDVIUlIsf/eWU1BKifhwhlu6jnh
+	RLqktzPA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wZ9by-0000000EWhY-3Gk3;
+	Mon, 15 Jun 2026 15:52:30 +0000
+Message-ID: <a0979be3-60ab-42f5-b0c5-20bbf1dec1f2@infradead.org>
+Date: Mon, 15 Jun 2026 08:52:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,106 +39,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/mm: describe current criteria for enabling split
- page table lock for PTE tables
-To: Mike Rapoport <rppt@kernel.org>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20260613221448.98657-1-enelsonmoore@gmail.com>
- <ai5w--zzNaUHuQ6S@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH] kdoc_parser: Move __acquires and friends to
+ function_xforms
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20260615153340.2154110-1-willy@infradead.org>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ai5w--zzNaUHuQ6S@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260615153340.2154110-1-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/14/26 11:14, Mike Rapoport wrote:
-> On Sat, Jun 13, 2026 at 03:14:47PM -0700, Ethan Nelson-Moore wrote:
->> The mm documentation regarding split page table lock for PTE tables
->> refers to the CONFIG_SPLIT_PTLOCK_CPUS config option, which was
->> superseded by CONFIG_SPLIT_PTE_PTLOCKS in commit 394290cba966 ("mm:
->> turn USE_SPLIT_PTE_PTLOCKS / USE_SPLIT_PTE_PTLOCKS into Kconfig
->> options"). Update the documentation to refer to the current option and
->> document the situations in which this feature is not supported.
->>
->> Discovered while searching for CONFIG_* symbols referenced in the
->> kernel but not defined in any Kconfig file.
->>
->> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
->> ---
->>  Documentation/mm/split_page_table_lock.rst | 9 ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
->> index cc3cd46abd1b..c9d16024543b 100644
->> --- a/Documentation/mm/split_page_table_lock.rst
->> +++ b/Documentation/mm/split_page_table_lock.rst
->> @@ -37,9 +37,12 @@ There are helpers to lock/unlock a table and other accessor functions:
->>   - pmd_lockptr()
->>  	returns pointer to PMD table lock;
->>  
->> -Split page table lock for PTE tables is enabled compile-time if
->> -CONFIG_SPLIT_PTLOCK_CPUS (usually 4) is less or equal to NR_CPUS.
->> -If split lock is disabled, all tables are guarded by mm->page_table_lock.
->> +Split page table lock for PTE tables is enabled compile-time (via
->> +CONFIG_SPLIT_PTE_PTLOCKS) if NR_CPUS is greater than or equal to 4 and an
->> +MMU is being used. However, it is not supported on ARM processors with
->> +virtually indexed, physically tagged caches, PA-RISC processors older than
->> +the PA-8000, or 32-bit SPARC processors. If split lock is disabled, all
-> 
-> "it is not supported on some architectures" would be enough IMO.
 
-Yeah, we can keep this short.
+
+On 6/15/26 8:33 AM, Matthew Wilcox (Oracle) wrote:
+> These were originally added to "Transforms for structs and unions"
+> which led to warnings like:
+> 
+> ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+>   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+> 
+> and the documentation was a little messed up as a result.  They should
+> have been added to "Transforms for function prototypes" since they are
+> not valid decorations for unions or structs.
+> 
+> Fixes: 85c2a51357f7 ("docs: kdoc_parser: move nested match transforms to xforms_lists.py")
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+I hope that this same patch is in docs-next:
+  https://lore.kernel.org/all/20260505221548.163751-1-rdunlap@infradead.org/
+
+Jon replied with "Applied".
+
+> ---
+>  tools/lib/python/kdoc/xforms_lists.py | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+> index f6ea9efb11ae..150fbc90f085 100644
+> --- a/tools/lib/python/kdoc/xforms_lists.py
+> +++ b/tools/lib/python/kdoc/xforms_lists.py
+> @@ -48,16 +48,6 @@ class CTransforms:
+>          (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
+>          (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
+>          (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
+> -        (CMatch("__cond_acquires"), ""),
+> -        (CMatch("__cond_releases"), ""),
+> -        (CMatch("__acquires"), ""),
+> -        (CMatch("__releases"), ""),
+> -        (CMatch("__must_hold"), ""),
+> -        (CMatch("__must_not_hold"), ""),
+> -        (CMatch("__must_hold_shared"), ""),
+> -        (CMatch("__cond_acquires_shared"), ""),
+> -        (CMatch("__acquires_shared"), ""),
+> -        (CMatch("__releases_shared"), ""),
+>          (CMatch("__attribute__"), ""),
+>  
+>          #
+> @@ -98,6 +88,16 @@ class CTransforms:
+>          (CMatch("__diagnose_as"), ""),
+>          (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
+>          (CMatch("__no_context_analysis"), ""),
+> +        (CMatch("__cond_acquires"), ""),
+> +        (CMatch("__cond_releases"), ""),
+> +        (CMatch("__acquires"), ""),
+> +        (CMatch("__releases"), ""),
+> +        (CMatch("__must_hold"), ""),
+> +        (CMatch("__must_not_hold"), ""),
+> +        (CMatch("__must_hold_shared"), ""),
+> +        (CMatch("__cond_acquires_shared"), ""),
+> +        (CMatch("__acquires_shared"), ""),
+> +        (CMatch("__releases_shared"), ""),
+>          (CMatch("__attribute_const__"), ""),
+>          (CMatch("__attribute__"), ""),
+>  
+
 
 -- 
-Cheers,
+~Randy
 
-David
