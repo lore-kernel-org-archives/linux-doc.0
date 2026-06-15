@@ -1,169 +1,80 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE6C3033FD
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 20:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF02A2F12A5;
+	Mon, 15 Jun 2026 20:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781555736; cv=none; b=lwcQkvPT+Hu51oIJHLPw+VNYx65oXdBU0gEEorOUJ0uXK6Qo0WlKGMD8e9wixCvcXhW3/gZ4POAaWaGzaUwjNCURM9xRuRaJiUeltFb+gFSsNEmphhZ96KKuFfGBSYb9VH0UllZTySfS733E4bq5gX0pDP8KikPHBF/W0hSJKPc=
+	t=1781556911; cv=none; b=JCd6HqRdrFRMo4X38uW53iR7GVWMTOf53vYYocAE878kjeg3Hqt1Fd+rwkCdccr0hJ12ZczFS/Jna0IhlD/KcGTY+fLiKaywDLxsw9DnHvcsiUaxx4820ymRgQ+H3hbkYga9EzCQei6CTPeaMafI/QmPlj0HKlL7zYY9OIyKqZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781555736; c=relaxed/simple;
-	bh=Drzz/kl8wqpnOalyeG0tHOz9kyf2y38JBrqmPNjM9DQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/lKFC9qEgC6X4xKjyBU8Eu+2HtxVGB56fbNM0aO1xIS/llz6Hrz5mVovSbrhxHTqAe6VcO2cA746Rxt2h61W8nDj6LUtXO6p+zzqUzy3q7W7Ex2jjYyWYFe0QofZgyzphMUF1uj/bL+QX4ki+HV65k5NIp2Hz/XHOJPFnY1qRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Crf148nX; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781556911; c=relaxed/simple;
+	bh=lZwdFwKFAoSFzDCeOtIwcjmsxAiKODYH1oJfwjM6FdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tUQfJktAhS7nn6VVSUCGUcBthHv7miOFgzuFwOqBRSv3fd274W63AqCu9XE1Ag7viEoPVXhihHcTeDHnmyCdVfaimaljpgUatVym69b3e44eZUo6IqGH7MnIN+AJYueU0wJV3zm/SmjClvxfi7LCKWB5joUS+Qt8+F+9VvO1mz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OaW/WZcL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Crf148nX"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7e6b5737bb2so3250363a34.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 13:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781555734; x=1782160534; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJmil57CketSzFiTcNCfca+Lsiyi60LhfLLDJX5+Qv8=;
-        b=Crf148nXJEen4XxN/aqt6oZ3cNgnSHN11+6fYoAwM1VUFpiLFHcPLI/XecK/Y3qkm+
-         kJ4VbHF0sx8t4LuH4E1FVlx9/3uwY9b84q/TpzuJOIfUdWW0SJK7rfuI36/n/wnePJoF
-         qJZb8HEwmMl1QJY3qm1j3kEOiLRHFyQ74uGT+jpAz3sFBl46Gd9neTJuLhhiP+L1qM0l
-         2Sp7ri7HtwgUFf2+SeWpAsZd+PhFYj6P1mSLt7gGLPiEpC/JCDdvnkGOP34/euZtBkP1
-         meZLbpg4PY3oeqdTPsUGFqN1fpy3ZetKxcBU1VbRbXuy1xpcxVWciU0Xd7NuV0Q4kMnN
-         /5Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781555734; x=1782160534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XJmil57CketSzFiTcNCfca+Lsiyi60LhfLLDJX5+Qv8=;
-        b=K2QZ55L+q6tZsFpjZ0ss2+8vT2Ud/20H4IoakDsCMvLmdEinckCPipMJr+XV4Sk12H
-         HPcswnPu341yUH47Az0LJKakNmcFYx8tQObfjbejHGduW76cfGx45WjQSI2FhFKE+Cwc
-         CWnskNKsmQB4wVeut4e9p5XeATE2swQedjpgUtKqlwLInSNDTfwZOQJPjxs4R8HqlZ3b
-         rZKhWQWny0W5EOOEKOVtBGJ2r/8Rh3FlH8wJUExHDHAyAhICbYORQ1Ohb1xp5onAJqkb
-         95C9OZCo34FB8bazaYJnBvZQM99NCNJesdbnDOAnHOtUV3FbFUdjKMeYyXTUESudluw8
-         OHDA==
-X-Forwarded-Encrypted: i=1; AFNElJ8V4W8j+Xn4fvVYZTdDe5aZDfh7HFMt1ZdabQUwmZWdeFH94Dpof21HMWC7vzDUpQOiP7JC3OSah0A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3zNrRF2juxLTa072AT3C/jpOfnp4D3IyvfOr3gO8xU80Ngm+f
-	lAuaDnST4oVt55IP5kw5QxHBBVX9Er5iZJZ16/mVqyp0JFtJ2QMKL2wgapHhnd/7XQ==
-X-Gm-Gg: Acq92OEUZaiOgTtspwpsrm+S8Xg9ZRlDKAAwM7UaaUgkHyR0tlVlKC/xBRztQRaM1c7
-	VvuyHV+dbDudL71j4p3e6/ZMPwEWI9BQMLndYxdoTs/lMgyWjTliO5OvqJGn0HR5r2AqzsGP4Su
-	074KU4X6vVCUtMZ1TScG1zVojYktKOaUObl6AZETrnwoQ7AjeZwrZp+KEiDf17oZNYqOwX/D7aW
-	CRaoHw4/ijvCxtxkeOgDaYXgE4WyyoK87Nid4UdeFdNkx4c0/1e2I5Wqs50LrFaW9g0XlfWPsBy
-	fXxSdi+Zm6TOS2WoXQb8F5qzkQqD3GOwQRuQXc2nSy6eVPtsjNixzUJ2BvIsgifIiIfj0snryy7
-	U4X4QWPPh+U2khJM4N3gJQpFnNsQm+S9zzTbQJct4UQmczag7nvYdyc+ZE7hlM6iyCh+MVhSj2k
-	I+0MH4sUuo2or3F4YXR6IlZvhBmmpTLnPe4HWxSS/WWZgYZn1uaMLZntUmtg==
-X-Received: by 2002:a05:6830:82ce:b0:7de:4ebe:e44 with SMTP id 46e09a7af769-7e784663898mr10515153a34.2.1781555733915;
-        Mon, 15 Jun 2026 13:35:33 -0700 (PDT)
-Received: from google.com (57.221.30.34.bc.googleusercontent.com. [34.30.221.57])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f6de65bsm4870881a34.19.2026.06.15.13.35.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 13:35:33 -0700 (PDT)
-Date: Mon, 15 Jun 2026 20:35:30 +0000
-From: Neill Kapron <nkapron@google.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@android.com
-Subject: Re: [PATCH 3/3] usb: gadget: f_fs: Introduce rw_proxy file
- descriptors
-Message-ID: <ajBiEqs_Nhu6HSL-@google.com>
-References: <20260614181006.3648010-1-nkapron@google.com>
- <20260614181006.3648010-4-nkapron@google.com>
- <2026061503-ripening-jokingly-eb4e@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OaW/WZcL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B1B1F000E9;
+	Mon, 15 Jun 2026 20:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781556910;
+	bh=UHz2gVgEYhuDq6Px4YiBXlefN2X8uO6xuCskOVJmhjs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=OaW/WZcLc/H2DdGxZ/E06MAegjsy/nU6eXAk99WDWhzkJo92P1Gz8tL0IQu7E/HeJ
+	 rsTxkpU159G0+pljiCQaum2cTb/JwZR2WE6zyNojTj1LOx44i03VRK1GgkBRx2LoyC
+	 AogaF0jIvif1WwidakB5M8Pt2m98HCRauGxkxkct1J3HqAGqFy8xNT3vwi+rfbXZ/A
+	 +HDRN0meUQ7ALXn2qeOqZcsuGKz1M+G288dlJBiln7DIK3f0E4/rZusxO/mMJ9hKC4
+	 +JrwmYrEwcRR1FD9YNh/8Dh0CD1Tmv/x8bFqPztZfRmQ5GYW8jsL4y77+z3zL6Knm4
+	 BhNug0kVkCVyw==
+Date: Mon, 15 Jun 2026 13:55:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Selvamani Rajagopal via B4 Relay
+ <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Cc: Selvamani.Rajagopal@onsemi.com, Andrew Lunn <andrew@lunn.ch>,
+ Piergiorgio Beruto <pier.beruto@onsemi.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Parthiban
+ Veerasooran <parthiban.veerasooran@microchip.com>, Richard Cochran
+ <richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jerry Ray <jerry.ray@microchip.com>
+Subject: Re: [PATCH net-next v5 05/15] net: ethernet: oa_tc6: Move constant
+ definitions to header file
+Message-ID: <20260615135508.692a7725@kernel.org>
+In-Reply-To: <20260614-s2500-mac-phy-support-v5-5-89874b72f725@onsemi.com>
+References: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
+	<20260614-s2500-mac-phy-support-v5-5-89874b72f725@onsemi.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026061503-ripening-jokingly-eb4e@gregkh>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 15, 2026 at 04:35:39AM +0200, Greg KH wrote:
-> On Sun, Jun 14, 2026 at 06:10:02PM +0000, Neill Kapron wrote:
-> > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> > index 4c1bafb3eef5..0ccfdcfb1810 100644
-> > --- a/drivers/usb/gadget/function/f_fs.c
-> > +++ b/drivers/usb/gadget/function/f_fs.c
-> > @@ -159,7 +159,9 @@ struct ffs_epfile {
-> >  	struct mutex			mutex;
-> >  
-> >  	struct ffs_data			*ffs;
-> > -	struct ffs_ep			*ep;	/* P: ffs->eps_lock */
-> > +	struct ffs_ep			*ep;		/* P: ffs->eps_lock */
-> > +	struct ffs_epfile		*epfile_in;	/* P: ffs->eps_lock */
-> > +	struct ffs_epfile		*epfile_out;	/* P: ffs->eps_lock */
-> >  
-> >  	/*
-> >  	 * Buffer for holding data from partial reads which may happen since
-> > @@ -219,17 +221,20 @@ struct ffs_epfile {
-> >  	struct ffs_buffer		*read_buffer;
-> >  #define READ_BUFFER_DROP ((struct ffs_buffer *)ERR_PTR(-ESHUTDOWN))
-> >  
-> > -	char				name[5];
-> > +	char				name[10];
+On Sun, 14 Jun 2026 10:00:21 -0700 Selvamani Rajagopal via B4 Relay
+wrote:
+> To help other source files within the module share the
+> constant definitions, they are moved to a header file.
 > 
-> Why change the size?  Shouldn't that be a separate patch?
+> The memory map selector(MMS) values that are defined in
+> in Table 6 of OPEN Alliance 10BASE-T1x Serial Interface
+> specification and currently used are added.
 
-The size change is to handle the new proxy file, in the format of
-'epXX_rw' (with a null terminator). The size of 10 is a remnant of an
-earlier version of this patch which had a slightly different naming
-scheme. I will update v2 with name[8] to which will properly reflect the
-necessary size required.
+If you're adding kdoc on functions the return value must be documented
+(unless it's void of course):
 
-> >  	atomic_t			seqno;
-> > +
-> > +	int				opened_count; /* P: ffs->eps_lock */
-> 
-> Attempting to track "is this file open or not" almost always fails
-> horribly.  Think about file descriptors that can be dup() and passed
-> around, the kernel has no idea what is going on with them, nor does it
-> have to.
-> 
-> Yes, we do track if the file is opened or not already, but I'd argue
-> that too is broken and should probably be removed and just use the
-> normal file descriptor logic instead.
-> 
+Warning: drivers/net/ethernet/oa_tc6/oa_tc6_ptp.c:34 No description found for return value of 'oa_tc6_ptp_register'
+Warning: drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c:143 function parameter 'stats' not described in 'oa_tc6_get_ts_stats'
+Warning: drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c:185 No description found for return value of 'oa_tc6_get_ts_info'
 
-Ack, responded below.
 
-> 
-> > @@ -1378,8 +1393,18 @@ ffs_epfile_release(struct inode *inode, struct file *file)
-> >  
-> >  	mutex_unlock(&epfile->dmabufs_mutex);
-> >  
-> > -	__ffs_epfile_read_buffer_free(epfile);
-> > -	ffs_data_closed(epfile->ffs);
-> > +	spin_lock_irq(&ffs->eps_lock);
-> > +	if (epfile->is_rw_proxy) {
-> > +		epfile->epfile_in->opened_count--;
-> > +		if (--epfile->epfile_out->opened_count == 0)
-> > +			__ffs_epfile_read_buffer_free(epfile->epfile_out);
-> > +	} else {
-> > +		if (--epfile->opened_count == 0)
-> > +			__ffs_epfile_read_buffer_free(epfile);
-> 
-> If you drop the opened_count, shouldn't these buffers just get freed
-> when the structure themselves get freed?  You are treating the count as
-> a "reference counted structure" in a hand-rolled way that might not
-> really be right here as it's kind of hard to prove.
-> 
-> Either use a real reference count for the whole structure (i.e. kref)
-> because you need to, or just tie the lifetime of the buffer to the
-> larger structure itself.  Otherwise these fake references are going to
-> be a pain to track that all is correct with them...
-> 
-
-I was concerned about the implementation of opened_count, and was
-pursuing a proper kref approach, but it became a somewhat invasive patch
-and I didn't want to pollute this patchset with said change, as I didn't
-want to potentially introduce issues for users which did not need this
-series.
-
-Changing the buffer lifetime to match the larger structure is
-straightforward and clean. I will implement that in v2 of this series,
-as it fixes an existing issue.
-
-Thanks for the suggestions,
-Neill
-
+Please note that net-next is closed during the merge window, please
+wait with the repost per: https://netdev.bots.linux.dev/net-next.html
+-- 
+pw-bot: cr
