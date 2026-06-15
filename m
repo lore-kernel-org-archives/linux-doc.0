@@ -1,196 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from lgeamrelo03.lge.com (lgeamrelo03.lge.com [156.147.51.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BB718DB26;
-	Mon, 15 Jun 2026 01:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18481F1534
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 01:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781486433; cv=none; b=l1enXqk5jR86Aelbhz0pJAtoId8LgJ171KPnT/6S6NbodHB4OEkqDlRDCebv+fqetwq81pvKVKbIDag3gFDrSs6EyyYCrOAFOTBsBjECqV9dhlE8WAR3YQj9RZi69fkOoa2krbeM+kKBuLZ+1M5IwYnEldzntAanJQLCH5JEQHA=
+	t=1781488245; cv=none; b=t/Vu5FvEHfpQ1hNRZbGOWtYyGepvxiZZrVmSFHKgqeZojhcNKLFeQNhTKsidS+bsVm3y2Md4ePEibpOQKK8iA3J14ix5urYmoYh/9/Z8O/HdwMFa4aprbh0YR56u4cKsuoHZ+R5pUyqP/sXAk1UKSaE44OCCmml5m7bYcquz2iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781486433; c=relaxed/simple;
-	bh=EvaH+h58GYm4IQiMvlgenwEoK1ZGDPeyN3jeqXhLUw8=;
+	s=arc-20240116; t=1781488245; c=relaxed/simple;
+	bh=iwPaf5O1p8Bozvyw6mAQYTVebmpFDgP8zVaHzs8U/ik=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCTwy2S/iR0lc3CkgzyfO1k/I9JSLFtBIE0f1ar7/K9Ff8Jo/cyUygoYYhJ7j8VX7yQlmu/PUo6JrhO0YnWlQKsWH8Zq4uT7BvzhAfMSFNFZTfQizGbmj/E7M8oIvqyeZeYCYdESxf8g8p5QwrT5G4DYlswMHgPSDsjrUsPP//g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXsx03Wd; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXsx03Wd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2281F000E9;
-	Mon, 15 Jun 2026 01:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781486431;
-	bh=rYwZ2eVwOLWaAkHwno3LEyxTco9cvFVt3Q1mmJlReC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MXsx03WdITf3HmhydUJ5OgLaBLMaOPcBcBuaaknFTU+pFovh4q4XfVpGTDNjnrTZ0
-	 YS1kq51da+JmogOuO3uZeyw7zVfkNE41FmDX9Di8SMow0AgMua7o1ZP7NgiDNxjuqX
-	 l1xsT1vZc/uJA7BM24vbEkFL2TKwirUmPw9+iZKPvWAufBxgprFX6HxBiRFbSBc7b4
-	 uuYrzzjcNsltJAeQCx4M0UBzMN4YcgTbR1sTm0fEQl1iBreBf+pV+8vaNAPzLsAF6M
-	 8ac26hwL+1RIkpxZTXfcWXAjDxkTMuJDmtvfHcPpZeKd89e7nJQNrTe4aRcxGc6LAG
-	 p413kxgkTuC+Q==
-Date: Mon, 15 Jun 2026 01:20:29 +0000
-From: Yixun Lan <dlan@kernel.org>
-To: Guodong Xu <docular.xu@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Zong Li <zong.li@sifive.com>, Deepak Gupta <debug@rivosinc.com>,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <atish.patra@linux.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
-	spacemit@lists.linux.dev, sophgo@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>
-Subject: Re: [PATCH v4 10/16] riscv: dts: spacemit: k3: Add Zic64b ISA
- extension
-Message-ID: <20260615012029-GKA1003249@kernel.org>
-References: <20260611-rva23u64-hwprobe-v2-v4-0-3f01a2449488@gmail.com>
- <20260611-rva23u64-hwprobe-v2-v4-10-3f01a2449488@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4plPozHRaEEEp2uuZVrwrLZqAL//OhFoxAYP4QsaKAUKTTtfgqu/1NKYpdvD/WLRjyxuuWX3RPX95dUrkkQzd2d/IweGFK2fK8Q3n19xpY9+sTdHIYV1JqdaLUyJiOGW+CfnbOnVtLLBGJIgL/dqsJpoV0uonlIRsRSaoaWyHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
+Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
+	by 156.147.51.102 with ESMTP; 15 Jun 2026 10:50:38 +0900
+X-Original-SENDERIP: 10.177.112.156
+X-Original-MAILFROM: youngjun.park@lge.com
+Date: Mon, 15 Jun 2026 10:50:38 +0900
+From: YoungJun Park <youngjun.park@lge.com>
+To: Jianyue Wu <wujianyue000@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Chris Li <chrisl@kernel.org>,
+	Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>,
+	Barry Song <baohua@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Minchan Kim <minchan@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] mm/page_io: let block drivers register custom swap
+ I/O ops
+Message-ID: <ai9abo7GwMl+g43G@yjaykim-PowerEdge-T330>
+References: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
+ <20260614-zram-swap-ops-block-register-v1-1-6c1a6639c222@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260611-rva23u64-hwprobe-v2-v4-10-3f01a2449488@gmail.com>
+In-Reply-To: <20260614-zram-swap-ops-block-register-v1-1-6c1a6639c222@gmail.com>
 
-Hi Guodong,
+On Sun, Jun 14, 2026 at 11:35:29PM +0800, Jianyue Wu wrote:
 
-On 16:12 Thu 11 Jun     , Guodong Xu wrote:
-> The K3 X100 cores have 64-byte cache blocks, already described by their
-> cbom/cbop/cboz-block-size of 64, so they implement Zic64b, a mandatory
-> RVA23 extension.  Declare it in each core's riscv,isa-extensions.
-> 
-> Signed-off-by: Guodong Xu <docular.xu@gmail.com>
+...
 
-Reviewed-by: Yixun Lan <dlan@kernel.org>
+Hello Jianyue.
 
-> ---
-> v4: No change.
-> v3: New patch.
-> ---
->  arch/riscv/boot/dts/spacemit/k3.dtsi | 48 ++++++++++++++++++------------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
-> 
-> diff --git a/arch/riscv/boot/dts/spacemit/k3.dtsi b/arch/riscv/boot/dts/spacemit/k3.dtsi
-> index 4ac457399b583..b5aa983f0bfa1 100644
-> --- a/arch/riscv/boot/dts/spacemit/k3.dtsi
-> +++ b/arch/riscv/boot/dts/spacemit/k3.dtsi
-> @@ -35,9 +35,9 @@ cpu_0: cpu@0 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -76,9 +76,9 @@ cpu_1: cpu@1 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -117,9 +117,9 @@ cpu_2: cpu@2 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -158,9 +158,9 @@ cpu_3: cpu@3 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -199,9 +199,9 @@ cpu_4: cpu@4 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -240,9 +240,9 @@ cpu_5: cpu@5 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -281,9 +281,9 @@ cpu_6: cpu@6 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> @@ -322,9 +322,9 @@ cpu_7: cpu@7 {
->  					       "svinval", "svnapot", "svpbmt", "za64rs",
->  					       "zawrs", "zba", "zbb", "zbc", "zbs", "zca",
->  					       "zcb", "zcd", "zcmop", "zfa", "zfbfmin",
-> -					       "zfh", "zfhmin", "zicbom", "zicbop", "zicboz",
-> -					       "ziccamoa", "ziccif", "zicclsm", "ziccrse", "zicntr",
-> -					       "zicond", "zicsr", "zifencei", "zihintntl",
-> +					       "zfh", "zfhmin", "zic64b", "zicbom", "zicbop",
-> +					       "zicboz", "ziccamoa", "ziccif", "zicclsm", "ziccrse",
-> +					       "zicntr", "zicond", "zicsr", "zifencei", "zihintntl",
->  					       "zihintpause", "zihpm", "zimop", "zkt", "zvbb",
->  					       "zvbc", "zvfbfmin", "zvfbfwma", "zvfh",
->  					       "zvfhmin", "zvkb", "zvkg", "zvkn", "zvknc",
-> 
-> -- 
-> 2.43.0
-> 
+Currently, the patch commit log indicates only a single custom swap
+registration is supported. Shouldn't we allow multiple block drivers to
+register their custom ops simultaneously from the beginning?
 
--- 
-Yixun Lan (dlan)
+>  int shmem_writeout(struct swap_io_ctx *ctx, struct folio *folio,
+>  		struct list_head *folio_list);
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 284eebc40a70..ebdc96092961 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -2849,6 +2849,10 @@ static int setup_swap_extents(struct swap_info_struct *sis,
+>  	sis->ops = &swap_bdev_ops;
+>
+>  	if (S_ISBLK(inode->i_mode)) {
+> +		const struct swap_ops *block_ops = lookup_swap_block_ops(sis);
+
+Also, just a personal thought on this part.
+
+Instead of using `block_device_fops` as a lookup key, what if we handle
+this similarly to how filesystems use the `a_ops->swap_activate` callback?
+
+We could add a `swap_activate` callback directly into
+struct block_device_operations (zram's zram_devops). This way, the
+block device itself can set up and replace the swap `ops` directly without
+needing a separate registration/lookup mechanism.
+
+What are your thoughts on this approach?
+
+Thanks,
+Youngjun Park
