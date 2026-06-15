@@ -1,157 +1,174 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013023.outbound.protection.outlook.com [52.101.127.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1420A30C143
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 12:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D4B3F0AA9;
+	Mon, 15 Jun 2026 12:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781527778; cv=pass; b=jTT2CXAmAYdE9aqbss0VvkA0J/uBst9evBbUY820paUdocMd3CgBMGtE1QSbvC59HzxK3MITrVHVCAHz/d2weYDqEQyahElHjKeOpavpgzEmsdyRmlKruHi1mjnnOzlDYR9C1VknbmDYMwyuZMljUMjTyimdVOZQcNZ7JGtlkFQ=
+	t=1781528134; cv=fail; b=SwgAxgeFof2u33CYM1uH8pWsFr50IfsBS0ySufyVQVUJhuXs+kCQDdJYIQ9NAWEC2Am2xXOvwiIC76DgyOxltPWVokZnnaki8HCNiokDIyuUQvgK0LIGrN5yZuVnglbxvH1K5W9woV57xw2zzq4poK1ao8giI0dJD2/kb/IQfyM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781527778; c=relaxed/simple;
-	bh=EuT5lYOMkkdhbh36n3EuIDGIwufLokD6nYk5Kx0YNCs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dzk3Pt/K03oQipIikyQglcwbpGA22RtscqpB+fYY/uaAZKaAA3k55FvZO97i8n4ZpjUSSQiZjulnP2bUlA9TMIziTKobt3qi/OpMy9za0AdnJz/B4qGVNfCHHzddhaE1tVt4p/Dosj8TxU0oBCs2h3MZgPH3g695vof7SBHkW28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sKOd6BOv; arc=pass smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781528134; c=relaxed/simple;
+	bh=/dU8USVHM0SaYTtMnxyoBQcQTlrUzaDvsbIi9Z5YQ7s=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=TIKTlN4dALdeF8YEDl33EBK62WOOqaZGSVL/bA9kFrC6DlyDBYbYk7MGdP6moGmuxHD6P1ij/F9arjWBc0AaK0557faPrgynkyY3mPhzuKT8exnSQMmTggMzAFFIJDSXo/rDODYvBqMtvQG34jm5d81b0Wmq9LIMxrTVs0NrGR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=pLBefK0K; arc=fail smtp.client-ip=52.101.127.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sKOd6BOv"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aa68cd8dd3so2964543e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 05:49:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781527775; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HpsS8kYkREtC3+An2PNFl52rUNyf6KwRUHKISyaO30IcfDZ2kQWYXYSDKL+HuFADpO
-         Oo/D14tBLwz+4GMuiVZvNz5Su/WKjtZYrWStPSYq+ytaGI27wtv73cbk4Bf8zZZQptR5
-         UDWwtfBR+bGSqdJkJlyppChJ5KBj7iPUZzYnEMxZoHtOKCABrr6vWh2khPVxzTikdd3B
-         bV0zw6FHOUyKZxEAd697JHRochuLhGyZlGoLQDexkIurGvtz/jzVMYtMjO/58Twn9XrP
-         eu6cvW0/b4bRdf1FlDb/6UxbP20OMs88GqAGsox/CSNzPDm4NVVnyx4ydF7f9QUlfURT
-         VDCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EuT5lYOMkkdhbh36n3EuIDGIwufLokD6nYk5Kx0YNCs=;
-        fh=l/hhk2xr1ttd/KZOC/VCu6WdmmAqE4IoJkEmnnqoKoE=;
-        b=d/nAfxfNPPSbEHQk4YgUHGHzS3jYbD8jwOxnZMiv5RsFtSUnzTNS3h7EG2ap7s0GP7
-         MXe8FCJi+JPihEMS9Opw3iy+6d1y0qCT8L0rWpQwQ2MR9c9fK/+Cn/RPlJDDXqlQSttR
-         P6kqIHAx7ukM2xyhVWy4JwfTtLcPRpaejuyvTNc2Oi9rsvKI03yhOeokLDEMmhmOkL7O
-         o4b1ttKPQJPGgWN9M7CdVVzpQueKJLSClUWMvrXbs8rYKrQdse12KKoiwMDiXTPocKCL
-         TmRgWvpOY18PpXCVgMxzoae3Yrcx34ZP1Y8wgytHD+Y6PDJDPJUsEXDCgDIVVAqxd1hY
-         ANpg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781527775; x=1782132575; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuT5lYOMkkdhbh36n3EuIDGIwufLokD6nYk5Kx0YNCs=;
-        b=sKOd6BOv13rS48sKumGSN98WjIjmsrT1KB2CVI3OlskLoqYiDYt3H+NMuI6KkIekIw
-         tXFqxAa/tXdsNaHRisGNWz1stQBOMoN+gxX0VLzJUJWdw43l9x4DsWY+Tsc7/yErRp1a
-         PgvKNVIBHkvtuyM9jdaHVFRNN/A5B2CNEeod4/9U/pbJKPxcAOhWk1AmcvWIbC1l7qgx
-         SaOJDxYJVeAcZ62WRIxg4NeN1xwTJhz2EfshZ3KRAgc72S+cCSGkveuZ34z1QicotMj2
-         B2Zg7Zeoi+naH5a5XSc5tKS1mxRo9Z2liW2iqc/py3DpTRiwjzOFAI3vOXP6li6jg1bO
-         dFZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781527775; x=1782132575;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EuT5lYOMkkdhbh36n3EuIDGIwufLokD6nYk5Kx0YNCs=;
-        b=PZV13b9SgXMeMyPWcmW9VmZ8Bg/bC/KA3HJrIIx2i4rCLlSQxRhHNXbAnbFCpxYZMa
-         dr0eHXf0wyBX45rJBcnjvW30biN7YxWFl9L4UXcb7yU4FEgiHW8hC1k5iLtFMFtCLROA
-         KW/Vf13vg2Oub6lFMbYNG6eR/fa+S2bcNe3K2fePSYBjxcXKlWGg+mJe7dJkhfTxXkba
-         yXtOCThbpzY7ro/B4OIroKjkso5nTWo0ycX2+WrxAS7e9AXBlCeQzGLdTaCFTrGTZyxH
-         XPpgqORQTGZZr+7ksjbgvR8JdAETKcJTawaorCpHfC6Fh77CEpWPT1rXtmLfk45DaeEU
-         x9TQ==
-X-Forwarded-Encrypted: i=1; AFNElJ96La30zEi0m+eQ66ElzVE773L0GjuSAbAvYQwHxpUe/kWN3NY2uAQAuLGARylpfR+SKKkfL3F28TQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBES1gymPxUBhRtDiOEjcI7/8nfPifbz9Mzryj/9cpZAZ6EA1D
-	2SNl6A7gdWSzPMQ6SAsx7ymm9E4s03huj01Xemu+8NSRo6CdxBV5W3uH1m/IT4Xv9gCkoiX0ylJ
-	nujf+mfpt454OvQUkCBRdLjwZjp0XqXw=
-X-Gm-Gg: Acq92OH2DqY/t91x0jDQ6LNi20O2+LVXEDRiLoSnYawM2/i1dvfrUr14mNp3QZRUz/i
-	X6Brh/UvHVoWbd8kFBY7uonw/Pz0s5EHTPqOfBdwcrTM1tgn7EhXVvXYDgqLwG4VYGfs13+sbJX
-	55D6rVUotFXZMjQyb6R2+E1xexolEiZ4W5oCn+jmhG1unswWj4W7NMmmQCsVDVX/mSuZVWKZH5P
-	jx+2fccnLDGxjV20uGYb4IdcZE4bDAdLi4uqv1FcEfJaYXPJF4liUHoKIYnZE2HF3t0COfuoAtJ
-	eo9PmvoiuaFzXYz59J5r5XcA39VTKVivzQZN1aenNjVIsh4=
-X-Received: by 2002:ac2:5293:0:b0:5ad:abf:1d36 with SMTP id
- 2adb3069b0e04-5ad2db5937dmr2832285e87.27.1781527775047; Mon, 15 Jun 2026
- 05:49:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="pLBefK0K"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Of/NnTTCnbRichTByrl5oMDBTNp1NZgVcdNGK2GTGm3lH0KmsWtC1867OO8f/76+7aybyHxJJJWn99wKv8rrosEMwWiOVKZTkKXDD7ZVTQzYiZkNJtYUQNPA9nqLQZvEOZ36H8Z12wKfWux+c2pZoaD8JqFfxn7+RtGa+1zMjtsU3coVWYnTWMmoz/izBNfHH4zwhsdGAd5IIxMhkZdmnV+/gbqM+hwzrCrazDIQMEjGHXz69hv1MwptjaoyYIRcszdJgUPGB5B/EiJI9dIrZMs43US7mzompG5GkfX2/bs5hxMQOj50WWs053IDBBZTZJHBubGPWf4cZM2CrzDq7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kdeb+GboxiNNfknkb03jWdO2NoaP9Lcu6b7fz8YCvTA=;
+ b=Jyf7zZqkVrxEbX0Scmm1+XO19g6Alw5syHS9r4W/TY7dHrzRgNhkgxSosCgpSy62dCzwjuTl2xuLl6lS/PJLt/GWztFaLH3CMbO6XxcfRacgl+K9kK10yh8bc31RFW3feWLLWJBBrnLEEP6G9CBZXs0Rmr9DxZIHmY9yB0mT8V57P0gEGCqf3rTYIXCFnYW0R7XPk7ie/+KlMQ51jNdUskAriQmkJbM3/Ssi7JZ+HE+xOwZ96ZhdB1z21opZ4G/GoHNHcpTkMDK5mnQ3fKobTitmDxtID1RrTLzouHRT7gpO9QCYswuu7x8cY3CyiR2Z6HNr4/4hroI6t3uM+t+orQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kdeb+GboxiNNfknkb03jWdO2NoaP9Lcu6b7fz8YCvTA=;
+ b=pLBefK0K+09LkyZsNrZn718gwvWgI/t8bLKkLvEc3p2KtMKiFjrvqSdnN6MFz6B3JZsvSmaviFyQu2DyAR6VS4ZlZ/59lrJf8K9LDxZArDO84r/DBaTI+36WVtWQcGH1VNMSimu4I6W+hysTXw+Wq8TUZt86NBlCBbpb3sJX4CdHpyc+1dOw22uW05ap7+Z8EBQgM32Zk6t9LIaNd0b+/FfpctTbrWgmbRecbe2Ig1N8l+4qrsxpPzKmq7Xm26JmVqNrkaVCLrajzAm9qiyIHVgXUexQo1lc93+UMiaI07e6QVfaY24lHSTvoj1cCKjndqd/I9OPon3qmqrDT7/wFg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
+ by OSNPR06MB8687.apcprd06.prod.outlook.com (2603:1096:604:493::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
+ 2026 12:55:29 +0000
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::24bc:5613:3ffa:cb96]) by SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::24bc:5613:3ffa:cb96%6]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
+ 12:55:28 +0000
+From: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+To: Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	linux-f2fs-devel@lists.sourceforge.net (open list:F2FS FILE SYSTEM),
+	linux-kernel@vger.kernel.org (open list),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-fscrypt@vger.kernel.org (open list:FSCRYPT: FILE SYSTEM LEVEL ENCRYPTION SUPPORT)
+Cc: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+Subject: [PATCH v3 0/3] f2fs: support encrypted inline data
+Date: Mon, 15 Jun 2026 20:55:12 +0800
+Message-Id: <20260615125517.362294-1-liaoyuanhong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TPYP295CA0031.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:7::9)
+ To SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
- <20260614-zram-swap-ops-block-register-v1-1-6c1a6639c222@gmail.com> <ai9abo7GwMl+g43G@yjaykim-PowerEdge-T330>
-In-Reply-To: <ai9abo7GwMl+g43G@yjaykim-PowerEdge-T330>
-From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Mon, 15 Jun 2026 20:49:22 +0800
-X-Gm-Features: AVVi8Cfn_viuMbTTWIMGNjjYhf-WEwtj1PicfDVhhngZ6JvZ_KcLvfvomcBcjRY
-Message-ID: <CAJxJ_jh=q+Jh772w-hsJoCLTE82-btBj20R+zKL0Vn1fdccnqg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] mm/page_io: let block drivers register custom swap
- I/O ops
-To: YoungJun Park <youngjun.park@lge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|OSNPR06MB8687:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45ae7e33-9c3f-40ef-60db-08decadd6053
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|52116014|376014|23010399003|1800799024|56012099006|11063799006|6133799003|18002099003|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	ebslDmXRpUwWkHedWADOVzCq8W86S9Vui7jotJANVntyPOxUbaGjeEIYimjXsgwwVElxM35Ppvyr0iohgYxmVMTTc01IL8HiI+hL1IM0h3Z+0aWPJ8qMqCDspWx8b7RUC/Jtrqi0L3VP6EDntr+SmmAb/6U8khbRvd/Hg9oSaBA3OH1wRJk5p/Soh1if8oRNL7vZQpuYJcuNyk8UZBAZDeQsOCsuhwi6wvQtooFopc9qm8JDQKvZzB4XtVFP4djSUuY+Q6TjUtuxyGKm3cuJTvQQBjCbME6AQhuvts6ePTghS30Xqn81B0atmb6NkAehqHecYYbDWh0WZxkc4aG1WCIwHY3+mfzz4dMwEVh9/ARaPc/hrl8z6sdLigFbmI0QjfHT/NAhUZsU8VyZzia9k6SiVNzL1UV2AEMzbGgaudbUYQQFRPQ11TODvCn8IkuXIrG31uUXAcoZEeyNwem7P2sIos0XsebFk3BKrAT7fDJsZ+VoVA6QGuiWdhXw2s+HWJWGV0aXAAlPXQTXdt/Pa7diH5VDvbH1TF1HsBIxSfinXaoqUtCsSz5Y5zP/GTP+BVaq70f7VGAGHDxg71/0VRYkgX4YpygauJmrhf9bGeXgfWNKXr6QYY3lilqCztOTerDmJxSltGdZnOt0hyeBWxqexJRumOgDHsvs2mzNXYOsdM+PqI/cpkRBJHx7DlNqlFESrGrrxiqDF0Po5YVFa9JFZFTZCvoRSKYmvDE5kQYXkV9kyOtp4cQKNzh5ZaPvQnrgNfomLAacNVJZsPf5tA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(52116014)(376014)(23010399003)(1800799024)(56012099006)(11063799006)(6133799003)(18002099003)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?TbJq+x1fXPftDe7BjtYZvVqGpGsZJQ2rd9bmKmDRxNITzJQzjnXutLRP1GsZ?=
+ =?us-ascii?Q?oo8R31OtpjePUbNN6ukCdsHknw0Y+N/Db6n4ZiTNLLREKbDzZ6wMu6r8FTP5?=
+ =?us-ascii?Q?xpJzZpqMd6k7qU65YdYWqLFHhCnErEQjTtO7woYcIAwNF4PrYLVcGifIOLjA?=
+ =?us-ascii?Q?JigyiutTwNzwojTeemHvkGqvoq+AxZDiJ4bMo4TXgdA4Nesq93GpXvYHGDnD?=
+ =?us-ascii?Q?JLLMBdakEHkDKob+b0R1PGs27rDDWqU8pneEkXQh6zNXoNdis1ObTAP24Omw?=
+ =?us-ascii?Q?/jbRNbeoyQYM2Rk9aZjzbQ9zFoYywPmHKSZnvblbymIe6I1sXG19oNoYT0T7?=
+ =?us-ascii?Q?Wz/+nPXpSkSbwOcQykaLCqJRLAGs84AiGV20pDtCMnBFwE33S5f7CphbaBqH?=
+ =?us-ascii?Q?8szIvF7MRKHKoPSZzm/J7Kq5Y7n7MUXLh2nYOtbZJLIgkeZ6Tkdt8kEFttrB?=
+ =?us-ascii?Q?SZ7nuT1O8KAzCo/wp7UugJapdRuWeu3lWRo7Ava2JPZisZnSfpAowvsVnkOA?=
+ =?us-ascii?Q?lNXsAnx8+YG5uZhIpWUUJyASFsGWzQuBErFRVqTgO6pJUjf0peR3I0WQr1IS?=
+ =?us-ascii?Q?7UufVcQo3tMdVhxnzR1bzGVoZuo406crT6bMon1I5xnCoCWh6+jcSCUBRaLO?=
+ =?us-ascii?Q?i/XsikIruaE+0xJvSBJBgxSshMXx1KT5PGRKPoUbuCfKW9LSdgvt4I3wAaX+?=
+ =?us-ascii?Q?mOjDgWt4EuO1N3xXM3uaQ+CtEh1CCKaVhD32C5a7bTBBQcQLj6OIy0xATDIA?=
+ =?us-ascii?Q?cJxUIAzMoiU+hRe75huvw+YnRGJsFFLxIpTRqqjx1dy+qE8dneusWTVMyRha?=
+ =?us-ascii?Q?7SyjkLQEk1a18OhBv/Kwzi5il7tEgXQsLy1XsTTrPrmSL26wtrND0Yau6LDI?=
+ =?us-ascii?Q?lSh/vqb3IAUQ7KCVwrkdpvsTfDuB45t/rD1GC2QFJ8Ksm8p7Dl/ZtLqJvBVo?=
+ =?us-ascii?Q?FSbEX3ybO7e3Sl+fKoyhut2QNHm8Msjqt0MDlR2LQBFAQi2UZpg8y47r3abI?=
+ =?us-ascii?Q?pza1k48ciIHW1f4z7bJ0Sis+AGtuzRQBW41Rcgx1BSADaMp5VK9eDg+tedZz?=
+ =?us-ascii?Q?a5Fb9fwQBYoRDnvtQwnOCD7MKh2p+ua0DNnkb2MJqJzZyGL7gGmfr9nfHyeY?=
+ =?us-ascii?Q?LMJ3jHx9y3e63/KtIIobVecS5m/mBGWv4HenpkENnPykrrQ2ciaM57sjLXup?=
+ =?us-ascii?Q?hrQrCZKoE2JhJ8WLYbUpheBVPIU6LeCNRwrsToTnijI5fCIOsuMEwFAHSL57?=
+ =?us-ascii?Q?fBqrDGxt0Ij++H3HMpquWEgCgu3ZLJgqnJQ03E0H0kCOI432Rqm3NQuixRlt?=
+ =?us-ascii?Q?IpZsxIksWPZPCDYFHslhhLj6rWgy8gYDqdA2oEgTHNxRh6ojhJ6h0xNNN3M6?=
+ =?us-ascii?Q?eBIaSMd040MNF5JWf+r0RDLnqZpx17svLEgwEmX4Hye91U0vLi9qic6Q7Av3?=
+ =?us-ascii?Q?CUsBsIxv4K4LcE79TidCM5L9X3R4a7W2Cqne5TEBwHRBr4e0FgAnMgsQdROF?=
+ =?us-ascii?Q?yi9Ls/gIuCbSLaiYBtD48f/NJC0YCtz/Ua29PRz7Q/L73NGzZ/sEEVdTuXB7?=
+ =?us-ascii?Q?Sm1gkegWuedCY0gw6CJfc7P7rvT36SONSD43diWirum2wuH9awU0GROEyprh?=
+ =?us-ascii?Q?qagDSarxAisv0foWYDduq6zKoWtFZ5dm6mwGlA7FqTsL8wuMhE0g9pfn70iW?=
+ =?us-ascii?Q?9pI7uCg/JHTdzrR9d4zAVI/oZMg1RNqmo2qWMENzlmRY/6maX5VrGVJv9atp?=
+ =?us-ascii?Q?5af4Omebww=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45ae7e33-9c3f-40ef-60db-08decadd6053
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 12:55:28.7455
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aK+O1Mtq6k+WsK5ozche+pbwSIyxJ+afcAQmROWoGsejTbs9kBXh1ERYM8Ylzeje8m6L49D1O1kZd2smevcPTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSNPR06MB8687
 
-On 6/15/2026 9:50 AM, YoungJun Park wrote:
-> On Sun, Jun 14, 2026 at 11:35:29PM +0800, Jianyue Wu wrote:
->
-> ...
->
-> Hello Jianyue.
->
-> Currently, the patch commit log indicates only a single custom swap
-> registration is supported. Shouldn't we allow multiple block drivers to
-> register their custom ops simultaneously from the beginning?
->
->> int shmem_writeout(struct swap_io_ctx *ctx, struct folio *folio,
->> struct list_head *folio_list);
->> diff --git a/mm/swapfile.c b/mm/swapfile.c
->> index 284eebc40a70..ebdc96092961 100644
->> --- a/mm/swapfile.c
->> +++ b/mm/swapfile.c
->> @@ -2849,6 +2849,10 @@ static int setup_swap_extents(struct swap_info_struct *sis,
->> sis->ops = &swap_bdev_ops;
->>
->> if (S_ISBLK(inode->i_mode)) {
->> + const struct swap_ops *block_ops = lookup_swap_block_ops(sis);
->
-> Also, just a personal thought on this part.
->
-> Instead of using `block_device_fops` as a lookup key, what if we handle
-> this similarly to how filesystems use the `a_ops->swap_activate` callback?
->
-> We could add a `swap_activate` callback directly into
-> struct block_device_operations (zram's zram_devops). This way, the
-> block device itself can set up and replace the swap `ops` directly without
-> needing a separate registration/lookup mechanism.
->
-> What are your thoughts on this approach?
->
-> Thanks,
-> Youngjun Park
->
+F2FS currently disables inline data for encrypted regular files because the
+inline payload is stored in the inode block and does not go through the
+regular bio-based fscrypt path.  This wastes space for small encrypted
+files on Android devices using F2FS inlinecrypt.
 
-Hello Youngjun,
+This series adds an encrypted_inline_data on-disk feature for F2FS.
+With this feature enabled, encrypted regular files may keep small contents
+in the inode block.  The inline payload is encrypted before being stored in
+the inode and decrypted back into page-cache plaintext on read.
 
-On multiple registrations:
-Previously I was also a bit hesitate about this. Exactly, better to
-support multiple block driver directly, I'll update it.
+The fscrypt changes are scoped to filesystem-managed data-unit crypto.
+F2FS first asks fscrypt whether the inode's key/policy supports this path.
+It prepares the software transform only when encrypted inline payloads are
+read or written.  Inlinecrypt support is limited to v2 IV_INO_LBLK_64 and
+IV_INO_LBLK_32 policies, including the hardware-wrapped key configurations
+supported by fscrypt.  Per-file inlinecrypt keys and DIRECT_KEY policies
+are not supported for encrypted inline data.
 
-On swap_activate:
-That's a very good idea, to use swap_activate callback, it is much
-cleaner, I like this approach:) setup_swap_extents() would call it for
-S_ISBLK swap targets, and the driver would install sis->ops at swapon
-time. When the callback is NULL, the core can fall back to
-swap_bdev_activate() and swap_bdev_ops. That removes the separate global
-registration/lookup mechanism entirely, and multiple block drivers are
-supported naturally because each device carries its own ops table.
+The basic encrypted inline-data tests pass.  The test creates encrypted
+small files and verifies that they retain inline data.  It also checks
+normal read/write correctness and confirms from the raw inode block that
+the inline payload does not contain plaintext.
 
-Thanks,
-Jianyue
+Changes in v3:
+- Support fscrypt's v2 IV_INO_LBLK_64/32 hardware-wrapped key
+  configurations.
+- Drop DIRECT_KEY support for encrypted inline data.
+- Refresh comments and documentation for the updated key support matrix.
+
+LiaoYuanhong-vivo (3):
+  fscrypt: prepare software keys for filesystem-managed data units
+  f2fs: support encrypted inline data
+  Documentation: f2fs: document encrypted inline data
+
+ Documentation/ABI/testing/sysfs-fs-f2fs |   5 +-
+ Documentation/filesystems/f2fs.rst      |  30 ++++
+ fs/crypto/crypto.c                      |  47 +++++++
+ fs/crypto/fscrypt_private.h             |   3 +-
+ fs/crypto/keysetup.c                    | 174 ++++++++++++++++++++++++
+ fs/f2fs/Kconfig                         |  14 ++
+ fs/f2fs/data.c                          |   8 +-
+ fs/f2fs/f2fs.h                          |  37 ++++-
+ fs/f2fs/file.c                          |  24 +++-
+ fs/f2fs/inline.c                        | 134 ++++++++++++++++--
+ fs/f2fs/super.c                         |  12 ++
+ fs/f2fs/sysfs.c                         |   8 ++
+ include/linux/fscrypt.h                 |  24 ++++
+ 13 files changed, 497 insertions(+), 23 deletions(-)
+
+-- 
+2.34.1
