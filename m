@@ -1,248 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FE73ADBAC
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 19:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F473AFAF1
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 20:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781553324; cv=none; b=tpZ5D070Y4h/jyW9I07rFCWy8yE5b28eKj53TM2sPm2fdVwEaw9VO7V/bZuvo8KJsmU+FfMN/E9Y3Fuvo4AunHT8IPE6J+85lNtXYHCqgc78oU/b315OPRGHk0cSF7SnMWu44zTZdyR2hilJK1s1qIT9rHBdo+koJGoFfHAk6D8=
+	t=1781554785; cv=none; b=UxHtTXIWLZxlbO949xMSwCYSJW8Jqm6IrBtRQSb85DtQIL19Lo5XwcsQ/HBd+PDAipEQlZ60ipe8/tOWUP7rG7SuS+9aCn1rUylIhxA8fmqhBo9dNjneG/pEsROmR6cz8gbi1Eo+z/PcbP9HRVAlTG/X2j13VvWBH+RhPFUho2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781553324; c=relaxed/simple;
-	bh=QqAYeF+pErrNOT7tRLf0EltAfjeQSXOO0tjYp7IOxa0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mIfW3NxDjv7qFkmyrPVo5Zs8OF/z9+RO21TBNI8cbmrIEWxdyZ7HCrsLJTZ4JUTdX7YI/l66dZpKPaRqNHLXkJTdyWD0HAXx/eRnJkgqz+WMx6/XlDlajd31Cbjlqq0CfQC+DzSvTRSpq7f59y0QMnf04hrFNaJe/k6kd/Ji8NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXq66cZo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781554785; c=relaxed/simple;
+	bh=061ZRpXOvpEUBfQoZbaaLWrq4ZyrfP7xZUXohlU6zt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0ufrvBAuTLIVxG406P9TzhjDIctYky5CLKmdZy2kd0Ei2gnbpefiwjTRN61Nby36mW47jsSH3XCQbQKZk7wOsleStS+RWW1Ncnh0TMEaNj4ZTL5zLDIXKWJxs3Fz+tnyq+ukRa4lqOX9D799FOcSv6nI4RrhCEa+6C0PPrM8tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OlBfhli9; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXq66cZo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A801F01558
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 19:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781553322;
-	bh=DziV4AWXXV0/vXK0E8RzC2XjH+8nBwvIpECBlyE0DW0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=lXq66cZoW11dKjBugv0z9UTGVtZhT5oHri7tXO0eAgBteeKMl/XMp+E93EUb1VMEp
-	 FXXKVIYAxA0Ilt/tIdwF3H72HSfKBf+2eA6jTy8D5EaX+XVwm2jnSE39PBSuECcr5K
-	 zSopnecW9hTeDebjibU8deVrvk0EofIg9Fi1pvDo44p8UrWmgGGAvmX3DT/Tnbvu3C
-	 lOnSTDJZuqx0kjBBmvEDdTgi1NdFh2IQ/cGNmXR/gnmDQjkHp7dk6nZhqWos3U8DsY
-	 D3aGrOMdU4luV3n8Agp1oo4NIVPXmjZxJ0ED255DN7qD7VqGbbC/ocx6Fc5+T5XE+V
-	 EPEb4MAX2hxyw==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bec49f7e35eso483445666b.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 12:55:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/6cCJs9JSSw8z5qmYUPYBmb+dnPJEzB/YGq1NZGQgs4Vhq+35hjW09T9isqpIIpjEilG+DhmHQwMA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMkKWx9xU1FaETBC1nSgLBkPEXUcMObnyyc+OSFwo5KP9zZGUT
-	IKljixDzkuza5abXA2WjDBfXfF1x5V+/81p/KSRJhMb7fsDTfCI9lB9LAYOR5kz3c93u9hwhfR8
-	Qd27FT3EjdADP4u0/8YNWus8fH5Gssns=
-X-Received: by 2002:a17:907:1c82:b0:c03:ed93:6e0f with SMTP id
- a640c23a62f3a-c03ed936e8emr99025966b.35.1781553321486; Mon, 15 Jun 2026
- 12:55:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OlBfhli9"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-69de16f5f79so2069293eaf.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 13:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781554783; x=1782159583; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=62CFI3r/uqAq54jIdUJdPm0vilsCjqWfRG5bIQ6BFms=;
+        b=OlBfhli9HS/irnPOvqtCmZMwLE/1QFPVrzjc0fcCNOtgDfmZV7sZr1daVDzSC3I5Dh
+         MkWvlB+kzGyP38OBJEWpgmMqSq5mFoqkRb/Nugu6FdzmC1ijk1PL6Tlfg+uYYzn4FVcm
+         3OemZpSypRr72VX/jxAgftjMmJ0ykQqaQnreopTNVAjuifY8rJWqj/u6sov/ko/BN5j/
+         FBTkbQFc9Qex/pQQKR4AtQXDLr5C4lz6u/3XMo43hIxhTZ3FnQd2dwgT28oByr5zQW0o
+         zlxDG+rg8Qw5MsMMwGVtV6+z/BeVFsDTBwwTv9Du0dObieJMP4degkMB3T3AWUa5lHhw
+         drRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781554783; x=1782159583;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=62CFI3r/uqAq54jIdUJdPm0vilsCjqWfRG5bIQ6BFms=;
+        b=An/Nd2KysI3h7d3aznv1AeoVFzqeD6epQ+bCnmoM7mrrHl2rBeGSIwFpuZXkKiy7qA
+         3zh/AmspNUKgzUJi2XUN2QvKTeBXlJ8cWHtv8/3Qgu7LghejczI8qbJQAh6zdujlRRuq
+         i+h5QX3HmzvY6v6CXegmS4xVlf6r2zm02s2TT03QWF1SysUmywLJQ0inWaVgjUmW+uxG
+         pg4eTxN+M4OY8ENcgsVO2XQCHmdcwE3uIiPZDxGGixtoYaF3O8nalE5HyL/b2Z7l2THX
+         lIsodGFa3SjvJBz/R/obJ6qJcTiW/il6WFozVXsmM6Pjkahhk1hzz7wxtQcFexv4BkP/
+         m1Xg==
+X-Forwarded-Encrypted: i=1; AFNElJ8IAT6sRRyCHYFJOw8B+/Ed2ZE1DvcNhUMACOQJjOa4YAA8VNiM6e9KW/uGIxBCFcTVzRd9es1bdDQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6riZ4lFa0Fh4Hlsaq9cZ2xz0HHcdKjCt0geFtwPPA9iCzfNvt
+	gNZtpqitFagAPzdC7i+LpQVB3Ld2MSKL7UlrdQB+F1KV0j7CCp0VOvRs3AEYgwGofQ==
+X-Gm-Gg: Acq92OE1M+jMzhQirIxP98IUMAS9+XxmWCi0ZUojvC2qGlFTWdYwwWt5JTYuIaMHx+n
+	wiOWzsGeFWDOZi+HmJgkROB1qxWeWWF/VIGLMQrNbACMFQt+I0scKD+Ipd4TqRzpk3pjMpL6FF7
+	HTg3x+uqwfN4Fj+KRq3jbvvuU37/m4pNdJi6K4OCdhkSvw9PiQWnVV+1zBhsB9PWBhOynAsruMS
+	iOgiF6HDYoybWORT7MFzF5eb437pOFSpNK4qScC6QdUvcEDtr08Fr3GBk2X+X5pqBefoT95nx5m
+	LXpGIjo+6S2Pp5C0Pw1geeNf/gy2ifUftBJAuAVgAo4PRORg5tnVd0qu5kYNQWRmmxK/caRonqr
+	N9fhW4PfcOZKBcsWiD/YCgTh/7AK1kHMHcXqX86iYV2fRz/zzjbXp7X4dnvh1TR3PQhsZiGJlox
+	ikIpxEPWid3OrHcWk1EfLPnplXyhOObJ9VHdlnpvc6+arqM43V2hLuqh1r8B4pUie50lHd
+X-Received: by 2002:a05:6820:8187:b0:696:1a25:fdc9 with SMTP id 006d021491bc7-69edc6d452dmr9662928eaf.28.1781554782286;
+        Mon, 15 Jun 2026 13:19:42 -0700 (PDT)
+Received: from google.com (57.221.30.34.bc.googleusercontent.com. [34.30.221.57])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69f00f50340sm3679813eaf.13.2026.06.15.13.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 13:19:41 -0700 (PDT)
+Date: Mon, 15 Jun 2026 20:19:39 +0000
+From: Neill Kapron <nkapron@google.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org,
+	Paul Cercueil <paul@crapouillou.net>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>, linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@android.com
+Subject: Re: [PATCH 1/3] usb: gadget: f_fs: Initialize epfile->in early to
+ fix endpoint direction checks
+Message-ID: <ajBeWzttjurOKGV0@google.com>
+References: <20260614181006.3648010-1-nkapron@google.com>
+ <20260614181006.3648010-2-nkapron@google.com>
+ <2026061533-oval-buckle-b90e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aicJBVT4pBvmyooT@linux.dev> <aicZ-5GX9De3MAU7@linux.dev>
- <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
- <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
- <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
- <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
- <aiw2p5ANjsQUCIHA@linux.dev> <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
-In-Reply-To: <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 15 Jun 2026 12:55:09 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
-X-Gm-Features: AVVi8CcAKcF3r9QvkNN-vPtWkfo808TWYLqIzLjO2syU-3fTyvshBGT_GznO24w
-Message-ID: <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
-Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
- proactive writeback
-To: YoungJun Park <youngjun.park@lge.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Hao Jia <jiahao.kernel@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
-	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
-	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, kasong@tencent.com, 
-	baoquan.he@linux.dev, joshua.hahnjy@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026061533-oval-buckle-b90e@gregkh>
 
-> In that case, the internal logic could stay roughly the same rather
-> than counting via a page counter. Something like:
->
-> 1. Change the interface shell: tier.*.max =E2=80=94 allow only 0 ~ max.
+On Mon, Jun 15, 2026 at 04:30:49AM +0200, Greg KH wrote:
+> On Sun, Jun 14, 2026 at 06:10:00PM +0000, Neill Kapron wrote:
+> > 
+> > Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
+> > Assisted-by: Antigravity:gemini-3.1-pro
+> > Signed-off-by: Neill Kapron <nkapron@google.com>
+> > ---
+> >  drivers/usb/gadget/function/f_fs.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> This should also go to stable, right?
 
-What about a single interface as I suggested to remain consistent with
-memory tiering?
+Yes, I will update v2 with the Cc: stable@vger.kernel.org tag.
 
-> 2. Keep the internal logic as is: 0 disables the mask (child memcgs
->    off too), max enables it (child memcgs on too).
+Thanks,
+Neill
 
-I think a child should be able to disable a swap tier enabled by the
-parent, but not vice versa.
-
-> 3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
-
-Not really. memory.zswap.max is in terms of memory usage (compressed
-size), not swap usage (uncompressed size).
-
-[..]
-> Let me clarify a part I wrote confusingly. Handling
-> memory.zswap.writeback via tiers is possible, but I don't think the
-> interface itself would be replaced even if memory.swap.tiers is adopted.
->
-> Selecting only zswap in memory.swap.tiers would not just disable
-> writeback.it would also block regular swap entirely, which differs
-> slightly from the current semantic. (... "Per the cgroup v2 docs: a
-> zswap-only tier setting is subtly different from setting
-> memory.swap.max to 0, since it still allows pages to be written to the
-> zswap pool; this has no effect if zswap is disabled, and swapping is
-> allowed unless memory.swap.max is set to 0.")
-
-I don't understand. How is disabling zswap writeback not equivalent to
-only enabling zswap as a tier?
-
-Do you just mean the fact that disabling zswap writeback is a noop of
-zswap is disabled? It's a different interface so I think a small
-semantic difference is okay. In practice, I doubt that zswap is being
-disabled at runtime.
-
->
-> So the interface itself needs to be retained, and it could be extended
-> toward selective writeback =E2=80=94 e.g., passing a desired tier into
-> memory.zswap.writeback so writeback targets only that tier. Currently
-> it only controls on/off. Other tiers probably don't need this. demotion
-> based on the selected tier should be enough.
->
-> Thanks,
-> Youngjun Park
->
-
-On Sun, Jun 14, 2026 at 2:23=E2=80=AFAM YoungJun Park <youngjun.park@lge.co=
-m> wrote:
->
-> ....
-> > >Based on the memcg interface currently proposed in swap_tier
-> > > (memory.swap.tiers, memory.swap.tiers.effective), I think it aligns w=
-ell
-> > > with the current direction. It provides a foundation for selectively
-> > > targeting devices in tier order.
-> >
-> > Here instead of cpuset like interface, we may want more zswap like inte=
-rface
-> > where you can put limit on the usage i.e. memory.swap.tier*.max. We can=
- start
-> > with allowing only two values i.e. 0 and max which effectively will be =
-the
-> > same as what you need.
-> >
->
-> Good idea, and it's certainly feasible. When I considered this a while
-> ago, the reasons I didn't take this direction were:
->
-> 1. There's no real-world usage for adjusting the swap tier amount (it's
->    either 0 or MAX). That said, your suggestion to initially allow only
->    0 and max is the killing point, and it's making me reconsider.
->
-> 2. The implementation cost seems high. The current implementation
->    handles this at runtime via simple masking.
->
-> 3. Relationship with swap.max:
->    - If we tie it to the current interface, wouldn't limiting the swap
->      amount within a selected tier already be possible? I wonder if
->      that alone is enough.
->    - If we add tier.max, it would need to be a subset of swap.max.
->      (Any other complexities here?)
->
-> 4. vswap enable/disable: vswap doesn't seem to have an amount-control
->    aspect, so an on/off semantic would be clearer.
->    https://lore.kernel.org/linux-mm/ai5kOOmR1LPTWs1J@yjaykim-PowerEdge-T3=
-30/T/#m8831ec057bf9387978d3bd698f51920600e09a04
->
-> In that case, the internal logic could stay roughly the same rather
-> than counting via a page counter. Something like:
->
-> 1. Change the interface shell: tier.*.max =E2=80=94 allow only 0 ~ max.
-> 2. Keep the internal logic as is: 0 disables the mask (child memcgs
->    off too), max enables it (child memcgs on too).
-> 3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
-> 4. Extend later if use cases arise.
->
-> On balance I still lean toward the current interface, but if a per-tier
-> max is the better fit for memcg's direction and others feel the same,
-> I'm happy to switch. I'd like to hear Shakeel's thoughts again, and I'm
-> curious about others' opinions too.
->
-> A few more perspectives on the points below.
->
-> > I will respond to your other points later when I have time.
->
-> > >
-> > > To summarize the discussions so far, the following points align well.
-> > >
-> > > - Per-cgroup swap control, as I suggested.
-> > > - Proactive zswap writeback (Hao's usecase)
-> > > - Swap device target demotion(if it wants selective, then it is more =
-better), as you mentioned:
-> > >   https://lore.kernel.org/linux-mm/aicZ-5GX9De3MAU7@linux.dev/
-> > > - Virtual Swap on/off in the future, as Nhat mentioned:
-> > >   https://lore.kernel.org/linux-mm/20260528212955.1912856-1-nphamcs@g=
-mail.com/
-> > > - The memory.zswap.writeback alternative (no hierarchy model conflict=
-)
-> > > - zswap is first swap tier.
-> > > - Promotion. (Also better for selectve usage)
-> > > - tier based swap policy (e.g round-robin...)
-> > >
-> > > To accelerate this work, I believe we should reach a consensus and
-> > > merge the currently proposed swap_tier interface :)
-> > >
-> > > If the above approach is difficult, I would like to suggest an
-> > > alternative for progress with the memcg interfaces removed:
-> > >
-> > > 1) We could make zswap the first tier and create
-> > > a use case where memory.zswap.writeback internally is handled by tier=
- logic.
-> > >
-> > > 2) Or simply merge the swap_tier infrastructure itself first.
-> > >
-> > > This would allow the swap_tier infrastructure to be merged and discus=
-sed
-> > > more easily.
-> > >
-> > > If it takes longer to adopt swap_tier anyway, by doing so we progress=
- next step
-> > > as a experimental feature.
-> > >
-> > > - Apply per-cgroup swap as an experimental (debugfs) feature.
-> > > - Apply Hao's use case experimentally or as it is as Yosry suggested.
-> > > (future migration to swap tier)
-> > >
-> > > How do you think?
-> > >
-> > > (FYI: My emails to kernel.org are failing due to internal server issu=
-es.)
-> > >
-> > > Thank you
-> > > Youngjun Park
->
-> Let me clarify a part I wrote confusingly. Handling
-> memory.zswap.writeback via tiers is possible, but I don't think the
-> interface itself would be replaced even if memory.swap.tiers is adopted.
->
-> Selecting only zswap in memory.swap.tiers would not just disable
-> writeback.it would also block regular swap entirely, which differs
-> slightly from the current semantic. (... "Per the cgroup v2 docs: a
-> zswap-only tier setting is subtly different from setting
-> memory.swap.max to 0, since it still allows pages to be written to the
-> zswap pool; this has no effect if zswap is disabled, and swapping is
-> allowed unless memory.swap.max is set to 0.")
->
-> So the interface itself needs to be retained, and it could be extended
-> toward selective writeback =E2=80=94 e.g., passing a desired tier into
-> memory.zswap.writeback so writeback targets only that tier. Currently
-> it only controls on/off. Other tiers probably don't need this. demotion
-> based on the selected tier should be enough.
->
-> Thanks,
-> Youngjun Park
->
