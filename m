@@ -1,180 +1,104 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023086.outbound.protection.outlook.com [40.107.159.86])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA6040C5A0;
-	Mon, 15 Jun 2026 16:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781541090; cv=fail; b=n0GFTQ0b4AYCEdkqrnf3600SlyldTLhjNTy9Frt4S2sO0UNXJ1ZMyIDZevrSB1KWKxPAqlb88uKNFlhYSJIIaOFx/a7RwD4Dx6ndlLldNzk+KYjRJBlvQjdTjZ1Po4dZSpbKQ7/LdKe7Z94mPEaA+RNoin8dhdqbcvmMhmRlLGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781541090; c=relaxed/simple;
-	bh=TytdQKYbu2nLdHlG7jOSlL80bv3qC+5mkuUikR4A6Ik=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RKzcBrIL3k3wEUmM5gkHaOavvn9fpDyX6uPyvcCsAOYztrPuPgbMtvOPeDvQxDhlBLN98ZJUgDIBlQn0pas7AL/Sqb3eqIE85sL0hXbtrHSFhjuB7OmWOewZHrgEpsSNbxJzoABQyHfTwFhQ/r+d4KqQf097T/ikF+INToRKoXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu; spf=pass smtp.mailfrom=genexis.eu; dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b=t6fToeDu; arc=fail smtp.client-ip=40.107.159.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=genexis.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF334DB56;
+	Mon, 15 Jun 2026 17:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781543087; cv=none; b=Ymi+PTGKMzWF8JcTVF73EXAhbBWkyV676XQLbOinj95wiD3KXcnzHBSYzJQ9YI1CNsQmf+IMQeTd44SNvPWBs/kRlkKUZdVvrG3ze1Da5CgAsp0d+wiRbF5cqUK8nE3NBk1gPtc5MCRhjSXVgiBRFMn7efV9r/hxOt6iDe3Icpg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781543087; c=relaxed/simple;
+	bh=k9wzEDrn8OWY0tjJOa6e5RtLbGoq+IyJnXkfwU07P80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QF6uQEQEHg9futom0hrFQOs9iAFBd2WEcfKDttCLlCD6R0Y/uNsPWnjE6MHD5X8PasxdiQqHa54gITg+3IHa1VtAZ+aNpnwCBPcZv1C4K5OpK+yDoWu2/F++GoHEZ6jDbfrui1TsI8VJq+htd6F1Ds5re9OTUVUXD4hh3rbekcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=SLabnQnx; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b="t6fToeDu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WG4K+VxYnx2+caLBzs1ZRrPrMA+ThOz4jXJtJyrXA05XIFMv+ydGtX5TLnk4kPOx3ITutFzGYd8nyiREr3HbsfOK3pYYTJsZ7LmOFqL4VkUY84iFco26iXgXPaTsqBAdPnq4q/TwoY51+I6WcReJmT+D0tXfMBceMvnWOq0I+r8GW3hb2qP0uv3ssjWTw8Yqpplgb7EWJQE6le2KCq2PadbkxJ48i2AhfmKnOXXkmG5F7N6glnlD7rc/kYVbTZV8Z+wz1lW+qzrMso2vHbh4H1OSJaMUeuxZtpw2+UvNcXnD4mFdcOMiNVvDEVLB7IAZTqbAWFs+xOEdcFy6KDapCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NasGHcUroOP3Nw6xE26fuJjayUMFOxbgddpKb56cf64=;
- b=tHdQTF+KiNVHaUMA+74guyALS6cl99ChHwuirQ24aW5hUv8U506+QPh3uEjMU7o0tbz0mNolZBidzpgkwumB+gHg++Rzu6kOsd/JqPp1pAnczdWlCwR26pNpWJIGO6xB6AGYG0cyd9kks7JwuwH3gOEneJnYws63loS/W6E0B/yy8tU1gsO49ILpEewpgp98qgvMSphJovoaP9H8fle8znpEevTuXgIiAe+43HxUK/b1JWDMamWEQFP7XgytNAh/r0UgJAToZOPzVIJecqY0f1lu2C8qNB5ZRmCrbj02UiFgO6GJKhObsmtmTzkvKA9jW87vVzEe72f2G221RwTayA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=genexis.eu; dmarc=pass action=none header.from=genexis.eu;
- dkim=pass header.d=genexis.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=genexis.eu;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NasGHcUroOP3Nw6xE26fuJjayUMFOxbgddpKb56cf64=;
- b=t6fToeDuqYC7nmMoTkaI0WbfloHnjLaFWx3SRTlhkf3WL2up0CmjzQVmIOEX0PalHSk2nbBTiKMxROyc21krHD+8/utcqE/hlEcwaMOrr+oTdLTYLwDeHFbUGs814L7PYmHR4cJ0Mgm5ylL76hOdCx727v9Sn0gF/tUwws/a29Y5GPuNJ3RUE6/tWj86NiOCgG1mY1xSRm45JPKrM5Zs5JFIIdmBHio19Rc9ZMMqH5wmoO2l6Uz8meuzJqdHvIW30ehPC/Oyv1FKumDoLQrBFxXb21U8RDo2Kibxf6mpfeWSwXRRraruqy1akxvyvgOBcfDddJWAvtCZYrphxMjBHw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=genexis.eu;
-Received: from DB9PR08MB6697.eurprd08.prod.outlook.com (2603:10a6:10:2ad::14)
- by PA6PR08MB11287.eurprd08.prod.outlook.com (2603:10a6:102:514::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 16:31:23 +0000
-Received: from DB9PR08MB6697.eurprd08.prod.outlook.com
- ([fe80::bdec:3e95:6614:441f]) by DB9PR08MB6697.eurprd08.prod.outlook.com
- ([fe80::bdec:3e95:6614:441f%6]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 16:31:23 +0000
-Message-ID: <5d030a71-c28e-44fb-aebe-486e8c4ad8ad@genexis.eu>
-Date: Mon, 15 Jun 2026 18:31:20 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 11/12] net: pcs: airoha: add PCS driver for
- Airoha AN7581 SoC
-To: Christian Marangi <ansuelsmth@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Saravana Kannan <saravanak@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-References: <20260615122950.22281-1-ansuelsmth@gmail.com>
- <20260615122950.22281-12-ansuelsmth@gmail.com>
-Content-Language: en-US
-From: Benjamin Larsson <benjamin.larsson@genexis.eu>
-In-Reply-To: <20260615122950.22281-12-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV3P280CA0042.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::34) To DB9PR08MB6697.eurprd08.prod.outlook.com
- (2603:10a6:10:2ad::14)
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="SLabnQnx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+	bh=be/KypQX5Q9fujajARM6Q7r9w26ilWIZmzbrtGfAKys=; b=SLabnQnxi8RKG6kB4YLIrRrIte
+	+jYEaBgX5DOoDOdPOU6k6ypOK6lDxxOMXQzKEUszFj5yTLPDASBaagrmnsOk8tUGdmzHw2XGk68HM
+	2J1tv7+pE0CjbBOIjeYCz0TsyHOIrqFb8Mb1LadfEs+3t0bUVsavfv//KIZ2S3hmTXIBIqEbnE3qn
+	zsd3Hxu29/Ylu8C3lRKI+WwMxWxUWcLIz0u0fTGyYSKAR/XPPXo0Rkv03xUIJElu5cOtap9hCSZj1
+	74eb7LaTsGudBKuTsb4/IH254uFPRDECMTh8XzLqKRh9ykQzpGUZV9OECxDmxcCHO22vobRU+rK1T
+	RNRNGWLQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wZAjg-00000000Vxn-0xg6;
+	Mon, 15 Jun 2026 17:04:32 +0000
+Date: Mon, 15 Jun 2026 18:04:32 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Magnus Lindholm <linmag7@gmail.com>, linux-alpha@vger.kernel.org,
+	Vineet Gupta <vgupta@kernel.org>,
+	linux-snps-arc@lists.infradead.org,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
+ omittable "root=" cmdline option
+Message-ID: <20260615170432.GW2636677@ZenIV>
+References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR08MB6697:EE_|PA6PR08MB11287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97f068e3-3820-4487-88f4-08decafb89d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|921020|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	KeQKE39+ef+RmI0gARN5VTSDHydSaR7vv2BU8RkF8hMos/T0bozTbfyCQXhddl4PPaB11/i2qg0PnwoIRvE0+83XvmliWFA5lIumh8Xn+PCe+Z7cQ0OQ8AX8o8LQ2lEN3zGRc5gtlc6/D2CUUSNQx0574z89doGK0GCPo9ii9XDALy8AiRZyVafQV53WklX/PEVtWXsTIdUsf2QPOt2V2qZQAUzvmslK2Sb9/fcLHSNdwwaw+l+UKEy4OtRSJZfUfpSfAUnj+fMKqpziZI8geV/eEhfOiEA7lgYOFXeCi/u9J3vqGFFaUyrGr+JVbzugsG27N+5cD/mJTYhhwj1nBVFJlWMrGDRlnYKAEcifTqZuBXTzQT2Kj10U5VuodZqNJuTpPlZ2Ewsnch0VXLu8RwoRQu7V+gRWsmAXvACGjHuGfTS+HkMKEXSp3o2yb0L9NbgbCkrOTJL7hJCju4FHS/n2PCeB2CQ65jGDhxzfn6ukc/DcsIVps0xa4ZhoSSqGbodoDOJtm1agO77lVcQ5VJyb7jWGk4q0+F5Dtn1uMaXi3cnjPDNWISpy+CoUCuFReKqk3+90gX5+7ZPgSVGfNla9M2lY/tzIS2nk3WqvcpxpRCNQ3pVlgXk9UB1CCyxBhXemDDD5sz0puqq1F2LOaDPznhccDBppF3+xM62YKhuc1CYjUXQD61aC4XBVndrAJxfnwTck+Sfr4ZPxO8+XTP9wfMnc88sJY9kPbeCEfX8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6697.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(921020)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TUV0VEFqWU9QRFQxOUdSeDR1VTBSWkNiTVdZNFFNbWM3L2l4Y3JGRVV0T0t1?=
- =?utf-8?B?Z2plZXJHV1gxeXJXY3llVGNod1l2aHlUU1NGQ3EwaTZWY1JrdlV0bGpqNVd2?=
- =?utf-8?B?UFFFb2ljLzlxOVZVemlKZ1FSUDN6NktrcS82MGRrS2RFWkVKejRkVnUwbm9p?=
- =?utf-8?B?ejlJVkMyclRnUDFiR3MxU09DSlVYbDhRQlZnSDN1ZlJzSWdveDl4ckZrN0R0?=
- =?utf-8?B?NzFET2VNekZ5Wm5YSGdOZm1JQmFDcHg2dlQ1cjlYaVN4dFdWbzNLOEtic05r?=
- =?utf-8?B?dTBUVXdYamlHZEkvQk5lbDR3bzVJZkRKTldWU3dmbmdiMEFIS281Z0I1S2FT?=
- =?utf-8?B?YllWc1pNTDhweDI3LzVYYkhuV3NMeTg1czE1Y0NHSmk1OU5PQnZEc01SU25j?=
- =?utf-8?B?WDVZbTZrS0JZbWlUZGMxbWJYQXFBclVIaVhkK2xYRVExeHpqZExXN2VhMkI3?=
- =?utf-8?B?Y2VqbWJpREVaZloyaXhYMGNoN2Jnei9iR2Z3QlNkWkd1dDk5b0tjejBFZDFO?=
- =?utf-8?B?ZGJvU3RuNHNZZk9RT0ljb3JMNWJnRFY5Wnl0WkNkVU9aZmdvbnJXbDZmRSt6?=
- =?utf-8?B?SXdDYWFmTHN2ZjFDTzc5S0lSMmhPamcrL2NqMmg3TzhKdGRqT2FqUTdkNUhn?=
- =?utf-8?B?SVFLNmIvSzdmN2JscHRObFdYSkxza2VxR3l5QzhpL1liSjYydFpuN3ZQNEtF?=
- =?utf-8?B?QVpJeGl2d3pVakcyMVROQTVNSnNqUVphNko2MEdUWm8yNEJMSXNpdmh3bFhX?=
- =?utf-8?B?QStvUVFaRjY5ODFhNGJMNmNVbkxSdlBnV3o3VWx0SEgzR1BxcGRabGdSWC8v?=
- =?utf-8?B?cnpwdXhKbE00MkxYWmZYQWtMWTkxZUIxbXdIaWhTQXdGWStudG1veFRPdjlz?=
- =?utf-8?B?endxNGV5L1RyWjQ5ZzRudFdhYW4zWWJwS3gvK01hWWcrY0I2RmFtYnVaUkRy?=
- =?utf-8?B?SU5TMG95NFFTOEVMaVJPcVl5bEdRQ1Zidzl0ZWt6YUwvWVZ1WVhremJkSHNP?=
- =?utf-8?B?MXNYcWJtZnNWbjJXMEZka1FwbWprNGZSWEs1eUFzc2dhUXU2RjZpSGY0dDRN?=
- =?utf-8?B?cjFiTnM0djlsdXNxNWE4SG5TSlEyYlUvU3ZUWCtEbGQ2cjJaZkxWR0kvbG5W?=
- =?utf-8?B?T3pHVHN4WG5BOFFrZlFmNncrMnRyWWpOckM3THVZZklud2dxREFNVS9mVFJB?=
- =?utf-8?B?cUt4ak5RbGhhVVhSV3FFbGhUK01kVk5NVnF2SEVTK2hFMVJVVWZZQnBBcEpY?=
- =?utf-8?B?TlJ0UzJUSnZVUVRXZlJxV0t6dFFZNW00RjJBbUpNVU5DQTRKNktQbThVRExD?=
- =?utf-8?B?RlFhYjZrc2JOblA1MWN3STR6OThkTld0eGdHSE9UREduOUJTdThoeHpTYjhH?=
- =?utf-8?B?QU1BQ1Y5K1MvZXBMZFZxSCt2UXQvaUNRZVFxQzlRM3IrcEhVanJ6UzhERzRK?=
- =?utf-8?B?Nm4yMHhOeUZRcmVtY243NG0xL0xycmlPajJKUGRDeENGMmM0TmVieTM1dW1o?=
- =?utf-8?B?dFhGRTU4VlRwSTJjVVNTRHJ0dlN3MWFJT1Y4d1oybyt3WDR6Yzc4R2JsVGFj?=
- =?utf-8?B?OWxxTFNsaXNNalZ6NVh3SzBaZjE5c1ZYaXFoM0FsR25hZ3V5OUgraTJwV29o?=
- =?utf-8?B?clhvNy9ycDB6bDZONzVqMGUvNlBXQkVUM05TNkFvQzhTVGViMnRYSHhNYVUx?=
- =?utf-8?B?N08wMllHblhSM3JMTnZBUlFWZlZob3NTelF0YzVNS1B4cnhlTzZIcnpMM0tW?=
- =?utf-8?B?Zi9oUW5kcmJ3R05VZEdhQ2RNRXFWb1BSNkttUS94SEQwVGtTbk5rOXdXUzdB?=
- =?utf-8?B?UkRCREMybDZFSHliRy9TTlFRVVE3UFJnOTZEMk05T0dKMVFFMVVLWVN1ZXhx?=
- =?utf-8?B?SlhQTFppNWxyeXVZMWE2MGNBUVVZQjlzVm45Z092ZXM5TjJhck0vaVhxR3h5?=
- =?utf-8?B?ZFFUbzFGNjlJaUpzRWpGM0JYNzhyOHlmUVVtdlBheVBDYU5KK25OWnJrTFcx?=
- =?utf-8?B?VjZvMDdOYWh4SStrK21mMkJEZHRRTFZsZGpESElXcnhtODNiQnZEQk5PaEds?=
- =?utf-8?B?ZXNTRWdzSlRZZXJObUhXQmZjOWpReWIxSDQvRXVLc0FzaXpIODI5UTFEeDFP?=
- =?utf-8?B?R0xDWmNHd25jM1UrbU5BemV1VGpvZ0FUamVPWE84YXd0Q3lwSVlCZm1KbFRI?=
- =?utf-8?B?MkQwN3d1Rmh2M2NSdWRwbGF4KzRLbU4yd002WmxtdXdSdVZnTDlIR2RZUHhP?=
- =?utf-8?B?ajVRTUxRc1FJNUJ1WE5RakJuRkkrMTVPQjdheTdNWjc3bXNid0tXbDZMNjdz?=
- =?utf-8?B?cUIwSWZPTWU5dnAraDJMa0RBblBGQ1pYcDRLYVFPMTJBdHlKb08xRzloN3JM?=
- =?utf-8?Q?2Yz3wCoVDf3EY/sg=3D?=
-X-OriginatorOrg: genexis.eu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97f068e3-3820-4487-88f4-08decafb89d2
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6697.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 16:31:23.3573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8d891be1-7bce-4216-9a99-bee9de02ba58
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IPDpToeXDeDOXLTTgTgaNQjQsTHULs62jN22riaflzjvv5FqDmTkRA4NoDYUlVNaoXlt88sbYm5LMw+nZrzsBglJ6NEOKTEtywSnwam0cjc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB11287
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Hi.
+On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
 
-On 15/06/2026 14:29, Christian Marangi wrote:
-> Add PCS driver for Airoha AN7581 SoC for Ethernet/PON/PCIe/USB SERDES
-> and permit usage of external PHY or connected SFP cage. Supported modes
-> are USXGMII, 10G-BASER, 2500BASE-X, 1000BASE-X and SGMII.
->
-> The driver probe and register the various needed registers and register as
-> a PCS provider for fwnode usage.
->
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->   drivers/net/pcs/Kconfig                    |    2 +
->   drivers/net/pcs/Makefile                   |    2 +
->   drivers/net/pcs/airoha/Kconfig             |   12 +
->   drivers/net/pcs/airoha/Makefile            |    7 +
->   drivers/net/pcs/airoha/pcs-airoha-common.c | 1318 ++++++++++++
->   drivers/net/pcs/airoha/pcs-airoha.h        | 1309 ++++++++++++
->   drivers/net/pcs/airoha/pcs-an7581.c        | 2093 ++++++++++++++++++++
->   7 files changed, 4743 insertions(+)
->   create mode 100644 drivers/net/pcs/airoha/Kconfig
->   create mode 100644 drivers/net/pcs/airoha/Makefile
->   create mode 100644 drivers/net/pcs/airoha/pcs-airoha-common.c
->   create mode 100644 drivers/net/pcs/airoha/pcs-airoha.h
->   create mode 100644 drivers/net/pcs/airoha/pcs-an7581.c
+> Tested with GRUB, which implements the LoaderDevicePartUUID EFI variable
+> in its bli module [3]. With this, I was able to boot a kernel with a
+> completely empty cmdline and no initrd.
+> 
+> [1] The Discoverable Partitions Specification (DPS)
+> Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+> 
+> [2] systemd-gpt-auto-generator
+> Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt-auto-generator.html
+> 
+> [3] GRUB -- §16.2 bli
+> Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmodule.html
 
-Most likely there will be pcs drivers for the EN7523 platform also. Can 
-the common code for an7581 have an7581 in the name instead of airoha?
+So what does that thing, tied to EFI as it is, have to do with architectures where
+	* firmware is rather unlike EFI
+	* firmware wouldn't know what to do with GPT
+	* GRUB is *not* ported to, let alone used
+such as, say it, the very first one mentioned at your [1]?
 
-MvH
-
-Benjamin Larsson
-
+Or is that conditional upon "if anyone wants to design replacement firmware
+for those, and if they agree to follow our wishlist"?
