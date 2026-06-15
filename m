@@ -1,176 +1,189 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6058B353EC0
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 13:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781529565; cv=pass; b=HRv9+CU42bPvniuJwr8Gt4V5muOXbfyuUvymXb7MENAGHR0PQfmc2x/72V9IfTEmla5umCj7qD2zOwhVX5EspYih4wSm/ukwg4bETZvY5hPvT+omgh2+WFbDVNWdMfg2QGJUAtSJrSs3J+LIe2jIXnPRvCKMOJxjqhju4ACU3Lg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781529565; c=relaxed/simple;
-	bh=aylr0jSHqZiMcYssPunDBwm1K7Kn5m2/H5slQ8rRPTY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=usXonkmzf8rGgrrKgQ7dN3BXRce24GZqITpQ6cO2uebNN+hrrQ+mTFsvTIE4Sqsb/aNrX4xNFbzX/HcfqZSw2v8Md32QIt3+qCCY+yFc+rBqnxas+7kbC7KL9Lrx8sFj92yNudsi/C1XnWhtcZG8DyAfUmcx/m7GrMmrtalyvmg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BmNGpbs1; arc=pass smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7019B3128AB;
+	Mon, 15 Jun 2026 13:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781530295; cv=none; b=JqFXBnNhfRQdncqmYa4SjL9RwNbXMlehrLJuqydj2h+BKQxHOuWh8H37NL7AlBEXXHP0L4YUSr+q/M4ImbZFdCjMz/wBCDEBiDVHtVm8R2gO5jt26PN7w5NgrH3DN1KFKcU+VUQx3AUBbkDlOzcjMxLoJFuFIvjuyKPu3noDXGM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781530295; c=relaxed/simple;
+	bh=vxGw+J6MkVQiW1g+xovzopOXnMIewQeQRSZQMf+b2JU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Tvgu68UEiSxjr7EqHqeh9gLt61ONeB8jEuxT3G7J2FWG+m8W/CvQbEc40Ho7YQqHnx7e8kRqVjeyevMbSpx6FMEir/NjgQKa1BEyBRg7KXA7xQliIhgmyVT8m6igHzaoJWQ0gCnVxQTONMuCimzjwRe4V7gyAjkWuRt/vgb5a0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DQHVEXjM; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BmNGpbs1"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39940cb1ba0so13802631fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 06:19:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781529563; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FI76WtxhqNtML3NEWqE6SC/nY+AHmr5HfmJMDLqRLogSSB/OjoRqkmGWSvEmo2JSXL
-         SZNtm2QwALX/P5Q8XOUk2FwHh7k9rXVx16Qqaygbq4EMmOIz7Mm45EMUwaOBlQiRnswb
-         2c42vAQqtKK64maiVIe/YToeRlX1i67fNwM3xgk7gIXiU5Ax2mMRuXkqReKKJsulL9CL
-         bqMbbxWKKaTS42I9z4b8WFAbN/zSdytcoHIWkVSV/NN0/CpBYDfmLRNOoidd/c0o29xC
-         shvlScD0+3mnaUaMkEEWupOlD1ad/QoXurKDGmrqEugoDOhzY0ouw4on2+6GFrcVuQW0
-         XczQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wpR91dRVrjqKzmtraov7aI7NzeTafl2vyksF7BlIurg=;
-        fh=y+ISH9PqWoXsjbNAHoAjFkb0TBCOXzpWUYxvF6TpuxA=;
-        b=WRNQn5/WmoRS67pscgSNPxUfdyje8sZjNvBI/CitxA08wJxHLK2Wm3vjOutuyEg6S7
-         1KMzeMeJiqqNJSk/S8gI5K/EnTHEtwHNz86ghYybhGVLLRnpci1FbGtJ9MHTglxHzBj+
-         gCc8Vy5ooezhPhLuktulvNOKeIIhAsUgadyheAPecda0OhukZtv14C6kwpqJG2GJ9JDs
-         liGxa5LuMrEIRtOMHW3a5ZABHlknnqjRjy0NQkOi5nQ0rnJivxSdO+zWngJKNlLbOtw8
-         Wr06bVlxB4mpK0vKkGXf9L4mE30i0CGtUK3GAxD6uXi0HTNrB9tY1Z+LfgEkV7jj9N/3
-         ETDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781529563; x=1782134363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wpR91dRVrjqKzmtraov7aI7NzeTafl2vyksF7BlIurg=;
-        b=BmNGpbs1LFf3K7FAnrO+0OAG8IA9PpOyCXIvamv3tiJkzv9+7Q0K7SPL+VloO4gWJc
-         WlPIG8fXf+WyS0ouObn786ni7702z5ztV/EGO9fkb27QquP/A7KvZW2XePzFZ9fzybNe
-         uSNuR4FeL0EKG1GseLtU0O75bz7FILQAnL8oOH1nqpi4KRil6S6ES1a7PaI9tJ7rzz4d
-         zOrYz6kVpu5L2sVLX3rrfivkwVVKNHWXjAUOHqJyaa+XAY6He/hi+NEtdBAo7XGF9B1v
-         NefB/xAJLf/2DUQJDpUWW2iK7bJpExYhb0xwC01ZSuVzPMLwfpAUHA37jYR5Xxx5jq6T
-         mbPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781529563; x=1782134363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wpR91dRVrjqKzmtraov7aI7NzeTafl2vyksF7BlIurg=;
-        b=YJvbisjpj9ZBNLTuywYrQ6h9T3n/IJ2wHliPMc13zxoKurg3REc+qM3aGPHGRZqdxI
-         jH19nZv2mD8axbJ7Du5xI5darTS2luPQ545DL9G5qd72hpxiYgv9w9N3zwjKKaM94PpB
-         deOj8JI0z2JN+qTONdziyg4uNdEqyRgrFOz7oGeczsHBcoDsFi2dDFht9cUAQIndgH9B
-         34d3L8Sh4Y9qGWG0j5Iz0etLuF8PPov/2gTf+CjAzAGhsscwWPPh0AhA9EzuZY6d7ivq
-         j9mfWiahzhczK5/x0OtxQ12x2xgvHQ9pnoeN5Tgb3vNllX5TqmXNILzOEAAQsrlY+S06
-         DVSA==
-X-Forwarded-Encrypted: i=1; AFNElJ8BUZuWldlMJ9t32m6QBxntMIseIlscqBvNb937gCJtDwkGdYC37D064yDtLWHf4ayhPV1UM5gokOY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQJHOlLhTWRUHiTH7tYg8i2/UeS6OpDyJTiEPLhIZRt/a2sYfj
-	hXSslmWzFaZoqby+gPwCBMqZuwjv/zY6jvj9+q/VmPMzN01H3hqsRPBUkTBMm9RysXsXYbfzuZH
-	kvtPk2f//W2MoA+wZt2+K0CNMMgKrDeHOwuc1Cb1/8WjFigs=
-X-Gm-Gg: Acq92OFccKpAQlPFvzcgCCXfD+DSubexLgWszKTQAhut+Fs5tZDA/1urXYQmkhmgf1o
-	qZVwgCrs9CT24Ij5nlyq2ooTnZyAmb5zKTYuedV+jZ1Jpo+lvixAwbptrnCWMDZoKImf/q899iD
-	+L6GI6KPd2+VnhTMRcRPsIz4gLgXVgRXWklS3pyBWjnbWXSKCqevuTVQs7vb5TquT43MzAS3wzl
-	jQcUVG1GMa/mwyS3hhYxXPYAegQrOfEp9V4DrQ7YQ58z+kA3gT1kDwWO3A65XLOd2yBBtmlTm+j
-	9npXA+CSS4nbrrxvM7sbaZbN8VZvCYIhuU0s
-X-Received: by 2002:a05:6512:1545:10b0:5aa:7129:5d43 with SMTP id
- 2adb3069b0e04-5ad30dc0c0cmr2154191e87.26.1781529562348; Mon, 15 Jun 2026
- 06:19:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DQHVEXjM"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A230E1A37CE;
+	Mon, 15 Jun 2026 13:31:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 67AD660015;
+	Mon, 15 Jun 2026 13:31:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E3D57106C94F2;
+	Mon, 15 Jun 2026 15:31:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1781530290; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=AztGQmlWKqiomMfQy7VwV1LA90NR9R4FU4YZ8MZTWBc=;
+	b=DQHVEXjMGNQkj6OzgBLI7rDFOF/FNM88+41WUUHPg+BrpSxpFT/14EES1zC3zgPtRppV60
+	O/iPBXU1sjhMFIr08FKA2puoS7HgC/bWwTXrmDzUaK3SFJ7tECgzgjpg+p+hGU3l+iTm2z
+	zgXUvvlFaH/R7/vmVhczsdW4ctDr6SPdHLCYBxty/3ZOB3ezGRLdk2JSR2hYx3L9bje1hf
+	tw/7W857gReWfemIRnofdh0QdG7+BjBOnIpc9ZpisndoW3pcIZk0PjYmEBYOqyQSvQSyqk
+	5SpkK1Ff3Z4+YOJBS56jp8YaE91zYpo2Bd/AFirKKZd/rvWYqKTzYd3ur43wtg==
+Message-ID: <3bbacda3-4225-4536-a4b4-3aa31a47a3aa@bootlin.com>
+Date: Mon, 15 Jun 2026 15:31:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
- <20260614-zram-swap-ops-block-register-v1-2-6c1a6639c222@gmail.com> <ai+eG9sFYTn/vTq5@yjaykim-PowerEdge-T330>
-In-Reply-To: <ai+eG9sFYTn/vTq5@yjaykim-PowerEdge-T330>
-From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Mon, 15 Jun 2026 21:19:08 +0800
-X-Gm-Features: AVVi8CcAQj4nbtsy1_GpWkuEBI_5mux4WS8Z_3cRBb-C2eJG0MtZGHlouDRiWCk
-Message-ID: <CAJxJ_jhTPr2P83SpmFwKoWVKEKX_jBv3UJLC4WirdHqTYdckpg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/zram: handle swap read/write via swap_ops
-To: YoungJun Park <youngjun.park@lge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Minchan Kim <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jens Axboe <axboe@kernel.dk>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 02/12] net: phylink: introduce internal
+ phylink PCS handling
+To: Christian Marangi <ansuelsmth@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ llvm@lists.linux.dev
+References: <20260615122950.22281-1-ansuelsmth@gmail.com>
+ <20260615122950.22281-3-ansuelsmth@gmail.com>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260615122950.22281-3-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Jun 15, 2026 at 2:39=E2=80=AFPM YoungJun Park <youngjun.park@lge.co=
-m> wrote:
->
-> On Sun, Jun 14, 2026 at 11:35:30PM +0800, Jianyue Wu wrote:
->
-> Hello!
->
-> > +static void zram_swap_submit_read(struct swap_io_ctx *ctx)
-> > +{
-> > +     struct zram *zram =3D ctx->sis->bdev->bd_disk->private_data;
->
-> A passing thought. accessing `zram` here is too indirect. We might
-> need a `private_data` in the swap device struct someday?
->
-> (And If there is a real value like some swap-side only private data reall=
-y needed.)
->
-> > +     struct swap_iocb *sio =3D ctx->sio;
-> > +     int nr =3D swap_iocb_nr_folios(sio);
-> > +     bool failed =3D false;
-> > +     int i, j;
-> > +                     /*
-> > +                      * read_from_zspool() and mark_slot_accessed() mu=
-st run
-> > +                      * under the same slot_lock.  zram_read_page() un=
-locks
-> > +                      * before returning, which leaves a window where
-> > +                      * writeback can pick an idle slot we just read.
-> > +                      */
->
-> Regarding the comment about the "window" where writeback can pick an
-> idle slot. I think this reasoning is a bit of a gray area. Writeback
-> could just as easily pick the slot right before entering this routine,
-> so the race condition seems fundamentally the same.
->
-> Isn't the actual justification here to separate the non-backend logic
-> and ensure mark_slot_accessed() is called under the lock, given that
-> zram_read_page() can call the backend device?
->
-> If the "window" mentioned in the comment is indeed a valid issue, then
-> zram_read_page() has the exact same problem and needs to be fixed as
-> well?
->
-> If not, IMHO I suggest revising or removing this comment to clarify
-> the true(?) intention. :)
->
-> > +                     slot_lock(zram, idx);
-> > +                     ret =3D read_from_zspool(zram, page, idx);
-> > +                     if (!ret)
-> > +                             mark_slot_accessed(zram, idx);
-> > +                     slot_unlock(zram, idx);
->
+Hi Christian,
 
-Hello Youngjun,
+On 6/15/26 14:29, Christian Marangi wrote:
+> Introduce internal handling of PCS for phylink. This is an alternative
+> way to .mac_select_pcs that moves the selection logic of the PCS entirely
+> to phylink with the usage of the supported_interface value in the PCS
+> struct.
+> 
+> MAC should now provide a callback to fill the available PCS in
+> phylink_config in .fill_available_pcs and fill the .num_possible_pcs with
+> the number of elements in the array. MAC should also define a new bitmap,
+> pcs_interfaces, in phylink_config to define for what interface mode a
+> dedicated PCS is required.
+> 
+> On phylink_create(), an array of PCS pointer is allocated of size
+> .num_possible_pcs from phylink_config and .fill_available_pcs from
+> phylink_config is called passing as args the just allocated array and
+> the number of possible element in it.
+> 
+> MAC will fill this passed array with all the available PCS.
+> 
+> This array is then parsed and a linked list of PCS is created based on
+> the allocated PCS array filled by MAC via .fill_available_pcs().
+> 
+> Every PCS in phylink PCS list gets then linked to the phylink instance
+> by setting the phylink value in phylink_pcs struct to the phylink instance.
+> Also the supported_interface value in phylink struct is updated with
+> the new supported_interface from the provided PCS.
+> 
+> On phylink_destroy(), every PCS in phylink PCS list is unlinked from the
+> phylink instance by setting the phylink value in phylink_pcs struct to NULL
+> and removed from the PCS list.
+> 
+> phylink_validate_mac_and_pcs(), phylink_major_config() and
+> phylink_inband_caps() are updated to support this new implementation
+> with the PCS list stored in phylink.
+> 
+> They will make use of phylink_validate_pcs_interface() that will loop
+> for every PCS in the phylink PCS available list and find one that supports
+> the passed interface.
+> 
+> phylink_validate_pcs_interface() applies the same logic of .mac_select_pcs
+> where if a supported_interface value is not set for the PCS struct, then
+> it's assumed every interface is supported.
+> 
+> A MAC is required to implement either a .mac_select_pcs or make use of
+> the PCS list implementation. Implementing both will result in a fail
+> on phylink_create().
+> 
+> A MAC defining .num_possible_pcs in phylink_config MUST also define a
+> .fill_available_pcs or phylink_create() will fail with an negative error.
+> 
+> phylink value in phylink_pcs struct with this implementation is used to
+> track from PCS side when it's attached to a phylink instance. PCS driver
+> will make use of this information to correctly detach from a phylink
+> instance if needed.
+> 
+> phylink_pcs_change() is also changed to verify that the PCS that triggered
+> a link change is the one that is currently used by the phylink instance.
+> 
+> The .mac_select_pcs implementation is not changed but it's expected that
+> every MAC driver migrates to the new implementation to later deprecate
+> and remove .mac_select_pcs.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
 
-Agree. Walking ctx->sis->bdev->bd_disk->private_data
-from every swap_ops callback is too indirect. I will add an opaque
-private_data field to struct swap_info_struct, set it from
-->swap_activate() when the swap area is set up, and clear it on
-swapoff. The zram callbacks will then use ctx->sis->private_data directly.
+[...]
 
-You are right. The writeback "window" reasoning was overstated.
-Writeback could already have picked the slot before we enter the swap
-read path, we have ZRAM_PP_SLOT to ensure it.
-0. // condition 1 write pick the slot before the lock.
-1. lock =E2=86=92 read_from_zspool =E2=86=92 unlock
-2. // condition 2 write pick the slot inside the lock.
-3. lock =E2=86=92 mark_slot_accessed() =E2=86=92 unlock // clear ZRAM_IDLE =
-and ZRAM_PP_SLOT flag
+> @@ -1872,10 +1993,28 @@ struct phylink *phylink_create(struct phylink_config *config,
+>  	mutex_init(&pl->phydev_mutex);
+>  	mutex_init(&pl->state_mutex);
+>  	INIT_WORK(&pl->resolve, phylink_resolve);
+> +	INIT_LIST_HEAD(&pl->pcs_list);
+> +
+> +	/* Fill the PCS list with available PCS from phylink config */
+> +	ret = phylink_fill_available_pcs(pl, config);
+> +	if (ret < 0) {
+> +		kfree(pl);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	/* Link available PCS to phylink */
+> +	list_for_each_entry(pcs, &pl->pcs_list, list)
+> +		pcs->phylink = pl;
+>  
+>  	phy_interface_copy(pl->supported_interfaces,
+>  			   config->supported_interfaces);
+>  
+> +	/* Update supported interfaces */
+> +	list_for_each_entry(pcs, &pl->pcs_list, list)
+> +		phy_interface_or(pl->supported_interfaces,
+> +				 pl->supported_interfaces,
+> +				 pcs->supported_interfaces);
+> +
 
-I think simply removing this comment is good.
+I'm not entirely sure about that, we may need to restrict the supported_interfaces
+from the MAC.
 
-Thanks,
-Jianyue
+As an example, take mvpp2. We have 2 PCSs, one for BaseX/SGMII, one for BaseR. But
+if we don't have a comphy (generic PHY) device, then we can't use all the
+combination of modes our PCSs can provide :
+
+https://elixir.bootlin.com/linux/v7.1-rc7/source/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c#L7074
+
+These aren't external PCS IPs, but from what I understand you'd like to
+handle these the same way as purely external PCSs, right ?
+
+I'd say the MAC driver utltimately has the knowledge of all possible interfaces.
+
+The way I see it, it's probably safer to let the MAC give a wide range of interfaces,
+and filter that down with what the PCSs can provide (i.e. turn that or into an and,
+while handling the case where the pcs supported interfaces is empty).
+
+What do you think ?
+
+Maxime
