@@ -1,226 +1,128 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148683B6343
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 20:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A8A1C84D0;
+	Mon, 15 Jun 2026 20:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781555349; cv=none; b=q6uxib3YhPlmVyatUudm9ZSE8UQy7kWKZw7LoeMoMh9oqo2MHtK95+v1tjGVCiaCegmmmBKmd1C+SPa8KdygypV/rjGQWSZx3cWZZvb5ByLGv67qzmiJWPlQDPFXA/2ZrC2CsARrDnuESsN7/M5Ozf0C5xOUpx3W+c5vfbut5+4=
+	t=1781555602; cv=none; b=n443sX1xPIpoZVt6SPAh37PyCCuFL/0F12zCj/eit4wkE2YvpjsSxPpFCuB/cNGxcL/QEuAlChpaTgHfwSHfK40HlIfz5QQAZ0+PUjW7FdNhiIoJ7vlQTnicnFYNCDmQrENJjIHdAVi/olelZtjS4FhKPoKtSM/F88Oy4jleP9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781555349; c=relaxed/simple;
-	bh=MZP5jsTbH3zCF15JCNmbPOVPmIbEoMMWjjli0bis5Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pz3CN4fjMC14wLSCQsnDdw0vOcbQLkBSXipUIeH5hND7YVFYFJFddc2dZZotEGYN7n8uF+A3e1WeH1nJwokeXQhXO1YgT7oTqzCuC9MLLJ5J+lnLQZ1J9hxXrchgNhnGf6N5c1YT80GXvfDb7/F9eAufK6rtzAETPIv8dgAuDEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mGEtl5oV; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781555602; c=relaxed/simple;
+	bh=9Z4Q+BvDBzDR3RYOg8ewj62G0BIToP4WyuMbIhRXeBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CjWc7Y5Kb9piihbqZB8q2IAmM9lNEbMw3NW/0uLTMKmRjYLda/Vd701CRA7QkcJ4qNJsnMhI+0QKtgN7WM1c60T0wVsN+KkGWqEd1yrGM97wyCdc+ay5SncCL7EYlTWhcX5ICatTza1SCg/pdSTrZ+2wdj1QTIEXDiBzxhdCoNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E86R2Mc0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mGEtl5oV"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8423f626a65so1774669b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 13:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781555347; x=1782160147; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6tMpN87VW6G86K/AtehrHKHoQYLtgbv5+V4AdiXXmO0=;
-        b=mGEtl5oVj7s0B+gAHjFDHSSTBMUBtEimCD4gFk5ceH6MTScffwq8MlcjPkAr7HwpCn
-         lToUmP6Vg1zI65O2hxA3lq8Bq5qZ71zMRPTWL4lJUem/tLLez2wqd6R+E0eirW36yVvp
-         RINY2l59nCD2fy26f0RX9p4nQ7R+YLU0ACjVRQg5jdJR0yrA1DXzVHA5EV0iLSwkU1cS
-         KlMOxjpfueE1CdyjsvEDsy+kQVgh2+vVISrDjs3wFkjHUYnkiWYfcxnRirf38u5Js2on
-         XRAjQ6B245Y7V76DoRvtW7DecD4aZiHJIFBfvBrw7qVS4kTDw1foKstHnjOXZgtajE+O
-         K/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781555347; x=1782160147;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6tMpN87VW6G86K/AtehrHKHoQYLtgbv5+V4AdiXXmO0=;
-        b=fzAmtHqlosCWrkKLF5/QG/rScS1J7Sbo44sWhMp+ojxyaRzj5Ye9nz2AOnOchJsmmZ
-         7ZikivDzg1fEnqUAKVAOrSX5OMx0sUtqU7gGsM07VunN2hmRhqioO5THhT7mGkulQA5O
-         eZuA65f7uxFdpC7V1xmcbasy8S4dNgEvwVVGMEeaAgku8R21pQKTkiMFyf7S2EkKze5v
-         nf6X+EVdfApr1ZTrB/9T/SWlc7moS3iPe77aF3e7H9KhRwZx9uf426xHmZ0z55EOJlVO
-         Tx4HT/XJrBwtl/tIg5S2t4jMF8AXKtb5IVlgDhb/9Tx5r2N3z4AQMr47cnaLK8NA2doD
-         FpSA==
-X-Forwarded-Encrypted: i=1; AFNElJ83SS7mCMDhoqtMECDwPEypM1x28BHySG8JiLxYOfT9xFOZ6dAlmzgqPfpz+Zv/jB83Jn8dTxHdZLs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmXdB2QxDhg4liY4OKDFoLxgH9b5uHum013wvYWx3JhXi03rdz
-	rp4mF0kbpCxy129/KttOBz6H38aCAYfEmEAR4vIQQbvDrWglv/X28bQsIq0Gw9eVZQ==
-X-Gm-Gg: Acq92OGrDMs+RDGf+1DIMKUA8bUvya/uY72dErSCQQuOIgjCkw/MI+Q8xdCRdEoSnUs
-	IHAl9UmsmXhhO8W4RTsN3omi/G6m3PbdEd+0fDgaEOV83JVE/ePwpB683MeYSjgWUXDAT6vVof4
-	+2voZRMU0HSJIf01z+bjLfhqTm9pwCqOb0kWWyA6WnmhzNyKAGmkujQ3kpq9/znYJhdxpGnP2p3
-	kq3xyeF2SV0+OdItNgaKlruXAz3qOzaV3U7fGY/JzIyaLRkRndmmaWsKtD2yST8JWaEObjACcFy
-	g4ekjQOTUJwR1jF44FXM4nfWd3K1Tr+I35PgeO72/og7aHfydgzH83ozFjtwJlTWo1V0wnYdkF2
-	FA3BxQnBJXj0Ng80YrykXNytkJvzsmiLGuQFYGaGWXVK7TiAs9crQZQGI2R/GHB7GZ5qZI7y3I5
-	qQYWBATqPTY3FxMC1Q6cDo6eBBj0J738XaHEBQICaDeqEhXdwNetaB9Sajnl5fUA==
-X-Received: by 2002:a05:6a00:2d01:b0:842:380a:1ee8 with SMTP id d2e1a72fcca58-8451530e10amr465722b3a.17.1781555346795;
-        Mon, 15 Jun 2026 13:29:06 -0700 (PDT)
-Received: from google.com (56.149.168.34.bc.googleusercontent.com. [34.168.149.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434afc8a84sm12817496b3a.38.2026.06.15.13.29.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 13:29:06 -0700 (PDT)
-Date: Mon, 15 Jun 2026 20:29:03 +0000
-From: David Matlack <dmatlack@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI
- devices
-Message-ID: <ajBgj_aSuzMZG47e@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-4-dmatlack@google.com>
- <178144432039.1257322.9644414453415904478.b4-review@b4>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E86R2Mc0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D89131F000E9;
+	Mon, 15 Jun 2026 20:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781555601;
+	bh=as7Ogfoc/AyskAy2+J9eXyhxUhgDui71XAx+CHT5Mew=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=E86R2Mc0QLlmn6hDEj5MnafzRYyOh8VthGPhggOCVEqZ9xx+sywlJb7QXeIaMbEFA
+	 rvREbsI3Zv0iMBuDfYoDef4TgGcmk0gnzth2mBKPpYT5zfQfxZKaETEbxVznMvRfoH
+	 piXE10ylpTWfk/t+pECRYcy/iMGYN/iwRMhVbs6e5bPwfcEmSrgpliHOIWdD3C35KZ
+	 3dd4XZnD7RANNMAcrkEHv2ZJgOVbQ7VfGmUoC1gB6jeJzKn1pSM0YTSpCEnNMVRUEO
+	 3IE0flzeBTi4viwUUEYjyjwYKI+KhiEhnh6PLe1a+NU0sfU6WVODjevHGI2ZZiYcfX
+	 AyBnvEPDADOhQ==
+Message-ID: <131a450f-f9c6-464c-8e4e-a4c7a29fb5de@kernel.org>
+Date: Mon, 15 Jun 2026 22:33:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178144432039.1257322.9644414453415904478.b4-review@b4>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
+ omittable "root=" cmdline option
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
+ linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>,
+ linux-arm-kernel@lists.infradead.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
+ <20260615170432.GW2636677@ZenIV>
+From: Vincent Mailhol <mailhol@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <20260615170432.GW2636677@ZenIV>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-06-14 01:38 PM, Pasha Tatashin wrote:
-> On Fri, 22 May 2026 20:24:01 +0000, David Matlack <dmatlack@google.com> wrote:
-> > diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-> > index 10c9b65aa242..e68ae5c172d4 100644
-> > --- a/drivers/pci/Kconfig
-> > +++ b/drivers/pci/Kconfig
-> > @@ -330,7 +330,7 @@ config VGA_ARB_MAX_GPUS
-> >  
-> >  config PCI_LIVEUPDATE
-> >  	bool "PCI Live Update Support"
-> > -	depends on PCI && LIVEUPDATE
-> > +	depends on PCI && LIVEUPDATE && 64BIT
+On 15/06/2026 at 19:04, Al Viro wrote:
+> On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
 > 
-> Please move this to the first patch, fewer changes between patches, and 
-> also KHO does not support anything but 64-bit mode.
+>> Tested with GRUB, which implements the LoaderDevicePartUUID EFI variable
+>> in its bli module [3]. With this, I was able to boot a kernel with a
+>> completely empty cmdline and no initrd.
+>>
+>> [1] The Discoverable Partitions Specification (DPS)
+>> Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+>>
+>> [2] systemd-gpt-auto-generator
+>> Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt-auto-generator.html
+>>
+>> [3] GRUB -- §16.2 bli
+>> Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmodule.html
+> 
+> So what does that thing, tied to EFI as it is, have to do with architectures where
+> 	* firmware is rather unlike EFI
 
-I think it is preferred to introduce changes when they are needed. This
-is the exact patch that requires 64BIT so it makes sense to add the
-dependency within this patch no?
+I made CONFIG_DPS_ROOT_AUTO_DISCOVERY depend on CONFIG_EFI for this reason.
 
-> 
-> >
-> > diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> > index 065d5af822f7..96c43b84532c 100644
-> > --- a/drivers/pci/liveupdate.c
-> > +++ b/drivers/pci/liveupdate.c
-> > @@ -128,13 +157,49 @@ static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
-> > [ ... skip 31 lines ... ]
-> > +
-> > +err_xa_destroy:
-> > +	xa_destroy(&incoming->xa);
-> > +	kfree(incoming);
-> > +err_restore_free:
-> > +	kho_restore_free(ser);
-> 
-> This is the pattern we have been enforcing in other places in LUO. If 
-> the first retrieval fails, return the same error thereafter.
-> 
-> > @@ -270,6 +335,91 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
-> >  
-> > +static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
-> > +{
-> > +	struct pci_flb_incoming *incoming = NULL;
-> > +	int ret;
-> 
-> Maybe make the error return static, and avoid another search through compatible 
-> FLBs if it failed before?
+> 	* firmware wouldn't know what to do with GPT
+> 	* GRUB is *not* ported to, let alone used
+> such as, say it, the very first one mentioned at your [1]?
 
-Good idea, will do.
+Fair point. I just did:
 
-> 
-> 1. Add "saved_err;"; if it is set, return it right away.
-> 2. Change all errors to use goto save_err;, and at the end of the 
-> function, assign ret to saved_err;
-> 
-> > [ ... skip 15 lines ... ]
-> > +	 * This could mean that no PCI FLB data was passed by the previous
-> > +	 * kernel, but it could also mean the previous kernel used a different
-> > +	 * compatibility string (i.e. a different ABI).
-> > +	 */
-> > +	if (ret == -ENOENT) {
-> > +		pr_info_once("No incoming FLB matched %s\n", pci_liveupdate_flb.compatible);
-> 
-> I would assume this is very normal, e.g., no devices were preserved but 
-> memfd+hugetlb was preserved. Maybe use pr_debug_once().
+  $ git grep "^config EFI$"
+  arch/arm/Kconfig:config EFI
+  arch/arm64/Kconfig:config EFI
+  arch/loongarch/Kconfig:config EFI
+  arch/riscv/Kconfig:config EFI
+  arch/x86/Kconfig:config EFI
 
-The problem is described in the comment above. The PCI core cannot
-distinguish between:
+Anything not in this list is dead code at the moment.
 
- 1. There was not PCI FLB preserved. and
- 2. There was PCI FLB preserved, but it was not compatible.
+> Or is that conditional upon "if anyone wants to design replacement firmware
+> for those, and if they agree to follow our wishlist"?
 
-I agree we should not log anything for (1) but (2) definitely requires
-at least some kind of logging so that's why I went with info-level here
-and not debug.
+No, it was just an oversight from my side. I will just keep arm, arm64,
+loongarch, riscv and x86 in my v2.
 
-> 
-> > +		return NULL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
-> > +	 * but it cannot be retrieved.
-> > +	 */
-> > +	if (ret) {
-> > +		WARN_ONCE(ret, "Failed to retrieve incoming FLB data\n");
-> 
-> No need to print backtrace, please just print a warning:
-> pr_warn_once("Failed to retrieve incoming FLB data: %pe\n", ERR_PTR(ret));
 
-SGTM
+Yours sincerely,
+Vincent Mailhol
 
-> 
-> > [ ... skip 34 lines ... ]
-> > +	 * through pci_liveupdate_finish(). This can happen if PCI core probes
-> > +	 * the same device multiple times, e.g. due to hotplug.
-> > +	 */
-> > +	if (!dev_ser->refcount) {
-> > +		pci_liveupdate_flb_put_incoming();
-> > +		return;
-> 
-> Pleaes use 'goto put_incoming'
-
-SGTM.
-
-> 
-> > +	}
-> > +
-> > +	pci_info(dev, "Device was preserved by previous kernel across Live Update\n");
-> > +	dev->liveupdate.incoming = dev_ser;
-> > +
-> > +	/*
-> > +	 * Hold the ref on the incoming FLB until pci_liveupdate_finish() so
-> > +	 * that dev->liveupdate.incoming does not get freed while it is in use.
-> > +	 */
-> 
-> How would that work? If finish is not called FLB stays around until the 
-> next reboot.
-
-True... I think if the PCI core trusts drivers to call
-pci_liveupdate_finish() then we don't need to hold onto the incoming
-reference here.
-
-> 
-> -- 
-> Pasha Tatashin <pasha.tatashin@soleen.com>
