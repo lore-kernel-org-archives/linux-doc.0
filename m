@@ -1,111 +1,122 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5B3253958;
-	Mon, 15 Jun 2026 22:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A440F3290AA
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 22:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781562254; cv=none; b=TAHZITrNZW8cCjXkJJ0r9DZH5HFC69Wfc+e+YJ2EwN3zgyf8Fc0kXDNT/OINpb/pLGr08DI6lGgwuRSB6grNdDY2I57R5InRoHvmYH3TLU4NyEK4X3mPFPBcx50XauHi+m2IsDQHYdzUYJYx2MsX0+IHt+ZRq1bqtVPVfON/egU=
+	t=1781562527; cv=none; b=B5xhRxpjVEjDRWmDHd1CEHCKSI5AL28X3wdCXulFCFZhS9RmQAQCx0kpBhI9WKK6dzZPko10EPLbGY7rAzmEOavS4ADjXzyPxOw9U69iS6BkSoUmy/IgotTV+mO4EnLOoC/l4SK9Hk5ZhHipTD/MYEQp+kKU043hswtfwLM96Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781562254; c=relaxed/simple;
-	bh=Ck6oW+UV6WWpELEiwLGD3DMzFlKYRT7AuvIE5fJxano=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5rKr9RbpcHK/7+k8aenD33uFjPEl5PAvrMdYPtwPAd4v/PCn6WB3mg3WEwptjbsjK/IsDJgjFX6glL4rVr75kwlJuKjYA0yjc9upFSjkOK1rjYJ1qjLmH11lTKV9iDBVCSgl6INDNATydqE9sj8jO7phlGERodtpiZKKGGGzqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=MWmVgEvt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AliQLUpt; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1781562527; c=relaxed/simple;
+	bh=VVIGAVYILp85wyXYd3axvdjQv4Rrk4Tug+Q9xTwAm4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KhqSCUVb+pM9jZzbRfY1701OS8YK6ayaP8Zd35wSyYorBO8T/pauXEfje/G93xmXXWoA1INFO3r04Z1NoEWKzF25QlhtCIStTaPuyKaQwPOkavnil9YNlPiSyv+2LD/D5EnbULTpQU2pHMvB4TqdtSDjP9v9HCeSsfebAEQ+fVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ptd8kmiK; arc=none smtp.client-ip=74.125.82.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="MWmVgEvt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AliQLUpt"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id E5793EC0184;
-	Mon, 15 Jun 2026 18:24:11 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 15 Jun 2026 18:24:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1781562251; x=
-	1781648651; bh=vTb+Ifos7RekvApIv68Ss6RZwt/Fqz7M8khzu9TWQH4=; b=M
-	WmVgEvtt1O+6xUQHW42k6U/PdLH48pzAiGVBazVW6SBXilkfA/ba6vSWB5vv8ddZ
-	Nk8r2QEJLXJqqkPYF3ucak3LYCJfx6/jf/Inu5kZH2c/GWY3FA/OC/hdld6ET0No
-	E+bHX0N0buwm4iWMoEKjNxhuKZJcsu3O5O9pB2I7w4FIxVe4IR43kP9fIkP/SbCh
-	dI0qTTSyI5oH4FPtvgsbCVYIT57krOUInYEjHV1B72IKHWBR6+o7/atJLqZqHZvh
-	tqvzPXKPZzYbiW93Q3ByERS6xlp57eBLM3s2KDplsj4QgYM7RI3qxKdoGHNlLYzU
-	qY/yRzLXvIQ6jIh2gs5jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1781562251; x=1781648651; bh=vTb+Ifos7RekvApIv68Ss6RZwt/Fqz7M8kh
-	zu9TWQH4=; b=AliQLUptKEjpKdSA6lNP7XNotAa+Bsey4mNQLvLvWxG/TLCWhGd
-	ZdUP/ziFtjuCZLqDTYyIE65Jjgh4YlrYL+V8gqUatmUFNx5voJpS5J+o8QgkoZLD
-	vqM7l07T8yRbXgOT8kd+hQpO7LrmlOvCkDEY/ae2O9zAbkNYeseYnm/csLg1GWlE
-	yk/Ra8AK7btWkvTSa8bCWiBLCka6Xppa4LJSsMvzsk64EV852lzeXbcoHIN8ESsX
-	UEZGWOlM9TcgxP17IpQTw46c+MIDfUEXjlIaIQcPYUJg4i1sU2BbOc0ZDIemLJNi
-	406Ni8155aMfWPSdG9HPZ/48QiSr/Etq7mA==
-X-ME-Sender: <xms:i3swak3G17vKdUgnYSKKbbCjrB0-3oqlwSypYHT5W4OT7Aed84iX2A>
-    <xme:i3swagrasp4iL5hu6s0B8CxImpurJlx77k0QYNAaszm_26vRRXSUom3_ibU_zkuaG
-    TYwDuU4ghOR-bwo5tqMR6B1F8zFZcRXLoiLxglpDwioemJcNnsb9dI>
-X-ME-Received: <xmr:i3swasJozjU1LnzbuEBudqaA_I8REYfSn-6_aM0mH_neWLiIDJeyJS_38Q_sxL9w0uZi8KUdmIiPKa18Y2y4QFU>
-X-ME-Proxy-Cause: dmFkZTGcC0OyF7QcL8zHSJPvYuC/f2eOMXgRz+jax2sxEVGQFMgdPdSHImiIbtpQza1Hhe
-    zANnl3bNLbt8BSu5Q86oZDgYVHPTxgmFpX04+rdi4XU9c3+/1oRsFAjFfYuJpv4691xr9+
-    xEG+Bp7OX3soPs8ay4FOR+vzQJnI8hzjuMa3AQ7eIEjquN5Pzad/StkaL+0wdYiIdajWFw
-    oS69uf6rJvqDtYuV0a1TOfgTx6hCboyb+LCV2e6mPYpdlRIuwKBbPFAK9VQRlAYGVazIUA
-    qjZpFRuyhdq4B2jT2LsGISNZ2gpdga2V7lD0gWlhsEaMjCtI1XPvCQabgGg1nL+uUaR1G9
-    tSeY8E+AlvxPJbvacUVhCZWZtndR8WispB1FmzT2Nh15Lr13i/1BdQHS0xmJyX25tplGZf
-    Rl7ZwWWgK4u1J8uUxHWVHam1rBlR/X/rhzL+hsQu9QzhdcAgwYaGCyZNtwt/PNwEKCcqQQ
-    QTeowr55N+7YnPBb4W+uYOA2S9M3n1X8fg7nFC/1K/R9wMBVDghoEZhy9L+XfZZZybxDf2
-    B8whAOSlOZpDeqLCkKNr920ZYUAGq1UPMuY2MVlRsGSBQTpBh+3t1m5Iq/6z5lYDOi3xcw
-    Fh9u6N3E5FRu7ZyRvGfv5dVqLTrd3nHVo1X7KzbxHBXOV5rB7wNw8U4UKTCw
-X-ME-Proxy: <xmx:i3swakS411SLZQNvWUmqVMOvyoVFp5NwJAvG60MntzwGnF-Dl1mcBw>
-    <xmx:i3swasOar4-fRnlu927JQgIneHuW-lx4uyV1G69lQ6b7OpZtrDRmjA>
-    <xmx:i3swapWV_gr2rK41ffylk27CQH-CfiDS5f4Gh4Si9lePXHJjMV9kpQ>
-    <xmx:i3swavivFQF_eedquDaaE752ZxA9ar2XjiJMtXb04Y97QUMTF4AzIw>
-    <xmx:i3swalqT8HsyjS_85wiYkBvPOXiA5LZH96f5_ubCY3Y8RA2Qo7Ug4xZe>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Jun 2026 18:24:10 -0400 (EDT)
-Date: Tue, 16 Jun 2026 00:24:09 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org, john.fastabend@gmail.com,
-	jiri@resnulli.us, skhan@linuxfoundation.org
-Subject: Re: [PATCH net-next v2 1/3] docs: net: tls-offload: document
- tls_dev_del, tls_dev_resync, and rekey
-Message-ID: <ajB7iZQfwX2fnw9K@krikkit>
-References: <20260613165846.2913092-1-kuba@kernel.org>
- <20260613165846.2913092-2-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ptd8kmiK"
+Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-1384ebe7a10so5913530c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 15:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781562526; x=1782167326; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ckYJXybkDDHA1lNWSm7+oH2tXTMBHSRx7YzgTwl5GAk=;
+        b=ptd8kmiKLGUNZi39t4F/UIF2TDf9ENbFb9+bePXn/e6J2Ko57yILI/eqeKDuwrKx9y
+         1xTByEc0t+BLGrcpLLAgzbi881Hccfx6HJSVj99adq1C6myqrdIMn6NT9BHmM+YbzyP8
+         RRMY6PGp+yw192Ohf7vgYrk3VlXQAD0GSqiroJfj3E7k4mUV1hsb5JKl8dor1cEQGh1k
+         JUyu/QtJ75kXxfZ54I9oHw8DXp6zeQFhzjMk55hohw6REBsvkefP/+IsYQjAxLbeLIf/
+         utrfRiFF8GuJrzenCBkttmEqM65P1YNQZXQPCQ/YkE8+ekxXqVOwdalO3BO1Vi2MWich
+         n+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781562526; x=1782167326;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ckYJXybkDDHA1lNWSm7+oH2tXTMBHSRx7YzgTwl5GAk=;
+        b=WRBOY25xuC38GbaJVdBA6O3tSR3/qYIYl+qGCmHSRq5N7IOGuLy1DVmPf5dwqX4A4Y
+         mahrOHL2cB0m/4xh1DkuLyKEDPNsMiwFrHyp3BcRBj9gB8MffnfMAw9GHCBTBalJx82O
+         50grdxR8CgT64pj4CxA+EDKzUSWJn6/HYWwG7X3nkdI1WJSMHg0n52aSqJAg6oCzVCLF
+         /9psljj1IRK/VbY58j5nXaE41zqwwtseP8SmeGBSa3Sahy2Z6SvCi706ZRSy/K8nZJ41
+         DpQw5tufs5Sn/dHwC1UjyEWGyG2U+4aQiM+S5JFl3FarHvzBK1VT3yuD4uyUMwp35jzQ
+         nXLg==
+X-Forwarded-Encrypted: i=1; AFNElJ+ttAjN0lIqQtlfSVYKGa2QZpeatSTI1xMmGIBhFUGkW/n1PuAhdXFgcszPTkUn2ef+iKvWoCRLJXI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHXr3YgOCqgWINn92Fp7woYug7TjdWqAWjLzYsT5SjHYb15TKl
+	xoBQQrSKt88PH4cf9+6cC+VAXScLTCjLUbMgy6RyBH7Ovrni07l8c/id
+X-Gm-Gg: Acq92OFYLLT4EWFdkSVDGRp0cIL9T9Yoi0lP+lIPPrnEl8MJmPW4K8wTeMK7cCHz/4B
+	RI39buhrD6Bhs92tG6KJVMS34TmK3Da2jwsnAQsMqN3XQWsu1CWvKoGDG9TtV26NsX4aNzOOXD3
+	NoViGvAbUCxdqkabCPO/5so809nxFi1qWGiNDx+gL68szQ1uCLsBJNS39FMmPk+wNv7ikX9Yj9G
+	H/WbLk0yBZd/LMU/xrplJmaIi84BMKcq8UP5Cds6ZG20Y0oHVxnCpTpPKIqxkEZuazzCL0Z1O0D
+	fk7LiweBjrjLUzfdI+LKWXaHRgZvHnysWMYSZHNl+x+OwXBIqF6z7iMAly3PuDZXUjFTKT4kaK8
+	28nK1l67bumevqHLwBJNX7IcstSXTMLrHv0PEwTAmqwuellRuRT1o6G9H7u6595AUeYOAUNWajN
+	7f5BmPByETKLp4o0V6UQEYzPCQVktgd6lT5VKLjqT3y6Zp6yEMcC1v3Jfvb9ZcNdpBLB+aN1Wxv
+	MVptiuyB23ofKovmJg+QUtYchA2Gpfa451upYcXGQv2vaQl16UbQgQI6i8v5iSCGLLLO9F/gHyo
+	DbqJcNjwL9fyNmBywg==
+X-Received: by 2002:a05:7300:501:b0:2d8:97d6:6abc with SMTP id 5a478bee46e88-3082009bf1amr11070447eec.22.1781562525458;
+        Mon, 15 Jun 2026 15:28:45 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d810fsm16792470eec.12.2026.06.15.15.28.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 15:28:44 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2] docs/mm: describe current criteria for enabling split page table lock for PTE tables
+Date: Mon, 15 Jun 2026 15:28:29 -0700
+Message-ID: <20260615222829.17420-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260613165846.2913092-2-kuba@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-2026-06-13, 09:58:44 -0700, Jakub Kicinski wrote:
-> Fill in some gaps in the TLS offload doc:
-> 
-> - describe the tls_dev_del and tls_dev_resync callbacks
-> - add a mention of rekeying being out of scope for now
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> v2:
->  - add mentions of the callback in resync text
+The mm documentation regarding split page table lock for PTE tables
+refers to the CONFIG_SPLIT_PTLOCK_CPUS config option, which was
+superseded by CONFIG_SPLIT_PTE_PTLOCKS in commit 394290cba966 ("mm:
+turn USE_SPLIT_PTE_PTLOCKS / USE_SPLIT_PTE_PTLOCKS into Kconfig
+options"). Update the documentation to refer to the current option and
+document that it is not supported on some architectures.
 
-Thanks!
+Discovered while searching for CONFIG_* symbols referenced in the
+kernel but not defined in any Kconfig file.
 
->  - Stack -> The stack
-> v1: https://lore.kernel.org/20260609201224.1191391-1-kuba@kernel.org
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+Changes in v2: Remove list of unsupported architectures for conciseness
 
-Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
+ Documentation/mm/split_page_table_lock.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
+index cc3cd46abd1b..3a35988f3c16 100644
+--- a/Documentation/mm/split_page_table_lock.rst
++++ b/Documentation/mm/split_page_table_lock.rst
+@@ -37,8 +37,9 @@ There are helpers to lock/unlock a table and other accessor functions:
+  - pmd_lockptr()
+ 	returns pointer to PMD table lock;
+ 
+-Split page table lock for PTE tables is enabled compile-time if
+-CONFIG_SPLIT_PTLOCK_CPUS (usually 4) is less or equal to NR_CPUS.
++Split page table lock for PTE tables is enabled compile-time (via
++CONFIG_SPLIT_PTE_PTLOCKS) if NR_CPUS is greater than or equal to 4 and an
++MMU is being used. However, it is not supported on some architectures.
+ If split lock is disabled, all tables are guarded by mm->page_table_lock.
+ 
+ Split page table lock for PMD tables is enabled, if it's enabled for PTE
 -- 
-Sabrina
+2.43.0
+
