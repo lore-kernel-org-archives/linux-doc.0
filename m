@@ -1,137 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023128.outbound.protection.outlook.com [52.101.83.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667F3FE666;
-	Mon, 15 Jun 2026 16:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781539302; cv=none; b=Re+mgP9ssxPkD24yrh7i7DysNzPty3LCl7LZddbpZcwa4Gl71Cfk9oRE7+dYiRPWhNKix+j89zFHIihUKnMk41F3hLj1k3ZETFwPyR5MUeHtBNuVORL/xNjXXokcZRKC+2A7VNApBhk0XQ+6p7eQ/wN15mj9oCnbTl+MIyvzJuc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781539302; c=relaxed/simple;
-	bh=a+XyRnORn/0yKpl4WMZH/YJvJoP6t86l93pFFJExXCs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DvEoke2BW9wSsvuE5uaatKpGbv0VtNGIAdhkcgOFMu+fD1GZtOzgzXz4Qo1JbQ2DxQgkInvbNaWMqHG304NsrlcQN293DYwlmK4tgpMi4boWyRb0Amloar7yq2QugcF0B4Q12motcGoOqfi0KXabMHtig/IzMYe/n+KFn+bu9QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dpX9vS/W; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E91640628D;
+	Mon, 15 Jun 2026 16:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.128
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781539656; cv=fail; b=C53noFNPoONY0iD1cgljPWHNLo6uawbEPTHZpDXHc45ep7jKYBGsUaNhhVKC1WYt0fUZBHUqu+O4NqMPibWgNvIeNG8VUOFANUZJyXBr//gXYnY+1G9boIUfdkb7fBCNR6CKY02LkQyuD7cIs/7te9YJ01PTBSnH1HEIzbUNyac=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781539656; c=relaxed/simple;
+	bh=l0J2exwWvAYmXaht2YUEI7CSGIdofcgyL2iOuTaGYlk=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=fgo1PEoerkdRnzML3CIng1AvyhFn9ydpWeWMaOkotgtEbXm3WFBEaVnPVzM3HYdX/xH6yZSkvEwE9UoWtRmGRHkR0Jkp4S9HTnHLvH45sx9s9ER2TWMLd25yEMf8suE07p1H6RJv0Ynl88zgUimziuPcqX/yRtRytKoghFoh61A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu; spf=pass smtp.mailfrom=genexis.eu; dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b=q5MSLSD3; arc=fail smtp.client-ip=52.101.83.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=genexis.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dpX9vS/W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3CE1F000E9;
-	Mon, 15 Jun 2026 16:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781539301;
-	bh=fw9ipZ1soWvH2JNYG+Z2DPzy8xqT/cR/rq8gvZbdmIg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dpX9vS/W/z2ZpUgfkhsbyA7ndOmnjk5PBqrpa8kaPAdJF3QhnIBRjui8HGaSpX9xo
-	 QEUU6uFIKI5uMP0kngIUdg65PgR93xTvr3ueaFg8Gh2pXfgz5CDhxP6rZlB604HVPM
-	 hq9ClC4P8lcmSx5RpBmH0WESEgjN1h3c4cVfnxnGp4C+U8ojDsgErmky6qXJRaMxGt
-	 yrDdSJRAU61VURWOVA8ZmiR9nvW9Kjxm1fOsKbEtFISVUdHxvIEoY/ccF0GpWeUczn
-	 x4ZCDEkxGQ179bSMfDuONzCJX1/57JM1B2O9y4rOu1yJsU7Bl3QK02sXXhTvBaWPgv
-	 ISYNqe7xMs87Q==
-Message-ID: <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
-Date: Mon, 15 Jun 2026 18:01:36 +0200
+	dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b="q5MSLSD3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zEzYILUhvuTF2t2g6EV8gNYKAgA2d5S4tgS1bk3WcnPWEd0+jhezOjFTpEsc9btqFrP4TUCr8DmDZJ0V0VRBgYeBpvRsFUi35+p1EM5ev51CsA9cGbRxueOqEZfnDyHpX0Ei2EH8QySKfzFpULDkk/fxhuH7/wjKZUTKinaX2CIWW655LXAvnRCe1Wrfl+CEnWLxwIJixyOwXnnx8uexBzM4AJiwU9+CJS3bnx5aBwobQJb+heR7LmzetNHot8XflpQNDmMhSAOR3B8g2PAFTosiCZrJRoLPTl5l7zA0zTswvy+yZ/9JyO25QkkDZXDtgF3WjlNIhhse+KdVBSuGFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cjEKOVmSawLDjbusYExuhQVHSPU73cb5fl9gHKhGBHU=;
+ b=WMMGOZ7QFvfdEHH6+fBOnsOREzN1IXkbFxwFd3z+2hMuO8LTZwOz+BoThYsjgEfu5v9P/fFwQf8VLvVX18A8xzPCNNIoucUkEwjXrzzRPGCc4bHgJA/XsUioj7JHobbUU3Zvouq+dNFcnHgvd7EdvG0UuAjvxv40gUfs+gjFLLGoij2DJseNHoNGogOc9vKr+VvqFGWispDxjzYFw9fnfnJRWcO5DE7gM9h4TuP/Kkp0ou/5a5qTtwAx7pYmpFmWGVUIqlj6AuwBWmbtkhsYiEkw/fzUMpP2OKPR6Okwtd2E1zebKmAzuLJovLJa1kVnVYEJUJ9lotzGqiYAViQqVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=genexis.eu; dmarc=pass action=none header.from=genexis.eu;
+ dkim=pass header.d=genexis.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=genexis.eu;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cjEKOVmSawLDjbusYExuhQVHSPU73cb5fl9gHKhGBHU=;
+ b=q5MSLSD3DQQlEwLsH46+3AJ4LJJfcHJ3Tob8sfpCBYw1VwFeib1EhJRIrJO20o0Q50Afhd7qSFPPTL4CiKPeTe4HtJaNZ0rrOxxIdmRUhXPU9IW++2alY/sx8mR6xnxTM6wiD74+BDNfSSwiMMPkKMPhqMN0AIi2jmU6Lbkb5BRUXJ+grMSVWcYD2IJlBG9yR9KswUGX/ksCX474UYiq89Gg6naOYVfdKejQupAJJ42eVnD+Q7eEZgCJuHF2Q5PisI6ahTk2L833wxM5WqZsLyorTOmsYXHQgME4t0yY/bSGcRMMXxOP0dKNTqRUvJSmByXzmJAA88FK/wA1bZT6/A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=genexis.eu;
+Received: from DB9PR08MB6697.eurprd08.prod.outlook.com (2603:10a6:10:2ad::14)
+ by AM0PR08MB5410.eurprd08.prod.outlook.com (2603:10a6:208:182::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
+ 2026 16:07:29 +0000
+Received: from DB9PR08MB6697.eurprd08.prod.outlook.com
+ ([fe80::bdec:3e95:6614:441f]) by DB9PR08MB6697.eurprd08.prod.outlook.com
+ ([fe80::bdec:3e95:6614:441f%6]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
+ 16:07:29 +0000
+Message-ID: <eac0714d-d8d3-4698-8983-91dd33fe79bf@genexis.eu>
+Date: Mon, 15 Jun 2026 18:07:26 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 12/12] net: airoha: add phylink support
+To: Christian Marangi <ansuelsmth@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ llvm@lists.linux.dev
+References: <20260615122950.22281-1-ansuelsmth@gmail.com>
+ <20260615122950.22281-13-ansuelsmth@gmail.com>
+Content-Language: en-US
+From: Benjamin Larsson <benjamin.larsson@genexis.eu>
+In-Reply-To: <20260615122950.22281-13-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: GVZP280CA0058.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:271::10) To DB9PR08MB6697.eurprd08.prod.outlook.com
+ (2603:10a6:10:2ad::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
-To: Hugh Dickins <hughd@google.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Petr Mladek
- <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>
-References: <20260610043545.3725735-1-anshuman.khandual@arm.com>
- <20260610043545.3725735-4-anshuman.khandual@arm.com>
- <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org>
- <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR08MB6697:EE_|AM0PR08MB5410:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e916e4f-11e8-45ba-843d-08decaf832ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|56012099006|5023799004|4143699003|11063799006|6133799003|22082099003|18002099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	tI2UYShFz196dMcQhp3UcRTunzVB8dXsAf9pkLTqvFkqH7VvCgdNBuJG/Z5AAFE1CtnWDmV2BtneS/uMjbfgrM9oFXaOQP6hWra5I/6fpD9ZUH91L72ZKREtda5AJuPnKVA+sQl0p17eMuoARDlvvwKK6N9GpP/L8BPr2iYZlDCymjUeh+RTrHrLgeLXDG8pYwDElKL5jVzGuhR8SdRzuO4KI1+J3loNtz/hcrT4UxR6oCFbl1wPRlno0cpgdwrzOSaXJJwrFE91ZjqLfhK85hBanWG0+NJqq/adBxbB/wMWcHYfHKBwPj+jAWkCsCxpVfo21AYMSe3ohIOLhWLmfmZFQppjJFTGY7K65XgjbTaGdsPqZ5EDvleIGH20FCF1VFHmb7XgePJiRvps88dMfPNNau9y1OHBI3L8Q/Uv9FGfhxWLbdtZcRSLe+YaB6lm2NrnuOySFgWqsRUIWtHX1UQ6zato2o92zdwxNrbg1/ENHXn0Xn6XjKNDFhAzUdA5lICyKlPKK4H4/haAPk/6sLgbmFplBu6YRfukWFoRGrj+NKLBhBbf5/kedMHspnaNIv3cja9eroq8LtcPTjNmVCzY8/UwW/7rt+xvm58J1qMQaKMZxDsuRUVVz2WpxQ5JP2SiJQztoOwBCUp5avZ8rgFpLI5hy1Bl8fXdO2YxfF6HLFMv9WBW47pkA90vAIDFYcppZo8fPzLUDAqhYp59fDbp3fSidSibr5FzM2zeAeQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6697.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(56012099006)(5023799004)(4143699003)(11063799006)(6133799003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0RNc2xqZ0RvVTlvYnpEN3VVRTgyMkpMSnRVMnJ5SWlQL2l3V25FVDBYd0RZ?=
+ =?utf-8?B?Nmhtdlh0ak5NOUw4NUdpSUgxd0NlbGNvRzFBZ1NoV0dtUEZyZmw1NEpxVy9H?=
+ =?utf-8?B?T0hGMDVrMjRwSCtJRE1UL1d3SXJDNWpjVStBSWNPdnFINmFMcVBiNWpBRmlX?=
+ =?utf-8?B?VzJMSlcxWmMzV1h2NXZwUUVNbXpPUTRHek9qR0xzSStmeTJlTDVrdEFwSk1S?=
+ =?utf-8?B?MlV5UmRIU2lzbHg4T2tNN2c2UW55cVFybEE5ekJLWVdGYkhVWWNrcXo5L0k5?=
+ =?utf-8?B?czl0QkJJWVF3RnBFRkE5UHZ5MndGWXJ5ZlhmUGw5ZEFRVlp3NjlVL1lZVnF4?=
+ =?utf-8?B?VkhQL1RvR1hrUXJodnJDRk1YczExdTRWTHZUaXhHWDg4elFIdzNycTlOWHov?=
+ =?utf-8?B?OEhNRDNPWVlkWnp2TU1XQkI1T083UVFncjNGSlhoU2NFSnN3VndWcmYvNmt2?=
+ =?utf-8?B?aWYwSmFzSzJoMGovajlMeVJWL1FIWDBkQ2dSUEVjdTF4WUcyOHZ2UkpDOHBI?=
+ =?utf-8?B?VHFHVWpWdWprNWNUQ3Y1ZjMvdVRZbHZLMlZGZWkrRXJyUW9FR1FmOXN5KzZQ?=
+ =?utf-8?B?M0I4VlNqMEI0TC9KMC96SzYrbUpLaGhURGxOcWpEOWplL014K3NzSHNocVcw?=
+ =?utf-8?B?M2J6RXdNZzk5Zjl0SGxZVjdWbTNPakhQaGZmeXRFc1ZiK3hKcmJac1g4THZv?=
+ =?utf-8?B?RkZxK2dRd1UyTm8zSzA2V0FjTUFuTTJoUG5IMnhWVDh4dnZmTXlPTzVOcTA3?=
+ =?utf-8?B?dUVuQ3NvcEV5SzBBNitjMksrZ0Y1VUVYZmI2R1drUUpnTFV3VjFMVDFRN3Bm?=
+ =?utf-8?B?dXUxTlpuRmlDMzRJNlBEMEN4RFZQWjJxdm44azNnWGpIeXRnNC9ZMllSUXpm?=
+ =?utf-8?B?Z2dNVGdQTXZTRDVFd2xRcU5OY09CbGhNVFV0RHRxSGpQdWI3WTNoL3dsUURT?=
+ =?utf-8?B?L0N0VlhpQnNhUVFvRlhpaFNPNndQazVRR0RiUjhaQnVaeTFibGw1YjB6VXZX?=
+ =?utf-8?B?OGZLdjJqUi9IQ3lHd1h0cUViaE1SNUxveVM0enBlMjFMaGdEWHFma2VVWTE1?=
+ =?utf-8?B?WHR2MEI0QnJ4NG91V1RQUzI3Z1k4VVZKT0d4Qit0ekRzMGkvUFdOeWNJUHhQ?=
+ =?utf-8?B?R0JRejdQaWxCcHBtN3RUN3B1SVBrU05KVHdxaCs1WHpDMEJmYkQ1ZFN2djk3?=
+ =?utf-8?B?eDNublJwKzhZbU8wOWxtQi8xamdpenRUbkdyb1BhR1IvbXcwNHBFMGY3T2tw?=
+ =?utf-8?B?Q0dpZFhzbGYycXkyOW50c1hhUWlaUE5rVWRiNXFlSUxUd0RCL1I2bCtlUG4z?=
+ =?utf-8?B?RStkSWI4YkZESzlNVldKQ2FxeVUxQ1U2TklVcko5bEdxQUZsRXZjQ2RjK054?=
+ =?utf-8?B?VlNlbXNEV1cxQUdGYmtxM0IxaldVQk5oakhiT1NtWlZIL3ZtTkF2ZGY0RkhX?=
+ =?utf-8?B?VllNZFgyd1M1WjVWNWMrc0JWclFNWCt0K0VzL09uMTdnT09OZ3kwVDhBS1dT?=
+ =?utf-8?B?WmNhanFwUGR3YXhSNDIvTDhvamFzaml3d2pGRmp6YzVCaDZ2RmZoWEowZHpv?=
+ =?utf-8?B?Z2plS09oY1U2OGliOFlYcmR1ZE1UODAreTB3VHFzVWRlZk04c0hzcEN2Z2RM?=
+ =?utf-8?B?cWt4Z2xhYjUzMFE4cm0wRVRmU1YraTBsZ3Ztcm10TjVrVWExM0FyZGlMZW5E?=
+ =?utf-8?B?Y2czLzJ3c2c5ZjFBOVM2OFREYURyRHBHZ1BTZnorMmFUc04vNFJDRlk1ZXVE?=
+ =?utf-8?B?OXBxQXhqSnNaMUU0bUcyLzJUcE52clVNS2lhSEw1cldlRGx4SGVHK1lKUko1?=
+ =?utf-8?B?SUR1RXcxaHRXMFdua3J6K1AvZWI3bjFtNGlUTXYzNmxWWW9YeEY4bEJzQVFD?=
+ =?utf-8?B?VnFZTHQ2TVJ3K1EraTJhckpEZHk3YTVKNXJZSFJtUlVwNGhCTEN0QjZ3cFNm?=
+ =?utf-8?B?cWtOR1JmRFZGVEp5d0pTUE9MQkZKdkJQYjBEbTdOK1NoZEhCaU1JM2xsMFgz?=
+ =?utf-8?B?YXhxRWt2SWNGeE8xZjhBeUVkS0hldVc3RS9SNm1VTm5lWC96cHYrSXB3KzIv?=
+ =?utf-8?B?TWFUd0RBK1p6K3kzTEE3QjdacEtNRmFneE04ck9zaFk3bXMrdnRHZTNGVWhO?=
+ =?utf-8?B?Z3AwR1E2WHA2RlVTc0RKQnhZV0wxUi90NVNCUlhXUDRRTGx5L1FTeGtYR1JU?=
+ =?utf-8?B?dVp5S1VySHhuczQzK1RyUHdSeXltVXRTdEJ0NzVEN2RjOGxrV1V2RzJIMTVa?=
+ =?utf-8?B?UTFzdGw0eFhpd2xJZzdRekVSVHNkbWZmMWNJclVNWXdxUlNKY2RXSXdPUnBh?=
+ =?utf-8?B?Q3gwTFBHNXcvbWtkeUwxL1BwaThzZ0VCa0RPNFBrT0pNMXZuWWhTemp4VnB2?=
+ =?utf-8?Q?/OBC6WyN66+Y2yE0=3D?=
+X-OriginatorOrg: genexis.eu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e916e4f-11e8-45ba-843d-08decaf832ab
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6697.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 16:07:29.0749
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8d891be1-7bce-4216-9a99-bee9de02ba58
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CmE87s+ZB0nUkIrWO4/Z2jvi7Id0C/kV/j1xLavOK4S/dpnzIlXneUcvpvwSww3oXSYTOBUNrn9ISh4ZBJmYSj98shvadNHKmyKc6g2wDyE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5410
 
-On 6/12/26 23:26, Hugh Dickins wrote:
-> On Fri, 12 Jun 2026, David Hildenbrand (Arm) wrote:
-> ...
->>
->> After some off-list discussion, I wonder if we can make our life easier.
->>
->> I think, even with your patch, there is still the case:
->>
->> pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
->> 	 pgtable_level_to_str(level), entry);
->>
->> Where we cast all entries to an "unsigned long" in the callers. We'd have to rework all
->> that for 128bit entries either way (passing them in some struct instead).
->>
->> I really just extended what we used to do here in print_bad_pte() before commit ec63a44011d.
->>
->> Maybe we should just drop the "print the involved page table entries" thing?
->>
->> I mean, we do have the actual page, and we do have the address in the address space, which
->> we all print.
->>
->> Not sure if the actual page table entries are that relevant?
-> 
-> The page table entry is BUGgily Bad: we want to see what it looks like
-> (sometimes, a sequence of bad page map entries may even show up as ASCII).
+Hi.
 
-But is printing raw page table entries really what we want? I guess to detect
-"random corruption" it might help sometimes.
+On 15/06/2026 14:29, Christian Marangi wrote:
+> Add phylink support for each GDM port. For GDM1 add the internal interface
+> mode as the only supported mode. For GDM2/3/4 add the required
+> configuration of the PCS to make the external PHY or attached SFP cage
+> work.
+>
+> These needs to be defined in the GDM port node using the pcs-handle
+> property.
+>
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>   drivers/net/ethernet/airoha/Kconfig       |   1 +
+>   drivers/net/ethernet/airoha/airoha_eth.c  | 161 +++++++++++++++++++++-
+>   drivers/net/ethernet/airoha/airoha_eth.h  |   3 +
+>   drivers/net/ethernet/airoha/airoha_regs.h |  12 ++
+>   4 files changed, 176 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/net/ethernet/airoha/Kconfig b/drivers/net/ethernet/airoha/Kconfig
+> index ad3ce501e7a5..38dcc76e5998 100644
+> --- a/drivers/net/ethernet/airoha/Kconfig
+> +++ b/drivers/net/ethernet/airoha/Kconfig
+> @@ -20,6 +20,7 @@ config NET_AIROHA
+>   	depends on NET_DSA || !NET_DSA
+>   	select NET_AIROHA_NPU
+>   	select PAGE_POOL
+> +	select PHYLINK
+>   	help
+>   	  This driver supports the gigabit ethernet MACs in the
+>   	  Airoha SoC family.
+> diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
+> index 5f1a118875fb..9a42fb991bd7 100644
+> --- a/drivers/net/ethernet/airoha/airoha_eth.c
+> +++ b/drivers/net/ethernet/airoha/airoha_eth.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/of_reserved_mem.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/tcp.h>
+> +#include <linux/pcs/pcs.h>
+>   #include <linux/u64_stats_sync.h>
+>   #include <net/dst_metadata.h>
+>   #include <net/page_pool/helpers.h>
+> @@ -1810,6 +1811,14 @@ static int airoha_dev_open(struct net_device *netdev)
+>   	u32 cur_len, pse_port = FE_PSE_PORT_PPE1;
+>   	struct airoha_qdma *qdma = dev->qdma;
+>   
+> +	err = phylink_of_phy_connect(dev->phylink, netdev->dev.of_node, 0);
+> +	if (err) {
+> +		netdev_err(netdev, "could not attach PHY: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	phylink_start(dev->phylink);
+> +
+>   	netif_tx_start_all_queues(netdev);
+>   	err = airoha_set_vip_for_gdm_port(dev, true);
+>   	if (err)
+> @@ -1907,6 +1916,9 @@ static int airoha_dev_stop(struct net_device *netdev)
+>   		}
+>   	}
+>   
+> +	phylink_stop(dev->phylink);
+> +	phylink_disconnect_phy(dev->phylink);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -3168,6 +3180,151 @@ bool airoha_is_valid_gdm_dev(struct airoha_eth *eth,
+>   	return false;
+>   }
+>   
+> +/* Nothing to do in MAC, everything is handled in PCS */
+> +static void airoha_mac_config(struct phylink_config *config, unsigned int mode,
+> +			      const struct phylink_link_state *state)
+> +{
+> +}
+> +
+> +static void airoha_mac_link_up(struct phylink_config *config, struct phy_device *phy,
+> +			       unsigned int mode, phy_interface_t interface,
+> +			       int speed, int duplex, bool tx_pause, bool rx_pause)
+> +{
+> +	struct airoha_gdm_dev *dev = container_of(config, struct airoha_gdm_dev,
+> +						  phylink_config);
+> +	struct airoha_gdm_port *port = dev->port;
+> +	struct airoha_eth *eth = dev->eth;
+> +	u32 frag_size_tx, frag_size_rx;
+> +	u32 mask, val;
+> +
+> +	/* TX/RX frag is configured only for GDM4 */
+> +	if (port->id != AIROHA_GDM4_IDX)
+> +		return;
+> +
+> +	switch (speed) {
+> +	case SPEED_10000:
+> +	case SPEED_5000:
+> +		frag_size_tx = 8;
+> +		frag_size_rx = 8;
+> +		break;
+> +	case SPEED_2500:
+> +		frag_size_tx = 2;
+> +		frag_size_rx = 1;
+> +		break;
+> +	default:
+> +		frag_size_tx = 1;
+> +		frag_size_rx = 0;
+> +	}
+> +
+> +	/* Configure TX/RX frag based on speed */
+> +	if (dev->nbq == 1) {
+> +		mask = GDMA4_SGMII1_TX_FRAG_SIZE_MASK;
 
-And do we really need information about the full page table walk, or is the last
-level good enough?
+Can the naming be consistently GDM4 without the A?
 
--- 
-Cheers,
+MvH
 
-David
+Benjamin Larsson
+
