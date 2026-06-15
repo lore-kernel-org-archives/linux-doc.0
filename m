@@ -1,264 +1,216 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023128.outbound.protection.outlook.com [52.101.83.128])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E91640628D;
-	Mon, 15 Jun 2026 16:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.128
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781539656; cv=fail; b=C53noFNPoONY0iD1cgljPWHNLo6uawbEPTHZpDXHc45ep7jKYBGsUaNhhVKC1WYt0fUZBHUqu+O4NqMPibWgNvIeNG8VUOFANUZJyXBr//gXYnY+1G9boIUfdkb7fBCNR6CKY02LkQyuD7cIs/7te9YJ01PTBSnH1HEIzbUNyac=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781539656; c=relaxed/simple;
-	bh=l0J2exwWvAYmXaht2YUEI7CSGIdofcgyL2iOuTaGYlk=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fgo1PEoerkdRnzML3CIng1AvyhFn9ydpWeWMaOkotgtEbXm3WFBEaVnPVzM3HYdX/xH6yZSkvEwE9UoWtRmGRHkR0Jkp4S9HTnHLvH45sx9s9ER2TWMLd25yEMf8suE07p1H6RJv0Ynl88zgUimziuPcqX/yRtRytKoghFoh61A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu; spf=pass smtp.mailfrom=genexis.eu; dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b=q5MSLSD3; arc=fail smtp.client-ip=52.101.83.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=genexis.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=genexis.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C1A408603;
+	Mon, 15 Jun 2026 16:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781539811; cv=none; b=MZQqMCQtX3jiIn/HPzoIj6MHS5ShzEXqO8/nNYhhMCl5XeojQXurP1TJ/AXOX33g0MAjtSTmYy75nB8G53YhQe0WVLvuqKQKZmV4HwFAdllAzOElM47+xJnIqsh3Z21m3FOYm2CHHoBtYpSS5JYCfasdFMJi8oB21HEHXd4C84o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781539811; c=relaxed/simple;
+	bh=RjmwbjJUekMN4XQbpwM2sAMQ8Q4VGqazX1lTIqnbeDs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IMl7CLdJOsS2s6bxCbiYu6LtSl35ibyDER8y61j9QAvdZR2VLKpRCnUJWFZJWGIMWcxlRNxAwAxt/x+J773LjG3QMktPr8+uR0bVZ/Q4X8HGr0n8SON811H+ce7WUmcdhZbFGrfUdWhmwCIXkGsjzpyfS0N5bGZhIc4USuEj9no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2bt7UtU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=genexis.eu header.i=@genexis.eu header.b="q5MSLSD3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zEzYILUhvuTF2t2g6EV8gNYKAgA2d5S4tgS1bk3WcnPWEd0+jhezOjFTpEsc9btqFrP4TUCr8DmDZJ0V0VRBgYeBpvRsFUi35+p1EM5ev51CsA9cGbRxueOqEZfnDyHpX0Ei2EH8QySKfzFpULDkk/fxhuH7/wjKZUTKinaX2CIWW655LXAvnRCe1Wrfl+CEnWLxwIJixyOwXnnx8uexBzM4AJiwU9+CJS3bnx5aBwobQJb+heR7LmzetNHot8XflpQNDmMhSAOR3B8g2PAFTosiCZrJRoLPTl5l7zA0zTswvy+yZ/9JyO25QkkDZXDtgF3WjlNIhhse+KdVBSuGFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cjEKOVmSawLDjbusYExuhQVHSPU73cb5fl9gHKhGBHU=;
- b=WMMGOZ7QFvfdEHH6+fBOnsOREzN1IXkbFxwFd3z+2hMuO8LTZwOz+BoThYsjgEfu5v9P/fFwQf8VLvVX18A8xzPCNNIoucUkEwjXrzzRPGCc4bHgJA/XsUioj7JHobbUU3Zvouq+dNFcnHgvd7EdvG0UuAjvxv40gUfs+gjFLLGoij2DJseNHoNGogOc9vKr+VvqFGWispDxjzYFw9fnfnJRWcO5DE7gM9h4TuP/Kkp0ou/5a5qTtwAx7pYmpFmWGVUIqlj6AuwBWmbtkhsYiEkw/fzUMpP2OKPR6Okwtd2E1zebKmAzuLJovLJa1kVnVYEJUJ9lotzGqiYAViQqVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=genexis.eu; dmarc=pass action=none header.from=genexis.eu;
- dkim=pass header.d=genexis.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=genexis.eu;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cjEKOVmSawLDjbusYExuhQVHSPU73cb5fl9gHKhGBHU=;
- b=q5MSLSD3DQQlEwLsH46+3AJ4LJJfcHJ3Tob8sfpCBYw1VwFeib1EhJRIrJO20o0Q50Afhd7qSFPPTL4CiKPeTe4HtJaNZ0rrOxxIdmRUhXPU9IW++2alY/sx8mR6xnxTM6wiD74+BDNfSSwiMMPkKMPhqMN0AIi2jmU6Lbkb5BRUXJ+grMSVWcYD2IJlBG9yR9KswUGX/ksCX474UYiq89Gg6naOYVfdKejQupAJJ42eVnD+Q7eEZgCJuHF2Q5PisI6ahTk2L833wxM5WqZsLyorTOmsYXHQgME4t0yY/bSGcRMMXxOP0dKNTqRUvJSmByXzmJAA88FK/wA1bZT6/A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=genexis.eu;
-Received: from DB9PR08MB6697.eurprd08.prod.outlook.com (2603:10a6:10:2ad::14)
- by AM0PR08MB5410.eurprd08.prod.outlook.com (2603:10a6:208:182::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 16:07:29 +0000
-Received: from DB9PR08MB6697.eurprd08.prod.outlook.com
- ([fe80::bdec:3e95:6614:441f]) by DB9PR08MB6697.eurprd08.prod.outlook.com
- ([fe80::bdec:3e95:6614:441f%6]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 16:07:29 +0000
-Message-ID: <eac0714d-d8d3-4698-8983-91dd33fe79bf@genexis.eu>
-Date: Mon, 15 Jun 2026 18:07:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 12/12] net: airoha: add phylink support
-To: Christian Marangi <ansuelsmth@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Saravana Kannan <saravanak@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-References: <20260615122950.22281-1-ansuelsmth@gmail.com>
- <20260615122950.22281-13-ansuelsmth@gmail.com>
-Content-Language: en-US
-From: Benjamin Larsson <benjamin.larsson@genexis.eu>
-In-Reply-To: <20260615122950.22281-13-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GVZP280CA0058.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:271::10) To DB9PR08MB6697.eurprd08.prod.outlook.com
- (2603:10a6:10:2ad::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2bt7UtU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659B51F000E9;
+	Mon, 15 Jun 2026 16:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781539810;
+	bh=WrhOiAXY4BpdFNkpuEH5kqbHucFA9LBquobYeTzjtI4=;
+	h=From:Subject:Date:To:Cc;
+	b=J2bt7UtU/OYY8PxVyIm3d95v5G+IcTrjBW3L2jU7dt2De3kFnXcxRBS+wcjkcf6fN
+	 XltNpsJON5Ei+eQjAfRadOoGZ6Zr5MKKrnWqjtat85KDYFuJIzaAhhV9joTPZvvnm/
+	 Upf4GSVXporZ+/9u524Qsag7+a/uWIBE8WrhynM4IvaF/bx9BOfhayePviKAuHtMdm
+	 yF/mMlzcia/W4uNmZrGta+pMv2x8g5cbMGvX0YqVwoVCDJpU+Ht9xei0zv8nicGVwV
+	 SRcRt86DYJ9ycUYURQM1lx9ByNJFh+o5TVH1JyohwC9u2Q2ptXr+Wwo4pEiWgn9BWI
+	 W8aRU0vDmzPwg==
+From: Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
+ omittable "root=" cmdline option
+Date: Mon, 15 Jun 2026 18:08:56 +0200
+Message-Id: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR08MB6697:EE_|AM0PR08MB5410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e916e4f-11e8-45ba-843d-08decaf832ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|56012099006|5023799004|4143699003|11063799006|6133799003|22082099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	tI2UYShFz196dMcQhp3UcRTunzVB8dXsAf9pkLTqvFkqH7VvCgdNBuJG/Z5AAFE1CtnWDmV2BtneS/uMjbfgrM9oFXaOQP6hWra5I/6fpD9ZUH91L72ZKREtda5AJuPnKVA+sQl0p17eMuoARDlvvwKK6N9GpP/L8BPr2iYZlDCymjUeh+RTrHrLgeLXDG8pYwDElKL5jVzGuhR8SdRzuO4KI1+J3loNtz/hcrT4UxR6oCFbl1wPRlno0cpgdwrzOSaXJJwrFE91ZjqLfhK85hBanWG0+NJqq/adBxbB/wMWcHYfHKBwPj+jAWkCsCxpVfo21AYMSe3ohIOLhWLmfmZFQppjJFTGY7K65XgjbTaGdsPqZ5EDvleIGH20FCF1VFHmb7XgePJiRvps88dMfPNNau9y1OHBI3L8Q/Uv9FGfhxWLbdtZcRSLe+YaB6lm2NrnuOySFgWqsRUIWtHX1UQ6zato2o92zdwxNrbg1/ENHXn0Xn6XjKNDFhAzUdA5lICyKlPKK4H4/haAPk/6sLgbmFplBu6YRfukWFoRGrj+NKLBhBbf5/kedMHspnaNIv3cja9eroq8LtcPTjNmVCzY8/UwW/7rt+xvm58J1qMQaKMZxDsuRUVVz2WpxQ5JP2SiJQztoOwBCUp5avZ8rgFpLI5hy1Bl8fXdO2YxfF6HLFMv9WBW47pkA90vAIDFYcppZo8fPzLUDAqhYp59fDbp3fSidSibr5FzM2zeAeQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6697.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(56012099006)(5023799004)(4143699003)(11063799006)(6133799003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T0RNc2xqZ0RvVTlvYnpEN3VVRTgyMkpMSnRVMnJ5SWlQL2l3V25FVDBYd0RZ?=
- =?utf-8?B?Nmhtdlh0ak5NOUw4NUdpSUgxd0NlbGNvRzFBZ1NoV0dtUEZyZmw1NEpxVy9H?=
- =?utf-8?B?T0hGMDVrMjRwSCtJRE1UL1d3SXJDNWpjVStBSWNPdnFINmFMcVBiNWpBRmlX?=
- =?utf-8?B?VzJMSlcxWmMzV1h2NXZwUUVNbXpPUTRHek9qR0xzSStmeTJlTDVrdEFwSk1S?=
- =?utf-8?B?MlV5UmRIU2lzbHg4T2tNN2c2UW55cVFybEE5ekJLWVdGYkhVWWNrcXo5L0k5?=
- =?utf-8?B?czl0QkJJWVF3RnBFRkE5UHZ5MndGWXJ5ZlhmUGw5ZEFRVlp3NjlVL1lZVnF4?=
- =?utf-8?B?VkhQL1RvR1hrUXJodnJDRk1YczExdTRWTHZUaXhHWDg4elFIdzNycTlOWHov?=
- =?utf-8?B?OEhNRDNPWVlkWnp2TU1XQkI1T083UVFncjNGSlhoU2NFSnN3VndWcmYvNmt2?=
- =?utf-8?B?aWYwSmFzSzJoMGovajlMeVJWL1FIWDBkQ2dSUEVjdTF4WUcyOHZ2UkpDOHBI?=
- =?utf-8?B?VHFHVWpWdWprNWNUQ3Y1ZjMvdVRZbHZLMlZGZWkrRXJyUW9FR1FmOXN5KzZQ?=
- =?utf-8?B?M0I4VlNqMEI0TC9KMC96SzYrbUpLaGhURGxOcWpEOWplL014K3NzSHNocVcw?=
- =?utf-8?B?M2J6RXdNZzk5Zjl0SGxZVjdWbTNPakhQaGZmeXRFc1ZiK3hKcmJac1g4THZv?=
- =?utf-8?B?RkZxK2dRd1UyTm8zSzA2V0FjTUFuTTJoUG5IMnhWVDh4dnZmTXlPTzVOcTA3?=
- =?utf-8?B?dUVuQ3NvcEV5SzBBNitjMksrZ0Y1VUVYZmI2R1drUUpnTFV3VjFMVDFRN3Bm?=
- =?utf-8?B?dXUxTlpuRmlDMzRJNlBEMEN4RFZQWjJxdm44azNnWGpIeXRnNC9ZMllSUXpm?=
- =?utf-8?B?Z2dNVGdQTXZTRDVFd2xRcU5OY09CbGhNVFV0RHRxSGpQdWI3WTNoL3dsUURT?=
- =?utf-8?B?L0N0VlhpQnNhUVFvRlhpaFNPNndQazVRR0RiUjhaQnVaeTFibGw1YjB6VXZX?=
- =?utf-8?B?OGZLdjJqUi9IQ3lHd1h0cUViaE1SNUxveVM0enBlMjFMaGdEWHFma2VVWTE1?=
- =?utf-8?B?WHR2MEI0QnJ4NG91V1RQUzI3Z1k4VVZKT0d4Qit0ekRzMGkvUFdOeWNJUHhQ?=
- =?utf-8?B?R0JRejdQaWxCcHBtN3RUN3B1SVBrU05KVHdxaCs1WHpDMEJmYkQ1ZFN2djk3?=
- =?utf-8?B?eDNublJwKzhZbU8wOWxtQi8xamdpenRUbkdyb1BhR1IvbXcwNHBFMGY3T2tw?=
- =?utf-8?B?Q0dpZFhzbGYycXkyOW50c1hhUWlaUE5rVWRiNXFlSUxUd0RCL1I2bCtlUG4z?=
- =?utf-8?B?RStkSWI4YkZESzlNVldKQ2FxeVUxQ1U2TklVcko5bEdxQUZsRXZjQ2RjK054?=
- =?utf-8?B?VlNlbXNEV1cxQUdGYmtxM0IxaldVQk5oakhiT1NtWlZIL3ZtTkF2ZGY0RkhX?=
- =?utf-8?B?VllNZFgyd1M1WjVWNWMrc0JWclFNWCt0K0VzL09uMTdnT09OZ3kwVDhBS1dT?=
- =?utf-8?B?WmNhanFwUGR3YXhSNDIvTDhvamFzaml3d2pGRmp6YzVCaDZ2RmZoWEowZHpv?=
- =?utf-8?B?Z2plS09oY1U2OGliOFlYcmR1ZE1UODAreTB3VHFzVWRlZk04c0hzcEN2Z2RM?=
- =?utf-8?B?cWt4Z2xhYjUzMFE4cm0wRVRmU1YraTBsZ3Ztcm10TjVrVWExM0FyZGlMZW5E?=
- =?utf-8?B?Y2czLzJ3c2c5ZjFBOVM2OFREYURyRHBHZ1BTZnorMmFUc04vNFJDRlk1ZXVE?=
- =?utf-8?B?OXBxQXhqSnNaMUU0bUcyLzJUcE52clVNS2lhSEw1cldlRGx4SGVHK1lKUko1?=
- =?utf-8?B?SUR1RXcxaHRXMFdua3J6K1AvZWI3bjFtNGlUTXYzNmxWWW9YeEY4bEJzQVFD?=
- =?utf-8?B?VnFZTHQ2TVJ3K1EraTJhckpEZHk3YTVKNXJZSFJtUlVwNGhCTEN0QjZ3cFNm?=
- =?utf-8?B?cWtOR1JmRFZGVEp5d0pTUE9MQkZKdkJQYjBEbTdOK1NoZEhCaU1JM2xsMFgz?=
- =?utf-8?B?YXhxRWt2SWNGeE8xZjhBeUVkS0hldVc3RS9SNm1VTm5lWC96cHYrSXB3KzIv?=
- =?utf-8?B?TWFUd0RBK1p6K3kzTEE3QjdacEtNRmFneE04ck9zaFk3bXMrdnRHZTNGVWhO?=
- =?utf-8?B?Z3AwR1E2WHA2RlVTc0RKQnhZV0wxUi90NVNCUlhXUDRRTGx5L1FTeGtYR1JU?=
- =?utf-8?B?dVp5S1VySHhuczQzK1RyUHdSeXltVXRTdEJ0NzVEN2RjOGxrV1V2RzJIMTVa?=
- =?utf-8?B?UTFzdGw0eFhpd2xJZzdRekVSVHNkbWZmMWNJclVNWXdxUlNKY2RXSXdPUnBh?=
- =?utf-8?B?Q3gwTFBHNXcvbWtkeUwxL1BwaThzZ0VCa0RPNFBrT0pNMXZuWWhTemp4VnB2?=
- =?utf-8?Q?/OBC6WyN66+Y2yE0=3D?=
-X-OriginatorOrg: genexis.eu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e916e4f-11e8-45ba-843d-08decaf832ab
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6697.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 16:07:29.0749
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8d891be1-7bce-4216-9a99-bee9de02ba58
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CmE87s+ZB0nUkIrWO4/Z2jvi7Id0C/kV/j1xLavOK4S/dpnzIlXneUcvpvwSww3oXSYTOBUNrn9ISh4ZBJmYSj98shvadNHKmyKc6g2wDyE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5410
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAxA0atI1hZaQQWvMgySNlEDYiUpMiDef
+ YrLt/j/BmMVNpiaG5QvMclHRWgbSBseKzuhauh8N/ghBEdiKV+sGHd2mnOZT9QipXbmImGKSNi
+ PnqAuTuVFfu/+832eP+2uWG1uAAAA
+X-Change-ID: 20260611-discoverable-root_partitions-bdacbada570d
+To: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Vincent Mailhol <mailhol@kernel.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
+ linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>, 
+ linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+ loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ linux-mips@vger.kernel.org, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6653; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=RjmwbjJUekMN4XQbpwM2sAMQ8Q4VGqazX1lTIqnbeDs=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDFkGyhcU3klMvHNzftiCl6lmH3kWl02+abz8VKXHlaTy/
+ w4vP39V7pjIwiDGxWAppsiyrJyTW6Gj0Dvs0F9LmDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
+ EMjQMWLg4hSAqfbXZfgr2rolQuyW6w6JgNKDJ4tvO69i+ZPHkj6Tv9JAckFms/tLRoYma5u3R6a
+ 1csurnulLb7M78HnNmlIVnlf38k/kSby8dJsZAA==
+X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
+ fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-Hi.
+DPS [1] defines GPT partition type UUIDs for OS partitions and
+attributes that control whether such partitions should be
+automatically discovered. The specification states that:
 
-On 15/06/2026 14:29, Christian Marangi wrote:
-> Add phylink support for each GDM port. For GDM1 add the internal interface
-> mode as the only supported mode. For GDM2/3/4 add the required
-> configuration of the PCS to make the external PHY or attached SFP cage
-> work.
->
-> These needs to be defined in the GDM port node using the pcs-handle
-> property.
->
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->   drivers/net/ethernet/airoha/Kconfig       |   1 +
->   drivers/net/ethernet/airoha/airoha_eth.c  | 161 +++++++++++++++++++++-
->   drivers/net/ethernet/airoha/airoha_eth.h  |   3 +
->   drivers/net/ethernet/airoha/airoha_regs.h |  12 ++
->   4 files changed, 176 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/net/ethernet/airoha/Kconfig b/drivers/net/ethernet/airoha/Kconfig
-> index ad3ce501e7a5..38dcc76e5998 100644
-> --- a/drivers/net/ethernet/airoha/Kconfig
-> +++ b/drivers/net/ethernet/airoha/Kconfig
-> @@ -20,6 +20,7 @@ config NET_AIROHA
->   	depends on NET_DSA || !NET_DSA
->   	select NET_AIROHA_NPU
->   	select PAGE_POOL
-> +	select PHYLINK
->   	help
->   	  This driver supports the gigabit ethernet MACs in the
->   	  Airoha SoC family.
-> diff --git a/drivers/net/ethernet/airoha/airoha_eth.c b/drivers/net/ethernet/airoha/airoha_eth.c
-> index 5f1a118875fb..9a42fb991bd7 100644
-> --- a/drivers/net/ethernet/airoha/airoha_eth.c
-> +++ b/drivers/net/ethernet/airoha/airoha_eth.c
-> @@ -8,6 +8,7 @@
->   #include <linux/of_reserved_mem.h>
->   #include <linux/platform_device.h>
->   #include <linux/tcp.h>
-> +#include <linux/pcs/pcs.h>
->   #include <linux/u64_stats_sync.h>
->   #include <net/dst_metadata.h>
->   #include <net/page_pool/helpers.h>
-> @@ -1810,6 +1811,14 @@ static int airoha_dev_open(struct net_device *netdev)
->   	u32 cur_len, pse_port = FE_PSE_PORT_PPE1;
->   	struct airoha_qdma *qdma = dev->qdma;
->   
-> +	err = phylink_of_phy_connect(dev->phylink, netdev->dev.of_node, 0);
-> +	if (err) {
-> +		netdev_err(netdev, "could not attach PHY: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	phylink_start(dev->phylink);
-> +
->   	netif_tx_start_all_queues(netdev);
->   	err = airoha_set_vip_for_gdm_port(dev, true);
->   	if (err)
-> @@ -1907,6 +1916,9 @@ static int airoha_dev_stop(struct net_device *netdev)
->   		}
->   	}
->   
-> +	phylink_stop(dev->phylink);
-> +	phylink_disconnect_phy(dev->phylink);
-> +
->   	return 0;
->   }
->   
-> @@ -3168,6 +3180,151 @@ bool airoha_is_valid_gdm_dev(struct airoha_eth *eth,
->   	return false;
->   }
->   
-> +/* Nothing to do in MAC, everything is handled in PCS */
-> +static void airoha_mac_config(struct phylink_config *config, unsigned int mode,
-> +			      const struct phylink_link_state *state)
-> +{
-> +}
-> +
-> +static void airoha_mac_link_up(struct phylink_config *config, struct phy_device *phy,
-> +			       unsigned int mode, phy_interface_t interface,
-> +			       int speed, int duplex, bool tx_pause, bool rx_pause)
-> +{
-> +	struct airoha_gdm_dev *dev = container_of(config, struct airoha_gdm_dev,
-> +						  phylink_config);
-> +	struct airoha_gdm_port *port = dev->port;
-> +	struct airoha_eth *eth = dev->eth;
-> +	u32 frag_size_tx, frag_size_rx;
-> +	u32 mask, val;
-> +
-> +	/* TX/RX frag is configured only for GDM4 */
-> +	if (port->id != AIROHA_GDM4_IDX)
-> +		return;
-> +
-> +	switch (speed) {
-> +	case SPEED_10000:
-> +	case SPEED_5000:
-> +		frag_size_tx = 8;
-> +		frag_size_rx = 8;
-> +		break;
-> +	case SPEED_2500:
-> +		frag_size_tx = 2;
-> +		frag_size_rx = 1;
-> +		break;
-> +	default:
-> +		frag_size_tx = 1;
-> +		frag_size_rx = 0;
-> +	}
-> +
-> +	/* Configure TX/RX frag based on speed */
-> +	if (dev->nbq == 1) {
-> +		mask = GDMA4_SGMII1_TX_FRAG_SIZE_MASK;
+  The OS can discover and mount the necessary file systems with a
+  non-existent or incomplete /etc/fstab file and without the root=
+  kernel command line option.
 
-Can the naming be consistently GDM4 without the A?
+DPS is already implemented in systemd-gpt-auto-generator [2], which,
+when embedded in an initrd, indeed allows automatic detection of the
+root filesystem through its partition type UUID.
 
-MvH
+This series adds this discovery feature directly into the kernel so
+that people who are not using systemd or not using an initrd can still
+benefit from it. The implementation follows the same model as
+systemd-gpt-auto-generator:
 
-Benjamin Larsson
+  - GPT partition type UUIDs are used for automatic discovery policy
+    only. No root=PARTTYPEUUID=xxx cmdline option or similar syntax is
+    added.
+
+  - The root= cmdline option takes precedence. This prevents unexpected
+    behaviour.
+
+  - Only the disk with the active EFI System Partition is scanned, as
+    required by DPS. The disk is identified through the Boot Loader
+    Interface LoaderDevicePartUUID EFI variable.
+
+The DPS no-auto attribute is also implemented, giving another option for
+the user to disable this auto discovery. However, the DPS read-only
+attribute is intentionally not enforced. The kernel already mounts the
+root filesystem read-only by default unless the command line requests
+rw, and user space remains responsible for deciding whether a discovered
+root should later be remounted read-write based on DPS metadata and
+local policy. The other partition type UUIDs (home, swap, var...) are
+also out of scope for the same reason: user space remains responsible
+for mounting anything other than the root partition.
+
+Patch 1 adds the ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID capability and
+the hidden CONFIG_DPS_ROOT_AUTO_DISCOVERY Kconfig symbol used to signal
+whether the feature is available. Patches 2 to 12 declare the
+ARCH_HAS_DPS_ROOT_PARTITION_TYPE_UUID capability for the supported
+architectures and define their architecture-specific root partition type
+UUID values in asm/dps_root.h.
+
+Patches 13 to 16 make the GPT partition type UUID and the no-auto
+attribute available during early block lookup.
+
+Patch 17 is a small code refactor that prepares for patch 18, which
+updates the root mount path so that, when root= is omitted, the kernel
+reads LoaderDevicePartUUID and uses the early block lookup
+infrastructure to discover the DPS root partition on that disk.
+
+Finally, patch 19 documents this automatic root discovery feature.
+
+Tested with GRUB, which implements the LoaderDevicePartUUID EFI variable
+in its bli module [3]. With this, I was able to boot a kernel with a
+completely empty cmdline and no initrd.
+
+[1] The Discoverable Partitions Specification (DPS)
+Link: https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+
+[2] systemd-gpt-auto-generator
+Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-gpt-auto-generator.html
+
+[3] GRUB -- §16.2 bli
+Link: https://www.gnu.org/software/grub/manual/grub/html_node/bli_005fmodule.html
+
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+---
+Vincent Mailhol (19):
+      init: add DPS root partition type UUID capability
+      alpha: define DPS root partition type UUID
+      arc: define DPS root partition type UUID
+      arm: define DPS root partition type UUID
+      arm64: define DPS root partition type UUID
+      loongarch: define DPS root partition type UUID
+      mips: define DPS root partition type UUIDs
+      parisc: define DPS root partition type UUID
+      powerpc: define DPS root partition type UUIDs
+      riscv: define DPS root partition type UUIDs
+      s390: define DPS root partition type UUIDs
+      x86: define DPS root partition type UUIDs
+      block: store GPT partition type UUID
+      block: add early_lookup_bdev_by_type_uuid()
+      block: store GPT attributes as a raw value
+      block: don't discover partition with DPS no-auto GPT attribute
+      init: factor out root device lookup into lookup_root_device()
+      init: discover root by DPS partition type UUID
+      docs: document discoverable root partitions
+
+ Documentation/admin-guide/discoverable-root.rst | 33 +++++++++
+ Documentation/admin-guide/index.rst             |  1 +
+ Documentation/admin-guide/kernel-parameters.txt |  5 ++
+ arch/alpha/Kconfig                              |  1 +
+ arch/alpha/include/asm/dps_root.h               |  8 +++
+ arch/arc/Kconfig                                |  1 +
+ arch/arc/include/asm/dps_root.h                 |  8 +++
+ arch/arm/Kconfig                                |  1 +
+ arch/arm/include/asm/dps_root.h                 |  8 +++
+ arch/arm64/Kconfig                              |  1 +
+ arch/arm64/include/asm/dps_root.h               |  8 +++
+ arch/loongarch/Kconfig                          |  1 +
+ arch/loongarch/include/asm/dps_root.h           |  8 +++
+ arch/mips/Kconfig                               |  1 +
+ arch/mips/include/asm/dps_root.h                | 20 ++++++
+ arch/parisc/Kconfig                             |  1 +
+ arch/parisc/include/asm/dps_root.h              |  8 +++
+ arch/powerpc/Kconfig                            |  1 +
+ arch/powerpc/include/asm/dps_root.h             | 16 +++++
+ arch/riscv/Kconfig                              |  1 +
+ arch/riscv/include/asm/dps_root.h               | 12 ++++
+ arch/s390/Kconfig                               |  1 +
+ arch/s390/include/asm/dps_root.h                | 12 ++++
+ arch/x86/Kconfig                                |  1 +
+ arch/x86/include/asm/dps_root.h                 | 12 ++++
+ block/blk.h                                     |  1 +
+ block/early-lookup.c                            | 68 +++++++++++++++++-
+ block/partitions/core.c                         |  2 +
+ block/partitions/efi.c                          |  3 +
+ block/partitions/efi.h                          | 11 ++-
+ include/linux/blk_types.h                       |  1 +
+ include/linux/blkdev.h                          |  5 ++
+ include/linux/root_dev.h                        |  6 ++
+ init/Kconfig                                    |  6 ++
+ init/do_mounts.c                                | 94 ++++++++++++++++++++++++-
+ 35 files changed, 355 insertions(+), 12 deletions(-)
+---
+base-commit: 36808d5e983985bbda87e01059cccc071fe3ec8d
+change-id: 20260611-discoverable-root_partitions-bdacbada570d
+
+Best regards,
+-- 
+Vincent Mailhol <mailhol@kernel.org>
 
