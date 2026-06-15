@@ -1,84 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B8479CD;
-	Mon, 15 Jun 2026 22:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB193AC0C2;
+	Mon, 15 Jun 2026 22:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781563684; cv=none; b=uSPtXSnynLFhCVchw8hZxvfYxJDUBGkuOXDWgAVlTHZZwxED3nAfeKMNdNXGP9r4wOCan/HQmwT2Wt45B/v4Lg0IO37XLa9rx/Dxc3OdvZXJrWbWs0jYkpsc2RYrQX90RihBJFnhwsTizy3Oa9sLhoVJfLM6I8tNeXqtYC4H7rM=
+	t=1781563842; cv=none; b=IdPIcP8qZES/V9quUCtT6PE8CDOX4bPA8lbsvkr+G6Ux0LRkmBRHQdb7h5u1mbhHG+7Han3ytFCGwKay5OlDi1BBF4jplO0k5We/dQ7ZQwuBme3/J8cm5ze4jXWHNVWn1uoRrJujVgoBV0zwsZSaZ7K7edqe0eKhL9IfMzX7reQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781563684; c=relaxed/simple;
-	bh=CqpDulu3Uclnc4tI7DX6e5r2qCyKXkorUrUszaTc7X8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dDzOALIxiqG875BbGBXU8AR9O0nbu/jXjUpjz/P29wYz0cBnp1xk74IjwN8BY2A/g1BIPnTLtylfSrTAKXGbj/hdBqgJxipmHneQjwxOenIkfEOO7Odzw/mBCkZ362uhKTc3bruZsWuZqksZem7wfKQavftSWeBh5IetoYxQB6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHSE3ZKG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781563842; c=relaxed/simple;
+	bh=grgWedY2nNZ4SGRA1oFJn9vNo8Fy4FNyimccqF2MdBU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=K0S8clQCD6YnluR2K0Ky/iwEcguRxxzYqt8sqNxpKelnnxvmLAhmO00UwuqlJNmK4xsgK6Pqcuv4ShqIjwW4Ix2hZuS5iEG71bGpIrsd74JtytyEMGkJP1exIjgifaFbtie5TD7fTWJPL+16hha3LLoPJruiGaSUhONUQW3wIUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FnxXuye9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHSE3ZKG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 347071F000E9;
-	Mon, 15 Jun 2026 22:48:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FnxXuye9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 577051F000E9;
+	Mon, 15 Jun 2026 22:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781563683;
-	bh=Zs8KpH+uagfCKB2jn26tTEhh3LE6JVismookwgsfOjA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BHSE3ZKGn9vS2hG6yEsEpDp+9fUGDwaM0QlmAA2tM07RZP50NM5n+N6KK9VWPcrPP
-	 1AJR8dWI2X/GXtcn5lyyVz9MhgsEW8+CXNl/tSIU1BDPTlJ2Ou5gY3sJNpfP4baUvr
-	 TR+Ri0ngWIpxdJMO3OiyOzINzmVZ/da3ItGzm0hSpEB7VeNa4covlAJCHY/DmKhpCI
-	 vCR2sOMrN/hu/NkTcc9AJnMk1dDOqIbB8FCoEni3dCxcFu8MqhuPFupwo4Ox5yggUG
-	 aXDghIv9aELmmLWD4TDYOxcoUT668/zno593CgiTe8prKjxCjabWnIc3aRDvQUaqE2
-	 WDrtlnJhenpOA==
-Date: Mon, 15 Jun 2026 15:48:02 -0700
-From: Kees Cook <kees@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Dan Carpenter <error27@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefano Zacchiroli <zack@upsilon.cc>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Laura Abbott <labbott@kernel.org>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Wenwen Wang <wenwen@cs.uga.edu>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Dawei Feng <dawei.feng@seu.edu.cn>
-Subject: Re: [PATCH v3] Documentation/process: Add Researcher Guidelines
-Message-ID: <202606151547.DB4095584@keescook>
-References: <20220304181418.1692016-1-keescook@chromium.org>
- <ahgaOigklcDCYvRp@stanley.mountain>
- <ajACprp9UJp2JSJM@black.igk.intel.com>
+	s=k20260515; t=1781563841;
+	bh=V6XsH0bL7FqCK4ahZ0MAGbxVbaUz03yea1xWyIn6fs0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=FnxXuye9GTnQHUKJjUxo7brSz8o81CgcMw6vGvr1uvAeh7lu/v0J30WVOLRBfPeeE
+	 i0a1PfQOezl36mkPMqgBGM8QP9sVJBVHMICYcI2Sth+qTEnJrK7eHdbmFmCWUO9APz
+	 /CUNQVBLwujNqi/VacCOphx3y6A67aTRBJtVKjF5Icgif45+F02jO49NSSu1RfFFXj
+	 ExiRuKl7zL+1u3k72oy1AXmgR6NicFcY6KBPLF4RMXcqGsoz+s+q7uVu1CacP6mzG/
+	 /LxFF+wvqNcQJPhbyxnwviWMSYADZpNLMUrxTZ4kq/+fYOu7WCaI/2cWYTgXfnFoEO
+	 mIgzMye5Lfz5A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939A03839A08;
+	Mon, 15 Jun 2026 22:50:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ajACprp9UJp2JSJM@black.igk.intel.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/3] docs: net: more adjustments to docs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178156383616.325968.5598625632200440007.git-patchwork-notify@kernel.org>
+Date: Mon, 15 Jun 2026 22:50:36 +0000
+References: <20260613165846.2913092-1-kuba@kernel.org>
+In-Reply-To: <20260613165846.2913092-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, john.fastabend@gmail.com, sd@queasysnail.net,
+ jiri@resnulli.us
 
-On Mon, Jun 15, 2026 at 03:48:22PM +0200, Andy Shevchenko wrote:
-> On Thu, May 28, 2026 at 01:34:34PM +0300, Dan Carpenter wrote:
-> > On Fri, Mar 04, 2022 at 10:14:18AM -0800, Kees Cook wrote:
-> 
-> ...
-> 
-> > > +  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-> > > +  11.2 show no new warnings, and LeakMagic no longer warns about this
-> > > +  code path. As we don't have a FooBar device to test with, no runtime
-> > > +  testing was able to be performed.
-> > 
-> > People have started sending commit messages in this exact template and
-> > normally I would ask them resend with the meta commentary from this
-> > paragraph below the --- cut off line.
-> > 
-> > Do we really want this "Compile tested only" stuff in the permanent git
-> > log?
-> 
-> +1 here, can we rather avoid flooding commit messages with the meta, that
-> anyways is available in lore.kernel.org archives?
+Hello:
 
-Hm, I have gotten a lot of push-back from maintainers (reasonablly)
-wanting to know the specific level of testing patches get. In the case
-of lacking hardware, this seems like useful information still.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
+On Sat, 13 Jun 2026 09:58:43 -0700 you wrote:
+> A few small updates to the docs.
+> This is trying to prepare docs for getting fed directly
+> into AI reviews.
+> 
+> v2:
+>  - fixes in the tls offload patch
+>  - add the strparser patch in place of the already applied XDP md one
+> v1: https://lore.kernel.org/20260609201224.1191391-1-kuba@kernel.org
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v2,1/3] docs: net: tls-offload: document tls_dev_del, tls_dev_resync, and rekey
+    https://git.kernel.org/netdev/net-next/c/c8ee634048dd
+  - [net-next,v2,2/3] docs: net: fix minor issues with devlink docs
+    https://git.kernel.org/netdev/net-next/c/e504cf18ef47
+  - [net-next,v2,3/3] docs: net: fix minor issues with strparser docs
+    https://git.kernel.org/netdev/net-next/c/d9e4dd3c6f1f
+
+You are awesome, thank you!
 -- 
-Kees Cook
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
