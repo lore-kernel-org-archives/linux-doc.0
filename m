@@ -1,227 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176A6304976;
-	Mon, 15 Jun 2026 18:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781547284; cv=fail; b=Lsbk24DyrJV3W4dAVWS279xLigP7uRJ/n3lthIqD7JvGbq6Ahk1KL72kDyyeObuvQJRcElzMTcw/iFuDZgfA20dsyJMRaAWzyWmr+A5WWDWxTmea1jFxjEih0z38iX+d6mBPoferVxR8D+ELY2W1rKbVavlbIjSBuep06wRM3AA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781547284; c=relaxed/simple;
-	bh=ke+tnYdFZT7P94qsdfDjm+uFNWFP1aB02kb1efk/kXc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ih6nGjJenop7qQHo3ruioKamFbS/G1TPsUEq3Bg+EOUISPSOsrVaUB1tV7ROJaTq8lCJqDufvL9pSakVnuefqGbaLaGKvyFSPt6AvLCairieumGwlfnPJO2yLVQbHB22JQ9HfhP6sgYeZhDm3prLtfHcBckTeD+zn8+Yrl/8LcA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENce0SEO; arc=fail smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B453B19BB;
+	Mon, 15 Jun 2026 19:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781552253; cv=none; b=XMrHDjcbEJFtuloE8AQG1XKw9qq4bsCizWsBiU7iM6LqvrtKpSsguku3sXRVMvziSHN12xCQ+3LF2TmmVG7LTWTKY2I2I7XBsvOYID46GwIUprT7wh4saN96vhe78M2bxhqbtzUiNLHg7ClYK5khDOAdYtWDEWtlCiMvaPadokM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781552253; c=relaxed/simple;
+	bh=/iUo4EqGSX3HqetKGl2xjPAsPs1LVfixXNW/oyoAzF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AG6X0v7eK6nG0MznN7yKaDSdiwf2dBVSjtMlzbkv5/HfTlpauAHrRuVvumnVYfFAH7MSV+yF/0Dw0/3/E/f3KJsiVRnCCi7JcvjN51ReaOVjDfEyLc3NRVcz5TckRTyF3TP8neUBDUYs6Hqk0Gx7MuS7N2WZrfn9r/aKLVdL5K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mR7l6UIz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENce0SEO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781547281; x=1813083281;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ke+tnYdFZT7P94qsdfDjm+uFNWFP1aB02kb1efk/kXc=;
-  b=ENce0SEOeqgY5lPFrIY+J3veOfpRMCf73QQrr4pFL/Sb6UaIGw5StRUj
-   FHW7wubbFe57aMeWe/8MLioWSNuImz7Kfp0tf/AoRPdTMB2lEO6zqmAIR
-   gzvmUQaPF05EWuC6BmyOGfkc2kCwGnFWsdalY35Key8Chwtdef9c8sK0d
-   plsq37jN2SxDTppOa1Uc7/RRc0pgeDR/xkSKqxYWLgrm4gS6UJ9jz+5GF
-   GXuRj220/1+SWcKH8t6CmARTkYno5NNS0lPqk9GmSjEC7/MMbFBELc7Sg
-   zG/SUgvxKcDoOfygw7RVVljFYy7kAh3JX3H/u9ypCmtNF4LXWbzx9fv7L
-   w==;
-X-CSE-ConnectionGUID: jpE+aYy9SaKv4sQH0LlrHQ==
-X-CSE-MsgGUID: NiSj5PKtRo2Vyq8SxeLBUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="104968440"
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="104968440"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 11:14:40 -0700
-X-CSE-ConnectionGUID: mHvUhZB8Q5uG97VgY4yMyg==
-X-CSE-MsgGUID: a0ZpgupZSWaqd1w8GwoCjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="251834336"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 11:14:40 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 11:14:40 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 15 Jun 2026 11:14:40 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.37) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 11:14:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LvXcZs+J/UHH6JImGPazQ8fMib7L1J9yo8cOQPz6KUduN5dAt8QynlPqmvQGYnmqOI9CQJyLNe4I5Cq5ncjkD/PcMKAUQU2wC8Y/5efCQIKEt7BnKVvb3d0CmUbHzNHgfa4d66pSNJOpIcz+M6MtWoyUX5LWAwFPtGPQ8d9S7bQNNTjDWoUrJ9FLLzb2OOg5rDU95wSufkgW/oDF/FEElhq2j5iXXjLw242UICiqgOU3C2Tt2dsiX+VZWM0Wmmeckvzyeq5vI8wFgJIc6X54KeFAvWHoRn2pg7o5uOhFuF1RGtBYfFbEznPsadMrk0RNB5lBOMMBqgCQVRt+3gX8kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s2c2NU/jXSjPpRuTm5kl+U5BMKHzFMw4563XVQ30DNY=;
- b=FHCa34x6eaWrOm1IVTkDfmU9x3ocowTKe59kk8ghKsTHBR8Zv0PH4/7zKyX9VOOP0yamXvr0mPPrnqgXio4gCLnO/603wzM6UdV5yUMnvxeGbpfo4enoEiM2RFD0UHyHWqWvzIQmDKsecHjFoRkiysJnKhfI9UUPBA60MYgQ1fzDv6F78y6YgDJPoRFh+IsH4eIucFJv3bFmWI7ZjSd+6NPkQB6WiL4Igrx8OoZGr9ChymZFjGjYL3+st26qfOzVhoUjG+0Y64IT0GYjpLSr/SqsGC79WhzNQ7iElQ8+AZmJ52i8Ib4XZkSYniSQ/fcT6ctx679jv2k9eeleqnbdTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB7522.namprd11.prod.outlook.com (2603:10b6:510:289::8)
- by CO1PR11MB5025.namprd11.prod.outlook.com (2603:10b6:303:9e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 18:14:31 +0000
-Received: from PH0PR11MB7522.namprd11.prod.outlook.com
- ([fe80::ba5b:e8f1:5eb8:3ca3]) by PH0PR11MB7522.namprd11.prod.outlook.com
- ([fe80::ba5b:e8f1:5eb8:3ca3%6]) with mapi id 15.21.0048.016; Mon, 15 Jun 2026
- 18:14:31 +0000
-From: "Mekala, SunithaX D" <sunithax.d.mekala@intel.com>
-To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>
-CC: "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Kubalewski,
- Arkadiusz" <arkadiusz.kubalewski@intel.com>, "Loktionov, Aleksandr"
-	<aleksandr.loktionov@intel.com>, "Nguyen, Anthony L"
-	<anthony.l.nguyen@intel.com>, "Fodor, Zoltan" <zoltan.fodor@intel.com>,
-	"horms@kernel.org" <horms@kernel.org>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, "Grinberg, Vitaly" <vgrinber@redhat.com>
-Subject: RE: [Intel-wired-lan] [PATCH iwl-next v12] ice: add support for
- unmanaged DPLL on E830 NIC
-Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v12] ice: add support for
- unmanaged DPLL on E830 NIC
-Thread-Index: AQHc3twdLLW8WIY8IkSSVUTjpDZGs7Y/NBpg
-Date: Mon, 15 Jun 2026 18:14:31 +0000
-Message-ID: <PH0PR11MB7522B24592865895CDC2637DA0E62@PH0PR11MB7522.namprd11.prod.outlook.com>
-References: <20260508110856.550999-1-arkadiusz.kubalewski@intel.com>
-In-Reply-To: <20260508110856.550999-1-arkadiusz.kubalewski@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB7522:EE_|CO1PR11MB5025:EE_
-x-ms-office365-filtering-correlation-id: 8f4ea098-884e-426d-0816-08decb09f272
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|56012099006|11063799006|3023799007|6133799003|22082099003|38070700021|18002099003;
-x-microsoft-antispam-message-info: ZLpRLxOG7HG5mjGTm6OV3ALMeTmnNudsDQoUJaTj3z887B55bGc88opWuDLtghRNC0srJYvl7w8Sg3+yPzvxzMnw952+mb6xsz9dYB2kaz0+uKCEmZQJnQ79jAPfyOMTHyq9I708JB8GYyiTHvJLOim8FOwGNFE800+bK5KXgauNDcdW7V0e5FqluVMf2pqfhPxxOyYlBREgRsmNU4G6SrpFuDWbe6IhxDU9jNlrUca2abyZ6oP29+fAIAU1NCT/1U+jXZ6hh1MFjTuQ4M05p3TTQDAV6bcb9IND8ok+Qnds6lgbWZiViFfTMw2BKCZz7EEO0hWtF+ElcdEjqOdpiDNxp/70ClMdAWWaOREHsBLcWtScm2BUDBKl8nyfXtK2VN7IYkwlXW7t3l3saEsxT/5mL4OIzyZl78nAJSmUP0B1L6+X0jdB5sLZoBgn5Ru0S1GHtiCBrU7r7TRajwTEXRAanqyIK55UKK8iKPbL5ul3gvRUV1SXizY9UWWgFwhNzglDVSgBElAYnOFwabyOXrsyMe0msmHV807ylZdoJ++ujawVXrAuicSMCHfUUK5sZrqpDKkYxF6Dj+88BNbPwx6jkPCgHd6XxD5UGR0jv/Dpn+sUe+2ntnJtBC8yn+zHGXjw/30yslD3jag8Da635CO6+I1XH61TGO4WgzG5TBRhmo93asxE6u0zGCVArMYSONVKuq35Pzxt7Nm+9zGejnD7Ik5pBmigK+amJnft9MttNxn9/ehIoqD2hVDRGZ8e
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB7522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(56012099006)(11063799006)(3023799007)(6133799003)(22082099003)(38070700021)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lj+3+9M1HqKmXNgdfKeZOS1AgEYuIQW1Ffxb5buYRkJBZPM+UAqdTRxYZBXW?=
- =?us-ascii?Q?Nckp5k6XWA8nEETn+6IGq4Wmwqs4EfAT5UEIlgQz3sdZdInX6fsI4D6zGYZg?=
- =?us-ascii?Q?GsoXrScH7wQL03st9eECdQCwhHiAG6ocyqSIo961ViAWU8W+qCfkqAQ87MHw?=
- =?us-ascii?Q?BZTpxE+7QwE5wPOsnVKqhAcYcAbVX3yYAFJa86kr204OTBijG6jUjrVQRyyO?=
- =?us-ascii?Q?27s/sgDNORRi8DYcK1Y4U2xmEXZKhU/Rk97KVLR9dS/ret8JYJg14GCukf0h?=
- =?us-ascii?Q?rG38WnjgpYhVaA2lOBaHdaIsk6W1BedxpTfoAv1BhQ3CD4URTNDn1/i/I2EG?=
- =?us-ascii?Q?IM9523Te/FWGuOO33qA9XTHhocmkAXGW+ZyQ/U1OmqrrVantKU1T+bq3MiWP?=
- =?us-ascii?Q?4CbiIGnyJHLk+TvPmD8rahApMExsaq/HScgPefRjZwOxNBcsug/I67kR5jLz?=
- =?us-ascii?Q?OjZFygpYVroHGxGnJkdPlfQRHcKJnNjTBpVhZikwJTAo1xvErqHaCdE08xpS?=
- =?us-ascii?Q?5noZHeQ4lvpb5U/OrRxlhRgddz3xrslKfOgi+LYIw6VYnLNWe6Pd+gbdRvE/?=
- =?us-ascii?Q?HVlF7Ekmsl1Lk4cLJOG1XvSBNSSUIHngIrPRs5dwbk5yc5ZWkf9o0GuCMrp8?=
- =?us-ascii?Q?hMqkg3sw+Euv1yANdF5aIOakPepq0+TcIBT2OKkSWHfvHIPNOO6291KTAXke?=
- =?us-ascii?Q?Lxzc4OTLax0WqQGic2Nmp9rR0Q/4MBBl9+LeoKMqLkQ/3qNjstS7ageWiizG?=
- =?us-ascii?Q?nfdqVS6+x5Biz8KFgYuHO7xqgQeD/cNev+xVt6Ni3KCU651xCOze8lroQ6Gz?=
- =?us-ascii?Q?x5PY4MLpr+1YT0A6dxSUt0z8DeDjADG3CqFqRikk1VPL432aOMxZs+oPYfsW?=
- =?us-ascii?Q?MdtMNJa+C/XnNR9ZPQWOw5wAM1AO6bRJ0HbCPq5owH1nWv4nvMasq8Zdy5B7?=
- =?us-ascii?Q?StPq93bdwAE39Ob6eu5q9UFpwMc+reBBhU+EWzCMT6rwTL6Qf2eOEJ3Pk2rb?=
- =?us-ascii?Q?R25t1lYc2LSB9zhIdVcHwwuAW+SJkjNIe7ci0Q+Ocy4YswbK2VcLXWwBG014?=
- =?us-ascii?Q?XMFK/cSQ2t7M+pIUcThx5HPkOlKHMgoOhBXMqn2DiQTPMQvWdjqwpyzLebDK?=
- =?us-ascii?Q?mAUeWKzCUyWDV/Tf3rxNXzoZKx1yb/E1tk0QVL70y5LDU0SQaU94jdF2CAWl?=
- =?us-ascii?Q?gDCQeSP7YTjorsc9YIXp017M/HVOQtJnmDsguRxUDbL2IfAWzd9GUOeEVzpg?=
- =?us-ascii?Q?2TP+FfP+XWKak9cAYjQHBL/l54ChTQqz/D9VoWIJEb4OnVlWTQcHPPq298/g?=
- =?us-ascii?Q?GYkB96HUaYpC7kEpKiR+jcZSEgY8Z3wPtkdPDzB9e95bjd8ggbLOkpDFUGAr?=
- =?us-ascii?Q?xxNio36hmgWjpBeNL0f1h3r+uQ+NjRwQQIsrWp+OdbimJ2CoNgDDDwuqLmZ2?=
- =?us-ascii?Q?riACegYdlj6Cvj8gL00jRdn0pbzdRpNwIzlSnsAXgeBQAqbQMae0jLlxAS/J?=
- =?us-ascii?Q?wXfrKPqhbu9xR/jTn0ZnzbW1hkAdc61hEvD1sFxsWMuPlMXTWTeJ0nMj0NPa?=
- =?us-ascii?Q?/GToo/pTJPnogOhIvJAEohF1E8WltLckGXYBL39ZDiJoTU0tIO2Rt5XnM/fE?=
- =?us-ascii?Q?O7wq7F+u615v7V6V2vsOpTPX8zCVbEUxILeRl/ACQudKozzWl9Nzp5ij0Mdf?=
- =?us-ascii?Q?xLRYtGZIW+8OXHzVF/IRPCrLqs6bEcR3yhxMJ/WUIitFCoz3bcLdCqubKrI/?=
- =?us-ascii?Q?xr5fDUxzHyOBaCaeeghsHBBHHG0e6PE=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mR7l6UIz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517DE1F00A3D;
+	Mon, 15 Jun 2026 19:37:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781552249;
+	bh=xzdaAZ3vb4ixL+pONGkgMZtFCmR6/l4XZZFEzZGSXuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mR7l6UIzq1yljDBgRBwGWbw5sYLRrGC/WtvkE6SS1PAidXXsnZEn+S63G5twdMRi1
+	 tkMAhkksazmcTnUO3XTiSRoX0qPLh6tVMghb0F8gWQQ6+rYsRxv+/UDr3lzVHGJziJ
+	 CdNU4fXWHatiGntbD6Ged4oN1G0fNn+NiepqyRX1IuTpY17MoC0P7JprMR3gVOECH1
+	 dIt5Lx38vRPQO8QQAAD+g7sqyRpMwT4mEMV+C1iHo2hN/LDHEhSWpTB5HqA9ny+4NB
+	 OIw6nzUQQSzF65/Qid/VMmOxJ6dlPsniJriBQdC1VnhZFR5so2royamQRNAchAGqik
+	 NNtZ7gYGvC75w==
+Date: Mon, 15 Jun 2026 12:37:28 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	"open list:FSCRYPT: FILE SYSTEM LEVEL ENCRYPTION SUPPORT" <linux-fscrypt@vger.kernel.org>,
+	linux-ext4@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] f2fs: support encrypted inline data
+Message-ID: <20260615193728.GA1764@quark>
+References: <20260615125517.362294-1-liaoyuanhong@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: lT78MOtQzoWZ12Df05HzxHuJZtjtS080y+U2xwZlmbBHy0yjSTlWrmGlSmCD3SbIpz4YIMEVQXcAZs+Th2Z1LgRPe49yKKbVB5+Iw7KJMES4KE5YgfHwu0TT42M7DGhg07WlBycvF4/s0mmHb6QgMq3HfX1gS/wA6ick+9bv+2+G2xN0u7r+Q4blbHVijgMop3+Nu3zJHUkSaV1NaOjIezLpa4sz6XdDEpUxhXyVhJJQQwW4zFX44i3cGq95F9YnrLKCjVKjIyTvc0WGfTuJcnxUJzxCZMIfiZChjcNzISJ3WIMcY2XSNZi+bD5fUb0EdZ+fWs086hH71X9mvPICpg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB7522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f4ea098-884e-426d-0816-08decb09f272
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2026 18:14:31.5392
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZEkvy35KNBrks/Zh+IpnNChzD3hcAi8VT9jXCmBojj/PtOkO8iCYEJm4I7s3C2fdDRoeJ0Nn2m4Pg4IlqQGU8GfNsMQKZurW4Nodl1Na7QQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5025
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615125517.362294-1-liaoyuanhong@vivo.com>
 
-> -----Original Message-----
-> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf Of A=
-rkadiusz Kubalewski
-> Sent: Friday, May 8, 2026 4:09 AM
-> To: intel-wired-lan@lists.osuosl.org
-> Cc: pmenzel@molgen.mpg.de; linux-doc@vger.kernel.org; netdev@vger.kernel.=
-org; linux-kernel@vger.kernel.org; Kubalewski, Arkadiusz <arkadiusz.kubalew=
-ski@intel.com>; Loktionov, Aleksandr <aleksandr.loktionov@intel.com>; Nguye=
-n, Anthony L <anthony.l.nguyen@intel.com>; Fodor, Zoltan <zoltan.fodor@inte=
-l.com>; horms@kernel.org; Kitszel, Przemyslaw <przemyslaw.kitszel@intel.com=
->; Grinberg, Vitaly <vgrinber@redhat.com>
-> Subject: [Intel-wired-lan] [PATCH iwl-next v12] ice: add support for unma=
-naged DPLL on E830 NIC
->
-> Hardware variants of E830 may support an unmanaged DPLL where the
-> configuration is hardcoded within the hardware and firmware, meaning
-> users cannot modify settings. However, users are able to check the DPLL
-> lock status and obtain configuration information through the Linux DPLL
-> and devlink health subsystem.
->
-> Availability of 'loss of lock' health status code determines if such
-> support is available, if true, register single DPLL device with 1 input
-> and 1 output and provide hardcoded/read only properties of a pin and
-> DPLL device. User is only allowed to check DPLL device status and receive
-> notifications on DPLL lock status change.
->
-> When present, the DPLL device locks to an external signal provided
-> through the PCIe/OCP pin. The expected input signal is 1PPS
-> (1 Pulse Per Second) embedded on a 10MHz reference clock.
-> The DPLL produces output:
-> - for MAC (Media Access Control) & PHY (Physical Layer) clocks,
-> - 1PPS for synchronization of onboard PHC (Precision Hardware Clock) time=
-r.
->
-> Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Signed-off-by: Grzegorz Nitka <grzegorz.nitka@intel.com>
-> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-> ---
-> v12:
-> - remove HAVE_DPLL_ESYNC ifdef
-> - guard ice_dpll_lock_state_set_unmanaged() call in health event handler
->   with test_bit(ICE_FLAG_DPLL, pf->flags) and pf->dplls.unmanaged
-> - add NULL guards for first/second dpll in ice_dpll_deinit_direct_pins()
-> - add comments explaining intentional continue in
->   ice_dpll_init_info_direct_pins() for unmanaged pins
-> v11:
-> - rebase and fix conflicts
-> ---
->  .../device_drivers/ethernet/intel/ice.rst     |  83 +++++
->  .../net/ethernet/intel/ice/devlink/health.c   |   6 +
->  .../net/ethernet/intel/ice/ice_adminq_cmd.h   |  12 +
->  drivers/net/ethernet/intel/ice/ice_common.c   | 136 ++++++++
->  drivers/net/ethernet/intel/ice/ice_common.h   |   8 +
->  drivers/net/ethernet/intel/ice/ice_dpll.c     | 314 ++++++++++++++++--
->  drivers/net/ethernet/intel/ice/ice_dpll.h     |  10 +
->  drivers/net/ethernet/intel/ice/ice_main.c     |  11 +-
->  drivers/net/ethernet/intel/ice/ice_ptp_hw.c   |  46 +++
->  drivers/net/ethernet/intel/ice/ice_ptp_hw.h   |   1 +
->  10 files changed, 604 insertions(+), 23 deletions(-)
+[+Cc linux-ext4@vger.kernel.org]
 
-Tested-by: Sunitha Mekala <sunithax.d.mekala@intel.com> (A Contingent worke=
-r at Intel)
+On Mon, Jun 15, 2026 at 08:55:12PM +0800, LiaoYuanhong-vivo wrote:
+> F2FS currently disables inline data for encrypted regular files because the
+> inline payload is stored in the inode block and does not go through the
+> regular bio-based fscrypt path.  This wastes space for small encrypted
+> files on Android devices using F2FS inlinecrypt.
+> 
+> This series adds an encrypted_inline_data on-disk feature for F2FS.
+> With this feature enabled, encrypted regular files may keep small contents
+> in the inode block.  The inline payload is encrypted before being stored in
+> the inode and decrypted back into page-cache plaintext on read.
+> 
+> The fscrypt changes are scoped to filesystem-managed data-unit crypto.
+> F2FS first asks fscrypt whether the inode's key/policy supports this path.
+> It prepares the software transform only when encrypted inline payloads are
+> read or written.  Inlinecrypt support is limited to v2 IV_INO_LBLK_64 and
+> IV_INO_LBLK_32 policies, including the hardware-wrapped key configurations
+> supported by fscrypt.  Per-file inlinecrypt keys and DIRECT_KEY policies
+> are not supported for encrypted inline data.
+
+I still think we should hold off on this, for the reasons I gave at
+https://lore.kernel.org/r/20260515184124.GA4903@quark/
+
+As soon as you start using hardware-wrapped keys this will become
+irrelevant, as it can't be used in that case.  I see you added "support"
+for that case anyway by deriving contents encryption keys from the
+sw_secret.  But that bypasses the security model, which isn't okay.
+
+I'm also working to simplify ext4 and f2fs's file contents encryption
+implementation by standardizing on blk-crypto.  That aligns well with
+what btrfs encryption is going to do as well.  So this isn't a great
+time to be making f2fs's file contents encryption implementation even
+more complex by going in a different direction.
+
+If there was demand for this feature from the ext4 side for
+general-purpose Linux distros as well, that would make it a bit more
+appealing, as it would show broader demand.  But with the proposal being
+f2fs-specific and effectively just for Android devices that *don't* use
+wrapped keys, that feels too narrow for the added complexity.
+
+This proposal also lacks test cases in xfstests and/or Android's
+vts_kernel_encryption_test that verify that the inline data is actually
+being encrypted correctly.  Those tests are essential, and we *must not*
+add new file contents encryption implementations without such tests.
+
+- Eric
