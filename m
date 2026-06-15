@@ -1,100 +1,248 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B453B19BB;
-	Mon, 15 Jun 2026 19:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FE73ADBAC
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 19:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781552253; cv=none; b=XMrHDjcbEJFtuloE8AQG1XKw9qq4bsCizWsBiU7iM6LqvrtKpSsguku3sXRVMvziSHN12xCQ+3LF2TmmVG7LTWTKY2I2I7XBsvOYID46GwIUprT7wh4saN96vhe78M2bxhqbtzUiNLHg7ClYK5khDOAdYtWDEWtlCiMvaPadokM=
+	t=1781553324; cv=none; b=tpZ5D070Y4h/jyW9I07rFCWy8yE5b28eKj53TM2sPm2fdVwEaw9VO7V/bZuvo8KJsmU+FfMN/E9Y3Fuvo4AunHT8IPE6J+85lNtXYHCqgc78oU/b315OPRGHk0cSF7SnMWu44zTZdyR2hilJK1s1qIT9rHBdo+koJGoFfHAk6D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781552253; c=relaxed/simple;
-	bh=/iUo4EqGSX3HqetKGl2xjPAsPs1LVfixXNW/oyoAzF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AG6X0v7eK6nG0MznN7yKaDSdiwf2dBVSjtMlzbkv5/HfTlpauAHrRuVvumnVYfFAH7MSV+yF/0Dw0/3/E/f3KJsiVRnCCi7JcvjN51ReaOVjDfEyLc3NRVcz5TckRTyF3TP8neUBDUYs6Hqk0Gx7MuS7N2WZrfn9r/aKLVdL5K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mR7l6UIz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781553324; c=relaxed/simple;
+	bh=QqAYeF+pErrNOT7tRLf0EltAfjeQSXOO0tjYp7IOxa0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mIfW3NxDjv7qFkmyrPVo5Zs8OF/z9+RO21TBNI8cbmrIEWxdyZ7HCrsLJTZ4JUTdX7YI/l66dZpKPaRqNHLXkJTdyWD0HAXx/eRnJkgqz+WMx6/XlDlajd31Cbjlqq0CfQC+DzSvTRSpq7f59y0QMnf04hrFNaJe/k6kd/Ji8NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXq66cZo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mR7l6UIz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517DE1F00A3D;
-	Mon, 15 Jun 2026 19:37:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXq66cZo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A801F01558
+	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 19:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781552249;
-	bh=xzdaAZ3vb4ixL+pONGkgMZtFCmR6/l4XZZFEzZGSXuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mR7l6UIzq1yljDBgRBwGWbw5sYLRrGC/WtvkE6SS1PAidXXsnZEn+S63G5twdMRi1
-	 tkMAhkksazmcTnUO3XTiSRoX0qPLh6tVMghb0F8gWQQ6+rYsRxv+/UDr3lzVHGJziJ
-	 CdNU4fXWHatiGntbD6Ged4oN1G0fNn+NiepqyRX1IuTpY17MoC0P7JprMR3gVOECH1
-	 dIt5Lx38vRPQO8QQAAD+g7sqyRpMwT4mEMV+C1iHo2hN/LDHEhSWpTB5HqA9ny+4NB
-	 OIw6nzUQQSzF65/Qid/VMmOxJ6dlPsniJriBQdC1VnhZFR5so2royamQRNAchAGqik
-	 NNtZ7gYGvC75w==
-Date: Mon, 15 Jun 2026 12:37:28 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: LiaoYuanhong-vivo <liaoyuanhong@vivo.com>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	"open list:FSCRYPT: FILE SYSTEM LEVEL ENCRYPTION SUPPORT" <linux-fscrypt@vger.kernel.org>,
-	linux-ext4@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] f2fs: support encrypted inline data
-Message-ID: <20260615193728.GA1764@quark>
-References: <20260615125517.362294-1-liaoyuanhong@vivo.com>
+	s=k20260515; t=1781553322;
+	bh=DziV4AWXXV0/vXK0E8RzC2XjH+8nBwvIpECBlyE0DW0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=lXq66cZoW11dKjBugv0z9UTGVtZhT5oHri7tXO0eAgBteeKMl/XMp+E93EUb1VMEp
+	 FXXKVIYAxA0Ilt/tIdwF3H72HSfKBf+2eA6jTy8D5EaX+XVwm2jnSE39PBSuECcr5K
+	 zSopnecW9hTeDebjibU8deVrvk0EofIg9Fi1pvDo44p8UrWmgGGAvmX3DT/Tnbvu3C
+	 lOnSTDJZuqx0kjBBmvEDdTgi1NdFh2IQ/cGNmXR/gnmDQjkHp7dk6nZhqWos3U8DsY
+	 D3aGrOMdU4luV3n8Agp1oo4NIVPXmjZxJ0ED255DN7qD7VqGbbC/ocx6Fc5+T5XE+V
+	 EPEb4MAX2hxyw==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bec49f7e35eso483445666b.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 12:55:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/6cCJs9JSSw8z5qmYUPYBmb+dnPJEzB/YGq1NZGQgs4Vhq+35hjW09T9isqpIIpjEilG+DhmHQwMA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMkKWx9xU1FaETBC1nSgLBkPEXUcMObnyyc+OSFwo5KP9zZGUT
+	IKljixDzkuza5abXA2WjDBfXfF1x5V+/81p/KSRJhMb7fsDTfCI9lB9LAYOR5kz3c93u9hwhfR8
+	Qd27FT3EjdADP4u0/8YNWus8fH5Gssns=
+X-Received: by 2002:a17:907:1c82:b0:c03:ed93:6e0f with SMTP id
+ a640c23a62f3a-c03ed936e8emr99025966b.35.1781553321486; Mon, 15 Jun 2026
+ 12:55:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615125517.362294-1-liaoyuanhong@vivo.com>
+References: <aicJBVT4pBvmyooT@linux.dev> <aicZ-5GX9De3MAU7@linux.dev>
+ <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
+ <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
+ <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
+ <aiw2p5ANjsQUCIHA@linux.dev> <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
+In-Reply-To: <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Mon, 15 Jun 2026 12:55:09 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+X-Gm-Features: AVVi8CcAKcF3r9QvkNN-vPtWkfo808TWYLqIzLjO2syU-3fTyvshBGT_GznO24w
+Message-ID: <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
+ proactive writeback
+To: YoungJun Park <youngjun.park@lge.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Hao Jia <jiahao.kernel@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, tj@kernel.org, mkoutny@suse.com, 
+	roman.gushchin@linux.dev, Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, kasong@tencent.com, 
+	baoquan.he@linux.dev, joshua.hahnjy@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[+Cc linux-ext4@vger.kernel.org]
+> In that case, the internal logic could stay roughly the same rather
+> than counting via a page counter. Something like:
+>
+> 1. Change the interface shell: tier.*.max =E2=80=94 allow only 0 ~ max.
 
-On Mon, Jun 15, 2026 at 08:55:12PM +0800, LiaoYuanhong-vivo wrote:
-> F2FS currently disables inline data for encrypted regular files because the
-> inline payload is stored in the inode block and does not go through the
-> regular bio-based fscrypt path.  This wastes space for small encrypted
-> files on Android devices using F2FS inlinecrypt.
-> 
-> This series adds an encrypted_inline_data on-disk feature for F2FS.
-> With this feature enabled, encrypted regular files may keep small contents
-> in the inode block.  The inline payload is encrypted before being stored in
-> the inode and decrypted back into page-cache plaintext on read.
-> 
-> The fscrypt changes are scoped to filesystem-managed data-unit crypto.
-> F2FS first asks fscrypt whether the inode's key/policy supports this path.
-> It prepares the software transform only when encrypted inline payloads are
-> read or written.  Inlinecrypt support is limited to v2 IV_INO_LBLK_64 and
-> IV_INO_LBLK_32 policies, including the hardware-wrapped key configurations
-> supported by fscrypt.  Per-file inlinecrypt keys and DIRECT_KEY policies
-> are not supported for encrypted inline data.
+What about a single interface as I suggested to remain consistent with
+memory tiering?
 
-I still think we should hold off on this, for the reasons I gave at
-https://lore.kernel.org/r/20260515184124.GA4903@quark/
+> 2. Keep the internal logic as is: 0 disables the mask (child memcgs
+>    off too), max enables it (child memcgs on too).
 
-As soon as you start using hardware-wrapped keys this will become
-irrelevant, as it can't be used in that case.  I see you added "support"
-for that case anyway by deriving contents encryption keys from the
-sw_secret.  But that bypasses the security model, which isn't okay.
+I think a child should be able to disable a swap tier enabled by the
+parent, but not vice versa.
 
-I'm also working to simplify ext4 and f2fs's file contents encryption
-implementation by standardizing on blk-crypto.  That aligns well with
-what btrfs encryption is going to do as well.  So this isn't a great
-time to be making f2fs's file contents encryption implementation even
-more complex by going in a different direction.
+> 3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
 
-If there was demand for this feature from the ext4 side for
-general-purpose Linux distros as well, that would make it a bit more
-appealing, as it would show broader demand.  But with the proposal being
-f2fs-specific and effectively just for Android devices that *don't* use
-wrapped keys, that feels too narrow for the added complexity.
+Not really. memory.zswap.max is in terms of memory usage (compressed
+size), not swap usage (uncompressed size).
 
-This proposal also lacks test cases in xfstests and/or Android's
-vts_kernel_encryption_test that verify that the inline data is actually
-being encrypted correctly.  Those tests are essential, and we *must not*
-add new file contents encryption implementations without such tests.
+[..]
+> Let me clarify a part I wrote confusingly. Handling
+> memory.zswap.writeback via tiers is possible, but I don't think the
+> interface itself would be replaced even if memory.swap.tiers is adopted.
+>
+> Selecting only zswap in memory.swap.tiers would not just disable
+> writeback.it would also block regular swap entirely, which differs
+> slightly from the current semantic. (... "Per the cgroup v2 docs: a
+> zswap-only tier setting is subtly different from setting
+> memory.swap.max to 0, since it still allows pages to be written to the
+> zswap pool; this has no effect if zswap is disabled, and swapping is
+> allowed unless memory.swap.max is set to 0.")
 
-- Eric
+I don't understand. How is disabling zswap writeback not equivalent to
+only enabling zswap as a tier?
+
+Do you just mean the fact that disabling zswap writeback is a noop of
+zswap is disabled? It's a different interface so I think a small
+semantic difference is okay. In practice, I doubt that zswap is being
+disabled at runtime.
+
+>
+> So the interface itself needs to be retained, and it could be extended
+> toward selective writeback =E2=80=94 e.g., passing a desired tier into
+> memory.zswap.writeback so writeback targets only that tier. Currently
+> it only controls on/off. Other tiers probably don't need this. demotion
+> based on the selected tier should be enough.
+>
+> Thanks,
+> Youngjun Park
+>
+
+On Sun, Jun 14, 2026 at 2:23=E2=80=AFAM YoungJun Park <youngjun.park@lge.co=
+m> wrote:
+>
+> ....
+> > >Based on the memcg interface currently proposed in swap_tier
+> > > (memory.swap.tiers, memory.swap.tiers.effective), I think it aligns w=
+ell
+> > > with the current direction. It provides a foundation for selectively
+> > > targeting devices in tier order.
+> >
+> > Here instead of cpuset like interface, we may want more zswap like inte=
+rface
+> > where you can put limit on the usage i.e. memory.swap.tier*.max. We can=
+ start
+> > with allowing only two values i.e. 0 and max which effectively will be =
+the
+> > same as what you need.
+> >
+>
+> Good idea, and it's certainly feasible. When I considered this a while
+> ago, the reasons I didn't take this direction were:
+>
+> 1. There's no real-world usage for adjusting the swap tier amount (it's
+>    either 0 or MAX). That said, your suggestion to initially allow only
+>    0 and max is the killing point, and it's making me reconsider.
+>
+> 2. The implementation cost seems high. The current implementation
+>    handles this at runtime via simple masking.
+>
+> 3. Relationship with swap.max:
+>    - If we tie it to the current interface, wouldn't limiting the swap
+>      amount within a selected tier already be possible? I wonder if
+>      that alone is enough.
+>    - If we add tier.max, it would need to be a subset of swap.max.
+>      (Any other complexities here?)
+>
+> 4. vswap enable/disable: vswap doesn't seem to have an amount-control
+>    aspect, so an on/off semantic would be clearer.
+>    https://lore.kernel.org/linux-mm/ai5kOOmR1LPTWs1J@yjaykim-PowerEdge-T3=
+30/T/#m8831ec057bf9387978d3bd698f51920600e09a04
+>
+> In that case, the internal logic could stay roughly the same rather
+> than counting via a page counter. Something like:
+>
+> 1. Change the interface shell: tier.*.max =E2=80=94 allow only 0 ~ max.
+> 2. Keep the internal logic as is: 0 disables the mask (child memcgs
+>    off too), max enables it (child memcgs on too).
+> 3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
+> 4. Extend later if use cases arise.
+>
+> On balance I still lean toward the current interface, but if a per-tier
+> max is the better fit for memcg's direction and others feel the same,
+> I'm happy to switch. I'd like to hear Shakeel's thoughts again, and I'm
+> curious about others' opinions too.
+>
+> A few more perspectives on the points below.
+>
+> > I will respond to your other points later when I have time.
+>
+> > >
+> > > To summarize the discussions so far, the following points align well.
+> > >
+> > > - Per-cgroup swap control, as I suggested.
+> > > - Proactive zswap writeback (Hao's usecase)
+> > > - Swap device target demotion(if it wants selective, then it is more =
+better), as you mentioned:
+> > >   https://lore.kernel.org/linux-mm/aicZ-5GX9De3MAU7@linux.dev/
+> > > - Virtual Swap on/off in the future, as Nhat mentioned:
+> > >   https://lore.kernel.org/linux-mm/20260528212955.1912856-1-nphamcs@g=
+mail.com/
+> > > - The memory.zswap.writeback alternative (no hierarchy model conflict=
+)
+> > > - zswap is first swap tier.
+> > > - Promotion. (Also better for selectve usage)
+> > > - tier based swap policy (e.g round-robin...)
+> > >
+> > > To accelerate this work, I believe we should reach a consensus and
+> > > merge the currently proposed swap_tier interface :)
+> > >
+> > > If the above approach is difficult, I would like to suggest an
+> > > alternative for progress with the memcg interfaces removed:
+> > >
+> > > 1) We could make zswap the first tier and create
+> > > a use case where memory.zswap.writeback internally is handled by tier=
+ logic.
+> > >
+> > > 2) Or simply merge the swap_tier infrastructure itself first.
+> > >
+> > > This would allow the swap_tier infrastructure to be merged and discus=
+sed
+> > > more easily.
+> > >
+> > > If it takes longer to adopt swap_tier anyway, by doing so we progress=
+ next step
+> > > as a experimental feature.
+> > >
+> > > - Apply per-cgroup swap as an experimental (debugfs) feature.
+> > > - Apply Hao's use case experimentally or as it is as Yosry suggested.
+> > > (future migration to swap tier)
+> > >
+> > > How do you think?
+> > >
+> > > (FYI: My emails to kernel.org are failing due to internal server issu=
+es.)
+> > >
+> > > Thank you
+> > > Youngjun Park
+>
+> Let me clarify a part I wrote confusingly. Handling
+> memory.zswap.writeback via tiers is possible, but I don't think the
+> interface itself would be replaced even if memory.swap.tiers is adopted.
+>
+> Selecting only zswap in memory.swap.tiers would not just disable
+> writeback.it would also block regular swap entirely, which differs
+> slightly from the current semantic. (... "Per the cgroup v2 docs: a
+> zswap-only tier setting is subtly different from setting
+> memory.swap.max to 0, since it still allows pages to be written to the
+> zswap pool; this has no effect if zswap is disabled, and swapping is
+> allowed unless memory.swap.max is set to 0.")
+>
+> So the interface itself needs to be retained, and it could be extended
+> toward selective writeback =E2=80=94 e.g., passing a desired tier into
+> memory.zswap.writeback so writeback targets only that tier. Currently
+> it only controls on/off. Other tiers probably don't need this. demotion
+> based on the selected tier should be enough.
+>
+> Thanks,
+> Youngjun Park
+>
