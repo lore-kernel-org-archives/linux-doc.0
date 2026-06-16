@@ -1,134 +1,145 @@
-Received: from out28-50.mail.aliyun.com (out28-50.mail.aliyun.com [115.124.28.50])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BDD3F787C;
-	Tue, 16 Jun 2026 06:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0567C2E6116
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 06:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781592334; cv=none; b=LRrFf5X53g1JSoDpO60iKFDxT96j/XmSqhSMiUJeIJS+UOSjN1YknScqTon/mZd81rlUOYn2UTbiVH380o5knSZiFFW60x2yn1HJHfjNxc0Snu7HYwVMGBqAJyDGzB7LJ1R3KLL5AI15yi+xFYH2dvCowb03KvlGJ2Vp0vAXSmo=
+	t=1781592498; cv=none; b=kLqf7g8WDY7mcrXY2pgjsT8Kn9FoZ1f/fad/mX9OvkGt/c9sVLUUB8m2f/qoCWz9CR6S2E1hEJsbP240G5BGwdn1+YRbAdobWxPjRd3TLAAWvOiKMGMOeacMwg7AZN7p2hDzCKwYWBzaDbSRJbth+dfgiAFPfWTGZSyhQISpcKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781592334; c=relaxed/simple;
-	bh=7TS6lNgSK8P8+t23OkkxEFYws7AmwSLaSkRsvnyhy6o=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=f85pXXgtV22h4f4Kqf7ZG/i4rLD76OxU48EgPEiv/IZAprURZUbPfgWXzWSx5cvR3Btlltk5/LSUrugH1AGYlh5r6kaEDhva2ToF9xu/ZoOkiU2A07DJsV3fqOhxICcFxMLcbhX96Y82VaPn1yXMkMp3w80JGBERkaHs1Sq0cME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.8921427|0.5658601;CH=green;DM=|SPAM|false|;DS=CONTINUE|ham_alarm|0.16782-0.0169219-0.815259;FP=9331421445132668642|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=18;RT=18;SR=0;TI=W4_0.2.3_21449A8C_1781592290336_o7001c1357;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_21449A8C_1781592290336_o7001c1357] cluster:ay29) at Tue, 16 Jun 2026 14:45:11 +0800
-Date: Tue, 16 Jun 2026 14:45:11 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Illusion Wang" <illusion.wang@nebula-matrix.com>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>
-Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "horms" <horms@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "enelsonmoore" <enelsonmoore@gmail.com>,
-  "skhan" <skhan@linuxfoundation.org>,
-  "hkallweit1" <hkallweit1@gmail.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <1695f9bd-3fd6-400f-8491-abd82a8f4e3d.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYxOCBuZXQtbmV4dCAwNy8xMV0gbmV0L25lYnVsYS1tYXRyaXg6?=
-  =?UTF-8?B?IGFkZCBpbnRyIHJlc291cmNlIGltcGxlbWVudGF0aW9u?=
-X-Mailer: [Alimail-Mailagent revision 8813][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1781592498; c=relaxed/simple;
+	bh=MeXaezTbO2/SM4Y3Lfxs549fInkNvDNsxlmuLBiqFdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nrRRBs6XYfQbaEX7hSquVKovdrZhzVQS6v6wuWOkCtQ30YvC2nuTX2pc7vSGLfzCk8kyHHsaeFjEzjJ7vTbpz3VXlUHYOuuTXYZyN/EnQ8k/RhygVU5b0RpYAOnsE5sKzLNHzr+XvMvH0CJq4TvGg4QLmKgTk8ivJpjZWrIV/gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=A9C2MXo6; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="A9C2MXo6"
+Date: Tue, 16 Jun 2026 09:47:52 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781592484; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=A76gUiZ4aDyThGOGiHzqul9bR8XwEqccp8Tjwxep0U8=;
+	b=A9C2MXo6BlCTjqJNoxD2x3Qs/v51eDZQNuZuYL8a4uclv1EEEP5N/vohkSCdVnD52mN31a
+	7qsoKdvNAlWF59P0/A9c1+31r+Rp868Kecyo4Path2l8Q71xXAqpPj7cLVIkghCkhR7h+E
+	A4ZOO9Rn8iPbIUKOmRAgWAyfSHYE9qY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Wensheng Wang <wenswang@yeah.net>,
+	Ashish Yadav <ashish.yadav@infineon.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+	Charles Hsu <hsu.yungteng@gmail.com>,
+	ChiShih Tsai <tomtsai764@gmail.com>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 7/7] hwmon: adm1275: Support module auto-loading
+Message-ID: <634e76680ed93e58ebeb35db080138b791cb6c27.1781591132.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
+References: <cover.1781591132.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260611044916.2383-1-illusion.wang@nebula-matrix.com>,<20260611044916.2383-8-illusion.wang@nebula-matrix.com>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4zLjIwLVJlbGVhc2UuMjYwNTE0MDAyKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <20260611044916.2383-8-illusion.wang@nebula-matrix.com>
-x-aliyun-mailtrack: {"foreign-track":"0"}
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1or0uwXb5QXqKjCD"
+Content-Disposition: inline
+In-Reply-To: <cover.1781591132.git.mazziesaccount@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-PmNvbW1pdCA3YTMyY2E4MzM1YzkwNDFlYzAzYjgwZDMwNzE2YzQ3NGU4MTcyM2FkCj5BdXRob3I6
-IGlsbHVzaW9uLndhbmcgPGlsbHVzaW9uLndhbmdAbmVidWxhLW1hdHJpeC5jb20+Cj5uZXQvbmVi
-dWxhLW1hdHJpeDogYWRkIGludHIgcmVzb3VyY2UgaW1wbGVtZW50YXRpb24KPlRoaXMgcGF0Y2gg
-YWRkcyB0aGUgbmJsX2ludGVycnVwdCBtb2R1bGUgZm9yIG1hbmFnZW1lbnQgb2YgZHJpdmVyLXBy
-aXZhdGUKPk1TSS1YIGluZGljZXMsIHBsdXMgaHdfb3BzIGNhbGxiYWNrcyB0byBwcm9ncmFtIHRo
-ZSBmdW5jdGlvbiBNU0ktWCBtYXBwaW5nCj5yZWdpc3RlcnMsIGNvbmZpZ3VyZSBNU0ktWCBpbmZv
-LCBhbmQgZW5hYmxlIG1haWxib3ggaW50ZXJydXB0cy4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-bmV0L2V0aGVybmV0L25lYnVsYS1tYXRyaXgvbmJsL25ibF9ody9uYmxfaW50ZXJydXB0LmMgYi9k
-cml2ZXJzL25ldC9ldGhlcm5ldC9uZWJ1bGEtbWF0cml4L25ibC9uYmxfaHcvbmJsX2ludGVycnVw
-dC5jCj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4+IGluZGV4IDAwMDAwMDAwMDAwMDAuLjZkNjky
-NGU3ZDlhODIKPj4gLS0tIC9kZXYvbnVsbAo+PiArKysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9u
-ZWJ1bGEtbWF0cml4L25ibC9uYmxfaHcvbmJsX2ludGVycnVwdC5jCj5bIC4uLiBdCj4+ICtpbnQg
-bmJsX3Jlc19pbnRyX2Rlc3Ryb3lfbXNpeF9tYXAoc3RydWN0IG5ibF9yZXNvdXJjZV9tZ3QgKnJl
-c19tZ3QsCj4+ICsJCQkJICB1MTYgZnVuY19pZCkKPj4gK3sKPlsgLi4uIF0KPj4gKwkvKiB1c2Ug
-Y3RybCBkZXYgYmRmICovCj4+ICsJaHdfb3BzLT5jb25maWd1cmVfbXNpeF9tYXAocmVzX21ndC0+
-aHdfb3BzX3RibC0+cHJpdiwgZnVuY19pZCwgZmFsc2UsIDAsCj4+ICsJCQkJICAgMCwgMCwgMCk7
-Cj4+ICsKPj4gKwlpbnRyX21ndC0+ZnVuY19pbnRyX3Jlc1tmdW5jX2lkXS5pbnRlcnJ1cHRzID0g
-TlVMTDsKPj4gKwlpbnRyX21ndC0+ZnVuY19pbnRyX3Jlc1tmdW5jX2lkXS5udW1faW50ZXJydXB0
-cyA9IDA7Cj4+ICsJaW50cl9tZ3QtPmZ1bmNfaW50cl9yZXNbZnVuY19pZF0ubnVtX25ldF9pbnRl
-cnJ1cHRzID0gMDsKPj4gKwlod19vcHMtPmZsdXNoX3dyaXRlKHJlc19tZ3QtPmh3X29wc190Ymwt
-PnByaXYpOwo+PiArCj4+ICsJcmV0dXJuIDA7Cj4+ICt9Cj5Eb2VzIHRoaXMgY29kZSBsZWFrIHRo
-ZSBkZXZpY2UtbWFuYWdlZCBtZW1vcnk/IG5ibF9yZXNfaW50cl9jb25maWd1cmVfbXNpeF9tYXAo
-KQo+YWxsb2NhdGVzIGludGVycnVwdHMgdmlhIGRldm1fa2NhbGxvYygpIGFuZCBtc2l4X21hcF90
-YWJsZS0+YmFzZV9hZGRyIHZpYQo+ZG1hbV9hbGxvY19jb2hlcmVudCgpLiBTZXR0aW5nIHRoZSBw
-b2ludGVyIHRvIE5VTEwgaGVyZSB3aXRob3V0IGNhbGxpbmcKPmRldm1fa2ZyZWUoKSBhbmQgZG1h
-bV9mcmVlX2NvaGVyZW50KCkgbWVhbnMgdGhlIG1lbW9yeSB3b24ndCBiZSBmcmVlZCB1bnRpbAo+
-dGhlIGRldmljZSBpcyBkZXRhY2hlZC4gSWYgdGhlIE1TSS1YIG1hcCBpcyByZXBlYXRlZGx5IHJl
-Y29uZmlndXJlZCwgY291bGQKPnRoaXMgZXhoYXVzdCBtZW1vcnk/Cj5bIC4uLiBdCj4+ICtpbnQg
-bmJsX3Jlc19pbnRyX2NvbmZpZ3VyZV9tc2l4X21hcChzdHJ1Y3QgbmJsX3Jlc291cmNlX21ndCAq
-cmVzX21ndCwKPj4gKwkJCQkgICAgdTE2IGZ1bmNfaWQsIHUxNiBudW1fbmV0X21zaXgsCj4+ICsJ
-CQkJICAgIHUxNiBudW1fb3RoZXJzX21zaXgsCj4+ICsJCQkJICAgIGJvb2wgbmV0X21zaXhfbWFz
-a19lbikKPj4gK3sKWyAuLi4gXQo+PiArCW1zaXhfbWFwX3RhYmxlID0gJmludHJfbWd0LT5mdW5j
-X2ludHJfcmVzW2Z1bmNfaWRdLm1zaXhfbWFwX3RhYmxlOwo+PiArCVdBUk5fT04obXNpeF9tYXBf
-dGFibGUtPmJhc2VfYWRkcik7Cj4+ICsJbXNpeF9tYXBfdGFibGUtPnNpemUgPQo+PiArCQlzaXpl
-b2Yoc3RydWN0IG5ibF9tc2l4X21hcCkgKiBOQkxfTVNJWF9NQVBfVEFCTEVfTUFYX0VOVFJJRVM7
-Cj4+ICsJLyogSFcgaW5kZXhlcyB0aGUgTVNJLVggbWFwIHRhYmxlIHdpdGggYSBmaXhlZCBzdHJp
-ZGUgb2YgMTAyNCBlbnRyaWVzLAo+PiArCSAqIHNvIHdlIG11c3QgYWxsb2NhdGUgdGhlIGZ1bGwg
-dGFibGUgZXZlbiBpZiBmZXdlciB2ZWN0b3JzIGFyZSB1c2VkLgo+PiArCSAqLwo+PiArCW1zaXhf
-bWFwX3RhYmxlLT5iYXNlX2FkZHIgPSBkbWFtX2FsbG9jX2NvaGVyZW50KGRldiwKPj4gKwkJCQkJ
-CQltc2l4X21hcF90YWJsZS0+c2l6ZSwKPj4gKwkJCQkJCQkmbXNpeF9tYXBfdGFibGUtPmRtYSwK
-Pj4gKwkJCQkJCQlHRlBfS0VSTkVMKTsKPj4gKwlpZiAoIW1zaXhfbWFwX3RhYmxlLT5iYXNlX2Fk
-ZHIpIHsKPj4gKwkJZGV2X2VycihkZXYsICJBbGxvY2F0ZSBETUEgbWVtb3J5IGZvciBmdW5jdGlv
-biBtc2l4IG1hcCB0YWJsZSBmYWlsZWRcbiIpOwo+PiArCQltc2l4X21hcF90YWJsZS0+c2l6ZSA9
-IDA7Cj4+ICsJCXJldHVybiAtRU5PTUVNOwo+PiArCX0KPj4gKwo+PiArCWludGVycnVwdHMgPSBk
-ZXZtX2tjYWxsb2MoZGV2LCByZXF1ZXN0ZWQsIHNpemVvZihpbnRlcnJ1cHRzWzBdKSwKPj4gKwkJ
-CQkgIEdGUF9LRVJORUwpOwo+PiArCWlmICghaW50ZXJydXB0cykgewo+PiArCQlyZXQgPSAtRU5P
-TUVNOwo+PiArCQlnb3RvIGFsbG9jX2ludGVycnVwdHNfZXJyOwo+PiArCX0KWyAuLi4gXQo+PiAr
-Z2V0X2ludGVycnVwdF9lcnI6Cj4+ICsJd2hpbGUgKGktLSkgewo+PiArCQlpbnRyX2luZGV4ID0g
-aW50ZXJydXB0c1tpXTsKPj4gKwkJaWYgKGludHJfaW5kZXggPj0gTkJMX05FVF9JTlRSX0JBU0Up
-Cj4+ICsJCQljbGVhcl9iaXQoaW50cl9pbmRleCAtIE5CTF9ORVRfSU5UUl9CQVNFLAo+PiArCQkJ
-CSAgaW50cl9tZ3QtPmludGVycnVwdF9uZXRfYml0bWFwKTsKPj4gKwkJZWxzZQo+PiArCQkJY2xl
-YXJfYml0KGludHJfaW5kZXgsCj4+ICsJCQkJICBpbnRyX21ndC0+aW50ZXJydXB0X290aGVyc19i
-aXRtYXApOwo+PiArCX0KPj4gKwo+PiArCWludHJfbWd0LT5mdW5jX2ludHJfcmVzW2Z1bmNfaWRd
-Lm51bV9pbnRlcnJ1cHRzID0gMDsKPj4gKwlpbnRyX21ndC0+ZnVuY19pbnRyX3Jlc1tmdW5jX2lk
-XS5pbnRlcnJ1cHRzID0gTlVMTDsKPj4gKwlpbnRyX21ndC0+ZnVuY19pbnRyX3Jlc1tmdW5jX2lk
-XS5udW1fbmV0X2ludGVycnVwdHMgPSAwOwo+PiArYWxsb2NfaW50ZXJydXB0c19lcnI6Cj4+ICsK
-Pj4gKwlyZXR1cm4gcmV0Owo+PiArfQo+SWYgYW4gZXJyb3Igb2NjdXJzIGFmdGVyIGFsbG9jYXRp
-bmcgdGhlIG1lbW9yeSAoZS5nLiwganVtcGluZyB0bwo+Z2V0X2ludGVycnVwdF9lcnIgb3IgYWxs
-b2NfaW50ZXJydXB0c19lcnIpLCBkb2VzIHRoaXMgZXJyb3IgcGF0aCBhbHNvIGxlYWsKPnRoZSBk
-ZXZtX2tjYWxsb2MoKSBhbmQgZG1hbV9hbGxvY19jb2hlcmVudCgpIG1lbW9yeSBieSBzaW1wbHkg
-cmV0dXJuaW5nCj53aXRob3V0IGZyZWVpbmcgaXQ/CgpCb3RoIHVzZSBkZXZtLW1hbmFnZWQgcmVz
-b3VyY2VzLCBzbyBJIHRoaW5rIG5vIG1hbnVhbCBmcmVlIGlzIG5lZWRlZC4KCmRlc3Ryb3lfbXNp
-eF9tYXA6IFRoZSBpbnRlcnJ1cHRzIGFycmF5IGlzIGFsbG9jYXRlZCB3aXRoIGRldm1fa2NhbGxv
-YygpLCBhbmQKdGhlIE1TSS1YIG1hcCB0YWJsZSBpcyBhbGxvY2F0ZWQgd2l0aCBkbWFtX2FsbG9j
-X2NvaGVyZW50KCkgb24gdGhlIGRldmljZSdzCkRNQSBwb29sLiBCb3RoIGFyZSB0aWVkIHRvIHRo
-ZSBkZXZpY2UgbGlmZWN5Y2xlIOKAlCB0aGV5IGFyZSBhdXRvbWF0aWNhbGx5CnJlY2xhaW1lZCBv
-biBkcml2ZXIgZGV0YWNoLiBTZXR0aW5nIHRoZSBwb2ludGVyIHRvIE5VTEwgaXMgZGVmZW5zaXZl
-Owp0aGUgZGV2bSBmcmFtZXdvcmsgaGFuZGxlcyB0aGUgYWN0dWFsIGZyZWUuCmNvbmZpZ3VyZV9t
-c2l4X21hcCBlcnJvciBwYXRoOiBTYW1lIHJlYXNvbmluZy4gaW50ZXJydXB0cyBpcyBkZXZtX2tj
-YWxsb2MoKSwKYW5kIHRoZSBETUEgdGFibGUgaXMgZGV2aWNlLW1hbmFnZWQuIE9uIGFueSBlcnJv
-ciwgdGhlIGZ1bmN0aW9uIHJldHVybnMgdG8KdGhlIGNhbGxlciwgd2hpY2ggd2lsbCBldmVudHVh
-bGx5IHRyaWdnZXIgZHJpdmVyIHJlbW92ZSBhbmQgZGV2bSBjbGVhbnVwLgpUaGVyZSBpcyBubyBy
-ZXBlYXRlZC1yZWNvbmZpZyBsb29wIGluIHRoZSBjdXJyZW50IGRlc2lnbiDigJQgY29uZmlndXJl
-X21zaXhfbWFwCmlzIG9ubHkgY2FsbGVkIGR1cmluZyBwcm9iZS9yZWluaXQsIG5vdCBpbiBhIGhv
-dCBwYXRoIOKAlCBzbyBleGhhdXN0aW9uIGlzIG5vdAphIHByYWN0aWNhbCBjb25jZXJuLiBBZGRp
-bmcgbWFudWFsIGZyZWUgY2FsbHMgd291bGQgZHVwbGljYXRlIHdoYXQgZGV2bSBhbHJlYWR5CmRv
-ZXMgYW5kIHJpc2sgZG91YmxlLWZyZWUu
+
+--1or0uwXb5QXqKjCD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+=46rom: Matti Vaittinen <mazziesaccount@gmail.com>
+
+Populating the spi_device_id -table is not enough to make the
+driver module automatically load when device-tree node for the bd12780
+is parsed at boot.
+
+Adding the of_device_id tables causes the driver module to be
+automatically load at boot. Testing has been done with rather old Debian
+system.
+
+When inspecting the generated module-aliases with the insmod, following
+entries seem to be the difference:
+
+alias:          of:N*T*Crohm,bd12780C*
+alias:          of:N*T*Crohm,bd12780
+
+I suspect these are required for the module loading to work.
+
+Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+
+---
+
+I did not add of_device_ids for other supported ICs as I can't verify it
+doesn't cause side-effects. Please let me know if you think those IDs
+should be added as well. I would be glad if I got more educated opinion
+on adding the of-IDs :) (I can squash this to 3/7 and 6/7 in next
+revision, and add own patch for adding of-IDs for other ICs if
+required).
+
+---
+ drivers/hwmon/pmbus/adm1275.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+index 9e21dd4083e9..c27bb0e49354 100644
+--- a/drivers/hwmon/pmbus/adm1275.c
++++ b/drivers/hwmon/pmbus/adm1275.c
+@@ -927,9 +927,17 @@ static int adm1275_probe(struct i2c_client *client)
+ 	return pmbus_do_probe(client, info);
+ }
+=20
++static const struct of_device_id adm1275_of_match[] =3D {
++	{ .compatible =3D "rohm,bd12780", },
++	{ .compatible =3D "rohm,bd12790", },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, adm1275_of_match);
++
+ static struct i2c_driver adm1275_driver =3D {
+ 	.driver =3D {
+ 		   .name =3D "adm1275",
++		   .of_match_table =3D adm1275_of_match,
+ 		   },
+ 	.probe =3D adm1275_probe,
+ 	.id_table =3D adm1275_id,
+--=20
+2.54.0
+
+
+--1or0uwXb5QXqKjCD
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmow8ZgACgkQeFA3/03a
+ocWU6AgAoT82nT1EGSpddrWfMks6Zk3mySD9Bdxz7pFfZrRN0JduV3ls/X16kvgI
+qS3X6EnFyg7Gq1xjB7X8rZ45RODCcYnnQR3O3aw0HuTrsIubC4Q/AN4zhXkDYJNv
+kgHO9RvYt4aS7ZZmKWHw4YIY3zIC3KEvC2MHyOzzhcQODy+5OIffHWLpkrvnuyM9
+6CLBwOwzyEAhlfpTiA9xa4GpgLENoRh7DBcjdO4CFMl3UoKn20uJpXixeJvfZ+w7
+Sj+aE6ow8JPjenAp6tf3bgAXHhh4yfN5hgy6/8dZaKiy0IQgmbq2vUuMPUUSWhZY
+eDJovX0KLywjiTrriZN4XACxZuvWOQ==
+=TKTs
+-----END PGP SIGNATURE-----
+
+--1or0uwXb5QXqKjCD--
