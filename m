@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088313F88BE;
-	Tue, 16 Jun 2026 23:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536E4481238;
+	Tue, 16 Jun 2026 23:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781652978; cv=fail; b=q48jugQnu5pkBFMXICKx62AmwMH7pfuVa4V8hcANDbVfj/uWhXRfr75hvHRMxwkSjkKTNPx7r7AbIPA2gO92joIdsDoQM2TspSKEGREJDzzB3aZWmV04xY5dIWJ0HOPGosXjFIxQOaWRIHkFyXDO2PjDrUstsrPdaV3aEDFuQtU=
+	t=1781653148; cv=fail; b=pZDKpwd30ijKcjaQJIOWCqp1OhiJSylUQr4SySJDpsfiyG5v5HONZEZ0YmYBaUQBV4tPA5hDRALmDBhMxr69QpSmwMmqcPTPdYYdMKrWR/8QAyIqsB8c5d2RfOM9EYebzGAi8MoA8N+GBvWOWx018i8rN2hTBfyr7E5Iy/DlWp0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781652978; c=relaxed/simple;
-	bh=PA0aWxDQtpVSppkwP6XptZDYvycW8ov+0MCzEP4/e4U=;
+	s=arc-20240116; t=1781653148; c=relaxed/simple;
+	bh=hTB1V9Y8SBBYa4My5IqPg8wmzxnpjltphUznSDCK9wE=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mSjoOHMKWQqnHqURktPChUa8IURMkDQN7QZrKnnM3x6yWyZO01vFPB9PKCu4K6laA9yiBExx4FdMeqJNtIozLZUyTlDi/JrtxZVkwzlGfTamLxKUpQAYHkTO3Fj827Va4zKv3Eb2TcneovHVAdK8bK5gEvtaeuVc2HFFIyBTuhE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7XLdbuy; arc=fail smtp.client-ip=198.175.65.18
+	 Content-Type:MIME-Version; b=Eg+j/hE1BTPNmGPeiFawBJs87YOVun7nhOn2bwGYPWWc+r+nJ1kN8WQrQBA+Drc6yUV1w4Nh2dYKZlm9rdq1THJAk4rRFMAnlkE4Ed6KQTbuiH1Rn31SEfGS1M4h/nz0XKsI3nKxjzTM6CrZRBYNhMpMp3LHGBYDe9K3bjBTUwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QwGPakYi; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7XLdbuy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QwGPakYi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781652976; x=1813188976;
+  t=1781653146; x=1813189146;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=PA0aWxDQtpVSppkwP6XptZDYvycW8ov+0MCzEP4/e4U=;
-  b=T7XLdbuykDEDV8UOo98Qbn0xdwc/WlET+Qvs3ULkyTiaxu3ZUVpIW59b
-   r0AWJF/YmVfBP+yRQeKYQMiER2y9wju/gUQg6nO5J5+ABRlzCKG0uunER
-   pMNXyABqlp7AO5CJnJ5eeMlqAnhJO5mXOEo4sopaBn8MQtJqxQGYlZ8Iq
-   OXZbDSh4Rs0CdfSHZTZOnt/omNH5u7D9obifaJmBAAmKDfzRMhkDMkXYF
-   TA2lytkpO2mPadCn0n7HKsxEp4HqGZF7vgNMQ4DikpIfuli74J/V72oNN
-   gnV3M1+SYz51Bu0cfeuAh1Wg6XKOjlqKOOLGhKDI8oDg5JAosLk4Zhfx7
-   Q==;
-X-CSE-ConnectionGUID: 5a5ZmAcLT3+/+YW/z1Bklw==
-X-CSE-MsgGUID: UrUqwPY6QwSDdjK6DXj0Eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82517580"
+  bh=hTB1V9Y8SBBYa4My5IqPg8wmzxnpjltphUznSDCK9wE=;
+  b=QwGPakYiYMQCWPk8J8qI5VNQWWBs1U3G3dO+vFCOSXtYksmmj7x/XP7m
+   51KBWUnKj0/S+BXwBSj0pKuDP6lQO/RA8vr/zPAPM/YxwYBPv+2iGB4iI
+   gn8Ob81+G94bdPtNE7f930Rgbq40ANY13TESDgghAIvYidllhNvnu9c1k
+   FcqrLNMLFXsHDE27pHNb0kNtHHWcFAhGTWvJxy5pIGNmhUFU+G5fSdg5O
+   Vc5pO+nEqCwG/GDe3NlXz4g/EUmMQN1glRhlA/9S5M8EEFNluUqXZ6w+p
+   Ls3aUnrei9fQIKhpI/MLAPM8g/v4b8IkGz6Y7+TR19UwDw1On6xkNzwME
+   A==;
+X-CSE-ConnectionGUID: WHGJ+QYkQ0G4VtRfpVb+IQ==
+X-CSE-MsgGUID: co5SE6zeSe+qGXnqcYH/Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="84996653"
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="82517580"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:36:15 -0700
-X-CSE-ConnectionGUID: qf74XTf6Te+qgQJ2ZsbyRw==
-X-CSE-MsgGUID: 0sc+SOaiSEqxk3CV4gFs7g==
+   d="scan'208";a="84996653"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:39:05 -0700
+X-CSE-ConnectionGUID: Twi0CR1FSie/mKVPc/y1SA==
+X-CSE-MsgGUID: YsBjRJRgSgqOpY6eJw0Idg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="271622091"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:36:15 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+   d="scan'208";a="249815182"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 16:39:05 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 16 Jun 2026 16:36:14 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.2.2562.37; Tue, 16 Jun 2026 16:39:04 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 16 Jun 2026 16:36:14 -0700
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.71) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ 15.2.2562.37 via Frontend Transport; Tue, 16 Jun 2026 16:39:04 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.25)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 16 Jun 2026 16:36:14 -0700
+ 15.2.2562.37; Tue, 16 Jun 2026 16:39:04 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fXqeEu/7lAh7XSNXng7bexEGMSUSEsNePTrobmj7zQVlc5D/YkyOOY0Wvflety3YOZkFoslxBPrBRCUIDnrwr04pdMGhrzfpxEb8BPlsCSq1koi3eUzXe2Zvsvx+hDE4eLNjALxXMi3G/pOQJpY8cG/JyIAvSJm8CuvIu226XhaZYu336c6DKQKJvgjB0JOOtTwGO3k6B0/oj3GszXUODrfMnuFYJTZHUR6/LkDecpf/6CoAOMOHelmX1B1qZMyfx/CvSZ74+2eL0nSiy7zocRjt5nES+JRgs6ZxqGfHTAH2hIM7Z7mdTf+L4QIbhrZeZ3V11oQXbLaXNwvCrgdo2Q==
+ b=c2npilqKqpbK75lASZHHvlTwcyfoH2OJfHnaYY4dA9WUCIKIFB02eVY+fkvxzCrfZbI018Qcmhm8rT3NosFN6L/K/dUhSTQGlVnxOrLtKkJ+0x4H8YHAXJzOML/QrJusQCFTRdYs4SAdLr+8ASGlT0m7cK65zOu673UqfcKIQwI4xRe7mrSGTtR7YfOHiJ3MpnRxftjoFo1uxnF+PfFeCWvfhXQ1msS7aaCw4PtkT877EMKlkuCNK/M0gRoLiP/kMRniGFv8XwW+0r5R6xriGda6etDq2gbFJTkT2zVuTJPbeMTIahVwBtjlxfEh7D4CHXWg0EU8Wja3JYlUdDCqtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGWD4FraroWxYENDGC/Vqr3fKFEi0YEpTVyahhieK20=;
- b=hyvKAl+PzYHOyGaO93GiXqVOz94s1Lluq0id7cbAW3BjAi73j/RLd+1L5zWTAF4Ffh2TVz/NOQqAjZ7xOFv6B4fsLO6ET7lddcUBSsxUd0Yis66dqjIp9ioxYDA8Yc7tTobchDnAQRtoJsNBo1lhU9leSCcYVJsy6rJry4JmsPglaogNVSInrnHMPkJuXhJ9hSalw7kDvqTdTmS0ooz+BrHPCsbzRNC0r3UOFjXD+/jL0gdQkxLIGHb2o2Wx1cjSJqnWASJfEU6871+OXYfGRGhquJBIHX2LAy/RzXB+XT8Fymk8GCISmB/wtrLErzkHrXLgQpuPrxFBTcs/RaSYTQ==
+ bh=vLjQyCeIWoYp+r1JrtPRMNjdnaHiue2h3VFwznxJb00=;
+ b=ukdZKJb3i2FHrxdZbVu+UMsC9Wg2SCN5R60/e6hxSXHou+arX+UWpAdu57LwIBEN5YJ1UrxMQInCx3vR1phwgEfiIUfGoTfuu65ANQsqTMJhr8zR44CypuRj+yC46UsDMKnFRsVVlrjC1aYcJbizmzaoKoZMtzukrvD2iJv8Off/UQLoTpwbQN18b0Cw+xNmWzBaJCCYwSQ3nlbWiDAVxDx68Z80VpfjmBLHfj8m1y495oShRGheqgNJZQjMMOvReG4eW9JyJNhwKV+OIGw/LvsMtZD874q+b8Us7/CNq8VEZi1NiLk5YxVZp36FMM76n/MdyUNFvKkazkmx4/z6og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,16 +71,16 @@ Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
  by SJ5PPFBC9025319.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::84e) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 23:36:06 +0000
+ 2026 23:39:00 +0000
 Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
  ([fe80::b6cf:ce77:3cdf:7cc%4]) with mapi id 15.21.0092.017; Tue, 16 Jun 2026
- 23:36:04 +0000
-Message-ID: <ffa4f5c5-9512-41fc-9354-803a182a85cd@intel.com>
-Date: Tue, 16 Jun 2026 16:36:01 -0700
+ 23:39:00 +0000
+Message-ID: <2429a51a-92ad-4810-bee9-44bd6fba3443@intel.com>
+Date: Tue, 16 Jun 2026 16:38:56 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/12] fs/resctrl: Initialize the global kernel-mode
- policy at subsystem init
+Subject: Re: [PATCH v3 07/12] fs/resctrl: Add info/kernel_mode for kernel-mode
+ policy introspection
 To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tony.luck@intel.com>,
 	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
 	<bp@alien8.de>, <dave.hansen@linux.intel.com>
@@ -93,17 +93,16 @@ CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <mingo@redhat.com>,
 	<peterz@infradead.org>, <chang.seok.bae@intel.com>, <kim.phillips@amd.com>,
 	<xin@zytor.com>, <naveen@kernel.org>, <thomas.lendacky@amd.com>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>,
-	<sos-linux-ext-patches@mailman-svr.amd.com>
+	<eranian@google.com>, <peternewman@google.com>
 References: <cover.1777591496.git.babu.moger@amd.com>
- <38f794ae4076a3c118e8eda08ae2bc1e69eba979.1777591497.git.babu.moger@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
+ <549bf0fadf1cedb5938599be58e53b7464c939b5.1777591497.git.babu.moger@amd.com>
 Content-Language: en-US
-In-Reply-To: <38f794ae4076a3c118e8eda08ae2bc1e69eba979.1777591497.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <549bf0fadf1cedb5938599be58e53b7464c939b5.1777591497.git.babu.moger@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P223CA0020.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::25) To SJ2PR11MB8370.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4P223CA0023.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::28) To SJ2PR11MB8370.namprd11.prod.outlook.com
  (2603:10b6:a03:540::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -113,116 +112,242 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|SJ5PPFBC9025319:EE_
-X-MS-Office365-Filtering-Correlation-Id: 848398d1-d2ab-43bd-3c23-08decc00084d
+X-MS-Office365-Filtering-Correlation-Id: 3fc70e88-1547-4a91-b171-08decc007135
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|23010399003|6133799003|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: nPjfB/nSKxf6qFAHCnYeFy9H+2KPqm5YfqhmbCDuWoqhqNC8vAEpaT7Em8tjq4TuT70/fWvE7BnPrjCN8srx9GSI+sc80tcWfMW33h8Xgc20Px9+c2RGdpKmXPXHoSaFlnJn9i2IzTidfcOiKOiQSF+8cHdqEegw3gz2aKWCVbuK6hlodhXrrMKDnrRhnzEomMwi9Bixwu9udmPLJY+KPK8ZhC1IbGxFWRMZw3hhd9+5/fhxe+numBXgD1Oti3yA6HdJR1t/XAHvfQ25VanZCFM4bN4vcQhgWsg0njn063XhtIs2PlW5Y2vzV+BwxtZ6lPDTufaWoVLJ+Th0/r9unNdJu0CuWHMuEVwAdWC9qXJOMScspn6r7JysuZGoiEUMRTSNCroYHTG9N0aZuFlLQ8oPAo8sSgafBGNJuqQw1VC7o0WqtLDJ1LfnVx8gIzFfP8uUgzgv8T6zQQIhB3rYnqRIWV4gFnUXUQJ03aOdBPcyYTeRE/lsC5IF0KDtgdpEFvrtxzXnCw8o9odcoSlk8AGZlQBuZUoN9358EKfhVQCLSP/0E46/BB3oeEbKjP9mgVA8MoVKSWZXJnwyy3QOC83YpcVTgbitzeqeYjBxn8cqo8LsJpBe6Etwzd8t/xvaV+eRKc6qlIdWei8Ra5jxlLekvg6QgskcWd11yp3sQLjIPNnc/4VrC8/0hOuT0+Hg
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(23010399003)(6133799003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|23010399003|6133799003|56012099006|3023799007|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: C0HE2pEtoTX5A9GyKD4oSYadZvdG7bAi1veY7qPQBknyyCIEUeZEnmiNsrFMXsyrOd6eKejCTW/SR9qg5uXFzbUg2gB8dllKV7C2ldlJ+NZa27sA8iK2Tdw8YI0XmE+V84fEcP6oOJYsS3KKGfB+Hgqkatz1fhH7FF4sNoBm1JxlZfWDswNy95CFQzKgZe7rUQ9lxzcqL4tJYpqOgY4XldpupNXxrTG+0Uonzflr7wn1nBI7wc0kS1qRF5+qHPNfGmMYlG80wpZvCG16aN4V1ZLlTeU9qnROO2XoJ39PDf6EVj7HF7BhiySbKB+bcfO4gn2PDMJPJPpOSQT/KWakAl+EsxvJ3fe1KPBQrjynuQgazF3IjWxE0TiPwM8cP8KS5M+fhKJjZ8rqvK6qP/H07Aie2/pn3/Hkx24rNW7YnAkSs+2wYkSabl008sazzSClqUDaeqljYUN3kPbvlwcchc5meFjB6zpot2S8WiAsjbyeaDFBWH3mDIqu1NFDUcy+EC0RV69COzoB07yHvb4p9aHpbm+bFf1Dr6H1W6iNWLCxjt/2KrClbg+BgcaNAs+Wj+tWTdRplqUpbP586T01wNaEhm/kh8CitWAM03Q4Kr0YvKm6p74EVYrABYdUjxLrVmbbEmi+aV/Gq2HsI9gu1RcjDfDZ8Q4XSoUzGWDJHMvL4tNlnQNlG8v9pDho0d5BpH/m9OAY/pzeLG+vk+gq3Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(23010399003)(6133799003)(56012099006)(3023799007)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akQxWkNzdnRzOUltc2kyOVFRY09kdG5EL3FjUFpQZE9yM3JCNTFNTWRPSVhZ?=
- =?utf-8?B?SFVwTml1cERoaW9NQnRDTTUvQTYxaU9HY0drQWxseHNiL240cHZKU24vb2Z6?=
- =?utf-8?B?ZmpxSGZJeXFyR1hNc0lZRk0rSk42TFBpZEl0Ty85anVIaDg5c3BMWnRNUVpO?=
- =?utf-8?B?VThDU3UzanQ4R04wVGNuQVM2SDlEenVPT1U5cWVFU1BrcEJlUDFNYk5WTGtV?=
- =?utf-8?B?S0xleUxMbkY5THkvbDZmVVJjdS9SZE96VWNMUk5hQWRNeVExZFhONDZISnho?=
- =?utf-8?B?YW1WQk52Y2Y1RmhjclNsTkRiN1NXWk5KckpQR3hrNjV6dmFnYTY4aEJDVUI2?=
- =?utf-8?B?SUsrTmxoaEhUNTNneHI3eCswcjkvd2krWExndTEwN2xnL0VUYXhjS0xML0d0?=
- =?utf-8?B?Z2Ixcng4WGVwSHdsb3IrTTJ1ZFZ4am5oRkJJQXpoM0JIRDd1NGV6TTVveEdB?=
- =?utf-8?B?NURoVnlCTVJ5am9BOU52UDVFbGUyelMwYldHTUpKR1FwTXo0Y0xSdkJnS08z?=
- =?utf-8?B?UkdCbXdDbFdqcko2UzdZdk1zaC9UNnZpQjU0cjJTaWx5bjJKMm41cjNBOGpW?=
- =?utf-8?B?cjYvMEk4L3BJSjNyV1RiK0dtd3l1NDFUaE5tMERsdGM3MXVaZkJGS01JN0N2?=
- =?utf-8?B?c1hnVnM3N21CSGorM3ZjOFBzeHhMbXp0Z2dXV0FpS2pDbmVqcWwrUXk1c0g3?=
- =?utf-8?B?WEJjZmZ0b1pBNzNvMENYVTgveDgzaW5JYnYrbFNaTmlHOHdXZ0QySnNWVlYz?=
- =?utf-8?B?Ymk3RmlFakxkbEFEU05jNFdoRU1qOStHMW40WXNmZUtaN2J3MjFWd2VFdlVO?=
- =?utf-8?B?SlVra1oxWUl3QURXZ3Z0T0R0aVVjYlBqV2RIVWRUZythcFdwSHRYTldXMlBU?=
- =?utf-8?B?RkZTWEkxc2FyckZhbjZWYllKeHkrK1o1NWkwK0JRQkxMVUhjekNqWXM2QWZH?=
- =?utf-8?B?VUUwcVplWVNTL2toRHUrdUVhalVaOFB3K1czRjNBVFNIRmUyd0kvWDlETUFP?=
- =?utf-8?B?UDFoVVI0MDY2RWNjZjNNUFVhMm15TDYvcTRzbklPRkdWeFJNRXJ5VWR5MHlo?=
- =?utf-8?B?NUNEeWZ5UUxHb3pBcVNSc242R2JtaEI4WkxkdFBUL0xjTXNBc2xiMFdMY3M2?=
- =?utf-8?B?czVYb2h5bzh6Ynk3d2xJYTkyRWJvTHMzblNNNWRLVENZN2xqeFA0cHNpZ25H?=
- =?utf-8?B?VUxYeWJaVUV0VGQ2M0FPbnkzOU9zUE9SRmxZWnViS25jRTlZTXVscHZLcU4w?=
- =?utf-8?B?MHdDdU93YXc3OVNzbFd1SFp1MVhXV3ErOFV0WGR0UWlQTlVKZXE2OVRxSXJO?=
- =?utf-8?B?YUxIT2RENFhtNG5pZ1UrKy90LzJHU2YzdVJnS2twTEJDUXI4WFk5Z3dHMkpL?=
- =?utf-8?B?UWtHdUZRVGF6WnU1WENBWE03STN4SG9tVC9DZzdrM1ora1ZGTGs5L0ptTzZV?=
- =?utf-8?B?Qk5CSDFjVGtPYXlSeEJ0SnUvRVR1ZVROandnbmJydDJjVXg0TTIxL0JFVmpy?=
- =?utf-8?B?K1BreEJoT1dncmpqbGJGYmcvZU9LL2dOTFdXV2JEOG1mM3JMZjBUdXd1ekFu?=
- =?utf-8?B?YWZMRDRhN0Rndk1NS0lLVThlOHE5UCtDckM3eEZKTWZrRGd1S3RZQUlNVWll?=
- =?utf-8?B?N2ZLVVFjYWhLemNZZ3BBZ0o0eHJENEJLaUkyNWE4SlUxYUhFSGYvUGxzcnBy?=
- =?utf-8?B?NzQ5aXFIQUdHaUZFNU9ydkZUWDYzLzkwd0dSMHRxdHRHM1ZyUkdFdGRIRHJa?=
- =?utf-8?B?WGo3K29pYlJGTzJvVjUwVWtDdXJPb2Z4OXM1dElMV01zbHE3VnlxUzZ5bzMw?=
- =?utf-8?B?cU5kUVpOQkcxdTdHc2Jjdmw3RmRubUE3WC90Z1kySVRoRW9SbkpYcDh4Z3Q3?=
- =?utf-8?B?cWx1YVBsSFpTOTFNQ2owck9XTGp3SHpibHZ6SmJiMHVOVDd4L2JYVXlrREVL?=
- =?utf-8?B?WkdieFZUQU5SYzdzcVA1WnRKdFBod3hkREZ3S3VObjhEc1hvelJBRmY1S2Va?=
- =?utf-8?B?Z1prb1EyWG9YTW9kMG1IdG9OMXYzN1psL1V4T0tNSmJUaE92cC9XNDR4NUx1?=
- =?utf-8?B?aWFxOHRDZitZaXltUUZ0WEZHaGJ5cnY4ZFNFM3RoY2lpd1d0NDdMZzVqQkFG?=
- =?utf-8?B?T0laZVRZamZ2b00yL2dFRVdEUnNJaVRWZzZ2Y096UHlXRW0rNlhuZDNaVGtj?=
- =?utf-8?B?NURDeFVMRFRkYkVnVU14dUlHMVhwVXU3RldkU0pRd3hQUFc5Q1FWVlBzOWhH?=
- =?utf-8?B?Z3MrSSs1UHNKdXZsMU1GQ2JhS1Uwd2FzbzNWZGxjVE1vdFFyMEVWR0w4TnBD?=
- =?utf-8?B?Y3NUaFFCSFJMT2VQV3RzSmJ4RGFyS2taWjhneEZXRHRVWnNBZFJIRklmTlNQ?=
- =?utf-8?Q?90fdQPywEEdhqc7Y=3D?=
-X-Exchange-RoutingPolicyChecked: nt1z1n4LFTOJl3WPpepfVxOpQRoTnDXR0ZHCljqGGRELW5kWaa38tlhppLzpiCziQZ4f1ejRjWyy3ilNhuecq2f1RpewA3KhXw1p1A8N81Um65IIhnhXxxzh+fTSg80c9sWW4pDw1PgHIe6ECTFnCT5vKZiT+ey3I20W/PemcPT8qX6AhUmb9PCD5B7Kq0vtlu06R87n5ZivqIWBscvv8KXbbh4AVmA3vyFqL0p/kaeDykGOeEPEnafQ6MPHsS5i0qctb/KEtMnqi8pt6Sg/0/v280zGTPb8zJchUz7BbX6bdHPOsmMOyCeeCij1cZf9a2lsc/m057KTMjoWxHPIdA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 848398d1-d2ab-43bd-3c23-08decc00084d
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0dydkM3eW1yTVFUYmJYU3BybGZOUHppMzg4VXhheXFZeUVCQXJOcmhYTC9o?=
+ =?utf-8?B?dm9YUU5QN25OTXNaVERzR3ZqeXlaRHo2bkxwZHhFNjdxdVU2N1FDTExiWWpx?=
+ =?utf-8?B?L1BhQlRDbWNpV2QvRVRmcURaeDNCZXRmWmxZY3lvamtJT01tSVdIV3FKaE9k?=
+ =?utf-8?B?Mk5HVldVc3NoM3lEc3hSa3dZeEdtaktwV3phd2pqRE9yeFZGVXoySnpyRGhH?=
+ =?utf-8?B?ckVyTWtmRzg0cUFrSTdDdW9kRmVWaS9jTTYrR0JzRG9za2lIdXh4bTNPWG5s?=
+ =?utf-8?B?ZE5ydWVMeFVpblBCbjZEMzlxaEtyNHlYU1hiWjRkWUQzam1iZ05RQjlRQUE0?=
+ =?utf-8?B?SmpFRFRiZFRNcExKbjl1Y21SamREdDZFYUNFRUZ2SEN4K0IwamovRnZydTA5?=
+ =?utf-8?B?MGEraXZEK1hHMzR6bGtDdWtPdU9rUE9GQmRBcjh6d3l4YmhLTDFUS0REbytt?=
+ =?utf-8?B?d3hJb24xMFZLS3lZc0REdWw4VlY5NmlnS0x4NloydWJYa2VHVFZxRklPbXo3?=
+ =?utf-8?B?SHEvWmNSdjdPVm1kZDFWeEI2WFRXMDhYdEIxSHphKzFLNmN2UXJONFZGaTk4?=
+ =?utf-8?B?R3F1MmI2LzNCQ3p2QkFKYUJMYjJOd2kzZVpId1orUUExWXlpREZTQzlubzhP?=
+ =?utf-8?B?Snp5WTBvQmRjU29qNUphQ3ExSjFKRXJzcy9lUVFBb2NCalNkZUFibVprbEhN?=
+ =?utf-8?B?em9hL0p6N0FIaE5nQ2RjY1QxL2RDVlBHaVRKSmVwWkY3QXhDaGZ6RE5vcHJY?=
+ =?utf-8?B?SERjRnlxT3R1eWJGdGdOWmhBMGZqaFNtcHNNN3JZK2U0WHN3Tks3QjV1d3ZB?=
+ =?utf-8?B?SGRmUlhKblZPdFdDOVpQS0R4UytCbmVuK2hNNHJmU1MzYXMwSUgxK2U4TGNC?=
+ =?utf-8?B?ZDZ4Rm53WFg5emZPaXo2WTM0ekJiajBqb0dtM1FHb1F2R1lKVkxUY2NwUDFa?=
+ =?utf-8?B?a2IyL0dTeU5iQ3JOZExHNEo0MGJsTHp6UDViS3E1aVkvbVNkUDE1ZHdYN25v?=
+ =?utf-8?B?UmdNOXFQbFk3c1Z5d1dqS2dIVWk1NnRxamxSMFdlS3JLWVR3V2I2NVJGWTBY?=
+ =?utf-8?B?U2V5VHdxcUdaaEZFRG5PekIrT2pJYmFEWnd6bHNObllZeTZBa3o1ODh6ZU1m?=
+ =?utf-8?B?YjZ3aGxYUjFXSWxDWkRIZFErbHJHMUNXOFZacllZWWFkNG44aHVLS0JBb2p0?=
+ =?utf-8?B?ODN2SDljRXhXc2NnMlVLL2FJck5ndEQrZzlKbjVyZ080bFlXZkhrRHBkQzRE?=
+ =?utf-8?B?TWQxdUJjNkxsaGZWa1ZKT3lUcmVTWDlZZ2FSNnRtL2Q5bG9rRW4vcVlnZWJo?=
+ =?utf-8?B?a2d4VVY2ZEJDNFE4MEdwSjR4SFBSOU9aajhHdFM4aEZwRGhvdDlOb09DR09y?=
+ =?utf-8?B?KzQrL3RvcjIyaWZmVkRQRUNsYXNMTzhtS0V6bHIxWWJhbHFnTFR6VE8xVzhX?=
+ =?utf-8?B?S21zRWplMy9uOUd2d2hEMXMrSTRRVEcxNFZVMDRqLzNGbDB6UWY0TExUMHQ0?=
+ =?utf-8?B?bmJPcXJuS3BCUWtELzAycEFqSHhTMldTczZIMUp4SXQwcCt0TDlRQ3VZODE1?=
+ =?utf-8?B?YVBNMDY5dDlHb0xXN2NuSENYRGNPOFgvWVJuN3liWm50S3pmYklaWTN0dWg5?=
+ =?utf-8?B?ai9tclpVMDFaNE9FUE9ac3lEaE9zNmNMWlJpNVF0emdqMjQ5dkJzM2JtZjU5?=
+ =?utf-8?B?Wk1kWER2K2xIbDFoUTdyUGlpWGI0VmVSV1BvWG1NMkJOQ0thSzNkNzF0cm5p?=
+ =?utf-8?B?eVg2a1kzc2tpUGZ4WjViTEYvVjd1eWpPeXlLeE1GUHZQZGU1c1k5WFBqcCtG?=
+ =?utf-8?B?Q2s2KzM5UWRhcStzWDlRK0VXTWJRSm5TSjFXQ01OYU1ONzVjdDJvS1ZnVEo5?=
+ =?utf-8?B?N1Q2bkxlejUyK0o0dHpoSlZIKzFPZjdWeG85SnRpWjRUczV4QVd5bjlTZnI0?=
+ =?utf-8?B?a2F5OTk3UnRNMHJQNlVlQ2w3Wmg0SlpBRjBvS3dkakJiZVpJNlBTeXZ4clRq?=
+ =?utf-8?B?SU1BTW41V3JQOGNiWXVqOUFYTFViQktXOGJ5eDNLZS9WaGtldHY2R3JmK1hU?=
+ =?utf-8?B?Ujk5N1JxTWtlakYrcmRVaVdibjJYSFhtWFE5N2xxKzZielFkcDBDbmNnc3d3?=
+ =?utf-8?B?TkdqbEZRL3ZRMm14M2NrelJtNG5SSlVlVWowcForcFExcXF1MkowOUdvRC9v?=
+ =?utf-8?B?bDA2KzRYSzUraG1MTjQwOElxV2RzQ0Y0UThzZUdiSk9vMy84SGxtNDNFMTBa?=
+ =?utf-8?B?SFV3Q09hOG1rWXJ2aVpoSmlJeTI4RnFtQytUWFNzQlhjeXJrem91RWtlTXpu?=
+ =?utf-8?B?c2FIRURWZzBYRTdSSUhId3VienBkVCt1WmprWHVnOTR3YUtlUHU3VHZ2UXNF?=
+ =?utf-8?Q?jPZ4SwErLP3AiDLA=3D?=
+X-Exchange-RoutingPolicyChecked: eMUsVx+FyoSNFM3jXO+IlS7oiX9Ku041DTqX7tFKSUmhzt3PQXJHhHT+tlA9cCKFCkDGhzwkrntr9QBTupjG0rIsE+B5knlVfFH+wtFO9XA1VKrqTyY+Yxk4UnCreWVxDRTMSbKtEe+bPFG4UUwZ2Ra0FwIXysPFrOgFoZoPH2LfSpgPDq1Fz7XsB/18H+F2N6huBpzgrtBu99mgX7oLD+V1TcEKfB79leIgofNGKcxhqGW2plPPbxtYdA4ySv7vwCZJpRpeALHtC7I6Oa18yvQbXESCKrowT9dUB6e0A2cKHXbnJFg9G/Qg8EhppbHLRv4pjJh1wOUBZLKW4iGL5Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fc70e88-1547-4a91-b171-08decc007135
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 23:36:04.6393
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 23:39:00.6823
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xR0e17QrUnnfA7zBgdRjYVx5k+hh2FBcLIOFTyuf5+QJYSlF70YCIhVVAUjI94RkrfeXR8uNN0KKTYgPh6KtWGa4kySUUjbpgrqIOOPtqsw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: hKC9WwUdWcU75s933yH5zTEUUy0JISnYJPlIdwkV02xl630gOC9SybPlDUD6GimT2AXJS7j3iplIvIucv9ZLxE44KzZ1hgnJ6XtE3aLmX58=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFBC9025319
 X-OriginatorOrg: intel.com
 
 Hi Babu,
 
+How should "introspection" as used in subject be interpreted? This just
+displays the supported and active kernel modes to user space, no?
+
 On 4/30/26 4:24 PM, Babu Moger wrote:
-> kernel_mode feature needs to add the interface that lets user space
-> choose between INHERIT_CTRL_AND_MON, GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU
-> and GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU.  Both the generic resctrl
-> code and the architecture layer need a single shared snapshot of the
-> supported and effective policy plus the resource group that backs the
-> global-assign modes; that snapshot is struct resctrl_kmode_cfg.
+> There is no user-visible way today to see which kernel-mode CLOSID/RMID
+> policies the running kernel supports, which one is active, or which
+> resctrl group currently owns the kernel CLOSID/RMID.
 
-This does not seem to match implementation since this implementation does
-not actually share struct resctrl_kmode_cfg as described above. Only 
-resctrl_arch_get_kmode_support() exchanges this struct between fs and
-arch and as already mentioned that usage looks unnecessary. The other
-arch/fs touch points use either individual members or their properties
-(like closid/rmid).
-
-As described in response to previous patch I think this can be simplified
-while also making it more robust.
+Why should there be? This is a new feature being added in this series.
+No need to write this as a bugfix.
 
 > 
-> Add the file-local resctrl_kcfg and a helper resctrl_kmode_init() that:
+> Add a read-only top-level sysfs file, info/kernel_mode.  It emits one
+> line per mode advertised in resctrl_kcfg.kmode, in stable lowercase
+> spelling derived from enum resctrl_kernel_modes, e.g.:
+
+All these changelogs feel so strange ... as though they are written by
+somebody who simultaneously has no and full knowledge of resctrl.
+These verbatim descriptions of what the code does is not necessary. Please
+start with why the patch is needed.
+
 > 
->   - Adds kmode and kmode_cur with BIT(INHERIT_CTRL_AND_MON), the
->     universally supported mode and today's behaviour;
->   - points k_rdtgrp at rdtgroup_default so global-assign modes have a
->     valid backing group from boot;
+>   [inherit_ctrl_and_mon:group=//]
 
-If the default mode is INHERIT_CTRL_AND_MON then should the default group
-not be NULL?
+This is unexpected. There should be no group associated with this default mode.
+This is how I interpreted our previous discussion ending:
+https://lore.kernel.org/lkml/6709398b-269d-47b5-9b41-084f410bb1a6@amd.com/
 
->   - calls resctrl_arch_get_kmode_support() so each architecture ORs
->     BIT(<mode>) into kmode for the policies its hardware supports
->     (on x86, AMD PLZA contributes the two global-assign modes).
+>   global_assign_ctrl_inherit_mon_per_cpu:group=none
+>   global_assign_ctrl_assign_mon_per_cpu:group=none
 > 
-> resctrl_kmode_init() runs from resctrl_init() once the default group
+> The effective policy (resctrl_kcfg.kmode_cur) is wrapped in square
 
-resctrl_kmode_init() can be dropped after changes described in response
-to previous patch. Apart from no longer being necessary I also find that
-having the kernel mode fully initialized *before* the hotplug handlers run
-to be simpler.
+(needs imperative - please check all changelogs)
 
-> has been set up.  No user-visible behaviour changes yet; later patches
+> brackets and its :group= suffix names the resctrl group currently
+> bound to the kernel CLOSID/RMID (resctrl_kcfg.k_rdtgrp), formatted as
+> <ctrl>/<mon>/ with empty components left blank.  Inactive modes are
+> reported as :group=none.
+> 
+> rdtgroup_mutex is held while printing, matching other info/ show paths.
 
-(drop "later patches ...")
+No need to describe details that can be seen from patch.
 
-> expose kmode_cur via sysfs and act on changes.
 > 
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+> v3: New patch to handle the changed interface file info/kernel_mode.
+>     Changed the group name to "none" if kmode binding is not done.
+>     Reinette suggested "uninitialized". "none" seemed more relevent.
+> ---
+>  fs/resctrl/rdtgroup.c | 74 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+> 
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index a7bfc74897cc..9cdcfa64c4a2 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -988,6 +988,73 @@ static int rdt_last_cmd_status_show(struct kernfs_open_file *of,
+>  	return 0;
+>  }
+>  
+> +/* Sysfs lines for info/kernel_mode; indexed by &enum resctrl_kernel_modes */
+> +static const char * const resctrl_mode_str[] = {
+> +	[INHERIT_CTRL_AND_MON]			= "inherit_ctrl_and_mon",
+> +	[GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU] = "global_assign_ctrl_inherit_mon_per_cpu",
+> +	[GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU]	= "global_assign_ctrl_assign_mon_per_cpu",
 
+Please make alignment consistent.
+
+> +};
+> +
+> +static_assert(ARRAY_SIZE(resctrl_mode_str) == RESCTRL_NUM_KERNEL_MODES);
+> +
+> +/**
+> + * resctrl_kernel_mode_show() - Enumerate supported and effective kernel-mode policies
+
+"Enumerate" -> "Display"?
+
+> + * @of: kernfs open file
+> + * @seq: output seq_file
+> + * @v: unused
+> + *
+> + * Emits one line per mode advertised in resctrl_kcfg.kmode (each mode is one
+> + * BIT(index) per &enum resctrl_kernel_modes).  Every line carries a
+
+Above is clear from the code. Please instead describe what this means.
+
+> + * ":group=<name>" suffix:
+> + *
+> + *   - The effective policy (whose BIT matches resctrl_kcfg.kmode_cur) is
+> + *     wrapped in square brackets and <name> is the resctrl group that
+> + *     currently owns the kernel CLOSID/RMID (resctrl_kcfg.k_rdtgrp),
+> + *     formatted as "<ctrl>/<mon>/".  A component is left empty when it
+> + *     does not apply: an RDTCTRL_GROUP emits "<ctrl>//", an RDTMON_GROUP
+> + *     under the default control group emits "/<mon>/", and an RDTMON_GROUP
+> + *     under a named control group emits "<ctrl>/<mon>/".
+> + *
+> + *   - Other supported but inactive modes are emitted without brackets and
+> + *     <name> is reported as "none".
+> + *
+> + * Context: Called under rdtgroup_mutex like other resctrl sysfs show paths.
+
+This does not look accurate since it is not called with mutex held but instead
+takes the mutex itself. Also no need to refer to what other code does.
+
+> + */
+> +static int resctrl_kernel_mode_show(struct kernfs_open_file *of,
+> +				    struct seq_file *seq, void *v)
+> +{
+> +	struct rdtgroup *rdtgrp;
+> +	const char *ctrl, *mon;
+> +	int i;
+> +
+> +	mutex_lock(&rdtgroup_mutex);
+> +	for (i = 0; i < RESCTRL_NUM_KERNEL_MODES; i++) {
+> +		if (!(resctrl_kcfg.kmode & BIT(i)))
+> +			continue;
+> +
+> +		if (resctrl_kcfg.kmode_cur != BIT(i)) {
+> +			seq_printf(seq, "%s:group=none\n",
+> +				   resctrl_mode_str[i]);
+> +			continue;
+> +		}
+> +
+> +		rdtgrp = resctrl_kcfg.k_rdtgrp;
+> +		ctrl = "";
+> +		mon = "";
+> +		if (rdtgrp->type == RDTMON_GROUP) {
+> +			if (rdtgrp->mon.parent != &rdtgroup_default)
+> +				ctrl = rdtgrp->mon.parent->kn->name;
+
+Isn't default group's kn->name is initialized correctly via
+rdtgroup_setup_root()->kernfs_create_root()->__kernfs_new_node(root, NULL, "", ...) ?
+
+> +			mon = rdtgrp->kn->name;
+> +		} else {
+> +			ctrl = rdtgrp->kn->name;
+> +		}
+
+Can the names not just be initialized directly from kn->name?
+
+
+> +		seq_printf(seq, "[%s:group=%s/%s/]\n",
+> +			   resctrl_mode_str[i], ctrl, mon);
+
+This is not where I understood our discussion landed. I expected that the display will
+reflect what can/should be assigned in a mode. For example, mode "inherit_ctrl_and_mon"
+does not have an associated resource group and should thus not display one, 
+"global_assign_ctrl_inherit_mon_per_cpu" can only be assigned a control group and
+should thus not display a monitor group also.
+
+> +	}
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	return 0;
+> +}
+> +
+>  void *rdt_kn_parent_priv(struct kernfs_node *kn)
+>  {
+>  	/*
+> @@ -1891,6 +1958,13 @@ static struct rftype res_common_files[] = {
+>  		.seq_show	= rdt_last_cmd_status_show,
+>  		.fflags		= RFTYPE_TOP_INFO,
+>  	},
+> +	{
+> +		.name		= "kernel_mode",
+> +		.mode		= 0444,
+> +		.kf_ops		= &rdtgroup_kf_single_ops,
+> +		.seq_show	= resctrl_kernel_mode_show,
+> +		.fflags		= RFTYPE_TOP_INFO,
+> +	},
+>  	{
+>  		.name		= "mbm_assign_on_mkdir",
+>  		.mode		= 0644,
 
 Reinette
