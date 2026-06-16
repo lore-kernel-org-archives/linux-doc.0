@@ -1,467 +1,125 @@
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C203BF685
-	for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 23:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD1620E702
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 00:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781564692; cv=none; b=pRlfocX6N3xhktY07TBzzLWXaVhpEOG96tauxS3hp/i8A1y1nshR4xOpGQHyCgmRFDDftTifAWRSCPCI0xLzaytV6cBXU8TPOlM3vCpwA+vHKpCGuLD/DoVBWqnRFu9jbirziH7rlkH2WycxSqGg8ZKpIt72gGoDe1++b/y17jA=
+	t=1781569236; cv=none; b=S5rLzY4012KGnG/8afEi5QcEHvgaw2XF+Zzy1hT3XFtKaEbaeJ0Q3S6WvS5vE/2Jqj5V97X9HwNIaLFqJE5iBZow2joVRWHxHordL0yNz1RoOeKBwgJBgm5D9PTax8Of7RC4331zNOkDf32Vli00OQgcWnLkGNYWDtkGySXPLOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781564692; c=relaxed/simple;
-	bh=vTU6QuUH9K/F/VBDS200HBVbJSQRAMYhML07YyU4p1M=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qL7/MSIDGDUJZkyIJDTMsCDDbIjdiCL6ZZtGIGM/8KKJOn7oAuTn4npjj530/xcVI/8tdLHBUm2X5A60TID9ccBWXerPn1RmuEymzdftCYoBe5uHAplgUJAezUeijodXY/ZElAUFp3ONd8YjDGS40WJMU2FUywXkg/2lXq6wN4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kuRagaqu; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com
+	s=arc-20240116; t=1781569236; c=relaxed/simple;
+	bh=9O8H+XbMNAvS0v8jx+Btb6gpaFePeTzU8+bTKnqo+90=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uoDibA26xleXifIby+IHBnm50Zqq+Rl64jx3LIBErr92ON8YBsH7AiKJ1tXg26N0QjIAeMShoaBRz3ivYj4Jwe9VSN9DnnyMME/Zk4FfK/iLmtE9A15cRN7vyHQNxP5BL4yD3CgWXSaqxDh2VSli2KxD4nt+1yaEeIHB7ZmIkcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qlZbl/aF; arc=none smtp.client-ip=74.125.82.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kuRagaqu"
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-308004a2c49so57233eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 16:04:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qlZbl/aF"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1370417c01cso5171028c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 17:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781564681; x=1782169481; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ll9WVotlDo2GvbLh+Q0CfnIt6kQ8xa/rU4WbE37D7Hk=;
-        b=kuRagaquxkw9mwih17ES5IXyX6X2OullwR3KEvsMd2ur9KJFePrlIoowjsiRPPDuMz
-         8wsfbbI5/R/PQmzhi5zbWVx5yIVxZghIhaC57c9YrA7QMZ5h0Dn8+Db5/STEtpQotb75
-         QEakCxnxbt7ytPOHcJnnz694X8JkpeugdPfRnhQuX9Fb28voLCvx6AlHvypuQ0OKnc4P
-         4DAmAip5Mr94HhFMT0/zExz5nUM53Zh97CWUHozh1mqNhY1y+LhA++vSGlmxEcoTjIF8
-         7gF7MN1CZyFNoGLke6IXCcfHST46FL5+bbCmmBU1zcUuv9giKdmCYb1mP1PElvdU9p+E
-         nw1g==
+        d=gmail.com; s=20251104; t=1781569234; x=1782174034; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qMcLxKso4b2k5fy5qxZ4EymeOosh6CwCvDbgFOT0gso=;
+        b=qlZbl/aF8AvrpScOyoFkDU0BNEPYrs/sUjc9Yw8v+b7WULPh5+LSy9F8MfDCXMDcc7
+         za1kAR8zwkTVSKa3euLgiT5SSn8I6mOyAqHI1YpUSGKuCHPNQ3jiigNrb0ozqvgPoFcE
+         KrnpQl2vYzzJPXW+/1cTjfIg2TE2Kyy2jL/cVNTPsBuS33M9sY48kOTIXTzside/EDC8
+         OQOu3d7A2WCQK98PcCtQVbrmhNPHct5AQs47XR/9wTYXwbUYQ6dabT8F5/u545gQCK/4
+         Y3Heo/SuZZqC0DVMr9lqDVqEX4kGkdFCd3eNki01gamwg5tNyozVcofrh124lja2CMYv
+         LyiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781564681; x=1782169481;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ll9WVotlDo2GvbLh+Q0CfnIt6kQ8xa/rU4WbE37D7Hk=;
-        b=VF0glHx/kLYhGPBpATH7SpT3xbOM+CZW8bJbijVMs+vKbndSXz7O3uco9Wsj1ExDuZ
-         40SH9N4+kZohKuPHoStYcQ2vUx0+vHLY0382VOAaSnvTp/iy1IHv9Rm9oI1tZrOSjacd
-         5Qo+mBgNJn7V9Qio+jCKPH/uhsVuIpabLBQMTobDwvqYbMj4P+vQNJdU/VCI9iYpC5i/
-         m7ccoEgDZQztIy0+2nKFiM0s31w57d/Z9M6+pJzm1KTENOv63kXQQqypl/hDWF2VT3EW
-         b2gM8iyoxdJrQf8HaepEX3XkkVlSfkNQgzN1lgnpxVMyT27Y1N+zsoLc+UFdajeteDZd
-         OJkA==
-X-Forwarded-Encrypted: i=1; AFNElJ9TacgpwPxEwwC63HUOSsH7nXIT0ZkpcYgmordNzhvN71amgPPdRVqrBbCcwICfZlNkFdoBr7+ho84=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1In+9Ga4O1IwMgB0JI2qvMcnYSn30muR6tDieK2w/wQUpyDeD
-	kAtrse8NYoV4dUl7UgAWTBbjL5swzcaDZyDw9NZ9A00q6hfqLN7pMPijXACFz67rOxbxAC/dp9/
-	3G/I66nU2JwCq6HByEblxZoRRGZzZVxOx+w==
-X-Received: from dyay13.prod.google.com ([2002:a05:693c:62cd:b0:307:ff57:53b0])
- (user=abhishekbapat job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:3b28:b0:2da:4216:7ea3 with SMTP id 5a478bee46e88-30ba5989a13mr784929eec.14.1781564680231;
- Mon, 15 Jun 2026 16:04:40 -0700 (PDT)
-Date: Mon, 15 Jun 2026 23:04:30 +0000
-In-Reply-To: <cover.1781564384.git.abhishekbapat@google.com>
+        d=1e100.net; s=20251104; t=1781569234; x=1782174034;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qMcLxKso4b2k5fy5qxZ4EymeOosh6CwCvDbgFOT0gso=;
+        b=XmzgNpjiUuJDFjhrGzyDe2YeWQpBAUupgSsArs2Blnws7LZhT4jPAoUuEDaB7t4THk
+         7W1F8vEYS/uyt9cPRpY30w7dPjtol5AnhnGqBITf0aY9jBiHjRSMMgIEX3qCd49dbQVh
+         Zx1zhObFRBYLjo2H/Hs5Z4kVo7aRqXREgaHsJxe4OkktK9szoe4c3oE99q15JCBFTbJs
+         TTPyGBeXh0iiMjbACe7jsqiw+XbrfsLWbdGwJiWszGDCZMur8UZ+WiQxeA1EmD0Yukia
+         y847ctEXRP/gCfD0rtJlzWQDEbUkdmbxLYuu59u1JCVSyQQRTY2lHy0l4PcfE0xo1amQ
+         Fn8w==
+X-Forwarded-Encrypted: i=1; AFNElJ8PLpczyCX25gfY1ywCYq8oSf5pACSMyNdF1O5to2M85sXaQR+NoUOEulJdcvjjEiSFU9q88aNTA3c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkD1cLBtC3ERXMNvC6FGbVCPw6q5ZBA05XS9KKhPpedIcx4gBb
+	ez6tfheZi3DNhi2CqApSxJMlENmbNnaTVZo1+BJk4WCxNdJa16Yib6tl
+X-Gm-Gg: Acq92OHOb0BjrZomtbO/4lNA5Jq5SgGEZ6sgm7zJqV3iaqK5tM6Bq9pCXW4IkADIzCq
+	orwL6HjKduHxfOCeDAl582GjLR8xzn6k7CPjNC3rtbqFir1ec4nup5wllKwKX53sV+KlB4iXKNz
+	N5Z5gOlncK2db9jvklKgeMlnkiIJUF1D4FBf57TPa0c19boRpNTDVxs2H+vmQ9aVf2ajjUs4q4d
+	kwlAd4QM5CuMQnUGk/r/fLegPoLU4QZYSeRo//Nl78gZszykx8GiQzrI51wlfMgj2Kh7W/iiiIO
+	ESaBsNkeClnzrj9bxJt36cArb7OBgezvoNm+hbU7+22JMnw1/UVp6aRH9b9OQEvDh0LZIl+rG3M
+	xHG9fOmH06+f/zgCkQ05pMZSjX3Dt+6vxkHNJ9hgsY4KoDetexCb5u/MuaFQxcc3wCF7vEHcUs3
+	znQeTRgh6udQs7jU2tmw5Tl/5WKuIatnTA8d00YJ4TmHT7u/1D0kTGgDi36c6AexAggfs+PNfx4
+	55v89tDXy+qiXNS4AuOaWct0sQi3NeFi6WaWkaNGuuONm1N6X92OwgnDb3F3Ug0lPoNHpQfRmgI
+	13LwO45I6UGDXV37IQ==
+X-Received: by 2002:a05:7022:108:b0:138:508b:93ca with SMTP id a92af1059eb24-13985f23377mr563572c88.18.1781569233498;
+        Mon, 15 Jun 2026 17:20:33 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1386f20ad25sm10026045c88.0.2026.06.15.17.20.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 17:20:33 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>
+Subject: [PATCH] docs: infiniband: correct name of option to enable the ib_uverbs module
+Date: Mon, 15 Jun 2026 17:20:23 -0700
+Message-ID: <20260616002027.67925-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1781564384.git.abhishekbapat@google.com>
-X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
-Message-ID: <4d9c8dc420e2019e1fce62ecf31ec40933fce3a8.1781564384.git.abhishekbapat@google.com>
-Subject: [PATCH v5 5/6] kselftest: alloc_tag: add kselftest for ioctl interface
-From: Abhishek Bapat <abhishekbapat@google.com>
-To: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Hao Ge <hao.ge@linux.dev>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Sourav Panda <souravpanda@google.com>, Abhishek Bapat <abhishekbapat@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Introduce a kselftest to verify the new IOCTL-based interface for
-/proc/allocinfo. The test covers:
+The Infiniband documentation states that CONFIG_INFINIBAND_USER_VERBS
+should be used to enable the ib_uverbs module. However, this option was
+renamed to CONFIG_INFINIBAND_USER_ACCESS in commit 17781cd6186c
+("[PATCH] IB: clean up user access config options"). Update the
+documentation to reflect this.
 
-1. Validation of the filename filter.
-2. Validation of the function filter.
-
-The first test validates the functionality of the filename filter. Using
-"mm/memory.c" as the candidate filename filter, it retrieves filtered
-entries from both procfs and ioctl and matches the first VEC_MAX_ENTRIES
-entries.
-
-The second test validates the functionality of the function filter.
-It uses "dup_mm" as the candidate function as we do not expect this
-function name to change frequently and hence won't be needing to modify
-this test often.
-
-Note that both the tests match line no, function name and file name
-fields. Bytes allocated and calls are not matched as those values may
-change in the time when the data is being read from procfs and ioctl and
-hence can lead to false negatives.
-
-Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 ---
- MAINTAINERS                                   |   1 +
- tools/testing/selftests/alloc_tag/Makefile    |   9 +
- .../alloc_tag/allocinfo_ioctl_test.c          | 331 ++++++++++++++++++
- 3 files changed, 341 insertions(+)
- create mode 100644 tools/testing/selftests/alloc_tag/Makefile
- create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+ Documentation/infiniband/user_verbs.rst                    | 2 +-
+ Documentation/translations/zh_CN/infiniband/user_verbs.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 019cc4c285a3..6610dd42e484 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16715,6 +16715,7 @@ F:	include/linux/alloc_tag.h
- F:	include/linux/pgalloc_tag.h
- F:	include/uapi/linux/alloc_tag.h
- F:	lib/alloc_tag.c
-+F:	tools/testing/selftests/alloc_tag/
+diff --git a/Documentation/infiniband/user_verbs.rst b/Documentation/infiniband/user_verbs.rst
+index 8ddc4b1cfef2..96bcd1bd37ad 100644
+--- a/Documentation/infiniband/user_verbs.rst
++++ b/Documentation/infiniband/user_verbs.rst
+@@ -2,7 +2,7 @@
+ Userspace verbs access
+ ======================
  
- MEMORY CONTROLLER DRIVERS
- M:	Krzysztof Kozlowski <krzk@kernel.org>
-diff --git a/tools/testing/selftests/alloc_tag/Makefile b/tools/testing/selftests/alloc_tag/Makefile
-new file mode 100644
-index 000000000000..f2b8fc022c3b
---- /dev/null
-+++ b/tools/testing/selftests/alloc_tag/Makefile
-@@ -0,0 +1,9 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+TEST_GEN_PROGS := allocinfo_ioctl_test
-+
-+CFLAGS += -Wall
-+CFLAGS += -I../../../../usr/include
-+
-+include ../lib.mk
-+
-diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-new file mode 100644
-index 000000000000..62d5a488a04d
---- /dev/null
-+++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-@@ -0,0 +1,331 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/* kselftest for allocinfo ioctl
-+ * allocinfo ioctl retrives allocinfo data through ioctl
-+ * Copyright (C) 2026 Google, Inc.
-+ */
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <stdbool.h>
-+#include <unistd.h>
-+#include <sys/ioctl.h>
-+#include <linux/types.h>
-+#include <linux/alloc_tag.h>
-+#include "../kselftest.h"
-+
-+#define MAX_LINE_LEN		512
-+#define ALLOCINFO_PROC		"/proc/allocinfo"
-+
-+enum ioctl_ret {
-+	IOCTL_SUCCESS = 0,
-+	IOCTL_FAILURE = 1,
-+	IOCTL_INVALID_DATA = 2,
-+};
-+
-+#define VEC_MAX_ENTRIES 32
-+
-+struct allocinfo_tag_data_vec {
-+	struct allocinfo_tag_data tag[VEC_MAX_ENTRIES];
-+	__u64 count;
-+};
-+
-+static inline int __allocinfo_get_content_id(int dev_fd, struct allocinfo_content_id *params)
-+{
-+	return ioctl(dev_fd, ALLOCINFO_IOC_CONTENT_ID, params);
-+}
-+
-+static inline int __allocinfo_get_at(int dev_fd, struct allocinfo_get_at *params)
-+{
-+	return ioctl(dev_fd, ALLOCINFO_IOC_GET_AT, params);
-+}
-+
-+static inline int __allocinfo_get_next(int dev_fd, struct allocinfo_tag_data *params)
-+{
-+	return ioctl(dev_fd, ALLOCINFO_IOC_GET_NEXT, params);
-+}
-+
-+static bool match_entry(const struct allocinfo_tag_data *procfs_entry,
-+			const struct allocinfo_tag_data *tag_data,
-+			bool match_bytes, bool match_calls, bool match_lineno,
-+			bool match_function, bool match_filename)
-+{
-+	if (match_bytes && tag_data->counter.bytes != procfs_entry->counter.bytes) {
-+		ksft_print_msg("size retrieved through ioctl does not match procfs\n");
-+		return false;
-+	}
-+
-+	if (match_calls && tag_data->counter.calls != procfs_entry->counter.calls) {
-+		ksft_print_msg("call count retrieved through ioctl does not match procfs\n");
-+		return false;
-+	}
-+
-+	if (match_lineno && tag_data->tag.lineno != procfs_entry->tag.lineno) {
-+		ksft_print_msg("lineno retrieved through ioctl does not match procfs\n");
-+		return false;
-+	}
-+
-+	if (match_function &&
-+	    strncmp(tag_data->tag.function, procfs_entry->tag.function, ALLOCINFO_STR_SIZE)) {
-+		ksft_print_msg("function retrieved through ioctl does not match procfs\n");
-+		return false;
-+	}
-+
-+	if (match_filename &&
-+	    strncmp(tag_data->tag.filename, procfs_entry->tag.filename, ALLOCINFO_STR_SIZE)) {
-+		ksft_print_msg("filename retrieved through ioctl does not match procfs\n");
-+		return false;
-+	}
-+	return true;
-+}
-+
-+static bool match_entries(const struct allocinfo_tag_data_vec *procfs_entries,
-+			  const struct allocinfo_tag_data_vec *tags,
-+			  bool match_bytes, bool match_calls, bool match_lineno,
-+			  bool match_function, bool match_filename)
-+{
-+	__u64 i;
-+
-+	if (procfs_entries->count != tags->count) {
-+		ksft_print_msg("Entry count mismatch. ioctl entries: %llu, proc entries: %llu\n",
-+			       tags->count, procfs_entries->count);
-+		return false;
-+	}
-+	for (i = 0; i < procfs_entries->count; i++) {
-+		if (!match_entry(&procfs_entries->tag[i], &tags->tag[i],
-+				 match_bytes, match_calls, match_lineno,
-+				 match_function, match_filename)) {
-+			ksft_print_msg("%lluth entry does not match.\n", i);
-+			return false;
-+		}
-+	}
-+	return true;
-+}
-+
-+static const char *allocinfo_str(const char *str)
-+{
-+	size_t len = strlen(str);
-+
-+	if (len >= ALLOCINFO_STR_SIZE)
-+		str += (len - ALLOCINFO_STR_SIZE) + 1;
-+	return str;
-+}
-+
-+static void allocinfo_copy_str(char *dest, const char *src)
-+{
-+	strncpy(dest, allocinfo_str(src), ALLOCINFO_STR_SIZE - 1);
-+	dest[ALLOCINFO_STR_SIZE - 1] = '\0';
-+}
-+
-+static int get_filtered_procfs_entries(struct allocinfo_tag_data_vec *procfs_entries,
-+				       const struct allocinfo_filter *filter)
-+{
-+	FILE *fp = fopen(ALLOCINFO_PROC, "r");
-+	char line[MAX_LINE_LEN];
-+	int matches;
-+	struct allocinfo_tag_data procfs_entry;
-+
-+	if (!fp) {
-+		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for reading\n");
-+		return 1;
-+	}
-+	memset(procfs_entries, 0, sizeof(*procfs_entries));
-+	while (fgets(line, sizeof(line), fp) && procfs_entries->count < VEC_MAX_ENTRIES) {
-+		char filename[MAX_LINE_LEN];
-+		char function[MAX_LINE_LEN];
-+
-+		memset(&procfs_entry, 0, sizeof(procfs_entry));
-+		matches = sscanf(line, "%llu %llu %[^:]:%llu func:%s",
-+				 &procfs_entry.counter.bytes,
-+				 &procfs_entry.counter.calls,
-+				 filename,
-+				 &procfs_entry.tag.lineno,
-+				 function);
-+
-+		if (matches != 5)
-+			continue;
-+
-+		allocinfo_copy_str(procfs_entry.tag.filename, filename);
-+		allocinfo_copy_str(procfs_entry.tag.function, function);
-+
-+		if (filter->mask & ALLOCINFO_FILTER_MASK_FILENAME) {
-+			if (strncmp(procfs_entry.tag.filename,
-+				    filter->fields.filename, ALLOCINFO_STR_SIZE))
-+				continue;
-+		}
-+		if (filter->mask & ALLOCINFO_FILTER_MASK_FUNCTION) {
-+			if (strncmp(procfs_entry.tag.function,
-+				    filter->fields.function, ALLOCINFO_STR_SIZE))
-+				continue;
-+		}
-+		if (filter->mask & ALLOCINFO_FILTER_MASK_LINENO) {
-+			if (procfs_entry.tag.lineno != filter->fields.lineno)
-+				continue;
-+		}
-+		if (filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) {
-+			if (procfs_entry.counter.bytes < filter->min_size)
-+				continue;
-+		}
-+		if (filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) {
-+			if (procfs_entry.counter.bytes > filter->max_size)
-+				continue;
-+		}
-+
-+		memcpy(&procfs_entries->tag[procfs_entries->count++], &procfs_entry,
-+		       sizeof(procfs_entry));
-+	}
-+	fclose(fp);
-+	return 0;
-+}
-+
-+static enum ioctl_ret get_filtered_ioctl_entries(struct allocinfo_tag_data_vec *tags,
-+						 const struct allocinfo_filter *filter,
-+						 __u64 start_pos)
-+{
-+	int fd = open(ALLOCINFO_PROC, O_RDONLY);
-+
-+	if (fd < 0) {
-+		ksft_print_msg("Failed to open " ALLOCINFO_PROC " for IOCTL\n");
-+		return IOCTL_FAILURE;
-+	}
-+	struct allocinfo_content_id start_cont_id, end_cont_id;
-+	struct allocinfo_get_at get_at_params;
-+	const int max_retries = 10;
-+	int retry_count = 0;
-+	int status;
-+
-+	/*
-+	 * __allocinfo_get_content_id may return different values if a kernel module was loaded
-+	 * between the two calls. If that happens, the data gathered cannot be considered consistent
-+	 * and hence needs to be fetched again to avoid flakiness.
-+	 */
-+	do {
-+		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-+			ksft_print_msg("allocinfo_get_content_id failed\n");
-+			return IOCTL_FAILURE;
-+		}
-+
-+		memset(tags, 0, sizeof(*tags));
-+		memset(&get_at_params, 0, sizeof(get_at_params));
-+		memcpy(&get_at_params.filter, filter, sizeof(*filter));
-+		get_at_params.pos = start_pos;
-+		if (__allocinfo_get_at(fd, &get_at_params)) {
-+			ksft_print_msg("allocinfo_get_at failed\n");
-+			return IOCTL_FAILURE;
-+		}
-+		memcpy(&tags->tag[tags->count++], &get_at_params.data, sizeof(get_at_params.data));
-+
-+		while (tags->count < VEC_MAX_ENTRIES &&
-+		       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
-+			tags->count++;
-+
-+		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-+			ksft_print_msg("allocinfo_get_content_id failed\n");
-+			return IOCTL_FAILURE;
-+		}
-+
-+		if (start_cont_id.id == end_cont_id.id) {
-+			status = IOCTL_SUCCESS;
-+		} else {
-+			ksft_print_msg("allocinfo_get_content_id mismatch, retrying...\n");
-+			status = IOCTL_INVALID_DATA;
-+		}
-+	} while (status == IOCTL_INVALID_DATA && retry_count++ < max_retries);
-+
-+	close(fd);
-+	return status;
-+}
-+
-+static int run_filter_test(const struct allocinfo_filter *filter)
-+{
-+	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-+	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-+	int ioctl_status;
-+	int ret = KSFT_PASS;
-+
-+	if (!tags || !procfs_entries) {
-+		ksft_print_msg("Memory allocation failed.\n");
-+		ret = KSFT_FAIL;
-+		goto exit;
-+	}
-+
-+	if (get_filtered_procfs_entries(procfs_entries, filter)) {
-+		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-+		ret = KSFT_SKIP;
-+		goto exit;
-+	}
-+
-+	if (procfs_entries->count == 0) {
-+		ksft_print_msg("No entries found in " ALLOCINFO_PROC ", skipping test\n");
-+		ret = KSFT_SKIP;
-+		goto exit;
-+	}
-+
-+	ioctl_status = get_filtered_ioctl_entries(tags, filter, 0);
-+	if (ioctl_status == IOCTL_INVALID_DATA) {
-+		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
-+		ret = KSFT_SKIP;
-+		goto exit;
-+	}
-+	if (ioctl_status == IOCTL_FAILURE) {
-+		ksft_print_msg("Error retrieving IOCTL entries.\n");
-+		ret = KSFT_FAIL;
-+		goto exit;
-+	}
-+
-+	if (!match_entries(procfs_entries, tags, false, false, true, true, true))
-+		ret = KSFT_FAIL;
-+
-+exit:
-+	free(tags);
-+	free(procfs_entries);
-+	return ret;
-+}
-+
-+static int test_filename_filter(void)
-+{
-+	struct allocinfo_filter filter;
-+	const char *target_filename = "mm/memory.c";
-+
-+	memset(&filter, 0, sizeof(filter));
-+	filter.mask |= ALLOCINFO_FILTER_MASK_FILENAME;
-+	strncpy(filter.fields.filename, target_filename, ALLOCINFO_STR_SIZE);
-+
-+	return run_filter_test(&filter);
-+}
-+
-+static int test_function_filter(void)
-+{
-+	struct allocinfo_filter filter;
-+	const char *target_function = "dup_mm";
-+
-+	memset(&filter, 0, sizeof(filter));
-+	filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
-+	strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
-+
-+	return run_filter_test(&filter);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	int ret;
-+
-+	ksft_set_plan(2);
-+
-+	ret = test_filename_filter();
-+	if (ret == KSFT_SKIP)
-+		ksft_test_result_skip("Skipping test_filename_filter\n");
-+	else
-+		ksft_test_result(ret == KSFT_PASS, "test_filename_filter\n");
-+
-+	ret = test_function_filter();
-+	if (ret == KSFT_SKIP)
-+		ksft_test_result_skip("Skipping test_function_filter\n");
-+	else
-+		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
-+
-+	ksft_finished();
-+}
+-  The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_VERBS,
++  The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_ACCESS,
+   enables direct userspace access to IB hardware via "verbs," as
+   described in chapter 11 of the InfiniBand Architecture Specification.
+ 
+diff --git a/Documentation/translations/zh_CN/infiniband/user_verbs.rst b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+index 970bc1a4e396..31534681654b 100644
+--- a/Documentation/translations/zh_CN/infiniband/user_verbs.rst
++++ b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+@@ -17,7 +17,7 @@
+ 用户空间verbs访问
+ =================
+ 
+-  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_VERBS构建，使用户空间
++  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_ACCESS构建，使用户空间
+   通过“verbs”直接访问IB硬件，如InfiniBand架构规范第11章所述。
+ 
+   要使用verbs，需要libibverbs库，可从https://github.com/linux-rdma/rdma-core。
 -- 
-2.54.0.1136.gdb2ca164c4-goog
+2.43.0
 
