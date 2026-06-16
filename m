@@ -1,140 +1,168 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012016.outbound.protection.outlook.com [52.101.53.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428613C3C1E;
-	Tue, 16 Jun 2026 17:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C25143CEC7
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 18:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781632103; cv=fail; b=Me3EpCaTvDV5fQmR5d24yqcZq5IUVYj/TxwEwbcvVRosJ4GZBJ/x6fJGBJqWU8VUnbT44jJgsCVHpvZuOq1SSzz9Jhmcfdn8hd1QivdlSMvp3hnxVIpMVCu+oRMtQwMvzTMFubasiZIq1XNAbB8eliMKckslSh/5RPJ5w5kvLI4=
+	t=1781634791; cv=pass; b=LKPbgFmJtt/oF9nLCM5ogYt9v/Xu9TS3+rPWMtO2px65aSt+TdULQ/4ccymm2rJSPNjU06hOqHHTGdJ/PAVEadKGLMFa9KA9X7BLVXr6RSCasN8ElX5n8LojzWVQl7aIKfy01iBgJMv/yLaUHKZSSOlgESr0+P0JjouI6b8xV0A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781632103; c=relaxed/simple;
-	bh=hd4c2MydhrIFD9m66mzU997OjJP2P9L0LGirH0WLs7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=uLWbF3OWD1GciAJU5IqU0mLYkKI+zjR5GKw5iNlqhK+ZNunvqQk1DckqZ0N4s9nU584Xhd4yEooPR+njzR2MqL5qSaU37efp2cY1AchB+yUPqSlnbrwv0SlO25kuwX5dt3Wgb81Fxs1XsIMKXI8TX6YAGn6ifMtyBBxQFw4tbVg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lhe2U06P; arc=fail smtp.client-ip=52.101.53.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1781634791; c=relaxed/simple;
+	bh=NT2iUMwBE5Z85f4aG0bWlhqwSr2O2rCOPr2R/cDrbl8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BVGlu/qzKrbCU5gTzC5Dg99qhl+atCJb8zdf3CeVKsZ1UdAk4wVMYt0EAi7OfQwb8qvMHcGigCpl5vjqMSVygHw13IlU+wM8FeuzaBzXwrxpK0qgqpVQ/3qucSv0CO58MIAmW1E4UcO0WIAujBfUd5YCAvzfUckoxYDG7hLWxXI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5pQ7Yyn; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lhe2U06P"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zO7kYuXYUylNP3c9Ir4p5WOCRATyONXp+MkKOWDh8KprUBN7AYSdnTrOoHmUtVcKmD7QSiDVAi+xmYlZzR9TZDjr7L9K7d2qbSnyNf0+2i0WvyplRgXlGBv2pE2jzz2Q4lPN4elfQ/Gej2M+da2wpOTpxmR19JNK0jQUgnGwXddfw3axu9D6UdvvaijcGSACDOBfsSypCPT9ptqhITnMluBrpWv8FjfogKiCGS2uCs87ik5my4Utm7N0AvuPXeql5rxX34w+LaUXjrXDnEAWtz+qoPMTwDNnTNwmGQDEXop9PyulASZCXR6CpY3CZc0Gf5V0wza83BqPZouujQL+3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D5Jc4GSyfl5NkoJvfrgMBCM06g5n+LifUIS5JSYRx3A=;
- b=P0gt3zpnBc63Y0yxwDRgprgU8oqwaNXJQCyHpW6eI8yCD7CvkiCe1uEfo6xHIAaA+mdn1qQYcrPqLgxZJYx86GGoq03GX/6AsQFzDIpkOnpeU8c5P/EzT0s4dV/Dhpjf4QKqAhw1CQK9BGjG0mlTGP9XCIso+1Dmq7/xEqeRTDiZEJB//ifIiNQXJ3eqRxmvTdY0MQD2xOJ+w/+Z9mpkibk8BWuypEuuXqRcA+TarHfbaH5dkKtMxzmP0DnN0y/ZHvHx6Rj6Ygb9dSFzSKC6dK1SEQO6DUN91+xYkpcxTUnAPMUN2xYTdrWP4B6G7pxRDToiCJvu0PSPns99iZYE9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D5Jc4GSyfl5NkoJvfrgMBCM06g5n+LifUIS5JSYRx3A=;
- b=lhe2U06PPFuWFG7ILrbFZGBQfkSneQGeZBRljD5H85ZY5y58HXcrLa0dzEzf5WMshd3Z6J7UWKPp2iJKm1wK2jn25DaAIP2QMKF8WAhN89G8vajUVNykA0LbuJF0Sd+rtrF+EJBo2nFOKyfNTKX09b38YtifedwG+o+zU426MT0RrzSl4r2fhMZijzAyvXZ3pqP8WK9+B+kRNjCqh865h0pj6MmGI3Ce0Vq6gpBAPlFYwhXC5aTPn+O0ViqNO3cJ/olvRrBbuC1gYojZnwuIQ32CzHpKq8Ze3lE6V25wqrgQnjxVPRMcqvV8Va2lPXEx3+mo4hWTFjf0H8/QGrzFKA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by DM6PR12MB4329.namprd12.prod.outlook.com (2603:10b6:5:211::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 17:48:17 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%4]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 17:48:17 +0000
-Date: Tue, 16 Jun 2026 14:48:15 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>, linux-rdma@vger.kernel.org,
-	linux-doc@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>
-Subject: Re: [PATCH] docs: infiniband: correct name of option to enable the
- ib_uverbs module
-Message-ID: <20260616174815.GA3956156@nvidia.com>
-References: <20260616002027.67925-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616002027.67925-1-enelsonmoore@gmail.com>
-X-ClientProxiedBy: YT4PR01CA0216.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ad::15) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5pQ7Yyn"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b7866869so49919135e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 11:33:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781634789; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WeGF16Axz0XnXNMls1y8+UJebdbpQnaLQqoOn2Ze7QkgmDQRi9Eq/RBcE8s1SuFU3K
+         fhoegcV5yS/zYIvj5MOvC3RZDZ1+HWKTbI76lcpka7VfvFxNC+4MDORLAdF0E/WATuON
+         jFgIJqFIhTeplPWS/CJ2vY/dGYIb5+MD6zFnMb6OZGlWYsHVf0yHdJ62WK2KZBr/jGtL
+         HuS89sMNMoQwYXu7D/v8jxpNwyN4KfNJwfDopEIIfymsDkHaLHLnWRFyRubH7pQYyHFO
+         jdKd+3CsiktAH+0Siyi3PMozb7yPQOieR/5tJBxjktHHAoP+xuKDvs/pec9P1qtkSEtQ
+         WSuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lXf8nL1WjPPTXu/ygIqCbfgbzskizrSAlTvqvC5a74c=;
+        fh=fzMnKknyeXMCupD1ox2fe3PA9Wlxm4D1+vzxkGFZaAo=;
+        b=W5XQjx80AmpXAsaNMbj5Rc6/PvRVzniB7MmRC0y6vCIsdWCfTuJ9pi+QJLnHkhCnij
+         57nNnFiyO2YLi8naFNp4YS1vFYqLYjC0OvQ/0FtRQ3pV275Nq0b663CSlLNgKGjXyRzU
+         P5/KDyiFbXDta7kEyrFEBHsLhyeSeUN29jdIqrqUvzQMJ/a6RolGV8FckYT9pNurPzts
+         7i7GeQBFmB7ptAENzOX1FTo5xVbLC/wt0rCD5OdR8cEh03BPqjkKmDUfhzh9VN/i0dbx
+         SjUW2fX5AB0QJtut/r1qV3Xe1V6a2qLlRFM+D4M6AJwTqoMqB8PqASJT23VG1rU3cN7n
+         pMFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781634789; x=1782239589; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lXf8nL1WjPPTXu/ygIqCbfgbzskizrSAlTvqvC5a74c=;
+        b=b5pQ7YynKEslOsz9nnWT/snLvPkHgApnwQmOs6TF5yYLFPKnbKdDK8PhnrIn2Pf/zY
+         2S28uGzVpInosd2i5Fgs9LkMkxUbBU8oDyEXzjubOrGuVWVyb9Oad6CDGkLk6snR9XOH
+         V1bku3OvAScAhXbapIFHG9RajRrN/dE6mP4+i717QgIylZt+R57RTeGU1i+WvKWFD4/2
+         3x7qVY71mfogGxGosIuR1GUvYchWVCG5I/IA3KGtblrr5sD7y5C8R91ituz6guTru9nc
+         eelWulGfv6Fn0XjrKP89tAWg6CSWbKL7F/iiHIKXrkmO6zTUQrUXawyAF2xxyIjx2qYU
+         pv8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781634789; x=1782239589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lXf8nL1WjPPTXu/ygIqCbfgbzskizrSAlTvqvC5a74c=;
+        b=J1DVe2cdwnmEa3f9hbflgiTNiTrcSuQ8dd2u+rhl8ITF98GmdSp7TQRHjJW0eSgZWZ
+         k3HpnZqipZuiRg3xFN9w+vyC/IYgtQWk6POVkboRIi8E6jbO6BbpGIy7lSfKJEP+8+kE
+         cGOYoDVvid8R+3UNH93BQjmpJypNzYX/mORt+3qy0VgnASR97cmtQlhqhD5qNXmcDQBo
+         42AXXBmAaUbPNlxee3dEKKcfOukDELlK7RLpy5yZLXICuYXeRLXXtzURsV5FGmjO2Hyb
+         srAV+ztliuiX7JNo1Ng3zZfOMjOetkcAzWCzRRofcJ79c/Kn55UcIAqlF6hvBkv5bLlI
+         EmfQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+9iu9XB6WHj8NJbzF7A19QRVH/MJiSgGpPYDvGzx7rz+UFHENBtKAty5WWq1dpu/IlD1BkQ5SGPU0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIUso2M0YdlRV0oo0Hpq7LA+A/NhTiwbMjMLTeI9kHeAi8WtCM
+	e6G37f+GBA1YNbdc0V5roepJRDPORppU7Jext3OMCcwaZ4suEQkiu97G+sQyDCB4Rpae1IZ6ORk
+	PJOAzPI3qXy2ruW1hIp62xyYMA+AG61U=
+X-Gm-Gg: Acq92OGjXP5vTqpSxT/TbSgQgY+LI4lwU4MnxKJc7JI2+QafjTSVW4OnAVbyrdotYdq
+	Ro+QC5AbEJE32pZBhip45283ixQEi99k9DM/k3DLtlb9kyzrKx08H4ZSoZwZDfW08m68LXSlPtY
+	zmun7S7K5nmklAha2x79OkwoWL9brjosskTTnTeVV0JPKyo7M2TYwFo/HIJBO8H/mHpXslrEIFN
+	QXu405B26fet6+Pqj3T8z8lFVcX5bmpsZNYpszsk5ZElACaoXAtIqC1A6m6cZTgl8PkIXRTFKUM
+	+x1hlcJsQsGNeEi26wuJ8JuPQJ+NshWHLUhhA99Rvz3l/+4gr4jCRck=
+X-Received: by 2002:a05:600c:4e89:b0:492:1e36:bafd with SMTP id
+ 5b1f17b1804b1-492333df13emr10676665e9.37.1781634788536; Tue, 16 Jun 2026
+ 11:33:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM6PR12MB4329:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3a6f1df-9093-44d8-9931-08decbcf7245
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|11063799006|22082099003|18002099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	RPssZxWdDjEq2MYU6QBFS1d+o17BlbJBF3Edwh03iMsxhYkRFglCoAj43DOh4xS66z1WBqvSh23ctvu+Rufj2v3YctUY+7+pIFEDJAu8g/vPnRf7fMX1AR3P2eJ+OKB+u7DSZQJNs81si/48DmyqK1OW43/0TMVj5LfcDtTmtQiZx74KlT5+TEHfhCsvW3uIYiB18hZ9+0LhHYJzZi/RfT2wIukkcxVdUf+vqQIGtlfLTXUNSXqR2YN1/JHDJKpRQW+XoP/MdWljZfw/nT0H++CbhjQ7lOY0Lr0d0vQpUBicEnjCG7qhlq8uTM2DZwz9pb06q5Fqu1DP4lJg3wnKpR1NCyIRu2Xinp18Ws0K7l+m9HcI2VdbNZLEwrouNGx84QUlONozYoJuX9V7GxhoYWgFIRnP6RHvdZO+q0fXeFsiVaX7L+ulJOrRLSD/yOXqbFIYt93eEvo9D06Sg0mdrhmCjLlbOuIV+Ic24REjNEHvAWI7vmzD5XCsJzMqgkOtmxrv/T8IxoXpBjMHlbMaeO1tt0HXKYNUUB5c+VC0lO7O1X8Yb4GVZqlAh9DF6+FA97Saqpxjn5lXYlaFIn4MjODYGjCyrvuScZH/JWdLwMdsFcxv3IdOWXjVX0S14aVD1O9jNHmGxHjDkRh1w/8SAWhl6yFPzm8QIp5KTlFMCAQUY3xAftkTuoZguTuRZ9HX
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(11063799006)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?83QTgPCsnAavTI/59lU9w5+tPiqU0E94q0wcvFwfQDFZI40jXcsJiHy3kKEQ?=
- =?us-ascii?Q?RmB6WQCQS1RmYeiG3c9muYbJvG4jyg5efqOx4qV2wryEpG2kujjXAfx5X/bV?=
- =?us-ascii?Q?7z9rtHdJXReg1DHnCD388L1B/5BLTsTrcJ1V8xLHWqTimahM1CzD6avC6rn6?=
- =?us-ascii?Q?prpwH1mElVR5wRL38/iqVcyS4hfH6t6nepQEJxx7QGpwurxXgj30LR95X/W7?=
- =?us-ascii?Q?dhgj3NOGg698hA9qhIrcTM7rqGYMLhAexBxxIfCcfE+A3/Bytvqd17B7O1E3?=
- =?us-ascii?Q?xR1n+n/qrcbgSfBCYkbTWAPW2pgs7n+/ob8hI4iFfy9hu10gJgO7sCNQ2X/Q?=
- =?us-ascii?Q?0Oj7CBuJaYcWahTFw28g7GrNXfIfcOYXV8GfssX54INOlFCPw6K/WUPFvozD?=
- =?us-ascii?Q?tXL55FyrXaeAJ/KI7z6xQkGxxek5m4hTqdAfTw+EFGe+vi8hGGiqewUg93qq?=
- =?us-ascii?Q?ZXfl1akvO+OWdfL+DIteiBObnXZy0KBoGXucw+PXvDli9YF9Kt/+7ivKTrwa?=
- =?us-ascii?Q?Na/7e2V7XUClLrzxA1FnVcaeN2+yLZ5GGPCJzDRAv0SsqcjY6eqKyvS3KNZC?=
- =?us-ascii?Q?WeP+khHMvZKEhs1lXfBUW1ltUIv2AiKvw+gz7Ia6r3IZwOpnvSVZ4KYGMk5o?=
- =?us-ascii?Q?FJRZciTECPQBaucYHoCZRkZQy/CN1vVAqoHHqMhHdSiXaUSScSD1n//WCLku?=
- =?us-ascii?Q?nKEiALd1aikUF3eXVI/7lASNzcNLDsu57q7u9K9ZHXeBEDWocE1+5KD2S4Bc?=
- =?us-ascii?Q?7GyiXoJd/vnT+u/9l982dDBCk0QGbyfbL0iNcW4Sbz4GlXUB38BqMXmaNgTI?=
- =?us-ascii?Q?Usbw2DQKoBcOa+50JJm84h7or0W9Wyz3VZZw3l/9yaRSoTA+U5++knQmd9fh?=
- =?us-ascii?Q?bxVJ4KXUJHrCgryjA/uHrE7sSka4Y39TTmdvPSNvK8HPqx+oyUaYE87CBfmx?=
- =?us-ascii?Q?rCde2lkl7lvGGdLuNJmEHaJtsLffu2bCkk2s8wgUfDCe0gGfdJIYW8XXXHot?=
- =?us-ascii?Q?IruxFN9IjHDz1jersRUxwOrobJ5XApW8AkcJA3KP62AayGCEFuyTT/0PYD2P?=
- =?us-ascii?Q?2l9wczmLQdLJhFG6W54mphYWTb6iq9qmNxtXOJyXy+cVNUQJQGp/d80TVg8+?=
- =?us-ascii?Q?cBOp5dIjUIHy1+RG1/gEIS/kpvrHxUEwD9UC+X+5ONYjcYYGco3f1k1Z+zjk?=
- =?us-ascii?Q?D9t+a3mmOaUxCcljK2oTzKr/huVZOCZjgnxDBlcW1T4lRu67aBysmSKH2Yl1?=
- =?us-ascii?Q?egmHtbBpTwP7hhrGkoX9eXh16mOxUIrKESSOEWEk/FP8KXOvYVV4mykcAY4g?=
- =?us-ascii?Q?34h89BFfG9PNeupiIYXcsbcZmhYUaxQmn8GS6RvWyELMq0P9UELLumtO4vJs?=
- =?us-ascii?Q?EEGvGbDo6Z5b2FC93Nfq+Sqim0iFvTq4MvitHATOTNLED1dVtYYz/pGZtihr?=
- =?us-ascii?Q?2xpICwJLNi2g5z+SbNF2L2JHPlYU4HelZrKZe4uRM7ZWjIUoGIqW1ssD18I0?=
- =?us-ascii?Q?FF0tlRW3jdInhPH4vvYhaoqQStmWjw6lf9TRHR5K2LMVwKhcjQbhfrX4E1Kl?=
- =?us-ascii?Q?fslAAz8em9yrPENio4LlkeoFeolyR2K8NNldbqpamJDzDGeBPjMJOiGljnsx?=
- =?us-ascii?Q?1by4GgpcZxhB4I48F0wfbizTiUiNRjueaV10SiJ3lmGy3LUHLolE81fE4vG8?=
- =?us-ascii?Q?72rIfbeBK3bSsg2nCHoXZMcDFWZRqvXtFmEpdB97EiXb/eTR?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3a6f1df-9093-44d8-9931-08decbcf7245
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 17:48:17.0488
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S0Wb1OC726gwaswg2dmBtuwp1NLzqvPNtx5IlZqEVcyfE0UwoVGAIecV6WlVrFMK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4329
+References: <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
+ <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
+ <aiw2p5ANjsQUCIHA@linux.dev> <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
+ <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+ <ajCgzNIPLhjTRSXR@yjaykim-PowerEdge-T330> <ajC+FNpkVpI4pbBz@yjaykim-PowerEdge-T330>
+ <CAO9r8zMimM8n54BL1viuX3pYzO=wzQU89LhCF1HW0bAv97ZQtg@mail.gmail.com>
+In-Reply-To: <CAO9r8zMimM8n54BL1viuX3pYzO=wzQU89LhCF1HW0bAv97ZQtg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 16 Jun 2026 14:32:56 -0400
+X-Gm-Features: AVVi8Cfr8CEOZKUUld5jFV5E_U7IZnrXsKXwb_Qx9BDKSv9h1SLfYRc_8OLu6YY
+Message-ID: <CAKEwX=Nz9SWcEVQGQjHN8P8OANJY4BG0w+iQOzoNOWuteoVjAg@mail.gmail.com>
+Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
+ proactive writeback
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: YoungJun Park <youngjun.park@lge.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
+	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
+	akpm@linux-foundation.org, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, 
+	kasong@tencent.com, baoquan.he@linux.dev, joshua.hahnjy@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 15, 2026 at 05:20:23PM -0700, Ethan Nelson-Moore wrote:
-> The Infiniband documentation states that CONFIG_INFINIBAND_USER_VERBS
-> should be used to enable the ib_uverbs module. However, this option was
-> renamed to CONFIG_INFINIBAND_USER_ACCESS in commit 17781cd6186c
-> ("[PATCH] IB: clean up user access config options"). Update the
-> documentation to reflect this.
-> 
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  Documentation/infiniband/user_verbs.rst                    | 2 +-
->  Documentation/translations/zh_CN/infiniband/user_verbs.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+On Tue, Jun 16, 2026 at 1:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> On Mon, Jun 15, 2026 at 8:08=E2=80=AFPM YoungJun Park <youngjun.park@lge.=
+com> wrote:
+> >
+> > ...
+> > > - "zswap tier only": Only zswap is allowed. Fallback to other swap is
+> > >   blocked.
+> > > - "zswap writeback disabled": zswap is allowed, but if zswap_store()
+> > >   fails, pages can still fall back to other swap devices.
+> >
+> > Upon double-checking the code, my previous clarification was wrong.
+> > You are right. Sorry for the confusion. "zswap tier only" is indeed
+> > equivalent to "zswap writeback disabled".
+> > (I'm not sure why I read the code that way...)
+> >
+> > As I initially thought, it might be possible to replace the zswap write=
+back
+> > control with the tiering mechanism.
+> >
+> > If we need to keep the existing interface, we can integrate or share th=
+e
+> > underlying logic (though the specific details need more thought anyway)=
+.
+> >
+> > It can be summarized as follows:
+> >
+> > - "zswap tier only" + "zswap writeback disable" -> meaningless (noop)
+> > - "zswap tier only" + "zswap writeback enable" -> meaningless (no writa=
+bck backend exist)
+> > - "zswap tier with other tiers" + "zswap writeback disable" -> uses onl=
+y zswap
+> >   (can be replaced by "zswap tier only". This code could be intergrated=
+, modified or something.)
+> > - "zswap tier with other tiers" + "zswap writeback enable" -> works as =
+is
 
-It seems simple enough I picked it up
+TBH, without vswap, we should not allow setting zswap as its own tier.
+It's meaningless. Maybe makes it a no-op, and warn users what they're
+setting is gibberish?
 
-Thanks,
-Jason
+
+>
+> Hmm we might want to somehow disable memory.zswap.writeback if tiering
+> is enabled, to avoid having to deal with this. But I am not sure how
+> possible this is.
+
+With tiering and without vswap, you still need an interface to
+prescribe that a cgroup can:
+
+1. Allocate slots from a certain swap device.
+
+2. Use zswap, backed by those slots.
+
+3. But no IO is allowed to those slots (no writeback or fallback on
+zswap failure).
+
+So we still need memory.zswap.writeback, until we get rid of non-vswap
+case for zswap.
