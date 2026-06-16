@@ -1,120 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8371F3D7D75;
-	Tue, 16 Jun 2026 06:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7729B3E1205;
+	Tue, 16 Jun 2026 06:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781590985; cv=none; b=qoceAbOsRbyTa+mqYbJvQew9BhHAH7XLc2jm7BwDRNgfIzMbTu2l0P6aMIJ05WvvSRu447EdcpaSc2aZNWA9x50v2E1hyDDFpG8Dp9mPVjsrozZ6tfrnWNHFAdr8e+zgnHkDqn+dLUMFBCGL/VBjxV/J570wFjZIZSX0vwwI2Ns=
+	t=1781591654; cv=none; b=fY2LBnuOPG9vml++u7O+dVtsce9ep70P5TEA9945ChMcGvGe9n2gN8asagvqR0Tjh7GSxznOjTk6sV9uMEnqX9PyO8WrcxUqKmHyoO7zyq20g4LsT1fubwPeCkgNngcB3Ipm3esCYxcLq/RbzqGo9iq2or3fTsA3a+gnfHXH0Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781590985; c=relaxed/simple;
-	bh=2hZD5P6iv4LV6rM2c31XzUClq7PpjRi0KqyOvpDKgLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LcmZr0f8KBdg58su1GhjIeC3oBh6HnF80jlYj+1ec9gwFcYYUCUw0BZ7fSXH8B/h9+lZP1A0qRn4xKMPa2ceiC8sELtBgC6R4pS9ZaCfajGI627PaQBw+pwjC7f5x9b4Pe02gckDNFC0v/PYa3Uyg8FegtBZadLOgSRIXalm4+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K6GSroaw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781591654; c=relaxed/simple;
+	bh=ysVvBiSaopczdNgLQoldwyKycYI8tqWi/AsNhv3vVg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xu1o9eZUi/dSetMjtisTbLZBJ8gqWu6FysyfjAwVffdNvQHX+1lkzDbIArbQjyM3rxBkaOyEot0bPaPy7PaF5pRTT5FjJj1H2yrxg6GB0O1j0KfcDmX3Rc4J6fKBlwj75C9KsisewqyVucJEvYQk8ZwK6LG2vMB3bM8pOHXqrV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Bv4KbIH4; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K6GSroaw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAF171F000E9;
-	Tue, 16 Jun 2026 06:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781590984;
-	bh=JgENt1aUql5leWB11YhE4AQhVjtbVDS4QwxhrhSyIHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K6GSroawCwbP0PxVEQc17I3NazJ7RtNnYjSWzZ6hX8BidX+413z4mve6p06B6m9mB
-	 rjLO9xYk4L11ZlS58wskr7I3MmKAHk9oyEmVlNDpEuO1gvh25fmpDuDrRnFDKhkwGl
-	 DM6UEXr6vP23ROYX/Bhz1jUgZDponk+coNBaagfsqGnRXRRalAW79bIq1FFyA/ghGQ
-	 wWMuGcAn/SgRZmPD5/pITbQoucTk3Ju5OUrn/WTLX4P3Fi6/sBMvSq7HyZeHRkmFW1
-	 cpAdgXkypm7w2V1XKvTExM+7xheraW5WRnldrwcrJhyUh7hmUpVrw+pBppo7+z6Eqg
-	 U/kvYrg5/KCZw==
-Date: Tue, 16 Jun 2026 08:22:53 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Aksh Garg <a-garg7@ti.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kwilczynski@kernel.org, bhelgaas@google.com, corbet@lwn.net, 
-	kishon@kernel.org, skhan@linuxfoundation.org, lukas@wunner.de, cassel@kernel.org, 
-	alistair@alistair23.me, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
-Subject: Re: [PATCH v5 3/4] PCI: endpoint: Add support for DOE initialization
- and setup in EPC core
-Message-ID: <grfjlghqd3k3i3uxll2jksrh7pgi2mtxifbq2vymsdgbzijsnq@dvgu2qp2hza3>
-References: <20260611191252.GA499821@bhelgaas>
- <0216a528-3737-4714-b9d1-5d28008e0ec8@ti.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Bv4KbIH4"
+Date: Tue, 16 Jun 2026 09:33:45 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781591638; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type; bh=h02atVxNKQS5E770BY8ov1Q7Xq5u6U7gLCk/iytMhY4=;
+	b=Bv4KbIH47QfYAhbIF8yy0Az6JxBxIIGRyOF5okqkf1CS1SL4t4FgN05C7jF4Xf/7t87uvQ
+	/Fuiy/tcTCCoUh5rCqPXsG74wkBE6t2MQzWih0PSJvAuGiyeIdvV6UThx9GVJrAe/ia6yG
+	8O6brDWwyf74vU59ZLC+IJUpwivKJDo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Wensheng Wang <wenswang@yeah.net>,
+	Ashish Yadav <ashish.yadav@infineon.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+	Charles Hsu <hsu.yungteng@gmail.com>,
+	ChiShih Tsai <tomtsai764@gmail.com>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/7] Support ROHM BD127x0 hot-swap controllers
+Message-ID: <cover.1781591132.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AqrLNF4IA2prbg7U"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0216a528-3737-4714-b9d1-5d28008e0ec8@ti.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jun 12, 2026 at 01:54:13PM +0530, Aksh Garg wrote:
-> 
-> 
-> On 12/06/26 00:42, Bjorn Helgaas wrote:
-> > On Wed, Jun 10, 2026 at 03:32:55PM +0530, Aksh Garg wrote:
-> > > Add pci_epc_init_capabilities() in EPC core driver to initialize and
-> > > setup the capabilities supported by the EPC driver. This calls
-> > > pci_epc_doe_setup() to setup the DOE framework for an endpoint controller,
-> > > which discovers the DOE capabilities (extended capability ID 0x2E), and
-> > > registers each discovered DOE mailbox for all the functions in the
-> > > endpoint controller.
-> > > 
-> > > Add pci_epc_deinit_capabilities() in EPC core driver for cleanup of the
-> > > resources used by the capabilities of the EPC driver. This calls
-> > > pci_ep_doe_destroy() to destroy all DOE mailboxes and free associated
-> > > resources.
-> > > 
-> > > Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > Signed-off-by: Aksh Garg <a-garg7@ti.com>
-> > > ---
-> > > +/**
-> > > + * pci_epc_doe_setup() - Discover and setup DOE mailboxes for all functions
-> > > + * @epc: the EPC device on which DOE mailboxes has to be setup
-> > > + *
-> > > + * Discover DOE (Data Object Exchange) capabilities for all physical functions
-> > > + * in the endpoint controller and register DOE mailboxes.
-> > > + *
-> > > + * Returns: 0 on success, -errno on failure
-> > > + */
-> > > +static int pci_epc_doe_setup(struct pci_epc *epc)
-> > > +{
-> > > +	u8 func_no, vfunc_no = 0;
-> > > +	u16 cap_offset;
-> > > +	int ret;
-> > > +
-> > > +	if (!epc->ops || !epc->ops->find_ext_capability)
-> > > +		return -EINVAL;
-> > 
-> 
-> Hi Bjorn,
-> 
-> Thank you for your feedback comments. I will work on them and post v6
-> series incorporating the changes.
-> 
-> > I don't see anything that sets pci_epc_ops.find_ext_capability in this
-> > series, so this looks currently unused and untestable, so likely not
-> > mergeable as-is.  What's the plan for users of this?
-> > 
-> 
-> Currently there is no EPC driver upstream which supports DOE yet. However, I
-> am working on a platform which supports DOE (support for
-> which would be added soon). Mani pointed out that if EPC driver support
-> for the same is guaranteed to be added soon, the APIs can be merged
-> first.
-> 
-> For the demonstration purpose, he asked to show how an EPC driver is
-> expected to use the API as a snippet in the cover letter itself.
-> 
 
-I retract my previous comment here. Let's not introduce dead code in the kernel.
-We can review the series now, but cannot merge it until the EPC driver gets
-submitted.
+--AqrLNF4IA2prbg7U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- Mani
+Support ROHM BD12780(A) and BD12790
 
--- 
-மணிவண்ணன் சதாசிவம்
+The BD12780 and BD12780A hot-swap controllers are very similar to Analog
+Devices ADM1278. There are only some minor differences in the registers.
+
+The BD12790 is largely similar to the ADM1272, with slightly different
+coefficients and minor register changes.
+
+This series adds basic support for these ROHM ICs.
+
+The last patch adds of_device_id table with entries for the newly added
+controllers. This fixes the module auto-load on the test board with old
+Debian user-space.
+
+I have no idea if adding the of_device_id -entries for other ICs could
+cause problems in some existing systems. Hence only new ICs were added
+to the of_device_id tables.
+
+---
+
+Matti Vaittinen (7):
+  dt-bindings: adm1275: ROHM BD12780 hot-swap controller
+  doc: Add ROHM BD12780 and BD12780A
+  hwmon: adm1275: Support ROHM BD12780
+  dt-bindings: adm1275: ROHM BD12790 hot-swap controller
+  doc: adm1275: Add ROHM BD12790
+  hwmon: adm1275: Support ROHM BD12790
+  hwmon: adm1275: Support module auto-loading
+
+ .../bindings/hwmon/adi,adm1275.yaml           | 44 ++++++---
+ Documentation/hwmon/adm1275.rst               | 24 +++++
+ drivers/hwmon/pmbus/Kconfig                   |  4 +-
+ drivers/hwmon/pmbus/adm1275.c                 | 91 +++++++++++++++++--
+ 4 files changed, 142 insertions(+), 21 deletions(-)
+
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+--=20
+2.54.0
+
+
+--AqrLNF4IA2prbg7U
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmow7kMACgkQeFA3/03a
+ocUurQf/Y6ToL3puFTfQ5XFWY8r+8z6LuUkwhZ5WsnEquFI0aC1GSR7zXZCfuEfJ
+GbXwLmpQqWZD1e0Xceq15i7sJXz3SkwZmq2/e3yRyO0ZxnxqvMA7Q5xi9cNBz0Sj
+ZBkb4hZzQj4DobBricsfk0lFsSw2VuSeZvPBjJodjeTuq6u/LvxdV1qlkPmZmpXh
+1TCm1csL8DH+uXgcrP8onoLEcnlbROzJmrYs4SFMiufY11htxzhES9ygJz9nAeJW
+VNiCOOd7xWqmYMwMHVlt5UkOuvxoOjEZFiZ/bMJYS2RBpXTn82nDl/q7y5uh8LyA
+30LQgggpDcV3GCrOSR+2o+j4b9WtkQ==
+=0MCT
+-----END PGP SIGNATURE-----
+
+--AqrLNF4IA2prbg7U--
