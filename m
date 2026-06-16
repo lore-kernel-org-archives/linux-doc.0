@@ -1,388 +1,259 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011011.outbound.protection.outlook.com [40.93.194.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774644657F8
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 16:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCDE2750ED;
+	Tue, 16 Jun 2026 17:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781629024; cv=pass; b=uty8WA+wjBF8nJxhJAHSl22TfCNhaT2MEcJ2izHALCT4C32rZu3QMg41/Qdnv6ndkn2MQs5MxLn5Qw8xtgiJtT9Key1cAqVedgz+5rbMtuljVfH4uSxGZh60lGDCbzlCFL598nWX5HvQ4qlha0Z9To+HjPYqy2fojbOIEz8sdi4=
+	t=1781630994; cv=fail; b=F5Un7edjqiYXbRK/vtcaFq+sS4qy83yD6gkwx8aUOAVyXYfsUF428WIZkBFaLl1LkUID2ltyw+VH7mGOowwNgtHef+NLo7s38hPsSpbmfTKEUuQ4PqTjfEyxSvgQVsuQLtY3Z9gK9siGSjZzHked/RMlE6G6gES4PGk9j7+nzDw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781629024; c=relaxed/simple;
-	bh=UECSVhWYkP4sLWSR0R/9rKU98EXxfQJWTwIp6aHVf+0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IQw6PG4sUZ4WBs9sBuiPlKP0XsYy1RC41t1dTdPUHiHt4+5HOnAjSofrzKGY0TZC79+yoIQP3lDp9R8+jE9iN3s1ueu5NWc5FYQzL6iTa/QlyuBj8hXNpfwT5srBlTTo+MBeHW1Ez4P8MbbJZRXKBZLi8jSh9mOP3PLRVm2CD0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CsSwi0CM; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781630994; c=relaxed/simple;
+	bh=Q+5grJoQRu430WXh6bjG80G5JoTOk2xp3xE77ZyhRoI=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=esnSVNxqm0QP/pyNaMi6yC7sEVomDl01qUOcBRbKfVe89MNvEZ98xGt61WIjTeQKXj+PEKweTEoQlLEy12UHqtSFT5sC4IcexXSfMggkacljpegOgWKyS8MOBQVseVuGSPKeMC0JtszVWU2LlF3BSX6Z8H0MvkdTgbn/GTmSO2M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=S4kaTN9X; arc=fail smtp.client-ip=40.93.194.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CsSwi0CM"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c6a4eccab1so1275ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 09:57:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781629022; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aWx90IGfHvF5jqiRJt8RmMg7Mkj+8vsdKQfvBWB2kCJqBZ+t2Kem9G7ZhzpHWK6DMX
-         lvlnTR7qcQ3IHgvhfrFcIyEfVqfgUoXlMzN1glpgzGRg0b0iWj/rZGCeGR0reU/YDnRy
-         LLD/BPqe1sdVFueJNms7bTILZEBtiQYaHWL78DwBYRELGjYnQKzNOnG0TKUpLGmEfQ3j
-         w9432750eKWO2BLUTsW0ERBCyuZiN689/EtbjtJtwtwI593Cfe6o8u2sgt2XZPvPtRwL
-         hZYp2ZymPleZYXG5Q2TE46N5hwY1e8Av4O1ejIopkwaBT2go2OhYnxV4GVoIczCmI8tm
-         dctg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IMviEuCDkBMrPwRjrS65z+u0zLyVMty1GBcioAfFiHY=;
-        fh=lZ6916tpVdfeij2gpLuSPkD4xVZsODsOIByDjmnhkZw=;
-        b=YNrGDZI0PHdlqAbHgqtbMFpBFe5cPgVXiFlXGSYzx6ThXPjY8MuAxGte6i0TgdIJwZ
-         5VFC8acCITExubQ083Aq2ikobz2E0cb+jGnh0KZe7Kgvzd1G29QnPbvZ5kZ0EiOOYYHi
-         7mC3pyILp6G9Q+prNN0w0dCGKMwGbtyG8XSAhu84RMyWGH5WPSf7YhMdqUDj/Nv71nkL
-         1C9YujkYMidjDn5cbFaJHsHRGWQxu0W/KmcGpH8DUu6LqDtNOX1kNakY2gIGW9htpTDw
-         jD1jwjen06lQLDG/PQ0P9hl7gSvJSrrPsihJ/sUV8ow1WHL41O0vyYNSB7loH8+SDpCe
-         XAbg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781629022; x=1782233822; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IMviEuCDkBMrPwRjrS65z+u0zLyVMty1GBcioAfFiHY=;
-        b=CsSwi0CMQ6ji2WJqnAFINkB64HRQ9rugEGg9g9m0HDM+2HOqMGaioDFLz5zj51lC70
-         jyEVoUAV768cT0AGhthAdEyam8NbKzlB+I+j9umsdnsVL5sE3NKNOvTnrzAz8SwnM2e0
-         rhO004ingIbAtEl+Dol1G89ilBIEKnYN7tWXfJHpvN6TUKrVXY8ukzyv2bcLptXWFM0n
-         BgvDZ6vxpWWc2BDKtD4P7JcEMFicphl024f9P3Li2GUp+BTIEzIBIGBEFyfiI+PPVpen
-         w5E8GUN74RwcpArzQMJsYqMgyVd3mJ1Z2n7eZbHr64ANilD5KZNw9A7JdqS+6uysbLP3
-         R1NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781629022; x=1782233822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IMviEuCDkBMrPwRjrS65z+u0zLyVMty1GBcioAfFiHY=;
-        b=Thr0/YQgL1wjUC18Y8+KBq0CnPjqxoWLMumf76lONSrbLPZrDwMq+1Tv4drQIrF4y8
-         b/lYSF+/azL7OzXuie6OjwNdgmnuc3Pai2Me+HvEI0mwFsO3XxZZsBiKzNMBktiTv/ye
-         ub1ztiDUh1r7Jh/QarhuUfsgGOrcOSSsZ4I8LT6/rX79z2LiTcBY60qmosYUTP8G05qF
-         qHnhfqyz4lWTHMyVa1F1xdMFjtzpSeFqHVEnrRUlt6mEems2iXTzC9Al1Jjkk/qv6fwB
-         2ImhqmsNE23y1y+6kZeMheIC1J/G0TNaWfElLQHMzpOflz8+atnNipngxTN4k5KW9Cis
-         to4w==
-X-Forwarded-Encrypted: i=1; AFNElJ/Yaw6LcIsGrDGUcL28fwB/oJhlW3jbNGDQTtk8GXiiwYNM6+ZaSfc/2Co8T9dGdJlgUngkot0rtG8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVDKju73i5LMlOvLUn8vm464HKHqbPSa99nEcrauWqI1on50yb
-	Ll87XOIWE7zpiTiXBb/INFQbxixI61R7rXY4IgZjZq+dDaqMylnyDLr6ltzxMyMrivinbLyzDq0
-	KcCoZb1lYwP+ndOO3soGpabMYG1l+GEJazGVK0uTO
-X-Gm-Gg: Acq92OHmkCUnzpXUp/CbR+tUhUL+zfZCkdLCy9hoq2Owe31xnCexE+QifkzMzaImjpv
-	BH1W0QN1WTISxa7gIpnq0quvIPHtQ28aU01ivobR232ZRiSgagSQ8Xx/+DTw0PrcrURj2J8HFKb
-	dBIdM63KYUzZUMgzM4lk+zMvjZ8BziBS27iaACBC+T4UUm+P2iIHkCNczqeEYXR/L5HKgzVpYOw
-	KjK1Zo83E0CRJCkYS7GPN1fUD0N3acc5l6yIkbzmN7/HDn3jZIQy19Lh01nNpKzGIHycF5VxjA9
-	Tv/jPF2yG0mxj69u2ZGfg1qQss1ljRxWFqVttQ==
-X-Received: by 2002:a17:903:4b47:b0:2ba:6518:e4d8 with SMTP id
- d9443c01a7336-2c69a30be19mr2222665ad.20.1781629021114; Tue, 16 Jun 2026
- 09:57:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="S4kaTN9X"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AR43eT1RVEC9wjxLDWIHg6JAc5+wz5ZdLDELznSIR+mvMfvrNltwOamd5rtYijV5hpe01NUvidoWIh5BrArIlDbR6LiBVw/WJ/FpUfQ2UpwLWUrXZRniuoRapDbQgWkWIFdxQGSAEzVtgo+8DCK3nsLQADqLmRRZKuf8Dma/yy6+SAAsuqVUwPvx4k8JAu0zY7OIU3IRkMBvPZA5AXXL79jrgFxwCZOQJ7L9z8ZWq8Ta9HgfTBVwJVMNp1z4kU1GbMip4jRYHCuw7+Vr2q0x/4dvD2N1lykUcSUjK2uj2UL/XI7DMBNj+Seh+wfT36+B2OGNflt2Va9aEXrkp3S2Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mvwbOPWoVo3Oyv4KhP1CeNZA4z7mPqMqt13wHYtQ6Ug=;
+ b=A3BYiKXTIkw63hyX1mcMHwOiWdFTh1JWB96orxHjmx/ULCgGSHF5UkyS285bbJ6gPVaGbmtx5+s4z4Qq+cwy8DVAy18L6XszitLWs5VdguIHFSt9G4iqnj+nC1BxTFm/RYC8rdVLfxGedvHode9HfVKP63U0rpW9YzJguwmTCuRMCDP9/KnQDE+TfaYSxPZRLE2dU7NT5r/0dczZmHJnqwOvD0rObiELPn6mFTvUAYKSkuiHYqZmZlyk/KpqKN2yfiEnpy0+WBzOlimHVuEGHYGXF/kIph24ruavytjglhS7hW/CeQS8w4J/wfRp/s9QB1AQkgMWb7GzKqKEnOt7Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mvwbOPWoVo3Oyv4KhP1CeNZA4z7mPqMqt13wHYtQ6Ug=;
+ b=S4kaTN9XifHsm4LIpW9ZJxGzgXN8rSl02flBb5SAeFwhupIDhfWXARMvIkA7lnyi5y5OpYw7cD2SUaFX8QLPbQsm0Gx/he7waQO2+Ec1G3Xxiwmp312P+Q80eTplLQx2Mt/8VhKKiPVcvc1cr1cxjjvDgNH5TA3AyHDrKq2e4Z8W6leRi/m/dXvsP5Vrz2SV+RHl4U8/04KD51pm38aGuQxqfDPf87k+oKx6aR96KY66Lv8lw3BgDzrwWJyBRg26zSmuAlSs1XeyaiV22gRXf5EJWkm13J8oTj34r6v8eJqCu8WCufvZjJEkb+FfAU50kyP9ZDtj52bl9uSVfqLTug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12)
+ by CYXPR12MB9442.namprd12.prod.outlook.com (2603:10b6:930:e3::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
+ 2026 17:29:44 +0000
+Received: from CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de]) by CH3PR12MB7548.namprd12.prod.outlook.com
+ ([fe80::b710:d6a1:ab16:76de%6]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
+ 17:29:44 +0000
+Message-ID: <7635d50c-1c82-4090-8907-53a72444fc04@nvidia.com>
+Date: Tue, 16 Jun 2026 20:29:25 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V3 2/7] netdevsim: Register devlink after device
+ init
+From: Mark Bloch <mbloch@nvidia.com>
+To: Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jiri Pirko <jiri@resnulli.us>,
+ Simon Horman <horms@kernel.org>, Sunil Goutham <sgoutham@marvell.com>,
+ Linu Cherian <lcherian@marvell.com>, Geetha sowjanya <gakula@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org
+References: <20260605181030.3486619-1-mbloch@nvidia.com>
+ <20260605181030.3486619-3-mbloch@nvidia.com>
+ <20260610165053.7c91f331@kernel.org>
+ <eb525345-da07-414c-9d05-7e00e3eb472f@nvidia.com>
+ <20260611085440.4fe36bf2@kernel.org>
+ <f266dfa5-0c6c-4be0-b73e-b2185dadd6a7@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <f266dfa5-0c6c-4be0-b73e-b2185dadd6a7@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0203.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::11) To CH3PR12MB7548.namprd12.prod.outlook.com
+ (2603:10b6:610:144::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1781564384.git.abhishekbapat@google.com>
- <1a68864b1493528abed0e9e3489688fc6287c37e.1781564384.git.abhishekbapat@google.com>
- <8e554bce-bd66-4481-bc53-fa4cbaf0c0b9@linux.dev>
-In-Reply-To: <8e554bce-bd66-4481-bc53-fa4cbaf0c0b9@linux.dev>
-From: Abhishek Bapat <abhishekbapat@google.com>
-Date: Tue, 16 Jun 2026 09:56:48 -0700
-X-Gm-Features: AVVi8CdGEXAE7f78CwWc3jRhOwC0BnHsvEC3kawu3AF1rMOPeiKHwo4utET_39k
-Message-ID: <CAL41Mv7By-q-dXwFbDzrqqWeCh-CR8UdPpmcgfdsUX+xNZsH_Q@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] kselftest: alloc_tag: extend the allocinfo ioctl kselftest
-To: Hao Ge <hao.ge@linux.dev>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB7548:EE_|CYXPR12MB9442:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26205119-87dd-419a-ee57-08decbccdac5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|23010399003|376014|18002099003|22082099003|56012099006|5023799004|6133799003|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	A0EaCErmmQ+BNx0a6iT4LtF4wRdjleEEUL+Mj9HVXbDZbyReu9bIN9If+68atHAabjSe337J8AZuC+3dDZxVM+REvjZCQ6dASs7kq7jsgoSWGfo8ewIjqkY0uLO/qB0z2ZoD4NmPw0e8EjmGml9kdnqUfXW/+72R5M/imQ5CGn1SovCFvr2lFQRTyy34XsQ4k9QHsbLCU630TfwYhifYOT4z00M1aZdTV7SoE6phuv7BtLx6JtBO3Dv1vkwcK+y1cN16bsteSmTiBrrEk0kPKP4RPd8yxW+dtvvQfvpJKPFejGJccDt/Gbvm2/qfYHKYf4rV0yVstwj37qpOfkh8fReCUHo0ECUImaSPSaslolEXdG0eHuyg/X5DTQQotrsNSFs2FUIGE98789xE1uK3sNsXOMTi8qy3KXG1nkGg0l7kz2+kPiEdiOmAo4oagiL5JwO+0iD/yZZOTZ5owJxJHc0LoVUjVhY9k5NLxgOZSFyNVazeb6qTweotkJaPMZhfaV2MNQv/dvzDjvEzt/WdTTLaInOpFTmMTjZk+yno1j7NwGMbjj7wun1wVaCUg97z4uzydqgUNatP+vT+1NC2XA7NS67F9kIIzAaYjdZjoHH62NHO8hgqnpD3JIdqXmebo8yiw3R1Orog+e33Yr6Ib0rUrR4+Y+xvQQTDKsQeTkc7LTT14erkyF7Mn2BFK0lz
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB7548.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(23010399003)(376014)(18002099003)(22082099003)(56012099006)(5023799004)(6133799003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SGRSVkU2UEpFM3BaK01tbENwS08wU2t0Kzk0SFNkelRaSWw1VGxHd3lKWklL?=
+ =?utf-8?B?RDBxbHlzWTVQcmJGT1ZHOHp3ckUzOU5XenhzOXgxZjR1Q3FEeEVnaGRUa3pK?=
+ =?utf-8?B?ek5pblpPR2Qrb2hKRWxUN2p4WCs1RmhjTUZsN284TzJVdExhMDhiaXBaWVZN?=
+ =?utf-8?B?azgwMFdLd3g4U2hxQWFid0cxS3BIQUJzM2hWWGNqUkw2dUh5MVhWRXB4ZHBD?=
+ =?utf-8?B?N01NK1o4ZGZPbnNGWG5sdzFwMU56RGozQmpPWUZ3RWsreE1Oa1lCRzlXK01B?=
+ =?utf-8?B?b28zMlVHUkx6NjZhWDFsbXh1MENkRVpLMGV2YTVFbUs4bk1TSm9hTGFmdkcx?=
+ =?utf-8?B?bEhFaXQvZExyZkNoVnNzbnN3MHVOazZsUW9Fb3NhTDEvNjNBVkl6eVBXckZB?=
+ =?utf-8?B?SkdibTZEbHZjYXRxNFJTOTRmSmhRYUpWK0V5U01oc1NWL3NKZk9uSExTcDdY?=
+ =?utf-8?B?TUxpQzdpTWRwSGE1VUxYdWRTNXhESHFhWUxjVHhab25Odk1zTTdza0Z5TVdn?=
+ =?utf-8?B?UklLc2hNSUtBeDFaNmpWeGRaYXYvUVdOMDlBU3ZWQ3RqWnp6OEp1ajBjUndl?=
+ =?utf-8?B?ckJsNmJ0UFRXeXFiL3k0TWRkVTBaSC9MWDRnUHBnbXM4N2wrTmIrWXIrTE02?=
+ =?utf-8?B?RUc4M044L3l2bEZvL05RNGVseTdwZ3NQSk1qRGloeGhXZFdBR1BrVmdGMGZF?=
+ =?utf-8?B?REl0Q1dGUVVCditmUkhoL0RmZDREdEVHQXd5ZFVYRWlrYU5LY0YydWhOK2dr?=
+ =?utf-8?B?bzBVVTZZbDFPZXowMVVYMGFiUTFWM01nOXorK3lqbmhKTU8vWjNkZERmWms3?=
+ =?utf-8?B?Uk9kcE5tNG1lbWw3MEdLVmpuTmQwb0Ewejh1YzFiUzZJVlFmVzcxTCtvd3hp?=
+ =?utf-8?B?YW84RnozZStpQk0yVklBZmVDWlB1YktyOU1DYU1pR0RZaVVQUHozaGFweG5y?=
+ =?utf-8?B?bjBuS3V3UjEzYkcyWnhqNTRZTFo0Y3k5VzNpSGdEd3lDN01WcU9IV0Y5M2I3?=
+ =?utf-8?B?SklqTkhHNmJiYUNLYXcwSVlrbDlBNW1hR1hkR0swUGtpcmRDWXlwdGZUZEdL?=
+ =?utf-8?B?Qk52UU84NXRHNDRmb3h4Zm1kbzdzaGQ1QVBvV05SaGtqZXZkRUdTalFHWHQ3?=
+ =?utf-8?B?WkorNVNvMTlaUWZVTDMyL1ROQmduMkYwblIvWGtUYnpQbHJSUDRPT3JDakUx?=
+ =?utf-8?B?bmJoNWVnaDM2ZFVkUEF3a2F3VlkyTWhzWlVjK3ZhRzNnOVFvRzJpNi81Vzl1?=
+ =?utf-8?B?dldIQ0NUVFlTYzdVTWppQTVQQ1RiMEFDZzRUUXdZWGdNZUx2YktEcmxuMVFu?=
+ =?utf-8?B?U29nSEJsNVNUcnE4T3Mya1gwazh5dVI2THhSNDA5bStwQi9RZmRCeW5mVEhh?=
+ =?utf-8?B?R0s0ZFZzK0tiQXlENUxGYXk5Qk9rUVZ2NzNsQVpveU96QWVmL3Vwd0pyT01I?=
+ =?utf-8?B?MUc0R1R4a1RYRlJ1Ymk1ZVJFYTlHeHM0WG00TU9SQloxUGpCTTU4ckUyZEpq?=
+ =?utf-8?B?ZHBKbytDNlJnZXRBdDNTOVFPRXMrRk5NVCtnMGkxbm8zdkJyeUpuNUFDckxY?=
+ =?utf-8?B?YVZGeXBXOEZTbU0rS1hmeVN4cG5xOEdOZDhPVTZIekRJU3BBMkEyRXAzcHVu?=
+ =?utf-8?B?Y2YvajFvc0N1Zm1tVWNhMkZwbEc4ZGRWTDJkeHBPekF6RW1BbTc2cXViOHlN?=
+ =?utf-8?B?Sk5GcGVuTlh1cjFCa2FCK2F6bU93WUx5Y0VqUVI2Wkk1V1ZEZnh4UGJjaTZJ?=
+ =?utf-8?B?VTFvd2Faczc2Y293MVFIZkVvajZyVEovNzAzTFYxZ1JKMXQzYUlXL0VITGhp?=
+ =?utf-8?B?QzNZclRrS2d2c09qWk94M2JOT0FrUzZUNGU1ZkVrNE9oSVZKZFEybXNsK0hX?=
+ =?utf-8?B?TVJ4MW5MNy85bnRmRmRJcVhPZTByZnBTdU05cm51Q1JBSUd6RzZZeXZwT0Fk?=
+ =?utf-8?B?dEdzZHcyZExHM1dWTk5zTkNMK3NMQ0dOOC9UT1ZweXVpWmJ2MjNYSGJrNk55?=
+ =?utf-8?B?TjNTZ3NORHB1bHhHZGowL1hlVTZMNlVnWFRXZ3I5aXcrOVFxTXhFY0daY0dS?=
+ =?utf-8?B?MExyVllSSzVueER4R1lYdkpmeTd6WUI4UTVEaVJQQmduVlBNYzRIVjVnQlI1?=
+ =?utf-8?B?dE9VT0hPQzYzRkxOcVNYRW1KMXFLOEhCZnl6V3ZkNU1rblBHenNETHhQTDJZ?=
+ =?utf-8?B?SUFnZG51SW5jazF6V0MzbTNDMSswSnpMU25scW14cldEd1R1ZVI3RjBCc0lE?=
+ =?utf-8?B?V3RTNWdUWUROTjh6ejg3cFpxSVMzUVJXYi9yTHU1Ri83NGZCamdjVG5CTGl2?=
+ =?utf-8?B?N2V3TXRiZWNZQTdiTXI5Nnp6SGNGZVVHNlpNQlU5S24yU0tFcXI4QT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26205119-87dd-419a-ee57-08decbccdac5
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB7548.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 17:29:44.2484
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iqLGBeCi3Ra51l6AI1moJmVHZFYpTSZSGUNhLvyZ8yqxyUg4wo3wdGsCSG13t1Tf4KmqGxvmLQWT312kl1a3XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9442
 
-On Mon, Jun 15, 2026 at 11:19=E2=80=AFPM Hao Ge <hao.ge@linux.dev> wrote:
->
-> Hi Abhishek
->
->
-> On 2026/6/16 07:04, Abhishek Bapat wrote:
-> > Add the following 2 scenarios to the allocinfo ioctl kselftest:
-> > 1. Validate size based filtering
-> > 2. Validate lineno based filtering
-> >
-> > The first test uses "do_init_module" as the candidate function for the
-> > test. This is because the associated site will only allocate memory whe=
-n
-> > a kernel module is loaded. The return value of get_content_id() changes
-> > every time modules are loaded or unloaded. Hence, as long as
-> > get_content_id() values at the start and the end of the test are the
-> > same, the memory allocated by the do_init_module call site should also
-> > remain the same. Consequently, the test can assume consistency between
-> > the value returned by the ioctl and the procfs resulting in less
-> > flakiness.
-> >
-> > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> > ---
-> >   .../alloc_tag/allocinfo_ioctl_test.c          | 197 +++++++++++++++++=
--
-> >   1 file changed, 196 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b=
-/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > index 62d5a488a04d..041fee1a3d74 100644
-> > --- a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> > @@ -309,11 +309,194 @@ static int test_function_filter(void)
-> >       return run_filter_test(&filter);
-> >   }
-> >
-> > +static int test_size_filter(void)
-> > +{
-> > +     int fd;
-> > +     struct allocinfo_tag_data_vec *tags =3D malloc(sizeof(*tags));
-> > +     struct allocinfo_tag_data_vec *procfs_entries =3D malloc(sizeof(*=
-procfs_entries));
-> > +     struct allocinfo_filter filter;
-> > +     int ret =3D KSFT_PASS;
-> > +     __u64 target_size, i, pos;
-> > +     bool found;
-> > +     const char *target_function =3D "do_init_module";
-> > +     struct allocinfo_content_id start_cont_id, end_cont_id;
-> > +     int retry =3D 0;
-> > +     const int max_retries =3D 10;
-> > +
-> > +     if (!tags || !procfs_entries) {
-> > +             ksft_print_msg("Memory allocation failed.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     fd =3D open(ALLOCINFO_PROC, O_RDONLY);
-> > +     if (fd < 0) {
-> > +             ksft_print_msg("Failed to open " ALLOCINFO_PROC ": %s\n",=
- strerror(errno));
->
->
-> I see. The #include <errno.h> you added in patch 5 is meant for this
-> spot, right?
->
-> If that's the case, I'd prefer moving the #include <errno.h>
->
-> addition into this patch, though this is a trivial detail either way.
->
->
-> Thanks
->
-> Best Regards
->
-> Hao
->
->
-Ack, will do.
-> > +             ret =3D KSFT_FAIL;
-> > +             goto freemem;
-> > +     }
-> > +
-> > +     do {
-> > +             found =3D false;
-> > +             pos =3D 0;
-> > +
-> > +             if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-> > +                     ksft_print_msg("allocinfo_get_content_id failed\n=
-");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             memset(&filter, 0, sizeof(filter));
-> > +             filter.mask |=3D ALLOCINFO_FILTER_MASK_FUNCTION;
-> > +             strncpy(filter.fields.function, target_function, ALLOCINF=
-O_STR_SIZE);
-> > +
-> > +             if (get_filtered_procfs_entries(procfs_entries, &filter))=
- {
-> > +                     ksft_print_msg("Error retrieving entries from " A=
-LLOCINFO_PROC "\n");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             if (procfs_entries->count =3D=3D 0) {
-> > +                     ksft_print_msg("Function %s not found in procfs\n=
-", target_function);
-> > +                     ret =3D KSFT_SKIP;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             target_size =3D procfs_entries->tag[0].counter.bytes;
-> > +
-> > +             memset(&filter, 0, sizeof(filter));
-> > +             filter.mask |=3D ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCIN=
-FO_FILTER_MASK_MAX_SIZE;
-> > +             filter.min_size =3D target_size;
-> > +             filter.max_size =3D target_size;
-> > +
-> > +             while (1) {
-> > +                     struct allocinfo_get_at get_at_params;
-> > +
-> > +                     memset(&get_at_params, 0, sizeof(get_at_params));
-> > +                     memcpy(&get_at_params.filter, &filter, sizeof(fil=
-ter));
-> > +                     get_at_params.pos =3D pos;
-> > +
-> > +                     if (__allocinfo_get_at(fd, &get_at_params))
-> > +                             break;
-> > +
-> > +                     tags->count =3D 0;
-> > +                     memcpy(&tags->tag[tags->count++], &get_at_params.=
-data,
-> > +                            sizeof(get_at_params.data));
-> > +
-> > +                     while (tags->count < VEC_MAX_ENTRIES &&
-> > +                            __allocinfo_get_next(fd, &tags->tag[tags->=
-count]) =3D=3D 0)
-> > +                             tags->count++;
-> > +
-> > +                     for (i =3D 0; i < tags->count; i++) {
-> > +                             if (strcmp(tags->tag[i].tag.function, tar=
-get_function) =3D=3D 0) {
-> > +                                     found =3D true;
-> > +                                     break;
-> > +                             }
-> > +                     }
-> > +
-> > +                     if (found || tags->count < VEC_MAX_ENTRIES)
-> > +                             break;
-> > +
-> > +                     pos +=3D tags->count;
-> > +             }
-> > +
-> > +             if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-> > +                     ksft_print_msg("allocinfo_get_content_id failed\n=
-");
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +
-> > +             if (start_cont_id.id =3D=3D end_cont_id.id)
-> > +                     break;
-> > +
-> > +             ksft_print_msg("Module load detected during size verifica=
-tion, retrying...\n");
-> > +     } while (retry++ < max_retries);
-> > +
-> > +     if (start_cont_id.id =3D=3D end_cont_id.id && !found) {
-> > +             ksft_print_msg("Entry with function %s not found in IOCTL=
- results\n",
-> > +                            target_function);
-> > +             ret =3D KSFT_FAIL;
-> > +     } else if (start_cont_id.id !=3D end_cont_id.id) {
-> > +             ksft_print_msg("Failed to match content_ids for procfs an=
-d IOCTL, skipping...\n");
-> > +             ret =3D KSFT_SKIP;
-> > +     }
-> > +
-> > +exit:
-> > +     close(fd);
-> > +freemem:
-> > +     free(tags);
-> > +     free(procfs_entries);
-> > +     return ret;
-> > +}
-> > +
-> > +static int test_lineno_filter(void)
-> > +{
-> > +     struct allocinfo_tag_data_vec *tags =3D malloc(sizeof(*tags));
-> > +     struct allocinfo_tag_data_vec *procfs_entries =3D malloc(sizeof(*=
-procfs_entries));
-> > +     struct allocinfo_filter filter;
-> > +     enum ioctl_ret ioctl_status;
-> > +     int ret =3D KSFT_PASS;
-> > +     __u64 target_lineno, i;
-> > +
-> > +     if (!tags || !procfs_entries) {
-> > +             ksft_print_msg("Memory allocation failed.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     memset(&filter, 0, sizeof(filter));
-> > +
-> > +     if (get_filtered_procfs_entries(procfs_entries, &filter)) {
-> > +             ksft_print_msg("Error retrieving entries from " ALLOCINFO=
-_PROC "\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto exit;
-> > +     }
-> > +     if (procfs_entries->count =3D=3D 0) {
-> > +             ksft_print_msg("Could not retrieve procfs entries\n");
-> > +             ret =3D KSFT_SKIP;
-> > +             goto exit;
-> > +     }
-> > +     /*
-> > +      * We depend on the result of procfs entries to create the ioctl_=
-filter. Hence we
-> > +      * cannot recycle the run_filter_test function here.
-> > +      */
-> > +     target_lineno =3D procfs_entries->tag[0].tag.lineno;
-> > +
-> > +     filter.mask |=3D ALLOCINFO_FILTER_MASK_LINENO;
-> > +     filter.fields.lineno =3D target_lineno;
-> > +
-> > +     ioctl_status =3D get_filtered_ioctl_entries(tags, &filter, 0);
-> > +     if (ioctl_status =3D=3D IOCTL_INVALID_DATA) {
-> > +             ksft_print_msg("Trouble retrieving valid IOCTL entries, s=
-kipping.\n");
-> > +             ret =3D KSFT_SKIP;
-> > +             goto exit;
-> > +     }
-> > +     if (ioctl_status =3D=3D IOCTL_FAILURE) {
-> > +             ksft_print_msg("Error retrieving IOCTL entries.\n");
-> > +             ret =3D KSFT_FAIL;
-> > +             goto exit;
-> > +     }
-> > +
-> > +     for (i =3D 0; i < tags->count; i++) {
-> > +             if (tags->tag[i].tag.lineno !=3D target_lineno) {
-> > +                     ksft_print_msg("IOCTL entry %llu has incorrect li=
-neno %llu.\n",
-> > +                                    i, tags->tag[i].tag.lineno);
-> > +                     ret =3D KSFT_FAIL;
-> > +                     goto exit;
-> > +             }
-> > +     }
-> > +
-> > +exit:
-> > +     free(tags);
-> > +     free(procfs_entries);
-> > +     return ret;
-> > +}
-> > +
-> >   int main(int argc, char *argv[])
-> >   {
-> >       int ret;
-> >
-> > -     ksft_set_plan(2);
-> > +     ksft_set_plan(4);
-> >
-> >       ret =3D test_filename_filter();
-> >       if (ret =3D=3D KSFT_SKIP)
-> > @@ -327,5 +510,17 @@ int main(int argc, char *argv[])
-> >       else
-> >               ksft_test_result(ret =3D=3D KSFT_PASS, "test_function_fil=
-ter\n");
-> >
-> > +     ret =3D test_size_filter();
-> > +     if (ret =3D=3D KSFT_SKIP)
-> > +             ksft_test_result_skip("Skipping test_size_filter\n");
-> > +     else
-> > +             ksft_test_result(ret =3D=3D KSFT_PASS, "test_size_filter\=
-n");
-> > +
-> > +     ret =3D test_lineno_filter();
-> > +     if (ret =3D=3D KSFT_SKIP)
-> > +             ksft_test_result_skip("Skipping test_lineno_filter\n");
-> > +     else
-> > +             ksft_test_result(ret =3D=3D KSFT_PASS, "test_lineno_filte=
-r\n");
-> > +
-> >       ksft_finished();
-> >   }
+
+
+On 11/06/2026 20:43, Mark Bloch wrote:
+> 
+> 
+> On 11/06/2026 18:54, Jakub Kicinski wrote:
+>> On Thu, 11 Jun 2026 09:02:03 +0300 Mark Bloch wrote:
+>>> On 11/06/2026 2:50, Jakub Kicinski wrote:
+>>>> On Fri, 5 Jun 2026 21:10:25 +0300 Mark Bloch wrote:  
+>>>>> devl_register() makes the devlink instance visible to userspace. A later
+>>>>> patch also makes registration the point where devlink core may call
+>>>>> eswitch_mode_set() to apply a boot-time default eswitch mode.
+>>>>>
+>>>>> Move netdevsim registration after all objects (resources, params, regions,
+>>>>> traps, debugfs etc) are initialized, and after the initial eswitch mode is
+>>>>> set to legacy.
+>>>>>
+>>>>> Move devl_unregister() to the beginning of nsim_drv_remove(), before those
+>>>>> devlink objects are torn down. This keeps devlink register/unregister as
+>>>>> the notification barrier and makes the later object teardown paths run
+>>>>> after devlink is no longer registered, so they do not emit their own
+>>>>> netlink DEL notifications.  
+>>>>
+>>>> This is going backwards. At some point someone from nVidia thought that
+>>>> we can order our way out of locking, so mlx5 is likely ordered this way,
+>>>> but this must not be required, or in any way normalized.
+>>>> We (syzbot) quickly discovered that it doesn't cover all corner cases.
+>>>> devl_lock() is exposed specifically to allow the driver to finish
+>>>> whatever init it needs without letting user space invoke callbacks, yet.
+>>>> Almost (?) all driver callbacks hold devl_lock(), so maybe the devlink
+>>>> instance is "visible" to user space but that should not matter.  
+>>>
+>>> Let me clarify.
+>>>
+>>> No locking is changed here, and I don't want to make register/unregister
+>>> ordering a substitute for devl_lock().
+>>>
+>>> The only requirement I have for this series is that devl_register() is called
+>>> only once the driver is ready for devlink core to call eswitch_mode_set().
+>>> That follows from the earlier direction to have the core apply the default
+>>> mode from devl_register() instead of adding an explicit driver call.
+>>
+>> This is exactly what I'm objecting to. AFAIU we are trading off
+>> explicit call to get the default value for an implicit behavior
+>> depending on order of calls. We want to optimize for how easy it
+>> is to get the API wrong, not for LoC.
+> 
+> Right, the reason I moved in this direction is that in v1 I had
+> the explicit driver call, and Jiri asked to make this transparent
+> from devlink core instead.
+> 
+>>
+>> If we don't have a clean way to implement this without driver
+>> changes let's add the explicit API to get the default value.
+>> If driver doesn't call it schedule a work to go via the callback
+>> once devl_lock() is dropped. That way drivers which care can optimize
+>> themselves by reading the default value upfront. Drivers which don't 
+>> care will work correctly, and there's no API call order trap.
+> 
+> The workqueue fallback is possible, but I think it makes the semantics
+> more complicated.
+> 
+> We would need to track devlink instances which still need the default
+> applied, and the worker would have to skip/remove them once handled.
+> 
+> More importantly, the worker can race with userspace setting the
+> eswitch mode, so we would also need some state to tell whether the user
+> already changed the mode. That feels more fragile than an explicit
+> driver call.
+> 
+>>
+>> Not ideal, but isn't that best we can do here?
+>> I still have flashbacks of the fallout from the call ordering games, 
+>> we have too many drivers to keep this straight...
+> 
+> That's why I started with the explicit call in the first place.
+> 
+> I can switch back to this model: drivers which support boot time eswitch
+> defaults will opt in and call the helper once they are ready. This keeps
+> the support explicit per driver and avoids making it depend on where
+> devl_register() happens in the init path.
+> 
+> With that, devlink can tell at register time whether the instance supports
+> boot time eswitch defaults. If the user configured a default for an instance
+> whose driver did not opt in, devlink can write to dmesg from
+> devl_register().
+> 
+> Not perfect, but at least the user gets a visible failure instead of the
+> config being silently ignored.
+> 
+> Mark
+
+Jakub, Jiri, any thoughts?
+
+I think the explicit helper is the cleanest option here, without any
+workqueue fallback inside devlink. It avoids depending on devl_register()
+ordering, and makes the support explicit per driver.
+
+Does that sound like an acceptable direction?
+
+Mark
+
+> 
+>>
+>>> So if the objection is to the commit message wording, I can fix that and drop
+>>> the "notification barrier" language.
+>>>
+>>> For unregister, I can probably leave the old ordering as-is. I moved it only
+>>> to mirror the register path, which felt cleaner, but it is not required for
+>>> the default-mode change and as the lock is held I see no issue with doing
+>>> that.
+> 
+> 
+
