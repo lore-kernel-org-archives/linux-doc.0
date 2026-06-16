@@ -1,116 +1,296 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17517303C9C
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 12:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781612658; cv=pass; b=nJ2+sLXICMF64Nqmk/nWI20pbe5bteoWXp8rsXcTQtST9q8ufGodev4pabA04Qle3MejEOKCBc02SUOi3b6hYkRi04hU5Rmj64ZxOwlgCygrul4sexWA1+LxkIainU4jYGtWN8XFTVq9ju732o4k/WNKMVg0jP6fp4GQfVdnEYU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781612658; c=relaxed/simple;
-	bh=D24Z/Of+fT6yKmZSvnrIhn76QjQimJcrM5uzxAcBRC0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ls46wvfosPDgeNEvE3+BMbaZOdzqoncxbFK33d4raaLuAObwIc77FWw5uUkCpGJ2UP6wm6LfS0pAg5UMui9SPxGHiXtdg3VPXcEsFx9CbHtOcbo2VCE2TuBScN4FHCMomIPkBq3SSdrlo6ejfNX1NWhaevrqhVvuCKHhIkWC9c0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PdpPS1vR; arc=pass smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF236202C46;
+	Tue, 16 Jun 2026 12:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781613301; cv=none; b=KAywJnk2zPLO4ElTpoaq48c92EiwfFhuWOHtKyfNeqmOkDxgDvzzFdzbo97M+DvoO1qQ4/lb0IqZ3/fbGdMxe4f3oGiIW5HVCdOc0IbcyAf4fgJ8b7bApmURZlfyoMzabqeAfojxWzZ4FHljFO//3uVmzytpJ8JUBY0vXlPhT0k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781613301; c=relaxed/simple;
+	bh=IPr47gNiMShrmv6TPmkCnhfsxuW+9wRC74U43o7oMSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iQsNbprmqgETZtEmEwQGc3l+D/zz5QuquHUa4svEGkI5jatFppEDFRKvej9Qdpf35/IS2wp7+6+yS0NfBLJistpPCJW8FozEfrk3arjcGCG2Xfnae4o8p8h4vkombyzevD5Td7ZGZGXgP+QQuSTzpZllb81sR74zR+unN6rZphQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=baBknnLl; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PdpPS1vR"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ccf18ef922so66064436d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 05:24:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781612656; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LYuNSEKVB6/u2IZVvBgCR5JVY81CA4hZu8FOSs4M7t+qKK6kn4nyww4A1DlpxhXyPX
-         t3u260q5pmxo/TFhmT+XXsUgPFU3aZMNXhLU87k+PHbwfVWV+w6c+Bb7pdD7wMjsdChG
-         pwBH6CNbBEHqV79Wnfa3NnjU+Ifcdc2ugtoPm1Jp8p5ljfRpqYZG1GXCIMZeCe/9qDF6
-         oYDFjuuyRuIYyHY+dXP/DoFWbueNh4ZUkF7h+oCMiWgufOMYfysLaTP1DVBwev0kr5g5
-         IjrBFcIXoEYPLjFB7wDEg+Md7hpJhE9v734HhwvJtMXeojmX51cIEHvMPmycewAfQJK/
-         0nzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W00RbMhlrpPSsObgw4waI4jS4KF3V/ElUcpL/BYCNbY=;
-        fh=65Drdghmk6DrUDvcoX4VSJPykjJTxTzCQ6QhkhHzIDI=;
-        b=I4HZkN1j7G2uCDdCFwJnpDR4Bv9F34fKSwQDF2Yf/IvBtlizFSe+FNp50FVW7pc3c+
-         xbOj0bP8JjQ/t3ASIGW+Gi4IB3W0EIoG/r43PKu/tASP4JclCOWyFPBWFAVkkQKnpzgK
-         0KOH05mg+z8B4vyEp2i3aAGUOFTlhWp1U7ggqua/T6MVKZrZLthPdRWx1DHWegiSiQ7m
-         ni+X8maNx4fXi/ooWFc4bcAWGBcwqhxEKjYRiqLmlqNBUTWDxtWN6/F8eV02F++H3mOY
-         uovWfAEZmJw1owoimn+KTTHTXPKCE2NXAssuz+83YLL2DNFnbZW6c+ZWY2ihh09FLjEc
-         Oa/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781612656; x=1782217456; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W00RbMhlrpPSsObgw4waI4jS4KF3V/ElUcpL/BYCNbY=;
-        b=PdpPS1vR96O2tjj+dsA15IVI+W2flze8iJF7E5YJyr9WBRXboUnS51qljDWTl2sXcE
-         gyEPcMpgs36Spxlu71JLBb1O3dupuY6zDz3JDbpi6czUTfdqDeMqqPcqTJjhl9oXi7Re
-         f+dIAHcJPj2z3vWYqtZw6HQlRS0i03mlwi5Ik8YntOOluLeF3LvAGqstIFfvpsaJ2U2c
-         XqTJpO6BOCBKV062ENAFEuBxh1SCmd9IVt5liZO3Cn2Iq6jNYz05EOa8f44lxnEAB7tC
-         mPt/eY2XBLpZIpe8ZgKUco43uwVjvA+Mq8Fs4tw8+i8CSrB03wp2NxJx3Uyc/def1ZA4
-         tIMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781612656; x=1782217456;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W00RbMhlrpPSsObgw4waI4jS4KF3V/ElUcpL/BYCNbY=;
-        b=sqS4fjeAk7BHExl17aRJ/6SMnTZ6AC8n9yCB0lgQvt6E3Y2uXCKi4JhToaN/lBXGLH
-         cifaLsH1GnIBSDhdaz3mR6q2Gk3B4lsi8UMCklvYSRAbZzqaUrxOnsLUw38cYDaGywR/
-         HMcg8PuScQ7XjndWR4rMqVV5Wy2kCSSMQ+e/toOnFjuMYMCZS3Hpz6AXsHh3be1ySyZ7
-         gLZqJrO/5w4wCNf6wIQHNK/EJigHo/kLURrxYCT7mG0JlhO9e3NUrCWAjSPy2EZbNCEq
-         JRdAz9/DiWpk54+CFidt1pwYXSxn7KhtxIc1Bt/M3mJrdi2Wl+DWlbY+IM+cGSpe6Lv7
-         NjoQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9GaZdjGbTeVD3Ovu6hf7Nan1vyKxCuOQ/axMA7BL+iozCuM8wVs5xWntVYjLqxHvG95Onn6HaQZdY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnibCbDXFDjaCDznVuhgD+8R7bmINVVyaTMVhDrap1bxrlSxoX
-	edw4WR18F04YwrvQ/e8n5hEIt5Rwls5ZSlVzrwOVXV0eZl0VYTYgA2kEcPVZ3CCWn+UgotiVjwD
-	bFIH0PT2DHujcsWbk+s3S1Uw08oMEC2n8M4VmxgE=
-X-Gm-Gg: Acq92OGY6yxAygROFXBXW94AkEsLUyiLw+n9sv+Vy0gvcuxh9bhohYDL7d+GCfvgfZ5
-	5qPtLuFHxBLIMrKkVn6BgnEtIzeY6zGDa7li57m3UZQJbkvwn/qn6L1CS/pSkmi7doiQFGVKcT+
-	oVA3WQg+Z5i6YX1f2JM3a+O6MEX1wKWwyAaJFbZcqx3jJZFsyG9fKOgveqKU2UpWpe7T1Ae6oI4
-	2yTisqMR2FDrGvij5r4q0QSgdeBwfxboZI5orQ73+xwIat30OCWbDGjeih6nuGHWW5bn0WsrPMo
-	IlDzs7Fb1rCvUKyRMEQrD+yF0hMi/zI2wK+Ljlw=
-X-Received: by 2002:a05:6214:3283:b0:8cc:3546:2613 with SMTP id
- 6a1803df08f44-8d44fce1006mr244086466d6.42.1781612655735; Tue, 16 Jun 2026
- 05:24:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="baBknnLl"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GAILT81396038;
+	Tue, 16 Jun 2026 12:34:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=5pyvMbbO/zVcdUIua1Suq6SmgFWRdBdBU1ZTsdC+p
+	6c=; b=baBknnLl2bbSYOivw3PEosd30ZiAagLD7L7Lljw5IwY2yFCpJMe1Khlny
+	8rVhkW+yhfAsb91+qFdOBmVlm2mrd/smQdN7PiLOOLPGVpaeauc8dLcbcQICYhAW
+	b3mg9womaV4gKkddOpg1LdDPEKr8yZgoB9w3Xg/03xfcQYrhZNdWmlbGlawvZr7Q
+	mKMcAqDgrhIqgYMbuq5JEA4l40wdE0E0GqtaJ6HY4Z7RsTUAYz04puPN8irfFy6l
+	wQStTg9JjEoHShdWfdc4WQVTMZ0TMorfKAS7yQ0IeTjgo9gp/FE2QXTT/D1Y9mZm
+	48tKKzwpjs27DxdfmApFrjALSKPgw==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4es1h85nun-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jun 2026 12:34:45 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65GCYiuB022466;
+	Tue, 16 Jun 2026 12:34:44 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4esm7y326e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jun 2026 12:34:44 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65GCYeEL58130798
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Jun 2026 12:34:40 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6000E2004D;
+	Tue, 16 Jun 2026 12:34:40 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A681D20049;
+	Tue, 16 Jun 2026 12:34:36 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.39.31.150])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 16 Jun 2026 12:34:36 +0000 (GMT)
+From: Amit Machhiwal <amachhiw@linux.ibm.com>
+To: linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Amit Machhiwal <amachhiw@linux.ibm.com>,
+        Anushree Mathur <anushree.mathur@linux.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
+Subject: [PATCH v4 0/4] KVM: PPC: Expose CPU compatibility modes for nested guests
+Date: Tue, 16 Jun 2026 18:03:10 +0530
+Message-ID: <20260616123314.82721-1-amachhiw@linux.ibm.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260616005234.11036-1-amandacorreasilvax@gmail.com>
-In-Reply-To: <20260616005234.11036-1-amandacorreasilvax@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 16 Jun 2026 09:24:04 -0300
-X-Gm-Features: AVVi8CdACM4fyYsFeziWOb_20c9CrkqAl-7hwyn652S4IQOzPoV8rwqUWKTVFTE
-Message-ID: <CAMAsx6c5TG3_QsgAG_6e-OHLvphecqconqMP9pQaxifAehetDw@mail.gmail.com>
-Subject: Re: [PATCH] docs: pt_BR: update netdevsim section in maintainer-netdev.rst
-To: =?UTF-8?Q?Amanda_Corr=C3=AAa?= <amandacorreasilvax@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDEyNSBTYWx0ZWRfX2T6x9XF4jLcu
+ 7Afsy3NDxr8D/foySUjwUeoedYRcBMxgWQa/gSYgub0qxJHMWwEW+iJS7UmpHMGb7VfeBTysL1C
+ JFP3gKTmrRdVKoo3SkzUdCSO2ubmfV8=
+X-Proofpoint-ORIG-GUID: yr4qgDg3lwo4MpYrVixyRYeeJDDzfiM1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDEyNSBTYWx0ZWRfXwl2pP5wfTYu2
+ Kgot+1vFx0RFTYks04tAtXbYUOpupSu7hIfxiUuE0hZ+vnbMQq7EqtEmrvKb2ofYIVDPZx+QnlX
+ bL/Br83DyUGS23yUgwcKUIJj+HkEhlfbFJqrTjc4WcFFX+kSjglvnV+VmHJTy3gnN594NKWA7B2
+ blOPtixvpFKwXXRYbtiKS2M2X0gJrLjjBRDDvgE4JmxmgctGEMOJFGF8Yz6o1iqsNhaZdRWlBcG
+ nUsVdPbqSbVVM0Gp+BFTLrKJk3oFAmIaIoBN5c7zLq2BULFMbjgCt8gak8AjTmViTnEPOaz16UX
+ X5yakKKVrOqSa+8bUHA2+meQ6JcMFzJiOAfk9ZdmGaO39GDk6tbTJ9tXXkz7pqY7bOR0dyu7UXl
+ UieUriusKNuaT1tFMb92nhpbhrvwGU4My3pGCpPz/3IpCof8ILw2T+6PQQj1XnBLd54a9xy4GXh
+ jNCgsga5IdweB9+eMFw==
+X-Authority-Analysis: v=2.4 cv=U9uiy+ru c=1 sm=1 tr=0 ts=6a3142e5 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=h7u5zJOLz3W6SXC_pSsA:9
+X-Proofpoint-GUID: rxoX_yvF6DpIybin5nfvRW1acZiaCy5I
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_03,2026-06-15_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606160125
 
-Em seg., 15 de jun. de 2026 =C3=A0s 21:52, Amanda Corr=C3=AAa
-<amandacorreasilvax@gmail.com> escreveu:
->
-> Update the Brazilian Portuguese translation of maintainer-netdev.rst
-> to align with the latest English version.
->
->     Key changes include:
->     - Updated the netdevsim section to reflect upstream changes
->     - Added guidance on netdevsim-based API testing
->     - Fixed minor spacing and formatting issues
->
-> Signed-off-by: Amanda Corr=C3=AAa <amandacorreasilvax@gmail.com>
-> ---
+On POWER systems, newer processor generations can operate in compatibility
+modes corresponding to earlier generations (e.g., a Power11 system running
+in Power10 compatibility mode). In such cases, the effective CPU level
+exposed to guests differs from the physical processor generation.
 
-Hi Amanda,
+This creates a problem for nested virtualization. When booting a nested KVM
+guest (L2) inside a host KVM guest (L1) running in a compatibility mode,
+userspace (e.g., QEMU) may derive the CPU model from the raw hardware PVR
+and attempt to configure the nested guest accordingly. However, the L1
+partition is constrained by the compatibility level negotiated with the
+hypervisor (L0), and requests exceeding that level are rejected, leading to
+guest boot failures such as:
 
-Thanks for the adjustments, the patch makes sense.
+  KVM-NESTEDv2: couldn't set guest wide elements
+
+This series provides a mechanism for userspace to query the effective CPU
+compatibility modes supported by the host, so it can select an appropriate
+CPU model for nested guests.
+
+To achieve this, the series introduces a new KVM capability and ioctl
+(KVM_CAP_PPC_COMPAT_CAPS / KVM_PPC_GET_COMPAT_CAPS) that expose the
+compatibility modes supported by the host.
+
+Why a new UAPI?
+---------------
+While cpu-version is available in /proc/device-tree/cpus/<cpu#>/cpu-version
+on both L1 booted on PowerNV and PowerVM LPARs, the UAPI approach is
+preferable for several reasons:
+
+1. pHYP (L0) capabilities: On PowerVM, we need to rely on capabilities
+   negotiated with pHYP in KVM, not just device tree properties. The
+   cpu-version property depicts the current compat mode but doesn't point
+   to what all compat modes are supported for the nested guest.
+
+2. procfs dependency: Not all systems run with procfs enabled (CONFIG_PROC_FS
+   is optional). Minimal configurations like buildroot might disable it, but
+   KVM ioctl works regardless since it accesses kernel data structures
+   directly.
+
+3. Kernel validation: The kernel validates and normalizes the compatibility
+   information, ensuring userspace gets validated, consistent data.
+
+4. Abstraction & stability: /proc/device-tree is an implementation detail.
+   The UAPI provides a stable interface that won't break if the underlying
+   mechanism changes.
+
+5. Semantic clarity: KVM_PPC_GET_COMPAT_CAPS clearly expresses what
+   compatibility modes can be used for KVM guests, vs. parsing device tree
+   which requires understanding the semantic meaning of cpu-version.
+
+The implementation supports both:
+
+  - PowerVM (nested API v2), where compatibility information is obtained
+    via the H_GUEST_GET_CAPABILITIES hypercall.
+  - PowerNV (nested API v1), where compatibility is derived from the device
+    tree ("cpu-version") representing the effective processor compatibility
+    level.
+
+This allows userspace (e.g., QEMU) to select a CPU model consistent with
+the host compatibility mode, avoiding mismatches and enabling successful
+nested guest boot.
+
+Changes in v4:
+  - Added 'size' field to struct kvm_ppc_compat_caps for forward
+    compatibility and ABI extensibility
+  - Implemented size validation in ioctl handler to ensure correct structure
+    size from userspace
+  - Introduced KVM-specific capability constants (KVM_PPC_COMPAT_CAP_POWER9/
+    10/11) instead of exposing hypervisor-internal H_GUEST_CAP_* constants
+  - Added capability masking using KVM_PPC_COMPAT_BITMASK to ensure only
+    supported processor modes are exposed
+  - Enhanced error handling with comprehensive error codes (EINVAL, EFAULT,
+    ENOTTY) and detailed documentation
+  - Removed Tested-by tags pending re-testing with v4 changes
+  - Separated validation patch (patch 1 from v3) and sent independently [1]
+
+Note: This series is built on top of patches [1] and [2] which must be
+applied first. Patch [1] ensures arch_compat is validated against the host
+compatibility mode before this series adds the capability query mechanism.
+Patch [2] sets CPU_FTR_P11_PVR for Power11 and later processors, which is
+needed for proper CPU feature detection in dt-cpu-ftrs environments.
+
+Changes in v3:
+  - Added "Why a new UAPI?" section to cover letter addressing questions
+    about the need for a new UAPI vs. using existing mechanisms like
+    /proc/device-tree
+  - Fixed initialization of 'r' in KVM_PPC_GET_COMPAT_CAPS ioctl handler
+    from 0 to -ENOTTY for proper error handling when the operation is not
+    supported
+  - Added Vaibhav's "Suggested-by" tags
+  - Have retained Anushree's "Tested-by" tags as no major code changes
+  - Fixed documentation build warning reported by kernel test robot and
+    added "Reported-by" and "Closes" tags to patch 5
+
+Changes in v2:
+  - Squashed patches 2 and 3 from v1 (capability introduction and ioctl
+    wiring) into a single patch for better logical grouping
+  - Changed kvm_ppc_compat_caps.flags from __u32 to __u64 for consistency
+    and future extensibility
+  - Addressed other review comments
+  - Improved commit messages with clearer explanations of the changes
+
+Patch summary:
+  [1/4] Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+  [2/4] Implement capability retrieval for PowerVM (API v2)
+  [3/4] Add PowerNV support (API v1)
+  [4/4] Document the new ioctl
+
+Testing (with QEMU v3 patches and on top of patches [1] and [2]):
+
+KVM APIv1 Testing
+=================
+  On P10 PowerNV machine (L0)
+  ---------------------------
+    - P10 L1 KVM guest -> works
+      - P10 nested L2 KVM guest -> works
+      - P9 compat nested L2 KVM guest -> works
+    - P9 compat L1 KVM guest -> works
+      - P9 nested L2 KVM guest -> works
+  
+  On Powernv11 TCG Guest (L0)
+  ---------------------------
+    - P11 L1 KVM guest -> works
+      - P11 L2 KVM guest -> works
+    - P10 compat L1 KVM guest -> works
+      - P10 L2 KVM guest -> works
+    - P9  compat L1 KVM guest -> works
+      - P9 L2 KVM guest -> works
+
+KVM APIv2 Testing
+=================
+  On P11 PowerVM LPAR (L1)
+  ------------------------
+    - P11 L2 KVM guest -> works
+    - P10 compat L2 KVM guest -> works
+  
+  On P11 LPAR in P10 compat (L1)
+  ------------------------------
+    - P10 (host compat) L2 KVM guest -> works
+
+  On P10 PowerVM LPAR (L1)
+  ------------------------
+    - P10 L2 KVM guest -> works
+
+With this series, nested guests boot successfully in configurations where
+they previously failed due to compatibility mismatches.
+
+Related QEMU series:
+--------------------
+A corresponding QEMU v3 series adds support for querying and using these
+compatibility capabilities when configuring nested KVM guests:
+
+v3: https://lore.kernel.org/all/20260616113915.25589-1-amachhiw@linux.ibm.com/
+v2: https://lore.kernel.org/all/20260502140021.69712-1-amachhiw@linux.ibm.com/
+v1: https://lore.kernel.org/all/20260430061333.37905-1-amachhiw@linux.ibm.com/
+
+Previous versions:
+------------------
+v3: https://lore.kernel.org/linuxppc-dev/20260522152744.55251-1-amachhiw@linux.ibm.com/
+v2: https://lore.kernel.org/linuxppc-dev/20260513100755.83215-1-amachhiw@linux.ibm.com/
+v1: https://lore.kernel.org/linuxppc-dev/20260430054906.94431-1-amachhiw@linux.ibm.com/
+
+References:
+-----------
+[1] https://lore.kernel.org/all/20260609053327.61563-1-amachhiw@linux.ibm.com/
+[2] https://lore.kernel.org/all/20260614173437.26352-1-amachhiw@linux.ibm.com/
+
+Amit Machhiwal (4):
+  KVM: PPC: Introduce KVM_CAP_PPC_COMPAT_CAPS and wire up ioctl
+  KVM: PPC: Book3S HV: Implement compat CPU capability retrieval for KVM
+    on PowerVM
+  KVM: PPC: Book3S HV: Add support for compat CPU capabilities for KVM
+    on PowerNV
+  KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
+
+ Documentation/virt/kvm/api.rst      | 47 ++++++++++++++++++++++++++
+ arch/powerpc/include/asm/kvm_ppc.h  |  1 +
+ arch/powerpc/include/uapi/asm/kvm.h | 16 +++++++++
+ arch/powerpc/kvm/book3s_hv.c        | 52 +++++++++++++++++++++++++++++
+ arch/powerpc/kvm/powerpc.c          | 35 +++++++++++++++++++
+ include/uapi/linux/kvm.h            |  4 +++
+ 6 files changed, 155 insertions(+)
 
 
-Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
+base-commit: 8b308f96484e37d92d2fc6b72b091f60496c000e
+prerequisite-patch-id: ce9521668d549f2bd731d321a38f720b789e0b4e
+prerequisite-patch-id: 4662f01d2101cfae8502f04290658deed60eec26
+-- 
+2.50.1 (Apple Git-155)
+
