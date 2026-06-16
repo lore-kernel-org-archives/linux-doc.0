@@ -1,96 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04C733AD9B;
-	Tue, 16 Jun 2026 01:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA43C246762;
+	Tue, 16 Jun 2026 01:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781572523; cv=none; b=Ao7J3kvpApgu6ZF7AvSvk4xPReg+v+Ik74flZBibNTkx8dbdmQnTIb78s3zyhnGBARY6z2ldwwcYRD1HF9ACsIbyrcPYMFRPTEfNwuuMl+eXZ7S3ezsyow03gDw9yZQMctTYRdQ/UMUR/knGLmSgHBVo3SYXqZ8seD+z4jGZaBA=
+	t=1781572716; cv=none; b=ivn3nE4KuPuptFpLQo7QDxfGZajHaw//UW9ieeaKX7/hGzoNlQbmf+h69b/+9+K5/F8lDVq+wSAJXhFfJHPliC41vLPV0RnXn5LIDmcE6bQ8/mRM/2wc7i7HUmVOLRspD/4szTkMkPQDzWa5GU62DMtH0CvAJGyhTvv6GqkgLdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781572523; c=relaxed/simple;
-	bh=n+HgkcKRqSR/TDoR2qCULFHNYu47wmD5t1x0bjlCi04=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=nBHwJpAlRbQz684K0e65X+o04R5S7GIDcXTyXEq+TmGdqHC5V8+LxsUq70Fc9OwXFJ8xLvc6UjoWeUd3LhLhShCK9RKQzv+N/RiXK9+Fb71wjw7QHRiJcApdCZF4HAH0oCe/4W+LECdacxyz3Hp4WDRs6MNinGNBcZaHy6rtBZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqdXuC1d; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqdXuC1d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3191F000E9;
-	Tue, 16 Jun 2026 01:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781572522;
-	bh=GJEPYwfhOR8QzZX+HHyPEWvX+nK3bmcjPuI6opafco4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=OqdXuC1dupVyt3MP7yoE7+t4yFMuiBEj7Vb5NGaRFzOg0J6dZNpFeg/l07Q3Atg0P
-	 yGiTvSmm5GAxZVWRzCqGqS/6pPHMIPrQl6oLbp1PfK/mUaqrVUc1w5uWWT3GQbWaKw
-	 dqnw6qsUgo7OC7LAtjEu/cHBNcHFNHOzIcXiexB+NRanH5Xm2ntRE6DrFQn6e+oy79
-	 WP+bg0nbXkPRMowKCS4ar2soY+OoUigl0FFNHs8F6m36v76V8Sgs8qCn0qcFcjqJwu
-	 61I82oyayTzUHaStIyV4i3mKFjXP1/kSW1vP0nLXL8u3NysPp9GbePAKwLgJJ9Xqiq
-	 GJJ6NSfD/oBOA==
-Date: Tue, 16 Jun 2026 10:15:18 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] tracing/probes: Add this_cpu_read() and
- this_cpu_ptr() dereference method to fetcharg
-Message-Id: <20260616101518.798465295df36bec64f0f279@kernel.org>
-In-Reply-To: <178148609402.185520.8189233495763938815.stgit@devnote2>
-References: <178148603548.185520.3389196102475741865.stgit@devnote2>
-	<178148609402.185520.8189233495763938815.stgit@devnote2>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1781572716; c=relaxed/simple;
+	bh=z3Bi8ixE7Fg35E79/serkDEQjKt+sNDRES5kU+jWHpM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wvv6+p8Y6QKLfSH3HXNXWDAUX49TI4k7uacW5porJsJAfCXBkZHgfX1DWkgDDRPpSbS+qsI5MSCOB0QRd3ezzE7rO8JhIxtMl/Z4SopwFygPDI5+x6Z65LSsQeHv0e/zwHiGbgPDwpGqTd9XxbKpl7b3xCk75ZvOaXtm6BRT6wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrAD3_SlVpDBqeHimAA--.44228S2;
+	Tue, 16 Jun 2026 09:18:13 +0800 (CST)
+Received: from [10.12.169.118] (unknown [10.12.169.118])
+	by gateway (Coremail) with SMTP id _____wD30BFTpDBqCpcmAA--.24027S2;
+	Tue, 16 Jun 2026 09:18:12 +0800 (CST)
+Message-ID: <bcf4351e-771d-4c60-8d0e-9ccd893b8a94@hust.edu.cn>
+Date: Tue, 16 Jun 2026 09:18:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Mon, 15 Jun 2026 10:14:54 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-
-> +		case FETCH_OP_DEREF_CPU:
-> +			val = (unsigned long)this_cpu_ptr((void __percpu *)val);
-> +			ret = probe_mem_read(&val, (void *)val, sizeof(val));
-> +			break;
-> +		case FETCH_OP_CPU_PTR:
-> +			val = (unsigned long)this_cpu_ptr((void __percpu *)val);
-> +			ret = 0;
-> +			break;
-
-Hmm, maybe I can just convert the FETCH_OP_DEREF_CPU to
-FETCH_OP_CPU_PTR + FETCH_OP_DEREF to simply the code.
-
-> +		default:
-> +			lval = llval;
-> +			goto out;
-> +		}
->  		if (ret)
->  			return ret;
-> +		llval = lval;
->  		code++;
->  	} while (1);
-> +out:
->  
->  	s3 = code;
->  stage3:
-> @@ -181,6 +195,10 @@ process_fetch_insn_bottom(struct fetch_insn *code, unsigned long val,
->  	case FETCH_OP_ST_UMEM:
->  		probe_mem_read_user(dest, (void *)val + code->offset, code->size);
->  		break;
-> +	case FETCH_OP_ST_CPUMEM:
-> +		val = (unsigned long)this_cpu_ptr((void __percpu *)val);
-> +		probe_mem_read(dest, (void *)val, code->size);
-> +		break;
-
-Then, I can just drop this change.
-
-Thanks,
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: infiniband: correct name of option to enable the
+ ib_uverbs module
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>
+References: <20260616002027.67925-1-enelsonmoore@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260616002027.67925-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAD3_SlVpDBqeHimAA--.44228S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr43ZF1xKFyDCF17JFWkWFg_yoW8tFW8p3
+	WDG34IkFs2yay3C3y8Cr129F4xWa4xCa15W3WkWwn8XF1DAws3ZrnIyw1YgFykXrW8ZFWY
+	qr48KFnYgr4jyaDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j6a0QUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On 6/16/26 8:20 AM, Ethan Nelson-Moore wrote:
+> The Infiniband documentation states that CONFIG_INFINIBAND_USER_VERBS
+> should be used to enable the ib_uverbs module. However, this option was
+> renamed to CONFIG_INFINIBAND_USER_ACCESS in commit 17781cd6186c
+> ("[PATCH] IB: clean up user access config options"). Update the
+> documentation to reflect this.
+
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+
+For patch that mixes English and translation update, should it directly 
+be merged into Jon's kernel tree?
+
+>
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> ---
+>   Documentation/infiniband/user_verbs.rst                    | 2 +-
+>   Documentation/translations/zh_CN/infiniband/user_verbs.rst | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/infiniband/user_verbs.rst b/Documentation/infiniband/user_verbs.rst
+> index 8ddc4b1cfef2..96bcd1bd37ad 100644
+> --- a/Documentation/infiniband/user_verbs.rst
+> +++ b/Documentation/infiniband/user_verbs.rst
+> @@ -2,7 +2,7 @@
+>   Userspace verbs access
+>   ======================
+>   
+> -  The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_VERBS,
+> +  The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_ACCESS,
+>     enables direct userspace access to IB hardware via "verbs," as
+>     described in chapter 11 of the InfiniBand Architecture Specification.
+>   
+> diff --git a/Documentation/translations/zh_CN/infiniband/user_verbs.rst b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+> index 970bc1a4e396..31534681654b 100644
+> --- a/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+> +++ b/Documentation/translations/zh_CN/infiniband/user_verbs.rst
+> @@ -17,7 +17,7 @@
+>   用户空间verbs访问
+>   =================
+>   
+> -  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_VERBS构建，使用户空间
+> +  ib_uverbs模块，通过启用CONFIG_INFINIBAND_USER_ACCESS构建，使用户空间
+>     通过“verbs”直接访问IB硬件，如InfiniBand架构规范第11章所述。
+>   
+>     要使用verbs，需要libibverbs库，可从https://github.com/linux-rdma/rdma-core。
+
