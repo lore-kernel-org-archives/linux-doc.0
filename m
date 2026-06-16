@@ -1,126 +1,260 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807FB383C97
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 20:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781640540; cv=pass; b=jMnb6rcu6oq1uqIRxLRFmdJyghARj8lkfNgilztYkoPJm3m+TNpx+8L1tClWNprENAlNxPqTeRy9Xind8Acx6aHuZG+JdQYzOzFK+XYnNWnkxnNKOg6etBQ4WDU1ZSMUYoviLPuN5jRXxlKbIO7jbU/oyIbjSoNN/PkFYXJZtwU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781640540; c=relaxed/simple;
-	bh=Rnlo4U+8XVQcpe9elBQDCdpqJEQyFEfgWsDtAuY9ZpE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L89cO7rcbCkfoVz9A1NZUeRXP01ptQNeez97194osINL2qSQnhM5wiixeujQTeMU9kyHxejiJli1p+x0JdaWoCSrJWHg/lrCYWO3mfx/KIEoDtzl9bhK3Kq0a3XeoDhDpRIVXYuih9UA7BJ46B0Rl6ImtjZiXGj+hvdIzyCx+YI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnW95QxI; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7031B383C97
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 20:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781640596; cv=none; b=n/cxLHOaMr01jvpSJjueLmVCeFt4efSO+04isaH+SB4kLOr/uKwMrftgI4uY9FBbzo1Nz5Pb4xa0vgWUlbDYy7VYXEZC09twh9SqwY0MZwPGsDQPQ85jeVdnKo6qhYcjRatewKcK4FOIb09qBApcdqh0D6yN/Y7d613G9dKNrro=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781640596; c=relaxed/simple;
+	bh=Pi/EN82vqMuVLAd9KenSHzDk6OqMVCIPbDAtZFjy9Rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b27Dfrn61FzVMNWRqrUSXuIW7zZlSCNA8F+RTXnT6NOcLkLN4y78FacAzIKquWQhqlj300CmjIUKQqbAJ61mOsauiX4APgexSd6X1nTZRCC6BsQ6pjUHf1DuuELMUTXE7M67IZ1ZtkICZ+PHIHd9BB/Ia6M5DDQC3Jo/ryJSjug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Eg9TNlFu; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnW95QxI"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-461a15cce0bso853104f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 13:08:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781640538; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OWSl1pYdr5PGminkr58qfQZI7PM83VV4ggBnS8SVYJdwff6gaIy39TMO7UTuylZHiT
-         Vp0JI4k2t1lujtmdErwnKM8p5cuTaFErBlNLrjmc3FhIOIJttOxs4LN7+CoPtRIsanNi
-         wyN883xhFC2zkAg/HbRB8CCRwz5iFUZp3CR891DvX8yIi7Bo59LIQN5ZnjWfCD17dG2O
-         SKN4mX8OyC6UL0stRAn7+jLIz8PspHA1UBLTrMK/d/bwYxyFIAYSoyUtoqDUHgpg/+rD
-         SvvcRpmZtLG4elff1fSRsylJCOxZU4CYQQxfmE4mr9PRWfVSI6HGqRh9TyhN9KHWVFQG
-         qLjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Rnlo4U+8XVQcpe9elBQDCdpqJEQyFEfgWsDtAuY9ZpE=;
-        fh=EmjKQ9//xbMPvyGlyTyHxVIhvNnXTyp5lBNju7wYuAA=;
-        b=LB/TIj0VVET/1DfxaBhSMecvew8Evm97aqK/NNbubGuR2kdGhev0LkMRPPfOxDpcJi
-         7QKhH3mg5W6l/yC5JKXzkc1+fUx5iR8Ld/V5Ubz7oLxTp0NUbcFxRSClnyT1C3KJfsde
-         mVECeOoYJG+P+Dh+5lryCvHaZA7Ut8IPlyt5D2SGhi2SfIUiC59AzCXkR4KbVfk20NMp
-         aN3mUApltAc71oO40dSASthnPVJnDcbMvEr08rWo99V13yvBq/06ta72WnyqMkMtciL9
-         0tesBka7GJwRqtGu2tgo8/XHX8yiZ7qeQCiCQgFc3KcA8RgfyqUHw6kbPMO6J4xihuk9
-         8WIA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Eg9TNlFu"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c69fa0b1f8so16795ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 13:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781640538; x=1782245338; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rnlo4U+8XVQcpe9elBQDCdpqJEQyFEfgWsDtAuY9ZpE=;
-        b=dnW95QxITeeI/9lxIY17fmj+vdBkrrlzr9kED70mZ5bZgTKgI1iBkXoF/1MBEk1mKj
-         jtvf+keNYMHwayd51QQFSvZ9HmagsOvM1EMm5LeGqt8oAIXZ0mlIKLIhYYw7pGkV+WXq
-         4kpGSv1e7W8YIHq6VDHqDyLfYUexX+ISyOY0K/JyNBZPIDW1f3hnhNh3//6BNzA1z8Pw
-         M4TJLXtaneJL0tfCQaKTgKGQGiiqV+r4DLsFGRmY7E91TJxmbPCwIf1uGOlz9W1XSOIH
-         ecZdhjCpTRMmjaY/vOQIMBVTxNW3TKXsrdGSG7N7JyEasToJir2jpspIZi34Dn37dbOk
-         JHLQ==
+        d=google.com; s=20251104; t=1781640595; x=1782245395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ZboXXhSPW6+dD4pxDQDq+/2Nr1RExG44843PmiSexM=;
+        b=Eg9TNlFuOXW2dihvx6h8jhwMUxeKZqJDcY2yXMXCH+FmR8UPp+9aMj4syrBGDvzc21
+         oVbI5c8hHEh/wGhWUcdtfs+sJOgrNUMvH35XMZ8OiqFEk4vQxrnbVUJHobMqO/nKcobF
+         tilNbylePqD0kJY83PHKdsw38b+6CODmaIyjnMPiXuB/MD4gDNOdL6oSaoAXPLa80UpZ
+         eTqkSwfaSkdmS5lJscvW0IpIJ2QuJA4SxUC6Lol5m6zRd7LJoI0kWyu32UEsQVkYhzV7
+         qF2gQPUYU5p0AMFO/ryMUg7Y8SFQlizACe+cGAB9FcENwMXmVazW4/1aoSMKJPyY/5Fw
+         R9Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781640538; x=1782245338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Rnlo4U+8XVQcpe9elBQDCdpqJEQyFEfgWsDtAuY9ZpE=;
-        b=IV++7Uz0cNFyTVRUfbCoyr7UexYkWLRWdqxNwsvTGRR8o6AfjlspZ+Tb8TyGRJOtT1
-         SJzeEZSYGCj8/IbAA5E8PDoZ4H6+vrYrg4a1BOAwaJYTxNYmL7q2J49p9my7sz9L+Agj
-         F5n1LfLCz0Prs1qnlGdvojH0+reWvWtGyjoUPUdh+Q+PuwTTLy0Xv9maOu0uKZybKD2c
-         8m/udP2yTvlrmQi0x9xxWZJmYf0rVE0gg8nmL+xjoyvTO0PtsyFthaY8pgLafwEVmTvb
-         ylx4pfNCroHesaeh2loWJTsZeb8cTeB9aplD615SskSIL5K7huRu+dKPWJQp+LY7SVHt
-         mmMA==
-X-Forwarded-Encrypted: i=1; AFNElJ+xR2VWqeLlZ4eG4wsM8fekuiRDn5mF0MId18KvkrJOmX5StR1EtPyk/2HApq89anwtvdHMTeXAh9A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhAiuBEhRLL0FzbT02RMaaAowmKntIiX8MFd+B+fAoO+aXBWsM
-	siKjXol9hG73ZhPVjGJoi3PgB83rU2wFldiBTDpQSn0AfUKlHKTdlGqNrL2toMwEo39BZOVhtx7
-	L7m4p67DfBjYtONFJWSVPxnFMG6EGoPo=
-X-Gm-Gg: Acq92OHBNgEYlGW2kZgfJj8EjuP2GacOVBIli3UKSMsHBC84xNvIpNweej/X73j9UkK
-	aLfU5N8ElEGGMlMZYyla4dK6s695Pcs2f2yFJ9ia1Kabm44DEv88sHDovQe4L1HlbgpT8AUY5KD
-	/lMXfmh2FOQtBXZixttN4cDq68yn7fqMFJ6rI3dLambfXotItKGD+YbD+VeENcpgZIghmMxqL1l
-	qcqv8DawAdBuS2AUH/PiJr9tDJcNW6jqh6jtMhNdpFzLxEAyMk4xZiD/YTBC8ZivAk+iPJcQmBg
-	b06C9+yaQSbeAdLTPmSkbjONZ0DQjJ1+gIz8d/N8SfdZxMhUZF4oN2Q=
-X-Received: by 2002:a05:600d:8443:20b0:490:b0e0:3de2 with SMTP id
- 5b1f17b1804b1-492333f7715mr12498135e9.33.1781640537700; Tue, 16 Jun 2026
- 13:08:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781640595; x=1782245395;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9ZboXXhSPW6+dD4pxDQDq+/2Nr1RExG44843PmiSexM=;
+        b=RtbkTiDC1w8tEzx2e+ZprebLAAaMP4baZlK4SI479Sx6JHN/c32km6/AkP3/yiTdnV
+         lLgsyY67N0RvJCnQ9Rb/L58bk5rvkbjZBZZqgD6MTPp3rznuhxtjauZfNVf16hm8P/8I
+         pkcbMwhXeuo8cJJ/TEywQQLkyAD71iVlu3y3ZdyempNBrxepRjK8Wyfao+3ud/kyiFnR
+         0yDVzPW5/MhjBnNfehsSYaU0Uruv4s/siE0KL5ofzlCiiD8E22Je54NwMNI9X85YwESu
+         m0oAcZdhmYfcMFSzBY8SIQZxBhfXiyDho0XpnSmJqO9VSqXVKb/lFsfVKvuqGWAOIpWZ
+         AFjw==
+X-Forwarded-Encrypted: i=1; AFNElJ/8QKVV1Dh6VcMAfHvsd84M7VeldYt3Qw/779U/r0za6ihcnZNGvuhZDPODu2E41rzx9+THQsbG7a8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAvOPBa5GQITUfmkYiqS0oGAKUEQxiGhC5oyRKlWYkq6u/WApA
+	Cnaxu22qYpJYFeArUxe14U13nAWLlH7Y9247y7totFcZUu+Mz/5yfA7JQybt8oDD2Q==
+X-Gm-Gg: AfdE7cluPKKh1KcVaUSUHY4aeYjPyMOypZOW2H4youcgZXVz9AknSlOvHyyVdgl0BLa
+	D1xpHXNyJ+1Z6dZlrCi9550ig9rkVuaJJHPl3o9o7EZKnj04O3UsWMsUQMlIaSga8pEChwkSDEe
+	YOsRqhaumJF6/gDjy0rdZ2d9/CgeAQtbd1m7TxxFku0qzbvcoXE/dqWdn3xMwibU1kAEfwvUN3W
+	+t99czlYKKlj50BnegvwKpuyuxXu4yN1BtWnL3hE3zLK0mTjhTdv4KbkwepOZrGDRQPyjIq7APv
+	vaVFoYBgHK4T64G/NpRw1KR8KttQml742cojTkNXwFLkCQdvTVrRm2EkGfjm3+7Xnavon7KmMPw
+	svvwxFe40fR7gH8oZJLFbbPTZubalgdZ9PmijVuZtW7HuEBfQPfKRpK4UQagngUq2cJW1RcYl7Q
+	8SFF4uOcDsm9sOGOVodiySKYlQGGQCUzziHK7Sq2jadffcHOZx4mY237NcinlYAGtt1u9ygamhu
+	A3E3lrMdQ2kJ98uEXc=
+X-Received: by 2002:a17:903:2307:b0:2c1:ee6e:be1c with SMTP id d9443c01a7336-2c6bbb0fd15mr461975ad.26.1781640594220;
+        Tue, 16 Jun 2026 13:09:54 -0700 (PDT)
+Received: from google.com (25.75.145.34.bc.googleusercontent.com. [34.145.75.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9c016sm13938380b3a.8.2026.06.16.13.09.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 13:09:53 -0700 (PDT)
+Date: Tue, 16 Jun 2026 20:09:49 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
+	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI
+ devices
+Message-ID: <ajGpxMXk9iyXLzC4@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-4-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
- <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
- <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
- <aiw2p5ANjsQUCIHA@linux.dev> <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
- <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
- <ajCgzNIPLhjTRSXR@yjaykim-PowerEdge-T330> <ajC+FNpkVpI4pbBz@yjaykim-PowerEdge-T330>
- <CAO9r8zMimM8n54BL1viuX3pYzO=wzQU89LhCF1HW0bAv97ZQtg@mail.gmail.com>
- <CAKEwX=Nz9SWcEVQGQjHN8P8OANJY4BG0w+iQOzoNOWuteoVjAg@mail.gmail.com> <CAO9r8zOD7XaJ0Uo_LLLDTRKbeTOmAwmM3q8q6rUyH3oS-X3Csw@mail.gmail.com>
-In-Reply-To: <CAO9r8zOD7XaJ0Uo_LLLDTRKbeTOmAwmM3q8q6rUyH3oS-X3Csw@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 16 Jun 2026 16:08:45 -0400
-X-Gm-Features: AVVi8CcJkF64DjJPscg6dRd5pZugnnFWUYYuUhZo9kqIJ3vQ0Lo_eZdOtaRqDxM
-Message-ID: <CAKEwX=N=Umi94wdKcLxEWOqUwhz6=Lj909pc1Pr_5ivVnZmdPQ@mail.gmail.com>
-Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
- proactive writeback
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: YoungJun Park <youngjun.park@lge.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
-	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
-	akpm@linux-foundation.org, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, 
-	kasong@tencent.com, baoquan.he@linux.dev, joshua.hahnjy@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260522202410.3104264-4-dmatlack@google.com>
 
-On Tue, Jun 16, 2026 at 3:54=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
+On Fri, May 22, 2026 at 08:24:01PM +0000, David Matlack wrote:
+>During PCI enumeration, the previous kernel might have passed state about
+>devices that were preserved across kexec. The PCI core needs to fetch
+>this state to identify which devices are "incoming" and require special
+>handling.
 >
-> On Tue, Jun 16, 2026 at 11:33=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wr=
-ote:
-> >
-> > TBH, without vswap, we should not allow setting zswap as its own tier.
-> > It's meaningless. Maybe makes it a no-op, and warn users what they're
-> > setting is gibberish?
+>Add pci_liveupdate_setup_device() which is called during device setup
+>to fetch the serialized state (struct pci_ser) from the Live Update
+>Orchestrator. The first time this happens, pci_flb_retrieve() will run
+>and convert the array of pci_dev_ser structs into an xarray so that it
+>can be looked up efficiently.
 >
-> Why? vswap is transparent to the user. Why can't zswap be its own tier?
+>If a device is found in the xarray, the PCI core stores a pointer to its
+>state in dev->liveupdate_incoming and holds a reference to the incoming
+>FLB until pci_liveupdate_finish() is called by the driver.
+>
+>This ensures proper lifecycle management for incoming preserved devices
+>and allows the PCI core and drivers to apply specific Live Update
+>logic to them in subsequent commits.
+>
+>Drivers can check if a device is an incoming preserved device (e.g.
+>during probe) by calling pci_liveupdate_is_incoming().
+>
+>CONFIG_64BIT is now required to enable CONFIG_PCI_LIVEUPDATE so that the
+>domain and bdf can be guaranteed to fit in an unsigned long and be used
+>as the xarray key.
+>
+>Signed-off-by: David Matlack <dmatlack@google.com>
+>---
+> MAINTAINERS                    |   1 +
+> drivers/pci/Kconfig            |   2 +-
+> drivers/pci/liveupdate.c       | 230 ++++++++++++++++++++++++++++++++-
+> drivers/pci/liveupdate.h       |   5 +
+> drivers/pci/probe.c            |   3 +
+> include/linux/pci_liveupdate.h |  13 ++
+> 6 files changed, 251 insertions(+), 3 deletions(-)
+>
 
-Without vswap, if you set zswap as its own tier, which phys swap
-device should we allocate from for the backing slot? :)
+[snip]
+>
+> static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
+> {
+>-	args->obj = phys_to_virt(args->data);
+>+	struct pci_ser *ser = phys_to_virt(args->data);
+>+	struct pci_flb_incoming *incoming;
+>+	int ret = -ENOMEM;
+>+	u32 i;
+>+
+>+	incoming = kmalloc_obj(*incoming);
+>+	if (!incoming)
+>+		goto err_restore_free;
+>+
+>+	incoming->ser = ser;
+>+	xa_init(&incoming->xa);
+>+
+>+	for (i = 0; i < incoming->ser->max_nr_devices; i++) {
+>+		struct pci_dev_ser *dev_ser = &incoming->ser->devices[i];
+>+		unsigned long key;
+>+
+>+		if (!dev_ser->refcount)
+>+			continue;
+>+
+>+		key = pci_ser_xa_key(dev_ser->domain, dev_ser->bdf);
+>+		ret = xa_insert(&incoming->xa, key, dev_ser, GFP_KERNEL);
+>+		if (ret)
+>+			goto err_xa_destroy;
+>+	}
+>+
+>+	args->obj = incoming;
+> 	return 0;
+>+
+>+err_xa_destroy:
+>+	xa_destroy(&incoming->xa);
+>+	kfree(incoming);
+>+err_restore_free:
+>+	kho_restore_free(ser);
+>+	return ret;
 
-With vswap then it makes sense (and would probably be the "default"
-for zswap setup until we enable zswap writeback).
+Hmm.. This is interesting, so the KHO state is freed and it cannot be
+reused. I see you already pointed out that we are putting an LUO policy
+to say that the retry is not allowed.
+
+But what should be the behaviour of liveupdate in this regard? Let the
+system boot in a normal way? This might break other subsystems as they
+might depend on PCIe restoring state properly. Also I think some of the
+PCIe state, like device-id, BAR addresses, ACLs etc, might be used as
+source of truth by other components.
+
+For example, lets say FLB retrieve() of PCIe fails, but succeeds for
+VFIO/IOMMU, now VFIO/IOMMU are restoring state of a device that is not
+restored/preserved?
+
+Should this be considered fatal?
+> }
+>
+> static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+> {
+>-	kho_restore_free(args->obj);
+>+	struct pci_flb_incoming *incoming = args->obj;
+>+
+>+	xa_destroy(&incoming->xa);
+>+	kho_restore_free(incoming->ser);
+>+	kfree(incoming);
+> }
+>
+> static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
+>@@ -270,6 +335,91 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
+> }
+> EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
+>
+>+static struct pci_flb_incoming *pci_liveupdate_flb_get_incoming(void)
+>+{
+>+	struct pci_flb_incoming *incoming = NULL;
+>+	int ret;
+>+
+>+	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&incoming);
+>+
+>+	/* Live Update is not enabled. */
+>+	if (ret == -EOPNOTSUPP)
+>+		return NULL;
+>+
+>+	/* Live Update is enabled, but there is no incoming FLB data. */
+>+	if (ret == -ENODATA)
+>+		return NULL;
+>+
+>+	/*
+>+	 * Live Update is enabled and there is incoming FLB data, but none of it
+>+	 * matches pci_liveupdate_flb.compatible.
+>+	 *
+>+	 * This could mean that no PCI FLB data was passed by the previous
+>+	 * kernel, but it could also mean the previous kernel used a different
+>+	 * compatibility string (i.e. a different ABI).
+>+	 */
+>+	if (ret == -ENOENT) {
+>+		pr_info_once("No incoming FLB matched %s\n", pci_liveupdate_flb.compatible);
+>+		return NULL;
+>+	}
+>+
+>+	/*
+>+	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
+>+	 * but it cannot be retrieved.
+>+	 */
+>+	if (ret) {
+>+		WARN_ONCE(ret, "Failed to retrieve incoming FLB data\n");
+
+I think this should probably be considered fatal as mentioned above or
+the caller of this function should get an error so it can fail. I think
+retrievel of preserved state should generally not fail unless there is
+memory corruption or ABI is incompatible.
+>+		return NULL;
+>+	}
+>+
+>+	return incoming;
+>+}
+>+
+
+[snip]
+>+
+>+static inline bool pci_liveupdate_is_incoming(struct pci_dev *dev)
+>+{
+>+	return false;
+>+}
+> #endif
+>
+> #endif /* LINUX_PCI_LIVEUPDATE_H */
+>-- 
+>2.54.0.746.g67dd491aae-goog
+>
+
+Sami
