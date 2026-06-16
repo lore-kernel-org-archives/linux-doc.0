@@ -1,175 +1,203 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013053.outbound.protection.outlook.com [40.107.201.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA8D319857;
-	Tue, 16 Jun 2026 13:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781616168; cv=fail; b=JoohhnNMEq2IHgotiipOd3g9wO33fF+wrjD2P9EWwsZZkvsewI1bkatbg+HgJNIIkOGrWJGk1tGCHCXAN7DOjm63e7BgERKaqBfwuJ5vy975fU9OE7Gyqpdom+AIJRA2DwjxMEH3Dh2sKFPFdbD7ydS54NygnqaLeYznBbSlk30=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781616168; c=relaxed/simple;
-	bh=ox/FftqsTaCsIshL6p9tPVm62iotKw6s3o7baF6kEBI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SwR+MMztrSiEAjleBj4Hl9GC7+/WiAWyqe1wRwmJtwF0ukCybjYWmS/kDavlFk3VqttWZXh+0glD1uggdLfzCfjefXHhtl8pAyYv5PEsIDzyYbTaYycwR418aRG4uCo2xDLuCZ0i73ye17qnXsqYNJvELwmr/aORm2gKC/159u8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RWqlsv4t; arc=fail smtp.client-ip=40.107.201.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB8A351C17
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 14:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781618700; cv=none; b=NolMOv38oHo0biVJrjWdUbS6KJ42e0FasaNuoebkIn1dB3D8IhQIe9PQV5oFXEEarzUOpHS4XXLVeOuEOOhg/zhM1sAGRKJxRKZ3rAmBBDsfumvia2c7FY5G8FQ5dhdwdvN4t6rMx9V4Ss9+tA65w+SPLJk01V0GErVYmhYwfRw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781618700; c=relaxed/simple;
+	bh=6cxxjDrrDX0zKAQI6a9dsclYS/1SMkPHQU4sr4ythiE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N7xiQZtKrhyzTiqsf+B2E5F03jwEm4uOttHkaDpUoZIyHauIye6SzA2zLv0derIQuWtrC1vdR2zky61y0ge6AN9BNFI/sqYr9ojTylfpd+D1N3GTtlPyC9aDfsCbvUSS/BB1dgjZXjPwzQC5R6VrtXOKMsEXf9LGGTcXeUvnCZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWSb/dCc; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RWqlsv4t"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O3gM1dTVx0+JCZMTzcPXN8Lh20fu3kY2kZNYjC3kv/RollupqR7UTCgzt/mhIhioTDF+Fl8KS4KaIj3VQeBfc/O7cMgxSFVQTKycJXLcXHlwhHkwnVKlz8IgBNBeYVK2BMlPKJLFr0YFM7bJ9uEczLnp4GZ/6ex+K1TmOQrG6YCIeWS+w75ZPJRRGePDoFVpv44gy+qYto7Vp4xl0Jfr6k2YLCzAoaoBzFmT4t9kiABJhtJJNj1+1lYmwtIGhFrTUs1LED9+HO+pUuKIPmfJboksyHxMeQ/5VVRv3bhBaScZelWoBxP7/uFj+q0HSjg66ewTo8Yicpm31r9Agt8AJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MP8dptSvpbQfJMED3AeDoH8XgCcXJE1EoO9wokh75w4=;
- b=VL3IjnE9aj+D9wgsErNfUh+o44UwtjLoJtmM72KEZn+R8W4trj7B4S2mXnURTSXXBTwTmWZJCuvyDx9EmDAbavhmZ80ocXj1pzjgu1wkn3+i9qcs6DZ4clxpnHEEFi7vyxPnfKIqOCjgxCqEzeavoQByo39ymkHShHYrAcmSc3uB/Pxg6KmYGgVfuEIC078THAP/R/IYQLTxBaCyMRcs5SKBEUfRxN9+MF23RJfnJ6PPiJwLOz1DIJ83nCedzNNR6cZf78JjAOIXsBlDQlQbJLox6gbIFXK4ip2ycQzvZMrA3QN+uv15fNH9R2bd+rqKuGfbgGL4X5YCyS9/G/L5nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MP8dptSvpbQfJMED3AeDoH8XgCcXJE1EoO9wokh75w4=;
- b=RWqlsv4tJ8CAoC25jZmjOwih0AEiZx+lh1aJk3JL3+iqMZnaGfMtkfsFxTOBYZRV+UOzz7dfhdG+HjUGb/zTfCq0AuTIBhkoGLh2L8DTbVI452I1xyaX2l6Os3uYNi2Iuop7KgFQet1lBtHaRcTc35Tz/im7WMH1IDeazCRMxUBo0Ldo02aZOEiqTHACcrlGpZIpOJiwwV3bWmANcdcyfWcLOeO+H+tj5uAeSo1AngZTGZRqwrcegvnP7bg3O3qUUj4gj8Lyk+UdhZ43VYczyvB5IZgg/H7KU2Kv3P5e4H89HDuMwIGBCKanypFjE/oTLiTXqInVPf/xlGeCjPo2hA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com (2603:10b6:208:3ef::9)
- by MN2PR12MB4141.namprd12.prod.outlook.com (2603:10b6:208:1d5::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 13:22:43 +0000
-Received: from IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c]) by IA1PR12MB6089.namprd12.prod.outlook.com
- ([fe80::abd0:32b3:6f57:1d3c%3]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 13:22:43 +0000
-Message-ID: <25495831-f32d-4332-a7c2-fb1463b96174@nvidia.com>
-Date: Tue, 16 Jun 2026 08:22:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm64: errata: Workaround NVIDIA Olympus device
- store/load ordering erratum
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- Vladimir Murzin <vladimir.murzin@arm.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Mark Rutland <mark.rutland@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Vikram Sethi <vsethi@nvidia.com>, Jason Sequeira <jsequeira@nvidia.com>
-References: <20260610164822.4157248-1-sdonthineni@nvidia.com>
- <aiq5VigmtZq9GlAm@willie-the-truck>
- <IA1PR12MB6089049028A73A2078FC6831C71B2@IA1PR12MB6089.namprd12.prod.outlook.com>
- <851c4107-3f6d-46f3-b659-212ce4f69e6e@nvidia.com>
- <20260612124825.GF1962447@nvidia.com>
-Content-Language: en-US
-From: Shanker Donthineni <sdonthineni@nvidia.com>
-In-Reply-To: <20260612124825.GF1962447@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:a03:254::7) To IA1PR12MB6089.namprd12.prod.outlook.com
- (2603:10b6:208:3ef::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWSb/dCc"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36d98b68d68so3152234a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 07:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781618697; x=1782223497; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ivi7d8A0wNIQ0RxwcaD5lNJ1sWKXe2e7ej4lfpFqPXo=;
+        b=KWSb/dCc8hrwdC0/vDzCeHGB8OsCu4fgr92q6iEOzgT54FGBizPglsVcqfUM4JgPBk
+         37h8rlkx5GrZaZgyle/lskpFtbhFe00R84EejdzBCChSjNzTU61NrHsPPbzNuUHGpf9e
+         Y5l1iI+JFZfiSFU+8Db9MltI5t5WgTALRi2ZWtqtwRS+bQSQZQwK47bIOql6e3ZkHaqH
+         HQfpR8xUsK1yG6XzOa4yz2AYAJ4f+2w24tLm5SnEMhYIW5ZkACmuBBsgg/xC8YK7mI+v
+         IF3bxEnFaKLJzFbsHv/0+sjCSpehyA6tDcBByAa3MXPuvYoJKVJ2yLi+iG0jRQJ9vF8x
+         0s7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781618697; x=1782223497;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ivi7d8A0wNIQ0RxwcaD5lNJ1sWKXe2e7ej4lfpFqPXo=;
+        b=EgVoe/rkClcExil3IMKq1mSpo6Gt05pNKCerOO8GhHpezZ+HQtIkyOg69ZXoGsGTQA
+         xvZSAmbjbTOmAPgpl+jRvUyDi7BReKYByehppbLotV+CyCw344SzIr2OnVNxeB6Lu8bu
+         S1pT4+a43T6Hwhlxu9IWKdU1WXfzC29vEhIkrdGrXdC5ZzI5lQN0vBOCYAICAzZlfbyp
+         dYmq/FKiRvW8XqsJ1YGMPExHeej3tu3H+FWcS8VC52sd1SC8XteyzHMGmcnJSPQ7Bqg5
+         sL2Sajc50mdJ/Z5MMFXJTSeqxTJvpbLCDu1yQAoCd0g/aAugmcf01isSkqdDFLIjRbde
+         Ix/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8fBYcbP7fa9jN1A7afMtz9gsegKkEkvQExcBiIm9slWMXUj3Pl59QCySE3lOms+uED1Hzm0xIC4Tg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBM6uuzA/0boQyu7pUkzsIA0IP37OkcSlScnM1MYRQhvNUZYyE
+	A9L2hPLwWLev8S/z8NmGH+NWDozpTV/oM7+ZHJTh9vp7nrgTKBUDahV2
+X-Gm-Gg: Acq92OHZCL/QP0YDk54e+jG0CP0p2kK9GDEYTV2AIWDI/FTWksPLNSNtEEx9iwY25+M
+	KAt19hUb/7cf7XNHUq471DiA7ZviQT9/PHChtwYYGskQDYdQjXRyFEety3F8Vrv02DS6PpLjiy3
+	oPj0owDjVKPTLa7LzCyUggO64STSmdosmn61HCHypo6cEid9cSudDkXKvfw/FoT1d14FFpXwDMx
+	b5NIVNY38PF9izA4w4JwbgrZ2ALc45dygkFEc6RSvvEJN6VJfxdMQdM7wiTlfH6USV6EfpkuQhB
+	+ZtgPx5Ki06ljDsDXZn+ffsYIZYhGOmKlPpBkrOZApSS0rb5gPEeGzRh/bVYjULRbqN7lZ5B+ix
+	625cU7WMgc80wt1ykBRnyO+Erb3qV+MxZPMevQUDxSPLVhaZMnKEsU7mWHs9Z1QxE+IgwP6293t
+	6HMEDEJwxrEpvdERabZsXl24D6u9wDvrCOL19xVhy/ZpBUVnTIziEqGbZb4swki1zqBddCqPyA
+X-Received: by 2002:a17:90b:3fcd:b0:36b:b06c:30a1 with SMTP id 98e67ed59e1d1-37c2bc42814mr15347185a91.1.1781618696752;
+        Tue, 16 Jun 2026 07:04:56 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c86651aef27sm11809894a12.30.2026.06.16.07.04.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 07:04:55 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f080e20e-6ec7-4744-9794-0a92d03f48d8@roeck-us.net>
+Date: Tue, 16 Jun 2026 07:04:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6089:EE_|MN2PR12MB4141:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0290427-ee36-4e5a-c6a7-08decbaa5873
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|56012099006|11063799006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	AYdYSK9XtuxI9dUX9fT4WoOJpnFkcPQyNjPtq8EZtoLg+csdqLA5spf6Wm3LfaON8qmIJdk5Nfftuwqns510h9hQfHyIhVSN/YWdJ0nvVlupSVmRl7fyoNSgNzRYSBYShYVs+3qJzjkd3KzPw66/3msw23UECo5UsDEUvQ8WrH/iWI2+6ULXfeciKLrgA/nrXrkVIl9mvUDgO6D1rqsKSCQFDDQgVho01omD+DdzJjU5LhBHqX/bZEHIyFysuUP8NsbAP0DqGfgoa3oUkOTaI3qid/hDZpCr/w6Vo4+gBMgPuIc8gcNDoroRdr7nVax8UDeDNHYgJy9oG5ZmbyejlWT6+hE0QfbIr7mo/Da4yzgTUuPe1Yxdv5lVFemZ7zToH3IgO+EeRJ0XNfNkJbUy/yBYJ6lpR6TSsBEtSJgu1HDfMjRb7QeoO/kQzizr+WdcN66RRHEcqysnGcGbKGO8KSCgARyZUofn70lZ9BAa9NxQNYy/aYjcK9DojcgW0FkkHBCYeiibtjNOkKuTxtX0JriY7H31pUqN6saGIgkohxLS9gJF2ORKHFADZEBdjGr3zT3F2O4+SypM7HKao0hdR5wjehP5fGURWXElbYhwfpxcIPbE4CwLkUHS9jHxMcdSopAQpunFHmYHBvR2Qs6VCXDU36NnNtaKgCYSqpwH9Sl6x58ArrkCV4gQmn4gNZyn
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6089.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UkxCQkRxUVBOeG9rQXFiSVhJS3JSWFV0SGZBdWJtaTAxc1NOanNQTVdyOHRk?=
- =?utf-8?B?MmljUDVQTzNtRHdqNE12ZGFmNGVOYmFJWDN0TGFUbWlVVXc1ZUxaK3BMQ2pV?=
- =?utf-8?B?OGFrVTVscmFKdzlQalhNSGllRUg1TUVjZklseHBlRlZxaW1tblpFbFJNQkxB?=
- =?utf-8?B?aWJVMERINFJka0xoUWdFRDNzRmMvbCtGNVJuNWx1cFAzTlcvZlBRK013WEZv?=
- =?utf-8?B?VHVwN0dLdlpuNUtCWFg3ZXZuNkl5bkRqb0pjWGpIRHhMZy93YU1yMk5sZWZK?=
- =?utf-8?B?UTBxSGhoSE1hK0FuWmJvbCtjYk1KalRsOHgxSDEyajJ0RVdCNUxKeXVUZlB6?=
- =?utf-8?B?ZzI2cEMzN3BKSHZGRSs4bHYxeTBGeU54bXJ3UEdpek5ueVo3R0RoRVRVK3dz?=
- =?utf-8?B?RWpPRWNMa3Q2VFFzK2svNlIyTmxJOU5xZmpla1Bla3c3ejZka2xYTVZRdldr?=
- =?utf-8?B?dU9ySWZOM0dJd2Y4dG4randsUHF4Z2lNUFBjdG8yeXM1ZCthVitUNDZOdHRC?=
- =?utf-8?B?bEZiRjErV3U0a0U1dGF6NVF3OVN3SVNCRjhEVXJ2UGF0K1lwcEsvbXgvandX?=
- =?utf-8?B?bnAwY1Bra1pHcnBCNUExSUtReHR3OE0zdENwdVhlaURtQXlUYXRsUXFqdUtD?=
- =?utf-8?B?RitqdFZRYXVmMkxjeS9MWmlMZEQxRUxvMit3cFFJRHlpQTltNE51aVg1Ullx?=
- =?utf-8?B?MzQzUlBCalpNVm1lU0RkUUpaRm1GNEYvTS9BM09YNFBUSFNtYWs1Z0cxTllq?=
- =?utf-8?B?YW9aYm5ETGRWdlNBMmVPYTNsOTBOcFlhYTh1Y2xGVUw3MXRwT05YNG00YmJT?=
- =?utf-8?B?V2RyWE9qZGFyNWxhYXQxN2p4ZDNFQWZwellOT2RrWFV6bkRhYTZ2d1JCY1c0?=
- =?utf-8?B?dHNQKzJjcmpEQTY3NnVKTVpFeFNwVHVzV3JnN2s4bTZjVVBYZFhnSlEvZ0Z6?=
- =?utf-8?B?ZlllVTZuZzBJdkg0WDN3dVdpdkovL2FKM0RISnRWTk1FMTFsZ1kwdnFuSDUx?=
- =?utf-8?B?enRHZTJxUHk2c2hYOXdRWExVUXMyN2FYMGJaaG9Ca1l2TGJ2bHBaZ0p1ZnVu?=
- =?utf-8?B?Z3JiSmYwcDZsQm9LcWhNM3EzcEpRSnJHaE1sWEtJZkNvN0ZibkxVSFlZNS9p?=
- =?utf-8?B?U2tRWm9tZ1dvbTlieFV2TGFYOWVsZ1dDR2Z2NGNoMitxK1phMjRyRHk1eFNF?=
- =?utf-8?B?ZUJzSWJFSk5TeXh3YkR4cjUzSjdpeGxtdDVWRFdmT0FOczBBTGtXUkZVR0J0?=
- =?utf-8?B?Ri85VVF2WkNxNURiYUMvRjdwSE8rQ2MyWEJ4U0ZKMXdZOTlRbmh4SFpOa2F3?=
- =?utf-8?B?TWZlRlF5RjBveHRJL0pZNXo0SndEaUNFUnI0U1ExOC9yNk5xSVpYdEtvRW9h?=
- =?utf-8?B?S0d5ekxqQ0hHU1BVZlhQWGlUbUdWYXFhNDc4TlVrcWNDRUxzRnBsTWRVWDQw?=
- =?utf-8?B?c3NkUldRQkhMWmVYT3pmdHpZSFJGeHNvMlV2bUxyZkR4UmxCVWdpMFpuQzJ1?=
- =?utf-8?B?dXJYNjlaV01PcXQ2ZGEzY0E4dVNsaklmRjdzR1lrMjF2dWt1WG5BNVhhNjBL?=
- =?utf-8?B?Mi80bmxnSU1RUjVMK1RYWTcrSFpGUVJxNEw0RmtWUU4vUmt6R2JyTzFPT255?=
- =?utf-8?B?NzJ2VHVkdzVCdlB2bDhiQlRQd21aR1pOTFdZYTEyR1NOanp5WEMwOHl3YUhV?=
- =?utf-8?B?bFc2bk1ybVdSUEdHbGtjbzNhM1RhNWhVTVhHb3NDbFc0MC9UeWtZMDdTWmVK?=
- =?utf-8?B?SlhnaXBVWlVFYjgrYlZhSkJKZ3R5dFNRYnZHcHAzNnNWSkRlcGZuV1I3RkdK?=
- =?utf-8?B?QURMdkowaFByRm9kNGllTHBvOUtzV3ZIV3hZOXhNQmhZMXdMWjZsc2xjcDFS?=
- =?utf-8?B?cHljcFlJTW1PSkh0Sklod1NsMmNPYmRWbjVNbEdGa3hJVzBuU3ZOUXoxT0RJ?=
- =?utf-8?B?OXo4djZuR0xVejVlQkxHL1FJc05TaGZld0JOZUMvUWJLTGdHR05vemxLaWZk?=
- =?utf-8?B?WUc3YmdpbHROeEVMdVhLWk5jUXl3OHhyVU03Yi9RSjZJaE4yaDJzbkR1K3Jh?=
- =?utf-8?B?b1VsdWx0M2dXdkRuemRQSWcwZ2IxTWxiZVRJU0MvVnE5d2hzblJXUnRiN3JS?=
- =?utf-8?B?d3NqaXdlT2ZEUjNmeTFack03VkVseGUvQ0FZYVRuamlqR01lWFJjS0NEWk9z?=
- =?utf-8?B?VHA1cWtzQ05Ca1M0UUd1S3p0clZNM2pnT3Z3TU4wcUNvdTdBbi9xZ1phRkhU?=
- =?utf-8?B?aEQ3QzJHdHljenhYTlFaR0pGYWdkSkJnNFZqN2ZiUEYvMTdkbHR1NG4wOGpK?=
- =?utf-8?B?clBLNUordUhUYzNMQm9JSHlld2hhVEZLWFpRK2lmTFJqd2g0K1FWdnljN1lS?=
- =?utf-8?Q?xcSg1e27+ZRUMzog=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0290427-ee36-4e5a-c6a7-08decbaa5873
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6089.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 13:22:42.8314
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R0/OpBJPy/nBy7f8rYE7F5pVF7kvmyVgxaA6n5QOW2+KYzcMJcjRfMIi940egDrgK86Yl1VA+u812Sdhe8Y29g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4141
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/7] hwmon: adm1275: Support module auto-loading
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>,
+ Ashish Yadav <ashish.yadav@infineon.com>,
+ Kim Seer Paller <kimseer.paller@analog.com>,
+ Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+ Charles Hsu <hsu.yungteng@gmail.com>, ChiShih Tsai <tomtsai764@gmail.com>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1781591132.git.mazziesaccount@gmail.com>
+ <634e76680ed93e58ebeb35db080138b791cb6c27.1781591132.git.mazziesaccount@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <634e76680ed93e58ebeb35db080138b791cb6c27.1781591132.git.mazziesaccount@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Will,
+On 6/15/26 23:47, Matti Vaittinen wrote:
+> From: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> Populating the spi_device_id -table is not enough to make the
+> driver module automatically load when device-tree node for the bd12780
+> is parsed at boot.
+> 
+> Adding the of_device_id tables causes the driver module to be
+> automatically load at boot. Testing has been done with rather old Debian
+> system.
+> 
+> When inspecting the generated module-aliases with the insmod, following
+> entries seem to be the difference:
+> 
+> alias:          of:N*T*Crohm,bd12780C*
+> alias:          of:N*T*Crohm,bd12780
+> 
+> I suspect these are required for the module loading to work.
+> 
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> ---
+> 
+> I did not add of_device_ids for other supported ICs as I can't verify it
+> doesn't cause side-effects. Please let me know if you think those IDs
+> should be added as well. I would be glad if I got more educated opinion
+> on adding the of-IDs :) (I can squash this to 3/7 and 6/7 in next
+> revision, and add own patch for adding of-IDs for other ICs if
+> required).
+> 
 
-On 6/12/2026 7:48 AM, Jason Gunthorpe wrote:
-> On Thu, Jun 11, 2026 at 08:13:48PM -0500, Shanker Donthineni wrote:
->
->> For the scalar MMIO helpers, the workaround promotes the raw writes to
->> store-release on affected CPUs as v1/v2 shown below. For the memcpy-toIO
->> helpers, could you please clarify the specific reason for adding a dmb despite
->> the documented no-ordering contract? Is the concern that some drivers may
->> be relying on ordering across memcpy_toio_*() today even though the API
->> does not guarantee it, and that we should cover those cases defensively?
-> I think given how arm implements them today the iocopy's are actually
-> the _relaxed variations.. I wonder if this matters to any user?
+I don't know what those side effects might be. I am much more concerned
+about side effects of having some of the devices in adm1275_of_match
+and some in adm1275_id. So, yes, please add a patch to provide
+adm1275_of_match for all chips supported by the driver.
 
-Following Jason's observation that on arm64 the memcpy_toio() 
-/__iowrite{32,64}_copy() helpers are effectively the relaxed 
-(write-combining) variants, I'd like to settle one open point before 
-posting v4: should the workaround also promote dgh() > dmb on affected 
-CPUs (now Olympus core), or leave dgh() as a plain hint?
+Thanks,
+Guenter
 
-       
-If you'd still prefer the dmb defensively, to cover drivers that may 
-rely on ordering across memcpy_toio() today despite the relaxed 
-contract, I'm happy to fold it into v4.
-
-     
-
-       
-Please let me know how you'd like me to proceed.
-
-     
-
--Shanker
+> ---
+>   drivers/hwmon/pmbus/adm1275.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+> index 9e21dd4083e9..c27bb0e49354 100644
+> --- a/drivers/hwmon/pmbus/adm1275.c
+> +++ b/drivers/hwmon/pmbus/adm1275.c
+> @@ -927,9 +927,17 @@ static int adm1275_probe(struct i2c_client *client)
+>   	return pmbus_do_probe(client, info);
+>   }
+>   
+> +static const struct of_device_id adm1275_of_match[] = {
+> +	{ .compatible = "rohm,bd12780", },
+> +	{ .compatible = "rohm,bd12790", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, adm1275_of_match);
+> +
+>   static struct i2c_driver adm1275_driver = {
+>   	.driver = {
+>   		   .name = "adm1275",
+> +		   .of_match_table = adm1275_of_match,
+>   		   },
+>   	.probe = adm1275_probe,
+>   	.id_table = adm1275_id,
 
