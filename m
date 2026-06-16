@@ -1,320 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9C5477993;
-	Tue, 16 Jun 2026 11:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFC8438FF3;
+	Tue, 16 Jun 2026 12:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781611186; cv=none; b=eKWz1neupUd0PWCY4dBYfuedoqzBfeofbuT6SLRy1UedLwheYVunypQL2XLcGJzfNvPwjdtZ3p+QXbvFIWhIvkrAsJ/sCrSNgcKngwih/SH0UMQbu39bybiVhHFE9KOjJgjHitlJXph98T6B955sH7QbXvCytnTKXV61dhLbYuM=
+	t=1781611612; cv=none; b=M8AK7b+UK/+wgNf8beTTBBzOo9IMecw+xk6zfMj8LbzWKJwUntRupjnGOXTngvJdXgejeq88HdGo3Pm+19DFhZw1QXDUF8wiOwqZfE/kdZuscV6xA4eTXOjmOEqjx56yYbNHAXgezWgQ2aAYOGmiadm+6xBvnrlrnUfkvIU99AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781611186; c=relaxed/simple;
-	bh=gH+uDT87A/C27AIhVHK5wxfGC6rtEaL1A5rAzBUcmGg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cYfckgDgMJGhFygrn1n+KL8GrvXBnzk/Cz/dIFUn4yqsGn3VvC4OJAVP/lLiZOIPcrFizexQERLEjq3GfmounR/8dy4o+mdo2XeeS1OnI+zQKken3djIzNfSLKSXoTWoyeRxWY2CI01zQDrtNvieULE7P3MfmIyfw9k9YxndtUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZM+5eVzs; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZM+5eVzs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEF81F00A3A;
-	Tue, 16 Jun 2026 11:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781611184;
-	bh=k7ihv2PVJm8Txb0R8FICWVxvyXBx92a26UjRp6NT9ys=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ZM+5eVzshb5WcRhOR24zzzrAcr5tikU3022aR3TMQw9XoPKKV0YA5O0VlradS4Mmg
-	 7GbWr4CJI5HIgyFw4LQAlxw9peK95NWfGcZts32qbp729HUmO8zPZKtozx1/dmE4az
-	 eoPLjd+7q53JH5BLY8b0DoUxauvkhXoYZckoU1iSrIoaXKNUCsf1AHXxxlagcuvkks
-	 qhGRoeE3K6lir7jAFyJwXQrdSU7IFylb818nJmcG64OIEt9D2H2hncy201v8suM2WQ
-	 qAe/VxwLH/fq1eS5ZhLL1K3p+foc7Q+cABxw79A6rf3f8PPXrfGv1cRR11DonzobNQ
-	 p01GKTaovyIaQ==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 16 Jun 2026 07:59:03 -0400
-Subject: [PATCH v7 20/20] nfsd: add support to CB_NOTIFY for dir attribute
- changes
+	s=arc-20240116; t=1781611612; c=relaxed/simple;
+	bh=zom3if6p40pVA1oDb93siAg0Qr2qwaRFCv9D6fDmwT8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fW6rNScaSrt5dMN4Gf+FwJwxW4kce+8Z7SHIErOauJ3u6DNTDJcxRvJgLYbYp+iG95AUZ/9jeEMGAGFaTFfxvBxSfgLlNpmseWH049vd3EP2dqu1Wd/YkLnqOFDajNgeeLiBUS7y0ZqMZacLNOir7rhYuo2sqH/3iY/hVModrdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id D6ABF1EA01F; Tue, 16 Jun 2026 20:06:41 +0800 (AWST)
+X-Spam-Level: 
+Received: from [IPV6:2001:8003:8810:ea00::9c4] (unknown [IPv6:2001:8003:8810:ea00::9c4])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id AA7691EA00D;
+	Tue, 16 Jun 2026 20:06:33 +0800 (AWST)
+Message-ID: <51f89811-2976-44c7-99f3-5e24d5535aa8@davidgow.net>
+Date: Tue, 16 Jun 2026 20:06:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260616-dir-deleg-v7-20-6cbc7eac0ade@kernel.org>
-References: <20260616-dir-deleg-v7-0-6cbc7eac0ade@kernel.org>
-In-Reply-To: <20260616-dir-deleg-v7-0-6cbc7eac0ade@kernel.org>
-To: NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Chuck Lever <cel@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, 
- Alexander Aring <alex.aring@gmail.com>, Amir Goldstein <amir73il@gmail.com>, 
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Calum Mackay <calum.mackay@oracle.com>, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8995; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=gH+uDT87A/C27AIhVHK5wxfGC6rtEaL1A5rAzBUcmGg=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqMTqIztEIw47JLebOaM8hiiC/JcAX+8QPnFGZL
- IdgGSJNFu+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCajE6iAAKCRAADmhBGVaC
- FZ+xEACu8b2kujCSSH6wD9EXPew9lYjcKOXGrUFUmhewWzS5HvHNySC7u9nWAMWs4qF8Oy1mCfg
- 2DgP3jEmNGtBGBs+0p1qVAEkp7rpnl3g9Ivs30bDyV488VZxB7HY5ca2+f1O6YEVpXDlpWhb871
- 8GOlaq02ZOw4l9E3WO9NOWzlSTts62mgllob/z06lWeo7U3nQc3k1qwgFN6Jx7GnJvWENy0/Vq9
- iobTKYPwzADWWkW4q+/bNslDMRcreD1+DQYFgGgSamyl89u01H9ZTnTVElIxCJqMINgYmIrUTWa
- ytVS8hZxVxpM6lo3UMWAaa/QrtWZV/qUVrAAa3al7f327yngrlQQXKXcdmwGOBrCj4+eqd1XaKR
- ttLsA6zWjTX2bvOwH90IBiAOvatjnXh5Dta1D2mepfi106qoAOsZ/10VJKG53mzA8LELBMnpVCW
- DNK3C9Nfexngu/DN+oNmfI3hiozGipFPPxAxUYnV2S1VagfiatrAtNDfQ5q773/jS6lsIhRVOFh
- ddqNAiHrCymP4Nv44qDnw45dASggSRx9uvOuPxW6zy8vKqt3hxTLPaI08+DlR7+4k1JM220AHPZ
- iyIbW6bNuLKx3Ff3U1N/2eXctJjcgT2zLzHY9rS+awk6gXzxeNgDdAWWWPAxYvxL8uvFrmTYvhR
- pvVyesbuTmSbx0Q==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 0/4] kunit: Add support for suppressing warning
+ backtraces
+To: Albert Esteve <aesteve@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+ peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>,
+ Linux Kernel Functional Testing <lkft@linaro.org>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <error27@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20260515-kunit_add_support-v13-0-18ee42f96e7b@redhat.com>
+ <CADSE00+typ3Zi5Vf0Z276+e0G7PuS7mt7oA9h5awBu3YgYKw0g@mail.gmail.com>
+From: David Gow <david@davidgow.net>
+Content-Language: fr
+In-Reply-To: <CADSE00+typ3Zi5Vf0Z276+e0G7PuS7mt7oA9h5awBu3YgYKw0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-If the client requested dir attribute change notifications, send those
-alongside any set of add/remove/rename events. Note that the server will
-still recall the delegation on a SETATTR, so these are only sent for
-changes to child dirents.
+Le 16/06/2026 à 7:44 PM, Albert Esteve a écrit :
+> On Fri, May 15, 2026 at 2:29 PM Albert Esteve <aesteve@redhat.com> wrote:
+>>
+>> Some unit tests intentionally trigger warning backtraces by passing bad
+>> parameters to kernel API functions. Such unit tests typically check the
+>> return value from such calls, not the existence of the warning backtrace.
+>>
+>> Such intentionally generated warning backtraces are neither desirable
+>> nor useful for a number of reasons:
+>> - They can result in overlooked real problems.
+>> - A warning that suddenly starts to show up in unit tests needs to be
+>>   investigated and has to be marked to be ignored, for example by
+>>   adjusting filter scripts. Such filters are ad hoc because there is
+>>   no real standard format for warnings. On top of that, such filter
+>>   scripts would require constant maintenance.
+>>
+>> One option to address the problem would be to add messages such as
+>> "expected warning backtraces start/end here" to the kernel log.
+>> However, that would again require filter scripts, might result in
+>> missing real problematic warning backtraces triggered while the test
+>> is running, and the irrelevant backtrace(s) would still clog the
+>> kernel log.
+>>
+>> Solve the problem by providing a means to suppress warning backtraces
+>> originating from the current kthread while executing test code.
+>> Since each KUnit test runs in its own kthread, this effectively scopes
+>> suppression to the test that enabled it, without requiring any
+>> architecture-specific code.
+>>
+>> Overview:
+>> Patch#1 Introduces the suppression infrastructure integrated into
+>>         KUnit's hook mechanism.
+>> Patch#2 Adds selftests to validate the functionality.
+>> Patch#3 Demonstrates real-world usage in the DRM subsystem.
+>> Patch#4 Documents the new API and usage guidelines.
+>>
+>> Design Notes:
+>> Suppression is integrated into the existing KUnit hooks infrastructure,
+>> reusing the kunit_running static branch for zero overhead
+>> when no tests are running. The implementation lives entirely in the
+>> kunit module; only a static-inline wrapper and a function pointer
+>> slot are added to built-in code.
+>>
+>> Suppression is checked at three points in the warning path:
+>> - In `warn_slowpath_fmt()` (kernel/panic.c), for architectures without
+>>   __WARN_FLAGS. The check runs before any output, fully suppressing
+>>   both message and backtrace.
+>> - In `__warn_printk()` (kernel/panic.c), for architectures that define
+>>   __WARN_FLAGS but not their own __WARN_printf (arm64, loongarch,
+>>   parisc, powerpc, riscv, sh). The check suppresses the warning message
+>>   text that is printed before the trap enters __report_bug().
+>> - In `__report_bug()` (lib/bug.c), for architectures that define
+>>   __WARN_FLAGS. The check runs before `__warn()` is called, suppressing
+>>   the backtrace and stack dump.
+>>
+>> To avoid double-counting on architectures where both `__warn_printk()`
+>> and `__report_bug()` run for the same warning, the hook takes a bool
+>> parameter: true to increment the suppression counter, false to suppress
+>> without counting.
+>>
+>> The suppression state is dynamically allocated via kunit_kzalloc() and
+>> tied to the KUnit test lifecycle via `kunit_add_action()`, ensuring
+>> automatic cleanup at test exit. Writer-side access to the global
+>> suppression list is serialized with a spinlock; readers use RCU.
+>>
+>> Two API forms are provided:
+>> - kunit_warning_suppress(test) { ... }: scoped blocks with automatic
+>>   cleanup. The suppression handle is not accessible outside the block,
+>>   so warning counts (if needed) must be checked inside. Multiple
+>>   sequential suppression blocks are allowed.
+>> - kunit_start/end_suppress_warning(test): direct functions that return
+>>   an explicit handle. Use when the handle needs to be retained, or passed
+>>   across helpers. Multiple sequential suppression blocks are allowed.
+>>
+>> This series is based on the RFC patch and subsequent discussion at
+>> https://patchwork.kernel.org/project/linux-kselftest/patch/02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain/
+>> and offers a more comprehensive solution of the problem discussed there.
+>>
+>> Changes since RFC:
+>> - Introduced CONFIG_KUNIT_SUPPRESS_BACKTRACE
+>> - Minor cleanups and bug fixes
+>> - Added support for all affected architectures
+>> - Added support for counting suppressed warnings
+>> - Added unit tests using those counters
+>> - Added patch to suppress warning backtraces in dev_addr_lists tests
+>>
+>> Changes since v1:
+>> - Rebased to v6.9-rc1
+>> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
+>>   [I retained those tags since there have been no functional changes]
+>> - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option, enabled by
+>>   default.
+>>
+>> Changes since v2:
+>> - Rebased to v6.9-rc2
+>> - Added comments to drm warning suppression explaining why it is needed.
+>> - Added patch to move conditional code in arch/sh/include/asm/bug.h
+>>   to avoid kerneldoc warning
+>> - Added architecture maintainers to Cc: for architecture specific patches
+>> - No functional changes
+>>
+>> Changes since v3:
+>> - Rebased to v6.14-rc6
+>> - Dropped net: "kunit: Suppress lock warning noise at end of dev_addr_lists tests"
+>>   since 3db3b62955cd6d73afde05a17d7e8e106695c3b9
+>> - Added __kunit_ and KUNIT_ prefixes.
+>> - Tested on interessed architectures.
+>>
+>> Changes since v4:
+>> - Rebased to v6.15-rc7
+>> - Dropped all code in __report_bug()
+>> - Moved all checks in WARN*() macros.
+>> - Dropped all architecture specific code.
+>> - Made __kunit_is_suppressed_warning nice to noinstr functions.
+>>
+>> Changes since v5:
+>> - Rebased to v7.0-rc3
+>> - Added RCU protection for the suppressed warnings list.
+>> - Added static key and branching optimization.
+>> - Removed custom `strcmp` implementation and reworked
+>>   __kunit_is_suppressed_warning() entrypoint function.
+>>
+>> Changes since v6:
+>> - Moved suppression checks from WARN*() macros to warn_slowpath_fmt()
+>>   and __report_bug().
+>> - Replaced stack-allocated suppression struct with kunit_kzalloc() heap
+>>   allocation tied to the KUnit test lifecycle.
+>> - Changed suppression strategy from function-name matching to task-scoped:
+>>   all warnings on the current task are suppressed between START and END,
+>>   rather than only warnings originating from a specific named function.
+>> - Simplified macro API: removed KUNIT_DECLARE_SUPPRESSED_WARNING(),
+>>   the START macro now takes (test) and handles allocation internally.
+>> - Removed static key and branching optiomization, as by the time it
+>>   was executed, callers are already in warn slowpaths.
+>> - Link to v6: https://lore.kernel.org/r/20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com
+>>
+>> Changes since v7:
+>> - Integrated suppression into existing KUnit hooks infrastructure
+>> - Removed CONFIG_KUNIT_SUPPRESS_BACKTRACE
+>> - Added suppression check in __warn_printk()
+>> - Added spinlock for writer-side RCU protection
+>> - Replaced explicit rcu_read_lock/unlock with guard(rcu)()
+>> - Added scoped API (kunit_warning_suppress) using __cleanup attribute
+>> - Updated DRM patch to use scoped API
+>> - Expanded self-tests: incremental counting, cross-kthread isolation
+>> - Rewrote documentation covering all three API forms with examples
+>> - Link to v7: https://lore.kernel.org/r/20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com
+>>
+>> Changes since v8:
+>> - Rebased to v7.1-rc2
+>> - Remove KUNIT_START/END_SUPPRESSED_WARNING() macros
+>> - Add KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT checks to drm tests
+>> - Link to v8: https://lore.kernel.org/r/20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com
+>>
+>> Changes since v9:
+>> - Fix silent false-pass when kunit_start_suppress_warning() returns NULL
+>> - Fix RCU lockdep splat for kunit_is_suppressed_warning() calls
+>> - Move disable_trace_on_warning() in __report_bug()
+>> - Make suppress counter atomic
+>> - Mark helper warn functions in selftest as noinline
+>> - Add kunit_skip() for CONFIG_BUG=n in selftests
+>> - Fix potentially uninitialized data.was_active in kthread seltest
+>> - Add kthread_stop() in kthread selftest early exit
+>> - Initialize scaling_factor to INT_MIN in DRM scaling tests
+>> - Add include for bool in test-bug.h to fix CONFIG_KUNIT=n case
+>> - Link to v9: https://lore.kernel.org/r/20260508-kunit_add_support-v9-0-99df7aa880f6@redhat.com
+>>
+>> Changes since v10:
+>> - Remove synchronize_rcu() to avoid sleeping in atomic context
+>> - Pin task_struct refcount to prevent ABA false-positive matches
+>> - Loop in suppression selftest to prevent use-after-free on kthread exit
+>> - Skip DRM rect tests on CONFIG_BUG=n
+>> - Link to v10: https://lore.kernel.org/r/20260513-kunit_add_support-v10-0-e379d206c8cd@redhat.com
+>>
+>> Changes since v11:
+>> - Use call_rcu() to defer free without blocking
+>> - Remove #ifdef CONFIG_KUNIT guard in lib/bug.c
+>> - Remove stale config checks from selftest
+>> - Replace skip on DRM rect tests with conditional expectation
+>> - Link to v11: https://lore.kernel.org/r/20260514-kunit_add_support-v11-0-b36a530a6d8f@redhat.com
+>>
+>> Changes since v12:
+>> - Reverted to the v9 synchronize_rcu() approach
+>> - Add in_task() check at the top of __kunit_is_suppressed_warning_impl()
+>> - Link to v12: https://lore.kernel.org/r/20260515-kunit_add_support-v12-0-a216dc228be8@redhat.com
+> 
+> Hi all,
+> 
+> I am not sure if there is a decision to merge this series or if any
+> work remains to be done.
+> 
+> I reckon I sent a few versions back-to-back last time as I was
+> struggling with Sashiko. However, there are no significant changes,
+> the core strategy remains unchanged, involving only the addition of
+> safety checks and the removal of some redundancies to satisfy the AI.
+> I am just clarifying in case the last versions/respins were unclear. I
+> tried running AI reviews locally but Sashiko always found more issues
+> than my local model could.
+> 
+The latest version was fine. It's just landed for 7.2:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=42eb3a5ef6bc56192bf450c79a3f274e081f8131
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- Documentation/sunrpc/xdr/nfs4_1.x |  1 +
- fs/nfsd/nfs4proc.c                |  7 +++--
- fs/nfsd/nfs4state.c               | 25 +++++++++++++++--
- fs/nfsd/nfs4xdr.c                 | 58 +++++++++++++++++++++++++++++++++------
- fs/nfsd/nfs4xdr_gen.c             |  4 +--
- fs/nfsd/nfs4xdr_gen.h             |  3 ++
- fs/nfsd/xdr4.h                    |  2 ++
- 7 files changed, 84 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/sunrpc/xdr/nfs4_1.x b/Documentation/sunrpc/xdr/nfs4_1.x
-index a32df1e882e5..e66f396ae659 100644
---- a/Documentation/sunrpc/xdr/nfs4_1.x
-+++ b/Documentation/sunrpc/xdr/nfs4_1.x
-@@ -464,6 +464,7 @@ pragma public notify_add4;
- struct notify_attr4 {
-         notify_entry4   na_changed_entry;
- };
-+pragma public notify_attr4;
- 
- struct notify_rename4 {
-         notify_remove4  nrn_old_entry;
-diff --git a/fs/nfsd/nfs4proc.c b/fs/nfsd/nfs4proc.c
-index 48fc7b0df4dc..c413ed0810b9 100644
---- a/fs/nfsd/nfs4proc.c
-+++ b/fs/nfsd/nfs4proc.c
-@@ -2552,9 +2552,10 @@ nfsd4_verify(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
- 	return status == nfserr_same ? nfs_ok : status;
- }
- 
--#define SUPPORTED_NOTIFY_MASK	(BIT(NOTIFY4_REMOVE_ENTRY) |	\
--				 BIT(NOTIFY4_ADD_ENTRY) |	\
--				 BIT(NOTIFY4_RENAME_ENTRY) |	\
-+#define SUPPORTED_NOTIFY_MASK	(BIT(NOTIFY4_CHANGE_DIR_ATTRS) |	\
-+				 BIT(NOTIFY4_REMOVE_ENTRY) |		\
-+				 BIT(NOTIFY4_ADD_ENTRY) |		\
-+				 BIT(NOTIFY4_RENAME_ENTRY) |		\
- 				 BIT(NOTIFY4_GFLAG_EXTEND))
- 
- static __be32
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index a948dc8a46cc..2f7210accdf1 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -3522,10 +3522,15 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	struct nfsd_notify_event *events[NOTIFY4_EVENT_QUEUE_SIZE];
- 	struct xdr_buf xdr = { .buflen = PAGE_SIZE * NOTIFY4_PAGE_ARRAY_SIZE,
- 			       .pages  = ncn->ncn_pages };
-+	int limit = NOTIFY4_EVENT_QUEUE_SIZE;
- 	struct xdr_stream stream;
- 	struct nfsd_file *nf;
--	int count, i;
- 	bool error = false;
-+	int count, i;
-+
-+	/* Save a slot for dir attr update if requested */
-+	if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS))
-+		--limit;
- 
- 	/* Clear any failure recorded by a previous transmit. */
- 	ncn->ncn_encode_err = false;
-@@ -3542,7 +3547,7 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	}
- 
- 	/* we can't keep up! */
--	if (count > NOTIFY4_EVENT_QUEUE_SIZE) {
-+	if (count > limit) {
- 		spin_unlock(&ncn->ncn_lock);
- 		goto out_recall;
- 	}
-@@ -3589,6 +3594,22 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 		nfsd_notify_event_put(nne);
- 	}
- 	if (!error) {
-+		if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)) {
-+			u32 *maskp = (u32 *)xdr_reserve_space(&stream, sizeof(*maskp));
-+
-+			if (maskp) {
-+				u8 *p = nfsd4_encode_dir_attr_change(&stream, dp, nf);
-+
-+				if (p) {
-+					*maskp = BIT(NOTIFY4_CHANGE_DIR_ATTRS);
-+					ncn->ncn_nf[count].notify_mask.count = 1;
-+					ncn->ncn_nf[count].notify_mask.element = maskp;
-+					ncn->ncn_nf[count].notify_vals.data = p;
-+					ncn->ncn_nf[count].notify_vals.len = (u8 *)stream.p - p;
-+					++count;
-+				}
-+			}
-+		}
- 		ncn->ncn_nf_cnt = count;
- 		nfsd_file_put(nf);
- 		return true;
-diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-index 0649bb4cf2e7..a18d0b766b50 100644
---- a/fs/nfsd/nfs4xdr.c
-+++ b/fs/nfsd/nfs4xdr.c
-@@ -4253,11 +4253,11 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 			  struct dentry *dentry, struct nfs4_delegation *dp,
- 			  struct nfsd_file *nf, char *name, u32 namelen)
- {
--	struct path path =  { .mnt = nf->nf_file->f_path.mnt,
--			      .dentry = dentry };
-+	struct path path = nf->nf_file->f_path;
- 	struct nfsd4_fattr_args args = { };
- 	uint32_t *attrmask;
- 	__be32 status;
-+	bool parent;
- 	int ret;
- 
- 	/* Reserve space for attrmask */
-@@ -4269,6 +4269,9 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 	ne->ne_file.len = namelen;
- 	ne->ne_attrs.attrmask.element = attrmask;
- 
-+	parent = (dentry == path.dentry);
-+	path.dentry = dentry;
-+
- 	/* FIXME: d_find_alias for inode ? */
- 	if (!path.dentry || !d_inode(path.dentry))
- 		goto noattrs;
-@@ -4284,15 +4287,20 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 
- 	args.change_attr = nfsd4_change_attribute(&args.stat);
- 
--	attrmask[0] = dp->dl_child_attrs[0];
--	attrmask[1] = dp->dl_child_attrs[1];
--	attrmask[2] = 0;
-+	if (parent) {
-+		attrmask[0] = dp->dl_dir_attrs[0];
-+		attrmask[1] = dp->dl_dir_attrs[1];
-+	} else {
-+		attrmask[0] = dp->dl_child_attrs[0];
-+		attrmask[1] = dp->dl_child_attrs[1];
- 
--	if (!setup_notify_fhandle(dentry, dp, nf, &args))
--		attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
-+		if (!setup_notify_fhandle(dentry, dp, nf, &args))
-+			attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
- 
--	if (!(args.stat.result_mask & STATX_BTIME))
--		attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+		if (!(args.stat.result_mask & STATX_BTIME))
-+			attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+	}
-+	attrmask[2] = 0;
- 
- 	ne->ne_attrs.attrmask.count = 2;
- 	ne->ne_attrs.attr_vals.data = (u8 *)xdr->p;
-@@ -4405,6 +4413,38 @@ u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *
- 	return NULL;
- }
- 
-+/**
-+ * nfsd4_encode_dir_attr_change
-+ * @xdr: stream to which to encode the fattr4
-+ * @dp: delegation where the event occurred
-+ * @nf: nfsd_file opened on the directory
-+ *
-+ * Encode a dir attr change event.
-+ */
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf)
-+{
-+	struct dentry *dentry = nf->nf_file->f_path.dentry;
-+	struct notify_attr4 na = { };
-+	bool ret;
-+	u8 *p = NULL;
-+
-+	if (!(dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)))
-+		return NULL;
-+
-+	/* RFC 8881 s10.4.3: ne_file must be a zero-length string for dir attrs */
-+	ret = nfsd4_setup_notify_entry4(&na.na_changed_entry, xdr,
-+					dentry, dp, nf, "", 0);
-+
-+	/* Don't bother with the event if we're not encoding attrs */
-+	if (ret && na.na_changed_entry.ne_attrs.attr_vals.len) {
-+		p = (u8 *)xdr->p;
-+		if (!xdrgen_encode_notify_attr4(xdr, &na))
-+			p = NULL;
-+	}
-+	return p;
-+}
-+
- static void svcxdr_init_encode_from_buffer(struct xdr_stream *xdr,
- 				struct xdr_buf *buf, __be32 *p, int bytes)
- {
-diff --git a/fs/nfsd/nfs4xdr_gen.c b/fs/nfsd/nfs4xdr_gen.c
-index d1240ade120d..a6725c773768 100644
---- a/fs/nfsd/nfs4xdr_gen.c
-+++ b/fs/nfsd/nfs4xdr_gen.c
-@@ -669,7 +669,7 @@ xdrgen_decode_notify_add4(struct xdr_stream *xdr, struct notify_add4 *ptr)
- 	return true;
- }
- 
--static bool __maybe_unused
-+bool
- xdrgen_decode_notify_attr4(struct xdr_stream *xdr, struct notify_attr4 *ptr)
- {
- 	if (!xdrgen_decode_notify_entry4(xdr, &ptr->na_changed_entry))
-@@ -1091,7 +1091,7 @@ xdrgen_encode_notify_add4(struct xdr_stream *xdr, const struct notify_add4 *valu
- 	return true;
- }
- 
--static bool __maybe_unused
-+bool
- xdrgen_encode_notify_attr4(struct xdr_stream *xdr, const struct notify_attr4 *value)
- {
- 	if (!xdrgen_encode_notify_entry4(xdr, &value->na_changed_entry))
-diff --git a/fs/nfsd/nfs4xdr_gen.h b/fs/nfsd/nfs4xdr_gen.h
-index c62299bac735..f6a458a07406 100644
---- a/fs/nfsd/nfs4xdr_gen.h
-+++ b/fs/nfsd/nfs4xdr_gen.h
-@@ -38,6 +38,9 @@ bool xdrgen_encode_notify_remove4(struct xdr_stream *xdr, const struct notify_re
- bool xdrgen_decode_notify_add4(struct xdr_stream *xdr, struct notify_add4 *ptr);
- bool xdrgen_encode_notify_add4(struct xdr_stream *xdr, const struct notify_add4 *value);
- 
-+bool xdrgen_decode_notify_attr4(struct xdr_stream *xdr, struct notify_attr4 *ptr);
-+bool xdrgen_encode_notify_attr4(struct xdr_stream *xdr, const struct notify_attr4 *value);
-+
- bool xdrgen_decode_notify_rename4(struct xdr_stream *xdr, struct notify_rename4 *ptr);
- bool xdrgen_encode_notify_rename4(struct xdr_stream *xdr, const struct notify_rename4 *value);
- 
-diff --git a/fs/nfsd/xdr4.h b/fs/nfsd/xdr4.h
-index 62ac790428be..805c7122eb93 100644
---- a/fs/nfsd/xdr4.h
-+++ b/fs/nfsd/xdr4.h
-@@ -973,6 +973,8 @@ __be32 nfsd4_encode_fattr_to_buf(__be32 **p, int words,
- u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *nne,
- 			      struct nfs4_delegation *dd, struct nfsd_file *nf,
- 			      u32 *notify_mask);
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf);
- extern __be32 nfsd4_setclientid(struct svc_rqst *rqstp,
- 		struct nfsd4_compound_state *, union nfsd4_op_u *u);
- extern __be32 nfsd4_setclientid_confirm(struct svc_rqst *rqstp,
-
--- 
-2.54.0
-
+Thanks for all of your work,
+-- David
