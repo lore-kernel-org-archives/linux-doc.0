@@ -1,67 +1,67 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A3943E4B3
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 14:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA2736EA84
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 14:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781618941; cv=none; b=iHnVhNhRurL+xMLKQd+01NTtzLeCTHWXiD6s+UJpOuGZ3j/Yhd8Wn1cDr15D9igXR8ZqANUVbJkW7GhyR0631TFvgGk5Cst5yVJhiLyOCbNNNT9001UuxPVPmeJXd3EpfehlFor5WPdNDThKHdp6tNz+X7HF3JAcDgSBvFa3E5c=
+	t=1781619188; cv=none; b=q6Wgxbfayjg9jo8p6OEfmOS0VzTl6sUnaUKqTCVCfaXp9c8LJtOtd0+73ZmxzuvgSfS91ykXY+7nBy/D/sRiCbF4tzFR+h22+IAgwJBtE6+mwg+hyJtlbStBk1P3UVyel+p/QbNL6SWq6nXU9z7MA6jsJd1AZXayg9GwYkbe76s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781618941; c=relaxed/simple;
-	bh=n6pqwuk2bX/dW4+5bMMqi/uzcPmgpw0vZO0PQFIv5tg=;
+	s=arc-20240116; t=1781619188; c=relaxed/simple;
+	bh=EzyrpESZ6sx78ziNYC4dwQEt1wvJ/sO+d+pbw71TIfc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=joarVlx/iz0SHi45R6FUjehdJoZBZx5D+4KyVdlc2YDZySEAZCnGBxf1b5dLdWkv8zcRjVHuecP0DyOYWFeS1G8w0nu2FUpsVgE5S1+xzXAkg0mLzSVNYaNeFBDtOpLJmiMkLIdT+AuPVdwCrOVPjJcsO5r7mhXD5/t74EMT8Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r7utH39V; arc=none smtp.client-ip=209.85.216.43
+	 In-Reply-To:Content-Type; b=B0tq5CXZhUapUSsTa1DpdBm4NXRDzdKxDzDyvc/n+aAG5Rea5PqIfaO5hs6MbN69+n9yKv5Zkzpdc1ga4hC1gmIHQV74n1q3fViRIqexwODdA8OAGXDUFB1lQNGpJPQ+AKANNrhbidVNy/xuor6aX5mvh9pbqqA5YlTBTjBqqTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2WCRia5; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r7utH39V"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36b9033d230so2546249a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 07:09:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2WCRia5"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8423f626a65so2238406b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 07:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781618939; x=1782223739; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781619186; x=1782223986; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DhPvSn7NVN2Iec8rVsh0ADn+3E5nd/Q5vIlOYduaGQg=;
-        b=r7utH39VJlbuN6XEi5MXbRD1zyzdg6WQdIE5Lbana9tCM1vcKSp0L/JEUCnmcW9fwh
-         ikwiKataODnYyL2a5+lmbri8l4lyLY+A5yAMt8RSp4LpE3s76QDVoFQFW0GDEWlSEUn0
-         mPNlu2bpVf0IRq1zaf0WnyanhNuBH2JJ64dcYsx7WZOUEPDg+vUFrkkct1wXwWzzJ7gr
-         pXeRmSIMPeAjQydWf+sJHtlkLVLACahDFst4CcYQaSX4XnW9VzF1aerjHCkAHqVr5klm
-         wC1I1XJjh76qfKEx9FJeLZfnWzHub/nxBWKZiAh3ymhzM99Zal4pZZLNhE70a6KYc2IN
-         f4Vw==
+        bh=KXP0r2jujypcXFrQc5+xMdbDTCDzpAzAxM0kAvYA+dY=;
+        b=j2WCRia5YnQl+EQLdPBleKUpROpPpCWpdoTv5tzPup9NdnwmtiDPBPCeZQGZleCXjT
+         tBnE3fa61akEHOXUVt2LDQ+4iUavC6XVqaCR1+OBF0mLBFXurYS3kT4hcbSzlhh0nMqC
+         ML3Xgs9m8SG4zkx9ZhM48To63GviCqm+TDVgMyNnCYcGxo3M458CIJBzOijJmLPFIqfF
+         oXfvbZ3m1aUIk3WuSptb9lIbyPSlbOsSyiKh5bctpC3Fdd2+QQC/zDYov/d7GlFMSbFp
+         xgR//YNazGWgGD0s0O0d83U7DudivwrSRsr2qI91MP3ltCs/SZ+NaUqv3GeIEQfUPauq
+         U2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781618939; x=1782223739;
+        d=1e100.net; s=20251104; t=1781619186; x=1782223986;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DhPvSn7NVN2Iec8rVsh0ADn+3E5nd/Q5vIlOYduaGQg=;
-        b=XOU1ZjVIVqhSXddm3Ob6n1PeavkRyMSnDk/Y8fWTwA++ZCe7Dr8QDRyqN4ZTvWpCQ5
-         NgTEKm414JkkyfAP8PhWvBWCsBKTj/phO4M7DJdZhQQpXM9Tw2+26UTI/OTPQXxMkB/r
-         4oldBeT+owaA77j4z4nDw34ziyAJJXSg4FR+iPF1duGsV9ZnmaTqPJ74WxE10iX9kh8P
-         3jE/1xsdSU5V4ZuWqBfwfGhTbhKKkNO2TiHWYHW8UDr7VvWQz4KzC2MzWDXM3hzkkKDG
-         oWsPyOzKpLAaJsO1/wH0ogaKzbScTazD8Yjsd48FLI2N+NomDvM1RXA65hgselOCxkye
-         nZuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9sKAesAi/YRzuQIPLKtPG5q/5KFlRLXY3z7JpW97BVXr2t4D3a75nmc8WhMY4ShiycIZJLwV4Xuqo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlvrNANU1Gb2Lt9hpEO1SXBBb6k45LIKVuENjyaaNtkaRP0rzS
-	GNOyqo6+9sQKkiKSNOqEcfG2ktAAZyJEYR0g5GzGUGczlDtlJPO6ageP
-X-Gm-Gg: Acq92OH19dEuBj2cB4S6f7HAQ5zO2+RdY9/i26rMKnbNSiIxJHNtQiWNvvLwwZHBiSg
-	L6qkcLuTFohAmlfZrYFjmnlfv+V6f15KTo23zySxIHzktUBvav/vUwaeqcYBOQ6Sobc6n5tPDev
-	OYuegCXjdb97DWyaShU7zGqHFFyNZfoKH1HtceLKZ4dpBc4o4cLLgRauMsp7TT5gvz6Dg7IAKTd
-	tY2fES4sxGXU08nj+Ny+uklI9dy0yGR9zhMBCAsarWWxVO2gGKIjgteMt2sdVYpk2N3U4HcsNIt
-	yXAeUDKhSZ5JUskVIA2i3n5tqWwvTsTN4Ftu9bR3ngq/bpsI4w4zITH1pltZPBw97M62DUqXK9G
-	kIiSl+C1wDihhja5O/EHmj+TVW/VNQE5LrWRzLUYg0kPiC6dVW7WfR/lKdr9caLUkfsRi8pF7EC
-	gVvKHKlHTY/G3HgeK3et7quyNxbPo8bIfKGh7KLkTtpd7AxW4PKXmkkyjfv6BroU1ykvyOGDRI
-X-Received: by 2002:a17:90b:2e0b:b0:36b:d40e:2cf9 with SMTP id 98e67ed59e1d1-37c523a4ae3mr2950145a91.7.1781618939405;
-        Tue, 16 Jun 2026 07:08:59 -0700 (PDT)
+        bh=KXP0r2jujypcXFrQc5+xMdbDTCDzpAzAxM0kAvYA+dY=;
+        b=Deu66KkwG8W7JNz0XtC4kyVnB6kHKcJjWYa7vV/E4tI9DU1Exqe8PCx25hiivUBQIp
+         6kpIHgqy2k3N7/UYr+sBg93W4TV4WxosEB14EgCj3mbx6XOTLDz6NOYym7EeRgNuE3ey
+         gwELJVD6o2Mi3Uzm29w/E18Ziy/TiOxe7WP8G+A6GX0vMKn8FmP6MzOYAJv9iWYq/Oy5
+         T0yAEAFXwgs8PdGPcJGCGQULz9JpWd9K4eydIiZ0Jf+Cjww0U3n/LkNvP114XQTrBUu6
+         RFQRCtXdwW6JyUDr2za3rDZpJ8mT+vANDfPYfvRY3xcdoU0sbDXp75yuZraPrQIrQS0K
+         BhzQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9/QA79Vtem1ns9PbErI7bFjZKFYSWFI939xlXKUqDA9LW37ZqzslfY9wweitLBWnTiH25IPMmTVPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8bs58b/rj46vK6JFxs37cIbfgWaIfVVpEYPPX0Lkx4A7j1LVL
+	Rq/kIUtYlzuVmLRCSqZhXwjMNqlQBXLGxx/ZTD075+7CObWz9JD6/Cod
+X-Gm-Gg: Acq92OFLfHX9bc4URMWOMkCj7S/McHwxRnWMaFPIdc2q0WbzK7yEeCX46QUl7qRl9Vr
+	Vo6G43SJCNv9VtH80ivlMARjBvdJroWQFIslvQ66PITq6eJqJ+vweVZxQK67XW5N0aV805F03Xw
+	Spy7ms7/vpr9ZCQK88apGFHRsCnIqMi6vrjYVBaZTh0vtuPmjXokdD1wG7Dks2HE+Cn3mYw4ueP
+	LokR0AF+xVA9T0WuYdGxtR9z+g5b12nBBTKlKjk2jr1+88VTjijdlaHf/McGJTBuQ319NWZ4/49
+	iJOAZucg+ASuA6TCMhpsJkMeDEy11nitivOd90J1tVAKK9CIYfMbgfv8kAKgVbRZQqZSQqzS9Gg
+	m/aifk0HoACM8c7DdsnYpuCPXbi5Y5jYfuf+yWF7HCf2sq2NxIw37RwoyGGAodVDYp9kYeGXgIb
+	ggDrVZI2XyTnakWyOUyPVyEe6K8Lqo1twvjhtbpN7PZwBbsjSbZ/GsQDT3X2eYbR8k5OWDBGJo
+X-Received: by 2002:a05:6a00:2da7:b0:842:5bf3:c53c with SMTP id d2e1a72fcca58-845152ae344mr3679305b3a.2.1781619186010;
+        Tue, 16 Jun 2026 07:13:06 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c5228eb5bsm3066187a91.12.2026.06.16.07.08.57
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b07c5c2sm13358690b3a.61.2026.06.16.07.13.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 07:08:58 -0700 (PDT)
+        Tue, 16 Jun 2026 07:13:05 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e1673147-a51f-460c-ad09-21f54d3d6803@roeck-us.net>
-Date: Tue, 16 Jun 2026 07:08:57 -0700
+Message-ID: <67bec6ae-4f21-441a-8c5e-b56bd1a2ab84@roeck-us.net>
+Date: Tue, 16 Jun 2026 07:13:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] hwmon: adm1275: Support ROHM BD12790
+Subject: Re: [PATCH 3/7] hwmon: adm1275: Support ROHM BD12780
 To: Matti Vaittinen <mazziesaccount@gmail.com>,
  Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
  Matti Vaittinen <matti.vaittinen@linux.dev>
@@ -85,7 +85,7 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <cover.1781591132.git.mazziesaccount@gmail.com>
- <8ca875d21f2d9a4d53a87b47a5e6efab48266178.1781591132.git.mazziesaccount@gmail.com>
+ <c92f1356fbf967dee3130f2eb0da08eb84800d47.1781591132.git.mazziesaccount@gmail.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -131,163 +131,164 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <8ca875d21f2d9a4d53a87b47a5e6efab48266178.1781591132.git.mazziesaccount@gmail.com>
+In-Reply-To: <c92f1356fbf967dee3130f2eb0da08eb84800d47.1781591132.git.mazziesaccount@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/15/26 23:44, Matti Vaittinen wrote:
+On 6/15/26 23:36, Matti Vaittinen wrote:
 > From: Matti Vaittinen <mazziesaccount@gmail.com>
 > 
-> Add support for ROHM BD12790 hot-swap controller which is largely
-> similar to Analog Devices adm1272.
+> ROHM BD12780 and BD12780A are hot-swap controllers. They are largely
+> similar to Analog Devices ADM1278. Besides the ID registers and some
+> added functionality, the BD12780 and BD12780A mark PMON_CONFIG bits
+> [15:14] as reserved. Hence TSFILT setting must be omitted on these ICs.
 > 
-> The BD12790 uses the same selectable 60V/100V voltage ranges and
-> 15mV/30mV current-sense ranges as the ADM1272, and the same VRANGE
-> (bit 5) and IRANGE (bit 0) layout in PMON_CONFIG. It therefore uses
-> a dedicated coefficient table that mirrors adm1272_coefficients, with
-> the following differences derived from BD12790 datasheet Table 1 (p.18):
-> - power 60V/30mV: m=17560 (vs. 17561)
-> - power 100V/30mV: m=10536 (vs. 10535)
-> - temperature: b=31880 (vs. 31871, reflecting T[11:0] = 4.2*T + 3188)
+> The BD12780 has 3 pins usable for configuring the I2C address. The
+> BD12780A lists the ADDR3-pin as "not connect".
+> 
+> Support ROHM BD12780 and BD12780A controllers.
 > 
 > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> Assisted-by: GitHub Copilot:claude-sonnet-4.6
-> 
 > ---
-> Originally this patch was AI-generated. I did pretty much re-write the
-> probe changes by hand, and also fixed some of the coefficient math
-> afterwards :/ But yeah, this one was AI "assisted". :)
-> 
->   drivers/hwmon/pmbus/Kconfig   |  4 +--
->   drivers/hwmon/pmbus/adm1275.c | 53 +++++++++++++++++++++++++++++------
->   2 files changed, 47 insertions(+), 10 deletions(-)
+>   drivers/hwmon/pmbus/Kconfig   |  2 +-
+>   drivers/hwmon/pmbus/adm1275.c | 46 +++++++++++++++++++++++++++++------
+>   2 files changed, 39 insertions(+), 9 deletions(-)
 > 
 > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index b3c27f3b2712..6ebc01e26db3 100644
+> index 8f4bff375ecb..b3c27f3b2712 100644
 > --- a/drivers/hwmon/pmbus/Kconfig
 > +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -52,8 +52,8 @@ config SENSORS_ADM1275
+> @@ -52,7 +52,7 @@ config SENSORS_ADM1275
 >   	help
 >   	  If you say yes here you get hardware monitoring support for Analog
 >   	  Devices ADM1075, ADM1272, ADM1273, ADM1275, ADM1276, ADM1278, ADM1281,
-> -	  ADM1293, ADM1294, ROHM BD12780, and SQ24905C Hot-Swap Controller and
-> -	  Digital Power Monitors.
-> +	  ADM1293, ADM1294, ROHM BD12780, ROHM BD12790, and SQ24905C
-> +	  Hot-Swap Controller and Digital Power Monitors.
+> -	  ADM1293, ADM1294 and SQ24905C Hot-Swap Controller and
+> +	  ADM1293, ADM1294, ROHM BD12780, and SQ24905C Hot-Swap Controller and
+>   	  Digital Power Monitors.
 >   
 >   	  This driver can also be built as a module. If so, the module will
->   	  be called adm1275.
 > diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
-> index 838b8827eb76..9e21dd4083e9 100644
+> index bc2a6a07dc3e..838b8827eb76 100644
 > --- a/drivers/hwmon/pmbus/adm1275.c
 > +++ b/drivers/hwmon/pmbus/adm1275.c
 > @@ -19,7 +19,7 @@
 >   #include "pmbus.h"
 >   
 >   enum chips { adm1075, adm1272, adm1273, adm1275, adm1276, adm1278, adm1281,
-> -	 adm1293, adm1294, bd12780, sq24905c };
-> +	 adm1293, adm1294, bd12780, bd12790, sq24905c };
+> -	 adm1293, adm1294, sq24905c };
+> +	 adm1293, adm1294, bd12780, sq24905c };
 >   
 >   #define ADM1275_MFR_STATUS_IOUT_WARN2	BIT(0)
 >   #define ADM1293_MFR_STATUS_VAUX_UV_WARN	BIT(5)
-> @@ -47,8 +47,8 @@ enum chips { adm1075, adm1272, adm1273, adm1275, adm1276, adm1278, adm1281,
+> @@ -47,6 +47,8 @@ enum chips { adm1075, adm1272, adm1273, adm1275, adm1276, adm1278, adm1281,
 >   #define ADM1278_VOUT_EN			BIT(1)
 >   
 >   #define ADM1278_PMON_DEFCONFIG		(ADM1278_VOUT_EN | ADM1278_TEMP1_EN | ADM1278_TSFILT)
-> -/* The BD12780 data sheets mark TSFILT bit as reserved. */
-> -#define BD12780_PMON_DEFCONFIG		(ADM1278_VOUT_EN | ADM1278_TEMP1_EN)
-> +/* The BD127x0 data sheets mark TSFILT bit as reserved. */
-> +#define BD127X0_PMON_DEFCONFIG		(ADM1278_VOUT_EN | ADM1278_TEMP1_EN)
+> +/* The BD12780 data sheets mark TSFILT bit as reserved. */
+> +#define BD12780_PMON_DEFCONFIG		(ADM1278_VOUT_EN | ADM1278_TEMP1_EN)
 >   
 >   #define ADM1293_IRANGE_25		0
 >   #define ADM1293_IRANGE_50		BIT(6)
-> @@ -136,6 +136,30 @@ static const struct coefficients adm1272_coefficients[] = {
->   
->   };
->   
-> +/*
-> + * BD12790 coefficients derived from preliminary datasheet, Table 1 (p.18)
-> + * and the PMBus direct-format relationship X = (Y * 10^(-R) - b) / m.
-> + *
-> + * Voltage: V[V] = 14.77e-3 * code (60V) / 24.62e-3 * code (100V)
-> + *   -> m = 6770, R=-2 / m = 4062, R=-2
-> + * Current: code = I[A] * RS * 132802.1 + 2048 (15mV) / * 66401.06 + 2048 (30mV)
-> + *   -> m = 1328, b = 2048 * 10^(-R) = 20480, R=-1 / m = 664, same b and R
-> + * Power: code = k * RS * PIN, k = 35119.94 / 17559.97 / 21071.44 / 10535.72
-> + *   -> m = round(k / 10^(-R)), R=-2 for 60V/15mV, R=-3 for the other three
-> + * Temperature: code = 4.2 * T + 3188 -> m = 42, b = 3188 * 10 = 31880, R=-1
-> + */
-> +static const struct coefficients bd12790_coefficients[] = {
-> +	[0] = { 6770, 0, -2 },		/* voltage, vrange 60V */
-> +	[1] = { 4062, 0, -2 },		/* voltage, vrange 100V */
-> +	[2] = { 1328, 20480, -1 },	/* current, vsense range 15mV */
-> +	[3] = { 664, 20480, -1 },	/* current, vsense range 30mV */
-> +	[4] = { 3512, 0, -2 },		/* power, vrange 60V, irange 15mV */
-> +	[5] = { 21071, 0, -3 },		/* power, vrange 100V, irange 15mV */
-> +	[6] = { 17560, 0, -3 },		/* power, vrange 60V, irange 30mV */
-> +	[7] = { 10536, 0, -3 },		/* power, vrange 100V, irange 30mV */
-> +	[8] = { 42, 31880, -1 },	/* temperature */
-> +};
-> +
->   static const struct coefficients adm1275_coefficients[] = {
->   	[0] = { 19199, 0, -2 },		/* voltage, vrange set */
->   	[1] = { 6720, 0, -1 },		/* voltage, vrange not set */
-> @@ -504,6 +528,7 @@ static const struct i2c_device_id adm1275_id[] = {
->   	 */
->   	{ "bd12780", bd12780 },
->   	{ "bd12780a", /* driver data unused, see --^ */ },
-> +	{ "bd12790", bd12790 },
+> @@ -487,6 +489,21 @@ static const struct i2c_device_id adm1275_id[] = {
+>   	{ "adm1281", adm1281 },
+>   	{ "adm1293", adm1293 },
+>   	{ "adm1294", adm1294 },
+> +	/*
+> +	 * The BD12780a is functionally identical to BD12780(*). Even the pmbus ID
+> +	 * register contents are same. When instantiated from the DT, it is required
+> +	 * to have the bd12780 as a fall-back. We still need the bd12780a ID here,
+> +	 * because the i2c_device_id is created from the first compatible, not from
+> +	 * the fall-back entry.
+> +	 * (*)Until proven to differ. I prefer having own compatible for these
+> +	 * variants for that day. Please note that even though the probe is called
+> +	 * based on the 'bd12780a' -entry, the ID is picked at probe based on the
+> +	 * pmbus register contents and not by DT entry. Thus, if the bd12780 and
+> +	 * bd12780a are found to require different handling, then this needs to be
+> +	 * changed, or bd12780a is handled as bd12780.
+> +	 */
+> +	{ "bd12780", bd12780 },
+> +	{ "bd12780a", /* driver data unused, see --^ */ },
+
+We don't usually do that. There are various A/B/C variants for many chips,
+and we just use the base name unless a difference is warranted. Either this
+is needed, and driver data is needed as well, or it isn't. If it is not needed,
+it should be dropped.
+
 >   	{ "mc09c", sq24905c },
 >   	{ }
 >   };
-> @@ -581,7 +606,8 @@ static int adm1275_probe(struct i2c_client *client)
+> @@ -494,12 +511,13 @@ MODULE_DEVICE_TABLE(i2c, adm1275_id);
+>   
+>   /* Enable VOUT & TEMP1 if not enabled (disabled by default) */
+>   static int adm1275_enable_vout_temp(struct adm1275_data *data,
+> -				    struct i2c_client *client, int config)
+> +				    struct i2c_client *client, int config,
+> +				    u16 defconfig)
+>   {
+>   	int ret;
+>   
+> -	if ((config & ADM1278_PMON_DEFCONFIG) != ADM1278_PMON_DEFCONFIG) {
+> -		config |= ADM1278_PMON_DEFCONFIG;
+> +	if ((config & defconfig) != defconfig) {
+> +		config |= defconfig;
+>   		ret = adm1275_write_pmon_config(data, client, config);
+>   		if (ret < 0) {
+>   			dev_err(&client->dev, "Failed to enable VOUT/TEMP1 monitoring\n");
+> @@ -535,7 +553,8 @@ static int adm1275_probe(struct i2c_client *client)
+>   		return ret;
+>   	}
+>   	if ((ret != 3 || strncmp(block_buffer, "ADI", 3)) &&
+> -	    (ret != 2 || strncmp(block_buffer, "SY", 2))) {
+> +	    (ret != 2 || strncmp(block_buffer, "SY", 2)) &&
+> +	    (ret != 4 || strncmp(block_buffer, "ROHM", 4))) {
+>   		dev_err(&client->dev, "Unsupported Manufacturer ID\n");
+>   		return -ENODEV;
+>   	}
+> @@ -562,7 +581,7 @@ static int adm1275_probe(struct i2c_client *client)
 >   	if (mid->driver_data == adm1272 || mid->driver_data == adm1273 ||
 >   	    mid->driver_data == adm1278 || mid->driver_data == adm1281 ||
 >   	    mid->driver_data == adm1293 || mid->driver_data == adm1294 ||
-> -	    mid->driver_data == bd12780 || mid->driver_data == sq24905c)
-> +	    mid->driver_data == bd12780 || mid->driver_data == bd12790 ||
-> +	    mid->driver_data == sq24905c)
+> -	    mid->driver_data == sq24905c)
+> +	    mid->driver_data == bd12780 || mid->driver_data == sq24905c)
 >   		config_read_fn = i2c_smbus_read_word_data;
 >   	else
 >   		config_read_fn = i2c_smbus_read_byte_data;
-> @@ -655,12 +681,23 @@ static int adm1275_probe(struct i2c_client *client)
->   		break;
->   	case adm1272:
->   	case adm1273:
-> +	case bd12790:
-
-Please don't overload the existing case statements.
-Just add separate case statements for the new chips.
-
-Thanks,
-Guenter
-
-> +	{
-> +		u16 defconfig;
-> +
->   		data->have_vout = true;
->   		data->have_pin_max = true;
->   		data->have_temp_max = true;
->   		data->have_power_sampling = true;
->   
-> -		coefficients = adm1272_coefficients;
-> +		if (data->id == bd12790) {
-> +			coefficients = bd12790_coefficients;
-> +			defconfig = BD127X0_PMON_DEFCONFIG;
-> +		} else {
-> +			coefficients = adm1272_coefficients;
-> +			defconfig = ADM1278_PMON_DEFCONFIG;
-> +		}
-> +
->   		vindex = (config & ADM1275_VRANGE) ? 1 : 0;
->   		cindex = (config & ADM1272_IRANGE) ? 3 : 2;
->   		/* pindex depends on the combination of the above */
-> @@ -685,14 +722,14 @@ static int adm1275_probe(struct i2c_client *client)
+> @@ -666,7 +685,8 @@ static int adm1275_probe(struct i2c_client *client)
 >   			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
 >   			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
 >   
-> -		ret = adm1275_enable_vout_temp(data, client, config,
-> -					       ADM1278_PMON_DEFCONFIG);
+> -		ret = adm1275_enable_vout_temp(data, client, config);
+> +		ret = adm1275_enable_vout_temp(data, client, config,
+> +					       ADM1278_PMON_DEFCONFIG);
+>   		if (ret)
+>   			return ret;
+>   
+> @@ -712,7 +732,16 @@ static int adm1275_probe(struct i2c_client *client)
+>   		break;
+>   	case adm1278:
+>   	case adm1281:
+> +	case bd12780:
+>   	case sq24905c:
+> +	{
+> +		u16 defconfig;
+> +
+> +		if (data->id == bd12780)
+> +			defconfig = BD12780_PMON_DEFCONFIG;
+> +		else
+> +			defconfig = ADM1278_PMON_DEFCONFIG;
+> +
+
+Please add a separate case statement for the new chip
+and do not overload existing chip data.
+
+>   		data->have_vout = true;
+>   		data->have_pin_max = true;
+>   		data->have_temp_max = true;
+> @@ -728,13 +757,14 @@ static int adm1275_probe(struct i2c_client *client)
+>   			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+>   			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+>   
+> -		ret = adm1275_enable_vout_temp(data, client, config);
 > +		ret = adm1275_enable_vout_temp(data, client, config, defconfig);
 >   		if (ret)
 >   			return ret;
@@ -296,16 +297,7 @@ Guenter
 >   			info->func[0] |= PMBUS_HAVE_VIN;
 >   		break;
 > +	}
->   	case adm1275:
->   		if (device_config & ADM1275_IOUT_WARN2_SELECT)
->   			data->have_oc_fault = true;
-> @@ -738,7 +775,7 @@ static int adm1275_probe(struct i2c_client *client)
->   		u16 defconfig;
->   
->   		if (data->id == bd12780)
-> -			defconfig = BD12780_PMON_DEFCONFIG;
-> +			defconfig = BD127X0_PMON_DEFCONFIG;
->   		else
->   			defconfig = ADM1278_PMON_DEFCONFIG;
->   
+>   	case adm1293:
+>   	case adm1294:
+>   		data->have_iout_min = true;
 
