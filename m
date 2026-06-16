@@ -1,145 +1,96 @@
-Received: from lgeamrelo07.lge.com (lgeamrelo07.lge.com [156.147.51.103])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8733E244687
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 01:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04C733AD9B;
+	Tue, 16 Jun 2026 01:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781571800; cv=none; b=kOFEyPOa/5gyK8t1Qt5GqzVVWe+PPFdbGqTjR7DyPzrItcKpwyb7OZ0vJFSzkaimGLFoEb1qZ8SVGDGv+QibEH/T1jH9O5IpgKEtHoHKX9B/2BOZjpmGQON8SE87hmvIPhJQcHw4zcUKpMygdSpRkqiyZvmykFxCLj3wsIsT5Go=
+	t=1781572523; cv=none; b=Ao7J3kvpApgu6ZF7AvSvk4xPReg+v+Ik74flZBibNTkx8dbdmQnTIb78s3zyhnGBARY6z2ldwwcYRD1HF9ACsIbyrcPYMFRPTEfNwuuMl+eXZ7S3ezsyow03gDw9yZQMctTYRdQ/UMUR/knGLmSgHBVo3SYXqZ8seD+z4jGZaBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781571800; c=relaxed/simple;
-	bh=jX1mm1IOeJgFXgCq9BYe2NIXn5ungu7YN8snXelcbu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rreFPRwA+YQij6xMgeW/YLw9JoDbDHwSisJeDwqhC1WN6zdYCMmNIIvzrMeMoKxzJZJQYesKKxXSdaTkzWCrT8OQR4sc0QzUROyjifS2DiPXqwceIvh0rJTLZu0vwAcE4kellM0akIbwmiSYuL2Xr75Otiebk9wffczcApQHCm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
-	by 156.147.51.103 with ESMTP; 16 Jun 2026 10:03:09 +0900
-X-Original-SENDERIP: 10.177.112.156
-X-Original-MAILFROM: youngjun.park@lge.com
-Date: Tue, 16 Jun 2026 10:03:08 +0900
-From: YoungJun Park <youngjun.park@lge.com>
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>,
-	Hao Jia <jiahao.kernel@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org,
-	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev,
-	Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org,
-	chengming.zhou@linux.dev, muchun.song@linux.dev,
-	cgroups@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org,
-	kasong@tencent.com, baoquan.he@linux.dev, joshua.hahnjy@gmail.com
-Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
- proactive writeback
-Message-ID: <ajCgzNIPLhjTRSXR@yjaykim-PowerEdge-T330>
-References: <CAO9r8zNBJ-BsXyKFveA92jbwMu63uFVTY5CuT4fRHTBVcOjhPw@mail.gmail.com>
- <aictKA0XWMWbxFdN@linux.dev>
- <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
- <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330>
- <airzE7jD9UtyR17J@google.com>
- <aisEWnb3pzmVC4dl@linux.dev>
- <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
- <aiw2p5ANjsQUCIHA@linux.dev>
- <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
- <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+	s=arc-20240116; t=1781572523; c=relaxed/simple;
+	bh=n+HgkcKRqSR/TDoR2qCULFHNYu47wmD5t1x0bjlCi04=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=nBHwJpAlRbQz684K0e65X+o04R5S7GIDcXTyXEq+TmGdqHC5V8+LxsUq70Fc9OwXFJ8xLvc6UjoWeUd3LhLhShCK9RKQzv+N/RiXK9+Fb71wjw7QHRiJcApdCZF4HAH0oCe/4W+LECdacxyz3Hp4WDRs6MNinGNBcZaHy6rtBZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqdXuC1d; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqdXuC1d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3191F000E9;
+	Tue, 16 Jun 2026 01:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781572522;
+	bh=GJEPYwfhOR8QzZX+HHyPEWvX+nK3bmcjPuI6opafco4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=OqdXuC1dupVyt3MP7yoE7+t4yFMuiBEj7Vb5NGaRFzOg0J6dZNpFeg/l07Q3Atg0P
+	 yGiTvSmm5GAxZVWRzCqGqS/6pPHMIPrQl6oLbp1PfK/mUaqrVUc1w5uWWT3GQbWaKw
+	 dqnw6qsUgo7OC7LAtjEu/cHBNcHFNHOzIcXiexB+NRanH5Xm2ntRE6DrFQn6e+oy79
+	 WP+bg0nbXkPRMowKCS4ar2soY+OoUigl0FFNHs8F6m36v76V8Sgs8qCn0qcFcjqJwu
+	 61I82oyayTzUHaStIyV4i3mKFjXP1/kSW1vP0nLXL8u3NysPp9GbePAKwLgJJ9Xqiq
+	 GJJ6NSfD/oBOA==
+Date: Tue, 16 Jun 2026 10:15:18 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 6/7] tracing/probes: Add this_cpu_read() and
+ this_cpu_ptr() dereference method to fetcharg
+Message-Id: <20260616101518.798465295df36bec64f0f279@kernel.org>
+In-Reply-To: <178148609402.185520.8189233495763938815.stgit@devnote2>
+References: <178148603548.185520.3389196102475741865.stgit@devnote2>
+	<178148609402.185520.8189233495763938815.stgit@devnote2>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 15, 2026 at 12:55:09PM -0700, Yosry Ahmed wrote:
-> > In that case, the internal logic could stay roughly the same rather
-> > than counting via a page counter. Something like:
-> >
-> > 1. Change the interface shell: tier.*.max — allow only 0 ~ max.
-> 
-> What about a single interface as I suggested to remain consistent with
-> memory tiering?
+On Mon, 15 Jun 2026 10:14:54 +0900
+"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
 
-Hello Yosry!
+> +		case FETCH_OP_DEREF_CPU:
+> +			val = (unsigned long)this_cpu_ptr((void __percpu *)val);
+> +			ret = probe_mem_read(&val, (void *)val, sizeof(val));
+> +			break;
+> +		case FETCH_OP_CPU_PTR:
+> +			val = (unsigned long)this_cpu_ptr((void __percpu *)val);
+> +			ret = 0;
+> +			break;
 
-I agree. As I was implementing the interface for seeing feasibility
-, I reconsidered it. Since swap tiers can be added or removed at runtime, 
-having static memory."tier_name".max files seems unnatural.
+Hmm, maybe I can just convert the FETCH_OP_DEREF_CPU to
+FETCH_OP_CPU_PTR + FETCH_OP_DEREF to simply the code.
 
-A single interface like `swap.tiers.max` would be better. We can use a
-flat-keyed format (similar to io.weight. same as you suggested)
+> +		default:
+> +			lval = llval;
+> +			goto out;
+> +		}
+>  		if (ret)
+>  			return ret;
+> +		llval = lval;
+>  		code++;
+>  	} while (1);
+> +out:
+>  
+>  	s3 = code;
+>  stage3:
+> @@ -181,6 +195,10 @@ process_fetch_insn_bottom(struct fetch_insn *code, unsigned long val,
+>  	case FETCH_OP_ST_UMEM:
+>  		probe_mem_read_user(dest, (void *)val + code->offset, code->size);
+>  		break;
+> +	case FETCH_OP_ST_CPUMEM:
+> +		val = (unsigned long)this_cpu_ptr((void __percpu *)val);
+> +		probe_mem_read(dest, (void *)val, code->size);
+> +		break;
 
-echo ["tier_name"] ["0 or max"] > swap.tiers.max
+Then, I can just drop this change.
 
-I am now leaning towards this is a better direction than what I initially
-suggested (memory.swap.tiers and memory.swap.tiers.effective).
+Thanks,
 
-Considering other reviews and Shakeel's reply, I will update my swap tier
-patch accordingly.
 
-> > 2. Keep the internal logic as is: 0 disables the mask (child memcgs
-> >    off too), max enables it (child memcgs on too).
-> 
-> I think a child should be able to disable a swap tier enabled by the
-> parent, but not vice versa.
-
-Yes, we are on the same page. I missed a part in my explanation. I meant
-that the child's selected tiers should be a subset of the parent's (which
-is how the current swap tier suggestion works). 
-A child cannot enable a tier that the parent has disabled.
-
-> > 3. memory.zswap.max integrates naturally (it's memory."tier_name".max).
-> 
-> Not really. memory.zswap.max is in terms of memory usage (compressed
-> size), not swap usage (uncompressed size).
-
-I see, memory.zswap.max needs to be maintained separately. I will look
-closer into its semantics. I might have misunderstood this part!
-
-> [..]
-> > Let me clarify a part I wrote confusingly. Handling
-> > memory.zswap.writeback via tiers is possible, but I don't think the
-> > interface itself would be replaced even if memory.swap.tiers is adopted.
-> >
-> > Selecting only zswap in memory.swap.tiers would not just disable
-> > writeback.it would also block regular swap entirely, which differs
-> > slightly from the current semantic. (... "Per the cgroup v2 docs: a
-> > zswap-only tier setting is subtly different from setting
-> > memory.swap.max to 0, since it still allows pages to be written to the
-> > zswap pool; this has no effect if zswap is disabled, and swapping is
-> > allowed unless memory.swap.max is set to 0.")
-> 
-> I don't understand. How is disabling zswap writeback not equivalent to
-> only enabling zswap as a tier?
-
-Isn't there a case where zswap_store() fails and pages fall back to the
-backing swap device?
-
-- "zswap tier only": Only zswap is allowed. Fallback to other swap is
-  blocked.
-- "zswap writeback disabled": zswap is allowed, but if zswap_store()
-  fails, pages can still fall back to other swap devices.
-
-Because of this slight semantic difference, I thought they couldn't be
-fully unified. If my understanding is correct, we could extend the zswap
-tier to select the target swap device for writeback, but replacing the
-writeback interface entirely might be difficult.
-
-> Do you just mean the fact that disabling zswap writeback is a noop of
-> zswap is disabled? It's a different interface so I think a small
-
-Yes, I think so too.
-
-> semantic difference is okay. In practice, I doubt that zswap is being
-> disabled at runtime.
-
-I thought disabling zswap at runtime might have some use cases, but we
-can discuss this further when we talk about the patch extending the
-zswap tier.
-
-Best regards,
-Youngjun
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
