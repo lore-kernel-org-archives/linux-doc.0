@@ -1,312 +1,126 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6768134AAE9
-	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 06:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF1B34AAE9
+	for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 06:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781590742; cv=none; b=Mdpy4AF4QrdDPrR5i1kQQWKweQYxS9M5xHG+GWHxaGVPul9/PSd04EjzGqkWKJXnG6+Hg3BCOuRCngkroLfFLkDeucSbLsUp+PUlJD1Gj+nPKzITJHcXmucYzs/jnPxcSg85pRnnzLJF1hGbA4l9fFMgM7HpBlv9Gq6TIwkBTHM=
+	t=1781590807; cv=none; b=Twah0/bpuo706AVp/g5CEqnLJCwKJhZ+CfBnhhrmOg/fKSfBAY03DQvuwC7RRLAswVmW43HfS7njoDCaHES/fMwuwWpKpc+IZ4SE37OhKhufsOuPrpo+fHpuPwClUB+p1yR2NbNiClOI/hEBEGT8SUb6LHgZwvkawv64ffgn8ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781590742; c=relaxed/simple;
-	bh=AnYrZl0BhHGwz6i0dNMj7fbfdT7eRTtG0/yu8ZWYwMY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PuZZJ9U/23yrf9t5d03azAcVpOnuutLA5ybLfpcI4bQ2U6Kl/EQD7tGoJxoKcsWsdDTiLvW/K6V9hG4o6XnkIK+8s9tPmeSMwsP7gulFKsTPFrvS3k4089f3kVFpeT1WNwOrqfCrbzBFk60KHpf/Po1jQXVTj2sBGt6uyndMzLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r00WX9oI; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781590807; c=relaxed/simple;
+	bh=3jWXCb9nzGDdlpwcm5XDm1DLzz1gt8vgo8qdy7QykMw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=cwRHJ4qsYHFiDRENgum8Pz9OFRRKVwX18mOKXJxH+RyLB+J6+j/UVWIpzv9IvKC7VT2CCjPy4XhCiFGuCb9yTvkOhAZ0IGIFWBdRpQbe3RFR56HRTIRx2i8gT38tx5eAicFFWElhoEm76fF9n9kj5+QGegYeQCYBkL3GVSBFxMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UTWjDhsO; arc=none smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r00WX9oI"
-Message-ID: <8e554bce-bd66-4481-bc53-fa4cbaf0c0b9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781590738;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DTZn/K91RXEjkn2MUF6g/U9/4LYerNs+AEXDQw5Dr6o=;
-	b=r00WX9oIF9lc3T2yTxq+thmP5w0VjX8lrv5B5Xx3YIIQt02Qww35VraWVVVCZs6CHscWsy
-	nc1deqtF/4GoURvhKyR+GP0U98M2T3IS7qB/sNdknd7KUReyuTlknvBNNB6MJkNKRjRIRv
-	pYj1CFFnnUa+XQj4cyqDxpoMpoqb1KY=
-Date: Tue, 16 Jun 2026 14:18:09 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UTWjDhsO"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66077e888b2so3714382d50.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Jun 2026 23:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781590805; x=1782195605; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gnltuqW5l5nPcDELedENMkU+jfNg+GYItheRAD/A5zg=;
+        b=UTWjDhsOBQTF+NBsBKB5yqIF7/Y/ZROFtS2EQN1cyhmF1WwBn5EBokhMBoBo6w22je
+         jwjTTtYGNQwHAB+hL/sk5mNAg5FvHKJMobqVsBKgw11uRDy6CawaPF4kRgdLRee9SDBU
+         vGICrg2yJA4iX3N/3RCg2Ztk493e5tkAO2NjvzhHy7O5hxAfjH4HIisHj6j/LAwzeMrS
+         Gk1HlN3PknSEGyytZcWTdYtB1XqCwk9CZdBNFHdL0S5+AU9DXCuOFe1zuS7S//vVDgUT
+         51Ir1AYfUNkLfo9Xq4/3xH0pBEcoClpNGzl7MaZaC9xUbFGt8L2PQVvfqHfJNY9BtJKh
+         QAyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781590805; x=1782195605;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gnltuqW5l5nPcDELedENMkU+jfNg+GYItheRAD/A5zg=;
+        b=o010lN6FpFuSxHGa77CWgvSApQIbaaYIkyQM7v26zgDHjUuy82FWz32atjT0WN6xcc
+         QU3j8fl8yn2ziLXzYE8F3jRfq9BrBXtH051f5S81cz4ku6YD9F/L4Ba45JbAsheRpPsQ
+         7FXtYGU+tZEfbPVwxqyKqYY4rqZGIgoIaBB4j/A0KVSMxjUxQTFEZs3FA9h98ZfyjInG
+         3AHH7LA8sRq29nUXJ6owbCPXdmu9qTF9KFqP/BcyiIg1tHsqWw0UuWPUvFKLZ2g5V9yJ
+         +9e2gzPh+b3eChXHuAuDMHOqZyeOt6pYA8KV+FLhWH0wWuQVgZXHo7DIwTvdtqftAz9I
+         PpKg==
+X-Forwarded-Encrypted: i=1; AFNElJ/p7Y/mXjKlC1IlDrrSTUNT51AgC39nG1PBpr0reb/ZagUu29DDMHlErovYSSGHB2bJC5rkWzYkjqQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxENl4aheANuyXAq2DqhV1NJGhGhs9WiB4yMJyScXWbZ7+aD9Jk
+	qw/Ltx186WQeQJq9sGQMoAkr3SU13uuu6tPIXJdfWrrrZ1ohS5inoqfUGOwq8D0AUg==
+X-Gm-Gg: Acq92OH17HWy4LSOsyOuSI+04pydPD/lfjOxzc9Wj+1iJD3ENskK7svMo7M4B1FFFzE
+	ILbQ54P7Gg3iUntfXRV5YTLkhhy+/sQjpdece0gCofym0tAtwMnpe+gn1thK4LGPddPySnglhVH
+	3tpo28DHrh72y/sDeSe5Q4xUXWjOw0ys6zNhaL++Ps4Ssm1dKmySNiCJ2gR69gkol8kAzGSsh9O
+	x2/U5qa6ksh7LgjWz1tVXN0gaIgoG4YIzUhdZyM3ojfCxvAkIZ/fweFWwTF1yAhnCVaCJvwANJG
+	Pk6M3cqE6SvjWTc0/qjk0xkC3qgOAdo3jUXKsrcpVPxB157CHyoCtt9mv+r2HboUObK9P+dWzwY
+	HbHIfB4hAS7mPwXyn40nHwpfG2Nyr7Siixnhdjh4NYADIwGf4Gw9udcRUhJR9stiMJLv82h5GtE
+	vXa1UbarJNPxW7csf8kclG6fxGxfn44ybWAgvWPfqt+5jUUE+Rc9d8YFPCDaat6ZyZJ18fUP3FR
+	otouJ22XuI=
+X-Received: by 2002:a05:690e:13c6:b0:661:75a5:3ad with SMTP id 956f58d0204a3-66277f19a03mr15544305d50.3.1781590803692;
+        Mon, 15 Jun 2026 23:20:03 -0700 (PDT)
+Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66274e2c884sm6362800d50.17.2026.06.15.23.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 23:20:03 -0700 (PDT)
+Date: Mon, 15 Jun 2026 23:19:49 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+cc: Hugh Dickins <hughd@google.com>, 
+    Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+    Sergey Senozhatsky <senozhatsky@chromium.org>, 
+    Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+    Jonathan Corbet <corbet@lwn.net>, 
+    Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+    linux-doc@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>
+Subject: Re: [RFC V2 3/3] mm: Replace pgtable entry prints with new format
+In-Reply-To: <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
+Message-ID: <3afa822d-3cc9-1068-9a10-94a5f2e4d29a@google.com>
+References: <20260610043545.3725735-1-anshuman.khandual@arm.com> <20260610043545.3725735-4-anshuman.khandual@arm.com> <fc57bb9a-4564-489e-8da4-65068b5283ae@kernel.org> <4a416383-62f5-1716-8e04-a2ee1f89a864@google.com>
+ <dabfd73b-d872-4267-9a40-45463fe146ac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 6/6] kselftest: alloc_tag: extend the allocinfo ioctl
- kselftest
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- Sourav Panda <souravpanda@google.com>, Suren Baghdasaryan
- <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-References: <cover.1781564384.git.abhishekbapat@google.com>
- <1a68864b1493528abed0e9e3489688fc6287c37e.1781564384.git.abhishekbapat@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <1a68864b1493528abed0e9e3489688fc6287c37e.1781564384.git.abhishekbapat@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Abhishek
+On Mon, 15 Jun 2026, David Hildenbrand (Arm) wrote:
+> On 6/12/26 23:26, Hugh Dickins wrote:
+> > On Fri, 12 Jun 2026, David Hildenbrand (Arm) wrote:
+> > ...
+> >>
+> >> After some off-list discussion, I wonder if we can make our life easier.
+> >>
+> >> I think, even with your patch, there is still the case:
+> >>
+> >> pr_alert("BUG: Bad page map in process %s  %s:%08llx", current->comm,
+> >> 	 pgtable_level_to_str(level), entry);
+> >>
+> >> Where we cast all entries to an "unsigned long" in the callers. We'd have to rework all
+> >> that for 128bit entries either way (passing them in some struct instead).
+> >>
+> >> I really just extended what we used to do here in print_bad_pte() before commit ec63a44011d.
+> >>
+> >> Maybe we should just drop the "print the involved page table entries" thing?
+> >>
+> >> I mean, we do have the actual page, and we do have the address in the address space, which
+> >> we all print.
+> >>
+> >> Not sure if the actual page table entries are that relevant?
+> > 
+> > The page table entry is BUGgily Bad: we want to see what it looks like
+> > (sometimes, a sequence of bad page map entries may even show up as ASCII).
+> 
+> But is printing raw page table entries really what we want? I guess to detect
+> "random corruption" it might help sometimes.
 
+Yes, that's what it's for. What we really want is to understand what went
+wrong: that's too much to ask of a printk, but it can give us a good clue.
 
-On 2026/6/16 07:04, Abhishek Bapat wrote:
-> Add the following 2 scenarios to the allocinfo ioctl kselftest:
-> 1. Validate size based filtering
-> 2. Validate lineno based filtering
->
-> The first test uses "do_init_module" as the candidate function for the
-> test. This is because the associated site will only allocate memory when
-> a kernel module is loaded. The return value of get_content_id() changes
-> every time modules are loaded or unloaded. Hence, as long as
-> get_content_id() values at the start and the end of the test are the
-> same, the memory allocated by the do_init_module call site should also
-> remain the same. Consequently, the test can assume consistency between
-> the value returned by the ioctl and the procfs resulting in less
-> flakiness.
->
-> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> ---
->   .../alloc_tag/allocinfo_ioctl_test.c          | 197 +++++++++++++++++-
->   1 file changed, 196 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> index 62d5a488a04d..041fee1a3d74 100644
-> --- a/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> +++ b/tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
-> @@ -309,11 +309,194 @@ static int test_function_filter(void)
->   	return run_filter_test(&filter);
->   }
->   
-> +static int test_size_filter(void)
-> +{
-> +	int fd;
-> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-> +	struct allocinfo_filter filter;
-> +	int ret = KSFT_PASS;
-> +	__u64 target_size, i, pos;
-> +	bool found;
-> +	const char *target_function = "do_init_module";
-> +	struct allocinfo_content_id start_cont_id, end_cont_id;
-> +	int retry = 0;
-> +	const int max_retries = 10;
-> +
-> +	if (!tags || !procfs_entries) {
-> +		ksft_print_msg("Memory allocation failed.\n");
-> +		ret = KSFT_FAIL;
-> +		goto freemem;
-> +	}
-> +
-> +	fd = open(ALLOCINFO_PROC, O_RDONLY);
-> +	if (fd < 0) {
-> +		ksft_print_msg("Failed to open " ALLOCINFO_PROC ": %s\n", strerror(errno));
+> 
+> And do we really need information about the full page table walk, or is the last
+> level good enough?
 
+Page table entry and pmd entry are good enough: higher levels got
+added at some stage, but they are unlikely to be useful here.
 
-I see. The #include <errno.h> you added in patch 5 is meant for this 
-spot, right?
-
-If that's the case, I'd prefer moving the #include <errno.h>
-
-addition into this patch, though this is a trivial detail either way.
-
-
-Thanks
-
-Best Regards
-
-Hao
-
-
-> +		ret = KSFT_FAIL;
-> +		goto freemem;
-> +	}
-> +
-> +	do {
-> +		found = false;
-> +		pos = 0;
-> +
-> +		if (__allocinfo_get_content_id(fd, &start_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		memset(&filter, 0, sizeof(filter));
-> +		filter.mask |= ALLOCINFO_FILTER_MASK_FUNCTION;
-> +		strncpy(filter.fields.function, target_function, ALLOCINFO_STR_SIZE);
-> +
-> +		if (get_filtered_procfs_entries(procfs_entries, &filter)) {
-> +			ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		if (procfs_entries->count == 0) {
-> +			ksft_print_msg("Function %s not found in procfs\n", target_function);
-> +			ret = KSFT_SKIP;
-> +			goto exit;
-> +		}
-> +
-> +		target_size = procfs_entries->tag[0].counter.bytes;
-> +
-> +		memset(&filter, 0, sizeof(filter));
-> +		filter.mask |= ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE;
-> +		filter.min_size = target_size;
-> +		filter.max_size = target_size;
-> +
-> +		while (1) {
-> +			struct allocinfo_get_at get_at_params;
-> +
-> +			memset(&get_at_params, 0, sizeof(get_at_params));
-> +			memcpy(&get_at_params.filter, &filter, sizeof(filter));
-> +			get_at_params.pos = pos;
-> +
-> +			if (__allocinfo_get_at(fd, &get_at_params))
-> +				break;
-> +
-> +			tags->count = 0;
-> +			memcpy(&tags->tag[tags->count++], &get_at_params.data,
-> +			       sizeof(get_at_params.data));
-> +
-> +			while (tags->count < VEC_MAX_ENTRIES &&
-> +			       __allocinfo_get_next(fd, &tags->tag[tags->count]) == 0)
-> +				tags->count++;
-> +
-> +			for (i = 0; i < tags->count; i++) {
-> +				if (strcmp(tags->tag[i].tag.function, target_function) == 0) {
-> +					found = true;
-> +					break;
-> +				}
-> +			}
-> +
-> +			if (found || tags->count < VEC_MAX_ENTRIES)
-> +				break;
-> +
-> +			pos += tags->count;
-> +		}
-> +
-> +		if (__allocinfo_get_content_id(fd, &end_cont_id)) {
-> +			ksft_print_msg("allocinfo_get_content_id failed\n");
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +
-> +		if (start_cont_id.id == end_cont_id.id)
-> +			break;
-> +
-> +		ksft_print_msg("Module load detected during size verification, retrying...\n");
-> +	} while (retry++ < max_retries);
-> +
-> +	if (start_cont_id.id == end_cont_id.id && !found) {
-> +		ksft_print_msg("Entry with function %s not found in IOCTL results\n",
-> +			       target_function);
-> +		ret = KSFT_FAIL;
-> +	} else if (start_cont_id.id != end_cont_id.id) {
-> +		ksft_print_msg("Failed to match content_ids for procfs and IOCTL, skipping...\n");
-> +		ret = KSFT_SKIP;
-> +	}
-> +
-> +exit:
-> +	close(fd);
-> +freemem:
-> +	free(tags);
-> +	free(procfs_entries);
-> +	return ret;
-> +}
-> +
-> +static int test_lineno_filter(void)
-> +{
-> +	struct allocinfo_tag_data_vec *tags = malloc(sizeof(*tags));
-> +	struct allocinfo_tag_data_vec *procfs_entries = malloc(sizeof(*procfs_entries));
-> +	struct allocinfo_filter filter;
-> +	enum ioctl_ret ioctl_status;
-> +	int ret = KSFT_PASS;
-> +	__u64 target_lineno, i;
-> +
-> +	if (!tags || !procfs_entries) {
-> +		ksft_print_msg("Memory allocation failed.\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	memset(&filter, 0, sizeof(filter));
-> +
-> +	if (get_filtered_procfs_entries(procfs_entries, &filter)) {
-> +		ksft_print_msg("Error retrieving entries from " ALLOCINFO_PROC "\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +	if (procfs_entries->count == 0) {
-> +		ksft_print_msg("Could not retrieve procfs entries\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +	/*
-> +	 * We depend on the result of procfs entries to create the ioctl_filter. Hence we
-> +	 * cannot recycle the run_filter_test function here.
-> +	 */
-> +	target_lineno = procfs_entries->tag[0].tag.lineno;
-> +
-> +	filter.mask |= ALLOCINFO_FILTER_MASK_LINENO;
-> +	filter.fields.lineno = target_lineno;
-> +
-> +	ioctl_status = get_filtered_ioctl_entries(tags, &filter, 0);
-> +	if (ioctl_status == IOCTL_INVALID_DATA) {
-> +		ksft_print_msg("Trouble retrieving valid IOCTL entries, skipping.\n");
-> +		ret = KSFT_SKIP;
-> +		goto exit;
-> +	}
-> +	if (ioctl_status == IOCTL_FAILURE) {
-> +		ksft_print_msg("Error retrieving IOCTL entries.\n");
-> +		ret = KSFT_FAIL;
-> +		goto exit;
-> +	}
-> +
-> +	for (i = 0; i < tags->count; i++) {
-> +		if (tags->tag[i].tag.lineno != target_lineno) {
-> +			ksft_print_msg("IOCTL entry %llu has incorrect lineno %llu.\n",
-> +				       i, tags->tag[i].tag.lineno);
-> +			ret = KSFT_FAIL;
-> +			goto exit;
-> +		}
-> +	}
-> +
-> +exit:
-> +	free(tags);
-> +	free(procfs_entries);
-> +	return ret;
-> +}
-> +
->   int main(int argc, char *argv[])
->   {
->   	int ret;
->   
-> -	ksft_set_plan(2);
-> +	ksft_set_plan(4);
->   
->   	ret = test_filename_filter();
->   	if (ret == KSFT_SKIP)
-> @@ -327,5 +510,17 @@ int main(int argc, char *argv[])
->   	else
->   		ksft_test_result(ret == KSFT_PASS, "test_function_filter\n");
->   
-> +	ret = test_size_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_size_filter\n");
-> +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_size_filter\n");
-> +
-> +	ret = test_lineno_filter();
-> +	if (ret == KSFT_SKIP)
-> +		ksft_test_result_skip("Skipping test_lineno_filter\n");
-> +	else
-> +		ksft_test_result(ret == KSFT_PASS, "test_lineno_filter\n");
-> +
->   	ksft_finished();
->   }
+Hugh
