@@ -1,105 +1,110 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C2F391825;
-	Wed, 17 Jun 2026 10:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692029; cv=pass; b=oGAxtTkszU+oNRfrvn5BK8te33pY+oAsfkoI1SjV7Vsi3tADfZdVW7nEkEB5IPJhuP+OQ+gCX/iLVCFHjtiPzV2nBRVC0BSGoJjN9r7PImFnN6IwkP/PZ6ckJDvfY55ALUGNiUA1l1VnEajRxgVmZnc/wH1USWm3NZzg+tZwb6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692029; c=relaxed/simple;
-	bh=gBvRjungQc+SjWsZcX2jvk4sfIR/H5rHSoI1Oj8gTEo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=Qf1xhiROkOzgDtghfT4TlkmLj34VL9j3rUkLWGqz/HqzLlYvSqeAiwSZsI6Xe3EnLRUCRB9rPyhJzSRejRl4yTuoZviykxZ2YTtMZP4pk7u/ANhDRdbZvJMMEVDrB7tpFRmiyKTHH7/yl56SGDaxMNGG3kVYY6n4Z+VBOgB4M2g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b=ampRK/xP; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1021B391E57;
+	Wed, 17 Jun 2026 10:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781692130; cv=none; b=RXrZRWUc7dKOuV/XsfHWwxaqht+An1zWhv34oIaBza9t58fYdqee9h4KoD+LBLk5OO0r4oUCuoMxbs54enp7U3Ya9bQlFxDKuNYVXZUKV6qNEniRgaKRG3SnPKZdquFPpGKqnFA/VsOiDRoMAFHhN6ReEQVl/6rV1IwjLbBVaEA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781692130; c=relaxed/simple;
+	bh=5k8uag/DR60dxMONiMjdt4pzA1sv9wk0gWocW6xlveo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jqKgkmMWgL1w7iY0aZxj3Vi0EgjO6FyFCHx2kdk7SgSFyaAb1+QtwmEUVW9wGRm31goaVzRNQZBm/TjDsp9QF18c0HASgESjj0RwLSEBDDTCr3xmb8mc9Mm67EWzA8FamY+3v1G+BpUJRrc011+0Ql1L9OPhQXY9Lh47YqyN2y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GkXi8cs2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="ampRK/xP"
-ARC-Seal: i=1; a=rsa-sha256; t=1781692011; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Ue5oXAl9F7ELi+KTPstMmz2A+U3SMZPiGObgDbVkPUxcg3XZAqMS/3YlGNXbxObXG4JuiqHXLYi1gqtY+P+7wCbv5hFHcoSAMLF7Gz6gDjs6PGUfulUxe+l9i6jkJ7Hq+V9pFeP5aMgLvbLOTY6GO2d2ksQ9QQJl1YrMEOSAVtw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781692011; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=1emWFubp8fhk0p8wRgcHjKQfLWOipWqTOmpA1GxvLXI=; 
-	b=lDIdzrikJzw019VkNxQoCtVB4Axfdf8zUIyIAf9zUTgtsUoxdq+IMe/oPwiOv98aGgv209fCqbrEWhPKpZHrWAQqLxhLJkiH4dcT+F4hTahCA9teycebqpfsO3S5u5ypKTTFFPj8BBa0ZtKn3aOaLe6LXHf1i9ymT7EinVDrKaE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
-	dmarc=pass header.from=<vignesh.raman@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781692011;
-	s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=1emWFubp8fhk0p8wRgcHjKQfLWOipWqTOmpA1GxvLXI=;
-	b=ampRK/xP6cYVELmzPQ9ehi8thlId81Ohq1CmlAdFqHPl7vMwivuEe9MZsIPapF3Z
-	AEJzRQXww9cDgkiPZEcsIwUVLIIdatzTbcpmsbIYgp0udfQ/KmvywVJLv09VW4wQa68
-	KncITCltrnxisw1TwNxmRBA7yCrWQ4Zhz0//PCnY=
-Received: by mx.zohomail.com with SMTPS id 1781692010159756.5896442687364;
-	Wed, 17 Jun 2026 03:26:50 -0700 (PDT)
-Message-ID: <d8d515e4-1184-4898-b459-c1485f82ce8a@collabora.com>
-Date: Wed, 17 Jun 2026 15:56:44 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GkXi8cs2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23ED11F00A3A;
+	Wed, 17 Jun 2026 10:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781692128;
+	bh=IYjMPmkeWysVnxRBCqC3eUXQS1lopznfKYY7BzJZapk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GkXi8cs2eU2jXur9ik98QsXIQ7m69jJaTRhSPgzy/K6odxYa1W1gXZ6b1Tkebdkhw
+	 q6CsCHohGt4XMMgeyMmw+ftYkb1haWB5WBFBTB6If41nMYeeuViHL7ZDgg6HapslBX
+	 rAyQbF4RJ9TFGkU5T6QtjrV0Q3ndhDM9k2m0C+X9f/BW3oinbldU4HEFxSp4XAQ+D7
+	 r0FGKs7immz9IVaJ0YhutBYJopmooTaxZnin9pKy/hYbYxqYpZr4xc1KkrykrNAoI2
+	 r5SC1rsNoZ3pI0scrc1V97CQloaCCH/vTVf0bpR5fFLOQxAp+wJ/QP13I8c/MhLjS2
+	 z7KMhULCqdp1w==
+Date: Wed, 17 Jun 2026 12:28:44 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
+	Matti Vaittinen <matti.vaittinen@linux.dev>, Guenter Roeck <linux@roeck-us.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>, 
+	Ashish Yadav <ashish.yadav@infineon.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Yuxi Wang <Yuxi.Wang@monolithicpower.com>, Charles Hsu <hsu.yungteng@gmail.com>, 
+	ChiShih Tsai <tomtsai764@gmail.com>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/7] dt-bindings: adm1275: ROHM BD12780 hot-swap
+ controller
+Message-ID: <20260617-uptight-sexy-hippo-f4bc62@quoll>
+References: <cover.1781591132.git.mazziesaccount@gmail.com>
+ <d63c4df5e9df845bc4f94b4abdcd068a23929974.1781591132.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc: recommend forking drm/kernel rather than
- uploading a distinct copy
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: Eric Engestrom <eric@engestrom.ch>,
- Helen Koike <helen.fornazier@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260219135645.261192-1-eric@engestrom.ch>
- <b7f86ada-a74d-4fb2-83d2-5b4ef18e00c4@collabora.com>
-Content-Language: en-US
-In-Reply-To: <b7f86ada-a74d-4fb2-83d2-5b4ef18e00c4@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d63c4df5e9df845bc4f94b4abdcd068a23929974.1781591132.git.mazziesaccount@gmail.com>
 
-Hi,
+On Tue, Jun 16, 2026 at 09:35:35AM +0300, Matti Vaittinen wrote:
+ +
+> +  Datasheets:
+> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780muv-lb-e.pdf
+> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780amuv-lb-e.pdf
+> +
+>  properties:
+>    compatible:
+> -    enum:
+> -      - adi,adm1075
+> -      - adi,adm1272
+> -      - adi,adm1273
+> -      - adi,adm1275
+> -      - adi,adm1276
+> -      - adi,adm1278
+> -      - adi,adm1281
+> -      - adi,adm1293
+> -      - adi,adm1294
+> -      - silergy,mc09c
+> +    oneOf:
+> +      - items:
+> +          enum:
 
-On 20/02/26 11:08, Vignesh Raman wrote:
-> Hi Eric,
-> 
-> On 19/02/26 19:26, Eric Engestrom wrote:
->> Signed-off-by: Eric Engestrom <eric@engestrom.ch>
->> ---
->>   Documentation/gpu/automated_testing.rst | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git ./Documentation/gpu/automated_testing.rst ./Documentation/ 
->> gpu/automated_testing.rst
->> index 62aa3ede02a5df3f590b..8a7328aef10ef39ee329 100644
->> --- ./Documentation/gpu/automated_testing.rst
->> +++ ./Documentation/gpu/automated_testing.rst
->> @@ -99,7 +99,8 @@ How to enable automated testing on your tree
->>   ============================================
->>   1. Create a Linux tree in https://gitlab.freedesktop.org/ if you 
->> don't have one
->> -yet
->> +yet, by forking https://gitlab.freedesktop.org/drm/kernel (this 
->> allows GitLab
->> +to internally track that these are the same git objects).
-> 
-> Reviewed-by: Vignesh Raman <vignesh.raman@collabora.com>
 
-Applied to drm-misc-next
+s/items/enum/, so:
 
-Thanks.
+oneOf:
+  - enum:
+  ....
 
-> 
-> Regards,
-> Vignesh
-> 
->>   2. In your kernel repo's configuration (eg.
->>   https://gitlab.freedesktop.org/janedoe/linux/-/settings/ci_cd), 
->> change the
-> 
+
+> +            - adi,adm1075
+> +            - adi,adm1272
+> +            - adi,adm1273
+> +            - adi,adm1275
+> +            - adi,adm1276
+> +            - adi,adm1278
+> +            - adi,adm1281
+> +            - adi,adm1293
+> +            - adi,adm1294
+> +            - rohm,bd12780
+> +            - silergy,mc09c
+> +
+> +# Require BD12780 as a fall-back for BD12780A.
+
+No need for the comment, schema is quite explicit.
+
+> +      - items:
+> +          - const: rohm,bd12780a
+> +          - const: rohm,bd12780
+
+Best regards,
+Krzysztof
 
