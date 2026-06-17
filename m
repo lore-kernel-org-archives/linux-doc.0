@@ -1,118 +1,236 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF3398911
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 05:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781675100; cv=pass; b=ThXnoM+CqIRN0MKLbCrHayP/o+1sfUvj4Blg1zFCiExu/A1+jGRKfKzuYaqliT1/AdooeKTuE2AZG6z6BWTVYiHXDhmzfqSLmjYFkql7HnwINLH5T3H5ii1umizxqXhrfSY7founRMuSWjZ2BSDYR7TbTVyAKJ0eoal4AiJWnhE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781675100; c=relaxed/simple;
-	bh=lKRmpKmonuyhtIYX9JXaoktO3MKvyjTBa6sH4cggBwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j1mumN9oouBOQ67jFfjHmSonfUB/wOXY/zdcV18qxTt7OPWFuyo84HL+QXyDgtqkeAq1ayOSqwMrIF7O0++mBgqrBBYnfdmbMaDKPqqviw4mBSRzHG18cCfpF6GwZ0mqsY/4WF6zqSuF5E67jbk2GNHu4vEb0+4nlOZZRT0uyg0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbPwuP9l; arc=pass smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B07132B138
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 05:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781675343; cv=none; b=nZjxMBL/i3aEG1eXDcy1bRR1Vo3CwyjrvftjJ+zB6cRhvwzogcOPj0KdBb/RVXXtbP1oIIb7aXNB83yEJ2NA9TT27RtDxi6JdFSMcTbDScjjo6CpgbLv/o+C93jOXvXhRMYpd8JXkCGGWa4maPz1up8hAkKpp97PrJiFkOua4Dc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781675343; c=relaxed/simple;
+	bh=tOLPobJGImk32z+uI0P48pC/EhiuZZJOvuzAJ9JDBuU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lUvy/nc7T98ynWH1DbcShPLU5sr9zeGGpig8YmuXlkDNVjOYyFGvm/R/TinAImUJpMQZb+P8XwLwXEbTF5AY7/gSxJE9DaNNflQ3HaeM1Ef3/mj2pV642iiLdyjUDRP+3Bvb6tUlbGG+H/Dwrj2jQVyqbT+5jlsbzb23oABjpos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N1SeiIiL; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbPwuP9l"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e709dd1ab2so2221754a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 22:44:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781675098; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lx3NlZfL3ifJ44KF9J2Cyv/B4BX+5bne2m5G35r+NfCbMHyu8zIGMy21C4hf6rk7FH
-         P11X/CxnhuLGK7Ui3tMXiOiWmPgjDgoEm3VZ2IjI5sPb8MMK+aMpPdLidxqDasgxctiV
-         dsEOLi8tqXewbRqQ64uACn1LjCa6FFlGhH+OwPtzD+VXSF7np90jVmcpFJ5BcbOGMBd+
-         k1bTRvwNAMKcCFwRyeEMokoMiQG3BsLs5AvbAorfWyso6zqArJzybwCR30+WArm/qPi2
-         wN0tXuqOUENkMLlKNZZgVRm7he2Ww9TphOKIp4BQTFV+JSE/KJ7qJVuSAryHVJX7Vv/C
-         NydA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lKRmpKmonuyhtIYX9JXaoktO3MKvyjTBa6sH4cggBwI=;
-        fh=paNwgSTAZAGKsUs1r/OYVjNz8+PETGRFGw0ey5W4XUs=;
-        b=H0ZCDUJ1iGvteQ1q9H0vEFFzB4Nx12YP2fn1KU4kkNhBQR3SQrii3sNTgs89CAGYUj
-         FGpcvyn5HwyKVlDqYc1DdxYmJaiIUQcYU2yhKlHnZwPJSzD16uoYvvTA8Lk+6OFhyvqk
-         ZUZ9AYz+vhVLAhAo8sLauhGLteGmDGbocc/w4j3jfaUj0JHO5iCATKg7oUoz0CaGDhbD
-         71vPitW49o6bRor6Fu9ygHHEwLCXwygdPSyqV3BOVvjYHrUmkjDUMrshppgQLbTFzqFY
-         OshLxTi2zclUl1BK3zmYUgGH7N0qF6msl/O6Uzena8eWQRG9HlkI80UMX0WPS26XX9zN
-         pB+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N1SeiIiL"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aa7a7ad475so5883705e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Jun 2026 22:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781675098; x=1782279898; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lKRmpKmonuyhtIYX9JXaoktO3MKvyjTBa6sH4cggBwI=;
-        b=LbPwuP9lPYxZsmdj3DX1p8EBqjVDjRlCSXkNXwAUENBK2aM7CgWwVi91pLZ693qRGo
-         1Msavsh8bxYtAIC4v2owOC0LB5mpe22FT+c63h0Yay1+fIRQcLGgu5eXUdp55jmKGdyI
-         qdDZ1iE87k36gVYP7fpVpszElTjQX4L7lhwXLELAOKVFlJMiiJEHgazOtIUHYiBxxo5F
-         i8fPXT2x1ee7VozZdanJRyRKPsMfZTUPd7FufhZZ9Vvbs3Oog7jS+MN7TLj4BYll4nYc
-         PE0IrXui/JktuSCzavWu4E8wBdMERDFLJ/6D+QRwBkSg62YQsF9zF8T5djyHviUPTW29
-         LctA==
+        d=gmail.com; s=20251104; t=1781675340; x=1782280140; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GReM3q6YXZFLN+dAGJRab/+ogzJoSPpuLtrW0PQUfak=;
+        b=N1SeiIiLfnFJnlCjG5p1yn54k2DQe22AJq+6aeUDudC2tag9Y6GWhC8VVsQ6jKDqC7
+         vkmPSRdpJYRWluEQDejJaQgjXh01mWPuUTtzvZ2FXj2LnJszSYcpYMiFPPeC2Ax+0qPS
+         VlsrJUbbklzhGBXdcCx3BZtbxaZnje7FBZaPoQKZkAq3a5gHPCkMC+ZEu/1ZVb/a4oV4
+         l67FIN8SMCZQz9hPK5fO4mNInpRNd8Kjp08fMz7h3+/qPMifFPeYcCTOdqT1Ma4QX1la
+         BSkxBCyxRtTB6N6KI0RCegp5ppnILGHOWxCfRSGMbGAIlTNqqbkp4oqZZxLqrWA4Bxvb
+         I+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781675098; x=1782279898;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lKRmpKmonuyhtIYX9JXaoktO3MKvyjTBa6sH4cggBwI=;
-        b=RsWYxTROqrqTOO3FsXPitSGXZbl3e+7nlo6HejcDVvyItWeaZJ+qjHBy+hOGxcL7/H
-         4kEhoYej4UlsXlHUGeZm+eN5G+uNX1RiCAEU8Dwyhqx1YMZvR2fH6efWSJ7uPjb2uKmd
-         BHpviP2ulLSnMzGFvxL84sE8ER+NCp5Gx60BRYEvYUe5ukf8UYer+ndrJ7lHX2XHm8Zw
-         DoBZpCNCWQBj5I8a4FjdlbYamdHhcDSTKzGZF1kBiLasx9K5UtZgmUzCo4Yl6CQ0iwc3
-         BRaS+yWpfr6VUGDFXJURx+SOcGc8qD9aP5cZoR5BWpMxztafpaTeUrkBlHe88h+m/sJE
-         JYOw==
-X-Forwarded-Encrypted: i=1; AFNElJ/8woAA8rqnQn56XPj3KEOsRsr95ldOqs+9bpRCiwePgitUYvdYdNUNEix5GGon64H09HH8OqS+hnc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztmAKKOMNc3Sz2HZr6JY25BYpeUwAetbLjNR2l0WkTV/qNqhkl
-	Hh7fKfv8s1Uxlr3xvQhMKz8iVuITbVbwDV8MOuKC1wTxRs+o7Zm5rwJhyJ9qH5annGSaR1WTGLL
-	cXetG2SJtaTXkyeaXfbJo+VxEPyMVlRc=
-X-Gm-Gg: Acq92OFc67vL1JeFHvmsaZmcSwkxCvP6mUfC/NBpGObCXAvR9zkeK0pPqMk7bwfom6L
-	neuf60LAgDfJXqlZuEBiQzRcoN9gvSCvQQfwyPAZpQ6PtFun4Eea8g8MqqBln1UXX7AMbz6LmlQ
-	GsZc0SRAYlPrMmPsRZlKOkZ1TVfyufjIc39M8Xzlueazn/BMMtP6FSJrhB1b2c1sNKHKX0PQ+I6
-	sXqGVLpWlMb/gVDgi4ejM/tlCcM9KKB9fwpalmVLkdO1uYBEo6dyr81qyn222hfIC4EmciHVTzq
-	UisbW63dCscMnzNRaRmgM+R93A==
-X-Received: by 2002:a05:6809:392:20b0:486:a606:c6b5 with SMTP id
- 5614622812f47-489429be925mr1512679b6e.23.1781675098075; Tue, 16 Jun 2026
- 22:44:58 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781675340; x=1782280140;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GReM3q6YXZFLN+dAGJRab/+ogzJoSPpuLtrW0PQUfak=;
+        b=FNpAAufgrGy9q5pSD2ZmjCFmMPg5h2t3SK0EzjSedNjZXpyLE1yRIw8iPM2rSw/dPy
+         JsP2TQ9Gzbnt2jBlzVY60RNz9Tqy/3CWcYYGI21oHVs+TaKQfjeF2lkevhWyasrqy0Zz
+         alzQBQJghiebifMzoj3Drm7GbJuyhbzXNd5+261a8Kiy5+Q/n5kelNcxDP2egDzG/8AP
+         3aytq6ucJvuvR0JXakEMTGTlqTJfustnf1TvStFGaYPhQgwoN5Qep769xfQ+UmyqOnot
+         dI4bHatw95GtEqShFC1SrVgshjdDxebFXC2QeYO2BdIvvJya5sXjFVrDrSaJ/jYfOlk6
+         eB+A==
+X-Forwarded-Encrypted: i=1; AFNElJ9iwxvw/I1lQRPCtjDN6AgQQvGujo3FYjzC9CpapTENJEEEMmBhRNbCLbfrMxzxaGKhjTCUpey5Hpw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDVaXAA/2iq1VzAFaRC9Ha3493qinJfB+3htjquJbz9vKiuVhT
+	pvz1h5jxc+ElR6dUrxr9LUz9U2xMFxI/vSVoAO4FpPzQ7ucY79rZicUE
+X-Gm-Gg: Acq92OGjymHhO1aPpYeEeJaJ/7F2cvfaHAJEuHnbOnFzQ0iLF0CqA+FxTgFGJKB2EKa
+	qbbhgdfzq/LbWcccZc2gjH7P8FqxUBSnBcSZBsybvodsIRKz2Ns2vN4Gk8D9FJyq9EE0pll3OWb
+	cmel4cywDhFE8OejTCCC28DB+LCUJ6iR6U7T2D6XJ8zoQgWhP+GjWKBbm74m1lclLCLcedZTh/z
+	y9wbHu4hB1oqshEcAYTcfWYh3LO9GpcHhi8NBzd9YKd9foHk2XuuP0w3bgjeZMem5fNJthLBjtQ
+	rDx6LajSAo0gyi50zVDb3XsqRBJXLStdwI1YD5qfKR2unxreOFsh+PWqkheZESbZar+PcJHEJJF
+	bUKqGjGlyNplVUJ2ovQ6ccCdLjuLE4n3+eHO9F1Hx+mxwvFVrxXmNhQ2aez2mB81KIfSDlg+RIj
+	kmTbp/EPNHSS4Z4V6sAXFAnG7gKCEt629P2UQVWfBwnCKvAu4KeR0f2IcJfkb029z2jFJrPdvXm
+	geF35kI
+X-Received: by 2002:a05:6512:63c3:10b0:5aa:66a5:66cb with SMTP id 2adb3069b0e04-5ad47efff06mr318251e87.25.1781675340163;
+        Tue, 16 Jun 2026 22:49:00 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1baba7sm4087383e87.83.2026.06.16.22.48.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2026 22:48:59 -0700 (PDT)
+Message-ID: <46b3f680-91a9-4a2a-a197-8f0ca5e38b90@gmail.com>
+Date: Wed, 17 Jun 2026 08:48:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
- <20260616123646.GB21024@lst.de> <CAJxJ_jhK+zkpjhs3YsQ9RoasKYh+E0NweQci0sPAEY1ne5LmBA@mail.gmail.com>
- <ajIYFtADxQDq8q1P@google.com>
-In-Reply-To: <ajIYFtADxQDq8q1P@google.com>
-From: Jianyue Wu <wujianyue000@gmail.com>
-Date: Wed, 17 Jun 2026 13:44:45 +0800
-X-Gm-Features: AVVi8CezmHOQc6ccEaHRKEOgVGFkbymHQDWys_oD7V4L8KIfGzy5Bi0-OqnliFw
-Message-ID: <CAJxJ_jiM_-a52EOm896FXkdH+wRxjSHJx+MW6b-ewNLVkp4uSw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] mm/zram: route block swap I/O through swap_ops
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Minchan Kim <minchan@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Brian Geffon <bgeffon@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/7] hwmon: adm1275: Support ROHM BD12780
+To: Guenter Roeck <linux@roeck-us.net>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>,
+ Ashish Yadav <ashish.yadav@infineon.com>,
+ Kim Seer Paller <kimseer.paller@analog.com>,
+ Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+ Charles Hsu <hsu.yungteng@gmail.com>, ChiShih Tsai <tomtsai764@gmail.com>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1781591132.git.mazziesaccount@gmail.com>
+ <c92f1356fbf967dee3130f2eb0da08eb84800d47.1781591132.git.mazziesaccount@gmail.com>
+ <67bec6ae-4f21-441a-8c5e-b56bd1a2ab84@roeck-us.net>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <67bec6ae-4f21-441a-8c5e-b56bd1a2ab84@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Sergey,
+Thanks for taking the time to review this! Feedback is appreciated :)
 
-On Wed, Jun 17, 2026 at 11:46=E2=80=AFAM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
-> Can we elaborate on zram being a "legacy interface"?
-My previous wording was ambiguous. Actually I didn't mean it is a
-legacy interface.
-Previously I just compared the new compressed swap implementation.
-AFAIK, zram is widely used in many products like Android, automotive and Io=
-T.
-Its usage and interface should remain unchanged, as the impact would
-be significant.
+On 16/06/2026 17:13, Guenter Roeck wrote:
+> On 6/15/26 23:36, Matti Vaittinen wrote:
+>> From: Matti Vaittinen <mazziesaccount@gmail.com>
+>>
+>> ROHM BD12780 and BD12780A are hot-swap controllers. They are largely
+>> similar to Analog Devices ADM1278. Besides the ID registers and some
+>> added functionality, the BD12780 and BD12780A mark PMON_CONFIG bits
+>> [15:14] as reserved. Hence TSFILT setting must be omitted on these ICs.
+>>
+>> The BD12780 has 3 pins usable for configuring the I2C address. The
+>> BD12780A lists the ADDR3-pin as "not connect".
+>>
+>> Support ROHM BD12780 and BD12780A controllers.
+>>
+>> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>> ---
+>>   drivers/hwmon/pmbus/Kconfig   |  2 +-
+>>   drivers/hwmon/pmbus/adm1275.c | 46 +++++++++++++++++++++++++++++------
+>>   2 files changed, 39 insertions(+), 9 deletions(-)
+>>
 
-Thanks,
-Jianyue
+// snip
+
+>> @@ -487,6 +489,21 @@ static const struct i2c_device_id adm1275_id[] = {
+>>       { "adm1281", adm1281 },
+>>       { "adm1293", adm1293 },
+>>       { "adm1294", adm1294 },
+>> +    /*
+>> +     * The BD12780a is functionally identical to BD12780(*). Even the 
+>> pmbus ID
+>> +     * register contents are same. When instantiated from the DT, it 
+>> is required
+>> +     * to have the bd12780 as a fall-back. We still need the bd12780a 
+>> ID here,
+>> +     * because the i2c_device_id is created from the first 
+>> compatible, not from
+>> +     * the fall-back entry.
+>> +     * (*)Until proven to differ. I prefer having own compatible for 
+>> these
+>> +     * variants for that day. Please note that even though the probe 
+>> is called
+>> +     * based on the 'bd12780a' -entry, the ID is picked at probe 
+>> based on the
+>> +     * pmbus register contents and not by DT entry. Thus, if the 
+>> bd12780 and
+>> +     * bd12780a are found to require different handling, then this 
+>> needs to be
+>> +     * changed, or bd12780a is handled as bd12780.
+>> +     */
+>> +    { "bd12780", bd12780 },
+>> +    { "bd12780a", /* driver data unused, see --^ */ },
+> 
+> We don't usually do that. There are various A/B/C variants for many chips,
+> and we just use the base name unless a difference is warranted. Either this
+> is needed, and driver data is needed as well, or it isn't. If it is not 
+> needed,
+> it should be dropped.
+
+At the moment the only difference I know is reduced amount of I2C slave 
+addresses. This shouldn't be visible to this driver.
+
+My problem is that I don't know for sure if we later notice something 
+that requires differentiating. Thus I would like to have different DT 
+compatibles (or other source of I2C IDs if those are used to instantiate 
+the driver). If we don't do this, then we have problems if we later find 
+out that these ICs require different handling as users because we can't 
+differentiate these ICs if they are described with same compatible/I2C ID.
+
+The "fun" thing is that both variants have exactly same MFR_MODEL and 
+MFR_REVISION register contents. Thus, these ICs can't be differentiated 
+by reading PMBus registers.
+
+This is also why the driver data entry gets unused. The existing probe 
+mechanism in this driver, scans the names in this ID list and compares 
+it to the PMBus MFR_MODEL, and then picks-up the driver data to use. Now 
+because BD12780 and BD12780A both have same MFR_MODEL, the scan in probe 
+will always pick the same driver data entry, no matter what ID was 
+matched by bus code. That's why I added the comment here.
+
+If I drop the { "bd12780a", /* driver data unused, see --^ */ } -entry 
+from the ID list and add the of_device_ids, then I think this problem is 
+solved for the DT-platforms. As far as I understand, this would still 
+cause any non DT platform to describe both variants as "bd12780", making 
+it impossible to later differentiate ICs in the driver, right? I can do 
+this, but for me it feels a bit like asking for problems...
+
+My thinking was to have different IDs for these variants so hardware 
+description could have different IDs for different ICs. Then, if we 
+later need to differentiate these ICs, we still have an option to change 
+the probe to trust the i2c_get_match_data() when PMBus indicates the 
+bd12780.
+
+This however is some extra complexity, and I would like to add it to the 
+probe only if it really is required.
+
+But yeah, having an ID entry in the list and driver data not used even 
+when the matching IC is found, is unusual and would have caught me off 
+guard. Hence I added the (long) comment.
+
+> 
+>>       { "mc09c", sq24905c },
+>>       { }
+>>   };
+
+// snip
+
+>> @@ -712,7 +732,16 @@ static int adm1275_probe(struct i2c_client *client)
+>>           break;
+>>       case adm1278:
+>>       case adm1281:
+>> +    case bd12780:
+>>       case sq24905c:
+>> +    {
+>> +        u16 defconfig;
+>> +
+>> +        if (data->id == bd12780)
+>> +            defconfig = BD12780_PMON_DEFCONFIG;
+>> +        else
+>> +            defconfig = ADM1278_PMON_DEFCONFIG;
+>> +
+> 
+> Please add a separate case statement for the new chip
+> and do not overload existing chip data.
+
+I originally did just that. I, however, was not happy with this as it 
+resulted quite long own case this IC, which is almost identical to this 
+other (adm1278, adm1281, sq24905c) case. I wanted the code to shout that 
+the DB12780 is indeed (almost) identical to the adm1278. But yeah, I 
+agree, having "if (foo)" in "switch (foo)" case can get confusing.
+
+Yours,
+	-- Matti
+
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
