@@ -1,218 +1,195 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4295A3BB66B
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 07:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9268238332F
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 08:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781682893; cv=none; b=R06pQ3dpn13m6366KhtpiLbzO5uDqbiX4OetIT3gUF6nfg9JpwIolx6r+wXIBSU+zsxNaCU4j/3wz1VtKX5RNu8j81rWDPqTWLsrVj72e+mU5KNvuz8RsrjWw5ciDlactdYQ0e2l6Ifj3difQadgFwNTIE8L4H+MJRS76Ykl4pw=
+	t=1781684807; cv=none; b=E+mxbYPo6oJetnU9ykfDmSxyihpw8qJMtZwDtL9mtjpSlIbaNordlYosnhAKmN3USMyVhZ+hbSccSTCznogGve2QIjCPNpJjNRY5zAmhR7j40IA+7wqNSvEPn80Xv9QBjer4p+ek+Rm3JsLoropbFKselPW2gtaPAD3gQBFhrl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781682893; c=relaxed/simple;
-	bh=pkQig09G+83f8ggTEBprYL+a5E/lnHoIEPN2lGVtmQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KQgJEJk8l/FWqMMMVBq+iqdMsvv8YFrtydAHx4y3kKONyJ73MfJU/NE1mlPXnvrdsJu8kEguG8nlhEyE8UFr4oGCBJ8jZIf7C6YD58ZTB0O9H9WERfHN1DIlRZYohAMbvMuP6O3FE+eoRXTiKz1NkqRhhP7N84ROoneER2J35/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MItORZYP; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MItORZYP"
-Date: Wed, 17 Jun 2026 15:54:37 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781682889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MWtYSes6tIGGuR+SZXDuYlRAGjOXZD/BHMUqdQhGjyg=;
-	b=MItORZYPQB5EbHt4M+9GB1KAhkcS+MMAvZLJXzBqJsqjvpcm9DeRX6Tg2H5CQIWEfjVHWY
-	UZEWyL9WIShc2Ar1Dr0zKLywX3jRRb62KeYUq7oKmL+ewMHCK0QP1xar9uLSi0qycxTVXO
-	rCU7ilHgsA6gHpQ47KstM85VADdXBUg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, Harry Yoo <harry@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, liam@infradead.org, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] mm/slub: preserve previous object lifetime in user
- tracking
-Message-ID: <ajJMzHe3W8a8NGqK@fedora>
-References: <20260616141410.52117-1-pengpeng@iscas.ac.cn>
- <20260616141410.52117-3-pengpeng@iscas.ac.cn>
+	s=arc-20240116; t=1781684807; c=relaxed/simple;
+	bh=C0U+32GwJ4K0nGpIroKkA0XQuytFUnwuQ08KdAJjTbs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EqTYIjlC/DsC/bCN+DcsmwsRHcZp+YPpDyclmEY5AsJsH3aUqwASpeuLMN3IJ9caAEM8y1aXcN/Ht5pRaVI08k42bAtx0+o1rOEuT9dx3aTJ39SXeDqKQi8icQihu21KVa6UQ6idzht+E7p84+kRa8mE9XlJ1EKNl4YyzGXFQ5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-59eb501bcf0so1850277e0c.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 01:26:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781684804; x=1782289604;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NH6hocZNylot+M4XVVVgASnxnSv/8JW5bdpWIVIZHYU=;
+        b=CHki3Abrz+KDNW709i3DC4ggjXsRsKBJk1lS2rSphPpIfZ1tfbu7DmsxKHoxHo7LVW
+         1Ibk5GoRydH0XDHFadJSYGzras8bO67Amu5A093sLqq3TjhAUQkNIpMPasFdXvOnatH8
+         9iubqP2VgRFuWgCwHTpNd8CWnFLbxkuT7mI3xxuEk1Y0OBcq/h5qi2u9/6erZjuL9fw5
+         sLgOsc/lu6ApPTl1XVNY1Kln8HBjw4huXM0+XLQi0fdkGpybDK/l7APGbolz2NxV+Yws
+         DgvfATLul6C5edONZk7jPgEB+7jX+jv3zsujbg3KwUvCYWFm+1DCipIivVXghRg8Lmp3
+         IBQg==
+X-Forwarded-Encrypted: i=1; AFNElJ8RN6Db/EoKPZhkMq4eeVOfeaeXNzqUYXWAMygddaonL+GmAe46V3qaq5E/xxvla4K5ui1otYWlnZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU2wNE6z5RrQZaPNuYxkOwmpQQO4uGLGJB7/gdz4cu2ngusaJC
+	2ijEizZFkuCSA4Koj8SmW2cJs2RqRuJRRZupNJ6X+diQPby7HsngN/HKbGaYs/lm
+X-Gm-Gg: Acq92OEFAhmQmkXZid8YzppQDtI4TLoVlZxRpLm/NgiG7Kc2cgomR0zSTBaO/Umb2zl
+	HkvpN2zbDuT5tNjE3HuCnY9qdiqlOrguEV24h9CAPKmAUNf9LtgRu5kYmkLTye3t/jMFVHoiZaN
+	POXYNSX2Sg0jUIJvD2UDq211aYqqC2l+SGRbXJYGuSiRdwy52DHOB2ChyKmOV79fYyhCxGIBDPQ
+	3fN6JGRHkLJVBsnOunqG9gPRUkt/H23r8CUnDLthsAHE1z0mUBLlY141hnr7qBMmQIAqiFksbdS
+	SPrRLkDsazET5htPMBHqRJQKFEsbeV67C0xJzSY2HecOffBiaCDwmbxwDxe74h8val6RFpRb1kv
+	Ae15SgplIhP3N+FrtySGk9kzrW1o2X8yoFvu+aexiahfesg+u8luhXgUJ94GlMzg3vPRiu8qqit
+	ex9ZFrTKhHRRPfI8xyZlvDRGT7apNQqxhmkzfRll7DuV1lIRGJ5snmKK4ee+R4
+X-Received: by 2002:a05:6122:320b:b0:5a3:5938:6935 with SMTP id 71dfb90a1353d-5bbbe620f87mr1229536e0c.6.1781684804487;
+        Wed, 17 Jun 2026 01:26:44 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bb901f2d7bsm7848469e0c.17.2026.06.17.01.26.43
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 01:26:44 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6c3099b11a9so2223320137.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 01:26:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8HIPU2VHOOjBGcn9AgxmoD7lHNoOCbvLSZtT61SUZil8NECLBBaIfRLFvWSH4WMW6yTlb2/9tObIM=@vger.kernel.org
+X-Received: by 2002:a05:6102:4b03:b0:632:3bb5:95f1 with SMTP id
+ ada2fe7eead31-7246d528766mr1135210137.27.1781684803531; Wed, 17 Jun 2026
+ 01:26:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616141410.52117-3-pengpeng@iscas.ac.cn>
-X-Migadu-Flow: FLOW_OUT
+References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Jun 2026 10:26:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
+X-Gm-Features: AVVi8CfAqddoQorfQ6TrjH19DY2WU_w8lZ69fu1Z-CMFemynEW91v1W75EneBEs
+Message-ID: <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 16, 2026 at 10:14:08PM +0800, Pengpeng Hou wrote:
-> SLAB_STORE_USER stores one allocation track and one free track for an
-> object.  When that object is reused, the next allocation overwrites the
-> allocation track.  If a stale pointer from the previous lifetime is later
-> freed or otherwise reported, the free/check report can contain the victim
-> allocation and the stale operation while the previous completed alloc/free
-> pair has already been overwritten.
-> 
-> Keep one previous completed lifetime in the existing user tracking
-> metadata.  When an object is allocated and the current allocation/free
-> tracks both exist, copy that completed lifetime to the previous-lifetime
-> slots before recording the new allocation.  Clear the current free track
-> when the new allocation begins so the current lifetime does not continue
-> to display a free from the old lifetime.
-> 
-> Print the previous object lifetime when it is available.  This is
-> diagnostic information only; it does not infer semantic ownership or
-> identify the root cause of a use-after-free.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
->  mm/slub.c | 66 +++++++++++++++++++++++++++++++++++++++++++++----------
->  1 file changed, 55 insertions(+), 11 deletions(-)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 43d4febd5bf2..358f42e92207 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -327,7 +327,13 @@ struct track {
->  	unsigned long when;	/* When did the operation occur */
->  };
->  
-> -enum track_item { TRACK_ALLOC, TRACK_FREE, TRACK_NR };
-> +enum track_item {
-> +	TRACK_ALLOC,
-> +	TRACK_FREE,
-> +	TRACK_PREV_ALLOC,
-> +	TRACK_PREV_FREE,
-> +	TRACK_NR,
-> +};
->  
->  static inline unsigned int user_tracking_size(slab_flags_t flags)
->  {
-> @@ -1080,12 +1086,37 @@ static void set_track_update(struct kmem_cache *s, void *object,
->  	p->when = jiffies;
+Hi Marek,
+
+On Wed, 17 Jun 2026 at 05:00, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
+> MSI are handled via GIC ITS. Configure all controller MSI registers
+> fully.
+>
+> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
+> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
+> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
+> if MSI are enabled, clear both bits if MSI are disabled.
+>
+> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
+> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
+> pass through of MSI TLPs onto the AXI bus and then further into
+> GIC ITS translation registers.
+>
+> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
+> with target address of GIC ITS translation registers, and configure
+> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
+> GIC ITS. This specific configuration allows handling of MSI via the
+> GIC ITS instead of integrated iMSI-RX.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+
+Thanks for your patch!
+
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -31,6 +31,10 @@
+>  #define DEVICE_TYPE_RC         BIT(4)
+>  #define BIFUR_MOD_SET_ON       BIT(0)
+>
+> +/* MSI Capability */
+> +#define MSICAP0                        0x0050
+> +#define MSICAP0_MSIE           BIT(16)
+> +
+>  /* PCIe Interrupt Status 0 */
+>  #define PCIEINTSTS0            0x0084
+>
+> @@ -55,6 +59,16 @@
+>  #define APP_HOLD_PHY_RST       BIT(16)
+>  #define APP_LTSSM_ENABLE       BIT(0)
+>
+> +/* INTC address */
+> +#define AXIINTCADDR            0x0a00
+> +/* GITS GIC ITS translation register */
+> +#define AXIINTCADDR_VAL                0xf1050000
+> +
+> +/* INTC control & mask */
+> +#define AXIINTCCONT            0x0a04
+> +#define INTC_EN                        BIT(31)
+> +#define INTC_MASK              GENMASK(11, 2)
+> +
+>  /* PCIe Power Management Control */
+>  #define PCIEPWRMNGCTRL         0x0070
+>  #define APP_CLK_REQ_N          BIT(11)
+> @@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+>         return rcar;
 >  }
->  
-> -static __always_inline void set_track(struct kmem_cache *s, void *object,
-> -				      enum track_item alloc, unsigned long addr, gfp_t gfp_flags)
-> +static bool track_has_record(const struct track *t)
+>
+> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
 > +{
-> +	return t->addr;
+> +       struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +       struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +       u32 val;
+> +
+> +       /* Make sure MSICAP0 MSIE is configured. */
+> +       val = dw_pcie_readl_dbi(dw, MSICAP0);
+> +       if (pci_msi_enabled())
+> +               val |= MSICAP0_MSIE;
+> +       else
+> +               val &= ~MSICAP0_MSIE;
+> +       dw_pcie_writel_dbi(dw, MSICAP0, val);
+> +
+> +       if (!pci_msi_enabled() || pp->use_imsi_rx) {
+> +               /* Clear AXIINTC mapping. */
+> +               writel(0, rcar->base + AXIINTCADDR);
+> +               writel(0, rcar->base + AXIINTCCONT);
+> +       } else {
+> +               /* Point AXIINTC to GIC ITS and enable. */
+> +               writel(AXIINTCADDR_VAL, rcar->base + AXIINTCADDR);
+> +               writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
+> +       }
+> +
+> +       /* Configure MSI interrupt signal */
+> +       val = readl(rcar->base + PCIEINTSTS0EN);
+> +       if (pci_msi_enabled())
+> +               val |= MSI_CTRL_INT;
+> +       else
+> +               val &= ~MSI_CTRL_INT;
+> +       writel(val, rcar->base + PCIEINTSTS0EN);
 > +}
+> +
+>  static int rcar_gen4_pcie_enable_device(struct pci_host_bridge *bridge,
 
-how about inline it
+FTR, this has a contextual dependency on "[PATCH v2] PCI: rcar-gen4:
+Limit Max_Read_Request_Size and Max_Payload_Size to 256 Bytes"
+(https://lore.kernel.org/all/20260519195219.189323-1-marek.vasut+renesas@mailbox.org).
 
-> +
-> +static void clear_track(struct kmem_cache *s, void *object,
-> +			enum track_item track)
-> +{
-> +	memset(get_track(s, object, track), 0, sizeof(struct track));
-> +}
-> +
-> +static void save_previous_lifetime(struct kmem_cache *s, void *object)
-> +{
-> +	struct track *alloc = get_track(s, object, TRACK_ALLOC);
-> +	struct track *free = get_track(s, object, TRACK_FREE);
-> +
-> +	if (!track_has_record(alloc) || !track_has_record(free))
-> +		return;
-> +
-> +	*get_track(s, object, TRACK_PREV_ALLOC) = *alloc;
-> +	*get_track(s, object, TRACK_PREV_FREE) = *free;
-
-Maybe we can use memcpy instead of copying them one by one.
-
-> +}
-> +
-> +static __always_inline void set_alloc_track(struct kmem_cache *s, void *object,
-> +					    unsigned long addr, gfp_t gfp_flags)
+>                                         struct pci_dev *dev)
 >  {
->  	depot_stack_handle_t handle = set_track_prepare(gfp_flags);
->  
-> -	set_track_update(s, object, alloc, addr, handle);
-> +	save_previous_lifetime(s, object);
-> +	set_track_update(s, object, TRACK_ALLOC, addr, handle);
-> +	clear_track(s, object, TRACK_FREE);
 
-sashiko has a comment:
+Gr{oetje,eeting}s,
 
-https://sashiko.dev/#/patchset/20260616141410.52117-1-pengpeng%40iscas.ac.cn
+                        Geert
 
-It seems a simple fix could be removing clear_track() and allow the stale free
-track.
-
->  }
->  
->  static void init_tracking(struct kmem_cache *s, void *object)
-> @@ -1120,11 +1151,22 @@ static void print_track(const char *s, struct track *t, unsigned long pr_time)
->  void print_tracking(struct kmem_cache *s, void *object)
->  {
->  	unsigned long pr_time = jiffies;
-> +	struct track *prev_alloc;
-> +	struct track *prev_free;
-> +
->  	if (!(s->flags & SLAB_STORE_USER))
->  		return;
->  
->  	print_track("Allocated", get_track(s, object, TRACK_ALLOC), pr_time);
->  	print_track("Freed", get_track(s, object, TRACK_FREE), pr_time);
-> +
-> +	prev_alloc = get_track(s, object, TRACK_PREV_ALLOC);
-> +	prev_free = get_track(s, object, TRACK_PREV_FREE);
-> +	if (track_has_record(prev_alloc) || track_has_record(prev_free)) {
-> +		pr_err("Previous object lifetime:\n");
-> +		print_track("Previously allocated", prev_alloc, pr_time);
-> +		print_track("Previously freed", prev_free, pr_time);
-> +	}
->  }
->  
->  static void print_slab_info(const struct slab *slab)
-> @@ -1371,10 +1413,12 @@ check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
->   *
->   * [Metadata starts at object + s->inuse]
->   *   - A. freelist pointer (if freeptr_outside_object)
-> - *   - B. alloc tracking (SLAB_STORE_USER)
-> - *   - C. free tracking (SLAB_STORE_USER)
-> - *   - D. original request size (SLAB_KMALLOC && SLAB_STORE_USER)
-> - *   - E. KASAN metadata (if enabled)
-> + *   - B. current alloc tracking (SLAB_STORE_USER)
-> + *   - C. current free tracking (SLAB_STORE_USER)
-> + *   - D. previous alloc tracking (SLAB_STORE_USER)
-> + *   - E. previous free tracking (SLAB_STORE_USER)
-> + *   - F. original request size (SLAB_KMALLOC && SLAB_STORE_USER)
-> + *   - G. KASAN metadata (if enabled)
->   *
->   * [Mandatory padding] (if CONFIG_SLUB_DEBUG && SLAB_RED_ZONE)
->   *   - One mandatory debug word to guarantee a minimum poisoned gap
-> @@ -2029,8 +2073,8 @@ static inline void slab_pad_check(struct kmem_cache *s, struct slab *slab) {}
->  static inline int check_object(struct kmem_cache *s, struct slab *slab,
->  			void *object, u8 val) { return 1; }
->  static inline depot_stack_handle_t set_track_prepare(gfp_t gfp_flags) { return 0; }
-> -static inline void set_track(struct kmem_cache *s, void *object,
-> -			     enum track_item alloc, unsigned long addr, gfp_t gfp_flags) {}
-> +static inline void set_alloc_track(struct kmem_cache *s, void *object,
-> +				   unsigned long addr, gfp_t gfp_flags) {}
->  static inline void add_full(struct kmem_cache *s, struct kmem_cache_node *n,
->  					struct slab *slab) {}
->  static inline void remove_full(struct kmem_cache *s, struct kmem_cache_node *n,
-> @@ -4522,7 +4566,7 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
->  
->  success:
->  	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
-> -		set_track(s, object, TRACK_ALLOC, addr, gfpflags);
-> +		set_alloc_track(s, object, addr, gfpflags);
->  
->  	return object;
->  }
-> -- 
-> 2.43.0
-> 
 -- 
-Thanks,
-Hao
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
