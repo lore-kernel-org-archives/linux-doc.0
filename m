@@ -1,196 +1,144 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A503FBB6C;
-	Wed, 17 Jun 2026 16:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2265F4ADD97
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 17:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781715031; cv=pass; b=J/v6zWm13B3m0NF3x884Um86at9mD+1n9lAIFW8t44KiePPoI+Exp0ylZutUnZSWj1j9Gwbih0VQHmDUv4qWYROVsU1iUC/l6rzjrygd29xllSczglqk7JhepMTFrSrU5LIvz80PdoJGF9tb1qZygVZjm+Lk9jf4H1V2pQ2g8J8=
+	t=1781716329; cv=pass; b=Hvx+11jh68QksJYeXETJbA9d8Q3ibsqvvxOKnvAyCVF6LzvfuqshBZpKIaBp50toL4v70EhE14JVcdiu8rmQrZY2yQ6iZN7G65DEho4sMoLjjzon8cae0NS8XwKatGQtkxNwiwRGDxJdCerlixbWHeMadkQ8NN6vhc14o66T0Ec=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781715031; c=relaxed/simple;
-	bh=06VMN2PhtZ+7gVI8RDCXYXGtY9U4MCrSGTTb7mJDYUA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=F4zVy2s72ZdLvtOgj8hcFnI4FkPTyR+LJtID7t4ACEKeD98VZcQo6Jd3CK3ZPhduvS73C1fPnymwLp2eLb7fBUnLRMgd7OsAErR/RSSmcpBc5k9nqyd4GOARuBHITan6X6Qt94X8G3tgtffHRBSMCVdoqtjWf0dk8CtpXPagsJw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=WuzxqkWJ; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1781716329; c=relaxed/simple;
+	bh=hBgVYCVjdYfk0aVRhelrtdNC3fQCPGI1gI+8jkOtitE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n2Uss0lVZvgg5Ay6pTW9BgwxTNFZpeG31JNjELuzRh+c8QV5CG/2mbgLygXcAFNcQtniB325fos4kR42R8CES9qZ/zAhPyhaQfvztHGv0VP2IEiNzvbJI5RBQFZQZ82GH10gLWtB4h80v4aeM4Vu4IZU6N9nwVoo+c4lcvgYO+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TctmaP0+; arc=pass smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="WuzxqkWJ"
-ARC-Seal: i=1; a=rsa-sha256; t=1781715005; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nIkXzu4Wk5D4iWFPg3B/osGTUJyFfv3OgDUXRt8P+xWnDFIawntPzcF+zkMUtM09U9/thfAkng/aBUogGkNCyjC2fcQHdnV8xYhUJQr/NEAnm2xTmHTnEOKQi6Ugq00B2yp/B09bOVHNGXVoZ1RDuwrhiukFx0edr7XjWnGmDW8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781715005; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=2tRFVu+rBmZK3DxliKEQUjew735Bbo/o9TjXiQMv7ow=; 
-	b=Aez4hnIT9IvfFEk00u3yTaWYci34rJQyAZnbUhhtTWTxay+HRaTKp8G7ZKloIbe177BpgU88CAUnqs8grzkD5fFXJbutYcJoia5RPjhG7JytXjHtZCSWZB+n+BP135iXtB4tM+O8ozkM0b35qb4mD3C+HKEv+JcCgKSOTDeBlcI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781715005;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=2tRFVu+rBmZK3DxliKEQUjew735Bbo/o9TjXiQMv7ow=;
-	b=WuzxqkWJtMEzYG7vCQXhFHeVyGmVbEySwVLZdvZVVGUJlR1ONZrotUpkoc/5vRF9
-	GPElhOmtDa3qp1nIKTld7uUEk71PzwNcjnPgstToLxxx1EUj0qCfNIo7aaThDmIElrH
-	wMMb40/3jVrNmZZU2FnTM8/R7q/eNOkEI5gWU0DG/WvryhzXsHpP7Cl7B6tgvdrvYOh
-	1CH53Eeuk7mWon7+zuyOjwRehPCUlI6++UiFjnzLrxvgCbbyeywRuNFJfuzzqU0IwjI
-	JZza2Idoix5qia1lkahHfkr5IjpzBhUcxymCBPSyF/izocywGgNkyVigzSym3WrdaWb
-	HkZaIBI1gg==
-Received: by mx.zohomail.com with SMTPS id 1781715004659447.50463106660675;
-	Wed, 17 Jun 2026 09:50:04 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Thu, 18 Jun 2026 00:48:03 +0800
-Subject: [PATCH RFC v2 9/9] platform/x86: ideapad-laptop: Fully support
- auto keyboard backlight
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TctmaP0+"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-46066e640easo39257f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 10:12:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781716325; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lIRmZP0neV4EYZBDjlM/zoN+onkCiY+K4j4FuTrVEwSsikWgUrqutZNyeAyuvIsRUW
+         ptkW2R2CUsn8g3EFWSOwHO5rd49zKgcIbzIfdNxn49KSbHH34iYWceuQ2GvALww0d2xt
+         0YoVN9SECvkUMXKWiYFeDOvdyAQbtUeYfOXAHLsZi1JblEeiD209QnwowiDOAdfjLL7F
+         rVR8Xco9grcTBbW3pitMqA/0dM7VYOigclyrPEmhvWxA5lfQuJxk4hWf+rWutuuh3ZkZ
+         jRkr026mOpLy3FtZzzFHkT8qWtF/5hSizX0DJC/Kl12T5vuBXHcVexuNNv//9B5rOM0j
+         bYrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hBgVYCVjdYfk0aVRhelrtdNC3fQCPGI1gI+8jkOtitE=;
+        fh=1CH5KX75D6DKZAsFUoMwVfX3Wf9uIrFkJR+sG9wH0Gg=;
+        b=ke+xrf3D7AgxShTb9YHVjAtREm9RDLmYgrSBrc3vnwn3fB1AtXDWLlDQcqMbEj9QAk
+         6iLzgrO6hSPJCV2a5mXSBg6UCEALICJPt45Vhc2lxzrOdf0VcomT1XIbZl7sbdE0mClK
+         rUg2LoxorZ7uplfdIE6hHIKZGSHwjYlrd8etlYd2n/4UvRXjl69sO209h0zsNVXSYAkD
+         NOgqO3ElqDbRxx8icKeNN+kroysrpr6255yXNMUtRoYi9K5+kfG+rGGp/t8mnZvMcvKL
+         55GAVZHod+qKLIS5YetXRWpzzlDcFQLaWu0750vZnz6pDCzV5gSZ68VvFzB4+b6wpKLT
+         MZhw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781716325; x=1782321125; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hBgVYCVjdYfk0aVRhelrtdNC3fQCPGI1gI+8jkOtitE=;
+        b=TctmaP0+SsJf0Xp1fUQjka3BEJIPQAylgzC5xdczSKk++iaF2Pvk4mvoWljYyp7kGJ
+         SduW5KQTXoxel89k+PAoDHIo9pqhTWSqlqf26I7dpu8Zjt3Wxy0dbmwhCh2gZPLOd+Vv
+         HDrFJ7wUHGsKBEhm1LinXztnnfUZLqIYi5632wJ0NH3QWt4oXpmFl04oSIc2Fu67OJCO
+         ibrjdebAcxpAE1uypDAzB36b8auhJQufdBcVOakDidu0PJA4hrLEN/A7cUGcPwqite8m
+         Bh2TiglzJyLHpPNaaewdND8jV57CrVt9g+5miL0VI1ZbCiSplNnljsjc1MBsOMO1WNsB
+         D2Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781716325; x=1782321125;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hBgVYCVjdYfk0aVRhelrtdNC3fQCPGI1gI+8jkOtitE=;
+        b=YxV/UucJuOqXDAXioIUk2lfQuvCMJYCH5FRYbYQ8ZQni3DrWUW/+16a2LJXxSa5756
+         4Kck5MRl2m2rF3uDD4Qae9L8jEYxoZyUUNoYjdxgYJCSor2P29MVdyo9OY45olQP7q16
+         D7u3+aO0ujHKeQDkUyV9b6fsg5K/ZPTi+Zd5ocPGmrA3CUTYoTe91cY9gbCRTNXp1Cm7
+         ZYp6HWEoeQYPUyh5d3hZujMqViwladmyf8ttHVcbeeQkoSOcexeF++8P/A9LvteTbA7R
+         6UQYt47eu4xjlUhSrX+RZnJ8d4ak7M0U/O0FNSsIYqVDgsH7qkBAdse9leFPKDHdQ3AY
+         rNQw==
+X-Forwarded-Encrypted: i=1; AFNElJ8mQlYFRNbXplIQU5D8c2Rwwod/m+i5SOL9xxnfuIxDdd1Z1Ywddg5M1/qTIqcwizJrfAtRn54gbi0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxF1onUkt/EG5yIhrhHnYycy025ckvCzuGZKfD9z0EBeSq3O+kc
+	SmZrKhs87Wj9rE2h2pMGx/VnL9i6dhsjjotJ8aDrdi2Q+orses6LfAhwJzjuiJ6pnYfMBZmW0RS
+	iMFacL1aWpOdCNOxIXmDsXreRQh1L7m8=
+X-Gm-Gg: AfdE7cno3fQa2ZEPIBR/xAXjfz4ymBoAukUPK7VKe+QPACseMfyXLPtSfMXY6Jk7iiZ
+	b8LQnNSIZ377AUgT14IIisgedr8D3zYqT3Gzy9XJlXMbK1nSUvlJNK82m/7RKWUlo39Dn5TO+BM
+	peuF9/nEgi+CPmcPJuwZziflowrEMz26GZFEv3DnBbj9NOnSf6cFLOt8y6OGUvnOnMfh55UTtyr
+	jICG1DsrAbtsk3/29Vn+HAObErh9CVcT8X32tB+2Hfx1TtgB3emfkI9VRwEuD7xqVfooWJatsJp
+	0glrz1F+U4Te+eHBh0jfM1aB8KUAPWVcK8iW62R66Q==
+X-Received: by 2002:a05:6000:238a:b0:45e:eaed:afd2 with SMTP id
+ ffacd0b85a97d-46233069660mr8853144f8f.0.1781716325060; Wed, 17 Jun 2026
+ 10:12:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-leds-trigger-hw-changed-v2-9-c28c44053cf3@rong.moe>
-References: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
-In-Reply-To: <20260618-leds-trigger-hw-changed-v2-0-c28c44053cf3@rong.moe>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
- Mark Pearson <mpearson-lenovo@squebb.ca>, 
- "Derek J. Clark" <derekjohn.clark@gmail.com>, 
- Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Ike Panhc <ikepanhc@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
- Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
- linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
- Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.16-dev-d5d98
-X-ZohoMailClient: External
+References: <aictKA0XWMWbxFdN@linux.dev> <CAO9r8zPvCaCqvoUhPdAN5Oi_Sj0mK-t7DJhOOz3Xf1DT-Wrgcw@mail.gmail.com>
+ <aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330> <airzE7jD9UtyR17J@google.com>
+ <aisEWnb3pzmVC4dl@linux.dev> <aiu06fbV7rWqY0Bm@yjaykim-PowerEdge-T330>
+ <aiw2p5ANjsQUCIHA@linux.dev> <ai5y923elCSZp41j@yjaykim-PowerEdge-T330>
+ <CAO9r8zOVqbJEaBqTHw=r2bYw7Lm1tO0TU9QuG+eH1rfqcTAJJQ@mail.gmail.com>
+ <ajCgzNIPLhjTRSXR@yjaykim-PowerEdge-T330> <ajC+FNpkVpI4pbBz@yjaykim-PowerEdge-T330>
+ <CAO9r8zMimM8n54BL1viuX3pYzO=wzQU89LhCF1HW0bAv97ZQtg@mail.gmail.com>
+ <CAKEwX=Nz9SWcEVQGQjHN8P8OANJY4BG0w+iQOzoNOWuteoVjAg@mail.gmail.com>
+ <CAO9r8zOD7XaJ0Uo_LLLDTRKbeTOmAwmM3q8q6rUyH3oS-X3Csw@mail.gmail.com>
+ <CAKEwX=N=Umi94wdKcLxEWOqUwhz6=Lj909pc1Pr_5ivVnZmdPQ@mail.gmail.com>
+ <CAO9r8zMHGFG_jcVeDPgowaQ2RNntp3KankwzQdgrJb9PrWu8_w@mail.gmail.com>
+ <CAKEwX=NyfxfXhHESTLyirAgdVA6QaYAcam792-vSZdmo0Pz+bA@mail.gmail.com> <CAO9r8zOg0OP1Ak1v7CRzSfQq0D8b4Dw+_T0Jui6YTM_KwQQNOA@mail.gmail.com>
+In-Reply-To: <CAO9r8zOg0OP1Ak1v7CRzSfQq0D8b4Dw+_T0Jui6YTM_KwQQNOA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Wed, 17 Jun 2026 13:11:51 -0400
+X-Gm-Features: AVVi8Ce4F6qbwirh2XAnhjc2JRmFEEfVWsLJJms1CDA7q8x1ucZACpOoqMz3NrU
+Message-ID: <CAKEwX=N_jcaGaPYsUvVi53+35mJhZe123a+6T2J-MsMQ+-cSGw@mail.gmail.com>
+Subject: Re: [swap tier discussion] Re: [PATCH v3 2/4] mm/zswap: Implement
+ proactive writeback
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: YoungJun Park <youngjun.park@lge.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Hao Jia <jiahao.kernel@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, mhocko@kernel.org, 
+	tj@kernel.org, mkoutny@suse.com, roman.gushchin@linux.dev, 
+	akpm@linux-foundation.org, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>, chrisl@kernel.org, 
+	kasong@tencent.com, baoquan.he@linux.dev, joshua.hahnjy@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, the auto brightness mode of keyboard backlight maps to
-brightness=0 in LED classdev. The only method to switch to such a mode
-is by pressing the manufacturer-defined shortcut (Fn+Space). However, 0
-is a multiplexed brightness value; writing 0 simply results in the
-backlight being turned off.
+On Tue, Jun 16, 2026 at 4:27=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> On Tue, Jun 16, 2026 at 1:24=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+>
+> Ohh I thought you meant we shouldn't allow zswap to be a tier at all,
+> not the *only* tier.
+>
+> > Or are you suggesting that if we set zswap as the only tier then we
+> > can allocate from any swapfile (since we're not doing any IO anyway)?
+>
+> Hmm, technically having zswap as the only tier should be equivalent to
+> disabling writeback, but you're right that if zswap is the only tier
+> than the memcg is not allowed to use swap slots from any swapfile, so
+> zswap cannot be used. Very good point :)
 
-With brightness processing code decoupled from LED classdev, we can now
-fully support the auto brightness mode. In this mode, the keyboard
-backlight is controlled by the EC according to the ambient light sensor
-(ALS).
+Yeah the coupling of swap/zswap makes reasoning about these kinds of
+things so annoying. :)
 
-To utilize this, a private hardware control trigger "ideapad-auto" is
-added, with the event handling procedure calling the
-led_trigger_notify_hw_control_changed() interface to activate/deactivate
-the private trigger according to the current LED trigger state.
+If anything, with vswap, I'll stop having to explain to folks why they
+have to provision on-disk swapfile when they only want to use
+in-memory compressed swap, and that's a win in my book.
 
-Meanwhile, block brightness changes on exit to prevent the side effect
-of LED device unregistration when the private trigger is active from
-resetting the brightness to zero, so that we can retain the state of
-auto mode among boots.
+>
+> In this case I think yes, we need vswap to be enabled to allow making
+> zswap the only tier. That's one gap between zswap being the only tier
+> and disabling zswap writeback, the former requires vswap while the
+> latter doesn't.
 
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- drivers/platform/x86/lenovo/ideapad-laptop.c | 63 ++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
-
-diff --git a/drivers/platform/x86/lenovo/ideapad-laptop.c b/drivers/platform/x86/lenovo/ideapad-laptop.c
-index 97949094ead4..a83af9bf843c 100644
---- a/drivers/platform/x86/lenovo/ideapad-laptop.c
-+++ b/drivers/platform/x86/lenovo/ideapad-laptop.c
-@@ -1714,9 +1714,56 @@ static int ideapad_kbd_bl_led_cdev_brightness_set(struct led_classdev *led_cdev,
- {
- 	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
- 
-+	/*
-+	 * When deinitializing: It must be the side effect of led_cdev
-+	 * unregistration when our private trigger is active. We've set
-+	 * LED_RETAIN_AT_SHUTDOWN to retain led_cdev brightness level.
-+	 * To do the same for auto mode, gate changes and return early.
-+	 */
-+	if (unlikely(!priv->kbd_bl.initialized))
-+		return 0;
-+
- 	return ideapad_kbd_bl_brightness_set(priv, brightness);
- }
- 
-+static bool ideapad_kbd_bl_auto_trigger_offloaded(struct led_classdev *led_cdev)
-+{
-+	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-+
-+	return atomic_read(&priv->kbd_bl.last_hw_brightness) == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+}
-+
-+static int ideapad_kbd_bl_auto_trigger_activate(struct led_classdev *led_cdev)
-+{
-+	struct ideapad_private *priv = container_of(led_cdev, struct ideapad_private, kbd_bl.led);
-+
-+	return ideapad_kbd_bl_hw_brightness_set(priv, KBD_BL_AUTO_MODE_HW_BRIGHTNESS);
-+}
-+
-+static struct led_hw_trigger_type ideapad_kbd_bl_auto_trigger_type;
-+
-+static struct led_trigger ideapad_kbd_bl_auto_trigger = {
-+	.name = "ideapad-auto",
-+	.trigger_type = &ideapad_kbd_bl_auto_trigger_type,
-+	.activate = ideapad_kbd_bl_auto_trigger_activate,
-+	.offloaded = ideapad_kbd_bl_auto_trigger_offloaded,
-+};
-+
-+static void ideapad_kbd_bl_notify_hw_control(struct ideapad_private *priv,
-+					     int hw_brightness, int last_hw_brightness)
-+{
-+	bool hw_control, last_hw_control;
-+
-+	if (priv->kbd_bl.type != KBD_BL_TRISTATE_AUTO)
-+		return;
-+
-+	hw_control = hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+	last_hw_control = last_hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS;
-+
-+	if (hw_control != last_hw_control)
-+		led_trigger_notify_hw_control_changed(&priv->kbd_bl.led, hw_control);
-+}
-+
- static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- {
- 	int hw_brightness, brightness, last_brightness, last_hw_brightness;
-@@ -1738,6 +1785,8 @@ static void ideapad_kbd_bl_notify(struct ideapad_private *priv)
- 	if (hw_brightness == last_hw_brightness)
- 		return;
- 
-+	ideapad_kbd_bl_notify_hw_control(priv, hw_brightness, last_hw_brightness);
-+
- 	last_brightness = ideapad_kbd_bl_brightness_parse(priv, last_hw_brightness);
- 	if (last_brightness < 0 || brightness != last_brightness)
- 		led_classdev_notify_brightness_hw_changed(&priv->kbd_bl.led, brightness);
-@@ -1770,6 +1819,20 @@ static int ideapad_kbd_bl_init(struct ideapad_private *priv)
- 
- 	switch (priv->kbd_bl.type) {
- 	case KBD_BL_TRISTATE_AUTO:
-+		err = devm_led_trigger_register(&priv->platform_device->dev,
-+						&ideapad_kbd_bl_auto_trigger);
-+		if (err)
-+			return err;
-+
-+		priv->kbd_bl.led.flags             |= LED_TRIG_HW_CHANGED;
-+		priv->kbd_bl.led.hw_control_trigger = ideapad_kbd_bl_auto_trigger.name;
-+		priv->kbd_bl.led.trigger_type       = &ideapad_kbd_bl_auto_trigger_type;
-+
-+		/* Hardware remembers the last brightness level, including auto mode. */
-+		if (hw_brightness == KBD_BL_AUTO_MODE_HW_BRIGHTNESS)
-+			priv->kbd_bl.led.default_trigger = ideapad_kbd_bl_auto_trigger.name;
-+
-+		fallthrough;
- 	case KBD_BL_TRISTATE:
- 		priv->kbd_bl.led.max_brightness = 2;
- 		break;
-
--- 
-2.53.0
-
+Yup! Anyway, I think Youngjun sent out v8 - let's take a look.
