@@ -1,111 +1,178 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DA033A9FF
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 17:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356F3330B30;
+	Wed, 17 Jun 2026 17:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781716678; cv=none; b=ovG11YlqBbs0vkD9w84jBTZSnTbgZxVpkZmnSZywV/vyzlyt/NlIlXW11IR+OLYmtjA0JPNiW2SGugSqR4i44DTj8ZBxmAqi8wtFFpywIcon8SWgn3I+INPBtIcT0teMA7VrellJBTr/QW9bo265pNtUtqT7r2QMKUhsHf3LkTo=
+	t=1781717179; cv=none; b=FMDMc7HLcaZCZfQpbp4gidsYRowEsavF444k/8aqVEP0ZJeqXBFnGnXzPiIJ7GPjj6f+syssLz3OJN7HKWTul4W9t5tZ1sinG+Lp80Xy5dN91stAGcbSIAxU3LsuWHRfUsb4cCINL5XD0y1O5ZoWM2uAh+6gS3aM58LSs0he8OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781716678; c=relaxed/simple;
-	bh=V3CcxOLia9CY0H8zjb+ZTGSXWDv/g65LFKetUF1X0Sg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Be3m7z+z6gM4OoULgHa/IQKr3hYoROC2fJvvD72mRT0xuQvlhCyLfhBEw6FSodzKR0i43dhu3u9qBe8uH66Lhu1BU5OaJU8t94ajJ3extwox+IC5oEEZjMu7WOUCjyq97X6HaUuV9xH1d8djkd+m1w/xLbUiFL9ovWaC8IrOcGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQrtBGsN; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781717179; c=relaxed/simple;
+	bh=7jCbGveGidbqtNPotdr/ZBopdaWETxlaiqeM8CnQ1Rk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JUkm7+/XUXXHgK58J3hb8i+VSJHs3zo5CHqN8ZH0/+TkJ6bkqyw7CgU0X03EllipONJH70omk8mTBb9oC5c4rweR3oJmkjZe4L4dTJQ+Br8u1ORVP5v8tJ6CPENgyUTHi5l5sr0AyQKvNAsWEltQYXC9xXyLj4J8M0AHqYRSKxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=E45PcdJT; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQrtBGsN"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490ac10e337so40922255e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 10:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781716673; x=1782321473; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DHkZUMk1sAqmgYkyu6MiPiSjqHXH7Sbq1n0RCyPRFfc=;
-        b=fQrtBGsNkl8jfhmhK2liKOfbaXsrqWGRmKfHP/5/oXW0UD7hJ3oahOR7qLAeo0OpBe
-         2e6X/h8jQJOlMdK45XemxG1KXwmVmdOdKR/3HW11AMVUuy2FDKhx6t1kO60FJocpgZDF
-         evkBG3W7V5BZARoJSX0atoEmHPrefGTeO35FOicNCIG5aM9OA1ql0InW0OLMoRJ8YDk5
-         F4FnkE0SVPSi73SuQwgeOTPBhIBLWh4kel/JQ82o5Kh0CRc9f/rmAmRv1x7q+mcCAL7K
-         8/0Be+VLTgQ+SA5VSHT4hBla88HOCJYiOJO6Jm6SRXG3FLP9Do007JkkLXKlE+Yr5EpJ
-         mzuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781716673; x=1782321473;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DHkZUMk1sAqmgYkyu6MiPiSjqHXH7Sbq1n0RCyPRFfc=;
-        b=KVz01pHGREQ/nMB5XRSZ2ves39Fvh+tg4JGY9agPWLKeJMUNHqSt75j7+rl7DiQ8gE
-         Pc8fXDg/OnM5uC4sOgIZ0aTsX5Ll1Zb01HTRJ9wXpbyj9TgLCQrdT385bpq5WgHWovkH
-         PEN0yR2AZhyC6Zhkl2c6u2pTfzMEvg3x41Ma/IemWr3dtELA69c1A4nIhlNzDiSTT+3h
-         0AUztFlVEKBJys2bDJNQ0cdwGujx+FENqkySDvj6FglVwGa0uy5lSnNrot39jKp7Xy1B
-         q0hqaameELgZegQIdi7ic8l9g4OnoxfhT81/jLH6rpKnWyYfdc96o7xwJyR2BdT+9Coc
-         Yj3A==
-X-Forwarded-Encrypted: i=1; AFNElJ8vdMwClHZIphC4oZkXYIZuvXCwwhwUx8fIsewtWBPzPLESa+0VcIFyI9KsILQrrpmjhKEajtb0Vd8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzULWNipcBD49dCOMgtR+/n3ucE4/EJJ1iHvhhvJHLM80TJhmgh
-	RKrf6u420CcMJ6++JJhgBDF7gwS+IQwyjFxJ+uf9ygRGXnm3RZKhFkiF
-X-Gm-Gg: Acq92OE0rF/iCb/MiWBaPLmS3idFQ+UKXBAtEv1F5kW+gT/T4kewfVqxiq1ZkuVPab6
-	jILK3vtW3vOnzhCkHwLDhcwBiJPyaHL2PUQETPgikqddL9hRdo3wgzvRzYi/zGgqmWjMJEGvuBw
-	t/MhGEA5qy6N9WsSe8CTMVN7dr6DTo8WE1x+hRLgNoyApZh9vPuz+nzofDRWa6A0CdeZN++8V0D
-	fs7OTO72NffS3CihV2ZiCWhcZ/Hz5Lg2G1sDUswOEiU3t4+4KhE5P61iPrTjmduPiEVQYhqK9iA
-	VSDiyZOJw+6UPzR0Jkpkm8f91tqMpTU+vJ4ukwvy92Y7o3FcleEfLWCmoXJ2p4OlGklwK6Ot+O/
-	UXfuCjNXwk040IOlhRyy5xbSTm4mZTeLDOiyfe4XnX1vkVxYnckzICFFf2lwhVCqtyW3pa+f+fb
-	tYVbocufGd9vSgldJ+f21fZGSARqkn3iKg8D/QH4hAqCrszPCG5yFdOa1Aktj/y0g3KN8c1R+V8
-	vUSpeg=
-X-Received: by 2002:a05:600c:1394:b0:490:b8e6:be40 with SMTP id 5b1f17b1804b1-4923821bef1mr5753465e9.21.1781716672843;
-        Wed, 17 Jun 2026 10:17:52 -0700 (PDT)
-Received: from [10.128.11.42] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2dbfb1sm58928836f8f.35.2026.06.17.10.17.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 10:17:52 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <58f7163f-2fce-41e9-bc35-d1d8e6f4a298@gmail.com>
-Date: Wed, 17 Jun 2026 18:17:50 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="E45PcdJT"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65HEsR4f2367895;
+	Wed, 17 Jun 2026 17:25:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=zDEdJ
+	auVMqtcYMksWd/HaiAwhAj1eYV9erFp/52IWEw=; b=E45PcdJT1xJEOVCzXExoo
+	sJ95a+kw7K3Qd/2mdalW8S5fs/SVwqmJrOHljFAhxUR8xy/9rE5BO8t/PpMWpgcM
+	Jk9wTrZ4c3lu/+EwHGtoFwC9nPDmMmd0uTEi9igdobk0IdxY3ZJzGohCxBwbF5Ag
+	sm/D9mwI4MVgLuRfNb//df7WxH0f9uej3f3D4z54Y11BOoio1juUNRCquE8BT13M
+	zNqc33foT9huQWVqeso82RfsmEV6aZXSiBMaIKO+6vBj7YwDiPJLnlgmTRedhWwZ
+	zOfrrKbG8pJ88thH6anZBJ5QYsVzCpbGw2lGsCvi30beo7LcEfcPI3IGSg+zhlTf
+	A==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4eueg31c32-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 17 Jun 2026 17:25:50 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 65HHNVOj003778;
+	Wed, 17 Jun 2026 17:25:49 GMT
+Received: from brm-x62-16.us.oracle.com (brm-x62-16.us.oracle.com [10.80.150.37])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4eudvc0wgy-2;
+	Wed, 17 Jun 2026 17:25:48 +0000 (GMT)
+From: Jane Chu <jane.chu@oracle.com>
+To: akpm@linux-foundation.org
+Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de,
+        david@kernel.org, hughd@google.com, baolin.wang@linux.alibaba.com,
+        linmiaohe@huawei.com, nao.horiguchi@gmail.com, lorenzo@kernel.org,
+        rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 01/11] mm/memory-failure: make is_raw_hwpoison_page_in_hugepage() general purpose
+Date: Wed, 17 Jun 2026 11:25:22 -0600
+Message-ID: <20260617172534.1740152-2-jane.chu@oracle.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20260617172534.1740152-1-jane.chu@oracle.com>
+References: <20260617172534.1740152-1-jane.chu@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/10] ACPI: APEI: introduce GHES helper
-To: Ahmed Tiba <ahmed.tiba@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
- Len Brown <lenb@kernel.org>, Saket Dumbre <saket.dumbre@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <djbw@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
- devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
-References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
- <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-7-91f725174aa0@arm.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-7-91f725174aa0@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-17_02,2026-06-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2606150000 definitions=main-2606170167
+X-Authority-Analysis: v=2.4 cv=I8VVgtgg c=1 sm=1 tr=0 ts=6a32d89e b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=Mb7NiH9OEEZ03nqYuncA:9
+ a=5yU3S35YU4bGjq-dph-N:22 a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:12312
+X-Proofpoint-GUID: 592cje2o6CRkX_6JHYwFOwZa5T7CjXZw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDE2NyBTYWx0ZWRfX1YtkOhEQgCUq
+ GcdoVQJTP+BKkLEGPlkd0LncsiyH7jmj0W7JobTH6WmS8E1Oskl33n64G8nqHGrMw2ddPWQjS/2
+ 1hvmaGruGdeJIfFlGKghi4accZgdugeDL0MYokaXTH+hU5LcvUyN+6bgK97Ap7ouCDaPwSLbB9H
+ qXgubHTVYYZ0bMWqtZBNEiHbnMt3iTj5lsXUBlZb9+O8BM6JfkKVXzoJf9QfTmHPxj70kN4p8hQ
+ 7cCcnsCa/yMcA8HBMYQzvf3ixLtaYtHGc56VyBjYqlhGw4Kaq+4ipZsruAs/8NwwLmZEvEjmffB
+ Jrbarf+aP1Tfjj3T9Va+g+/TGl+9zE6WrQQ6uD5zlZEYbkHTqsQfDT4ctoBXCgc+GqYEluNPJEH
+ AvnW0+H0OD+xSCsrnFFO0RRFHUy/vKLFWoJs/BGOE0+P1YPgPuctcBvFAcX9b74fbfFZlaQ4iUc
+ UPvH35w2rbtyTZt2rTwfqLOpC7IiPHwNyXJhpo5Y=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDE2NyBTYWx0ZWRfXzZOd+Jkjz6C7
+ j2nmXzltI73PPbg9vJ/2Z5EUP8lHyDrVA7O+jXmnrM/Tz/5NPZdt/FsMi47dXLkNdHq2K7ZW/zq
+ 74c/p43HUlTqk2MjuW/b+NhJzOX5g/TRp9W+XZfiSvhAxKt+jAlS
+X-Proofpoint-ORIG-GUID: 592cje2o6CRkX_6JHYwFOwZa5T7CjXZw
 
-Hi Ahmed,
+Make is_raw_hwpoison_page_in_hugepage() general for checking whether
+a given raw page within any kind of folio is HW poisoned. Thus,
+replace folio_test_hwpoison() with folio_contain_hwpoisoned_page().
+Also rename to is_raw_hwpoison_page_in_folio().
 
-On 6/17/26 14:54, Ahmed Tiba wrote:
+Signed-off-by: Jane Chu <jane.chu@oracle.com>
+---
+ fs/hugetlbfs/inode.c    |  4 ++--
+ include/linux/hugetlb.h |  4 ++--
+ mm/memory-failure.c     | 12 ++++++++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-> +config GHES_CPER_HELPERS
-> +	bool
-> +	select UEFI_CPER
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 78d61bf2bd9b..66520f7c53c6 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -198,7 +198,7 @@ static size_t adjust_range_hwpoison(struct folio *folio, size_t offset,
+ 	struct page *page = folio_page(folio, offset / PAGE_SIZE);
+ 	size_t safe_bytes;
+ 
+-	if (is_raw_hwpoison_page_in_hugepage(page))
++	if (is_raw_hwpoison_page_in_folio(page))
+ 		return 0;
+ 	/* Safe to read the remaining bytes in this page. */
+ 	safe_bytes = PAGE_SIZE - (offset % PAGE_SIZE);
+@@ -206,7 +206,7 @@ static size_t adjust_range_hwpoison(struct folio *folio, size_t offset,
+ 
+ 	/* Check each remaining page as long as we are not done yet. */
+ 	for (; safe_bytes < bytes; safe_bytes += PAGE_SIZE, page++)
+-		if (is_raw_hwpoison_page_in_hugepage(page))
++		if (is_raw_hwpoison_page_in_folio(page))
+ 			break;
+ 
+ 	return min(safe_bytes, bytes);
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 5957bc25efa8..a9846f043712 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -1079,9 +1079,9 @@ void hugetlb_unregister_node(struct node *node);
+ #endif
+ 
+ /*
+- * Check if a given raw @page in a hugepage is HWPOISON.
++ * Check if a given raw @page is HWPOISON in a folio of any kind
+  */
+-bool is_raw_hwpoison_page_in_hugepage(struct page *page);
++bool is_raw_hwpoison_page_in_folio(struct page *page);
+ 
+ static inline unsigned long huge_page_mask_align(struct file *file)
+ {
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index ee42d4361309..40129e0b8213 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1834,14 +1834,21 @@ static inline struct llist_head *raw_hwp_list_head(struct folio *folio)
+ 	return (struct llist_head *)&folio->_hugetlb_hwpoison;
+ }
+ 
+-bool is_raw_hwpoison_page_in_hugepage(struct page *page)
++/**
++ * is_raw_hwpoison_page_in_folio - answers the question whether a given
++ * page is indeed hwpoisoned.
++ * @page: given page, maybe base page, part of a large folio or hugetlb.
++ *
++ * Return: true if @page is the raw hwpoisoned page; else, false.
++ */
++bool is_raw_hwpoison_page_in_folio(struct page *page)
+ {
+ 	struct llist_head *raw_hwp_head;
+ 	struct raw_hwp_page *p;
+ 	struct folio *folio = page_folio(page);
+ 	bool ret = false;
+ 
+-	if (!folio_test_hwpoison(folio))
++	if (!folio_contain_hwpoisoned_page(folio))
+ 		return false;
+ 
+ 	if (!folio_test_hugetlb(folio))
+@@ -1868,6 +1875,7 @@ bool is_raw_hwpoison_page_in_hugepage(struct page *page)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(is_raw_hwpoison_page_in_folio);
+ 
+ static unsigned long __folio_free_raw_hwp(struct folio *folio, bool move_flag)
+ {
+-- 
+2.43.5
 
-This config option should probably also depend on ACPI (could just move
-it into the if ACPI..endif block), or at least have a comment that
-selector options ensure ACPI is enabled.
-
-- Julian Braha
