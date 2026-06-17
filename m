@@ -1,425 +1,287 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010070.outbound.protection.outlook.com [40.93.198.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4AF3932D1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 23:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6927391825;
+	Wed, 17 Jun 2026 23:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781737306; cv=pass; b=UCAx2qdzFcmfj1MLIjbeJjoFojkShC5juKmTsI9uslD0B8uP7XH58omsYwwcZ+ptbu/RxPJvfPd8qhhcFx+4EidFlKyOEBIqymvkItghdwEFAy6Y8NR7ZtcURLCjgyQn/tYe9Zs8vSzDNo6fuDQJqij2NyeZ3V+ZHO+10q0pkfk=
+	t=1781738133; cv=fail; b=d+5aTQSxuqf/JdxK6fcLByocISWQoFMKNcODLnSkZrgiGKGseZlja6iENcerHiVv+NRKmMxdxwFpkwvVMeR7AfSBJ3+z4ym0ST2D9JVhrdkTyju79Tutejj0KWWAe1NXm1Urm+RF6+BHnq1yUSnGpaxLKDqRdZR/dpi5KesiDKE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781737306; c=relaxed/simple;
-	bh=jiNviaiCxWcs56Q43u+usFJ+5sNBA41ShVDR3i7R3lU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ru0OMNnT/AGPTLn7GvrVz5lmW/KtnxDMcdvglAvDRUFMdRdbVhA0Tlt0FdnsUMftIYEjXo0VD9m+UPOheruNC40/jH6tf0YelV9lpn2h0P8NutwEOrsyNCzCDC8YHztunh3a3cPrazbij7GTc5yexJwwB5TprgtZKn2HLBt4wHA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dOKZ8QYj; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1781738133; c=relaxed/simple;
+	bh=yEUnbYjH1BIxSRscSXVC1XmEQGImuDC8i+WoN6E/GKE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Rw/kYJQwzI/BA9jeFCLYqgSXgq9uLpHl63m8BEK8lpMIBWRxY7+3K8e87/UmG5byHCpHCxi2d4Rj51MbsIKYk+/8XxexCRWdssJRyzn2iDr3Z4B1lHYI3WXj8tgtpxaWWrGhAEkBADor1JA2ft7NTuBYsFygI//Ckyl7FhdKXXI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fgDYUcud; arc=fail smtp.client-ip=40.93.198.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dOKZ8QYj"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51765331535so56811cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 16:01:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781737303; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DdsUZDtWLbFddwZdiFJIgu5zswh0dN+hPcLM+VbR+cqxHaDQjSwfuaE/pubKt/Imo0
-         LHsaiftQEOeJXu/GaBAVk8hjOjdg25P9TRmZ1ZSZqeN11scYNUOuPJHBOBv4mu9mcf1w
-         VfpArUqeU5Kjee87b182ITZmiVI1rxKFp+gLP6WX4TvosWIeG31Ffc9mhS7HVPGWkVJJ
-         jKHJ+QxK/eEgoLeOcTa0b9kjToDnVVXUQU9A06H5n6gTMiFfs6NMIqWOE+ik7JRF+u8o
-         vMmZTwFIAb1yM+Aj4ScEu3dVIxVU36DRRAaCwVr6eAj4CIfxAYNpe4ZK9V8FrjIF5v3o
-         rBAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=chYNIvg2aQfolPl8R3U0BIa/xTg9uDRD2CbTMiTfKAQ=;
-        fh=pQHyoI0AcanKHxlrqvVMF+3ji43vPNdHyeSQlwKm4MI=;
-        b=H3af5AfEmW3oOMEDJK8AvwmddoV0QTSTd+jnEKKlk4xWdWrqOVpYNh/Dd+VIq24ZMF
-         A3cp47CH2xsuZFC8gYwIpWti9/JzYLO8NzdjbKAGUZretiZGfxomxJ9l2xiT1I0UftFt
-         I2Tky25ZFAoPIu/8MiwzN73a8EX7mQZUUYPLiPSVLJ3v0A51hKmWEt3W9dNEcck3UkrI
-         VCuxGsxz98d4nI84+rXHnOtJGtSwfJJS4EvFMq0EegMhDKFcdefQAR3ExkgCgq2hRzsu
-         Wrx2MdYkX5Csu/fFKKu3cK7XF9J56b+PHoU9IBvSV2yuPKyrOjn8ew8zFAg+aFfbXDyh
-         EOOw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781737303; x=1782342103; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=chYNIvg2aQfolPl8R3U0BIa/xTg9uDRD2CbTMiTfKAQ=;
-        b=dOKZ8QYj/mSKchg3NQOb6CJKVuGPRL+2MTyUsRG+rMeHW/dF/BNtidGItl1lFdbcWj
-         cdxQHJdlAZmRAU6BHxrbtdAVRcx9xHXxTC3THbVk5ex3Rn8BUs46snF2lugCL0KF7acO
-         OOOh457uZLPqJBmyY9W0zpfkQ+nmRmyfmxP+o5WXu46lPq5OXaasZHhIfr/A6FDpP2nQ
-         cSG6t2/vwfx0V2Uix4W91RlRUtWDVYkSmZp/sp8/ysYjL/YBz+ygfKuhbHCwH6uq9895
-         tjFiWxd9azst+2LJzhkc/E1h8JgWByRqFAHY9y8s1xy+Vbq7NjkUZFwFTKhVkA+UGuuo
-         XOqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781737303; x=1782342103;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=chYNIvg2aQfolPl8R3U0BIa/xTg9uDRD2CbTMiTfKAQ=;
-        b=YDTZ5D2BrPwlP+bhroomfBMPQHOuga7TTS2AYdGYhYDc0pKd3md6vYMAt0ulcjWB/h
-         h6fmRcpS6Oz0eWnLER+eXgWLSEka71TgBhTIfXP3AJiU7RtYMyFpQTdkHucs+hO83Qod
-         gED16uUHyXCyRaTEG2ALpetgWQn3nmBoG0F5h71gG86kMzclwxswqjRRcnDTmVMHEYE5
-         xMbipJYHQcNajVruZ4ExljQ1nwmoJPELf3UiqREDtlCtHmyveYDdB9QxKdB7H/7ygjJT
-         UMxTWuMBthbCgBvIhGwmdVm6f0dtQ2dm/R1ZlgM+5OkLjfJNPU58D0yHfg1OssJYVrEu
-         IoXg==
-X-Forwarded-Encrypted: i=1; AFNElJ9AMNhwt39vkv2h0q85tlHMkZ8DYWiaoMzeiV3wziykyaqWxB/r232NbXUrb8OUwLahzJunuO4W6qc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwthSrJlGFKC11frAVbgKBahyg58zdeUTCgGb+7vAzZ+24YN81u
-	iQMrtGnzlfq/GGTcSEjFVLdgnCvDY0o5R3epXEmNsnNu/Wy3+9uPFhLKkP2K9rjn8yD/ezoZtfO
-	FUw2MF1EcYZLrqHRjaYHfExfjgo5PRTGU4gs04mVz
-X-Gm-Gg: Acq92OFuB/XnG8gfDQvorC++sYofFCiqyt4anxthk/cbpXWvs2colEWzVBEqw/rGXxh
-	jnDRJ38kNDviL0b+ZYc55D6DD0gWxo57oupAZYc/j7oCn5YNhQ6ONEOyctw8B/fhr31/0jLFbOI
-	apKnpEQEvVaMTwXChY4hpcJmVOn1wKK9mRnf6QMKZGlSX9VUzHJkZfoiZzW20nn075xqwo4Oz9d
-	ufMOEWm8XR6BN3/6tJhb9ZEbYoLYktCYqeAEQC+b64UxUA20WxN13EmdHHGTH7lzThFj6I=
-X-Received: by 2002:a05:622a:1a9e:b0:516:3f51:81cb with SMTP id
- d75a77b69052e-519c973f6b0mr1597741cf.13.1781737302279; Wed, 17 Jun 2026
- 16:01:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fgDYUcud"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iOUfJ91rH4uBuDyvxSwoV3pSSUhUiXZ89j2MbpbJiVhDSD6SlRG7pPTvCRgLObh3b4npfNSmfbW+iSzcxjysi4kdVE41Lohni2sXY5ax8z/KYXEjPZa0H7wxyhxAqvT2F6yu9heWoXEKe8+mQpSE4vm/dagXz1PXvUllG5+6j+py3VO9COyo1ClyUMFxxAsgnZRVBoi2xVqh6Vt68MkMn9f3dppQM+l11gDpPCUbUyUxE4d8IY53xvfv/Q54SFxj6oWDhz951IuNLWjNU3ZVUHyIqtMEfEu3Dxrx2FHyNZJ7VowJ68R+Xg1SEdgN5ja/LfqmfEQ0rhs/5LM/m9gDhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KV3MElKRmrkYaUPLypFcNhdg1bXTMMU3xH+xoFyEEe0=;
+ b=BM/A9ULC9Oy3HsBL0HIweAxGfdjJoP4E+F7dgL3tmRJgpYctPUWu6oaDUkPDvREwbMJI+UUb7MByY2ypc4NgBxeRi4OVZ0UI6wglquKkiuqldYftajbyLEXgTAgJd9M9R+KV5ahDycdoKqlz5Q/UM5T2A5veO5xa+xBj4B+o4LOALyyh3fqLbGG3zncT7o1MFoC3U/rHMT/H2TrcHRulM51O3zTMbYEgLEKJGkWI2/K8B8hheYo6HJ8RckW2jDjFSKxPOiOjZAYHbcsvFAjcE7hucBEwTfFGX3ft+D/4NqM6iGiLzWTi0mvST9Ak674h0UukRm51Aqq7ZPfAoIt5iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KV3MElKRmrkYaUPLypFcNhdg1bXTMMU3xH+xoFyEEe0=;
+ b=fgDYUcudUQ2SpwUuVl7vu8FmHUoX7xEl7d5xyzwnQGKwxCOJoNGbfZgsmpgTXyQasySa+N2ZrRuyjcxOdX08V4LmMILv6Ngn9ZRcDQcdnHMWrw6RMQKfSIwMsK3zEL39h/10CCsBFBE3h/2AbBMSBgs6aCLj6oxObwIWrBE4CZ0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by SJ2PR12MB8874.namprd12.prod.outlook.com (2603:10b6:a03:540::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Wed, 17 Jun
+ 2026 23:15:26 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0139.009; Wed, 17 Jun 2026
+ 23:15:26 +0000
+Message-ID: <e2f118b8-289c-481f-bf57-33a698598034@amd.com>
+Date: Wed, 17 Jun 2026 18:15:21 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/12] x86,fs/resctrl: Program PLZA through kmode arch
+ hooks
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
+ hpa@zytor.com, akpm@linux-foundation.org, rdunlap@infradead.org,
+ pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
+ dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+ lirongqing@baidu.com, paulmck@kernel.org, bhelgaas@google.com,
+ seanjc@google.com, alexandre.chartre@oracle.com, yazen.ghannam@amd.com,
+ peterz@infradead.org, chang.seok.bae@intel.com, kim.phillips@amd.com,
+ xin@zytor.com, naveen@kernel.org, thomas.lendacky@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
+ peternewman@google.com
+References: <cover.1777591496.git.babu.moger@amd.com>
+ <0cfd813e10072eefc8f4d84328e83bd9a6220ad4.1777591497.git.babu.moger@amd.com>
+ <6273f424-9701-4731-9568-10b3eef8b5fd@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <6273f424-9701-4731-9568-10b3eef8b5fd@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR05CA0102.namprd05.prod.outlook.com
+ (2603:10b6:8:56::22) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1781564384.git.abhishekbapat@google.com>
- <7d98db60ab0fddab230b1a7a32140f3361ab42cf.1781564384.git.abhishekbapat@google.com>
- <CAJuCfpFbCKc7FR3tbeCzexCzyfiP+Ab2fJ7Vd1Q76MKTvqC2XA@mail.gmail.com>
- <CAL41Mv7=B7H1C3j5_Pva-kYsJs_1NpCqVhN6wn-WhqvquV6=2w@mail.gmail.com>
- <CAJuCfpGOrtk+3hvUVE7-6wpnsa3Nbr6kGq5CfHVdCzX+DYyjFQ@mail.gmail.com> <CAL41Mv6FZU5As+yKiM52axUMsR_FDrYQCK5STjUp-aG+xMD-EQ@mail.gmail.com>
-In-Reply-To: <CAL41Mv6FZU5As+yKiM52axUMsR_FDrYQCK5STjUp-aG+xMD-EQ@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 17 Jun 2026 16:01:30 -0700
-X-Gm-Features: AVVi8CdE35jTyLSitGqA0jYruECl2C0Lv-1lfszf7nB8jdkFfyY7E1mYiqZtbxo
-Message-ID: <CAJuCfpFrgKBGFWoca=XuKh1p22vdfE_uSz_nt2Kj4UvnjvSUJQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] alloc_tag: add size-based filtering to ioctl
-To: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Hao Ge <hao.ge@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SJ2PR12MB8874:EE_
+X-MS-Office365-Filtering-Correlation-Id: 096227d1-b883-48db-c3ce-08deccc65053
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|22082099003|18002099003|3023799007|11063799006|5023799004|56012099006|6133799003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	3pv/VpUr35lTblsGpE1lWI0nEJeNf9LnJWVH5D6rivm+3kmGK+yiyl6yr02vh49MmquVc/Sq1z/h4+D6kjmICiL/2D/f6d0MjJd2J9kYGPTA3/KfJYvHGIrxWqFxRONSuses9UD2PQkOsrQ4UOW+0/zTUQWH1e3/flAcH8Rlwh/Hqi4F7P9XWZtTD2qg6TwDuTtdbB+NfRD2rzxSFPqGMEQY7gAwTmfBL29tBLjBehVpyZAIQCGBILJwhjWmuw8HCIzNyDtDmHqSKSx3ssTgE2BN0XnzwxNXQGcg6FfXei/ZG6/Zg+waD8Kjv7vbmrs3MfR04Wy100uecgUgiW/HOB8W3frzXwosflE/HN7sosltzOcOLaKamYYN1ER4zwmT80LAza/5WZB5oyEWA4wKeSGyADYvm+hcmJF5KNWgj+vR/2CBcc0uQG/gxeDI3NqPXBHExSij1jhgo2+HNaN9eVY9LI7xgX9Ld/4UmjgB4FetO/WEjAuivqENh8LJOASyPljOmS6LeDqUNfL0FSXyr26O5oG+hEwHhK+N3ZI3zhFUuOu+liFqkMicXF//60CiPqsU+xJX6mw/YMboNXrDHz3Jho9lJNoU108kTmva7tRy12NVSw6bFAQM+Mpv+yMWxXAruR+K1Y+7Ch7JgcIMbsD54P3ASP/+m/wfV0iG/2hYIUiag+4rxAy6vuztxEpR
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(22082099003)(18002099003)(3023799007)(11063799006)(5023799004)(56012099006)(6133799003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eUc3bmhCVVp6d0M4TVNENnNQaXY3ZW12ZlV6Nm9DaWZaR0kzVkpQdGg4L0xu?=
+ =?utf-8?B?d3VBdFNkYjJtTDZBK3NOeGVQNVhFZ0VmWmg0bjBhTDZMZXVPUDJIMC9VY1F0?=
+ =?utf-8?B?c3pia2VDUXNZa3A3ZC9JTUc5QVl5cUZnZmYrTEZobUxZbWxrZzZKOUdmYXlI?=
+ =?utf-8?B?YnplUjZQVEtKUC8yTWdXTkxyZkRCYTBpc0JaS056WS9ZSjlpOHc5bndSMHdo?=
+ =?utf-8?B?VzNld2IzVFAxNXJMUyttQlJDNUw2VGhDYTlrUHlFZ1Q4d2FRL2JSRnUyd2Vo?=
+ =?utf-8?B?WnVpSEZ2RmNqSWxTR0dncE5WRlBUSVFHR3lVejVSM3FvUU5ST0wyVmJ2MHdW?=
+ =?utf-8?B?UHBaQ2VlbW5tR2ZuVEFEQk55bitRZ3ZLOXd6Z3pDUUJoTG53WWFqZnFwZDJt?=
+ =?utf-8?B?Qmo5aFhJTDlaeVpNUWh6ejQ4YXFUSGtudGpsbm1pVlcxTlRZcWZyMUNrdWhZ?=
+ =?utf-8?B?MGluc2V2SzlOL3hIZzVBb2dPYzdQa1UwaFVhM3JEMndoN1ZHa2VmYXlpajZX?=
+ =?utf-8?B?L1JzSkpmOTVpTUUzb1QxVGZkaGZYNTNFSDU0Y09GZlhtbVpCcGNjL2l2Q0F4?=
+ =?utf-8?B?UDRMTWxpN2FSdW9DMjc0NU9XK0kvNEswQXFveDN3UHBrRUxuR3FhcUNjRDht?=
+ =?utf-8?B?RXN6R0dUb01DWndsWUREMThoY3pSdG1wUGpFdndGWHUwTFJsR0NPbWZwYTdQ?=
+ =?utf-8?B?dFJsekhiR0ZMaDBEQ2Fydkk4RmpFMUJQZFlyRVZiMUtwSzdNYUlFa1IvUjlq?=
+ =?utf-8?B?QS8vQ1R4ZWpTMDIxTmxIamd6c3lIcml0SWx5VElUb1Vza2pjMlpneUo1YS9r?=
+ =?utf-8?B?NlV3ZVk4K0htQVZkVFVBcU1qRVJvQ3cxd1RncE1mb0tPaG5pVTVOenp2TmRi?=
+ =?utf-8?B?TExkOWl6TzQwWHZCaEw1SDFNNTJiTzhiTE1obHZrUzk4U0YyaU4wcTNTRG5k?=
+ =?utf-8?B?dCt4eG1MZkwxakdlVnp3QjhCWnFZYWg5cXUxbEhUdlFnQUV4K1ovVHU3bHc0?=
+ =?utf-8?B?UVV3MjJQRWIwUkloY0pLbEl2Z3A1NFpPSFVtREM5eFhtZHdzQzVPS2dQejlt?=
+ =?utf-8?B?RjRuSm83VTlrZVNlSnRBdkI5VnNIVFRVczdlOHV3cWhaZGNMVWYxM1ZRNGUr?=
+ =?utf-8?B?TW9VdVJOb2lkOE9CYmZkaUI2bDR6V0ZoR0F0VmgwTDRvaDJYeCtwRThyYU9Z?=
+ =?utf-8?B?V29mKzh3Qk9yVjMwM2J3R3BVM3krWWlHbCtIeWZHbXptQlA4S1BRV09TcDJI?=
+ =?utf-8?B?MXZCbTlUdFlOZTVaWW43d0N0Z1ZqKy9SUFlMaFZDbkI4ZFJzZ201bCt3c2dE?=
+ =?utf-8?B?N294eEdybFUvdEQxR05Hdk5lTTVDeEpFN3I1WFpnMm1ESWt5TVJwQkYwZURC?=
+ =?utf-8?B?c1BqMVJGTnl2QlFpZjZFemYyenNQc01KM09lczNQSUhScXJiaDNKUFFOL3J0?=
+ =?utf-8?B?WHN4ZmVISEg3VndqeVlZOW03TGhORnF4VEgzeVEzZnBDRi9HSncvUXJPR2RM?=
+ =?utf-8?B?VVpuZjhySThsWGs5UEpRNUhlYnY1cTNURThaVU5xNENnb3FyT21jNGp2eWc2?=
+ =?utf-8?B?MDY1OGEzT2Ztd1pxczd5NVI5K2tpLzAzWHovdE4xMm03Rkh0OEEwQStpMjUr?=
+ =?utf-8?B?OC93RitGcGZ2SHYwTnFiUzhTanBkbkxncVl0L2FwcFFWS2Zwc21FR1ZnZDc4?=
+ =?utf-8?B?SXlXSWt6Z2dNMHcrV20vYjNsdlNSaU4renBvcU16M1NoMXFKdmtOZGdsWXNz?=
+ =?utf-8?B?NDJvK2ZZOGNrOHA2dTd6dG0wb1Z6RjF0OHdzeFpDVzhxd1FEbjlxVEg0cXdt?=
+ =?utf-8?B?blcxVysyeVl0c0wwOFdoODdpQUNLSC9HYzY0R1d1QWFZYTlPcnhYT3F4d1Bx?=
+ =?utf-8?B?MXVTS3VGNW5QMnVmSExxS1ZtT3hVQjJBemV3dy9peUlMeFdQcFBhdDA0WlRk?=
+ =?utf-8?B?bk1iVEhmWndXVTc4TVBZdFl2alRPQU9HRU9ORFRsNnhFLzUxaGd2MlNaUzND?=
+ =?utf-8?B?TC9RWG15VVhtbHk5Q1J0SmNTMzJ0aTQ2bEIrL211YkR0RW1UMnF3RUZEbFpV?=
+ =?utf-8?B?V3RXTWZ6S1gyL0lMVG1mRWppNWt5VlgrSC8waEY4cDYrTjRzUzRqYjRQc1Fr?=
+ =?utf-8?B?aGJLTFBMeEpWK0MwNDY1U3Fzc1R3d2pUWDV6emR3cC9wWVlNNXI5ZStWQmJi?=
+ =?utf-8?B?eUI4R25YVjJEWThjMkpRYWJOZHp0ZzZQbGpFYWdnb3JGdDhhZkNZZExzT1do?=
+ =?utf-8?B?Z3JDdnN5VkZWMkdLb3MrL2JHUTc5d0ZTR1c0NVNRd0JRdWptbUtwTm5Oenls?=
+ =?utf-8?Q?zUMQnnUHPaMcX6c7iY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 096227d1-b883-48db-c3ce-08deccc65053
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2026 23:15:25.8162
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9tCkrzlU5hvXNL54PTSuAOqTCOnsy4Vd+j1hxjOAFl+ZveHNNAZs4IaNdETijKoW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8874
 
-On Wed, Jun 17, 2026 at 3:41=E2=80=AFPM Abhishek Bapat <abhishekbapat@googl=
-e.com> wrote:
->
-> On Wed, Jun 17, 2026 at 3:35=E2=80=AFPM Suren Baghdasaryan <surenb@google=
-.com> wrote:
-> >
-> > On Wed, Jun 17, 2026 at 1:55=E2=80=AFPM Abhishek Bapat <abhishekbapat@g=
-oogle.com> wrote:
-> > >
-> > > On Wed, Jun 17, 2026 at 9:29=E2=80=AFAM Suren Baghdasaryan <surenb@go=
-ogle.com> wrote:
-> > > >
-> > > > On Mon, Jun 15, 2026 at 4:04=E2=80=AFPM Abhishek Bapat <abhishekbap=
-at@google.com> wrote:
-> > > > >
-> > > > > Extend the allocinfo filtering mechanism to allow users to filter=
- tags
-> > > > > based on the total number of bytes allocated [min_size, max_size]=
-. The
-> > > > > size range is inclusive.
-> > > > >
-> > > > > Filtering by size involves retrieving allocinfo per-CPU counters,=
- which
-> > > > > is an expensive operation. Hence, the performance of size-based
-> > > > > filtering will be worse than other filters.
-> > > > >
-> > > > > Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
-> > > > > Acked-by: Hao Ge <hao.ge@linux.dev>
-> > > > > ---
-> > > > >  include/uapi/linux/alloc_tag.h |  8 ++++-
-> > > > >  lib/alloc_tag.c                | 63 ++++++++++++++++++++++++++++=
-------
-> > > > >  2 files changed, 59 insertions(+), 12 deletions(-)
-> > > > >
-> > > > > diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/=
-alloc_tag.h
-> > > > > index 3b11877955b9..7f5acbb44c14 100644
-> > > > > --- a/include/uapi/linux/alloc_tag.h
-> > > > > +++ b/include/uapi/linux/alloc_tag.h
-> > > > > @@ -45,13 +45,17 @@ enum {
-> > > > >         ALLOCINFO_FILTER_FUNCTION,
-> > > > >         ALLOCINFO_FILTER_FILENAME,
-> > > > >         ALLOCINFO_FILTER_LINENO,
-> > > > > -       __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_LINENO
-> > > > > +       ALLOCINFO_FILTER_MIN_SIZE,
-> > > > > +       ALLOCINFO_FILTER_MAX_SIZE,
-> > > > > +       __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
-> > > > >  };
-> > > > >
-> > > > >  #define ALLOCINFO_FILTER_MASK_MODNAME          (1 << ALLOCINFO_F=
-ILTER_MODNAME)
-> > > > >  #define ALLOCINFO_FILTER_MASK_FUNCTION         (1 << ALLOCINFO_F=
-ILTER_FUNCTION)
-> > > > >  #define ALLOCINFO_FILTER_MASK_FILENAME         (1 << ALLOCINFO_F=
-ILTER_FILENAME)
-> > > > >  #define ALLOCINFO_FILTER_MASK_LINENO           (1 << ALLOCINFO_F=
-ILTER_LINENO)
-> > > > > +#define ALLOCINFO_FILTER_MASK_MIN_SIZE         (1 << ALLOCINFO_F=
-ILTER_MIN_SIZE)
-> > > > > +#define ALLOCINFO_FILTER_MASK_MAX_SIZE         (1 << ALLOCINFO_F=
-ILTER_MAX_SIZE)
-> > > > >
-> > > > >  #define ALLOCINFO_FILTER_MASKS \
-> > > > >         ((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
-> > > > > @@ -59,6 +63,8 @@ enum {
-> > > > >  struct allocinfo_filter {
-> > > > >         __u64 mask; /* bitmask of the filter fields used */
-> > > > >         struct allocinfo_tag fields;
-> > > > > +       __u64 min_size;
-> > > > > +       __u64 max_size;
-> > > > >  };
-> > > > >
-> > > > >  struct allocinfo_get_at {
-> > > > > diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> > > > > index 5feb61d9fb92..b3d21834b61e 100644
-> > > > > --- a/lib/alloc_tag.c
-> > > > > +++ b/lib/alloc_tag.c
-> > > > > @@ -195,15 +195,26 @@ static int allocinfo_cmp_str(const char *st=
-r, const char *template)
-> > > > >         return strncmp(allocinfo_str(str), template, ALLOCINFO_ST=
-R_SIZE);
-> > > > >  }
-> > > > >
-> > > > > +/* Fetch the per-CPU counters */
-> > > > > +static inline struct alloc_tag_counters allocinfo_prefetch_count=
-ers(struct codetag *ct)
-> > > > > +{
-> > > > > +       return alloc_tag_read(ct_to_alloc_tag(ct));
-> > > > > +}
-> > > > > +
-> > > > >  /*
-> > > > >   * Populates the UAPI allocinfo_tag_data structure with active r=
-untime
-> > > > >   * profiling counters extracted from the given kernel codetag.
-> > > > >   */
-> > > > >  static void allocinfo_to_params(struct codetag *ct,
-> > > > > -                               struct allocinfo_tag_data *data)
-> > > > > +                               struct allocinfo_tag_data *data,
-> > > > > +                               struct alloc_tag_counters *counte=
-rs)
-> > > > >  {
-> > > > > -       struct alloc_tag *tag =3D ct_to_alloc_tag(ct);
-> > > > > -       struct alloc_tag_counters counter =3D alloc_tag_read(tag)=
-;
-> > > > > +       struct alloc_tag_counters local_counters;
-> > > > > +
-> > > > > +       if (!counters) {
-> > > > > +               local_counters =3D allocinfo_prefetch_counters(ct=
-);
-> > > > > +               counters =3D &local_counters;
-> > > > > +       }
-> > > > >
-> > > > >         if (ct->modname)
-> > > > >                 allocinfo_copy_str(data->tag.modname, ct->modname=
-);
-> > > > > @@ -212,9 +223,9 @@ static void allocinfo_to_params(struct codeta=
-g *ct,
-> > > > >         allocinfo_copy_str(data->tag.function, ct->function);
-> > > > >         allocinfo_copy_str(data->tag.filename, ct->filename);
-> > > > >         data->tag.lineno =3D ct->lineno;
-> > > > > -       data->counter.bytes =3D counter.bytes;
-> > > > > -       data->counter.calls =3D counter.calls;
-> > > > > -       data->counter.accurate =3D !alloc_tag_is_inaccurate(tag);
-> > > > > +       data->counter.bytes =3D counters->bytes;
-> > > > > +       data->counter.calls =3D counters->calls;
-> > > > > +       data->counter.accurate =3D !alloc_tag_is_inaccurate(ct_to=
-_alloc_tag(ct));
-> > > > >  }
-> > > > >
-> > > > >  /*
-> > > > > @@ -238,7 +249,9 @@ static int allocinfo_ioctl_get_content_id(str=
-uct seq_file *m, void __user *arg)
-> > > > >   * Verifies whether a given codetag satisfies the active filteri=
-ng criteria by
-> > > > >   * matching its characteristics against the specified filter.
-> > > > >   */
-> > > > > -static bool matches_filter(struct codetag *ct, struct allocinfo_=
-filter *filter)
-> > > > > +static bool matches_filter(struct codetag *ct, struct allocinfo_=
-filter *filter,
-> > > > > +                          struct alloc_tag_counters *counters,
-> > > > > +                          bool *fetched_counters)
-> > > > >  {
-> > > > >         if (!filter || !filter->mask)
-> > > > >                 return true;
-> > > > > @@ -265,6 +278,19 @@ static bool matches_filter(struct codetag *c=
-t, struct allocinfo_filter *filter)
-> > > > >             ct->lineno !=3D filter->fields.lineno)
-> > > > >                 return false;
-> > > > >
-> > > > > +       if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLO=
-CINFO_FILTER_MASK_MAX_SIZE)) {
-> > > > > +               if (!*fetched_counters) {
-> > > > > +                       *counters =3D allocinfo_prefetch_counters=
-(ct);
-> > > > > +                       *fetched_counters =3D true;
-> > > > > +               }
-> > > > > +               if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZ=
-E) &&
-> > > > > +                   counters->bytes < filter->min_size)
-> > > > > +                       return false;
-> > > > > +               if ((filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZ=
-E) &&
-> > > > > +                   counters->bytes > filter->max_size)
-> > > > > +                       return false;
-> > > > > +       }
-> > > > > +
-> > > > >         return true;
-> > > > >  }
-> > > > >
-> > > > > @@ -278,6 +304,8 @@ static int allocinfo_ioctl_get_at(struct seq_=
-file *m, void __user *arg)
-> > > > >         struct codetag *ct;
-> > > > >         struct allocinfo_get_at params =3D {0};
-> > > > >         __u64 skip_count;
-> > > > > +       struct alloc_tag_counters counters;
-> > > > > +       bool fetched_counters;
-> > > > >
-> > > > >         if (copy_from_user(&params, arg, sizeof(params)))
-> > > > >                 return -EFAULT;
-> > > > > @@ -285,6 +313,11 @@ static int allocinfo_ioctl_get_at(struct seq=
-_file *m, void __user *arg)
-> > > > >         if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
-> > > > >                 return -EINVAL;
-> > > > >
-> > > > > +       if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE)=
- &&
-> > > > > +           (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE)=
- &&
-> > > > > +           params.filter.min_size > params.filter.max_size)
-> > > > > +               return -EINVAL;
-> > > > > +
-> > > > >         priv =3D m->private;
-> > > > >
-> > > > >         mutex_lock(&priv->ioctl_lock);
-> > > > > @@ -308,7 +341,8 @@ static int allocinfo_ioctl_get_at(struct seq_=
-file *m, void __user *arg)
-> > > > >         ct =3D codetag_next_ct(&priv->ioctl_iter);
-> > > > >
-> > > > >         while (ct) {
-> > > > > -               if (matches_filter(ct, &priv->filter)) {
-> > > > > +               fetched_counters =3D false;
-> > > > > +               if (matches_filter(ct, &priv->filter, &counters, =
-&fetched_counters)) {
-> > > >
-> > > > Do we really need this "fetched_counters" parameter? Here are the
-> > > > possible cases:
-> > > > 1. If the filter does not include ALLOCINFO_FILTER_MASK_MIN_SIZE |
-> > > > ALLOCINFO_FILTER_MASK_MAX_SIZE then counters would not be fetched.
-> > > > 2. If the filter includes ALLOCINFO_FILTER_MASK_MIN_SIZE |
-> > > > ALLOCINFO_FILTER_MASK_MAX_SIZE and
-> > > > 2.1. matches_filter() returns true then we know counters were fetch=
-ed
-> > > > because they had to be validated.
-> > > > 2.2. matches_filter() returns false then we don't care if the count=
-ers
-> > > > were fetched. We do not report that tag anyway.
-> > > >
-> > > > So, instead of passing fetched_counters to matches_filter() we coul=
-d do this:
-> > > >
-> > > > bool filter_by_size =3D (params.filter.mask &
-> > > > (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE)) =
-!=3D
-> > > > 0;
-> > > > while (ct) {
-> > > >            if (matches_filter(ct, &priv->filter, &counters)) {
-> > > > ...
-> > > > }
-> > > > if (ct) {
-> > > >            allocinfo_to_params(ct, &params.data, filter_by_size ?
-> > > > &counters : NULL);
-> > > > ...
-> > > > }
-> > > >
-> > > > Wouldn't that work?
-> > > >
-> > >
-> > > While we can deduce whether counters were fetched outside the
-> > > matches_filter function, I think the current implementation is more
-> > > intuitive from a readability perspective. I believe it  should be kep=
-t
-> > > as is for that reason. If we extract the logic, we'll first have to
-> > > replicate the boolean logic at two places. Second, we'd need to add a
-> > > comment explaining the boolean calculation, and the reader might have
-> > > a higher cognitive load trying to determine which function populates
-> > > the counters. The current implementation makes it easy for the reader
-> > > to deduce the original intention. Let me know what you think.
-> >
-> > Ok, I guess you have a point.
-> >
-> > I was also thinking why we are passing NULL to allocinfo_to_params()
-> > to fetch the counters into a local variable? Why can't we simply call
-> > allocinfo_prefetch_counters() before calling allocinfo_to_params()
-> > when fetched_counters=3D=3Dfalse? Basically:
-> >
-> > if (!fetched_counters)
-> >     counters =3D allocinfo_prefetch_counters(ct);
-> > allocinfo_to_params(ct, &params.data, &counters);
-> >
-> > This would simplify allocinfo_to_params() because counter will never
-> > be NULL and it would not need local counters.
-> >
->
-> The only reason I did it that way was to avoid repeating the code at
-> two places i.e. allocinfo_ioctl_get_at and allocinfo_ioctl_get_next.
-> Either way, the per-CPU counters are assimilated only once. I can
-> include this change if you still want me to, but personally I like the
-> way it currently is implemented.
+Hi Reinette,
 
-Yeah, I think repeating 2 lines is preferable to passing NULL and
-fetching into a local variable. Please include that change.
+On 6/16/2026 6:33 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 4/30/26 4:24 PM, Babu Moger wrote:
+>> AMD Privilege Level Zero Association (PLZA) exposes kernel CLOSID/RMID
+>> association through MSR_IA32_PQR_PLZA_ASSOC.  Generic resctrl already
+>> tracks supported and effective kernel-mode policy in struct
+>> resctrl_kmode_cfg, but the architecture layer needs a callable entry point
+>> that can push those values into per-CPU hardware on a chosen CPU mask.
+>>
+>> Declare resctrl_arch_configure_kmode() in linux/resctrl.h with kernel-doc.
+>> Implement it on x86: add an SMP callback that writes
+>> MSR_IA32_PQR_PLZA_ASSOC on each targeted CPU, and use on_each_cpu_mask()
+>> for the broadcast.
+> 
+> Above is clear from the patch. Please start with focus on why this patch is
+> needed.
+> 
+>>
+>> The hook is unused in this patch; later patches in the series wire it into
+> 
+> Similar to previous work: write changelog in imperative tone and do not
+> refer to patches in series but instead let each patch stand on its own.
 
->
-> > >
-> > > > >                         if (skip_count =3D=3D 0)
-> > > > >                                 break;
-> > > > >                         skip_count--;
-> > > > > @@ -317,7 +351,7 @@ static int allocinfo_ioctl_get_at(struct seq_=
-file *m, void __user *arg)
-> > > > >         }
-> > > > >
-> > > > >         if (ct) {
-> > > > > -               allocinfo_to_params(ct, &params.data);
-> > > > > +               allocinfo_to_params(ct, &params.data, fetched_cou=
-nters ? &counters : NULL);
-> > > > >                 priv->positioned =3D true;
-> > > > >         }
-> > > > >
-> > > > > @@ -343,6 +377,8 @@ static int allocinfo_ioctl_get_next(struct se=
-q_file *m, void __user *arg)
-> > > > >         struct codetag *ct;
-> > > > >         struct allocinfo_tag_data params;
-> > > > >         int ret =3D 0;
-> > > > > +       struct alloc_tag_counters counters;
-> > > > > +       bool fetched_counters;
-> > > > >
-> > > > >         memset(&params, 0, sizeof(params));
-> > > > >         priv =3D m->private;
-> > > > > @@ -356,10 +392,15 @@ static int allocinfo_ioctl_get_next(struct =
-seq_file *m, void __user *arg)
-> > > > >         }
-> > > > >
-> > > > >         ct =3D codetag_next_ct(&priv->ioctl_iter);
-> > > > > -       while (ct && !matches_filter(ct, &priv->filter))
-> > > > > +       while (ct) {
-> > > > > +               fetched_counters =3D false;
-> > > > > +               if (matches_filter(ct, &priv->filter, &counters, =
-&fetched_counters))
-> > > > > +                       break;
-> > > > >                 ct =3D codetag_next_ct(&priv->ioctl_iter);
-> > > > > +       }
-> > > > > +
-> > > > >         if (ct)
-> > > > > -               allocinfo_to_params(ct, &params);
-> > > > > +               allocinfo_to_params(ct, &params, fetched_counters=
- ? &counters : NULL);
-> > > > >
-> > > > >         if (!ct) {
-> > > > >                 priv->positioned =3D false;
-> > > > > --
-> > > > > 2.54.0.1136.gdb2ca164c4-goog
-> > > > >
+Will rewrite the changelog.
+
+> 
+>> generic resctrl when an effective kernel-mode policy is selected or a CPU
+>> mask changes.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> 
+>> ---
+>>   arch/x86/kernel/cpu/resctrl/ctrlmondata.c | 35 +++++++++++++++++++++++
+>>   include/linux/resctrl.h                   | 10 +++++++
+>>   2 files changed, 45 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+>> index b20e705606b8..68f1cf503904 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+>> @@ -131,3 +131,38 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
+>>   
+>>   	return 0;
+>>   }
+>> +
+>> +/*
+>> + * SMP call-function callback: each CPU writes its own MSR_IA32_PQR_PLZA_ASSOC
+>> + * (AMD PLZA).  Invoked via on_each_cpu_mask() with wait=1 so the on-stack
+>> + * union pointed at by @arg is safe.
+>> + */
+>> +static void resctrl_kmode_set_one_amd(void *arg)
+>> +{
+>> +	union msr_pqr_plza_assoc *plza = arg;
+>> +
+>> +	wrmsrl(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
+> 
+> fyi ...
+> commit 2232959db26d ("x86/msr: Switch wrmsrl() users to wrmsrq()")
+> commit b5884070f9da ("x86/msr: Remove wrmsrl()")
+> 
+
+Yes. Saw that. Will change it to wrmsrq.
+
+>> +}
+>> +
+>> +/**
+>> + * resctrl_arch_configure_kmode() - x86/AMD: program PLZA MSR on a CPU subset
+>> + * @cpu_mask:	CPUs to receive the update (see on_each_cpu_mask() for online subset).
+> 
+> Why is the caveat added? Will resctrl ever provide offline CPUs in the mask?
+
+No. Offline CPUs will not be provided. I am not sure why I added that 
+caveat. Probably came from AI review. Will remove.
+
+> 
+>> + * @closid:	CLOSID field written into the MSR with CLOSID_EN set.
+>> + * @rmid:	RMID field written into the MSR with RMID_EN set.
+>> + * @enable:	Value for the PLZA_EN split field.
+> 
+> Please describe the meaning of the fields instead the mechanics of the code
+> that are obvious.
+
+ok.
+
+> 
+>> + *
+>> + * Context: Do not call with IRQs off or from IRQ context except as allowed for
+>> + * on_each_cpu_mask(); see kernel/smp.c.
+> 
+> Why is this context caveat needed?
+
+Again, Probably came from AI review. Does not look relevant. Will remove.
+
+> 
+>> + */
+>> +void resctrl_arch_configure_kmode(cpumask_var_t cpu_mask, u32 closid, u32 rmid, bool enable)
+> 
+> Please replace "cpumask_var_t cpu_mask" with "const struct cpumask *cpu_mask".
+
+Sure.
+
+> 
+>> +{
+>> +	union msr_pqr_plza_assoc plza = { 0 };
+>> +
+>> +	plza.split.rmid = rmid;
+>> +	plza.split.rmid_en = 1;
+>> +	plza.split.closid = closid;
+>> +	plza.split.closid_en = 1;
+>> +	plza.split.plza_en = enable;
+>> +
+>> +	on_each_cpu_mask(cpu_mask, resctrl_kmode_set_one_amd, &plza, 1);
+>> +}
+> 
+> function self has been discussed already
+> 
+>> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+>> index ce28418df00f..570918e57e24 100644
+>> --- a/include/linux/resctrl.h
+>> +++ b/include/linux/resctrl.h
+>> @@ -712,6 +712,16 @@ bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
+>>    */
+>>   void resctrl_arch_get_kmode_support(struct resctrl_kmode_cfg *kcfg);
+>>   
+>> +/**
+>> + * resctrl_arch_configure_kmode() - Program MSR_IA32_PQR_PLZA_ASSOC on CPUs in @cpu_mask
+>> + * @cpu_mask:	Target CPUs; on_each_cpu_mask() applies the callback on the online subset.
+>> + * @closid:	CLOSID written to the MSR with CLOSID_EN set.
+>> + * @rmid:	RMID written to the MSR with RMID_EN set.
+>> + * @enable:	PLZA_EN field value for this update.
+> 
+> This is a resctrl fs API - please replace all the AMD architecture specific implementation details
+> with what the parameters actually mean/represent.
+
+Sure. Will rewrite it.
+
+Thanks
+
+Babu
