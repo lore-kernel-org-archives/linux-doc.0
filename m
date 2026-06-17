@@ -1,341 +1,224 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621EF282F25;
-	Wed, 17 Jun 2026 01:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E5D197A7D;
+	Wed, 17 Jun 2026 03:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781658235; cv=none; b=Tk8jUH0bK62dgMSG2bN7c6hBLcoeVk9qImXM/urovLVehQhYyB+KJ9+ZZXYI4kHs9q8GTMHYZ/J5XfA+x7DLqEg8MdfbMJnYOicx5IwkY3IFydOwkBHWpnPDYjToSkeQc5+3FENEPDy6zvxAesraNKUZ8ySkYn+rSnqpvZOP+sg=
+	t=1781665233; cv=none; b=ayvStMiB6yG+c4zuhAmok3XKELTc4UseN5WhHSHtTFyl+Y8QRyKi0AsnTmtty4RLZKlYzCVcyesu1FQiEwAWbDL2sbkOD9jnsIhrfnUDqAicFmiSYThWiTNXR6lrD/j0Hh2n7g+gdyDbuy9R+5RY3mCfZw+P+cbH0d54mZkB1wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781658235; c=relaxed/simple;
-	bh=pQfl3Q6VVzfNh7ktCNcwVvAPXPyk6mW2Bg1rXZdNEAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VUbftQiAIhR3lfdmEX4DEv17Cwhck6nwZkLNap3L0bf2D70TbxTITngsEhinto0WF/rODqzkqcDTWsoN8YMVMCAL6o7hVVkzTQ9HbuqOEojPADJVtdrkKg+KGB1uR+NomPtMqrXLp66XPk9hieuGnpuhVMFlxakyiuDcOkNsw3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZTmJeyJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781665233; c=relaxed/simple;
+	bh=7OYVKtv/F7oSFBVfrzuQ7bNWko2Rz6OLHweU0dppxeY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mVq45/X3LVaVOVDfDlp+KL2OWx3LZgLl0LeaDW1cxhvc+ImPVchW4F2YkXlDIQPyEahVZZ5kqmJN0EcJK7C1XO2GLNfMKHTVpOy7p/vmQmsAZxez7sa4QozTqmjdzyAprf83mlJyhafiKxcHPmsrP3D2fXRGS9iwK+Ejmn1RpTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=b61+jpky; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f9po6CAw; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZTmJeyJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F6D1F000E9;
-	Wed, 17 Jun 2026 01:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781658234;
-	bh=LLJg6d7dC/gvs51xJLvTitv8jujCadoEJi3+5sjiC4Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IZTmJeyJ8Fd9qflAh5jszmgF2ZbOInJu8q1e8rSNfyYdkQdYc9NXOCEHvdUymv5AD
-	 IMsfisAic/QqEWgWwhMsf3wSHEKw2iFoR8agMfUHXXwhgPe9tfqI0NdEXvWJnFM/fY
-	 vh/Haf2m4TJpJ4P7w9UbLx/Lwb7OfQ5b1h9fsUv0VBfAukCQwijo7Frn4ta2HIOj6O
-	 ke3lI3XGCz9jmV8B08ZO1tGmv4meq/mQutIGW0KCI/PrF/XjPGbpRSwQms2Y0xReUD
-	 kL+vwCSXoi19FFNwMUZZ15+zwXR/rLVkvzD4vy5vGWK5E+ah4+DPgu8Ek1qaGEh635
-	 uLBMxEoO+jXAw==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="b61+jpky";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f9po6CAw"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gg7rr5CFnz9tsW;
+	Wed, 17 Jun 2026 05:00:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781665228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=755kSzKoGCVo0Cb8/TSXpktU8jUi66NDNw4VHwou0DU=;
+	b=b61+jpkyS00DITJ6Dd6gzKSWsbglkfkz5NpkbnBFUhCAwe8xu+6KyQ0e+SYZEJ6KpudBhW
+	jfIfBVEGolzmHfUZeA3zRgu9E5lNuPMKz3wCLqJr5edmWs9odft67RA9+GNpmto1QzbBYP
+	ikUECIhoAgEo+VdVmWB97uupF2ldhIiIBrBuaqGUJ0NkxASWh7fC5+fDM3nVHhbAKPPYiB
+	9rfdzy4O4IZBwZFEBqfq4sToK89gUfAJvNPMosL4AqL4poZm94MjQ+Q9MShWVDs7uYV16h
+	Pcq+GHilHuJ6NUjDGyZvXZ0H8dUGMlQOk9D8CVZ6v323f0Bggb+PcruzBAyhnw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=f9po6CAw;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781665226;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=755kSzKoGCVo0Cb8/TSXpktU8jUi66NDNw4VHwou0DU=;
+	b=f9po6CAw/6ZJzzx4IHKkIHCzG7S7g0dKoXo56Ocqw3FiTbPfCRv5gIF1xWSfwueZk+goRr
+	JesIQ9a+9SDuzfmAtoho0JZ/ssVjcOOidGectPq6Mt1iATb5BR2NW1Vw4Aac+5W2whMcyW
+	kU89brzDPXXTozRhCMFIWjqHr8A8/WC2K+UtpIg6eLzqXW2DG0epzdfUEFiykKeR//dp7G
+	NwDdEERMKc+J7oSpesSuw7XsSnPUsreqHzzkhEsElw+PLBasZxKJmzLrxuHiG9RhAdYXUA
+	J4L+c2wQJJeZ81NOJTzYbO6HZr2Kv042/wNA5Urry9VVyMlGhYi3svJQ4FnU1Q==
+To: linux-pci@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v5 7/7] tracing/probes: Add a new testcase for BTF typecasts
-Date: Wed, 17 Jun 2026 10:03:50 +0900
-Message-ID: <178165822999.269421.3650241506657907944.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178165816303.269421.7302603996990753309.stgit@devnote2>
-References: <178165816303.269421.7302603996990753309.stgit@devnote2>
-User-Agent: StGit/0.19
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+Date: Wed, 17 Jun 2026 04:59:44 +0200
+Message-ID: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 50660cbd64fe0ecdeeb
+X-MBO-RS-META: pfxbqyyscfkyoswjsnjgjm6195nm4mcb
+X-Rspamd-Queue-Id: 4gg7rr5CFnz9tsW
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
+MSI are handled via GIC ITS. Configure all controller MSI registers
+fully.
 
-With the introduction of container_of-style BTF typecasting and
-per-CPU variable access support in trace probes, we need a way to
-verify their functionality and prevent regressions.
+Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
+PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
+enable MSI_CTRL_INT bit according to MSI enable state, set both bits
+if MSI are enabled, clear both bits if MSI are disabled.
 
-Add a new ftrace kselftest and update the trace event sample module
-to test and validate these features.
+If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
+deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
+pass through of MSI TLPs onto the AXI bus and then further into
+GIC ITS translation registers.
 
-Specifically, update the trace-events-sample module to set up a
-periodic timer whose callback accesses a per-CPU counter. Introduce
-a new sample trace event, foo_timer_fn, to trace this callback
-and log the current counter value.
+If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
+with target address of GIC ITS translation registers, and configure
+AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
+GIC ITS. This specific configuration allows handling of MSI via the
+GIC ITS instead of integrated iMSI-RX.
 
-Then, add a new test case, btf_probe_event.tc, which defines a
-dynamic probe on the timer callback. The probe uses BTF typecasting
-to recover the parent structure from the timer argument and
-this_cpu_read() to fetch the per-CPU counter. The test verifies
-the integrity of the implementation by ensuring the values
-recorded by the dynamic probe match those from the static tracepoint.
-
-Assisted-by: Antigravity:gemini-3.5-flash
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
- Changes in v5:
-  - Add more syntax test cases.
- Changes in v4:
-  - Fix uprobe $current test.
- Changes in v3:
-  - Add syntax test case.
-  - Update testcase to use this_cpu_read()
- Changes in v2:
-  - Use timer_shutdown_sync() instead of timer_delete_sync() for teardown.
+NOTE: This would not be possible without prior work from Shimoda-san
 ---
- samples/trace_events/trace-events-sample.c         |   40 +++++++++++++++-
- samples/trace_events/trace-events-sample.h         |   34 ++++++++++++-
- .../ftrace/test.d/dynevent/btf_probe_event.tc      |   51 ++++++++++++++++++++
- .../ftrace/test.d/dynevent/fprobe_syntax_errors.tc |   11 ++++
- .../ftrace/test.d/kprobe/kprobe_syntax_errors.tc   |   11 ++++
- .../ftrace/test.d/kprobe/uprobe_syntax_errors.tc   |    5 ++
- 6 files changed, 147 insertions(+), 5 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c | 53 +++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 5 deletions(-)
 
-diff --git a/samples/trace_events/trace-events-sample.c b/samples/trace_events/trace-events-sample.c
-index 0b7a6efdb247..ca5d98c360cb 100644
---- a/samples/trace_events/trace-events-sample.c
-+++ b/samples/trace_events/trace-events-sample.c
-@@ -94,6 +94,20 @@ static int simple_thread_fn(void *arg)
- static DEFINE_MUTEX(thread_mutex);
- static int simple_thread_cnt;
+diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+index 485cfa8bd9692..ba6e3bedd6d0a 100644
+--- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
++++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+@@ -31,6 +31,10 @@
+ #define DEVICE_TYPE_RC		BIT(4)
+ #define BIFUR_MOD_SET_ON	BIT(0)
  
-+static struct foo_timer_data *foo_timer_data;
++/* MSI Capability */
++#define MSICAP0			0x0050
++#define MSICAP0_MSIE		BIT(16)
 +
-+static void sample_timer_cb(struct timer_list *t)
+ /* PCIe Interrupt Status 0 */
+ #define PCIEINTSTS0		0x0084
+ 
+@@ -55,6 +59,16 @@
+ #define APP_HOLD_PHY_RST	BIT(16)
+ #define APP_LTSSM_ENABLE	BIT(0)
+ 
++/* INTC address */
++#define AXIINTCADDR		0x0a00
++/* GITS GIC ITS translation register */
++#define AXIINTCADDR_VAL		0xf1050000
++
++/* INTC control & mask */
++#define AXIINTCCONT		0x0a04
++#define INTC_EN			BIT(31)
++#define INTC_MASK		GENMASK(11, 2)
++
+ /* PCIe Power Management Control */
+ #define PCIEPWRMNGCTRL		0x0070
+ #define APP_CLK_REQ_N		BIT(11)
+@@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+ 	return rcar;
+ }
+ 
++static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
 +{
-+	struct foo_timer_data *data = container_of(t, struct foo_timer_data, timer);
++	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
++	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
++	u32 val;
 +
-+	get_cpu();
-+	trace_foo_timer_fn(data);
-+	(*this_cpu_ptr(data->counter))++;
-+	put_cpu();
++	/* Make sure MSICAP0 MSIE is configured. */
++	val = dw_pcie_readl_dbi(dw, MSICAP0);
++	if (pci_msi_enabled())
++		val |= MSICAP0_MSIE;
++	else
++		val &= ~MSICAP0_MSIE;
++	dw_pcie_writel_dbi(dw, MSICAP0, val);
 +
-+	mod_timer(t, jiffies + HZ);
++	if (!pci_msi_enabled() || pp->use_imsi_rx) {
++		/* Clear AXIINTC mapping. */
++		writel(0, rcar->base + AXIINTCADDR);
++		writel(0, rcar->base + AXIINTCCONT);
++	} else {
++		/* Point AXIINTC to GIC ITS and enable. */
++		writel(AXIINTCADDR_VAL, rcar->base + AXIINTCADDR);
++		writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
++	}
++
++	/* Configure MSI interrupt signal */
++	val = readl(rcar->base + PCIEINTSTS0EN);
++	if (pci_msi_enabled())
++		val |= MSI_CTRL_INT;
++	else
++		val &= ~MSI_CTRL_INT;
++	writel(val, rcar->base + PCIEINTSTS0EN);
 +}
 +
- int foo_bar_reg(void)
+ static int rcar_gen4_pcie_enable_device(struct pci_host_bridge *bridge,
+ 					struct pci_dev *dev)
  {
- 	mutex_lock(&thread_mutex);
-@@ -132,9 +146,27 @@ void foo_bar_unreg(void)
+@@ -359,7 +406,6 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+ 	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+ 	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+ 	int ret;
+-	u32 val;
  
- static int __init trace_event_init(void)
- {
-+	foo_timer_data = kzalloc_obj(*foo_timer_data, GFP_KERNEL);
-+	if (!foo_timer_data)
-+		return -ENOMEM;
-+
-+	foo_timer_data->name = "sample_timer_counter";
-+	foo_timer_data->counter = alloc_percpu(int);
-+	if (!foo_timer_data->counter) {
-+		kfree(foo_timer_data);
-+		return -ENOMEM;
-+	}
-+
-+	timer_setup(&foo_timer_data->timer, sample_timer_cb, 0);
-+	mod_timer(&foo_timer_data->timer, jiffies + HZ);
-+
- 	simple_tsk = kthread_run(simple_thread, NULL, "event-sample");
--	if (IS_ERR(simple_tsk))
--		return -1;
-+	if (IS_ERR(simple_tsk)) {
-+		timer_shutdown_sync(&foo_timer_data->timer);
-+		free_percpu(foo_timer_data->counter);
-+		kfree(foo_timer_data);
-+		return PTR_ERR(simple_tsk);
-+	}
+ 	if (pp->bridge)
+ 		pp->bridge->enable_device = rcar_gen4_pcie_enable_device;
+@@ -379,10 +425,7 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+ 	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+ 	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
  
- 	return 0;
- }
-@@ -147,6 +179,10 @@ static void __exit trace_event_exit(void)
- 		kthread_stop(simple_tsk_fn);
- 	simple_tsk_fn = NULL;
- 	mutex_unlock(&thread_mutex);
-+
-+	timer_shutdown_sync(&foo_timer_data->timer);
-+	free_percpu(foo_timer_data->counter);
-+	kfree(foo_timer_data);
- }
+-	/* Enable MSI interrupt signal */
+-	val = readl(rcar->base + PCIEINTSTS0EN);
+-	val |= MSI_CTRL_INT;
+-	writel(val, rcar->base + PCIEINTSTS0EN);
++	rcar_gen4_pcie_host_msi_init(pp);
  
- module_init(trace_event_init);
-diff --git a/samples/trace_events/trace-events-sample.h b/samples/trace_events/trace-events-sample.h
-index 1a05fc153353..816848a456a2 100644
---- a/samples/trace_events/trace-events-sample.h
-+++ b/samples/trace_events/trace-events-sample.h
-@@ -247,12 +247,14 @@
-  */
+ 	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
  
- /*
-- * It is OK to have helper functions in the file, but they need to be protected
-- * from being defined more than once. Remember, this file gets included more
-- * than once.
-+ * It is OK to have helper functions and data structures in the file, but they
-+ * need to be protected from being defined more than once. Remember, this file
-+ * gets included more than once.
-  */
- #ifndef __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
- #define __TRACE_EVENT_SAMPLE_HELPER_FUNCTIONS
-+#include <linux/timer.h>
-+
- static inline int __length_of(const int *list)
- {
- 	int i;
-@@ -270,6 +272,13 @@ enum {
- 	TRACE_SAMPLE_BAR = 4,
- 	TRACE_SAMPLE_ZOO = 8,
- };
-+
-+struct foo_timer_data {
-+	const char		*name;
-+	struct timer_list	timer;
-+	int __percpu		*counter;
-+};
-+
- #endif
- 
- /*
-@@ -595,6 +604,25 @@ TRACE_EVENT(foo_rel_loc,
- 		  __get_rel_bitmask(bitmask),
- 		  __get_rel_cpumask(cpumask))
- );
-+
-+TRACE_EVENT(foo_timer_fn,
-+
-+	TP_PROTO(struct foo_timer_data *data),
-+
-+	TP_ARGS(data),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,			data->name	)
-+		__field(	int,			count		)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->count	= *this_cpu_ptr(data->counter);
-+	),
-+
-+	TP_printk("name=%s count=%d", __get_str(name), __entry->count)
-+);
- #endif
- 
- /***** NOTICE! The #if protection ends here. *****/
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-new file mode 100644
-index 000000000000..96791e120b7d
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-@@ -0,0 +1,51 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: BTF event with typecast and percpu access
-+# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-+
-+# Check if the sample module is loaded
-+if ! lsmod | grep -q trace_events_sample; then
-+  modprobe trace-events-sample || exit_unsupported
-+fi
-+
-+echo 0 > events/enable
-+echo > dynamic_events
-+
-+# The sample_timer_cb(struct timer_list *t) is called.
-+# We want to check (STRUCT,FIELD)VAR typecast and this_cpu_read() access.
-+# (foo_timer_data,timer)t converts t to struct foo_timer_data * using container_of.
-+# data->counter is a per-cpu pointer to int.
-+# this_cpu_read(data->counter) should give the value of the counter.
-+
-+echo 'f:mysample/myevent sample_timer_cb name=(foo_timer_data,timer)t->name:string count=this_cpu_read((foo_timer_data,timer)t->counter)' >> dynamic_events
-+
-+echo 1 > events/mysample/myevent/enable
-+echo 1 > events/sample-trace/foo_timer_fn/enable
-+
-+sleep 2
-+
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+
-+# Compare the values.
-+MATCH=0
-+while read line; do
-+  if echo $line | grep -q "foo_timer_fn:"; then
-+    NAME=`echo $line | sed 's/.*name=\([^ ]*\) .*/\1/'`
-+    COUNT=`echo $line | sed 's/.*count=\([^ ]*\).*/\1/'`
-+    if grep -q "myevent:.*name=\"${NAME}\" count=$COUNT" trace; then
-+       MATCH=$((MATCH+1))
-+    fi
-+  fi
-+done < trace
-+
-+if [ $MATCH -eq 0 ]; then
-+  echo "No matching events found"
-+  exit_fail
-+fi
-+
-+# Clean up
-+echo 0 > events/mysample/myevent/enable
-+echo 0 > events/sample-trace/foo_timer_fn/enable
-+echo > dynamic_events
-+clear_trace
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-index fee479295e2f..0402d0271bfe 100644
---- a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
-@@ -112,6 +112,17 @@ check_error 'f vfs_read%return $retval->^foo'	# NO_PTR_STRCT
- check_error 'f vfs_read file->^foo'		# NO_BTF_FIELD
- check_error 'f vfs_read file^-.foo'		# BAD_HYPHEN
- check_error 'f vfs_read ^file:string'		# BAD_TYPE4STR
-+if grep -qF "[(structname" README ; then
-+check_error 'f vfs_read arg1=(task_struct)file^'		# TYPECAST_REQ_FIELD
-+check_error 'f vfs_read arg1=(f)((f)((f)((f)^((f)file->f)->f)->f)->f)->f'	# TOO_MANY_NESTED
-+check_error 'f vfs_read arg1=(task_struct,^in_execve)file->comm'	# TYPECAST_NOT_ALIGNED
-+check_error 'f vfs_read arg1=(task_struct,^foo_bar)file:u8'	# NO_BTF_FIELD
-+check_error 'f vfs_read arg1=(^task_struct1234)file:u8'		# NO_PTR_STRCT
-+check_error 'f vfs_read arg1=(task_struct,se^->group_node)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'f vfs_read arg1=(task_struct,^->pid)file->comm'	# NO_BTF_FIELD
-+check_error 'f vfs_read arg1=(task_struct,^.pid)file->comm'	# NO_BTF_FIELD
-+check_error 'f vfs_read arg1=(task_struct,^.)file->comm'	# NO_BTF_FIELD
-+fi
- fi
- 
- else
-diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-index 8f1c58f0c239..742b342e4930 100644
---- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
-@@ -115,6 +115,17 @@ check_error 'p vfs_read+20 ^$arg*'		# NOFENTRY_ARGS
- check_error 'p vfs_read ^hoge'			# NO_BTFARG
- check_error 'p kfree ^$arg10'			# NO_BTFARG (exceed the number of parameters)
- check_error 'r kfree ^$retval'			# NO_RETVAL
-+if grep -qF "[(structname" README ; then
-+check_error 'p vfs_read arg1=(task_struct)file^'		# TYPECAST_REQ_FIELD
-+check_error 'p vfs_read arg1=(f)((f)((f)((f)^((f)file->f)->f)->f)->f)->f'	# TOO_MANY_NESTED
-+check_error 'p vfs_read arg1=(task_struct,^in_execve)file->comm'	# TYPECAST_NOT_ALIGNED
-+check_error 'p vfs_read arg1=(task_struct,^foo_bar)file:u8'	# NO_BTF_FIELD
-+check_error 'p vfs_read arg1=(^task_struct1234)file:u8'		# NO_PTR_STRCT
-+check_error 'p vfs_read arg1=(task_struct,se^->group_node)file->comm'	# TYPECAST_BAD_ARROW
-+check_error 'p vfs_read arg1=(task_struct,^->pid)file->comm'	# NO_BTF_FIELD
-+check_error 'p vfs_read arg1=(task_struct,^.pid)file->comm'	# NO_BTF_FIELD
-+check_error 'p vfs_read arg1=(task_struct,^.)file->comm'	# NO_BTF_FIELD
-+fi
- else
- check_error 'p vfs_read ^$arg*'			# NOSUP_BTFARG
- fi
-diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-index c817158b99db..e12dc967ec76 100644
---- a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-+++ b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-@@ -28,4 +28,9 @@ if grep -q ".*symstr.*" README; then
- check_error 'p /bin/sh:10 $stack0:^symstr'	# BAD_TYPE
- fi
- 
-+# $current is not supported by uprobe
-+if grep -q "\$current.*" README; then
-+check_error 'p /bin/sh:10 ^$current:u8'	# BAD_VAR
-+fi
-+
- exit 0
+-- 
+2.53.0
 
