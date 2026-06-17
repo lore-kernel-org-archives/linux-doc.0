@@ -1,261 +1,353 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011054.outbound.protection.outlook.com [40.107.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88C348033C;
-	Wed, 17 Jun 2026 16:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCEF4ADD8E
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 16:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781713747; cv=fail; b=rz539qA0iUlscHQNdmiE4adli/D+poJTILhziUg3b+E8VLZU2jSPL3tSeF+Tu2WNDrLul93gr+C8rge5BHQeF4e1CPidMTu7WiB+a+OFV26ha+lcwtjSfxk4dpMwXt6slgQwTHB7UPMPdHlILNn1mWOF2fz170OqK2PMU4fDNKg=
+	t=1781713775; cv=pass; b=nuLzCCanpHzniPb5xg7Vp1CmatxS9BLDjyCNe4+VWeUVH+vhWyhO67Pyh4v9Fskk+ZbEi6d3ssmr5KxqAV76ftZ1bnF1kWcUG7yGr4NmdJxeNkXZRttHfBhmUVk2fGeO2+3be0UCMsEzj8QwaIMfHZaNFsmbGhxjdOHTLGW/zOs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781713747; c=relaxed/simple;
-	bh=WnG/0VH5RTAy3ITzJ0Kad12dfuGkpWpfqps++8da4Hc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=go6KBsZ6nZAYm2geKvlMYz52Tv+jaArlWXmwWMndodre7XiPbAELDpePjKVttvNUq2cEvkwv8ezXr6ppC9B5EU8mjzO93ETsy5yfAXw55FdGBoXVavTFZoi8rUccoNuP4Cuyxbzxzfm0owXoi9nZszU1/WgZ+7G+/XMimL2UM0w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=r36s7PO0; arc=fail smtp.client-ip=40.107.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1781713775; c=relaxed/simple;
+	bh=6gixY1Rh6oTEEpGrqitvaAMcgcu5XQXbgTcla1HKCKY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Br0J1OocwvKYUWmxd+t/LbMGWQf60Niq6m2hSoX9gOPObtvOb9ZpVne/0xlqabCed3DK/kBSfL5mhpz63QctlWnG2sOZXhM1T/2elFETZn2s3eIrbIWf9qWch+ZJRurntt2UbKEfGmwl4n7HiSsyn5lVLJrZN5joKLKGIUaZn04=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ekNnnZtJ; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="r36s7PO0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pTeHIvJEbf60ZXLF5qQkjqiXRgUy9R2rQPxTyHKmEVxPh62SacYD1bHplNQUDm6kjXBnchueg2ogCId1/mMH9E3hyhiGNMyEgA0Ql1wHLBfZyEA69eX36RAs0BCnBi5dMsToJwJSo/Ucn3e4IaNCzssD2qMw2kJ9bFSeAlqQAwR9nRFP5kZ26CSXB8H6Hq9GeathxsMkY71avxaTwg9QenGE6VHYMZFSVV6Wo7VwyfK0D8R8IkXWsP93qfJ+kH1vIHCmAcgRAz1MEJ5+yi2bk58IkDPbkisKzIBR5Iv0YQ3h0wsZTw543e6sne5LKs9YFSL4jXvab5jhxq8lLfDanQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s09ELI2fgq1gOgprCgBW918HNVwfUJZ0z+hoEIW5hYc=;
- b=j4quPgJM6rHoPO2FWkzfwJ3BYpBCR4DP/Z/Q2UKh4ghx9nfTL+wmdoQRzHKfXKIIwIQH3fcJ4xU5AxtZefpJEJzXu/7yPjd39D1NhX5now/xa29nfS+Rp15D4uD9Q80Y2IUr+r3x1FlIIi+4Fbd48PXCtJqwtZzXPNOyAZmW+2dB0W1jwFejZomakIXKia1MLtz9OTjdjP5qx86gOgH0pLGF4hOP46P0OwRlio8ySDEu6kzoru+sWkEgp2ZJw8BTjbTawf0XmWHqxeyXNd/b7wqf5znk7qspP4rAKGgGO3z9Av0SKGnw7HXsualuAXoKyoCFGBUbmWndi/Pat2SY6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s09ELI2fgq1gOgprCgBW918HNVwfUJZ0z+hoEIW5hYc=;
- b=r36s7PO0BnI2laQobGyGyJfy5ST2trF10UjBN7P5QsGKE+WZKpmWUVy7h/BSZcTRpKmVBu6z+TA8oC5l1VlbfeQ0R1jQsJwfy86Ma58WymK5hkBBP8hAfK7nQ3mbijt7IKbi1otbaSZS5fmHrOv73vjjGFP7i4V3qasFvL0bYgI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by DS0PR12MB7582.namprd12.prod.outlook.com (2603:10b6:8:13c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Wed, 17 Jun
- 2026 16:28:54 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0139.009; Wed, 17 Jun 2026
- 16:28:54 +0000
-Message-ID: <a5041b92-36c5-4ce0-811c-277a41f4d01a@amd.com>
-Date: Wed, 17 Jun 2026 11:28:50 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/12] x86/resctrl: Support Privilege-Level Zero
- Association (PLZA)
-To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <bmoger@amd.com>, corbet@lwn.net, tony.luck@intel.com, Dave.Martin@arm.com,
- james.morse@arm.com, tglx@kernel.org, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- hpa@zytor.com, akpm@linux-foundation.org, rdunlap@infradead.org,
- pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
- lirongqing@baidu.com, paulmck@kernel.org, bhelgaas@google.com,
- seanjc@google.com, alexandre.chartre@oracle.com, yazen.ghannam@amd.com,
- peterz@infradead.org, chang.seok.bae@intel.com, kim.phillips@amd.com,
- xin@zytor.com, naveen@kernel.org, thomas.lendacky@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- peternewman@google.com
-References: <cover.1777591496.git.babu.moger@amd.com>
- <f59c7f5404f29b2901af68d8032ee615b7f0efea.1777591496.git.babu.moger@amd.com>
- <081b5cd6-37a3-4aaf-862b-b41e9536bb66@intel.com>
- <a737ae9e-9cbc-46bb-b565-0b888e69f0ea@amd.com>
- <353185bd-2b3e-484e-bf4c-e774c70ea63c@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <353185bd-2b3e-484e-bf4c-e774c70ea63c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0P221CA0019.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:11c::8) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ekNnnZtJ"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5177d1ff061so312651cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 09:29:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781713769; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bTXNYeKdSixyBr5ysrAxFSEtE/Tk9KXIy/pZkoVi2u5RUuxtRCNrtTy7jCsGS1TXnV
+         +tJqWblV0LMyTw16yYKv0IWiSJNeXoi5pLSLqpQWg8K/0ZBmRtPkfAmkiyLTc186Ni+C
+         FJiUX4VeaNzcBXIJU3+6Fh65oJbQPtuNcO6ydiHCpUxsi54yhS3g6T6G23ctAiUwYLUH
+         BsyGta5EZxVj9olYEnUzkO28lAdvEfsryv8QPZtv9Sq71UOPR/0F5SHAuR7Eb6Xa8wiY
+         AwzoKH+tNxn4cR1wCek8bi140YXwGmGJnDV0j16Upg+3K2sQjWCE78yem0lC/OqsqN5q
+         8MGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=j3ViCNINWU1ApHw0TpbKMpVstUJu6vw+UuDtJWe3ZJE=;
+        fh=T4ZMMNzvIslOwauotoMHaTXJSUH9+k/RK6dgJBKODp4=;
+        b=haKXIlb0M/i6OrY3iIA/EME+MXLStYcM/2fWIB5aH3XwkqsFkE661pZzAoWYebTBuy
+         +DYzMCzUlG6eg6XbmeTJLRVwcTdZECb55YnJb71xk9r63Jjxin/5BYWnFdfSTQbw7F0I
+         pXVWwPz5VKitsfzgFc7+sfT+RSKFI6uxLuJbocS/SS3s7sDPmZqCSV3oEIsLIn0q73HG
+         /yQRSVg2bbovvolA7vM4/i93sviY1p3qmhOWaM71xscwZofEpBgI/len0RKIyKtfC1Gp
+         PxNTvJ5VdOr/nhBo/Sw8UEg2hYEnWK2PskY2JCcHva2GNxtY7FMr0smYyVsPm9KJQQpG
+         zO6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781713769; x=1782318569; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=j3ViCNINWU1ApHw0TpbKMpVstUJu6vw+UuDtJWe3ZJE=;
+        b=ekNnnZtJwKVjjH10wVoy0wYoUIv+kpyjYmRzQm72I9aB26Kkv9DjQ78eVfDQWcPdq7
+         Q4iz7lGB9rgJLmsBuLGrLmGUplYoOMsEN44sTDeXGF4JP2lUxvmCyBcZ2g0wBnVYeqfT
+         g7R2KpMqwLgfOn3dzxCqAoGHJo6GvHd8sSUVVzeYZykRHu2ocTFeC1GzAlo6IiRug8X1
+         /0RtW58TV4kNyJaiCrj5VklJ+BeYGUSZoamTupYRzqzo4rkcSiiu9I2dM0vJW+NL1zFM
+         pvOnfSrJI38pRK8dMhceXbNIozuLIwYas5lYLS4vQYYuwZ5xwYy6Pot9tVl/G4X1Z8sN
+         XuSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781713769; x=1782318569;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j3ViCNINWU1ApHw0TpbKMpVstUJu6vw+UuDtJWe3ZJE=;
+        b=EMZs0AKr5HFAsPQDJ6Sgf8uTCRSy7DKqWCMmqwdWdTB7g0yN130WRXnrYrNYl5OxLW
+         tqeAU0a7AiscTy7BCfPB0zbaxvC8m/18489oGEG5GEoSe86RyLArdpISCkQA8SemGF8/
+         Jr/UF5mhaomPrmaQXiWHAeBtg4M2slkFGdn1IsEKUqaRGwdvw+Z9S1lq0ewun6hxhscq
+         hLRMxL8b0l0nlszEy2kpjsxWJGbzppxn0YFpk1KVdhbil3AQEPqsmHsm4gqcei42011E
+         wz82JNAuX9vOOLFf23XNsMj1OsnhWmPRlIQVz/9VTmpX6YlQzOXsv/Fliqj8JmVYludy
+         liJQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/Gb+PddsvBE3zINsb7lkak9j8VtI+83pcB+kdmo+j6zuPPZzW7TiQvTDGXMQnT5uWb0PaKll90KVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1oRB3g1mA52N19OWqFBIHa8APPlN1o5NC9Ix3Jrl+AplJXiKv
+	BgLHMLXJCLuZd7t6M4jwR3LFGHHBMeb4k55JNftyb5VniWehlyQMBkoQZWoiGJHU0bNwIedxmHq
+	4uNudTiMsyb6gY8emjvKrxgYc05ZXmO7g25WVuHps
+X-Gm-Gg: Acq92OFUZ2c0wlS9m6kZ0Ru7jqqLrXTVZ54RTnFux8kXv5A8BiS8p2yqD/YvRMQIi1t
+	/WcWbpB39DivG/W8klXw6IRJlNOLzVGdKIMSJDDXNz1rsLlT2YnKIOjLakG2j40qjM1ynKCKgFj
+	5YFys2fHHI/LUhiJSfz06q3ZFSHtBXeGBQpO86aAwEi49lXGPzRHZaICvX3SBxsST4PFn67Zx+1
+	jrpbxV/FYS6LTXgi2MxkgL8RbqGmL+4VMbMjfckn89336n2Gg7yZeR8sJYp6IDbgl1lYUeiFGtg
+	RHQApZCeQdv1H4HgPbMbsBBgmV0=
+X-Received: by 2002:ac8:59d4:0:b0:50f:b69a:f4a8 with SMTP id
+ d75a77b69052e-519ad98f5c4mr9857921cf.7.1781713768155; Wed, 17 Jun 2026
+ 09:29:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|DS0PR12MB7582:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70d2f783-d45d-475d-4698-08decc8d85ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|3023799007|4143699003|11063799006|921020|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	AE4ER0AMLOmeqqgJnxlHLJGW0Q9PMkVGhlJHi4GZX2vyC1e/B5WiCPeMvCHryrIZWIiHHqFcOPIH3pRhJIjHQt+c4CebujrF7Q1fYDv05wnB0zeYkRMZm7eBOKFM2MV8Uu2Qt5yzxOZSyxqdTlsJIZsajgqnDr7lVQKES9VFpw47VftiLOajtBvcMqgEObbh/hoUk9DNNLA/Hef3/DA9ui2lME6CsEp9p2te03ENH0r4hD9MbzljywvcEeAuGE5WOJuYEQgp3fJtuO2wpADyGz6BpIP02X4vXbX7HgOd3my5NQ3WyJqp7v2nXSihm29Lmqb5FGuJPwEMmRaQePbVE7fQVqFxsGeBRg92PcuaHJvPv5lpSiBjwX1zJAoA6PJJLmVAvGK3lj6eoliD6zxWIhJFjAqJB5Aaz7E0/SVS9GcpblwDgNR3k1G2qVPVehDEYgFuBax/aT9LzDgZa90srfm/1x9eHsJZO8NTscs8zH5me4UU0n4KpVyE7HyQfuwBN18SDq8bWTbAl7Xcz07Lc4/Lq6qXpVaR8/D4yKKS6nrr4kPtiIu210kMW4WWrTCMRoPB+7kIUGOwQSyi3n4tAee28QZUF6YIIVruyiXjCm8+T5exho01OuoHHmS1V/n8DDVe0GWVggXHsddIBvb1uBhynsTLd8zoI1/aRjKH1u0C+uRYyK6+oI3TueivFLYR2SRh1Ns4Uqa8z1deyphvtKsAvZq4dDmCs9patTakYCQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(3023799007)(4143699003)(11063799006)(921020)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RVZZNHVnUFMxczBpTnpsQUpZbTF1TlBEUUJTd0wwYWVad283Vk9FRSs2aGFN?=
- =?utf-8?B?R1E0MEE1UzkvajE3WG5KbFFFQzJFekVHc05MWDMxZFhQbHNLY1lkQThrS3hK?=
- =?utf-8?B?Qm5xVWVBT0xaNE1HUVVpWVBySnlocThVcUZZSXhwOHRwQ1RTRDBELzl0Y0Nz?=
- =?utf-8?B?amdxeXRRdGhubXNhMElzUVhDcXArcXpmZWNOV0dydFFzSjBSNGo3eGtuNnJV?=
- =?utf-8?B?eE11U2JmZXJGcWxrWEhzams4SXdZOGdkQTBMTy95amxNLzBvN2xwUDVoQUZU?=
- =?utf-8?B?Q0dLYkpsSTA3SUZRSDMwM0R2LzZ3T044QndUeUpZZ21IWlFEa2xpcEdjWGFW?=
- =?utf-8?B?ajluVStGL1BkNVFkcEZoa2piS2ZnR1NSbUFTZ0svVHY0Mk9CYVRCc1c0TVZF?=
- =?utf-8?B?TEdsNExvWlRwSFgxSmZvQXg3WXp4b3dURnlRN1FPWHdBVWo5bmd0RWRwMUdK?=
- =?utf-8?B?YmxLaXRlZG1uOXgwOWI1N3JrMmg5RC9yc0NCd3JFT0N2QmY1Ym9CWHdLUGhR?=
- =?utf-8?B?N1lXM3Bpc2JIbGJYNUkzaURIMmRIL2liditMdXIwVHNWb294QjFIMXduUDdr?=
- =?utf-8?B?bGJaQ1lEWVFHcU1wTkp3N0tkUVJ0WmhINVpSTzNPc0pXTS91WE8veVlGcXhM?=
- =?utf-8?B?ZWw4UzFOSmNwOHkvQ21reGVOYmJRRnM4K2hUT0dFeWlFYnc5eDFuTlgzdk11?=
- =?utf-8?B?WE1xaHZHSzMybnArMmpRdXJFcjBrT21WOXNrSm9OcnlGc1YvOHN4WkVVR0JM?=
- =?utf-8?B?RkFVcFpRTjdkYXFoWW9oNk00UE1hMEVZdGUxUmlHWkVyS3RxWGpSc0V6VmFm?=
- =?utf-8?B?TFZKdUpSaUF4MzNWTGx5anhJbGx0NkNUMkRIcW1WYkhOR3RMZnBNZmQxVVRW?=
- =?utf-8?B?a3ZlMGVXVDRzcVJreDNUMWZHSys5WjZLclVNMFFRc1ZxM010dFA5TFIwUGRZ?=
- =?utf-8?B?VnZkbjROT0ZIKzl4SXREeCtaTXczUlJ4L1ZKMzF6OUJPdS9KMzJkY2plekhT?=
- =?utf-8?B?NmFLK21vSnNVY1ZtdGNOYXZGRXMxM29NWmcxZTRzNlZVWjFZais2YkFRcnNu?=
- =?utf-8?B?c095aXFDSFRUSGtubUY0TVh3dzRxN0hTdHhIZkxwMUF0Z2p4OVlhNjRvMks5?=
- =?utf-8?B?OWFScjQ5bEJnbC9jUmpsbmplQXpiUE9oR0p4L1hpM3dEREIwS21Pd2x5dG5M?=
- =?utf-8?B?WUNPRnV5cFI4ck5hcmt1ZEtUbVQwM2d6NG9GbnF1alprNEdmbENsNTEvRXh1?=
- =?utf-8?B?eFZPcExHWXdSSUc0ak9PbDVJODgvNDJhbm9CdWRvTXo3OEdMYklPMGxxMlVV?=
- =?utf-8?B?VFlQT1NVMVFDYVVZdEVEOEtOaDJvRVVGM3BFT1dwcUVFdWM0MnZPTFJvUStH?=
- =?utf-8?B?MXhYUzBGOWxpZlhieXFVU3RWbkJLMnNzWWs3RG54UFVHeW52RHpScUVhS0Jl?=
- =?utf-8?B?bjg4dEhmNFcvODNOZUx3alZzR2I4NXR2cWp4SzFLS0laRm44QmkrR2cwdUp1?=
- =?utf-8?B?aEVXMENKc0l3RXY3bFREV094VjlGcElIanJTWkVJOStBWUs4NGxqQ2Y5S1hX?=
- =?utf-8?B?VjRvbWhaS0dESW5YdmNyMzA1M3lTYjhiNVNkSSsya0VSTmJIQnN3RmdweGll?=
- =?utf-8?B?bzM1NFpwcmhMTm5VYVJnYmQyYVFzQncrUExLY1ZKT1puUHpuRVB4TDd1QUhW?=
- =?utf-8?B?bFk3OFNRK1RCelorNVAzNnNETE1XQ0tXNGNBaFQzV2NWOVk1WEZCcWNieW5h?=
- =?utf-8?B?Um93alpRSWdnNHJRL2lOVGxYMjhmSUw4V3djeFZha3ROWDNTZ08vOHFlQUs3?=
- =?utf-8?B?YlVnbFlZSlRPVEpwNVlnSjJBQmNDTjdLN3NlOG9mcUVrSk9ZT2hTaUdhbnpH?=
- =?utf-8?B?ZjJJYUM3amJzNjZOZW5tS3cyTzdoQ1pJRlhTTFZyMURxUEVFbjZreG0rcDll?=
- =?utf-8?B?Y1gyaUFuRllmVjhSdHcySkxldmsydXF0TjV4WTNDalN1ejBRV3lYMy8vNU1Z?=
- =?utf-8?B?WVRIMEt2MUYvdzJXZnZpajdaWUMrdXkyejMrNUVHTGRSYklkYkd3OEErekYr?=
- =?utf-8?B?MUcxcTN2anRqcDNvNjAyQzYrcTRPcFFkTVM2bXpoTndQWGZMditINnBNSGk3?=
- =?utf-8?B?SXRXa1A5akp0QzVyUGVkMlVkclQ3NHZZMitvcGIxdGFlczBkQklxYWg1KzVP?=
- =?utf-8?B?cjEvc2FZb2Zrc0I1YTNiR2ptblpmajl6ZWdRWjRJSFpvRkVMZnI1MnpWQisv?=
- =?utf-8?B?bkd1NmlOTEZmM2VWNVZNM25NcUU1cFA0WWg3ZDNGaXBYMk4zS1hzaE94Q2Mz?=
- =?utf-8?Q?ep131uGCQ1LvOw5YV4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70d2f783-d45d-475d-4698-08decc8d85ce
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2026 16:28:54.2016
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kGB45T+Pa4FeCpDRzZN4aRekWuL3RL0JcbsySMcq9CWawwbDYRt+MNtt/AsF0ump
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7582
+References: <cover.1781564384.git.abhishekbapat@google.com> <7d98db60ab0fddab230b1a7a32140f3361ab42cf.1781564384.git.abhishekbapat@google.com>
+In-Reply-To: <7d98db60ab0fddab230b1a7a32140f3361ab42cf.1781564384.git.abhishekbapat@google.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 17 Jun 2026 09:29:16 -0700
+X-Gm-Features: AVVi8CeKwui872F-kOLXNptMWCgfxo-c2VZxjkZFlkeHAc29MMPClekmD4MDk_Y
+Message-ID: <CAJuCfpFbCKc7FR3tbeCzexCzyfiP+Ab2fJ7Vd1Q76MKTvqC2XA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] alloc_tag: add size-based filtering to ioctl
+To: Abhishek Bapat <abhishekbapat@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Hao Ge <hao.ge@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, Sourav Panda <souravpanda@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Mon, Jun 15, 2026 at 4:04=E2=80=AFPM Abhishek Bapat <abhishekbapat@googl=
+e.com> wrote:
+>
+> Extend the allocinfo filtering mechanism to allow users to filter tags
+> based on the total number of bytes allocated [min_size, max_size]. The
+> size range is inclusive.
+>
+> Filtering by size involves retrieving allocinfo per-CPU counters, which
+> is an expensive operation. Hence, the performance of size-based
+> filtering will be worse than other filters.
+>
+> Signed-off-by: Abhishek Bapat <abhishekbapat@google.com>
+> Acked-by: Hao Ge <hao.ge@linux.dev>
+> ---
+>  include/uapi/linux/alloc_tag.h |  8 ++++-
+>  lib/alloc_tag.c                | 63 ++++++++++++++++++++++++++++------
+>  2 files changed, 59 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/uapi/linux/alloc_tag.h b/include/uapi/linux/alloc_ta=
+g.h
+> index 3b11877955b9..7f5acbb44c14 100644
+> --- a/include/uapi/linux/alloc_tag.h
+> +++ b/include/uapi/linux/alloc_tag.h
+> @@ -45,13 +45,17 @@ enum {
+>         ALLOCINFO_FILTER_FUNCTION,
+>         ALLOCINFO_FILTER_FILENAME,
+>         ALLOCINFO_FILTER_LINENO,
+> -       __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_LINENO
+> +       ALLOCINFO_FILTER_MIN_SIZE,
+> +       ALLOCINFO_FILTER_MAX_SIZE,
+> +       __ALLOCINFO_FILTER_LAST =3D ALLOCINFO_FILTER_MAX_SIZE
+>  };
+>
+>  #define ALLOCINFO_FILTER_MASK_MODNAME          (1 << ALLOCINFO_FILTER_MO=
+DNAME)
+>  #define ALLOCINFO_FILTER_MASK_FUNCTION         (1 << ALLOCINFO_FILTER_FU=
+NCTION)
+>  #define ALLOCINFO_FILTER_MASK_FILENAME         (1 << ALLOCINFO_FILTER_FI=
+LENAME)
+>  #define ALLOCINFO_FILTER_MASK_LINENO           (1 << ALLOCINFO_FILTER_LI=
+NENO)
+> +#define ALLOCINFO_FILTER_MASK_MIN_SIZE         (1 << ALLOCINFO_FILTER_MI=
+N_SIZE)
+> +#define ALLOCINFO_FILTER_MASK_MAX_SIZE         (1 << ALLOCINFO_FILTER_MA=
+X_SIZE)
+>
+>  #define ALLOCINFO_FILTER_MASKS \
+>         ((1 << (__ALLOCINFO_FILTER_LAST + 1)) - 1)
+> @@ -59,6 +63,8 @@ enum {
+>  struct allocinfo_filter {
+>         __u64 mask; /* bitmask of the filter fields used */
+>         struct allocinfo_tag fields;
+> +       __u64 min_size;
+> +       __u64 max_size;
+>  };
+>
+>  struct allocinfo_get_at {
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index 5feb61d9fb92..b3d21834b61e 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -195,15 +195,26 @@ static int allocinfo_cmp_str(const char *str, const=
+ char *template)
+>         return strncmp(allocinfo_str(str), template, ALLOCINFO_STR_SIZE);
+>  }
+>
+> +/* Fetch the per-CPU counters */
+> +static inline struct alloc_tag_counters allocinfo_prefetch_counters(stru=
+ct codetag *ct)
+> +{
+> +       return alloc_tag_read(ct_to_alloc_tag(ct));
+> +}
+> +
+>  /*
+>   * Populates the UAPI allocinfo_tag_data structure with active runtime
+>   * profiling counters extracted from the given kernel codetag.
+>   */
+>  static void allocinfo_to_params(struct codetag *ct,
+> -                               struct allocinfo_tag_data *data)
+> +                               struct allocinfo_tag_data *data,
+> +                               struct alloc_tag_counters *counters)
+>  {
+> -       struct alloc_tag *tag =3D ct_to_alloc_tag(ct);
+> -       struct alloc_tag_counters counter =3D alloc_tag_read(tag);
+> +       struct alloc_tag_counters local_counters;
+> +
+> +       if (!counters) {
+> +               local_counters =3D allocinfo_prefetch_counters(ct);
+> +               counters =3D &local_counters;
+> +       }
+>
+>         if (ct->modname)
+>                 allocinfo_copy_str(data->tag.modname, ct->modname);
+> @@ -212,9 +223,9 @@ static void allocinfo_to_params(struct codetag *ct,
+>         allocinfo_copy_str(data->tag.function, ct->function);
+>         allocinfo_copy_str(data->tag.filename, ct->filename);
+>         data->tag.lineno =3D ct->lineno;
+> -       data->counter.bytes =3D counter.bytes;
+> -       data->counter.calls =3D counter.calls;
+> -       data->counter.accurate =3D !alloc_tag_is_inaccurate(tag);
+> +       data->counter.bytes =3D counters->bytes;
+> +       data->counter.calls =3D counters->calls;
+> +       data->counter.accurate =3D !alloc_tag_is_inaccurate(ct_to_alloc_t=
+ag(ct));
+>  }
+>
+>  /*
+> @@ -238,7 +249,9 @@ static int allocinfo_ioctl_get_content_id(struct seq_=
+file *m, void __user *arg)
+>   * Verifies whether a given codetag satisfies the active filtering crite=
+ria by
+>   * matching its characteristics against the specified filter.
+>   */
+> -static bool matches_filter(struct codetag *ct, struct allocinfo_filter *=
+filter)
+> +static bool matches_filter(struct codetag *ct, struct allocinfo_filter *=
+filter,
+> +                          struct alloc_tag_counters *counters,
+> +                          bool *fetched_counters)
+>  {
+>         if (!filter || !filter->mask)
+>                 return true;
+> @@ -265,6 +278,19 @@ static bool matches_filter(struct codetag *ct, struc=
+t allocinfo_filter *filter)
+>             ct->lineno !=3D filter->fields.lineno)
+>                 return false;
+>
+> +       if (filter->mask & (ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FI=
+LTER_MASK_MAX_SIZE)) {
+> +               if (!*fetched_counters) {
+> +                       *counters =3D allocinfo_prefetch_counters(ct);
+> +                       *fetched_counters =3D true;
+> +               }
+> +               if ((filter->mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +                   counters->bytes < filter->min_size)
+> +                       return false;
+> +               if ((filter->mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +                   counters->bytes > filter->max_size)
+> +                       return false;
+> +       }
+> +
+>         return true;
+>  }
+>
+> @@ -278,6 +304,8 @@ static int allocinfo_ioctl_get_at(struct seq_file *m,=
+ void __user *arg)
+>         struct codetag *ct;
+>         struct allocinfo_get_at params =3D {0};
+>         __u64 skip_count;
+> +       struct alloc_tag_counters counters;
+> +       bool fetched_counters;
+>
+>         if (copy_from_user(&params, arg, sizeof(params)))
+>                 return -EFAULT;
+> @@ -285,6 +313,11 @@ static int allocinfo_ioctl_get_at(struct seq_file *m=
+, void __user *arg)
+>         if (params.filter.mask & ~ALLOCINFO_FILTER_MASKS)
+>                 return -EINVAL;
+>
+> +       if ((params.filter.mask & ALLOCINFO_FILTER_MASK_MIN_SIZE) &&
+> +           (params.filter.mask & ALLOCINFO_FILTER_MASK_MAX_SIZE) &&
+> +           params.filter.min_size > params.filter.max_size)
+> +               return -EINVAL;
+> +
+>         priv =3D m->private;
+>
+>         mutex_lock(&priv->ioctl_lock);
+> @@ -308,7 +341,8 @@ static int allocinfo_ioctl_get_at(struct seq_file *m,=
+ void __user *arg)
+>         ct =3D codetag_next_ct(&priv->ioctl_iter);
+>
+>         while (ct) {
+> -               if (matches_filter(ct, &priv->filter)) {
+> +               fetched_counters =3D false;
+> +               if (matches_filter(ct, &priv->filter, &counters, &fetched=
+_counters)) {
 
+Do we really need this "fetched_counters" parameter? Here are the
+possible cases:
+1. If the filter does not include ALLOCINFO_FILTER_MASK_MIN_SIZE |
+ALLOCINFO_FILTER_MASK_MAX_SIZE then counters would not be fetched.
+2. If the filter includes ALLOCINFO_FILTER_MASK_MIN_SIZE |
+ALLOCINFO_FILTER_MASK_MAX_SIZE and
+2.1. matches_filter() returns true then we know counters were fetched
+because they had to be validated.
+2.2. matches_filter() returns false then we don't care if the counters
+were fetched. We do not report that tag anyway.
 
-On 6/16/26 19:00, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 6/12/26 9:56 AM, Moger, Babu wrote:
->> Hi Reinette,
->>
->> On 6/11/2026 6:23 PM, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 4/30/26 4:24 PM, Babu Moger wrote:
->>>> Customers have identified an issue while using the QoS resource Control
->>>
->>> "Control" -> "control"?
->>>
->>
->> ack
->>
->>>> feature. If a memory bandwidth associated with a CLOSID is aggressively
->>>
->>> "a memory bandwidth" -> "memory bandwidth"?
->>
->> ack.
->>
->>>
->>>> throttled, and it moves into Kernel mode, the Kernel operations are also
->>>
->>> What does "it" refer to here? From text it seems to be the "CLOSID" but that
->>> does not sound right? Should "it" instead be something like "a task with that
->>> CLOSID"?
->>
->> sure.
->>
->>>
->>> "Kernel" -> "kernel"?
->>
->> ack.
->>>
->>>> aggressively throttled. This can stall forward progress and eventually
->>>> degrade overall system performance. AMD hardware supports a feature
->>>> Privilege-Level Zero Association (PLZA) to change the association of the
->>>> thread as soon as it begins executing.
->>>
->>> "change the association of the thread as soon as it begins executing." I am
->>> not able to parse this.
->>
->> How about ?
->>
->> Customers have identified an issue while using the QoS resource Control
->> feature. If memory bandwidth associated with a CLOSID is aggressively
->> throttled, and a task with that CLOSID moves into kernel mode, the kernel operations are also aggressively throttled. This can stall forward progress and eventually degrade overall system performance.
->> AMD hardware supports a feature Privilege-Level Zero Association (PLZA)
->> to change the CPU association at the user-to-kernel transition, so the kernel execution can use a different association than user mode.
-> 
-> "change the CPU association at the user-to-kernel transition" -> What is this
-> trying to describe? CPU association of what?
-> 
-> "a different association"? What does this mean?
-> 
+So, instead of passing fetched_counters to matches_filter() we could do thi=
+s:
 
-Will change it to:
+bool filter_by_size =3D (params.filter.mask &
+(ALLOCINFO_FILTER_MASK_MIN_SIZE | ALLOCINFO_FILTER_MASK_MAX_SIZE)) !=3D
+0;
+while (ct) {
+           if (matches_filter(ct, &priv->filter, &counters)) {
+...
+}
+if (ct) {
+           allocinfo_to_params(ct, &params.data, filter_by_size ?
+&counters : NULL);
+...
+}
 
-AMD hardware supports a feature Privilege-Level Zero Association (PLZA),
-which allows the CPU’s CLOSID association to be changed during the 
-transition from user mode to kernel mode. This enables the kernel to 
-operate with a different CLOSID than the user mode.
+Wouldn't that work?
 
-
->>
->> Privilege-Level Zero Association (PLZA) allows the user to specify a> CLOSID and/or RMID associated with execution in Privilege-Level
->> Zero. When enabled on a CPU, as the CPU enters Privilege-Level Zero,
->> allocation and monitoring for that CPU will be associated with the
->> PLZA CLOSID and/or RMID. Otherwise, the CPU will be associated with
->> the CLOSID and RMID given by PQR_ASSOC.
-> 
-> 
-> Sounds like this is vague because MSR_IA32_PQR_PLZA_ASSOC has not been
-> introduced yet. Could it help to introduce MSR_IA32_PQR_PLZA_ASSOC as
-> part of this patch and then the changelog can be specific about PLZA
-> feature introducing this new MSR and how it complements MSR_IA32_PQR_ASSOC?
-
-Its probably better to remove the second paragraph. This text can go 
-with the patch which introduces MSR_IA32_PQR_PLZA_ASSOC.
-
-With splitting the patch, this will only have cpufeatures changes.
-
-> 
-> ...
-> 
->>>>    Documentation/admin-guide/kernel-parameters.txt | 2 +-
->>>>    arch/x86/include/asm/cpufeatures.h              | 1 +
->>>>    arch/x86/kernel/cpu/resctrl/core.c              | 2 ++
->>>>    arch/x86/kernel/cpu/scattered.c                 | 1 +
->>>
->>> Please split changes to other subsystems and make these changes
->>> obvious with their own subject prefix to avoid sneaking changes into
->>> other subsystems via resctrl.
->>>
->>
->> Ok. Will be two patches.
->> 1. For Documentation/admin-guide/kernel-parameters.txt
->> 2.  arch/x86/include/asm/cpufeatures.h
->>      arch/x86/kernel/cpu/resctrl/core.c
->>      arch/x86/kernel/cpu/scattered.c
-> 
-> The resctrl changes found in (2) would be documented in (1)? That does not
-> look right. Why not just split the resctrl changes from the cpufeatures changes?
-> This would be similar to how you did ABMC enabling.
-> 
-
-Sounds good.
-
-Thanks
-Babu
+>                         if (skip_count =3D=3D 0)
+>                                 break;
+>                         skip_count--;
+> @@ -317,7 +351,7 @@ static int allocinfo_ioctl_get_at(struct seq_file *m,=
+ void __user *arg)
+>         }
+>
+>         if (ct) {
+> -               allocinfo_to_params(ct, &params.data);
+> +               allocinfo_to_params(ct, &params.data, fetched_counters ? =
+&counters : NULL);
+>                 priv->positioned =3D true;
+>         }
+>
+> @@ -343,6 +377,8 @@ static int allocinfo_ioctl_get_next(struct seq_file *=
+m, void __user *arg)
+>         struct codetag *ct;
+>         struct allocinfo_tag_data params;
+>         int ret =3D 0;
+> +       struct alloc_tag_counters counters;
+> +       bool fetched_counters;
+>
+>         memset(&params, 0, sizeof(params));
+>         priv =3D m->private;
+> @@ -356,10 +392,15 @@ static int allocinfo_ioctl_get_next(struct seq_file=
+ *m, void __user *arg)
+>         }
+>
+>         ct =3D codetag_next_ct(&priv->ioctl_iter);
+> -       while (ct && !matches_filter(ct, &priv->filter))
+> +       while (ct) {
+> +               fetched_counters =3D false;
+> +               if (matches_filter(ct, &priv->filter, &counters, &fetched=
+_counters))
+> +                       break;
+>                 ct =3D codetag_next_ct(&priv->ioctl_iter);
+> +       }
+> +
+>         if (ct)
+> -               allocinfo_to_params(ct, &params);
+> +               allocinfo_to_params(ct, &params, fetched_counters ? &coun=
+ters : NULL);
+>
+>         if (!ct) {
+>                 priv->positioned =3D false;
+> --
+> 2.54.0.1136.gdb2ca164c4-goog
+>
