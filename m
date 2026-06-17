@@ -1,195 +1,205 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9268238332F
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 08:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679463932D1
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 08:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781684807; cv=none; b=E+mxbYPo6oJetnU9ykfDmSxyihpw8qJMtZwDtL9mtjpSlIbaNordlYosnhAKmN3USMyVhZ+hbSccSTCznogGve2QIjCPNpJjNRY5zAmhR7j40IA+7wqNSvEPn80Xv9QBjer4p+ek+Rm3JsLoropbFKselPW2gtaPAD3gQBFhrl0=
+	t=1781685623; cv=none; b=cPCuYa5yGpx7O3U7lGZj+XDWO6E1vHUQiAZREVymiFUASDNU4JtCW9SPiIKv9vq+2Du+axZvp8EKdjTXZq8qwK+78yFPOsjzgE4LIhUMNMS69HsvqMmD6apyk3dL0lh4LdaKuE1MB5YS4jA3aBci8jwLyTQ6nmVRmU+bELkwulA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781684807; c=relaxed/simple;
-	bh=C0U+32GwJ4K0nGpIroKkA0XQuytFUnwuQ08KdAJjTbs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EqTYIjlC/DsC/bCN+DcsmwsRHcZp+YPpDyclmEY5AsJsH3aUqwASpeuLMN3IJ9caAEM8y1aXcN/Ht5pRaVI08k42bAtx0+o1rOEuT9dx3aTJ39SXeDqKQi8icQihu21KVa6UQ6idzht+E7p84+kRa8mE9XlJ1EKNl4YyzGXFQ5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-59eb501bcf0so1850277e0c.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 01:26:45 -0700 (PDT)
+	s=arc-20240116; t=1781685623; c=relaxed/simple;
+	bh=De2vm6RyRU0iSQKNzaduSyNa+wrDdzJVxawvD4Hxjh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJAecaZ8xXYTEoTopFbOWwOk8hc4Pmb7aAIwXk1HOoRH9sDPTXMS1n7rmmlsSYcWFjWGxpoZF8ZldIcBuMog5c8nVY13o+cZsncprR24BPoZFQoU9OI0aECsTFqMgq8rF68gvEebZHt8a2JQykTdD5qMbxcvLfTJysXJz3a2SpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Xb8hVNsd; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Xb8hVNsd"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45eeea039ebso3130115f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 01:40:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1781685619; x=1782290419; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=idF8TdiXvEwuoIpI0e/Gphntv25+7UUd8M2Ri2FF3/I=;
+        b=Xb8hVNsd0pwgKsfFiLK7+3VOli8GpzDnzdgpnPkDOoFzmWHBBPELf+T3YKx5d4fNQZ
+         zl3LHwyfd3ouRxec19H9VrMAnKDVZO5fHH9dYnbS48saVkpIEt6QNWln5InyRpEAt4pS
+         xfF/DspQFSDXAiQaZAcuGZg4igyWZfr888GX9rvTfWISZZ+nDrDFJBmZOe5+aCAk68MP
+         HGgV/HaDISem5CgufliWUK8lJ2SGYg7/U6h6iUQjp3mGLAdPXUDlNuL1EKRzXSUuJ4em
+         59jqBsAt9DUSJ8FUUuBHXLoxI+OHXHjKZnKAd4YrFVYtX6J0qg0pf/8ycJfBfr+pXhdZ
+         0p8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781684804; x=1782289604;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NH6hocZNylot+M4XVVVgASnxnSv/8JW5bdpWIVIZHYU=;
-        b=CHki3Abrz+KDNW709i3DC4ggjXsRsKBJk1lS2rSphPpIfZ1tfbu7DmsxKHoxHo7LVW
-         1Ibk5GoRydH0XDHFadJSYGzras8bO67Amu5A093sLqq3TjhAUQkNIpMPasFdXvOnatH8
-         9iubqP2VgRFuWgCwHTpNd8CWnFLbxkuT7mI3xxuEk1Y0OBcq/h5qi2u9/6erZjuL9fw5
-         sLgOsc/lu6ApPTl1XVNY1Kln8HBjw4huXM0+XLQi0fdkGpybDK/l7APGbolz2NxV+Yws
-         DgvfATLul6C5edONZk7jPgEB+7jX+jv3zsujbg3KwUvCYWFm+1DCipIivVXghRg8Lmp3
-         IBQg==
-X-Forwarded-Encrypted: i=1; AFNElJ8RN6Db/EoKPZhkMq4eeVOfeaeXNzqUYXWAMygddaonL+GmAe46V3qaq5E/xxvla4K5ui1otYWlnZA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU2wNE6z5RrQZaPNuYxkOwmpQQO4uGLGJB7/gdz4cu2ngusaJC
-	2ijEizZFkuCSA4Koj8SmW2cJs2RqRuJRRZupNJ6X+diQPby7HsngN/HKbGaYs/lm
-X-Gm-Gg: Acq92OEFAhmQmkXZid8YzppQDtI4TLoVlZxRpLm/NgiG7Kc2cgomR0zSTBaO/Umb2zl
-	HkvpN2zbDuT5tNjE3HuCnY9qdiqlOrguEV24h9CAPKmAUNf9LtgRu5kYmkLTye3t/jMFVHoiZaN
-	POXYNSX2Sg0jUIJvD2UDq211aYqqC2l+SGRbXJYGuSiRdwy52DHOB2ChyKmOV79fYyhCxGIBDPQ
-	3fN6JGRHkLJVBsnOunqG9gPRUkt/H23r8CUnDLthsAHE1z0mUBLlY141hnr7qBMmQIAqiFksbdS
-	SPrRLkDsazET5htPMBHqRJQKFEsbeV67C0xJzSY2HecOffBiaCDwmbxwDxe74h8val6RFpRb1kv
-	Ae15SgplIhP3N+FrtySGk9kzrW1o2X8yoFvu+aexiahfesg+u8luhXgUJ94GlMzg3vPRiu8qqit
-	ex9ZFrTKhHRRPfI8xyZlvDRGT7apNQqxhmkzfRll7DuV1lIRGJ5snmKK4ee+R4
-X-Received: by 2002:a05:6122:320b:b0:5a3:5938:6935 with SMTP id 71dfb90a1353d-5bbbe620f87mr1229536e0c.6.1781684804487;
-        Wed, 17 Jun 2026 01:26:44 -0700 (PDT)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bb901f2d7bsm7848469e0c.17.2026.06.17.01.26.43
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 01:26:44 -0700 (PDT)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6c3099b11a9so2223320137.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 01:26:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8HIPU2VHOOjBGcn9AgxmoD7lHNoOCbvLSZtT61SUZil8NECLBBaIfRLFvWSH4WMW6yTlb2/9tObIM=@vger.kernel.org
-X-Received: by 2002:a05:6102:4b03:b0:632:3bb5:95f1 with SMTP id
- ada2fe7eead31-7246d528766mr1135210137.27.1781684803531; Wed, 17 Jun 2026
- 01:26:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781685619; x=1782290419;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=idF8TdiXvEwuoIpI0e/Gphntv25+7UUd8M2Ri2FF3/I=;
+        b=lJKeLdysk+qL2PSujUz+Os4zyBWTZjgVzxhkpBSsKP5sMF90G9sL8LJoegVOXKB0SY
+         2IMU0YmzaY7kNVBN6ezCoKpjwGPn8NTfJFRItrIh6IOMADINel9trPPZhclZrTiQMNg6
+         h1b56dv5kzGoTlT82AB4+0lwfGk+w9its31mA989gWG9yK0kQr03e0K8XZLxfuFfRVSH
+         +TPm3Sk7q8E7I8/wFkfWNpvdte6z3xLk9d+hB4Ew5k/DIojE7wes3uF6oR3l6I1q5gEE
+         OAj4wgbCvWSGn3O3MZYOaeAYmC6Uk1bMYqC1eYO052MVaU2QED6hwO41rx9cnObjJfS/
+         zi0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8yu/FxBMmaNvp/4WGedix2sGo87RfWRiOrDeAOArw/LZJUI+Jl44IV2qof/PiGRZLH1OnSAaL/ntY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDROK+r3qPFwvJm391KVoswpchb0kuuncC8B0uMPvRXDbMVa3c
+	++jAgj0GciUdkIe2HfF8paM4TCvufquxiaq1r35xlqlgNNrJlzRoDCmWP2/dVXuj054=
+X-Gm-Gg: AfdE7clf6lIPWV0DJ/beMbEpf7F0NUsEUyNAmvTeW6Ko5ib87v2+ZD4MCcpZDq34lYG
+	AUGeXHDY2RwG3mBR9ekHEHyF8eMUCNuFsm4bwbXOdoSezNE3LvNIYsP6xGyTY3/6DwQ4GHVZbs/
+	sEVtmx/xMFypi/cup9rbROxd5x0HH6gDo9segzAuiUZ/jbWu2WF+WUlMKaSkEInVpxQHJBSsDlq
+	Bn7ki7lyVRDYyCQ/SChtXoNmgDs0vpUpUmzU2V6sNworsLOUk2KYuAVjv6yX5es+qrkKec1VWvw
+	kcYMKOZtNlE8yLlrddvtmCYXHnQDscb8Fq4D+57b6agzOlDf6iPGb9R9UqzMz0u3V7TM9Zm5ew4
+	Nwsj9lDt3YRhPnAeKTTRJ2Bab3vbPgf6CVj5TkxiMFITB3dh6lK5qQGzxKoiXRo9szlDnYteqsp
+	1cxymOqWK7Bb7krQHQlH3moo6AhvytjGoqGn3RKE8UoMRlXV8lHC5HzXeaBb3lamlxuqz/IvI4j
+	R0u
+X-Received: by 2002:a05:6000:1889:b0:45e:f31a:7ae6 with SMTP id ffacd0b85a97d-46238f97e32mr5037115f8f.30.1781685618753;
+        Wed, 17 Jun 2026 01:40:18 -0700 (PDT)
+Received: from localhost (p200300f65f47db04bc2080ea3c93ea6d.dip0.t-ipconnect.de. [2003:f6:5f47:db04:bc20:80ea:3c93:ea6d])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-462236047c8sm7325308f8f.10.2026.06.17.01.40.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 01:40:17 -0700 (PDT)
+Date: Wed, 17 Jun 2026 10:40:16 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com, 
+	sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch, corbet@lwn.net, 
+	kuba@kernel.org, horms@kernel.org, linux-doc@vger.kernel.org, pabeni@redhat.com, 
+	vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com, edumazet@google.com, 
+	enelsonmoore@gmail.com, skhan@linuxfoundation.org, hkallweit1@gmail.com, 
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v18 net-next 01/11] net/nebula-matrix: add minimum nbl
+ build framework
+Message-ID: <ajJbmSZpmvOtYnG7@monoceros>
+References: <20260611044916.2383-1-illusion.wang@nebula-matrix.com>
+ <20260611044916.2383-2-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Jun 2026 10:26:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
-X-Gm-Features: AVVi8CfAqddoQorfQ6TrjH19DY2WU_w8lZ69fu1Z-CMFemynEW91v1W75EneBEs
-Message-ID: <CAMuHMdU0SJ0q2hcpu+qZCH3eZ5eFDyo8Z964h9DhuSaQ7QdHSg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a23ql32okbup4l6b"
+Content-Disposition: inline
+In-Reply-To: <20260611044916.2383-2-illusion.wang@nebula-matrix.com>
 
-Hi Marek,
 
-On Wed, 17 Jun 2026 at 05:00, Marek Vasut
-<marek.vasut+renesas@mailbox.org> wrote:
-> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
-> MSI are handled via GIC ITS. Configure all controller MSI registers
-> fully.
->
-> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
-> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
-> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
-> if MSI are enabled, clear both bits if MSI are disabled.
->
-> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
-> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
-> pass through of MSI TLPs onto the AXI bus and then further into
-> GIC ITS translation registers.
->
-> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
-> with target address of GIC ITS translation registers, and configure
-> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
-> GIC ITS. This specific configuration allows handling of MSI via the
-> GIC ITS instead of integrated iMSI-RX.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+--a23ql32okbup4l6b
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v18 net-next 01/11] net/nebula-matrix: add minimum nbl
+ build framework
+MIME-Version: 1.0
 
-Thanks for your patch!
-
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -31,6 +31,10 @@
->  #define DEVICE_TYPE_RC         BIT(4)
->  #define BIFUR_MOD_SET_ON       BIT(0)
->
-> +/* MSI Capability */
-> +#define MSICAP0                        0x0050
-> +#define MSICAP0_MSIE           BIT(16)
-> +
->  /* PCIe Interrupt Status 0 */
->  #define PCIEINTSTS0            0x0084
->
-> @@ -55,6 +59,16 @@
->  #define APP_HOLD_PHY_RST       BIT(16)
->  #define APP_LTSSM_ENABLE       BIT(0)
->
-> +/* INTC address */
-> +#define AXIINTCADDR            0x0a00
-> +/* GITS GIC ITS translation register */
-> +#define AXIINTCADDR_VAL                0xf1050000
-> +
-> +/* INTC control & mask */
-> +#define AXIINTCCONT            0x0a04
-> +#define INTC_EN                        BIT(31)
-> +#define INTC_MASK              GENMASK(11, 2)
-> +
->  /* PCIe Power Management Control */
->  #define PCIEPWRMNGCTRL         0x0070
->  #define APP_CLK_REQ_N          BIT(11)
-> @@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
->         return rcar;
->  }
->
-> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
+On Thu, Jun 11, 2026 at 12:49:00PM +0800, illusion.wang wrote:
+> +static int nbl_probe(struct pci_dev *pdev,
+> +		     const struct pci_device_id *id)
 > +{
-> +       struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +       struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +       u32 val;
-> +
-> +       /* Make sure MSICAP0 MSIE is configured. */
-> +       val = dw_pcie_readl_dbi(dw, MSICAP0);
-> +       if (pci_msi_enabled())
-> +               val |= MSICAP0_MSIE;
-> +       else
-> +               val &= ~MSICAP0_MSIE;
-> +       dw_pcie_writel_dbi(dw, MSICAP0, val);
-> +
-> +       if (!pci_msi_enabled() || pp->use_imsi_rx) {
-> +               /* Clear AXIINTC mapping. */
-> +               writel(0, rcar->base + AXIINTCADDR);
-> +               writel(0, rcar->base + AXIINTCCONT);
-> +       } else {
-> +               /* Point AXIINTC to GIC ITS and enable. */
-> +               writel(AXIINTCADDR_VAL, rcar->base + AXIINTCADDR);
-> +               writel(INTC_EN | INTC_MASK, rcar->base + AXIINTCCONT);
-> +       }
-> +
-> +       /* Configure MSI interrupt signal */
-> +       val = readl(rcar->base + PCIEINTSTS0EN);
-> +       if (pci_msi_enabled())
-> +               val |= MSI_CTRL_INT;
-> +       else
-> +               val &= ~MSI_CTRL_INT;
-> +       writel(val, rcar->base + PCIEINTSTS0EN);
+> +	return 0;
 > +}
 > +
->  static int rcar_gen4_pcie_enable_device(struct pci_host_bridge *bridge,
+> +static void nbl_remove(struct pci_dev *pdev)
+> +{
+> +}
+> [...]
+> +static const struct pci_device_id nbl_id_table[] = {
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T_OCP),
+> +	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
+> +			 BIT(NBL_CAP_IS_LEONIS_BIT) },
+> +	/* required as sentinel */
+> +	{
+> +		0,
 
-FTR, this has a contextual dependency on "[PATCH v2] PCI: rcar-gen4:
-Limit Max_Read_Request_Size and Max_Payload_Size to 256 Bytes"
-(https://lore.kernel.org/all/20260519195219.189323-1-marek.vasut+renesas@mailbox.org).
+Please drop this zero. The most usual style is `{ }`.
 
->                                         struct pci_dev *dev)
->  {
+> +	}
+> +};
+> +MODULE_DEVICE_TABLE(pci, nbl_id_table);
+> +
+> +static struct pci_driver nbl_driver = {
+> +	.name = NBL_DRIVER_NAME,
+> +	.id_table = nbl_id_table,
+> +	.probe = nbl_probe,
+> +	.remove = nbl_remove,
+> +};
 
-Gr{oetje,eeting}s,
+The pci bus probe function has (pci_device_probe() ->
+__pci_device_probe()):
 
-                        Geert
+        int error = 0;
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+        if (drv->probe) {
+		...
+	}
+	return error;
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So given that the probe function does nothing apart from returning zero,
+you can just drop .probe(). (There is an additional check against
+.id_table, but I'm pretty sure that isn't relevant because
+pci_bus_match() already makes sure that there is a match.) The same is
+true for .remove().
+
+Best regards
+Uwe
+
+--a23ql32okbup4l6b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoyXW4ACgkQj4D7WH0S
+/k4b1Qf/VkdAm0QAaJj1mxlAEWnW5vEI6PU2OQ2r1Zpjz5AtXue+SZQKUYEocLkO
+vfpxbrIRBEdWfRwzDD6nUSVHdrskz0thY+6sMBKApTmS87u0rZ2XfowILGKC/Eaj
+W29cjxuTVBQCqJ2uaUA2mULbwsA4aSPN0OvBFdKlA6zsfr93M7LZjTCi05nPEnnb
+sL7Kucgndltp43joiX3lRh3Mn9Rp9cQ/Gvpd47ndkS/af8MLqTCNVA6kiqX3n9fb
+sbw3evzS4V+U13JMFtF2JlBdsD01ikSJqo9MxQSzBf0zBZ3i+Zo7BR1b9xZcoPju
+ifnPegSEJcnE5swPqal9zV+L0MiuOg==
+=2nso
+-----END PGP SIGNATURE-----
+
+--a23ql32okbup4l6b--
