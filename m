@@ -1,148 +1,105 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B0533859A;
-	Wed, 17 Jun 2026 09:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781689249; cv=none; b=RSV//R7cqndh/oTEGP/fvH3RT0WHrxgvLw0MegZZJVLwjDcRV6R9QEOVl8ovC1ze5hLVia7KD1yEOJmfRpyV+lb3xs1vKItmD3Cl/5Wh4e+Q06AzI9iTnZIuhLUnDHa1xoUnAm8pQQz6rj5TsccIhQ5n2DvpdZNg5D7HlwCF3oQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781689249; c=relaxed/simple;
-	bh=aIQ0rqYNiHXa9y7GmYvya0yl5Baj2l98FKvSvypf6fI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aeM0SBN4h8wpxIsYRCwFdQdq63AgNS4q5nZtVusHQQjOvLX3drKA08X4U8sJwnSiv4DSEBGRYwk2tYpbrmzd7iUYmr67wCQyfjN93gEGQIFapPNQ4O1UWG36dy0uhojBbXKxGKB3M4shxDAqI755MIjAYsRz7XThVmH5Ob6oa3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=a1NqyOZT; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C2F391825;
+	Wed, 17 Jun 2026 10:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781692029; cv=pass; b=oGAxtTkszU+oNRfrvn5BK8te33pY+oAsfkoI1SjV7Vsi3tADfZdVW7nEkEB5IPJhuP+OQ+gCX/iLVCFHjtiPzV2nBRVC0BSGoJjN9r7PImFnN6IwkP/PZ6ckJDvfY55ALUGNiUA1l1VnEajRxgVmZnc/wH1USWm3NZzg+tZwb6g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781692029; c=relaxed/simple;
+	bh=gBvRjungQc+SjWsZcX2jvk4sfIR/H5rHSoI1Oj8gTEo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=Qf1xhiROkOzgDtghfT4TlkmLj34VL9j3rUkLWGqz/HqzLlYvSqeAiwSZsI6Xe3EnLRUCRB9rPyhJzSRejRl4yTuoZviykxZ2YTtMZP4pk7u/ANhDRdbZvJMMEVDrB7tpFRmiyKTHH7/yl56SGDaxMNGG3kVYY6n4Z+VBOgB4M2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b=ampRK/xP; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="a1NqyOZT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=o/OJ3K9rTkOIlY7WWVITVWwnzTwDC6V7F9kkJkXQoTo=; b=a1NqyOZTRvdH/2jRwOv2SEzPR4
-	w9g+aT75GU3bVUstqfQFMqP3TvZgSLyAKzSpai1RgWWTlBC4ZgxP0AB9tB2i2GqbQzG6I7zVdv0U5
-	r0eur5xDS7+7NiOIhnRSxPyGwzObWhKDLsAN57WGenyNSjVpZLcwBF7rMI0hVwbpz8jWJ3MsKwFxh
-	5n1GUJfkhzzJkXhsX6JsqcjeITzTZeuCnQVrDr5OkehVDKWLgFLskCp+Lb2PTJRkP23suSb6xkAOh
-	SR/lRmnaBOYtaw+7wAg8VeK2X1ur7ef62V/PCw1l+r7UuAAmSCooAWiSCshP2FTuujBJmPysig/9D
-	CiFgGAKw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wZmkn-00EWde-0g;
-	Wed, 17 Jun 2026 09:40:13 +0000
-Date: Wed, 17 Jun 2026 02:40:06 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v9 0/6] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-ID: <ajJq-uVRBH5SBkwK@gmail.com>
-References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=vignesh.raman@collabora.com header.b="ampRK/xP"
+ARC-Seal: i=1; a=rsa-sha256; t=1781692011; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Ue5oXAl9F7ELi+KTPstMmz2A+U3SMZPiGObgDbVkPUxcg3XZAqMS/3YlGNXbxObXG4JuiqHXLYi1gqtY+P+7wCbv5hFHcoSAMLF7Gz6gDjs6PGUfulUxe+l9i6jkJ7Hq+V9pFeP5aMgLvbLOTY6GO2d2ksQ9QQJl1YrMEOSAVtw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1781692011; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=1emWFubp8fhk0p8wRgcHjKQfLWOipWqTOmpA1GxvLXI=; 
+	b=lDIdzrikJzw019VkNxQoCtVB4Axfdf8zUIyIAf9zUTgtsUoxdq+IMe/oPwiOv98aGgv209fCqbrEWhPKpZHrWAQqLxhLJkiH4dcT+F4hTahCA9teycebqpfsO3S5u5ypKTTFFPj8BBa0ZtKn3aOaLe6LXHf1i9ymT7EinVDrKaE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=vignesh.raman@collabora.com;
+	dmarc=pass header.from=<vignesh.raman@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781692011;
+	s=zohomail; d=collabora.com; i=vignesh.raman@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=1emWFubp8fhk0p8wRgcHjKQfLWOipWqTOmpA1GxvLXI=;
+	b=ampRK/xP6cYVELmzPQ9ehi8thlId81Ohq1CmlAdFqHPl7vMwivuEe9MZsIPapF3Z
+	AEJzRQXww9cDgkiPZEcsIwUVLIIdatzTbcpmsbIYgp0udfQ/KmvywVJLv09VW4wQa68
+	KncITCltrnxisw1TwNxmRBA7yCrWQ4Zhz0//PCnY=
+Received: by mx.zohomail.com with SMTPS id 1781692010159756.5896442687364;
+	Wed, 17 Jun 2026 03:26:50 -0700 (PDT)
+Message-ID: <d8d515e4-1184-4898-b459-c1485f82ce8a@collabora.com>
+Date: Wed, 17 Jun 2026 15:56:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/doc: recommend forking drm/kernel rather than
+ uploading a distinct copy
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: Eric Engestrom <eric@engestrom.ch>,
+ Helen Koike <helen.fornazier@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260219135645.261192-1-eric@engestrom.ch>
+ <b7f86ada-a74d-4fb2-83d2-5b4ef18e00c4@collabora.com>
+Content-Language: en-US
+In-Reply-To: <b7f86ada-a74d-4fb2-83d2-5b4ef18e00c4@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
-X-Debian-User: leitao
+X-ZohoMailClient: External
 
-On Tue, Jun 09, 2026 at 03:56:54AM -0700, Breno Leitao wrote:
-> A multi-bit ECC error on a kernel-owned page that the memory failure
-> handler cannot recover is currently swallowed: PG_hwpoison is set, the
-> event is logged, and the kernel keeps running.  The corrupted memory
-> remains accessible to the kernel and either drives silent data
-> corruption or surfaces seconds-to-minutes later as an apparently
-> unrelated crash.  In a large fleet that delayed, unattributable crash
-> turns into significant engineering effort to root-cause; in a kdump
-> configuration, by the time the crash happens the original error
-> context (faulting PFN, MCE/GHES record, page state) is long gone.
-> 
-> This series adds an opt-in sysctl,
-> vm.panic_on_unrecoverable_memory_failure, that converts an
-> unrecoverable kernel-page hwpoison event into an immediate panic with
-> a clean dmesg/vmcore that still contains the original failure
-> context.  The default is disabled so existing workloads see no
-> change.
-> 
-> There is a selftest that test different cases, and I tested it using
-> the following variants:
-> 
->   ┌─────────┬──────────┬───────────────────────────────────────────────────────────┐
->   │ Variant │   PFN    │                          Result                           │
->   ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
->   │ rodata  │ 0x2600   │ Panic with "Memory failure: 0x2600: unrecoverable page"   │
->   ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
->   │ slab    │ 0x100032 │ Panic with "Memory failure: 0x100032: unrecoverable page" │
->   ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
->   │ pgtable │ 0x100000 │ Panic with "Memory failure: 0x100000: unrecoverable page" │
->   └─────────┴──────────┴───────────────────────────────────────────────────────────┘
-> 
-> Each one shows the same call trace, exactly the path the series builds:
-> 
->   hard_offline_page_store
->     → memory_failure
->       → action_result
->         → panic("Memory failure: %#lx: unrecoverable page")
+Hi,
 
-Debugging another issue earlier today, just found a kernel crash that is
-hitting a ignored page later in the day, and randomly misbehaving/crashing.
+On 20/02/26 11:08, Vignesh Raman wrote:
+> Hi Eric,
+> 
+> On 19/02/26 19:26, Eric Engestrom wrote:
+>> Signed-off-by: Eric Engestrom <eric@engestrom.ch>
+>> ---
+>>   Documentation/gpu/automated_testing.rst | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git ./Documentation/gpu/automated_testing.rst ./Documentation/ 
+>> gpu/automated_testing.rst
+>> index 62aa3ede02a5df3f590b..8a7328aef10ef39ee329 100644
+>> --- ./Documentation/gpu/automated_testing.rst
+>> +++ ./Documentation/gpu/automated_testing.rst
+>> @@ -99,7 +99,8 @@ How to enable automated testing on your tree
+>>   ============================================
+>>   1. Create a Linux tree in https://gitlab.freedesktop.org/ if you 
+>> don't have one
+>> -yet
+>> +yet, by forking https://gitlab.freedesktop.org/drm/kernel (this 
+>> allows GitLab
+>> +to internally track that these are the same git objects).
+> 
+> Reviewed-by: Vignesh Raman <vignesh.raman@collabora.com>
 
- Memory failure: 0x140ae: unhandlable page.
- Memory failure: 0x140ae: recovery action for get hwpoison page: Ignored                     <-- Ignored 
- loop0: detected capacity change from 0 to 15241056
- EDAC MC0: 1 UE multi-bit ECC on LP5x_0 LP5x_0 (node:0 card:0 module:0 rank:0 bank:2 device:28 row:42700 column:96
- {3}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 308
- {3}[Hardware Error]: event severity: recoverable
- {3}[Hardware Error]:  imprecise tstamp: 2026-06-16 02:50:03
- {3}[Hardware Error]:  Error 0, type: recoverable
- {3}[Hardware Error]:   section_type: memory error
- {3}[Hardware Error]:   physical_address: 0x0000000aeccde180
- {3}[Hardware Error]:   physical_address_mask: 0xfffffffffffff000
- {3}[Hardware Error]:   node:0 card:0 module:0 rank:0 bank:2 device:28 row:42700 column:960 requestor_id:0x0000000
- {3}[Hardware Error]:   error_type: 3, multi-bit ECC
- {3}[Hardware Error]:   DIMM location: LP5x_0 LP5x_0
- Memory failure: 0xaeccd: recovery action for dirty LRU page: Recovered
+Applied to drm-misc-next
 
- Internal error: synchronous external abort: 0000000096000410 [#1]  SMP
- Modules linked in: ghes_edac(E) squashfs(E) act_gact(E) sch_fq(E) tcp_diag(E) inet_diag(E) cls_bpf(E) evdev(E) sm
- CPU: 51 UID: 0 PID: 1 Comm: systemd Kdump: loaded Tainted: G   M       OE K     6.16.1-0_fbk2_0_gf40efc324cc8 #1
- Tainted: [M]=MACHINE_CHECK, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE, [K]=LIVEPATCH
- pstate: 834010c9 (Nzcv daIF +PAN -UAO +TCO +DIT +SSBS BTYPE=--)
- pc : clear_inode+0x34/0x108
- lr : proc_evict_inode.llvm.1771226604092943895+0x28/0x68
- sp : ffff800083f6f8d0
- x29: ffff800083f6f8e0 x28: 0000000000000011 x27: ffff0000c1378788
- x26: ffffffffffffffff x25: ffff800082747de0 x24: ffff0000c0ae9898
- x23: ffff8000819155f8 x22: ffff0000c0ae9888 x21: ffff0000c0ae9808
- x20: ffff0000c0ae9818 x19: ffff0000c0ae9788 x18: 000000000000001c
- x17: 0000000000000018 x16: 0000000000000040 x15: 0000000000000000
- x14: 0000000000000001 x13: 0000000000000000 x12: 0000000000002710
- x11: ffff0000c0ae9898 x10: ffff0000c1299b58 x9 : 0000000000000001
- x8 : ffff0000c0ae9900 x7 : ffff8000828db000 x6 : 0000000000005040
- x5 : ffffffffffffffff x4 : ffffffdfc05c8aa0 x3 : ffff000126470000
- x2 : ffffffffffffffff x1 : 0000000000000000 x0 : ffff0000c0ae9788
- Call trace:
-  clear_inode+0x34/0x108 (P)
-  proc_evict_inode.llvm.1771226604092943895+0x28/0x68
-  evict+0xec/0x328
-  iput+0xa8/0x310
-  dentry_unlink_inode+0xa4/0x188
-  __dentry_kill+0x74/0x358
-  shrink_dentry_list+0xc8/0x198
- ....
+Thanks.
+
+> 
+> Regards,
+> Vignesh
+> 
+>>   2. In your kernel repo's configuration (eg.
+>>   https://gitlab.freedesktop.org/janedoe/linux/-/settings/ci_cd), 
+>> change the
+> 
+
