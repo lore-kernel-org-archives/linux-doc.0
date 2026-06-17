@@ -1,45 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA8931E823;
-	Wed, 17 Jun 2026 18:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E7A25B663;
+	Wed, 17 Jun 2026 18:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781720941; cv=none; b=t9FPDozrukDYKLwqj4Gi5UD8TWd/XE+UP1loEBxhAfVVF33ZB7Si6TeJjVjo3LyfTXnjSiNu7zNipJdeH4lxhuZMiXunswyl+Tiiqpf0YSqZlXLux2tbIkKvr/aH003ZOhpGZCFlTbSoYm9JLN9p70GmBYNnh+2eRpV8sss67IA=
+	t=1781722110; cv=none; b=JpIwoZy1moMTaEOdpmJS8MI9LyHvPq3VHW3bWtbp9IEflXuK5nF8ZZvHdZ05Fm2J2xG4mr/UGAo0PbPHTvmyWXm1Bdfn6bZZ2pxbCFWyqR27VuNBWZ2mUxBi9hiPn6DuxN3T87XqDEg6VdCh4h/7+ZbomzDK5FoMM93XViFHrTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781720941; c=relaxed/simple;
-	bh=gesa1pTbIG65LQTWFGgI9JEkypfx0mAqXszwZsd5RME=;
+	s=arc-20240116; t=1781722110; c=relaxed/simple;
+	bh=mLFLeNpmjzgehFww9fNDVoyDeR9A/LMo8QS8CQ7CBIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NRTwx/btzH4MUIRJijjl+Q0j9fuAWJLpZJ+4p4Jho3WTTxrsqHuCB1GhAyUMDhFpOgB+8ZQ1nhMHdtqvtpCi9z5pP/pw6t0nDuDeGRKQNzlOQ925NeLeg1uXAlEd5QpZGiVb5zFdCFW/5h8Lt048CZs3H1KNiEuu0W2epy8Wc20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=la0c7O+C; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mar7I9LqH4uMyoVA77b+8X6Q4K1yi4/EKhDZf+EDBYQcK29qv5K699H7wd+WRER+ldXLkca/5JKAxngkt2lDoReBFJd1q6FEI/r/QP5lN7Ss7HbNZLN3Xlbzc/6tJOObub31SLUb/CZiTTUnC6P33LIEf0hig9JvBmdpqmYDiRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0jjWACc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="la0c7O+C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB46D1F000E9;
-	Wed, 17 Jun 2026 18:28:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0jjWACc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB851F000E9;
+	Wed, 17 Jun 2026 18:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781720939;
-	bh=hwTXKT1EWNTmd+zBnvgMaSU0bhs1xgsbFgpE70mME7M=;
+	s=k20260515; t=1781722108;
+	bh=wAJ/16SDwjLEOofHEjGBdhyMJ22bR01mfpkTmi9LqFg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=la0c7O+CxDdY61dPhd78+22LGdOku/1cGY08gVvxkzcIZdFQeBHRhLVanabeliUF8
-	 JpdIQEnd2ntNeka5WyYoIWz1vLwPcpk/yoZ4053foxf2ngPP5XrNzZZKAMYcq/g4xv
-	 B2Bl38KAf/MZMETEs86d+ed5g1O25faaEV4otDbcX6qYsJV1+/mUj+MNSYW0o9StkO
-	 V59XrbXrlk8t+JaIehn3v7zE5FpdRsMSimkAXiLPlKSdiUY3GVQrxxH6GVOGaLDwEs
-	 hTK+8wVbWSjKopNkos2n0iGH5mjN0oIQ0H1HfW0Q9M/vJ0KI/MMA3Yq92n4nuYvqzr
-	 rustaSbP31X6A==
-Date: Wed, 17 Jun 2026 21:28:49 +0300
+	b=S0jjWACcAyI73k4vozNk2hdrYq1Z/OE/QQr/fRC/3Fl/wMR6SalSveexvcnvhtP8P
+	 sq0k5gKrOkUnhySqDsFacXi4LLQFsE4ZV+6S6Ub2Ztim/SxxqlIirTQTZyDMRypJg5
+	 kTkhhdh10kVYN7b1AVsMojdJHHdWirds7fJByCy/bVzEjtn4hCnNqlP4c2Q76E07+J
+	 eG9/Y/c55qkexQaoCzKYrj0bGXa4hlplXuQ+cWnkw9qoLKXnMxH0IxuDBclIZDg6JE
+	 0jZ9y0rnn+J0b0RDlvVliyoQmsfZfKdlnUO5gBx+frcYJ50r+myYpGn0tA3W9QyChl
+	 toG4cYtw/dfLQ==
+Date: Wed, 17 Jun 2026 21:48:07 +0300
 From: Mike Rapoport <rppt@kernel.org>
-To: Jane Chu <jane.chu@oracle.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, jack@suse.cz,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev,
-	osalvador@suse.de, david@kernel.org, hughd@google.com,
-	baolin.wang@linux.alibaba.com, linmiaohe@huawei.com,
-	nao.horiguchi@gmail.com, lorenzo@kernel.org, peterx@redhat.com,
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] hugetlb: Use PAGE granularity index in exported
- i/f and adopt the common read_iter
-Message-ID: <ajLnYRJdtA5U996i@kernel.org>
-References: <20260617172534.1740152-1-jane.chu@oracle.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
+	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	hpa@zytor.com, robh@kernel.org, saravanak@kernel.org,
+	akpm@linux-foundation.org, bhe@redhat.com,
+	pasha.tatashin@soleen.com, pratyush@kernel.org,
+	ruirui.yang@linux.dev, rdunlap@infradead.org, peterz@infradead.org,
+	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+	kees@kernel.org, elver@google.com, kuba@kernel.org,
+	lirongqing@baidu.com, ebiggers@kernel.org, paulmck@kernel.org,
+	leitao@debian.org, coxu@redhat.com, Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com, osandov@fb.com, jbohac@suse.cz,
+	cfsworks@gmail.com, tangyouling@kylinos.cn,
+	sourabhjain@linux.ibm.com, ritesh.list@gmail.com,
+	adityag@linux.ibm.com, liaoyuanhong@vivo.com, seanjc@google.com,
+	fuqiang.wang@easystack.cn, ardb@kernel.org, chenjiahao16@huawei.com,
+	guoren@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org
+Subject: Re: [PATCH v16 00/10] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Message-ID: <ajLr53EK6mJbng-7@kernel.org>
+References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,37 +65,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260617172534.1740152-1-jane.chu@oracle.com>
+In-Reply-To: <20260608073459.3119290-1-ruanjinjie@huawei.com>
 
-Hi Jane,
+Hi Jinjie,
 
-On Wed, Jun 17, 2026 at 11:25:21AM -0600, Jane Chu wrote:
-> changes in v2:
->  - new patches 1-4: add hwpoison handling to filemap_read(),
->    thus replace hugetlbfs_read_iter() with generic_file_read_iter(),
->    suggested by Matthew [2];
->  - new patch 5: convert hugetlb fault handler's vmf->pgoff to PAGE_SIZE
->    granularity like the rest of mm fault handling convention, suggested
->    by Matthew [2];
->  - patch 6: fixed a bug in v1 pointed out by Usama Arif, also by syzbot;
->  - patch 8: did not pick the Acked-by from Oscar (for 5/6 in v1) due to
->    updates to the patch;
->  - patch 11: add VM_WARN_ON in hugetlb_unreserve_pages(), per Oscar;
-
-It seems that cow, hugetlb, GUP and HMM selftests trigger these WARN_ONs:
-
-https://github.com/linux-mm/linux-mm/actions/runs/27707843062/job/81960927740
-   
-> v1:
-> This series stems from a discussion with David. [1]
-> The series makes a small cleanup to a few hugetlb interfaces used
-> outside the subsystem by standardizing them on base-page indices.
-> Hopefully this makes the interface semantics a bit more coherent with
-> the rest of mm, while the internal hugetlb code continue to use hugepage
-> indices where that remains the more natural fit.
+On Mon, Jun 08, 2026 at 03:34:49PM +0800, Jinjie Ruan wrote:
+> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+> and crashk_cma memory are almost identical across different architectures,
+> This patch set handle them in crash core in a general way, which eliminate
+> a lot of duplication code.
 > 
-> [1] https://lore.kernel.org/linux-mm/9ec9edd1-0f4c-4da2-ae78-0e7b251a9e25@kernel.org/
-> [2] https://lore.kernel.org/linux-mm/aeZwAz6PcdlqSnJ2@casper.infradead.org/
+> And add support for crashkernel CMA reservation for arm64 and riscv.
+> 
+> This patch set is rebased on v7.1-rc1.
+
+Please rebase this set on v7.2-rc1 once that's out.
+
+I'm going to queue it in the liveupdate tree then to expose to the wider
+testing.
+
+Meanwhile it would be great to chase riscv and x86 maintainers for acks :)
 
 -- 
 Sincerely yours,
