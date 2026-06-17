@@ -1,119 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA753F6C2F;
-	Wed, 17 Jun 2026 13:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781704751; cv=none; b=mg93dz13CwVyfS3/PFSheYaY4ywA0L9hf0zlOQT1VA3WUW6B772l5ns2WmZkxdgRfNrjyfK0cKEqwrhoqUPiPKybVpTh5oJAane+8inzGqBcPNwtuIhZ+tmeJjqLuCATWk0JqqRt7SXb1igbRY1FQvqM3FqlXYIuB0naxQZ/TU8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781704751; c=relaxed/simple;
-	bh=qmjXhExzMbCkpNuMGsDzJsr6r2rhXpxK9SxkO/cXaOU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p4d20boGrhOqbZ3LHtL1ttn0P0Vgy1vW6wlBO9tkXD1sVj7vg2fN1iYua6w5gfoOjmmE7BrbJkLUSm/ydoAdcYyw4VSj/xfV6QlkXL6T+5XKlWz16TZjD7d6pFYQlbExVbKKiubrz/H0XfeBbMKKttc5YuL5xXtH/8d3JnQV4oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cwp4SwHR; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5644F407CD0
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 14:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781704895; cv=pass; b=ThxDfEo6wBfjlPl3Pzb8sCliyckI5LzZbqTfjOlJH7f+bt5zQwAEqaom1ii9+5u717GOAuG6DOHQjbgnB0we6jz7dfDYb4q54TnRccF/rsd5q5PcQ+BjLVzVhKDeFcCqwfhWEC+tsW1WW8ZXBdmpKqLZsXkLY7HnY2eatfl44Rg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781704895; c=relaxed/simple;
+	bh=d+DJYMfAXmvlnPojeQcYjc2FpmtRtc93BPdBcj/yJ2E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U25/oZCiuna8PR1779Gtv0Zzicr114t+/WhysuqSA6smUBtdYsQYAp0S2HOgK8whxNZsmSYnNhnO73DuKTs0eVKtlGKQ/tkOtT34ZuNcb/I/Iypg4be73o42lQTtNpEBdvQsNeoDbWLClsUvczEE4UzjJnpN16E+Q626fIhbBlQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WJJ7KIDw; arc=pass smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cwp4SwHR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B9C1F000E9;
-	Wed, 17 Jun 2026 13:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781704750;
-	bh=Nw1hFI6TGxp+LvW86By36bUZ2cPR1AXCKv5z9/ll768=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cwp4SwHRbXG4hfKFMLwOfN5aUSgofqCN3Eaf7BKn5yyTDSGzCnmSFStDO3UF/WGWo
-	 4kYaRFSjvixMc5W84KfwpgRtx8D9d/UvzeKL0c9+AIgY/cV/hNRU5in8qwHaPPiLFj
-	 25Tc1x2sFQSRR1rpdOS6m8VYFDqEqAUIrFH0/DWZ00XkehojlWU/SQBEugWYtxvFcm
-	 PbZMXZDHhjw4Ks+jldUCGjMWwnM0quqn9jm5fF+wms8Hhg6tWzCJkv1UW1BhuTxwG0
-	 Nncun/FZUHk7MGKoyaGktFjPCfu+tNfOlbudhzsmQZsT8110i5QgwiCZhXG1EDcVyg
-	 WzhJQK2FZJ2Iw==
-From: Chuck Lever <cel@kernel.org>
-To: NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Calum Mackay <calum.mackay@oracle.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v7 00/20] nfsd: add support for CB_NOTIFY callbacks in directory delegations
-Date: Wed, 17 Jun 2026 09:59:06 -0400
-Message-ID: <178170474157.1605926.7351578842122181978.b4-ty@b4>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260616-dir-deleg-v7-0-6cbc7eac0ade@kernel.org>
-References: <20260616-dir-deleg-v7-0-6cbc7eac0ade@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJJ7KIDw"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36d8b644473so4993435a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 07:01:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781704894; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hDrWVzBlH/nuyG6bAd4g3D0DWX7M8lwrmrREZBOOJ1SwostJs8nK+sQKNc+bq4H5pe
+         wVuq67/pihGIlfOwxqtbGFPmqRg96+cnEtTO6Ms5QvsciBxWArCEOROgWaBD+UMyj+1K
+         tSTXbgikaOjVN5mM7PNGDTkIOqo0iiDZl83SexwFHQcZbopMsfkhZnlDhtrGvwI4cQF8
+         1GF5uhe16uGhCd1023PXbfkXKO2San1X1vRrP428COTXyKSvd5nkMo33meV4XByHgrO+
+         eum3S9AiBPyIE3Ek12zX5OQclhw0q/Vv/cMetGoH8L9fqVDL6KthzYuoxNg9qE+pUMNS
+         a7bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tiRv+G39h+X8YKopQA1rD5KpEf5r1LXb2YHn926YfMc=;
+        fh=s9FkV0PLuBCYeZ5okjVdb73jDkZxLoN4m0AYxVWh0EY=;
+        b=FHuti6NnZ+qwz6gzYoLlXAIIiHusx2pdUxKwKu0wqi1ITagVbVGUB9quNJ+P4rryJO
+         roNbxGHlMQm/qIea1uqdxvlaluRP368rf5r+i69zzd1v3VyNirt6cN+9/fRHcGmY1u1U
+         xUKTyEclnMynuEtZzSzdMvSI3Q5Rd1PQA1U0YFi+0KqOTXM/yYgnAQ4meURU/6HTU6ju
+         neyIGh8PSkr5nvJcJ5owFtQkN1lwAQsyapqLr7C9eWBwWBgybBZTH022ywOTJtUq4iqz
+         sIvhQGR9rEIO94VkJIF/gIYOMMrSAMOVt5oHYYnMs/Nj2hctrSGGB5i0OTQ+lxHe0lNL
+         Gxvw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781704894; x=1782309694; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tiRv+G39h+X8YKopQA1rD5KpEf5r1LXb2YHn926YfMc=;
+        b=WJJ7KIDw1dDQ0IFIaYfeceXa/3cRIOQR3mRU1e7nsrzWNXgAMDRUX3sMK7s9Yyi5ck
+         faPDfgSDe4AyDQ2jyAdf6rOfJd8nywiH0h1DprjC58gEirhbZsL4DK4utX7XU6xx+NNU
+         UdoRGeTz052ebPyT8triSFNpYVCVKIvgQW+4MMA88l6MQqXqfvUjXR7x1pMfrjzGyVzj
+         LUHOlWg6WVFQRQQOTM/CThqtvrol55/lDWO8uojB1d+poktbgiH8iTFTLYEAtN13ZHNS
+         O0sWn8gURpJQj/HcYW9DptxkxqBvZcVdmRgwy264A1wPbty31SC60BGz4X5z6dNZe8IB
+         3RCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781704894; x=1782309694;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tiRv+G39h+X8YKopQA1rD5KpEf5r1LXb2YHn926YfMc=;
+        b=cuPB56c1ADZ0L1U+Wqd1Ts8srwwU2piWBgIcQgTI+BPlBDAkV2l+1gpRyTvuWY4h81
+         C7vJVY66gmPPulJzht8GGzdUWcjaZmdtIN2icyTt+QbtLtMRt6FusFbOX0+0qA0P7f7X
+         gKHfhoycF85b0g1OnUXM/fpWem0wUoJp+ySUGmxY8/VwtZZ4equqGpOzF7geL3hz0MZE
+         tDAJQlMm0kYtcBe69K65HA/CuifV2lG3j5S0VNk/jqSw95XJRvJKA71ocBs7zhtLsYSW
+         ymCRD195f12vmA/fscUWEPYbvp7odLr3xbP4IOIum21Ta80Wo1ZJxKt/d9BULR5FI/Jz
+         zm7w==
+X-Forwarded-Encrypted: i=1; AFNElJ8X9CN/xWmWDzmYMohtHrNj7kR/wvlsIvrRGxY5BEy9tdgGXIjVOpnCzDwIWd3XDSn6ryv2Mj7kKro=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx3ZTYg59IHj/MqPczDWbMYmlwESNipQe3ItgOgacHf2F76ZkC
+	JxsycC09RTYM/byGqm/IvGVar53FWfBcFBGPJ2yg6iJSlBf7/cTWlUcV/Zh8KFQCsMfoIkeUcYy
+	vEMdpgLtFphjPbz3d6rn6r+HWktjR4F8=
+X-Gm-Gg: AfdE7cnpALwedPCChs8JPsLjRHd8kLlhqJgvujuOLsHgfk+ZKP4yJgg1TkvaFUKcIWY
+	+0yUC8VDOCaslDjvQDjVz96haKwG4JWCnOdJi+ooAqZSE7oYWw3FDOuMv95n/G2TI0ELfQDNzNt
+	R0LObUZ/Ect4APDLscqDl481GdK322hYy1INLXz51aSvlHo2ot/yNu4Wz+gdrPTdyOT9nFVN3JF
+	bCljuWszakPoGtPBNzDR4xFkK7UnN8lCVhyPI52iQXlX9gZKARfrVoESIaw9r9GlcfR5BKFtrDy
+	faCPHwGsHeYnRKgaixrjrIjY3g==
+X-Received: by 2002:a17:90b:350c:b0:377:36af:c996 with SMTP id
+ 98e67ed59e1d1-37c947363e6mr4256111a91.21.1781704892396; Wed, 17 Jun 2026
+ 07:01:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260614-zram-swap-ops-block-register-v1-0-6c1a6639c222@gmail.com>
+ <20260616123646.GB21024@lst.de> <CAJxJ_jhK+zkpjhs3YsQ9RoasKYh+E0NweQci0sPAEY1ne5LmBA@mail.gmail.com>
+ <20260617061743.GA19844@lst.de>
+In-Reply-To: <20260617061743.GA19844@lst.de>
+From: Jianyue Wu <wujianyue000@gmail.com>
+Date: Wed, 17 Jun 2026 22:01:19 +0800
+X-Gm-Features: AVVi8CcmbYlKs19G5r-C0VfRk8c0vOg--A7ctAfStsGLM_YhFG6Fmldj3URh3So
+Message-ID: <CAJxJ_jiBFUwqZwbE1XQg4oKM0XDrBzZeScvJ0PAUqusG0CObvw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] mm/zram: route block swap I/O through swap_ops
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <bhe@redhat.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Minchan Kim <minchan@kernel.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Jens Axboe <axboe@kernel.dk>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 16 Jun 2026 07:58:43 -0400, Jeff Layton wrote:
-> This patchset builds on the directory delegation work we did a few
-> months ago to add support for CB_NOTIFY callbacks for some events. In
-> particular, creates, unlinks and renames. The server also sends updated
-> directory attributes in the notifications. With this support, the client
-> can register interest in a directory and get notifications about changes
-> within it without losing its lease.
-> 
-> [...]
+On Wed, Jun 17, 2026 at 2:17=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Wed, Jun 17, 2026 at 11:38:02AM +0800, Jianyue Wu wrote:
+> > Before I rework or drop the RFC, could you outline how you see that
+> > core-side model working? In particular:
+> >   - How should a compressed backend like zram or future block device
+> >     plug into swap_iocb / swap_ops?
+>
+> I don't think that is the right layer.  The virtual swap layer that is
+> currently in the process of being upstreamed is the right level, and
+> the actual swap devices or swap files are just a dumb backend for what
+> they higher level code does.
+>
+> >   - What role do you expect zram to keep while the legacy block interfa=
+ce
+> >     remains: current block swap only, or something else?
+>
+> For now we'll need to keep it working as-is.  It is heavily used in
+> android and potentially elsewhere.  Once we have zswap fully working
+> in the virtual swap layer world it might make sense to say never
+> compress again in zram when REQ_SWAP is set (or maybe a new
+> REQ_COPRESSED) so that we can use the core compression code without
+> breaking existing setups.
+>
+Hello Christoph,
 
-Applied to nfsd-testing, thanks!
+Thanks for the clarification.
 
-[01/20] nfsd: check fl_lmops in nfsd_breaker_owns_lease()
-        commit: 5829ecd7e99a7ed8da577f30a3818e219e0f939a
-[02/20] nfsd: add protocol support for CB_NOTIFY
-        commit: 02a63ce55455420340d9d90721ba6f0914301399
-[03/20] nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
-        commit: b08cfbdd37224bd6963735da9532744d11d52020
-[04/20] nfsd: allow nfsd to get a dir lease with an ignore mask
-        commit: 124ee5f1be54c060e0a23a0ac62ecd3802094a59
-[05/20] nfsd: update the fsnotify mark when setting or removing a dir delegation
-        commit: 08c7feaff63d6a14ff0b868b44a5d03e2ced99e4
-[06/20] nfsd: make nfsd4_callback_ops->prepare operation bool return
-        commit: da30d09e299cd9a8e3928ab555eca7f4dc332f61
-[07/20] nfsd: add callback encoding and decoding linkages for CB_NOTIFY
-        commit: 046b4a0e1817482e2017db5262734ca35c691fce
-[08/20] nfsd: use RCU to protect fi_deleg_file
-        commit: 7d47d06e04e03d05be4ae7febdf81a7365054995
-[09/20] nfsd: add data structures for handling CB_NOTIFY
-        commit: 0db43bdffdc39bbc076c09630c87710f6c2ce3eb
-[10/20] nfsd: add notification handlers for dir events
-        commit: b557e3bcc740d87b1fb0b5d0fd9743ae2d9e6ece
-[11/20] nfsd: apply the notify mask to the delegation when requested
-        commit: 718bee77fdb46cb4074b113aa40a3c82e49bf13b
-[12/20] nfsd: add helper to marshal a fattr4 from completed args
-        commit: 2c495d8ec198888447018689ad33c2d52e52cb48
-[13/20] nfsd: allow nfsd4_encode_fattr4_change() to work with no export
-        commit: 498a0c7ad8710daaf9e92040b325055cebc31747
-[14/20] nfsd: send basic file attributes in CB_NOTIFY
-        commit: b78e9993ec52676ccebb161fd65996e18372f6c4
-[15/20] nfsd: allow encoding a filehandle into fattr4 without a svc_fh
-        commit: c2959ab33014d9aaefd2782f414cf0b78b991efa
-[16/20] nfsd: add the filehandle to returned attributes in CB_NOTIFY
-        commit: b4d7483c6e50fb9382f2f4977ed7eae86e4264b9
-[17/20] nfsd: fix reply size estimate for GET_DIR_DELEGATION
-        commit: 7c8674f3963bc3f4d2472c70884d350164fff25b
-[18/20] nfsd: properly track requested child attributes
-        commit: 744500529a2d378084909bfd277af18e62ce34ac
-[19/20] nfsd: track requested dir attributes
-        commit: df3ecee7ae57f6e1042556fa5f7b5dcae3b7b26d
-[20/20] nfsd: add support to CB_NOTIFY for dir attribute changes
-        commit: 0c072553ca525d62c7e8e63a6ecb7e88f84d07e0
+I understand the goal is to have more common code in the core layer,
+with dumb backends. On the swap path, once core has already compressed
+the data, zram would only store it and not compress again, while
+non-swap use of zram stays as-is.
 
---
-Chuck Lever
-
+Thanks,
+Jianyue
