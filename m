@@ -1,166 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17243B71D1;
-	Wed, 17 Jun 2026 20:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFA632BF24
+	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 21:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781729776; cv=none; b=TKEycs9WspM1qFGxQ8Dww2ckoKTtC9xcIME80Zw3UYefeMNqHdi0a3yyUul8vdVoF8zEx0kwLt4Ouejlj1MfslwLsJ7Ae5viB0ESkK+o/AoQMx71qUfBkHhCC725tpOYcEZ9Gt3+24g9hh7O+p3lThUYZxEVvjpPUGUjdWg+UsY=
+	t=1781732659; cv=none; b=S9Ojz3HzFtwJRmgJ/PtfouFlz5eZISTw6EW0njk94In8qwJAtEe9P/V6qaaFKrLcoWbanYV2mr3Ivd4WT7goNQ6+e1MyxGO7Fz/JjkyctUWEOeiDhw3Nr1v7J94Mu2biCI5r6H/g26EJ3skhCY5NtDB06bZgzBZZ9kEHwUATsug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781729776; c=relaxed/simple;
-	bh=GUdIrNEWqIai7CCIg0CZjwnmvqMUo8fANAFyMnvTmo4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z7LXtRr6leDLz5XmsJ16ng7HWs9/lsxWNNfEmrSne0JF31TatkOT2qb+A+Fvyw0kvJHI47lmoMqIn2WMCy+uPVwbahhGs9zkdbkF+Smy7HMKwN7vp9f9ICQcSslViLYbFzjGzuU+TQoifr+a5UX7R1aOyIjJQ/1TAaBvN9QieuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+JgIxG8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781732659; c=relaxed/simple;
+	bh=QZkluUiynr9FNYxq4HTOycC4NrsYyGj2uEdu6jqluEM=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=VhBJeMn+jtIzJhFLuqEIzheWC5aqmJ07P+v1XCD3q9nl8vCuSkN783e6em7kE92XOIAaFPcxgN1kZTro7Kga43MHQXagtl9KXpXGyQ4l6z0cTqE7Z3AmQTLlIX5NzLJN+llIt9Qm4S2xhb33wMuOxyeeFEs3Qa/zO6J3UU9qEiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=khI/P5n9; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+JgIxG8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 093671F000E9;
-	Wed, 17 Jun 2026 20:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781729774;
-	bh=A1dicipAfT1NcihzDB7nuXRVGuGocmFyEPV9zA3acUw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=C+JgIxG8rwASDaFmpA6Zh29sHsXjVxomoiRH3OhPa889meEEW3u5FNT+dBtjSW/hw
-	 D6sNaxoXruVEdJRs2TCBxuP28EcnIXSc5VAkaakRwBoxec3mO22QwXPEm1o8g68Ynd
-	 8T8I2IgLVzXJB6nmke5oXdYS2A9totgcEQtmZtRlGO3HONE15zQQ/88bLpmm74eGQi
-	 DWjnBfcuUlDaTgEjHaexYiGs3ETfD/34gnzgEP8hZqrBB2wyy4XzJUiGfxVPSxD1H2
-	 c194yBAZig9SafF4ckJpaak40F8YXNFSE9LJCbVAb2fsNOLIPxGH8mSNw03gXnsF9u
-	 w4PgjTaHOYmEg==
-Message-ID: <01cc3ac9-c89e-491c-86ed-4c4c90809075@kernel.org>
-Date: Wed, 17 Jun 2026 22:56:00 +0200
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="khI/P5n9"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-91578c374ecso24130985a.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 14:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1781732657; x=1782337457; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mVgu7F5iihyCKu/G4stgDOvBtLDNemb1ZVF8TxvBGyg=;
+        b=khI/P5n9hmcuFrRUy6h2bkY5bk9XcnNS0eD6l758HTPAyjklHfWQg8ucoD07kiq5zj
+         xSe2G68Ip+fkF9DDlLJBN8IhLLaPDVJ0vsIKegrtQ6D8Vd8kgMBwKng0WjWMDuPlZT7L
+         +7LBTGBPUUXfduYM/nQdZGkrxrYqW0phmqISexGseUcWBIl7FgEz0UcCp3R64A8hf5eu
+         +M9++znpQE2aokzjcd3Cw/TUr41z18vsauXZITl7kCPYZIUk8UvkDWBBbMXRdXw+x293
+         81Fj34o6tpSdrKNbuz7ga+tbuMEmflaI9dHXWZqrC2N9cdtt+Hm+4IKU4EPdvSmgVD/U
+         CUwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781732657; x=1782337457;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mVgu7F5iihyCKu/G4stgDOvBtLDNemb1ZVF8TxvBGyg=;
+        b=Up2XDoRsnHyi5/StY8+ZM4YP9N22pKjsWBDUpnfU/rErZx9OVZtr5MKx7LTi/gzQpk
+         boGys3rlEJlvhUNTFdUZM/wRSgNDSBxyY8Zy+poNZrCvnP4Vh3sMJY24mjR8L0NKRqXp
+         7wFMCOHRqsBEB5XtKRumXFTEfVvK5MR5bdsqtrgjKs1T8uN5vwNM7OH7XQxUfifxuHyc
+         KMobzB72PbfRKF3dgvTBUfB0ri2wT5IuNJPzCfzovFsxfoYhh29PTK3RVqcG3T8u6BkG
+         MTlSRGyfA9pVvYphfD+hGtg7uLQZfkgut7iog7f3Mrhqqu60oIzmxkefjUjvZqQmPxxK
+         Jg0A==
+X-Forwarded-Encrypted: i=1; AFNElJ+gItMl8Y2WfRqHMY6umBmenen6+8Y0MYHVv3ikmImKn6KJBCpWIH8PWoJSKg6WSRYi8lI6OwObRiE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjVLRzW455VjG5nMHaEApkrKPmLBucDNEZ6y7b+Db97OsZ7yth
+	yuQLc+Gr1KnkZgcWe1jbtErCc5DiBDGiq9CPWdsijWVjhyS+oPXETvGRidXp/2382oI=
+X-Gm-Gg: Acq92OFNE15WmjDENsJXnnKP+dMK1ErFIsEIlQBTgUdwITIOtKfTlmUmKIa8kAWW0KV
+	h7sI5dAU5qTRRH+MaEbREYinKLoJrHz5tOKNOb5QFDf3UMx5lcTqFHMZ0iNWuFb3t91lUJnezgR
+	t9fupZ3sMMi9GzKKojkuswF8k3YC85buTtJOmFPAnmZsbcpvIdk6BEa2M26MbFsAVbLdY4eY5gr
+	FAJlqFelvGblVrzER//dQFINJVGGyzTH0hSfafyWQiKr11RMfcqLID4xfueJC7UtO42J8L9ECuy
+	lpAryr48jdhCGNgGXa2pm4m+sEj8vS1hH4A8ID4F0SQKE0uSkBey/wSJ+EBl2ZmjoPe1tgL968r
+	eKHrTIQI9XU7EMCR/7C6Sw+pFO+GjRKqVECfWZXEBdNaFQij3l1rnpzE816oOtB51hj6AkPgh/M
+	6KACBX9cWqCDb/LKN6LDa/SsrObNMYDtFdzZEAEinEeQjFP4bcYngzJ5nnydjh
+X-Received: by 2002:a05:620a:4710:b0:915:7c1a:1387 with SMTP id af79cd13be357-91d8b4b82d3mr974163985a.38.1781732657342;
+        Wed, 17 Jun 2026 14:44:17 -0700 (PDT)
+Received: from [127.0.1.1] ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619f3c324sm1871381085a.21.2026.06.17.14.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 14:44:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/19] init: discoverable root partitions, a.k.a. an
- omittable "root=" cmdline option
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- linux-alpha@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
- linux-snps-arc@lists.infradead.org, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- loongarch@lists.linux.dev, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260615-discoverable-root_partitions-v1-0-39c78fac42e2@kernel.org>
- <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20260617-irritation-rollen-wirst-7d636cbfec92@brauner>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 01/12] PCI: liveupdate: Set up FLB handler for the
+ PCI core
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kexec@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+ David Rientjes <rientjes@google.com>, 
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+ Pranjal Shrivastava <praan@google.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>, 
+ Samiullah Khawaja <skhawaja@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <ajB7EA4tAKqj5XV0@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-2-dmatlack@google.com>
+ <178124130274.908199.14827357870284807134.b4-review@b4>
+ <ajB7EA4tAKqj5XV0@google.com>
+Date: Wed, 17 Jun 2026 21:44:14 +0000
+Message-Id: <178173265446.1266136.13359060486033428626.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2540;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=QZkluUiynr9FNYxq4HTOycC4NrsYyGj2uEdu6jqluEM=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBqMxUvPSD7ryLWoiq0RP6QzEW7bPRTwRVRK1iGh
+ 4D9ux7x6z6JAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCajMVLwAKCRC7dyhM23N6
+ 3nBkEACIr+qaiFDURkLLKmlla4feY3MYdO7YczubseLaSQZvERTE2vIj19GVL+rKpHxOQTGKjdZ
+ 6x4uuQzZ1P/ZhxH0s02iqkxWZaYln8HlySKfJ/yRRSj4Md9jM+ui4VxXSMdaEPmxaHTn5xpasmr
+ 08wdcAPQu9z55T2Bx3Qokb6IF73WyIUIQROgK8q2E54RVuu1OnA14jbvCxyUwY6TTg5MiPHoqAo
+ XeBjnZRpboyLxod5YlWDalguHWvvUODhNr3JCmQakJh0xzlC4m1tKgaU+DqgjnSco1PJQMMEgLU
+ m5HRtfrrVci4ONbgHzaLQ7y6Rnw/X4gaS+3Ygz+jwYxxFHPGYbUCba/8f1sbRMPknCZhXjjNAS9
+ 5qRcK97cF6j8aqGrVz+VzKp+z8E6XlWdZXI7Obrcq8C3iCZbvkrNvPcrIAlpx/1x9QmosSMGrpd
+ Em28VGCwMHhk0wMDJjvRQ4a0B7+Royl5PzbuLa2m2gxPfLDrjrxkyvHkPydL8A9Tzkp97XCgZQ8
+ oMpmW3oXUmYg7Dep1lgEOdQgWiaW57ZS+s83v+pA87Zizu9zGVXVCSZD37h/nVmk5clhlqiH0po
+ lcn9njTOGIFROCuQWZBh8jWGH2hMvIdPgL4UpOd7oEauXLnkDvjTcBR29cu6ThJH5cUTDeLIrFy
+ VqYf2itiyoZMCqQ==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On 17/06/2026 at 14:41, Christian Brauner wrote:
-> On Mon, Jun 15, 2026 at 06:08:56PM +0200, Vincent Mailhol wrote:
->> DPS [1] defines GPT partition type UUIDs for OS partitions and
->> attributes that control whether such partitions should be
->> automatically discovered. The specification states that:
->>
->>   The OS can discover and mount the necessary file systems with a
->>   non-existent or incomplete /etc/fstab file and without the root=
->>   kernel command line option.
->>
->> DPS is already implemented in systemd-gpt-auto-generator [2], which,
->> when embedded in an initrd, indeed allows automatic detection of the
->> root filesystem through its partition type UUID.
->>
->> This series adds this discovery feature directly into the kernel so
->> that people who are not using systemd or not using an initrd can still
->> benefit from it. The implementation follows the same model as
->> systemd-gpt-auto-generator:
+On 2026-06-15 22:22:08+00:00, David Matlack wrote:
+> On 2026-06-12 05:15 AM, Pasha Tatashin wrote:
 > 
-> I happen to co-maintain the DPS. It is userspace policy and complex
-> userspace policy at that and does not belong into the kernel.
+> > On Fri, 22 May 2026 20:23:59 +0000, David Matlack <dmatlack@google.com> wrote:
 > 
-> This also implements a really tiny portion of the spec. It deals with a
-> lot more complex concepts such as automatic partitioning during
-> installation, verity, LUKS, containers. This is really not intended for
-> the kernel at all. I mean, it's great that this spec is being used but I
-> do not want this in the kernel just for the sake of auto-discovery.
+> 
+> 
+> > > + * PCI device preservation across Live Update is built on top of the Live Update
+> > 
+> > I prefer to just use acronyms FLB, and LUO, but have links to the actual 
+> > documentations about them.
+> > 
+> > So, something like this:
+> > 
+> >   * :ref:`FLB <flb>` Data
+> >   * =====================
+> >   *
+> >   * PCI device preservation across Live Update is built on top of the
+> >   * :ref:`LUO <luo>` support for file preservation across kexec. Drivers
+> > 
+> > And also add _luo and _flb to Documentation/core-api/liveupdate.rst
+> > 
+> > .. _luo:
+> > 
+> >  ========================
+> >  Live Update Orchestrator
+> >  ========================
+> > 
+> > .. _flb:
+> 
+> Will do.
+> 
+> I guess I will need to add another patch to add the link references to
+> liveupdate.rst?
 
-The implementation of a tiny portion is voluntary. If I can draw a
-parallel, it would be the same as saying that the root= cmdline option
-is a tiny portion of what an fstab can do.
+Yes, it can be a separate patch, but adding to this patch is also, OK.
 
-Yes it does not manage the LUKS, containers and so on, the same way it
-is not possible to directly boot those things directly from the kernel.
+> >  LUO File Lifecycle Bound Global Data
+> >  ====================================
+> > 
+> > 
+> > Nit, may be:
+> 
+> Did you have a suggestion here that got lost?
 
-So, I don't think this conflicts with the actual userland
-implementations, the same way you can add root= to your command line and
-still have an initrd next to it.
+Yeah, I meant:
+#define pr_fmt(fmt) "PCI: " KBUILD_BASENAME ": " fmt
 
-I did not intend to write this as a replacement but just as a complement
-to fill the gap of kernel with no initrd.
+> 
+> > Please sort alphabetically.
+> 
+> Will do.
+> 
+> > I think, we want to use kho_block [1] (it is in liveupdate/next branch) 
+> > to allow number of supported devices to be dynamic.
+> > 
+> > To support this, we would redefine the ABI and tracking structures like 
+> > so:
+> > 
+> > /* include/linux/kho/abi/pci.h */
+> > struct pci_ser {
+> > 	u64 devices;      /* Phys address of the first block header of kho_block_set */
+> > 	u64 nr_devices;   /* Total count of active preserved devices */
+> > } __packed;
+> > 
+> > /* drivers/pci/liveupdate.c */
+> > struct pci_flb_outgoing {
+> > 	struct pci_ser *ser;            /* Points to the FDT/KHO-allocated ABI struct */
+> > 	struct kho_block_set block_set;  /* Controls the active blocks on the fly */
+> > };
+> > 
+> > In  __pci_liveupdate_preserve_device() , we would search for 
+> > and reuse any inactive  pci_dev_ser  slot first, and only call 
+> > kho_block_set_grow() to expand if no inactive slots are available.
+> > 
+> > In pci_liveupdate_unpreserve_device(), we would simply 
+> > mark the  pci_dev_ser as inactive.
+> 
+> Makes sense at a high level. I'll work on switching kho_block for v7 and
+> get back to you if I hit any issues.
 
-> The DPS is completely generic and can be implemented by tooling other
-> than systemd (util-linux implements it and so does refind iirc). I think
-> not wanting to use or build alternative userspace tooling for this is a
-> really weak argument for pushing this into the kernel.
-
-Well, I might explain to you where I come from. Time to time, I mess up
-my configuration. When this issue is in a userland config file (e.g. bad
-fstab), the recovery is always easy.
-
-But when I mess up the bootloader firmware configuration (e.g. grub,
-u-boot, edk2), the fix is always painful. I have to fight with a shell
-with which I am not familiar with to figure out what the correct
-configuration is.
-
-And an initrd would help but:
-
- - it is still one more file to look for pass as a parameter
- - on some machine I do not have one anyway
-
-I think it would have been very neet to have a method to boot a kernel
-with zero config (understand here: no cmdline, no initrd) and I find out
-that DPS could achieve that if just a tiny part of it were implemented
-in the kernel.
-
-For example, in edk2, I would be able to just browse the disk from the
-"Boot from file" menu and select a kernel. Currently it panics because
-no configuration is attached. With DPS, we could have it boot linux from
-that menu. All in a graphical interface, with just up/down arrows and
-one enter keypress.
-
-And this is my motivation. This non LUKS root read-only part of the DPS
-is the only piece which makes sense for me in the kernel. Not that I
-don't *want* to implement it in userland, but just that it doesn't
-achieve what would be helpful to me (and I guess others).
-
-I thought I wouldn't be the only one in the world to see value in that
-this is why I posted it.
-
-
-Yours sincerely,
-Vincent Mailhol
 
