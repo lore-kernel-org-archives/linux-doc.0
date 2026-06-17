@@ -1,49 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1021B391E57;
-	Wed, 17 Jun 2026 10:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6519E405C2D;
+	Wed, 17 Jun 2026 10:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692130; cv=none; b=RXrZRWUc7dKOuV/XsfHWwxaqht+An1zWhv34oIaBza9t58fYdqee9h4KoD+LBLk5OO0r4oUCuoMxbs54enp7U3Ya9bQlFxDKuNYVXZUKV6qNEniRgaKRG3SnPKZdquFPpGKqnFA/VsOiDRoMAFHhN6ReEQVl/6rV1IwjLbBVaEA=
+	t=1781692431; cv=none; b=As4SCwW+oAbzcfp3P95FARWZ3Y5ne4ftZdJK5BftXlw07WMaU4uj2Eorzt/TTMOh0TAx3F1qYb6nVKY844GtYbD9VqU5lEwaIxFGHBAjIg36iwqR9eSp6sZNOjrjk1lPZ/WuUu7p18KkaDqFjAzKPaZ7Chz/cUz6SLn1oKuyLB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692130; c=relaxed/simple;
-	bh=5k8uag/DR60dxMONiMjdt4pzA1sv9wk0gWocW6xlveo=;
+	s=arc-20240116; t=1781692431; c=relaxed/simple;
+	bh=IOTXUH576NXlSthhVuzvANvakjDYSXmiJ5wl6Xy6Df4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jqKgkmMWgL1w7iY0aZxj3Vi0EgjO6FyFCHx2kdk7SgSFyaAb1+QtwmEUVW9wGRm31goaVzRNQZBm/TjDsp9QF18c0HASgESjj0RwLSEBDDTCr3xmb8mc9Mm67EWzA8FamY+3v1G+BpUJRrc011+0Ql1L9OPhQXY9Lh47YqyN2y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GkXi8cs2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bDQhli6xhwsMQXc2VdTotm1V1RUFpehUDEaofkhjNnwHw5bW08Dei7lLDBwEjd013xaWgCMhFbejfggsNhEueo9ZBAph0H/nTUxVkKG01iPqCMB884FakTpMV4xoNqIPEnqrKDJtSAa6JdhGV+WuCBDaw+TD4SpaZYP9+xySZjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N37b7Ihg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GkXi8cs2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23ED11F00A3A;
-	Wed, 17 Jun 2026 10:28:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N37b7Ihg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 749A61F000E9;
+	Wed, 17 Jun 2026 10:33:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781692128;
-	bh=IYjMPmkeWysVnxRBCqC3eUXQS1lopznfKYY7BzJZapk=;
+	s=k20260515; t=1781692429;
+	bh=szLE0S72oFPtCHbqy6RYhj+xzfkKN142/ocsCt11p94=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GkXi8cs2eU2jXur9ik98QsXIQ7m69jJaTRhSPgzy/K6odxYa1W1gXZ6b1Tkebdkhw
-	 q6CsCHohGt4XMMgeyMmw+ftYkb1haWB5WBFBTB6If41nMYeeuViHL7ZDgg6HapslBX
-	 rAyQbF4RJ9TFGkU5T6QtjrV0Q3ndhDM9k2m0C+X9f/BW3oinbldU4HEFxSp4XAQ+D7
-	 r0FGKs7immz9IVaJ0YhutBYJopmooTaxZnin9pKy/hYbYxqYpZr4xc1KkrykrNAoI2
-	 r5SC1rsNoZ3pI0scrc1V97CQloaCCH/vTVf0bpR5fFLOQxAp+wJ/QP13I8c/MhLjS2
-	 z7KMhULCqdp1w==
-Date: Wed, 17 Jun 2026 12:28:44 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, 
-	Matti Vaittinen <matti.vaittinen@linux.dev>, Guenter Roeck <linux@roeck-us.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>, 
-	Ashish Yadav <ashish.yadav@infineon.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Yuxi Wang <Yuxi.Wang@monolithicpower.com>, Charles Hsu <hsu.yungteng@gmail.com>, 
-	ChiShih Tsai <tomtsai764@gmail.com>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: adm1275: ROHM BD12780 hot-swap
- controller
-Message-ID: <20260617-uptight-sexy-hippo-f4bc62@quoll>
-References: <cover.1781591132.git.mazziesaccount@gmail.com>
- <d63c4df5e9df845bc4f94b4abdcd068a23929974.1781591132.git.mazziesaccount@gmail.com>
+	b=N37b7IhgoLv0nxsiTXFRbKaFHlR4HBRYKnrPzolbj6l4lHrypkiYiRraYPnPdiubo
+	 mKX35W+0Fmhe6GwAubfGWzQWrwAGV87fmOeAlG0NnfsiiNNXzXkTTMyTt3dSDWHSLI
+	 WQaNuRFAaxGAFo1gwCbVJAOtA6yEab3oT8GxxiML/HK3sToP8Ru5ugvj4jtucO8cp7
+	 Bp02jPEYrbv1etezulBk/di4LkHhR4eSduZBgOlvzIK7GV6DpUVSRV3RFSUIGDPVqB
+	 XOXbDPaXbzxDMGb34jsJzWBqpbp4/k6tM8ZbGC99oiJI51tWsVgeSper9fg1cJxUne
+	 KMateyyg0kgWQ==
+Date: Wed, 17 Jun 2026 12:33:39 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
+Message-ID: <lstafqaogzunb2azyqwvtt3swrk42nu3n5zyct2la5fqxomaqg@wyrz3qolhist>
+References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,59 +48,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d63c4df5e9df845bc4f94b4abdcd068a23929974.1781591132.git.mazziesaccount@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
 
-On Tue, Jun 16, 2026 at 09:35:35AM +0300, Matti Vaittinen wrote:
- +
-> +  Datasheets:
-> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780muv-lb-e.pdf
-> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780amuv-lb-e.pdf
+On Wed, Jun 17, 2026 at 04:59:44AM +0200, Marek Vasut wrote:
+> In case MSI are enabled, but DWC built-in iMSI-RX is not in use, the
+> MSI are handled via GIC ITS. Configure all controller MSI registers
+> fully.
+> 
+> Set or clear MSI capability register MSICAP0 MSI enable MSIE bit and
+> PCIe Interrupt Status 0 Enable register PCIEINTSTS0EN MSI interrupt
+> enable MSI_CTRL_INT bit according to MSI enable state, set both bits
+> if MSI are enabled, clear both bits if MSI are disabled.
+> 
+> If MSI are disabled, or MSI are enabled and iMSI-RX is used, then
+> deconfigure AXIINTCADDR and AXIINTCCONT to 0, which disables any
+> pass through of MSI TLPs onto the AXI bus and then further into
+> GIC ITS translation registers.
+> 
+> If MSI are enabled and iMSI-RX is not used, the configure AXIINTCADDR
+> with target address of GIC ITS translation registers, and configure
+> AXIINTCCONT to enable MSI TLP pass through onto AXI bus and into the
+> GIC ITS. This specific configuration allows handling of MSI via the
+> GIC ITS instead of integrated iMSI-RX.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> NOTE: This would not be possible without prior work from Shimoda-san
+> ---
+> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 53 +++++++++++++++++++--
+>  1 file changed, 48 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index 485cfa8bd9692..ba6e3bedd6d0a 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -31,6 +31,10 @@
+>  #define DEVICE_TYPE_RC		BIT(4)
+>  #define BIFUR_MOD_SET_ON	BIT(0)
+>  
+> +/* MSI Capability */
+> +#define MSICAP0			0x0050
+> +#define MSICAP0_MSIE		BIT(16)
 > +
->  properties:
->    compatible:
-> -    enum:
-> -      - adi,adm1075
-> -      - adi,adm1272
-> -      - adi,adm1273
-> -      - adi,adm1275
-> -      - adi,adm1276
-> -      - adi,adm1278
-> -      - adi,adm1281
-> -      - adi,adm1293
-> -      - adi,adm1294
-> -      - silergy,mc09c
-> +    oneOf:
-> +      - items:
-> +          enum:
+>  /* PCIe Interrupt Status 0 */
+>  #define PCIEINTSTS0		0x0084
+>  
+> @@ -55,6 +59,16 @@
+>  #define APP_HOLD_PHY_RST	BIT(16)
+>  #define APP_LTSSM_ENABLE	BIT(0)
+>  
+> +/* INTC address */
+> +#define AXIINTCADDR		0x0a00
+> +/* GITS GIC ITS translation register */
+> +#define AXIINTCADDR_VAL		0xf1050000
 
+As Marc pointed out, this address should be fetched from DT, not hardcoded in
+the driver.
 
-s/items/enum/, so:
-
-oneOf:
-  - enum:
-  ....
-
-
-> +            - adi,adm1075
-> +            - adi,adm1272
-> +            - adi,adm1273
-> +            - adi,adm1275
-> +            - adi,adm1276
-> +            - adi,adm1278
-> +            - adi,adm1281
-> +            - adi,adm1293
-> +            - adi,adm1294
-> +            - rohm,bd12780
-> +            - silergy,mc09c
 > +
-> +# Require BD12780 as a fall-back for BD12780A.
+> +/* INTC control & mask */
+> +#define AXIINTCCONT		0x0a04
+> +#define INTC_EN			BIT(31)
+> +#define INTC_MASK		GENMASK(11, 2)
+> +
+>  /* PCIe Power Management Control */
+>  #define PCIEPWRMNGCTRL		0x0070
+>  #define APP_CLK_REQ_N		BIT(11)
+> @@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+>  	return rcar;
+>  }
+>  
+> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	u32 val;
+> +
+> +	/* Make sure MSICAP0 MSIE is configured. */
+> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
+> +	if (pci_msi_enabled())
+> +		val |= MSICAP0_MSIE;
+> +	else
+> +		val &= ~MSICAP0_MSIE;
+> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
+> +
+> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
 
-No need for the comment, schema is quite explicit.
+If MSI is not enabled, then what's the point in clearing these registers (also
+above)? I see it as a redundant code. Is there a necessity to clear them?
 
-> +      - items:
-> +          - const: rohm,bd12780a
-> +          - const: rohm,bd12780
+- Mani
 
-Best regards,
-Krzysztof
-
+-- 
+மணிவண்ணன் சதாசிவம்
