@@ -1,132 +1,170 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3912FDC5E;
-	Thu, 18 Jun 2026 03:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94D817D6
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 04:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781752896; cv=none; b=lg1WsU8VdBcbYugJaqy4VKDL4xjfn5rLjxmjMEsm6dYGMV86dANRpgLmw0hLJcVTDy8ba12hVgybF8tHYKkzuod9sDuCcToXlPbooYZUk6K7KU6OPAd+8es2ZtBDKWxuseQtv5RFPB/Kedkt4D2XfiSUQp0vrEnKlonix4zzvSY=
+	t=1781758160; cv=none; b=JvO3e1nG4N/aUmU27gNZ5aT8qcmisyZ7Puz9Hgd+nqVUZO9Uhf+SjaByOdmXgE1d67t82zhCODAnFaanvFxJLzsFc3MQyJlbtA34xCKuMUd7lM7rEnPv0AQhHmNUKzgtezFR6MW5uLEgD1gra+9K0KPq0bsYO8PmZ4+1Ln2XAO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781752896; c=relaxed/simple;
-	bh=SUBSCbGJkuZg2PsaHnBhjtOcFX+j8191A7fjrLfseiU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BWF2sE3ns6FYekiv8Q1/pWE/1Alk50GUc7rQOvQuzx1rTiyNi8qwOPaiHVDgA6HA2PHD5J0Xi1iKrBXLKDNzbfBzuDti8FTt1ayjb+l29Nmw5gSFAAtxLvYOiy3fhB2pynRClvE0twg2jf3wYSXosv2IOUUDOa/1Gn+LczMNpZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VlxnlGk5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A0eftJRE; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1781758160; c=relaxed/simple;
+	bh=1TTuSnuvoVAZPhlcWBtx64LtQvS0sCXjqkC4XowMXkE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XCiQRHP2vhJ+qU1slxPUue5OwRwmWNWHx2yPhOur2ijabOueyzxUkzIWHL5JmtLWu0Mia1HVH8/lM6iQB8JhxAegCZGnUVZ88RHKF9cK84pB8/Xdy/eii1A/f2ji3GB9W+u2OdyVNcFD3ehhgxH8LbP80YsjJy2xH461+OXOoYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aHyR0Qhd; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VlxnlGk5";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="A0eftJRE"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ggmGg0dq8z9vDJ;
-	Thu, 18 Jun 2026 05:21:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781752891;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yaummfnzPtyabIhQrawAEZGn0WmOzI9XiKr6uYhqAdM=;
-	b=VlxnlGk5x98IFPAPb+Uxk7JXYgFvupUY7xvz5F5ucOm5LM0Dvp5fQxiM/lYTOk0QWbeP3u
-	Vx3rrQwQBCOM2+81sLTZx5yQRLyz+X6q2PdqxZoOsW3fy6PlaDHzdQpATyevYz8xAKfpgA
-	M2JUj+f52aORUcJ7j6P2JiGNFXTOYlBq+YF+eLpDR0CfXJh9FgyfyfPv1xJssw4wdK4Zwj
-	ltiTzPf3hHvfU9aaEU13HJnBhOUHwFuvd9waUkyAiIP/8XoUgUBN9JCxfSVVd9BW/kp/Sp
-	rL4iGZn3jqne16CobF1XNqm8mDRphLLCrSVPjxoi1ledW/RE0pSD+EYNRDa33Q==
-Message-ID: <eef933e9-7e14-4885-9179-4bfa500a22e4@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781752889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yaummfnzPtyabIhQrawAEZGn0WmOzI9XiKr6uYhqAdM=;
-	b=A0eftJREloi7497i69ik2WjlGnYuWTpsYSeRMoAGCA6+ljZbaefGEOW8V53t3mQX0wotvG
-	FevspN8s8r51fogSI9tMALw2cCD5TMHxBAliegQHFiMc5Fx7rU3RmFrvXfwmesTDwVU7dj
-	sP7QulEJE4e2HNAc/2rklIs5NBlI/fiYYATo3kPcY/a7887cDHQFmun4YRpvpsu2bwwaOH
-	rap45L7gIWe0UlOfN+A5pcs+6dsVJ4HV4eQ03wt7lnxIPamsZRRh2ckAWKN/JoYeGMzb9y
-	Er0B4Todz74yEKqoSYzL4E5sBWEBUjBpltpwmXBVlOa8owNesmMOeOLQSo7c1A==
-Date: Thu, 18 Jun 2026 05:21:25 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aHyR0Qhd"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-845397d1221so270905b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 21:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781758158; x=1782362958; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/50j8h9PVe8SgOeD0lIk2bjb8dms38WVFY5YQFYhQcI=;
+        b=aHyR0QhdO+zdVcoNviNj8TwZxgl889voJEqudvQryefloONgG9gru46+GooU0UcKuw
+         SX6Ov1HcBWbU0lGWF13H2epbziVyoDFz2qT7cY+1BJSdpkZdqUHTBVjT0wLE59FNi0Ax
+         hbywqUiNprnpK9nKVZhyGLii4arkTlSU0QRYqImDppC4GsMujf4hS3Y0qYBu75LkjpE/
+         Zwxf0SwZPVAHMD8ysktpamt6gHDKobi4G4oeZiuTAw5ba9KN4nVwx7hWxyTzY3BuMooW
+         7Iv6wFBHRgYhi7Sf83jOKlIIZeTycTVI4VJVtP6+IP04KM8yAb1EwmIarW7QWTLgmfSf
+         7kQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781758158; x=1782362958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/50j8h9PVe8SgOeD0lIk2bjb8dms38WVFY5YQFYhQcI=;
+        b=rZncjJur/4NSrrBKW0W8Ufl+8uxa1ucdQBuvBsGP/UzJeeBY/XFrX1F7GFcuA+nJSZ
+         vGbflLEi+UwqUm9DmPPYRMwqtNAUqBn+oI5fQEAx4xbdppH3nU3cedSMwvlN24V5WXl0
+         lXqUJNew4UxFtrJvIcmo5frhzRWxdrMjP85BT52Zkr1SDPNYu9p60345QoHc/4/emWtc
+         0bOdWGdy4atgDFlsx/DBf4NFwJivrvE35Xdrugu64wZTnOM9sbbgekN7vRH8wRpvw3MA
+         s4npZkuR1NJUr5tVOkuYFlAttuv2Os3bOtUq/F+PkXU/3aaS4v0M2pg11apPzNP6IYRD
+         aURQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9f6/6nlHFpOQ//ucwKbf2ZVpsHgXC1ZyarMUcuOwpbR/W5E40doRmUb+ZiYAuHDDxQEkH1DGRYEao=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6a6U+NajwQo9xQeZpEf9fuLLpX6Mn1CE7QefI9hu7BzFGqVhG
+	QO6btmc9tRzPKQWakNmorZ7TuFm3/XVOpHGeBpUkMdENhiXRjDxcrkch
+X-Gm-Gg: Acq92OGyrEzMuIaWnrHXU/zCnNJe9o7Hn6z7EHO92xWbtEB6xR5hztS6jtb17xro6C/
+	fy5T75cdh4oSmCi1rVG/KaRTRU0lQns/gHkzvre+CFKcR22Q9cZtU2YvPFS/uLJj8TFF0qd4aRN
+	ItoVm35qANbmoIw60MLwt2SLDZZ4trSd+tMXLtar3SrPvDEld7FxPAa4IxFU9vHNaxPyNuGyAbZ
+	Navt+w15FuDbuzS3C3fJ1wV+3j/Vfu1kRQYzVQuXxI/tfkBiGoFJ5VHdDcUZdu7cYwQWBEGtIS6
+	KgXZ4mtWcz0Z/7qXHrbS2f3Sb72Db+C0gHysCNiicv7NzgInuq3FObaX+Jrfyh5SvA3rgEszwhG
+	vh5OJl9UW6EL/Bi2hrFIeLo0cMnlnNq5SRAZjHKlDyYGSa7um3v1Y8aFo4Dv8+TD96I/w4BqI8W
+	wVrTfsKB0LrRC5hzM13DMqDNRjnJzxtb+3hvaTFq4mbILvUmBSi78=
+X-Received: by 2002:a05:6a00:4615:b0:822:6830:5900 with SMTP id d2e1a72fcca58-8452444604bmr7259302b3a.6.1781758158031;
+        Wed, 17 Jun 2026 21:49:18 -0700 (PDT)
+Received: from localhost.localdomain ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b020b53sm17214781b3a.47.2026.06.17.21.49.10
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 17 Jun 2026 21:49:17 -0700 (PDT)
+From: Hao Jia <jiahao.kernel@gmail.com>
+To: akpm@linux-foundation.org,
+	tj@kernel.org,
+	hannes@cmpxchg.org,
+	shakeel.butt@linux.dev,
+	mhocko@kernel.org,
+	yosry@kernel.org,
+	mkoutny@suse.com,
+	nphamcs@gmail.com,
+	chengming.zhou@linux.dev,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Hao Jia <jiahao1@lixiang.com>
+Subject: [PATCH v4 0/5] mm/zswap: Implement per-cgroup proactive writeback
+Date: Thu, 18 Jun 2026 12:48:52 +0800
+Message-Id: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] PCI: rcar-gen4: Configure AXIINTC if iMSI-RX not used
-To: Manivannan Sadhasivam <mani@kernel.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-pci@vger.kernel.org,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
- <lstafqaogzunb2azyqwvtt3swrk42nu3n5zyct2la5fqxomaqg@wyrz3qolhist>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <lstafqaogzunb2azyqwvtt3swrk42nu3n5zyct2la5fqxomaqg@wyrz3qolhist>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: 4sd38nnow6od9mw6adg44nq3ip514b31
-X-MBO-RS-ID: b17926727949ac9f6e5
+Content-Transfer-Encoding: 8bit
 
-On 6/17/26 12:33 PM, Manivannan Sadhasivam wrote:
+From: Hao Jia <jiahao1@lixiang.com>
 
-Hello Manivannan,
+Zswap currently writes back pages to backing swap reactively, triggered
+either by the shrinker or by the pool reaching its size limit. Although
+proactive memory reclaim can automatically write back a portion of zswap
+pages via the shrinker, it cannot explicitly control the amount of
+writeback for a specific memory cgroup. Moreover, proactive memory reclaim
+may not always be triggered during a steady state.
 
-[...]
+In certain scenarios, it is desirable to trigger writeback in advance to
+free up memory. For example, users may want to prepare for an upcoming
+memory-intensive workload by flushing cold memory to the backing storage
+when the system is relatively idle.
 
->> +/* INTC address */
->> +#define AXIINTCADDR		0x0a00
->> +/* GITS GIC ITS translation register */
->> +#define AXIINTCADDR_VAL		0xf1050000
-> 
-> As Marc pointed out, this address should be fetched from DT, not hardcoded in
-> the driver.
+This patch series introduces a "zswap_writeback_only" key to memory.reclaim
+cgroup interface, allowing users to proactively write back cold compressed
+data from zswap to the backing swap device. When specified, this key
+bypasses standard memory reclaim and exclusively performs proactive zswap
+writeback up to the requested budget. If omitted, the default reclaim
+behavior remains unchanged.
 
-I will reply to Marc when I have this ready for V2.
+Example usage:
+  # Write back 10MB of compressed data from zswap to the backing swap
+  echo "10M zswap_writeback_only" > memory.reclaim
 
->> +
->> +/* INTC control & mask */
->> +#define AXIINTCCONT		0x0a04
->> +#define INTC_EN			BIT(31)
->> +#define INTC_MASK		GENMASK(11, 2)
->> +
->>   /* PCIe Power Management Control */
->>   #define PCIEPWRMNGCTRL		0x0070
->>   #define APP_CLK_REQ_N		BIT(11)
->> @@ -305,6 +319,39 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
->>   	return rcar;
->>   }
->>   
->> +static void rcar_gen4_pcie_host_msi_init(struct dw_pcie_rp *pp)
->> +{
->> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
->> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
->> +	u32 val;
->> +
->> +	/* Make sure MSICAP0 MSIE is configured. */
->> +	val = dw_pcie_readl_dbi(dw, MSICAP0);
->> +	if (pci_msi_enabled())
->> +		val |= MSICAP0_MSIE;
->> +	else
->> +		val &= ~MSICAP0_MSIE;
->> +	dw_pcie_writel_dbi(dw, MSICAP0, val);
->> +
->> +	if (!pci_msi_enabled() || pp->use_imsi_rx) {
-> 
-> If MSI is not enabled, then what's the point in clearing these registers (also
-> above)? I see it as a redundant code. Is there a necessity to clear them?
-AXIINTCCONT INTC_EN should not be set if MSI is disabled, this code 
-makes sure it is not set, even if it might have been left set e.g. by 
-prior stage. So no, this is not redundant code, this makes sure the 
-controller is correctly configured.
+Patch 1: Extend shrink_memcg() to support batch writeback based on a
+  compressed-size budget and update its return value semantics, thereby
+  improving the writeback efficiency in the shrink_worker() path.
+Patch 2: Extract the memcg iteration and writeback loop into helper
+  functions to prepare for proactive writeback.
+Patch 3: Extend the memory.reclaim cgroup v2 interface with a new
+  "zswap_writeback_only" key, allowing users to trigger proactive zswap
+  writeback up to a requested budget.
+Patch 4: Add the zswpwb_proactive_b stat to track the compressed bytes
+  of proactive writeback for better monitoring and tuning.
+Patch 5:
+  Add tests for zswap proactive writeback.
+
+v3->v4:
+  - Drop the per-memcg cursor and keep the root cgroup cursor
+    (zswap_next_shrink) logic intact.
+  - Stick to using the zswap_writeback_only key, and change the proactive
+    writeback size to use the compressed size.
+  - Consolidate and reuse the logic between shrink_worker() and
+    shrink_memcg(). Enable batch writeback in the shrink_worker() path,
+    while maintaining a low writeback budget in the zswap_store() path.
+
+v2->v3:
+    - Align the return value of zswap_proactive_writeback() with
+      memory.reclaim and update the corresponding documentation accordingly.
+    - Resolve conflicts in test_zswap.c on the mm-unstable branch.
+    - Enhance the zswap proactive writeback selftests to guard against potential
+      future regressions.
+
+v1->v2:
+    - As suggested by Yosry and Nhat, extend the memory.reclaim cgroup v2
+      interface with a "zswap_writeback_only" key instead of adding a new
+      dedicated cgroup interface.
+    - Update the zswap documentation and add selftests for proactive writeback.
+
+[v3] https://lore.kernel.org/all/20260526114601.67041-1-jiahao.kernel@gmail.com
+[v2] https://lore.kernel.org/all/20260525122242.36127-1-jiahao.kernel@gmail.com
+[v1] https://lore.kernel.org/all/20260511105149.75584-1-jiahao.kernel@gmail.com
+
+Hao Jia (5):
+  mm/zswap: Extend shrink_memcg() writeback capability
+  mm/zswap: Factor writeback loop out of shrink_worker()
+  mm/zswap: Implement proactive writeback
+  mm/zswap: Add per-memcg stat for proactive writeback
+  selftests/cgroup: Add tests for zswap proactive writeback
+
+ Documentation/admin-guide/cgroup-v2.rst     |  22 +-
+ Documentation/admin-guide/mm/zswap.rst      |  11 +-
+ include/linux/memcontrol.h                  |   1 +
+ include/linux/zswap.h                       |   7 +
+ mm/memcontrol.c                             |   3 +
+ mm/vmscan.c                                 |  14 +
+ mm/zswap.c                                  | 322 +++++++++++++++-----
+ tools/testing/selftests/cgroup/test_zswap.c | 153 +++++++++-
+ 8 files changed, 456 insertions(+), 77 deletions(-)
+
+-- 
+2.34.1
+
