@@ -1,37 +1,63 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2849E1DC985;
-	Thu, 18 Jun 2026 23:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7928234C981
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 23:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781823771; cv=none; b=jCQPnxrUIxo5hYzMV/kFTwkAtb/LdqAN/4xHx0m/dN+azZRoKOKnhhYyYSktH2h257BYG2TCD74fhXwNOtEWnml4u8YNzTjntkBoYKq+fbTrYhnxSrtCpJMwhI/MZAW+GqBkDOiDri4YM3utLsjxO8gCQHXz489FvtMx44RYanI=
+	t=1781824341; cv=none; b=SBt07NHEIodEENy+m+6V0yJnotH3tSwMeGhDI5L1DuhluiROukVYbBhqXyLp3btXX4w2OBMytYg09dBgNdTKoglsy8NPvsowyC1OEMnJx6gKd4tkonTZFr/MAVHyWW/Ip6G5FmyW4JWNItOWZFUpDZsdGQmYHbgR9Eo93kAdqbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781823771; c=relaxed/simple;
-	bh=LX18yvoow+3hFObCWX3FR88lCJ5XgNxb1+Kdz6KzsLY=;
+	s=arc-20240116; t=1781824341; c=relaxed/simple;
+	bh=Rb3Y//Sre39/nyDeLBoFOg1YSjOfc4f0txYFimZDY3Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g4+++GJ5Rh+GlyPzGUJW5P9c7faoZZkZ3apdYjZ1lAMoZqMZezs//TMvhMBaDMziLb2/17HnDy6mjsxch0/ozjTcm5XgzccCGPOujx3pVrNfdl3dDRtph6WbXwVifNT7wdJo0ZI8M7a/7cVIE/wSSBNH+IAv+q+n/UuFfNhOPTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cCKIzVae; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=m3ZTUwShhKEIinFSXqT4/FZq+gfOAtsJhBW2vaWE9IrP0XEj45K/3JC8fAxQ7vIBdfWgdfb9mS8XEkhNa5/K3eFvguE9yDprltZxNkufxUggUDwNtgg5ujDy2zeCpbm7aVLjGHp0RGCjF7LFhoeECInw9GJzfkBIchtG/Ju7J4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EAaa5iv+; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cCKIzVae"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=4j6dypNydyNZWpcmpTVOpkkjjc8wCdYie1REZ5aJwCU=; b=cCKIzVaeKyEvueahgMfXWkQCmj
-	Qe72fL1qIvGWlRb4X/kTKZSinScDQVhcTXU7H53EQroz4X8/a67OMv5i2LK6xtzX/5mfLyTeFE280
-	rlSXvZeoDLLbTWwckGWZI/purqhGqXzcO4mRzdNKfvrPQ24QSFkM0C1L+ubryKPYap3x2J1wJ5xds
-	wbkWWW8z81kUanG1PzqTakan53bNvm2nIYsN8I+D8jzVs1C4dCEYVgw5HkvPlg1hP5l6UmLUgsN5R
-	1B6lVQyi2HcgnjxvBzaidSD0GQeX5r8IQXIz0v/ORHTB5Ipz/IKvxmHH14kKFVAGmu0RE5jS0tgHZ
-	WdigT2QQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1waLky-00000001r4w-26uA;
-	Thu, 18 Jun 2026 23:02:44 +0000
-Message-ID: <0eaf3be2-5121-48b7-aeed-196405c0a480@infradead.org>
-Date: Thu, 18 Jun 2026 16:02:43 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EAaa5iv+"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-69d7cdd3b8eso715138eaf.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 16:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1781824339; x=1782429139; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZF2qOydljuKl+xI08v46srAj3OTtgmDQPahr/mcPXfI=;
+        b=EAaa5iv+aDeyQcI1EGD6mRTqnTy5KwjR5ojBEBJnsDbgvwJ9JlGgcp7nLU6L8fA9fc
+         dzyeLGkJs7tAmCdlFvxFzN6x32Pg4yjNR05UTrwUu/3wgGiWk24HI3AbRTmE+jKwJ5kW
+         wN/nuAplUrMKsPOgXIieUUOseaJ1VlRMATraM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781824339; x=1782429139;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZF2qOydljuKl+xI08v46srAj3OTtgmDQPahr/mcPXfI=;
+        b=cXRNCxQdgmL+qTDNEGqKRQaxnrdU79xxCIrJuehGttWhU9ceAGgoB57Tqqvrcua+eh
+         FHofoN5bMWXMzP0qe7NAR6eqbL/urG/4nJ6xfskGeJLtL4GvK3enc67T+PF1har450oR
+         IK9mPbv9JEj0EOWG9xKDVYu1u/t+9/L2u8KusUZR/MTz0vZxwuO8mf7jv3YWu2hN1rjy
+         QgcnWf3lLTF/q8j0J2tYVfZlX6B4U6TLoQIB4Qyyb1u6wpOcEOplK6MQ5kFtQdE+gcwo
+         1Aqv1FvzNB1F/Oa9EBcEGWtGnaSteshJLnYpUuaJMcTlGSXHWPImAXMLIkYJZDiqwXrf
+         er4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8KpHOYvdE3949qLWh1bLZ+KecgLItWrCTedOM8Icce5yX5mjSlAtauewn6VMew5vIFpTu/WtWTFD4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYV1yAqacGtYrFObV3+SG5V8vQ/UJ4HXL/LPxQnIymDQpohKSn
+	fPIQeeiuSjgmI49VFtPHYRvnRlTJ3QXyWCLoPEiis7DyIbMTLAvbmHLxfcMD4Bi9pXU=
+X-Gm-Gg: AfdE7cnKZ6kBMv4H7B5qIuGEPYDVsAf01kH7s2CPnUy+obYMT9DTxPM9DAbqz2y6mPt
+	R8syAb2JQXNWiVnd5qq/pk7G19mb7n/TZu2q+K3PuLVz3s+IK5MklCm9Na7uAC1uHAGrzM3e8Lv
+	DkVpUqrXdop/Y+/WmiTV+6IsOzH12JkHYc5udtS4BbugmdHYfcvwxT8a2hnY4QLYyZM6OZBKNIa
+	fKwJl+BjpVwdy730sPL1eLELt7u8Dw9KAxaydrkazcAR/R7nfM2R+kppBM+WoVjDWzLRQ0zLEOM
+	5egCo1VFJyWsskuH7QOu78nI+TIYfDtiwU0iCj2tOjMg5HjMcGWTGsEN2TsNPpJIWVtxrX01SLm
+	A453QcHvb+yWw7nYBQRqU9EI2efEN9ULWxmnP343Ysq5JG5LX2H8/mPdILEFQ4as6CNKFUnKJy1
+	X1UVEx3JEOqj3yQ4guzMtl
+X-Received: by 2002:a05:6820:4b04:b0:69d:513e:1a41 with SMTP id 006d021491bc7-6a0d89bc335mr1222609eaf.50.1781824339435;
+        Thu, 18 Jun 2026 16:12:19 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a0d9040c7bsm652846eaf.11.2026.06.18.16.12.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2026 16:12:18 -0700 (PDT)
+Message-ID: <86e7cb01-fb00-4954-a44a-8c10bef0b23b@linuxfoundation.org>
+Date: Thu, 18 Jun 2026 17:12:17 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,170 +65,38 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] reserve_mem: add support for static memory
-To: Shyam Saini <shyamsaini@linux.microsoft.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: rppt@kernel.org, akpm@linux-foundation.org, kees@kernel.org,
- tony.luck@intel.com, gpiccoli@igalia.com, bp@alien8.de,
- peterz@infradead.org, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
- kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org
-References: <20260618224018.117978-1-shyamsaini@linux.microsoft.com>
+Subject: Re: [PATCH] kselftest docs: remove reference to obsolete/archived
+ wiki
+To: Brett Sheffield <bacs@librecast.net>
+Cc: Rafael Passos <rafael@rcpassos.me>, shuah@kernel.org, corbet@lwn.net,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <ajOvQKne74gN-7Y2@karahi.librecast.net>
+ <1306d609-3375-4f52-8239-b4c2fffb7bec@linuxfoundation.org>
+ <ajQ1iGNw2lf_ZHqp@karahi.librecast.net>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260618224018.117978-1-shyamsaini@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <ajQ1iGNw2lf_ZHqp@karahi.librecast.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 6/18/26 3:40 PM, Shyam Saini wrote:
-> reserve_mem relies on dynamic memory allocation, this limits the
-> usecase where memory and its address is required to be preserved
-> across the boots. Eg: ramoops memory reservation on ACPI platforms
+On 6/18/26 12:14, Brett Sheffield wrote:
+> On 2026-06-18 11:02, Shuah Khan wrote:
+>> My apologies  for not taking your patch earlier. Considering the effort
+>> you put in with a re-sending the patch and following up here, it is
+>> only fair for me to take yours instead. Hope it will apply cleanly on
+>> top of kselftest-next
+>>
+>> Rafael, I am going to take Brett;s patch instead of yours.
+>>
+>> Apologies to both of you for the mix up.
 > 
-> So add support to pass a pre-determined static address and reserve
-> memory at this specified address. This enables use case like ramoops
-> on ACPI platforms to reliably access ramoops region across the boots.
+> Thanks Shuah & no worries.
 > 
-> Also skip parsing of "align" parameter when static address is passed.
 > 
-> Example syntax for static address
->  reserve_mem=4M@0x1E0000000:oops ramoops.mem_name=oops
-> 
-> Signed-off-by: Shyam Saini <shyamsaini@linux.microsoft.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         | 15 ++++++
->  mm/memblock.c                                 | 48 +++++++++++++------
->  2 files changed, 49 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f228..7e0baca564b97 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6563,6 +6563,21 @@ Kernel parameters
->  
->  			reserve_mem=12M:4096:oops ramoops.mem_name=oops
->  
-> +	reserve_mem=	[RAM]
 
-According to this file (kernel-parameters.txt), "RAM" means that this
-option applies when "RAM disk support is enabled."
-Is that correct here?
-My guess is that it's incorrect for the other (existing) "reserve_mem=" also.
+Your patch in now in linux-kselftest next for my next pr 7.2-rc1
 
-
-> +			Format: nn[KMG]:<@offset>:<label>
-> +			Reserve physical memory at pre-determined location and label it with
-
-Preferably		                           predetermined
-
-> +			a name that other subsystems can use to access it. This is typically
-> +			used for systems that do not wipe the RAM, and this command
-> +			line will try to reserve the same physical memory on
-> +			soft reboots. Note, it is guaranteed to be the same
-> +			location unless some other early allocation for eg: crashkernel=256M
-
-			                                 allocation, e.g.: crashkernel=256M
-
-> +                        (without static address) is reserved or overlapps this region.
-
-			                                           overlaps
-
-> +
-> +			The format is size:offset:label for example, to request
-> +			4 megabytes for ramoops at 0x1E0000000:
-> +
-> +			reserve_mem=4M@0x1E0000000:oops ramoops.mem_name=oops
-> +
->  	reservetop=	[X86-32,EARLY]
->  			Format: nn[KMG]
->  			Reserves a hole at the top of the kernel virtual
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index 6349c48154f4b..79f1f806ea364 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -2721,6 +2721,7 @@ static int __init reserve_mem(char *p)
->  	char *name;
->  	char *oldp;
->  	int len;
-> +	bool addr_is_static = false;
->  
->  	if (!p)
->  		goto err_param;
-> @@ -2739,16 +2740,27 @@ static int __init reserve_mem(char *p)
->  	if (*p != ':')
->  		goto err_param;
->  
-> -	align = memparse(p+1, &p);
-> +	/* parse the static memory address */
-> +	if (*p == '@') {
-> +		start = memparse(p+1, &p);
-> +		addr_is_static = true;
-> +	}
-> +
->  	if (*p != ':')
->  		goto err_param;
->  
-> -	/*
-> -	 * memblock_phys_alloc() doesn't like a zero size align,
-> -	 * but it is OK for this command to have it.
-> -	 */
-> -	if (align < SMP_CACHE_BYTES)
-> -		align = SMP_CACHE_BYTES;
-> +	if (!addr_is_static) {
-> +		align = memparse(p+1, &p);
-> +		if (*p != ':')
-> +			goto err_param;
-> +
-> +		/*
-> +		 * memblock_phys_alloc() doesn't like a zero size align,
-> +		 * but it is OK for this command to have it.
-> +		 */
-> +		if (align < SMP_CACHE_BYTES)
-> +			align = SMP_CACHE_BYTES;
-> +	}
->  
->  	name = p + 1;
->  	len = strlen(name);
-> @@ -2772,16 +2784,24 @@ static int __init reserve_mem(char *p)
->  	}
->  
->  	/* Pick previous allocations up from KHO if available */
-> -	if (reserve_mem_kho_revive(name, size, align))
-> +	if (!addr_is_static && reserve_mem_kho_revive(name, size, align))
->  		return 1;
->  
-> -	/* TODO: Allocation must be outside of scratch region */
-> -	start = memblock_phys_alloc(size, align);
-> -	if (!start) {
-> -		pr_err("reserve_mem: memblock allocation failed\n");
-> -		return -ENOMEM;
-> -	}
-> +	if (addr_is_static) {
-> +		if (memblock_reserve(start, size)) {
-> +			pr_err("reserve_mem: memblock reservation failed\n");
-> +			return -ENOMEM;
-> +		}
-> +
-> +	} else {
-> +		/* TODO: Allocation must be outside of scratch region */
-> +		start = memblock_phys_alloc(size, align);
-> +		if (!start) {
-> +			pr_err("reserve_mem: memblock allocation failed\n");
-> +			return -ENOMEM;
-> +		}
->  
-> +	}
->  	reserved_mem_add(start, size, name);
->  
->  	return 1;
-
-__setup() functions return 1 for "yes, I handled this option" (even if there
-were errors in it) and 0 for failure ("no idea what this string/option means").
-These -ENOMEM, -EINVAL, -EBUSY (in this function) are non-zero so they look like
-success and should not be here.
-
--- 
-~Randy
-
+thanks,
+-- Shuah
