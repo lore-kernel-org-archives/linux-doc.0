@@ -1,134 +1,117 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FF40D56F;
-	Thu, 18 Jun 2026 00:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D301A680F
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 01:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781743344; cv=none; b=VmnNeQb1PZikR1jsR9ggYItJPvHu/1P2YiBV984rhp1NHOH1BkYWgrtZT8Geym5aKzaYsJ80OdoVDk2Tz753iZbhGxTO2N8T8RAi5AftrpAqkSJAoNvGVDsWoHgnmzptVZJgWo5A8SgKZ7opNf1s4Gg1uuO6I3zDfZagGX5k4ng=
+	t=1781744636; cv=none; b=EygfkMHtfnGHngk1oyJYBxgNctBFd22zw+Y63zluYzt1wWlrWUY+m1scI4Kn4JuWowuFTGuCadtuYbuYCMLFwsB8SuwbDV6UTaJXQyytehrBLvu3spyyi4CeCCiNepwxjaWgRQZs6nRT7C2HQlwDCZ157/Qd8wEMGDY9uFVEKC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781743344; c=relaxed/simple;
-	bh=LrpFbr4vBbChDMmR0Imvu3H50KZqhmElh6040CgIB2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZPFYTO6VpphEPY+odSgWOy9zautkS1d8kT5GYezF08m52Me3tgUMpyOFxOuVseGBRN455OXHIvuWrrMDrK6URPqge/e5KG7G8O1Mq+yHbMzk9KTQzUVXsUDnhN1j3k7siUMPy6DSKXmJlFIih+bf1k0W2NHse+w1tyorNn0qqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=V9/MYriX; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1781744636; c=relaxed/simple;
+	bh=8NG3M8I4loVexSJCQaUiVxHzwDgUQ0oCpnJY31CbjX8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qSLiMXEZxwGmHC3vHHObhalmuMHCfuKIX7chooksytjqxoZyryvNs0lGWD3CcHA9jFxYJsfz9eg1sjlHBjtLoz+KAQrHj021UDKsFy4w/nbqQIoEwi1Bwhjq8+GWKJx3nOPVV77x2zM9Bxjymi4yWSVw4tzPZ3/5T209Lv68xlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ByrPnjsw; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="V9/MYriX"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5878340E01C9;
-	Thu, 18 Jun 2026 00:42:19 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id YS4gZm3My4eS; Thu, 18 Jun 2026 00:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1781743333; bh=IBHrtVXmPuRWQ7uBhktFTKcch7hAhRcfTxyn7mn7O4k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V9/MYriXywS0hZanHFwwPwHTRJ7pTlal7SUCalcLgv7ntOufAz/28XqFVfI6uKyYI
-	 QOLvxM7ASQ95LAHtjtKQQSW5hRFWqG+Fvm3quBJrqpCYacEpBCfDudcD5TpKxYnvZo
-	 jNW2AguPUE125tOpIJbJKnbPZfOdFjNmXWtJtg63elp1Q41omZP/GgbbwBjA8nAloc
-	 PfGz8IIVcrme12XEvNdKQ2rv/GJag/unT3FlgXHVllVf0VJmtzm0IKtqLKpvRH2wud
-	 N8ImwjHLKfpq4lXe+fjyh782pmKmP87f26PxEGVjPzocmND+8U8oZGxvs6gpq3HXsZ
-	 RRdY/zh3823W1VfUzlz9XQHpfyKj3SugSAPLBNINUSipf0eUCFnf/ASD0chGphO2wd
-	 33XUogK9sPdnD3sSmcICjzmOBuNMU2bfQmSk8K3+YNoAcCC5j9/trjk57f1Z1l85fX
-	 sbPK3s36Q4+q3Rp8+7TUHJs/vXdR8gu2di4PbQr9EcAMuKEYesCn08iPjUwCw7VNCD
-	 XvHeVcsZsQz0RLmL5/C1IdWqyRSi8anYr36UHtEYZc5Ih+oxGgNdo8Nwmeh6BJ3ht2
-	 tqkphneIWVsqRJSVfAq1ynFwyWUfOHhtgqB+aDCAQiIvDR9Ri+cXHuftygbTEx6Z0P
-	 o2dtfp1sQOOLVA3iM8/qRkMM=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E63DE40E015B;
-	Thu, 18 Jun 2026 00:41:08 +0000 (UTC)
-Date: Wed, 17 Jun 2026 17:41:06 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	robh@kernel.org, saravanak@kernel.org, akpm@linux-foundation.org,
-	bhe@redhat.com, rppt@kernel.org, pasha.tatashin@soleen.com,
-	pratyush@kernel.org, ruirui.yang@linux.dev, rdunlap@infradead.org,
-	peterz@infradead.org, feng.tang@linux.alibaba.com,
-	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
-	kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org,
-	paulmck@kernel.org, leitao@debian.org, coxu@redhat.com,
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, osandov@fb.com,
-	jbohac@suse.cz, cfsworks@gmail.com, tangyouling@kylinos.cn,
-	sourabhjain@linux.ibm.com, ritesh.list@gmail.com,
-	adityag@linux.ibm.com, liaoyuanhong@vivo.com, seanjc@google.com,
-	fuqiang.wang@easystack.cn, ardb@kernel.org, chenjiahao16@huawei.com,
-	guoren@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org
-Subject: Re: [PATCH v16 05/10] x86: kexec_file: Use crash_prepare_headers()
- helper to simplify code
-Message-ID: <20260618004106.GCajM-oofpxU2jDsy0@fat_crate.local>
-References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
- <20260608073459.3119290-6-ruanjinjie@huawei.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ByrPnjsw"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-4863ee8474eso239713b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 18:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1781744634; x=1782349434; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ARCAUgzsaxMbVd4A9yETRNbCU+OcaCiHeBSY4FFlaX8=;
+        b=ByrPnjswI/KdaHJ4AmAnXOecUmb8YX2x046zj++jbpV5iM2+hthJ8hIONqpJha56nx
+         WIGacQhyIPUWLOiWMsjJgRk4thu0J9CFCHAkC3Foy+gjeTU4O5fVPQSGdSZoxMTyWnMV
+         fDxrrPuLzYIYuqT2Pxu2kU3cSwpWiKacnmh50=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781744634; x=1782349434;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ARCAUgzsaxMbVd4A9yETRNbCU+OcaCiHeBSY4FFlaX8=;
+        b=qrbI78xl0AAO8hefq67DWOWLb/U0DYkZ33BcqbdyCsILBoCTu1Mr/5nFuPUSJVL5ey
+         lU82iZ1fKwb2yPk5DY5isol6MbbnzRbQwsd6COSOGc9K52RapGKc685cEaAc4y57jxZX
+         BO6sSdjA7UBGErssCXtAMyaWmbdQabOzaItqmQHuAJrf+MGd11ks6lfYE3MgcuZSCl34
+         kiiWMzTRxKY2fw1AAN9mj7LhAGFn/3U/+1vxCiFh4wsM+j746/NFTk9XDN/MKwtOzCa0
+         LqijrXnOHNF0vQ5w5GGi1snUG1NH/tRP01p03J0AwSOYmOF2//r/2n/veZ27o0bmxb1A
+         N+9g==
+X-Forwarded-Encrypted: i=1; AFNElJ8rrjhC8hb861ViM3KN6fVUKGw8XjzNotiiYbrpFUc93F9bo/51tzSyWow8dsomnD6PQvjwK+L1BXg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0AZQG3ziR4cooe0C2E/HrowWuUOOu+xYxSL3FYJalQO4ETzME
+	GDdw7yyvJEK+i709WWojSBnVR778gg35fFtT/D/rKm1L4PVK+Nsr4lTOfxbpY7T+n/XCyldES10
+	d7Gde
+X-Gm-Gg: Acq92OHAxlQIqU8M9tWZqij4DBDxDy2w/l5GFKHWRWn4S1kO7shxXH6jvn6XK2FZKY/
+	ozkUa9yFJWLJI4BdSaLnFw+h49SutIERn+sd3LV/6RKCqRK6JroUhx6w2XXs9VZUl2hA5kbv0ev
+	abmhEsguBjvwq1xT3ffvbs8PFpgbkJO4/S1sH+K8m1RjvnSYsJ19/p3DNH4rUUEq/+ukZYdtWnr
+	Xi3SMJnAvrCanXvlgMwmd017gIjgUG301gQXLPvu5b1MKlQOGLNryQHgxdMR+6eAV9Y6OOuvH2v
+	I2ptcXJ4atrMEpLbRYAgq9KeVzQYNW9opyQMxTFvbxJQqaEgxiRq3YKlLXSelYGlMCGoFFBxbon
+	WKC/asbSLqLBVvzZGiIFKDWPXXQukpbe6InPPcS7dGH0kXgZHL22xl1fWQq9/U0q4y6jNI1q0Lw
+	UUKTNI5vW65sUaF5THfd7s
+X-Received: by 2002:a05:6808:1797:b0:45c:8fa8:7497 with SMTP id 5614622812f47-489429eea8fmr5398284b6e.34.1781744633722;
+        Wed, 17 Jun 2026 18:03:53 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4875dfadd66sm7366835b6e.14.2026.06.17.18.03.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 18:03:52 -0700 (PDT)
+Message-ID: <865def83-a07e-4eba-b795-7da66e0e2d69@linuxfoundation.org>
+Date: Wed, 17 Jun 2026 19:03:51 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260608073459.3119290-6-ruanjinjie@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kselftest docs: remove reference to obsolete/archived
+ wiki
+To: Rafael Passos <rafael@rcpassos.me>, shuah@kernel.org, corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260617235740.74029-1-rafael@rcpassos.me>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260617235740.74029-1-rafael@rcpassos.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 08, 2026 at 03:34:54PM +0800, Jinjie Ruan wrote:
-
-> Subject: Re: [PATCH v16 05/10] x86: kexec_file: Use crash_prepare_headers() helper to simplify code
-
-Use proper subject prefix: "x86/crash: ..."
-
-> Use the newly introduced crash_prepare_headers() function to replace
-> the existing prepare_elf_headers(), allocate cmem and exclude crash kernel
-> memory in the crash core, which reduce code duplication.
+On 6/17/26 17:57, Rafael Passos wrote:
+> This link in the docs point to a wiki that is no longer active.
 > 
-> Only the following three architecture functions need to be implemented:
-> - arch_get_system_nr_ranges(). Call get_nr_ram_ranges_callback()
->   to pre-count the max number of memory ranges.
+> The wiki was moved to archive.kernel.org, and there is a warning:
+> "OBSOLETE CONTENT This wiki has been archived and the content is
+> no longer updated."
 > 
-> - arch_crash_populate_cmem(). Use prepare_elf64_ram_headers_callback()
->   to collect the memory ranges and fills them into cmem.
-> 
-> - arch_crash_exclude_ranges(). Exclude the low 1M for x86.
-> 
-> By the way, remove the unused "nr_mem_ranges" in
-
-s/By the way/While at it/
-
-> arch_crash_handle_hotplug_event().
-> 
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Acked-by: Baoquan He <bhe@redhat.com>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
 > ---
->  arch/x86/kernel/crash.c | 89 +++++------------------------------------
->  1 file changed, 11 insertions(+), 78 deletions(-)
+> 
+>   Documentation/dev-tools/kselftest.rst | 5 -----
+>   1 file changed, 5 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index d7bfe320338c..64c0ec7428a2 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is important to keep
+>   code that can still test an older kernel and make sure it skips the test
+>   gracefully on newer releases.
+>   
+> -You can find additional information on Kselftest framework, how to
+> -write new tests using the framework on Kselftest wiki:
+> -
+> -https://kselftest.wiki.kernel.org/
+> -
+>   On some systems, hot-plug tests could hang forever waiting for cpu and
+>   memory to be ready to be offlined. A special hot-plug target is created
+>   to run the full range of hot-plug tests. In default mode, hot-plug tests run
 
-With those nitpicks above addressed:
 
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Looks good to me.
 
--- 
-Regards/Gruss,
-    Boris.
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
+thanks,
+-- Shuah
