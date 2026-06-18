@@ -1,98 +1,153 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBBC272E56;
-	Thu, 18 Jun 2026 16:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC9E30567C
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 17:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781801334; cv=none; b=kTtQDkHQJDrDOYKMynR+Vh0D+kBvc+K2ZJDtV6MbZ+Kg1xxAR4sAQCfuYJ1lJO+dPDolAKcCFIn8Bvb/wOVXuOmZolVsPBB2x9/UUwcXqgpOwNbt8KTPBocLKCZSgK3EkmLgGN+Ag4UpehsaTkNXQ1talTx8FOj8tzEue6Q2+1Q=
+	t=1781802127; cv=none; b=PG8c8J1csdQQQTv+3VHbRDLZbiaVVs8HMzDrz3I/WtDJqbzVe40HVkPvAakZ5YUOtv+fTNYNc2D7KraJ0zwezpXyZKG9btAftXyFfLKvRxYcNw4r8Gh0CIzpB17qu8zEfOhikFTp5O1woicBeVrM1L5HcTnChSObcNMcLEaB8fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781801334; c=relaxed/simple;
-	bh=HxLrSWagyGYk3m7sWpoxbRSCOquF2+62Z+gU3t0twW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+k3MkRp2X2ihDybfGS7abblM0veSpehAUlNK3UHVGtAKT98iurjI0Ww2zman/NpweG8962WJ6KCMzxXzgn7YRHamaOh1UVsKfLqJGH0wE4ds73z6D5Od2/nv57aicZOV5jPKWnrzYeovYxpi+GQGH1uyEDNSwBMITJescGNYPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WvpC4NyW; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1781802127; c=relaxed/simple;
+	bh=XaV8a3UQtqcjTbDhXEAibebtLvTrsKHIKVmJnslIQyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rJsq2UtopN+G3gh7CD8r+MzMLcW+i1VHaOsh3xc0Eko+XRie1MlVJ1TzWbEMcyQlPs86NQVWWfg8VrHg8du26KxkuMCJGgnrK3RteS607geML77SYp3Mmc4cQk35A1hJg81Khf1BbEXBq4GgpUMrTLZXE8NziWvPSTQDS7Y+CfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XY3qaOTL; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WvpC4NyW"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5B10E40E0287;
-	Thu, 18 Jun 2026 16:48:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id coyelGpZHU7H; Thu, 18 Jun 2026 16:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1781801319; bh=oGfYFsvAo+NWcbAFBVJcOqhaqOszWCp/L3SV/OjgWik=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WvpC4NyWdV/wtfO8o12UcVMpDYCX7tXm0yiJHEVW3lwg0UlRupDLSy4H3YYNXtB3P
-	 0ZbZ7T/ZXotmxZRxm5eBFrgOHMC3yGodfT9f3qRpz5ShI3opcrXhgH8sErqYgp9RD6
-	 hdF5HSF/T2Bmbg6YvV5ESrDYaGfuNKRflT2WCVM2r/XQ7pi37jAPVcqyRzJYHKUF/T
-	 Z++3M3Uw4Bai9GMOkFFeZU2wV4z/L9cms0C5YnGmh2DojWSfoHa8EDAN0QFyENOWUf
-	 kjO4AbpLYwrtTm7oRfCnLGZ31TSRf41v6MINLmn7vS6uhPX/n3CfIo0NmiI40hlhiW
-	 Au3+OAS+n46/I3oYA3QJsdcQKohw6eFiaH20y5oKVrA3BYQgQrVkA6VdGfN5Oy4rAO
-	 qi29Jzkv6LsC7bnvav8F1EgZ88f6QvOI053hUWPKmYfDrFuB31b3tqGLIw1kqNxEqs
-	 198LbEbA5BM1iWztMACwkKcGl4UEhGawKkJkgEBBGFRsRTU+EUvS7ESSPANZRmH+dx
-	 ZoGl0X82e81wH+tx+hJovTl6AJPsOAUEOTAZiR0z24Zofy7Z+r0nVAbX4CCCvw7G9H
-	 lK2JKoOS3D1o80/Rhn/LYjPljpQ3vn1eKUNIA72SpfgqROzEfYLRbuPixg0BqnyPFM
-	 EyMv/9MYCEOxOMmF9syUAK2E=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 37DF640E01D8;
-	Thu, 18 Jun 2026 16:48:10 +0000 (UTC)
-Date: Thu, 18 Jun 2026 09:48:07 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
-	Saket Dumbre <saket.dumbre@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Dan Williams <djbw@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
-Subject: Re: [PATCH v6 00/10] ACPI: APEI: share GHES CPER helpers and add DT
- FFH provider
-Message-ID: <20260618164807.GAajQhR9J_00j4LxaC@fat_crate.local>
-References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XY3qaOTL"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e71198e0adso449062a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 10:02:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1781802123; x=1782406923; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3Dshu88ZuhYuScihy4XNQcAaIDZZApNzfPKmeuN1s3E=;
+        b=XY3qaOTL5nHAtTctQHjFSPN+I2t5UXwPxuyY43GODQNT/s8LfGp4wkkTMPCiW6vOB6
+         M3u8bdy3hkKGuJlnWOSKVj9+GzlaGfiZ/Npd5QLIhj8colHGASNrm6vfdYUR2qhpU01V
+         6HXzh0oYkR4sIOB2IXt9U/pYewbCNAPj2e3ps=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781802123; x=1782406923;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Dshu88ZuhYuScihy4XNQcAaIDZZApNzfPKmeuN1s3E=;
+        b=A6jL/87I+Emzh2Bogia0YWf+JUpgkz4o/g3yPlC8fVBIUVfJe4t8Mb7MezJfAwWFJI
+         rmJGmyfMyUHXGJNxhwvfNxr79hAuycYA1yIir26ocP64QvEhpKGY1PBGWtgQeAcsZiSE
+         QXddpmJwT8kQ+X4UtuSFQMb2zMgaiUO1qhB3HK7Qqct7Qjwy3+KbVIYIcNM7sl0OAha0
+         F/184CFtCFg95DX75YIa72hpJzMvVMEdtRH1sHtYX8NS73UAsjv/8qRWMeUNpSEjf9WE
+         5jzOu2nroN8u/jvU3a1HEdL5P9GXurAFm6XbKty98DTepcxmKezt83Amlqui8+kIOBVn
+         p6jw==
+X-Forwarded-Encrypted: i=1; AFNElJ9E09KCbsXCi+MveVANFb60lsaocXZ7sRg2AyKq0KAVi3kD+QNoE/uziwnBbCIgj2HPp6MJZLh44Tk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzc8iHXSQZdKtDZIC+TcrmSorLmqy0ZUtzhS+Gp4fvxaiUmBGOm
+	/wsicRrxL3Ig0iPqjoN255wR8Oxmcmc2HnC4Hzs/kKcBpN5YNPbEkUPvpwXxMCT6M1I=
+X-Gm-Gg: AfdE7cmoCY/2tvifbYg13kbJplAKMOdF2qzz7MBi3kye8HnN3r3St2iJNQN0KLcyKcn
+	5JmqTI8mPpwjTrREqCxLGxYi2ZPMp2CEhIJoJUxh/6HAqSb69lYC6RX+m4y0oUMOPi2bgU6lOBo
+	DY+GvrOxOo/sYBVRpr+jdGL1FgfpEgQFLa4CsRD5zDdZgbpMlgZueGzKyfC8zaa4J7M6r8RW3aG
+	RKt3MrDzaNV44iomkDpiyLCrOs8upVK8jnvm92skyQVeTMmoryJoMNJrfApqLg/sxbP/mmQ/Sr1
+	al0XOb9p5Q8Y9Xh9GkhJ+oBNEH0hlwc5hMw1thD+P4H05UzEE1mmbAhe3eXvd8rrwDyAcjsyYTQ
+	TQwAxz7UX+4LNlid+06oJgPxyCA5P1iryoNvIpAh+PxJk0usVfDxmagyP75mQ+y3rZbpRBEfhjn
+	oairushaBF0uHfnk/bgoSu
+X-Received: by 2002:a05:6830:6b04:b0:7dc:dd19:7f53 with SMTP id 46e09a7af769-7e90c8f263dmr7321421a34.14.1781802123216;
+        Thu, 18 Jun 2026 10:02:03 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f5a1b22sm12489190a34.2.2026.06.18.10.02.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2026 10:02:02 -0700 (PDT)
+Message-ID: <1306d609-3375-4f52-8239-b4c2fffb7bec@linuxfoundation.org>
+Date: Thu, 18 Jun 2026 11:02:00 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kselftest docs: remove reference to obsolete/archived
+ wiki
+To: Brett Sheffield <bacs@librecast.net>, Rafael Passos <rafael@rcpassos.me>,
+ shuah@kernel.org, corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <ajOvQKne74gN-7Y2@karahi.librecast.net>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <ajOvQKne74gN-7Y2@karahi.librecast.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 17, 2026 at 02:54:38PM +0100, Ahmed Tiba wrote:
-> This is v6 of the GHES refactor series. Compared to v5, it addresses
-> the latest review comments and tightens the DT CPER provider and
-> related helper wiring.
+On 6/18/26 02:41, Brett Sheffield wrote:
+>> On 6/17/26 19:03, Shuah Khan wrote:
+>>> On 6/17/26 17:57, Rafael Passos wrote:
+>>>> This link in the docs point to a wiki that is no longer active.
+>>>>
+>>>> The wiki was moved to archive.kernel.org, and there is a warning:
+>>>> "OBSOLETE CONTENT This wiki has been archived and the content is
+>>>> no longer updated."
+>>>>
+>>>> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
+>>>> ---
+>>>>
+>>>>    Documentation/dev-tools/kselftest.rst | 5 -----
+>>>>    1 file changed, 5 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+>>>> index d7bfe320338c..64c0ec7428a2 100644
+>>>> --- a/Documentation/dev-tools/kselftest.rst
+>>>> +++ b/Documentation/dev-tools/kselftest.rst
+>>>> @@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is important to keep
+>>>>    code that can still test an older kernel and make sure it skips the test
+>>>>    gracefully on newer releases.
+>>>> -You can find additional information on Kselftest framework, how to
+>>>> -write new tests using the framework on Kselftest wiki:
+>>>> -
+>>>> -https://kselftest.wiki.kernel.org/
+>>>> -
+>>>>    On some systems, hot-plug tests could hang forever waiting for cpu and
+>>>>    memory to be ready to be offlined. A special hot-plug target is created
+>>>>    to run the full range of hot-plug tests. In default mode, hot-plug tests run
+>>>
+>>>
+>>> Looks good to me.
+>>>
+>>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+>>
+>> Jon,
+>>
+>> I can take this through kselftest tree as I usually do.
+>>
+>> thanks,
+>> -- Shuah
+> 
+> Hi Shuah, Jon et al,
+> 
+> I've been trying to get the same change merged since August 2025:
+> 
+> https://lore.kernel.org/linux-doc/20250824075007.13901-2-bacs@librecast.net/
+> 
+> resent in January:
+> 
+> https://lore.kernel.org/linux-doc/20260115172817.7120-1-bacs@librecast.net/
+> 
+> It's great that this trivial fix is finally getting merged, but can someone
+> explain why this patch was accepted in preference to the one I sent in August?
+> 
 
-Sashiko has comments:
+Brett,
 
-https://sashiko.dev/#/patchset/20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0%40arm.com
+My apologies  for not taking your patch earlier. Considering the effort
+you put in with a re-sending the patch and following up here, it is
+only fair for me to take yours instead. Hope it will apply cleanly on
+top of kselftest-next
 
--- 
-Regards/Gruss,
-    Boris.
+Rafael, I am going to take Brett;s patch instead of yours.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Apologies to both of you for the mix up.
+
+thanks,
+-- Shuah
+
+
