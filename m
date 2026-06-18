@@ -1,63 +1,51 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3755B1E32CF
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 01:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D4B40D57D;
+	Thu, 18 Jun 2026 01:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781744706; cv=none; b=LPC/t5iZ9D7SraaUQNv/jDrPYPGiuIRD349skx9wzn7VLl+YaXx7WkP+9dId+B+DM/RQ4kXIZ7uBD5Yjkv9wPcluYdO4n8QO6NK0u7AyGd9HxRbCmBUdjR1udXK/W5UqYaL69SpSAlD4LGAnsD/dVnxaE9gD6pdqKTSsQ2F96BI=
+	t=1781747136; cv=none; b=mPuatzUqixk4hOjNdEjoMpmaRgtQhWD1fiDyUTd9wziFcsl+nF+HjqV1C+8hFN0zZUjXdRFTbqtb7ZHCKWq4mKYejJXzFhDyb9V7P2goHcF+DrNfiazkbGFGOxJuF6b+MpdQ3W6g6umPjZLltnXaJt9SuRA3jzChYFzx8Ue+DjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781744706; c=relaxed/simple;
-	bh=lP/UWIR6XD0RATLTWtMbingCRoKAeXTmwz1I63Z3kDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qvsiSWU8AmmNuvktsBPDepj+ftKDckzsBSMlbmDpoli77dscFgFaMF8muuccWJE8m7m5V5myeK+G9CHFnjFChhjiF7EfWpwNnoB3cFBXn+7PIdRBNTsKBn/HA8lDf3cdogE61ITE1EH21pac12fZzEJOMNa5p8BZCkglG9zBASU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=idDDb4L7; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1781747136; c=relaxed/simple;
+	bh=ddQ+SMN/+Lp7HFPmuIVAxMq7wm4oLOOuYVK6wbQbSU0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IcziNSsutIABUt8X6tFXHMcdgc6xW0MtwnXV3vG6J0c8rZMNyTEC+Dms0k3VWUDD0zU2fN57bRvsV0n6TmYyXs4Tg7ftVR3td5bQBlus/j9BjPY9lxehX3NL7JO04ml/NmWHmTZJ8elalwTcM35Slms15uoUDLdYLrP/Yj82xDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mKZIAMgr; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mKZIAMgr; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="idDDb4L7"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-69e7dfcea4dso987888eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 18:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1781744704; x=1782349504; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DG4WfrI5uGpYpp/RrAn3uAACKhpvlfwH7HOXG2FaZec=;
-        b=idDDb4L7ipCbnD0ibjAwix2SbZX0dI4x24YOG+7nA+mBV3LmZAuoB/nIGnUUSbBR4D
-         JezRBF5y0utmz16ldF8D2PE3gbM3vCIxVWBZFwPrTEXMEAdpncJMMqmQvEdux9G4UYG+
-         oCxn7H4eHCBRFF0+g5dUpB/0dAy9Bmf0Xhxw8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781744704; x=1782349504;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DG4WfrI5uGpYpp/RrAn3uAACKhpvlfwH7HOXG2FaZec=;
-        b=K5FnvKLsvwLphs0bgiLktRh1Bg5z5f0vmEAN8b36mH79DejyeZuxJKc2XJn/f6JGIb
-         6eau2ITEkSoqVJztt9UBNJuOyJ08iIAYRhN9cWwP/0VJdBMzwYu3qi1oNNqvn7MBRaHb
-         Y2V9hq82/vjChPUa0baewi5PEkimQ+5T0/ggXYiWG7aDY68A8iC4q7PSKEXI3O5OA9PM
-         CtcW3edO4nyGemSaIcke9Vxso4BmTyFH0WfAC0D9iKEYYsRqTHgKW9YpAaKYoGao2ROZ
-         Ydac5VqC6dYbPTdi24LMjkCQoPG/o47hAePL6sLAvz4gou3gezu0HHkSODOTj+RlUVRZ
-         a+Ag==
-X-Forwarded-Encrypted: i=1; AFNElJ9aXKFUAfFQ1c43Wf/qGgbSkGhczQSMaZ1uQBCJeWhaQKnxQUQmfUvLeTqXtd/Ie9t2dXWADP32olU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7o1WccLHV7NZYmOsBqVbo0PC26bxkZ6tRuFQZKmHV8+alV5W2
-	XXdM+jMhcBAzxT5LQIJlwobTrxQnlk9MEa0NUAwhJ6d/dw/lmXXxPNhkl6r0ypPqIbQ=
-X-Gm-Gg: Acq92OEUvvXmxXAWdrByxVm53oS7CyI7dWVrtlPG7DeuyEvonFY+15T6tz/x8H8N1Fh
-	a7CJ8uGp9Vs1r3lTuLpTMxmrNh49pCD1THY4AXRgoIg6d7Sz3rA8Kik1oha6ZQCuGu//+zfGlH2
-	+PdTlmdm1IGO2LJ9i+0zJdKHsy4qFnNXtye974rwig9hZdyKUTxzLe15ubI+0SI2S00Bs56lOMT
-	FfS1i+roore1bWydMFDiCnr699305M4gGy7hKUG9OgUOtJ6nCtapPjr/zow3brW6yVU3t725uw8
-	o+n2PeI+9Z/np8WOI37ZApYGyyWhPzh3+s8Lq/2rQ83I4BOQEGPZeD5iR4p9xNJ6y86eUb/FyqM
-	y0HSPZ97ngrbCuo5yCbbDVwuCk7Ch7ZzdNYrpfzMnngt8bp6Xv+mbiwXUwsOyYzblERpTYzNNP2
-	zT79BMMGlCh+qkNtVi5rc3
-X-Received: by 2002:a05:6820:f022:b0:69e:98c0:a91 with SMTP id 006d021491bc7-6a0c744dbb1mr1461703eaf.36.1781744704016;
-        Wed, 17 Jun 2026 18:05:04 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44308f09405sm5479598fac.12.2026.06.17.18.05.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 18:05:03 -0700 (PDT)
-Message-ID: <20868e21-ea0d-42f7-921c-987625b4e471@linuxfoundation.org>
-Date: Wed, 17 Jun 2026 19:05:02 -0600
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mKZIAMgr";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mKZIAMgr"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=elgYJ9FctEuOCR5N0/Evesj9qTtWETUXJRRIi/jFI38=;
+	b=mKZIAMgrv0yhhqfotPRGtcu6nLs4Chv0duVXxR76TfyQ3YmTy1nupn328cT3+Yi8uyhE+9n3j
+	uc7hX8yW3e8zJNd2aoWbAUFQRgY3AFqjEchvsWtvpFlpDHyb9xAegYA4dU42PHQBl0b7E74Ye3c
+	bNyffaauQdereWE6+Bi3IAM=
+Received: from canpmsgout11.his.huawei.com (unknown [172.19.92.148])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4ggk7D40D2z1BG77;
+	Thu, 18 Jun 2026 09:44:56 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=elgYJ9FctEuOCR5N0/Evesj9qTtWETUXJRRIi/jFI38=;
+	b=mKZIAMgrv0yhhqfotPRGtcu6nLs4Chv0duVXxR76TfyQ3YmTy1nupn328cT3+Yi8uyhE+9n3j
+	uc7hX8yW3e8zJNd2aoWbAUFQRgY3AFqjEchvsWtvpFlpDHyb9xAegYA4dU42PHQBl0b7E74Ye3c
+	bNyffaauQdereWE6+Bi3IAM=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4ggjyS3WKvzKmMH;
+	Thu, 18 Jun 2026 09:37:20 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id DADF3402AB;
+	Thu, 18 Jun 2026 09:45:21 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 18 Jun 2026 09:45:17 +0800
+Message-ID: <6437c0e3-d5c5-44b1-9157-b30bae2a6335@huawei.com>
+Date: Thu, 18 Jun 2026 09:45:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,57 +53,72 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kselftest docs: remove reference to obsolete/archived
- wiki
-To: Rafael Passos <rafael@rcpassos.me>, shuah@kernel.org, corbet@lwn.net
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260617235740.74029-1-rafael@rcpassos.me>
- <865def83-a07e-4eba-b795-7da66e0e2d69@linuxfoundation.org>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <865def83-a07e-4eba-b795-7da66e0e2d69@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v16 00/10] arm64/riscv: Add support for crashkernel CMA
+ reservation
+To: Mike Rapoport <rppt@kernel.org>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <pasha.tatashin@soleen.com>,
+	<pratyush@kernel.org>, <ruirui.yang@linux.dev>, <rdunlap@infradead.org>,
+	<peterz@infradead.org>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<kuba@kernel.org>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <leitao@debian.org>, <coxu@redhat.com>,
+	<Liam.Howlett@oracle.com>, <ryan.roberts@arm.com>, <osandov@fb.com>,
+	<jbohac@suse.cz>, <cfsworks@gmail.com>, <tangyouling@kylinos.cn>,
+	<sourabhjain@linux.ibm.com>, <ritesh.list@gmail.com>,
+	<adityag@linux.ibm.com>, <liaoyuanhong@vivo.com>, <seanjc@google.com>,
+	<fuqiang.wang@easystack.cn>, <ardb@kernel.org>, <chenjiahao16@huawei.com>,
+	<guoren@kernel.org>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
+ <ajLr53EK6mJbng-7@kernel.org>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <ajLr53EK6mJbng-7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On 6/17/26 19:03, Shuah Khan wrote:
-> On 6/17/26 17:57, Rafael Passos wrote:
->> This link in the docs point to a wiki that is no longer active.
->>
->> The wiki was moved to archive.kernel.org, and there is a warning:
->> "OBSOLETE CONTENT This wiki has been archived and the content is
->> no longer updated."
->>
->> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
->> ---
->>
->>   Documentation/dev-tools/kselftest.rst | 5 -----
->>   1 file changed, 5 deletions(-)
->>
->> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
->> index d7bfe320338c..64c0ec7428a2 100644
->> --- a/Documentation/dev-tools/kselftest.rst
->> +++ b/Documentation/dev-tools/kselftest.rst
->> @@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is important to keep
->>   code that can still test an older kernel and make sure it skips the test
->>   gracefully on newer releases.
->> -You can find additional information on Kselftest framework, how to
->> -write new tests using the framework on Kselftest wiki:
->> -
->> -https://kselftest.wiki.kernel.org/
->> -
->>   On some systems, hot-plug tests could hang forever waiting for cpu and
->>   memory to be ready to be offlined. A special hot-plug target is created
->>   to run the full range of hot-plug tests. In default mode, hot-plug tests run
+
+
+On 6/18/2026 2:48 AM, Mike Rapoport wrote:
+> Hi Jinjie,
 > 
+> On Mon, Jun 08, 2026 at 03:34:49PM +0800, Jinjie Ruan wrote:
+>> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+>> and crashk_cma memory are almost identical across different architectures,
+>> This patch set handle them in crash core in a general way, which eliminate
+>> a lot of duplication code.
+>>
+>> And add support for crashkernel CMA reservation for arm64 and riscv.
+>>
+>> This patch set is rebased on v7.1-rc1.
 > 
-> Looks good to me.
+> Please rebase this set on v7.2-rc1 once that's out.
 > 
-> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> I'm going to queue it in the liveupdate tree then to expose to the wider
+> testing.
+> 
+> Meanwhile it would be great to chase riscv and x86 maintainers for acks :)
 
-Jon,
+Thanks! That sounds great.
 
-I can take this through kselftest tree as I usually do.
+I will rebase this patch set on v7.2-rc1 as soon as it is out and send v17.
 
-thanks,
--- Shuah
+In the meantime, I will CC and reach out to the RISC-V and x86
+maintainers to request their reviews and Acks.
+
+Best regards,
+Jinjie
+
+> 
+
