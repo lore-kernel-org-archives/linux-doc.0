@@ -1,213 +1,241 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012012.outbound.protection.outlook.com [52.101.53.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DA23446DA;
-	Thu, 18 Jun 2026 17:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781802905; cv=fail; b=sHg9dtLA4G34XY2Mkjr1YWLFQpOsGVAGSIeKE9T0R4NyhVVJgR2r7Jqr1dywvU06FWvyC3RUSiEfG/u2XQ99gxAbsa/5eZuY/fXoAdL1+OHG3oh+n5UO1jxN7UztvviqSg/fsiJSLtoEXK6PjP62JDeVGiOw+cBe97wbNboYmRM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781802905; c=relaxed/simple;
-	bh=/FnVt6fzqEZQxT3u5zwn7Zr5MEHZC6HSXpDCBl71fT4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=FxSYF6PAKMkIhnD+1dh2J6J9TMjL+S+QCCQSV7bgoGloennDtAzkOhMPXj2ipwW20upNXEJC0WAsmf3HsBOX6VDCaGV3TL1oXJn4pXo3sGRzEppa46f1UByx8hdbWvE0WuecdOnm32ENdn9wYQXyJhpN56+G76o7cvMJ7L92JEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=p9wuSKpT; arc=fail smtp.client-ip=52.101.53.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5426D313E36;
+	Thu, 18 Jun 2026 17:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781803360; cv=none; b=i3laXWVxDsBoBWBGnT+Nnevuj2Z5Lk3C/ELX0R34lrCPbtCnws+oB5XFKWx27H3i9s8DvE8jXgr8+qx47U3wxsUWFF2LHphFMbxciMd5trUR08ZRHi5CTLTC3pLBpM/UrwrOMrN6eEJaZOAgwzTDOXV2IeTK2c/Zmr5i7Zu+1ic=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781803360; c=relaxed/simple;
+	bh=u89v4memMegfNzL7+VXIs+t1mWmj4gb87bQtc0/n40s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YMt/Xc2O9x6Qg5iLlVhYudfBTocBOaTNwcmcCrOaZGa/75/VOgHhTQpkXU5XrKpvzA9qpO55ruwNjbad+NW+bZb2pR8hBoSQf4V8RTy2COcvP0+di/wDATygZSooNt4emHXZIVrnVJJ2hYDYoEn8TY/vOk9NSr6N6K3YS4rKW1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaYDLzXF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="p9wuSKpT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R7D2nsjLYo8aXe9KGVlQN0c19WObj6v4Knkp1CMJjCXVIuh81Ga2JZwyVMg9d8Svsjci6uemtNZSE4uwZJj6BBW8d1M6wDnwRz4B8Fw+WC6KOSrtpTvUR9oGPsBkvAJlO420knEla2KQmOFYLQczFxjM6SxSEAxAXZBL9/ZKhaqAKHnHwqpxu3SiU/fwDLiuGnmEW/MtHTuX27JsnluuOZ6pFtsYI+V8+18odQ1vKH8kDHRRWu86DMpeap7C+6TjbIgepUcVmWk2cIUj7iLRXS0oRlqQjX4gNKqJZF1zUyOPTvSIYrXks/W/K+d7/D8Vd8ZJnWSQYthHvPZlEcJO3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hp7s0WZBKHfxaExe0eCTH67Z0YYqVpGNrQGayLyLXOw=;
- b=Z71KsGs+HLWjfcGKSFVc4egFYakn8aulKx4bgxohodi09ytmx/yyvzylQWQO4CXGOYMUs8GNUAVG6XWsDA05HpfOYB1cG/mLl/thAoYX4jkNHJqJ6nQeQO/wCvu25Jfbrs6MlUsqklqAmqzXHC1tlf3CBDFapk3NY+Q9v6MOONPsysXOx7l7Q/2vO3EnEQbZ4wZEONAR+ah4iIBkcExK1XD9uVaOlOuqD5gOjbni4P75htot4eGby3b3jDNVTLv1WzGuH3P16Gq66Zq4FdUJ0P2SCRREUuwG1iC7LmKVD8HdM15goHGosbfVbw037e9gxSRUO+n+8wVJH14KmbHY0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hp7s0WZBKHfxaExe0eCTH67Z0YYqVpGNrQGayLyLXOw=;
- b=p9wuSKpTFkSFh04Vb7390u4erznG7oIGAGgZUQYLDT2YGT6Fz7JyDHd3v/7YBVea++oZnFxNVyEJN/90nc7vSZ10UfgyCmZpMoXmbyP270K55a4pFFJsFzQEj51WKebeTpR/E7hBlsECAQRjRCUwZ9Pnzp6hkJZ7NMSnojNP4rg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
- by MW6PR12MB9000.namprd12.prod.outlook.com (2603:10b6:303:24b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Thu, 18 Jun
- 2026 17:14:59 +0000
-Received: from BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
- ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0139.009; Thu, 18 Jun 2026
- 17:14:59 +0000
-Message-ID: <416d685f-9e76-415a-bbb0-fc89f87827d9@amd.com>
-Date: Thu, 18 Jun 2026 12:14:56 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/12] fs/resctrl: Initialize the global kernel-mode
- policy at subsystem init
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@kernel.org, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, mingo@redhat.com,
- hpa@zytor.com, akpm@linux-foundation.org, rdunlap@infradead.org,
- pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
- dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
- lirongqing@baidu.com, paulmck@kernel.org, bhelgaas@google.com,
- seanjc@google.com, alexandre.chartre@oracle.com, yazen.ghannam@amd.com,
- peterz@infradead.org, chang.seok.bae@intel.com, kim.phillips@amd.com,
- xin@zytor.com, naveen@kernel.org, thomas.lendacky@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- peternewman@google.com, sos-linux-ext-patches@mailman-svr.amd.com
-References: <cover.1777591496.git.babu.moger@amd.com>
- <38f794ae4076a3c118e8eda08ae2bc1e69eba979.1777591497.git.babu.moger@amd.com>
- <ffa4f5c5-9512-41fc-9354-803a182a85cd@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <ffa4f5c5-9512-41fc-9354-803a182a85cd@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR12CA0029.namprd12.prod.outlook.com
- (2603:10b6:610:57::39) To BL1PR12MB5320.namprd12.prod.outlook.com
- (2603:10b6:208:314::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaYDLzXF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 524151F000E9;
+	Thu, 18 Jun 2026 17:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781803358;
+	bh=CCIZDXXSfPKbcMGZbi4n+59Jp79siugdVFjDNu887cE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RaYDLzXFU5AzdR+NTv8GaIfShr54Ma3m5WaOgGzS91/RCOwSrR9Zch0iZDSyuCY7D
+	 2X2CQfHNInWnTp8HTd/+o0yWQ3nnYXLni8vqYHnA/Mel97sMtHdb73Jek+jxwQgwt/
+	 fNvXDt/F4JAMoIS7MNGiyhz4Xdua68y5K5ks+05kCThlQVi8PZLzMJOGt4AY/oMFYk
+	 R/QszxIt7cM0W8mlbynasyE+YerNS+h7KBZ5F9GsfS9Y00dPm20kNg2gKT1VDgOHEK
+	 EcNFMR8G77nZFdNBaj83oEq1RsW/iMuvspFLL83G5Z2gfCAZitGf5phfC+O0+epUKS
+	 WQoMaUJB1q9zg==
+Message-ID: <29a304f0-1e62-418a-b84f-aabdc4c0de8d@kernel.org>
+Date: Thu, 18 Jun 2026 19:22:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|MW6PR12MB9000:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b89064f-f60e-489f-28ec-08decd5d2095
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|376014|4143699003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	64QhXd8ZPTwyWG0sInvQqnFHDd19C5yG9BoqgWDGXGRjfqPpsCt8MnlbGTE//wshTFifM2SYhMO09ndzG1sLZ28HuSbL3uOOazRCVKFkqqOSpEeDa+XucixYkMAieH3T6Hk9u1sioAwTJ2mA2h8jT2dk+O3tPNQWERFVObd2clWzx/PW8eDX1GypsT5y3tSWTpQBuaRAAghyp5Wydq8GQuXhGfl4xCOi2MKWOtJ88YeRenLLmONzQPhwEGpu5rmJjE3Fb3cEs+wI9t5FuwXT4qfjKC1ReoVM9lLs5Bhm04DVpnxeZ7UobqUqpsD5mlNu1UMdW72K0W5B9/R1f5+vWjmTAdUhnr0C/ADbJY+JaIpohMT5mom9S1k4GBLtC17Trr8OEFqri6nyrs1Qlfdeg/q6798H//6swyM88hpDs7gKEC3zauICOws5c2NAGL3dMHevWAuzKTKYN1GfOihH4D1NNWAquSd0mtcmZNnXZFXlq6gkUf2Q9DeHHKo0zghkGfyVJetbSy8Lc976KwBZBkBYhEf+DPIkiOqvP0VfsMfxD22V02e92ncSYeu+VIL5k6iFNE0YQg7KFZfEkrYMRvhf1k53IGNkfAd18HK1st1iwguwXO9C4vfpac3++wzryixxidSZtEcPIxpeEbPAoaNNIAiWmahFjGNQYeWkbVxWapboh/wRCRlQFsnYmv50
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(376014)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZzZxNUtERWR6WjYrdXlVTEFvR1orcUVwMkZvdzRTSjNzZVdGUVNLUE0yY3lt?=
- =?utf-8?B?ajgrcUVpdC93d0JCb0FEWWxSMzRvMWJhSDJIK1NseXU5L3E1T0lvZ3gyeHRp?=
- =?utf-8?B?aHdtMzFVcXgzSWI1Y2h0MUV5OVJ1aGcwU2xkZnpVbnpsTEl3UHpLQXRsOWhC?=
- =?utf-8?B?VVFxNkFqQ2NHL2l1U1hueXRRekYyZGtYNXBxSjZnc2xhNkJpdlpKbnYyS0h4?=
- =?utf-8?B?SXlPU0RZbUxIUXY5R3o5Z05IamVCbzBZREYrVTl0U0xpNmsyNVRUNnhPdGpv?=
- =?utf-8?B?MzliRmJwa0ZJOSs1SExlSEJEQy9OeTRQNDdrY0lWbWJJN3NhdE9qRUxQOHdB?=
- =?utf-8?B?anJUaGRZa1J4QXB6d0Y3OFZvc29kYTBFVGxnUnJKQ2loU3VtZlBZekc5YnZy?=
- =?utf-8?B?TWhydXdablNHUjdZR0hHbmRxKytaZTBpcVVHWFZjbjkrSldyTG1Eb1Nrc00r?=
- =?utf-8?B?eXptSGVqbEU5aEgySXpjc3dJbzhYZlNIRG1BalN4dzc2QWhDTFFSYlIxSWt2?=
- =?utf-8?B?RlBqQUxXd0ptQzJJeTZoMkNBVWZraWJ2MWFvVXByRkc0V0xpZThKT3dsMmhX?=
- =?utf-8?B?dEtaRko3bVhGSFFHUlBYK0FNRnVXUWxlbFpnZlQwN1licmthSVNJOW1nM25C?=
- =?utf-8?B?MFZxZHNnbXdmak0zenpIVkxBTGlCZFFjd1lzMnorUkdmWStnVWtQRDJSVUtH?=
- =?utf-8?B?YXhDa3l5cmV5MEdUeUplRFM1cmNmcEw4VFhGYitUZldGV0l2akxNYXZ0WHJa?=
- =?utf-8?B?aEJjWnUvOEZKdTJaeG5sZXZ0L0x5RzZPUWZFQmNOS3VEWFB3dTZOcGtUUWxp?=
- =?utf-8?B?a3ZZVnBCY3dZdlY3ZWxIeTFiZkhqWFJ2OGw5SS91TzJqT3VYUy80bmZRbXd3?=
- =?utf-8?B?aGZyV1llRVM1akZrckRyTEZhUVVFSGtIMGZxVGZLVnpXOTVUdkY5aTdEcktO?=
- =?utf-8?B?Wk1SRlB1cjljcitNNTNJaWgwOFYya1VXS0FiNTF0S0VjdC9sR2xRMFJFY0Yw?=
- =?utf-8?B?UFVubDkvdlNsZVowR3B4Sm9hYzZsTkI4b0NWV3laS0t4OXFCRGx3Ymx0aFRH?=
- =?utf-8?B?a1N6OU9Ma1RUVWdtZWIrR3U0dnZDY3JMWXRJdEtJVXBNcWdtbEl3TG1tRWFr?=
- =?utf-8?B?WHFxRVR1WFpBZHRld2ZwR2NlTFdqSnRnZGFza1lqMWZoOGZxL2lITU9mMURM?=
- =?utf-8?B?dG5Fa2tCRDlaNXZNSXZWbzZuWXE3ZDlrMVlhVUVvbHFIVVJHUlVIb3AyTThY?=
- =?utf-8?B?aThEUGlNWHFoUHExRVJDdXdIMlFJQms5Ymd6YlNjVnozZm9UTmRKNEd3NFh0?=
- =?utf-8?B?VFlqb0lyazA0Q2k5T1pjb1lKQi9mZ05PUUVIcGtOWlJwZTM0cEN1WmNQUytM?=
- =?utf-8?B?YytWQmN2WjV1cC9HRW1tUDdvVFlJTXNnWDdzUUlpQStOa3NZeTYrenFzZnow?=
- =?utf-8?B?ODVlTnN2SlFBV0swZGxUYVZLNnlTYlRJS1NqUS93SWg4Z0ZVYlFKUDZEZmhV?=
- =?utf-8?B?aUhyb2pTYUlyRG9zNVJGdkRRckdIU05NK2IvOXY2UWdBZWk2NFVIa1ZuUW5T?=
- =?utf-8?B?UlhZY0NUSGM0cHNldmcrdW9LSkQ3ZngrZDdKYkZBV1JHOTlzMHExMHF0aHk4?=
- =?utf-8?B?OEpVTlRmRnhaT2UwcjdGR25XU2NYc2JqWXlyVUcyU21KUkdHM3RaVXltQitU?=
- =?utf-8?B?UjhkOUdmWldJSHQrZ3RHMXRyR1J3allhWFR6bDFJMEJDNC9PQkdWdWJ1WkpC?=
- =?utf-8?B?ZGpaK3ErcVBLRzBJdDFnNmNpOFFmV0gyVjRya1lldlZyd3pkYlMyRm04WGJ4?=
- =?utf-8?B?L21ObGdiN0Ixa1o2UGUyVXVoNG9OQ2lrTjRMYlpxOHlIb1dtc0FXV2F0Y0dq?=
- =?utf-8?B?OXhrZGRJVWJxKzgwT0dtK095bmZwT0dDYm1Rd0xwM2owMnByMTlrQXIzY215?=
- =?utf-8?B?WGhBRmY5YUY2RWwrNjJrMm0xeVBBdE1RSk55bjFCNktneFJnSE9tU3pRVUps?=
- =?utf-8?B?YTFQb2g0cXhVL1hhWitDWndxWStpS1RoZ25mSzdHeEEvTk1TNldTUDBPVmt6?=
- =?utf-8?B?TEx5c0ZnaFBOMmt5SE9wcU1xYm5KQlA1bnFmWUdLV240N0VQeU13N3Z1Zk1U?=
- =?utf-8?B?ZDBvd2Z0QlJqdEFqQ0hkR0hobFNXbXNlM3VZeEs4M3VXNDc1RXhxcTVkb2Jn?=
- =?utf-8?B?R1pOUGZtZFhON1NRcWdrVGFDN2pjMnhXdS9CanEvTlQ1clpUM3kwazhqQlI1?=
- =?utf-8?B?NCtDTDF4TXlJZ2tOVStGbHo0NUFiU2ZPanp2OG5hVEhLK2VzWmlCWGZNcEZk?=
- =?utf-8?Q?FYgY1goqTAqrMVOzSy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b89064f-f60e-489f-28ec-08decd5d2095
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 17:14:59.6381
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: afMi9QXS5LYCj9yv/b04RFG+PFlAPP6sMIPpG0cvwc83QLKnfX5/EN7aJBY5nn9O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB9000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
+ james.quinlan@broadcom.com, f.fainelli@gmail.com,
+ vincent.guittot@linaro.org, etienne.carriere@st.com, peng.fan@oss.nxp.com,
+ michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+ lukasz.luba@arm.com, philip.radford@arm.com, souvik.chakravarty@arm.com,
+ leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+ usama.arif@linux.dev, kernel-team@meta.com
+References: <20260612223802.1337232-1-cristian.marussi@arm.com>
+ <20260617-waten-allabendlich-zueinander-93d4b1367b8c@brauner>
+ <ajLVW1eHzbGDm4yn@pluto>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ajLVW1eHzbGDm4yn@pluto>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
+Hi,
 
+asking some clarifying questions that I assume also Christian might want to know.
 
-On 6/16/26 18:36, Reinette Chatre wrote:
-> Hi Babu,
+>>> In a nutshell, the SCMI Telemetry protocol allows an agent to discover at
+>>> runtime the set of Telemetry Data Events (DEs) available on a specific
+>>> platform and provides the means to configure the set of DEs that a user is
+
+Is the configuration aspect limited to enabling selected events, or is there
+more that can be configured?
+
+>>> interested into, while reading them back using the collection method that
+>>> is deeemed more suitable for the usecase at hand. (...amongst the various
+>>> possible collection methods allowed by SCMI specification)
+>>>
+>>> Without delving into the gory details of the whole SCMI Telemetry protocol
+>>> let's just say that the SCMI platform/server firmware advertises a number
+>>> of Telemetry Data Events, each one identified by a 32bit unique ID, and an
+>>> SCMI agent/client, like Linux, can discover them and read back at will the
+>>> associated data value in a number of ways.
+>>> Data collection is mainly intended to happen on demand via shared memory
+>>> areas exposed by the platform firmware, discovered dynamically via SCMI
+>>> Telemetry and accessed by Linux on-demand, but some DE can also be reported
+>>> via SCMI Notifications asynchronous messages or via direct dedicated
+>>> FastChannels (another kind of SCMI memory based access): all of this
+>>> underlying mechanism is anyway hidden to the user since it is mediated by
+>>> the kernel driver which will return the proper data value when queried.
+>>>
+>>> Anyway, the set of well-known architected DE IDs defined by the spec is
+>>> limited to a dozen IDs, which means that the vast majority of DE IDs are
+>>> customizable per-platform: as a consequence, though, the same ID, say
+>>> '0x1234', could represent completely different things on different systems.
+>>>
+>>> Precise definitions and semantic of such custom Data Event IDs are out of
+>>> the scope of the SCMI Telemetry specification and of this implementation:
+>>> they are supposed to be provided using some kind of JSON-like description
+>>> file that will have to be consumed by a userspace tool which would be
+>>> finally in charge of making sense of the set of available DEs.
+
+You mention json here ... but I assume the data we are getting fed by the
+protocol is not in some default format? (e.g., json)
+
+>>>
+>>> IOW, in turn, this means that even though the DEs enumerated via SCMI come
+>>> with some sort of topological and qualitative description provided by the
+>>> protocol (like unit of measurements, name, topology info etc), kernel-wise
+>>> we CANNOT be completely sure of "what is what" without being fed-back some
+>>> sort of information about the DEs by the afore mentioned userspace tool.
+
+Maybe you have it in some of the patches here, but what does the typical
+directory + file structure look like in the current implementation?
+
+Do you have an example?
+
+Also, is everything in that filesystem read-only, or are there some writable
+file (IOW, how is stuff configured?).
+
+>>>
+>>> For these reasons, currently this series does NOT attempt to register any
+>>> of these DEs with any of the usual in-kernel subsystems (like HWMON, IIO,
+>>> PERF etc), simply because we cannot be sure which DE is suitable, or even
+>>> desirable, for a given subsystem. This also means there are NO in-kernel
+>>> users of these Telemetry data events as of now.
+
+Okay, so you really only feed this data to user space, exposing all the data you
+have easily available as part of the protocol.
+
+>>>
+>>> So, while we do not exclude, for the future, to feed/register some of the
+>>> discovered DEs to/with some of the above mentioned Kernel subsystems, as
+>>> of now we have ONLY modeled a custom userspace API to make SCMI Telemetry
+>>> available to userspace tools.
+
+It's a good question how that could be done, if you need more information about
+these events from user space.
+
+>>>
+>>> In deciding which kind of interface to expose SCMI Telemetry data to a
+>>> user, this new SCMI Telemetry driver aims at satisfying 2 main reqs:
+>>>
+>>>  - exposing an FS-based human-readable interface that can be used to
+>>>    discover, configure and access our Telemetry data directly also from
+>>>    the shell without special tools
+>>>
+>>>  - exposing alternative machine-friendly, more-performant, binary
+>>>    interfaces that can be used to avoid the overhead of multiple accesses
+>>>    to the VFS and that can be more suitable to access with custom tools
+[...]
+
+>>>
+>>> Due to the above reasoning, since V1 we opted for a new approach with the
+>>> proposed interfaces now based on a full fledged, unified, virtual pseudo
+>>> filesystem implemented from scratch, so that we can:
+>>>
+>>>  - expose all the DEs property we like as before with SysFS, but without
+>>>    any of the constraint imposed by the usage of SysFs or kernfs.
+>>>
+>>>  - easily expose additional alternative views of the same set of DEs
+>>>    using symlinking capabilities (e.g. alternative topological view)
+
+That sounds reasonable.
+
+[...]
+
+> ...I would not say that this was the kind of feedback I was hoping for,
+> but I am NOT gonna argue, given that you shot down already what I thought
+> were all my best selling points :P
 > 
-> On 4/30/26 4:24 PM, Babu Moger wrote:
->> kernel_mode feature needs to add the interface that lets user space
->> choose between INHERIT_CTRL_AND_MON, GLOBAL_ASSIGN_CTRL_INHERIT_MON_PER_CPU
->> and GLOBAL_ASSIGN_CTRL_ASSIGN_MON_PER_CPU.  Both the generic resctrl
->> code and the architecture layer need a single shared snapshot of the
->> supported and effective policy plus the resource group that backs the
->> global-assign modes; that snapshot is struct resctrl_kmode_cfg.
+> At this point my understanding is that the way forward must be to use
+> a custom tool to configure/extract/translate the raw Telemetry data and
+> move up into userspace the whole human readable FS layer via FUSE, if
+> really needed.
 > 
-> This does not seem to match implementation since this implementation does
-> not actually share struct resctrl_kmode_cfg as described above. Only
-> resctrl_arch_get_kmode_support() exchanges this struct between fs and
-> arch and as already mentioned that usage looks unnecessary. The other
-> arch/fs touch points use either individual members or their properties
-> (like closid/rmid).
+> I suppose that the new kernel/user interface has to be some dedicated char
+> device implementing proper fops. (like I did previously in early versions
+> of this series and then abandoned...)
 > 
-> As described in response to previous patch I think this can be simplified
-> while also making it more robust.
-> 
+> Is this you have in mind ? Dedicated character device(s) with enough fops
+> to be able to configure/extract Telemetry data with a custom tool ?
 
-Ack.
+I cannot speak for Christian, but I guess you could have some kind of libscmi in
+user space that can obtain the information (as you say, probably char device,
+not sure which alternatives we have), to expose the data through a nice ABI, to
+then either make tools build upon that directly, or have a fuse server in user
+space that mimics what you currently do with the file system.
 
->>
->> Add the file-local resctrl_kcfg and a helper resctrl_kmode_init() that:
->>
->>    - Adds kmode and kmode_cur with BIT(INHERIT_CTRL_AND_MON), the
->>      universally supported mode and today's behaviour;
->>    - points k_rdtgrp at rdtgroup_default so global-assign modes have a
->>      valid backing group from boot;
-> 
-> If the default mode is INHERIT_CTRL_AND_MON then should the default group
-> not be NULL?
-
-It will be initialized to NULL.
+One thing that is not clear to me yet is how stuff would be configured, and how
+possibly multiple users of libscmi would possibly interact.
 
 > 
->>    - calls resctrl_arch_get_kmode_support() so each architecture ORs
->>      BIT(<mode>) into kmode for the policies its hardware supports
->>      (on x86, AMD PLZA contributes the two global-assign modes).
->>
->> resctrl_kmode_init() runs from resctrl_init() once the default group
-> 
-> resctrl_kmode_init() can be dropped after changes described in response
-> to previous patch. Apart from no longer being necessary I also find that
-> having the kernel mode fully initialized *before* the hotplug handlers run
-> to be simpler.
+> Should/could such a tool live in the kernel tree (tools/) at least for
+> ease of development/deployment ?
 
-That means resctrl_set_kmode_support() will be called from the 
-architecture layer, likely from core.c within get_rdt_alloc_resources().
+I think OOT.
 
-The resctrl_set_kmode_support() handler would need to initialize both 
-the default mode and all supported modes.
+-- 
+Cheers,
 
-I see that this is where the hotplug handler gets registered. Therefore, 
-the modes are already initialized before the hotplug handler is set up.
-
-> 
->> has been set up.  No user-visible behaviour changes yet; later patches
-> 
-> (drop "later patches ...")
-> 
-
-Sure.
-
-Thanks
-Babi
+David
