@@ -1,81 +1,134 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339692BE63F
-	for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 23:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FF40D56F;
+	Thu, 18 Jun 2026 00:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781740679; cv=none; b=l34Oz5HKYZwiY19f3o/kLq1sDVSMNQvvfj0U2R9z/QVwB0duomYUBqen+qrtnXMZTis+XAXxGM84vddwXxjT5sptr5EwU0ldaMfJ2SE2ky8qFBFddlCg/w/av+xHb03O8ok48DdTsZ1xRwls9pnlopgotm7Z0sRH8wSBxUhNFrE=
+	t=1781743344; cv=none; b=VmnNeQb1PZikR1jsR9ggYItJPvHu/1P2YiBV984rhp1NHOH1BkYWgrtZT8Geym5aKzaYsJ80OdoVDk2Tz753iZbhGxTO2N8T8RAi5AftrpAqkSJAoNvGVDsWoHgnmzptVZJgWo5A8SgKZ7opNf1s4Gg1uuO6I3zDfZagGX5k4ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781740679; c=relaxed/simple;
-	bh=uONPstQ4d6oDyxpvMnrFgUw5bKhUN3do8K+jqvn+XLY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qkHJTxL3xS+1g/khjwOjrnxcn3YG/Zjt8cxIfE3/ZKU/oYgcmRbBr8XVK6Oh+WtNhkym/Q5OFogJLtReXF/Fgy5jvSwOJlraWGNz/xvVhxOcu50mwCsf5c0ikQwKHJgpaDtWebcLZNRPv2Gs0w6o0lbKS80t7npr2UZzh1EjYyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rcpassos.me; spf=pass smtp.mailfrom=rcpassos.me; dkim=pass (2048-bit key) header.d=rcpassos.me header.i=@rcpassos.me header.b=drOgPepI; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=sNYQW9Wd; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rcpassos.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rcpassos.me
+	s=arc-20240116; t=1781743344; c=relaxed/simple;
+	bh=LrpFbr4vBbChDMmR0Imvu3H50KZqhmElh6040CgIB2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZPFYTO6VpphEPY+odSgWOy9zautkS1d8kT5GYezF08m52Me3tgUMpyOFxOuVseGBRN455OXHIvuWrrMDrK6URPqge/e5KG7G8O1Mq+yHbMzk9KTQzUVXsUDnhN1j3k7siUMPy6DSKXmJlFIih+bf1k0W2NHse+w1tyorNn0qqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=V9/MYriX; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rcpassos.me header.i=@rcpassos.me header.b="drOgPepI";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="sNYQW9Wd"
-Authentication-Results: purelymail.com; auth=pass
-DKIM-Signature: a=rsa-sha256; b=drOgPepISOhSApwkGZSLNy4wC+Mru5P5YFr875bZJGsPoNaANtw6VgtTA/KVWibiKZtS76KxySzTSa5aOFORHW9eIUmcgg+o1YpXlQE8lW0BWlvDSbjK3bkZSaSlr+6jFqYAgKozD1sprDeCE9tm43vtaEC1zlfxlKoB8fxgiJxzvG3/sZxWwW8EXcqCU9MzLZmblv10GYiaMSzIau400U3AoEg4KkvfatbtPbfxP87iU9B+9sPzJ6oLpnIO69yqow2I+KDdqZdOrD9kf6x1ZdJ6kbXoQJanGi3yhWsTf6HUX8WXQ1U/xs14WhSb3FZ3wCPBBUkOVxZgR8qJBwuGuA==; s=purelymail1; d=rcpassos.me; v=1; bh=uONPstQ4d6oDyxpvMnrFgUw5bKhUN3do8K+jqvn+XLY=; h=Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=sNYQW9WdipBAaK5mC75gG6piPH4QrVTvUVFnaLdesA4CV04aEm2fz6GXTpxLNp5HzrUnUNhVCUkJnkc5+MyIgL5kopwym7f6ijqbbkpsi7xFqi6HmCXW2t7dou14o10xH+80OMH6I0XTRO7OomoTZVaaKlaojozqddplTZstJH7mVws8yrqLPa14VFf472wL+kI5lfmOu2ydizU2p1P8ow3Vrmqwec7botC04EZM30xmMEvfbH6mZtmLid/xO4w31CsLQY8NyFmb7w7MulCw/nQaR3ZagluPMFFV2koOJ0zAdC5qKSfAxYgfGtwq0FYGW2hMwng+1dDDF+RKbdnppQ==; s=purelymail1; d=purelymail.com; v=1; bh=uONPstQ4d6oDyxpvMnrFgUw5bKhUN3do8K+jqvn+XLY=; h=Feedback-ID:Received:From:To:Subject:Date;
-Feedback-ID: 45355:7809:null:purelymail
-X-Pm-Original-To: linux-doc@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -30342446;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Wed, 17 Jun 2026 23:57:50 +0000 (UTC)
-From: Rafael Passos <rafael@rcpassos.me>
-To: shuah@kernel.org,
-	corbet@lwn.net
-Cc: Rafael Passos <rafael@rcpassos.me>,
-	skhan@linuxfoundation.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] kselftest docs: remove reference to obsolete/archived wiki
-Date: Wed, 17 Jun 2026 20:57:26 -0300
-Message-ID: <20260617235740.74029-1-rafael@rcpassos.me>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="V9/MYriX"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5878340E01C9;
+	Thu, 18 Jun 2026 00:42:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id YS4gZm3My4eS; Thu, 18 Jun 2026 00:42:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781743333; bh=IBHrtVXmPuRWQ7uBhktFTKcch7hAhRcfTxyn7mn7O4k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V9/MYriXywS0hZanHFwwPwHTRJ7pTlal7SUCalcLgv7ntOufAz/28XqFVfI6uKyYI
+	 QOLvxM7ASQ95LAHtjtKQQSW5hRFWqG+Fvm3quBJrqpCYacEpBCfDudcD5TpKxYnvZo
+	 jNW2AguPUE125tOpIJbJKnbPZfOdFjNmXWtJtg63elp1Q41omZP/GgbbwBjA8nAloc
+	 PfGz8IIVcrme12XEvNdKQ2rv/GJag/unT3FlgXHVllVf0VJmtzm0IKtqLKpvRH2wud
+	 N8ImwjHLKfpq4lXe+fjyh782pmKmP87f26PxEGVjPzocmND+8U8oZGxvs6gpq3HXsZ
+	 RRdY/zh3823W1VfUzlz9XQHpfyKj3SugSAPLBNINUSipf0eUCFnf/ASD0chGphO2wd
+	 33XUogK9sPdnD3sSmcICjzmOBuNMU2bfQmSk8K3+YNoAcCC5j9/trjk57f1Z1l85fX
+	 sbPK3s36Q4+q3Rp8+7TUHJs/vXdR8gu2di4PbQr9EcAMuKEYesCn08iPjUwCw7VNCD
+	 XvHeVcsZsQz0RLmL5/C1IdWqyRSi8anYr36UHtEYZc5Ih+oxGgNdo8Nwmeh6BJ3ht2
+	 tqkphneIWVsqRJSVfAq1ynFwyWUfOHhtgqB+aDCAQiIvDR9Ri+cXHuftygbTEx6Z0P
+	 o2dtfp1sQOOLVA3iM8/qRkMM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E63DE40E015B;
+	Thu, 18 Jun 2026 00:41:08 +0000 (UTC)
+Date: Wed, 17 Jun 2026 17:41:06 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
+	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+	robh@kernel.org, saravanak@kernel.org, akpm@linux-foundation.org,
+	bhe@redhat.com, rppt@kernel.org, pasha.tatashin@soleen.com,
+	pratyush@kernel.org, ruirui.yang@linux.dev, rdunlap@infradead.org,
+	peterz@infradead.org, feng.tang@linux.alibaba.com,
+	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+	kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org,
+	paulmck@kernel.org, leitao@debian.org, coxu@redhat.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, osandov@fb.com,
+	jbohac@suse.cz, cfsworks@gmail.com, tangyouling@kylinos.cn,
+	sourabhjain@linux.ibm.com, ritesh.list@gmail.com,
+	adityag@linux.ibm.com, liaoyuanhong@vivo.com, seanjc@google.com,
+	fuqiang.wang@easystack.cn, ardb@kernel.org, chenjiahao16@huawei.com,
+	guoren@kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org
+Subject: Re: [PATCH v16 05/10] x86: kexec_file: Use crash_prepare_headers()
+ helper to simplify code
+Message-ID: <20260618004106.GCajM-oofpxU2jDsy0@fat_crate.local>
+References: <20260608073459.3119290-1-ruanjinjie@huawei.com>
+ <20260608073459.3119290-6-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260608073459.3119290-6-ruanjinjie@huawei.com>
 
-This link in the docs point to a wiki that is no longer active.
+On Mon, Jun 08, 2026 at 03:34:54PM +0800, Jinjie Ruan wrote:
 
-The wiki was moved to archive.kernel.org, and there is a warning:
-"OBSOLETE CONTENT This wiki has been archived and the content is
-no longer updated."
+> Subject: Re: [PATCH v16 05/10] x86: kexec_file: Use crash_prepare_headers() helper to simplify code
 
-Signed-off-by: Rafael Passos <rafael@rcpassos.me>
----
+Use proper subject prefix: "x86/crash: ..."
 
- Documentation/dev-tools/kselftest.rst | 5 -----
- 1 file changed, 5 deletions(-)
+> Use the newly introduced crash_prepare_headers() function to replace
+> the existing prepare_elf_headers(), allocate cmem and exclude crash kernel
+> memory in the crash core, which reduce code duplication.
+> 
+> Only the following three architecture functions need to be implemented:
+> - arch_get_system_nr_ranges(). Call get_nr_ram_ranges_callback()
+>   to pre-count the max number of memory ranges.
+> 
+> - arch_crash_populate_cmem(). Use prepare_elf64_ram_headers_callback()
+>   to collect the memory ranges and fills them into cmem.
+> 
+> - arch_crash_exclude_ranges(). Exclude the low 1M for x86.
+> 
+> By the way, remove the unused "nr_mem_ranges" in
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tool=
-s/kselftest.rst
-index d7bfe320338c..64c0ec7428a2 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is i=
-mportant to keep
- code that can still test an older kernel and make sure it skips the test
- gracefully on newer releases.
-=20
--You can find additional information on Kselftest framework, how to
--write new tests using the framework on Kselftest wiki:
--
--https://kselftest.wiki.kernel.org/
--
- On some systems, hot-plug tests could hang forever waiting for cpu and
- memory to be ready to be offlined. A special hot-plug target is created
- to run the full range of hot-plug tests. In default mode, hot-plug tests r=
-un
---=20
-2.53.0
+s/By the way/While at it/
 
+> arch_crash_handle_hotplug_event().
+> 
+> Cc: Thomas Gleixner <tglx@kernel.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Acked-by: Baoquan He <bhe@redhat.com>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>  arch/x86/kernel/crash.c | 89 +++++------------------------------------
+>  1 file changed, 11 insertions(+), 78 deletions(-)
+
+With those nitpicks above addressed:
+
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
