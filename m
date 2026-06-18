@@ -1,146 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bregans-1.gladserv.net (bregans-1.gladserv.net [185.128.211.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF71020E334;
-	Thu, 18 Jun 2026 08:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409EC20E334;
+	Thu, 18 Jun 2026 08:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.128.211.58
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781771920; cv=none; b=BS2JZ8DHyn1LSLnzFc4rctsu0zfQnJ/bBtAoXStkiqQYZqcfYo9oHmcUQMkz5SmwyJehMry3794D+kx5j+MLAsIrjy3rGzoQGyhjEC9T0e8/FjLddC/UHxI8wwBBalPZnTwmdY2xGMhbO5Jqb3G3h0q+mXle0R9z90Tt/kb8ESs=
+	t=1781772112; cv=none; b=HtUmM35Tzmy9lWJmSQutHu5pNsgNGQOLxrhRZpuLClfYqeMvnY0RECn/lLtKKkvJ02PZH/AXiy+FpolxHb3vJw6FGYb0Fxx1OjQDGhggOUF2E+D9O5lk5rl+YtpHwuFD6ojIwaQC77nWm/f+qyK1U8mJuhxXcjwCiZdKySIVicU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781771920; c=relaxed/simple;
-	bh=ummxyJt50kbd9aQHFBnf9BdFRrAXWdix7EapTIPLQFk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NsGOByzRTKFxddBPI1DbK1CjwTtM28G5wyHGHIjg934sFo63uWRpEGmfsAcZUmZiovFojUckOy12oholVRKoC2zl1smkQsRsRAizeRPLc5oA6ifYrSSrJpIuTOVOMM/yPVk+fxwfUv6yh2336gnIDp+NvN7oAvrPT3fOQ2SlK7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXhelwwd; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXhelwwd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63ADC1F000E9;
-	Thu, 18 Jun 2026 08:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781771919;
-	bh=BghaV0XJnds55dF2dgFuuXXCRlRZxRm1R2JFiOWPEcY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nXhelwwdHIkf/sbE8QwEOS03rLt8fBTdIbsCZe07coYKQs4UXoUTDq6Bje6m8uGcu
-	 Dr5MQ0TVj1Uq22/CL5bZi9uGamNGVyuBE4uwrVOqxcsPlGhLbA8QEBhkZmWInPyMJ0
-	 o21G3I2bxvKtL/8BbxKnwjcZpGWTdpx4Egxa9y2kJpMJ0Zargl930VFJWaalzVrn6s
-	 aasDnOM0EZTrvAPxjCdPlJaFr7RqjMSZU0dBX35bXjzedGX+hbz6n808Af92WmSRFu
-	 Jd70COqSStxnjEVjQp7iIs9O/8kmUyPZ1VotsyFi+i48LOEwR+SpqD84Aw2cnWxJU6
-	 RW+fUzBeRRDAQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wa8Gj-0000000DvgM-0yNK;
-	Thu, 18 Jun 2026 08:38:37 +0000
-Date: Thu, 18 Jun 2026 09:38:36 +0100
-Message-ID: <86ldccs0oj.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	linux-pci@vger.kernel.org,	Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>,	Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
- <kwilczynski@kernel.org>,	Bjorn Helgaas <bhelgaas@google.com>,	Catalin
- Marinas <catalin.marinas@arm.com>,	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,	Krzysztof Kozlowski
- <krzk+dt@kernel.org>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,	Manivannan
- Sadhasivam <mani@kernel.org>,	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] irqchip/gic-v3: Add Renesas R-Car Gen4 erratum workaround
-In-Reply-To: <0935eb67-83d2-49ea-89ab-0d0aa51ead8a@mailbox.org>
-References: <20260617030008.154449-1-marek.vasut+renesas@mailbox.org>
-	<20260617030008.154449-2-marek.vasut+renesas@mailbox.org>
-	<864ij1tyrj.wl-maz@kernel.org>
-	<0935eb67-83d2-49ea-89ab-0d0aa51ead8a@mailbox.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1781772112; c=relaxed/simple;
+	bh=Pz2p1RkeXj7eHQl9ET4dpxIJp/dDvVTUnZlDz4X3rWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=C4qpxCjxWPVyZiwSdH8MSXcdvYQVuI5Ruh6f/16QSsYAD4fWs1wSlAfQI7iL6EbFIJBPQgJgVJcm/MUKrwGetdDRWqrJwhi5dFr28ZA7Eye4X7uwSbyJHE4kUUBMXTqjLNCfTFMh0HUNHhrRQqMm6H4KYqtgOy/MCU1S1CO/sh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net; spf=pass smtp.mailfrom=librecast.net; arc=none smtp.client-ip=185.128.211.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=librecast.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=librecast.net
+Date: Thu, 18 Jun 2026 10:41:36 +0200
+From: Brett Sheffield <bacs@librecast.net>
+To: Rafael Passos <rafael@rcpassos.me>, shuah@kernel.org, corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kselftest docs: remove reference to obsolete/archived
+ wiki
+Message-ID: <ajOvQKne74gN-7Y2@karahi.librecast.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: marek.vasut@mailbox.org, marek.vasut+renesas@mailbox.org, linux-pci@vger.kernel.org, yoshihiro.shimoda.uh@renesas.com, kwilczynski@kernel.org, bhelgaas@google.com, catalin.marinas@arm.com, conor+dt@kernel.org, geert+renesas@glider.be, krzk+dt@kernel.org, lpieralisi@kernel.org, mani@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <865def83-a07e-4eba-b795-7da66e0e2d69@linuxfoundation.org>
 
-On Thu, 18 Jun 2026 03:50:29 +0100,
-Marek Vasut <marek.vasut@mailbox.org> wrote:
-> 
-> On 6/17/26 9:24 AM, Marc Zyngier wrote:
-> 
-> Hello Marc,
-> 
-> >> Renesas R-Car S4/V4H/V4M GIC600 integration has address width for AXI
-> >> or APB interface configured to 32 bit, it can therefore access only
-> >> the first 4 GiB of physical address space. This information comes from
-> >> R-Car V4H Interface Specification sheet, there is currently no technical
-> >> update number assigned to this limitation. Further input from hardware
-> >> engineer indicates that this limitation also applies to R-Car S4 and V4M.
-> >> Name the limitation GEN4GICITS1, and add a driver quirk to mitigate this
-> >> limitation.
-> 
-> My concern is this ^ , I do not have an erratum number, because there
-> isn't one. I am in touch with the hardware engineer and I did get a
-> glimpse at internal details of the three SoC, which confirm the
-> limitations. Is this sufficient ?
-
-To be honest, this is between you and the SoC vendor. I'll take
-whatever symbol you come up with at face value, and will assume that
-the vendor agrees with it. After all, they are on Cc and have their
-SoB on the patch.
-
-> 
-> >> Note that the 0x0201743b GIC600 ID is not Renesas-specific, it is
-> >> common for many ARM GICv3 implementations. Therefore, add an extra
-> > 
-> > Not quite. It designates GIC600 unambiguously.
-> 
-> What I am trying to communicate is, that the 0x0201743b ID is not ID
-> of the Renesas GIC implementation, but it is a generic ARM GIC600
-> ID. That is why we cannot match the quirk on the ID (it is generic ARM
-> GIC600 ID), and instead we have to match the quirk on the [ ID
-> combined with of_machine_is_compatible("renesas,...") ].
-
-This is understood, and is no different from the other broken
-platforms in the tree.
-
-> 
-> > It is just that GIC600
-> > is integrated in zillions of SoCs, most of which don't have this
-> > problem (the machine I'm typing this from has a GIC600 *and* 96GB of
-> > RAM).
-> 
-> Right.
-> 
-> Shall I reword this paragraph somehow to make it clearer ?
-
-I'd simply say that the workaround is keyed on the combination of the
-GIC implementation and the platform identification in the device tree.
-
+>On 6/17/26 19:03, Shuah Khan wrote:
+>> On 6/17/26 17:57, Rafael Passos wrote:
+>>> This link in the docs point to a wiki that is no longer active.
+>>>
+>>> The wiki was moved to archive.kernel.org, and there is a warning:
+>>> "OBSOLETE CONTENT This wiki has been archived and the content is
+>>> no longer updated."
+>>>
+>>> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
+>>> ---
+>>>
+>>>   Documentation/dev-tools/kselftest.rst | 5 -----
+>>>   1 file changed, 5 deletions(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+>>> index d7bfe320338c..64c0ec7428a2 100644
+>>> --- a/Documentation/dev-tools/kselftest.rst
+>>> +++ b/Documentation/dev-tools/kselftest.rst
+>>> @@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is important to keep
+>>>   code that can still test an older kernel and make sure it skips the test
+>>>   gracefully on newer releases.
+>>> -You can find additional information on Kselftest framework, how to
+>>> -write new tests using the framework on Kselftest wiki:
+>>> -
+>>> -https://kselftest.wiki.kernel.org/
+>>> -
+>>>   On some systems, hot-plug tests could hang forever waiting for cpu and
+>>>   memory to be ready to be offlined. A special hot-plug target is created
+>>>   to run the full range of hot-plug tests. In default mode, hot-plug tests run
+>>
+>>
+>> Looks good to me.
+>>
+>> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 >
-> >> of_machine_is_compatible() check.
-> >> 
-> >> The GIC600 implementation in R-Car S4/V4H/V4M is r1p6.
-> > 
-> > Is this relevant?
-> 
-> I included it for the sake of completeness and to provide all relevant
-> information, based on previous discussions about similar limitations
-> that I could find on lore.k.o
+>Jon,
+>
+>I can take this through kselftest tree as I usually do.
+>
+>thanks,
+>-- Shuah
 
-This information is already contained in the ID you quote (bits
-[19:12]), and can be decoded using the public TRM [1].
+Hi Shuah, Jon et al,
 
-Thanks,
+I've been trying to get the same change merged since August 2025:
 
-	M.
+https://lore.kernel.org/linux-doc/20250824075007.13901-2-bacs@librecast.net/
 
-[1] https://documentation-service.arm.com/static/5e7ddddacbfe76649ba53034
+resent in January:
 
--- 
-Without deviation from the norm, progress is not possible.
+https://lore.kernel.org/linux-doc/20260115172817.7120-1-bacs@librecast.net/
+
+It's great that this trivial fix is finally getting merged, but can someone
+explain why this patch was accepted in preference to the one I sent in August?
+
+
+
+
+Brett Sheffield (he/him)
