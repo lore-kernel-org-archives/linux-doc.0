@@ -1,67 +1,67 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE623331ED8
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 03:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492D6326939
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 03:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781752313; cv=none; b=R8ArVj57ZHAKEly2YIBUiCQFVctDFUUE/YBun8wye8gtiGmgnxAF1WN+TNRq5a0l/WOtZmGnoxB5e9I4okgMnk0uAIuLi48CPDPl65wv1NNzi9vy6YjNRyINKd4k1xWxv2xSCVporQeZ177mNMWxxfe0DN/cHn1DL4SIUJ3gz7Y=
+	t=1781752318; cv=none; b=n88poFADbo98ebYxnCRojOqMAkCjeXEEz8DQISQNnc25epexEfQZ+UZaI4V5ONQW85kQjVbEq7R6BLeagRlqj9mj/BSxbLtnSaRZj73+oXxhyLXkLSS/fRIAskUlJFntVhQNse2aFOw5TKL5+JQOVZCO3u47WGNQG93DxZxCqUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781752313; c=relaxed/simple;
-	bh=DkfY/r2xkmo438EzM4kwrrTgd/VUujsBaL78ZzvJYv0=;
+	s=arc-20240116; t=1781752318; c=relaxed/simple;
+	bh=su/86e8IzEx6KCsYE6y2QU0JcZeTp1olU2GBvdI7t20=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FX/1ZP1r6oSeLbTn+JNzPHGV6qsN63XINYbN1+E5DuAbmW2+soUpAoD3PvFXe1e6ZJB8raziLbyQVNp+YSpABbS+xShnXzOGW0RpU/d0/ouOmciQbNTec4CwyAYxuOmT7h5Vv9Ic4lJw7egB43jjDhR9gMylNhDzwr+KSPlD+OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=miNT5MPt; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=LX7YuAEjnD6DpEyXyxdQo2qH4REMxs9+b5PA+mEktxcbzKhoJykdFBHGluJp8PfhhSb7sbWKjG/bag6+ys4wo76f0j0Tc9hheEYwV9nvBkBgnW9UIuYZAUXtx37WrDgXzQOpV1ICd4noVZmILx8mQ2/jzZ2sPFLcopKh2DosM7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lE0c4K8i; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="miNT5MPt"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c6d31bfc8aso3095065ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 20:11:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lE0c4K8i"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c40397e746so2964215ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Jun 2026 20:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781752310; x=1782357110; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781752317; x=1782357117; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PoMbytYOzbmWtTlBZiAAPcp758fAUen5og8k+7nFdmk=;
-        b=miNT5MPts8clFix+tyjttW7l/VPBvTrZ7A+khs5o9ZXl64idvfiun7L9cGrvQY095s
-         Jjv1gA2SD1ZE08k2KT/zh7sRUDvtBvm7ZWiyzjPyVIyWHQ0S84scfUxbytMJkAh/YZMK
-         eAcB9Z40UvEHfXFMJ/Agi+n81nGIMtpoJBCke6rtEcqUQFpBrmBe4G7ufWfLLhWWhFj2
-         9nAR12YvmXTkxzdtBp7eoM7obAi1ZCMLmvKRPB8YruqlU/rsrmXDm+TfIXsHyl3lcuc0
-         eCOZ9FoGDqU48D1h5amG38NWtWnkLqLf2iPm0HKmTJi6+GUSz+zo6yVyLFj6NGZoF2qp
-         MRvg==
+        bh=1y36uZa5QHApqDykuJpc+gggPAc0ysbP66IjBiya9ds=;
+        b=lE0c4K8itEg+Udz8swnAs0DMm9NEQS93H7SjpXkhcvWUEwJnhnU/xR48vyy0XhXk2N
+         MdJOogr7iXhhOwXLm0xDH0XwHqsrCgzUwchmzmjqkqHXNPy+xwSPGJLrLXbULNlz0Otx
+         egOr0btUqP8K22O1JJkbUWEFsozL3Zi3FpSjZYnZzFKg9kR/vr4OBKDeODwa9Vsqd4Vd
+         xIEgBQ/ocu1aXvcqqRmg2ztmLlc26PqWk/qIZzukj3Lw4HSDQI0GAsm2hUmGKOAAdEUE
+         T7JbVmotbagk9OmX2uQG0MVyO6sU2GwTb0lW0oSkG174onZS+pxv2BuUMA9jvA9xwk26
+         XjwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781752310; x=1782357110;
+        d=1e100.net; s=20251104; t=1781752317; x=1782357117;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=PoMbytYOzbmWtTlBZiAAPcp758fAUen5og8k+7nFdmk=;
-        b=Z5wqyCsEAod2FrcQnfusnzBFB8pG8GZlgpSiBABV1KPH7SEpfvcpa0VmOikwDhiyqE
-         TI2lCNBLaRsyuyKs/pYrctmIqPN6vNSaNWeRseS8zVA3b1fExHaFxjbvLlcf3awa4m9e
-         vKpABBG9QL6q5OR0xF5sLPTWgSNGzZXvdBXW/bEWreyzBhMUuFAgfSyQFUMAr7mSLpgH
-         ph2j/YzYYVwBeMW8z7Hk7VtvSfkc6u/4YNZ99JXyIhAwnxY0jwfWpk9YG/6JVMsrGvrU
-         hP0lDomtyafGs5QIuuSmpjrRqTrBQULe5++80F5spbMRrHrYWnauXyP2SEOSB+GaWi/X
-         yEzg==
-X-Forwarded-Encrypted: i=1; AFNElJ96UMXkGJJshRFTGiYXBoCMTMpTAJAjUNSTB+20j3h4tZy+YdMu3BZg3JMPZXucXI1zwEK+LBFAKAU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZsOaIp6xT8/Uye/RGSLxYCEJ7Ckm2sbWezKgLE2vQ0uD0jzBX
-	Rn6ZJre//uSF1WuXBbZQFs4xTSYu7jHt7s+/E5TIp+0V+bX6qnQ37bFH
-X-Gm-Gg: AfdE7cnCeN/c5GYtvatvl8cYyO0kxbP1ksKOp4NJCuVcPJZbL+ECW3A69vqPyOL7JpQ
-	7gSIcJSI3UiUYWt9pVPMQSkeF5Ri9PqmAfVZFarwJQMN77kSLaqzjxTRSrkgtwtumivKndcFQ2B
-	H8myjz3X1ZqLjBiUyK2oguziIdwsB1pBdR1cK9f3NkrG6N76JotKORJKtVaGqNxOV/aiSXR5fF9
-	cMW10GkKOkgVYE52X723KJTNiKlejipOndlo5wfj+l5kNMvTHiMH4SCDZWRl8t4h/HwCharkiBE
-	7tJREVaG5KVhtM1wI+JwwqIJ/jmB7DaapACBS3rHOkYu+tkGYgyliK46mODXjHDgQAk1ZXIvXsF
-	8OEwBXwIZDi3j8TL6dhZNxFq18PJW2MczrwwskINENEFYUrabL8Vfx3/pXylsvDHbUkiqfQTxEb
-	6qYTdJpYLUz+0=
-X-Received: by 2002:a17:902:ce04:b0:2bd:ba44:6c07 with SMTP id d9443c01a7336-2c6e494930cmr17614055ad.16.1781752310297;
-        Wed, 17 Jun 2026 20:11:50 -0700 (PDT)
+        bh=1y36uZa5QHApqDykuJpc+gggPAc0ysbP66IjBiya9ds=;
+        b=SRKodO//VyylHZR2rFl5TTflTVyAkG4aCWpVnWRR0gaBIPB+c+s29JrIwkwPY4pD5R
+         ZQj72wW6N9FlOIB1u+z9Bfzb5mBBeWr4CpdN3ZH6e0SOKGeAEjR+CHJdWUY2kUu2jLCV
+         XBjWL8p9LnCJ+JeEweORxnmix1wGCHbVnjeQJivX6K7fZW3hGO/w0e/ezZmi6J9XAHK2
+         iywv59DPV5vevs0t4B7OuUledscyaZ6VU07uYfxL0P6q3uhlJ0Zbufo/knggn0u1Kpb2
+         /JZ+P12ney+efrGMsduu7tWlbaT7PFdhH9hHy0mtMCFdYvm0v6XZ5KJwXC2phHcmnWak
+         kD6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/EgGUup4XQqGfsMcNKjy63ICJO8MWyzZJwL96sdeyT1Q4D6ztkQquXZISKMfKw1c9szuJ8KjAF/RM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFInVsTRHcabrhkG8HlCCwsi2o6x+cZXzdRmdF71SVOWl4PVP3
+	xZmrVd/ob76LtrVx1Iuj4R2dFfzQkHH6cDzpLsuyEJkfGS7jTvP0+yhW
+X-Gm-Gg: AfdE7clK/mCfR5t/E0Ij2VUFKK7ZgdgWZp5nubQSDO/KhSRTb1vtN2R+3Y2/sG6aZii
+	LgSosmvNv2oMwv+kurusGaE2wuoVLYhjY4wziNRz4DdJ8CIVb6AxWBZcCrZGkJyX7qLeUtVhMar
+	Rr8N0OgQJZ7VVjtXuCPo5e3W9vNntmyYmwzkNvzX37X27eiCCXk7CBviQh62Mc9nY/fXQ5H43Jx
+	72iSahFB8aJherw/8QXQRDXL9Cuwggg7lwAyLW+bIcDF9LZXlQtDLZdj3zAYees8KwAmtdgJFM1
+	4JYBv/sUGEuKC5FrZrddx+DHIJQBiYEoamVzv5o8kD6yGjGHUhwQ3MASklcD4dly5GpQCL9oUrW
+	Wbg5slksEl6iKIrBlXv4mTppo+KY+PNZQVA4qFbCUzvc7XoaSaWQrWzswIzN3RvmOHOxpBZwfcx
+	dc9EzLh4QtiXg=
+X-Received: by 2002:a17:903:240e:b0:2c0:a360:45da with SMTP id d9443c01a7336-2c6f34744e6mr5011065ad.32.1781752316749;
+        Wed, 17 Jun 2026 20:11:56 -0700 (PDT)
 Received: from [127.0.1.1] ([138.199.21.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a403b242sm60152975ad.31.2026.06.17.20.11.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a403b242sm60152975ad.31.2026.06.17.20.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 20:11:49 -0700 (PDT)
+        Wed, 17 Jun 2026 20:11:56 -0700 (PDT)
 From: Jing Wu <realwujing@gmail.com>
-Date: Thu, 18 Jun 2026 11:11:15 +0800
-Subject: [PATCH v3 04/13] sched/isolation: Fix RCU protection for
- runtime-mutable cpumask callers
+Date: Thu, 18 Jun 2026 11:11:16 +0800
+Subject: [PATCH v3 05/13] cpu/hotplug: Reserve CPUHP states for nohz_full
+ and managed IRQ down-paths
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-wujing-dhm-v3-4-28f1a4d83b68@gmail.com>
+Message-Id: <20260618-wujing-dhm-v3-5-28f1a4d83b68@gmail.com>
 References: <20260618-wujing-dhm-v3-0-28f1a4d83b68@gmail.com>
 In-Reply-To: <20260618-wujing-dhm-v3-0-28f1a4d83b68@gmail.com>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
@@ -96,183 +96,37 @@ Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
  Qiliang Yuan <yuanql9@chinatelecom.cn>
 X-Mailer: b4 0.13.0
 
-housekeeping_update_types() installs new cpumasks via rcu_assign_pointer()
-and frees the old ones after synchronize_rcu(); callers that dereference
-the old pointer without holding an RCU read lock can access freed memory.
+Add CPUHP_AP_NO_HZ_FULL_DYING and CPUHP_AP_IRQ_AFFINITY_DYING to the
+cpuhp_state enum.  These dying callbacks are invoked during CPU offline
+before the tick is stopped, enabling clean tick handover and managed
+IRQ migration when a CPU transitions between isolated and housekeeping
+states.
 
-Fix the four call sites:
+The existing CPUHP_AP_IRQ_AFFINITY_ONLINE already handles managed IRQ
+restoration on CPU online.  The new dying callback completes the pair,
+migrating managed interrupts away from the CPU before it goes down.
 
-kernel/sched/core.c (get_nohz_timer_target, HK_TYPE_KERNEL_NOISE):
-  The guard(rcu)() was acquired after housekeeping_cpumask().  Move it
-  before the call and switch to housekeeping_cpumask_rcu() so hk_mask
-  is read inside the RCU read-side critical section.  HK_TYPE_KERNEL_NOISE
-  is updated at runtime by housekeeping_update_types(); this fix is
-  required for correctness.
-
-drivers/hv/channel_mgmt.c (init_vp_index, HK_TYPE_MANAGED_IRQ):
-  The function stored the raw pointer in a local variable and used it
-  across GFP_KERNEL allocations (which can sleep, so an RCU read lock
-  cannot span them).  Allocate both cpumask_var_t buffers first, then
-  snapshot the housekeeping mask under a brief rcu_read_lock() and use
-  the snapshot throughout.  HK_TYPE_MANAGED_IRQ is updated at runtime;
-  this fix is required for correctness.
-
-kernel/time/hrtimer.c (get_target_base, HK_TYPE_TIMER):
-  cpumask_any_and() against housekeeping_cpumask(HK_TYPE_TIMER) was
-  called without any lock.  Wrap with rcu_read_lock()/rcu_read_unlock()
-  and use housekeeping_cpumask_rcu().  HK_TYPE_TIMER is not changed at
-  runtime in this series; this is a defensive fix to satisfy the
-  housekeeping_dereference_check() lockdep annotation for future-proofing.
-  hrtimers_cpu_dying() is already safe: it runs under the cpu_hotplug_lock
-  write side, which housekeeping_dereference_check() already permits.
-
-arch/arm64/kernel/topology.c (arch_freq_get_on_cpu, HK_TYPE_TICK):
-  cpumask_intersects() against housekeeping_cpumask(HK_TYPE_TICK) was
-  called without any lock.  Evaluate under rcu_read_lock() and store
-  the boolean result before releasing the lock.  HK_TYPE_TICK is not
-  changed at runtime in this series; this is a defensive fix.
+Subsequent patches register handlers for these states.
 
 Signed-off-by: Jing Wu <realwujing@gmail.com>
 Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
 ---
- arch/arm64/kernel/topology.c |  9 ++++++--
- drivers/hv/channel_mgmt.c    | 50 ++++++++++++++++++++++++++++++--------------
- kernel/sched/core.c          |  3 +--
- kernel/time/hrtimer.c        |  5 ++++-
- 4 files changed, 46 insertions(+), 21 deletions(-)
+ include/linux/cpuhotplug.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-index b32f13358fbb1..8f4329b57cea7 100644
---- a/arch/arm64/kernel/topology.c
-+++ b/arch/arm64/kernel/topology.c
-@@ -212,8 +212,13 @@ int arch_freq_get_on_cpu(int cpu)
- 			if (!policy)
- 				return -EINVAL;
- 
--			if (!cpumask_intersects(policy->related_cpus,
--						housekeeping_cpumask(HK_TYPE_TICK))) {
-+			bool no_hk_in_policy;
-+
-+			rcu_read_lock();
-+			no_hk_in_policy = !cpumask_intersects(policy->related_cpus,
-+							      housekeeping_cpumask_rcu(HK_TYPE_TICK));
-+			rcu_read_unlock();
-+			if (no_hk_in_policy) {
- 				cpufreq_cpu_put(policy);
- 				return -EOPNOTSUPP;
- 			}
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 84eb0a6a0b546..fc5247e92e1b3 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -750,26 +750,43 @@ static void init_vp_index(struct vmbus_channel *channel)
- {
- 	bool perf_chn = hv_is_perf_channel(channel);
- 	u32 i, ncpu = num_online_cpus();
--	cpumask_var_t available_mask;
-+	cpumask_var_t available_mask, hk_snap;
- 	struct cpumask *allocated_mask;
--	const struct cpumask *hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
- 	u32 target_cpu;
- 	int numa_node;
- 
--	if (!perf_chn ||
--	    !alloc_cpumask_var(&available_mask, GFP_KERNEL) ||
--	    cpumask_empty(hk_mask)) {
--		/*
--		 * If the channel is not a performance critical
--		 * channel, bind it to VMBUS_CONNECT_CPU.
--		 * In case alloc_cpumask_var() fails, bind it to
--		 * VMBUS_CONNECT_CPU.
--		 * If all the cpus are isolated, bind it to
--		 * VMBUS_CONNECT_CPU.
--		 */
-+	if (!perf_chn) {
-+		channel->target_cpu = VMBUS_CONNECT_CPU;
-+		return;
-+	}
-+
-+	if (!alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
-+		channel->target_cpu = VMBUS_CONNECT_CPU;
-+		hv_set_allocated_cpu(VMBUS_CONNECT_CPU);
-+		return;
-+	}
-+
-+	/*
-+	 * Snapshot HK_TYPE_MANAGED_IRQ cpumask under RCU read lock.
-+	 * housekeeping_update_types() frees the old cpumask after
-+	 * synchronize_rcu(), so we must not hold the pointer beyond an
-+	 * RCU read-side critical section.
-+	 */
-+	if (!alloc_cpumask_var(&hk_snap, GFP_KERNEL)) {
-+		free_cpumask_var(available_mask);
-+		channel->target_cpu = VMBUS_CONNECT_CPU;
-+		hv_set_allocated_cpu(VMBUS_CONNECT_CPU);
-+		return;
-+	}
-+	rcu_read_lock();
-+	cpumask_copy(hk_snap, housekeeping_cpumask_rcu(HK_TYPE_MANAGED_IRQ));
-+	rcu_read_unlock();
-+
-+	if (cpumask_empty(hk_snap)) {
-+		free_cpumask_var(hk_snap);
-+		free_cpumask_var(available_mask);
- 		channel->target_cpu = VMBUS_CONNECT_CPU;
--		if (perf_chn)
--			hv_set_allocated_cpu(VMBUS_CONNECT_CPU);
-+		hv_set_allocated_cpu(VMBUS_CONNECT_CPU);
- 		return;
- 	}
- 
-@@ -788,7 +805,7 @@ static void init_vp_index(struct vmbus_channel *channel)
- 
- retry:
- 		cpumask_xor(available_mask, allocated_mask, cpumask_of_node(numa_node));
--		cpumask_and(available_mask, available_mask, hk_mask);
-+		cpumask_and(available_mask, available_mask, hk_snap);
- 
- 		if (cpumask_empty(available_mask)) {
- 			/*
-@@ -809,6 +826,7 @@ static void init_vp_index(struct vmbus_channel *channel)
- 
- 	channel->target_cpu = target_cpu;
- 
-+	free_cpumask_var(hk_snap);
- 	free_cpumask_var(available_mask);
- }
- 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index b8871449d3c69..371b509d92164 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -1272,9 +1272,8 @@ int get_nohz_timer_target(void)
- 		default_cpu = cpu;
- 	}
- 
--	hk_mask = housekeeping_cpumask(HK_TYPE_KERNEL_NOISE);
--
- 	guard(rcu)();
-+	hk_mask = housekeeping_cpumask_rcu(HK_TYPE_KERNEL_NOISE);
- 
- 	for_each_domain(cpu, sd) {
- 		for_each_cpu_and(i, sched_domain_span(sd), hk_mask) {
-diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index 5bd6efe598f0f..18e17a9dad67b 100644
---- a/kernel/time/hrtimer.c
-+++ b/kernel/time/hrtimer.c
-@@ -242,8 +242,11 @@ static bool hrtimer_suitable_target(struct hrtimer *timer, struct hrtimer_clock_
- static inline struct hrtimer_cpu_base *get_target_base(struct hrtimer_cpu_base *base, bool pinned)
- {
- 	if (!hrtimer_base_is_online(base)) {
--		int cpu = cpumask_any_and(cpu_online_mask, housekeeping_cpumask(HK_TYPE_TIMER));
-+		int cpu;
- 
-+		rcu_read_lock();
-+		cpu = cpumask_any_and(cpu_online_mask, housekeeping_cpumask_rcu(HK_TYPE_TIMER));
-+		rcu_read_unlock();
- 		return &per_cpu(hrtimer_bases, cpu);
- 	}
- 
+diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+index 22ba327ec2278..075cfa8161334 100644
+--- a/include/linux/cpuhotplug.h
++++ b/include/linux/cpuhotplug.h
+@@ -186,6 +186,8 @@ enum cpuhp_state {
+ 	CPUHP_AP_SMPCFD_DYING,
+ 	CPUHP_AP_HRTIMERS_DYING,
+ 	CPUHP_AP_TICK_DYING,
++	CPUHP_AP_IRQ_AFFINITY_DYING,
++	CPUHP_AP_NO_HZ_FULL_DYING,
+ 	CPUHP_AP_X86_TBOOT_DYING,
+ 	CPUHP_AP_ARM_CACHE_B15_RAC_DYING,
+ 	CPUHP_AP_ONLINE,
 
 -- 
 2.43.0
