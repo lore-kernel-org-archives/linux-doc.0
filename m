@@ -1,79 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885423A59BA;
-	Thu, 18 Jun 2026 11:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328353909BF
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 11:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781781824; cv=none; b=H6jN37wGArgNrVMCNAuEqxz9f8G5cZbyxfy6CvNm1BWn8jjubq77WmME6mgZXsSe99U2pQsZ0ntpxllqKGHYy0EUAvNr4/9lno4l838sBS0zWyIlCHaxnq32gVLU2dApgp0N2F1vRab6rkHWKcerEZV5pYX9OB3rw0yllQ3lREY=
+	t=1781783664; cv=none; b=iM7gCDsgdAFoJR3ICp6AIX5CIsKovvghF8ViPgPjiqFQ5aOpDv5W5qIUGygCgS7lKvLqVxrj0xjooHMnth4tB4rFCD4J0PuP33unj7+h9ILWpgIQcgGVE6k6mSUehPRdg1W9rExL54Lk853GHilMlhDqTHPPpU/uPyi7W7rNSTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781781824; c=relaxed/simple;
-	bh=zNOSefeKgRb/HstojgvgFCWfOMsSEcuVsdYwuzHmfHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GY0O3uVqQCZTtQcrPQIRAC17526vDh4mOAZiJnX7NrXBqWEFCzBaOw94dX4Smz4RlyaC62meXu5pPfj1PC1yUBKUmG5WbPZwckG29WeWcGaryASJC2K9aDaohbig0KRg8cwVr+hK7jPdU/ICBbtGwAGMxODsGpc2K4hfR903lEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j+KPWYQ8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781783664; c=relaxed/simple;
+	bh=aiTjH8qBsejlW7U3Ys21CxXC2X5umQflOQf+5N7VbuA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eTC8Ui1yGKaXBLOGbWwfl9SWUnruUUd8Is42rtkPyPINSfiU1D9Bpgq9Jx9VpAUsJw5YBq6K2fkcR3LEYgaPa8HjxCPbB1R8bvRG3qCWno1qIXR0rxxT9P6+oEwIyGH1uuWXCb8t0buMWiVtmCOJPdYf/qcQzpJsxU/M9CEjzBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXhw/UGG; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j+KPWYQ8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3D01F000E9;
-	Thu, 18 Jun 2026 11:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781781823;
-	bh=TmxT4Ovrq5S5b7W9Zv77t7dMKEnC1KysSV5nOxhS89M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=j+KPWYQ8ep94TNz22JU5qHo2ol44ol6avwnBTDtjmtJqg3kaDguyhtxlyZigUSOqt
-	 pMFShgCHTvnyUAxhII+NSfJJtHidJhWxXBaHh4FeHmPMYrQ7m7/bBx+qGMVhR8MFHm
-	 FALGSD8Tly2UHSk7BB5TBTQ/o3XbK8Sr9QIklv8fw/YoYJHByDi3X+8Jdmlt6srHx3
-	 cyk/ot4fRxtk+Dhi9pImYObMQRFeXP54o5R+MTnglAclNzlAkVx+0Ygy2Jkx5ZuSv8
-	 j7PaIwRbLgzWQLOYPhv5c/bJxCVYNusSpZWKbxAQqacfGuaaqg+ZhlcU5Pt0AE4O+L
-	 +U3v4yW57Q+7g==
-Date: Thu, 18 Jun 2026 12:23:38 +0100
-From: Lee Jones <lee@kernel.org>
-To: Shardul Deshpande <iamsharduld@gmail.com>
-Cc: Nam Tran <trannamatk@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: leds: fix broken reference to the
- multicolor LED ABI
-Message-ID: <20260618112338.GF1672911@google.com>
-References: <20260612171528.728111-1-iamsharduld@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXhw/UGG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781783663; x=1813319663;
+  h=date:from:to:cc:subject:message-id;
+  bh=aiTjH8qBsejlW7U3Ys21CxXC2X5umQflOQf+5N7VbuA=;
+  b=lXhw/UGGsAbS8QbteuuHARIKPbCgQpyyfy/aHVYYim3ZdpHEQgaOOkR6
+   lRsuozdPmhksiKGqs84TvJDhA9UiA9luS5DM/N9ehKj/9iRrerSDYxccg
+   +XK5303quoHet1sxD9VT23L45mH3eJn0X6M/6/fEWbuGkbyZ5/YuegGSr
+   tezq9OW7AFQXX22cBGJp+RN9g8KtHuJX6wheaX2B8sO9ksx6L4uPaprK9
+   W0NC4OH1UZKJOBDI0b5OhPmGX6XeyJ2fENf1C4vrgIyiTj+JLR7BmxKpR
+   VsPhqMn/dtJWnM3oE1S9lQeqReUnN9WibcsZpR8Bk2aWL/k8vHdopjX/W
+   Q==;
+X-CSE-ConnectionGUID: 1YPN5HauQl+S/6FfV+Xgjw==
+X-CSE-MsgGUID: TBpGHyqwQzuzAnwrT29xqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="81600052"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="81600052"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 04:54:22 -0700
+X-CSE-ConnectionGUID: ghbNwit8T1KesZIFQGKpyQ==
+X-CSE-MsgGUID: C9O7i/DMTACXfdm2jiJl4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="248413157"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 18 Jun 2026 04:54:21 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1waBK6-000000005Vp-41qi;
+	Thu, 18 Jun 2026 11:54:18 +0000
+Date: Thu, 18 Jun 2026 13:54:06 +0200
+From: kernel test robot <lkp@intel.com>
+To: Zhen Ni <zhen.ni@easystack.cn>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/mm/page_owner.rst:70: WARNING:
+ Literal block expected; none found. [docutils]
+Message-ID: <202606181325.BmDnZMdG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612171528.728111-1-iamsharduld@gmail.com>
 
-On Fri, 12 Jun 2026, Shardul Deshpande wrote:
+tree:   https://github.com/intel-lab-lkp/linux/commits/Zhen-Ni/mm-page_owner-add-print_mode-filter/20260618-120023
+head:   a6203d6b795b685775fd5306dd11f9f3d96de65b
+commit: a6203d6b795b685775fd5306dd11f9f3d96de65b mm/page_owner: document page_owner filter
+date:   8 hours ago
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260618/202606181325.BmDnZMdG-lkp@intel.com/reproduce)
 
-> The reference pointed to a non-existent .rst file.  The ABI file is named
-> sysfs-class-led-multicolor (without extension), so fix the reference to
-> match the actual file and resolve the warning from
-> tools/docs/documentation-file-ref-check.
-> 
-> Signed-off-by: Shardul Deshpande <iamsharduld@gmail.com>
-> ---
->  Documentation/leds/leds-lp5812.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-> index c2a6368d5..12e757d45 100644
-> --- a/Documentation/leds/leds-lp5812.rst
-> +++ b/Documentation/leds/leds-lp5812.rst
-> @@ -20,7 +20,7 @@ Sysfs Interface
->  ===============
->  
->  This driver uses the standard multicolor LED class interfaces defined
-> -in Documentation/ABI/testing/sysfs-class-led-multicolor.rst.
-> +in Documentation/ABI/testing/sysfs-class-led-multicolor.
->  
->  Each LP5812 LED output appears under ``/sys/class/leds/`` with its
->  assigned label (for example ``LED_A``).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606181325.BmDnZMdG-lkp@intel.com/
 
-Sorry, Xinhong Hu beat you to it.
+All warnings (new ones prefixed by >>):
 
--- 
-Lee Jones
+   Non-Preserved Properties
+   ======================== [docutils]
+>> Documentation/mm/page_owner.rst:70: WARNING: Literal block expected; none found. [docutils]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:48: ERROR: Unexpected section title.
+
+
+vim +70 Documentation/mm/page_owner.rst
+
+    69	
+  > 70	To filter page_owner output:
+    71	
+    72		cd tools/mm
+    73		make page_owner_filter
+    74	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
