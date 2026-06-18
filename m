@@ -1,118 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BCF2D7DC8;
-	Thu, 18 Jun 2026 14:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B450B309EE7
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 14:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781791551; cv=none; b=eJyKYqKlGC4sLTFTpgLeBIogCAIfHDKG1ml5rhOpea7YDDaANEbw3ueyljXIofnYAKsq23tx/4+tStD/SL3XoZfgHA9Ty+TqTf3JYSXxfDw6kby3MyI1G2jiiwEPGQBklJObd0UdlYo0GzMUcZ5U9f5CfkYdCRdyCY9u59Z971c=
+	t=1781793866; cv=none; b=oyNjDNEjRqkzHiIirAAJiT8fqUDabdhXDySpwIcpETP+YhFIpDl83y8UPhh1do69QWeJpii5PSl7eiyESdUxJTxeJAnVQ4czloW4E3Xr20f57zryg1bzhB2TLNw/ujRZcPIlqlNSIJXIWZE1lecDNgRulC6jV2BQVRSboAcpohc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781791551; c=relaxed/simple;
-	bh=+BS0ptWQEY7JbtdX32/OaKorHSJgwOkHWZa59ChPrUU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QHFQncQsSD1YI9fVTB6/8VxXzxMHSxknEkGnpTzqXxh9qzSQpHVFE3h/PLxRpH3CR/M8Di6vQEPVsPxWobkE0A2NbS+YdZ0haOOTyBtAK/cIH2o5/ljsKgEiORVNmTSLW9cLM10A/oYIU1uZ+71WabaB4MnX27JzEN5Fb3LAitY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=guRgYMnh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781793866; c=relaxed/simple;
+	bh=Yu6YeUOnFWPrCqIB5YEhtWIJyvV2BtUwFJn4XL9Gr70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NCSbm91devksUmiYLqQ2fRhm08vs8K8oE5GCBSpXbFVFpYSkHhOUzTT0nVD7oPQJUIxneyiAJrnbZGQXcv1MCcpc2wnbFXAgGm33QACij61BPn7zQv/fMg9iQ/YEb9Ov5hfObfSTvmgGE4QvxDEp4b/ImqCm54F2rhpQG2PpjuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeZm+h0M; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="guRgYMnh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2409E1F000E9;
-	Thu, 18 Jun 2026 14:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781791549;
-	bh=tVAxdJW7jC5jS/EGdsY03Ok8EVfqupezCmX7jIRIDTo=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=guRgYMnh8lVzlhkg5QOvp9HmCWhWuAtur1nhXuuAxmi6OyIatGXW/4AAMLdpMjQZ1
-	 BuGWAcPIdh4D25J9fv4Shd3xBjt3f8rffxUrUvc9J/ZnbB2f7lgqId/h2fm1RM/uL0
-	 g8VGGkSgiqmlL1jFWg468nX031Kwq6ZlSCQ5LfUfSZ8/stVkSvSFM4Tqe1gYl5N6Mp
-	 dg/VYKXQiT3K05iCarleYoF4Pmr61oApqv8o7lJKdF7Ryl6YiVZ6HerRjgVQgjfpQS
-	 SypMSRxtr5kFuPKLlZgazCm+kz//yoP5XVt+o4fkAcCQgpWwLZCY6wsKabtoZnhzIQ
-	 rasK12Ot6W1Bw==
-Message-ID: <2a7d21fa-28c1-446c-97f5-2513f29157d3@kernel.org>
-Date: Thu, 18 Jun 2026 23:05:43 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeZm+h0M"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-463f1165e16so882193f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 07:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781793862; x=1782398662; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LemwOVSIrC22MjpNchRABfurYl4fHAx2ajxQmykJZ0A=;
+        b=PeZm+h0MeG/A4/vv6gjIH0cRQLAoj4HR9JrACHWMuI476CY1k5gxpPl4O1f7KE/bra
+         kaINdOfHenQopsMxCwSzvrhxH0snVHNZZNFYrArNkbfbFu9M4SLt5RP1/hI5UjYPSG+7
+         uZ8sBJiEb18lP2gu4tl5zLgmgsVmREZ8uRatSMWukfDqGnp1CBKoyRSQjshkfFrFtz4u
+         Sm53tA+s4coHz+RTU3+DyNUtjb2p2EDXnt1b0z3D26bgzWyX/i8N2s7y8a3EF0PVdhm+
+         A8Hxy8ifIkZO6i889+NLb5uWt7u64mXks1uiFqczlrpmwYtrHsALfv4900rh4FmX5Nwn
+         w1WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781793862; x=1782398662;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LemwOVSIrC22MjpNchRABfurYl4fHAx2ajxQmykJZ0A=;
+        b=cPFnGwf7S2tDJwnmeg9jOcxMrJSQGAFXU5k9GVapk0UhPef0RO4DDg9ivqn3f56uvM
+         sVeL+oaIC2rpXYIZ6+m/xIpBpuWKChCjKd/dptVNe4qDH9/0uzxz44w4OYnOf1cjdLwr
+         heNQf+wC9J25vRs2xyFu1CYiw12zr9EWVqiLV7KahDh0FPljgWHOf3XWHR3WNMC9W+vZ
+         nhD+BFI/3s8PvUED+h35gVEnI8MpllJ2SGTY6vPKX7ESKf1OEpqmDFG7Y4n+ocRgCHpZ
+         W3Pb3F22NSUHArTrn35fcGy3ZzcOk71PfO5Mmr9ZAFl/gNwn9wyIfag2qQPiCnKzllBw
+         V68g==
+X-Forwarded-Encrypted: i=1; AFNElJ/IFn+5DPzecY4WXE//+lzKkCy+VUErYz2zAfXYKlimIoPw80xwL/Z3Gpk0oitt3i6gOu4qBswI87Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8rIfkB3197wHn1T34fP81hBV26Ea/54d81BXg3X9Dp/FPOp5M
+	kHBoGFPDnfq2QKrTcgCeGG67g4oSkcQZ4MelgtwWHQL03mUQ5GuaERH5
+X-Gm-Gg: AfdE7cnAQLnE8dL+ONAgWj+tQJpZtfCBuqpXtNP3yUd26v09IFNkeXtzbxR0sb1H0R2
+	tCGRqELuDx29IiMyZZA+gf0OnRc9BmKkgHwLA3x8Ijm9KO/nACZCsqpTYjSGAs8sByJTWZujEht
+	wwrfH5Cv+OoBLAd3MH4scx613GVv3VU1bfC23OivNToQmTREseg2B8cjjEVai+KNkgab3dvKLp4
+	RYnPmuCZSTKLLbKXS8v2sQmYK55vd5GNLAsPcuk1/okDxaDdPBUKmwbG58NBcQ0gyTMV4pGwu3O
+	/hn0LQYUoq2uwkkwo3BXJNTyfk4V6b9Zz9ZtQHVYZ/RyW9rnoSl2C9yZoUeebrXIi7Hgwd/1usg
+	h8V1fLrkQp7QUfrDdFB9hwnH1W/V36rZDLeyiZteMendUlvuGL5b3xgOVU4uLqKbjbGE/35bIbc
+	9CW/ie
+X-Received: by 2002:adf:e811:0:b0:460:1233:ecf2 with SMTP id ffacd0b85a97d-4623908e11dmr12410883f8f.30.1781793861659;
+        Thu, 18 Jun 2026 07:44:21 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4620b1083e3sm20736217f8f.20.2026.06.18.07.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 07:44:21 -0700 (PDT)
+Date: Thu, 18 Jun 2026 15:45:23 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH v6 05/16] iio: core: support 64-bit register through
+ debugfs
+Message-ID: <ajQDsZWJQRKKM0dv@nsa>
+References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-5-79125ffbe430@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
- allocation time
-From: Harry Yoo <harry@kernel.org>
-To: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
- akpm@linux-foundation.org, corbet@lwn.net
-Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
- vincenzo.frascino@arm.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
- anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
- david@kernel.org, will@kernel.org, catalin.marinas@arm.com
-References: <20260612044425.763060-1-dev.jain@arm.com>
- <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
-Content-Language: en-US
-In-Reply-To: <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260618-ad9910-iio-driver-v6-5-79125ffbe430@analog.com>
 
+On Thu, Jun 18, 2026 at 02:27:21PM +0100, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Add debugfs_reg64_access function pointer field into iio_info and modify
+> file operation callbacks to favor 64-bit variant when it is available.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  drivers/iio/industrialio-core.c | 33 ++++++++++++++++++++++++---------
+>  include/linux/iio/iio-opaque.h  |  2 +-
+>  include/linux/iio/iio.h         |  4 ++++
+>  3 files changed, 29 insertions(+), 10 deletions(-)
+> 
+> @@ -471,7 +485,8 @@ static void iio_device_register_debugfs(struct iio_dev *indio_dev)
+>  {
+>  	struct iio_dev_opaque *iio_dev_opaque;
+>  
+> -	if (indio_dev->info->debugfs_reg_access == NULL)
+> +	if (!indio_dev->info->debugfs_reg_access &&
+> +	    !indio_dev->info->debugfs_reg64_access)
+>  		return;
 
+Not really that important but should dev_warn() in case someone gives
+both callbacks? Can't use both anyways.
 
-On 6/18/26 10:35 PM, Harry Yoo wrote:
->=20
-> Hi Dev,
->=20
-> On 6/12/26 1:44 PM, Dev Jain wrote:
->> Introduce a boot option to tag only at allocation time of the objects.=
- This
->> reduces KASAN MTE overhead, the tradeoff being reduced ability of
->> catching bugs.
->=20
-> I think most of overhead when enabling MTE comes from loading and
-> validing tags for every memory access (either in SYNC or ASYNC mode),
-> rather than from storing tags.
+(We now have agentic help reviewing the code so maybe even if someone
+does it for some reason it won't pass review :))
 
-Is there any reason not to use STGM instead of STG + DC GVA when
-setting/clearing tags for large sizes when we know they are properly
-aligned?
-
->> Now, when a memory object will be freed, it will retain the random tag=
- it
->> had at allocation time. This compromises on catching UAF bugs, till th=
-e
->> time the object is not reallocated, at which point it will have a new
->> random tag.
->>
->> Hence, not catching "use-after-free-before-reallocation" and not catch=
-ing
->> "double-free" will be the compromise for reduced KASAN overhead.
->=20
-> I doubt users who care about security enough to enable HW_TAGS KASAN
-> are willing to compromise on security just to save a few instructions
-> to store tags in the free path.
->=20
-> To me, it looks like too much of a compromise on security for little
-> performance gain.
->=20
->> This is an RFC because we are not clear about the performance benefit.=
-
->>
->> Android folks, please help with testing!
->>
->> ---
->> Applies on Linus master (9716c086c8e8).
->>
->> Dev Jain (2):
->>   kasan: hw_tags: Use KASAN_PAGE_REDZONE for vmalloc redzoning
->>   kasan: hw_tags: Add boot option to elide free time poisoning
->>
->>  Documentation/dev-tools/kasan.rst |  4 +++
->>  mm/kasan/hw_tags.c                | 45 +++++++++++++++++++++++++++++-=
--
->>  mm/kasan/kasan.h                  | 23 +++++++++++++++-
->>  3 files changed, 69 insertions(+), 3 deletions(-)
->>
->=20
-
---=20
-Cheers,
-Harry / Hyeonggon
-
+- Nuno Sá
+>  
+>  	if (!iio_debugfs_dentry)
+> diff --git a/include/linux/iio/iio-opaque.h b/include/linux/iio/iio-opaque.h
+> index b87841a355f8..98330385e08d 100644
+> --- a/include/linux/iio/iio-opaque.h
+> +++ b/include/linux/iio/iio-opaque.h
+> @@ -73,7 +73,7 @@ struct iio_dev_opaque {
+>  #if defined(CONFIG_DEBUG_FS)
+>  	struct dentry			*debugfs_dentry;
+>  	unsigned int			cached_reg_addr;
+> -	char				read_buf[20];
+> +	char				read_buf[24];
+>  	unsigned int			read_buf_len;
+>  #endif
+>  };
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index 711c00f67371..1c7d12af22da 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -484,6 +484,7 @@ struct iio_trigger; /* forward declaration */
+>   * @update_scan_mode:	function to configure device and scan buffer when
+>   *			channels have changed
+>   * @debugfs_reg_access:	function to read or write register value of device
+> + * @debugfs_reg64_access: function to read or write 64-bit register value of device
+>   * @fwnode_xlate:	fwnode based function pointer to obtain channel specifier index.
+>   * @hwfifo_set_watermark: function pointer to set the current hardware
+>   *			fifo watermark level; see hwfifo_* entries in
+> @@ -572,6 +573,9 @@ struct iio_info {
+>  	int (*debugfs_reg_access)(struct iio_dev *indio_dev,
+>  				  unsigned int reg, unsigned int writeval,
+>  				  unsigned int *readval);
+> +	int (*debugfs_reg64_access)(struct iio_dev *indio_dev,
+> +				    unsigned int reg, u64 writeval,
+> +				    u64 *readval);
+>  	int (*fwnode_xlate)(struct iio_dev *indio_dev,
+>  			    const struct fwnode_reference_args *iiospec);
+>  	int (*hwfifo_set_watermark)(struct iio_dev *indio_dev, unsigned int val);
+> 
+> -- 
+> 2.43.0
+> 
+> 
