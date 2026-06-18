@@ -1,93 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB59D40D57D
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 01:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E890C2E6CA8;
+	Thu, 18 Jun 2026 01:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781747360; cv=none; b=m5uDNXO/mqfc9+9zFqcCr+6zsQ1Evtv5eW11s/tsOWYhN7EKMCmP9i7U1jdEsCfd0YCRvHk42/SSVyU8M56oDVEOkLW62HIIATKhz3d8XHLeQVekrpO52KIdW02ybueuzAN+G0uI4MGzf8RADY1mwgBflNML2Mchff3zmwntqCQ=
+	t=1781747601; cv=none; b=awB+0FbBOI2aW/q9x33UZ+2DYzA+n5SFp70bM8K+T0iYaKGwPiXH3+w2ouO4kMOf8gWJuOjlxhLLVeEqdLxOb8F7LvD+e+fkgg8u0Zfpf2uyQ2CnT3Yb72tipkhf3PZGZ/cfrnyrD4PYkiPi4U+9xjNwmhZ5U+itjq2+GaaZxO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781747360; c=relaxed/simple;
-	bh=IzURAdgLFYKVjSafGKsywtJZwsYGejxd8gsdiTBI34U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I380kLn1lj86m6UISzXxFDHuWkfhd0i2UpiV154sv0kl48g5tExDXzKZbbdRnq17ubM1aB2H++WYu7u65FfkmGmew74BAh0YVHYQ759i6gZNNHrx74b/ZlyXFtofkHJJz54t39IQg5+k9R0EtHxNnGj5n8r/bMynrfNs9oQvnUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGdWFT4Y; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781747601; c=relaxed/simple;
+	bh=Hcc23D1q9nY6KeBD9c4ZLceM+isPNUT/sbG7Ak1FYks=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Or+nETrMrS5EY0V8Ms5WeDhSZyiyDvB8X9j3I4QccEzPS03n/Zf3Dfzit9nliyou4VJAG2Q6hH5Jum9aMERsiiokscpzLt4NtZRkqV5yKyTk2EzvT6vpi2nnpb7XO39aqk2aN3Crr/kLjXWG8gS53oeaI1CtSFOBgWafXAVDcXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ovFV3Jzh; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGdWFT4Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781747358; x=1813283358;
-  h=date:from:to:cc:subject:message-id;
-  bh=IzURAdgLFYKVjSafGKsywtJZwsYGejxd8gsdiTBI34U=;
-  b=UGdWFT4YKkNRJrcVwzLUSvKgNqUdypz+qfy8LhGen65Alvmms+61dxU2
-   dEal0Fp0Li0B/IJ/qVoRpNUFdDuo/PBTzmfD/h9bs46fco/lwxKHACBWL
-   U9ntjvpUATo/2kLn0Qs9XvF4Jwcq0MPVtdtMuUOcJnAtkaa5AoY+eBTht
-   ZbSZnH9UAcp9k9EIbDWuaq/wB/OGa6cBaA87tjnbWcZVZmouqfkw6ny/y
-   kUq838vuTnxhjI9My+95ADBPDmcTEIYCfu3r1jzfJq3uyqsVPhgC8xu0Y
-   W5xyX5JSJiasRf2dX+MrCp0pUuzt1ECSQDlLGi2/n1+YXRSG8Bvmp+tqp
-   Q==;
-X-CSE-ConnectionGUID: 6CFg68xzTkiOZ0C+yuD7Hg==
-X-CSE-MsgGUID: YW1W8pGqRlW/Ou/NPj227Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="93684062"
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="93684062"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 18:49:17 -0700
-X-CSE-ConnectionGUID: ySxXOuICSaKltSvVS3H8ZQ==
-X-CSE-MsgGUID: FCYLOLxdQj2e56YgJB5VVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="253333544"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Jun 2026 18:49:16 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wa1sX-000000005QX-3X7w;
-	Thu, 18 Jun 2026 01:49:13 +0000
-Date: Thu, 18 Jun 2026 03:48:36 +0200
-From: kernel test robot <lkp@intel.com>
-To: Honglei Huang <honghuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/gpu/rfc/gpusvm:70:
- ./drivers/gpu/drm/drm_gpusvm.c:74: WARNING: Inline emphasis start-string
- without end-string. [docutils]
-Message-ID: <202606180351.xwWq86H2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ovFV3Jzh"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=baDTuvvK2rnBrTQYWqm7ATQZOTdxwB6p+v1mQB0ln0U=;
+	b=ovFV3JzhO8N/0lbfun2Dcbo+s3uduzoqK6QFiVNFlaRGSRIEv7jpAN6XoJ/16TPzR05Bm0y3K
+	q0Q304PdA32b4ir8vfHLLV/ktI355N4ho4ZwfONYG/0uu4IaRlj7h7Kg7ymGFOpS9QcGSyGrSLy
+	tIfTWIw3ciHOxrbyGqYCBH8=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4ggk7d4TTKzRhRL;
+	Thu, 18 Jun 2026 09:45:17 +0800 (CST)
+Received: from kwepemo100012.china.huawei.com (unknown [7.202.195.139])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5E8B340538;
+	Thu, 18 Jun 2026 09:53:16 +0800 (CST)
+Received: from [10.67.120.222] (10.67.120.222) by
+ kwepemo100012.china.huawei.com (7.202.195.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 18 Jun 2026 09:53:15 +0800
+Message-ID: <6dca2d6e-54d0-42c4-95df-45a30a473e0b@huawei.com>
+Date: Thu, 18 Jun 2026 09:53:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 15/20] perf: arm_pmuv3: Handle IRQs for Partitioned PMU
+ guest counters
+To: Colton Lewis <coltonlewis@google.com>, <kvm@vger.kernel.org>
+CC: Alexandru Elisei <alexandru.elisei@arm.com>, Paolo Bonzini
+	<pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Russell King
+	<linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+	<oliver.upton@linux.dev>, Mingwei Zhang <mizhang@google.com>, Joey Gouly
+	<joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+	<yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>, Shuah Khan
+	<shuah@kernel.org>, Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	James Clark <james.clark@linaro.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kvmarm@lists.linux.dev>, <linux-perf-users@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, wangyushan <wangyushan12@huawei.com>, Zhou
+ Wang <wangzhou1@hisilicon.com>, <xuwei5@huawei.com>,
+	<prime.zeng@hisilicon.com>, <fanghao11@huawei.com>
+References: <20260504211813.1804997-1-coltonlewis@google.com>
+ <20260504211813.1804997-16-coltonlewis@google.com>
+From: wuyifan <wuyifan50@huawei.com>
+In-Reply-To: <20260504211813.1804997-16-coltonlewis@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemo100012.china.huawei.com (7.202.195.139)
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Honglei-Huang/drm-gpusvm-split-MM-state-flags-out-of-drm_gpusvm_pages_flags/20260617-202753
-head:   19bcdccae716ca08c529566e2093edc5c2a81ce2
-commit: c2a70a0070054be7a4f5097e2d7c835d765eae35 drm/gpusvm: move struct drm_gpusvm_pages out of struct drm_gpusvm_range
-date:   13 hours ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260618/202606180351.xwWq86H2-lkp@intel.com/reproduce)
+Hi Colton,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606180351.xwWq86H2-lkp@intel.com/
+On 5/5/2026 5:18 AM, Colton Lewis wrote:
+>   static irqreturn_t armv8pmu_handle_irq(struct arm_pmu *cpu_pmu)
+>   {
+> -	u64 pmovsr;
+>   	struct perf_sample_data data;
+>   	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+>   	struct pt_regs *regs;
+> +	u64 host_set = kvm_pmu_host_counter_mask(cpu_pmu);
+> +	u64 pmovsr;
+kvm_pmu_host_counter_mask() is called from armv8pmu_handle_irq(). This
+interrupt fires in both host and guest contexts.
 
-All warnings (new ones prefixed by >>):
+However, kvm_pmu_host_counter_mask() dereferences
+host_data_ptr(nr_event_counters). This indirection requires
+kvm_arm_hyp_percpu_base[cpu] to be initialized, which only happens during
+KVM hypervisor setup. When the interrupt fires in a guest kernel where 
+KVM is
+compiled but not active, the per-CPU base is NULL and the dereference 
+faults.
 
-   Examples
-   ~~~~~~~~ [docutils]
-   Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:74: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:74: WARNING: Inline emphasis start-string without end-string. [docutils]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:76: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:77: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
-   WARNING: ./include/linux/host1x.h:159 struct member 'put' not described in 'host1x_bo_ops'
-   WARNING: ./include/linux/host1x.h:159 struct member 'mmap' not described in 'host1x_bo_ops'
-   WARNING: ./include/linux/host1x.h:159 struct member 'munmap' not described in 'host1x_bo_ops'
-   WARNING: ./include/linux/host1x.h:159 struct member 'get' not described in 'host1x_bo_ops'
+Thanks,
+Yifan
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
