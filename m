@@ -1,64 +1,64 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B450B309EE7
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 14:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3B83F54BD
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 15:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781793866; cv=none; b=oyNjDNEjRqkzHiIirAAJiT8fqUDabdhXDySpwIcpETP+YhFIpDl83y8UPhh1do69QWeJpii5PSl7eiyESdUxJTxeJAnVQ4czloW4E3Xr20f57zryg1bzhB2TLNw/ujRZcPIlqlNSIJXIWZE1lecDNgRulC6jV2BQVRSboAcpohc=
+	t=1781795130; cv=none; b=SHUdVzVKVVV550P5fzsoziKu8VlReqBIIdpwjExiEhPKWhSXtz3LvCvk093y/MqEF4PdFc3HMAK7+7kLI7QAG1PWABNPcY8pmzAiI13hPvfMhYYrioAW0kLw9TiuCdfvioeeKFX7WipxsW6PiKrgyynkG0mWnNxCcoeHkYte2nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781793866; c=relaxed/simple;
-	bh=Yu6YeUOnFWPrCqIB5YEhtWIJyvV2BtUwFJn4XL9Gr70=;
+	s=arc-20240116; t=1781795130; c=relaxed/simple;
+	bh=iaFPE02ZjfpwZAXrnzwWGCxlSDHcJ4IP0+XPAuuEaZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCSbm91devksUmiYLqQ2fRhm08vs8K8oE5GCBSpXbFVFpYSkHhOUzTT0nVD7oPQJUIxneyiAJrnbZGQXcv1MCcpc2wnbFXAgGm33QACij61BPn7zQv/fMg9iQ/YEb9Ov5hfObfSTvmgGE4QvxDEp4b/ImqCm54F2rhpQG2PpjuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PeZm+h0M; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=EgSsE+AoluknkB5rNE3yMsRR7FG9vZy7v4ZRVGKK/rNkYwtNa+LiwVJ51pGeSSoc7bZbl9iyvwtS0Dj07Pha62FQnHMdmwCPV+75Wt4BQKFoenI1jfK8zV9owadpdIbkxWgPk+hUaPZ2pfode5WI4LICO/Y83FDUb6BOgDWxlsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EM/W8ZJZ; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PeZm+h0M"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-463f1165e16so882193f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 07:44:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EM/W8ZJZ"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso21785985e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 08:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781793862; x=1782398662; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781795127; x=1782399927; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LemwOVSIrC22MjpNchRABfurYl4fHAx2ajxQmykJZ0A=;
-        b=PeZm+h0MeG/A4/vv6gjIH0cRQLAoj4HR9JrACHWMuI476CY1k5gxpPl4O1f7KE/bra
-         kaINdOfHenQopsMxCwSzvrhxH0snVHNZZNFYrArNkbfbFu9M4SLt5RP1/hI5UjYPSG+7
-         uZ8sBJiEb18lP2gu4tl5zLgmgsVmREZ8uRatSMWukfDqGnp1CBKoyRSQjshkfFrFtz4u
-         Sm53tA+s4coHz+RTU3+DyNUtjb2p2EDXnt1b0z3D26bgzWyX/i8N2s7y8a3EF0PVdhm+
-         A8Hxy8ifIkZO6i889+NLb5uWt7u64mXks1uiFqczlrpmwYtrHsALfv4900rh4FmX5Nwn
-         w1WA==
+        bh=WO1FdNyJzLW2jSnS++lTJL7J324nXe0APdtSCk7pTtY=;
+        b=EM/W8ZJZbSLGAIr8t9lW2TTS3qMxVhC4Pv3MahLRt1w1dJqRkU3CVabTo3t/vk6ljV
+         QBLiRiZXuemDLrIdrTzc8hflHhG14gPKZ+WMpkhxfrWO1xLlrWgoSa3ti1M72I4NrPqE
+         TlUhTjPhghMVG3etPrWErC48N649gyVzQCkfXz90MOcKD7+V9BD+4SfOnSND7o645XIz
+         bpTwDF57P7rQoIDfCTDoo6Nl5UOV7LEg9owjeiNJmdaU7bMTuvP0Fe2q2Oit9VKFw/QH
+         Ciirlkhq6/Klr+LWVFpRqlW1OUrfix7utsG740tI2XrRd3v10Qvgzr1gYeRRD3qsITdj
+         EZiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781793862; x=1782398662;
+        d=1e100.net; s=20251104; t=1781795127; x=1782399927;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LemwOVSIrC22MjpNchRABfurYl4fHAx2ajxQmykJZ0A=;
-        b=cPFnGwf7S2tDJwnmeg9jOcxMrJSQGAFXU5k9GVapk0UhPef0RO4DDg9ivqn3f56uvM
-         sVeL+oaIC2rpXYIZ6+m/xIpBpuWKChCjKd/dptVNe4qDH9/0uzxz44w4OYnOf1cjdLwr
-         heNQf+wC9J25vRs2xyFu1CYiw12zr9EWVqiLV7KahDh0FPljgWHOf3XWHR3WNMC9W+vZ
-         nhD+BFI/3s8PvUED+h35gVEnI8MpllJ2SGTY6vPKX7ESKf1OEpqmDFG7Y4n+ocRgCHpZ
-         W3Pb3F22NSUHArTrn35fcGy3ZzcOk71PfO5Mmr9ZAFl/gNwn9wyIfag2qQPiCnKzllBw
-         V68g==
-X-Forwarded-Encrypted: i=1; AFNElJ/IFn+5DPzecY4WXE//+lzKkCy+VUErYz2zAfXYKlimIoPw80xwL/Z3Gpk0oitt3i6gOu4qBswI87Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8rIfkB3197wHn1T34fP81hBV26Ea/54d81BXg3X9Dp/FPOp5M
-	kHBoGFPDnfq2QKrTcgCeGG67g4oSkcQZ4MelgtwWHQL03mUQ5GuaERH5
-X-Gm-Gg: AfdE7cnAQLnE8dL+ONAgWj+tQJpZtfCBuqpXtNP3yUd26v09IFNkeXtzbxR0sb1H0R2
-	tCGRqELuDx29IiMyZZA+gf0OnRc9BmKkgHwLA3x8Ijm9KO/nACZCsqpTYjSGAs8sByJTWZujEht
-	wwrfH5Cv+OoBLAd3MH4scx613GVv3VU1bfC23OivNToQmTREseg2B8cjjEVai+KNkgab3dvKLp4
-	RYnPmuCZSTKLLbKXS8v2sQmYK55vd5GNLAsPcuk1/okDxaDdPBUKmwbG58NBcQ0gyTMV4pGwu3O
-	/hn0LQYUoq2uwkkwo3BXJNTyfk4V6b9Zz9ZtQHVYZ/RyW9rnoSl2C9yZoUeebrXIi7Hgwd/1usg
-	h8V1fLrkQp7QUfrDdFB9hwnH1W/V36rZDLeyiZteMendUlvuGL5b3xgOVU4uLqKbjbGE/35bIbc
-	9CW/ie
-X-Received: by 2002:adf:e811:0:b0:460:1233:ecf2 with SMTP id ffacd0b85a97d-4623908e11dmr12410883f8f.30.1781793861659;
-        Thu, 18 Jun 2026 07:44:21 -0700 (PDT)
+        bh=WO1FdNyJzLW2jSnS++lTJL7J324nXe0APdtSCk7pTtY=;
+        b=JBG02sPhasJ58yCJS8abU1nWLIOR+pX0JaafikmgI8++bFZhiCOI/A22ssiLlbM5zT
+         VRgI9FMk9MSwaEmPy/dyBQgXDM3UVmZAJv3A23fj2AapnP14BQNou4zADmbihHrogaSJ
+         4aPGAaMcYTfKBaJvPqqGZgVKHvwfZsR0aIfGMwUDM2EkkVy35kDdRDpQR22gmnWtZvDJ
+         Pe72A1RQBOScAGUXb6Zcvdcbo83JYY+M9rd+h3x+Hx8go/fUAdPX6VCMX4gXFA1MCYtl
+         DJmr8HLt2uMRjiHyez6nWlp9JH3vecI/Gs0i2H/Yyb4yofw0TAkWgldp6Bhyq70q6Lpg
+         UUbA==
+X-Forwarded-Encrypted: i=1; AFNElJ/cdZbQavwW+2n78GprKZnRbohQu7PqNH0QGStHBLNxJNWuuJSBmmP8w0HZoRNsyb+5A8ao+W3cb50=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9mktmdTbh+y7vwOz6u4nvBZ8NHA/eP1N8NkRhdub7FCHgyAmp
+	7hoEB7EKXbelcCqsYcK4+4IXDINfEw+pQvoP3uluUbDKKzGfaCNzuAn0
+X-Gm-Gg: AfdE7cn9lGKabUP7e4K5QT03WjeyQX44ObExDIx5TeGZgiNqRvJoEIcdm9UXkwYJQpK
+	vFAGhOFe7Xav6CK0YpbWlUPYl4rrz1/SgkgI+R+vrSlXbykLIU+yRZEdc9AGbM1fpUtmXG3GafG
+	KDsOrZbUuZhh9YflbPHeksB3BP7YeRePUkLRb1F3NklAeEzQwQ+K1Q/lJm6NeIM1BrkIDvxnAVh
+	I4FCtKdWKUS28/9TYlwYZlGucIeImpc56yV5pi6liBerls1s9SMJHaARSr3WARvSPdhqUi4V7sC
+	95DlpoQXoq/Gech6DyKXIYXwvPh6xuD8ZQ5VCIAQl5SF0Zsh6TQ0UKLGmz+A3Rg8CvnnB9tdCZj
+	5kOUlMMGZO/PuINikQb0USgXfDcYWukPezs9RiExSzuG8BpKvfeAWJi9vTU0pJphnDt6BCJcomn
+	YHiJu5
+X-Received: by 2002:a05:600c:4ec6:b0:490:3cf0:8d81 with SMTP id 5b1f17b1804b1-492381864b5mr60597465e9.13.1781795126415;
+        Thu, 18 Jun 2026 08:05:26 -0700 (PDT)
 Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4620b1083e3sm20736217f8f.20.2026.06.18.07.44.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa5120esm264342055e9.8.2026.06.18.08.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 07:44:21 -0700 (PDT)
-Date: Thu, 18 Jun 2026 15:45:23 +0100
+        Thu, 18 Jun 2026 08:05:25 -0700 (PDT)
+Date: Thu, 18 Jun 2026 16:06:27 +0100
 From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
 To: rodrigo.alencar@analog.com
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -70,11 +70,11 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 05/16] iio: core: support 64-bit register through
- debugfs
-Message-ID: <ajQDsZWJQRKKM0dv@nsa>
+Subject: Re: [PATCH v6 06/16] iio: core: create local
+ __iio_chan_prefix_emit() for reuse
+Message-ID: <ajQGTQ1_qcOwfzne@nsa>
 References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-5-79125ffbe430@analog.com>
+ <20260618-ad9910-iio-driver-v6-6-79125ffbe430@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,74 +84,238 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260618-ad9910-iio-driver-v6-5-79125ffbe430@analog.com>
+In-Reply-To: <20260618-ad9910-iio-driver-v6-6-79125ffbe430@analog.com>
 
-On Thu, Jun 18, 2026 at 02:27:21PM +0100, Rodrigo Alencar via B4 Relay wrote:
+On Thu, Jun 18, 2026 at 02:27:22PM +0100, Rodrigo Alencar via B4 Relay wrote:
 > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > 
-> Add debugfs_reg64_access function pointer field into iio_info and modify
-> file operation callbacks to favor 64-bit variant when it is available.
+> Move logic to create a channel prefix for naming attribute files into a
+> separate __iio_chan_prefix_emit() function for reuse.
 > 
 > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > ---
->  drivers/iio/industrialio-core.c | 33 ++++++++++++++++++++++++---------
->  include/linux/iio/iio-opaque.h  |  2 +-
->  include/linux/iio/iio.h         |  4 ++++
->  3 files changed, 29 insertions(+), 10 deletions(-)
+>  drivers/iio/industrialio-core.c | 167 ++++++++++++++++------------------------
+>  1 file changed, 68 insertions(+), 99 deletions(-)
 > 
-> @@ -471,7 +485,8 @@ static void iio_device_register_debugfs(struct iio_dev *indio_dev)
->  {
->  	struct iio_dev_opaque *iio_dev_opaque;
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index 03019bf9327b..9373006235c8 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/property.h>
+>  #include <linux/sched.h>
+>  #include <linux/slab.h>
+> +#include <linux/sprintf.h>
+>  #include <linux/wait.h>
 >  
-> -	if (indio_dev->info->debugfs_reg_access == NULL)
-> +	if (!indio_dev->info->debugfs_reg_access &&
-> +	    !indio_dev->info->debugfs_reg64_access)
->  		return;
+>  #include <linux/iio/buffer.h>
+> @@ -199,6 +200,64 @@ static const char * const iio_chan_info_postfix[] = {
+>  	[IIO_CHAN_INFO_CONVDELAY] = "convdelay",
+>  	[IIO_CHAN_INFO_POWERFACTOR] = "powerfactor",
+>  };
+> +
+> +static int __iio_chan_prefix_emit(const struct iio_chan_spec *chan,
+> +				  enum iio_shared_by shared_by,
+> +				  char *buf, size_t len)
+> +{
+> +	const char *dir = iio_direction[chan->output];
+> +	const char *type = iio_chan_type_name_spec[chan->type];
+> +	int n = 0;
+> +
+> +	switch (shared_by) {
+> +	case IIO_SHARED_BY_ALL:
+> +		buf[0] = '\0'; /* empty channel prefix */
+> +		break;
+> +	case IIO_SHARED_BY_DIR:
+> +		n = scnprintf(buf, len, "%s", dir);
+> +		break;
+> +	case IIO_SHARED_BY_TYPE:
+> +		n = scnprintf(buf, len, "%s_%s", dir, type);
+> +		if (chan->differential)
+> +			n += scnprintf(buf + n, len - n, "-%s", type);
+> +		break;
+> +	case IIO_SEPARATE:
+> +		if (chan->indexed) {
+> +			n = scnprintf(buf, len, "%s_%s%d", dir, type,
+> +				      chan->channel);
+> +			if (chan->differential)
+> +				n += scnprintf(buf + n, len - n, "-%s%d", type,
+> +					       chan->channel2);
+> +		} else {
+> +			if (chan->differential) {
+> +				WARN(1, "Differential channels must be indexed\n");
+> +				return -EINVAL;
+> +			}
+> +			n = scnprintf(buf, len, "%s_%s", dir, type);
+> +		}
+> +
+> +		if (chan->modified) {
+> +			if (chan->differential) {
+> +				WARN(1, "Differential channels can not have modifier\n");
+> +				return -EINVAL;
 
-Not really that important but should dev_warn() in case someone gives
-both callbacks? Can't use both anyways.
+WARN() looks too much to me. dev_error() as we're treating it as such. I
+guess you don't want to pass struct device but not really an issue IMHO.
 
-(We now have agentic help reviewing the code so maybe even if someone
-does it for some reason it won't pass review :))
+
+> +			}
+> +			n += scnprintf(buf + n, len - n, "_%s",
+> +				       iio_modifier_names[chan->channel2]);
+> +		}
+> +
+> +		if (chan->extend_name)
+> +			n += scnprintf(buf + n, len - n, "_%s", chan->extend_name);
+> +		break;
+> +	}
+> +
+> +	if (n > 0 && n < len - 1) { /* prefix termination if not empty */
+> +		buf[n++] = '_';
+> +		buf[n] = '\0';
+> +	}
+> +
+
+Can't we handle the above in the caller on kasprintf()? Then we could
+simplify and return in place.
+
+> +	return n;
+> +}
+> +
+>  /**
+>   * iio_device_id() - query the unique ID for the device
+>   * @indio_dev:		Device structure whose ID is being queried
+> @@ -1100,106 +1159,19 @@ int __iio_device_attr_init(struct device_attribute *dev_attr,
+>  						size_t len),
+>  			   enum iio_shared_by shared_by)
+>  {
+> -	int ret = 0;
+> -	char *name = NULL;
+> -	char *full_postfix;
+> +	char prefix[NAME_MAX + 1];
+> +	int ret;
+>  
+>  	sysfs_attr_init(&dev_attr->attr);
+>  
+> -	/* Build up postfix of <extend_name>_<modifier>_postfix */
+> -	if (chan->modified && (shared_by == IIO_SEPARATE)) {
+> -		if (chan->extend_name)
+> -			full_postfix = kasprintf(GFP_KERNEL, "%s_%s_%s",
+> -						 iio_modifier_names[chan->channel2],
+> -						 chan->extend_name,
+> -						 postfix);
+> -		else
+> -			full_postfix = kasprintf(GFP_KERNEL, "%s_%s",
+> -						 iio_modifier_names[chan->channel2],
+> -						 postfix);
+> -	} else {
+> -		if (chan->extend_name == NULL || shared_by != IIO_SEPARATE)
+> -			full_postfix = kstrdup(postfix, GFP_KERNEL);
+> -		else
+> -			full_postfix = kasprintf(GFP_KERNEL,
+> -						 "%s_%s",
+> -						 chan->extend_name,
+> -						 postfix);
+> -	}
+> -	if (full_postfix == NULL)
+> +	ret = __iio_chan_prefix_emit(chan, shared_by, prefix, sizeof(prefix));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dev_attr->attr.name = kasprintf(GFP_KERNEL, "%s%s", prefix, postfix);
+> +	if (!dev_attr->attr.name)
+>  		return -ENOMEM;
+
+I don't oppose the change. Looks like a nice cleanup. But bear in mind
+this very sensible as any subtle mistake means ABI breakage.
 
 - Nuno Sá
+
 >  
->  	if (!iio_debugfs_dentry)
-> diff --git a/include/linux/iio/iio-opaque.h b/include/linux/iio/iio-opaque.h
-> index b87841a355f8..98330385e08d 100644
-> --- a/include/linux/iio/iio-opaque.h
-> +++ b/include/linux/iio/iio-opaque.h
-> @@ -73,7 +73,7 @@ struct iio_dev_opaque {
->  #if defined(CONFIG_DEBUG_FS)
->  	struct dentry			*debugfs_dentry;
->  	unsigned int			cached_reg_addr;
-> -	char				read_buf[20];
-> +	char				read_buf[24];
->  	unsigned int			read_buf_len;
->  #endif
->  };
-> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> index 711c00f67371..1c7d12af22da 100644
-> --- a/include/linux/iio/iio.h
-> +++ b/include/linux/iio/iio.h
-> @@ -484,6 +484,7 @@ struct iio_trigger; /* forward declaration */
->   * @update_scan_mode:	function to configure device and scan buffer when
->   *			channels have changed
->   * @debugfs_reg_access:	function to read or write register value of device
-> + * @debugfs_reg64_access: function to read or write 64-bit register value of device
->   * @fwnode_xlate:	fwnode based function pointer to obtain channel specifier index.
->   * @hwfifo_set_watermark: function pointer to set the current hardware
->   *			fifo watermark level; see hwfifo_* entries in
-> @@ -572,6 +573,9 @@ struct iio_info {
->  	int (*debugfs_reg_access)(struct iio_dev *indio_dev,
->  				  unsigned int reg, unsigned int writeval,
->  				  unsigned int *readval);
-> +	int (*debugfs_reg64_access)(struct iio_dev *indio_dev,
-> +				    unsigned int reg, u64 writeval,
-> +				    u64 *readval);
->  	int (*fwnode_xlate)(struct iio_dev *indio_dev,
->  			    const struct fwnode_reference_args *iiospec);
->  	int (*hwfifo_set_watermark)(struct iio_dev *indio_dev, unsigned int val);
+> -	if (chan->differential) { /* Differential can not have modifier */
+> -		switch (shared_by) {
+> -		case IIO_SHARED_BY_ALL:
+> -			name = kasprintf(GFP_KERNEL, "%s", full_postfix);
+> -			break;
+> -		case IIO_SHARED_BY_DIR:
+> -			name = kasprintf(GFP_KERNEL, "%s_%s",
+> -						iio_direction[chan->output],
+> -						full_postfix);
+> -			break;
+> -		case IIO_SHARED_BY_TYPE:
+> -			name = kasprintf(GFP_KERNEL, "%s_%s-%s_%s",
+> -					    iio_direction[chan->output],
+> -					    iio_chan_type_name_spec[chan->type],
+> -					    iio_chan_type_name_spec[chan->type],
+> -					    full_postfix);
+> -			break;
+> -		case IIO_SEPARATE:
+> -			if (!chan->indexed) {
+> -				WARN(1, "Differential channels must be indexed\n");
+> -				ret = -EINVAL;
+> -				goto error_free_full_postfix;
+> -			}
+> -			name = kasprintf(GFP_KERNEL,
+> -					    "%s_%s%d-%s%d_%s",
+> -					    iio_direction[chan->output],
+> -					    iio_chan_type_name_spec[chan->type],
+> -					    chan->channel,
+> -					    iio_chan_type_name_spec[chan->type],
+> -					    chan->channel2,
+> -					    full_postfix);
+> -			break;
+> -		}
+> -	} else { /* Single ended */
+> -		switch (shared_by) {
+> -		case IIO_SHARED_BY_ALL:
+> -			name = kasprintf(GFP_KERNEL, "%s", full_postfix);
+> -			break;
+> -		case IIO_SHARED_BY_DIR:
+> -			name = kasprintf(GFP_KERNEL, "%s_%s",
+> -						iio_direction[chan->output],
+> -						full_postfix);
+> -			break;
+> -		case IIO_SHARED_BY_TYPE:
+> -			name = kasprintf(GFP_KERNEL, "%s_%s_%s",
+> -					    iio_direction[chan->output],
+> -					    iio_chan_type_name_spec[chan->type],
+> -					    full_postfix);
+> -			break;
+> -
+> -		case IIO_SEPARATE:
+> -			if (chan->indexed)
+> -				name = kasprintf(GFP_KERNEL, "%s_%s%d_%s",
+> -						    iio_direction[chan->output],
+> -						    iio_chan_type_name_spec[chan->type],
+> -						    chan->channel,
+> -						    full_postfix);
+> -			else
+> -				name = kasprintf(GFP_KERNEL, "%s_%s_%s",
+> -						    iio_direction[chan->output],
+> -						    iio_chan_type_name_spec[chan->type],
+> -						    full_postfix);
+> -			break;
+> -		}
+> -	}
+> -	if (name == NULL) {
+> -		ret = -ENOMEM;
+> -		goto error_free_full_postfix;
+> -	}
+> -	dev_attr->attr.name = name;
+> -
+>  	if (readfunc) {
+>  		dev_attr->attr.mode |= 0444;
+>  		dev_attr->show = readfunc;
+> @@ -1210,10 +1182,7 @@ int __iio_device_attr_init(struct device_attribute *dev_attr,
+>  		dev_attr->store = writefunc;
+>  	}
+>  
+> -error_free_full_postfix:
+> -	kfree(full_postfix);
+> -
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static void __iio_device_attr_deinit(struct device_attribute *dev_attr)
 > 
 > -- 
 > 2.43.0
