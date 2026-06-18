@@ -1,227 +1,154 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4ED343882
-	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 16:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6877E4D8CE
+	for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 16:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781799269; cv=none; b=fjvQaRvYBvn2YvuQXZLlFESr2WvM+hkkKT08UXzQbohdI/IbSO/b0bbd4FGNUR3zKO+638LVVL4IFJXlAwS81xDs7obybWmQucNMacyMvL89rRFuQEotwQOzushHTc9Z4+tolrYlD0AETRLsPxZRzEz2Q888xze/rXbyuvVDV9c=
+	t=1781799381; cv=none; b=DlOUFjfpuqMqV5T6kKIbzq+9qmjdpmj1gHKTqcdH1hdlpRVv5nDY47uHyjrO0ge225xmTdShcVYmU3dyzvyj+6+JJDUi1tFNYhAjUC7H4lem1hYNRFq115qIShRCu8AAeyl1O/WkemgHPXDij2pBFsLMhQkmzLaXY3/oX/8JNIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781799269; c=relaxed/simple;
-	bh=R1gVtYDN5n2fZ9vAVumO58wI1lDs+qlEx2tCz1NSsPs=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IKmPlk24V6l8SyeVeFj71E7Ls0FTRsByy4Wb/udn7WWsqfgRlI1GSXDt1NW5o5bp5/HBiuo4RdLsNQzCpITLX+marmY1KqBZBFLyy66NZgICOx8+TN33QmOZ/uYIjKqDM9PJ0i+jbOs+RkXto6huVACu+8WYopixbzRrA1uXwHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ydjv7Wfc; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781799381; c=relaxed/simple;
+	bh=86NmraxvOIKFQjLHNQhu7sY0yW6+Q2B/vPG1D87UCc4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aIHGIFAScdqmGBsjbe82WI2/BpV49TF0qYIZxDvx5NPzVcwTc+VcnZDi3m2uvdkyS7HL2kD62S1jSU6Jj5rqkbJIFc4F3+ult76sUEgp0fkkCapd1v61JAkE+4C17iK0q+hs7jvg+qghaONjOm47priY81vw+gqqb5wrV5BPBL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jqQndy+R; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ydjv7Wfc"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490ac10e337so7146565e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 09:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781799265; x=1782404065; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0IWtEiXv9qCkFIqBuOVncrIVNf4UpfLhl+LRYC+5jmc=;
-        b=Ydjv7WfcNupDygwjHKP55HyWwXE5Dja8Xerx5b5tcK9fsStG8yGcwy3ACC+5ke16/X
-         VgDTGgWryNMIHP8+R2QnRPJSDbyaCyYa4OOYI1AfG4+ygzMXSdVLo3r9jxfxeCPbjlq0
-         bmmkPWgwSq8M7950u0hX2u/5dk8AG4h8fihPHSKCiBOQIIY93vfoUqQ+PzHTewf/eZjm
-         GiGlm5RLhj7OjjtEWTr2BlOl27CV9aQTfWCg4T8kDrHrSmXebfsvUUdBBQ1uwCYVCGII
-         EMTgFcwlQ4CqRIq2utb9RhidtKJS5RXuJaItrfYwdwMppkdmgCByzGljTffUHVDOJ07h
-         TY5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781799265; x=1782404065;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0IWtEiXv9qCkFIqBuOVncrIVNf4UpfLhl+LRYC+5jmc=;
-        b=AmSrKWrSxuO9RXlYQWp/4ccCrUSoycpj3H9tSzL9DmtNwvy4tt4DsgXtAMaDrHg38F
-         jmWbU1CroJX8DAak5Kg+gnbsyYO1EHSoU+D7leI6qXYh7bAew/QMxJSa/+z2Yh2VkilU
-         dU8u8U6NA/Z0iyUE/tC2stiYcdbi4066qtHyp7hAJfd+xNMcD6L7cv5VJ08VDS9vyuie
-         ccexSzrTPpmKCR77ieFxWVCz1fkX56YJG0Fa1xjtqAjYmYnH3HbysBt3CZY2WugKzrc3
-         8E7Sn7S7paKOX6zhXV8D8IXESKWRZMVu97WfMnDYUvEd1o3hf+qgDfC731Kv9vb4fbX/
-         f+cw==
-X-Forwarded-Encrypted: i=1; AFNElJ8bGFAqWT5My6PwEc2Bf8mGNIUmLpjy+uJclXEPOvmQ/YOkQJeox+fqiXkdrhoF87YjwIijocbQ/5s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3YITvq43fdF6uAWaxRBP+5QOYRkJKZTG7YL9HRuZhIknuhrpD
-	WhZzPxwiwnoTHqN49GxcrMzbzZv+wtATlvKCdO4y+lICIIqzBtn4F4vo
-X-Gm-Gg: AfdE7clECbJ7vgXVjFngzNsPuWqiPoC1yIUcSXsnXSgjjChWAlShAMl0RSNqNozR4Gb
-	O9fxnJzYrjj9vYLjMZ9QRWKe6ndmS+M/I5HuCKEjMVMwI9JnyssAA3yM8jJo8E4uyEZflwLAFfr
-	nYMWeK/D65Nq0GH06hz8+xkF1PpNIoY1J7bSSBH4Vr2okn42IyhhfPVTOjV/1y+kUKjQm1fbSbU
-	SxjWmFYwdAmA05bbCnvrF3sdiuB8C+Z3gtKfggCUMs8CYUrw2shurdQ7LQbBSrSKilSHYykguvb
-	++O/eODg8TWAh+25woa27BymFnvySWrOvnP2FuZAgpg1QsuaDCab/2O/1lHQ83I+SluAHQHZelX
-	nU3j2cVNFjGNRgldCTJCCns3vE3hziMhXfOdualGCBt3igHsZYIy9r19slJ/yd29KQu5C68qhKh
-	lAWf2lYL52BCtFz/Ffu773XZxaJmQk0dUr7w7hUYZ2oggSY33Y7Wp8/NXN7XM3mtmP7F3vaWHMP
-	YRVeHQ2WnEWORUl6NF1HwNPVxCK
-X-Received: by 2002:a05:600c:8b24:b0:48a:93f8:dd02 with SMTP id 5b1f17b1804b1-4923f439be6mr4090255e9.14.1781799265192;
-        Thu, 18 Jun 2026 09:14:25 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-462236047c8sm20330838f8f.10.2026.06.18.09.14.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 09:14:24 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Thu, 18 Jun 2026 17:14:19 +0100
-To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v6 06/16] iio: core: create local
- __iio_chan_prefix_emit() for reuse
-Message-ID: <x3aijvc4buo7aqbchikuoyyrgiq3afidtkla37h2rg4tvfdbc3@h42qp3estg2s>
-References: <20260618-ad9910-iio-driver-v6-0-79125ffbe430@analog.com>
- <20260618-ad9910-iio-driver-v6-6-79125ffbe430@analog.com>
- <ajQGTQ1_qcOwfzne@nsa>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jqQndy+R"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781799376;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1nA8ddpqn3sBSela2vYVrfvI6UDB/unaNSJzIV+XHpI=;
+	b=jqQndy+RrKIlq05G3yP9DdrjzchOLnYIfMlf7J4K9RSosslKGLJ4EE7xGg2Dk3juCfY4GK
+	S3C3WQx1mjMEsOeqwTCz3X+532Yhg5fIQtHhJwi+A/2ANwFqLlJ8eYmcAOKpGoJrE3ptlM
+	Db6KlKw2gNfqqF5Q57AdC7kMM/SJUEg=
+From: Usama Arif <usama.arif@linux.dev>
+To: Jane Chu <jane.chu@oracle.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	akpm@linux-foundation.org,
+	willy@infradead.org,
+	jack@suse.cz,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	hughd@google.com,
+	baolin.wang@linux.alibaba.com,
+	linmiaohe@huawei.com,
+	nao.horiguchi@gmail.com,
+	lorenzo@kernel.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 07/11] hugetlb: replace filemap_lock_hugetlb_folio with filemap_lock_folio
+Date: Thu, 18 Jun 2026 09:16:05 -0700
+Message-ID: <20260618161606.4182915-1-usama.arif@linux.dev>
+In-Reply-To: <20260617172534.1740152-8-jane.chu@oracle.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ajQGTQ1_qcOwfzne@nsa>
+X-Migadu-Flow: FLOW_OUT
 
-On 18/06/26 16:06, Nuno Sá wrote:
-> On Thu, Jun 18, 2026 at 02:27:22PM +0100, Rodrigo Alencar via B4 Relay wrote:
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Move logic to create a channel prefix for naming attribute files into a
-> > separate __iio_chan_prefix_emit() function for reuse.
+On Wed, 17 Jun 2026 11:25:28 -0600 Jane Chu <jane.chu@oracle.com> wrote:
 
-...
-
-> > +static int __iio_chan_prefix_emit(const struct iio_chan_spec *chan,
-> > +				  enum iio_shared_by shared_by,
-> > +				  char *buf, size_t len)
-> > +{
-> > +	const char *dir = iio_direction[chan->output];
-> > +	const char *type = iio_chan_type_name_spec[chan->type];
-> > +	int n = 0;
-> > +
-> > +	switch (shared_by) {
-> > +	case IIO_SHARED_BY_ALL:
-> > +		buf[0] = '\0'; /* empty channel prefix */
-> > +		break;
-> > +	case IIO_SHARED_BY_DIR:
-> > +		n = scnprintf(buf, len, "%s", dir);
-> > +		break;
-> > +	case IIO_SHARED_BY_TYPE:
-> > +		n = scnprintf(buf, len, "%s_%s", dir, type);
-> > +		if (chan->differential)
-> > +			n += scnprintf(buf + n, len - n, "-%s", type);
-> > +		break;
-> > +	case IIO_SEPARATE:
-> > +		if (chan->indexed) {
-> > +			n = scnprintf(buf, len, "%s_%s%d", dir, type,
-> > +				      chan->channel);
-> > +			if (chan->differential)
-> > +				n += scnprintf(buf + n, len - n, "-%s%d", type,
-> > +					       chan->channel2);
-> > +		} else {
-> > +			if (chan->differential) {
-> > +				WARN(1, "Differential channels must be indexed\n");
-> > +				return -EINVAL;
-> > +			}
-> > +			n = scnprintf(buf, len, "%s_%s", dir, type);
-> > +		}
-> > +
-> > +		if (chan->modified) {
-> > +			if (chan->differential) {
-> > +				WARN(1, "Differential channels can not have modifier\n");
-> > +				return -EINVAL;
+> The problem with filemap_lock_hugetlb_folio() is redundancy, replace
+> it with the generic filemap_lock_folio().
 > 
-> WARN() looks too much to me. dev_error() as we're treating it as such. I
-> guess you don't want to pass struct device but not really an issue IMHO.
-
-__iio_device_attr_init() also used WARN(), probably because it didnt have
-access to a dev pointer. It would not be a problem to add an extra param.
- 
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Signed-off-by: Jane Chu <jane.chu@oracle.com>
+> ---
+>  fs/hugetlbfs/inode.c    |  3 +--
+>  include/linux/hugetlb.h | 12 ------------
+>  mm/hugetlb.c            |  4 ++--
+>  3 files changed, 3 insertions(+), 16 deletions(-)
 > 
-> > +			}
-> > +			n += scnprintf(buf + n, len - n, "_%s",
-> > +				       iio_modifier_names[chan->channel2]);
-> > +		}
-> > +
-> > +		if (chan->extend_name)
-> > +			n += scnprintf(buf + n, len - n, "_%s", chan->extend_name);
-> > +		break;
-> > +	}
-> > +
-> > +	if (n > 0 && n < len - 1) { /* prefix termination if not empty */
-> > +		buf[n++] = '_';
-> > +		buf[n] = '\0';
-> > +	}
-> > +
+> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+> index 02cb265a580e..6c883478f7e7 100644
+> --- a/fs/hugetlbfs/inode.c
+> +++ b/fs/hugetlbfs/inode.c
+> @@ -518,10 +518,9 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
+>  					loff_t start,
+>  					loff_t end)
+>  {
+> -	pgoff_t idx = start >> huge_page_shift(h);
+>  	struct folio *folio;
+>  
+> -	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+> +	folio = filemap_lock_folio(mapping, start);
+
+Do you need to do start >> PAGE_SHIFT over here?
+
+>  	if (IS_ERR(folio))
+>  		return;
+>  
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index cae5cdd3ea00..e78d0f706681 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -824,12 +824,6 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
+>  	return huge_page_size(h) / 512;
+>  }
+>  
+> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+> -				struct address_space *mapping, pgoff_t idx)
+> -{
+> -	return filemap_lock_folio(mapping, idx << huge_page_order(h));
+> -}
+> -
+>  #include <asm/hugetlb.h>
+>  
+>  #ifndef is_hugepage_only_range
+> @@ -1096,12 +1090,6 @@ static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio
+>  	return NULL;
+>  }
+>  
+> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+> -				struct address_space *mapping, pgoff_t idx)
+> -{
+> -	return NULL;
+> -}
+> -
+>  static inline int isolate_or_dissolve_huge_folio(struct folio *folio,
+>  						struct list_head *list)
+>  {
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index ecd1d1322fda..5484e78fe72e 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -5715,7 +5715,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+>  	 * before we get page_table_lock.
+>  	 */
+>  	new_folio = false;
+> -	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+> +	folio = filemap_lock_folio(mapping, vmf->pgoff);
+>  	if (IS_ERR(folio)) {
+>  		size = i_size_read(mapping->host) >> PAGE_SHIFT;
+>  		if (vmf->pgoff >= size)
+> @@ -6201,7 +6201,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>  
+>  	if (is_continue) {
+>  		ret = -EFAULT;
+> -		folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+> +		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+>  		if (IS_ERR(folio))
+>  			goto out;
+>  		folio_in_pagecache = true;
+> -- 
+> 2.43.5
 > 
-> Can't we handle the above in the caller on kasprintf()? Then we could
-> simplify and return in place.
-
-I felt like doing this here would get a cleaner logic in the caller, which
-would have to add the '_' conditionally.
-
 > 
-> > +	return n;
-> > +}
-> > +
-> >  /**
-> >   * iio_device_id() - query the unique ID for the device
-> >   * @indio_dev:		Device structure whose ID is being queried
-> > @@ -1100,106 +1159,19 @@ int __iio_device_attr_init(struct device_attribute *dev_attr,
-> >  						size_t len),
-> >  			   enum iio_shared_by shared_by)
-> >  {
-> > -	int ret = 0;
-> > -	char *name = NULL;
-> > -	char *full_postfix;
-> > +	char prefix[NAME_MAX + 1];
-> > +	int ret;
-> >  
-> >  	sysfs_attr_init(&dev_attr->attr);
-> >  
-> > -	/* Build up postfix of <extend_name>_<modifier>_postfix */
-> > -	if (chan->modified && (shared_by == IIO_SEPARATE)) {
-> > -		if (chan->extend_name)
-> > -			full_postfix = kasprintf(GFP_KERNEL, "%s_%s_%s",
-> > -						 iio_modifier_names[chan->channel2],
-> > -						 chan->extend_name,
-> > -						 postfix);
-> > -		else
-> > -			full_postfix = kasprintf(GFP_KERNEL, "%s_%s",
-> > -						 iio_modifier_names[chan->channel2],
-> > -						 postfix);
-> > -	} else {
-> > -		if (chan->extend_name == NULL || shared_by != IIO_SEPARATE)
-> > -			full_postfix = kstrdup(postfix, GFP_KERNEL);
-> > -		else
-> > -			full_postfix = kasprintf(GFP_KERNEL,
-> > -						 "%s_%s",
-> > -						 chan->extend_name,
-> > -						 postfix);
-> > -	}
-> > -	if (full_postfix == NULL)
-> > +	ret = __iio_chan_prefix_emit(chan, shared_by, prefix, sizeof(prefix));
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	dev_attr->attr.name = kasprintf(GFP_KERNEL, "%s%s", prefix, postfix);
-> > +	if (!dev_attr->attr.name)
-> >  		return -ENOMEM;
-> 
-> I don't oppose the change. Looks like a nice cleanup. But bear in mind
-> this very sensible as any subtle mistake means ABI breakage.
-
-Yes! I tried to be careful... this is dangerous stuff!
-
--- 
-Kind regards,
-
-Rodrigo Alencar
