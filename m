@@ -1,362 +1,329 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADDB374170
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 10:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781865198; cv=none; b=tuPhOLKAalLjIe8T0o5C/E6srkgamwyKEAEfDX16ByvRCCY+bsl1kS0fcHx5sAP5pfxoSwlcEuiQZDR7gSerrZOjUQJ7nbbFh2jrP8h1nxtvvFz44GLxFofTEjuuG5wacqkpwhs8d7jjCQmCb0nSoiPPnWe6U7rxWN8Bk0o/d2M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781865198; c=relaxed/simple;
-	bh=ww1AWBauQ0C8q90nsvZajGEEp7cRi76uQP7EtuMOh8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ft68eH994XhRe/c8wFLQAXMCdt5nTmOCxu+/8AQZPK2taie/shz/DqqcUSAAxogYaFiUuKVYSSQU20/UtD3zSH/IFDVlebuvE3dNtRBIUMHHL5mpGrqvgNcEIa68sYOePUP2D2O5b8iZy6/qt+7vg+5IMbpDXF6WWd66rJR8ZlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=smjXlOKn; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C6E2ECD3A
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 10:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781865394; cv=pass; b=JJlZxivcRk52MgbZv7Lycm2jTiPju740//DDpeEWsbfXUwCIOy5PrWx4gNQxbftXhzxBNivR2gbfRBXXEpjIhlvC9SHZWCkrwRrPFJQne0bgkEPi9QYY5iekoL8UNWMesC6+b71QBA7HGytSYnHCN2ltLn3EaFStOx9oJWfQE80=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781865394; c=relaxed/simple;
+	bh=Kpv/JcmfGFx2o0miFAoqUveVveGjW/t0twGJIKckgXc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FQ1EakpfTo5Novsvc+I0uj6tIxGppMqxOJTPe9tAURzDT5ursif6aB3Y0KWJTrAP0YTyyIiRgghL0Wbww3HxdVkWcBHkY13Yf+QDgc5v+OjYcOs5ndSxiVNgDQZOP9YGk3Bqu4q+MF8BgWr9OE6ZU4wZtYtHdg0JY+Jo8yvqHCY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WGAoUpmh; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="smjXlOKn"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4627adcf4d6so1297421f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 03:33:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WGAoUpmh"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51765331535so152031cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 03:36:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781865392; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rGkGwZRpPNJ9fgH05i0N4be93Yud9CeAcAFksg5Uw4enrt50B0zDU/pDOI5zJvowDG
+         KhlFTZ6Wz2lqqIhdjkJQwHKolGNttEYXfU1Qd3WRWAl23IiIZ2BYgrh3wUyersJenX2a
+         eMKmRSOYV9zmYjstyJHR7cJk6E5r3NwQHqi66siegi9fDj5VTdUwEeCzmE/VcAhA/u5x
+         1Er7VY/E/8/RpiQJo2JhYTpkF2KubOrjqP3LCYjQi04TQXvf+8wIBR0KyMTBhoM+g+mv
+         9VNJZIIMofXHGtpMQDdHG97GgExg4JHl4klmRG6Oi0lEMl7LR10DDYgi3IBIRKKCkkSD
+         1U7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YuuXVoQ2ecZDLg/Pv4tnmec6MwmZ/WlSis1mzF80Zmw=;
+        fh=8I2uEzt+Cr82lyD80pmRjfwIqeyrJVsfR/+pPyHSbSM=;
+        b=lsvXuu7PVKEdi/fn0ro0VjI8bxFBmYrMcAu0p9TxR7/DBrtweDLbuxOBz3Uf0umwLu
+         wBlgQYEya3dpJo33Q4/IDJpO5RgqW3L44RCruJbwTk0FUTR1llrJEiGp+CYbuSJGVY0x
+         cgkLmK4rdO0qFSFu8YZdV5uVZkZU99SEeUnllWM3HZ3qYljgMjivIcPxqCzMqSrUf5X4
+         4JVqn1e8JPzUlLNsDofPtGkvh8B94mTuksjiKLaAfOAsLy3tMFV+5oBOhBuImzV+4Is3
+         pa3Oj3V+Hrn+jadlkc7aavYnESmE6+jPmeL2+14rLGEtVVNeZUEU9cSJ98EtAFPSIhY/
+         yOHg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781865194; x=1782469994; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=woHL+tMyNRNr6hk72r0ayu96UqFzq9L0anUGreDsb2g=;
-        b=smjXlOKnZ5KbH2Y3chivO/TLvG5gxjdzPfKjSGj0ICNZrtSK7KJKeAkCXLyiMOroPt
-         xh72olaaunXIIX1x8vqIxYpEeQeWd8tiIdz4igkNcx2ZSvrOgs1VCa7Hu+M/b1anS/4n
-         Uh5Ao5Xphz9tP+Srj0aQDdsj1+Vl7JsgLWP+RaKE4ApqtGzFwibHrDnI60w8JnYbuulo
-         Hy+8HWZ5a2dyIj0AOZbI/IAlhN8J5Nr+46FBWEg/rtB+Z4pzPKJcMx6zqJSqUwVjC5A8
-         xTbEFxvx5grqBLTZvdsSfDJRBdYbrk4c5Oz6iKeO17eUs3zh5vDWoqwbcvbxs23gacGc
-         9J/Q==
+        d=google.com; s=20251104; t=1781865392; x=1782470192; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YuuXVoQ2ecZDLg/Pv4tnmec6MwmZ/WlSis1mzF80Zmw=;
+        b=WGAoUpmhQ+IxkfmaF8P6q+6M+AipZQrlXcmwjrGopuJ5XlQyVVX4eqBvL9VZ1BGeex
+         IKPW1ZuMiyGky0Ob3hbgfSk0Ro3gYtPjykGTu+ohOAVKoEBhZkwkAL1OGJ19inww/LZV
+         aRFdTtiwlmbgjN06XGq59ve/+Ohf8vivTKzTgwYd9jLtXYRcNexRIXlWVY0vr79vlY/g
+         VPUKPpAq8286MgEtaXYZVAwqbeZr9qaeH0rACLR0w/eqOA0/oKelBb4g8r8oBYxtYn2v
+         0KGW+laRi9T8eH9Gf4PcLqyTy3QB2UukHfrh92uFDWdNsbSgkYo5LMfRHqcgvODWdZLE
+         uqwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781865194; x=1782469994;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=woHL+tMyNRNr6hk72r0ayu96UqFzq9L0anUGreDsb2g=;
-        b=YKNCSXS3wIiMXeCz4pIjh9ZITTZAHhoXkgcOTc5+x6hn7/9fvguX3rK13wbTYFtZKl
-         a5QCmaExUJ9BTvBCcO8GLQZM+puR+kZs6mxUxqneSl2kkbkNXzXr0Y+9Y5IrKGB+Ow7O
-         kaWtVZjfQf+Pc8WTeC4Mz3c2a6BRzJxJZhOWJFDWYOJOnZoJHQJO3Dm5uKkg6sc/72Ag
-         iAnZ3vDcff5n5M1/09/NfGYYdjdOSIEqb+9FDTcT1nOvmP6fD3F9oGTyf6ZO/7BWWAdg
-         ZMQKXvH12Imw8RXWHxbfD64ie9Q+IFj3r9k/Q2JstJinpMsLKHfS8k7WTv2Qy+ifLzXn
-         4few==
-X-Forwarded-Encrypted: i=1; AFNElJ8xoUmj5pWn6P0E7c84ffS9eRg+SVVooc80Q6b42WNlu6+uORv+MfdyxsfQa/3PAlRCkeacPX2fQbE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTchGj9xITAD8iQpgENh1H7smeUggFsNL5UI3QBqiz/qBlNM9q
-	AWfum9gXciDIy7aigYsppjtK83xSChcjZinkchsSocsOpG1sq5dHH0+k
-X-Gm-Gg: AfdE7clb18IPvC6LCi0WNI7qS5DidzCRny/NEmrMcBz7HBuAfxkzk1OK9Ia7YdGHu6L
-	lBGoNAE01adlebRTTAW+lmpkcwX9aLRRVoFiP8zvOSPwL0ID9sMmGVudB9lT4nWhI2KFDTUmS3L
-	XHad3zbrY64n6Zuifkysb1eFzTWoNxNTOoGGn15stty/1XgDm8yvR5aRoc9TY9EVXt8MbOLLO0k
-	Y7TpikWe7svE1sHYIssUZtVE617+a9FzDP3Dg/1fUMSixq2C9Wz2Msq1en7QH5MmhlwC0y1ZBg3
-	sOHer4YYZ1/jykPV8VXXb7aw0fdELHMrb6MYAQ33K/CySl3w9egKThW+0i5IjbTv1SOig63+q3Y
-	+F3bzvDDyzwvYhPxlAdA6HKXqymLXHN9fy5IR9o+nVlKkG3z27JXQ08CEFyoO7dtiPQDkNcjGY+
-	MeGLxnuMnfxQ/7dyTv+CYo3pPk296JFd/V+7Xi7Qvt/WPEwUh449S/gO7EfSyCRXonjCU=
-X-Received: by 2002:a5d:6143:0:b0:460:67b0:7544 with SMTP id ffacd0b85a97d-465071f9c24mr4055283f8f.7.1781865193657;
-        Fri, 19 Jun 2026 03:33:13 -0700 (PDT)
-Received: from ?IPV6:2a00:1e:db84:b301:2dd5:b6ee:bd0f:4c9f? ([2a00:1e:db84:b301:2dd5:b6ee:bd0f:4c9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-465090c5176sm6709556f8f.12.2026.06.19.03.33.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2026 03:33:13 -0700 (PDT)
-Message-ID: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
-Date: Fri, 19 Jun 2026 12:33:11 +0200
+        d=1e100.net; s=20251104; t=1781865392; x=1782470192;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YuuXVoQ2ecZDLg/Pv4tnmec6MwmZ/WlSis1mzF80Zmw=;
+        b=OzCjTCGwdjPnZiN8OU0lC+Ny05OHoCEEqVoYYaiw186LzljXYb8wGIi5SbaI6m5joW
+         0l67H1fXJyvPSL/jdlEYhkbv0B6KPv2nHOAHfb7Li6YzOs24Dg7zvj5DdFu9ToZRlgCJ
+         aLP8qGf4y4IXwdQcX5T9EBM0WQX0H+wZ7Fv31fkBXTdy4eXJKwwdx3oLH4hjmDXyTTqs
+         9NCjf2l+yDQWfD4BqzG+jm67gLP0Y3/vBDK0TUqYbmIzjHPslrJVZ3gRSxCFBHkHIhkP
+         YccVRGDaHbG3x/PAWgkBrl36ObFsWngOjk0aCDFxGdk9mNcaoH4Oi76VCcqsUemjMRRp
+         ROsg==
+X-Forwarded-Encrypted: i=1; AFNElJ90xU2ijO/QFuWUIPTPbFvvDPY20TFwImgyGMMlTVQEjrZUNveud4NIxTUQ91Jbw59VHiW9XOV3kYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQTdDftOVuYhPuK1EhezvZimY0M0W2t8TX7TCVQ8Ca7cOh6W+h
+	c3qEISlDu8s2VSo3vit4sEL+aAaTyjGqIMcxtrXqewrEQsc4RtWw97aRg1RkkCJxMBSIbJIAY55
+	/Pe5XgdyCiLUVE8fMhBTp2ts0A8WG/OjZCfmEGneJ
+X-Gm-Gg: AfdE7clFl5OTymr2WDHkel4t5LfNDYUj6p8HrHVPfsAJN8TmT4DxLOFrEFvH5Y9Wqrz
+	p8JWMM1iMfxf73ac1SssyG0H4ye68+hXKUr93YSsAj8ApI0l55disJ8bYaD/twtf6xwb0D+of/B
+	qhiUwIxDMytrLQx+wZ2AL7ih5j1yCOgm4HGSwVSbbFXuA+/sDrng7dW04wvytoX7sg4kvEDu+oN
+	bg4Ymy7oRslSs+V+JDPosTBrMeCWqlPpESqouxBq9b9JdRDnbQI2hAOfkrCuO3/PRSpSBAUHA==
+X-Received: by 2002:a05:622a:82:b0:50f:ce97:3b84 with SMTP id
+ d75a77b69052e-519e48867afmr7169791cf.6.1781865391025; Fri, 19 Jun 2026
+ 03:36:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
- Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
- <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
- <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
- <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
- <20260614204455.408c4d40@jic23-huawei>
-Content-Language: en-US
-From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20260614204455.408c4d40@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-17-9d2959357853@google.com>
+In-Reply-To: <20260618-gmem-inplace-conversion-v8-17-9d2959357853@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 19 Jun 2026 11:35:54 +0100
+X-Gm-Features: AVVi8CcjKXQn8ypCrAeWLOhyWs6z3Z6iNQ-s7Ah4piPeXrrDDhzORiMG-WJ9jpU
+Message-ID: <CA+EHjTzZ0GO9fspPaTzruj8331+ShEZmg2PF2AczcwJ94VvgvQ@mail.gmail.com>
+Subject: Re: [PATCH v8 17/46] KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2
+ ioctl
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-
-On 6/14/26 21:44, Jonathan Cameron wrote:
-> On Tue, 9 Jun 2026 16:47:23 +0200
-> Janani Sunil <jan.sun97@gmail.com> wrote:
+On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
 >
->> On 5/26/26 15:11, Rodrigo Alencar wrote:
->>> On 26/05/19 05:42PM, Janani Sunil wrote:
->>>> Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
->>>> buffered voltage output digital-to-analog converter (DAC) with an
->>>> integrated precision reference.
->>> ...
->>> Probably others may comment on that, but...
->>>
->>> This parent node may support device addressing for multi-device support through
->>> those ID pins. I suppose that each device may have its own power supplies or
->>> other resources like the toggle pins or reset and enable.
->>>
->>> That way I suppose that an example would look like...
->>>   
->>>> +
->>>> +patternProperties:
->>>> +  "^channel@([0-9]|1[0-5])$":
->>>> +    type: object
->>>> +    description: Child nodes for individual channel configuration
->>>> +
->>>> +    properties:
->>>> +      reg:
->>>> +        description: Channel number.
->>>> +        minimum: 0
->>>> +        maximum: 15
->>>> +
->>>> +      adi,output-range-microvolt:
->>>> +        description: |
->>>> +          Output voltage range for this channel as [min, max] in microvolts.
->>>> +          If not specified, defaults to 0V to 5V range.
->>>> +        oneOf:
->>>> +          - items:
->>>> +              - const: 0
->>>> +              - enum: [5000000, 10000000, 20000000, 40000000]
->>>> +          - items:
->>>> +              - const: -5000000
->>>> +              - const: 5000000
->>>> +          - items:
->>>> +              - const: -10000000
->>>> +              - const: 10000000
->>>> +          - items:
->>>> +              - const: -15000000
->>>> +              - const: 15000000
->>>> +          - items:
->>>> +              - const: -20000000
->>>> +              - const: 20000000
->>>> +
->>>> +    required:
->>>> +      - reg
->>>> +
->>>> +    additionalProperties: false
->>>> +
->>>> +required:
->>>> +  - compatible
->>>> +  - reg
->>>> +  - vdd-supply
->>>> +  - avdd-supply
->>>> +  - hvdd-supply
->>>> +
->>>> +dependencies:
->>>> +  spi-cpha: [ spi-cpol ]
->>>> +  spi-cpol: [ spi-cpha ]
->>>> +
->>>> +allOf:
->>>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>>> +
->>>> +unevaluatedProperties: false
->>>> +
->>>> +examples:
->>>> +  - |
->>>> +    #include <dt-bindings/gpio/gpio.h>
->>>> +
->>>> +    spi {
->>>> +        #address-cells = <1>;
->>>> +        #size-cells = <0>;
->>>> +
->>>> +        dac@0 {
->>>> +            compatible = "adi,ad5529r-16";
->>>> +            reg = <0>;
->>>> +            spi-max-frequency = <25000000>;
->>>> +
->>>> +            vdd-supply = <&vdd_regulator>;
->>>> +            avdd-supply = <&avdd_regulator>;
->>>> +            hvdd-supply = <&hvdd_regulator>;
->>>> +            hvss-supply = <&hvss_regulator>;
->>>> +
->>>> +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
->>>> +
->>>> +            #address-cells = <1>;
->>>> +            #size-cells = <0>;
->>>> +
->>>> +            channel@0 {
->>>> +                reg = <0>;
->>>> +                adi,output-range-microvolt = <0 5000000>;
->>>> +            };
->>>> +
->>>> +            channel@1 {
->>>> +                reg = <1>;
->>>> +                adi,output-range-microvolt = <(-10000000) 10000000>;
->>>> +            };
->>>> +
->>>> +            channel@2 {
->>>> +                reg = <2>;
->>>> +                adi,output-range-microvolt = <0 40000000>;
->>>> +            };
->>>> +        };
->>>> +    };
->>> ...
->>>
->>> 	spi {
->>> 		#address-cells = <1>;
->>> 		#size-cells = <0>;
->>>
->>> 		multi-dac@0 {
->>> 			compatible = "adi,ad5529r-16";
->>> 			reg = <0>;
->>> 			spi-max-frequency = <25000000>;
->>>
->>> 			#address-cells = <1>;
->>> 			#size-cells = <0>;
->>>
->>> 			dac@0 {
->>> 				reg = <0>;
->>> 				vdd-supply = <&vdd_regulator>;
->>> 				avdd-supply = <&avdd_regulator>;
->>> 				hvdd-supply = <&hvdd_regulator>;
->>> 				hvss-supply = <&hvss_regulator>;
->>>
->>> 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
->>>
->>> 				#address-cells = <1>;
->>> 				#size-cells = <0>;
->>>
->>> 				channel@0 {
->>> 					reg = <0>;
->>> 					adi,output-range-microvolt = <0 5000000>;
->>> 				};
->>>
->>> 				channel@1 {
->>> 					reg = <1>;
->>> 					adi,output-range-microvolt = <(-10000000) 10000000>;
->>> 				};
->>>
->>> 				channel@2 {
->>> 					reg = <2>;
->>> 					adi,output-range-microvolt = <0 40000000>;
->>> 				};
->>> 			}
->>>
->>> 			dac@1 {
->>> 				reg = <1>;
->>> 				vdd-supply = <&vdd_regulator>;
->>> 				avdd-supply = <&avdd_regulator>;
->>> 				hvdd-supply = <&hvdd_regulator>;
->>> 				hvss-supply = <&hvss_regulator>;
->>>
->>> 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
->>>
->>> 				#address-cells = <1>;
->>> 				#size-cells = <0>;
->>>
->>> 				channel@0 {
->>> 					reg = <0>;
->>> 					adi,output-range-microvolt = <0 5000000>;
->>> 				};
->>>
->>> 				channel@1 {
->>> 					reg = <1>;
->>> 					adi,output-range-microvolt = <(-10000000) 10000000>;
->>> 				};
->>> 			}
->>> 		};
->>> 	};
->>>
->>> then you might need something like:
->>>
->>> 	patternProperties:
->>> 		"^dac@[0-3]$":
->>>
->>> and put most of the things under this node pattern.
->>>
->>> So the main driver that you're putting together might need to handle up to four instances.
->>> Even if your current driver cannot handle this, the dt-bindings might need cover that.
->>>
->>> Need to double check if each dac node needs a separate compatible, so you would maybe populate
->>> a platform data to be shared with the child nodes, which would be a separate driver.
->>> (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).
->> Hi Rodrigo,
->>
->> Thank you for looking at this.
->>
->> For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
->> hardware/use case we have only needs one device node and the driver is written around that model as well.
->> While the device addressing pins could allow multi-device topology, we do not have an actual platform using
->> that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
->> speculatively without a validating use case.
-> Interesting feature - kind of similar to address control on a typical i2c bus device, or
-> looking at it another way a kind of distributed SPI mux.
+> From: Ackerley Tng <ackerleytng@google.com>
 >
-> Challenge of a binding is we need to anticipate the future.  So I think we do need something
-> like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
-> That would leave the path open to supporting the addressing at a later date.
-> An alternative might be to look at it like a chained device setup. In those we pretend there
-> is just one device with a lot of channels etc.  The snag is that here things are more loosely
-> coupled whereas for those devices it tends to be you have to read / write the same register
-> in all devices in the chain as one big SPI message.
+> Introduce KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES to advertise the
+> availability of the KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
 >
-> +CC Mark Brown as he may know of some precedence for this feature. For his reference..
-> - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
-> value that matches that or they are ignored.  Thus a single bus + 1 chip select can
-> be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
-> longer term how to support it cleanly in SPI.
+> KVM_SET_MEMORY_ATTRIBUTES2 is a guest_memfd-scoped version of the existing
+> KVM_SET_MEMORY_ATTRIBUTES VM ioctl. It allows userspace to manage memory
+> attributes, such as KVM_MEMORY_ATTRIBUTE_PRIVATE, directly on a guest_memfd
+> file descriptor.
 >
-> Jonathan
+> This new version uses struct kvm_memory_attributes2, which adds an
+> error_offset field to the output. This allows KVM to return the specific
+> offset that triggered an error, which is especially useful for handling
+> EAGAIN results caused by transient page reference counts during attribute
+> conversions.
+>
+> Update the KVM API documentation to define the new ioctl and its behavior,
+> and add the necessary UAPI definitions and capability checks.
+>
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Suggested-by: Michael Roth <michael.roth@amd.com>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Hi Jonathan, Rob, Krzysztof, Conor,
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
-One possible model that would also allow mixing the 12-bit and 16-bit variants would be to treat the parent node
-as the shared SPI transport only, and let each dac@N child carry its own compatible.
-
-Rob, Krzysztof, Conor — wanted to get your input on whether this is an acceptable binding pattern.
-
-properties:
-   compatible:
-     const: adi,ad5529r-bus
-
-patternProperties:
-   "^dac@[0-3]$":
-     type: object
-     properties:
-       compatible:
-         enum:
-           - adi,ad5529r-16
-           - adi,ad5529r-12
-       reg:
-         minimum: 0
-         maximum: 3
-
-With a DT example such as:
-
-ad5529r@0 {
-         compatible = "adi,ad5529r-bus";
-         reg = <0>;
-
-         dac@0 {
-                 compatible = "adi,ad5529r-16";
-                 reg = <0>;
-         };
-
-         dac@1 {
-                 compatible = "adi,ad5529r-12";
-                 reg = <1>;
-         };
-};
-
-The downside is that it introduces adi,ad5529r-bus as a compatible that does not correspond to an actual
-standalone device variant - it would require a parent driver to manage the shared SPI transport and enumerate the
-child devices. The actual DAC functionality is handled by the matching per-child compatibles(12 or 16 bit).
-Is this an acceptable pattern, or is there a preferred way to model this type of addressing scheme?
-
-Regards,
-Janani Sunil
-
+Cheers,
+/fuad
+> ---
+>  Documentation/virt/kvm/api.rst | 78 +++++++++++++++++++++++++++++++++++++++++-
+>  include/uapi/linux/kvm.h       |  2 ++
+>  virt/kvm/kvm_main.c            | 23 +++++++++----
+>  3 files changed, 95 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index a833d90845b95..73878f34f6d2e 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -117,7 +117,7 @@ description:
+>        x86 includes both i386 and x86_64.
+>
+>    Type:
+> -      system, vm, or vcpu.
+> +      system, vm, vcpu or guest_memfd.
+>
+>    Parameters:
+>        what parameters are accepted by the ioctl.
+> @@ -6373,6 +6373,8 @@ S390:
+>  Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
+>  Returns -EINVAL if called on a protected VM.
+>
+> +.. _KVM_SET_MEMORY_ATTRIBUTES:
+> +
+>  4.141 KVM_SET_MEMORY_ATTRIBUTES
+>  -------------------------------
+>
+> @@ -6566,6 +6568,80 @@ KVM_S390_KEYOP_SSKE
+>    Sets the storage key for the guest address ``guest_addr`` to the key
+>    specified in ``key``, returning the previous value in ``key``.
+>
+> +4.145 KVM_SET_MEMORY_ATTRIBUTES2
+> +---------------------------------
+> +
+> +:Capability: KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES
+> +:Architectures: all
+> +:Type: guest_memfd ioctl
+> +:Parameters: struct kvm_memory_attributes2 (in/out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Errors:
+> +
+> +  ========== ===============================================================
+> +  EINVAL     The specified `offset` or `size` were invalid (e.g. not
+> +             page aligned, causes an overflow, or size is zero).
+> +  EFAULT     The parameter address was invalid.
+> +  EAGAIN     Some page within requested range had unexpected refcounts. The
+> +             offset of the page will be returned in `error_offset`.
+> +  ENOMEM     Ran out of memory trying to track private/shared state
+> +  ========== ===============================================================
+> +
+> +KVM_SET_MEMORY_ATTRIBUTES2 is an extension to
+> +KVM_SET_MEMORY_ATTRIBUTES that supports returning (writing) values to
+> +userspace.  The original (pre-extension) fields are shared with
+> +KVM_SET_MEMORY_ATTRIBUTES identically.
+> +
+> +Attribute values are shared with KVM_SET_MEMORY_ATTRIBUTES.
+> +
+> +::
+> +
+> +  struct kvm_memory_attributes2 {
+> +       /* in */
+> +       union {
+> +               __u64 address;
+> +               __u64 offset;
+> +       };
+> +       __u64 size;
+> +       __u64 attributes;
+> +       __u64 flags;
+> +       /* out */
+> +       __u64 error_offset;
+> +       __u64 reserved[11];
+> +  };
+> +
+> +  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+> +
+> +Set attributes for a range of offsets within a guest_memfd to
+> +KVM_MEMORY_ATTRIBUTE_PRIVATE to limit the specified guest_memfd backed
+> +memory range for guest_use. Even if KVM_CAP_GUEST_MEMFD_MMAP is
+> +supported, after a successful call to set
+> +KVM_MEMORY_ATTRIBUTE_PRIVATE, the requested range will not be mappable
+> +into host userspace and will only be mappable by the guest.
+> +
+> +To allow the range to be mappable into host userspace again, call
+> +KVM_SET_MEMORY_ATTRIBUTES2 on the guest_memfd again with
+> +KVM_MEMORY_ATTRIBUTE_PRIVATE unset.
+> +
+> +KVM does not directly manipulate the memory contents of pages during
+> +attribute updates. However, the process of setting these attributes,
+> +which includes operations such as unmapping pages from the host or
+> +stage-2 page tables, may result in side effects on memory contents
+> +that vary across different trusted firmware implementations.
+> +
+> +If this ioctl returns -EAGAIN, the offset of the page with unexpected
+> +refcounts will be returned in `error_offset`. This can occur if there
+> +are transient refcounts on the pages, taken by other parts of the
+> +kernel.
+> +
+> +Userspace is expected to figure out how to remove all known refcounts
+> +on the shared pages, such as refcounts taken by get_user_pages(), and
+> +try the ioctl again. A possible source of these long term refcounts is
+> +if the guest_memfd memory was pinned in IOMMU page tables.
+> +
+> +See also: :ref: `KVM_SET_MEMORY_ATTRIBUTES`.
+> +
+>  .. _kvm_run:
+>
+>  5. The kvm_run structure
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 876c0429f9d4e..129d6f6303251 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -997,6 +997,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_S390_KEYOP 247
+>  #define KVM_CAP_S390_VSIE_ESAMODE 248
+>  #define KVM_CAP_S390_HPAGE_2G 249
+> +#define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 250
+>
+>  struct kvm_irq_routing_irqchip {
+>         __u32 irqchip;
+> @@ -1649,6 +1650,7 @@ struct kvm_memory_attributes {
+>         __u64 flags;
+>  };
+>
+> +/* Available with KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES */
+>  #define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd2, struct kvm_memory_attributes2)
+>
+>  struct kvm_memory_attributes2 {
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index a08b518cdb175..044486f128c37 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2434,18 +2434,22 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+>  }
+>  #endif /* CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT */
+>
+> +#ifdef kvm_arch_has_private_mem
+> +static u64 kvm_supports_private_mem(struct kvm *kvm)
+> +{
+> +       return !kvm || kvm_arch_has_private_mem(kvm);
+> +}
+> +#else
+> +#define kvm_supports_private_mem(kvm) false
+> +#endif
+> +
+>  #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
+>  static u64 kvm_supported_vm_mem_attributes(struct kvm *kvm)
+>  {
+> -#ifdef kvm_arch_has_private_mem
+> -       if (gmem_in_place_conversion)
+> +       if (gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+>                 return 0;
+>
+> -       if (!kvm || kvm_arch_has_private_mem(kvm))
+> -               return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+> -#endif
+> -
+> -       return 0;
+> +       return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>  }
+>
+>  /*
+> @@ -4969,6 +4973,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
+>                 return 1;
+>         case KVM_CAP_GUEST_MEMFD_FLAGS:
+>                 return kvm_gmem_get_supported_flags(kvm);
+> +       case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
+> +               if (!gmem_in_place_conversion || !kvm_supports_private_mem(kvm))
+> +                       return 0;
+> +
+> +               return KVM_MEMORY_ATTRIBUTE_PRIVATE;
+>  #endif
+>         default:
+>                 break;
+>
+> --
+> 2.55.0.rc0.738.g0c8ab3ebcc-goog
+>
+>
