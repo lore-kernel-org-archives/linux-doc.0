@@ -1,428 +1,283 @@
-Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C4540D599
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 04:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06ADB40D59D;
+	Fri, 19 Jun 2026 04:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781841992; cv=none; b=JcOQwWFaRsCU/QrNzgUIa+8NF0H/RXzvFiM2Oc7yiO3Aq57rI8KbTh5UFzXLemfn+Tl0bOVMnxWEu1ogyf4WgoSsGIbm+4JlFUhFnBPFKlySZHSF+4OL5eSwMxMqdB6Bdn0GykhmW4V2khLowA0OKveD7W3WwZ72j97XsENRUZ4=
+	t=1781843183; cv=none; b=clMR5amOfiV8YjO/Gr+yTWM7fiZFhZsgQkovykjsSK3nq3APxXEuK3YERwrsAk3rECE7hABuKPcsYz903lvOQ9bNUUirTV6/4gt2nAhff9D2/ERot9lit0jaND3Xm5voMX9vy4/2XOpwRP/Lj79rPxWnc5pXWZN6/CQyUb01yqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781841992; c=relaxed/simple;
-	bh=ZpgkT7T8zHJWzP3yKHW7eXby7QSFpHbZLkjDtQkZc20=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nvLj9onJ2W5I1kRXzbfqCeJdl7jeAE3bBcFye7zXGvsuU10AtE+EW6XIMl8173m+kQzquU476u7dM3JYvzdcQLRQGTt/ir+OfS7rSq1qEodZd9/GmMRXYT7Dsz9bj8V8oCzCFn8WD8jDUYX2edOfNzD8HpDZIQsjmdnuKU3vZZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NVqyOiUQ; arc=none smtp.client-ip=209.85.160.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+	s=arc-20240116; t=1781843183; c=relaxed/simple;
+	bh=uwxAwMXrGqhDiqQ3swQsEHdcdNPKbjnfEdjrLsxkWhU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z3CTxVfl/h+PLFbWEgWUdh16thoNLCZrH3br6O+hZw2nyxQ1HdfFbY+6fnnetwSCGXnlgIZ/rt8IvIaIPy4Cc4kJYpY5DO8PijO0W+Mssie8nLUr6IZQEy/aM2ni6E6V9W+kk98ipqkdpcEYlLDJGAAYB65Q4jde2JmUzxrlFTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=niBwA7YU; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NVqyOiUQ"
-Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-43cd2d12617so2792070fac.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 21:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781841990; x=1782446790; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=15vmYD/R1b1d0CWwawdVeqLkpMEGeJHKPQPf2snCIH0=;
-        b=NVqyOiUQgLbiBygvMNTdYB4LXmV7xM1rA1xtI45Z8fFiPJ1JS+hxI7y4HZfKi7oCBo
-         9i7DhONKOrhLcGNlRsNm026npBtipxHejNSFskA3ZK5CxQvlX/4BLNIFnk4lYK5YASDZ
-         WhugQb6MmO12bxfZfSCVPAY6wMVkH6LWwq87Xco5Y958QY5p+hmFKHePzzm9bD3wZByp
-         vAgiD6QxRvjo+3QKzn2Ykz2aJEY2wHbxeOdBmbjXFvYeJzgs/R45+WFlAEF8Ibeq80g8
-         o+mLFfUDsw0CD/Ww6mxMHbKuxUVxPfAAHUqdFxyrVqifZAADvDaA9o4iXZRgOiraX92F
-         ZHIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781841990; x=1782446790;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=15vmYD/R1b1d0CWwawdVeqLkpMEGeJHKPQPf2snCIH0=;
-        b=rvUTVvOd1HNbmpRzVciL1pG0Ge2Aa1FOdKHYmIgsPX6/eWRNXWlIrhrSVI+sctgmsK
-         ui6OtKtgs6oK4vBO8x8K9/gHiAYs5gzgJIomfsy5UnuoJsX39MHj5K3jpHQh4xyITUEG
-         LsS1JJPev8KxLzZ3yMrF9z6eogenW7UHPw67w7mKnJlqO6qIocr0dn7F20m8kQnOy/UR
-         lqcAYi6r/nKjLKTHt6theUv0Nbrv2QPf6xanLHrReSdR7jSsww3TT/viBA+qPyYyBNzg
-         eX/X+5QEqiBp94pg/CfphWCaoXzNtZDpa0l9YJ4RjTqzCQdq6dGFx+fFVP0J/X9/uy0A
-         s4kQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9l+wSnWf6XSzdMUj9R2H0oCBH+oXUs5NOa5Tx57kc/e1+MKtZ6kY5ozO2Np8XWtWEnnZoF0tdq+kw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzwrt6H42RmGrHOinDC7Ayr9TuEG6h19dSvDR8Qk0ZlNWtX7feq
-	taN5TGPl9vwlBonxDrpfdlHnPm2LSW2YSu1ogBN05v4e15C00mPV5tB0R96Oc56368Vn1i1yD2x
-	7ZCqVOTy4xQ==
-X-Received: from oabli2.prod.google.com ([2002:a05:6871:4202:b0:441:b4e:ecac])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6870:16d1:b0:446:eba3:a1ad
- with SMTP id 586e51a60fabf-44707ca9e9dmr1990819fac.10.1781841989593; Thu, 18
- Jun 2026 21:06:29 -0700 (PDT)
-Date: Fri, 19 Jun 2026 04:06:06 +0000
-In-Reply-To: <20260619040609.4010746-1-nkapron@google.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="niBwA7YU"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65J3IHEL1055914;
+	Fri, 19 Jun 2026 04:25:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=p5ZBqd
+	Pp5QejhFBSFSFxMK8E6kAD6z5spAbmb8Wl6v8=; b=niBwA7YUBwRsPsD8fISyUg
+	laBO1IKnttTKWuviezorNvQkw/dwZf9efQ5+VRd36YJuhHcX7QHo1znV6CuMyjcC
+	GckJDx8RUATc+7hSOQIHTQdvZEg2h70tkDXaCEMWUV3vel3+yZgMlx19Bx3cIHtM
+	boA0sTFT9KAjxnYoWeo4TYKuXnrPJMkaJUj1DdECWbPhoYlDmikyrygk4ltgILkE
+	OEFfmKQI17DZg2sfzsmrInflAJr8LiGoRuX9aThpmQKoss/ouyoTKZBd79JdBhaS
+	h3zBHEFiS9Ed1b6Q5v7uUnj72ErKoSRJFeHhT0hA2c711ww1r4O6QkoNf6n2usRA
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eueqxkec1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jun 2026 04:25:12 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65J4Jsrs018367;
+	Fri, 19 Jun 2026 04:25:11 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ev17273rk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jun 2026 04:25:11 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65J4P9QC49742180
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 19 Jun 2026 04:25:10 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CEE9A20040;
+	Fri, 19 Jun 2026 04:25:09 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7CFD320043;
+	Fri, 19 Jun 2026 04:25:08 +0000 (GMT)
+Received: from [9.39.16.125] (unknown [9.39.16.125])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 19 Jun 2026 04:25:08 +0000 (GMT)
+Message-ID: <7f5909c9-0bff-4183-84a7-050d7a94fc2f@linux.ibm.com>
+Date: Fri, 19 Jun 2026 09:55:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260619040609.4010746-1-nkapron@google.com>
-X-Mailer: git-send-email 2.55.0.rc0.738.g0c8ab3ebcc-goog
-Message-ID: <20260619040609.4010746-5-nkapron@google.com>
-Subject: [PATCH v2 4/4] usb: gadget: f_fs: Introduce rw_proxy file descriptors
-From: Neill Kapron <nkapron@google.com>
-To: gregkh@linuxfoundation.org, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com, 
-	Neill Kapron <nkapron@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: htmldocs: Documentation/scheduler/sched-arch.rst:108: WARNING:
+ Block quote ends without a blank line; unexpected unindent. [docutils]
+To: Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+References: <202606180717.yNM0yb41-lkp@intel.com>
+ <f1a4c4c7-9ad8-40f5-b1a9-ba631977dac6@linux.ibm.com>
+ <299a6f3b-708d-490e-8866-f15bf851cf83@infradead.org>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <299a6f3b-708d-490e-8866-f15bf851cf83@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=OcSoyBTY c=1 sm=1 tr=0 ts=6a34c4a8 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=NEAV23lmAAAA:8
+ a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=JfrnYn6hAAAA:8 a=20KFwNOVAAAA:8 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8
+ a=zd2uoN0lAAAA:8 a=ag1SF4gXAAAA:8 a=1XWaLZrsAAAA:8 a=meVymXHHAAAA:8
+ a=7CQSdrXTAAAA:8 a=QY18SFpNAAAA:8 a=5Jhpb4gTAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=nE6AjyESf_fJV4SWJfoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mmqRlSCDY2ywfjPLJ4af:22 a=1CNFftbPRP8L7MoqJWF3:22 a=cvBusfyB2V15izCimMoJ:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=2JgSa4NbpEOStq-L5dxp:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=mZPqAYP_hWW8blobX25d:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE5MDAzNSBTYWx0ZWRfXxpPdNDCwt5fW
+ cfZWYhF34eSTmIIQyM5L9BMBkWAXEDWfRmCDDYHvtdVbQmyxAoSFvpwRaD6Xr94kQfuFkaJQ5PZ
+ rW08oGlKaLAk9uZRATz5e8A1YLFpOSaP5Pjwd2ODKxQr/2gzlQzC7dqcCooxS8lf8hdkvo2msc8
+ dcq0EAhI8eAGGF06ZnPQZFmJ/+2ajd5ZkUdiQ9rnFNGeZ7qM3oM6Rd5YkNiR/vjtEK3tpXRZh6b
+ 20jejI6/XYINPhoCjjL/AH7XFQh/3U9xmW/j0mDGi3Rh9Fz/cyj5E0e8qxQ5Yf3IOR3apU/SaXb
+ nYTpK21khJfkhrUvQZiygnzlxNFXczoJYVWiermXOKQBPBi1FsQmZr3aVS1S1Ss4ZtJYnv3lCmz
+ WTXmSDXxkG+lyTVa5eszSjN64W27QUOVbeK2SlHJNtqV70UfTjwcpRY3dUwlIGqI/immr1nlJZP
+ ZgXt8Yy/ROMrnmlPbaw==
+X-Proofpoint-GUID: RJFa1qbhnjCUSCFaLeSNN13e1TKnCyie
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE5MDAzNSBTYWx0ZWRfXyQUaZTcZzO5V
+ xsGEXg2aRiEDyaaz9FowgE3RI1tJlS55Nkbx5uww6w3SyyNXnOF6N7n1jUg1lr6yexl0VLcnlwj
+ 3k9y3pC6tp3/ub7UL7RPMOKMmfN6Iw0=
+X-Proofpoint-ORIG-GUID: RJFa1qbhnjCUSCFaLeSNN13e1TKnCyie
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-19_01,2026-06-18_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 adultscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606190035
 
-Currently, FunctionFS exposes each USB endpoint as a separate,
-unidirectional file descriptor (e.g., `ep1` for IN, `ep2` for OUT).
-While this mirrors the underlying hardware structure, it forces
-userspace daemons implementing bidirectional protocols to manage
-multiple file descriptors. When dealing with legacy protocols which
-require exposing a single, bi-directional fd to userspace, this becomes
-problematic.
+Hi Randy, thanks for going through.
 
-This patch introduces the `FUNCTIONFS_RW_PROXY_EPS` UAPI flag. When
-passed in the descriptor header during initialization, FunctionFS
-provisions a "rw_proxy" bidirectional file descriptor (e.g., `ep1_rw`)
-alongside every pair of IN/OUT endpoints.
+On 6/19/26 1:03 AM, Randy Dunlap wrote:
+> 
+> 
+> On 6/17/26 10:19 PM, Shrikanth Hegde wrote:
+>>
+>>
+>> On 6/18/26 10:40 AM, kernel test robot wrote:
+>>> tree:   https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-debug-Remove-unused-schedstats/20260618-031604
+>>> head:   bcb0c494e4af36dd6306a5a1839a0c03046053af
+>>> commit: 4c29e4f3ba22adc04fc456620f2c6abf539d76df sched/docs: Document cpu_preferred_mask and Preferred CPU concept
+>>> date:   10 hours ago
+>>> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+>>> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+>>> reproduce: (https://download.01.org/0day-ci/archive/20260618/202606180717.yNM0yb41-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202606180717.yNM0yb41-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>      Checksumming on output with GSO
+>>>      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>>>      MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+> 
+>>>      Documentation/scheduler/sched-arch.rst:107: ERROR: Unexpected indentation. [docutils]
+>>>>> Documentation/scheduler/sched-arch.rst:108: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>>>      Documentation/userspace-api/landlock:504: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+>>>
+>>>
+>>> vim +108 Documentation/scheduler/sched-arch.rst
+>>>
+>>>      102
+>>>      103    Notes:
+>>>      104    1. This feature is available under CONFIG_PREFERRED_CPU
+>>>      105    2. This feature works for FAIR class only.
+>>>      106    3. A task pinned, which can't be moved to preferred CPUs will continue
+>>>      107       to run based on its affinity. But no load balancing happens
+>>
+>> is it flagging here due to missing . ?
+> 
+> No, but you could add that anyway.
+> 
+>>>    > 108    4. If needed, steal time based governors/arch dependent method
+>>>      109       could be used to cater to different types of cpu numbers.
+>>>      110       Arch can do so by implementing its own hooks.
+>>>      111    5. Decision to use/not use is driven by kernel. Hence it shouldn't
+>>>      112       break user affinities. One of the main reason why CPU hotplug
+>>>      113       or Isolated cpuset partitions was not a solution.
+>>>      114
+> It wants a blank line between each list item (if the list items are multi-line).
+> For the list above this one (3 items, all single line), blank lines aren't needed.
+> [These comments come from testing, not reading specs.]
+> 
 
-Implementation details:
-- RW proxy files act as a pure VFS alias, proxying operations
-  directly to the base ffs_epfile instances. A `read()` proxies to
-  the OUT endpoint's file, and a `write()` proxies to the IN file.
-- Because operations are proxied natively, they reuse the underlying
-  base endpoint's lock (`epfile->mutex`) and tracking state. This
-  serializes concurrent I/O, preventing buffer corruption or races
-  even if userspace mixes transfers across both the rw_proxy and base files
-  while allowing full-duplex synchronous operations to occur concurrently
-  without serializing on a single lock.
-- Control operations (like IOCTLs) and intentional stalls (via
-  reverse-direction I/O) must still be issued on the base endpoints, as the
-  rw_proxy returns `-ENOTTY` for IOCTLs and cannot trigger stalls.
+Ah ok. I was wondering why it flagged only that.
 
-Assisted-by: Antigravity:gemini-3.1-pro
-Signed-off-by: Neill Kapron <nkapron@google.com>
----
- Documentation/usb/functionfs.rst    | 56 +++++++++++++++++++
- drivers/usb/gadget/function/f_fs.c  | 87 ++++++++++++++++++++++++-----
- drivers/usb/gadget/function/u_fs.h  |  8 ++-
- include/uapi/linux/usb/functionfs.h |  1 +
- 4 files changed, 136 insertions(+), 16 deletions(-)
+> I made these changes and a couple of others to make the rendered html look
+> reasonable.
+> 
+> Use (or not).
 
-diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index 582e53549d5b..b189cf5626ba 100644
---- a/Documentation/usb/functionfs.rst
-+++ b/Documentation/usb/functionfs.rst
-@@ -96,6 +96,58 @@ One such IOCTL is:
-     * ``-ENODEV``: The FunctionFS instance is not active.
-     * ``-EINVAL``: The endpoint is not an IN endpoint.
-     * ``-EFAULT``: Invalid user space pointer for the argument.
-+
-+RW Proxy Endpoints
-+==================
-+
-+If the ``FUNCTIONFS_RW_PROXY_EPS`` flag is passed in the descriptor header
-+(requires ``FUNCTIONFS_DESCRIPTORS_MAGIC_V2``), FunctionFS will provision a
-+bidirectional rw_proxy file descriptor (e.g., "ep1_rw") alongside each pair
-+of IN and OUT endpoints. The rw_proxy file aliases the underlying hardware
-+endpoints, allowing userspace to use a single file descriptor for both reading
-+(OUT) and writing (IN).
-+
-+This flag requires the total number of hardware endpoints to be an even number.
-+FunctionFS will automatically walk the provided endpoints and group them into
-+adjacent pairs (e.g., ep1 and ep2 form the first pair, ep3 and ep4 form the
-+second pair). Each pair must consist of exactly one IN endpoint and one OUT
-+endpoint.
-+
-+For each valid pair, a rw_proxy file is created and named after the first
-+endpoint in the pair with a "_rw" suffix. For example, if ep1 and ep2 are
-+paired, a rw_proxy file named "ep1_rw" is created. If ep3 and ep4 are paired,
-+"ep3_rw" is created.
-+
-+If the ``FUNCTIONFS_VIRTUAL_ADDR`` flag is also enabled, the endpoints will be
-+named using their physical endpoint address in hexadecimal instead of their
-+index. RW proxy files will inherit this naming convention. For example, if the
-+first endpoint of a pair maps to address 0x02, the rw_proxy file will be
-+named "ep02_rw".
-+
-+When this flag is enabled, userspace has the choice of performing data transfers
-+via the single rw_proxy file descriptor or the two base file descriptors. The
-+rw_proxy file descriptor acts as a pure VFS alias that proxies all operations
-+directly to the underlying base file descriptors.
-+
-+Because it is a pure proxy, there are no data races or buffer corruptions if
-+userspace uses both the rw_proxy endpoint and the base endpoints concurrently.
-+The native mutexes of the base endpoints perfectly serialize all concurrent
-+transfers. However, userspace should generally pick one method and stick to it
-+to avoid interleaving its own data stream.
-+
-+- **IOCTLs (Clear Halt, etc.):** RW proxy endpoints do not support IOCTLs and
-+  will return ``-ENOTTY``. To clear a host-initiated halt, userspace must issue
-+  the ``FUNCTIONFS_CLEAR_HALT`` ioctl directly on the corresponding base
-+  endpoint file descriptor.
-+- **Intentional Stalls:** The traditional mechanism for intentionally halting an
-+  endpoint by issuing a reverse-direction data operation (e.g., attempting to
-+  read from an IN endpoint) continues to work, but it must be issued on the
-+  base endpoint. RW proxy endpoints cannot be used to trigger a stall because
-+  they are fully bidirectional.
-+
-+Note that DMABUF data transfers (``FUNCTIONFS_DMABUF_TRANSFER``) are unsupported
-+via the rw_proxy endpoint because it does not support IOCTLs. If DMABUF
-+transfers are required, users must use the standard base endpoints.
- DMABUF interface
- ================
- 
-@@ -103,6 +155,10 @@ FunctionFS additionally supports a DMABUF based interface, where the
- userspace can attach DMABUF objects (externally created) to an endpoint,
- and subsequently use them for data transfers.
- 
-+Note: The DMABUF interface is unsupported on rw_proxy endpoints. See
-+the RW Proxy Endpoints section for details on using DMABUF alongside
-+the ``FUNCTIONFS_RW_PROXY_EPS`` flag.
-+
- A userspace application can then use this interface to share DMABUF
- objects between several interfaces, allowing it to transfer data in a
- zero-copy fashion, for instance between IIO and the USB stack.
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 07aba722dd5b..c5647febf3ea 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -159,7 +159,9 @@ struct ffs_epfile {
- 	struct mutex			mutex;
- 
- 	struct ffs_data			*ffs;
--	struct ffs_ep			*ep;	/* P: ffs->eps_lock */
-+	struct ffs_ep			*ep;		/* P: ffs->eps_lock */
-+	struct ffs_epfile		*epfile_in;	/* P: ffs->eps_lock */
-+	struct ffs_epfile		*epfile_out;	/* P: ffs->eps_lock */
- 
- 	/*
- 	 * Buffer for holding data from partial reads which may happen since
-@@ -219,12 +221,13 @@ struct ffs_epfile {
- 	struct ffs_buffer		*read_buffer;
- #define READ_BUFFER_DROP ((struct ffs_buffer *)ERR_PTR(-ESHUTDOWN))
- 
--	char				name[5];
-+	char				name[8];
- 
- 	unsigned char			in;	/* P: ffs->eps_lock */
- 	unsigned char			isoc;	/* P: ffs->eps_lock */
- 
- 	u8				zlp_enabled; /* P: ffs->eps_lock */
-+	bool				is_rw_proxy;
- 
- 	/* Protects dmabufs */
- 	struct mutex			dmabufs_mutex;
-@@ -978,9 +981,8 @@ static ssize_t __ffs_epfile_read_data(struct ffs_epfile *epfile,
- 	return ret;
- }
- 
--static struct ffs_ep *ffs_epfile_wait_ep(struct file *file)
-+static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file *file)
- {
--	struct ffs_epfile *epfile = file->private_data;
- 	struct ffs_ep *ep;
- 	int ret;
- 
-@@ -1007,17 +1009,22 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 	char *data = NULL;
- 	ssize_t ret, data_len = -EINVAL;
- 	int halt;
-+	bool is_rw_proxy = epfile->is_rw_proxy;
- 
- 	/* Are we still active? */
- 	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
- 		return -ENODEV;
- 
--	ep = ffs_epfile_wait_ep(file);
-+	/* Proxy to base endpoint if rw_proxy */
-+	if (is_rw_proxy)
-+		epfile = io_data->read ? epfile->epfile_out : epfile->epfile_in;
-+
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep))
- 		return PTR_ERR(ep);
- 
- 	/* Do we halt? */
--	halt = (!io_data->read == !epfile->in);
-+	halt = is_rw_proxy ? 0 : (!io_data->read == !epfile->in);
- 	if (halt && epfile->isoc)
- 		return -EINVAL;
- 
-@@ -1115,7 +1122,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->num_sgs = 0;
- 		}
- 
--		req->zero = epfile->zlp_enabled;
-+		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
- 		req->length = data_len;
- 
- 		io_data->buf = data;
-@@ -1168,7 +1175,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->num_sgs = 0;
- 		}
- 
--		req->zero = epfile->zlp_enabled;
-+		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
- 		req->length = data_len;
- 
- 		io_data->buf = data;
-@@ -1646,7 +1653,7 @@ static int ffs_dmabuf_transfer(struct file *file,
- 
- 	priv = attach->importer_priv;
- 
--	ep = ffs_epfile_wait_ep(file);
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep)) {
- 		ret = PTR_ERR(ep);
- 		goto err_attachment_put;
-@@ -1764,6 +1771,9 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
- 		return -ENODEV;
- 
-+	if (epfile->is_rw_proxy)
-+		return -ENOTTY;
-+
- 	switch (code) {
- 	case FUNCTIONFS_DMABUF_ATTACH:
- 	{
-@@ -1814,7 +1824,7 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	}
- 
- 	/* Wait for endpoint to be enabled */
--	ep = ffs_epfile_wait_ep(file);
-+	ep = ffs_epfile_wait_ep(epfile, file);
- 	if (IS_ERR(ep))
- 		return PTR_ERR(ep);
- 
-@@ -2212,7 +2222,7 @@ static void ffs_data_closed(struct ffs_data *ffs)
- 
- 		if (epfiles)
- 			ffs_epfiles_destroy(ffs->sb, epfiles,
--					 ffs->eps_count);
-+					 ffs->epfiles_count);
- 
- 		if (ffs->setup_state == FFS_SETUP_PENDING)
- 			__ffs_ep0_stall(ffs);
-@@ -2270,7 +2280,7 @@ static void ffs_data_clear(struct ffs_data *ffs)
- 	 * copy of epfile will save us from use-after-free.
- 	 */
- 	if (epfiles) {
--		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->eps_count);
-+		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->epfiles_count);
- 		ffs->epfiles = NULL;
- 	}
- 
-@@ -2368,11 +2378,16 @@ static void functionfs_unbind(struct ffs_data *ffs)
- static int ffs_epfiles_create(struct ffs_data *ffs)
- {
- 	struct ffs_epfile *epfile, *epfiles;
--	unsigned i, count;
-+	unsigned int i, count, epfiles_count;
- 	int err;
- 
- 	count = ffs->eps_count;
--	epfiles = kzalloc_objs(*epfiles, count);
-+	epfiles_count = count;
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS)
-+		epfiles_count += count / 2;
-+	ffs->epfiles_count = epfiles_count;
-+
-+	epfiles = kzalloc_objs(*epfiles, epfiles_count);
- 	if (!epfiles)
- 		return -ENOMEM;
- 
-@@ -2395,6 +2410,32 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
- 		}
- 	}
- 
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
-+		struct ffs_epfile *comp = epfiles + count;
-+
-+		for (i = 0; i < count; i += 2, ++comp) {
-+			struct ffs_epfile *ep1 = &epfiles[i];
-+			struct ffs_epfile *ep2 = &epfiles[i + 1];
-+			bool ep1_in = ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK;
-+
-+			comp->ffs = ffs;
-+			comp->is_rw_proxy = true;
-+			comp->epfile_in = ep1_in ? ep1 : ep2;
-+			comp->epfile_out = ep1_in ? ep2 : ep1;
-+			mutex_init(&comp->mutex);
-+			mutex_init(&comp->dmabufs_mutex);
-+			INIT_LIST_HEAD(&comp->dmabufs);
-+			snprintf(comp->name, sizeof(comp->name), "%s_rw",
-+				 epfiles[i].name);
-+			err = ffs_sb_create_file(ffs->sb, comp->name,
-+						 comp, &ffs_epfile_operations);
-+			if (err) {
-+				ffs_epfiles_destroy(ffs->sb, epfiles, count + (i / 2));
-+				return err;
-+			}
-+		}
-+	}
-+
- 	ffs->epfiles = epfiles;
- 	return 0;
- }
-@@ -2972,7 +3013,8 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
- 			      FUNCTIONFS_VIRTUAL_ADDR |
- 			      FUNCTIONFS_EVENTFD |
- 			      FUNCTIONFS_ALL_CTRL_RECIP |
--			      FUNCTIONFS_CONFIG0_SETUP)) {
-+			      FUNCTIONFS_CONFIG0_SETUP |
-+			      FUNCTIONFS_RW_PROXY_EPS)) {
- 			ret = -ENOSYS;
- 			goto error;
- 		}
-@@ -3060,6 +3102,21 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
- 		goto error;
- 	}
- 
-+	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
-+		if (ffs->eps_count % 2) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
-+		for (i = 1; i < ffs->eps_count; i += 2) {
-+			if ((ffs->eps_addrmap[i] & USB_ENDPOINT_DIR_MASK) ==
-+			    (ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK)) {
-+				ret = -EINVAL;
-+				goto error;
-+			}
-+		}
-+	}
-+
- 	ffs->raw_descs_data	= _data;
- 	ffs->raw_descs		= raw_descs;
- 	ffs->raw_descs_length	= data - raw_descs;
-diff --git a/drivers/usb/gadget/function/u_fs.h b/drivers/usb/gadget/function/u_fs.h
-index 6a80182aadd7..c280c495fbd2 100644
---- a/drivers/usb/gadget/function/u_fs.h
-+++ b/drivers/usb/gadget/function/u_fs.h
-@@ -252,8 +252,14 @@ struct ffs_data {
- 
- 	unsigned short			strings_count;
- 	unsigned short			interfaces_count;
-+
-+	/*
-+	 * eps_count tracks the number of underlying hardware endpoints.
-+	 * epfiles_count tracks the total number of VFS endpoint files.
-+	 * When companion endpoints are active, epfiles_count > eps_count.
-+	 */
- 	unsigned short			eps_count;
--	unsigned short			_pad1;
-+	unsigned short			epfiles_count;
- 
- 	/* filled by __ffs_data_got_strings() */
- 	/* ids in stringtabs are set in functionfs_bind() */
-diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-index 06134dca4e8a..290308c9dd92 100644
---- a/include/uapi/linux/usb/functionfs.h
-+++ b/include/uapi/linux/usb/functionfs.h
-@@ -25,6 +25,7 @@ enum functionfs_flags {
- 	FUNCTIONFS_EVENTFD = 32,
- 	FUNCTIONFS_ALL_CTRL_RECIP = 64,
- 	FUNCTIONFS_CONFIG0_SETUP = 128,
-+	FUNCTIONFS_RW_PROXY_EPS = 256,
- };
- 
- /* Descriptor of an non-audio endpoint */
--- 
-2.54.0.1136.gdb2ca164c4-goog
+Sure. thanks.
+
+> ---
+> From: Shrikanth Hegde <sshegde@linux.ibm.com>
+> To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com
+> Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com, mgorman@suse.de, bsegall@google.com, maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org
+> Subject: [PATCH v4 02/20] sched/docs: Document cpu_preferred_mask and Preferred CPU concept
+> Date: Wed, 17 Jun 2026 23:11:21 +0530
+> Message-ID: <20260617174139.155540-3-sshegde@linux.ibm.com>
+> 
+> 
+> Add documentation for new cpumask called cpu_preferred_mask. This could
+> help users in understanding what this mask is and the concept behind it.
+> 
+> Document how to enable it and implementation aspects of it.
+> 
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+> v3->v4:
+> - update docs to reflect preferred is subset of active.
+> 
+>   Documentation/scheduler/sched-arch.rst |   61 ++++++++++++++++++++++-
+>   1 file changed, 59 insertions(+), 2 deletions(-)
+> 
+> --- linux-next.orig/Documentation/scheduler/sched-arch.rst
+> +++ linux-next/Documentation/scheduler/sched-arch.rst
+> @@ -6,7 +6,8 @@ CPU Scheduler implementation hints for a
+>   
+>   Context switch
+>   ==============
+> -1. Runqueue locking
+> +Runqueue locking
+> +
+>   By default, the switch_to arch function is called with the runqueue
+>   locked. This is usually not a problem unless switch_to may need to
+>   take the runqueue lock. This is usually due to a wake up operation in
+> @@ -62,11 +63,67 @@ Your cpu_idle routines need to obey the
+>   arch/x86/kernel/process.c has examples of both polling and
+>   sleeping idle functions.
+>   
+> +Preferred CPUs
+> +==============
+> +
+> +In virtualised environments it is possible to overcommit CPU resources.
+> +i.e sum of virtual CPU(vCPU) of all VM's is greater than number of physical
+> +CPUs(pCPU). Under such conditions when all or many VM's have high utilization,
+> +hypervisor won't be able to satisfy the CPU requirement and has to context
+> +switch within or across VM. i.e hypervisor need to preempt one vCPU to run
+> +another. This is called vCPU preemption. This is more expensive compared to
+> +task context switch within a vCPU.
+> +
+> +In such cases it is better that combined vCPU ask from all VM is reduced
+> +by not using some of the vCPUs. vCPUs where workload can be safely
+> +scheduled which won't increase any contention for pCPU are called as
+> +"Preferred CPUs".
+> +
+> +In most cases preferred CPUs will be same as active CPUs, when there is pCPU
+> +contention, Preferred CPUs will reduce based on the amount of steal time.
+> +When the pCPU contention goes away as indicated by steal time, Preferred CPUs
+> +will become same as active CPUs again. One has to enable the feature by
+> +writing 1 to /sys/kernel/debug/sched/steal_monitor/enable
+> +
+> +One of the design construct is preferred CPUs is always subset of active CPUs.
+> +With CONFIG_PREFERRED_CPU=n, it is same as active CPUs.
+> +
+> +For scheduling decisions such as wakeup, pushing the task etc, needs this
+> +CPU state info. This is maintained in cpu_preferred_mask.
+> +
+> +vCPUs which are not in cpu_preferred_mask should be treated as vCPUs which
+> +should not be used at this moment provided it doesn't break user affinity.
+> +This is achieved by:
+> +
+> +1. Selecting a preferred CPU at wakeup.
+> +2. Push the task away from non-preferred CPU at tick.
+> +3. Only select preferred CPUs for load balance.
+> +
+> +/sys/devices/system/cpu/preferred prints the current cpu_preferred_mask in
+> +cpulist format.
+> +
+> +Notes:
+> +
+> +1. This feature is available under CONFIG_PREFERRED_CPU
+> +
+> +2. This feature works for FAIR class only.
+> +
+> +3. A task pinned, which can't be moved to preferred CPUs will continue
+> +   to run based on its affinity. But no load balancing happens
+> +
+> +4. If needed, steal time based governors/arch dependent method
+> +   could be used to cater to different types of cpu numbers.
+> +   Arch can do so by implementing its own hooks.
+> +
+> +5. Decision to use/not use is driven by kernel. Hence it shouldn't
+> +   break user affinities. One of the main reason why CPU hotplug
+> +   or Isolated cpuset partitions was not a solution.
+>   
+>   Possible arch/ problems
+>   =======================
+>   
+>   Possible arch problems I found (and either tried to fix or didn't):
+>   
+> -sparc - IRQs on at this point(?), change local_irq_save to _disable.
+> +sparc:
+> +      - IRQs on at this point(?), change local_irq_save to _disable.
+>         - TODO: needs secondary CPUs to disable preempt (See #1)
+> 
 
