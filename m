@@ -1,201 +1,155 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DA334EEFD
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 11:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781867436; cv=pass; b=gAtdjYfDKYC4udkZDXiApmpmwhUi7Ig6mgz+e8VUhblVPMNywEfKip0K7jQuqim0iG9WHEL4IBLK0qj55cV2YRVt9KpoOcuUXkpJ6AxDn3K2J+RfDThYBw/ugeMjP1xa8vBsfnXQhjduwSzrJmpoqf2QGbtfhYaVJ0h4EXs7aDw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781867436; c=relaxed/simple;
-	bh=btKm2haKQomkQw+uhQB5pBRiK+95+O2o3qtewMx7Z8c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZRvVdqwaMTC0NnLh1Lt80TcD2bSoPq04QKDr+1AWZtTNuNibIsjsZosoJ3Zxnw4lrH56e2IE23VZq/yfdGHkFScuP1zri9NhDWJcOHZW1dr7FQfPrY9BeIS65MyLmNQQ/TIsmd0WrEk9crV+tNBFnyS6sJHy5f4kRcTRPvtVOrw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=of3g3E9E; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EFF368D7D
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 11:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781868640; cv=none; b=bQUOL9OTIHPK6az4osiN8wX3MOAe8qtGsDlCrhBDYT42osCJ+7RuBKYPAl+H/2KaKB5eNq6O2U0qHWI+ZAPXxkVnlAFD17yduQ5EKxaKrmydpB7uvdnho0Onczktj0YG04nD/cwoYQAX4RBOfXE2R+O2dIhL4zYKuETqzfphISs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781868640; c=relaxed/simple;
+	bh=tKL3KAbOmbB0KsPGhd6YoyVBMOUEnR4k+bBexPz+8pg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0AWYChHYPHIs4cOCMDtps0bsD1T6KqFEuVWtQknEY1bMRR68PY0/EYJz3xM38PhCfpRdXa23KQwtory2rAXD+mk1pZO9RR36Y2K+os/nWl2QBQP9MZYDNZP2yA+mlTd55ln5pecZ2T3J06e68zyCpAQE9fLjQfBvgf7gVHSs/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCT4H6t7; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="of3g3E9E"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5177d1ff061so150371cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 04:10:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781867432; cv=none;
-        d=google.com; s=arc-20260327;
-        b=m4lzjiiNlrhbHI+ja6M+TyH9+R4YnCKHBakLxKlFZEdyy6DZJMbwrt0VMlc/Z67tRS
-         1jg9YvLodn+Djt0b92YoKJu0w9L/3h4LCMN5FvUKfprKXDwlc6VEpuETR5+BIoKTsCSr
-         kHUY5JX8E0bXXPRQP3W/0le/QN8rlfXSz16Fz+DEUELH9rVDvdgFufIv5juFrfYyEDPK
-         Nhcqlg3JKRj1/S4nDuzbhGFOS4eQufydcd+/ezYrlq7UB8KSQKmzRGTknlJMoYUYuK2k
-         UmfkEVuCqGIXTEz46za3cIp9dYdeoYRmjpmROku57Pzq0zMGB71PQcxyeZ/6ImV+/9r/
-         DHxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WoD6HBjRT9eDykv3AXG3feHx1dss625bK8G+vITqymE=;
-        fh=PFdBlulfzkvPHvaVMRweqxpyXXr2HP+lHGT0Iryxf0U=;
-        b=NXSbFub6uzZT56AhpISO8aVlZYluZM+JewP+zoXtJ1ESd94hpc69IE0sov60a5V0i5
-         QUNhQLmYB3ANTQ/KcJvNyzx+E43tZzOHXuYZKy9iDis0yEY2Hr0ehgh7nXyeev8SR0H1
-         5M4CrKdIGPhzhxD3x3W+Es657qZdSTcHiZOBW7VwLqeOTf9XdqhUWW8GFUQxahUtdOIk
-         D3K+7MNGcj7rYeg1oCz3AmaOgxs5SrYmnnQ0hZpPC85dWLTxlCtsZNSX7odFensikP9r
-         NnwQhSkKOdV4VI7J9uBPK1bgY3i5C6J1KeTzHy+uMbThXKN7dTe1QXxHVFih04/paiLx
-         9uPQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCT4H6t7"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c074142cf6dso305541166b.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 04:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781867432; x=1782472232; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WoD6HBjRT9eDykv3AXG3feHx1dss625bK8G+vITqymE=;
-        b=of3g3E9EWrUYK2VJsf21DH2lVzJYSFekJNs53pg/sCEMq/9gqzry6oRfbRUT7w8vTW
-         T9fVtrBBP+n3Rf2X5wlpZPQSO1/9ABHl53gpE0wx3gZ9xqAYAwgGzoXVuzKljkkUuj45
-         wjJexN7C9et7BkauciDx6nv9LeEY+MlDqRnaVoThgNRSUldTvu+UGMHDyKtLxiYnsLbM
-         Q28hkkzwfBr64cA5YNZeWfm5DQMlPSeW6dd13XO7RsInRVbK6OqteljFnd83iH27XMpk
-         Z35kcD25KiV4e7pqZefO/Kgjfd7hwm5fZxwuP/XTumbyP4+of7kd8/H5G74VM0fJ3+0t
-         MQeg==
+        d=gmail.com; s=20251104; t=1781868638; x=1782473438; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TucRX2gfPFMDDoN8Mlfxd7xl20UMCrUn0QTYPFwhHT0=;
+        b=BCT4H6t7TO0sAqocYzDjtDdU/m3P4IPnKn6a5xrNKl40AUnTu9GU7Ca83a0w8SnJXL
+         Khde6YIOdVSbQkQfKgawxXJdHQOAi8i0mMaZJVe3rieer7OCZ1/O5PFrxDgDqkYdp2jk
+         SAxN/eZOxFD7I+cXchuOVv2GONo9IRh0mpYFNrZAHCT0I4uwIXTD4mLYHD3PQ/JPwuzP
+         NWi5woOlZJ5jI8NAyhD0ZZS0N5Nx1w8xDtgp9DxxhnADfvM2I+l7TvAlfh4LIpx3E3k8
+         rsoBUK7NGVyvT1FGvKHY6X/Sb2/lpdQe241vlpjwAVh0IkQSL1sKjnsXs6BXp9vSBRXl
+         ImIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781867432; x=1782472232;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WoD6HBjRT9eDykv3AXG3feHx1dss625bK8G+vITqymE=;
-        b=iapGdlluyaNyVpybLrZFlZk3+Fqpyc0OOnIL9zBaFvPILPjI5TO/29ixZosXy2BhgJ
-         deokV20+Ocwq9Sd1dXlONFvtgHHIkQ/OQmAQt9o4NSzcvBTVyuloVkwGjGeICKF0S5cY
-         bLGIVWtRWBZ8Pqt6CQqENej3d6qohbuII2uqa6EzBzB6VEBgaKVz8MCDaBw18Q6G7O+V
-         qBFRxHN35QQy9rF0LwJY4CRzAn2+8B4QVBITU+llCqr6io7Nur8bl7+1/kllC1xef3x3
-         fLbIwQwrdD5gMC/xiID6OEQztVaKLDc7RLe07R/bNv5HSppDudA1NKyCtAIuLEukNF/2
-         INzA==
-X-Forwarded-Encrypted: i=1; AFNElJ90zxMsTauxEObAKONfm2nXfkb88N9SQvI4mD+Y8aaiTG6fGgwsKgHsCdPj4jIegDjQv4kYqtuItuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyylt7Zu6dfKlc+yHzpKKyRfhgQjyjfkl2Trr13vPtEa/Rgf8x5
-	TkUshJRY44DxnPqVjsfx6kJFWBTIquPV9sc3NKdpee0ip4OYYqtLQ31FgBadh5VFpYLb0ERQkJ/
-	bLelJUBDyKru6rSc3Y0fWutlhOCmseHFId6pjgABH
-X-Gm-Gg: AfdE7cmOotQAq6vtqWK+up99NHYS21Zw/0bC45ZBtiAxBjfm42aZjyJ69aeIRUKAUcG
-	XE35gWQzhFSmxBOjS9NUeKNb+/SNzLwvUMFPVGEX5PPx9/WdInVgSw3WRcx1EP5CMHyhrOGm+fY
-	Z+mq+kDFPur0DPtxSLRS4tNJq0ygpX+U2rssmo7s9ZuwFeTmjWPerP5gRUqOxB0im1VfLJjb9Mq
-	mf6lzevqPuUMpcdfqAzATsw2rN8dwNi+Pu9xEtfOiYxE2AZrMkxUIPgzr1lZgLyFLJ4lE63ew==
-X-Received: by 2002:a05:622a:2b08:b0:517:99ea:ab7a with SMTP id
- d75a77b69052e-519e4ab67d5mr7722981cf.26.1781867431624; Fri, 19 Jun 2026
- 04:10:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781868638; x=1782473438;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TucRX2gfPFMDDoN8Mlfxd7xl20UMCrUn0QTYPFwhHT0=;
+        b=FI8rVc3hdM7kRiJlbxAcI1rc2RiyZb0XRrOi+Oc5dErgHkDf3BqRWRwB70/pDsc/Nw
+         ifzEq9gDd6HSo/xTIB2INacK4ruML4QtX+UtrjyLY37Ma5nFlg2hVcPxaFQQHdB06VEm
+         BsjJLGtsobRqVfTOfzMoAOZLiUXjRKdcmUD/qEEiWBBFq7YCgvaFbwCw6Sr2ww+QL9Tm
+         dln36EIWhpq7NqRhBdHuHJFToI7ZfbisAJLFiIRP9fgWKO/eTmysKVaYNzdhvYTRouLK
+         NY94nM73ZHn2RaCRAHpgTGfkD+CWun5ppDyr3MOezPArUZJu3CSTYXFN8nZsQxiGQkVz
+         BvDA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ez29UfPBKAG0I4RD+Hpd/CpSaC3jDFnNW2h54UCnm7y3WjIwDqasmaCndJLV08xfEwfsPsBJLIkY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBWPY4kAr3bI5l6m5nWJ3AAWY2LPRpTUYR3ndn39xBQwT3brVV
+	7U//J1EJIw+GjNCw11qhiOofEzOg516FDDR88RFex8FEpiEQ5RYOekikJLX7bw==
+X-Gm-Gg: AfdE7clKplzFzXZXZjWvBvk2UllXXm0b3uINEIjM83tJw103COnW6oLzZN4b93Z3BB3
+	NXKdNYOVz54irByAg7PxzVzpxvxSCqbzUfaCQ2GyWhZxSx30d1Dh5M6MY81QXDGp4CfBnMfJv7/
+	RF8nafQ8FsfRfurBqaBWKdIf77yEPgtMRbhl1RwztMwSUutpoin8NMohjWKt5NfDd9DyJ3dj5TR
+	/zHP2cvWHY5W4AYt6fJZAQrsvoVb02LKBAc3SNUtayBEBvlBTxYZTzANIhOxpk1f2OQiyN72s7M
+	LcaiDsVMwQvr+izFSo1p5MGAAq7gZAsm33Fs4mLqKUrf951E5LDI/XoHnwDGH4LvLvBiuP1Sh/Q
+	ewirJJa+ecgfHgIMEYze4b68LktbOR411l52zKQHhs7BWWc/ZPc5ywibOr8rL3p2vAN8i31gUTb
+	8+W5Z6
+X-Received: by 2002:a05:600d:84ca:10b0:490:e180:2e0 with SMTP id 5b1f17b1804b1-492409fbfb9mr28275055e9.3.1781868623638;
+        Fri, 19 Jun 2026 04:30:23 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49245711032sm16710165e9.0.2026.06.19.04.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 04:30:23 -0700 (PDT)
+Date: Fri, 19 Jun 2026 12:31:24 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, Janani Sunil <janani.sunil@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <ajUniw8HEuAIBr-a@nsa>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+ <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+ <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
+ <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
+ <20260614204455.408c4d40@jic23-huawei>
+ <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-23-9d2959357853@google.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-23-9d2959357853@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Fri, 19 Jun 2026 12:09:54 +0100
-X-Gm-Features: AVVi8CeUT44zBCOt4kdWsDDIMV1MwoUKi9VlfHD19GzvGrkCGzRWMwEiO6g5I68
-Message-ID: <CA+EHjTyj-JdW8H0ii2j3dayqnT2s3VV+brSG++p335=FGd2GXg@mail.gmail.com>
-Subject: Re: [PATCH v8 23/46] KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
 
-On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Update tdx_gmem_post_populate() to handle cases where a source page is
-> not explicitly provided. Instead of returning -EOPNOTSUPP when src_page
-> is NULL, default to using the page associated with the destination PFN.
->
-> This change allows for in-place memory conversion where the data is
-> already present in the target PFN, ensuring the TDX module has a valid
-> source page reference for the TDH.MEM.PAGE.ADD operation.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> ---
+On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:
+> 
+> On 6/14/26 21:44, Jonathan Cameron wrote:
+> > On Tue, 9 Jun 2026 16:47:23 +0200
+> > Janani Sunil <jan.sun97@gmail.com> wrote:
+> > 
+> 
+> Hi Jonathan, Rob, Krzysztof, Conor,
+> 
+> One possible model that would also allow mixing the 12-bit and 16-bit variants would be to treat the parent node
+> as the shared SPI transport only, and let each dac@N child carry its own compatible.
+> 
+> Rob, Krzysztof, Conor — wanted to get your input on whether this is an acceptable binding pattern.
+> 
+> properties:
+>   compatible:
+>     const: adi,ad5529r-bus
+> 
+> patternProperties:
+>   "^dac@[0-3]$":
+>     type: object
+>     properties:
+>       compatible:
+>         enum:
+>           - adi,ad5529r-16
+>           - adi,ad5529r-12
+>       reg:
+>         minimum: 0
+>         maximum: 3
+> 
+> With a DT example such as:
+> 
+> ad5529r@0 {
+>         compatible = "adi,ad5529r-bus";
+>         reg = <0>;
+> 
+>         dac@0 {
+>                 compatible = "adi,ad5529r-16";
+>                 reg = <0>;
+>         };
+> 
+>         dac@1 {
+>                 compatible = "adi,ad5529r-12";
+>                 reg = <1>;
+>         };
+> };
+> 
+> The downside is that it introduces adi,ad5529r-bus as a compatible that does not correspond to an actual
+> standalone device variant - it would require a parent driver to manage the shared SPI transport and enumerate the
+> child devices. The actual DAC functionality is handled by the matching per-child compatibles(12 or 16 bit).
+> Is this an acceptable pattern, or is there a preferred way to model this type of addressing scheme?
+> 
 
-Sashiko flagged that when src_page = pfn_to_page(pfn),
-tdh_mem_page_add gets identical physical addresses for r8
-(destination) and r9 (source), reading with host KeyID and writing
-with TD KeyID on the same address. I don't know enough about the TDX
-module's operand constraints to confirm whether it allows overlapping
-source and destination, but the concern looks legitimate.
+At some point, I wondered if we can't just have this at spi level? Like
+(in the simplest terms) a new spi-peripheral property that would allow
+devices to share the same CS. Then we would need an adi,pin-id kind of
+property for this device but the bindings would be pretty much as if we
+only supported one device.
 
-nit: why does it have Sean's SoB?
+I see Mark is already in the loop, maybe he has seen this kind of things
+before.
 
-Cheers,
-/fuad
+- Nuno Sá
 
-
->  Documentation/virt/kvm/x86/intel-tdx.rst |  4 ++++
->  arch/x86/kvm/vmx/tdx.c                   | 11 ++++++++---
->  2 files changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/x86/intel-tdx.rst b/Documentation/virt/kvm/x86/intel-tdx.rst
-> index 6a222e9d09541..74357fe87f9ec 100644
-> --- a/Documentation/virt/kvm/x86/intel-tdx.rst
-> +++ b/Documentation/virt/kvm/x86/intel-tdx.rst
-> @@ -158,6 +158,10 @@ KVM_TDX_INIT_MEM_REGION
->  Initialize @nr_pages TDX guest private memory starting from @gpa with userspace
->  provided data from @source_addr. @source_addr must be PAGE_SIZE-aligned.
->
-> +If guest_memfd in-place conversion is enabled, pass NULL for @source_addr to
-> +initialize the memory region using memory contents already populated in
-> +guest_memfd memory.
-> +
->  Note, before calling this sub command, memory attribute of the range
->  [gpa, gpa + nr_pages] needs to be private.  Userspace can use
->  KVM_SET_MEMORY_ATTRIBUTES to set the attribute.
-> diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
-> index ffe9d0db58c59..56d10333c61a7 100644
-> --- a/arch/x86/kvm/vmx/tdx.c
-> +++ b/arch/x86/kvm/vmx/tdx.c
-> @@ -3198,8 +3198,12 @@ static int tdx_gmem_post_populate(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
->         if (KVM_BUG_ON(kvm_tdx->page_add_src, kvm))
->                 return -EIO;
->
-> -       if (!src_page)
-> -               return -EOPNOTSUPP;
-> +       if (!src_page) {
-> +               if (!gmem_in_place_conversion)
-> +                       return -EOPNOTSUPP;
-> +
-> +               src_page = pfn_to_page(pfn);
-> +       }
->
->         kvm_tdx->page_add_src = src_page;
->         ret = kvm_tdp_mmu_map_private_pfn(arg->vcpu, gfn, pfn);
-> @@ -3278,7 +3282,8 @@ static int tdx_vcpu_init_mem_region(struct kvm_vcpu *vcpu, struct kvm_tdx_cmd *c
->                         break;
->                 }
->
-> -               region.source_addr += PAGE_SIZE;
-> +               if (region.source_addr)
-> +                       region.source_addr += PAGE_SIZE;
->                 region.gpa += PAGE_SIZE;
->                 region.nr_pages--;
->
->
-> --
-> 2.55.0.rc0.738.g0c8ab3ebcc-goog
->
->
