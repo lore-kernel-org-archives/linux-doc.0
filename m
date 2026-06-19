@@ -1,197 +1,100 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E0838CFE8
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 16:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F973B7B84;
+	Fri, 19 Jun 2026 16:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781885137; cv=none; b=Maj579lCe5ToW/x3u2TJI0L52PN+c8fElZ1y+qfpJ0oEEHJRE4TyjgQy7lEDYZvPsyeteEug9vWQz81kJH1iwrNtjuxGN5o0h7tu16mH+XNdpsrVzy6gddHLmxzMvSNiOrQxtuwVSqNi2ix0nXLPxuBBKTSUQMFjVa0tsc/ky4w=
+	t=1781885841; cv=none; b=kPkebuuugqRPgBPaoC163rWAujFm8dJmbeOo7vEP9Khbfktc39Z9wrjF4IL4wqOTCSoYIRywMhjtYa8Bp4i6sun0a0FQ5fTeAhf6I4LQnTsor3vniKaha1n8dlqsi59sJCOLJHwWSxTMTPWFkTAzJdKjVb+cjitlfQOlqiwYDOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781885137; c=relaxed/simple;
-	bh=+0nQqVuRMPQjg4Pni4V87Dju+ww99YTd3QIwXeLMiCY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=NElhUpgcESSY6xh9Pgqvi24HXwSjcERHosRBoYimFp3DXHIVbBs9i6YgrVrNI6WAmKWMqA0P6FSpR5OJf+KrSYKNHYSeryOJQz2SpH+HUV/u/d32HukWqkZxWhB0AQpH/PFEo0r7LOuXjk8ihw0g1AvHAII9zZ3p4R2jFhIOBCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=bwy/zWEE; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1781885841; c=relaxed/simple;
+	bh=Hez/6THJzlNXGiz/OjgNp3YP/wptBZbyvAYu93ZLYJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKVG3WIGtdnupFfiqnfbK+JkDAofctq980eHO1AeVk9w1F1P9MRmdCVQgpKDkOxqsLhVpAPftpbQQRIJWHsOUHrlZX0WcsFr0T8jYXo7HVifsgUp49d4UHX5SjHJrb2B5BVm5QadXRjdKv7EqhngFRpAB1xCbT3oXXrfM4H9eYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FbFcWs3f; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="bwy/zWEE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1781885130;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+0nQqVuRMPQjg4Pni4V87Dju+ww99YTd3QIwXeLMiCY=;
-	b=bwy/zWEEndvfcEw+exaytr7ayZIOp3XU2/leScdgvbijxYuHP3jgfAFr0/7D9NFQ/PvwUD
-	J5n0UDm/RFxQnVjk38ZLzwQ7xpXGaTYe0YQhgZMQPcaBETu8Qx4hMr6yduvTMUCjtPSOzi
-	s/IuAx+zf67etlMu6RtiHnY9jfFjidpt1IY8E+7MVbDkacwjnl1/mPN8kjnDBbIRilFfod
-	DKG0Ob7zqPwUgX4Ls42SBpbhfhvRwTolklAWQeveAjHDiVeBBcFrsS18yiCgbL302r4YD0
-	kkNvf3GzI/V8LiM02D7SV7F/49htLAVQqhfjYiHmQ90qmCdik8RwowlNEauPpQ==
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013001.outbound.protection.outlook.com
- [40.93.201.1]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- usb-mta-62-xztO_NosMG22vJW1eUHhZw-1; Fri, 19 Jun 2026 09:05:24 -0700
-X-MC-Unique: xztO_NosMG22vJW1eUHhZw-1
-X-Mimecast-MFC-AGG-ID: xztO_NosMG22vJW1eUHhZw_1781885119
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
- by DS0PR02MB9151.namprd02.prod.outlook.com (2603:10b6:8:13f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 16:05:15 +0000
-Received: from CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
- ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
- 16:05:15 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew
- Lunn <andrew+netdev@lunn.ch>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Richard Cochran
-	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, Jerry Ray <jerry.ray@microchip.com>
-Subject: RE: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support for
- TS2500 MAC-PHY
-Thread-Topic: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support for
- TS2500 MAC-PHY
-Thread-Index: AQHc/B9qR/Obe4EEv0yRbQBFI3q6zrZF73MAgAAi23A=
-Date: Fri, 19 Jun 2026 16:05:15 +0000
-Message-ID: <CYYPR02MB98283966554323E452EFA65583E22@CYYPR02MB9828.namprd02.prod.outlook.com>
-References: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
- <20260614-s2500-mac-phy-support-v5-12-89874b72f725@onsemi.com>
- <ajVKfBKPuNk9zN7b@monoceros>
-In-Reply-To: <ajVKfBKPuNk9zN7b@monoceros>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|DS0PR02MB9151:EE_
-x-ms-office365-filtering-correlation-id: b23f145f-176b-4f38-c7bf-08dece1c8d25
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|56012099006|11063799006|6133799003|22082099003|18002099003|4143699003|38070700021
-x-microsoft-antispam-message-info: u9ymMLuTSQlOdf5+Cj24mMZkEjqyVfpEjPsgqN7Z+xbGHdd1CrSb2P68rfOwCXOOls+Ba4nVcGkYs0x6iR3d3e6IMlyIOe75yYWv5waW6c05UA3HXQNGdaPLrQTQLpUdXaCDPW0Fxyq/3PCjeJqXPW6M1msjCW0kzUGxdKLrxlbRF07A2huXAyzoYYPaHAEIQgkj1Ntk8qqqQf242LHzkwjZqcxXdxMkTd8bqOS30cpF2QMnqycpz286IY7aIfHSu7eB7vxKrXngbYhsUP9H6WXLUzMfENs/7M4AY2UpdsVIuEgZOl/MvFdw13HArD1cmLrMYqoXu/aukt444rKD4xuu+Guh6CLrRHzSVNeViX+KVAXLONX0c8elK4vr2Af7ipdn0o1IV5EAHAHAMr2krJ+Q8rWfwdmpn9plCIxFlcZOlz4cPP0ddA9SkuO8KEXpjoaSpDKmaJ+GzoW/ubT2Q50Di6f9O4AugaWFcWZG1YmBAB2ZkEbw9xsTCM2JWIJzO0/fcZG3rJeEtNrOO1dU4kEJs5sQMNhJE3D/cixWky8XdnOWRwVjQIaBrgRKMyqyLAzs7WHDvzc619ettX6LCvlvkYR5PZGceD7R9lPVRJa2X22AMrVhIdlJsi9YzYBiaMoZVGBgjccHoNwT9Yq75irI9HStAJIPyB/0sbFxFliaO8auQg+2RW6JzMv1+8NtWXXTV8H+OBJ85yYfyN1NQVcSKTFr2ysrStGUW9LgjWE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003)(4143699003)(38070700021);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?VUPeUEAqgJo/+3MxnMbEsLmLeFDPykTB4MACW4j6OphQMTm5T7bsoCY+x9?=
- =?iso-8859-1?Q?e8bUnOOm65O/OvztUGPZ4Bj6Iz8l4EzKXa2CvvX6anJScWZXrKSXvZ2dGu?=
- =?iso-8859-1?Q?WMBKzZwVSIfSxVTJ6s8uQPh6RTqi1wcC9RJ7n800fpMXzFQgMuiXXA8r01?=
- =?iso-8859-1?Q?cR6A33bJpdV1NLUqULC7vrjg3HX2r35/143/Jv0f8hUq8qtTNFl19rKMEX?=
- =?iso-8859-1?Q?TwsqHPgiWxp+PbUgF/e9wPm1mEptkfZ5KGKn2sDa6vhCuCiUQeZFJT4Dlo?=
- =?iso-8859-1?Q?3oc+8jZ8S0VoiIb6XBsaaaPEpyn/XqSinLsemcYziUnskxFjBIHeG5VZpA?=
- =?iso-8859-1?Q?tdOlWjQRckPg+hjO/1oGAmBFti+GOaIZ12O+NTiMZzU4qeLQR3S4bpyTKZ?=
- =?iso-8859-1?Q?KqgOfHP7eyxN5K7X/e7ML2AbeBx2qo+BNPA0Y8HgDG4W0rN+XK94q+wPPA?=
- =?iso-8859-1?Q?IlTaERNqv6dDMIV/S7LCzDmAcoy0sdT1YMQ125dJYDt8N0ZPF8R38RL4xl?=
- =?iso-8859-1?Q?0DH6aYB7350zJQWmIb9Oe3nFvtVUPFzpWQM8otpBNd9gXRfTy6NDVtMIuT?=
- =?iso-8859-1?Q?wVtjfXzYyoeGIJoAWFf56vxqGJTuSeEeRvpr12fCZATG1KM3jTgTF5lvwM?=
- =?iso-8859-1?Q?aJaDCkxuW7AIksWp9FklEFNwhb5TKb6fcl00+NN4ppprRrgUHlirW7bsDY?=
- =?iso-8859-1?Q?SrPtwupRPqwcuacF3l5nAFZRfezZ14hvbeqrZoBxv2paRa6SyQa7i/c5ok?=
- =?iso-8859-1?Q?mf0O8pYiKTy5VdSQKOOmGxqdCs01FgM0UzfhVHJGbt3yBvtXbHFgLQrpeD?=
- =?iso-8859-1?Q?OX04DppIVEc8+zTVUlYypTRqPjLjJHpptqY+voOwnvwUZDYv1leZ1aDzd2?=
- =?iso-8859-1?Q?JjMJEI/rvxnS/ONUynN9vOc7sNl2Kk17YLL5Oqls7jS7HqpIhVMARd3w4A?=
- =?iso-8859-1?Q?85cqlg0xzJzV8BdIgb5wRjFWWNPT5DV2dFMWApdBU0eXsc/pwIJk/KnCW8?=
- =?iso-8859-1?Q?dwsOtUhI7r6mpDn8/ALuNf4BNvHlvSbiM6/cSWODx1B1HeIjh6nneiN9NT?=
- =?iso-8859-1?Q?cSuhH3ij4OQO1pz9zZoiyaFoBxkEbQWu+ROBtQubvEeFkSBbgrBKx1fmsj?=
- =?iso-8859-1?Q?MkvyfeEZ2UBErOz2ws7+QMDm4STW7pvQhhEBf2wC8JID9bBM4Vu5XDiwlk?=
- =?iso-8859-1?Q?U6ACgC4owfRYkHy0LOpmKgO2yBxtLnom8iyVd1iryiANvEpwl5zwmSfimU?=
- =?iso-8859-1?Q?OyTLKuaHTF49UCijtWnZ4klaDxHyvzDvXzqVrToN5LMnQrWKc9No7aKRUH?=
- =?iso-8859-1?Q?Y+lofIZ7/Qy5SMuOhznI7DctXksrJFDVJ1BtYkonFD0dzRTtOM6KnCzutj?=
- =?iso-8859-1?Q?+xjCV7M4JCD5wUPMuZKrbNz8hyb0QsRI+iTBYBzwQtjzT/O57BuzNXqOFw?=
- =?iso-8859-1?Q?tGOvSnDmveeeLhq2QUfTGh8P95sDvw75ScNCcObwhTAaWm9DGhi2Gh7HXn?=
- =?iso-8859-1?Q?Js74dcWVlCvKL0DRzDrOofTwwv8lCPLFMOAiCQJFim1yJL9qmHZf7jf0cW?=
- =?iso-8859-1?Q?iZ6pq0wECXUc5RR0M6Fj/l04V/W8zS0G72hHK9NuWTW9S/E/KEyK3GXt3U?=
- =?iso-8859-1?Q?Q4SOj/E+2JWnJvebtTuDX7UFTBa/d2Ll1+Ndr4FxJZyHnDgOTHYcDyfDuW?=
- =?iso-8859-1?Q?77whMSLoG8Up7Ma/jgA/ygpmOKSyw6p8P7bjIOpsL8WTkamXnx1UcebDA7?=
- =?iso-8859-1?Q?WH1gRq/fUZDxx6G5k+/QjYCK4K3gqnM6TETUKvSGOJgmQ073uyho6lWFsA?=
- =?iso-8859-1?Q?+NZ++69Fxw=3D=3D?=
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FbFcWs3f"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EE47740E00C0;
+	Fri, 19 Jun 2026 16:17:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id CsVRI4SkSUaf; Fri, 19 Jun 2026 16:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781885822; bh=0NbenZSMXYebM0Gsy498bp9VLyj7xrVg223GYzgur9k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FbFcWs3fCT+DOLcODMx5M/yVEJZdNzuoawHCl1GWlb3q3WvRGXUm2KvJlevmVFMZL
+	 tL7TxH01Onso0WohYbvzLPMCSl3kTfxO8eTfAuqQWLSUmKOsg59gM/uJ9N+9mzGRx3
+	 ksfljx+eViwR7yB+f8OJPGScVVl0B+o0ZvXnRvz9cFoGlPWVEbe7PSIoVZTgBF/xPj
+	 BmocnXhL2JHAfEwTYTKeuD9tYymxd4meODFtB5D1PEO9534K4APooZhOp4Vsmhh7ev
+	 yp3W5t2X/r8mgSvP4y/3EwCEYoQRRMY9Ct39i7czoHxBsc4EJb9WKVFo+bhdteAgk4
+	 Hd0X+oD4Y6sZ5/J6pQ1l9Oabw/FHU0dYcesErG4rN5NsqBfJMX8ufJj8N9h1+Fe/aE
+	 u4JU/HO+Z41xW3uIROhBROSJm+RKgPMvJxus0Jg0+hjWUzGd26c5EAYyGhcmqoqcPS
+	 FI883ZndyvWyfSx7ng6dWWD+cQbLFTCFcwjEu8zwIX7/i90FBcNkHSjxNNiLCnIuMv
+	 KuW5+QNqhlqLngdHCvwu0ovDm2BOs4WctgZ6SG/HZcuhSdILDLj/AOPjYHikvu54Nu
+	 lM9/oDOH2UZ1tSifvg2PzGpMItuQLQNHyEK9NaZjs4deQdg7LSMdaeelOMnhflahLp
+	 FD6yNSBYpTKHOXq5Q4fVdj/I=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 35D8140E0140;
+	Fri, 19 Jun 2026 16:16:33 +0000 (UTC)
+Date: Fri, 19 Jun 2026 09:16:30 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Tony Luck <tony.luck@intel.com>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
+	Saket Dumbre <saket.dumbre@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Dan Williams <djbw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
+Subject: Re: [PATCH v6 00/10] ACPI: APEI: share GHES CPER helpers and add DT
+ FFH provider
+Message-ID: <20260619161630.GAajVrXuZ3XWvK83G7@fat_crate.local>
+References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
+ <20260618164807.GAajQhR9J_00j4LxaC@fat_crate.local>
+ <eccbf574-a145-47af-889b-ca6dd80f98f2@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: ibPKggffYkec9Zbobr4i/Bmb0fKy0/4jDr8euB5/Nv1TDSvanXw15HsfXcUiPDuyO5W/vGdUBPA7wFkPbwH84htwl2on1tNyvVMM+1gjdm/ZSCC+uEcbtp5DFrzlHYXcwaxxxnYeUNW0O74m3pZRwk0IUft+vMk30IJijYk8vnTiYwTUBkb07D91J/xpqTfokCiIVb/zMnLlWMDgQM273CAhAjrvCTv+xR4xnPwAJBnFscg4ItKDYdd0I7SfRcN14gK8knVfDuu6FdgGnaWgHNXwD27kgBa8qyaixmqMLydyYKOy9eZ04inJZZ2ZlAj4HpPMTJU6TbFkCR7v1/ZBlw==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b23f145f-176b-4f38-c7bf-08dece1c8d25
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2026 16:05:15.5100
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7OUuyAcX4hSNLHWUcl4vsAzjAlKnCGhdBnGqkXvrLUXs7zHN7zaDAuRPgVxAjPaANiCKOv4DJRlfcv0U3/cV74R9GvIGBJ32BCm/SAbRsUg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR02MB9151
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VB4wiXy6_Qn0MdTFskFrfYkoe9NMV8qZFCkB4N3k2Tc_1781885119
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <eccbf574-a145-47af-889b-ca6dd80f98f2@arm.com>
 
+On Fri, Jun 19, 2026 at 04:41:40PM +0100, Ahmed Tiba wrote:
+> I will address the issues introduced by this series. Pre-existing
+> behaviour is carried forward unchanged.
 
-Thanks for your feedback. Will take care of all the three comments.
+So you carve out that code, you use it for your use case while *knowing* there
+are preexisting bugs. Wonderful.
 
-> -----Original Message-----
-> Subject: Re: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support =
-for TS2500
-> MAC-PHY
->=20
-> On Sun, Jun 14, 2026 at 10:00:28AM -0700, Selvamani Rajagopal via B4 Rela=
-y wrote:
-> > +static const struct of_device_id s2500_of_match[] =3D {
-> > +=09{ .compatible =3D "onnn,s2500" },
-> > +=09{}
->=20
-> s/{}/{ }/
->=20
-> > +};
-> > +
-> > +static const struct spi_device_id s2500_ids[] =3D {
-> > +=09{ "s2500" },
-> > +=09{}
-> > +};
->=20
-> Please make this:
->=20
-> static const struct spi_device_id s2500_ids[] =3D {
-> =09{ .name =3D "s2500" },
-> =09{ }
-> };
->=20
-> > +MODULE_DEVICE_TABLE(spi, s2500_ids);
-> > +
-> > +static struct spi_driver s2500_driver =3D {
-> > +=09.driver =3D {
-> > +=09=09.name=09=3D DRV_NAME,
-> > +=09=09.of_match_table =3D s2500_of_match,
-> > +=09},
-> > +=09.probe=09=09=3D s2500_probe,
-> > +=09.remove=09=09=3D s2500_remove,
-> > +=09.id_table=09=3D s2500_ids,
->=20
-> Tastes are different, but the idea to align =3D is usually screwed by
-> follow up patches. Here it's broken from the start. If you ask me: Use a
-> single space before each =3D.
->=20
-> > +};
-> > +
-> > +module_spi_driver(s2500_driver);
->=20
-> Usually there is no empty line between the driver struct and the macro
-> registering it.
->=20
->>=20
-> Best regards
-> Uwe
+Sorry, first bug fixes then features.
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
