@@ -1,115 +1,244 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A362D40D598;
-	Fri, 19 Jun 2026 05:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F12F31E825
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 05:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781846257; cv=none; b=uW2PibDWskfwmAYGafyfvAoKddrjYwd2gMs4wE6wzJZ3AQUbGmPkyXzQrFuSRIanS24iMIt2XjK1yDuZZTmsMK6wceOMkDfuKNUEatgsBIQBz8dtBCdWfllEpYgsSMEnbjd6I1vG1mL66e4Gx9Vb3Xh+H957IuPEaQa1ExE+wKY=
+	t=1781846874; cv=none; b=XBfhUkTVrqGS+nYAzmIBjRERmVQcpxzhZLfPpAyblL6YKWXy0qnnQ32MdOZ5pCjZAQ6JpatzNXCf/0TT7cegjDrFF5w5fOtfvjU8by8O0g+zJ3cZRlVkDDN4kU5PI3P4TuJ494bEDJKQstT9P+LGD7X/pVQkcUqd2SIi6534Qh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781846257; c=relaxed/simple;
-	bh=UThYL4n3yi6FB/4PoyNwX/qX7QaXgn7Gb48t1iB6IKM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ir8d8LtxoriAn9Jpmdt3jdq7QKGiz8csW+ZSWQgA9hN95YBYK+NYT+m/LtHCrNKelx/CUuvu8uhcoioUKXrlQcw/CdcfofKxfaZflM3GcEIwB5AIeglSM2NpxRoWJSfq4kFjERYSFnsADksMy0OHNVkgPMk6B62DJCZqJzJklow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jbC5I6eQ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1781846874; c=relaxed/simple;
+	bh=1xYUQuEJGMisyUSD8yUCi+h0r0/aFvN7+YM/tQTSNF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dD67nwTgHdd9pCQWLwVuGCAW1ckDkJ9t8kwxocucsFQWl4KfIRKRX/92aRcuG+NxIKV7bHYgbLn7SfDMVXTFD2lZokqY/oHaE2rt46JrFq8iJwgNkXS+YBWMZmMOk087gGKt14V8p+GQuHmhGS1GHja+s7blZJZxkSRDye4DOvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p8ZfD/P8; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jbC5I6eQ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E76614AAB;
-	Thu, 18 Jun 2026 22:17:28 -0700 (PDT)
-Received: from [10.164.148.42] (D3H2TH2F54.blr.arm.com [10.164.148.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BD7B3F763;
-	Thu, 18 Jun 2026 22:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781846253; bh=UThYL4n3yi6FB/4PoyNwX/qX7QaXgn7Gb48t1iB6IKM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jbC5I6eQoGomv8iGJRU8jQqKcwcUpT/e7lp0AiVrdoygvnUoDpQjvVmjGorL3UAXP
-	 w1GwO3Kp0D5vrukU9KyYZFT9t245gW6WCyFF1N0+HiO3wjEiGOqU+ePMrs++JmKKeZ
-	 W8b3YrHwfkgim0X3khHlwDzSR8867W8+SDC7NVR4=
-Message-ID: <5173a464-5f2c-431c-a3e3-16356f8cb873@arm.com>
-Date: Fri, 19 Jun 2026 10:47:24 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p8ZfD/P8"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84237c55ef9so1058087b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Jun 2026 22:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781846873; x=1782451673; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jT5ucJxS3AylJogy+VJoQXNUQw9OyolCVtNHaI3XYUY=;
+        b=p8ZfD/P89scY7aHF3DDmt4188opoU/bj2m0cZ7nztD73fcmuS4mFyANacI+++wBTV7
+         fvmXhNA7ki9tbxXIceT3H1ICYOOUW/l3LlivOFGQH6Nq8fNC8pusEAcMk61GRRONsUDB
+         owYEb7Y88JNQ8cQax12csfRm+VIPnZV9OSNthOT61Xt6w5aW0mvNoEqgbZ4V3ssLGGuE
+         is9XTCKwKp+mihMfeHbAoEPGCo0E+QfsbehwFgjn2IJXVhz77BVExrKQA6j8DXojVK2B
+         Q+yZiLq3Ebwzy2QQdgqXwC2SmFGW0xMZrlrDaCh+CEpEPFUwVdmuV0pUgkh7opVuV9Xb
+         D+4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781846873; x=1782451673;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jT5ucJxS3AylJogy+VJoQXNUQw9OyolCVtNHaI3XYUY=;
+        b=mv6Jl0myGub9oCHbvS+7tONF4JaPTO/1M8r8KToDHGTlKkW7SQ/vOMilr3QAYPVdT6
+         wGyGtLcSMatrSfFmSoR/88aKe57t8+Nn8oNxz2EKHy6tlgYT5G2cxcln9DhLUmZPcqPJ
+         Rf+Y1Bl2XxmBIK8JGvO5EtJchpYA0XxwWgzHAYTyM63x22GRG9mUuj1rFVzHIHbK590i
+         FzR+7o4jTKpBhWcHjtnKSy3AdLg2OaPvygopIDucWJkL7avEKFUwRmXPdigy4VuKQkHk
+         i4coFsTHIOcKANU69YyREqPzpmrhimV1aEMFKVtO8GgCfaDqf98kdb1vZuydu4g+b1Nm
+         Su1g==
+X-Forwarded-Encrypted: i=1; AFNElJ87b/nxogCc1bSmPKWK/MWBeumduMv1iddh0lnk3IWw4coiTRKlhwA9FiQvgLfXLTa+Tr2tr8aQDNs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyM3ecQ0u6g2YU5e+eu8WPIb60/V/hIcC+CpNfk76G5LpT1+luf
+	GbByTBbri8T1UYwgxXwC0/zwZD6PomHAtueu2Kfvqrur2xT//JdnwIm9
+X-Gm-Gg: AfdE7cnQYMin1yawRZXJ6d071YkCy0N8XAxG6aTE3jK/yeC+ohCU9tYX7Q2PXDH9JvM
+	jR23ykoIYo3rxJQ3ZhEzYNrp6GsSO1nDrvDHUEXyPMmgtg5o97b8y5ygRsgVNdBRVJCpBrQXGSl
+	HrSl5Bi63Bo8jOP2LTLbndgI6WlZjespIdUz28PfZ9nke9m5eAAwldCzlP9YYkehq9m5CLyiH51
+	DdvoNRke6uLoo6SK/i4NQS8HZg3+2CpT46WkRbFLnDTKjiG4xQ1XsNCUhLiptm+W7Arh8ehbebX
+	kiDLRAdANQpmCfl5mrqrYld3gDuvZg1O3vYXMliZasvxwuzsOaHjNzC2eJwWpIhO6zW+sn0q+FG
+	D2ah0A6zq/dWHm2ZChS238j+hr0BDAQ5kLDEreycaZvLIWYtixOv3PIXL9ogldf0zPsmeTN3MF+
+	hHlpTGVQ==
+X-Received: by 2002:a05:6a00:8d8d:b0:841:d0c0:d9dc with SMTP id d2e1a72fcca58-8455619dc41mr1133217b3a.44.1781846872511;
+        Thu, 18 Jun 2026 22:27:52 -0700 (PDT)
+Received: from dev ([163.43.103.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84553858d22sm1163644b3a.55.2026.06.18.22.27.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 22:27:51 -0700 (PDT)
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+To: andrea@common-net.org
+Cc: Yuya Kusakabe <yuya.kusakabe@gmail.com>,
+	andrea.mayer@uniroma2.it,
+	davem@davemloft.net,
+	edumazet@google.com,
+	dsahern@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	justin.iurman@gmail.com,
+	shuah@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	stefano.salsano@uniroma2.it,
+	ahabdels@cisco.com
+Subject: Re: [PATCH v2 4/7] seg6: add End.M.GTP6.D behavior
+Date: Fri, 19 Jun 2026 14:27:39 +0900
+Message-ID: <20260612032313.24062-03-yuya.kusakabe@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260607020517.0c6bbb8beba505ac9447545e@common-net.org>
+References: <20260607020517.0c6bbb8beba505ac9447545e@common-net.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
- allocation time
-To: Ryan Roberts <ryan.roberts@arm.com>, ryabinin.a.a@gmail.com,
- akpm@linux-foundation.org, corbet@lwn.net
-Cc: glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
- vincenzo.frascino@arm.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, anshuman.khandual@arm.com,
- kaleshsingh@google.com, 21cnbao@gmail.com, david@kernel.org,
- will@kernel.org, catalin.marinas@arm.com
-References: <20260612044425.763060-1-dev.jain@arm.com>
- <dbc2800f-7880-486f-831c-ec9b6cedc005@arm.com>
-Content-Language: en-US
-From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <dbc2800f-7880-486f-831c-ec9b6cedc005@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi Andrea,
 
+Thank you for the review. The points shared with patches 1-3 will be
+addressed as described in those replies; below the
+End.M.GTP6.D-specific ones.
 
-On 18/06/26 7:18 pm, Ryan Roberts wrote:
-> On 12/06/2026 05:44, Dev Jain wrote:
->> Introduce a boot option to tag only at allocation time of the objects. This
->> reduces KASAN MTE overhead, the tradeoff being reduced ability of
->> catching bugs.
->>
->> Now, when a memory object will be freed, it will retain the random tag it
->> had at allocation time. This compromises on catching UAF bugs, till the
->> time the object is not reallocated, at which point it will have a new
->> random tag.
->>
->> Hence, not catching "use-after-free-before-reallocation" and not catching
->> "double-free" will be the compromise for reduced KASAN overhead.
-> 
-> Does standard KASAN with HW_TAGS really detect double-free? How does it do that?
-> I could imagine it testing the tags of memory being freed to see if they are set
-> to the poison tag, but that would lead to false positives for the GFP_SKIP_KASAN
-> case, surely?
+> The "src" attribute is used verbatim here as the outer IPv6 source address,
+> same as patch 3. The src dual-semantics overload flagged in the patch 3
+> reply applies here too.
 
-Should have mentioned, the double-free check is only for slab objects, see
-__kasan_slab_pre_free. So we won't be able to catch double-free here.
+Covered in the patch 3 reply: with the End.M.GTP4.E template use
+gone, verbatim outer IPv6 SA becomes the single meaning of the src
+attribute for the IPv6-emitting behaviors.
 
-> 
-> If I'm right, then the only downgrade this new mode causes is that if
-> freed-but-not-yet-reallocated memory is accessed via it's dangling pointer, then
-> that bad access is not detected. I think that would be benign in all the cases I
-> can think of, so while it would be a problem for a debugging use case, it would
-> unlikely be a problem for security enforcement?
+> Thank you for the follow-up in the cover letter thread. The finish callback
+> writes orig_dst into SRH[0] and Args.Mob.Session into SRH[1]. As far as I
+> can see, this matches neither Section 6.3 (Args.Mob.Session in SRH[0], no
+> D) nor Section 6.4 (D in SRH[0], no Args.Mob).
 
-Okay so you are saying that we won't catch the bug, but there is no security problem
-because the dangling pointer is accessing memory which isn't in use by anyone else.
+Confirmed, that is the bug from my May 10 note. The next version of
+End.M.GTP6.D will push the configured SR Policy verbatim and stamp
+Args.Mob.Session into SRH[0] (at the locator length given by the
+explicit sr_prefix_len attribute) per Section 6.3 S08; preserving the
+original outer DA in a prepended slot will be exclusive to
+End.M.GTP6.D.Di.
 
+> Same reverse Christmas tree as patch 2; same issue in the other functions
+> introduced by this patch.
+> gtp is only used as a cast intermediary. Could it be inlined?
 
-> 
-> Thanks,
-> Ryan
-> 
-> 
->>
->> This is an RFC because we are not clear about the performance benefit.
->>
->> Android folks, please help with testing!
->>
->> ---
->> Applies on Linus master (9716c086c8e8).
->>
->> Dev Jain (2):
->>   kasan: hw_tags: Use KASAN_PAGE_REDZONE for vmalloc redzoning
->>   kasan: hw_tags: Add boot option to elide free time poisoning
->>
->>  Documentation/dev-tools/kasan.rst |  4 +++
->>  mm/kasan/hw_tags.c                | 45 +++++++++++++++++++++++++++++--
->>  mm/kasan/kasan.h                  | 23 +++++++++++++++-
->>  3 files changed, 69 insertions(+), 3 deletions(-)
->>
-> 
+Will fix both.
 
+> Nit: gtphl and hdrlen are assigned before the GTP1_F_EXTHDR check. On the
+> path where the E flag is not set, gtphl is unused. Moving the gtphl
+> assignment after the check would make the flow clearer.
+
+Will move the gtphl dereference after the check; the pull has to stay
+before it, since the long header is also consumed for S/PN-only
+flags.
+
+> Maybe ext could be renamed to ext_hdr? It would be easier to distinguish
+> from ext_units and ext_bytes.
+> ext_units is only used to derive ext_bytes. A single ext_len would
+> remove the intermediate variable.
+
+Will do both.
+
+> If the extension chain contains more than one PDU Session Container, *qfi
+> is silently overwritten. Is that intentional, or should the function reject
+> a duplicate?
+
+Not intentional; will reject a duplicate PDU Session Container as
+malformed, with a selftest case for it.
+
+> ext[ext_bytes - 1] reads the Next Extension Header Type field from the last
+> byte of the current extension. Would a short comment help the reader?
+
+Will add one.
+
+> input_action_end_m_gtp6_d() does not change skb_dst(skb) before this call,
+> so dst and lwtstate are the same ones the caller already dereferenced. When
+> can this NULL check trigger?
+
+It cannot: for a route installed with LWTUNNEL_STATE_INPUT_REDIRECT,
+lwtunnel_set_redirect() always populates orig_input before dst.input
+is replaced. I will drop the checks and call orig_input directly.
+
+> Same dst/lwtstate issue as patch 2. Not introduced by this patch.
+> Same missing iptunnel_handle_offloads() as patch 2.
+
+The NF_HOOK split goes away per the cover letter thread, and the SRv6
+push will go through a shared helper that calls
+iptunnel_handle_offloads(skb, SKB_GSO_IPXIP6) before
+seg6_do_srh_encap().
+
+> Same BAD_INNER misuse as patch 2. seg6_do_srh_encap() can also fail from
+> seg6_push_hmac(), which is an HMAC error on the new SRH, not an inner-T-PDU
+> problem.
+[...]
+> segments[0], segments[1], saddr, and daddr are written after
+> seg6_do_srh_encap() already called skb_postpush_rcsum(). skb->csum can
+> be stale. Same for any later change to the outer header or SRH.
+>
+> HMAC, if configured, is computed on non-final SRH and saddr, hence invalid.
+
+Thanks, both of these are real issues. My plan for the next version:
+
+- every field stamped after seg6_do_srh_encap() (Args.Mob.Session, the
+  preserved DA in the drop-in variant, the outer saddr/daddr refresh,
+  and the dsfield propagation in H.M.GTP4.D) will go through a small
+  helper that applies the corresponding diff to skb->csum when the skb
+  is CHECKSUM_COMPLETE;
+
+- the D-side behaviors will reject an HMAC-flagged SRH template at
+  configuration time: stamping the per-packet fields after
+  seg6_do_srh_encap() has signed the SRH would always invalidate the
+  HMAC. Inbound HMAC validation is unaffected. Would you prefer the
+  stamp-before-sign ordering solved from the start instead?
+
+> The initializer on reason is dead. Every goto drop path sets reason
+> explicitly before the jump. The variable can be left uninitialized here.
+
+This goes away with the drop-reason rework: the MUP drop reasons will
+be out of the initial series per the prep series plan, so the variable
+itself is removed.
+
+> Same SRH validation concerns as patch 1. HMAC is not validated here.
+
+The ingress will use the same three-state SRH helper as the other
+behaviors, which validates the HMAC whenever an SRH is present.
+
+> Limitation note for both input_action_end() calls above: correct per RFC
+> 9433 Section 6.3 S10-S11, but the SRH is absent or SL == 0 here, so
+> input_action_end() will always drop without signaling non-GTP-U traffic.
+> Perhaps you meant to drop directly with BAD_GTPU?
+
+Right, the End fallback could only ever drop here. Instead of
+dropping, I plan to hand non-UDP, non-GTP-U and non-T-PDU packets to
+the route's original input path (the orig_input saved by the lwtunnel
+input redirect), so a downstream owner of the GTP-U control plane
+still receives e.g. Echo Request; the selftests will cover that
+passthrough.
+
+> Nit: inner_first could be an inner_ver with the shift done at assignment.
+> The name would say what the variable holds.
+[...]
+> Same repeated size-selection ternary as patch 2.
+
+Will do both: the inner version, header length and protocol computed
+once in the switch.
+
+> The anonymous { } block scopes three variables that should be declared at
+> function top. Splitting into smaller helpers would make this easier to
+> follow.
+
+Will split the dispatch and outer strip into a decap helper shared
+with End.M.GTP6.D.Di, with declarations at function top.
+
+> Same missing frag_off check as patch 2.
+
+Will add.
+
+> The "{,.Di}" shell brace notation is unusual. Emitting the actual
+> behavior name (End.M.GTP6.D or End.M.GTP6.D.Di) would be clearer.
+> Same applies wherever this notation appears in the patchset.
+
+Will replace it with the concrete behavior name everywhere.
+
+Thanks,
+Yuya
