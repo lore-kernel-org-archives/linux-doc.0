@@ -1,392 +1,197 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CAC3BBA18
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 15:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E0838CFE8
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 16:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884399; cv=none; b=PwnBlYSaRB+iqgCWyBd7joFzkrCXEHrrKnYD2arD5cI4fIAWoqh0oFh0nr4b1UwTt0Low6cIePqgGNMBjYBX1ET6TBGEuKpehTn0mGW64Ek5CfOpqSWTon4YV4ZUuyTPLqBPps7phM59T8d7rDLGz6ADGFXApkYmisnYKgEWMpA=
+	t=1781885137; cv=none; b=Maj579lCe5ToW/x3u2TJI0L52PN+c8fElZ1y+qfpJ0oEEHJRE4TyjgQy7lEDYZvPsyeteEug9vWQz81kJH1iwrNtjuxGN5o0h7tu16mH+XNdpsrVzy6gddHLmxzMvSNiOrQxtuwVSqNi2ix0nXLPxuBBKTSUQMFjVa0tsc/ky4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884399; c=relaxed/simple;
-	bh=bb+cUcj7HQuwpnFQDNO7rItSBV5fu/hsjtqa7E0WUUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dP0eG7M9LlZrj5VF+dFFPPSDFwScU0qk2JZ8Xci6jhFhiSsNI8rkw9vbtFquj0ZQOUx4araM6Q6HKY0iI4ZRUWgeP4WNciQDTVMRDBLNI1VUjFFdo5lESyxm/zdCXjUuGOzk3NBrfsl3pdbeNt0dXX3Ns83OVuVCGCs/qMP6enE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PkNA05hw; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781885137; c=relaxed/simple;
+	bh=+0nQqVuRMPQjg4Pni4V87Dju+ww99YTd3QIwXeLMiCY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=NElhUpgcESSY6xh9Pgqvi24HXwSjcERHosRBoYimFp3DXHIVbBs9i6YgrVrNI6WAmKWMqA0P6FSpR5OJf+KrSYKNHYSeryOJQz2SpH+HUV/u/d32HukWqkZxWhB0AQpH/PFEo0r7LOuXjk8ihw0g1AvHAII9zZ3p4R2jFhIOBCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=bwy/zWEE; arc=none smtp.client-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PkNA05hw"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so17167605e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 08:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781884391; x=1782489191; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/0CgMpW9yG1iq8S4CDVlww4fITpPQ7sSOHilePzQBMw=;
-        b=PkNA05hwFi9CALCM3FvA9MUdfRVKK2tJt106PYn541LqUwzE+zi2L9lnGEYp0SKLjv
-         La3O8/Z659vMkSNhu2a95t8hnKS/vuClhY8W6Usd+Asky0viJ9R3cr0wZE5dOW08u4wF
-         dIpNwIWzJlDz3WdABf4qWAnjPz493g+5kh/WN1BnNPl1viY1mxAFjWxNWLRNEn7baUx4
-         Fx6m3CqWgS3SCJw/+kuuWpnjH03COBtJVUt2KgMpHh7zBdyRTCV9ubvLlyAk0PZTySGF
-         vNqy2vlh4BSOMWW6z+88uZWOb8gf2skuxOcj27vws3UQyJnqAhNtaDZw28wy4U+eVcwW
-         CPEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781884391; x=1782489191;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/0CgMpW9yG1iq8S4CDVlww4fITpPQ7sSOHilePzQBMw=;
-        b=Yj/a1WWRNMfgOuljZAK6xlnZF1qQJ4kR631I6X5BuqNBM6CAMUqWAfHjEuIwsPW6pw
-         jd3ynBBY+HbR8R1qr5F0MKkyRnWY0jaJXEb/rFnbEjs/saA8FeABsTns5hqkeZwYsh1r
-         0+RBH5m7hTCO0Az6LmXR7esYM6+B2YtHZW2sBaoDWUZDuaH1MtL6QTgE/YtuCRFA132F
-         GmZYfMFFFILaQsaKIkBTw4sy5l3vbSKEDibS0YZUx5ZiQh8Wg2ARKUct5Vka91rYNjf/
-         vN1RyAHTf7HYwCm8z8wIgSahRnXSwacwF3NApylkPNSWrVNOe5l3b4xm60RISX5WCbHs
-         roYg==
-X-Forwarded-Encrypted: i=1; AFNElJ/vA3JdbeO1l8yEywhRb5vw4H00bW7llgz0MgcRu0O/J4K3kJNCLvodyUk+Mvbbpash/nETp0EfKsc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+f+5+bRIoBE2Cj0de/xE/68V/z9NnxF72jhUIuCm3qAcnT0Kz
-	0yp/3CWRydKNWEQpLIOssoP5fDCiMahPFGDMixMLqdMAOrX2jrU2iATb
-X-Gm-Gg: AfdE7cmfrAAEmcUWuqLl1v/kMaTUVFUdMTqYz8/yQa5SfP48BDIMReGhDlbTd9GoNy4
-	gLMFzvjZkIa40f3mM306hofb9xPeocuaS02EmHSSrFC/3zASv5Pv6FDAMsyUgvAs7NfpnXFM/VG
-	cg6d3Sr+TGQD6fpVW3JfmH7ZoxWxAQJ1CV9i/CZypuXpNpd4nmzkp3a79j1lLOiWQKQEwZN4X5g
-	R1N7c6SUeO+PXoy7DU4H39Hz+GhkE0OFAa+d6wIGqHo00KDI419SnI/S5q1NbNq8V5BEyPgP3b8
-	SDMskfSszmIuwv036Wdut8l+CDS2yQ2/0iU0GyD9rXbaYVoIudyMU1cNtiGmpxbQSwOmVmWMCZN
-	H5bt7pvoFFyHkENiM1hCuBu+AmjHNb2B7AI58RCiEwqqX+KyklokBMJqIEdIQCdPoJ/8N2ddiQL
-	VsSyChFmDGRPPuEg0=
-X-Received: by 2002:a05:600c:8b42:b0:490:b724:5085 with SMTP id 5b1f17b1804b1-4923f5944eemr88749815e9.33.1781884390726;
-        Fri, 19 Jun 2026 08:53:10 -0700 (PDT)
-Received: from nsa ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49246403653sm24433175e9.13.2026.06.19.08.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 08:53:10 -0700 (PDT)
-Date: Fri, 19 Jun 2026 16:54:11 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Janani Sunil <jan.sun97@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
-	Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <ajVlD-j0nIGrRVow@nsa>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
- <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
- <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
- <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
- <20260614204455.408c4d40@jic23-huawei>
- <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
- <20260619-obstinate-polo-a230bef97fda@spud>
- <20260619-bunch-diocese-dd7805cc17ff@spud>
- <ajU73_TkKrSbqD4f@nsa>
- <20260619-concierge-doozy-9c161533c369@spud>
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="bwy/zWEE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1781885130;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+0nQqVuRMPQjg4Pni4V87Dju+ww99YTd3QIwXeLMiCY=;
+	b=bwy/zWEEndvfcEw+exaytr7ayZIOp3XU2/leScdgvbijxYuHP3jgfAFr0/7D9NFQ/PvwUD
+	J5n0UDm/RFxQnVjk38ZLzwQ7xpXGaTYe0YQhgZMQPcaBETu8Qx4hMr6yduvTMUCjtPSOzi
+	s/IuAx+zf67etlMu6RtiHnY9jfFjidpt1IY8E+7MVbDkacwjnl1/mPN8kjnDBbIRilFfod
+	DKG0Ob7zqPwUgX4Ls42SBpbhfhvRwTolklAWQeveAjHDiVeBBcFrsS18yiCgbL302r4YD0
+	kkNvf3GzI/V8LiM02D7SV7F/49htLAVQqhfjYiHmQ90qmCdik8RwowlNEauPpQ==
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013001.outbound.protection.outlook.com
+ [40.93.201.1]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ usb-mta-62-xztO_NosMG22vJW1eUHhZw-1; Fri, 19 Jun 2026 09:05:24 -0700
+X-MC-Unique: xztO_NosMG22vJW1eUHhZw-1
+X-Mimecast-MFC-AGG-ID: xztO_NosMG22vJW1eUHhZw_1781885119
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com (2603:10b6:930:b8::20)
+ by DS0PR02MB9151.namprd02.prod.outlook.com (2603:10b6:8:13f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
+ 2026 16:05:15 +0000
+Received: from CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca]) by CYYPR02MB9828.namprd02.prod.outlook.com
+ ([fe80::2767:f7d2:778c:8dca%4]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
+ 16:05:15 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, Parthiban Veerasooran
+	<parthiban.veerasooran@microchip.com>, Richard Cochran
+	<richardcochran@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Jerry Ray <jerry.ray@microchip.com>
+Subject: RE: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
+Thread-Topic: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support for
+ TS2500 MAC-PHY
+Thread-Index: AQHc/B9qR/Obe4EEv0yRbQBFI3q6zrZF73MAgAAi23A=
+Date: Fri, 19 Jun 2026 16:05:15 +0000
+Message-ID: <CYYPR02MB98283966554323E452EFA65583E22@CYYPR02MB9828.namprd02.prod.outlook.com>
+References: <20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com>
+ <20260614-s2500-mac-phy-support-v5-12-89874b72f725@onsemi.com>
+ <ajVKfBKPuNk9zN7b@monoceros>
+In-Reply-To: <ajVKfBKPuNk9zN7b@monoceros>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYYPR02MB9828:EE_|DS0PR02MB9151:EE_
+x-ms-office365-filtering-correlation-id: b23f145f-176b-4f38-c7bf-08dece1c8d25
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|56012099006|11063799006|6133799003|22082099003|18002099003|4143699003|38070700021
+x-microsoft-antispam-message-info: u9ymMLuTSQlOdf5+Cj24mMZkEjqyVfpEjPsgqN7Z+xbGHdd1CrSb2P68rfOwCXOOls+Ba4nVcGkYs0x6iR3d3e6IMlyIOe75yYWv5waW6c05UA3HXQNGdaPLrQTQLpUdXaCDPW0Fxyq/3PCjeJqXPW6M1msjCW0kzUGxdKLrxlbRF07A2huXAyzoYYPaHAEIQgkj1Ntk8qqqQf242LHzkwjZqcxXdxMkTd8bqOS30cpF2QMnqycpz286IY7aIfHSu7eB7vxKrXngbYhsUP9H6WXLUzMfENs/7M4AY2UpdsVIuEgZOl/MvFdw13HArD1cmLrMYqoXu/aukt444rKD4xuu+Guh6CLrRHzSVNeViX+KVAXLONX0c8elK4vr2Af7ipdn0o1IV5EAHAHAMr2krJ+Q8rWfwdmpn9plCIxFlcZOlz4cPP0ddA9SkuO8KEXpjoaSpDKmaJ+GzoW/ubT2Q50Di6f9O4AugaWFcWZG1YmBAB2ZkEbw9xsTCM2JWIJzO0/fcZG3rJeEtNrOO1dU4kEJs5sQMNhJE3D/cixWky8XdnOWRwVjQIaBrgRKMyqyLAzs7WHDvzc619ettX6LCvlvkYR5PZGceD7R9lPVRJa2X22AMrVhIdlJsi9YzYBiaMoZVGBgjccHoNwT9Yq75irI9HStAJIPyB/0sbFxFliaO8auQg+2RW6JzMv1+8NtWXXTV8H+OBJ85yYfyN1NQVcSKTFr2ysrStGUW9LgjWE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR02MB9828.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003)(4143699003)(38070700021);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?VUPeUEAqgJo/+3MxnMbEsLmLeFDPykTB4MACW4j6OphQMTm5T7bsoCY+x9?=
+ =?iso-8859-1?Q?e8bUnOOm65O/OvztUGPZ4Bj6Iz8l4EzKXa2CvvX6anJScWZXrKSXvZ2dGu?=
+ =?iso-8859-1?Q?WMBKzZwVSIfSxVTJ6s8uQPh6RTqi1wcC9RJ7n800fpMXzFQgMuiXXA8r01?=
+ =?iso-8859-1?Q?cR6A33bJpdV1NLUqULC7vrjg3HX2r35/143/Jv0f8hUq8qtTNFl19rKMEX?=
+ =?iso-8859-1?Q?TwsqHPgiWxp+PbUgF/e9wPm1mEptkfZ5KGKn2sDa6vhCuCiUQeZFJT4Dlo?=
+ =?iso-8859-1?Q?3oc+8jZ8S0VoiIb6XBsaaaPEpyn/XqSinLsemcYziUnskxFjBIHeG5VZpA?=
+ =?iso-8859-1?Q?tdOlWjQRckPg+hjO/1oGAmBFti+GOaIZ12O+NTiMZzU4qeLQR3S4bpyTKZ?=
+ =?iso-8859-1?Q?KqgOfHP7eyxN5K7X/e7ML2AbeBx2qo+BNPA0Y8HgDG4W0rN+XK94q+wPPA?=
+ =?iso-8859-1?Q?IlTaERNqv6dDMIV/S7LCzDmAcoy0sdT1YMQ125dJYDt8N0ZPF8R38RL4xl?=
+ =?iso-8859-1?Q?0DH6aYB7350zJQWmIb9Oe3nFvtVUPFzpWQM8otpBNd9gXRfTy6NDVtMIuT?=
+ =?iso-8859-1?Q?wVtjfXzYyoeGIJoAWFf56vxqGJTuSeEeRvpr12fCZATG1KM3jTgTF5lvwM?=
+ =?iso-8859-1?Q?aJaDCkxuW7AIksWp9FklEFNwhb5TKb6fcl00+NN4ppprRrgUHlirW7bsDY?=
+ =?iso-8859-1?Q?SrPtwupRPqwcuacF3l5nAFZRfezZ14hvbeqrZoBxv2paRa6SyQa7i/c5ok?=
+ =?iso-8859-1?Q?mf0O8pYiKTy5VdSQKOOmGxqdCs01FgM0UzfhVHJGbt3yBvtXbHFgLQrpeD?=
+ =?iso-8859-1?Q?OX04DppIVEc8+zTVUlYypTRqPjLjJHpptqY+voOwnvwUZDYv1leZ1aDzd2?=
+ =?iso-8859-1?Q?JjMJEI/rvxnS/ONUynN9vOc7sNl2Kk17YLL5Oqls7jS7HqpIhVMARd3w4A?=
+ =?iso-8859-1?Q?85cqlg0xzJzV8BdIgb5wRjFWWNPT5DV2dFMWApdBU0eXsc/pwIJk/KnCW8?=
+ =?iso-8859-1?Q?dwsOtUhI7r6mpDn8/ALuNf4BNvHlvSbiM6/cSWODx1B1HeIjh6nneiN9NT?=
+ =?iso-8859-1?Q?cSuhH3ij4OQO1pz9zZoiyaFoBxkEbQWu+ROBtQubvEeFkSBbgrBKx1fmsj?=
+ =?iso-8859-1?Q?MkvyfeEZ2UBErOz2ws7+QMDm4STW7pvQhhEBf2wC8JID9bBM4Vu5XDiwlk?=
+ =?iso-8859-1?Q?U6ACgC4owfRYkHy0LOpmKgO2yBxtLnom8iyVd1iryiANvEpwl5zwmSfimU?=
+ =?iso-8859-1?Q?OyTLKuaHTF49UCijtWnZ4klaDxHyvzDvXzqVrToN5LMnQrWKc9No7aKRUH?=
+ =?iso-8859-1?Q?Y+lofIZ7/Qy5SMuOhznI7DctXksrJFDVJ1BtYkonFD0dzRTtOM6KnCzutj?=
+ =?iso-8859-1?Q?+xjCV7M4JCD5wUPMuZKrbNz8hyb0QsRI+iTBYBzwQtjzT/O57BuzNXqOFw?=
+ =?iso-8859-1?Q?tGOvSnDmveeeLhq2QUfTGh8P95sDvw75ScNCcObwhTAaWm9DGhi2Gh7HXn?=
+ =?iso-8859-1?Q?Js74dcWVlCvKL0DRzDrOofTwwv8lCPLFMOAiCQJFim1yJL9qmHZf7jf0cW?=
+ =?iso-8859-1?Q?iZ6pq0wECXUc5RR0M6Fj/l04V/W8zS0G72hHK9NuWTW9S/E/KEyK3GXt3U?=
+ =?iso-8859-1?Q?Q4SOj/E+2JWnJvebtTuDX7UFTBa/d2Ll1+Ndr4FxJZyHnDgOTHYcDyfDuW?=
+ =?iso-8859-1?Q?77whMSLoG8Up7Ma/jgA/ygpmOKSyw6p8P7bjIOpsL8WTkamXnx1UcebDA7?=
+ =?iso-8859-1?Q?WH1gRq/fUZDxx6G5k+/QjYCK4K3gqnM6TETUKvSGOJgmQ073uyho6lWFsA?=
+ =?iso-8859-1?Q?+NZ++69Fxw=3D=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260619-concierge-doozy-9c161533c369@spud>
+X-Exchange-RoutingPolicyChecked: ibPKggffYkec9Zbobr4i/Bmb0fKy0/4jDr8euB5/Nv1TDSvanXw15HsfXcUiPDuyO5W/vGdUBPA7wFkPbwH84htwl2on1tNyvVMM+1gjdm/ZSCC+uEcbtp5DFrzlHYXcwaxxxnYeUNW0O74m3pZRwk0IUft+vMk30IJijYk8vnTiYwTUBkb07D91J/xpqTfokCiIVb/zMnLlWMDgQM273CAhAjrvCTv+xR4xnPwAJBnFscg4ItKDYdd0I7SfRcN14gK8knVfDuu6FdgGnaWgHNXwD27kgBa8qyaixmqMLydyYKOy9eZ04inJZZ2ZlAj4HpPMTJU6TbFkCR7v1/ZBlw==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR02MB9828.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b23f145f-176b-4f38-c7bf-08dece1c8d25
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2026 16:05:15.5100
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7OUuyAcX4hSNLHWUcl4vsAzjAlKnCGhdBnGqkXvrLUXs7zHN7zaDAuRPgVxAjPaANiCKOv4DJRlfcv0U3/cV74R9GvIGBJ32BCm/SAbRsUg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR02MB9151
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: VB4wiXy6_Qn0MdTFskFrfYkoe9NMV8qZFCkB4N3k2Tc_1781885119
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 19, 2026 at 03:12:07PM +0100, Conor Dooley wrote:
-> On Fri, Jun 19, 2026 at 02:01:08PM +0100, Nuno Sá wrote:
-> > On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:
-> > > On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:
-> > > > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:
-> > > > > 
-> > > > > On 6/14/26 21:44, Jonathan Cameron wrote:
-> > > > > > On Tue, 9 Jun 2026 16:47:23 +0200
-> > > > > > Janani Sunil <jan.sun97@gmail.com> wrote:
-> > > > > > 
-> > > > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:
-> > > > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:
-> > > > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
-> > > > > > > > > buffered voltage output digital-to-analog converter (DAC) with an
-> > > > > > > > > integrated precision reference.
-> > > > > > > > ...
-> > > > > > > > Probably others may comment on that, but...
-> > > > > > > > 
-> > > > > > > > This parent node may support device addressing for multi-device support through
-> > > > > > > > those ID pins. I suppose that each device may have its own power supplies or
-> > > > > > > > other resources like the toggle pins or reset and enable.
-> > > > > > > > 
-> > > > > > > > That way I suppose that an example would look like...
-> > > > > > > > > +
-> > > > > > > > > +patternProperties:
-> > > > > > > > > +  "^channel@([0-9]|1[0-5])$":
-> > > > > > > > > +    type: object
-> > > > > > > > > +    description: Child nodes for individual channel configuration
-> > > > > > > > > +
-> > > > > > > > > +    properties:
-> > > > > > > > > +      reg:
-> > > > > > > > > +        description: Channel number.
-> > > > > > > > > +        minimum: 0
-> > > > > > > > > +        maximum: 15
-> > > > > > > > > +
-> > > > > > > > > +      adi,output-range-microvolt:
-> > > > > > > > > +        description: |
-> > > > > > > > > +          Output voltage range for this channel as [min, max] in microvolts.
-> > > > > > > > > +          If not specified, defaults to 0V to 5V range.
-> > > > > > > > > +        oneOf:
-> > > > > > > > > +          - items:
-> > > > > > > > > +              - const: 0
-> > > > > > > > > +              - enum: [5000000, 10000000, 20000000, 40000000]
-> > > > > > > > > +          - items:
-> > > > > > > > > +              - const: -5000000
-> > > > > > > > > +              - const: 5000000
-> > > > > > > > > +          - items:
-> > > > > > > > > +              - const: -10000000
-> > > > > > > > > +              - const: 10000000
-> > > > > > > > > +          - items:
-> > > > > > > > > +              - const: -15000000
-> > > > > > > > > +              - const: 15000000
-> > > > > > > > > +          - items:
-> > > > > > > > > +              - const: -20000000
-> > > > > > > > > +              - const: 20000000
-> > > > > > > > > +
-> > > > > > > > > +    required:
-> > > > > > > > > +      - reg
-> > > > > > > > > +
-> > > > > > > > > +    additionalProperties: false
-> > > > > > > > > +
-> > > > > > > > > +required:
-> > > > > > > > > +  - compatible
-> > > > > > > > > +  - reg
-> > > > > > > > > +  - vdd-supply
-> > > > > > > > > +  - avdd-supply
-> > > > > > > > > +  - hvdd-supply
-> > > > > > > > > +
-> > > > > > > > > +dependencies:
-> > > > > > > > > +  spi-cpha: [ spi-cpol ]
-> > > > > > > > > +  spi-cpol: [ spi-cpha ]
-> > > > > > > > > +
-> > > > > > > > > +allOf:
-> > > > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > > > > > > > > +
-> > > > > > > > > +unevaluatedProperties: false
-> > > > > > > > > +
-> > > > > > > > > +examples:
-> > > > > > > > > +  - |
-> > > > > > > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > > > > > > +
-> > > > > > > > > +    spi {
-> > > > > > > > > +        #address-cells = <1>;
-> > > > > > > > > +        #size-cells = <0>;
-> > > > > > > > > +
-> > > > > > > > > +        dac@0 {
-> > > > > > > > > +            compatible = "adi,ad5529r-16";
-> > > > > > > > > +            reg = <0>;
-> > > > > > > > > +            spi-max-frequency = <25000000>;
-> > > > > > > > > +
-> > > > > > > > > +            vdd-supply = <&vdd_regulator>;
-> > > > > > > > > +            avdd-supply = <&avdd_regulator>;
-> > > > > > > > > +            hvdd-supply = <&hvdd_regulator>;
-> > > > > > > > > +            hvss-supply = <&hvss_regulator>;
-> > > > > > > > > +
-> > > > > > > > > +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
-> > > > > > > > > +
-> > > > > > > > > +            #address-cells = <1>;
-> > > > > > > > > +            #size-cells = <0>;
-> > > > > > > > > +
-> > > > > > > > > +            channel@0 {
-> > > > > > > > > +                reg = <0>;
-> > > > > > > > > +                adi,output-range-microvolt = <0 5000000>;
-> > > > > > > > > +            };
-> > > > > > > > > +
-> > > > > > > > > +            channel@1 {
-> > > > > > > > > +                reg = <1>;
-> > > > > > > > > +                adi,output-range-microvolt = <(-10000000) 10000000>;
-> > > > > > > > > +            };
-> > > > > > > > > +
-> > > > > > > > > +            channel@2 {
-> > > > > > > > > +                reg = <2>;
-> > > > > > > > > +                adi,output-range-microvolt = <0 40000000>;
-> > > > > > > > > +            };
-> > > > > > > > > +        };
-> > > > > > > > > +    };
-> > > > > > > > ...
-> > > > > > > > 
-> > > > > > > > 	spi {
-> > > > > > > > 		#address-cells = <1>;
-> > > > > > > > 		#size-cells = <0>;
-> > > > > > > > 
-> > > > > > > > 		multi-dac@0 {
-> > > > > > > > 			compatible = "adi,ad5529r-16";
-> > > > > > > > 			reg = <0>;
-> > > > > > > > 			spi-max-frequency = <25000000>;
-> > > > > > > > 
-> > > > > > > > 			#address-cells = <1>;
-> > > > > > > > 			#size-cells = <0>;
-> > > > > > > > 
-> > > > > > > > 			dac@0 {
-> > > > > > > > 				reg = <0>;
-> > > > > > > > 				vdd-supply = <&vdd_regulator>;
-> > > > > > > > 				avdd-supply = <&avdd_regulator>;
-> > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
-> > > > > > > > 				hvss-supply = <&hvss_regulator>;
-> > > > > > > > 
-> > > > > > > > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
-> > > > > > > > 
-> > > > > > > > 				#address-cells = <1>;
-> > > > > > > > 				#size-cells = <0>;
-> > > > > > > > 
-> > > > > > > > 				channel@0 {
-> > > > > > > > 					reg = <0>;
-> > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
-> > > > > > > > 				};
-> > > > > > > > 
-> > > > > > > > 				channel@1 {
-> > > > > > > > 					reg = <1>;
-> > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
-> > > > > > > > 				};
-> > > > > > > > 
-> > > > > > > > 				channel@2 {
-> > > > > > > > 					reg = <2>;
-> > > > > > > > 					adi,output-range-microvolt = <0 40000000>;
-> > > > > > > > 				};
-> > > > > > > > 			}
-> > > > > > > > 
-> > > > > > > > 			dac@1 {
-> > > > > > > > 				reg = <1>;
-> > > > > > > > 				vdd-supply = <&vdd_regulator>;
-> > > > > > > > 				avdd-supply = <&avdd_regulator>;
-> > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
-> > > > > > > > 				hvss-supply = <&hvss_regulator>;
-> > > > > > > > 
-> > > > > > > > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
-> > > > > > > > 
-> > > > > > > > 				#address-cells = <1>;
-> > > > > > > > 				#size-cells = <0>;
-> > > > > > > > 
-> > > > > > > > 				channel@0 {
-> > > > > > > > 					reg = <0>;
-> > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
-> > > > > > > > 				};
-> > > > > > > > 
-> > > > > > > > 				channel@1 {
-> > > > > > > > 					reg = <1>;
-> > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
-> > > > > > > > 				};
-> > > > > > > > 			}
-> > > > > > > > 		};
-> > > > > > > > 	};
-> > > > > > > > 
-> > > > > > > > then you might need something like:
-> > > > > > > > 
-> > > > > > > > 	patternProperties:
-> > > > > > > > 		"^dac@[0-3]$":
-> > > > > > > > 
-> > > > > > > > and put most of the things under this node pattern.
-> > > > > > > > 
-> > > > > > > > So the main driver that you're putting together might need to handle up to four instances.
-> > > > > > > > Even if your current driver cannot handle this, the dt-bindings might need cover that.
-> > > > > > > > 
-> > > > > > > > Need to double check if each dac node needs a separate compatible, so you would maybe populate
-> > > > > > > > a platform data to be shared with the child nodes, which would be a separate driver.
-> > > > > > > > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).
-> > > > > > > Hi Rodrigo,
-> > > > > > > 
-> > > > > > > Thank you for looking at this.
-> > > > > > > 
-> > > > > > > For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
-> > > > > > > hardware/use case we have only needs one device node and the driver is written around that model as well.
-> > > > > > > While the device addressing pins could allow multi-device topology, we do not have an actual platform using
-> > > > > > > that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
-> > > > > > > speculatively without a validating use case.
-> > > > > > Interesting feature - kind of similar to address control on a typical i2c bus device, or
-> > > > > > looking at it another way a kind of distributed SPI mux.
-> > > > > > 
-> > > > > > Challenge of a binding is we need to anticipate the future.  So I think we do need something
-> > > > > > like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
-> > > > > > That would leave the path open to supporting the addressing at a later date.
-> > > > > > An alternative might be to look at it like a chained device setup. In those we pretend there
-> > > > > > is just one device with a lot of channels etc.  The snag is that here things are more loosely
-> > > > > > coupled whereas for those devices it tends to be you have to read / write the same register
-> > > > > > in all devices in the chain as one big SPI message.
-> > > > > > 
-> > > > > > +CC Mark Brown as he may know of some precedence for this feature. For his reference..
-> > > > > > - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
-> > > > > > value that matches that or they are ignored.  Thus a single bus + 1 chip select can
-> > > > > > be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
-> > > > > > longer term how to support it cleanly in SPI.
-> > > > 
-> > > > I'd swear I have seen this before, from some Microchip devices. Let me
-> > > > see if I can find what I am thinking of...
-> > > 
-> > > 
-> > > microchip,mcp3911 and microchip,mcp3564 both seem to do this with
-> > > slightly different properties.
-> > > 
-> > >   microchip,device-addr:
-> > >     description: Device address when multiple MCP3911 chips are present on the same SPI bus.
-> > >     $ref: /schemas/types.yaml#/definitions/uint32
-> > >     enum: [0, 1, 2, 3]
-> > >     default: 0
-> > > 
-> > > and
-> > > 
-> > > 
-> > >   microchip,hw-device-address:
-> > >     $ref: /schemas/types.yaml#/definitions/uint32
-> > >     minimum: 0
-> > >     maximum: 3
-> > >     description:
-> > >       The address is set on a per-device basis by fuses in the factory,
-> > >       configured on request. If not requested, the fuses are set for 0x1.
-> > >       The device address is part of the device markings to avoid
-> > >       potential confusion. This address is coded on two bits, so four possible
-> > >       addresses are available when multiple devices are present on the same
-> > >       SPI bus with only one Chip Select line for all devices.
-> > >       Each device communication starts by a CS falling edge, followed by the
-> > >       clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
-> > >       which is first one on the wire).
-> > > 
-> > > This sounds exactly like the sort of feature that you're dealing with
-> > > here?
-> > > 
-> > 
-> > The core idea yes but for this chip, things are a bit more annoying (but
-> > Janani can correct me if I'm wrong). Here, each device can, in theory,
-> > have it's own supplies, pins and at the very least, channels with maybe
-> > different scales. That is why Janani is proposing dac nodes. Given I
-> > honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
-> > about solving this at the spi level.
-> > 
-> > Ah and to make it more annoying, we can also mix 12 and 16 bits variants
-> > together in the same bus.
-> 
-> I'm definitely missing something, because that property for the
-> microchip devices is not impacted what else is on the bus. AFAICT, you
-> could have an mcp3911 and an mcp3564 on the same bus even though both
-> are completely different devices with different drivers. They have
-> individual device nodes and their own supplies etc etc. These aren't
-> per-channel properties on an adc or dac, they're per child device on a
-> spi bus.
 
-Maybe I'm the one missing something :). IIRC, spi would not allow two
-devices on the same CS right? Because for this chip we would need
-something like:
+Thanks for your feedback. Will take care of all the three comments.
 
-spi {
-	dac@0 {
-		reg = <0>;
-		adi,pin-id = <0>;
-	};
-
-	dac@1 {
-		reg = <0>; // which seems already problematic?
-		adi,pin-id <1>;
-	};
-
-	...
-
-	//up to 4
-};
-
-- Nuno Sá
+> -----Original Message-----
+> Subject: Re: [PATCH net-next v5 12/15] onsemi: s2500: Add driver support =
+for TS2500
+> MAC-PHY
+>=20
+> On Sun, Jun 14, 2026 at 10:00:28AM -0700, Selvamani Rajagopal via B4 Rela=
+y wrote:
+> > +static const struct of_device_id s2500_of_match[] =3D {
+> > +=09{ .compatible =3D "onnn,s2500" },
+> > +=09{}
+>=20
+> s/{}/{ }/
+>=20
+> > +};
+> > +
+> > +static const struct spi_device_id s2500_ids[] =3D {
+> > +=09{ "s2500" },
+> > +=09{}
+> > +};
+>=20
+> Please make this:
+>=20
+> static const struct spi_device_id s2500_ids[] =3D {
+> =09{ .name =3D "s2500" },
+> =09{ }
+> };
+>=20
+> > +MODULE_DEVICE_TABLE(spi, s2500_ids);
+> > +
+> > +static struct spi_driver s2500_driver =3D {
+> > +=09.driver =3D {
+> > +=09=09.name=09=3D DRV_NAME,
+> > +=09=09.of_match_table =3D s2500_of_match,
+> > +=09},
+> > +=09.probe=09=09=3D s2500_probe,
+> > +=09.remove=09=09=3D s2500_remove,
+> > +=09.id_table=09=3D s2500_ids,
+>=20
+> Tastes are different, but the idea to align =3D is usually screwed by
+> follow up patches. Here it's broken from the start. If you ask me: Use a
+> single space before each =3D.
+>=20
+> > +};
+> > +
+> > +module_spi_driver(s2500_driver);
+>=20
+> Usually there is no empty line between the driver struct and the macro
+> registering it.
+>=20
+>>=20
+> Best regards
+> Uwe
 
