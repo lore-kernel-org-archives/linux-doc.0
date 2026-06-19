@@ -1,100 +1,201 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F973B7B84;
-	Fri, 19 Jun 2026 16:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8641FA859;
+	Fri, 19 Jun 2026 16:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781885841; cv=none; b=kPkebuuugqRPgBPaoC163rWAujFm8dJmbeOo7vEP9Khbfktc39Z9wrjF4IL4wqOTCSoYIRywMhjtYa8Bp4i6sun0a0FQ5fTeAhf6I4LQnTsor3vniKaha1n8dlqsi59sJCOLJHwWSxTMTPWFkTAzJdKjVb+cjitlfQOlqiwYDOM=
+	t=1781886306; cv=none; b=hjecI/P1C8Arrs4oV2b/zBzZYd0jRspDfu1Y2SZAayRl9tGee2Rp/QmrqdoyynTeIUUZPjuPFCHezuQozSPEzyc0NQlDfNuL5Y7bUu8KMMBfYNUQikMWmGbMrwcAQAgA+7mVIBLolHs3gmupibtEzs/xWLE8+DgkpNqlgSfryyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781885841; c=relaxed/simple;
-	bh=Hez/6THJzlNXGiz/OjgNp3YP/wptBZbyvAYu93ZLYJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SKVG3WIGtdnupFfiqnfbK+JkDAofctq980eHO1AeVk9w1F1P9MRmdCVQgpKDkOxqsLhVpAPftpbQQRIJWHsOUHrlZX0WcsFr0T8jYXo7HVifsgUp49d4UHX5SjHJrb2B5BVm5QadXRjdKv7EqhngFRpAB1xCbT3oXXrfM4H9eYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FbFcWs3f; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1781886306; c=relaxed/simple;
+	bh=0R25ISdpc+AAKuQJQAHUFKomgtbaxc7SSl/fsBbkLEs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=e+bu73OKR3umS5rETRYgoXyVEa/QNBmL5Y6caQJitpTQ2v6TAYxceb8KSEFQ/UrbKoH+Gfw1eszjVNM2R3GlAzX6AMYGo1v0bi003V/R6X9tBwMZEwcAZa2raeB99vbmjBiYyWjpnx4K8qlQqVFLtKN0xD8hPFekYB9zEcHTdg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jY8Egj58; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FbFcWs3f"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EE47740E00C0;
-	Fri, 19 Jun 2026 16:17:11 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id CsVRI4SkSUaf; Fri, 19 Jun 2026 16:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1781885822; bh=0NbenZSMXYebM0Gsy498bp9VLyj7xrVg223GYzgur9k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FbFcWs3fCT+DOLcODMx5M/yVEJZdNzuoawHCl1GWlb3q3WvRGXUm2KvJlevmVFMZL
-	 tL7TxH01Onso0WohYbvzLPMCSl3kTfxO8eTfAuqQWLSUmKOsg59gM/uJ9N+9mzGRx3
-	 ksfljx+eViwR7yB+f8OJPGScVVl0B+o0ZvXnRvz9cFoGlPWVEbe7PSIoVZTgBF/xPj
-	 BmocnXhL2JHAfEwTYTKeuD9tYymxd4meODFtB5D1PEO9534K4APooZhOp4Vsmhh7ev
-	 yp3W5t2X/r8mgSvP4y/3EwCEYoQRRMY9Ct39i7czoHxBsc4EJb9WKVFo+bhdteAgk4
-	 Hd0X+oD4Y6sZ5/J6pQ1l9Oabw/FHU0dYcesErG4rN5NsqBfJMX8ufJj8N9h1+Fe/aE
-	 u4JU/HO+Z41xW3uIROhBROSJm+RKgPMvJxus0Jg0+hjWUzGd26c5EAYyGhcmqoqcPS
-	 FI883ZndyvWyfSx7ng6dWWD+cQbLFTCFcwjEu8zwIX7/i90FBcNkHSjxNNiLCnIuMv
-	 KuW5+QNqhlqLngdHCvwu0ovDm2BOs4WctgZ6SG/HZcuhSdILDLj/AOPjYHikvu54Nu
-	 lM9/oDOH2UZ1tSifvg2PzGpMItuQLQNHyEK9NaZjs4deQdg7LSMdaeelOMnhflahLp
-	 FD6yNSBYpTKHOXq5Q4fVdj/I=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 35D8140E0140;
-	Fri, 19 Jun 2026 16:16:33 +0000 (UTC)
-Date: Fri, 19 Jun 2026 09:16:30 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
-	Saket Dumbre <saket.dumbre@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Dan Williams <djbw@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
-Subject: Re: [PATCH v6 00/10] ACPI: APEI: share GHES CPER helpers and add DT
- FFH provider
-Message-ID: <20260619161630.GAajVrXuZ3XWvK83G7@fat_crate.local>
-References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
- <20260618164807.GAajQhR9J_00j4LxaC@fat_crate.local>
- <eccbf574-a145-47af-889b-ca6dd80f98f2@arm.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jY8Egj58"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A99E91A3A21;
+	Fri, 19 Jun 2026 16:25:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6D0F4601AD;
+	Fri, 19 Jun 2026 16:25:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08E5B106C81BC;
+	Fri, 19 Jun 2026 18:24:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1781886299; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Xrx5VoO25eYm5EH6Wc6vNdgK+6vpuoEcmvN4eX6Cvok=;
+	b=jY8Egj58zUWOmsPwj9vynk2NQy9hCh/a+LGJvBDk3DqRfyL+FJQIuyDJQRRohvDhOBXcnW
+	//AvVJmy/V7tylN+21mDLl593BLUfcG3dz090WmD7UcN98JIRVRLQ/m5l7+EC2wkNUXoNu
+	OY3r/fPM8V0Ey5z04hzY+MHXR+FXcsckzsiV8jrezwluFXHT8MZBukmQNizYV+LllFdQFg
+	Nq8mjjsoK8DWc4IXuaLUWlBpL/WCM0pLIK5BmeG/ZousyZJb+/ny8SsYGoB3m1Nbz1HyNz
+	3bGNW8rAc8osqfVrmerKyh25ch/VkV9XZdD23tG58EnuIwQFtxnCNKSDDWhrYg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <eccbf574-a145-47af-889b-ca6dd80f98f2@arm.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 19 Jun 2026 18:24:46 +0200
+Message-Id: <DJD5YZ2K1047.3UJ5QMMLQO6UY@bootlin.com>
+Subject: Re: [PATCH v6 15/19] drm/connector: Add new atomic_create_state
+ callback
+Cc: <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Daniel Stone" <daniels@collabora.com>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ "Laurent Pinchart" <laurent.pinchart+renesas@ideasonboard.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Jyri Sarha" <jyri.sarha@iki.fi>,
+ "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Simon Ser"
+ <contact@emersion.fr>, "Harry Wentland" <harry.wentland@amd.com>, "Melissa
+ Wen" <mwen@igalia.com>, "Sebastian Wick" <sebastian.wick@redhat.com>, "Alex
+ Hung" <alex.hung@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Samuel Holland" <samuel@sholland.org>,
+ "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Raspberry Pi Kernel
+ Maintenance" <kernel-list@raspberrypi.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.21.0
+References: <20260526-drm-mode-config-init-v6-0-852346394200@kernel.org>
+ <20260526-drm-mode-config-init-v6-15-852346394200@kernel.org>
+In-Reply-To: <20260526-drm-mode-config-init-v6-15-852346394200@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Jun 19, 2026 at 04:41:40PM +0100, Ahmed Tiba wrote:
-> I will address the issues introduced by this series. Pre-existing
-> behaviour is carried forward unchanged.
+Hello Maxime, Dmitry, all,
 
-So you carve out that code, you use it for your use case while *knowing* there
-are preexisting bugs. Wonderful.
+On Tue May 26, 2026 at 6:46 PM CEST, Maxime Ripard wrote:
+> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
+> to drm_private_obj") introduced a new pattern for allocating drm object
+> states.
+>
+> Instead of relying on the reset() callback, it created a new
+> atomic_create_state hook. This is helpful because reset is a bit
+> overloaded: it's used to create the initial software state, reset it,
+> but also reset the hardware.
+>
+> It can also be used either at probe time, to create the initial state
+> and possibly reset the hardware to an expected default, but also during
+> suspend/resume.
+>
+> Both these cases come with different expectations too: during the
+> initialization, we want to initialize all states, but during
+> suspend/resume, drm_private_states for example are expected to be kept
+> around.
+>
+> reset() also isn't fallible, which makes it harder to handle
+> initialization errors properly. This is only really relevant for some
+> drivers though, since all the helpers for reset only create a new
+> state, and don't touch the hardware at all.
+>
+> It was thus decided to create a new hook that would allocate and
+> initialize a pristine state without any side effect:
+> atomic_create_state to untangle a bit some of it, and to separate the
+> initialization with the actual reset one might need during a
+> suspend/resume.
+>
+> Continue the transition to the new pattern with connectors.
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Sorry, first bug fixes then features.
+As I'm rebasing another series on current drm-misc-next, which now includes
+this patch, I ran into troubles and I'm not sure what is the right thing to
+do. I hope you can help me clarify this. See below for my question.
 
--- 
-Regards/Gruss,
-    Boris.
+FTR the series I'm rebasing is "drm bridge hotplug", but the question is
+not specific to that series.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -616,11 +616,19 @@ int drmm_connector_hdmi_init(struct drm_device *dev=
+,
+>
+>  	/*
+>  	 * drm_connector_attach_max_bpc_property() requires the
+>  	 * connector to have a state.
+>  	 */
+> -	if (connector->funcs->reset)
+> +	if (connector->funcs->atomic_create_state) {
+> +		struct drm_connector_state *state;
+> +
+> +		state =3D connector->funcs->atomic_create_state(connector);
+> +		if (IS_ERR(state))
+> +			return PTR_ERR(state);
+> +
+> +		connector->state =3D state;
+> +	} else if (connector->funcs->reset)
+>  		connector->funcs->reset(connector);
+
+Here a state is added to connector->state, and that's fine.
+
+However non-HDMI connectors don't get a state created by default.
+
+I was hit by this with the drm_bridge_connector which it can add either an
+HDMI or a non-HDMI connector [0]. In the former case it calls
+drmm_connector_hdmi_init(), which creates the state (in the hunk quoted
+above). In the latter case, as I experienced at runtime and confirmed by
+code inspection, it does not create a state: no one calls
+connector->funcs->atomic_create_state.
+
+I suspect this is related to patch 19/19 which converted the
+drm_bridge_connector from drm_atomic_helper_connector_reset() to
+drm_atomic_helper_connector_create_state(), and only the former sets
+'connector->state =3D conn_state'.
+
+Generally speaking, looks like a state is created only for HDMI
+connectors.
+
+The hardware I have uses the drm_bridge_connector in the non-HDMI case, so
+the state is not created and this results in a NULL pointer deref later on,
+in my case it's in in drm_atomic_connector_get_property().
+
+Am I missing anything obvious?
+
+For now I've come up with a quick workaround, adding (roughly after
+connector init at [1]):
+
+        if (!connector->state)
+                connector->state =3D drm_bridge_connector_create_state(conn=
+ector);
+
+I'm not sure which would be the best solution. Maybe taking the whole
+atomic_create_state/reset state creation calls [2] from
+drmm_connector_hdmi_init() and hoist them up into
+drmm_connector_init(), so all connectors benefit?
+
+Let me know what you think.
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
+2e02c392b35fdcefa4d5030/drivers/gpu/drm/display/drm_bridge_connector.c#L995=
+-1029
+[1] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
+2e02c392b35fdcefa4d5030/drivers/gpu/drm/display/drm_bridge_connector.c#L103=
+0
+[2] https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/7a921d11181065267=
+2e02c392b35fdcefa4d5030/drivers/gpu/drm/drm_connector.c#L617-631
+
+Kind regards,
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
