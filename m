@@ -1,365 +1,182 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013046.outbound.protection.outlook.com [52.101.72.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053BD3624DB
-	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 09:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781861157; cv=pass; b=WUndbzUj3gyAexVbn+YlvNbqrd/zdcY2G9QRJXshG8hSVjCjj+MKX+0x79MDrYc+SYPYf6evxhYCz6tj008pCu5eCjYcatmRM9VgQ6imcR0og4WIsV6Pv3UzsGIoU0/KhOwKzHB6KKSdlPqd3dV9Zq9lo9VZV+OFsajVDgEwH60=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781861157; c=relaxed/simple;
-	bh=y43IQfs1i1le1AIroVpz9/oDYT7obWLVd6/WXo6ERP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PQWkrIsW75WshgWSWi61kMmWSduBgZGzsnbdjgf0t4AvWVOriBbH9wmyXnnxBlwg6bHKE/PNKEajlLNu+yGdSzX5z5/tJX3AWhayeEEpb0ClNCGgUcQphUH0QVUEML0tokyOOUc9yTbvdbl8RGQ1HCPA9cclfuQHEnOQuPx7/Y0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L46S/jwI; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05AB43655CC;
+	Fri, 19 Jun 2026 09:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.46
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781861476; cv=fail; b=bEx77sHeUNnXFMIVsisYhRLa6qe1hiGNXCcRjqTW+2+cXAXAQyd0kdgLidrlBOr0rl8gVt9u/8Y0NfAtgXA/stlTBBT+4nxJ2cukSrFmoLTSj7BjaIUp6uJSKjaLuYQXd5SN5spgjDbWU6tdzIWLFEosZVW+NIvFeDTKq6+agBg=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781861476; c=relaxed/simple;
+	bh=2spitZ1GBUr0pQ4u9XFWqvkAI9tzx3cOa/+PgShS6gM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=D6kzy9NVjvhC0fG4GhgzPRYjV53zCw88g+JFRfntYmT9Wj4RlApwxUwa62AHXUyYAkoZgxuozmC3NvzgX4aLjRmBjDUGb64uM9tKafzFrPfJU9PmUdsYVqd3Gz0NX5g9NgVbXAnKgeUviPN7ZoSLqYGkQmz3tKjoQQJB741v30A=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=AvoWalXh; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=AvoWalXh; arc=fail smtp.client-ip=52.101.72.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L46S/jwI"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5177d1ff061so129101cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 02:25:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781861153; cv=none;
-        d=google.com; s=arc-20260327;
-        b=k2ytf9WSNoWWf0OAPEwIv6r540x0RciLu7NvU+fvk5YjOjX3E1fOJ3QnY48+CDD4TN
-         8hfONkBE8U5OSeETX5Ey+wafOx2ANa2vW3yF7FBxNglMzqRgxVC7/gzmHVuOkjuwgbRC
-         AIck7rj9Hi8Da+V3i8q1WrJqZcHI1wXaB9PzZ9oIgGkgfXyYx9VGuMGbaaYKYoAo/fxE
-         XGpxtcn6cHs/2dPltyNQp14yyFXpOwbfUvDjki7D0tPFF3pSsmzhJzAYk2mL4N3kcjL8
-         jIRDlsCMH9w3QUbKACD3l74BlbBpSFMXILSzf88YPmxctTb3zJV9tQtTFA0Kr/3S0JSP
-         ywtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=urVcLx5BPkCCi6p3vFYGwMdjBtbKpYO1ZXkEN7UqG9M=;
-        fh=zSajkGuC9dj7GW5EnS3QUGR5CPJXwwJpIeIr1quHxJo=;
-        b=jrPy6paBTIM6x8GoujTbtregUw3kve37EVg359IdEi2agIkomMgWDDOTkTLE8M7HY9
-         8LovozHEmlZtnkjD4hpON+A3ya/9KEv9ql8EvnLsMgHOGL2wbWEjVqlCkp+PDMz07w4q
-         16wtu/sfYjhi2V5gLyJhfdbEdF78PcncVWAa/6a/DeefzOpLGqnXAbt9W59qmxxTrbDz
-         aK/QdykKHm+v/uHuI3V/nsaW4zhlSeHpxe0ENnfV2tHNzMZTEqrSnxZXtYyDb7rDp49U
-         YK49TZ5pOV/wke3HtZMrrMDQGReI3idG4lb4cnu270+wjmsf+C9GibQe+1KkgAIyyINe
-         CsJQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781861153; x=1782465953; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=urVcLx5BPkCCi6p3vFYGwMdjBtbKpYO1ZXkEN7UqG9M=;
-        b=L46S/jwIVZRxzygAip/YSspQxb4IBXPlUh4UlDLFM1x0BxCH20Bwkb2xPlbmLnbNIg
-         t0ssEdQ1SyCGldE08tgNU0lZR8L5bmFEsnDiyknfZxRZEGBaFTQxAiw4OHZTdWfG+A4x
-         XfYA8GIC4Feq56obqCdccyJM73XDcEDb3fpR1rCF84DHn6pjuicZ6J6B5jjnvGmgcm9t
-         9EPYC+ovxzrBgbRPgXrdnjfwfM2UI4ScX/8hyT/kfhrKkRICDI1E4eOw20+3UIR9qRf/
-         3kDqhlBF+m8J16dO6MId+gO5ZOtvAP6C8QVp1+QmViNFU97SEJdLaAE/fempUBAvsQQ/
-         uAyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781861153; x=1782465953;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=urVcLx5BPkCCi6p3vFYGwMdjBtbKpYO1ZXkEN7UqG9M=;
-        b=l7Jzrv2oQ6ggfQtdiksiKtx8X8yxsIqk5p3SuDsLakS8N6Y1F6I8ahJij92HWSQShw
-         i+Tt8AAEFH5wwzIsx4yOvbGPzA2uarb+3LuvL/sYYxHZ/MMXyLhfPdpqHj8YvyQFr7dG
-         qjjX/Ro80ZrMm7+ayw9SxzszlJOLUWLHDvhForYc7diiEFu9iHxxWbhknaJH2nyNg4qm
-         /NIlyjg80OKBq4OehVM/O5QuHHFRmAVjl4R2U6wrGr3FKttoI+DpI64gahzdEwAWwX5Q
-         N+Ip0XOM6Jy9tV8zO4igJguLiFNy1Xd7GLvNAwdq90V9ruziCJrHnRhy84rQxN6SXFRs
-         9uFQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/7w1t+Gz7li54aCDJi5G3iSBqSSXbLQAQrnAxOG4mYKAlqpVWqkAi4P7vPgUZjF2T8VnShVBginYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfA83xjwRp3yOQ/Vb8VRSPNXXYig1gPbNShgTTGlaSHKwZNyQR
-	2BvRwY8TIUnWp4KoUWCV6fV0qbxzygH+cjxTjrRuH2rGUse20+HnWTY84CPaIfthq+05I7ZOM58
-	FJQL95e5cwjAYTu8JZamDvtsA6fBCF1fhY3WfLyzd
-X-Gm-Gg: AfdE7cnBv8+h3+WqxqaWYggaDM7NMlafv8rnJ5X6t933rsTGCLF2k7lOg7lgWQixux4
-	dKcQvlandDL3jqplT8v2dR+U2Vhe+gvlAERxXQzQHh22cMUdqxZQU0bJh0si+uibL08G5XM53iA
-	+HC6Z+hyDdKmK6lRirXMoCs32IMkKGHgpoKzES8lY1HCpmx9fWuzHBvlyoHTR0LR5+FUeJ6noIW
-	PMjSb0RHTRCm1aolG0uKXKye8DS7l92ibikW1uVFNDn+onJt/YGn7LBcG0hJISESwAnOgebBA==
-X-Received: by 2002:a05:622a:4186:b0:516:4f62:85eb with SMTP id
- d75a77b69052e-519e4a74a8emr7841591cf.22.1781861152102; Fri, 19 Jun 2026
- 02:25:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="AvoWalXh";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="AvoWalXh"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=mrpIWcwx099LdbgOePsob5LCOYJM2q6ur0Difym1Nze6eSsEchbvlpgWD9iz8u74f/aj0El7LHqdCppXHzo+DZsEtA/owdUYs7k4zSFUl8h5c3JYzu0gQ6uVAw5Wui2beXOyy1+2rZy0lnno5KDCfXkztXNSQbFiqM1MxKSQz8kl+a0Gy+A7zMXCIXCxbqtPaaZ6enNwQqXpZp0MiE34hMnFe5eC90crjhDZ1hUPf+oDHGTqZRlRKyn1HmV2SOWN+qHZp2msHYBuaJjLDuhKI8MJbt9pblp5VOjc51mEBrnLvbpODww0g4Ln1PAUuT25meymkFEmzdSFTvds1ILFgQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2spitZ1GBUr0pQ4u9XFWqvkAI9tzx3cOa/+PgShS6gM=;
+ b=qV23b0GTom56uPZ1E0jfRUBtcSso748F+dubaoXMyRoynygsx9Jloax7yoEoC+K6U6JoYojn2xSq3lWDZXAaj47lH07BrprRaEAUf6EqQm37WKGoryygyFNhUniWFJZwJIp7sGec26FvaIVwyhSNmIASDHHpairOD8J9MZwl1ZIY91i/j+VjKSuw2ZjJTq0YT9yYASgMGec/K6qg12H3gNxJVJDy6asJvhQMRSPJ9L3nLYpty/S7ysZ4TmXfW6Y1Rv7ELVfPC/Xaixqq8kN25A+0kmFsOn7wV+1wJYZp6QTo5z6BAid3gCRZVC/T+j/6hXk7kSMngb6TFaeA+f13+Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=linaro.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2spitZ1GBUr0pQ4u9XFWqvkAI9tzx3cOa/+PgShS6gM=;
+ b=AvoWalXhrYMsYbZW+ZL5lKtlpH54Vu4a6KidxDubiYEb7+1t578Nm0QdlPAdw+otpolExFEQcTGtKr1sc+2mxi9jtWV9NUBsrR+8d7q3fmpYJmlkPEtAwL/1ixyxwwvc39BdEY7AweSSSx9Ir1uBJS7l+XFAMMfeYNsAAaBnyIU=
+Received: from AS9PR06CA0478.eurprd06.prod.outlook.com (2603:10a6:20b:49a::33)
+ by GVXPR08MB11182.eurprd08.prod.outlook.com (2603:10a6:150:1f7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Fri, 19 Jun
+ 2026 09:31:02 +0000
+Received: from AM4PEPF00027A64.eurprd04.prod.outlook.com
+ (2603:10a6:20b:49a:cafe::68) by AS9PR06CA0478.outlook.office365.com
+ (2603:10a6:20b:49a::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.13 via Frontend Transport; Fri,
+ 19 Jun 2026 09:31:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM4PEPF00027A64.mail.protection.outlook.com (10.167.16.75) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.8
+ via Frontend Transport; Fri, 19 Jun 2026 09:31:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kKKThKQTv2S5iBAjAo/HKLqJ9hG+SROsfNsAt8Cxjp0wgzPqWvlRANCRoyXTgY8yXxYUnAgBysPHzq125jHREwWi2XmdshlFtPL44kRvZFzYhmxV5JhEthteU+ggnHvNUNn3/kSpSb8WEDWD3tctivMB9WIbBlwNv3Kvst4oFH4IROCdpcz4rpGwBZ1vIroRqUe2GHOAXBiHgoDrrYpadXxDzwQn96pdHj+ZYfK+ASFsbvCM7gMF8EU7GcqDZ5LPlDsBpXN+5brubdiyHLs7SODpiYSc6ZTQAtsRVxsxrwJb14JfgdFZf4S/nnL6oi3AarYuUlFsea3t4lXUqhkbpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2spitZ1GBUr0pQ4u9XFWqvkAI9tzx3cOa/+PgShS6gM=;
+ b=FEL+fSPExJKnm7LjGlBd0cmqaTMUCPz2yzLYhDtUGFw6Dbzn5g9x5ud87ZH68odbBCg7oSr/zUdSOcxcDvKwvSz8zoazxzwqQE1Od3ukW2j6TcoWq+E404K8s5x4DswYEeLequLGWoulwUEbbqVRv2DBG6A1cspLxwa1Nu34t85/osXIsO8x0fegjRgVbjKU+T41bEbamBqsN52E3dsU912kxr9FCEvwyr/CLBuxivHh5cR69v0b5utS4iv2bdGYsEi+A5mOdLoOUrMFbks/lWIG74I1vqe7MuXrqpTHxyq2K+F/hFe/JicWMffcnL9O8uwooPgi1EuTEm9I64wMoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2spitZ1GBUr0pQ4u9XFWqvkAI9tzx3cOa/+PgShS6gM=;
+ b=AvoWalXhrYMsYbZW+ZL5lKtlpH54Vu4a6KidxDubiYEb7+1t578Nm0QdlPAdw+otpolExFEQcTGtKr1sc+2mxi9jtWV9NUBsrR+8d7q3fmpYJmlkPEtAwL/1ixyxwwvc39BdEY7AweSSSx9Ir1uBJS7l+XFAMMfeYNsAAaBnyIU=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB10391.eurprd08.prod.outlook.com (2603:10a6:800:20c::6)
+ by PAVPR08MB8919.eurprd08.prod.outlook.com (2603:10a6:102:324::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Fri, 19 Jun
+ 2026 09:29:55 +0000
+Received: from VI0PR08MB10391.eurprd08.prod.outlook.com
+ ([fe80::fa6b:9ba8:5c2f:ac91]) by VI0PR08MB10391.eurprd08.prod.outlook.com
+ ([fe80::fa6b:9ba8:5c2f:ac91%3]) with mapi id 15.21.0139.009; Fri, 19 Jun 2026
+ 09:29:54 +0000
+Message-ID: <35458c15-73b3-45f1-91fe-aa81d85a3efd@arm.com>
+Date: Fri, 19 Jun 2026 11:29:47 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Viresh Kumar <viresh.kumar@linaro.org>, Sumit Gupta <sumitg@nvidia.com>
+Cc: rafael@kernel.org, ionela.voinescu@arm.com, zhenglifeng1@huawei.com,
+ zhanjie9@hisilicon.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, mario.limonciello@amd.com, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com
+References: <20260527202550.206828-1-sumitg@nvidia.com>
+ <eacc76aa-318c-4b41-b507-e91e322561de@nvidia.com>
+ <oxw5k2wad4vorehgmrduoxblequy3ynqufwy4sruclnh5d5wrb@awzmfafoucnn>
+Content-Language: en-US
+From: Pierre Gondois <pierre.gondois@arm.com>
+In-Reply-To: <oxw5k2wad4vorehgmrduoxblequy3ynqufwy4sruclnh5d5wrb@awzmfafoucnn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PAZP264CA0194.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:237::27) To VI0PR08MB10391.eurprd08.prod.outlook.com
+ (2603:10a6:800:20c::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-13-9d2959357853@google.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-13-9d2959357853@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Fri, 19 Jun 2026 10:25:15 +0100
-X-Gm-Features: AVVi8Cepq97zo_gQa9J80U8EU69NTSVdwN_TrW1pA3rg2sfSJVKhF_cpG6CcVaU
-Message-ID: <CA+EHjTx2xKjheiW5VzHw_TdWFUqdJqfgu=dOPa=_yaYBMY8uyw@mail.gmail.com>
-Subject: Re: [PATCH v8 13/46] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-MS-TrafficTypeDiagnostic:
+	VI0PR08MB10391:EE_|PAVPR08MB8919:EE_|AM4PEPF00027A64:EE_|GVXPR08MB11182:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7852656-982c-4c08-10a8-08decde57a11
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|23010399003|1800799024|376014|7416014|10070799003|366016|3023799007|11063799006|4143699003|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ lYExSBEyX2yANpIqBahYBnh8MkmeXCI4asb1Jb7cO7r9N0U63LS70Vc2v5CkLbXxVWhZaTH3t4QSQ28CZWE43bytyP3HrzKcRK178VQynXoOp2l21qBZHJ1wbxQEGLv/g9y7HEgciIT/fyCfHqi+EAtg/sgy7plckfUs/hdfGCluejXuAUOm06+zTEQYJxpLDrWmh00aieTpiChHRApWTWVrVXKg1xd3cEoqZ7O151J1JkDctH2nFp89f/FBLF4nDquFDH/5HxOR7UR2NgMJIG0DP+OJmFt5LyeMyMA8lUkAStRU0Cl3+AOZWdEo2tZ4N92+70dn1G2oze67Ey6zOQHqNgc5dF8Qq/gT5I0JxhzS6x58n+mV8B2QGeivII9zALVWHnuKlrGx/q0EPPYTnL5dQbGSMc/EXO+PHfVg9LEGMvAi7a0q/HNC/Y1ILAL0U+W9BMFfofxohITGTCIS5X+rNTwpqN8VBqWR2oun6KNAAo5FJwHuQjgfWGzdhcHZfMqSlq6MXqHIe7uhi3ieoVNiqpnIqb8PWBBaC3pAy1h/KpLZwJtfGad86QACq0C5vW/dOw9x+KVnIvDs8nrjotVhRfY4IB84iNUxOmBiG0JfXj/CZmBySZpL+CRrdRjQPtXhcvZuwNxoySUeYQ9Jp1T2JlwhV82WWY3izoIhH7s=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB10391.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(7416014)(10070799003)(366016)(3023799007)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ nE87u5xEUr7JfdTsYEGJ/kwlZVVhdeEjH08k5PiFj2TLpHGGahd9w+q/8p37hrK5tSGdszNgbQUek/CfVnlEa/4hb8TZSSJg/lyuc0AN2P0OPzwCAawj5aH0vSV1rtdW9AtDLfkCIYEw5f8N0XKhbeJgSjluQj8Gkr+hO1OCu/1gG8hh/RwpuL5f1o86RUwYsfxTgrjJt9wfP0iWGqWAe0kN+Sw4aQ3pT8ojCfHY4PkYX6Iw4YhBot1fyrK0VvYOGMd6R7mz1fZoQoMZkWhWpcJTEVFwqpRPBzSNTlq+Kkwr04aNfaem4jLoZEpsc8OceixH09a0KFQevpdxUCSzzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB8919
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AM4PEPF00027A64.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	b7b4500d-b17e-4b0a-3a88-08decde55228
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|14060799003|376014|7416014|35042699022|82310400026|36860700016|3023799007|11063799006|4143699003|56012099006|13003099007|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Jf3BoyRqf0GXBTAXUpKfOsWBfStyob/9U1a40kA5ums+rsTlEzkXQjlWkgOfT5AKw2RxY8Uz3OwQe5P8I+V+M89xj9xLJ8j26fqGBjKZbS+Z0SBjlLPRXcZfvfEjPRy7iwKpW4UarY095dgqydG9e5uiyJyCXC28mMkwZulN0P1IolZWWXV0FyC61lavXkvgybD5GqN1VUf+1YnYM5LkpONVwajQK+HVnCjlKJldgzhXh3mLopSwR5hPAVDeKvq/3mCfUuqIDqRxwSucUtbEyHzlI9nWUAqYJ+uMmamLUy+xW4abTOhXWoWtg6ZvOQeOFcjEgCvy/RVW+uw00sE80PLsECFdfjZ8hn2Esgn57kx7seDGVsvmh8t8YmPdQlOygGyviqenIJDyhq8pAX3LbtBpS3wa8nm2L7N09aiTSUefY8hk44hqtWcamz0rsBMox3/TTGCHYxAtSyGIXA5AdtKWwoYGajDDm+Czbdqir7cYcRsEe3syzB8ti7RFdmmyTu5aVklRZTgW1gXaOx4mkV/mdrcJlPbuts5yQoxMJgD+dl8ZaEKkkQVK1i7sC4ncXr0GxrU0pj05U9wQnK29z6SuGdxYUafmUzoB0H4S44VPGfxHcPutfDCbRxoTSa7CJMBmd8Ha+r3N7eYjxJGtUoWq8Ba/vN5MAPOUMYL0nX3VSTqlncGqzjfVKUO0jx35e2nKF/jH8JBMbSJH2Fhtxg==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(14060799003)(376014)(7416014)(35042699022)(82310400026)(36860700016)(3023799007)(11063799006)(4143699003)(56012099006)(13003099007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ffA8RQDcixFOsZ23LMY0nYCYdeNZr57wR3lUcbNk6DiPmH+EMeMYVGarJheyFrZDZVWF2pM+vAaaOupi++m8niZhkgb7ZtKfF6QTfL3Eqweej00KDDTYp7SO1BhS2P7B7R/EWcmHVmdocOT/32dpu7g/jfBPa1U5JTmc7uehUHkxEcjvim7G4Kq3W5iy3eh4kKpuuyvdeSOPDTSCXN3O3/uPaeIVNyC5KeP4/3p9N28j6Vq0aTgRlg3ZQ4vtEjp2Yd+FXXxEY54qLwAJ+K4nWx7Ni6t9gHSaOFKQDMVAXzS5uQyRVWkS6wbHFDGoT2j13ylOthX0lviILHXWcTheXTW4wndJAftx429uSQx/NK6GRipUxTtl6hzykYumfuHsPbkUIxlA+IfhCJAjUE0JVcfyrvWLn8O7YrPGVJreOJWy3vaXcuJS+rFkPRpW1qic
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 09:31:01.1345
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7852656-982c-4c08-10a8-08decde57a11
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM4PEPF00027A64.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB11182
 
-On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Introduce base support for KVM_SET_MEMORY_ATTRIBUTES2 in guest_memfd, which
-> just updates attributes tracked by guest_memfd.
->
-> Validate input fields in general. Guard usage of KVM_SET_MEMORY_ATTRIBUTES2
-> by making sure requested attributes are supported for this instance of kvm.
->
-> A new KVM_SET_MEMORY_ATTRIBUTES2 is defined to support writes (unlike
-> KVM_SET_MEMORY_ATTRIBUTES) in addition to reads so it can provide error
-> details to userspace. This will be used in a later patch.
->
-> The two ioctls use their corresponding structs with no overlap, but
-> backward compatibility is baked in for future support of
-> KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2 in the VM
-> ioctl.
->
-> The process of setting memory attributes is set up such that the later half
-> will not fail due to allocation. Any necessary checks are performed before
-> the point of no return.
->
-> Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-> Co-developed-by: Sean Christoperson <seanjc@google.com>
-> Signed-off-by: Sean Christoperson <seanjc@google.com>
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-Note sure if it's user error on my part, if I'm applying this to the
-wrong base, but I found a build break here on patch 13:
-kvm_gmem_invalidate_start() doesn't exist in the base tree. The
-function is kvm_gmem_invalidate_begin() here. The rename
-(190cc5370a8b6) landed via a different merge path and isn't an
-ancestor of the stated base.
+On 6/18/26 07:28, Viresh Kumar wrote:
+> On 16-06-26, 18:22, Sumit Gupta wrote:
+>> The dependency it was waiting on, the "cpufreq: Set policy->min and
+>> max as real QoS constraints" series, is now in linux-pm (linux-next).
+>> I rebased on top and verified autonomous mode works as expected, and
+>> it applies cleanly on the current linux-next.
+>>
+>> The [1] reference in patch 2/2 points to v2 of that series; the merged
+>> version is v3 [2].
+>>
+>> If there are no further comments, please consider acking and queuing
+>> this for the next cycle.
+> I was waiting for CPPC reviewers to provide some feedback.i
+>
+> Jie / Lifeng / Pierre ?
+>
+I think the patchset has the same issue described at:
 
-Patches 19 and 20 have the same mismatch. Fix for all three is
-s/kvm_gmem_invalidate_start/kvm_gmem_invalidate_begin/.
+https://lore.kernel.org/all/86780f97-29ee-4a72-b311-38c89434b707@arm.com/
 
-Cheers,
-/fuad
+I don't know if this is important to other persons,
+but IMO it would be preferable to have a solution to this issue
+before adding more functionalities relying on registers that are left
+in an unknown state.
 
-> ---
->  include/uapi/linux/kvm.h |  13 ++++++
->  virt/kvm/Kconfig         |   1 +
->  virt/kvm/guest_memfd.c   | 116 +++++++++++++++++++++++++++++++++++++++++++++++
->  virt/kvm/kvm_main.c      |  12 +++++
->  4 files changed, 142 insertions(+)
->
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 419011097fa8e..956877a6aab05 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1649,6 +1649,19 @@ struct kvm_memory_attributes {
->         __u64 flags;
->  };
->
-> +#define KVM_SET_MEMORY_ATTRIBUTES2              _IOWR(KVMIO,  0xd2, struct kvm_memory_attributes2)
-> +
-> +struct kvm_memory_attributes2 {
-> +       union {
-> +               __u64 address;
-> +               __u64 offset;
-> +       };
-> +       __u64 size;
-> +       __u64 attributes;
-> +       __u64 flags;
-> +       __u64 reserved[12];
-> +};
-> +
->  #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
->
->  #define KVM_CREATE_GUEST_MEMFD _IOWR(KVMIO,  0xd4, struct kvm_create_guest_memfd)
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index 297e4399fbd49..cfa2c78ba5fb9 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -102,6 +102,7 @@ config KVM_MMU_LOCKLESS_AGING
->
->  config KVM_GUEST_MEMFD
->         select XARRAY_MULTI
-> +       select KVM_MEMORY_ATTRIBUTES
->         bool
->
->  config HAVE_KVM_ARCH_GMEM_PREPARE
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 65ce795c090d9..0d14548c1ed22 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -541,11 +541,127 @@ bool kvm_gmem_is_private(struct kvm *kvm, gfn_t gfn)
->  }
->  EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_is_private);
->
-> +/*
-> + * Preallocate memory for attributes to be stored on a maple tree, pointed to
-> + * by mas.  Adjacent ranges with attributes identical to the new attributes
-> + * will be merged.  Also sets mas's bounds up for storing attributes.
-> + *
-> + * This maintains the invariant that ranges with the same attributes will
-> + * always be merged.
-> + */
-> +static int kvm_gmem_mas_preallocate(struct ma_state *mas, u64 attributes,
-> +                                   pgoff_t start, size_t nr_pages)
-> +{
-> +       pgoff_t end = start + nr_pages;
-> +       pgoff_t last = end - 1;
-> +       void *entry;
-> +
-> +       /* Try extending range. entry is NULL on overflow/wrap-around. */
-> +       mas_set(mas, end);
-> +       entry = mas_find(mas, end);
-> +       if (entry && xa_to_value(entry) == attributes)
-> +               last = mas->last;
-> +
-> +       if (start > 0) {
-> +               mas_set(mas, start - 1);
-> +               entry = mas_find(mas, start - 1);
-> +               if (entry && xa_to_value(entry) == attributes)
-> +                       start = mas->index;
-> +       }
-> +
-> +       mas_set_range(mas, start, last);
-> +       return mas_preallocate(mas, xa_mk_value(attributes), GFP_KERNEL);
-> +}
-> +
-> +static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> +                                    size_t nr_pages, uint64_t attrs)
-> +{
-> +       struct address_space *mapping = inode->i_mapping;
-> +       struct gmem_inode *gi = GMEM_I(inode);
-> +       pgoff_t end = start + nr_pages;
-> +       struct maple_tree *mt;
-> +       struct ma_state mas;
-> +       int r;
-> +
-> +       mt = &gi->attributes;
-> +
-> +       filemap_invalidate_lock(mapping);
-> +
-> +       mas_init(&mas, mt, start);
-> +       r = kvm_gmem_mas_preallocate(&mas, attrs, start, nr_pages);
-> +       if (r)
-> +               goto out;
-> +
-> +       /*
-> +        * From this point on guest_memfd has performed necessary
-> +        * checks and can proceed to do guest-breaking changes.
-> +        */
-> +
-> +       kvm_gmem_invalidate_start(inode, start, end);
-> +       mas_store_prealloc(&mas, xa_mk_value(attrs));
-> +       kvm_gmem_invalidate_end(inode, start, end);
-> +out:
-> +       filemap_invalidate_unlock(mapping);
-> +       return r;
-> +}
-> +
-> +static long kvm_gmem_set_attributes(struct file *file, void __user *argp)
-> +{
-> +       struct gmem_file *f = file->private_data;
-> +       struct inode *inode = file_inode(file);
-> +       struct kvm_memory_attributes2 attrs;
-> +       size_t nr_pages;
-> +       pgoff_t index;
-> +       int i;
-> +
-> +       if (copy_from_user(&attrs, argp, sizeof(attrs)))
-> +               return -EFAULT;
-> +
-> +       if (attrs.flags)
-> +               return -EINVAL;
-> +       for (i = 0; i < ARRAY_SIZE(attrs.reserved); i++) {
-> +               if (attrs.reserved[i])
-> +                       return -EINVAL;
-> +       }
-> +       if (!kvm_arch_has_private_mem(f->kvm))
-> +               return -EINVAL;
-> +       if (attrs.attributes & ~KVM_MEMORY_ATTRIBUTE_PRIVATE)
-> +               return -EINVAL;
-> +       if (attrs.size == 0 || attrs.offset + attrs.size < attrs.offset)
-> +               return -EINVAL;
-> +       if (!PAGE_ALIGNED(attrs.offset) || !PAGE_ALIGNED(attrs.size))
-> +               return -EINVAL;
-> +
-> +       if (attrs.offset >= i_size_read(inode) ||
-> +           attrs.offset + attrs.size > i_size_read(inode))
-> +               return -EINVAL;
-> +
-> +       nr_pages = attrs.size >> PAGE_SHIFT;
-> +       index = attrs.offset >> PAGE_SHIFT;
-> +       return __kvm_gmem_set_attributes(inode, index, nr_pages,
-> +                                        attrs.attributes);
-> +}
-> +
-> +static long kvm_gmem_ioctl(struct file *file, unsigned int ioctl,
-> +                          unsigned long arg)
-> +{
-> +       switch (ioctl) {
-> +       case KVM_SET_MEMORY_ATTRIBUTES2:
-> +               if (!gmem_in_place_conversion)
-> +                       return -ENOTTY;
-> +
-> +               return kvm_gmem_set_attributes(file, (void __user *)arg);
-> +       default:
-> +               return -ENOTTY;
-> +       }
-> +}
-> +
->  static struct file_operations kvm_gmem_fops = {
->         .mmap           = kvm_gmem_mmap,
->         .open           = generic_file_open,
->         .release        = kvm_gmem_release,
->         .fallocate      = kvm_gmem_fallocate,
-> +       .unlocked_ioctl = kvm_gmem_ioctl,
->  };
->
->  static int kvm_gmem_migrate_folio(struct address_space *mapping,
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 01761f6e25d25..a08b518cdb175 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -105,6 +105,18 @@ module_param(allow_unsafe_mappings, bool, 0444);
->  bool __ro_after_init gmem_in_place_conversion = false;
->  #endif
->
-> +#define MEMORY_ATTRIBUTES_MATCH(one, two)                              \
-> +       static_assert(offsetof(struct kvm_memory_attributes, one) ==    \
-> +                     offsetof(struct kvm_memory_attributes2, two));    \
-> +       static_assert(sizeof_field(struct kvm_memory_attributes, one) ==\
-> +                     sizeof_field(struct kvm_memory_attributes2, two))
-> +
-> +/* Ensure the common parts of the two structs are identical. */
-> +MEMORY_ATTRIBUTES_MATCH(address, address);
-> +MEMORY_ATTRIBUTES_MATCH(size, size);
-> +MEMORY_ATTRIBUTES_MATCH(attributes, attributes);
-> +MEMORY_ATTRIBUTES_MATCH(flags, flags);
-> +
->  /*
->   * Ordering of locks:
->   *
->
-> --
-> 2.55.0.rc0.738.g0c8ab3ebcc-goog
->
->
+If there are any other opinion ?
+
