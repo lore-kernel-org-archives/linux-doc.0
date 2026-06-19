@@ -1,297 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A4933AD9D;
-	Fri, 19 Jun 2026 18:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E3733F580;
+	Fri, 19 Jun 2026 18:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781893813; cv=none; b=B/+nzJK4J2VlJHRH7gI6BQ/HaEAt/iM1tiWXqZc3a94ZH1sdQE8Vxyx7Dnyx4e7oW7hd0eDgywjXbbBYf6D5aGlNkORlsBnCjo4oVZCSjrQd7Jf630zsf4ucmpnfTI6P+O4+2BF6XpTY8vsa/gJlc2x+iW+6Ti7vrqIsGbAFjvQ=
+	t=1781894147; cv=none; b=iw3a9TiWpMPoyga0pGxvSjF3Nb9F+u6azsTAJLBg5fylkKYzo5BGYEmlcOID0QNbtE7prQC6z3Rd+7AOwN4xERvn5rKXrrIpidexBFJRMRlvyB0PjGsPogkVsEn4F98PLm2apxiwT1NJleaOgM/UD4CaumOAKaUf/iYFKVYhwhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781893813; c=relaxed/simple;
-	bh=k0sOCpd05z1JjOW+YZ6mBfMPJVw/6wkCK/Xyc5QIPLY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FBe/LpWMLeSUtiTQX+fHBvgzDAp4A2+KJwhLX8IzEEB8yGE1pxeKAe8pQG1KOOXEVgWbdbF5m1ZNJEjfU0aQdWcDTNY5jAz9aA/OoAwjPaTXkt2Bihm06R6p6PFPhpVuiH0kK5/bvRlrnOOAsuP4tWg7OKK/9pdiwYMrJivRWG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpBjmiSa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781894147; c=relaxed/simple;
+	bh=F0y1aKuOCzVwW7baVOYmxhK5X3tQzLTAM5ZcwqF9hbI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ON0hu5IFJjC18KecvQ9npvzLkAZz5lKi9A5fgB2ByW1oRUSh4+T1+SmOxerdFIsAlYJPW6raHGvsKuCuMUA6nnaFfehDZUT0k/guxkmABCBmM9lhw1OGT1deYfuW8LKhErKeH/HTM2LL340uN883lnu2bljDKphtJ0h/ZZTOQdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vxqlTXYb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpBjmiSa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336A51F00ACF;
-	Fri, 19 Jun 2026 18:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781893793;
-	bh=VQoWlUCq/vA8VDrqy3netzbUf+zudMAVdy2/QCWUZYg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fpBjmiSaGzuqtdZrDi91zmkWbQCrfrf7WZAdNQoCq+yvMKIhLp4eJ3dQwdTcZcZg4
-	 89ZKFkS52zOCZigEqxZ6gZIc/IR8/dC8C+8B3oLD/5qMruBaxI/vm6CG1qtl7/fIgA
-	 u9Cn8jZPnUQwD7krv1G6WZ9knfuLCKNRB7iidajJsLlqpX7OpoAHcM6xUQlCFQnnAk
-	 jBInFQ3V6qV+B5jdOPon/zjVWna8MRwTBZEJXJA2s2mD4Dy6mAgg7QynNCRRKqgS3h
-	 bztUgofmt3vvX5PssCoJ7K9TEe+no4pqC0D3DUTCDpqD1SHz2LyTdtC+//SgWjLkFe
-	 yIo5SQRqJcBSA==
-From: Drew Fustini <fustini@kernel.org>
-Date: Fri, 19 Jun 2026 11:29:43 -0700
-Subject: [PATCH 8/8] riscv_cbqri: Add CBQRI cache capacity-allocation
- platform driver
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vxqlTXYb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=JQMxCGsJgO5z4xKjYc47x9IC9JtLm1aAXZzKHP5+ngY=; b=vxqlTXYb+ohjD3QbIDox/VbpTZ
+	hd7Uy+grwldfWVL2kS3Bu5GhxUZywxzL93GgqLNnYWvaH2q2e2RGX/7B2hyM1YHZ+xzhignyfZaUz
+	8dTQ/PJOuX3u0zlWiP+cYGe+TzOx7dq3h9c13Q7vFHhb0C3G4isI5awLfBC4k7dlV/q+DnGU/L3uB
+	U9T0jcPxT6mZ3RX74b9IIVrPBYgXti2EPXjdUvmgAt0C6iK7uPtykmF+g+/VK9H0duCp7550a/8Wc
+	ZLxZr/MvhvXaX35nyYn96fpCGmXeasV4GyzVYOPH8MO87lMjIoVA6WAM+1pigXsIA5mvZyhMH6BUf
+	O2Sz6BpA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wae42-00000002snX-3wNA;
+	Fri, 19 Jun 2026 18:35:38 +0000
+Message-ID: <3e206be0-3ef4-468f-b7e7-7bc03848b0d0@infradead.org>
+Date: Fri, 19 Jun 2026 11:35:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 PATCH] reserve_mem: add support for static memory
+To: Shyam Saini <shyamsaini@linux.microsoft.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: rppt@kernel.org, akpm@linux-foundation.org,
+ tgopinath@linux.microsoft.com, bboscaccy@linux.microsoft.com,
+ kees@kernel.org, tony.luck@intel.com, gpiccoli@igalia.com, bp@alien8.de,
+ peterz@infradead.org, feng.tang@linux.alibaba.com,
+ dapeng1.mi@linux.intel.com, elver@google.com, enelsonmoore@gmail.com,
+ kuba@kernel.org, lirongqing@baidu.com, ebiggers@kernel.org
+References: <20260619062331.348789-1-shyamsaini@linux.microsoft.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260619062331.348789-1-shyamsaini@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260619-dfustini-atl-sc-cbqri-dt-v1-8-e79a7723fab0@kernel.org>
-References: <20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org>
-In-Reply-To: <20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org>
-To: Adrien Ricciardi <aricciardi@baylibre.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
- Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
- Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
- Chen Pei <cp0613@linux.alibaba.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghua.yu@intel.com>, 
- Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
- guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
- =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
- Peter Newman <peternewman@google.com>, 
- =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
- Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
- Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
- yunhui cui <cuiyunhui@bytedance.com>, Drew Fustini <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7417; i=fustini@kernel.org;
- h=from:subject:message-id; bh=k0sOCpd05z1JjOW+YZ6mBfMPJVw/6wkCK/Xyc5QIPLY=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSZds06KJOsqXN7H3ODW8vBRs8rCidN1a61776+6oqJ6
- +qTKpuud5SyMIhxMciKKbJs+pB3YYlX6NcF819sg5nDygQyhIGLUwAmsjWb4a8Yf2TlzL63xTIn
- zWSZbKvfTtpd0rNPo/mARuvFZ+mcG0sY/idOfCM3Td7BjpfvDu/BxXwBqTk8xf8CbU4Ibbw/98p
- SGRYA
-X-Developer-Key: i=fustini@kernel.org; a=openpgp;
- fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-The CBQRI core exposes riscv_cbqri_register_cc_dt() so a device-tree
-platform driver can register a capacity controller whose cache topology
-it already knows.
+Hi,
 
-Add a platform driver, bound to the generic compatible, that discovers a
-CBQRI capacity controller backing a CPU cache from its DT node and
-registers it via riscv_cbqri_register_cc_dt() as the resctrl cache
-allocation resource. The controller node carries a riscv,cbqri-cache
-phandle to the cache it governs.
+On 6/18/26 11:23 PM, Shyam Saini wrote:
+> reserve_mem relies on dynamic memory allocation, this limits the
+> usecase where memory is required to be preserved across the boots.
+> Eg: ramoops memory reservation on ACPI platforms
+> 
+> So add support to pass a pre-determined static address and reserve
+> memory at a specified location. This enables use case like ramoops
+> on ACPI platforms to reliably access ramoops region with previous
+> boot logs.
+> 
+> Also skip the parsing of <align> when static address is passed.
+> 
+> Example syntax for static address
+>  reserve_mem=4M@0x1E0000000:oops
+> 
+> Signed-off-by: Shyam Saini <shyamsaini@linux.microsoft.com>
+> ---
+> v1: https://lore.kernel.org/lkml/0eaf3be2-5121-48b7-aeed-196405c0a480@infradead.org/
+> v2: Fix code logic and incorporate Randy's suggestion
 
-The driver reads cache-level from that node and matches it against
-cacheinfo to obtain both the resctrl domain id and the set of harts that
-share the cache. The node must also provide riscv,cbqri-rcid. Nothing in
-the driver is vendor-specific, so any SoC that describes a CBQRI
-capacity controller in device tree can reuse it unchanged. The DT "reg"
-describes the CBQRI capacity-controller register block directly, so the
-driver only ever touches the CBQRI registers.
+OK, you fixed a few typos.
+There are some bigger things that you seem to have ignored.
 
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: Drew Fustini <fustini@kernel.org>
----
- MAINTAINERS                      |   1 +
- drivers/resctrl/Kconfig          |  15 +++++
- drivers/resctrl/Makefile         |   1 +
- drivers/resctrl/cbqri_capacity.c | 132 +++++++++++++++++++++++++++++++++++++++
- 4 files changed, 149 insertions(+)
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 15 ++++++
+>  mm/memblock.c                                 | 47 +++++++++++++------
+>  2 files changed, 47 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b5493a7f8f228..7e0baca564b97 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6563,6 +6563,21 @@ Kernel parameters
+>  
+>  			reserve_mem=12M:4096:oops ramoops.mem_name=oops
+>  
+> +	reserve_mem=	[RAM]
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f8b995420c11..53d29dbbdb63 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23300,6 +23300,7 @@ F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
- F:	arch/riscv/include/asm/qos.h
- F:	arch/riscv/include/asm/resctrl.h
- F:	arch/riscv/kernel/qos.c
-+F:	drivers/resctrl/cbqri_capacity.c
- F:	drivers/resctrl/cbqri_devices.c
- F:	drivers/resctrl/cbqri_internal.h
- F:	drivers/resctrl/cbqri_resctrl.c
-diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-index 0887b6a9fac1..bc1e71cc6dfc 100644
---- a/drivers/resctrl/Kconfig
-+++ b/drivers/resctrl/Kconfig
-@@ -53,6 +53,21 @@ config RISCV_CBQRI_DRIVER_DEBUG
- 	  per-controller registration steps.  Useful when bringing up a
- 	  new platform; otherwise leave disabled to avoid log noise.
- 
-+config RISCV_CBQRI_CAPACITY
-+	bool "RISC-V CBQRI cache capacity-allocation controller"
-+	depends on OF
-+	help
-+	  Device-tree platform driver for a RISC-V CBQRI capacity controller
-+	  that backs a CPU cache, matching the generic
-+	  "riscv,cbqri-capacity-controller" compatible. The controller node
-+	  carries a phandle to the cache it governs; the driver derives the
-+	  cache level and the set of harts that share it from the kernel
-+	  cache topology and registers it as the resctrl cache-allocation
-+	  resource.
-+
-+	  Say N unless your SoC describes a CBQRI capacity controller in its
-+	  device tree.
-+
- endif
- 
- config RISCV_CBQRI_RESCTRL_FS
-diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
-index ed737b4461b9..78d729534e3e 100644
---- a/drivers/resctrl/Makefile
-+++ b/drivers/resctrl/Makefile
-@@ -7,5 +7,6 @@ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)	+= -DDEBUG
- obj-$(CONFIG_RISCV_CBQRI_DRIVER)		+= cbqri.o
- cbqri-y						+= cbqri_devices.o
- cbqri-$(CONFIG_RISCV_CBQRI_RESCTRL_FS)		+= cbqri_resctrl.o
-+cbqri-$(CONFIG_RISCV_CBQRI_CAPACITY)		+= cbqri_capacity.o
- 
- ccflags-$(CONFIG_RISCV_CBQRI_DRIVER_DEBUG)	+= -DDEBUG
-diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_capacity.c
-new file mode 100644
-index 000000000000..2172432eb328
---- /dev/null
-+++ b/drivers/resctrl/cbqri_capacity.c
-@@ -0,0 +1,132 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Platform driver for a RISC-V CBQRI capacity controller that backs a CPU
-+ * cache. The controller is described in device tree by the generic
-+ * "riscv,cbqri-capacity-controller" compatible together with a phandle to the
-+ * cache node it governs. The driver hands it to the CBQRI core, which probes
-+ * the capabilities register and exposes a controller that supports allocation
-+ * as the resctrl cache allocation resource for that cache.
-+ */
-+
-+#define pr_fmt(fmt) "cbqri-capacity: " fmt
-+
-+#include <linux/cacheinfo.h>
-+#include <linux/cpu.h>
-+#include <linux/cpumask.h>
-+#include <linux/ioport.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/printk.h>
-+#include <linux/riscv_cbqri.h>
-+#include <linux/types.h>
-+
-+static int cbqri_capacity_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cbqri_controller_info info = {};
-+	struct device_node *cache_np;
-+	cpumask_var_t cpu_mask;
-+	struct resource *res;
-+	u32 rcid_count, cache_level;
-+	int cache_id, cpu, ret;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -EINVAL;
-+
-+	ret = of_property_read_u32(dev->of_node, "riscv,cbqri-rcid", &rcid_count);
-+	if (ret) {
-+		dev_err(dev, "missing riscv,cbqri-rcid\n");
-+		return ret;
-+	}
-+
-+	cache_np = of_parse_phandle(dev->of_node, "riscv,cbqri-cache", 0);
-+	if (!cache_np) {
-+		dev_err(dev, "missing riscv,cbqri-cache phandle\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = of_property_read_u32(cache_np, "cache-level", &cache_level);
-+	if (ret) {
-+		dev_err(dev, "%pOF: missing cache-level\n", cache_np);
-+		goto out_put;
-+	}
-+
-+	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL)) {
-+		ret = -ENOMEM;
-+		goto out_put;
-+	}
-+
-+	/*
-+	 * Associate the controller with its cache instance via
-+	 * cacheinfo. The matching cache provides the cache id and the
-+	 * set of harts that share the cache.
-+	 */
-+	cache_id = -1;
-+	cpus_read_lock();
-+	for_each_online_cpu(cpu) {
-+		struct cacheinfo *ci = get_cpu_cacheinfo_level(cpu, cache_level);
-+
-+		if (ci && ci->fw_token == cache_np) {
-+			cache_id = ci->id;
-+			cpumask_copy(cpu_mask, &ci->shared_cpu_map);
-+			break;
-+		}
-+	}
-+	cpus_read_unlock();
-+
-+	if (cache_id < 0) {
-+		dev_err(dev, "%pOF: no online hart reports an L%u cache for this node\n",
-+			cache_np, cache_level);
-+		ret = -ENODEV;
-+		goto out_free;
-+	}
-+
-+	info.type = CBQRI_CONTROLLER_TYPE_CAPACITY;
-+	info.addr = res->start;
-+	info.size = resource_size(res);
-+	info.rcid_count = rcid_count;
-+	info.cache_id = cache_id;
-+
-+	ret = riscv_cbqri_register_cc_dt(&info, cache_level, cpu_mask);
-+	if (ret) {
-+		dev_err(dev, "failed to register capacity controller: %d\n", ret);
-+		goto out_free;
-+	}
-+
-+	dev_info(dev, "registered L%u capacity controller at %pa (cache_id=%d, rcid=%u)\n",
-+		 cache_level, &info.addr, cache_id, rcid_count);
-+
-+out_free:
-+	free_cpumask_var(cpu_mask);
-+out_put:
-+	of_node_put(cache_np);
-+	return ret;
-+}
-+
-+static const struct of_device_id cbqri_capacity_of_match[] = {
-+	{ .compatible = "riscv,cbqri-capacity-controller" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cbqri_capacity_of_match);
-+
-+static struct platform_driver cbqri_capacity_driver = {
-+	.probe	= cbqri_capacity_probe,
-+	.driver = {
-+		.name		= "cbqri-capacity",
-+		.of_match_table	= cbqri_capacity_of_match,
-+		/*
-+		 * The controller is registered permanently into the
-+		 * CBQRI core for the life of the system. Block unbind
-+		 * so userspace cannot leave a dangling controller.
-+		 */
-+		.suppress_bind_attrs = true,
-+	},
-+};
-+
-+/*
-+ * Register at device_initcall so probe runs before the CBQRI core's
-+ * late_initcall which walks the cbqri_controllers list.
-+ */
-+builtin_platform_driver(cbqri_capacity_driver);
+[RAM] means "RAM disk support is enabled."
+Is that the case here?  Is "reserve_mem=" only for use in case
+RAM disk support is enabled?
+
+ISTM that you need a new designator instead of RAM...
+or overload the use of RAM by adding more info near the top of
+Documentation/admin-guide/kernel-parameters.txt.
+
+
+> +			Format: nn[KMG]:<@offset>:<label>
+> +			Reserve physical memory at predetermined location and label it with
+> +			a name that other subsystems can use to access it. This is typically
+> +			used for systems that do not wipe the RAM, and this command
+> +			line will try to reserve the same physical memory on
+> +			soft reboots. Note, it is guaranteed to be the same
+> +			location unless some other early allocation, e.g.: crashkernel=256M
+> +                        (without static address) is reserved or overlaps this region.
+> +
+> +			The format is size:offset:label for example, to request
+> +			4 megabytes for ramoops at 0x1E0000000:
+> +
+> +			reserve_mem=4M@0x1E0000000:oops ramoops.mem_name=oops
+> +
+>  	reservetop=	[X86-32,EARLY]
+>  			Format: nn[KMG]
+>  			Reserves a hole at the top of the kernel virtual
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index 6349c48154f4b..c76cefa0a8a83 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -2721,6 +2721,7 @@ static int __init reserve_mem(char *p)
+>  	char *name;
+>  	char *oldp;
+>  	int len;
+> +	bool addr_is_static = false;
+>  
+>  	if (!p)
+>  		goto err_param;
+> @@ -2736,19 +2737,27 @@ static int __init reserve_mem(char *p)
+>  	if (!size || p == oldp)
+>  		goto err_param;
+>  
+> -	if (*p != ':')
+> -		goto err_param;
+> +	/* parse the static memory address */
+> +	if (*p == '@') {
+> +		start = memparse(p+1, &p);
+> +		addr_is_static = true;
+> +	}
+>  
+> -	align = memparse(p+1, &p);
+>  	if (*p != ':')
+>  		goto err_param;
+>  
+> -	/*
+> -	 * memblock_phys_alloc() doesn't like a zero size align,
+> -	 * but it is OK for this command to have it.
+> -	 */
+> -	if (align < SMP_CACHE_BYTES)
+> -		align = SMP_CACHE_BYTES;
+> +	if (!addr_is_static) {
+> +		align = memparse(p+1, &p);
+> +		if (*p != ':')
+> +			goto err_param;
+> +
+> +		/*
+> +		 * memblock_phys_alloc() doesn't like a zero size align,
+> +		 * but it is OK for this command to have it.
+> +		 */
+> +		if (align < SMP_CACHE_BYTES)
+> +			align = SMP_CACHE_BYTES;
+> +	}
+>  
+>  	name = p + 1;
+>  	len = strlen(name);
+> @@ -2772,14 +2781,22 @@ static int __init reserve_mem(char *p)
+>  	}
+>  
+>  	/* Pick previous allocations up from KHO if available */
+> -	if (reserve_mem_kho_revive(name, size, align))
+> +	if (!addr_is_static && reserve_mem_kho_revive(name, size, align))
+>  		return 1;
+>  
+> -	/* TODO: Allocation must be outside of scratch region */
+> -	start = memblock_phys_alloc(size, align);
+> -	if (!start) {
+> -		pr_err("reserve_mem: memblock allocation failed\n");
+> -		return -ENOMEM;
+
+		return 1;
+
+> +	if (addr_is_static) {
+> +		if (memblock_reserve(start, size)) {
+> +			pr_err("reserve_mem: memblock reservation failed\n");
+> +			return -ENOMEM;
+
+			return 1;
+
+> +		}
+> +
+> +	} else {
+> +		/* TODO: Allocation must be outside of scratch region */
+> +		start = memblock_phys_alloc(size, align);
+> +		if (!start) {
+> +			pr_err("reserve_mem: memblock allocation failed\n");
+> +			return -ENOMEM;
+
+			return 1;
+
+> +		}
+>  	}
+>  
+>  	reserved_mem_add(start, size, name);
+
+
+__setup() functions return 1 for "yes, I recognized this string/option
+and attempted to handle it" or 0 for "This string/option is meaningless."
+There is no "return -Eerror".
+If you need that, you could consider using early_param() [see
+<linux/init.h>].
 
 -- 
-2.43.0
+~Randy
 
