@@ -1,183 +1,392 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011031.outbound.protection.outlook.com [52.101.65.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA62226ED25;
-	Fri, 19 Jun 2026 15:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.31
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884003; cv=fail; b=ikNRjPCxdot3LwrECkZDIwRS18nDksbY7ooG7ZrIKH0Pja5Yn/Wn4TK2OhrRwHtSjFjZxrre52+YDRvu7o+47pG81V9G2QtKSkM+3ZvUE6nZoQLgznRnMacZw1QSlgbX4gogYijloO+fu0mNM1eb1LlPmdBOBkA3WVQ0ubu9CzQ=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884003; c=relaxed/simple;
-	bh=EOGvHK1namSRHCdADdFFMTsHCdNSyqi7Dw0vjLCIhOU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eZN7Ts1ut/7Ljyzo4oVZ/NbVrqsAgoY7yQLMzo0yJxQTtlrvxUUqvKTKabyhKOIwDipckprN/vyEahyIllD2cEfqubhIu6IG9dsdNg7CtycnsYP29QfQq94PV8BsEglD1SVeLSGw0NYo1v165Fsa6ymqBj+7I93gjYRe370V5QU=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WDSzJFjl; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WDSzJFjl; arc=fail smtp.client-ip=52.101.65.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CAC3BBA18
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 15:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781884399; cv=none; b=PwnBlYSaRB+iqgCWyBd7joFzkrCXEHrrKnYD2arD5cI4fIAWoqh0oFh0nr4b1UwTt0Low6cIePqgGNMBjYBX1ET6TBGEuKpehTn0mGW64Ek5CfOpqSWTon4YV4ZUuyTPLqBPps7phM59T8d7rDLGz6ADGFXApkYmisnYKgEWMpA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781884399; c=relaxed/simple;
+	bh=bb+cUcj7HQuwpnFQDNO7rItSBV5fu/hsjtqa7E0WUUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dP0eG7M9LlZrj5VF+dFFPPSDFwScU0qk2JZ8Xci6jhFhiSsNI8rkw9vbtFquj0ZQOUx4araM6Q6HKY0iI4ZRUWgeP4WNciQDTVMRDBLNI1VUjFFdo5lESyxm/zdCXjUuGOzk3NBrfsl3pdbeNt0dXX3Ns83OVuVCGCs/qMP6enE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PkNA05hw; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WDSzJFjl";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WDSzJFjl"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=ONBWp0SniDzlvkn2fBqxNMdKaqNS1w70L7nabtn/97VXspcsDvd9vAe1ClNsm5t8z7DHgCdzgYm7Iq2PSs0xHiGNOEYMzw9U7orTKhPFp9hjYOZ10q5p080cnOkgSAhjBQFNc+LdEs65iEC+YUtKeMhQaXGZlvdci8IYanfhl07bP+QWpFjwY2zEgf3ifPx0vmLfmfblZT2jvf8GYDRGahhqbx0dkteQOIPB2bPSm11Y47vEw0sRCzPus7clSGfQl7rpAd3TFFIuUY++NFpo50kfBGLVYNS6LuI4AppDXZSJ8MXuvun8RTIL5kAKg4xMaBqmFkwgwqhxGOmYmJbqkw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=841ZMsl5VaQKfMKNKGVpc0xGoBXXJZAkN1xQa5sO8Os=;
- b=ydKsy+zVQPs+6pnu6WEAb2lYKGoZZHo+XjWtklNUSynTwdB6NabBAPJggWdyG58sM9pBf8veHnfy+u0S7YYPcBby1o/4RZeozyFgPULz59ct1ktGURwfGHlQ3jFQyYoHF7hVhBZvpun5cRRXgKpNKPZEyRadAOZzz/HDTYOJBOik4uYFOKEiq5Pi9nD2RFi7iQaAC+mdcQvM52APbTtjqUkMJrIeq8KGewXGjjIXdtZd8tcKT2CytwImx/XUFFeJgLDVcx7A4YHJWONMs3E1VxmfO5J4hm8NRhIyjbcXpFPLT5J4nhPEi6giy6doDjSR8mxlN5rOEJNrU9dvDQnQBw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=841ZMsl5VaQKfMKNKGVpc0xGoBXXJZAkN1xQa5sO8Os=;
- b=WDSzJFjlik1pki0GHVszFm8awUys2QFSp6MqiLE4sfJ9gm0BtWLQmHzqitVYjWmR1sb9MDDvn66RNCrFYNM+AltLP/9Xyc29rae1vhCElaCC3+PxiqFD50r9gEh7gticNfunphirR3I/aSykogykG2GK12uWnGUsspetn/7X7uI=
-Received: from DUZPR01CA0263.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b9::11) by AS2PR08MB9200.eurprd08.prod.outlook.com
- (2603:10a6:20b:59f::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Fri, 19 Jun
- 2026 15:46:32 +0000
-Received: from DU2PEPF00028D05.eurprd03.prod.outlook.com
- (2603:10a6:10:4b9:cafe::a3) by DUZPR01CA0263.outlook.office365.com
- (2603:10a6:10:4b9::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.11 via Frontend Transport; Fri,
- 19 Jun 2026 15:46:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DU2PEPF00028D05.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
- via Frontend Transport; Fri, 19 Jun 2026 15:46:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h+S/Ry0WX5XhzuRTIPnh8LkYC1CLauUUrNyCNU9rRJ3tyTqrSA0iwiTeslgx17Ov2nFhDRm83zM2YAxdEDfadQiN+Izpdi8EemfnxZj7epkn17P1XN5FzrbbCIoYjyURDqi3fP0smqG5u+bx/EmPOJwdv+RNVlA/hoPZYmOcn5CTIJUOMqVNoqrULTuKd1HwPBtJZHOMuY+YU12siy5gAwqQ274MwRwmWrWsw3ZDX+MxJFrCqRPF/5boU4N4Kf8HbECUKkA26qEihEOnb6BEE3WNqHfYA1NJqbuQMO5mVSVEBYJQ8KeBZlWCw2FFMDff7R38SSVa3UUstPOgkslucw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=841ZMsl5VaQKfMKNKGVpc0xGoBXXJZAkN1xQa5sO8Os=;
- b=jEDCw5DmSKNS8chiFPDFNGcByKwBedmoZa28vDSTUOFQEiDJEMHo6eoSonlUs7gEe/kaXQiBV7igkFp15/v9JPyMrX0ZMBTyAvQb9vNCi+aEeTD5nwhHszrO3oZeKqGJR9ewr7kQJ+RaV8R3LT61aZ19N8I9lilB3ak/CvOGTVJgjTsp24tK6cFHCJmY8q/RnqnwyRTIhcdQ21G1YDYs21iIE0miC+0sb3l/sgCQX0hKPEsqAcayE/1Kwlo5uRzCTVuGvKR2xlEaIRoyclW4Hr55u7KH/FXeWErILteaz6EeXPILZGw9KUi0Np62olMNLfD0ZjN6nexoQktkBDQQFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=841ZMsl5VaQKfMKNKGVpc0xGoBXXJZAkN1xQa5sO8Os=;
- b=WDSzJFjlik1pki0GHVszFm8awUys2QFSp6MqiLE4sfJ9gm0BtWLQmHzqitVYjWmR1sb9MDDvn66RNCrFYNM+AltLP/9Xyc29rae1vhCElaCC3+PxiqFD50r9gEh7gticNfunphirR3I/aSykogykG2GK12uWnGUsspetn/7X7uI=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com (2603:10a6:800:324::5)
- by PAXPR08MB6494.eurprd08.prod.outlook.com (2603:10a6:102:154::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 15:45:29 +0000
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd]) by VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd%5]) with mapi id 15.21.0139.011; Fri, 19 Jun 2026
- 15:45:28 +0000
-Message-ID: <81dd6d0d-427f-49ae-9573-fbe84dc2185a@arm.com>
-Date: Fri, 19 Jun 2026 16:45:27 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/10] ACPI: APEI: introduce GHES helper
-To: Julian Braha <julianbraha@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Tony Luck <tony.luck@intel.com>,
- Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
- Saket Dumbre <saket.dumbre@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <djbw@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
- devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
-References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
- <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-7-91f725174aa0@arm.com>
- <58f7163f-2fce-41e9-bc35-d1d8e6f4a298@gmail.com>
-Content-Language: en-GB
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-In-Reply-To: <58f7163f-2fce-41e9-bc35-d1d8e6f4a298@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0269.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:37a::9) To VI0PR08MB11823.eurprd08.prod.outlook.com
- (2603:10a6:800:324::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PkNA05hw"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so17167605e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 08:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781884391; x=1782489191; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/0CgMpW9yG1iq8S4CDVlww4fITpPQ7sSOHilePzQBMw=;
+        b=PkNA05hwFi9CALCM3FvA9MUdfRVKK2tJt106PYn541LqUwzE+zi2L9lnGEYp0SKLjv
+         La3O8/Z659vMkSNhu2a95t8hnKS/vuClhY8W6Usd+Asky0viJ9R3cr0wZE5dOW08u4wF
+         dIpNwIWzJlDz3WdABf4qWAnjPz493g+5kh/WN1BnNPl1viY1mxAFjWxNWLRNEn7baUx4
+         Fx6m3CqWgS3SCJw/+kuuWpnjH03COBtJVUt2KgMpHh7zBdyRTCV9ubvLlyAk0PZTySGF
+         vNqy2vlh4BSOMWW6z+88uZWOb8gf2skuxOcj27vws3UQyJnqAhNtaDZw28wy4U+eVcwW
+         CPEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781884391; x=1782489191;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0CgMpW9yG1iq8S4CDVlww4fITpPQ7sSOHilePzQBMw=;
+        b=Yj/a1WWRNMfgOuljZAK6xlnZF1qQJ4kR631I6X5BuqNBM6CAMUqWAfHjEuIwsPW6pw
+         jd3ynBBY+HbR8R1qr5F0MKkyRnWY0jaJXEb/rFnbEjs/saA8FeABsTns5hqkeZwYsh1r
+         0+RBH5m7hTCO0Az6LmXR7esYM6+B2YtHZW2sBaoDWUZDuaH1MtL6QTgE/YtuCRFA132F
+         GmZYfMFFFILaQsaKIkBTw4sy5l3vbSKEDibS0YZUx5ZiQh8Wg2ARKUct5Vka91rYNjf/
+         vN1RyAHTf7HYwCm8z8wIgSahRnXSwacwF3NApylkPNSWrVNOe5l3b4xm60RISX5WCbHs
+         roYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/vA3JdbeO1l8yEywhRb5vw4H00bW7llgz0MgcRu0O/J4K3kJNCLvodyUk+Mvbbpash/nETp0EfKsc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+f+5+bRIoBE2Cj0de/xE/68V/z9NnxF72jhUIuCm3qAcnT0Kz
+	0yp/3CWRydKNWEQpLIOssoP5fDCiMahPFGDMixMLqdMAOrX2jrU2iATb
+X-Gm-Gg: AfdE7cmfrAAEmcUWuqLl1v/kMaTUVFUdMTqYz8/yQa5SfP48BDIMReGhDlbTd9GoNy4
+	gLMFzvjZkIa40f3mM306hofb9xPeocuaS02EmHSSrFC/3zASv5Pv6FDAMsyUgvAs7NfpnXFM/VG
+	cg6d3Sr+TGQD6fpVW3JfmH7ZoxWxAQJ1CV9i/CZypuXpNpd4nmzkp3a79j1lLOiWQKQEwZN4X5g
+	R1N7c6SUeO+PXoy7DU4H39Hz+GhkE0OFAa+d6wIGqHo00KDI419SnI/S5q1NbNq8V5BEyPgP3b8
+	SDMskfSszmIuwv036Wdut8l+CDS2yQ2/0iU0GyD9rXbaYVoIudyMU1cNtiGmpxbQSwOmVmWMCZN
+	H5bt7pvoFFyHkENiM1hCuBu+AmjHNb2B7AI58RCiEwqqX+KyklokBMJqIEdIQCdPoJ/8N2ddiQL
+	VsSyChFmDGRPPuEg0=
+X-Received: by 2002:a05:600c:8b42:b0:490:b724:5085 with SMTP id 5b1f17b1804b1-4923f5944eemr88749815e9.33.1781884390726;
+        Fri, 19 Jun 2026 08:53:10 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49246403653sm24433175e9.13.2026.06.19.08.53.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 08:53:10 -0700 (PDT)
+Date: Fri, 19 Jun 2026 16:54:11 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Janani Sunil <jan.sun97@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <ajVlD-j0nIGrRVow@nsa>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+ <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+ <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
+ <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
+ <20260614204455.408c4d40@jic23-huawei>
+ <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
+ <20260619-obstinate-polo-a230bef97fda@spud>
+ <20260619-bunch-diocese-dd7805cc17ff@spud>
+ <ajU73_TkKrSbqD4f@nsa>
+ <20260619-concierge-doozy-9c161533c369@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI0PR08MB11823:EE_|PAXPR08MB6494:EE_|DU2PEPF00028D05:EE_|AS2PR08MB9200:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1026cc8-4cdf-4592-05e3-08dece19ef9d
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|7416014|22082099003|18002099003|11063799006|56012099006|4143699003|921020;
-X-Microsoft-Antispam-Message-Info-Original:
- kORTf5cU4FfN0NG5uoK1/rzigTPFBi6VpsQuwXFixJUIN6C0PxTLt1xLVep1S0ltgIp81rJcHHEQsap1ovgofCuWKpzYkp6zzw8t6sfeY8swZvHJqi9ul/sUcO/VYpsfsuHfihbEQTaW5cUQp8s/FVeQQZKfFRibIg7AxYaJ/VEXcb80njttllDg21WVm4B519rkTBBkj0diVFP2PX97ShFjnW/KXXc6Hy3WreDgZtBF3DvrK1Jkr5tr3GB4O9wtPtyO28rktqgmev0XyUcoB0hGv8SCMZM+pEEdmutPJMkV8DOYG2ZoowDDUjXCJLDS1xv1MKUBmxv5MSPYc+URwQlCd3I4YlwSk6YKpYSgu551luLEyzDt1ttsH9OxO1hgnPk06HH7eZObmqiE2Py4FGwr1kYzbr+iA8dtNJV/0Qzvx2wayZ1xqqvRQCOuqoubXjnpz6dh/jB/qVffHAcJsFVmufWKB4k0OX6O/tWzSot1MaSEsMHZCwpacrf+RyzuSqvYdQ9iObxTVVyPbcQ4ZlfwqpLddyqnE6mAhfpipSkgt2MaSt4ayfiQRo2U+PiHtl6+tq2sj59DznXURkVxq81QykpH2lBjlkZdKk75YeNU0d0pFcZceW3RmaTEt4qKsU/uSWYtxQhqnAIjZwtDCWbYLk4tjdp7WaFNvvUG7cBwbzFaRAhKuzqsm6E0RuguxnvSj5OcWiS1+vWlBFqe6A==
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB11823.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(7416014)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003)(921020);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- fTP0/fhmWyIp/A2ipPypBLONiSMgNovgtuz9+THXRMxLwo0sA9LYId7t6EUJIOVMaHhHgGaS52/6Iq9vNlcb732WSQX3MivVQP6D/wkZ0qxTig6iOrtpyrT6Bp83A0XJC9kf00Jpl+Ifms6J8WNEJCd0Vhjq8ZK0m6I1uwF1xT1yDJXg4Stx5d7ksRtiRH+1oZ8KqZu3ZJ6DryXwf7Sg41tsdJ59U7t7tyYSx2j3BHQiT/pEkHs757J/uYOgqPvXzZp1FreTZ2f3FhWVQxt88Jwxmj/PoqwOBwhJuEXFe9IDxtaAz4FFGeKeTUHgfvxULHWPR+HIf+rLP2VPFnaxOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6494
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	1aceb2c5-ba24-47d5-16d5-08dece19c9c8
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|23010399003|14060799003|35042699022|7416014|1800799024|36860700016|4143699003|921020|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	xizBAB/VvI8M/LESMm3Jrw1hvWgJ8POYlEnRvxjJ5ucwUQbv+VliM74LdoFX6jSdzdOnT5CS/eBh1XWOvTyl7xZbxPPesLVSGsYCJ+RjXksszqKI8aY1o3HJgNLhkkrb3TO4t5mxt9YharyQ4bZBO591KNKgqOIWPRlwpvM9t0s9B740ikZbNNjFa602wwDYQr1YULEOfhg5tim8WOsCknYxs+LB6UOtEToTeyEmgQax8/1w8gy5M0BE1c6JUoI+sU/vU9d8CZhRbo5rrOboLAoSXFtl3ankmm+rHusBgwlOf9+lHInzcGvup9UjUNXYx2XL+xiLAnxaqgmbtQk7bIc+yi1YONjiax1If9zDEh94VpmxklYRM+9QVjUk9PQ93z1Ztwhb6Am/ZSFxXX/x74qJMxs5DLxV3bDSb4/dKw0xRDp/RyM9UBrS1mOFJECOcTQ6gMdf2yPB6r1lnky548VjzjLCPddEN8NL9eVNt3Q8VIIVB1QBRkHV5x2lKewh7hOjweHcHu6ZKG0+xnPJDgSXX/Yr3iZX0Be28NIE4fAfvZD6upIr+s2HHUPJ4gsyEfqCKs5JCgwrdxWtITCH7Wr+mrYNDEx3f3cg7QSTciui7Ue92h4jee6OhUjG4GvGtJpM0g0Gw8+bymnkVkczTHScmAJkUcW9SM8POGcrthzBlxDgmoKnc/JpJNHPZw1mcK51HdzNANxxOLSFoEYeyyE39zrX9rUoA8RrdOakHkbO/gRFyVcH7g+82jP6wqvi
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(23010399003)(14060799003)(35042699022)(7416014)(1800799024)(36860700016)(4143699003)(921020)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hus+jV7kfdQKDx3GH9w/+VgiFcHtExVYiWUE/+DA6FjYFWU37JqyKQc+Jpm5Rn3iYKA2mVgBuV1ilj1SEJbEbAy06TLjanEq6/4oXkBR0Z0jAbb5Illr8SwoRpGYQ1Klf3DrwedrT1A9HkH3VUZQsPEurKWd+uGnPTKUljJ/HT0pILPlZIIhGnmzuI2BNALZ+C2JzKSYREIVSRX6UWm66iZGc3u6kCfkaP3UEcV3hzFwzxl7duJloREpygx59l7bdsu8pcmwKsZAJf7SO9lQAx8tjFwICww+424Qj9jJZ0uPj3wuNOsdsUjFHFLL6pGAE048JZp/9gFHjdoemP6uY4IqFPjIap7u5ciSkXVonc8XCjacT5XO+Fqa+dJRM0dCx9x3kp/iFKMQeqsIT6JaZ6WW02z8ayyvwFQCOrMMTEkFd9GvrnNCf0CS+fxGueTg
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 15:46:32.1755
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1026cc8-4cdf-4592-05e3-08dece19ef9d
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9200
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260619-concierge-doozy-9c161533c369@spud>
 
-On 17/06/2026 18:17, Julian Braha wrote:
-> Hi Ahmed,
+On Fri, Jun 19, 2026 at 03:12:07PM +0100, Conor Dooley wrote:
+> On Fri, Jun 19, 2026 at 02:01:08PM +0100, Nuno Sá wrote:
+> > On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:
+> > > On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:
+> > > > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:
+> > > > > 
+> > > > > On 6/14/26 21:44, Jonathan Cameron wrote:
+> > > > > > On Tue, 9 Jun 2026 16:47:23 +0200
+> > > > > > Janani Sunil <jan.sun97@gmail.com> wrote:
+> > > > > > 
+> > > > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:
+> > > > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:
+> > > > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> > > > > > > > > buffered voltage output digital-to-analog converter (DAC) with an
+> > > > > > > > > integrated precision reference.
+> > > > > > > > ...
+> > > > > > > > Probably others may comment on that, but...
+> > > > > > > > 
+> > > > > > > > This parent node may support device addressing for multi-device support through
+> > > > > > > > those ID pins. I suppose that each device may have its own power supplies or
+> > > > > > > > other resources like the toggle pins or reset and enable.
+> > > > > > > > 
+> > > > > > > > That way I suppose that an example would look like...
+> > > > > > > > > +
+> > > > > > > > > +patternProperties:
+> > > > > > > > > +  "^channel@([0-9]|1[0-5])$":
+> > > > > > > > > +    type: object
+> > > > > > > > > +    description: Child nodes for individual channel configuration
+> > > > > > > > > +
+> > > > > > > > > +    properties:
+> > > > > > > > > +      reg:
+> > > > > > > > > +        description: Channel number.
+> > > > > > > > > +        minimum: 0
+> > > > > > > > > +        maximum: 15
+> > > > > > > > > +
+> > > > > > > > > +      adi,output-range-microvolt:
+> > > > > > > > > +        description: |
+> > > > > > > > > +          Output voltage range for this channel as [min, max] in microvolts.
+> > > > > > > > > +          If not specified, defaults to 0V to 5V range.
+> > > > > > > > > +        oneOf:
+> > > > > > > > > +          - items:
+> > > > > > > > > +              - const: 0
+> > > > > > > > > +              - enum: [5000000, 10000000, 20000000, 40000000]
+> > > > > > > > > +          - items:
+> > > > > > > > > +              - const: -5000000
+> > > > > > > > > +              - const: 5000000
+> > > > > > > > > +          - items:
+> > > > > > > > > +              - const: -10000000
+> > > > > > > > > +              - const: 10000000
+> > > > > > > > > +          - items:
+> > > > > > > > > +              - const: -15000000
+> > > > > > > > > +              - const: 15000000
+> > > > > > > > > +          - items:
+> > > > > > > > > +              - const: -20000000
+> > > > > > > > > +              - const: 20000000
+> > > > > > > > > +
+> > > > > > > > > +    required:
+> > > > > > > > > +      - reg
+> > > > > > > > > +
+> > > > > > > > > +    additionalProperties: false
+> > > > > > > > > +
+> > > > > > > > > +required:
+> > > > > > > > > +  - compatible
+> > > > > > > > > +  - reg
+> > > > > > > > > +  - vdd-supply
+> > > > > > > > > +  - avdd-supply
+> > > > > > > > > +  - hvdd-supply
+> > > > > > > > > +
+> > > > > > > > > +dependencies:
+> > > > > > > > > +  spi-cpha: [ spi-cpol ]
+> > > > > > > > > +  spi-cpol: [ spi-cpha ]
+> > > > > > > > > +
+> > > > > > > > > +allOf:
+> > > > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > > > > > > > +
+> > > > > > > > > +unevaluatedProperties: false
+> > > > > > > > > +
+> > > > > > > > > +examples:
+> > > > > > > > > +  - |
+> > > > > > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > > > > > +
+> > > > > > > > > +    spi {
+> > > > > > > > > +        #address-cells = <1>;
+> > > > > > > > > +        #size-cells = <0>;
+> > > > > > > > > +
+> > > > > > > > > +        dac@0 {
+> > > > > > > > > +            compatible = "adi,ad5529r-16";
+> > > > > > > > > +            reg = <0>;
+> > > > > > > > > +            spi-max-frequency = <25000000>;
+> > > > > > > > > +
+> > > > > > > > > +            vdd-supply = <&vdd_regulator>;
+> > > > > > > > > +            avdd-supply = <&avdd_regulator>;
+> > > > > > > > > +            hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > +            hvss-supply = <&hvss_regulator>;
+> > > > > > > > > +
+> > > > > > > > > +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > > +
+> > > > > > > > > +            #address-cells = <1>;
+> > > > > > > > > +            #size-cells = <0>;
+> > > > > > > > > +
+> > > > > > > > > +            channel@0 {
+> > > > > > > > > +                reg = <0>;
+> > > > > > > > > +                adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > +            };
+> > > > > > > > > +
+> > > > > > > > > +            channel@1 {
+> > > > > > > > > +                reg = <1>;
+> > > > > > > > > +                adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > +            };
+> > > > > > > > > +
+> > > > > > > > > +            channel@2 {
+> > > > > > > > > +                reg = <2>;
+> > > > > > > > > +                adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > > +            };
+> > > > > > > > > +        };
+> > > > > > > > > +    };
+> > > > > > > > ...
+> > > > > > > > 
+> > > > > > > > 	spi {
+> > > > > > > > 		#address-cells = <1>;
+> > > > > > > > 		#size-cells = <0>;
+> > > > > > > > 
+> > > > > > > > 		multi-dac@0 {
+> > > > > > > > 			compatible = "adi,ad5529r-16";
+> > > > > > > > 			reg = <0>;
+> > > > > > > > 			spi-max-frequency = <25000000>;
+> > > > > > > > 
+> > > > > > > > 			#address-cells = <1>;
+> > > > > > > > 			#size-cells = <0>;
+> > > > > > > > 
+> > > > > > > > 			dac@0 {
+> > > > > > > > 				reg = <0>;
+> > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > 
+> > > > > > > > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > 
+> > > > > > > > 				#address-cells = <1>;
+> > > > > > > > 				#size-cells = <0>;
+> > > > > > > > 
+> > > > > > > > 				channel@0 {
+> > > > > > > > 					reg = <0>;
+> > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > 				};
+> > > > > > > > 
+> > > > > > > > 				channel@1 {
+> > > > > > > > 					reg = <1>;
+> > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > 				};
+> > > > > > > > 
+> > > > > > > > 				channel@2 {
+> > > > > > > > 					reg = <2>;
+> > > > > > > > 					adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > 				};
+> > > > > > > > 			}
+> > > > > > > > 
+> > > > > > > > 			dac@1 {
+> > > > > > > > 				reg = <1>;
+> > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > 
+> > > > > > > > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
+> > > > > > > > 
+> > > > > > > > 				#address-cells = <1>;
+> > > > > > > > 				#size-cells = <0>;
+> > > > > > > > 
+> > > > > > > > 				channel@0 {
+> > > > > > > > 					reg = <0>;
+> > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > 				};
+> > > > > > > > 
+> > > > > > > > 				channel@1 {
+> > > > > > > > 					reg = <1>;
+> > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > 				};
+> > > > > > > > 			}
+> > > > > > > > 		};
+> > > > > > > > 	};
+> > > > > > > > 
+> > > > > > > > then you might need something like:
+> > > > > > > > 
+> > > > > > > > 	patternProperties:
+> > > > > > > > 		"^dac@[0-3]$":
+> > > > > > > > 
+> > > > > > > > and put most of the things under this node pattern.
+> > > > > > > > 
+> > > > > > > > So the main driver that you're putting together might need to handle up to four instances.
+> > > > > > > > Even if your current driver cannot handle this, the dt-bindings might need cover that.
+> > > > > > > > 
+> > > > > > > > Need to double check if each dac node needs a separate compatible, so you would maybe populate
+> > > > > > > > a platform data to be shared with the child nodes, which would be a separate driver.
+> > > > > > > > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).
+> > > > > > > Hi Rodrigo,
+> > > > > > > 
+> > > > > > > Thank you for looking at this.
+> > > > > > > 
+> > > > > > > For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
+> > > > > > > hardware/use case we have only needs one device node and the driver is written around that model as well.
+> > > > > > > While the device addressing pins could allow multi-device topology, we do not have an actual platform using
+> > > > > > > that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
+> > > > > > > speculatively without a validating use case.
+> > > > > > Interesting feature - kind of similar to address control on a typical i2c bus device, or
+> > > > > > looking at it another way a kind of distributed SPI mux.
+> > > > > > 
+> > > > > > Challenge of a binding is we need to anticipate the future.  So I think we do need something
+> > > > > > like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
+> > > > > > That would leave the path open to supporting the addressing at a later date.
+> > > > > > An alternative might be to look at it like a chained device setup. In those we pretend there
+> > > > > > is just one device with a lot of channels etc.  The snag is that here things are more loosely
+> > > > > > coupled whereas for those devices it tends to be you have to read / write the same register
+> > > > > > in all devices in the chain as one big SPI message.
+> > > > > > 
+> > > > > > +CC Mark Brown as he may know of some precedence for this feature. For his reference..
+> > > > > > - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
+> > > > > > value that matches that or they are ignored.  Thus a single bus + 1 chip select can
+> > > > > > be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
+> > > > > > longer term how to support it cleanly in SPI.
+> > > > 
+> > > > I'd swear I have seen this before, from some Microchip devices. Let me
+> > > > see if I can find what I am thinking of...
+> > > 
+> > > 
+> > > microchip,mcp3911 and microchip,mcp3564 both seem to do this with
+> > > slightly different properties.
+> > > 
+> > >   microchip,device-addr:
+> > >     description: Device address when multiple MCP3911 chips are present on the same SPI bus.
+> > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > >     enum: [0, 1, 2, 3]
+> > >     default: 0
+> > > 
+> > > and
+> > > 
+> > > 
+> > >   microchip,hw-device-address:
+> > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > >     minimum: 0
+> > >     maximum: 3
+> > >     description:
+> > >       The address is set on a per-device basis by fuses in the factory,
+> > >       configured on request. If not requested, the fuses are set for 0x1.
+> > >       The device address is part of the device markings to avoid
+> > >       potential confusion. This address is coded on two bits, so four possible
+> > >       addresses are available when multiple devices are present on the same
+> > >       SPI bus with only one Chip Select line for all devices.
+> > >       Each device communication starts by a CS falling edge, followed by the
+> > >       clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+> > >       which is first one on the wire).
+> > > 
+> > > This sounds exactly like the sort of feature that you're dealing with
+> > > here?
+> > > 
+> > 
+> > The core idea yes but for this chip, things are a bit more annoying (but
+> > Janani can correct me if I'm wrong). Here, each device can, in theory,
+> > have it's own supplies, pins and at the very least, channels with maybe
+> > different scales. That is why Janani is proposing dac nodes. Given I
+> > honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
+> > about solving this at the spi level.
+> > 
+> > Ah and to make it more annoying, we can also mix 12 and 16 bits variants
+> > together in the same bus.
 > 
-> On 6/17/26 14:54, Ahmed Tiba wrote:
-> 
->> +config GHES_CPER_HELPERS
->> +	bool
->> +	select UEFI_CPER
-> 
-> This config option should probably also depend on ACPI (could just move
-> it into the if ACPI..endif block), or at least have a comment that
-> selector options ensure ACPI is enabled.
-> 
-> - Julian Braha
+> I'm definitely missing something, because that property for the
+> microchip devices is not impacted what else is on the bus. AFAICT, you
+> could have an mcp3911 and an mcp3564 on the same bus even though both
+> are completely different devices with different drivers. They have
+> individual device nodes and their own supplies etc etc. These aren't
+> per-channel properties on an adc or dac, they're per child device on a
+> spi bus.
 
-GHES_CPER_HELPERS is intended for both the ACPI GHES path and the DT
-firmware-first provider, so I do not want to tie it to ACPI.
+Maybe I'm the one missing something :). IIRC, spi would not allow two
+devices on the same CS right? Because for this chip we would need
+something like:
 
-Best regards,
-Ahmed
+spi {
+	dac@0 {
+		reg = <0>;
+		adi,pin-id = <0>;
+	};
+
+	dac@1 {
+		reg = <0>; // which seems already problematic?
+		adi,pin-id <1>;
+	};
+
+	...
+
+	//up to 4
+};
+
+- Nuno Sá
+
