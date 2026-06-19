@@ -1,365 +1,361 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB0E53803E1;
-	Fri, 19 Jun 2026 12:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DFA38E8D8
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 13:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781873528; cv=none; b=EK//517sV/t0OtQA0A7kKoWgvRjvaX/sbmjubtEReOmmpzPbKAwpY//YswJHtmXz8UXGfbF1f9MRXKZVbSgrn2Db1g50V06VzWmPjDZ+sG4UyRpierkEgoPoGpiEq8aJ8naZd4jozVZSQktqJFv2QlPkKm8x9id+hWUBBJHzfPI=
+	t=1781874011; cv=none; b=ud4gERRb87RTrPPoVKetFesbulSX00xjIpv1/WSpx36y4kRFuNkQfRXFZ8cp8v6XYGzqd89hJWergZsUad2oRQQun1TO//EbqYPT9JYvpymJyyA1RYzjOgWuv6I7WK6QW/LuU4kv2kcR4qYH+xwJcYm+pEWb/7NDRE6IubzfnTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781873528; c=relaxed/simple;
-	bh=vlt508OngfcR+AlEOvkl8S0fVWYMg2eEN/6ShAE1moI=;
+	s=arc-20240116; t=1781874011; c=relaxed/simple;
+	bh=VnzYMuGGOZOFQ0lkAErjhznaopoAsL3miQ4uX60fQMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBAMlwkMVQ31oL95dKCPKU5tcPEXdt1mxYrLV+MK1Z/CNwkLWJkKO0iL4ll18ahEN3SsQE8ST/g0QLM1sgKCpAHkgcczeS2NVTppprnnjkyKkG4aLbVVyyV336UbSH8P+B/GMfp/qgVOIY9EN8ueIXxdE4arH7F1la25cUfxuYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=uhHiavHi; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T1wBV9GBj+kdpyYmQU70IFewQXwLaoVpmTvweSJWUOQpTqsJdBc6Lmklqkthonsbz9a4FloZA6rNJPjhWzP9qsLipVpBXNgfnx9ZhXVLlC2UkAr9bgZNzlGFWQGdG+89tIN+PbzpgNbVYYAF2jtEwqlRdCFDlG5zWTMUsAqyAAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJsy/YgJ; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="uhHiavHi"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC8392936;
-	Fri, 19 Jun 2026 05:51:54 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B22F83F62B;
-	Fri, 19 Jun 2026 05:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1781873519; bh=vlt508OngfcR+AlEOvkl8S0fVWYMg2eEN/6ShAE1moI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uhHiavHilkR8OcTBOY0TJKSGBxaoW08/UAVe/N1KNPtWhvkzKJ3SCBoM1/2SAFR0C
-	 0oLzkmazgQ3yCc4ZqSRcH/ZceO+kPRQDgRPvK7UThLUBZssa4yyyDdNRxtsgUYjOD0
-	 Pk3KPfkIqVDUSzfuWuVUbgGdAnDj83b4q7uQ8Uzs=
-Date: Fri, 19 Jun 2026 13:51:43 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, etienne.carriere@st.com,
-	peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com,
-	jic23@kernel.org, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, souvik.chakravarty@arm.com,
-	leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-	usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v4 00/31] Introduce SCMI Telemetry FS support
-Message-ID: <ajU7UqwPZBlwRGkf@pluto>
-References: <20260612223802.1337232-1-cristian.marussi@arm.com>
- <20260617-waten-allabendlich-zueinander-93d4b1367b8c@brauner>
- <ajLVW1eHzbGDm4yn@pluto>
- <29a304f0-1e62-418a-b84f-aabdc4c0de8d@kernel.org>
- <ajR_FBWOoXJKSeoH@pluto>
- <0025b907-27b9-4a51-b78f-f8ad413644d0@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJsy/YgJ"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4629051c946so1666559f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 06:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781874008; x=1782478808; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qiZU2ur+yus0frcrsmwpHi+cHkIfW6hKIYxrtn8YRlk=;
+        b=eJsy/YgJO8yOtf7gg8rfx16lJcDo/XV/V8kKM6w6CAptkr8JVCqnYtkp+wrocw5Tdh
+         OiHZCocnHMGGP51+gSlK7UlvpjDfU4xFhYEFakcmZwHMchbak54dEkW+ItlME47WIc1F
+         IFtBS/BDfh3jlVZ+n7xgF2gysunXXAyR4WiWNZz7yC5jzm0FROfZrp/tHZ4VuA3M5KuF
+         y2RMp1joeArpSs3C1GZ29a/PLuDHlIO9nXazbvb8RjVH1Cbtw9RzcW3tZWaK6wZzS/UD
+         wJbGjELKKpDCDeshL2QOnvLiLCRa9PEpr7yXpIP0sjfTGrIYwXlps/yVS+qpocihVkZq
+         wX3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781874008; x=1782478808;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qiZU2ur+yus0frcrsmwpHi+cHkIfW6hKIYxrtn8YRlk=;
+        b=ZrDqcdb8bkWQvrLRTnhm7HTRJQocfbeBHFnRt4fl42rletGceiaMHmXkakyNcGh6g4
+         AzwF0pfHlqg8zwWQuT1TsDLB9AtlL7tssYciln7Tn4zUFR1+5GuOMMCMtHEPqWtLX0di
+         8hR6xePoJQtzsVsJ8w2Hqsb6Ot9cYihmQyk1DksgFTM5eo7+HGdHiUMPyGz8NqFBYT4q
+         RRahx9lvpQ5flXFYkc7/2QRx5EbmMLK1C1BbwTlzMf81mnIRABHNQyfOkdOk7LyA7i82
+         XchFNTFeqpBHi0sL9vnIwp1/v0DAurGYUm9ONV61CP7ea+fPW0HGkfqjN+LE+VngOJZP
+         PRxg==
+X-Forwarded-Encrypted: i=1; AFNElJ/5ePxI1lcBEYmDHzN72RgQ3c2Fq5Ot4L3Z2jQdyWSxj+GVB2YKI/69yAMbnY8sy7QbjhR4lGD++XQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz738Vgzwp7fwDcj/7OIc7b4sEiX5rCia8zUyHTBBgxFb6ki1kX
+	etBusUvAlne6tNT2pBydg17zmjjeNEiBQh2xHPMzHHOUSrb0xELOsST0
+X-Gm-Gg: AfdE7cnl+eWmvVIjXo3uYSomC8O+LEdiPiRedv3EDORGaSLy/eRM+lIwshlqEcKnOEu
+	xRn9+h1T9VEf4+mmMqMo4GYRl1hh3g6fitRpbKUhVhgjNbLJrJ27dA0zqv+V6jiapIUNzzQEK2K
+	2b3I3rblkmb8GEzu5BnBnVGew0/2r5hPAVR/wdk6MqLvZr0p+otiyS8eZX4DY47tMtq4eiK9bR3
+	cFkIALygHGffImxGy/pncTjkKl3vas/Bx+UCYfPdrD0cGu10hUYzI1xcRfIf21T3qWhBdEUHpgz
+	blCwBY+XcxUjd5GHWfRLiq5Nyqe7HTzNZX3xz96n7KNtrkXNBem/wgGTM0WJon9vEYGcOFVNID3
+	CxIgROXLvEsbK/Cp9TozfBHJXPkibLptI0xYXWh0SMJ+Ue7SRLRb7x2H3DfhTLg8HFomSHqW0Ap
+	/DJuA=
+X-Received: by 2002:a05:6000:611:b0:463:3184:6310 with SMTP id ffacd0b85a97d-4651e7b3b26mr5222838f8f.28.1781874007796;
+        Fri, 19 Jun 2026 06:00:07 -0700 (PDT)
+Received: from nsa ([185.128.9.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650b67a253sm8027816f8f.23.2026.06.19.06.00.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 06:00:07 -0700 (PDT)
+Date: Fri, 19 Jun 2026 14:01:08 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Janani Sunil <jan.sun97@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <ajU73_TkKrSbqD4f@nsa>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+ <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
+ <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
+ <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
+ <20260614204455.408c4d40@jic23-huawei>
+ <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
+ <20260619-obstinate-polo-a230bef97fda@spud>
+ <20260619-bunch-diocese-dd7805cc17ff@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0025b907-27b9-4a51-b78f-f8ad413644d0@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260619-bunch-diocese-dd7805cc17ff@spud>
 
-On Fri, Jun 19, 2026 at 12:16:58PM +0200, David Hildenbrand (Arm) wrote:
+On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:
+> On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:
+> > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:
+> > > 
+> > > On 6/14/26 21:44, Jonathan Cameron wrote:
+> > > > On Tue, 9 Jun 2026 16:47:23 +0200
+> > > > Janani Sunil <jan.sun97@gmail.com> wrote:
+> > > > 
+> > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:
+> > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:
+> > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> > > > > > > buffered voltage output digital-to-analog converter (DAC) with an
+> > > > > > > integrated precision reference.
+> > > > > > ...
+> > > > > > Probably others may comment on that, but...
+> > > > > > 
+> > > > > > This parent node may support device addressing for multi-device support through
+> > > > > > those ID pins. I suppose that each device may have its own power supplies or
+> > > > > > other resources like the toggle pins or reset and enable.
+> > > > > > 
+> > > > > > That way I suppose that an example would look like...
+> > > > > > > +
+> > > > > > > +patternProperties:
+> > > > > > > +  "^channel@([0-9]|1[0-5])$":
+> > > > > > > +    type: object
+> > > > > > > +    description: Child nodes for individual channel configuration
+> > > > > > > +
+> > > > > > > +    properties:
+> > > > > > > +      reg:
+> > > > > > > +        description: Channel number.
+> > > > > > > +        minimum: 0
+> > > > > > > +        maximum: 15
+> > > > > > > +
+> > > > > > > +      adi,output-range-microvolt:
+> > > > > > > +        description: |
+> > > > > > > +          Output voltage range for this channel as [min, max] in microvolts.
+> > > > > > > +          If not specified, defaults to 0V to 5V range.
+> > > > > > > +        oneOf:
+> > > > > > > +          - items:
+> > > > > > > +              - const: 0
+> > > > > > > +              - enum: [5000000, 10000000, 20000000, 40000000]
+> > > > > > > +          - items:
+> > > > > > > +              - const: -5000000
+> > > > > > > +              - const: 5000000
+> > > > > > > +          - items:
+> > > > > > > +              - const: -10000000
+> > > > > > > +              - const: 10000000
+> > > > > > > +          - items:
+> > > > > > > +              - const: -15000000
+> > > > > > > +              - const: 15000000
+> > > > > > > +          - items:
+> > > > > > > +              - const: -20000000
+> > > > > > > +              - const: 20000000
+> > > > > > > +
+> > > > > > > +    required:
+> > > > > > > +      - reg
+> > > > > > > +
+> > > > > > > +    additionalProperties: false
+> > > > > > > +
+> > > > > > > +required:
+> > > > > > > +  - compatible
+> > > > > > > +  - reg
+> > > > > > > +  - vdd-supply
+> > > > > > > +  - avdd-supply
+> > > > > > > +  - hvdd-supply
+> > > > > > > +
+> > > > > > > +dependencies:
+> > > > > > > +  spi-cpha: [ spi-cpol ]
+> > > > > > > +  spi-cpol: [ spi-cpha ]
+> > > > > > > +
+> > > > > > > +allOf:
+> > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > > > > > +
+> > > > > > > +unevaluatedProperties: false
+> > > > > > > +
+> > > > > > > +examples:
+> > > > > > > +  - |
+> > > > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > > > +
+> > > > > > > +    spi {
+> > > > > > > +        #address-cells = <1>;
+> > > > > > > +        #size-cells = <0>;
+> > > > > > > +
+> > > > > > > +        dac@0 {
+> > > > > > > +            compatible = "adi,ad5529r-16";
+> > > > > > > +            reg = <0>;
+> > > > > > > +            spi-max-frequency = <25000000>;
+> > > > > > > +
+> > > > > > > +            vdd-supply = <&vdd_regulator>;
+> > > > > > > +            avdd-supply = <&avdd_regulator>;
+> > > > > > > +            hvdd-supply = <&hvdd_regulator>;
+> > > > > > > +            hvss-supply = <&hvss_regulator>;
+> > > > > > > +
+> > > > > > > +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > +
+> > > > > > > +            #address-cells = <1>;
+> > > > > > > +            #size-cells = <0>;
+> > > > > > > +
+> > > > > > > +            channel@0 {
+> > > > > > > +                reg = <0>;
+> > > > > > > +                adi,output-range-microvolt = <0 5000000>;
+> > > > > > > +            };
+> > > > > > > +
+> > > > > > > +            channel@1 {
+> > > > > > > +                reg = <1>;
+> > > > > > > +                adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > +            };
+> > > > > > > +
+> > > > > > > +            channel@2 {
+> > > > > > > +                reg = <2>;
+> > > > > > > +                adi,output-range-microvolt = <0 40000000>;
+> > > > > > > +            };
+> > > > > > > +        };
+> > > > > > > +    };
+> > > > > > ...
+> > > > > > 
+> > > > > > 	spi {
+> > > > > > 		#address-cells = <1>;
+> > > > > > 		#size-cells = <0>;
+> > > > > > 
+> > > > > > 		multi-dac@0 {
+> > > > > > 			compatible = "adi,ad5529r-16";
+> > > > > > 			reg = <0>;
+> > > > > > 			spi-max-frequency = <25000000>;
+> > > > > > 
+> > > > > > 			#address-cells = <1>;
+> > > > > > 			#size-cells = <0>;
+> > > > > > 
+> > > > > > 			dac@0 {
+> > > > > > 				reg = <0>;
+> > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > 
+> > > > > > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > 
+> > > > > > 				#address-cells = <1>;
+> > > > > > 				#size-cells = <0>;
+> > > > > > 
+> > > > > > 				channel@0 {
+> > > > > > 					reg = <0>;
+> > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > 				};
+> > > > > > 
+> > > > > > 				channel@1 {
+> > > > > > 					reg = <1>;
+> > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > 				};
+> > > > > > 
+> > > > > > 				channel@2 {
+> > > > > > 					reg = <2>;
+> > > > > > 					adi,output-range-microvolt = <0 40000000>;
+> > > > > > 				};
+> > > > > > 			}
+> > > > > > 
+> > > > > > 			dac@1 {
+> > > > > > 				reg = <1>;
+> > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > 
+> > > > > > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
+> > > > > > 
+> > > > > > 				#address-cells = <1>;
+> > > > > > 				#size-cells = <0>;
+> > > > > > 
+> > > > > > 				channel@0 {
+> > > > > > 					reg = <0>;
+> > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > 				};
+> > > > > > 
+> > > > > > 				channel@1 {
+> > > > > > 					reg = <1>;
+> > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > 				};
+> > > > > > 			}
+> > > > > > 		};
+> > > > > > 	};
+> > > > > > 
+> > > > > > then you might need something like:
+> > > > > > 
+> > > > > > 	patternProperties:
+> > > > > > 		"^dac@[0-3]$":
+> > > > > > 
+> > > > > > and put most of the things under this node pattern.
+> > > > > > 
+> > > > > > So the main driver that you're putting together might need to handle up to four instances.
+> > > > > > Even if your current driver cannot handle this, the dt-bindings might need cover that.
+> > > > > > 
+> > > > > > Need to double check if each dac node needs a separate compatible, so you would maybe populate
+> > > > > > a platform data to be shared with the child nodes, which would be a separate driver.
+> > > > > > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).
+> > > > > Hi Rodrigo,
+> > > > > 
+> > > > > Thank you for looking at this.
+> > > > > 
+> > > > > For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
+> > > > > hardware/use case we have only needs one device node and the driver is written around that model as well.
+> > > > > While the device addressing pins could allow multi-device topology, we do not have an actual platform using
+> > > > > that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
+> > > > > speculatively without a validating use case.
+> > > > Interesting feature - kind of similar to address control on a typical i2c bus device, or
+> > > > looking at it another way a kind of distributed SPI mux.
+> > > > 
+> > > > Challenge of a binding is we need to anticipate the future.  So I think we do need something
+> > > > like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
+> > > > That would leave the path open to supporting the addressing at a later date.
+> > > > An alternative might be to look at it like a chained device setup. In those we pretend there
+> > > > is just one device with a lot of channels etc.  The snag is that here things are more loosely
+> > > > coupled whereas for those devices it tends to be you have to read / write the same register
+> > > > in all devices in the chain as one big SPI message.
+> > > > 
+> > > > +CC Mark Brown as he may know of some precedence for this feature. For his reference..
+> > > > - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
+> > > > value that matches that or they are ignored.  Thus a single bus + 1 chip select can
+> > > > be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
+> > > > longer term how to support it cleanly in SPI.
+> > 
+> > I'd swear I have seen this before, from some Microchip devices. Let me
+> > see if I can find what I am thinking of...
 > 
-> >> Is the configuration aspect limited to enabling selected events, or is there
-> >> more that can be configured?
-
-Hi,
-
-> >>
-> > 
-> > The needed configuration is:
-> > 
-> >  - global Telemetry enable (tlm_enable)
-> >  - global common update_interval (current_update_interval)
 > 
-> Okay, so simple global properties.
+> microchip,mcp3911 and microchip,mcp3564 both seem to do this with
+> slightly different properties.
 > 
-> >  - per-DE enable/disable (des/0x<NNNN>/enable)
-> >  - per-DE timestamping enable/disable (des/0x<NNNN>/tstamp_enable)
-> > 
-> >  ... then there are a couple of handy catch-all entries:
-> > 	all_des_enable, all_des_tstamp_enable
+>   microchip,device-addr:
+>     description: Device address when multiple MCP3911 chips are present on the same SPI bus.
+>     $ref: /schemas/types.yaml#/definitions/uint32
+>     enum: [0, 1, 2, 3]
+>     default: 0
 > 
-> Okay, so fairly trivial configs.
-
-Yes mostly on/off switches or single values config.
-
-> > 
-> > Note that all the existent DEs are discovered at runtime dynamically via
-> > SCMI in the background at init/probe and then never change: i.e.
-> > the tree is statically created upon discovery, user cannot
-> > create/destroy or symlink files at will, nor the backend platform FW
-> > running the SCMI server can pop-up new DataEvents after the initial
-> > enumeration.
+> and
 > 
-> That makes sense.
 > 
-> > 
-> > All the above configs can also be pre-defined in the FW (at built time)
-> > as being default boot-on with predefined values, like a specific
-> > boot-on update interval, so that you could have a system in which really
-> > you dont need to configure anything...everything is on and you just
-> > read data. (unless you want to change config of course...)
+>   microchip,hw-device-address:
+>     $ref: /schemas/types.yaml#/definitions/uint32
+>     minimum: 0
+>     maximum: 3
+>     description:
+>       The address is set on a per-device basis by fuses in the factory,
+>       configured on request. If not requested, the fuses are set for 0x1.
+>       The device address is part of the device markings to avoid
+>       potential confusion. This address is coded on two bits, so four possible
+>       addresses are available when multiple devices are present on the same
+>       SPI bus with only one Chip Select line for all devices.
+>       Each device communication starts by a CS falling edge, followed by the
+>       clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+>       which is first one on the wire).
 > 
-> Okay, so the initial value of some parameters might not be "disabled" etc.
-
-Yes at the protocol layer I take care to lookup all of this states at
-init so that the initial states are consistent with what exposed...
-
-> 
-> I guess, from a user space perspective, reading should be allowed by everyone
-> but writing should be limited to root?
->
-
-Yes it is currently world readable and only root has write access by default,
-BUT in this latest V4 I added (as asked by some internal team) handling of the
-usual uid/gid/umask mount options so that a privileged user can change the ownership
-policy at mount time. (not supporting anyway FS_USERNS_MOUNT since it does not
-make sense to support containers for SCMI Telemetry)
-
-> > 
-> > There is more stuff that indeed is configurable per the SCMI spec
-> > but these additional params are hidden into the SCMI Telemetry protocol
-> > layer (the initial patches in this series) and NOT made available to
-> > the driver/users of the protocol (like the SCMI FS driver that sits on
-> > top)
-> 
-> Do you assume that there will get significantly more config options added in the
-> future for user space to configure?
-
-No, I dont think so...the only planned extensions were to support more
-performant read access mechanisms, i.e. direct mmap'ability of FW/Kernel
-SCMI Telemetry shared memory areas...BUT that will immediately dump all
-the bulk of the lower layer protocol work into the tools domain...and
-we're not ready to do so...beside having one more thing, the tool, to keep
-in sync with possible future spec changes (unless exposing even more stuff
-like tlm mem-areas accessors to the UAPI...that would be painful kernel
-side and not desired AFAIU...)
-
-> 
-> > 
-> > IOW, this humonguos series (~8k lines) is only partially composed by
-> > the Filesystem driver (~3k): the bulk of the Telemetry logic and SCMI
-> > message exchanges are contained in the SCMI Protocol stack which has
-> > been extended to support the Telemerty protocol at first
-> > (the 'firmware: arm_scmi:' initial patches).
-> > 
-> > This latter common support is exposed by the SCMI stack for the SCMI
-> > drivers to use via custom per-protocol operations (not an orginal name :P)
-> > exposed in include/linux/scmi_protocol.h
-> > 
-> > So when you write into FS to configure smth, you end up calling an internal
-> > tlm_proto_ops that in turn will cause an SCMI message to be sent
-> > (in some cases say to enable a DE or set the update interval)
-> 
-> Makes sense.
-> 
-> > 
-> > When you read something, you end up calling another Telemetry operation
-> > that in turn returns you the DataEvent value you were looking for...how
-> > this is retrieved via SCMI in the background is transparent to the
-> > FS driver because, again, these details are buried into the protocol
-> > layer. Talking about reads, you can:
-> > 
-> >  - read a single value from des/0x<NNNN>/value
-> >  - read ALL the currently enabled DE in a bulk read via des_bulk_read
-> > 
-> > ...most of the other entries in the tree are simply RO properties of the DEs
-> > that have been discovered at enumeration time.
-> 
-> Is this bulk-reading relevant for performance or just a "nice to have" ?
+> This sounds exactly like the sort of feature that you're dealing with
+> here?
 > 
 
-I suppose depends on your usage pattern: it is definitely relevant
-because the main collection mechanism are shared memory areas (SHMTIs)
-between the platform firmware and the Kernel: such areas being accessed
-from 2 differnt worlds concurrently come with a SCMI-specified
-synchro/consistency mechanism based simply on a pair of sequence numbers
-placed at the start and at the end of the SHMTI, so that the FW increases
-such magic numbers in a well-known way before and after updating the SHMTI
-values, so that the kernel can detect (without any interlocking mechanism)
-if a platform write happened in the middle of its reads...
+The core idea yes but for this chip, things are a bit more annoying (but
+Janani can correct me if I'm wrong). Here, each device can, in theory,
+have it's own supplies, pins and at the very least, channels with maybe
+different scales. That is why Janani is proposing dac nodes. Given I
+honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
+about solving this at the spi level.
 
-...so if you read one single DE 64bit value, under the hood the kernel
-would have had to really perform at leats 3 reads from the SHMTI to check
-the consistecy of that single read...
+Ah and to make it more annoying, we can also mix 12 and 16 bits variants
+together in the same bus.
 
-... while if you do a bulk_read the overhead due to the consistecy
-checks gets 'spread' across a number of DEs because the kernel will snapshot
-the whole SHMTIs (potentially KBytes) between the 2 consistency reads
+- Nuno Sá
 
-...the good side effect of all of this is that I can leverage such
-sequence number to optimize reads..i.e. do NOT even try to read anything
-if the new sequnce number is unchanged from the last one I cached on the
-last successfull read of this value...
-
-So at the end I would say it is NOT simply a nice to have BUT it is
-certainly only the first step towards a more performant alternative access
-(like with mmaps)...it depends on the usage pattern...I am not sure what
-mechanism is used by our tools more...
-
-> 
-> > 
-> > Given that walking a FS tree and issuing configuration as writes is NOT
-> > performant really (nor handy if you are not a human), currently, even
-> > in this FS-based series you can really perform all of the discovery AND
-> > the configuration tasks WITHOUT walking the filesystem tree, but instead
-> > issuing a bunch of IOCTLs issued on a special 'control' file that I
-> > embedded in the FS. Such UAPI IOCTLs described at:
-> 
-> Makes sense.
-> 
-> > 
-> > https://lore.kernel.org/arm-scmi/20260612223802.1337232-6-cristian.marussi@arm.com/T/#u
-> >  
-> > So my plan of action in order to get rid of the FS in-kenel implementation
-> > would be to drop this Filesystem in favour of simple character devices
-> > and move the existent IOCTLs interface (revisited where needed) on top of
-> > these devices: that way you will be able to use IOCTLs to enumerate the
-> > Telemetry sources and then configure them.
-> > 
-> > Read will then happen (probably) leveraging a number of chardev fops like:
-> > IOCTLs, .read and .mmap...up to the tool decide what to use.
-> > 
-> > After this porting to chardev is done, I would start optionally exposing
-> > again all of this in a human-readable alternative way by adding a layer
-> > of FUSE on top of this chardev interface.
-> 
-> Yes. How high-priority is the fs side? Or would a tool using a library to access
-> this information also work in the first step?
-> 
-
-I have to sync with tools on this...because they are stiil probably
-using currently the FS, but it was already planned for the future to move to
-a more low level access (ioctl/mmap)...
-
-...my aim would be, at this point, to favour this transition without sudden
-breaking their current world (and have to expatriate :P)
-
-..from my personal point of view, I would certainly like to still have the
-FUSE layer for ease of testing and verification on my side...but it is just
-a nice to have... 
-
-> > 
-> > Basically my aim is to drop the FS implementation from the kernel, as
-> > advised, while trying to optionally make it still available via a userspace
-> > FUSE implementation...IOW the intention would be for the next V5 to expose
-> > the same interfaces as V4 but with the help of a tool instead that builds,
-> > if wanted, a FUSE mount built on top of the chardev interface.
-
-[snip]
-
-> >>
-> >> It's a good question how that could be done, if you need more information about
-> >> these events from user space.
-> > 
-> > I have NOT really delved into that, so as of know we do NOT fed any data
-> > to existing Kernel subsystems, not there is any available in-kernel
-> > interface to consume DE data (nobody asked), but, I can imagine 2 solution:
-> > 
-> >  - our beloved architects decide to 'architect' more DataEvents in the
-> >    next version of the spec.. i.e. they reserve some specific DE IDs to
-> >    represent some well defined entity (like it is done already in the spec
-> >    for a dozen IDs)...this avoids the needs of any new interface all
-> >    together
-> 
-> That would be the cleanest solution :)
-> 
-
-Definitely agree.
-
-> > 
-> > OR
-> > 
-> > - we open some sort of user-->kernel ABI channel 'somewhere' where the
-> >   userspace tool, interpreting the JSON description, can communicate something
-> >   like " on this platform ID 1,2,3,4 should be fed to the IIO sensors frmwk
-> >   too, while ID 39,8,76 can be fed to HWMON..." etc
-> > 
-> >>
-> >> [...]
-> >>
-> >>
-> >> That sounds reasonable.
-> >>
-> >> [...]
-> >>
-
-[snip]
-
-> > Regarding the user concurrency, I have already explicitly pushed back on
-> > this, our own tools team: any concurrent read or configuration write is
-> > allowed and properly handled in a consistent way, BUT on the configuration
-> > side the last write/ioctl wins: there is NO in-kernel OR userspace
-> > co-ordination provided out of the box: IOW if you use multiple tools
-> > concurrently to apply conflicting configurations, it is none of our problem
-> 
-> Would concurrent reading work? I assume so, right?
-> 
-
-Yes concurrent reading is not a problem, and concurrent writes are
-properly handled at the write/message level (i.e. no corruption) BUT
-no co-ordination is provided from the kernel on those config writes,
-last write wins.
-
-> > 
-> > ...similarly as if you have an actively running network configuration daemon
-> > and you try to set your IP manually...nobody will prevent you from doing this,
-> > the same netlink will be used freely by you on the shell and the daemon (if you
-> > have enough privilege), but you will gonna have unexpected result...
-> > 
-> > I dont either see the case to enforce exclusive access for Telemetry resources:
-> > co-ordination is up to the user in my view...I mean if you have 2 tools
-> > configuring concurrently SCMI telemetry in a conflicting way something has been
-> > misconfigured somewhere
-> > 
-> > .....having said that, I understand that the concurrency co-ordination
-> > issue can be particularly tricky to spot and solve in userspace, so I DO
-> > expose a generation counter entry that is updated on any configuration
-> > change, so that a userspace app using Telemetry can monitor (poll) this
-> > counter to spot if someone else on the system is quietly suddenly applying
-> > configuration changes...
-> 
-> Okay, so a single writer (admin) changing stuff could get picked up my possibly
-> many concurrent readers?
-
-Mmm...not sure what you mean here...
-
-If you configure your Telemetry as you desire and start collecting data via
-readers, BUT then some other process changes configs under your belt, that is
-allowed as said, and so your analisys could be impacted...(something turned off
-as an example, or update interval changed)...
-
-...so while this is NOT regulated/co-ordinated by the Kernel, in order to
-ease the detection of such events by your reading process, I provide a pollable
-entry that returns an integer and then blocks until such counter is next updated
-by an intervening under-the-hood configuration change...so you can configure,
-monitor the generatin counter and then starts reading you data, sure that you
-will detect any conflicting re-config issued by a rougue process...
-(and I have to still extend this event polling mechanism to use a user
-provided eventfd...since it was NOT strictly needed...but now with
-IOCTLs interface I will add that too...)
-
-> 
-> > 
-> >>>
-> >>> Should/could such a tool live in the kernel tree (tools/) at least for
-> >>> ease of development/deployment ?
-> >>
-> >> I think OOT.
-> >>
-> > 
-> > Ok.
-> > 
-> > Sorry for the long email..I hope I have clarified the situation, anyway
-> > I am already moving to get rid of the in-kernel interface as advised in
-> > favour of a chardev kernel interface and an optional FUSE based FS...
-> 
-> Yes, thank you a lot, I hope it also helps Christian to help push this into the
-> right direction!
->
-
-Thanks a lot, David !
-Cristian
 
