@@ -1,395 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1672D0602;
-	Fri, 19 Jun 2026 14:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554BF19C556
+	for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 14:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781878334; cv=none; b=PX34MGxzPtv5KApj8epX8I6H1QhhTbsFVVfjL3pnRONTN+kRUDVFdqRsyrz+pY7C7+5TZIBo1shVs4FviVIVNbVZe4onihhNHRn9xsn8tMEISKHHQLt2+HHauMrhyzSQDMl6Qxhel0ZahhD6NfQT97SArChSQnUUI/p1V86MmLw=
+	t=1781878849; cv=none; b=bph9TdZF66VyvEFaePa5BDk8sGUmeK4EkaN8dBb1Yq5fgLiNp8OvqIdgYUK1lC01XQYoVMaQjwdHDKZ1mEr+qSR1JdwZL9pHRt04ZybV05NXU5cnM3eZJHWnMEkdgjKmNbFX06Vw4Z3JACps/xsdYLWeSV8Iy3N8gRy00uPIxUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781878334; c=relaxed/simple;
-	bh=lTxrd4X/j8Acp+ezn8gTZU00Z3TWrANSh9F7Jp4RNXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OPMFCQyrQH8yLGw1pffdgHJ1M335kWOpEt5wVkoY5oe/8alMtuJCFxjK/1OLN2pJ0RhJ9g7o8sPR2Rud7l5osvDM3oZIP5CbpOWGOpg8UBElEDhtvE9gJnrPpAzfJ4Q5dFlsLh0CDQkYACccH6RJUsbGy67bvv1vaaXjYME72gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZus099i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781878849; c=relaxed/simple;
+	bh=2FQMD8bu684nEsU/UXL7vfxW6vXPsGHz9C/bJbOPhZo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VMkGlaqb6/zwfAYyZk4cBPbfasWQMcwjdyQ3+rqNbC7H1nj4V1Xm9vASM22UJQB8fVIhpqkOKtdjyVWJQScx6kbxGMiZI9jeDTUpqL/qTRxmY064CFkoIuiU9xdBkvy0b0Cis3rIgQWdylAPF1dUYACFATV2pfEhZKbmo/3Owcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s033ai/8; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZus099i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F6E61F00A3E;
-	Fri, 19 Jun 2026 14:12:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781878333;
-	bh=vgmUEVEuz00IPzQuWeSvdJebrj41UNbKZI4bgbBtCic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gZus099iJi7CedNbjqiy4F3CPil9S0zD2a0D6o/h30JE7pyYupYphW1y+yNkWfqXS
-	 vTp1Angi2cbfhDlVKYV42K0D/9skho0tW8Kg7TDf3vM4y84bX1Gv+Ji+JuHjqPgLkw
-	 kXt3M/7LoL3VFmawyFEyRsIJIsGxCEE+nWye+DEWzBjDO+b0ccPQkHzJPfuGf6gCT+
-	 Iq8Ub/6lSi1EzVpRTzigkNwzLJ8fSIRkQJkwvZyr3dRZkaTRGI4dJ0ZbaN0B5+IKoP
-	 XSRsqJvB0j4Y6Qy/rhGHBWBVTSa5kPAaYhfst/90NHJkER2FjJjuoEcA/1wXbomNlH
-	 Cm1KMok1HTHVw==
-Date: Fri, 19 Jun 2026 15:12:07 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Janani Sunil <jan.sun97@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260619-concierge-doozy-9c161533c369@spud>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
- <20260519-ad5529r-driver-v3-1-267c0731aa68@analog.com>
- <25mh6grzh7zh3b4uytcqnusyv5zjuf6ia4if3ce3oqzqz56ehi@le72iqv7ye3d>
- <603473ac-30e6-45e5-8a3b-c9902715cc9e@gmail.com>
- <20260614204455.408c4d40@jic23-huawei>
- <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
- <20260619-obstinate-polo-a230bef97fda@spud>
- <20260619-bunch-diocese-dd7805cc17ff@spud>
- <ajU73_TkKrSbqD4f@nsa>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s033ai/8"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-725f7cba0bdso756257137.3
+        for <linux-doc@vger.kernel.org>; Fri, 19 Jun 2026 07:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781878847; x=1782483647; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oTK64FZoF89IvutywaKW9AaCpbwlqYnBXZ0qeFcwR1o=;
+        b=s033ai/8du0j6leIbHuLlxOJYI5xeNG9hgYq8qaqXALedHj9kq+2u84lFNV81s2FLb
+         JGk4wDATGcvd2XJ8469i5AwpgkVWmTBplg8AeidwO9d6huH7E90+kVmMOTawpBItmApb
+         ubiAMSET6AadVvA8COufajVZcqVJoVp4EdSpwHIWp0hkyE5ak//9sA7XrVD6STFMOmh3
+         IRFXIdecBegaManci/OK/RDYHlQc4WKZDYo77oO9gQ9mJA8QUJnvVBR/GdEFA04p83ht
+         qQtkkyFkvJU6oXHei2lkHzj+l+9Rfk5Bek6cheHLBxLpvzV4DxBe1ipn9184lDYAH1+M
+         8VtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781878847; x=1782483647;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oTK64FZoF89IvutywaKW9AaCpbwlqYnBXZ0qeFcwR1o=;
+        b=SGPw8NVN9oZLwUav/xKdyMwfUGsIA9KXBt4BuNeeIrjeFd9KgTw235etChtv9meL17
+         E+kY/rbuy4E60yqI70/S8GQH9UnbYAYouBTk9cgpHh7Rat9iw5rPnQmKysknOncLqFVu
+         k30iU99CkYcJdfh7wtpnoQz9X6i1pvX/9km0V4mleSNfO+UjslMxD951zZqYK06Ks8yA
+         /siWs5ekME3MoFbJ86R22d3hF/okYK85xWPvdSdds71ivwTPIdb5BoY+cQcp3iC5xqZ1
+         oTbYKXv2yp6Q3eqD7dmAVscBD5R62wV/r8i1taIlN55y9w0wRx8tAlS9Vi5MKfC5wj6u
+         B3dA==
+X-Forwarded-Encrypted: i=1; AFNElJ+hoKHmHnyJVWKS/Snk69JaFJAV3O5sdTxh8btl5poPbhYuyvsPtGI7ufq4YJO+GHGM9qQ70/huyHE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm4Rlxf4ePI0pHSUEsB2Z6XQzKrhKCZDGfXuhuxCG91Cpjd5fQ
+	3DQUsObs1Rn6VBl6E0YGEV7EtnTyHrnx+v2J4UkzwJx2Hr9wHFogo5jz
+X-Gm-Gg: AfdE7cmxJJSEhvn4chv0hgGqB2B//qP0fOT+N2dRiSyKPBKeG8AMz8ArVIWd0rKGI0y
+	DTCHV2JzCRn53vGLpZyxa4LXAktNxQ1s0BWxsxiwHolCuT7TgWNFwUYEO7etEHjttFAttZ9tlBq
+	iOWRTtF8FrTIs08Y7VWCzguEjYFkGiU4xxOMEtjbmqrn6uwjdDFpb9cDqGkP7iZ5atHH63nuBoL
+	C/XQ9dCF60blgjUNDKDmRwpEnKmm2ltJUqHT8jKu0TGEXw778GBQbjId1gjBvohgcCIBTtY9NZT
+	h4xDvTxh2TxwPYqDQEhUimcg0O9TU1Vq1Zb0DADtW/QsqRnZ8hVZ1uFPDWZdxBv0cEwTBJU5eCZ
+	4H2OvxYDntND+P/xynosD45yG+F1fSuQV9vdEHeO899XF92TihOXdt4oIysTa9MJ7gBc90bsSOf
+	8y9ek=
+X-Received: by 2002:a05:6102:5491:b0:720:81d5:92dd with SMTP id ada2fe7eead31-72a78a86867mr1255462137.22.1781878847023;
+        Fri, 19 Jun 2026 07:20:47 -0700 (PDT)
+Received: from houminxi ([101.90.5.50])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-72a34712e0fsm1689034137.4.2026.06.19.07.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 07:20:46 -0700 (PDT)
+From: Minxi Hou <houminxi@gmail.com>
+To: linux-nfs@vger.kernel.org
+Cc: trondmy@kernel.org,
+	anna@kernel.org,
+	cel@kernel.org,
+	jlayton@kernel.org,
+	linux-doc@vger.kernel.org,
+	Minxi Hou <houminxi@gmail.com>
+Subject: [PATCH] NFS: pnfs: fix stale references in pnfs.rst
+Date: Fri, 19 Jun 2026 22:20:40 +0800
+Message-ID: <20260619142040.3970345-1-houminxi@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1Ee5EGgvXsVjyk3T"
-Content-Disposition: inline
-In-Reply-To: <ajU73_TkKrSbqD4f@nsa>
+Content-Transfer-Encoding: 8bit
 
+The layout header list was moved from struct nfs_client (cl_layouts) to
+struct nfs_server (layouts) in commit 6382a44138e7 ("NFS: move pnfs
+layouts to nfs_server structure"), but the documentation was not updated.
 
---1Ee5EGgvXsVjyk3T
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also update the layout driver description to reflect that the objects
+layout driver was removed in commit 6d22323b2e9f ("nfs: remove the
+objlayout driver"), leaving 3 layout types implemented in the kernel
+client: files, blocks, and flexfiles.
 
-On Fri, Jun 19, 2026 at 02:01:08PM +0100, Nuno S=E1 wrote:
-> On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:
-> > On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:
-> > > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:
-> > > >=20
-> > > > On 6/14/26 21:44, Jonathan Cameron wrote:
-> > > > > On Tue, 9 Jun 2026 16:47:23 +0200
-> > > > > Janani Sunil <jan.sun97@gmail.com> wrote:
-> > > > >=20
-> > > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:
-> > > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:
-> > > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high v=
-oltage,
-> > > > > > > > buffered voltage output digital-to-analog converter (DAC) w=
-ith an
-> > > > > > > > integrated precision reference.
-> > > > > > > ...
-> > > > > > > Probably others may comment on that, but...
-> > > > > > >=20
-> > > > > > > This parent node may support device addressing for multi-devi=
-ce support through
-> > > > > > > those ID pins. I suppose that each device may have its own po=
-wer supplies or
-> > > > > > > other resources like the toggle pins or reset and enable.
-> > > > > > >=20
-> > > > > > > That way I suppose that an example would look like...
-> > > > > > > > +
-> > > > > > > > +patternProperties:
-> > > > > > > > +  "^channel@([0-9]|1[0-5])$":
-> > > > > > > > +    type: object
-> > > > > > > > +    description: Child nodes for individual channel config=
-uration
-> > > > > > > > +
-> > > > > > > > +    properties:
-> > > > > > > > +      reg:
-> > > > > > > > +        description: Channel number.
-> > > > > > > > +        minimum: 0
-> > > > > > > > +        maximum: 15
-> > > > > > > > +
-> > > > > > > > +      adi,output-range-microvolt:
-> > > > > > > > +        description: |
-> > > > > > > > +          Output voltage range for this channel as [min, m=
-ax] in microvolts.
-> > > > > > > > +          If not specified, defaults to 0V to 5V range.
-> > > > > > > > +        oneOf:
-> > > > > > > > +          - items:
-> > > > > > > > +              - const: 0
-> > > > > > > > +              - enum: [5000000, 10000000, 20000000, 400000=
-00]
-> > > > > > > > +          - items:
-> > > > > > > > +              - const: -5000000
-> > > > > > > > +              - const: 5000000
-> > > > > > > > +          - items:
-> > > > > > > > +              - const: -10000000
-> > > > > > > > +              - const: 10000000
-> > > > > > > > +          - items:
-> > > > > > > > +              - const: -15000000
-> > > > > > > > +              - const: 15000000
-> > > > > > > > +          - items:
-> > > > > > > > +              - const: -20000000
-> > > > > > > > +              - const: 20000000
-> > > > > > > > +
-> > > > > > > > +    required:
-> > > > > > > > +      - reg
-> > > > > > > > +
-> > > > > > > > +    additionalProperties: false
-> > > > > > > > +
-> > > > > > > > +required:
-> > > > > > > > +  - compatible
-> > > > > > > > +  - reg
-> > > > > > > > +  - vdd-supply
-> > > > > > > > +  - avdd-supply
-> > > > > > > > +  - hvdd-supply
-> > > > > > > > +
-> > > > > > > > +dependencies:
-> > > > > > > > +  spi-cpha: [ spi-cpol ]
-> > > > > > > > +  spi-cpol: [ spi-cpha ]
-> > > > > > > > +
-> > > > > > > > +allOf:
-> > > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > > > > > > > +
-> > > > > > > > +unevaluatedProperties: false
-> > > > > > > > +
-> > > > > > > > +examples:
-> > > > > > > > +  - |
-> > > > > > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > > > > > +
-> > > > > > > > +    spi {
-> > > > > > > > +        #address-cells =3D <1>;
-> > > > > > > > +        #size-cells =3D <0>;
-> > > > > > > > +
-> > > > > > > > +        dac@0 {
-> > > > > > > > +            compatible =3D "adi,ad5529r-16";
-> > > > > > > > +            reg =3D <0>;
-> > > > > > > > +            spi-max-frequency =3D <25000000>;
-> > > > > > > > +
-> > > > > > > > +            vdd-supply =3D <&vdd_regulator>;
-> > > > > > > > +            avdd-supply =3D <&avdd_regulator>;
-> > > > > > > > +            hvdd-supply =3D <&hvdd_regulator>;
-> > > > > > > > +            hvss-supply =3D <&hvss_regulator>;
-> > > > > > > > +
-> > > > > > > > +            reset-gpios =3D <&gpio0 87 GPIO_ACTIVE_LOW>;
-> > > > > > > > +
-> > > > > > > > +            #address-cells =3D <1>;
-> > > > > > > > +            #size-cells =3D <0>;
-> > > > > > > > +
-> > > > > > > > +            channel@0 {
-> > > > > > > > +                reg =3D <0>;
-> > > > > > > > +                adi,output-range-microvolt =3D <0 5000000>;
-> > > > > > > > +            };
-> > > > > > > > +
-> > > > > > > > +            channel@1 {
-> > > > > > > > +                reg =3D <1>;
-> > > > > > > > +                adi,output-range-microvolt =3D <(-10000000=
-) 10000000>;
-> > > > > > > > +            };
-> > > > > > > > +
-> > > > > > > > +            channel@2 {
-> > > > > > > > +                reg =3D <2>;
-> > > > > > > > +                adi,output-range-microvolt =3D <0 40000000=
->;
-> > > > > > > > +            };
-> > > > > > > > +        };
-> > > > > > > > +    };
-> > > > > > > ...
-> > > > > > >=20
-> > > > > > > 	spi {
-> > > > > > > 		#address-cells =3D <1>;
-> > > > > > > 		#size-cells =3D <0>;
-> > > > > > >=20
-> > > > > > > 		multi-dac@0 {
-> > > > > > > 			compatible =3D "adi,ad5529r-16";
-> > > > > > > 			reg =3D <0>;
-> > > > > > > 			spi-max-frequency =3D <25000000>;
-> > > > > > >=20
-> > > > > > > 			#address-cells =3D <1>;
-> > > > > > > 			#size-cells =3D <0>;
-> > > > > > >=20
-> > > > > > > 			dac@0 {
-> > > > > > > 				reg =3D <0>;
-> > > > > > > 				vdd-supply =3D <&vdd_regulator>;
-> > > > > > > 				avdd-supply =3D <&avdd_regulator>;
-> > > > > > > 				hvdd-supply =3D <&hvdd_regulator>;
-> > > > > > > 				hvss-supply =3D <&hvss_regulator>;
-> > > > > > >=20
-> > > > > > > 				reset-gpios =3D <&gpio0 87 GPIO_ACTIVE_LOW>;
-> > > > > > >=20
-> > > > > > > 				#address-cells =3D <1>;
-> > > > > > > 				#size-cells =3D <0>;
-> > > > > > >=20
-> > > > > > > 				channel@0 {
-> > > > > > > 					reg =3D <0>;
-> > > > > > > 					adi,output-range-microvolt =3D <0 5000000>;
-> > > > > > > 				};
-> > > > > > >=20
-> > > > > > > 				channel@1 {
-> > > > > > > 					reg =3D <1>;
-> > > > > > > 					adi,output-range-microvolt =3D <(-10000000) 10000000>;
-> > > > > > > 				};
-> > > > > > >=20
-> > > > > > > 				channel@2 {
-> > > > > > > 					reg =3D <2>;
-> > > > > > > 					adi,output-range-microvolt =3D <0 40000000>;
-> > > > > > > 				};
-> > > > > > > 			}
-> > > > > > >=20
-> > > > > > > 			dac@1 {
-> > > > > > > 				reg =3D <1>;
-> > > > > > > 				vdd-supply =3D <&vdd_regulator>;
-> > > > > > > 				avdd-supply =3D <&avdd_regulator>;
-> > > > > > > 				hvdd-supply =3D <&hvdd_regulator>;
-> > > > > > > 				hvss-supply =3D <&hvss_regulator>;
-> > > > > > >=20
-> > > > > > > 				reset-gpios =3D <&gpio0 88 GPIO_ACTIVE_LOW>;
-> > > > > > >=20
-> > > > > > > 				#address-cells =3D <1>;
-> > > > > > > 				#size-cells =3D <0>;
-> > > > > > >=20
-> > > > > > > 				channel@0 {
-> > > > > > > 					reg =3D <0>;
-> > > > > > > 					adi,output-range-microvolt =3D <0 5000000>;
-> > > > > > > 				};
-> > > > > > >=20
-> > > > > > > 				channel@1 {
-> > > > > > > 					reg =3D <1>;
-> > > > > > > 					adi,output-range-microvolt =3D <(-10000000) 10000000>;
-> > > > > > > 				};
-> > > > > > > 			}
-> > > > > > > 		};
-> > > > > > > 	};
-> > > > > > >=20
-> > > > > > > then you might need something like:
-> > > > > > >=20
-> > > > > > > 	patternProperties:
-> > > > > > > 		"^dac@[0-3]$":
-> > > > > > >=20
-> > > > > > > and put most of the things under this node pattern.
-> > > > > > >=20
-> > > > > > > So the main driver that you're putting together might need to=
- handle up to four instances.
-> > > > > > > Even if your current driver cannot handle this, the dt-bindin=
-gs might need cover that.
-> > > > > > >=20
-> > > > > > > Need to double check if each dac node needs a separate compat=
-ible, so you would maybe populate
-> > > > > > > a platform data to be shared with the child nodes, which woul=
-d be a separate driver.
-> > > > > > > (not sure if it would make sense to mix and match ad5529r-16 =
-and ad5529r-12).
-> > > > > > Hi Rodrigo,
-> > > > > >=20
-> > > > > > Thank you for looking at this.
-> > > > > >=20
-> > > > > > For now, I would prefer to keep the binding scoped to a single =
-AD5529R device instance. The current
-> > > > > > hardware/use case we have only needs one device node and the dr=
-iver is written around that model as well.
-> > > > > > While the device addressing pins could allow multi-device topol=
-ogy, we do not have an actual platform using
-> > > > > > that configuration at the moment, so I would prefer not to intr=
-oduce an extra parent/child binding structure
-> > > > > > speculatively without a validating use case.
-> > > > > Interesting feature - kind of similar to address control on a typ=
-ical i2c bus device, or
-> > > > > looking at it another way a kind of distributed SPI mux.
-> > > > >=20
-> > > > > Challenge of a binding is we need to anticipate the future.  So I=
- think we do need something
-> > > > > like Rodrigo is suggesting even if we only (for now) support a si=
-ngle instance in the driver.
-> > > > > That would leave the path open to supporting the addressing at a =
-later date.
-> > > > > An alternative might be to look at it like a chained device setup=
-=2E In those we pretend there
-> > > > > is just one device with a lot of channels etc.  The snag is that =
-here things are more loosely
-> > > > > coupled whereas for those devices it tends to be you have to read=
- / write the same register
-> > > > > in all devices in the chain as one big SPI message.
-> > > > >=20
-> > > > > +CC Mark Brown as he may know of some precedence for this feature=
-=2E For his reference..
-> > > > > - Each of these device has 2 ID pins.  The SPI transfers have to =
-contain the 2 bit
-> > > > > value that matches that or they are ignored.  Thus a single bus +=
- 1 chip select can
-> > > > > be used to talk to 4 devices.  Question is what that looks like i=
-n device tree + I guess
-> > > > > longer term how to support it cleanly in SPI.
-> > >=20
-> > > I'd swear I have seen this before, from some Microchip devices. Let me
-> > > see if I can find what I am thinking of...
-> >=20
-> >=20
-> > microchip,mcp3911 and microchip,mcp3564 both seem to do this with
-> > slightly different properties.
-> >=20
-> >   microchip,device-addr:
-> >     description: Device address when multiple MCP3911 chips are present=
- on the same SPI bus.
-> >     $ref: /schemas/types.yaml#/definitions/uint32
-> >     enum: [0, 1, 2, 3]
-> >     default: 0
-> >=20
-> > and
-> >=20
-> >=20
-> >   microchip,hw-device-address:
-> >     $ref: /schemas/types.yaml#/definitions/uint32
-> >     minimum: 0
-> >     maximum: 3
-> >     description:
-> >       The address is set on a per-device basis by fuses in the factory,
-> >       configured on request. If not requested, the fuses are set for 0x=
-1.
-> >       The device address is part of the device markings to avoid
-> >       potential confusion. This address is coded on two bits, so four p=
-ossible
-> >       addresses are available when multiple devices are present on the =
-same
-> >       SPI bus with only one Chip Select line for all devices.
-> >       Each device communication starts by a CS falling edge, followed b=
-y the
-> >       clocking of the device address (BITS[7:6] - top two bits of COMMA=
-ND BYTE
-> >       which is first one on the wire).
-> >=20
-> > This sounds exactly like the sort of feature that you're dealing with
-> > here?
-> >=20
->=20
-> The core idea yes but for this chip, things are a bit more annoying (but
-> Janani can correct me if I'm wrong). Here, each device can, in theory,
-> have it's own supplies, pins and at the very least, channels with maybe
-> different scales. That is why Janani is proposing dac nodes. Given I
-> honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
-> about solving this at the spi level.
->=20
-> Ah and to make it more annoying, we can also mix 12 and 16 bits variants
-> together in the same bus.
+Signed-off-by: Minxi Hou <houminxi@gmail.com>
+---
+ Documentation/filesystems/nfs/pnfs.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I'm definitely missing something, because that property for the
-microchip devices is not impacted what else is on the bus. AFAICT, you
-could have an mcp3911 and an mcp3564 on the same bus even though both
-are completely different devices with different drivers. They have
-individual device nodes and their own supplies etc etc. These aren't
-per-channel properties on an adc or dac, they're per child device on a
-spi bus.
+diff --git a/Documentation/filesystems/nfs/pnfs.rst b/Documentation/filesystems/nfs/pnfs.rst
+index 7c470ecdc3a9..ea3d15cc4549 100644
+--- a/Documentation/filesystems/nfs/pnfs.rst
++++ b/Documentation/filesystems/nfs/pnfs.rst
+@@ -22,7 +22,7 @@ outstanding RPC call that references it (LAYOUTGET, LAYOUTRETURN,
+ LAYOUTCOMMIT), and for each lseg held within.
+ 
+ Each header is also (when non-empty) put on a list associated with
+-struct nfs_client (cl_layouts).  Being put on this list does not bump
++struct nfs_server (layouts).  Being put on this list does not bump
+ the reference count, as the layout is kept around by the lseg that
+ keeps it in the list.
+ 
+@@ -62,8 +62,8 @@ bit is set, preventing any new lsegs from being added.
+ layout drivers
+ ==============
+ 
+-PNFS utilizes what is called layout drivers. The STD defines 4 basic
+-layout types: "files", "objects", "blocks", and "flexfiles". For each
++PNFS utilizes what is called layout drivers. The Linux NFS client
++implements 3 layout types: "files", "blocks", and "flexfiles". For each
+ of these types there is a layout-driver with a common function-vectors
+ table which are called by the nfs-client pnfs-core to implement the
+ different layout types.
+-- 
+2.54.0
 
---1Ee5EGgvXsVjyk3T
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajVONwAKCRB4tDGHoIJi
-0g8+AP9yIAaFkTEFQkgh3bofClVqISovOXw4pSJXpMYXyyU5sQEAxEAsbSUZTDDl
-WJ0uJup4Vu6cETB9OPtAVv5R9LrgYA4=
-=1f1K
------END PGP SIGNATURE-----
-
---1Ee5EGgvXsVjyk3T--
