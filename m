@@ -1,120 +1,96 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF1F4369A
-	for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2026 21:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED86626B2AD
+	for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2026 23:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781991739; cv=none; b=iQy3TctleIWa1NtclQgvoBLlvn1VT1NuhKSOB2od/MH+Q0AFu2wqNTUTik2OjhlSCHPQN2VjFokn2CFkt0eOPqLcu1NDr53llDzKzSR3ctXE4eueptNTOSIhjKQXwznhVOAJIiTh5krbmjBCKJgq3NCZmKPyeeQ4+lNPFyuDTKI=
+	t=1781996795; cv=none; b=BSRsybLqprziplscsCuka0TXjjz6ClUz48Gme2I6Gi/GC8bftAh2UtBCBGST/YfV6hA4yWLo6QvrNfAje7T9+Oe+9h+Uu7MCoc6JPuf35xCGCk/WXThBAiVQEzoszQx4Qj5WAGRH0UmhU3IvXCDNxrVRj469klqkuMdwyDhWZlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781991739; c=relaxed/simple;
-	bh=nAo4oZH/orMGs6YonkZrkoGqgMEfNCzPz5734ZN4KjQ=;
+	s=arc-20240116; t=1781996795; c=relaxed/simple;
+	bh=pXpxU+2ApaEvSPI+RP+WZtBXVIyeEMDdVxDny6TSBOA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RiZ0aKo2jxGf0qH39tb0wl6QldeoZI7pzU7X9vuuqj4R2HBQPVi1BR9qQNnhqh/N1qqSbHx4CuJ9xtrZE9n2OMbrl3vuOmg1Q2kOoYKK2rKYdHkKsdek49nRCChHXj6bvu/QnyarGLAVdT4nxgjMee4rkf2d6VYuoa4z9E1TV/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1snmQBtg; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=b0fWLBQrb9kHBk4rThj8ZUO/k1uZzas2C2vZcT5vRRDyddVKGyZc9OBv595yWFojj6Vwc3pNhTAlPjmK8dp6p6+sWECM8EL6jox5YvHC98ny58rBXyYLpijA2ARIRuQfqg3GQdjg1ur8+XQhj/bIPt8etupGairjwe31BiKT7Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xIkAbuqG; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1snmQBtg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=uuaMkh35C+M2WN+W4Ps1GRQRooklEcMeJHCBQxlSQKo=; b=1snmQBtgT/uqttTLcjPBG93Jtp
-	5Xpbb2XjuUjv5h70bQi3OTzq7As0H4DYZDb8Di4RJvZT3IMr9fNWq3EEuULbBXX0quC1ToywcY3Kh
-	M0pF1eE/gj66kOKx7mAkBhjOPoT8e4+o6I3pz3MFkJcl3JkXs7/u9OrxSJIeWJnlEYi0Dq4BhGTmU
-	VSS3P+vk8BIBya8X9+p7prj9ZZjrc3m3A1JTpLtFSGZNoK+uP5e7WGmga/Fbdwiawt+dsr2GQtQOD
-	fiPwJCNE3y0tvvYMBUKJVhNXNUgO2+UWHSiWJ8pN96U1E8xWIN67EVXIFOKbXM1jHiFQFpzR+FJsP
-	GzGP23pQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wb3SC-00000003aE5-3bzl;
-	Sat, 20 Jun 2026 21:42:16 +0000
-Message-ID: <4130fd7c-6f7c-4b03-ad64-7a738e2f0bc9@infradead.org>
-Date: Sat, 20 Jun 2026 14:42:16 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xIkAbuqG"
+Message-ID: <54430fa8-00ac-47b7-a8e1-b2843581ffc5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781996781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ffNS15lFq3TC2UA1okQjo+eN+2l6iRu6XRsdlBA3/FE=;
+	b=xIkAbuqG322OG7rmC8cRgpBhxqFbaphCw/K21uexGUQod64yVkrSAglEHA5UaSOalVHbaw
+	55seWGT4eUo3ZJ8aNIW/I1rU18gWEYVrf4Ql1Schpiks7HlbBBrfUjeS57lhM/aoI2d0KK
+	0Gja4XRCTkXEcAcl+eUU3jJlSFkOaYk=
+Date: Sun, 21 Jun 2026 07:06:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] Documentation: xe_drm: fix chars used for subsection
-To: Rafael Passos <rafael@rcpassos.me>, linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org
-References: <20260620201732.94141-1-rafael@rcpassos.me>
- <20260620201732.94141-3-rafael@rcpassos.me>
+Subject: Re: [PATCH] docs: ipmi: Fix path of the "hotmod" module parameter
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: openipmi-developer@lists.sourceforge.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, corey@minyard.net, corbet@lwn.net,
+ skhan@linuxfoundation.org
+References: <20260620122747.7902-1-zenghui.yu@linux.dev>
+ <626477f6-8bda-4cac-8341-c720fd279ba3@infradead.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260620201732.94141-3-rafael@rcpassos.me>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <626477f6-8bda-4cac-8341-c720fd279ba3@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+On 6/21/26 2:40 AM, Randy Dunlap wrote:
+> 
+> 
+> On 6/20/26 5:27 AM, Zenghui Yu wrote:
+> > The correct path of the "hotmod" module parameter should be
+> > /sys/module/ipmi_si/parameters/hotmod. Fix it.
+> >
+> > Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+> > ---
+> >  Documentation/driver-api/ipmi.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> There are several other places that use /sys/modules/ instead of
+> /sys/module/.
 
-On 6/20/26 1:16 PM, Rafael Passos wrote:
-> Equal signs are reserved for document tiles"="
+Yup. There are:
 
-                                        titles.
-
-> this file docs gets imported by driver-uapi.rst,
-
-  This
-
-> and the page title is defined there.
-
-It would be helpful to include the warnings here (but maybe not
-all 10 lines of each warning).
-
-This patch does indeed prevent the warnings.
-
-You should send this patch the the DRM XE maintainers & mailing list.
-INTEL DRM DISPLAY FOR XE AND I915 DRIVERS
-M:	Jani Nikula <jani.nikula@linux.intel.com>
-M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
-L:	intel-gfx@lists.freedesktop.org
-L:	intel-xe@lists.freedesktop.org
-
-scripts/get_maintainer.pl should have told you that. (It does for me.)
-
-Thanks.
+Documentation/driver-api/ipmi.rst:This is done using /sys/modules/ipmi_si/parameters/hotmod, which is a
+Documentation/process/debugging/kgdb.rst:config string to ``/sys/module/<driver>/parameter/<option>``. The driver
+Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst:参数，或者在 ``/sys/modules/damon_lru_sort/parameters/<parameter>`` 写入正确的
+Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst:    # cd /sys/modules/damon_lru_sort/parameters
+Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst:參數，或者在 ``/sys/modules/damon_lru_sort/parameters/<parameter>`` 寫入正確的
+Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst:    # cd /sys/modules/damon_lru_sort/parameters
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/debug_layer
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/debug_level
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/trace_method_name
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/trace_state
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/trace_debug_layer
+drivers/acpi/sysfs.c: * /sys/modules/acpi/parameters/trace_debug_level
+drivers/acpi/sysfs.c:/* /sys/modules/acpi/parameters/aml_debug_output */
+drivers/base/module.c:          /* Lookup or create built-in module entry in /sys/modules */
+drivers/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c: *         On the fly: echo {0,1,2} > /sys/modules/lpvo_usb_gpib/parameters/debug
+fs/btrfs/sysfs.c:/* Set perms to 0, disable /sys/module/btrfs/parameter/read_policy interface. */
+fs/cachefiles/Kconfig:    enabled by setting bits in /sys/modules/cachefiles/parameter/debug or
+kernel/params.c:/* sysfs output in /sys/modules/XYZ/parameters/ */
 
 > 
-> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
-> ---
->  include/uapi/drm/xe_drm.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index 48e9f1fdb78d..4dfb30e6c8a8 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -2537,21 +2537,21 @@ struct drm_xe_exec_queue_set_property {
->   * Refer to Documentation/netlink/specs/drm_ras.yaml for complete interface specification.
->   *
->   * Node Registration
-> - * =================
-> + * -----------------
->   *
->   * The driver registers DRM RAS nodes for each error severity level.
->   * enum drm_xe_ras_error_severity defines the node-id, while DRM_XE_RAS_ERROR_SEVERITY_NAMES maps
->   * node-id to node-name.
->   *
->   * Error Classification
-> - * ====================
-> + * --------------------
->   *
->   * Each node contains a list of error counters. Each error is identified by a error-id and
->   * an error-name. enum drm_xe_ras_error_component defines the error-id, while
->   * DRM_XE_RAS_ERROR_COMPONENT_NAMES maps error-id to error-name.
->   *
->   * User Interface
-> - * ==============
-> + * --------------
->   *
->   * To retrieve error values of a error counter, userspace applications should
->   * follow the below steps:
+> Would you care to fix those also?
 
--- 
-~Randy
+I plan to fix them by subsystem like:
 
+https://lore.kernel.org/20260611142518.77343-1-zenghui.yu@linux.dev
+
+Thanks,
+Zenghui
