@@ -1,72 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F0286341;
-	Sun, 21 Jun 2026 10:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35CF36606B
+	for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 12:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782039575; cv=none; b=n56PfLNh/uonYCIQJPqWlL7u2MhBFtbRn06EyF8Q5tVenLMWPPzNu+Iyc+Q1eH1HrlmRqCbsCr4rdskX93GHgYC5g/3zBdko831mVkNg3GO7iJHfVhOJuYXpnEhGkoCl5pcMqrMxRA30hVdIYUAVlRFn9oF0Q6SZsDw8qLar3vA=
+	t=1782046537; cv=none; b=nhkYtZu9tj2l04voFogGVSKfBP5fgRakMHsmzq/Qh2U3Y0pywJrB6lUmjXjUQRSExU23rYpI2Jr1orLiDu+4F4NzMNBMYAEU9vCYJa35CQ1JzztTplm5Pazo7xpkFosxz/MaH4iI0HmFyJJ2z5/6+hzpDLPaLHL5G0QDstVw5Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782039575; c=relaxed/simple;
-	bh=2DN86s2IdRRyJNXclGrEm4t78z5nyQ6310zLXbM0epQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bZ46IP+4QINzJ6JX7mQRGbvnFV1vOSJhM0KP7MbHBFRQNnO0F7EhuJQN/8ZCkyeu4zLC6jj9hGmLp2K+UFfksDQ0y/+KUXT4hMmkI8rJz7oVat7gxfObibSNXSNc+NfHaoqDIb/Vd8CD7KQedKsIySoV2davhOB6mClgEYBT6/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0oH0xG0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782046537; c=relaxed/simple;
+	bh=FrBpf/gkssNS0FzrmeyqCp0e1iIN10xNwwkHFwdCrQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UzzBQMfA9qo+Di7ZRTIOHn+FbQp85i0admouad8QiXXijnVSWPNK1oo3a9snUKtWLTVkFrIsYaCqgY8JTPswXA/2Lz1RhT+0cTLHaY8YhrGmgnioQqesG4AikAr7ClMahD7Np+k1R4GtFwrwQebjpKuNNgrTlvdA4zU8eJscghc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEPnlA7i; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0oH0xG0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C681F000E9;
-	Sun, 21 Jun 2026 10:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782039574;
-	bh=2DN86s2IdRRyJNXclGrEm4t78z5nyQ6310zLXbM0epQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=k0oH0xG0fSGdxdDmWKkVeDot0QA2oBIXsev45gW1JceuvKrZtboYrQ8YJfHAGC11G
-	 E8bkJSI93plEii+DTl7869YyAJtXWgwqpP6bu2Z9ICf4QFUZ882CQcBCWjn0CcQoEW
-	 RFj+6pLa6vBufrhwzuE633GimQOnb8Rq5jDagmjMBhuI05rNvijxGODSPYLY3nrlE4
-	 Cu5qr28VZV/NdscIFUKxY7tkBlaxPAPOf+FdiXmO7eHL2S3zUc66d/m4B76DP97JUp
-	 8JjtRF5ahmOrfCjZkQnms2tliC+Y42LL3TQ10mFnHt8oO5vs0wshlvfO9esQIc9/sf
-	 96gExsWsABYVA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>, linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, Yoshihiro Shimoda
- <yoshihiro.shimoda.uh@renesas.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Catalin
- Marinas <catalin.marinas@arm.com>, Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] irqchip/gic-v3: Add Renesas R-Car Gen4 erratum
- workaround
-In-Reply-To: <20260618220427.14325-4-marek.vasut+renesas@mailbox.org>
-References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org>
- <20260618220427.14325-4-marek.vasut+renesas@mailbox.org>
-Date: Sun, 21 Jun 2026 12:59:30 +0200
-Message-ID: <87cxxkma5p.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEPnlA7i"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4627adcf4d6so2215860f8f.3
+        for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 05:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782046534; x=1782651334; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WU+6TPSMrQeQnOmPDKoUDmLIYSzXbxEWNqGQFFhaaZU=;
+        b=HEPnlA7ilq5cBLXmRCRdE+fi/N7aST+SdfMD+MJXNx44EBemiG9rjXiFv70GGeXSoz
+         OL+YA0wO4DZ+Vojg0dtpiA/+jHjShkgs9abDLGW3cDtqvdjyeSWyTCBZv9ntyUJ8YgkF
+         2LlW/c9NPd35YBu9qUTAvTzk/cctdfAz/26y+X+lPsuttpW4Px8uT6A7LWPw6p25qqh3
+         LN5ymox0l7svelgtmlOUVvfqkISw+y7pTMmkNCOhS+m102IwN1RYhV1E2cNi38XRGRkb
+         7yoF60g0aJidx7f0xIQvNERu2I7c6x6JhnU0pe9CGHXzsLJzdkQSpMm4duLjoPK4meQd
+         64yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782046534; x=1782651334;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WU+6TPSMrQeQnOmPDKoUDmLIYSzXbxEWNqGQFFhaaZU=;
+        b=QzlulTcwBt//408sIU8V23kby/1wRRwc2VvDQW1FMn2CORhvGIkqE4gna6ippkMIKX
+         nKBpee8MPgVcSCgMuk3IYqssD/7Y6Wr4lPfaEnL+khTDcZYB/ioegtd0PRY14pQmJaqd
+         2unx9E/zaW283ADAp90cRn8itxHrE/+fddsfG/jw8jszYD7QYWWvxg1m17JM3D3ur6Ew
+         sn6wgjHz2a5oFOTr1Y51yqRcyHOuvEO1hh5x4G/JtoVIP6ZSvIMyNIzBJRS6UZRMIhbd
+         9GPv9uUQ+z7HpXYW73DgOl9SOahOCvCLiuFibx1I50DwwHzvu1ws5P+7gSuA8P480QXH
+         aEgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9LFBYSHSxsLLfeBdsnCvKsGGcoOpcfFUPZ3VCLMp2S9zwXjkkczFr2DGUMycWAbTSFigWZtH1UkFw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSULEWBbvbhDiITrJ8ovf7m1kATOFywqyFEvld8jXFEI80pmqS
+	3V8a5vCVpo9ghZU1IM3UqwU3QqIYQiQfd7fvdoMQOe7ZacSAP9x+jJ/G
+X-Gm-Gg: AfdE7cnfIym+OT1aKuz335ncaihv8YeaWpWRIpCx9AGzrhXm+NCunmhDa2cYJIip5Js
+	wOsmo1YahO2xEAA6LsOiZ1+a9YPTRNlyuMjJoSqKqGGIPzKjzmNnnGBAgNKsE9LLa/WwkEFSr6/
+	NKR01N+oDiLGbyQIZgk66dP4tceQBz39rMbKOcCqhezrECgiIQK/aTH2ZG56L+TRqyXz0TykwFo
+	6eQ+hel/x2YcBk2fsr5aYWenM8J1SYi+CFZNM5+G2pVXvDfm8IrtoTF8Orqpc1YmA8eC6Gca/HM
+	rEYaWtMmfnz5Qc/HNPZU2Pesd3cepvwWCLW/459EelDT9EG6JeBOCfzNBUcdRgI+U663pls2jRK
+	77/YwYJjS3q/xHW2MvHUN35QSyEEPSeOgXKpxqM2fYt2T3bGsdPqCmOJzCYOHMNYtk1C9v/oGt4
+	+h9BrqyRNROqdo5y08/npAOY/vke/gP0SDKhLlMhSpG2qkW+ZFAw==
+X-Received: by 2002:a05:600c:e547:20b0:48f:d5b8:5b07 with SMTP id 5b1f17b1804b1-49240e81b22mr113459545e9.20.1782046534244;
+        Sun, 21 Jun 2026 05:55:34 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49249238900sm129230375e9.4.2026.06.21.05.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2026 05:55:33 -0700 (PDT)
+Date: Sun, 21 Jun 2026 13:55:31 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: Steven Rostedt <rostedt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, Peter
+ Zijlstra <peterz@infradead.org>, Julia Lawall <julia.lawall@inria.fr>, Yury
+ Norov <yury.norov@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] tracing: Add CONFIG_TRACE_PRINTK_DEBUGGING to clean
+ up kernel.h
+Message-ID: <20260621135531.243375d9@pumpkin>
+In-Reply-To: <87ik7cmcb7.ffs@fw13>
+References: <20260621093430.264983361@kernel.org>
+	<20260621093811.168514984@kernel.org>
+	<87ik7cmcb7.ffs@fw13>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 19 2026 at 00:02, Marek Vasut wrote:
-> Renesas R-Car S4/V4H/V4M GIC600 integration has address width for AXI
-> or APB interface configured to 32 bit, it can therefore access only
-> the first 4 GiB of physical address space. This information comes from
-> R-Car V4H Interface Specification sheet, there is currently no technical
-> update number assigned to this limitation. Further input from hardware
-> engineer indicates that this limitation also applies to R-Car S4 and V4M.
-> Name the limitation GEN4GICITS1, and add a driver quirk to mitigate this
-> limitation.
->
-> The quirk is keyed on the combination of the GIC implementation
-> and the platform identification in the device tree.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+On Sun, 21 Jun 2026 12:13:00 +0200
+Thomas Gleixner <tglx@kernel.org> wrote:
 
-This SOB chain is broken.
+> On Sun, Jun 21 2026 at 05:34, Steven Rostedt wrote:
+> > Instead of having trace_printk.h included in kernel.h, create a config
+> > TRACE_PRINTK_DEBUGGING that when set will update the CFLAGS in the
+> > Makefile to allow developers to add trace_printk() without the need to add
+> > the include for it. Having it included in the Makefile keeps it from being
+> > in the dependency chain and it will not waste extra CPU cycles for those
+> > building the kernel without using trace_printk.  
+> 
+> IOW, you make it worse just because.
+> 
+> With the header being separate I add the three trace_printk()s and the
+> include to the source file I'm investigating. The recompile will build
+> exactly this source file.
+> 
+> Having to enable the config knob will result in a full kernel rebuild
+> for no value.
+
+Indeed...
+Isn't trace_printk() just an extern?
+Having it defined somewhere isn't going to make any difference to build times.
+
+	David
+ 
+
+> 
+> Seriously?
+> 
+> Thanks,
+> 
+>         tglx
+> 
+> 
+> 
+
