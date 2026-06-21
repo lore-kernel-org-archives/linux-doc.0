@@ -1,61 +1,63 @@
 Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791101519B4
-	for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 13:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A0C28C874
+	for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 13:12:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782047552; cv=none; b=vDZ2iZ1k+LIBkMUlQqhSc/kljOfeIm3NZ2lpuLJlZii42e4yGuj33n6O734QA/hs09ZV6DwuprMxpdOI4SGPf/5DOKiLB76AYdgjrqvJRUOAdjixaBJgI+taYcuGjf7QBOgFUq1T5BE0NdEBOR+wMmtDJUY3xSwcmicxgjONDYo=
+	t=1782047558; cv=none; b=HVnzzoDbArPkVJtuOvluuOwavR0z5DchzjOIZlLt8KUssQMy8805BkMUDBXQDR7QXw8d/kKXUEPdxF+8ccwke4bqWqRJlSQ0yh4jAxoP+3Zi65mPJuqMS0bVRwTnfadgBzELlPEyWECIABQ9OP9N4UoT/NmB06aRIpAlKvPHZwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782047552; c=relaxed/simple;
-	bh=wJ6Q0n86COvas9rjAQelCO0LQZ8pdfRgNs2HSEYc4YA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L1ZIDTBoyYdQ4QaQ+cCZjq+tA4wD1vdB6OXCLJn2MqFrEI604b1bS1jw8pHq/7R+KPynCYMMYQmwoUaPXtehrfBSbfkDKaQERc8FLH5SB/cCs6aQTZqp7SNRtl5+60FygCXm0Gd9MJfrc6OhSVRdRdmYco3bj9en9g3EP7Lj77k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LTpHtInH; arc=none smtp.client-ip=209.85.214.195
+	s=arc-20240116; t=1782047558; c=relaxed/simple;
+	bh=2NgFi1DOCYaV0y7q4zD9RJkpSlo4AJ7IoYBZ3/pucXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HmijuaQ0CgbnhhhIYEkbYYt9+3gDavUBQgThjtkbiQmuUFgI2nZH2V0vgPVUlpcj46qfNDFOgt9n3OMdDYRYDH8QjNYj8zdhNRspSEC1UK4NzPXmhZECnGmVfy6KTBHkUQfdSAtiVc5no46pUhb7iYibWpg5UTd/P5iPSb83GyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L/BbW1+k; arc=none smtp.client-ip=209.85.214.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LTpHtInH"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2c6dadfbaafso32365455ad.3
-        for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 06:12:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/BbW1+k"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2c6c9e02e7dso20989295ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 06:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782047551; x=1782652351; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBVeZJ5psBx8E34wg34M0eWg6krxMwT4IwREDC2czNw=;
-        b=LTpHtInH8Ax7u2Wn7UHtLel7tFW7pa4PxL8+/ynKXzjmX2ZhLC/b2Q0AqhNXIBjntR
-         m2F7UPHr5ElAn86tJtmujH19lkmBTNyAIb3GZ6mrnhuePplqcnCbW5yEN4ze7pPq6JdA
-         F+12dhOsLSZP0cO6nHQBTHffoR2PrMUoG6Syxvd05SzsdFXk4xMPhcNQ8w1Y5o73rCBG
-         QPFAst6WemMsfyWhOT0RvKJwnaiEnHzNMVF95+BD7jIZlsE7i4KqN42ZEVyQZk09HRub
-         NozTgLtDBbBSxCQF/WsqJLKmCQlpHnjSopzU4rywDE47Jke+Wz+u4+sJ2aYbkYHP8Sju
-         YwQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782047551; x=1782652351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782047555; x=1782652355; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LBVeZJ5psBx8E34wg34M0eWg6krxMwT4IwREDC2czNw=;
-        b=gcc4chpHHcgaBz+i0MC4aW9MU4axzwnb+8KS+bXwSUNKfjk9Z95n6cxuBN1XlRuQYZ
-         58sBSHW23iYJQAf3Eb0v1XK31eJaEeJMi2vii8l5BzJvDFrcYQLXGBhDPWG6HgwJtZF0
-         QtiOcgfRcQSVHUc2134oKtA/j+0tNyJH4ruR7sTBeg8yzpYmnlJkQome0uSI/MjCKm/4
-         5IUqp9q08KnHu115HjoVHQaY+GAJD8jlU//BSzWF2WAyEDfYRorgSmWl7D91iECq5lVg
-         MPsiFCT/l7wrCdf9o1M1dQL1clUazXivg+0x7bh0yrBSNwczq7hLDiscd9H4JHOGCcTn
-         dmyg==
-X-Forwarded-Encrypted: i=1; AHgh+RrQoEOqgqICRaLUeZhTGhZcbevdYT6xaWdEr8DngKXDOeor1hKdqMCSDtTwZ1b1ZUa4QDKNfh7D7FU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeZD8VzZVZvPyBNJroPxax9EMt2MUbSpIfk7GgY44L8OWTATYQ
-	ZFkSQW+09P/NESJr6pciTjmZJWId5YrtdvqVO9D8GQo+dbK/slWhW01noLUkWgql
-X-Gm-Gg: AfdE7clQh/v1GF5KY+IATvJzuJ/be4XeYWyL65z/DkE9kcznygzeoFZJDdno2+//tpS
-	c6IWdCVjJaUSZK6+j4R82UMsAPMYaczouDW1aMbmLbwoCH9yOc9X/uAOTnafD1iZ02lbe0yNayQ
-	6CJzc5WFL9Zjqmy7LjkArJ6bGsEU+FlgV8j5b8Xh7lz0XIugiFgsvgl/pvrjI9ZoL8Q3LxIJtdg
-	AthyuB2HUui9Dx4MU5krQdOkXRNP4nW92bAYcGSGHIV06iR2xlv74gth7as/HwvVXQFFZpCshfj
-	27IJI9oYVTItLs+DbwhAnUkWQtuP/U0E/Q3CM0nUF9N1jdF7rMJTmhg/JH8GWCpBZTIVT15YrTV
-	5THWLQwQSe5XeEgKCWMYCmd8Tqnerkhzq5GPY5AWfdutJ33MgcxWJJ3dgWD2YZfTRR2YKJ6lhMa
-	huWoYfjlwfkDjXwUdYcA==
-X-Received: by 2002:a17:902:e881:b0:2c6:cd96:6a8 with SMTP id d9443c01a7336-2c718f3fa54mr129569805ad.30.1782047550772;
-        Sun, 21 Jun 2026 06:12:30 -0700 (PDT)
+        bh=Wj2lv05zNF9i38EhAHF5Tj12Mlcv/Hv5C9Q5Kuo/D3E=;
+        b=L/BbW1+kTHCMUadPMJP7ytbkJ/SqM8ed7nrmPgKZIvsdZzXRJwNSFfRLIsshTuP10O
+         qBo6eDtResS+oBA05NO/PTfCy2vfiHqTZOWjKXZLM8oEA5Y5bCx9eE+s53X9URKOvDhl
+         U9mUd7TDMDrzUzfe/cQGTnILb1X/+cC+HdE5LNxTeXU6igAZpn6zOk7VNRkZES/SWYK/
+         W2kmOEzV6N2H3RYYO++2ZCwWRSkTGzE4jQmMux61W+WFMI1jCbJjHyy+yTEFOkgborhE
+         T324/ugdtlmtpmYqoAQCZtfb3lLIW9u03jvl9c4BIsDylQSNV8iLM1hNcBK+kVJoKnQU
+         Iu9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782047555; x=1782652355;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Wj2lv05zNF9i38EhAHF5Tj12Mlcv/Hv5C9Q5Kuo/D3E=;
+        b=WYjH81Yo4tBLLlPp0/RFislN0fX9RH0PTknC0mr4ezLJ92vM8KDF7xDDrRMq8t3vVK
+         CueiSbRuiQLCbUVzbuCzRahQufCIrngGEPmM6fmoMKqb2GeAyaa0MAsKpJOMH9ISiW8M
+         uBsZ3ldQ8BBgCR2iOvWjqZQ6hRr0MVups+95S5mdpv2NBOiwguH+JRQBx25xy+BbdZbK
+         HoojeQ46ELxnhDy467mWGee8nB5BWhEanAfu1N6xGTgtirtywdAZnI2uVptY2wiA/eR9
+         awoEHwn53cgme3nmjisskEiVcE7lU64fScHKCHUzDLJCg+5hdZJ8UKwZ2FESuOvTWWqT
+         pc+A==
+X-Forwarded-Encrypted: i=1; AHgh+RoLKA3GdqrXuYOjwKc44vzHu4XBx67kKQlHpBKQBzDF2n/314t6lRpFwb3lat+HmqKYZmFMFAyPl5c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yypnn29FdqofWMdO9fSl3qg9BsF8TUAU0iIXsQs6BEgPCL3s5mI
+	K07z98EhP65BH0OpUOzwlJI5+g5XvtOgMu2iy/OCXSDuoTipBfAhf/To
+X-Gm-Gg: AfdE7cku4AAra3go2EFy9yxt0QM+BTSU9qRyGWiEJVHL8Wprru7JnKvWcf+EXajUb7N
+	gSYsEFFrGek3DllVpA8aMR1MFMzhnC13fiq7qVaT8Ul5zPSqbUI+M1Fj9s/LuOCDiGTUx+XNu1B
+	xSt66hpCJefeQyOmON4uMyghQ1nVADQxGcJCRwPwEP3BWLWBfiZVtHK8Y85A13QsNKZ0itpAuzk
+	L8MWpn52y2D0B94NvNp8Om3gnejLtPliXCZqOdh/aakJ07UiCy74puI23oocjhc2eHIY668cX4E
+	2L0wDnN4u5LweMe71kjTbrh81jt/SaO+HUNDNtBBDJHZs3Ui70nPHbG2chGRF7+yNQvm4elR4Id
+	ygkBcMr97Mj6pNvCv2P6Sv3Y2rVTfylHRb+3aikrN80z+LjJ8dqNHr1HYD4y7C2JTxWM68tYS5J
+	UVZxDd+tqMD8JNUWfxgw==
+X-Received: by 2002:a17:903:3a8b:b0:2c0:ab92:584c with SMTP id d9443c01a7336-2c718f235d5mr114060555ad.25.1782047554947;
+        Sun, 21 Jun 2026 06:12:34 -0700 (PDT)
 Received: from archlinux ([2409:8a4c:cc1:3c11:741b:44f:bd4b:7c4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c743bfe6c6sm45943405ad.58.2026.06.21.06.12.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c743bfe6c6sm45943405ad.58.2026.06.21.06.12.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 06:12:30 -0700 (PDT)
+        Sun, 21 Jun 2026 06:12:34 -0700 (PDT)
 From: Jiandong Qiu <qiujiandong1998@gmail.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
@@ -65,38 +67,566 @@ Cc: dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jiandong Qiu <qiujiandong1998@gmail.com>
-Subject: [PATCH v2 0/2] docs/zh_CN: update translations for process/changes.rst and sphinx.rst
-Date: Sun, 21 Jun 2026 21:12:10 +0800
-Message-ID: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
+Subject: [PATCH v2 1/2] docs/zh_CN: add process/changes.rst translation
+Date: Sun, 21 Jun 2026 21:12:11 +0800
+Message-ID: <20260621131215.1303439-2-qiujiandong1998@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
+References: <20260621131215.1303439-1-qiujiandong1998@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Add the zh_CN translation of process/changes.rst.
 
-This series refreshes the translation of doc-guide/sphinx.rst, I noticed
-that it refers to process/changes.rst, which did not yet have a zh_CN
-translation, so I added one as well.
+Update this translation through commit ece7e57afd51
+("docs: changes.rst and ver_linux: sort the lists")
 
-Changes in v2:
-Link: https://lore.kernel.org/linux-doc/20260619140245.1982921-1-qiujiandong1998@gmail.com/
-- drop the separate llvm.rst anchor patch
-- remove the `_sphinxdoc_zh` anchor from .../zh_CN/doc-guide/sphinx.rst
-- add Assisted-by tags
-
-Jiandong Qiu (2):
-  docs/zh_CN: add process/changes.rst translation
-  docs/zh_CN: update sphinx.rst translation
-
- .../translations/zh_CN/doc-guide/sphinx.rst   | 167 ++++--
+Assisted-by: Codex:GPT-5.4
+Signed-off-by: Jiandong Qiu <qiujiandong1998@gmail.com>
+---
  .../translations/zh_CN/process/changes.rst    | 528 ++++++++++++++++++
- 2 files changed, 661 insertions(+), 34 deletions(-)
+ 1 file changed, 528 insertions(+)
  create mode 100644 Documentation/translations/zh_CN/process/changes.rst
 
+diff --git a/Documentation/translations/zh_CN/process/changes.rst b/Documentation/translations/zh_CN/process/changes.rst
+new file mode 100644
+index 000000000000..62ec7f0e3533
+--- /dev/null
++++ b/Documentation/translations/zh_CN/process/changes.rst
+@@ -0,0 +1,528 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/process/changes.rst
++
++:翻译: 裘剑东 Jiandong Qiu <qiujiandong1998@gmail.com>
++
++==================
++编译内核的最小需求
++==================
++
++引言
++====
++
++本文旨在给出运行当前内核版本所需的最低软件版本列表。
++
++本文最初基于 Linus 为 2.0.x 内核编写的 “Changes” 文件，因此也应将功劳归于
++与该文件相关的同一批人（Jared Mauch、Axel Boldt、Alessandro Sigala，
++以及互联网上无数其他用户）。
++
++当前最低需求
++------------
++
++在认为自己碰到了一个bug之前，请先至少升级到以下软件版本。
++如果你不确定当前运行的版本，建议使用右侧命令进行检查。
++若要列出系统中的程序及其版本，请执行 ``./scripts/ver_linux``
++
++再次提醒，本列表假定你已经能够正常运行一个Linux内核。另外，
++并非所有工具在所有系统上都是必需的；例如，如果你的机器没有任何
++PC Card硬件，那么大概无需关心 pcmciautils。
++
++====================== ===============  ========================================
++        程序             最低版本              版本检查命令
++====================== ===============  ========================================
++bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen（可选）        0.65.1           bindgen --version
++binutils               2.30             ld -v
++bison                  2.0              bison --version
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM（可选）     15.0.0           clang --version
++e2fsprogs              1.41.4           e2fsck -V
++flex                   2.5.35           flex --version
++gdb                    7.2              gdb --version
++GNU awk（可选）        5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++GRUB                   0.93             grub --version || grub-install --version
++gtags（可选）          6.6.5            gtags --version
++iptables               1.4.2            iptables -V
++jfsutils               1.1.3            fsck.jfs -V
++kmod                   13               kmod -V
++mcelog                 0.6              mcelog --version
++mkimage（可选）        2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.22             pahole --version
++pcmciautils            004              pccardctl -V
++PPP                    2.4.0            pppd --version
++procps                 3.2.0            ps --version
++Python                 3.9.x            python3 --version
++quota-tools            3.09             quota -V
++Rust（可选）           1.78.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
++====================== ===============  ========================================
++
++.. [#f1] Sphinx 仅在构建内核文档时需要
++
++内核编译
++--------
++
++GCC
++~~~
++
++gcc 的版本要求可能会因你计算机中CPU的类型不同而有所变化。
++
++Clang/LLVM（可选）
++~~~~~~~~~~~~~~~~~~
++
++clang和LLVM工具的最新正式发行版（依据
++`releases.llvm.org <https://releases.llvm.org>`_）支持用于构建内核。
++较旧版本并不保证可用，我们也可能移除内核中为支持旧版而加入的兼容性处理。
++更多信息请参阅 Documentation/translations/zh_CN/kbuild/llvm.rst
++
++Rust（可选）
++~~~~~~~~~~~~
++
++需要较新的 Rust 编译器版本。
++
++关于如何满足 Rust 支持的构建需求，请参阅
++Documentation/translations/zh_CN/rust/quick-start.rst。其中，``Makefile`` 目标
++``rustavailable`` 可用于检查 Rust 工具链为何未被检测到。
++
++bindgen（可选）
++~~~~~~~~~~~~~~~
++
++``bindgen`` 用于为内核的 C 侧生成Rust绑定。它依赖 ``libclang``。
++
++Make
++~~~~
++
++要构建内核，你需要 GNU make 4.0 或更高版本。
++
++Bash
++~~~~
++
++内核构建会使用一些 bash 脚本。需要 Bash 4.2 或更新版本。
++
++Binutils
++~~~~~~~~
++
++构建内核需要 Binutils 2.30 或更新版本。
++
++pkg-config
++~~~~~~~~~~
++
++从 Linux 4.18 起，构建系统需要 pkg-config 来检查已安装的 kconfig 工具，并确定用于
++'make {g,x}config' 的标志设置。此前虽然已经在使用 pkg-config，
++但并未进行检查或文档说明。
++
++Flex
++~~~~
++
++自 Linux 4.16 起，构建系统会在构建过程中生成词法分析器。这需要
++flex 2.5.35 或更高版本。
++
++
++Bison
++~~~~~
++
++自 Linux 4.16 起，构建系统会在构建过程中生成语法解析器。这需要 bison 2.0
++或更高版本。
++
++pahole
++~~~~~~
++
++自 Linux 5.2 起，如果选择了 CONFIG_DEBUG_INFO_BTF，构建系统会从 vmlinux 中的
++DWARF 生成 BTF（BPF Type Format），稍后也会为内核模块生成。这需要 pahole
++v1.22 或更高版本。
++
++它可从发行版中的 'dwarves' 或 'pahole' 软件包获得，或从
++https://fedorapeople.org/~acme/dwarves/ 获取。
++
++Perl
++~~~~
++
++要构建内核，你需要 perl 5 以及以下模块：``Getopt::Long``、
++``Getopt::Std``、``File::Basename`` 和 ``File::Find``。
++
++Python
++~~~~~~
++
++若干配置选项需要它：例如 arm/arm64 默认配置、CONFIG_LTO_CLANG、某些
++DRM 可选配置、kernel-doc 工具以及文档构建（Sphinx）等。
++
++BC
++~~
++
++构建 3.10 及以上版本内核时需要 bc。
++
++
++OpenSSL
++~~~~~~~
++
++模块签名和外部证书处理使用OpenSSL程序及其加密库来创建密钥并生成签名。
++
++如果启用了模块签名，那么构建 3.7 及以上版本内核时需要 openssl。构建
++4.3 及以上版本内核时，还需要 openssl 的开发包。
++
++Tar
++~~~
++
++如果你想通过 sysfs 启用对内核头文件的访问（CONFIG_IKHEADERS），则需要 GNU tar。
++
++gtags / GNU GLOBAL（可选）
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++内核构建要求 GNU GLOBAL 版本 6.6.5 或更高，以便通过 ``make gtags``
++生成标签文件。这是因为它使用了 gtags 的 ``-C (--directory)`` 选项。
++
++mkimage
++~~~~~~~
++
++该工具用于构建 Flat Image Tree（FIT），常见于 ARM 平台。该工具可通过
++``u-boot-tools`` 软件包获得，也可以从 U-Boot 源码构建。详见
++https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
++
++GNU AWK
++~~~~~~~
++
++如果你希望内核构建为内建模块生成地址范围数据（CONFIG_BUILTIN_MODULE_RANGES），
++则需要GNU AWK。
++
++系统工具
++--------
++
++架构方面的变化
++~~~~~~~~~~~~~~
++
++DevFS 已被废弃，转而使用 udev
++（https://www.kernel.org/pub/linux/utils/kernel/hotplug/）
++
++现在已经支持 32 位 UID。尽情享用！
++
++Linux 中函数的文档正在转向以内联文档形式存在，即在源码定义附近使用特殊格式的
++注释。这些注释可以与 Documentation/ 目录中的 ReST 文件结合，生成更丰富的文档，
++随后可以再转换为 PostScript、HTML、LaTex、ePUB 和 PDF 文件。若要将 ReST
++格式转换为你所需的格式，需要Sphinx。
++
++Util-linux
++~~~~~~~~~~
++
++较新的 util-linux 版本为更大容量磁盘提供 ``fdisk`` 支持，支持更多的 mount 选项，
++识别更多分区类型，以及其他类似改进。你大概会想升级它。
++
++Ksymoops
++~~~~~~~~
++
++如果发生了最糟糕的情况，内核出现 oops，你可能需要 ksymoops 工具来解码它，
++但在大多数情况下并不需要。通常更推荐在构建内核时启用 ``CONFIG_KALLSYMS``，
++这样可以产生可直接使用的可读转储（而且输出比 ksymoops 更好）。
++如果由于某种原因你的内核不是以 ``CONFIG_KALLSYMS`` 构建的，
++并且你也没有办法重新构建并在启用该选项的情况下重新复现Oops，
++那么你仍然可以使用 ksymoops 对该 Oops 进行解码。
++
++Mkinitrd
++~~~~~~~~
++
++``/lib/modules`` 文件树布局的这些变化同样要求升级 mkinitrd。
++
++E2fsprogs
++~~~~~~~~~
++
++最新版 ``e2fsprogs`` 修复了 fsck 和 debugfs 中的若干bug。显然，升级它是个好主意。
++
++JFSutils
++~~~~~~~~
++
++``jfsutils`` 软件包包含该文件系统的工具。可用工具如下：
++
++ - ``fsck.jfs`` - 启动事务日志重放，并检查和修复 JFS 格式分区。
++ - ``mkfs.jfs`` - 创建 JFS 格式分区。
++ - 该软件包中还提供了其他文件系统工具。
++
++Xfsprogs
++~~~~~~~~
++
++最新版 ``xfsprogs`` 包含 ``mkfs.xfs``、``xfs_db`` 和 ``xfs_repair`` 等
++XFS文件系统工具。它与架构无关，2.0.0 及以上的任何版本都应能与当前版本的
++XFS内核代码正常配合使用（推荐 2.6.0 或更高版本，因为其包含一些重要改进）。
++
++PCMCIAutils
++~~~~~~~~~~~
++
++PCMCIAutils取代了 ``pcmcia-cs``。它会在系统启动时正确设置 PCMCIA插槽；
++如果内核采用模块化并使用了 hotplug 子系统，它还会为16位PCMCIA设备加载相应模块。
++
++Quota-tools
++~~~~~~~~~~~
++
++如果你想使用较新的 version 2 配额格式，就需要支持 32 位 uid 和 gid。
++Quota-tools 3.07 及更新版本提供了该支持。请使用上表中推荐版本或更新版本。
++
++Intel IA32 微码
++~~~~~~~~~~~~~~~
++
++新增了一个驱动，可用于更新 Intel IA32 微码，并以普通（misc）
++字符设备的形式提供访问。如果你没有使用udev，则在使用前可能需要以root身份执行::
++
++  mkdir /dev/cpu
++  mknod /dev/cpu/microcode c 10 184
++  chmod 0644 /dev/cpu/microcode
++
++你可能还会希望获取用户空间的 microcode_ctl 工具来配合使用。
++
++udev
++~~~~
++
++``udev`` 是一个用户空间程序，用于动态填充 ``/dev``，
++仅为实际存在的设备创建设备节点。``udev`` 替代了 devfs 的基本功能，
++同时允许为设备提供持久化命名。
++
++FUSE
++~~~~
++
++需要 libfuse 2.4.0 或更高版本。绝对最低要求是 2.3.0，但 mount 选项
++``direct_io`` 和 ``kernel_cache`` 将无法工作。
++
++网络
++----
++
++通用变化
++~~~~~~~~
++
++如果你有较复杂的网络配置需求，应该考虑使用 ip-route2 中的网络工具。
++
++包过滤 / NAT
++~~~~~~~~~~~~
++
++数据包过滤和 NAT 代码使用的工具与此前的 2.4.x 内核系列相同（iptables）。
++它仍然包含与 2.2.x 风格 ipchains 以及 2.0.x 风格ipfwadm 的向后兼容模块。
++
++PPP
++~~~
++
++PPP 驱动已经过重构，以支持 multilink 并使其能够运行在多种介质层之上。如
++果你使用 PPP，请将 pppd 至少升级到2.4.0。
++
++如果你没有使用 udev，则必须拥有设备文件 /dev/ppp，可以通过以下命令创建::
++
++  mknod /dev/ppp c 108 0
++
++需要以 root 身份执行。
++
++NFS-utils
++~~~~~~~~~
++
++在很早期的内核（2.4 及更早版本）中，nfs 服务器需要知道哪些客户端希望通
++过 NFS 访问文件。这些信息会在客户端挂载文件系统时由 ``mountd`` 提供
++给内核，或者在系统启动时由 ``exportfs`` 提供。exportfs 会从
++``/var/lib/nfs/rmtab`` 中获取活跃客户端信息。
++
++这种方法相当脆弱，因为它依赖于 rmtab 的正确性，而这并不总是容易保证，
++尤其是在尝试实现故障切换时。即便系统运行正常，``rmtab``
++也会积累大量从未被移除的旧条目。
++
++在现代内核中，我们可以选择让内核在收到未知主机请求时通知 mountd，
++再由 mountd 将合适的导出信息提供给内核。这样就不再依赖 ``rmtab``，
++并且内核只需要知道当前活跃的客户端。
++
++要启用这一新功能，你需要在运行 exportfs 或 mountd 之前执行::
++
++  mount -t nfsd nfsd /proc/fs/nfsd
++
++建议尽可能使用防火墙将所有NFS服务与公共互联网隔离。
++
++mcelog
++~~~~~~
++
++在x86内核上，如果启用了 ``CONFIG_X86_MCE``，则需要 mcelog 工具来处理和
++记录机器检查事件。机器检查事件是CPU报告的错误，强烈建议对其进行处理。
++
++内核文档
++--------
++
++Sphinx
++~~~~~~
++
++关于Sphinx需求的详细信息，请参阅
++Documentation/translations/zh_CN/doc-guide/sphinx.rst 中的 :ref:`sphinx_install_zh`。
++
++rustdoc
++~~~~~~~
++
++``rustdoc`` 用于为 Rust 代码生成文档。更多信息请参阅
++Documentation/translations/zh_CN/rust/general-information.rst。
++
++获取更新的软件
++==============
++
++内核编译
++--------
++
++gcc
++~~~
++
++- <ftp://ftp.gnu.org/gnu/gcc/>
++
++Clang/LLVM
++~~~~~~~~~~
++
++- :ref:`获取 LLVM <zh_cn_getting_llvm>`。
++
++Rust
++~~~~
++
++- Documentation/rust/quick-start.rst。
++
++bindgen
++~~~~~~~
++
++- Documentation/rust/quick-start.rst。
++
++Make
++~~~~
++
++- <ftp://ftp.gnu.org/gnu/make/>
++
++Bash
++~~~~
++
++- <ftp://ftp.gnu.org/gnu/bash/>
++
++Binutils
++~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/devel/binutils/>
++
++Flex
++~~~~
++
++- <https://github.com/westes/flex/releases>
++
++Bison
++~~~~~
++
++- <ftp://ftp.gnu.org/gnu/bison/>
++
++OpenSSL
++~~~~~~~
++
++- <https://www.openssl.org/>
++
++系统工具
++--------
++
++Util-linux
++~~~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/utils/util-linux/>
++
++Kmod
++~~~~
++
++- <https://www.kernel.org/pub/linux/utils/kernel/kmod/>
++- <https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git>
++
++Ksymoops
++~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/utils/kernel/ksymoops/v2.4/>
++
++Mkinitrd
++~~~~~~~~
++
++- <https://code.launchpad.net/initrd-tools/main>
++
++E2fsprogs
++~~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
++- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
++
++JFSutils
++~~~~~~~~
++
++- <https://jfs.sourceforge.net/>
++
++Xfsprogs
++~~~~~~~~
++
++- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
++- <https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/>
++
++Pcmciautils
++~~~~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/utils/kernel/pcmcia/>
++
++Quota-tools
++~~~~~~~~~~~
++
++- <https://sourceforge.net/projects/linuxquota/>
++
++
++Intel P6 微码
++~~~~~~~~~~~~~
++
++- <https://downloadcenter.intel.com/>
++
++udev
++~~~~
++
++- <https://www.freedesktop.org/software/systemd/man/udev.html>
++
++FUSE
++~~~~
++
++- <https://github.com/libfuse/libfuse/releases>
++
++mcelog
++~~~~~~
++
++- <https://www.mcelog.org/>
++
++网络
++----
++
++PPP
++~~~
++
++- <https://download.samba.org/pub/ppp/>
++- <https://git.ozlabs.org/?p=ppp.git>
++- <https://github.com/paulusmack/ppp/>
++
++NFS-utils
++~~~~~~~~~
++
++- <https://sourceforge.net/project/showfiles.php?group_id=14>
++- <https://nfs.sourceforge.net/>
++
++Iptables
++~~~~~~~~
++
++- <https://netfilter.org/projects/iptables/index.html>
++
++Ip-route2
++~~~~~~~~~
++
++- <https://www.kernel.org/pub/linux/utils/net/iproute2/>
++
++OProfile
++~~~~~~~~
++
++- <https://oprofile.sf.net/download/>
++
++内核文档
++--------
++
++Sphinx
++~~~~~~
++
++- <https://www.sphinx-doc.org/>
 -- 
 Jiandong Qiu <qiujiandong1998@gmail.com>
