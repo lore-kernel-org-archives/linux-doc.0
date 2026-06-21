@@ -1,86 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2B974BE1;
-	Sun, 21 Jun 2026 10:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664EA74BE1;
+	Sun, 21 Jun 2026 10:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782038185; cv=none; b=LJ+SI/rJaqyaL1Ngc4YUmJD3+1MPj0c3UI8adNoxtksHpdHquZAyiLqubBUfAnlG76Ag4xsgdeq1EM94x2QWbIcB6tMQ8ghiDfSFxPsOBN2aM2u0p9VZBNpWbONnFHl7eEEVcLYZOhKGV32T0QxwHOXid0EdI3cOBUYBaOe2ZmA=
+	t=1782038355; cv=none; b=VbgtBVqJ1l6tMSan5tH3KZjP6Jj5W66NQwDI08U5eZO+TNUxWGJTJKHKGP6GBk0WRAd4vEPITWDaBgneHpMWCNMKZlyEIUGKqRt+0sZZB38FYzhFUnbAnKqQoChdsgOu10smHklERHOPj+Td344KsLqtUgRKDF3wjxOSh3QdAuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782038185; c=relaxed/simple;
-	bh=ucrVZaFHV9P8rrX121ECboKE36C33WJ/6ZialGNhCW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L9SkZJJ7O57Q++NbAj1DGrUW9Jbs+MfM3umqv+aGAhvwtT8KSvf/wW9b3KBT7E4DtLOayUzL1YumpH7r0TyoExiAU/hMcr0HAH5AuEn9ErG9PscpZtCLdvHspuuQvRrztRv7pSC02OqRklpGFDF1ie2QOk0qypUch8AgGcrf4F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVtQJTae; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVtQJTae"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3726C1F000E9;
-	Sun, 21 Jun 2026 10:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782038183;
-	bh=u7n88puASKdRn7LSLUIyKwIUjfNUuhlCupcWE32IiKc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bVtQJTaeCkbJtYPLyIXvXF62RPr79fPksVMk14M0zYNX96o6mnHvZFPA0hibhxeHo
-	 eEysclkiI4gdSzS6seo2lZ1GnN0cHxD0OLsUdJs+8fu5GWUOojKTc7iVwSQNWxCLkz
-	 NeJujBZLVSZmSKqPiolja65PdQe2IWZ9KbYqagJW6TagyYy5DsGI/Dfcn4WqhlCDBK
-	 NdACIAkSoyfexQTpPgAhSe9jb0ppgaxsnx0VTxOTB9EkT7naGOqv87ArIiEGUexrqE
-	 J+MmMWHcvyWBIENEIWGKWU6/aNbV03JUxv6U5v3cXrfQpAfileqR5zL3eFY2k3lm9C
-	 Ap825Q6Z+dW5w==
-Date: Sun, 21 Jun 2026 13:36:13 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Shyam Saini <shyamsaini@linux.microsoft.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	tgopinath@linux.microsoft.com, bboscaccy@linux.microsoft.com,
-	kees@kernel.org, tony.luck@intel.com, gpiccoli@igalia.com,
-	bp@alien8.de, rdunlap@infradead.org, peterz@infradead.org,
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
-	elver@google.com, enelsonmoore@gmail.com, kuba@kernel.org,
-	lirongqing@baidu.com, ebiggers@kernel.org
-Subject: Re: [RFC v2 PATCH] reserve_mem: add support for static memory
-Message-ID: <aje-nY6QbwZP9XLG@kernel.org>
-References: <20260619062331.348789-1-shyamsaini@linux.microsoft.com>
+	s=arc-20240116; t=1782038355; c=relaxed/simple;
+	bh=vG8e9limOnj0jrCGh5nGVxswyihBpxRX/4JwXlAAtP4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=AbQoSgQPGMGaEYn07z1GhB8n9P6YE3OEfdUDhXs1LoyPeVG6t8exqvYWsPQek3pxdQEeYL/yoDHzFbN6fcODYVSI5LomLMatLJZwmIVc1GbKm4ggEXm+0g93Qm83eYKeEONoMVCI3PjdCpV925c6F78nqLkWgLOMBTaXrCPvmrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id A4F80403B5;
+	Sun, 21 Jun 2026 10:39:03 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id A063517;
+	Sun, 21 Jun 2026 10:38:58 +0000 (UTC)
+Date: Sun, 21 Jun 2026 11:38:55 +0100
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Thomas Gleixner <tglx@kernel.org>, Steven Rostedt <rostedt@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+CC: Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
+ Yury Norov <yury.norov@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_tracing=3A_Add_CONFIG=5FTRA?=
+ =?US-ASCII?Q?CE=5FPRINTK=5FDEBUGGING_to_clean_up_kernel=2Eh?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <87ik7cmcb7.ffs@fw13>
+References: <20260621093430.264983361@kernel.org> <20260621093811.168514984@kernel.org> <87ik7cmcb7.ffs@fw13>
+Message-ID: <65FD4729-3DEB-44BF-B085-1F72A0B7BF3A@goodmis.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260619062331.348789-1-shyamsaini@linux.microsoft.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Stat-Signature: 1rpq566iuu696tbe6de19udoqya4ijdw
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: A063517
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+altd1Yz9Y3NVTA4Q+RMlDrpJ2CoeKO4s=
+X-HE-Tag: 1782038338-801961
+X-HE-Meta: U2FsdGVkX1+UIJ7kmLtbV5k3wlv8csQwDalYtg7WqKufnOv7be+VuRDa3ft8H3X3zzwfr+uJaQZNz0sDC4oyI98+t0mZe8z4QM7YVjOJ7k9IvaQO5X/gwLzm/T/snIDf9B1tqJjVQMbg/Fnqr36PDksXLybxk5Wk4szMxT0dI7RGk8YrmbCkpbiPzakXtErPJu/4LvGLwyxtHWX9zek973SlOgxvLlgqkXDRAT2+DqJr5WMtzWdQf68LXDneXrIH36GLwhtQHs9JqXlxGiQxIii+hAq+RQvxokuLaf3ukb8Kl6fOR60wgmpjUFzbMjevVHTotC5pRIjw762yNXa4cwdML3kSKjmj+IzsGxPuo8Puez99eB9siQ==
 
-On Thu, Jun 18, 2026 at 11:23:31PM -0700, Shyam Saini wrote:
-> reserve_mem relies on dynamic memory allocation, this limits the
-> usecase where memory is required to be preserved across the boots.
-> Eg: ramoops memory reservation on ACPI platforms
+
+
+On June 21, 2026 11:13:00 AM GMT+01:00, Thomas Gleixner <tglx@kernel=2Eorg=
+> wrote:
+>On Sun, Jun 21 2026 at 05:34, Steven Rostedt wrote:
+>> Instead of having trace_printk=2Eh included in kernel=2Eh, create a con=
+fig
+>> TRACE_PRINTK_DEBUGGING that when set will update the CFLAGS in the
+>> Makefile to allow developers to add trace_printk() without the need to =
+add
+>> the include for it=2E Having it included in the Makefile keeps it from =
+being
+>> in the dependency chain and it will not waste extra CPU cycles for thos=
+e
+>> building the kernel without using trace_printk=2E
 >
-> So add support to pass a pre-determined static address and reserve
-> memory at a specified location. This enables use case like ramoops
-> on ACPI platforms to reliably access ramoops region with previous
-> boot logs.
-> 
-> Also skip the parsing of <align> when static address is passed.
-> 
-> Example syntax for static address
->  reserve_mem=4M@0x1E0000000:oops
+>IOW, you make it worse just because=2E
+>
+>With the header being separate I add the three trace_printk()s and the
+>include to the source file I'm investigating=2E The recompile will build
+>exactly this source file=2E
+>
+>Having to enable the config knob will result in a full kernel rebuild
+>for no value=2E
+>
+>Seriously?
 
-reserve_mem is best effort by design because such hacks as well as memmap=
-cannot guarantee this memory is actually free.
+Like having lockdep enabled, this would always be set in the development e=
+nvironment=2E It's not something to only enable when you need to add a trac=
+e_printk=2E If you don't want to rebuild everything, by all means add the i=
+nclude file by file=2E There's nothing preventing you to do that with this =
+solution=2E
 
-If you want to preserve ramoops reliably, use KHO with reserve_mem.
-The first kernel will allocate memory, this memory will be preserved by KHO
-and could be picked up by the second kernel.
- 
-> Signed-off-by: Shyam Saini <shyamsaini@linux.microsoft.com>
-> ---
-> v1: https://lore.kernel.org/lkml/0eaf3be2-5121-48b7-aeed-196405c0a480@infradead.org/
-> v2: Fix code logic and incorporate Randy's suggestion
-> ---
->  .../admin-guide/kernel-parameters.txt         | 15 ++++++
->  mm/memblock.c                                 | 47 +++++++++++++------
->  2 files changed, 47 insertions(+), 15 deletions(-)
+-- Steve=20
 
--- 
-Sincerely yours,
-Mike.
+P=2ES=2E I'm replying on my phone as I'm in the London Tube=2E Thus why I'=
+m not trimming my email=2E
+
+
+>
+>Thanks,
+>
+>        tglx
+>
