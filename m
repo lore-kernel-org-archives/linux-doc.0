@@ -1,106 +1,77 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926DC1E5B88
-	for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 02:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47FC1E5207
+	for <linux-doc@vger.kernel.org>; Sun, 21 Jun 2026 02:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782008728; cv=none; b=TS2/EGpb8hC4GOA7SbW/OS1bFkC7AnJ/L4QfRoqA1i7mHPJD3L8rYS6oPhcwlf8z0qnr/S+Gm+jw8OS1S8U5zX3SceBGsmhNTn7qrJMXGeerZtDWWCXvxXaM4HgPeTBiuCgEkxQWX6YcrsnKQYJtmmjmIENvGK0bk944qF4n3vQ=
+	t=1782009530; cv=none; b=HNWoMGVX6baXlu/6Xwdd4UOXC/tc53r1JHIcmECjd/EAT3oUDOB6zEs0ppjBJZuVLh/0e6LE1XM8AWBH9MBVKjulzFIzUXB08LvISmVrNeyNtozFrkb3nH7FllyYH3v8aMyAY0Lfq6o50fyQKLBT9LtdcYez3g2EdHQ/9xCwVdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782008728; c=relaxed/simple;
-	bh=qiDmpwHvSf0ESSsN4jjuEyK0qPyNBrD4EVAWjiINbno=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cRcARCsyHmb97ke3KJhK1JoRP8+EgcoV4BR6TFDNUYrbIE7XjFt6SMeH7DUBVlWJ59lgVrfpt0OJuoc/sQJbbkgFB5VWzjf1V7QA6VD3HL9P8zaiTBeVSD+UDrJfrAWZVil4ud8SUaoFPSIv4b857AyqT+8qSrlz7JAJVYvp2zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAcREkJ8; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782009530; c=relaxed/simple;
+	bh=SPVmQ9fNFBABZI8jZMi8NBZ5MhRj5jey5MMNSapEE2o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=EP6jtBqPaDyH4ax97nN60IdCjTpaPeeVXYhXfmToPMfM+Du6jxrR7w9Wb/TNefKKVXtHnor7AKDKbN0hgsC5aJDQW1uodJHUKCoefRh+35xqSmMe21KBobRg9y6n5hQMcsz4c0MhpJibZA05v5eYXIndK9y6RFOxi5s5Ff5DHGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rcpassos.me; spf=pass smtp.mailfrom=rcpassos.me; dkim=pass (2048-bit key) header.d=rcpassos.me header.i=@rcpassos.me header.b=CP7fxgf6; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=H5vpB+fW; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rcpassos.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rcpassos.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAcREkJ8"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8423610ec93so3033034b3a.2
-        for <linux-doc@vger.kernel.org>; Sat, 20 Jun 2026 19:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782008726; x=1782613526; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FdaA/SM11os14S0jUA16RVB04AGKXRXcDaaAOIoqvxs=;
-        b=TAcREkJ8ZgvuVMICHbkhJTv59R3Jvu42JPxI9BBL2FMtR9TUJ5pmsY0YwkERi/cMlH
-         Q1wLiQb4dMDszOxUj/PIvtsyV1z8F5tpdAJdBB5gJjg0ONYNtyhJB+GKw4Ji/AM65yUD
-         JCOLGA4jiANQmyW9vtH6WhJVHysYpuPd8p+uHuDHg3GWKAvATzGZLbrcsYSijZhmK+15
-         Ies1uzmyk/EXm5XYeABSx1hXpDmk/C5NrSmPic1j1jZbGxqxPgAPASNPbfE+RK8brVJf
-         90dJz1uU4jQZkr4o7AbjFE8YA+wJIDCzhvvog8OyDW0S0XaoBCQX0MYhq+4kYIRCtRoX
-         cvdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782008726; x=1782613526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FdaA/SM11os14S0jUA16RVB04AGKXRXcDaaAOIoqvxs=;
-        b=Q5V8w2EBVKFIxthKVY6I3lAM6gMZMWkX0cVaKJqPQ6begf8mKYc7DhXNh2nC3Lc4GJ
-         xiqlKDKXVsppUv+H4HaVRG8EsH1l6UI2pG75bBZTITKNgxoeQCy0m0F3VhgmYUTnP4dc
-         1OpgZ5Gm94T12oFPd1sC6TyCtkrzy0fsXiXw0BXdP7q3DNQAimJNkAB0WNQyEJHWtYvv
-         FBeFW6Fl7SDyve6hRJ5MgQCgwIWjNl4madr4Qmimbyd1SYx4SJxNKrKEl8ysbWnNO+kO
-         u7bXybDkgKwBXVYabSCCHkRuqlEyVr6sYLOyzVhOxyCtXne6s9zmFj8s9OhuFn4iKVY+
-         R4dg==
-X-Forwarded-Encrypted: i=1; AFNElJ/o2i9xj2Nej/B8dcaep3xE18+NrR7/GlRlz22IpRH52dD6eww73knD5fH+DTL2YAHs/oyk4ZK/l6c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGaieY4+qb4qK6u2/BwDh9iJme5fe1FgYzDf3rCUrvnctxZSJp
-	oqoXIGs0tAlxiSZ2YiI9oSutAiim2iJdlZEQ9Ic01RKCOZbHtVBga3fb
-X-Gm-Gg: AfdE7cnsxBtZ04q1dvvAzerpegLcPk6aZuzxB9NZa/XZgI6kE3kx1qmUKC4iIch1x7X
-	A0FupZbfwlG1nw4QbReyXC2adogfZIVwLk7FVTsBoD3GkcN3kG6HtdU0O9l+mx8U3RDZuKlXNNE
-	8AaZUsUsAeZFvu4IDzfVoiGiKIMx0ddyei+8+mwdZcwWFg8S3MegRcphykO0wKvMQHHxIb4LZbA
-	GmfbFdJC7x/pmQ1w6au9DXo10zcpv+cYV99GcJDpehSVqy+VwGHL0HvAOAUnDCmr75492zTrqBs
-	PJiK2KEXVdjoR6Z22ZjWw43PY1g3zN8atNDsb9fPZOrfwrcEdT9vzowwR4ALx5EDEuphbhRsz9Y
-	dy5WaU/5IsAMYvYrwNdA3hVcDmUc6PlD5NwdP435bfpuzr7p/IuQN6FOdDlC9NVUqq6Oy6vRYsx
-	TY7nwAJCFZsJkEpvu3wLJxqsm2MO5+Qk8QtSlGxRnrFXc=
-X-Received: by 2002:a05:6a00:2d06:b0:83e:f75d:828d with SMTP id d2e1a72fcca58-845507c22camr9640905b3a.16.1782008725714;
-        Sat, 20 Jun 2026 19:25:25 -0700 (PDT)
-Received: from xiaodong.localdomain ([2409:8a1e:9342:7650:8919:8769:2de0:afea])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564ed3bd8sm3262233b3a.56.2026.06.20.19.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 19:25:25 -0700 (PDT)
-From: wangxiaodong <wangxiaodong827546786@gmail.com>
-To: rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangxiaodong <wangxiaodong827546786@gmail.com>
-Subject: [PATCH] Documentation: admin-guide: pm: cpufreq: fix sampling_rate example command
-Date: Sun, 21 Jun 2026 10:25:03 +0800
-Message-ID: <20260621022515.10137-1-wangxiaodong827546786@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=rcpassos.me header.i=@rcpassos.me header.b="CP7fxgf6";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="H5vpB+fW"
+Authentication-Results: purelymail.com; auth=pass
+DKIM-Signature: a=rsa-sha256; b=CP7fxgf6LJOy9v2xBGXqOxMFjPLRgfzxFw3tgZGmQKDBD311KTu6noXM6ByAJitmtAH5tWtngFIRzhTCGJdc+Aj0je4hNwMpeZ+fsQ40E/VNQwK/HyNVEXTd3VUcUjczlnBr5C7X8uWIht1mUQtCGrA178HmIy5LaHwoyOKHCpCJ/bZR/2+68CAgx0WLHG1/vsKweyzSnnH0EOhwxiW9l3TTvjH7s3moe2oPytGXpw+INlm+2jPUwXxjo+g899tlz4EJxVEq7zVx5UPeLBsHGfn3NXDYzJ2p+Ma5YsQ2ALpIYaQhz3WbkwPO65KP20ONaCEgzlz+uylNmSWdmaYemA==; s=purelymail1; d=rcpassos.me; v=1; bh=SPVmQ9fNFBABZI8jZMi8NBZ5MhRj5jey5MMNSapEE2o=; h=Received:Date:Subject:From:To;
+DKIM-Signature: a=rsa-sha256; b=H5vpB+fWENsIH+J0IVSTsqNWs0JfvU8BLch27gjAwH2Ca6CuQbKz3C5L6EdTOwuC4gOcjWuBz6bPo2rCUPVxHgCiJ917u7dk3K8rwddR1snXYCRAra0heBXqmNx7EFVB1VZJKOvEvNja46Ubff+DRpjHCimq7dntEyVFWkYOMYqTKZtiQVisYT+5ZNfVZuYnhibDsplgzH2y2N2871l56Xpg6+12Bu6pz/bABRl+tIK7xvE7n3a0xASEQFd+QtwA+bbj9NyrRJWRo/TOC5H/sCrX0SBIJul7xIk2wGsWsG2PkM3wt+Jfzt8UwBqeomZjLrw8dPAZLD3DvtFk+oId7Q==; s=purelymail1; d=purelymail.com; v=1; bh=SPVmQ9fNFBABZI8jZMi8NBZ5MhRj5jey5MMNSapEE2o=; h=Feedback-ID:Received:Date:Subject:From:To;
+Feedback-ID: 45355:7809:null:purelymail
+X-Pm-Original-To: linux-doc@vger.kernel.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -665510756;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Sun, 21 Jun 2026 02:38:30 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 20 Jun 2026 23:38:34 -0300
+Message-Id: <DJEDNH9TR3ZE.QO68KQ89RX4O@rcpassos.me>
+Cc: <corbet@lwn.net>, <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] Documentation: xe_drm: fix chars used for
+ subsection
+From: "Rafael Passos" <rafael@rcpassos.me>
+To: "Randy Dunlap" <rdunlap@infradead.org>, "Rafael Passos"
+ <rafael@rcpassos.me>, <linux-doc@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260620201732.94141-1-rafael@rcpassos.me>
+ <20260620201732.94141-3-rafael@rcpassos.me>
+ <4130fd7c-6f7c-4b03-ad64-7a738e2f0bc9@infradead.org>
+In-Reply-To: <4130fd7c-6f7c-4b03-ad64-7a738e2f0bc9@infradead.org>
 
-The example shell command for setting ondemand's sampling_rate wraps an
-arithmetic expansion $((...)) in command-substitution backticks. The
-arithmetic result is then executed as a command, which fails and writes
-an empty value. Drop the surrounding backticks so the computed value is
-passed to echo as intended.
+Hi,
 
-Signed-off-by: wangxiaodong <wangxiaodong827546786@gmail.com>
----
- Documentation/admin-guide/pm/cpufreq.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat Jun 20, 2026 at 6:42 PM -03, Randy Dunlap wrote:
+> Hi,
+>
+> It would be helpful to include the warnings here (but maybe not
+> all 10 lines of each warning).
 
-diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-index 8831cface585..34baf20cc202 100644
---- a/Documentation/admin-guide/pm/cpufreq.rst
-+++ b/Documentation/admin-guide/pm/cpufreq.rst
-@@ -497,7 +497,7 @@ This governor exposes the following tunables:
- 	represented by it to be 1.5 times as high as the transition latency
- 	(the default)::
- 
--	# echo `$(($(cat cpuinfo_transition_latency) * 3 / 2))` > ondemand/sampling_rate
-+	# echo $(($(cat cpuinfo_transition_latency) * 3 / 2)) > ondemand/sampling_rate
- 
- ``up_threshold``
- 	If the estimated CPU load is above this value (in percent), the governor
--- 
-2.43.0
+Ok, I will add them.
 
+> scripts/get_maintainer.pl should have told you that. (It does for me.)
+
+It did, but I made the (wrong) choice of sending it only to the docs
+list, beucase I had 3 patches with nothing but doc fixes.
+
+In cases like this, should I:
+
+1. send a patchset, including the maintainers only on the patch related
+   to them ?
+2. send the patchset including everyone involved ?
+3. not sent a patchset at all, and send separate patches for each list?
+
+In this case, the other two patches will be dropped. So I will send a=20
+V2 for this one, and for the correct audience.
+
+Thanks Randy,
+
+Rafael Passos
