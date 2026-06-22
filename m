@@ -1,113 +1,137 @@
-Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3444399D08;
-	Mon, 22 Jun 2026 12:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4B53AD522;
+	Mon, 22 Jun 2026 12:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782132921; cv=none; b=OyjLULm0XQ+15YUndWzv3MioNp0QcU5+U8GnPojfsNcgPMo/1mnFyL1hIgXN3LFlcWS7rtzrPhInZOjqscPTKpOteaWdrvw1VpvWBflVIbAPxX/ziLFhbRnemO1pjc2N1EZ15txMjr/sAG6/72Ko61WiR+SHdZsUc6fn0OLdAdA=
+	t=1782132997; cv=none; b=WSuP01vCGnrojUiQ5RA2C6WhkkWVMRplRJnS/QQrsOKthl/l3twkVmlbu2KTuMJQE3lrZ1MmjfFm3KfwSpohZmfMhLcz7lh2i/rJrV31pmaXvDs1PvLskEGoTgGpN685tFp3+vP6pyTn0D3D4QuXZ2UmWhBc9T90PwUVNX24Yl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782132921; c=relaxed/simple;
-	bh=sOYVThblm3r8If7SaQV5HS7IxRPlp/h8bhOODGRdbRU=;
-	h=From:To:Cc:Date:Subject:MIME-Version:Content-Type:Message-Id; b=V5T3n4Z+Qj/CUpNMoGYWf0Bo3cLHzNvZ8WgE3UxuHE1vLBQDktyDLuRnwaq2WiSzRqy0j1DVV3jK2LU7bPdiAbo580qkOrlWZHdFsG50tsC7KTLfVHpD4cHXZkQsQ1FSdtcXPbMkFuqK/Und2TKW0FLWTm5VEW2p6MAWvFjKiCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=kjL6eW66; arc=none smtp.client-ip=188.126.83.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
+	s=arc-20240116; t=1782132997; c=relaxed/simple;
+	bh=l2iDIuaF1VKCPijPKmXFMyUN8rIqLYAfStTAg8/YV8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZHKrw3Nhn52bdfoNiJNHUDNMR7jbr5WQF6PpZihzob4vIQgiKjGUIvhes5zikUAt9rfAAtMBxu4TYMQBmd7XVMrRTagGXTaM/i4YDuWx7ltxGromykrC4LF8qdbAaHY3itDG9xt9g2h6RWqXRTJcpxXiDivLuXS5eNqtgyJGbKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhTXUQv3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="kjL6eW66"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
-	s=a; t=1782132916; bh=sOYVThblm3r8If7SaQV5HS7IxRPlp/h8bhOODGRdbRU=;
-	h=From:To:Cc:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:From:Sender:Reply-To:
-	 Original-From:Organization:To:CC:Subject:Original-Subject:Date:
-	 Message-ID:In-Reply-To:References:Original-Message-ID:
-	 Disposition-Notification-To:Disposition-Notification-Options:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 Content-Features:Content-Alternative:Content-Location:
-	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
-	b=kjL6eW66KU1PrDm5Y6a1E5CmIxFx/s49pPjP3vaYtiTyUlSi8KeuQYxTq1N64SN3w
-	 ZIuupx4fbTyK3vDPkrXlWAR28oNAIMdH86cC543jeIuAjO3pTDAh/4LgkJAjZSTFLS
-	 bIJ6S1Rl6rZ5BR04v3ImPUZ+q6xDzRJRhXuvyyn2wv15H+I7SqmaYoFlWpBtmFArwZ
-	 jxulTJqSAag40Wikra4HhPyx8BzQxOhxjguY6aPO1gpSOZ2E+laGkGMsExqxK4gmrf
-	 XANeuTP2CLvHqKnvQHD+LYgJpD98aE5HkXA8DbbnPG5FfkuCF/l64SJ1G1/o5ML7go
-	 50nx4gZPC3MHQ==
-Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
-	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPS id 40E69407E8F5;
-	Mon, 22 Jun 2026 14:55:16 +0200 (CEST)
-Received: by tag.xn--rombobjrn-67a.se (Postfix, from userid 1000)
-	id 25EC8F47BE9; Mon, 22 Jun 2026 14:55:16 +0200 (CEST)
-From: =?UTF-8?q?Bj=C3=B6rn=20Persson?= <Bjorn@xn--rombobjrn-67a.se>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 22 Jun 2026 13:18:07 +0200
-Subject: [PATCH v2] docs: leds: uleds: Make the documentation match the code.
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhTXUQv3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C321F000E9;
+	Mon, 22 Jun 2026 12:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782132995;
+	bh=l2iDIuaF1VKCPijPKmXFMyUN8rIqLYAfStTAg8/YV8I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dhTXUQv3s+G3948VNEUzwG8LXH8B99YNS4TcI8bDdEjy3NoNMQW8qC1bUUBSBq0Gl
+	 9CS1dv+dU1cEQKaafkSSnUFEbNMHMoE6bXWDLVN7hboEaUaa0dWkHmM3ceKJRehheI
+	 62XYgsevyO2fp8MahzfXuYboKooKO40EB5EXQNxnRy3bIhPev9AIkS9Bp6dEnSFUlM
+	 AjZ2wghBrD6limeBOmkB7AGjF4ZSY0kPfNw6svzcq0JIoX8gZWxztnmnWbaGHMOIDY
+	 oHJqQ4QcmtGnNGHxzYYAGiy5TkFXhUSIZiiK6+1TAFqEmqIuNPWL3IkLCH3FgkliFd
+	 sxlx9gq6SF69w==
+Message-ID: <4ab3bf02-70b9-4748-a12e-2bd564fec53d@kernel.org>
+Date: Mon, 22 Jun 2026 21:56:24 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
+ akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+ anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
+ david@kernel.org, will@kernel.org
+References: <20260612044425.763060-1-dev.jain@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+ <2a7d21fa-28c1-446c-97f5-2513f29157d3@kernel.org> <ajU-b32dmwS7XOg4@arm.com>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <ajU-b32dmwS7XOg4@arm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------upsrUBOQYnFEnSXIs0AYK6aO"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------upsrUBOQYnFEnSXIs0AYK6aO
+Content-Type: multipart/mixed; boundary="------------Ps3zmfE9YngvIs8RaS9wbP7c";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
+ akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+ anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
+ david@kernel.org, will@kernel.org
+Message-ID: <4ab3bf02-70b9-4748-a12e-2bd564fec53d@kernel.org>
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+References: <20260612044425.763060-1-dev.jain@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+ <2a7d21fa-28c1-446c-97f5-2513f29157d3@kernel.org> <ajU-b32dmwS7XOg4@arm.com>
+In-Reply-To: <ajU-b32dmwS7XOg4@arm.com>
+
+--------------Ps3zmfE9YngvIs8RaS9wbP7c
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260622125516.25EC8F47BE9@tag.xn--rombobjrn-67a.se>
+Content-Transfer-Encoding: quoted-printable
 
-From: Björn Persson <Bjorn@Rombobjörn.se>
 
-The description in uleds.rst omits the field max_brightness and claims
-falsely that the maximum brightness is always 255. Leaving max_brightness
-uninitialized or omitting it when writing to /dev/uleds won't work. It
-must be given a value, and that value becomes the maximum brightness.
 
-The document is also wrong about the type of brightness values. It says
-that a single byte shall be read at a time. That's actually not allowed.
-Then the word "unsigned" gives the impression that the type is unsigned.
-In fact a signed type is used even though the values are never negative.
+On 6/19/26 10:04 PM, Catalin Marinas wrote:
+> On Thu, Jun 18, 2026 at 11:05:43PM +0900, Harry Yoo wrote:
+>> On 6/18/26 10:35 PM, Harry Yoo wrote:
+>>> On 6/12/26 1:44 PM, Dev Jain wrote:
+>>>> Introduce a boot option to tag only at allocation time of the object=
+s. This
+>>>> reduces KASAN MTE overhead, the tradeoff being reduced ability of
+>>>> catching bugs.
+>>>
+>>> I think most of overhead when enabling MTE comes from loading and
+>>> validing tags for every memory access (either in SYNC or ASYNC mode),=
 
-Change the document to describe the true API.
+>>> rather than from storing tags.
+>>
+>> Is there any reason not to use STGM instead of STG + DC GVA when
+>> setting/clearing tags for large sizes when we know they are properly
+>> aligned?
+>=20
+> STGM is intended for copying tags when paired with LDGM. Have you seen
+> hardware where STGM is faster than STG or DC GVA?
 
-Signed-off-by: Björn Persson <Bjorn@Rombobjörn.se>
----
-Changes in v2:
-Replaced "given" with "specified" to prevent misinterpretation of "given name", avoided mentioning a type name outside of C code fragments, and rewrote the commit message to read more like speech, as requested.
+No, I haven't. It was a question I had after learning that there are
+multiple ways to store tags ;)
 
- Documentation/leds/uleds.rst | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+> For properly aligned
+> buffers, I'd expect DC GVA to behave at least on par with STGM.
 
-diff --git a/Documentation/leds/uleds.rst b/Documentation/leds/uleds.rst
-index 83221098009c..f985048c641f 100644
---- a/Documentation/leds/uleds.rst
-+++ b/Documentation/leds/uleds.rst
-@@ -17,16 +17,23 @@ structure to it (found in kernel public header file linux/uleds.h)::
- 
-     struct uleds_user_dev {
- 	char name[LED_MAX_NAME_SIZE];
-+	int max_brightness;
-     };
- 
--A new LED class device will be created with the name given. The name can be
--any valid sysfs device node name, but consider using the LED class naming
--convention of "devicename:color:function".
-+A new LED class device will be created with the specified name and maximum
-+brightness. The name can be any valid sysfs device node name, but consider
-+using the LED class naming convention of "devicename:color:function".
- 
--The current brightness is found by reading a single byte from the character
--device. Values are unsigned: 0 to 255. Reading will block until the brightness
--changes. The device node can also be polled to notify when the brightness value
--changes.
-+Although max_brightness is signed, only positive values are valid: 1 to INT_MAX.
-+
-+The current brightness shall be read from the character device like so::
-+
-+    int brightness;
-+    result = read(file, &brightness, sizeof(brightness));
-+
-+The possible values are 0 to max_brightness. Reading will block until the
-+brightness changes. The device node can also be polled to notify when the
-+brightness value changes.
- 
- The LED class device will be removed when the open file handle to /dev/uleds
- is closed.
--- 
-2.54.0
+Thanks for answering!
 
+--=20
+Cheers,
+Harry / Hyeonggon
+
+--------------Ps3zmfE9YngvIs8RaS9wbP7c--
+
+--------------upsrUBOQYnFEnSXIs0AYK6aO
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajkw+AAKCRCGXBN6rc5S
+1qvyAPsF0DurImeEtMtFke9YXQWImsgXI+xfZ4SEz1mY+wbGswEA158qtw/Yf70R
+7SKOnegedFGVqJzsq5p+vAkSpPMfJQw=
+=RsAK
+-----END PGP SIGNATURE-----
+
+--------------upsrUBOQYnFEnSXIs0AYK6aO--
