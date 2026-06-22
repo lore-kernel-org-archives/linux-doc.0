@@ -1,110 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC82E33F5A4;
-	Mon, 22 Jun 2026 17:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFBB343D9D
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782148407; cv=none; b=rZ1PSSZkJESEPkFEgegdMiwjQQSS7uxym92JQKlIeZFRZohBxMcaOAgHgt/gHt7yK/fN1BEEOulBkRl6gJ6HbjodeRYAI2VMSnlEOMHJ9gACCl+agMLnXaKalEOKYlwhuW6ncQjRipse10Ivy7lCvdp88SijSNTFe7VKGzhMXog=
+	t=1782152358; cv=none; b=Gpq3ugzdA+piFG28a5HSfPK9eRw44kTuC++Ul8FyHeDSjD0l8iNu9r4eFhVOjjzwtrJersFOHEsnTEKVygWcWI/ajdv4V7+cuTF0FChXpuKdU4gGb5GB7fgzunmpKsc12fyLrw4yGBDnPqD42Gzm2BWunkUop8CMOftznH9bBcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782148407; c=relaxed/simple;
-	bh=RnwiQypkRLn7P8qYZseBV6Ihj32aR3RId+p6z4H6xw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=suiYgBa8P9PrmaJ+lYlCVZyIbakfcxI6vPe3ACJWWcHtG8sDgp3Eix9jk1Xf/bhCgIkUVOLGP9YsgHIIgFZMUcxBpTnNMSlazAZkYw7SauqZmpcGTmzlAyGXzhVNWKJYecyd4ajkJMmvDg10X2T0umBXOPrK4WlQFHi9DA9Cnis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=cB1cmzMz; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1782152358; c=relaxed/simple;
+	bh=vzQPa+wRfjDhzjoiFxTZzjP0OA6x7DAFKuq4lhacSEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cwbcyt6I4Cq+7zcL/EzN1IQ2FMu/P3N0u6vNTOMkoyfoUNmyiQ6S/UoHCNB8WdggafiHpds0uj6SH0wYQnnwlw3Juqp6vWQO078y571pIHoY/eyr6nOL42QoCbC7MJPvm+dIMIvqMOpFRizbyx1Jx4+8qAJh6SdL0mMVOakBkaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMRXQClH; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="cB1cmzMz"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F0191A00;
-	Mon, 22 Jun 2026 10:13:19 -0700 (PDT)
-Received: from arm.com (RQ4T19M611-7.cambridge.arm.com [10.1.32.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EAF23F62B;
-	Mon, 22 Jun 2026 10:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782148403; bh=RnwiQypkRLn7P8qYZseBV6Ihj32aR3RId+p6z4H6xw0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cB1cmzMzT+YCCg7NorZIa+KSxvTRYpIbv/SMaoP0VaMTLqKhCnwscEnPUCC+jZb+/
-	 gaRLYTCzh177urdLiaRvwUNvASV/HdLMAMWqfK5gWm4lR38lQmrPWtcwc4xEt/s8Y+
-	 xzl5xklVxQ8HOQlcmaoggGEB00Xm26zmkx0NmFW4=
-Date: Mon, 22 Jun 2026 18:13:17 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Harry Yoo <harry@kernel.org>
-Cc: Dev Jain <dev.jain@arm.com>, ryabinin.a.a@gmail.com,
-	akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
-	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
-	anshuman.khandual@arm.com, kaleshsingh@google.com,
-	21cnbao@gmail.com, david@kernel.org, will@kernel.org
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
- allocation time
-Message-ID: <ajltLd6FQg1aMge_@arm.com>
-References: <20260612044425.763060-1-dev.jain@arm.com>
- <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
- <ajVByfkLbetzA8bB@arm.com>
- <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMRXQClH"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49234dc0b8aso5998695e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 11:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782152355; x=1782757155; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OgXvi1kX5xT8KIfuJ99Kw8ogFdqkTxgMXnV5IEfIfG0=;
+        b=WMRXQClH4NcC44GqDZUSbpmyl03Mq4FMZ2Ia5xti5r3eKOSd3sN68DMGq+hw0QCU9V
+         M19BFmm96oDEST1aFK72rgB1m/t7n/zcjKZn2dKxDQtiGyZEp2vOy7WjLZzlRcDICZR8
+         u5IeFWsxq7tGVX4Q6aAwdBBJY/UWPguujTUiiRImr/R1EbknG13qJdzvIYmbJ7XKjT1e
+         cXRYZfbVR0HANNnhXfmCLsktKn+EmEWnaRTp9fbFN7oAku6HmQjtdsq8rYll+aTQ1caH
+         MSVhnQSmPMiLvcbVFVV39+rWSXRfLvTLLpbf9KS2oeBB/pkyqxvSq1rckcXestRkyGg5
+         nHtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782152355; x=1782757155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OgXvi1kX5xT8KIfuJ99Kw8ogFdqkTxgMXnV5IEfIfG0=;
+        b=nZ+PtldXur3xU0JM18YVogacgMfzu2O4i3+23o9RsSmh39H3ktZgSi/csNoePSB7P1
+         vLBCpznsMPzygj/bpusPZwVxtnE2BHFVOvMl5Xo1kO4qqmP/ZPRVXgGKx/ftqpMFmaE8
+         fXyY368In1+dmPr+8YOqjuE0ZFNfqYl+MWYb0advsUSbZgmDBJa0fsr3BlyU5wfQ6hRl
+         BLGWN3x4DOACyrCAlLE4Enaogi0ocdK19zaF3+PzY+ubw3LheXv9GiHD2lisfC5chzoq
+         3TPvzEAeMC1ZmZ33wOeFQaUQcQ5Iina/AqXPj5cJY2ffr+GiwAhIrkhaH8tvMI5iO36m
+         F1DA==
+X-Forwarded-Encrypted: i=1; AHgh+RomPwMndE8xCSpLlIyyFUaSACmJ69rkTSHmc8fSI2BlRHf2+w9R2cKRa6RpHEcaVhIU8BW6rjKMqGM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmH9wTNw+3X2cjYs4sLnqeC39ib9emPHLZidkGPEAUyo12dmUd
+	Fl/dxde65BYJXRYPfE0Opd8EKdhv2hL8+yB/lSEpYtczSjDP3eBkzMBY
+X-Gm-Gg: AfdE7cnH84b8unKW0segQUu7N/rCtgqyx3ru8ztr9LpAP4Eemq8EN6j1dT+BVBoHvnT
+	grYZSzPkvuAdsBtmxZVIoSwbZdAZTNN0QNJcNcokcTHrAB2/wPiSuozJgxTXnB2lZl+4TW2kFzj
+	kjVzqJH9+D+1IFNTfeKZrfOycnfX/y8exJ1K+tlxEsqQzmqcr2bljBEPJpSKfQY7+B4Qpyq18Iy
+	tslkmFEh7LqAwcEdVLALimyVKwXEVcN8YXWzODScj1vTpkrre0n362RtdrC1Kum7EkD9+eJI1bi
+	9PJUugu2OaraMwQR/xCzzVj31tGSgqvhHnYNHQFDzb9tTa7pjH3GENs33veJ+Ussi9OD0L4Ogkk
+	O1yYtIud6qsv3FLyVcDso8yGRnYzWspT8XfG/FgXLEjBOREkvHwNMlojlUVL8FzOSadM5drQyFt
+	I0P0GXr24jtCLshGDZcJwgwsgTWj/pVf9fWETmW+LBzkjifW37KnblwS4t4CX/zhvgegzx0tB8c
+	WsTQqpAgne4mHeG
+X-Received: by 2002:a05:6000:4808:b0:45e:894b:49eb with SMTP id ffacd0b85a97d-46a50422468mr1068627f8f.7.1782152355276;
+        Mon, 22 Jun 2026 11:19:15 -0700 (PDT)
+Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666788226sm28288079f8f.23.2026.06.22.11.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 11:19:14 -0700 (PDT)
+From: Doehyun Baek <doehyunbaek@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Doehyun Baek <doehyunbaek@gmail.com>
+Subject: [PATCH] Docs/driver-api/uio-howto: document mmap_prepare callback
+Date: Mon, 22 Jun 2026 18:18:21 +0000
+Message-ID: <20260622181821.1195257-1-doehyunbaek@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Harry,
+The UIO howto still documents an mmap callback in struct uio_info.
+That field was replaced by mmap_prepare, which takes a struct
+vm_area_desc.
 
-On Mon, Jun 22, 2026 at 09:42:10PM +0900, Harry Yoo wrote:
-> On 6/19/26 10:19 PM, Catalin Marinas wrote:
-> > On Thu, Jun 18, 2026 at 10:35:15PM +0900, Harry Yoo wrote:
-> >> On 6/12/26 1:44 PM, Dev Jain wrote:
-> >>> Now, when a memory object will be freed, it will retain the random tag it
-> >>> had at allocation time. This compromises on catching UAF bugs, till the
-> >>> time the object is not reallocated, at which point it will have a new
-> >>> random tag.
-> >>>
-> >>> Hence, not catching "use-after-free-before-reallocation" and not catching
-> >>> "double-free" will be the compromise for reduced KASAN overhead.
-> >>
-> >> I doubt users who care about security enough to enable HW_TAGS KASAN
-> >> are willing to compromise on security just to save a few instructions
-> >> to store tags in the free path.
-> >>
-> >> To me, it looks like too much of a compromise on security for little
-> >> performance gain.
-> > 
-> > I don't think there's much compromise on security for use-after-free.
-> 
-> I think it depends... OH, WAIT! I see what you mean.
-> 
-> You mean use-after-free before reallocation does not lead to much
-> compromise on security because objects are initialized after allocation?
-> 
-> You're probably right.
-> 
-> Hmm, but stores to e.g.) free pointer, fields initialized by
-> constructor or accessed by SLAB_TYPESAFE_BY_RCU semantics after free
-> will be undiscovered if they happen before reallocation.
+A UIO driver following the current howto no longer builds because
+struct uio_info has no mmap member. Update the documented callback
+signature and matching text to match the current API.
 
-Even with SLAB_TYPESAFE_BY_RCU, the object isn't tagged on free either
-(or realloc, only if the actual slab page ends up freed). But we don't
-get type confusion for such slab.
+Fixes: 933f05f58ac6 ("uio: replace deprecated mmap hook with mmap_prepare in uio_info")
+Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+---
+ Documentation/driver-api/uio-howto.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-However, without tagging on free, one could argue that it reduces
-security for cases where the page is re-allocated as untagged - e.g. all
-user pages mapped without PROT_MTE. Currently we have a deterministic
-tag check fault if the page is coloured as KASAN_TAG_INVALID. I think
-for this patch, it might be better to only do such skip on free in
-kasan_poison_slab() rather than kasan_poison(). Freed pages would then
-be tagged.
+diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
+index 907ffa3b38f5..c08472dfbcfe 100644
+--- a/Documentation/driver-api/uio-howto.rst
++++ b/Documentation/driver-api/uio-howto.rst
+@@ -246,10 +246,10 @@ the members are required, others are optional.
+    hardware interrupt number. The flags given here will be used in the
+    call to :c:func:`request_irq()`.
+ 
+--  ``int (*mmap)(struct uio_info *info, struct vm_area_struct *vma)``:
++-  ``int (*mmap_prepare)(struct uio_info *info, struct vm_area_desc *desc)``:
+    Optional. If you need a special :c:func:`mmap()`
+    function, you can set it here. If this pointer is not NULL, your
+-   :c:func:`mmap()` will be called instead of the built-in one.
++   ``mmap_prepare`` will be called instead of the built-in one.
+ 
+ -  ``int (*open)(struct uio_info *info, struct inode *inode)``:
+    Optional. You might want to have your own :c:func:`open()`,
 
-An alternative would be tagging on free only with a new tag and skipping
-it on re-alloc. But we'd need to track when it's a completely new
-allocation or a reused object (I haven't looked I'm pretty sure it's
-doable).
-
+base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
 -- 
-Catalin
+2.43.0
+
