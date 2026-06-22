@@ -1,152 +1,149 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A19530EF77
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 14:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782140395; cv=none; b=klVAnY/rLlW3HmVNaaD8W6pXPCYeyW6OaBdkMI2DV96k3euCRxyCzkeG7mfhSbPj0nWjS97DED5HxBK4fX5Cc1Gua1x5gIqF9uUsn9UNKGFzTB+qWTLtzDNk0pI704ODoFaueIdGtaN5BxjwygTBMaFkoDTbCwT+3x5LvB1a9ks=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782140395; c=relaxed/simple;
-	bh=ldiV49nTOJakUd/lq40ATV26AvsFUe7adDKrFWuU5M0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nVyzExTgT4xVOYUbBmEBPV3jGkfsOshUYvhrUPms1GK9T0zgv3tDHcnfjmK+ykk9IG7GxsFBBCrpW9ILCabFAr1h2ZHfp94GPtisUZ+vR2TfeR00vS4U3jK8CgUYZBbXar5sdd5zXReGN5L4SjTxNRJyeDtZUkSAxPLhJzrKaIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=E7bLp4bh; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D313C376A18
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782142052; cv=pass; b=jjhwxClVhOKk73VsG/OuF49omKKG44Fd2P9/6ULYPkPxsPwHmMLdvmGrOdJhPrFzmjyJOoziaOtBrf/Jalngp4rF6NVQ3tiRcV6qYGy7IpTSUEOCXdLHmimw1lRXuI+B3WKr2XUd3ofroFTaNkMertkvRb/spSIcYnzAF0JajvE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782142052; c=relaxed/simple;
+	bh=2uv6gQ7GKYPkzFwi4lxaTpmi5E/Y2YNpE6234rGNOfk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ote9Ck1+wJRNsLgUkCta86PQ47WUCLoKd5c9IkXpumIXLSysjlcprd3bdT36oUA8zt+WCcOP8dUztj1w5zp6c03PoCn0LjD4UKot1ZIXssfmUNzHZxS4en56aX600ctd1DFLI7t8B5mgps1SiuN3iIZrUhwZMIaO8stEsAP7aeE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYEhX3sV; arc=pass smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="E7bLp4bh"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45ef56d9b67so3598081f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 07:59:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYEhX3sV"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-662c5427892so298782d50.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 08:27:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782142050; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GRn+n6aazf81NPpS8HMLIDCR0UkMu0cwT2l9slPeNGei1jDXDE+7NIeoPTqqxBbubh
+         fLvjxezZcMHYeE6QXvb2g39m5g6uSO5+q+fPcCRvtCckxyqN44k1U6eRUEtpPF9AQJZn
+         /ixPKEltHs2iPHY7wYusbzz0xloGsMjvKoPH4zCJ1VPVjz1xKWTXBG8CVkEw1xTCIwKG
+         e7FB7reONMsJi1Y0+FK+J+AdlvIywYKTJOBLJjv9gJhzgXcs04hY+H1e+6tqPShSJSCm
+         HeM6mkcGMHtNQgR5PocLn/6SvhndFtJ1s4vOL6N5tfOaojWnSY9XPOo5qKdVuNbpNZPU
+         6IVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=pGyvBAk8euMcJ38wECstDr/70ytuyfnKpcrUWwgIxnU=;
+        fh=HK791f3y8XoBLF/vCdUUjbhlP62lSpG+Uma+IHbl34U=;
+        b=kHZjBY6WgBWODfhkLvtDd42reEBWWLJvag7nAP9HVcI9Xg/7kX1upwPCxbvtP23zNC
+         GM9Eo5/O0I+qAUzgfM3rqyFDkLpJk3GTDsWvS0FP9it5m0qs779zmUS4LTNtuov7POpy
+         hOhYihHoiugfMJUj7UEPhe6jyimGVk1IyeXVCFHEhGWR3vSqYt+h+wACBoQBtgkqe/LK
+         XXkHUwTs0XbhVfLd4E8lu+DsK9IujYB/xqHdg9eoIYDhsUUWLnNKr9hv+W1TyzZxLVqj
+         ab8tuOMRz8VJaDDOmI8XVatV+g5EVoQiHzRGvKf8HRP4dD3LQnOw1HJhoKOBfsB3v7M+
+         8nlA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1782140392; x=1782745192; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1zcPZNhFDsA2OPbjtRR+Ls4WcplfDzhOVh4J1exTT4U=;
-        b=E7bLp4bhGmN6vmCqkqW5VNKX0LKY+J8VKXVqXJDK60dGDbt2sKYKzEwfeyv4F/Iyr1
-         Kg0TjpSYOrKAnJakkdnQ1QctDCDhSHYBegysIg+lbtn/pJFNKie15+WfGkXndCYOzFif
-         j2w4NDGyN0iKUgcGjKmPkgQRCgIhg4KDocbb3Cs3h8a5aWPqUZwYSBG/T3nobVt872Xi
-         3z9KKGt6LGBtISRpy9Z9Bk2/Y4vaObV2lPnx6/q71QSYwz0jyApCKTODbDzU4bpOaBpe
-         vJWSxKXzLmi3PG17Nkl8+6NfiQD3dwt75xESJwwu3+C19cUk9Ae7Pm5zTxrj/acE0aiD
-         T+hg==
+        d=gmail.com; s=20251104; t=1782142050; x=1782746850; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGyvBAk8euMcJ38wECstDr/70ytuyfnKpcrUWwgIxnU=;
+        b=GYEhX3sVHL3rM6tBpinPUWu00QMXv99i2sjPddxIFpMtJchiznyFJAqPKoqMbvcfwZ
+         f+Hf9o0MXtBBNswhl7Jay4zf+RRz6abK6N5ozwlcgMc+Ll6+RnKfjRKyIgCZjP1xhV+C
+         5qYjH5QtgadYmcuPVIeRd2HhFuHnq7RdDlOefxJslBsPFQTERAuQl+fDs65Z2fbiGJP/
+         X4v7WnC/F+bkIYD60YT/gmbhPI/PGTlkTyUjAiZm6IkybUVtborawCp1amccTlorImRD
+         F71JJ+uJx9nOu26SUF/MuOsjIfnEo8rAjGVv1GU7yCCbGRlpOoNIWeVvTT74Yf+wYo2d
+         /loQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782140392; x=1782745192;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1zcPZNhFDsA2OPbjtRR+Ls4WcplfDzhOVh4J1exTT4U=;
-        b=skvbLAXXVi/Xy15nT7GtlwU7o+wkSHgDKnD8QEFlv0dVfv1gvRudnEovNIPGpQ45R7
-         Y6Atq/a1r6JSJfaZ0mwGlICjrWv+ycTF72HViy7hNGAg2KPYgLKJhzY9G+Gb2xuTTwEk
-         aSNmRmSnTgpRFLJLvLobkCEZ97MzYR2ecgzjmLGHaoAKCaFOpNnq5wAjNtMjEc5YhvM/
-         PW7CrGWbPMrJDhqLmp/QAmf16OnO0cFWcL+JuYYoWRV+jArBqBvcMEAbdY7Ib/Fechth
-         0FKvdYlSLl2HMg8u+VfWs2QL0FeRgmew6/pxw5Bc+LwfcV6VUScigmzLkLhiHBhZU0lq
-         ZY6A==
-X-Forwarded-Encrypted: i=1; AFNElJ9KZvZiwBVXh0Fb0VYk1usv468j6X5HMfaR5UzW4fLwU5BuW6c0F/N6/s/sKX4h2OqOC5nsQoGIpME=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzhIRF9vNCZNTU3+dQfSh/Z5+pG67TuA6SitP2INr4NrPYHqMB
-	PXUtB4o+ktWpuJ+Oj4JriRXI219S/qLIEdJJQkRLmmA9OK1ZDpb66fctt2Cz3XF2vKk=
-X-Gm-Gg: AfdE7cmyiZnTsHqGyUtx+AszX+IBUmWAFTwvqXkzAhQv9vp5TYn2RZFf3ELz2B5pfTV
-	B5Zvt4M4kbeVqaIklxwWCGX4zhvgTlpdzpfZN3K5VOPA/kaC3g0QVKjQbphyDMKR7sHGcUWR8r2
-	IeZPjDJItl4LQPhLuRVy95ZEuMSIBTJ98sm123zVww6itgkNqZdVZQv887vqTXlb6fKUBizblG8
-	Wk+nMWixl43Nd1MBefQYgen7l2yT0NBtJ2Lk22r9nwMLHe56FxIpInqhC+QS2GqmroswBOxD2Lg
-	USJSqJkgW0/KK05QPThAd5WAfoLJvcy7bgCM1qHMQugr2VU14Jvwk/Vy8PF6M6tJkG0idzL5ptN
-	n05eG28kZUX3ZwaB0bEqF6AF1g7MlWU+1a6eI+HXthWAE8FPnxl/EGUUZCr89ZUtIwna+H8nQqM
-	Yk1L9m3O8DOa/8elWsqWnTYRf+XLiq
-X-Received: by 2002:a05:600c:3496:b0:492:415c:8ac2 with SMTP id 5b1f17b1804b1-492415c961fmr246774685e9.36.1782140391947;
-        Mon, 22 Jun 2026 07:59:51 -0700 (PDT)
-Received: from localhost.localdomain ([62.77.90.70])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924944fb71sm205787465e9.14.2026.06.22.07.59.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 07:59:51 -0700 (PDT)
-Date: Mon, 22 Jun 2026 16:59:49 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Doehyun Baek <doehyunbaek@gmail.com>
-Cc: Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, Nhat Pham <nphamcs@gmail.com>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Docs/admin-guide/cgroup-v2: fix memory.stat doc details
-Message-ID: <ajlLhFnMZGoVxLE6@localhost.localdomain>
-References: <20260620122751.388770-1-doehyunbaek@gmail.com>
+        d=1e100.net; s=20251104; t=1782142050; x=1782746850;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pGyvBAk8euMcJ38wECstDr/70ytuyfnKpcrUWwgIxnU=;
+        b=IzpWVGjLS1d99CPY1JDW88UnPLATOhXJ1ZPzZj9blrQTKempgkFtCKkhGcLD9z2xJi
+         mV0Hkl9E1rNIS0/Lk7Jo/wJXNFyhCEmIk2MNEesDLwO0+xuH8EJShhWnuT9WkOkrMu92
+         02R14pi1TuYAoX6eCJSTBpY/3O9emQ30SrsGvjOZIs9QVXasNdsnhwAeoWs01IdMXNRc
+         6hn9H/6q5kV0rd81LGgU0O3C8EUvqQLFjPWziXgAPiJspQ2z9wXxF2EcpLnCChSyhPfv
+         04Eyi7Sx6R5nL0YTAm0ep4B8ZpaXAHyvuKTc+25scy6SStcyf7pNCQXWtM1CR1hnxXbC
+         pjBQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro14oyAuxns9j2cS89wHwG0tXL7wD9K8/1HcKns4RmcipNbJvCLOejDIRJWwI3Jhuaq0WX3Lwz5gOk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuHO0tI9wz7JnKHdulOzaqRqHBszKU8ccBfpmFYoAMqYjRPlZu
+	Js61NtGJGKtJ8bTHY3/C6+dFhl2G2wLej0k0QxtbAmQ5Gq5/QvoihVa8xE/2LTHOzaOQjOB7UTC
+	dWPBztu+iVw8ZhtstiUEPMTL4aJ44TcM=
+X-Gm-Gg: AfdE7ckFqQE/YC064VfElX2j2ixaS2TnMbkuKSTkl6MnJphHH3NwozLSrlj7HHGPrmH
+	Okne2CLE2Xc32Kx6Rth6MAewdX9+eixKzIjFUZ3UBN16P0TqqBHCo/Fv6EIQJLVJgiz5zW3We26
+	/Wx1nbX6hAkNMpwFJX7gnzTgw1KpsW1R6MQTyAUcJ0rRIX6iTyNi1W5LIF5nQo+D1xDZ3bFPQjT
+	ruI5ZGsBR9AO70FMenxrpN135+CbDFn7awfzB2aS/6CSnVtkAry8u54V5LkGshvDN2I8LnRIl+q
+	NZUwl7dyD+ucDuUZbNiL1Tiao3US3rmuLHcGpOhAikhZTuODWiSyLksWux5MkA==
+X-Received: by 2002:a05:690e:150b:b0:651:e194:5d07 with SMTP id
+ 956f58d0204a3-66350b6eea1mr765486d50.7.1782142049628; Mon, 22 Jun 2026
+ 08:27:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7z2vuj6kqtgqe2kl"
-Content-Disposition: inline
-In-Reply-To: <20260620122751.388770-1-doehyunbaek@gmail.com>
-
-
---7z2vuj6kqtgqe2kl
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+References: <20260620122751.388770-1-doehyunbaek@gmail.com> <ajlLhFnMZGoVxLE6@localhost.localdomain>
+In-Reply-To: <ajlLhFnMZGoVxLE6@localhost.localdomain>
+From: Doehyun Baek <doehyunbaek@gmail.com>
+Date: Mon, 22 Jun 2026 17:26:53 +0200
+X-Gm-Features: AVVi8CdlAu8C4EXvmIAbRj4BjT5WXnuOSLLYU3ZpM_yDiQWBdekM0ERXYkiczxY
+Message-ID: <CAN-j9Upy=thswORWaU+QxuO2i8uJKrZxcLpt5umP5QGRhpwqaQ@mail.gmail.com>
 Subject: Re: [PATCH] Docs/admin-guide/cgroup-v2: fix memory.stat doc details
-MIME-Version: 1.0
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	Nhat Pham <nphamcs@gmail.com>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jun 20, 2026 at 12:27:51PM +0000, Doehyun Baek <doehyunbaek@gmail.c=
-om> wrote:
-> Fix minor cgroup v2 memory.stat documentation issues.  Correct the
-> vmalloc per-node marker now that vmalloc uses the native NR_VMALLOC node
-> stat, and document zswap_incomp as a byte-valued memory amount instead
-> of as a page counter.
->=20
-> Fixes: c466412c73c3 ("mm: memcontrol: switch to native NR_VMALLOC vmstat =
-counter")
-> Fixes: 5ad41a38c364 ("mm: zswap: add per-memcg stat for incompressible pa=
-ges")
-> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> index 993446ab66d0..ce6741f78f4f 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1570,7 +1570,7 @@ The following nested keys are defined.
->  	  sock (npn)
->  		Amount of memory used in network transmission buffers
-> =20
-> -	  vmalloc (npn)
-> +	  vmalloc
->  		Amount of memory used for vmap backed memory.
+> ...but what do you mean by this?
+> As I'm looking at the code in obj_cgroup_charge_zswap() and
+> memcg_page_state_output_unit(), I'd say those are pages and the docs is
+> thus alright.
+>
+> Thanks,
+> Michal
 
-The vmalloc change looks OK...
+Thanks for taking a look.
 
-> =20
->  	  shmem
-> @@ -1735,7 +1735,7 @@ The following nested keys are defined.
->  		Number of pages written from zswap to swap.
-> =20
->  	  zswap_incomp
-> -		Number of incompressible pages currently stored in zswap
-> +		Amount of memory used by incompressible pages currently stored in zswap
->  		without compression. These pages could not be compressed to
->  		a size smaller than PAGE_SIZE, so they are stored as-is.
+I agree that the counters are pages internally. I was talking about what
+gets printed in memory.stat.
 
-=2E..but what do you mean by this?
-As I'm looking at the code in obj_cgroup_charge_zswap() and
-memcg_page_state_output_unit(), I'd say those are pages and the docs is
-thus alright.
+The internal updates are page-count based:
 
-Thanks,
-Michal
+    mod_memcg_state(memcg, MEMCG_ZSWAPPED, 1);
+    if (size == PAGE_SIZE)
+        mod_memcg_state(memcg, MEMCG_ZSWAP_INCOMP, 1);
 
---7z2vuj6kqtgqe2kl
-Content-Type: application/pgp-signature; name="signature.asc"
+However, both zswapped and zswap_incomp are memory_stats[] entries, so
+memory.stat prints them through memcg_page_state_output(). Since
+MEMCG_ZSWAP_INCOMP is not special-cased as a raw count, the stored page
+count is multiplied by the default PAGE_SIZE unit and exported as bytes.
 
------BEGIN PGP SIGNATURE-----
+    unsigned long memcg_page_state_output(struct mem_cgroup *memcg, int item)
+    {
+        return memcg_page_state(memcg, item) *
+        memcg_page_state_output_unit(item);
+    }
 
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCajlN2BsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AiYqQD/Yrcx9m1Cd6p0RIJlgi6p
-Pw+UTZoClU4K345dMUKxS9oA/iffuwIIMbqckL/HpyJUf1dxbIeOVfV/GJ9kehOF
-i2kH
-=yZlU
------END PGP SIGNATURE-----
+Separately, this matches the existing documentation style for zswapped,
+whose exported value is described as a memory amount:
 
---7z2vuj6kqtgqe2kl--
+    zswapped
+        Amount of application memory swapped out to zswap.
+
+Since zswap_incomp follows the same memory.stat output path, I think its
+documentation should describe the exported value as a memory amount too.
+
+I also boot-tested this in QEMU with the current tree and zswap enabled.
+With incompressible pages pushed into zswap, memory.stat showed:
+
+    zswap 87822336
+    zswapped 87822336
+    zswap_incomp 87822336
+
+The zswap_incomp value there is byte-valued; it is not a plain page
+count. It also matches zswapped in this all-incompressible case, which
+is consistent with both being exported as memory amounts.
+
+Best,
+Doehyun Baek
