@@ -1,150 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66AE345751;
-	Mon, 22 Jun 2026 18:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717DE346E72
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782153590; cv=none; b=tu/Vg6kXIS69MoZQGqPvoEkcpQiByjCj/SWYHq0LI68hJJMHiQfT/zW24D24eZuKyl0OhCVUPSD64eeU3LtjW3CQ1NCwMZH0Ey3hVn4zliqNta0Gz4aRy0kzRQt/URsqbFHOVQ5amGSTRuF7xV+476r1SC3wNdc/k+Qrv5aO+Xk=
+	t=1782154144; cv=none; b=souV1wP03VyL8o4JXVxd8CPyFA7vK3YoFAfVXOYhZmjTb+Dq82TRL2dBahoaTTSuGonvpgPSPoiFKviqdfix4V+5rN22boRcsGcFkfyveV60R7UoMCwjjQautoHtrTDkIkxu8AcwD+AOZwsGAyuHR+kquzQN/aqR57k4uefuGNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782153590; c=relaxed/simple;
-	bh=P1Z8Kb1kgC1UU4dsPEHbpnrtWggCM0AVbBdG4S8RsTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VhtvJSjSeVwwK6LM6dBdkXU+sT2s3R3NVEe74jFwsbCGR6rpHVpPBfxfVy2JMDLp6gyvzVEnlYUHwqUcrzlADWrKxin8M7TL6RKI5sdc5Fv96Y7yO9RjCjfg7gPzxm0pnQ3bwYpRr4S1mE+ORjYeZwDkkP1ZYenP1kh2p/q3p6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eddX1OD+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782154144; c=relaxed/simple;
+	bh=DIjLzbnkRJ/pEuBgYb3z2HOVtgcinNlZvsdJq/Cs5OY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=M6AZyTqTcX92Ev2Np1grO7JAbvN0J8AoQhT/WOtthVBvst5U9UATGSSWLFE/K/VOd98XgG9L4Ug4LpA6EMQa/d+TxEGjBB6bOuGZ7hmiaJa+ZPHET3Wccwohdy0LkxEUy7MriuYli5Qbmk4g/4tPYSV8Z+PeYbusHXsoNDmwUR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W0e2ekRr; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eddX1OD+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6644F1F000E9;
-	Mon, 22 Jun 2026 18:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782153589;
-	bh=mTAUX7iL8MIKP459YDbkJrM5XX2iCJ+gAz986kzvZy4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eddX1OD+d1gw/xDyzjjgWxZnM+/v0Zw1KG0RgLC/osLVhHAAztmm6Ce5f4z2dZ8MV
-	 lKFPsXx4lyc8uYnYyWJgj7MFqyFQqsGhXSA9Cl7IWTX1CgB+6b7mUU5YKVGjXwyjo5
-	 U2wcw0DK5u2DkzvILF/UyuOeaEq5ukPeY6PNSq1HZqDaQ15/PeoTjk92FhM1R03LN1
-	 qnXFJ0iry1RWM0T7Ro5YZNZ9B1khrBJVM2kV86JZZWGb3vFpPjEfJzr1GZyqkiyxdi
-	 daKcQKVtOmfL8gkrCF8BnKhwsnTZsGfBQ9BYAEJwR5022V6bb3MSdACP8fK9AtvxJo
-	 Hflt/27xVeCzg==
-Date: Mon, 22 Jun 2026 19:39:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
-	Janani Sunil <jan.sun97@gmail.com>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260622-captive-tux-067efd31ceac@spud>
-References: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
- <20260619-obstinate-polo-a230bef97fda@spud>
- <20260619-bunch-diocese-dd7805cc17ff@spud>
- <ajU73_TkKrSbqD4f@nsa>
- <20260619-concierge-doozy-9c161533c369@spud>
- <ajVlD-j0nIGrRVow@nsa>
- <20260621153330.79b6600c@jic23-huawei>
- <5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
- <ajkMBh-R_7pYaoAn@nsa>
- <20260622172911.48259a0c@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W0e2ekRr"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-49221de4ed4so30527565e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 11:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782154141; x=1782758941; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OEWwFi6TggeUgPIb5O1s/aY8eVgW9dSMubR6vHRGBr0=;
+        b=W0e2ekRrwJxi0Xb5VaP5CAjCcgPLqZwKTkBd2/qYqZ7JjbhH/EW/M7ryasr1Uqaj4I
+         TIzGIW+8qLLdxkwZfpdq5CNYnMzTP3yB4HtkWpiAn9Bkt6Rl5yRjUp6YJcM9QPqRFrp5
+         kwQ8PTJ22hHI70ol1GijCnlPHw5bPb25GI9gXTuVb+345yFNjQokT8nvuRqcmq72Y6Dm
+         +biy1vFWJopfzCOfhmjxIv09IMKT2p7xXgnZCDuv5MKJrda3Kj19MHFSh0tb3WpowIfD
+         3qpwSvhB97GUxPW6suSXffJZ8/qY4KBR2hcXsoKaIaSxNt2BJ19nICVk98GPpIb1xu+r
+         EVUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782154141; x=1782758941;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OEWwFi6TggeUgPIb5O1s/aY8eVgW9dSMubR6vHRGBr0=;
+        b=T2C1UpRNPNvALumm88OqkgdpUrLYiYnEACtoslydhci74tq//U+zLigaqcKC8PoZGp
+         PMRLlfr6uPwkLrFEcHmZ/nlP/GpW+QVCSGAS0spKy2hngGzEFt/T6Di/327wNQCIT1LD
+         HPqpCKVf2mprmxRv4LOAS5ZrS9ucXEW5UdQ21RJQWxFyyE6LLbiohqpC8MqCnlX1UOtP
+         uCq6yEW9aNNefc+KLl+SyL/aq/kbNq+Bx4j3trIlofUoUGIH/5y2zACiOOnCuMXKXv1r
+         AKkIdI8bi+v4FOFr9fZtCa56/Ia5eIMEskhpdJWepTLFcgUdwaZaaefeEVF3khPXm/+A
+         uQgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9BZ763hRg2ndN9uRSo5SSGfNKAmhJIEd26J4wdoP5fVCYllcRPQ7pnW70DJnIbbnLir9Ad2QcsK8U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhlFie5iov7p2cE7pypdVefBHHGyZYW50/eIWAW2Kh0fYZDleI
+	goItwdC8ktd5aoKcA/U01Vi9JWXAcpXIDIt7cS8ItNvMoELWxjl+84/UUV5QKnJarryUJ5FFbZS
+	U1LvGlrSQePlg2wxu+g==
+X-Received: from wmnj21.prod.google.com ([2002:a05:600c:755:b0:492:4a9f:3d5a])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c059:10b0:490:bb45:79da with SMTP id 5b1f17b1804b1-49240e427f0mr195668185e9.13.1782154140754;
+ Mon, 22 Jun 2026 11:49:00 -0700 (PDT)
+Date: Mon, 22 Jun 2026 18:48:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LINbEWIvA6tlgjut"
-Content-Disposition: inline
-In-Reply-To: <20260622172911.48259a0c@jic23-huawei>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.rc0.786.g65d90a0328-goog
+Message-ID: <20260622184851.2309827-1-tarunsahu@google.com>
+Subject: [PATCH v3 0/9] liveupdate: kvm: guest_memfd preservation
+From: Tarun Sahu <tarunsahu@google.com>
+To: Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Alexander Graf <graf@amazon.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Pratyush Yadav <pratyush@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: kvm@vger.kernel.org, linux-mm@kvack.org, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hello,
+This is Non-RFC patch series for guest_memfd preservation. After
+having multiple discussion across hypervisor liveupdate meeting,
+guest_memfd bi-weekly meeting, the design for the basic support of
+guest_memfd preservation is final. This series is going to include
+guest_memfd which are fully shared and does not support private mem
+and backed by PAGE_SIZE pages.
 
---LINbEWIvA6tlgjut
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Steps to test:
+1. Compile Kernel with CONFIG_LIVEUPDATE_GUEST_MEMFD=y
+2. boot kernel with command line: kho=on liveupdate=on
+3. run the following kselftest
+	$ .selftests/kvm/guest_memfd_preservation_test --stage 1
+	$ <kexec> --reuse-cmdline
+	$ .selftests/kvm/guest_memfd_preservation_test --stage 2
 
-On Mon, Jun 22, 2026 at 05:29:11PM +0100, Jonathan Cameron wrote:
-> > > > Yeah. It's not clear to me how that works for the microchip devices
-> > > > (I suspect it doesn't!)
-> > > >=20
-> > > > Just thinking as I type, but could we do something a bit nasty with
-> > > > a gpio mux that doesn't actually switch but represents the GPIO bei=
-ng
-> > > > shared?  Given this is all tied to the spi bus that should all happ=
-en
-> > > > under serializing locks.=20
-> > > >=20
-> > > > Agreed though that this would be nicer as an SPI thing that let
-> > > > us specify that a single CS is share by multiple devices and their
-> > > > is some other signal acting to select which one we are talking to.
-> > > >  =20
-> > >=20
-> > > If the device-addressing on the same chip-select is to be handled
-> > > by the spi framework, wouldn't we lose device-specific features?
-> > >=20
-> > > I understand that this multi-device feature is there mostly to extend=
- the
-> > > channel count from 16 to 32, 48 or 64. I suppose the command:
-> > >=20
-> > > 	"MULTI DEVICE SW LDAC MODE"
-> > >=20
-> > > exists so that software can update channel values accross multiple de=
-vices. =20
-> >=20
-> > Right! You do have a point! I agree the main driver for a feature like
-> > this is likely to extend the channel count and effectively "aggregate"
-> > devices.
-> >=20
-> > But I would say that even with the spi solution the MULTI DEVICE stuff
-> > should be doable (as we still need a sort of adi,pin-id property).=20
-> >=20
-> > But yes, I do feel that the whole feature is for aggregation so seeing
-> > one device with 32 channels is the expectation here? Rather than seeing
-> > two devices with 16 channels.
->=20
-> Agreed - if we have messages that address both devices at once that needs
-> to be a unified driver and given they are about triggering simultaneous
-> update of all channels it needs to look like one big device.
-> This ends up similar to how we handle daisy chain devices.
->=20
-> The question of what to do on devices that don't have this feature
-> is rather different. Good thing you read the datasheet :)
+NOTE: Assert the following:
+	$ ls /dev/liveupdate
+	$ ls /dev/kvm
+	$ dmesg | grep liveupdate # (should have kvm_vm_luo &&
+		# guest_memfd_luo handler registered)
 
-I'm not sure it really is, the intent for the microchip devices I think
-is pretty similar. The mcp3911 datasheet cites three-phase power
-metering using three devices as a typical use-case, for example.
-Probably creating an amalgamated device is a good fit there too?
+The changes are rebased on:
+	kvm/next + liveupdate/next (merge) + [3] + [4] + [5]
+	Where,
+	[3]: luo: conversion of serialized_data to KHOSER_PTR
+	[4]: luo: APIs to retrieve file internally from session
+	[5]: selftests: liveupdate sefltests library
+Here is the github repo:
+	https://github.com/tar-unix/linux/tree/gmem-pre
 
-I assume an amalgamated device for this ADI product means per-channel ID
-properties? If so, I think they should be made generic and the Microchip
-products retrofitted to use them, with a fallback to the proprietary
-property. Not going to ask for the support for multiple devices in those
-drivers, since the current way doesn't work and there'd be no loss of
-support. Someone from Microchip can do that. The proprietary property
-to generic conversion should be straightforward and provides weight to
-an argument for this being generic, since that'd be three devices that
-can all share?
+V3 <- RFC V2 [2]
+1. Finalize the design
+2. resolve sashiko reported bugs
+3. Use of KHOSER_PTR instead of raw serialized_data as per [3]
 
---LINbEWIvA6tlgjut
-Content-Type: application/pgp-signature; name=signature.asc
+RFC V2 [2] <- RFC V1 [1]
+1. Removed mem_attr_array as it is not needed for fully-shared
+2. Removed pre-faulted condition
+3. Added vm_type preservation for ARM64.
+4. Removed liveupdate_get_file_incoming api patch as it is sent
+   separately [4] by Samiullah.
 
------BEGIN PGP SIGNATURE-----
+[1] https://lore.kernel.org/all/cover.1779080766.git.tarunsahu@google.com/
+[2] https://lore.kernel.org/all/c054ba0fb2639932bbe354420d3f4f84cce84905.1780676742.git.tarunsahu@google.com/
+[3] https://lore.kernel.org/all/20260622111215.4157974-1-tarunsahu@google.com/
+[4] https://lore.kernel.org/all/20260613012521.835490-1-skhawaja@google.com/
+[5] https://lore.kernel.org/all/20260612214512.464146-1-vipinsh@google.com/
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajmBbwAKCRB4tDGHoIJi
-0s7YAP0VfL1OuHJwk04s+lI2XMRzrfrP41oK6CFEBDAEWEQzfAEA1S8DE6xpjMxY
-7GwAtQ0Q8puQZd3ZbpZoY2n5JedDEgs=
-=W4pc
------END PGP SIGNATURE-----
+Tarun Sahu (9):
+  liveupdate: Add LIVEUPDATE_GUEST_MEMFD config option
+  kvm: Prepare core VM structs and helpers for LUO support
+  kvm: kvm_luo: Allow kvm preservation with LUO
+  kvm: guest_memfd: Move internal definitions and helper to new header
+  kvm: guest_memfd: Add support for freezing and unfreezing mappings
+  kvm: guest_memfd_luo: add support for guest_memfd preservation
+  docs: add documentation for guest_memfd preservation via LUO
+  selftests: kvm: Split ____vm_create() to expose init helpers
+  selftests: kvm: Add guest_memfd_preservation_test
 
---LINbEWIvA6tlgjut--
+ Documentation/core-api/liveupdate.rst         |   1 +
+ Documentation/liveupdate/vmm.rst              | 107 ++++
+ MAINTAINERS                                   |  14 +
+ include/linux/kho/abi/kvm.h                   | 106 ++++
+ include/linux/kvm_host.h                      |  14 +
+ kernel/liveupdate/Kconfig                     |  15 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   6 +-
+ .../kvm/guest_memfd_preservation_test.c       | 236 +++++++++
+ .../testing/selftests/kvm/include/kvm_util.h  |   2 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  26 +-
+ virt/kvm/Makefile.kvm                         |   1 +
+ virt/kvm/guest_memfd.c                        | 185 +++++--
+ virt/kvm/guest_memfd.h                        |  44 ++
+ virt/kvm/guest_memfd_luo.c                    | 497 ++++++++++++++++++
+ virt/kvm/kvm_luo.c                            | 195 +++++++
+ virt/kvm/kvm_main.c                           |  94 +++-
+ virt/kvm/kvm_mm.h                             |  15 +
+ 17 files changed, 1477 insertions(+), 81 deletions(-)
+ create mode 100644 Documentation/liveupdate/vmm.rst
+ create mode 100644 include/linux/kho/abi/kvm.h
+ create mode 100644 tools/testing/selftests/kvm/guest_memfd_preservation_test.c
+ create mode 100644 virt/kvm/guest_memfd.h
+ create mode 100644 virt/kvm/guest_memfd_luo.c
+ create mode 100644 virt/kvm/kvm_luo.c
+
+-- 
+2.55.0.rc0.786.g65d90a0328-goog
+
