@@ -1,42 +1,87 @@
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559BE3546E2
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 10:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712E03A48E6
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 10:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782122654; cv=none; b=sPBdYRRnXYQFJ/+frEKHhga6Afl7LdBlm2r1j+va62t9XKtyATofwJQ/IMiiiBrQ8/6VUyw6AdX9MvO8NyYfO5BUDHJ2zV/rFaPkO/sCZ4pHfof4z0+s8W2M0PaPj/uKPDRAQVnFT3vExN/PxDs7u5qG22k3OLw5cApD39qoDcU=
+	t=1782123419; cv=none; b=uYQ959ly1u2C/VaDRP6GmXACEkZHvSeXelwTCegQKkgRThvWy1M/Pz46kWYTpwOlHOs0/pOwM5+yS+qtxmsMIb9XDgVyX9qGv5wOUs2nSmiCl2AQ+sSxYBXPhO2zs9dOpCT/pkKx6vXQA/pbOz0qJDmtLX8BEJe6Sj0IWV4yI8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782122654; c=relaxed/simple;
-	bh=HAPb6vID5TOnSmQEyGi6lMY9UfOIo9MY4PwkdbXh7mE=;
+	s=arc-20240116; t=1782123419; c=relaxed/simple;
+	bh=ny+oEaJHtELYPRQXJpRbB4Z3GpLAGaz864l4KjRKHhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0q9c+2EnO0YP5mshOq2few4MNXQuIPl2bKDTSHZISBf1TsNc8YEaHGC5pUiU+8p5BY+pHOcUJIp1hdRR+uYejw6JGGoC43NrdkY4HWegKT0EKeNKHcwMj4iDxmteQZOoWsYtpevJzaxJaNhZ5PmAvNQxC/iZ1r0m3pVeiVRsQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.53 with ESMTP; 22 Jun 2026 19:04:03 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: youngjun.park@lge.com
-Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.154)
-	by 156.147.1.127 with ESMTP; 22 Jun 2026 19:04:03 +0900
-X-Original-SENDERIP: 10.177.112.154
-X-Original-MAILFROM: youngjun.park@lge.com
-Date: Mon, 22 Jun 2026 19:04:03 +0900
-From: Youngjun Park <youngjun.park@lge.com>
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: Muchun Song <muchun.song@linux.dev>, yosry@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
-	nphamcs@gmail.com, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Hao Jia <jiahao1@lixiang.com>
-Subject: Re: [PATCH v4 0/5] mm/zswap: Implement per-cgroup proactive writeback
-Message-ID: <ajkIkyajJEW2b7/0@yjaykim-PowerEdge-T330>
-References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
- <CAAAF57B-7DE9-45EA-8AB6-DE6CFAF60F47@linux.dev>
- <26a034b3-9cfa-e4f5-eea1-e69fbfff02b4@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WjH3jQ6x0HYVb99ujhF5mVMsoSVmsoDrgf+plIirwyH2VfHb4TStia981C+jVJSQi21sZ9NGoFNfreZY4hTfd/SGFnJfbztO3ZuwvBVgKe2F/bOXAbSm5Y/A8YD7n4m3Iq0s0YMdp4rAJwybYrz8lAM0RTuA9v71Y+du6kedU0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJfq0Gfn; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJfq0Gfn"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-461edb387ddso13960f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 03:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782123416; x=1782728216; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Jydim66CNCnNXRrxYZ4WZVbw1HKlIgjmzn73mWJm6Ig=;
+        b=MJfq0GfneLMrlbO0y8qOFFAw5Tj2BrjpZwW7I7cx0ndMXDu6qf9F6k/TNFzSPiEIV2
+         E1KF/H8/WPedIAXYbJSwiEKtBjgbojunMBfmWuxf/Oh/+L31iMJAzyYlQIn7fdnXYT04
+         KZns25w6UeJelvDOx6hPiJOnzjiOYVu2FBV2T6cz0wtimRTFD3vijNUdQki8Tp80vZZ+
+         5JV2iCU8cxk7WaJsxniTGP4a5b3V/15CXaP1NW/PGtYIJi9hquQ1gma2AR84BYYh70mz
+         UXYgRE3t1eDVv2Hn/ywDBVXhIgebgXijCvS5rBCPsYLktF+mtRlnpUVnYGxUWG4SJdYI
+         oqzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782123416; x=1782728216;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jydim66CNCnNXRrxYZ4WZVbw1HKlIgjmzn73mWJm6Ig=;
+        b=kfp0ZRvmOjOCvGmwNO4QoqYOXpvyDproHWc5Z+mRgTlAk91rrggB2+xETjkJ+Stt6D
+         ZEaW/4O5lSHnHPNiiEjl3DdQogsca6/VgoOELtIIiiBLAMJdrM9WlqmDDAx4tSCJcJEk
+         f/hlymT0ZfF3nxjdNstqrGoIwuhDDRzgxsgM02O/wyYzOvilrRJaVnRcn2n9pto0t+pT
+         io5kyp8qLrPEeErFa8QSjOR8fjD8o3AhGJ+kTN2WwcRBNuJqqtAPhRUUJdwmC8G0X8Hf
+         +7Nx5lhsbQctIfnoPEGpEWS5HJP2p8KXCACX66t4YH+Qfjy8YfDL76ImUiJGaDrSnEqv
+         T9Xw==
+X-Forwarded-Encrypted: i=1; AFNElJ+lqLpsjPmLkOv5oHzGtbJHnA1XSrpcDOuKTweBe02gqkokC2K5cuvhv+bwTeHpxCc4K7kpAVX85yQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBhqeFq2c6rpbeCqyN7j0ChqZ3aKdGay/5kHqzws2cOx0UhQO5
+	dHdDKUXvbmvzwT1PHKGxRGiPBWjAN8nWl4dRMtc6ASKlUy/qrCS65Yx4
+X-Gm-Gg: AfdE7cnSVR0mFNycaldOTSZaxyoMKpfesx16o9OWNb9M/4IM8e3HJuXotYNS+pTyfCF
+	f6xP0yVGHZmO9c+qMKt28Rnr2+pbBydJ6FCqg2LMDy8Ug6K4eG4pJyb3wmhU+HEx7b1EedGdOVZ
+	zlSyoYcoGzxZ2dHa/ybkDGl6dIVrQiz3oQk9li2jZajRaP1S4SNHPD+b7gU53X/L11umGSC89+R
+	bcNFezR8Q68+MGPtM4DqSLeGWbA2gor5MY+DqdIPi1dxT3LFF60Et+pJb1LweZKjsyOS/P2uL/L
+	JwHM5XRTswQNAsN7wPaaMC564lsXw9WYCmq3mMMi5/sciQkcb4WjYQnhPBG5BoF4bCCyy+YnmoB
+	n4KNU6VAGfD92jDrgKqNE5v8i+mBEJhEj/sfdgNxq3/AgENV2kO1eNZ0lWigX0zkXUOm4Z4CzCa
+	SA1viv
+X-Received: by 2002:a05:600c:3507:b0:492:433a:53af with SMTP id 5b1f17b1804b1-492433a552bmr216711435e9.16.1782123414694;
+        Mon, 22 Jun 2026 03:16:54 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-466648c5ddbsm26262341f8f.12.2026.06.22.03.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 03:16:54 -0700 (PDT)
+Date: Mon, 22 Jun 2026 11:17:56 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Conor Dooley <conor@kernel.org>, Janani Sunil <jan.sun97@gmail.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, Janani Sunil <janani.sunil@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <ajkILRPq_g24g4dH@nsa>
+References: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
+ <20260619-obstinate-polo-a230bef97fda@spud>
+ <20260619-bunch-diocese-dd7805cc17ff@spud>
+ <ajU73_TkKrSbqD4f@nsa>
+ <20260619-concierge-doozy-9c161533c369@spud>
+ <ajVlD-j0nIGrRVow@nsa>
+ <20260621153330.79b6600c@jic23-huawei>
+ <20260621-nutmeg-coauthor-715189372230@spud>
+ <ajj6nEb4tATM3C7b@nsa>
+ <20260622102722.5900592f@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,136 +91,361 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <26a034b3-9cfa-e4f5-eea1-e69fbfff02b4@gmail.com>
+In-Reply-To: <20260622102722.5900592f@jic23-huawei>
 
-On Mon, Jun 22, 2026 at 02:08:49PM +0800, Hao Jia wrote:
+On Mon, Jun 22, 2026 at 10:27:22AM +0100, Jonathan Cameron wrote:
+> On Mon, 22 Jun 2026 10:07:01 +0100
+> Nuno Sá <noname.nuno@gmail.com> wrote:
 > 
-> 
-> On 2026/6/21 12:20, Muchun Song wrote:
-> > 
-> > 
-> > > On Jun 18, 2026, at 12:48, Hao Jia <jiahao.kernel@gmail.com> wrote:
+> > On Sun, Jun 21, 2026 at 07:35:42PM +0100, Conor Dooley wrote:
+> > > On Sun, Jun 21, 2026 at 03:33:40PM +0100, Jonathan Cameron wrote:  
+> > > > On Fri, 19 Jun 2026 16:54:11 +0100
+> > > > Nuno Sá <noname.nuno@gmail.com> wrote:
+> > > >   
+> > > > > On Fri, Jun 19, 2026 at 03:12:07PM +0100, Conor Dooley wrote:  
+> > > > > > On Fri, Jun 19, 2026 at 02:01:08PM +0100, Nuno Sá wrote:    
+> > > > > > > On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:    
+> > > > > > > > On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:    
+> > > > > > > > > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:    
+> > > > > > > > > > 
+> > > > > > > > > > On 6/14/26 21:44, Jonathan Cameron wrote:    
+> > > > > > > > > > > On Tue, 9 Jun 2026 16:47:23 +0200
+> > > > > > > > > > > Janani Sunil <jan.sun97@gmail.com> wrote:
+> > > > > > > > > > >     
+> > > > > > > > > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:    
+> > > > > > > > > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:    
+> > > > > > > > > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> > > > > > > > > > > > > > buffered voltage output digital-to-analog converter (DAC) with an
+> > > > > > > > > > > > > > integrated precision reference.    
+> > > > > > > > > > > > > ...
+> > > > > > > > > > > > > Probably others may comment on that, but...
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > This parent node may support device addressing for multi-device support through
+> > > > > > > > > > > > > those ID pins. I suppose that each device may have its own power supplies or
+> > > > > > > > > > > > > other resources like the toggle pins or reset and enable.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > That way I suppose that an example would look like...    
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +patternProperties:
+> > > > > > > > > > > > > > +  "^channel@([0-9]|1[0-5])$":
+> > > > > > > > > > > > > > +    type: object
+> > > > > > > > > > > > > > +    description: Child nodes for individual channel configuration
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +    properties:
+> > > > > > > > > > > > > > +      reg:
+> > > > > > > > > > > > > > +        description: Channel number.
+> > > > > > > > > > > > > > +        minimum: 0
+> > > > > > > > > > > > > > +        maximum: 15
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +      adi,output-range-microvolt:
+> > > > > > > > > > > > > > +        description: |
+> > > > > > > > > > > > > > +          Output voltage range for this channel as [min, max] in microvolts.
+> > > > > > > > > > > > > > +          If not specified, defaults to 0V to 5V range.
+> > > > > > > > > > > > > > +        oneOf:
+> > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > +              - const: 0
+> > > > > > > > > > > > > > +              - enum: [5000000, 10000000, 20000000, 40000000]
+> > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > +              - const: -5000000
+> > > > > > > > > > > > > > +              - const: 5000000
+> > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > +              - const: -10000000
+> > > > > > > > > > > > > > +              - const: 10000000
+> > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > +              - const: -15000000
+> > > > > > > > > > > > > > +              - const: 15000000
+> > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > +              - const: -20000000
+> > > > > > > > > > > > > > +              - const: 20000000
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +    required:
+> > > > > > > > > > > > > > +      - reg
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +    additionalProperties: false
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +required:
+> > > > > > > > > > > > > > +  - compatible
+> > > > > > > > > > > > > > +  - reg
+> > > > > > > > > > > > > > +  - vdd-supply
+> > > > > > > > > > > > > > +  - avdd-supply
+> > > > > > > > > > > > > > +  - hvdd-supply
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +dependencies:
+> > > > > > > > > > > > > > +  spi-cpha: [ spi-cpol ]
+> > > > > > > > > > > > > > +  spi-cpol: [ spi-cpha ]
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +allOf:
+> > > > > > > > > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +unevaluatedProperties: false
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +examples:
+> > > > > > > > > > > > > > +  - |
+> > > > > > > > > > > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +    spi {
+> > > > > > > > > > > > > > +        #address-cells = <1>;
+> > > > > > > > > > > > > > +        #size-cells = <0>;
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +        dac@0 {
+> > > > > > > > > > > > > > +            compatible = "adi,ad5529r-16";
+> > > > > > > > > > > > > > +            reg = <0>;
+> > > > > > > > > > > > > > +            spi-max-frequency = <25000000>;
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > > +            avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > > +            hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > > +            hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            #address-cells = <1>;
+> > > > > > > > > > > > > > +            #size-cells = <0>;
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            channel@0 {
+> > > > > > > > > > > > > > +                reg = <0>;
+> > > > > > > > > > > > > > +                adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            channel@1 {
+> > > > > > > > > > > > > > +                reg = <1>;
+> > > > > > > > > > > > > > +                adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > +            channel@2 {
+> > > > > > > > > > > > > > +                reg = <2>;
+> > > > > > > > > > > > > > +                adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > +        };
+> > > > > > > > > > > > > > +    };    
+> > > > > > > > > > > > > ...
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 	spi {
+> > > > > > > > > > > > > 		#address-cells = <1>;
+> > > > > > > > > > > > > 		#size-cells = <0>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 		multi-dac@0 {
+> > > > > > > > > > > > > 			compatible = "adi,ad5529r-16";
+> > > > > > > > > > > > > 			reg = <0>;
+> > > > > > > > > > > > > 			spi-max-frequency = <25000000>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 			#address-cells = <1>;
+> > > > > > > > > > > > > 			#size-cells = <0>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 			dac@0 {
+> > > > > > > > > > > > > 				reg = <0>;
+> > > > > > > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				#address-cells = <1>;
+> > > > > > > > > > > > > 				#size-cells = <0>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				channel@0 {
+> > > > > > > > > > > > > 					reg = <0>;
+> > > > > > > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				channel@1 {
+> > > > > > > > > > > > > 					reg = <1>;
+> > > > > > > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				channel@2 {
+> > > > > > > > > > > > > 					reg = <2>;
+> > > > > > > > > > > > > 					adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > 			}
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 			dac@1 {
+> > > > > > > > > > > > > 				reg = <1>;
+> > > > > > > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				#address-cells = <1>;
+> > > > > > > > > > > > > 				#size-cells = <0>;
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				channel@0 {
+> > > > > > > > > > > > > 					reg = <0>;
+> > > > > > > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 				channel@1 {
+> > > > > > > > > > > > > 					reg = <1>;
+> > > > > > > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > 			}
+> > > > > > > > > > > > > 		};
+> > > > > > > > > > > > > 	};
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > then you might need something like:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 	patternProperties:
+> > > > > > > > > > > > > 		"^dac@[0-3]$":
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > and put most of the things under this node pattern.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > So the main driver that you're putting together might need to handle up to four instances.
+> > > > > > > > > > > > > Even if your current driver cannot handle this, the dt-bindings might need cover that.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Need to double check if each dac node needs a separate compatible, so you would maybe populate
+> > > > > > > > > > > > > a platform data to be shared with the child nodes, which would be a separate driver.
+> > > > > > > > > > > > > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).    
+> > > > > > > > > > > > Hi Rodrigo,
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Thank you for looking at this.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
+> > > > > > > > > > > > hardware/use case we have only needs one device node and the driver is written around that model as well.
+> > > > > > > > > > > > While the device addressing pins could allow multi-device topology, we do not have an actual platform using
+> > > > > > > > > > > > that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
+> > > > > > > > > > > > speculatively without a validating use case.    
+> > > > > > > > > > > Interesting feature - kind of similar to address control on a typical i2c bus device, or
+> > > > > > > > > > > looking at it another way a kind of distributed SPI mux.
+> > > > > > > > > > > 
+> > > > > > > > > > > Challenge of a binding is we need to anticipate the future.  So I think we do need something
+> > > > > > > > > > > like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
+> > > > > > > > > > > That would leave the path open to supporting the addressing at a later date.
+> > > > > > > > > > > An alternative might be to look at it like a chained device setup. In those we pretend there
+> > > > > > > > > > > is just one device with a lot of channels etc.  The snag is that here things are more loosely
+> > > > > > > > > > > coupled whereas for those devices it tends to be you have to read / write the same register
+> > > > > > > > > > > in all devices in the chain as one big SPI message.
+> > > > > > > > > > > 
+> > > > > > > > > > > +CC Mark Brown as he may know of some precedence for this feature. For his reference..
+> > > > > > > > > > > - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
+> > > > > > > > > > > value that matches that or they are ignored.  Thus a single bus + 1 chip select can
+> > > > > > > > > > > be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
+> > > > > > > > > > > longer term how to support it cleanly in SPI.    
+> > > > > > > > > 
+> > > > > > > > > I'd swear I have seen this before, from some Microchip devices. Let me
+> > > > > > > > > see if I can find what I am thinking of...    
+> > > > > > > > 
+> > > > > > > > 
+> > > > > > > > microchip,mcp3911 and microchip,mcp3564 both seem to do this with
+> > > > > > > > slightly different properties.
+> > > > > > > > 
+> > > > > > > >   microchip,device-addr:
+> > > > > > > >     description: Device address when multiple MCP3911 chips are present on the same SPI bus.
+> > > > > > > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > > >     enum: [0, 1, 2, 3]
+> > > > > > > >     default: 0
+> > > > > > > > 
+> > > > > > > > and
+> > > > > > > > 
+> > > > > > > > 
+> > > > > > > >   microchip,hw-device-address:
+> > > > > > > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > > >     minimum: 0
+> > > > > > > >     maximum: 3
+> > > > > > > >     description:
+> > > > > > > >       The address is set on a per-device basis by fuses in the factory,
+> > > > > > > >       configured on request. If not requested, the fuses are set for 0x1.
+> > > > > > > >       The device address is part of the device markings to avoid
+> > > > > > > >       potential confusion. This address is coded on two bits, so four possible
+> > > > > > > >       addresses are available when multiple devices are present on the same
+> > > > > > > >       SPI bus with only one Chip Select line for all devices.
+> > > > > > > >       Each device communication starts by a CS falling edge, followed by the
+> > > > > > > >       clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+> > > > > > > >       which is first one on the wire).
+> > > > > > > > 
+> > > > > > > > This sounds exactly like the sort of feature that you're dealing with
+> > > > > > > > here?
+> > > > > > > >     
+> > > > > > > 
+> > > > > > > The core idea yes but for this chip, things are a bit more annoying (but
+> > > > > > > Janani can correct me if I'm wrong). Here, each device can, in theory,
+> > > > > > > have it's own supplies, pins and at the very least, channels with maybe
+> > > > > > > different scales. That is why Janani is proposing dac nodes. Given I
+> > > > > > > honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
+> > > > > > > about solving this at the spi level.
+> > > > > > > 
+> > > > > > > Ah and to make it more annoying, we can also mix 12 and 16 bits variants
+> > > > > > > together in the same bus.    
+> > > > > > 
+> > > > > > I'm definitely missing something, because that property for the
+> > > > > > microchip devices is not impacted what else is on the bus. AFAICT, you
+> > > > > > could have an mcp3911 and an mcp3564 on the same bus even though both
+> > > > > > are completely different devices with different drivers. They have
+> > > > > > individual device nodes and their own supplies etc etc. These aren't
+> > > > > > per-channel properties on an adc or dac, they're per child device on a
+> > > > > > spi bus.    
+> > > > > 
+> > > > > Maybe I'm the one missing something :). IIRC, spi would not allow two
+> > > > > devices on the same CS right? Because for this chip we would need
+> > > > > something like:
+> > > > > 
+> > > > > spi {
+> > > > > 	dac@0 {
+> > > > > 		reg = <0>;
+> > > > > 		adi,pin-id = <0>;
+> > > > > 	};
+> > > > > 
+> > > > > 	dac@1 {
+> > > > > 		reg = <0>; // which seems already problematic?
+> > > > > 		adi,pin-id <1>;
+> > > > > 	};
+> > > > > 
+> > > > > 	...
+> > > > > 
+> > > > > 	//up to 4
+> > > > > };  
+> > > > Yeah. It's not clear to me how that works for the microchip devices
+> > > > (I suspect it doesn't!)
+> > > > 
+> > > > Just thinking as I type, but could we do something a bit nasty with
+> > > > a gpio mux that doesn't actually switch but represents the GPIO being
+> > > > shared?  Given this is all tied to the spi bus that should all happen
+> > > > under serializing locks. 
+> > > > 
+> > > > Agreed though that this would be nicer as an SPI thing that let
+> > > > us specify that a single CS is share by multiple devices and their
+> > > > is some other signal acting to select which one we are talking to.  
 > > > 
-> > > From: Hao Jia <jiahao1@lixiang.com>
+> > > Whether it works or not, I think it is the more correct approach. Messing
+> > > with gpio muxes seems completely wrong, given the chip select may not be
+> > > a gpio at all.
 > > > 
-> > > Zswap currently writes back pages to backing swap reactively, triggered
-> > > either by the shrinker or by the pool reaching its size limit. Although
-> > > proactive memory reclaim can automatically write back a portion of zswap
-> > > pages via the shrinker, it cannot explicitly control the amount of
-> > > writeback for a specific memory cgroup. Moreover, proactive memory reclaim
-> > > may not always be triggered during a steady state.
-> > > 
-> > > In certain scenarios, it is desirable to trigger writeback in advance to
-> > > free up memory. For example, users may want to prepare for an upcoming
-> > > memory-intensive workload by flushing cold memory to the backing storage
-> > > when the system is relatively idle.
-> > > 
-> > > This patch series introduces a "zswap_writeback_only" key to memory.reclaim
-> > > cgroup interface, allowing users to proactively write back cold compressed
-> > > data from zswap to the backing swap device. When specified, this key
-> > > bypasses standard memory reclaim and exclusively performs proactive zswap
-> > > writeback up to the requested budget. If omitted, the default reclaim
-> > > behavior remains unchanged.
-> > > 
-> > > Example usage:
-> > >   # Write back 10MB of compressed data from zswap to the backing swap
-> > >   echo "10M zswap_writeback_only" > memory.reclaim
+> > > Why do you think the microchip devices won't work? Does the spi core
+> > > reject multiple devices with the same chip select being registered or
+> > > something like that?  
 > > 
-> > I’m not entirely sure if other candidate names were already brought up
-> > in previous discussions, so my apologies if I'm repeating something here!
-> > I do think expanding memory.reclaim is a great approach. That said, I
-> > was wondering if we could make the interface a bit more concise while
-> > keeping it flexible for future extensions.
+> > Not sure how things work atm. But I'm fairly sure it used to be like
+> > that. SPI would reject devices on the same controller and CS. Now that
+> > we support more than one CS per controller, not sure how things work. 
+> We always supported more than one per CS per controller. I guess you mean
+> per device.
+
+Obviously :)
+> 
 > > 
-> > Essentially, what we want is to control the specific targets of the reclaim
-> > process—such as file, anon, or zswap. What do you think about using
-> > something like "source=zswap"? For instance, if we want to reclaim 10M from
-> > zswap, the command would look like this:
+> > Janani, maybe you can give it a try?
+> 
+> I think we'd need to get it to work with shared gpio proxy which maybe
+> will just get set up under the hood.  This used to be opt in, but seems
+> that changed fairly recently so maybe some of us are working with out
+> of date knowledge!  I haven't played with it yet, so might not be
+> that simple.
+> 
+
+What I meant for Janani was basically testing two devices on the same CS
+as in my pseudo DT. For the GPIO, you mean having a way to select
+between devices on the same CS?
+
+For these devices the pin id numbers get's setted up as part of the spi message
+so my assumption is that all of them will receive the message but only one acks it.
+
+- Nuno Sá
+
+> Jonathan
+> 
 > > 
-> > 	echo "10M source=zswap" > memory.reclaim
+> > - Nuno Sá
 > > 
 > 
-> Thanks for the suggestion. TBH, I personally think your approach makes more
-> sense than "zswap_writeback_only".
-
-> Hi YoungJun and Yosry,
-> 
-> I am not sure if this suggestion from Muchun could decouple zswap proactive
-> writeback from the swap tiers, or make it easier to migrate to swap tiers in
-> the future:
-> 
->     echo "10M source=zswap" > memory.reclaim
-> For now, we only specify the source. Later on, the swap tiers feature could
-> extend this to control whether to demote to SSD swap, HDD swap, or other
-> tiers.
-> 
-> Thanks,
-> Hao
-
-Hi Hao!
-
-I also preferred sharing the `memory.reclaim` interface in the future swap demotion,
-since it already takes `zswap_writeback_only`.
-https://lore.kernel.org/all/aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330/
-
-Alternatively, we could use a separate interface as Yosry suggested
-(e.g. 'swap.tiers.demote'?).
-
-But as Nhat pointed out, allowing user-triggered demotion from the swap tier
-perspective could lead to issues like LRU inversion. We probably need to
-discuss whether this kind of user-triggered tier demotion will actually be
-supported at all.
-https://lore.kernel.org/linux-mm/CAKEwX=NfSy0XiD_UMsDOHGCwpE7sYmBmhV4Y9vk_cbnnr6J6PQ@mail.gmail.com/
-
-So, IMHO..
-
-1. If swap tier demotion is NOT exposed.
-
-We can simply choose between "source=" and `zswap_writeback_only` based
-on preference. (since there is no need to consider "swap_tier" demotion.)
-
-However, "source=" seems to offer better extensibility if it is expanded
-to file and anon use cases in the future.
-
-2. If swap tier demotion IS exposed.
-We need to consider integration vs decoupling.
-
-(In my view, This is a design consideration. avoiding potentially
-redundant interfaces vs adding a new one if it is architecturally correct.)
-
-2.1 Integration
- - Integrating into 'memory.reclaim':
-  - "source=": Seems easier to integrate by explicitly specifying the target. (Your suggestion)
-  - 'zswap_writeback_only': Harder to integrate than "source=".
-
- - Integrating into 'memory.swap.tiers.demote'
-  - 'memory.swap.tiers.demote' could absorb the memory.reclaim functionality.
-  (But since we only want to allow tiering for vswap+zswap cases like
-  the zswap writeback feature as we discussed, the reclaim interface behavior might
-  still need to stay for zswap only.)
-
-2.2 Decoupling
- - 'memory.swap.tiers.demote' handles other swap devices (excluding zswap),
-while "source=" or 'zswap_writeback_only' handles only zswap.
-
-I think future discussions might lean toward "integrating into
-'memory.swap.tiers.demote'". Therefore, from this perspective, either
-direction seems fine. However, I slightly prefer "source=" due to its
-potential for other extensions.
-
-I don't have a strong preference, though!
-
-Thanks
-Youngjun
-> If we only want to reclaim 10M from file pages, we could easily extend the
-> syntax:
-> 
-> 	echo "10M source=file" > memory.reclaim
-> 
-> And of course, we could even combine them down the road:
-> 
-> 	echo "10M source=anon,file" > memory.reclaim
-> 
-> to only reclaim anon and file but bypass zswap.
-> 
-> Just some thoughts of mine.
