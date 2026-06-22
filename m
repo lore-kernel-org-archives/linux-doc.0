@@ -1,117 +1,150 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFBB343D9D
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66AE345751;
+	Mon, 22 Jun 2026 18:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782152358; cv=none; b=Gpq3ugzdA+piFG28a5HSfPK9eRw44kTuC++Ul8FyHeDSjD0l8iNu9r4eFhVOjjzwtrJersFOHEsnTEKVygWcWI/ajdv4V7+cuTF0FChXpuKdU4gGb5GB7fgzunmpKsc12fyLrw4yGBDnPqD42Gzm2BWunkUop8CMOftznH9bBcQ=
+	t=1782153590; cv=none; b=tu/Vg6kXIS69MoZQGqPvoEkcpQiByjCj/SWYHq0LI68hJJMHiQfT/zW24D24eZuKyl0OhCVUPSD64eeU3LtjW3CQ1NCwMZH0Ey3hVn4zliqNta0Gz4aRy0kzRQt/URsqbFHOVQ5amGSTRuF7xV+476r1SC3wNdc/k+Qrv5aO+Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782152358; c=relaxed/simple;
-	bh=vzQPa+wRfjDhzjoiFxTZzjP0OA6x7DAFKuq4lhacSEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cwbcyt6I4Cq+7zcL/EzN1IQ2FMu/P3N0u6vNTOMkoyfoUNmyiQ6S/UoHCNB8WdggafiHpds0uj6SH0wYQnnwlw3Juqp6vWQO078y571pIHoY/eyr6nOL42QoCbC7MJPvm+dIMIvqMOpFRizbyx1Jx4+8qAJh6SdL0mMVOakBkaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMRXQClH; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782153590; c=relaxed/simple;
+	bh=P1Z8Kb1kgC1UU4dsPEHbpnrtWggCM0AVbBdG4S8RsTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhtvJSjSeVwwK6LM6dBdkXU+sT2s3R3NVEe74jFwsbCGR6rpHVpPBfxfVy2JMDLp6gyvzVEnlYUHwqUcrzlADWrKxin8M7TL6RKI5sdc5Fv96Y7yO9RjCjfg7gPzxm0pnQ3bwYpRr4S1mE+ORjYeZwDkkP1ZYenP1kh2p/q3p6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eddX1OD+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMRXQClH"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49234dc0b8aso5998695e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 11:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782152355; x=1782757155; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OgXvi1kX5xT8KIfuJ99Kw8ogFdqkTxgMXnV5IEfIfG0=;
-        b=WMRXQClH4NcC44GqDZUSbpmyl03Mq4FMZ2Ia5xti5r3eKOSd3sN68DMGq+hw0QCU9V
-         M19BFmm96oDEST1aFK72rgB1m/t7n/zcjKZn2dKxDQtiGyZEp2vOy7WjLZzlRcDICZR8
-         u5IeFWsxq7tGVX4Q6aAwdBBJY/UWPguujTUiiRImr/R1EbknG13qJdzvIYmbJ7XKjT1e
-         cXRYZfbVR0HANNnhXfmCLsktKn+EmEWnaRTp9fbFN7oAku6HmQjtdsq8rYll+aTQ1caH
-         MSVhnQSmPMiLvcbVFVV39+rWSXRfLvTLLpbf9KS2oeBB/pkyqxvSq1rckcXestRkyGg5
-         nHtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782152355; x=1782757155;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OgXvi1kX5xT8KIfuJ99Kw8ogFdqkTxgMXnV5IEfIfG0=;
-        b=nZ+PtldXur3xU0JM18YVogacgMfzu2O4i3+23o9RsSmh39H3ktZgSi/csNoePSB7P1
-         vLBCpznsMPzygj/bpusPZwVxtnE2BHFVOvMl5Xo1kO4qqmP/ZPRVXgGKx/ftqpMFmaE8
-         fXyY368In1+dmPr+8YOqjuE0ZFNfqYl+MWYb0advsUSbZgmDBJa0fsr3BlyU5wfQ6hRl
-         BLGWN3x4DOACyrCAlLE4Enaogi0ocdK19zaF3+PzY+ubw3LheXv9GiHD2lisfC5chzoq
-         3TPvzEAeMC1ZmZ33wOeFQaUQcQ5Iina/AqXPj5cJY2ffr+GiwAhIrkhaH8tvMI5iO36m
-         F1DA==
-X-Forwarded-Encrypted: i=1; AHgh+RomPwMndE8xCSpLlIyyFUaSACmJ69rkTSHmc8fSI2BlRHf2+w9R2cKRa6RpHEcaVhIU8BW6rjKMqGM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmH9wTNw+3X2cjYs4sLnqeC39ib9emPHLZidkGPEAUyo12dmUd
-	Fl/dxde65BYJXRYPfE0Opd8EKdhv2hL8+yB/lSEpYtczSjDP3eBkzMBY
-X-Gm-Gg: AfdE7cnH84b8unKW0segQUu7N/rCtgqyx3ru8ztr9LpAP4Eemq8EN6j1dT+BVBoHvnT
-	grYZSzPkvuAdsBtmxZVIoSwbZdAZTNN0QNJcNcokcTHrAB2/wPiSuozJgxTXnB2lZl+4TW2kFzj
-	kjVzqJH9+D+1IFNTfeKZrfOycnfX/y8exJ1K+tlxEsqQzmqcr2bljBEPJpSKfQY7+B4Qpyq18Iy
-	tslkmFEh7LqAwcEdVLALimyVKwXEVcN8YXWzODScj1vTpkrre0n362RtdrC1Kum7EkD9+eJI1bi
-	9PJUugu2OaraMwQR/xCzzVj31tGSgqvhHnYNHQFDzb9tTa7pjH3GENs33veJ+Ussi9OD0L4Ogkk
-	O1yYtIud6qsv3FLyVcDso8yGRnYzWspT8XfG/FgXLEjBOREkvHwNMlojlUVL8FzOSadM5drQyFt
-	I0P0GXr24jtCLshGDZcJwgwsgTWj/pVf9fWETmW+LBzkjifW37KnblwS4t4CX/zhvgegzx0tB8c
-	WsTQqpAgne4mHeG
-X-Received: by 2002:a05:6000:4808:b0:45e:894b:49eb with SMTP id ffacd0b85a97d-46a50422468mr1068627f8f.7.1782152355276;
-        Mon, 22 Jun 2026 11:19:15 -0700 (PDT)
-Received: from doehyun-dev.pradel.rg.cispa.de (x06.xlate.fw.cispa.de. [195.37.157.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666788226sm28288079f8f.23.2026.06.22.11.19.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 11:19:14 -0700 (PDT)
-From: Doehyun Baek <doehyunbaek@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eddX1OD+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6644F1F000E9;
+	Mon, 22 Jun 2026 18:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782153589;
+	bh=mTAUX7iL8MIKP459YDbkJrM5XX2iCJ+gAz986kzvZy4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eddX1OD+d1gw/xDyzjjgWxZnM+/v0Zw1KG0RgLC/osLVhHAAztmm6Ce5f4z2dZ8MV
+	 lKFPsXx4lyc8uYnYyWJgj7MFqyFQqsGhXSA9Cl7IWTX1CgB+6b7mUU5YKVGjXwyjo5
+	 U2wcw0DK5u2DkzvILF/UyuOeaEq5ukPeY6PNSq1HZqDaQ15/PeoTjk92FhM1R03LN1
+	 qnXFJ0iry1RWM0T7Ro5YZNZ9B1khrBJVM2kV86JZZWGb3vFpPjEfJzr1GZyqkiyxdi
+	 daKcQKVtOmfL8gkrCF8BnKhwsnTZsGfBQ9BYAEJwR5022V6bb3MSdACP8fK9AtvxJo
+	 Hflt/27xVeCzg==
+Date: Mon, 22 Jun 2026 19:39:43 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+	Janani Sunil <jan.sun97@gmail.com>,
+	Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Doehyun Baek <doehyunbaek@gmail.com>
-Subject: [PATCH] Docs/driver-api/uio-howto: document mmap_prepare callback
-Date: Mon, 22 Jun 2026 18:18:21 +0000
-Message-ID: <20260622181821.1195257-1-doehyunbaek@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260622-captive-tux-067efd31ceac@spud>
+References: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
+ <20260619-obstinate-polo-a230bef97fda@spud>
+ <20260619-bunch-diocese-dd7805cc17ff@spud>
+ <ajU73_TkKrSbqD4f@nsa>
+ <20260619-concierge-doozy-9c161533c369@spud>
+ <ajVlD-j0nIGrRVow@nsa>
+ <20260621153330.79b6600c@jic23-huawei>
+ <5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
+ <ajkMBh-R_7pYaoAn@nsa>
+ <20260622172911.48259a0c@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LINbEWIvA6tlgjut"
+Content-Disposition: inline
+In-Reply-To: <20260622172911.48259a0c@jic23-huawei>
 
-The UIO howto still documents an mmap callback in struct uio_info.
-That field was replaced by mmap_prepare, which takes a struct
-vm_area_desc.
 
-A UIO driver following the current howto no longer builds because
-struct uio_info has no mmap member. Update the documented callback
-signature and matching text to match the current API.
+--LINbEWIvA6tlgjut
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 933f05f58ac6 ("uio: replace deprecated mmap hook with mmap_prepare in uio_info")
-Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
----
- Documentation/driver-api/uio-howto.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Jun 22, 2026 at 05:29:11PM +0100, Jonathan Cameron wrote:
+> > > > Yeah. It's not clear to me how that works for the microchip devices
+> > > > (I suspect it doesn't!)
+> > > >=20
+> > > > Just thinking as I type, but could we do something a bit nasty with
+> > > > a gpio mux that doesn't actually switch but represents the GPIO bei=
+ng
+> > > > shared?  Given this is all tied to the spi bus that should all happ=
+en
+> > > > under serializing locks.=20
+> > > >=20
+> > > > Agreed though that this would be nicer as an SPI thing that let
+> > > > us specify that a single CS is share by multiple devices and their
+> > > > is some other signal acting to select which one we are talking to.
+> > > >  =20
+> > >=20
+> > > If the device-addressing on the same chip-select is to be handled
+> > > by the spi framework, wouldn't we lose device-specific features?
+> > >=20
+> > > I understand that this multi-device feature is there mostly to extend=
+ the
+> > > channel count from 16 to 32, 48 or 64. I suppose the command:
+> > >=20
+> > > 	"MULTI DEVICE SW LDAC MODE"
+> > >=20
+> > > exists so that software can update channel values accross multiple de=
+vices. =20
+> >=20
+> > Right! You do have a point! I agree the main driver for a feature like
+> > this is likely to extend the channel count and effectively "aggregate"
+> > devices.
+> >=20
+> > But I would say that even with the spi solution the MULTI DEVICE stuff
+> > should be doable (as we still need a sort of adi,pin-id property).=20
+> >=20
+> > But yes, I do feel that the whole feature is for aggregation so seeing
+> > one device with 32 channels is the expectation here? Rather than seeing
+> > two devices with 16 channels.
+>=20
+> Agreed - if we have messages that address both devices at once that needs
+> to be a unified driver and given they are about triggering simultaneous
+> update of all channels it needs to look like one big device.
+> This ends up similar to how we handle daisy chain devices.
+>=20
+> The question of what to do on devices that don't have this feature
+> is rather different. Good thing you read the datasheet :)
 
-diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
-index 907ffa3b38f5..c08472dfbcfe 100644
---- a/Documentation/driver-api/uio-howto.rst
-+++ b/Documentation/driver-api/uio-howto.rst
-@@ -246,10 +246,10 @@ the members are required, others are optional.
-    hardware interrupt number. The flags given here will be used in the
-    call to :c:func:`request_irq()`.
- 
---  ``int (*mmap)(struct uio_info *info, struct vm_area_struct *vma)``:
-+-  ``int (*mmap_prepare)(struct uio_info *info, struct vm_area_desc *desc)``:
-    Optional. If you need a special :c:func:`mmap()`
-    function, you can set it here. If this pointer is not NULL, your
--   :c:func:`mmap()` will be called instead of the built-in one.
-+   ``mmap_prepare`` will be called instead of the built-in one.
- 
- -  ``int (*open)(struct uio_info *info, struct inode *inode)``:
-    Optional. You might want to have your own :c:func:`open()`,
+I'm not sure it really is, the intent for the microchip devices I think
+is pretty similar. The mcp3911 datasheet cites three-phase power
+metering using three devices as a typical use-case, for example.
+Probably creating an amalgamated device is a good fit there too?
 
-base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
--- 
-2.43.0
+I assume an amalgamated device for this ADI product means per-channel ID
+properties? If so, I think they should be made generic and the Microchip
+products retrofitted to use them, with a fallback to the proprietary
+property. Not going to ask for the support for multiple devices in those
+drivers, since the current way doesn't work and there'd be no loss of
+support. Someone from Microchip can do that. The proprietary property
+to generic conversion should be straightforward and provides weight to
+an argument for this being generic, since that'd be three devices that
+can all share?
 
+--LINbEWIvA6tlgjut
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajmBbwAKCRB4tDGHoIJi
+0s7YAP0VfL1OuHJwk04s+lI2XMRzrfrP41oK6CFEBDAEWEQzfAEA1S8DE6xpjMxY
+7GwAtQ0Q8puQZd3ZbpZoY2n5JedDEgs=
+=W4pc
+-----END PGP SIGNATURE-----
+
+--LINbEWIvA6tlgjut--
