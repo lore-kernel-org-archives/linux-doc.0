@@ -1,54 +1,54 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87781347BC6
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B72348C67
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782154154; cv=none; b=IZYnGKv9d6os7J1ZtHE/7HyemTi+P10+y/dhuvvnYagRBmsECq6+nF+paEGuUjVR1nuXGdIB0dFBXODM5wUT49cRQzTvXMS/msV/K3futQBkKBvOZbF5fJf1se4l/NSLoA+66O1CjEcDcp7tJ3kMAbAmXVCtd0Wvx9XTb+ncJ6M=
+	t=1782154155; cv=none; b=VfbMcgmb5XZOLtT4/Zpu6Wb+m4a8PP9awRr34CI1aIJyZzYOiWkcFyAwQ7/fIElMIW6X0EgWK8jypeQtXOPcn0UcUC7FhKRKnr/rhwTY0aLMpcvWENqFP+UZRH3bHlTRZa49ofdoilL0as7EjYSrn+YqPbzcCj6sdIT3vsN82ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782154154; c=relaxed/simple;
-	bh=DTXAkdzcLcAWCoXtw/xD6n7x+ci+fH1xyldHAhNGTx0=;
+	s=arc-20240116; t=1782154155; c=relaxed/simple;
+	bh=iHAqWYoDEqoYF8IdRYlPpusH94MBu+nlDh/yTyijiSE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gZtGi6lCFg3PXg0U5WZcEe4tfwv4qKqeaFoMbE13u/QovP4uO+ax+CCdjwPlHNXKukiPdDfzVdrC1IlxxbIvvJBjAzjbQ2gH2bdujvrqPKoFc1mibJEl6sbXLTz1Itw0Aq/Cb6fWj8TJVCMs7YquKybv3Bx2HLV/dbezu9f82AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hDO3HaHU; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=FGUglEnWgjzIX14tHC5HqNa3pX7Yqht8U7AnNq9w7/gZnY9Ok27++nsSfTik/7vCp2NtcWeOuTxkF6x4G124C8jVUGY/NK7edmaMnjwlEqpSrGkNZ4SQhX40Y3A7KtLRCRPB4XlHsBKJpb4B+Eg72Y0gTnc5yzqCz/g8u7ZNdiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bvYl67L6; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hDO3HaHU"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-490b37e1f48so28470475e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 11:49:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bvYl67L6"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-462d8ccf553so3022592f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 11:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782154144; x=1782758944; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782154150; x=1782758950; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uxmxXtXLX2FKIn/jikNfDJMM+jo3cX9aru0TaotD/JM=;
-        b=hDO3HaHUHmjyuBLRj330ynn7vtPJztKgL9rEseUqFvSZ90z/JYm5fBwhOV8l3wZj2i
-         N1kKq6oKlqgyBnlCdY3/V3QpWh3jNECSJdoXTRkUPcq/xrw3T8f/MXE8JdQMr1Az8a6s
-         EckOGkEM7w4cIIaqE26OrSPqQmHz7jtrJ4gTUv+ir2xz67f8Ec2XfrjDimJbrjc/yePU
-         HXPsu3i2pCYjeqrGbGlH90+ptRmdAd3ZB+2hnmv7PRD+1bfCwatxNwv8v4ZF6nKk98Y8
-         sVC5qCVuz/oWam/pyRKq5vuIRJxeDpycxErtubKUCykazI3jevx13bJp1iM90Q0i6PCh
-         KpXA==
+        bh=2hLQE11StkUlK0CTXqXjUU/EPcv0l0L8NQfDoUdv0GQ=;
+        b=bvYl67L6HP+/VYjgUXzBFWr49f85tzRcutXO1SLMoEsi12d6LQmf6Q+5d/65J8+nPB
+         J2oZ1CHlqAu6FJw689bx0MXcDZAkzk002X9IseOF8tOodC7LgDLAQ6jqto9bE8yGScHl
+         QgI7jdA5/G773UwabkTG2vFZjqYmi2m/y+Y0IpFUiR9WtcDSkmV3Ah6lzfpbl+cQbr2z
+         hhX+r4m1V3kYcSDZ4rtZcCu8ExmtxG3KiGkHvNWxC3PCLIfRK/Ublf65Rd1kHvxUMKzn
+         tfVkUSovBAqylVEEgPv52LX9P0ldXzMxjslmzUwSgxuPoihWKkx3RgS9wRa3aNl6LS1M
+         0o7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782154144; x=1782758944;
+        d=1e100.net; s=20251104; t=1782154150; x=1782758950;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uxmxXtXLX2FKIn/jikNfDJMM+jo3cX9aru0TaotD/JM=;
-        b=Muem6TJYWvPQ5C6YtRxvK/lGWkvD/XJza7RBuIdBGo9UWRhb0NbaAvJNisRjx+Aat0
-         enWcCZiItQr10pYWiMMZnVjthK1KTSsIvq0vDfjMs7jiOARyD87TSNaoxADtEuWNEqF+
-         d2JrBaZbqVyweRE7dCGSwWAXN36mmFsXAuo3sliDBIZB48q7GOuB5LAztdExgul/3W58
-         0kUO9uvBRpOSoL48XRQVFHN4J6H3izmEVmMred6iT1g1HozCpaDou/wUneXefGe1Wrmw
-         6tJijb4zaZju98ynhAZGvh1ouml4S9gRAxeFYcV7jTVFmX1axX6AdAw17wm/WAuYJjUP
-         cG4w==
-X-Forwarded-Encrypted: i=1; AFNElJ/glODrChiHgVyYSDY4hksifj7nucKWjuLgnIyyDEN1aCYG9cZak1kBQy+vOUA50mNftC97uats5vc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvkcgftuEiDC0hybrfKP7sFdGpV6WfWJtA7ZenqF+T/5HM0Rs8
-	HzBZrr6jWwqf5UNePF+LoXplQemXbJrrYKxlgcMMDMv/svUgzDR3n0FsdUNmvrruOeTM1ZAy6z3
-	9YAFt4viCIPRntkslbA==
-X-Received: from wmix10-n2.prod.google.com ([2002:a05:600c:e54a:20b0:492:4a6f:ac6d])
+        bh=2hLQE11StkUlK0CTXqXjUU/EPcv0l0L8NQfDoUdv0GQ=;
+        b=MbtRa4aOusIA8j6D/KVfa+SckTrf/mh9AGlt0pgQsm+fdn5QxKK6VZiQqIK0JunXwd
+         Js0HFV3OF0iRTpnkzlBtG00ys9Ehh1xhsdKj6I79BjacIqjXYoU7nCpX7Cl5ZBAfjlWP
+         6JpfPHyM0GWri5wk1RaUkOC+eYBBhUPC5V9xMmWluYySkW8ff3ei8ha15++N3GmQm5tp
+         T+TWK45twgRyPvXGliqhHYwjGpTs2sEqN2cRTG4VVSvM+M56swiRk7b/1RqUTVIDEduU
+         I8RpoXHGhgR1D+eeQHZ4CQCZRs/6xwbMcGF9PvCG0efTSKD3bKBaIcvgLJ49PVpV2fAw
+         2x3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8aKrQ9fUpzstV/0Tboh6iWnvGMRByzWeDPPfHRowW4ukzVODow8a1UfekPT3zft0aQ+YB3lreB4BA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBp5CEtkpSWF2OKnzXp5YCdfEjC9gOhM79DkXmHgVsark6HMCa
+	2qeoN62RYwZR5VDEPB9zgMA9LOrEt5juq2cPAqgSwh5i8awAbqA2x8/R206M9XGCqVNbrl/MjLL
+	Gnt5aSvUbyLjTVDsb7w==
+X-Received: from wmat25.prod.google.com ([2002:a05:600c:6d19:b0:492:52c9:b1a7])
  (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b74:b0:492:348:ba08 with SMTP id 5b1f17b1804b1-4923f44035dmr253038125e9.16.1782154143613;
- Mon, 22 Jun 2026 11:49:03 -0700 (PDT)
-Date: Mon, 22 Jun 2026 18:48:45 +0000
+ 2002:a05:600c:5290:b0:490:bcf6:469f with SMTP id 5b1f17b1804b1-49242189b1cmr243494115e9.0.1782154150022;
+ Mon, 22 Jun 2026 11:49:10 -0700 (PDT)
+Date: Mon, 22 Jun 2026 18:48:50 +0000
 In-Reply-To: <20260622184851.2309827-1-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260622184851.2309827-1-tarunsahu@google.com>
 X-Mailer: git-send-email 2.55.0.rc0.786.g65d90a0328-goog
-Message-ID: <20260622184851.2309827-4-tarunsahu@google.com>
-Subject: [PATCH v3 3/9] kvm: kvm_luo: Allow kvm preservation with LUO
+Message-ID: <20260622184851.2309827-9-tarunsahu@google.com>
+Subject: [PATCH v3 8/9] selftests: kvm: Split ____vm_create() to expose init helpers
 From: Tarun Sahu <tarunsahu@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Alexander Graf <graf@amazon.com>, Shuah Khan <skhan@linuxfoundation.org>, 
@@ -70,361 +70,87 @@ Cc: kvm@vger.kernel.org, linux-mm@kvack.org, kexec@lists.infradead.org,
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Introduce KVM VM preservation support for Live Update Orchestrator.
+Refactor `____vm_create()` in the KVM selftest library to extract its
+initialization steps into separate, reusable internal helpers.
 
-Register an LUO file handler for KVM files to serialize and
-deserialize necessary VM state across live updates. Currently, this
-preserves the VM type. This implementation provides the necessary
-infrastructure and dependencies for the upcoming guest_memfd
-preservation support. And it can be extended to preserve more vm
-state in future.
-
-Retrieve is simply creating the kvm and populate the retrieved data.
-Only catch here is there is no way to know which fd is going to be
-assigned to this kvm file hence I am using atomically incremented id
-for the fdname.
-
-This change also updates the MAINTAINERS list for kvm_luo.c.
+Introduce `vm_init_fields()` and `vm_init_memory_properties()`. This
+allows advanced test setups to perform targeted VM fields or memory
+property initializations independently, which is required by upcoming
+test cases that restore preserved VMs. No functional changes are
+introduced for the existing tests.
 
 Signed-off-by: Tarun Sahu <tarunsahu@google.com>
 ---
- MAINTAINERS                 |  11 ++
- include/linux/kho/abi/kvm.h |  39 ++++++++
- virt/kvm/Makefile.kvm       |   1 +
- virt/kvm/kvm_luo.c          | 195 ++++++++++++++++++++++++++++++++++++
- virt/kvm/kvm_main.c         |   8 ++
- virt/kvm/kvm_mm.h           |   8 ++
- 6 files changed, 262 insertions(+)
- create mode 100644 include/linux/kho/abi/kvm.h
- create mode 100644 virt/kvm/kvm_luo.c
+ .../testing/selftests/kvm/include/kvm_util.h  |  2 ++
+ tools/testing/selftests/kvm/lib/kvm_util.c    | 26 +++++++++++++------
+ 2 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dbc8a6..7c000e6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14411,6 +14411,17 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
- F:	drivers/video/backlight/ktz8866.c
+diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing/selftests/kvm/include/kvm_util.h
+index 04a9101..88de0e7 100644
+--- a/tools/testing/selftests/kvm/include/kvm_util.h
++++ b/tools/testing/selftests/kvm/include/kvm_util.h
+@@ -471,6 +471,8 @@ const char *vm_guest_mode_string(u32 i);
  
-+KVM LIVE UPDATE
-+M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-+M:	Mike Rapoport <rppt@kernel.org>
-+M:	Pratyush Yadav <pratyush@kernel.org>
-+R:	Tarun Sahu <tarunsahu@google.com>
-+L:	kexec@lists.infradead.org
-+L:	kvm@vger.kernel.org
-+S:	Maintained
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
-+F:	virt/kvm/kvm_luo.c
-+
- KVM PARAVIRT (KVM/paravirt)
- M:	Paolo Bonzini <pbonzini@redhat.com>
- R:	Vitaly Kuznetsov <vkuznets@redhat.com>
-diff --git a/include/linux/kho/abi/kvm.h b/include/linux/kho/abi/kvm.h
-new file mode 100644
-index 0000000..718db68
---- /dev/null
-+++ b/include/linux/kho/abi/kvm.h
-@@ -0,0 +1,39 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * Tarun Sahu <tarunsahu@google.com>
-+ *
-+ * KVM Preservation ABI for Live Update Orchestrator (LUO)
-+ */
-+#ifndef _LINUX_KHO_ABI_KVM_H
-+#define _LINUX_KHO_ABI_KVM_H
-+
-+#include <linux/types.h>
-+#include <linux/kho/abi/kexec_handover.h>
-+
-+/**
-+ * DOC: KVM Live Update ABI
-+ *
-+ * KVM uses the ABI defined below for preserving its state
-+ * across a kexec reboot using the LUO.
-+ *
-+ * The state is serialized into a packed structure `struct kvm_luo_ser`
-+ * which is handed over to the next kernel via the KHO mechanism.
-+ *
-+ * This interface is a contract. Any modification to the structure layout
-+ * constitutes a breaking change. Such changes require incrementing the
-+ * version number in the KVM_LUO_FH_COMPATIBLE compatibility string.
-+ */
-+
-+/**
-+ * struct kvm_luo_ser - Main serialization structure for a KVM VM.
-+ * @type:         The type of VM.
-+ */
-+struct kvm_luo_ser {
-+	u64 type;
-+} __packed;
-+
-+/* The compatibility string for KVM VM file handler */
-+#define KVM_LUO_FH_COMPATIBLE	"kvm_vm_luo_v1"
-+
-+#endif /* _LINUX_KHO_ABI_KVM_H */
-diff --git a/virt/kvm/Makefile.kvm b/virt/kvm/Makefile.kvm
-index d047d4c..c1a9621 100644
---- a/virt/kvm/Makefile.kvm
-+++ b/virt/kvm/Makefile.kvm
-@@ -13,3 +13,4 @@ kvm-$(CONFIG_HAVE_KVM_IRQ_ROUTING) += $(KVM)/irqchip.o
- kvm-$(CONFIG_HAVE_KVM_DIRTY_RING) += $(KVM)/dirty_ring.o
- kvm-$(CONFIG_HAVE_KVM_PFNCACHE) += $(KVM)/pfncache.o
- kvm-$(CONFIG_KVM_GUEST_MEMFD) += $(KVM)/guest_memfd.o
-+kvm-$(CONFIG_LIVEUPDATE_GUEST_MEMFD) += $(KVM)/kvm_luo.o
-diff --git a/virt/kvm/kvm_luo.c b/virt/kvm/kvm_luo.c
-new file mode 100644
-index 0000000..6728877
---- /dev/null
-+++ b/virt/kvm/kvm_luo.c
-@@ -0,0 +1,195 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2026, Google LLC.
-+ * Tarun Sahu <tarunsahu@google.com>
-+ *
-+ * KVM VM Preservation for Live Update Orchestrator (LUO)
-+ */
-+
-+/**
-+ * DOC: KVM VM Preservation via LUO
-+ *
-+ * Overview
-+ * ========
-+ *
-+ * KVM virtual machines (VMs) can be preserved over a kexec reboot using the
-+ * Live Update Orchestrator (LUO) file preservation. This allows userspace
-+ * to preserve KVM VM state across kexec reboots.
-+ *
-+ * The preservation is not intended to be fully transparent. Only specific
-+ * VM configuration and state are preserved, while other aspects of the VM
-+ * must be re-established or re-configured by userspace after retrieval.
-+ *
-+ * Preserved Properties
-+ * ====================
-+ *
-+ * The following properties of the KVM VM are preserved across kexec:
-+ *
-+ * VM Type
-+ *   The VM type (e.g., on x86 architecture, the vm_type parameter) is
-+ *   preserved.
-+ *
-+ * Non-Preserved Properties
-+ * ========================
-+ *
-+ * The preservation does not cover:
-+ *
-+ * - vCPUs and vCPU states
-+ * - Memspots / Memory slot layout (memslots)
-+ * - Interrupt controllers and IRQ routings
-+ * - Coalesced MMIO zones
-+ * - Device bindings (VFIO/Eventfds)
-+ * - Active paging or guest registers state
-+ * - etc
-+ */
-+#include <linux/liveupdate.h>
-+#include <linux/kvm_host.h>
-+#include <linux/pagemap.h>
-+#include <linux/file.h>
-+#include <linux/err.h>
-+#include <linux/anon_inodes.h>
-+#include <linux/magic.h>
-+#include <linux/kexec_handover.h>
-+#include <linux/kho/abi/kexec_handover.h>
-+#include <linux/kho/abi/kvm.h>
-+#include "kvm_mm.h"
-+
-+static bool kvm_luo_can_preserve(struct liveupdate_file_handler *handler,
-+				 struct file *file)
-+{
-+	return file_is_kvm(file);
-+}
-+
-+static int kvm_luo_preserve(struct liveupdate_file_op_args *args)
-+{
-+	DECLARE_KHOSER_PTR(sd, struct kvm_luo_ser *);
-+	struct kvm *kvm = args->file->private_data;
-+	struct kvm_luo_ser *ser;
-+
-+	if (kvm->vm_dead || kvm->vm_bugged)
-+		return -EINVAL;
-+
-+	ser = kho_alloc_preserve(sizeof(*ser));
-+	if (IS_ERR(ser))
-+		return PTR_ERR(ser);
-+
-+#if defined(CONFIG_X86)
-+	ser->type = kvm->arch.vm_type;
-+#elif defined(CONFIG_ARM64)
-+	ser->type = kvm_phys_shift(&kvm->arch.mmu);
-+	if (kvm_vm_is_protected(kvm))
-+		ser->type |= KVM_VM_TYPE_ARM_PROTECTED;
-+
-+#else
-+	ser->type = 0;
-+#endif
-+
-+	KHOSER_STORE_PTR(sd, ser);
-+	KHOSER_COPY_TYPEUNSAFE(args->serialized_data, sd);
-+
-+	return 0;
-+}
-+
-+static atomic_t restored_vm_id = ATOMIC_INIT(0);
-+
-+static int kvm_luo_retrieve(struct liveupdate_file_op_args *args)
-+{
-+	char fdname[ITOA_MAX_LEN + 1];
-+	struct kvm_luo_ser *ser;
-+	struct file *file;
-+	struct kvm *kvm;
-+	int err = 0;
-+
-+	ser = KHOSER_LOAD_PTR(args->serialized_data);
-+	if (!ser)
-+		return -EINVAL;
-+
-+	snprintf(fdname, sizeof(fdname), "%d",
-+		 atomic_inc_return(&restored_vm_id));
-+
-+	file = kvm_create_vm_file(ser->type, fdname);
-+	if (IS_ERR(file)) {
-+		err = PTR_ERR(file);
-+		goto err_free_ser;
-+	}
-+
-+	kvm = file->private_data;
-+
-+	args->file = file;
-+	kho_restore_free(ser);
-+
-+	kvm_uevent_notify_vm_create(kvm);
-+	return 0;
-+
-+err_free_ser:
-+	kho_restore_free(ser);
-+	return err;
-+}
-+
-+static void kvm_luo_unpreserve(struct liveupdate_file_op_args *args)
-+{
-+	struct kvm_luo_ser *ser;
-+
-+	/*
-+	 * in case preservation failed, args->serialized_data will
-+	 * be NULL and kvm_luo_preserve takes care of cleaning up.
-+	 * If preserve succeeds, this condition fails and unpreserve
-+	 * function takes care of cleaning up.
-+	 */
-+	ser = KHOSER_LOAD_PTR(args->serialized_data);
-+	if (WARN_ON_ONCE(!ser))
-+		return;
-+
-+	kho_unpreserve_free(ser);
-+}
-+
-+static void kvm_luo_finish(struct liveupdate_file_op_args *args)
-+{
-+	struct kvm_luo_ser *ser;
-+
-+	/*
-+	 * If retrieve_status is true or set to error, nothing to do here.
-+	 * Already cleaned up in kvm_luo_retrieve().
-+	 */
-+	if (args->retrieve_status)
-+		return;
-+
-+	ser = KHOSER_LOAD_PTR(args->serialized_data);
-+	if (!ser)
-+		return;
-+
-+	kho_restore_free(ser);
-+}
-+
-+static const struct liveupdate_file_ops kvm_luo_file_ops = {
-+	.can_preserve = kvm_luo_can_preserve,
-+	.preserve = kvm_luo_preserve,
-+	.retrieve = kvm_luo_retrieve,
-+	.unpreserve = kvm_luo_unpreserve,
-+	.finish = kvm_luo_finish,
-+	.owner = THIS_MODULE,
-+};
-+
-+static struct liveupdate_file_handler kvm_luo_handler = {
-+	.ops = &kvm_luo_file_ops,
-+	.compatible = KVM_LUO_FH_COMPATIBLE,
-+};
-+
-+int kvm_luo_init(void)
-+{
-+	int err = liveupdate_register_file_handler(&kvm_luo_handler);
-+
-+	if (err && err != -EOPNOTSUPP) {
-+		pr_err("Could not register kvm_vm_luo handler: %pe\n", ERR_PTR(err));
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+void kvm_luo_exit(void)
-+{
-+	liveupdate_unregister_file_handler(&kvm_luo_handler);
-+}
-+
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 14c3254..d9c3dd1 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -6577,6 +6577,10 @@ int kvm_init(unsigned vcpu_size, unsigned vcpu_align, struct module *module)
- 	if (r)
- 		goto err_virt;
- 
-+	r = kvm_luo_init();
-+	if (r)
-+		goto err_luo;
-+
- 	/*
- 	 * Registration _must_ be the very last thing done, as this exposes
- 	 * /dev/kvm to userspace, i.e. all infrastructure must be setup!
-@@ -6590,6 +6594,8 @@ int kvm_init(unsigned vcpu_size, unsigned vcpu_align, struct module *module)
- 	return 0;
- 
- err_register:
-+	kvm_luo_exit();
-+err_luo:
- 	kvm_uninit_virtualization();
- err_virt:
- 	kvm_gmem_exit();
-@@ -6619,6 +6625,8 @@ void kvm_exit(void)
- 	 */
- 	misc_deregister(&kvm_dev);
- 
-+	kvm_luo_exit();
-+
- 	kvm_uninit_virtualization();
- 
- 	debugfs_remove_recursive(kvm_debugfs_dir);
-diff --git a/virt/kvm/kvm_mm.h b/virt/kvm/kvm_mm.h
-index 6241617..8719871 100644
---- a/virt/kvm/kvm_mm.h
-+++ b/virt/kvm/kvm_mm.h
-@@ -100,4 +100,12 @@ static inline void kvm_gmem_unbind(struct kvm_memory_slot *slot)
+ void kvm_vm_free(struct kvm_vm *vmp);
+ void kvm_vm_restart(struct kvm_vm *vmp);
++void vm_init_fields(struct kvm_vm *vm, struct vm_shape shape);
++void vm_init_memory_properties(struct kvm_vm *vm);
+ void kvm_vm_release(struct kvm_vm *vmp);
+ void kvm_vm_elf_load(struct kvm_vm *vm, const char *filename);
+ int kvm_memfd_alloc(size_t size, bool hugepages);
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index 195f3fd..dc576b8 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -276,13 +276,8 @@ __weak void vm_populate_gva_bitmap(struct kvm_vm *vm)
+ 		(1ULL << (vm->va_bits - 1)) >> vm->page_shift);
  }
- #endif /* CONFIG_KVM_GUEST_MEMFD */
  
-+#ifdef CONFIG_LIVEUPDATE_GUEST_MEMFD
-+int kvm_luo_init(void);
-+void kvm_luo_exit(void);
-+#else
-+static inline int kvm_luo_init(void) { return 0; }
-+static inline void kvm_luo_exit(void) {}
-+#endif /* CONFIG_LIVEUPDATE_GUEST_MEMFD */
+-struct kvm_vm *____vm_create(struct vm_shape shape)
++void vm_init_fields(struct kvm_vm *vm, struct vm_shape shape)
+ {
+-	struct kvm_vm *vm;
+-
+-	vm = calloc(1, sizeof(*vm));
+-	TEST_ASSERT(vm != NULL, "Insufficient Memory");
+-
+ 	INIT_LIST_HEAD(&vm->vcpus);
+ 	vm->regions.gpa_tree = RB_ROOT;
+ 	vm->regions.hva_tree = RB_ROOT;
+@@ -380,9 +375,10 @@ struct kvm_vm *____vm_create(struct vm_shape shape)
+ 	if (vm->pa_bits != 40)
+ 		vm->type = KVM_VM_TYPE_ARM_IPA_SIZE(vm->pa_bits);
+ #endif
++}
+ 
+-	vm_open(vm);
+-
++void vm_init_memory_properties(struct kvm_vm *vm)
++{
+ 	/* Limit to VA-bit canonical virtual addresses. */
+ 	vm->vpages_valid = sparsebit_alloc();
+ 	vm_populate_gva_bitmap(vm);
+@@ -392,6 +388,20 @@ struct kvm_vm *____vm_create(struct vm_shape shape)
+ 
+ 	/* Allocate and setup memory for guest. */
+ 	vm->vpages_mapped = sparsebit_alloc();
++}
 +
- #endif /* __KVM_MM_H__ */
++struct kvm_vm *____vm_create(struct vm_shape shape)
++{
++	struct kvm_vm *vm;
++
++	vm = calloc(1, sizeof(*vm));
++	TEST_ASSERT(vm != NULL, "Insufficient Memory");
++
++	vm_init_fields(vm, shape);
++
++	vm_open(vm);
++
++	vm_init_memory_properties(vm);
+ 
+ 	return vm;
+ }
 -- 
 2.55.0.rc0.786.g65d90a0328-goog
 
