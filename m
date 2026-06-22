@@ -1,143 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from esa4.hc555-34.eu.iphmx.com (esa4.hc555-34.eu.iphmx.com [207.54.77.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF58530F95C;
-	Mon, 22 Jun 2026 21:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1F62620DE;
+	Mon, 22 Jun 2026 21:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.77.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782162334; cv=none; b=ZDtwP8zTTiegcPYtSMDwy8sqcmdvH1IqKWhImMs78+u+zkyS85eDJK/TuuWSBchFbtU+SnHNMQwf3vu5PZJHcpb6LLfXAgOr8KRrxFMv0ACBf/OQmOQZZ3arMLR9xaZdcNdw6ysNocvIs/NGIiZf7NLKlKzU5OgGoM19Bx7WF7c=
+	t=1782162950; cv=none; b=AeNO3R8KSvHWl+OVg0mFOVJMfeUIH5qyXdzrM7YAQlxaBjIuDlV8GQgnCfX1TxGfL4ho9gXfPQLjLWf2Cy0jQaBofSD8bd37PUe0WAolblY0HEZGMCsgEjZYdS+v380TVWlmUiTRxHvh28lTC4qlyaqT8JxaHLDphol1NOvAYng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782162334; c=relaxed/simple;
-	bh=I/qhOJ1X8HjPLRGYA99RgWO9vBmTJd6q/eXiHkunPdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BbwPSPu2bvAz9EmQXVh624RTJGKwZdAjGuvN9UIE/BX3RpUvFcfatxow0aYdPGpEI64yyD/kHxyxlNRR7ZdTFTvBTRZG9PvHglVKuMtMR4eE5rknPlNjIfSJXwx4EEjyn1Bnd0zGZ4sbHxH+6iBRMiBoIP7CtI9RWEk6pAcCyHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I64pIvCw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782162950; c=relaxed/simple;
+	bh=D3y8PBJx5rtb8CmEmDXgcyrYvH9ZgsAHrPcIa59UTq4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PCXeB6QfZXt5a4Yki5LkTWG6lO4ibMfWzNw9aS1N96tPF1YQW2jeFf/35iYt2x506o6HB6BhlNN6gjxLfFEa1YtyQDySfVhT2qmzM1+8/9cvr03Ft4jKlnjgg3KPTpEfTgnJftDiA7YeXov1ysYjf1ZP/Q3ieONJlojdLLK3l6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com; spf=pass smtp.mailfrom=mobileye.com; dkim=fail (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b=W8rrN4ye reason="key not found in DNS"; arc=none smtp.client-ip=207.54.77.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I64pIvCw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F851F000E9;
-	Mon, 22 Jun 2026 21:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782162332;
-	bh=hhf9Y265QiDCC7NNSucM+WKQWEr1odpnfDgWbh8jyt4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I64pIvCwnakV9LifQMqxSQDoD6vEWomq8qg7t4Gpvf7QWo5crh5kzGc1LtWdlWJVB
-	 butRXzJUOKnEnJX5DmYJ1J44QAzCzgFZ4BU9YlXMeDuCvfp1IAGb6hlMjxLYlDm7/2
-	 +8LPthxJwlfci6Tze8kWjHs8VszR/DCo0Pxo1X58jYiF8v9IXquOcMWJ4JA2/V9YoG
-	 QjVWuYBk2TCrG9AxZYM4omNF7yo7ZgW3JxnApG5O2sF7/hEe1Mx/QfAPov3D+lW2PW
-	 Kkcf7Ozi3Xx/+vjtPI5FkPxHaAUWSR/wFhJF9TSUgIQ0pUFZ+MsX7jItzKFnjHBoiW
-	 2kd5d4dWDI49Q==
-Date: Mon, 22 Jun 2026 22:05:27 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b="W8rrN4ye"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1782162947; x=1813698947;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=D3y8PBJx5rtb8CmEmDXgcyrYvH9ZgsAHrPcIa59UTq4=;
+  b=W8rrN4ye+6FMk6jAmUigC1L4KWWW+1+l5GO7kUYuY1P7XXqjy3tUwgiC
+   uOw498NeFH2oBZiR4nM2jYu2z8J9CE/au+g3CzCqj011vPVVFGOXyRLMr
+   gBVH9oqsDvGBcu4yXY5NoJArfNDaJi0FwDQGgTMBbDKbs1Myol/NfxCJ5
+   bBL35SV9e60nx4CMKavMsA2+gWsXlzqyGyF8vV11XRZFrNsrl5Khlvg10
+   GhXO6xW4ZGPZW5GzK8e0Gy+uGUA2GKNQGY4EnXiuIjPLpKRp34lO/65kq
+   Lq1W+AbWvtrsbJ157JW5BXUBDTatbybk9fCSNRTTO+FY7ujkNzrBp+XRO
+   Q==;
+X-CSE-ConnectionGUID: XEI7F5klSBWpX1iYm148Xg==
+X-CSE-MsgGUID: B7hWNtgQRL6N9q1Ieybbqw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces04_data.me-crop.lan) ([146.255.191.134])
+  by esa4.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 00:14:36 +0300
+X-CSE-ConnectionGUID: IJ4IgnLqQFWzySBMiwjKVQ==
+X-CSE-MsgGUID: aQq98ZxbQ3KVyRPomf/Zzg==
+Received: from unknown (HELO epgd034.me-corp.lan) ([10.154.54.3])
+  by ces04_data.me-crop.lan with SMTP; 23 Jun 2026 00:19:42 +0300
+Received: by epgd034.me-corp.lan (sSMTP sendmail emulation); Tue, 23 Jun 2026 00:14:34 +0300
+From: Pnina Feder <pnina.feder@mobileye.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: Dave Young <ruirui.yang@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/4] nfs: store the full NFS fileid in inode->i_ino
-Message-ID: <0750912a-f8dc-4714-ae11-4592d2e8eca7@sirena.org.uk>
-References: <20260512-nfsino-v1-0-284720522f4c@kernel.org>
- <20260512-nfsino-v1-1-284720522f4c@kernel.org>
+	Alexandre Ghiti <alex@ghiti.fr>,
+	kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Pnina Feder <pnina.feder@mobileye.com>
+Subject: [PATCH 0/4] vmcore-tasks: export per-task metadata to vmcoreinfo
+Date: Tue, 23 Jun 2026 00:14:26 +0300
+Message-ID: <20260622211430.4008899-1-pnina.feder@mobileye.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TCs6laKQWpzo+XSI"
-Content-Disposition: inline
-In-Reply-To: <20260512-nfsino-v1-1-284720522f4c@kernel.org>
-X-Cookie: To make an enemy, do someone a favor.
+Content-Transfer-Encoding: 8bit
 
+This series extends vmcoreinfo with struct offsets and sizes needed by
+the vmcore-tasks userspace tool to extract per-task state from a vmcore
+dump without requiring kernel debug symbols (DWARF/BTF).
 
---TCs6laKQWpzo+XSI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The vmcore-tasks tool reads /proc/vmcore (or a saved vmcore file) and
+reconstructs, for each task:
+  - task name, pid, state, flags
+  - VMA list (start, end, flags, backing file)
+  - user register state (saved on the kernel stack at kernel entry)
+  - user-space backtrace with VMA/filename mapping
+  - kernel dmesg buffer
 
-On Tue, May 12, 2026 at 12:12:42PM -0400, Jeff Layton wrote:
-> Now that inode->i_ino is a 64-bit value, store the full NFS fileid in
-> it directly instead of an XOR-folded hash. This makes NFS_FILEID() and
-> set_nfs_fileid() operate on inode->i_ino rather than the separate
-> nfsi->fileid field.
+This provides a lightweight post-mortem crash analysis capability for
+production environments where full debug info (DWARF/BTF) is not
+available.
 
-This patch is in -next now and is triggering a failure for in the LTP
-ioctl10.c test for me on arm:
+The companion userspace tool is submitted to kexec-tools:
+  https://lore.kernel.org/all/20260622205550.1087163-1-pnina.feder@mobileye.com/
 
-tst_buffers.c:57: TINFO: Test is using guarded buffers
-tst_test.c:2047: TINFO: LTP version: 20260130
-tst_test.c:2050: TINFO: Tested kernel: 7.1.0-next-20260622 #1 SMP @1782128788 armv7l
+The series is structured as follows:
 
-...
+  Patch 1: Increase vmcoreinfo buffer from PAGE_SIZE to a fixed SZ_8K,
+           decoupled from page size to avoid waste on large-page
+           architectures (MIPS 16KB, arm64 64KB).
 
-ioctl10.c:111: TFAIL: q->inode (11493907226) != entry.vm_inode (4294967295)
+  Patch 2: Export generic struct offsets (task_struct, mm_struct,
+           vm_area_struct, maple_tree, file/dentry/path, pt_regs,
+           signal_struct) needed to walk task lists and VMAs.
 
-arm64 seems unaffected, I didn't really investigate but I'll note that
-unsigned long is 32 bit on arm.
+  Patch 3: Export RISC-V arch-specific offsets (signal frame layouts,
+           register context structures) for user register extraction.
 
-Full log:
+  Patch 4: Export MIPS arch-specific offsets (signal frame layouts,
+           register context structures) for user register extraction.
 
-   https://lava.sirena.org.uk/scheduler/job/2904745#L3852
+Additional architecture support (arm64, x86, etc.) can follow the
+same pattern established by patches 3 and 4.
 
-bisect log with more test job links:
+Tested on MIPS64 (QEMU Malta) and RISC-V with full kdump pipeline:
+primary kernel -> kexec panic -> crash kernel -> vmcore-tasks analysis.
 
-git bisect start
-# status: waiting for both good and bad commits
-# good: [7f5d1580a3723e4ea89001a67a24d9f350e15c01] Merge branch 'for-linux-next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
-git bisect good 7f5d1580a3723e4ea89001a67a24d9f350e15c01
-# status: waiting for bad commit, 1 good commit known
-# bad: [948efecf22e49aa4bf55bb73ec79a0ddcfd38571] Add linux-next specific files for 20260622
-git bisect bad 948efecf22e49aa4bf55bb73ec79a0ddcfd38571
-# test job: [3c54940fe511142cfe574022c3b703271982d64c] https://lava.sirena.org.uk/scheduler/job/2905311
-# bad: [3c54940fe511142cfe574022c3b703271982d64c] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
-git bisect bad 3c54940fe511142cfe574022c3b703271982d64c
-# test job: [80895ca480e9a42f961914ae5c947a66c130b344] https://lava.sirena.org.uk/scheduler/job/2905400
-# good: [80895ca480e9a42f961914ae5c947a66c130b344] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git
-git bisect good 80895ca480e9a42f961914ae5c947a66c130b344
-# test job: [2b8c085b832b07b3f7f3b7b7d06388920daf2a54] https://lava.sirena.org.uk/scheduler/job/2905436
-# bad: [2b8c085b832b07b3f7f3b7b7d06388920daf2a54] Merge branch 'fs-next' of linux-next
-git bisect bad 2b8c085b832b07b3f7f3b7b7d06388920daf2a54
-# test job: [034e46edded1d4fc91f53c16c53f82b1c5908ca5] https://lava.sirena.org.uk/scheduler/job/2905486
-# bad: [034e46edded1d4fc91f53c16c53f82b1c5908ca5] Merge branch 'linux-next' of git://git.linux-nfs.org/projects/anna/linux-nfs.git
-git bisect bad 034e46edded1d4fc91f53c16c53f82b1c5908ca5
-# test job: [5f03612db546bdffbcc1ebd343d055612948317c] https://lava.sirena.org.uk/scheduler/job/2905541
-# good: [5f03612db546bdffbcc1ebd343d055612948317c] Merge branch 'for_next' of https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git
-git bisect good 5f03612db546bdffbcc1ebd343d055612948317c
-# test job: [eb3dd8eb882bf0d1daacd0debc0f3e946a3ee1b8] https://lava.sirena.org.uk/scheduler/job/2905673
-# good: [eb3dd8eb882bf0d1daacd0debc0f3e946a3ee1b8] Merge branch 'for-next' of https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git
-git bisect good eb3dd8eb882bf0d1daacd0debc0f3e946a3ee1b8
-# test job: [b1819a4e1d531b4b1d06405fbe73e5e20c402b53] https://lava.sirena.org.uk/scheduler/job/2905815
-# good: [b1819a4e1d531b4b1d06405fbe73e5e20c402b53] ksmbd: sleep interruptibly in the durable handle scavenger
-git bisect good b1819a4e1d531b4b1d06405fbe73e5e20c402b53
-# test job: [17d90b68c3a3d7d7e95b49e1fe9381a723f637a8] https://lava.sirena.org.uk/scheduler/job/2906138
-# bad: [17d90b68c3a3d7d7e95b49e1fe9381a723f637a8] sunrpc: fix uninitialized xprt_create_args structure
-git bisect bad 17d90b68c3a3d7d7e95b49e1fe9381a723f637a8
-# test job: [35168eb947f230aaa35fd8416a30563ef89f5421] https://lava.sirena.org.uk/scheduler/job/2906213
-# bad: [35168eb947f230aaa35fd8416a30563ef89f5421] NFS: fix eof updates after NFSv4.2 fallocate/zero-range
-git bisect bad 35168eb947f230aaa35fd8416a30563ef89f5421
-# test job: [37957478be021b92981aa4c99b69f308d3b784d0] https://lava.sirena.org.uk/scheduler/job/2863766
-# bad: [37957478be021b92981aa4c99b69f308d3b784d0] sunrpc: Fix error handling in rpc_sysfs_xprt_switch_add_xprt_store()
-git bisect bad 37957478be021b92981aa4c99b69f308d3b784d0
-# test job: [0e06a884f5ba6226829441bfc656ff9f5e9e90ac] https://lava.sirena.org.uk/scheduler/job/2863828
-# bad: [0e06a884f5ba6226829441bfc656ff9f5e9e90ac] nfs: remove nfs_compat_user_ino64() and deprecate enable_ino64
-git bisect bad 0e06a884f5ba6226829441bfc656ff9f5e9e90ac
-# test job: [0cad7630425f4c9ee0dfa376ff8bf60c88ff2566] https://lava.sirena.org.uk/scheduler/job/2864357
-# bad: [0cad7630425f4c9ee0dfa376ff8bf60c88ff2566] nfs: store the full NFS fileid in inode->i_ino
-git bisect bad 0cad7630425f4c9ee0dfa376ff8bf60c88ff2566
-# first bad commit: [0cad7630425f4c9ee0dfa376ff8bf60c88ff2566] nfs: store the full NFS fileid in inode->i_ino
+Pnina Feder (4):
+  vmcoreinfo: increase vmcoreinfo buffer to 8KB
+  vmcoreinfo: export task and mm struct offsets to vmcoreinfo
+  riscv: vmcore_info: export riscv arch-specific struct offsets to
+    vmcoreinfo
+  mips: vmcore_info: export mips arch-specific struct offsets to
+    vmcoreinfo
 
---TCs6laKQWpzo+XSI
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../admin-guide/kdump/vmcoreinfo.rst          | 137 ++++++++++++++++++
+ arch/mips/kernel/Makefile                     |   1 +
+ arch/mips/kernel/signal.c                     |   8 +
+ arch/mips/kernel/vmcore_info.c                |  22 +++
+ arch/riscv/kernel/signal.c                    |   8 +
+ arch/riscv/kernel/vmcore_info.c               |  11 ++
+ include/linux/vmcore_info.h                   |   3 +-
+ kernel/vmcore_info.c                          |  60 ++++++++
+ 8 files changed, 249 insertions(+), 1 deletion(-)
+ create mode 100644 arch/mips/kernel/vmcore_info.c
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.43.0
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo5o5YACgkQJNaLcl1U
-h9CHbgf9FMNNotRp41ZncwBjvptxlA7FxE/nC2tUeSu5VwfCC6KxshUtHeoMucaY
-FMcIZRrfX7b77KrQ6dpZ7YxTlbEfQewqeRWe2VY5QLsr228Zg1t1ExtIOUsEfxkK
-pXezP55kEmLAaxNk6AatRSZqaLPH5iYlrLzVquZCoUjFPXLWjX5s6Pku8FSteo7k
-W04dHjdzU0br9R7PKo9A1ejIjx07LV8toIUbdJlANEnFdGWb+VFKZ57H7ELDMge3
-FwFjW9qWaLBiuNXxjorhnoZZhQKLbykJvkJsy0HrdlX0DiiNPC8jQQaiBakUdtwa
-TE12s06QN7CCZEZU6+FzmzpbuYOg0A==
-=Su67
------END PGP SIGNATURE-----
-
---TCs6laKQWpzo+XSI--
