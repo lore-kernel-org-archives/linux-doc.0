@@ -1,526 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B75372060;
-	Mon, 22 Jun 2026 23:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782172171; cv=none; b=F6H7nBu8aVlV9JTAF2BInVbx8fpq3qvL4Bn5+P9kXHQmFRSwzf5DIlFJHh4clZ6YTCexIJ09IvbIZx55tF25PSynBar8CIt0YOdmCSH+wjdbWJwuyZWDVKm/KoyZFYOxD1guguss6m5eEmom6n4GG85ehHBqVmsdBkxtG3izKcQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782172171; c=relaxed/simple;
-	bh=wd0gTLpR8RKsLIpM3mnVB2HRTMXrkaQhXX/lCgl23vU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUiqMJ1vINC3+oohD/NnLiUi6pqVjALqkOumGbvoFvAvVblyhiH59iudLdhHKvBDtmiwP8kSLqrYSK/DPzadJujoS04TOu7aDNLDYI/Dn25UfkFo/R6x2PtCRFve/n5GNIXaNgCor1mDyetowAtGETMfWdox9JmcpCnhHPlNBRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2b+5zzA; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA9E36607D
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 23:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782172461; cv=pass; b=jgqrVqqR5e7Zd7FWvvRxbCfKi7RksojNtlNdkShiadht8kIIUSt+BU2YZebhwJfzv5S4s9YHOMr+rKQiMQ2rHTSsG4Nlx1wBc+t7tq7hH6iRPSddNgwONM8gY6pnr98Ns0kwgRiAiit2hhY67EmhqoFLarMvTIP8zq20ZKStvqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782172461; c=relaxed/simple;
+	bh=I1YUlMWYpoFKoByVcCt8Rqs1cgeontbmcE6KLy6U/tc=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i7CkKAfQWPO1V05HmJDjllaSQrQswxEibGxiYciBUQaNXv7fhLpS4Shl/8UcwxvNWocqEJ7JI/5ba1eiCIBakmkYTlDUReOp8yD7YoTGKIhJhoXq+RBonbDzn9hZHYoBLNRYIfch9c96F1FzIpvICRsL2xeKBXGP2lTkEqA+r9Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jPsTpHfr; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2b+5zzA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2C61F000E9;
-	Mon, 22 Jun 2026 23:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782172169;
-	bh=GnZLvcRVW7DH0YWGgniiJVL49Hc0ztZntmG9UfEVV3U=;
-	h=From:To:Cc:Subject:Date;
-	b=D2b+5zzAAcoJ8fp/vIfzdieTrZimtoHDeMeE9CvCIt/q+9LdtsUXTeFHuhnuLTTYj
-	 PYbFcRjIQcjqSvpXRmIL8B/Q/VmUe/34Am/iWGBVrVRwml9HUF1Wa1y1EdTsmGJpfb
-	 lvMbBA5dlQuZK37ORC3CVfEZrI5H3pJGt3Bgu/vWO3+QO59WsPwhIvrik/1LQ/sjKn
-	 VpwLUYmpbWsfuO6zisM0V1Av3BA8G9T8NgnvN60AG5Sr7IQyGQSFFSY/Pn/CxEK68y
-	 rsMqYPILQVBgMnrhAGphHIBmqdQeFvxPjH9L0qVpnXNsRu9/uI8o+Dw+wU9SRQlbxv
-	 ZQPT+zmLrAIAQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	iwd@lists.linux.dev,
-	linux-hardening@vger.kernel.org,
-	Milan Broz <gmazyland@gmail.com>,
-	Demi Marie Obenour <demiobenour@gmail.com>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting to 1
-Date: Mon, 22 Jun 2026 16:48:03 -0700
-Message-ID: <20260622234803.6982-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jPsTpHfr"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c07ea058c0cso828418166b.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 16:54:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782172459; cv=none;
+        d=google.com; s=arc-20240605;
+        b=l2KnnbseAy7C5dxC3AV2Sxv8mkcgFQ2s7Sto4cQbEbyA/OGGJmw77seAFkxsozafA1
+         dH/I0WbZkWdikis/jWUGC7RGr4bOpy8VmUHTqIRb+LaLnSX/GJwSj1KiS3Ek0SbFh+ey
+         vWxyMZ3Tc0xtkZtYhYUnBHwQUNHCr3WgRiA63P/P8BQ5YZv+jHdYh63NdlDcKuISQa6+
+         6qFFVfJ0JjmBMfj2Gb04x1meZXOOaPZIJflSr4w0DD7NgSo70aAy8GuJhexIk99efKHV
+         NR82I6nRxEYLN1DhEvYr0vowaHFX8MKqxQTMXcvhuc7pjgaLXGCElApNW0oLHREauaXN
+         OEUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=mnhxRL5NSWx2qm5cF+jOJULziDkVFS523GcKtm3BW0s=;
+        fh=kJ5Pwk/M8H/GC9vVUv6ScujraOw4CABairgkjy8Gs4c=;
+        b=joIlMLleL27R1Xv7hYrovoGcEA/ZtT6SKx6lex+Rrl3SgeEJOrugI1cbl+kyE3sJ1I
+         kdDYX0fcpUO9d4kvXNLXwz6Vse+G1ynSPq90utRXb7B6oaQDsqCr3MqN8LFJxNwq/IsR
+         QVmuRpntBJIYD9AFItOGf3MzAyZTo3myYaSThtrdjsbgLXMAFdW8shPDACOFA/OFXtjC
+         gXnsNG+2jdNl+paXgn/GKahQDAEAjQdN1yObVevi1RJHYJ+r0rtj+E268S4jT7zX43FH
+         +4OdHspIJ9IBkReCwpkxb7LBwcYEV3gfORgbWlU+KIL2UnQvP7KlJaXsdCz4WXEA8Mae
+         HfJg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782172459; x=1782777259; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mnhxRL5NSWx2qm5cF+jOJULziDkVFS523GcKtm3BW0s=;
+        b=jPsTpHfrfh5ppMR+gyIUraMIwJm/OYLJsOd3N6OB9vvTjThH38ksYWY8D2FkYROTyT
+         ZgSscTWoUdDnsJQqcFcC/PUIqjc+4bmZymQRLfc0ygApUzPtlp0kouCgEcRg7wTXtuov
+         ubH5HACVSgpKbL6ZBAosYe5cg3G+ndkWDi0S5sNXeff0DrhdbBd5SnvLvSCP1ix0N8Bp
+         7v2sUOKQ7v9//5QbDiEfzd8xgU7FGkmplZdLsYMwI7oEvh2uz/O0tI6/btHYt+nyrl38
+         9Vxnt0A9w3JRt6Yr2k/5pM4l8AqrMV4PPjvsAi7U01/bXYcy4/tk6rrgZfHbYlJV1cQ1
+         v2Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782172459; x=1782777259;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mnhxRL5NSWx2qm5cF+jOJULziDkVFS523GcKtm3BW0s=;
+        b=GXWYCNRdrGTd+dWmqPgFoLihkOpGyvR+5HbeMQQF0LDH3QF989YhZEPBL+8kEiJPxK
+         KQ1U/kwsVgDQLHesW9M1HM0n8pmK3eyCbr8VDG6xBIotTQrysUc2AxI/S2PEtwZ1PMg2
+         c+Gw/8tEvr8ysQWxrS/8zK7/bYni7hDSLmu0aOZkOEeQ+1ky1Gz/cehkCUPj+l+WpmFr
+         IeAIcW32+Pw/4yfDWLDPVIV3JApfcKCMvIM0qhCy16KGH6OalCbbkiC/G4ySyoyvDIB1
+         fM+eYGTEzVCUkFzzzROssYwjlze3zVBy6oLjXQck3i5mco3aWBH3+qYEqWA84IwW9h9z
+         0WgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/z/Lkf5nRz/ffszJ0ZWZy15k5ScrfZKZh3ghnfaZ9FOsAdzRMjNbgHq1yAiS+nkpqRoA9Fe+sLskk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyP1PZ2MElmFCoLb03DC2ehncNS1vD0IMBT+wDDa1HFbndIZWWP
+	dFcPnXzSWZ98MMHpIA6sqL6UDcudD5++H7OHtRj+/zEXnztYmlck8GcHhr6Kj5O5LZUDotYS6Nc
+	Wf3dPlrIpoTG1aLYp2ipU5cnBPXnZeIBb4I2HeSPU
+X-Gm-Gg: AfdE7cluyxHcu5zh7m+Jn6jpQcrNIcYDlflvIoHsYneADwuIHIsZIbIaiOTNRm0MnH8
+	9nkk6nCZbqf4saiQ5sQ7LPWUogw25jG+mCu1IG+0foWm+WWVFlr6hUIY6BYwZ81HwgduoNCccFJ
+	Gw8HwcNo6cXdA1Tvk3ELLU/H3rKDeIS3GSnC9EFUvZLh9j9mh4fIUeGDOw/q1ctpMzY/maWXv55
+	W8d2oNmcbIFVpLnGOy5J+xD9SrbXEaEu00pPEKu56EzQ7PIbVQgLb3/oBs70tIKumzul+e5YB2H
+	OrKNf5JerLcU67YK8EfvRtuLy7snI3m+67d7u0U3CkrVmHI3xT/mTqrsvWc=
+X-Received: by 2002:a17:907:a394:b0:c10:1041:65a4 with SMTP id
+ a640c23a62f3a-c1080b8e977mr13124066b.42.1782172458193; Mon, 22 Jun 2026
+ 16:54:18 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Jun 2026 16:54:15 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Jun 2026 16:54:15 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <48777f4749fa43d5648085dbb2037aa99c144a88.1780676742.git.tarunsahu@google.com>
+References: <cover.1780676742.git.tarunsahu@google.com> <48777f4749fa43d5648085dbb2037aa99c144a88.1780676742.git.tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 22 Jun 2026 16:54:15 -0700
+X-Gm-Features: AVVi8Cc74PEpV2YXCZJIskraOwZy9-czhUt_HBd1DYeN4YnAJwWFzkRCg6GbGig
+Message-ID: <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 06/10] kvm: guest_memfd: Add support for freezing
+ and unfreezing mappings
+To: Tarun Sahu <tarunsahu@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
+	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
+	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
+	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	seanjc@google.com, axelrasmussen@google.com
+Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-AF_ALG is a frequent source of vulnerabilities and a maintenance
-nightmare.  It exposes far more functionality to userspace than ever
-should have been exposed, especially to unprivileged processes.  Recent
-exploits have targeted kernel internal implementation details like
-"authencesn" that have zero use case for userspace access.
+Tarun Sahu <tarunsahu@google.com> writes:
 
-Fortunately, AF_ALG is rarely used in practice, as userspace crypto
-libraries exist.  And when it is used, only some functionality is known
-to be used, and many users are known to hold capabilities already.
-iwd for example requires CAP_NET_ADMIN and has a known algorithm list
-(https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832d@gmail.com/).
+> This patch introduces the freeze on gmem_inode which prevents
 
-Thus, let's restrict the set of allowed algorithms by default, depending
-on the capabilities held.
+Can't find the reference now, but commit messages should take the
+imperative mood and avoid "this patch" [*]
 
-Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
+[*] https://lore.kernel.org/all/YKRWNaqzo4GVDxHP@google.com/
 
-    0: unrestricted
-    1: limited functionality
-    2: completely disabled
+> the fallocate call and any new page fault allocation. This will avoid
+> gmem file modification when it is being preserved
+>
+> Used srcu lock to synchronise the freeze call, where write blocks
+> until all the reads are free. And reads are re-entrant.
+>
+> Incase fault fails, It return -EPERM and VM_EXIT to userspace. userspace
+> must handle this properly as every new fault will fail.
+>
+> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+>
+> [...snip...]
+>
+> @@ -105,12 +108,20 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>  	if (!IS_ERR(folio))
+>  		return folio;
+>
+> +	idx = srcu_read_lock(&kvm_gmem_freeze_srcu);
+> +	if (kvm_gmem_is_frozen(inode)) {
+> +		srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+> +		return ERR_PTR(-EPERM);
+> +	}
+> +
+>  	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+>  	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+>  					 FGP_LOCK | FGP_CREAT,
+>  					 mapping_gfp_mask(inode->i_mapping), policy);
+>  	mpol_cond_put(policy);
+>
+> +	srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+> +
+>  	/*
+>  	 * External interfaces like kvm_gmem_get_pfn() support dealing
+>  	 * with hugepages to a degree, but internally, guest_memfd currently
+> @@ -273,16 +284,30 @@ static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
+>  static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
+>  			       loff_t len)
+>  {
+> +	struct inode *inode = file_inode(file);
+>  	int ret;
+> +	int idx;
+>
+> -	if (!(mode & FALLOC_FL_KEEP_SIZE))
+> -		return -EOPNOTSUPP;
+> +	idx = srcu_read_lock(&kvm_gmem_freeze_srcu);
+> +	if (kvm_gmem_is_frozen(inode)) {
+> +		srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+> +		return -EPERM;
+> +	}
 
-Set the default value to 1, which enables an algorithm allowlist for
-unprivileged processes and a slightly longer allowlist for privileged
-processes.
+fallocate may eventually go to kvm_gmem_get_folio(), so that would check
+kvm_gmem_is_frozen() twice. Is this meant to catch the punch hole case?
 
-Note that the list may be tweaked in the future.  However, the common
-use cases such as iwd and bluez are taken into account already.  I've
-tested that iwd still works with the default value of 1.
+>
+> -	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE))
+> -		return -EOPNOTSUPP;
+> +	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+> +		ret = -EOPNOTSUPP;
+> +		goto out;
+> +	}
+>
+> -	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> -		return -EINVAL;
+> +	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE)) {
+> +		ret = -EOPNOTSUPP;
+> +		goto out;
+> +	}
+> +
+> +	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len)) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- Documentation/admin-guide/sysctl/crypto.rst | 36 +++++++++++
- Documentation/crypto/userspace-if.rst       | 13 +++-
- crypto/af_alg.c                             | 72 +++++++++++++++++++--
- crypto/algif_aead.c                         | 11 ++++
- crypto/algif_hash.c                         | 24 +++++++
- crypto/algif_rng.c                          |  9 +++
- crypto/algif_skcipher.c                     | 20 ++++++
- include/crypto/if_alg.h                     |  8 +++
- 8 files changed, 184 insertions(+), 9 deletions(-)
+There's some reordering here. Why not let the validation happen like
+before, then check kvm_gmem_is_frozen()?
 
-diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
-index b707bd314a64..9a1bd53287f4 100644
---- a/Documentation/admin-guide/sysctl/crypto.rst
-+++ b/Documentation/admin-guide/sysctl/crypto.rst
-@@ -5,10 +5,46 @@
- These files show up in ``/proc/sys/crypto/``, depending on the
- kernel configuration:
- 
- .. contents:: :local:
- 
-+.. _af_alg_restrict:
-+
-+af_alg_restrict
-+===============
-+
-+Controls the level of restriction of AF_ALG.
-+
-+AF_ALG is a deprecated and rarely-used userspace interface that is a
-+frequent source of vulnerabilities. It also unnecessarily exposes a
-+large number of kernel implementation details. For more information
-+about AF_ALG, see :ref:`Documentation/crypto/userspace-if.rst
-+<crypto_userspace_interface>`.
-+
-+Starting in Linux v7.3, AF_ALG supports only a limited set of
-+algorithms by default. This sysctl allows the system administrator to
-+remove this restriction when needed for compatibility reasons, or to
-+go further and disable AF_ALG entirely. The default value is 1.
-+
-+===  ==================================================================
-+0    AF_ALG is unrestricted.
-+
-+1    AF_ALG is supported with a limited list of algorithms. The list
-+     is designed for compatibility with known users such as iwd and
-+     bluez that haven't yet been fixed to use userspace crypto code.
-+
-+     Specifically, there is an allowlist for unprivileged processes
-+     and a somewhat longer allowlist for processes that hold
-+     CAP_SYS_ADMIN or CAP_NET_ADMIN in the initial user namespace.
-+
-+     Attempts to bind() an AF_ALG socket with a disallowed algorithm
-+     fail with ENOENT.
-+
-+2    AF_ALG is completely disabled. Attempts to create an AF_ALG
-+     socket fail with EAFNOSUPPORT.
-+===  ==================================================================
-+
- fips_enabled
- ============
- 
- Read-only flag that indicates whether FIPS mode is enabled.
- 
-diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
-index ab93300c8e04..d6194346e366 100644
---- a/Documentation/crypto/userspace-if.rst
-+++ b/Documentation/crypto/userspace-if.rst
-@@ -1,5 +1,7 @@
-+.. _crypto_userspace_interface:
-+
- User Space Interface
- ====================
- 
- Introduction
- ------------
-@@ -10,13 +12,18 @@ code.
- 
- AF_ALG is insecure and is deprecated. Originally added to the kernel in 2010,
- most kernel developers now consider it to be a mistake. Support for hardware
- accelerators, which was the original purpose of AF_ALG, has been removed.
- 
--AF_ALG continues to be supported only for backwards compatibility. On systems
--where no programs using AF_ALG remain, the support for it should be disabled by
--disabling ``CONFIG_CRYPTO_USER_API_*``.
-+AF_ALG continues to be supported only for backwards compatibility.
-+
-+Starting in Linux v7.3, the set of algorithms supported by AF_ALG is limited by
-+default. See :ref:`/proc/sys/crypto/af_alg_restrict <af_alg_restrict>`.
-+
-+On systems where no programs using AF_ALG remain, the support for it should be
-+disabled entirely by setting ``/proc/sys/crypto/af_alg_restrict`` to 2 or by
-+disabling ``CONFIG_CRYPTO_USER_API_*`` in the kernel configuration.
- 
- Deprecation
- -----------
- 
- AF_ALG was originally intended to provide userspace programs access to crypto
-diff --git a/crypto/af_alg.c b/crypto/af_alg.c
-index cce000e8590e..34b801568fba 100644
---- a/crypto/af_alg.c
-+++ b/crypto/af_alg.c
-@@ -6,10 +6,11 @@
-  *
-  * Copyright (c) 2010 Herbert Xu <herbert@gondor.apana.org.au>
-  */
- 
- #include <linux/atomic.h>
-+#include <linux/capability.h>
- #include <crypto/if_alg.h>
- #include <linux/crypto.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/key.h>
-@@ -20,14 +21,32 @@
- #include <linux/rwsem.h>
- #include <linux/sched.h>
- #include <linux/sched/signal.h>
- #include <linux/security.h>
- #include <linux/string.h>
-+#include <linux/sysctl.h>
-+#include <linux/user_namespace.h>
- #include <keys/user-type.h>
- #include <keys/trusted-type.h>
- #include <keys/encrypted-type.h>
- 
-+static int af_alg_restrict = 1;
-+
-+static const struct ctl_table af_alg_table[] = {
-+	{
-+		.procname       = "af_alg_restrict",
-+		.data           = &af_alg_restrict,
-+		.maxlen         = sizeof(int),
-+		.mode           = 0644,
-+		.proc_handler   = proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_TWO,
-+	},
-+};
-+
-+static struct ctl_table_header *af_alg_header;
-+
- struct alg_type_list {
- 	const struct af_alg_type *type;
- 	struct list_head list;
- };
- 
-@@ -108,10 +127,43 @@ int af_alg_unregister_type(const struct af_alg_type *type)
- 
- 	return err;
- }
- EXPORT_SYMBOL_GPL(af_alg_unregister_type);
- 
-+static bool af_alg_capable(void)
-+{
-+	return ns_capable_noaudit(&init_user_ns, CAP_NET_ADMIN) ||
-+	       capable(CAP_SYS_ADMIN);
-+}
-+
-+int af_alg_check_restriction(const char *name,
-+			     const struct af_alg_allowlist_entry allowlist[])
-+{
-+	int level = READ_ONCE(af_alg_restrict);
-+
-+	if (level == 0)
-+		return 0;
-+	if (level == 1) {
-+		for (const struct af_alg_allowlist_entry *ent = allowlist;
-+		     ent->name; ent++) {
-+			if (strcmp(name, ent->name) == 0 &&
-+			    (!ent->privileged || af_alg_capable()))
-+				return 0;
-+		}
-+	}
-+	/*
-+	 * Use -ENOENT (the error code for "algorithm not found") instead of
-+	 * -EACCES or -EPERM, for the highest chance of correctly triggering
-+	 * fallback code paths in userspace programs.
-+	 *
-+	 * Don't log a warning, since it would be noisy.  iwd tries to bind a
-+	 * bunch of algorithms that it never uses.
-+	 */
-+	return -ENOENT;
-+}
-+EXPORT_SYMBOL_GPL(af_alg_check_restriction);
-+
- static void alg_do_release(const struct af_alg_type *type, void *private)
- {
- 	if (!type)
- 		return;
- 
-@@ -504,10 +556,13 @@ static int alg_create(struct net *net, struct socket *sock, int protocol,
- 		      int kern)
- {
- 	struct sock *sk;
- 	int err;
- 
-+	if (READ_ONCE(af_alg_restrict) == 2)
-+		return -EAFNOSUPPORT;
-+
- 	if (sock->type != SOCK_SEQPACKET)
- 		return -ESOCKTNOSUPPORT;
- 	if (protocol != 0)
- 		return -EPROTONOSUPPORT;
- 
-@@ -1220,31 +1275,36 @@ int af_alg_get_rsgl(struct sock *sk, struct msghdr *msg, int flags,
- }
- EXPORT_SYMBOL_GPL(af_alg_get_rsgl);
- 
- static int __init af_alg_init(void)
- {
--	int err = proto_register(&alg_proto, 0);
-+	int err;
-+
-+	af_alg_header = register_sysctl("crypto", af_alg_table);
- 
-+	err = proto_register(&alg_proto, 0);
- 	if (err)
--		goto out;
-+		goto out_unregister_sysctl;
- 
- 	err = sock_register(&alg_family);
--	if (err != 0)
-+	if (err)
- 		goto out_unregister_proto;
- 
--out:
--	return err;
-+	return 0;
- 
- out_unregister_proto:
- 	proto_unregister(&alg_proto);
--	goto out;
-+out_unregister_sysctl:
-+	unregister_sysctl_table(af_alg_header);
-+	return err;
- }
- 
- static void __exit af_alg_exit(void)
- {
- 	sock_unregister(PF_ALG);
- 	proto_unregister(&alg_proto);
-+	unregister_sysctl_table(af_alg_header);
- }
- 
- module_init(af_alg_init);
- module_exit(af_alg_exit);
- MODULE_DESCRIPTION("Crypto userspace interface");
-diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
-index 787aac8aeb24..b9217f9086aa 100644
---- a/crypto/algif_aead.c
-+++ b/crypto/algif_aead.c
-@@ -32,10 +32,15 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/net.h>
- #include <net/sock.h>
- 
-+static const struct af_alg_allowlist_entry aead_allowlist[] = {
-+	{ "ccm(aes)", true }, /* bluez */
-+	{},
-+};
-+
- static inline bool aead_sufficient_data(struct sock *sk)
- {
- 	struct alg_sock *ask = alg_sk(sk);
- 	struct sock *psk = ask->parent;
- 	struct alg_sock *pask = alg_sk(psk);
-@@ -342,10 +347,16 @@ static struct proto_ops algif_aead_ops_nokey = {
- 	.poll		=	af_alg_poll,
- };
- 
- static void *aead_bind(const char *name)
- {
-+	int err;
-+
-+	err = af_alg_check_restriction(name, aead_allowlist);
-+	if (err)
-+		return ERR_PTR(err);
-+
- 	return crypto_alloc_aead(name, 0, AF_ALG_CRYPTOAPI_MASK);
- }
- 
- static void aead_release(void *private)
- {
-diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
-index 5452ad6c1506..a8d958d51ece 100644
---- a/crypto/algif_hash.c
-+++ b/crypto/algif_hash.c
-@@ -14,10 +14,28 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/net.h>
- #include <net/sock.h>
- 
-+static const struct af_alg_allowlist_entry hash_allowlist[] = {
-+	{ "cmac(aes)", true }, /* iwd, bluez */
-+	{ "hmac(md5)", true }, /* iwd */
-+	{ "hmac(sha1)", true }, /* iwd */
-+	{ "hmac(sha224)", true }, /* iwd */
-+	{ "hmac(sha256)", true }, /* iwd */
-+	{ "hmac(sha384)", true }, /* iwd */
-+	{ "hmac(sha512)", true }, /* iwd, sha512hmac */
-+	{ "md4", true }, /* iwd */
-+	{ "md5", true }, /* iwd */
-+	{ "sha1", false }, /* iwd, iproute2 < 7.0 */
-+	{ "sha224", true }, /* iwd */
-+	{ "sha256", true }, /* iwd */
-+	{ "sha384", true }, /* iwd */
-+	{ "sha512", true }, /* iwd */
-+	{},
-+};
-+
- struct hash_ctx {
- 	struct af_alg_sgl sgl;
- 
- 	u8 *result;
- 
-@@ -380,10 +398,16 @@ static struct proto_ops algif_hash_ops_nokey = {
- 	.accept		=	hash_accept_nokey,
- };
- 
- static void *hash_bind(const char *name)
- {
-+	int err;
-+
-+	err = af_alg_check_restriction(name, hash_allowlist);
-+	if (err)
-+		return ERR_PTR(err);
-+
- 	return crypto_alloc_ahash(name, 0, AF_ALG_CRYPTOAPI_MASK);
- }
- 
- static void hash_release(void *private)
- {
-diff --git a/crypto/algif_rng.c b/crypto/algif_rng.c
-index 4dfe7899f8fa..bd522915d56d 100644
---- a/crypto/algif_rng.c
-+++ b/crypto/algif_rng.c
-@@ -48,10 +48,14 @@
- 
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
- MODULE_DESCRIPTION("User-space interface for random number generators");
- 
-+static const struct af_alg_allowlist_entry rng_allowlist[] = {
-+	{},
-+};
-+
- struct rng_ctx {
- #define MAXSIZE 128
- 	unsigned int len;
- 	struct crypto_rng *drng;
- 	u8 *addtl;
-@@ -199,10 +203,15 @@ static struct proto_ops __maybe_unused algif_rng_test_ops = {
- 
- static void *rng_bind(const char *name)
- {
- 	struct rng_parent_ctx *pctx;
- 	struct crypto_rng *rng;
-+	int err;
-+
-+	err = af_alg_check_restriction(name, rng_allowlist);
-+	if (err)
-+		return ERR_PTR(err);
- 
- 	pctx = kzalloc_obj(*pctx);
- 	if (!pctx)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
-index df20bdfe1f1f..2b8069667974 100644
---- a/crypto/algif_skcipher.c
-+++ b/crypto/algif_skcipher.c
-@@ -32,10 +32,24 @@
- #include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/net.h>
- #include <net/sock.h>
- 
-+static const struct af_alg_allowlist_entry skcipher_allowlist[] = {
-+	{ "adiantum(xchacha12,aes)", false }, /* cryptsetup */
-+	{ "adiantum(xchacha20,aes)", false }, /* cryptsetup */
-+	{ "cbc(aes)", true }, /* iwd */
-+	{ "cbc(des)", true }, /* iwd */
-+	{ "cbc(des3_ede)", true }, /* iwd */
-+	{ "ctr(aes)", true }, /* iwd */
-+	{ "ecb(aes)", true }, /* iwd, bluez */
-+	{ "ecb(des)", true }, /* iwd */
-+	{ "hctr2(aes)", false }, /* cryptsetup */
-+	{ "xts(aes)", false }, /* cryptsetup benchmark */
-+	{},
-+};
-+
- static int skcipher_sendmsg(struct socket *sock, struct msghdr *msg,
- 			    size_t size)
- {
- 	struct sock *sk = sock->sk;
- 	struct alg_sock *ask = alg_sk(sk);
-@@ -307,10 +321,16 @@ static struct proto_ops algif_skcipher_ops_nokey = {
- 	.poll		=	af_alg_poll,
- };
- 
- static void *skcipher_bind(const char *name)
- {
-+	int err;
-+
-+	err = af_alg_check_restriction(name, skcipher_allowlist);
-+	if (err)
-+		return ERR_PTR(err);
-+
- 	return crypto_alloc_skcipher(name, 0, AF_ALG_CRYPTOAPI_MASK);
- }
- 
- static void skcipher_release(void *private)
- {
-diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
-index 7643ba954125..4e9ed8e73403 100644
---- a/include/crypto/if_alg.h
-+++ b/include/crypto/if_alg.h
-@@ -159,13 +159,21 @@ struct af_alg_ctx {
- 	unsigned int len;
- 
- 	unsigned int inflight;
- };
- 
-+struct af_alg_allowlist_entry {
-+	const char *name;
-+	bool privileged;
-+};
-+
- int af_alg_register_type(const struct af_alg_type *type);
- int af_alg_unregister_type(const struct af_alg_type *type);
- 
-+int af_alg_check_restriction(const char *name,
-+			     const struct af_alg_allowlist_entry allowlist[]);
-+
- int af_alg_release(struct socket *sock);
- void af_alg_release_parent(struct sock *sk);
- int af_alg_accept(struct sock *sk, struct socket *newsock,
- 		  struct proto_accept_arg *arg);
- 
+>
+>  	if (mode & FALLOC_FL_PUNCH_HOLE)
+>  		ret = kvm_gmem_punch_hole(file_inode(file), offset, len);
+>
+> [...snip...]
+>
+> +
+> +/**
+> + * kvm_gmem_freeze - Freeze or unfreeze a guest_memfd inode mapping.
+> + * @inode: The guest_memfd inode.
+> + * @freeze: True to freeze, false to unfreeze.
+> + *
+> + * This API is used strictly during the live update / preservation transition
+> + * window to prevent host userspace and guest-side faults from making any
+> + * mapping modifications (such as fallocate or page fault allocation)
+> + * to the guest_memfd page cache.
+> + *
+> + * Synchronization Strategy (Sleepable RCU):
+> + * To avoid high-contention VFS locks (like inode_lock or
+> + * filemap_invalidate_lock) on the vCPU page fault hot paths, this subsystem
+> + * implements a lightweight, system-wide Sleepable RCU (SRCU) mechanism
+> + * (`kvm_gmem_freeze_srcu`):
+> + *
+> + * Global vs. Per-Inode SRCU
+> + * ======================
+> + * A single system-wide global static `srcu_struct` is used instead of a
+> + * per-inode SRCU structure to completely prevent unprivileged users from
+> + * exhausting the host's per-CPU memory allocator. Because
+> + * `init_srcu_struct()` allocates per-CPU memory via `alloc_percpu()`, which
+> + * is not accounted by memory cgroups (memcg),
+> + * a per-inode SRCU structure would allow a tenant to bypass cgroup limits and
+> + * trigger a system-wide Out-of-Memory (OOM) crash simply by spawning a large
+> + * number of guest_memfd file descriptors (bounded only by RLIMIT_NOFILE).
+> + *
+> + * Flag Modification Note:
+> + * Since `GUEST_MEMFD_F_MAPPING_FROZEN` is the ONLY flag in
+> + * `GMEM_I(inode)->flags` that is mutated dynamically at runtime (all other
+> + * flags are creation-time flags which remain strictly read-only), there is
+> + * no possibility of concurrent bit-modification races. Therefore, a standard
+> + * `WRITE_ONCE` is fully safe and does not require complex `cmpxchg`
+> + * synchronization loops.
+> + */
+> +void kvm_gmem_freeze(struct inode *inode, bool freeze)
+> +{
+> +	u64 flags = READ_ONCE(GMEM_I(inode)->flags);
+> +
+> +	if (freeze)
+> +		flags |= GUEST_MEMFD_F_MAPPING_FROZEN;
+> +	else
+> +		flags &= ~GUEST_MEMFD_F_MAPPING_FROZEN;
+> +
+> +	WRITE_ONCE(GMEM_I(inode)->flags, flags);
+> +
+> +	if (freeze)
+> +		synchronize_srcu(&kvm_gmem_freeze_srcu);
 
-base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
--- 
-2.54.0
+Why only synchronize on freeze but not unfreeze?
 
+> +}
+> +
+>
+> [...snip...]
+>
