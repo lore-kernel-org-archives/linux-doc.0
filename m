@@ -1,202 +1,200 @@
-Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23044357CFA;
-	Mon, 22 Jun 2026 21:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.90.104.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5626623D7F0
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 21:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782162962; cv=none; b=LC/+V2+t/PgqLA3ntFDkEzMbafIUV0SSjWIoyHGDLhhLpwr41183OAMCmiViuYeIp072muZ5pRE/x/JsEWyf4MGUC7i7UL0E8gk7mC1IX41PtcuvFvtw6sNDJgViPtWcgsc7GadUzHyp+vhbSmmTJOg167WewljkzGs5F3DYzD4=
+	t=1782163776; cv=none; b=VROg50OEdlW/+NvYZsWz3BcQyCtUVRH6AZqlSFEmLafp/BGwySFz28Q7j1hMKdEgD1ML7yfcEJfQdoScBKknEoUyrtdphnRlr312huOSnOOL9hJkpKChmrnxOYE+tv8VRJs7kHr+hIyLhfjYCFLMaeZTgT8RoBUlF4GCuYOlJNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782162962; c=relaxed/simple;
-	bh=NzDP/Qf23/prJJNPPgsghEZJIH7cLqjLXgSqIcy81Tw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V1ykZE+WglP4It3yggWebFuCOfteIE9moSnUZTQKye6zMoKV/5oWpN8o5dMoDvj83aAplcHjskDSlqqlECfVcgw6Ekipg35UfMVjF+GqITAfM32s2NvdtpQY9h2fATIdKRLQ9GoX+LnVr/UOavLX1HOv5eyBFS5KvIJnKfjoKXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com; spf=pass smtp.mailfrom=mobileye.com; dkim=fail (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b=bbwR3ho7 reason="key not found in DNS"; arc=none smtp.client-ip=23.90.104.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+	s=arc-20240116; t=1782163776; c=relaxed/simple;
+	bh=+L3MmmVxkutwrGSzKYzXjBjXrb4M8oGuSvZpEuPqSPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W/vcmvzB/5ukq2xThzfmxJ68mXGhxwfBh8HJ9BVuc4eCv1cOD179PAvTFxS5yP33S33xECXoDagPIUO2IkxQzIADsfWb1oGHRi4oyjfdmHdZc1xP+jXWgj6hq2r3519rqM75QAnQIcDc6BC866IVxcE6EdQ6Pk+uFjAwrcj2kmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4KtN8W8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b="bbwR3ho7"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
-  t=1782162960; x=1813698960;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NzDP/Qf23/prJJNPPgsghEZJIH7cLqjLXgSqIcy81Tw=;
-  b=bbwR3ho7EZwGdBskwD+U4WX5oU1fsDIqSoEOgzR91WSuz0zFqD5xkhDh
-   Nn1Uok+P6lIJbCodPZdt1qmdmhT5KfOv3SvdfQoPrbt2fI3msvbVZ0gKv
-   b0f5Q5FxehA0a3hwJqaBMKBEONQaWxTXczTXuZMdxsJIX3vdWSSjC8VFB
-   Kzg5k1nVL6tnISWweDkr+RmqjItg7WXGW+fvaaTLQLi2fE+wCDJMml0wx
-   98+LKjO4L3Ulxx7UUDe6FbcD9kYoVWIl7rwUqXgwFsWnLmj/yDExuJGql
-   hBpaJiwgFSWQkcmS376ulgmELujjJmMQyQ9fwpO+oMHzwN2yNhRBKo9At
-   g==;
-X-CSE-ConnectionGUID: ItTf23kdRN2Q2hgcFQPqfw==
-X-CSE-MsgGUID: fALokgqGTVWre3ci6DjaHA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces01_data.me-corp.lan) ([146.255.191.134])
-  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 00:14:48 +0300
-X-CSE-ConnectionGUID: PIZbsQHORw2HX0SvceFskA==
-X-CSE-MsgGUID: G7hsW6c/S6ifmNGfrT+2Lg==
-Received: from unknown (HELO epgd034.me-corp.lan) ([10.154.54.2])
-  by ces01_data.me-corp.lan with SMTP; 23 Jun 2026 00:19:57 +0300
-Received: by epgd034.me-corp.lan (sSMTP sendmail emulation); Tue, 23 Jun 2026 00:14:46 +0300
-From: Pnina Feder <pnina.feder@mobileye.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	Pnina Feder <pnina.feder@mobileye.com>
-Subject: [PATCH 4/4] mips: vmcore_info: export mips arch-specific struct offsets to vmcoreinfo
-Date: Tue, 23 Jun 2026 00:14:30 +0300
-Message-ID: <20260622211430.4008899-5-pnina.feder@mobileye.com>
-In-Reply-To: <20260622211430.4008899-1-pnina.feder@mobileye.com>
-References: <20260622211430.4008899-1-pnina.feder@mobileye.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4KtN8W8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E743E1F00A3E
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 21:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782163774;
+	bh=SXLoZ1hGoYCAtFF7te+jkqyRbBNr2vwPY2VH1Mi/VeU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=J4KtN8W8Fc25LPHVZJvbipnoTiPBAiQbCX5C1D9yr6G+yK3XWiPNDm/CVEUYjwF7d
+	 YgeSMj7AvTnipAVxICqyud+oozJAoDg9cG46nBjADp9oNzhofZecaBlWTssP8Rtm5T
+	 46mPBXq16hhytu1NHS65vWSeQcHfFePCXAIuKiqds8T5Atkd2fhxN5Om4ps+MOZrZ2
+	 KcrlYsXvIZ976AVSUfrP1KUS1g39F6d7TTlBMqvpYenIvDg6XZbQ94YmsT1hK9TiYk
+	 jZHlxDaHtG50xPBOrC3sAKFd63nfMCx9VIgQoJmJcyt3XmQ7EfmDov0tK8N9n8CTrp
+	 PTpIUUJHP1zqg==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-697cee2eb6dso653813a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 14:29:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+Vz2Mujghpi2veYT1z3r4kUbsggdeB8e27WXTiNAmH//MsQjyd78FX0ZYlTKq4HAk1b7hedQ/ZMKw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw6+7PwXEoJItKwCaBH4UxzXbvX7eYxM7mt6BsuwoF1Dgcp/p8
+	szMJKNdlvYTU3ZLftEvWei1K6f97I7aGt0x3U4+lYBGFdqd/La3GY7zhE12e79ZESYPcX/bQeTq
+	YXE4ivWAowZggDEGwvQJWtOw2Jz6qmuc=
+X-Received: by 2002:a17:907:74d:b0:bed:19af:f89a with SMTP id
+ a640c23a62f3a-c097ae2d9f9mr826269466b.7.1782163773890; Mon, 22 Jun 2026
+ 14:29:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+ <CAAAF57B-7DE9-45EA-8AB6-DE6CFAF60F47@linux.dev> <26a034b3-9cfa-e4f5-eea1-e69fbfff02b4@gmail.com>
+ <ajkIkyajJEW2b7/0@yjaykim-PowerEdge-T330>
+In-Reply-To: <ajkIkyajJEW2b7/0@yjaykim-PowerEdge-T330>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Mon, 22 Jun 2026 14:29:22 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOe8i3QXeg639aJbMEXAiHjbZvt0w7v6tn8MQyvysXP9Q@mail.gmail.com>
+X-Gm-Features: AVVi8CdKnjEoAO3uPfDnZIRPxM_R9nTnVOUDlsdn8mjO-TtdAPtrEC9LrsVK0Ck
+Message-ID: <CAO9r8zOe8i3QXeg639aJbMEXAiHjbZvt0w7v6tn8MQyvysXP9Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] mm/zswap: Implement per-cgroup proactive writeback
+To: Youngjun Park <youngjun.park@lge.com>
+Cc: Hao Jia <jiahao.kernel@gmail.com>, Muchun Song <muchun.song@linux.dev>, 
+	akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Export MIPS architecture-specific struct offsets needed by the
-vmcore-tasks tool, including signal frame layouts and register
-context structures used to reconstruct user-space register state
-from a vmcore dump.
+On Mon, Jun 22, 2026 at 3:04=E2=80=AFAM Youngjun Park <youngjun.park@lge.co=
+m> wrote:
+>
+> On Mon, Jun 22, 2026 at 02:08:49PM +0800, Hao Jia wrote:
+> >
+> >
+> > On 2026/6/21 12:20, Muchun Song wrote:
+> > >
+> > >
+> > > > On Jun 18, 2026, at 12:48, Hao Jia <jiahao.kernel@gmail.com> wrote:
+> > > >
+> > > > From: Hao Jia <jiahao1@lixiang.com>
+> > > >
+> > > > Zswap currently writes back pages to backing swap reactively, trigg=
+ered
+> > > > either by the shrinker or by the pool reaching its size limit. Alth=
+ough
+> > > > proactive memory reclaim can automatically write back a portion of =
+zswap
+> > > > pages via the shrinker, it cannot explicitly control the amount of
+> > > > writeback for a specific memory cgroup. Moreover, proactive memory =
+reclaim
+> > > > may not always be triggered during a steady state.
+> > > >
+> > > > In certain scenarios, it is desirable to trigger writeback in advan=
+ce to
+> > > > free up memory. For example, users may want to prepare for an upcom=
+ing
+> > > > memory-intensive workload by flushing cold memory to the backing st=
+orage
+> > > > when the system is relatively idle.
+> > > >
+> > > > This patch series introduces a "zswap_writeback_only" key to memory=
+.reclaim
+> > > > cgroup interface, allowing users to proactively write back cold com=
+pressed
+> > > > data from zswap to the backing swap device. When specified, this ke=
+y
+> > > > bypasses standard memory reclaim and exclusively performs proactive=
+ zswap
+> > > > writeback up to the requested budget. If omitted, the default recla=
+im
+> > > > behavior remains unchanged.
+> > > >
+> > > > Example usage:
+> > > >   # Write back 10MB of compressed data from zswap to the backing sw=
+ap
+> > > >   echo "10M zswap_writeback_only" > memory.reclaim
+> > >
+> > > I=E2=80=99m not entirely sure if other candidate names were already b=
+rought up
+> > > in previous discussions, so my apologies if I'm repeating something h=
+ere!
+> > > I do think expanding memory.reclaim is a great approach. That said, I
+> > > was wondering if we could make the interface a bit more concise while
+> > > keeping it flexible for future extensions.
+> > >
+> > > Essentially, what we want is to control the specific targets of the r=
+eclaim
+> > > process=E2=80=94such as file, anon, or zswap. What do you think about=
+ using
+> > > something like "source=3Dzswap"? For instance, if we want to reclaim =
+10M from
+> > > zswap, the command would look like this:
+> > >
+> > >     echo "10M source=3Dzswap" > memory.reclaim
 
-Signed-off-by: Pnina Feder <pnina.feder@mobileye.com>
----
- .../admin-guide/kdump/vmcoreinfo.rst          | 34 +++++++++++++++++++
- arch/mips/kernel/Makefile                     |  1 +
- arch/mips/kernel/signal.c                     |  8 +++++
- arch/mips/kernel/vmcore_info.c                | 22 ++++++++++++
- 4 files changed, 65 insertions(+)
- create mode 100644 arch/mips/kernel/vmcore_info.c
+I like this suggestion, but I think ultimately we want proactive zswap
+writeback to be part of a more general proactive swap demotion, and
+zswap is just a swap tier.
 
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 3c364434b846..4af32ddf5615 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -494,6 +494,40 @@ Used to get the vmalloc_start address from the high_memory symbol.
- 
- The maximum number of CPUs.
- 
-+MIPS
-+====
-+
-+(rt_sigframe, rs_uc)
-+--------------------
-+
-+Offset of the ucontext member within the MIPS rt_sigframe structure.
-+Used to locate the signal context within a signal frame on the user
-+stack.
-+
-+(sigcontext, sc_regs)
-+---------------------
-+
-+Offset of the saved register array within struct sigcontext. Used to
-+extract user-space register state from signal frames in a vmcore dump.
-+
-+PAGE_SHIFT
-+----------
-+
-+The base-2 logarithm of the page size. Used for page frame number
-+calculations during address translation.
-+
-+_PFN_MASK|_PAGE_PRESENT|_PAGE_VALID|_PAGE_GLOBAL
-+-------------------------------------------------
-+
-+Page table entry bit masks and flags. Used for walking MIPS page tables
-+and translating virtual to physical addresses in a vmcore dump.
-+
-+PTRS_PER_PGD|PTRS_PER_PMD|PTRS_PER_PTE
-+---------------------------------------
-+
-+Number of entries per page table level. Used for page table walking
-+during virtual-to-physical address translation.
-+
- powerpc
- =======
- 
-diff --git a/arch/mips/kernel/Makefile b/arch/mips/kernel/Makefile
-index 95a1e674fd67..99f2961f6ee1 100644
---- a/arch/mips/kernel/Makefile
-+++ b/arch/mips/kernel/Makefile
-@@ -24,6 +24,7 @@ CFLAGS_REMOVE_perf_event_mipsxx.o = $(CC_FLAGS_FTRACE)
- endif
- 
- obj-$(CONFIG_CEVT_BCM1480)	+= cevt-bcm1480.o
-+obj-$(CONFIG_VMCORE_INFO)	+= vmcore_info.o
- obj-$(CONFIG_CEVT_R4K)		+= cevt-r4k.o
- obj-$(CONFIG_CEVT_DS1287)	+= cevt-ds1287.o
- obj-$(CONFIG_CEVT_GT641XX)	+= cevt-gt641xx.o
-diff --git a/arch/mips/kernel/signal.c b/arch/mips/kernel/signal.c
-index 4a10f18a8806..f2241f52fa17 100644
---- a/arch/mips/kernel/signal.c
-+++ b/arch/mips/kernel/signal.c
-@@ -26,6 +26,7 @@
- #include <linux/syscalls.h>
- #include <linux/uaccess.h>
- #include <linux/resume_user_mode.h>
-+#include <linux/vmcore_info.h>
- 
- #include <asm/abi.h>
- #include <asm/asm.h>
-@@ -62,6 +63,13 @@ struct rt_sigframe {
- 	struct ucontext rs_uc;
- };
- 
-+#ifdef CONFIG_VMCORE_INFO
-+void mips_rt_signal_frame(void)
-+{
-+	VMCOREINFO_OFFSET(rt_sigframe, rs_uc);
-+}
-+#endif
-+
- #ifdef CONFIG_MIPS_FP_SUPPORT
- 
- /*
-diff --git a/arch/mips/kernel/vmcore_info.c b/arch/mips/kernel/vmcore_info.c
-new file mode 100644
-index 000000000000..5d7fdc662065
---- /dev/null
-+++ b/arch/mips/kernel/vmcore_info.c
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/vmcore_info.h>
-+
-+#include <asm/pgtable.h>
-+#include <asm/sigcontext.h>
-+
-+extern void mips_rt_signal_frame(void);
-+
-+void arch_crash_save_vmcoreinfo(void)
-+{
-+	mips_rt_signal_frame();
-+	VMCOREINFO_OFFSET(sigcontext, sc_regs);
-+	VMCOREINFO_NUMBER(PAGE_SHIFT);
-+	VMCOREINFO_NUMBER(_PFN_MASK);
-+	VMCOREINFO_NUMBER(_PAGE_PRESENT);
-+	VMCOREINFO_NUMBER(_PAGE_VALID);
-+	VMCOREINFO_NUMBER(_PAGE_GLOBAL);
-+	VMCOREINFO_NUMBER(PTRS_PER_PGD);
-+	VMCOREINFO_NUMBER(PTRS_PER_PMD);
-+	VMCOREINFO_NUMBER(PTRS_PER_PTE);
-+}
--- 
-2.43.0
+> > >
+[..]
 
+>
+> I also preferred sharing the `memory.reclaim` interface in the future swa=
+p demotion,
+> since it already takes `zswap_writeback_only`.
+> https://lore.kernel.org/all/aieUQUBHI+E3uNPW@yjaykim-PowerEdge-T330/
+>
+> Alternatively, we could use a separate interface as Yosry suggested
+> (e.g. 'swap.tiers.demote'?).
+>
+> But as Nhat pointed out, allowing user-triggered demotion from the swap t=
+ier
+> perspective could lead to issues like LRU inversion. We probably need to
+> discuss whether this kind of user-triggered tier demotion will actually b=
+e
+> supported at all.
+> https://lore.kernel.org/linux-mm/CAKEwX=3DNfSy0XiD_UMsDOHGCwpE7sYmBmhV4Y9=
+vk_cbnnr6J6PQ@mail.gmail.com/
+
+I believe what Nhat said is that swap demotion may be used to
+prevent/alleviate LRU inversion, not cause it. I don't see how
+demotion can cause LRU inversion.
+
+>
+> So, IMHO..
+>
+> 1. If swap tier demotion is NOT exposed.
+>
+> We can simply choose between "source=3D" and `zswap_writeback_only` based
+> on preference. (since there is no need to consider "swap_tier" demotion.)
+>
+> However, "source=3D" seems to offer better extensibility if it is expande=
+d
+> to file and anon use cases in the future.
+>
+> 2. If swap tier demotion IS exposed.
+> We need to consider integration vs decoupling.
+>
+> (In my view, This is a design consideration. avoiding potentially
+> redundant interfaces vs adding a new one if it is architecturally correct=
+.)
+>
+> 2.1 Integration
+>  - Integrating into 'memory.reclaim':
+>   - "source=3D": Seems easier to integrate by explicitly specifying the t=
+arget. (Your suggestion)
+>   - 'zswap_writeback_only': Harder to integrate than "source=3D".
+>
+>  - Integrating into 'memory.swap.tiers.demote'
+>   - 'memory.swap.tiers.demote' could absorb the memory.reclaim functional=
+ity.
+>   (But since we only want to allow tiering for vswap+zswap cases like
+>   the zswap writeback feature as we discussed, the reclaim interface beha=
+vior might
+>   still need to stay for zswap only.)
+>
+> 2.2 Decoupling
+>  - 'memory.swap.tiers.demote' handles other swap devices (excluding zswap=
+),
+> while "source=3D" or 'zswap_writeback_only' handles only zswap.
+
+I personally think making proactive zswap writeback one use case of
+proactive swap demotion makes sense. I think swap demotion in general
+makes sense.
