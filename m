@@ -1,124 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576CB36B043;
-	Mon, 22 Jun 2026 09:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A2F3A257F
+	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 09:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782120715; cv=none; b=P0HUcLb/psHFPyW0SF0HfWBIBlM0sMiAUNr8BXbaGvqhuBbnSWjBXrK6rEkwnVwMxl8BNLR72XDTR8ag8ATsP1pTqcjmmZsPFHcR+7MRZ2ztEbtZyaoxoyB6c3zk6zgzmOKPqqV3kKEpZrFeykvua1lFovS9+zF3TvoYuJ6aT34=
+	t=1782121986; cv=none; b=C0oQNl4ywphj7hZjeRaM/W9zsFtEa6DRj6d/Mc61mnzJELPhl52B32LGOpYAguQcyUMYLZhMPbJFx4ps1fN4WnIUga9kSDR3bFEEbdT/p+MAnn1Wa4Ln0FD6qrJ6UgRqt2x/A2o5PTDqLsVabJFScEOvQPaw7QZVkcrT3NLqZZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782120715; c=relaxed/simple;
-	bh=UnPOkMHd8BdlyvKoh71myAbOqirYWTq1WL7l4K6f9XQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ekgh81xPEPGCc565ZBz7ObQoEgMQNbzqMoNYffPwqlPKlf7GPvQbzr8lZZfKUWuRn0C8JarAJdBoVvuK2RokqOxVa4l6xuTKbzc4q/ld2NZdW98QQoCJHKE55Tz1jhPxBa6JxkJeQsnQoA6vqrA5DJ1nr8IopXO0UwV4XzDjueg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VeXe5Ab5; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VeXe5Ab5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E4A01F000E9;
-	Mon, 22 Jun 2026 09:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782120714;
-	bh=/wMrvTFn+e96PT0RdnbzBYhT8emMG2peC8487LRRtEo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VeXe5Ab5e+QhHiix2HoTicpbtNT94rMahMAl0j1PTPC0WOz/Lo3IyT5Eap0VbvU3r
-	 gQKDXu5FKAnj+fkk2MeyqgGWlQOpPnVTLCSoCa0yprclnfBlHKED8lqY9pHdbIjqlk
-	 cduC91pF593Y6++eIvBYShaIYtUOGwyMKBz57ZzWYS8yVu0BmMcoIaUgOiBsvS0Iu7
-	 Vwp+1TnpSyVDD1R2wbd5P8pvPzUpY6+VX9FQ1N7WK/oaTQh/kK8kUi0Sk6uNbs9481
-	 WTI9maGJtI9/fP2H+8pAxy8bzb7sWad9hIMjLkqqfrH1iE3pEnWiLatbmMcK0i04pu
-	 2te4rpy/NBU3g==
-Date: Mon, 22 Jun 2026 10:31:42 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
- Lechner	 <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko	 <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Janani Sunil  <jan.sun97@gmail.com>
-Subject: Re: [PATCH v3 2/2] iio: dac: Add AD5529R DAC driver support
-Message-ID: <20260622103142.0cf5dc2d@jic23-huawei>
-In-Reply-To: <9c5104eb504e390c2267e0a17762fdb6d73d75a4.camel@pengutronix.de>
-References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
-	<20260519-ad5529r-driver-v3-2-267c0731aa68@analog.com>
-	<9c5104eb504e390c2267e0a17762fdb6d73d75a4.camel@pengutronix.de>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1782121986; c=relaxed/simple;
+	bh=MnAXpId2QrsxBwStKm73em8Wh8kEZ3EOPZC5i6ugnWE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oVR6ANtPCqRkiy3TeOVJ8aUbqCJhkrzYUuoRXpYz/eQF3SBrFvnEAFWjJJQWHy+yOhHW0grRHpts1JNnOKQvdKpQ4vOiNubPXAQdBPMJkt8/Uj/+8k3tafP+uQdRnsnvSTfn1Ckf4MWwr2eGn5+zkCfUyWSVNPOOM0E07uUw6zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-59e2b96e3d3so3357996e0c.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 02:53:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782121983; x=1782726783;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LTo0C41gBRbYARs5bY4lNZzY8eziG+D7rVsU/ecROJ0=;
+        b=H3i5EQNn1PdfNu1BxPuAPkwXWEtv6GbxZB15H7c92jWlD6bq+qtF8V4yW3QtlvT6ut
+         EYAyfqzvJ+RLbR2J5zQ3cSGyj+O9TxUTR4mUpfRFEEPKNvy54U5wenwalE7q2It0eTwZ
+         Bhe6mHf1YuK9sQB8v5lx2v1dbrZCyhWoqdkDMlD7v1jaBEvIf+83+Skv02T//v0s6t7B
+         +HknogpCHApIpeRbul+rELoZxM3a1ELvmOcIVM/r9MFUIJQl/VD1wL0ceaJ2KuMPrx3J
+         2Ee45nqvusR5h0Gf3Jl7zMCuscjx2+x4vRdTh55hHTMhMLD8SA7pPaZ+Lifwlq0WUksB
+         C+yg==
+X-Forwarded-Encrypted: i=1; AFNElJ9aV5nzeUU4A07wTGrnFETcxcb3rpwogVefsgvkV7X9R7opR5uo1LTwUk6WyJ3ayFss3OlG0jRca8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNnVJ9JcaeAtl1pOK5/njDPjdvuVTTBKydlgUhhP7Cl9l6Kgl8
+	y5vyRvlSbCbly77DjSwmiQOEqvGhtrAiU9kbaeOwyxlKf/SzSNP3whKfWfbOq0B+
+X-Gm-Gg: AfdE7cm29DpplsqFPfcZCX0HPul4fsCCUrdB5Hy6loZpDlYfy3RGufVTcKM+MDe4Rqa
+	EZmRKuNpi5L3J0vemTfDW6NNgaY6YgD1PIoR5w+rGqQPTOZhhsoqUTBoZA3mxc4wfOZNnZ9F9bS
+	4TVF/ROt4coZSASCjJnW0OCOQIM8AMyHbowD5XdLAsenVIEtaLJtKGBdsRlhcl2ZkglAa8cZ5g1
+	e2Pm7hlV9EDyvjDBF11S4oRf5QIau7ti8Pa6a8+OIp+bbHXBSLdb89VcxgvIdBGjWvrOWSRvskM
+	FQid8+reQz2cgpaYXDipl1GGUdhpljRr8Co3846KOrwe6camly5sPioFXlQSAvJH4Q50qFQXwxS
+	j3tRrhBuJ1hV4vFmQ+DTp7/6rtmakebdpa5V0Wi6Wm5aOSHUCA4a/7TvG3TyxBOBruT8itra48v
+	oNzZdm3u1tELEGMZH89G+VFQ/GwSxMc9FeYeIyR3f1VJnrjUxPKQ==
+X-Received: by 2002:a05:6102:38c6:b0:729:b483:665f with SMTP id ada2fe7eead31-72a1f6edaf4mr7412493137.19.1782121982939;
+        Mon, 22 Jun 2026 02:53:02 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9670c0e9590sm6013316241.3.2026.06.22.02.53.01
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 02:53:02 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-966c8dcceedso1608633241.2
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 02:53:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ99YFVItI8dAD3T26p0UJxBLwzoK5zSnurkKqEtTqgsloxPWanabGvwgEODl2pPIn/4nAEKFG8JIsA=@vger.kernel.org
+X-Received: by 2002:a05:6102:c03:b0:729:affa:70fd with SMTP id
+ ada2fe7eead31-72a1d8282d2mr7518654137.8.1782121981650; Mon, 22 Jun 2026
+ 02:53:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260618220427.14325-1-marek.vasut+renesas@mailbox.org> <20260618220427.14325-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260618220427.14325-3-marek.vasut+renesas@mailbox.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Jun 2026 11:52:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUxT87M1oQvPP_h4YX4vXFaVbbG+LCG8EdmuLTuHNtybQ@mail.gmail.com>
+X-Gm-Features: AVVi8CeD0QzByTLrjVPd1X2DDUj0G8mjwUUWpPVDpYqqWicL4mNi4MB1Xhj4X1I
+Message-ID: <CAMuHMdUxT87M1oQvPP_h4YX4vXFaVbbG+LCG8EdmuLTuHNtybQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] irqchip/gic-v3: Refactor GIC600 limited to 32bit
+ PA erratum handling
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: linux-pci@vger.kernel.org, Marc Zyngier <maz@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 22 Jun 2026 11:12:19 +0200
-Philipp Zabel <p.zabel@pengutronix.de> wrote:
+Hi Marek,
 
-> On Di, 2026-05-19 at 17:42 +0200, Janani Sunil wrote:
-> > Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
-> > 
-> > Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> > ---
-> >  MAINTAINERS               |   1 +
-> >  drivers/iio/dac/Kconfig   |  17 ++
-> >  drivers/iio/dac/Makefile  |   1 +
-> >  drivers/iio/dac/ad5529r.c | 527 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 546 insertions(+)
-> >   
-> [...]
-> > diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
-> > new file mode 100644
-> > index 000000000000..9bb63030db95
-> > --- /dev/null
-> > +++ b/drivers/iio/dac/ad5529r.c
-> > @@ -0,0 +1,527 @@  
-> [...]
-> > +static int ad5529r_reset(struct ad5529r_state *st)
-> > +{
-> > +	struct reset_control *rst;
-> > +	int ret;
-> > +
-> > +	rst = devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);  
-> 
-> Consider using devm_reset_control_get_optional_exclusive_deasserted()
-> to save a few lines, and to make sure the reset line is asserted again
-> when the driver is unbound.
+On Fri, 19 Jun 2026 at 00:04, Marek Vasut
+<marek.vasut+renesas@mailbox.org> wrote:
+> The GIC600 implementation is now known to be used on multiple 64-bit
+> SoCs, where it has address width for AXI or APB interface configured
+> to 32 bit, and it can access only the first 4GiB of physical address
+> space.
+>
+> Rework the handling of the quirk to work around this limitation such
+> that new entries can be added purely as new compatible strings, with
+> no need to add additional functions or new its_quirk array entries.
+>
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Given we can't assume it's a gpio reset at this level (it is but meh,
-we shouldn't use the API that way), we can't guarantee it was ever asserted
-so we probably have to do a dance of assert then deassert.
+Thanks for your patch!
 
-This is one of Sashiko's favourite things to complain about so
-we ended up doing some digging into that path a few weeks back.
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -4890,10 +4890,17 @@ static bool __maybe_unused its_enable_quirk_hip09_162100801(void *data)
+>         return true;
+>  }
+>
+> -static bool __maybe_unused its_enable_rk3568002(void *data)
+> +static const char * const dma_32bit_impaired_platforms[] = {
+> +#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
+> +       "rockchip,rk3566",
+> +       "rockchip,rk3568",
+> +#endif
+> +       NULL,
+> +};
+> +
+> +static bool __maybe_unused its_enable_dma32(void *data)
 
-I'd really like that not to be the case so maybe that analysis is wrong.
+__maybe_unused can be dropped...
 
-Jonathan
+>  {
+> -       if (!of_machine_is_compatible("rockchip,rk3566") &&
+> -           !of_machine_is_compatible("rockchip,rk3568"))
+> +       if (!of_machine_compatible_match(dma_32bit_impaired_platforms))
+>                 return false;
+>
+>         gfp_flags_quirk |= GFP_DMA32;
+> @@ -4968,14 +4975,12 @@ static const struct gic_quirk its_quirks[] = {
+>                 .property = "dma-noncoherent",
+>                 .init   = its_set_non_coherent,
+>         },
+> -#ifdef CONFIG_ROCKCHIP_ERRATUM_3568002
 
+... as the #ifdef is removed.
 
+>         {
+> -               .desc   = "ITS: Rockchip erratum RK3568002",
+> +               .desc   = "ITS: Broken GIC600 integration limited to 32bit PA",
+>                 .iidr   = 0x0201743b,
+>                 .mask   = 0xffffffff,
+> -               .init   = its_enable_rk3568002,
+> +               .init   = its_enable_dma32,
+>         },
+> -#endif
+>         {
+>         }
+>  };
 
+Gr{oetje,eeting}s,
 
-> 
-> > +	if (IS_ERR(rst))
-> > +		return PTR_ERR(rst);
-> > +
-> > +	if (rst) {
-> > +		ret = reset_control_deassert(rst);
-> > +		if (ret)
-> > +			return ret;  
-> 
-> This branch could then be removed.
-> 
-> > +	} else {
-> > +		ret = regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
-> > +				   AD5529R_INTERFACE_CONFIG_A_SW_RESET);
-> > +		if (ret)
-> > +			return ret;
-> > +	}  
-> 
-> regards
-> Philipp
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
