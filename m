@@ -1,147 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC4E369D63;
-	Mon, 22 Jun 2026 09:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61D36404D;
+	Mon, 22 Jun 2026 09:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782119320; cv=none; b=CMOroaBmPkKHURYSYFvXEYi2h0S/is5nG5ysxK1tl99jTAtyzLBsuVZt7hroZ3qo0r4d6wGFoIYXjqFpLQHYIcv/5i+9dAJSaLzpkdTNpOfh4JN+3KMqiMKLXlzRyGzdFahlLGw81rPtUwiDj4p7kuZHFMvV/n9i3CwJD6lco/I=
+	t=1782119543; cv=none; b=E9MhRE0TSx3ye6+YnSUMOwuj6JPaugutWw/nmnVcG0j09YSfdBoZyFRaoDOEPJ+BvQaTO2RToFxPGUuvrIr7Kow2YmcKXwy+vvqdknJt0kZyNhMQw83bruK/vJS+1BVOtSozSv8r6JimZ3obzYV7lYxi5ANHtZwH3NJHpKJNsqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782119320; c=relaxed/simple;
-	bh=FXXp3XnnK+h7it17TWsBjNahQbzhpOBnqzH77Gg3oyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nb9yn0gLfeteVeaNEPhOr6vkCixeZVLCNLCzV09ldc+N8uzFcFhO+nD4XaCkJG1OstmcYXQIh1RTZEYovmQ8vFk6FG2DJewJRgylvaYxjX8yd+GrvWa28E4TYd1PhT1ImTyWLKwkX0uk+m2TfAmtoTweWOljnYnNNHaP0VEpYYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmC6kglw; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmC6kglw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782119318; x=1813655318;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FXXp3XnnK+h7it17TWsBjNahQbzhpOBnqzH77Gg3oyY=;
-  b=lmC6kglwX4TsU4z3XINIe74vfOsN0tgAz+3DqL4263Wppp5w4iwCVzOg
-   vL/sxCtV7hHh7/WrXeKJJWakNQ1O0BaLHQ2b87qLVA7ZQYK7W0Kje73fV
-   GF+6nmF4PBWaU29bSAWtXZzVOQobDOA7MV+D0dW6zokgOReDvIwnHyRHJ
-   KMgH2JnS+lD8VQHtNjbJlnZaTaGMl3L8qkFd1agV2w+E/vSCrYW31yZHx
-   sj0bxAYOfGh8MIATUYX0yuSr1c1OKUD3wPaSF6IHcQ7VPh3ZsMBvf7bLh
-   9cLT8Ws+bsYwI65QDCvOotuEi7H82io+ib4o/ynTkVxNGRA0cbU60orJp
-   g==;
-X-CSE-ConnectionGUID: EtiThkM6SCqhqbRSGMAI4w==
-X-CSE-MsgGUID: cDls0euuRKujL0p1x8O4Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="100396428"
-X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="100396428"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 02:08:37 -0700
-X-CSE-ConnectionGUID: 4ErWbjSDR3WHIlqXrzczlQ==
-X-CSE-MsgGUID: sPY+aiHyTLWvSIqlDpESFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="248291517"
-Received: from unknown (HELO [10.238.2.81]) ([10.238.2.81])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 02:08:24 -0700
-Message-ID: <aceb07e1-77bc-49b6-a932-5fd9b5a21727@linux.intel.com>
-Date: Mon, 22 Jun 2026 17:08:21 +0800
+	s=arc-20240116; t=1782119543; c=relaxed/simple;
+	bh=SO/ky8tf7LfcnlBCgI5bysYdRGWkHSQ4gDImOC2wAN0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QF7Yd0kSfqIyQX7p3rVqjnASn2ZF6+wCN2E8RAgcjdLE79x1YChb88biXRNjIfQW92dQ0E9hY6P6RUsD5fYrnvi4eQoLW8QFj6BEwyomtFl6mtg01eumqfc7KgDhH6q4TJTNQ1mjrs8LNx9dGlucLfvfoQhT/Ni8xESljnc3oHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 48AC32001DF;
+	Mon, 22 Jun 2026 11:12:19 +0200 (CEST)
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wbahX-0043yP-0h;
+	Mon, 22 Jun 2026 11:12:19 +0200
+Received: from pza by lupine with local (Exim 4.98.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1wbahX-0000000093a-0V8E;
+	Mon, 22 Jun 2026 11:12:19 +0200
+Message-ID: <9c5104eb504e390c2267e0a17762fdb6d73d75a4.camel@pengutronix.de>
+Subject: Re: [PATCH v3 2/2] iio: dac: Add AD5529R DAC driver support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner	
+ <dlechner@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko	 <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Janani Sunil
+	 <jan.sun97@gmail.com>
+Date: Mon, 22 Jun 2026 11:12:19 +0200
+In-Reply-To: <20260519-ad5529r-driver-v3-2-267c0731aa68@analog.com>
+References: <20260519-ad5529r-driver-v3-0-267c0731aa68@analog.com>
+	 <20260519-ad5529r-driver-v3-2-267c0731aa68@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/46] KVM: guest_memfd: Introduce per-gmem attributes,
- use to guard user mappings
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
- chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
- jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
- pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
- rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
- tabba@google.com, willy@infradead.org, wyihan@google.com,
- yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
- suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-1-9d2959357853@google.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-1-9d2959357853@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
-
+On Di, 2026-05-19 at 17:42 +0200, Janani Sunil wrote:
+> Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+>=20
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> ---
+>  MAINTAINERS               |   1 +
+>  drivers/iio/dac/Kconfig   |  17 ++
+>  drivers/iio/dac/Makefile  |   1 +
+>  drivers/iio/dac/ad5529r.c | 527 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 546 insertions(+)
+>=20
 [...]
-
->  
-> +static u64 kvm_gmem_get_attributes(struct inode *inode, pgoff_t index)
+> diff --git a/drivers/iio/dac/ad5529r.c b/drivers/iio/dac/ad5529r.c
+> new file mode 100644
+> index 000000000000..9bb63030db95
+> --- /dev/null
+> +++ b/drivers/iio/dac/ad5529r.c
+> @@ -0,0 +1,527 @@
+[...]
+> +static int ad5529r_reset(struct ad5529r_state *st)
 > +{
-> +	struct maple_tree *mt = &GMEM_I(inode)->attributes;
-> +	void *entry = mtree_load(mt, index);
+> +	struct reset_control *rst;
+> +	int ret;
 > +
-> +	return WARN_ON_ONCE(!entry) ? 0 : xa_to_value(entry);
+> +	rst =3D devm_reset_control_get_optional_exclusive(&st->spi->dev, NULL);
 
-If the entry is unexpectedly missing, returning 0 means the attribute would be treated as shared.
-And then in kvm_gmem_fault_user_mapping(), it would allow the userspace to fault in the folio.
+Consider using devm_reset_control_get_optional_exclusive_deasserted()
+to save a few lines, and to make sure the reset line is asserted again
+when the driver is unbound.
 
-Should gmem deny such edge case?
+> +	if (IS_ERR(rst))
+> +		return PTR_ERR(rst);
+> +
+> +	if (rst) {
+> +		ret =3D reset_control_deassert(rst);
+> +		if (ret)
+> +			return ret;
 
-> +}
-> +
-> +static bool kvm_gmem_is_private_mem(struct inode *inode, pgoff_t index)
-> +{
-> +	return kvm_gmem_get_attributes(inode, index) & KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +}
-> +
-> +static bool kvm_gmem_is_shared_mem(struct inode *inode, pgoff_t index)
-> +{
-> +	return !kvm_gmem_is_private_mem(inode, index);
-> +}
-> +
->  static int __kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
->  				    pgoff_t index, struct folio *folio)
->  {
-> @@ -397,10 +423,13 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
->  	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
->  		return VM_FAULT_SIGBUS;
->  
-> -	if (!(GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED))
-> -		return VM_FAULT_SIGBUS;
-> +	filemap_invalidate_lock_shared(inode->i_mapping);
-> +	if (kvm_gmem_is_shared_mem(inode, vmf->pgoff))
-> +		folio = kvm_gmem_get_folio(inode, vmf->pgoff);
-> +	else
-> +		folio = ERR_PTR(-EACCES);
-> +	filemap_invalidate_unlock_shared(inode->i_mapping);
->  
-> -	folio = kvm_gmem_get_folio(inode, vmf->pgoff);
->  	if (IS_ERR(folio)) {
->  		if (PTR_ERR(folio) == -EAGAIN)
->  			return VM_FAULT_RETRY;
-> @@ -557,6 +586,51 @@ bool __weak kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
->  	return true;
->  }
->  
+This branch could then be removed.
+
+> +	} else {
+> +		ret =3D regmap_write(st->regmap_8bit, AD5529R_REG_INTERFACE_CONFIG_A,
+> +				   AD5529R_INTERFACE_CONFIG_A_SW_RESET);
+> +		if (ret)
+> +			return ret;
+> +	}
+
+regards
+Philipp
