@@ -1,627 +1,358 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A986F3546ED
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 23:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782170831; cv=pass; b=eomOWXTwbAtPUdQqA2V0Z2+2oBfpstL5DLe/SLPUCm91irZYBwdU8DMO9R1s6Yn1PBZpS7bMtF39WT//5+Nv+lfGLhWjNPfc+QIFa0ngp7EcGJZRzxaFmWBTE6fOTGXGaPZyUkC5AkT5JLeSKhoDdJLE4suPbeUsxUnzeOGASxY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782170831; c=relaxed/simple;
-	bh=TD2dhkemy3PiiKLe4OZTgMVkS/VkJHcUIyZaT+TJYAo=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bBLRM3f2Z1wzd+0Y5ChDGFF3/DGPoKwTkTgnJJu9fgdLexd4sbZ+y6/zKXFJLljqztYDIMe7XiM8E9To/Q8N7qdueObTI8vHk+pWoqTHwXyAA14r9gVndgLWoOmxWr5CYGsxLdruJANdNGxznmWfpcVvEEYmhOE8S8ojziNO/44=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MK4QAmOj; arc=pass smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010782D63F8;
+	Mon, 22 Jun 2026 23:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782171194; cv=none; b=f5YUcqqzwgscrsRnaOCkLwgov6wGONSDMVCpxk0IB1bX27gUaXT2IkOejTDqrP8bT0jq8xZAVGNXQF5J+y8iRAOgVGQwLGYAwQiEkoWoYgHRnN/NM+En095YgJ2eW3Myo/2N1uCHUQ02ZhgJ1FnP3IHLHL1m0CPapidIjDaPB0g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782171194; c=relaxed/simple;
+	bh=jL5jOYVYScF8YUkJIdrginHzYBY1Hqw8BbpGZTP6NWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kDus4yCEI/8mtSrc0UtixXJhsoUrn5bnnsERed6VPKmBA8Cus8flyUNdGuy8RCWxat7Y5kFjodGv39xMbgfXtxukZMRYvtvwIgJX4vvdnoFCYMAycpFbO/2aJxWoWNeiVm4IgK0L43ATDu8l6TpzAYbpfXrT4SS8+lQ49xzHa7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+C0XNag; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MK4QAmOj"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-13988680a69so11500590c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 16:27:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782170828; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GAvHjDCFxA5xExbZVURnzACMM7QohzplcdiG+QwyBgLqn7KFFR1UvGPWlYrrzQJjo6
-         +Tt+XgH9zVuRkAw6bDv10cZ/H0LDTzHCbO0PCpE3AT8TAc2ebUr2ex2d+XYJ6ryC6OeL
-         n0MlPIM3rC/TzLXBQaeGn0UcmyztU+or1WhymAT+/UX69Tjecexh2MLYjdcy3gmkTDEV
-         TSyGbIjoIreZ/PrOc8OnGnXZcNYH5oDljXzrB25tdjOOZFbwCKsBBuSI1R9WfI/JTxOi
-         W9WE4Qq2z5fmuUzJMZ1/LncRLPBu4SWELl8jOfmTpMX3K3Si3VepQXShRObS7dtr/npH
-         82lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=8z5zT7JXgptWFjE3jHFCHBVUed62ggfr+7Ys0A7VNqY=;
-        fh=HukXD5WwUpVdc5UX3xFVzpVovXuHxzdHgCf4dTs+ixM=;
-        b=Xp1CUkXdr1yDMVX4FKDBrSLdJNn9aQHJlXbTzh7XJnMZIeIT1zF/vk1gHGQAz2Ybx6
-         KK2d7ef2Y7ylqq1Jix0ly9+kiG5tktelvc/ce5JmfzyIaDuew/f2TyyeaiLA3TZzpUlJ
-         rAyULthBXIbg/lySqF4lYyTS3fqXLdCHIsAOOQmujVv9P49unN4sW2S0vDZ2XGU/CTb6
-         guO97vYKS2u7EBkJIBHGskycGzm0OFmr7OUMOPP3Ru0Hch+2zoGSRryzxPiVil+4/fHP
-         GucEpUrQgjMmP6PNQEI037n489ogOqY2mEdFAqfH4Jci/mVaCtnhr9Zie48paIrTpY06
-         2C9A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782170828; x=1782775628; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8z5zT7JXgptWFjE3jHFCHBVUed62ggfr+7Ys0A7VNqY=;
-        b=MK4QAmOj9UIrY/QDK3TdWIp4ukMR1DYcWMTmu81isLim1I1mAQoClu6VqTnzUilnWc
-         8PKJkDer4t1HDWnTO1150tOoFjj22wGyHIC7BLBly7BSSBeRstPitz4jkXfmxTv2V1uj
-         xHTuvfDduO/SCXWQGIfCpTH9wR7jEl6qE0ixZrs9FT5CcDjwvhMmwa2rqaDZwC2Pjd4Q
-         JyXTDxOWjxyXFZf6RVkkRV0eFLXPBT1Q3dxubgnHafvSQB8HZc53pYo5QPum0AmgIw74
-         ETqem9jlSO6EpQs5adYj1nFomAlB8NU4ijh/t9JlLnOukqADGQzeTnFbg5qy5ivVDDu+
-         1CNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782170828; x=1782775628;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8z5zT7JXgptWFjE3jHFCHBVUed62ggfr+7Ys0A7VNqY=;
-        b=O2Crj/jhRCZAk/dF9E80VAeuicAjQMNaXdpZIHKTDeOAfwAqf99JzeUG4XnYI7PlCB
-         BW66/zPF02efxEGskw6dNJSdF7vJY+GjYxviAtuZfme+o6Z4nPZ3E9Jh0b57Z8rM+AUd
-         w3fZ4LNMTj3BcVKUrgl4l589+ihoL+VaKqwPc4PORlK7j9pL+LNZbG+82DOOtYYT0L3Z
-         uWfNh1xJlaqkQrdrOy+GWUSQ57DNZ50fcTSIAcYLUTKeIhbcI4JlmaRzJJtk095TBy52
-         /SQwz11cFnFkQrgt0lbY6y0zomgGSim8d7UECjCRAt1iHG8Iq+FTgd9h5ntdF9D4/HHZ
-         KmYg==
-X-Forwarded-Encrypted: i=1; AFNElJ8CHLLAvsKjTPKoObikN+BbJbiXdtj0v/gb9SMtyAeWiOFSWr/IQpWtdy9QZtikgUrrkFr89F1xAQI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4eUWxF+G1Nj8oT5V+E6izPBQMzJIDkNXsLcKSxe/G/laOGDl0
-	UOGNYVW9Vl5m86pN7YkeWAC/TmvFd9oAyIxi6snfdcpkvUpSnZaXZVlY+bC82lT98JDClUHDiPZ
-	FfFJRXAKf6KLpHUrp946ysy6uXL4+GtWe568FjAwk
-X-Gm-Gg: AfdE7clkrMdL1XvJ2hMMGoPXhx8vivn2VNy3MKxp+sjwUPE+pBMrSFrMnwdskcbU1qk
-	WtM/E+jLBDWmCgdb7oaEXlJYKTEkWlEwjfHZ8bS0hmc1uY8ls/rd1TseLtD8IBjLV8ajv6UszOQ
-	Enymv8WHd7XFO6rJOTZ6GI2x2jykEPfVvXW7JaKCfZxW/jRcbzdAfGeKNPsTl1C66wROlqtH3HS
-	rFDON7v5UvPcPO3WUW9d/TgE10UTCqy2xgmAvjIP8/4FKakmQO/j8729Lg3QmOiHDp0mviOrO1s
-	js/iuACTMQIO7Ub21mzkdgZ2Z5GmRnUC92TbhcHTEjfHiCdPrji5z8XGpkw=
-X-Received: by 2002:a05:7022:662a:b0:138:49ea:f467 with SMTP id
- a92af1059eb24-139c6e2da0bmr42465c88.0.1782170826758; Mon, 22 Jun 2026
- 16:27:06 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 16:27:05 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 16:27:05 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <4b2216f5c459fe699a3f62464cbc765624e20ae6.1780676742.git.tarunsahu@google.com>
-References: <cover.1780676742.git.tarunsahu@google.com> <4b2216f5c459fe699a3f62464cbc765624e20ae6.1780676742.git.tarunsahu@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+C0XNag"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 044F51F000E9;
+	Mon, 22 Jun 2026 23:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782171192;
+	bh=KSxmiKCRroWaE39Q1RgwF5nRth0kmcKDQtRVrbtvJc0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G+C0XNagfgVZ+Vc7H+7OHKuHzM2MFIU5NvY6WD/kPPlJ8frGYefleUblXGcZz13gR
+	 0pmWoA6J8S69eMiLwttf5iXkdUKx+uukGioNpQpH0/QFdoczELAUz2oNXVcer5BGYd
+	 TwuuwBTFLGa8EX15Z6IDIHRwsUJMmMLm5Cxiam7OOo8h2Y1TWPt1kb0i51Zwc0GEHX
+	 /bDlklNSi7VG0XKj0RJ0RuNf2C+Ob47NoMZ78qy5irBhFdhYErtnUHmYLDPvUs8ODB
+	 v4Qw2lR4aB6UOMhVt5xSev+zhv+0hOnAmnxiVDfxmgXzi+6QOrVmDEBMOHFJNkMRYR
+	 II9DmGjHConpQ==
+Date: Mon, 22 Jun 2026 23:33:10 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, nphamcs@gmail.com, 
+	chengming.zhou@linux.dev, muchun.song@linux.dev, roman.gushchin@linux.dev, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback
+ capability
+Message-ID: <ajnB8IZrFZwbIr9P@google.com>
+References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+ <20260618044857.69439-2-jiahao.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 22 Jun 2026 16:27:05 -0700
-X-Gm-Features: AVVi8Cehz0Rg1LgwIZbVcyJm62KBqkPPz4LAbN_M8Nt57BLwYaGpvUyCozqDq9s
-Message-ID: <CAEvNRgGYM+evk5H-bU8suU++zX3-w25fcc+9mu1YoNG8DtysHw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 07/10] kvm: guest_memfd_luo: add support for
- guest_memfd preservation
-To: Tarun Sahu <tarunsahu@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
-	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
-	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
-	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	seanjc@google.com, axelrasmussen@google.com
-Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618044857.69439-2-jiahao.kernel@gmail.com>
 
-Tarun Sahu <tarunsahu@google.com> writes:
-
-> This patch sets up the basic infrastructure to preserve the guest_memfd.
-> Currently this supports only fully shared guest_memfd and backed by
-> PAGE_SIZE pages.
->
-> It registers a new LUO file handler for guest_memfd files to serialize
-> and deserialize guest memory. This allows preserving guest memory backed
-> by guest_memfd across updates, ensuring that guest instances can be
-> resumed seamlessly without losing their memory contents.
->
-> Preservation is straight forward. It walks through the folios and
-> serialize them.
->
-> There is kvm_gmem_freeze call on preserve which freeze the guest_memfd
-> inode. It avoids any changes to inode mapping with fallocate calls or
-> any new fault allocation (fails) on or after preservation. No need to check
-> this during the page fault as preservation is only supported for
-> pre-faulted/pre-allocated guest_memfd.
->
-> While retrieving the guest_memfd, it requires the struct kvm to create
-> new guest_memfd. So it first get the vm_file from the same session using
-> the token passed during the preservation. And use it to get
-> vm_file->kvm.
->
-> This change also update the MAINTAINERS list.
->
-> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+On Thu, Jun 18, 2026 at 12:48:53PM +0800, Hao Jia wrote:
+> From: Hao Jia <jiahao1@lixiang.com>
+> 
+> Currently, shrink_memcg() writes back at most one entry per-node
+> during its traversal. This makes shrink_worker() inefficient, as
+> it must repeatedly re-enter shrink_memcg() to make any substantial
+> progress.
+> 
+> To address this, extend shrink_memcg() and rewrite its LRU iteration
+> logic to support batch writeback. Introduce the nr_to_writeback
+> parameter to support a writeback budget based on compressed size.
+> This enables batch writeback in the shrink_worker() path, while
+> maintaining a low writeback budget in the zswap_store() path.
+> 
+> Additionally, to prepare for future proactive writeback, update
+> the return value semantics of shrink_memcg(): a positive value now
+> represents the actual number of compressed bytes written back, 0
+> indicates that candidates existed but no writeback succeeded, and
+> a negative value represents an error code.
+> 
+> Suggested-by: Yosry Ahmed <yosry@kernel.org>
+> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
 > ---
->  MAINTAINERS                 |   1 +
->  include/linux/kho/abi/kvm.h |  79 +++++-
->  virt/kvm/Makefile.kvm       |   2 +-
->  virt/kvm/guest_memfd_luo.c  | 485 ++++++++++++++++++++++++++++++++++++
->  virt/kvm/kvm_main.c         |   7 +
->  virt/kvm/kvm_mm.h           |   4 +
->  6 files changed, 571 insertions(+), 7 deletions(-)
->  create mode 100644 virt/kvm/guest_memfd_luo.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9bfc3c1f6676..16cba790a84d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14418,6 +14418,7 @@ L:	kexec@lists.infradead.org
->  L:	kvm@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
-> +F:	virt/kvm/guest_memfd_luo.c
->  F:	virt/kvm/kvm_luo.c
->
->  KVM PARAVIRT (KVM/paravirt)
-> diff --git a/include/linux/kho/abi/kvm.h b/include/linux/kho/abi/kvm.h
-> index 718db68a541a..42074d76e04a 100644
-> --- a/include/linux/kho/abi/kvm.h
-> +++ b/include/linux/kho/abi/kvm.h
-> @@ -9,20 +9,23 @@
->  #define _LINUX_KHO_ABI_KVM_H
->
->  #include <linux/types.h>
-> +#include <linux/bits.h>
->  #include <linux/kho/abi/kexec_handover.h>
->
->  /**
-> - * DOC: KVM Live Update ABI
-> + * DOC: KVM and guest_memfd Live Update ABI
->   *
-> - * KVM uses the ABI defined below for preserving its state
-> + * KVM and guest_memfd use the ABI defined below for preserving their states
->   * across a kexec reboot using the LUO.
->   *
-> - * The state is serialized into a packed structure `struct kvm_luo_ser`
-> - * which is handed over to the next kernel via the KHO mechanism.
-> + * The state is serialized into packed structures (struct kvm_luo_ser and
-> + * struct guest_memfd_luo_ser) which are handed over to the next kernel via
-> + * the KHO mechanism.
->   *
-> - * This interface is a contract. Any modification to the structure layout
-> + * This interface is a contract. Any modification to the structure layouts
->   * constitutes a breaking change. Such changes require incrementing the
-> - * version number in the KVM_LUO_FH_COMPATIBLE compatibility string.
-> + * version number in the KVM_LUO_FH_COMPATIBLE or
-> + * GUEST_MEMFD_LUO_FH_COMPATIBLE compatibility strings.
->   */
->
->  /**
-> @@ -36,4 +39,68 @@ struct kvm_luo_ser {
->  /* The compatibility string for KVM VM file handler */
->  #define KVM_LUO_FH_COMPATIBLE	"kvm_vm_luo_v1"
->
-> +/**
-> + * struct guest_memfd_luo_folio_ser - Serialization layout for a single folio in guest_memfd.
-> + * @pfn:   Page Frame Number of the folio.
-> + * @index: Page offset of the folio within the file.
-> + * @flags: State flags associated with the folio.
-> + */
-> +struct guest_memfd_luo_folio_ser {
-> +	u64 pfn:52;
-> +	u64 flags:12;
-> +	u64 index;
-> +} __packed;
+>  mm/zswap.c | 116 ++++++++++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 97 insertions(+), 19 deletions(-)
+> 
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 761cd699e0a3..d7d031dee4cd 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -160,6 +160,11 @@ struct zswap_pool {
+>  	char tfm_name[CRYPTO_MAX_ALG_NAME];
+>  };
+>  
+> +struct zswap_shrink_walk_arg {
+> +	unsigned long bytes_written;
+> +	bool encountered_page_in_swapcache;
+> +};
 > +
-> +/**
-> + * GUEST_MEMFD_LUO_FOLIO_UPTODATE - The folio is up-to-date.
-> + *
-> + * This flag is per folio to check if the folio is uptodate.
-> + */
-> +#define GUEST_MEMFD_LUO_FOLIO_UPTODATE	BIT(0)
-> +
-> +
-> +/**
-> + * GUEST_MEMFD_LUO_FLAG_MMAP - The guest_memfd supports mmap.
-> + *
-> + * This flag indicates that the guest_memfd supports host-side mmap.
-> + */
-> +#define GUEST_MEMFD_LUO_FLAG_MMAP		BIT(0)
-> +
-> +/**
-> + * GUEST_MEMFD_LUO_FLAG_INIT_SHARED - Initialize memory as shared.
-> + *
-> + * This flag indicates that the guest_memfd has been initialized as shared
-> + * memory.
-> + */
-> +#define GUEST_MEMFD_LUO_FLAG_INIT_SHARED	BIT(1)
-> +
-> +/**
-> + * GUEST_MEMFD_LUO_SUPPORTED_FLAGS - Supported guest_memfd LUO flags mask.
-> + *
-> + * A mask of all guest_memfd preservation flags supported by this version
-> + * of the KVM LUO ABI.
-> + */
-> +#define GUEST_MEMFD_LUO_SUPPORTED_FLAGS	(GUEST_MEMFD_LUO_FLAG_MMAP | \
-> +						 GUEST_MEMFD_LUO_FLAG_INIT_SHARED)
-> +
-> +/**
-> + * struct guest_memfd_luo_ser - Main serialization structure for guest_memfd.
-> + * @size:      The size of the file in bytes.
-> + * @flags:     File-level flags.
-> + * @nr_folios: Number of folios in the folios array.
-> + * @vm_token:  Token of the associated KVM VM instance.
-> + * @folios:    KHO vmalloc descriptor pointing to the array of
-> + *             struct guest_memfd_luo_folio_ser.
-> + */
-> +struct guest_memfd_luo_ser {
-> +	u64 size;
-> +	u64 flags;
-> +	u64 nr_folios;
-> +	u64 vm_token;
-> +	struct kho_vmalloc folios;
-> +} __packed;
-> +
-> +/* The compatibility string for GUEST_MEMFD file handler */
-> +#define GUEST_MEMFD_LUO_FH_COMPATIBLE	"guest_memfd_luo_v1"
-> +
->  #endif /* _LINUX_KHO_ABI_KVM_H */
-> diff --git a/virt/kvm/Makefile.kvm b/virt/kvm/Makefile.kvm
-> index c1a962159264..d30fca094c42 100644
-> --- a/virt/kvm/Makefile.kvm
-> +++ b/virt/kvm/Makefile.kvm
-> @@ -13,4 +13,4 @@ kvm-$(CONFIG_HAVE_KVM_IRQ_ROUTING) += $(KVM)/irqchip.o
->  kvm-$(CONFIG_HAVE_KVM_DIRTY_RING) += $(KVM)/dirty_ring.o
->  kvm-$(CONFIG_HAVE_KVM_PFNCACHE) += $(KVM)/pfncache.o
->  kvm-$(CONFIG_KVM_GUEST_MEMFD) += $(KVM)/guest_memfd.o
-> -kvm-$(CONFIG_LIVEUPDATE_GUEST_MEMFD) += $(KVM)/kvm_luo.o
-> +kvm-$(CONFIG_LIVEUPDATE_GUEST_MEMFD) += $(KVM)/guest_memfd_luo.o $(KVM)/kvm_luo.o
-> diff --git a/virt/kvm/guest_memfd_luo.c b/virt/kvm/guest_memfd_luo.c
-> new file mode 100644
-> index 000000000000..d466f889c9aa
-> --- /dev/null
-> +++ b/virt/kvm/guest_memfd_luo.c
-> @@ -0,0 +1,485 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
+>  /* Global LRU lists shared by all zswap pools. */
+>  static struct list_lru zswap_list_lru;
+>  
+> @@ -1089,8 +1094,9 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
+>  				       void *arg)
+>  {
+>  	struct zswap_entry *entry = container_of(item, struct zswap_entry, lru);
+> -	bool *encountered_page_in_swapcache = (bool *)arg;
+> +	struct zswap_shrink_walk_arg *walk_arg = arg;
+>  	swp_entry_t swpentry;
+> +	unsigned int length;
+>  	enum lru_status ret = LRU_REMOVED_RETRY;
+>  	int writeback_result;
+>  
+> @@ -1135,8 +1141,13 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
+>  	 * Once the lru lock is dropped, the entry might get freed. The
+>  	 * swpentry is copied to the stack, and entry isn't deref'd again
+>  	 * until the entry is verified to still be alive in the tree.
+> +	 *
+> +	 * entry->length is also copied while the lock is held, because
+> +	 * zswap_writeback_entry() frees the entry on success and we still
+> +	 * need its compressed size to account for writeback.
+
+Hmm that's unnecessary, just update "The swpentry is copied to the
+stack.." above to "Copy neded fields to the stack.." or something.
+
+>  	 */
+>  	swpentry = entry->swpentry;
+> +	length = entry->length;
+>  
+>  	/*
+>  	 * It's safe to drop the lock here because we return either
+> @@ -1155,12 +1166,13 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
+>  		 * into the warmer region. We should terminate shrinking (if we're in the dynamic
+>  		 * shrinker context).
+>  		 */
+> -		if (writeback_result == -EEXIST && encountered_page_in_swapcache) {
+> +		if (writeback_result == -EEXIST) {
+>  			ret = LRU_STOP;
+> -			*encountered_page_in_swapcache = true;
+> +			walk_arg->encountered_page_in_swapcache = true;
+>  		}
+>  	} else {
+>  		zswap_written_back_pages++;
+> +		walk_arg->bytes_written += length;
+>  	}
+>  
+>  	return ret;
+> @@ -1169,8 +1181,11 @@ static enum lru_status shrink_memcg_cb(struct list_head *item, struct list_lru_o
+>  static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+>  		struct shrink_control *sc)
+>  {
+> +	struct zswap_shrink_walk_arg walk_arg = {
+> +		.bytes_written = 0,
+> +		.encountered_page_in_swapcache = false,
+> +	};
+>  	unsigned long shrink_ret;
+> -	bool encountered_page_in_swapcache = false;
+>  
+>  	if (!zswap_shrinker_enabled ||
+>  			!mem_cgroup_zswap_writeback_enabled(sc->memcg)) {
+> @@ -1179,9 +1194,9 @@ static unsigned long zswap_shrinker_scan(struct shrinker *shrinker,
+>  	}
+>  
+>  	shrink_ret = list_lru_shrink_walk(&zswap_list_lru, sc, &shrink_memcg_cb,
+> -		&encountered_page_in_swapcache);
+> +		&walk_arg);
+>  
+> -	if (encountered_page_in_swapcache)
+> +	if (walk_arg.encountered_page_in_swapcache)
+>  		return SHRINK_STOP;
+>  
+>  	return shrink_ret ? shrink_ret : SHRINK_STOP;
+> @@ -1275,10 +1290,32 @@ static struct shrinker *zswap_alloc_shrinker(void)
+>  	return shrinker;
+>  }
+>  
+> -static int shrink_memcg(struct mem_cgroup *memcg)
+> -{
+> -	int nid, shrunk = 0, scanned = 0;
 > +/*
-> + * Copyright (c) 2026, Google LLC.
-> + * Tarun Sahu <tarunsahu@google.com>
-> + *
-> + * Guestmemfd Preservation for Live Update Orchestrator (LUO)
+> + * The maximum acceptable scan cost factor for writing back
+> + * PAGE_SIZE bytes of compressed data.
 > + */
-> +
-> +/**
-> + * DOC: Guestmemfd Preservation via LUO
+> +#define ZSWAP_WB_SCAN_FACTOR	16UL
+> +#define NR_ZSWAP_WB_BATCH	64UL
+>  
+> +/*
+> + * Iterate over the per-node zswap LRUs of @memcg in batches, writing back
+> + * up to @nr_to_writeback * PAGE_SIZE bytes of compressed data.
 > + *
-> + * Overview
-> + * ========
-> + *
-> + * Guest memory file descriptors (guest_memfd) can be preserved over a kexec
-> + * reboot using the Live Update Orchestrator (LUO) file preservation. This
-> + * allows userspace to preserve VM memory across kexec reboots.
-> + *
-> + * The preservation is not intended to be transparent. Only select properties
-> + * of the guest_memfd are preserved, while others are reset to default.
-> + *
-> + * Preserved Properties
-> + * ====================
-> + *
-> + * The following properties of guest_memfd are preserved across kexec:
-> + *
-> + * File Size
-> + *   The size of the file is preserved.
-> + *
-> + * File Contents
-> + *   All folios present in the page cache are preserved.
-> + *
-> + * File-level Flags
-> + *   The file-level flags (such as MMAP support and INIT_SHARED default mapping)
-> + *   are preserved.
-> + *
-> + * Non-Preserved Properties
-> + * ========================
-> + *
-> + * NUMA Memory Policy
-> + *   NUMA memory policies associated with the guest_memfd are not preserved.
+> + * Return: The number of bytes written back, or -ENOENT if @memcg has
+> + * writeback disabled, is a zombie cgroup, or has empty zswap LRUs.
 > + */
-> +#include <linux/liveupdate.h>
-> +#include <linux/kvm_host.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/file.h>
-> +#include <linux/err.h>
-> +#include <linux/anon_inodes.h>
-> +#include <linux/magic.h>
-> +#include <linux/kexec_handover.h>
-> +#include <linux/kho/abi/kexec_handover.h>
-> +#include <linux/kho/abi/kvm.h>
-> +#include "guest_memfd.h"
-> +
-> +static int kvm_gmem_luo_walk_folios(struct address_space *mapping,
-> +		pgoff_t end_index, struct guest_memfd_luo_folio_ser *folios_ser,
-> +		u64 *out_count)
+> +static long shrink_memcg(struct mem_cgroup *memcg,
+> +			 unsigned long nr_to_writeback)
+
+
+Is nr_to_writeback supposed to be the number of pages we want to
+writeback (regardless of their compressed size), or the compressed bytes
+we want to writeback divided by PAGE_SIZE?
+
+The way it's being used below seems like it's the latter, but the batch
+size should be in terms of scanned pages (i.e. uncompressed pages). So
+this is confusing.
+
+The zswap_store() path expects to reclaim one uncompressed page, but
+this will reclaim PAGE_SIZE worth of compressed memory when passing 1
+IIUC (actually maybe more, see below).
+
 > +{
-> +	struct folio_batch fbatch;
-> +	pgoff_t index = 0;
-> +	u64 count = 0;
-> +	int err = 0;
+> +	struct zswap_shrink_walk_arg walk_arg = {
+> +		.bytes_written = 0,
+> +		.encountered_page_in_swapcache = false,
+> +	};
+> +	u64 bytes_to_writeback = nr_to_writeback << PAGE_SHIFT;
+> +	bool memcg_list_is_empty = true;
+> +	int nid;
 > +
-> +	folio_batch_init(&fbatch);
-> +	while (index < end_index) {
-> +		unsigned int nr, i;
-> +
-> +		nr = filemap_get_folios(mapping, &index, end_index - 1, &fbatch);
-> +		if (nr == 0)
-> +			break;
-> +
-> +		for (i = 0; i < nr; i++) {
-> +			struct folio *folio = fbatch.folios[i];
-> +
-> +			if (folios_ser) {
-> +				if (folio_test_hwpoison(folio)) {
-> +					err = -EHWPOISON;
-> +					folio_batch_release(&fbatch);
-> +					goto out;
-> +				}
-> +				err = kho_preserve_folio(folio);
-> +				if (err) {
-> +					folio_batch_release(&fbatch);
-> +					goto out;
-> +				}
-> +
-> +				folios_ser[count].pfn = folio_pfn(folio);
-> +				folios_ser[count].index = folio->index;
-> +				folios_ser[count].flags = folio_test_uptodate(folio) ?
-> +							  GUEST_MEMFD_LUO_FOLIO_UPTODATE : 0;
-> +			}
-> +			count++;
-> +		}
-> +		folio_batch_release(&fbatch);
-> +		cond_resched();
-> +	}
-> +
-> +out:
-> +	*out_count = count;
-> +	return err;
-> +}
-> +
-> +static bool kvm_gmem_luo_can_preserve(struct liveupdate_file_handler *handler, struct file *file)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +	struct gmem_file *gmem_file = file->private_data;
-> +	struct kvm *kvm = gmem_file->kvm;
-> +
-> +	if (inode->i_sb->s_magic != GUEST_MEMFD_MAGIC)
-> +		return 0;
-> +
+> +	/* Memcg with zswap writeback disabled are not candidates. */
 
-How does .can_preserve decide route to this function? If it already
-routes here, wouldn't this inode definitely be a guest_memfd file?
+The comment is unnecessary here, it should be obvious.
 
-> +	if (kvm_arch_has_private_mem(kvm))
-> +		return 0;
-> +
-> +	if (mapping_large_folio_support(inode->i_mapping))
-> +		return 0;
-> +
-> +	return 1;
-
-Let's return true and false rather than relying on casting.
-
-> +}
-> +
-> +static int kvm_gmem_luo_preserve(struct liveupdate_file_op_args *args)
-> +{
-> +	struct guest_memfd_luo_folio_ser *folios_ser = NULL;
-> +	u64 count = 0, gmem_flags, abi_flags = 0;
-> +	struct guest_memfd_luo_ser *ser;
-> +	struct address_space *mapping;
-> +	struct gmem_file *gmem_file;
-> +	struct inode *inode;
-> +	pgoff_t end_index;
-> +	struct kvm *kvm;
-> +	int err = 0;
-> +	long size;
-> +
-> +	inode = file_inode(args->file);
-
-I think to lock out all allocates, you'd have to take
-filemap_invalidate_lock() before freezing.
-
-> +	kvm_gmem_freeze(inode, true);
-> +
-> +	mapping = inode->i_mapping;
-> +	size = i_size_read(inode);
-> +	if (!size) {
-> +		err = -EINVAL;
-> +		goto err_unfreeze_inode;
-> +	}
-> +
-> +	if (WARN_ON_ONCE(!PAGE_ALIGNED(size))) {
-> +		err = -EINVAL;
-> +		goto err_unfreeze_inode;
-> +	}
-> +
-> +	gmem_file = args->file->private_data;
-> +	kvm = gmem_file->kvm;
-> +
-> +	gmem_flags = READ_ONCE(GMEM_I(inode)->flags);
-> +	if (gmem_flags & ~(GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED
-
-Why condition this on MMAP?
-
-After conversions lands, we'd have to iterate to check that the entire
-guest_memfd is shared offset-by-offset instead of checking for INIT_SHARED.
-
-> +				| GUEST_MEMFD_F_MAPPING_FROZEN)) {
-
-This would always be true since kvm_gmem_freeze() is done above.
-
-> +		err = -EOPNOTSUPP;
-> +		goto err_unfreeze_inode;
-> +	}
-> +
-> +	if (gmem_flags & GUEST_MEMFD_FLAG_MMAP)
-> +		abi_flags |= GUEST_MEMFD_LUO_FLAG_MMAP;
-> +	if (gmem_flags & GUEST_MEMFD_FLAG_INIT_SHARED)
-> +		abi_flags |= GUEST_MEMFD_LUO_FLAG_INIT_SHARED;
-> +
-
-Is it intentional to have a different set of flags that are actually
-preserved? I think we should refactor out a function to transfer the
-flags over.
-
-> +	end_index = size >> PAGE_SHIFT;
-> +
-> +	ser = kho_alloc_preserve(sizeof(*ser));
-> +	if (IS_ERR(ser)) {
-> +		err = PTR_ERR(ser);
-> +		goto err_unfreeze_inode;
-> +	}
-> +
-> +	/* First pass: Count the folios present in the page cache */
-> +	err = kvm_gmem_luo_walk_folios(mapping, end_index, NULL, &count);
-> +	if (err)
-> +		goto err_free_ser;
-> +
-> +	ser->size = size;
-> +	ser->flags = abi_flags;
-> +	ser->nr_folios = count;
-> +	ser->vm_token = 0; // It will be set during the kvm_gmem_luo_freeze()
-
-I don't think // is commonly used.
-
-> +
-> +	if (count > 0) {
-> +		folios_ser = vcalloc(count, sizeof(*folios_ser));
-> +		if (!folios_ser) {
-> +			err = -ENOMEM;
-> +			goto err_free_ser;
-> +		}
-> +
-> +		/* Second pass: Fill the metadata array and preserve folios */
-> +		err = kvm_gmem_luo_walk_folios(mapping, end_index, folios_ser, &count);
-
-I think it's clearer to just define 2 functions rather than using the
-same function twice to do these different things. The comments on the
-two passes can then be dropped.
-
-> +		if (err)
-> +			goto err_unpreserve_unlocked;
-> +
-> +		if (WARN_ON_ONCE(count != ser->nr_folios)) {
-> +			err = -EINVAL;
-> +			goto err_unpreserve_unlocked;
-> +		}
-> +	}
-> +
-> +	if (count > 0) {
-> +		err = kho_preserve_vmalloc(folios_ser, &ser->folios);
-> +		if (err)
-> +			goto err_unpreserve_unlocked;
-> +	}
-> +
-> +	args->serialized_data = virt_to_phys(ser);
-> +	args->private_data = folios_ser;
-> +
-> +	return 0;
-> +
-> +err_unpreserve_unlocked:
-> +	for (long i = (long)count - 1; i >= 0; i--) {
-
-Not sure if it's common to define long i inline.
-
-> +		struct folio *folio = pfn_folio(folios_ser[i].pfn);
-> +
-> +		kho_unpreserve_folio(folio);
-> +	}
-> +	vfree(folios_ser);
-> +err_free_ser:
-> +	kho_unpreserve_free(ser);
-> +err_unfreeze_inode:
-> +	kvm_gmem_freeze(inode, false);
-> +	return err;
-> +}
-> +
-> +static int kvm_gmem_luo_freeze(struct liveupdate_file_op_args *args)
-> +{
-> +	struct guest_memfd_luo_ser *ser;
-> +	struct gmem_file *gmem_file;
-> +	struct kvm *kvm;
-> +	struct file *kvm_file;
-> +	u64 vm_token;
-> +	int err;
-> +
-> +	if (WARN_ON_ONCE(!args->serialized_data))
-> +		return -EINVAL;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +
-> +	gmem_file = args->file->private_data;
-> +	kvm = gmem_file->kvm;
-> +
-> +	/*
-> +	 * Obtain a strong reference to kvm->vm_file to prevent the SLAB_TYPESAFE_BY_RCU
-> +	 * file memory from being reallocated while it is being processed.
-> +	 */
-> +	kvm_file = get_file_active(&kvm->vm_file);
-> +	if (!kvm_file)
-> +		return -ENOENT;
-> +
-> +	err = liveupdate_get_token_outgoing(args->session, kvm_file, &vm_token);
-> +	fput(kvm_file);
-> +	if (err)
-> +		return err;
-> +
-> +	ser->vm_token = vm_token;
-> +	return 0;
-> +}
-> +
-> +static void kvm_gmem_luo_discard_folios(
-> +	const struct guest_memfd_luo_folio_ser *folios_ser,
-> +	u64 nr_folios, u64 start_idx)
-> +{
-> +	long i;
-> +
-> +	for (i = start_idx; i < nr_folios; i++) {
-> +		struct folio *folio;
-> +		phys_addr_t phys;
-> +
-> +		if (!folios_ser[i].pfn)
+>  	if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>  		return -ENOENT;
+>  
+> @@ -1290,24 +1327,65 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+>  		return -ENOENT;
+>  
+>  	for_each_node_state(nid, N_NORMAL_MEMORY) {
+> -		unsigned long nr_to_walk = 1;
+> +		unsigned long nr_to_scan, nr_scanned = 0;
+> +		unsigned long remain;
+> +		walk_arg.encountered_page_in_swapcache = false;
+> +		/*
+> +		 * Cap by LRU length: bounds rewalks when referenced
+> +		 * entries keep rotating to the tail.
+> +		 */
+> +		nr_to_scan = list_lru_count_one(&zswap_list_lru, nid, memcg);
+> +		if (!nr_to_scan)
 > +			continue;
-> +
-> +		phys = PFN_PHYS(folios_ser[i].pfn);
-> +		folio = kho_restore_folio(phys);
-> +		if (folio)
-> +			folio_put(folio);
-> +	}
-> +}
-> +
-> +static void kvm_gmem_luo_unpreserve(struct liveupdate_file_op_args *args)
-> +{
-> +	struct guest_memfd_luo_folio_ser *folios_ser = args->private_data;
-> +	struct guest_memfd_luo_ser *ser;
-> +	long i;
-> +
-> +	if (WARN_ON_ONCE(!args->serialized_data))
-> +		return;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +	if (!ser)
-> +		return;
-> +
-> +	if (ser->nr_folios > 0)
-> +		kho_unpreserve_vmalloc(&ser->folios);
-> +	for (i = ser->nr_folios - 1; i >= 0; i--) {
-> +		struct folio *folio;
-> +
-> +		if (!folios_ser[i].pfn)
 
-Is it possible for pfn to be 0 here? Perhaps this should be a
-WARN_ON_ONCE().
+Hmm generally if we are running out of pages to scan then we should scan
+the rotated entries, and reclaim them on the second pass, right? So this
+should be working as intended. But I guess this doesn't work well when
+iterating multiple memcgs, as we don't want to drain referenced entries
+in one memcg before reclaiming already rotated entries on another.
 
-> +			continue;
+So I think the assumption here is that the caller will retry if needed,
+handling balancing scanning between multiple memcgs if needed. Maybe we
+should document this in the function doc above? We should explain that
+referenced entries will be rotated but not reclaimed as part of the same
+call.
+
+> +		memcg_list_is_empty = false;
 > +
-> +		folio = pfn_folio(folios_ser[i].pfn);
-> +		kho_unpreserve_folio(folio);
-> +	}
-> +	vfree(folios_ser);
+> +		/*
+> +		 * Cap by SCAN_FACTOR * remain budget: bounds scan cost
+> +		 * to the remaining writeback budget.
+> +		 */
+> +		remain = DIV_ROUND_UP(bytes_to_writeback - walk_arg.bytes_written, PAGE_SIZE);
+> +		nr_to_scan = min(nr_to_scan,
+> +				 remain * ZSWAP_WB_SCAN_FACTOR);
+
+For the zswap_store() path bytes_to_writeback=PAGE_SIZE, so remain will
+initially be 1. But then we multiply by this factor and now to scan 16
+pages? Also, where did this factor and equation come from?
+
+We'll also loop over nodes, so we may end up scanning 32 or more pages
+depending on the number of nodes in the system.
+
+If this is just a heuristic, we should really just start simple and add
+heuristics later as needed. The caller should probably pass in the
+number of pages to scan (i.e. uncompressed pages), and leave it to the
+caller to decide when to retry if the actual memory savings are
+realized.
+
+>  
+> -		shrunk += list_lru_walk_one(&zswap_list_lru, nid, memcg,
+> -					    &shrink_memcg_cb, NULL, &nr_to_walk);
+> -		scanned += 1 - nr_to_walk;
+> +		while (nr_scanned < nr_to_scan) {
+> +			unsigned long nr_to_walk = min(NR_ZSWAP_WB_BATCH,
+> +						       nr_to_scan - nr_scanned);
 > +
-> +	kho_unpreserve_free(ser);
-> +	kvm_gmem_freeze(file_inode(args->file), false);
-> +}
+> +			/*
+> +			 * Account for the committed budget rather than the walker's
+> +			 * actual delta. If the list is emptied concurrently, the
+> +			 * walker visits nothing and nr_scanned would never advance.
+> +			 */
+> +			nr_scanned += nr_to_walk;
 > +
->
-> [...snip...]
->
+> +			list_lru_walk_one(&zswap_list_lru, nid, memcg,
+> +					  &shrink_memcg_cb,
+> +					  &walk_arg,
+> +					  &nr_to_walk);
+> +
+> +			if (walk_arg.bytes_written >= bytes_to_writeback)
+> +				return walk_arg.bytes_written;
+> +
+> +			if (walk_arg.encountered_page_in_swapcache)
+> +				break;
+> +
+> +			cond_resched();
+> +		}
+
+If the caller is expected to have a retry loop anyway, should we
+simplify this and just scan each per-node LRU once?
+
+We should also probably bail early if the number of scanned pages has
+already been reached? Currently shrink_memcg() scans one page at a time,
+so if it scans a bit more to balance between the nodes it's probably
+fine.
+
+But with batching, we could end up scanning hundres of extra pages just
+to balance between all nodes. Is node imbalance a real issue?
+
+>  	}
+>  
+> -	if (!scanned)
+> +	/* Return -ENOENT if all zswap LRU lists are empty. */
+> +	if (memcg_list_is_empty)
+>  		return -ENOENT;
+>  
+> -	return shrunk ? 0 : -EAGAIN;
+> +	return walk_arg.bytes_written;
+>  }
+>  
+>  static void shrink_worker(struct work_struct *w)
+>  {
+>  	struct mem_cgroup *memcg;
+> -	int ret, failures = 0, attempts = 0;
+> +	int failures = 0, attempts = 0;
+>  	unsigned long thr;
+> +	long ret;
+>  
+>  	/* Reclaim down to the accept threshold */
+>  	thr = zswap_accept_thr_pages();
+> @@ -1368,7 +1446,7 @@ static void shrink_worker(struct work_struct *w)
+>  			goto resched;
+>  		}
+>  
+> -		ret = shrink_memcg(memcg);
+> +		ret = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
+>  		/* drop the extra reference */
+>  		mem_cgroup_put(memcg);
+>  
+> @@ -1382,7 +1460,7 @@ static void shrink_worker(struct work_struct *w)
+>  			continue;
+>  		++attempts;
+>  
+> -		if (ret && ++failures == MAX_RECLAIM_RETRIES)
+> +		if (ret <= 0 && ++failures == MAX_RECLAIM_RETRIES)
+>  			break;
+>  resched:
+>  		cond_resched();
+> @@ -1492,7 +1570,7 @@ bool zswap_store(struct folio *folio)
+>  	objcg = get_obj_cgroup_from_folio(folio);
+>  	if (objcg && !obj_cgroup_may_zswap(objcg)) {
+>  		memcg = get_mem_cgroup_from_objcg(objcg);
+> -		if (shrink_memcg(memcg)) {
+> +		if (shrink_memcg(memcg, 1) <= 0) {
+>  			mem_cgroup_put(memcg);
+>  			goto put_objcg;
+>  		}
+> -- 
+> 2.34.1
+> 
