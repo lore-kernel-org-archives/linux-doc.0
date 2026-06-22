@@ -1,54 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A5B390998;
-	Mon, 22 Jun 2026 13:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327B03AF677;
+	Mon, 22 Jun 2026 13:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782133716; cv=none; b=linQzqeGsXsD2V4/LjuuITrxfcdNgEd1EO822HKE5pyXMC5xGctOcMtUUD8zQH8oO99JC4NqgOqmYJze24vED7c9EwrCrDEFBIQWZMEaDtlf8S/qZLfQNNmB41n7X0lUGTWbd9xJQFLo56wBtG5bBuPVKRgFYwKMsbAZBhO8Uz4=
+	t=1782133866; cv=none; b=H+W5Fb+uKuKAEeY9I/UoKjmBi92VAXndFcTGb6c2hsmLA4HiHT7gqVtnJUQp/BR05qkF4eUicq4+TmjRZrK9mrJN4Chc2Gf41IXJrtZMnAzJncvETPq36FZayzztbu6xHcGIRTUkjJ1ApfRZkXITqeSaGbMhbg1S5DUyXo5tiH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782133716; c=relaxed/simple;
-	bh=Ao6okc9bWJbhFHg/MDFNztgFltrYBcu0addAjYys+F8=;
+	s=arc-20240116; t=1782133866; c=relaxed/simple;
+	bh=OZYjmLC/hftjnHynQTLe22egF+AFTqRceen9IKf01XM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uA6nCqn+RKCHNpZutkp8uk1THfn0OveyY+CMRCWxgJdhSJP/aQkFsxkW3nrgVM43oNPtncljVHlrmm2kdMGvXaP280TcCPghONuNTLWeOuhqk9i9c3FCK9fzc0ZXZpOK0RrHH++yRbnAbSIPggmtm1PMcK1tWZdpsLpOucH/q6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a20FWXNV; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Ma5crxIAbN6wllB87oKpkqEb9Hm5NToPzODr+QetUy3hnhWXzweWMvFiPO4h9fp3Jra6inwgYofy9sVzq9eyyn7aSq67pbyXi0sBHUCS8IwvcgsnZ9V+JWrRZduSWf10JkLmTVLcvqCPXkN0cDltD2j3diSe3zPj/rIf6d4pCvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=hLNYP6f/; arc=none smtp.client-ip=188.126.83.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a20FWXNV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FB651F000E9;
-	Mon, 22 Jun 2026 13:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782133715;
-	bh=Wl8mD9+xZA8nx14eIBmWbrmAKkBoa2SL0k1i5niNjQs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=a20FWXNV5UIOVvZQK3oYlnmbhvnGanajAqGfPBzgq1mtLmcUE0p/4+x6YU7Shadgl
-	 mqi/3qM8CCBEc0VEfdgQBopeHXXuKfZG+uiDCEbuCYUpTv0SvsiCbiGCb/9bB4KhEW
-	 DRUlVIjPKW+wSj99mCg6leZnz6Tlv8BmEwq+uZD69jaXsaAzuDy40c4nJO/LtwTgIV
-	 HkMCM8iVWaXizhCkYCbfvhIXZ4Fc2dHPUyzviYNP1yPfWv5E/7zB3cUSfjt3Sls1ya
-	 Bk1Z9eNqEc0O10dh8knMYEWL3e8V2fAD+NW45w3IWR+66cvzU66jHpfTiQOKBsif7e
-	 TuRZv2ou5tdjQ==
-Date: Mon, 22 Jun 2026 09:08:26 -0400
-From: Steven Rostedt <rostedt@kernel.org>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Masami
- Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, Thomas
- Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Julia
- Lawall <julia.lawall@inria.fr>, Yury Norov <yury.norov@gmail.com>,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/2] tracing: Move trace_printk.h out of kernel.h
-Message-ID: <20260622090826.20efadb3@fedora>
-In-Reply-To: <dbb5915e-6587-4de9-87f3-76bea5024da8@kernel.org>
-References: <20260621093430.264983361@kernel.org>
-	<dbb5915e-6587-4de9-87f3-76bea5024da8@kernel.org>
+	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="hLNYP6f/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
+	s=a; t=1782133863; bh=OZYjmLC/hftjnHynQTLe22egF+AFTqRceen9IKf01XM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:From:Sender:Reply-To:Original-From:
+	 Organization:To:CC:Subject:Original-Subject:Date:Message-ID:
+	 In-Reply-To:References:Original-Message-ID:
+	 Disposition-Notification-To:Disposition-Notification-Options:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 Content-Features:Content-Alternative:Content-Location:
+	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
+	b=hLNYP6f/OVHnjipY3RAW/xuJbGG+Y0e5CsxBFPWhd9BDQRgjiq7EMfMCbJ2KihTkn
+	 7QYzuB86druosuctYblu5nTRn07fgBainSxvz7DQgdIwQxZdBzh9jriqrvKjcGgV9u
+	 P9seOazdMtPaRvqEue/pypOx8zqiGSdV8SxwS1kFqn9zo9c5nhF3e2Sc/r/PErYlec
+	 n5/tP1kNsB7/WfC5mU/FhYkZ0bbQ+7L0FZsKma2XUZ8STaSe66XRuDHEzrx0T8tnOY
+	 HvXZAvdO/bEPYF0ak5bAfLzTU2VEdWtq/Q76RwO9T6KlI6XfG7lVCmXE8PU6wzzsvt
+	 xlnv8TxKD68DA==
+Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
+	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPSA id 8F4CC407E8E5;
+	Mon, 22 Jun 2026 15:11:03 +0200 (CEST)
+Date: Mon, 22 Jun 2026 15:10:49 +0200
+From: =?UTF-8?B?QmrDtnJu?= Persson <Bjorn@xn--rombobjrn-67a.se>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: admin-guide: fix bracelets and
+ translation issue
+Message-ID: <20260622151049.7a749098@tag.xn--rombobjrn-67a.se>
+In-Reply-To: <20260611075513.124994-2-manuelebner@mailbox.org>
+References: <20260611075513.124994-2-manuelebner@mailbox.org>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -56,19 +54,41 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/ShThDKHK0eQdKC_QlNg84XG";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
-On Mon, 22 Jun 2026 10:05:13 +0200
-"Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
+--Sig_/ShThDKHK0eQdKC_QlNg84XG
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> > There's been complaints about trace_printk() being defined in kernel.h as it
-> > can increase the compilation time. As it is only used by some developers for
-> > debugging purposes, it should not be in kernel.h causing lots of wasted CPU
-> > cycles for those that do not ever care about it.  
-> 
-> Do we have a measurement of the increased compilation time ?
+Manuel Ebner wrote:
+> -- Galaxis plug.in S [neuer Name: Galaxis DVB Card S CI
+> +- Galaxis plug.in S [new Name: Galaxis DVB Card S CI]
 
-I believe Yury does.
+If it's not German anymore, should it still have the capital N? It
+doesn't look like "Name" is a name here.
 
--- Steve
+Bj=C3=B6rn Persson
+
+--Sig_/ShThDKHK0eQdKC_QlNg84XG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signatur
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE52SginNFTPmg+iBb4Tha3NZK5j8FAmo5NFkACgkQ4Tha3NZK
+5j+6Ag/9FC3er3rjVSCkSD3EqmDpAK/3id0w/GuoRFqG7oabnD3YeVtMPZo1f0hF
+k5ZLgeOpnL6xtkarxkyA/C86lEazesIqkJjJbgr37eeZPThyDKHF7qjOCXiwg1s0
+NCe3Epux5bNEUVL8T97hVix+jwYMr6/jeGJrzhJF/qIE98vVX6A57JqnEplRPRtS
+gXVn9ktwsfE+WJnGr0KLpCKmLSr/lXdGn2sZII4+B9PNX67f5buYJi4GSa4eqYKU
+MQXRRqIVn/EysVtnYdVCceHF6aAsijZo/OcHtUNTFrqD7/Pqh+H73zKrC2ZeBikf
+z6pz1NYcCh20ne2l1u2e9TvZcnjkkIBW3qI8eaEDdXQER3XLXUQYYvHwPS8gHQq3
+VoAD8mxdF5zZCz1Ig7P5dW5qCJLH2R3hfkt9tChoIYsqamvoYhlEU08g+ds/SOr+
+cr3huUGGPZfSUHD3B/u3bmVouMJ6gGbobAIJ71pdnaEYDaCEwnNhoAHCmAzBY6zM
+n0s1uDn/IMFHWVH6NsI22XrfVeNDn1T8NubuqvbFHtPCpke8zDn8VEVY47G7YbRa
+PzpWaJgaHA4vwbhnMTK5ndoPk1KcOqxRdEMKGdAQ1kTyOYzq0qrduYywxbtpcXuF
+t1eqYmVp2wUWjBdVIUCaT9FyJdA5RHE35A+2cv1QA4ZbCw9P+zg=
+=5lKA
+-----END PGP SIGNATURE-----
+
+--Sig_/ShThDKHK0eQdKC_QlNg84XG--
