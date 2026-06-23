@@ -1,253 +1,80 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2E91F3BAC;
-	Tue, 23 Jun 2026 13:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93646242D89;
+	Tue, 23 Jun 2026 13:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782219723; cv=none; b=ngOMOyaw8EMBd+yr4jKnPgG9WPYljvvGbtzLaDDlshWSzP2wAg0y09FOaZLhwrg8pkEk9pkj1f5raowwh6hJ1P7ge1BxoVNvyqvPE4Xc+sclBLJHuJUGTpqX3pzOj9dFnHV7M8PSJpteiNrf2gkJNkx65RCxZ2uZouZeWjYmdN4=
+	t=1782220238; cv=none; b=lYC83TTo4hw2dS+WWAdVvgnCVtZ2pcZuZE1I8+Yi+c5tHlZVF1FRJ2jNXy/98vXhJCoXBoqpit1cUalqrccrZPP8gsk3gdkkmqJJs3IghPUToYOXDDSjOP3ach+Tiru+jsbjjsyCsAOuX0WAMCmhMLVR2+g8I4MHjmo7wHWVZhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782219723; c=relaxed/simple;
-	bh=U+qvG1t2EkJfnkXZmvVkzVjSZlUCcIuoh7SXg68R/uU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cdLcKGqrPc8hAzAzXjYhbna9vVM7RRNSGW+ITix4aKrhb0veeIL6qBX4B97vHNt69/r8HpMy1RYt4H1iofoCn4rOQgEelWJge3KOwq4sAXYmI5b8YBh0+jlb8AZ9XhU3KvTOyBBdWpiyqqUyn0R+5x+Ry6GoQw/e7nDdtG5vkRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ZJYBkQxK; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1782220238; c=relaxed/simple;
+	bh=ehvcB8FcpHiQIksCTY93P4bH53TLUVXohknjUrd54d8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rLbs1lHan2oMo7P+o7E120OHmRDO4YHBgQY+2TclRGwne0Zcopvb9YZG0mRS6YXh0nW4d/x3N+9M/qgyTwk/pYOQGy60YVt3FlmkF4iy+J2Z4uP5BZw4XS93j3kAMAiAfJ9zHOIKJndnpYs3xGHJjoZd+dBlDQmQd9ixTKOsj9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lwcGsVlG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ZJYBkQxK"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBmjjE1984495;
-	Tue, 23 Jun 2026 13:01:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=w6elhn4r5ihfZJdLjDIsTMREYOWlqz
-	gcP54/V9V1lrM=; b=ZJYBkQxKzSsj7QQTg2Bz/jOIjMgUeZfLRlZMnXB3sbuq8W
-	1cuZEIvny8Dx6Falpuxu3cXPnxuN1/50rliQOECU+JiO4a6TA+lu02pplwSgOu75
-	LIbHbAGZSzR1k3VC+8gASwokybSmpH6ugoMGFynCmjgHXO8Pn1FCbZNrPQktAYiU
-	AhwnE4nfq7HTHdbi+KoTprVDkkLSVET9PRVin1KxUcpule7C5dQuIWiAqzQHSHcG
-	2kbkMDvE14dqODlAM55laaNylfdMCHHh5p4uJsgXrw67a+t2qfvd1gynY02anv8n
-	ePDdFKdhuuWhXVJGZktnPILVNY2LKSVhPRBEWX0w==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjc3em9k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jun 2026 13:01:45 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65NCnjio027631;
-	Tue, 23 Jun 2026 13:01:44 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex6phb8hp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Jun 2026 13:01:44 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65ND1eaP49021242
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Jun 2026 13:01:40 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8129020040;
-	Tue, 23 Jun 2026 13:01:40 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B8E902004B;
-	Tue, 23 Jun 2026 13:01:37 +0000 (GMT)
-Received: from fedora (unknown [9.5.7.39])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue, 23 Jun 2026 13:01:37 +0000 (GMT)
-Date: Tue, 23 Jun 2026 18:31:41 +0530
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Anushree Mathur <anushree.mathur@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, lkp@intel.com
-Subject: Re: [PATCH v4 2/4] KVM: PPC: Book3S HV: Implement compat CPU
- capability retrieval for KVM on PowerVM
-Message-ID: <20260623182912.8ad606a1-ea-amachhiw@linux.ibm.com>
-Mail-Followup-To: Vaibhav Jain <vaibhav@linux.ibm.com>, 
-	linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anushree Mathur <anushree.mathur@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, lkp@intel.com
-References: <20260616123314.82721-1-amachhiw@linux.ibm.com>
- <20260616123314.82721-3-amachhiw@linux.ibm.com>
- <878q8bcbh6.fsf@vajain21.in.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lwcGsVlG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B001F000E9;
+	Tue, 23 Jun 2026 13:10:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782220237;
+	bh=ySc/aU88S6zSpYP9xtAHR5MOl3lswAD1LvzVMh44STc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=lwcGsVlGmcwleSUa+A8hLzj+NGdzH6Y2I1/rOJSzYRIIYezzYMYMPVrPRQ48p6ryN
+	 HCeIPZwTqvHv4bxVit2bpZ55mELXNbC8DnshsrQFi3O/nr5a1TOjfhBl4rzNPpYYaG
+	 s0IkZTPen5kAJlYWNL6QNcraZhJlNtSCVnW82hygriTiFyfQFrJGRiImoU9gcgIftg
+	 91+c3VMiEF2pVllwdflj8jRMREiydmr57VoaewxsYyrDnc7iwxHs4M43/J1C00L5J2
+	 Kx+/vvUqLJwW10wZhEOwJC5uuoRDHWjXZ1iIR3iQuiqlWCA/7XQkBrG6AWazz4oE5y
+	 DAyh7BgcnFbIA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Shyam Saini <shyamsaini@linux.microsoft.com>
+Cc: linux-mm@kvack.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  rppt@kernel.org,
+  akpm@linux-foundation.org,  kees@kernel.org,  tony.luck@intel.com,
+  gpiccoli@igalia.com,  bp@alien8.de,  rdunlap@infradead.org,
+  peterz@infradead.org,  feng.tang@linux.alibaba.com,
+  dapeng1.mi@linux.intel.com,  elver@google.com,  enelsonmoore@gmail.com,
+  kuba@kernel.org,  lirongqing@baidu.com,  ebiggers@kernel.org
+Subject: Re: [RFC PATCH] reserve_mem: add support for static memory
+In-Reply-To: <20260618224018.117978-1-shyamsaini@linux.microsoft.com> (Shyam
+	Saini's message of "Thu, 18 Jun 2026 15:40:18 -0700")
+References: <20260618224018.117978-1-shyamsaini@linux.microsoft.com>
+Date: Tue, 23 Jun 2026 15:10:32 +0200
+Message-ID: <2vxzpl1hmmgn.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878q8bcbh6.fsf@vajain21.in.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=X4Ni7mTe c=1 sm=1 tr=0 ts=6a3a83ba cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8
- a=V7CP62GcylaPN-88zJAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDEwNSBTYWx0ZWRfX61y9CJ89zjs3
- hzcIaz7u/F5MMEJmRXiPjw3JNPks0VcxHdouxrEfFd9liYhtHBkIvXf4Rw2yHvQbUB1qs8VIiRQ
- 91f+YUirWShuicZxvRyo2keFjppQBhg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDEwNSBTYWx0ZWRfXwAJux7A0F4tr
- 5KrkhZr2P9SxU1B/A9zaXsmtyFU9al2APqFEx8S0rTt6e7oZpClgJlbdPp7HooF3IwwfqBj44tQ
- Ks3NyVWhORtoB6P//GVvROgPB/8vajkRruJrwMVkJvWtp36QnUz8XHZNI28+raYLcexxMeFKenk
- 37/Xzf/FNHF6pzttxw9p8wH8aNFbIfc0CRa63DFQ1X4UAs8MfOlf8gVLXfOymer82mGaCOLA6yb
- JXDANSBoa6LDcsh04tJNipBWehFk6HHg2f1oFuTZQKQzI74y4xD6Q/WWgqwUz+BWLnbZbsqf9kM
- 3Brfit6dzoB8q25xTQgnkmNvzGVCd/v3mN4M9LIISTdAw4mVQKLbcrnc3b+EpiKMbGP7ONe5PEr
- 6B0tZq3zxPaeKvmfVtZvuLZfqT5I7STd98igjG7iHl39OYTAgKYpE4bCG8f0sWwf2joUCemLSyg
- 6tMZRJrMLg6Tcm4QSqQ==
-X-Proofpoint-ORIG-GUID: WmihYSYPCIc3Akfxpd39k7jb76VZLIjM
-X-Proofpoint-GUID: LFf3dELWknKTgufp5u4x4zQO6vhPnemw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 suspectscore=0 spamscore=0 priorityscore=1501
- impostorscore=0 malwarescore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230105
+Content-Type: text/plain
 
-Hi Vaibhav,
+On Thu, Jun 18 2026, Shyam Saini wrote:
 
-Thanks for revewing this patch. My response is inline.
+> reserve_mem relies on dynamic memory allocation, this limits the
+> usecase where memory and its address is required to be preserved
+> across the boots. Eg: ramoops memory reservation on ACPI platforms
+>
+> So add support to pass a pre-determined static address and reserve
+> memory at this specified address. This enables use case like ramoops
+> on ACPI platforms to reliably access ramoops region across the boots.
 
-On 2026/06/19 11:34 AM, Vaibhav Jain wrote:
-> Hi Amit.
-> 
-> Thanks for the patch and incorporating V3 review comments. Further
-> review comments inline below:
-> 
-> Amit Machhiwal <amachhiw@linux.ibm.com> writes:
-> 
-> > On POWER systems, the host CPU may run in a compatibility mode (e.g., a
-> > Power11 processor operating in Power10 compatibility mode). In such
-> > cases, the effective CPU level exposed to guests differs from the
-> > physical processor generation.
-> >
-> > When running nested KVM guests, QEMU derives the host CPU type using
-> > mfpvr(), which reflects the physical processor version. This can result
-> > in a mismatch between the CPU model selected by QEMU and the
-> > compatibility mode enforced by the host, leading to guest boot failures.
-> >
-> > For example, booting a nested guest on a Power11 LPAR configured in
-> > Power10 compatibility mode fails with:
-> >
-> >   KVM-NESTEDv2: couldn't set guest wide elements
-> >   [..KVM reg dump..]
-> >
-> > This occurs because QEMU selects a CPU model corresponding to the
-> > physical processor (via mfpvr()), while the host operates in a lower
-> > compatibility mode. As a result, KVM rejects the requested compatibility
-> > level during guest initialization.
-> >
-> > Add support for retrieving host CPU compatibility capabilities for
-> > nested guests on PowerVM (PAPR nested API v2). The hypervisor provides
-> > the effective compatibility levels via the H_GUEST_GET_CAPABILITIES
-> > hcall, which reflects the processor modes negotiated between the Power
-> > hypervisor (L0) and the host partition (L1).
-> >
-> > On pseries systems, obtain the capability bitmap using
-> > plpar_guest_get_capabilities() and return it via struct
-> > kvm_ppc_compat_caps. The implementation defines KVM-specific capability
-> > constants (KVM_PPC_COMPAT_CAP_POWER9/10/11) and applies masking to ensure
-> > only supported processor modes are exposed to userspace. This information
-> > is then exposed through the KVM_PPC_GET_COMPAT_CAPS ioctl.
-> >
-> > Hook the implementation into the Book3S HV kvmppc_ops so that it can be
-> > invoked by the generic KVM ioctl handling code.
-> >
-> > Suggested-by: Vaibhav Jain <vaibhav@linux.ibm.com>
-> > Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
-> > ---
-> >  arch/powerpc/include/uapi/asm/kvm.h | 11 ++++++++++-
-> >  arch/powerpc/kvm/book3s_hv.c        | 17 +++++++++++++++++
-> >  2 files changed, 27 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-> > index 8a38be6c3b03..730488681443 100644
-> > --- a/arch/powerpc/include/uapi/asm/kvm.h
-> > +++ b/arch/powerpc/include/uapi/asm/kvm.h
-> > @@ -443,7 +443,16 @@ struct kvm_ppc_compat_caps {
-> >  	__u64	size;			/* Size of this structure */
-> >  	__u64	compat_capabilities;	/* Capabilities supported by the host */
-> >  };
-> > -
-> > +/*
-> > + * Capability bits for compat_capabilities field in kvm_ppc_compat_caps.
-> > + * These bits indicate which processor compatibility modes are supported.
-> > + */
-> > +#define KVM_PPC_COMPAT_CAP_POWER9	(1ULL << 62)
-> > +#define KVM_PPC_COMPAT_CAP_POWER10	(1ULL << 61)
-> > +#define KVM_PPC_COMPAT_CAP_POWER11	(1ULL << 60)
-> > +#define KVM_PPC_COMPAT_BITMASK		(KVM_PPC_COMPAT_CAP_POWER9 | \
-> > +					 KVM_PPC_COMPAT_CAP_POWER10 | \
-> > +					 KVM_PPC_COMPAT_CAP_POWER11)
-> >  /*
-> >   * Values for character and character_mask.
-> >   * These are identical to the values used by H_GET_CPU_CHARACTERISTICS.
-> > diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> > index f9380ef65750..f674386df62c 100644
-> > --- a/arch/powerpc/kvm/book3s_hv.c
-> > +++ b/arch/powerpc/kvm/book3s_hv.c
-> > @@ -6523,6 +6523,22 @@ static bool kvmppc_hash_v3_possible(void)
-> >  	return true;
-> >  }
-> >  
-> > +
-> > +static int kvmppc_get_compat_caps(struct kvm_ppc_compat_caps *host_caps)
-> > +{
-> > +	unsigned long capabilities = 0;
-> > +	long rc = -EINVAL;
-> > +
-> > +	if (kvmhv_on_pseries()) {
-> > +		if (kvmhv_is_nestedv2())
-> > +			rc = plpar_guest_get_capabilities(0,
-> > &capabilities);
-> I think instead of making the hcall you should use the
-> 'nested_capabilities' extern symbol as it would already the same
-> value. This symbol is already accessible in 'book3s_hv.c'
+Doesn't memmap= do exactly this? How is this different?
 
-Agreed! Will change to use nested_capabilities directly instead of
-making the hcall. This is more efficient as this will help reduce an
-hcall overhead while the value is already cached during module
-initialization (in kvmhv_nested_init()).
+I always thought the point of reserve_mem was that you _don't_ have to
+provide an explicit address, one is chosen for your machine
+automatically.
 
-Thanks,
-Amit
+>
+> Also skip parsing of "align" parameter when static address is passed.
+>
+> Example syntax for static address
+>  reserve_mem=4M@0x1E0000000:oops ramoops.mem_name=oops
+>
+> Signed-off-by: Shyam Saini <shyamsaini@linux.microsoft.com>
+[...]
 
-> 
-> > +		host_caps->compat_capabilities = capabilities &
-> > +							KVM_PPC_COMPAT_BITMASK;
-> > +	}
-> > +
-> > +	return rc;
-> > +}
-> > +
-> >  static struct kvmppc_ops kvm_ops_hv = {
-> >  	.get_sregs = kvm_arch_vcpu_ioctl_get_sregs_hv,
-> >  	.set_sregs = kvm_arch_vcpu_ioctl_set_sregs_hv,
-> > @@ -6565,6 +6581,7 @@ static struct kvmppc_ops kvm_ops_hv = {
-> >  	.hash_v3_possible = kvmppc_hash_v3_possible,
-> >  	.create_vcpu_debugfs = kvmppc_arch_create_vcpu_debugfs_hv,
-> >  	.create_vm_debugfs = kvmppc_arch_create_vm_debugfs_hv,
-> > +	.get_compat_caps = kvmppc_get_compat_caps,
-> >  };
-> >  
-> >  static int kvm_init_subcore_bitmap(void)
-> > -- 
-> > 2.50.1 (Apple Git-155)
-> >
-> >
-> 
-> -- 
-> Cheers
-> ~ Vaibhav
+-- 
+Regards,
+Pratyush Yadav
