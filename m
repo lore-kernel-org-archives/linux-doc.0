@@ -1,149 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AEF3803CF
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 14:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949BB3803E3;
+	Tue, 23 Jun 2026 14:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782223565; cv=none; b=taA2KMLd3+sqD4fwDPQyFgmfiNJtph0BxW9wlqkRYmKoL+B89bhHgFNObuAU8LBvIepvt7qe+hRj6boc0LWU44fbr5aQ8Qo4caSbi2SG/yJ6BIMRuNzaOCS77qD0Wro0SAvwONiCpZqPdxK8aVc03guRaRbTbCJcY/5luuzEffU=
+	t=1782223691; cv=none; b=bWvBMKn7kXjWWfc+LO5mpQjDSu/xCj2FCaqGsAz7/dMBaDVMQk6mmEknOPkzpArrSfmcCFAfKOeSGwd8UeDCC6lC026qfHk+E2htikhNv4Bcm58w39++q58/reRXvj97NojU6K7N/b9AmcW5jtmOuvT2xN0Fcggv5e2gLkt/I88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782223565; c=relaxed/simple;
-	bh=VTZ/avZaZnBJE2vV8o3EqfD2jwMJu1c9TH8AxemQC2M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gVPBys5bzxH5qPmWIiMyuoZWGjYNrzfbwiQ0bTUTJTJY4zxWKgyeMg4lP2cXzr5IP8JWzvwExs9gl0lAGeqN8JMI+w3+cR6uE1dWsTBb8FanSHR5V/ate+jzzGW8ODMUvGgV41W5snKYt49SRCHbwNaiLoNtrCLd5XKlWkbedoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NPbb44vr; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782223691; c=relaxed/simple;
+	bh=tM88ehV0vRS7fFmScYoO3fuXe+FKN3oyB1IesDMdkWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UzR4vz2T8lomLGhs+HGqJQ92A8B49fz1ZXLu7Jk+hGx6s7y7Oq3gwYs0UsbUhjZrXoRIACw9dy/Kxi3FHZb/v385o1nbzDAJ80urpMzjPh75qiZYpEsY6qmZ3lHhIqFaRn077cuUPBuSmS6fVjBltIxbaIG8rGOV5EhbMI7o4R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=f2mWTIgR; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=f2mWTIgR; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPbb44vr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782223564; x=1813759564;
-  h=date:from:to:cc:subject:message-id;
-  bh=VTZ/avZaZnBJE2vV8o3EqfD2jwMJu1c9TH8AxemQC2M=;
-  b=NPbb44vrO3UblZRc8LBKeoWSwsWflRMV6/BepnA5q8zI6esD/rLMl8q2
-   oJhDlD+tdCfC17mo/kvBgaW0aKpwdCbohAhyjEh7pZgywWsQTCrCMNs0a
-   /sMM5Uj8LSvmWz6LNUlnu1QNj0LI/yl6EWTunCiC02ZJMwSUyStLjQwL/
-   2Cb4cQ8WrjLXqua6/ZIkbIGcP2Q11zfaT4GOKm9Z5dC03TDfuA+Zl2mVU
-   epeX8Tr+s3eb0WmqyBS3BRBY/fHLGeXZjICY2RyEM8LrQUWzIolcnPqbI
-   8mEXsrmbvF4tnRdLoiwECoMoeuXdk8PFfqd6w/5RlfktkrIGnXxDpHKOj
-   w==;
-X-CSE-ConnectionGUID: YQX0ADO9TOaAyvr+WkAW8Q==
-X-CSE-MsgGUID: a1dS1az4RKO1sIUlb3X5ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="94460149"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="94460149"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 07:06:04 -0700
-X-CSE-ConnectionGUID: eroCKEVzRyC8y1qv+3Z58Q==
-X-CSE-MsgGUID: ju/c39MiQaW6+F6LMAODDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="247189083"
-Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jun 2026 07:06:02 -0700
-Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wc1lH-000000006DV-33ur;
-	Tue, 23 Jun 2026 14:05:59 +0000
-Date: Tue, 23 Jun 2026 16:05:53 +0200
-From: kernel test robot <lkp@intel.com>
-To: "David Lechner (TI)" <dlechner@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [dlech:b4/iio-adc-ti-ads122c14 10/10] htmldocs:
- Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank
- line; unexpected unindent. [docutils]
-Message-ID: <202606231501.hG7m0kHG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="f2mWTIgR";
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="f2mWTIgR"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=4Kjc0ILl0J/jDwE6Rp8VeaX8HsM6FVKzVv2KZZcpLvE=;
+	b=f2mWTIgRI0OMt+a5DXk7llvGYG+YSSaNqEUOMlOA2s03QZHIYyfSkzRV1Z6b4x+STugLrsIPq
+	3m6oP+Rzqb0N2IaFfkxaKjYTPJucaumO6NrvPZ1nl2cSchKOLvsCKiwkRUAFEbcYKgg7VAPrMAf
+	PHbGQXpQFpA89e2wK8OSTX0=
+Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gl6BT3pzczcb3n;
+	Tue, 23 Jun 2026 21:59:29 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=4Kjc0ILl0J/jDwE6Rp8VeaX8HsM6FVKzVv2KZZcpLvE=;
+	b=f2mWTIgRI0OMt+a5DXk7llvGYG+YSSaNqEUOMlOA2s03QZHIYyfSkzRV1Z6b4x+STugLrsIPq
+	3m6oP+Rzqb0N2IaFfkxaKjYTPJucaumO6NrvPZ1nl2cSchKOLvsCKiwkRUAFEbcYKgg7VAPrMAf
+	PHbGQXpQFpA89e2wK8OSTX0=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gl6BP4B7gz1T4GM;
+	Tue, 23 Jun 2026 21:59:25 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 460EE40363;
+	Tue, 23 Jun 2026 22:08:05 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 23 Jun 2026 22:08:04 +0800
+Message-ID: <7d46a48c-8805-09e1-4818-807953898fb4@huawei.com>
+Date: Tue, 23 Jun 2026 22:08:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>, <sj@kernel.org>,
+	<akinobu.mita@gmail.com>, <damon@lists.linux.dev>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC: <akpm@linux-foundation.org>, <corbet@lwn.net>, <bijan311@gmail.com>,
+	<ajayjoshi@micron.com>, <honggyu.kim@sk.com>, <yunjeong.mun@sk.com>
+References: <20260529165640.820-1-ravis.opensrc@gmail.com>
+Content-Language: en-US
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <20260529165640.820-1-ravis.opensrc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-tree:   https://github.com/dlech/linux b4/iio-adc-ti-ads122c14
-head:   9a48214781dd8525063938516a2a00ffb7b3c23c
-commit: 9a48214781dd8525063938516a2a00ffb7b3c23c [10/10] WIP
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260623/202606231501.hG7m0kHG-lkp@intel.com/reproduce)
+Hi Ravi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606231501.hG7m0kHG-lkp@intel.com/
+On 2026/5/30 0:56, Ravi Jonnalagadda wrote:
+> This series introduces a vendor and PMU-agnostic substrate inside DAMON
+> that consumes hardware-sampled access reports through the standard
+> perf-event interface.  Userspace selects the PMU through sysfs (raw
+> type/config knobs), driving either Intel PEBS L3-miss sampling or AMD
+> IBS Op sampling.
+> 
 
-All warnings (new ones prefixed by >>):
+[...]
 
-   in0_lcrit_fault_log             Set to 1 by a VIN undervoltage fault occurring.
-   in0_crit_fault_log              Set to 1 by a VIN overvoltage fault occurring.
-   curr1_crit_fault_log            Set to 1 by an overcurrent fault occurring.
-   =======================         ========================================== [docutils]
-   Documentation/iio/ads112c14.rst:56: ERROR: Unexpected indentation. [docutils]
->> Documentation/iio/ads112c14.rst:57: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'probes' not described in 'damon_ctx'
-   WARNING: ./include/linux/damon.h:909 struct member 'rnd_state' not described in 'damon_ctx'
-   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
---
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/iio/ads112c14.rst:22: WARNING: unknown document: '../devicetree/bindings/iio/adc/ti,ads112c14' [ref.doc]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+> 
+> Ravi Jonnalagadda (6):
+>    mm/damon: add struct damon_perf_event{,_attr} and per-ctx perf_events
+>      list
+>    mm/damon/sysfs-sample: expose perf_events configuration via sysfs
+>    mm/damon/sysfs: install perf_events on apply
+>    mm/damon/core: per-CPU SPSC ring drain and damon_perf_event lifecycle
+>    mm/damon/vaddr: implement perf-event access check
+>    mm/damon: add damos_node_eligible_mem_bp tracepoint
+> 
+>   include/linux/damon.h        |  80 +++++
+>   include/trace/events/damon.h |  49 +++
+>   mm/damon/core.c              | 403 ++++++++++++++++++++----
+>   mm/damon/ops-common.h        |  39 +++
+>   mm/damon/sysfs-common.h      |   6 +
+>   mm/damon/sysfs-sample.c      | 579 +++++++++++++++++++++++++++++++++++
+>   mm/damon/sysfs.c             |   3 +
+>   mm/damon/vaddr.c             | 267 ++++++++++++++++
+>   8 files changed, 1370 insertions(+), 56 deletions(-)
+> 
+> 
+> base-commit: 4c8ad15abf15eb480d3ad85f902001e35465ef18
+
+I wasn't able to apply this patch series to the linux (and linux-next)
+mainline branch, and also had trouble identifying the source of the base
+commit.
+
+Would you mind sharing where this baseline is from?
+
+Thanks in advance!
 
 
-vim +57 Documentation/iio/ads112c14.rst
-
-    21	
-  > 22	See :doc:`../devicetree/bindings/iio/adc/ti,ads112c14` for the complete
-    23	binding description.
-    24	
-    25	The minimal device tree node looks like this::
-    26	
-    27	    adc@40 {
-    28	        compatible = "ti,ads122c14";
-    29	        reg = <0x40>;
-    30	        avdd-supply = <&avdd>;
-    31	        dvdd-supply = <&dvdd>;
-    32	
-    33	        /* TODO: add channel@ nodes here */
-    34	    };
-    35	
-    36	Effect of devicetree on registers
-    37	---------------------------------
-    38	
-    39	Device properties have the following effects on registers:
-    40	
-    41	* ``CLK_SEL`` and ``GPIO3_CFG`` are set if the ``clocks`` property is present.
-    42	* ``GPIO2_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    43	  "fault" is present.
-    44	* ``GPIO3_SRC`` may be set when ``interrupts`` and ``interrupt-names`` for
-    45	  "drdy" is present.
-    46	
-    47	Channel-specific properties have the following effects on registers only when
-    48	a measurement is active on the channel:
-    49	
-    50	* ``AINP`` and ``AINN`` are set according to the ``single-channel`` or
-    51	  ``differential-channel`` properties of each channel.
-    52	* ``REF_SEL`` and ``REF_VAL`` will be set according to the value of the
-    53	  ``ti,ref-source`` property.
-    54	* When ``ti,ref-source`` is set to REFP-REFN:
-    55	  * If ``refp-supply`` is given and not the same phandle as ``avdd-supply``,
-    56	    ``REFP_BUF_EN`` will be set to 1, otherwise it will be 0.
-  > 57	  * If ``refn-supply`` is given, ``REFN_BUF_EN`` will be set to 1, otherwise it
-    58	    will be 0.
-    59	* ``I1MUX`` and ``I2MUX`` will be set to the values of the ``excitation-channels``
-    60	   property.
-    61	* ``IUNIT``, ``I1MAG`` and ``I2MAG`` will be set to best fit according to the
-    62	   values of the ``excitation-current-nanoamp`` property.
-    63	* ``GC_EN`` will be set to 1 if the ``input-channel-rotation`` property is present,
-    64	  otherwise it will be 0.
-    65	* ``CODING`` is set based on the ``bipolar`` property.
-    66	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Zeng Heng
