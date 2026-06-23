@@ -1,597 +1,211 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E9E3CE0A7;
-	Tue, 23 Jun 2026 08:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F7C3382C7;
+	Tue, 23 Jun 2026 08:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204168; cv=none; b=VrIPd47Nvysob00QHz1jK2Dq0ud1G0SU1xxnqQVYSvVvO8uFYy2zL+p0+eDFByvx2eqcPASQfcErmPGnT5+J+pnckO/rFfxhRyQPdiJ6+BUSXhl4Ksx2BLkfEKw3o31hTfrm6rc4bp8cenHfZ1jiKdm7dxPzeGOiJIx/sspb6EM=
+	t=1782204629; cv=none; b=UGPWhdBKfU/YUgewQX0oWZGUrT9O6xMu7iYcfMdKY21y/ZscwhLOl84dFeWCOV5nXbXMe2/OvIFL/iN28OJObGzhthMnp+Sh2leADE1Qqedl7yaEis7m41AFHZrCjphRXlBzPkJfz3Q7kSZc4CJtwH1VND1ddvuf077aFBIc6l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204168; c=relaxed/simple;
-	bh=0kjK8YmYmJDEOGnbmMoUo+m/WY2eZp7URLgo18X+534=;
+	s=arc-20240116; t=1782204629; c=relaxed/simple;
+	bh=kcRgiuRej8MdI7L26s3G6V6760dkJcrjiIrLXz5fyVk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nqLWbPN/FM6Gatx6m3/PvBXAGywt1BkrVaP9BMGCFbYl2beG3gypuPTdil08xfcKDHaZ7TKC6TiMdc6vswZvUi7G1NkXGfWJSgb9IrtiqW4hi0SnhCYm/1wEO4fxc4Sg1DoH9I3QxszNKEuG7awkJkyHGRlJ6S4//y3O/tpVfrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 331F81F75F;
-	Tue, 23 Jun 2026 08:42:35 +0000 (UTC)
-Message-ID: <fa46b3c8f70ee586439db68143cae4bcd40e537b.camel@hadess.net>
-Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
- to 1
-From: Bastien Nocera <hadess@hadess.net>
-To: Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org, 
- Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>, Demi
- Marie Obenour <demiobenour@gmail.com>, Andy Lutomirski
- <luto@amacapital.net>, ell@lists.linux.dev
-Date: Tue, 23 Jun 2026 10:42:34 +0200
-In-Reply-To: <20260622234803.6982-1-ebiggers@kernel.org>
-References: <20260622234803.6982-1-ebiggers@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	 Content-Type:MIME-Version; b=SgehB19WHJuuRxQyBw4KTffJ9ncKJw+zdQmzeHxaSEAu1RWM2+4unf9jBWYmQwo+jf8glFZSmgkPZaNuhxznTZoTNMGXe0pLTTgHyBE2fOpbT3VeVWuNWecEGok9KHyhYFMaPajN/QgUjULTOfjKx6h9TYkBQKhQXztQPN5cXOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lrtyFbxA; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lrtyFbxA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=kcRgiuRej8MdI7L26s3G6V6760dkJcrjiIrLXz5fyVk=; b=lrtyFbxALIwISgeZA/kdYhA3J/
+	Z/iBElvcZdoJxAzUoaOBPBCOveZdpHs2EP5Loz7W9HgQGUtDmxTYW6ALDUGpo0lCFAd4MzKCDABZb
+	aspTmQBmRjezMJ6S5aGYIerHLTvcXsFdU6eKShuANNA15PO7FMYxCul7x4ae63+FVb/uZAw/lpk4c
+	926J5pX750rQPiQs6pWiYQQBvBdIMjHBu0MlAK6bG13QpOOUW6DuQUR8FDalrsfShXbbNJP535MF+
+	Xuz3OQq8YZKCrz5SIUpcwecOezbyK4LRlWrx0wg+DVEOMF/18FaHckrV6ZSqdbEYmZhCzrMyXkKE+
+	HPULOxYw==;
+Received: from [2001:8b0:10b:5:5c35:4a44:b8b0:48f] (helo=u09cd745991455d.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wbwpo-00000005qQh-3N7c;
+	Tue, 23 Jun 2026 08:50:21 +0000
+Message-ID: <936d12817d1401a0e5033513cc8ad04a56a076e8.camel@infradead.org>
+Subject: Re: [PATCH v5 04/34] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for
+ accurate KVM clock migration
+From: David Woodhouse <dwmw2@infradead.org>
+To: Dongli Zhang <dongli.zhang@oracle.com>, x86@kernel.org,
+ kvm@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ linux-kselftest@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner	 <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Vitaly
+ Kuznetsov	 <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, Boris
+ Ostrovsky	 <boris.ostrovsky@oracle.com>, Paul Durrant <paul@xen.org>,
+ Jonathan Cameron	 <jic23@kernel.org>, Marc Zyngier <maz@kernel.org>, Sascha
+ Bischoff	 <Sascha.Bischoff@arm.com>, Jack Allister <jalliste@amazon.com>, 
+	joe.jin@oracle.com, Joey Gouly <joey.gouly@arm.com>
+Date: Tue, 23 Jun 2026 09:50:20 +0100
+In-Reply-To: <913f6048e1193e65278cb3f4b4dbf04a151e85f5.camel@infradead.org>
+References: <20260608145455.89187-1-dwmw2@infradead.org>
+		 <20260608145455.89187-5-dwmw2@infradead.org>
+		 <77f541f7-b346-4c86-8e66-3d2439e29cbb@oracle.com>
+	 <913f6048e1193e65278cb3f4b4dbf04a151e85f5.camel@infradead.org>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-qgqjtXkQsawglhqsis4k"
+User-Agent: Evolution 3.60.3-0ubuntu1~ppa6 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-GND-Sasl: hadess@hadess.net
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTFjISr2LcG/UqOygHHl9e/XIVjJhRORQ6H0Fpq7FR/tKi5ROiRHdgj/bmAozKwIqjJ2NNI0ARzUl+Rv1Z7Gwns/JKaBKR5SqvETp6FF4zLQdQvXqzNvwC525Eh8owCNT7hGL2w6+DQ4sm0Dj4udGSS16CeEGRiTmy9ggtFuQlYlKC6YBS9RIM5o8cXvBxS/Xl8OqMLW5fHxfSbESpAOv2e3yW9Y3LljMDXAFSLVTN4DpO7wMe49kWxNclOc1Wr4Hj/Q9Y46iPeYaYbP8hIzJXKvKv9a92xgAW0VvvAhjDjXtEZqaXNXjWstwQw/LlQNBYZyJQr2VHaSLjqSraS4e6GyKHqPPZ6YK3Z3ftwh1FsnEBGDM2xznqS2CqZj/0lc0UQxmwr5WiwMZemIoy6Reh9DjPljUosXZNhwXtEclFVvNvSyt/w3l8aOxF+7sZhbPSaArmXojWXgtLs77h+x8koAe4LebRuhV0Fkpk8UixyG7VJJjgYRpV3ZIuo7ybSnD9P7iqsWvlj33Ify6SpJvvM4eoZKG9ndv3BRLpo1H5kLtD2vYw3+jNdGMExKJbm24LiILnyAAbiyGREajRcmf4fcrA7rdLXs0ZuIHA/bxrSs6dEoCQ9DcOqAzNaHlxs/wyBWeFUGUHrEzsjK90si3eIMu46qoUuXqWna87qX/gBn2Q
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Hello Eric,
 
-On Mon, 2026-06-22 at 16:48 -0700, Eric Biggers wrote:
-> AF_ALG is a frequent source of vulnerabilities and a maintenance
-> nightmare.=C2=A0 It exposes far more functionality to userspace than ever
-> should have been exposed, especially to unprivileged processes.=C2=A0
-> Recent
-> exploits have targeted kernel internal implementation details like
-> "authencesn" that have zero use case for userspace access.
+--=-qgqjtXkQsawglhqsis4k
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You should also CC: ell@lists.linux.dev for AF_ALG related changes, as
-ell uses AF_ALG extensively for crypto and checksumming.
+On Tue, 2026-06-16 at 12:13 +0100, David Woodhouse wrote:
+> On Mon, 2026-06-15 at 23:47 -0700, Dongli Zhang wrote:
+> > I tested patches 02, 03, 04, and 26 by customizing QEMU to support kexe=
+c live
+> > updates (LUO and KHO), preserving the memfd across kexec.
+>=20
+> Thank you.
+>=20
+> > For my use case, I used KVM_[GS]ET_CLOCK_GUEST instead of the existing
+> > KVM_[GS]ET_CLOCK. I didn't account the downtime in my QEMU code, althou=
+gh host
+> > TSC never resets across kexec.
+> >=20
+> > Clock drift was zero, and I did not observe any unnecessary master cloc=
+k updates
+> > after KVM_SET_CLOCK_GUEST completed.
+>=20
+> The kvmclock drift won't have been *zero*; it will have been a
+> nanosecond or two. Which most people won't notice, but is annoying me.
+>=20
+> It believe it comes from both pvclock_update_vm_gtod_copy() and
+> kvm_vcpu_ioctl_set_clock_guest() rounding *down*. I think we should
+> tweak the latter to round *up* so they're at least not biasing in the
+> same direction.
+>=20
+> We could also do better at picking a snapshot cycle count which
+> *doesn't* lose in the rounding. But those are definitely improvements
+> for another day; this series is long and complex enough and has already
+> gained a dependency on fixes in core timekeeping snapshots.
 
-Cheers
+I think some of that drift should be solved by the snapshot fixes from
+https://lore.kernel.org/all/20260622211822.1056437-2-dwmw2@infradead.org/
+and in fact we might be able to do even better...
 
->=20
-> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
-> libraries exist.=C2=A0 And when it is used, only some functionality is
-> known
-> to be used, and many users are known to hold capabilities already.
-> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
-> (
-> https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832d=
-@gmail.com
-> /).
->=20
-> Thus, let's restrict the set of allowed algorithms by default,
-> depending
-> on the capabilities held.
->=20
-> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
->=20
-> =C2=A0=C2=A0=C2=A0 0: unrestricted
-> =C2=A0=C2=A0=C2=A0 1: limited functionality
-> =C2=A0=C2=A0=C2=A0 2: completely disabled
->=20
-> Set the default value to 1, which enables an algorithm allowlist for
-> unprivileged processes and a slightly longer allowlist for privileged
-> processes.
->=20
-> Note that the list may be tweaked in the future.=C2=A0 However, the commo=
-n
-> use cases such as iwd and bluez are taken into account already.=C2=A0 I'v=
-e
-> tested that iwd still works with the default value of 1.
->=20
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-> ---
-> =C2=A0Documentation/admin-guide/sysctl/crypto.rst | 36 +++++++++++
-> =C2=A0Documentation/crypto/userspace-if.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 13 +++-
-> =C2=A0crypto/af_alg.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 72
-> +++++++++++++++++++--
-> =C2=A0crypto/algif_aead.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 11 ++++
-> =C2=A0crypto/algif_hash.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 24 +++++++
-> =C2=A0crypto/algif_rng.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++
-> =C2=A0crypto/algif_skcipher.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 20 ++++++
-> =C2=A0include/crypto/if_alg.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 8 +++
-> =C2=A08 files changed, 184 insertions(+), 9 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/sysctl/crypto.rst
-> b/Documentation/admin-guide/sysctl/crypto.rst
-> index b707bd314a64..9a1bd53287f4 100644
-> --- a/Documentation/admin-guide/sysctl/crypto.rst
-> +++ b/Documentation/admin-guide/sysctl/crypto.rst
-> @@ -5,10 +5,46 @@
-> =C2=A0These files show up in ``/proc/sys/crypto/``, depending on the
-> =C2=A0kernel configuration:
-> =C2=A0
-> =C2=A0.. contents:: :local:
-> =C2=A0
-> +.. _af_alg_restrict:
-> +
-> +af_alg_restrict
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Controls the level of restriction of AF_ALG.
-> +
-> +AF_ALG is a deprecated and rarely-used userspace interface that is a
-> +frequent source of vulnerabilities. It also unnecessarily exposes a
-> +large number of kernel implementation details. For more information
-> +about AF_ALG, see :ref:`Documentation/crypto/userspace-if.rst
-> +<crypto_userspace_interface>`.
-> +
-> +Starting in Linux v7.3, AF_ALG supports only a limited set of
-> +algorithms by default. This sysctl allows the system administrator
-> to
-> +remove this restriction when needed for compatibility reasons, or to
-> +go further and disable AF_ALG entirely. The default value is 1.
-> +
-> +=3D=3D=3D=C2=A0
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +0=C2=A0=C2=A0=C2=A0 AF_ALG is unrestricted.
-> +
-> +1=C2=A0=C2=A0=C2=A0 AF_ALG is supported with a limited list of algorithm=
-s. The list
-> +=C2=A0=C2=A0=C2=A0=C2=A0 is designed for compatibility with known users =
-such as iwd and
-> +=C2=A0=C2=A0=C2=A0=C2=A0 bluez that haven't yet been fixed to use usersp=
-ace crypto code.
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0 Specifically, there is an allowlist for unprivi=
-leged processes
-> +=C2=A0=C2=A0=C2=A0=C2=A0 and a somewhat longer allowlist for processes t=
-hat hold
-> +=C2=A0=C2=A0=C2=A0=C2=A0 CAP_SYS_ADMIN or CAP_NET_ADMIN in the initial u=
-ser namespace.
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0 Attempts to bind() an AF_ALG socket with a disa=
-llowed algorithm
-> +=C2=A0=C2=A0=C2=A0=C2=A0 fail with ENOENT.
-> +
-> +2=C2=A0=C2=A0=C2=A0 AF_ALG is completely disabled. Attempts to create an=
- AF_ALG
-> +=C2=A0=C2=A0=C2=A0=C2=A0 socket fail with EAFNOSUPPORT.
-> +=3D=3D=3D=C2=A0
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> =C2=A0fips_enabled
-> =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =C2=A0
-> =C2=A0Read-only flag that indicates whether FIPS mode is enabled.
-> =C2=A0
-> diff --git a/Documentation/crypto/userspace-if.rst
-> b/Documentation/crypto/userspace-if.rst
-> index ab93300c8e04..d6194346e366 100644
-> --- a/Documentation/crypto/userspace-if.rst
-> +++ b/Documentation/crypto/userspace-if.rst
-> @@ -1,5 +1,7 @@
-> +.. _crypto_userspace_interface:
-> +
-> =C2=A0User Space Interface
-> =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =C2=A0
-> =C2=A0Introduction
-> =C2=A0------------
-> @@ -10,13 +12,18 @@ code.
-> =C2=A0
-> =C2=A0AF_ALG is insecure and is deprecated. Originally added to the kerne=
-l
-> in 2010,
-> =C2=A0most kernel developers now consider it to be a mistake. Support for
-> hardware
-> =C2=A0accelerators, which was the original purpose of AF_ALG, has been
-> removed.
-> =C2=A0
-> -AF_ALG continues to be supported only for backwards compatibility.
-> On systems
-> -where no programs using AF_ALG remain, the support for it should be
-> disabled by
-> -disabling ``CONFIG_CRYPTO_USER_API_*``.
-> +AF_ALG continues to be supported only for backwards compatibility.
-> +
-> +Starting in Linux v7.3, the set of algorithms supported by AF_ALG is
-> limited by
-> +default. See :ref:`/proc/sys/crypto/af_alg_restrict
-> <af_alg_restrict>`.
-> +
-> +On systems where no programs using AF_ALG remain, the support for it
-> should be
-> +disabled entirely by setting ``/proc/sys/crypto/af_alg_restrict`` to
-> 2 or by
-> +disabling ``CONFIG_CRYPTO_USER_API_*`` in the kernel configuration.
-> =C2=A0
-> =C2=A0Deprecation
-> =C2=A0-----------
-> =C2=A0
-> =C2=A0AF_ALG was originally intended to provide userspace programs access
-> to crypto
-> diff --git a/crypto/af_alg.c b/crypto/af_alg.c
-> index cce000e8590e..34b801568fba 100644
-> --- a/crypto/af_alg.c
-> +++ b/crypto/af_alg.c
-> @@ -6,10 +6,11 @@
-> =C2=A0 *
-> =C2=A0 * Copyright (c) 2010 Herbert Xu <herbert@gondor.apana.org.au>
-> =C2=A0 */
-> =C2=A0
-> =C2=A0#include <linux/atomic.h>
-> +#include <linux/capability.h>
-> =C2=A0#include <crypto/if_alg.h>
-> =C2=A0#include <linux/crypto.h>
-> =C2=A0#include <linux/init.h>
-> =C2=A0#include <linux/kernel.h>
-> =C2=A0#include <linux/key.h>
-> @@ -20,14 +21,32 @@
-> =C2=A0#include <linux/rwsem.h>
-> =C2=A0#include <linux/sched.h>
-> =C2=A0#include <linux/sched/signal.h>
-> =C2=A0#include <linux/security.h>
-> =C2=A0#include <linux/string.h>
-> +#include <linux/sysctl.h>
-> +#include <linux/user_namespace.h>
-> =C2=A0#include <keys/user-type.h>
-> =C2=A0#include <keys/trusted-type.h>
-> =C2=A0#include <keys/encrypted-type.h>
-> =C2=A0
-> +static int af_alg_restrict =3D 1;
-> +
-> +static const struct ctl_table af_alg_table[] =3D {
-> +	{
-> +		.procname=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "af_alg_restrict",
-> +		.data=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D =
-&af_alg_restrict,
-> +		.maxlen=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D sizeof(int=
-),
-> +		.mode=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D =
-0644,
-> +		.proc_handler=C2=A0=C2=A0 =3D proc_dointvec_minmax,
-> +		.extra1		=3D SYSCTL_ZERO,
-> +		.extra2		=3D SYSCTL_TWO,
-> +	},
-> +};
-> +
-> +static struct ctl_table_header *af_alg_header;
-> +
-> =C2=A0struct alg_type_list {
-> =C2=A0	const struct af_alg_type *type;
-> =C2=A0	struct list_head list;
-> =C2=A0};
-> =C2=A0
-> @@ -108,10 +127,43 @@ int af_alg_unregister_type(const struct
-> af_alg_type *type)
-> =C2=A0
-> =C2=A0	return err;
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(af_alg_unregister_type);
-> =C2=A0
-> +static bool af_alg_capable(void)
-> +{
-> +	return ns_capable_noaudit(&init_user_ns, CAP_NET_ADMIN) ||
-> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 capable(CAP_SYS_ADMIN);
-> +}
-> +
-> +int af_alg_check_restriction(const char *name,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 const struct af_alg_allowlist_entry
-> allowlist[])
-> +{
-> +	int level =3D READ_ONCE(af_alg_restrict);
-> +
-> +	if (level =3D=3D 0)
-> +		return 0;
-> +	if (level =3D=3D 1) {
-> +		for (const struct af_alg_allowlist_entry *ent =3D
-> allowlist;
-> +		=C2=A0=C2=A0=C2=A0=C2=A0 ent->name; ent++) {
-> +			if (strcmp(name, ent->name) =3D=3D 0 &&
-> +			=C2=A0=C2=A0=C2=A0 (!ent->privileged || af_alg_capable()))
-> +				return 0;
-> +		}
-> +	}
-> +	/*
-> +	 * Use -ENOENT (the error code for "algorithm not found")
-> instead of
-> +	 * -EACCES or -EPERM, for the highest chance of correctly
-> triggering
-> +	 * fallback code paths in userspace programs.
-> +	 *
-> +	 * Don't log a warning, since it would be noisy.=C2=A0 iwd tries
-> to bind a
-> +	 * bunch of algorithms that it never uses.
-> +	 */
-> +	return -ENOENT;
-> +}
-> +EXPORT_SYMBOL_GPL(af_alg_check_restriction);
-> +
-> =C2=A0static void alg_do_release(const struct af_alg_type *type, void
-> *private)
-> =C2=A0{
-> =C2=A0	if (!type)
-> =C2=A0		return;
-> =C2=A0
-> @@ -504,10 +556,13 @@ static int alg_create(struct net *net, struct
-> socket *sock, int protocol,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int kern)
-> =C2=A0{
-> =C2=A0	struct sock *sk;
-> =C2=A0	int err;
-> =C2=A0
-> +	if (READ_ONCE(af_alg_restrict) =3D=3D 2)
-> +		return -EAFNOSUPPORT;
-> +
-> =C2=A0	if (sock->type !=3D SOCK_SEQPACKET)
-> =C2=A0		return -ESOCKTNOSUPPORT;
-> =C2=A0	if (protocol !=3D 0)
-> =C2=A0		return -EPROTONOSUPPORT;
-> =C2=A0
-> @@ -1220,31 +1275,36 @@ int af_alg_get_rsgl(struct sock *sk, struct
-> msghdr *msg, int flags,
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(af_alg_get_rsgl);
-> =C2=A0
-> =C2=A0static int __init af_alg_init(void)
-> =C2=A0{
-> -	int err =3D proto_register(&alg_proto, 0);
-> +	int err;
-> +
-> +	af_alg_header =3D register_sysctl("crypto", af_alg_table);
-> =C2=A0
-> +	err =3D proto_register(&alg_proto, 0);
-> =C2=A0	if (err)
-> -		goto out;
-> +		goto out_unregister_sysctl;
-> =C2=A0
-> =C2=A0	err =3D sock_register(&alg_family);
-> -	if (err !=3D 0)
-> +	if (err)
-> =C2=A0		goto out_unregister_proto;
-> =C2=A0
-> -out:
-> -	return err;
-> +	return 0;
-> =C2=A0
-> =C2=A0out_unregister_proto:
-> =C2=A0	proto_unregister(&alg_proto);
-> -	goto out;
-> +out_unregister_sysctl:
-> +	unregister_sysctl_table(af_alg_header);
-> +	return err;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void __exit af_alg_exit(void)
-> =C2=A0{
-> =C2=A0	sock_unregister(PF_ALG);
-> =C2=A0	proto_unregister(&alg_proto);
-> +	unregister_sysctl_table(af_alg_header);
-> =C2=A0}
-> =C2=A0
-> =C2=A0module_init(af_alg_init);
-> =C2=A0module_exit(af_alg_exit);
-> =C2=A0MODULE_DESCRIPTION("Crypto userspace interface");
-> diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
-> index 787aac8aeb24..b9217f9086aa 100644
-> --- a/crypto/algif_aead.c
-> +++ b/crypto/algif_aead.c
-> @@ -32,10 +32,15 @@
-> =C2=A0#include <linux/mm.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/net.h>
-> =C2=A0#include <net/sock.h>
-> =C2=A0
-> +static const struct af_alg_allowlist_entry aead_allowlist[] =3D {
-> +	{ "ccm(aes)", true }, /* bluez */
-> +	{},
-> +};
-> +
-> =C2=A0static inline bool aead_sufficient_data(struct sock *sk)
-> =C2=A0{
-> =C2=A0	struct alg_sock *ask =3D alg_sk(sk);
-> =C2=A0	struct sock *psk =3D ask->parent;
-> =C2=A0	struct alg_sock *pask =3D alg_sk(psk);
-> @@ -342,10 +347,16 @@ static struct proto_ops algif_aead_ops_nokey =3D
-> {
-> =C2=A0	.poll		=3D	af_alg_poll,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static void *aead_bind(const char *name)
-> =C2=A0{
-> +	int err;
-> +
-> +	err =3D af_alg_check_restriction(name, aead_allowlist);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> =C2=A0	return crypto_alloc_aead(name, 0, AF_ALG_CRYPTOAPI_MASK);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void aead_release(void *private)
-> =C2=A0{
-> diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
-> index 5452ad6c1506..a8d958d51ece 100644
-> --- a/crypto/algif_hash.c
-> +++ b/crypto/algif_hash.c
-> @@ -14,10 +14,28 @@
-> =C2=A0#include <linux/mm.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/net.h>
-> =C2=A0#include <net/sock.h>
-> =C2=A0
-> +static const struct af_alg_allowlist_entry hash_allowlist[] =3D {
-> +	{ "cmac(aes)", true }, /* iwd, bluez */
-> +	{ "hmac(md5)", true }, /* iwd */
-> +	{ "hmac(sha1)", true }, /* iwd */
-> +	{ "hmac(sha224)", true }, /* iwd */
-> +	{ "hmac(sha256)", true }, /* iwd */
-> +	{ "hmac(sha384)", true }, /* iwd */
-> +	{ "hmac(sha512)", true }, /* iwd, sha512hmac */
-> +	{ "md4", true }, /* iwd */
-> +	{ "md5", true }, /* iwd */
-> +	{ "sha1", false }, /* iwd, iproute2 < 7.0 */
-> +	{ "sha224", true }, /* iwd */
-> +	{ "sha256", true }, /* iwd */
-> +	{ "sha384", true }, /* iwd */
-> +	{ "sha512", true }, /* iwd */
-> +	{},
-> +};
-> +
-> =C2=A0struct hash_ctx {
-> =C2=A0	struct af_alg_sgl sgl;
-> =C2=A0
-> =C2=A0	u8 *result;
-> =C2=A0
-> @@ -380,10 +398,16 @@ static struct proto_ops algif_hash_ops_nokey =3D
-> {
-> =C2=A0	.accept		=3D	hash_accept_nokey,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static void *hash_bind(const char *name)
-> =C2=A0{
-> +	int err;
-> +
-> +	err =3D af_alg_check_restriction(name, hash_allowlist);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> =C2=A0	return crypto_alloc_ahash(name, 0, AF_ALG_CRYPTOAPI_MASK);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void hash_release(void *private)
-> =C2=A0{
-> diff --git a/crypto/algif_rng.c b/crypto/algif_rng.c
-> index 4dfe7899f8fa..bd522915d56d 100644
-> --- a/crypto/algif_rng.c
-> +++ b/crypto/algif_rng.c
-> @@ -48,10 +48,14 @@
-> =C2=A0
-> =C2=A0MODULE_LICENSE("GPL");
-> =C2=A0MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
-> =C2=A0MODULE_DESCRIPTION("User-space interface for random number
-> generators");
-> =C2=A0
-> +static const struct af_alg_allowlist_entry rng_allowlist[] =3D {
-> +	{},
-> +};
-> +
-> =C2=A0struct rng_ctx {
-> =C2=A0#define MAXSIZE 128
-> =C2=A0	unsigned int len;
-> =C2=A0	struct crypto_rng *drng;
-> =C2=A0	u8 *addtl;
-> @@ -199,10 +203,15 @@ static struct proto_ops __maybe_unused
-> algif_rng_test_ops =3D {
-> =C2=A0
-> =C2=A0static void *rng_bind(const char *name)
-> =C2=A0{
-> =C2=A0	struct rng_parent_ctx *pctx;
-> =C2=A0	struct crypto_rng *rng;
-> +	int err;
-> +
-> +	err =3D af_alg_check_restriction(name, rng_allowlist);
-> +	if (err)
-> +		return ERR_PTR(err);
-> =C2=A0
-> =C2=A0	pctx =3D kzalloc_obj(*pctx);
-> =C2=A0	if (!pctx)
-> =C2=A0		return ERR_PTR(-ENOMEM);
-> =C2=A0
-> diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
-> index df20bdfe1f1f..2b8069667974 100644
-> --- a/crypto/algif_skcipher.c
-> +++ b/crypto/algif_skcipher.c
-> @@ -32,10 +32,24 @@
-> =C2=A0#include <linux/mm.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/net.h>
-> =C2=A0#include <net/sock.h>
-> =C2=A0
-> +static const struct af_alg_allowlist_entry skcipher_allowlist[] =3D {
-> +	{ "adiantum(xchacha12,aes)", false }, /* cryptsetup */
-> +	{ "adiantum(xchacha20,aes)", false }, /* cryptsetup */
-> +	{ "cbc(aes)", true }, /* iwd */
-> +	{ "cbc(des)", true }, /* iwd */
-> +	{ "cbc(des3_ede)", true }, /* iwd */
-> +	{ "ctr(aes)", true }, /* iwd */
-> +	{ "ecb(aes)", true }, /* iwd, bluez */
-> +	{ "ecb(des)", true }, /* iwd */
-> +	{ "hctr2(aes)", false }, /* cryptsetup */
-> +	{ "xts(aes)", false }, /* cryptsetup benchmark */
-> +	{},
-> +};
-> +
-> =C2=A0static int skcipher_sendmsg(struct socket *sock, struct msghdr *msg=
-,
-> =C2=A0			=C2=A0=C2=A0=C2=A0 size_t size)
-> =C2=A0{
-> =C2=A0	struct sock *sk =3D sock->sk;
-> =C2=A0	struct alg_sock *ask =3D alg_sk(sk);
-> @@ -307,10 +321,16 @@ static struct proto_ops
-> algif_skcipher_ops_nokey =3D {
-> =C2=A0	.poll		=3D	af_alg_poll,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static void *skcipher_bind(const char *name)
-> =C2=A0{
-> +	int err;
-> +
-> +	err =3D af_alg_check_restriction(name, skcipher_allowlist);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> =C2=A0	return crypto_alloc_skcipher(name, 0,
-> AF_ALG_CRYPTOAPI_MASK);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void skcipher_release(void *private)
-> =C2=A0{
-> diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
-> index 7643ba954125..4e9ed8e73403 100644
-> --- a/include/crypto/if_alg.h
-> +++ b/include/crypto/if_alg.h
-> @@ -159,13 +159,21 @@ struct af_alg_ctx {
-> =C2=A0	unsigned int len;
-> =C2=A0
-> =C2=A0	unsigned int inflight;
-> =C2=A0};
-> =C2=A0
-> +struct af_alg_allowlist_entry {
-> +	const char *name;
-> +	bool privileged;
-> +};
-> +
-> =C2=A0int af_alg_register_type(const struct af_alg_type *type);
-> =C2=A0int af_alg_unregister_type(const struct af_alg_type *type);
-> =C2=A0
-> +int af_alg_check_restriction(const char *name,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 const struct af_alg_allowlist_entry
-> allowlist[]);
-> +
-> =C2=A0int af_alg_release(struct socket *sock);
-> =C2=A0void af_alg_release_parent(struct sock *sk);
-> =C2=A0int af_alg_accept(struct sock *sk, struct socket *newsock,
-> =C2=A0		=C2=A0 struct proto_accept_arg *arg);
-> =C2=A0
->=20
-> base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
+Since ktime_get_snapshot_id() now calculates the ideal time with sub-
+nanosecond precision, we would add that as a field in the snapshot and
+then KVM could track ->master_clock_ns_frac and ->kvmclock_offset_frac
+and eliminate the rest of the rounding error too.
+
+It might be more trouble than it's worth, but either way I'll look at
+it some other time; it can be done incrementally.
+
+--=-qgqjtXkQsawglhqsis4k
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDYyMzA4NTAy
+MFowLwYJKoZIhvcNAQkEMSIEIDOm1m10SG0crtAVSZ+494IKuSSKgvfWfYtKWgTF0lQ8MGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAX8rrG7JGogqc
+Dn18rvL0yeEm9C7B0cUWzaRfLGcwi83qFG645uhT+a88ggUFguW7A3ThVSEXDYPjy9h+Ue3TRczh
+tCpAf1yW/6BErlotG+zhR8wnBn62WrnScA9mI3tCke9Y5mRmU1SuIm9OeaBCCird+dGoDGrj9QIS
+Ano/QHEldJiGnBaIakO6HPq901RLMMs8+bcNDmKPIOrhpR/+c0b8KpcrQxrEuSEyUCx+/qYCFKPa
+JYwMZy1QGRUPV9iL1bqf19unjfDpfc2oasa/LdZIJWSO+CYk0MPF74YuTiFZSsRAdYOEBFSHv0zw
+9XsBWTYIipaj9Lc/4pGP4OnhZOv9fvKpd9PeL3jjuZR2weF32paGKO/buOTXV+Fj8aLf3WAqX0P1
+sHLQlVdbcwz62jEKcSGCAotbO38Y2mqdYdiLSKtGh1nMo34s2ZpQhrfb/JmcYu+tSQNMeki7I96k
+EqpYEAkrQU5rqBq3V+qxQPCEwZpS46PsdCn5P7zC+9qntI41+pK6qa6cgVDvvAYsptkb8dyC7gcM
+IFzOyGXZCT2fRdZYkmvy8c8jGUEW4CioN40E6h/lZBo3goWkjnje+I3ngP8dosJqYH2UyFWqRro2
+mYjacVLz45hVwE2WUlumxQ+lCGPwZTEToSv3F3Oi/7qNlsghe0bBT1SXTyojbXUAAAAAAAA=
+
+
+--=-qgqjtXkQsawglhqsis4k--
