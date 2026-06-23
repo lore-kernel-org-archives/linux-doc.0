@@ -1,325 +1,94 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FAA372661
-	for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 23:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782172796; cv=pass; b=N6EQye3KUuLCHW2h4pcKobwSgTWl4i4rDKMi6j9AbUF7qQLaWE3rmppBrMJxzemvlqk9c7Ov6fKuLM5bvZXi+pBT10/S6o8aCgz9qngVE5tLTl2hWOjdIXO9hLsKhf23dTFpCCZbgu6RdWevyqU4o488KguZH6ByV2ADQ0dpoq0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782172796; c=relaxed/simple;
-	bh=0MG0edPxtYzBs/kIxVhCRo1M3OKACtf5qAqQlOliLq4=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OOFYqigvDlrHEyY7GuVKRK3IprC7PMdiGph7jYHEGqZAsXuL1pzRSRr8pOT3/QOt3X88x5JlJfVyhSHXgTZt7bDndZqMdNvJ8SsKYjEaguR5O8utfiMQfQR3OCyk0ZotSbP5IbCMzgrDjntTRKbe4BDV195JNfjmFDnkHLO69L4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mPc4hWBi; arc=pass smtp.client-ip=74.125.82.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68C1125A0
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 00:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782173346; cv=none; b=E5cxAE9TffUp/4OSdFoqQZ7yW64AbuctBR94+NCwW60YbUttL7OR4G5p7ndA1wjuFVjQPmrNkhhRorFC5PzGkQV1cho+xiVYGY4wvYW8VxFe5xEptMb/FszHJG+AMqZHwRtV4yw8CyL9ZXPsuBF1JiDkPUhgA6xibrtgM7MjBNo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782173346; c=relaxed/simple;
+	bh=yd2+TEOv7FExuypFSi9d8xWFqZaT8pV4kh4tpwR5c98=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jh+8XKc82erXa2tRaphSDIFAn6wr2KRDEhq7YknOAYsft5JZzsVWYeCf8cpFyVlD6RGpk9NOB2r/fvgXi8YSEotl8JCPqwSuPAx5YtnmikcLhRLx4kt7w5+Ozv+Vv1x7uIrhuMDLhgsM4MAPGcketOxLlgbnQi+EPj5VNLety58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gO8kormo; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mPc4hWBi"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1390f75d8bbso4626776c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 16:59:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782172794; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MyXVD7NA1t4hIX5yz25gBFnR1w9uhtC3+Kei1qIbAzz72rKQSupezbWmcaO+73bZvl
-         UG3Bz1qlwvR2mJVvlUxNXK6QdBKSrLoFGeYa6JKWEMW2Ttf1Hnj0ZS1iAwWYyTz0DRym
-         sNASJKs/difaBiebxVNVBEw6SZ4olR+MLQOEGzqatq84JE+W92MABCWyuSxjfOveEhgS
-         nxBqC5bYxC2Es4lNQxiaemd+FQuOSi/6g7WsoLSfkF9cNx2ifgi8cCiZ+xojqQZfO/Fn
-         buHxZHc09stv3AHyR38i0mjdMf7Fx36zXjvj80eRJ2erilnBUms8NPI0HP9IomkDS4DF
-         mmsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=izUkSbDfmlQNOHn67gDt4QYFdqixnFjivdkPID2enxk=;
-        fh=L/iEBlYfo3yMFnNmh8G5zht/UtcwKqCfRVCp0F75MQ8=;
-        b=FvnXBBIjYdVGBgNsZw/SKSG4qh2i7tQKQ0IjC7/g2cOwKAfhMDRH0+rYZq1EwFqF+X
-         ECcYrO6DnZCx1uNaDXs1L8sLQLGxzYkNxDQEDmL4G4YRPiDraHTINhHEl9fivtEYbQBR
-         PXs6oE3Tx72fV/xFHfhcvs/2YmzkJsLPkTV2cXQkIHh58bGEEImYKoVSGEmjppFY8Glt
-         Cl16nlwCuVvIXbz9e+t3eptMJNDe1UFnS9Ec7ldHhv/6q/57OxbxLOlDIpKJ3B4Ma9nC
-         CAZ/rSZu1RANcttwUkHmaQ4o5PLuGgCAnrA3pQAoMaSGBpzrvJDx6WVaYJuUWjYCRvGW
-         E4/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gO8kormo"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2c7403e80b0so42835915ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 17:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782172794; x=1782777594; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=izUkSbDfmlQNOHn67gDt4QYFdqixnFjivdkPID2enxk=;
-        b=mPc4hWBiOlDb1BkgHKfUV7xNE0MiVJbDwwaVrdP1iClyMi3Ir3U2qBYSPz0gn3O8TY
-         m+YYT1bYbPjfyJfbakVD1S8BhFioE/FySlDpMk28JYDL4jjH8gyysCNLiNan9jsOBWoe
-         VoRZgfr9JzNtmXxUjgSAt8h+c2I/AJMiDTMKGBIQ1tJzDXbWO97jDe9pcKnGh++jGImN
-         6aaKFmIavx5S47Hy6xnElibeLJOIoXbUN166x60MxHQeEVI4T6X4Q6vmPqtofB1zEoFs
-         r/HAzcT0APBzCm7QtuerSICpb/gVT2qLWgcPk/HndwdGUCF1h8rPMjOf+LsdkHhiXgF6
-         CZ9Q==
+        d=google.com; s=20251104; t=1782173344; x=1782778144; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TDYTMQB3fQDmgyevIQsrlSuuHRIIVN5YGJEE9Jzg0yM=;
+        b=gO8kormoM1600hw6wApml3oRPggplSFcmTscSLVOKhtgOtU1bgaWFM2T4pBfh1m9NA
+         jWQNdAEMcN/jF2W3qHdFh/qt3grUJ6WrSTkHzQmROQnGIcjVROqiJKidx5VRJMwyb5ra
+         MUBhSY1SPGr9Oa4bxjBNORKgoXd0cMOXu1vFhpvfI09tLu+uzFwwKgYnNHapEyHT7BOr
+         R48vAPNLqr0N0P2ec1g0Tic/RLbeg2wcYoovx6MGpHMC4vuKLVG9FLGDH+RPDJp3TjrO
+         tcXacYbqn/CwnRsyqnTQ8X2G4wSu9iA1N/gd6dhKD+0McZHMfopffIbCSCGXviA0DbjT
+         lU9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782172794; x=1782777594;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=izUkSbDfmlQNOHn67gDt4QYFdqixnFjivdkPID2enxk=;
-        b=S729VG9WpUOW3aAecxuDb5giEmb1N6u55RDdhl6IkH0a92vYf1tNcs6PjX35+2ey6r
-         Wwu/bXsQqXP8jiKa2RzG9IcwsAulOg3svDNflhygERVwC0PuV1yOzuNoXxhjr/ImNhNV
-         cJXQXzV1LrX5W/PhTiv4LqibHOG32BK3u7qyGCPwSknlE4FcFeeMTYyJUY5upV1pKsEk
-         oLHfWo+VG9yWif+BYNusXHWsTtoMOFzV18Px4UiNjXByckONV+BS7SkEJUWxIQ1fW4kg
-         PK4qRwYioRyQFZJmYzyafDkOIZyU25ryWAxNpTfRGL0jJ28eB9c7u8WM4QE37YgYNpdf
-         5dXA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Kvxsv6w3VSeonAGSbFrTowBqLgeOVOhQ+E/SaDzqRyOkRYhw9/oyuWyOwrtv1DYLCS7BI0K6CLmc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7yEYpAKvgjEo4vAxDJDw1ckput+71zMR8OlJqALlKOq+9FLVN
-	ZYTJumOep+pEpo7vobcvwkRWQ2RxcOb1NKqiEDkP9MS4H2dI0gZj7oYBdeF7FqoShVvfHRM1UpY
-	Uzj6GGbx/hfTwYiF0e5bqR1qt8BwauB/RZsnM25hr
-X-Gm-Gg: AfdE7cksiS3jHsocuB6ZS4MXrXykTGIpKpDReOs0hNXOvHlEjUp5jUot5f3mtoxFsGk
-	3oRcY33TuobtWXI2RWuofeRtDongNj6LwnV5eRXP6PCY0q11oIUXcjY7o8aeSEUcpmDzoi2pU8z
-	J+wn1aPpS9jvZGkZ6p7TAjUy+Qtz8bS1UPpTqu4ICkDOLC5gGiC8EMM3ryIXizyqQLx8V51POf4
-	kLCmiwzt2v76s8ntSbiovRM34WqqJG9NJBJ3mUHpdcT9+spK51wdU1eNVCPupOsNH/nZYwg0Lb4
-	lHkoZXDkWZHeZUF3ywcgMkt0nddmVDl0xX3wGdjnBzFWFt2OMB7OIXJ3xpM=
-X-Received: by 2002:a05:7022:239f:b0:12d:de3e:52c1 with SMTP id
- a92af1059eb24-139c5e2d27fmr426595c88.37.1782172793679; Mon, 22 Jun 2026
- 16:59:53 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 16:59:52 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 16:59:52 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20ae20f9d1a198b289444ebb4c824314cbba1bcf.1780676742.git.tarunsahu@google.com>
-References: <cover.1780676742.git.tarunsahu@google.com> <20ae20f9d1a198b289444ebb4c824314cbba1bcf.1780676742.git.tarunsahu@google.com>
+        d=1e100.net; s=20251104; t=1782173344; x=1782778144;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TDYTMQB3fQDmgyevIQsrlSuuHRIIVN5YGJEE9Jzg0yM=;
+        b=F8zj4StYbUiKXcmuulwYRMFRRKDAuu+guymPwinOFiTPP7ccEib20mpp2f3y00RHY4
+         1+Rtz3nbeceESOeFk3dijS3qxJzgyr+UvQOUJgNdHJTqqL1aTy/F/opMLQfNeQMgTiKz
+         jkdqlPt2nxmLkWdKHel34ESkmQ89uRkPeOXTsghyrnNv3H/Z9vV8Zr98PDzsAWsNw9mJ
+         P3GP1DcMRvCECBY14t7627FeJtvX0O4IbpgcWdoqIiZWnaa6OkBxa3knMgwmg8x4ynyy
+         01qymBwsVvelLu68L0Mc0joxRYywFQG7fEeD5EeXo+kuf+h/fPc6p3nywWYQHXs+UIBH
+         tEww==
+X-Forwarded-Encrypted: i=1; AHgh+RqUtuNvR8OpJMaSVaTFxPXQHT1RRdmP7uMcd1sVrKHdJnX83UzcKVsk27M43rirm0nU+0DWGUFD3s8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy02QmTpGTHjHwKUJIpJIRqqTMB+UpYWlAEJZ8ynFoZJHU1+8Le
+	64H6i2mFsfZ40mHoXJ0Di+VTQkDF9QxDYuLDp2A/29bMwOHZXcv5E1QKqR04an1r+wZoVChXbid
+	8ka53yw==
+X-Received: from plae21.prod.google.com ([2002:a17:902:e0d5:b0:2bc:bb08:92dc])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e881:b0:2c6:cd96:6a8
+ with SMTP id d9443c01a7336-2c718f3fa54mr191868605ad.30.1782173343880; Mon, 22
+ Jun 2026 17:09:03 -0700 (PDT)
+Date: Mon, 22 Jun 2026 17:09:03 -0700
+In-Reply-To: <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Mon, 22 Jun 2026 16:59:52 -0700
-X-Gm-Features: AVVi8CfrDtA5h9OoS52m-5SKtGCl3rj7KRQFOYRYPcz5rppoei0C-yt2tsDCGII
-Message-ID: <CAEvNRgGharGxs9s_ow0Z4iiQ9PCzdghch-4Fk6UMjiPP9tX-5g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 03/10] kvm: Prepare core VM structs and helpers for
- LUO support
-To: Tarun Sahu <tarunsahu@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
+Mime-Version: 1.0
+References: <cover.1780676742.git.tarunsahu@google.com> <48777f4749fa43d5648085dbb2037aa99c144a88.1780676742.git.tarunsahu@google.com>
+ <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
+Message-ID: <ajnOnzdknfwbuJ9g@google.com>
+Subject: Re: [RFC PATCH v2 06/10] kvm: guest_memfd: Add support for freezing
+ and unfreezing mappings
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Tarun Sahu <tarunsahu@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
 	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
 	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
 	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
 	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
 	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	seanjc@google.com, axelrasmussen@google.com
-Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+	axelrasmussen@google.com, linux-kselftest@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="us-ascii"
 
-Tarun Sahu <tarunsahu@google.com> writes:
+On Mon, Jun 22, 2026, Ackerley Tng wrote:
+> Tarun Sahu <tarunsahu@google.com> writes:
+> 
+> > This patch introduces the freeze on gmem_inode which prevents
+> 
+> Can't find the reference now, but commit messages should take the
+> imperative mood and avoid "this patch" [*]
 
-> Introduce core infrastructure to support VM preservation with LUO.
->
-> First two changes are just refactoring, no functional change, third
-> change introduces a new member in struct kvm.
-> - Move ITOA_MAX_LEN to kvm_mm.h for reuse by upcoming kvm_luo code.
-> - Add a public kvm_create_vm_file() helper wrapping kvm_create_vm()
->   and anon_inode_getfile() to provide a unified VM file creation API.
-> - Track a weak reference to the backing file in struct kvm under
->   CONFIG_LIVEUPDATE_GUEST_MEMFD to enable reverse file resolution
->   without circular lifetime dependencies.
->
+From Documentation/process/submitting-patches.rst:
 
-Given the above, I think this should be separate patches.
+  Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+  instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+  to do frotz", as if you are giving orders to the codebase to change
+  its behaviour.
 
-> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
-> ---
->  include/linux/kvm_host.h | 14 +++++++
->  virt/kvm/kvm_main.c      | 79 +++++++++++++++++++++++++++++-----------
->  virt/kvm/kvm_mm.h        |  3 ++
->  3 files changed, 75 insertions(+), 21 deletions(-)
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 4c14aee1fb06..9111a28637af 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -874,6 +874,18 @@ struct kvm {
->  #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
->  	/* Protected by slots_lock (for writes) and RCU (for reads) */
->  	struct xarray mem_attr_array;
-> +#endif
-> +#ifdef CONFIG_LIVEUPDATE_GUEST_MEMFD
-> +	/*
-> +	 * Weak reference to the VFS file backing this KVM instance. Stored
-> +	 * without incrementing the file refcount to prevent a circular lifetime
-> +	 * dependency (since file->private_data already pins this struct kvm).
-> +	 * Used exclusively to resolve the file pointer back from struct kvm.
-> +	 *
-> +	 * Written/cleared via rcu_assign_pointer() and read locklessly under
-> +	 * RCU (e.g. via get_file_active() to prevent ABA races).
-> +	 */
-> +	struct file *vm_file;
->  #endif
-
-We didn't really talk about this during the calls, but it seems weird to
-preserve a vm_file with pretty much nothing other than the vm type. The
-entire VM is re-created, which means it could potentially be a
-completely different VM?
-
-In some sense it's more flexible since the guest_memfd can be restored
-with some completely different VM, but it seems like it could introduce
-other issues.
-
-I think other KVM folks would probably have more thoughts here.
-
->  	char stats_id[KVM_STATS_NAME_SIZE];
->  };
-> @@ -1074,7 +1086,9 @@ void kvm_get_kvm(struct kvm *kvm);
->  bool kvm_get_kvm_safe(struct kvm *kvm);
->  void kvm_put_kvm(struct kvm *kvm);
->  bool file_is_kvm(struct file *file);
-> +struct file *kvm_create_vm_file(unsigned long type, const char *fdname);
->  void kvm_put_kvm_no_destroy(struct kvm *kvm);
-> +void kvm_uevent_notify_vm_create(struct kvm *kvm);
->
->  static inline struct kvm_memslots *__kvm_memslots(struct kvm *kvm, int as_id)
->  {
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 89489996fbc1..65f0c5fb353e 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -67,9 +67,6 @@
->  #include <linux/kvm_dirty_ring.h>
->
->
-> -/* Worst case buffer size needed for holding an integer. */
-> -#define ITOA_MAX_LEN 12
-> -
->  MODULE_AUTHOR("Qumranet");
->  MODULE_DESCRIPTION("Kernel-based Virtual Machine (KVM) Hypervisor");
->  MODULE_LICENSE("GPL");
-> @@ -1349,6 +1346,19 @@ static int kvm_vm_release(struct inode *inode, struct file *filp)
->  {
->  	struct kvm *kvm = filp->private_data;
->
-> +#ifdef CONFIG_LIVEUPDATE_GUEST_MEMFD
-> +	/*
-> +	 * Clear the weak reference of the vm file.
-> +	 * In case vm file is closed by userspace, but kvm still has
-> +	 * other users like vCPUs, clearing this pointer ensures
-> +	 * that we don't have a dangling pointer to a closed file.
-> +	 *
-> +	 * Cleared via rcu_assign_pointer() to ensure proper memory visibility
-> +	 * for concurrent lockless readers under RCU.
-> +	 */
-> +	rcu_assign_pointer(kvm->vm_file, NULL);
-> +#endif
-> +
->  	kvm_irqfd_release(kvm);
->
->  	kvm_put_kvm(kvm);
-> @@ -5476,11 +5486,47 @@ bool file_is_kvm(struct file *file)
->  }
->  EXPORT_SYMBOL_FOR_KVM_INTERNAL(file_is_kvm);
->
-> +struct file *kvm_create_vm_file(unsigned long type, const char *fdname)
-> +{
-> +	struct kvm *kvm = kvm_create_vm(type, fdname);
-> +	struct file *file;
-> +
-> +	if (IS_ERR(kvm))
-> +		return ERR_CAST(kvm);
-> +
-> +	file = anon_inode_getfile("kvm-vm", &kvm_vm_fops, kvm, O_RDWR);
-> +	if (IS_ERR(file)) {
-> +		kvm_put_kvm(kvm);
-> +		return file;
-> +	}
-> +
-> +#ifdef CONFIG_LIVEUPDATE_GUEST_MEMFD
-> +	/*
-> +	 * Weak reference to the file (without get_file()) to prevent a circular
-> +	 * dependency. Safe because the file's release path clears this pointer
-> +	 * and drops its reference to the VM.
-> +	 *
-> +	 * Written via rcu_assign_pointer() because the pointer can be read
-> +	 * locklessly under RCU (e.g., in kvm_gmem_luo_preserve() via
-> +	 * get_file_active() to prevent lockless ABA races).
-> +	 */
-> +	rcu_assign_pointer(kvm->vm_file, file);
-> +#endif
-> +
-> +	/*
-> +	 * Don't call kvm_put_kvm anymore at this point; file->f_op is
-> +	 * already set, with ->release() being kvm_vm_release().  In error
-> +	 * cases it will be called by the final fput(file) and will take
-> +	 * care of doing kvm_put_kvm(kvm).
-> +	 */
-> +
-> +	return file;
-> +}
-> +
->  static int kvm_dev_ioctl_create_vm(unsigned long type)
->  {
->  	char fdname[ITOA_MAX_LEN + 1];
->  	int r, fd;
-> -	struct kvm *kvm;
->  	struct file *file;
->
->  	fd = get_unused_fd_flags(O_CLOEXEC);
-> @@ -5489,31 +5535,17 @@ static int kvm_dev_ioctl_create_vm(unsigned long type)
->
->  	snprintf(fdname, sizeof(fdname), "%d", fd);
->
-> -	kvm = kvm_create_vm(type, fdname);
-> -	if (IS_ERR(kvm)) {
-> -		r = PTR_ERR(kvm);
-> -		goto put_fd;
-> -	}
-> -
-> -	file = anon_inode_getfile("kvm-vm", &kvm_vm_fops, kvm, O_RDWR);
-> +	file = kvm_create_vm_file(type, fdname);
->  	if (IS_ERR(file)) {
->  		r = PTR_ERR(file);
-> -		goto put_kvm;
-> +		goto put_fd;
->  	}
->
-> -	/*
-> -	 * Don't call kvm_put_kvm anymore at this point; file->f_op is
-> -	 * already set, with ->release() being kvm_vm_release().  In error
-> -	 * cases it will be called by the final fput(file) and will take
-> -	 * care of doing kvm_put_kvm(kvm).
-> -	 */
-> -	kvm_uevent_notify_change(KVM_EVENT_CREATE_VM, kvm);
-> +	kvm_uevent_notify_change(KVM_EVENT_CREATE_VM, file->private_data);
-
-Notifying with file->private_data threw me off... I would rather inline
-the rcu_assign_pointer() in this function and have this line read
-notify(..., kvm) like before.
-
->
->  	fd_install(fd, file);
->  	return fd;
->
-> -put_kvm:
-> -	kvm_put_kvm(kvm);
->  put_fd:
->  	put_unused_fd(fd);
->  	return r;
-> @@ -6341,6 +6373,11 @@ static void kvm_uevent_notify_change(unsigned int type, struct kvm *kvm)
->  	kfree(env);
->  }
->
-> +void kvm_uevent_notify_vm_create(struct kvm *kvm)
-> +{
-> +	kvm_uevent_notify_change(KVM_EVENT_CREATE_VM, kvm);
-> +}
-> +
->  static void kvm_init_debug(void)
->  {
->  	const struct file_operations *fops;
-> diff --git a/virt/kvm/kvm_mm.h b/virt/kvm/kvm_mm.h
-> index 9fcc5d5b7f8d..7aa1d65c3d46 100644
-> --- a/virt/kvm/kvm_mm.h
-> +++ b/virt/kvm/kvm_mm.h
-> @@ -3,6 +3,9 @@
->  #ifndef __KVM_MM_H__
->  #define __KVM_MM_H__ 1
->
-> +/* Worst case buffer size needed for holding an integer as a string. */
-> +#define ITOA_MAX_LEN 12
-> +
->  /*
->   * Architectures can choose whether to use an rwlock or spinlock
->   * for the mmu_lock.  These macros, for use in common code
-> --
-> 2.54.0.1032.g2f8565e1d1-goog
+Documentation/process/maintainer-tip.rst and Documentation/process/maintainer-kvm-x86.rst
+elaborate more on the preferred style (I do most of the guest_memfd maintenance,
+and so for all intents and purpose it's bound by KVM x86 "rules").
