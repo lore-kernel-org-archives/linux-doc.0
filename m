@@ -1,92 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EB12853FD;
-	Tue, 23 Jun 2026 16:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D1531AABF;
+	Tue, 23 Jun 2026 16:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782233328; cv=none; b=jfk0ada1p6z+P0ozMxfOTtWM8iL4ecsTDTEgOTRP3h9lV1s5JVN0As89UkuBlyxUl4TlALp71E6woG03qr4jwDBCqb5GQbbJ1IiRW7/A/P5cAkFRy085zg1xFYo0i5qmc06M5SwkNQhmbMC9ORz9vh1UvkE5NZq8iMREvCUzryg=
+	t=1782233469; cv=none; b=LDrkfvEXEDEpA17r3PBoCGNReI3+tMjfba22iwWcj5krOrjZrNkFf393VNgBHiVLoL9QwJ60vbqQUoNzqYqWacs2LOrehoyiUEihJ0EE6BPh9tBnRu67ieqlhu/Duj+U7NJ5j5erP/bE7glB3z1Y7cSZH+HC/clTBmU1KaFSgmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782233328; c=relaxed/simple;
-	bh=HFMzxosMl1/xGkXPZiHLOcNmrmrJnXq0t97WucFjIQM=;
+	s=arc-20240116; t=1782233469; c=relaxed/simple;
+	bh=jEIfOz8L3Xvj/I99+aKSmhRVI9moHWAB23vzqWdnkhQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aov8NILcVrmQE3zh5zeSgGcVvE7ITvCJyzK+yNLgzbnCWj2CqiLZSrLU3MM9WP/V2vMUzvO88cfLVp1PsjRYuEA5IBUCgTCAXgLO662XFGG0IWVx4jdu6e4uqlYnSPPnzLvlYYl1y5UDPUQwI6IoNgWzi+7DGMNpx033lWQW2hI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C2u+Fhqw; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUpqXJ1uXCKFppCwk7jHyyoMb3v+omyF/n8RurnIjU9idb2BWNDbkGIFhaG9eTnySpWt26oAEsl10CsJ7ckgC3d65n2LaEK6fajgQH7KgGZO7Hz44HDskeiadE7HlBv9M3DRSZMvyGBDXC6e565jhtQD4aTDnnGf9Tf3z2NsFLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eb50iDUH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C2u+Fhqw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16DC1F00A3A;
-	Tue, 23 Jun 2026 16:48:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eb50iDUH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7BC1F000E9;
+	Tue, 23 Jun 2026 16:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782233326;
-	bh=XTd1oYODO+jyORH1hmyxw1qqhri337OZ0PP2Sxmio/U=;
+	s=k20260515; t=1782233468;
+	bh=br1dDqQSE3Y/rlJoCar3aldqoF93foDqyKQcutQqY9s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C2u+Fhqwz7Cw+nG0Li32TbRDfsxJvV5b1kiPDDWcSbRWVJ6qexPT0xX/t+G9vEfJ5
-	 qzSuL1+J8scs6pSvQ7ud3krhjIE9euW9oQRv/94kspletZGCM2FKvgg/nyC7wOykdy
-	 tAx0320EAIfuCrPdhTCM5CIESaeoVwGnFuHQSaC0wEXPM9qCEo7wCxghkOo96G+bbL
-	 vKysd+1zVx97+I42xfGkjT4eVmAX/RQDpBvGkh4RO0HBWk4IKo17eBopMS2CX5TL1u
-	 zjREuVs5C6rcVZxQoSyEYg0IndkNKt+2TpDo+Omu/aCj26alcdreew4eIR1+d6B5GX
-	 axX2d1+Ds+Gwg==
-Date: Tue, 23 Jun 2026 17:48:40 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Doehyun Baek <doehyunbaek@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Docs/driver-api/uio-howto: document mmap_prepare callback
-Message-ID: <ajq4yGBq0Jag_UGX@lucifer>
-References: <20260622181821.1195257-1-doehyunbaek@gmail.com>
+	b=eb50iDUHq00+xrXaIrlUViHsFtPLU4oDzdWikR5Bkk78aU56/2xe07iQ91ISc//Zl
+	 kHUAsfjK1Y3U2rb523vLCRbrdbCqBBWUmRgKGNG9oeupcVoz3FDSbF3wYHGF/R1EWB
+	 6pIUmeYYYyq9hfLyFg1AdhSPhZ01XPbzwZakM+i+u07Q9vnjKGY0XCaa2pj6sZekwk
+	 eAGVHPQ7OERb7En2c4Zm9SM6ogQnJf5x3v7Um48ZiSS2msWbq+AJ3Ls+0Ag6Hk1Tcq
+	 U058ws8hmOS4bxcwd1AnPcJtcEvdc237m8bjr1S8vk7TEO5Pglj0D1Du8AX7Z7D9RL
+	 KmSxq8pCB7o4g==
+Date: Tue, 23 Jun 2026 09:49:32 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Bastien Nocera <hadess@hadess.net>
+Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-bluetooth@vger.kernel.org, ell@lists.linux.dev
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+Message-ID: <20260623164932.GA1793@sol>
+References: <20260430011544.31823-1-ebiggers@kernel.org>
+ <7d08a6df54279e9915f5df6bd4e5e5dde52b4fe1.camel@hadess.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260622181821.1195257-1-doehyunbaek@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7d08a6df54279e9915f5df6bd4e5e5dde52b4fe1.camel@hadess.net>
 
-On Mon, Jun 22, 2026 at 06:18:21PM +0000, Doehyun Baek wrote:
-> The UIO howto still documents an mmap callback in struct uio_info.
-> That field was replaced by mmap_prepare, which takes a struct
-> vm_area_desc.
+On Tue, Jun 23, 2026 at 02:44:28PM +0200, Bastien Nocera wrote:
+> Hey,
+> 
+> Replying to this older patch.
+> 
+> On Wed, 2026-04-29 at 18:15 -0700, Eric Biggers wrote:
+> <snip>
+> > This isn't intended to change anything overnight.  After all, most Linux
+> > distros won't be able to disable the kconfig options quite yet, mainly
+> > because of iwd.  But this should create a bit more impetus for these
+> > userspace programs to be fixed, and the documentation update should also
+> > help prevent more users from appearing.
+> 
+> There are 2 other users that I know of: bluez, and the ell library
+> (used by iwd and bluez).
 >
-> A UIO driver following the current howto no longer builds because
-> struct uio_info has no mmap member. Update the documented callback
-> signature and matching text to match the current API.
->
-> Fixes: 933f05f58ac6 ("uio: replace deprecated mmap hook with mmap_prepare in uio_info")
-> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
+> From what I could tell, bluetoothd uses AF_ALG for cryptography:
+> https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/src/shared/crypto.c
+> https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/tools/mesh-gatt/crypto.c
+> 
+> It uses "ecb(aes)" and "cmac(aes)" as algorithms.
+> 
+> Finally, it also uses them both again:
+> https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/mesh/crypto.c
+> through ell:
+> https://git.kernel.org/pub/scm/libs/ell/ell.git/tree/ell/cipher.c
+> 
+> Because that's a question that also came up, bluetoothd also uses the
+> CAP_NET_ADMIN capability.
+> 
+> I'll let Luiz and Marcel take it over from here.
+> 
 
-Ah thanks apologies for missing this! LGTM so:
+We're aware of that and are taking it into account in the allowlist:
+https://lore.kernel.org/linux-crypto/20260622234803.6982-1-ebiggers@kernel.org/
+If you have any feedback on the allowlist, please respond to that patch.
 
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-
-> ---
->  Documentation/driver-api/uio-howto.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
-> index 907ffa3b38f5..c08472dfbcfe 100644
-> --- a/Documentation/driver-api/uio-howto.rst
-> +++ b/Documentation/driver-api/uio-howto.rst
-> @@ -246,10 +246,10 @@ the members are required, others are optional.
->     hardware interrupt number. The flags given here will be used in the
->     call to :c:func:`request_irq()`.
->
-> --  ``int (*mmap)(struct uio_info *info, struct vm_area_struct *vma)``:
-> +-  ``int (*mmap_prepare)(struct uio_info *info, struct vm_area_desc *desc)``:
->     Optional. If you need a special :c:func:`mmap()`
->     function, you can set it here. If this pointer is not NULL, your
-> -   :c:func:`mmap()` will be called instead of the built-in one.
-> +   ``mmap_prepare`` will be called instead of the built-in one.
->
->  -  ``int (*open)(struct uio_info *info, struct inode *inode)``:
->     Optional. You might want to have your own :c:func:`open()`,
->
-> base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
-> --
-> 2.43.0
->
-
-Cheers, Lorenzo
+- Eric
