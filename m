@@ -1,135 +1,98 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597E83CCFA8
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.175.55.52])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 293033CE0B8
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.175.55.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782202873; cv=none; b=h2hghA38A8EpuZH5IdEsv/KCyuu6CxLEmm1NF8/IXxmhNA1glF4xhXP8hScT6N0nM5nSUw96L+GghrhEomadQqxu1HM4059/UsNMLq00djW3l2ZD1lLuzkV2PyifDyg44Q1NKoC3CX7+7QqHu1TpWLwgodCQT83OaGXXLd+0Dtk=
+	t=1782203131; cv=none; b=dpnRWHijy+fyufxkI30rvjfTznXxD/WBQSY5CC/PHomT3MsR82UNNcaLg2slWx70raLaSlxaHhzB4ElFT8ja50sGsxoKC+SU6FZ3uW5BJYkMnIz/gVlFySkrnqDSrz0iaa4s4AL9Zsv0vaObQdUB1NRMBN5V1JPye+sVph59kQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782202873; c=relaxed/simple;
-	bh=vWncEwffRc3SYTUhcngGHajaIOMNvIgO6vhdoy3NFQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AkfSPk4HzpAYRDKBrHQdtcQYexlL7fx6BjhHYR0X7QD8yLOZJuKlLDt8KqRXjzH4+age9XvN+vmLOGZM5xkmzffwah9er/DX7cNVqt6Lfh7alGHqewzfd3vfn+2AtkkXtzaP2G53rXabtmVlGjnrJYnDr+Tytow+5ezb317xYkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xww56uZA; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xww56uZA"
-X-Forwarded-Encrypted: i=1; AFNElJ+IAyhVdWmnn5T/cOMkUkR/fXlANbGQvo4QnGN7FzIQ8Yzoz7fInCOiWNCIlXfo49O0s09vXflLXQM=@vger.kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782202870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QXAENCcp5BDbPSOsn4f1upfQaIKMcigDEFtOKnyVkvM=;
-	b=xww56uZAvKekX61nmvfAovT0pNsZZ8j5IFjhEs+9/iuxN6htn/Z9hPyCoiC1funxtAm9t3
-	rfVbvEirki//gj0J6cjCms6nv+oeftXtBlX1Jgb4vK8AJa2Q4JnoDeJ0t2heSY/rvsfdGJ
-	+atsXjA4nnLz3Qsw3gWpXAjQQib9ihs=
-X-Gm-Message-State: AOJu0Yy5vSxG7SxOABnqTfp2+MmoeVxyUz6elBD1PSOuM1Y0Vo4jiBNu
-	HTXuPfRpFDhxvSJISTvxGwnzdsBPKcS7rE6d6VkU7Q+IJhpLjlcv2zKWipgsLdqvY1JJhJD6Hn+
-	xrVQSIfzKk9LX0FhiBU3+9sp9KekgNi9rXIwiveyT
-X-Received: by 2002:a05:622a:1246:b0:519:f8a0:16b4 with SMTP id
- d75a77b69052e-51a522c6f26mr6874451cf.14.1782202842728; Tue, 23 Jun 2026
- 01:20:42 -0700 (PDT)
+	s=arc-20240116; t=1782203131; c=relaxed/simple;
+	bh=MgEqA5NFj9DxyP9/vDI9Ou60HKfNpu+2oLk7DrYgNgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uggqOR4rA97379X1Zbv2zTArqrV2b2uQBMsXoheftAlS6SHiGPUtNjwUJSdZ+ngzjldRF82DohnRhcejItSH1pa0mJHEru/C7IPiquwpdQ4YDgTx4iM8CSjQ5zJU5umRIDS+rwktiScRPo4dRKTAS/NOkQ5zb8Qu3lHAAN+lkFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.175.55.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAAnJ6DpQjpqzs31AA--.53566S2;
+	Tue, 23 Jun 2026 16:25:13 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wCXccboQjpq1ugMAA--.9577S2;
+	Tue, 23 Jun 2026 16:25:13 +0800 (CST)
+Message-ID: <bafa3772-de28-4001-92fe-0936e416ec0c@hust.edu.cn>
+Date: Tue, 23 Jun 2026 16:25:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-13-9d2959357853@google.com>
- <CA+EHjTx2xKjheiW5VzHw_TdWFUqdJqfgu=dOPa=_yaYBMY8uyw@mail.gmail.com> <ajnRxuJ19OzZ8zJC@google.com>
-In-Reply-To: <ajnRxuJ19OzZ8zJC@google.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 23 Jun 2026 09:20:06 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTwLPCvZJgPv=8u3pgp+kwEwQbsXn_13FL3xUbJ7HRfXzw@mail.gmail.com>
-X-Gm-Features: AVVi8Cd8AX_ogmuHxl3lyKLs763XEWuLTlPOQRHFThhzmhUCsdYVCq6sKYCvrh8
-Message-ID: <CA+EHjTwLPCvZJgPv=8u3pgp+kwEwQbsXn_13FL3xUbJ7HRfXzw@mail.gmail.com>
-Subject: Re: [PATCH v8 13/46] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: Issue cloning kernel-doc-zh from HUST mirror
+To: Siwei Chen <businiaoanka@anka1.top>, linux-doc@vger.kernel.org
+Cc: si.yanteng@linux.dev, wy@wyuan.org
+References: <4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:HgEQrAAnJ6DpQjpqzs31AA--.53566S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoW7XFy5Aw48KF4fuFyfXF4xJFb_yoWftrX_CF
+	95Kw4DurZ5tF4jqw1xKrs7CrnxWw48Jr1UXw1UtrWUZas3ZrW3GFyxKa48Z3WfW393Kr1D
+	AF4rt3Zakr1xujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfkYjsxI4VW3JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAac4AC62xK8x
+	CEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0U
+	Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr1j6F4UJwAv7VCjz4
+	8v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_
+	Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uF
+	yUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUVrgADUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Tue, 23 Jun 2026 at 01:22, Sean Christopherson <seanjc@google.com> wrote:
->
-> On Fri, Jun 19, 2026, Fuad Tabba wrote:
-> > On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
-> > <devnull+ackerleytng.google.com@kernel.org> wrote:
-> > >
-> > > From: Ackerley Tng <ackerleytng@google.com>
-> > >
-> > > Introduce base support for KVM_SET_MEMORY_ATTRIBUTES2 in guest_memfd, which
-> > > just updates attributes tracked by guest_memfd.
-> > >
-> > > Validate input fields in general. Guard usage of KVM_SET_MEMORY_ATTRIBUTES2
-> > > by making sure requested attributes are supported for this instance of kvm.
-> > >
-> > > A new KVM_SET_MEMORY_ATTRIBUTES2 is defined to support writes (unlike
-> > > KVM_SET_MEMORY_ATTRIBUTES) in addition to reads so it can provide error
-> > > details to userspace. This will be used in a later patch.
-> > >
-> > > The two ioctls use their corresponding structs with no overlap, but
-> > > backward compatibility is baked in for future support of
-> > > KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2 in the VM
-> > > ioctl.
-> > >
-> > > The process of setting memory attributes is set up such that the later half
-> > > will not fail due to allocation. Any necessary checks are performed before
-> > > the point of no return.
-> > >
-> > > Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> > > Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-> > > Co-developed-by: Sean Christoperson <seanjc@google.com>
-> > > Signed-off-by: Sean Christoperson <seanjc@google.com>
-> > > Reviewed-by: Fuad Tabba <tabba@google.com>
-> > > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> >
-> > Note sure if it's user error on my part, if I'm applying this to the
-> > wrong base, but I found a build break here on patch 13:
-> > kvm_gmem_invalidate_start() doesn't exist in the base tree. The
-> > function is kvm_gmem_invalidate_begin() here. The rename
-> > (190cc5370a8b6) landed via a different merge path and isn't an
-> > ancestor of the stated base.
-> >
-> > Patches 19 and 20 have the same mismatch. Fix for all three is
-> > s/kvm_gmem_invalidate_start/kvm_gmem_invalidate_begin/.
->
-> Ya, Ackerley used a slightly older kvm/next to send the patches.  I at least was
-> testing against kvm-x86/next, which does have the rename.
->
-> Other than noting that this should be applied against the current kvm/next, I
-> don't think there's anything else to be done?
 
-Agree. Sorry, didn't mean to be nit-picky, but this really threw me off :)
+On 6/23/26 3:39 PM, Siwei Chen wrote:
+> Hello,
+>
+> I am following the documentation at:
+>
+> https://docs.kernel.org/translations/zh_CN/how-to.html#id3
+>
+> When trying to clone the repository from the recommended mirror:
+>
+> git clone https://mirrors.hust.edu.cn/git/kernel-doc-zh.git linux
+>
+> I consistently get the following error:
+>
+> error: RPC failed; curl 52 Empty reply from server
+> fatal: expected 'packfile'
+>
+> My environment is:
+>
+> Ubuntu 26.04
+> git version 2.53
+>
+> I have verified that the URL is reachable from my network, but the clone
+> operation still fails.
+>
+> Could anyone help me understand whether this is a mirror-side issue, a Git
+> compatibility issue, or something wrong with my setup?
 
-Cheers,
-/fuad
+I confirmed this is a mirror-side issue. Please use the first git repo:
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
+
+Dongliang Mu
+
+>
+> Thank you for your time.
+>
+> Best regards,
+> Siwei Chen
+>
+
