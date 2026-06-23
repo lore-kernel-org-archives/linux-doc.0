@@ -1,126 +1,99 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C149635F60E
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C774355F22
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782177776; cv=none; b=BRjJtyU5cwEBYAweS8RNUnrt13vJL8gPtc4uGFFe+KqmqQjf4vFZKlT9n1wnwAXLb/cmrzGoYBo+6M/+W1z5GRXrxfhjKYxX6/gmIi1Hmz/Tv2iUxJYt9gHrnr8/lIN4/gQwzDwkFs83K90xK2Woci8NARt+ZZ5CzdQhVvQCj/8=
+	t=1782177892; cv=none; b=HN+cttRZ1AIVJqvmMCECWQjBxYY7VlBlxEgmfjuFnPhcCeCO0hzgtRYlqftj7eBZYLgYRS5K5ajBt7Hr9/lxjoIRX+dgjmX57WSgHAVTDQjAiNsaPHULBT3uRXPoL4J1K8FBYdz/jiQDIYScyul2lTsnC46/unK97r4fZy1Ba4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782177776; c=relaxed/simple;
-	bh=v+OmKz/qwNb3cD++nL8Ju6+NRPVxqGL6FindB9q758Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qmm5s3B6K8YwvRQWYR2pCSff043tsmTbac/RnAj4LxuMOjP6XMLsgcwhhCxqTFLdHAQVAh+nr9z6hdYK83mw5C7jWKHi9dH5DhGhvci4dmtTzD98+vqX9UlIAny5yTJSDhVgmEcmoEQwB6c3DJi4St9xM+X47Q+F8R+hsh/2MMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xHuwGa3D; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782177892; c=relaxed/simple;
+	bh=efM0IjSTL/YXtmhicxOoTytgoByW6YhmiFqAN8KcL4o=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=uNX58QwzTBLqoI5pKz0WYoyvXk+5qY0FyPSUzYiaOSRqnNRrB2eoppd7LP4QImkpxarGC3rVyZ+Hj2tqqiv7+V+kXLDZiHVbQtUEy6P5GBXQYCH2RVW906ql0oarijNOAVqVSiIGVtgRSZJTC8mW8Xai0ptX3zc6H2MKSWljASw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NMiNPavW; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xHuwGa3D"
-Message-ID: <5a14e276-e59e-458d-9c24-622321bef8d7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782177763;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IP1jrhz6V+SNpvaMxGkoV85OuYzi4/pwez8gDGp5Ys8=;
-	b=xHuwGa3DN5gWsnfU4l0oGCJBdIzNbawDfroYFbMOH494WtqAhZfo2y++a0yLOdC3LaKdVd
-	3cskoQ38Tg4ug6I/ZYEma+xobF2Htt1E9RA0KuwB2Mds6CXHBF0kcKC6DIkt7bqT5CEO4y
-	EjotpM65Xc33MmKXaZU/yqHUJ0FPta8=
-Date: Tue, 23 Jun 2026 09:22:30 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NMiNPavW"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-36bbcd40642so3267418a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782177891; x=1782782691; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP6zcq/A46NjpXBVqyG7Tuag7/oGP09m6JyCX4S5UME=;
+        b=NMiNPavWhHJuKSPv6hgQqw0ctKxy7SY16NqzlDymVBTrvRYXDuRo3PsG2EhMcF/Rv5
+         YJSI9B0/4MHgoBpEDq8yaQNn1Vzi0azDN8N1/wp2i5tCpUCiX8ZaFeW0bmugKI+8f+Uj
+         CtorOuyxlaY16RGpUiJVY7QFyPWU4jOay5NtmpHY9eZz3FrYzQib2RJyhgKNtg1JrvD7
+         gHapO/sjN/uxRNyUuWHnCnfKboxqK2VdWL+ehZRz6A2OgzzWcUKod5npP9lZzW3ZO5TX
+         zWpqSGGDU913UlSOaCJYe3PHC4Kr6A7aQCVg+jOPTGjXbVyMWTDOQqqma4ZiDOdpJOnE
+         Ji6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782177891; x=1782782691;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cP6zcq/A46NjpXBVqyG7Tuag7/oGP09m6JyCX4S5UME=;
+        b=Qs7DdDXvfCJhPffCoHLASFvlQxsQJv0SDDPRndN8Xn8Pkdlud5iscfiqo2y6mxxAF2
+         xZS4ug7p897I6wahNKpMudgmnJo7RnoQVuVwYN30gCeaSEnT3rtlYeFjNA05RQDIV1eF
+         scenAKq9nDAfXKgl8ogStj4UfTkQdeE9VKDzMRabk65Boc7POBr7xo3TfkPkvQVA+liC
+         Je6mPK4AVQvB16VeRaavGZzqtTrMDThl6pZLmhDVUPizRrYRB+nU0pWJ7qKYHgNbkprX
+         kf3EibvLrqc+TvZ2YBKzeCA9NtbRoEzOngfbYWooQuIo8PeOvT6Y2YDvD7gElYdrM6hj
+         NLcQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoF0pO4gfoe/RPTYSrtrZmk/QoRjeUqkPM7y1QJuMfg/6Xizz/j+WpXbBSHYzmRxtDacJ+5DCmEbLs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfGNLv6A5jiqJ0NGR5aHbr9gIyXjfy6ns3pOhmdc0XvVmCR/Dv
+	inmI/fI/S3iOex3SQoPlxsuHSxveJOxi+cmFtxwiNudfz/io97W/ItK6+oUtX00K6dowv3efjFk
+	mDC0q3w==
+X-Received: from pjbbf6.prod.google.com ([2002:a17:90b:b06:b0:37d:8595:7a08])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2707:b0:366:3ac:f730
+ with SMTP id 98e67ed59e1d1-37d160feaa4mr19637357a91.25.1782177890287; Mon, 22
+ Jun 2026 18:24:50 -0700 (PDT)
+Date: Mon, 22 Jun 2026 18:24:49 -0700
+In-Reply-To: <CA+EHjTyj-JdW8H0ii2j3dayqnT2s3VV+brSG++p335=FGd2GXg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] cgroup/cpuset: Rebind/migrate mm only for threadgroup
- leader in cpuset_update_tasks_nodemask()
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260622224509.1927419-1-longman@redhat.com>
- <20260622224509.1927419-2-longman@redhat.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20260622224509.1927419-2-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-23-9d2959357853@google.com> <CA+EHjTyj-JdW8H0ii2j3dayqnT2s3VV+brSG++p335=FGd2GXg@mail.gmail.com>
+Message-ID: <ajngYb3aNTvtXkwl@google.com>
+Subject: Re: [PATCH v8 23/46] KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
+From: Sean Christopherson <seanjc@google.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
+On Fri, Jun 19, 2026, Fuad Tabba wrote:
+> nit: why does it have Sean's SoB?
 
-
-On 6/23/2026 6:45 AM, Waiman Long wrote:
-> As reported by sashiko [1], cpuset_update_tasks_nodemask() will do
-> mpol_rebind_mm() and possibly cpuset_migrate_mm() for all threads of
-> a multithreaded process. Since commit 3df9ca0a2b8b ("cpuset: migrate
-> memory only for threadgroup leaders"), cpuset_attach() had been updated
-> to rebind and migrate memory only for threadgroup leaders to mark the
-> group leader as the owner of the mm_struct.
-> 
-> To be consistent and avoid unnecessary performance overhead for heavily
-> multithreaded processes, follow the cpuset_attach() example and perform
-> memory rebind and migration only for threadgroup leaders.
-> 
-> Also add a paragraph in cgroup-v2.rst under cpuset.mems that the
-> threadgroup leader is the memory owner of that threadgroup. Therefore
-> the non-leading threads shouldn't be in other cgroups whose "cpuset.mems"
-> doesn't fully overleap that of the group leader.
-> 
-> [1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->   Documentation/admin-guide/cgroup-v2.rst | 7 +++++++
->   kernel/cgroup/cpuset.c                  | 4 ++++
->   2 files changed, 11 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 993446ab66d0..341037c7ec9d 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2527,6 +2527,13 @@ Cpuset Interface Files
->   	a need to change "cpuset.mems" with active tasks, it shouldn't
->   	be done frequently.
->   
-> +	For a multithreaded process, the threadgroup leader is
-> +	considered the owner of the group's memory. Memory policy
-> +	rebinding and migration will only happen with respect to the
-> +	threadgroup leader. To avoid unexpected result, non-leading
-> +	threads shouldn't be put into another cgroup whose "cpuset.mems"
-> +	doesn't full overleap that of the threadgroup leader.
-> +
->     cpuset.mems.effective
->   	A read-only multiple values file which exists on all
->   	cpuset-enabled cgroups.
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index bc0207fd6e57..27bc7a466468 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -2659,6 +2659,10 @@ void cpuset_update_tasks_nodemask(struct cpuset *cs)
->   
->   		cpuset_change_task_nodemask(task, &newmems);
->   
-> +		/* Rebind and migrate mm only for task group leader */
-> +		if (task != task->group_leader)
-> +			continue;
-> +
-
-Nit.
-
-if (!thread_group_leader(task))
-     continue;
-
->   		mm = get_task_mm(task);
->   		if (!mm)
->   			continue;
-
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-
--- 
-Best regards
-Ridong
-
+Heh, I had the same question at first.  It's because I tweaked the module param
+name to gmem_in_place_conversion, and so updated this patch and sent that version
+to Ackerley off-list.  Ackerley's SoB really should come last in this case, even
+though it creates a somewhat weird SoB chain given the author.
