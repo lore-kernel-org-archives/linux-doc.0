@@ -1,45 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B542F8EA2
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 23:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7164236F91C
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 23:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782255907; cv=none; b=ofBHNW5ukeaxOFTCy7bQdWLNyXz2K+UHhASfjMUPAEnwr/YT6clQODd4emFrFOlQRSNXBvQbJy/75Fb28mCdyKUE92n1FpRUgGp9AwyDYa+RaWzCFnZawvYOGdrGo8gJaZ6cmbOTgdNyzg2tL0+rXLCqh5UxE7f+xjxa2cdUoAA=
+	t=1782255907; cv=none; b=q+eOC4utjLiFn6FDY7Ghxltfbkyvj/+Y9ArVYR3sfJ214DvQaj2H0NumRBjRwrqT3EnDZUAdOj8hZN92Jl+9+XFe3IIWI39ybdPcNongN/YdOZrX6UbRWjMV5bTd2hVcIR49U241V/g6kioQWaBKg/bosqHDfEh9nta5c31tpws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782255907; c=relaxed/simple;
-	bh=NOWm49NtWeSP+HGDLgYO2W+bn53eMINx0zG2lhRG5pE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eaHrTa7sUzYdYFR8yWcf8muLLVHZ/EEgAj3XaHDF8Dh87uelncoFwvt+0YlyJxpRLRB0nO4O0B83cybZn63pLbHosvITsaTghJ36R+aWGMtz2lgG401HLxf9IiLb68lJ0qFk0ZTTYI1QXmVr5FQD92qEPlLMptVrKu34F8h85UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ehvTiSNl; arc=none smtp.client-ip=170.10.133.124
+	bh=msm5zQFy71pSD5tkxIukFxNwx8bEsPolnSH+AZl+jus=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BOKSXLjQBw7cXkGSM4LmijmVE1i9rjjuX7LVv8582oIO1L6dqACAmZ/XTMrbN7g9x9UVoFzOZWSbxrDZSjl8Fciup8nO0n3T5cKw2IeTZ6/NJndo7P2KfOkXeaI3Vqoc2fOdyjzR+tNybKxLI6vfXtpC7UHlbPbRC/fQ3cDNBuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BfhYSxjw; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ehvTiSNl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BfhYSxjw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782255904;
+	s=mimecast20190719; t=1782255905;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bBUFqxbe5JSvwRcjo5zgOOA2wcQYy9lkMF0E+6kIiuo=;
-	b=ehvTiSNlRX6p8fVkZUMeAZJpLptGJ8fFtBwvSK/c6QUxGFbhGnFxi6SShEmpcj3v/86auQ
-	vsrxNZqmev/45+VBaSAEzlq7vaWWuZg2DqilKVqAJGDCSnRNP4UTXnOuSuk8bKG6mMxnMd
-	7QTcDvpgpoePL88OEoa+0nNdgDsbZc0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xOv7KhMFNVI6cVbCEX7m66O/gpSMdnkjD430ag5jljo=;
+	b=BfhYSxjwh2F1PkTKBizOZ6dYuu2Teazi+opbdlo8wBkwlROAAHjJOz48kcgeDkgkvvBKkS
+	IWWMiWiqRQpNcqjP/3F+//DLiwrR8t792BYd2wqwNJ+l04khrc7UKtJWU6jp65UaI0YTAB
+	tyI24wmKsKe+9V3NzyTPdTeFwI1NXpY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-128-SjuaneBgPxalr4-PjMIVWA-1; Tue,
- 23 Jun 2026 19:05:01 -0400
-X-MC-Unique: SjuaneBgPxalr4-PjMIVWA-1
-X-Mimecast-MFC-AGG-ID: SjuaneBgPxalr4-PjMIVWA_1782255899
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-638-OsZqayJqMruNsi7p71vTYQ-1; Tue,
+ 23 Jun 2026 19:05:04 -0400
+X-MC-Unique: OsZqayJqMruNsi7p71vTYQ-1
+X-Mimecast-MFC-AGG-ID: OsZqayJqMruNsi7p71vTYQ_1782255902
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE4A51956040;
-	Tue, 23 Jun 2026 23:04:58 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5762A1801377;
+	Tue, 23 Jun 2026 23:05:02 +0000 (UTC)
 Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.2.17.30])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 447AF1955F6D;
-	Tue, 23 Jun 2026 23:04:55 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 296E91955F74;
+	Tue, 23 Jun 2026 23:04:58 +0000 (UTC)
 From: Waiman Long <longman@redhat.com>
 To: Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
@@ -52,9 +54,11 @@ Cc: cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	Waiman Long <longman@redhat.com>
-Subject: [PATCH v2 0/2] cgroup/cpuset: Miscellaneous fixes and cleanups
-Date: Tue, 23 Jun 2026 19:04:11 -0400
-Message-ID: <20260623230413.1984188-1-longman@redhat.com>
+Subject: [PATCH v2 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems update in cpuset_hotplug_update_tasks()
+Date: Tue, 23 Jun 2026 19:04:12 -0400
+Message-ID: <20260623230413.1984188-2-longman@redhat.com>
+In-Reply-To: <20260623230413.1984188-1-longman@redhat.com>
+References: <20260623230413.1984188-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,29 +68,142 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
- v2:
-  - Update patch 1 as suggested by Ridong Chen and add new test cases.
-  - Minor update to patch 2 code and comment log.
+As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
+unnecessary task iteration and updating of tasks' CPU and node masks
+when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
+due to the fact that the temporary new_cpus and new_mems masks do not
+inherit parent's effective_cpus/mems when they are empty which is the
+expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
+Enable cpuset controller in default hierarchy").
 
-Patch 1 updates compute_effective_cpumask() and adds new
-compute_effective_nodemask() helper to make sure that effective_cpus
-and effective_mems will inherit parent's versions for v2 if
-cpuset.cpus/cpuset.mems is empty.
+Fix that and avoid unnecessay work by enhancing
+compute_effective_cpumask() to add the empty cpumask check
+and inheriting the parent's versions if empty when in v2. A new
+compute_effective_nodemask() helper is also added to perform similar
+function for new effective_mems.
 
-Patch 2 makes cpuset_update_tasks_nodemask() to perform memory rebind
-and migration only for thread group leader like cpuset_attach().
+Add new test_cpuset_prs.sh test cases to confirm that effective_cpus
+will inherit the parent's version if cpuset.cpus is empty.
 
-Waiman Long (2):
-  cgroup/cpuset: Avoid unnecessary cpus & mems update in
-    cpuset_hotplug_update_tasks()
-  cgroup/cpuset: Rebind/migrate mm only for threadgroup leader in
-    cpuset_update_tasks_nodemask()
+[1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
 
- Documentation/admin-guide/cgroup-v2.rst       |  7 +++
- kernel/cgroup/cpuset.c                        | 49 ++++++++++++-------
+Suggested-by: Ridong Chen <ridong.chen@linux.dev>
+Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default hierarchy")
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ kernel/cgroup/cpuset.c                        | 45 +++++++++++--------
  .../selftests/cgroup/test_cpuset_prs.sh       | 11 ++++-
- 3 files changed, 46 insertions(+), 21 deletions(-)
+ 2 files changed, 35 insertions(+), 21 deletions(-)
 
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index aff86acea701..044ddbf66f8e 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -1094,12 +1094,35 @@ void cpuset_update_tasks_cpumask(struct cpuset *cs, struct cpumask *new_cpus)
+  * @cs: the cpuset the need to recompute the new effective_cpus mask
+  * @parent: the parent cpuset
+  *
++ * For v2, the parent's effective_cpus is inherited if cpumask empty.
+  * The result is valid only if the given cpuset isn't a partition root.
+  */
+ static void compute_effective_cpumask(struct cpumask *new_cpus,
+ 				      struct cpuset *cs, struct cpuset *parent)
+ {
+-	cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
++	bool has_cpus;
++
++	has_cpus = cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
++	if (!has_cpus && is_in_v2_mode())
++		cpumask_copy(new_cpus, parent->effective_cpus);
++}
++
++/**
++ * compute_effective_nodemask - Compute the effective nodemask of the cpuset
++ * @new_cpus: the temp variable for the new effective_mems mask
++ * @cs: the cpuset the need to recompute the new effective_mems mask
++ * @parent: the parent cpuset
++ *
++ * For v2, the parent's effective_mems is inherited if nodemask empty.
++ */
++static void compute_effective_nodemask(nodemask_t *new_mems,
++				       struct cpuset *cs, struct cpuset *parent)
++{
++	bool has_mems;
++
++	has_mems = nodes_and(*new_mems, cs->mems_allowed, parent->effective_mems);
++	if (!has_mems && is_in_v2_mode())
++		nodes_copy(*new_mems, parent->effective_mems);
+ }
+ 
+ /*
+@@ -2148,15 +2171,6 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+ 			goto update_parent_effective;
+ 		}
+ 
+-		/*
+-		 * If it becomes empty, inherit the effective mask of the
+-		 * parent, which is guaranteed to have some CPUs unless
+-		 * it is a partition root that has explicitly distributed
+-		 * out all its CPUs.
+-		 */
+-		if (is_in_v2_mode() && !remote && cpumask_empty(tmp->new_cpus))
+-			cpumask_copy(tmp->new_cpus, parent->effective_cpus);
+-
+ 		/*
+ 		 * Skip the whole subtree if
+ 		 * 1) the cpumask remains the same,
+@@ -2704,14 +2718,7 @@ static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
+ 	cpuset_for_each_descendant_pre(cp, pos_css, cs) {
+ 		struct cpuset *parent = parent_cs(cp);
+ 
+-		bool has_mems = nodes_and(*new_mems, cp->mems_allowed, parent->effective_mems);
+-
+-		/*
+-		 * If it becomes empty, inherit the effective mask of the
+-		 * parent, which is guaranteed to have some MEMs.
+-		 */
+-		if (is_in_v2_mode() && !has_mems)
+-			*new_mems = parent->effective_mems;
++		compute_effective_nodemask(new_mems, cp, parent);
+ 
+ 		/* Skip the whole subtree if the nodemask remains the same. */
+ 		if (nodes_equal(*new_mems, cp->effective_mems)) {
+@@ -3923,7 +3930,7 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
+ 
+ 	parent = parent_cs(cs);
+ 	compute_effective_cpumask(&new_cpus, cs, parent);
+-	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
++	compute_effective_nodemask(&new_mems, cs, parent);
+ 
+ 	if (!tmp || !cs->partition_root_state)
+ 		goto update_tasks;
+diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+index 0d41aa0d343d..ca9bc38fdb95 100755
+--- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
++++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+@@ -495,13 +495,20 @@ REMOTE_TEST_MATRIX=(
+ 	# Narrowing cpuset.cpus to previously sibling-excluded CPUs should
+ 	# not return CPUs that were never actually owned.
+ 	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
+-	      .      .     .         C3    .       .     p1:4|c11:1-2|c12:3 \
++	      .      .     .       C3      .       .     p1:4|c11:1-2|c12:3 \
+ 							 p1:P1|c11:P1|c12:P2 3"
+ 	# Expanding cpuset.cpus to include a previously sibling-excluded CPU
+ 	# after the sibling has become a member should correctly request it.
+ 	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
+-	      .      .      P0     C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
++	      .      .     P0      C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
+ 							 p1:P1|c11:P0|c12:P2 2-3"
++	# Cpusets with empty cpuset.cpus should inherit parent's effective_cpus
++	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
++	      .      P1    P1      .       .       .     p1:3-4|p2:5-6|c11:1-2|c12:3-4|c21:5|c22:5-6 \
++							 p1:P1|p2:P1|c11:P1"
++	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
++	      .      P1    P1      .      O5=0     .     p1:3-4|p2:6|c11:1-2|c12:3-4|c21:6|c22:6 \
++							 p1:P1|p2:P1|c11:P1"
+ )
+ 
+ #
 -- 
 2.54.0
 
