@@ -1,146 +1,699 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F7625F99F;
-	Tue, 23 Jun 2026 15:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835313CDBD6
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 15:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782227324; cv=none; b=HmAmxmGrG9xu50gXSCGwjIOegBE+8x8Q31yeOeVkm4iCA/fXLIoe0qg5ehAkw6f2PecaQ/Gtu7KD/a9fU3FWupv2a0sxh/S1OKEH/Nd51TW4vRdrCkTpYCG6Wa7bz+XdfBrCjF3cawrxuIiNSeaYQ+9sUGpnhQffT9d95RTcTgo=
+	t=1782228421; cv=none; b=m7D5bOUXmYPic2A/ASciDx+qfiTE9Ps4JKaVWFlRppTQptfLwVbU7qT7HCOWO92XQoKdRNiW8OAeAMzyq/W9BMQZPTbeTm8MdOXH/6uq+ReEdt5vxHCAeTL+r/QrgTItxgSUSG55Ho7wAVpBIm+sHtKWtOfliS+chvJY3AemO08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782227324; c=relaxed/simple;
-	bh=swxMVi2/5GBeOkGZeUcQqpnIRK2v0l4JWY5Im7sAicQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VucKX12fKTECra7jHksFVc0UbLRmRwAjKSg5vJWcPux7o1ZWQ+jEAhscHc8sgK31f5Qmq69I9yBn9N9deHOpKgdegc/QrAbMzfPZgKnwMb2G6Q+maTOH3hFTnLr/NG3MR9A1VqsJna9tiDCDJvLTat9wWT2FpWafZRzq72v2szI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDRHYHKw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782228421; c=relaxed/simple;
+	bh=a6CN8rsR8G4oq0kiHq7tKAa7ce6TxYN3x75jDTiI8CQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gfQ+s/hZRxVvO9CXt2eX59mvIMVqYTUEkrD6BluQMm/dAO+lltD9GNwgd3SpTm4as9H7QDiIISdIM8qoF4HTZnvDstEbXJ32SOLrgF8NhuYmRgtsZ4BUi5UBJ8ZNswmCzzugK9zTmTRHA8/rlqc2+svZT4nlS2gOUSAZjmE2jEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M/QIRYMf; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDRHYHKw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3EDD1F000E9;
-	Tue, 23 Jun 2026 15:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782227323;
-	bh=lgxErHiAsUx2zyUgJpjq3vm+qoyUS3A23oDYQHZoGvs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=lDRHYHKw2S+xore/XuR0msYqrpqVZttTY/ssE+cnEcpCB88RupjnmQe0+xgBQc81O
-	 TISPJ363pHWDuvzAfFhVOqlYBiCMf/HelXPrGk8IcbKqsE2aNHRBi3j3FnX/+kyzNI
-	 Owb/7XlfB1dBhmSkEEBhqfvDl0Stjpx5nwDFtHwVRajtMDN0PhGU6iH/JPcxEW5Y/x
-	 LXgsQOkdShXslTv9OCivzytOJhM2WU46XuZurg4m4ypcTgrpJhGyfB2K/BWZTsUHjj
-	 Sk+g3O4WXXOzqdu4My9ag9DDlO3E9uDzjuTNNTv5dXGFiULb2rmGaW+fhJE2YP8zRy
-	 vRT/1/jVzmr5g==
-Date: Tue, 23 Jun 2026 16:08:30 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>, Rodrigo Alencar
- <455.rodrigo.alencar@gmail.com>, Janani Sunil <jan.sun97@gmail.com>, Janani
- Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260623160830.42833ba9@jic23-huawei>
-In-Reply-To: <20260622-captive-tux-067efd31ceac@spud>
-References: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
-	<20260619-obstinate-polo-a230bef97fda@spud>
-	<20260619-bunch-diocese-dd7805cc17ff@spud>
-	<ajU73_TkKrSbqD4f@nsa>
-	<20260619-concierge-doozy-9c161533c369@spud>
-	<ajVlD-j0nIGrRVow@nsa>
-	<20260621153330.79b6600c@jic23-huawei>
-	<5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
-	<ajkMBh-R_7pYaoAn@nsa>
-	<20260622172911.48259a0c@jic23-huawei>
-	<20260622-captive-tux-067efd31ceac@spud>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M/QIRYMf"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bdad545342aso652246566b.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782228418; x=1782833218; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=POq5WAcl76yaAXi1cUQuh7VATxHjgX7QPcwXsS7qv8s=;
+        b=M/QIRYMfsrWVgfDGYwTbEu4fEKECH5Q5Cl/vlMQyRfcy6abMwjs/MUYw6g4lA5WNwW
+         fwDZeGyg2YkPU1BaoX7Mf8Nihu+OkY6C7ivLvsLnahOTzkoROLZbfp987/7c+CF0PeBs
+         xd7bTAFHse+6SRgW+avlp2kUeITlFhh97Qycx92kYTjiOsPsPgszwq2lzrp81MJIGthy
+         0djEGh6TVMd/rynplpNLkeeQa7ONsSW/530JHPkC8+Jqlx9udNfRJZhsAV5gc730PEIv
+         t1E6OBnGLW1ekSzmqyJt8p77t7afjLfBI3BzV2y6Ii4W4bgSTyT9nGtPPgDvAzK3xLvf
+         lKzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782228418; x=1782833218;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=POq5WAcl76yaAXi1cUQuh7VATxHjgX7QPcwXsS7qv8s=;
+        b=gCpFw4noAgZnyvX/BNdfwihvpfDUjqegQ2l8GsRveFNjccYB5khvGDcAPndJahk7pJ
+         QO1AupMX1s4fhO9zz0paK8ZE1/sCQ58A5skqgZXs1aVmuqlDNwKce9rpPZOUOqTO+N2s
+         BqmCmyUfICFRmbEDme6gHMAIXY/khxzgk+WU76QatRRFrd/e/0vI0myCFA9jo0CNfDuw
+         0fiPINzJ1CG1rKo+7xybPL5HrvY0DNaowZO3kvefmULi2aRhMJ+1FVRRWmZWJwCxU3ua
+         pQt4m7hBlOMipxT7sGYB8hSk03+1FDR5FnSZL2+ViUxOJNgH8dIL1g3fzfD5gq7VTs3q
+         qIqw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Grprc5eW10TXI928vLe7jWmRHs8T6gWWxLvDOrrWiUf8Cny0ydhm04/Kgz/kqCZMLraUEiwh8sf0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/OPzgA8ntiHoJnwGJ2xVenIqoAvYx55Hv8KCF0eUQxNkhzaHB
+	fBfKcLcGbI1lt+otuE0dym5idSJRxCgZPrBGspW/wqv81O/l3amtQyc8VfAjWZmTt2AlPUH75Cf
+	whrqPf4Yx/99JSk082Q==
+X-Received: from ejdi23.prod.google.com ([2002:a17:906:917:b0:beb:3f4a:8163])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:26c4:b0:c0e:89eb:f601 with SMTP id a640c23a62f3a-c108ecf7392mr192539966b.25.1782228417619;
+ Tue, 23 Jun 2026 08:26:57 -0700 (PDT)
+Date: Tue, 23 Jun 2026 15:26:57 +0000
+In-Reply-To: <CAEvNRgGYM+evk5H-bU8suU++zX3-w25fcc+9mu1YoNG8DtysHw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <cover.1780676742.git.tarunsahu@google.com> <4b2216f5c459fe699a3f62464cbc765624e20ae6.1780676742.git.tarunsahu@google.com>
+ <CAEvNRgGYM+evk5H-bU8suU++zX3-w25fcc+9mu1YoNG8DtysHw@mail.gmail.com>
+Message-ID: <9huzqzlxmg5a.fsf@tarunix.c.googlers.com>
+Subject: Re: [RFC PATCH v2 07/10] kvm: guest_memfd_luo: add support for
+ guest_memfd preservation
+From: tarunsahu@google.com
+To: Ackerley Tng <ackerleytng@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
+	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
+	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
+	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	seanjc@google.com, axelrasmussen@google.com
+Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 22 Jun 2026 19:39:43 +0100
-Conor Dooley <conor@kernel.org> wrote:
 
-> On Mon, Jun 22, 2026 at 05:29:11PM +0100, Jonathan Cameron wrote:
-> > > > > Yeah. It's not clear to me how that works for the microchip devices
-> > > > > (I suspect it doesn't!)
-> > > > > 
-> > > > > Just thinking as I type, but could we do something a bit nasty with
-> > > > > a gpio mux that doesn't actually switch but represents the GPIO being
-> > > > > shared?  Given this is all tied to the spi bus that should all happen
-> > > > > under serializing locks. 
-> > > > > 
-> > > > > Agreed though that this would be nicer as an SPI thing that let
-> > > > > us specify that a single CS is share by multiple devices and their
-> > > > > is some other signal acting to select which one we are talking to.
-> > > > >     
-> > > > 
-> > > > If the device-addressing on the same chip-select is to be handled
-> > > > by the spi framework, wouldn't we lose device-specific features?
-> > > > 
-> > > > I understand that this multi-device feature is there mostly to extend the
-> > > > channel count from 16 to 32, 48 or 64. I suppose the command:
-> > > > 
-> > > > 	"MULTI DEVICE SW LDAC MODE"
-> > > > 
-> > > > exists so that software can update channel values accross multiple devices.    
-> > > 
-> > > Right! You do have a point! I agree the main driver for a feature like
-> > > this is likely to extend the channel count and effectively "aggregate"
-> > > devices.
-> > > 
-> > > But I would say that even with the spi solution the MULTI DEVICE stuff
-> > > should be doable (as we still need a sort of adi,pin-id property). 
-> > > 
-> > > But yes, I do feel that the whole feature is for aggregation so seeing
-> > > one device with 32 channels is the expectation here? Rather than seeing
-> > > two devices with 16 channels.  
-> > 
-> > Agreed - if we have messages that address both devices at once that needs
-> > to be a unified driver and given they are about triggering simultaneous
-> > update of all channels it needs to look like one big device.
-> > This ends up similar to how we handle daisy chain devices.
-> > 
-> > The question of what to do on devices that don't have this feature
-> > is rather different. Good thing you read the datasheet :)  
-> 
-> I'm not sure it really is, the intent for the microchip devices I think
-> is pretty similar. The mcp3911 datasheet cites three-phase power
-> metering using three devices as a typical use-case, for example.
-> Probably creating an amalgamated device is a good fit there too?
-> 
-> I assume an amalgamated device for this ADI product means per-channel ID
-> properties?
+Thanks for reviewing!
 
-Per device as they are 8 channel each, but effectively the same.
-(microchip devices are 2 channels each I think)
+Ackerley Tng <ackerleytng@google.com> writes:
 
-> If so, I think they should be made generic and the Microchip
-> products retrofitted to use them, with a fallback to the proprietary
-> property. Not going to ask for the support for multiple devices in those
-> drivers, since the current way doesn't work and there'd be no loss of
-> support. Someone from Microchip can do that. The proprietary property
-> to generic conversion should be straightforward and provides weight to
-> an argument for this being generic, since that'd be three devices that
-> can all share?
+> Tarun Sahu <tarunsahu@google.com> writes:
+>
+>> This patch sets up the basic infrastructure to preserve the guest_memfd.
+>> Currently this supports only fully shared guest_memfd and backed by
+>> PAGE_SIZE pages.
+>>
+>> It registers a new LUO file handler for guest_memfd files to serialize
+>> and deserialize guest memory. This allows preserving guest memory backed
+>> by guest_memfd across updates, ensuring that guest instances can be
+>> resumed seamlessly without losing their memory contents.
+>>
+>> Preservation is straight forward. It walks through the folios and
+>> serialize them.
+>>
+>> There is kvm_gmem_freeze call on preserve which freeze the guest_memfd
+>> inode. It avoids any changes to inode mapping with fallocate calls or
+>> any new fault allocation (fails) on or after preservation. No need to check
+>> this during the page fault as preservation is only supported for
+>> pre-faulted/pre-allocated guest_memfd.
+>>
+>> While retrieving the guest_memfd, it requires the struct kvm to create
+>> new guest_memfd. So it first get the vm_file from the same session using
+>> the token passed during the preservation. And use it to get
+>> vm_file->kvm.
+>>
+>> This change also update the MAINTAINERS list.
+>>
+>> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+>> ---
+>>  MAINTAINERS                 |   1 +
+>>  include/linux/kho/abi/kvm.h |  79 +++++-
+>>  virt/kvm/Makefile.kvm       |   2 +-
+>>  virt/kvm/guest_memfd_luo.c  | 485 ++++++++++++++++++++++++++++++++++++
+>>  virt/kvm/kvm_main.c         |   7 +
+>>  virt/kvm/kvm_mm.h           |   4 +
+>>  6 files changed, 571 insertions(+), 7 deletions(-)
+>>  create mode 100644 virt/kvm/guest_memfd_luo.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 9bfc3c1f6676..16cba790a84d 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14418,6 +14418,7 @@ L:	kexec@lists.infradead.org
+>>  L:	kvm@vger.kernel.org
+>>  S:	Maintained
+>>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git
+>> +F:	virt/kvm/guest_memfd_luo.c
+>>  F:	virt/kvm/kvm_luo.c
+>>
+>>  KVM PARAVIRT (KVM/paravirt)
+>> diff --git a/include/linux/kho/abi/kvm.h b/include/linux/kho/abi/kvm.h
+>> index 718db68a541a..42074d76e04a 100644
+>> --- a/include/linux/kho/abi/kvm.h
+>> +++ b/include/linux/kho/abi/kvm.h
+>> @@ -9,20 +9,23 @@
+>>  #define _LINUX_KHO_ABI_KVM_H
+>>
+>>  #include <linux/types.h>
+>> +#include <linux/bits.h>
+>>  #include <linux/kho/abi/kexec_handover.h>
+>>
+>>  /**
+>> - * DOC: KVM Live Update ABI
+>> + * DOC: KVM and guest_memfd Live Update ABI
+>>   *
+>> - * KVM uses the ABI defined below for preserving its state
+>> + * KVM and guest_memfd use the ABI defined below for preserving their states
+>>   * across a kexec reboot using the LUO.
+>>   *
+>> - * The state is serialized into a packed structure `struct kvm_luo_ser`
+>> - * which is handed over to the next kernel via the KHO mechanism.
+>> + * The state is serialized into packed structures (struct kvm_luo_ser and
+>> + * struct guest_memfd_luo_ser) which are handed over to the next kernel via
+>> + * the KHO mechanism.
+>>   *
+>> - * This interface is a contract. Any modification to the structure layout
+>> + * This interface is a contract. Any modification to the structure layouts
+>>   * constitutes a breaking change. Such changes require incrementing the
+>> - * version number in the KVM_LUO_FH_COMPATIBLE compatibility string.
+>> + * version number in the KVM_LUO_FH_COMPATIBLE or
+>> + * GUEST_MEMFD_LUO_FH_COMPATIBLE compatibility strings.
+>>   */
+>>
+>>  /**
+>> @@ -36,4 +39,68 @@ struct kvm_luo_ser {
+>>  /* The compatibility string for KVM VM file handler */
+>>  #define KVM_LUO_FH_COMPATIBLE	"kvm_vm_luo_v1"
+>>
+>> +/**
+>> + * struct guest_memfd_luo_folio_ser - Serialization layout for a single folio in guest_memfd.
+>> + * @pfn:   Page Frame Number of the folio.
+>> + * @index: Page offset of the folio within the file.
+>> + * @flags: State flags associated with the folio.
+>> + */
+>> +struct guest_memfd_luo_folio_ser {
+>> +	u64 pfn:52;
+>> +	u64 flags:12;
+>> +	u64 index;
+>> +} __packed;
+>> +
+>> +/**
+>> + * GUEST_MEMFD_LUO_FOLIO_UPTODATE - The folio is up-to-date.
+>> + *
+>> + * This flag is per folio to check if the folio is uptodate.
+>> + */
+>> +#define GUEST_MEMFD_LUO_FOLIO_UPTODATE	BIT(0)
+>> +
+>> +
+>> +/**
+>> + * GUEST_MEMFD_LUO_FLAG_MMAP - The guest_memfd supports mmap.
+>> + *
+>> + * This flag indicates that the guest_memfd supports host-side mmap.
+>> + */
+>> +#define GUEST_MEMFD_LUO_FLAG_MMAP		BIT(0)
+>> +
+>> +/**
+>> + * GUEST_MEMFD_LUO_FLAG_INIT_SHARED - Initialize memory as shared.
+>> + *
+>> + * This flag indicates that the guest_memfd has been initialized as shared
+>> + * memory.
+>> + */
+>> +#define GUEST_MEMFD_LUO_FLAG_INIT_SHARED	BIT(1)
+>> +
+>> +/**
+>> + * GUEST_MEMFD_LUO_SUPPORTED_FLAGS - Supported guest_memfd LUO flags mask.
+>> + *
+>> + * A mask of all guest_memfd preservation flags supported by this version
+>> + * of the KVM LUO ABI.
+>> + */
+>> +#define GUEST_MEMFD_LUO_SUPPORTED_FLAGS	(GUEST_MEMFD_LUO_FLAG_MMAP | \
+>> +						 GUEST_MEMFD_LUO_FLAG_INIT_SHARED)
+>> +
+>> +/**
+>> + * struct guest_memfd_luo_ser - Main serialization structure for guest_memfd.
+>> + * @size:      The size of the file in bytes.
+>> + * @flags:     File-level flags.
+>> + * @nr_folios: Number of folios in the folios array.
+>> + * @vm_token:  Token of the associated KVM VM instance.
+>> + * @folios:    KHO vmalloc descriptor pointing to the array of
+>> + *             struct guest_memfd_luo_folio_ser.
+>> + */
+>> +struct guest_memfd_luo_ser {
+>> +	u64 size;
+>> +	u64 flags;
+>> +	u64 nr_folios;
+>> +	u64 vm_token;
+>> +	struct kho_vmalloc folios;
+>> +} __packed;
+>> +
+>> +/* The compatibility string for GUEST_MEMFD file handler */
+>> +#define GUEST_MEMFD_LUO_FH_COMPATIBLE	"guest_memfd_luo_v1"
+>> +
+>>  #endif /* _LINUX_KHO_ABI_KVM_H */
+>> diff --git a/virt/kvm/Makefile.kvm b/virt/kvm/Makefile.kvm
+>> index c1a962159264..d30fca094c42 100644
+>> --- a/virt/kvm/Makefile.kvm
+>> +++ b/virt/kvm/Makefile.kvm
+>> @@ -13,4 +13,4 @@ kvm-$(CONFIG_HAVE_KVM_IRQ_ROUTING) += $(KVM)/irqchip.o
+>>  kvm-$(CONFIG_HAVE_KVM_DIRTY_RING) += $(KVM)/dirty_ring.o
+>>  kvm-$(CONFIG_HAVE_KVM_PFNCACHE) += $(KVM)/pfncache.o
+>>  kvm-$(CONFIG_KVM_GUEST_MEMFD) += $(KVM)/guest_memfd.o
+>> -kvm-$(CONFIG_LIVEUPDATE_GUEST_MEMFD) += $(KVM)/kvm_luo.o
+>> +kvm-$(CONFIG_LIVEUPDATE_GUEST_MEMFD) += $(KVM)/guest_memfd_luo.o $(KVM)/kvm_luo.o
+>> diff --git a/virt/kvm/guest_memfd_luo.c b/virt/kvm/guest_memfd_luo.c
+>> new file mode 100644
+>> index 000000000000..d466f889c9aa
+>> --- /dev/null
+>> +++ b/virt/kvm/guest_memfd_luo.c
+>> @@ -0,0 +1,485 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +/*
+>> + * Copyright (c) 2026, Google LLC.
+>> + * Tarun Sahu <tarunsahu@google.com>
+>> + *
+>> + * Guestmemfd Preservation for Live Update Orchestrator (LUO)
+>> + */
+>> +
+>> +/**
+>> + * DOC: Guestmemfd Preservation via LUO
+>> + *
+>> + * Overview
+>> + * ========
+>> + *
+>> + * Guest memory file descriptors (guest_memfd) can be preserved over a kexec
+>> + * reboot using the Live Update Orchestrator (LUO) file preservation. This
+>> + * allows userspace to preserve VM memory across kexec reboots.
+>> + *
+>> + * The preservation is not intended to be transparent. Only select properties
+>> + * of the guest_memfd are preserved, while others are reset to default.
+>> + *
+>> + * Preserved Properties
+>> + * ====================
+>> + *
+>> + * The following properties of guest_memfd are preserved across kexec:
+>> + *
+>> + * File Size
+>> + *   The size of the file is preserved.
+>> + *
+>> + * File Contents
+>> + *   All folios present in the page cache are preserved.
+>> + *
+>> + * File-level Flags
+>> + *   The file-level flags (such as MMAP support and INIT_SHARED default mapping)
+>> + *   are preserved.
+>> + *
+>> + * Non-Preserved Properties
+>> + * ========================
+>> + *
+>> + * NUMA Memory Policy
+>> + *   NUMA memory policies associated with the guest_memfd are not preserved.
+>> + */
+>> +#include <linux/liveupdate.h>
+>> +#include <linux/kvm_host.h>
+>> +#include <linux/pagemap.h>
+>> +#include <linux/file.h>
+>> +#include <linux/err.h>
+>> +#include <linux/anon_inodes.h>
+>> +#include <linux/magic.h>
+>> +#include <linux/kexec_handover.h>
+>> +#include <linux/kho/abi/kexec_handover.h>
+>> +#include <linux/kho/abi/kvm.h>
+>> +#include "guest_memfd.h"
+>> +
+>> +static int kvm_gmem_luo_walk_folios(struct address_space *mapping,
+>> +		pgoff_t end_index, struct guest_memfd_luo_folio_ser *folios_ser,
+>> +		u64 *out_count)
+>> +{
+>> +	struct folio_batch fbatch;
+>> +	pgoff_t index = 0;
+>> +	u64 count = 0;
+>> +	int err = 0;
+>> +
+>> +	folio_batch_init(&fbatch);
+>> +	while (index < end_index) {
+>> +		unsigned int nr, i;
+>> +
+>> +		nr = filemap_get_folios(mapping, &index, end_index - 1, &fbatch);
+>> +		if (nr == 0)
+>> +			break;
+>> +
+>> +		for (i = 0; i < nr; i++) {
+>> +			struct folio *folio = fbatch.folios[i];
+>> +
+>> +			if (folios_ser) {
+>> +				if (folio_test_hwpoison(folio)) {
+>> +					err = -EHWPOISON;
+>> +					folio_batch_release(&fbatch);
+>> +					goto out;
+>> +				}
+>> +				err = kho_preserve_folio(folio);
+>> +				if (err) {
+>> +					folio_batch_release(&fbatch);
+>> +					goto out;
+>> +				}
+>> +
+>> +				folios_ser[count].pfn = folio_pfn(folio);
+>> +				folios_ser[count].index = folio->index;
+>> +				folios_ser[count].flags = folio_test_uptodate(folio) ?
+>> +							  GUEST_MEMFD_LUO_FOLIO_UPTODATE : 0;
+>> +			}
+>> +			count++;
+>> +		}
+>> +		folio_batch_release(&fbatch);
+>> +		cond_resched();
+>> +	}
+>> +
+>> +out:
+>> +	*out_count = count;
+>> +	return err;
+>> +}
+>> +
+>> +static bool kvm_gmem_luo_can_preserve(struct liveupdate_file_handler *handler, struct file *file)
+>> +{
+>> +	struct inode *inode = file_inode(file);
+>> +	struct gmem_file *gmem_file = file->private_data;
+>> +	struct kvm *kvm = gmem_file->kvm;
+>> +
+>> +	if (inode->i_sb->s_magic != GUEST_MEMFD_MAGIC)
+>> +		return 0;
+>> +
+>
+> How does .can_preserve decide route to this function? If it already
+> routes here, wouldn't this inode definitely be a guest_memfd file?
 
-I think the practical difference is that for the ADI part we have to support
-it as a single device as some commands effectively don't use the address
-bits in the message.  For the microchip ones we could register multiple
-separate SPI devices and just provide one address for each.
+No.
+kvm_gmem_luo_handler {
+                 ...
+                 .ops.can_preserve = kvm_gmem_luo_can_preserve;
+                 ...
+                 }
 
-Equally we could treat the microchip ones as a unified device in which case
-the binding will be the same and there will be a property with a bunch
-of addresses (one for each device present). I'm fine with this option given
-as you say the datasheet calls out using this for channel expansion.
+.can_preserve is eligiblity call. LUO preservation ioctl can be
+called by any type of file (for example: memfd file). LUO internally
+loops through all the registered handler (memfd_luo handler, kvm_luo
+handler, guest_memfd_luo handler etc) and call their can_preserve
+function, which is kvm_gmem_luo_can_preserve, For memfd file, it will
+return false and for guest_memfd it will return true.
 
-Jonathan
+In short: This function is used to filter the handler for the
+guest_memfd file. We have additional checks to filter only the
+guest_memfd file which we currently support for the preservation.
 
+>
+>> +	if (kvm_arch_has_private_mem(kvm))
+>> +		return 0;
+>> +
+>> +	if (mapping_large_folio_support(inode->i_mapping))
+>> +		return 0;
+>> +
+>> +	return 1;
+>
+> Let's return true and false rather than relying on casting.
+
+ACK. Will update it.
+>
+>> +}
+>> +
+>> +static int kvm_gmem_luo_preserve(struct liveupdate_file_op_args *args)
+>> +{
+>> +	struct guest_memfd_luo_folio_ser *folios_ser = NULL;
+>> +	u64 count = 0, gmem_flags, abi_flags = 0;
+>> +	struct guest_memfd_luo_ser *ser;
+>> +	struct address_space *mapping;
+>> +	struct gmem_file *gmem_file;
+>> +	struct inode *inode;
+>> +	pgoff_t end_index;
+>> +	struct kvm *kvm;
+>> +	int err = 0;
+>> +	long size;
+>> +
+>> +	inode = file_inode(args->file);
+>
+> I think to lock out all allocates, you'd have to take
+> filemap_invalidate_lock() before freezing.
+
+No need, freeze wait for synchronisation. Only after current,
+allocation finishes (future allocation as blocked by freeze = true),
+It will proceed further.
+
+>
+>> +	kvm_gmem_freeze(inode, true);
+>> +
+>> +	mapping = inode->i_mapping;
+>> +	size = i_size_read(inode);
+>> +	if (!size) {
+>> +		err = -EINVAL;
+>> +		goto err_unfreeze_inode;
+>> +	}
+>> +
+>> +	if (WARN_ON_ONCE(!PAGE_ALIGNED(size))) {
+>> +		err = -EINVAL;
+>> +		goto err_unfreeze_inode;
+>> +	}
+>> +
+>> +	gmem_file = args->file->private_data;
+>> +	kvm = gmem_file->kvm;
+>> +
+>> +	gmem_flags = READ_ONCE(GMEM_I(inode)->flags);
+>> +	if (gmem_flags & ~(GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED
+>
+> Why condition this on MMAP?
+
+Here, It is only checking what flags are set in gmem inode. Currently,
+gmem inode (not talking about preservation here) supports three flags
+MMAP, INIT_SHARED and FROZEN. So, other than that if there are any
+flags, We fail preservation with -EOPNOTSUPP.
+
+>
+> After conversions lands, we'd have to iterate to check that the entire
+> guest_memfd is shared offset-by-offset instead of checking for
+> INIT_SHARED.
+
+This is unrelated to comment to the code snippet here: but we can
+disucss this as it is good question.
+
+I object it. It will not be needed. If in-place coversion lands first or
+after this preservation series. There will no affect to the preservation
+series (IMHO, IIUC). I have following two checks in V3:
+https://lore.kernel.org/all/20260622184851.2309827-7-tarunsahu@google.com/#:~:text=static%20bool%20kvm_gmem_luo_can_preserve,0%3B%0A%2B%0A%2B%09return%201%3B%0A%2B%7D
+
+INIT_SHARED: Which makes sure that initially, the guest_memfd was
+completely shared, when created.
+!kvm_arch_has_private_mem(): Avoids Any future conversion.
+
+So, If these two checks are passed, that means guest_memfd file does
+not have any private pages. So we can preserve it. This is also aligns
+with logic in in-place conversion series.
+
+>
+>> +				| GUEST_MEMFD_F_MAPPING_FROZEN)) {
+>
+> This would always be true since kvm_gmem_freeze() is done above.
+
+Like, I said above, it is just checking if there are any flags set other
+than these three.
+
+>
+>> +		err = -EOPNOTSUPP;
+>> +		goto err_unfreeze_inode;
+>> +	}
+>> +
+>> +	if (gmem_flags & GUEST_MEMFD_FLAG_MMAP)
+>> +		abi_flags |= GUEST_MEMFD_LUO_FLAG_MMAP;
+>> +	if (gmem_flags & GUEST_MEMFD_FLAG_INIT_SHARED)
+>> +		abi_flags |= GUEST_MEMFD_LUO_FLAG_INIT_SHARED;
+>> +
+>
+> Is it intentional to have a different set of flags that are actually
+> preserved? I think we should refactor out a function to transfer the
+> flags over.
+
+To have backward compatiblity with userspace ABI. the flags
+must be constant across different version of kernel. In the
+file include/linux/kho/abi/kvm.h
+
+I have defined these two flags, and they will be certain to be
+constant across different version of kernel. Internal flags might
+change their name, but externally, this will remain constant.
+
+gmem_inode->flags (internal kernel variablity)
+                   |
+                   v
+"userspace defined gmem_inode flags" => preserve
+
+<KEXEC to new kernel version>
+
+retrieve => "userspace defined gmem_inode flags"
+                   |
+                   v
+gmem_inode->flags (internal kernel variablity)
+
+Ack on refactoring out the logic: Will take care of that in next
+revision v4.
+
+>
+>> +	end_index = size >> PAGE_SHIFT;
+>> +
+>> +	ser = kho_alloc_preserve(sizeof(*ser));
+>> +	if (IS_ERR(ser)) {
+>> +		err = PTR_ERR(ser);
+>> +		goto err_unfreeze_inode;
+>> +	}
+>> +
+>> +	/* First pass: Count the folios present in the page cache */
+>> +	err = kvm_gmem_luo_walk_folios(mapping, end_index, NULL, &count);
+>> +	if (err)
+>> +		goto err_free_ser;
+>> +
+>> +	ser->size = size;
+>> +	ser->flags = abi_flags;
+>> +	ser->nr_folios = count;
+>> +	ser->vm_token = 0; // It will be set during the kvm_gmem_luo_freeze()
+>
+> I don't think // is commonly used.
+
+Will take care of such instances.
+
+>
+>> +
+>> +	if (count > 0) {
+>> +		folios_ser = vcalloc(count, sizeof(*folios_ser));
+>> +		if (!folios_ser) {
+>> +			err = -ENOMEM;
+>> +			goto err_free_ser;
+>> +		}
+>> +
+>> +		/* Second pass: Fill the metadata array and preserve folios */
+>> +		err = kvm_gmem_luo_walk_folios(mapping, end_index, folios_ser, &count);
+>
+> I think it's clearer to just define 2 functions rather than using the
+> same function twice to do these different things. The comments on the
+> two passes can then be dropped.
+
+I have single function to avoid duplication of the same code.
+
+>
+>> +		if (err)
+>> +			goto err_unpreserve_unlocked;
+>> +
+>> +		if (WARN_ON_ONCE(count != ser->nr_folios)) {
+>> +			err = -EINVAL;
+>> +			goto err_unpreserve_unlocked;
+>> +		}
+>> +	}
+>> +
+>> +	if (count > 0) {
+>> +		err = kho_preserve_vmalloc(folios_ser, &ser->folios);
+>> +		if (err)
+>> +			goto err_unpreserve_unlocked;
+>> +	}
+>> +
+>> +	args->serialized_data = virt_to_phys(ser);
+>> +	args->private_data = folios_ser;
+>> +
+>> +	return 0;
+>> +
+>> +err_unpreserve_unlocked:
+>> +	for (long i = (long)count - 1; i >= 0; i--) {
+>
+> Not sure if it's common to define long i inline.
+
+I will correct it. Good fine. thanks.
+
+>
+>> +		struct folio *folio = pfn_folio(folios_ser[i].pfn);
+>> +
+>> +		kho_unpreserve_folio(folio);
+>> +	}
+>> +	vfree(folios_ser);
+>> +err_free_ser:
+>> +	kho_unpreserve_free(ser);
+>> +err_unfreeze_inode:
+>> +	kvm_gmem_freeze(inode, false);
+>> +	return err;
+>> +}
+>> +
+>> +static int kvm_gmem_luo_freeze(struct liveupdate_file_op_args *args)
+>> +{
+>> +	struct guest_memfd_luo_ser *ser;
+>> +	struct gmem_file *gmem_file;
+>> +	struct kvm *kvm;
+>> +	struct file *kvm_file;
+>> +	u64 vm_token;
+>> +	int err;
+>> +
+>> +	if (WARN_ON_ONCE(!args->serialized_data))
+>> +		return -EINVAL;
+>> +
+>> +	ser = phys_to_virt(args->serialized_data);
+>> +
+>> +	gmem_file = args->file->private_data;
+>> +	kvm = gmem_file->kvm;
+>> +
+>> +	/*
+>> +	 * Obtain a strong reference to kvm->vm_file to prevent the SLAB_TYPESAFE_BY_RCU
+>> +	 * file memory from being reallocated while it is being processed.
+>> +	 */
+>> +	kvm_file = get_file_active(&kvm->vm_file);
+>> +	if (!kvm_file)
+>> +		return -ENOENT;
+>> +
+>> +	err = liveupdate_get_token_outgoing(args->session, kvm_file, &vm_token);
+>> +	fput(kvm_file);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	ser->vm_token = vm_token;
+>> +	return 0;
+>> +}
+>> +
+>> +static void kvm_gmem_luo_discard_folios(
+>> +	const struct guest_memfd_luo_folio_ser *folios_ser,
+>> +	u64 nr_folios, u64 start_idx)
+>> +{
+>> +	long i;
+>> +
+>> +	for (i = start_idx; i < nr_folios; i++) {
+>> +		struct folio *folio;
+>> +		phys_addr_t phys;
+>> +
+>> +		if (!folios_ser[i].pfn)
+>> +			continue;
+>> +
+>> +		phys = PFN_PHYS(folios_ser[i].pfn);
+>> +		folio = kho_restore_folio(phys);
+>> +		if (folio)
+>> +			folio_put(folio);
+>> +	}
+>> +}
+>> +
+>> +static void kvm_gmem_luo_unpreserve(struct liveupdate_file_op_args *args)
+>> +{
+>> +	struct guest_memfd_luo_folio_ser *folios_ser = args->private_data;
+>> +	struct guest_memfd_luo_ser *ser;
+>> +	long i;
+>> +
+>> +	if (WARN_ON_ONCE(!args->serialized_data))
+>> +		return;
+>> +
+>> +	ser = phys_to_virt(args->serialized_data);
+>> +	if (!ser)
+>> +		return;
+>> +
+>> +	if (ser->nr_folios > 0)
+>> +		kho_unpreserve_vmalloc(&ser->folios);
+>> +	for (i = ser->nr_folios - 1; i >= 0; i--) {
+>> +		struct folio *folio;
+>> +
+>> +		if (!folios_ser[i].pfn)
+>
+> Is it possible for pfn to be 0 here? Perhaps this should be a
+> WARN_ON_ONCE().
+
+In LUO design, We explicitly assumed, that pfn 0 is invalid.
+Looping +Pratyush for more context.
+
+Yes, WARN_ON_ONCE makes sense. I will update it.
+
+>
+>> +			continue;
+>> +
+>> +		folio = pfn_folio(folios_ser[i].pfn);
+>> +		kho_unpreserve_folio(folio);
+>> +	}
+>> +	vfree(folios_ser);
+>> +
+>> +	kho_unpreserve_free(ser);
+>> +	kvm_gmem_freeze(file_inode(args->file), false);
+>> +}
+>> +
+>>
+>> [...snip...]
+>>
+Thanks,
+Tarun
 
 
