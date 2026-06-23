@@ -1,139 +1,133 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725281DF736
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 00:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA3721CA0D
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782174153; cv=none; b=SrWoD2HB3Yfol0SlKzEGORt2h426Gvjzs8VAxCHTP91iC5A5D9GKG7A7Ma7QU6ImYHnF2x+V4paZeb80urzuFdA88R2cs8L+mPHS0/rNsD3Ji6FzVJJx7hjGFVYs5+mxt2mWZ2rCgHAT6tK16t0Q+RzIk2y17yZmda2He27T4d0=
+	t=1782177321; cv=none; b=CgGAcb2dz7LK4aj8nN50DhWQXQA/dkBvh2W0UNypAkUaaptJN35lEog95gsNl/XFFO9i1vZ6TekpGLP2FUCYFeDx1yC27fiznr6VUi/bvlMuwhnxTKam5bAsg3H2ONJsBcdO+X65TywrqkXOFZcrHKT1zXCagGUa4LjuOQtI6kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782174153; c=relaxed/simple;
-	bh=hET3RaJtC6ro7NYZPXmQUq8MQF1p6emzxm3gNcm+1IE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RviBGmMDNo75qko9uNbFedxal2qq0j2vHb3KZ3l9xb0vc197rmLKe3W9HSjS4TaKkCSJP2hSM+9CsMWbQjVdSqEc6FH+xfpGrD8i5eyPkJuug9yFU+RzKww8rBbMeMjtUgC6nDP3vr8j/QU5J+Z7vBa+F/y0JRbHjXN0m0SMLpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wllk+GYm; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782177321; c=relaxed/simple;
+	bh=CXlJ+IGAMu+WnGGoTqqoxMmqr9c6F6sSbek2igt/B6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M822WE3+jvyuhY8IgEKXegg8kz5hbFUANDR07hS29Q7Hr8vrWtjBaQ2QPgbNPhCMk5x5K3yNaNjRXqvqaym80CVtuSf2JuA2rR36xa0rIhHMb0x2uhPIsCjfj5fovEfKDtlKS/XzD3iHpZM9u6OrE7CsE+Z0HFqN/jeyS7MOY+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gdC9aSjh; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wllk+GYm"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c8895156101so3401991a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 17:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782174152; x=1782778952; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oQLsIF+iVXLuEt9X7AENLYAj3zuZSbHkrs731kL+O+A=;
-        b=wllk+GYm+EcPaLMqRAaxpHRRtRZ0Q/IyHzUTSmFlbcacCXQtWC8B+jka/SO7+rasPH
-         IvJZt3iJORGm6GWMR6ppQvXrCZYe3NODpAb1VHkl81ygp8TwuTBZFou0JKx0xy0S6Wbx
-         eNIK4953Mv6nu4rmza73z6JWCn7kAP6qLAmMXDJbtRTJyDM2cRvT/+hbWdn8m8xbNg9e
-         SxeYaXQLGAXn3a3n3XmBcFcUotqTGjnKAhRZBvfhW409OTYhcCKlOsmC9/caJ7GL0nRr
-         beQe6huDjy2ytOl44Tof/kOk7zrPADRCETaCBu3kf95UGEA1UjnKfevPtUiQ6s9sCOor
-         qgYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782174152; x=1782778952;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oQLsIF+iVXLuEt9X7AENLYAj3zuZSbHkrs731kL+O+A=;
-        b=XD3xXAah8jOGJRpG+sPMIMEU2VI0iphnlByV52iVDFOS/PmnNLuKlVuqR7KMLMVNJq
-         6vpW6vn/TpSedopf9M1mNPTj+mqx9M4Lz/DZ+o27KfgboiSVhotF7SBlW/5LWxpVkL/Z
-         UyQr0KKixQzul6nEcoV72IBfRakgwhXuHUFbSWVBcb4nCR0aELN4NID+OQJuAG9JeZ2T
-         W4m62s75jU2QGts/Z2cB6+bpLiQVJptn2mEbK24kPPbb2Wne03gnVyoKtymmARn6UxBf
-         YUTUwlNEArTgLGzHgvPJ4BsWSyJjCvzTwRMaBZaKycz/Kps2kICzG27Op0OauC5SfUJs
-         kFew==
-X-Forwarded-Encrypted: i=1; AFNElJ/InhwanFKdTlywjtC8rGhjdUfaVEsxybbKzT9OEhNgUrngBY9ROLh+k264JxqMu5dVtAKKps9GZnE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEju2HdSIfegT4E6QL5R75tbgDocYPBA/iLtdlUI4nx1KsXZ9Y
-	GZCm7ZoBQU44YQazfnriE2RZktu723Nsn4/zzhfCubYLQL8vrUSOLXm/6P33pHdmq0WasO97ovZ
-	9bn+iWQ==
-X-Received: from pfbk14.prod.google.com ([2002:a05:6a00:b00e:b0:82f:8cba:4285])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:855:b0:842:3be7:4d55
- with SMTP id d2e1a72fcca58-84597094577mr199419b3a.11.1782174151143; Mon, 22
- Jun 2026 17:22:31 -0700 (PDT)
-Date: Mon, 22 Jun 2026 17:22:30 -0700
-In-Reply-To: <CA+EHjTx2xKjheiW5VzHw_TdWFUqdJqfgu=dOPa=_yaYBMY8uyw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gdC9aSjh"
+Message-ID: <e24b8145-7a67-4cc0-8ba0-24bd89243c04@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782177308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1Xehzt1SVC9gtzjAb+OIQuJbK4C/O+ft3+abYnowKwg=;
+	b=gdC9aSjhT98sWW65C9TYwDKrS0CCCEH4A1fyMutR88fuJ3iKvSjy6g9sUSAoNd+ZicS16i
+	x85iujJC26C2a0jvFML5EHj4RfTN09hfMvmCsOaAuI0x/tUde2BB+2pH1QElf02gPcGMvn
+	hdpDh8ZWpgpJzvEv3cFUtPh1lt/Vlck=
+Date: Tue, 23 Jun 2026 09:14:59 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-13-9d2959357853@google.com> <CA+EHjTx2xKjheiW5VzHw_TdWFUqdJqfgu=dOPa=_yaYBMY8uyw@mail.gmail.com>
-Message-ID: <ajnRxuJ19OzZ8zJC@google.com>
-Subject: Re: [PATCH v8 13/46] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
-From: Sean Christopherson <seanjc@google.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems update
+ in cpuset_hotplug_update_tasks()
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260622224509.1927419-1-longman@redhat.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <20260622224509.1927419-1-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jun 19, 2026, Fuad Tabba wrote:
-> On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
-> <devnull+ackerleytng.google.com@kernel.org> wrote:
-> >
-> > From: Ackerley Tng <ackerleytng@google.com>
-> >
-> > Introduce base support for KVM_SET_MEMORY_ATTRIBUTES2 in guest_memfd, which
-> > just updates attributes tracked by guest_memfd.
-> >
-> > Validate input fields in general. Guard usage of KVM_SET_MEMORY_ATTRIBUTES2
-> > by making sure requested attributes are supported for this instance of kvm.
-> >
-> > A new KVM_SET_MEMORY_ATTRIBUTES2 is defined to support writes (unlike
-> > KVM_SET_MEMORY_ATTRIBUTES) in addition to reads so it can provide error
-> > details to userspace. This will be used in a later patch.
-> >
-> > The two ioctls use their corresponding structs with no overlap, but
-> > backward compatibility is baked in for future support of
-> > KVM_SET_MEMORY_ATTRIBUTES2 and struct kvm_memory_attributes2 in the VM
-> > ioctl.
-> >
-> > The process of setting memory attributes is set up such that the later half
-> > will not fail due to allocation. Any necessary checks are performed before
-> > the point of no return.
-> >
-> > Co-developed-by: Vishal Annapurve <vannapurve@google.com>
-> > Signed-off-by: Vishal Annapurve <vannapurve@google.com>
-> > Co-developed-by: Sean Christoperson <seanjc@google.com>
-> > Signed-off-by: Sean Christoperson <seanjc@google.com>
-> > Reviewed-by: Fuad Tabba <tabba@google.com>
-> > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+
+
+On 6/23/2026 6:45 AM, Waiman Long wrote:
+> As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
+> unnecessary task iteration and updating of tasks' CPU and node masks
+> when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
+> due to the fact that the temporary new_cpus and new_mems masks do not
+> inherit parent's effective_cpus/mems when they are empty which is the
+> expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
+> Enable cpuset controller in default hierarchy").
 > 
-> Note sure if it's user error on my part, if I'm applying this to the
-> wrong base, but I found a build break here on patch 13:
-> kvm_gmem_invalidate_start() doesn't exist in the base tree. The
-> function is kvm_gmem_invalidate_begin() here. The rename
-> (190cc5370a8b6) landed via a different merge path and isn't an
-> ancestor of the stated base.
+> Fix that and avoid unnecessay work by adding the empty mask checks and
+> inheriting the parent's versions if empty.
 > 
-> Patches 19 and 20 have the same mismatch. Fix for all three is
-> s/kvm_gmem_invalidate_start/kvm_gmem_invalidate_begin/.
+> [1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
+> 
+> Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default hierarchy")
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>   kernel/cgroup/cpuset.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index aff86acea701..bc0207fd6e57 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -3925,6 +3925,14 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
+>   	compute_effective_cpumask(&new_cpus, cs, parent);
+>   	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
+>   
+> +	if (is_in_v2_mode()) {
+> +		/* Inherit parent's effective_cpus/mems if empty */
+> +		if (cpumask_empty(&new_cpus))
+> +			cpumask_copy(&new_cpus, parent->effective_cpus);
+> +		if (nodes_empty(new_mems))
+> +			new_mems = parent->effective_mems;
+> +	}
+> +
+>   	if (!tmp || !cs->partition_root_state)
+>   		goto update_tasks;
+>   
 
-Ya, Ackerley used a slightly older kvm/next to send the patches.  I at least was
-testing against kvm-x86/next, which does have the rename.
+I noticed that compute_effective_cpumask(...) is called in several 
+places, so I think the logic should be consolidated into that function.
 
-Other than noting that this should be applied against the current kvm/next, I
-don't think there's anything else to be done?
+```
+static void compute_effective_cpumask(struct cpumask *new_cpus,
+				      struct cpuset *cs, struct cpuset *parent)
+{
+	cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
+	if (cpumask_empty(&new_cpus) && is_in_v2_mode())
+		cpumask_copy(&new_cpus, parent->effective_cpus);
+}
+
+```
+
+Similarly, for new_mems, should we introduce a dedicated helper like 
+compute_effective_nodemask? The same fallback logic is needed in 
+update_nodemasks_hier:
+
+
+```
+static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
+{
+...
+		bool has_mems = nodes_and(*new_mems, cp->mems_allowed, 
+parent->effective_mems);
+
+		/*
+		 * If it becomes empty, inherit the effective mask of the
+		 * parent, which is guaranteed to have some MEMs.
+		 */
+		if (is_in_v2_mode() && !has_mems)
+			*new_mems = parent->effective_mems;
+...
+```
+
+-- 
+Best regards
+Ridong
+
