@@ -1,127 +1,147 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF8E2DA74A
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 17:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307C431B828;
+	Tue, 23 Jun 2026 17:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782234373; cv=none; b=U8lkuhbt72cauKWoAGT1gSdYSRWpDtM8YuE1pHcse14AvabYxPyjpnETjA5uoc9U/kRqUy0HWY09FUOB6DJ7n2EK2GW6B+bCRWqLK5IkGdbLQ2Htwy5/+HuEODslZS0YkLAASERsExAs+Jvely3QQLKwmTJEzOUsaUR99piKOGY=
+	t=1782234715; cv=none; b=mR/grld0gjLWJWc6Whv4AnXKQk718Fm63KCyroWnxc1P8UFnRuaujG892jRyhoCrdKTNlYYoe6u0aSZrqEqZ3amsj+bwSIVklFuByNl4TH5vBVryvOJCGD9DSvdK9b8XAaZ3Y2nJNp2bTGp+fQ15iinliShw1ZSBpqaqTXdE5jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782234373; c=relaxed/simple;
-	bh=+OWC+hm04vkx07o8SXbdOwqEuj7KIn2R19JW3xoiy38=;
+	s=arc-20240116; t=1782234715; c=relaxed/simple;
+	bh=Dxe3mvHcxdglVG7y4dd4JmaJkVwRDW0juOrCiKYqNmQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D95HwifoRJwi2tB9PCJ2tpEwh80Eup/T5IPEX6Y98L6lOX3K25rSgZD8d01C26x6bzRb3bWnpmuzRba5MXxLtab0Lo3ltWxz9giK1CW06xgxtvaGS106m6V7O7hfnQG7oxur/S+GD5Pf4XHkmUrMzalqGYG+fSv+IYECc4ma4ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kC75vO2h; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uS3Q/GGLlVasFkHWqXM2v81er/jyj/1Ba7bcJqL/kG87gchLX69S9ouFAig5O5wjnppwVPGP2VkPlNUx+esMM9rLf7snmUngvv03o8RItaPfA3c9y74e6IGZSO/O/DLEOqoSNF6yl6IffWersvtuS4O+8lGFQVtE+FopYr75mjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GqGg8pmM; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kC75vO2h"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c6a4eccab1so715ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 10:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782234371; x=1782839171; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Tu79wS1tW2o86htP+jh+vF6ThoZY7vyXOnOxpMqA3sM=;
-        b=kC75vO2hVHb4Uj4ndUhAUu0tIFsuSqkz4u8x0WjXIiMceAH+QDZIgbwXpQFgrgLWtL
-         555PySBK0PZc2MO7Z5Exv2sErsptb0Oa05GsAWN653A4fTa2Fjp1SLqfA9NTdzFUcWqd
-         cGg7iz7NE3dXcHbPmWtxg1dK08cdI57p6sKnjRZ3iVhz0AK13Eq083g9h7mBEyhvcNfm
-         e79eYgusyhiN7hnnjIgvoduJZfbqSB574eqRzNdhF5qniBhVBzbsodAGBx3fgW6sFCZJ
-         bbA9gmNMT8241Ga1YIjjGszIQkcEGFuv2EMxwBu+OF8pkZ81f9uj86vHCZ8tR+RdlZMn
-         TzKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782234371; x=1782839171;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Tu79wS1tW2o86htP+jh+vF6ThoZY7vyXOnOxpMqA3sM=;
-        b=NYeAd3AHgMNqBT8qZ5D+lAp7SrXNWtDxKz+y0kXurO0xvoAXK3R3NlYPmXBKxZsrkS
-         skbThQyxYewhy9wGe3d9J4a+d3UZEKEH9k7fe/8J6PjBD3iQzGqeZlba8NsECntH8muu
-         rRTt2ybsjKK0VMlOw6PtSE7OLpvkv5cdY7N49MJBkGy2eCjXVre3kaGq2f0/Znbpui92
-         CmUEOBOM4jU3lpqT9J3q0aHojzCn14qyBxC1DUPgg8upwglulMMO4GajdKvvWvBFpBdJ
-         O/x9bZEp90afSG30IlrbdQUBVbQ047DE/Ws3j8ScUVmyh5xRE++Uac4M333tFYJrt3/n
-         2vTQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5qw3D1UoN3r/9PbEh033J/Bwt5TUps6k3S5vJjx+L12iDj+AyGSkRa9EDom/HVuOoXNum9YgWbfA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2hLU+1+FDGiRI/kN5y/dj9U/XtzcX3nMuLOrRlWN8SKZ91J3j
-	7gyOTVP97DYWfgMCFHTxx712iUES7gzrLYykEzh/8CH/FL8AS5HS8T5tR+TXS1sqAg==
-X-Gm-Gg: AfdE7ck5f43kFWaJxBgnoI5B6j+BQFfcAxjTiv91CrYX7h/A/pBi0jIWzufj+tmr5xX
-	7+0wYw5G4mHu1+kr6bFYMW4yUPPkA2RnB2GOcsap2JYcQnQ7NiLDni3uJzgtb4BxEWYnZfXacK9
-	nXv0nTo5J6QrLwd7ylWuChddiXcwDFbr0w4KVI6WXxTLkAl/LvDXXA7z+Yn0K28y6JLSPdVo9Y6
-	5FIFDL4UZlMh/v87qlct8zvjRmlv1zw2FJOyWrb1Na72YE0So6zrAXIfjRAa5Xm1iaW2MvUo3vv
-	vDednVjKq4uMmRzye4N9S3mMrKHwYcrZKC+IdCov47OvMdollwkeGS7s5zj4RQTHqHgDTofvtc8
-	8s/jp5ocoT/EBsaxyfajgYwqotJp4WLOeU5ZCMQRXdVMQtyJsA38dwCc1K8OQjb71RrNoQI84N/
-	YdBvPF31DehULFcs09YHBfl0pzckvAReeKRn4nKyH6aoTX9n0bHBFP25qmArbtjbKiLz4Vdi+pt
-	0K44CYG
-X-Received: by 2002:a17:902:c404:b0:2bf:749:55c with SMTP id d9443c01a7336-2c7c711c2f1mr2378745ad.21.1782234370647;
-        Tue, 23 Jun 2026 10:06:10 -0700 (PDT)
-Received: from google.com (25.75.145.34.bc.googleusercontent.com. [34.145.75.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436af54dsm113990285ad.11.2026.06.23.10.06.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 10:06:10 -0700 (PDT)
-Date: Tue, 23 Jun 2026 17:06:07 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v6 05/12] PCI: liveupdate: Keep bus numbers constant
- during Live Update
-Message-ID: <ajq852qLegjfkP4d@google.com>
-References: <20260522202410.3104264-1-dmatlack@google.com>
- <20260522202410.3104264-6-dmatlack@google.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GqGg8pmM"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5C0514BF;
+	Tue, 23 Jun 2026 10:11:47 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 290E03F62B;
+	Tue, 23 Jun 2026 10:11:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782234712; bh=Dxe3mvHcxdglVG7y4dd4JmaJkVwRDW0juOrCiKYqNmQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GqGg8pmM+4me4s427XLrPiVTIz4+Bk5hJxoH7b02XrTCiKzTMeZEr81wh5odqYxCq
+	 Uvscfxy4Ql2su1sbLaQdBANm5mQCX+XE4vv/H7J5V0E+6hfqZv7oXxs9L287NH/Sgp
+	 RNdKP8gA1DrJD2dJ+px4es/a9yQ+tJYHSGjgwQ4Y=
+Date: Tue, 23 Jun 2026 18:11:46 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Dev Jain <dev.jain@arm.com>
+Cc: Harry Yoo <harry@kernel.org>, ryabinin.a.a@gmail.com,
+	akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
+	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+	anshuman.khandual@arm.com, kaleshsingh@google.com,
+	21cnbao@gmail.com, david@kernel.org, will@kernel.org
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+Message-ID: <ajq-Ukmd9NBruhr5@arm.com>
+References: <20260612044425.763060-1-dev.jain@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org>
+ <ajVByfkLbetzA8bB@arm.com>
+ <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org>
+ <ajltLd6FQg1aMge_@arm.com>
+ <78d97371-b477-4230-8690-ac870a7bab3b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260522202410.3104264-6-dmatlack@google.com>
+In-Reply-To: <78d97371-b477-4230-8690-ac870a7bab3b@arm.com>
 
-On Fri, May 22, 2026 at 08:24:03PM +0000, David Matlack wrote:
->During a Live Update, preserved devices must be allowed to continue
->performing memory transactions so the kernel cannot change the fabric
->topology, including bus numbers, since that would require disabling
->and flushing any memory transactions first.
->
->To keep bus numbers constant, always inherit the secondary and
->subordinate bus numbers assigned to bridges during scanning, instead of
->assigning new ones, if any PCI devices are being preserved. Note that
->the kernel inherits bus numbers even on bridges without any downstream
->endpoints that were preserved. This avoids accidentally assigning a
->bridge a new window that overlaps with a preserved device that is
->downstream of a different bridge.
->
->If a bridge is scanned with a broken topology or has no bus numbers
->set during a Live Update, refuse to assign it new bus numbers and refuse
->to enumerate devices below it until the Live Update is finished. This is
->a safety measure to prevent topology conflicts.
->
->Require that CONFIG_CARDBUS is not enabled to enable
->CONFIG_PCI_LIVEUPDATE since inheriting bus numbers on PCI-to-CardBus
->bridges requires additional work but is not a priority at the moment.
->
->Signed-off-by: David Matlack <dmatlack@google.com>
->---
-> .../admin-guide/kernel-parameters.txt         |  6 +-
-> drivers/pci/Kconfig                           |  2 +-
-> drivers/pci/liveupdate.c                      | 83 ++++++++++++++++++-
-> drivers/pci/liveupdate.h                      | 14 ++++
-> drivers/pci/probe.c                           | 17 +++-
-> include/linux/pci_liveupdate.h                |  4 +
-> 6 files changed, 119 insertions(+), 7 deletions(-)
->
+On Tue, Jun 23, 2026 at 10:32:16AM +0530, Dev Jain wrote:
+> On 22/06/26 10:43 pm, Catalin Marinas wrote:
+> > On Mon, Jun 22, 2026 at 09:42:10PM +0900, Harry Yoo wrote:
+> >> On 6/19/26 10:19 PM, Catalin Marinas wrote:
+> >>> On Thu, Jun 18, 2026 at 10:35:15PM +0900, Harry Yoo wrote:
+> >>>> On 6/12/26 1:44 PM, Dev Jain wrote:
+> >>>>> Now, when a memory object will be freed, it will retain the random tag it
+> >>>>> had at allocation time. This compromises on catching UAF bugs, till the
+> >>>>> time the object is not reallocated, at which point it will have a new
+> >>>>> random tag.
+> >>>>>
+> >>>>> Hence, not catching "use-after-free-before-reallocation" and not catching
+> >>>>> "double-free" will be the compromise for reduced KASAN overhead.
+> >>>>
+> >>>> I doubt users who care about security enough to enable HW_TAGS KASAN
+> >>>> are willing to compromise on security just to save a few instructions
+> >>>> to store tags in the free path.
+> >>>>
+> >>>> To me, it looks like too much of a compromise on security for little
+> >>>> performance gain.
+> >>>
+> >>> I don't think there's much compromise on security for use-after-free.
+> >>
+> >> I think it depends... OH, WAIT! I see what you mean.
+> >>
+> >> You mean use-after-free before reallocation does not lead to much
+> >> compromise on security because objects are initialized after allocation?
+> >>
+> >> You're probably right.
+> >>
+> >> Hmm, but stores to e.g.) free pointer, fields initialized by
+> >> constructor or accessed by SLAB_TYPESAFE_BY_RCU semantics after free
+> >> will be undiscovered if they happen before reallocation.
+> > 
+> > Even with SLAB_TYPESAFE_BY_RCU, the object isn't tagged on free either
+> > (or realloc, only if the actual slab page ends up freed). But we don't
+> > get type confusion for such slab.
+> > 
+> > However, without tagging on free, one could argue that it reduces
+> > security for cases where the page is re-allocated as untagged - e.g. all
+> > user pages mapped without PROT_MTE. Currently we have a deterministic
+> > tag check fault if the page is coloured as KASAN_TAG_INVALID. I think
+> 
+> So you are saying that a stale kernel pointer can continue to use the
+> reallocated page, because for non-PROT_MTE case the page does not get
+> a new tag. Makes sense.
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+Yes.
+
+> > for this patch, it might be better to only do such skip on free in
+> > kasan_poison_slab() rather than kasan_poison(). Freed pages would then
+> > be tagged.
+> 
+> I think you mean to say, "skip tag on free when freeing pages into buddy"?
+
+No, I meant always poison via kasan_poison_pages(), as we currently do
+with KASAN_PAGE_FREE being set.
+
+> So that would mean, kasan_poison() will do the poisoning also in the
+> case of value == KASAN_PAGE_FREE.
+> 
+> > An alternative would be tagging on free only with a new tag and skipping
+> > it on re-alloc. But we'd need to track when it's a completely new
+> > allocation or a reused object (I haven't looked I'm pretty sure it's
+> > doable).
+> 
+> That was our original approach, and IIRC we had concluded there was no
+> security compromise. However it is difficult to implement - it has cases
+> like, what happens when two differently tagged pages are coalesced by
+> buddy and someone gets that large page as an allocation.
+
+Yeah, it's fairly complex.
+
+I think the more problematic case is when we can't detect
+use-after-reallocation and this happens when a page is reused untagged
+(probabilistically, also when the page is reused with the old tag). As
+an optimisation, it might be sufficient to skip poisoning when freeing
+an object into the slab but keep the poisoning when freeing a slab page
+into the buddy allocator. That's where the page may end up in a place
+untagged.
+
+Also for your optimisation to only tag on reallocation, do you have any
+code to read the current tag and avoid reusing it? That's useful for
+kmalloc caches or other merged kmem caches where we can have type
+confusion.
+
+-- 
+Catalin
