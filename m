@@ -1,171 +1,91 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C8726A1CF
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 20:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A535675B;
+	Tue, 23 Jun 2026 20:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782245205; cv=none; b=PZ5w4lOmYMSdAf74/4xZjdv+frcx8uLrhXI0wdobyT1PPrhRjFtUMgyDuIwycVRg/jgsTkJwwAnp5lCO50TDcCydpRPQe0KlgyDh766PD7mxEHaksmVcb78v4WlJ4GERzGYejewG0LyST1lq6n838cwJaJuAdThWjPXm758/MuA=
+	t=1782245797; cv=none; b=SIOc1I6Hv+6UDXh0QMgpVdv2MC5MGplXQapHevoEtBpdJdB0sYzhLWSSJ1Q3NHX45O8Qf9T2yblxz6jRi5FValIdwNQ9ax/Rzwl3xp9qPCOhHMuMSup2cP20Q037MQJVenlNolliwYndyfY8H5FDRv8kxETpcTv34NqA3lXMs6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782245205; c=relaxed/simple;
-	bh=ykMC2ieYQYVSxbapdFkuFJd/A1i/SI/0S63Ag5SQ2+E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=IRMx8gS1Lay8UvSxPVBWG/DGUeYrsRsp4uX/dip6xO//elmATS3dypq/RmYPxyn9/cZUyKgoOp7PxR5hYlsP6NFvBkETtaDOoA/yxt4d/sHmet6gpGLwxL7TjExNg3GAAG29vEpDA+BZZunNvL9jFBxRE7Jkj33EZZ2Yzv5xHN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hItVHB/p; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1782245797; c=relaxed/simple;
+	bh=FubUEgMsyaWAuCAka3ubhlrWabpeQJjBvAqgM0CJa6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPgwoUMT4j1k24PexDe/g5vcs7+YHCvVRjlkVqY3v72iKSnovDOUW/Vq8w589ikY+ufffRGevVMhh6W/pQP2Hrcy843wUZvf6J6bX2AsexElQQygheUdZVH/TYCt0Y1Tg9dFS6n4i4cKM7/mnsr/yQ3XqfZK5nqcQfCfcpICCS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=BWX1rlGw; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hItVHB/p"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-697498c701eso146753a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 13:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782245203; x=1782850003; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kYPy5Kp/eciXGU33EP09NXjsbX2uzzGfRHxirk+T+0A=;
-        b=hItVHB/p6ViFVNt7PxMzW+TnRr3F7wzqELOAGwnVrgdqD7j0ceDj9QeSkB/wMVAvZo
-         bV/gGRlk+etAb/RTu9kTPIS03VXX7FdRRuQz8FrfWfscyJLD7OOxHdNYaAj9B4ka5KTE
-         iH5bxbf+4A3d6ZhCrc0zzuiEARShuiAiP+m89iv94cok2uUkaNbxLjOSPMbUkYV6Bvp2
-         4bvOBNPQTjO/+VkQCqn0YjKra2i/UVG9w5OG0HvdqLFrEweVYQXclb2EB3sYoQHoKDNx
-         oCpWw77zyfkhx7L9foHDxNstlsTNv94HID+mnWG2As+J9ck6LEul/e2p47tGaycrbjGC
-         Bn8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782245203; x=1782850003;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kYPy5Kp/eciXGU33EP09NXjsbX2uzzGfRHxirk+T+0A=;
-        b=pGFjTQ5oVzKPif3SVPDwoJyVzf5vjfaIXgAG40moJ/2ZdH3z/vvz5s229bT06YsVGv
-         sSaU4ISfy8N/Gzgama/FFBlsKb/B6Gl1MNl3sg5ce+A8J3/A7lurUNE+e09DqsYKeM1n
-         KG1y2azpEy2tE8IfNVxthZNO0GvrZMBEZLSvH76L3wt3qF6JDhY5CBI/NDzVKX+7YIKP
-         gSke9Ba9NRB2+z5quVSBrbI1tk8+yRlBvsMZeZeiCgC2zqZJBnDwhIkV0n0DhcwQDd9l
-         Qj1Bw/wBdBhUTVaA0kt4PkqlAo0pokUa8nGrYNyhkWg/6RSLrYRGdYFL5+e8z3+FGn2X
-         jEDA==
-X-Forwarded-Encrypted: i=1; AFNElJ8YOz/dl4KtzrDeWMrjPMXFkVCN5rUcgHPRQfbqEDnw0DSN9z8Z116XKEU4AtaymyHlN4ULCt4gw2g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD5U+GSCdx80Jg5NnYp2+dlsmhVzRa4FkBNhOqAZ6hkmPeIb47
-	Hzd3RzTyRUG3jkYA4Gejr/Wu8sQboVz7FHOIC8kOWyTUUCZiFCd/X38USrpRGFwsjC4kDa1xCPC
-	ZEnuUIFFadHwY72KKXQ==
-X-Received: from edyc13.prod.google.com ([2002:aa7:df0d:0:b0:697:e99f:d111])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:3554:b0:691:b5aa:5a7a with SMTP id 4fb4d7f45d1cf-697f3adf4a5mr19296a12.21.1782245202451;
- Tue, 23 Jun 2026 13:06:42 -0700 (PDT)
-Date: Tue, 23 Jun 2026 20:06:41 +0000
-In-Reply-To: <2vxz8q85mdyh.fsf@kernel.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="BWX1rlGw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1782245431;
+	bh=FubUEgMsyaWAuCAka3ubhlrWabpeQJjBvAqgM0CJa6E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BWX1rlGwgc4iHigUNvpCZ8fZEtgjUtYnxjhtuimrXxzJ609vY8EXRXiIcVxnWPrfO
+	 YE0r0ktK5uOQ9YaB1XoqbphSs7MxtZk0Iptw2cjMD6WsMPF/PUhKIYsqrAtlY7DdPK
+	 auScnAPB4Mmai4YtGaUywW0XZuW8hfNkzGbHX4Pc=
+Date: Tue, 23 Jun 2026 22:10:30 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: xforms: support
+ __SYSFS_FUNCTION_ALTERNATIVE()
+Message-ID: <c38eeede-b5cd-4671-84d7-c0b2d58021a4@t-8ch.de>
+References: <20260623190006.406571-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1780676742.git.tarunsahu@google.com> <48777f4749fa43d5648085dbb2037aa99c144a88.1780676742.git.tarunsahu@google.com>
- <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
- <9huztsqtmihs.fsf@tarunix.c.googlers.com> <2vxz8q85mdyh.fsf@kernel.org>
-Message-ID: <9huzv7b910oe.fsf@tarunix.c.googlers.com>
-Subject: Re: [RFC PATCH v2 06/10] kvm: guest_memfd: Add support for freezing
- and unfreezing mappings
-From: tarunsahu@google.com
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Ackerley Tng <ackerleytng@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
-	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
-	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
-	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
-	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
-	seanjc@google.com, axelrasmussen@google.com, linux-kselftest@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260623190006.406571-1-rdunlap@infradead.org>
 
-Pratyush Yadav <pratyush@kernel.org> writes:
+On 2026-06-23 12:00:04-0700, Randy Dunlap wrote:
+> Add support for __SYSFS_FUNCTION_ALTERNATIVE() to create a union of its
+> members (as though CONFIG_CFI is unset).
+> 
+> Fixes these docs build warnings:
+> 
+> WARNING: include/linux/device.h:117 Invalid param: __SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf)
+> WARNING: include/linux/device.h:117 struct member '__SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*show' not described in 'device_attribute'
+> WARNING: include/linux/device.h:117 Invalid param: __SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*store)(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+> WARNING: include/linux/device.h:117 struct member '__SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*store' not described in 'device_attribute'
+> 
+> Fixes: 434506b86a6c ("driver core: Allow the constification of device attributes")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-> On Tue, Jun 23 2026, tarunsahu@google.com wrote:
->
->> Ackerley Tng <ackerleytng@google.com> writes:
->>
->>> Tarun Sahu <tarunsahu@google.com> writes:
->>>
->>>>  static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
->>>>  			       loff_t len)
->>>>  {
->>>> +	struct inode *inode = file_inode(file);
->>>>  	int ret;
->>>> +	int idx;
->>>>
->>>> -	if (!(mode & FALLOC_FL_KEEP_SIZE))
->>>> -		return -EOPNOTSUPP;
->>>> +	idx = srcu_read_lock(&kvm_gmem_freeze_srcu);
->>>> +	if (kvm_gmem_is_frozen(inode)) {
->>>> +		srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
->>>> +		return -EPERM;
->>>> +	}
->>>
->>> fallocate may eventually go to kvm_gmem_get_folio(), so that would check
->>> kvm_gmem_is_frozen() twice. Is this meant to catch the punch hole case?
->
-> Yeah, I reckon you can get away with doing this check only in
-> kvm_gmem_get_folio(). Normally you'd like to fail early, but as of now I
-> don't see much of a problem. If you drop the check here and fail in
-> kvm_gmem_get_folio() you'd end up taking and releasing the mapping
-> invalidate_lock, but this isn't a fast path anyway so I don't think it
-> should matter much.
+Thanks for the fix. I would have expected 0day to catch this :-(
 
-No, Don't agree.
-kvm_gmem_get_folios already have the is_frozen check. which blocks the
-kvm_gmem_allocate. But not kvm_gmem_punch_hole. Your argument is correct
-for kvm_gmem_allocate only. So is_frozen check in fallocate is to
-block the punch hole as well. What ackerley said is correct.
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
 
->
-> I think either way can work just as fine...
->
->>>
->>>>
->>>> -	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE))
->>>> -		return -EOPNOTSUPP;
->>>> +	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
->>>> +		ret = -EOPNOTSUPP;
->>>> +		goto out;
->>>> +	}
->>>>
->>>> -	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
->>>> -		return -EINVAL;
->>>> +	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE)) {
->>>> +		ret = -EOPNOTSUPP;
->>>> +		goto out;
->>>> +	}
->>>> +
->>>> +	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len)) {
->>>> +		ret = -EINVAL;
->>>> +		goto out;
->>>> +	}
->>>
->>> There's some reordering here. Why not let the validation happen like
->>> before, then check kvm_gmem_is_frozen()?
->
-> There is no reordering, if I am reading the diff correctly. The diff is
-> somewhat misleading. The kvm_gmem_is_frozen() call is added at the top
-> of the function, and then all the later checks are in the same place but
-> get a goto out (and hence a full body to the if block). So the diff
-> reads like reordering, but there is none.
->
-
-That is right. I thought Ackerley was asking why not add the check after
-the all the if condition and before the kvm_gmem_punch_hole/allocate calls.
-
-> It would be very neat if scru had a cleanup.h style scope-based locking
-> function, but on a quick glance I can't see one.
->
->>
->> To align with design. "stop the fallocate call if inode is frozen, No
->> need to go further". I dont have strict opinion on this. I am fine with
->> taking it across punch hole as well to make it more fine grained. But it
->> will no longer claims stop the fallocate call (allocation one is stopped
->> in separate path: fault path) , though functionally it does the same
->> thing.
->>
->> WDYT?
->>
->> ~Tarun
->
-> -- 
-> Regards,
-> Pratyush Yadav
+> ---
+> Cc: Thomas Weißschuh <linux@weissschuh.net>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: driver-core@lists.linux.dev
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: stable@vger.kernel.org
+> 
+>  tools/lib/python/kdoc/xforms_lists.py |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> --- linux-next-20260619.orig/tools/lib/python/kdoc/xforms_lists.py
+> +++ linux-next-20260619/tools/lib/python/kdoc/xforms_lists.py
+> @@ -49,6 +49,7 @@ class CTransforms:
+>          (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
+>          (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
+>          (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
+> +        (CMatch("__SYSFS_FUNCTION_ALTERNATIVE"), r"union { \1+ }"),
+>          (CMatch("__attribute__"), ""),
+>  
+>          #
