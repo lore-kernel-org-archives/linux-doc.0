@@ -1,133 +1,268 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA3721CA0D
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D866435B644
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782177321; cv=none; b=CgGAcb2dz7LK4aj8nN50DhWQXQA/dkBvh2W0UNypAkUaaptJN35lEog95gsNl/XFFO9i1vZ6TekpGLP2FUCYFeDx1yC27fiznr6VUi/bvlMuwhnxTKam5bAsg3H2ONJsBcdO+X65TywrqkXOFZcrHKT1zXCagGUa4LjuOQtI6kQ=
+	t=1782177350; cv=none; b=uiTmhz8ckwdPCdWgUqfHI1FM/oG+LF5j5yOTjTkTCQq8uUdottfh9JKNMB9286puH+KhePk70OxWs56u0avHXVb7ol54mIcU201tE9EjEQuxsxUWDrK5zH63rsb13ZlDUzJi3mp0NF34qPhcf/MTiXba1uy6+pb6aJlqLS2yrlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782177321; c=relaxed/simple;
-	bh=CXlJ+IGAMu+WnGGoTqqoxMmqr9c6F6sSbek2igt/B6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M822WE3+jvyuhY8IgEKXegg8kz5hbFUANDR07hS29Q7Hr8vrWtjBaQ2QPgbNPhCMk5x5K3yNaNjRXqvqaym80CVtuSf2JuA2rR36xa0rIhHMb0x2uhPIsCjfj5fovEfKDtlKS/XzD3iHpZM9u6OrE7CsE+Z0HFqN/jeyS7MOY+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gdC9aSjh; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782177350; c=relaxed/simple;
+	bh=CJC2eEAu9a9FSgizYGmOPBhbJTloZgwrRUlwAxJ41/g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=RjBFJeIO+NcG6sH+5snFOSq8Ia0AmxqEVZnekdpNRgcIbYX7GV9S4TEPr0dAWwyr8lGjbrD7ytIifK1cX2Q61fhpvfSk1UkmF8i+PxUZfp7CkN1ZeXfE19CRUJ+Gbpeay8m3B6XVAbDgeNbwO2rT8g5aiZ43lzJz4rXojvqmMkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cdno2SBN; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gdC9aSjh"
-Message-ID: <e24b8145-7a67-4cc0-8ba0-24bd89243c04@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782177308;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Xehzt1SVC9gtzjAb+OIQuJbK4C/O+ft3+abYnowKwg=;
-	b=gdC9aSjhT98sWW65C9TYwDKrS0CCCEH4A1fyMutR88fuJ3iKvSjy6g9sUSAoNd+ZicS16i
-	x85iujJC26C2a0jvFML5EHj4RfTN09hfMvmCsOaAuI0x/tUde2BB+2pH1QElf02gPcGMvn
-	hdpDh8ZWpgpJzvEv3cFUtPh1lt/Vlck=
-Date: Tue, 23 Jun 2026 09:14:59 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cdno2SBN"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-842446a3851so2570870b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Jun 2026 18:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782177347; x=1782782147; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cIaeqJX/r6ONezV3RTMNlvuGHs6v4DCaJbK0FNFaqOE=;
+        b=cdno2SBNB9DpXRN00nZKja+FMHqRnIpYgfaHVnysBzv/RtkarjGmq/2gryLAW/W3oQ
+         qY3hjgKZzhZcZrEFJlOb84R5zz7Lr8kIVYp9m5k4kyxxxJ1s6JyJTUUOjF1KESGr1tYD
+         laUgFKB7WoN+cu9XGQEigVb+o27F1a/twJ2MwraRrs6szoGSlDgk2Pz6aOZ1f3mCf5Dv
+         AwWwXsXlSAshXdU9Fnlhuk03ut/NgiUGRlEPzXyL/HH2SPUvYMEP0xrSAqulk4woQbLq
+         pofg6HTXLZzRDrITf2yxSrQglLdwNraR8uUtdWJWqLJ1pvsgv3/edp0o2mG1LQ2ISpcE
+         wY9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782177347; x=1782782147;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cIaeqJX/r6ONezV3RTMNlvuGHs6v4DCaJbK0FNFaqOE=;
+        b=OWOqdhxDRWY6gO9jgJMd7WBD2cWFkF4yhtyOsYsW8XBQvyzYpdwlcjcgCJKTSKuvg7
+         NKQh3fJQmEcUVdJLcNVSPO3wseibaiS2yB8XdaXHQijLU7mfuAFuBfByZ2u1VUEjP3F2
+         dpItPxGCvuIsXHspqpPP0y2rrpQxA5Es/URpdtnKB9Om+LBEnvNJTT0UFmKoQEFnQ8kn
+         E+IvtC8jdWvi3kF7xkhuSHVFxXaOwbezPQJ9+xk2jQFvBU+KlyZHA16lbGSLk24qMq1+
+         zYl5weriPslqQ6BbNg+tv59HNlG7iw2NmnsgUrwcJRyAHHLaNMatbe1Y/Yhnp/DcY4+l
+         O73g==
+X-Forwarded-Encrypted: i=1; AFNElJ/pygHfGMjEoQmOLqv+TPzcVjMEwuYjXakRLtyFis1IQFzJZMeS/cbjrVGCoSGUeqMifjsOCYGCrjk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqUFV9VjgskpGTYXi3Qoh1j6OCEBPFrHU4k3TdKSTKM4Mh/smr
+	ZHE6RyvwvFdtIDrFu28EU1J/0IT/OWL52cDe823Od+yBs+QdBRfKXRou3zMWJ9Qjq7bp5zxo1Ga
+	jgCR0nA==
+X-Received: from pfbim3.prod.google.com ([2002:a05:6a00:8d83:b0:845:2f64:1f67])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:22c5:b0:82f:38df:681c
+ with SMTP id d2e1a72fcca58-8459704a890mr377593b3a.6.1782177346471; Mon, 22
+ Jun 2026 18:15:46 -0700 (PDT)
+Date: Mon, 22 Jun 2026 18:15:45 -0700
+In-Reply-To: <CA+EHjTx+3U++dnhGEkwh2SO82xMugAvvJ9ee1O__sxZCKL_X5A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems update
- in cpuset_hotplug_update_tasks()
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260622224509.1927419-1-longman@redhat.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20260622224509.1927419-1-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-15-9d2959357853@google.com> <CA+EHjTx+3U++dnhGEkwh2SO82xMugAvvJ9ee1O__sxZCKL_X5A@mail.gmail.com>
+Message-ID: <ajneQVLriUshjFIO@google.com>
+Subject: Re: [PATCH v8 15/46] KVM: guest_memfd: Call arch invalidate hooks on conversion
+From: Sean Christopherson <seanjc@google.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-
-
-On 6/23/2026 6:45 AM, Waiman Long wrote:
-> As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
-> unnecessary task iteration and updating of tasks' CPU and node masks
-> when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
-> due to the fact that the temporary new_cpus and new_mems masks do not
-> inherit parent's effective_cpus/mems when they are empty which is the
-> expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
-> Enable cpuset controller in default hierarchy").
+On Fri, Jun 19, 2026, Fuad Tabba wrote:
+> On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
+> <devnull+ackerleytng.google.com@kernel.org> wrote:
+> >
+> > From: Ackerley Tng <ackerleytng@google.com>
+> >
+> > When memory in guest_memfd is converted from private to shared, the
+> > platform-specific state associated with the guest-private pages must be
+> > invalidated or cleaned up.
+> >
+> > Iterate over the folios in the affected range and call the
+> > kvm_arch_gmem_invalidate() hook for each PFN range. This allows
+> > architectures to perform necessary teardown, such as updating hardware
+> > metadata or encryption states, before the pages are transitioned to the
+> > shared state.
+> >
+> > Invoke this helper after indicating to KVM's mmu code that an invalidation
+> > is in progress to stop in-flight page faults from succeeding.
+> >
+> > Reviewed-by: Fuad Tabba <tabba@google.com>
+> > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > 
-> Fix that and avoid unnecessay work by adding the empty mask checks and
-> inheriting the parent's versions if empty.
+> Coming back to this after working through the arm64/pKVM side. My
+> Reviewed-by here is from the previous round and the patch hasn't
+> changed, but I missed an implication for arm64.
 > 
-> [1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
+> kvm_arch_gmem_invalidate() is now called from two paths with the same
+> (start, end) signature: folio teardown (kvm_gmem_free_folio) and
+> private->shared conversion (here). For SNP/TDX that's fine, conversion is
+> destructive anyway. For pKVM the two need opposite content semantics:
+> conversion must preserve the page in place (same physical page, the point
+> of in-place conversion without encryption), while teardown must scrub it
+> before returning it to the host.
+>
+> The hook gets only a pfn range with no indication of which caller it's
+> serving, so arm64 can't give the two paths the behaviour they need. It
+> would help to signal intent on the conversion path: a reason/flag, a
+> separate hook, or not routing non-destructive conversion through the
+> teardown hook.
 > 
-> Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default hierarchy")
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->   kernel/cgroup/cpuset.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index aff86acea701..bc0207fd6e57 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -3925,6 +3925,14 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
->   	compute_effective_cpumask(&new_cpus, cs, parent);
->   	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
->   
-> +	if (is_in_v2_mode()) {
-> +		/* Inherit parent's effective_cpus/mems if empty */
-> +		if (cpumask_empty(&new_cpus))
-> +			cpumask_copy(&new_cpus, parent->effective_cpus);
-> +		if (nodes_empty(new_mems))
-> +			new_mems = parent->effective_mems;
-> +	}
-> +
->   	if (!tmp || !cs->partition_root_state)
->   		goto update_tasks;
->   
+> arm64 isn't here yet, so this isn't urgent, but the hook is gaining a
+> second caller now, and it's cheaper to leave room for the distinction
+> than to change a generic contract other arches depend on later.
 
-I noticed that compute_effective_cpumask(...) is called in several 
-places, so I think the logic should be consolidated into that function.
+Crud.  It may not be urgent for arm64, but it's urgent for other reasons that
+I "can't" describe in detail at the moment, and even if that weren't the case, I
+think we should clean things up now.  More below.
 
-```
-static void compute_effective_cpumask(struct cpumask *new_cpus,
-				      struct cpuset *cs, struct cpuset *parent)
-{
-	cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
-	if (cpumask_empty(&new_cpus) && is_in_v2_mode())
-		cpumask_copy(&new_cpus, parent->effective_cpus);
-}
+> >  virt/kvm/guest_memfd.c | 41 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >
+> > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> > index 433f79047b9d1..3c94442bc8131 100644
+> > --- a/virt/kvm/guest_memfd.c
+> > +++ b/virt/kvm/guest_memfd.c
+> > @@ -607,6 +607,42 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+> >         return safe;
+> >  }
+> >
+> > +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
+> > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
 
-```
+Not your fault, but kvm_arch_gmem_invalidate() is badly misnamed.  It's not
+"invalidating" anything, it's much more of a "free" callback, as SNP uses it to
+put physical pages back into a shared state when a maybe-private folio is freed.
 
-Similarly, for new_mems, should we introduce a dedicated helper like 
-compute_effective_nodemask? The same fallback logic is needed in 
-update_nodemasks_hier:
+As Fuad points out, (ab)using that hook for the private=>shared conversion case
+"works", but not broadly.  And it makes the bad name worse, because it's called
+from code that _is_ doing true invalidations.  For pKVM, it may not even need to
+do anything invalidation-like.
 
+To avoid a conflict with patches that are going to have priority over this series,
+to set the stage for arm64 support, and to avoid avoid bleeding vendor details
+into guest_memfd, as if they are core guest_memfd behavior (only SNP needs the
+"invalidation" on this specific transition), I think we should add an arch hook
+to do conversions straightaway.
 
-```
-static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
-{
-...
-		bool has_mems = nodes_and(*new_mems, cp->mems_allowed, 
-parent->effective_mems);
+Unless there's a clever option I'm missing, it'll mean adding yet another
+HAVE_KVM_ARCH_GMEM_XXX flag?  Hmm, especially because IIUC, arm64/pKVM doesn't
+need a callback for this case, only the free_folio case.
 
-		/*
-		 * If it becomes empty, inherit the effective mask of the
-		 * parent, which is guaranteed to have some MEMs.
-		 */
-		if (is_in_v2_mode() && !has_mems)
-			*new_mems = parent->effective_mems;
-...
-```
+> > +{
+> > +       struct folio_batch fbatch;
+> > +       pgoff_t next = start;
+> > +       int i;
+> > +
+> > +       folio_batch_init(&fbatch);
+> > +       while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
+> > +               for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> > +                       struct folio *folio = fbatch.folios[i];
+> > +                       pgoff_t start_index, end_index;
+> > +                       kvm_pfn_t start_pfn, end_pfn;
+> > +
+> > +                       start_index = max(start, folio->index);
+> > +                       end_index = min(end, folio_next_index(folio));
+> > +                       /*
+> > +                        * end_index is either in folio or points to
+> > +                        * the first page of the next folio. Hence,
+> > +                        * all pages in range [start_index, end_index)
+> > +                        * are contiguous.
+> > +                        */
+> > +                       start_pfn = folio_file_pfn(folio, start_index);
+> > +                       end_pfn = start_pfn + end_index - start_index;
+> > +
+> > +                       kvm_arch_gmem_invalidate(start_pfn, end_pfn);
+> > +               }
+> > +
+> > +               folio_batch_release(&fbatch);
+> > +               cond_resched();
+> > +       }
+> > +}
+> > +#else
+> > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> > +#endif
+> > +
+> >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> >                                      size_t nr_pages, uint64_t attrs,
+> >                                      pgoff_t *err_index)
+> > @@ -647,7 +683,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> >          */
+> >
+> >         kvm_gmem_invalidate_start(inode, start, end);
+> > +
+> > +       if (!to_private)
+> > +               kvm_gmem_invalidate(inode, start, end);
 
--- 
-Best regards
-Ridong
+E.g. instead make this something like this?
 
+	kvm_gmem_set_pfn_attributes(...)
+
+Hrm, though that wastes folio lookups in the to_private case.  So maybe just this,
+assuming pKVM doesn't need to take additional action on conversions?
+
+	if (!to_private)
+		kvm_gmem_make_shared(...)
+
+Actually, if we do that, then we don't need a separate arch hook, just a separate
+config.  It'll still bleed SNP details into guest_memfd, but it'll at least be
+done in a way that's more explicitly arch specific (and it's no different than
+what we already do for PREPARE...).
+
+E.g. this?  There will still be a looming rename conflict, but that's easy enough
+to handle.
+
+diff --git virt/kvm/guest_memfd.c virt/kvm/guest_memfd.c
+index 9ce5be7843f2..8aead0abd788 100644
+--- virt/kvm/guest_memfd.c
++++ virt/kvm/guest_memfd.c
+@@ -648,8 +648,8 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+        return safe;
+ }
+ 
+-#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
+-static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
++#ifdef CONFIG_KVM_ARCH_GMEM_FREE_ON_SHARED_CONVERSION
++static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
+ {
+        struct folio_batch fbatch;
+        pgoff_t next = start;
+@@ -681,7 +681,7 @@ static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
+        }
+ }
+ #else
+-static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
++static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) { }
+ #endif
+ 
+ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+@@ -729,7 +729,7 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+        kvm_gmem_invalidate_start(inode, start, end);
+ 
+        if (!to_private)
+-               kvm_gmem_invalidate(inode, start, end);
++               kvm_gmem_make_shared(inode, start, end);
+ 
+        mas_store_prealloc(&mas, xa_mk_value(attrs));
