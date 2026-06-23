@@ -1,185 +1,131 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBE93AE1B8
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 21:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782249262; cv=pass; b=hbDdJWElvfQ8KdEabSB19phStJzrJXTMritmGf7DOVTmGLEgxw2bh/QYiUCzS+pDZE8/CLgL3vwI0Hhhlal0Hi8o4QY35jgT0a3PGDOzE4p+mmWIKmbMAS2ZKGUwK4NhFVJnqdug3EoWEsgLLj9Nr1iVrtymKVoMVzPlURYEBks=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782249262; c=relaxed/simple;
-	bh=BEu6oE1hirZSlFOt35YJmaquG08gwWbriv8/eCijrXU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lOeFilMjW26mQBiDYxwiNUTOXCPWiMAalhMcFAe9g5mKV46QEjLngGGvSr1/EIevPxqDNSm10KWh5HPr8C5LSE3yf7uKnFepsXnUycQt8R14w0JFGt4gx2SgvJ91QdL5OR9TeB35ZWf0GCTGbalklWNgMmB4wEly8OHJtRMc274=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sl0yFM9f; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470263AE199;
+	Tue, 23 Jun 2026 21:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782249280; cv=none; b=F1lH9aYWcUl/VmrKCysa1WSx3YR3oOeyNOaMkT9LoFs+uc4QrHyuuZTQYk/3DPKhwMikT/nFOfnfp0pXaYqrpwSZS5wGpkSRjg44Z65ypWHVPNzAfew2+DPM9QH1qo4mHK2NWFg0Tl6MjUscm8kaDQJur/2CRAm+QLkeiBvryTg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782249280; c=relaxed/simple;
+	bh=L545s0y/f5SRTt2r1MwPpF08m3pJeqJOFV+FfwuK8D8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mILxrTcW2tWr9eCCuaRndGwZVchzf4t7QsX62VPI0rO5BonFoD3AQuWeoU0IB5OXEkSgjVK/0Yxl5ionW9setEJXoOvJac+GRc8mOHnTCrIYACSPtMutTUUH8T2eYe6HO32QXfh2gWkLzTcQoaCufhOpMnsi+Sua5gVMb7HVP50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZgljZL4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sl0yFM9f"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-691c5776f35so476675a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 14:14:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782249259; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PFZNKxyDvGG7KmBNSNhUTyBkNidnqankgtSZ45yperjeQeHL3DqwjoTDttQlJbiLoy
-         ujz82eVYenoJ5CstBSGNQZjGw02/JsJOS8SuWmhiI9+mnhKGQIWDP8S2rpZ7RIhvpjZL
-         xjt4zv4gYVHNHqiAuboXR9oHGjbb636/iOZSeWC/k8ZTLZSmeerLWBpBiY9pB+JbeUsj
-         8LMkRNsV20L4GqBHmTxk/+BjRCHb/2QwkP+rtj8Y7wl6c1FNj/acl2n4LsgraC1FX5+U
-         634Etvdd9Aq6HDtUAehHJdlNO3/odqERZPmm26gc6Z+cP7UIy9fHHDmHnLnCuMmzJoPC
-         /D6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=71fysXJovgrDCc8Ak5Zz96I/xjwYwfjNFkfuKiiFSRU=;
-        fh=IJsTu9NT9D3vhUh/sx5pytUF3b3h944+6bQuJQfjgjI=;
-        b=T8f8tnt+HWvNzwF/vLyAildKKGuGk+pa7Eume80PqfIWhiyj/KhhTeYD5xoZtNvRUH
-         dEmdXIY/0R4D2B29iHxnEzVuiE/VvMXRHxR8q8NpRT6mHSMyItaswbDVSA/Y3L0GqFhD
-         MYB6XoGlENjGk4CIPKn5Caw9vcaMIc7XT0TTTRAs97qRUmkbXW2YAlIirPPLRbcxG7IS
-         2NsY4/iBMsfmLO+8SHPksmYnkVmOVEBWVSC4TGcSjZK3scOVjtrQqar3TS4HbhBfcfvR
-         kWTglCPojwW30as5EYM6/NB82XhqTs4rKRFsHs4oqMs4SI5vVDLQWSvWGxK04eqK6yBQ
-         WkRQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782249259; x=1782854059; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=71fysXJovgrDCc8Ak5Zz96I/xjwYwfjNFkfuKiiFSRU=;
-        b=Sl0yFM9fmlE/0dP2EFtzcITAAp0HejHQhaNmqIAXpLIdhlQ/C6UbKpz5gK1e2ZDH0y
-         3a5otLbdkPZzFWLT7UE+918hOBWtzduIWZtQzcH1bDIbTxiUvxwSHTTSJBkNEmlQUlSE
-         C2Zvu/lo2k5BZCOyvBSolXycPTWfcqywGn1ChKrj6jTdoUVv654TWlXiKcGR2mgs254n
-         Hi42tL2sVvzmubRhXeqUhY90EF4mY375DCSQHEQFuxV2/0gPx0G9MdmfrjXJwJSsimMo
-         1bKoKhTl5paVWMjv1pflCYUidBHWl9OKaHA1hJS0O7QWY6kpjU9goNlYSg0uKWTGyLeA
-         AaxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782249259; x=1782854059;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=71fysXJovgrDCc8Ak5Zz96I/xjwYwfjNFkfuKiiFSRU=;
-        b=WTtPv1FaMgVyWUOgDJLF8/b/TEd5j7d2ibCWZDazV1TUQzDUixRuvC6P/9uAEcZYDu
-         ALVMqQIXDbAHk7pYpDVpapJ59fDOvBdEUlPUk/ph++xaGAeRLbjvPccrw1VpolBJNuQp
-         3DIMAm8dwE9NsWWPwW6K6CpQ/pMN47XzcNynpr166PJvmosRAqKwKGmm0IgteBcJcJqe
-         EOk/caV2FZO3i4//A/6t7LCCKWk3zKBwODhX43QSyjIJuZTrkQ6dK6FWTRA5NXsOXYH/
-         EUdBptxzzQGu6Qgr+d/CEHoWIgjQTBNfLGqdmmxx9wtZGnBvASCY4tlr0hxBKrTbO++p
-         JHfA==
-X-Forwarded-Encrypted: i=1; AFNElJ993CKtZXT4eUiftIg4VTOwV3iCHa0Qkdb3YTE/iqgQMex7pU1c+gkmp427V3JZFXP4jcwJC3vwgIg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYtmwlU0ZddP+9NM/n1Zm5253QqxpjMgTQnMd7f1S1OUbFCWtw
-	OZuHVFUh8dcc8FPenH/pQnfI4Ao8ulRrapAr+t1zulVimJciEDJUhMrnCn1DNHx/BGod6oz1854
-	LszxVhq5+EwLMw4c/DBIwVW7+4nyhmWw=
-X-Gm-Gg: AfdE7ckimVj2MCrs6PGYMszj8vGROL1B/6QNQvaxS9IuM45+gFR4xx0xZrrn7YcnaJ7
-	z+yj5cEV4shI2W3UAa39W28UZtJ+6p8jM9Czq/WqUYY9/TpkvnA6xRnKRFsIsCfi+e2/PPeuEz7
-	uTv5uMUCRmQoh0EJgoQBQf889I8XslkdkChKl+oXlZ969h9tWbQO0F67LmffYduUkT7EOdYHrWf
-	wC7Fx17GUUuMZ3MeSfQ6QbIOCl901fvzZDIzdp+0Q1oxWHdmRzjy8qIq6Nzl9XHQ0oZAaRKjA==
-X-Received: by 2002:a17:907:3f1f:b0:c11:1753:25cc with SMTP id
- a640c23a62f3a-c119f025261mr13470466b.42.1782249258699; Tue, 23 Jun 2026
- 14:14:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZgljZL4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F031F000E9;
+	Tue, 23 Jun 2026 21:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782249278;
+	bh=zcIIErkGjpS9gouJWmWe/uRTsPwJwxCtmfwJLTVE1Jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kZgljZL4eEFYV3KFuxXkTE58t5e0Pp6/EX1FUdnGcIuLrR0GY/MVjttIyJlhBbHYh
+	 /Ud+U2h8Z7fuEQd2Tq6wYrQ1IzmXtRUSTTLByk9dJdR824d8S2LRAm/noriXMjsUXq
+	 4xVK2IzyIG2IUjE8q4Z7SQsnUgdx7SkIwGQzsekWPc08pyljbVu2UP3mKhvqzIyDvb
+	 OHlH1LLzxBNWfP3fpKgHXQHGWCmCYWpvvDJC0HPTj7SXUfQ9x5cprQpR3Rc3jGxTqd
+	 nDhC1LVoUQxkRbFno3ZCgN4P2XgnX3Enviqid9FiAbNCKP5W52hqVNyMyivCS0hDso
+	 Y2RZkFknrweKQ==
+Date: Tue, 23 Jun 2026 22:14:34 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi's
+ FD5121
+Message-ID: <20260623-scared-judgingly-7efc1c188670@spud>
+References: <20260622-support-fd5121-from-onsemi-v1-0-b31767689c65@onsemi.com>
+ <20260622-support-fd5121-from-onsemi-v1-2-b31767689c65@onsemi.com>
+ <20260623-anybody-gutter-e6ca04f53bdb@spud>
+ <CYYPR02MB98280DF78A07EADACFD084EE83EE2@CYYPR02MB9828.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com> <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-In-Reply-To: <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Wed, 24 Jun 2026 02:44:07 +0530
-X-Gm-Features: AVVi8CdIaeu_joffRLcSvxxiZQ1_ZI76_fR_kxTsWH5gxda-81WTi5hBvd3VxLE
-Message-ID: <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, michal.pecio@gmail.com, stable@vger.kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lpb6Ztvu8fvBKW7J"
+Content-Disposition: inline
+In-Reply-To: <CYYPR02MB98280DF78A07EADACFD084EE83EE2@CYYPR02MB9828.namprd02.prod.outlook.com>
 
-> Moving this delay up here changes the behavior when the quirk flag isn't
-> set.  While it agrees with the intention of the USB_QUIRK_DELAY_INIT
-> flag, such a change should be mentioned in the patch description.
 
-How should I mention it then? Nothing comes to mind besides the
-obvious: "Also move the USB_QUIRK_DELAY_INIT sleep to before the
-initial descriptor read, so the delay applies consistently regardless
-of whether USB_QUIRK_CONFIG_SIZE is set.". Or should i revert it back
-to original position?
+--lpb6Ztvu8fvBKW7J
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +
-> > +             /*
-> > +              * Grab just the first descriptor so we know how long the whole
-> > +              * configuration is. In case of quirky firmware, try to grab the
-> > +              * whole thing in one go by asking for a 255-bytes sized buffer
-> > +              * mirroring Windows behavior.
-> > +              */
->
-> This needs to be rewritten, as it is self-contradictory.  When the quirk
-> flag is set we issue a 255-byte request to mimic the Windows behavior,
-> and only when the flag isn't set do we grab just the first descriptor.
+On Tue, Jun 23, 2026 at 09:01:32PM +0000, Selvamani Rajagopal wrote:
+>=20
+> > -----Original Message-----
+> > From: Conor Dooley <conor@kernel.org>
+> > Subject: Re: [PATCH 2/3] dt-bindings: hwmon: pmbus: Support for onsemi'=
+s FD5121
+> >=20
+> >
+> > > +
+> > > +title: onsemi's multi-phase digital controllers
+> >=20
+> > Can someone explain to me what a "digital controller" actually is?
+> > Seems very generi and that a word may have been left out, were it not
+> > for the fact that this wording is used several times in the patch.
+> >=20
+>=20
+> Thanks for reviewing.
+>=20
+> According to me, "digital controller" means the controller uses digital c=
+ircuits to implement=20
+> the features and functionality. We can remove "digital" and keep only con=
+troller. It won't make any
+> difference for Linux documentation.
 
-I am sorry I didn't understand how it is self contradictory. The
-comment does say, "in case of quirky firmware..."? Am i missing
-something?
+My point is that what's actually being controlled is missing. Maybe it
+is obvious to you, but it is not to me. Your nodename in your example is
+> +      fd5121@50 {
+which doesn't comply with node naming requirements and I wanted to come
+up with a suggestion for what it should be.
+I am assuming that its power or voltage that you're controlling so
+either it should be hwmon@ or regulator@.=20
 
-> >               result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> > -                 desc, USB_DT_CONFIG_SIZE);
-> > +                                             desc, usb_config_req_size);
->
-> Don't make extraneous changes to the existing indentation (or whitespace
-> in general), here and below.
+>=20
+> > > +
+> > > + enum:
+> > > + - onnn,fd5121
+> > > + - onnn,fd5123
+> > > + - onnn,fd5125
+> >=20
+> > Your /OF/ match data in your driver suggests that you intended to permit
+> > fallback compatibles here?
+>=20
+> Agree. Sorry about the discrepancy. Will fix it.
+>=20
+> >=20
+> > |+#ifdef CONFIG_OF
+> > |+static const struct of_device_id fd5121_of_match[] =3D {
+> > |+ { .compatible =3D "onnn,fd5121" },
+> > |+ { }
+> > |+};
+> > |+MODULE_DEVICE_TABLE(of, fd5121_of_match);
+> > |+#endif
+> >=20
+>=20
 
-Well the linux coding style guidelines mention that those descendants
-should preferably be aligned with the function open parenthesis. Since
-i did "touch" that line/part of code I though might as well indent it
-a bit accordingly. Should i revert the indent then (in this and the
-other place)?
+--lpb6Ztvu8fvBKW7J
+Content-Type: application/pgp-signature; name=signature.asc
 
-> >                       if (result != -EPIPE)
-> >                               goto err;
-> >                       dev_notice(ddev, "chopping to %d config(s)\n", cfgno);
-> > @@ -957,13 +976,25 @@ int usb_get_configuration(struct usb_device *dev)
-> >                       break;
-> >               } else if (result < 4) {
-> >                       dev_err(ddev, "config index %d descriptor too short "
-> > -                         "(expected %i, got %i)\n", cfgno,
-> > -                         USB_DT_CONFIG_SIZE, result);
-> > +                             "(asked for %zu, got %i, expected at least %i)\n",
-> > +                             cfgno, usb_config_req_size, result, 4);
-> >                       result = -EINVAL;
-> >                       goto err;
-> >               }
-> > +
-> >               length = max_t(int, le16_to_cpu(desc->wTotalLength),
-> > -                 USB_DT_CONFIG_SIZE);
-> > +                             USB_DT_CONFIG_SIZE);
->
-> This is another example of a change that has nothing to do with the
-> purpose of the patch.
+-----BEGIN PGP SIGNATURE-----
 
-Isn't that what you told me to change? So the logs are accurate? I
-made that change because you suggested it. :')
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajr3NwAKCRB4tDGHoIJi
+0p0RAQD36EDbuOtkF4cQhFpa/Fx2gItOFPFFN3q1M7BYekYz2AEAkPDxvFp9Qijd
+Oorv2sjNmq/fbSd8xsRo5bBS62nxVgY=
+=NHME
+-----END PGP SIGNATURE-----
 
-> > +
-> > +             /*
-> > +              * If the device returns the full length configuration
-> > +              * descriptor, skip the second read. Otherwise, send a second
->
-> Strictly speaking, the configuration descriptor is only 9 bytes long.
-> What you mean here is the entire configuration descriptor set.
-
-Alright i'll reword it.
-
-> > +              * request asking for the full length.
-> > +              */
-> > +             if (result >= le16_to_cpu(desc->wTotalLength)) {
->
-> Shouldn't this be: result >= length?  No point in repeating the
-> le16_to_cpu calculation.
-
-Yess. initially the length assignment was happening afterwards in my
-patch. then i decided to move it before the "if" statement since the
-outcome of length was going to be similar in any case (within if and
-after if). but then i forgot to modify the if too. Will fix it.
-
-> Like above, this string should all be on one line.
-
-Will fix all the strings as well
-
-Nikhil Solanke
+--lpb6Ztvu8fvBKW7J--
