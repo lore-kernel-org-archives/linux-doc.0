@@ -1,117 +1,135 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E05330FF27
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 16:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15A7318EF4
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 16:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782232586; cv=none; b=HgQ5vMdsVHpEw4IGm2Tzm+jz7atjgTIBDB8X5hXTy6gbF5kFLKm0mS2RF2lO6HNpd9MGcN0KV6PpuQ+rBA4Z30jhdKrNDun111igM4TNbM/iVVp35vseEbRbfkjX2xCSNDEuM/uCKQUE0MiKcBrS57pYl6RDpuA2lbYyY98Gn2w=
+	t=1782233010; cv=none; b=Jqp6bOJYdA54P1Hq8NQBOctXBPIgmx2IvvwZPTf2yJ0eIkytlYcMDA/w5Tnx5vSXAXcgYt7GqLJJJGwUEnapijrHCSDc37bj4M75XUqCe6vKJPD8YTGGNrtpWK2uIaFCr6fzKtRWZn/6PQLhgIR0B7o0nOtrHRg6gPKPu6IkrkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782232586; c=relaxed/simple;
-	bh=6BUYor2v9oAXOWo+th16C0IQkWGTKnuLB8YOp3bBc2Y=;
+	s=arc-20240116; t=1782233010; c=relaxed/simple;
+	bh=IO3IaUu1uKZodchtwQMhsQsxdlAFl5DLnFq9KPo2zhA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzHcLAvVFhYkyUTFVzBCnDP4w2Vz7/L98tGz+L6cRiloszBp4Z/bPjlhQir18jw8wf7tZIO2XqP2nlfc5rP6ztxZPW34D54v7G9jHs7YWaA0oxb0s3NTpMgt5QKUurn79xuRDpF6UWa23AX89cBOPUDXgX9SkMyxO14boEVZef8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=R4GMjLmn; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=gXPykJv6VBOztoWWu+K4EQUUessJb56eMNaMCDxGTFgM84+BfkrVynaJrUjVKLM81+Wl9RERja0ZUlvPoelTPwd0POkTKjxjf5RYDaQMkbqIkc/4mr4ZSidoRzJs4emGnD8SY7E5d/XqFwldnVTqehdd24/iJDWENriWB52L1Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Cdl99HR3; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="R4GMjLmn"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8dd94941c21so1093456d6.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 09:36:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Cdl99HR3"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2c73cefe192so62475ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 09:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782232584; x=1782837384; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpQ1AwczYKCoguf7Vbwxx1q5Epc4lMpg8aH6LEWm7xE=;
-        b=R4GMjLmn0arvDB4+Un795q2xqhDjmxjthBqzgWGObQc3ESfgovs34aiTSMyMy1yF5E
-         80DlkCo4r5weSWG5Ygw0QiQVHVOF654BOESLmt/SQYhbCL/A26ju3K/FRwUU9lr5XBnW
-         M/KF33YaH4v79Kf1uO0IeGt8c11yUtqLsrMj2svKdec6NQsMbB9hUMVowTYjtX1vLVU5
-         ADm5GU1jpIIvaFSGbLhzPz7NkYM+ToGH6EFZ9dVWuRRMF4Yas+/E2y5HQQ6wdpM8T0wT
-         Ti1eP4AksVu8ZjB1F42lqMPB+1joERVRqxJd56SBXcmQbkhzasBXCuwjiVbVm8txxlpV
-         OvoQ==
+        d=google.com; s=20251104; t=1782233009; x=1782837809; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rUCXLhb0bwQI5jAi3AeGaL2pacxrrvJDt+WvFjr4LkY=;
+        b=Cdl99HR39ZuMN5pAxlyTpkTp+JYMHqFOLaZT6eC9ydbSpoNDo2TtWUofubD4GOK6zr
+         S6pk3SpVtH/5m1BPz7Q6hHO0sprLfoUOtSsPtUJLs7l4HvILulka91DehDl9Qu5FkNjm
+         nzWe4xPUeS3anFsM7Kel37guFGY1+wwYFgxRrXtMXF4GklhmFqAvW4FnhXqPNNLuC2MC
+         /KHU9DUVXDvP6dLBNsdY1kIYoeJlu3SegQzxlBE7MHK17R4jMlnFLY5Jnc9ETFFEk4jB
+         6wAvKxLGiNONuDR5EAkEoVUBS1Y5tDuPIhoO2MMas9sukdUoMfEjavjQJv4X5uyTW1af
+         kG8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782232584; x=1782837384;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dpQ1AwczYKCoguf7Vbwxx1q5Epc4lMpg8aH6LEWm7xE=;
-        b=FJT4XK9AsnW5vY8R6kSBb51rzt3Amz5rkg60zAgWtGV+8YkBDFmPGtv3RueVx0VdNi
-         gemqXRaTGsrEhSegXnMLZAlwnSPsYW/BBSzQyQ0n/6z2QUzFhhYli3Jln5ex5Qx4psE4
-         MnG6/lU6FrslTRTa08e9tnSOxGEOyfedSH+g7z4/bbGgL0VFOB8ZrKBzSgkZE8C9ftkE
-         2aVYzCcAWQJfB48rbIWA+NSXN6cMUf8UTxbG5YHfQK7OgWuwUlcAH5kqOZuwblLzvWQ+
-         mnGjCabbig23ftYbfP+teCKk1saOYt0Cn4Ko1VCa29wOaERrsm18bJulYltJmxMvS7yW
-         Reeg==
-X-Forwarded-Encrypted: i=1; AFNElJ91vi9hwC31KElmisX2k/kYUwuVqmhzlRpFLzzJWhmln3KVOZAeEEnek0B0LCemWCNGnfQQpnVKozQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR2KRu6Hp1nhhD3onYRaJfaXhSejAPEECGhvIO7r5JIcJLroKb
-	l4dFwpw3etp/GVWadP4vmJaAc2M6eEuplZ9FNoZ0DboL8kZ6Sqhx4mizckvx9H6p2FY=
-X-Gm-Gg: AfdE7ckSzu5lsteETZ1UtOGRTO9gEy4vG2P2+33fwV5cq0iIChujn+QshxeFIozW/3i
-	WEA8CCyB2Nt9zGqolYRQZlqvZ2ijioa7q6YculxhopF4VIFbs7j3uBdZIzl6xOavhL3ul/Ag28n
-	bhxMW61JfCWqh9Hrd20M9qZZGI0KFgYU1TCmo1RwIvsAyLhpTrBG8TevQJK2jsySvsX7KiMoANA
-	KL3j6qbwF7MsXbvy9Y2/97T7tx9UblvpetPjHIHTzUwZeTIk94HGFH3M04ycoVmRrOzghCBvZuo
-	NZ0gJj8ZKfpzjucErxtWUF5nL/usUA6u/nckpdL3pD4MKlf1sU1Z2nQ2sPl6A1C4ONrHi5JNl2a
-	YrASbR0KVRJGO3RQOOflS9ruTSQsV+aBz0VbsY7UzTYRAvo2Lsm/4v3lyxHqkviez9GnOWKFrsa
-	u1A7UYltLlhWBXFMVtxCvTqqHs81trGThaY2KHByGfVraUj5Z/Ki+ow4Q1EgbM+trqnVdoEJSU5
-	u6fEuI=
-X-Received: by 2002:a05:620a:6892:b0:926:a969:89d9 with SMTP id af79cd13be357-926a9698aaamr393123185a.7.1782232584382;
-        Tue, 23 Jun 2026 09:36:24 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-926000c2a09sm306953585a.31.2026.06.23.09.36.23
+        d=1e100.net; s=20251104; t=1782233009; x=1782837809;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rUCXLhb0bwQI5jAi3AeGaL2pacxrrvJDt+WvFjr4LkY=;
+        b=f0HGNXZwg61EKnyMx2zRICdVCNXi+Ak7Cbr0p4oBkftXQgzdUiP8yQ1CPx4UNsMwLN
+         +6GB3Vyu24oiOl+F+PdZAx65RDfTfiDU8S7DqZXZ2oh/aDIxuL3fyiRvUZNpjeW+MU3l
+         Z+NUJuazun48wqq8gglNj72NxP2mTdVsfqAx5fAvCNzFW/gk0eAnnRVLqAfbDUCPnRSZ
+         mBSFCDlOy5XPq7cvtO+db/7cThz6DajtL8QmypUVkVmU1o9pavLfnY7TsOIWecaeD732
+         ZFfIsQevAq+btVvx91izR8FuU3RlU9BrFX3rdGSdq+h8VZi5wCniJQXobEBGM4Nf4W1f
+         j2Sw==
+X-Forwarded-Encrypted: i=1; AHgh+RqXhii++ZzMLdK9a9bsztpXQAL+t9KhfqQRdUKuu1xmdFaoj20x9rICdtI6oObyxPyV/XXLS6f/D3U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6Fl6Ad9ivG9LbSAQ5MZHm42ehs9or96lUgbIMs1qehAlltvZI
+	MmNhwBlSimsXXC8Mn8eP0P0TaIkupB2aG9H2VTIRThv33Q4BULMhKVcFaI70AzaQNg==
+X-Gm-Gg: AfdE7cnr4aieilFYSEgFUSYVFf9GNG0PuOk55+rUO5XMGdtIjjrYmbeeS/aeWkGzops
+	cPTMImdN/ZAG7e9IzeerhdfFyJ/4IVNUVy89FyDKOeTBfV52cu5fbkG1eiLldsDWn2+mSy+tVYT
+	FSPEqv546njaWcgeBmYE3o+rStKT8uxUlbLGAciUt2/WsRM/NXouDQe0smVoE0opNJxLZi2ST/l
+	83AMVjCDfFvIBgMAIOyEoYrCezDXK8VcEvhgGqAk0erWwJbSkFB6WeKMQlYIrYOajZ8Uz5K7lFz
+	HrND2IMPFynR22Sg3mqARnu9Z7CwuT/Cka748A4nHPEnY+3GmO2fIGkVyC/++JTRFtU/QbDYmZX
+	ms4mmaVCGm4phMMrgGZR+WfgJGaBjEsztn+bJkSHcWTXUSjnatmryBJ1L0CeiyOttQlpudZbfKs
+	4uxSLeC+beutc3McE/TBjkpsn0JthoGaCdr21XyS/xt+AGhL+SYsIZ3aSEIWPeNSaZxTK7AgIZx
+	FQcwMZD
+X-Received: by 2002:a17:903:320a:b0:2bd:6dad:7ccd with SMTP id d9443c01a7336-2c7c7118b8amr2140445ad.25.1782233008303;
+        Tue, 23 Jun 2026 09:43:28 -0700 (PDT)
+Received: from google.com (25.75.145.34.bc.googleusercontent.com. [34.145.75.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d6c5dbsm10669159b3a.12.2026.06.23.09.43.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 09:36:23 -0700 (PDT)
-Date: Tue, 23 Jun 2026 12:36:19 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-mm@kvack.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, rafael@kernel.org,
-	lenb@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
-	akpm@linux-foundation.org, rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
-	elver@google.com, kuba@kernel.org, ebiggers@kernel.org,
-	lirongqing@baidu.com, paulmck@kernel.org, dave.jiang@intel.com,
-	jic23@kernel.org, xueshuai@linux.alibaba.com, kai.huang@intel.com
-Subject: Re: [RFC PATCH 1/3] mm/numa: add exclusive node pool and
- numa=standby boot parameter
-Message-ID: <ajq2A9GUOBWjzYM6@gourry-fedora-PF4VCD3F>
-References: <20260610014517.253609-1-gourry@gourry.net>
- <20260610014517.253609-2-gourry@gourry.net>
- <aip5IWmxg9CWg8hQ@kernel.org>
- <airAUSrNjbSEwuti@gourry-fedora-PF4VCD3F>
- <ai5vj_RjSxl_FLu-@kernel.org>
+        Tue, 23 Jun 2026 09:43:27 -0700 (PDT)
+Date: Tue, 23 Jun 2026 16:43:24 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
+	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v6 04/12] PCI: liveupdate: Document driver binding
+ responsibilities
+Message-ID: <ajq3ohoU2hJfhsp5@google.com>
+References: <20260522202410.3104264-1-dmatlack@google.com>
+ <20260522202410.3104264-5-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <ai5vj_RjSxl_FLu-@kernel.org>
+In-Reply-To: <20260522202410.3104264-5-dmatlack@google.com>
 
-On Sun, Jun 14, 2026 at 12:08:31PM +0300, Mike Rapoport wrote:
-> On Thu, Jun 11, 2026 at 10:04:01AM -0400, Gregory Price wrote:
-> > On Thu, Jun 11, 2026 at 12:00:17PM +0300, Mike Rapoport wrote:
->  
-> > So really i think you're pointing out that futex_init() here probably
-> > shouldn't be using num_possible_nodes?
-> 
-> I'd rather say that num_possible_nodes() with and without CXL (or other
-> differentiated memory) has different semantics.
-> Maybe we need to add a new primitive for possible differentiated nodes and
-> keep num_possible_nodes() to mean "number of possible nodes with normal
-> memory".
->  
+On Fri, May 22, 2026 at 08:24:02PM +0000, David Matlack wrote:
+>Document how driver binding works during a Live Update and what the PCI
+>core expects of drivers and users. Note that this is only a description
+>of the current division of responsibilities. These can change in the
+>future if we decide.
+>
+>Signed-off-by: David Matlack <dmatlack@google.com>
+>---
+> drivers/pci/liveupdate.c | 16 ++++++++++++++++
+> 1 file changed, 16 insertions(+)
+>
+>diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+>index 96c43b84532c..4f2ec6ffdd16 100644
+>--- a/drivers/pci/liveupdate.c
+>+++ b/drivers/pci/liveupdate.c
+>@@ -70,6 +70,22 @@
+>  * preserved. These may be relaxed in the future:
+>  *
+>  *  * The device cannot be a Virtual Function (VF).
+>+ *
+>+ * Driver Binding
+>+ * ==============
+>+ *
+>+ * In the outgoing kernel, it is the driver's responsibility to ensure that it
+>+ * does not release a device between pci_liveupdate_preserve() and
+>+ * pci_liveupdate_unpreserve().
+>+ *
+>+ * In the incoming kernel, it is the driver's responsibility to ensure that it
+>+ * does not release a preserved device between probe() and
+>+ * pci_liveupdate_finish().
+>+ *
+>+ * It is the user's responsibility to ensure that incoming preserved devices are
+>+ * bound to the correct driver. i.e. The PCI core does not protect against a
+>+ * device getting preserved by driver A in the outgoing kernel and then getting
+>+ * bound to driver B in the incoming kernel.
+>  */
+>
+> #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+>-- 
+>2.54.0.746.g67dd491aae-goog
+>
 
-We'd have to define "normal" here a little more discretely.
-
-Normal = N_MEMORY at __init?
-Normal = N_MEMORY in the future?
-
-We also use the possible_nodes() mask to allocate per-node pgdat, so
-the futex example is largely just another "hey look at this thing,
-I wonder what other stuff is out there".
-
-~Gregory
+Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
