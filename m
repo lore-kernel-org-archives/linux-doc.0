@@ -1,621 +1,146 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05A53D75C7
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 15:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782227070; cv=pass; b=OLCRFpGjfKxOBqfgedodV/Y/xAvG8PZQ1ACRslMWL1Vd+gws2fIE8XQW5sHwqiQBQVjwy3SvF+SLZiCMXhZq/1f7W10u6rol5rQ7XQFL+d72ehdZitYQLEvHrLnVhZU843Qylj0taXf4El8TcJOpzfjFnAC3xBRuPpKSOH3FQUE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782227070; c=relaxed/simple;
-	bh=moeCOdPL37pA4Cm3YLyMgOX7Ltv+HpIq0MYYOWohN7I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gT7vvERn6HtpalvzkBIUlQ/E9ntyXhylFps94lcAXNE6eM28Fby/yyMJZW/+PDWVtFy4mOQ83XhmWUiXiOV73e+VTpeMwVcSs0rXLXMXn1drKMa4bxoMlU8lFa62/mrq4hQNFiu0m/QyrNdF0mpu4P9A7dG3+w3U2ruUf5f2oFM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljlhXVsY; arc=pass smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F7625F99F;
+	Tue, 23 Jun 2026 15:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782227324; cv=none; b=HmAmxmGrG9xu50gXSCGwjIOegBE+8x8Q31yeOeVkm4iCA/fXLIoe0qg5ehAkw6f2PecaQ/Gtu7KD/a9fU3FWupv2a0sxh/S1OKEH/Nd51TW4vRdrCkTpYCG6Wa7bz+XdfBrCjF3cawrxuIiNSeaYQ+9sUGpnhQffT9d95RTcTgo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782227324; c=relaxed/simple;
+	bh=swxMVi2/5GBeOkGZeUcQqpnIRK2v0l4JWY5Im7sAicQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VucKX12fKTECra7jHksFVc0UbLRmRwAjKSg5vJWcPux7o1ZWQ+jEAhscHc8sgK31f5Qmq69I9yBn9N9deHOpKgdegc/QrAbMzfPZgKnwMb2G6Q+maTOH3hFTnLr/NG3MR9A1VqsJna9tiDCDJvLTat9wWT2FpWafZRzq72v2szI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDRHYHKw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljlhXVsY"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c6a97e1d1bso43214565ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:04:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782227068; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ClWt45s88G8Tz0ld3xTrCEhy8mt1J1eWSvAqV0qcoHQvcwP9KsfitrbBfI2LA17Li+
-         hnhDzybTHgiwGSsmGXVLA4/8jE7kxE+BS+J5NuMWzuo+AiGSL1JQwM5AGpSOUM8mVSSQ
-         5PXRcpiu7HHYu2TRcThPlTWpq9ky5CRzVGhoOuYwL+8Z+AkkKhAzQtYd0f+8EyWdtKOB
-         4DcSjfbglSacazucAQ7ZS7tHDyK1AkfFba59RAT5MJWvHi/CENV+2CSDhuMFwFVMociu
-         GAfHTMH80ZePdGEbfr9AfhaVTgPVVTcvD+RYVbMxuqssk7ySnr0T+VmNUWmHvpKNuFRu
-         nlLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IJElps7NxqPdAEp+fqfuwfl85ZtuPfQzjPdU/8ZfgH4=;
-        fh=wdvVQMTz5cM+9IYtLxe8rxMRFVVMdCXTUvTob4AGteU=;
-        b=jfswUUa/HBVr1Vo2qBKQ/DWAyOyy6AanZaNOqxGXQp6ZfM4AsVWoIrIoThCoan61R2
-         ix2kkmLmXeCs59amhSn3I0M/EmQVgJdAQZUAfjXnuRVpo0+hFojzdDvr8trRyaZE1f3/
-         Jd3p4USxSqAcZ9y9nsYGEw0xb04iTBMOK1YCp21IRS/7YD6bc8R0ZGmpwfk8L1twb2mR
-         N8XrFeFTXJZS875VXtHsf/TrziMrkTXIW74C7cCeZQEtRAU9C3bEmbzX/ZcSB1K6srZ/
-         3Z3gOb2rsjKD8Xaly4Z14X2QmNehZntwUMIuNeNuwk2zODm5bBtYBZtO9Kt9wSlpOglB
-         tZjw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782227068; x=1782831868; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IJElps7NxqPdAEp+fqfuwfl85ZtuPfQzjPdU/8ZfgH4=;
-        b=ljlhXVsYCpGsyZbnkJcg/0eT9Xru+hcotyJ4XdhnrFqYqdTnP15PIzzjcird/GuhBA
-         Ah1Xxsr75TAu5Tmyu7Z1WOT4v0aKwHAinIT3fB+M2UC8T/sBhzcyd4f0XGrpV8tB36Vs
-         cSgZuFiUs5DC21rt9mxV6tEm2XcDAXUieHdm0gi6eP1Otra/BXR4S5zFC8IbVfs/evxc
-         CMStJwjj8JIyOFcnvdoj4OjuTadohNnl9JWN6a16B19aQFv6wIqOhl/6vDLoYSGFRtrY
-         fGM4cKciYzXxqs09zLF4Petw+yiruL8YQnxhjloNRUfk+aL2CzSaHsiE6NGRbFGszIDf
-         7saQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782227068; x=1782831868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IJElps7NxqPdAEp+fqfuwfl85ZtuPfQzjPdU/8ZfgH4=;
-        b=IXNMwr6ucmVCmd/1ikGuMW04dPl8sQL7oxhr/5+LyCxdZ2acixhq7wtSzfnle4dMi4
-         sXnPbo5hraU4CDToUR503vDlq/oEt5+2J+wV+ct3cAE2YoqlcQdHRn1QNy1qyQ8szU+h
-         AwwLwI2adDaiKRcxu3wZMoXFq0/34ZuDI461cPedbtvTJVuAKJzcU6ZTKHkTfQwg3O8b
-         g2HC2rOJZT88QXHlDPRe7jtx/KwnaahGK/pyqGnI2Xk9JAEL5wEpwZ/f3VFdC0IqzW08
-         AhbX5m8E2UFrZyX3MYisIRNXvZCnp1vPvZgXEDgwOOxazRM34R+Z7u5mt6jMA4huAfHo
-         bJCA==
-X-Forwarded-Encrypted: i=1; AHgh+RphFbBx5CGydx2AUncmLfv39RvJd3pdsCJ+x3cCksRWXbXLeK6LqJpxTWAeIP6V65ZhcMpi9yWpRDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB3hObPk0SQiXDiGo2yU4pCucmU9rMRgO6ih1VsaF12Q85YPvk
-	t+9pEVBF7xtLFOuY/yfw/hHyXLtIvdPBmCWLhMvPSlVDtslp2VxGMXWJanwYHECkbzMu5pYHadf
-	FeWYYZkqrVXNDk0SlgV3X6PCs2VJpZ24=
-X-Gm-Gg: AfdE7ckcBLmzZ4+UhmzqN5ytWXVmECzTejbU0MMl9U4lP4zGQCN5bTs0Q1UCt61QGcj
-	z7f9+jHcV4VbCbnsRyepsS+m1tQ8uIV3ZBM6si/ty2O+twMYkcDbD8Ij8wra40tcFX9maA6bO/g
-	6hBqlIsXnDvEpg6C3IKwGuUnyL7fRHfAFJgpLL+IHPZ+jo49ijF+bgJwXEzBcKpMMb3tlg8E/N5
-	gchZ3Sf3sbhEDjzWU1YFiR70dJB25L1chuT8HxWZsS0M3Uu6dSyShNy4QKjaryv9CnpC1RcgRku
-	6EXkdzBKgXsg6aV0p4GuGbNiK1bew2f5vEmJJB5YHvYFw48GJ+8GaUbBPao=
-X-Received: by 2002:a17:903:2281:b0:2c2:7e17:39f6 with SMTP id
- d9443c01a7336-2c7c9a9c706mr29568135ad.36.1782227067798; Tue, 23 Jun 2026
- 08:04:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDRHYHKw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3EDD1F000E9;
+	Tue, 23 Jun 2026 15:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782227323;
+	bh=lgxErHiAsUx2zyUgJpjq3vm+qoyUS3A23oDYQHZoGvs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=lDRHYHKw2S+xore/XuR0msYqrpqVZttTY/ssE+cnEcpCB88RupjnmQe0+xgBQc81O
+	 TISPJ363pHWDuvzAfFhVOqlYBiCMf/HelXPrGk8IcbKqsE2aNHRBi3j3FnX/+kyzNI
+	 Owb/7XlfB1dBhmSkEEBhqfvDl0Stjpx5nwDFtHwVRajtMDN0PhGU6iH/JPcxEW5Y/x
+	 LXgsQOkdShXslTv9OCivzytOJhM2WU46XuZurg4m4ypcTgrpJhGyfB2K/BWZTsUHjj
+	 Sk+g3O4WXXOzqdu4My9ag9DDlO3E9uDzjuTNNTv5dXGFiULb2rmGaW+fhJE2YP8zRy
+	 vRT/1/jVzmr5g==
+Date: Tue, 23 Jun 2026 16:08:30 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>, Rodrigo Alencar
+ <455.rodrigo.alencar@gmail.com>, Janani Sunil <jan.sun97@gmail.com>, Janani
+ Sunil <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <20260623160830.42833ba9@jic23-huawei>
+In-Reply-To: <20260622-captive-tux-067efd31ceac@spud>
+References: <076d7d2d-81a0-49c2-af94-bd65ead66c09@gmail.com>
+	<20260619-obstinate-polo-a230bef97fda@spud>
+	<20260619-bunch-diocese-dd7805cc17ff@spud>
+	<ajU73_TkKrSbqD4f@nsa>
+	<20260619-concierge-doozy-9c161533c369@spud>
+	<ajVlD-j0nIGrRVow@nsa>
+	<20260621153330.79b6600c@jic23-huawei>
+	<5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
+	<ajkMBh-R_7pYaoAn@nsa>
+	<20260622172911.48259a0c@jic23-huawei>
+	<20260622-captive-tux-067efd31ceac@spud>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622234803.6982-1-ebiggers@kernel.org>
-In-Reply-To: <20260622234803.6982-1-ebiggers@kernel.org>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Tue, 23 Jun 2026 11:04:14 -0400
-X-Gm-Features: AVVi8Cfvovxh_AcIOv0_5Ttgx9HUcmTHdvbTOTdPXaEunw3IPLjFGMbE1c6ysnE
-Message-ID: <CABBYNZ+QLvkYkn_EcBZ4+GopyhKqJLcfCoABYcw1VamavbSvhg@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
- to 1
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>, 
-	Demi Marie Obenour <demiobenour@gmail.com>, Andy Lutomirski <luto@amacapital.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Eric,
+On Mon, 22 Jun 2026 19:39:43 +0100
+Conor Dooley <conor@kernel.org> wrote:
 
-On Mon, Jun 22, 2026 at 7:50=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> AF_ALG is a frequent source of vulnerabilities and a maintenance
-> nightmare.  It exposes far more functionality to userspace than ever
-> should have been exposed, especially to unprivileged processes.  Recent
-> exploits have targeted kernel internal implementation details like
-> "authencesn" that have zero use case for userspace access.
->
-> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
-> libraries exist.  And when it is used, only some functionality is known
-> to be used, and many users are known to hold capabilities already.
-> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
-> (https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832=
-d@gmail.com/).
->
-> Thus, let's restrict the set of allowed algorithms by default, depending
-> on the capabilities held.
->
-> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
->
->     0: unrestricted
->     1: limited functionality
->     2: completely disabled
->
-> Set the default value to 1, which enables an algorithm allowlist for
-> unprivileged processes and a slightly longer allowlist for privileged
-> processes.
->
-> Note that the list may be tweaked in the future.  However, the common
-> use cases such as iwd and bluez are taken into account already.  I've
-> tested that iwd still works with the default value of 1.
->
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
-> ---
->  Documentation/admin-guide/sysctl/crypto.rst | 36 +++++++++++
->  Documentation/crypto/userspace-if.rst       | 13 +++-
->  crypto/af_alg.c                             | 72 +++++++++++++++++++--
->  crypto/algif_aead.c                         | 11 ++++
->  crypto/algif_hash.c                         | 24 +++++++
->  crypto/algif_rng.c                          |  9 +++
->  crypto/algif_skcipher.c                     | 20 ++++++
->  include/crypto/if_alg.h                     |  8 +++
->  8 files changed, 184 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/=
-admin-guide/sysctl/crypto.rst
-> index b707bd314a64..9a1bd53287f4 100644
-> --- a/Documentation/admin-guide/sysctl/crypto.rst
-> +++ b/Documentation/admin-guide/sysctl/crypto.rst
-> @@ -5,10 +5,46 @@
->  These files show up in ``/proc/sys/crypto/``, depending on the
->  kernel configuration:
->
->  .. contents:: :local:
->
-> +.. _af_alg_restrict:
-> +
-> +af_alg_restrict
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Controls the level of restriction of AF_ALG.
-> +
-> +AF_ALG is a deprecated and rarely-used userspace interface that is a
-> +frequent source of vulnerabilities. It also unnecessarily exposes a
-> +large number of kernel implementation details. For more information
-> +about AF_ALG, see :ref:`Documentation/crypto/userspace-if.rst
-> +<crypto_userspace_interface>`.
-> +
-> +Starting in Linux v7.3, AF_ALG supports only a limited set of
-> +algorithms by default. This sysctl allows the system administrator to
-> +remove this restriction when needed for compatibility reasons, or to
-> +go further and disable AF_ALG entirely. The default value is 1.
-> +
-> +=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +0    AF_ALG is unrestricted.
-> +
-> +1    AF_ALG is supported with a limited list of algorithms. The list
-> +     is designed for compatibility with known users such as iwd and
-> +     bluez that haven't yet been fixed to use userspace crypto code.
+> On Mon, Jun 22, 2026 at 05:29:11PM +0100, Jonathan Cameron wrote:
+> > > > > Yeah. It's not clear to me how that works for the microchip devices
+> > > > > (I suspect it doesn't!)
+> > > > > 
+> > > > > Just thinking as I type, but could we do something a bit nasty with
+> > > > > a gpio mux that doesn't actually switch but represents the GPIO being
+> > > > > shared?  Given this is all tied to the spi bus that should all happen
+> > > > > under serializing locks. 
+> > > > > 
+> > > > > Agreed though that this would be nicer as an SPI thing that let
+> > > > > us specify that a single CS is share by multiple devices and their
+> > > > > is some other signal acting to select which one we are talking to.
+> > > > >     
+> > > > 
+> > > > If the device-addressing on the same chip-select is to be handled
+> > > > by the spi framework, wouldn't we lose device-specific features?
+> > > > 
+> > > > I understand that this multi-device feature is there mostly to extend the
+> > > > channel count from 16 to 32, 48 or 64. I suppose the command:
+> > > > 
+> > > > 	"MULTI DEVICE SW LDAC MODE"
+> > > > 
+> > > > exists so that software can update channel values accross multiple devices.    
+> > > 
+> > > Right! You do have a point! I agree the main driver for a feature like
+> > > this is likely to extend the channel count and effectively "aggregate"
+> > > devices.
+> > > 
+> > > But I would say that even with the spi solution the MULTI DEVICE stuff
+> > > should be doable (as we still need a sort of adi,pin-id property). 
+> > > 
+> > > But yes, I do feel that the whole feature is for aggregation so seeing
+> > > one device with 32 channels is the expectation here? Rather than seeing
+> > > two devices with 16 channels.  
+> > 
+> > Agreed - if we have messages that address both devices at once that needs
+> > to be a unified driver and given they are about triggering simultaneous
+> > update of all channels it needs to look like one big device.
+> > This ends up similar to how we handle daisy chain devices.
+> > 
+> > The question of what to do on devices that don't have this feature
+> > is rather different. Good thing you read the datasheet :)  
+> 
+> I'm not sure it really is, the intent for the microchip devices I think
+> is pretty similar. The mcp3911 datasheet cites three-phase power
+> metering using three devices as a typical use-case, for example.
+> Probably creating an amalgamated device is a good fit there too?
+> 
+> I assume an amalgamated device for this ADI product means per-channel ID
+> properties?
 
-Is the expectation that we go shopping for userspace crypto here? This
-would mean the Bluetooth stack would use 2 different crypto stacks:
-the kernel for module parts and a userspace library for components
-like bluetoothd, resulting in 2 different sources to audit. So, while
-I agree we should restrict it to just the algorithms in use and with
-capabilities, I don't think we should assume the current userspace
-users are broken and need fixing.
+Per device as they are 8 channel each, but effectively the same.
+(microchip devices are 2 channels each I think)
 
-> +     Specifically, there is an allowlist for unprivileged processes
-> +     and a somewhat longer allowlist for processes that hold
-> +     CAP_SYS_ADMIN or CAP_NET_ADMIN in the initial user namespace.
-> +
-> +     Attempts to bind() an AF_ALG socket with a disallowed algorithm
-> +     fail with ENOENT.
-> +
-> +2    AF_ALG is completely disabled. Attempts to create an AF_ALG
-> +     socket fail with EAFNOSUPPORT.
-> +=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
->  fips_enabled
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Read-only flag that indicates whether FIPS mode is enabled.
->
-> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto=
-/userspace-if.rst
-> index ab93300c8e04..d6194346e366 100644
-> --- a/Documentation/crypto/userspace-if.rst
-> +++ b/Documentation/crypto/userspace-if.rst
-> @@ -1,5 +1,7 @@
-> +.. _crypto_userspace_interface:
-> +
->  User Space Interface
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  Introduction
->  ------------
-> @@ -10,13 +12,18 @@ code.
->
->  AF_ALG is insecure and is deprecated. Originally added to the kernel in =
-2010,
->  most kernel developers now consider it to be a mistake. Support for hard=
-ware
->  accelerators, which was the original purpose of AF_ALG, has been removed=
-.
->
-> -AF_ALG continues to be supported only for backwards compatibility. On sy=
-stems
-> -where no programs using AF_ALG remain, the support for it should be disa=
-bled by
-> -disabling ``CONFIG_CRYPTO_USER_API_*``.
-> +AF_ALG continues to be supported only for backwards compatibility.
-> +
-> +Starting in Linux v7.3, the set of algorithms supported by AF_ALG is lim=
-ited by
-> +default. See :ref:`/proc/sys/crypto/af_alg_restrict <af_alg_restrict>`.
-> +
-> +On systems where no programs using AF_ALG remain, the support for it sho=
-uld be
-> +disabled entirely by setting ``/proc/sys/crypto/af_alg_restrict`` to 2 o=
-r by
-> +disabling ``CONFIG_CRYPTO_USER_API_*`` in the kernel configuration.
->
->  Deprecation
->  -----------
->
->  AF_ALG was originally intended to provide userspace programs access to c=
-rypto
-> diff --git a/crypto/af_alg.c b/crypto/af_alg.c
-> index cce000e8590e..34b801568fba 100644
-> --- a/crypto/af_alg.c
-> +++ b/crypto/af_alg.c
-> @@ -6,10 +6,11 @@
->   *
->   * Copyright (c) 2010 Herbert Xu <herbert@gondor.apana.org.au>
->   */
->
->  #include <linux/atomic.h>
-> +#include <linux/capability.h>
->  #include <crypto/if_alg.h>
->  #include <linux/crypto.h>
->  #include <linux/init.h>
->  #include <linux/kernel.h>
->  #include <linux/key.h>
-> @@ -20,14 +21,32 @@
->  #include <linux/rwsem.h>
->  #include <linux/sched.h>
->  #include <linux/sched/signal.h>
->  #include <linux/security.h>
->  #include <linux/string.h>
-> +#include <linux/sysctl.h>
-> +#include <linux/user_namespace.h>
->  #include <keys/user-type.h>
->  #include <keys/trusted-type.h>
->  #include <keys/encrypted-type.h>
->
-> +static int af_alg_restrict =3D 1;
-> +
-> +static const struct ctl_table af_alg_table[] =3D {
-> +       {
-> +               .procname       =3D "af_alg_restrict",
-> +               .data           =3D &af_alg_restrict,
-> +               .maxlen         =3D sizeof(int),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D proc_dointvec_minmax,
-> +               .extra1         =3D SYSCTL_ZERO,
-> +               .extra2         =3D SYSCTL_TWO,
-> +       },
-> +};
-> +
-> +static struct ctl_table_header *af_alg_header;
-> +
->  struct alg_type_list {
->         const struct af_alg_type *type;
->         struct list_head list;
->  };
->
-> @@ -108,10 +127,43 @@ int af_alg_unregister_type(const struct af_alg_type=
- *type)
->
->         return err;
->  }
->  EXPORT_SYMBOL_GPL(af_alg_unregister_type);
->
-> +static bool af_alg_capable(void)
-> +{
-> +       return ns_capable_noaudit(&init_user_ns, CAP_NET_ADMIN) ||
-> +              capable(CAP_SYS_ADMIN);
-> +}
-> +
-> +int af_alg_check_restriction(const char *name,
-> +                            const struct af_alg_allowlist_entry allowlis=
-t[])
-> +{
-> +       int level =3D READ_ONCE(af_alg_restrict);
-> +
-> +       if (level =3D=3D 0)
-> +               return 0;
-> +       if (level =3D=3D 1) {
-> +               for (const struct af_alg_allowlist_entry *ent =3D allowli=
-st;
-> +                    ent->name; ent++) {
-> +                       if (strcmp(name, ent->name) =3D=3D 0 &&
-> +                           (!ent->privileged || af_alg_capable()))
-> +                               return 0;
-> +               }
-> +       }
-> +       /*
-> +        * Use -ENOENT (the error code for "algorithm not found") instead=
- of
-> +        * -EACCES or -EPERM, for the highest chance of correctly trigger=
-ing
-> +        * fallback code paths in userspace programs.
-> +        *
-> +        * Don't log a warning, since it would be noisy.  iwd tries to bi=
-nd a
-> +        * bunch of algorithms that it never uses.
-> +        */
-> +       return -ENOENT;
-> +}
-> +EXPORT_SYMBOL_GPL(af_alg_check_restriction);
-> +
->  static void alg_do_release(const struct af_alg_type *type, void *private=
-)
->  {
->         if (!type)
->                 return;
->
-> @@ -504,10 +556,13 @@ static int alg_create(struct net *net, struct socke=
-t *sock, int protocol,
->                       int kern)
->  {
->         struct sock *sk;
->         int err;
->
-> +       if (READ_ONCE(af_alg_restrict) =3D=3D 2)
-> +               return -EAFNOSUPPORT;
-> +
->         if (sock->type !=3D SOCK_SEQPACKET)
->                 return -ESOCKTNOSUPPORT;
->         if (protocol !=3D 0)
->                 return -EPROTONOSUPPORT;
->
-> @@ -1220,31 +1275,36 @@ int af_alg_get_rsgl(struct sock *sk, struct msghd=
-r *msg, int flags,
->  }
->  EXPORT_SYMBOL_GPL(af_alg_get_rsgl);
->
->  static int __init af_alg_init(void)
->  {
-> -       int err =3D proto_register(&alg_proto, 0);
-> +       int err;
-> +
-> +       af_alg_header =3D register_sysctl("crypto", af_alg_table);
->
-> +       err =3D proto_register(&alg_proto, 0);
->         if (err)
-> -               goto out;
-> +               goto out_unregister_sysctl;
->
->         err =3D sock_register(&alg_family);
-> -       if (err !=3D 0)
-> +       if (err)
->                 goto out_unregister_proto;
->
-> -out:
-> -       return err;
-> +       return 0;
->
->  out_unregister_proto:
->         proto_unregister(&alg_proto);
-> -       goto out;
-> +out_unregister_sysctl:
-> +       unregister_sysctl_table(af_alg_header);
-> +       return err;
->  }
->
->  static void __exit af_alg_exit(void)
->  {
->         sock_unregister(PF_ALG);
->         proto_unregister(&alg_proto);
-> +       unregister_sysctl_table(af_alg_header);
->  }
->
->  module_init(af_alg_init);
->  module_exit(af_alg_exit);
->  MODULE_DESCRIPTION("Crypto userspace interface");
-> diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
-> index 787aac8aeb24..b9217f9086aa 100644
-> --- a/crypto/algif_aead.c
-> +++ b/crypto/algif_aead.c
-> @@ -32,10 +32,15 @@
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/net.h>
->  #include <net/sock.h>
->
-> +static const struct af_alg_allowlist_entry aead_allowlist[] =3D {
-> +       { "ccm(aes)", true }, /* bluez */
-> +       {},
-> +};
-> +
->  static inline bool aead_sufficient_data(struct sock *sk)
->  {
->         struct alg_sock *ask =3D alg_sk(sk);
->         struct sock *psk =3D ask->parent;
->         struct alg_sock *pask =3D alg_sk(psk);
-> @@ -342,10 +347,16 @@ static struct proto_ops algif_aead_ops_nokey =3D {
->         .poll           =3D       af_alg_poll,
->  };
->
->  static void *aead_bind(const char *name)
->  {
-> +       int err;
-> +
-> +       err =3D af_alg_check_restriction(name, aead_allowlist);
-> +       if (err)
-> +               return ERR_PTR(err);
-> +
->         return crypto_alloc_aead(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void aead_release(void *private)
->  {
-> diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
-> index 5452ad6c1506..a8d958d51ece 100644
-> --- a/crypto/algif_hash.c
-> +++ b/crypto/algif_hash.c
-> @@ -14,10 +14,28 @@
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/net.h>
->  #include <net/sock.h>
->
-> +static const struct af_alg_allowlist_entry hash_allowlist[] =3D {
-> +       { "cmac(aes)", true }, /* iwd, bluez */
-> +       { "hmac(md5)", true }, /* iwd */
-> +       { "hmac(sha1)", true }, /* iwd */
-> +       { "hmac(sha224)", true }, /* iwd */
-> +       { "hmac(sha256)", true }, /* iwd */
-> +       { "hmac(sha384)", true }, /* iwd */
-> +       { "hmac(sha512)", true }, /* iwd, sha512hmac */
-> +       { "md4", true }, /* iwd */
-> +       { "md5", true }, /* iwd */
-> +       { "sha1", false }, /* iwd, iproute2 < 7.0 */
-> +       { "sha224", true }, /* iwd */
-> +       { "sha256", true }, /* iwd */
-> +       { "sha384", true }, /* iwd */
-> +       { "sha512", true }, /* iwd */
-> +       {},
-> +};
-> +
->  struct hash_ctx {
->         struct af_alg_sgl sgl;
->
->         u8 *result;
->
-> @@ -380,10 +398,16 @@ static struct proto_ops algif_hash_ops_nokey =3D {
->         .accept         =3D       hash_accept_nokey,
->  };
->
->  static void *hash_bind(const char *name)
->  {
-> +       int err;
-> +
-> +       err =3D af_alg_check_restriction(name, hash_allowlist);
-> +       if (err)
-> +               return ERR_PTR(err);
-> +
->         return crypto_alloc_ahash(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void hash_release(void *private)
->  {
-> diff --git a/crypto/algif_rng.c b/crypto/algif_rng.c
-> index 4dfe7899f8fa..bd522915d56d 100644
-> --- a/crypto/algif_rng.c
-> +++ b/crypto/algif_rng.c
-> @@ -48,10 +48,14 @@
->
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
->  MODULE_DESCRIPTION("User-space interface for random number generators");
->
-> +static const struct af_alg_allowlist_entry rng_allowlist[] =3D {
-> +       {},
-> +};
-> +
->  struct rng_ctx {
->  #define MAXSIZE 128
->         unsigned int len;
->         struct crypto_rng *drng;
->         u8 *addtl;
-> @@ -199,10 +203,15 @@ static struct proto_ops __maybe_unused algif_rng_te=
-st_ops =3D {
->
->  static void *rng_bind(const char *name)
->  {
->         struct rng_parent_ctx *pctx;
->         struct crypto_rng *rng;
-> +       int err;
-> +
-> +       err =3D af_alg_check_restriction(name, rng_allowlist);
-> +       if (err)
-> +               return ERR_PTR(err);
->
->         pctx =3D kzalloc_obj(*pctx);
->         if (!pctx)
->                 return ERR_PTR(-ENOMEM);
->
-> diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
-> index df20bdfe1f1f..2b8069667974 100644
-> --- a/crypto/algif_skcipher.c
-> +++ b/crypto/algif_skcipher.c
-> @@ -32,10 +32,24 @@
->  #include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/net.h>
->  #include <net/sock.h>
->
-> +static const struct af_alg_allowlist_entry skcipher_allowlist[] =3D {
-> +       { "adiantum(xchacha12,aes)", false }, /* cryptsetup */
-> +       { "adiantum(xchacha20,aes)", false }, /* cryptsetup */
-> +       { "cbc(aes)", true }, /* iwd */
-> +       { "cbc(des)", true }, /* iwd */
-> +       { "cbc(des3_ede)", true }, /* iwd */
-> +       { "ctr(aes)", true }, /* iwd */
-> +       { "ecb(aes)", true }, /* iwd, bluez */
-> +       { "ecb(des)", true }, /* iwd */
-> +       { "hctr2(aes)", false }, /* cryptsetup */
-> +       { "xts(aes)", false }, /* cryptsetup benchmark */
-> +       {},
-> +};
-> +
->  static int skcipher_sendmsg(struct socket *sock, struct msghdr *msg,
->                             size_t size)
->  {
->         struct sock *sk =3D sock->sk;
->         struct alg_sock *ask =3D alg_sk(sk);
-> @@ -307,10 +321,16 @@ static struct proto_ops algif_skcipher_ops_nokey =
-=3D {
->         .poll           =3D       af_alg_poll,
->  };
->
->  static void *skcipher_bind(const char *name)
->  {
-> +       int err;
-> +
-> +       err =3D af_alg_check_restriction(name, skcipher_allowlist);
-> +       if (err)
-> +               return ERR_PTR(err);
-> +
->         return crypto_alloc_skcipher(name, 0, AF_ALG_CRYPTOAPI_MASK);
->  }
->
->  static void skcipher_release(void *private)
->  {
-> diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
-> index 7643ba954125..4e9ed8e73403 100644
-> --- a/include/crypto/if_alg.h
-> +++ b/include/crypto/if_alg.h
-> @@ -159,13 +159,21 @@ struct af_alg_ctx {
->         unsigned int len;
->
->         unsigned int inflight;
->  };
->
-> +struct af_alg_allowlist_entry {
-> +       const char *name;
-> +       bool privileged;
-> +};
-> +
->  int af_alg_register_type(const struct af_alg_type *type);
->  int af_alg_unregister_type(const struct af_alg_type *type);
->
-> +int af_alg_check_restriction(const char *name,
-> +                            const struct af_alg_allowlist_entry allowlis=
-t[]);
-> +
->  int af_alg_release(struct socket *sock);
->  void af_alg_release_parent(struct sock *sk);
->  int af_alg_accept(struct sock *sk, struct socket *newsock,
->                   struct proto_accept_arg *arg);
->
->
-> base-commit: 1dc18801be29bc54709aa355b8acd80e183b03cd
-> --
-> 2.54.0
->
->
+> If so, I think they should be made generic and the Microchip
+> products retrofitted to use them, with a fallback to the proprietary
+> property. Not going to ask for the support for multiple devices in those
+> drivers, since the current way doesn't work and there'd be no loss of
+> support. Someone from Microchip can do that. The proprietary property
+> to generic conversion should be straightforward and provides weight to
+> an argument for this being generic, since that'd be three devices that
+> can all share?
+
+I think the practical difference is that for the ADI part we have to support
+it as a single device as some commands effectively don't use the address
+bits in the message.  For the microchip ones we could register multiple
+separate SPI devices and just provide one address for each.
+
+Equally we could treat the microchip ones as a unified device in which case
+the binding will be the same and there will be a property with a bunch
+of addresses (one for each device present). I'm fine with this option given
+as you say the datasheet calls out using this for channel expansion.
+
+Jonathan
 
 
---=20
-Luiz Augusto von Dentz
+
