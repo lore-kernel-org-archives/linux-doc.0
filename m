@@ -1,126 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A1D364028;
-	Tue, 23 Jun 2026 09:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6C72E7389
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 10:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782208120; cv=none; b=NQ1Y4/UUJnyoXPdrsUhZbwPH+103n2v5Ig10bhdvGE7eBUHo24so9z1CNolrHHlChQGfvCz2Cnwk/b0vYmRhW3AzFhkvB09JoifEkldWd0iZozuTzue8+ki15yS5dah6NyDAkvpBL2zNa7L5havsIEW0fGuN995wQJE8kUDfzFM=
+	t=1782209096; cv=none; b=oyHdF+mHyOAr4uWWUX+x4arh7DZ9h2dWokKxPqvpPxnH3kH1zmGaacLO/S4qpuwRTdRh2dwJSI+A5xSjUx60ndh5+UanBXYQJ9t5AlD93GPS6KPr4yK66sdsyIQvIgKc07a0jE8Vti2Vcn8xouQ0kp6yC0c1UfjNuHdiPQ54ykg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782208120; c=relaxed/simple;
-	bh=5923JLJcSnP+ammi926uhmSL7dT/T35P5AbtWqZVok4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ciiKaUMGa84h68WdY1T1ASu0iq+ySji3PzvORcqE5By8l4cJrhXiNTUX94E/PmJEOQP1bxOPmsEtj+azBfjaEpvtJP3BOMRvUi/6HdMy8zw3zeVa5LkW5lWylDOflo6DOv3Prcvv9MOkQDz2SF+b1Ram4WiCeaq2gffyhbjvmz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME1VcZpF; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME1VcZpF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782208120; x=1813744120;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=5923JLJcSnP+ammi926uhmSL7dT/T35P5AbtWqZVok4=;
-  b=ME1VcZpFzF2OCbL72i0cVwa6Ngw32RzHDS6NyvVLYcJpXpBG9vy5NtAW
-   RTuKzXJgD/bBYRWL9InJa4DcBcgO6imcjv8NLmxRodDholSCkNs+BEsoS
-   dcUo9g27r+B4CMgz/+jEUQGs0EhAPoDW/PaGVQq8diE2S5nJSt5ijIF0K
-   liklGk4Gkz3tTGUi/54ubhU/JetzbJkLnpS0tRfll3ixr4dQMbsFf+hym
-   Zna8OTEvtSVXV6xLq4aDmg6xUaAJCLIKshS/4OjQ5H7IifiWLUxbvQxMj
-   hxlKnYjSjdrwGalvLonzfonbByDGP54PjgEVLH1kLQlb14w3cCZKKJAzw
-   A==;
-X-CSE-ConnectionGUID: W9TauyN9TeW0LwkQwKboow==
-X-CSE-MsgGUID: CmHTuVfgQAO3g8BTCP96CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82988601"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="82988601"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:48:38 -0700
-X-CSE-ConnectionGUID: MXLmCZy4SperyKCaH8GJSA==
-X-CSE-MsgGUID: DGnOq6mSRvK9V69SMz9Zcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="254572830"
-Received: from unknown (HELO [10.238.2.81]) ([10.238.2.81])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:48:26 -0700
-Message-ID: <6fc7f450-6d0a-494d-b295-297e4703148d@linux.intel.com>
-Date: Tue, 23 Jun 2026 17:48:24 +0800
+	s=arc-20240116; t=1782209096; c=relaxed/simple;
+	bh=TnsjqGVMy/o7/73ZblaawdVp51vxiDriet5x9twbGHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nmhg6SbVZR4SGs77fMsNPmynsvnUiGPxUiKxRohZC3JF6jdb5Mp6Bv8KDJPKG1PiUhxPN4zz+fJ5ARjMSm6SGHkJ/6Nlcu0N/aasLMQHqzhKS+8HPtwOpDyCwJIkqg5bJU7Fy7LkZ1p7ccThc/W2tfRpfLXUUkUvwMjwl6RJR88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top; spf=pass smtp.mailfrom=anka1.top; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anka1.top
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anka1.top
+X-QQ-mid: zesmtpsz4t1782209072td460398f
+X-QQ-Originating-IP: 5pRCUX0xcsQdCpXcpoiTW49RjCb/+tXNl7cg+l2k7kc=
+Received: from anka-vmware20-1.localnet ( [124.161.135.51])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 23 Jun 2026 18:04:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17518718631674380426
+From: Siwei Chen <businiaoanka@anka1.top>
+To: linux-doc@vger.kernel.org, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: si.yanteng@linux.dev, wy@wyuan.org
+Subject: Re: Issue cloning kernel-doc-zh from HUST mirror
+Date: Tue, 23 Jun 2026 18:04:30 +0800
+Message-ID: <0DDD646ED5E875C8+6652897.DvuYhMxLoT@anka-vmware20-1>
+In-Reply-To: <b03f244b-46b8-47e8-b7f5-d98d714ae15c@hust.edu.cn>
+References:
+ <4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1>
+ <b03f244b-46b8-47e8-b7f5-d98d714ae15c@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 18/46] KVM: guest_memfd: Handle lru_add fbatch
- refcounts during conversion safety check
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
- chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
- jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
- pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
- rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
- tabba@google.com, willy@infradead.org, wyihan@google.com,
- yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
- suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
- Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:anka1.top:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: N4ZILu3POr3OkP1f+LPr7gHrGJ+RHEtqWIMOY+CyDDpqh3wDMY2nKZpW
+	6UVn5VxBXQZ95gCKGGTFRfPdbzd6Pq1XcD8rDDY0emEuYrOJwSV54eEIK16qRRrhH9lhOy2
+	LcCXzT+eH149NPmptI/e+s3a9BS7DYIXUK85Woyrqkgbmpjq/GVom8vscyG3vbej6xBlgC/
+	RqDbR90jcUEr3KO4Hb8eKSwaPGxUXUf8QMjq9RbOy3KfTLrOWtpmu0RFAIjjqSKnLjaEXg/
+	+phMX7+Tq0fZvW3/PCTXHLhddqtovQW+Lb4JKdrseVUtPge0D2Zs9yFuM2xb3S442YJ/lAy
+	2ylS4HL0ffjOgY6a7lW/neC/KfRi1v2Eg/fd4SZwc8KTMXon4V+TVE2pOyWB2VKaV8o9N3v
+	PytqkAbsx0TU73vVgcww51wjSX9wU8ottGvzY5sbU29Q1oR9eoljNA1JVgzRDfhdG7+9agc
+	ySvQyzsCKyxgf3bMLjPHVfDsJ135sDY7Z1n4D4iyElGr2xXN9RJRbrxmKwP6LEUyovdN2T+
+	xQoXs17YFQtihE90HzRHP7+orQWNjK9b3v8/hicVn4u1u2ddXYdTncxKIKMXPxVu+Vhu/3u
+	1gryjkxcd/bTJ04ir/Jx2w+PzDATXkwLHzvJBi7WGKhCRoXiKS5iQurWkpRxDtEXF2khhvr
+	ZzTzTPTF6YOi42jhHodsK3fh/veK5h05/26/kUyksNN9Y0ebemSysRU7TIpPemS5TI/cJg/
+	TzTCRL5x3XlpgOfGj4E2rqMwoUckt5fgqykUu7qtuNDNnguF65fQ5Z+47XakPaFBtE1fEkF
+	22jFtTEMyiwnBqEFhs0Tz18F3ncuigq32iVtuEOuholN+b/528brOaOOtnieweFtxpB/QYu
+	gWqZBK7csu7RLJ2ZhDzsr55n9BoNtyZcpqugXpUH9EwfbywtobBxTuku1Yydkg5HLUu1qGZ
+	AROcjq3bFqgKTyqvVLpdB0gdisQmRyKNcW07tTqiTYEZWBISUhCN/SD2CPUOBGclGpAXYDB
+	mepENwO5IF31jxCaAV1vHOq7X80uBjO9930dF8eUihGQPlxano
+X-QQ-XMRINFO: NS+P29fieYNw3bEfiaoomnzdGyg47OgdBg==
+X-QQ-RECHKSPAM: 0
 
-On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
-> @@ -606,12 +608,20 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
->  	next = start;
->  	while (safe && filemap_get_folios(mapping, &next, last, &fbatch)) {
->  
-> -		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
-> +		for (i = 0; i < folio_batch_count(&fbatch);) {
->  			struct folio *folio = fbatch.folios[i];
->  
-> -			if (folio_ref_count(folio) !=
-> -			    folio_nr_pages(folio) + filemap_get_folios_refcount) {
-> -				safe = false;
-> +			safe = (folio_ref_count(folio) ==
-> +				folio_nr_pages(folio) +
-> +				filemap_get_folios_refcount);
-> +
-> +			if (safe) {
-> +				++i;
-> +			} else if (folio_may_be_lru_cached(folio) &&
-> +				   !lru_drained) {
-> +				lru_add_drain_all();
+=E5=9C=A8 2026=E5=B9=B46=E6=9C=8823=E6=97=A5=E6=98=9F=E6=9C=9F=E4=BA=8C =E4=
+=B8=AD=E5=9B=BD=E6=A0=87=E5=87=86=E6=97=B6=E9=97=B4 16:51:20=EF=BC=8CDongli=
+ang Mu =E5=86=99=E9=81=93=EF=BC=9A
+> Hello Siwei,
+>=20
+> The long answer is as follows:
+>=20
+> The curl 52 Empty reply from server error is not a Git or Ubuntu
+> compatibility issue. It happens because the kernel-doc-zh repository is
+> extremely large, and the HUST mirror server closes the HTTPS connection
+> early due to timeout or proxy limits.
+>=20
+> You can try the following commands:
+>=20
+>=20
+>       1. Shallow clone first (most reliable)
+>=20
+>=20
+>=20
+>       git clone --depth 1
+>       https://mirrors.hust.edu.cn/git/kernel-doc-zh.git linux
+>=20
+>=20
+>=20
+>       Then fetch full history:
+>=20
+>=20
+>=20
+>       git fetch --unshallow
+>=20
+> If still failing, increase Git buffer like:
+>=20
+> git config --global http.postBuffer 1073741824
+>=20
+>=20
+>=20
+>       Finally, I will contact maintainers of HUST mirror site and try
+>       some attempts to resolve this issue.
+>=20
+> Dongliang Mu
+>=20
 
-It seems unprivileged userspace is able to trigger lru_add_drain_all() repeatedly
-by invoking KVM_SET_MEMORY_ATTRIBUTES2 in a loop, which could lead to DoS risk?
+Hello, Dongliang
 
-> +				lru_drained = true;
-> +			} else {
->  				*err_index = max(start, folio->index);
->  				break;
->  			}
-> 
+Thank you for the detailed explanation and suggestions.
+
+I will try the shallow clone approach and the other workarounds you mention=
+ed.
+
+I also appreciate your willingness to contact the HUST mirror maintainers a=
+nd=20
+investigate the issue further.
+
+Thanks again for your help.
+
+Best regards,
+Siwei Chen
+
 
