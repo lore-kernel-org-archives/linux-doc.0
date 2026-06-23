@@ -1,390 +1,457 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011011.outbound.protection.outlook.com [52.101.52.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC7B3CF030;
-	Tue, 23 Jun 2026 08:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782202067; cv=fail; b=bP+/G+4LymmnKTnk5SHehA/sMlhzWvfNGo8bYqrZvtgNoVwaSlPckotNgmgXZR1oaVl6i4YnyPeADJZyugVACl6Ydo/UWpf2jm80Q4/Wh+uUusV2bPaA5d8OqO5j/zf8YUNQ9nGbh5e8ekQf7uyEhFLusEyxDhLnbeGYMWWQka4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782202067; c=relaxed/simple;
-	bh=kltB9DHn76Nz0HyWaRRQPvL/fQSj4HgwWSieDsOZu3s=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FD8TjLDG2Yuhl0wfRFhCUlRDm9iTRhCvNyInLPalfBG8R6x66H1EpyEgY8n8ciBujKewB6TXzDRq9U19quna9Lp+sSS2Dxl5EVn+JpIAB7+QzG8e7w0hmn0b/OekFvK89/a3kGwfuUjZ9IApeKob42bZbWzUtzXu6hls6enLtcs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=L0sqFuRe; arc=fail smtp.client-ip=52.101.52.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC6938837C
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782202163; cv=none; b=CVmj+ki2Vp9xxIhbcXcr410G0FS06oqmC+jQZLwUFAtuyISCGpMufkGL4IZ2gkQ9Hk/WW9dF7jIy5JqR0hf+q6LOdjLOI9WyFGwGM8b1bK8gyX0f0/v12HsiaM5ebBMVmi3KJbIs04ptvcZXhM8vSoZmxP9EQLiLiuuDsZsCq6k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782202163; c=relaxed/simple;
+	bh=MPCmAKkqeHTIWje3rRyG9MZV0BIqTQnKAkADHspGPlk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iBYosg6tm3k0H/DhXiJ88Jd0WCUR3fRh6SnnczC0knn61ZMUxR8HOvOcFF5fuqXLujh6tj46SuMlFwdgAkHmIocvAAS+sPCx+UBzPYLf2t+jCIk0z4vnaSmfPnI4FA0klbiAuPpr+XL6A5wcbL8HYMJYOUXv2DcItCRR7FurPFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X7Y18Utu; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="L0sqFuRe"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qMgIRvXvJc/0VrV807gy9w08lsUjibKJoOHJKPWYsVVmC7DmUhby6dn0QuJp98+XQJv41fqwLNxbWjddUKUh30FrmAKBIY1LAtc15a+hxFOX/Is81GHX//k/dg67QcIj6OWuJ31jw5UpGX6DQYCi6QDYNJp/7UzteSWRDzNIERbsWCZvEpAGz8R5SwD50q8zt+cYoq3rYfPBAuHKQxGrmNem/ul/r6orzqLYwBg+3XGdZvYp5BUhfm7Ih/+ueXi9NRZveeyka94uK1I6bEaAPYDYYYP9ZdNcnma8SoUJcEUzUJODlfpDFnwukVF2oWEBZnyvAfwmQB1d3Cux8WegCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hgdq1FAW8+f6LPZM74suEJU1VqMOzaVFkAwX0nonJjE=;
- b=fdgACRCJZYs2vCW4+PALBgwStxMZq6s5AEl3ACAmON/7ZSLm6U26SY9Q3BJqQBpTJbv390lw2myYKd06OlaIEjD4pJaOFUQBVgZSukunAh3XZ7NAV7pDSm3HxLpRZUI9bS5I94qKnzRhDfR60d0tIURASZoKzGoeny7j+uym6wbEXd4pTVqDaB+g7sWriUCUZbpyBW7AgzVM86noDkYZ7yjbmKy30Ejx4nEBGPEkE+JErkiOj/Sov82C95ry4aa/zoVtLWPvqRTrVscFHNhBCiq/wLa9zTQfwvq8Hign5IWo7L/z+scLJZcJklIPkyp12b79Esn3bknTB+Y5ZAdX0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hgdq1FAW8+f6LPZM74suEJU1VqMOzaVFkAwX0nonJjE=;
- b=L0sqFuReenXx5wW506/nCwctNlyKORWDR6pDW2WlqcSeYUxOjFlOg0S2AqHGOk7MCSv320kzTHS9aWVZvDj7d0MQTLgl3Pzux5ePlDc0P+VVDxCv/Rms0h8wYAPla9t47cnhQKjiQpOIhG1MbqIECqA9Wj7yUE5O5cOKHuuL1j+1dbfhgftaE7hnha0jRhUz3PUC/uSGeAuTYXpNB7BHr57egfzSclwX6TCyJ2QniSonbDmrg3GHQpe+iFONNUPah+9dGEoTxmqdjsevCkuJAnL9PEcZ05R9LHi05kHuBXT5YmBdZh7VDAlkGfapb49VkOoodkWwJor832Pp1SMnKw==
-Received: from MN2PR07CA0026.namprd07.prod.outlook.com (2603:10b6:208:1a0::36)
- by CH0PR12MB8578.namprd12.prod.outlook.com (2603:10b6:610:18e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Tue, 23 Jun
- 2026 08:07:35 +0000
-Received: from BN1PEPF00005FFF.namprd05.prod.outlook.com
- (2603:10b6:208:1a0:cafe::65) by MN2PR07CA0026.outlook.office365.com
- (2603:10b6:208:1a0::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.12 via Frontend Transport; Tue,
- 23 Jun 2026 08:07:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN1PEPF00005FFF.mail.protection.outlook.com (10.167.243.231) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.159.10 via Frontend Transport; Tue, 23 Jun 2026 08:07:31 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 23 Jun
- 2026 01:07:18 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 23 Jun
- 2026 01:07:17 -0700
-Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Tue, 23 Jun 2026 01:07:11 -0700
-From: Sumit Gupta <sumitg@nvidia.com>
-To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>,
-	<zhanjie9@hisilicon.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <mario.limonciello@amd.com>,
-	<linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-CC: <treding@nvidia.com>, <jonathanh@nvidia.com>, <vsethi@nvidia.com>,
-	<ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <mochs@nvidia.com>,
-	<bbasu@nvidia.com>, <sumitg@nvidia.com>
-Subject: [PATCH v5 2/2] cpufreq: CPPC: add autonomous mode boot parameter support
-Date: Tue, 23 Jun 2026 13:36:52 +0530
-Message-ID: <20260623080652.3353386-3-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260623080652.3353386-1-sumitg@nvidia.com>
-References: <20260623080652.3353386-1-sumitg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X7Y18Utu"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6978f1eeb87so4080269a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:09:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782202159; x=1782806959; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HBE10nkMH0DGX0PhbRc9aI2/6zrD4VSqmtFlG2MV5dU=;
+        b=X7Y18Utuo60wjWEEXD6Zv4olQI4cRz8CNNzPjD6WgW22xl8f1bYz0aLz7GOn4JjPpR
+         nMxhrQQoSoC4EeQugUetfTOJ7h8uVe4EsiHwyxNzesNT8wNOCNuIAeowNzw4v56oVmN0
+         IqeGBMJKgxyzyRB3W0IhL7BReqU6HXw7BDBcFEGmPtOU0IgbujGH7dadXkZMkanmigWb
+         PWh9Xmgufp32Szi8bXP0WuZkOrU/IjLzXr/JOoNnYmINLAv8GiZACOM3P0BW9qpHwsK6
+         hew/otf2yqnVy2lJ225QyEBRry61O4QsR09ofSBAReweZb4uJtNPaQP0GCaJpX9rlDIp
+         ekag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782202159; x=1782806959;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HBE10nkMH0DGX0PhbRc9aI2/6zrD4VSqmtFlG2MV5dU=;
+        b=FakOujTLEOngRoB4LLLTMvWvHbAm6RSTWOdEPsfz/Ea2/Hgt0xwu7nlc2rcKZn9KW9
+         kdkQkdLMuXbDWc68gZOEbV3mPevQ0LlHg5Dnsbu5sf7T6JTAlKcggIkKVg4z9DPhHaje
+         XT0Pgxe1yqhjyj3GKJCsdmXeuPxJ97N15HGaYYDQsCDqVDPsDCBIKetlp4AzinmuHCFD
+         Rv0AaR4s5WzuWcTYqBralP3q/hSGpegIqfTGa+RjMDJ0EnFJg0N+2BE9jACMvSWIIjWQ
+         +C9yumNHhFqW6jO+j+tJ70TEJpKKlZTJhzaLR3KvBp0Oj/tg7f4mWTNAfj7z8dcX3Q5Z
+         leUw==
+X-Forwarded-Encrypted: i=1; AFNElJ85T/t3veyL75KF8mOZ9OG7VBNMTIdC1gTzrUhg/02UkDWn2js4KA9jmdmOWjYd+pA/G466oEGdIkU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVjht3t+aBCxzNycHupoWb/TWGAippK8R9mb+S4nybGDi+7+8A
+	13D1yuiVf0rBXC+NraIHN9DQEcULybSWRFLdP/ez3KZmvXbqgK95NyFr
+X-Gm-Gg: AfdE7ckUnI7fmDRDX+t1dX3/4STyNB9Ypf0QlSK+BBPiykXx5DwhocEV7x3FKyLk5RS
+	B1phlHwgNBZwEyJuvASrC9m6YkdGm951zAx8MFqqKj5gbN4AiVwgh75TbUyf0+FPWVRLEysaFGz
+	JYeJz1h7ck90mwgHMoBVGufwHe5jmQvL/hv8bDaZRE89xpYNYCyo3vtZj3JjsoUwNpV3mQK48Bk
+	VuG09TEA8SiSLYhxO4ekNyKwqZEOfSOruGdil/+Ts2xc1NfDn1WVACnBRMH+EMb05PBDTmE5wHg
+	XzH32bNzzL70fvreRTmh7KPtFQElQ4x/O/4VIEFUYvZQQl80DCtxe8vrXW+mzIv+tags8fQl1If
+	C+orpF7NoEVOlrPqzehRSIxoaCg9RVsxBSkkW/VjdeaVQJTqQCDGCAxZJRS+nWCqA240rlG6DC/
+	6kRUtkciFq68fm6Oi6cNLzOQQe3iZ5tL3upMbvuqsAooQAeFonT8lv3hvMaaeuyqjFDDqE7CBUz
+	c1wrBIOK+2lWwVyliJNt/8risdH
+X-Received: by 2002:a05:6402:2793:b0:697:be0e:4b72 with SMTP id 4fb4d7f45d1cf-697dbacc392mr772587a12.1.1782202158604;
+        Tue, 23 Jun 2026 01:09:18 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be640a5sm3982054a12.26.2026.06.23.01.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 01:09:17 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 23 Jun 2026 09:09:14 +0100
+To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor@kernel.org>, 
+	Janani Sunil <jan.sun97@gmail.com>, Janani Sunil <janani.sunil@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
+Message-ID: <5guhkvoxhkzevjm4b45hhk3772akpnz3givr3gb56x5ywamzyf@oiycreun4y62>
+References: <20260619-obstinate-polo-a230bef97fda@spud>
+ <20260619-bunch-diocese-dd7805cc17ff@spud>
+ <ajU73_TkKrSbqD4f@nsa>
+ <20260619-concierge-doozy-9c161533c369@spud>
+ <ajVlD-j0nIGrRVow@nsa>
+ <20260621153330.79b6600c@jic23-huawei>
+ <5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
+ <ajkMBh-R_7pYaoAn@nsa>
+ <pifhwgj3cp2vc7ia4m6penh52iekzjljrp75y5b7j57vvtooad@32wfqruiqqjl>
+ <ajklksIDLsj0BZul@nsa>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFF:EE_|CH0PR12MB8578:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2553c26-c141-442e-230c-08ded0fe79b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700016|23010399003|1800799024|6133799003|11063799006|3023799007|18092099006|22082099003|18002099003|56012099006|921020;
-X-Microsoft-Antispam-Message-Info:
-	QxZfAwu5+OhQrs5cOiAggAqnAOXhfnkcvi918V8VdJAt+fFHpRJqqsrU2mNZFB/8RWsi2bfn+VdWuDWOl3zCANiyIessXCKlewTr/ibhkPslpawUVsiQ2egKR4rCBRr0OzWlJ0CiKhkfPE5DIkPvfrWFnz9VHstOm/II5emg/62YDat5x9R0kVM2+v/FkZDP59xRd34fconXkcjPuXXi6eMVBLjxUTsb/UbBHO0F53hPp3jkJhj28pTbCpehYmMqv2Nb7Npp6tDds2w3/zbVbYdqvdNoQJZKYcR3I8LWYPQP96YxCtdzynFL34m/gtFrhjflyhBZTZtAWys3qdO0CnR6ASiIydHvw2S3uhTAAO4zgSmvGWrti5/a8ywNQKdx6eE6BwiHOi8EyeNtHHfle+X15VwPOoJQlLW/VtP40NIHOfkjqNs1g7lodKwMW9HPV9rB11pdg8Gv/rbOmX9i3ELyVrjf7CMdbRz3MfmCOl9e7qUR6YyR7CMoYAcpqdoMb1IRqIMgqSGCNikU4La2ikcmjKCjT4ckqoB9QMGLu89qu3mO0KHIVEmpdKLY58KeNxe2AHhcAUUVPHQNzn9geu3O7phsZTy6uU9C8ZUe9AM9K6vNtqSiVTYY31BbKLFtGP+k6PfEdF4nPs/8YErj9UoSr+H/fx/nAA5JKaSepmSai0+8SdiG6FIvwEdqWrfTHc9s7bE4nm5mcsdeFjLE1xcIDArx2Xa5xj4EU5gXEtfAmUKoJT9H5kjjZcyY9E4e
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700016)(23010399003)(1800799024)(6133799003)(11063799006)(3023799007)(18092099006)(22082099003)(18002099003)(56012099006)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	zpDe0tMV+eN/ar2PRIcqd2uJrZTGkPx9JV1thNNykoTD4m5kd1nBlm7bmUn4Q3QCR/VTBaKL3C3Ryptzoq937qGJKmciwW63PnwypLMO4C7KtchSyuktmhc0cX057kKp5Rvg9ms5IzmuyXiFpWNyJJZado2uNl/3PpDHvOTSfvOd6A4JfbHdAvK0cRRFSDHKEFQLM7kD9/2Lm6farnCL9cKIZiJjSxGXfUqGEORDus5MY7CC/HsFK0hB54UNPC+kMNA9QdEW0dMPci7WRFETzZkQTMDwxN+81KQ6GkNBClrnPZWY0raCfXylKwkq8+SCdVY7lzOqd3xNbPBtcH3CTCZgAc74NmxiY6Y/v9THy5Fyx/VJWSARNqQqVgZen1N9o9ALiOuaozuZuNvdZsoMb74aPQQPXBopTonSbqqzI/3qtMoXYC4I0tNV5VWqBKqh
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 08:07:31.3406
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2553c26-c141-442e-230c-08ded0fe79b3
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00005FFF.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8578
+In-Reply-To: <ajklksIDLsj0BZul@nsa>
 
-Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
-CPPC autonomous performance selection on all CPUs at system startup.
-When autonomous mode is enabled, the hardware automatically adjusts
-CPU performance based on workload demands using Energy Performance
-Preference (EPP) hints.
+On 22/06/26 13:20, Nuno Sá wrote:
+> On Mon, Jun 22, 2026 at 12:51:20PM +0100, Rodrigo Alencar wrote:
+> > On 22/06/26 11:29, Nuno Sá wrote:
+> > > On Mon, Jun 22, 2026 at 10:24:05AM +0100, Rodrigo Alencar wrote:
+> > > > On 21/06/26 15:33, Jonathan Cameron wrote:
+> > > > > On Fri, 19 Jun 2026 16:54:11 +0100
+> > > > > Nuno Sá <noname.nuno@gmail.com> wrote:
+> > > > > 
+> > > > > > On Fri, Jun 19, 2026 at 03:12:07PM +0100, Conor Dooley wrote:
+> > > > > > > On Fri, Jun 19, 2026 at 02:01:08PM +0100, Nuno Sá wrote:  
+> > > > > > > > On Fri, Jun 19, 2026 at 12:40:54PM +0100, Conor Dooley wrote:  
+> > > > > > > > > On Fri, Jun 19, 2026 at 12:36:55PM +0100, Conor Dooley wrote:  
+> > > > > > > > > > On Fri, Jun 19, 2026 at 12:33:11PM +0200, Janani Sunil wrote:  
+> > > > > > > > > > > 
+> > > > > > > > > > > On 6/14/26 21:44, Jonathan Cameron wrote:  
+> > > > > > > > > > > > On Tue, 9 Jun 2026 16:47:23 +0200
+> > > > > > > > > > > > Janani Sunil <jan.sun97@gmail.com> wrote:
+> > > > > > > > > > > >   
+> > > > > > > > > > > > > On 5/26/26 15:11, Rodrigo Alencar wrote:  
+> > > > > > > > > > > > > > On 26/05/19 05:42PM, Janani Sunil wrote:  
+> > > > > > > > > > > > > > > Devicetree bindings for AD5529R 16 channel 12/16 bit high voltage,
+> > > > > > > > > > > > > > > buffered voltage output digital-to-analog converter (DAC) with an
+> > > > > > > > > > > > > > > integrated precision reference.  
+> > > > > > > > > > > > > > ...
+> > > > > > > > > > > > > > Probably others may comment on that, but...
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > This parent node may support device addressing for multi-device support through
+> > > > > > > > > > > > > > those ID pins. I suppose that each device may have its own power supplies or
+> > > > > > > > > > > > > > other resources like the toggle pins or reset and enable.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > That way I suppose that an example would look like...  
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +patternProperties:
+> > > > > > > > > > > > > > > +  "^channel@([0-9]|1[0-5])$":
+> > > > > > > > > > > > > > > +    type: object
+> > > > > > > > > > > > > > > +    description: Child nodes for individual channel configuration
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +    properties:
+> > > > > > > > > > > > > > > +      reg:
+> > > > > > > > > > > > > > > +        description: Channel number.
+> > > > > > > > > > > > > > > +        minimum: 0
+> > > > > > > > > > > > > > > +        maximum: 15
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +      adi,output-range-microvolt:
+> > > > > > > > > > > > > > > +        description: |
+> > > > > > > > > > > > > > > +          Output voltage range for this channel as [min, max] in microvolts.
+> > > > > > > > > > > > > > > +          If not specified, defaults to 0V to 5V range.
+> > > > > > > > > > > > > > > +        oneOf:
+> > > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > > +              - const: 0
+> > > > > > > > > > > > > > > +              - enum: [5000000, 10000000, 20000000, 40000000]
+> > > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > > +              - const: -5000000
+> > > > > > > > > > > > > > > +              - const: 5000000
+> > > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > > +              - const: -10000000
+> > > > > > > > > > > > > > > +              - const: 10000000
+> > > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > > +              - const: -15000000
+> > > > > > > > > > > > > > > +              - const: 15000000
+> > > > > > > > > > > > > > > +          - items:
+> > > > > > > > > > > > > > > +              - const: -20000000
+> > > > > > > > > > > > > > > +              - const: 20000000
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +    required:
+> > > > > > > > > > > > > > > +      - reg
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +    additionalProperties: false
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +required:
+> > > > > > > > > > > > > > > +  - compatible
+> > > > > > > > > > > > > > > +  - reg
+> > > > > > > > > > > > > > > +  - vdd-supply
+> > > > > > > > > > > > > > > +  - avdd-supply
+> > > > > > > > > > > > > > > +  - hvdd-supply
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +dependencies:
+> > > > > > > > > > > > > > > +  spi-cpha: [ spi-cpol ]
+> > > > > > > > > > > > > > > +  spi-cpol: [ spi-cpha ]
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +allOf:
+> > > > > > > > > > > > > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +unevaluatedProperties: false
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +examples:
+> > > > > > > > > > > > > > > +  - |
+> > > > > > > > > > > > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +    spi {
+> > > > > > > > > > > > > > > +        #address-cells = <1>;
+> > > > > > > > > > > > > > > +        #size-cells = <0>;
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +        dac@0 {
+> > > > > > > > > > > > > > > +            compatible = "adi,ad5529r-16";
+> > > > > > > > > > > > > > > +            reg = <0>;
+> > > > > > > > > > > > > > > +            spi-max-frequency = <25000000>;
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > > > +            avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > > > +            hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > > > +            hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            #address-cells = <1>;
+> > > > > > > > > > > > > > > +            #size-cells = <0>;
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            channel@0 {
+> > > > > > > > > > > > > > > +                reg = <0>;
+> > > > > > > > > > > > > > > +                adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            channel@1 {
+> > > > > > > > > > > > > > > +                reg = <1>;
+> > > > > > > > > > > > > > > +                adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > > +
+> > > > > > > > > > > > > > > +            channel@2 {
+> > > > > > > > > > > > > > > +                reg = <2>;
+> > > > > > > > > > > > > > > +                adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > > > > > > > > +            };
+> > > > > > > > > > > > > > > +        };
+> > > > > > > > > > > > > > > +    };  
+> > > > > > > > > > > > > > ...
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 	spi {
+> > > > > > > > > > > > > > 		#address-cells = <1>;
+> > > > > > > > > > > > > > 		#size-cells = <0>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 		multi-dac@0 {
+> > > > > > > > > > > > > > 			compatible = "adi,ad5529r-16";
+> > > > > > > > > > > > > > 			reg = <0>;
+> > > > > > > > > > > > > > 			spi-max-frequency = <25000000>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 			#address-cells = <1>;
+> > > > > > > > > > > > > > 			#size-cells = <0>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 			dac@0 {
+> > > > > > > > > > > > > > 				reg = <0>;
+> > > > > > > > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				reset-gpios = <&gpio0 87 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				#address-cells = <1>;
+> > > > > > > > > > > > > > 				#size-cells = <0>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				channel@0 {
+> > > > > > > > > > > > > > 					reg = <0>;
+> > > > > > > > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				channel@1 {
+> > > > > > > > > > > > > > 					reg = <1>;
+> > > > > > > > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				channel@2 {
+> > > > > > > > > > > > > > 					reg = <2>;
+> > > > > > > > > > > > > > 					adi,output-range-microvolt = <0 40000000>;
+> > > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > > 			}
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 			dac@1 {
+> > > > > > > > > > > > > > 				reg = <1>;
+> > > > > > > > > > > > > > 				vdd-supply = <&vdd_regulator>;
+> > > > > > > > > > > > > > 				avdd-supply = <&avdd_regulator>;
+> > > > > > > > > > > > > > 				hvdd-supply = <&hvdd_regulator>;
+> > > > > > > > > > > > > > 				hvss-supply = <&hvss_regulator>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				reset-gpios = <&gpio0 88 GPIO_ACTIVE_LOW>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				#address-cells = <1>;
+> > > > > > > > > > > > > > 				#size-cells = <0>;
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				channel@0 {
+> > > > > > > > > > > > > > 					reg = <0>;
+> > > > > > > > > > > > > > 					adi,output-range-microvolt = <0 5000000>;
+> > > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 				channel@1 {
+> > > > > > > > > > > > > > 					reg = <1>;
+> > > > > > > > > > > > > > 					adi,output-range-microvolt = <(-10000000) 10000000>;
+> > > > > > > > > > > > > > 				};
+> > > > > > > > > > > > > > 			}
+> > > > > > > > > > > > > > 		};
+> > > > > > > > > > > > > > 	};
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > then you might need something like:
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 	patternProperties:
+> > > > > > > > > > > > > > 		"^dac@[0-3]$":
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > and put most of the things under this node pattern.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > So the main driver that you're putting together might need to handle up to four instances.
+> > > > > > > > > > > > > > Even if your current driver cannot handle this, the dt-bindings might need cover that.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Need to double check if each dac node needs a separate compatible, so you would maybe populate
+> > > > > > > > > > > > > > a platform data to be shared with the child nodes, which would be a separate driver.
+> > > > > > > > > > > > > > (not sure if it would make sense to mix and match ad5529r-16 and ad5529r-12).  
+> > > > > > > > > > > > > Hi Rodrigo,
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Thank you for looking at this.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > For now, I would prefer to keep the binding scoped to a single AD5529R device instance. The current
+> > > > > > > > > > > > > hardware/use case we have only needs one device node and the driver is written around that model as well.
+> > > > > > > > > > > > > While the device addressing pins could allow multi-device topology, we do not have an actual platform using
+> > > > > > > > > > > > > that configuration at the moment, so I would prefer not to introduce an extra parent/child binding structure
+> > > > > > > > > > > > > speculatively without a validating use case.  
+> > > > > > > > > > > > Interesting feature - kind of similar to address control on a typical i2c bus device, or
+> > > > > > > > > > > > looking at it another way a kind of distributed SPI mux.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Challenge of a binding is we need to anticipate the future.  So I think we do need something
+> > > > > > > > > > > > like Rodrigo is suggesting even if we only (for now) support a single instance in the driver.
+> > > > > > > > > > > > That would leave the path open to supporting the addressing at a later date.
+> > > > > > > > > > > > An alternative might be to look at it like a chained device setup. In those we pretend there
+> > > > > > > > > > > > is just one device with a lot of channels etc.  The snag is that here things are more loosely
+> > > > > > > > > > > > coupled whereas for those devices it tends to be you have to read / write the same register
+> > > > > > > > > > > > in all devices in the chain as one big SPI message.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > +CC Mark Brown as he may know of some precedence for this feature. For his reference..
+> > > > > > > > > > > > - Each of these device has 2 ID pins.  The SPI transfers have to contain the 2 bit
+> > > > > > > > > > > > value that matches that or they are ignored.  Thus a single bus + 1 chip select can
+> > > > > > > > > > > > be used to talk to 4 devices.  Question is what that looks like in device tree + I guess
+> > > > > > > > > > > > longer term how to support it cleanly in SPI.  
+> > > > > > > > > > 
+> > > > > > > > > > I'd swear I have seen this before, from some Microchip devices. Let me
+> > > > > > > > > > see if I can find what I am thinking of...  
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > microchip,mcp3911 and microchip,mcp3564 both seem to do this with
+> > > > > > > > > slightly different properties.
+> > > > > > > > > 
+> > > > > > > > >   microchip,device-addr:
+> > > > > > > > >     description: Device address when multiple MCP3911 chips are present on the same SPI bus.
+> > > > > > > > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > > > >     enum: [0, 1, 2, 3]
+> > > > > > > > >     default: 0
+> > > > > > > > > 
+> > > > > > > > > and
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > >   microchip,hw-device-address:
+> > > > > > > > >     $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > > > > >     minimum: 0
+> > > > > > > > >     maximum: 3
+> > > > > > > > >     description:
+> > > > > > > > >       The address is set on a per-device basis by fuses in the factory,
+> > > > > > > > >       configured on request. If not requested, the fuses are set for 0x1.
+> > > > > > > > >       The device address is part of the device markings to avoid
+> > > > > > > > >       potential confusion. This address is coded on two bits, so four possible
+> > > > > > > > >       addresses are available when multiple devices are present on the same
+> > > > > > > > >       SPI bus with only one Chip Select line for all devices.
+> > > > > > > > >       Each device communication starts by a CS falling edge, followed by the
+> > > > > > > > >       clocking of the device address (BITS[7:6] - top two bits of COMMAND BYTE
+> > > > > > > > >       which is first one on the wire).
+> > > > > > > > > 
+> > > > > > > > > This sounds exactly like the sort of feature that you're dealing with
+> > > > > > > > > here?
+> > > > > > > > >   
+> > > > > > > > 
+> > > > > > > > The core idea yes but for this chip, things are a bit more annoying (but
+> > > > > > > > Janani can correct me if I'm wrong). Here, each device can, in theory,
+> > > > > > > > have it's own supplies, pins and at the very least, channels with maybe
+> > > > > > > > different scales. That is why Janani is proposing dac nodes. Given I
+> > > > > > > > honestly don't like much of that "adi,ad5529r-bus" compatible I wondered
+> > > > > > > > about solving this at the spi level.
+> > > > > > > > 
+> > > > > > > > Ah and to make it more annoying, we can also mix 12 and 16 bits variants
+> > > > > > > > together in the same bus.  
+> > > > > > > 
+> > > > > > > I'm definitely missing something, because that property for the
+> > > > > > > microchip devices is not impacted what else is on the bus. AFAICT, you
+> > > > > > > could have an mcp3911 and an mcp3564 on the same bus even though both
+> > > > > > > are completely different devices with different drivers. They have
+> > > > > > > individual device nodes and their own supplies etc etc. These aren't
+> > > > > > > per-channel properties on an adc or dac, they're per child device on a
+> > > > > > > spi bus.  
+> > > > > > 
+> > > > > > Maybe I'm the one missing something :). IIRC, spi would not allow two
+> > > > > > devices on the same CS right? Because for this chip we would need
+> > > > > > something like:
+> > > > > > 
+> > > > > > spi {
+> > > > > > 	dac@0 {
+> > > > > > 		reg = <0>;
+> > > > > > 		adi,pin-id = <0>;
+> > > > > > 	};
+> > > > > > 
+> > > > > > 	dac@1 {
+> > > > > > 		reg = <0>; // which seems already problematic?
+> > > > > > 		adi,pin-id <1>;
+> > > > > > 	};
+> > > > > > 
+> > > > > > 	...
+> > > > > > 
+> > > > > > 	//up to 4
+> > > > > > };
+> > > > > Yeah. It's not clear to me how that works for the microchip devices
+> > > > > (I suspect it doesn't!)
+> > > > > 
+> > > > > Just thinking as I type, but could we do something a bit nasty with
+> > > > > a gpio mux that doesn't actually switch but represents the GPIO being
+> > > > > shared?  Given this is all tied to the spi bus that should all happen
+> > > > > under serializing locks. 
+> > > > > 
+> > > > > Agreed though that this would be nicer as an SPI thing that let
+> > > > > us specify that a single CS is share by multiple devices and their
+> > > > > is some other signal acting to select which one we are talking to.
+> > > > > 
+> > > > 
+> > > > If the device-addressing on the same chip-select is to be handled
+> > > > by the spi framework, wouldn't we lose device-specific features?
+> > > > 
+> > > > I understand that this multi-device feature is there mostly to extend the
+> > > > channel count from 16 to 32, 48 or 64. I suppose the command:
+> > > > 
+> > > > 	"MULTI DEVICE SW LDAC MODE"
+> > > > 
+> > > > exists so that software can update channel values accross multiple devices.
+> > > 
+> > > Right! You do have a point! I agree the main driver for a feature like
+> > > this is likely to extend the channel count and effectively "aggregate"
+> > > devices.
+> > > 
+> > > But I would say that even with the spi solution the MULTI DEVICE stuff
+> > > should be doable (as we still need a sort of adi,pin-id property). 
+> > 
+> > I don't think we can have something like an IIO buffer shared by multiple
+> > devices. Synchronizing separate devices would be doable with proper hardware
+> > support for this (probably involving an FGPA).
+> 
+> True!
+> 
+> >  
+> > > But yes, I do feel that the whole feature is for aggregation so seeing
+> > > one device with 32 channels is the expectation here? Rather than seeing
+> > > two devices with 16 channels.
+> > 
+> > Yes, I think aggregation is the whole point there... so that the IIO driver
+> > is multi-device-aware.
+> 
+> Which makes me feel that different pins per device might be possible
+> from an HW point of view but does not make much sense. For example, for
+> the buffer example I would expect LDAC to be shared between all the
+> devices.
 
-When the parameter is set:
-- Configure all CPUs for autonomous operation on first init
-- Use HW min/max_perf when available; otherwise initialize from caps
-- Initialize desired_perf to max_perf as a starting hint
-- Hardware controls frequency instead of the OS governor
-- EPP behavior depends on parameter value:
-  - performance (or 1):         override EPP to performance (0x0)
-  - balance_performance (or 2): override EPP to balance_performance
-                                (0x80)
-  - default_epp (or 3):         preserve EPP value programmed by
-                                BIOS/firmware
+That is why I would still suggest the multi-dac node in the middle...
+the parent node can hold shared resources, while the dac children can
+have their own, overriding or inheriting stuff.
 
-Unset, "0"/"disabled", or an unrecognized value leaves autonomous
-selection disabled.
-
-The boot parameter is applied only during first policy initialization.
-Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
-
-This relies on commit 8c83947c5dbb ("cpufreq: Use policy->min/max init as
-QoS request") so that the policy->min/max set in cppc_cpufreq_cpu_init()
-are used as the policy's QoS requests and not overridden by
-cpufreq_set_policy() during init.
-
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- .../admin-guide/kernel-parameters.txt         |  22 +++
- drivers/cpufreq/cppc_cpufreq.c                | 151 +++++++++++++++++-
- include/acpi/cppc_acpi.h                      |   1 +
- 3 files changed, 169 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..88820d34d516 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1019,6 +1019,28 @@ Kernel parameters
- 			policy to use. This governor must be registered in the
- 			kernel before the cpufreq driver probes.
- 
-+	cppc_cpufreq.auto_sel_mode=
-+			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-+			selection. When enabled, hardware automatically adjusts
-+			CPU frequency on all CPUs based on workload demands.
-+			In Autonomous mode, Energy Performance Preference (EPP)
-+			hints guide hardware toward performance (0x0) or energy
-+			efficiency (0xff).
-+			Requires ACPI CPPC autonomous selection register
-+			support.
-+			Accepts:
-+			  disabled, 0:
-+				  cpufreq governors are used (auto_sel disabled)
-+			  performance, 1:
-+				  enable auto_sel + set EPP to performance (0x0)
-+			  balance_performance, 2:
-+				  enable auto_sel + set EPP to
-+				  balance_performance (0x80)
-+			  default_epp, 3:
-+				  enable auto_sel, preserve EPP value programmed
-+				  by BIOS/firmware
-+			Unset or an unrecognized value is treated as disabled.
-+
- 	cpu_init_udelay=N
- 			[X86,EARLY] Delay for N microsec between assert and de-assert
- 			of APIC INIT to start processors.  This delay occurs
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index f7a47576717a..efa673e3830c 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -28,6 +28,55 @@
- 
- static struct cpufreq_driver cppc_cpufreq_driver;
- 
-+/* Autonomous Selection boot parameter modes */
-+enum {
-+	AUTO_SEL_DISABLED = 0,
-+	AUTO_SEL_PERFORMANCE = 1,
-+	AUTO_SEL_BALANCE_PERFORMANCE = 2,
-+	AUTO_SEL_DEFAULT_EPP = 3,
-+};
-+
-+static int auto_sel_mode;
-+
-+static int auto_sel_mode_set(const char *val, const struct kernel_param *kp)
-+{
-+	int *mode = kp->arg;
-+
-+	*mode = AUTO_SEL_DISABLED;
-+
-+	if (sysfs_streq(val, "performance") || sysfs_streq(val, "1"))
-+		*mode = AUTO_SEL_PERFORMANCE;
-+	else if (sysfs_streq(val, "balance_performance") || sysfs_streq(val, "2"))
-+		*mode = AUTO_SEL_BALANCE_PERFORMANCE;
-+	else if (sysfs_streq(val, "default_epp") || sysfs_streq(val, "3"))
-+		*mode = AUTO_SEL_DEFAULT_EPP;
-+	else if (!sysfs_streq(val, "disabled") && !sysfs_streq(val, "0"))
-+		pr_warn("Invalid auto_sel_mode \"%s\", disable auto select\n", val);
-+
-+	return 0;
-+}
-+
-+static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp)
-+{
-+	int *mode = kp->arg;
-+
-+	switch (*mode) {
-+	case AUTO_SEL_PERFORMANCE:
-+		return sysfs_emit(buffer, "performance\n");
-+	case AUTO_SEL_BALANCE_PERFORMANCE:
-+		return sysfs_emit(buffer, "balance_performance\n");
-+	case AUTO_SEL_DEFAULT_EPP:
-+		return sysfs_emit(buffer, "default_epp\n");
-+	default:
-+		return sysfs_emit(buffer, "disabled\n");
-+	}
-+}
-+
-+static const struct kernel_param_ops auto_sel_mode_ops = {
-+	.set = auto_sel_mode_set,
-+	.get = auto_sel_mode_get,
-+};
-+
- #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
- static enum {
- 	FIE_UNSET = -1,
-@@ -645,7 +694,9 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	unsigned int cpu = policy->cpu;
- 	struct cppc_cpudata *cpu_data;
- 	struct cppc_perf_caps *caps;
-+	bool set_epp = true;
- 	int ret;
-+	u32 epp;
- 
- 	cpu_data = cppc_cpufreq_get_cpu_data(cpu);
- 	if (!cpu_data) {
-@@ -715,11 +766,87 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
- 	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
- 
--	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
--	if (ret) {
--		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
--			 caps->highest_perf, cpu, ret);
--		goto out;
-+	/*
-+	 * Enable autonomous mode on first init if boot param is set.
-+	 * Check last_governor to detect first init and skip if auto_sel
-+	 * is already enabled.
-+	 */
-+	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-+	    !cpu_data->perf_ctrls.auto_sel) {
-+		/* Init min/max_perf from caps if not already set by HW. */
-+		if (!cpu_data->perf_ctrls.min_perf)
-+			cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
-+		if (!cpu_data->perf_ctrls.max_perf)
-+			cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
-+				caps->highest_perf : caps->nominal_perf;
-+
-+		/*
-+		 * In autonomous mode desired_perf is only a hint; EPP and
-+		 * the platform drive actual selection within [min, max].
-+		 * Initialize it to max_perf so HW starts at the upper bound.
-+		 */
-+		cpu_data->perf_ctrls.desired_perf = cpu_data->perf_ctrls.max_perf;
-+
-+		policy->cur = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.desired_perf);
-+
-+		/*
-+		 * Set EPP per mode. 'default_epp' preserves the BIOS/firmware
-+		 * programmed EPP value. EPP is optional - some platforms may
-+		 * not support it.
-+		 */
-+		switch (auto_sel_mode) {
-+		case AUTO_SEL_PERFORMANCE:
-+			epp = CPPC_EPP_PERFORMANCE_PREF;
-+			break;
-+		case AUTO_SEL_BALANCE_PERFORMANCE:
-+			epp = CPPC_EPP_BALANCE_PERFORMANCE_PREF;
-+			break;
-+		default:
-+			set_epp = false;
-+			break;
-+		}
-+
-+		if (set_epp) {
-+			ret = cppc_set_epp(cpu, epp);
-+			if (ret && ret != -EOPNOTSUPP)
-+				pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-+			else if (!ret)
-+				cpu_data->perf_ctrls.energy_perf = epp;
-+		}
-+
-+		/* Program min/max/desired into CPPC regs (non-fatal on failure). */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret)
-+			pr_warn("set_perf failed CPU%d (%d); using HW values\n",
-+				cpu, ret);
-+
-+		ret = cppc_set_auto_sel(cpu, true);
-+		if (ret && ret != -EOPNOTSUPP)
-+			pr_warn("auto_sel CPU%d failed (%d); using OS mode\n",
-+				cpu, ret);
-+		else if (!ret)
-+			cpu_data->perf_ctrls.auto_sel = true;
-+	}
-+
-+	if (cpu_data->perf_ctrls.auto_sel) {
-+		/* Sync policy limits from HW when autonomous mode is active */
-+		policy->min = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.min_perf ?:
-+					       caps->lowest_nonlinear_perf);
-+		policy->max = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.max_perf ?:
-+					       (policy->boost_enabled ?
-+						caps->highest_perf :
-+						caps->nominal_perf));
-+	} else {
-+		/* Normal mode: governors control frequency */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-+				 caps->highest_perf, cpu, ret);
-+			goto out;
-+		}
- 	}
- 
- 	cppc_cpufreq_cpu_fie_init(policy);
-@@ -1066,10 +1193,24 @@ static int __init cppc_cpufreq_init(void)
- 
- static void __exit cppc_cpufreq_exit(void)
- {
-+	unsigned int cpu;
-+
-+	for_each_present_cpu(cpu)
-+		cppc_set_auto_sel(cpu, false);
-+
- 	cpufreq_unregister_driver(&cppc_cpufreq_driver);
- 	cppc_freq_invariance_exit();
- }
- 
-+module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444);
-+MODULE_PARM_DESC(auto_sel_mode,
-+		 "Enable CPPC autonomous performance selection at boot: "
-+		 "disabled or 0 (use cpufreq governors), "
-+		 "performance or 1 (EPP=performance), "
-+		 "balance_performance or 2 (EPP=balance_performance), "
-+		 "default_epp or 3 (preserve BIOS/firmware EPP); "
-+		 "an unrecognized value is treated as disabled");
-+
- module_exit(cppc_cpufreq_exit);
- MODULE_AUTHOR("Ashwin Chaugule");
- MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
-diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
-index 8693890a7275..9b18fb9aab7c 100644
---- a/include/acpi/cppc_acpi.h
-+++ b/include/acpi/cppc_acpi.h
-@@ -42,6 +42,7 @@
- #define CPPC_AUTO_ACT_WINDOW_SIG_CARRY_THRESH 129
- 
- #define CPPC_EPP_PERFORMANCE_PREF		0x00
-+#define CPPC_EPP_BALANCE_PERFORMANCE_PREF	0x80
- #define CPPC_EPP_ENERGY_EFFICIENCY_PREF		0xFF
- 
- #define CPPC_PERF_LIMITED_DESIRED_EXCURSION	BIT(0)
 -- 
-2.34.1
+Kind regards,
 
+Rodrigo Alencar
