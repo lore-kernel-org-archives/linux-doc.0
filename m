@@ -1,222 +1,278 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012007.outbound.protection.outlook.com [40.107.209.7])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E9E36C0AB;
-	Tue, 23 Jun 2026 10:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782209840; cv=fail; b=qRYxE1mht5xGNVrOfaK/eNEnw/86JDivM1Gep5aatLE+Wo8oBLCdDKogM5r6gBd1Q2xJt9NK0ioT8O+jITiZ1xc+c0bB104jLYa4RpPLyPcvuA/X2yODD4+r2bgy3BRzBc/gZoxtsKuMWw+yJptL1vBkAHJuDiTywB//2NxpprI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782209840; c=relaxed/simple;
-	bh=M/4PpeJNwRKzB/zU9e9ieO82utIqSaBxc3zqfTCFELo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bSqT930tzDykJiz5RPkuUL/BkOctwwokyQ7PX12PS0lLr1ng7hAksAY79916560T0W7X/wNMs95i6ApqwcOkrBUf2li7TqQrri45qg5gPRG4FvcuvuoEE1v61WOh8RH5OxSSg8JGCWehXdfRNSsI1ldB0OSj7pN+H6ReCrcw1ig=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iROtEzRt; arc=fail smtp.client-ip=40.107.209.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D80F3D0C16;
+	Tue, 23 Jun 2026 10:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782212107; cv=none; b=LhrPko8JhXCNS0RLiLGZym3Spv5RF6PLtdRY7rLMT3/xE2aGu33zoJC2l7e24Xs5C1ej/lVGT/xhxlS1ZNo40abVEJM0UvkWhdR4VYugsgNapzShEr40KUt0SGdq0HE2RtZKZh0+JLJtdtwc0vK4zbZDzwJ/FJsCtTPFTs4pw8E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782212107; c=relaxed/simple;
+	bh=bMEc4ZxhUS2bVl59/37uOC2f1N4i45hDolt8+EURqbM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=psee6SxrlVmJ3m43tuEO32yQkWMEz60KZjWpnM+CyaCppGq7OCBQeeWiR78/FMl8THz0z292yYLQqBnv3TkaDEUxeJwuEhDZ7qH3no58RxilEiQY43xbqSqa7RinohBiX5NM4xujj72M3vJygDkZabv8c6s7P7KQ8P/IvJUkGPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=mwgiGPDg; arc=none smtp.client-ip=43.163.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iROtEzRt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ouFmJWBlOygu2rwr0dG6HkPTiQnr+TEQxGoo10PjisYoD1/k02Pe/CnI+4841hyC85U0Z94JRJ4PVBJDHk2puLCL5Kj6TT4GlGscC/c0j9MIMcwsovDep03iBwlxKKYLIuURiz88lf3MU6Sas0s6jnhK7azlweilmoV/elBXAfHz1/i3Yw+OyTsi/s8BgJm+0qraW7XeBbiI7DKRNbqr5SdwRgIB9eJn23fY1GynfFu7Q2tM4n4lK9b/TPhXj4WLXIP5ClfB1kA7nKkiorkzSYvK16JmWNcjfbYluZe4RC8AY3rUpACG5JMB79SFWWSGNhyMZZ2wK+iL6+xev9RACw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dQPwO+pXyxkXEhZqEmtW31GeCmg+71ZHx0XU8xQK3OE=;
- b=JzNXgbv96949TjGVsoBNF+CiFCTxQTaWHL3q2ZQsUZ82ePpVZMdKudKy/Gi7CVjFvAob4L2xxyqR/AD0RGnkU09AtkMt3/YJt+ywgCcpHmlXO4Ssf5Wm+x1S82H7QHJQkf3hAk0HHIENqZSG+cBRlGz8RRXYBiypq8W9gWt+FfZiM8kzXhPxxgvx9sSvhw0xIcVsA1xK3U81JpTHxI/1ipklH/NBNOcc/3mZY6MmZ2KDLVr+La+kutCfKkpwodE7GMsyakXjcouSSaSw9QlnzksuWvOgLNatVwViE0/4UMK9h0XyQa1aMVQlW3ot/lsCU/8nDJoXSKEXnWXK2HBKPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dQPwO+pXyxkXEhZqEmtW31GeCmg+71ZHx0XU8xQK3OE=;
- b=iROtEzRtuQAdlv+qAFGV/tBVD81N3MdokDGvj7OSn6JyqFAGGEro5LkcvqQ87ldJL2ZUylnWIRjHhfDuJAO/2Sged10RJFaTFmsskjzwgX+50fo/IVT9Dh+X+ZHK26Yq+9cusGzT7wqt4GqjWpgP9aTrI6ZfqpyrnwuudXTXcLO6FzaBBL01AeziaI0VFmKEJeLBoYNg9lQa3Qn3feA5oy5pPz5y+1uazLYrh4Kkr8kmPRIoj1k3rUg1zPjnHMFraoctPUndxP2wCjM11VCvwwJphQMs+9ObSK8BRjtwfWAU/2xAK+2D5Z5Utm00pf6Lpmn9i96HW7ZlSFQbhZ23Tw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by CY8PR12MB7684.namprd12.prod.outlook.com (2603:10b6:930:87::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.12; Tue, 23 Jun
- 2026 10:17:13 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.21.0159.012; Tue, 23 Jun 2026
- 10:17:13 +0000
-Message-ID: <5fca3d69-602a-4c55-a6d7-d22be82c9728@nvidia.com>
-Date: Tue, 23 Jun 2026 15:47:01 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] cpufreq: CPPC: add autonomous mode boot parameter
- support
-To: Pierre Gondois <pierre.gondois@arm.com>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: rafael@kernel.org, ionela.voinescu@arm.com, zhenglifeng1@huawei.com,
- zhanjie9@hisilicon.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, mario.limonciello@amd.com, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- mochs@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-References: <20260527202550.206828-1-sumitg@nvidia.com>
- <eacc76aa-318c-4b41-b507-e91e322561de@nvidia.com>
- <oxw5k2wad4vorehgmrduoxblequy3ynqufwy4sruclnh5d5wrb@awzmfafoucnn>
- <35458c15-73b3-45f1-91fe-aa81d85a3efd@arm.com>
- <f269fbc4-8b8f-4829-97bc-cf4cc9246aec@nvidia.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <f269fbc4-8b8f-4829-97bc-cf4cc9246aec@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PNYP287CA0028.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:23d::34) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="mwgiGPDg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1782212095; bh=4q88+ttZMviWZpntI44EOp6qd5JvFg5Bi7R2f2PE/as=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mwgiGPDgEyICWYsAjjQ2IFXcPh64q/rnAkz9W60L4x9IEBiNsvHooZaj+m1AI0ic4
+	 DLv6lqycCj3mP1S0Zi7LCh6SzZ/Cg96HtzwY5GlRaqF7Z6FV3+YV6xyQpdQWg+ZALV
+	 sBku/OqHWaiXDbTxmhvMx1hnHNMdYPxYUeG66Vcc=
+Received: from [192.168.3.157] ([115.156.144.140])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id DB30CEEF; Tue, 23 Jun 2026 18:54:51 +0800
+X-QQ-mid: xmsmtpt1782212091tn5pm9rfd
+Message-ID: <tencent_222F50A4CB8E790B93AB90E5109DE13E1A09@qq.com>
+X-QQ-XMAILINFO: OKOirRU4nj6hMqiv/M7N7uFPSUU+cUH9KafDvKjAUKlgZ/b860U6gUDxBB+MhG
+	 V1b989M8wuAge71fRcW+pMYJgmrduR7t73knpWxcCaV/VtDg4qNJV9s0WyECUcSJPlNhY81wJhqu
+	 +cB1ziQb3pWXyfiCHN4trXzZ69/9poI3JZmSKyyH6I3emdJPz6XpzmvI7SKiUDSAr3btNxYJqZkE
+	 lHpEjdYROVZ1gQx4jSe2QBbRIkLWaaqS7WZyM8gwl/PQ15OLGa/m17rEvXWApOwaLLAJrX1JN6oJ
+	 oOkM6FCvdrMqa2/d3slO2X2p3xIBmTI3uKCtU4RgSyLOfYBm9mS5p9r0uFtOEuRvlIaqqxyiwWaV
+	 luD+ujQisVcfjTR3rCyeXFlRwqeWvvGtOdTeAzsT14jbOve2bAPSQZv5J/R3MMpVbdh15FfTlMQO
+	 opXIF8Bt2YsxbumHN8M7pQdvHkrafX4pe+MfzmHRor20tYChUhWHzc4TC7odjuIG3SWp1crwfdPg
+	 AEl9yLXKR/yzKAJeSMwnHgJKpGqNzX3pX6tIb2N76NAOHZQhkSIwn8JwJmIbOF7Qv24vu+CkIl5W
+	 4kcslfQ5uvcb/5e6s9FW2JuD1F6k25OKxDZq424lYnANNaWmzQxKreXCqGmnf63QR9J3FtrtCcy1
+	 J6brugBsWZ1xDjk9UmBAdi5x/rogr+30zFGNnICT8DBYW61KS249/nlHoZi7Kq0LBtc6gesYaYHS
+	 cp2ktfOSQrW+dRoCMUbYWmCn0SswbiUH6oIiYqTzAONEF6hIgMW9iaU3kOWc+V0mbwGuJ4YRjYhS
+	 5GCYszNpwE7XpHZUGnu6/pvsHu8BDIELeb8iwmpSYGTOzPTTtOFntyesl+P27KCyphowN4lpGh8v
+	 A/QC7thBlqWknwwnNppkGvj3zt0h0fcjgtebR16e3XWCwZZau4LEU11jbldnJHTo+mcYSvvdU2+o
+	 KHJTNFRxbDWCJnUe4xvL6G8/wvE9Hi2eRf3OAk9d6GGAILRY4RWwUppubsHeXvf8HxwMkX336OOL
+	 vgeYnRhsQhZsUnuFrlT3sv0KtdByCIPpHZ3zPweQRxl6OPOccqgVbTzYolDfhhhImj1zgjvRyJxD
+	 Y0yvbDj+j5ciqtq50EaTx6YuRj/w==
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-OQ-MSGID: <ce01e205-4129-4c97-8b2a-ab129cebf5e3@qq.com>
+Date: Tue, 23 Jun 2026 18:54:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|CY8PR12MB7684:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a07711f-7d56-46e5-a5f1-08ded1109794
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|3023799007|11063799006|56012099006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	4592uPXQE7j6CZauxir1DZSXaJe5Oj3ov/wNYSF1qZ4zHoWwOyMA7BssWMrK/cGAorXasRsT/XKJAYrLaP6e1nH1+vY+xg43GB78EBzBbdcZzEX42SK1nbyh08f6ffqZMPZIuqlnU01Xx2k3RPQrKvA9MEb1Zs2jtIrP3dalXNjJfgQ7m8S+IHYS77EjhqUaUmfE5F9dHJUihJkwimM4GFMsSfk0AQAP+3iqFBfBNgpOJJGKPp9x6cRv58Lt0lBqVI3q8KIrAe3j+BHv03UmKMJ/BGYHSLBoMgzps3aPiVKNz/3CfZ5kqEEsSMA9Wta3HDi1+oFgZU5bQzwtXQwhZRT/zO+wPHXRLxY6DZM6TT/H711Rk6pZfZTlJJkDIL5s8Zk365LdU0unC9bqn8hwULg8p4fanxDSpgoTrzhnmV7QwUHNnNkxlXWFB/cdcBGCBImRclGorIx7e3cpwh71Zx0Y7zAIbYV7pjFuFhdm8GRBgHIcOtWurXus6ZR8sFZj+TC15NjiYzhQ56QCNq2Y5T5QDAFAjVjTj03WM6qcGbBq34qbNp9HB0MYeIP6tUrtd/Pg9OhQ9ihxr+5G8uYJ+yQrneWgDpIEw5y+eeLwt+r2hiw85XkQOdBF/TvSL0E3BfDFRXLoKc5Y9hbFS1yEMYrPvgdX67v4x6j7r8UsseY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(3023799007)(11063799006)(56012099006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZHp4dFB4NFEzNE1QSUJjVmdNQWt2SWQzdUlOb1M1RFp1TjlkMkRkUXRWUmhy?=
- =?utf-8?B?ZERUMFhxc1BLOHZiWSs5UWtKczB3aHFabFkrVVVWc1N2dk9NRnF4akRzSlJS?=
- =?utf-8?B?U2c3K2ZGWEV4ZGx0bGJqT3NiVll4YzFFdE42UlVjdklEUkczbDIxYmJSMktu?=
- =?utf-8?B?ZW5QQTVqcTQzQ0l6cE5VQjUzeUtlWFFnZHdNcXBYMDJML2Z3QWpLSDdLaDRo?=
- =?utf-8?B?Wms0SVMvTURXb2ZuZEtUZ0FMR3dtTUJvSThiWUR5SEtUS3AxSzJQcDFGNG5X?=
- =?utf-8?B?YkJmT2lNYU1KbDQ3WExGMXNSdzhmYzFEMUdpWmNFd0VZdGY2ZUYyeTlUNVA3?=
- =?utf-8?B?bmRvM0VQZjlBVEFqVU9XbDdtRmN6MFgwTFEzU3B6REFUbERvRWVraXkyK0cv?=
- =?utf-8?B?ZXdGdDV0RkphTk9WUFMzZjRudzN2dGlLdGlZUXdjd29lME5jNHQ5OGNGandT?=
- =?utf-8?B?ZkQ4dm1ITDRXMUF6U3V2clJibkUwOGovbWloNVhsZlNtSnFuMmVMcVNiVzQv?=
- =?utf-8?B?SzJoVXVNaXBtblYwVVg5RW9ET1lEbzNFaXF4eHBOai9wNWxzMlRtQ0ZtMWdD?=
- =?utf-8?B?dmhXN1VrTUNIcEZoOTlleEZFODFEcmkwa085TnJqdlJvMTROeHErR2lLV3Fl?=
- =?utf-8?B?dkxWbkdrQ05UcW85UlJZRjlqSHVrMklQS3dpK3NUZHBDNVUvdlJhcEJWaDE5?=
- =?utf-8?B?eTJPdGhTOFJZbGhYemNqNUorMjRMNC9kVGFLeDlHNDJLS2lKL2JaNy9YSXZi?=
- =?utf-8?B?S09rRGZsWWpFSUt0Q1ZZZ0hUVkhCM1dncEV1dDlxVHdvZzJkY2RvcnEvZDZX?=
- =?utf-8?B?N3l5dDFTTmVVa2ZsOTBLRXZERDM3NVVPWGpnM0p1dVovY1drVTVFYUlxclVR?=
- =?utf-8?B?ZHRudWNsMWF2cWJMVVN6aEM0cTQwNkFUWXNHSnB6aXcrUG4xNzc5VHh1eUw3?=
- =?utf-8?B?dExVMnhtNmZlaURCeHdlMEs3bndwc00wdEZRdW81UmlrR2pVMWlaRzdFOW13?=
- =?utf-8?B?VlJpU2JqaW5lVTBoRGN6NzNncVNiaHRTWGdaZWtWbllFTTNDZG15blBYVW5Q?=
- =?utf-8?B?eFhMQmtTZnBCU2xrSHJEYkpCcFgwdzM1elBYK2N3N2toTzRERHpUMkMxOXo2?=
- =?utf-8?B?U0lqQmdZaG5UM1JvK0VEZXhSbkx0WEg0aGpnZHhyTTVCYW9Ic0llWVdUQUVS?=
- =?utf-8?B?UW15eFMyelIrYWNWaWkwQUppajhHejNEeXRUTWRYLzc5S2ZLbkxoZ2luZFFz?=
- =?utf-8?B?RUN6bVhQS0grZXVHbmpCUUE2NUhDWHRYOExtTmVSYjFobW1LOCs4UE1Pd3Ar?=
- =?utf-8?B?TzdycXRPUjRNbjRublRSVlZlWDA2cUMvdHQ5TE5YaG5JNXJTMWlSd3JPWHZZ?=
- =?utf-8?B?STdtc3c5cERnZ3YzNU41ekU0UTJGUTJTbnY1L1JFellQamJQdFY1SUVrUy9k?=
- =?utf-8?B?TEkxWUVLcmJZSENzM1lacGFSRWVZWkxaOStqZTg4azFpeURwa29oampXRmVa?=
- =?utf-8?B?T0plQ0QrUXJQcGdycmMvY1VtdmRzaDQwQkxtQVVGN1oybmlGYnhyY3F1dUZV?=
- =?utf-8?B?Q2lsM3c5TVViNXJmc1ZGMDFteTBQcVI0STlXOU1CMFJhWExtS05aejdyZS9j?=
- =?utf-8?B?REJMcHp2T2JSMW1vNHdxNGMyNy83S1JRT2ZWMG5UbWFvSnovdkgrK21ERlg0?=
- =?utf-8?B?SE1yc01XV1FhK1NpZzAzRkszR1ZKZk5kd3R5OWo3VDJmcTVHUFMxL0tqemls?=
- =?utf-8?B?YVhTS1pHNFFlVENzNFNxdkV2ZWZTa1ZLYmRhdUpXek8xRE1obXlDSnBuR0dn?=
- =?utf-8?B?bWM3ZFRrbzVMOG1xMnpCdTJ0cnExNzZJc2JHQkdMSVdNV29kaGYzWFg4WitY?=
- =?utf-8?B?bW8rd3lCWld3eEVBODFzVy9QZlA5eDREZjdrd2srL0pZZUxnWlNKSC9pRnJE?=
- =?utf-8?B?Vmt2WVFKNUdBa0N2ZEdxN1lKLzFjZHpuL2hlR2Z2YktaWldiUjBRd21IRTZ1?=
- =?utf-8?B?R2tublk0QVlWUytwSHBjVmdHVi9QSjlmbldMNzFCanZhQm14NzZWZldrZTMy?=
- =?utf-8?B?T2wzMGdTVmo2SzFoVE9WVVUxZGRoYnpLZkhXTkgvOTRBb1R4aW1NaFRETzdY?=
- =?utf-8?B?TTFuWVZYQlBETUFPYkpSbzd4ekgyMnBZbm5mZHIxRWJwRVBwUmdKOUJMdFd5?=
- =?utf-8?B?UWZTeFM2SzczOVE4aDYxOWkxN2I2c1dEbUN3UzNPSTAzKyt0K1dSVUFuK0Vn?=
- =?utf-8?B?YzJpdXZlbmJFWCswbXZzeXMxSEpPemxocHY5Z0pvdExwWmJoZGExOE5UaVl5?=
- =?utf-8?Q?CsrmK4ZBb38INGIyVZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a07711f-7d56-46e5-a5f1-08ded1109794
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 10:17:13.0474
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EFhiy5sonxq04KpL0MVkZhGzKwLUxnLQHZoIlzeZHvcwRAk2bw5qJToLID8ASsCahvLz3NepoVcreLYLrsKW0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7684
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/11] hugetlb: Convert the vmf->pgoff to PAGE_SIZE
+ granularity
+To: Jane Chu <jane.chu@oracle.com>, akpm@linux-foundation.org
+Cc: willy@infradead.org, jack@suse.cz, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de,
+ david@kernel.org, hughd@google.com, baolin.wang@linux.alibaba.com,
+ linmiaohe@huawei.com, nao.horiguchi@gmail.com, lorenzo@kernel.org,
+ rppt@kernel.org, peterx@redhat.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20260617172534.1740152-1-jane.chu@oracle.com>
+ <20260617172534.1740152-6-jane.chu@oracle.com>
+From: XIAO WU <xiaowu.417@qq.com>
+In-Reply-To: <20260617172534.1740152-6-jane.chu@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Jane,
 
-On 22/06/26 14:58, Sumit Gupta wrote:
->
-> On 19/06/26 14:59, Pierre Gondois wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> On 6/18/26 07:28, Viresh Kumar wrote:
->>> On 16-06-26, 18:22, Sumit Gupta wrote:
->>>> The dependency it was waiting on, the "cpufreq: Set policy->min and
->>>> max as real QoS constraints" series, is now in linux-pm (linux-next).
->>>> I rebased on top and verified autonomous mode works as expected, and
->>>> it applies cleanly on the current linux-next.
->>>>
->>>> The [1] reference in patch 2/2 points to v2 of that series; the merged
->>>> version is v3 [2].
->>>>
->>>> If there are no further comments, please consider acking and queuing
->>>> this for the next cycle.
->>> I was waiting for CPPC reviewers to provide some feedback.i
->>>
->>> Jie / Lifeng / Pierre ?
->>>
->> I think the patchset has the same issue described at:
->>
->> https://lore.kernel.org/all/86780f97-29ee-4a72-b311-38c89434b707@arm.com/ 
->>
->>
->> I don't know if this is important to other persons,
->> but IMO it would be preferable to have a solution to this issue
->> before adding more functionalities relying on registers that are left
->> in an unknown state.
->>
->> If there are any other opinion ?
->>
->
-> The concern is valid, but this isn't a new gap. The registers the boot
-> parameter programs are already writable via existing sysfs:
->  - auto_sel via auto_select
->  - EPP via energy_performance_preference_val
-> So userspace can already leave these in a non-default state across
-> unload / CPU hotplug in mainline. The boot parameter just sets the
-> same registers at boot via the same paths.
->
-> I am already working on the save/restore change we discussed on
-> the ospm_nominal_perf thread, as a dedicated follow-up grouping
-> all OSPM-set registers (ospm_nominal_perf, auto_sel, EPP) together.
-> I think doing it once uniformly is cleaner.
->
-> Both features are already under review, so my preference is to take
-> them first and add the save/restore on top, rather than merging it
-> first and respinning both features under it. Either order works for me
-> if you and the maintainers prefer infra-first.
->
-> Thanks,
-> Sumit
->
->
+Thanks for this series — the conversion to PAGE-granularity indexing is a
+nice cleanup.
 
-I have sent v5 of the autonomous mode series [1] with a small fix.
+I came across a Sashiko AI review of this patch series, which flagged
+several issues, one of which I was able to confirm triggers a real kernel
+crash:
 
-Also posted patch [3] to preserve OSPM set regs across hotplug/unload.
-It applies on top of [1] & [2] (both not yet merged).
+https://sashiko.dev/#/patchset/20260617172534.1740152-1-jane.chu@oracle.com
 
-[1]
-   [PATCH v5 0/2] cpufreq: CPPC: add autonomous mode boot parameter support
-https://lore.kernel.org/lkml/20260623080652.3353386-1-sumitg@nvidia.com/
+ > +++ b/mm/hugetlb.c
+ > @@ -5952,8 +5955,7 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, 
+struct vm_area_struct *vma,
+ >          .address = address & huge_page_mask(h),
+ >          .real_address = address,
+ >          .flags = flags,
+ > -        .pgoff = vma_hugecache_offset(h, vma,
+ > -                address & huge_page_mask(h)),
+ > +        .pgoff = linear_page_index(vma, address),
 
-[2]
-   [PATCH v5] ACPI: CPPC: Add ospm_nominal_perf support
-https://lore.kernel.org/lkml/20260615185934.2383514-1-sumitg@nvidia.com/
+This change sets vmf.pgoff to linear_page_index(vma, address), but
+`address` here is the raw unaligned fault address, not the huge-page-aligned
+address.  Previously, vma_hugecache_offset() used `address & 
+huge_page_mask(h)`
+which produced a huge-page-aligned index.
 
-[3]
-   [PATCH] cpufreq: CPPC: Preserve OSPM-set registers across hotplug and 
-unload
-https://lore.kernel.org/lkml/20260623095403.3407436-1-sumitg@nvidia.com/
+When a page fault occurs at a non-huge-page-aligned address within a hugetlb
+mapping (e.g., vm_start + 0x1000 for a 2MB page), the resulting pgoff is not
+a multiple of pages_per_huge_page (512 for 2MB).  This unaligned index
+propagates through:
+
+   hugetlb_fault() → hugetlb_no_page() → hugetlb_add_to_page_cache()
+   → __filemap_add_folio()
+
+where this assertion fires (mm/filemap.c:862):
+
+   VM_BUG_ON_FOLIO(index & (folio_nr_pages(folio) - 1), folio);
+
+With CONFIG_DEBUG_VM=y, this becomes a BUG() and panics the kernel.
+
+I was able to reproduce this in a QEMU VM.  The fix should be trivial:
+pass the aligned address to linear_page_index().
+
+=== Reproduction ===
+
+Kernel: 7.1.0-rc5-g7ba451f8a24f #1 SMP PREEMPT_DYNAMIC x86_64
+Config: CONFIG_HUGETLBFS=y, CONFIG_DEBUG_VM=y, CONFIG_KASAN=y
+
+Trigger: mmap a hugetlbfs file, then access an address at offset 0x1000
+(one 4K page) into the mapping, which is unaligned relative to the 2MB
+huge page boundary.
+
+=== Full PoC ===
+
+Compile with: gcc -o poc poc.c -static
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/syscall.h>
+#include <fcntl.h>
+#include <errno.h>
+
+#ifndef MAP_HUGETLB
+#define MAP_HUGETLB 0x40000
+#endif
+#ifndef MAP_HUGE_SHIFT
+#define MAP_HUGE_SHIFT 26
+#endif
+
+/*
+  * Bug: hugetlb_fault() sets vmf.pgoff = linear_page_index(vma, address)
+  * using the raw unaligned fault address.  This unaligned pgoff reaches
+  * __filemap_add_folio() which VM_BUG_ON_FOLIO's on it.
+  */
+
+static long get_hugepage_size(void)
+{
+     FILE *f;
+     char line[256];
+     long size = 2 * 1024 * 1024;
+
+     f = fopen("/proc/meminfo", "r");
+     if (!f)
+         return size;
+     while (fgets(line, sizeof(line), f)) {
+         if (sscanf(line, "Hugepagesize: %ld kB", &size) == 1)
+             size *= 1024;
+     }
+     fclose(f);
+     return size;
+}
+
+int main(void)
+{
+     void *addr;
+     size_t hpage_size;
+     const char *hugetlbfs_path = "/mnt/huge/testfile";
+     int fd;
+     int ret;
+
+     hpage_size = get_hugepage_size();
+     printf("[+] Huge page size: %zu bytes\n", hpage_size);
+
+     /* Mount hugetlbfs */
+     mkdir("/mnt/huge", 0755);
+     ret = syscall(__NR_mount, "hugetlbfs", "/mnt/huge", "hugetlbfs", 0, 
+NULL);
+     if (ret < 0 && errno != EBUSY && errno != ENOENT)
+         perror("mount hugetlbfs");
+
+     /* Reserve 1 huge page */
+     {
+         FILE *f = fopen("/proc/sys/vm/nr_hugepages", "w");
+         if (f) { fprintf(f, "1"); fclose(f); }
+     }
+
+     /* Create hugetlbfs file and mmap it */
+     fd = open(hugetlbfs_path, O_CREAT | O_RDWR, 0644);
+     if (fd < 0) {
+         perror("open hugetlbfs");
+         printf("[!] Trying anonymous MAP_HUGETLB\n");
+         addr = mmap(NULL, hpage_size, PROT_READ | PROT_WRITE,
+                 MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB, -1, 0);
+         if (addr == MAP_FAILED) {
+             perror("mmap MAP_HUGETLB");
+             return 1;
+         }
+     } else {
+         ftruncate(fd, hpage_size);
+         addr = mmap(NULL, hpage_size, PROT_READ | PROT_WRITE,
+                 MAP_SHARED, fd, 0);
+         close(fd);
+         if (addr == MAP_FAILED) {
+             perror("mmap hugetlbfs file");
+             return 1;
+         }
+     }
+     printf("[+] Mapping at %p\n", addr);
+
+     /*
+      * Trigger: access address at offset 0x1000 into the huge page.
+      * vm_start is huge-page-aligned, but vm_start + 0x1000 is not.
+      * hugetlb_fault() sets vmf.pgoff = linear_page_index(vma, address)
+      * with the unaligned address, producing an unaligned pgoff.
+      */
+     printf("[+] Triggering fault at unaligned offset (%p + 
+0x1000)...\n", addr);
+     fflush(stdout);
+     volatile char *trigger = (volatile char *)addr + 0x1000;
+     *trigger = 0x41;
+
+     printf("[+] Survived: value = 0x%02x\n", *trigger);
+     return 0;
+}
+
+=== Crash Log ===
+
+Linux syzkaller 7.1.0-rc5-g7ba451f8a24f #1 SMP PREEMPT_DYNAMIC x86_64
+
+[  527.288433][ T9873] page dumped because: VM_BUG_ON_FOLIO(index & 
+(folio_nr_pages(folio) - 1))
+[  527.300642][ T9873] kernel BUG at mm/filemap.c:862!
+[  527.301090][ T9873] Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+[  527.301640][ T9873] CPU: 0 UID: 0 PID: 9873 Comm: poc Not tainted
+[  527.303803][ T9873] RIP: 0010:__filemap_add_folio+0xf39/0x1200
+[  527.311913][ T9873] Call Trace:
+[  527.312345][ T9873]  <TASK>
+[  527.312676][ T9873]  hugetlb_add_to_page_cache+0xe3/0x240
+[  527.313414][ T9873]  hugetlb_no_page+0x1301/0x21b0
+[  527.314402][ T9873]  hugetlb_fault+0x531/0x1570
+[  527.315259][ T9873]  handle_mm_fault+0x970/0xaf0
+[  527.316565][ T9873]  do_user_addr_fault+0x60b/0x14c0
+[  527.317434][ T9873]  asm_exc_page_fault+0x26/0x30
+[  527.318733][ T9873] RIP: 0033:0x401fa2
+[  527.326921][ T9873]  <TASK>
+[  527.327245][ T9873] RIP: 0010:__filemap_add_folio+0xf39/0x1200
+[  527.335300][ T9873] Kernel panic - not syncing: Fatal exception
+
+The Sashiko review also flagged a few other pre-existing issues in
+this series that I haven't verified yet:
+
+1. [Critical] remove_inode_hugepages() in patch 9: passing folio->index
+    (base-page index) to hugetlb_unmap_file_folio() which multiplies by
+    pages_per_huge_page(h), effectively squaring the offset and causing
+    the interval tree search to miss VMAs (potential UAF).
+
+2. [High] hugetlbfs_zero_partial_page() in patch 7: Usama already
+    pointed out the start >> PAGE_SHIFT question — `start` is a byte
+    offset but filemap_lock_folio() expects a page index.
+
+3. [Critical] filemap_get_pages() in patch 4: the `if (is_hugetlbfs)
+    goto done` path returns 0 with an empty batch, which could cause
+    filemap_read() to loop forever when reading a hole in a hugetlbfs
+    file.
 
 Thanks,
-Sumit
+Xiao
 
 
