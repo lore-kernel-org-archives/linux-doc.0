@@ -1,158 +1,144 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F67392C52
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 18:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A86030C17E
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 18:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782238601; cv=none; b=l3MIm+/y48/keuy0MhZd6uzlY7xYxaGRNGuwmYTHTILa2jZjKaI70Gox+pbuZEiN2ug5wHGY/TIlEunjz5/S4RS7lkhRiZfhekdITCxxJ8JsqlEPTGpYsc2ihkPjcJuK8Nr+csCTNhSS/HN2FPcV+9wgIHmNg5WcwqJUggVzPBw=
+	t=1782238693; cv=none; b=WjVFkwH18F/c3pUtrSEdu+Ll6AdUdqYaRf2jvG9d0qD1IkG/eB1mMamjv25sPR9GOWHptxarW3VomgegwAofXr6ZjmRa0Jn5V2ER+sAeh4G4wN0GJNTmbldJMtZTToGQ0VvB0jqyk7Q/znkCiYeeFz5NCxZ782A2p02gZuyOrlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782238601; c=relaxed/simple;
-	bh=v/Jq4x0ikLZAY+sHdmkdAGe7Bx11aQjbFFTuibl2AI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MqJD/r0+8RlIK0lX/9KeBgtD8NNwOV6qBBQE8Xg0GOeyYnaoJEIRoR/7S8AS4t0S4gWrt0Sr+H2baYqKsH1h2ShffgY3iTHtdNBQSWJm5NmxVS6danlPaH3RzaLTzt2EeF6v3wDfC07Q2js3K1ECVQEd+G3PvSwPUgoYJJQ+wac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jme5FcVy; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782238693; c=relaxed/simple;
+	bh=87z31hPKGzTKxQu8ZZU9xJKH8pc2SnNPjlKdrbpSvDU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ov2vazEtI3SwQLcjKJNS5p9o9Os6QsKfYMvfaBiPG6pdjgPYv38siu8NF0exJC6Wimeqdb3uIU1bJtqAKdoNf7uxRPfB/9UzZ8hf2zkhgbL5valrhdZ+h3IIP+b1/eiBvxbHXjw0fxytzEYqLxoyECWVk+LNa2j5zxneCP10KD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cswXgtWY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jme5FcVy"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-46019edc13dso121245f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 11:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782238598; x=1782843398; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hp0RP7mlwmSy+hW/y528ewOP23RYH5LVdeU7dyCxrV0=;
-        b=Jme5FcVyZF6oWSwNaRx3F8qjTqms6v8jOKHEdxBgcFjVZMWaaYCqb0QZbNBlk0e5tI
-         qxiz83JYkH477dxLKgLqudS8J1rlDNs/Bkb8pgTCWHBz86Jx+K/cBAKU2qZuplAN0IBK
-         sUXLD5u9Mp/6C8ZLn5KPpBZpkWI/fzrPq3RfNEq6C6JT9R/VozG19rqfshMohcCVxswQ
-         cPvqTsTIRPvN0MHhKOv7KV0FBMIM7uBYLQFGc3t9VWKvgqESQ7C0ykKfDHdxnmPpIj5w
-         3Q3IXmY8WmTn8Ll0jq++m0dIE4HiaKb5G+DYWPvwMEiAwjTkvHp0z47VpOkOc9DQVD4n
-         cajw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782238598; x=1782843398;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hp0RP7mlwmSy+hW/y528ewOP23RYH5LVdeU7dyCxrV0=;
-        b=cp1eHyDEOTRPqpLuj/sAZv0n4xTsSFsjpTqhEVwqKI8WxDfi4+Yacs08gCp2OPC2FF
-         3iHpGqGyWBBvi3i9RdJGkuhkFlVxH3yEnN0xVV0ByW7xICdXvHfEfPnvPGf2+enaGPrt
-         tJ/hZNJvCMOHWHnZ9WPyLFMcRV8ggaGDEdym/zYs1qZI2n4FsjGbpN/bqhAYU0uQZYsT
-         oAJunyw19yGVaNn8uF5gK84I1UWEPVxVzMVT3q0JT9VHXMQhIaJvD5enOcpJXtIgaeg7
-         7ArJ0ijXgiF2FAzg8QoN8015bGyfM8P/Y5H+kO0C0dVkUqh6l5dHqeQ6Bm4c4mempJAD
-         2xzg==
-X-Forwarded-Encrypted: i=1; AHgh+RprxPARO/msh0TOm0xuXgsXEPIUxX9PYclwlfw4lYsEXsIzPr+rXEHmXaNO2MbSkDJ2ZxoGPTaIdXM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeThoHCmbBnzwEYQm4hOSZQTwbeZBzQ5Ij9TCiGHiy4ZJOiHf/
-	yYwJZ9JUlc6qvDG3+Pc+i4IdisyqQxfQYVZ+HMOqd9lWx85puqsKAzVP
-X-Gm-Gg: AfdE7cmum40tBxZx7mSzTQJ7JgL+3+pKpjliOoforS/C9ikM4rRspVkgFR+oUxjNgMd
-	xmgHe4n4y7quG9lM+A2H3y6PHTP1BKovSlc+/vi09vwHWadyiqmwQgG5EvkoXkCfY/MVj+u6Nog
-	JS/vjugt4Ie4Ryne937B2vu3knEmsnIddHIrQwUGO3ZMbvXNbjCOWqYkgjI19eUv9oqJrwx5av8
-	jhKRBpPQeelkuW9blbTo2FiSLYHmn5Uvtd8jDY/IL/frzWN9cFtIADviY35LEz7VlDZ4enWc3ox
-	fHmbn3AeqRsyawRsRTm5vgNePYee31eBz5XsZDWzV4fqD+tFMkKviFX7Y2WfGN237vxyozTK+CX
-	SlXvDrnXqipBbNqNJW6mOU6enCi8si1irUobtEhkCzFP9skAgxW/DnwIJlM9UqsPn43ztma2w8U
-	cgOtdvOrk8ONr5375p/7jHZUWSlAHdtUuSX+FdymOijLO2n9Lhdda4Y/9dQbwE4jxlyFmip3aQ
-X-Received: by 2002:a05:6000:2004:b0:45e:dacb:8885 with SMTP id ffacd0b85a97d-46adb0b697emr6229006f8f.35.1782238598308;
-        Tue, 23 Jun 2026 11:16:38 -0700 (PDT)
-Received: from flaviu-Aspire-E5-572G.. ([5.15.86.252])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57b8asm38433933f8f.26.2026.06.23.11.16.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 11:16:37 -0700 (PDT)
-From: Flaviu Nistor <flaviu.nistor@gmail.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Flaviu Nistor <flaviu.nistor@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re:[PATCH 1/2] dt-bindings: hwmon: chipcap2: Add label property
-Date: Tue, 23 Jun 2026 21:16:25 +0300
-Message-ID: <20260623181625.5697-1-flaviu.nistor@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <DJFPYCV2FXW7.1BFG9DURPZRCC@gmail.com>
-References: <DJFPYCV2FXW7.1BFG9DURPZRCC@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cswXgtWY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A7DF1F01558
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 18:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782238692;
+	bh=HGo7jsa0z5bGAjnw8+UYFQWCBJbRAWPtpG1kEYRil0Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=cswXgtWY0xG6YvKTRPM32z+O3mxYc3CAiwmLGtv/6mJyGgXtGV8sKegeFOWXOrR7H
+	 Mt8CgyrUiha2MBWMnHiYRNh6PW6jpd7OK3unt/mAy2wWsq3V+PxL4V2thvztVCB0VX
+	 gJJE//oVk7nXdB8Het/6fNwkqNfdD97Y/Co+OPuZ0NNEveij2hOzJbML4ZruZirQBM
+	 7gdCkasqiJfzXhePaEEorhtZMijTPNFMmVrI9uKyATbeVslN2MnJfqaeoyoJ+qVyKo
+	 4xEW1rycCV/1eLJEvyTgJIX5YoEJfHgwjqmDjyAhY+aBBGwmNMx9Uzn1SP04we0Fy8
+	 iK66FCyiatALQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68852b58d87so222290a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 11:18:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9oWmrLZWb2EwW2C/urMsqwjqv+bKO/nJG2UvNnTMWyszU383xOd3yyLgyQjJViDu2w87F9MRX6+4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ19t6jA3hrnpmRsTuJgftGWLpSh5EmjSTcd0kxqJd6r3HSne+
+	FgoCxwJciGVf5t6uCZuR930PWM8kXr87incAeqPe1ITM97CjarFNvHOtnfDxb6E866h2xPSyqnY
+	RZrWuFlv5WXN+GXcfn1NSERjmvSQF97A=
+X-Received: by 2002:a17:907:9628:b0:c0f:d987:444f with SMTP id
+ a640c23a62f3a-c108ecf8d57mr247144966b.28.1782238691095; Tue, 23 Jun 2026
+ 11:18:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+ <20260618044857.69439-2-jiahao.kernel@gmail.com> <ajnB8IZrFZwbIr9P@google.com>
+ <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com>
+In-Reply-To: <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 23 Jun 2026 11:17:58 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
+X-Gm-Features: AVVi8CeWbi9xozE3IgWvakuBVZiX3iyiSg_u18BJ2jTIomReldLs6eE9A54a5PI
+Message-ID: <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback capability
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon Jun 22, 2026 at 7:29 PM CEST, Javier Carrasco wrote:
->On Mon Jun 22, 2026 at 2:21 PM CEST, Flaviu Nistor wrote:
->> Add support for an optional label property similar to other hwmon devices
->> This allows, in case of boards with multiple CHIPCAP2 sensors, to assign
->> distinct names to each instance.
->>
->> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
->> ---
->>  .../devicetree/bindings/hwmon/amphenol,chipcap2.yaml         | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.ya=
->ml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
->> index 17351fdbefce..f00b5a4b14dd 100644
->> --- a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
->> +++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
->> @@ -33,6 +33,10 @@ properties:
->>    reg:
->>      maxItems: 1
->>
->> +  label:
->> +    description:
->> +      A descriptive name for this channel, like "ambient" or "psu".
->> +
->>    interrupts:
->>      items:
->>        - description: measurement ready indicator
->> @@ -72,6 +76,7 @@ examples:
->>                           <5 IRQ_TYPE_EDGE_RISING>,
->>                           <6 IRQ_TYPE_EDGE_RISING>;
->>              interrupt-names =3D "ready", "low", "high";
->> +            label =3D "somelabel";
->>              vdd-supply =3D <&reg_vdd>;
->>          };
->      };
+> My initial thought was that if cold memory is evenly distributed across
+> nodes and we are doing a large writeback, it would be better to balance
+> the zswap entry writeback across all nodes rather than just draining
+> node 0 first. However, since we currently lack a proper metric to
+> represent hot/cold memory (such as age-based tracking), doing this
+> probably doesn't make much sense right now.
+
+Yeah let's start simple and go from there.
+
 >
->Hello Falviu, thank you for your patch.
+> So, perhaps we want something like this? Please correct me if I'm wrong.
 >
-
-Hello Javier, thanks for your reply.
-
->Should we not add a reference to hwmon-common.yaml (with
->unevelautedProperties instead of additionalProperties), as label is
->defined there? I believe that Krzysztof Kozlowski did something similar
->for the shunt-resistor-micro-ohms property. Could we follow suit here?
+> static long shrink_memcg(struct mem_cgroup *memcg,
+>         unsigned long nr_to_scan)
+> {
+>    struct zswap_shrink_walk_arg walk_arg = {
+>      .bytes_written = 0,
+>      .encountered_page_in_swapcache = false,
+>    };
+>    unsigned long nr_remaining = nr_to_scan;
+>    bool memcg_list_is_empty = true;
+>    int nid;
 >
-
-This is a good question and I am happy you asked. I also thought a lot
-about this and the reason I decided to go for this approach is that by using
-$ref: hwmon-common.yaml#, I would have to change additionalProperties: false
-to unevaluatedProperties: false, which will evaluate in case it is used, also
-shunt-resistor-micro-ohms property which does not apply to this sensor. At
-least this is my understanding, but of course I can be wrong (I see lm75 binding
-also uses $ref: hwmon-common.yaml# but shunt-resistor-micro-ohms does not apply). 
-
->I am also not a big fan of a name like "somelabel", and a more
->meaningful name from a "real" example would look better. I know that
->some examples have already used "somelabel" as an example, but others
->have used more meaningful names too.
+>    if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>      return -ENOENT;
 >
+>    if (memcg && !mem_cgroup_online(memcg))
+>      return -ENOENT;
+>
+>    for_each_node_state(nid, N_NORMAL_MEMORY) {
+>      unsigned long nr_to_walk;
+>
+>      /*
+>       * Cap the per-node scan by the current LRU length. A referenced
+>       * entry is only rotated to the tail (second chance) and may be
+>       * revisited within a single walk; without this cap those rotated
+>       * entries could drain the shared scan budget on one node.
+>       */
 
-I will have to send a v2 since for the label property description I used
-"channel" instead of "sensor" (detected by Sashiko AI review), so I can
-use in the example section a more meaningful name like "Room" if no other
-suggestion.
+The comment here is a bit misleading. It's not just about draining one
+node. One call to shrink_memcg() should only scan entries once. The
+caller can then choose to scan the memcg again, or scan a different
+one. In this case, the caller should iterate all memcgs first before
+retrying memcgs again and reclaiming rotated entries.
 
->Best regards,
->Javier Carrasco
+>      nr_to_walk = min(nr_remaining,
+>           list_lru_count_one(&zswap_list_lru, nid, memcg));
+>      if (!nr_to_walk)
+>        continue;
+>      memcg_list_is_empty = false;
+>
+>      nr_remaining -= nr_to_walk;
+>      list_lru_walk_one(&zswap_list_lru, nid, memcg,
+>            &shrink_memcg_cb, &walk_arg, &nr_to_walk);
+>      /* Return the unused share of the budget to the pool. */
+>      nr_remaining += nr_to_walk;
+>
+>      /* Bail out once the whole scan budget has been spent. */
 
-Best regards,
-Flaviu Nistor
+The comment is unnecessary.
+
+>      if (!nr_remaining)
+>        break;
+>
+>      cond_resched();
+
+Did you observe a problem here or did you just add this due to an
+abundance of caution?
+
+>    }
+>
+>    if (memcg_list_is_empty)
+
+Do we need memcg_list_is_empty? Can we just check if nr_remaining
+matches nr_to_scan?
+
+>      return -ENOENT;
+>
+>    return walk_arg.bytes_written;
+> }
+>
+> Thanks,
+> Hao
