@@ -1,101 +1,141 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BD437C92B
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 19:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DE937F8A0
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 19:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782241742; cv=pass; b=mM6xSTvPe1n6ux17m0ic4MkcfriWxhsPf3+LExFgoDUAYtgebJ24pMZGBtpwaPQh6CetABiAtRWsbd3adFnGh4GX3CS8/gGp3nCkVqFHN6mHSjPtG6wEUzE0mDnCsS4GOrciboc13i2zXUM1Ft4BKZDWaZDX4U7Gy4DXqRIwHqo=
+	t=1782241960; cv=pass; b=bjrGOgc0mdJubjF5exTDgAVfBK3UgfABTcRSD5mltC6PuUYSdbx9IRVtTQ7zv5af4HRi7UECZzZ8YOA7zaeXdCm8LlmFNme9r9eKpLa68TfFLEPQYJeJv5hjempMinm6WcMCPMQOF7xSOyO0NI0o4TAcUebLjvjK6q1GZXsnMKw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782241742; c=relaxed/simple;
-	bh=LdofAR8e/Kti/WYvRJh0sJk3FrQJ4xmAUqnttCZI140=;
+	s=arc-20240116; t=1782241960; c=relaxed/simple;
+	bh=ii6MvtTjLi70cljzH6vlCK19qdEyYEgO4Rik7cd/sMQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T80krBVM9AwZ8Y77TeoLkiyz84FVG1vQ/y5d712lnd2zKqDFyeETOBpDWVr/GuBmnGhHPrr/oPKcr+wijffxx3ao4dhlklfdBBpa6hNI2k52+kEcGxB4D/QhbDm2wLLd7fKzdTk3WEOUkcRSS1wwVrD8CnUFWcqBXTgs81gBtzc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pZ4kgKvs; arc=pass smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=dBpfWXp00AZ7NTBbW1tp/dEHdrA0HN8XpkFtlXZ/KB42GEW6E9V/rq0g32PctXQ1BzGVkZ+9DoYwiyZJudt+cpbd9tQ4IVpiEV8Nqiysd9jn59iZ5it5L4VwrIf8ZqPERUSVwsZA9AedDNcGVI9L6cCg20KaVfRA9zeVQvzA89E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=muhNy7DX; arc=pass smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pZ4kgKvs"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c03a466c96aso31970166b.3
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 12:09:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782241739; cv=none;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="muhNy7DX"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so188770e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 12:12:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782241957; cv=none;
         d=google.com; s=arc-20240605;
-        b=IMp/dL0xOpMYrUHZzDge3TaWHb1AQGl8ufct6KM4cJs1cJdhTkETHgNvaNIif+cDvO
-         m6wyFxhaHTrBkICp+0YP9f2YMQZLqqljXIH9PJugJODaqTkzTZtdeED5TNPffdN3oYAZ
-         5IH+WqlJ7wlaw+M2I1lboLbjiXOY4vdpgJnRJr+NAIwBhlz3HbvqD72AnClT4nRX7tMy
-         efZ5GJ2x5dqvpYFMHPMj5j9Q80mniZX0eGfqDVIcZbaCIGvQyOpKOBhsGwh6m1pZLOb+
-         s36OuI3r/7ThbKhTHWIotVnXDhu6cSGh6nnkfEtNX1RB+wqxC+xG3W23JA6ch5inOwGZ
-         4uDQ==
+        b=UQ6eTswtPSPFCIC4d/2vkSxeoeJwe3Ndmt4H3y0SXR8O9iq8/63hckxbBAuKZL/i9v
+         sbN5USgXs8ANEGrXxnByjBLe6iTqJAfQM/oWNL+FdciMWAq1zkY1CUaH86NarEu1cwTW
+         QijFT95rJfPcesWHfDmyhjFKy1xkOiyDLkTGVQq8D4rPZHwl3OpTkZrk2wxeTPM1w0wM
+         73zIyULmZOivy0IdvWSDVmnHf2+5nliVEQWeEgdV2Hba+6CCYRgQF6w4TWb7oyOMWcze
+         uOhGEAT3UxiIIPewOkzHxV1VqowcP6QImxV3+0LEFZnvn8/6Ra0XyEa5EDgEfVSCAxnE
+         WEhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LdofAR8e/Kti/WYvRJh0sJk3FrQJ4xmAUqnttCZI140=;
-        fh=9v+vwM7fJnZvvDze6sHe4vpY21cIPioFytLGWvUvG5Y=;
-        b=VzmCXZGo55eZYnHywtZVhsjnrNdc2bCCFEizLhHK3qYptiIncKAMrARw3of9uKCmY2
-         oXL3Dm5VA3nOzn6pJmfWz5wh5bvB66YbsW4odAxQgE45C9p9yrZOrDv7waigz4nJja1k
-         iNF6qP+oIzYPos2GxdHSMpOxDItoCNLmX2hc/SVf5MEpzPkZITPZUxbQDxFvMuMw1sos
-         nIbTq/9i4g/u8OGkE9FXvLY0Yqqfqq+HAADEeb5O9UF08sdX4jsmljA46j7kskEF2Zqf
-         hrcekywnV/esCvmTSTM241NsZM8KGtSoRNcMGEWLfys7N7jh2fcsbeZR7lOVlfgwFi25
-         N02w==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
+        fh=b5+b89sF0R580fNe4LOFAy8wak7DQzIaHeYiu5w3KD0=;
+        b=FSpzW0YG78q/+B76Nr8f1tVnB9gatJzibB5MebRx+ZhjkML4Dz2C9qQkGmUrJV8fYk
+         YhUgNpUjyQ7bzooF3BLF04/JkAtmICXpV4xS5Eja/hHoKO0/3XjqCBjKcwmYMFcQJtMU
+         AzVA43nipGm/QaWoH5dQP0d878qAPpbnSiyz9mWZcnYvsWbh6GDjfbyQM0qNTb0HLuhh
+         K0whVgaMc9/+zquZ6f3ZlbA8c5viR1O+C0Jcfeqg2zj+s5iaarENtkG7BbJuKOLUMlAo
+         17Nqx7HJIM/qJRw0q3Wu+l1zlR2QomojJ4PEx6LqXcv9uqlnieYxFmzqMEA7LlZXmCbo
+         y3VA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782241739; x=1782846539; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LdofAR8e/Kti/WYvRJh0sJk3FrQJ4xmAUqnttCZI140=;
-        b=pZ4kgKvsl8ZfHTMIog2LZaBW7h+HJS3C+m7ai9cn7I9ykrq1XixVJa+svUpkAZe6z0
-         6w8Na8Z1HFLbAO7rqFFjKTYugQBoPk3LXkFCNYShEw5QVmcqATfaPzFAjj1vss3wjE6X
-         +ENhVhpuv0pcPZUyMoFwGqw2mzujiCWxx/aRYwYqPxi0Nx6xmhOnZPJ6J5uyso92Vq9d
-         VTstEXYWkMy9J83N7rxDSDDwsXy1h35SosuiskqCtLAwmdfdaBDVxLoYFaERZ48IxU5L
-         0oIdGKVbjD3cBHWuls2UUkpyYuUM/m+FGjU2DWdN9w/DhxDQboLEm8lNwJylxPYLsm5E
-         i9Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782241739; x=1782846539;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1782241957; x=1782846757; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LdofAR8e/Kti/WYvRJh0sJk3FrQJ4xmAUqnttCZI140=;
-        b=Mc2H4Ep1M5DIA5T/rpfNN6gHHvCYfRtENslCkb4Eb0Kfo6pDqa5hBM1JZLK53y5/KQ
-         dij87SKy3fkof4Nb2IBI7SWB3PUhHRbrhWjjrJcKDXyH81A+kirgmGNTA7sYKr/FzrlQ
-         BkVUPMFaqxLpj4Slo9z/DCMNr49vXb9h8kfT9UjYFr6fHB6DE0tJdWQD/gsjOQQF7D0I
-         ZyX7TkxaYy6sxUkMnSJNrAUxAtR8ue3mTRigucatTfPNfCUVHDZBP8cePqEUhguruHjr
-         XQuxct5T2m8qekdrMuDX06q2LsOap8eWF7KcMzHtDhAL54iDExmVqr5NRYwqqQuvshRd
-         HOuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8wkGTEUy5KnvNx8Z04jSwd/C5QL8IWMGw4/evPiDMKbnsYlnwl0lx6WPdypVfmfTDDfdU6OUAPkCk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1g2KjEQlzVcgBKHEREDPfrALvr31ZQ5hEneLNcYPnImiujoAn
-	p2CHIjBbt2MncWfOD0GmET9jP+vuGZV+0ZJ0BGdwCCZESr7WGmXNALVvWHnrByvZ3MGuEYCYB9q
-	CPaofEJ4+VU0KA7pqq5+piT8iVFM/GCk=
-X-Gm-Gg: AfdE7clhm/uBd4XFqbpseOLbZeV6pJxlJ/RpPtwDLA6XGhJOpPPtdLs6wp4Ba+tgWh0
-	iIxX1AT0Sz5eKoXngvjfT1bJe084TA7qY3WHZ0Ej595/lR4IifpQFKgzcbGxj2m0TWuv/07mfFD
-	zqBkT0PV0T6zY5y51wDq1aeHAVyJyPcu6l+ZObJmAn7bxdFXEiDgVKainnOTO6XtHs0wPtmeExy
-	7YPAf8pvoJ+xO1IBQ7wTcqFLO/v8zNMl90+YC9ROLgo9b7jEGj2oFVdvNZDnIvw/iOVLwNbX1bu
-	DKUOdzF8j3ETZisvm50oYx/IMyrzUw==
-X-Received: by 2002:a17:907:9c07:b0:c04:93d7:3c12 with SMTP id
- a640c23a62f3a-c0c65adebc1mr95587766b.25.1782241739297; Tue, 23 Jun 2026
- 12:08:59 -0700 (PDT)
+        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
+        b=muhNy7DXA2jhxWRc7VjyBLC2W5K+vsw6ky4fhELzH5+mRCNYrMENNAMsiac1FFAwAN
+         5Y7j8e33TdHsCW22GLfJnZxalkzwM7GZWN02MUoYYDLU91tQ91K3wGjQo9RiX+9NN9Ls
+         al2Xadtgum6dohsjBdSHYFJm99lajb9XcLcpmLnhl+4ZzLY7YoDqjg+6+Z56p/czMQxo
+         5DzqbALLVqR3t38rJOEeC+XAe6FvKLOnedaTm2N69vu+ZPlWy6eznEgmzxQP1DLGzai2
+         lh4LkfW5orbRHtlQc57Hs7Y4xakKRD9UQaDbbmG4cuuSZ+WUomrh1AJkUW+YJZSrzlA/
+         x7xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782241957; x=1782846757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
+        b=Psbeyx8xGTOaHKlVen1oUT0oaNDJ8/PTxykO8gy0Pe4ZMCOfuc0ioXp7sJBhR5G7JE
+         mrt09R49zPOONV4CjJ98Mmw8PAbLUstLlZBGKu6sZaY5U7N2N6zSiASUbp+z4cRh+yqL
+         x4ef6p2j5N70SDAePsDXTAefkdF7MBsgQk/5R2Wgh5/6LClJzshTN6Umpoy124jsaS+d
+         HPhO74uwptL5VpGmSV2N0IJo7ZFY808ozUdbxJFDkOSzoz3Z6NKK/Ucno+phIPJqoyAc
+         kxd1WvxRDdVlNbs2kERguBq4tCgmiw5nkFHNM8+EHXc43n0vnDP7NUz5JOhsBTyogiBk
+         kARA==
+X-Forwarded-Encrypted: i=1; AFNElJ+W1U+e2oxuTqm6IEqfPRlAhOpRGNtuKRtxHNJDAfBj9DPrEVq0B8AGtIMnT4GOlajYaLLP9dAi5Ko=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBuFzUfQhaO8RnO9+Du5RlcqD3BFp3BvrFQ4VWd2Hr8OGiTrpv
+	fVDpxn+FuYOwoPO+zRxwK6rywxqpgfbSpPzy7Vf4hGzI4qIBrQkqU+ppjQIVf+JVcDRqXgpMcmg
+	IhFkzq6+a24/LV8AmHPVJHFFP0/kEDnCu0Xdhsyaq
+X-Gm-Gg: AfdE7ckdYJ5Oz+JCMDseXcQuPxr2EgaHGA7kOLIAqJWtzFaHDgc1TthCGSh6FIJnk8j
+	3eAom8VvMLui0Ayf2CybiCpCvF7/fJ/nQRTYQAxmINDO49d5YSLrKAf+VZv6RUA7j20lRhcBrK2
+	gHjnDeHhgaxnjcG8rlxn3NkINwDIGDd9EzQjm8hAhMFctIfjPn0ae0TVoWu6kbOqse8bfKIymsz
+	FYjro1WpO8Cau6d18iOiMmkCSZv5T6ut6Qj1Ltwuzv6bZT8jUMCzH8SLnVkHjEvSFS2RLVB
+X-Received: by 2002:ac2:44d4:0:b0:5aa:8822:b874 with SMTP id
+ 2adb3069b0e04-5ad5771ec41mr4233175e87.46.1782241957214; Tue, 23 Jun 2026
+ 12:12:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com> <75822857-473d-4067-a378-aae2cdab4176@infradead.org>
-In-Reply-To: <75822857-473d-4067-a378-aae2cdab4176@infradead.org>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Wed, 24 Jun 2026 00:38:45 +0530
-X-Gm-Features: AVVi8Cc1hD2hPk4FFMnKSCHccCyNZqCcEpbtGZZJrz-Ggm9d9Z4FkIbejjM89WE
-Message-ID: <CAFgddhKDafzUTCsbYXpWPcN66hetu9aJOygpsb_eLwsU30ADrQ@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, 
-	michal.pecio@gmail.com, stable@vger.kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+References: <20260622234803.6982-1-ebiggers@kernel.org>
+In-Reply-To: <20260622234803.6982-1-ebiggers@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Tue, 23 Jun 2026 12:12:24 -0700
+X-Gm-Features: AVVi8CdurCE0Z4nmJzTanxEgxUT-VwvR4nCHq2kkCJY0BXv2CrDitgelAGd8YoA
+Message-ID: <CALCETrXPj0u=FZ=aFcZAHk3fFZa7rCuPEjx6cOMXmT3sdkC7SA@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
+ to 1
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>, 
+	Demi Marie Obenour <demiobenour@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> add ending '.'
+On Mon, Jun 22, 2026 at 4:49=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
 >
-> For all lines added here, use tabs instead of spaces for indentation.
+> AF_ALG is a frequent source of vulnerabilities and a maintenance
+> nightmare.  It exposes far more functionality to userspace than ever
+> should have been exposed, especially to unprivileged processes.  Recent
+> exploits have targeted kernel internal implementation details like
+> "authencesn" that have zero use case for userspace access.
+>
+> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
+> libraries exist.  And when it is used, only some functionality is known
+> to be used, and many users are known to hold capabilities already.
+> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
+> (https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832=
+d@gmail.com/).
+>
+> Thus, let's restrict the set of allowed algorithms by default, depending
+> on the capabilities held.
+>
+> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
+>
+>     0: unrestricted
+>     1: limited functionality
+>     2: completely disabled
+>
+> Set the default value to 1, which enables an algorithm allowlist for
+> unprivileged processes and a slightly longer allowlist for privileged
+> processes.
 
-Done! Waiting for any other changes before submitting v3
+In our brave new world of containers, this is a bit awkward.  The
+admin is sort of asking two separate questions:
+
+1. Is the actual running distro and its privileged components capable
+of working without AF_ALG or with only the parts marked as being
+unprivileged?
+
+2. Is the system running contains that need the unprivileged parts?
+(Which is maybe just sha1 for ip?  I really don't know.)
+
+Should there maybe be two separate options so that all options are
+available?  Or maybe something between 2 and 3 that means "limited
+functionality and privileged modes are completely disabled"?
