@@ -1,130 +1,334 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B593C585A
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204698; cv=none; b=BePczLhZNIVlZUXOumw2y/+iX82jtFL7aD/hB0Klzr8o3xEiLAlWvGbH8zGbulIZkolkDgnYGV3qoYgAol+4PU95Lfv/JFovWvU1DsZ68nCb8Mhu2U/L8hZOpv002Ud9Fua6kQlQ8fEue8IKwLSD8mL2F1kRGB9ZNRsKMFLOTbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204698; c=relaxed/simple;
-	bh=j70UqBoWvLRtq2kxFPUbHLnAtw9HjRG4XLfa+/DtLuk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jGPljV330lEpa+TATN5qVTArBb94wyVyncXQohP83ag02XLCao4bD/3qIqxPXuBGikRottrbUFdxxK4nTqPpizi216Uukg9bOkamiSLP+yFwOx56oSSxATCGyMsRCdVyWV/8IIsw6qvfbWZCTApkBG0xr9qlAQGDg2rwpH4VyHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.76.78.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrADXmjYKSTpqpSU5AA--.40841S2;
-	Tue, 23 Jun 2026 16:51:22 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wD30BEISTpqY45PAA--.61608S2;
-	Tue, 23 Jun 2026 16:51:20 +0800 (CST)
-Message-ID: <b03f244b-46b8-47e8-b7f5-d98d714ae15c@hust.edu.cn>
-Date: Tue, 23 Jun 2026 16:51:20 +0800
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7602E7389
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782205175; cv=pass; b=lvGJP8zEOAfWExYCZU2+CNfPiuVT+p/LF1iM5UMaDnCYJySdDcsX9n/1vCPdaG9HkzWwBI1u+D7U0VjX7jSttQ9Oxkkqpe2X7wgaTp+vUWnt2NXGuoT42qH3LsvHY0snDvJh+pIuQsIuDgpCpyUHeaHrDMbubixJGLnstOtxMvs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782205175; c=relaxed/simple;
+	bh=UGoqUAYtBwcvOzvzqQVEOAUHdQNj4ggDmWvOp55PxNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BcZ7lOZdOgzediNcupeD3FQuj79P/ZzzZXaAKt5AMRS/nW57qu7rBeTVH1Gio3dm3Kz7CU4drFIwIbuFoWvhay6ebdtplyk6I98OHw11EuzCZ9E1stTSuVhAB989EuLZJd3vrvDlr9FtD7ypQKyGrhLip8Y5+m40aTTVOSFk7hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fJs9qGH9; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fJs9qGH9"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-519ed52bcc6so210201cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:59:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782205173; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Cvc52gSLUo4L5MLyW5ENVNj4QI6uu56Qn8NkB5hRVa1rL8Fa94IDuFW/NubZVl/I0T
+         EpWMx3rOQCFbrM/nqYUaFdBmX5ktVWMtbu/OJsqY8Ou0Qn5wD+YQFxJRCL75Sy3w7rGj
+         87U79UYs4aFjbSGxrBsk2YPXihipB3eaUInBtPk7+pP5o0yUqZ3WvPtOh8huiDyPwdW4
+         v1nc9JY4ZlsbwIYTfn/BlT4hCqHUr0eD5MwIlxc6O4yqFzGHSHCWGc6WRd/V6S67ucA9
+         ztS0xlRUWQ/42yzMpn81ZKuU0HvJ1oxt8TBtSN3Vkx7l0+BUzuQlqf8adMRgWdg31IAe
+         Qxzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
+        fh=D5GLK9QJq/VrPSVYWfDejP0Sn+XIcQaQ15DHZZucwNE=;
+        b=n3lN+ZpweLUP/L6qFNzO4eNQ7u6XXB9njL7yoYFDyrEAwAAjGkTcM+WT/std4nHBSF
+         MYoaxs1qzi4OIAkvxYmphyD3/Ahixi9UP5tPmN6b1JfP1D20fJMqa9sKsL3IUf6aTUmv
+         85CQakD1hg2sImVrTsSi6+KoIJg3m74JNMukuhi39MLZZLrpaZgGKcJjqnOjFtE9zrwB
+         +FtTNQPYEX7x7WxT2S+vV/Si5N0yaKX3++vStHGWIcRFngnlHtsdWL2HeWPyz7h/QCoG
+         K2hVVh7Tp4dAt4MwjsupiSfvUFWWJUpU++s9ywmKKCRWWTIWKQoZ0aNNLl/YHnCf/uN1
+         GnhA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782205173; x=1782809973; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
+        b=fJs9qGH9AxUGWWbcfCGQ7fCoWoApIf367pE1cJ/ihykHp911+fCrVIMe5N9bjgxN3b
+         G4PktI/+ZEkxENwm1PR/th3fde3e/JMBAtedyKWzWyCG0QDkVrXhGJ1DtvgB74ol+TxC
+         iQiDiHwdbG34ZMC9EZ10h7RR0gIAKCAqGP742TSN24zKWHUa/TfJvLRuQYvhkVmT5SyC
+         Elbse0S00ovwwpGSOz7MQv4qZeizrR/l6mx+WIFI3V531zSA3lqa5lV0iFBbDnYJuxvg
+         sl9N9dMGfrZSjpVeXJA88YJhCdBDug6g6zpExJHFCZ+rObBAig1ZHG0RXXYl8pI8vydi
+         OVvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782205173; x=1782809973;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
+        b=Nt7LjEFvYWAwp6a9h5bPFvbtJI5wr4nRz8JXuBQ0BVwean1bETHR3kdHSUZnzmBgSr
+         cyvctQqno1jsApceV4PGpjGc8U/TGALw4h5aHFn4xgzeny7xx+1Io0gIbu0vk1Ac0BzF
+         2qcEyZ3hbzx0Zn6DS/lZu0eDXMaSpanKUH348CQ+0qeEKlc0abzceWeHPdL/VjH+jqX3
+         Jv8tczVKLmkB+HXAOTlFu1J/YqE6OKly3PVThfxOdDGniALdlYdP3SO/GwErHA9T57SK
+         8PAQTDnCdwBK7Z0TPuF5c8duIGgFLSph/+PmLVbCW6VMyfdDGK3+OFoDgHHRUn7GnC1l
+         KyRg==
+X-Forwarded-Encrypted: i=1; AFNElJ8npR4F240GvbGYMnhB+i9uLO9o4Yr+ptqEjatrDAF7txC3pQhUcVBCndHwCcHTT2Mup55zyumOYAE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyehHl5tzENcf42dXarH+q+wZxOGQer38LR4IfH3d66S1j5pw1l
+	Dj7hp/ZRSBcwI7fcPaZ7MRLGs4I325hI925iSIiOyLS8uffFgUuuNTbleLgXh2tzDrPOczWMpou
+	WbTFomf2JTkLEc7VA/9+oOoA87UEJjNpr63YuzwuZ
+X-Gm-Gg: AfdE7cnfqTQBdpWkR/HkzNul+LpUviNVzJWb6xFUAgqdpYYicBJCgAQow7zzBiFxqPb
+	AX8aPMmGqbudJRQ5EF9qoosHtCZnGlBqpg4t/XDO95FWeXb7GPxTj787C/34beRef7TPCA/PmWs
+	B7cLkQm9APQCAnDcrYzj4Pu73yeVdd6QRGp9YAqnDb/ys7JnbHVCiXLbOVFZTpQm+LrofnA4YcC
+	CA/wjP7swJdeI4oXvHv1qz/nqTCpyXolRKQuibiFylz/e95X4yK8ypqlZPNL1CvOQ3c2xUQGQ==
+X-Received: by 2002:a05:622a:53c4:b0:4ff:c0e7:be9c with SMTP id
+ d75a77b69052e-51a52188357mr9231071cf.0.1782205161783; Tue, 23 Jun 2026
+ 01:59:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Issue cloning kernel-doc-zh from HUST mirror
-To: Siwei Chen <businiaoanka@anka1.top>, linux-doc@vger.kernel.org
-Cc: si.yanteng@linux.dev, wy@wyuan.org
-References: <4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <4292BADB2022F3A5+5117009.JcJflTAXpt@anka-vmware20-1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrADXmjYKSTpqpSU5AA--.40841S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF47urW3WFW3uF4kGFyUWrg_yoW8XrWxpF
-	WSkwn3Kr1rGF17A34vk3y0krWjvrWkGr45Jr98Jw1rCrnIga4kZr4akanxuF9xurZakw4j
-	qF1xWr1kKan8uFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUP2b7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lnxkEFVAIw2
-	0F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I2
-	7wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r4UJVWxJr1lYx0E74
-	AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY
-	6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GF
-	W3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02
-	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
-	1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
-	xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
-	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0mi
-	iDUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-15-9d2959357853@google.com>
+ <CA+EHjTx+3U++dnhGEkwh2SO82xMugAvvJ9ee1O__sxZCKL_X5A@mail.gmail.com> <ajneQVLriUshjFIO@google.com>
+In-Reply-To: <ajneQVLriUshjFIO@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Tue, 23 Jun 2026 09:58:45 +0100
+X-Gm-Features: AVVi8CfpDJy0J3C5-XoMAIo3UWrVbaFO5KPC7yjpf-92k1Ny5C4dioD7azy2jvM
+Message-ID: <CA+EHjTx-1J0sEVxL8EB=j=y2Sd9mZ1eos1RCmAwj9eKjJsEcqQ@mail.gmail.com>
+Subject: Re: [PATCH v8 15/46] KVM: guest_memfd: Call arch invalidate hooks on conversion
+To: Sean Christopherson <seanjc@google.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Sean,
 
-On 6/23/26 3:39 PM, Siwei Chen wrote:
-> Hello,
+On Tue, 23 Jun 2026 at 02:15, Sean Christopherson <seanjc@google.com> wrote:
 >
-> I am following the documentation at:
+> On Fri, Jun 19, 2026, Fuad Tabba wrote:
+> > On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
+> > <devnull+ackerleytng.google.com@kernel.org> wrote:
+> > >
+> > > From: Ackerley Tng <ackerleytng@google.com>
+> > >
+> > > When memory in guest_memfd is converted from private to shared, the
+> > > platform-specific state associated with the guest-private pages must be
+> > > invalidated or cleaned up.
+> > >
+> > > Iterate over the folios in the affected range and call the
+> > > kvm_arch_gmem_invalidate() hook for each PFN range. This allows
+> > > architectures to perform necessary teardown, such as updating hardware
+> > > metadata or encryption states, before the pages are transitioned to the
+> > > shared state.
+> > >
+> > > Invoke this helper after indicating to KVM's mmu code that an invalidation
+> > > is in progress to stop in-flight page faults from succeeding.
+> > >
+> > > Reviewed-by: Fuad Tabba <tabba@google.com>
+> > > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> >
+> > Coming back to this after working through the arm64/pKVM side. My
+> > Reviewed-by here is from the previous round and the patch hasn't
+> > changed, but I missed an implication for arm64.
+> >
+> > kvm_arch_gmem_invalidate() is now called from two paths with the same
+> > (start, end) signature: folio teardown (kvm_gmem_free_folio) and
+> > private->shared conversion (here). For SNP/TDX that's fine, conversion is
+> > destructive anyway. For pKVM the two need opposite content semantics:
+> > conversion must preserve the page in place (same physical page, the point
+> > of in-place conversion without encryption), while teardown must scrub it
+> > before returning it to the host.
+> >
+> > The hook gets only a pfn range with no indication of which caller it's
+> > serving, so arm64 can't give the two paths the behaviour they need. It
+> > would help to signal intent on the conversion path: a reason/flag, a
+> > separate hook, or not routing non-destructive conversion through the
+> > teardown hook.
+> >
+> > arm64 isn't here yet, so this isn't urgent, but the hook is gaining a
+> > second caller now, and it's cheaper to leave room for the distinction
+> > than to change a generic contract other arches depend on later.
 >
-> https://docs.kernel.org/translations/zh_CN/how-to.html#id3
->
-> When trying to clone the repository from the recommended mirror:
->
-> git clone https://mirrors.hust.edu.cn/git/kernel-doc-zh.git linux
->
-> I consistently get the following error:
->
-> error: RPC failed; curl 52 Empty reply from server
-> fatal: expected 'packfile'
-Hello Siwei,
+> Crud.  It may not be urgent for arm64, but it's urgent for other reasons that
+> I "can't" describe in detail at the moment, and even if that weren't the case, I
+> think we should clean things up now.  More below.
 
-The long answer is as follows:
-
-The curl 52 Empty reply from server error is not a Git or Ubuntu 
-compatibility issue. It happens because the kernel-doc-zh repository is 
-extremely large, and the HUST mirror server closes the HTTPS connection 
-early due to timeout or proxy limits.
-
-You can try the following commands:
-
-
-      1. Shallow clone first (most reliable)
-
-
-
-      git clone --depth 1
-      https://mirrors.hust.edu.cn/git/kernel-doc-zh.git linux
-
-
-
-      Then fetch full history:
-
-
-
-      git fetch --unshallow
-
-If still failing, increase Git buffer like:
-
-git config --global http.postBuffer 1073741824
-
-
-
-      Finally, I will contact maintainers of HUST mirror site and try
-      some attempts to resolve this issue.
-
-Dongliang Mu
+No problem on the parts you can't get into. Agreed it's worth cleaning up
+now, and worth doing in this round rather than landing the overloaded
+hook: reworking a generic contract once SNP/TDX (and eventually arm64)
+depend on it is the expensive path.
 
 >
-> My environment is:
+> > >  virt/kvm/guest_memfd.c | 41 +++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 41 insertions(+)
+> > >
+> > > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> > > index 433f79047b9d1..3c94442bc8131 100644
+> > > --- a/virt/kvm/guest_memfd.c
+> > > +++ b/virt/kvm/guest_memfd.c
+> > > @@ -607,6 +607,42 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+> > >         return safe;
+> > >  }
+> > >
+> > > +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
+> > > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
 >
-> Ubuntu 26.04
-> git version 2.53
+> Not your fault, but kvm_arch_gmem_invalidate() is badly misnamed.  It's not
+> "invalidating" anything, it's much more of a "free" callback, as SNP uses it to
+> put physical pages back into a shared state when a maybe-private folio is freed.
 >
-> I have verified that the URL is reachable from my network, but the clone
-> operation still fails.
->
-> Could anyone help me understand whether this is a mirror-side issue, a Git
-> compatibility issue, or something wrong with my setup?
->
-> Thank you for your time.
->
-> Best regards,
-> Siwei Chen
->
+> As Fuad points out, (ab)using that hook for the private=>shared conversion case
+> "works", but not broadly.  And it makes the bad name worse, because it's called
+> from code that _is_ doing true invalidations.  For pKVM, it may not even need to
+> do anything invalidation-like.
 
+Agreed on the name and the overload, and for pKVM the split is more than
+cosmetic. The free/teardown path is where pKVM has to scrub a page before
+it goes back to the host; conversion has to leave the page in place with
+its contents intact (no encryption, same physical page in both states).
+Keeping scrub on the free callback and off the conversion path is what
+preserves that, so this helps us, it isn't just tidying SNP.
+
+>
+> To avoid a conflict with patches that are going to have priority over this series,
+> to set the stage for arm64 support, and to avoid avoid bleeding vendor details
+> into guest_memfd, as if they are core guest_memfd behavior (only SNP needs the
+> "invalidation" on this specific transition), I think we should add an arch hook
+> to do conversions straightaway.
+>
+> Unless there's a clever option I'm missing, it'll mean adding yet another
+> HAVE_KVM_ARCH_GMEM_XXX flag?  Hmm, especially because IIUC, arm64/pKVM doesn't
+> need a callback for this case, only the free_folio case.
+>
+> > > +{
+> > > +       struct folio_batch fbatch;
+> > > +       pgoff_t next = start;
+> > > +       int i;
+> > > +
+> > > +       folio_batch_init(&fbatch);
+> > > +       while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
+> > > +               for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> > > +                       struct folio *folio = fbatch.folios[i];
+> > > +                       pgoff_t start_index, end_index;
+> > > +                       kvm_pfn_t start_pfn, end_pfn;
+> > > +
+> > > +                       start_index = max(start, folio->index);
+> > > +                       end_index = min(end, folio_next_index(folio));
+> > > +                       /*
+> > > +                        * end_index is either in folio or points to
+> > > +                        * the first page of the next folio. Hence,
+> > > +                        * all pages in range [start_index, end_index)
+> > > +                        * are contiguous.
+> > > +                        */
+> > > +                       start_pfn = folio_file_pfn(folio, start_index);
+> > > +                       end_pfn = start_pfn + end_index - start_index;
+> > > +
+> > > +                       kvm_arch_gmem_invalidate(start_pfn, end_pfn);
+> > > +               }
+> > > +
+> > > +               folio_batch_release(&fbatch);
+> > > +               cond_resched();
+> > > +       }
+> > > +}
+> > > +#else
+> > > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> > > +#endif
+> > > +
+> > >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >                                      size_t nr_pages, uint64_t attrs,
+> > >                                      pgoff_t *err_index)
+> > > @@ -647,7 +683,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >          */
+> > >
+> > >         kvm_gmem_invalidate_start(inode, start, end);
+> > > +
+> > > +       if (!to_private)
+> > > +               kvm_gmem_invalidate(inode, start, end);
+>
+> E.g. instead make this something like this?
+>
+>         kvm_gmem_set_pfn_attributes(...)
+>
+> Hrm, though that wastes folio lookups in the to_private case.  So maybe just this,
+> assuming pKVM doesn't need to take additional action on conversions?
+
+You're right, and we expect it to hold for both directions, not only
+private->shared. pKVM conversions are driven by the guest's
+share/unshare hypercall: EL2 makes the stage-2 ownership change (grant
+or remove host access) on the hypercall and exits, and the host
+records it via KVM_SET_MEMORY_ATTRIBUTES2 afterwards. So by the time
+guest_memfd updates attributes the EL2 side is already done in either
+direction, and the ioctl is host-side bookkeeping. The only arch
+callback we expect to need is the free/teardown one, nothing on
+convert, and we wouldn't want a make_private hook either.
+
+>
+>         if (!to_private)
+>                 kvm_gmem_make_shared(...)
+>
+> Actually, if we do that, then we don't need a separate arch hook, just a separate
+> config.  It'll still bleed SNP details into guest_memfd, but it'll at least be
+> done in a way that's more explicitly arch specific (and it's no different than
+> what we already do for PREPARE...).
+
+Doing it config-only (no separate convert hook) works for us, and nothing
+about it constrains arm64. If connecting pKVM conversion to gmem later
+turns up something we need, we'd add it config-gated in parallel, not by
+overloading the renamed callback.
+
+Cheers,
+/fuad
+
+>
+> E.g. this?  There will still be a looming rename conflict, but that's easy enough
+> to handle.
+>
+> diff --git virt/kvm/guest_memfd.c virt/kvm/guest_memfd.c
+> index 9ce5be7843f2..8aead0abd788 100644
+> --- virt/kvm/guest_memfd.c
+> +++ virt/kvm/guest_memfd.c
+> @@ -648,8 +648,8 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+>         return safe;
+>  }
+>
+> -#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
+> -static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
+> +#ifdef CONFIG_KVM_ARCH_GMEM_FREE_ON_SHARED_CONVERSION
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
+>  {
+>         struct folio_batch fbatch;
+>         pgoff_t next = start;
+> @@ -681,7 +681,7 @@ static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
+>         }
+>  }
+>  #else
+> -static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
+> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) { }
+>  #endif
+>
+>  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> @@ -729,7 +729,7 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+>         kvm_gmem_invalidate_start(inode, start, end);
+>
+>         if (!to_private)
+> -               kvm_gmem_invalidate(inode, start, end);
+> +               kvm_gmem_make_shared(inode, start, end);
+>
+>         mas_store_prealloc(&mas, xa_mk_value(attrs));
