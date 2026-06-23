@@ -1,141 +1,83 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DE937F8A0
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 19:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782241960; cv=pass; b=bjrGOgc0mdJubjF5exTDgAVfBK3UgfABTcRSD5mltC6PuUYSdbx9IRVtTQ7zv5af4HRi7UECZzZ8YOA7zaeXdCm8LlmFNme9r9eKpLa68TfFLEPQYJeJv5hjempMinm6WcMCPMQOF7xSOyO0NI0o4TAcUebLjvjK6q1GZXsnMKw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782241960; c=relaxed/simple;
-	bh=ii6MvtTjLi70cljzH6vlCK19qdEyYEgO4Rik7cd/sMQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dBpfWXp00AZ7NTBbW1tp/dEHdrA0HN8XpkFtlXZ/KB42GEW6E9V/rq0g32PctXQ1BzGVkZ+9DoYwiyZJudt+cpbd9tQ4IVpiEV8Nqiysd9jn59iZ5it5L4VwrIf8ZqPERUSVwsZA9AedDNcGVI9L6cCg20KaVfRA9zeVQvzA89E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=muhNy7DX; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8745217723;
+	Tue, 23 Jun 2026 19:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782242391; cv=none; b=oSz204pgNYdtsglBuZcKP9s7/NntSfgWORSwWCO7xJuXdY/LusSmjKyD6tkqneTnxnOO8Ix729HDVrsVl9TW79QP22scRUMDUi4yZAtM/F/JtLuoLqVqiDsmoAw1WJZumj0p72y6y60s1BgNDazq8+a4CFVLOU8HgmdDGOpnmmg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782242391; c=relaxed/simple;
+	bh=IP1C75csOqxm9rutyLOdY/Y1l5DuXUNjY9pJyU0uJEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8DZZrO5SEt756hU6lNjGAYX7xmejaYnAWg2f1HqqHFmshsdLlDRGRAXhO8ukICj9DyMD6LvCjtqCiglulggdBVBw6OxSm353XQYCzCAid/Fjz4Wd9aovPDR6fO/qi6qQIm1vIXWUm794VfxcjevVq+12yRVdQwJxhx8l6HrYE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c0g3Ipr/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="muhNy7DX"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so188770e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 12:12:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782241957; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UQ6eTswtPSPFCIC4d/2vkSxeoeJwe3Ndmt4H3y0SXR8O9iq8/63hckxbBAuKZL/i9v
-         sbN5USgXs8ANEGrXxnByjBLe6iTqJAfQM/oWNL+FdciMWAq1zkY1CUaH86NarEu1cwTW
-         QijFT95rJfPcesWHfDmyhjFKy1xkOiyDLkTGVQq8D4rPZHwl3OpTkZrk2wxeTPM1w0wM
-         73zIyULmZOivy0IdvWSDVmnHf2+5nliVEQWeEgdV2Hba+6CCYRgQF6w4TWb7oyOMWcze
-         uOhGEAT3UxiIIPewOkzHxV1VqowcP6QImxV3+0LEFZnvn8/6Ra0XyEa5EDgEfVSCAxnE
-         WEhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
-        fh=b5+b89sF0R580fNe4LOFAy8wak7DQzIaHeYiu5w3KD0=;
-        b=FSpzW0YG78q/+B76Nr8f1tVnB9gatJzibB5MebRx+ZhjkML4Dz2C9qQkGmUrJV8fYk
-         YhUgNpUjyQ7bzooF3BLF04/JkAtmICXpV4xS5Eja/hHoKO0/3XjqCBjKcwmYMFcQJtMU
-         AzVA43nipGm/QaWoH5dQP0d878qAPpbnSiyz9mWZcnYvsWbh6GDjfbyQM0qNTb0HLuhh
-         K0whVgaMc9/+zquZ6f3ZlbA8c5viR1O+C0Jcfeqg2zj+s5iaarENtkG7BbJuKOLUMlAo
-         17Nqx7HJIM/qJRw0q3Wu+l1zlR2QomojJ4PEx6LqXcv9uqlnieYxFmzqMEA7LlZXmCbo
-         y3VA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1782241957; x=1782846757; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
-        b=muhNy7DXA2jhxWRc7VjyBLC2W5K+vsw6ky4fhELzH5+mRCNYrMENNAMsiac1FFAwAN
-         5Y7j8e33TdHsCW22GLfJnZxalkzwM7GZWN02MUoYYDLU91tQ91K3wGjQo9RiX+9NN9Ls
-         al2Xadtgum6dohsjBdSHYFJm99lajb9XcLcpmLnhl+4ZzLY7YoDqjg+6+Z56p/czMQxo
-         5DzqbALLVqR3t38rJOEeC+XAe6FvKLOnedaTm2N69vu+ZPlWy6eznEgmzxQP1DLGzai2
-         lh4LkfW5orbRHtlQc57Hs7Y4xakKRD9UQaDbbmG4cuuSZ+WUomrh1AJkUW+YJZSrzlA/
-         x7xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782241957; x=1782846757;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/vvDwAJenwF6coS01e9xCYrLEyTAVwYfnUT70JedLS0=;
-        b=Psbeyx8xGTOaHKlVen1oUT0oaNDJ8/PTxykO8gy0Pe4ZMCOfuc0ioXp7sJBhR5G7JE
-         mrt09R49zPOONV4CjJ98Mmw8PAbLUstLlZBGKu6sZaY5U7N2N6zSiASUbp+z4cRh+yqL
-         x4ef6p2j5N70SDAePsDXTAefkdF7MBsgQk/5R2Wgh5/6LClJzshTN6Umpoy124jsaS+d
-         HPhO74uwptL5VpGmSV2N0IJo7ZFY808ozUdbxJFDkOSzoz3Z6NKK/Ucno+phIPJqoyAc
-         kxd1WvxRDdVlNbs2kERguBq4tCgmiw5nkFHNM8+EHXc43n0vnDP7NUz5JOhsBTyogiBk
-         kARA==
-X-Forwarded-Encrypted: i=1; AFNElJ+W1U+e2oxuTqm6IEqfPRlAhOpRGNtuKRtxHNJDAfBj9DPrEVq0B8AGtIMnT4GOlajYaLLP9dAi5Ko=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBuFzUfQhaO8RnO9+Du5RlcqD3BFp3BvrFQ4VWd2Hr8OGiTrpv
-	fVDpxn+FuYOwoPO+zRxwK6rywxqpgfbSpPzy7Vf4hGzI4qIBrQkqU+ppjQIVf+JVcDRqXgpMcmg
-	IhFkzq6+a24/LV8AmHPVJHFFP0/kEDnCu0Xdhsyaq
-X-Gm-Gg: AfdE7ckdYJ5Oz+JCMDseXcQuPxr2EgaHGA7kOLIAqJWtzFaHDgc1TthCGSh6FIJnk8j
-	3eAom8VvMLui0Ayf2CybiCpCvF7/fJ/nQRTYQAxmINDO49d5YSLrKAf+VZv6RUA7j20lRhcBrK2
-	gHjnDeHhgaxnjcG8rlxn3NkINwDIGDd9EzQjm8hAhMFctIfjPn0ae0TVoWu6kbOqse8bfKIymsz
-	FYjro1WpO8Cau6d18iOiMmkCSZv5T6ut6Qj1Ltwuzv6bZT8jUMCzH8SLnVkHjEvSFS2RLVB
-X-Received: by 2002:ac2:44d4:0:b0:5aa:8822:b874 with SMTP id
- 2adb3069b0e04-5ad5771ec41mr4233175e87.46.1782241957214; Tue, 23 Jun 2026
- 12:12:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c0g3Ipr/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95AB1F000E9;
+	Tue, 23 Jun 2026 19:19:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782242390;
+	bh=RbRcMq45lJL75Wy8wrzm8CIwVwH9qDYXAES++CJmSQU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=c0g3Ipr/jnG4piITeIEBSOZd4N9x40N5t4MWHm/ywG1uUiqB1E71RWdo/HFjXYnxt
+	 HGrI8PBxBn1qARMQA1/AZZIrudVLzHNI7OO+zogsuQ65sP6lGsNZCXrQTGCUEttASD
+	 ngVdGTMIWMgwddbgAOJ4WnyC3Cl9gjHogvKBzaZ21A3d/Mbb/nUrhI8qtqUdtfMWHy
+	 4L9qgOc68MA5CmWpwSMX6TV4BqUX4fahq27AXT0Xkbqk48do563/4MEYjjHU6sy+zz
+	 t4YxUF7kfgUdd8lpiQKNUTyNb1fxejLezz5+FMRzVdBOR+XXKXfixejT/7jozdOM9k
+	 uthHgc40SZnOQ==
+Date: Tue, 23 Jun 2026 19:19:48 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Bastien Nocera <hadess@hadess.net>, linux-crypto@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, ell@lists.linux.dev
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+Message-ID: <20260623191948.GD1850517@google.com>
+References: <20260430011544.31823-1-ebiggers@kernel.org>
+ <7d08a6df54279e9915f5df6bd4e5e5dde52b4fe1.camel@hadess.net>
+ <20260623164932.GA1793@sol>
+ <CAHk-=wgNG=F3xO9PjL0RcKy3UWvq0Np9uZu+nFUQBAA8So9xdA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622234803.6982-1-ebiggers@kernel.org>
-In-Reply-To: <20260622234803.6982-1-ebiggers@kernel.org>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Tue, 23 Jun 2026 12:12:24 -0700
-X-Gm-Features: AVVi8CdurCE0Z4nmJzTanxEgxUT-VwvR4nCHq2kkCJY0BXv2CrDitgelAGd8YoA
-Message-ID: <CALCETrXPj0u=FZ=aFcZAHk3fFZa7rCuPEjx6cOMXmT3sdkC7SA@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
- to 1
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>, 
-	Demi Marie Obenour <demiobenour@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgNG=F3xO9PjL0RcKy3UWvq0Np9uZu+nFUQBAA8So9xdA@mail.gmail.com>
 
-On Mon, Jun 22, 2026 at 4:49=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> AF_ALG is a frequent source of vulnerabilities and a maintenance
-> nightmare.  It exposes far more functionality to userspace than ever
-> should have been exposed, especially to unprivileged processes.  Recent
-> exploits have targeted kernel internal implementation details like
-> "authencesn" that have zero use case for userspace access.
->
-> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
-> libraries exist.  And when it is used, only some functionality is known
-> to be used, and many users are known to hold capabilities already.
-> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
-> (https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832=
-d@gmail.com/).
->
-> Thus, let's restrict the set of allowed algorithms by default, depending
-> on the capabilities held.
->
-> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
->
->     0: unrestricted
->     1: limited functionality
->     2: completely disabled
->
-> Set the default value to 1, which enables an algorithm allowlist for
-> unprivileged processes and a slightly longer allowlist for privileged
-> processes.
+On Tue, Jun 23, 2026 at 11:56:10AM -0700, Linus Torvalds wrote:
+> On Tue, 23 Jun 2026 at 09:51, Eric Biggers <ebiggers@kernel.org> wrote:
+> >
+> > We're aware of that and are taking it into account in the allowlist:
+> 
+> Note that if we can  just unconditionally make it depend on
+> CAP_NET_ADMIN, that would be good - independently of any allowlist.
+> 
+> Because if iwd and abluetoothd are the main two users, and both of
+> those already require CAP_NET_ADMIN anyway...
 
-In our brave new world of containers, this is a bit awkward.  The
-admin is sort of asking two separate questions:
+There's also cryptsetup, including unprivileged benchmarking and also
+(in theory) formatting support, and pre-7.0 versions of iproute2 which
+used it for computing SHA-1 hashes of BPF programs.
 
-1. Is the actual running distro and its privileged components capable
-of working without AF_ALG or with only the parts marked as being
-unprivileged?
+If we broke unprivileged 'cryptsetup benchmark', some people would
+definitely notice.  However, since it's just a manually-run benchmark
+anyway, users could just run it with sudo.
 
-2. Is the system running contains that need the unprivileged parts?
-(Which is maybe just sha1 for ip?  I really don't know.)
+I don't know about the iproute2 case.
 
-Should there maybe be two separate options so that all options are
-available?  Or maybe something between 2 and 3 that means "limited
-functionality and privileged modes are completely disabled"?
+It depends how aggressive we want to be.  My current proposal
+(https://lore.kernel.org/linux-crypto/20260622234803.6982-1-ebiggers@kernel.org/)
+has the entries in the allowlist marked as either privileged or
+unprivileged.  There are just a few unprivileged ones, for cryptsetup
+and iproute2 as mentioned.  But we could try doing away with the
+unprivileged ones entirely and see who complains.
+
+- Eric
