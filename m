@@ -1,154 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AB737EFF0;
-	Tue, 23 Jun 2026 13:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D2537F75E
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 14:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782223003; cv=none; b=QdwhhLAr8j7/a2kfFtcgUJp2fNVt+UMDX9tQh6tRNQP+AbQ/5bIm6qJULzy/RW7DvtDOa6FqSCuHgAk7GI9UqQFPGWLyhMvtCAps6nKUP2CCKFSs/8AGvQtmpdOZ2xA80KYVEAoL1HQXrC3igji4cMkEweCesHbcfPNAWnm+uaY=
+	t=1782223360; cv=none; b=eFGoNHi94RrVu+HWRCll/BG5NPtrYDg/WtmYEda95jc0mP5VW67TF6vrKLPnpUZi/5rVpQoxKYXPVTvQ508eFAU5LtsY9EA94PABCpMAKOLTd0FbhA+7OzzxTqtCz5CVLjXIRZO4RuWKQFd+XvLIj79kpWUPVWvZxnoVw8G1ofM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782223003; c=relaxed/simple;
-	bh=1DlfRtNgmWFLYCO1Lx4HbFV8jUyPeMhCl9lcFGH8HBQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t8uTLATQEOhAU22HsaWYZUWTL/IyngayDqG7VsgklxHvGkPy9kk5eVoqzOrmuua4jn0CODD5ncVaqiwqEnq/exbAD2xmViaCHlYcp5qAnYNTh2fSnCKob/zfwbbW1rxLouJSfuo7uufP6fhni/hJ+gXphsGrdNOtgUumeWHAbG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdwRFdFu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782223360; c=relaxed/simple;
+	bh=uM16q7ixvDLNzU4v08QmwcMF9g91pvd5QII7UaO6Yl4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ehrm9zhHtktyx0kOoHSYcyy6rbVXHFCXQuLPBo5XFWKZpGkxyyqDWoP8zyXsMVZ8zqZiB7twIJg5cKCmKo8I7pq/Id9qVMO4scewX5ZYzT3gss7QPyGAdjLBf2bBv6stG80uwH1/offaLG7vDE+Vnik1FurWOfwk0revI/jP4UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XUNvbXav; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdwRFdFu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392C21F000E9;
-	Tue, 23 Jun 2026 13:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782223002;
-	bh=348wMgSmJD01cYVZxG1MpLEasY34QPQjsp7UvlWSoHM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=SdwRFdFuyyOdJKp2E5R2ASbFHDCeDhbyx7aQLMOJmOXAUMpYidzxhd5oxrcf9Xb2G
-	 VR4HmXQjMb2hSufVqn+hcub0gtcoSPtpVdX9+xyq4I9odV6hPEgoNZ3AAMJU6LF9V5
-	 pXWrv9/v6vAj76YIbf/F+UR4m8cWXFEB9rqBFQHIS+wKaoFTSrtZzsioTpGgGCr7O0
-	 XJ0WDp4jr6t7FHibGjI6KodQskf+NkunhFLKraUWJVFSsbEUG018JxFjUPkq593VuM
-	 QizhLFasYQdsEcPTbPEIx4C/2uQYxmU94nf8IHlHzWUrmzcCZLI316Bm6qctr0w8JE
-	 t2UPTMSpBW2AA==
-Message-ID: <1cbdb3a3-b8db-4ae2-aa66-9042c1033745@kernel.org>
-Date: Tue, 23 Jun 2026 15:56:36 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XUNvbXav"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-697ce645cefso1358933a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 07:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782223357; x=1782828157; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=g8d+9heMc41zxWGzXNGvGuprR44PnpkmTW2E3tdN2iM=;
+        b=XUNvbXav7totg9vS3uJFoyrO2JD6MXExwdAUNIVXYLKbXcgYGp/cxfLU3wO7MdFrmy
+         065ALXDwDX9vqdgDKMnyzBMHvkDJlTpLMn9fSN4z/fLnEIDPNx0k90Q905Ys+/KMyTqu
+         s3qL1trpKoYT2CEAVT5s2TZadm1SeFGQjTPqO/NhUNQU1Iv00e18PeM3rtkeWdtUfQCn
+         WgT+KFaqRn75t8KsBx3YSNwUPOQWEHG6BvJtLcIwg1/xhjwQUqykV0C7RfrTFQhbdzXR
+         1j9mABmqXjj2i8As7bIkFYsFlhXUYYQtRl1UhB7gaDcsrpc5+fbXOgHd5pRTzdhQm4A2
+         Os6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782223357; x=1782828157;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g8d+9heMc41zxWGzXNGvGuprR44PnpkmTW2E3tdN2iM=;
+        b=ovKUFKQsH9Ka41dVUJm3NUYt2C4L+FDypbhen/7yERTRGyi4h2uakfveFltdpGcUaY
+         YzF0pL/AneeJh0YaIRQxs7tpC2hLOhVeE42pWxCS7VJlglEGVY4Xrkml3mjvRj5q1zi9
+         uXcibcSunXh5rMDtS+4p2lJyYEuKqqWEtB9rL1JofriaULmGgBPQZbIG7k/zq/PqBLXU
+         4cdayCia04MCxOFsehakNeqoZvzfeuEuV54KfuTDLPnwBkKsmTJmE/S339m3tiNRkTkF
+         XFFOsQO5YraVFQOjpjdO5OS5AFne3oq9WsUIVTTOVEARliyoPIM8OeNf63rLLBk56fQz
+         odVw==
+X-Forwarded-Encrypted: i=1; AFNElJ8PvM4MeeknzGyp9AgrVeK124n/28r9kuq+udji+wcbg23f9BY6julUw8MdxAwtlsw7qL17mLf7WJc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzpuk4oCS8nkYBrcg6NDS7w+ph8F+LGiExQ3qEaYy4iS3QdmR28
+	ntGpfFwzDJ5U08xYEXERhTUC6KqAJGrSZS6XYCTBugs9A7LCz1txoqP6lvD/3y5PmNHJYjV5Nwr
+	qMR1c6lo37s3TQ/Cqkw==
+X-Received: from educ24.prod.google.com ([2002:a05:6402:1018:b0:688:baf2:39d7])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:3487:b0:693:2a2:9e41 with SMTP id 4fb4d7f45d1cf-69711df46a6mr10466827a12.19.1782223356390;
+ Tue, 23 Jun 2026 07:02:36 -0700 (PDT)
+Date: Tue, 23 Jun 2026 14:02:35 +0000
+In-Reply-To: <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/mm: clarify that we are not looking for LLM
- generated content
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Matthew Wilcox <willy@infradead.org>, Harry Yoo <harry@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <20260420-llmdoc-v1-1-47d2091177c4@kernel.org>
- <d421c081-8686-4d46-8452-e543401b0503@kernel.org>
- <87wlvpct0b.fsf@trenco.lwn.net>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <87wlvpct0b.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <cover.1780676742.git.tarunsahu@google.com> <48777f4749fa43d5648085dbb2037aa99c144a88.1780676742.git.tarunsahu@google.com>
+ <CAEvNRgFEHciT3T9y+qEYRvXhDwfrggoU7Rm=f9hT3OrV+wgpNQ@mail.gmail.com>
+Message-ID: <9huzzf0lmk1w.fsf@tarunix.c.googlers.com>
+Subject: Re: [RFC PATCH v2 06/10] kvm: guest_memfd: Add support for freezing
+ and unfreezing mappings
+From: tarunsahu@google.com
+To: Ackerley Tng <ackerleytng@google.com>, Jonathan Corbet <corbet@lwn.net>, vannapurve@google.com, 
+	fvdl@google.com, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, sagis@google.com, aneesh.kumar@kernel.org, 
+	skhawaja@google.com, vipinsh@google.com, Pratyush Yadav <pratyush@kernel.org>, 
+	david@redhat.com, dmatlack@google.com, mark.rutland@arm.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Mike Rapoport <rppt@kernel.org>, Alexander Graf <graf@amazon.com>, 
+	seanjc@google.com, axelrasmussen@google.com
+Cc: linux-kselftest@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/23/26 14:59, Jonathan Corbet wrote:
-> "David Hildenbrand (Arm)" <david@kernel.org> writes:
-> 
->> On 4/20/26 23:03, David Hildenbrand (Arm) wrote:
->>> Let's make it clear that we are not looking for LLM generated content
->>> from contributors not familiar with the details of MM, as it shifts the
->>> real work onto reviewers.
->>>
->>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->>> ---
->>>  Documentation/mm/index.rst | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
->>> index 7aa2a8886908..13a79f5d092c 100644
->>> --- a/Documentation/mm/index.rst
->>> +++ b/Documentation/mm/index.rst
->>> @@ -7,6 +7,19 @@ of Linux.  If you are looking for advice on simply allocating memory,
->>>  see the :ref:`memory_allocation`.  For controlling and tuning guides,
->>>  see the :doc:`admin guide <../admin-guide/mm/index>`.
->>>  
->>> +.. note::
->>> +
->>> +  Unfortunately, parts of this guide are still incomplete or missing.
->>> +  While we appreciate contributions, documentation in this area is hard
->>> +  to get right and requires a lot of attention to detail.  New contributors
->>> +  should reach out to the relevant maintainers early.
->>> +
->>> +  This guide is expected to reflect reality, which requires contributors
->>> +  to have a detailed understanding.  Documentation generated with LLMs
->>> +  by contributors unfamiliar with these details shifts the real work onto
->>> +  reviewers, which is why such contributions will be rejected without
->>> +  further comment.
->>> +
->>>  .. toctree::
->>>     :maxdepth: 1
->>>  
->>>
->>> ---
->>> base-commit: da6b5aae84beb0917ecb0c9fbc71169d145397ff
->>> change-id: 20260420-llmdoc-21bf5fadbd6f
->>>
->>> Best regards,
+
+Thanks for reviewing!
+
+Ackerley Tng <ackerleytng@google.com> writes:
+
+> Tarun Sahu <tarunsahu@google.com> writes:
+>
+>> This patch introduces the freeze on gmem_inode which prevents
+>
+> Can't find the reference now, but commit messages should take the
+> imperative mood and avoid "this patch" [*]
+>
+> [*] https://lore.kernel.org/all/YKRWNaqzo4GVDxHP@google.com/
+>
+
+ACK. Will take care of it.
+
+>> the fallocate call and any new page fault allocation. This will avoid
+>> gmem file modification when it is being preserved
 >>
->> I assume this was not picked up yet? (via documentation or mm tree?)
-> 
-> I had figured Andrew would grab it; I can certainly do so if you'd like.
+>> Used srcu lock to synchronise the freeze call, where write blocks
+>> until all the reads are free. And reads are re-entrant.
+>>
+>> Incase fault fails, It return -EPERM and VM_EXIT to userspace. userspace
+>> must handle this properly as every new fault will fail.
+>>
+>> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+>>
+>> [...snip...]
+>>
+>> @@ -105,12 +108,20 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>>  	if (!IS_ERR(folio))
+>>  		return folio;
+>>
+>> +	idx = srcu_read_lock(&kvm_gmem_freeze_srcu);
+>> +	if (kvm_gmem_is_frozen(inode)) {
+>> +		srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+>> +		return ERR_PTR(-EPERM);
+>> +	}
+>> +
+>>  	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+>>  	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+>>  					 FGP_LOCK | FGP_CREAT,
+>>  					 mapping_gfp_mask(inode->i_mapping), policy);
+>>  	mpol_cond_put(policy);
+>>
+>> +	srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+>> +
+>>  	/*
+>>  	 * External interfaces like kvm_gmem_get_pfn() support dealing
+>>  	 * with hugepages to a degree, but internally, guest_memfd currently
+>> @@ -273,16 +284,30 @@ static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
+>>  static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
+>>  			       loff_t len)
+>>  {
+>> +	struct inode *inode = file_inode(file);
+>>  	int ret;
+>> +	int idx;
+>>
+>> -	if (!(mode & FALLOC_FL_KEEP_SIZE))
+>> -		return -EOPNOTSUPP;
+>> +	idx = srcu_read_lock(&kvm_gmem_freeze_srcu);
+>> +	if (kvm_gmem_is_frozen(inode)) {
+>> +		srcu_read_unlock(&kvm_gmem_freeze_srcu, idx);
+>> +		return -EPERM;
+>> +	}
+>
+> fallocate may eventually go to kvm_gmem_get_folio(), so that would check
+> kvm_gmem_is_frozen() twice. Is this meant to catch the punch hole case?
+>
 
-yes please. I guess I'll soon start grabbing stuff myself. Stay tuned. :)
+Right. To catch punch hole case. And read lock being re-entrant, so I
+blocked the fallocate call completely.
 
--- 
-Cheers,
+>>
+>> -	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE))
+>> -		return -EOPNOTSUPP;
+>> +	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+>> +		ret = -EOPNOTSUPP;
+>> +		goto out;
+>> +	}
+>>
+>> -	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+>> -		return -EINVAL;
+>> +	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE)) {
+>> +		ret = -EOPNOTSUPP;
+>> +		goto out;
+>> +	}
+>> +
+>> +	if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len)) {
+>> +		ret = -EINVAL;
+>> +		goto out;
+>> +	}
+>
+> There's some reordering here. Why not let the validation happen like
+> before, then check kvm_gmem_is_frozen()?
+>
+>>
+>>  	if (mode & FALLOC_FL_PUNCH_HOLE)
+>>  		ret = kvm_gmem_punch_hole(file_inode(file), offset, len);
+>>
+>> [...snip...]
+>>
+>> +
+>> +/**
+>> + * kvm_gmem_freeze - Freeze or unfreeze a guest_memfd inode mapping.
+>> + * @inode: The guest_memfd inode.
+>> + * @freeze: True to freeze, false to unfreeze.
+>> + *
+>> + * This API is used strictly during the live update / preservation transition
+>> + * window to prevent host userspace and guest-side faults from making any
+>> + * mapping modifications (such as fallocate or page fault allocation)
+>> + * to the guest_memfd page cache.
+>> + *
+>> + * Synchronization Strategy (Sleepable RCU):
+>> + * To avoid high-contention VFS locks (like inode_lock or
+>> + * filemap_invalidate_lock) on the vCPU page fault hot paths, this subsystem
+>> + * implements a lightweight, system-wide Sleepable RCU (SRCU) mechanism
+>> + * (`kvm_gmem_freeze_srcu`):
+>> + *
+>> + * Global vs. Per-Inode SRCU
+>> + * ======================
+>> + * A single system-wide global static `srcu_struct` is used instead of a
+>> + * per-inode SRCU structure to completely prevent unprivileged users from
+>> + * exhausting the host's per-CPU memory allocator. Because
+>> + * `init_srcu_struct()` allocates per-CPU memory via `alloc_percpu()`, which
+>> + * is not accounted by memory cgroups (memcg),
+>> + * a per-inode SRCU structure would allow a tenant to bypass cgroup limits and
+>> + * trigger a system-wide Out-of-Memory (OOM) crash simply by spawning a large
+>> + * number of guest_memfd file descriptors (bounded only by RLIMIT_NOFILE).
+>> + *
+>> + * Flag Modification Note:
+>> + * Since `GUEST_MEMFD_F_MAPPING_FROZEN` is the ONLY flag in
+>> + * `GMEM_I(inode)->flags` that is mutated dynamically at runtime (all other
+>> + * flags are creation-time flags which remain strictly read-only), there is
+>> + * no possibility of concurrent bit-modification races. Therefore, a standard
+>> + * `WRITE_ONCE` is fully safe and does not require complex `cmpxchg`
+>> + * synchronization loops.
+>> + */
+>> +void kvm_gmem_freeze(struct inode *inode, bool freeze)
+>> +{
+>> +	u64 flags = READ_ONCE(GMEM_I(inode)->flags);
+>> +
+>> +	if (freeze)
+>> +		flags |= GUEST_MEMFD_F_MAPPING_FROZEN;
+>> +	else
+>> +		flags &= ~GUEST_MEMFD_F_MAPPING_FROZEN;
+>> +
+>> +	WRITE_ONCE(GMEM_I(inode)->flags, flags);
+>> +
+>> +	if (freeze)
+>> +		synchronize_srcu(&kvm_gmem_freeze_srcu);
+>
+> Why only synchronize on freeze but not unfreeze?
 
-David
+It was not needed because
+
+Freeze => True
+When an user setting freeze to true.
+
+"Preservation will be stalled till all the current ongoing allocation
+finished, and future allocations are already stopped."
+
+Freeze => False
+When an user unfreezing, current allocation/fallocate will
+return -EPERM, and future one will be succeeded as freeze is set
+to false. Synchronization will only stall the user, behviour does
+not change.
+
+Unless, user expects that it should be waiting for all the ongoing
+drains.
+
+>
+>> +}
+>> +
+>>
+>> [...snip...]
+>>
