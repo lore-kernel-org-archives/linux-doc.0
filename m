@@ -1,334 +1,371 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7602E7389
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 08:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B539E308F03;
+	Tue, 23 Jun 2026 09:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.150.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782205175; cv=pass; b=lvGJP8zEOAfWExYCZU2+CNfPiuVT+p/LF1iM5UMaDnCYJySdDcsX9n/1vCPdaG9HkzWwBI1u+D7U0VjX7jSttQ9Oxkkqpe2X7wgaTp+vUWnt2NXGuoT42qH3LsvHY0snDvJh+pIuQsIuDgpCpyUHeaHrDMbubixJGLnstOtxMvs=
+	t=1782205702; cv=fail; b=ZhqzWNph+pwe4F5YYTv+/rOxu79ma1utPDs2h1gvYY378Wc0QM8psbu4LAnWgsMs+Q5sx//SrXtZ2rUchkIFcd8j6nMjWRlguHYCp9pj/bg41K2WZMmFHOmmQODAdGGqpqJPVlMWhGb+veS3midiirrsf0bQTuyZTiwTx78rDjQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782205175; c=relaxed/simple;
-	bh=UGoqUAYtBwcvOzvzqQVEOAUHdQNj4ggDmWvOp55PxNQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BcZ7lOZdOgzediNcupeD3FQuj79P/ZzzZXaAKt5AMRS/nW57qu7rBeTVH1Gio3dm3Kz7CU4drFIwIbuFoWvhay6ebdtplyk6I98OHw11EuzCZ9E1stTSuVhAB989EuLZJd3vrvDlr9FtD7ypQKyGrhLip8Y5+m40aTTVOSFk7hs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fJs9qGH9; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1782205702; c=relaxed/simple;
+	bh=W9tav2pzhnwLxi40rgd4Zhx/cN63D3tPSmPl0k0fwG4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UuZPoXJ7glXeboMgpjwOq6puXxZOeZUT4Fp9901L+LCJAYa76wU1SKJD3f3gBruzRx9qNq4dvpe9ZaiHT5HJQz5ms4ZRMLb3bQHYzP3KzyEWtosHTk0n53JqHhujHKNyIiBKME47lBaedUPqt3XKWZwF0HdCJfAIRt0/akFw2u4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=eweD6ucw; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=SDRUvEmQ; arc=fail smtp.client-ip=148.163.150.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fJs9qGH9"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-519ed52bcc6so210201cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 01:59:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782205173; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Cvc52gSLUo4L5MLyW5ENVNj4QI6uu56Qn8NkB5hRVa1rL8Fa94IDuFW/NubZVl/I0T
-         EpWMx3rOQCFbrM/nqYUaFdBmX5ktVWMtbu/OJsqY8Ou0Qn5wD+YQFxJRCL75Sy3w7rGj
-         87U79UYs4aFjbSGxrBsk2YPXihipB3eaUInBtPk7+pP5o0yUqZ3WvPtOh8huiDyPwdW4
-         v1nc9JY4ZlsbwIYTfn/BlT4hCqHUr0eD5MwIlxc6O4yqFzGHSHCWGc6WRd/V6S67ucA9
-         ztS0xlRUWQ/42yzMpn81ZKuU0HvJ1oxt8TBtSN3Vkx7l0+BUzuQlqf8adMRgWdg31IAe
-         Qxzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
-        fh=D5GLK9QJq/VrPSVYWfDejP0Sn+XIcQaQ15DHZZucwNE=;
-        b=n3lN+ZpweLUP/L6qFNzO4eNQ7u6XXB9njL7yoYFDyrEAwAAjGkTcM+WT/std4nHBSF
-         MYoaxs1qzi4OIAkvxYmphyD3/Ahixi9UP5tPmN6b1JfP1D20fJMqa9sKsL3IUf6aTUmv
-         85CQakD1hg2sImVrTsSi6+KoIJg3m74JNMukuhi39MLZZLrpaZgGKcJjqnOjFtE9zrwB
-         +FtTNQPYEX7x7WxT2S+vV/Si5N0yaKX3++vStHGWIcRFngnlHtsdWL2HeWPyz7h/QCoG
-         K2hVVh7Tp4dAt4MwjsupiSfvUFWWJUpU++s9ywmKKCRWWTIWKQoZ0aNNLl/YHnCf/uN1
-         GnhA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782205173; x=1782809973; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
-        b=fJs9qGH9AxUGWWbcfCGQ7fCoWoApIf367pE1cJ/ihykHp911+fCrVIMe5N9bjgxN3b
-         G4PktI/+ZEkxENwm1PR/th3fde3e/JMBAtedyKWzWyCG0QDkVrXhGJ1DtvgB74ol+TxC
-         iQiDiHwdbG34ZMC9EZ10h7RR0gIAKCAqGP742TSN24zKWHUa/TfJvLRuQYvhkVmT5SyC
-         Elbse0S00ovwwpGSOz7MQv4qZeizrR/l6mx+WIFI3V531zSA3lqa5lV0iFBbDnYJuxvg
-         sl9N9dMGfrZSjpVeXJA88YJhCdBDug6g6zpExJHFCZ+rObBAig1ZHG0RXXYl8pI8vydi
-         OVvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782205173; x=1782809973;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1CwxGLz1a/U/PZjtJKb6pMN6pB5nXMPtX6D0w5J8tac=;
-        b=Nt7LjEFvYWAwp6a9h5bPFvbtJI5wr4nRz8JXuBQ0BVwean1bETHR3kdHSUZnzmBgSr
-         cyvctQqno1jsApceV4PGpjGc8U/TGALw4h5aHFn4xgzeny7xx+1Io0gIbu0vk1Ac0BzF
-         2qcEyZ3hbzx0Zn6DS/lZu0eDXMaSpanKUH348CQ+0qeEKlc0abzceWeHPdL/VjH+jqX3
-         Jv8tczVKLmkB+HXAOTlFu1J/YqE6OKly3PVThfxOdDGniALdlYdP3SO/GwErHA9T57SK
-         8PAQTDnCdwBK7Z0TPuF5c8duIGgFLSph/+PmLVbCW6VMyfdDGK3+OFoDgHHRUn7GnC1l
-         KyRg==
-X-Forwarded-Encrypted: i=1; AFNElJ8npR4F240GvbGYMnhB+i9uLO9o4Yr+ptqEjatrDAF7txC3pQhUcVBCndHwCcHTT2Mup55zyumOYAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyehHl5tzENcf42dXarH+q+wZxOGQer38LR4IfH3d66S1j5pw1l
-	Dj7hp/ZRSBcwI7fcPaZ7MRLGs4I325hI925iSIiOyLS8uffFgUuuNTbleLgXh2tzDrPOczWMpou
-	WbTFomf2JTkLEc7VA/9+oOoA87UEJjNpr63YuzwuZ
-X-Gm-Gg: AfdE7cnfqTQBdpWkR/HkzNul+LpUviNVzJWb6xFUAgqdpYYicBJCgAQow7zzBiFxqPb
-	AX8aPMmGqbudJRQ5EF9qoosHtCZnGlBqpg4t/XDO95FWeXb7GPxTj787C/34beRef7TPCA/PmWs
-	B7cLkQm9APQCAnDcrYzj4Pu73yeVdd6QRGp9YAqnDb/ys7JnbHVCiXLbOVFZTpQm+LrofnA4YcC
-	CA/wjP7swJdeI4oXvHv1qz/nqTCpyXolRKQuibiFylz/e95X4yK8ypqlZPNL1CvOQ3c2xUQGQ==
-X-Received: by 2002:a05:622a:53c4:b0:4ff:c0e7:be9c with SMTP id
- d75a77b69052e-51a52188357mr9231071cf.0.1782205161783; Tue, 23 Jun 2026
- 01:59:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="eweD6ucw";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SDRUvEmQ"
+Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
+	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 65N6cWWi786403;
+	Tue, 23 Jun 2026 04:07:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=c+lkHQZP+zcnh
+	uHmS38hXrSiKRK7hB7KPvT7ZeFLltg=; b=eweD6ucwMW1CWzcvowWxYpxul9e2I
+	xxrbFU4IvU2m/0zHAo8zqpw4WK6Kv6RDd5XxJ+Z0byvuCM3/gaUU0w9V24BaAuV4
+	a1lGSPp86Wt+9RzpTw8BpPpyNNGleta15yRoCLAwBn3+73y9PTWsFQsGwMpRcENj
+	bldZrga7/wzVMVbnRqyMyyFEmw4jy4hsFPFZXcv643WHKxcha2Lu3vJTxyV8tmCQ
+	RnWfGU2+RLetAc/Nm91DAkMIJg2ND2cPrYQO0QWRUrZcoeKxlj3DwDuGhfyqZa5Z
+	eKGCPvvYpEXY4OHrWTj8/nJqFB/eDsgi4kKLj0e5jyrG2P/gNWnCZV34Q==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011010.outbound.protection.outlook.com [40.107.208.10])
+	by m0380145.ppops.net (PPS) with ESMTPS id 4eyma1ryet-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2026 04:07:50 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TaPPzkV8e82BEdTEcoKPiM8mS/a9KT3nh8Nqw4kOD0YAIE80NSngUFHo9cakujzccYO7tgD+KZwHFFp6zGaWUICN0j16w38VLLCO/4WYAekWnERSsOnydnGNa8NQqCAijbjZo2jTrFfoKsXr53dkHWK40cpkiVmzUtMd0i0vjiuhk/7oWAj2565dzyDmWRHhTPJc3l3DKlXHfhrnVtlGnD0hTvueJp7CSjUwYhMc55Nyht0yPESwR9skrHrRzleeRqpwXkPnF6sttWYIQoIzRoj5eo2gXegJm8o7Ivo1epF5f0hyycE9m9shZFo6ZsV/WBwLfQEZfuwo9WreaTJPJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c+lkHQZP+zcnhuHmS38hXrSiKRK7hB7KPvT7ZeFLltg=;
+ b=fDa7WII7RYuuCdkzRcJntOEEW4I68c3gQF+coD+dip4Vd1x3cth2rXypZiq4r5qvNIWA1TyVRR0cXLBWkI5NOjW5MHGgGJSKqEcRRJ3tHaoEywdfdq1fHjYU55lsdhfJf1Vphkr9Mgm1P1bbinOmMlKU/OPpXqgnRBABNRJMbkbqNaZ4V3++ZUMdpp/XUBXrkqxZcVM6TLOYNEPL2B4ouYJx0JKJBEeKNdpMBs+DCObhRZfZm9KNL5Wu5ni6JYFSak7C/rWs4GR4AjFH6eQedUwchdwhW0VrZK85DTNLds1PXyqtjUL5SH+9QrIw6GT9fG03AsglZzw1/lo4xmz9oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=nxp.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c+lkHQZP+zcnhuHmS38hXrSiKRK7hB7KPvT7ZeFLltg=;
+ b=SDRUvEmQKCG2C/zScQsJMwCJbcsE2alhUxL7LVwTucFhyX4GvUAtIKimwLjr291rEoNr4UGLzl2waSCDShyEezFpUVr44/2FS1ATFDuW1qW+SeeqA9r9cs7CIOqGsNZz663UoWd4nOLWOC9lcsdteRNnC6fg7nFzXeOaIT0bUpU=
+Received: from SJ0PR03CA0024.namprd03.prod.outlook.com (2603:10b6:a03:33a::29)
+ by IA3PR10MB8115.namprd10.prod.outlook.com (2603:10b6:208:506::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Tue, 23 Jun
+ 2026 09:07:44 +0000
+Received: from SJ5PEPF000001CC.namprd05.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::5d) by SJ0PR03CA0024.outlook.office365.com
+ (2603:10b6:a03:33a::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.13 via Frontend Transport; Tue,
+ 23 Jun 2026 09:07:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SJ5PEPF000001CC.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.159.10 via Frontend Transport; Tue, 23 Jun 2026 09:07:44 +0000
+Received: from DLEE206.ent.ti.com (157.170.170.90) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 23 Jun
+ 2026 04:07:43 -0500
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE206.ent.ti.com
+ (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 23 Jun
+ 2026 04:07:43 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Tue, 23 Jun 2026 04:07:43 -0500
+Received: from a0507033-hp.dhcp.ti.com (a0507033-hp.dhcp.ti.com [10.24.68.129])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65N97bL22520663;
+	Tue, 23 Jun 2026 04:07:38 -0500
+From: Aksh Garg <a-garg7@ti.com>
+To: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <mani@kernel.org>, <kwilczynski@kernel.org>, <bhelgaas@google.com>,
+        <corbet@lwn.net>, <kishon@kernel.org>, <skhan@linuxfoundation.org>,
+        <lukas@wunner.de>, <cassel@kernel.org>, <alistair@alistair23.me>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <rdunlap@infradead.org>, <Frank.Li@nxp.com>, <s-vadapalli@ti.com>,
+        <danishanwar@ti.com>, <srk@ti.com>, <a-garg7@ti.com>
+Subject: [PATCH v6 0/4] PCI: Add DOE support for endpoint
+Date: Tue, 23 Jun 2026 14:37:33 +0530
+Message-ID: <20260623090737.711656-1-a-garg7@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-15-9d2959357853@google.com>
- <CA+EHjTx+3U++dnhGEkwh2SO82xMugAvvJ9ee1O__sxZCKL_X5A@mail.gmail.com> <ajneQVLriUshjFIO@google.com>
-In-Reply-To: <ajneQVLriUshjFIO@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Tue, 23 Jun 2026 09:58:45 +0100
-X-Gm-Features: AVVi8CfpDJy0J3C5-XoMAIo3UWrVbaFO5KPC7yjpf-92k1Ny5C4dioD7azy2jvM
-Message-ID: <CA+EHjTx-1J0sEVxL8EB=j=y2Sd9mZ1eos1RCmAwj9eKjJsEcqQ@mail.gmail.com>
-Subject: Re: [PATCH v8 15/46] KVM: guest_memfd: Call arch invalidate hooks on conversion
-To: Sean Christopherson <seanjc@google.com>
-Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CC:EE_|IA3PR10MB8115:EE_
+X-MS-Office365-Filtering-Correlation-Id: b141d2d1-6a6c-492f-59dc-08ded106e30e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|7416014|23010399003|376014|6133799003|18002099003|56012099006|5023799004|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	ZqRb3Q6L3k2o4XiDqrs3NLaYyJqFlCvdV70RjgxLT1QfLo9YBKFhtZWYzdwgbDbOSZR4hrePL3IaTcfh3tJV0DjVUxtGBsh3pRdUgd8/PU0C73QKq42kf/o5GcjSo9slYarSS02PfxtM/hqJEx6zA0UsYOm5htFyF3KIMl0C6pqtM19LCaSrOqivgERD5VgnbrZtIQhY83KGevpEmshNnZrRBHoh8WXQQSS6q3CkTR+2iFA9DIRorw7jfJnlhAnrsuaO0CwXgxuu2iSoerNoU7MWL7b0df6cqhvrggM5epTb6zOzF02KLoZ3pbLdDnzZ0wF5GjaRMmTILdJfak+/x6894onfQ3cR8TuBy2Gitv/nDB/0w9R4AJpjFAG/mS4k0kjSe6TYfu2GH3Z6TzPRwGIuO5eXxSL6M/Nr6M3fm+H9iew4CrkXLAoiaLw8XYne2L8EHchLP2HZcHEUFamwCYBQHfg7+EgV4UX+62kMIK0m3/0Vk4nNCmGiaFx3vzPvDLHCnVnyA9fFXscL8s0EbTlVReREXeSxf5t1WfGZiKYmiWx2MTT7NjWcqYRjXg4swVR1FLW8lUXiCCt1xRuSmDQK5v17+npmkXpm+9rzX2QlSKJYIDp4gPu4pTVQxkfzqCSKH69NE3z+ALRE5noVj+EzIU3kPWzSe/gUIv5QLSl9Rq8PoIx+cVY6Js8WxvEyW8HskKYqGRAfExPEsFAttXrG30uD2ThmTtHQD4IKk3A0obsRwV/zONPab+SbUyxH
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(7416014)(23010399003)(376014)(6133799003)(18002099003)(56012099006)(5023799004)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	5WSpi75jiHFDOqgo6XxPiUVu8zwH19OT1+CEXYynfNY5iiKoy3rKz1QEZUuSq9pb4CHC4H5AxOuhvDkx9ee2SAa8ZwSosQe1u/muakGbnGcCJLN7BS4xUXf3FVBPpC7rw2adGE7LlyEcT0Ekp3DJPw2OUbBN1mxVAi7vDeSsBjCizQXRVCwzW9Tu8ZjnRki0flb6rO6+nDAfI6LOng3lpjAG2UuMYqBeHZ3oMWiU90z+4Y/JwF0iI9h3U3ZFWEbeOS62ZACMOSdB61iPT6L0xQJFhkjMXxYUV9GjOfKOWnrFAnB7FZunUsDyxBmaZl+1SaxmAn4O0b6q1uzaHIcl7r7TvUjW0BGrQbuZSN2Gdpth5kci/sii+UWINK3sh30q5N7w2Sa2o6l9Ls8A8uQbScXlScqqJdfpk8vM/at19gzuR0JgLsxyxhNXUKNk0esV
+X-Exchange-RoutingPolicyChecked:
+	Uq8V6Sd3obbYacJtyNUSyyKMPi1wAYIEMzoECxjh6YQn3YdtlRjvZXZVoWRFP6454m3nvSChSY+5Lav3UHA3OI1zq2cwcIfEn8NLA70DbnpZXuNOjw4oEJ5Oc+D3A+jT+7F8prKi3U/CApzyAvg6Uw2e3/bHqRApp/d1WkQQVqdra9aNMYzuO2p1HTlsqtKSsTNCa+VLpO9DWKTx7Y7+XjIyhZBicMK6MfjyhSOgzPM84UUfXz9KccEi+DJQ26TSaqHd8hvbOhvwnM3+krqPJFr7VBLtyBXEpS61ZcRk3Z2vKMnbOP3i0DeM4p1GSbgGKaILDqR6fMnqL5n6ChTohg==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 09:07:44.1205
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b141d2d1-6a6c-492f-59dc-08ded106e30e
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001CC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8115
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfX9f4AhiLZTyNo
+ cMGEE1CUQisz4NZK4fKcFZJJ69d+3H2L8UXwekPaSRlJ2CYfvBJn0ljrzCahOljVTpUcbYtCwO4
+ 72bNSb/POP+ZHuhWMBuAOb1PxEjyNL8=
+X-Proofpoint-ORIG-GUID: yANQ8vbmVF9SH-FP3OIAZPbvrkFc80RQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfX4983Y8OadhwA
+ FTTdlSEL9TCOb3+uyq5ev3Vi6iZ5Z8CMCLQxUT7eaCYhM1qd4yI44GVcxI13nSRVh40PALUWHov
+ GvcARvr+WJ8EFna+pR2MIRvtM5NFdoatjXQ/37cGljyUutASAqFdchpqrh70rHqGqtA1+wmJs/I
+ t0ls5hPAQzwmaRSKb+yzOzYoqA5ueSgFHAWhuUJ9zZGqkl2DFaQscnnPvMQr3s55FrtKYzLRdqO
+ YMIOu/8vSqmgRHYjcNOrabujTe3/1Etd9yN3r/421HIrARPsinZP8zl/2/3bTCP6VYStL/gMKyN
+ 2wfs1kEgePBqcMVsj1JII3MPy3/A0hrZfPezd7Qid0wHO4/XBP6+vIWghb0oDuc8JanPk7ME3WL
+ 6YNCiBid3dB/8/xyZido7ZBS41ypxOCeLe737zLi/y0PtAMFhn1i2jrKuquzA+p7rqxpFDBF7de
+ c5RlSuF6yhsaILqQNYg==
+X-Proofpoint-GUID: yANQ8vbmVF9SH-FP3OIAZPbvrkFc80RQ
+X-Authority-Analysis: v=2.4 cv=WoYb99fv c=1 sm=1 tr=0 ts=6a3a4ce6 cx=c_pps
+ a=S6sZQAOjBorY7schPX32og==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10
+ a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
+ a=gO1vWkAQAl3rybz1DQOp:22 a=VwQbUJbxAAAA:8 a=sozttTNsAAAA:8
+ a=bkmVMmVzjQ8CvuStA-EA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_02,2026-06-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 impostorscore=0 phishscore=0 spamscore=0 clxscore=1011
+ suspectscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230072
 
-Hi Sean,
+This patch series introduces the framework for supporting the Data
+Object Exchange (DOE) feature for PCIe endpoint devices. Please refer
+to the documentation added in patch 4 for details on the feature and
+implementation architecture.
 
-On Tue, 23 Jun 2026 at 02:15, Sean Christopherson <seanjc@google.com> wrote:
->
-> On Fri, Jun 19, 2026, Fuad Tabba wrote:
-> > On Fri, 19 Jun 2026 at 01:31, Ackerley Tng via B4 Relay
-> > <devnull+ackerleytng.google.com@kernel.org> wrote:
-> > >
-> > > From: Ackerley Tng <ackerleytng@google.com>
-> > >
-> > > When memory in guest_memfd is converted from private to shared, the
-> > > platform-specific state associated with the guest-private pages must be
-> > > invalidated or cleaned up.
-> > >
-> > > Iterate over the folios in the affected range and call the
-> > > kvm_arch_gmem_invalidate() hook for each PFN range. This allows
-> > > architectures to perform necessary teardown, such as updating hardware
-> > > metadata or encryption states, before the pages are transitioned to the
-> > > shared state.
-> > >
-> > > Invoke this helper after indicating to KVM's mmu code that an invalidation
-> > > is in progress to stop in-flight page faults from succeeding.
-> > >
-> > > Reviewed-by: Fuad Tabba <tabba@google.com>
-> > > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> >
-> > Coming back to this after working through the arm64/pKVM side. My
-> > Reviewed-by here is from the previous round and the patch hasn't
-> > changed, but I missed an implication for arm64.
-> >
-> > kvm_arch_gmem_invalidate() is now called from two paths with the same
-> > (start, end) signature: folio teardown (kvm_gmem_free_folio) and
-> > private->shared conversion (here). For SNP/TDX that's fine, conversion is
-> > destructive anyway. For pKVM the two need opposite content semantics:
-> > conversion must preserve the page in place (same physical page, the point
-> > of in-place conversion without encryption), while teardown must scrub it
-> > before returning it to the host.
-> >
-> > The hook gets only a pfn range with no indication of which caller it's
-> > serving, so arm64 can't give the two paths the behaviour they need. It
-> > would help to signal intent on the conversion path: a reason/flag, a
-> > separate hook, or not routing non-destructive conversion through the
-> > teardown hook.
-> >
-> > arm64 isn't here yet, so this isn't urgent, but the hook is gaining a
-> > second caller now, and it's cheaper to leave room for the distinction
-> > than to change a generic contract other arches depend on later.
->
-> Crud.  It may not be urgent for arm64, but it's urgent for other reasons that
-> I "can't" describe in detail at the moment, and even if that weren't the case, I
-> think we should clean things up now.  More below.
+The implementation provides a common framework for all PCIe endpoint
+controllers, not specific to any particular SoC vendor.
 
-No problem on the parts you can't get into. Agreed it's worth cleaning up
-now, and worth doing in this round rather than landing the overloaded
-hook: reworking a generic contract once SNP/TDX (and eventually arm64)
-depend on it is the expensive path.
+Currently, there are no EPC drivers which support DOE. Hence, there are no
+users of the APIs introduced in this series. To avoid dead code being
+merged to the kernel, this series can't be merged as of now, hence I am
+posting this series to be reviewed by the time the EPC driver gets
+submitted as discussed at [1].
+[1]: https://lore.kernel.org/all/fa3c59fa-cfa0-49ed-b656-2e9aaf45e440@ti.com/
 
->
-> > >  virt/kvm/guest_memfd.c | 41 +++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 41 insertions(+)
-> > >
-> > > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> > > index 433f79047b9d1..3c94442bc8131 100644
-> > > --- a/virt/kvm/guest_memfd.c
-> > > +++ b/virt/kvm/guest_memfd.c
-> > > @@ -607,6 +607,42 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
-> > >         return safe;
-> > >  }
-> > >
-> > > +#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
-> > > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
->
-> Not your fault, but kvm_arch_gmem_invalidate() is badly misnamed.  It's not
-> "invalidating" anything, it's much more of a "free" callback, as SNP uses it to
-> put physical pages back into a shared state when a maybe-private folio is freed.
->
-> As Fuad points out, (ab)using that hook for the private=>shared conversion case
-> "works", but not broadly.  And it makes the bad name worse, because it's called
-> from code that _is_ doing true invalidations.  For pKVM, it may not even need to
-> do anything invalidation-like.
+The changes since v1 are documented in the respective patch descriptions.
 
-Agreed on the name and the overload, and for pKVM the split is more than
-cosmetic. The free/teardown path is where pKVM has to scrub a page before
-it goes back to the host; conversion has to leave the page in place with
-its contents intact (no encryption, same physical page in both states).
-Keeping scrub on the free callback and off the conversion path is what
-preserves that, so this helps us, it isn't just tidying SNP.
+v5: https://lore.kernel.org/all/20260610100256.1889111-1-a-garg7@ti.com/
+v4: https://lore.kernel.org/all/20260522052434.802034-1-a-garg7@ti.com/
+v3: https://lore.kernel.org/all/20260427051725.223704-1-a-garg7@ti.com/
+v2: https://lore.kernel.org/all/20260401073022.215805-1-a-garg7@ti.com/
+v1 (RFC): https://lore.kernel.org/all/20260213123603.420941-1-a-garg7@ti.com/
 
->
-> To avoid a conflict with patches that are going to have priority over this series,
-> to set the stage for arm64 support, and to avoid avoid bleeding vendor details
-> into guest_memfd, as if they are core guest_memfd behavior (only SNP needs the
-> "invalidation" on this specific transition), I think we should add an arch hook
-> to do conversions straightaway.
->
-> Unless there's a clever option I'm missing, it'll mean adding yet another
-> HAVE_KVM_ARCH_GMEM_XXX flag?  Hmm, especially because IIUC, arm64/pKVM doesn't
-> need a callback for this case, only the free_folio case.
->
-> > > +{
-> > > +       struct folio_batch fbatch;
-> > > +       pgoff_t next = start;
-> > > +       int i;
-> > > +
-> > > +       folio_batch_init(&fbatch);
-> > > +       while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
-> > > +               for (i = 0; i < folio_batch_count(&fbatch); ++i) {
-> > > +                       struct folio *folio = fbatch.folios[i];
-> > > +                       pgoff_t start_index, end_index;
-> > > +                       kvm_pfn_t start_pfn, end_pfn;
-> > > +
-> > > +                       start_index = max(start, folio->index);
-> > > +                       end_index = min(end, folio_next_index(folio));
-> > > +                       /*
-> > > +                        * end_index is either in folio or points to
-> > > +                        * the first page of the next folio. Hence,
-> > > +                        * all pages in range [start_index, end_index)
-> > > +                        * are contiguous.
-> > > +                        */
-> > > +                       start_pfn = folio_file_pfn(folio, start_index);
-> > > +                       end_pfn = start_pfn + end_index - start_index;
-> > > +
-> > > +                       kvm_arch_gmem_invalidate(start_pfn, end_pfn);
-> > > +               }
-> > > +
-> > > +               folio_batch_release(&fbatch);
-> > > +               cond_resched();
-> > > +       }
-> > > +}
-> > > +#else
-> > > +static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
-> > > +#endif
-> > > +
-> > >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> > >                                      size_t nr_pages, uint64_t attrs,
-> > >                                      pgoff_t *err_index)
-> > > @@ -647,7 +683,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> > >          */
-> > >
-> > >         kvm_gmem_invalidate_start(inode, start, end);
-> > > +
-> > > +       if (!to_private)
-> > > +               kvm_gmem_invalidate(inode, start, end);
->
-> E.g. instead make this something like this?
->
->         kvm_gmem_set_pfn_attributes(...)
->
-> Hrm, though that wastes folio lookups in the to_private case.  So maybe just this,
-> assuming pKVM doesn't need to take additional action on conversions?
+Below is a code demonstration showing the integration of DOE-EP APIs with
+EPC drivers.
 
-You're right, and we expect it to hold for both directions, not only
-private->shared. pKVM conversions are driven by the guest's
-share/unshare hypercall: EL2 makes the stage-2 ownership change (grant
-or remove host access) on the hypercall and exits, and the host
-records it via KVM_SET_MEMORY_ATTRIBUTES2 afterwards. So by the time
-guest_memfd updates attributes the EL2 side is already done in either
-direction, and the ioctl is host-side bookkeeping. The only arch
-callback we expect to need is the free/teardown one, nothing on
-convert, and we wouldn't want a make_private hook either.
+Note: The provided code is just to show how an EPC driver is expected to
+      utilize the pci_ep_doe_process_request() and pci_ep_doe_abort() APIs,
+      and might not cover all the corner cases. The below implementation
+      also expects the EPC hardware to have some memory buffer to store the
+      data from(for) write_mailbox(read_mailbox) DOE capability registers.
 
->
->         if (!to_private)
->                 kvm_gmem_make_shared(...)
->
-> Actually, if we do that, then we don't need a separate arch hook, just a separate
-> config.  It'll still bleed SNP details into guest_memfd, but it'll at least be
-> done in a way that's more explicitly arch specific (and it's no different than
-> what we already do for PREPARE...).
+============================================================================
 
-Doing it config-only (no separate convert hook) works for us, and nothing
-about it constrains arm64. If connecting pKVM conversion to gmem later
-turns up something we need, we'd add it config-gated in parallel, not by
-overloading the renamed callback.
+/* ========== DOE Completion Callback (invoked by DOE-EP core) ========== */
 
-Cheers,
-/fuad
+static void doe_completion_cb(struct pci_epc *epc, u8 func_no, u16 cap_offset,
+			       int status, u16 vendor, u8 type,
+			       void *response_pl, size_t response_pl_sz)
+{
+	struct epc_driver *drv = epc_get_drvdata(epc);
+	u32 *response = (u32 *)response_pl;
+	u32 header1, header2;
+	int payload_dw, i;
+	
+	if (readl(drv->base + PF_DOE_CTRL_REG(func_no, cap_offset)) & DOE_CTRL_ABORT) {
+		/* Aborted: do not send response */
+		goto free;
+	}
 
->
-> E.g. this?  There will still be a looming rename conflict, but that's easy enough
-> to handle.
->
-> diff --git virt/kvm/guest_memfd.c virt/kvm/guest_memfd.c
-> index 9ce5be7843f2..8aead0abd788 100644
-> --- virt/kvm/guest_memfd.c
-> +++ virt/kvm/guest_memfd.c
-> @@ -648,8 +648,8 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
->         return safe;
->  }
->
-> -#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_INVALIDATE
-> -static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
-> +#ifdef CONFIG_KVM_ARCH_GMEM_FREE_ON_SHARED_CONVERSION
-> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
->  {
->         struct folio_batch fbatch;
->         pgoff_t next = start;
-> @@ -681,7 +681,7 @@ static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end)
->         }
->  }
->  #else
-> -static void kvm_gmem_invalidate(struct inode *inode, pgoff_t start, pgoff_t end) {}
-> +static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end) { }
->  #endif
->
->  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
-> @@ -729,7 +729,7 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
->         kvm_gmem_invalidate_start(inode, start, end);
->
->         if (!to_private)
-> -               kvm_gmem_invalidate(inode, start, end);
-> +               kvm_gmem_make_shared(inode, start, end);
->
->         mas_store_prealloc(&mas, xa_mk_value(attrs));
+	if (status < 0) {
+		/* Error: set ERROR bit in DOE Status register */
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		goto free;
+	}
+
+	/* Success: write DOE headers first, then response to the read memory */
+
+	/* Header 1: Vendor ID (bits 15:0) | Type (bits 23:16) */
+	header1 = (type << 16) | vendor;
+	writel(header1, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+
+	/* Header 2: Length in DW (including 2 DW of headers + payload) */
+	payload_dw = DIV_ROUND_UP(response_pl_sz, sizeof(u32));
+	header2 = 2 + payload_dw;  /* 2 header DWs + payload */
+	writel(header2, drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+	
+	/* Set READY bit to signal response ready */
+	writel(1 << DOE_STATUS_READY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	/* Write response payload DWORDs to Read memory */
+	for (i = 0; i < payload_dw; i++)
+		writel(response[i],
+		       drv->base + PF_DOE_RD_MEMORY_WR_REG(func_no, cap_offset));
+
+	/* Wait for the memory to empty before clearing the READY bit */
+	while (!RD_MEMORY_EMPTY()) {/* wait */}
+
+	writel(0 << DOE_STATUS_READY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+free:
+	/* unset BUSY bit */
+	writel(0 << DOE_STATUS_BUSY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	kfree(response_pl);
+}
+
+/* ========== DOE Interrupt Handler (triggered on GO bit from root complex) ========== */
+
+static irqreturn_t doe_interrupt_handler(int irq, void *priv)
+{
+	struct epc_driver *drv = priv;
+	u16 cap_offset = extract_cap_offset_from_irq(irq);
+	u8 func_no = extract_func_from_irq(irq);
+	u32 header1, header2, length_dw, *request;
+	u16 vendor;
+	u8 type;
+	int i, ret;
+
+	/* Read first header DWORD: Vendor ID (bits 15:0) | Type (bits 23:16) */
+	header1 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	vendor = header1 & 0xFFFF;
+	type = (header1 >> 16) & 0xFF;
+
+	/* Read second header DWORD: Length in DW (includes 2 DW of headers) */
+	header2 = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	length_dw = header2 & 0x3FFFF;  /* Bits 17:0 */
+
+	if (!length_dw)
+		length_dw = PCI_DOE_MAX_LENGTH;
+
+	length_dw -= 2;  /* Subtract 2 DW of headers to get payload length */
+	/* Allocate buffer for complete request (headers + payload) */
+	request = kzalloc(length_dw * sizeof(u32), GFP_ATOMIC);
+	if (!request) {
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		return IRQ_HANDLED;
+	}
+
+	/* Read remaining payload DWORDs from Write memory */
+	for (i = 0; i < length_dw; i++) {
+		while (WR_MEMORY_EMPTY()) { /* wait */ }
+		request[i] = readl(drv->base + PF_DOE_WR_MEMORY_RD_REG(func_no, cap_offset));
+	}
+	
+	mutex_lock(&lock);
+	/* Check the ABORT bit, if set then return */
+	if (readl(drv->base + PF_DOE_CTRL_REG(func_no, cap_offset)) & DOE_CTRL_ABORT) {
+		kfree(request);
+		mutex_unlock(&lock);
+		return IRQ_HANDLED;
+	}
+
+	/* Set BUSY bit */
+	writel(1 << DOE_STATUS_BUSY,
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+	mutex_unlock(&lock);
+
+	/* Hand off to DOE-EP core for asynchronous processing */
+	ret = pci_ep_doe_process_request(drv->epc, func_no, cap_offset,
+					 vendor, type, (void *)request,
+					 length_dw * sizeof(u32),
+					 doe_completion_cb);
+	if (ret) {
+		writel(1 << DOE_STATUS_ERROR,
+		       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+		kfree(request);
+	}
+
+	return IRQ_HANDLED;
+}
+
+/* ========== Abort Handler (triggered on ABORT bit from root complex) ========== */
+
+static irqreturn_t doe_abort_handler(int irq, void *priv)
+{
+	struct epc_driver *drv = priv;
+	u16 cap_offset = extract_cap_offset_from_irq(irq);
+	u8 func_no = extract_func_from_irq(irq);
+	
+	mutex_lock(&lock);
+	
+	/* call abort API only if BUSY bit set (pci_ep_doe_process_request() called) */
+	if (readl(drv->base + PF_DOE_STATUS_REG(func_no, cap_offset)) & DOE_STATUS_BUSY)
+		pci_ep_doe_abort(drv->epc, func_no, cap_offset);
+	
+	mutex_unlock(&lock);
+
+	/* Discard Write memory contents */
+	writel(DOE_WR_MEMORY_CTRL_DISCARD,
+	       drv->base + PF_DOE_WR_MEMORY_CTRL_REG(func_no, cap_offset));
+
+	/* Clear status bits */
+	writel((0 << DOE_STATUS_ERROR) | (0 << DOE_STATUS_READY),
+	       drv->base + PF_DOE_STATUS_REG(func_no, cap_offset));
+
+	return IRQ_HANDLED;
+}
+
+====================================================================================
+
+Aksh Garg (4):
+  PCI/DOE: Move common definitions to the header file
+  PCI: endpoint: Add DOE mailbox support for endpoint functions
+  PCI: endpoint: Add support for DOE initialization and setup in EPC
+    core
+  Documentation: PCI: Add documentation for DOE endpoint support
+
+ Documentation/PCI/endpoint/index.rst          |   1 +
+ .../PCI/endpoint/pci-endpoint-doe.rst         | 352 +++++++++++
+ drivers/pci/doe.c                             |  11 -
+ drivers/pci/endpoint/Kconfig                  |  14 +
+ drivers/pci/endpoint/Makefile                 |   1 +
+ drivers/pci/endpoint/pci-ep-doe.c             | 591 ++++++++++++++++++
+ drivers/pci/endpoint/pci-epc-core.c           | 101 +++
+ drivers/pci/pci.h                             |  51 ++
+ include/linux/pci-doe.h                       |   8 +
+ include/linux/pci-epc.h                       |   9 +
+ 10 files changed, 1128 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/PCI/endpoint/pci-endpoint-doe.rst
+ create mode 100644 drivers/pci/endpoint/pci-ep-doe.c
+
+-- 
+2.34.1
+
