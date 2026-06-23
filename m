@@ -1,140 +1,151 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6713738886F;
-	Tue, 23 Jun 2026 18:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782239759; cv=none; b=rlARFhyNAq2K5Cc24Hl1P1DJURRZPdADrORDadU/05jSLrL827Z5EL/v5B1QDDeJjztNYeQpKCvtKEPMqRKHzIApSwlQ98y6m4iy9QCmMEXoIlujvIWzjxy6gK13WcrorceXSRmhgwOIkAU4VqSGzAxxZ9rniWsCeCwxaUOHIeo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782239759; c=relaxed/simple;
-	bh=3denSDWU4lslLMMrBoV7SduczTmb4bDlfrVrLSfyQOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IAUrQxqRdxaGocTZAr0YaoFoe3LdA9kO4Yqs42eZqippIizRiiQC5kiMOkDjW50Ghouo45CurkYtQjJtlwSGFITUtrQEe+hj6CunkUGr6V3sDjdWM/+sRtDDVq1dOJ/7PN2zUSrhADSVy3mrYCRfkWTNB65GLYXpsOcs7aFqq0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DHb6vyiY; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6243446A6
+	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 18:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782240688; cv=pass; b=j+9SYjR/sdqUBTCtcjHR34+i3FWsFq3h5huw7JmbsCeos2JGNy1jq70EQcCoVWNIvkkPF4k0g5BTZnUa9AhhEQ6b/huCKI7Ec92bWC6nszPSrKe84mfmQbQpaD9aGVQvFWZh7YXw+Q/S2BzWAaLiPChKkPhIo+MBLaGFSEi39Ds=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782240688; c=relaxed/simple;
+	bh=Efr1OooVVeTRTisiJfG3vsg/+MXEtgRrVmeiLqYtGck=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sFDGGZQwzMdG2Wv0I5RG6u125moPguuNZMl0A93cg43fXLrxZE29ToSNviA8IuIs0ckZK5egZJVy5EfEX/7GBzzTbueZBWK7bW6E70JBiKbjrQlGVOCY6Nq3R9xm1cklDPMeE0PvaoB90xSVL3jFFzZisjTg6mPGD1yxCPkdw9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKg1qICd; arc=pass smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DHb6vyiY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8eu3Tvugp4G3bN3k1ldUXH5hZPq1X4tfuU0wkqE8zfk=; b=DHb6vyiYJyimYURUi7NGZDHuIH
-	lSoYKVDsTVEJomfIBZxlXmuIE4Ltgb045Nymk7a6n7YdrzpbIOak00qMU48J75e9hQpbOHt0FQd4V
-	+G/SzJQNxz2DSroO9RLAMs6yVVu51eVhbAuL3VS7TDvzZSJu1oTnMdx3YcS4Qq9qFpZV+hiz003ld
-	mPxD3oMYra0zZ2UpgiZh73Ys87AEI4in1l3FpPaGt8r2dWuhQwS2pl1yeeweYyu8y67Soo6mBTQiy
-	Um5gtYQhMOQlX3cAcNFzkt59nGsDryC7EwC/WurS3icu2fOqweOnVhe5SASWKB70/4n5/UBMVRlzg
-	WHlon57g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wc5yW-00000006lNN-2Zbn;
-	Tue, 23 Jun 2026 18:35:56 +0000
-Message-ID: <75822857-473d-4067-a378-aae2cdab4176@infradead.org>
-Date: Tue, 23 Jun 2026 11:35:54 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKg1qICd"
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-662b95934dcso144589d50.3
+        for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 11:51:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782240686; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ukta5QSlPEEiy3YKwPgxMdGnW/7Gwdo5zXeDEyj4tZZEhgzXCOw2DRzWP4TGKjW9WI
+         Kw/E+6Hx2pza6/opuAWtn+Uy/mbefRbjLtgGrOKEQ7woKnSvHxppCzNqKZIEHd6q5aDK
+         NUXCl+0Vz3sZMsGxlHlnF35TsvsdIndUTIdlGDPz4LxdUGDFBl6vRo9sNZruGbsm72jp
+         vo96oLB2trIu3LpHO+KEX9FCK9DUW8oDzyNnkci3Mt9zWbpT0A2mWIaFUkPc7bDjTOp1
+         1NNxGodDAtxG6Lq0fxePPJy1QW/uKiVYZoulqSlXL0Xo6TWDFhhm4LihDRVj1VADAv3H
+         dxYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=QGHdQke52quudoElH5DIY+sbZKk9j5FB05lJCBdajHM=;
+        fh=ARY5QF24nupzz8ZwQryOnoHFK5EF6G5nWK56w3E6fyA=;
+        b=MG81w+QCrttq+DgRHgsG90K0LkYYO9D8zJB0qq9Mxuv2c/TtfmcWIZutwxblE/j4AQ
+         ohNwWsbh5XlQuke2WBUDxppa5dUDAIhQHxV2PFqvG30eJmMYTlH9ehoHL/BgYakgNdLF
+         zTW1ttHIsHt/Be5WlKI2J09U0Bxavz05FaibxOUKswZm96rPe907+tuo+EULjswiVqrN
+         ZptOyvCpARRRT5bPFZ4YfbDE7PekxBPWBVbUIftf5lC6rewkdfJVAddvCYSyZBdPqNVC
+         3hA7AMyAoG2okNvzG+yqrNDkrzNHwA2bwLGzGnWy5MLVLdDThQlIIfxVpj/3Va1zEoHo
+         GFgA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782240686; x=1782845486; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QGHdQke52quudoElH5DIY+sbZKk9j5FB05lJCBdajHM=;
+        b=VKg1qICdpjOxcsGBBOa4HZh/J0a1Gkb0EZzxvAidRzTC9Dgp3FVJETu+voTIFXZxS9
+         UYFdLjMqUKDF0mxBrllAHICDgZD+qQSKxnSxU9nkMI+B/Hj3biuRvkqYLxfxBOmEFxsu
+         Freiwsq4CyIepsrOIqLrOgA3rbH6vsfofjT1UFSLlkucOdTkw9LaTqURfGeZtbNV+WcJ
+         ZCEVFbQktuN1ovYuqx4WIcWMn6WFtRBznePqU8AhkFJtqZ38FY3fPJJGTqE6+8tqtsQD
+         TAw/ScKHLKE81rwrUg3cUbxtLBu60RT20g7JqkAs9dZa+SzGX0pB98TwZMYP37yMrdB+
+         tcsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782240686; x=1782845486;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QGHdQke52quudoElH5DIY+sbZKk9j5FB05lJCBdajHM=;
+        b=Z+6FtiMafr4UKO4iAGCmVGiBmT5ZzmZeaUFqsS8ZqColiM3Q9IZ84gLMR5LYY87bXu
+         esI/lL2GoL8X/0lvpzQNjApY/hhEASbAdVhSph2JhRXqadiwuu2sfKtBTKteOCnPluZr
+         FCcDTji6dZQw6+RZqYQ2BefsqbNc9laM74X5mH2x8qEExUGH4YDn3mODcg7uYg1/ljtZ
+         a4MVuv4YQjKkAMjE++W1mX4Fj01fiDFQn0eKC6UBTg9CpP+LKU3ZK2El0dVYdS7KBpk8
+         pY78zf+0fCxDFkchRT+hbgtFk6R+NbNYEpshpE4r261pMaVTzXo4+prIvtqrDz+PHO0H
+         KPpQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrdVTAo+kibxdhYiCwPTD3615ns4k3lBKXAHrgobzdRdaTeDVhFfhoG+kcQkO9wKy6s4Gwn0p9NcTk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCVoRc/+yar6OiwpEpfOXpNUdSepAWNDRGwjH4bxZ3jYMUI6VM
+	7y55oLQNfTY0svzdmked+DauWmn7a8CrwRryUTeiSNJf6hLnDzJ8Mz0eEeeiemF/EhtANxxObKA
+	cSSYLUiTfMVSGhyzvrVaYOVsJxyez+ZA=
+X-Gm-Gg: AfdE7cnzJJVKKdD/D1g4Q3tDZPKz7RUTa5xID/wGuY2VusOUTQelW/fIdMcDeAao9zA
+	LKlEuJ6rxPOvtQ07MiCwAvsLrq13Go0KGhnhWgAP397PohepO/kegyw4PWIUYcqh101ABIVkIyW
+	GGyoFske9d8PHrbt1OZKzw06gCOk2mplrXxsYO7mgzaX43FKl+1dQ2m++3iXWjPWF/aBHFVcQ1O
+	YTeFe2XT18385cKthJBZ9aIuWYTcV82+kynWW5hXrMOwfyMP8Auwn4Ek+qhS21iJf8NDNtqZwTa
+	CD3BPPaGPeTvhp14OiFvyqDJwek3FB6Y/qXKN8HQSpyJQhnphCFwARZxY+g=
+X-Received: by 2002:a05:690e:e87:b0:662:f2d1:f27 with SMTP id
+ 956f58d0204a3-66359ece524mr3827196d50.27.1782240686326; Tue, 23 Jun 2026
+ 11:51:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stern@rowland.harvard.edu, michal.pecio@gmail.com, stable@vger.kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260622234803.6982-1-ebiggers@kernel.org> <CABBYNZ+QLvkYkn_EcBZ4+GopyhKqJLcfCoABYcw1VamavbSvhg@mail.gmail.com>
+ <20260623165208.GB1793@sol> <20260623180502.GC1850517@google.com>
+In-Reply-To: <20260623180502.GC1850517@google.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Tue, 23 Jun 2026 14:51:13 -0400
+X-Gm-Features: AVVi8CfbI5Vx_0h2Ev3jl-1KL9OujVxy8AaPvUK9sScHwsY8ABVyPNIyPnDwcl8
+Message-ID: <CABBYNZKdd2-S9C1z0vtUB5yMVTWxLHi+Ta0_aUrahDYAq5rpxg@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
+ to 1
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>, 
+	Demi Marie Obenour <demiobenour@gmail.com>, Andy Lutomirski <luto@amacapital.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Eric,
+
+On Tue, Jun 23, 2026 at 2:05=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
+>
+> On Tue, Jun 23, 2026 at 09:52:08AM -0700, Eric Biggers wrote:
+> > On Tue, Jun 23, 2026 at 11:04:14AM -0400, Luiz Augusto von Dentz wrote:
+> > > > +=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > +0    AF_ALG is unrestricted.
+> > > > +
+> > > > +1    AF_ALG is supported with a limited list of algorithms. The li=
+st
+> > > > +     is designed for compatibility with known users such as iwd an=
+d
+> > > > +     bluez that haven't yet been fixed to use userspace crypto cod=
+e.
+> > >
+> > > Is the expectation that we go shopping for userspace crypto here?
+> >
+> > Yes, same as what 99% of userspace already does.  Probably you'll just
+> > want to link to OpenSSL, but it could be something else if you want.
+> >
+> > - Eric
+>
+> By the way you do know that bluez already has a local implementation of
+> ECDH, right?  See src/shared/ecc.c.
+
+It's never been audited; it's only used for hardware emulation, I
+didn't even remember we had that thingy. What we really use is
+src/shared/crypto.c, and I'm not looking forward to having it changed.
+With something like Zephyr, changing crypto libraries every so often
+just because one didn't fit on a platform wasn't a great experience,
+and that is a much bigger project. In the end it seems they are using
+a forked mbedtls:
+
+https://github.com/zephyrproject-rtos/mbedtls
+
+I'm quite sure whatever choice we make will be the wrong choice for
+someone. Then someone will have the brilliant idea to add some sort of
+backend support to let everyone plug in their preferred crypto
+library, possibly adding even more code to audit.
+
+> - Eric
 
 
 
-On 6/23/26 9:10 AM, Nikhil Solanke wrote:
-> Certain third-party USB game controllers exposing (or spoofing) an Xbox
-> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-> The device disconnects from the bus without responding to the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-> config index 0 descriptor/start: -71'.
-> 
-> The device then falls back to a secondary Android HID mode (with a
-> different VID:PID), losing XInput functionality including rumble support.
-> The failure reproduces across multiple machines, host controller types, and
-> kernel versions including current mainline and LTS. The device enumerates
-> correctly and remains in XInput mode under Windows. Notably, the device
-> enumerates correctly in Android mode when the same 9-byte request
-> is issued for that mode's configuration descriptor, confirming the firmware
-> bug is specific to the XInput mode.
-> 
-> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-> identical up to the point of failure, with no visible protocol-level
-> difference explaining the divergence. The root cause was identified when
-> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-> use wLength=9 for the initial config descriptor request; it uses
-> wLength=255. Alan Stern subsequently confirmed this with a bus
-> analyzer on a different USB 2.0 device, and Michal verified the behavior
-> goes back to Windows 95 OSR2.1.
-> 
-> So, add a new quirk flag USB_QUIRK_CONFIG_SIZE which causes
-> usb_get_configuration() to issue a 255 byte sized configuration request
-> instead of USB_DT_CONFIG_SIZE (9) for the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-> behavior.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> 
-> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-> ---
-> Changes in v2:
-> - Add Documentation
-> - Naming changes
-> - Refactored to have a better flow with existing code.
-> 
->  .../admin-guide/kernel-parameters.txt         |  9 +++
->  drivers/usb/core/config.c                     | 61 ++++++++++++++-----
->  drivers/usb/core/hub.c                        |  6 +-
->  drivers/usb/core/quirks.c                     |  4 ++
->  include/linux/usb/quirks.h                    |  3 +
->  5 files changed, 67 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 97007f4f69d4..af4bf0ef2c7b 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8158,6 +8158,15 @@ Kernel parameters
->  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
->  					claims zero configurations,
->  					forcing to 1);
-> +                r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-> +                    fails during initialization when asked for
-> +                    9-bytes configuration desciptor request. Ask
-
-		                             descriptor
-
-> +                    for 255-bytes request instead to mirror
-> +                    Windows' behavior. This quirk is originally
-> +                    meant to fix some quirky gamepads that refuse
-> +                    to connect in their XInput mode. But it can also
-> +                    potentially fix issues with other USB devices
-> +                    that work on Windows but not on Linux)
-
-add ending '.'
-
-For all lines added here, use tabs instead of spaces for indentation.
-
-
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-
-
--- 
-~Randy
-
+--=20
+Luiz Augusto von Dentz
