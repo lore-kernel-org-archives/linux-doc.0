@@ -1,49 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63AB3AB289
-	for <linux-doc@vger.kernel.org>; Tue, 23 Jun 2026 05:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5C7396D15;
+	Tue, 23 Jun 2026 06:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782194330; cv=none; b=WtlR0rucZik+5V0ICPAepIQMhnQWpbPXqQQb8OynV+6c4XpGOiIpS2uj0krfl4f37pUZYw7v116dhzPCrspBRTwq6vBTv3W1Oqdfj8GwIRvmwgee0WhHl2rU7wmfr6Kt+9D4tmXhtuFdS1GWCThhJfT0m6e6D1BY/j6p72wuYMo=
+	t=1782195320; cv=none; b=NvfLqY6jvxEH0Gs8pCxPJgAVibLfQ9g1bDCo5N3tOOEDDD+ProRR7/i8TQ60lcooK5OvGQeySnZKDbNpBRMzFOdCufxGiV9mrTsfqOfEsJJHZWsUA8Tm3rMaleht2xEHEBGVtpLQAToNyMO6JD630Om2jUJCJ94aEGsmE3jtAIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782194330; c=relaxed/simple;
-	bh=AlU4gtFEKhlfSxIcTjRL4e5qmxfg+fDinLPn8byO1XM=;
+	s=arc-20240116; t=1782195320; c=relaxed/simple;
+	bh=iDJQ8q9y8/lBVlCSKCHv2KFuzeprLfn94oYskcqsbro=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L+XnYGp0EzIPCYPan6RRFXlj3fEG2GmyTeiBy1M+llqZa9znGzfRq2mUeKHWfvRgMEJTJfkAbh6f0TSnhf/yEBB1NvDSkYBl5khCQDw0IPFT/mn95DFWPU6VZaoQ93JAIKFMipVECsq5vUjSIOdBK5vmbD/zuBIX+eOqA2XH/e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YnI6bB9E; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=nA6PqsNDCUybHLtJpNOFn9NEhOi32UlveO0eIWYgP2q68h4Lh7vM8k7FjWQGJmljnm20YKicoMgLIV1rFO6MC15VeucgT0ey6Dha68NDQxyEcUyKwSdFT4ie3QCp2yrVqzFtAtEYWR0Wq+GOYE0TUlk5okgTyOaWbgPB825FUxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EW0G8ol9; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YnI6bB9E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782194327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IRi8GfAYniLHbjGZFFwKyffd57VQQpHVn1aSTa2bqtc=;
-	b=YnI6bB9ENrTaqC9Rbo1G8sr5mqjdi+1Wd/UQKak5anwc2u2mrSUT9MiEPWOLrCJVJF/fwV
-	M4WdwoLzKNo9gvR5t91QlQHCjk2IRjqDve6d9UP3HmYYhfp/cKq3hmxVD66RCMxMBOaBvR
-	OJ+eQIVQ5RgTck2ZL3+GzKGokmKcLXs=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-272-loA_pPl1MIKCMNAT0kst6g-1; Tue,
- 23 Jun 2026 01:58:44 -0400
-X-MC-Unique: loA_pPl1MIKCMNAT0kst6g-1
-X-Mimecast-MFC-AGG-ID: loA_pPl1MIKCMNAT0kst6g_1782194322
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F3E29180064A;
-	Tue, 23 Jun 2026 05:58:41 +0000 (UTC)
-Received: from [10.2.16.35] (unknown [10.2.16.35])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A040D1956041;
-	Tue, 23 Jun 2026 05:58:39 +0000 (UTC)
-Message-ID: <74bd7410-7c57-41dc-911e-99969282893e@redhat.com>
-Date: Tue, 23 Jun 2026 01:58:38 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EW0G8ol9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782195318; x=1813731318;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=iDJQ8q9y8/lBVlCSKCHv2KFuzeprLfn94oYskcqsbro=;
+  b=EW0G8ol9BtzNIz6smi8tAUi3HcP9KttzCn3jMZ6QW05V7AStaHkI0jtP
+   U2hiK80Uotz7Ym/oUoTa3eJCsVJRFVfkbQRoQOH1ZW3qzp9dT0q84mlIY
+   NJOm9uPElbkugpICVqquohNUglq6RkJ4ZitxlbienuUJKgLa7wSkr/cK4
+   XQpNioFwFeaOF2nFsBneyAoXGEcwxIeFt4ky1M1RdfxMNk40ryc0Hxtdk
+   Gv17HASbDZGdPsBWPMuJ9Xs9DcygqRcSCkWZdHIkA5yPC23nEQJecub2g
+   +2m29GxwR07fuPcVMRaQ0Lg63JQcIDNVvGqnTpIJ2tEwHQf1reumX6JhX
+   A==;
+X-CSE-ConnectionGUID: FsIqkeOnSvCf/ZSa9t2B3g==
+X-CSE-MsgGUID: nXUwkrN5SOSuLi6+ual4sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93293247"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="93293247"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 23:15:17 -0700
+X-CSE-ConnectionGUID: HBGg64mmROGLAXtatw76Ug==
+X-CSE-MsgGUID: FlT3tdEoQW+kTfbe58pb3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="248278935"
+Received: from unknown (HELO [10.238.2.81]) ([10.238.2.81])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 23:15:04 -0700
+Message-ID: <2ef455c3-a3f5-4ba1-86ea-b96416d163ce@linux.intel.com>
+Date: Tue, 23 Jun 2026 14:15:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,105 +52,80 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems update
- in cpuset_hotplug_update_tasks()
-To: Ridong Chen <ridong.chen@linux.dev>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260622224509.1927419-1-longman@redhat.com>
- <e24b8145-7a67-4cc0-8ba0-24bd89243c04@linux.dev>
+Subject: Re: [PATCH v8 10/46] KVM: guest_memfd: Wire up core private/shared
+ attribute interfaces
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org,
+ chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com,
+ jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org,
+ pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com,
+ rientjes@google.com, shivankg@amd.com, steven.price@arm.com,
+ tabba@google.com, willy@infradead.org, wyihan@google.com,
+ yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org,
+ suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-coco@lists.linux.dev
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-10-9d2959357853@google.com>
 Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <e24b8145-7a67-4cc0-8ba0-24bd89243c04@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20260618-gmem-inplace-conversion-v8-10-9d2959357853@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 6/22/26 9:14 PM, Ridong Chen wrote:
->
->
-> On 6/23/2026 6:45 AM, Waiman Long wrote:
->> As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
->> unnecessary task iteration and updating of tasks' CPU and node masks
->> when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
->> due to the fact that the temporary new_cpus and new_mems masks do not
->> inherit parent's effective_cpus/mems when they are empty which is the
->> expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
->> Enable cpuset controller in default hierarchy").
->>
->> Fix that and avoid unnecessay work by adding the empty mask checks and
->> inheriting the parent's versions if empty.
->>
->> [1] 
->> https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
->>
->> Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default 
->> hierarchy")
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>   kernel/cgroup/cpuset.c | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->> index aff86acea701..bc0207fd6e57 100644
->> --- a/kernel/cgroup/cpuset.c
->> +++ b/kernel/cgroup/cpuset.c
->> @@ -3925,6 +3925,14 @@ static void cpuset_hotplug_update_tasks(struct 
->> cpuset *cs, struct tmpmasks *tmp)
->>       compute_effective_cpumask(&new_cpus, cs, parent);
->>       nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
->>   +    if (is_in_v2_mode()) {
->> +        /* Inherit parent's effective_cpus/mems if empty */
->> +        if (cpumask_empty(&new_cpus))
->> +            cpumask_copy(&new_cpus, parent->effective_cpus);
->> +        if (nodes_empty(new_mems))
->> +            new_mems = parent->effective_mems;
->> +    }
->> +
->>       if (!tmp || !cs->partition_root_state)
->>           goto update_tasks;
->
-> I noticed that compute_effective_cpumask(...) is called in several 
-> places, so I think the logic should be consolidated into that function.
->
-> ```
-> static void compute_effective_cpumask(struct cpumask *new_cpus,
->                       struct cpuset *cs, struct cpuset *parent)
-> {
->     cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
->     if (cpumask_empty(&new_cpus) && is_in_v2_mode())
->         cpumask_copy(&new_cpus, parent->effective_cpus);
-> }
->
-> ```
->
-> Similarly, for new_mems, should we introduce a dedicated helper like 
-> compute_effective_nodemask? The same fallback logic is needed in 
-> update_nodemasks_hier:
->
->
-> ```
-> static void update_nodemasks_hier(struct cpuset *cs, nodemask_t 
-> *new_mems)
-> {
-> ...
->         bool has_mems = nodes_and(*new_mems, cp->mems_allowed, 
-> parent->effective_mems);
->
->         /*
->          * If it becomes empty, inherit the effective mask of the
->          * parent, which is guaranteed to have some MEMs.
->          */
->         if (is_in_v2_mode() && !has_mems)
->             *new_mems = parent->effective_mems;
-> ...
-> ```
->
-Yes, that makes sense. Will adopt this approach in the next version.
+On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
 
-Cheers,
-Longman
+[...]
 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index bca912db5be6e..e0e544ef47d69 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -926,6 +926,24 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>  EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
+>  
+>  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
+> +static bool kvm_gmem_range_is_private(struct file *file, pgoff_t index,
+> +				      size_t nr_pages, struct kvm *kvm, gfn_t gfn)
+> +{
+> +	struct maple_tree *mt = &GMEM_I(file_inode(file))->attributes;
+> +	pgoff_t end = index + nr_pages - 1;
+> +	void *entry;
+> +
+> +	if (!gmem_in_place_conversion)
+> +		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
+> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE,
+> +							  KVM_MEMORY_ATTRIBUTE_PRIVATE);
+> +
+> +	mt_for_each(mt, entry, index, end) {
+> +		if (xa_to_value(entry) != KVM_MEMORY_ATTRIBUTE_PRIVATE)
+> +			return false;
+> +	}
+
+Patch 1 noted that "Ensuring every index is represented in the maple tree at all times".
+So I think the queried range should not be a hole in the maple tree.
+However, there is a inconsistency: in patch 1 kvm_gmem_get_attributes() explicitly
+checks for holes, but this patch does not.
+
+> +	return true;
+> +}
+>  
