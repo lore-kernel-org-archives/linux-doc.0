@@ -1,176 +1,100 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373D82D0C8F
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0439C64E
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782303156; cv=none; b=bAhA3UCzcJ0cVr1+9k451zoW/1+EcpLU0HIrfsDaVStbn8cr4sAF2qhMws1fmcSxN5oYGIZaaXET/eUXYt7O4HO773/6ZhG+DSfx4ft+ObcakzMVzomrpZ8h8y6nhVMC4Mk1BavhzIWGTzvgDNvgIDYHdwZ2cA0FoBvFszkMFLc=
+	t=1782303904; cv=none; b=A59DAEPswFBQBcTgRU/RGRkWPKqyWeoQrnmhfNZa8ieGJlpGU40t0GOzb1vYMhOR8Z5PSVoQRQxw6EM+NiZjW0z5OwTrkmyjpitEQNzIe6VjXr1kXhn2UUvOQI33dn1BO50OAxRF4N9KEil902ACyWQBjeREdh0HJoSyR6JcmZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782303156; c=relaxed/simple;
-	bh=AzJxR17LeggvP5p8IUNi+OFv3fxzePdsrz0neVEdzNY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXASPHtzxRrIttNdTsxipd2a6bQd1Ao2yJp1C6qoPqXWzrpZBmVul9PN3gKu5iVqN0LNIACIy5ELOV6wFtspVbErh+QDbImDk8I0mEXL0BbUUiBJX6oTcJHJGaU1sQaM1BG+TQj756NzsLzHI9mcr4cOViOdq4X8oRbAkliM878=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YBmQz9P7; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1782303904; c=relaxed/simple;
+	bh=Tj4U2LsAV4so3kyGIEzWI1tMb2igQqarbhEpNBc/hgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZSdMb/b68RyJqI1sYETVH/C3782LDV4yz3K95EFHlRyctjX70tHuRH46cwsC+EY3oLa7ERjZc1v1e53V6fq/T34Ihfk0ceMXyu7OXlsPp3xLoOBo4lC4FMMwMxpBZqLcBipPrW/cU96r17xCmuEom/Qd2irEj2X6KGeVku8a5VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBUgGlPx; arc=none smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YBmQz9P7"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b64c8311so12099775e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:12:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBUgGlPx"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-662bcc30fafso930749d50.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1782303154; x=1782907954; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=myNo/DEuhpzwm5mdaD3SVg2ivdFiLyKElhtRgaxmzTc=;
-        b=YBmQz9P7MESAmznHuEEsfTbHvQU3ktRHb2nh5qU4wapAvDODAG6yJnBxK7Oj+bG2qd
-         ATtBtLnXC9DcgIvRsEwKQi2rxZRZgY+3j/yFlWmX+gWMtwhemagu6xukQL8cFtwqb+RX
-         KCjB1tQ1pJxB5SXlWCwhHMHLer0uwdurErVe3TjeSyUTA7aIRmgLt5sy1woTw1UVlqXo
-         y2l7Cu0APM4LBLWgk8oamz3VpODl6vt9zAgLGa5EfXiGU2iNvTS69Lmcy+weSqmw90yH
-         B+BPM1aC6YAqgY3vcZqno5/II3RIvVCKeNwx9bTnfjun/asDcWz5jiYmcZjSIdcMRJey
-         2qMg==
+        d=gmail.com; s=20251104; t=1782303902; x=1782908702; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iwM+oUr92p0Sav8gRLsM0TI+WWKv0eIk71UE2GR8a3o=;
+        b=IBUgGlPxhkclhDRuqyO7ZqN+SgRuBARP//mRXpUcRtqumr4G8SJ6xMwhp9HU5HKTI7
+         TP85gLzlHbxLe/rgGBFeMFRn8qmE9sjB5AvWlodunUVjnimmztmkCKUAcNIQpTTcDbO/
+         0+j26Us7DeA/SRnYG4zT7r6/Ofq6QeVwqECryIzas0LdQWMIHJLcD/+uTVVJ2wGtKRQ2
+         VbVcWilFEeAS9K+h54y6No67bEjdnl4/jgPLSZOAiWdsM5dRaaoRK+yNiFvzw0OR76z9
+         YmB56ikzWI6Rn+RSRh9U2KmluILFKw8cnMfVk1Fy0SeeyeTDR8mie6hQuYNl49y7FWRG
+         J7Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782303154; x=1782907954;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782303902; x=1782908702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=myNo/DEuhpzwm5mdaD3SVg2ivdFiLyKElhtRgaxmzTc=;
-        b=iFJO99rgS0CPUxy/z39AJcjfObfE99RFS76UmiXVGPMd5GO2qerBmm+XCoiefCUI7A
-         z1K9uaruu1/zzq+YfgZm5y8qboiURySCjtNZxrgLy+vr0372J6tKPh/LwPrVRPUHWLhS
-         6uw1HYtKMo76uIH1qxve36nu/ZMRnT3aO5uuNa5ZMtG6kPLXByUUplnlZ25DMQOaCBj7
-         R3mBrJd0971dGcD0kFv8bfRgNGhhDxFbHyqhC2x+sRPMccrFO75ys7xWPbYWZ0TT29iF
-         EdJfThUBistHmDmzEHzYcDVm6BT7KnUBQ4+Ea4LneWWRPL6b7dyD6HCur+hVimUFmYVv
-         HmEw==
-X-Forwarded-Encrypted: i=1; AFNElJ9uHCHBomvMzpWhJIUkwXSK21B8i6iSrtF3sKQInfBV0AOy/MDikEGEbraQrXHvDTDSBM1vhG5gEXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymyMxxHPlKeRrwQniJCWt3mgmTglpLVykM43NsPTI2J2+A3ypE
-	11bRgr96o67WfI6fZ76x76mQv3IUtqaiOwhW15Bw4qbyAhTIgyYt/KKAyufORhkl6x8=
-X-Gm-Gg: AfdE7ckiGS6ixwtl3rCGEchRM9tuGdqOxukkF91FE8BdEoxFqYp/6zmaRZJeNxgAOBk
-	QNJt9sJmmyof/NHqP/en/CZdpMgzT2ddWLEtDRSBJTZNhJhXLp3gk/3vsCC4wEeFNP1VkB/sG6g
-	M8kkcxWSMj9ftlVWQTHeim7F0YYO/lbA+3JQTyvM3I5x7zhJxhadRI2qlEdSL/JF6q1rZ+wg8PT
-	8kS8R/xIJZ9noJtFyvV2rdasETGGr+5GA+cCJnfXW2pgxrMZGwFABrP6v0rQDj45YzyObqRHmjC
-	qMaBBpWtFQnQUyJP3fswvNAdfiBuIh8vJiHXZaVuuwJPYgD51aD5lmbDeAq4BvukqgWPso906Tl
-	QL2R/zOlJ6qLZuxJ/KBZou0kSO52LZz5wEdParmPZXnR55LUTsKpEelBh1XsFW0rJ7F9hm9JMzX
-	yskp+goahPraCPdZ1u0kN7JNsjdHTLyqgaud5e3oFi1T+GXwZb
-X-Received: by 2002:a05:600c:4899:b0:490:cb90:3e00 with SMTP id 5b1f17b1804b1-4926084b98emr28115875e9.14.1782303153562;
-        Wed, 24 Jun 2026 05:12:33 -0700 (PDT)
-Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [185.218.67.109])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924944fbbdsm408926155e9.12.2026.06.24.05.12.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2026 05:12:32 -0700 (PDT)
-Message-ID: <171efe97-fd87-45c1-9913-ff62eacab400@suse.com>
-Date: Wed, 24 Jun 2026 15:12:28 +0300
+        bh=iwM+oUr92p0Sav8gRLsM0TI+WWKv0eIk71UE2GR8a3o=;
+        b=BPkZdm4jGhYoqRz4nDxl3xM1suvR7qc2Kj7Mhak0vGM82/CnQPrJvN3XVYOyS5eX/b
+         6P5EIcTNVLgEhUXHiCwOSsBzkm0fKQ/oCC+uz3JunEdR5dXY5QQ70y7lWI7CZ0jVaaBV
+         fUqkMTZTBVVgBF9IgogiCPKGTO3wkvZ7teoKHtLxO2kfJ+AQWDH5gvdOmZRRmT16SITh
+         7qMuiyIglQVa+Q6rg6nGCeODgDCTyL4DJG/QRzA7LuH6QL4L44jIa9iNDVIe4Ewa7wrS
+         xWbrmSJQYecW8u5HV1mDU847919Id3LBI53FcIAIylRIgEw/+5L55vt+6jhoJsDOFO8L
+         Y4CA==
+X-Forwarded-Encrypted: i=1; AHgh+RrJsCwYfDhKWtcE0BdbblUI6nJplbRgVB2HlU8flSm/1oNs39OmWdOwlCQFxKEYEQdcrcLfC9pzSj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTuuUAsznZVxZo6PmGIuxIrAtfuz43wRyXzYdaMTTfJR/jsyZz
+	/Y2kGRyLdYFrMdFPyLiOAPspVygPxfj+CQjVIS2eulF1o18jiXKDWBKRbYKJ5npUrWZCiA==
+X-Gm-Gg: AfdE7clEyW6kjTw7VWRgevnbFXyOwZyH2G5QBSZfcZxtGUKWuTB3ebokTh1K3gEVLUL
+	dKWXAMu94dGAEdSrHfhSOg3UNQe64FyqQPNRGsA7HgZDFAiK0RQJzsJKpavsLYOYQztFyk9dX+6
+	Vq2Soe5Jf73zr/zDCNean2iAJIFKis9ZOAUgzSTakQeYNr8dlqVnyhukBE3BXdxgVRI9Rz/qj90
+	Znz3q3mdFU1Q2HHkPrw3GdTdCvm/f5SBW4EauYC5xePzYOl571tv611rXD0xbZJJ2KmlA8IM8ch
+	xNcvOVRm0A2ftjjh9yF19OYIGwLgT3igFiK3F7j9y5WpB42NrnRsxuIAWat7tQUxUmeWK80jAqA
+	UieHJnBxPSxEmzjuBjt+qJv4yXuZ5bPE9RiMTP8qMh3IsyxMtqPUCh15MHqaneg4AfodMsGSsU1
+	cjrO0GNysfgS5wkw8e/Xyw0tizF8Ib5ZZoHW7R
+X-Received: by 2002:a05:690e:d0f:b0:664:77d8:ffcb with SMTP id 956f58d0204a3-66477d90f6bmr543453d50.30.1782303902078;
+        Wed, 24 Jun 2026 05:25:02 -0700 (PDT)
+Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66469fae706sm340980d50.4.2026.06.24.05.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 05:25:01 -0700 (PDT)
+From: Yousef Alhouseen <alhouseenyousef@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yousef Alhouseen <alhouseenyousef@gmail.com>
+Subject: [PATCH] docs: kdoc: fix troff output description typo
+Date: Wed, 24 Jun 2026 14:24:48 +0200
+Message-ID: <20260624122448.4853-1-alhouseenyousef@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 02/12] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
- Jon Kohler <jon@nutanix.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>,
- Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- David Laight <david.laight.linux@gmail.com>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jason Baron <jbaron@akamai.com>, Alice Ryhl <aliceryhl@google.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260622-vmscape-bhb-v12-0-76cbda0ae3e5@linux.intel.com>
- <20260622-vmscape-bhb-v12-2-76cbda0ae3e5@linux.intel.com>
-From: Nikolay Borisov <nik.borisov@suse.com>
-Content-Language: en-US
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- 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
-In-Reply-To: <20260622-vmscape-bhb-v12-2-76cbda0ae3e5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Fix a typo in the ManFormat documentation string that describes the
+generated troff title header fields.
 
+Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+---
+ tools/lib/python/kdoc/kdoc_output.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 23.06.26 г. 20:33 ч., Pawan Gupta wrote:
-> As a mitigation for BHI, clear_bhb_loop() executes branches that overwrite
-> the Branch History Buffer (BHB). On Alder Lake and newer parts this
-> sequence is not sufficient because it doesn't clear enough entries. This
-> was not an issue because these CPUs use the BHI_DIS_S hardware mitigation
-> in the kernel.
-> 
-> Now with VMSCAPE (BHI variant) it is also required to isolate branch
-> history between guests and userspace. Since BHI_DIS_S only protects the
-> kernel, the newer CPUs also use IBPB.
-> 
-> A cheaper alternative to the current IBPB mitigation is clear_bhb_loop().
-> But it currently does not clear enough BHB entries to be effective on newer
-> CPUs with larger BHB. At boot, dynamically set the loop count of
-> clear_bhb_loop() such that it is effective on newer CPUs too.
-> 
-> Introduce global loop counts, initializing them with appropriate value
-> based on the hardware feature X86_FEATURE_BHI_CTRL.
-> 
-> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
+index de107ab4a..618b0d765 100644
+--- a/tools/lib/python/kdoc/kdoc_output.py
++++ b/tools/lib/python/kdoc/kdoc_output.py
+@@ -624,7 +624,7 @@ class ManFormat(OutputFormat):
+     ``manual``
+         Defaults to ``Kernel API Manual``.
+ 
+-    The above controls the output of teh corresponding fields on troff
++    The above controls the output of the corresponding fields on troff
+     title headers, which will be filled like this::
+ 
+         .TH "{name}" {section} "{date}" "{modulename}" "{manual}"
+-- 
+2.54.0
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-
-Although AI brings up a valid argument about whether guests should be 
-pessimized and fallback to the longer sequence ?
