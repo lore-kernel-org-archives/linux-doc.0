@@ -1,253 +1,176 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474413451D6
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 11:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373D82D0C8F
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782302351; cv=none; b=c4UZ11BmAc6/MhPhEIvQfXj9dpGTA+5KMFuQ8P60HUVDwCSOOs+fXwjb04SFycOikYbvm57Vw5NHQ88uBHOG7JSw5PHNjzxm56Nk//7fxndPw9O2ePbrCCP9g5UsgdDFAe8vYQ/oAh2sC/fSmFJNdvdIsL1cRIbHrtnmNfxTDP4=
+	t=1782303156; cv=none; b=bAhA3UCzcJ0cVr1+9k451zoW/1+EcpLU0HIrfsDaVStbn8cr4sAF2qhMws1fmcSxN5oYGIZaaXET/eUXYt7O4HO773/6ZhG+DSfx4ft+ObcakzMVzomrpZ8h8y6nhVMC4Mk1BavhzIWGTzvgDNvgIDYHdwZ2cA0FoBvFszkMFLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782302351; c=relaxed/simple;
-	bh=ccQClhBTGN46P6fOnR9FdT0qUVPVTjjdYvY9i2Z/p0A=;
+	s=arc-20240116; t=1782303156; c=relaxed/simple;
+	bh=AzJxR17LeggvP5p8IUNi+OFv3fxzePdsrz0neVEdzNY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=geO7Ksuc7QlyixaZHAuX8Od1fdlnWS6yF7RbV8i89+XsFf9CFc7Eq6njgNRS3D7xJVqKAXwnY3FTA6Yi1EyvvJpYZ0dOkZjmIU59IU0OEAjA5TDx4vuLCdUO2BAlfwuvN+Dpl41Sf02WTq4ROgm97/b4f+rv2QCnCEeNt1xOegU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gu3LBpGk; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=TXASPHtzxRrIttNdTsxipd2a6bQd1Ao2yJp1C6qoPqXWzrpZBmVul9PN3gKu5iVqN0LNIACIy5ELOV6wFtspVbErh+QDbImDk8I0mEXL0BbUUiBJX6oTcJHJGaU1sQaM1BG+TQj756NzsLzHI9mcr4cOViOdq4X8oRbAkliM878=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YBmQz9P7; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gu3LBpGk"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-37cae11ba85so701157a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 04:59:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YBmQz9P7"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b64c8311so12099775e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782302349; x=1782907149; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AcnLe+6H7fb08Bv+rWkSEkyMo+WogFkYHLdym+VtEGk=;
-        b=Gu3LBpGkL33LgOqQsMS8o0NrdX0krXusnSZr0BZTd8jioYl9fuN8mSF79eJnrESzWt
-         /HkTuG9mDxlHlXRYgjJr38XDBRV73glL9qO0OH6EKgq+2BmkhvM+O6tjaAA+i5v2jZCk
-         1NJK39Hc0PnjNcqtswO6Ea84US0XJ/8TJH/ow0rZZKZ6zvXurEdSZfEEYz6pVJ5l5RY8
-         7lVGClBwQZBEGX2yP0+f++Eh5zhjKDWTdoy8ubtUJOFl7be4R4gUxhEKhxEIU9Of6Dsn
-         A7iYNun64ia+jJLGxaB8E4+ZrdYfQ6CtjunuKFXnFLEZTfrH950wW3oYyYk3f7my+o4N
-         pX9A==
+        d=suse.com; s=google; t=1782303154; x=1782907954; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=myNo/DEuhpzwm5mdaD3SVg2ivdFiLyKElhtRgaxmzTc=;
+        b=YBmQz9P7MESAmznHuEEsfTbHvQU3ktRHb2nh5qU4wapAvDODAG6yJnBxK7Oj+bG2qd
+         ATtBtLnXC9DcgIvRsEwKQi2rxZRZgY+3j/yFlWmX+gWMtwhemagu6xukQL8cFtwqb+RX
+         KCjB1tQ1pJxB5SXlWCwhHMHLer0uwdurErVe3TjeSyUTA7aIRmgLt5sy1woTw1UVlqXo
+         y2l7Cu0APM4LBLWgk8oamz3VpODl6vt9zAgLGa5EfXiGU2iNvTS69Lmcy+weSqmw90yH
+         B+BPM1aC6YAqgY3vcZqno5/II3RIvVCKeNwx9bTnfjun/asDcWz5jiYmcZjSIdcMRJey
+         2qMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782302349; x=1782907149;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AcnLe+6H7fb08Bv+rWkSEkyMo+WogFkYHLdym+VtEGk=;
-        b=c1cKP2v7jgQMXCn7osz0H/ZbtZpmy177t1wpu6YwXAhXabNu83Atblu9NISKar7d4W
-         TVV1/fqgX4AD6Tf+AhZ9m8ZWYyTawKEm5iBOX/G1LGD8jMy/6Ugzb0rPSvuybn66IGEL
-         UcF2SZ6aGpx6xJXmGxnXUQAdyIiZ+n8pb/0NuoHKHUnDkwujh/2P4f8e1jwMEx3H687c
-         eGPEOJQyah085AhKObAJ6wsq2hyM8NPu+6FdJjBBIeVRFQ/KxAKGYhSYmzdoG262opwd
-         YW4yZcNCNEOTpgOJBzVGbRwau30PjwWP0Jfpfs7lpRJFgoesn54R31bWtKzfcLKzHSvU
-         8ndg==
-X-Forwarded-Encrypted: i=1; AHgh+RpnV+Awo7+yB13XXUwgWOmW37FlShUG5gBFVF5b+I3uaxicuYcWw5R3LcLo86y+tTCUVAd5gS/l4n4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0pwG8+GKVWrBTrawuDCTcw/fR6Uvz5bj8bLfKGegPwvHadgGf
-	WgMvxrGCPOn1YYm5SnVGFeiPhoGDs8QJmT6FOop0KmMkqPmevJ8XJAce
-X-Gm-Gg: AfdE7cmd7L/O7u/bLiBqSBUmEImpzGnfF+eVv4jQ+u3p0xsIcmuafkKvbo1iAFjdJCN
-	l74Onep0b+BtmcLMbI918HgXbsZb+x2x0OTBhmCGY/kXFed4ok5CBee8YnaRnaKEMUB8jDA52Km
-	mLz8vSjfybNaZRtob/FEHVo+UpC0F2srFIXW75+wW6XUsrCf4OAntmKjGp6GRXwhY4cW1qNgRg0
-	cTvJGG9j2Y6+EcleSW6UK3AQ4JmOnomEVY4lqZA1v2LsH621Mt5TsZKvw8bVKPxJRDbu0KO4q3u
-	LhQz1Cnu+CtNJgBo/FNsjrx6rM/WFSXWY9QNH6FycOjCiqJ6/F1SqVSzRBGZywJyggcipu4gp9F
-	bzk9OVKjPO9sLEY13kQoaA365F9l7AUU6xfjhBpiJFQOybuCvZUrMvE0QAD0wGiKtglOkzTMi6g
-	YLYUpfarZf50I/KqBWk7K5VrBrjBxe34LAm5aQHD28vX4=
-X-Received: by 2002:a17:90b:520c:b0:36b:9daf:1504 with SMTP id 98e67ed59e1d1-37de421db3emr3545553a91.14.1782302349378;
-        Wed, 24 Jun 2026 04:59:09 -0700 (PDT)
-Received: from [10.125.192.89] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37de3cf70b0sm2368408a91.11.2026.06.24.04.59.02
+        d=1e100.net; s=20251104; t=1782303154; x=1782907954;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=myNo/DEuhpzwm5mdaD3SVg2ivdFiLyKElhtRgaxmzTc=;
+        b=iFJO99rgS0CPUxy/z39AJcjfObfE99RFS76UmiXVGPMd5GO2qerBmm+XCoiefCUI7A
+         z1K9uaruu1/zzq+YfgZm5y8qboiURySCjtNZxrgLy+vr0372J6tKPh/LwPrVRPUHWLhS
+         6uw1HYtKMo76uIH1qxve36nu/ZMRnT3aO5uuNa5ZMtG6kPLXByUUplnlZ25DMQOaCBj7
+         R3mBrJd0971dGcD0kFv8bfRgNGhhDxFbHyqhC2x+sRPMccrFO75ys7xWPbYWZ0TT29iF
+         EdJfThUBistHmDmzEHzYcDVm6BT7KnUBQ4+Ea4LneWWRPL6b7dyD6HCur+hVimUFmYVv
+         HmEw==
+X-Forwarded-Encrypted: i=1; AFNElJ9uHCHBomvMzpWhJIUkwXSK21B8i6iSrtF3sKQInfBV0AOy/MDikEGEbraQrXHvDTDSBM1vhG5gEXc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymyMxxHPlKeRrwQniJCWt3mgmTglpLVykM43NsPTI2J2+A3ypE
+	11bRgr96o67WfI6fZ76x76mQv3IUtqaiOwhW15Bw4qbyAhTIgyYt/KKAyufORhkl6x8=
+X-Gm-Gg: AfdE7ckiGS6ixwtl3rCGEchRM9tuGdqOxukkF91FE8BdEoxFqYp/6zmaRZJeNxgAOBk
+	QNJt9sJmmyof/NHqP/en/CZdpMgzT2ddWLEtDRSBJTZNhJhXLp3gk/3vsCC4wEeFNP1VkB/sG6g
+	M8kkcxWSMj9ftlVWQTHeim7F0YYO/lbA+3JQTyvM3I5x7zhJxhadRI2qlEdSL/JF6q1rZ+wg8PT
+	8kS8R/xIJZ9noJtFyvV2rdasETGGr+5GA+cCJnfXW2pgxrMZGwFABrP6v0rQDj45YzyObqRHmjC
+	qMaBBpWtFQnQUyJP3fswvNAdfiBuIh8vJiHXZaVuuwJPYgD51aD5lmbDeAq4BvukqgWPso906Tl
+	QL2R/zOlJ6qLZuxJ/KBZou0kSO52LZz5wEdParmPZXnR55LUTsKpEelBh1XsFW0rJ7F9hm9JMzX
+	yskp+goahPraCPdZ1u0kN7JNsjdHTLyqgaud5e3oFi1T+GXwZb
+X-Received: by 2002:a05:600c:4899:b0:490:cb90:3e00 with SMTP id 5b1f17b1804b1-4926084b98emr28115875e9.14.1782303153562;
+        Wed, 24 Jun 2026 05:12:33 -0700 (PDT)
+Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [185.218.67.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924944fbbdsm408926155e9.12.2026.06.24.05.12.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2026 04:59:08 -0700 (PDT)
-Message-ID: <057ea303-4c27-1a6e-08de-cce26c699097@gmail.com>
-Date: Wed, 24 Jun 2026 19:58:59 +0800
+        Wed, 24 Jun 2026 05:12:32 -0700 (PDT)
+Message-ID: <171efe97-fd87-45c1-9913-ff62eacab400@suse.com>
+Date: Wed, 24 Jun 2026 15:12:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback
- capability
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
- <20260618044857.69439-2-jiahao.kernel@gmail.com>
- <ajnB8IZrFZwbIr9P@google.com>
- <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com>
- <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 02/12] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
+ Jon Kohler <jon@nutanix.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>,
+ Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ David Laight <david.laight.linux@gmail.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jason Baron <jbaron@akamai.com>, Alice Ryhl <aliceryhl@google.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260622-vmscape-bhb-v12-0-76cbda0ae3e5@linux.intel.com>
+ <20260622-vmscape-bhb-v12-2-76cbda0ae3e5@linux.intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+Autocrypt: addr=nik.borisov@suse.com; keydata=
+ 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
+In-Reply-To: <20260622-vmscape-bhb-v12-2-76cbda0ae3e5@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 2026/6/24 02:17, Yosry Ahmed wrote:
->> My initial thought was that if cold memory is evenly distributed across
->> nodes and we are doing a large writeback, it would be better to balance
->> the zswap entry writeback across all nodes rather than just draining
->> node 0 first. However, since we currently lack a proper metric to
->> represent hot/cold memory (such as age-based tracking), doing this
->> probably doesn't make much sense right now.
+On 23.06.26 г. 20:33 ч., Pawan Gupta wrote:
+> As a mitigation for BHI, clear_bhb_loop() executes branches that overwrite
+> the Branch History Buffer (BHB). On Alder Lake and newer parts this
+> sequence is not sufficient because it doesn't clear enough entries. This
+> was not an issue because these CPUs use the BHI_DIS_S hardware mitigation
+> in the kernel.
 > 
-> Yeah let's start simple and go from there.
+> Now with VMSCAPE (BHI variant) it is also required to isolate branch
+> history between guests and userspace. Since BHI_DIS_S only protects the
+> kernel, the newer CPUs also use IBPB.
 > 
->>
->> So, perhaps we want something like this? Please correct me if I'm wrong.
->>
->> static long shrink_memcg(struct mem_cgroup *memcg,
->>          unsigned long nr_to_scan)
->> {
->>     struct zswap_shrink_walk_arg walk_arg = {
->>       .bytes_written = 0,
->>       .encountered_page_in_swapcache = false,
->>     };
->>     unsigned long nr_remaining = nr_to_scan;
->>     bool memcg_list_is_empty = true;
->>     int nid;
->>
->>     if (!mem_cgroup_zswap_writeback_enabled(memcg))
->>       return -ENOENT;
->>
->>     if (memcg && !mem_cgroup_online(memcg))
->>       return -ENOENT;
->>
->>     for_each_node_state(nid, N_NORMAL_MEMORY) {
->>       unsigned long nr_to_walk;
->>
->>       /*
->>        * Cap the per-node scan by the current LRU length. A referenced
->>        * entry is only rotated to the tail (second chance) and may be
->>        * revisited within a single walk; without this cap those rotated
->>        * entries could drain the shared scan budget on one node.
->>        */
+> A cheaper alternative to the current IBPB mitigation is clear_bhb_loop().
+> But it currently does not clear enough BHB entries to be effective on newer
+> CPUs with larger BHB. At boot, dynamically set the loop count of
+> clear_bhb_loop() such that it is effective on newer CPUs too.
 > 
-> The comment here is a bit misleading. It's not just about draining one
-> node. One call to shrink_memcg() should only scan entries once. The
-> caller can then choose to scan the memcg again, or scan a different
-> one. In this case, the caller should iterate all memcgs first before
-> retrying memcgs again and reclaiming rotated entries.
-
-I have updated the comment. Please see below.
+> Introduce global loop counts, initializing them with appropriate value
+> based on the hardware feature X86_FEATURE_BHI_CTRL.
 > 
->>       nr_to_walk = min(nr_remaining,
->>            list_lru_count_one(&zswap_list_lru, nid, memcg));
->>       if (!nr_to_walk)
->>         continue;
->>       memcg_list_is_empty = false;
->>
->>       nr_remaining -= nr_to_walk;
->>       list_lru_walk_one(&zswap_list_lru, nid, memcg,
->>             &shrink_memcg_cb, &walk_arg, &nr_to_walk);
->>       /* Return the unused share of the budget to the pool. */
->>       nr_remaining += nr_to_walk;
->>
->>       /* Bail out once the whole scan budget has been spent. */
-> 
-> The comment is unnecessary.
+> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 
-I'll do this, thanks.
-> 
->>       if (!nr_remaining)
->>         break;
->>
->>       cond_resched();
-> 
-> Did you observe a problem here or did you just add this due to an
-> abundance of caution?
+Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
 
-The cond_resched() here was just out of caution. Given that both callers 
-(shrink_worker() and zswap_proactive_writeback()) already have 
-rescheduling checks, I suppose we can remove it from here."
-> 
->>     }
->>
->>     if (memcg_list_is_empty)
-> 
-> Do we need memcg_list_is_empty? Can we just check if nr_remaining
-> matches nr_to_scan?
-> 
-
-indeed.
->>       return -ENOENT;
->>
->>     return walk_arg.bytes_written;
->> }
-
-
-/*
-  * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
-  * and write back the reclaimable ones.
-  *
-  * Since the second-chance algorithm rotates referenced entries to the
-  * LRU tail, the per-node scan is capped at the current LRU length so
-  * each entry is scanned at most once per call. It is up to the caller
-  * to handle retries, deciding whether to scan the next memcg to complete
-  * the full iteration, or to rescan the current memcg to drain its zswap
-  * entries.
-  *
-  * Return: The number of compressed bytes written back (>= 0), or -ENOENT
-  * if @memcg has writeback disabled, is a zombie cgroup, or has empty
-  * zswap LRUs.
-  */
-static long shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_scan)
-{
-     struct zswap_shrink_walk_arg walk_arg = {
-         .bytes_written = 0,
-         .encountered_page_in_swapcache = false,
-     };
-     unsigned long nr_remaining = nr_to_scan;
-     int nid;
-
-     if (!mem_cgroup_zswap_writeback_enabled(memcg))
-         return -ENOENT;
-
-     /*
-      * Skip zombies because their LRUs are reparented and we would be
-      * reclaiming from the parent instead of the dead memcg.
-      */
-     if (memcg && !mem_cgroup_online(memcg))
-         return -ENOENT;
-
-     for_each_node_state(nid, N_NORMAL_MEMORY) {
-         unsigned long nr_to_walk;
-
-         /*
-          * Cap the walk at the current LRU length to ensure each entry is
-          * scanned at most once per call. Referenced entries are rotated
-          * to the tail for a second chance, and this bound prevents them
-          * from being revisited within a single call. Retries are left to
-          * the caller, which can choose to rescan the current memcg or
-          * move on to the next one.
-          */
-         nr_to_walk = min(nr_remaining,
-                  list_lru_count_one(&zswap_list_lru, nid, memcg));
-         if (!nr_to_walk)
-             continue;
-
-         nr_remaining -= nr_to_walk;
-         list_lru_walk_one(&zswap_list_lru, nid, memcg, &shrink_memcg_cb,
-                   &walk_arg, &nr_to_walk);
-         /* Return the unused share of the budget to the pool. */
-         nr_remaining += nr_to_walk;
-
-         if (!nr_remaining)
-             break;
-     }
-
-     /* Nothing was scanned: every LRU under @memcg was empty. */
-     if (nr_remaining == nr_to_scan)
-         return -ENOENT;
-
-     return walk_arg.bytes_written;
-}
-
-
-Thanks,
-Hao
+Although AI brings up a valid argument about whether guests should be 
+pessimized and fallback to the longer sequence ?
