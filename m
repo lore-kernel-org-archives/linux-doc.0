@@ -1,159 +1,154 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B9A34676F
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782311922; cv=pass; b=MtBHE7iqJqju3o3kjZR08ZDQolrQqpkEoVjzUohq/Gs74dQL25biLVLdbQCynZuiXj38ACHhYAA3c0Lo3N8fDTl4MK3ezzBC5lInREqjcbkI1iMEt9etOSpj5iWBchzgwaCbV8TsbWSUMUT9SEO/Drtko4BtnCDQ6Cm2ukC67eQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782311922; c=relaxed/simple;
-	bh=+a1qMWWmOM6Y8/o1eN1lz2qoObcQIVgbkHxFmUvd4Kc=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fiD/9Llv4ePg+5AHwwtaU8DLTSuogMH2qpl+9nLmGWWJEZBHa6muHHXTMvmjIJCwLilNHLm0C8nDiShfZ+SYtzbutKAoWn+WEA/eUGPMTRijpH6Wepc7CJkiTjOpLzZHQK1UpBn9Ns8CPUhAmjnIswyjYbm0CmHKLPstsfKI7oM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZCTMx5fg; arc=pass smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9CB3CA486;
+	Wed, 24 Jun 2026 14:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782312093; cv=none; b=kY6oB9rOTpXu4KtkwVMPq5pnIAWFiKnnEL9bF6tD9E0BsdljjrK8gAjjkosfh+Zqm7dlxne+fDXF+/0Zm7eRyOYcLvQ8YeAx7PgJDYOR45bw4/7fDYq/NUUw2pmCoYzVbbsQDza9zONGoBr/09n+JSq30KDzaSwvChRkQYMvDog=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782312093; c=relaxed/simple;
+	bh=rVG0zrvhoLLqupHeedRrLHQngjssH75ENT3IpSBjtLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q3LM4mCGG2odz/kIr9BOO3dtjcfyU/Kr/zJuMiOFd2agb/9e2MQcvKqhLHpOqIPgdEe3UzYBhUnJvzNv6Oi+idraBAefm9XRaipNHQQbB39aqLyQWjXIGk83OFAKj+OQOEwsSHrtLHYt+xgKRw2rlUlW/HamL02K6EhxxzE88Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnyFrDSV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZCTMx5fg"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-139a5f4ca15so1298085c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 07:38:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782311921; cv=none;
-        d=google.com; s=arc-20240605;
-        b=J1Mb0w6pm8iIqhRKgB30GzMi177y4Och0XdqOJ7Uj5aYybTYHmmCf6k2FmsFek5FvS
-         rrel21RFWgSQb4g73SM+vBPkZGp2TC478XR0czgRItzPbe3mt+I5IQEpMoQxWxaYjhT9
-         0aupJVnTI7Dc2q7xVSkOIEmdsWtBj8TgFDxiZnEp7mjtXXqdEkUwpGQnqfS8GsUC0n0f
-         3F76ZETSIQjciqsqoMPE/oB7xdsoAceyHbUGC2EkybwYVE3g42IzNhmGPdME8z0GZgFE
-         RqgQa2baFUslj7mFt551iSUpiw+1+S0CM45mlNo36Go2Q70YAufB+V+fHWfRL21EHJCO
-         lLfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=HpVAzGtumZJ9rywOtX3ITBDfHQ1Vjgs3+apnvgsrs7k=;
-        fh=+UxK57Oc/ryY78oZpkiiL0dm4ow2PdyOcf8a0SYnf4g=;
-        b=kRpnRZ8Od5sdmZu96y60NNg9tw/TeVBiNzRO9K3+oAVi5WtG2KrOzZ5Hh3rwuDViwA
-         u9j/4nRzBHDKXFsjr1kpTL4PFmfhrFCoUm9e7mEofx5C6457nBqzB7n4bYv4TNKgPjyR
-         2ixrO8TfqZjNJwqWaIJI31Ng9+dM1q7d0yys0/JyXvL1QNtTNB05miJbFpxFB7WvMQ50
-         agOD+sU1VmioICJTd+M9yL3ER709HrgPtf+YxvrlcHrzLAIlqKB49eDir23IEF0hcXkz
-         nqb0HnrJqnVmIaTAPb8LHmW3OzEmMPSfFbPP35bxI89reQh79HBwD9gbMTbL1ot44/zd
-         blGA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782311921; x=1782916721; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpVAzGtumZJ9rywOtX3ITBDfHQ1Vjgs3+apnvgsrs7k=;
-        b=ZCTMx5fgI20rN/pA7k/vyqqO5H90+Rsinl2ibGRK+spNvRV54C6b5UaUrahaqwy2cD
-         kxkBKlSEfGb4gX3zCmTUwKUjSNaqaZALAQv4ALjlw+ZJnCrhzyyKOUB42Zskco1ne/B6
-         I1021s+vSW7yaIPKAcaRAP+mGq4yDueR+c2Moi8Rwmr1xoo5YV1aCVzlD6Bm/9clOaTm
-         /rLDaTfH2c0j8yRBu6hiaQU3BPUITdTI44zc4qPxyxp8tF9Fzx8QIOZ8h3fSlWxW5Y09
-         FOI6UDJ2cn3AIndFuSnzSlarDHpj/Z/+F+2M08K31q2tzJFwl3OMdZea+wcSWxJ41gbM
-         R/5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782311921; x=1782916721;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HpVAzGtumZJ9rywOtX3ITBDfHQ1Vjgs3+apnvgsrs7k=;
-        b=tOB5W4tGqp3OgnYg8l4lGxAVzy7jtNskFm917WPhPgMPRJJykU3WWa7DOUdEo+L1Im
-         MvNe6jbZcwgp6xPUcB4OoJCPZFFrp2dxRUcRRgcyJioA5CyIRarUVrsvyvaM0fRcbEDk
-         p3qaCS+eYkQXXuA2a6moH7CE5RnQWV7TcF0+bJkTcT385Nj9ea3IQ/Ivhinm2XTaIryQ
-         PLc/1Yaib1LcyG6396NtSlPNW3qOGKqrrSA/3LTyjlJOcqgwGr5rC3fAo0QNmr3RpEa5
-         FFS9yZJ6pBEBJb6/lfQ+JS1LtHboi34SYQ6pSGNBTvnmvSZjYPOjyjyQDkZOFeGcdiaA
-         sZKQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8vLGI6ldzpE3EkVBZQXE7S9ZKpehRBcxfr/uE+iHJ9ws1A+9N8J7CZeXKPpmBsdkK/izTXWJPSIxE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+EVPa/u/9tiyZN34M9JmjhkxPOvckvClX2kUg/DRJBcG0f8zK
-	e+ScQvZUegKC3LuF2G8VWx2+sj1hoGMaaxxArGv5/vhwy0haVzpTuJk17M+nLDBDjVdmGXltcZk
-	faRVtnyVRf11wZpE8mN97UrcpssSCK7jvQL6lOTS0
-X-Gm-Gg: AfdE7clgKP0+8MPnvZMV5KCBLkGGaQ86EWnJgZcZT2m4Rh7qX3VpA16EFXEcJTS6nXC
-	hskjIp/rkUdUW4QwN+SnsPO+VFjmon9erVFCtHV08BNLesRInXMqKugKQ/3MmznXLA5Zn1t+nd+
-	kLxW7rX8tO5l9yGuUtdcbaIm1xkl9EqgTC7MUI5lH6KfBQu45LVtech48f8PVWQKyHVf4jmz4hl
-	356m5xACZbX7sgxszNSKoD4fiGPhnCkr65upUKDXzK/MQ2mbdd3QXUwXlBF9MY3bGhzao+koWDX
-	80m0XfRHBxY4f3SPeGqlWCPEGhGo
-X-Received: by 2002:a05:7022:6612:b0:133:3bb1:8d40 with SMTP id
- a92af1059eb24-139d0c24496mr2539007c88.15.1782311919284; Wed, 24 Jun 2026
- 07:38:39 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 07:38:38 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 07:38:38 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <1b59fec2-a464-4429-8532-880394912af5@linux.intel.com>
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-9-9d2959357853@google.com> <1b59fec2-a464-4429-8532-880394912af5@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnyFrDSV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3CA1F000E9;
+	Wed, 24 Jun 2026 14:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782312091;
+	bh=LYDX4vbUgsadUQdhH1zwzLpT33O5o/cj28eAKlfuULs=;
+	h=From:To:Cc:Subject:Date;
+	b=OnyFrDSVJRPo7gRWPKHxPZwrV3tND81cCviSqKHmzwYL3z7OfYrsPXMxlj+OvPdAT
+	 kxo0Mc26KOOd4+oUMw8PE2awga6MDhr/2u8t89BEFH6acgtsrj/njOB6rzJoTgN/tI
+	 tbB3XYqFnMbfioGfoMvuZgtxL+1khca1BktThPYkImstkRpFqvCG1sXlhKuW1dANOB
+	 T52M6R7yAwX7CaPOos6N1qXLh9oOIfZ2JtuPHl/OUzVPYbF5t4NdGvi2Clr/wWGbzW
+	 CYwHApHt6BLY1Eq6VDx93qnv6L7X49NbaF0NQpZbo8eqqvROLZ74dHFBrqLKMPvih0
+	 sS++4JpG3JZ4g==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v8 00/10] tracing/probes: Add more typecast features
+Date: Wed, 24 Jun 2026 23:41:27 +0900
+Message-ID: <178231208703.732967.1160700962651040729.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 24 Jun 2026 07:38:38 -0700
-X-Gm-Features: AVVi8CeozOwjsDHz095RESzI1L73Y_-_c-08wJAGuPOXvsS0FIpnjscm-5zrczA
-Message-ID: <CAEvNRgG-WDzHp-15Mig4hiU5Dag0pFCu70-R-9b=PkD69W=ZMg@mail.gmail.com>
-Subject: Re: [PATCH v8 09/46] KVM: guest_memfd: Introduce function to check
- GFN private/shared status
-To: Binbin Wu <binbin.wu@linux.intel.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
-	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
-	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
-	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
-	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
-	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
-	aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Binbin Wu <binbin.wu@linux.intel.com> writes:
+Hi,
 
->
-> [...snip...]
->
->> +bool kvm_gmem_is_private(struct kvm *kvm, gfn_t gfn)
->> +{
->> +	struct kvm_memory_slot *slot = gfn_to_memslot(kvm, gfn);
->> +	struct inode *inode;
->> +
->> +	/*
->> +	 * If this gfn has no associated memslot, there's no chance of the gfn
->> +	 * being backed by private memory, since guest_memfd must be used for
->> +	 * private memory,
->
-> "guest_memfd must be used for private memory" is a bit confusing to me.
->
+Here is the 8th version of series to introduce more typecast features
+to probe events. The previous version is here:
 
-Hmm good point. Is the source of confusion that guest_memfd can be used
-for both shared and private memory?
+ https://lore.kernel.org/all/178217904992.643090.15726197350652241270.stgit@devnote2/
 
-Perhaps this can be rephrased as:
+In this version, I removed already picked 2 patches and add 2 new
+fix and feature patches. The previous BTF typecast patch allows
+`(STRUCT)FIELD->MEMBER` without $ prefix for eprobes, but it also
+allows user to use COMM/comm instead of FIELD. $COMM/$comm are special
+variables, so it should not skip $ prefix[1/10]. However, accessing
+event fields without $ prefix itself is acceptable, it is generically
+allowed without typecast[2/10].
+Other patches have small fixes according to Julian and Sashiko's
+comments and are rebased on top of probes/core branch.
 
-guest_memfd is the only provider of private memory and guest_memfd must
-be used with a memslot, hence if there's no associated memslot, there's
-no chance of this gfn being private.
+This series extends BTF typecast feature and add more options:
 
->> and guest_memfd must be associated with some memslot.
->> +	 */
->> +	if (!slot)
->> +		return 0;
->> +
->>
->> [...snip...]
->>
+1. Expanding BTF typecast to kprobe and fprobe.
+   (currently only function entry/exit)
+
+2. Introduce container_of like typecast. This adds a "assigned
+   member" option to the typecast.
+
+   (STRUCT,MEMBER)VAR->ANOTHER_MEMBER
+
+   This casts VAR to STRUCT type but the VAR is as the address
+   of STRUCT.MEMBER. In C, it is:
+
+   container_of(VAR, STRUCT, MEMBER)->ANOTHER_MEMBER
+
+3. Support nested typecast, e.g.
+
+   (STRUCT)((STRUCT2)VAR->MEMBER2)->MEMBER
+
+   the nest level must be smaller than 3.
+
+4. Add $current variable to point "current" task_struct.
+   This is useful with typecast, e.g.
+
+   (task_struct)$current->pid
+
+5. per-cpu dereference support.
+
+   Intrdouce this_cpu_read(VAR) and this_cpu_ptr(VAR) to
+   access per-cpu data on the current CPU (accessing other CPU
+   data is not stable, because it can be changed.)
+
+   You can access the member of per-cpu data structure using
+   typecast like:
+
+   (STRUCT)this_cpu_ptr(VAR)->MEMBER
+
+6. Support event fields without $ prefix on eprobes.
+
+   Now eprobe events can access its event fields.
+
+And added fetcharg dump feature (for debug) and updated test scripts
+to test part of them.
+
+Thanks,
+
+---
+base-commit: 18dfb4703cd6af27deb30d628dac2e7db2b24e6a
+
+Masami Hiramatsu (Google) (10):
+      tracing/probes: Make the $ prefix mandatory for comm access
+      tracing/probes: Allow eprobe to use variable without $ prefix
+      tracing/probes: Support dumping fetcharg program for debugging dynamic events
+      tracing/probes: Support typecast for various probe events
+      tracing/probes: Support nested typecast
+      tracing/probes: Type casting always involves nested calls
+      tracing/probes: Support field specifier option for typecast
+      tracing/probes: Add $current variable support
+      tracing/probes: Add this_cpu_read() and this_cpu_ptr() dereference method to fetcharg
+      tracing/probes: Add a new testcase for BTF typecasts
+
+
+ Documentation/trace/eprobetrace.rst                |    9 
+ Documentation/trace/fprobetrace.rst                |   10 
+ Documentation/trace/kprobetrace.rst                |   11 
+ kernel/trace/Kconfig                               |   12 
+ kernel/trace/trace.c                               |    8 
+ kernel/trace/trace_eprobe.c                        |    2 
+ kernel/trace/trace_fprobe.c                        |    2 
+ kernel/trace/trace_kprobe.c                        |    2 
+ kernel/trace/trace_probe.c                         |  586 ++++++++++++++++----
+ kernel/trace/trace_probe.h                         |   99 ++-
+ kernel/trace/trace_probe_tmpl.h                    |   25 +
+ kernel/trace/trace_uprobe.c                        |    3 
+ samples/trace_events/trace-events-sample.c         |   40 +
+ samples/trace_events/trace-events-sample.h         |   34 +
+ .../ftrace/test.d/dynevent/btf_probe_event.tc      |   51 ++
+ .../test.d/dynevent/eprobes_syntax_errors.tc       |    6 
+ .../ftrace/test.d/dynevent/fprobe_syntax_errors.tc |   12 
+ .../ftrace/test.d/kprobe/kprobe_syntax_errors.tc   |   12 
+ .../ftrace/test.d/kprobe/uprobe_syntax_errors.tc   |    5 
+ 19 files changed, 770 insertions(+), 159 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+
+--
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
