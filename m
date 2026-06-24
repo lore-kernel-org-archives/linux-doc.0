@@ -1,159 +1,201 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E9E380FEB;
-	Wed, 24 Jun 2026 04:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A55A3254A8
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782274509; cv=none; b=LkiD5ijvLzyqPs2toh9wEG8tAHymjKW3xhAiXPODyJirgu+ZtXWEWVkM+nqJqo9GFA2VI9eqmXsCzgG9MgnRJ3v7lH2i7n2ajSzoSFVgrk0OLmjbws8c7W2yiecPzNIbTuTw8V3dW5FuUpcOMruwBRQzktAQqRyR3Jzvw+DQiYQ=
+	t=1782280337; cv=none; b=ozK7h7dpE+bVr/yrKJTz5Q3csXRj3J71WoL+n6snMxVq6HeGG2t0HontWO1/fLMEySWiQipqsf20EEMMFq44JTk+nNM1w95FYblibwR5X/1pfihjH3innISgGdxykRZ+NDtMAIigYZyv59PlmyrFK60I/aOxWHeM8bG9ZxRUIhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782274509; c=relaxed/simple;
-	bh=Rt+dMmjfl+HECVstGcDntP8qmPQ3Au9mMljeDbocBoE=;
+	s=arc-20240116; t=1782280337; c=relaxed/simple;
+	bh=lNutLdgBVcfzaSe0zfB/rgX3VF9ibBXkW6a8qpgoRD0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dy4VaytcQ4KaydBgSYQxq7B9qsMs/BZZE85LWHzG7SGT9wspBXeuOycPhFlVwFOGYb6fnNUubn4Q1x+hBMDI5ZA848iW8IPb5q+8R9F6bG3PuvRNRTAmy6MsCq6i3biCha+bPhT4wstSUZm/gtmW1RF2T2qDw9zREIb0t3X6VuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GaP209XP; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	 In-Reply-To:Content-Type; b=JblwVYkclOU8WYiQTxzbSZCvXfkh5ao8J7j5rwFdf46OByZYvBQsM7OKLcEudKl5N7qnpKIEDCy+dl+vf7vMwbilNmMu0Z+MYoANtBGmSdtCV01oKWTVu13kWxRRi9KSzlSabsFxCVDUuElFxU2as/W69yWuGTKvhjpceqpIE2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PJvOU0yi; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GaP209XP"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A4201758;
-	Tue, 23 Jun 2026 21:15:00 -0700 (PDT)
-Received: from [10.164.148.38] (unknown [10.164.148.38])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C92303F836;
-	Tue, 23 Jun 2026 21:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782274505; bh=Rt+dMmjfl+HECVstGcDntP8qmPQ3Au9mMljeDbocBoE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GaP209XPOmNK0pP342ZcONRM7jF9d/ZFio8I1JCPA5GBq70ARBEkb+C24Fq6kM4NY
-	 nVKD8Lfn51GoeWLXQJPJoqxgi/esOQIqhMW9JUng8alESW7BHHqjqirY97ZkyhEhSP
-	 OcHOCcYjKGVzSYAXUFE3Jhp/cxRvk6oGBlNumAzo=
-Message-ID: <f5927785-d5d3-4e64-bbac-220d40718a1f@arm.com>
-Date: Wed, 24 Jun 2026 09:44:49 +0530
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PJvOU0yi"
+Message-ID: <2c59b7b7-a3c0-4799-8c39-2288299b117e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782280332;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RsiEnXmUmSVLGgTWzqORpnaRJ3h8lAWFGgmjylcqD+Q=;
+	b=PJvOU0yiGiDiKEW2Cb5tXVqblMIshjWRqG6uo7ZDMW152GopB276SmE7xkoKyNWI4DywHc
+	b6yPTTd6geCzZqYA4BUq8qaXuq7K4NLe69u8o2SBvIt/JVE8YtJA4zKgpBjrfPcrcdhHDr
+	vZ88B4C/16mQFWAd+iLuwxOdNBAqETI=
+Date: Wed, 24 Jun 2026 13:51:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
- allocation time
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Harry Yoo <harry@kernel.org>, ryabinin.a.a@gmail.com,
- akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
- andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
- kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
- anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
- david@kernel.org, will@kernel.org
-References: <20260612044425.763060-1-dev.jain@arm.com>
- <b1502a60-09a1-4699-886b-93d041de7023@kernel.org> <ajVByfkLbetzA8bB@arm.com>
- <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org> <ajltLd6FQg1aMge_@arm.com>
- <78d97371-b477-4230-8690-ac870a7bab3b@arm.com> <ajq-Ukmd9NBruhr5@arm.com>
-Content-Language: en-US
-From: Dev Jain <dev.jain@arm.com>
-In-Reply-To: <ajq-Ukmd9NBruhr5@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems
+ update in cpuset_hotplug_update_tasks()
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260623230413.1984188-1-longman@redhat.com>
+ <20260623230413.1984188-2-longman@redhat.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <20260623230413.1984188-2-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
 
-On 23/06/26 10:41 pm, Catalin Marinas wrote:
-> On Tue, Jun 23, 2026 at 10:32:16AM +0530, Dev Jain wrote:
->> On 22/06/26 10:43 pm, Catalin Marinas wrote:
->>> On Mon, Jun 22, 2026 at 09:42:10PM +0900, Harry Yoo wrote:
->>>> On 6/19/26 10:19 PM, Catalin Marinas wrote:
->>>>> On Thu, Jun 18, 2026 at 10:35:15PM +0900, Harry Yoo wrote:
->>>>>> On 6/12/26 1:44 PM, Dev Jain wrote:
->>>>>>> Now, when a memory object will be freed, it will retain the random tag it
->>>>>>> had at allocation time. This compromises on catching UAF bugs, till the
->>>>>>> time the object is not reallocated, at which point it will have a new
->>>>>>> random tag.
->>>>>>>
->>>>>>> Hence, not catching "use-after-free-before-reallocation" and not catching
->>>>>>> "double-free" will be the compromise for reduced KASAN overhead.
->>>>>>
->>>>>> I doubt users who care about security enough to enable HW_TAGS KASAN
->>>>>> are willing to compromise on security just to save a few instructions
->>>>>> to store tags in the free path.
->>>>>>
->>>>>> To me, it looks like too much of a compromise on security for little
->>>>>> performance gain.
->>>>>
->>>>> I don't think there's much compromise on security for use-after-free.
->>>>
->>>> I think it depends... OH, WAIT! I see what you mean.
->>>>
->>>> You mean use-after-free before reallocation does not lead to much
->>>> compromise on security because objects are initialized after allocation?
->>>>
->>>> You're probably right.
->>>>
->>>> Hmm, but stores to e.g.) free pointer, fields initialized by
->>>> constructor or accessed by SLAB_TYPESAFE_BY_RCU semantics after free
->>>> will be undiscovered if they happen before reallocation.
->>>
->>> Even with SLAB_TYPESAFE_BY_RCU, the object isn't tagged on free either
->>> (or realloc, only if the actual slab page ends up freed). But we don't
->>> get type confusion for such slab.
->>>
->>> However, without tagging on free, one could argue that it reduces
->>> security for cases where the page is re-allocated as untagged - e.g. all
->>> user pages mapped without PROT_MTE. Currently we have a deterministic
->>> tag check fault if the page is coloured as KASAN_TAG_INVALID. I think
->>
->> So you are saying that a stale kernel pointer can continue to use the
->> reallocated page, because for non-PROT_MTE case the page does not get
->> a new tag. Makes sense.
+On 6/24/2026 7:04 AM, Waiman Long wrote:
+> As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
+> unnecessary task iteration and updating of tasks' CPU and node masks
+> when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
+> due to the fact that the temporary new_cpus and new_mems masks do not
+> inherit parent's effective_cpus/mems when they are empty which is the
+> expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
+> Enable cpuset controller in default hierarchy").
 > 
-> Yes.
+> Fix that and avoid unnecessay work by enhancing
+> compute_effective_cpumask() to add the empty cpumask check
+> and inheriting the parent's versions if empty when in v2. A new
+> compute_effective_nodemask() helper is also added to perform similar
+> function for new effective_mems.
 > 
->>> for this patch, it might be better to only do such skip on free in
->>> kasan_poison_slab() rather than kasan_poison(). Freed pages would then
->>> be tagged.
->>
->> I think you mean to say, "skip tag on free when freeing pages into buddy"?
+> Add new test_cpuset_prs.sh test cases to confirm that effective_cpus
+> will inherit the parent's version if cpuset.cpus is empty.
 > 
-> No, I meant always poison via kasan_poison_pages(), as we currently do
-> with KASAN_PAGE_FREE being set.
+> [1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
 > 
->> So that would mean, kasan_poison() will do the poisoning also in the
->> case of value == KASAN_PAGE_FREE.
+> Suggested-by: Ridong Chen <ridong.chen@linux.dev>
+> Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default hierarchy")
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>   kernel/cgroup/cpuset.c                        | 45 +++++++++++--------
+>   .../selftests/cgroup/test_cpuset_prs.sh       | 11 ++++-
+>   2 files changed, 35 insertions(+), 21 deletions(-)
+> 
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index aff86acea701..044ddbf66f8e 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -1094,12 +1094,35 @@ void cpuset_update_tasks_cpumask(struct cpuset *cs, struct cpumask *new_cpus)
+>    * @cs: the cpuset the need to recompute the new effective_cpus mask
+>    * @parent: the parent cpuset
+>    *
+> + * For v2, the parent's effective_cpus is inherited if cpumask empty.
+>    * The result is valid only if the given cpuset isn't a partition root.
+>    */
+>   static void compute_effective_cpumask(struct cpumask *new_cpus,
+>   				      struct cpuset *cs, struct cpuset *parent)
+>   {
+> -	cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
+> +	bool has_cpus;
+> +
+> +	has_cpus = cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
+> +	if (!has_cpus && is_in_v2_mode())
+> +		cpumask_copy(new_cpus, parent->effective_cpus);
+> +}
+> +
+> +/**
+> + * compute_effective_nodemask - Compute the effective nodemask of the cpuset
+> + * @new_cpus: the temp variable for the new effective_mems mask
+> + * @cs: the cpuset the need to recompute the new effective_mems mask
+> + * @parent: the parent cpuset
+> + *
+> + * For v2, the parent's effective_mems is inherited if nodemask empty.
+> + */
+> +static void compute_effective_nodemask(nodemask_t *new_mems,
+> +				       struct cpuset *cs, struct cpuset *parent)
+> +{
+> +	bool has_mems;
+> +
+> +	has_mems = nodes_and(*new_mems, cs->mems_allowed, parent->effective_mems);
+> +	if (!has_mems && is_in_v2_mode())
+> +		nodes_copy(*new_mems, parent->effective_mems);
+>   }
+>   
+>   /*
+> @@ -2148,15 +2171,6 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+>   			goto update_parent_effective;
+>   		}
+>   
+> -		/*
+> -		 * If it becomes empty, inherit the effective mask of the
+> -		 * parent, which is guaranteed to have some CPUs unless
+> -		 * it is a partition root that has explicitly distributed
+> -		 * out all its CPUs.
+> -		 */
+> -		if (is_in_v2_mode() && !remote && cpumask_empty(tmp->new_cpus))
+> -			cpumask_copy(tmp->new_cpus, parent->effective_cpus);
+> -
+>   		/*
+>   		 * Skip the whole subtree if
+>   		 * 1) the cpumask remains the same,
+> @@ -2704,14 +2718,7 @@ static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
+>   	cpuset_for_each_descendant_pre(cp, pos_css, cs) {
+>   		struct cpuset *parent = parent_cs(cp);
+>   
+> -		bool has_mems = nodes_and(*new_mems, cp->mems_allowed, parent->effective_mems);
+> -
+> -		/*
+> -		 * If it becomes empty, inherit the effective mask of the
+> -		 * parent, which is guaranteed to have some MEMs.
+> -		 */
+> -		if (is_in_v2_mode() && !has_mems)
+> -			*new_mems = parent->effective_mems;
+> +		compute_effective_nodemask(new_mems, cp, parent);
+>   
+>   		/* Skip the whole subtree if the nodemask remains the same. */
+>   		if (nodes_equal(*new_mems, cp->effective_mems)) {
+> @@ -3923,7 +3930,7 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
+>   
+>   	parent = parent_cs(cs);
+>   	compute_effective_cpumask(&new_cpus, cs, parent);
+> -	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
+> +	compute_effective_nodemask(&new_mems, cs, parent);
+>   
+>   	if (!tmp || !cs->partition_root_state)
+>   		goto update_tasks;
+> diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> index 0d41aa0d343d..ca9bc38fdb95 100755
+> --- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> +++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> @@ -495,13 +495,20 @@ REMOTE_TEST_MATRIX=(
+>   	# Narrowing cpuset.cpus to previously sibling-excluded CPUs should
+>   	# not return CPUs that were never actually owned.
+>   	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
+> -	      .      .     .         C3    .       .     p1:4|c11:1-2|c12:3 \
+> +	      .      .     .       C3      .       .     p1:4|c11:1-2|c12:3 \
+>   							 p1:P1|c11:P1|c12:P2 3"
+>   	# Expanding cpuset.cpus to include a previously sibling-excluded CPU
+>   	# after the sibling has become a member should correctly request it.
+>   	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
+> -	      .      .      P0     C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
+> +	      .      .     P0      C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
+>   							 p1:P1|c11:P0|c12:P2 2-3"
+> +	# Cpusets with empty cpuset.cpus should inherit parent's effective_cpus
+> +	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
+> +	      .      P1    P1      .       .       .     p1:3-4|p2:5-6|c11:1-2|c12:3-4|c21:5|c22:5-6 \
+> +							 p1:P1|p2:P1|c11:P1"
+> +	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
+> +	      .      P1    P1      .      O5=0     .     p1:3-4|p2:6|c11:1-2|c12:3-4|c21:6|c22:6 \
+> +							 p1:P1|p2:P1|c11:P1"
+>   )
+>   
+>   #
 
-Yeah sorry I wrote two contradictory things above, that's what I meant too.
+LGTM.
 
->>
->>> An alternative would be tagging on free only with a new tag and skipping
->>> it on re-alloc. But we'd need to track when it's a completely new
->>> allocation or a reused object (I haven't looked I'm pretty sure it's
->>> doable).
->>
->> That was our original approach, and IIRC we had concluded there was no
->> security compromise. However it is difficult to implement - it has cases
->> like, what happens when two differently tagged pages are coalesced by
->> buddy and someone gets that large page as an allocation.
-> 
-> Yeah, it's fairly complex.
-> 
-> I think the more problematic case is when we can't detect
-> use-after-reallocation and this happens when a page is reused untagged
-> (probabilistically, also when the page is reused with the old tag). As
-> an optimisation, it might be sufficient to skip poisoning when freeing
-> an object into the slab but keep the poisoning when freeing a slab page
-> into the buddy allocator. That's where the page may end up in a place
-> untagged.
-> 
-> Also for your optimisation to only tag on reallocation, do you have any
-> code to read the current tag and avoid reusing it? That's useful for
-> kmalloc caches or other merged kmem caches where we can have type
-> confusion.
+Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
 
-I don't have it, but should be fairly simple I guess. I just wanted to
-keep it simple for now.
-
-Anyhow someone needs to first test the current patchset to get some
-numbers, we would be wasting time on this if no one gets an improvement.
-
-> 
+-- 
+Best regards
+Ridong
 
