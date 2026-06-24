@@ -1,211 +1,93 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6E53C13F5
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782310731; cv=pass; b=kYLzpTtHRLwgyzUnKizG1H8FKlbkC+9QLeQehtFQEJtsFxsm+QdZaBD4gDkkQIXNWp3B43VIUpPykqO72zcSpQ0dL81YA9Obwegx4SMZRhKUzpP3vTejR3zUMGFuSM/SLCL/a+N75Jtv7HIyp5vYs1L/U2f0OigRuzNSOXN6VM4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782310731; c=relaxed/simple;
-	bh=S43KLHfWZf4rr+LSchiMooKQ2vnBu5Vtd0C00yl/idE=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TbTPXU1ryvwlb6LHhX+9IOU/grQw4pnJ5BS2eJ+eYuQclIdDMGJIxQrne67aGQYOCjXpuBxF201JizP8CCmeNrG9l4go4NQCoa4oryWp9AcWFIWW2FS7Jh853mvPIosNW70R1+KNiuqdxZFffekonxM/Mpz9v1NLeGw1tlNMzJE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=df3sqHyt; arc=pass smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11503BED75;
+	Wed, 24 Jun 2026 14:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782310820; cv=none; b=mSJC5BG4z/waA+HKzId4LtvD3gmzK4IGAo0xb4QmyhoWXTce2oQ/NUvmZOsSk5ouGOb1Jh9SsboH9sa8XpQQ46JouKn9O5/ir03krW0JEIUWhn9SWjWfz2BNTQRTcfTPYJD1Iualhg1I8I624g6+ZXgB+z5tg0LsXo561aQsFIc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782310820; c=relaxed/simple;
+	bh=ySbn1fs47Qi9tC2NgHzlmMjeN8mCYPWSYniQgOYZNhk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kxaj2bIsf8Oibv6yVk56okpUhrJXmabUNXgCktqYV7zGdn3i0yXN4eP6ZUA6GTXgzVa2P35ksBHsc8szWYWvcCjSFFXfROpvFIGS0ddLGE4stQC/1oBxCmZXYD/+aGG2AiGEbDbOuTghohkf66MRnWj4ColbQSqWwAKBWYbU1Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PAgkz+O/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="df3sqHyt"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-13986d61b4eso2706739c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 07:18:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782310727; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eFj/jbyCs2+qyaIXfLdiz40siNBI3QhM6dqShLGmRxSKWO2CW7ps/o0KX2zznFVU1G
-         NNn88OShJ1IYMhMJ9dbFJDeK53zbY2f/H3MuDZfGajvbytMUmRE34dGUD+Gqenii7U+B
-         XdHPfS1HFCyjJa+5XH2Tg15DR60s7WewrMXYaIupjknwxEg2nJQX/5djccvSbGxlhknv
-         K52X7OGGANUlkACEA+KTAwGifg3avW9pnfCTtme40fZYUZLBnvAVDXZvU0TykMFFEb8J
-         S4ggdQRTuilxBsntzJuYVlanIsIe4cilClWf7tKuvTBEEkYs77pIVExXbD4QoMtmw2XM
-         VVAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=ucZ6vleVNv7XMe9m+p1ud+LWxJsaO5xEtX2/mrf+WGU=;
-        fh=rskO4aX7LWfp8dA7HRxh/Et6fkeSn8gsTHmCqECLZZM=;
-        b=cLzrDhRkwVBu1Fk5e6XBl3/ow9vKiUZwHf8OxYsnAEDZrkRmLw0qZcwvNUsLisvyYE
-         dBON2bv2ys3y/sqJ3dZxoW+ynfhQvjGo3OCINiq/+feFjoW6OF4CWSSFM1YpO7umuM+f
-         iy9I2NMvFoubQ9iFyg+gXSvMyNq5fLLNed8oCCOs2w6exAciqAp5CUm5b93DdbJaCH7K
-         y15znyp/zLS6J6vNys3B88VKKi8xQ9wNspnIUxnSG2iSh5Ipz5XY1WLWAj+uE6uNbruN
-         HvSns6miMEKfe6dZ2yqdbRbF7co4LX0ZHdwMmgzmoVrED+LjUDUYYSBkvTdvz1YRkpZ0
-         hXlA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782310727; x=1782915527; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ucZ6vleVNv7XMe9m+p1ud+LWxJsaO5xEtX2/mrf+WGU=;
-        b=df3sqHytMdVQfm8AoVQf0XDsZFlP86k7xtk4HCgprtM4Sn9s7OAXQylD/qcfp/Ep9r
-         0t9p/fnfAiUBS/iQBNEPTdSrMRAMDtcJP1OwM4knL5F42tn5UEehXedN8s4JXkHtRTZK
-         VOqr9xe3z7xacVEAVUp0J8cETm9/thUkrXIXkD9i85dk8hbcnwljADl4eLtMcNHJUdq7
-         Y1FOh+re6oPej1vzugspLX8LP1l+xmKh7xNSPDHoAHZvo10EYqTi2dcHjOsy0YYdRivn
-         fRKFRvQUauDv62EyXbk7hRSdU8O/51XpfJwHFWCzmVQRJkPuzoLRk3OrekIrJxhOujO3
-         IjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782310727; x=1782915527;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ucZ6vleVNv7XMe9m+p1ud+LWxJsaO5xEtX2/mrf+WGU=;
-        b=J354j1j17VNvXIXea7VQmtVZIf6hM3inaspeKkQNQ75TQbA8c+dZbI0WuYJeJM3Hlb
-         Ip5sld3/IhU/tMBopyAniCntYUIRFe83pmU+VXUIh5OHu6xoyBhX2Hvu0xhVA4r3+1MB
-         gdojTA0ftLtkOdFGeEBQl6j+6mfTOWZyQ0NUtwLd7wFarlwhEhVZXEogleDDsZvcnlq6
-         CWSIsJDQf6ZSxlIp1YDpzpp+tDrCAld/sDt6cO4ixLHoeo3Zq8dbtDDrNk2mO/s/SJyP
-         ZGyCnyW9MnJij8mmfzO7w7vWT+fCzMKHcSYTkb6aiwDEtHlWlaNMp4HXqkUUnaK9B6gG
-         zjTw==
-X-Forwarded-Encrypted: i=1; AFNElJ8k3RNUPC6UKXC1BpUBNpDR86pnWDdY2pEVSdxvw5VCULsm3TUIlmHkMIkJrFyfwi0Ng0PbQCRsiGA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytaInXTTU08d6SAoa0DiIllNZquBioroYF6Slz2lLxDLWI4TFj
-	dpqQZI0do1tGwrm3MwAqAZQXDKJMWVczwUJjdJQmUcjMKIFuXC8XJFnZsgqIouLYjcXevRLpknO
-	MEQ1gyg9ZnWEzsto6OgGcbIEVMeCXnQ2JtltguL3z
-X-Gm-Gg: AfdE7cn+4z3PQYt9HAwf9TR0eFu/h/Jt8O2+HVv/7lBEog+EwmVjyOowaVOuutjfUkV
-	LWOBXQnZEQGukBECpR4ztPhXtE9hcCEOiGcV6/T8rvxClTAwBTcmwf20hfQeQ6kxrxc6Qm13+TV
-	a2ulv4l9MYOtKpcyK2/ZPGV0cMyRybadVgF4n2fTFfce1CJ9mVZscBeWjpMiHsnA49he9sqevZc
-	oBGG1z9cAUgTl9rFwIyRH8eUPtsETMJ0/2zBAehUntCLS6p+NPsoM1JEYWV+kjEb7SiA5x0cEm4
-	9uk1GTnQLcMskwMhVIAueAzgrgRE
-X-Received: by 2002:a05:7022:43a0:b0:12d:de3e:86a8 with SMTP id
- a92af1059eb24-139ad72bfe4mr15983384c88.38.1782310725876; Wed, 24 Jun 2026
- 07:18:45 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 07:18:45 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 07:18:44 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <3ec15992-2a29-434b-8c99-8b86bfcf007e@arm.com>
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-8-9d2959357853@google.com>
- <CA+EHjTw6x-mxDnJjnhE-6SV73tMrb0paKDTtOC2j6zJ1fXZDLA@mail.gmail.com>
- <CA+EHjTxu32nQ+vPV7Zmcw76_-V4g2_g=P_UzRnnO2dP1PFO2ww@mail.gmail.com> <3ec15992-2a29-434b-8c99-8b86bfcf007e@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PAgkz+O/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 951341F000E9;
+	Wed, 24 Jun 2026 14:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782310819;
+	bh=DJajJ6C8GLY+N9uEH7jpwp8hPpWryUvttF8AzRaLQYw=;
+	h=From:To:Cc:Subject:Date;
+	b=PAgkz+O/7OxDk2fOT0fUDrXFwnePUhWrU3gVf2PYiU7jxZI3dX88PVVKb+XuGGhdS
+	 4jIKiEulixFT3gs4wizds4JiGYKtYGw7IYmh6O8oO+oQRaCvL6oa/dcpK3l2m+sas4
+	 ABL/ND6fZvexkg+/mX4bK9Ja29jYPc0/g0OjJsWfKouVEEbM9aiLnPt3FOnpIIdspK
+	 WXW3MwJR5faCndTkPeU5PfGvW0P0vQkP+CVO9yaS/2mP87T0K8fy0P/7AX6OeNcnPE
+	 IpTJq8R3nvL3BDEpsnOh3SPqDnhKUmNDoU4pG3mH0AlJqjGMcY8fRqmAtNRUp3gwmN
+	 ReGKHg8zw+8JA==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 00/11] mm/damon: update, optimize, and clean up doc, tests, and code
+Date: Wed, 24 Jun 2026 07:19:56 -0700
+Message-ID: <20260624142008.87180-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 24 Jun 2026 07:18:44 -0700
-X-Gm-Features: AVVi8CeUzt8nV1nzvS6dw32sjloWQ_ALAuG02W0rgNOvY8pSNnpach_kfV-0O1g
-Message-ID: <CAEvNRgEKB0FhD=qhyX=0m2o+d02Jz6n6njdbFmjyiUpK3Up-4Q@mail.gmail.com>
-Subject: Re: [PATCH v8 08/46] KVM: Provide generic interface for checking
- memory private/shared status
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, Fuad Tabba <tabba@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Suzuki K Poulose <suzuki.poulose@arm.com> writes:
+Patches 1 and 2 update the design and ABI documents for recently added
+DAMON features.  Patches 3-7 add or update more unit and self tests for
+DAMON to cover recently changed or added functions and sysfs files.
+Patch 8 optimizes damon_commit_target_regions() to skip unnecessary
+adjacent ranges setup.  Patches 9-11 clean and fix up recently added
+DAMON sysfs interface code for readability.
 
->
-> [...snip...]
->
->>>> @@ -2546,7 +2546,7 @@ bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
->>>>   bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
->>>>                                           struct kvm_gfn_range *range);
->>>>
->>>> -static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
->>>> +static inline bool kvm_vm_mem_is_private(struct kvm *kvm, gfn_t gfn)
->>
->> Should have read the Sashiko review first, but where is this used?
->> It's not used at all in this series...
->
-> See below:
->
->>
->> /fuad
->>
->>>>   {
->>>>          return kvm_get_vm_memory_attributes(kvm, gfn) & KVM_MEMORY_ATTRIBUTE_PRIVATE;
->>>>   }
->>>> @@ -2557,6 +2557,16 @@ static inline bool kvm_mem_range_is_private(struct kvm *kvm, gfn_t start,
->>>>                                                    KVM_MEMORY_ATTRIBUTE_PRIVATE,
->>>>                                                    KVM_MEMORY_ATTRIBUTE_PRIVATE);
->>>>   }
->>>> +#endif  /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
->>>> +
->>>> +#ifdef kvm_arch_has_private_mem
->>>> +typedef bool (kvm_mem_is_private_t)(struct kvm *kvm, gfn_t gfn);
->>>> +DECLARE_STATIC_CALL(__kvm_mem_is_private, kvm_mem_is_private_t);
->>>> +
->>>> +static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
->>>> +{
->>>> +       return static_call(__kvm_mem_is_private)(kvm, gfn);
->>>> +}
->>>>   #else
->>>>   static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
->>>>   {
->>>> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->>>> index 6669f1477013c..8b238e461b854 100644
->>>> --- a/virt/kvm/kvm_main.c
->>>> +++ b/virt/kvm/kvm_main.c
->>>> @@ -2627,6 +2627,20 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
->>>>   }
->>>>   #endif /* CONFIG_KVM_VM_MEMORY_ATTRIBUTES */
->>>>
->>>> +#ifdef kvm_arch_has_private_mem
->>>> +DEFINE_STATIC_CALL_RET0(__kvm_mem_is_private, kvm_mem_is_private_t);
->>>> +EXPORT_STATIC_CALL_GPL(__kvm_mem_is_private);
->>>> +
->>>> +static void kvm_init_memory_attributes(void)
->>>> +{
->>>> +#ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
->>>> +       static_call_update(__kvm_mem_is_private, kvm_vm_mem_is_private);
->>>> +#endif
->>>> +}
->
->
-> Here ^^ as the static call update ?
->
->
-> Suzuki
+SeongJae Park (11):
+  Docs/mm/damon/design: update for DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP
+  Docs/ABI/damon: document probe files
+  mm/damon/tests/core-kunit: test damon_rand()
+  selftests/damon/sysfs.sh: test multiple probe dirs creation
+  selftests/damon/sysfs.sh: test {core,ops}_filters/ directories
+  selftests/damon/sysfs.sh: test dests dir
+  selftests/damon/sysfs.sh: test all files in quota goal dir
+  mm/damon/core: reduce range setup in damon_commit_target_regions()
+  mm/damon/sysfs: split probe setup function out
+  mm/damon/sysfs: split out filters setup function
+  mm/damon/sysfs: fix typos in probe_{add,rm}_dirs: s/attr/probe/
 
-Thanks Suzuki, it is used here. kvm_mem_is_private() was and still is
-the function used to check if some gfn is private or shared. Hence, in
-this patch, the usages of kvm_mem_is_private() were not
-updated. Instead, kvm_mem_is_private() is now set up as a static call,
-and the static call is hard-wired to kvm_vm_mem_is_private() in this
-patch.
+ .../ABI/testing/sysfs-kernel-mm-damon         |  40 +++++++
+ Documentation/mm/damon/design.rst             |   2 +
+ mm/damon/core.c                               |  22 +++-
+ mm/damon/sysfs.c                              | 102 ++++++++++--------
+ mm/damon/tests/core-kunit.h                   |  21 ++++
+ tools/testing/selftests/damon/sysfs.sh        |  70 +++++++++++-
+ 6 files changed, 206 insertions(+), 51 deletions(-)
 
-In the later wiring patch, all the places where attributes are looked up
-are updated all at once: if conversion enabled, take gmem route, else
-take VM route.
 
-kvm_mem_is_private() is special in that the if-else is done at KVM load
-time rather than runtime, and I believe that's for performance reasons
-since this is checked quite often from the KVM fault handling code.
-
-Buut I think perhaps Fuad was referring to kvm_mem_range_is_private(),
-which is indeed not used anywhere. Binbin also asked about this, I think
-we should drop kvm_mem_range_is_private(). My reply to Binbin is at [1].
-
-[1] https://lore.kernel.org/all/CAEvNRgGbBcrX5Fw3vNTsTOBNC=Ypi=9-S07674yPxLU9i4akjA@mail.gmail.com/
+base-commit: 197a7eb91f786e5deeb1dfea35076c01ebd37ce0
+-- 
+2.47.3
