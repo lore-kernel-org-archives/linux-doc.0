@@ -1,696 +1,156 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1245D366074
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:59:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782305964; cv=none; b=QMkM5GDIK7NcvWAol/FFL0X47bbKuH+EoSQYikObHBW1RxlmhiZKEUzZzlTJ4ggkCMGoeWaXomrHqwtM6ZqqeuzlPa89nxnGRMrkC4r3/rNZpekw4FJpzj2oR/wMquFv70JQ6BMAaLMNNzxQ1B2FHjLOHgTATtRb+B2hWKe8zWc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782305964; c=relaxed/simple;
-	bh=KIjSj54IhmNbG/6muW0yzYkV0Zd2rYypz42VPKc1XXo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hcxCMMbs8y1RzHa6Sn6AzBY2+bs6tSw9lC5pZv2cRQFzt3ffbMMzX0gsTFm+k1VG9jO0jJ/0Wp/KxokJFYbTLXUL0UDGB18jQnYNUYVB3sIyimCUDv99fi1VE5ls7dWJUlDO9xQN0tWXmxU6jz4frjysj/j/5joIJnBhpY7lMuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DITI9RO1; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6A43B42E4
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 13:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782308680; cv=pass; b=E0eJGIYalEAZ/TrP6PBUTYjbuuQmN1u9seKFUVPo4uSminAYBMyfVCAkYLptv5MKhnQOxeS7py9CN1HBXwvhsGd2bNqRf20rYGU0u0bmS3ZgPDpO8l6UUTGtmwV4hGPBCExzgpUw4hFbzJJNqywIgVsZzTz34/kFDeOgcvhSDuM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782308680; c=relaxed/simple;
+	bh=qwRcQ/ClJ9JG4ryGwIJuvq/o3tliB127/9EJbI1JGOU=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GK5Sf33WDdXMvUmJIT8axJvMoO+2o+Yka33Jdi61HqpkS84eR6KVxtEOB9jRlJbKCXGussMCvsWF+cQLkRtiakPcZSqyYTyRhuUa9/UNGJbQU90WLrXT+o0Qr1QWDrp04L88c8sgXw54SPUwWS08Kn3W12YD697j/vzro80Yzhs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=arPYaw0m; arc=pass smtp.client-ip=74.125.82.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DITI9RO1"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2c7edb8505dso3043845ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:59:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="arPYaw0m"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13981833e13so1254439c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 06:44:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782308678; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Dq9rll2DEq2sYhsI4gXvQe0BjpODWzHDXZTLhnMdkjXvie2hivojLjm52mP2DPWmBi
+         rAdAQ667sV9LiiowFsqjMHwhOmlkpzFkuMMd3DSviJs77K7H0wqrQVLtT/T3cSUCZNzg
+         8MetU7Vq2xWs1iucEqZQ+us1DylFs3I/CFw29Z3sfUV8oWUqetrzRe0dKe745WIwq8HL
+         PpLaR8T/e+v13hV7Tu61J4/cSeI4ZExHqdzbXWKDqP2UArAZM/VkWqmVDRAY95lsO8D/
+         HS09fvD4OisBbYzFhh8NOUg3PQRTh776XC1ADlJaoyZgOG9gxopcDR7/2kzDQ2kxaOJi
+         irzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
+        fh=O27L6uxLoaZ2mX1SQEUpw2rA1kaRb236nwdbAo0rxH0=;
+        b=FTvhr68tPB8cOQdDz/1EHxRRoYo+KxRQpAZgLJFTof8vkDN1AyzYmt1tcCB5RKdcZO
+         lhCI+zRgoGmj9yps70FxBueo5W1Jt7lJuFKlCtwEtOAk+LVXZK9+oMjc0QdrQxzrLfFm
+         c68WCuOmPVIWxw/Z7NzLgIHL3JLYUeAycYGd56/yTpb9fJDZmBQRCJFvL6wZVvHCpvTk
+         Vw2I+HPILTMMesR0zBPMEH6ShRDcZe1z0wQBERaqKtwYA+s3d9YMBpa8e3AGZjzyGaoy
+         zoifLNFMXt+ipVwWrD2kP+GoRAm5DKpul9sQWei5jB+zzB99ZdYe0sTcom/L7tyxumB6
+         oimg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782305960; x=1782910760; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9s2GS1cyGC2w26O6IYTgHnVJbBHockC5xshZabE2GCU=;
-        b=DITI9RO1ohLs6PVBGwKckk6Qs+5b7K/i7c7F10WMyGksMPG+jt+W+tTVf1Hw4VeAJS
-         iYaFlG6kPwRlhnKr8LDmgMwKDYDbSvdXXZ3+20s4BdlcZ8cBfsOxBOyBmNcRTiSaPyHk
-         wEtDQyJDALz2o8bGMkLTVFF4dVG35T23d9o5G0rlGYvxqjp+F2LTZ6Q7/RfTMUz7vVWD
-         Oppg1+BQjtw1ihDM4DiwvaaRw4iwNzr4IgPR82oiDPuH6cKKaIZ53oT3Mz8MDP9Nmyee
-         bs3M+xzU4EkwgoK4RWu0TZyvpFkKNc4cSoEh7wwcXqiVGE/8pdpPLn02tShv/VoHwFuM
-         BhpA==
+        d=google.com; s=20251104; t=1782308678; x=1782913478; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
+        b=arPYaw0meVRjPYrgms4OkOLXFt/8P2iuU67wri+g544HgClaDMzfIAQhy6BtPLeVh4
+         2nSTG1S1xNZsTnS+t2dJfwbJ/WtjWp5jPYDuti7YH+wZSG1d0uJTdBdqVugF0F1GJqlm
+         mz+2HQHL4z1TPCf9je/KZBzz5f+CiZiX0tyQKqwTjW/ln09HIuiZ6YRJDPKI20kCZR91
+         3HAt6Csj4wOcpZv/Cji3sdK5CsaAUxp9ekhKCOUF/PICHIw1Igqy4Ciu3GdgYIPHK4QH
+         H/WjUDgtm4HpMCfS4bUR0sZrBlSONDoE9rG/SPXL+VDaKdXX8ycoZFH0P8eihDqUY/Hr
+         qBSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782305960; x=1782910760;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9s2GS1cyGC2w26O6IYTgHnVJbBHockC5xshZabE2GCU=;
-        b=gRxRvpeS19PuAXtZA1HHwW9B9HctF4Av3DfoWSXKpafp4V5u/9S/c9U7X7YtdmN0o8
-         1aF3VEpfwKsXuls1GNAYPtnbbcjhFLRdChKRbXNAN4tHQw0lQIWBtuspDbJ86CagEZrs
-         qpAvW1UQ2crqFrDV5ONksHjNuxthaRcVSKZGF79nkDBmToo85S5m9B2i0yyFrddBc1qV
-         TjX6EYUgDgHleZP/7KG4Kk21ujgOiRgyLP6KN0wnGQoHd2Hp1YmNXT3H/hQKC8+/ASyV
-         21yhOHJFxWEgHcEtY/IuTf0zzfwFh5PRNXFePP/WY2vOGJ2Gto6CTxby9/vAmQ5W2EEn
-         F56g==
-X-Forwarded-Encrypted: i=1; AHgh+RqxZ1knOzfp6gKOxg66BsU1BzWDtp4DHpKfjuPlmEG97RdBykz3hQUklkZLnt4LLfGDyNyLSOOvtQE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw24B6yM3qGZw2VtWvJdwf2BsW2QjumT/f77F6Ek0qytFo14bGi
-	7kGHk5KP61wVX39Trik2fLL6h7I+VkTm0TS/yfFUh4gMvDe4XbQ/e6JG5KOGxN88uaTA1QV/4ss
-	FHeiWkQ==
-X-Received: from plfn11.prod.google.com ([2002:a17:902:e54b:b0:2b6:417:db8d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:4405:b0:2c7:f123:6fdd
- with SMTP id d9443c01a7336-2c7f1237016mr6810025ad.33.1782305959958; Wed, 24
- Jun 2026 05:59:19 -0700 (PDT)
-Date: Wed, 24 Jun 2026 05:59:19 -0700
-In-Reply-To: <20260622-vmscape-bhb-v12-7-76cbda0ae3e5@linux.intel.com>
+        d=1e100.net; s=20251104; t=1782308678; x=1782913478;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
+        b=gdVrKTgmfKb9Rs3GWKFIDYFze2Fn3QLo96zOvkbU7VKRMeqRYYf4HZUupMWxv6OcW/
+         JiCEsvJZJozfkdIhP4dhicuQtDUGf8v1lp4saiOE2hQUBK00Het9rllg/v5qLH6dpEtC
+         YGszxqDTfb/qgBCt2ZOKNjU3k9hIkIN/mkG3wRouOO9BQydrxDHctekgD+y4tW80tBww
+         Ll72k+R+Kjz7CJdACGXGoD3d+XeagRttZyBRjuPsgsl3jH0cL159WeT8rNpVkEUNoNYL
+         d8yevYl+NznC0uU3w/7BzcSliPTVEKkEZQQfx2yIS+4VUKzLpLGfjmkYGhPc5t45gk17
+         NwDg==
+X-Forwarded-Encrypted: i=1; AFNElJ/2Cxfa+Vj/c7jPe1N3pMz5N9sw4wxzCTjSUhAtA9Pn3UJkPrzbuC5hb7nXGLeVK4k6yAhfK49+Mpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvuAtuJE5q34Y7jr6turNLSK+T76O5/VzejiavPZ9Ttcb561KA
+	OC21nI4P/fomfSJPHhVsrduD0gKrBcvQ4prOj56792rp3Wp3k/REUWbddrh84bxw56bQYQj8c0Z
+	pxmQdOFht/XIiJuJBXpwBNqMUeHyfKx2rO/kZyVKd
+X-Gm-Gg: AfdE7clynYk2aAsPTY1mxbgLTM/6Nux5wkaSy+27M13YK2IbIMd5Rvb5AlaHJhzeyW0
+	4X1MHROky27Dg54AosdhF7AyzIS8sdpD9PEPs8ak4FXsG6hUES9Ue44qQliOco6NZVQfHDnDc3i
+	xxE8dYuMdOSTrtFUxeAE+DY4KYJi9v51pE1FBk2YrligVRgXtzX47Q3szuNAl0mQGnbVnvbLwis
+	e/dd+mkokcTW+nDTPhetzmp8R8r2LcjcnIYzj/DHTEBCDtO/S/88KIzMR06uKn6LvIZBYthafZ3
+	ie3847LRNiL+dCFYLurLCSE/nfM7
+X-Received: by 2002:a05:7022:ec0e:b0:137:eb26:10d with SMTP id
+ a92af1059eb24-139c5b99857mr4976083c88.0.1782308676421; Wed, 24 Jun 2026
+ 06:44:36 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 24 Jun 2026 06:44:35 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 24 Jun 2026 06:44:35 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <96fb369d-dbff-4ed6-b1f9-0ce63d7d4ed0@linux.intel.com>
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com> <96fb369d-dbff-4ed6-b1f9-0ce63d7d4ed0@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260622-vmscape-bhb-v12-0-76cbda0ae3e5@linux.intel.com> <20260622-vmscape-bhb-v12-7-76cbda0ae3e5@linux.intel.com>
-Message-ID: <ajvUp_kPJBRZ7k_p@google.com>
-Subject: Re: [PATCH v12 07/12] static_call: Define EXPORT_STATIC_CALL_FOR_MODULES()
-From: Sean Christopherson <seanjc@google.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, 
-	Jiri Olsa <jolsa@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	David Laight <david.laight.linux@gmail.com>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jason Baron <jbaron@akamai.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>, 
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: multipart/mixed; charset="UTF-8"; boundary="dnmNnJAO7OucAamW"
+MIME-Version: 1.0
+Date: Wed, 24 Jun 2026 06:44:35 -0700
+X-Gm-Features: AVVi8Ce7qJauzHB_wQ4GZOmMbMs8hfgU2sTfkjTDTjUh6bKjOQAsxLqy1nK_op4
+Message-ID: <CAEvNRgGbBcrX5Fw3vNTsTOBNC=Ypi=9-S07674yPxLU9i4akjA@mail.gmail.com>
+Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
+ in-place gmem conversion
+To: Binbin Wu <binbin.wu@linux.intel.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Binbin Wu <binbin.wu@linux.intel.com> writes:
 
---dnmNnJAO7OucAamW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+>
+> [...snip...]
+>
+>> +static inline bool kvm_mem_range_is_private(struct kvm *kvm, gfn_t start,
+>> +					    gfn_t end)
+>> +{
+>> +	return kvm_range_has_vm_memory_attributes(kvm, start, end,
+>> +						  KVM_MEMORY_ATTRIBUTE_PRIVATE,
+>> +						  KVM_MEMORY_ATTRIBUTE_PRIVATE);
+>>  }
+>
+> This function is added, but never used in this patch series.
+> Is it intended to be called only when CONFIG_KVM_VM_MEMORY_ATTRIBUTES is
+> enabled?
+>
 
-On Tue, Jun 23, 2026, Pawan Gupta wrote:
-> There is EXPORT_STATIC_CALL_TRAMP() that hides the static key from all
-> modules. But there is no equivalent of EXPORT_SYMBOL_FOR_MODULES() to
-> restrict symbol visibility to only certain modules.
-> 
-> Add EXPORT_STATIC_CALL_FOR_MODULES(name, mods) that wraps both the key and
-> the trampoline with EXPORT_SYMBOL_FOR_MODULES(), allowing only a limited
-> set of modules to see and update the static key.
-> 
-> The immediate user is KVM, in the following commit.
-> 
-> checkpatch reported below warnings with this change that I believe don't
-> apply in this case:
-> 
->   include/linux/static_call.h:219: WARNING: Non-declarative macros with multiple statements should be enclosed in a do - while loop
->   include/linux/static_call.h:220: WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> 
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
->  include/linux/static_call.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/linux/static_call.h b/include/linux/static_call.h
-> index 78a77a4ae0ea..b610afd1ed55 100644
-> --- a/include/linux/static_call.h
-> +++ b/include/linux/static_call.h
-> @@ -216,6 +216,9 @@ extern long __static_call_return0(void);
->  #define EXPORT_STATIC_CALL_GPL(name)					\
->  	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
->  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-> +#define EXPORT_STATIC_CALL_FOR_MODULES(name, mods)			\
-> +	EXPORT_SYMBOL_FOR_MODULES(STATIC_CALL_KEY(name), mods);		\
-> +	EXPORT_SYMBOL_FOR_MODULES(STATIC_CALL_TRAMP(name), mods)
->  
->  /* Leave the key unexported, so modules can't change static call targets: */
->  #define EXPORT_STATIC_CALL_TRAMP(name)					\
-> @@ -276,6 +279,9 @@ extern long __static_call_return0(void);
->  #define EXPORT_STATIC_CALL_GPL(name)					\
->  	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
->  	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-> +#define EXPORT_STATIC_CALL_FOR_MODULES(name, mods)			\
-> +	EXPORT_SYMBOL_FOR_MODULES(STATIC_CALL_KEY(name), mods);		\
-> +	EXPORT_SYMBOL_FOR_MODULES(STATIC_CALL_TRAMP(name), mods)
->  
->  /* Leave the key unexported, so modules can't change static call targets: */
->  #define EXPORT_STATIC_CALL_TRAMP(name)					\
-> @@ -346,6 +352,8 @@ static inline int static_call_text_reserved(void *start, void *end)
->  
->  #define EXPORT_STATIC_CALL(name)	EXPORT_SYMBOL(STATIC_CALL_KEY(name))
->  #define EXPORT_STATIC_CALL_GPL(name)	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name))
-> +#define EXPORT_STATIC_CALL_FOR_MODULES(name, mods)			\
-> +	EXPORT_SYMBOL_FOR_MODULES(STATIC_CALL_KEY(name), mods)
->  
->  #endif /* CONFIG_HAVE_STATIC_CALL */
+Thank you for catching this! I think in some earlier revision this was
+meant to be used from the guest_memfd populate flow.
 
-Drat, I forgot about this.  Exporting static call trampolines for KVM came up in
-another conversation[*].  I had already put together patches to effectively default
-to exporting only the trampoline, and also to deduplicate this code so that the
-CONFIG_HAVE_STATIC_CALL_INLINE=y / CONFIG_HAVE_STATIC_CALL=y / CONFIG_HAVE_STATIC_CALL=n
-implementations don't need to copy+paste the same lines of code.
+I think the version of kvm_gmem_range_is_private in this revision is
+good because it is symmetric. If conversion is enabled, call the gmem
+range-has-attributes function, and if conversion is disabled, use the VM
+range-has-attributes function.
 
-The attached patches touch a lot more code, and will conflict mightily with KVM
-changes I want to land in 7.3 (more use of a static_call in KVM).  But if we get
-them applied (to tip tree) shortly after 7.2-rc1 and provide a topic branch/tag,
-then there shouldn't be too much juggling needed?
+Sean, if no new revision is needed would you be able to drop
+kvm_mem_range_is_private() while you're pulling it in?
 
-If we want to go with the more aggressive cleanup, I'll formally post the patches.
-
-[*] https://lore.kernel.org/all/ahhoDGUz39KSGZ6o@google.com
-
---dnmNnJAO7OucAamW
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0001-static_call-Add-stub-for-ARCH_ADD_TRAMP_KEY-if-not-p.patch
-
-From 415eb214ed200ef82244468a0682ac884b14c051 Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Thu, 28 May 2026 08:09:56 -0700
-Subject: [PATCH 1/4] static_call: Add stub for ARCH_ADD_TRAMP_KEY if not
- provided by arch
-
-Add a dummy #define for ARCH_ADD_TRAMP_KEY if one is not provided by arch
-code so that EXPORT_STATIC_CALL_TRAMP{,_GPL} can be used in arch-neutral
-code.
-
-No functional change intended.
-
-Fixes: 73f44fe19d35 ("static_call: Allow module use without exposing static_call_key")
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- include/linux/static_call.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/include/linux/static_call.h b/include/linux/static_call.h
-index 78a77a4ae0ea..7539c82dd35f 100644
---- a/include/linux/static_call.h
-+++ b/include/linux/static_call.h
-@@ -210,6 +210,10 @@ extern long __static_call_return0(void);
- 
- #define static_call_cond(name)	(void)__static_call(name)
- 
-+#ifndef ARCH_ADD_TRAMP_KEY
-+#define ARCH_ADD_TRAMP_KEY(name)
-+#endif
-+
- #define EXPORT_STATIC_CALL(name)					\
- 	EXPORT_SYMBOL(STATIC_CALL_KEY(name));				\
- 	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
-
-base-commit: 9d4853b044beefa21c4ee3e18c40653601a64ced
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
-
---dnmNnJAO7OucAamW
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0002-KVM-x86-Don-t-export-static-call-keys-to-vendor-modu.patch
-
-From 0166d0df57a43f20a24f5b75a6c34929221c1f30 Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Thu, 28 May 2026 07:01:36 -0700
-Subject: [PATCH 2/4] KVM: x86: Don't export static call keys to vendor modules
-
-Export only the trampoline, not the full trampoline+key, of KVM's static
-calls that are also used by vendor modules, to harden KVM against unwanted
-modifications of the static calls, i.e. to allow vendor code to invoke the
-static call, but not redirect it.
-
-Use static_call_mod() instead of the vanilla static_call(), which is
-required by the objtool magic to glue things together when exporting only
-the trampoline.
-
-No functional change intended.
-
-Reported-by: Peter Zijlstra <peterz@infradead.org>
-Closes: https://lore.kernel.org/all/20260528091357.GB343181@noisy.programming.kicks-ass.net
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/include/asm/kvm_host.h | 2 +-
- arch/x86/kvm/pmu.h              | 2 +-
- arch/x86/kvm/x86.c              | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index eee473717c0e..55d674c647e6 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -2061,7 +2061,7 @@ extern bool __read_mostly enable_ipiv;
- extern bool __read_mostly enable_device_posted_irqs;
- extern struct kvm_x86_ops kvm_x86_ops;
- 
--#define kvm_x86_call(func) static_call(kvm_x86_##func)
-+#define kvm_x86_call(func) static_call_mod(kvm_x86_##func)
- 
- #define KVM_X86_OP(func) \
- 	DECLARE_STATIC_CALL(kvm_x86_##func, *(((struct kvm_x86_ops *)0)->func));
-diff --git a/arch/x86/kvm/pmu.h b/arch/x86/kvm/pmu.h
-index a5821d7c87f9..77cdee3e4aa6 100644
---- a/arch/x86/kvm/pmu.h
-+++ b/arch/x86/kvm/pmu.h
-@@ -54,7 +54,7 @@ struct kvm_pmu_ops {
- 	const u32 MSR_STRIDE;
- };
- 
--#define kvm_pmu_call(func) static_call(kvm_x86_pmu_##func)
-+#define kvm_pmu_call(func) static_call_mod(kvm_x86_pmu_##func)
- 
- #define KVM_X86_PMU_OP(func) \
- 	DECLARE_STATIC_CALL(kvm_x86_pmu_##func, *(((struct kvm_pmu_ops *)0)->func));
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index d9d51803b7b2..792f402f493f 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -148,9 +148,9 @@ struct kvm_x86_ops kvm_x86_ops __read_mostly;
- #define KVM_X86_OP_OPTIONAL KVM_X86_OP
- #define KVM_X86_OP_OPTIONAL_RET0 KVM_X86_OP
- #include <asm/kvm-x86-ops.h>
--EXPORT_STATIC_CALL_GPL(kvm_x86_get_cs_db_l_bits);
--EXPORT_STATIC_CALL_GPL(kvm_x86_cache_reg);
--EXPORT_STATIC_CALL_GPL(kvm_x86_get_cpl);
-+EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_get_cs_db_l_bits);
-+EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_cache_reg);
-+EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_get_cpl);
- 
- static bool __read_mostly ignore_msrs = 0;
- module_param(ignore_msrs, bool, 0644);
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
-
---dnmNnJAO7OucAamW
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0003-static_call-Restrict-exporting-of-static-call-key-to.patch
-
-From 87068920d63a87235ae9a1e62529a4d897bd6c6c Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Thu, 28 May 2026 07:03:24 -0700
-Subject: [PATCH 3/4] static_call: Restrict exporting of static call *key* to
- tracepoints
-
-Rename the export macros for static call trampolines and keys so that the
-"default" EXPORT_STATIC_CALL{,_GPL}() exports only the trampoline, and full
-exports of trampoline+key pairs is restricted to tracepoints (by naming
-convention).  Most developers are blissfully unaware of the gory details of
-static calls, and so don't understand the implications of using the
-innocuous-looking "vanilla" macros.
-
-Effectively defaulting to exporting the key is undesirable as there is no
-known use case for allowing a module to change an export static call's
-target, outside of tracepoints.
-
-Opportunistically massage the macro magic to deduplicate the
-CONFIG_HAVE_STATIC_CALL_INLINE=y vs. CONFIG_HAVE_STATIC_CALL=y vs.
-CONFIG_HAVE_STATIC_CALL=n implementations.
-
-No functional change intended.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/events/amd/brs.c      |  2 +-
- arch/x86/kernel/apic/init.c    |  4 +--
- arch/x86/kernel/cpu/mshyperv.c |  2 +-
- arch/x86/kernel/traps.c        |  2 +-
- arch/x86/kvm/x86.c             |  6 ++--
- arch/x86/xen/enlighten.c       |  2 +-
- include/linux/static_call.h    | 59 +++++++++++++---------------------
- include/linux/tracepoint.h     |  4 +--
- kernel/sched/core.c            |  8 ++---
- 9 files changed, 38 insertions(+), 51 deletions(-)
-
-diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
-index 06f35a6b58a5..b9a246989bd4 100644
---- a/arch/x86/events/amd/brs.c
-+++ b/arch/x86/events/amd/brs.c
-@@ -424,7 +424,7 @@ void noinstr perf_amd_brs_lopwr_cb(bool lopwr_in)
- }
- 
- DEFINE_STATIC_CALL_NULL(perf_lopwr_cb, perf_amd_brs_lopwr_cb);
--EXPORT_STATIC_CALL_TRAMP_GPL(perf_lopwr_cb);
-+EXPORT_STATIC_CALL_GPL(perf_lopwr_cb);
- 
- void __init amd_brs_lopwr_init(void)
- {
-diff --git a/arch/x86/kernel/apic/init.c b/arch/x86/kernel/apic/init.c
-index 821e2e536f19..933b8d2d3af5 100644
---- a/arch/x86/kernel/apic/init.c
-+++ b/arch/x86/kernel/apic/init.c
-@@ -30,8 +30,8 @@ DEFINE_APIC_CALL(wakeup_secondary_cpu);
- DEFINE_APIC_CALL(wakeup_secondary_cpu_64);
- DEFINE_APIC_CALL(write);
- 
--EXPORT_STATIC_CALL_TRAMP_GPL(apic_call_send_IPI_mask);
--EXPORT_STATIC_CALL_TRAMP_GPL(apic_call_send_IPI_self);
-+EXPORT_STATIC_CALL_GPL(apic_call_send_IPI_mask);
-+EXPORT_STATIC_CALL_GPL(apic_call_send_IPI_self);
- 
- /* The container for function call overrides */
- struct apic_override __x86_apic_override __initdata;
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index b5b6a58b67b0..9adfc12be1db 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -333,7 +333,7 @@ static void __init x86_setup_ops_for_tsc_pg_clock(void)
- 
- #ifdef CONFIG_X86_64
- DEFINE_STATIC_CALL(hv_hypercall, hv_std_hypercall);
--EXPORT_STATIC_CALL_TRAMP_GPL(hv_hypercall);
-+EXPORT_STATIC_CALL_GPL(hv_hypercall);
- #define hypercall_update(hc) static_call_update(hv_hypercall, hc)
- #endif
- #endif /* CONFIG_HYPERV */
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 0ca3912ecb7f..df05ad454414 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -218,7 +218,7 @@ static inline unsigned long pt_regs_val(struct pt_regs *regs, int nr)
- 
- #ifdef HAVE_ARCH_BUG_FORMAT_ARGS
- DEFINE_STATIC_CALL(WARN_trap, __WARN_trap);
--EXPORT_STATIC_CALL_TRAMP(WARN_trap);
-+EXPORT_STATIC_CALL(WARN_trap);
- 
- /*
-  * Create a va_list from an exception context.
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 792f402f493f..d9d51803b7b2 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -148,9 +148,9 @@ struct kvm_x86_ops kvm_x86_ops __read_mostly;
- #define KVM_X86_OP_OPTIONAL KVM_X86_OP
- #define KVM_X86_OP_OPTIONAL_RET0 KVM_X86_OP
- #include <asm/kvm-x86-ops.h>
--EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_get_cs_db_l_bits);
--EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_cache_reg);
--EXPORT_STATIC_CALL_TRAMP_GPL(kvm_x86_get_cpl);
-+EXPORT_STATIC_CALL_GPL(kvm_x86_get_cs_db_l_bits);
-+EXPORT_STATIC_CALL_GPL(kvm_x86_cache_reg);
-+EXPORT_STATIC_CALL_GPL(kvm_x86_get_cpl);
- 
- static bool __read_mostly ignore_msrs = 0;
- module_param(ignore_msrs, bool, 0644);
-diff --git a/arch/x86/xen/enlighten.c b/arch/x86/xen/enlighten.c
-index 23b91bf9b663..ec14d2017909 100644
---- a/arch/x86/xen/enlighten.c
-+++ b/arch/x86/xen/enlighten.c
-@@ -23,7 +23,7 @@
- #include "xen-ops.h"
- 
- DEFINE_STATIC_CALL(xen_hypercall, xen_hypercall_hvm);
--EXPORT_STATIC_CALL_TRAMP(xen_hypercall);
-+EXPORT_STATIC_CALL(xen_hypercall);
- 
- /*
-  * Pointer to the xen_vcpu_info structure or
-diff --git a/include/linux/static_call.h b/include/linux/static_call.h
-index 7539c82dd35f..c2c667baf8fe 100644
---- a/include/linux/static_call.h
-+++ b/include/linux/static_call.h
-@@ -26,7 +26,7 @@
-  *   static_call_update(name, func);
-  *   static_call_query(name);
-  *
-- *   EXPORT_STATIC_CALL{,_TRAMP}{,_GPL}()
-+ *   EXPORT_STATIC_CALL{,_GPL}()
-  *
-  * Usage example:
-  *
-@@ -121,14 +121,6 @@
-  *   completely eliding any function call overhead.
-  *
-  *   Notably argument setup is unconditional.
-- *
-- *
-- * EXPORT_STATIC_CALL() vs EXPORT_STATIC_CALL_TRAMP():
-- *
-- *   The difference is that the _TRAMP variant tries to only export the
-- *   trampoline with the result that a module can use static_call{,_cond}() but
-- *   not static_call_update().
-- *
-  */
- 
- #include <linux/types.h>
-@@ -214,19 +206,8 @@ extern long __static_call_return0(void);
- #define ARCH_ADD_TRAMP_KEY(name)
- #endif
- 
--#define EXPORT_STATIC_CALL(name)					\
--	EXPORT_SYMBOL(STATIC_CALL_KEY(name));				\
--	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
--#define EXPORT_STATIC_CALL_GPL(name)					\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
--
--/* Leave the key unexported, so modules can't change static call targets: */
--#define EXPORT_STATIC_CALL_TRAMP(name)					\
--	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name));				\
--	ARCH_ADD_TRAMP_KEY(name)
--#define EXPORT_STATIC_CALL_TRAMP_GPL(name)				\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name));			\
-+#define __EXPORT_STATIC_CALL(name, scope)				\
-+	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name));			\
- 	ARCH_ADD_TRAMP_KEY(name)
- 
- #elif defined(CONFIG_HAVE_STATIC_CALL)
-@@ -274,18 +255,8 @@ static inline int static_call_text_reserved(void *start, void *end)
- 
- extern long __static_call_return0(void);
- 
--#define EXPORT_STATIC_CALL(name)					\
--	EXPORT_SYMBOL(STATIC_CALL_KEY(name));				\
--	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
--#define EXPORT_STATIC_CALL_GPL(name)					\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));			\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
--
--/* Leave the key unexported, so modules can't change static call targets: */
--#define EXPORT_STATIC_CALL_TRAMP(name)					\
--	EXPORT_SYMBOL(STATIC_CALL_TRAMP(name))
--#define EXPORT_STATIC_CALL_TRAMP_GPL(name)				\
--	EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-+#define __EXPORT_STATIC_CALL(name, scope)				\
-+	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name))
- 
- #else /* Generic implementation */
- 
-@@ -348,9 +319,25 @@ static inline int static_call_text_reserved(void *start, void *end)
- 	return 0;
- }
- 
--#define EXPORT_STATIC_CALL(name)	EXPORT_SYMBOL(STATIC_CALL_KEY(name))
--#define EXPORT_STATIC_CALL_GPL(name)	EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name))
-+#define __EXPORT_STATIC_CALL(name, scope)
- 
- #endif /* CONFIG_HAVE_STATIC_CALL */
- 
-+#define __EXPORT_TRACEPOINT_STATIC_CALL(name, scope)			\
-+	EXPORT_SYMBOL##scope(STATIC_CALL_KEY(name));			\
-+	__EXPORT_STATIC_CALL(name, scope)
-+#define EXPORT_TRACEPOINT_STATIC_CALL(name)				\
-+	__EXPORT_TRACEPOINT_STATIC_CALL(name, )
-+#define EXPORT_TRACEPOINT_STATIC_CALL_GPL(name)				\
-+	__EXPORT_TRACEPOINT_STATIC_CALL(name, _GPL)
-+
-+/*
-+ * For non-tracepoint usage, leave the key unexported, so modules can't change
-+ * static call targets, i.e. can only invoke the static call.
-+ */
-+#define EXPORT_STATIC_CALL(name)					\
-+	__EXPORT_STATIC_CALL(name, )
-+#define EXPORT_STATIC_CALL_GPL(name)					\
-+	__EXPORT_STATIC_CALL(name, _GPL)
-+
- #endif /* _LINUX_STATIC_CALL_H */
-diff --git a/include/linux/tracepoint.h b/include/linux/tracepoint.h
-index 2d2b9f8cdda4..1b64dcaf683e 100644
---- a/include/linux/tracepoint.h
-+++ b/include/linux/tracepoint.h
-@@ -423,12 +423,12 @@ static inline struct tracepoint *tracepoint_ptr_deref(tracepoint_ptr_t *p)
- 	TRACEPOINT_CHECK(name)						\
- 	EXPORT_SYMBOL_GPL(__tracepoint_##name);				\
- 	EXPORT_SYMBOL_GPL(__traceiter_##name);				\
--	EXPORT_STATIC_CALL_GPL(tp_func_##name)
-+	EXPORT_TRACEPOINT_STATIC_CALL_GPL(tp_func_##name)
- #define EXPORT_TRACEPOINT_SYMBOL(name)					\
- 	TRACEPOINT_CHECK(name)						\
- 	EXPORT_SYMBOL(__tracepoint_##name);				\
- 	EXPORT_SYMBOL(__traceiter_##name);				\
--	EXPORT_STATIC_CALL(tp_func_##name)
-+	EXPORT_TRACEPOINT_STATIC_CALL(tp_func_##name)
- 
- 
- #else /* !TRACEPOINTS_ENABLED */
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index b8871449d3c6..c4d0db00d036 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -7403,7 +7403,7 @@ EXPORT_SYMBOL(preempt_schedule);
- #   define preempt_schedule_dynamic_disabled	NULL
- #  endif
- DEFINE_STATIC_CALL(preempt_schedule, preempt_schedule_dynamic_enabled);
--EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
-+EXPORT_STATIC_CALL(preempt_schedule);
- # elif defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
- static DEFINE_STATIC_KEY_TRUE(sk_dynamic_preempt_schedule);
- void __sched notrace dynamic_preempt_schedule(void)
-@@ -7476,7 +7476,7 @@ EXPORT_SYMBOL_GPL(preempt_schedule_notrace);
- #   define preempt_schedule_notrace_dynamic_disabled	NULL
- #  endif
- DEFINE_STATIC_CALL(preempt_schedule_notrace, preempt_schedule_notrace_dynamic_enabled);
--EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
-+EXPORT_STATIC_CALL(preempt_schedule_notrace);
- # elif defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
- static DEFINE_STATIC_KEY_TRUE(sk_dynamic_preempt_schedule_notrace);
- void __sched notrace dynamic_preempt_schedule_notrace(void)
-@@ -7723,12 +7723,12 @@ EXPORT_SYMBOL(__cond_resched);
- #  define cond_resched_dynamic_enabled	__cond_resched
- #  define cond_resched_dynamic_disabled	((void *)&__static_call_return0)
- DEFINE_STATIC_CALL_RET0(cond_resched, __cond_resched);
--EXPORT_STATIC_CALL_TRAMP(cond_resched);
-+EXPORT_STATIC_CALL(cond_resched);
- 
- #  define might_resched_dynamic_enabled	__cond_resched
- #  define might_resched_dynamic_disabled ((void *)&__static_call_return0)
- DEFINE_STATIC_CALL_RET0(might_resched, __cond_resched);
--EXPORT_STATIC_CALL_TRAMP(might_resched);
-+EXPORT_STATIC_CALL(might_resched);
- # elif defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
- static DEFINE_STATIC_KEY_FALSE(sk_dynamic_cond_resched);
- int __sched dynamic_cond_resched(void)
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
-
---dnmNnJAO7OucAamW
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0004-static_call-Add-FOR_MODULES-static-call-exports-use-.patch
-
-From 05623900bddabdc47e6797b72a610b1d4f825e1d Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Thu, 28 May 2026 07:32:41 -0700
-Subject: [PATCH 4/4] static_call: Add FOR_MODULES static call exports, use 'em
- in KVM
-
-Add EXPORT_STATIC_CALL_FOR_MODULES(), along with KVM-specific variants,
-and use the KVM-internal variants to export KVM's internal static calls
-only to KVM's vendor modules (if any exist).
-
-For all intents and purposes, no functional change intended.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/pmu.c          |  2 +-
- arch/x86/kvm/x86.c          |  6 +++---
- include/linux/kvm_types.h   |  8 ++++++++
- include/linux/static_call.h | 12 +++++++-----
- 4 files changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/arch/x86/kvm/pmu.c b/arch/x86/kvm/pmu.c
-index b92dd2e58335..7e4f6e5ff436 100644
---- a/arch/x86/kvm/pmu.c
-+++ b/arch/x86/kvm/pmu.c
-@@ -100,7 +100,7 @@ static struct kvm_pmu_ops kvm_pmu_ops __read_mostly;
- #define KVM_X86_PMU_OP_OPTIONAL KVM_X86_PMU_OP
- #define KVM_X86_PMU_OP_OPTIONAL_RET0 KVM_X86_PMU_OP
- #include <asm/kvm-x86-pmu-ops.h>
--EXPORT_STATIC_CALL_GPL(kvm_x86_pmu_pmc_is_disabled_in_current_mode);
-+EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(kvm_x86_pmu_pmc_is_disabled_in_current_mode);
- 
- void kvm_pmu_ops_update(const struct kvm_pmu_ops *pmu_ops)
- {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index d9d51803b7b2..6df084d827b8 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -148,9 +148,9 @@ struct kvm_x86_ops kvm_x86_ops __read_mostly;
- #define KVM_X86_OP_OPTIONAL KVM_X86_OP
- #define KVM_X86_OP_OPTIONAL_RET0 KVM_X86_OP
- #include <asm/kvm-x86-ops.h>
--EXPORT_STATIC_CALL_GPL(kvm_x86_get_cs_db_l_bits);
--EXPORT_STATIC_CALL_GPL(kvm_x86_cache_reg);
--EXPORT_STATIC_CALL_GPL(kvm_x86_get_cpl);
-+EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(kvm_x86_get_cs_db_l_bits);
-+EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(kvm_x86_cache_reg);
-+EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(kvm_x86_get_cpl);
- 
- static bool __read_mostly ignore_msrs = 0;
- module_param(ignore_msrs, bool, 0644);
-diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
-index a568d8e6f4e8..3bf9d113b001 100644
---- a/include/linux/kvm_types.h
-+++ b/include/linux/kvm_types.h
-@@ -13,8 +13,14 @@
- 	EXPORT_SYMBOL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
- #define EXPORT_SYMBOL_FOR_KVM(symbol) \
- 	EXPORT_SYMBOL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
-+#define EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(symbol) \
-+	EXPORT_STATIC_CALL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
-+#define EXPORT_STATIC_CALL_FOR_KVM(symbol) \
-+	EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
- #else
- #define EXPORT_SYMBOL_FOR_KVM_INTERNAL(symbol)
-+#define EXPORT_STATIC_CALL_FOR_KVM_INTERNAL(symbol)
-+
- /*
-  * Allow architectures to provide a custom EXPORT_SYMBOL_FOR_KVM, but only
-  * if there are no submodules, e.g. to allow suppressing exports if KVM=m, but
-@@ -23,8 +29,10 @@
- #ifndef EXPORT_SYMBOL_FOR_KVM
- #if IS_MODULE(CONFIG_KVM)
- #define EXPORT_SYMBOL_FOR_KVM(symbol) EXPORT_SYMBOL_FOR_MODULES(symbol, "kvm")
-+#define EXPORT_STATIC_CALL_FOR_KVM(symbol) EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm")
- #else
- #define EXPORT_SYMBOL_FOR_KVM(symbol)
-+#define EXPORT_STATIC_CALL_FOR_KVM(symbol)
- #endif /* IS_MODULE(CONFIG_KVM) */
- #endif /* EXPORT_SYMBOL_FOR_KVM */
- #endif
-diff --git a/include/linux/static_call.h b/include/linux/static_call.h
-index c2c667baf8fe..9b38f82b35c4 100644
---- a/include/linux/static_call.h
-+++ b/include/linux/static_call.h
-@@ -206,8 +206,8 @@ extern long __static_call_return0(void);
- #define ARCH_ADD_TRAMP_KEY(name)
- #endif
- 
--#define __EXPORT_STATIC_CALL(name, scope)				\
--	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name));			\
-+#define __EXPORT_STATIC_CALL(name, scope, ...)				\
-+	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name), ##__VA_ARGS__);	\
- 	ARCH_ADD_TRAMP_KEY(name)
- 
- #elif defined(CONFIG_HAVE_STATIC_CALL)
-@@ -255,8 +255,8 @@ static inline int static_call_text_reserved(void *start, void *end)
- 
- extern long __static_call_return0(void);
- 
--#define __EXPORT_STATIC_CALL(name, scope)				\
--	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name))
-+#define __EXPORT_STATIC_CALL(name, scope, ...)				\
-+	EXPORT_SYMBOL##scope(STATIC_CALL_TRAMP(name), ##__VA_ARGS__)
- 
- #else /* Generic implementation */
- 
-@@ -319,7 +319,7 @@ static inline int static_call_text_reserved(void *start, void *end)
- 	return 0;
- }
- 
--#define __EXPORT_STATIC_CALL(name, scope)
-+#define __EXPORT_STATIC_CALL(name, scope, ...)
- 
- #endif /* CONFIG_HAVE_STATIC_CALL */
- 
-@@ -339,5 +339,7 @@ static inline int static_call_text_reserved(void *start, void *end)
- 	__EXPORT_STATIC_CALL(name, )
- #define EXPORT_STATIC_CALL_GPL(name)					\
- 	__EXPORT_STATIC_CALL(name, _GPL)
-+#define EXPORT_STATIC_CALL_FOR_MODULES(name, mods)				\
-+	__EXPORT_STATIC_CALL(name, _FOR_MODULES, mods)
- 
- #endif /* _LINUX_STATIC_CALL_H */
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
-
---dnmNnJAO7OucAamW--
+>>
+>> [...snip...]
+>>
