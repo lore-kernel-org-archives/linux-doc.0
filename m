@@ -1,221 +1,295 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011022.outbound.protection.outlook.com [52.101.52.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2679A22126C;
-	Wed, 24 Jun 2026 10:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782295394; cv=fail; b=pR/t7nllrrOr7fFBfBHYKs1xFCe5F6DJbaT5vTM5tYVKDgt3iN4WJsMXoQxO4KfFNEPKxw1cFEbR+H7mrwd024nMWRccb8Z+mYq7TUrCH+JIW1BOPA/PrMrbZZy8QY/kqlJxH3T/VMfmpNOx0dGWoMhQ3L+4NwbIHKYB5Xi/b30=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782295394; c=relaxed/simple;
-	bh=wbDtlVWUzj3oeY/wLaRx5vvux5Xxs5qI0mSL86SC4UI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=l1k5gIzChTWB5ljr0EuGbnPfddSnXc0n63aWOq2C7pmz2ZMllyZLIHVnO0b9TP9poF61XK7QsFLmXjGCFnyhv3BNaAepJjgvvlbDNSWRqGWI6Dmj+uWvzabDng2O2eb4AIsdM59jE056VfLi3f3PyVUF2H1mDZT9p1RvDAEDvXU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Z4nG47xS; arc=fail smtp.client-ip=52.101.52.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5413A05C2;
+	Wed, 24 Jun 2026 10:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782295457; cv=none; b=Df+V3RnH77dFiYDo9n/5pscRsez6BERp5SttScg1D+2v6yLD/TGGx7rAvcrjTcGYkEptApE9+U4G3nm8osmPUryC18zHgP4AikTymhdwZZM4OQZLbsZNugi1pc4Z0cAnq5BW8kEqafhV9QeJbOHMM/fIV6v8XAYcXPQ3nPsvDHQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782295457; c=relaxed/simple;
+	bh=wkVjtgalCZbQSoIpv9CwBCZjvSYX3+Cp4uEVA8TMu7k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WsZ6K73fIQhtNBHki4rCZrfqUsKaYzVLlH/UJPSBs5oIB9rDj/3AVN3U1QMqECzMtLezrxECW3LjLQziyKInxVBqWoxj9UYADD9F3yPeg38aDo0BflB+fSPVDuvwUYY4xSkEQ3TxOWf4wCW7U4uF2szkqGmn6X8NHkgNGJL47aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kd+6zp42; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Z4nG47xS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NS+TCZErov7QiNSk0GI+LxG2CJiANuYRysE7Hlw8zboMFKX/2BwRuQsI/XX6wGQY7K36DqctlxFo8v+gWe+2xf49pBEyB0QS57O5la8+Qgl0yjpKfiFm8xFRw5HuEDy8buqvk9shzQytoXmyukUJv5ByBIb2j29PSF2FIf4dpnVT1eUXkhI/T5kOVZdMw5Tu0UTwM4vNoQjzSDf6BStp5D5kMEcQpElBs6wkfJ4EFGCiFbIT04tbc39HPXMEFXSJzxFnJ7IbxwqsgMPhUALRMyVL0acJvu6y8CoRb86m/gNgWOnJGQ/jfld1DHdnjjOgnGjBz6cZUs4H7SdP/ZqugA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rVzFdpLHHp//lzX/njWUkdFDmv1gFKiw08aJYS4gWuE=;
- b=xno3oKPNdJItQwbHpI4IRhR2yGt8fof0YgM8KI2jupMkJjIMsO0qTvXR2Jqoi/bwa/igzxUPwVR1XoTPgImNAXBOr+ehP1wBJYQKwiHcmoNjdQH7PQJG8EFEy+z7XEuGy7Hznsf9u5HRCAsKuAk4ygxzbss1dWK+QVpEWVKquTAss92aXUbon6okj+aT6w7kPhdWUnheW7fOs52mPNXh9WnHKo1TL7ughsDYg1gCm4p1cGtLpy3hvjjxJiI1i4eNaf7GAK3sqKmFMQJjJqnHqQL+qGyG/hiy6k/rPAt39YjI0T6CfNUWfyKTVDxcdKMyWMCANrYodZyvCr2SRP2jwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rVzFdpLHHp//lzX/njWUkdFDmv1gFKiw08aJYS4gWuE=;
- b=Z4nG47xSAt4zNP2hCOuOb+FCX0KheN2H4srzFa9CSQ9vH4997BsD76KukaqhFH33aEjynVCHhsYCUImD1lY6NQXmTsxWjLvJgQ1t9w/0xmKM+KfR/9EEOt43RsI49Ec+cRPfsnYgDYVvblxOjoil6LHY79NfAsQQd/n/jWn4LI8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3023.namprd12.prod.outlook.com (2603:10b6:208:c8::26)
- by PH8PR12MB6940.namprd12.prod.outlook.com (2603:10b6:510:1bf::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Wed, 24 Jun
- 2026 10:03:08 +0000
-Received: from MN2PR12MB3023.namprd12.prod.outlook.com
- ([fe80::dc22:f915:3ddd:11fa]) by MN2PR12MB3023.namprd12.prod.outlook.com
- ([fe80::dc22:f915:3ddd:11fa%4]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
- 10:03:08 +0000
-Message-ID: <a77e8e56-f290-49cd-a636-16dada60390f@amd.com>
-Date: Wed, 24 Jun 2026 15:33:02 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] docs: misc: amd-sbi: Document SBTSI userspace
- interface
-To: Randy Dunlap <rdunlap@infradead.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "linux@roeck-us.net" <linux@roeck-us.net>, "arnd@arndb.de" <arnd@arndb.de>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "Chatradhi, Naveen Krishna" <NaveenKrishna.Chatradhi@amd.com>,
- "Umarji, Anand" <Anand.Umarji@amd.com>, "L k, Prathima" <Prathima.Lk@amd.com>
-References: <20260622135821.2190260-1-Akshay.Gupta@amd.com>
- <20260622135821.2190260-9-Akshay.Gupta@amd.com>
- <f1e4c8f7-b3d9-46a3-b42f-710dcbcf15c0@infradead.org>
-Content-Language: en-US
-From: "Gupta, Akshay" <Akshay.Gupta@amd.com>
-In-Reply-To: <f1e4c8f7-b3d9-46a3-b42f-710dcbcf15c0@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0059.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:270::10) To MN2PR12MB3023.namprd12.prod.outlook.com
- (2603:10b6:208:c8::26)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kd+6zp42"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FFCBC2BCB7;
+	Wed, 24 Jun 2026 10:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1782295457;
+	bh=wkVjtgalCZbQSoIpv9CwBCZjvSYX3+Cp4uEVA8TMu7k=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Kd+6zp42TLJ9Vj1RhBmssJDOPbMoFPKBiScH2VRXdBiajdClbuYazdwKGLnJRaBA7
+	 FFNiP1pdHZOxjXgKngRaXscYsLHfijukC08IoMG0hVJoIVKM7Bf39xp7epVURT+i+C
+	 xePUsd26Z3vTk0AfMI1rcpmamKAONrc5qIE4NaACXZuoDy/yVqyzX04Ho03ttroUqA
+	 XrtfJmOsLi2KR++k/cKxlnTFV1UBOjzikAbffzEHp0M6ReSfwx6Vvdc5ZEX0OHsXU8
+	 4GoXcV63CuFlHe/bb3my9/2oArclzrb099mlRQv39Zbcx5L7FYHu4g/6svH4Rlq3vR
+	 RAFYvEJhACCrg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A71BCDE000;
+	Wed, 24 Jun 2026 10:04:17 +0000 (UTC)
+From: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>
+Subject: [PATCH v3 0/7] net: wwan: t9xx: Add MediaTek T9XX WWAN driver
+Date: Wed, 24 Jun 2026 18:04:06 +0800
+Message-Id: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3023:EE_|PH8PR12MB6940:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c02eb13-6fb9-4674-6247-08ded1d7caad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|22082099003|11063799006|56012099006|4143699003|6133799003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	NXy16pK+lw5ilRrfaAAQJPbsahnIduXpT4SeFxa6Qew+sNmOl60Ih9+c+CVqnu1dhlik62IfruQ/dY305FWG/uzUk47tSytEpadr63+kGhcJp5I08TDO5f6RNx4fNdGJim1fpdCJE/mFzbTzqg06yyoxCKHy4voBATW4KLY0h1HTKFV7HSQ1X0n88IigXEm6kuSmQX7ghvrNvrQOM89+t1kuywUdABH8/bK/nYbhXOtgyt6uZHt9h91NWK6TzICShlrnD5k0ln+sBmLJhNcTWdIrjleNiUnIajR6k79BqWGzUcZ7uBEfo4ILQrdbbNai5sSxkDG0OOn0KElDxoVjtjHV39pn0icIFTRp0zTzv983zuaxxC7dQac8hwXuSAUNOZY5Iv83O/vU+vmcw/VkBkvzy9Jio8amcG0tKVpa7IXq6EsXKUbYNlQMpvjptEow1mUfnVPvmz4wbtOKCMepIOJphCONFsbOTiSKA4eMP+vTVhnmjk6I9/MoAR3yUz53qCSOI+chFN4JX0LmtbATBtRtmf+KmgTo5wdT73o3j6ZLApwX51JSnQFo6PB9F9zMKWncBAnwwcJ/szAOE/AGySUz2fYLJiSpMH3r24u94pLueiXU7W/l8/UQIAq2kgsBtMRvJFYBGPzuVprQ1BBsD2Q9vaIjVjaJEGLZOtjzesI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3023.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(22082099003)(11063799006)(56012099006)(4143699003)(6133799003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UVdjb3BFRVdqazhmNEJlMmhhbjJtY1dNNU1WdUg2QlIyZ0NJbUVZRGZEQXo0?=
- =?utf-8?B?WUxHaDNMZ01WNm5HYUJVSmd3L2JwWjlSdGdDb3pIbTZiTnZrazNMenlKdmhp?=
- =?utf-8?B?QUVwYjdLTUVUVWI0eUpxc01WNGFpVVJrK1ZYQitJTmUzaFp3b05UeUdtKzUr?=
- =?utf-8?B?RHlaNVUxMWZoNXNob1pNNkQ5NEtxeDNDdUsxdm1YeTE5TXBDdFd3SmJtL2tW?=
- =?utf-8?B?V0JRME1xQzlTcENaMURIR0p0emE4UGFQcFRzZ2dhaVpieWprT1ZYNDBiM1Iw?=
- =?utf-8?B?bFlMejVZME5PSFpRTzlZWGtrZXl0SzVHZ3R5M1FucDY2cmhqYWZxaWVCMEV0?=
- =?utf-8?B?T2FZcFhSM3dtRzVSQ3hJd3RPNnFUK3dNTlNWd2g2RjZ5RzBHUndWK3pkOWZH?=
- =?utf-8?B?TzR0Q1V1ZmxFZnhTNHhJYWcxeFYwa0RZK0NneEROcDlHRFpYWlNIWFI4STVk?=
- =?utf-8?B?V1BoSzlVY04vWjc0WmdlUDBKRjJIcDdtdlNqV0E2d1RpT0tHWEROWU9JTzgv?=
- =?utf-8?B?eTNmcGEvL2M4djFhWjFxMUtwOXpDU1UzNzZGcEtGdjFhV0VzcWI4QUhnaUxY?=
- =?utf-8?B?dXZWK2xGQ1RoTDZwdlY5Qlh1djFaWXEvemZudHFpd0N6c0JHNVVjaDJBaXAz?=
- =?utf-8?B?QTBNUy9JSWdvVWg3Zkk3ai82MTAwTmlteWtnYTZYcTkvdGhmdnR5WUp4SXJD?=
- =?utf-8?B?N002Nk1uZ2RFbW9meEFKbDdOVXQwT20zNjBxRmwxNDF6MW5CYnI2ZklMTjkx?=
- =?utf-8?B?ejRkaFZOU1RXWDJiZDNWbVpnQ0tjMmc5Ykd3UzArcWYzSy93VG1VM3dldkRS?=
- =?utf-8?B?NzVzNTRiOVlwWk9PYk15eHFmR2p5VVV5Ykl0N0JCVUI0U0lYSTNWenpTUjdl?=
- =?utf-8?B?WDFQaDU4VkdPa09pWHVkUXFFM1V1ZmxmSmErM3dvVGtRdVgzTXQ4UC9ncm5B?=
- =?utf-8?B?aGQ4bUdVSFcxSUdJSWdQaUZ5SEtOcmFOVFozb09TK1k4N1R6QXBzRTRmbVdk?=
- =?utf-8?B?WmMrd2RmZnlNUmlpWkY0WHpEblp0aEFOU0JaRFh5Q2J2UVkwdFNpNFdFSCtq?=
- =?utf-8?B?blhLNnJNYmdwZjYrNUJWWUhsNmZMSTBIOUtSekFEb3lRMHlEWEM2QXVaeHcz?=
- =?utf-8?B?bnF5UjRkYWw4aUpKV0M1RVhjMmh6NkNwMEhCYnNORHRxK0hGbHJDVWo3dWJQ?=
- =?utf-8?B?aDYvQXR2TlNRSHJoZllZZDhrMDJGRjNjKytQZ0pCbk5Zekc3MERsaW14QWty?=
- =?utf-8?B?d2xvb083YXFMcmxlaFVZOTcxUndVSmVQVldqejFUc0VqMDg2WW9XYitKK1pO?=
- =?utf-8?B?NzQrTUE4NmZSK1pCNjluQUJkUVhFOXMrOVhuanJFcWp5NW1XNmVIOVcvV1RC?=
- =?utf-8?B?eSt3T1I3RExxTUN4b2lQbS9yZnlmOWJ0VTgxeWhTZEZNREZTNUlHOXhZdzJP?=
- =?utf-8?B?U29WQjdGbWJVekpERStNWTVMNVZ1QitIcmF4Qk9jRjdKUVg1RkJXUUlxUGVs?=
- =?utf-8?B?UVp0MVVlMm1QMjduVVZ0SHhZWEdOeTdaTzRwOEVpSFBSajlEd2F3Z0lPVVIw?=
- =?utf-8?B?NHNMekoyaHpmRjBZeUVGMTVUZ1czb2JQY2tueldnV3VDR3piQXBmQzF6MExE?=
- =?utf-8?B?UTVLU0MvRHBvMHk1Z2hHVURad3N0azhmK3o5a3J2bTIrWTR3eURHS1duOVhV?=
- =?utf-8?B?OHg3cmdQL0MrSzVaSkhraTcvdnV2VFdOck1pV3pGYUEwRStENWZNM05uT1lW?=
- =?utf-8?B?RFZYQW8zMkcwUWdKTFJUT0xBOTQxTXBzb281K2pwYUE5dW5aSENHS2VoMjhT?=
- =?utf-8?B?a2Y4NXVJM3NGZ1VHU1NacXAxNUpNbTYyMnFuU3UxeVYzZWtIU0gxV3UzRW1Y?=
- =?utf-8?B?T2ZNMEhEZXNIN2NKditmUGt0bHZTdEJQaC9ud2ZJVDNVY1A4UDk0dEliaXJv?=
- =?utf-8?B?ZFB5S25GWXdremlQcDR2MWFsZVUwazc1TC95MW1kaVFqdGRKSUt4aU5nakhS?=
- =?utf-8?B?VkJ5TG9qUHFKRGFnRjdpS0hEYTNEZkVsbkwyNDdvVW1IQjdrUkhZSGFuZGJ0?=
- =?utf-8?B?KzVjNmZyMGNoVzBlL3lVQXR0ckxPSTJhOEMzSjJvM25rQXV6eWszSk9NUURB?=
- =?utf-8?B?UFA0Ukc0bWtVMmNHSS9MNXh2eVdYMmZ5UERDUnRWUkRxaitHMjdIQWpDOWZu?=
- =?utf-8?B?MVhKR2ZURmdTQWZCUzZodkZ6YVdVRGtiTGJoMGRwZWRUQzJ0eGMwRk5uUkdN?=
- =?utf-8?B?YUJGNFp5eXdPYlk5eDNUbm8rY0UxYlpRTEFlWnFLNFg1L3hYd0lZc3lrNDdi?=
- =?utf-8?B?eUYrQ0Y5U3QrUUdGY1VhUTcyT1dSdDd5VGpMcnlPTEpiRUdCdzMrdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c02eb13-6fb9-4674-6247-08ded1d7caad
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3023.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 10:03:08.3150
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ho0bUptdayvgkuXRkW16rLqLKnnbdkx1jOdLbpIz9NW3s9BYhcM/srFoiE9/E9rPQeP7tRVswlcAw15/wCMyhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6940
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJarO2oC/3WNWwrCMBREtyL5NpJH21i/3IdIyePGRrQtSQ2V0
+ r2b1A8RES4MA3POnVEA7yCgw2ZGHqILru9S4dsN0q3sLoCdSR0xwipSshqP9TQ1xrsIvokUU1E
+ Udi+tELxGCRo8WDetwtP53cNDXUGP2ZIXrQtj75/rx0jz7q88HcHKKAtMEwqlOOr+PsjbLgXK9
+ sg+fEXJD88Sr6tSGmMZV9x+8cuyvACNvY/m/wAAAA==
+X-Change-ID: 20260529-t9xx_driver_v1-1744f8af7739
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+ Johannes Berg <johannes@sipsolutions.net>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jack Wu <jackbb_wu@compal.com>, Wen-Zhi Huang <wen-zhi.huang@mediatek.com>, 
+ Shi-Wei Yeh <shi-wei.yeh@mediatek.com>, 
+ Minano Tseng <Minano.tseng@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782295454; l=13177;
+ i=jackbb_wu@compal.com; s=20260526; h=from:subject:message-id;
+ bh=wkVjtgalCZbQSoIpv9CwBCZjvSYX3+Cp4uEVA8TMu7k=;
+ b=jPZka2HnEi+K+CbV2Jywm3Mrp5Qd3gOkA5PmGzVD32JJuUfAPPdLYsawrAo9Hw8HHi2bSqKlz
+ ssBbVetjNJQCqRBRstFy4adm0Ra8tfI7w9HHrdsaeH5TUTYXiEeiPjV
+X-Developer-Key: i=jackbb_wu@compal.com; a=ed25519;
+ pk=VH1prTWixNl8OEUPPSfII3p46MzJpQN8J3+ecE1tZXg=
+X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
+ auth_id=793
+X-Original-From: Jack Wu <jackbb_wu@compal.com>
+Reply-To: jackbb_wu@compal.com
+
+T9XX is the PCIe host device driver for MediaTek's
+t900 modem. The driver uses the WWAN framework
+infrastructure to create the following control ports
+and network interfaces for data transactions.
+* /dev/wwan0at0 - Interface that supports AT commands.
+* /dev/wwan0mbim0 - Interface conforming to the MBIM
+  protocol.
+* wwan0-X - Primary network interface for IP traffic.
+
+The main blocks in the T9XX driver are:
+* HW layer - Abstracts the hardware bus operations for
+   the device, and provides generic interfaces for the
+   transaction layer to get the device's information and
+   control the device's behavior. It includes:
+
+   * PCIe - Implements probe, removal and interrupt
+     handling.
+   * MHCCIF (Modem Host Cross-Core Interface) - Provides
+     interrupt channels for bidirectional event
+     notification such as handshake and port enumeration.
+
+* Transaction layer - Implements data transactions for
+   the control plane and the data plane. It includes:
+
+   * DPMAIF (Data Plane Modem AP Interface) - Controls
+     the hardware that provides uplink and downlink
+     queues for the data path. The data exchange takes
+     place using circular buffers to share data buffer
+     addresses and metadata to describe the packets.
+   * CLDMA (Cross Layer DMA) - Manages the hardware
+     used by the port layer to send control messages to
+     the device using MediaTek's CCCI (Cross-Core
+     Communication Interface) protocol.
+   * TX Services - Dispatch packets from the port layer
+     to the device.
+   * RX Services - Dispatch packets to the port layer
+     when receiving packets from the device.
+
+* Port layer - Provides control plane and data plane
+   interfaces to userspace. It includes:
+
+   * Control Plane - Provides device node interfaces
+     for controlling data transactions.
+   * Data Plane - Provides network link interfaces
+     wwanX (0, 1, 2...) for IP data transactions.
+
+* Core logic - Contains the core logic to keep the
+   device working. It includes:
+
+   * FSM (Finite State Machine) - Monitors the state
+     of the device, and notifies each module when the
+     state changes.
+
+The compilation of the T9XX driver is enabled by the
+CONFIG_MTK_T9XX and CONFIG_MTK_T9XX_PCI config option
+which depends on CONFIG_WWAN.
+
+This v2 submission covers the control plane only
+(patches 1-6). The data plane will follow in a
+separate series once the control plane is accepted.
+
+---
+Changes in v3:
+- Address sashiko AI code review comments and fix sparse warnings
+- Patch 1 (Add PCIe core):
+  - Move extern declaration of mtk_dev_cfg_0900 from mtk_pci.c to mtk_pci.h to fix sparse warning
+  - Remove mtk_pci_bar_exit(): pcim_iounmap_region() was called with bitmask instead of BAR index, and pcim_iomap_regions() is devres-managed so manual unmap is redundant [sashiko]
+  - Remove pci_disable_device() from probe error path and remove path: pcim_enable_device() registers devres cleanup, manual disable causes enable_cnt underflow [sashiko]
+- Patch 3 (Add control DMA interface):
+  - Add #include "mtk_cldma.h" in mtk_cldma_drv_m9xx.c to fix sparse undeclared symbol warnings for mtk_cldma_regs_m9xx and cldma_drv_ops_m9xx
+  - Move extern declaration of mtk_ctrl_info_m9xx from mtk_trans_ctrl.c to mtk_trans_ctrl.h to fix sparse undeclared symbol warning
+  - Replace kcalloc + radix_tree_gang_lookup with radix_tree_for_each_slot() in mtk_ctrl_remove_radix_tree() to eliminate allocation in teardown path [sashiko]
+  - Add missing mtk_pci_dev_exit() call in mtk_pci_remove() to properly clean up FSM and trans_ctrl resources before device removal [sashiko]
+- Patch 4 (Add control port):
+  - Replace kcalloc + radix_tree_gang_lookup with radix_tree_for_each_slot() and single-entry gang_lookup in mtk_port_tbl_destroy() to eliminate allocation failure in teardown path [sashiko]
+  - Add port = NULL after mtk_port_put_locked() in mtk_port_internal_open() error path to prevent returning un-refcounted pointer [sashiko]
+  - Restore skb_unlink + trb_complete for non-EAGAIN errors in mtk_ctrl_trb_handler() TX path to prevent infinite retry loop [sashiko]
+- Patch 5 (Add FSM thread):
+  - Check mtk_pci_register_irq() return value in mtk_cldma_dev_init() and add err_destroy_wq error label to fix unreachable dead code [sashiko]
+  - Propagate specific error codes (ENOMEM/EIO/EINVAL) from mtk_cldma_dev_init() error paths instead of generic -EIO [sashiko]
+  - Free head SKB after detaching frag_list in mtk_cldma_rxq_free() scatter-gather mode to fix memory leak [sashiko]
+- Patch 6 (Add AT & MBIM WWAN ports):
+  - Remove unused write_lock mutex from struct mtk_port and its mutex_init call [sashiko]
+- Link to v2: https://patch.msgid.link/20260610-t9xx_driver_v1-v2-0-c65addf23b3f@compal.com
+
+Changes in v2:
+- Split series into control plane (this v2) and data plane (follow-up)
+- Patch 1 (Add PCIe core):
+  - Rename BAR_NUM to MTK_PCI_BAR_NUM for driver prefix consistency
+  - Replace magic numbers in mtk_pci_setup_atr() with named defines
+  - Remove redundant ATR register comments, use blank line separators
+  - Add kernel-doc comments to all non-static functions
+  - Convert 4 MMIO wrapper functions to static inline in header [sashiko]
+  - Remove unnecessary unlikely() from IRQ validation paths
+  - Add irq_cnt == 0 and irq_id < 0 guards in mtk_pci_get_virq_id() [sashiko]
+  - Initialize hw_bits at declaration for consistency
+  - Merge same-type variable declarations into single lines
+  - Add #else/#endif comments for CONFIG_ACPI blocks
+  - Add newlines in mtk_pci_pldr() for readability
+  - Move return into default case in mtk_pci_dev_reset()
+  - Simplify mtk_mhccif_init() error path to use direct returns
+  - Change -EFAULT to -ENOLINK for PCIe link check failure
+  - Rename goto label "out" to "log_err" in mtk_pci_probe()
+  - Wrap long lines to stay within 80 columns
+  - Fix IRQ vector leak: add pci_free_irq_vectors() on error path [sashiko]
+  - Fix mtk_pci_remove() ordering: free IRQ before cancel_work_sync [sashiko]
+  - Fix mtk_pci_pldr() ACPI buffer leak: free first result before second call [sashiko]
+  - Replace msleep(500) with MTK_PLDR_POWER_OFF_DELAY_MS define
+  - Remove unused EXT_EVT_H2D_DRM_DISABLE_AP and related register define [sashiko]
+  - Increase MTK_IRQ_NAME_LEN from 20 to 32 to fix W=1 format-truncation warning [sashiko]
+- Patch 2 (Add control plane transaction layer):
+  - Add kernel-doc comments to mtk_ctrl_init() and mtk_ctrl_exit()
+  - Change mtk_ctrl_exit() return type from int to void
+  - Set mdev->ctrl_blk to NULL after freeing in mtk_ctrl_exit() [sashiko]
+  - Change ctrl_blk from void* to typed struct mtk_ctrl_blk* [sashiko]
+  - Remove redundant "depends on MTK_T9XX" from MTK_T9XX_PCI Kconfig [sashiko]
+  - Use mtk_dev_free() instead of devm_kfree() in mtk_pci_probe() error path [sashiko]
+- Patch 3 (Add control DMA interface):
+  - Add @ops kernel-doc parameter for mtk_ctrl_init()
+  - Rename 'err' to 'ret' consistently throughout the patch
+  - Reorder variable declarations to follow reverse Christmas tree style
+  - Change mtk_cldma_txq_free() return type from int to void
+  - Change mtk_cldma_rxq_free() return type from int to void
+  - Change mtk_cldma_exit() return type from int to void
+  - Remove unnecessary zero-initialization of ret in mtk_cldma_start_xfer()
+  - Remove unnecessary zero-initialization of ret in mtk_cldma_tx()
+  - Use direct return instead of goto out in mtk_cldma_submit_tx() error paths
+  - Move software state before HWO flag in mtk_cldma_submit_tx()
+  - Squash variable declarations in mtk_cldma_check_intr_status()
+  - Remove unlikely() from validation paths in mtk_cldma_check_ch_cfg()
+  - Clamp data_recv_len with min_t to prevent skb_over_panic in mtk_cldma_rx_skb_adjust() [sashiko]
+  - Use READ_ONCE() for HWO flag polling in mtk_cldma_check_rx_req() [sashiko]
+  - Fix mtk_cldma_rx_done_work() to always unmask interrupt on error path [sashiko]
+  - Add DMA address guard in mtk_cldma_txq_free() teardown loop [sashiko]
+  - Add IS_ERR() check for kthread_run() in mtk_ctrl_trb_srv_init() [sashiko]
+  - Fix queue_info memory leak on validation failure in mtk_pcie_hif_init() [sashiko]
+  - Handle non-EAGAIN errors in mtk_ctrl_trb_handler() TX path [sashiko]
+  - Fix 'err' typo to 'ret' in mtk_cldma_txbuf_set() error message
+  - Remove unused variable mdev in mtk_cldma_rx_check_again() [sashiko]
+  - Remove unused variables trans and ctrl_blk in mtk_cldma_txq_free() and mtk_cldma_rxq_free() [sashiko]
+- Patch 4 (Add control port):
+  - Add @cfg kernel-doc parameter for mtk_ctrl_init()
+  - Update mtk_ctrl_init() return description to cover additional error codes
+  - Fix double list_del in mtk_port_stale_list_grp_cleanup() [sashiko]
+  - Fix direct mtk_port_trb_free() call to use kref_put() in mtk_port_ch_enable() error path [sashiko]
+  - Fix direct mtk_port_trb_free() call to use kref_put() in mtk_port_ch_disable() error path [sashiko]
+  - Add mtk_port_tbl_destroy() in mtk_port_mngr_init() error path to prevent port memory leak [sashiko]
+  - Change port_ops exit/reset/enable/disable callbacks from int to void
+  - Move -EIO dispatch comment to where the code was introduced
+- Patch 5 (Add FSM thread):
+  - Add bounds check for rtft_entry in mtk_fsm_parse_hs2_msg() [sashiko]
+  - Add skb length validation before accessing ctrl_msg_header in mtk_fsm_sap_ctrl_msg_handler() [sashiko]
+  - Fix skb leak on CTRL_MSG_HS2 mismatch return in mtk_fsm_sap_ctrl_msg_handler() [sashiko]
+  - Add skb length validation before accessing ctrl_msg_header in mtk_fsm_md_ctrl_msg_handler() [sashiko]
+  - Replace devm_kzalloc/devm_kfree with kzalloc/kfree for FSM events [sashiko]
+  - Fix mtk_fsm_evt_submit() to return -ETIMEDOUT on blocking event timeout [sashiko]
+  - Change FSM kthread from TASK_INTERRUPTIBLE to TASK_UNINTERRUPTIBLE [sashiko]
+  - Remove unused variable hw_id in mtk_cldma_dev_exit() [sashiko]
+- Patch 6 (Add AT & MBIM WWAN ports):
+  - Use imperative mode in commit message
+  - Remove unnecessary zero-initialization of ret in mtk_port_copy_data_from()
+  - Change copy_from_user() error code from -EFAULT to -EINVAL in mtk_port_copy_data_from()
+  - Return -EINVAL for zero-length write in mtk_port_common_write()
+  - Change mtk_port_wwan_exit/enable/disable() return type from int to void
+  - Fix packet_size to account for CCCI header reservation in mtk_port_common_write() [sashiko]
+  - Fix WWAN tx callbacks to consume skb and return 0 per wwan_port_ops contract [sashiko]
+  - Fix wwan_create_port() error path: clear ERR_PTR to NULL and call mtk_port_ch_disable() [sashiko]
+- Patch 7 (Add maintainers entry): new patch
+- Link to v1: https://patch.msgid.link/20260529-t9xx_driver_v1-v1-0-bdbfe2c01e57@compal.com
+
+---
+Jack Wu (7):
+      net: wwan: t9xx: Add PCIe core
+      net: wwan: t9xx: Add control plane transaction layer
+      net: wwan: t9xx: Add control DMA interface
+      net: wwan: t9xx: Add control port
+      net: wwan: t9xx: Add FSM thread
+      net: wwan: t9xx: Add AT & MBIM WWAN ports
+      net: wwan: t9xx: Add maintainers entry
+
+ MAINTAINERS                                     |    9 +
+ drivers/net/wwan/Kconfig                        |   17 +
+ drivers/net/wwan/Makefile                       |    1 +
+ drivers/net/wwan/t9xx/Makefile                  |   14 +
+ drivers/net/wwan/t9xx/mtk_ctrl_plane.c          |  111 ++
+ drivers/net/wwan/t9xx/mtk_ctrl_plane.h          |   88 ++
+ drivers/net/wwan/t9xx/mtk_dev.c                 |   55 +
+ drivers/net/wwan/t9xx/mtk_dev.h                 |  114 ++
+ drivers/net/wwan/t9xx/mtk_fsm.c                 |  948 +++++++++++++++
+ drivers/net/wwan/t9xx/mtk_fsm.h                 |  140 +++
+ drivers/net/wwan/t9xx/mtk_port.c                |  968 +++++++++++++++
+ drivers/net/wwan/t9xx/mtk_port.h                |  174 +++
+ drivers/net/wwan/t9xx/mtk_port_io.c             |  573 +++++++++
+ drivers/net/wwan/t9xx/mtk_port_io.h             |   41 +
+ drivers/net/wwan/t9xx/mtk_utility.h             |   33 +
+ drivers/net/wwan/t9xx/pcie/Makefile             |   15 +
+ drivers/net/wwan/t9xx/pcie/mtk_cldma.c          | 1420 +++++++++++++++++++++++
+ drivers/net/wwan/t9xx/pcie/mtk_cldma.h          |  173 +++
+ drivers/net/wwan/t9xx/pcie/mtk_cldma_drv.c      |  371 ++++++
+ drivers/net/wwan/t9xx/pcie/mtk_cldma_drv.h      |  174 +++
+ drivers/net/wwan/t9xx/pcie/mtk_cldma_drv_m9xx.c |  178 +++
+ drivers/net/wwan/t9xx/pcie/mtk_cldma_drv_m9xx.h |  101 ++
+ drivers/net/wwan/t9xx/pcie/mtk_ctrl_cfg_m9xx.c  |   55 +
+ drivers/net/wwan/t9xx/pcie/mtk_pci.c            | 1102 ++++++++++++++++++
+ drivers/net/wwan/t9xx/pcie/mtk_pci.h            |  234 ++++
+ drivers/net/wwan/t9xx/pcie/mtk_pci_drv_m9xx.c   |   69 ++
+ drivers/net/wwan/t9xx/pcie/mtk_pci_reg.h        |   71 ++
+ drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.c     |  603 ++++++++++
+ drivers/net/wwan/t9xx/pcie/mtk_trans_ctrl.h     |  107 ++
+ 29 files changed, 7959 insertions(+)
+---
+base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
+change-id: 20260529-t9xx_driver_v1-1744f8af7739
+
+Best regards,
+--  
+Jack Wu <jackbb_wu@compal.com>
 
 
-On 6/22/2026 10:27 PM, Randy Dunlap wrote:
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->
->
-> On 6/22/26 6:58 AM, Akshay Gupta wrote:
->> From: Prathima <Prathima.Lk@amd.com>
->>
->> - Document AMD sideband IOCTL description defined
->>    for SBTSI and its usage.
->>    User space C-APIs are made available by esmi_oob_library [1],
->>    which is provided by the E-SMS project [2].
->>
->>    Link: https://github.com/amd/esmi_oob_library [1]
->>    Link: https://www.amd.com/en/developer/e-sms.html [2]
->>
->> Include a user-space open example for /dev/sbtsi-* and list auxiliary
->> bus sysfs paths.
->>
->> Reviewed-by: Akshay Gupta <Akshay.Gupta@amd.com>
->> Signed-off-by: Prathima <Prathima.Lk@amd.com>
->> ---
->> Changes since v2:
->> - Update misc node names info as per socket
->>
->> Changes since v1:
->> - Elaborate the document
->>   Documentation/misc-devices/amd-sbi.rst | 68 ++++++++++++++++++++++++++
->>   1 file changed, 68 insertions(+)
->>
->> diff --git a/Documentation/misc-devices/amd-sbi.rst b/Documentation/misc-devices/amd-sbi.rst
->> index f91ddadefe48..fbbbc504119f 100644
->> --- a/Documentation/misc-devices/amd-sbi.rst
->> +++ b/Documentation/misc-devices/amd-sbi.rst
->> @@ -48,6 +48,60 @@ Access restrictions:
->>    * APML Mailbox messages and Register xfer access are read-write,
->>    * CPUID and MCA_MSR access is read-only.
->>
->> +SBTSI device
->> +============
->> +
->> +sbtsi driver under the drivers/misc/amd-sbi creates miscdevice
->     The sbtsi driver in the drivers/misc/amd-sbi/ directory creates a miscdevice
->
->> +/dev/sbtsi-* to let user space programs run APML TSI register xfer
->                                                                   transfer
-> ?
-
-Hi,
-
-yes, will update to "transfer" in next version. Thank you.
-
->
->> +commands.
->> +
->> +The driver supports both I2C and I3C transports for SB-TSI targets.
->> +The transport is selected by the bus where the device is enumerated.
->> +
->> +Misc device:
->> + * In 1P socket 0: /dev/sbtsi-4c
->> + * In 2P socket 0: /dev/sbtsi-4c, socket 1: /dev/sbtsi-48
->> +
->> +.. code-block:: bash
->> +
->> +   $ ls -al /dev/sbtsi-4c
->> +   crw-------    1 root     root       10, 116 Apr  2 05:22 /dev/sbtsi-4c
->> +
->> +
->> +Access restrictions:
->> + * Only root user is allowed to open the file.
->> + * APML TSI Register xfer access is read-write.
->                          transfer
-> ?
->
->> +
->> +SBTSI hwmon interface
->> +=====================
-> [snip]
->
-> --
-> ~Randy
->
