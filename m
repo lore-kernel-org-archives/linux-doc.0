@@ -1,71 +1,58 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-8fa9.mail.infomaniak.ch (smtp-8fa9.mail.infomaniak.ch [83.166.143.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0439C64E
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2814324169D
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 12:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782303904; cv=none; b=A59DAEPswFBQBcTgRU/RGRkWPKqyWeoQrnmhfNZa8ieGJlpGU40t0GOzb1vYMhOR8Z5PSVoQRQxw6EM+NiZjW0z5OwTrkmyjpitEQNzIe6VjXr1kXhn2UUvOQI33dn1BO50OAxRF4N9KEil902ACyWQBjeREdh0HJoSyR6JcmZc=
+	t=1782305030; cv=none; b=ubCx8xk074lEkZJqB/6ZvRRB4QXqGKw8QoMSkDkCE2Jp51n4B10m8v1OG5KKtWLx+nLYKxnfmWgxT4epdJXacQtxMNpx5Lho3aAk0GkUSP+yrRGlKL0GSwU0HeeUFbkxnHfJINeubkgb9G2OwbF5DtowFC556CyWpM6x6J5mLFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782303904; c=relaxed/simple;
-	bh=Tj4U2LsAV4so3kyGIEzWI1tMb2igQqarbhEpNBc/hgI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZSdMb/b68RyJqI1sYETVH/C3782LDV4yz3K95EFHlRyctjX70tHuRH46cwsC+EY3oLa7ERjZc1v1e53V6fq/T34Ihfk0ceMXyu7OXlsPp3xLoOBo4lC4FMMwMxpBZqLcBipPrW/cU96r17xCmuEom/Qd2irEj2X6KGeVku8a5VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IBUgGlPx; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782305030; c=relaxed/simple;
+	bh=wHEP3T0JCOGOfR8/mhG8DF0emMo+OpOS1XpQXj0JKsg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PEC9zOwE2d/Uyn7cdGuv6kfOGEOkH8ZfJ5curyQPg45IJQ6QJGKy/ZEgOBkD0Ujhb3/cOkCGeLmSKvxEuJpM0N5TBOFwUWlgMZ7xme4sPe2dwy0MUThUbk9ola0fKOxNybsvswiQaMdIuitAytOiojF+DpVhqJdb1R9RNKbvz1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh; spf=pass smtp.mailfrom=gibson.sh; dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b=ed3G/qnp; arc=none smtp.client-ip=83.166.143.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gibson.sh
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gibson.sh
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IBUgGlPx"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-662bcc30fafso930749d50.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782303902; x=1782908702; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iwM+oUr92p0Sav8gRLsM0TI+WWKv0eIk71UE2GR8a3o=;
-        b=IBUgGlPxhkclhDRuqyO7ZqN+SgRuBARP//mRXpUcRtqumr4G8SJ6xMwhp9HU5HKTI7
-         TP85gLzlHbxLe/rgGBFeMFRn8qmE9sjB5AvWlodunUVjnimmztmkCKUAcNIQpTTcDbO/
-         0+j26Us7DeA/SRnYG4zT7r6/Ofq6QeVwqECryIzas0LdQWMIHJLcD/+uTVVJ2wGtKRQ2
-         VbVcWilFEeAS9K+h54y6No67bEjdnl4/jgPLSZOAiWdsM5dRaaoRK+yNiFvzw0OR76z9
-         YmB56ikzWI6Rn+RSRh9U2KmluILFKw8cnMfVk1Fy0SeeyeTDR8mie6hQuYNl49y7FWRG
-         J7Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782303902; x=1782908702;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iwM+oUr92p0Sav8gRLsM0TI+WWKv0eIk71UE2GR8a3o=;
-        b=BPkZdm4jGhYoqRz4nDxl3xM1suvR7qc2Kj7Mhak0vGM82/CnQPrJvN3XVYOyS5eX/b
-         6P5EIcTNVLgEhUXHiCwOSsBzkm0fKQ/oCC+uz3JunEdR5dXY5QQ70y7lWI7CZ0jVaaBV
-         fUqkMTZTBVVgBF9IgogiCPKGTO3wkvZ7teoKHtLxO2kfJ+AQWDH5gvdOmZRRmT16SITh
-         7qMuiyIglQVa+Q6rg6nGCeODgDCTyL4DJG/QRzA7LuH6QL4L44jIa9iNDVIe4Ewa7wrS
-         xWbrmSJQYecW8u5HV1mDU847919Id3LBI53FcIAIylRIgEw/+5L55vt+6jhoJsDOFO8L
-         Y4CA==
-X-Forwarded-Encrypted: i=1; AHgh+RrJsCwYfDhKWtcE0BdbblUI6nJplbRgVB2HlU8flSm/1oNs39OmWdOwlCQFxKEYEQdcrcLfC9pzSj8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTuuUAsznZVxZo6PmGIuxIrAtfuz43wRyXzYdaMTTfJR/jsyZz
-	/Y2kGRyLdYFrMdFPyLiOAPspVygPxfj+CQjVIS2eulF1o18jiXKDWBKRbYKJ5npUrWZCiA==
-X-Gm-Gg: AfdE7clEyW6kjTw7VWRgevnbFXyOwZyH2G5QBSZfcZxtGUKWuTB3ebokTh1K3gEVLUL
-	dKWXAMu94dGAEdSrHfhSOg3UNQe64FyqQPNRGsA7HgZDFAiK0RQJzsJKpavsLYOYQztFyk9dX+6
-	Vq2Soe5Jf73zr/zDCNean2iAJIFKis9ZOAUgzSTakQeYNr8dlqVnyhukBE3BXdxgVRI9Rz/qj90
-	Znz3q3mdFU1Q2HHkPrw3GdTdCvm/f5SBW4EauYC5xePzYOl571tv611rXD0xbZJJ2KmlA8IM8ch
-	xNcvOVRm0A2ftjjh9yF19OYIGwLgT3igFiK3F7j9y5WpB42NrnRsxuIAWat7tQUxUmeWK80jAqA
-	UieHJnBxPSxEmzjuBjt+qJv4yXuZ5bPE9RiMTP8qMh3IsyxMtqPUCh15MHqaneg4AfodMsGSsU1
-	cjrO0GNysfgS5wkw8e/Xyw0tizF8Ib5ZZoHW7R
-X-Received: by 2002:a05:690e:d0f:b0:664:77d8:ffcb with SMTP id 956f58d0204a3-66477d90f6bmr543453d50.30.1782303902078;
-        Wed, 24 Jun 2026 05:25:02 -0700 (PDT)
-Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66469fae706sm340980d50.4.2026.06.24.05.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 05:25:01 -0700 (PDT)
-From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gibson.sh header.i=@gibson.sh header.b="ed3G/qnp"
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4glhSX4HVJzXgX
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:43:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gibson.sh;
+	s=20260228; t=1782305020;
+	bh=N2jcZfkZx8sHU1eydr66vjE0TAGI3mXPIcJNMYu/yg8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ed3G/qnpMIeyx4IpfwAhVad2MyHVErmNXsv3StEyz/hIPotDlobDuEL+5s2sXXoii
+	 vHGBbfFRw2pEUgYQcq+49nvG0i0tNk2xHXfll2bDSbYBsHOGtgdaO7T+m6EvwdsbTz
+	 uP3PbTrkTI7w4QeM4C3xNCAtM/qJ9k7zkqWCbroc2iBXK4R0Z/giOHfuhfMJN3rlxv
+	 4dHviK+JF3athfFZp6WW/xYBC1jDMqymqeGm5W+/jEJBIZL64KgUE98hnym6XGzepu
+	 ClEohIjCw9QI3LDhiKZMSAyB0YzbT2lFBSPIJ7jbmmE4vEdppVjj8FAFEJy4kCSg09
+	 WW0XZsGEoEINQ==
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4glhSX1TkQzH8N
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:43:40 +0200 (CEST)
+Received: from unknown by spiderdemon.horst.lan (DragonFly Mail Agent v0.13);
+	Wed, 24 Jun 2026 14:43:39 +0200
+From: Daniel Gibson <daniel@gibson.sh>
+To: Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
-	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] docs: kdoc: fix troff output description typo
-Date: Wed, 24 Jun 2026 14:24:48 +0200
-Message-ID: <20260624122448.4853-1-alhouseenyousef@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	linux-doc@vger.kernel.org,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Daniel Gibson <daniel@gibson.sh>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>
+Subject: [PATCH 1/2] Documentation/arch/x86/amd-debugging: Add example for reset register
+Date: Wed, 24 Jun 2026 14:43:25 +0200
+Message-ID: <20260624124326.746525-2-daniel@gibson.sh>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260624124326.746525-1-daniel@gibson.sh>
+References: <20260624124326.746525-1-daniel@gibson.sh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,28 +60,33 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 
-Fix a typo in the ManFormat documentation string that describes the
-generated troff title header fields.
+The amd debugging documentation didn't state how to identify kernel log
+lines with information from the reset register about the cause of a
+previous random reboot.
 
-Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+The added example rectifies this.
+
+Suggested-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Signed-off-by: Daniel Gibson <daniel@gibson.sh>
 ---
- tools/lib/python/kdoc/kdoc_output.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/arch/x86/amd-debugging.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index de107ab4a..618b0d765 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -624,7 +624,7 @@ class ManFormat(OutputFormat):
-     ``manual``
-         Defaults to ``Kernel API Manual``.
- 
--    The above controls the output of teh corresponding fields on troff
-+    The above controls the output of the corresponding fields on troff
-     title headers, which will be filled like this::
- 
-         .TH "{name}" {section} "{date}" "{modulename}" "{manual}"
+diff --git a/Documentation/arch/x86/amd-debugging.rst b/Documentation/arch/x86/amd-debugging.rst
+index d92bf59d62c7..3176a1240fee 100644
+--- a/Documentation/arch/x86/amd-debugging.rst
++++ b/Documentation/arch/x86/amd-debugging.rst
+@@ -366,3 +366,8 @@ There are 6 classes of reasons for the reboot:
+ This information is read by the kernel at bootup and printed into
+ the syslog. When a random reboot occurs this message can be helpful
+ to determine the next component to debug.
++
++For example, if bit 19 was set, you will get a message like this in the log on
++next bootup::
++
++  x86/amd: Previous system reset reason [0x00080000]: software wrote 0x6 to reset control register 0xCF9
 -- 
-2.54.0
+2.48.1
 
