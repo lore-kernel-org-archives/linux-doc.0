@@ -1,99 +1,141 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CB3340260
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 16:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59956BB5B
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 16:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782320227; cv=none; b=rYJc/vd4GNWzslLddKYQh4uYObay3jT2M7GCprvNSNtpiZeHMRRd9zOCrES/bdPjI/hAWLvQEr/aLgetxshOFHUynqn9oBWRXUMSs70PSqHLpIUKIOrAuWNhLkes7fb8dztji+b1cAmzGVEup1Xz7EbZ0TWCidB4bK9VP2uOELs=
+	t=1782320260; cv=none; b=SWKXamRdNXe0NkNHTu9o/0v/KDpqEVq3RsMXzTAXneBLJGykUfzy2s7oqZQS2rKUsq0Ch4fRlYlzADzcviYP8V9Erj+RzkLCaqslbdLQG1xEytZoW03DVzWEeBgbhqrjPY49lHxYQng+H60iO4kpkIQEdTC6wjLigsq8n5zyCP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782320227; c=relaxed/simple;
-	bh=sFclBlGuLlklutyWalxOxdLRxtPJWxF7xb2dfh79PCc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=q9qW3TpZN3Qb4rzKoLac6BfGYu6D8Kws+14cKYD3+cHiik3av6VhtmiywmeLnkqV8ealhGcaxxn9+4MTWX5XKogNDtsbHWdub8n9rMDt/GKzc6/FxcGlU/iz4vZpEeOFPFK0aLsENS/IWd7r+WL0QGnqKVSeaeZdUzROC/viChA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GwH5XZT5; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782320260; c=relaxed/simple;
+	bh=fOxQ4jE7u3TCnvFlOC2Ae6Pnm6PbYqfhCIaubSW8KQc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pw+l+70MnHRWbIIfWR3LRMYSwEOnlJfucaCGK76LzjcoV5J729DmuBJ/Pbf8EWsIviRx1JNPznp6RjJzLPTt64DGqLyL4F7HRBLwaHGHSdZjyiAzJp3mfTA7flEXXcGORdC6nGZLEuyrrru3VcGlSlvi7yZerACx5Did0YLghV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2EM5shB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GwH5XZT5"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2c76be5dd09so8676645ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 09:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782320225; x=1782925025; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bTiRAq90VFPvdthoswICGCbbk82NFtmBH/qctXPK1uM=;
-        b=GwH5XZT5Gjtb/KiCw8TnuO37Blpge4KdrQPeHuge+fZ2ETrA/7DHZDBZJhhj5T9t9T
-         +m0mKXolKbM+sB2/iw5PzfNG9X3CKDq8QaZGGePsE7ehLwyy7NViZtAxz1EOO0qgD91B
-         sDcE44mtf8Uhm/c6mfio2i7R7I2t77uN8d4RO/shjDMAyLXXQgp5TuL2qNZzfP9f491L
-         hVwGb2vv8u4P7+b4j3S6xKNDoGiGW6Vce2462lp2Fkt9ecdJ9NlzKImTGcEdh86+Wsxt
-         pkDn9q1v+NC7T5gda5AA0A7AC36NAdqEGWroymqCYDcuS/Wg2/x6jj5CxstfckPuFGkI
-         g4Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782320225; x=1782925025;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bTiRAq90VFPvdthoswICGCbbk82NFtmBH/qctXPK1uM=;
-        b=IvyNvWgg/8WPJQho7Vcmm/V3PWlvwImHynwM2jdCQQcq2aSdo/laRUdg+80cEPO0ud
-         Fmcq7gAz9WbTrC64Mhcrs4c4+YdASw84KXnETcuP8hO65FuRlp7Fwj05DB5wAzMHbJQY
-         yO9wa7JIFFtNIg7727BPTSmIJPxzj6skAakJFbf2FdKUpzMwQOoQYAzv1duNGp5DyH7B
-         1H/aIfm10qPhM1Chj8YZ/O4Qz3ihYHef14PmYai/ZCT6VnEXxQ1vmsH0h3KgKpmuMLG2
-         a8dnI47RjqkoeTl418eCUjTHoDMbfmKNBoMhMQt2QoxoTreJ5380RmpIoo4uoZfogAga
-         afUQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqAMSRx2abL+iQo2ca35qgh2l1I5us7h1H1YD9fsa9X9XzhAYk3qrGpg8Wd1V/ZUkb0oxpB/0w63fQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4k7JEqQGRmuy4qGtDhP1u2rW6aOk1BZSGUju1MSTfp4Fuu4i1
-	rHYknya2KI2nz+q32A3IzgZ5yvcvBhtyD4SPUDT35PwNxJJCFxpUlyBFjBQ8dPe+1goQPZ+kwbd
-	3dVClkw==
-X-Received: from plpn21.prod.google.com ([2002:a17:902:9695:b0:2c6:b814:535b])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:fd47:b0:2c0:b081:84b1
- with SMTP id d9443c01a7336-2c7e1464d1amr26763135ad.10.1782320224855; Wed, 24
- Jun 2026 09:57:04 -0700 (PDT)
-Date: Wed, 24 Jun 2026 09:57:04 -0700
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2EM5shB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616411F00A3F
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 16:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782320259;
+	bh=Pj+zfe+/Q0BE8fYRnsp9PT2NFlf9FSAYTLWiogZWvR4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=h2EM5shBKdP3kHyvAcDlJcwpMMK7wevCutenACazD5lMtA7WiTsBSAdfwRfg2uO+W
+	 A+UU/1/Oh502boIHFslmjDhIdw7ffNNktyq9NIgpoDhH/VcmkptIachTPSQPvRX05M
+	 eFyaNMJ7lZoYWnmfURBMS2Hs1mHEiM2Oh/g4V3xLGOqe3zhAHvc+iUAZK55WMkf+5q
+	 0eT/Bx6T3RFXMdf/GeRaNQNAECknJeqy9MqezDTyTUS0+v5d27ShNf94anTas16bn5
+	 zPF5nAa7tv+PdhNHhbmkEW7T8U7vrxw/PbUe4mInTcA8Dc6hD6NMhqTOAnvPIAAo7y
+	 muJ4A28LM0N4A==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c07ea058c1aso40490666b.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 09:57:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9UzeX1kp7BM4RNoI46+yWNrjp1GEuVmtqo0hmmWM3eoXRZazxVwazRjXko18LEwi8EgomkjNAGXj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+om4cY9QrH/Mm+odeNUP2lYIfJi4W/8DbDbWQ4tNzTH+k4l0H
+	k31pK8Xi0uW5oZXkfPlcbnCwvra/Pm83RzVhSZw+XuPB+NQUpIifNzTWZrwUctgO/F1PR+nx/9J
+	3QDAK3xjphwhq2pBzmDM0BPariH0zuQ8=
+X-Received: by 2002:a17:907:e110:b0:c11:f6cd:e120 with SMTP id
+ a640c23a62f3a-c11f6cde17amr86990666b.25.1782320258297; Wed, 24 Jun 2026
+ 09:57:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
-Message-ID: <ajwMYCSrPlxg-Fok@google.com>
-Subject: Re: [PATCH v8 18/46] KVM: guest_memfd: Handle lru_add fbatch
- refcounts during conversion safety check
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
+ <20260618044857.69439-2-jiahao.kernel@gmail.com> <ajnB8IZrFZwbIr9P@google.com>
+ <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com> <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
+ <057ea303-4c27-1a6e-08de-cce26c699097@gmail.com>
+In-Reply-To: <057ea303-4c27-1a6e-08de-cce26c699097@gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Wed, 24 Jun 2026 09:57:26 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
+X-Gm-Features: AVVi8CdkRvxUn8N-b2cW1L0eOPe_x3eeQiW3Dp7mX95Wjv4nFh_2RObAbBdbFR0
+Message-ID: <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback capability
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
+	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
+	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
+	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 18, 2026, Ackerley Tng wrote:
-> When checking if a guest_memfd folio is safe for conversion, its refcount
-> is examined. A folio may be present in a per-CPU lru_add fbatch, which
-> temporarily increases its refcount. 
+>
+> /*
+>   * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
+>   * and write back the reclaimable ones.
+>   *
+>   * Since the second-chance algorithm rotates referenced entries to the
+>   * LRU tail, the per-node scan is capped at the current LRU length so
+>   * each entry is scanned at most once per call. It is up to the caller
+>   * to handle retries, deciding whether to scan the next memcg to complete
 
-Under what circumstances does this happen, and what alternatives are there for
-userspace to work around the issue?
+Nit: "whether to scan another memcg to complete.."
+
+>   * the full iteration, or to rescan the current memcg to drain its zswap
+>   * entries.
+>   *
+>   * Return: The number of compressed bytes written back (>= 0), or -ENOENT
+>   * if @memcg has writeback disabled, is a zombie cgroup, or has empty
+>   * zswap LRUs.
+>   */
+> static long shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_scan)
+> {
+>      struct zswap_shrink_walk_arg walk_arg = {
+>          .bytes_written = 0,
+>          .encountered_page_in_swapcache = false,
+>      };
+>      unsigned long nr_remaining = nr_to_scan;
+>      int nid;
+>
+>      if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>          return -ENOENT;
+>
+>      /*
+>       * Skip zombies because their LRUs are reparented and we would be
+>       * reclaiming from the parent instead of the dead memcg.
+>       */
+>      if (memcg && !mem_cgroup_online(memcg))
+>          return -ENOENT;
+>
+>      for_each_node_state(nid, N_NORMAL_MEMORY) {
+>          unsigned long nr_to_walk;
+>
+>          /*
+>           * Cap the walk at the current LRU length to ensure each entry is
+>           * scanned at most once per call. Referenced entries are rotated
+>           * to the tail for a second chance, and this bound prevents them
+>           * from being revisited within a single call. Retries are left to
+>           * the caller, which can choose to rescan the current memcg or
+>           * move on to the next one.
+>           */
+
+Nit: Make this more concise since it's already explained above.
+
+Otherwise this looks good to me, thank you!
+
+>          nr_to_walk = min(nr_remaining,
+>                   list_lru_count_one(&zswap_list_lru, nid, memcg));
+>          if (!nr_to_walk)
+>              continue;
+>
+>          nr_remaining -= nr_to_walk;
+>          list_lru_walk_one(&zswap_list_lru, nid, memcg, &shrink_memcg_cb,
+>                    &walk_arg, &nr_to_walk);
+>          /* Return the unused share of the budget to the pool. */
+>          nr_remaining += nr_to_walk;
+>
+>          if (!nr_remaining)
+>              break;
+>      }
+>
+>      /* Nothing was scanned: every LRU under @memcg was empty. */
+>      if (nr_remaining == nr_to_scan)
+>          return -ENOENT;
+>
+>      return walk_arg.bytes_written;
+> }
+>
+>
+> Thanks,
+> Hao
