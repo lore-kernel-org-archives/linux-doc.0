@@ -1,161 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570ED309EEC;
-	Wed, 24 Jun 2026 03:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782272290; cv=fail; b=TYx1Ye2+UP382f+otkwrgXM8JpQ0Jn7EaI9Lb2+kzEtmTUNUlWkWIMt/saaksQ3M2jUcg4LD6E+An7bHdY0mg6h3BvJi659zMSfcwdDb9OaXB1nMUUOruxasSy0LxnkzcGOzxiIWoGci+T1RMoaDyb3T8QSJp7IVq94At+j+OQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782272290; c=relaxed/simple;
-	bh=FwncDXgPoCTgJqiZxNp9GkhTv+TqdwZvZont0DXaoeY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LyVSuoiZuRzis0Ynnm2xy22HnTPete8dhRwW52YJ3xxytodRSEXgTW+5dYE62SIOT1tLdN3moLjAGBg9h2wAQj/eBW/wQXLXWKsSzlU3Dlhoyt5SYsAl9G4/x0MZQYDPuPysl1J2gi4Qhhc0IzeUzlA+TkKWyxXbrN0pCA5O+oo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+jseVxh; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E9E380FEB;
+	Wed, 24 Jun 2026 04:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782274509; cv=none; b=LkiD5ijvLzyqPs2toh9wEG8tAHymjKW3xhAiXPODyJirgu+ZtXWEWVkM+nqJqo9GFA2VI9eqmXsCzgG9MgnRJ3v7lH2i7n2ajSzoSFVgrk0OLmjbws8c7W2yiecPzNIbTuTw8V3dW5FuUpcOMruwBRQzktAQqRyR3Jzvw+DQiYQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782274509; c=relaxed/simple;
+	bh=Rt+dMmjfl+HECVstGcDntP8qmPQ3Au9mMljeDbocBoE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dy4VaytcQ4KaydBgSYQxq7B9qsMs/BZZE85LWHzG7SGT9wspBXeuOycPhFlVwFOGYb6fnNUubn4Q1x+hBMDI5ZA848iW8IPb5q+8R9F6bG3PuvRNRTAmy6MsCq6i3biCha+bPhT4wstSUZm/gtmW1RF2T2qDw9zREIb0t3X6VuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GaP209XP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+jseVxh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782272285; x=1813808285;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=FwncDXgPoCTgJqiZxNp9GkhTv+TqdwZvZont0DXaoeY=;
-  b=a+jseVxhXAe1ib8ZBrHg2VE36kaAK9d9MsTcimvIWmDqpV1RZraR/Oeh
-   BZ83sS60rHjSPSc3RoY9aa1ME4C+MVbLmX4JTDlVmpld7lj+AGF2C2P4d
-   TkM8+xpyfAO0gzT8xcp+j4Da6np0G9wMUFtV5m1IXdyE3UUPOP600Gkj4
-   x49dlp9BkHReGpOtdZ5Jhr6v1C8ahzhCZRqWD1Kxi+S/Q/SLR2YGOHiU1
-   oAQQ2ERJdTWrpXhjK4d/4Y9WOdLVGc/7EjWdv/SUAjXSRPmpvSpvk1Ngn
-   e+kIspeRSEFMHOb8kpIBpkTmGd1S1LzmTSjWeqWIcHh+SqtwY7uKfp2UY
-   Q==;
-X-CSE-ConnectionGUID: plGlPQF4SJSheCln2nzQ3Q==
-X-CSE-MsgGUID: CamFsr8RSqqyeW9c/lrFEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="93610618"
-X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="93610618"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 20:38:04 -0700
-X-CSE-ConnectionGUID: fPDcjrSNRcOFI3yy+PWe4w==
-X-CSE-MsgGUID: HolQ5/MIStqWqxJ/fDl6vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
-   d="scan'208";a="273761259"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 20:38:04 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 23 Jun 2026 20:38:03 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 23 Jun 2026 20:38:03 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.32) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 23 Jun 2026 20:38:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C9RLTWnGFOjFL7c+EKbq/8dgqv4mVouuwzAYyttKqI4sI0aBo0tfLAlcENLvK9H1/MxLwATUrl//WdDToFV/Rmue8Kv1u+tC4nLwTWUFD5HIXmMZUGy2paAO7OV/8BfBMlBy6En9hCOHuIEQiIKxysMfbt/MhXM0RhIFUsyDuzpjU8FugQ/UdyClePO+ddJzKO0tkTXZDbTKxymti95rm+WxkDsCJ0ITJrk2VEs+R1SRx41wzAQpD7jz31Euxgf7hzPcqT4aAZ9gcaDD3snBamd5hgrJ5JRCK0Fpl9ibpRuFQH1KdstCLkONCoofy3/3ZfBBccacme3+owOqHaH6+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I12MFHsirhjObYZVloSyLrt0qu/wos3iu9Pt/MNsZC4=;
- b=j5ceJWR3jxje6Y9yOs0RKaZFwGrobohZ8J7AFOdB+ZqShyUYJL4Q9R7d6Fv829+ddXitep26BMZi1gGUsOUbOV484QLOy464WSCJ8Tju4FYfmjvDP59A0q1W59Cxn1yKwXbgseuo447sYEa4kytqIZ3O0QKdCsNc76XLfuO74ZxpZuZa9ZwHPeuZBA4tVC26f2jtaAXLZYF4atOJ2z5Fxpn/envJps2wwias27yX/lqH8Zj0LOM8dA9wLAY0nN8s7jWnt9ObS3jSvobeJg2Iph7tIW36xNdHrrF0RYXfooSMvSW3Iq4j3wMMuk83fOTHp+8V7A4YbinCkznaNZCW0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by SJ2PR11MB8516.namprd11.prod.outlook.com (2603:10b6:a03:56c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.12; Wed, 24 Jun
- 2026 03:38:00 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891%4]) with mapi id 15.21.0139.009; Wed, 24 Jun 2026
- 03:38:00 +0000
-Date: Tue, 23 Jun 2026 20:37:55 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Zenghui Yu <zenghui.yu@linux.dev>
-CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <dave@stgolabs.net>, <jic23@kernel.org>,
-	<dave.jiang@intel.com>, <vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
-	<djbw@kernel.org>, <gourry@gourry.net>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>
-Subject: Re: [PATCH] cxl: docs/linux/dax-driver - fix typos
-Message-ID: <ajtRE4m4zFd9w-ei@aschofie-mobl2.lan>
-References: <20260614161458.88942-1-zenghui.yu@linux.dev>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260614161458.88942-1-zenghui.yu@linux.dev>
-X-ClientProxiedBy: BY5PR03CA0005.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::15) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GaP209XP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A4201758;
+	Tue, 23 Jun 2026 21:15:00 -0700 (PDT)
+Received: from [10.164.148.38] (unknown [10.164.148.38])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C92303F836;
+	Tue, 23 Jun 2026 21:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782274505; bh=Rt+dMmjfl+HECVstGcDntP8qmPQ3Au9mMljeDbocBoE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GaP209XPOmNK0pP342ZcONRM7jF9d/ZFio8I1JCPA5GBq70ARBEkb+C24Fq6kM4NY
+	 nVKD8Lfn51GoeWLXQJPJoqxgi/esOQIqhMW9JUng8alESW7BHHqjqirY97ZkyhEhSP
+	 OcHOCcYjKGVzSYAXUFE3Jhp/cxRvk6oGBlNumAzo=
+Message-ID: <f5927785-d5d3-4e64-bbac-220d40718a1f@arm.com>
+Date: Wed, 24 Jun 2026 09:44:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SJ2PR11MB8516:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0682b4bc-cba7-48e9-b3a4-08ded1a1fd16
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|18002099003|22082099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: jIDn9cRWna/07+nSYQIIYpcvRNnIDncLoTmY1ugAm1x8n8strX2GtiS5oxMM9nMCfsqQA5QJmpbjBMMomR/eE5BX2LraiuX5ZYHcAVBLeQFrrdQUq6kjyrnxNr08Z2st4kS17zVWCjEs5N540MbcrOREsfW3ogKjPquUtr0JYyOD2sERiYN+MoBhrJ0C4HKJmVKmOppeqps0pbH2i5AcvC/ecXSXK2ArrUuukUjJyVUTJ7e/eys8j8LsYAaJa+9oF+qMtgGjjgrr27aaxkRH/fBCApHyhJmU/flGPFnKZcFe6m28wjtsYgjgqJUKlekAsGUYUpMO9mHhliZK2B9UPv6SgVJWSXIIyx5LVv/mLTyiostCT0hkJkjUYSqgY8fvMMz3T7dB99JeZqY/PHYIeU4Mv9qUVbMTu36SysYRwILZyeCT+OEirXl3Y9Sdj1JNTCNX3bJVdiK45dKFb6GGWeJsjj7o1zj2JWXgC1EI5NxgGEbTzFz8IRu9zNnOPZ3DWGVkHLoLHegV5l7kecAcR8/G42EKRACjTLRpo7Tqrl0Y/ldccyEEnmhIMNbM5cWLcbCFoUweWi5rwoV3X9Q+yZtj4WUTfQ6YSXbO2Xm256UDgMvE9XQH33iqt42Dopdklemiznf+ALEh2r/WrBh7OIivrrLnCliz9j/UZbJfXPI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LEKr9mFWIIeir6dEDRMry3JkrO9J4CbZ4TiCJz1u1GXrRFLlYJSnuS9QoGJx?=
- =?us-ascii?Q?Lt8rHXviCbXN3fKzK3/tIO3e2z46Hw7poxhJGCSgWXTu26/YvdlFT31M2bI2?=
- =?us-ascii?Q?ysGOQxQqNNFpRxCWTo5pCsDQCsF7TCe0AH0MC1he8+elXhvV8pyJgRe349j5?=
- =?us-ascii?Q?hI77+sve2SSuta3bMHktYRhk5W10cSLZGFfF5Iura0hwpFZkTXiBgQr5cyRX?=
- =?us-ascii?Q?RQji0hmt/CN2X9b2jUq06W9OTMm+P2dq+fe4i/5JCtcgDmsZrrR6ULxoE0cq?=
- =?us-ascii?Q?GPlOjwFEJef+ulsoOkQLvK5cehEFhrAQ+M6ox+fN959Ys1eMexa5EnKdTlkn?=
- =?us-ascii?Q?Howv9wUqnMV136I78NUvy6Cc4WAgtVM10b/ovDGBEHkddqDYTFNY+3IqneOu?=
- =?us-ascii?Q?jPCcxHETWoUxSzY4KhI+qkdriPkleTFvkwvEIKiveB43cC5kmVgn/JCxAMco?=
- =?us-ascii?Q?LFrGi8PzMAx2Pfbnunt8omBe2wZWD18sNi+uAKbnsYIMPd31mL8MHbxKsS+8?=
- =?us-ascii?Q?eLShHBnZRLuhPA68SjcQiVtlEVuCfMtB4dH3SQMAcN6DHbG6fBQ6lucOgTcV?=
- =?us-ascii?Q?JZkqEOrnO8bmHiuZS23ajkRr2UVaWcG+/BDHIcKsk9LfXtJyCMs+Co2SPARV?=
- =?us-ascii?Q?hOBVjzrCB9zVX58P63bilZvZthJGNRvlHspW98PhzijMtDRHCmiPINJn8uP6?=
- =?us-ascii?Q?p77CIhGX0Rl5G4ti9lmTgmNn4/vHeVoHoi49mw6lAPT6uOlTo23jJlUGJk3w?=
- =?us-ascii?Q?TCRh2lg3iiTVmH8DIytTGOsjjsf5u7sTdhrcK7kvou27XDb0C6eVQ+KHv8W9?=
- =?us-ascii?Q?9N7MH/KuiEcK37GpBPBcKfZwz/S15QywO58lN8F6wkdnAa9oBdiUgWbFufoJ?=
- =?us-ascii?Q?kfeYvTXjHUJbDlMhTFyAdjpw5JTtgj0awgcsSMW6TzAtAoyE50M4drK9DVGt?=
- =?us-ascii?Q?/jIVNxtJA1gao4qeobYqD7hrN+9nAIrm0VZXv5mc1pG/Qt56O8oJWzzMuV1t?=
- =?us-ascii?Q?IJmiwdXT7IKb2dSwhD8heTTwmg57LShpz8lH51jeH+e10PeSApsI2Z57w4ke?=
- =?us-ascii?Q?jNJfMJWjKiqeC2KBSbqUGXI/9DUlfflegmQWUqc14DBEhIRR28IbDJQKGQHd?=
- =?us-ascii?Q?DWeZM6pq7JhW8pItgiF3JsfiMgf2ThN9CWz7AejDMeP3zmMChQyUQECSOQve?=
- =?us-ascii?Q?uOIpmgLuP82NQAJhsy6wsF1/lsesFeBhJbi3Qf43wFoKNBY4UJ9T9M9qtztJ?=
- =?us-ascii?Q?ctRkjCsbU1kLOXZ32+GO/JOjmOC217vUSTYN4uuZlebmVp/FSKolRGXuBO1m?=
- =?us-ascii?Q?3Ib4ZA3YeHvNCPeMOzZcydMUsCMI29z7Eaj4loCYta33SkbB91xvU/mQ6hsa?=
- =?us-ascii?Q?0azZybVwGkdAgRZjo/wgdc2i7/fKPVirUTpct3XE78RyF1sHwG0dkMgzJOIW?=
- =?us-ascii?Q?y1NYDClGD97bvxByKpmn2Dky3DWIZpd4Bsq0kZslBc4eLMdot4o1gRuJo+by?=
- =?us-ascii?Q?NoRh7J5b6FOvqi8D/D2NsGjGfL357Os+WU0YIzMbNGGJ1kidXOjmeGTkRKN+?=
- =?us-ascii?Q?QbcKn7J26LfO3z17VYYLxbAgPkIvqzQRKAL4BPCZsYfC1wnif6qCQB4R8LI3?=
- =?us-ascii?Q?vpvE9woWjTAflBvj5IEEjZx+ZvTUgL4cq/2qrrczC80CJcjE8888k1BhygG5?=
- =?us-ascii?Q?aj/cwlTsDTgsMPv5AJan121ousoyi4uUuAmPiKZMOCgMoqbJi16HHmj3ifPM?=
- =?us-ascii?Q?Gtj3y/YlqyPGdwMbgdxtfG4rTWzPkIM=3D?=
-X-Exchange-RoutingPolicyChecked: egn0JGMtM4gScdarZN5qCIe43ZcNhSi6/r4C69RwGJEMKSi6nDd5xyaobvHEvIrXYIm6d5Ij6ZqKy/4hlJ8tv3e870ttNluzvepOxUXTEDcohWk1/rWNYQm9aTWGfmR6VDZ8BI+UeGr3lgHDa3J2/hJbWgvGRK8/dfIWsr1g/P6j4L5Q5IcicGNPQTq5mUCqCV9ZwUhqe21pZvZ2o5IV9svRx891JfoZr+J3yfhMRrwnIO140ClyezTaDeSgoJrITwsiC5HZlcTtYcTyQMFLgUrVl0HlkwwzAJmBf8NS/g1K2omq3kyF9rmbmbi5X6H+o+dP3xXph/bnrV29ikfhvg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0682b4bc-cba7-48e9-b3a4-08ded1a1fd16
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 03:38:00.1557
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q6x9xqy6TYWob9ZVtEX1yPEFQvzWdflKGAfBFzT8NudW3rVr4ncX710J0wBU8iQb/2IO4Lj0bB4J4N1VkB2I3TK2JTLAQ7/zC5LX+zKeTHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8516
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] kasan: hw_tags: Add option to tag only at
+ allocation time
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Harry Yoo <harry@kernel.org>, ryabinin.a.a@gmail.com,
+ akpm@linux-foundation.org, corbet@lwn.net, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, ryan.roberts@arm.com,
+ anshuman.khandual@arm.com, kaleshsingh@google.com, 21cnbao@gmail.com,
+ david@kernel.org, will@kernel.org
+References: <20260612044425.763060-1-dev.jain@arm.com>
+ <b1502a60-09a1-4699-886b-93d041de7023@kernel.org> <ajVByfkLbetzA8bB@arm.com>
+ <2208123f-8a51-483b-aa93-c35d8d053d25@kernel.org> <ajltLd6FQg1aMge_@arm.com>
+ <78d97371-b477-4230-8690-ac870a7bab3b@arm.com> <ajq-Ukmd9NBruhr5@arm.com>
+Content-Language: en-US
+From: Dev Jain <dev.jain@arm.com>
+In-Reply-To: <ajq-Ukmd9NBruhr5@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 15, 2026 at 12:14:58AM +0800, Zenghui Yu wrote:
-> Fix two obvious typos in the "kmem conversion" section.
+
+
+On 23/06/26 10:41 pm, Catalin Marinas wrote:
+> On Tue, Jun 23, 2026 at 10:32:16AM +0530, Dev Jain wrote:
+>> On 22/06/26 10:43 pm, Catalin Marinas wrote:
+>>> On Mon, Jun 22, 2026 at 09:42:10PM +0900, Harry Yoo wrote:
+>>>> On 6/19/26 10:19 PM, Catalin Marinas wrote:
+>>>>> On Thu, Jun 18, 2026 at 10:35:15PM +0900, Harry Yoo wrote:
+>>>>>> On 6/12/26 1:44 PM, Dev Jain wrote:
+>>>>>>> Now, when a memory object will be freed, it will retain the random tag it
+>>>>>>> had at allocation time. This compromises on catching UAF bugs, till the
+>>>>>>> time the object is not reallocated, at which point it will have a new
+>>>>>>> random tag.
+>>>>>>>
+>>>>>>> Hence, not catching "use-after-free-before-reallocation" and not catching
+>>>>>>> "double-free" will be the compromise for reduced KASAN overhead.
+>>>>>>
+>>>>>> I doubt users who care about security enough to enable HW_TAGS KASAN
+>>>>>> are willing to compromise on security just to save a few instructions
+>>>>>> to store tags in the free path.
+>>>>>>
+>>>>>> To me, it looks like too much of a compromise on security for little
+>>>>>> performance gain.
+>>>>>
+>>>>> I don't think there's much compromise on security for use-after-free.
+>>>>
+>>>> I think it depends... OH, WAIT! I see what you mean.
+>>>>
+>>>> You mean use-after-free before reallocation does not lead to much
+>>>> compromise on security because objects are initialized after allocation?
+>>>>
+>>>> You're probably right.
+>>>>
+>>>> Hmm, but stores to e.g.) free pointer, fields initialized by
+>>>> constructor or accessed by SLAB_TYPESAFE_BY_RCU semantics after free
+>>>> will be undiscovered if they happen before reallocation.
+>>>
+>>> Even with SLAB_TYPESAFE_BY_RCU, the object isn't tagged on free either
+>>> (or realloc, only if the actual slab page ends up freed). But we don't
+>>> get type confusion for such slab.
+>>>
+>>> However, without tagging on free, one could argue that it reduces
+>>> security for cases where the page is re-allocated as untagged - e.g. all
+>>> user pages mapped without PROT_MTE. Currently we have a deterministic
+>>> tag check fault if the page is coloured as KASAN_TAG_INVALID. I think
+>>
+>> So you are saying that a stale kernel pointer can continue to use the
+>> reallocated page, because for non-PROT_MTE case the page does not get
+>> a new tag. Makes sense.
 > 
-> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+> Yes.
+> 
+>>> for this patch, it might be better to only do such skip on free in
+>>> kasan_poison_slab() rather than kasan_poison(). Freed pages would then
+>>> be tagged.
+>>
+>> I think you mean to say, "skip tag on free when freeing pages into buddy"?
+> 
+> No, I meant always poison via kasan_poison_pages(), as we currently do
+> with KASAN_PAGE_FREE being set.
+> 
+>> So that would mean, kasan_poison() will do the poisoning also in the
+>> case of value == KASAN_PAGE_FREE.
 
-Thanks,
-Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+Yeah sorry I wrote two contradictory things above, that's what I meant too.
+
+>>
+>>> An alternative would be tagging on free only with a new tag and skipping
+>>> it on re-alloc. But we'd need to track when it's a completely new
+>>> allocation or a reused object (I haven't looked I'm pretty sure it's
+>>> doable).
+>>
+>> That was our original approach, and IIRC we had concluded there was no
+>> security compromise. However it is difficult to implement - it has cases
+>> like, what happens when two differently tagged pages are coalesced by
+>> buddy and someone gets that large page as an allocation.
+> 
+> Yeah, it's fairly complex.
+> 
+> I think the more problematic case is when we can't detect
+> use-after-reallocation and this happens when a page is reused untagged
+> (probabilistically, also when the page is reused with the old tag). As
+> an optimisation, it might be sufficient to skip poisoning when freeing
+> an object into the slab but keep the poisoning when freeing a slab page
+> into the buddy allocator. That's where the page may end up in a place
+> untagged.
+> 
+> Also for your optimisation to only tag on reallocation, do you have any
+> code to read the current tag and avoid reusing it? That's useful for
+> kmalloc caches or other merged kmem caches where we can have type
+> confusion.
+
+I don't have it, but should be fairly simple I guess. I just wanted to
+keep it simple for now.
+
+Anyhow someone needs to first test the current patchset to get some
+numbers, we would be wasting time on this if no one gets an improvement.
+
+> 
 
