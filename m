@@ -1,49 +1,37 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB253D810D
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 20:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16C33E557B;
+	Wed, 24 Jun 2026 21:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782334571; cv=none; b=dKR7E4CRbyigrCOwr1C71ij4n8Gn/RL1IZErcAjJuUG/lLWDNfxaYgSOSySeRgh8yknWO9NFSR6CjHW8CpqMFJ/+3erM10L8PmNNlYB0ZcuqOU7einM4uLiwdatmjfQjLOM8SkjCo4K97fy9+XnpvunxEYdIeQIx4fycIdc98MY=
+	t=1782334981; cv=none; b=LdaX4W7GpZL+btW9I2fqFb90O/IIITXlOE+RO1n/8T7mItoUc3J6F8R1vJ4wSa93V1ndTwSNY9XFnjHYcCH143mt0x9F+KhgopJnVZ7xFP7ir5oY7EOanl55fdZLBhXr1uHPI7NKr/mDH86E0L+AYQ7LsFDA81H3bAAlU3yXdw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782334571; c=relaxed/simple;
-	bh=04VIXOksKkDx6Sq3RxhffV+Olp6ZzGcGctFUuOt9TiQ=;
+	s=arc-20240116; t=1782334981; c=relaxed/simple;
+	bh=QQBQguuYR/Q2JPyUXGyuWUXz7aKN5n7MLt+DiBdQ/YU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XsujK10iUW9MpjLMr9C05RmwaBeGzyc5lNv7WbU5lX2iqX5a83PubTcXvptl8zsLcslIiBOCks7gzkQ29YAaosFJPpvFU7GmAxoB1IIZIZNPfPWCpC2adLmDUH+V15qff04vd/lxZaf0Eu0yKt69ru6feVT148cmWla9KcWBy0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LthXA+29; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=CEod9NWHOwalqqF7LkvPK51kLoQtq7GF7eJh7pBVkKoRsl3WDPA5Wjh3iYZytVsqB1naJUJvrxJNt2PTX1vW1+d+PegFlEjoLIcSEoWySrMPLuEr3DlAroCbD0JAuX8becLlced5XsJcm30y3Jzk4BCvbW9Szqbqtni1RNd2v5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=E6xPGYiX; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LthXA+29"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782334569;
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="E6xPGYiX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A588C3EE48;
+	Wed, 24 Jun 2026 21:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1782334971;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dMU3iG232OKcRHz+ruKPI8K5NJ5RGAsFaG+2rycxIsU=;
-	b=LthXA+29BfWE0rKTPyT1qnfcz0GySitBfk5g7fZPLEdA8zxksdKbHimoRaBahomNkSEH6o
-	XXUJgIPYowvbPOoUTvLyBsiGJ1G2wD1MQKPaxGTFNz7j2TWtATEKJDlisnz1dr90SmAYTX
-	GTXe7nSK03MoG52JY/rv8wTp4vYtNLE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-A1jy18ZdOKSaZvGGK2Ei1Q-1; Wed,
- 24 Jun 2026 16:56:04 -0400
-X-MC-Unique: A1jy18ZdOKSaZvGGK2Ei1Q-1
-X-Mimecast-MFC-AGG-ID: A1jy18ZdOKSaZvGGK2Ei1Q_1782334562
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D349C19560BE;
-	Wed, 24 Jun 2026 20:56:01 +0000 (UTC)
-Received: from [10.2.16.72] (unknown [10.2.16.72])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 149F11956094;
-	Wed, 24 Jun 2026 20:55:58 +0000 (UTC)
-Message-ID: <2bf8bb78-3da3-4d2d-9b1a-451214c1a50f@redhat.com>
-Date: Wed, 24 Jun 2026 16:55:57 -0400
+	bh=ZOPpr/D+Sa0loBCHI9C6UJD0C0O8jNp2wfm1JEgQ+uQ=;
+	b=E6xPGYiXoFWLGqRcPCa9+36EY/oNmoBo6yR9Ew3bpnkv5s18nQlP+8Vz6PtUiZJqd2ak4Y
+	48ut/jcuswRgVyBxVfbQC5RSQw/TX1Iq2FRD1OxZYYsyq/iBdx23Zjwt1PjYjFR5senPGM
+	acmptYzA4a7OU1UqFsPklmKYHJlZjd3nRCPiBPobsMxVnQhZDT0ZGsSPqUtqaDCFOar3nj
+	wpq43Ap5tFUFLoS7t/CNBw8YbgL9KhWgEyi2+23f3e+YBqd8bxIkfa66yjCAxpRLOhrHUe
+	l6eNkO9rqFK8xTsewUfr0XkS9xcM3NdHEhYnEcHGGbysd3VBsDmibyGMb5I4xg==
+Message-ID: <df2fd6ae-69bd-42e6-bf28-ad8103b4189f@gtucker.io>
+Date: Wed, 24 Jun 2026 23:02:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,36 +39,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] cgroup/cpuset: Miscellaneous fixes and cleanups
-To: Tejun Heo <tj@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Ridong Chen <ridong.chen@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260623230413.1984188-1-longman@redhat.com>
- <038bfbbc34714676b7a672b7f748aee4@kernel.org>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <038bfbbc34714676b7a672b7f748aee4@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] Documentation: dev-tools: scripts/container prefers
+ Podman
+To: Coiby Xu <coiby.xu@gmail.com>, linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260624013850.1853171-1-coiby.xu@gmail.com>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <20260624013850.1853171-1-coiby.xu@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: dmFkZTGGKQUwX71CCeTp80C05egm36UumYswRM8grSpuLlzQXLgOD30EJysK6ew9uLG6HYvOFPfwfLXnkBsGjNQe4CXNoi9KSDkm5onS/G7RYTbF7+bVGpDIpr/RmCHqhkXXhtX8P1H6cJK2W1RanOTuPNmia1RUTMSsD/iptcUKqO1a2Zhgy29fXamYIMVrb8117ZGA7Ie7vueawtqrDxGqR64sCjvXbCq3Lc0e9Dq/Om5wtAyelAe98md4AQBFSZkGPFHnv8Il75svYWZhNPEOMF7OK1k76pC0s/dFmy3xZCrqCgf+xjYdGGTUrj+Z9EHtSsWFnCSmflh++lTZT9MR0rRqlQ+3+5uPHQqzqaR011HZPw7qULtOAK004NYsKJo0WC6jmVlGwT5LpefHzdV9Jqioh4DSOv3h0Oe1E6o4nhOzCctn+AMZYnFJXcmdVbSQOLKlGp2q8rK26ysdKPiaBV4MW6uuElv7adaciiKm0hdOxlRXLuvqWqbmdfVz0jh4eGtQT8pHPguYjSCRarVMjCFQaZUzR8mfQ6uD1fzTdSU9NyBwbjRErj9p7/ohOmRUBvDdM7IDH2h+WVrKaJdL78aX42aYGl4axrjItrpwEB8T2erNZJz0Bq/1KdVV5DLGtL2Xrr0Ia0i2+XpkagcoetI7YVb/dHZPLoWUR1Eq+XecFg
 
+Hi Coiby,
 
-On 6/24/26 3:47 PM, Tejun Heo wrote:
->> Waiman Long (2):
->>    cgroup/cpuset: Avoid unnecessary cpus & mems update in
->>      cpuset_hotplug_update_tasks()
->>    cgroup/cpuset: Rebind/migrate mm only for threadgroup leader in
->>      cpuset_update_tasks_nodemask()
-> Applied 1-2 to cgroup/for-7.3. I folded in a few minor fixups: a
-> changelog typo, the compute_effective_nodemask() kerneldoc parameter
-> name (new_cpus to new_mems), and the comment and doc grammar nits Manuel
-> noted. Also added Ridong's Reviewed-by to patch 1.
+On 24/06/2026 03:38, Coiby Xu wrote:
+> Obviously scripts/container prefers Podman over Docker. Putting podman
+> before docker also makes it consistent with following parts of the doc
+> and the help text of the tool.
+> 
+> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+> ---
+>  Documentation/dev-tools/container.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
+> index 452415b64662..9e23f79d5ae1 100644
+> --- a/Documentation/dev-tools/container.rst
+> +++ b/Documentation/dev-tools/container.rst
+> @@ -40,7 +40,7 @@ Available options:
+>  
+>  ``-r, --runtime RUNTIME``
+>  
+> -    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
+> +    Container runtime name.  Supported runtimes: ``podman``, ``docker``.
+>  
+>      If not specified, the first one found on the system will be used
+>      i.e. Podman if present, otherwise Docker.
+> @@ -75,8 +75,8 @@ working directory and adjust the user and group id as needed.
+>  
+>  The container image which would typically include a compiler toolchain is
+>  provided by the user and selected via the ``-i`` option.  The container runtime
+> -can be selected with the ``-r`` option, which can be either ``docker`` or
+> -``podman``.  If none is specified, the first one found on the system will be
+> +can be selected with the ``-r`` option, which can be either ``podman`` or
+> +``docker``.  If none is specified, the first one found on the system will be
+>  used while giving priority to Podman.  Support for other runtimes may be added
+>  later depending on their popularity among users.
+>  
 
-Thanks for the fixups.
+It's a very subtle tweak but it does help avoid some confusion.
 
-Cheers,
-Longman
+Reviewed-by: Guillaume Tucker <gtucker@gtucker.io>
+
+Thanks,
+Guillaume
 
