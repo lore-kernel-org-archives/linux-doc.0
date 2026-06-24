@@ -1,156 +1,129 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6A43B42E4
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 13:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782308680; cv=pass; b=E0eJGIYalEAZ/TrP6PBUTYjbuuQmN1u9seKFUVPo4uSminAYBMyfVCAkYLptv5MKhnQOxeS7py9CN1HBXwvhsGd2bNqRf20rYGU0u0bmS3ZgPDpO8l6UUTGtmwV4hGPBCExzgpUw4hFbzJJNqywIgVsZzTz34/kFDeOgcvhSDuM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782308680; c=relaxed/simple;
-	bh=qwRcQ/ClJ9JG4ryGwIJuvq/o3tliB127/9EJbI1JGOU=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GK5Sf33WDdXMvUmJIT8axJvMoO+2o+Yka33Jdi61HqpkS84eR6KVxtEOB9jRlJbKCXGussMCvsWF+cQLkRtiakPcZSqyYTyRhuUa9/UNGJbQU90WLrXT+o0Qr1QWDrp04L88c8sgXw54SPUwWS08Kn3W12YD697j/vzro80Yzhs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=arPYaw0m; arc=pass smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CFC2EC09F
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782309673; cv=none; b=pfOMq3Sr0sLLOEWGZj45sGcKUZAZJHwra8jNkCaMt03dfNiP5Cts6fg+vhNp3nAGVymsF0+95z/8JD8B8FDLDN51G8ioSIAU9JP1ER+/8Ll5awbQtQYjgV4VDqLASVZlQxYGok8upiactgb5pjhd4iirmFK8eVBteiv/SKZ6M/Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782309673; c=relaxed/simple;
+	bh=sqz/nCl4XMoZ5TKKVVNz5tAI/LScRoJeM9WbyPmJx3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBWX/PWsN5XK3JqiTh5ZIbWeBRhjES7ciRiD82fHCWV7QbD9+nGT8XFFErGJ2qlWxcor8fc3o1L3HliZoZU7dTj82QLnfvh+Uq2aFl2q8mJ23h8ZBXMyK7ECS+t+tXGcKGTh3B6V0Zz3eAP9+WLpSkNHYItEuVgf6yJDMSPSd2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=KstfDJkD; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="arPYaw0m"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13981833e13so1254439c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 06:44:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782308678; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Dq9rll2DEq2sYhsI4gXvQe0BjpODWzHDXZTLhnMdkjXvie2hivojLjm52mP2DPWmBi
-         rAdAQ667sV9LiiowFsqjMHwhOmlkpzFkuMMd3DSviJs77K7H0wqrQVLtT/T3cSUCZNzg
-         8MetU7Vq2xWs1iucEqZQ+us1DylFs3I/CFw29Z3sfUV8oWUqetrzRe0dKe745WIwq8HL
-         PpLaR8T/e+v13hV7Tu61J4/cSeI4ZExHqdzbXWKDqP2UArAZM/VkWqmVDRAY95lsO8D/
-         HS09fvD4OisBbYzFhh8NOUg3PQRTh776XC1ADlJaoyZgOG9gxopcDR7/2kzDQ2kxaOJi
-         irzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
-        fh=O27L6uxLoaZ2mX1SQEUpw2rA1kaRb236nwdbAo0rxH0=;
-        b=FTvhr68tPB8cOQdDz/1EHxRRoYo+KxRQpAZgLJFTof8vkDN1AyzYmt1tcCB5RKdcZO
-         lhCI+zRgoGmj9yps70FxBueo5W1Jt7lJuFKlCtwEtOAk+LVXZK9+oMjc0QdrQxzrLfFm
-         c68WCuOmPVIWxw/Z7NzLgIHL3JLYUeAycYGd56/yTpb9fJDZmBQRCJFvL6wZVvHCpvTk
-         Vw2I+HPILTMMesR0zBPMEH6ShRDcZe1z0wQBERaqKtwYA+s3d9YMBpa8e3AGZjzyGaoy
-         zoifLNFMXt+ipVwWrD2kP+GoRAm5DKpul9sQWei5jB+zzB99ZdYe0sTcom/L7tyxumB6
-         oimg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="KstfDJkD"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-920f33347f5so81993085a.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 07:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782308678; x=1782913478; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
-        b=arPYaw0meVRjPYrgms4OkOLXFt/8P2iuU67wri+g544HgClaDMzfIAQhy6BtPLeVh4
-         2nSTG1S1xNZsTnS+t2dJfwbJ/WtjWp5jPYDuti7YH+wZSG1d0uJTdBdqVugF0F1GJqlm
-         mz+2HQHL4z1TPCf9je/KZBzz5f+CiZiX0tyQKqwTjW/ln09HIuiZ6YRJDPKI20kCZR91
-         3HAt6Csj4wOcpZv/Cji3sdK5CsaAUxp9ekhKCOUF/PICHIw1Igqy4Ciu3GdgYIPHK4QH
-         H/WjUDgtm4HpMCfS4bUR0sZrBlSONDoE9rG/SPXL+VDaKdXX8ycoZFH0P8eihDqUY/Hr
-         qBSQ==
+        d=rowland.harvard.edu; s=google; t=1782309671; x=1782914471; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wsEoW4DBoKT0fUYLZPdL7MZJTkz7+GAlNaoQ4msQnkg=;
+        b=KstfDJkDlEZuT1HYy2wLN0zzVO7os9Mav9CMPrsd7Kv98rDcLUS7Wg5ukVEMLr3LVG
+         wrMAP69DjNNNzDVB2ZNOfiTOc1hFWk6LOgZdLKLlC+joHQiuqFZ40e7hNzcPh9oWhGY/
+         2G/O2HjDTmBS9oRGG1S37xQaTYUM3wBJHlcPNdyjlvsE1IDgBr7ovk0ZlAyLMvD5K4F2
+         s+LsOd3mFqtYmxhVb2PFHtvW7RF7jgiJBAVwWIQuzP65aYXobwjDznATwWFVkYABsJXZ
+         LVH9wW2TsSZf+p2SWTS7/3e2nLXqldUfpW6QUJzVbbrD9x+kGVzbxfNNIV+4CBNNqAON
+         puzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782308678; x=1782913478;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OMYX25sMe8BokvDqBMKpyH1gjAy6dHukDWPb7UeMT1Q=;
-        b=gdVrKTgmfKb9Rs3GWKFIDYFze2Fn3QLo96zOvkbU7VKRMeqRYYf4HZUupMWxv6OcW/
-         JiCEsvJZJozfkdIhP4dhicuQtDUGf8v1lp4saiOE2hQUBK00Het9rllg/v5qLH6dpEtC
-         YGszxqDTfb/qgBCt2ZOKNjU3k9hIkIN/mkG3wRouOO9BQydrxDHctekgD+y4tW80tBww
-         Ll72k+R+Kjz7CJdACGXGoD3d+XeagRttZyBRjuPsgsl3jH0cL159WeT8rNpVkEUNoNYL
-         d8yevYl+NznC0uU3w/7BzcSliPTVEKkEZQQfx2yIS+4VUKzLpLGfjmkYGhPc5t45gk17
-         NwDg==
-X-Forwarded-Encrypted: i=1; AFNElJ/2Cxfa+Vj/c7jPe1N3pMz5N9sw4wxzCTjSUhAtA9Pn3UJkPrzbuC5hb7nXGLeVK4k6yAhfK49+Mpc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvuAtuJE5q34Y7jr6turNLSK+T76O5/VzejiavPZ9Ttcb561KA
-	OC21nI4P/fomfSJPHhVsrduD0gKrBcvQ4prOj56792rp3Wp3k/REUWbddrh84bxw56bQYQj8c0Z
-	pxmQdOFht/XIiJuJBXpwBNqMUeHyfKx2rO/kZyVKd
-X-Gm-Gg: AfdE7clynYk2aAsPTY1mxbgLTM/6Nux5wkaSy+27M13YK2IbIMd5Rvb5AlaHJhzeyW0
-	4X1MHROky27Dg54AosdhF7AyzIS8sdpD9PEPs8ak4FXsG6hUES9Ue44qQliOco6NZVQfHDnDc3i
-	xxE8dYuMdOSTrtFUxeAE+DY4KYJi9v51pE1FBk2YrligVRgXtzX47Q3szuNAl0mQGnbVnvbLwis
-	e/dd+mkokcTW+nDTPhetzmp8R8r2LcjcnIYzj/DHTEBCDtO/S/88KIzMR06uKn6LvIZBYthafZ3
-	ie3847LRNiL+dCFYLurLCSE/nfM7
-X-Received: by 2002:a05:7022:ec0e:b0:137:eb26:10d with SMTP id
- a92af1059eb24-139c5b99857mr4976083c88.0.1782308676421; Wed, 24 Jun 2026
- 06:44:36 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 06:44:35 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 24 Jun 2026 06:44:35 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <96fb369d-dbff-4ed6-b1f9-0ce63d7d4ed0@linux.intel.com>
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-7-9d2959357853@google.com> <96fb369d-dbff-4ed6-b1f9-0ce63d7d4ed0@linux.intel.com>
+        d=1e100.net; s=20251104; t=1782309671; x=1782914471;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wsEoW4DBoKT0fUYLZPdL7MZJTkz7+GAlNaoQ4msQnkg=;
+        b=dL65NHWUfgyVsLdXpNKVkGMniwkGyzre65SG9gLFF4QTM5qqDmJKAvXE6YRUnP93BI
+         CdH95NGikNhwZliAUGYPaeV5khq0ks+3BlP0MUWRzizmq9JowGEjd/UVeX9FZBMye2m8
+         NhHYeskxkUqbDrRPhaVDMqcRqRr+ijZ1swKrwsGV6R3ye9HwC0OYEkJJAR63l5vpfhos
+         qBWKZSss0QemMq2EzEhNdzICHELJDRy/ubvJ8TLS+qL0lh0Nj6TZlg9zH+Dsv4/mMhnY
+         blk93yDjP3UmV7+QGdl8OgRsIBwwLIVk7qhoRxEMgNbFxrqEUvgraSD4E/SIKjOd+kyS
+         BxFg==
+X-Forwarded-Encrypted: i=1; AFNElJ+8cjeVryMJY32ca+nOr1BXnZSEmPzEI7z9yLC/8ILvgoDxfgzwpIioLf8ioxLW1Z4BeJ1SEF/eN3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFTHEkuFOJCJ3TvmBEqNv7L0egEB6uSuuZXIsxyiNYyvqaglAU
+	m9ctQvCLRtUSDg5tIDeyw9VjaFDuqBthBCfGFrnOLGAvJHKKhNZLJsFf9rvOadk4wA==
+X-Gm-Gg: AfdE7cmMCw3q7+29Dc0ozNv9tAbKzmxHNke14Fs3UEM5b1RFkM7xjXDQ1uHuXX1uRWv
+	zjW1O3yK8EfRA7tpujTUwAZHhtsoWsUaNnTWuDV3lwR13g6rY/CxDa1j83C2/Bla0BkKBek0bCg
+	gkHaJ8dRdCKOsaY3w3TvZUGWS+TqjAq2mkReyqPtwUiSZQY+PZOUaZYrNYRRu9SE4A0QplvNZO1
+	Bpqb9wE3FXiZE6XL+VKzaMD5pywORJ8dk8TQICDLxuqtTwqznBfysHZT5JJcwd9TSSBuuSuPPXr
+	pNLgHuVklAkT2B7Ddgc28pMO++mWFKir1xpm01/VJTHa43TpqpHv8NIgmLlKXt265cShzNP6Ibv
+	SznTUM90nE1/Jxq0CJuqwxVG3xIb11bsl/Neht/CcBcLKSBx6wbEbE8eGLJO1iewI5OVbObkWfz
+	MMYuonfRWuaS3me4+YaWOpxfYpTEKYg64Z
+X-Received: by 2002:a05:620a:1a09:b0:915:cb5c:7f70 with SMTP id af79cd13be357-927800a2787mr561454085a.29.1782309641938;
+        Wed, 24 Jun 2026 07:00:41 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92600c7bf55sm552191785a.46.2026.06.24.07.00.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 07:00:41 -0700 (PDT)
+Date: Wed, 24 Jun 2026 10:00:38 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+Message-ID: <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+ <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
+ <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
+ <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+ <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 24 Jun 2026 06:44:35 -0700
-X-Gm-Features: AVVi8Ce7qJauzHB_wQ4GZOmMbMs8hfgU2sTfkjTDTjUh6bKjOQAsxLqy1nK_op4
-Message-ID: <CAEvNRgGbBcrX5Fw3vNTsTOBNC=Ypi=9-S07674yPxLU9i4akjA@mail.gmail.com>
-Subject: Re: [PATCH v8 07/46] KVM: Rename memory attribute APIs to prepare for
- in-place gmem conversion
-To: Binbin Wu <binbin.wu@linux.intel.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, 
-	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
-	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
-	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
-	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
-	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
-	aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
 
-Binbin Wu <binbin.wu@linux.intel.com> writes:
+On Wed, Jun 24, 2026 at 01:36:28PM +0530, Nikhil Solanke wrote:
+> > Actually, the best approach here would be to put this single change into
+> > a separate patch that comes before the current one.  That removes issues
+> > of making more than one functional change in one patch and improves
+> > bisectability.
+> 
+> Before? Shouldn't it be after my changes? That would make it easier to
+> justify the changes. And just to be sure, you did mention it does
+> align with what the intention of USB_QUIRK_DELAY_INIT, but it does
+> change its behavior when the quirk is not set. Atleast from what I
+> understood from the documentation and an LLM's summary, the device
+> needs time to prepare the full configuration set. So, does delaying
+> before the first header read really work? I can't test this since I
+> don't have a device that requires the quirk to be set.
+> 
+> I personally think adding a condition to check if the quirk is set and
+> then delaying before sending the first request would be appropriate.
+> What are your opinions on this.
 
->
-> [...snip...]
->
->> +static inline bool kvm_mem_range_is_private(struct kvm *kvm, gfn_t start,
->> +					    gfn_t end)
->> +{
->> +	return kvm_range_has_vm_memory_attributes(kvm, start, end,
->> +						  KVM_MEMORY_ATTRIBUTE_PRIVATE,
->> +						  KVM_MEMORY_ATTRIBUTE_PRIVATE);
->>  }
->
-> This function is added, but never used in this patch series.
-> Is it intended to be called only when CONFIG_KVM_VM_MEMORY_ATTRIBUTES is
-> enabled?
->
+Well, put it this way: If you change the existing behavior, that change 
+belongs in a separate patch.  If you want to redo this patch so that it 
+doesn't change anything when the quirk flag isn't set, that's fine.
 
-Thank you for catching this! I think in some earlier revision this was
-meant to be used from the guest_memfd populate flow.
+> Also is it fine if the string lines exceed 100 columns?
 
-I think the version of kvm_gmem_range_is_private in this revision is
-good because it is symmetric. If conversion is enabled, call the gmem
-range-has-attributes function, and if conversion is disabled, use the VM
-range-has-attributes function.
+In lines containing long strings, it's okay for the string to extend 
+well beyond 80 columns.  But then you should break the line at some 
+point closely following the end of the string.  I'm sure you can find 
+examples of this if you look through some of the other source files.
 
-Sean, if no new revision is needed would you be able to drop
-kvm_mem_range_is_private() while you're pulling it in?
+> Also, is there a need to check for krealloc()'s return value? Since we
+> are only shrinking the buffer, there won't be any moves or completely
+> new blocks (at least as per my understanding). Do I still need to
+> check its return value for completeness' sake?
 
->>
->> [...snip...]
->>
+It's a little tricky to track this down, but if you look in 
+include/linux/slab.h you'll see that krealloc() is defined as 
+krealloc_node(), which is defined as krealloc_node_align(), which is 
+defined as krealloc_node_align_noprof(), which is declared with 
+__must_check.  So yes, you need to check the return value from 
+krealloc().
+
+Of course, you could simply try not checking the return value and seeing 
+if that provokes a warning or error from the compiler.
+
+Alan Stern
