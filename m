@@ -1,121 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED78314B8F;
-	Wed, 24 Jun 2026 16:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CB3340260
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 16:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782318937; cv=none; b=kdcCXd8bpIv0C/k88q1C/UZOa8tNFhaKcvFvFBKLm9XWkwekKtPByU9wWHQ8lUcxlvUhvUtCkodTGU2yhdlcKHI79DNwHA8IdacQynnxJQJw2gA3f3IeoON/Zh8g2q0N+sloDGbxynfVyS6fvQqyT1YrFZVeUO86p0cBchtcS/c=
+	t=1782320227; cv=none; b=rYJc/vd4GNWzslLddKYQh4uYObay3jT2M7GCprvNSNtpiZeHMRRd9zOCrES/bdPjI/hAWLvQEr/aLgetxshOFHUynqn9oBWRXUMSs70PSqHLpIUKIOrAuWNhLkes7fb8dztji+b1cAmzGVEup1Xz7EbZ0TWCidB4bK9VP2uOELs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782318937; c=relaxed/simple;
-	bh=iX+qCbQAUBwySYYfmw+ejL2gxBV075rCGNnrHZXjQes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o3SCLE9aNYkIsfvkGSwVvTgyVDaxjB1DPRkVwckKuetJ31dHeLD6ggYz9hPl3pm+mRFn3wSYKlW05LAJKww3kgUiKa7KvP+vPqkpunLqG97kQa2EW5tnPqTn4a1yfE+BQ04l0jiPTTVHFnII9OUdEr80ehK+T31ciCRzhYWs5JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdT/RH5T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782320227; c=relaxed/simple;
+	bh=sFclBlGuLlklutyWalxOxdLRxtPJWxF7xb2dfh79PCc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=q9qW3TpZN3Qb4rzKoLac6BfGYu6D8Kws+14cKYD3+cHiik3av6VhtmiywmeLnkqV8ealhGcaxxn9+4MTWX5XKogNDtsbHWdub8n9rMDt/GKzc6/FxcGlU/iz4vZpEeOFPFK0aLsENS/IWd7r+WL0QGnqKVSeaeZdUzROC/viChA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GwH5XZT5; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdT/RH5T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E2981F00A3A;
-	Wed, 24 Jun 2026 16:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782318936;
-	bh=Z4kk0HrMKq/Q0UwY7zGO5VYhmHv7vIkGKvZwhgl85Fs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bdT/RH5TtEIJC+MX16Olkc11UeyGwkBOEePW0zTcpTt3miR7VL0hd20cyubpFKtnp
-	 1NDBKOyvsHCqXz4j9th2dZ9+SVlQaCWTEG/Mr4mKnNJhN1FVqYkuX3vhI3WnUyI91O
-	 GvH0+0a10za14C9VHOjuK8ke0IWTf+dFA1zhnhXz6piMzdUEqAuXZIT/aRaLop7TR3
-	 8qD0uJozVkaPbUgcIjrF0kyShqLSKEFx+9phWInc2j+bgVHmOKBhEAjMhiKZDvtTXd
-	 wdEUa39chaVXdhbx3EUclxGlHcFkLqIw4Xzn5ihUgcoDLC8nHZYPhBr+aN+0Ix/RqS
-	 5OghWkvcBrthw==
-Date: Wed, 24 Jun 2026 17:35:30 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Janani Sunil <jan.sun97@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Janani Sunil <janani.sunil@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: dac: Add AD5529R
-Message-ID: <20260624-shriek-condone-b33de4f596ec@spud>
-References: <ajVlD-j0nIGrRVow@nsa>
- <20260621153330.79b6600c@jic23-huawei>
- <5u4dnsgxwcwie45f24cacyzf3dko4srhyyyhcpom6tsvhqtmpc@y7d7gmex6n7k>
- <ajkMBh-R_7pYaoAn@nsa>
- <pifhwgj3cp2vc7ia4m6penh52iekzjljrp75y5b7j57vvtooad@32wfqruiqqjl>
- <ajklksIDLsj0BZul@nsa>
- <5guhkvoxhkzevjm4b45hhk3772akpnz3givr3gb56x5ywamzyf@oiycreun4y62>
- <20260623155732.318f34f2@jic23-huawei>
- <9abc53d0-432f-48fc-9e21-4d9a3c5e129f@gmail.com>
- <20260624-decrease-protector-6c883bd1ac47@spud>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GwH5XZT5"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2c76be5dd09so8676645ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 09:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782320225; x=1782925025; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bTiRAq90VFPvdthoswICGCbbk82NFtmBH/qctXPK1uM=;
+        b=GwH5XZT5Gjtb/KiCw8TnuO37Blpge4KdrQPeHuge+fZ2ETrA/7DHZDBZJhhj5T9t9T
+         +m0mKXolKbM+sB2/iw5PzfNG9X3CKDq8QaZGGePsE7ehLwyy7NViZtAxz1EOO0qgD91B
+         sDcE44mtf8Uhm/c6mfio2i7R7I2t77uN8d4RO/shjDMAyLXXQgp5TuL2qNZzfP9f491L
+         hVwGb2vv8u4P7+b4j3S6xKNDoGiGW6Vce2462lp2Fkt9ecdJ9NlzKImTGcEdh86+Wsxt
+         pkDn9q1v+NC7T5gda5AA0A7AC36NAdqEGWroymqCYDcuS/Wg2/x6jj5CxstfckPuFGkI
+         g4Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782320225; x=1782925025;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bTiRAq90VFPvdthoswICGCbbk82NFtmBH/qctXPK1uM=;
+        b=IvyNvWgg/8WPJQho7Vcmm/V3PWlvwImHynwM2jdCQQcq2aSdo/laRUdg+80cEPO0ud
+         Fmcq7gAz9WbTrC64Mhcrs4c4+YdASw84KXnETcuP8hO65FuRlp7Fwj05DB5wAzMHbJQY
+         yO9wa7JIFFtNIg7727BPTSmIJPxzj6skAakJFbf2FdKUpzMwQOoQYAzv1duNGp5DyH7B
+         1H/aIfm10qPhM1Chj8YZ/O4Qz3ihYHef14PmYai/ZCT6VnEXxQ1vmsH0h3KgKpmuMLG2
+         a8dnI47RjqkoeTl418eCUjTHoDMbfmKNBoMhMQt2QoxoTreJ5380RmpIoo4uoZfogAga
+         afUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqAMSRx2abL+iQo2ca35qgh2l1I5us7h1H1YD9fsa9X9XzhAYk3qrGpg8Wd1V/ZUkb0oxpB/0w63fQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4k7JEqQGRmuy4qGtDhP1u2rW6aOk1BZSGUju1MSTfp4Fuu4i1
+	rHYknya2KI2nz+q32A3IzgZ5yvcvBhtyD4SPUDT35PwNxJJCFxpUlyBFjBQ8dPe+1goQPZ+kwbd
+	3dVClkw==
+X-Received: from plpn21.prod.google.com ([2002:a17:902:9695:b0:2c6:b814:535b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:fd47:b0:2c0:b081:84b1
+ with SMTP id d9443c01a7336-2c7e1464d1amr26763135ad.10.1782320224855; Wed, 24
+ Jun 2026 09:57:04 -0700 (PDT)
+Date: Wed, 24 Jun 2026 09:57:04 -0700
+In-Reply-To: <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WMWGjHXn8EdeWrF5"
-Content-Disposition: inline
-In-Reply-To: <20260624-decrease-protector-6c883bd1ac47@spud>
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com>
+Message-ID: <ajwMYCSrPlxg-Fok@google.com>
+Subject: Re: [PATCH v8 18/46] KVM: guest_memfd: Handle lru_add fbatch
+ refcounts during conversion safety check
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
+On Thu, Jun 18, 2026, Ackerley Tng wrote:
+> When checking if a guest_memfd folio is safe for conversion, its refcount
+> is examined. A folio may be present in a per-CPU lru_add fbatch, which
+> temporarily increases its refcount. 
 
---WMWGjHXn8EdeWrF5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 24, 2026 at 05:32:26PM +0100, Conor Dooley wrote:
-
-> >     dac@0 {
-> >         compatible =3D "adi,ad5529r-16";
-> >         reg =3D <0>;
-> >         adi,device-addrs =3D <0 1>;
->=20
-> I think this should be put in the channel itself and made generic.
-
-I guess I should expand on that, putting it in the channel means it's
-not tied to some device-specific knowledge about when each device
-address is used.
-It should be generic because there are at least 3 devices, from 2
-different vendors, that we know of, using the exact same scheme.
-
-> >         reset-gpios =3D <&gpio0 87 GPIO_ACTIVE_LOW>;
-> >         vdd-supply  =3D <&vdd_reg>;
-> >         hvdd-supply =3D <&hvdd_reg>;
-> >=20
-> >         channel@0  { reg =3D <0>;  adi,output-range-microvolt =3D <0 50=
-00000>; };
-> >         channel@16 { reg =3D <16>; adi,output-range-microvolt =3D <0 40=
-000000>; };
-> >     };
-> >=20
-> > Does this look reasonable to everyone?
-> >=20
-> > Regards,
-> > Janani Sunil
-> >=20
-
-
-
---WMWGjHXn8EdeWrF5
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajwHUgAKCRB4tDGHoIJi
-0nhLAP4wgrvst4IfZUk1vvpeL15upE92bqyykukZcM6dp2xoGwD1GqmVQmsZfafi
-heDcZmsOS6givl5H1Zm3U1zaYk5GCw==
-=8XW4
------END PGP SIGNATURE-----
-
---WMWGjHXn8EdeWrF5--
+Under what circumstances does this happen, and what alternatives are there for
+userspace to work around the issue?
