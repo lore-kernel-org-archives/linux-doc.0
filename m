@@ -1,201 +1,130 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A55A3254A8
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 05:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021B835AC00;
+	Wed, 24 Jun 2026 07:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782280337; cv=none; b=ozK7h7dpE+bVr/yrKJTz5Q3csXRj3J71WoL+n6snMxVq6HeGG2t0HontWO1/fLMEySWiQipqsf20EEMMFq44JTk+nNM1w95FYblibwR5X/1pfihjH3innISgGdxykRZ+NDtMAIigYZyv59PlmyrFK60I/aOxWHeM8bG9ZxRUIhY=
+	t=1782287153; cv=none; b=Xyw7Qq9kaAVGoeQ5Kv8ZPfvL/nD0F777Jd0LsQES2ZteIQ+u73/A0KiznhQxRHvn5SY594p2OywtA0xJ1AaJYUg3fyF0BGzb0MlAzchrrtBilJYwm0dV6sqOZfIBeMd/em03JsyOvEdV/tvJaDz+uz/x4prEc9m2wepq3E+91fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782280337; c=relaxed/simple;
-	bh=lNutLdgBVcfzaSe0zfB/rgX3VF9ibBXkW6a8qpgoRD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JblwVYkclOU8WYiQTxzbSZCvXfkh5ao8J7j5rwFdf46OByZYvBQsM7OKLcEudKl5N7qnpKIEDCy+dl+vf7vMwbilNmMu0Z+MYoANtBGmSdtCV01oKWTVu13kWxRRi9KSzlSabsFxCVDUuElFxU2as/W69yWuGTKvhjpceqpIE2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PJvOU0yi; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782287153; c=relaxed/simple;
+	bh=BrbedXJHRR9d7DDBgaqgW8fb+xYqeJc5Ux5AiNpR3Bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NHX1f921xXnECJdGza/efnu+dJmz/xfZnbH/t0pajBR02gD0RXoF6EFccyN7GCIy8SvaY4CUDVqbN/WVnUKFaifrSWS8bwUQB0gU9xkwIonmUaNPdLbP7dzcE3oT9smZplLgehyFRZRDROUxY78B/A/TKsnsfvdCmpTxCuFiNN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lgpVhfux; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PJvOU0yi"
-Message-ID: <2c59b7b7-a3c0-4799-8c39-2288299b117e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782280332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RsiEnXmUmSVLGgTWzqORpnaRJ3h8lAWFGgmjylcqD+Q=;
-	b=PJvOU0yiGiDiKEW2Cb5tXVqblMIshjWRqG6uo7ZDMW152GopB276SmE7xkoKyNWI4DywHc
-	b6yPTTd6geCzZqYA4BUq8qaXuq7K4NLe69u8o2SBvIt/JVE8YtJA4zKgpBjrfPcrcdhHDr
-	vZ88B4C/16mQFWAd+iLuwxOdNBAqETI=
-Date: Wed, 24 Jun 2026 13:51:46 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lgpVhfux"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 188EE1F000E9;
+	Wed, 24 Jun 2026 07:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782287151;
+	bh=nDEb+Mv3gmqnAXQiwkmb7huT4lhyBqYVAxZcicXAf4g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lgpVhfuxLqVO5uoodDr3tkOYsC2EaqDkwDIJJ99It+CmAUM8FR3KC/zXWxN6TBt3l
+	 EdTjRntqpXHdqSBq70BicyZg1y5GXfKajicFTUUG8juQitarX/NFT9wZjczZbkgarB
+	 +e9cFTU5wIrFgX3FBYdMRS8Sv5gTkOYBoFiju49k3A0jI2FxozlUWWC9gMCGPD123h
+	 rPI1kRHhCjrK0mPo3FYFf/LExYJ5eoFYPqveqdBNQX3JnKm3/Ki7U2egRogD9HdyxB
+	 wya+7/TsxSaiL2Yvhg3gucT5lVzkvm+qmB8tvuMw1m2MYvKsb6TLQStJoOL0N/rI3F
+	 1L3SfH/h8F5pA==
+Date: Wed, 24 Jun 2026 09:45:47 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Flaviu Nistor <flaviu.nistor@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, 
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: chipcap2: Add label property
+Message-ID: <20260624-quantum-cormorant-of-beauty-0b1aa8@quoll>
+References: <b6d34af3-0c4a-4870-a240-f7873621d2ce@roeck-us.net>
+ <20260623192217.4804-1-flaviu.nistor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/2] cgroup/cpuset: Avoid unnecessary cpus & mems
- update in cpuset_hotplug_update_tasks()
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260623230413.1984188-1-longman@redhat.com>
- <20260623230413.1984188-2-longman@redhat.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20260623230413.1984188-2-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260623192217.4804-1-flaviu.nistor@gmail.com>
 
-
-
-On 6/24/2026 7:04 AM, Waiman Long wrote:
-> As reported by sashiko [1], cpuset_hotplug_update_tasks() may perform
-> unnecessary task iteration and updating of tasks' CPU and node masks
-> when mems_allowed and/or cpus_allowed are not set in cpuset v2. It is
-> due to the fact that the temporary new_cpus and new_mems masks do not
-> inherit parent's effective_cpus/mems when they are empty which is the
-> expected behavior for cpuset v2 since commit 4ec22e9c5a90 ("cpuset:
-> Enable cpuset controller in default hierarchy").
+On Tue, Jun 23, 2026 at 10:22:17PM +0300, Flaviu Nistor wrote:
+> On 6/23/26 9:58 PM CET, Guenter Roeck wrote:
+> >On 6/23/26 11:16, Flaviu Nistor wrote:
+> >> On Mon Jun 22, 2026 at 7:29 PM CEST, Javier Carrasco wrote:
+> >>> On Mon Jun 22, 2026 at 2:21 PM CEST, Flaviu Nistor wrote:
+> >>>> Add support for an optional label property similar to other hwmon devices
+> >>>> This allows, in case of boards with multiple CHIPCAP2 sensors, to assign
+> >>>> distinct names to each instance.
+> >>>>
+> >>>> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
+> >>>> ---
+> >>>>   .../devicetree/bindings/hwmon/amphenol,chipcap2.yaml         | 5 +++++
+> >>>>   1 file changed, 5 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.ya=
+> >>> ml b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+> >>>> index 17351fdbefce..f00b5a4b14dd 100644
+> >>>> --- a/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+> >>>> +++ b/Documentation/devicetree/bindings/hwmon/amphenol,chipcap2.yaml
+> >>>> @@ -33,6 +33,10 @@ properties:
+> >>>>     reg:
+> >>>>       maxItems: 1
+> >>>>
+> >>>> +  label:
+> >>>> +    description:
+> >>>> +      A descriptive name for this channel, like "ambient" or "psu".
+> >>>> +
+> >>>>     interrupts:
+> >>>>       items:
+> >>>>         - description: measurement ready indicator
+> >>>> @@ -72,6 +76,7 @@ examples:
+> >>>>                            <5 IRQ_TYPE_EDGE_RISING>,
+> >>>>                            <6 IRQ_TYPE_EDGE_RISING>;
+> >>>>               interrupt-names =3D "ready", "low", "high";
+> >>>> +            label =3D "somelabel";
+> >>>>               vdd-supply =3D <&reg_vdd>;
+> >>>>           };
+> >>>       };
+> >>>
+> >>> Hello Falviu, thank you for your patch.
+> >>>
+> >>
+> >> Hello Javier, thanks for your reply.
+> >>
+> >>> Should we not add a reference to hwmon-common.yaml (with
+> >>> unevelautedProperties instead of additionalProperties), as label is
+> >>> defined there? I believe that Krzysztof Kozlowski did something similar
+> >>> for the shunt-resistor-micro-ohms property. Could we follow suit here?
+> >>>
+> >>
+> >> This is a good question and I am happy you asked. I also thought a lot
+> >> about this and the reason I decided to go for this approach is that by using
+> >> $ref: hwmon-common.yaml#, I would have to change additionalProperties: false
+> >> to unevaluatedProperties: false, which will evaluate in case it is used, also
+> >> shunt-resistor-micro-ohms property which does not apply to this sensor. At
+> >> least this is my understanding, but of course I can be wrong (I see lm75 binding
+> >> also uses $ref: hwmon-common.yaml# but shunt-resistor-micro-ohms does not apply).
+> >>
+> >
+> >Where does the idea come from that shunt-resistor-micro-ohms would be mandatory ?
+> >That would make hwmon-common.yaml unusable for most chips.
 > 
-> Fix that and avoid unnecessay work by enhancing
-> compute_effective_cpumask() to add the empty cpumask check
-> and inheriting the parent's versions if empty when in v2. A new
-> compute_effective_nodemask() helper is also added to perform similar
-> function for new effective_mems.
-> 
-> Add new test_cpuset_prs.sh test cases to confirm that effective_cpus
-> will inherit the parent's version if cpuset.cpus is empty.
-> 
-> [1] https://sashiko.dev/#/patchset/20260621032816.1806773-1-longman%40redhat.com
-> 
-> Suggested-by: Ridong Chen <ridong.chen@linux.dev>
-> Fixes: 4ec22e9c5a90 ("cpuset: Enable cpuset controller in default hierarchy")
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->   kernel/cgroup/cpuset.c                        | 45 +++++++++++--------
->   .../selftests/cgroup/test_cpuset_prs.sh       | 11 ++++-
->   2 files changed, 35 insertions(+), 21 deletions(-)
-> 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index aff86acea701..044ddbf66f8e 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -1094,12 +1094,35 @@ void cpuset_update_tasks_cpumask(struct cpuset *cs, struct cpumask *new_cpus)
->    * @cs: the cpuset the need to recompute the new effective_cpus mask
->    * @parent: the parent cpuset
->    *
-> + * For v2, the parent's effective_cpus is inherited if cpumask empty.
->    * The result is valid only if the given cpuset isn't a partition root.
->    */
->   static void compute_effective_cpumask(struct cpumask *new_cpus,
->   				      struct cpuset *cs, struct cpuset *parent)
->   {
-> -	cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
-> +	bool has_cpus;
-> +
-> +	has_cpus = cpumask_and(new_cpus, cs->cpus_allowed, parent->effective_cpus);
-> +	if (!has_cpus && is_in_v2_mode())
-> +		cpumask_copy(new_cpus, parent->effective_cpus);
-> +}
-> +
-> +/**
-> + * compute_effective_nodemask - Compute the effective nodemask of the cpuset
-> + * @new_cpus: the temp variable for the new effective_mems mask
-> + * @cs: the cpuset the need to recompute the new effective_mems mask
-> + * @parent: the parent cpuset
-> + *
-> + * For v2, the parent's effective_mems is inherited if nodemask empty.
-> + */
-> +static void compute_effective_nodemask(nodemask_t *new_mems,
-> +				       struct cpuset *cs, struct cpuset *parent)
-> +{
-> +	bool has_mems;
-> +
-> +	has_mems = nodes_and(*new_mems, cs->mems_allowed, parent->effective_mems);
-> +	if (!has_mems && is_in_v2_mode())
-> +		nodes_copy(*new_mems, parent->effective_mems);
->   }
->   
->   /*
-> @@ -2148,15 +2171,6 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->   			goto update_parent_effective;
->   		}
->   
-> -		/*
-> -		 * If it becomes empty, inherit the effective mask of the
-> -		 * parent, which is guaranteed to have some CPUs unless
-> -		 * it is a partition root that has explicitly distributed
-> -		 * out all its CPUs.
-> -		 */
-> -		if (is_in_v2_mode() && !remote && cpumask_empty(tmp->new_cpus))
-> -			cpumask_copy(tmp->new_cpus, parent->effective_cpus);
-> -
->   		/*
->   		 * Skip the whole subtree if
->   		 * 1) the cpumask remains the same,
-> @@ -2704,14 +2718,7 @@ static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
->   	cpuset_for_each_descendant_pre(cp, pos_css, cs) {
->   		struct cpuset *parent = parent_cs(cp);
->   
-> -		bool has_mems = nodes_and(*new_mems, cp->mems_allowed, parent->effective_mems);
-> -
-> -		/*
-> -		 * If it becomes empty, inherit the effective mask of the
-> -		 * parent, which is guaranteed to have some MEMs.
-> -		 */
-> -		if (is_in_v2_mode() && !has_mems)
-> -			*new_mems = parent->effective_mems;
-> +		compute_effective_nodemask(new_mems, cp, parent);
->   
->   		/* Skip the whole subtree if the nodemask remains the same. */
->   		if (nodes_equal(*new_mems, cp->effective_mems)) {
-> @@ -3923,7 +3930,7 @@ static void cpuset_hotplug_update_tasks(struct cpuset *cs, struct tmpmasks *tmp)
->   
->   	parent = parent_cs(cs);
->   	compute_effective_cpumask(&new_cpus, cs, parent);
-> -	nodes_and(new_mems, cs->mems_allowed, parent->effective_mems);
-> +	compute_effective_nodemask(&new_mems, cs, parent);
->   
->   	if (!tmp || !cs->partition_root_state)
->   		goto update_tasks;
-> diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-> index 0d41aa0d343d..ca9bc38fdb95 100755
-> --- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-> +++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-> @@ -495,13 +495,20 @@ REMOTE_TEST_MATRIX=(
->   	# Narrowing cpuset.cpus to previously sibling-excluded CPUs should
->   	# not return CPUs that were never actually owned.
->   	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
-> -	      .      .     .         C3    .       .     p1:4|c11:1-2|c12:3 \
-> +	      .      .     .       C3      .       .     p1:4|c11:1-2|c12:3 \
->   							 p1:P1|c11:P1|c12:P2 3"
->   	# Expanding cpuset.cpus to include a previously sibling-excluded CPU
->   	# after the sibling has become a member should correctly request it.
->   	"  C1-4:P1   .   C1-2:P1  C1-3:P2  .       .  \
-> -	      .      .      P0     C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
-> +	      .      .     P0      C2-3    .       .     p1:1,4|c11:1|c12:2-3 \
->   							 p1:P1|c11:P0|c12:P2 2-3"
-> +	# Cpusets with empty cpuset.cpus should inherit parent's effective_cpus
-> +	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
-> +	      .      P1    P1      .       .       .     p1:3-4|p2:5-6|c11:1-2|c12:3-4|c21:5|c22:5-6 \
-> +							 p1:P1|p2:P1|c11:P1"
-> +	"  C1-4:P1 C5-6   C1-2     .       C5      .  \
-> +	      .      P1    P1      .      O5=0     .     p1:3-4|p2:6|c11:1-2|c12:3-4|c21:6|c22:6 \
-> +							 p1:P1|p2:P1|c11:P1"
->   )
->   
->   #
+> I think this is a misunderstanding since I never had the intention to imply that
+> shunt-resistor-micro-ohms would be mandatory, but rather I observed that if I used
+> $ref: hwmon-common.yaml#, property shunt-resistor-micro-ohms can be added (no need to,
+> but still possible) in the example section and the dt_binding_check will pass.
+> Since hwmon-common.yaml is already there I will change the binding in a v2 and use it.
 
-LGTM.
+I propose to reference hwmon-common.yaml with:
+label: true
+additionalProperties: false
 
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
+thus shunt-resistor won't be allowed but you still will reference common
+schema for the definition of common properties.
 
--- 
-Best regards
-Ridong
+
+Best regards,
+Krzysztof
 
