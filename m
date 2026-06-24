@@ -1,103 +1,161 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16C33E557B;
-	Wed, 24 Jun 2026 21:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782334981; cv=none; b=LdaX4W7GpZL+btW9I2fqFb90O/IIITXlOE+RO1n/8T7mItoUc3J6F8R1vJ4wSa93V1ndTwSNY9XFnjHYcCH143mt0x9F+KhgopJnVZ7xFP7ir5oY7EOanl55fdZLBhXr1uHPI7NKr/mDH86E0L+AYQ7LsFDA81H3bAAlU3yXdw4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782334981; c=relaxed/simple;
-	bh=QQBQguuYR/Q2JPyUXGyuWUXz7aKN5n7MLt+DiBdQ/YU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CEod9NWHOwalqqF7LkvPK51kLoQtq7GF7eJh7pBVkKoRsl3WDPA5Wjh3iYZytVsqB1naJUJvrxJNt2PTX1vW1+d+PegFlEjoLIcSEoWySrMPLuEr3DlAroCbD0JAuX8becLlced5XsJcm30y3Jzk4BCvbW9Szqbqtni1RNd2v5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=E6xPGYiX; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C224C3E557C
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 21:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782335038; cv=pass; b=SqiqQVFlbzmF5AOk/z0UBSIm5y9zo2r68GSO6DxFjceZIB2nuEITl9kz6SfiLhoGMoI2jLNvbKu1K1UqjcgfsmD0YOksOSatOdQKN3IzUg0tykGOWn3elL2Kd41f/cPpf+tSaJc1O+P/LMH4oWH3HFStY1Wysk07FMzzNLISHtA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782335038; c=relaxed/simple;
+	bh=ZP8N6p4zyFdYhpwemtjmNbpSTSjuQDSqD/2oIp/CY0o=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jTyuLM8/rP2pOtUqsf+U0fTUGndxAyD4yu0shM3jIS8UV33PIAgff70xz+17pFn+2Z8OsjlH1zKtsCFWMPLgDxsMmL+6SWNWattKX5M7hWWBanX7eMN/SulgMFXw9waz7RiqEAE7gmyWdqN9YkmBTmhMz65FlCOmYz2VcK8aZe8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mVsKYsqv; arc=pass smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="E6xPGYiX"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A588C3EE48;
-	Wed, 24 Jun 2026 21:02:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1782334971;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZOPpr/D+Sa0loBCHI9C6UJD0C0O8jNp2wfm1JEgQ+uQ=;
-	b=E6xPGYiXoFWLGqRcPCa9+36EY/oNmoBo6yR9Ew3bpnkv5s18nQlP+8Vz6PtUiZJqd2ak4Y
-	48ut/jcuswRgVyBxVfbQC5RSQw/TX1Iq2FRD1OxZYYsyq/iBdx23Zjwt1PjYjFR5senPGM
-	acmptYzA4a7OU1UqFsPklmKYHJlZjd3nRCPiBPobsMxVnQhZDT0ZGsSPqUtqaDCFOar3nj
-	wpq43Ap5tFUFLoS7t/CNBw8YbgL9KhWgEyi2+23f3e+YBqd8bxIkfa66yjCAxpRLOhrHUe
-	l6eNkO9rqFK8xTsewUfr0XkS9xcM3NdHEhYnEcHGGbysd3VBsDmibyGMb5I4xg==
-Message-ID: <df2fd6ae-69bd-42e6-bf28-ad8103b4189f@gtucker.io>
-Date: Wed, 24 Jun 2026 23:02:49 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mVsKYsqv"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-13809223fd4so1808489c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 14:03:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782335036; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Jl4HqTfIBZ3lE8fWGCk72BliYqgZqA9TAEIiaDjZzUYW8SVYZSjmKCG6Y3qa4Vc2UF
+         DwSsV+IUh4xTVR8MsiXB0qt61URi2rvbEZ9y6FKAh4kVhCiVSyQs3xHaBDHFlxDSaGQW
+         Rqmge/+p9YKKoGLK4R37Zb5Gj+tfmYpirrP/HGD7dOLTqReb8+k2bmx0hWf7KXZR3WA8
+         J7e1ocUwfNjii5fd3yBePpLfghRfLC5iv+7f3AYV00J3FJb9sa9wzz2Prd0QMTeZ/3XN
+         tik+oj0M+3/+njMwFiRQURd4L1zZK1/k80i+OCp+glYIAtDABlRKCt/aJK3hMER8v4Is
+         2X0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=JtXqtocb1qS3/K6xnMYZSBV/6kQD50+mfkfO7ut81Ek=;
+        fh=UeqpzSAPWF+G47dIpZSgm1JcmmUS/j+4bqNNs2PhPMY=;
+        b=PK1m5d1relP80D0CHZtYSouZWQDiwNkX5l/8pBa1YnHbq+p53DV7OAlmfto1aYuC6A
+         aWT8PMyEpgvKBoVoHT2uOU+6JbE2jYwvmKoQK1uMtNRsWp86IE7EJLwJ2T4URABUBapk
+         G8nRdswxpOSJERlDT7Ta2ntZPMU01WJ4MMCl/7zg3/lFBKHyyYP5Ez9pOvkeUEvTI13d
+         8iAKVYk5zX1NkF9uiVWPMSSWOoifwsOGDOhvAkB0bAlxPUhonPrOTZYdcxaFl534n3EA
+         zxZSPG0nDNszaSc5nhkRl2duttomP3n1od32NE2uy/PkY1cOMBA8N4Q1iYUJ49iwaRl1
+         WM4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782335036; x=1782939836; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JtXqtocb1qS3/K6xnMYZSBV/6kQD50+mfkfO7ut81Ek=;
+        b=mVsKYsqvPnhHjkscTaVCL9NTaVRlQl5cUFxwec1BgKw2e+JJbfVjYFYSqGXsnKgZZ4
+         mgFjofxuxGoQHwYeFQmqtz4VvaZvmgkejICgYod+Nh/Puuxa2c1tfntjNkhSiibGXEHO
+         cAAvplbvP9mkRidKcFPah2Eti5Q8uI692spAczkb3xxP6jCJP8K1uUGEWXghE36w56qB
+         YYyUej/zpfG3cbyB7u9b3qVdn22p9nigT2CHRyTUvjDVHz08eqRBAPNMmzlPxgd9bvFq
+         7aiIxVdqTM0VRDqvM69Isr7h6eEMHwZdHiTvNN1EU6aDMDFn02Zwo8qBsIjimCBXWsCs
+         CrUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782335036; x=1782939836;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JtXqtocb1qS3/K6xnMYZSBV/6kQD50+mfkfO7ut81Ek=;
+        b=q3ZB35UxINCK/DjAxeBsJNGQk2TY0AQ83SCGcQz+aHZhPhP+lWxiOK2bXLsWrGxixT
+         J1zQm1ygmS6CCLLRUATkbbrarh79LcnrDVlvPlhY2ItxgoekmNCVARK22ZkWSqX0HhfB
+         IQZe1uefQAU1eXdKOUUJJBevBc7VsJm7BwR+gM0K6EGcQhlPX/PHLo3T8GqmWWuBzJcC
+         HBOgKjy2Wxck7T6mysdVL4M2/d7Soj6dTTDUanAOFDZKPIX4VtvCp26CntiamJ3jr5zT
+         5yi+OT47/bvbOT46eW5ZJulHLtxhidF97vE+TbWqzYW5sHe5VwmxXVI/q5BDkANe2JEj
+         04aQ==
+X-Forwarded-Encrypted: i=1; AFNElJ894qjMgEyZYsrH8ky1DqvLHDeOC9ZqURJYZpfIlgtPtKiypj/IbEbkp0fL4n2rnnvNlEQsireOG1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOIpUrkrEMVvgti/M6PSkslLsEdHjQk02JpoZyxOk8RToSKtK6
+	6ol4aOTp2BM/KLWh2pg/isFrpOPvmEQmC/R0s6YqCartMEh7cvO1FHrwt8I+nysTDmnZPly/R61
+	ZpAQu+z6QCAdnPARqEYYxRCpeIjS7/Wly3pVKthr+
+X-Gm-Gg: AfdE7ck/6KuUhiBp8hoOB9h8CN+xbpWrzTSvlrSzi68p2010fuh38QYXgbXtOwBA648
+	42ZZwTUeTupHjhZFlXMC37ui8iQ9qws8djfBdd5gDUhtGc3nxPyfsO4yaJo0K6ftpXE37Ki9oIS
+	73xjFUTLtSDv3UbIlcalZ877t372uyxmZ6dFNf2Ayg+T6QcxWkEfSh5bWcGE2sJWYGr9sknRa4y
+	E4PsGZ8oGt9HG6l/qlt5ymOLEti089KoCSufM/7ly+hW6anVABtieUzidtS5hEEzc6wRMfztWRf
+	zeeoAqE2OHnCoCCsftn40Yp0+N/Kf3lboJoRG1MaNW32tuXl/zffHJM9kFE=
+X-Received: by 2002:a05:7023:a57:b0:139:d82f:2fd6 with SMTP id
+ a92af1059eb24-139d82f32c6mr811137c88.22.1782335034214; Wed, 24 Jun 2026
+ 14:03:54 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 24 Jun 2026 14:03:53 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 24 Jun 2026 14:03:53 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <CA+EHjTwLPCvZJgPv=8u3pgp+kwEwQbsXn_13FL3xUbJ7HRfXzw@mail.gmail.com>
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-13-9d2959357853@google.com>
+ <CA+EHjTx2xKjheiW5VzHw_TdWFUqdJqfgu=dOPa=_yaYBMY8uyw@mail.gmail.com>
+ <ajnRxuJ19OzZ8zJC@google.com> <CA+EHjTwLPCvZJgPv=8u3pgp+kwEwQbsXn_13FL3xUbJ7HRfXzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: dev-tools: scripts/container prefers
- Podman
-To: Coiby Xu <coiby.xu@gmail.com>, linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260624013850.1853171-1-coiby.xu@gmail.com>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <20260624013850.1853171-1-coiby.xu@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTGGKQUwX71CCeTp80C05egm36UumYswRM8grSpuLlzQXLgOD30EJysK6ew9uLG6HYvOFPfwfLXnkBsGjNQe4CXNoi9KSDkm5onS/G7RYTbF7+bVGpDIpr/RmCHqhkXXhtX8P1H6cJK2W1RanOTuPNmia1RUTMSsD/iptcUKqO1a2Zhgy29fXamYIMVrb8117ZGA7Ie7vueawtqrDxGqR64sCjvXbCq3Lc0e9Dq/Om5wtAyelAe98md4AQBFSZkGPFHnv8Il75svYWZhNPEOMF7OK1k76pC0s/dFmy3xZCrqCgf+xjYdGGTUrj+Z9EHtSsWFnCSmflh++lTZT9MR0rRqlQ+3+5uPHQqzqaR011HZPw7qULtOAK004NYsKJo0WC6jmVlGwT5LpefHzdV9Jqioh4DSOv3h0Oe1E6o4nhOzCctn+AMZYnFJXcmdVbSQOLKlGp2q8rK26ysdKPiaBV4MW6uuElv7adaciiKm0hdOxlRXLuvqWqbmdfVz0jh4eGtQT8pHPguYjSCRarVMjCFQaZUzR8mfQ6uD1fzTdSU9NyBwbjRErj9p7/ohOmRUBvDdM7IDH2h+WVrKaJdL78aX42aYGl4axrjItrpwEB8T2erNZJz0Bq/1KdVV5DLGtL2Xrr0Ia0i2+XpkagcoetI7YVb/dHZPLoWUR1Eq+XecFg
+Date: Wed, 24 Jun 2026 14:03:53 -0700
+X-Gm-Features: AVVi8CdCAqwoqTik6utb0yHbQZV7yiwfOGNo-KA9dUnC-gGzh63Sika6JXlmCvk
+Message-ID: <CAEvNRgFDcwXAx0YYZOGzA+adVhtMLXaR6KkYtW=p4xL-Hp4pjg@mail.gmail.com>
+Subject: Re: [PATCH v8 13/46] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
+To: Fuad Tabba <fuad.tabba@linux.dev>, Sean Christopherson <seanjc@google.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Coiby,
+Fuad Tabba <fuad.tabba@linux.dev> writes:
 
-On 24/06/2026 03:38, Coiby Xu wrote:
-> Obviously scripts/container prefers Podman over Docker. Putting podman
-> before docker also makes it consistent with following parts of the doc
-> and the help text of the tool.
-> 
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  Documentation/dev-tools/container.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
-> index 452415b64662..9e23f79d5ae1 100644
-> --- a/Documentation/dev-tools/container.rst
-> +++ b/Documentation/dev-tools/container.rst
-> @@ -40,7 +40,7 @@ Available options:
->  
->  ``-r, --runtime RUNTIME``
->  
-> -    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
-> +    Container runtime name.  Supported runtimes: ``podman``, ``docker``.
->  
->      If not specified, the first one found on the system will be used
->      i.e. Podman if present, otherwise Docker.
-> @@ -75,8 +75,8 @@ working directory and adjust the user and group id as needed.
->  
->  The container image which would typically include a compiler toolchain is
->  provided by the user and selected via the ``-i`` option.  The container runtime
-> -can be selected with the ``-r`` option, which can be either ``docker`` or
-> -``podman``.  If none is specified, the first one found on the system will be
-> +can be selected with the ``-r`` option, which can be either ``podman`` or
-> +``docker``.  If none is specified, the first one found on the system will be
->  used while giving priority to Podman.  Support for other runtimes may be added
->  later depending on their popularity among users.
->  
+>
+> [...snip...]
+>
+>> >
+>> > Note sure if it's user error on my part, if I'm applying this to the
+>> > wrong base, but I found a build break here on patch 13:
+>> > kvm_gmem_invalidate_start() doesn't exist in the base tree. The
+>> > function is kvm_gmem_invalidate_begin() here. The rename
+>> > (190cc5370a8b6) landed via a different merge path and isn't an
+>> > ancestor of the stated base.
+>> >
+>> > Patches 19 and 20 have the same mismatch. Fix for all three is
+>> > s/kvm_gmem_invalidate_start/kvm_gmem_invalidate_begin/.
 
-It's a very subtle tweak but it does help avoid some confusion.
+I took Sean's patches (off-list) and tried to combine it onto my
+existing state. (I'm using b4 [1] to manage these series and I didn't
+know I had to manually update the base-commit. Will try again next
+revision.
 
-Reviewed-by: Guillaume Tucker <gtucker@gtucker.io>
+[1] https://b4.docs.kernel.org/en/latest/
 
-Thanks,
-Guillaume
+>>
+>> Ya, Ackerley used a slightly older kvm/next to send the patches.  I at least was
+>> testing against kvm-x86/next, which does have the rename.
+>>
+>> Other than noting that this should be applied against the current kvm/next, I
+>> don't think there's anything else to be done?
 
+Should I base v9 on kvm/next, or kvm-x86/next?
+
+>
+> Agree. Sorry, didn't mean to be nit-picky, but this really threw me off :)
+>
+> Cheers,
+> /fuad
