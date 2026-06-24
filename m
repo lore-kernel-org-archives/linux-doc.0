@@ -1,58 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26ABA29ACDD;
-	Wed, 24 Jun 2026 10:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0202D876B;
+	Wed, 24 Jun 2026 11:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782297617; cv=none; b=BMVjDHTfM3SzCEMdh2c5fZcU1vPorXGKnvkpPuYdINJkjR88cOWllnWpBEB4qQKXjsFfvBdAoyJNvV/k+3snqMN+JbLiAha01Uqd0pOUIIWlleDvN3IJ/qe3ET+voYwoEZXgk6atDo1kny0giDpEDkLFtC3KVweUhFP5fKK2FVE=
+	t=1782300192; cv=none; b=N8BL9lz6UkjpXH9gE/aJiLw150gAuzKDEvZyxhpDuMHu8WhuRsDypTXXZ7TYxAMxvjVsrSXGa3Z+kLZDA0jjclcMgYONHAE9FmmV5Y3fDfuDTsAWuC7Y2GTix54hlPHoy8dz1KcUHeLMxxJuKYnj/266GzQr5h6YPdUJ2MYJ2s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782297617; c=relaxed/simple;
-	bh=IzrxJ4YfTsSZNbE/QBIL1rZ/4phBH7xBojVl3zxKMJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pH4ZrMMXCMxneDWRe9U8F1Ii6dxq0hQ1hTGEolRROm9qwD3JhsAx16haMaLNXNKd+Q1cfLCDqXK+wmef/WejHamRedEKwZ8Xmd4Gda5Zc1TrAppqANYBUlnyfb4tWL0hXp28a5J2sgDiS/NONMvGr02lfNz33G87b8VSQ8yzxrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2r5Ztky; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782300192; c=relaxed/simple;
+	bh=m5g8Ivr73tCK84dznPafxj6EpMaAUfm1GvFUg8Q4iOI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dxul4wdbNdu4Qi6FJMQEQb/F5gHjGI0ypJEEBoWMl0p0CcJfUFpyO8uneXpcyiBxrMyPqD5gAGG8hknsdAKI0jQUQH/INwwBUsUj2z+hbvkkJiK6wqSNhkeHEzgx3FRLtfY2V0fGZgmS5xIIT8L3FPhx7PE7au/dZy1ToIi9vyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=p26qdZbB; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2r5Ztky"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571B61F00A3D;
-	Wed, 24 Jun 2026 10:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782297615;
-	bh=IzrxJ4YfTsSZNbE/QBIL1rZ/4phBH7xBojVl3zxKMJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I2r5ZtkyylAb0aCngjytNKMgs7UNdFQycrMiDt2yRHPWtpxIqUCNxHb/2WN7zpQFO
-	 u9nBId26z9oKHbp34pV0RecOxQjDNiPCdgaOIPfP4JGK5hYF870BouKuMr+Wt7Y/Cr
-	 AVNyDp3u4Ll4kpeP7Lu1SEUxeRyUgPZJjqL/Kwqw0FTI5eWsX7aETn23bRvnZWiqXR
-	 73ubiRAtZfHgrDVJ3eQA59Jah/Sm3Hvc4s5gvTo9U9pe04r3qwz835Hvuz6+L8kqNN
-	 I53+IbSSTl8g6ZXM5ZTRRXlEHJuYetd6lqaDgTtfFeCBlwiNqJh9gYyFt7uhnJhpK7
-	 nMiCes9pdm+mA==
-Date: Wed, 24 Jun 2026 11:40:10 +0100
-From: Daniel Thompson <danielt@kernel.org>
-To: Zenghui Yu <zenghui.yu@linux.dev>
-Cc: kgdb-bugreport@lists.sourceforge.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jason.wessel@windriver.com, dianders@chromium.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org
-Subject: Re: [PATCH] docs: kgdb: Fix path of driver options
-Message-ID: <aju0CgyXwsbBB9O7@aspen.lan>
-References: <20260620234035.9917-1-zenghui.yu@linux.dev>
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="p26qdZbB"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=GasGCMkpqsIfVRcBaW6bgI7a5DEAvqZjljpM0MMljkg=;
+	b=p26qdZbBK7+67oTpFgKBqJ3oBUDKLNh5aZ1m8FS9MTuXBCHiRdW81JTcl4N03FDRSm8g6TMcH
+	qqnijijEnCSX9wv8ejoUIE5BnX0Yd70asQsWAJqnvaEfYcN3adfLOUjwhbGL0k3+cJI5k4+7fjK
+	tQnoa4PYwpY9zT1Fp0AVKc4=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4glfT341j1zRhSH;
+	Wed, 24 Jun 2026 19:13:59 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id A29152012A;
+	Wed, 24 Jun 2026 19:23:03 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 24 Jun 2026 19:23:02 +0800
+Message-ID: <a9018e68-866a-c251-9e0a-67e31f4baec2@huawei.com>
+Date: Wed, 24 Jun 2026 19:23:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260620234035.9917-1-zenghui.yu@linux.dev>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH 0/6] mm/damon: hardware-sampled access reports
+Content-Language: en-US
+To: SeongJae Park <sj@kernel.org>
+CC: Ravi Jonnalagadda <ravis.opensrc@gmail.com>, <akinobu.mita@gmail.com>,
+	<damon@lists.linux.dev>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<akpm@linux-foundation.org>, <corbet@lwn.net>, <bijan311@gmail.com>,
+	<ajayjoshi@micron.com>, <honggyu.kim@sk.com>, <yunjeong.mun@sk.com>
+References: <20260624001425.77489-1-sj@kernel.org>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <20260624001425.77489-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On Sun, Jun 21, 2026 at 07:40:35AM +0800, Zenghui Yu wrote:
-> The correct path of driver options should be
-> /sys/module/<driver>/parameters/<option>. Fix it.
->
-> Signed-off-by: Zenghui Yu <zenghui.yu@linux.dev>
+Hi SeongJae,
 
-Acked-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+On 2026/6/24 8:14, SeongJae Park wrote:
+> Hello Zeng,
+> 
+> On Tue, 23 Jun 2026 22:08:03 +0800 Zeng Heng <zengheng4@huawei.com> wrote:
+> 
+>> Hi Ravi,
+>>
+>> On 2026/5/30 0:56, Ravi Jonnalagadda wrote:
+>>> This series introduces a vendor and PMU-agnostic substrate inside DAMON
+>>> that consumes hardware-sampled access reports through the standard
+>>> perf-event interface.  Userspace selects the PMU through sysfs (raw
+>>> type/config knobs), driving either Intel PEBS L3-miss sampling or AMD
+>>> IBS Op sampling.
+>>>
+>>
+>> [...]
+>>
+>>>
+>>> Ravi Jonnalagadda (6):
+>>>     mm/damon: add struct damon_perf_event{,_attr} and per-ctx perf_events
+>>>       list
+>>>     mm/damon/sysfs-sample: expose perf_events configuration via sysfs
+>>>     mm/damon/sysfs: install perf_events on apply
+>>>     mm/damon/core: per-CPU SPSC ring drain and damon_perf_event lifecycle
+>>>     mm/damon/vaddr: implement perf-event access check
+>>>     mm/damon: add damos_node_eligible_mem_bp tracepoint
+>>>
+>>>    include/linux/damon.h        |  80 +++++
+>>>    include/trace/events/damon.h |  49 +++
+>>>    mm/damon/core.c              | 403 ++++++++++++++++++++----
+>>>    mm/damon/ops-common.h        |  39 +++
+>>>    mm/damon/sysfs-common.h      |   6 +
+>>>    mm/damon/sysfs-sample.c      | 579 +++++++++++++++++++++++++++++++++++
+>>>    mm/damon/sysfs.c             |   3 +
+>>>    mm/damon/vaddr.c             | 267 ++++++++++++++++
+>>>    8 files changed, 1370 insertions(+), 56 deletions(-)
+>>>
+>>>
+>>> base-commit: 4c8ad15abf15eb480d3ad85f902001e35465ef18
+>>
+>> I wasn't able to apply this patch series to the linux (and linux-next)
+>> mainline branch, and also had trouble identifying the source of the base
+>> commit.
+>>
+>> Would you mind sharing where this baseline is from?
+> 
+> TLDR: I pushed [1] a tree having this series applied on top of the baseline to
+> GitHub.  Please feel free to use it.
+> 
+> I think the baseline was a commit on damon/next tree [2].  Because damon/next
+> is continuously rebased, we cannot get the commit in a simple way.  Fortunately
+> the commit is still available on my local tree.  So I applied this patch series
+> on top of the commit and pushed [1] to a branch of DAMON kernel tree at GitHub.
+> 
+> Note that the branch is not guaranteed to exist there for long term.  But
+> hopefully this series will be merged into the mainline before that.
+> 
+> [1] https://github.com/damonitor/linux/tree/ravi_hw_sampled_access_reports_rfc_v1
+> [2] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+> 
+> 
+> Thanks,
+> SJ
+> 
+
+Thanks a lot for providing the branch on GitHub. I've pulled it and
+confirmed it builds cleanly on my end.
+
+Appreciate the help!
 
 
-Daniel.
+Best Regards,
+Zeng Heng
