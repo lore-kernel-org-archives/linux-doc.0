@@ -1,174 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290C6356767
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 17:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A183596F8
+	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 17:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782320461; cv=none; b=i5813CQTugkBYQjbyqUMV/YeS+SsXlbpw4S2wiPeEM+18VHcFO5iEk2jdUW3ON8rv0f42kTyfYwIW69okr6qoOj/POQY2ArjEu6rZnEXQWW2wHSQQ8gRGnL2MeVVRTiK6kr6PaF7PeN+JwQjv/VAzEW3W8H55d+KAGRyO47Yx2Q=
+	t=1782320486; cv=none; b=ftVB91CYYgOidwp1yitw/EWubp48PCLtNiX5khYYzQk2GeC4xEWXJDHHVbn2mYhpjMeAdgQfmm7WVDTO35/jOJAAlIej3gl2s85vhDlsOKW8uSIJBsj+xA6pP0ToWxard7Z0lWoiM6LxCU9bHxgFYJPK2Ku3ACN65CiIUxq5vVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782320461; c=relaxed/simple;
-	bh=pEVC2AN5SysH52/PZLUtq9gl60gQIXWwpFqc8ASw8jY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pm48nS4xahXuzaRtE+5XhZjaxdlJezOfCFFZfhr51Q9oqiMVWG+SFrol1UVPwyozU38lgOR8n6fZ0woJOUY8G0EMQcfBHc8f24CSRtC/l5hpZgvlK1MS8msAojZdY/8XR8csPw2y+/OTNMAtiZTNOTVifoTUVQtDm+Bgt/sYAvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQU7Tb2N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782320486; c=relaxed/simple;
+	bh=hXT+eybuvhiG4/K2l6t7f2dd3GljuDBbH8uGde2JbnE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=EZNShwR+28yU7VqaRhZ803opLcDz0zdhXcR43cKVMUn+MUzn+fsq94o4WeH04hHHij53HVTpZM/UtktA47ZaAjad+PlaYvLgR956v/TkzoyTLcOweOyj2v62l8R5vY19Q+UOQSWWth0Zz5KOlpwlZgSH5yf/THtdNsp25vluLOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aT6B70Ue; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQU7Tb2N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D35061F01558
-	for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 17:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782320459;
-	bh=lVVJtxXyVjgi/BtOT1bRdEE1rJmfHlFaC1R3BjgiYrc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=iQU7Tb2NT1KiSInJPVW+D63hs1SqjAFIzspWwd3E+tOqJhmaHXPd6jeSJReGW4W96
-	 T/lu7esPqrMiveWMr31vS4f7TDZ1i0Gxfub7o0JqvG4IJlxttc3m5KqdL0XY0DehVF
-	 IWjkVWFs44mNs4FP+rDMgccSawscCiyYEucsE1SxUBBne38GlxRLHE33XylM7RMywe
-	 qxOPYBSt4r18ruxN0GXqqY2bf99yzpx+gMK/x8QL4oYRAZYdWO21AoVjBE5fTUxqHe
-	 PkfRS71FNXViqDFK2IH9d72OlEGfXQn2peYkjMOVINyTvnRZ4NM2dmVCsvlvon4rEQ
-	 BBKv3uMlDHkCQ==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c0e12cb1d90so155145866b.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 10:00:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8nd4o69v43A1fDcp+g1T6XgXFeddshpzKGqWCvQFSXLGTiEKAWpyqwYG14IMXx0txwXoKkT2VP55c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJPDJsXOA4uMaeqwfTwJ/zlsq6HUyu0pCe51hi/b1qAJ8kXUrt
-	5+Orc8apRa4dbu+yKW8NUlk6eyF6tZ9MzK3qwdCpOQ4DSLqQG9PDg9lXUEcD1wrtpj2liwzOxnm
-	qbhihZB+8Hd7YEfr9LRI/aB78Dz1fwAY=
-X-Received: by 2002:a17:907:1c1c:b0:c0a:5b0e:3d60 with SMTP id
- a640c23a62f3a-c119e1c0c52mr250171166b.13.1782320458723; Wed, 24 Jun 2026
- 10:00:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aT6B70Ue"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-8453a81b846so1747464b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 Jun 2026 10:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782320485; x=1782925285; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ISY2wbCcsFGmwP11+MNFOlIY+gG7N5avT6t+DVDnEh8=;
+        b=aT6B70UeQi1vhLwWIHICEyqAfUAAREJKRiIgtpkV+Yo3kcrwdppToFiPpaqGgWSe/P
+         5EiS5+p1013mCbIEYRcqbbj5zDRwJqqsrKPJDXlbbkNoV9Ero30iwoJMkc1ZvGslC8Tg
+         D2+Ia+JK5v2Kj1vw5RAsPYlKlk1I5UJSuQNTdP1fbaJNqn2OD0FnUnkjU1jmgEX7a3vR
+         nn2MQXS3HP9y66yUj+w2HEEe/KdVKjfu1tMjLmbt0zxyVhSbLWIw9EdVIIwE5O9uliWD
+         gZxejg5kAomk+aK27w6cqdP7G1EjYG+Jl/dt6OsS7sH0cGao42WKPIUDJ6OWTQY2KCl3
+         NS7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782320485; x=1782925285;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ISY2wbCcsFGmwP11+MNFOlIY+gG7N5avT6t+DVDnEh8=;
+        b=Itv4+VzNMmvEGR+AJF58HR/Y5KTxkLhtDVuf/+xuRTZLeg+NydpaBbxMZuM72nChQ6
+         o18bRYcWuHqzupufCyD7F471y2ZWH3JllTT/QmGSNi5QOHQOmGilE15ENIcVNDF607lp
+         IAsqBpAkiLqauFlMSLomZRgkPZ9PMm+YSNbKKhvBehpHOBPtGlLXIbvY3wql1XetN634
+         1BClqJgSOFx1Ia/32UZXOMGkrEA4mIvfI5Q36nU68d5UT/4AtFme4c7o+uMoQaz6/CQm
+         St2osymIjajGMKfm/epW7/NaMcnuVciWgmzmkg7HIRzGZATjqv7cXiiBR4a8Blkte5c7
+         atgA==
+X-Forwarded-Encrypted: i=1; AFNElJ8YJ2Idmqq8sw3AWWue73T7+FiDBvx8IShSubmsoqB8cVcu+tMeJniyc8KC1ui4hlUsN8hTZi+dKck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsbphUwhMb9be/ChjAfHUp22J+phEQZC8uFpX/C8+e/2+TEF/0
+	dOwIkdib/JE/2KgrUmiWF5AeBRnezhFvCtjw7RrQIbNl7OYlaGYcwkloGlLw28tjcAVy0O5RP6R
+	Hh3C1iw==
+X-Received: from pfnp26.prod.google.com ([2002:aa7:861a:0:b0:83a:68c:e1c6])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:aa7:88ca:0:b0:827:2a07:231d
+ with SMTP id d2e1a72fcca58-845a26d1fe1mr5396846b3a.17.1782320483693; Wed, 24
+ Jun 2026 10:01:23 -0700 (PDT)
+Date: Wed, 24 Jun 2026 10:01:23 -0700
+In-Reply-To: <6fc7f450-6d0a-494d-b295-297e4703148d@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
- <20260618044857.69439-3-jiahao.kernel@gmail.com> <ajnGTt8tkbAWX8Oc@google.com>
- <0916e673-861f-b472-7417-afbffbcc98ad@gmail.com>
-In-Reply-To: <0916e673-861f-b472-7417-afbffbcc98ad@gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Wed, 24 Jun 2026 10:00:47 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPSZLaqLXw87V3q4tZa8WD7xCympKqfLMLB+o-++GksJQ@mail.gmail.com>
-X-Gm-Features: AVVi8CeBIAL_SrdM8s9oEhC5-NPGoXvgoAGhPTPfjDkpJYNf1drEvhkgW-bCgZI
-Message-ID: <CAO9r8zPSZLaqLXw87V3q4tZa8WD7xCympKqfLMLB+o-++GksJQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] mm/zswap: Factor writeback loop out of shrink_worker()
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org, 
-	shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com, 
-	nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev, 
-	roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
+ <20260618-gmem-inplace-conversion-v8-18-9d2959357853@google.com> <6fc7f450-6d0a-494d-b295-297e4703148d@linux.intel.com>
+Message-ID: <ajwNYwsDc2_Vx_kp@google.com>
+Subject: Re: [PATCH v8 18/46] KVM: guest_memfd: Handle lru_add fbatch
+ refcounts during conversion safety check
+From: Sean Christopherson <seanjc@google.com>
+To: Binbin Wu <binbin.wu@linux.intel.com>
+Cc: ackerleytng@google.com, aik@amd.com, andrew.jones@linux.dev, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Jun 24, 2026 at 4:55=E2=80=AFAM Hao Jia <jiahao.kernel@gmail.com> w=
-rote:
->
->
->
-> On 2026/6/23 07:36, Yosry Ahmed wrote:
-> >> +/*
-> >> + * Walk the memcg tree and write back zswap pages until the
-> >> + * (lower_pages, upper_pages) window closes, or abort encounter
-> >> + * MAX_RECLAIM_RETRIES times of the following conditions:
-> >> + * - No writeback-candidate memcgs found in a memcg tree walk.
-> >> + * - Shrinking a writeback-candidate memcg failed.
-> >> + *
-> >> + * For shrink_worker(), it passes lower=3Dthr and upper=3Dzswap_total=
-_pages().
-> >> + * The @upper limit is refreshed in each iteration by re-evaluating
-> >> + * zswap_total_pages(), and the window closes once the total falls
-> >> + * below the threshold.
-> >
-> > This is the wrong abstraction level, and it's obvious by the fact that
-> > the function calls zswap_total_pages() again to recalcualte
-> > 'upper_pages'. It gets much worse in the next patch as well.
-> >
-> > The lower_pages and upper_pages thing is also unnecessarily hard to
-> > follow.
-> >
-> > The core of the reuse here is the retry logic. So maybe keep the memcg
-> > iteration in the callers, and define a function that takes in one memcg
-> > and reclaims one batch from it? failures and attempts can be passed int=
-o
-> > the function to maintain the state across scans of different memcgs,
-> > like zswap_shrink_walk_arg?
-> >
-> > WDYT?
->
->
-> Perhaps something like this?
->
-> struct zswap_shrink_state {
->      int attempts;
->      int failures;
->      bool stop;
-> };
->
-> static bool zswap_shrink_no_candidate(struct zswap_shrink_state *s)
-> {
->      if (!s->attempts && ++s->failures =3D=3D MAX_RECLAIM_RETRIES)
->          return true;
->
->      s->attempts =3D 0;
->      return false;
-> }
->
-> static long zswap_shrink_one(struct mem_cgroup *memcg,
->                   struct zswap_shrink_state *s)
-> {
->      long shrunk;
->
->      shrunk =3D shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
->      if (shrunk =3D=3D -ENOENT)
->          return 0;
->
->      s->attempts++;
->      if (shrunk <=3D 0 && ++s->failures =3D=3D MAX_RECLAIM_RETRIES)
->          s->stop =3D true;
+On Tue, Jun 23, 2026, Binbin Wu wrote:
+> On 6/19/2026 8:31 AM, Ackerley Tng via B4 Relay wrote:
+> > @@ -606,12 +608,20 @@ static bool kvm_gmem_is_safe_for_conversion(struct inode *inode, pgoff_t start,
+> >  	next = start;
+> >  	while (safe && filemap_get_folios(mapping, &next, last, &fbatch)) {
+> >  
+> > -		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+> > +		for (i = 0; i < folio_batch_count(&fbatch);) {
+> >  			struct folio *folio = fbatch.folios[i];
+> >  
+> > -			if (folio_ref_count(folio) !=
+> > -			    folio_nr_pages(folio) + filemap_get_folios_refcount) {
+> > -				safe = false;
+> > +			safe = (folio_ref_count(folio) ==
+> > +				folio_nr_pages(folio) +
+> > +				filemap_get_folios_refcount);
+> > +
+> > +			if (safe) {
+> > +				++i;
+> > +			} else if (folio_may_be_lru_cached(folio) &&
+> > +				   !lru_drained) {
+> > +				lru_add_drain_all();
+> 
+> It seems unprivileged userspace is able to trigger lru_add_drain_all() repeatedly
+> by invoking KVM_SET_MEMORY_ATTRIBUTES2 in a loop, which could lead to DoS risk?
 
-Do we need 'stop' or can we just return a value here to indicate that
-we should stop (e.g. -EBUSY)?
-
->
->      return shrunk;
-> }
->
-> static void shrink_worker(struct work_struct *w)
-> {
->      struct zswap_shrink_state s =3D {};
->      unsigned long thr;
->
->      /* Reclaim down to the accept threshold */
->      thr =3D zswap_accept_thr_pages();
->
->      while (zswap_total_pages() > thr) {
->          struct mem_cgroup *memcg;
->
->          cond_resched();
->
->          memcg =3D zswap_iter_global();
->          if (!memcg) {
->              if (zswap_shrink_no_candidate(&s))
->                  break;
->              continue;
->          }
->
->          zswap_shrink_one(memcg, &s);
->          /* Drop the extra reference taken by the iterator. */
->          mem_cgroup_put(memcg);
->          if (s.stop)
->              break;
->      }
-> }
->
-> We could also fold the logic of zswap_shrink_no_candidate() into
-> zswap_shrink_one(), but adding a !memcg check inside zswap_shrink_one()
-> feels a bit awkward.
->
-> WDYT?
-
-I think splitting the shrink/retry logic over 2 functions makes it
-more difficult to follow, so yeah I think fold
-zswap_shrink_no_candidate() into zswap_shrink_one(). Then the callers
-only need to iterate memcgs (depending on the context) and call
-zswap_shrink_one() for each of them.
+FIW, if there's a risk, then AFAICT fadvise() and memfd's F_ADD_SEALS already
+have the same risk.
