@@ -1,158 +1,265 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5B13E7BA6;
-	Thu, 25 Jun 2026 16:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F1E35BDA4;
+	Thu, 25 Jun 2026 16:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782403955; cv=none; b=mJ/zBE81WC7hOmIfN3mWymhbY0MkbmOKNrqSKytvC592EW68Ey2DniUYAWkulayd5hdtjylx4Hjv9NLfjKeGmmOzb3P91fzkWPFx09AfeUHq0KJPHJGaERVQ3OYXBGlYohjkifl8g/WV4w9vWw1euG2TkfD0EnOxa9oCWBx5y4M=
+	t=1782404379; cv=none; b=CNUMgTsJMp82y2L1ouUhUcWujLJzbYhfg/oNn86hk6TKHknyW952PPp0tjUK3lbiI+AW5wWcxU7pnHdRY8G36ew9zOz8CgmidEpSpAuKr6xTLMxkWEjUtB96bTbPHOWuBT4rWcYJNH1EOdHVlPc3/XaT+7wpfWLMB9ZWtrzqf6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782403955; c=relaxed/simple;
-	bh=nuEQl8tmi4PUjefQwgETQMtKZH+Awnmm7DZAsMlhLuk=;
+	s=arc-20240116; t=1782404379; c=relaxed/simple;
+	bh=qG1LzwDqL57cV5rkC2sruMzkCxUQSr9mlL1EhPq5ZRc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4JW/OmYDpAoAT8XWsM2ZeWizZj1+7G+GJ3IfPC5mGJ962OFYv3LDB1V3z5uVM0R0fAyjSR30DQZ1kLc+MhQWH8CP9Rt2mqJ/fWKR7vo5fO0ho4rDj2Spg8yOVWHKQHxvBG3KSMmHkohp+nKzYsdFQp17MxwSeLcE9T5AfE8eHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wPPmattY; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHvDI7njengArvdy0rCqKd3QLwE17Hn6uwOjzBOXVentZ2C1E0kmVKaWJQTRl0EFTyPD9fcKXxwrhW8PZPaLENJ8BU9uPulhemCU1botLkKSesVPYbzLWA5A5/kiOdxSce3UyD41fLauubuFE+spJhH1ODeZH6/wddkJyDHxUjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtWTdtpB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wPPmattY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=SjSnpDcd/nnOyv3A51l5TDSAZxIAPfoeJIYXW95Ak+g=; b=wPPmattY9V9C7LKAFqV+sEQJTv
-	1hN2Un6obtE1QG8nfATQkbhpbNtZ5BWRfdLF1Yr+nGGQSC+xkVqNt5/HaJBGqEVycgxD71a8VrWv7
-	tD+/0xcNutB0wwxZOaLmm09N9BlJNH/Ah19tSghjjSkWkfcugVlJJr6WPThNTKlUNL18=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wcmgf-009GEq-Sr; Thu, 25 Jun 2026 18:12:21 +0200
-Date: Thu, 25 Jun 2026 18:12:21 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtWTdtpB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC171F000E9;
+	Thu, 25 Jun 2026 16:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782404377;
+	bh=7YcMVVY3Ngo1QA2QA4VNeE39obuNmOZ0bZLp0deFa4Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GtWTdtpBtJaqqhntdx94UBquSGkQICKW/35LtX6FCenrEFQOyrhP84qGQESOlDQMt
+	 Z9LIvY5aXOX6SoaXq+xSAzSJD5sFsuPQEa1y6fVPdQJSFUMo7/orxM5U2/YWwXt6M9
+	 CpCNjZIw8p27gyJJtmV+DODPhEK+LlamOOUcQIT5Xtp4bjswlX3r7gYwJAnmM9ud/B
+	 4zUYWLNSXP2DM4cGiVm89nf7zweBbJS1rksQ1qj9fTKrAKhZ0SUb/3yUqGQKeQPrle
+	 tiMGmj9jRNQbb7eqYg+G/2mRp2ndZM6+jqbLXLHxlRvW3NweSnGfDA1sJZDs+YnhYq
+	 syY9nXn1Ozf9A==
+Date: Thu, 25 Jun 2026 17:19:28 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org,
+	devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] dt-bindings: riscv: Add generic CBQRI controller
+ binding
+Message-ID: <20260625-cupbearer-failing-9ce0abf97b93@spud>
+References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org>
+ <20260624-dfustini-atl-sc-cbqri-dt-v2-7-2f8049fd902b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iqz6WzvFJ9B9C8aq"
+Content-Disposition: inline
+In-Reply-To: <20260624-dfustini-atl-sc-cbqri-dt-v2-7-2f8049fd902b@kernel.org>
+
+
+--iqz6WzvFJ9B9C8aq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
 
-> This isn't sphynx, but I've come-up with something like this for a
-> test definition :
-> 
-> 
-> @ksft_ethtool_needs_supported_anyof([Pause, Asym_Pause])
-> def test_ethtool_pause_advertising(cfg, peer) -> None:
->     """Pause advertisement
-> 
->     Validate that changing pause params through the ETHTOOL_MSG_PAUSE command
->     translates to a change in the advertised pause params, and that these
->     parameters are correct w.r.t the supported pause params and requested pause
->     params.
->     
->     This exercises the .set_pauseparams() ethtool ops for MAC configuration,
->     as well as the reconfiguration of the PHY's advertising and negociation.
->     
->     On non-phylink MACs, the MAC should call phy_set_sym_pause() to update the
->     PHY's advertising, and restart a negotiation with phy_start_aneg() if
->     need be. Failure to do so will result on the wrong advertising parameters.
->     
->     Pn phylink-enabled MACs, phylink deals with the PHY reconfiguration provided
+On Wed, Jun 24, 2026 at 06:38:35PM -0700, Drew Fustini wrote:
+> Document the generic compatibles for capacity and bandwidth controllers
+> that implement the RISC-V CBQRI specification. The binding also
+> describes the common riscv,cbqri-rcid and riscv,cbqri-mcid properties,
+> and the optional riscv,cbqri-cache phandle that links a capacity
+> controller to the cache whose capacity it allocates.
+>=20
+> Assisted-by: Claude:claude-opus-4-8
+> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Drew Fustini <fustini@kernel.org>
+> ---
+>  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 98 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/D=
+ocumentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..5d6be645381780e187b39e60c=
+3bb487fdf2cfb69
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) cont=
+roller
+> +
+> +description: |
+> +  The RISC-V CBQRI specification defines capacity-controller and
+> +  bandwidth-controller register blocks that allocate cache capacity and =
+memory
+> +  bandwidth to resource-control IDs (RCIDs) and monitor usage per
+> +  monitoring-counter ID (MCID):
+> +  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
+> +
+> +  Allocation and monitoring share one register block, and a controller m=
+ay
+> +  implement either or both. A driver discovers which at runtime from the
+> +  capabilities register, so the compatible names only the controller typ=
+e. It
+> +  does not distinguish allocation-only, monitoring-only or combined
+> +  controllers, and no property declares monitoring support.
+> +
+> +maintainers:
+> +  - Drew Fustini <fustini@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - description: Tenstorrent Ascalon Shared Cache
+> +            const: tenstorrent,ascalon-sc-cbqri
+> +          - const: riscv,cbqri-capacity-controller
+> +      - enum:
+> +          - riscv,cbqri-capacity-controller
+> +          - riscv,cbqri-bandwidth-controller
 
-On 
+Please modify this, as has been done for other riscv spec related
+bindings, to let people get away without using device-specific
+compatibles.
 
->     the MAC driver calls phylink_ethtool_set_pauseparam().
->     
->     Failing this test likely means that the PHY driver is not correctly advertising
->     pause settings, either due to the MAC not triggering a PHY reconfiguration,
->     a misconficonfiguration of the advertising registers by the PHY, or by
->     mis-handling the phydev->advertising bitfield in the PHY driver directly.
->     
->     The validation is made by looking at the advertised modes locally, as well as
->     what the peer's 'lp_advertising' values report.
-> 
->     cfg -- local device's interface configuration
->     peer -- peer device handle
+In this case, you can just delete the first entry from this enum, since
+it already has a user and only have to implement this feedback for the
+second entry.
 
-Plain Sphinx can be made to pick up this method documentation and
-include it the generated documentation. You would use something like
+pw-bot: changes-requested
 
-.. automethod:: test_ethtool_pause_advertising
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      The CBQRI controller register block.
+> +
+> +  riscv,cbqri-rcid:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The maximum number of RCIDs the controller supports. RCIDs are the
+> +      resource-control IDs that allocation operations target.
+> +
+> +  riscv,cbqri-mcid:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The maximum number of MCIDs the controller supports. MCIDs are the
+> +      monitoring-counter IDs that usage-monitoring operations target. Pr=
+esent
+> +      on controllers that implement monitoring.
+> +
+> +  riscv,cbqri-cache:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to the cache node whose capacity this controller allocates.
+> +      Applies to capacity controllers that back a CPU cache. The cache l=
+evel
+> +      and the harts sharing it are taken from that node's cache topology.
 
-in the .rst file.
+Architecturally, is it impossible for a capacity controller to control
+more than one cache?
 
-I've no idea if the kernel configuration of sphinx allows this. At the
-moment, i would not spend too much time on getting sphinx to generate
-documentation. I would say that is nice to have. The description
-itself is more important.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: tenstorrent,ascalon-sc-cbqri
+> +    then:
+> +      required:
+> +        - riscv,cbqri-rcid
+> +        - riscv,cbqri-cache
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    l2_cache: l2-cache {
+> +        compatible =3D "cache";
+> +        cache-level =3D <2>;
+> +        cache-unified;
+> +        cache-size =3D <0xc00000>;
+> +        cache-sets =3D <512>;
+> +        cache-block-size =3D <64>;
+> +    };
+> +
+> +    cache-controller@a21a00c0 {
+> +        compatible =3D "tenstorrent,ascalon-sc-cbqri",
+> +                     "riscv,cbqri-capacity-controller";
 
->     """
-> 
->     # Initial conditions :
->     # - Local interface is admin UP, and reports lowlayer link UP
->     # - Remote interface is adming UP, and reports lowlayer link UP
->     #
->     # Test 1
->     # - SKIP if supported doesn't contain "Pause"
->     # - run 'ethtool -A ethX rx on tx on autoneg on'
->     # - FAIL if the return isn't 0
->     # - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
->     #   "Pause" or contains "Asym_Pause"
->     # - FAIL if peer's lp_advertising doesn't contain "Pause" or contains
->     #   "Asym_Pause"
->     # - Succeed otherwise
->     #
->     # Test 2
->     # - SKIP uif supported doesn't contain both "Pause" and "Asym_Pause"
->     # - run 'ethtool -A ethX rx on tx on autoneg on'
->     # - FAIL if the return isn't 0
->     # - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
->     #   "Pause" or contains "Asym_Pause"
->     # - FAIL if peer's lp_advertising doesn't contain "Pause" or contains
->     #   "Asym_Pause"
->     #
->     # ...
->    
-> The annotation defines the pre-requisites in terms of locally supported
-> linkmodes, we have a docstring containing information for developpers
-> to debug their drivers, what I'm unsure about is the commented-out part
-> below, so either one big function testing multiple adjacent scenarios
-> or indivitual functions.
+Is this or is this not a cache controller?
+The compatible and fact that the property points to an actual cache
+controller suggests that this is not.
 
-Sphinx follows pythons object orientate structure. So you could have a
-class test_ethtool_pause_advertising, with class documentation. And
-then methods within the class which are individual tests.  The
-commented out section would then be method documentation.
+Cheers,
+Conor.
 
-However, i've no idea if the selftest code allows for classes of test
-methods? It looks like ksft_run() takes a list of methods. So you can
-probably instantiate the class, and then pass it methods from the
-class?
+> +        reg =3D <0xa21a00c0 0xf40>;
+> +        riscv,cbqri-rcid =3D <16>;
+> +        riscv,cbqri-cache =3D <&l2_cache>;
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9e1092165046c773771b055869030bc1bdb64b16..64a95a4d795a57033d3f36200=
+d98cfb4a013ab94 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23298,6 +23298,7 @@ M:	Drew Fustini <fustini@kernel.org>
+>  R:	yunhui cui <cuiyunhui@bytedance.com>
+>  L:	linux-riscv@lists.infradead.org
+>  S:	Supported
+> +F:	Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+>  F:	arch/riscv/include/asm/qos.h
+>  F:	arch/riscv/include/asm/resctrl.h
+>  F:	arch/riscv/kernel/qos.c
+>=20
+> --=20
+> 2.34.1
+>=20
 
-I would say you are right about picking one of the simple test case,
-and playing with it, define and implement it, and see what comes out
-at the end. 
+--iqz6WzvFJ9B9C8aq
+Content-Type: application/pgp-signature; name=signature.asc
 
-	Andrew
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaj1VEAAKCRB4tDGHoIJi
+0lXeAP4nYfY2HRKImG27gD+aSFjrJ2tV6sAdxhmJWyh1+AnCrAEAk6PNQ5SjX5nW
+VK2mq7VQ+4K/2o7w6hvbd2oKNvn30ww=
+=ZHZW
+-----END PGP SIGNATURE-----
+
+--iqz6WzvFJ9B9C8aq--
