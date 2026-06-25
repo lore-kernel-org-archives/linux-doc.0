@@ -1,104 +1,124 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDCE3D891E;
-	Thu, 25 Jun 2026 12:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3603D7D6A
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 12:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782390189; cv=none; b=ojC8Asad8eQC0yVm1pJlVhqFuhNfAUmBDDdwnfJdfmos2tSo8d0QloC9q7FkJkR6HGrKC04ydZtE6B76qhUOk+ZItz+yH+pm4jHFSx+/ymfTuA9wwOEmJcgfg3nb/LwEofvPTt6QrZxlXE5ReDXak+110JrCquaH1UGAzK/36Bo=
+	t=1782390571; cv=none; b=fAOlExU40k3XqyyBRxWF2afIvuos5xDNEIoY0OdKViJaMvazjRv/dtHSdjKVcs314exMvTgRUJaN9OFBfR4vtdVwla+WSSB0PhB8fsaXz6m4aPJnFXsjOu4tsa9nv5P8+TGLUnoUuJVMYitLvuROsKW34I3kLHvocecU6VtX8Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782390189; c=relaxed/simple;
-	bh=LDEE5G+NOHafeWW3BlHXZZmLZjy75Uy70/2e9B7rEys=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=M06yUXymHRVUglGox4sExXvDphKhNWhI/l0yZww4sOsf0uPi7zaCKy5UsacY18N0xw00lEFUl7s6l+Qyr5tf69y7ZxtSiBbDLYgvfjbOTHHLdf+81krXmlxpQNXIFmaxV6d+2+x8RlsU8zLGIHOdlRyoOEJEC455KhJmB3SfpoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Pu82SVzy; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782390571; c=relaxed/simple;
+	bh=3qWGQWCmb1NDpRT10cYiXu/2QBAKtTDY15am2sDbjvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1nbVBjKzW+cG7ZVgEaIANFN35qano1VQhO5nlo15+2l/xA19eWOPjZ3UStondUQ7l7aTzfS8vb6q25BF+PyhewRBNENTfQeKNceDPkeNYT6KvQHx4fXMtKyAtk8X6pXkdfE5ScFdUfm6L2MqYNIOAvJ+TXECvcdSJAcnLopK5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F4TlnSoE; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Pu82SVzy"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=DtTrF+dkMhH5wL9XVdpqg+EYpu4n3AZ8BvYl3aOQkWs=;
-	b=Pu82SVzyU7dKh9zHrrRfAFclb3zu86TYxOkI5vuEUY0eNHVES52yjxGbOXUnji1L3zyjo7tWr
-	hpk2IGB9tsONDex78SNwtga9xcWfokjgnOQKPcT90UfVu7TxF3D3zYuR7ULMeiC3bH5wmKsMKGO
-	95g0/YrBB8UU0mZl7x/5OaA=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4gmHlk23FBzmV6S;
-	Thu, 25 Jun 2026 20:13:54 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 820C140539;
-	Thu, 25 Jun 2026 20:23:00 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 25 Jun 2026 20:23:00 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 25 Jun 2026 20:22:58 +0800
-Subject: Re: [PATCH v9 4/6] mm/memory-failure: add panic option for
- unrecoverable pages
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
-	<lance.yang@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>
-References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
- <20260609-ecc_panic-v9-4-432a74002e74@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <80c7ddaa-dd8c-1540-f72e-2a9a56aecdb1@huawei.com>
-Date: Thu, 25 Jun 2026 20:22:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F4TlnSoE"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-46e30429b10so257305f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 05:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782390568; x=1782995368; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g2ppjyVbJYZltIdw6y8sH5RPhtFeQnjhQZPkfszvAoQ=;
+        b=F4TlnSoEHiELmW4SFZQSUeQUmBjWOkPr1E3vMeeRTWSoBojq1cHUdWONJLNkV40hMe
+         X7Zuc9taUrYvFEcSzePKYS6GyvZMPdlbYm5srrE5V3BqWO+WwPqlqc8ydo/YIHHFJwNU
+         Ku1mBv8xEHsHlQo31bL37ekWRW3Rmi+vHcgKJIHO1YxeDzTGDD9N58eEKZ2fJpq2on6S
+         OipI4xMXQiZ+dMKoK1l3F4HVeyDnPVEcgiudAz/LiECAe416i/PFjLtiYlgcD9+EMYni
+         9M8oLeqT2ZcK6ngQ2Mk2CtWJ/X/p6VIsCgeLn0EGYZqWoWmhr1NtQX1TOp7loB2qKkLK
+         YFjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782390568; x=1782995368;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g2ppjyVbJYZltIdw6y8sH5RPhtFeQnjhQZPkfszvAoQ=;
+        b=VbKh5J2KLRLjuDlaQqav6j2UQTcbtk+K++Hn2T8Oh57GWi9Ch33Q6e76zjDC+9heHa
+         1iFrI7BUY4jYcN1wQnXbu06duGH5x6ARdrsTgoxVBcCt3CMYQrBHDT6rgDtidBEUXd03
+         DOE+X5adVs0113KJANUZLSiSX4lS1hukLC4y7nErdDGxWGlMPPolFrNgOSHpnucpD440
+         whc+s8qfFdDbpVNGbWIKCPvaU9r252lQWtHOJ0oHKrpOcVvhaX3c9SWdjYax6lpPC2R1
+         DidPrkRTszBLO/funwTNXEy/EQrwGfg27ieAPZQYNeH2AtYOvjxs7XG8BgIkZEhgFyDZ
+         MeFA==
+X-Gm-Message-State: AOJu0Yyz3PG5SUvCHHibgkDKmrXlmvdo2js425SaC4LlPxF63GxtryB4
+	+wLdVhMOdHUfj8tQdBznd/9ZJQ0IGE13hoOa/5cPkb1rRwfOMtyBeb0VmTiexI9y9w==
+X-Gm-Gg: AfdE7cn0FxmLFIRZqQ6vx7v8jXLkGCfrhxrqogTx+ePbj2Zi3J62LdUnLbB8n9JAn14
+	Uu+RgEvJ+FrecXNN43E3qMKSnxogh/yEfupUKZvuk9xQrk1ipu+NkzRtoRYsBLFxjq0mbXI9Bmm
+	DU4+xdxNPqRZK58BpyGFyj1VXUWlgnEDh2ZXXXb2BiZKAulvnaqF4b7ZpwW4z2f2R/Ur+LNUZmM
+	1h8WbDAaAuRd0c9S5bwjOmTNvVRyktGP3phrRCb1ggZFFGxOHwSNFrQsFMSHTPwMQgPIxJ5o+Tw
+	y9A4EbgmWixG6GwExRetpxkmyV7eoGhooY8VPG5Kd1I8jhuNeiUhTEXaPcA9xGZKnFxl1V+Qodj
+	3Ab5kq95c+4rCFjKCL4Lv9pNTg9Jo5dgPr71cZdMRS5h6p7UwnXcnBgtibq0EWIca3TR3iLt9Uj
+	9FG+LftfBisz4K7PAXU2/UQKgJxB4Btv8RsO0K12TAPRA=
+X-Received: by 2002:a5d:5f88:0:b0:463:a7e3:9f71 with SMTP id ffacd0b85a97d-46dc0839c94mr3549517f8f.15.1782390567662;
+        Thu, 25 Jun 2026 05:29:27 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:7a30:b9c4:b9c7:bc90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c2279b734sm15607575f8f.30.2026.06.25.05.29.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 05:29:27 -0700 (PDT)
+Date: Thu, 25 Jun 2026 14:29:21 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Alejandro Colomar <alx.manpages@gmail.com>,
+	Alejandro Colomar <alx@kernel.org>
+Subject: Re: [PATCH] landlock: Documentation wording cleanups
+Message-ID: <aj0fIbva9iaTX_Yb@google.com>
+References: <20260516190112.4924-1-gnoack3000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260609-ecc_panic-v9-4-432a74002e74@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
 
-On 2026/6/9 18:56, Breno Leitao wrote:
-> Add a sysctl panic_on_unrecoverable_memory_failure (disabled by
-> default) that triggers a kernel panic when memory_failure()
-> encounters pages that cannot be recovered.  This provides a clean
-> crash with useful debug information rather than allowing silent
-> data corruption or a delayed crash at an unrelated code path.
+On Sat, May 16, 2026 at 09:01:12PM +0200, Günther Noack wrote:
+> Documentation cleanups suggested by Alejandro Colomar,
+> which we have also applied in the man pages.
 > 
-> Panic eligibility is intentionally narrow: only MF_MSG_KERNEL with
-> result == MF_IGNORED panics.  After the previous patch, MF_MSG_KERNEL
-> covers PG_reserved pages and the kernel-owned pages promoted from
-> get_hwpoison_page() via -ENOTRECOVERABLE (slab, page tables,
-> large-kmalloc).
+> Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
+> Suggested-by: Alejandro Colomar <alx@kernel.org>
+> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> ---
+>  include/uapi/linux/landlock.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> All other action types are excluded:
+> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
+> index 10a346e55e95..48c12ddf1108 100644
+> --- a/include/uapi/linux/landlock.h
+> +++ b/include/uapi/linux/landlock.h
+> @@ -255,16 +255,16 @@ struct landlock_net_port_attr {
+>   *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` with an
+>   *   explicit recipient address.
+>   *
+> - *   This access right only applies to connections to UNIX server sockets which
+> + *   This access right applies only to connections to UNIX server sockets which
+>   *   were created outside of the newly created Landlock domain (e.g. from within
+>   *   a parent domain or from an unrestricted process).  Newly created UNIX
+>   *   servers within the same Landlock domain continue to be accessible.  In this
+>   *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as the
+>   *   ``LANDLOCK_SCOPE_*`` flags.
+>   *
+> - *   If a resolve attempt is denied, the operation returns an ``EACCES`` error,
+> - *   in line with other filesystem access rights (but different to denials for
+> - *   abstract UNIX domain sockets).
+> + *   If a resolution attempt is denied, the operation returns an ``EACCES``
+> + *   error, in line with other filesystem access rights (but different to
+> + *   denials for abstract UNIX domain sockets).
+>   *
+>   *   This access right is available since the ninth version of the Landlock ABI.
+>   *
+> -- 
+> 2.54.0
 > 
-> - MF_MSG_GET_HWPOISON and MF_MSG_KERNEL_HIGH_ORDER can be reached by
->   transient refcount races with the page allocator (an in-flight buddy
->   allocation has refcount 0 and is no longer on the buddy free list,
->   briefly), and panicking on them would risk killing the box for what
->   is actually a recoverable userspace page.
-> 
-> - MF_MSG_UNKNOWN means identify_page_state() could not classify the
->   page; that is precisely the wrong basis for a panic decision.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+Friendly ping, Mickaël!
 
-Thanks.
-.
+This is only a minor change, but keeps the man pages and kernel docs wording in line.
+
+—Günther
