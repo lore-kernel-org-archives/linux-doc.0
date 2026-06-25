@@ -1,120 +1,113 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177693812CD;
-	Thu, 25 Jun 2026 10:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3003CF698;
+	Thu, 25 Jun 2026 10:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782382885; cv=none; b=hBBhQPDJsWAeTchUZQajTQmc4lb1w9HFv2O9O/nRYTzrKCzXS3Ilt9fcBr7b/WkpuvR7aZ/JU/lU/kyYnZ4zsohEsIWJ2MpWrMrbzwSorD/P8k/u58AvobPMlyXqPrTTRnQ4/U9ju4nk7TMwoOdJYX7323z5Fn2gr6/93vi5Y2w=
+	t=1782384215; cv=none; b=igQXBHBclsMjgztqBe+FiFLISbambeptdRqT1oqGrH5TopU3eALjA5o3N3GlBjTO3JRwHTA32SWeLnRvuij1jnCLkr/uIiom4Y94rM+W+sY/JSfpc5Hd0G1lfurj2MbknQfS+5WDleKA+9dd9Rm9rZEmBO+NPEEKLQk5QKLHDe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782382885; c=relaxed/simple;
-	bh=HclDAl9w7nD13+rfBStpPxKU94inq+mAd27AU3ktHDw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P7FxuQ1xIKC7Tk5hHRGr5OQjRRanCih64MwHC7PgANDiU39Wzif9aGMpWR79C//9yqJck7+337esFLAnV/8e7zjVtJWKw5zxJbGi23v4lMpEzI0r85/p8P5h/T3CBqZ20uUh03iodL6kXq1OvioyyClIfSX9cym1F/FES0yfXxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 99c25ac0707f11f1aa26b74ffac11d73-20260625
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:0080bd47-685c-4fc7-9089-0ad4c452358a,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.12,REQID:0080bd47-685c-4fc7-9089-0ad4c452358a,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:e7bac3a,CLOUDID:429edb8e878399609e86c16f6629f87f,BulkI
-	D:260624112706YSGBNPCQ,BulkQuantity:7,Recheck:0,SF:17|19|38|64|66|78|80|81
-	|82|83|102|127|841|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:
-	nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:
-	0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 99c25ac0707f11f1aa26b74ffac11d73-20260625
-X-User: lihongfu@kylinos.cn
-Received: from [192.168.109.123] [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <lihongfu@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1977568665; Thu, 25 Jun 2026 18:21:16 +0800
-Message-ID: <c645a8df-1d76-4e4d-bb97-47c539f7a205@kylinos.cn>
-Date: Thu, 25 Jun 2026 18:21:11 +0800
+	s=arc-20240116; t=1782384215; c=relaxed/simple;
+	bh=lBuu39UbK68A8xrKG/Ns64hX/mqB5WWzuQz5XMfitXs=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=mZf9FEd82+0F71BJrAlS5OgcLW4/F1+fcWVqmPiEG82/dNocQ1YEnhR7vWR3o5H/bWHV+T353Xts6xZXkNi+nDfUgDrI/4Hdnb+w4EZ+pC1gHZcGKYPdGPirk/lbeA9MzHSnConLkHGwPBbDRTofP8jUjo46VqHHLekHfL8JlEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T44en6Na; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T44en6Na"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7681F00A3A;
+	Thu, 25 Jun 2026 10:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782384214;
+	bh=olDhkqtxI30UfcWJ97Za0LqCZRLOxs3Rv1WfiI82UaQ=;
+	h=Date:From:To:Cc:Subject;
+	b=T44en6NaGlPGuxRlGZBX7xnth52c5FHMZA7AOZVAPYNjd0/OrfRoLodTcHRiLQybk
+	 YHPoJMZyP0iX25n7G9jANVJXXjT2z//aa7wnRevhkJ0bI3u0YaLzPgTwOLcAbRt64j
+	 ACmhmjoVdR07WL1bwoDOgc/oadNP+3aEkFJFaDkjj9n69C6YXWcorpHXSRZwvWTuMo
+	 /nSOIt8LzbsdCM6rRxySNy5v7RD5esp/F39Dz65F50D+Tmp5AncdllaYY7jVXX+xRH
+	 LpczgNSv52PoLL5Oxla7W8wbkAlEz02czNEPjic5fmsZKO6KeFuPL++VV9MmCK/mlb
+	 QVwtXegLzsm0A==
+Received: from rostedt by gandalf with local (Exim 4.99.3)
+	(envelope-from <rostedt@kernel.org>)
+	id 1wchYw-00000002W9c-0A36;
+	Thu, 25 Jun 2026 06:44:02 -0400
+Message-ID: <20260625104007.041432666@kernel.org>
+User-Agent: quilt/0.69
+Date: Thu, 25 Jun 2026 06:40:07 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Julia Lawall <julia.lawall@inria.fr>,
+ Yury Norov <yury.norov@gmail.com>,
+ linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org,
+ kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/2] tracing: Move non-trace_printk prototypes into trace_controls.h
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] cgroup/dmem: add per-region event counters
-To: Natalie Vock <natalie.vock@gmx.de>, tj@kernel.org
-Cc: cgroups@vger.kernel.org, corbet@lwn.net, dev@lankhorst.se,
- dri-devel@lists.freedesktop.org, hannes@cmpxchg.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mkoutny@suse.com,
- mripard@kernel.org, skhan@linuxfoundation.org, hongfu.li@linux.dev
-References: <ajwnf0uzT4PMHYZx@slm.duckdns.org>
- <20260625021053.488107-1-lihongfu@kylinos.cn>
- <b549422c-7c35-434d-ad4a-49a4676970ac@gmx.de>
-From: Hongfu Li <lihongfu@kylinos.cn>
-In-Reply-To: <b549422c-7c35-434d-ad4a-49a4676970ac@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi,
+Remove trace_printk.h by creating a trace_controls.h for those places that
+need access to tracing prototypes like tracing_off() and for the places that
+need trace_printk() directly, to have it included directly.
 
-On 6/25/26 4:57 PM, Natalie Vock wrote:
-> Hi,
->
-> On 6/25/26 04:10, Hongfu Li wrote:
->> Hi, Tejun
->> Thanks for the review comments.
->>
->>>> Add dmem.events to report hierarchical low/max event counts per DMEM
->>>> region.  Increment counters on dmem.max allocation failures and
->>>> dmem.low protection events.  The file is available for non-root 
->>>> cgroups
->>>> only.
->>>
->>> Please don't double space in descs or comments. Also, maybe it's 
->>> obvious but
->>> it'd help if you list why and how this is useful. Why do we want to add
->>> this?
->>
->> I'll fix the double spacing in the commit message and comments.
->>
->> As for the motivation: dmem already exposes per-region limits and 
->> current
->> usage, but not how often those limits actually matter at runtime. 
->> Without
->> event counters, it's hard to tell whether allocation failures come from
->> this cgroup, a parent limit, or pressure elsewhere in the hierarchy.
->> dmem.events provides that visibility for tuning dmem.low/dmem.max and
->> diagnosing recurring device memory pressure.
->
-> Shouldn't you be able to deduce this rather trivially from just 
-> looking at the current usage together with the low/max limits you 
-> already set? I'm not sure I really see anything this events file 
-> provides that analysis of current usage and set limits doesn't? If 
-> your usage is highly variable, the separately-developed dmem.peak file 
-> might also suit your needs, but still, not sure what you can do with 
-> dmem.events that you can't already do with these tools. 
-Thanks for the question.
+Changse since v3: https://lore.kernel.org/all/20260624081806.120105649@kernel.org/
 
-Besides exposing counters, dmem.events notifies userspace on changes via
-cgroup_file_notify(). This allows tools to monitor limit-related events
-(for example, allocation failures or low-protection fallbacks) 
-asynchronously,
-without the need to periodically poll dmem.current against the limits. 
-While
-you could infer some conditions from current usage and limits, polling is
-inefficient and cannot capture transient events in real time. dmem.peak only
-records the highest usage, not these specific events.
+- Always include trace_controls.h in rcu.h (kernel test robot)
 
-So dmem.events provides both lower overhead and richer, actionable 
-information.
+  There are other configs that may include tracing_off() in rcu.h besides
+  the one that had the include of trace_controls.h. Just always include
+  it in that header to be safe.
 
-Best regards,
-Hongfu
+Steven Rostedt (2):
+      tracing: Move non-trace_printk prototypes into trace_controls.h
+      tracing: Remove trace_printk.h from kernel.h
 
-
-
+----
+ arch/powerpc/kvm/book3s_xics.c         |  1 +
+ arch/powerpc/xmon/xmon.c               |  1 +
+ arch/s390/kernel/ipl.c                 |  1 +
+ arch/s390/kernel/machine_kexec.c       |  1 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h    |  1 +
+ drivers/gpu/drm/i915/i915_gem.h        |  2 ++
+ drivers/hwtracing/stm/dummy_stm.c      |  1 +
+ drivers/infiniband/hw/hfi1/trace_dbg.h |  1 +
+ drivers/tty/sysrq.c                    |  1 +
+ drivers/usb/early/xhci-dbc.c           |  1 +
+ fs/ext4/inline.c                       |  1 +
+ include/linux/ftrace.h                 |  2 ++
+ include/linux/kernel.h                 |  1 -
+ include/linux/sunrpc/debug.h           |  1 +
+ include/linux/trace_controls.h         | 54 ++++++++++++++++++++++++++++++++
+ include/linux/trace_printk.h           | 56 ++--------------------------------
+ kernel/debug/debug_core.c              |  1 +
+ kernel/panic.c                         |  1 +
+ kernel/rcu/rcu.h                       |  1 +
+ kernel/rcu/rcutorture.c                |  1 +
+ kernel/trace/ring_buffer_benchmark.c   |  1 +
+ kernel/trace/trace.h                   |  1 +
+ kernel/trace/trace_benchmark.c         |  1 +
+ lib/sys_info.c                         |  1 +
+ samples/fprobe/fprobe_example.c        |  1 +
+ samples/ftrace/ftrace-direct-too.c     |  1 -
+ samples/trace_printk/trace-printk.c    |  1 +
+ 27 files changed, 82 insertions(+), 55 deletions(-)
+ create mode 100644 include/linux/trace_controls.h
