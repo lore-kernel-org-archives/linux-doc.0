@@ -1,142 +1,117 @@
-Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40D036D503;
-	Thu, 25 Jun 2026 01:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7993A9852;
+	Thu, 25 Jun 2026 02:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782352566; cv=none; b=mIV5Gs7w/U0/tl6huPKElyJk/FENBja+WvYETRc+azWMj/e5F5v90L7UENx9c3YMXVXagRuJI0eKPJtZe7GI+FW0Gt+o79tbebdY+iEpnmdjJ2ajHT7KoD1srQl/vpeNauNFZFazc4G8TBcKL2Tu7JlskHCx2UhLhCZOC7P3OmQ=
+	t=1782353497; cv=none; b=a0zrFzezthjHxkbf7KJgDPykCvS6BySzdrfIjwVJHHZ4PTYXnOJHldZNXy01Jed8PnQxEXfseNgaarZYjtvH4uXqyhjteESHS+IbNKSvu8zUKwXO0idg8IMuUIBrHTsIKiBBteNnsMZ6efE4l/P3ZgQPNS8lmQKaydyNTD0zx+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782352566; c=relaxed/simple;
-	bh=TYnjqPNVFu7ROXRSzsNG7oC6Xw/dD3rEz9+rqBfvRdk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lwcP2QTAojNWFuiLsxhndRnYqtP1z0ZXWvW3oCBmvuoEzWU4kiTimCeQZlXaat9iELpu6MCx6FPgMoJJDh2ApT/FhaQhWUpTjfy4/QfuGCDPHK1Nj7xAL41auTCPLjSYrIYcCC16cjtrqDUBtPIcf4imRtXo7bN2bbblnnnMZpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: 00e40fba703911f1b2470fb4f881575f-20260625
+	s=arc-20240116; t=1782353497; c=relaxed/simple;
+	bh=dc6GxFOtX82fWBXyYCcZWmSGKG3m0bYG7gdRH4ekqJY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UOTNILA97Z4qQZp7G6DXBLVWE/7b5oY1KcWlEZW0ajl+D13ozpZVu75Z3BW8gWnOcRQ3LXMixC/aOJ9WEXws0sORpPK9yW/1yy0G1ZWSrKObSG39e7tAwPES07RbtfB27Zd5t37Cs2lW3+T+GJgwq+h1f5cD73VY1M2X3f8iG+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2be80908703b11f1aa26b74ffac11d73-20260625
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:595ade6c-3006-4358-acec-b1be158fd2a5,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:3851d1fc-4e5b-4880-a751-e09c9abb260d,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:-10|0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,Q
-	S:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,
-	ARC:0
+X-CID-O-INFO: VERSION:1.3.12,REQID:28c332a2-702e-448d-83d3-ba56f2aaac95,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.12,REQID:28c332a2-702e-448d-83d3-ba56f2aaac95,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:6bf237fb64cc35fff2084227c0961fab,BulkI
+	D:260624112706YSGBNPCQ,BulkQuantity:3,Recheck:0,SF:17|19|64|66|78|80|81|82
+	|83|102|127|841|850|865|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File
+	:nil,RT:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR
+	:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 00e40fba703911f1b2470fb4f881575f-20260625
-Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef21.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
+X-UUID: 2be80908703b11f1aa26b74ffac11d73-20260625
+X-User: lihongfu@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <lihongfu@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 383728583; Thu, 25 Jun 2026 09:55:55 +0800
-X-UUID: fe6aebbe703811f1a9f9c99e036204b4-20260625
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:33c3770c-6076-40bd-b9fb-7dfd19789dd8,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:a1a3b245-bfd5-44dc-a827-0ed06cccddf4,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
-	898,TC:-5,Content:-10|0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,Q
-	S:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,
-	ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fe6aebbe703811f1a9f9c99e036204b4-20260625
-Received: from sdbmbx12.tpe.compalcomm.com [(10.113.2.136)] by sdmg12.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES256-SHA 256/256)
-	with ESMTP id 1419889263; Thu, 25 Jun 2026 09:55:51 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX12.tpe.compalcomm.com (10.113.2.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.2.2562.29;
- Thu, 25 Jun 2026 09:55:49 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
- 15.02.2562.029; Thu, 25 Jun 2026 09:55:49 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
-	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Wen-Zhi
- Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
-	"Minano Tseng" <Minano.tseng@mediatek.com>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, "Simon Horman" <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [External Mail] Re: [PATCH v3 0/7] net: wwan: t9xx: Add MediaTek
- T9XX WWAN driver
-Thread-Topic: [External Mail] Re: [PATCH v3 0/7] net: wwan: t9xx: Add MediaTek
- T9XX WWAN driver
-Thread-Index: AQHdBDbr7gV1PIIW20uy7p6BeLMYarZOgjDU
-Date: Thu, 25 Jun 2026 01:55:49 +0000
-Message-ID: <cec5736466864641967b99adcfaf324a@compal.com>
-References: <20260624-t9xx_driver_v1-v3-0-73ff03f60c48@compal.com>,<20260624170917.09967c74@kernel.org>
-In-Reply-To: <20260624170917.09967c74@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30028.002
-x-tm-as-result: No-10--16.192600-8.000000
-x-tmase-matchedrid: gIzQ6PxOy4Muv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLS9XY
-	nKy9ZqbG0wNjG7j2lpdVUa9LFLuAZpxv10buNpyDTAmQRh6AQEfVmJNHK/THAdorNiZ3c9zKLRf
-	XC5L8hclDfCGkjjCVDTpfMfqKQCtJRC61Eoj6CJWbZ5Rb+gO6ITj61oDLR3drl2KBmLXt0epcRg
-	SNUhN0V7Gs6LmC3y4my5giTPlFHEONYN8w7dbL+QJmkj1SAkweoli4ZoiOHT8g4pZYxslhbbNke
-	EYGbJYuA/3R8k/14e0=
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--16.192600-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30028.002
-x-tm-snts-smtp: 111CFFE2D82E31ED4BD8D70AC0B219B45BE41667AA6B454FDB79CD9BE7D3B1502000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	with ESMTP id 1390390969; Thu, 25 Jun 2026 10:11:26 +0800
+From: Hongfu Li <lihongfu@kylinos.cn>
+To: tj@kernel.org
+Cc: cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	dev@lankhorst.se,
+	dri-devel@lists.freedesktop.org,
+	hannes@cmpxchg.org,
+	lihongfu@kylinos.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mkoutny@suse.com,
+	mripard@kernel.org,
+	natalie.vock@gmx.de,
+	skhan@linuxfoundation.org,
+	hongfu.li@linux.dev
+Subject: Re: [PATCH 1/2] cgroup/dmem: add per-region event counters
+Date: Thu, 25 Jun 2026 10:10:53 +0800
+Message-Id: <20260625021053.488107-1-lihongfu@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <ajwnf0uzT4PMHYZx@slm.duckdns.org>
+References: <ajwnf0uzT4PMHYZx@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-SGkgSmFrdWIsDQoNCj4gT24gV2VkLCAyNCBKdW4gMjAyNiAxODowNDowNiArMDgwMCBKYWNrIFd1
-IHZpYSBCNCBSZWxheSB3cm90ZToNCj4gPiBUOVhYIGlzIHRoZSBQQ0llIGhvc3QgZGV2aWNlIGRy
-aXZlciBmb3IgTWVkaWFUZWsncw0KPiA+IHQ5MDAgbW9kZW0uIFRoZSBkcml2ZXIgdXNlcyB0aGUg
-V1dBTiBmcmFtZXdvcmsNCj4gPiBpbmZyYXN0cnVjdHVyZSB0byBjcmVhdGUgdGhlIGZvbGxvd2lu
-ZyBjb250cm9sIHBvcnRzDQo+ID4gYW5kIG5ldHdvcmsgaW50ZXJmYWNlcyBmb3IgZGF0YSB0cmFu
-c2FjdGlvbnMuDQo+DQo+IFJlcGx5aW5nIGFmdGVyIGEgbG9uZyBkZWxheSBhbmQgdGhlbiBpbW1l
-ZGlhdGVseSBwb3N0aW5nIGEgbmV3IHZlcnNpb24NCj4gb2YgcGF0Y2hlcyBpcyB2ZXJ5IGJhZC4g
-RG9uJ3QgYm90aGVyIHJlcGx5aW5nIGFuZCBqdXN0IHB1dCB0aGUgY29tbWVudHMNCj4geW91IGhh
-ZCBpbiB0aGUgY2hhbmdlbG9nIG9mIHRoZSBuZXcgcG9zdGluZy4gT3RoZXJ3aXNlIHRoZSBkaXNj
-dXNzaW9uDQo+IG1heSBnZXQgc3BsaXQuDQoNCiAgU29ycnkgYWJvdXQgdGhlIGNvbmZ1c2lvbi4N
-Cg0KICBJIGhhdmUgYSBxdWVzdGlvbiBhYm91dCB0aGUgcHJlZmVycmVkIHdvcmtmbG93OiB0aGUg
-Y292ZXINCiAgbGV0dGVyIGNoYW5nZWxvZyB3b3VsZCBnZXQgcXVpdGUgbG9uZyBpZiBJIGluY2x1
-ZGUgZGV0YWlsZWQNCiAgZXhwbGFuYXRpb25zIGZvciBlYWNoIHNhc2hpa28gY29tbWVudCB3ZSBj
-aG9zZSBub3QgdG8gZml4Lg0KDQogIFdhcyB0aGUgY29uY2VybiBtb3JlIGFib3V0IHRpbWluZz8g
-U2hvdWxkIHdlIGhhdmUgcmVwbGllZA0KICB0byB0aGUgc2FzaGlrbyByZXZpZXcgcHJvbXB0bHkg
-d2hlbiBpdCBjYW1lIGluLCByYXRoZXIgdGhhbg0KICB3YWl0aW5nIHVudGlsIHRoZSBmdWxsIHYz
-IHdhcyByZWFkeT8NCg0KICBUaGFua3MgZm9yIHRoZSBndWlkYW5jZS4NCg0KDQo9PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpUaGlzIG1lc3NhZ2UgbWF5IGNv
-bnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBvciBjb25maWRl
-bnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNzLCBJbmMuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRl
-bmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIg
-YW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNzYWdlLiBBbnkgcmV2aWV3LCByZXRyYW5zbWlzc2lv
-biwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yIHRha2luZyBvZiBhbnkgYWN0aW9u
-IGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZvcm1hdGlvbiwgYnkgcGVyc29ucyBvciBlbnRpdGll
-cyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQgaXMgcHJvaGliaXRlZC4NCj09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg==
+Hi, Tejun
+Thanks for the review comments.
+
+> > Add dmem.events to report hierarchical low/max event counts per DMEM
+> > region.  Increment counters on dmem.max allocation failures and
+> > dmem.low protection events.  The file is available for non-root cgroups
+> > only.
+> 
+> Please don't double space in descs or comments. Also, maybe it's obvious but
+> it'd help if you list why and how this is useful. Why do we want to add
+> this?
+
+I'll fix the double spacing in the commit message and comments.
+
+As for the motivation: dmem already exposes per-region limits and current
+usage, but not how often those limits actually matter at runtime. Without
+event counters, it's hard to tell whether allocation failures come from
+this cgroup, a parent limit, or pressure elsewhere in the hierarchy.
+dmem.events provides that visibility for tuning dmem.low/dmem.max and
+diagnosing recurring device memory pressure.
+
+I'll expand the commit message to cover this.
+ 
+> > +  dmem.events
+> > +	A read-only file that reports the number of times each cgroup
+> > +	has hit its configured memory limits.  The format lists each
+> > +	region on a single line, followed by the event counters::
+> > +
+> > +	  drm/0000:03:00.0/vram0 low 0 max 3
+> > +	  drm/0000:03:00.0/stolen low 0 max 0
+> 
+> This isn't a supported file format. Please read the documentation on allowed
+> formats.
+
+Thanks for catching this. I'll switch dmem.events to nested-keyed format (region low=N max=M).
+
+Thanks again for the valuable feedback.
+
+Best regards,
+Hongfu
