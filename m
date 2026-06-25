@@ -1,65 +1,65 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EED63DA5A1
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 11:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D413DA5CF
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 11:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782386900; cv=none; b=cvd25g93r1aiXSbsnlAa/q3Z/PCFly5aywuGB4AcZIsaqxAsQArPgdP45qLNbbXFlxdh3P4yd97w6NI7kd9aCSpmD8MW+JQZDD2Lkyes8J4SxYnFjEggphaNGJRhGX6RsC1Gce6v0t1W0cJYd6XGo0ERpxGTMc/ubPldsxdc+1Y=
+	t=1782387112; cv=none; b=b9uwTz4clLH6SWwIPuKYBlVegidDMN1IwxoQdh7cUOnEnLeaqGM7SohADGPlf2SfbjobfonVKUnDMYHlFgifSL/VEH9IGBKObGs8khunX12YV1yM0jl6Hu+GeUIakgHFEI+wc4kOqF3roAlWabIdFthcy6qXBObgRN3Gkve/KVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782386900; c=relaxed/simple;
-	bh=9EmqR/QU3L6zxa1jX24ROznGfhsUPbqYOcUKXhdjfK8=;
+	s=arc-20240116; t=1782387112; c=relaxed/simple;
+	bh=HRZK7bcBdh3G0SoIR6huU1RJZv7lplMi8PSHmslCqc4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u59QrO4ubUf5M9qUU9RGr0J5YiTPD9c5rNeVrlrLwT5/F3halRMTaMBow0IGkuJfbqy6aM2dFNSn+SB8ejombgmK4oUfeDMnTv8rxxtjhbJud9Ti7hxORGeVq9mi+umLG8bQQvCoCpOajliQSHKL7cQoreUrOBSOlgt6b9DnuQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5u1hfud; arc=none smtp.client-ip=209.85.214.177
+	 In-Reply-To:Content-Type; b=IL+OT+0BJ65rMuEny+XaoRnc9E3mO/eV10V8jTRgIHUzz9SgLX6Hk6KmTYBy8vQeVCpU008AToYWK2XtP/SfSyqujSvcBtEJ9dS7nqpEc/LHlXjZWsanr871ycKN+x1mT75spDNxQi4x5toDh2YUya7V9yaKB9ZDjc92ibuX6YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TdHbNMAY; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5u1hfud"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c6dadfbaafso19354755ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 04:28:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TdHbNMAY"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c890110acdaso829346a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 04:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782386896; x=1782991696; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782387111; x=1782991911; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AizybT0CQDOCLg4ll/0xAnza6/lwZnP0ZIiS3UphQeI=;
-        b=N5u1hfudLGlr7Ek5iCAFM7c4OcS7s5DAN9ptQGE3IEINp3JStzGWWFJrepmkg8qUmo
-         8yBceVjUxtstooO4uP+RVvIoJMTOpD8rLH+GMprtOQYbzK1pWAMEhHRJn2AHD2A7N28G
-         VIU/e1CA2lYPj0sPk6DwQXvFIOqD2fqH2bZrG3to/TBXXqCyfi/Z7ErveEsQTkUlQ6qG
-         MIlMocQuJhR591vupBywibp2/BQonbkR2dcprakKEIvYmvtJvQH23MryfpJoAfzDQBGN
-         RQnpBUWzKNlEztvHO/ASJ3xMFnIVlDlfbF8hw0m/PDf7kYEgXKgSVZov/0FsslLkId81
-         e0VA==
+        bh=Ok1cwbmp8dJ1uoK/AXAMwxzmJvYss0SZo3EXCeeNnlE=;
+        b=TdHbNMAY4sSgqReBh+StspST9SKQuv3eIqSsXFP5BDEYo1ZpXybLT55BMtZM5i5SzG
+         VKaIcHofuQw42HeQZj5vqPnHhVcxh5a1G7dKVXERbElx2nvXqM3Ccx2U4UA48drUG/jq
+         dqURrdMkhhNBAyx2xgN9zgUSXY9mQfHVZiW26S55U2bEjlgPLIpudhQjFRol0l5IUpWp
+         JzUNkSoRqBawOIV9POu1yxb6RaV8xH0y0jdWdNXs0ITZF/SnXV4zDfhLn+GDNLdRZo6w
+         q1vXXSnKEOmA79LVSbhIDb+pjeciV2rLYh8pULUyhfM5P220zFIxICrl+uPXspwNQ0N2
+         XFew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782386896; x=1782991696;
+        d=1e100.net; s=20251104; t=1782387111; x=1782991911;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AizybT0CQDOCLg4ll/0xAnza6/lwZnP0ZIiS3UphQeI=;
-        b=Pv5bWUmCPPnhjyKJ588dsSMysEwojUS2+hrOxAFw1KMolj9F6CtzHqCweJt8XuJeD6
-         Ot4IvNHPgQmeOjtwxbEjbJuoDAYuL1R2zdDinWKr7F3wfnMA3VhcYs3uX52KKr5tWfmR
-         FFlSu6nUhiovVCqJoYdCQHirzZe87pgA9+upw57sWSvz6f1pa7st47KgD5rCiSBgl4ek
-         n0PErcEGuWa0Cre3wlkoi1DQVH0gEnoijYHB2sMKrUMfeqEVWkgObOeqaMwZKVH6PuSm
-         DIBCOh2xDHWJ0Em1RhUBNWUkyoe7LO1yrUdxkLFTmmVckR4grHHQ94LyPkvb6B77SX5a
-         MzXQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqg6/iwNEuk59ggZyWX24cJeBgtn8sKlI9Sj4BsPBDh4VDmw8JFqFOI7BtSNItyGLleM6VQQeGMufM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiPsk71/UqJJoHJoBwB6aiwq3tEIBm1OUoPfFyLg0wQ3ehkZdF
-	v/4Fg43XOdOT1I4XfWEBq5u6JUJFSabLhW5MX99M99LPGLrxzXuVfaWNq+7/jA==
-X-Gm-Gg: AfdE7clCu7dQ23yk6MYuyDnHIi44zfxgolpH0HTRMF4lz/fyzHwzPmcr5/uNwUpe1oG
-	SmvHz0ek27PBxnrUg5LHaYZgzese9m0pwb+LS5ulVrHx6hKxi5qJ65MyNaOR4SxRjeSQcEegSqv
-	Vfs2vDN4H3gSe7BeuOnkHvsMHjqhno1tdKYMMC77bpXGq7IyCSELBRueaDz4cu3nB8mTD0U4heu
-	ogOJYePbEbCDlMH4nxSYD7acpwNb+NIbrEomeeGkb86L3gaCVbRITLHLRBCCUoV7gZ8T52ClpPs
-	utnXMEXqC22/iuDq65WY6IZofd2vI/Vi7yIfUSmnaU2hc948i4q5ZHk0NlDDwZT9vxqIJBaVnOL
-	yJUjFlm9/OZTFUAK5ouKoKHYHTEeSxWpBwWASQdS9OfEEDZ+rG43LYZ6YG6tZeWFE7qbyWOSHH2
-	X/C6twTMTJgjNcDDXmM6xjL+Qr4nMlxURJQr1iLSwzL9w=
-X-Received: by 2002:a17:903:2b0e:b0:2ba:3e2f:6883 with SMTP id d9443c01a7336-2c7fc6f396amr21714615ad.19.1782386896284;
-        Thu, 25 Jun 2026 04:28:16 -0700 (PDT)
+        bh=Ok1cwbmp8dJ1uoK/AXAMwxzmJvYss0SZo3EXCeeNnlE=;
+        b=qsYHYM2bwYBtonPGljisi5w9DJpZeoS9y5i+FgfDiSubAHU8aZjOmNeTB/+tu1UlVu
+         t1OCNjw5ojbOJW822TFAvACh5B96xxGdqvOkuTQRgMEzsF0G41QJVZJtYeKt1+iFGabi
+         cd30odeh4Ftgq1VcWWXSi+lAgEQeTkRY1Sc5PHgUiGKMS1bES8npB17LEhaW/UId1T92
+         zaF8D507a2MlwvqL4HFriyE4b5Nf4iKHi4ponO76ash1Nq74edWuM+m4uQo4b+yV6wp7
+         jAQWC1AtJ2Hbss1C0vZWxscXsqFxnd4FYk1PjB8Wb9DiB1VOa2iHyi6NiZmGl5KCCoYd
+         O8pg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZGJvmbLNoIlDat9U7UOXV8VoiOOUlxz5MwK0RbAxAyPj2IYGXQve3GpBexV5uv9Q15gWe+wPanfk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbqHet4eRme/A+dFi9GHZdUKLxS14YlnuomQpHwe8XZNVRBIQ8
+	Oh2LQ7SKYKoZCMP4l0gDBHzr0SdcDjbCe7oPQCXd/t9+FoFRg9Ay4J6x
+X-Gm-Gg: AfdE7cm7LS+3elF+ytujiBVRRfvSqQLapSu78fKMz6/mm+vHVNrXWdkBbYOe7PYouec
+	a9XqbE/R+9P9iN2WhV0RyNXes4WcH93nFQiXxa1v/NKaZ1HgY1t6+5GkbgeaWl4Hxv03+KQqiue
+	oRHssMeR4bT23vLMO5qTCgbMAYwIjfDNRgVOKr6QsEWD2YPFNj2glWGKizFsDvQfFcjph2CTNkJ
+	sB4wGnUnmEfexOfDZrNgJEYLqOaJR/xEqUQlsForSJcUtw2QdJ0NPnpJHLSP3qfc+Icd/WU4Oit
+	Zzf4mAtKb9d1u1WtgpbDGvuG3Sv7gsihPHueSRqsUrshi/gaN1mstCPNDrYRo2CqFyoIi2xIdvp
+	K1uBF0zzP3zWRXV2ckQD7gvbMsrkbblVPtZwKoZ4S+pSlMs4DreQLb89RtXDaZXxntOZ3ZoS8Ju
+	qNuZoQ1H2tz1Vp6bJqRauZkl00ZAiBKNGK
+X-Received: by 2002:a05:6a21:9d45:b0:3a2:f7bd:a9a5 with SMTP id adf61e73a8af0-3bd4afbcefcmr2587154637.38.1782387110797;
+        Thu, 25 Jun 2026 04:31:50 -0700 (PDT)
 Received: from [10.125.192.89] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f5afb17fsm18380775ad.26.2026.06.25.04.28.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c92bd26a52esm1482636a12.29.2026.06.25.04.31.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 04:28:15 -0700 (PDT)
-Message-ID: <91297bc0-268c-e9c2-57ae-6066eee5df2f@gmail.com>
-Date: Thu, 25 Jun 2026 19:28:06 +0800
+        Thu, 25 Jun 2026 04:31:50 -0700 (PDT)
+Message-ID: <1358cfd4-7d3f-1238-e4a8-b2301dc16702@gmail.com>
+Date: Thu, 25 Jun 2026 19:31:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v4 2/5] mm/zswap: Factor writeback loop out of
- shrink_worker()
+Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback
+ capability
 To: Yosry Ahmed <yosry@kernel.org>
 Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
  shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
@@ -77,182 +77,103 @@ Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
  roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
 References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
- <20260618044857.69439-3-jiahao.kernel@gmail.com>
- <ajnGTt8tkbAWX8Oc@google.com>
- <0916e673-861f-b472-7417-afbffbcc98ad@gmail.com>
- <CAO9r8zPSZLaqLXw87V3q4tZa8WD7xCympKqfLMLB+o-++GksJQ@mail.gmail.com>
+ <20260618044857.69439-2-jiahao.kernel@gmail.com>
+ <ajnB8IZrFZwbIr9P@google.com>
+ <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com>
+ <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
+ <057ea303-4c27-1a6e-08de-cce26c699097@gmail.com>
+ <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
 From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zPSZLaqLXw87V3q4tZa8WD7xCympKqfLMLB+o-++GksJQ@mail.gmail.com>
+In-Reply-To: <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 2026/6/25 01:00, Yosry Ahmed wrote:
-> On Wed, Jun 24, 2026 at 4:55 AM Hao Jia <jiahao.kernel@gmail.com> wrote:
+On 2026/6/25 00:57, Yosry Ahmed wrote:
 >>
->>
->>
->> On 2026/6/23 07:36, Yosry Ahmed wrote:
-
->>
->>
->> Perhaps something like this?
->>
->> struct zswap_shrink_state {
->>       int attempts;
->>       int failures;
->>       bool stop;
->> };
->>
->> static bool zswap_shrink_no_candidate(struct zswap_shrink_state *s)
->> {
->>       if (!s->attempts && ++s->failures == MAX_RECLAIM_RETRIES)
->>           return true;
->>
->>       s->attempts = 0;
->>       return false;
->> }
->>
->> static long zswap_shrink_one(struct mem_cgroup *memcg,
->>                    struct zswap_shrink_state *s)
->> {
->>       long shrunk;
->>
->>       shrunk = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
->>       if (shrunk == -ENOENT)
->>           return 0;
->>
->>       s->attempts++;
->>       if (shrunk <= 0 && ++s->failures == MAX_RECLAIM_RETRIES)
->>           s->stop = true;
+>> /*
+>>    * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
+>>    * and write back the reclaimable ones.
+>>    *
+>>    * Since the second-chance algorithm rotates referenced entries to the
+>>    * LRU tail, the per-node scan is capped at the current LRU length so
+>>    * each entry is scanned at most once per call. It is up to the caller
+>>    * to handle retries, deciding whether to scan the next memcg to complete
 > 
-> Do we need 'stop' or can we just return a value here to indicate that
-> we should stop (e.g. -EBUSY)?
+> Nit: "whether to scan another memcg to complete.."
+
+Will fix in the next version.
+
+> 
+>>    * the full iteration, or to rescan the current memcg to drain its zswap
+>>    * entries.
+>>    *
+>>    * Return: The number of compressed bytes written back (>= 0), or -ENOENT
+>>    * if @memcg has writeback disabled, is a zombie cgroup, or has empty
+>>    * zswap LRUs.
+>>    */
+>> static long shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_scan)
+>> {
+>>       struct zswap_shrink_walk_arg walk_arg = {
+>>           .bytes_written = 0,
+>>           .encountered_page_in_swapcache = false,
+>>       };
+>>       unsigned long nr_remaining = nr_to_scan;
+>>       int nid;
+>>
+>>       if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>>           return -ENOENT;
+>>
+>>       /*
+>>        * Skip zombies because their LRUs are reparented and we would be
+>>        * reclaiming from the parent instead of the dead memcg.
+>>        */
+>>       if (memcg && !mem_cgroup_online(memcg))
+>>           return -ENOENT;
+>>
+>>       for_each_node_state(nid, N_NORMAL_MEMORY) {
+>>           unsigned long nr_to_walk;
+>>
+>>           /*
+>>            * Cap the walk at the current LRU length to ensure each entry is
+>>            * scanned at most once per call. Referenced entries are rotated
+>>            * to the tail for a second chance, and this bound prevents them
+>>            * from being revisited within a single call. Retries are left to
+>>            * the caller, which can choose to rescan the current memcg or
+>>            * move on to the next one.
+>>            */
+> 
+> Nit: Make this more concise since it's already explained above.
 > 
 
-Perhaps we could return -EAGAIN instead of -EBUSY? This would align with 
-the semantics of the memory.reclaim interface, which returns -EAGAIN 
-when it reclaims fewer bytes than requested.
+Will fix in the next version. Thanks a lot for the review!
 
+Thanks,
+Hao
 
->>
->>       return shrunk;
->> }
->>
->> static void shrink_worker(struct work_struct *w)
->> {
->>       struct zswap_shrink_state s = {};
->>       unsigned long thr;
->>
->>       /* Reclaim down to the accept threshold */
->>       thr = zswap_accept_thr_pages();
->>
->>       while (zswap_total_pages() > thr) {
->>           struct mem_cgroup *memcg;
->>
->>           cond_resched();
->>
->>           memcg = zswap_iter_global();
->>           if (!memcg) {
->>               if (zswap_shrink_no_candidate(&s))
->>                   break;
+> Otherwise this looks good to me, thank you!
+> 
+>>           nr_to_walk = min(nr_remaining,
+>>                    list_lru_count_one(&zswap_list_lru, nid, memcg));
+>>           if (!nr_to_walk)
 >>               continue;
->>           }
 >>
->>           zswap_shrink_one(memcg, &s);
->>           /* Drop the extra reference taken by the iterator. */
->>           mem_cgroup_put(memcg);
->>           if (s.stop)
+>>           nr_remaining -= nr_to_walk;
+>>           list_lru_walk_one(&zswap_list_lru, nid, memcg, &shrink_memcg_cb,
+>>                     &walk_arg, &nr_to_walk);
+>>           /* Return the unused share of the budget to the pool. */
+>>           nr_remaining += nr_to_walk;
+>>
+>>           if (!nr_remaining)
 >>               break;
 >>       }
+>>
+>>       /* Nothing was scanned: every LRU under @memcg was empty. */
+>>       if (nr_remaining == nr_to_scan)
+>>           return -ENOENT;
+>>
+>>       return walk_arg.bytes_written;
 >> }
+>>
 
-> 
-> I think splitting the shrink/retry logic over 2 functions makes it
-> more difficult to follow, so yeah I think fold
-> zswap_shrink_no_candidate() into zswap_shrink_one(). Then the callers
-> only need to iterate memcgs (depending on the context) and call
-> zswap_shrink_one() for each of them.
-
-So, something like this?
-
-/* Track progress of a memcg-tree writeback walk. */
-struct zswap_shrink_state {
-     int attempts;
-     int failures;
-};
-
-/*
-  * Take one step of a memcg-tree writeback walk driven by the caller's
-  * iterator, and fold the result into @s, the retry bookkeeping shared
-  * across steps. @memcg is the iterator's current memcg, or NULL once
-  * it has wrapped around after a full pass over the tree.
-  *
-  * The function returns -EAGAIN to signal the caller to abort the walk
-  * after encountering the following conditions MAX_RECLAIM_RETRIES times:
-  * - No writeback-candidate memcgs were found in a memcg tree walk.
-  * - Shrinking a writeback-candidate memcg failed.
-  *
-  * Return: The number of compressed bytes written back (>= 0), or -EAGAIN
-  * once the retry budget is exhausted and the caller should abort the walk.
-  */
-static long zswap_shrink_one(struct mem_cgroup *memcg,
-                  struct zswap_shrink_state *s)
-{
-     long shrunk;
-
-     /*
-      * If the iterator has completed a full pass, update the shrink state
-      * and check whether we should keep going.
-      */
-     if (!memcg) {
-         /*
-          * Continue shrinking without incrementing failures if we found
-          * candidate memcgs in the last tree walk.
-          */
-         if (!s->attempts && ++s->failures == MAX_RECLAIM_RETRIES)
-             return -EAGAIN;
-         s->attempts = 0;
-         return 0;
-     }
-
-     shrunk = shrink_memcg(memcg, NR_ZSWAP_WB_BATCH);
-
-     /*
-      * There are no writeback-candidate pages in the memcg. This is not an
-      * issue as long as we can find another memcg with pages in zswap. Skip
-      * this without incrementing attempts and failures.
-      */
-     if (shrunk == -ENOENT)
-         return 0;
-     s->attempts++;
-
-     if (shrunk <= 0 && ++s->failures == MAX_RECLAIM_RETRIES)
-         return -EAGAIN;
-
-     return shrunk;
-}
-
-static void shrink_worker(struct work_struct *w)
-{
-     struct zswap_shrink_state s = {};
-     unsigned long thr;
-
-     /* Reclaim down to the accept threshold */
-     thr = zswap_accept_thr_pages();
-
-     while (zswap_total_pages() > thr) {
-         struct mem_cgroup *memcg;
-         long ret;
-
-         cond_resched();
-
-         memcg = zswap_iter_global();
-         ret = zswap_shrink_one(memcg, &s);
-         /* drop the extra reference taken by zswap_iter_global() */
-         mem_cgroup_put(memcg);
-         if (ret == -EAGAIN)
-             break;
-     }
-}
