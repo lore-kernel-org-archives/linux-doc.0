@@ -1,71 +1,76 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3603D7D6A
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 12:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A303DB33C
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 12:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782390571; cv=none; b=fAOlExU40k3XqyyBRxWF2afIvuos5xDNEIoY0OdKViJaMvazjRv/dtHSdjKVcs314exMvTgRUJaN9OFBfR4vtdVwla+WSSB0PhB8fsaXz6m4aPJnFXsjOu4tsa9nv5P8+TGLUnoUuJVMYitLvuROsKW34I3kLHvocecU6VtX8Rs=
+	t=1782390687; cv=none; b=c0onGaGKVEBLGk6w4LM703tkQ7L1XLpm9FpMjvVe/3yu1FnTmWotccGWVSXMnHoSsv4QMnC4uQjjgR3tTGiJrdwnWyAN6Q/Wq8Sm5x9LuFN0b1/MZQprGFSMqd1R16POCpxQLyQDWYzciz6GYNytpFp8tC2hGFkkgIPMgSY+qn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782390571; c=relaxed/simple;
-	bh=3qWGQWCmb1NDpRT10cYiXu/2QBAKtTDY15am2sDbjvo=;
+	s=arc-20240116; t=1782390687; c=relaxed/simple;
+	bh=Oit0TcphEo5M+bMP77TWtYW3k4a7F2pKJuE4t0E9+0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1nbVBjKzW+cG7ZVgEaIANFN35qano1VQhO5nlo15+2l/xA19eWOPjZ3UStondUQ7l7aTzfS8vb6q25BF+PyhewRBNENTfQeKNceDPkeNYT6KvQHx4fXMtKyAtk8X6pXkdfE5ScFdUfm6L2MqYNIOAvJ+TXECvcdSJAcnLopK5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F4TlnSoE; arc=none smtp.client-ip=209.85.221.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbkjvtcuEuZt6CmLgRPTdIBO1py5BKknt+BMB2kEM60YcGqCNOMCFWiA7fZTpZW5zLOI9ASvLKKp8tonXXHRPlpFdRyHKXf8xF4YqOOJC1nZcLCTilZ5rYrgFnHJRMyUXT2xU8peWrRGA795OmGjmGwknkL+9XApbVYh4TAKgpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gUzLEjyY; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F4TlnSoE"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-46e30429b10so257305f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 05:29:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gUzLEjyY"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4624c1409c9so1823569f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 05:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782390568; x=1782995368; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1782390684; x=1782995484; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=g2ppjyVbJYZltIdw6y8sH5RPhtFeQnjhQZPkfszvAoQ=;
-        b=F4TlnSoEHiELmW4SFZQSUeQUmBjWOkPr1E3vMeeRTWSoBojq1cHUdWONJLNkV40hMe
-         X7Zuc9taUrYvFEcSzePKYS6GyvZMPdlbYm5srrE5V3BqWO+WwPqlqc8ydo/YIHHFJwNU
-         Ku1mBv8xEHsHlQo31bL37ekWRW3Rmi+vHcgKJIHO1YxeDzTGDD9N58eEKZ2fJpq2on6S
-         OipI4xMXQiZ+dMKoK1l3F4HVeyDnPVEcgiudAz/LiECAe416i/PFjLtiYlgcD9+EMYni
-         9M8oLeqT2ZcK6ngQ2Mk2CtWJ/X/p6VIsCgeLn0EGYZqWoWmhr1NtQX1TOp7loB2qKkLK
-         YFjA==
+        bh=b1vSJuU58s7WyIhPZgYamD1ZPuUhi34Xe2P8nm5CBMI=;
+        b=gUzLEjyYAcjnxVmA3Cfs5tMvMZb+nzUwzlBRrPBgpfBWOkcIKiQejRsbz5cmmkqEpT
+         LEj8SBO4zOo+Oy63AI3fFHQlhUVVcXMXS4WtynSDigDc79aA+ohJbtikHfTD+COp1+Ad
+         w201qJx3g80NyrvZ3NefeKCfqr4UE74OXZsG1Y8kTD275BL4Uie5EmHUcnoTa8eD+i4S
+         jfZRIUtkUM1lw6PVn1+gEuH/v1wmL3ti49PUqROoFz7F/WQSYtPgfbP+Ft2eRf73IJ8Y
+         ax5Rfz54S47tblNqoAvEhgtNfGEgTbLr9onpHgs7Wgo5OicQJKK2w91cepe5LAeblk0h
+         202w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782390568; x=1782995368;
+        d=1e100.net; s=20251104; t=1782390684; x=1782995484;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2ppjyVbJYZltIdw6y8sH5RPhtFeQnjhQZPkfszvAoQ=;
-        b=VbKh5J2KLRLjuDlaQqav6j2UQTcbtk+K++Hn2T8Oh57GWi9Ch33Q6e76zjDC+9heHa
-         1iFrI7BUY4jYcN1wQnXbu06duGH5x6ARdrsTgoxVBcCt3CMYQrBHDT6rgDtidBEUXd03
-         DOE+X5adVs0113KJANUZLSiSX4lS1hukLC4y7nErdDGxWGlMPPolFrNgOSHpnucpD440
-         whc+s8qfFdDbpVNGbWIKCPvaU9r252lQWtHOJ0oHKrpOcVvhaX3c9SWdjYax6lpPC2R1
-         DidPrkRTszBLO/funwTNXEy/EQrwGfg27ieAPZQYNeH2AtYOvjxs7XG8BgIkZEhgFyDZ
-         MeFA==
-X-Gm-Message-State: AOJu0Yyz3PG5SUvCHHibgkDKmrXlmvdo2js425SaC4LlPxF63GxtryB4
-	+wLdVhMOdHUfj8tQdBznd/9ZJQ0IGE13hoOa/5cPkb1rRwfOMtyBeb0VmTiexI9y9w==
-X-Gm-Gg: AfdE7cn0FxmLFIRZqQ6vx7v8jXLkGCfrhxrqogTx+ePbj2Zi3J62LdUnLbB8n9JAn14
-	Uu+RgEvJ+FrecXNN43E3qMKSnxogh/yEfupUKZvuk9xQrk1ipu+NkzRtoRYsBLFxjq0mbXI9Bmm
-	DU4+xdxNPqRZK58BpyGFyj1VXUWlgnEDh2ZXXXb2BiZKAulvnaqF4b7ZpwW4z2f2R/Ur+LNUZmM
-	1h8WbDAaAuRd0c9S5bwjOmTNvVRyktGP3phrRCb1ggZFFGxOHwSNFrQsFMSHTPwMQgPIxJ5o+Tw
-	y9A4EbgmWixG6GwExRetpxkmyV7eoGhooY8VPG5Kd1I8jhuNeiUhTEXaPcA9xGZKnFxl1V+Qodj
-	3Ab5kq95c+4rCFjKCL4Lv9pNTg9Jo5dgPr71cZdMRS5h6p7UwnXcnBgtibq0EWIca3TR3iLt9Uj
-	9FG+LftfBisz4K7PAXU2/UQKgJxB4Btv8RsO0K12TAPRA=
-X-Received: by 2002:a5d:5f88:0:b0:463:a7e3:9f71 with SMTP id ffacd0b85a97d-46dc0839c94mr3549517f8f.15.1782390567662;
-        Thu, 25 Jun 2026 05:29:27 -0700 (PDT)
+        bh=b1vSJuU58s7WyIhPZgYamD1ZPuUhi34Xe2P8nm5CBMI=;
+        b=p0b4kQbRjwyaLwDbpJ6M6/EY4mNUEstLtIiSV68Avqe3GRcBtxlfOYIH214kIo1KVZ
+         Y8bEFLHxyk/5hBkN7Ic/Q/O1U16YQ78dGfGgJ5n/R0Am3lWMCO22AubqRDEk9AyfpawR
+         fwLVlKBCj3QVGlQgR6Vk1Q0oxhNDUcuMppWWzi6TRSgouX6OuXxXvd9ecy24j1zsg3GR
+         DmDYcwwuH+VCw1Dprfq1MWWjLsgZ7jVBeZvmuo7THQLtbc70tBaXIOcAzoNgVHUgKp00
+         KTgSyMYmyUsxhNEWScOCVquw8LrkLh8UJv7aOo8j5uTRL2NaOdbx/SIcwztBYUiGIqT2
+         qMmQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqqUm0PvFu/OU7OpXkMN4PN1WisVEN2ugtngCK8rh2cplTv0jzpG79ohkh6GOLpaiSwGc4C/ZXTVYE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPNm6R9ypGNx+kbaGdHKRoJjv2Hl7g5B4JUdiFdrMHNJZlo2nv
+	YJzemzSfWRqdSO0pYJDi885iZWAWCrtJOJyi19/fb/aJNfYpdJpheOBu8Y3zkhR7MQ==
+X-Gm-Gg: AfdE7clEl0tr7Cfkl4fcwLY7XFDuPiKeyJs8AP9o5dVC9p7K5OISOKERUvUnXl3o70n
+	mUc1y7vaXHSvwEtWYHFvnQX5C0MTb1p3xcWqiDIV/+5wpV09ZIS3Qy+3aiVZX/z9P94umTqhVpe
+	WVNg8VaW9H6YDnwji+l0w8mqlMfKfw2cyGFEFFWuUHVMncPNRKHqrJLElOlRngwokiRQL+bHeBH
+	FQt5Di68V+WaJg37HcE2is/NBV0cnNm0IXuleGJBSiIWOHL9PxdcaEYST5xQvUDpfRuYR+raN0F
+	AlRfg53LjaHQ9z7rw59TLjC6Gtp7NThU4L1O+geD0w3TI7zmOKjj1DYHVxgWeSCs36XrQN4nroV
+	ROmwZnx+CoO21t7bgIGSpS+lEse27gmu6MLbGZtY+v3JwFeAHBKfQnkzi6kuenPj2iysncv3DNG
+	0Tqhx31pwFmxv9vlWdd0Mex9y9ukvpS4PWJOrTKk1aK4A=
+X-Received: by 2002:a05:6000:24c8:b0:468:f382:b7af with SMTP id ffacd0b85a97d-46dbbecf652mr3506082f8f.0.1782390683630;
+        Thu, 25 Jun 2026 05:31:23 -0700 (PDT)
 Received: from google.com ([2a00:79e0:288a:8:7a30:b9c4:b9c7:bc90])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c2279b734sm15607575f8f.30.2026.06.25.05.29.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1b754471sm15140848f8f.0.2026.06.25.05.31.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 05:29:27 -0700 (PDT)
-Date: Thu, 25 Jun 2026 14:29:21 +0200
+        Thu, 25 Jun 2026 05:31:22 -0700 (PDT)
+Date: Thu, 25 Jun 2026 14:31:17 +0200
 From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	Alejandro Colomar <alx.manpages@gmail.com>,
-	Alejandro Colomar <alx@kernel.org>
-Subject: Re: [PATCH] landlock: Documentation wording cleanups
-Message-ID: <aj0fIbva9iaTX_Yb@google.com>
-References: <20260516190112.4924-1-gnoack3000@gmail.com>
+To: Doehyun Baek <doehyunbaek@gmail.com>
+Cc: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: landlock: Document fs.resolve_unix audit
+ blocker
+Message-ID: <aj0fldJZ2dl0gas1@google.com>
+References: <20260625092819.1870049-1-doehyunbaek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,50 +80,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260516190112.4924-1-gnoack3000@gmail.com>
+In-Reply-To: <20260625092819.1870049-1-doehyunbaek@gmail.com>
 
-On Sat, May 16, 2026 at 09:01:12PM +0200, Günther Noack wrote:
-> Documentation cleanups suggested by Alejandro Colomar,
-> which we have also applied in the man pages.
+On Thu, Jun 25, 2026 at 09:28:19AM +0000, Doehyun Baek wrote:
+> The Landlock audit code can emit fs.resolve_unix as a filesystem blocker
+> for pathname UNIX socket resolution denials, but the admin guide's blockers
+> list did not mention it.
 > 
-> Link: https://lore.kernel.org/all/agW4yMK6CinJGqXt@devuan/
-> Suggested-by: Alejandro Colomar <alx@kernel.org>
-> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
+> Add the missing blocker name and ABI version to keep the audit
+> documentation in sync with the emitted records.
+> 
+> Fixes: ae97330d1bd6 ("landlock: Control pathname UNIX domain socket resolution by path")
+> Signed-off-by: Doehyun Baek <doehyunbaek@gmail.com>
 > ---
->  include/uapi/linux/landlock.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/LSM/landlock.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index 10a346e55e95..48c12ddf1108 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -255,16 +255,16 @@ struct landlock_net_port_attr {
->   *   :manpage:`connect(2)` as well as calls to :manpage:`sendmsg(2)` with an
->   *   explicit recipient address.
->   *
-> - *   This access right only applies to connections to UNIX server sockets which
-> + *   This access right applies only to connections to UNIX server sockets which
->   *   were created outside of the newly created Landlock domain (e.g. from within
->   *   a parent domain or from an unrestricted process).  Newly created UNIX
->   *   servers within the same Landlock domain continue to be accessible.  In this
->   *   regard, %LANDLOCK_ACCESS_FS_RESOLVE_UNIX has the same semantics as the
->   *   ``LANDLOCK_SCOPE_*`` flags.
->   *
-> - *   If a resolve attempt is denied, the operation returns an ``EACCES`` error,
-> - *   in line with other filesystem access rights (but different to denials for
-> - *   abstract UNIX domain sockets).
-> + *   If a resolution attempt is denied, the operation returns an ``EACCES``
-> + *   error, in line with other filesystem access rights (but different to
-> + *   denials for abstract UNIX domain sockets).
->   *
->   *   This access right is available since the ninth version of the Landlock ABI.
->   *
+> diff --git a/Documentation/admin-guide/LSM/landlock.rst b/Documentation/admin-guide/LSM/landlock.rst
+> index 314052bbeb0a..8eb85c9381ff 100644
+> --- a/Documentation/admin-guide/LSM/landlock.rst
+> +++ b/Documentation/admin-guide/LSM/landlock.rst
+> @@ -52,6 +52,7 @@ AUDIT_LANDLOCK_ACCESS
+>          - fs.refer (ABI 2+)
+>          - fs.truncate (ABI 3+)
+>          - fs.ioctl_dev (ABI 5+)
+> +        - fs.resolve_unix (ABI 9+)
+>  
+>      **net.*** - Network access rights (ABI 4+):
+>          - net.bind_tcp - TCP port binding was denied
+> 
+> base-commit: ab9de95c9cf952332ab79453b4b5d1bfca8e514f
 > -- 
-> 2.54.0
+> 2.43.0
 > 
 
-Friendly ping, Mickaël!
+Thanks, good catch!
 
-This is only a minor change, but keeps the man pages and kernel docs wording in line.
-
-—Günther
+Reviewed-by: Günther Noack <gnoack@google.com>
