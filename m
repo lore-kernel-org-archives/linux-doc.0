@@ -1,138 +1,210 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C694380FC7
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 07:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782372615; cv=none; b=bIh5hqewtDOlW2XponzcKNpPHCUF9ofEaJsMmkcmY4UektpTdoK0eBNCaDtZTfXEgUkQ8lYKIOQX95gJ9BIorFydu7oZZEmz6Kae3N0UUyUDcUqQxa1CCnPrOLoPJrLCUcqjte9chN8kC9lt58dqGj5GxZc2iv86MvXQV422Ecg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782372615; c=relaxed/simple;
-	bh=tcB1rds/uzzj4nfKHTALU46dqA5+55+NV76XtXupaQE=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QW5cBLt0xsZ0M1h1ZqP6ERWWdJRm5LLY1SIPvUyVi2ZMFIWgndI8wmixpyc5HzC/Uby/ZygoKaozpZjZtxenMBM7OL2L2O1WyBJx8d0SNfCy8WPldCGH09Uaar7jKpBEtbAICROP287kIvzojqcWNLyMeRyAXzp7OwEQ7QPWBuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DOGKFqeD; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F0C2FF65F
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 07:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782373290; cv=pass; b=lXI6fW2tnCVdE383Z3/qZ3vMNrrNFfJNKeyoyKT4aqwoHsgxMFdEDKCBEk6FNqbvnWldPdCUSTeqyIYeqQyiaY3ZTT6dw2IDtGGN0SbBdjM/cBIJdzWh6DDJjIGrknYTr+cbuee0A3krveLywU1vSBqytpbJMFtb38+AHNs8euc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782373290; c=relaxed/simple;
+	bh=Qvcbq0DaasBf8gUW2nSthq4nzSVZglaEH511+tU5N4k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LLTC4GHaYlsC98gs/Ux8ofXRYuOQnB+9+9lNqr381Y+NtKs1RA1yupkOIVhDC0vCYpDeK52OssNQ4TQLWGSRkJZsePq4N0L1N2M7hccp4rd8QjGCEuiIUzLy2YCkyPCrfGjrXhcheQ05EwsIBXfqT97JLUKxncHW5KzUTM9d6I0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NGr6iSYC; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DOGKFqeD"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4924593f45dso21890005e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 00:30:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NGr6iSYC"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5177d1ff061so143881cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 00:41:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782373288; cv=none;
+        d=google.com; s=arc-20260327;
+        b=axc3X/eZex7anndKrqtUWCm99fk6pCHD9k37XyFfAg/Zp1cbck6on5vxAjQx/nUVad
+         Su52ARViRgRC3P812pNpS7NU6pPFBCK4bUH1LD1PjLt7Y9c0kwRykTr6GHnflPq1HZkK
+         as7fgVv/KPDylkG4AAlQVK98ZHUwrwoLvadj2CNDCRfY2CePDGhJjpj5WZLZliN7LKpU
+         qoIMfA8sTo8jS0DFW063jq1gqoZ4KUgNCPc/jKyCez4U4B4wQcDs3G9kqD0r8hnW3yPF
+         4iPFGahLE6Hyi4QhFn8paKji+mq5x8h9fnEo8K+6JHbbp2xclclsRw87f4bAYKO2igep
+         oToQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IKDmrHuQqoBYlM3iNILSe07cr8MVKcj1ghLIbtUqfRQ=;
+        fh=QQ8eKPFZserAGQVeoALHho8azqfnyQ1v3fIm/J8C5Wg=;
+        b=cdPxnL2O2IOC1lMp/6yspfvucH6WrUAQUlV9agqlyhIJL6DEuVjidnuZIFIH+3FE/J
+         aKOtp8cBtXcm6TBBgDPRoVojgjeBna0+0Ehd/hiaGGzBeV3F5EtNjWMC8kxz2JVgqDqX
+         AqjIK5u9aj5q3eIDBz4PnEyN72iiuKZXYrX6qnf8lF8JTypufg8WJK/jawDiD1/Xs5mP
+         Ffk+fLgf4uf4Gjv9CIJ0jAaT04dFW7bK7J0cIq9yQv72TrrcmtdauDHqBaAgK2QOn+Nc
+         MdpgHf7GAYwgt2M4UxW8ctIxUjEHpNgDQGUhqQsVqwojhNc0+meLDV9Rup38jvEM8akf
+         S23Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782372612; x=1782977412; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTCS/VbEwbVfOVp9Z3suxyrpmFmcGl/hr2a+SPTASFs=;
-        b=DOGKFqeDZdfgryQh5cqzce+e/VkUFql6nuqLuUM/unH/FHWTJcf2ACw3pXk7U5CBUz
-         zCdtgrLUaryT/egHs4XPqBElXBSqoCDY5XTxxbP/6bdq9UpQuGjNyod72aqwP4I96IQ3
-         9HQOMSXWaSgeD2WsdMdVamZDvGfGZOcK8FL67sYstE/sSIODiKVA+knTnyjEVJzbcM2j
-         n/i2c7LYCO7vwWPCdAnGwSBgB/nJys+B2JLonNOvqPOGrhqdyoA6SOVEeb9W9ZGRO0b0
-         JPG8HBAN8lM/eolUPVEVza+zJI2S+2r14x+Ly0yCL6+Mg26M/aX7noaNTTWm1vwdnB6J
-         6naw==
+        d=google.com; s=20251104; t=1782373288; x=1782978088; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IKDmrHuQqoBYlM3iNILSe07cr8MVKcj1ghLIbtUqfRQ=;
+        b=NGr6iSYC+lcEY55yFPE7kO3jc2Pu8i1J6RoSMrYqEIbTdJ3CEbSVgVnCgzL/UKk2Do
+         fKTDTSt7T5e/oRhc644gpHbhhX4RBZfcfmf3ouTXUyq08gC30xPF3DrvuBx4GgZlXkuv
+         7t0fAHbGQKDulVnxOiV8qer1BHa2dLGvY6wGKnQlrRqH5r2mUyW/JDupPnDicElJzAWL
+         kLnihC/jAz0YOwy0MdTqu51lrA6KzSN8xPrDR2QzFz1qAqBaSqtoPh7EvAwJVwMnKq3O
+         TBg+2Jf+G2sJPEyRLK6wiFpYzCiTq4AmkpZhSTqpEw/0aTNbsA78Se5lFRCnqYrCYHJz
+         c8Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782372612; x=1782977412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PTCS/VbEwbVfOVp9Z3suxyrpmFmcGl/hr2a+SPTASFs=;
-        b=V8y4fvj8jKtR3W5zZvrkc8KrYP9Wtvpbjr8m5W2y8GRsaj3oAOtObFzHr8larameyP
-         9Oaybb7AH4R0MytgPHJfWO/6PujQ1pwx+uAdyCKmlMJ9j5ZOOO6+pl3LRRt9Q86PAX7/
-         fEd40q4MqhWJ3m8IskOoCm3GRJC0F4c6cOBD5Cm8VQLXrhJ+ciBRvOHFJ5AFToMijyjK
-         RAbCASNmRqjRNpXAVrM0g68kLjW1W/PJjuOGtSl+U9FQel8QPwk8B3KoTA/YnOAV2LII
-         S/yNZJvUXNXkKKZcW6eBLCoJdJCADqLAQT7TMv/XecBDpdpC28p1XLUsQMMlgJiOXr6o
-         bzXg==
-X-Forwarded-Encrypted: i=1; AFNElJ8QxAUrLCRwVaR9qyIhZwiec19e93+HGOkAiEM+UV8VLxA/ZZ2HB5oQbaX2LjsQ39Kq98DO+FK0SXU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGXq+ZxcOaAQ2I51/6dWfzlJUI1IDc8BK5gy2py6rXQKCmhgmU
-	fMQG707aUqEg3Zg/2UQs0opiV6Y0TGeG4Nwc9+U1D3LMquB+k1CS8RQ1
-X-Gm-Gg: AfdE7cmNErcCYnXCFtFNmQMdcDhLuT/JHVwyBvwyl07LOS+BHO4MYIvQsHo/st+fRkO
-	oHtxMHUYIynoUYN+ujHeH2Gm/xZ+EWDaT2qtAw0y9o3Z16X0l8V/ROEUkyOZHow4ebo3joEgb6Y
-	5uHjXif0liFLEj2HmSV2X6zhGl4bVhM1WA8YNjmVhoQbSls01pHEfXMmfMI5yOttfPsmNmmRNct
-	JwjTEYtW2f+DSiGc9gf83AXaomkpTeuA6TMoYgN+iFww+pVfPdDFGaTYDZ+ahXxQ2K+DqRmCo0w
-	mI96qUr3m1pcOM166/KqieKxxvoGZ1Q3HkBaZLXIuuQkT26/o+49NBPW+UFpDG67Xj0+XZV4sjW
-	YemLH+3wkhSrbKCuImvstbGm2OHyJi526SfUfr44syPpYsYAsEIIbN5jhSkxfDM1rlvbDYfm4HV
-	ZUY1NQv0hIyc5kgiyhDljIWCezRKaoNnPkRITd7KgNNNT7WPUyGDkJ4pF7dHf+I+B/5loz0oZFC
-	iWS5sSF24llI6nNvZ5ZFNzWzoTd
-X-Received: by 2002:a05:600c:4e94:b0:490:c2a2:b1d4 with SMTP id 5b1f17b1804b1-492668933e5mr14101565e9.35.1782372611740;
-        Thu, 25 Jun 2026 00:30:11 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492660e9f0esm32574495e9.9.2026.06.25.00.30.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 00:30:10 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Thu, 25 Jun 2026 08:30:07 +0100
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux@analog.com, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v16 04/14] lib: kstrtox: add initial value to
- _parse_integer_limit()
-Message-ID: <ssrckqgv3rqpfgxwpx4ca3m5m2mp3frxs6sd673chvsorhsjiq@63t3eosivg3a>
-References: <20260604-adf41513-iio-driver-v16-0-1a7d09143bc2@analog.com>
- <20260604-adf41513-iio-driver-v16-4-1a7d09143bc2@analog.com>
- <rvx36i2ydmwhbbkdgbvh26uqchyoptzuu7tleuyarqn2skzkxz@owzwp62mzkdo>
- <20260614210044.19dfc8df@jic23-huawei>
- <20260624155414.61755e9a@jic23-huawei>
+        d=1e100.net; s=20251104; t=1782373288; x=1782978088;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IKDmrHuQqoBYlM3iNILSe07cr8MVKcj1ghLIbtUqfRQ=;
+        b=WWlA+uikWOkslV4VA/4jDfl8TyBnWZ1jfMCB7lbbQp+C854Ik1mBQ2Zqrc0qXx56Op
+         dMD79TwBD9/D//QPoIQWCE+IeOKLdCh6s9paK7sqlAymvhEamnSyfzEUcPjaTEsOOZAg
+         Zl80V07ErcrUy7vmaAEX2Oxacgr2udecWoelfiOurIczPXz98u8NoRlAWEh+D9teaiWQ
+         /1ZoMyGif3mnhtByRN/V+LtvBVuMdMU+wSliyXKpDd3xq3nt9hFiyyMw6QEtMZz/EtuN
+         y0XWahMWfCwC+Qn35cPRwrsrQwuyUJHgq6ykzGIwcvs39rud6h1BNEIpeFMCPQKtjZnM
+         J7hQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8S+OMo6TdzH4hnSqS2Zo3CMLL12yTzCMJ0H4TQecpDKYADkEN68dsc2Juw0uJdB3wKfOk1/M35UGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCal9fTHtSy2Ud+gwsdfJBesZRUmBJ3Lm8j/XA0Y1yyA7LXPTx
+	uDpJDnAW5vlFlvSREgLuP3AJ02a0Jz/hd/4etvegs+r8oDk4KedKAaZAU0g0wsIILGRyicqg8H2
+	Xig4iupraMZR0avC2cwAtRWMPFZ7Wo8H+VCNSj52O
+X-Gm-Gg: AfdE7clto4Z2VrMlb0iz8GTIlmCGOgkEe+UggDxDd9uOBTcViavvI1/pIeaQpHeKOmh
+	r6PctFMq7Ym8/dJjr2hyfmXRff+anNpUkFhG6Eht07Z0O5rSJGygWrOix83e9XX8x2sJ7ytWpUw
+	tsnYRr7P3vRAo5+5YqHrhvs9gRnfvRtcCmWRt4qGfZNNBy8dnvHdhklRt/LOSBBE/qkAihUrooX
+	BnhsiRGJ+PEHW/hzAKhiuIQdD+aMqinquJ+bCpf3tPfw5lYlk0yqsnWbfIAUYVb5DLXjCycIw==
+X-Received: by 2002:a05:622a:120e:b0:519:56a8:2693 with SMTP id
+ d75a77b69052e-51a6ebae001mr6553451cf.24.1782373286970; Thu, 25 Jun 2026
+ 00:41:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624155414.61755e9a@jic23-huawei>
+References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-38-9d2959357853@google.com>
+In-Reply-To: <20260618-gmem-inplace-conversion-v8-38-9d2959357853@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 25 Jun 2026 08:40:00 +0100
+X-Gm-Features: AVVi8CdNvXe7DIQJSIUqqBW3OCX6JP2NJsxm61_dCUo-WV2w6fSxq-mU03dKtt8
+Message-ID: <CA+EHjTzEGxZQXPPsY5nynYf6ts+Jt3TBevgLpPVyHDqf4i7RGw@mail.gmail.com>
+Subject: Re: [PATCH v8 38/46] KVM: selftests: Add helpers to pin pages with CONFIG_GUP_TEST
+To: ackerleytng@google.com
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
+	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
+	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
+	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 24/06/26 15:54, Jonathan Cameron wrote:
-> On Sun, 14 Jun 2026 21:00:44 +0100
-> Jonathan Cameron <jic23@kernel.org> wrote:
-> 
-> > On Thu, 4 Jun 2026 11:09:33 +0100
-> > Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
-> > 
-> > > On 26/06/04 10:58AM, Rodrigo Alencar via B4 Relay wrote:  
-> > > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > > 
-> > > > Add init parameter to _parse_integer_limit() that defines an initial
-> > > > value for the accumulated result when parsing an 64-bit integer. The
-> > > > new function prototype is adjusted so that the _parse_integer() macros
-> > > > stay consistent allowing for one more argument, which defaults to 0.    
-> > > 
-> > > ...
-> > >   
-> > > >  noinline
-> > > >  unsigned int _parse_integer_limit(const char *s, unsigned int base, unsigned long long *p,
-> > > > -				  size_t max_chars)
-> > > > +				  size_t max_chars, unsigned long long init)
-> > > >  {
-> > > >  	unsigned long long res;
-> > > >  	unsigned int rv;
-> > > >  
-> > > > -	res = 0;
-> > > > +	res = init;    
-> > > 
-> > > This might generate conflict, as the code around have changed in linux-next.
-> > > It is an easy fix though.
-> > >   
-> > Thanks for the heads up. Hopefully that will all fall out when I rebase testing
-> > on rc1 once that is out.
-> I've done a mid merge cycle rebase as the char-misc branches have merged.
-> So this should be resolve on my testing branch now.
+On Fri, 19 Jun 2026 at 01:32, Ackerley Tng via B4 Relay
+<devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+> From: Ackerley Tng <ackerleytng@google.com>
+>
+> Add helper functions to allow KVM selftests to pin memory using
+> CONFIG_GUP_TEST. This is useful for testing scenarios where some page has
+> an increased refcount. such as in guest_memfd in-place conversion tests.
+>
+> The helpers open /sys/kernel/debug/gup_test and invoke the
+> PIN_LONGTERM_TEST_START and PIN_LONGTERM_TEST_STOP ioctls. Since this
+> functionality depends on the kernel being built with CONFIG_GUP_TEST,
+> provide stub implementations that trigger a test failure if the
+> configuration is missing.
+>
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 
-https://lore.kernel.org/oe-kbuild-all/202606250230.etPGuolf-lkp@intel.com/
+nit below, otherwise:
 
-Apparently, the documentation header now includes parameter descriptions.
-The new one is missing.
- 
--- 
-Kind regards,
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
-Rodrigo Alencar
+Cheers,
+/fuad
+
+> ---
+>  tools/testing/selftests/kvm/include/kvm_util.h |  3 +++
+>  tools/testing/selftests/kvm/lib/kvm_util.c     | 23 +++++++++++++++++++++++
+>  2 files changed, 26 insertions(+)
+>
+> diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing/selftests/kvm/include/kvm_util.h
+> index 323d06b5699ec..79ab64ac8b869 100644
+> --- a/tools/testing/selftests/kvm/include/kvm_util.h
+> +++ b/tools/testing/selftests/kvm/include/kvm_util.h
+> @@ -1195,6 +1195,9 @@ static inline int pin_self_to_any_cpu(void)
+>         return pin_task_to_any_cpu(pthread_self());
+>  }
+>
+> +void pin_pages(void *vaddr, uint64_t size);
+> +void unpin_pages(void);
+> +
+>  void kvm_print_vcpu_pinning_help(void);
+>  void kvm_parse_vcpu_pinning(const char *pcpus_string, u32 vcpu_to_pcpu[],
+>                             int nr_vcpus);
+> diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+> index b73817f7bc803..524ef97d634bf 100644
+> --- a/tools/testing/selftests/kvm/lib/kvm_util.c
+> +++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+> @@ -18,6 +18,8 @@
+>  #include <unistd.h>
+>  #include <linux/kernel.h>
+>
+> +#include "../../../../mm/gup_test.h"
+> +
+>  #define KVM_UTIL_MIN_PFN       2
+>
+>  u32 guest_random_seed;
+> @@ -639,6 +641,27 @@ int __pin_task_to_cpu(pthread_t task, int cpu)
+>         return pthread_setaffinity_np(task, sizeof(cpuset), &cpuset);
+>  }
+>
+> +static int gup_test_fd = -1;
+> +
+> +void pin_pages(void *vaddr, uint64_t size)
+> +{
+> +       const struct pin_longterm_test args = {
+> +               .addr = (uint64_t)vaddr,
+> +               .size = size,
+> +               .flags = PIN_LONGTERM_TEST_FLAG_USE_WRITE,
+> +       };
+> +
+> +       gup_test_fd = __open_path_or_exit("/sys/kernel/debug/gup_test", O_RDWR,
+> +                                         "Is CONFIG_GUP_TEST enabled?");
+
+nit: should you close this/reset it to -1 after the tests?
+
+> +
+> +       TEST_ASSERT_EQ(ioctl(gup_test_fd, PIN_LONGTERM_TEST_START, &args), 0);
+> +}
+> +
+> +void unpin_pages(void)
+> +{
+> +       TEST_ASSERT_EQ(ioctl(gup_test_fd, PIN_LONGTERM_TEST_STOP), 0);
+> +}
+> +
+>  static u32 parse_pcpu(const char *cpu_str, const cpu_set_t *allowed_mask)
+>  {
+>         u32 pcpu = atoi_non_negative("CPU number", cpu_str);
+>
+> --
+> 2.55.0.rc0.738.g0c8ab3ebcc-goog
+>
+>
