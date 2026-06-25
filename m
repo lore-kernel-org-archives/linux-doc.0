@@ -1,179 +1,203 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D413DA5CF
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 11:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127533DFC94;
+	Thu, 25 Jun 2026 12:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782387112; cv=none; b=b9uwTz4clLH6SWwIPuKYBlVegidDMN1IwxoQdh7cUOnEnLeaqGM7SohADGPlf2SfbjobfonVKUnDMYHlFgifSL/VEH9IGBKObGs8khunX12YV1yM0jl6Hu+GeUIakgHFEI+wc4kOqF3roAlWabIdFthcy6qXBObgRN3Gkve/KVQ=
+	t=1782388987; cv=none; b=gwqn7rtRpzv1t0vpB0vco2DW2aiLe2DwKVfLIC2j3tYefmj9MnlvoEocW5lAtRCLlhfZMVzJdsV65EGbyFwuOe8CCmFtvERe20hZ9rS3nWsu4APmz/DsfdNKGtbKrPxwvSVdoA3spBKeDTOBEbedbNfLt5rgLng1HRzpo+zItCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782387112; c=relaxed/simple;
-	bh=HRZK7bcBdh3G0SoIR6huU1RJZv7lplMi8PSHmslCqc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IL+OT+0BJ65rMuEny+XaoRnc9E3mO/eV10V8jTRgIHUzz9SgLX6Hk6KmTYBy8vQeVCpU008AToYWK2XtP/SfSyqujSvcBtEJ9dS7nqpEc/LHlXjZWsanr871ycKN+x1mT75spDNxQi4x5toDh2YUya7V9yaKB9ZDjc92ibuX6YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TdHbNMAY; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782388987; c=relaxed/simple;
+	bh=y6pnxycqnS6Yrnhzaa9OthbedQ16hQUMrGp6S/xslXU=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=QMk6YtrJPBry+BsHTR/PvHbHpPpxZcCogp8IXWPMmkdH1Pdxnhd+Pn+e9dPorlg+pg8JPjfC45Nj1iLiR22gcZA8Nezzp9U+TD1/NrPsCkcYPwr1lodRfFxNfP7DP9lhh2exlZU0ruezIckYrHFOWuikqh3c/p4JJOGAJVc4Shk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pDGoeaE1; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TdHbNMAY"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c890110acdaso829346a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 04:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782387111; x=1782991911; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ok1cwbmp8dJ1uoK/AXAMwxzmJvYss0SZo3EXCeeNnlE=;
-        b=TdHbNMAY4sSgqReBh+StspST9SKQuv3eIqSsXFP5BDEYo1ZpXybLT55BMtZM5i5SzG
-         VKaIcHofuQw42HeQZj5vqPnHhVcxh5a1G7dKVXERbElx2nvXqM3Ccx2U4UA48drUG/jq
-         dqURrdMkhhNBAyx2xgN9zgUSXY9mQfHVZiW26S55U2bEjlgPLIpudhQjFRol0l5IUpWp
-         JzUNkSoRqBawOIV9POu1yxb6RaV8xH0y0jdWdNXs0ITZF/SnXV4zDfhLn+GDNLdRZo6w
-         q1vXXSnKEOmA79LVSbhIDb+pjeciV2rLYh8pULUyhfM5P220zFIxICrl+uPXspwNQ0N2
-         XFew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782387111; x=1782991911;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ok1cwbmp8dJ1uoK/AXAMwxzmJvYss0SZo3EXCeeNnlE=;
-        b=qsYHYM2bwYBtonPGljisi5w9DJpZeoS9y5i+FgfDiSubAHU8aZjOmNeTB/+tu1UlVu
-         t1OCNjw5ojbOJW822TFAvACh5B96xxGdqvOkuTQRgMEzsF0G41QJVZJtYeKt1+iFGabi
-         cd30odeh4Ftgq1VcWWXSi+lAgEQeTkRY1Sc5PHgUiGKMS1bES8npB17LEhaW/UId1T92
-         zaF8D507a2MlwvqL4HFriyE4b5Nf4iKHi4ponO76ash1Nq74edWuM+m4uQo4b+yV6wp7
-         jAQWC1AtJ2Hbss1C0vZWxscXsqFxnd4FYk1PjB8Wb9DiB1VOa2iHyi6NiZmGl5KCCoYd
-         O8pg==
-X-Forwarded-Encrypted: i=1; AFNElJ8ZGJvmbLNoIlDat9U7UOXV8VoiOOUlxz5MwK0RbAxAyPj2IYGXQve3GpBexV5uv9Q15gWe+wPanfk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbqHet4eRme/A+dFi9GHZdUKLxS14YlnuomQpHwe8XZNVRBIQ8
-	Oh2LQ7SKYKoZCMP4l0gDBHzr0SdcDjbCe7oPQCXd/t9+FoFRg9Ay4J6x
-X-Gm-Gg: AfdE7cm7LS+3elF+ytujiBVRRfvSqQLapSu78fKMz6/mm+vHVNrXWdkBbYOe7PYouec
-	a9XqbE/R+9P9iN2WhV0RyNXes4WcH93nFQiXxa1v/NKaZ1HgY1t6+5GkbgeaWl4Hxv03+KQqiue
-	oRHssMeR4bT23vLMO5qTCgbMAYwIjfDNRgVOKr6QsEWD2YPFNj2glWGKizFsDvQfFcjph2CTNkJ
-	sB4wGnUnmEfexOfDZrNgJEYLqOaJR/xEqUQlsForSJcUtw2QdJ0NPnpJHLSP3qfc+Icd/WU4Oit
-	Zzf4mAtKb9d1u1WtgpbDGvuG3Sv7gsihPHueSRqsUrshi/gaN1mstCPNDrYRo2CqFyoIi2xIdvp
-	K1uBF0zzP3zWRXV2ckQD7gvbMsrkbblVPtZwKoZ4S+pSlMs4DreQLb89RtXDaZXxntOZ3ZoS8Ju
-	qNuZoQ1H2tz1Vp6bJqRauZkl00ZAiBKNGK
-X-Received: by 2002:a05:6a21:9d45:b0:3a2:f7bd:a9a5 with SMTP id adf61e73a8af0-3bd4afbcefcmr2587154637.38.1782387110797;
-        Thu, 25 Jun 2026 04:31:50 -0700 (PDT)
-Received: from [10.125.192.89] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c92bd26a52esm1482636a12.29.2026.06.25.04.31.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 04:31:50 -0700 (PDT)
-Message-ID: <1358cfd4-7d3f-1238-e4a8-b2301dc16702@gmail.com>
-Date: Thu, 25 Jun 2026 19:31:40 +0800
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pDGoeaE1"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=a4j6eh/6cDVnwatb6KUay56xQddDfixH7xVv0MM7dHQ=;
+	b=pDGoeaE1orqaJuUJF3YlL+Vnw287fopT68i+dG6xsA9o5W7Z/5+UeuoCGW+WptLLR4UURY6IL
+	xZNK5JwLo+OpKLANAFYGC9as9LVvkWPIpklDpvXfHHJo2ajLvwl+LTek1d3/1AFfaQBZZchBLx7
+	820A4Szmx7RopIm47ARiuvw=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4gmHJP1w0Cz1prnF;
+	Thu, 25 Jun 2026 19:53:41 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 47D4B40537;
+	Thu, 25 Jun 2026 20:02:49 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 25 Jun 2026 20:02:49 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 25 Jun 2026 20:02:47 +0800
+Subject: Re: [PATCH v9 2/6] mm/memory-failure: surface unhandlable kernel
+ pages as -ENOTRECOVERABLE
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
+ Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+	<lance.yang@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>
+References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
+ <20260609-ecc_panic-v9-2-432a74002e74@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <ce2757e8-cb90-bf97-866a-b0a094411235@huawei.com>
+Date: Thu, 25 Jun 2026 20:02:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH v4 1/5] mm/zswap: Extend shrink_memcg() writeback
- capability
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: akpm@linux-foundation.org, tj@kernel.org, hannes@cmpxchg.org,
- shakeel.butt@linux.dev, mhocko@kernel.org, mkoutny@suse.com,
- nphamcs@gmail.com, chengming.zhou@linux.dev, muchun.song@linux.dev,
- roman.gushchin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Hao Jia <jiahao1@lixiang.com>
-References: <20260618044857.69439-1-jiahao.kernel@gmail.com>
- <20260618044857.69439-2-jiahao.kernel@gmail.com>
- <ajnB8IZrFZwbIr9P@google.com>
- <d0f05c35-457a-4b2c-6faa-7a83d4bdec01@gmail.com>
- <CAO9r8zMgaqP=n6rmhnMU+qhp1Www1Y5kdbLTLX1v=fj_ybHyiw@mail.gmail.com>
- <057ea303-4c27-1a6e-08de-cce26c699097@gmail.com>
- <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <CAO9r8zMmnYkXocZ9Fb9DL_rdAHt5xtT_FLMxJD1bHcM3B4wTFw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20260609-ecc_panic-v9-2-432a74002e74@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-
-
-On 2026/6/25 00:57, Yosry Ahmed wrote:
->>
->> /*
->>    * Scan up to @nr_to_scan pages across the per-node zswap LRUs of @memcg
->>    * and write back the reclaimable ones.
->>    *
->>    * Since the second-chance algorithm rotates referenced entries to the
->>    * LRU tail, the per-node scan is capped at the current LRU length so
->>    * each entry is scanned at most once per call. It is up to the caller
->>    * to handle retries, deciding whether to scan the next memcg to complete
+On 2026/6/9 18:56, Breno Leitao wrote:
+> get_any_page() collapses every HWPoisonHandlable() rejection into a
+> single -EIO via the __get_hwpoison_page() -> -EBUSY -> shake_page()
+> -> retry path.  That is correct for the transient case (a userspace
+> folio briefly off LRU during migration or compaction, which a later
+> shake can drag back), but wrong for stable kernel-owned pages: slab,
+> page-table, large-kmalloc and PG_reserved pages will never become
+> HWPoisonHandlable(), so the retry loop is wasted work and the final
+> -EIO loses the "this is structurally unrecoverable" information.
+> memory_failure() then maps -EIO into MF_MSG_GET_HWPOISON, which the
+> panic-on-unrecoverable sysctl deliberately does not act on.
 > 
-> Nit: "whether to scan another memcg to complete.."
-
-Will fix in the next version.
-
+> Introduce HWPoisonKernelOwned(), a small predicate that positively
+> identifies pages the hwpoison handler cannot recover from:
 > 
->>    * the full iteration, or to rescan the current memcg to drain its zswap
->>    * entries.
->>    *
->>    * Return: The number of compressed bytes written back (>= 0), or -ENOENT
->>    * if @memcg has writeback disabled, is a zombie cgroup, or has empty
->>    * zswap LRUs.
->>    */
->> static long shrink_memcg(struct mem_cgroup *memcg, unsigned long nr_to_scan)
->> {
->>       struct zswap_shrink_walk_arg walk_arg = {
->>           .bytes_written = 0,
->>           .encountered_page_in_swapcache = false,
->>       };
->>       unsigned long nr_remaining = nr_to_scan;
->>       int nid;
->>
->>       if (!mem_cgroup_zswap_writeback_enabled(memcg))
->>           return -ENOENT;
->>
->>       /*
->>        * Skip zombies because their LRUs are reparented and we would be
->>        * reclaiming from the parent instead of the dead memcg.
->>        */
->>       if (memcg && !mem_cgroup_online(memcg))
->>           return -ENOENT;
->>
->>       for_each_node_state(nid, N_NORMAL_MEMORY) {
->>           unsigned long nr_to_walk;
->>
->>           /*
->>            * Cap the walk at the current LRU length to ensure each entry is
->>            * scanned at most once per call. Referenced entries are rotated
->>            * to the tail for a second chance, and this bound prevents them
->>            * from being revisited within a single call. Retries are left to
->>            * the caller, which can choose to rescan the current memcg or
->>            * move on to the next one.
->>            */
+>   HWPoisonKernelOwned(p, flags) :=
+>       !(MF_SOFT_OFFLINE && page_has_movable_ops(p)) &&
+>       (PageReserved(p) ||
+>        PageSlab(head) || PageTable(head) || PageLargeKmalloc(head))
 > 
-> Nit: Make this more concise since it's already explained above.
+>   where head = compound_head(p).
 > 
-
-Will fix in the next version. Thanks a lot for the review!
-
-Thanks,
-Hao
-
-> Otherwise this looks good to me, thank you!
+> PG_reserved is a per-page flag (PF_NO_COMPOUND) and is tested on the
+> page directly.  The slab, page-table and large-kmalloc page-type bits
+> are only stored on the head page, so those tests resolve the compound
+> head first, then re-read compound_head(page) afterwards: a concurrent
+> split or compound free that moves head invalidates the just-read flags
+> and the loop retries.  The lookup still takes no refcount, mirroring
+> the rest of get_any_page(); the recheck closes the common split race,
+> and a residual free->alloc->free in the same window can only mis-tag
+> a genuinely poisoned page, never reclassify a handlable one.
 > 
->>           nr_to_walk = min(nr_remaining,
->>                    list_lru_count_one(&zswap_list_lru, nid, memcg));
->>           if (!nr_to_walk)
->>               continue;
->>
->>           nr_remaining -= nr_to_walk;
->>           list_lru_walk_one(&zswap_list_lru, nid, memcg, &shrink_memcg_cb,
->>                     &walk_arg, &nr_to_walk);
->>           /* Return the unused share of the budget to the pool. */
->>           nr_remaining += nr_to_walk;
->>
->>           if (!nr_remaining)
->>               break;
->>       }
->>
->>       /* Nothing was scanned: every LRU under @memcg was empty. */
->>       if (nr_remaining == nr_to_scan)
->>           return -ENOENT;
->>
->>       return walk_arg.bytes_written;
->> }
->>
+> The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors the
+> same exception in HWPoisonHandlable(): soft-offline is allowed to
+> migrate movable_ops pages even though they are not on the LRU, and
+> we must not pre-empt that with an unrecoverable verdict.
+> 
+> The list is intentionally not exhaustive.  vmalloc and kernel-stack
+> pages, for example, do not carry a page_type bit and would need a
+> different oracle; they keep going through the existing retry path
+> unchanged.  This is the smallest set we can identify with certainty
+> by page type.
+> 
+> Wire the helper into the top of get_any_page() to short-circuit
+> those pages before the retry loop runs.  On a hit, drop the caller's
+> MF_COUNT_INCREASED reference (if any) and return -ENOTRECOVERABLE
+> straight away.  Pages outside the helper's positive list still take
+> the existing retry path and return -EIO, leaving operator-visible
+> behaviour for those cases unchanged.
+> 
+> Extend the unhandlable-page pr_err() to fire for either errno and
+> update the get_hwpoison_page() kerneldoc to document the new return.
+> 
+> memory_failure() still folds every negative return into
+> MF_MSG_GET_HWPOISON via its existing "else if (res < 0)" branch, so
+> this patch on its own only changes the errno that soft_offline_page()
+> can propagate to its callers.  A follow-up wires -ENOTRECOVERABLE
+> through memory_failure() and reports MF_MSG_KERNEL for the
+> unrecoverable cases, which is what the
+> panic_on_unrecoverable_memory_failure sysctl observes.
+> 
+> Suggested-by: David Hildenbrand <david@kernel.org>
+> Suggested-by: Lance Yang <lance.yang@linux.dev>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  mm/memory-failure.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 58 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index f4d3e6e20e13..eed9de387694 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -1325,6 +1325,46 @@ static inline bool HWPoisonHandlable(struct page *page, unsigned long flags)
+>  	return PageLRU(page) || is_free_buddy_page(page);
+>  }
+>  
+> +/*
+> + * Positive identification of pages the hwpoison handler cannot recover.
+> + * These page types are owned by kernel internals (no userspace mapping
+> + * to unmap, no file mapping to invalidate, no migration target), so the
+> + * shake_page() / retry loop in get_any_page() can never turn them into
+> + * something HWPoisonHandlable() will accept.  Short-circuit them to
+> + * -ENOTRECOVERABLE so callers can panic on operator request instead of
+> + * spinning through retries that exit as a transient-looking -EIO.
+> + *
+> + * The MF_SOFT_OFFLINE / page_has_movable_ops() opt-out mirrors
+> + * HWPoisonHandlable(): soft-offline is allowed to migrate movable_ops
+> + * pages even though they are not on the LRU.
+> + */
+> +static inline bool HWPoisonKernelOwned(struct page *page, unsigned long flags)
+> +{
+> +	struct page *head;
+> +
+> +	if ((flags & MF_SOFT_OFFLINE) && page_has_movable_ops(page))
+> +		return false;
+> +
+> +	/* PG_reserved is a per-page flag, never set on a compound page. */
+> +	if (PageReserved(page))
+> +		return true;
+> +
+> +	/*
+> +	 * Page-type bits live only on the head page, so resolve any tail
+> +	 * first.  The check takes no refcount; recheck the head afterwards
+> +	 * so a concurrent split or compound free cannot leave us trusting
+> +	 * a stale view.  A free->alloc->free in the same window is still
+> +	 * possible but closing it would require taking a reference here.
+> +	 */
+> +retry:
+> +	head = compound_head(page);
+> +	if (!(PageSlab(head) || PageTable(head) || PageLargeKmalloc(head)))
+> +		return false;
+> +	if (head != compound_head(page))
+> +		goto retry;
+
+Looks good to me with one comment: should we write above as something like below:
+
+	bool kernel_owned;
+retry:
+	head = compound_head(page);
+	kernel_owned = PageSlab(head) || PageTable(head) || PageLargeKmalloc(head);
+	if (head != compound_head(page))
+		goto retry;
+
+I.e. we should always check whether compound_head has changed, regardless of whether
+the page is owned by the kernel, so we can obtain a relatively stable result?
+
+Thanks.
+.
 
