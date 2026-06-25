@@ -1,201 +1,158 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62FA3E51CB
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 16:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5B13E7BA6;
+	Thu, 25 Jun 2026 16:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782403518; cv=none; b=K0oL85UCsfkSU7Nux+2nR3DL7fCC11ofpw9LFtW46McKPGLMsmnwJ68dtIux3+INd85+6BERjNyigY4fqCdHesIvETcVNnOOGQ+bWf95ulg+YcpoQRvI/CvpTigvAJBiLnMZEJI0O0e50Igaj9z2w4SlznCKJ5n8zJt48edHr7o=
+	t=1782403955; cv=none; b=mJ/zBE81WC7hOmIfN3mWymhbY0MkbmOKNrqSKytvC592EW68Ey2DniUYAWkulayd5hdtjylx4Hjv9NLfjKeGmmOzb3P91fzkWPFx09AfeUHq0KJPHJGaERVQ3OYXBGlYohjkifl8g/WV4w9vWw1euG2TkfD0EnOxa9oCWBx5y4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782403518; c=relaxed/simple;
-	bh=P3Fmu2M7yicfX8YegW+8uTR/Xoo2VqnCcOOBa6qBxYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kMVU9vyzI2+yhZuhOOaYoWriEo4OiVoh4F2DEYpDiz307xAarrQZuKU117oMyljRhaA8sVJ/+p19cWJJ5vq00PfOb845PrShwik/CsyFRUCRCTk7VGMFmRR9kd70Va2uKQ+rH2aLewyGT4Nlm4vD7IntwFFhDHO7o8lUhG+CBBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qDOZDhT2; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782403955; c=relaxed/simple;
+	bh=nuEQl8tmi4PUjefQwgETQMtKZH+Awnmm7DZAsMlhLuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4JW/OmYDpAoAT8XWsM2ZeWizZj1+7G+GJ3IfPC5mGJ962OFYv3LDB1V3z5uVM0R0fAyjSR30DQZ1kLc+MhQWH8CP9Rt2mqJ/fWKR7vo5fO0ho4rDj2Spg8yOVWHKQHxvBG3KSMmHkohp+nKzYsdFQp17MxwSeLcE9T5AfE8eHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=wPPmattY; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qDOZDhT2"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b3637b90so137515e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 09:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782403513; x=1783008313; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWN54lw7/VCj9KUx153JrqSzq8vKsCI/ogPA08qnUmE=;
-        b=qDOZDhT2z7s2cP2F/Ki17zjN8ywlqzv7zqql5VMvdG8Huf+9syzT1zLhMyqGk+3+fN
-         UeBNpalNlkiR4O47kcjxdYmssT5kpuD+owGX4mRjhOsoiXqt7c3PfGpxgojJHTXcVvkH
-         rd6/STA45x/gcN9bsUYze9tI7+eTlqC7CgPZshxIdh2Fcow0DfsPaqDQdgaaN3oUSh7f
-         /VoomYd/VLbOom65KYn9YgHmWga4DQNohX/Bci4TLi0oV8l/qWyia6PHA+5NbKY/Lo6X
-         5AScUahZpoV3bxoU88rGp+LI4Mrtj3OoYnF+a8bqPlZy/zF/7x9G7qg7NZwFkguYDpBJ
-         5HkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782403513; x=1783008313;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JWN54lw7/VCj9KUx153JrqSzq8vKsCI/ogPA08qnUmE=;
-        b=CJiurUgh+2yGAXftITBr8gpmJFPJXuLX4u6oH/V08Nt7YgB3sAtUQBbhZc7ZOtOXuI
-         LgCA0NNe3cM12Fm6zKSqetHHyrtZ1uoShS2ruzOA8LcV4QvlzhgFPSRhshxo2ILvQajS
-         4UJbx6Rk9BJKfR6uKDJceKl37lRgeJGofDPeUbzo6OAOjOoVzPwN9bkf3cOtF9NtQdav
-         boWL2fuIe5EfuwKM4wDsfc2Zt1UXFaFVeGqA5KDtWNcGlfrINXUppvhGSagSEXQfyc5Y
-         Y3OLvsrZ5mxLhL1MqNLiABlAlFsDK2GEuTYvmQQ+YVqBD6jjS+nMHJkyVNV23CkuXbTL
-         x8Fg==
-X-Forwarded-Encrypted: i=1; AFNElJ8UbQKMpnrx7b7lO0TGE1/xFdXTi3V7gLfGYB9NqcX8gHcViwn/7VqjtSsyGRhkxATii2lsTbBu5Z8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI6/9y64lK2kFBmn0wBZNT4ky1eliydDCUEb48CduuI9PsK5QX
-	xSZauevKFn6pq278R9wehJPDvO/vaeJg6KFV9hUZk/fNBDKBJG19kUFL
-X-Gm-Gg: AfdE7clH1nx1kuV5DloeckP06C6qYZkMDApvHdwc50gztqwqdQfnk0eJ7Oxi7mFraNh
-	IcLJ3A11Dq99ESTZsrHd5nos8HyKHPW2W4aEWUakfepXaiakiafn4XmRr7J5J9G5m4oyMo30Sd+
-	+J6MuvBun2FElCojf6nt57oSAQdExYiOpGHT2xOzc6j2cIvePIhUbAWU/wW9fO/5ESUFEuqWxo+
-	BW8oFqCRSOzO+NasOHDXtZ8Z3DdTphzMzafEFQ4GzgB5jfkRk+a3eRVHtEMim+y07ZOO39ero8i
-	c5wjn33ShN1ujUqXQYIALOh1Ut4+NWpsqB/fbW8jFJaaArSqQAU/WlyOa8VP859BibAfb/PUzVM
-	3O4QpEPZcbkfeS8BSO4huQamcjutaUx1g0F2unSqQdzhdlUgpIrnREg7/yZU+8DSiTNQn4sEwlZ
-	sabggoc4WkterH3YQmqnNFJJJrywoN3fygozH+3n3dbii4NTmFgl8G28fRU6Nu8w==
-X-Received: by 2002:a05:600c:6b70:b0:490:b06a:649e with SMTP id 5b1f17b1804b1-49266893253mr29913545e9.25.1782403512695;
-        Thu, 25 Jun 2026 09:05:12 -0700 (PDT)
-Received: from flaviu-Aspire-E5-572G.. ([5.15.86.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926543be74sm52220975e9.1.2026.06.25.09.05.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 09:05:12 -0700 (PDT)
-From: Flaviu Nistor <flaviu.nistor@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="wPPmattY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=SjSnpDcd/nnOyv3A51l5TDSAZxIAPfoeJIYXW95Ak+g=; b=wPPmattY9V9C7LKAFqV+sEQJTv
+	1hN2Un6obtE1QG8nfATQkbhpbNtZ5BWRfdLF1Yr+nGGQSC+xkVqNt5/HaJBGqEVycgxD71a8VrWv7
+	tD+/0xcNutB0wwxZOaLmm09N9BlJNH/Ah19tSghjjSkWkfcugVlJJr6WPThNTKlUNL18=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wcmgf-009GEq-Sr; Thu, 25 Jun 2026 18:12:21 +0200
+Date: Thu, 25 Jun 2026 18:12:21 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Flaviu Nistor <flaviu.nistor@gmail.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] hwmon: (chipcap2) Add support for label
-Date: Thu, 25 Jun 2026 19:04:23 +0300
-Message-ID: <20260625160423.17882-2-flaviu.nistor@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260625160423.17882-1-flaviu.nistor@gmail.com>
-References: <20260625160423.17882-1-flaviu.nistor@gmail.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+Message-ID: <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+ <20260526172447.10ca4b9e@kernel.org>
+ <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+ <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
 
-Add support for label sysfs attribute similar to other hwmon devices.
-This is particularly useful for systems with multiple sensors on the
-same board, where identifying individual sensors is much easier since
-labels can be defined via device tree.
+> This isn't sphynx, but I've come-up with something like this for a
+> test definition :
+> 
+> 
+> @ksft_ethtool_needs_supported_anyof([Pause, Asym_Pause])
+> def test_ethtool_pause_advertising(cfg, peer) -> None:
+>     """Pause advertisement
+> 
+>     Validate that changing pause params through the ETHTOOL_MSG_PAUSE command
+>     translates to a change in the advertised pause params, and that these
+>     parameters are correct w.r.t the supported pause params and requested pause
+>     params.
+>     
+>     This exercises the .set_pauseparams() ethtool ops for MAC configuration,
+>     as well as the reconfiguration of the PHY's advertising and negociation.
+>     
+>     On non-phylink MACs, the MAC should call phy_set_sym_pause() to update the
+>     PHY's advertising, and restart a negotiation with phy_start_aneg() if
+>     need be. Failure to do so will result on the wrong advertising parameters.
+>     
+>     Pn phylink-enabled MACs, phylink deals with the PHY reconfiguration provided
 
-Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
----
-Changes in v2:
-- No change for this patch in the patch series. 
-- Link to v1: https://lore.kernel.org/all/20260622122200.14245-1-flaviu.nistor@gmail.com/
+On 
 
- Documentation/hwmon/chipcap2.rst |  2 ++
- drivers/hwmon/chipcap2.c         | 25 +++++++++++++++++++++++--
- 2 files changed, 25 insertions(+), 2 deletions(-)
+>     the MAC driver calls phylink_ethtool_set_pauseparam().
+>     
+>     Failing this test likely means that the PHY driver is not correctly advertising
+>     pause settings, either due to the MAC not triggering a PHY reconfiguration,
+>     a misconficonfiguration of the advertising registers by the PHY, or by
+>     mis-handling the phydev->advertising bitfield in the PHY driver directly.
+>     
+>     The validation is made by looking at the advertised modes locally, as well as
+>     what the peer's 'lp_advertising' values report.
+> 
+>     cfg -- local device's interface configuration
+>     peer -- peer device handle
 
-diff --git a/Documentation/hwmon/chipcap2.rst b/Documentation/hwmon/chipcap2.rst
-index dc165becc64c..c38d87b91b69 100644
---- a/Documentation/hwmon/chipcap2.rst
-+++ b/Documentation/hwmon/chipcap2.rst
-@@ -70,4 +70,6 @@ humidity1_min_hyst:             RW      humidity low hystersis
- humidity1_max_hyst:             RW      humidity high hystersis
- humidity1_min_alarm:            RO      humidity low alarm indicator
- humidity1_max_alarm:            RO      humidity high alarm indicator
-+humidity1_label:                RO      descriptive name for the sensor
-+temp1_label:                    RO      descriptive name for the sensor
- =============================== ======= ========================================
-diff --git a/drivers/hwmon/chipcap2.c b/drivers/hwmon/chipcap2.c
-index 4aecf463180f..086571d556b7 100644
---- a/drivers/hwmon/chipcap2.c
-+++ b/drivers/hwmon/chipcap2.c
-@@ -22,6 +22,8 @@
- #include <linux/irq.h>
- #include <linux/module.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
- 
- #define CC2_START_CM			0xA0
- #define CC2_START_NOM			0x80
-@@ -83,6 +85,7 @@ struct cc2_data {
- 	struct i2c_client *client;
- 	struct regulator *regulator;
- 	const char *name;
-+	const char *label;
- 	int irq_ready;
- 	int irq_low;
- 	int irq_high;
-@@ -449,6 +452,8 @@ static umode_t cc2_is_visible(const void *data, enum hwmon_sensor_types type,
- 		switch (attr) {
- 		case hwmon_humidity_input:
- 			return 0444;
-+		case hwmon_humidity_label:
-+			return cc2->label ? 0444 : 0;
- 		case hwmon_humidity_min_alarm:
- 			return cc2->rh_alarm.low_alarm_visible ? 0444 : 0;
- 		case hwmon_humidity_max_alarm:
-@@ -466,6 +471,8 @@ static umode_t cc2_is_visible(const void *data, enum hwmon_sensor_types type,
- 		switch (attr) {
- 		case hwmon_temp_input:
- 			return 0444;
-+		case hwmon_temp_label:
-+			return cc2->label ? 0444 : 0;
- 		default:
- 			return 0;
- 		}
-@@ -552,6 +559,16 @@ static int cc2_humidity_max_alarm_status(struct cc2_data *data, long *val)
- 	return 0;
- }
- 
-+static int cc2_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, const char **str)
-+{
-+	struct cc2_data *data = dev_get_drvdata(dev);
-+
-+	*str = data->label;
-+
-+	return 0;
-+}
-+
- static int cc2_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
- 		    int channel, long *val)
- {
-@@ -670,8 +687,9 @@ static int cc2_request_alarm_irqs(struct cc2_data *data, struct device *dev)
- }
- 
- static const struct hwmon_channel_info *cc2_info[] = {
--	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
--	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT | HWMON_H_MIN | HWMON_H_MAX |
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_LABEL),
-+	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT | HWMON_H_LABEL |
-+			   HWMON_H_MIN | HWMON_H_MAX |
- 			   HWMON_H_MIN_HYST | HWMON_H_MAX_HYST |
- 			   HWMON_H_MIN_ALARM | HWMON_H_MAX_ALARM),
- 	NULL
-@@ -680,6 +698,7 @@ static const struct hwmon_channel_info *cc2_info[] = {
- static const struct hwmon_ops cc2_hwmon_ops = {
- 	.is_visible = cc2_is_visible,
- 	.read = cc2_read,
-+	.read_string = cc2_read_string,
- 	.write = cc2_write,
- };
- 
-@@ -710,6 +729,8 @@ static int cc2_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, PTR_ERR(data->regulator),
- 				     "Failed to get regulator\n");
- 
-+	device_property_read_string(dev, "label", &data->label);
-+
- 	ret = cc2_request_ready_irq(data, dev);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to request ready irq\n");
--- 
-2.34.1
+Plain Sphinx can be made to pick up this method documentation and
+include it the generated documentation. You would use something like
 
+.. automethod:: test_ethtool_pause_advertising
+
+in the .rst file.
+
+I've no idea if the kernel configuration of sphinx allows this. At the
+moment, i would not spend too much time on getting sphinx to generate
+documentation. I would say that is nice to have. The description
+itself is more important.
+
+>     """
+> 
+>     # Initial conditions :
+>     # - Local interface is admin UP, and reports lowlayer link UP
+>     # - Remote interface is adming UP, and reports lowlayer link UP
+>     #
+>     # Test 1
+>     # - SKIP if supported doesn't contain "Pause"
+>     # - run 'ethtool -A ethX rx on tx on autoneg on'
+>     # - FAIL if the return isn't 0
+>     # - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
+>     #   "Pause" or contains "Asym_Pause"
+>     # - FAIL if peer's lp_advertising doesn't contain "Pause" or contains
+>     #   "Asym_Pause"
+>     # - Succeed otherwise
+>     #
+>     # Test 2
+>     # - SKIP uif supported doesn't contain both "Pause" and "Asym_Pause"
+>     # - run 'ethtool -A ethX rx on tx on autoneg on'
+>     # - FAIL if the return isn't 0
+>     # - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
+>     #   "Pause" or contains "Asym_Pause"
+>     # - FAIL if peer's lp_advertising doesn't contain "Pause" or contains
+>     #   "Asym_Pause"
+>     #
+>     # ...
+>    
+> The annotation defines the pre-requisites in terms of locally supported
+> linkmodes, we have a docstring containing information for developpers
+> to debug their drivers, what I'm unsure about is the commented-out part
+> below, so either one big function testing multiple adjacent scenarios
+> or indivitual functions.
+
+Sphinx follows pythons object orientate structure. So you could have a
+class test_ethtool_pause_advertising, with class documentation. And
+then methods within the class which are individual tests.  The
+commented out section would then be method documentation.
+
+However, i've no idea if the selftest code allows for classes of test
+methods? It looks like ksft_run() takes a list of methods. So you can
+probably instantiate the class, and then pass it methods from the
+class?
+
+I would say you are right about picking one of the simple test case,
+and playing with it, define and implement it, and see what comes out
+at the end. 
+
+	Andrew
