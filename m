@@ -1,309 +1,127 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54C52F690F
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 23:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BE13B7AE;
+	Thu, 25 Jun 2026 23:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782428974; cv=none; b=MiTgaqUsc4B4ODkGR1cHTvbWfChKeLbpmEDynvNrIYu7+bEKXbCCxpiISzWvOqGy23KTGOlwyrw8TOkEsJan6n6UVZqJ5HFeq5bzFjeFICaqLOcTPJBIAA62z0kCzjpay7xsCITpAcr1JH8OWPjZtxVWz0y+T4OI5pMS3BZ3K2o=
+	t=1782430928; cv=none; b=LUz93YxxdARVhH4drYsSK1hwl3DPX3X2Jip6k0WL9ZwHfyUx6USkkvQ7ma+TZZzoZaIRLPG1QRiVBHn0y85mQsW8sugV9K52kKvlrscrMeN7f+kFpQQFVkbO1ZVBkHyWcbI/0xgdJS+b8jKQ2rQ8Y42YDhj4kfXzN3RHKoKtfT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782428974; c=relaxed/simple;
-	bh=aLo5j/Saxu4ChpJ9oH5we86JO4qrWCusP9y5SO8hk4g=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=R05GUt10NNubSPcoIguzuwtxA6PkxaOSLAXp4wmDJeEvK348EwazqEVEQRMSdTfD2gKXV1HWseMYXr11ZK16Uvvbut3RcnCCsJUPi3s5QO7f808jZmfaS1Vk5AVMKHqMR7L0mjfCTFGb+NeOk+tctjAYMUuFRFqjmK9fUrK6wGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k7zRxdME; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782430928; c=relaxed/simple;
+	bh=XLWncx6sAi2SL2n9opoom94BbjE0WreKNCFruJ4bcbc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSX1vhnyPXqWCfZMe2VumjoUiaDOsXft3XSYjbcuLce5UiTdxVqCpP0eDgmAtJa84XpgBaU7gQXFhUH7S+jpcQBvWiUM1IJaCLir4dAViIP9ZA6d/qjEiGfi2WRQxfWXUfd5v6Ue1wRQNWvEkEy6VyPOTEXpi++zHqR7NMKS9hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERWk9tSf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k7zRxdME"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-845bc2f62c9so196361b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 16:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782428971; x=1783033771; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m+4zjqfPBoSsvDtMuL3+4LY6xbszbSt+cGsYmfVXwWs=;
-        b=k7zRxdMEMU0fJe2ehVi/A8cXJWbi4K30/SByi9CApAcxl8IcYq2Vlq6zSsGQW5w932
-         veJ5OWmVss0Hww64vnUSQIDF68ZS/5YZtoiS5tNSmHNc3cGfucqYeOCdbK+pAocCv62r
-         AGP8NPbm42QxJCFX5bzj6rf6jWbHa9LqOQnvq0rT9pM83iC2IJN9EFFoHovpZN56Zn1D
-         W2GFPb0fpCEbiRwXM8lsjYUYqSqt/A7/vMdYQNuL34ilBuvcOjzjSGC50s9YxZ5/BMGc
-         crVL9bDF26myDm1UYObnec9CbxbAOS3me7C0NS77M869HsWib/eMFzfihbNNZorbqCUV
-         6Gag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782428971; x=1783033771;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m+4zjqfPBoSsvDtMuL3+4LY6xbszbSt+cGsYmfVXwWs=;
-        b=KLAV645S+Ic/j1cRLdXiAV3xuui8+q+Fjogq86DsqqMDcTB6blLDClMt0f5Q7A/HGv
-         oSzxmpdWYLcMV0CB1JPEElGLZQsO7nZKJqoJc2BU7sG6W9iL740MSA4rfHFwoomSFrxF
-         tnAE9cKiwrfBrIsZxAaRu5ZID8xsbIwYMJOhOYfQbfCR/HIgeImy5SQ/v4cTh9mKmD3r
-         AeVxDQruxll+7v8x8CkjosMeLsfGhD974e7voO8k9R9hIVv3BgZjFjOvTnpBcueklJkV
-         YP4m8Dj3WnpkxftnWGB9NmmjyXuMVhUL29eYys0q+1SqJ2E12Ck6G0ZglWt0RkgXsZUr
-         a3dw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro+Jwl/usybZDDVLwKpfcmrWo0LklI19HbwvreYbkV22llYo1jcjfDYLEmvXaRtcOo7yTWySgYLiU0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKTkBBvbKfVFz7QPbIR/y+IzpqBhq3Jy2O20/pFS8AaSjGMOVm
-	WUvyGii2inyerFNExG0SeMwKwzi2NXOfIFQ9VlKR+X8Mpbk7+zfjQLW6MbYW+jtII9X4V8NxbIG
-	NCCNDmA==
-X-Received: from pfbjf8.prod.google.com ([2002:a05:6a00:6e48:b0:845:b9e9:fcd1])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:22d4:b0:845:c799:3651
- with SMTP id d2e1a72fcca58-845c79938a3mr333179b3a.16.1782428970385; Thu, 25
- Jun 2026 16:09:30 -0700 (PDT)
-Date: Thu, 25 Jun 2026 16:09:29 -0700
-In-Reply-To: <c855535b4262ecd41f67734d19e8f48a7f014c2a.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERWk9tSf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DEF11F000E9;
+	Thu, 25 Jun 2026 23:42:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782430926;
+	bh=7rTeWGRC3qlYe3M/STi4OqC/ckIFBCcw0pmuKzcM+Ms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ERWk9tSfkvUB3gpMoi+r8/npeOf+VTcK6LEcTQ+ydlZM4R04BnjE7NoxRlL2Y7oOp
+	 HwEILF3l/MEtXv4l1oapXtPAddR7mVIcAbFM+/NzAauaraVXtWjthqV/7Xr9jV0rmP
+	 iV/aTYKta1D6uPYRp+2hh9+GTlghECm8I505IDeByN96e5NV0eCKP7muVv5sc3JnQG
+	 O3K8AFvvCi6QK5nN6WRqQQQyuO2ODeP0WbSkJkHgCIFXVq1+HVSkMdVsvtq4txrVyP
+	 sezhtjuTBGj4tnd2fWtTX6Neebzlxe0449kNqUc5+ZQaEKrKtQDmJHaKYNRwLyfJcc
+	 gFiMuxnkCmkKg==
+Date: Thu, 25 Jun 2026 16:41:58 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Steven Rostedt <rostedt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Yury Norov <yury.norov@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v4 2/2] tracing: Remove trace_printk.h from kernel.h
+Message-ID: <20260625234158.GA261868@ax162>
+References: <20260625104007.041432666@kernel.org>
+ <20260625104402.210473477@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <c855535b4262ecd41f67734d19e8f48a7f014c2a.camel@infradead.org>
-Message-ID: <aj21KctIXuf7b_5G@google.com>
-Subject: Re: [PATCH] KVM: x86/xen: Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260625104402.210473477@kernel.org>
 
-On Tue, Apr 28, 2026, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+Hi Steve,
+
+On Thu, Jun 25, 2026 at 06:40:09AM -0400, Steven Rostedt wrote:
+> From: Steven Rostedt <rostedt@goodmis.org>
 > 
-> Commit 3617c0ee7decb ("KVM: x86/xen: Only write Xen hypercall page for
-> guest writes to MSR") blocked host-initiated writes from triggering the
-> Xen hypercall page setup, to fix an SRCU usage violation when the
-> hypercall MSR index collides with a real MSR written during vCPU reset.
+> There have been complaints about trace_printk.h causing more build time
+> for being in kernel.h if it changes. There is also an effort to clean up
+> kernel.h to have it not include unneeded header files. Move trace_printk.h
+> out of kernel.h and place it in the headers and C files that use it.
 > 
-> However, some VMMs legitimately need to trigger hypercall page setup
-> from host context. For example, a VMM may intercept the guest's MSR
-> write to track an epoch (for kexec/crash recovery), and then replay the
-> write as a host-initiated KVM_SET_MSRS to populate the hypercall page.
-> The host_initiated check breaks this use case.
+> Link: https://lore.kernel.org/all/CAHk-=wikCBeVFjVXiY4o-oepdbjAoir5+TcAgtL12c4u1TpZLQ@mail.gmail.com/
 > 
-> Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE as a new vcpu attribute
-> that explicitly invokes kvm_xen_write_hypercall_page() under proper
-> locking. This gives userspace a safe interface to trigger hypercall page
-> setup without going through the MSR write path, preserving the
-> host_initiated defence in depth while restoring the lost functionality.
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 
-This is all kinda silly.  Userspace provides KVM a blob, then userspace intercepts
-the MSR write that triggers doing something with said blob, only to call back into
-KVM to consume the blob that userspace provided in the first place.
+This patch breaks lib/test_context-analysis.c for me in several
+configurations:
 
-Any chance we can deprecate KVM's kvm_xen_write_hypercall_page(), and instead
-rely on userspace to fill the page?  This extra bit obviously isn't much code to
-carry, but it's yet one more Xen thing to maintain, and we've accumulated a lot
-of those over the years...
+  In file included from lib/test_context-analysis.c:9:
+  In file included from include/linux/local_lock.h:5:
+  include/linux/local_lock_internal.h:46:2: error: use of undeclared identifier '_THIS_IP_'
+     46 |         lock_map_acquire(&l->dep_map);
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  include/linux/lockdep.h:541:69: note: expanded from macro 'lock_map_acquire'
+    541 | #define lock_map_acquire(l)                     lock_acquire_exclusive(l, 0, 0, NULL, _THIS_IP_)
+        |                                                                                       ^~~~~~~~~
+  In file included from lib/test_context-analysis.c:9:
+  In file included from include/linux/local_lock.h:5:
+  include/linux/local_lock_internal.h:53:2: error: use of undeclared identifier '_THIS_IP_'
+     53 |         lock_map_acquire_try(&l->dep_map);
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  include/linux/lockdep.h:542:73: note: expanded from macro 'lock_map_acquire_try'
+    542 | #define lock_map_acquire_try(l)                 lock_acquire_exclusive(l, 0, 1, NULL, _THIS_IP_)
+        |                                                                                       ^~~~~~~~~
+  In file included from lib/test_context-analysis.c:9:
+  In file included from include/linux/local_lock.h:5:
+  include/linux/local_lock_internal.h:62:2: error: use of undeclared identifier '_THIS_IP_'
+     62 |         lock_map_release(&l->dep_map);
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  include/linux/lockdep.h:545:47: note: expanded from macro 'lock_map_release'
+    545 | #define lock_map_release(l)                     lock_release(l, _THIS_IP_)
+        |                                                                 ^~~~~~~~~
+  3 errors generated.
 
-> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-> index 91fd3673c09a..c16b4560c9e7 100644
-> --- a/arch/x86/kvm/xen.c
-> +++ b/arch/x86/kvm/xen.c
-> @@ -907,6 +907,13 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
->  {
->  	int idx, r = -ENOENT;
->  
-> +	/*
-> +	 * kvm_xen_write_hypercall_page() manages its own locking.
-> +	 * Handle it before taking xen_lock to avoid a deadlock.
+The following diff resolves it for me, should I send it as a separate
+patch or do you want to just fold it in with a note?
 
-Do we actually want the side effects that necessitate taking xen.xen_lock?  From
-a uAPI perspective, it's odd to effectively bundle KVM_XEN_ATTR_TYPE_LONG_MODE
-into KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE.
-
-The other question is, why does kvm_xen_write_hypercall_page() drop xen_lock
-when writing guest memory?  That seems odd and unnecessary.
-
-> +	 */
-> +	if (data->type == KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE)
-> +		return kvm_xen_write_hypercall_page(vcpu, data->u.gpa) ? -EIO : 0;
-
--EIO is rather weird, wouldn't -EINVAL be more appropriate?  Ah, and both are
-wrong if copying the blob fails.
-
-> +
->  	mutex_lock(&vcpu->kvm->arch.xen.xen_lock);
->  	idx = srcu_read_lock(&vcpu->kvm->srcu);
-
-Speaking of writing memory, kvm_xen_write_hypercall_page() expects the caller
-to be in a read-side SRCU critical section (I didn't actually run this with
-PROVE_LOCKING=y, but I don't think I'm missing anything?)
-
-So, if this uAPI is unavoidable seems like we want something like the below.
-Either that or guard all of kvm_xen_write_hypercall_page() with a lock, and put
-the entire thing in a helper so that KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
-can be handled in a case-statement and doesn't need to grab SRCU on its own.
-
----
- arch/x86/include/uapi/asm/kvm.h |  3 ++
- arch/x86/kvm/x86.c              |  3 +-
- arch/x86/kvm/xen.c              | 64 ++++++++++++++++++++-------------
- 3 files changed, 44 insertions(+), 26 deletions(-)
-
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 1585ec804066..7732b92a4db0 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -598,6 +598,7 @@ struct kvm_x86_mce {
- #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
- #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
- #define KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA	(1 << 8)
-+#define KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE	(1 << 9)
+diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+index 621566345406..2301a701ffbb 100644
+--- a/include/linux/lockdep.h
++++ b/include/linux/lockdep.h
+@@ -10,6 +10,7 @@
+ #ifndef __LINUX_LOCKDEP_H
+ #define __LINUX_LOCKDEP_H
  
- #define KVM_XEN_MSR_MIN_INDEX			0x40000000u
- #define KVM_XEN_MSR_MAX_INDEX			0x4fffffffu
-@@ -706,6 +707,8 @@ struct kvm_xen_vcpu_attr {
- #define KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR	0x8
- /* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA */
- #define KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA	0x9
-+/* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE */
-+#define KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE 0xa
- 
- /* Secure Encrypted Virtualization command */
- enum sev_cmd_id {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 0626e835e9eb..ced19e84bf6c 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -2287,7 +2287,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
- 		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
- 		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE |
--		    KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA;
-+		    KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA |
-+		    KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE;
- 		if (sched_info_on())
- 			r |= KVM_XEN_HVM_CONFIG_RUNSTATE |
- 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
-diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-index db10f12d10cf..b72845aa67e2 100644
---- a/arch/x86/kvm/xen.c
-+++ b/arch/x86/kvm/xen.c
-@@ -904,6 +904,8 @@ int kvm_xen_hvm_get_attr(struct kvm *kvm, struct kvm_xen_hvm_attr *data)
- 	return r;
- }
- 
-+static int __kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data);
-+
- int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
- {
- 	int idx, r = -ENOENT;
-@@ -1138,7 +1140,9 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
- 			r = 0;
- 		}
- 		break;
--
-+	case KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE:
-+		r = __kvm_xen_write_hypercall_page(vcpu, data->u.gpa);
-+		break;
- 	default:
- 		break;
- 	}
-@@ -1274,30 +1278,12 @@ int kvm_xen_vcpu_get_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
- 	return r;
- }
- 
--int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
-+static int __kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
- {
--	struct kvm *kvm = vcpu->kvm;
- 	u32 page_num = data & ~PAGE_MASK;
- 	u64 page_addr = data & PAGE_MASK;
- 	bool lm = is_long_mode(vcpu);
--	int r = 0;
--
--	mutex_lock(&kvm->arch.xen.xen_lock);
--	if (kvm->arch.xen.long_mode != lm) {
--		kvm->arch.xen.long_mode = lm;
--
--		/*
--		 * Re-initialize shared_info to put the wallclock in the
--		 * correct place.
--		 */
--		if (kvm->arch.xen.shinfo_cache.active &&
--		    kvm_xen_shared_info_init(kvm))
--			r = 1;
--	}
--	mutex_unlock(&kvm->arch.xen.xen_lock);
--
--	if (r)
--		return r;
-+	struct kvm *kvm = vcpu->kvm;
- 
- 	/*
- 	 * If Xen hypercall intercept is enabled, fill the hypercall
-@@ -1310,7 +1296,7 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
- 		int i;
- 
- 		if (page_num)
--			return 1;
-+			return -EINVAL;
- 
- 		/* mov imm32, %eax */
- 		instructions[0] = 0xb8;
-@@ -1329,7 +1315,7 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
- 			if (kvm_vcpu_write_guest(vcpu,
- 						 page_addr + (i * sizeof(instructions)),
- 						 instructions, sizeof(instructions)))
--				return 1;
-+				return -EINVAL;
- 		}
- 	} else {
- 		/*
-@@ -1344,7 +1330,7 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
- 		int ret;
- 
- 		if (page_num >= blob_size)
--			return 1;
-+			return -EINVAL;
- 
- 		blob_addr += page_num * PAGE_SIZE;
- 
-@@ -1355,11 +1341,39 @@ int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
- 		ret = kvm_vcpu_write_guest(vcpu, page_addr, page, PAGE_SIZE);
- 		kfree(page);
- 		if (ret)
--			return 1;
-+			return -EINVAL;
- 	}
- 	return 0;
- }
- 
-+
-+int kvm_xen_write_hypercall_page(struct kvm_vcpu *vcpu, u64 data)
-+{
-+	struct kvm *kvm = vcpu->kvm;
-+	bool lm = is_long_mode(vcpu);
-+	int r = 0;
-+
-+	mutex_lock(&kvm->arch.xen.xen_lock);
-+	if (kvm->arch.xen.long_mode != lm) {
-+		kvm->arch.xen.long_mode = lm;
-+
-+		/*
-+		 * Re-initialize shared_info to put the wallclock in the
-+		 * correct place.
-+		 */
-+		if (kvm->arch.xen.shinfo_cache.active &&
-+		    kvm_xen_shared_info_init(kvm))
-+			r = 1;
-+	}
-+	mutex_unlock(&kvm->arch.xen.xen_lock);
-+
-+	if (r)
-+		return r;
-+
-+
-+	return __kvm_xen_write_hypercall_page(vcpu, data) ? 1 : 0;
-+}
-+
- int kvm_xen_hvm_config(struct kvm *kvm, struct kvm_xen_hvm_config *xhc)
- {
- 	/* Only some feature flags need to be *enabled* by userspace */
-
-base-commit: 8867ab1259b34261eaa96f1f3a2a092cd03e5a17
---
++#include <linux/instruction_pointer.h>
+ #include <linux/lockdep_types.h>
+ #include <linux/smp.h>
+ #include <asm/percpu.h>
+-- 
+Cheers,
+Nathan
