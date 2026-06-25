@@ -1,183 +1,175 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2663C2B8D
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 07:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782371073; cv=pass; b=unchnioBS0QUxl8ueM/qWryyjM3vhPrt05+gzdvBf85yUL0X0SduK11JI9Cuoa4qrjqNw4m0SAweByj8+m3/aWGuPqM1KW/IQ5eisR4zYvOFI6Oyfgm5mYKEEmrtMQIUqTivkR3Wb7PaymY4Eg+gdjNK/OQFtHmuSzfH3CL/Tj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782371073; c=relaxed/simple;
-	bh=zdplWEMU4ZutyOkbI+3SiQhFO5MjqtwHboLbHuF46t8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KuEW9/oZx7aNblSoq+N0JKeHijJMX0jZu8c24w7/VOrYBlmqySFQaI8uaeKqcBB0ILD0GA2PlpybQVKgqvpInJffdLQOmOzCrfaqNV4JayfMb2e+3i6KGehB8b7uf8kNpvpF1xsVGIDT+eFu5NloXu5Gc/QrHKy5wRwVBVK/i94=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q9sZA9BW; arc=pass smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA593C199A
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 07:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782371145; cv=none; b=ajAUCkg9Jbuej5DGhzDIW2Zop5DC+VUhQ2rn0iLZ3FJ75vdUwHyetwl82SiUY1SJAzJCh6Hic7A/3M+jW9ft1/WjDp9zgyhjcL8A4xo3rDWylZ5a7ciSkP/8qpQseOylHe0DYkFqlfz5yRRQuu6pTcVwaqFtV+RJ+ljamZXVStI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782371145; c=relaxed/simple;
+	bh=hMwm8OC6yMV7o6k5gEjXCIGVhLhyVKJEh/qwAVYMJDs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GlXnj+oq8GjTeEh0Q5WrSehZXPyQRWSpV9xu6mDjAuIwCUKEmrSFFGoZwBKZGvgz9AefqEjAEy5o15DT8ctMG5AYSM7Q+P2SPVlkWaVK2YYmBomeH9NndmK5bt2koujK09RpcR553tci2FPmlGvPeO8IvCP1wUXPKpl4/Z0WAHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kjGa/KDT; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q9sZA9BW"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-519ed52bcc6so182511cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 00:04:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782371068; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UiKGlKx2kY6AZC0G22LEVwYK8bHXgQeDjh5MryRG/aqXIJgnfjYUo/g1KTRDWcMl94
-         x4dEeTYi1P1YDJ//VTljAC6/asEhpfPURZIG44wl644LeXEcwmzeFjlUtsmIjvgx4ynZ
-         wMAP0pU1TXkQVTnkFKK1k0aa1Pw4Pxhow12IZU1SfwtkA1Bq+Qtunz0q5kHnF3VTGFnq
-         MwmMcSTYYAlH9+ojwM25nVkNQbgCqJ2Vj6QTJXbMV6DKeGczX3QUMkvEXwXgg13dXOJG
-         zfzdVXCW5XW00+OGcDwD2ymHu8K6UKQoBE5nznJRPzS7w4UchCBr14I1qBR746Ame/xJ
-         Jrcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EviLczuyy1yyIrBaIYV/LFmo2BGtZCvU6IS38nnd4b4=;
-        fh=Kv9jsg8QoAyGSsCkM2bivYGncLJWlj2LoMF5c3y2a10=;
-        b=co2xdB4Mn6J2qRA0uCdhngFZhaR9RtDZz5I+Txsmp9awB83Yr+tWSjzRm+iKscp23c
-         5sZWFsNbZdcCLd6YtIZ57dGwMmjWQmp+RP6PqqitaCRKyPbscCSKgdT8q20xvgERweg6
-         3r6eH/cAFBVg4uK8ezKf+o6NHRSDsF8We0aWrylNPcQytpKd8L6W5smZtaq/6Jy87aw5
-         WRMgvQYpVeIVE2SjiSOvtHlukbEfbaho8PJ/PA6PXA/lwmLb1m3fN8rsIWfDDpq2M2RQ
-         uDJneUhK800t0E6JA+jVTWTYta3AkQWlTTFH7oSemvzImRRm9Lnm9tGng8ejA0LtO1lV
-         +K4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kjGa/KDT"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ad4c229861so1389609e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 00:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782371068; x=1782975868; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EviLczuyy1yyIrBaIYV/LFmo2BGtZCvU6IS38nnd4b4=;
-        b=q9sZA9BWKj8e5gAjlUeJer2U2/ygGOKPecKmhNST+2LJBoxivs8AJXXFykgll7PRWs
-         yihfiGuo62y6GSheBuKyR/+LUCGaz6m1TKOXQCbY7gr032+Sv8cyOeCwJ3fHtNNnrlvk
-         ghglZnhiy5IOkjZmJz7E8N7AcVq2ZwXQ4BY+siJlDAICY3Lmasm7aJrzNAaCXL0jzQr+
-         e0Ql3yaWSYiqPAEA2wJiHk4u8un7IrseLEVKwdisFxMHQDYRTFZ6MgW9yhltmVdKimE4
-         Ja4a9271KjF0etmXnh1g2SlwlCVDG4CWteGt2IpuwKNiJL6z+ALUcRaAbLlQrVlCAYVq
-         Z4ig==
+        d=gmail.com; s=20251104; t=1782371141; x=1782975941; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lpu3IC4RSA2zDkdsuH0CS1/1RfLLmW5/oNEdfMnmxUI=;
+        b=kjGa/KDTab7ZHSnmJiwCEfT9thordCzwXAsK6WjDJ6nO8gQJtu7E3aMtdgw9grXakZ
+         bqHhoAQs9BKoAdFB9bdnnQ0rFphHeXshPfRmZx07hBXT3dw1tVRoHYfw5fDAYrJytNNb
+         K965hKhwDQzh2G9bHsbTfIA9sDDU+2/qEAfR3dVSRmsFQ/mfRDBrayq46jQFhRV7VIXI
+         6rXt4hqMbsxY6altS3ptbYrKqZoMvIPFY5SxNjyiLU4RI4pfc86alkqSsmdyF4KlZRA3
+         t1+F+8B91m42b6s5zg0FE0eZAGvlxMpWk4ij3bMOCPCn67AJm2mYFyCabNjcpkdDGRuX
+         vwrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782371068; x=1782975868;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EviLczuyy1yyIrBaIYV/LFmo2BGtZCvU6IS38nnd4b4=;
-        b=G3S7QbfZCi0/hITJeJQ717b4Vltv8Xhm1LgZ3puQZSBipO+6zsDiYf51QmN3+4pkMS
-         yr1mT/ll8eZEbbLRfco4Pygyo2fTxdtdhywaX/OlYFqQbvgeEUPHb+0+gYF0UYzbbSwN
-         3mZ/+EnvIS+5VwBTImK+/sa/gaB+jSf80E3hSH2FKcstkby4BRAOYvs/QXvuwbJugPPS
-         MlqdS1GAvHZf3sqJjP0L/lv4fDcB2GnBCdbeQsAdSpoAf5kxIFqBSEzEbSTQEm/tfkj2
-         J7LfHrAsE3uRPWAeQaslgtNddkC6EsEh4jN2QksrweISvA7oZqXBqkCQOPmTiSHQcaxs
-         qocg==
-X-Forwarded-Encrypted: i=1; AFNElJ/5u6Ch6PjcFuAVlobsPwI5Mu5aFSgna041CHpYWU1bHgDXlmJDPR/mQ/g21XF+9z65bAVRDV1CvaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFaTfBkxOd2HphSWWIveARw+wdp1nVFc+CfnjkJD8WLycHHxhw
-	XZ3q+cqDX/T//tv8pAD7M/KahhCPKwbgAXZHTrGz1Er/P0BgNZh9K4gRHDubhaBxbbU7xQtv/L9
-	PrSSw5yAnMIm7GZ7CzjbZloWN4bN7AXQ5xMfHemf2
-X-Gm-Gg: AfdE7cliU03UovOjIWeHzzoAM71FzrUV9kJH471S+WTd9ygsUq36sscbJ80wKgui4tu
-	dI+nQuH8Q6Q7LeG0/lM1g6Vno+XGXRDsctKPUC/xMSsFBsuF4zsTaln5oVaBq2unoiCU9EZWyWy
-	J9rZBHgdfR8ifOgYUcnVD70nbRxNb7lfxu0fOqXxwKCesBHHb09i0k2rxl69S291xEVmyL8yH+z
-	tjHttla/E/k29hKQka75fEwcF3JXokDHGbwp/b2pHf600BPqUDVbJzuBMc+BK0a9zUr1BuT1Q==
-X-Received: by 2002:ac8:5a88:0:b0:519:b655:235 with SMTP id
- d75a77b69052e-51a703faaaamr4395391cf.3.1782371067208; Thu, 25 Jun 2026
- 00:04:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782371141; x=1782975941;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lpu3IC4RSA2zDkdsuH0CS1/1RfLLmW5/oNEdfMnmxUI=;
+        b=S0qtFR7ZQB2/7dAhdjGScyzqe//42S7UUO3qKVx8NBI2IGxsoVJ1lJwQUaeJ/JWfMQ
+         NqM/0GrJysErSVUbcMmiNTXsNz40tZIhpMF6aRamRYS/Vc0PWl/xMZvAak0b9XzNUPnQ
+         Ua81T6qHhtuUJ5NmyuUgc1K4Jk0nTVmIhllt+5isJF64I7U5rdh+AEyPOM9KvZBfNNd0
+         LcTJTQmzjW8+gORznDZNXSUnY8kJIg9h3IJd/Iv6bZGowa3ircSna7JLNjVb8sboN/Dw
+         rT/548yP6ByTqztGVwQ8r31ZFivtw5JcPHRkbu7gyz+A2qqqoj49FXh61Xe8U3SQ1HjC
+         k6cQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrR8VMLt43I4vJku2IdTHgr6rkda4FcfSZICQdO+slFH8sqNEnyqCxFCSbjt6boF65GmwPtS769LjU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6cvyWgfMam93W2FmMxb8YD6Qf4eb/HjwlMeKAVnOqC1JT0qjW
+	exhVjSBF2a/ibDBmBsijDl9zDsF1SlOEqO1dSK3tsOenXnCzp3Kok8cN
+X-Gm-Gg: AfdE7cmQOAL2vMaX5+2W8GPDOBbYmPdwFzqriEOQR8iWnbywj91YYmQOPwVBMkpbqla
+	QPMeliNEHCg2bi7SiRDqMfxy7qoxVlGpsyDo7A8dj0Qa1Gi9KuL+wJrYsyDe2pqEm6swO9AMH8L
+	ynBEpqIwsA4iv8eNkSFfZx3lz3whyaS9/dvKC6r9z5S7KHrZvYck69pReKk2FyayWgqXS3jXSGe
+	hxKaO3p1gX1zsGQrbbsP1CfJsJndRM6aaKOj6hmmk4/LcnpWL9rjbW2w6Q+NSNotsEkV6McZIUw
+	wxn+gsRdGOHnGWsDho8cxp0HPIJ9wGsaRcJWFm6Pnt4F3BG3CAaHNwknS1OulfUAzP2U1npciWR
+	iWv+AmAMkJ7kAs5bdL2O/DkMSrkV8FXZ4kz7+x0vvH6f9d4ovYzEEhY0+7wHctwj0j7Di8f7rIj
+	L0jCuRdcYPgD9/l9Ey3y2lhg==
+X-Received: by 2002:a05:6512:4405:b0:5aa:7779:803b with SMTP id 2adb3069b0e04-5aea1f2a590mr336006e87.5.1782371139184;
+        Thu, 25 Jun 2026 00:05:39 -0700 (PDT)
+Received: from [10.38.18.54] ([213.255.186.37])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad6954a538sm2433685e87.7.2026.06.25.00.05.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2026 00:05:36 -0700 (PDT)
+Message-ID: <bd9419aa-1a21-4ca2-990b-ad1bebf5c9c8@gmail.com>
+Date: Thu, 25 Jun 2026 10:05:35 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com> <20260618-gmem-inplace-conversion-v8-36-9d2959357853@google.com>
-In-Reply-To: <20260618-gmem-inplace-conversion-v8-36-9d2959357853@google.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 25 Jun 2026 08:03:50 +0100
-X-Gm-Features: AVVi8CfPiivQ2jTF4C4b2T4SW03MiAlvIrJh5OdhMlg3bv2FAUX7zsWQXsWcZEs
-Message-ID: <CA+EHjTzFUayXCh2SBe7Nwu7YEO3aUmL1Fo1hE_v8OvUw7MWO6w@mail.gmail.com>
-Subject: Re: [PATCH v8 36/46] KVM: selftests: Test that truncation does not
- change shared/private status
-To: ackerleytng@google.com
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] dt-bindings: adm1275: ROHM BD12780 hot-swap
+ controller
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <matti.vaittinen@linux.dev>,
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Wensheng Wang <wenswang@yeah.net>,
+ Ashish Yadav <ashish.yadav@infineon.com>,
+ Kim Seer Paller <kimseer.paller@analog.com>,
+ Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ Yuxi Wang <Yuxi.Wang@monolithicpower.com>,
+ Charles Hsu <hsu.yungteng@gmail.com>, ChiShih Tsai <tomtsai764@gmail.com>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1781591132.git.mazziesaccount@gmail.com>
+ <d63c4df5e9df845bc4f94b4abdcd068a23929974.1781591132.git.mazziesaccount@gmail.com>
+ <20260617-uptight-sexy-hippo-f4bc62@quoll>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20260617-uptight-sexy-hippo-f4bc62@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 19 Jun 2026 at 01:32, Ackerley Tng via B4 Relay
-<devnull+ackerleytng.google.com@kernel.org> wrote:
->
-> From: Ackerley Tng <ackerleytng@google.com>
->
-> Add a test to verify that deallocating a page in a guest memfd region via
-> fallocate() with FALLOC_FL_PUNCH_HOLE does not alter the shared or private
-> status of the corresponding memory range.
->
-> When a page backing a guest memfd mapping is deallocated, e.g., by punching
-> a hole or truncating the file, and then subsequently faulted back in, the
-> new page must inherit the correct shared/private status tracked by
-> guest_memfd.
->
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
+I think I (almost) missed this review... Sorry for the belated reply.
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+On 17/06/2026 13:28, Krzysztof Kozlowski wrote:
+> On Tue, Jun 16, 2026 at 09:35:35AM +0300, Matti Vaittinen wrote:
+>   +
+>> +  Datasheets:
+>> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780muv-lb-e.pdf
+>> +    https://fscdn.rohm.com/en/products/databook/datasheet/ic/power/power_switch/bd12780amuv-lb-e.pdf
+>> +
+>>   properties:
+>>     compatible:
+>> -    enum:
+>> -      - adi,adm1075
+>> -      - adi,adm1272
+>> -      - adi,adm1273
+>> -      - adi,adm1275
+>> -      - adi,adm1276
+>> -      - adi,adm1278
+>> -      - adi,adm1281
+>> -      - adi,adm1293
+>> -      - adi,adm1294
+>> -      - silergy,mc09c
+>> +    oneOf:
+>> +      - items:
+>> +          enum:
+> 
+> 
+> s/items/enum/, so:
+> 
+> oneOf:
+>    - enum:
+>    ....
 
-Cheers,
-/fuad
+Thanks Krzysztof. I am always so lost with these bindings. Giving the 
+concrete suggestion(s) helps a lot!
 
-> ---
->  .../selftests/kvm/x86/guest_memfd_conversions_test.c       | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-> index 0b024fb7227f0..f03af2c46426f 100644
-> --- a/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-> +++ b/tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-> @@ -10,6 +10,7 @@
->  #include <linux/sizes.h>
->
->  #include "kvm_util.h"
-> +#include "kvm_syscalls.h"
->  #include "kselftest_harness.h"
->  #include "test_util.h"
->  #include "ucall_common.h"
-> @@ -309,6 +310,19 @@ GMEM_CONVERSION_MULTIPAGE_TEST_INIT_SHARED(unallocated_folios, 8)
->                 test_convert_to_shared(t, i, 'B', 'C', 'D');
->  }
->
-> +/* Truncation should not affect shared/private status. */
-> +GMEM_CONVERSION_TEST_INIT_SHARED(truncate)
-> +{
-> +       host_do_rmw(t->mem, 0, 0, 'A');
-> +       kvm_fallocate(t->gmem_fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE, 0, page_size);
-> +       host_do_rmw(t->mem, 0, 0, 'A');
-> +
-> +       test_convert_to_private(t, 0, 'A', 'B');
-> +
-> +       kvm_fallocate(t->gmem_fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE, 0, page_size);
-> +       test_private(t, 0, 0, 'A');
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->         TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_SW_PROTECTED_VM));
->
-> --
-> 2.55.0.rc0.738.g0c8ab3ebcc-goog
->
->
+> 
+>> +            - adi,adm1075
+>> +            - adi,adm1272
+>> +            - adi,adm1273
+>> +            - adi,adm1275
+>> +            - adi,adm1276
+>> +            - adi,adm1278
+>> +            - adi,adm1281
+>> +            - adi,adm1293
+>> +            - adi,adm1294
+>> +            - rohm,bd12780
+>> +            - silergy,mc09c
+>> +
+>> +# Require BD12780 as a fall-back for BD12780A.
+> 
+> No need for the comment, schema is quite explicit.
+
+Eh... I know it is explicit for one who fluently reads yaml. Not all of 
+us do that :| (See my reply to the previous comment...) I am not sure 
+the comment hurts - while I am sure it helps occasional binding reader 
+like me. Can you please reconsider keeping the comment?
+
+Although, I am not sure if Guenter suggested me to drop the compatible 
+for the bd12780a and only use the bd12780 - or if his comment only 
+applied to the i2c IDs.
+
+https://lore.kernel.org/all/751cd5eb-104f-4445-a6d2-8119ad5d5660@roeck-us.net/
+
+Well, I will keep the bd12780a compatible and drop the I2C ID unless 
+something else is suggested. Again, the BD12780 and BD12780A do have 
+different hardware properties (at least in I2C slave address selection 
+pins), and while it doesn't really matter for the Linux drivers, the DT 
+bindings should ideally be generic and not Linux specific.
+
+Yours,
+	-- Matti.
+
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
