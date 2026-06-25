@@ -1,231 +1,236 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010016.outbound.protection.outlook.com [52.101.85.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B532F5321
-	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 18:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB11830569F;
+	Thu, 25 Jun 2026 18:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782411634; cv=pass; b=hlpxI/4TpA8QM5/4kddfYT1iVa0x2MtKG8donvMt0aUi1nLbkTZg+fOXzs5s6tLNbAJZuyYgshB41u3pftXR/bQbF9QWXaFc3z0fCkGRZ8lSjD4XapDBoqw0dz4ZODjvmy//dqO8LEGsnBfihElUcl3XPdCQfBX89WxTR/UKn5s=
+	t=1782411913; cv=fail; b=BRP4nq4cLQnpETQ96dIR94LuDJO8H04+/qYHrTiylNMoG0vXj8LZBsi8LvkKg+bmNQoR7mkOAgten6mVomILAnc5XpKrijQXBpLK4NRTbraFYQGLw0oMHU3/RCAUpPn5fAg2Z2Yh4pHbccD52rXxAxj4Zn6BmrkX1bdy+O1/ol8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782411634; c=relaxed/simple;
-	bh=9k891PwJI4EFFALDu5zQboFYTAkeFrF++j9GP6B0KQ8=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OFzZDhlVKqVRqzbrnlvd3znGLC6Gv1w4WiSE0NyqPURRjL9E4HPq/gTpNXm0T4/qzgrsKEL1wWUdy8mOKbacSJpbouvYD/OcYzPfoJeHiKlMQH7vHC0ynOBjsZDtuepc1oI+jkvwXsj8EPBpzC7PTeq42n0CWXbpyAhFGAhmA8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e8oFt3LG; arc=pass smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1782411913; c=relaxed/simple;
+	bh=lg2o4MJrCJqBAsWr6KB/EWurG5D9UFzIsFGhgsiKhhs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=psW1xN77fwTDK6UdqQLexf8wYFrtOhu9L7/SSK5w0JKj5Ti4Jiip/NpzoD0tXnHxDlHnfb/BWemf7DWIDTn2aawNOcEj+BZJdXSwbQmcCFf/A0BPrEOHMbSyO6pxnC66ZlLpVTDd88/praqFhW63jTY0ReEBzdJ+8lHEe2LQ/TE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hJOuPZIs; arc=fail smtp.client-ip=52.101.85.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e8oFt3LG"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1384eb94d20so385414c88.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 11:20:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782411632; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VixFvA/prMFXnpt6WVQcoaV7mOwZmCzBGsMGkfqm4/Ntigceh+w7TPCigykrl+gTMw
-         IMknwfikiM+MP+t3/2KIX0pVWQeD8e1Mz4UN+OalDL303colH8CAqi+wVl9XvqCV3FgU
-         8YA645G74iduoEO3c6PtFrPOBwjgf21w8CeAOBN8PMk2RYFpJG3rVgzqr/UdbUNgb+42
-         O0QExwPNP/iOoCKUenYlteXvKfBO+mXaUfxO5r1ilpgNso0+1LpKBqHy3Yfw7tmOFL2a
-         y9palRz+gMcnPEZ4DdvFG84b17CgcgcmAye6/xRinBf5bKHrhNHviQuDGOpSP9xu0fmW
-         cWig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=Zxjcsz/dsIe56trrVdkQTSG2simPYkWb/FM1GFAid2k=;
-        fh=mkyOwprNFbr99AWtVTUXz038J7XHfd/ZMHPgXTP9IV4=;
-        b=qIuqMPZzDbgGsS4ygYrf8aevZhoocN/lerTALLEjlp27zknwcWpDhAC+b4sw6Ad6+z
-         Rv+0VdqwoGoo7W+EDTJk7Grj7oL4q3zTF4Z2lZBYtGP5W8Po3cZAXfZPuNwBvJR/84mt
-         bHQwdkp7ly5dOTySiKoAc1HhQ97e/NUm5Cs1jRXtk0AhNn5/Dw5yALLE7rb1mo43JcyM
-         YGXeuTKJ8eYZATZ0lWqn33+G3ghHyRNHbsC6kxHhtDhl8omfcjllDFzUcrGCy42+4wKH
-         AfzGt0KMm/7kkiZxIsbOaezCIZUg26lQ27CeKh81225B3ogmVSpugVDSvZAgNvi4MMXZ
-         cfHw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782411632; x=1783016432; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zxjcsz/dsIe56trrVdkQTSG2simPYkWb/FM1GFAid2k=;
-        b=e8oFt3LGsTo/VMCqFJZ012aCacvbQuFijkW3qnBD91v2JztKaQrzvk+Tw2sKJ4HNSd
-         QH1bLDTTm0YEn9XreMNsjVFSzRe3IdWNeClgnwYIQOBUlrJPlb87KSGdiBEa2t7eYXAS
-         CO4A9qdDjOrBDVdP04aD2QHnyIz5Q/LKXPrypJc/taOWvtYgzDw5yc1M5l6McpConPA+
-         jSXKgCpCQJ/gD80g1/5E3nBcJ4atgOUWvE7aLsBumFESldYxrET9v6wHuaFYqE37XhJS
-         URdCvXzUEKczc9FuzEHqAcwiqGgcR5HkBuyo67a5n6Rr16rqJj430QjR+fxFxbmGJhem
-         SkoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782411632; x=1783016432;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zxjcsz/dsIe56trrVdkQTSG2simPYkWb/FM1GFAid2k=;
-        b=YHpiJmWjwS/Lboitgr+lTiAgbTasFub4x2wQfhp0OJm49r3RouMs9Ck3WpamSK8EjO
-         WM/ATm9gADsjHN4okoLiMbuxQZfQZr72tevRY9TD9RWy1eloLmK3gz7+JqxgSbjSwnIi
-         jh5KwlwvsshjVc1mDpcK5ErYA44sKG5GM1QitxjxZ8uVUzBDLGW3Q58OWeQYSAkEuzuv
-         Kp0yWOdW4ws+2KYQswFGo3XPzmFrhAJiZVzE65oJcI29V55CyKPhRvFavDXnJMkuMEwM
-         v/iJYCDMalxrQ2S1wb+5OMx5dOjESaCgV0ldmlm8LxCrvpem6mfRXxo+tOsiHoFQdnad
-         utTw==
-X-Forwarded-Encrypted: i=1; AFNElJ+/0MrMPd6M9rj4jz33hKOOmM1+D6mj2wRFT0YmRQpwxV3H09p2siqsW1rm+vCbT4N/7SERB4vF9DU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzbhQGBoh/k5MjNjVWIM3ECyNuGFino/BXDjz64ddodCGZ/+0t
-	79RWuB8Qs7SXgRZv1MJnqIowdaE2LniReUf8gR6ed6efTaE99WJJYKagXLNhFh3Ut7aZNZzVHzg
-	DPSeTiBWQS50Z2U5fqn0Ongvie50H3JtVOmw6Ww7C
-X-Gm-Gg: AfdE7clqiwwdxDepAeupDdjV131dq3UB6wzSSI1AWlYGb+7CaHh9D/3bkXlICf/8ZJh
-	7t6uTjPcX2H7gjUuQcTon5bh8UsSHJv8g2N62mp+KQZhbgGDgL7hIXZ/j51ukyYzYB35LNJKWkL
-	Whnw89Hjjx5Pjs/gYn9CMwlDYyrN+yB6c27kbXSQIbpIFCF0CrmiaFr2jS5xz8pDcbW8RSon37M
-	e04DVcU2YFVPfeOsAkp59YBmZmzl5q0x/8LEmH2CvJuN+K60VFJrwvJqy5im2AXb7cFuOOjcRp8
-	5QH4Y1VPLh0GYgOZZ9DKDJozQ/R3GCGoNiHZ3ByzaIvaUNQ0gEQGeEMe8OI=
-X-Received: by 2002:a05:7022:ebc4:b0:139:7bac:db41 with SMTP id
- a92af1059eb24-139dbb49566mr3555362c88.28.1782411631187; Thu, 25 Jun 2026
- 11:20:31 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 25 Jun 2026 11:20:30 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 25 Jun 2026 11:20:30 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <ajyCn0PnFtQK+Nka@yzhao56-desk.sh.intel.com>
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-24-9d2959357853@google.com>
- <aji/2svhcc84rn5w@yzhao56-desk.sh.intel.com> <CAEvNRgHYTFnHbsLLgMTCSitmnp1_j9Pomikm9qmpGTh1w8YE5Q@mail.gmail.com>
- <ajyCn0PnFtQK+Nka@yzhao56-desk.sh.intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hJOuPZIs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y7L8WfebuopHq0DdnSOikQWz3aG9xzGaZx7YIFPp5BLxQ89sL8t4aqJRpVE4GmBxWxAxmMAV74icBJdB5awKZT5G8vc/omXxvUiUEFfr3A3/gixlX7UL5IEZ6fmIfMXXkLM5z9QkyEtsGLcwcms4d4PN+jjBdj9eNBjsZseLWoM9AGHpb5CUtyK/2i483cZkum4IR+gbq3ZR+/Qwwx5zKcVBl0rU9kQnmWywWsq1b7Kk+2rZUEemwCZStuLq/+8shqRQRmL1P4rqyi8WrISut+vlKYIIdQRJUiF66gBgEyJGNtR+2gjC5hx+p9kYc6FjoS3E11z9hletag8t4nWCsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5Lm0FmRmJwYMFqTF7L01DMOFh2+fpPkOCpfZJUL/e4w=;
+ b=r21v71X4U85LeIzaR3svyqzjwKSKqZX8sk43ggXNVoY19EAKxW1ZxnpmS2SU20ZVY15+hslbZqMqPYOnr1CJnsiLkSWk+s1x5UWU1aqS7soB4IHSXimMNlRlm8X3tWkQgMRfG2EmbmiiRRGfLIkV2NH0EaQEqv/PCNsXAU2/xf/FrzMSssATHMSoGoB1LafOqAbon1eLmz0jKZww9giuH2d0cbaQpmBlUe/yuZ4ADGMb1jaaMS/zVPo+xgvirSdRt3f2hPerBm0C0UthXcbIGqeGjzPPN1PKtWcIDz0pCIAQ5IbjzXNRXJlvB30sLa4yLd2BTr7owYhFO6BzBf7IeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5Lm0FmRmJwYMFqTF7L01DMOFh2+fpPkOCpfZJUL/e4w=;
+ b=hJOuPZIsEAP+cXR/p2TSRaq3X+wFr7tJyklCppoJoNdA2S8EFgcC32hsvMQz7ZtqhywH8CPbNMqwjIwg+Iau7zXymMaM6zbVLAMcZUKRujbXcv1GE1JKciX3jiGn3g9xgX0cj8/ddFaIOaWmjNuZXAD1rLfSYe27Yh4aKzCNTcLHdA6NpcZCCsHDdEMxnB61lwu3HvGhlU/N1m7wjhhssGHg71MD8vPBraZjKH/fFfRzf73QKm2jmRkyJJvMPpBxwN6xMvs/oxLMbxR1esV81Ifa6j5w1XiICP3vJyRlEhiPRGzvzBDovxu5siKWWGhUsloHL6kRffVuirS1MXXMGw==
+Received: from PH8P222CA0021.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:2d7::6)
+ by DM6PR12MB4186.namprd12.prod.outlook.com (2603:10b6:5:21b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Thu, 25 Jun
+ 2026 18:25:03 +0000
+Received: from SN1PEPF000397B5.namprd05.prod.outlook.com
+ (2603:10b6:510:2d7:cafe::a3) by PH8P222CA0021.outlook.office365.com
+ (2603:10b6:510:2d7::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.17 via Frontend Transport; Thu,
+ 25 Jun 2026 18:25:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ SN1PEPF000397B5.mail.protection.outlook.com (10.167.248.59) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Thu, 25 Jun 2026 18:25:02 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Thu, 25 Jun
+ 2026 11:24:44 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Thu, 25 Jun 2026 11:24:44 -0700
+Received: from sdonthineni01.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 25 Jun 2026 11:24:43 -0700
+From: Shanker Donthineni <sdonthineni@nvidia.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Vladimir Murzin <vladimir.murzin@arm.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, <linux-arm-kernel@lists.infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Shanker Donthineni <sdonthineni@nvidia.com>,
+	Vikram Sethi <vsethi@nvidia.com>, Jason Sequeira <jsequeira@nvidia.com>
+Subject: [PATCH v4 0/2] arm64: errata: NVIDIA Olympus device store/load ordering
+Date: Thu, 25 Jun 2026 13:24:23 -0500
+Message-ID: <20260625182425.3194066-1-sdonthineni@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 25 Jun 2026 11:20:30 -0700
-X-Gm-Features: AVVi8Cc3nGhX7fIjy0JPI276GPFCp7STu7qOIMKXGadYwwvPojaXnYff9SHGUmw
-Message-ID: <CAEvNRgFfgV0FbQLzP8hhNH5hMGaQao6OFQin4cb3TAmC7SVhfA@mail.gmail.com>
-Subject: Re: [PATCH v8 24/46] KVM: guest_memfd: Make in-place conversion the default
-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B5:EE_|DM6PR12MB4186:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb05c369-b34c-45a8-0eee-08ded2e7129e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|1800799024|23010399003|18002099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	kEpZ6GqsxaJsCHiu8QahcNROr2Z5pw+fnU//s+3upVQ48Y95XvXJ2I6ap1wP0cGO6Do4E33UpXlTNP8RZanhYdOedY+kn4O4RcVlkJG2bk82E8UYLvHL2A9n3pINvwX4MzWcY4ai69OhxB+JkK7YW3WCI5lT3gKxYeVZB9R2XUwaABWcznF5B1OIyG/Pk+5uLBXobfTtw4woEfAPIIR9xERGnJnytrVNrGAcFwhc3/AC0RN3UCs3dKbRsVylZjSfyGKbaBDO/evtNREY6jZYATi6i0bfYr50iIJvbS48M0BXp53pm2oNxT/S3Z8Czg1T5+qYYWZt456kqyE557K5nnaHP1uveTQLrFS1OA53sYGkr5pmrWCzWc2qrIOnDI5JeqUOSFInWRPu52kC0wtG7rpNQdQVD7dhQII0xPuocS+6t+f4qZSFTooKaoo7grhmiyoYLPVqhqqnMeVT+qMK8me45YADTlFzmh3JE5e/P64yXjEFk2BXUBACKDZhNU2MsmGzqVf4ZE+gGqtfB3/pnDZuavy84Z47BnOxHmAUijwR5ASSnesAJfhsmqKYwbQQUyrHqjBPtaWnO31Ltzy9RanWcbd6E8N24gu0fbyuK34drjFC4SxY2wTBvWIQNVK7SmqCml28HhmdDZYRZIDoqxdgPNuMRVmN2bvzrbRdhBX57pa0/+g5HePQWqpdb/MHVysGG46oKnN6nI/F5lJ0QA==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(1800799024)(23010399003)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	YIoa5ELzqwyOeq6/hb5PO+f7o3HqKRGWYJtaNd2PnJx6gpof/+uC3q0TL+bLpHiY79bU8vujXyBS1EtpPlWjosUfCMpOJrWsh6Hm9tX7fbo8A+wqyjRSsMG+T3i0iGgtUbfJ8mTrP6UZmJWU9FQ+8AMlYOnEfx7BENP/gZK2yI/6d66s1+/yUMecwuvUZ9la5sun7TcPwDAXvJRxcq2yA++HWEA32i1nPTnX/G+OTVf1fdnmIndRXQJub8iksuENL1mKoe2C1LtkZjO5RCVfCRe7vDc1TlDnaq7LrPSG27vW/2zfewyZMB+xfEG5Z+tpCEiBiR+G5lHvl5mb221pnBk9cs3tHv8/peR35dDyXnFOciN9LC8mJwIujrhtfL+wU1HHfmwf4M2p5PQWo98Q9u1/Xln+9iyYiBvj+D6GfUeV9plxAP3jAze2G1LloZ+Q
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2026 18:25:02.3405
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb05c369-b34c-45a8-0eee-08ded2e7129e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397B5.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4186
 
-Yan Zhao <yan.y.zhao@intel.com> writes:
+This series works around the NVIDIA Olympus device store/load ordering
+erratum (T410-OLY-1027): a Device-nGnR* load can be observed by a
+peripheral before an older, non-overlapping Device-nGnR* store to the
+same peripheral, breaking the program order that drivers rely on for
+MMIO and potentially leaving a device in an incorrect state.
 
-> On Wed, Jun 24, 2026 at 05:05:44PM -0700, Ackerley Tng wrote:
->> Yan Zhao <yan.y.zhao@intel.com> writes:
->>
->> >
->> > [...snip...]
->> >
->> >>
->> >>  #ifdef kvm_arch_has_private_mem
->> >> -bool __ro_after_init gmem_in_place_conversion = false;
->> >> +bool __ro_after_init gmem_in_place_conversion = !IS_ENABLED(CONFIG_KVM_VM_MEMORY_ATTRIBUTES);
->> >> +module_param(gmem_in_place_conversion, bool, 0444);
->> >
->> > With gmem_in_place_conversion=true, userspace can create guest_memfd without the
->> > MMAP flag. In such cases, shared memory is allocated from different backends.
->> > This means this module parameter only enables per-gmem memory attribute and does
->> > not guarantee that gmem in-place conversion will actually occur.
->> >
->> > To avoid confusion, could we rename this module parameter to something more
->> > accurate, such as gmem_memory_attribute?
->> >
->>
->> I asked Sean about this after getting some fixes off list. Sean said
->> gmem_in_place_conversion is named for a host admin to use, and something
->> like gmem_memory_attributes is too much implementation details for the
->> admin.
-> Thanks for this background.
->
-> Some more context on why I'm asking:
->
-> Currently, I'm testing TDX huge pages with the following two gmem components:
-> 1. The gmem memory attribute in this gmem in-place conversion v8.
-> 2. The gmem 2MB from buddy allocator. (for development/testing only).
->
-> The gmem 2MB from buddy allocator allocates 2MB folios from buddy for private
-> memory, while shared memory is allocated from a different backend.
-> (To avoid fragmentation, only private mappings are split during private-to-shared
-> conversions. In this approach, the 2MB folios are always retained in the gmem
-> inode filemap cache without splitting.)
->
-> Since shared memory is not allocated from gmem, there're no in-place conversions.
-> The reason I'm using "gmem memory attribute" is that the per-VM attribute is
-> being deprecated, as suggested by Sean [1].
->
+Patch 1 adds the workaround. It promotes the raw MMIO store helpers
+(__raw_writeb/w/l/q, and therefore writel()/writel_relaxed()) to
+store-release on affected CPUs, and promotes the trailing DGH of the
+write-combining __iowrite{32,64}_copy() helpers to dmb osh. Everything is
+gated on a new ARM64_WORKAROUND_DEVICE_STORE_RELEASE cpucap and patched
+in only on affected parts, so it is a no-op elsewhere.
 
-v8 of conversions series changed that slightly, per-VM attributes is
-going to stay around (because of work on RWX attributes, coming up) and
-RWX will stay tracked at the VM level.
+Patch 2 provides arm64 memset_io()/memcpy_toio(). The generic versions
+are built on __raw_write*(), so patch 1 would promote every store in a
+block to a store-release; as each STLR drains the write-combining buffer,
+block MMIO becomes O(n) store-releases. The arm64 versions emit plain
+STR in the loop and order the whole block with a single trailing dmb osh,
+keeping block MMIO at one-barrier cost.
 
-For v8 and beyond, only tracking of private/shared in per-VM attributes
-is being deprecated.
+Performance: NVIDIA Olympus, write-combining MMIO to a device BAR, single
+PE pinned; per-call cost in ns. Consecutive writes ping-pong between two
+buffers so repeated stores are not coalesced. iowrite64/iowrite32 =
+__iowrite{64,32}_copy().
 
-By extension the entire thing about using guest_memfd for private memory
-and a different backing memory for shared memory is being deprecated.
+Table 1 - workaround off (CONFIG_NVIDIA_OLYMPUS_1027_ERRATUM=n)
++-------+-----------+-----------+-----------+-------------+
+|  size | iowrite64 | iowrite32 | memset_io | memcpy_toio |
++-------+-----------+-----------+-----------+-------------+
+|    8B |   67.9 ns |   67.8 ns |    3.6 ns |    3.6 ns   |
+|   16B |   67.9 ns |   67.8 ns |    4.0 ns |    4.0 ns   |
+|   32B |   67.9 ns |   67.9 ns |    4.6 ns |    4.6 ns   |
+|   64B |   69.1 ns |   69.1 ns |   69.1 ns |   69.0 ns   |
+|  128B |  138.3 ns |  138.3 ns |  138.4 ns |  138.3 ns   |
+|  256B |  276.6 ns |  276.6 ns |  276.6 ns |  276.7 ns   |
+|  512B |  276.6 ns |  276.5 ns |  276.6 ns |  276.6 ns   |
+|   1KB |  276.6 ns |  278.4 ns |  276.6 ns |  276.6 ns   |
+|   2KB |  278.4 ns |  278.4 ns |  275.9 ns |  276.6 ns   |
+|   4KB |  365.7 ns |  365.7 ns |  365.7 ns |  365.7 ns   |
++-------+-----------+-----------+-----------+-------------+
+relaxed/no-flush: memset_io()/memcpy_toio() issue plain stores with no
+trailing dgh() or barrier, unlike __iowrite*_copy() which ends with dgh().
 
-> Besides my current usage,
+Table 2 - workaround on, arm64 memset_io/memcpy_toio (this series)
++-------+-----------+-----------+-----------+-------------+
+|  size | iowrite64 | iowrite32 | memset_io | memcpy_toio |
++-------+-----------+-----------+-----------+-------------+
+|    8B |  231.6 ns |  231.6 ns |  232.4 ns |  232.4 ns   |
+|   16B |  231.7 ns |  231.9 ns |  232.7 ns |  232.6 ns   |
+|   32B |  231.9 ns |  232.7 ns |  232.9 ns |  232.9 ns   |
+|   64B |  232.7 ns |  235.0 ns |  233.7 ns |  233.6 ns   |
+|  128B |  233.6 ns |  235.8 ns |  234.4 ns |  234.3 ns   |
+|  256B |  237.7 ns |  276.8 ns |  264.0 ns |  276.7 ns   |
+|  512B |  237.7 ns |  277.1 ns |  238.1 ns |  277.6 ns   |
+|   1KB |  253.7 ns |  279.3 ns |  276.1 ns |  294.1 ns   |
+|   2KB |  295.0 ns |  318.7 ns |  288.5 ns |  308.3 ns   |
+|   4KB |  365.9 ns |  381.4 ns |  365.7 ns |  381.3 ns   |
++-------+-----------+-----------+-----------+-------------+
+all four helpers end with a single trailing barrier (dmb osh).
 
-I think you can set up guest_memfd+2M for private memory and shared
-memory from some other source, and that's the deprecated usage pattern.
+Table 3 - workaround on, generic per-store memset_io/memcpy_toio
++-------+-----------+-----------+-------------+--------------+
+|  size | iowrite64 | iowrite32 |   memset_io |  memcpy_toio |
++-------+-----------+-----------+-------------+--------------+
+|    8B |  231.6 ns |  231.6 ns |    229.0 ns |    229.0 ns  |
+|   16B |  231.7 ns |  231.9 ns |    458.4 ns |    458.5 ns  |
+|   32B |  231.9 ns |  232.7 ns |    917.4 ns |    917.5 ns  |
+|   64B |  232.7 ns |  234.8 ns |   1835.4 ns |   1835.5 ns  |
+|  128B |  233.6 ns |  235.8 ns |   3670.9 ns |   3670.8 ns  |
+|  256B |  237.7 ns |  276.7 ns |   7341.6 ns |   7341.6 ns  |
+|  512B |  237.7 ns |  279.4 ns |  14001.4 ns |  14001.3 ns  |
+|   1KB |  253.7 ns |  279.1 ns |  28631.5 ns |  28631.8 ns  |
+|   2KB |  279.4 ns |  317.9 ns |  57276.3 ns |  57275.2 ns  |
+|   4KB |  365.7 ns |  381.5 ns | 114564.4 ns | 114563.6 ns  |
++-------+-----------+-----------+-------------+--------------+
+the generic memset_io()/memcpy_toio() build on __raw_write*(), which the
+workaround promotes to store-release, so every store is individually
+ordered - hence O(n) in the store count.
 
-> there may be other scenarios where gmem memory
-> attributes is preferred without allocating shared memory from gmem.
-> (e.g., PAGE.ADD from a temp extra shared source memory).
->
+Tables 2 and 3 show why patch 2 is needed: the generic per-store block
+writers collapse to O(n) under the workaround (4KB ~314x slower, ~115 us
+vs ~366 ns), while the arm64 versions stay flat at one-barrier cost.
 
-Is this TDH.MEM.PAGE.ADD, used indirectly from
-tdx_gmem_post_populate()? This use case isn't blocked. Even if
-gmem_in_place_conversion=true, you can still set src_address to
-non-guest_memfd memory and load from anywhere you like.
+Changes since v3:
+  - Split the workaround into two patches: the erratum fix (1/2) and the
+    arm64 memset_io()/memcpy_toio() block writers (2/2).
+  - Reworked the raw MMIO write helpers to use a direct base-register
+    str*/stlr* alternative sequence instead of a per-write static branch.
+  - Covered the write-combining __iowrite{32,64}_copy() path by patching
+    dgh() to dmb osh on affected CPUs, keeping the contiguous STR groups
+    and the ordering barrier outside the copy loop; the single-element
+    case now uses a plain str* as well.
+  - Added arm64 memset_io()/memcpy_toio() so the byte/word block writers
+    take one trailing dmb osh instead of a per-store store-release.
+  - Updated the commit messages to describe the offset-addressing
+    trade-off.
 
-Please let me know if that is broken! I think I accidentally used that
-setup in selftests and it worked. The selftests are now defaulting to
-in-place conversion.
+Changes since v2:
+  - Reworked the raw MMIO write helpers so unaffected CPUs keep the
+    existing offset-addressed STR sequence, while affected CPUs use the
+    base-register STLR path.
+  - Updated the commit message to match the code changes.
+  - Rebased on top of the arm64 for-next/errata branch:
+    https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/errata
 
-> For such use cases, I'm concerns that the admins may find it confusing if they
-> enable gmem_in_place_conversion but still observe extra memory consumptions for
-> shared memory.
->
+Changes since v1:
+  - Updated the commit message based on feedback from Vladimir Murzin.
 
-Hmm but I guess if someone enables gmem_in_place_conversion but still
-allocates from elsewhere, they'd have to figure it out?
+Shanker Donthineni (2):
+  arm64: errata: Workaround NVIDIA Olympus device store/load ordering
+  arm64: io: apply the device store-release workaround once per block
+    write
 
-> [1] https://lore.kernel.org/kvm/aWmEegVP_A613WIr@google.com/
->
->> Sean, would you reconsider since Yan also asked? If the admin compiled
->> the kernel knowing what CONFIG_KVM_VM_MEMORY_ATTRIBUTES means, then the
->> admin would also be able to use a param like gmem_memory_attributes?
->>
->> There's the additional benefit that the similar naming aids in
->> understanding for both the admin and software engineers.
->>
->> Either way, in the next revision, I'll also add this documentation for
->> this module_param:
->>
->>   Setting the module parameter gmem_in_place_conversion to true will
->>   enable the KVM_SET_MEMORY_ATTRIBUTES2 guest_memfd ioctl and disables
->>   the KVM_SET_MEMORY_ATTRIBUTES VM ioctl. If gmem_in_place_conversion is
->>   true, the private/shared attribute will be tracked per-guest_memfd
->>   instead of per-VM.
->>
->> Let me know what y'all think of the wording!
->>
->> >>
->> >> [...snip...]
->> >>
+ Documentation/arch/arm64/silicon-errata.rst |  2 +
+ arch/arm64/Kconfig                          | 25 +++++++++
+ arch/arm64/include/asm/barrier.h            |  4 +-
+ arch/arm64/include/asm/io.h                 | 36 +++++++++----
+ arch/arm64/kernel/cpu_errata.c              |  8 +++
+ arch/arm64/kernel/io.c                      | 82 +++++++++++++++++++++++++++++
+ arch/arm64/tools/cpucaps                    |  1 +
+ 7 files changed, 146 insertions(+), 12 deletions(-)
+
+-- 
+2.54.0.windows.1
+
