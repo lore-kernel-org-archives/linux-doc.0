@@ -1,66 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5572F2E7394;
-	Thu, 25 Jun 2026 13:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B606233A9C1
+	for <linux-doc@vger.kernel.org>; Thu, 25 Jun 2026 14:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395884; cv=none; b=FZ4Do9VHEXTD5MWApe4RvmSt4DXKy2EW6+pEXJatmtfOaRAUhaWM4jodce2qTXHLFLWt72dpF6xnX+vbDyMIDwuPJVH+Kh4/i0WN5Qa34qDjiKPUcjWnurACNSvVLW2qQ8V/tCI4+F10GGCTNP7svAMnl1mHLoq8jHQayw2LL10=
+	t=1782396366; cv=none; b=pdUpUIgjeQtr+ncWMEXFQ7ig74jpO/NbtOVuH6y99k0QzAQFv9coGOzfHdvshb71oUtQWnT0iNnOmrHsMsyerjnc/qTsTNFDcA6g0OFCw3qQ68Sy5RFXFIu4mi7CmajjT1o0IfhXX2mU6eYWUjbqxFll11hIms7V/FiflmDZBdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395884; c=relaxed/simple;
-	bh=WkpX74Apm5zS3j+opCUVdUTkZMu1z3vSVuewr0vE0WA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxLjhtqkBrDeLN+SQQabYPjRSUmjee0jL9n4ak1KWMwZFeWBM6TaDPXB4t68MYjcYECWurRJ78tqvTXS4CspHSIBWXDvJRBB+T0d6oUulDXaoYM5uHsRA5Es2MCKGzGhLB9q8jA392LZ2S+R3UOAXEb2VdlrTTJBCg8H0EfFCEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rXYrCJdy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782396366; c=relaxed/simple;
+	bh=32KL/T0pa0DTIfbi12niAIcca9ym7BhO1xxCHsrVCUk=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ckD3uBPDzpqBrdzqCRfO+L+QYxNh/2n903ygwMo5vEmxzVaW0injUz3TvWpCSOmuAg7xXr1Hy88bECSKgK5QI+0IKGGkJcvcdUtgJNBlAnULsVIzvmthZQd0nsg8H/8XzqFUfJNYfR2jyFKu3xW6LOJzZBbW4ThEKe7DBC37td4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CtHuWpBW; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rXYrCJdy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D751F000E9;
-	Thu, 25 Jun 2026 13:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782395882;
-	bh=tc+ZdzXRZteGRMtjR4CniifwuVl4SgWaauwfcCEypNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=rXYrCJdyjnxpsIjwNB43it0OboJBvuFr+8wBU+n4wpKJm7PthsSxs3TNiqbzuPMio
-	 MXr16C/loNOeILGs/+sQkc1Qt7p9YIRRZeCU+Sox80JuYSIEN9g9S1jCg51k3LDUOz
-	 S4Z1x57qnuswWmB40dldCGZ7ldwZyTtFN85xzlOA=
-Date: Thu, 25 Jun 2026 14:56:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu, michal.pecio@gmail.com,
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <2026062551-irritably-monotype-a70b@gregkh>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CtHuWpBW"
+Message-ID: <d9ada3a3-6978-4602-a11d-689e0fa4171a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782396352;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ow20Ap6CSlfnAtL2yrWY3YbWQS38wkcMjV92g0akp4s=;
+	b=CtHuWpBWIYyJV44FQuTVcb6xRChzIBDhPA7zryOK6fF9uEGBJiqSJLvmkWUPWoEfILjCFt
+	jZRry3542AnM6EBbpgD6MEZAbHgloUVC3j4fzt92kTwj0pCuzwpfnhzwEZ/wNd7r9TIzpf
+	wmUV9hnwnqYNMX/B6B5b5p/PnKUXGOU=
+Date: Thu, 25 Jun 2026 22:05:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+Cc: cui.tao@linux.dev, Shuah Khan <skhan@linuxfoundation.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cgroup/cpu: document cpu.stat.local
+To: Sun Shaojie <sunshaojie@kylinos.cn>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>
+References: <20260625130723.1144463-1-sunshaojie@kylinos.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Tao Cui <cui.tao@linux.dev>
+In-Reply-To: <20260625130723.1144463-1-sunshaojie@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Jun 23, 2026 at 09:40:35PM +0530, Nikhil Solanke wrote:
-> @@ -912,6 +915,13 @@ int usb_get_configuration(struct usb_device *dev)
->  	unsigned char *bigbuffer;
->  	struct usb_config_descriptor *desc;
->  	int result;
-> +	/*
-> +	 * Devices with quirky firmware will stall or reset when asked only for
-> +	 * the configuration header. This variable decides which size to use in
-> +	 * that case, if the quirk for that device was set.
-> +	 */
-> +	size_t usb_config_req_size = (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
-> +		? USB_CONFIG_WINDOWS_REQ_SIZE : USB_DT_CONFIG_SIZE;
 
-Please just use if () lines for code logic like this.  Don't abuse ?:
-stuff as it's not needed.  Remember, we write code for people first,
-compilers second, and in this case the compiler doesn't care either way
-at all, but an if () line makes people much happier.
 
-thanks,
+在 2026/6/25 21:07, Sun Shaojie 写道:
+> Add documentation for the cpu.stat.local interface file, which reports
+> the throttled_usec stat -- the actual throttling time incurred by the
+> cgroup's own runqueues, which may include throttling inherited from
+> ancestor cgroup bandwidth limits. Unlike cpu.stat's throttled_usec
+> which only accounts for throttling caused by the cgroup's own CFS
+> bandwidth limit.
+> 
+> When the controller is not enabled, the stat is not reported.
+> 
+> Signed-off-by: Sun Shaojie <sunshaojie@kylinos.cn>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 993446ab66d0..a7766f40ef65 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1160,6 +1160,23 @@ will be referred to. All time durations are in microseconds.
+>  	- nr_bursts
+>  	- burst_usec
+>  
+> +  cpu.stat.local
+> +	A read-only flat-keyed file which exists on non-root cgroups.
+> +	This file exists whether the controller is enabled or not.
+> +
 
-greg k-h
+Hi Shaojie,
+
+Thanks — the throttled_usec semantics are described correctly.
+
+One fix needed: "exists on non-root cgroups" is inaccurate.
+cpu.stat.local is registered without CFTYPE_NOT_ON_ROOT, so (like
+cpu.stat) it exists on the root cgroup too:
+
+  $ cat /sys/fs/cgroup/cpu.stat.local
+  throttled_usec 0
+
+Reviewed-by: Tao Cui <cuitao@kylinos.cn>
+
+Thanks,
+Tao
+
+> +	It reports the following stat when the controller is enabled:
+> +
+> +	- throttled_usec
+> +
+> +	Unlike the ``throttled_usec`` reported by ``cpu.stat`` which
+> +	accounts for throttling caused by this cgroup's own CFS
+> +	bandwidth limit, ``cpu.stat.local`` reports the actual
+> +	throttling time incurred by this cgroup's own runqueues,
+> +	which may include throttling inherited from ancestor
+> +	cgroup bandwidth limits.
+> +
+> +	When the controller is not enabled, this stat is not reported.
+> +
+>    cpu.weight
+>  	A read-write single value file which exists on non-root
+>  	cgroups.  The default is "100".
+
