@@ -1,193 +1,98 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544063E5A11;
-	Fri, 26 Jun 2026 08:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC903E3DAB;
+	Fri, 26 Jun 2026 08:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462847; cv=none; b=myD80hPXJmiOsCg1pI0WqNNwvr6Jp250+fUkPjQUxriUADSJKLFUgkzeh6IDOo8VHbZhliMAqmciR13KKyDS1Rv8s724iU1UKPW8F2cmDDWx3a8JsMwNM5CBJzHkMNZbeBjnMHG7Pl7Uov1REZfCoqR9TACNP17ZcBeCStPGbcw=
+	t=1782463887; cv=none; b=OTd11UIZpvmCNVNUzzMXj6oCtpU4gRRQKuwXUnGTF/KaCh0ryE2pr4Z0mYVYJld9v9+L856+uC/f8SPR9FFwAIenswL9MUc3vHNPlZ68qa3A9Easa01HMZ3PlC9ml5dy1fv60jpGAbfeFnxLY1HeKBoB5Dcq5svG+XRJgip29no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462847; c=relaxed/simple;
-	bh=xdzlg1QpaIDIrRyGpdS3xwLhozduuRF0hDOjQLQNG5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SvIqidewIj39JoLLEhxLsp1EA0zdS7o6dPrOZbv6G3jyKbrX+ohGyZpHs/zckFn+hOY/Xw+nihzd+3kWd9nTfkR6m/R0T4ne7SaIx/whdb1bl8sPlhQrmIVrx4MhRGa+q549Is4n2RrVsz9eBsnlR5i5Q9bdTK8HLvAAoJMiPKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XQ4iLO3X; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782463887; c=relaxed/simple;
+	bh=72LW1Sqy+CyJluT8dJ+TRAWGIYqhMfoj0D3AB5ay3hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EqOoRqSNcWYnhnT9yQRZjaV08cPeRk7nSijS+easOoLCIpkZO5ydHJzsmT32rxIHXTjTbyJAqxPpUnJSr5KqlIKkq2WXS7rn79IOk+/KxtkVexSIJ0v6oxfQ3Ci8tlacvSD6G75y+qK7AXN41huxj1mNcTrjjxfWF9qCDwvWpzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuN86shS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XQ4iLO3X"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 852794E40940;
-	Fri, 26 Jun 2026 08:33:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5795760232;
-	Fri, 26 Jun 2026 08:33:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0723C104C839C;
-	Fri, 26 Jun 2026 10:33:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782462837; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Fl/6D2iiLAuBnGZZ9BAjfhN71sA1OHwcFqVLpgKZ0yQ=;
-	b=XQ4iLO3XnqhVIw2WQ96ldk8M4w0P8kAZe9BnJPaRFrcTTGuNDXwLkUS3lXGYp+sAjjRTM0
-	2ZWFym89G7dcjmavh1HF7Gh+DcC6JN3L/LbRJm2Z55xLk2btObpDlNXOi7d9ITpHHKrCuj
-	qdFWC6cRlLO0njOO1FQTqQ1Kfj1ozejbvFJtxdORedYEl3POYJlbFd+WXK3Y/qjEwHp9MI
-	XGuC45BhyahjzDBLwrMQDiQE2LfdBSYxZPOSR4dniQINIJG3ArJgt7D6f7s+6iDas8gmQ0
-	NWvfC40naxwycdUdIsvILCqeZspbgZ7FI9N7DP6soSqAkVqbl9cB4zOTzIZQUg==
-Message-ID: <65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
-Date: Fri, 26 Jun 2026 10:33:50 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuN86shS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C131F000E9;
+	Fri, 26 Jun 2026 08:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782463886;
+	bh=dczgg0EG8SzCmQOx10ra7Wu7tyi/QlMQ5W656css9gI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ZuN86shSSyy0XeJHxDjAleAAh3O8h5DItrYs4TSav34bAuZW0MAx9ZBBE9S3nKp+q
+	 JUucAqzuWIOp1XCgdpd9P3oFXnLbWNeWduuAN7d3BLmln+qoARZNZxKF2O06nPeYv4
+	 1dAdVGA0JDyuC0sJVCZD2wvL+fK7VqCql7n7upa+dFP/qqyZ8tCeX05jqkcgPFDC5w
+	 tFX0+2mg/DvZd1BW9undZCZbfHnid5R0fV0ghRYpjUgkCITPyYbrNbnJWUD3Su88Bu
+	 iGHlEwHR4XUomu86ZdOshDLSTLNHrTMNbY7gs9BX+9uYtxaMeTpyySj/HlKZUt2HrK
+	 5/RKab/63CQEw==
+Date: Fri, 26 Jun 2026 04:51:19 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, Thomas
+ Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Julia
+ Lawall <julia.lawall@inria.fr>, Yury Norov <yury.norov@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v4 2/2] tracing: Remove trace_printk.h from kernel.h
+Message-ID: <20260626045119.659d1e6b@fedora>
+In-Reply-To: <20260625234158.GA261868@ax162>
+References: <20260625104007.041432666@kernel.org>
+	<20260625104402.210473477@kernel.org>
+	<20260625234158.GA261868@ax162>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Heiner Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
- <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+
+On Thu, 25 Jun 2026 16:41:58 -0700
+Nathan Chancellor <nathan@kernel.org> wrote:
 
 
-> Sphinx follows pythons object orientate structure. So you could have a
-> class test_ethtool_pause_advertising, with class documentation. And
-> then methods within the class which are individual tests.  The
-> commented out section would then be method documentation.
+> The following diff resolves it for me, should I send it as a separate
+> patch or do you want to just fold it in with a note?
+> 
+> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+> index 621566345406..2301a701ffbb 100644
+> --- a/include/linux/lockdep.h
+> +++ b/include/linux/lockdep.h
+> @@ -10,6 +10,7 @@
+>  #ifndef __LINUX_LOCKDEP_H
+>  #define __LINUX_LOCKDEP_H
+>  
+> +#include <linux/instruction_pointer.h>
 
-Good point, so maybe something along these lines :
+Ah, so the reason for this breakage is because lockdep was relying on
+instruction_pointer.h, that just happened to be included in kernel.h
+via trace_printk.h.
 
- - A class for the test
- - methods for indivitual tests
- - For readability, I've written what the internal test helper would look
-   like (_adv_test), and how a test would look like without the helper in
-   adv_rx_on_tx_on().
+This is a separate issue, so it should be a separate patch. I'll add it
+as patch 1 of this series.
 
-I'm already diving into coding, but it helps me a bit in the definition of the
-"description" format :)
+Can you send me the config you used. This didn't trigger in my tests.
 
-this is what the class would look like :
+Thanks,
 
-
-class test_ethtool_pause_advertising:
-    """Pause advertisement
-
-    Validate that changing pause params through the ETHTOOL_MSG_PAUSE command
-    translates to a change in the advertised pause params, and that these
-    parameters are correct w.r.t the supported pause params and requested pause
-    params.
-    
-    This exercises the .set_pauseparams() ethtool ops for MAC configuration,
-    as well as the reconfiguration of the PHY's advertising and negociation.
-    
-    On non-phylink MACs, the MAC should call phy_set_sym_pause() to update the
-    PHY's advertising, and restart a negotiation with phy_start_aneg() if
-    need be. Failure to do so will result on the wrong advertising parameters.
-    
-    Pn phylink-enabled MACs, phylink deals with the PHY reconfiguration provided
-    the MAC driver calls phylink_ethtool_set_pauseparam().
-    
-    Failing this test likely means that the PHY driver is not correctly advertising
-    pause settings, either due to the MAC triggering a PHY reconfiguration,
-    a misconficonfiguration of the advertising registers by the PHY, or by
-    mis-handling the phydev->advertising bitfield in the PHY driver directly.
-    
-    The validation is made by looking at the advertised modes locally, as well as
-    what the peer's 'lp_advertising' values report.
-
-    cfg -- local device's interface configuration
-    peer -- peer device handle
-    """
-
-    def _adv_test(cfg, peer, rx, tx, adv, not_adv):
-        ret = cfg.run(f"ethtool -A ethX rx {rx} tx {tx} autoneg on")
-        ksft_eq(ret, 0)
-
-        linkmodes = cfg.get_advertising()
-        if adv:
-            ksft_in(adv, linkmodes, f"rx {rx} tx {tx} must advertise {adv}")
-
-        if not_adv:
-            ksft_not_in(not_adv, linkmodes, f"rx {rx} tx {tx} must not advertise {not_adv}")
-
-        remote_linkmodes = peer.get_lp_advertising()
-
-        if adv:
-            ksft_in(adv, linkmodes, f"PHY does not advertise {adv}")
-
-        if not_adv:
-            ksft_not_in(not_adv, linkmodes, f"PHY incorrectly advertises {not_adv}")
+-- Steve
 
 
-    @ksft_ethtool_needs_supported_allof([Pause])
-    def adv_rx_on_tx_on(cfg, peer) -> None:
-        """Advertising test with rx on tx on
 
-        - run 'ethtool -A ethX rx on tx on autoneg on'
-        - FAIL if the return isn't 0
-        - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
-          "Pause" or contains "Asym_Pause"
-        - FAIL if peer's lp_advertising doesn't contain "Pause" or contains
-          "Asym_Pause"
-        - Succeed otherwise
-        """
-        ret = cfg.run('ethtool -A ethX rx on tx on autoneg on')
-        ksft_eq(ret, 0)
+>  #include <linux/lockdep_types.h>
+>  #include <linux/smp.h>
+>  #include <asm/percpu.h>
 
-        linkmodes = cfg.get_advertising()
-        ksft_in('Pause', linkmodes, "rx on tx on must advertise Pause")
-        ksft_not_in('Asym_Pause', linkmodes, "rx on tx on must not advertise Asym_Pause")
-
-        remote_linkmodes = peer.get_lp_advertising()
-        ksft_in('Pause', linkmodes, "PHY does not advertise Pause")
-        ksft_not_in('Asym_Pause', linkmodes, "PHY incorrectly advertises Asym_Pause")
-
-
-    @ksft_ethtool_needs_supported_allof([Pause, Asym_Pause])
-    def adv_rx_on_tx_off(cfg, peer) -> None:
-        """Advertising test with rx on tx off
-
-        - run 'ethtool -A ethX rx on tx off autoneg on'
-        - FAIL if the return isn't 0
-        - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
-          "Pause" and "Asym_Pause"
-        - FAIL if peer's lp_advertising doesn't contain "Pause" and "Asym_Pause"
-        - Succeed otherwise
-        """
-
-        _adv_test(cfg, peer, 'on', 'off', ["Pause", "Asym_Pause"], [])
-
-    @ksft_ethtool_needs_supported_allof([Asym_Pause])
-    def adv_rx_off_tx_on(cfg, peer) -> None:
-        """Advertising test with rx off tx on
-
-        - run 'ethtool -A ethX rx off tx on autoneg on'
-        - FAIL if the return isn't 0
-        - FAIL if ETHTOOL_A_LINKMODES_OURS's advertised values does not contain
-          "Asym_Pause" or contains "Pause"
-        - FAIL if peer's lp_advertising doesn't contain "Pause" and "Asym_Pause"
-        - Succeed otherwise
-        """
-
-        _adv_test(cfg, peer, 'off', 'on', ["Asym_Pause"], ["Pause"])
-
-
-Maxime
