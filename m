@@ -1,152 +1,199 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E283F6C39
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 13:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE493AD510;
+	Fri, 26 Jun 2026 13:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782479890; cv=none; b=aL+KynuyoioygIY5jgCwKkxxMHsPzEix9nxSoV1UXqFSvgDebPM/og8LfPPyWvfqkTfB+qNq8mqK49yCSrD2EDPbU5ikMOJlmcD5w75H7lY51s6GE+WyR+NoKb/OxX5CMo5cMQpxueYBJ85KqdKY/59lO9lS3bETl76g/zz1qs4=
+	t=1782479941; cv=none; b=jMDRKHkcS/4fH1x/lnohYFxW7JlOJa2EUC0dEwwJ44XaBjQphyAzcRZ2f9xDXBfIwVYFmD2NnzNAW6voqJS8yiEKRM4O6R+KSrvk+BzGGfXgCeujtcDusvkFch67u+YU7+pZ9brP1FdTCtRToFb0Vok34M+WAIRFsa1Q0aOk5ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782479890; c=relaxed/simple;
-	bh=2go8tLsemrVF9QHB7Woqcbs5lO6ciMBQ+JmmMaNzJ+E=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0hpfvj6NUUDzVMW2ap3HaI+vNaQ4xLxrtR0ruBrK+dURBpTm4Jh7/IiHX/JQJvEHtt9xM6OVUL3uGTqAX44vf1mAQsVsB2EEIo5FSEIewMuliAGkLHwduUa6Npr+lzT1KVo3C1HalYKrKv1GbVb2fTLavdgUYcb/YIJZFuVQHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOljbKj7; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782479941; c=relaxed/simple;
+	bh=jGFQuiCfDUthfNWjPX1YbbDokCETKthKiHk+GqVV7AU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iyxZXXlTcdU1nozrgeH3t4imOjFYo5T9gAsdjEuQ6ZF795e7ucnemSC58Ajo33Z+v0fzcTD7KkcFNzh4HXMJEU2Ks4oiRy29gd4rygSTjsMP00QAQsx+huYQdv5FV/FTj1xblmy17qHsdXyLz3byJnQ/HWDq+eUic2A1m8HQqno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Cl8xW/pe; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOljbKj7"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-30c944aacbaso1493644eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 06:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782479887; x=1783084687; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i5i+CvOkHBeeX3a+TkIm9MbIlVbCj3+vQ7+Rec0FlPA=;
-        b=KOljbKj7nuHeUJuT2+4Kd5fIWO8h0a63z8JWRxpNUPpCUz9bWZNC+bU37oVt9JYjR4
-         piqELX5j9BeXj19pF+KFLL6FPILjY7Ez9dmNOUQ0EYQvkOUGtlsfc1gkBrjFMl2wtJC0
-         AHdR3vnfkhXeSllDVsE0kNEaapa4KHWduaMilw/1gYg56xrbk/DvjGeJ4hmLhJSQc92z
-         qbca0WKDg3MluJ2kUfg4Zcs45YB4rdeXN08ZzoKkGHDLZvN4+ORDl827EvBMWT/atBHi
-         cdic7pPC5znVNIFvfbxGab36xA8q1Ipzxvlfbrk1DUuKViSfDw8F/r2/tLy/ciciB7Pb
-         ONNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782479887; x=1783084687;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i5i+CvOkHBeeX3a+TkIm9MbIlVbCj3+vQ7+Rec0FlPA=;
-        b=LKWEvFJUBJL4wmUIrsr9AWU7VFeHa5tisUIf2oJTs/DUy/s14s3UieRVdSYscS5qCp
-         14mphl0NDZt9jxKoc6W9qZyj4QfK5r5uZObDGGu+ScdMDKiL5aVN84Lf9ai2TVyhcmR6
-         hwDai4nPdpd4/o4YhR/AL8OtLjsWP9iUrzV2UiVup0TEWNdQJg/kLhTGF9V5hRMqkfHj
-         6b3D29L48TS5qKclEZBF1n4n/vXLQlVl+LlOal1HyBOx2Ix3K7St01WejMR1YoOpUWxX
-         8bw9idLUtIW99AgnAk+VXoR0vfAxxy4nvh8+VnV3pxSGd1t3EAArMYqWPQmWhhWsSy2u
-         9JLA==
-X-Forwarded-Encrypted: i=1; AHgh+RqLusEv+wsfbl+YSDpbAnLSVpe6tYN3Gveh05L6LdUGVV4pACgeyqM2vLSfHNJczFJzCHtVNfXpUx0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXA8j+Iwzdwx0jqYHCzKzV/Mhqo1u/sq9gaDgJsHHkxC/aIv8u
-	j/pjFWNrErcmavJ3zrWwBnBpHYqHKCnpVWGZa3FpYUHi7eflzfosgKnb
-X-Gm-Gg: AfdE7cmlVsmsK3xIiP8A8X3g7+XEjJklC+i/jAYxEWgURBd0qz3SBfaq9on/HMazDKa
-	7iVJ0IwOXajvkm53Gcm4304h1A5Vt+3r1p2AeUDVWSpp0B73VNL7NHRJZDiXgyzIOpH7XATo4dP
-	LoE9TVYgW8rWYtdXewHslpl62utEIIoEJM9PE/TnwhQ94sPoUz5hyehqOdU7pCYIfbzLL62Ymwp
-	xn8l1B13veLabz/twl4scRLYhrR01c0cCOradUWZS+Yg2W6huOY/hlJQs09rk0djno3M++v/vV8
-	RdJ2leNzozhmY4Y7ixd45WE45Upvi8KG/aePTZFQ/JIJgLGyAw2inFKgY6Oa503LgPAJYzN25Vb
-	oOIKP5w0sG36D48oGBwkffxG9S3ouf1rHGJHEs9CK7mKIOprQme8eU5bUGoEzno4baNyF9Sruz2
-	T2anJUb/OL
-X-Received: by 2002:a05:7301:5f84:b0:307:37a4:15dd with SMTP id 5a478bee46e88-30c85009ea4mr8248003eec.26.1782479886899;
-        Fri, 26 Jun 2026 06:18:06 -0700 (PDT)
-Received: from localhost ([216.228.127.129])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7ca87caasm17211867eec.27.2026.06.26.06.18.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 06:18:06 -0700 (PDT)
-From: Yury Norov <yury.norov@gmail.com>
-X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
-Date: Fri, 26 Jun 2026 09:18:04 -0400
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, yury.norov@gmail.com,
-	linux-kernel@vger.kernel.org, mingo@kernel.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-	tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-	seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-	rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-	srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-	vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-	pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 04/24] cpumask: Introduce cpu_preferred_mask
-Message-ID: <aj58DG3BLf3YWPyg@yury>
-References: <20260625124648.802832-1-sshegde@linux.ibm.com>
- <20260625124648.802832-5-sshegde@linux.ibm.com>
- <20260626093901.GN1181229@noisy.programming.kicks-ass.net>
- <20260626094153.GD2568396@noisy.programming.kicks-ass.net>
- <79e85557-719c-4fc8-98ad-7bdcc6add753@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Cl8xW/pe"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QAITvY2920215;
+	Fri, 26 Jun 2026 13:18:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=GvcQ7o
+	sgvxbe1lcajyMgTm5ZRMGNqJpSf+DCBXY/ils=; b=Cl8xW/peJQBvhZz5hvQOSA
+	j8vygvnsrRx4bAamsB0ywHTQYwlxcpLTx7ytUibzfL3nEBQxRN4fUXir9d6Ahs8N
+	6MlwbFIhixgaBMkFbZwzWEIJGvt+1U15vPsr79HIRks9OKTJ1ZyM81stS3OXD7PL
+	rkqrz1Y6txOXtXbDeKVJK2N3F2sx5wISuxQyTnsipc0LboJ9OtCATaN67lWXARD+
+	T+lsSM/kZiwijsKbcNclYwc3x1pC1rSsauoirgI5zeI/jh+WqlwzjMt7Zg8yiFrY
+	Nn5S2b6YtFqh+LxvwIoc+3Hw3tQFTvFYqZL7VrbFVKrBDwnVo4I8Gxq9tyra3Kbg
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjhr72h3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jun 2026 13:18:38 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65QD4ht7010029;
+	Fri, 26 Jun 2026 13:18:37 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex6phu64a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jun 2026 13:18:36 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65QDIWRY51839394
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 26 Jun 2026 13:18:32 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A573C20043;
+	Fri, 26 Jun 2026 13:18:32 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B13E720040;
+	Fri, 26 Jun 2026 13:18:25 +0000 (GMT)
+Received: from [9.39.23.71] (unknown [9.39.23.71])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 26 Jun 2026 13:18:25 +0000 (GMT)
+Message-ID: <47d323b1-8376-4ee0-b8cc-e13944f9dacf@linux.ibm.com>
+Date: Fri, 26 Jun 2026 18:48:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79e85557-719c-4fc8-98ad-7bdcc6add753@linux.ibm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/24] cpumask: Introduce cpu_preferred_mask
+To: Yury Norov <yury.norov@gmail.com>, Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org
+References: <20260625124648.802832-1-sshegde@linux.ibm.com>
+ <20260625124648.802832-5-sshegde@linux.ibm.com>
+ <20260626093901.GN1181229@noisy.programming.kicks-ass.net>
+ <aj5zRBrQJG-cxs0_@yury>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <aj5zRBrQJG-cxs0_@yury>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=I4VVgtgg c=1 sm=1 tr=0 ts=6a3e7c2e cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=jeCAWEdCRBU5YeOHBNEA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDEwOSBTYWx0ZWRfX/uvmMHiVvH+k
+ fdTTVA+GF1rS6Vz8xj6wEXtw8exx1NfwZeGt0dNBv1wWhOR+SooTiy9KwyKQbcePKWK5PpF1hOJ
+ PXfCr56/B7nMNAZ/fhehIec++WYf87HdvyLLSAtK7v9Tlta0/uy+s7q+MzCjzD0VFHHVrXThzmH
+ H6+3poUYTihZt86w3U5eva+yEQYbdNijYoqUkv0woR6VARW0Snao++obKyKtxpsdgBdIeP0uYEZ
+ 6oR22sP9Y7u+9wHNvvmkXYkoYAnFxTLgvuWMPscwsTfUCajrVVhRlzs6D3WuVODWZmNqGiVCyEJ
+ qgUgpdPsjbrGMB0KEX4imjtMnVFY/iwPGceIloPQSZm8WYnnr6MF8/W/AyMb550BJU5uZI/Knv/
+ vcPlr3eaKYzpRt9deMtO3RSA+O6CGfAbNipmV1Y0vBVroslJKI9vwtcK+j7QUtZ5RJ9dSMl/LJi
+ lrwauzTrZW2sjiMw1sA==
+X-Proofpoint-GUID: 2LlL1xrBY1BS_HCyzd4BvRxxpiMifmFk
+X-Proofpoint-ORIG-GUID: 8QHIKq_Dn4kMwNX0T_tlnglapDXExOtv
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDEwOSBTYWx0ZWRfX+krkl1GclEiB
+ mcaviy8k1a/VsshIORQfrRB1B73hqx/l5wRJtUgElHxZu2Uf0z7+oDZ/tgrwDobOMuBnF2jaDuQ
+ 8yRRsr7DU/J8tgLHaX+pqOms7Sv8Ia8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-26_03,2026-06-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606260109
 
-On Fri, Jun 26, 2026 at 06:39:48PM +0530, Shrikanth Hegde wrote:
-> Hi Peter, Yury.
-> 
-> On 6/26/26 3:11 PM, Peter Zijlstra wrote:
-> > On Fri, Jun 26, 2026 at 11:39:01AM +0200, Peter Zijlstra wrote:
-> > > On Thu, Jun 25, 2026 at 06:16:28PM +0530, Shrikanth Hegde wrote:
-> > > 
-> > > > diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> > > > index 80211900f373..5a643d608ea6 100644
-> > > > --- a/include/linux/cpumask.h
-> > > > +++ b/include/linux/cpumask.h
-> > > > @@ -120,12 +120,20 @@ extern struct cpumask __cpu_enabled_mask;
-> > > >   extern struct cpumask __cpu_present_mask;
-> > > >   extern struct cpumask __cpu_active_mask;
-> > > >   extern struct cpumask __cpu_dying_mask;
-> > > > +
-> > > > +#ifdef CONFIG_PREFERRED_CPU
-> > > > +extern struct cpumask __cpu_preferred_mask;
-> > > > +#else
-> > > > +#define __cpu_preferred_mask __cpu_active_mask
-> > > > +#endif
-> > > 
-> > > This is cure, but does it not result in set_cpu_preferred() changing
-> > s/cure/cute/
-> > > active mask, and it that not somewhat unexpected behaviour?
-> > s/it/is/
-> > 
-> 
-> Yes. I thought about this, but i didn't see anything bad happening apart from
-> setting it twice. But I do agree, it is an eyesore when CONFIG_PREFERRED_CPU=n.
-> 
-> > Typing hard, clearly. Also hitting 30C before noon :-(
-> > 
-> 
-> Take care. Even we should have had monsoon by now.
-> But its bright sunshine :(
-> 
-> > 
-> 
-> For this reason, i had it as a function instead of macro in v4.
-> Do you think we can still fallback to it?
-> 
-> only caveat is it won't be a macro. But since it is still compile
-> time optimized due to IS_ENABLED, it should be relatively ok right?
-> 
-> +void set_cpu_preferred(unsigned int cpu, bool preferred)
-> +{
-> +	if (!IS_ENABLED(CONFIG_PREFERRED_CPU))
-> +		return;
-> +
-> +	assign_cpu((cpu), &__cpu_preferred_mask, (preferred));
-> +}
 
- #ifdef CONFIG_PREFERRED_CPU
- #define set_cpu_preferred(cpu, preferred) assign_cpu((cpu), &__cpu_preferred_mask, (preferred))
- #else
- #define set_cpu_preferred(cpu, preferred) {}
- #endif
+
+On 6/26/26 6:10 PM, Yury Norov wrote:
+> On Fri, Jun 26, 2026 at 11:39:01AM +0200, Peter Zijlstra wrote:
+>> On Thu, Jun 25, 2026 at 06:16:28PM +0530, Shrikanth Hegde wrote:
+>>
+>>> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+>>> index 80211900f373..5a643d608ea6 100644
+>>> --- a/include/linux/cpumask.h
+>>> +++ b/include/linux/cpumask.h
+>>> @@ -120,12 +120,20 @@ extern struct cpumask __cpu_enabled_mask;
+>>>   extern struct cpumask __cpu_present_mask;
+>>>   extern struct cpumask __cpu_active_mask;
+>>>   extern struct cpumask __cpu_dying_mask;
+>>> +
+>>> +#ifdef CONFIG_PREFERRED_CPU
+>>> +extern struct cpumask __cpu_preferred_mask;
+>>> +#else
+>>> +#define __cpu_preferred_mask __cpu_active_mask
+>>> +#endif
+>>
+>> This is cure, but does it not result in set_cpu_preferred() changing
+>> active mask, and it that not somewhat unexpected behaviour?
+> 
+> I agree, and I think I already commented on it on previous round.
+> set_cpu_preferred() should be protected the same way as the
+> corresponding mask, and should be a NOP when CONFIG_PREFERRED_CPU
+> is disabled.
+> 
+>>>   #define cpu_possible_mask ((const struct cpumask *)&__cpu_possible_mask)
+>>>   #define cpu_online_mask   ((const struct cpumask *)&__cpu_online_mask)
+>>>   #define cpu_enabled_mask   ((const struct cpumask *)&__cpu_enabled_mask)
+>>>   #define cpu_present_mask  ((const struct cpumask *)&__cpu_present_mask)
+>>>   #define cpu_active_mask   ((const struct cpumask *)&__cpu_active_mask)
+>>>   #define cpu_dying_mask    ((const struct cpumask *)&__cpu_dying_mask)
+>>> +#define cpu_preferred_mask ((const struct cpumask *)&__cpu_preferred_mask)
+>>>   
+>>>   extern atomic_t __num_online_cpus;
+>>>   extern unsigned int __num_possible_cpus;
+>>
+>>> diff --git a/kernel/cpu.c b/kernel/cpu.c
+>>> index bc4f7a9ba64e..d623a9c5554a 100644
+>>> --- a/kernel/cpu.c
+>>> +++ b/kernel/cpu.c
+>>> @@ -3107,6 +3107,11 @@ EXPORT_SYMBOL(__cpu_dying_mask);
+>>>   atomic_t __num_online_cpus __read_mostly;
+>>>   EXPORT_SYMBOL(__num_online_cpus);
+>>>   
+>>> +#ifdef CONFIG_PREFERRED_CPU
+>>> +struct cpumask __cpu_preferred_mask __read_mostly;
+>>> +EXPORT_SYMBOL(__cpu_preferred_mask);
+>>> +#endif
+>>
+>> Precedent is definitely towards !GPL exports for this, but could we get
+>> away with making this one GPL?
+>>
+>>
+>>> @@ -3164,6 +3169,7 @@ void __init boot_cpu_init(void)
+>>>   	/* Mark the boot cpu "present", "online" etc for SMP and UP case */
+>>>   	set_cpu_online(cpu, true);
+>>>   	set_cpu_active(cpu, true);
+>>> +	set_cpu_preferred(cpu, true);
+>>
+>> This sets active twice, which is harmless, but wasteful...
+> 
+> I think, the good criteria for correctness of this series would be the
+> identical binaries before the series, and when CONFIG_PREFERRED_CPU is
+> off. At least, as a mental model. This double-set chunk breaks that
+> model.
+> 
+
+Sorry, i didn't get how comparison could be,
+You mean bloat-o-meter or kernel/cpu.o size or vmlinux size file?
+
+That would mean everything should be under ifdef CONFIG_PREFERRED_CPU.
+No? That was the case in few versions earlier, and it was not looking 
+good since due to many ifdefs.
+
+If we fix set_cpu_preferred to be a NOP when CONFIG_PREFERRED_CPU=n and 
+driver depends on it, i think we should be good.
+
+What do you think?
 
