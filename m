@@ -1,261 +1,189 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644FC3F6C3B
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 14:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1193F8248;
+	Fri, 26 Jun 2026 14:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782483772; cv=none; b=l+OZ6lODl9nsb5jH8gToYuFEwBvhVmNEVA39BsMWmREzFjyEH5rjatx8v6eVnDwZiWlnSp+jA9CSFxv0IceETCyXpU3SDSa8tnhu/h5cFshatL1Y8F8T546CUtoDVDl2AfcOlZImb0lkrFWxz/7yxE0ihxkZ9bgmegt6ISrGXoQ=
+	t=1782484415; cv=none; b=pmGevf6srCDO+moS0bA68TaPwJqIKvYJHeAvQ05xQt6hHAUXnd7BgF1p7++jV+schxxgvkfHKTE7S0tsUmXr+bvaWPi6EZ+bjs6OrgP2KZ2s9atBfoq+xUs34iiRffmPjHW4wH4gzFFm7DiKCi29jRw+MEtgVNAlQAVYfIGuFG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782483772; c=relaxed/simple;
-	bh=cXaqsM1PpKfaMoOs9eaSaUzWG3Uc7ETrUGcmj3/0kIo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=lLjzYZVsmd6D//W+8bzPHKCQel6PcMnLcNM5cXOTXnQuQinMe5B2lI+4P0U8pkk5oXYJQhp9CfmmPbA0nn0Kf97LSZd5GbGcSFMWQWaboVQnuefKlhb1Em4z0m6xXRO5kAB1rROFLXIkJk4l8CSDt1KAi+lUDHQyrKiUNs3LzDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cmbGKR+a; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782484415; c=relaxed/simple;
+	bh=CA/9cuc4Xw92T+X815sAqsIVvXRLhqZME88G48Ncrg0=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=IZIgAHr5oRrG+Zf00fn4Z5efH9iDj6TAFJSe1uKmEDUOsEOlsvrgpu5L31Zm+dC3dkMdM1+oAqBF2lUuEsvdvIWsLMtY4iEx366igriDe76IvnkubeT81L6Em6i1pul/UGp+YBca12xzufIAvYen7htJbImGYAr6kdUcVVVMe9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBwb7/ay; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cmbGKR+a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBwb7/ay"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0731A1F000E9;
+	Fri, 26 Jun 2026 14:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782484413;
+	bh=/h6LR3ABkatbN/GtG7FgNY6HuHtEJ4oLgCHTfcl5Ty4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=PBwb7/ayqOgTyVoRNx1qUAPWVELhtYlBLYIr872nkQm9bycofsfBwBpaegtrdmeEo
+	 6lMGtBQC1mkZL5AbW2KXDREpSGWQ5ACkPOxf6D5AJ6MMLlvgw8W7D12TA6ycWshYCl
+	 5DuN1JPoJczrAPUZ5DzugfcaSO8GsbS08PMd+J/xwG8rN4Ocy1BSPjKqRaNRhGFtgs
+	 YYajj9lfeIOxAT4fjv/SZP0gFJ7it2U/6GXRMEUihunXDfd3B3QMp6o6XV1AX6odt9
+	 E0ckfEaDHY852mGnuakVna/OcEbEKehnGh+M8/5bd8QiRhMZVa83yGN/zQlaAZlgq5
+	 pHFAof6ugtI/Q==
+Date: Fri, 26 Jun 2026 23:33:27 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor
+ <nathan@kernel.org>, paulmck@kernel.org, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ bpf@vger.kernel.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org,
+ kernel-team@meta.com, Nicolas Schier <n.schier@fritz.com>
+Subject: Re: [PATCH v7 0/9] bootconfig: embed kernel.* cmdline at build time
+Message-Id: <20260626233327.b5c9c8de494acdde4ddf5c02@kernel.org>
+In-Reply-To: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
+References: <20260626-bootconfig_using_tools-v7-0-24ab72139c29@debian.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782483765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sXG8afNs3yklXPbprHmJENAjnx3o20Btd5uIVU420b8=;
-	b=cmbGKR+aou02UPg0yNfg6EUU0La0FotxxR6hFPLMLLx0i5lyy0uaFlAgbddgfY7BgaEqsZ
-	Avp7TJZOyigFd/b6E8iMjLcwLrplB8eRe2p1FXE6V2RLxfwUhMhmUh4RVdZbwmBV1PhoSu
-	DO+3c0Hx0lG9DdahENlsDEcvPZ/2SDM=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 14:22:35 +0000
-Message-Id: <DJJ1R8VB5H31.1XJ69GVCYMB87@linux.dev>
-Subject: Re: [PATCH v12 13/16] KVM: selftests: Add guest_memfd based
- vm_mem_backing_src_types
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
- <kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
- <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
- <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
- <oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
- "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
- <yuzenghui@huawei.com>, "catalin.marinas@arm.com"
- <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
- "seanjc@google.com" <seanjc@google.com>, "tglx@kernel.org"
- <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
- <bp@alien8.de>, "dave.hansen@linux.intel.com"
- <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
- "hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
- "peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
- <willy@infradead.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
- "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
- "vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org"
- <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
- "mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
- "daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org"
- <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>,
- "eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org"
- <song@kernel.org>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
- "john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
- <kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
- "haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
- <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
- <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
- "jannh@google.com" <jannh@google.com>, "pfalcato@suse.de"
- <pfalcato@suse.de>, "skhan@linuxfoundation.org"
- <skhan@linuxfoundation.org>, "riel@surriel.com" <riel@surriel.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com"
- <jgross@suse.com>, "yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>,
- "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
- "ackerleytng@google.com" <ackerleytng@google.com>, "yosry@kernel.org"
- <yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
- "maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com"
- <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
- "wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com"
- <jmattson@google.com>, "jthoughton@google.com" <jthoughton@google.com>,
- "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, "alex@ghiti.fr"
- <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
- "chenhuacai@kernel.org" <chenhuacai@kernel.org>, "baolu.lu@linux.intel.com"
- <baolu.lu@linux.intel.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>, "hca@linux.ibm.com"
- <hca@linux.ibm.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "pjw@kernel.org" <pjw@kernel.org>, "shijie@os.amperecomputing.com"
- <shijie@os.amperecomputing.com>, "svens@linux.ibm.com"
- <svens@linux.ibm.com>, "thuth@redhat.com" <thuth@redhat.com>,
- "yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
- "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
- <urezki@gmail.com>, "zhengqi.arch@bytedance.com"
- <zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
- <gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
- <jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
- "pavel@kernel.org" <pavel@kernel.org>, "rafael@kernel.org"
- <rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
- "vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
- <jackmanb@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
- "Itazuri, Takahiro" <itazur@amazon.co.uk>
-References: <20260410151746.61150-1-kalyazin@amazon.com>
- <20260410151746.61150-14-kalyazin@amazon.com>
-In-Reply-To: <20260410151746.61150-14-kalyazin@amazon.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri Apr 10, 2026 at 3:20 PM UTC, Nikita Kalyazin wrote:
-> From: Patrick Roy <patrick.roy@linux.dev>
->
-> Allow selftests to configure their memslots such that userspace_addr is
-> set to a MAP_SHARED mapping of the guest_memfd that's associated with
-> the memslot. This setup is the configuration for non-CoCo VMs, where all
-> guest memory is backed by a guest_memfd whose folios are all marked
-> shared, but KVM is still able to access guest memory to provide
-> functionality such as MMIO emulation on x86.
->
-> Add backing types for normal guest_memfd, as well as direct map removed
-> guest_memfd.
->
-> Signed-off-by: Patrick Roy <patrick.roy@linux.dev>
-> Signed-off-by: Nikita Kalyazin <nikita.kalyazin@linux.dev>
+On Fri, 26 Jun 2026 05:50:09 -0700
+Breno Leitao <leitao@debian.org> wrote:
+
+> The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
+> already landed; this series wires the rendered cmdline into the kernel.
+> 
+> Motivation: today the embedded bootconfig is parsed at runtime, after
+> parse_early_param() has already run, so early_param() handlers can't
+> see embedded values. Folding the kernel.* subtree into the cmdline at
+> build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
+> users without forcing them to maintain two cmdline sources.
+> 
+> Behaviorally, the "kernel" subtree is rendered to a flat string at
+> build time and stashed in .init.rodata. setup_arch() prepends it to
+> boot_command_line before parse_early_param() runs. Overflow is a soft
+> error: the helper logs and leaves boot_command_line untouched rather
+> than panicking, so an oversized embedded bconf cannot brick a boot.
+> 
+
+Thanks for update!! This looks good to me.
+Let me pick it and test it.
+
+Thanks,
+
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 > ---
->  .../testing/selftests/kvm/include/kvm_util.h  | 18 ++++++
->  .../testing/selftests/kvm/include/test_util.h |  7 +++
->  tools/testing/selftests/kvm/lib/kvm_util.c    | 61 ++++++++++---------
->  tools/testing/selftests/kvm/lib/test_util.c   |  8 +++
->  4 files changed, 65 insertions(+), 29 deletions(-)
->
-> diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testi=
-ng/selftests/kvm/include/kvm_util.h
-> index 8b39cb919f4f..056a003a63c0 100644
-> --- a/tools/testing/selftests/kvm/include/kvm_util.h
-> +++ b/tools/testing/selftests/kvm/include/kvm_util.h
-> @@ -664,6 +664,24 @@ static inline bool is_smt_on(void)
-> =20
->  void vm_create_irqchip(struct kvm_vm *vm);
-> =20
-> +static inline uint32_t backing_src_guest_memfd_flags(enum vm_mem_backing=
-_src_type t)
-> +{
-> +	uint32_t flags =3D 0;
-> +
-> +	switch (t) {
-> +	case VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP:
-> +		flags |=3D GUEST_MEMFD_FLAG_NO_DIRECT_MAP;
-> +		fallthrough;
-> +	case VM_MEM_SRC_GUEST_MEMFD:
-> +		flags |=3D GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return flags;
-> +}
-> +
->  static inline int __vm_create_guest_memfd(struct kvm_vm *vm, uint64_t si=
-ze,
->  					uint64_t flags)
->  {
-> diff --git a/tools/testing/selftests/kvm/include/test_util.h b/tools/test=
-ing/selftests/kvm/include/test_util.h
-> index 8140e59b59e5..ea6de20ce8ef 100644
-> --- a/tools/testing/selftests/kvm/include/test_util.h
-> +++ b/tools/testing/selftests/kvm/include/test_util.h
-> @@ -152,6 +152,8 @@ enum vm_mem_backing_src_type {
->  	VM_MEM_SRC_ANONYMOUS_HUGETLB_16GB,
->  	VM_MEM_SRC_SHMEM,
->  	VM_MEM_SRC_SHARED_HUGETLB,
-> +	VM_MEM_SRC_GUEST_MEMFD,
-> +	VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP,
->  	NUM_SRC_TYPES,
->  };
-> =20
-> @@ -184,6 +186,11 @@ static inline bool backing_src_is_shared(enum vm_mem=
-_backing_src_type t)
->  	return vm_mem_backing_src_alias(t)->flag & MAP_SHARED;
->  }
-> =20
-> +static inline bool backing_src_is_guest_memfd(enum vm_mem_backing_src_ty=
-pe t)
-> +{
-> +	return t =3D=3D VM_MEM_SRC_GUEST_MEMFD || t =3D=3D VM_MEM_SRC_GUEST_MEM=
-FD_NO_DIRECT_MAP;
-> +}
-> +
->  static inline bool backing_src_can_be_huge(enum vm_mem_backing_src_type =
-t)
->  {
->  	return t !=3D VM_MEM_SRC_ANONYMOUS && t !=3D VM_MEM_SRC_SHMEM;
-> diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/s=
-elftests/kvm/lib/kvm_util.c
-> index 5b0865683047..fa4a2fc236fe 100644
-> --- a/tools/testing/selftests/kvm/lib/kvm_util.c
-> +++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-> @@ -1046,6 +1046,33 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_bac=
-king_src_type src_type,
->  	alignment =3D 1;
->  #endif
-> =20
-> +	if (guest_memfd < 0) {
-> +		if ((flags & KVM_MEM_GUEST_MEMFD) || backing_src_is_guest_memfd(src_ty=
-pe)) {
-> +			uint32_t guest_memfd_flags =3D backing_src_guest_memfd_flags(src_type=
-);
-> +
-> +			TEST_ASSERT(!guest_memfd_offset,
-> +				    "Offset must be zero when creating new guest_memfd");
-> +			guest_memfd =3D vm_create_guest_memfd(vm, mem_size, guest_memfd_flags=
-);
-> +		}
-> +	} else {
-> +		/*
-> +		 * Install a unique fd for each memslot so that the fd
-> +		 * can be closed when the region is deleted without
-> +		 * needing to track if the fd is owned by the framework
-> +		 * or by the caller.
-> +		 */
-> +		guest_memfd =3D kvm_dup(guest_memfd);
-> +	}
-> +
-> +	if (guest_memfd >=3D 0) {
-> +		flags |=3D KVM_MEM_GUEST_MEMFD;
-> +
-> +		region->region.guest_memfd =3D guest_memfd;
-> +		region->region.guest_memfd_offset =3D guest_memfd_offset;
-> +	} else {
-> +		region->region.guest_memfd =3D -1;
-> +	}
-> +
->  	/*
->  	 * When using THP mmap is not guaranteed to returned a hugepage aligned
->  	 * address so we have to pad the mmap. Padding is not needed for HugeTL=
-B
-> @@ -1061,10 +1088,13 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_ba=
-cking_src_type src_type,
->  	if (alignment > 1)
->  		region->mmap_size +=3D alignment;
-> =20
-> -	region->fd =3D -1;
-> -	if (backing_src_is_shared(src_type))
-> +	if (backing_src_is_guest_memfd(src_type))
-> +		region->fd =3D guest_memfd;
+> Changes in v7:
+> - The runtime opt-in now shares one helper instead of open-coding its
+>   own. (Masami)
+> - bootconfig_cmdline_requested() moved into generic lib code (Masami)
+> - Link to v6: https://lore.kernel.org/r/20260623-bootconfig_using_tools-v6-0-640c2f587a3c@debian.org
+> 
+> Changes in v6:
+> - renamed CONFIG_BOOT_CONFIG_EMBED_CMDLINE to
+>   CONFIG_CMDLINE_FROM_BOOTCONFIG
+> - prepend embedded bootconfig cmdline before parse_early_param
+> - Link to v5: https://lore.kernel.org/r/20260617-bootconfig_using_tools-v5-0-fd589a9cc5e3@debian.org
+> 
+> Changes in v5:
+> - Patch 3 (Kconfig): drop the redundant "depends on BOOT_CONFIG_EMBED"
+>   from CMDLINE_FROM_BOOTCONFIG; Julian Braha.
+> - Patch 6 (Documentation): spell out how the embedded cmdline interacts
+>   with the bootloader cmdline, an initrd bootconfig, and the embedded
+>   bootconfig
+> - Link to v4: https://lore.kernel.org/r/20260609-bootconfig_using_tools-v4-0-73c463f03a97@debian.org
+> 
+> Changes in v4:
+> - Patch 3 (build pipeline): clear CROSS_COMPILE= in the kernel-side
+>   tools/bootconfig sub-make. Without it, an LLVM=1 cross build
+>   inherits CROSS_COMPILE and tools/scripts/Makefile.include injects
+>   --target=/--sysroot= into the host clang, producing a target
+>   binary that fails to exec.
+> - Patch 3 (build pipeline): place embedded-cmdline.S in its own
+>   .init.rodata.embed_cmdline subsection ("a") so ld.lld does not
+>   see a section-type mismatch against lib/bootconfig-data.S's
+>   writable .init.rodata ("aw"). The linker's *(.init.rodata
+>   .init.rodata.*) glob still folds it into the init image.
+> - Patch 6 (x86/setup): also accept the bootconfig=<anything> form
+>   via cmdline_find_option(), matching the runtime parse_args() loop.
+>   Without it, bootconfig=0/=off would skip the early prepend but
+>   still trigger the late runtime apply -- a split-brain state.
+> - New patch 7: document CONFIG_CMDLINE_FROM_BOOTCONFIG in
+>   Documentation/admin-guide/bootconfig.rst (semantics, opt-in,
+>   precedence, overflow behavior, example).
+> - Link to v3: https://lore.kernel.org/r/20260608-bootconfig_using_tools-v3-0-4ddd079a0696@debian.org
+> 
+> Changes in v3:
+> - Patch 3: Move HOSTCC override to the kernel-side rule; tool keeps
+>   $(CC) for standalone/cross builds.
+> - Patch 6: Drop the false fail-safe wording; document the
+>   BOOT_CONFIG_FORCE=y default interaction.
+> - Link to v2:
+>   https://lore.kernel.org/r/20260605-bootconfig_using_tools-v2-0-d309f544b5f7@debian.org
+> 
+> Changes in v2 (addressing review of v1):
+> - Split out a standalone fix for the NULL-pointer arithmetic in
+>   xbc_snprint_cmdline() so the build-time render cannot trip host
+>   UBSan/FORTIFY_SOURCE.
+> - Rework the leaf-root handling: instead of returning early, skip @root
+>   inside the loop so a root carrying both a value and subkeys
+>   (kernel = x together with kernel.foo = bar) still renders its
+>   descendant keys.
+> - Build tools/bootconfig with $(HOSTCC) so cross-compiled (ARCH=...)
+>   builds render the cmdline on the build host instead of failing with
+>   "Exec format error".
+> - Mark the embedded cmdline section read-only (drop the "w" flag from
+>   .init.rodata).
+> - Add a make-clean hook so tools/bootconfig artifacts are removed by
+>   make clean.
+> - Gate the x86 prepend on "bootconfig" being present on the command
+>   line (or CONFIG_BOOT_CONFIG_FORCE), matching the init.* opt-in
+>   semantics documented in bootconfig.rst and preserving fail-safe
+>   recovery: dropping "bootconfig" from the bootloader cmdline now also
+>   disables the embedded kernel.* keys.
+> - Link to v1: https://patch.msgid.link/20260527-bootconfig_using_tools-v1-0-b6906a86e7d5@debian.org
+> 
+> ---
+> Breno Leitao (9):
+>       bootconfig: fix NULL-pointer arithmetic in xbc_snprint_cmdline()
+>       bootconfig: render descendant keys when xbc_snprint_cmdline() root has a value
+>       bootconfig: render embedded bootconfig as a kernel cmdline at build time
+>       bootconfig: clean build-time tools/bootconfig from make clean
+>       bootconfig: add xbc_prepend_embedded_cmdline() helper
+>       Documentation: bootconfig: document build-time cmdline rendering
+>       x86/setup: prepend embedded bootconfig cmdline before parse_early_param
+>       bootconfig: skip runtime kernel.* render once prepended early
+>       init/main.c: use bootconfig_cmdline_requested() for the runtime opt-in
+> 
+>  Documentation/admin-guide/bootconfig.rst |  81 ++++++++++++++++
+>  MAINTAINERS                              |   1 +
+>  Makefile                                 |  27 +++++-
+>  arch/x86/Kconfig                         |   1 +
+>  arch/x86/kernel/setup.c                  |  14 ++-
+>  include/linux/bootconfig.h               |  14 +++
+>  init/Kconfig                             |  36 +++++++
+>  init/main.c                              |  52 +++++-----
+>  lib/Makefile                             |  16 +++
+>  lib/bootconfig.c                         | 162 +++++++++++++++++++++++++++++--
+>  lib/embedded-cmdline.S                   |  16 +++
+>  tools/bootconfig/Makefile                |   4 +-
+>  12 files changed, 388 insertions(+), 36 deletions(-)
+> ---
+> base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
+> change-id: 20260508-bootconfig_using_tools-cfa7aa9d6a5a
+> 
+> Best regards,
+> -- 
+> Breno Leitao <leitao@debian.org>
+> 
 
-This seems to cause a double-close in __vm_mem_region_delete() - it was
-fine when this patch was written but now we have kvm_free_fd() which
-crashes the test when this happens.
 
-AFAICS it's easy to fix we just need to enlighten
-__vm_mem_region_delete() that they might be the same FD.
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
