@@ -1,201 +1,137 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5B03F6610
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 13:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989CB3F4DEF
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 13:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782481227; cv=none; b=dcr+0W+UuRY6re+/+fCYAxxRu+7OrmuKybBpusZM1MxI78IDBVl5XUL69a47c8qrAM1VIlwcCTXy5kBStm+ddTWtSTI+l/t2o66juJhF4+DjSxDrsiCKNkEH3AYoJfvezKjoKyntJ9TNCqKgPg0gQhh4D1i4ETEluLRi4EQJ93A=
+	t=1782481975; cv=none; b=N3QmsCsKhN8DPGAfoVWfZ6yiFjYXB3G/g1mHCUbMdnn+0aweEtJWDyBi8eS3DnG50pOVwTRb1/cAJL+dzkxyoY5F5vy1ZHQhuyEvhNoptF7UjRw5SK793BWGhX+PFbAvDd09teqsioaKw89iZV21YQKvbTrsKX1vP5PmhndrpXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782481227; c=relaxed/simple;
-	bh=ZTYwDObvNITM63AQAcIL9oQn4r7n//7GEnMzPgbQTlQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OHRrKbKqj61bFG6A/V6onPLjW31vRoRncyxVl0LCYJ5SDjTl5KZIRymyEKomKmW4HhwOQlEcbmlDajSb87RINa3pFvxvjaLHASegU1cGP5T9WZS7rVixYxriwOgRoqvGLz9EPPbouz8cdMhnpbN5F/dlFOHi/Yt5o8ychI7ckAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqDIJTKT; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782481975; c=relaxed/simple;
+	bh=dJZxTpBrowY7HgrJ0VgsMDXwgpcRgiYvkWrlK4JGOew=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bYSy4KZ4zZQ+6RCAqMr3BMVARC4hy1QbDC8ObZq2YmlKxBTKQ0MC2kWDuFjlW5jw8AqEh1LfDbrXVsNHaI62DcCPUhMAmQmQH+PrPgZvZlekiLQOUCYnAsIyF4QsgLVcCuBfFp+aCm/ny1OQkcb/E10jdOB/htmjcsBca7cwEHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (2048-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=tYtKxiCA; arc=none smtp.client-ip=79.135.106.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EqDIJTKT"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c9509283916so236494a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 06:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782481225; x=1783086025; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MlObcbngD1D37h11uAaHsV+lydVMU0QoTJkAdzqpBkQ=;
-        b=EqDIJTKT7BHiWsQC5Q1OnG23UHMY307OZA1VRbAU4X9t9CUkPGnK0maae4QqfJe85N
-         eGRTOukJzv1wriqPB/wg0iLU6lmmD5ZQLSeJATCX6d/nvbqR4cvC+n+CqEQnx9i3J3pj
-         WfdT4rWbpxojl00vWCTZu7PoB0pMW35d355O1Cy/cIdbTsi3VJIHx2u/fDjRKMMaEu7h
-         DRE2VUlK+gzJo0AzRggY6iPkxUrVAo/Jm3Xj2lpSmkKE5MtEWFSOb8qRfo2kZpFLJq35
-         e3yXsQbtJoZ4ju8/R+/ClGTYjG58i4b9jxGYaZIPN1bipl4yzTOaQA69m0xIb5V1sgCB
-         PsTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782481225; x=1783086025;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MlObcbngD1D37h11uAaHsV+lydVMU0QoTJkAdzqpBkQ=;
-        b=CsmpKEYTEJmvSdGv5n+tHKQObbjXEG0Y8oOIeH/kSkiq15qDcMkehlzkpgRDjEi1cC
-         I3qCxP4ztlujRnex2S0vMAR80Nwt6uUEGg4hQV/v02ux3P5VFykZdhuFgyavmdlq7bnq
-         gLfs6nysoxus3O0ApPrzh6IOHZQMow3jPCLe7XjlLFpc5195se0jx46be0u7R0rp8BVK
-         0b7266dStLSg1GM+DbRGSUqknhlKtMGgICmpBmL7+yBytpvDT2jC95MPWoNGOMYgKUgN
-         7Px35LS/Z3ku/Lwk0HfTEvVYt7S4fMJH2WOInj3CY/I7JfZ1EY6I+KVlyYtuFjBmV2o3
-         ZS6g==
-X-Forwarded-Encrypted: i=1; AFNElJ/2vCiLXHQQwuAKo0KHD7KbhI6ISXxqWcKiBseC0pbnS2XYHCGDgIKtDI0ov97nhAfkH2Sq43/hXxM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlzyKdgQmiLNhqohfxDLUzK0QpIxYIm9btRzOU+72dKz7dfKn6
-	LM1RcEuuz6P9gEaCKj1+ErREjY7rhz4e33d3uPQRycP/uml94Jd2E9ZneE7/XsgqAkt5EefdgdL
-	s4icDHQ==
-X-Received: from pgbcl7.prod.google.com ([2002:a05:6a02:987:b0:c93:e04b:d9ad])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7487:b0:3bf:6c08:fb80
- with SMTP id adf61e73a8af0-3bf6c0912edmr420142637.48.1782481224936; Fri, 26
- Jun 2026 06:40:24 -0700 (PDT)
-Date: Fri, 26 Jun 2026 06:40:24 -0700
-In-Reply-To: <8edfdca645f691cb856e80ade830d78925fdc19d.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="tYtKxiCA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rasmusvillemoes.dk;
+	s=protonmail; t=1782481963; x=1782741163;
+	bh=klomjTp/kFRiT2SqS4cY7wTFQ0YyZY2hiOo18ni0jNo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=tYtKxiCAO2i7EgBB0iHvY58UJ/xOmE/Mi4aygHHteB8dah1JYvhSLsHmc7aMMQkjq
+	 7OoCzVeMSvPsM1+gbfgi9KlhdeVaXBjsofY47ESJvL83RhYGaWdyWlCgBzzXvarXFo
+	 kqp6fCxBcZAVQEQvIFNVjWxBJJvsDe9YsSNKB4tEwD9SZNEMEGJRukqGCejizJRTJd
+	 5vaO8D+ujry4oIoyUHRbg949P9Lc75PC9PM0mFwXuwzqv9vwuG/3DBfcJJH+kwv1Ti
+	 dIb+++Vuq39+SPO1ikZXFumJ0bWdAWlnupQWazT3gi5B+qTYCtN0Q2DGnVsGnsZE4N
+	 tHY5GUy5C1NVw==
+X-Pm-Submission-Id: 4gmxvD3Kjdz1DFTD
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To: "Mark Rutland" <mark.rutland@arm.com>
+Cc: <linux-arm-kernel@lists.infradead.org>,  "Ard Biesheuvel"
+ <ardb@kernel.org>,  "Will Deacon" <will@kernel.org>,  "Jonathan Corbet"
+ <corbet@lwn.net>,  <linux-doc@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: arm64: Document that text_offset is always 0
+In-Reply-To: <ajVekauNroapwbtm@J2N7QTR9R3.cambridge.arm.com> (Mark Rutland's
+	message of "Fri, 19 Jun 2026 16:21:53 +0100")
+References: <20260604140839.1930847-1-linux@rasmusvillemoes.dk>
+	<FJaxt3BQA_NDzW32PANPtSgJ_BxYjJ7azs-k2dgboQtWdDfsdpM7j_VNuB7Vym1cYLDXKM1Tsm1YnqsSB7boQA==@protonmail.internalid>
+	<ajVekauNroapwbtm@J2N7QTR9R3.cambridge.arm.com>
+Date: Fri, 26 Jun 2026 15:52:39 +0200
+Message-ID: <87y0g1mms8.fsf@rasmusvillemoes.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <c855535b4262ecd41f67734d19e8f48a7f014c2a.camel@infradead.org>
- <aj21KctIXuf7b_5G@google.com> <8edfdca645f691cb856e80ade830d78925fdc19d.camel@infradead.org>
-Message-ID: <aj6BSMT2LOd4JRpu@google.com>
-Subject: Re: [PATCH] KVM: x86/xen: Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
-From: Sean Christopherson <seanjc@google.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Fri, Jun 26, 2026, David Woodhouse wrote:
-> On Thu, 2026-06-25 at 16:09 -0700, Sean Christopherson wrote:
-> > > diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-> > > index 91fd3673c09a..c16b4560c9e7 100644
-> > > --- a/arch/x86/kvm/xen.c
-> > > +++ b/arch/x86/kvm/xen.c
-> > > @@ -907,6 +907,13 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu,=
- struct kvm_xen_vcpu_attr *data)
-> > > =C2=A0{
-> > > =C2=A0	int idx, r =3D -ENOENT;
-> > > =C2=A0
-> > > +	/*
-> > > +	 * kvm_xen_write_hypercall_page() manages its own locking.
-> > > +	 * Handle it before taking xen_lock to avoid a deadlock.
-> >=20
-> > Do we actually want the side effects that necessitate taking xen.xen_lo=
-ck?=C2=A0 From
-> > a uAPI perspective, it's odd to effectively bundle KVM_XEN_ATTR_TYPE_LO=
-NG_MODE
-> > into KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE.
->=20
-> That's *guest* ABI, and it's derived from Xen behaviour. Xen will
-> 'latch' its idea of whether a guest VM is 32-bit or 64-bit, for the
-> purpose of shared data structures (shared_info page, vcpu_info,
-> runstate).
->=20
-> Xen latches this from the current mode of the running vCPU in *two*
-> places:
->  =E2=80=A2 When the hypercall MSR is invoked
->  =E2=80=A2 When the guest sets the event channel GSI (HVM_PARAM_CALLBACK_=
-IRQ).
->=20
-> Thus far, the former has been handled in the kernel (in the code you're
-> looking at), while the latter is why we have the ioctl to explicitly
-> latch the guest's long_mode from userspace too, as userspace handles
-> the HVMOP_set_param calls.
+On Fri, Jun 19 2026, "Mark Rutland" <mark.rutland@arm.com> wrote:
 
-Right, and I'm pointing out that from a KVM uAPI perspective, bundling the =
-first
-one in a "write hypercall page" call is rather odd, especially since there'=
-s
-already uAPI to handle the latching.
-
-> > The other question is, why does kvm_xen_write_hypercall_page() drop xen=
-_lock
-> > when writing guest memory?=C2=A0 That seems odd and unnecessary.
->=20
-> Huh? It takes the lock to do the thing that needs the lock, then drops
-> it. That is not "odd and unnecessary" at all.
+> On Thu, Jun 04, 2026 at 04:08:39PM +0200, Rasmus Villemoes wrote:
+>> When trying to figure out where to place and call an arm64 Image in
+>> memory, reading booting.rst should provide the answer. However, it
+>> requires quite some digging to figure out that text_offset is set via
+>> ".quad 0" in head.S and is thus actually always 0 since v5.10.
 >
-> You've been spending too long with these scope-guarded locks.
+> What is the actual problem?
+>
+> The documentation in booting.rst is accurate; I don't see why it's
+> necessary to read the source code to look at text_offset. Immediately
+> above the text in your diff, the documentation has:
+>
+> | 4. Call the kernel image
+> | ------------------------
+> |
+> | Requirement: MANDATORY
+> |
+> | The decompressed kernel image contains a 64-byte header as follows::
+> |
+> |   u32 code0;                    /* Executable code */
+> |   u32 code1;                    /* Executable code */
+> |   u64 text_offset;              /* Image load offset, little endian */
+> |   u64 image_size;               /* Effective Image size, little endian */
+> |   u64 flags;                    /* kernel flags, little endian */
+> |   u64 res2      = 0;            /* reserved */
+> |   u64 res3      = 0;            /* reserved */
+> |   u64 res4      = 0;            /* reserved */
+> |   u32 magic     = 0x644d5241;   /* Magic number, little endian, "ARM\x64" */
+> |   u32 res5;                     /* reserved (used for PE COFF offset) */
+>
+> Can you explain the problem you're facing? e.g.
+>
+> * Is the documentation unclear, in a way that could be better?
+>
+> * Is there some aspect of the boot protocol that is hard for a
+>   bootloader to follow?
+>
+> * Is there some problem with *testing* that bootloaders respect the
+>   text_offset requirements?
+>
+> * Something else?
 
-No, I'm asking why KVM doesn't serialize the writes to guest memory.  Usual=
-ly
-when KVM writes to guest memory, KVM is emulating something that is very mu=
-ch
-vCPU-specific, and so if there are races it's the guest's problem to deal w=
-ith.
+Yes, the structure of the header is documented. But nowhere is it
+explained how the text_offset field gets its value.
 
-The Xen MSR here is clearly VM-scoped though, which is why it feels odd to =
-take
-a per-VM lock, and then deliberately drop the lock before completing the op=
-eration,
-In practice it shouldn't matter, since it sounds like the same repeating 16=
- byte
-pattern will be written every time, but it was a bit head-scratching when r=
-eading
-the code.
+So imagine I've just built an arm64 kernel. Now I want to put that into
+a FIT image, where I tell the bootloader where to place it and what
+address to jump to, via the load= and entry= properties. Now, the
+documentation
 
-> > > +	if (data->type =3D=3D KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE)
-> > > +		return kvm_xen_write_hypercall_page(vcpu, data->u.gpa) ? -EIO : 0;
-> >=20
-> > -EIO is rather weird, wouldn't -EINVAL be more appropriate?=C2=A0 Ah, a=
-nd both are
-> > wrong if copying the blob fails.
->=20
-> -EINVAL is more for "you asked me to do something that doesn't make sense=
-".
-> -EIO is for "something went wrong when I tried".
+  The Image must be placed text_offset bytes from a 2MB aligned base
+  address anywhere in usable system RAM and called there.
 
-Sure, but KVM returns EINVAL for pretty much every ioctl (or ioctl-like thi=
-ng)
-if userspace provides bad input, e.g. for the @data param.
-=20
-> Arguably, the thing that's most likely to go wrong is the
-> kvm_vcpu_write_guest() where it writes instructions[] to the guest, and
-> maybe that ought to be -EFAULT?
+is clear enough that those two have to be the same value. What is not at
+all clear is how I'm suppose to determine what that text_offset value is
+that I'm suppose to add to some 2MB aligned address I choose.
 
-Heh, ya, I just say that too when looking at the code again.
+Prior to 120dc60d0, one could at least 'git grep TEXT_OFFSET --
+arch/arm64/' and see 'TEXT_OFFSET := 0x0'.
 
-> But I'm not sure that's quite the right semantic to return from the ioctl=
-?
+>> I've included a Fixes tag since I spent way too much time tracking
+>> down where that text_offset might be defined. The mentioned commit did
+>> get rid of all references to TEXT_OFFSET-the-macro, but not
+>> text_offset-the-concept.
+>
+> Keeping text_offset as a concept was deliberate. That allows us to keep
+> the documentation accruate for older kernel versions, and allows for the
+> possiblity that a non-zero offset is introduced in future (though I
+> admit that might be a tough sell).
 
-We can/should return whatever kvm_vcpu_write_guest() returns, i.e. literall=
-y
-return its result directly.  Which of course is only ever going to be -EFAU=
-LT,
-but in the extremely unlikely case that ever changes, we won't have to worr=
-y
-about creating misleading behavior in the Xen code.
+Fair enough. But would you at least consider adding just this part:
 
-> > > =C2=A0	mutex_lock(&vcpu->kvm->arch.xen.xen_lock);
-> > > =C2=A0	idx =3D srcu_read_lock(&vcpu->kvm->srcu);
-> >=20
-> > Speaking of writing memory, kvm_xen_write_hypercall_page() expects the =
-caller
-> > to be in a read-side SRCU critical section (I didn't actually run this =
-with
-> > PROVE_LOCKING=3Dy, but I don't think I'm missing anything?)
->=20
-> Yes, good catch. Thanks.
->=20
-> > So, if this uAPI is unavoidable seems like we want something like the b=
-elow.
-> > Either that or guard all of kvm_xen_write_hypercall_page() with a lock,=
- and put
-> > the entire thing in a helper so that KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPER=
-CALL_PAGE
-> > can be handled in a case-statement and doesn't need to grab SRCU on its=
- own.
->=20
-> Makes sense (with the test, of course). Want me to put them together
-> and resend?
+>> +- As of v5.10, text_offset is always 0.
+>> +
 
-Yes please.
+One can, using the documented header, read it post-factum from the
+kernel binary itself, and perhaps that's what's intended. But to answer
+your first question, yes, I did find the documenation unclear and
+expected to find some explicit mention of how one is supposed to know
+the value of text_offset.
+
+Rasmus
