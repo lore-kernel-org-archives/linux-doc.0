@@ -1,69 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AA318B0F;
-	Fri, 26 Jun 2026 10:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B253EB0ED
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 10:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782468362; cv=none; b=MyiZEG2BSoqX4cDUY/6phkEkayiVQ/1yQ9CS7IG0JbSchWNh0Gtht0Wds6tvFDjHi5wo1O6uJ8ggPAyrBAS0tUfzVxfD+tK7nA1BWHYohORecEo6WKvLG9oIibN9NacpWS6QLlKwpLjugQvJgmJsYEAvtW6OtY+mNQQoST182Bk=
+	t=1782468477; cv=none; b=GxvG3PIJ/iIX1p6B4jHAEByFUT/FFdbSZtR7QNUFb6H+iKIFe5DuJ0DVhjuR7A0mN02dvoGG3sWVX/yUT1UB+hwcvZZjnoomPaEsyAlTljXmbRXMjNTL/TiFEJGE2hKx7uJ9dQqCSIbMRMwJFigAYjFs+nqZH3Q39DbkQovabHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782468362; c=relaxed/simple;
-	bh=rKmflEMbcMZIfVItGcgxoOJgLvnhrqPw2LKP5XZ6M/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkWDYZip+XVfuwUli7WzTy0B1c6v1rRknYJrIH/V3h3ntDSR3wfg6SasJKkP0nKOul2gOG/PzQjneMWXPJsCFLnS4YfhDugYv2UAGmk9xLl8RA+Ont8ogWCciVEZIPoGMy7TH4xvJhbU86rcJj/V03dDq4RVUtFqTQ2CIwXFnhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Htjfgtjl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782468477; c=relaxed/simple;
+	bh=vRqJxTrvWCq8wTML6cZgQqGJIvz14gDRbc4515PzAVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XTtTCmhTcdSffapKUryXsznWX3EaUc7TIX/Fmjxv3r4dob0OpW7eS46J7976PGbwRDSZnt6NQdid1dYYOVMbg7zzlalyoy0Xb5u9TrH1vwlbjdOYOGJYD1eZjn2Sl3tOeVpiiioUU5NpmCzNoCbVM8H2NoWXRMCNaomlunq1YRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nRrphZ33; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Htjfgtjl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC391F00A3A;
-	Fri, 26 Jun 2026 10:06:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nRrphZ33"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3969C1F000E9;
+	Fri, 26 Jun 2026 10:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782468361;
-	bh=jcKh58iL8WIQzcHbsnUmBBybvD/z8aXyoKwE5jmOnqw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HtjfgtjlM7MLRnsky5UjtpriqwNF7+wcettAJnB84XxsNRllXEmOPaqdSo3P8Khp0
-	 Xt1cPeuTYrAw3+hniySXZJXtrJkIlVDO0JR72SJniQ2j/EF48SCsYmKkPTM8YpUGPF
-	 u9XDrMBkTuxA/AJxMDinT25ToJ9ERYDEtcXqnYPTA/aS1/mgqKYaw/KaY1cWVHJ+w8
-	 qhDwM/XtRRmxWRLTZmXp1isXXD1PaaxVwnfDI44YdOI964FAdePTuqB/oUKgqOhNuI
-	 fT5Ui2hPNIiAI2qXkKn812koYbPO88oJZWlaY5+Aew8lhYYhfgsDq8USfY3IddhJWo
-	 zL2wO5H8FR0Jw==
-Date: Fri, 26 Jun 2026 12:05:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Flaviu Nistor <flaviu.nistor@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, 
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: chipcap2: Add label property
-Message-ID: <20260626-prodigious-rottweiler-of-tolerance-cbeedb@quoll>
-References: <20260625160423.17882-1-flaviu.nistor@gmail.com>
+	s=k20260515; t=1782468476;
+	bh=SjSICcesLMNidWF3YgpcoqOwaqt078t9XXjZB7TZQwk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=nRrphZ33yjZJHUV/EVRQ/plgietEuN0WR7DyAgpVcbJ8Ua01/IEkx89pgjHuT8fpI
+	 1HcsKo4UcT38DaFrRGOqGZXXn7qgf+Npg06QqZybI+vuXGwuwQYPWriy8WQJO/LCL1
+	 u+q4h+msgzl/g19nQVXw2/fUBBIus0dEER/DwRNBShH3k8AVfX3Utb3sZDOGVbnuM2
+	 9BcF2pD/nCChY/37isBvOXD2ZnCR+R8PC9iCPpAOYWbbIiAxLgsV5sr2adPkRTqmAr
+	 T8/nQz8Ux+GTAzzqpV1ipdTx4TA5QbWU/2BTFj7qndaC9NhPW57y8wNW+Ist6rJ9tc
+	 EFZUrlpPU4BFQ==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.4)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1wd3TR-0000000Bi6T-3657;
+	Fri, 26 Jun 2026 12:07:49 +0200
+Date: Fri, 26 Jun 2026 12:07:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] Docs: conf.py: fix typos in comments
+Message-ID: <20260626120749.2f3dc318@localhost>
+In-Reply-To: <20260626005248.1121464-1-rdunlap@infradead.org>
+References: <20260626005248.1121464-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260625160423.17882-1-flaviu.nistor@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 25, 2026 at 07:04:22PM +0300, Flaviu Nistor wrote:
-> Add support for an optional label property similar to other hwmon devices.
-> This allows, in case of boards with multiple CHIPCAP2 sensors, to assign
-> distinct names to each instance.
+On Thu, 25 Jun 2026 17:52:48 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
+
+> Change "variabled" to "variables".
+> Change "relative patch" to "relative path".
 > 
-> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 > ---
-> Changes in v2:
-> - Implement suggestion from Javier Carrasco as proposed by Krzysztof Kozlowski.
-> - Link to v1: https://lore.kernel.org/all/20260622122200.14245-1-flaviu.nistor@gmail.com/
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 > 
->  .../devicetree/bindings/hwmon/amphenol,chipcap2.yaml        | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/conf.py |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> --- linext-2026-0623.orig/Documentation/conf.py
+> +++ linext-2026-0623/Documentation/conf.py
+> @@ -61,12 +61,12 @@ manpages_url = 'https://man7.org/linux/m
+>  
+>  def config_init(app, config):
+>      """
+> -    Initialize path-dependent variabled
+> +    Initialize path-dependent variables
+>  
+>      On Sphinx, all directories are relative to what it is passed as
+>      SOURCEDIR parameter for sphinx-build. Due to that, all patterns
+>      that have directory names on it need to be dynamically set, after
+> -    converting them to a relative patch.
+> +    converting them to a relative path.
+>  
+>      As Sphinx doesn't include any patterns outside SOURCEDIR, we should
+>      exclude relative patterns that start with "../".
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
-
+-- 
+Thanks,
+Mauro
