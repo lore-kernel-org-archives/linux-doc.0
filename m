@@ -1,137 +1,201 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441953F58DC;
-	Fri, 26 Jun 2026 13:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5B03F6610
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 13:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782481055; cv=none; b=PbmTfj3Y56irwRnSJQ4nAcdaNUVLwLhIGyMW0oFh47cpl6RrsYnWTMpMj+Z53kLIhQ/DcU8wHuoeAn7Oec+PEa4a5k/aplhWlV/DcXJFeTU8etMnoh7mbTNRqJLgdAkXCxYl5P7AyLmYm/pd3pTNAE8W9IBV4hMqCx2kAYxwDBQ=
+	t=1782481227; cv=none; b=dcr+0W+UuRY6re+/+fCYAxxRu+7OrmuKybBpusZM1MxI78IDBVl5XUL69a47c8qrAM1VIlwcCTXy5kBStm+ddTWtSTI+l/t2o66juJhF4+DjSxDrsiCKNkEH3AYoJfvezKjoKyntJ9TNCqKgPg0gQhh4D1i4ETEluLRi4EQJ93A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782481055; c=relaxed/simple;
-	bh=Ewj4Wj+Vj2oEjaKKEsqVPy1ZOxoaBNPbxJ9bSNnnVqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S6uN/CLqj0y+p2ZOPC1jgzyUvLrggKYuQazejSWGxaAGLjg8e4f8g1yxpADFE23J/1Xrh+5GvhzUYUomJvms+RdAWxZkaRUx3H4qaTPrPnhGJxEO8dxsUxy/5ffzfrYfAO5YL/nuFKxUU2eE2abqNIi04oLuLIt+BlxBeqB54p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AH48Rg4A; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1782481227; c=relaxed/simple;
+	bh=ZTYwDObvNITM63AQAcIL9oQn4r7n//7GEnMzPgbQTlQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=OHRrKbKqj61bFG6A/V6onPLjW31vRoRncyxVl0LCYJ5SDjTl5KZIRymyEKomKmW4HhwOQlEcbmlDajSb87RINa3pFvxvjaLHASegU1cGP5T9WZS7rVixYxriwOgRoqvGLz9EPPbouz8cdMhnpbN5F/dlFOHi/Yt5o8ychI7ckAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqDIJTKT; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AH48Rg4A"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QAIVkR2720488;
-	Fri, 26 Jun 2026 13:37:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=khYsr4
-	YrUbMusFSZ4RtSaVl3gwICZGR+hHf5BwCZeg4=; b=AH48Rg4A6akr984rKqaia8
-	q7H9+Eh+1/ipvRrpR5OLZS0Z75ExnVoJPuB/PgCqLMnTJ/Yg6jjZxxg1lnSdefo2
-	26Mh9J4b8PVpSVJR4JVteO5OQPH5llh946lMAGACCxym079BCl4ESTenLlVIzsDh
-	QysHA7OOXD3hZ2SLHR49KnhDDbIuw92+xfrx3t2wXD/JWi9wbFbuh5kb9XR4lMw8
-	FOy/9+6fSZUoPYvgZc+sr8lmjGEu4JBfthdaU76nZr2PREY84YRqS1xiERAz14Tz
-	M32woxeVPqjofuYf53hkiPFnjbzQVCy3gafiDKH73TJkn8XTQuEwjxs8/qDyWn1Q
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ewjk4ya1a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 13:37:17 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65QDYeaE010912;
-	Fri, 26 Jun 2026 13:37:15 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ex66kkaq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 13:37:15 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65QDbBwk61735344
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Jun 2026 13:37:11 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 93DEC20043;
-	Fri, 26 Jun 2026 13:37:11 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8418720040;
-	Fri, 26 Jun 2026 13:37:04 +0000 (GMT)
-Received: from [9.39.23.71] (unknown [9.39.23.71])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Jun 2026 13:37:04 +0000 (GMT)
-Message-ID: <f099e7d7-00cb-4bfe-ac08-70c4555e092a@linux.ibm.com>
-Date: Fri, 26 Jun 2026 19:07:03 +0530
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EqDIJTKT"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c9509283916so236494a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 06:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782481225; x=1783086025; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MlObcbngD1D37h11uAaHsV+lydVMU0QoTJkAdzqpBkQ=;
+        b=EqDIJTKT7BHiWsQC5Q1OnG23UHMY307OZA1VRbAU4X9t9CUkPGnK0maae4QqfJe85N
+         eGRTOukJzv1wriqPB/wg0iLU6lmmD5ZQLSeJATCX6d/nvbqR4cvC+n+CqEQnx9i3J3pj
+         WfdT4rWbpxojl00vWCTZu7PoB0pMW35d355O1Cy/cIdbTsi3VJIHx2u/fDjRKMMaEu7h
+         DRE2VUlK+gzJo0AzRggY6iPkxUrVAo/Jm3Xj2lpSmkKE5MtEWFSOb8qRfo2kZpFLJq35
+         e3yXsQbtJoZ4ju8/R+/ClGTYjG58i4b9jxGYaZIPN1bipl4yzTOaQA69m0xIb5V1sgCB
+         PsTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782481225; x=1783086025;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MlObcbngD1D37h11uAaHsV+lydVMU0QoTJkAdzqpBkQ=;
+        b=CsmpKEYTEJmvSdGv5n+tHKQObbjXEG0Y8oOIeH/kSkiq15qDcMkehlzkpgRDjEi1cC
+         I3qCxP4ztlujRnex2S0vMAR80Nwt6uUEGg4hQV/v02ux3P5VFykZdhuFgyavmdlq7bnq
+         gLfs6nysoxus3O0ApPrzh6IOHZQMow3jPCLe7XjlLFpc5195se0jx46be0u7R0rp8BVK
+         0b7266dStLSg1GM+DbRGSUqknhlKtMGgICmpBmL7+yBytpvDT2jC95MPWoNGOMYgKUgN
+         7Px35LS/Z3ku/Lwk0HfTEvVYt7S4fMJH2WOInj3CY/I7JfZ1EY6I+KVlyYtuFjBmV2o3
+         ZS6g==
+X-Forwarded-Encrypted: i=1; AFNElJ/2vCiLXHQQwuAKo0KHD7KbhI6ISXxqWcKiBseC0pbnS2XYHCGDgIKtDI0ov97nhAfkH2Sq43/hXxM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlzyKdgQmiLNhqohfxDLUzK0QpIxYIm9btRzOU+72dKz7dfKn6
+	LM1RcEuuz6P9gEaCKj1+ErREjY7rhz4e33d3uPQRycP/uml94Jd2E9ZneE7/XsgqAkt5EefdgdL
+	s4icDHQ==
+X-Received: from pgbcl7.prod.google.com ([2002:a05:6a02:987:b0:c93:e04b:d9ad])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7487:b0:3bf:6c08:fb80
+ with SMTP id adf61e73a8af0-3bf6c0912edmr420142637.48.1782481224936; Fri, 26
+ Jun 2026 06:40:24 -0700 (PDT)
+Date: Fri, 26 Jun 2026 06:40:24 -0700
+In-Reply-To: <8edfdca645f691cb856e80ade830d78925fdc19d.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/24] cpumask: Introduce cpu_preferred_mask
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, yury.norov@gmail.com,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
-References: <20260625124648.802832-1-sshegde@linux.ibm.com>
- <20260625124648.802832-5-sshegde@linux.ibm.com>
- <20260626093414.GM1181229@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20260626093414.GM1181229@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDEwOSBTYWx0ZWRfX/4ZX7Sql9THD
- n7qfNvOkGkaDQ31tRqg8VJ6aRLi1DJ38X6jI5yawHLo397Q2g9BlJ5lKK6gjH4qP5NNQGi5FZE7
- xjpNz7iL8C8w/zF6jUiIpM2bDf3YUeU=
-X-Proofpoint-ORIG-GUID: l1thRBvTCKWvrWoPsYWyUApf5XMHxzwL
-X-Authority-Analysis: v=2.4 cv=Oph/DS/t c=1 sm=1 tr=0 ts=6a3e808d cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VEdCq-UeGgiu439THxAA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDEwOSBTYWx0ZWRfX/q3dS1MNkE0p
- +fN2PWym+dFuVLjyGu+WhCJpCuO10JvVSrVO95ZvhFoCN/HXnUChUqGgU5ofBJVGH5toBwnvzXA
- lp8ebkrAs4XLi+yrBWe/G3SziWlDAbdY8iMyBhuppHjcPpls8bxq5mnUR2ym5lpCcMWORr/uEck
- onwVDZ0DKtUWZG53Grr0XKJaulxLy9/L+1+m9XXP5hHu1i0KOSx4Rw/0K6J/weLN9YI4WE7oVbf
- q4Q+g5s9hQPFl5JtM3WBKss3A/uPiFh0vJJxW7RXWM6PIpM76/kpyieyJfOeRdcTFfvjdN32D8r
- FYCi7cGv3uph34udOjsrPDJoX3anILmoBCxTxZm3Xq3kwLmxfoI0ah48LLSZfVJHpE9NiAQQSUy
- xHhRuApig6J99d5ksxReF23vQgv3o70rK5UBy62EOky3+TSsXhCirwxGtkX3ltugvNjDY3kFuU+
- zkV6Gtf0zy3x6vJqpaw==
-X-Proofpoint-GUID: Ukzaz0czktA5f5d4RmSDCuBO63QobsKY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-26_03,2026-06-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501
- clxscore=1015 impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260109
+Mime-Version: 1.0
+References: <c855535b4262ecd41f67734d19e8f48a7f014c2a.camel@infradead.org>
+ <aj21KctIXuf7b_5G@google.com> <8edfdca645f691cb856e80ade830d78925fdc19d.camel@infradead.org>
+Message-ID: <aj6BSMT2LOd4JRpu@google.com>
+Subject: Re: [PATCH] KVM: x86/xen: Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 26, 2026, David Woodhouse wrote:
+> On Thu, 2026-06-25 at 16:09 -0700, Sean Christopherson wrote:
+> > > diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> > > index 91fd3673c09a..c16b4560c9e7 100644
+> > > --- a/arch/x86/kvm/xen.c
+> > > +++ b/arch/x86/kvm/xen.c
+> > > @@ -907,6 +907,13 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu,=
+ struct kvm_xen_vcpu_attr *data)
+> > > =C2=A0{
+> > > =C2=A0	int idx, r =3D -ENOENT;
+> > > =C2=A0
+> > > +	/*
+> > > +	 * kvm_xen_write_hypercall_page() manages its own locking.
+> > > +	 * Handle it before taking xen_lock to avoid a deadlock.
+> >=20
+> > Do we actually want the side effects that necessitate taking xen.xen_lo=
+ck?=C2=A0 From
+> > a uAPI perspective, it's odd to effectively bundle KVM_XEN_ATTR_TYPE_LO=
+NG_MODE
+> > into KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE.
+>=20
+> That's *guest* ABI, and it's derived from Xen behaviour. Xen will
+> 'latch' its idea of whether a guest VM is 32-bit or 64-bit, for the
+> purpose of shared data structures (shared_info page, vcpu_info,
+> runstate).
+>=20
+> Xen latches this from the current mode of the running vCPU in *two*
+> places:
+>  =E2=80=A2 When the hypercall MSR is invoked
+>  =E2=80=A2 When the guest sets the event channel GSI (HVM_PARAM_CALLBACK_=
+IRQ).
+>=20
+> Thus far, the former has been handled in the kernel (in the code you're
+> looking at), while the latter is why we have the ioctl to explicitly
+> latch the guest's long_mode from userspace too, as userspace handles
+> the HVMOP_set_param calls.
 
+Right, and I'm pointing out that from a KVM uAPI perspective, bundling the =
+first
+one in a "write hypercall page" call is rather odd, especially since there'=
+s
+already uAPI to handle the latching.
 
-On 6/26/26 3:04 PM, Peter Zijlstra wrote:
-> On Thu, Jun 25, 2026 at 06:16:28PM +0530, Shrikanth Hegde wrote:
->> This patch does
->> - Declare and Define cpu_preferred_mask.
->> - Get/Set helpers for it.
-> 
-> There is a blub in submitting-patches.rst about how 'this patch' is
-> basically a red-flag for a changelog.
-> 
-> The changelog is per-definition pertaining to 'this patch', therefore
-> stating this is a tautology. Further, it is often fairly clear what the
-> patch does, but less clear as to why.
-> 
-> So the suggestion is to phrase this like:
-> 
-> Provide cpu_preferred_mask infrastructure (definitions, declarations and
-> helper methods) to facilitate ....
-> 
-> 
+> > The other question is, why does kvm_xen_write_hypercall_page() drop xen=
+_lock
+> > when writing guest memory?=C2=A0 That seems odd and unnecessary.
+>=20
+> Huh? It takes the lock to do the thing that needs the lock, then drops
+> it. That is not "odd and unnecessary" at all.
+>
+> You've been spending too long with these scope-guarded locks.
 
-Ok. My bad, i will update the changelog. thanks for catching it.
+No, I'm asking why KVM doesn't serialize the writes to guest memory.  Usual=
+ly
+when KVM writes to guest memory, KVM is emulating something that is very mu=
+ch
+vCPU-specific, and so if there are races it's the guest's problem to deal w=
+ith.
+
+The Xen MSR here is clearly VM-scoped though, which is why it feels odd to =
+take
+a per-VM lock, and then deliberately drop the lock before completing the op=
+eration,
+In practice it shouldn't matter, since it sounds like the same repeating 16=
+ byte
+pattern will be written every time, but it was a bit head-scratching when r=
+eading
+the code.
+
+> > > +	if (data->type =3D=3D KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE)
+> > > +		return kvm_xen_write_hypercall_page(vcpu, data->u.gpa) ? -EIO : 0;
+> >=20
+> > -EIO is rather weird, wouldn't -EINVAL be more appropriate?=C2=A0 Ah, a=
+nd both are
+> > wrong if copying the blob fails.
+>=20
+> -EINVAL is more for "you asked me to do something that doesn't make sense=
+".
+> -EIO is for "something went wrong when I tried".
+
+Sure, but KVM returns EINVAL for pretty much every ioctl (or ioctl-like thi=
+ng)
+if userspace provides bad input, e.g. for the @data param.
+=20
+> Arguably, the thing that's most likely to go wrong is the
+> kvm_vcpu_write_guest() where it writes instructions[] to the guest, and
+> maybe that ought to be -EFAULT?
+
+Heh, ya, I just say that too when looking at the code again.
+
+> But I'm not sure that's quite the right semantic to return from the ioctl=
+?
+
+We can/should return whatever kvm_vcpu_write_guest() returns, i.e. literall=
+y
+return its result directly.  Which of course is only ever going to be -EFAU=
+LT,
+but in the extremely unlikely case that ever changes, we won't have to worr=
+y
+about creating misleading behavior in the Xen code.
+
+> > > =C2=A0	mutex_lock(&vcpu->kvm->arch.xen.xen_lock);
+> > > =C2=A0	idx =3D srcu_read_lock(&vcpu->kvm->srcu);
+> >=20
+> > Speaking of writing memory, kvm_xen_write_hypercall_page() expects the =
+caller
+> > to be in a read-side SRCU critical section (I didn't actually run this =
+with
+> > PROVE_LOCKING=3Dy, but I don't think I'm missing anything?)
+>=20
+> Yes, good catch. Thanks.
+>=20
+> > So, if this uAPI is unavoidable seems like we want something like the b=
+elow.
+> > Either that or guard all of kvm_xen_write_hypercall_page() with a lock,=
+ and put
+> > the entire thing in a helper so that KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPER=
+CALL_PAGE
+> > can be handled in a case-statement and doesn't need to grab SRCU on its=
+ own.
+>=20
+> Makes sense (with the test, of course). Want me to put them together
+> and resend?
+
+Yes please.
