@@ -1,79 +1,74 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988EF3403EC;
-	Fri, 26 Jun 2026 19:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BE036EA8F
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 23:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782503602; cv=none; b=amceza2bMCvhJsL8Gp6B6w+oYFCIeRidoMl2GWnvj2agoV22E+LtkjYhkMtueho4G7nrnSuCG9GtktG+jooJq6d98Hr25gEYkn1PA8DNmgz6hPLkqogzyAF450gyxroXulD954YhTg++Bi2rYAyqZjbo83PQUgh8mbN1irEzQ64=
+	t=1782518268; cv=none; b=NBpg5gBJ9sW5yndlkf3KQzI516KiO7QqljoET3KKBqqPoRhSX6RgyyormaCNZ0roN+UsHTuISBPN/FLAUoCoOE1CPFkpYydNibaSLQyypUAYT8FW/Dzw0gP4mVI7czklACJIGUIs+HwGEJ1+aGFWcK63hbaA+l0MupJEEckGltQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782503602; c=relaxed/simple;
-	bh=NN9WDuDGSzdNDBHCxJqoO8gBoD7FqB1i1qJy1+GLFKs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BoTNU2ik6oePTDxNL97/eMFMluDhqGh8xWLEIWYGF6EpMX3dOhySkvPdwVl/2j0XCNHy0TwXTIpr0cALNV4YWu7/l5QP8H5qTUG2eAI2neJOtEYqZ2jguQPYN4xBqpMIP98X+7pq6GuIx59b2Phyefrf2zVUo5tlPoply4E1xw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=18cgYXPc; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1782518268; c=relaxed/simple;
+	bh=hFeplc/enNvnPb9Rl82/WYFsS4u5oShlnhKaQnQVE0c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YIQLIqypXxcTIqByIAbBVoMEiFxNrbck3FpWhM8yuzcoq2ljhck9ItnzFHqNz1OHqJm06B1vryboW1aJ4yHY+p61mPtmG/LByfNgI1po6WSMDg++5dgZB2lMx2MmzumXc5/9tkPHjDhNkIW3+P6xS/h/uYPXW5dEMoRFebMptNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tevjf60q; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="18cgYXPc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=1fEEafuRv0ZfFVGSQlLhFd1iUhmIuBL5MeuWAryH8tY=; b=18cgYXPcaf9I9EQAO1oFzH6vo/
-	Kbz1X9HDkKdoV/oh+9w/r2S+nKl/DO1Azl1SxXdpHxFnprBGArfkJarTC44HS6yUop8ml3hK1odCy
-	esecIBC9NhcPmVMZyvMisSktjzSHIVQV9PITz2XlVgTp4+CTcu8NfKKOtSpWsB97PEJCYfJ+BTqce
-	2tsqBA8/jkF4SUjF5bp4jmQHZCKwoH3652+ZgbD3YLEaWqwBF5Qz8G+22NEl1hKvykDgP0Lj+Hr5P
-	zWLfw6jULz+FmAlV+ToUbx1dxNqc4bhAq1I+uHI5beSqfNaZDiefnd3BNJDerVGdRFqR9gTWxRH+9
-	5kN8tkDw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdCbu-0000000Bnyc-3hyz;
-	Fri, 26 Jun 2026 19:53:10 +0000
-Message-ID: <9dc3ca18-55c4-4642-aba2-679af2464c65@infradead.org>
-Date: Fri, 26 Jun 2026 12:53:09 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tevjf60q"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782518263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YfrqvYoeP9nDaT7bHQJoiMGnbvBxNYoFZtpS5+qTyK4=;
+	b=tevjf60qFDWZQySdc13/e/DZ4ENIqEzk8KEC3YSLU5+rUQg+f9+O7FmVf0r81PnqI7Dn43
+	nfJ5EPZImEhPSNc8wCSIqR62Uy8zFVdVwCHXBQqrteQjqjB++9sjrhImE0ITLZgkvKsmYD
+	uNer9yP0k1RFiCq3kAJDmmt/v+KO9iQ=
+From: Roman Gushchin <roman.gushchin@linux.dev>
+To: JP Kobryn <jp.kobryn@linux.dev>
+Cc: ast@kernel.org,  daniel@iogearbox.net,  andrii@kernel.org,
+  eddyz87@gmail.com,  memxor@gmail.com,  martin.lau@linux.dev,
+  song@kernel.org,  yonghong.song@linux.dev,  jolsa@kernel.org,
+  emil@etsalapatis.com,  corbet@lwn.net,  skhan@linuxfoundation.org,
+  bpf@vger.kernel.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/bpf: make it clear that kfuncs should be
+ non-static
+In-Reply-To: <20260626172026.7327-1-jp.kobryn@linux.dev> (JP Kobryn's message
+	of "Fri, 26 Jun 2026 10:20:26 -0700")
+References: <20260626172026.7327-1-jp.kobryn@linux.dev>
+Date: Fri, 26 Jun 2026 16:57:35 -0700
+Message-ID: <87y0g0dfdc.fsf@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/bpf: make it clear that kfuncs should be
- non-static
-To: JP Kobryn <jp.kobryn@linux.dev>, ast@kernel.org,
- roman.gushchin@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
- eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
- yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
- corbet@lwn.net, skhan@linuxfoundation.org, bpf@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260626172026.7327-1-jp.kobryn@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260626172026.7327-1-jp.kobryn@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Migadu-Flow: FLOW_OUT
 
+JP Kobryn <jp.kobryn@linux.dev> writes:
 
-
-On 6/26/26 10:20 AM, JP Kobryn wrote:
 > The kfunc documentation mentions how the macro __bpf_kfunc prevents
 > inlining for static functions. This makes it sound like static kfuncs are
 > acceptable. Although static kfuncs may happen to work, it is by chance that
 > the compiler chose not to rename these functions and BTF resolution still
 > succeeds.
-> 
+>
 > Make it clear in the documentation why kfuncs should not be declared
 > static. First, remove wording that makes it sound like static is ok. Then
 > point out the external naming needed for BTF resolution. Finally point out
 > that sparse may warn on unreferenced kfuncs and that this warning can be
 > ignored.
-> 
+>
 > Signed-off-by: JP Kobryn <jp.kobryn@linux.dev>
 > ---
 >  Documentation/bpf/kfuncs.rst | 21 ++++++++++++++-------
 >  1 file changed, 14 insertions(+), 7 deletions(-)
-> 
+>
 > diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
 > index 4c814ff6061e..1dbaff8d4805 100644
 > --- a/Documentation/bpf/kfuncs.rst
@@ -81,10 +76,37 @@ On 6/26/26 10:20 AM, JP Kobryn wrote:
 > @@ -276,19 +276,26 @@ This set encodes the BTF ID of each kfunc listed above, and encodes the flags
 >  along with it. Ofcourse, it is also allowed to specify no flags.
 >  
+>  kfunc definitions should also always be annotated with the ``__bpf_kfunc``
+> -macro. This prevents issues such as the compiler inlining the kfunc if it's a
+> -static kernel function, or the function being elided in an LTO build as it's
+> -not used in the rest of the kernel. Developers should not manually add
+> -annotations to their kfunc to prevent these issues. If an annotation is
+> -required to prevent such an issue with your kfunc, it is a bug and should be
+> -added to the definition of the macro so that other kfuncs are similarly
+> -protected. An example is given below::
+> +macro. This prevents issues such as the compiler inlining the kfunc, or the
+> +function being elided in an LTO build as it's not used in the rest of the
+> +kernel. Developers should not manually add annotations to their kfunc to prevent
+> +these issues. If an annotation is required to prevent such an issue with your
+> +kfunc, it is a bug and should be added to the definition of the macro so that
+> +other kfuncs are similarly protected. An example is given below::
+>  
+>          __bpf_kfunc struct task_struct *bpf_get_task_pid(s32 pid)
+>          {
+>          ...
+>          }
+>  
+> +Note that kfuncs must not be declared ``static``. A kfunc can be called from a
+> +BPF program ``*.c`` file outside the compilation unit that defines it, so its
+> +externally visible name must remain available for BTF ID lookup. ``static``
+> +linkage allows the compiler to rename the function, which can break this
+> +BTF-based kfunc resolution. Further note that sparse may warn that an otherwise
+> +unreferenced kfunc should be static. Such warnings should be ignored for kfunc
+> +definitions.
+> +
+>  2.5.1 KF_ACQUIRE flag
+>  ---------------------
 
-Not part of this patch, but "Ofcourse," should be "Of course,"
-of course.
+Acked-by: Roman Gushchin <roman.gushchin@linux.dev>
 
--- 
-~Randy
-
+Thanks
