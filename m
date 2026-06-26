@@ -1,120 +1,87 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FD83BAD80
-	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 19:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403662EA47C
+	for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 19:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782500803; cv=none; b=ufWuGt5nY/CjSVGdHVcfBaemuUK9jmbGLj3Tzy0g7rJc2DhhqDZTT1gY3i/wziT8BUldz4NAGSaUVEcXHqp5hyYZ7spe9rA1imG3aAkXHtOfi+HVdrrzg62hi8duq0zP7jERRrKN3UBDEhzUbVo39VHhKwgcc7j+gx1unz+sJ6s=
+	t=1782503428; cv=none; b=qWcE7QRWj5wBoxd6YaRGl9niHbRVMY/T8m0HY73maMA9j+6fs+iVchWRUHABxrjHMVluLFvEsKv3PtMxmTXP5Hc7wrwDDBqh+jj+aHDHnqObths2+fj3O1JXgha3ii/r0iEUrdfR5LcXv9H8xlyXqkZjv11Ymu23orK3KPVnWt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782500803; c=relaxed/simple;
-	bh=yPh5VyRHofHYz39WBgZG1T4p4iniLMrobeV7zGwnRA0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=b76em3ZhJROWC4pMAoqf8aa5ugE6NZn+9GnWUNx43i4O/x4Tc2+Zrp3H9PN7Dbo68h1zgf/xCmFEdVH6Y8GGqewBoU+VBYWoEzFYMqCzG5Q9kzfrjmAXkGJwmE1Fpq8a0T2Fn1OYJxY8vZ+V8PtHP71XZGfA4E09pT9XfYAxuXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JluRTrRt; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1782503428; c=relaxed/simple;
+	bh=qP39YovkqofRgywqdEQqpFd8SwiD+IXWqUfXEhxzx6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WVUmHJtV5ZerQUwJTXZq0/IR8Bxxb2BctFt/Iqt3uADYl/vlFHBSsVTe9cbOTgXQOt3MaDJafOa1tfa/SiSWfpINj4Vg1ff+R/5LwfgZfNdQmjyfcclNn5A+yFmRO+e1TaEL9O0LPisA1isscRzavGVYhJK05yx5yKU8KZ2NkLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qf2sQZ3Y; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JluRTrRt"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c889d1eedcdso689730a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 Jun 2026 12:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782500802; x=1783105602; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PNIeHjjlzgODJP9uSdZfrjN2ZSrm2/bid/6mJJUT1aA=;
-        b=JluRTrRtEKlVCS57b5K9WvO0eGGUpiu0l0n3sFC46cwCrIL2zDbwRbLWTF0DFSV//Z
-         fFWB5y72Exyoy+CBOB8lbTFxHp1kKAnzcDtXnZPi7yJoDhWdyuCktjdrgavuraj5rQ1Y
-         KvvKL50RvlVKyVUnnaPYGAd6r43KeHLACHEp6IkGQA+vnSldO9K8IhsR/xObdUROsh2x
-         MreSU4C3ZReW6Y64QDZxQcGAvZdfaSra4d73MBrtOUWlVelyHqnxI5O++k2VVwLl5oQD
-         p5h3T/B11LveUWCOrs/44TGXeQnpHyx5uZIJjbI7WUU1lIhdJ7BtcsyP/iDVT3yz7keU
-         VGCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782500802; x=1783105602;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PNIeHjjlzgODJP9uSdZfrjN2ZSrm2/bid/6mJJUT1aA=;
-        b=RFJGELvnA1NMGupawlVY/e4PYUgjMtnhyXu+Hm1fyuZEErdSL2W8ZQGx8nXnrmbZ5O
-         UcRB8ZDx71cSp3c+gABgJOXilETGamaGVlTun1fxvz0Vc9L/EXVb3KFdPs2WFiBRyYDa
-         f5EPV9gPFv+VktbDVwdSWHNAbkxb2RwlALzsMhPiVkwwb0y+xjyG4uNw62r6qSuBwMkM
-         okcOFfuvpEuvcxdwYqCIcWh65OrEdSGOcXT/2C5TMkl00KNxhawGTrapRt6H6hSywOGo
-         g6EhhOtPOHfQK2va5VLJHHvoEkbpFFr471TpIQLT1xBVlaB4cXfoC6UVXw8GdZY0KCzN
-         yV5w==
-X-Forwarded-Encrypted: i=1; AFNElJ/MwzEmlUmkTt5j8O8CoQDklFWA7nm61iyItvXpD9/V78AQeV0lf0Gd1V8I1bQnxZ/7zJdfEfsJ+UA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVQtWNrm/dzcT9MON/uyt0fcTuahtBmIDeDhJh0POA8niRQC6s
-	kAhHArvdWiJV/xSLOesGDT2xQQqQiTHk7+Yv9xxbHO3NCocoNMV/hF4jNS+G0Tzs3sDFUd3fGce
-	DQO8HZw==
-X-Received: from pgbcu10.prod.google.com ([2002:a05:6a02:218a:b0:c79:7778:c050])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:b40b:b0:3b4:87c0:d7f
- with SMTP id adf61e73a8af0-3bf69cca854mr1600938637.32.1782500801179; Fri, 26
- Jun 2026 12:06:41 -0700 (PDT)
-Date: Fri, 26 Jun 2026 12:06:40 -0700
-In-Reply-To: <aj3H2sxymOYTWTnE@yzhao56-desk.sh.intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qf2sQZ3Y"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=xI1u9Q8uX0oUdnnJTDPwrrwr6Ur+M3wOGd6jcoA8Reg=; b=Qf2sQZ3YXPhJEh71iZjOXYOh3b
+	cxcltYyaGAcU82KxRb8CmSoqB7FVjImnP/24ACglTdrME2i3uhlZ/8DNuubkVTzWSJzQpQ37XApN6
+	L9u0fsqnjHHozqi+HDFknO4emt4pv8O1IWbFeVNs2lp5+9YcQesVgafFiT1IJ7W5FK070uBhRbFVO
+	ChkbBEr31GM5cdoMdPsjY07kAmDCb+39jl5eRBENwIIKATtke3MrRNWTl7gO9FWDQVMRCw78kh4v/
+	bjsOAWxgikIT92awobyuiKM5lvx8/vUp5+0Ou98crAQuKzfKJKKJHc+sjtrpx+nEjFwht3eFXtG35
+	xt+JXfKg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wdCZ5-0000000Bnsc-08pY;
+	Fri, 26 Jun 2026 19:50:15 +0000
+Message-ID: <005e9767-3fa8-4108-83bc-db0da77ab7bc@infradead.org>
+Date: Fri, 26 Jun 2026 12:50:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260618-gmem-inplace-conversion-v8-0-9d2959357853@google.com>
- <20260618-gmem-inplace-conversion-v8-24-9d2959357853@google.com>
- <aji/2svhcc84rn5w@yzhao56-desk.sh.intel.com> <CAEvNRgHYTFnHbsLLgMTCSitmnp1_j9Pomikm9qmpGTh1w8YE5Q@mail.gmail.com>
- <ajx5Vrz9ma--hrGH@google.com> <ajyJhZcgfYFtGfS2@yzhao56-desk.sh.intel.com>
- <aj0Jf30PS2f7x1nt@yzhao56-desk.sh.intel.com> <aj087H1UWSFxbShR@google.com> <aj3H2sxymOYTWTnE@yzhao56-desk.sh.intel.com>
-Message-ID: <aj7NwCRwWEfLK-gQ@google.com>
-Subject: Re: [PATCH v8 24/46] KVM: guest_memfd: Make in-place conversion the default\
-From: Sean Christopherson <seanjc@google.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, forkloop@google.com, pratyush@kernel.org, 
-	suzuki.poulose@arm.com, aneesh.kumar@kernel.org, liam@infradead.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: fix openSUSE libelf-devel package name
+To: David Disseldorp <ddiss@suse.de>, linux-doc@vger.kernel.org
+References: <20260626044804.14258-1-ddiss@suse.de>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260626044804.14258-1-ddiss@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 26, 2026, Yan Zhao wrote:
-> On Thu, Jun 25, 2026 at 07:36:28AM -0700, Sean Christopherson wrote:
-> > On Thu, Jun 25, 2026, Yan Zhao wrote:
-> > And I'm not remotely convinced that prepending allow_ to the param will help
-> > end users diagnose "unexpected" memory consumption, in quotes because anyone that
-> > is deploying a stack that utilizes out-of-place conversion absolutely needs to
-> > understand and plan for the additional memory consumption.  I.e. if the memory
-> > consumption is "unexpected" to the end user, they likely have far bigger problems.
-> My first impression of gmem_in_place_conversion=true was that it enforces gmem
-> in-place conversion. However, it actually only enforces per-gmem private/shared
-> attribute.
-> My worry was that people might think it's a kernel bug if userspace can still
-> have shared memory from other sources after they configured
-> gmem_in_place_conversion=true.
 
-Ah, I see where you're coming from.  FWIW, truly enforcing in-place conversion
-is flat out impossible.  E.g. userspace can simply replace the memslot, at which
-point the memory effectively reverts to shared.
 
-> However, I have no strong opinion if you think gmem_in_place_conversion is good,
-> and with the above documentation. :)
+On 6/25/26 9:48 PM, David Disseldorp wrote:
+> The proposed "zypper install ... libelf-dev" invocation results in an
+> error:
+>   'libelf-dev' not found in package names. Trying capabilities.
+>   No provider of 'libelf-dev' found.
+> 
+> openSUSE and derivitives (Tumbleweed, Leap and SLES) use a "devel"
+> suffix instead of "dev".
+> 
+> Link: https://build.opensuse.org/projects/openSUSE:Factory/packages/elfutils/files/elfutils.spec
+> Signed-off-by: David Disseldorp <ddiss@suse.de>
 
-Ya, I think this largely a documentation problem.  I agree that a param name
-like gmem_private_memory_attributes would be more precise, but I think it'd be
-far less informative for the vast majority of users that only care whether or
-not KVM can do in-place conversion, and don't care about how that is done.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/admin-guide/quickly-build-trimmed-linux.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> index cb178e0a62084..f6b31d7207ff6 100644
+> --- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> +++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+> @@ -446,7 +446,7 @@ distributions:
+>   * openSUSE and derivatives::
+>  
+>       sudo zypper install bc binutils bison dwarves flex gcc git make perl-base \
+> -       openssl openssl-devel libelf-dev
+> +       openssl openssl-devel libelf-devel
+>  
+>  In case you wonder why these lists include openssl and its development headers:
+>  they are needed for the Secure Boot support, which many distributions enable in
+
+-- 
+~Randy
