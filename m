@@ -1,38 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07F5392C2C;
-	Fri, 26 Jun 2026 09:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CCF3E557E;
+	Fri, 26 Jun 2026 10:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782466926; cv=none; b=t18+yhEjFM0D+uX8AF06UXTd86QbYizqnKQM5+uhzI56hbdzCWFSao7CftWmYYcwinSQnbxI3oH1Pi96WmJdo40JgCkSPDmiiaMcXomz0T8xTs8toasY3+WicVDCktclZGcz0ncNG7iZ+Q7Znx2cPJTOwM+BvOa7JzvaskJdoCI=
+	t=1782468005; cv=none; b=UxHEvamj0rJgmwsJmjvELBK6UgYIyb7EP+E9+fv4ok6THNK2jfSO6c3xagtuLCsTJ/+m5q8585z8C/NLG+sONwdb9sIIEYyJXoU8RCOuT4kSfuYgndGxW53x1O/q2D+0FFcIkpl8yzWG/1P1ee4+3yA2LY/zLItLDq80hvYsgV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782466926; c=relaxed/simple;
-	bh=0NLb8XfDlB6QB+sv6lmaTA4QCIt5pVjC+CwvqTvI0ag=;
+	s=arc-20240116; t=1782468005; c=relaxed/simple;
+	bh=Ichldg/Lgx+4aCZTDsVDefQT/wWCCs3ULSYGGGegNgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rOmKRTnQny83R9VoAmoLzTe07utHJcKNJMAXLs5W1roeQAgwOOj3LmCvjvBSaPmgBm8XND5cFIYpVR0+/s5NHWdgc93kF+sYEHjSEl8i6L48EelBcEnk287ttHSttX0hVWPChUulGCyOqti3e+OeiQ4M9QjN+89oeGk9umHFYLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SUQIZ0Ce; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=NMis6K7//fjeUzuxHBXtclB50b12JDrLscIkEGChWLTGJlJR1DIpn5xukCeXVNOCIH+wRxhXk4yydeF8lG0ul6dxOVBdtHk5o5i/3PKteaTQHq+tVssAd7X+AHIYm44RhAh5KK5UMjiwDidZEY2R7vTv1NAo3FRpSMthKV3Jzwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TYk1QtiE; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SUQIZ0Ce"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TYk1QtiE"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BJLFz/+CdS0AinJQL0bJYRZ4ui269+yCx4kP8xx6ZcY=; b=SUQIZ0CeAOFhR+dKd7zU+n3cdo
-	OF7XecpGU8NWfxYbp6lJGov5j43n/m0sd9Ui42IkKMU2NmZQ5Klaz/XxmOSe45rf6pL+++8C/Y8+t
-	cr4GSf4N/eIUi/yX1zjdQB/aH99AI3jO5AFyy/bXNWLaGnhqoFW/jTPQFRpIx3hiPHATFr7GgvNji
-	oH3cnhnBJ2Cv4vWG+VOhHtbfeeoWrI0ft0haH4z9MJlEPl8LHtJVKwCaIL4BxUQPgdhn6aGqRFzOr
-	/CUegOrfzxT6TQjjFeJ96PFpnx+PLBHWPcRz9h8sRpwvzJb7hznThAK6tcYaudoncEqUs204s/Sbu
-	mLWT+Ifw==;
+	bh=co7OmSTR03cVkZPaaYPKAU3TQA+wn5DyKc6v4gArSjs=; b=TYk1QtiEhCi/7ksiQbtmivfC6W
+	yy92lm/+NX9XdwOZS/Fp3Zx/nxK2SFrayR8WP1NvC7KHE9xbTuy82XKz91FIDS/0ThOXNCpR9Njky
+	4DGPjX0zbvaRek5JGMBArYDVo2KvvWTZIToDD45qlXSLZ5pm+7XfLbiFOm1d+FqxRjcnC4vrcfuXk
+	u7dhHWgCiG3PkM8IfGBstxVN3ZrgQj0dT/E2azT6xvVPZ29g0usQK7fBmIBXzHL00bgtixzHC/yuN
+	2nWeKqyWuZLrVJVaCsOAz3a4pORFanCuL6WVRhU1NmgynSCI7Y6sz+bj25NMm9IUCDshlEzfrO/ok
+	rDETyNbA==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wd34L-0000000BapN-3HOt;
-	Fri, 26 Jun 2026 09:41:54 +0000
+	id 1wd3Lg-0000000BcDF-26Eo;
+	Fri, 26 Jun 2026 09:59:49 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B5942300339; Fri, 26 Jun 2026 11:41:53 +0200 (CEST)
-Date: Fri, 26 Jun 2026 11:41:53 +0200
+	id 36FA2301574; Fri, 26 Jun 2026 11:59:48 +0200 (CEST)
+Date: Fri, 26 Jun 2026 11:59:48 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: Shrikanth Hegde <sshegde@linux.ibm.com>
 Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
@@ -47,11 +47,11 @@ Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
 	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
 	rdunlap@infradead.org, kernellwp@gmail.com,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 04/24] cpumask: Introduce cpu_preferred_mask
-Message-ID: <20260626094153.GD2568396@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v5 07/24] sched/fair: Select preferred CPU at wakeup when
+ possible
+Message-ID: <20260626095948.GO1181229@noisy.programming.kicks-ass.net>
 References: <20260625124648.802832-1-sshegde@linux.ibm.com>
- <20260625124648.802832-5-sshegde@linux.ibm.com>
- <20260626093901.GN1181229@noisy.programming.kicks-ass.net>
+ <20260625124648.802832-8-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,31 +60,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626093901.GN1181229@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260625124648.802832-8-sshegde@linux.ibm.com>
 
-On Fri, Jun 26, 2026 at 11:39:01AM +0200, Peter Zijlstra wrote:
-> On Thu, Jun 25, 2026 at 06:16:28PM +0530, Shrikanth Hegde wrote:
+On Thu, Jun 25, 2026 at 06:16:31PM +0530, Shrikanth Hegde wrote:
+> Update available_idle_cpu to consider preferred CPUs. This takes care of
+> lot of decisions at wakeup to use only preferred CPUs. There is no need to
+> put those explicit checks everywhere.
 > 
-> > diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> > index 80211900f373..5a643d608ea6 100644
-> > --- a/include/linux/cpumask.h
-> > +++ b/include/linux/cpumask.h
-> > @@ -120,12 +120,20 @@ extern struct cpumask __cpu_enabled_mask;
-> >  extern struct cpumask __cpu_present_mask;
-> >  extern struct cpumask __cpu_active_mask;
-> >  extern struct cpumask __cpu_dying_mask;
-> > +
-> > +#ifdef CONFIG_PREFERRED_CPU
-> > +extern struct cpumask __cpu_preferred_mask;
-> > +#else
-> > +#define __cpu_preferred_mask __cpu_active_mask
-> > +#endif
+> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+> ---
+>  kernel/sched/sched.h | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> This is cure, but does it not result in set_cpu_preferred() changing
-s/cure/cute/
-> active mask, and it that not somewhat unexpected behaviour?
-s/it/is/
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 5d009c2529b2..148fe6145f1a 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -1434,6 +1434,9 @@ static inline bool available_idle_cpu(int cpu)
+>  	if (!idle_rq(cpu_rq(cpu)))
+>  		return 0;
+>  
+> +	if (!cpu_preferred(cpu))
+> +		return 0;
+> +
+>  	if (vcpu_is_preempted(cpu))
+>  		return 0;
+>  
 
-Typing hard, clearly. Also hitting 30C before noon :-(
-
+This one might hurt, it is a whole extra cacheline in otherwise already
+sensitive (wakeup) paths.
 
