@@ -1,123 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038373DB327;
-	Fri, 26 Jun 2026 10:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EE5387588;
+	Fri, 26 Jun 2026 11:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782471480; cv=none; b=aBiQO54nPNZ/jeyVa4IMe8Yu/W76LfiWNpeSNnMXIb/FSomXmmV6p/G7OHYuXZoTIw2DXjlx5haI31uDAeyKZ+gnK43G43uEMwcZzZA2mjCIjXxhz04XK21xpZKWB47OtCnnZx0epMNDb+GKwPpdsgGVPu1AsjPSyg9wvtK6cR0=
+	t=1782472453; cv=none; b=WW3ATrytaLjw5MKA3HjXwNeyHxcZrj/3f5ZtdPC0WZ98zLZvjSiMu84xLFw1cFy/Y5E5XbwL3rKDSJDXBVsphxHLy1pFKmNl2ODgqb2E8H141trUtAMkCGRy68A/dWM9evGQLvgkZdSnqxyGv+KmFPivtDaD4EWyEckSdVkR1j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782471480; c=relaxed/simple;
-	bh=63xVF5ybA58lufS8+mQU0NJ6N2HaPImjxW3MDpTwDj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=obBsLy2JHtCnpAnmFNdYHVA30E7n3DJ5v/TEVBahdP/wJ/egzVE7dtaDCHPCZHESEo8nuPY2NqXdbr2figB49XY4tdR/oNhPsdBwApk4JRtbYH73rsTxAhoRksgQQc+cwSTumirMKIzkvM/Njeso/SAoM6YE/23UZokEnYZ+KGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=My/1BS+s; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782472453; c=relaxed/simple;
+	bh=/GLrD8pXefrGi4AuJsKjttSFjC89LiLQ+h4O6a/k9JU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=soOnjQ5gC5MdraOXW5PNK9wcyGPQXR0HAJ8EP5hfDyLk8rjOjIqVtc1qA+ApPJNJt6VKBEOJuo5GWHAJY7VLbhpt0lmfno9k0TVE3kq4Mr9CPbptz2h/aanAClcLUi8uMtQrdtW1ymkw0IVe/TDzattxl8tQrGL1F8dcE5q94jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtYfFDMb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="My/1BS+s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7351B1F000E9;
-	Fri, 26 Jun 2026 10:57:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtYfFDMb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA5B1F000E9;
+	Fri, 26 Jun 2026 11:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782471478;
-	bh=ZTRPyMyzXJJHzBuvJUIeax1xIMpUkC2R+b5TUXDfLVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=My/1BS+sODPPWkKG5n35GpohqpvIdqpVm5jWKuOA91DwPIV4FMBeiMnXbIOLzlSQX
-	 G47l2zPc1OhCTSS+gMbjyDBTIqPNhR+h3fylG7wpAEzkqYXY1k3JGpwuA+cfUKGL8K
-	 O8V74f1xsA5AlIQ4dL4Zj/JnGhrqZrAzg6PjJs7LSCaDKpIYpv4d0Rv9WMZCFZeeVv
-	 ndbOcQwcAxzq8jMCpJrxBR9ciJB5fLX1K5wx8/gIzBlNn1nft373kMpl1AWTuSuSzx
-	 bGHH6RvfFgYN/vXg7EBPy9oUGrL8QbN2JZaNW0QWj4N5GyvcYPa0WihXf86QgEnS2c
-	 BZFMyOzA0vlPw==
-Date: Fri, 26 Jun 2026 12:57:53 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, 
-	Alex Ousherovitch <aousherovitch@rambus.com>, Conor Dooley <conor+dt@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, devicetree@vger.kernel.org, 
-	Joel Wittenauer <Joel.Wittenauer@cryptography.com>, linux-api@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, Shuah Khan <skhan@linuxfoundation.org>, sipsupport@rambus.com, 
-	Thi Nguyen <thin@rambus.com>
-Subject: Re: [PATCH 19/19] MAINTAINERS: add Rambus CryptoManager Hub (CMH)
-Message-ID: <20260626-lush-eel-of-election-5fcbde@quoll>
-References: <20260625173328.1140487-1-skrishnamoorthy@rambus.com>
- <20260625173328.1140487-20-skrishnamoorthy@rambus.com>
+	s=k20260515; t=1782472452;
+	bh=fkLoybXTfezIlsdwsuEtEbzAWgE+RILpwfWU/sPIuWA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TtYfFDMbibXE/aQtux0dRDDpsDLX9HbZGssUTgE1amA6JEkqCrj+Qb4/A/UYH1on1
+	 Q0vvlU2sK4Q11H3ZoEgbtEA9T8ZToDEAnP1UprlkorFQnfEPAnnG2XQwutyivg6afG
+	 kcIH2dq8l3d8VII7Mw8sAG82MQImnxDu+NDDL9yyIhPE6cW8QTIws8eoYeQjDyzffu
+	 a9tHAcg/zSXFdNp57PEl3JlopVVfAbM58+Qxw7rYa4itOcSZRJWda7FcwI1e901mh9
+	 Kwy5X9uQi4fdhNDfjuJLd5ZcbfF5ijML3CZuWM2KbeI4wkAakaVFSODLRkaDzow0pV
+	 9H+kEEHi7sKNQ==
+Message-ID: <45961106-ac2d-4916-b750-448b9cfda5b5@kernel.org>
+Date: Fri, 26 Jun 2026 13:14:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260625173328.1140487-20-skrishnamoorthy@rambus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm/mempool: Untangle CONFIG_SLUB_DEBUG_ON abuse and
+ switch to static key
+Content-Language: en-US
+To: lirongqing <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Harry Yoo <harry@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc: Matthew Wilcox <willy@infradead.org>, Usama Arif <usama.arif@linux.dev>
+References: <20260604110318.2089-1-lirongqing@baidu.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260604110318.2089-1-lirongqing@baidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 25, 2026 at 10:33:27AM -0700, Saravanakrishnan Krishnamoorthy wrote:
-> From: Alex Ousherovitch <aousherovitch@rambus.com>
+On 6/4/26 13:03, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 > 
-> Add MAINTAINERS entry for the CRI CryptoManager Hub (CMH) hardware
-> crypto accelerator driver under drivers/crypto/cmh/.
+> The mempool subsystem historically wrapped its debugging logic inside an
+> merely defines compile-time defaults for SLUB and caused two flaws:
 > 
-> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
-> Reviewed-by: Joel Wittenauer <Joel.Wittenauer@cryptography.com>
-> Reviewed-by: Thi Nguyen <thin@rambus.com>
-
-Are these people really provided you with Reviewer's statement of
-oversight? Do they understand what does it mean?
-
-> ---
->  MAINTAINERS | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+> 1. On production kernels where CONFIG_SLUB_DEBUG=y but
+>    CONFIG_SLUB_DEBUG_ON=n, mempool debugging was completely compiled out
+>    at compile time.
+> 2. On kernels with CONFIG_SLUB_DEBUG_ON=y, mempool debugging stayed active
+>    even if a user explicitly disabled slub debugging at boot time.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 90034eb7874e..ecb389795e3d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6797,6 +6797,25 @@ F:       kernel/cred.c
->  F:     rust/kernel/cred.rs
->  F:     Documentation/security/credentials.rst
+> Clean up this mess by removing the #ifdef and switching to a runtime static
+> key (mempool_debug_enabled), allowing mempool debugging to be toggled
+> cleanly via its own boot parameter.
 > 
-> +CRI CRYPTOMANAGER HUB (CMH) HARDWARE CRYPTO ACCELERATOR
-> +M:     Alex Ousherovitch <aousherovitch@rambus.com>
-> +M:     Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> +R:     Joel Wittenauer <Joel.Wittenauer@cryptography.com>
-> +R:     Thi Nguyen <thin@rambus.com>
-> +L:     linux-crypto@vger.kernel.org
-> +L:     sipsupport@rambus.com (moderated for non-subscribers)
+> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> Cc: Harry Yoo <harry@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Hao Li <hao.li@linux.dev>
+> Cc: Christoph Lameter <cl@gentwo.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Usama Arif <usama.arif@linux.dev>
 
-NAK, drop. You are not allowed to add here internal moderated mailing
-lists. We are not going to participate in your corporate dances.
-
-> +S:     Maintained
-> +T:     git https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
-
-Drop, you do not have commit rights there.
-
-> +F:     Documentation/ABI/testing/cmh-mgmt
-> +F:     Documentation/ABI/testing/debugfs-driver-cmh
-> +F:     Documentation/ABI/testing/sysfs-driver-cmh
-> +F:     Documentation/crypto/device_drivers/cmh.rst
-> +F:     Documentation/devicetree/bindings/crypto/cri,cmh.yaml
-> +F:     Documentation/userspace-api/ioctl/cmh_mgmt.rst
-> +F:     drivers/crypto/cmh/
-> +F:     include/uapi/linux/cmh_mgmt_ioctl.h
-> +F:     tools/testing/selftests/drivers/crypto/cmh/
-> +
->  INTEL CRPS COMMON REDUNDANT PSU DRIVER
->  M:     Ninad Palsule <ninad@linux.ibm.com>
->  L:     linux-hwmon@vger.kernel.org
-> --
-> 2.43.7
-> 
-> 
-> ** This message and any attachments are for the sole use of the intended recipient(s). It may contain information that is confidential and privileged. If you are not the intended recipient of this message, you are prohibited from printing, copying, forwarding or saving it. Please delete the message and attachments and notify the sender immediately. **
-
-Heh, I should have ignored your message...
-
-
-Best regards,
-Krzysztof
+Added to slab/for-7.3/misc, will exponse to -next after 7.2-rc1.
+Thanks!
 
