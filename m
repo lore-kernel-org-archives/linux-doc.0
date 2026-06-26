@@ -1,231 +1,196 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC34323D291;
-	Fri, 26 Jun 2026 15:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782489199; cv=none; b=GsCyPUFc2TETJCl0QWjw9iCTlnAU057v/JWhMSst23VmN51lqn1ZqBMDrIJN1YuxIYffgtY9DE1qfAO96242pgJlSEFIletVIdeQHlhwGSdaIWugksxlavQo0FHGjQWktV/FCZ56NJ79LwLEzcSNAPSAQMOonbKYURsuwX23zr4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782489199; c=relaxed/simple;
-	bh=LqdNaV8FU9i/YpyPfFZxEtMeY1Tns1Ka3tzd2Zq8Mxk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nrE7mRi5bMwlHTgJ9VGZ+SDuNRfpk4E6GJLhHmYvuRFzc5Zg6zHU3NoB2uu6NCkjHFCrfVffLSftLFjmI10WT+zhy7UObhJwBcy6EawEfiq5Lzdy2HQ0sObK4bWlwy88pwhZd1Gy4P7qAA74FCznyadrJjmwB1XvqWbwUJDkjR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=bIJANbQ6; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BDC33A032;
+	Fri, 26 Jun 2026 15:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782489329; cv=fail; b=uGuTstk1BX9W+S3zzLrCrA5d0q9qtjMCriATJ4ir9AqRKdIo39xGMgKr/Gjs/cV55Zx4iKe0oKVSPOKNU0SyuzX88eKOn8oAO203lZbR/xaERoj4gH2qY2ixCZ8E4kG9l55SKsKILyBqWrVrq3UpUR3URUdC6KEzm3GiHs3LzUY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782489329; c=relaxed/simple;
+	bh=Km3AUUMw1xRP9TQLn1R9NfKDnHl5a3LAEGjZA1pWNQQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=OdMjJXHF0pKoEvTkM96zS8t6PYYz8Mf8f5jflod/osNB8OpHNA6WsWpmHWc3yCOxok+JdRQ4R2HsXqj2UQoXx+glNian90gj/F4olWoc30CfHRoCIBWtk/eGD7tQzLoJIH3ZxaZqWdF52tgoxJDGg5jbgLTKcLvaXS53jxdpWNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApwDPW9f; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="bIJANbQ6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=7pnehLe8Fc9BTRnNjqfHxijlMhSDnOv3l1cLSbLfm8Q=; b=bIJANbQ6h7BDrfCuAHKDf+qwg2
-	nr6VhgsBwLb4IuR4sWUX3QJnAcNcNJiR5/8FnOAPWNQNlLDDRhilZEzyivJaTSfJOxDxumio3gdy/
-	fRO1aZ5l3kzgS6SZmkbVeo/RgKaRRqB+UCOSQDf/f9pe0oiOd3Z5trntlAaF3gGtA7IkkPgDG8NSA
-	QwJdCL+xFexgVE9XlHfTVCzwdNJHECRWh9rP611QZDo/lQb7uI5hm5nX++lyOtjkK+Fri7deOYqgL
-	bvaI52+oxujY9C1fwvuGVs0vVFSqFa4Zs7UsZ6vKgUy+Ij87jha/1Krt4pt2wWkmtPR3ZJ0DcD7OD
-	JEjLLohQ==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wd8rh-0044nh-1Y;
-	Fri, 26 Jun 2026 15:53:13 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 26 Jun 2026 08:52:03 -0700
-Subject: [PATCH 2/2] selftests/mm: test kmemleak's N-consecutive-scan leak
- confirmation
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApwDPW9f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782489328; x=1814025328;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Km3AUUMw1xRP9TQLn1R9NfKDnHl5a3LAEGjZA1pWNQQ=;
+  b=ApwDPW9ftXf9c8m4G0SkgQPGfX2ZizZTlhfKudHgdAsSiwv8Ph08Miyy
+   1a4966A6wUC3VdJGAEfzay/ojlc73oJoJI/s2pX5TxjrEBDBuO2ISitC0
+   t0wpIQ7LJnNc09bqTMD+awnnmZpgOxkval/0VRIMT1ZN2ntqK7FwYCpMC
+   vVbF+XB3WA11B+m783oql9p/GMwrdRmr840dzRKi9JvO2xvmYmDqy6uV7
+   6h8Ht+AcjQl0iAhgF0LIyh7fZ8UdCYU8waKjxMbMSjH4utHVV8rOLb/tD
+   IJdusBadmSaJVk2/lCe9kAnbsAhAO1rwAd7Rfz1qB8mnsehfxupna/0Xg
+   g==;
+X-CSE-ConnectionGUID: WjeS3EDITdu48pEJeWg5nw==
+X-CSE-MsgGUID: Wcq+qtezTua9yaRJJlTkWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="94431335"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="94431335"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 08:55:27 -0700
+X-CSE-ConnectionGUID: wWs5ufljTGy0pxL7vlna9g==
+X-CSE-MsgGUID: lfbm61eQTCqfoL1b7iC2Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="256253856"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 08:55:28 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 26 Jun 2026 08:55:26 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Fri, 26 Jun 2026 08:55:26 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.54) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Fri, 26 Jun 2026 08:55:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xYrATlE2AThehPlQpSV4amjFGCC/JJpyZ28C48+0uBTd4uUfSQ76jMi0nteNwuY4vbjOu+hkOfV1YVnsIocB3UDdUN1NeZ+xaT0BDnmo03rKcgIxCxuZPsDXeTHneAMNKlLca9LX1s9o6XYpsk2pLISV5mu4kvjCbhRI99N2JvBIiiL/2NAHsecUEJFZGays+MMx/CiZDvLIt+CZODA2F6B2QYDGHtkp7xwcBpEkRQS5PN3mShedvUNrfraI1FMyntFle9gGKfcVWcHNL6FjWhiWK+GDBvukuJSoaJU6TUdQz8mD9RFzknn46DdJYIc8Qpa2JhvSVeFzIMAUTJyGJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aPoYYB7d8Ykfw3a1jFcIGKl3W6lLF2+wZ9FTru6uvBo=;
+ b=JM/Z+cqiUc/TKo20NoxzcW/PKcbt/U4r7/7OnwxmDVVp/tUEcoUMRuWJ92XrQuC7FcYWGRxO8C2aCIk7j8gm3jPmD8v6tpRDEVbRLtyOuECqSzGGqPz+CAapnT+iOFCTWb8EPKuh17Mb/Yp1z+PzZZDFd4a9Y2rgUJ6V5/cuwqWE3301M4PL1TXOEh07BsQBMrPFRxg38x+2EcXAIUvtSYyivsaPw78/kdzmOVbsif8ZyYuuWDIdQWnXU6uyRr7RoWtcRHOgJoMJdV9ViaS34ilCTbzHcGCP4W5pxN7YBVyZurx6czI/3CUBdct4cZjsLxJZvN1TcEpAjDOmGuvBwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by SJ0PR11MB5087.namprd11.prod.outlook.com (2603:10b6:a03:2ad::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Fri, 26 Jun
+ 2026 15:55:22 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0159.012; Fri, 26 Jun 2026
+ 15:55:21 +0000
+Date: Fri, 26 Jun 2026 08:55:18 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+CC: <corbet@lwn.net>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <tglx@kernel.org>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <skhan@linuxfoundation.org>, <x86@kernel.org>,
+	<mingo@redhat.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <pawan.kumar.gupta@linux.intel.com>,
+	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
+	<kees@kernel.org>, <elver@google.com>, <lirongqing@baidu.com>,
+	<paulmck@kernel.org>, <bhelgaas@google.com>, <seanjc@google.com>,
+	<alexandre.chartre@oracle.com>, <yazen.ghannam@amd.com>,
+	<peterz@infradead.org>, <chang.seok.bae@intel.com>, <kim.phillips@amd.com>,
+	<xin@zytor.com>, <naveen@kernel.org>, <thomas.lendacky@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <peternewman@google.com>,
+	<sos-linux-ext-patches@mailman-svr.amd.com>
+Subject: Re: [PATCH v3 00/12] [PATCH v3 00/12] x86/resctrl: Add kernel-mode
+ (e.g., PLZA) support to the resctrl subsystem
+Message-ID: <aj6g5jojdWASJ5YJ@agluck-desk3>
+References: <cover.1777591496.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cover.1777591496.git.babu.moger@amd.com>
+X-ClientProxiedBy: BY5PR03CA0024.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0::34) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-kmemleak_twice-v1-2-ab28f7cc0971@debian.org>
-References: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
-In-Reply-To: <20260626-kmemleak_twice-v1-0-ab28f7cc0971@debian.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6640; i=leitao@debian.org;
- h=from:subject:message-id; bh=LqdNaV8FU9i/YpyPfFZxEtMeY1Tns1Ka3tzd2Zq8Mxk=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPqBbM92BUw/lNCj2SdE0hZbvKJoJe+UkFPKK0
- FIcuV5s83yJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj6gWwAKCRA1o5Of/Hh3
- bVl0D/9SADG1iLDMbNSjOEAH3bm4GJVko36UaxJ+14htHLB3ZEp9xAkWp0WCiBj13Q7tqv8kgPf
- sSnNksaHEY/HvUbc2qmgjyhUnGmNWPLmI/KiLZaXhThzFcZHaGLfKBdEdoPFNfxcj2PQdqpY9Py
- XI0KtxannHHwZFAJhztC3MMo/b/W6prFezHSoxfSJc/vAMGLddZv/XCHzdl3dUMyOfOW2OswaIu
- zUS+MLE+CXX5+wVUNxzrLbFbIe+cabKzxuwbQuzHLapHaT2ZhvkUBewYVoQC/uLEkFc9tUHlJx8
- QsMzgIB9HaDypt51TxmV3PqUFjJ7kXqznE4yDdTfFrf0rOJVMTwUIN8VkXaVDq4I3wouID8DFgc
- BWApe8BKuqV8xZ0jYfRvvr2tYLL9613VsCwhTxBds67B/pGsbvOmUrLtzkTIJfLtV+NZquEjqgt
- zAQ1zuVtY4lF+BG9wWIyDJd4EmzzB5pOJlliZoKKj/QBhWLdVf/X4PqkCxhJtgRl9+byfaIHCWk
- 2EcE3JfJjJA/hEb0ORTjU/Ey85O2Wjbi4ek/AxVVuMZDcZkD44g/VbCMlKzI75O4ngq2xrjuXg2
- B30NAA2IudA9emNL/4HaH4R+pkl9tjJJP9ksQdJzUMDZwxpYHpszWt40Z2Q9nY0oaRUQkW0oILU
- VcJpMVijAxCrNWg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|SJ0PR11MB5087:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29c36443-bbac-4845-f201-08ded39b5375
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|7416014|22082099003|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: ne+EIdDakSdm7uGBPZyMU88ISYpbRZtqpf2MVze/rc9MhhEZr+e4RDAbvcNUcdb8r8hjMJalhXl614L0Hk8WsnJjvmjfDXWt5W2VwYFM4hBYdGbBh0uYY/SZIGVeL/3pKAyeV8j+FMkQbLCYI1sf3mGVzwXRqViMKaOOxVJKdJrXfnnsTtv1boEW/4413XQbRmOEyG+GtxneIrBAqxYRrdTixdXyjPiErUHbX4gR1yT85Ga4K51FyrBL4SZyegPWcSqF6qQjvGmiPAU00FJnJybTALJYRFo4fqxRVPty2ysh6MTRUzqmpbhA1EXqmX0qyGnKsJzCimbEuMJB6Dx9k1yuCd0mjv5ZMSEKI38lXYSQY6RWW+E2XgsJQGVblXZq5N9Ok4wxbUNtFzyu8S+CJI+nRL7cHfgb40ApukIBdlDGRghcA+HQBwH9wIohr6O6T6MZNh5nH+Ysbmgz6xL4ANqv4yUX8/FpgN+DVUms43q1xWhzflxOYG2kRgiQpAah0qxMZs3fyOzKkAH9HanFE29n1/AXV0MXeKLfGfuX2fQNM/5MQXcq1fryWyiH57ReKt+6OfPh3XctV90hQ6jZ9vGzgZS2xv+GaSQMomTVZxKm8p2wZJu3yEabby8crtgVxjcq9xsDelt+IBjIEe9EdhAizug0clDanDl+eRXD+jM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(7416014)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?evetqmtM1qVFXqlNpe1e1tJpz6pdJdhr88j9MiTk+K25W+c+iYnCcU9km7kb?=
+ =?us-ascii?Q?JBwnJIEinwAQxlkz01zrhqA8gZHbJtNPq3/kxDC9To90I/heNnWoRR9ubF2s?=
+ =?us-ascii?Q?jsU8159WmQskLXyz1S+f3yWeURWl39mr+BNxLOb/Kxr7MrlRCAA/2deWLyKj?=
+ =?us-ascii?Q?qX9XZtPFQDJgm5U99JhElG/h9DjiVPMzAwdHGqDbJCGkw1/R+CkvDjz9ldvp?=
+ =?us-ascii?Q?MB4srZbBofVBBJxIpgpNWkFgnGaKfLrkPgjMQhnYDisLpR4BnGneegi7PMWa?=
+ =?us-ascii?Q?rDyfI7jypigN+9iKnJb58fXOWokz40YAGVfW03S3E0P7qjfMFofID6VSvUkm?=
+ =?us-ascii?Q?O4gra+axndp7L5S/XDlNtRDVhjAUtimAiu0DraAjixB6/WFBMWrNr75buISg?=
+ =?us-ascii?Q?pnSKBmqCQgKglwvZBoj8I/zIX2DSrQO6wSOjmX8rRkPuhUtQ8PhTCjPHg3ZF?=
+ =?us-ascii?Q?OmysHwmmKUBp8G3JWrzMfjYfnjQe1kCGkhKx3gN2OMAoKG3ZxpBWG0p+dR1a?=
+ =?us-ascii?Q?mehJIsrOyIbRH1eoTk44DrcEW3HAV4TKK1DerzjejUhIiIptBkeuL+TxTJQL?=
+ =?us-ascii?Q?XOlHOlsoPXHoScL6w6H1zllmi8q3k1VFbS5vyGmfKCxKo8JwF32ovaTkdS78?=
+ =?us-ascii?Q?NsCJ2CfWwN7oOdMtPbC6s0phtPcDFmKAjNax2lQI8kYLFkrKiK6WFXntx2RU?=
+ =?us-ascii?Q?xCqh4P+zZrUxujC/MPeblx5d64V2SkFSE75pqlWYKJYT+BaYaZ4nJjVhKEf2?=
+ =?us-ascii?Q?1eY67II+MuGqNYb9vdlePUtQ6tRlKZ7cLbWoLxBZtE9CS7i6WCHu3L21jaQM?=
+ =?us-ascii?Q?eh2MD+FQtEzNC/gDFVzLheLRaCu83gyqdN80f0TPHdqVm95M9Omdy99y46h8?=
+ =?us-ascii?Q?REt3KYyLyiimuf/jvaHqB52xnyhjcZB4aQuGZ2W6O+n+FGokHxQi3rfmBm51?=
+ =?us-ascii?Q?Jin3LcZzPBMYGWKxIU9keVTd4jrqxe+/j2perfb6ORQS0eFOnWmnb7ac2BAN?=
+ =?us-ascii?Q?Hxb46T4C8NlRkdPJxtNLwkjqcfI7a0SUAQwcvTahtH57fzac3Lbb3r46qqYF?=
+ =?us-ascii?Q?rZTSQvo9PSC9MA3y9FJ58HT2UhbXWkR99SMv8lw43V8mAi/FlwfI2f5DzcpH?=
+ =?us-ascii?Q?ekeNw+ruvIMMyjKUM/oRSWV91p7qxE/iwU64rJnFOwL4stsB2fxtmoNquVsW?=
+ =?us-ascii?Q?+VKi1wQCBeRLgwTwH2nSPh6MrH1m5thnr6Oxv+PiBnok5pj53+CwdNl1lVYK?=
+ =?us-ascii?Q?Lrg7+utYjWHJsHnJWt3KqmB7sR7Fdr6QXyn18TllJNAXHPGqMU7Ll14sfkFq?=
+ =?us-ascii?Q?I7L1lNduQ30Nb2HPPK8v6O+S9uyXSh7ikGu2DNP3wj1OkK5AuM1k++zPm1Fq?=
+ =?us-ascii?Q?ylpxyGeodguholpTbbjO8HbUSWxFw29jvLqQmw7rmg7cUp8OIJwErDfkXbH1?=
+ =?us-ascii?Q?aLR3hFP16aJsjuC4rM2nF/HKJty9Eq2VwrYlGxKSaWC/uY5CtAVl+4hneymB?=
+ =?us-ascii?Q?n82JsMxD3xb7p7e7S/0rRhd9qyBGDg/S94X82ruQglQf1MZYfcz8fnoVx5PE?=
+ =?us-ascii?Q?GZvBYw3MrH9zDi+ZNZhjkl3QqAKKQTuVH1CCZHOyJpbImHSL64aP0bex3owL?=
+ =?us-ascii?Q?U88O02g9ecZniTTfsoH/StYTKJu54nGYwllX+tC+N+Q5CW7ulAzT/pDBwzm+?=
+ =?us-ascii?Q?Cbts5BZzHwKz9zQBoKKFe2WHuR1EvI1GVSj+ms638TPAXyS0ZTmyppOyHZwM?=
+ =?us-ascii?Q?ucW0d9FFFA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: hiZIQy+9PEFCSEaQOGZbsMZ+xB7fQOCb5JlEpfwTiWxrifG8u+x2Dj9Y7yposxS0HfUHjSHH5w6DLHTxPtOOEEPy7xkkOv4hAGQSD0HuxrPeZeobKn6XgDCFGQxsMJzc36DyiHPibQWewePg5RwClpNeCai8yffo4pNZHizJrvDyC/MoERh3Y0rU9j/C5R4dKJTAH0e4T2zTxBRkYLrO1EorQmoupoCSd2HEtCQP8+e7Cmp37T0K4cqDnsFR79MdFK0exyvLYasByvqnv8tpvAOPqGzm37xedOK4jRpKB8FrH914QGi7adornjP+F65iLt9z9hzzy3KmnZsv44dfgA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29c36443-bbac-4845-f201-08ded39b5375
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 15:55:20.9848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kFJZFCpOnAlVICk6jPBVfkND3nQuOE9Yi5XsTxNz1V7YeqEYzTXcj+/5tEtOs86lEjzvj+x9eweVV8iPG7VLOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5087
+X-OriginatorOrg: intel.com
 
-Add a functional test for the min_unref_scans kmemleak module parameter.
-Using samples/kmemleak's helper module it checks that min_unref_scans=1
-reports an orphan on the first scan, min_unref_scans=2 reports nothing on
-the first scan but does on the second, and that the parameter reads back
-what was written.
+On Thu, Apr 30, 2026 at 06:24:45PM -0500, Babu Moger wrote:
+> 
+> Hi,
+> 
+> This series adds support for AMD's Privilege-Level Zero Association
+> (PLZA) so kernel work can be assigned to a resctrl group, and wires it
+> up through a small generic "kernel mode" (kmode) layer in fs/resctrl
+> so future architectures can plug in without touching core resctrl.
+> 
+> The features are documented in:
+>  
+>    AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
+>    Publication # 69193 Revision 1.00, Issue Date March 2026
+>  
+> available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+> The patches are based on top of commit (7.1.0-rc1)
+> Commit 3382329a309d Merge branch into tip/master: 'timers/clocksource'.
 
-It counts only the helper module's own orphans (matched by their
-[kmemleak_test] backtrace, with the module kept loaded so the symbols
-resolve) so unrelated leaks already present on the system do not perturb
-the result. The test skips when run as non-root, without
-CONFIG_DEBUG_KMEMLEAK / CONFIG_SAMPLE_KMEMLEAK, on a kernel without the
-parameter, or when the helper yields no detectable orphan.
+Hi Babu,
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- tools/testing/selftests/mm/Makefile                |   1 +
- .../testing/selftests/mm/ksft_kmemleak_confirm.sh  | 111 +++++++++++++++++++++
- 2 files changed, 112 insertions(+)
+Have you had any thoughts about a resctrl selftest for PLZA?
 
-diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-index e6df968f0971c..84026b62a1ae5 100644
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -150,6 +150,7 @@ TEST_PROGS += ksft_gup_test.sh
- TEST_PROGS += ksft_hmm.sh
- TEST_PROGS += ksft_hugetlb.sh
- TEST_PROGS += ksft_hugevm.sh
-+TEST_PROGS += ksft_kmemleak_confirm.sh
- TEST_PROGS += ksft_kmemleak_dedup.sh
- TEST_PROGS += ksft_ksm.sh
- TEST_PROGS += ksft_ksm_numa.sh
-diff --git a/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
-new file mode 100755
-index 0000000000000..34ab64bc6948f
---- /dev/null
-+++ b/tools/testing/selftests/mm/ksft_kmemleak_confirm.sh
-@@ -0,0 +1,111 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Functional test for kmemleak's N-consecutive-scan leak confirmation
-+# (the min_unref_scans module parameter).
-+#
-+# kmemleak only reports an object once it has stayed unreferenced for
-+# min_unref_scans consecutive scans. The default of 1 reports on the first
-+# scan (historical behaviour); higher values filter transient false
-+# positives where a live object's only reference is briefly invisible to a
-+# single scan (e.g. an RCU tree update in flight while the scan runs). The
-+# test loads samples/kmemleak's helper module to create orphan allocations
-+# and, counting only those orphans (matched by their [kmemleak_test]
-+# backtrace so unrelated leaks already present on the system are ignored),
-+# checks that:
-+#   - min_unref_scans=1 reports them on the first scan,
-+#   - min_unref_scans=2 reports nothing on the first scan but does on the
-+#     second,
-+#   - the parameter reads back what was written.
-+#
-+# The "nothing on the first scan" check is the core regression test: with
-+# min_unref_scans=2 no object can be reported in fewer than two scans. Like
-+# ksft_kmemleak_dedup.sh, if the module yields no detectable orphan at all
-+# in the running environment the test skips rather than failing.
-+#
-+# Author: Breno Leitao <leitao@debian.org>
-+
-+ksft_skip=4
-+KMEMLEAK=/sys/kernel/debug/kmemleak
-+PARAM=/sys/module/kmemleak/parameters/min_unref_scans
-+MODULE=kmemleak-test
-+AGE=6		# seconds; must exceed kmemleak's 5s minimum object age
-+
-+skip() { echo "SKIP: $*"; exit $ksft_skip; }
-+fail() { echo "FAIL: $*"; exit 1; }
-+pass() { echo "PASS: $*"; exit 0; }
-+
-+[ "$(id -u)" -eq 0 ] || skip "must run as root"
-+[ -r "$KMEMLEAK" ] || skip "no kmemleak debugfs (CONFIG_DEBUG_KMEMLEAK)"
-+[ -w "$PARAM" ] || skip "min_unref_scans module parameter not present"
-+modinfo "$MODULE" >/dev/null 2>&1 ||
-+	skip "$MODULE not built (CONFIG_SAMPLE_KMEMLEAK)"
-+
-+# kmemleak can be present but disabled at runtime (kmemleak=off boot arg,
-+# or it self-disabled after an internal error); a "scan" then returns
-+# EPERM. Probe once and skip if so.
-+echo scan > "$KMEMLEAK" 2>/dev/null ||
-+	skip "kmemleak is disabled (check dmesg or kmemleak= boot arg)"
-+
-+prev=$(cat "$PARAM")
-+# shellcheck disable=SC2317  # invoked indirectly via trap
-+cleanup() {
-+	echo "$prev" > "$PARAM" 2>/dev/null		# restore the parameter
-+	echo scan=on > "$KMEMLEAK" 2>/dev/null		# re-enable auto scan
-+	rmmod "$MODULE" 2>/dev/null
-+	echo clear > "$KMEMLEAK" 2>/dev/null
-+}
-+trap cleanup EXIT
-+
-+# Stop the automatic scan thread: only our manual scans should advance an
-+# object's consecutive-unreferenced run. An auto scan landing between two
-+# manual scans would change the result and make the test flaky.
-+echo scan=off > "$KMEMLEAK" 2>/dev/null
-+
-+# Create a fresh, aged set of orphan objects from the helper module's init
-+# path (its kmalloc/vmalloc/percpu allocations are dropped right away).
-+# Pre-existing reported leaks are greyed first ("clear") so only our
-+# orphans are counted. The module is left loaded on purpose: once it is
-+# unloaded its symbols are gone, so the orphan backtraces no longer resolve
-+# to [kmemleak_test] and could not be matched below.
-+gen_orphans() {
-+	rmmod "$MODULE" 2>/dev/null
-+	echo clear > "$KMEMLEAK"
-+	modprobe "$MODULE" || skip "failed to load $MODULE"
-+	sleep "$AGE"
-+}
-+
-+scan() { echo scan > "$KMEMLEAK"; }
-+
-+# Number of helper-module orphans currently reported by kmemleak. Matching
-+# the module's own backtrace ([kmemleak_test]) keeps the count immune to
-+# unrelated leaks on the running system. kmemleak only lists an object here
-+# once it has been reported, so this reflects the confirmation gating.
-+count_orphans() {
-+	c=$(grep -c '\[kmemleak_test\]' "$KMEMLEAK" 2>/dev/null)
-+	echo "${c:-0}"
-+}
-+
-+# 0) the parameter reads back what was written.
-+echo 3 > "$PARAM"
-+[ "$(cat "$PARAM")" = "3" ] || fail "min_unref_scans did not read back as 3"
-+
-+# 1) min_unref_scans=1 (default): orphans reported on the first scan. This
-+#    also establishes that the helper produces detectable orphans here.
-+echo 1 > "$PARAM"
-+gen_orphans
-+scan
-+first=$(count_orphans)
-+[ "$first" -gt 0 ] ||
-+	skip "$MODULE produced no detectable orphans (cannot test min_unref_scans)"
-+
-+# 2) min_unref_scans=2: nothing reported after the first scan, reported
-+#    after the second. The first-scan-zero check is the core regression.
-+echo 2 > "$PARAM"
-+gen_orphans
-+scan; s1=$(count_orphans)
-+scan; s2=$(count_orphans)
-+[ "$s1" -eq 0 ] || fail "min_unref_scans=2: $s1 orphan(s) reported after the 1st scan (must be 0)"
-+[ "$s2" -gt 0 ] || fail "min_unref_scans=2: no report on the 2nd scan (false negative)"
-+
-+pass "min_unref_scans=1 immediate; =2 gated to 2nd scan (counts $first/$s1/$s2); param read-back ok"
+I'm not sure there are any easy ways to show that PLZA is effective for
+MBA control (as most normal system calls don't do enough to easily detect
+whether the kernel CLOSID is applied). But perhaps you have some ideas for this?
 
--- 
-2.53.0-Meta
+A test that sets global_assign_ctrl_assign_mon_per_cpu mode with a dedicated
+RMID to track kernel memory traffic would easily show MBM and llc_occupancy
+numbers for kernel activity.
 
+-Tony
