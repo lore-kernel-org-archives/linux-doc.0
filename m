@@ -1,265 +1,202 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F9A35BDA4;
-	Fri, 26 Jun 2026 15:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593633F8ED3;
+	Fri, 26 Jun 2026 15:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782488067; cv=none; b=SUnVUsauU/ple+FZgXnWmHPpbop8nlrJ5Sp9QnLhcD8qeOtaQTQB1ikNgw9H+yqmxxPPzhus3OounWfDbAWvpsxFoNK/yee2nE1oDJKc/hA/WtjoxfUq7v+YBcD0hFGlhi3ByeD2KC3F8wsPqfRJQ8uYYb6H2124T3UZ/e4Z65Q=
+	t=1782488710; cv=none; b=t7BdWtI3hlzthPi1msgeLI/LTSEH+AHkWvc1hTINzslkPzaiprEACA8Hn6wzVrgOUVkH4q5mdK06m4x47awVPgs7a4KV3P3QQIPjrwN1HqZc1REvyJg+DTMF9UPmt4GLOCsJv9VH8MC8XOGa+uhQxhHAvoJV7AItp6MVZuwwhVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782488067; c=relaxed/simple;
-	bh=+Qv0AmX9SxO878e+kPGU2PxI7ydYk1weWhapG5e4OJo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d/neyV1zS0gvXGB8jc0lLMZ+V8hb5+/XQZT8+wqa+bFlYYOkA2f3TWQ+pHIFWuE0d/BTrsazEEJChMkYz1isCTipKW8jkEI5YMDy9HJjogWcrlX6wBy2HvNzYDTMxQfs6ln5ZE1EFvGzDkyHgEpb2I7p99twHLnWQHRMb67Kprc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=YFtAnpCN; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1782488710; c=relaxed/simple;
+	bh=KKlH/8SEamUqGyyjWbc5rFZsLVr+VsxGBvdwYg4b4aI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOzioBfz9ebY9l50ym53ddQhNjTgT8140u7c4EH5YuNk6FjYgNKZVAzhKdrPQl6z0Nfs26ar6RQojsCWVgfCK7i0Dbk5uALwHBKtWFOkkqm6jA/XR5qBs7U+0BylX6RA2ZmVasEwg9seXVbvx0fE15qIMFQ0iQ/82oeo2mRrCxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3yjhDRK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="YFtAnpCN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=8iQ8ZAOfomvlKAvDlJjkPZEGiTc5LVdirLAMiAfeKJ4=; b=YFtAnpCNF6ygpzWLETRT2McKXB
-	WF2flj3KJt8g3EI1ab7ExJJ30LafPKDsjEtD0XMh8MoaAfqvxsBBHB1jK0pKCuK6lAzcvUvRMx+m3
-	1nU+c2102HHQcZQpD6hEvflmOlL/DU8HA+mQxfTUeIoirJwM8zF8CWbUwmMveFrGmKn3bH7OIEnYU
-	IpQrpDnFUhYb5ip+yS6/M6hKm6WCYocDCi5q2xc5r0aAJPxIgJRCixOPCae3p4mZ0C7WIpsx6aFRn
-	g1bY3qJJ0bYT3zEOm4kvabg+2DP5uaFjBUrrsYAZqNMzZ6MSOcNIXtw9OrJUbi+UVokG2dSQl8Ry5
-	zBg5O1xg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wd8Yc-00447u-21;
-	Fri, 26 Jun 2026 15:33:31 +0000
-From: Breno Leitao <leitao@debian.org>
-Subject: [PATCH v10 0/6] mm/memory-failure: add panic option for
- unrecoverable pages
-Date: Fri, 26 Jun 2026 08:33:14 -0700
-Message-Id: <20260626-ecc_panic-v10-0-6dacb8ad024d@debian.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3yjhDRK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C2BF1F01561;
+	Fri, 26 Jun 2026 15:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782488705;
+	bh=YoE9n7g3JaL94VUoMaa+5nIfgKgOXYELQGwVyrlOQDE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y3yjhDRKri5OqFVXbZ0Pnd8TmyxIp0+JQNaSAASUVkDKRZK3F5aD/cj7Mdk/lyWzj
+	 oeHeNrHk3b9lY6ssLUYcNsr1C4BN1AOrUsuDIno7QiCHl3IjGf7DS0dbuV3/2l2mk+
+	 UtP9/QlRgQLGiCNzbtpjAPN4TeSHLpLMz15UB5UHXey0pHTIrqJS4nb2G+z3zqPW5e
+	 9Crvxz22lYIWw73PxU4qRqzXUz5kygn7vKP88lseWFRZ1TPjU6KSSxHB/37hx6fL2l
+	 ii86j4F/28QrKlTXxLv8tHhilaDvOGDQvbBcOtaF047os8dt+0DfMKKJl7llUwUCQk
+	 7m+eXmrvm2SsA==
+Date: Fri, 26 Jun 2026 16:44:56 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, x86@kernel.org,
+	devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] dt-bindings: riscv: Add generic CBQRI controller
+ binding
+Message-ID: <20260626-immobile-staining-c825a86bd613@spud>
+References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org>
+ <20260624-dfustini-atl-sc-cbqri-dt-v2-7-2f8049fd902b@kernel.org>
+ <20260625-cupbearer-failing-9ce0abf97b93@spud>
+ <aj1_0AnIBk8_xoDd@gen8>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIALubPmoC/23QTWrDMBAF4KsYrTNlNBpJdla9RylFv4m6sIOdm
- paQuxeni8ioS8F8bzTvJpY0l7SIY3cTc1rLUqZRHDuJh06EsxtPCUoUx04QkkFFClIIHxc3lgC
- c2CrfK+xtEIdOXOaUy/cj7O397718+c8UrlvANnEuy3Wafx7bVrnN/Ze7SkCw5ORA0pIJ+jUmX
- 9z4Ms0nsQWvVFEla0qAMCTGiNlwtq6h6klZ7rYqQJAxeE9Zkg/cUK6prikDAkUka3OfDcqG6oo
- S11QDglM6s9fIpENDzZNqubvVbB/uFUryzkb2DbU13d1qAcEnStr2ycjY1tRXlGxN+0fDDkN20
- niPDR2e1OBQ0wEQWJGzjEjJ7hu+3++/gF/xRo4CAAA=
-X-Change-ID: 20260323-ecc_panic-4e473b83087c
-To: Miaohe Lin <linmiaohe@huawei.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- "Liam R. Howlett" <liam@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, linux-trace-kernel@vger.kernel.org, 
- kernel-team@meta.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9489; i=leitao@debian.org;
- h=from:subject:message-id; bh=+Qv0AmX9SxO878e+kPGU2PxI7ydYk1weWhapG5e4OJo=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqPpvE6wZK3aFOFYXmYC8uzEAFKxkjNxH7sFsDc
- +n8+/OJ7bqJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaj6bxAAKCRA1o5Of/Hh3
- bS/aD/9kLCZn9Km/9jGLItmu9ctEQ3XK4Lf/gWLugqDJUWNxSseRmD4Y/BbRDKbwng/+0jnmfpC
- yoEOlRSx5Ppw27RPq4d6j/r47SvTkey/bjAEzbw71UescjGajMX5ESALSEp7tMkbIgoWUvHBSr/
- x92xNUsKLgpPBRLXUhkx8Wj2aFpVbeEA/yelshFMv2/GLK7LcuMkT+LtvXc3lCDWa5uIapbdEtP
- qM0YVVdUnEbRUlPhD7A2AdXs13ph9Rizqv3cwpoUPgXxsasxC0+8m7Kzo19Xg0nOO8VftUi+X2x
- QAjGsSvFmT1FrEMiYX2J1INttpt5RFOr34WCa3fzMsgo1KYpIgHwJAbRoBA7ZDuIBzqOB+fW4zM
- Vs+4Ozm+/1RGCPkWyt5b8bUxLUmhlwXFj9QXZLy6367JN1ADm1Gk7pIFMExuAqqrYE7P9L2XFpn
- Vsp61bVeetpQvDsJE0PvyCr+LnQftQ6rgVV0Hgg2/zJmjfLZiz0dt+kMmtnZ1hPur+UStHA/Jny
- bZvDOgFhljfOHi7PSw8I5zOHIBNK0NDgyU6TTdMnGgZSc5K+cWBvj7PEPD9UlbOXOPEisELOOfu
- 3x4ptPSED0lQ+7/3xcgQ7BGwZxAAWk06rl5gPC4rInl3V9s41lAzQXTeAd5b0yjkYv3hiKkJ0iD
- 3mHX2nRVpTGXZNw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/zmDCd3AvwrgXHjE"
+Content-Disposition: inline
+In-Reply-To: <aj1_0AnIBk8_xoDd@gen8>
 
-A multi-bit ECC error on a kernel-owned page that the memory failure
-handler cannot recover is currently swallowed: PG_hwpoison is set, the
-event is logged, and the kernel keeps running.  The corrupted memory
-remains accessible to the kernel and either drives silent data
-corruption or surfaces seconds-to-minutes later as an apparently
-unrelated crash.  In a large fleet that delayed, unattributable crash
-turns into significant engineering effort to root-cause; in a kdump
-configuration, by the time the crash happens the original error
-context (faulting PFN, MCE/GHES record, page state) is long gone.
 
-This series adds an opt-in sysctl,
-vm.panic_on_unrecoverable_memory_failure, that converts an
-unrecoverable kernel-page hwpoison event into an immediate panic with
-a clean dmesg/vmcore that still contains the original failure
-context.  The default is disabled so existing workloads see no
-change.
+--/zmDCd3AvwrgXHjE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is a selftest that test different cases, and I tested it using
-the following variants:
+On Thu, Jun 25, 2026 at 12:21:52PM -0700, Drew Fustini wrote:
+> On Thu, Jun 25, 2026 at 05:19:28PM +0100, Conor Dooley wrote:
+> > On Wed, Jun 24, 2026 at 06:38:35PM -0700, Drew Fustini wrote:
+> > > Document the generic compatibles for capacity and bandwidth controlle=
+rs
+> > > that implement the RISC-V CBQRI specification. The binding also
+> > > describes the common riscv,cbqri-rcid and riscv,cbqri-mcid properties,
+> > > and the optional riscv,cbqri-cache phandle that links a capacity
+> > > controller to the cache whose capacity it allocates.
+> > >=20
+> > > Assisted-by: Claude:claude-opus-4-8
+> > > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > > ---
+> > >  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++=
+++++++++++
+> > >  MAINTAINERS                                        |  1 +
+> > >  2 files changed, 98 insertions(+)
+>=20
+> Thanks for the review.
+>=20
+> [..]
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - description: Tenstorrent Ascalon Shared Cache
+> > > +            const: tenstorrent,ascalon-sc-cbqri
+> > > +          - const: riscv,cbqri-capacity-controller
+> > > +      - enum:
+> > > +          - riscv,cbqri-capacity-controller
+> > > +          - riscv,cbqri-bandwidth-controller
+> >=20
+> > Please modify this, as has been done for other riscv spec related
+> > bindings, to let people get away without using device-specific
+> > compatibles.
+> >=20
+> > In this case, you can just delete the first entry from this enum, since
+> > it already has a user and only have to implement this feedback for the
+> > second entry.
+>=20
+> Would this work?
+>=20
+> properties:
+>   compatible:
+>     oneOf:
+>       - items:
+>           - enum:
+>               - tenstorrent,ascalon-sc-cbqri # Tenstorrent Ascalon Shared=
+ Cache
+>           - const: riscv,cbqri-capacity-controller
+>       - items:
+>           - {}
+>           - const: riscv,cbqri-bandwidth-controller
 
-  ┌─────────┬──────────┬───────────────────────────────────────────────────────────┐
-  │ Variant │   PFN    │                          Result                           │
-  ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
-  │ rodata  │ 0x2600   │ Panic with "Memory failure: 0x2600: unrecoverable page"   │
-  ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
-  │ slab    │ 0x100032 │ Panic with "Memory failure: 0x100032: unrecoverable page" │
-  ├─────────┼──────────┼───────────────────────────────────────────────────────────┤
-  │ pgtable │ 0x100000 │ Panic with "Memory failure: 0x100000: unrecoverable page" │
-  └─────────┴──────────┴───────────────────────────────────────────────────────────┘
 
-Each one shows the same call trace, exactly the path the series builds:
+Should do, yes. I question the need for a comment though, seems pretty
+evident from the compatible what it is.
 
-  hard_offline_page_store
-    → memory_failure
-      → action_result
-        → panic("Memory failure: %#lx: unrecoverable page")
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +
+> > > +allOf:
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            const: tenstorrent,ascalon-sc-cbqri
+> > > +    then:
+> > > +      required:
+> > > +        - riscv,cbqri-rcid
+> > > +        - riscv,cbqri-cache
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    l2_cache: l2-cache {
+> > > +        compatible =3D "cache";
+> > > +        cache-level =3D <2>;
+> > > +        cache-unified;
+> > > +        cache-size =3D <0xc00000>;
+> > > +        cache-sets =3D <512>;
+> > > +        cache-block-size =3D <64>;
+> > > +    };
+> > > +
+> > > +    cache-controller@a21a00c0 {
+> > > +        compatible =3D "tenstorrent,ascalon-sc-cbqri",
+> > > +                     "riscv,cbqri-capacity-controller";
+> >=20
+> > Is this or is this not a cache controller?
+> > The compatible and fact that the property points to an actual cache
+> > controller suggests that this is not.
+>=20
+> Good point. This nodes represents just the QoS interface (CBQRI) and
+> should not use that node name. 'qos-controller' seems like it would be
+> more appropriate but that has no precedent. What do you think?
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
-Changes in v10:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v9: https://lore.kernel.org/r/20260609-ecc_panic-v9-0-432a74002e74@debian.org
+Sure.
 
-Changes in v9:
-- HWPoisonKernelOwned(): wrap the head-page checks in a
-  compound_head() recheck loop so a concurrent split or compound free
-  cannot leave us trusting a stale view (Miaohe, Lance, David).
-- selftest: drop the gawk-only strtonum() in hwpoison-panic.sh; do the
-  hex parsing with a small index()-based helper so the test no longer
-  spuriously skips itself on mawk-based distros (Sashiko).
-- selftest: move hwpoison-panic.sh from TEST_FILES to
-  TEST_PROGS_EXTENDED so the script is installed executable rather
-  than as a non-executable data file (Sashiko).
-- Link to v8: https://patch.msgid.link/20260527-ecc_panic-v8-0-9ea0cfa16bb0@debian.org
 
-Changes in v8:
-- Commit message rewording (David)
-- Add HWPoisonKernelOwned() helper (Lance)
-- Removed patch "mm/memory-failure: short-circuit PG_reserved before get_hwpoison_page()"
-- Broaden the selftest (Lance)
-- Link to v7: https://patch.msgid.link/20260513-ecc_panic-v7-0-be2e578e61da@debian.org
+--/zmDCd3AvwrgXHjE
+Content-Type: application/pgp-signature; name=signature.asc
 
-Changes in v7:
-- Move the PG_reserved / unhandlable-kernel-page classification into
-  get_any_page() and surface it via -ENOTRECOVERABLE, per David
-  Hildenbrand's and Lance Yang's review of v6.  This drops the
-  is_reserved snapshot in memory_failure() and the mf_get_page_status
-  enum / out-parameter introduced in v6.
-- Restructure the post-call branch in memory_failure() as a switch
-  over the get_hwpoison_page() return code (David).
-- Drop the "reserved" qualifier from the MF_MSG_KERNEL label and the
-  matching tracepoint string; the enum now covers both PG_reserved
-  pages and other unhandlable kernel pages.
-- Squash the former patches 1/4 ("MF_MSG_KERNEL for reserved pages")
-  and 2/4 ("classify get_any_page() failures by reason") into a
-  single classification patch; the series is now 3 patches.
-- Simplify panic_on_unrecoverable_mf() to a single return statement
-  (David).
-- Link to v6: https://patch.msgid.link/20260511-ecc_panic-v6-0-183012ba7d4b@debian.org
+-----BEGIN PGP SIGNATURE-----
 
-Changes in v6:
-- Dropped the selftest given the value was not clear
-- Get the status of the failure from get_any_page()
-- Small nits from different people/AIs.
-- Link to v5: https://patch.msgid.link/20260424-ecc_panic-v5-0-a35f4b50425c@debian.org
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaj6eeAAKCRB4tDGHoIJi
+0j45AQDa9hIH0IvDEkhDSJ4irWoqKAUinH30Au/Pl3yikbPiWgD8CfQij41pcGKQ
+lnHL1Q1xyI46Q5kOGm2ZVr23WQjr/wo=
+=JJMy
+-----END PGP SIGNATURE-----
 
-Changes in v5:
-- Add vm.panic_on_unrecoverable_memory_failure sysctl to panic on
-  unrecoverable kernel page hwpoison events (reserved pages, refcount-0
-  non-buddy pages, unknown state), with a recheck to avoid racing with
-  concurrent buddy allocations. (Miaohe)
-- Distinguish reserved pages as MF_MSG_KERNEL in memory_failure(),
-  document the new sysctl in Documentation/admin-guide/sysctl/vm.rst,
-  and add a selftest verifying SIGBUS recovery on userspace pages still
-  works when the sysctl is enabled. (Miaohe)
-- Added a selftest
-- Link to v4:
-  https://patch.msgid.link/20260415-ecc_panic-v4-0-2d0277f8f601@debian.org
-
-Changes in v4:
-- Drop CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC kernel configuration option.
-- Split the reserved page classification (MF_MSG_KERNEL) into its own
-  patch, separate from the panic mechanism.
-- Document why the buddy allocator TOCTOU race (between
-  get_hwpoison_page() and is_free_buddy_page()) cannot cause false
-  positives: PG_hwpoison is set beforehand and check_new_page() in the
-  page allocator rejects hwpoisoned pages.
-- Document the narrow LRU isolation race window for MF_MSG_UNKNOWN and
-  its mitigation via identify_page_state()'s two-pass design.
-- Explicitly document why MF_MSG_GET_HWPOISON is excluded from the
-  panic conditions (shared path with transient races and non-reserved
-  kernel memory).
-- Link to v3: https://patch.msgid.link/20260413-ecc_panic-v3-0-1dcbb2f12bc4@debian.org
-
-Changes in v3:
-- Rename is_unrecoverable_memory_failure() to panic_on_unrecoverable_mf()
-  as suggested by maintainer.
-- Add CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC kernel configuration option,
-  similar to CONFIG_BOOTPARAM_HARDLOCKUP_PANIC.
-- Add documentation for the sysctl and CONFIG option.
-- Add code comments documenting the panic condition design rationale and
-  how the retry mechanism mitigates false positives from buddy allocator
-  races.
-- Link to v2: https://patch.msgid.link/20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org
-
-Changes in v2:
-- Panic on MF_MSG_KERNEL, MF_MSG_KERNEL_HIGH_ORDER and MF_MSG_UNKNOWN
-  instead of MF_MSG_GET_HWPOISON.
-- Report MF_MSG_KERNEL for reserved pages when get_hwpoison_page() fails
-  instead of MF_MSG_GET_HWPOISON.
-- Link to v1: https://patch.msgid.link/20260323-ecc_panic-v1-0-72a1921726c5@debian.org
-
-To: Miaohe Lin <linmiaohe@huawei.com>
-To: Naoya Horiguchi <nao.horiguchi@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-To: David Hildenbrand <david@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-To: Vlastimil Babka <vbabka@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-To: Michal Hocko <mhocko@suse.com>
-To: Shuah Khan <shuah@kernel.org>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-
----
-Breno Leitao (6):
-      mm/memory-failure: drop dead error_states[] entry for reserved pages
-      mm/memory-failure: surface unhandlable kernel pages as -ENOTRECOVERABLE
-      mm/memory-failure: report MF_MSG_KERNEL for unrecoverable kernel pages
-      mm/memory-failure: add panic option for unrecoverable pages
-      Documentation: document panic_on_unrecoverable_memory_failure sysctl
-      selftests/mm: add hwpoison-panic destructive test
-
- Documentation/admin-guide/sysctl/vm.rst      |  80 +++++++++
- mm/memory-failure.c                          | 104 +++++++++--
- tools/testing/selftests/mm/Makefile          |   4 +
- tools/testing/selftests/mm/hwpoison-panic.sh | 249 +++++++++++++++++++++++++++
- 4 files changed, 419 insertions(+), 18 deletions(-)
----
-base-commit: 30ffa8de54e5cc80d93fd211ca134d1764a7011f
-change-id: 20260323-ecc_panic-4e473b83087c
-
-Best regards,
--- 
-Breno Leitao <leitao@debian.org>
-
+--/zmDCd3AvwrgXHjE--
