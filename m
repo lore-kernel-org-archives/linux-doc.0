@@ -1,376 +1,137 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAE63D88E3;
-	Fri, 26 Jun 2026 07:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6583DEAD7;
+	Fri, 26 Jun 2026 07:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782457676; cv=none; b=rcbQGJTn5A257eN9NxvkWyaxfWYVbWZ3OobKw7oZg3C09Lv1RL9JezwPVd60yb9sSgNqfeHom0xyJ1Tb+riLjqN36oxupDVyv321LBMJYp+jBCUmF+u0QQdWhj/CyQkn7xloBp8CAGNiOUcRm8eamzQgsnQWt4MjSMq4kwoL00I=
+	t=1782458482; cv=none; b=pLj+LIVzBojCUyCDuMj4/OsTdMvCrD2XkwdLP5C/hddyZT4ezpnd58Izc4RX1lhxX5dmSDp/MPU0WSliFh3oOYKEw0Rv2moV9RL2/y+BVGSuuWV7jx3ULLNuKXXbSHJ5+W85qUwU8JbZ6kqsM0n2gGAc2WurVn2e9lad4r03Gac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782457676; c=relaxed/simple;
-	bh=L+5GKchJyDgqP+33tzuTcSYqc3P0CGN+TSIZNIjTtJE=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=o0GMTWKgMr594MVHUHlSAYwloPH6y/jHMhq/G2xDV8CiCYGfpKnzED/th2Yy/d+pKZQ1BVCneRBeqTCiK4THJVqANm7z1IoaQcMHY+LGD4MoEts8eEUcqd4VxcOjTyZ7AxlKnSwRgBF2XIRLYRQHwXTLHKpfzmJQm9JiA4mrq3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=T74Qi6xA; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782458482; c=relaxed/simple;
+	bh=0jFxQTotMk1w+kj1PVUy2tCr1HNlsx175r4rKIe94+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UUamdnQYP0jcg5iBm1m0Svqw6mgaSWMVpuhEVkSYQQDNoOijqeASRuzNH4FQ5cDkqSOhseDX2Z4eo5a6F3RWcQKCTyjFPgzNg3Pg1DWlyk8wZ0gy/AwACWR3wNkpitjTTDgppCMqrA+aTEqu2O5AWypIYS0VrZeiMpttWp6LwU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=It/dvF2d; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="T74Qi6xA"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=D2/QFfIJp4/32GGiKH+24p2DarJlOeahIHOo3GA0odQ=;
-	b=T74Qi6xAmaQTqEJzHgjrX4aNuSD26S9wDsgNEw5ahnoYNGkT2YKYqMYgM6CAVuF9WkbRSW92s
-	kUuiGw4l02oiiVvX0w9xI96/exF4CEzpn9HHhoJ4nbWdYuM8LRlbz9tFwYPnF3loud/jN8Fk/49
-	E2QY+iDAq1i+4nlfCSUOtrA=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4gmmjQ62PBz1prmc;
-	Fri, 26 Jun 2026 14:58:34 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5625C40571;
-	Fri, 26 Jun 2026 15:07:43 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 26 Jun 2026 15:07:43 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 26 Jun 2026 15:07:41 +0800
-Subject: Re: [PATCH v9 6/6] selftests/mm: add hwpoison-panic destructive test
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <kernel-team@meta.com>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, "Liam R. Howlett" <liam@infradead.org>,
-	<lance.yang@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
-	<mathieu.desnoyers@efficios.com>
-References: <20260609-ecc_panic-v9-0-432a74002e74@debian.org>
- <20260609-ecc_panic-v9-6-432a74002e74@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <40150c86-68a4-aa1e-185e-f24f78595650@huawei.com>
-Date: Fri, 26 Jun 2026 15:07:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="It/dvF2d"
+Date: Fri, 26 Jun 2026 10:21:06 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782458479; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type; bh=8zVgkyPuUdEvLBDAnCrryoRbyIBwhsi6Cw34qK0ddE0=;
+	b=It/dvF2diRU7mJL/z1L5kjgZ0/rpTTOecB5lpxLGviDJJmHSvbXKLt/cZcQEEt0AMDC8FA
+	qPVxfN5V6Dh4KmqiO5BEKrvyd1F3BhcnN/jwC/f2U2E3+5SoIZcOEMSi8ufjmQIWJXoDIh
+	ZBZ0vRcRoCuurA/dmAyM2r/Wlm6bYuA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Matti Vaittinen <matti.vaittinen@linux.dev>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <matti.vaittinen@linux.dev>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Wensheng Wang <wenswang@yeah.net>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Ashish Yadav <ashish.yadav@infineon.com>,
+	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	ChiShih Tsai <tomtsai764@gmail.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Robert Coulson <robert.coulson@ericsson.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/9] Support ROHM BD127x0 hot-swap controllers
+Message-ID: <cover.1782458224.git.mazziesaccount@gmail.com>
+Reply-To: Matti Vaittinen <mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260609-ecc_panic-v9-6-432a74002e74@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemq500010.china.huawei.com (7.202.194.235)
-
-On 2026/6/9 18:57, Breno Leitao wrote:
-> Add a destructive selftest that verifies
-> vm.panic_on_unrecoverable_memory_failure actually panics when a
-> hwpoison error hits a kernel-owned page.
-> 
-> Three "kinds" of kernel-owned page can be targeted, selectable via
-> the script's first positional argument (default: rodata):
-> 
->   rodata  - a PG_reserved page in the kernel rodata range, sourced
->             from the "Kernel rodata" sub-resource of "System RAM" in
->             /proc/iomem.  That entry is reported on every major
->             architecture and guarantees the chosen PFN is backed by
->             struct page (an online System RAM range, not a firmware
->             hole), is PG_reserved, and is read-only -- so even if
->             the panic fails to fire for some reason, the resulting
->             PG_hwpoison marker on rodata does not corrupt writable
->             kernel state.
-> 
->   slab    - a slab page found by walking /proc/kpageflags for the
->             first PFN with KPF_SLAB set (and KPF_HWPOISON / KPF_NOPAGE
->             / KPF_COMPOUND_TAIL clear).  Exercises the get_any_page()
->             path on a non PG_reserved kernel-owned page and so
->             catches regressions where get_any_page() collapses
->             kernel-owned pages into a transient -EIO instead of
->             -ENOTRECOVERABLE.
-> 
->   pgtable - same as slab, but the PFN is selected via KPF_PGTABLE.
-> 
-> PageLargeKmalloc, the fourth page type matched by
-> HWPoisonKernelOwned(), is intentionally not covered: it is a
-> PAGE_TYPE_OPS flag with no /proc/kpageflags bit, so selecting such
-> a PFN from userspace is not feasible.  The slab and pgtable
-> variants already exercise the same get_any_page() positive-check
-> branch.
-> 
-> The script enables the sysctl and writes the selected physical
-> address to /sys/devices/system/memory/hard_offline_page.  A
-> successful run crashes the kernel with
-> 
->   Memory failure: <pfn>: unrecoverable page
-> 
-> A return from the inject means the panic did not fire and the test
-> fails.  Test outcome is therefore observed externally (serial
-> console, kdump) rather than from the script's own exit code.
-> 
-> The script is intentionally NOT wired into run_vmtests.sh: every
-> successful run panics the kernel, which is incompatible with the
-> sequential "run each category in the same VM" model that
-> run_vmtests.sh assumes.  It is also not registered as a TEST_PROGS /
-> ksft_* wrapper so a default kselftest run does not opt itself into
-> a panic.  The script is meant to be executed manually inside a
-> disposable VM (e.g. virtme-ng), one variant per VM boot, and
-> requires RUN_DESTRUCTIVE=1 in the environment as a safety net.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-
-Looks good to me with two comments below.
-
-> ---
->  tools/testing/selftests/mm/Makefile          |   4 +
->  tools/testing/selftests/mm/hwpoison-panic.sh | 208 +++++++++++++++++++++++++++
->  2 files changed, 212 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
-> index e6df968f0971..ed321ae709da 100644
-> --- a/tools/testing/selftests/mm/Makefile
-> +++ b/tools/testing/selftests/mm/Makefile
-> @@ -174,6 +174,10 @@ TEST_PROGS += ksft_userfaultfd.sh
->  TEST_PROGS += ksft_vma_merge.sh
->  TEST_PROGS += ksft_vmalloc.sh
->  
-> +# Destructive: every successful run panics the kernel.  Installed and
-> +# kept executable, but not run from a default kselftest invocation.
-> +TEST_PROGS_EXTENDED += hwpoison-panic.sh
-> +
->  TEST_FILES := test_vmalloc.sh
->  TEST_FILES += test_hmm.sh
->  TEST_FILES += va_high_addr_switch.sh
-> diff --git a/tools/testing/selftests/mm/hwpoison-panic.sh b/tools/testing/selftests/mm/hwpoison-panic.sh
-> new file mode 100755
-> index 000000000000..fe58e7638a8b
-> --- /dev/null
-> +++ b/tools/testing/selftests/mm/hwpoison-panic.sh
-> @@ -0,0 +1,208 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Verify vm.panic_on_unrecoverable_memory_failure by injecting a hwpoison
-> +# error on a kernel-owned page and confirming the kernel panics.
-> +#
-> +# Three "kinds" of kernel-owned page can be targeted, selectable via the
-> +# first positional argument (default: rodata):
-> +#
-> +#   rodata  - a PG_reserved page in the kernel rodata range
-> +#             (sourced from /proc/iomem "Kernel rodata").  Exercises
-> +#             memory_failure() -> get_any_page() on a PageReserved page.
-> +#
-> +#   slab    - a slab page found via /proc/kpageflags (KPF_SLAB).
-> +#             Exercises memory_failure() -> get_any_page() on a non
-> +#             PG_reserved kernel-owned page.  This path is what catches
-> +#             regressions where get_any_page() collapses kernel-owned
-> +#             pages into a transient -EIO instead of -ENOTRECOVERABLE.
-> +#
-> +#   pgtable - a page-table page found via /proc/kpageflags (KPF_PGTABLE).
-> +#             Same path as slab, different page type.
-> +#
-> +# This test is DESTRUCTIVE: a successful run crashes the kernel.  It is
-> +# meant to be executed inside a disposable VM (e.g. virtme-ng) with a
-> +# serial console captured by the harness.  It is skipped unless the
-> +# caller opts in via RUN_DESTRUCTIVE=1.
-> +#
-> +# Test passes externally: the kernel must panic with
-> +#   "Memory failure: <pfn>: unrecoverable page"
-> +# A return from the inject means the panic did not fire and the test
-> +# fails.
-> +#
-> +# Author: Breno Leitao <leitao@debian.org>
-> +
-> +set -u
-> +
-> +ksft_skip=4
-> +sysctl_path=/proc/sys/vm/panic_on_unrecoverable_memory_failure
-> +inject_path=/sys/devices/system/memory/hard_offline_page
-> +kpageflags_path=/proc/kpageflags
-> +
-> +# /proc/kpageflags bit positions (see include/uapi/linux/kernel-page-flags.h)
-> +KPF_SLAB=7
-> +KPF_COMPOUND_TAIL=16
-> +KPF_HWPOISON=19
-> +KPF_NOPAGE=20
-> +KPF_PGTABLE=26
-> +
-> +kind=${1:-rodata}
-> +
-> +ksft_print() { echo "# $*"; }
-> +ksft_exit_skip() { ksft_print "$*"; exit "$ksft_skip"; }
-> +ksft_exit_fail() { echo "not ok 1 $*"; exit 1; }
-> +
-> +if [ "$(id -u)" -ne 0 ]; then
-> +	ksft_exit_skip "must run as root"
-> +fi
-> +
-> +if [ ! -w "$sysctl_path" ]; then
-> +	ksft_exit_skip "$sysctl_path not present (kernel without the sysctl?)"
-> +fi
-> +
-> +if [ ! -w "$inject_path" ]; then
-> +	ksft_exit_skip "$inject_path not present (no MEMORY_HOTPLUG?)"
-> +fi
-> +
-> +if [ "${RUN_DESTRUCTIVE:-0}" != "1" ]; then
-> +	ksft_exit_skip "destructive test; re-run with RUN_DESTRUCTIVE=1 inside a disposable VM"
-> +fi
-> +
-> +# Pick a PFN inside the kernel image rodata region of /proc/iomem.
-> +# This is preferred over a top-level "Reserved" entry because top-level
-> +# Reserved ranges are often firmware holes that have no backing struct
-> +# page; pfn_to_online_page() returns NULL on those and memory_failure()
-> +# bails out with -ENXIO before reaching the panic path.
-> +#
-> +# "Kernel rodata" is reported as a sub-resource of "System RAM" on every
-> +# major architecture, which guarantees:
-> +#   - the PFN is backed by struct page (within an online memory range);
-> +#   - PG_reserved is set on the page (kernel image area);
-> +#   - the memory is read-only, so setting PG_hwpoison on it does not
-> +#     corrupt writable kernel state if the panic somehow does not fire.
-> +#
-> +# /proc/iomem entries look like (indented for sub-resources):
-> +#     "  02500000-02ffffff : Kernel rodata"
-> +pick_rodata_phys_addr() {
-> +	awk -v pagesize="$(getconf PAGE_SIZE)" '
-> +	# Convert a hex string to a number without relying on the gawk-only
-> +	# strtonum().  mawk lacks it and would otherwise spuriously skip
-> +	# this test on distros that ship mawk as /usr/bin/awk.
-> +	function hex2num(s,   n, i, c, v) {
-> +		n = 0
-> +		for (i = 1; i <= length(s); i++) {
-> +			c = tolower(substr(s, i, 1))
-> +			v = index("0123456789abcdef", c) - 1
-> +			if (v < 0)
-> +				return -1
-> +			n = n * 16 + v
-> +		}
-> +		return n
-> +	}
-> +	/: Kernel rodata[[:space:]]*$/ {
-> +		sub(/^[[:space:]]+/, "")
-> +		n = split($0, a, /[- ]/)
-> +		start = hex2num(a[1])
-> +		end   = hex2num(a[2])
-> +		if (end <= start)
-> +			next
-> +		# Page-align upward and emit the first byte of that page.
-> +		pfn = int((start + pagesize - 1) / pagesize)
-> +		printf "0x%x\n", pfn * pagesize
-> +		exit 0
-> +	}
-> +	' /proc/iomem
-> +}
-> +
-> +# Walk /proc/kpageflags and return the phys addr of the first PFN that
-> +# has bit $1 set, with KPF_HWPOISON, KPF_NOPAGE and KPF_COMPOUND_TAIL
-> +# all clear (so we attack a real, non-tail, not-already-poisoned page).
-> +#
-> +# We skip the first 16 MiB of PFNs to step past low-memory special
-> +# ranges (BIOS/EFI/ACPI/etc.) that often are PG_reserved and would not
-> +# exhibit the slab/pgtable type we are looking for.
-> +pick_kpageflags_phys_addr() {
-> +	local want_bit=$1
-> +	local pagesize skip_pfn
-> +
-> +	[ -r "$kpageflags_path" ] || return
-> +
-> +	pagesize=$(getconf PAGE_SIZE)
-> +	skip_pfn=$(((16 * 1024 * 1024) / pagesize))
-> +
-> +	od -An -tx8 -v -w8 -j "$((skip_pfn * 8))" "$kpageflags_path" 2>/dev/null | \
-> +	awk -v want_bit="$want_bit" \
-> +	    -v hwp_bit="$KPF_HWPOISON" \
-> +	    -v nopage_bit="$KPF_NOPAGE" \
-> +	    -v tail_bit="$KPF_COMPOUND_TAIL" \
-> +	    -v base_pfn="$skip_pfn" \
-> +	    -v pagesize="$pagesize" '
-> +	# Test whether bit "b" is set in the 16-hex-digit value "hex".
-> +	# Done with substring + per-digit lookup so we never rely on awk
-> +	# bitwise operators (mawk lacks them), 64-bit FP precision or the
-> +	# gawk-only strtonum().
-> +	function bit_set(hex, b,    di, bi, c, v) {
-> +		di = int(b / 4)
-> +		bi = b - di * 4
-> +		c = substr(hex, length(hex) - di, 1)
-> +		v = index("0123456789abcdef", tolower(c)) - 1
-> +		if (bi == 0) return (v % 2) == 1
-> +		if (bi == 1) return int(v / 2) % 2 == 1
-> +		if (bi == 2) return int(v / 4) % 2 == 1
-> +		return int(v / 8) % 2 == 1
-> +	}
-> +	{
-> +		gsub(/^[[:space:]]+/, "")
-> +		h = $1
-> +		if (bit_set(h, want_bit) &&
-> +		    !bit_set(h, hwp_bit) &&
-> +		    !bit_set(h, nopage_bit) &&
-> +		    !bit_set(h, tail_bit)) {
-> +			pfn = base_pfn + NR - 1
-> +			printf "0x%x\n", pfn * pagesize
-> +			exit 0
-> +		}
-> +	}
-> +	'
-> +}
-> +
-> +case "$kind" in
-> +rodata)
-> +	phys_addr=$(pick_rodata_phys_addr)
-> +	missing_msg='no "Kernel rodata" entry in /proc/iomem'
-> +	;;
-> +slab)
-> +	phys_addr=$(pick_kpageflags_phys_addr "$KPF_SLAB")
-> +	missing_msg="no usable slab PFN found in $kpageflags_path"
-> +	;;
-> +pgtable)
-> +	phys_addr=$(pick_kpageflags_phys_addr "$KPF_PGTABLE")
-> +	missing_msg="no usable page-table PFN found in $kpageflags_path"
-> +	;;
-> +*)
-> +	ksft_exit_fail "unknown kind '$kind' (expected: rodata|slab|pgtable)"
-> +	;;
-> +esac
-> +
-> +if [ -z "$phys_addr" ]; then
-> +	ksft_exit_skip "$missing_msg"
-> +fi
-> +
-> +ksft_print "enabling $sysctl_path"
-> +prior=$(cat "$sysctl_path")
-> +echo 1 > "$sysctl_path" || ksft_exit_fail "failed to enable sysctl"
-> +
-> +ksft_print "injecting hwpoison at phys 0x$(printf '%x' "$phys_addr") (kind=$kind)"
-> +ksft_print "expecting kernel panic: 'Memory failure: <pfn>: unrecoverable page'"
-> +
-> +# If this returns, the kernel did not panic → test failed.  Restore the
-> +# sysctl before reporting so the system is left as we found it.
-> +if echo "$phys_addr" > "$inject_path"; then
-> +	echo "$prior" > "$sysctl_path"
-> +	ksft_exit_fail "inject returned without panic; sysctl ineffective"
-
-In case of failure, should we recheck the page type? There is a window between
-we get the phys_addr and inject the hwpoison.
-
-> +fi
-> +
-> +# Write failed (e.g. -EINVAL on offlining a non-online region): also a
-> +# failure for this test, since we expected the panic path.
-> +echo "$prior" > "$sysctl_path"
-> +ksft_exit_fail "inject failed before reaching the panic path"
-
-Should we unpoison the pfn in case of failure?
-
-Thanks.
-.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IxzToCukKiFFyLnP"
+Content-Disposition: inline
+X-Migadu-Flow: FLOW_OUT
 
 
+--IxzToCukKiFFyLnP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Support ROHM BD12780(A) and BD12790
+
+The BD12780 and BD12780A hot-swap controllers are very similar to Analog
+Devices ADM1278. There are only some minor differences in the registers.
+
+The BD12790 is largely similar to the ADM1272, with slightly different
+coefficients and minor register changes.
+
+This series adds basic support for these ROHM ICs.
+
+Additionally, this series contains couple of fixes, which can be applied
+independently from the bd127x0 support patches. Fixes are:
+
+Patch 2/9: Prevent read from uninitialized stack (found by Sashiko)
+Patch 3/9: Prevent coefficient overflow with larget shunt resistor (found
+	   by Sashiko)
+Patch 4/9: Support module auto-loading when DT is used.
+
+Revision history:
+ v1 =3D> v2:
+  dt-bindings:
+   - Fix compatible list as suggested by Krzysztof
+  adm1275:
+   - Add patches to fix issues pointed by Sashiko.
+   - Add of_device_ids for all supported devices.
+   - Add own switch 'case's for the new ICs instead of overloading
+     existing ones
+   - Drop i2c_device_id for bd12780a
+   - Don't use IC-wildcard in macro name.
+
+---
+
+Matti Vaittinen (9):
+  dt-bindings: adm1275: ROHM BD12780 hot-swap controller
+  hwmon: adm1275: Prevent reading uninitialized stack
+  hwmon: adm1275: Detect coefficient overflow
+  hwmon: adm1275: Support module auto-loading
+  doc: Add ROHM BD12780 and BD12780A
+  hwmon: adm1275: Support ROHM BD12780
+  dt-bindings: adm1275: ROHM BD12790 hot-swap controller
+  doc: adm1275: Add ROHM BD12790
+  hwmon: adm1275: Support ROHM BD12790
+
+ .../bindings/hwmon/adi,adm1275.yaml           |  43 +++--
+ Documentation/hwmon/adm1275.rst               |  24 +++
+ drivers/hwmon/pmbus/Kconfig                   |   4 +-
+ drivers/hwmon/pmbus/adm1275.c                 | 162 ++++++++++++++++--
+ 4 files changed, 208 insertions(+), 25 deletions(-)
+
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+--=20
+2.54.0
+
+
+--IxzToCukKiFFyLnP
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmo+KF0ACgkQeFA3/03a
+ocVquQf/RhWM4u/ko+DJKUFkMDLgZcVb+mIOnBAgWvVZj3H807QN+JLqhKCscX5Z
+w5BWN2HmL608O9Y0qpmXU3WmFPYyClRpOR92EMCdIucpJgiA2ZZBWX/fdjXopc2e
+WfrkiuTO0F8ST6RIRS6ZJE5at+J9ukfkdF4gvWCZf7V8KM2kkwLWMHYUYTfcsoMX
+hU4iY0PKKfsKZUlEBJ9zyj98O5yyFAr9eoGwxJBlN0B6UXdPuwhlpRCNXXLuGqOe
+anYcu/ObkAFZjY2oF10k26zkS8P41zJbL8/BCdR2wRQCiwShPY41d572j94AQoLa
+yUEAYy6ygE+p5R7JZRFzjKJY6rEkcg==
+=zD47
+-----END PGP SIGNATURE-----
+
+--IxzToCukKiFFyLnP--
