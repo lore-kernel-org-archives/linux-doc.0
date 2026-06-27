@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3621C5D72;
-	Sat, 27 Jun 2026 18:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F2370836;
+	Sat, 27 Jun 2026 18:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782583915; cv=none; b=hHVnaFcKXxGLUFCev7k6i9mfyZbJEYD6M/iR6T4Rrq1riihGYYlJ3ZS+FXnZzpHzuoK5svYtTJ403VALNSUrJK7suXoRfYf1rY3kp2ZCzqDdiUZBGrqiya6P6jq2Uqc11CXxREaTI/Bej1oCZLV9zz3PokHzChGRTqdOISfOFFA=
+	t=1782584031; cv=none; b=mqLAAxecs1e7KuL1SlsrUBz/zq5mmI0qIbK6amaKcgwQOAldfaufGWnUkw46CU1OLB6bXbma/PDlENT7w98QLcjKdnQ2AOEEbXWKQ6jZGsU9/HDnQc7ShEKyhwcsZT7ko30kBEhK60+LF8asGwhQbs0/gkQ+hX0MXZQLOK8BLfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782583915; c=relaxed/simple;
-	bh=qGDUxhviRnm7IIVmhNMjqmzyrnEb4wgA2TfUsM+XLzY=;
+	s=arc-20240116; t=1782584031; c=relaxed/simple;
+	bh=BiOcJVMB8N4Ak/yIBnDktAnqfnxpKMjWuWvDSHNolsE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=RcyIQH7P1z6+aoZ8ljXcO2hqdSNDQNGf/pIv2QSPr8Z8EgnhxQovRJ8NkpiJrJzLSjWqTvZdvrGA93mjQZYMKrQpMtrqiSrloYp4+BM+Ag/Amo9Wh5+cwARryNCERdbJ43cmLFmQ6hrC2FrPBIdiTffjaLD1/myHRvyfu8SUmOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QsZeGoc4; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=g+L13eog2474Nyi1gDtKkQ+w3NhLm6WLpydvex2cm6+wvbTwdTXMV8A5pUIhKHyRybiijSZPDUwivvsXdJb+LFK/LfYFzaMSpKhtJ8Hq+9gDFS2qya18ss3vBd8FmKhmI+b6aVy8m1hrc5Jp/v0A75qGUmvlX99QhWEKfs2bn5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T8GBFPn+; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QsZeGoc4"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T8GBFPn+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=7h+N/UUWjxazJxi7OmuFdN82kq9fAKPnIPFkiSg7QaQ=; b=QsZeGoc4GHhfbnz6oOGEUjfPOr
-	aAghmSpaAdFwbmUja/nmmPT74uwv/zNcOOSx7t1hqlmKBUoLSh8lNPqmqE5c2qBziEma4u0dSatxr
-	hwtkabq490bCs2FhQ0OR/T53nOC2JgSTNiCLei9ix1lIRiO+5uCSY1Hq2PXehXtbwX2sukZogOPKJ
-	mMNolUjghd3+cSKE9BnIjCU4J30vmWjf+guegOsv6L2wEF2ZOxkIxhjKOSDxzyE9q8a5XYwFDiruZ
-	4jSN/VyZ48snr1YcLLs216DpV3BPJPB0pqbvZibNVRXEW2hRUfjJRSyhwszJsIS8LwVuuLqzhjqmw
-	SXSGHYHQ==;
+	bh=uHOeYxkKAiQhzavro8PL41M7M0u24klFsT/bDBnVfU8=; b=T8GBFPn+xk3ZFm2LU/zXpKevG3
+	eEJQ9w0jSqK6H3a8ohov9xiZk50epFupk2cJWVsN+J4nQCFtxUzpXflnJRVGivTuKv03ERZxSsGT+
+	ridnhD3ip5WtuZjhwDhYEgFM14Pvvlw+pRry8xnTYdVJ6AySK3cpSHrUrldHNywmuwJhFIO8muWCF
+	l1qd/labDeRwbjp0qegq4WcxwFAczETE6iVfPW8NOp9OK0vuhhVISFaDxi+0LiXsndLVD2pV3Zwo5
+	jMBe3qtNXt74sVCjwlOQk8rzEjKdcFDcnI5WExP6SsQSX3YKHBIpV7lEebrY8PqA12MvbEH0ugr5Q
+	lbjZc33w==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wdXVP-0000000ChHt-1dwg;
-	Sat, 27 Jun 2026 18:11:51 +0000
-Message-ID: <040f4089-7f81-470a-92d3-3ad022f3fd86@infradead.org>
-Date: Sat, 27 Jun 2026 11:11:50 -0700
+	id 1wdXXI-0000000ChLV-23bK;
+	Sat, 27 Jun 2026 18:13:48 +0000
+Message-ID: <1d27f8eb-30eb-4f2a-ad3d-54d39e63ad57@infradead.org>
+Date: Sat, 27 Jun 2026 11:13:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,25 +39,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: watchdog: Fix brackets
+Subject: Re: [PATCH] Documentation: parport-lowlevel: Fix curly bracket
 To: Manuel Ebner <manuelebner@mailbox.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "open list:WATCHDOG DEVICE DRIVERS" <linux-watchdog@vger.kernel.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andreas Faerber <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
  "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260627091707.29688-2-manuelebner@mailbox.org>
+ "moderated list:ARM/ACTIONS SEMI ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/ACTIONS SEMI ARCHITECTURE"
+ <linux-actions@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>
+References: <20260627092359.30044-3-manuelebner@mailbox.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260627091707.29688-2-manuelebner@mailbox.org>
+In-Reply-To: <20260627092359.30044-3-manuelebner@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/27/26 2:17 AM, Manuel Ebner wrote:
-> Add missing brackets ')'.
+On 6/27/26 2:24 AM, Manuel Ebner wrote:
+> Remove needless '}'
 > 
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
@@ -65,31 +67,21 @@ Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Thanks.
 
 > ---
->  Documentation/watchdog/watchdog-parameters.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/driver-api/parport-lowlevel.rst | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-> index 2359aa32e25d..8e2df5b7d241 100644
-> --- a/Documentation/watchdog/watchdog-parameters.rst
-> +++ b/Documentation/watchdog/watchdog-parameters.rst
-> @@ -59,7 +59,7 @@ advantechwdt:
+> diff --git a/Documentation/driver-api/parport-lowlevel.rst b/Documentation/driver-api/parport-lowlevel.rst
+> index a907e279f509..af73741289c9 100644
+> --- a/Documentation/driver-api/parport-lowlevel.rst
+> +++ b/Documentation/driver-api/parport-lowlevel.rst
+> @@ -341,7 +341,6 @@ EXAMPLE
+>  			/* Try to detect a device on the port... */
+>  			...
+>  		}
+> -		}
 >  
->  alim1535_wdt:
->      timeout:
-> -	Watchdog timeout in seconds. (0 < timeout < 18000, default=60
-> +	Watchdog timeout in seconds. (0 < timeout < 18000, default=60)
->      nowayout:
->  	Watchdog cannot be stopped once started
->  	(default=kernel config parameter)
-> @@ -68,7 +68,7 @@ alim1535_wdt:
->  
->  alim7101_wdt:
->      timeout:
-> -	Watchdog timeout in seconds. (1<=timeout<=3600, default=30
-> +	Watchdog timeout in seconds. (1<=timeout<=3600, default=30)
->      use_gpio:
->  	Use the gpio watchdog (required by old cobalt boards).
->  	default=0/off/no
+>  		...
+>  	}
 
 -- 
 ~Randy
