@@ -1,201 +1,156 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B2C1C860A
-	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 20:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCB737DEBE;
+	Sat, 27 Jun 2026 21:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782593768; cv=none; b=R8h0oeHV9XoSFLtB9iYi0O9v03H3W890bJOOBgcFKc/v3ZFaZ7Y88oS86/BfFeob0kwhdaLlACEMEkP6oikx7NSqh2Qh/ZGfwyZmOtWVcC7nBrOgZXsORNdgZjuW3ueJx2/bz5CSafxfDGN4iY2AcCozDHlnSXMrsiHSiVIUWhM=
+	t=1782595322; cv=none; b=H8O42TNMe/dxLUlEbamrQs4mYYUjwQKgnc7lh44wuaBjkTAlJxjqY/Vg5ibnWj9lMC0j53DIUXQrFOZrQOPVJcCgHJMeup1v0JkX2tbSBEqgO0xscApr1taGqGRC+pevc0PS6jq7Vo1oj5+mmRE/ZOEqK5XcH2AibUMdd6KqO5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782593768; c=relaxed/simple;
-	bh=8G9FTDLCdDxMM5W0HpwbCdM6xzK8nY/RwixUATVbMl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BLUjgkyR27fmdLrTQzbPHHKGlkPkPNMjHESEbSsid6SrYJhQobV0Cb6AVX+60NxQoKFUp962Y5MHSqN0DP/PBjKOZvnkUmvBv8It3QkSdetEdG3yawkytao/pVgkSXOKGebg6OoCcAH3Y+3xOjzFf5rnjpLhoMw0+hDlqFtE9wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=qKy7Kuyj; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1782595322; c=relaxed/simple;
+	bh=Fi1sJsXvDdbr5TiNG1ZQ0mwkB/0WBJXhm5w8HcQsOfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WYPpdDxpecR3W2amPq3TdTarpKhruyUxKpoSnAWisLcs9Z5hi2W99CrOPbJ+1+QP1PKL5ymsqh/OxTe0nrU1nhnEzIgwj8Smo/jI+oQeLNe4bGwWea4Pv3w3R7ZVcI1XT99MnpOA+dSQANRWxCi0u6z2Re4wGQgz4MwhHjGshFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTcZyUvM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="qKy7Kuyj"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8eefd0c5f59so1367746d6.3
-        for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 13:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782593765; x=1783198565; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LJmiPaWE1oBb3px3lgYj/2H7Qq4DS6Rodsmex8FgQuw=;
-        b=qKy7KuyjZ3FOq8Uj6wGfDw45ar0YEkM5neZtUttNRvR09xCEMZ5ahSSC3JcMR4bd+K
-         j9l35OMRC8tb1Cw5WwMQ8WrK3yMXM/0kwgXm3Tf3bnUEbkZ4sK2Ox0+QqWjb62MpQTgS
-         lnVc64Nt9iE1vz4LfmxqlTogM19Ne+KG4cuVnvSCNEx0/bepBCeo2AGJ54fKs8DMF1Qq
-         TvoPANBFSn7z8rAzy/3T1w+fy9cB6AalgxWGmbBNgYtrYKkpV1bop1rOTHJHgDo30vZI
-         xjFNqvyberQVJ4fsHdcYhYQiE+tuDnbydO++XEkhioOv++yORx7zVm3NB5TptK3LBTlc
-         YzFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782593765; x=1783198565;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LJmiPaWE1oBb3px3lgYj/2H7Qq4DS6Rodsmex8FgQuw=;
-        b=F4jxM9/nj/iEqXmzs6XXG/6pDgwgyKq48B/VsZPaDPy/oSzyg7Udz8TBGSZb2KxM9T
-         b+u9H7H/aJAMJZfo86KT/AiUBVH1EBZvtp27aVX3gN9g+lZbjgSDTKQJ+PmzB6djRrdE
-         P11QXZoe0hWvOfvOPIeqPiGc/oo7FQA9xmsM+S2fdPCtpBReU53raEGqx4WmHY2935we
-         tHVOFW66MsMTH9M7G2KVLS22kKgSTCjxiGSmYnm+lyRl2Hp+jbVE8cMpRTSz7hsjt/9S
-         A3fmkX5oZEJg7eh5IkvPmq9Z4O5LV1d+twiBuQeLndOc4UlBTO+wsbAvxROhmYmlKsZ8
-         L0BA==
-X-Gm-Message-State: AOJu0Yw8HtMXBFX6BeZRKA4oszb0mq6eZbcWsfklVniZa4ZDyes4f0FE
-	W50asW1Q6c8rEUEq0/mpmhgJUkKG62zk+Mrw8dfU9SnDnBJCaCWJGyBHADrSQnwyUsc=
-X-Gm-Gg: AfdE7cnFdkMUarxT7+R8v6cLijvuwB6ZTJz06jkBftbKyyMsOmQGsImCBKQk07JcXcA
-	i/r7/DBoVDQYyaRkBPQBJ4SmCqcBkPS9kJZKqQ2/fnwwA3VJkxubPhQonNne7YEUoYAoIdjU+ok
-	WL1oTduc508y0Cpu0KjX39/8bgQ1wlYcTqtq0AN9g7ItkRjmblvZafKTtt/aJHCW+5Rs74A4uu1
-	k11arWMsW3+hK4mxA+2pjGchcFyChQnesVH1ToRXu27WApwHYZlI1Ot6I2XFJ/k5KMyT1VP4r2q
-	QUuG0u96xIyqumriE6gC2J304YZW5ptM2smjadmxHM/pT7HzJS2nLvzNE40gupNz7VTOc+dS8jj
-	YeRrzu0amTQjP3d4DAXjcNcQ1epclXBo0d4CsrsOTrA0NYd9nJrdsdy2MWO34tnmtTR0/X+fmoL
-	D63NHxijZ0kTsPAuENi3cYtBJW8fHto4EmOSLaMBtdXXH+8ncBRxVe/8HHolFWyJ7JA8XFSWjjw
-	+Ycq2gjCSBx
-X-Received: by 2002:a05:6214:21eb:b0:8ce:a005:3ea6 with SMTP id 6a1803df08f44-8e6da33b970mr200983256d6.22.1782593764787;
-        Sat, 27 Jun 2026 13:56:04 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df81cdec56sm265460836d6.32.2026.06.27.13.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 13:56:04 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	kernel-team@meta.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	tglx@kernel.org,
-	peterz@infradead.org,
-	luto@kernel.org,
-	akpm@linux-foundation.org,
-	feng.tang@linux.alibaba.com,
-	pmladek@suse.com,
-	mhiramat@kernel.org,
-	marc.herbert@linux.intel.com,
-	joel.granados@kernel.org,
-	gourry@gourry.net,
-	lirongqing@baidu.com,
-	kees@kernel.org,
-	nathan@kernel.org,
-	linusw@kernel.org,
-	arnd@arndb.de,
-	deller@gmx.de,
-	jpoimboe@kernel.org,
-	ruanjinjie@huawei.com,
-	lukas.bulwahn@redhat.com,
-	ryan.roberts@arm.com,
-	ojeda@kernel.org
-Subject: [PATCH 2/2] kernel/entry: add kernel.syscall_user_dispatch sysctl
-Date: Sat, 27 Jun 2026 16:55:51 -0400
-Message-ID: <20260627205551.769684-2-gourry@gourry.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260627205551.769684-1-gourry@gourry.net>
-References: <20260627205551.769684-1-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTcZyUvM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C3C1F000E9;
+	Sat, 27 Jun 2026 21:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782595320;
+	bh=Bcf86Hzsw/x7zxg/mG4FuMFcMosZF81My9ebts7C9Hw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CTcZyUvM1WqqdEtdr8HrkviG3NtbpPcdxP47O3QVTacavefegL7LP8NkHspwoFLfL
+	 T8a4v2JX7sIJn4HOPhOZASVjttgmPzFsahuUoF86QaYBWsEk1sSo4fJ/SG2dIpYd6p
+	 +pz2SmAI2INhq96GbGD7lJUah2mxAVBEZpSAYNPMOJ7fb8Q2SeeA4xf1H3vypuYk1Z
+	 SYBbVPQQ1IfbyMoUo6X+QmblfYx8X9AVqsFVZLUGlajPhmRbxFSE62cfdMcdKMxNeF
+	 /tK6duY4N5hrKCjUZlBDr6Y7cameZE9PSYnvNwn48iqGWSxxARkVHsqqsfOWARFZd2
+	 bB3qj15cXuR3Q==
+Date: Sat, 27 Jun 2026 14:21:59 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: yunhui cui <cuiyunhui@bytedance.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Atish Kumar Patra <atishp@rivosinc.com>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fenghua Yu <fenghua.yu@intel.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [External] [PATCH v2 3/8] riscv: Add support for srmcfg CSR from
+ Ssqosid extension
+Message-ID: <akA+95cvpOPc2XOG@x1>
+References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org>
+ <20260624-dfustini-atl-sc-cbqri-dt-v2-3-2f8049fd902b@kernel.org>
+ <CAEEQ3w=ZLnW-Wz_=PcUQTN8q0wxUq1_epCs0B+v=sSug+OHD=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEEQ3w=ZLnW-Wz_=PcUQTN8q0wxUq1_epCs0B+v=sSug+OHD=Q@mail.gmail.com>
 
-Add a matching sysctl to go with CONFIG_SYSCALL_USER_DISPATCH.
+On Sat, Jun 27, 2026 at 05:11:11PM +0800, yunhui cui wrote:
+> Hi Drew,
 
-kernel.syscall_user_dispatch (default 1) controls whether userspace
-may arm SUD (both via prctl and ptrace).
+Hi, thanks for the reviews.
 
-Disarming is always permitted - same semantics as comparable knobs
+> 
+> On Thu, Jun 25, 2026 at 9:40 AM Drew Fustini <fustini@kernel.org> wrote:
+> >
+> > Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
+> > The CSR contains two fields:
+> >
+> >   - Resource Control ID (RCID) for resource allocation
+> >   - Monitoring Counter ID (MCID) for tracking resource usage
+> >
+> > Requests from a hart to shared resources are tagged with these IDs,
+> > allowing resource usage to be associated with the running task.
+> >
+> > Add a srmcfg field to thread_struct with the same format as the CSR so
+> > the scheduler can set the RCID and MCID for each task on context
+> > switch. A per-cpu cpu_srmcfg variable mirrors the CSR state to avoid
+> > redundant writes. L1D-hot memory access is faster than a CSR read and
+> > avoids traps under virtualization.
+> >
+> > A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU as
+> > set by resctrl CPU group assignment. On context switch, RCID and MCID
+> > inherit from the CPU default independently: a task whose thread RCID
+> > field is zero takes the CPU default's RCID, and likewise for MCID.
+> >
+> > Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+> > Assisted-by: Claude:claude-opus-4-7
+> > Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
+> > Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+[..]
+> > diff --git a/arch/riscv/include/asm/qos.h b/arch/riscv/include/asm/qos.h
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..e9e1d69f3797be5f89785a9b3aa7d9d51c476a8a
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/qos.h
+[..]
+> > +static inline void __switch_to_srmcfg(struct task_struct *next)
+> > +{
+[..]
+> > +       if (thread_srmcfg != __this_cpu_read(cpu_srmcfg)) {
+> > +               /*
+> > +                * Drain stores from the outgoing task before the CSR write
+> > +                * so they retain the previous RCID/MCID tag at the cache
+> > +                * interconnect.
+> > +                */
+> > +               RISCV_FENCE(rw, o);
+> > +
+> > +               __this_cpu_write(cpu_srmcfg, thread_srmcfg);
+> > +               csr_write(CSR_SRMCFG, thread_srmcfg);
+> > +               /*
+> > +                * Order the csrw before the new task's loads/stores so they
+> > +                * pick up the new tag. Zicsr 6.1.1 makes CSR writes weakly
+> > +                * ordered (device-output) vs memory ops. Ssqosid v1.0 is
+> > +                * silent so honor the general CSR rule.
+> > +                */
+> > +               RISCV_FENCE(o, rw);
+> 
+> This is in the context-switch path and may be expensive in practice. Even if
+> the target workload is pinned and grouped, unpinned/default-group tasks or
+> kworkers may still run on those CPUs, causing frequent SRMCFG transitions and
+> paying two fences each time.
+> 
+> Is this strict ordering required by the Ssqosid spec or known hardware? If
+> not, can we make this a trade-off and avoid the fences by default, accepting a
+> small QoS-tagging inaccuracy around the context-switch boundary?
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- Documentation/admin-guide/sysctl/kernel.rst | 17 +++++++++++++
- kernel/entry/syscall_user_dispatch.c        | 28 +++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+These fences were introduced based on Sashiko feedback on the RFC
+series. You make a good point that this may be too conservative and some
+inaccuracy probably would be acceptable. I would be okay with dropping
+them, and we can reevaluate once more hardware implementations with
+Ssqosid become public.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index c6994e55d141..4c90caaf1e21 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1402,6 +1402,23 @@ Note that if you change this from 0 to 1, already created segments
- without users and with a dead originative process will be destroyed.
- 
- 
-+syscall_user_dispatch
-+=====================
-+
-+Controls whether userspace may arm Syscall User Dispatch (SUD) via
-+``prctl(PR_SET_SYSCALL_USER_DISPATCH, ...)`` or the
-+``PTRACE_SET_SYSCALL_USER_DISPATCH_CONFIG`` ptrace request:
-+
-+  ==  ===================================================================
-+  0   Arming SUD is denied with ``-EPERM``.  Tasks that already armed it
-+      keep it, and disabling SUD (``PR_SYS_DISPATCH_OFF``) is always
-+      permitted.
-+  1   (default) Arming SUD is permitted.
-+  ==  ===================================================================
-+
-+Only present when the kernel is built with ``CONFIG_SYSCALL_USER_DISPATCH``.
-+
-+
- sysctl_writes_strict
- ====================
- 
-diff --git a/kernel/entry/syscall_user_dispatch.c b/kernel/entry/syscall_user_dispatch.c
-index d89dffcc2d64..1c39ccd733f5 100644
---- a/kernel/entry/syscall_user_dispatch.c
-+++ b/kernel/entry/syscall_user_dispatch.c
-@@ -11,12 +11,15 @@
- #include <linux/uaccess.h>
- #include <linux/signal.h>
- #include <linux/elf.h>
-+#include <linux/sysctl.h>
- 
- #include <linux/sched/signal.h>
- #include <linux/sched/task_stack.h>
- 
- #include <asm/syscall.h>
- 
-+static int syscall_user_dispatch_allowed __read_mostly = 1;
-+
- static void trigger_sigsys(struct pt_regs *regs)
- {
- 	struct kernel_siginfo info;
-@@ -102,6 +105,10 @@ static int task_set_syscall_user_dispatch(struct task_struct *task, unsigned lon
- 		return -EINVAL;
- 	}
- 
-+	/* Arming can be denied at runtime via sysctl, disarming is allowed */
-+	if (mode != PR_SYS_DISPATCH_OFF && !syscall_user_dispatch_allowed)
-+		return -EPERM;
-+
- 	/*
- 	 * access_ok() will clear memory tags for tagged addresses
- 	 * if current has memory tagging enabled.
-@@ -172,3 +179,24 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
- 	return task_set_syscall_user_dispatch(task, cfg.mode, cfg.offset, cfg.len,
- 					      (char __user *)(uintptr_t)cfg.selector);
- }
-+
-+#ifdef CONFIG_SYSCTL
-+static const struct ctl_table syscall_user_dispatch_sysctls[] = {
-+	{
-+		.procname	= "syscall_user_dispatch",
-+		.data		= &syscall_user_dispatch_allowed,
-+		.maxlen		= sizeof(syscall_user_dispatch_allowed),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
-+};
-+
-+static int __init syscall_user_dispatch_sysctl_init(void)
-+{
-+	register_sysctl_init("kernel", syscall_user_dispatch_sysctls);
-+	return 0;
-+}
-+late_initcall(syscall_user_dispatch_sysctl_init);
-+#endif /* CONFIG_SYSCTL */
--- 
-2.54.0
-
+Thanks,
+Drew
