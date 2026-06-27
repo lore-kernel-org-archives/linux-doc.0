@@ -1,62 +1,65 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1A22097;
-	Sat, 27 Jun 2026 09:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06EB175A84;
+	Sat, 27 Jun 2026 09:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782551801; cv=none; b=LHqudU5NOq++DWaTES8tO+2rUiAvZfkpkThM1Fa6+IeGrigSoW/pG1sugtKrdQdeuGkEivOxoUvuW63NPr/nIPuiGiBn+MYKyWKD6jQC/h7TymPulQx9vY8jAkhE/mZmS8oBKjJuOjL7W48qvvNizc1BUaLEafeykKgDdUtGmQU=
+	t=1782551900; cv=none; b=gr1jC418TBooFcTuvY3gyZV/fNUODUxc3A4s/z/s62ZhEj0zHCWhcGjn5DGzMCgX5cVyxaibsKJa1hgfhuzflIFix0h+jGHfxe/oRBMdbYcHKZQ48M2wxnRPymUwdkeHcTl7VMDZraDH1zhfMI4vXAffQctUxkaBSQD5YsKgjQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782551801; c=relaxed/simple;
-	bh=0+39H+jlZQFrrSVDZvt5cw7adjvZy8wUGui2JNU2wYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fey7oxftokDPqp0xBrSpDsMZAkwo3iXEFfIll5OIUWQBXPNMire5o754LaaYl2vF4x75eaqJD7t4iGMcdx2NBPYGDKLOKncvMmdCz9DZ75i0dPXJUsWXGOXJye2WLuX48aau/R/AD+IwnNb+f5eu/jxVmlqF0XdwgUMn1pJ4cM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LXcX1LKO; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=N6g/A4d4; arc=none smtp.client-ip=80.241.56.172
+	s=arc-20240116; t=1782551900; c=relaxed/simple;
+	bh=2L8zScgUc3tNFyO+RZD1cdFNQ1CnMp/QFwV42q249JM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KZCcHc6ylj/wZd5R6St33Ih1KOXzc4frE/ZfTr5thfxCdvrwzHJB84/EhawX0GW/47KIobjSxPHhq0PQHNlhsY4VP6xxJJko/J1ZdkNBo8Qkxd/edUg5TffbYvOgidPOAwmvYoNEhuUaR8TpafkfM6Rol22I03WMZ0KqmF6YsIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UyeJ24+x; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FVgl7sVJ; arc=none smtp.client-ip=80.241.56.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LXcX1LKO";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="N6g/A4d4"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UyeJ24+x";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FVgl7sVJ"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gnRkF6G7Nz9tZg;
-	Sat, 27 Jun 2026 11:16:37 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gnRm253LSz9tgj;
+	Sat, 27 Jun 2026 11:18:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782551797;
+	t=1782551890;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=tTLV8NGeGUyXhIO1u/kKgJ3EjxcxbtPXot/QVNHuLGE=;
-	b=LXcX1LKOwaRyvC8ap8quE0YVKP06EBxiQwc9cZRrV/lbBYIhpTxRhd2L85p+qwxltnGFSQ
-	SLY5C471Txd+pq+q4y2Tk4FhBbQWFVjZ9sRrHn3tH/pcSkCgOHusVmuvrRaME3HuW+SUQ/
-	aavSJLiTGop4qe+B4jNcDyNs+2S6HXTJJ5z4UXT57HwMOEMT+qeuaIHcIFEqRLeX7HNnQt
-	PjuiFeGHFAkwY8pb3CBQhvrBUiNiqihKH9zqDT9E0jdl5030RX/kGIGYerLOjDou7ZFstd
-	OceuXnLhqJ/WsgeT4dbLsjadBCnwu1UtUDsZwE1tnnZIiZVj8aZ60CtR5+HeHw==
+	bh=0NBB/jFCgD9qO1i9EY3bNI0lxBAwYUv4tadrp4nhd4o=;
+	b=UyeJ24+xBINAG8tkZpDjOrsieMKGcCu3hkY16FvnzFAAPQHUUyFxNCv05UNaCdR0V1ZU5u
+	yU0ysZpNDVGPRzF5iN8bkdlqVDg9Xu7YTIvzqr/Bq4M05jQy8NA0/lTd51HqqsjJ/xpjek
+	5DhwGvOUcBQk0ygibjcXMIWqSfrSpoDvbR6pCMrTdjL5UcxKEznRexIv4q6ICO6P3iJNow
+	kuFoGUd+FMDYuhuHe1grVhLL8+Pbp/OMU5lZTzeoGZSoP/dFbk3s99PvPJfH94/KLlPpYE
+	/6FUKClHzq2iLq1/xTTjc6yutpifMo12hTmy2C2Md9NZdCl+GLzrZ5IQDxjKZw==
 Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="N6g/A4d4";
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=FVgl7sVJ;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
 From: Manuel Ebner <manuelebner@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782551796;
+	t=1782551889;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=tTLV8NGeGUyXhIO1u/kKgJ3EjxcxbtPXot/QVNHuLGE=;
-	b=N6g/A4d4Sea3xGfwYGuH5POBWZ80arpNOXc8w+VL1PWaZWXtkudr+X7LFVnPw/Bo7/UBGW
-	hivuowUo15CUVVtA36j37Mkb2I2aaAeBbtrZcn3cskWxlZ4J96KdYlZ6+7qFONnt+wmuBu
-	KFPnvVTl/Hkp8yEOsQcNO8MG03/ftTTofNdVE69GRdhfsnem9bvCqnMBXN9qeQB7rkU75U
-	LXWg0ygOP/anBLF0fGDJTXcEQbfv/KBf0RSpghoAHmSt5OTQMjDGP3ICuuVvx5o7gvh8u/
-	hBxprRDaJxk8dHJUw13h9M3TXuNA2whOPvqZ3O7ZEtapYhULId3hasm+M1HATA==
-To: Jonathan Corbet <corbet@lwn.net>,
+	bh=0NBB/jFCgD9qO1i9EY3bNI0lxBAwYUv4tadrp4nhd4o=;
+	b=FVgl7sVJ2qWdptNO14//R4h3M/EYoEXtLEa3GHfJFL6vFxno0EsYrIiQxy0NStOY6WqADl
+	xmvMvsZxjS5SlsLtfjmWpDurkDboskVRNGZYJvlFnHho2I29a1prOUcyS3ueMHNZdGJexp
+	bFNJ5TuIvPHUrMXHmw0nlgT/pyHxHvQ2zWZEkQkM9seL73t/HO0ZDzhEe2EY2Q34Hf1HV2
+	EQ2R7EIwXhLatu8t302mV6dvPZikuHOwtnAZt9dDBqYedj/fCYWDKNcBBcHBh+q3YUA2e4
+	dgR+EY16oChWCZcUqbrMGKBguSu5vrHpasxy9rULF3RRPkZyLoxihY/1F/K40A==
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-watchdog@vger.kernel.org (open list:WATCHDOG DEVICE DRIVERS),
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
 	linux-kernel@vger.kernel.org (open list),
 	Randy Dunlap <rdunlap@infradead.org>
 Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH] docs: kernel-hacking: fix typo
-Date: Sat, 27 Jun 2026 11:16:04 +0200
-Message-ID: <20260627091603.29612-2-manuelebner@mailbox.org>
+Subject: [PATCH] docs: watchdog: Fix brackets
+Date: Sat, 27 Jun 2026 11:17:08 +0200
+Message-ID: <20260627091707.29688-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,30 +67,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 1b2d77ab414a6d88882
-X-MBO-RS-META: 49xi7iymotpe5m1mh9jf1jd9kyxgrxsx
-X-Rspamd-Queue-Id: 4gnRkF6G7Nz9tZg
+X-MBO-RS-META: j9sqchyx86gj315ytionmepmekkdog94
+X-MBO-RS-ID: c39a9ca55ba58113048
+X-Rspamd-Queue-Id: 4gnRm253LSz9tgj
 
-GP_KERNEL -> GFP_KERNEL
+Add missing brackets ')'.
 
 Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- Documentation/kernel-hacking/locking.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/watchdog/watchdog-parameters.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index c969c76ef7cb..9c6c76d3a723 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -1317,7 +1317,7 @@ from user context, and can sleep.
+diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
+index 2359aa32e25d..8e2df5b7d241 100644
+--- a/Documentation/watchdog/watchdog-parameters.rst
++++ b/Documentation/watchdog/watchdog-parameters.rst
+@@ -59,7 +59,7 @@ advantechwdt:
  
-    -  put_user()
+ alim1535_wdt:
+     timeout:
+-	Watchdog timeout in seconds. (0 < timeout < 18000, default=60
++	Watchdog timeout in seconds. (0 < timeout < 18000, default=60)
+     nowayout:
+ 	Watchdog cannot be stopped once started
+ 	(default=kernel config parameter)
+@@ -68,7 +68,7 @@ alim1535_wdt:
  
---  kmalloc(GP_KERNEL) <kmalloc>`
-+-  kmalloc(GFP_KERNEL) <kmalloc>`
- 
- -  mutex_lock_interruptible() and
-    mutex_lock()
+ alim7101_wdt:
+     timeout:
+-	Watchdog timeout in seconds. (1<=timeout<=3600, default=30
++	Watchdog timeout in seconds. (1<=timeout<=3600, default=30)
+     use_gpio:
+ 	Use the gpio watchdog (required by old cobalt boards).
+ 	default=0/off/no
 -- 
 2.54.0
 
