@@ -1,42 +1,41 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EEE15A864
-	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 03:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711FE2459DD;
+	Sat, 27 Jun 2026 03:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782531057; cv=none; b=WlCzYeqBzbqRyhAbBb2R0P9mbCnME+5iHjYgJooILPcZlzk/SImRFqFYTMnerSKlaJzgkWwzqU4egoRiw2LqY8QyWfB99G11Gbq726TFXSeqnn9MzyGjagqRwLcAAlMOpMgZAGBvhGQW8KSP6rFjhF8TI20xjw9jQcOHgW8i+Q0=
+	t=1782531059; cv=none; b=WZyAXQTzw4O12faTQczNOS64WPeqh2Za2pSABMk8Q7/N3abVdokPhpzlOasKRdONUEZO+YqStrN4FAmmbCoEMsQwhQTJ6UENNqvArrjFTwH+xu6kQPT8Q9tCRyvoe5u/O5JdwqK+Rv0iIqllODbvuNQIAfk8kUuouQUyTwdg/Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782531057; c=relaxed/simple;
-	bh=/Gr6kiSSgqJgP+KQhT9pYb203dueGUnbTDf8JiXzBVo=;
+	s=arc-20240116; t=1782531059; c=relaxed/simple;
+	bh=F6c91uycHO4sbmoHLTpP20OekCyoqwScqtNxrwrFaJQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r/NZCnow2/xhdx79E0xxLPrKu6cF9hR3p4wxIyHLhbgB9FuhjbFq1anFNYqWjokoUMZ37PU3eBj+ji++cELN8y5cdULLOrga7XfS8Sq8SkxuJr1iz6FTgvLD+/1Yg1QR9YxTjeWW4i5blD4tv+qx5hbmIw9mnKUFVAIWFZ0TX/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OPkn56K/; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=pG7Gq3fpDdim5OamFn7CeFNiEFW5wqN1W28QtWXdmmRuGotGJhnxWzPtl8hok5DKmrrt05UVJ7N7qkQH8EEC3ax7ZcNU2AFN+VVf7ucKqi9E2hjaGrNzr3S2cTqsONFksngQ5FZb5vJjuyiLPGBTSjZdw5AihA3tvYFAm2c7Hm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=u1Th9DmB; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OPkn56K/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="u1Th9DmB"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7C65E1A0A07;
-	Sat, 27 Jun 2026 03:30:53 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 274F41A0A08;
+	Sat, 27 Jun 2026 03:30:56 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4F69F60233;
-	Sat, 27 Jun 2026 03:30:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A6AB9106F1167;
-	Sat, 27 Jun 2026 05:30:49 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EE8F260233;
+	Sat, 27 Jun 2026 03:30:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 40CC2106F116D;
+	Sat, 27 Jun 2026 05:30:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782531051; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1782531054; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=x90JzqH1BoHc2vBkdAptzZT2i9xIFGN7kfo+uujLNZc=;
-	b=OPkn56K/Hn9l95VhCfCwjmlPuBSMOhmB1rd8V/mv8+R+tnEk5gZ/k24rjnFyO27AHqkCM9
-	jrj/ZTLO1oDfHOOpxMHw3eDij6CJe+LaKTwycWIBis+WezE/l4kPxhXaD76Ne1Vxrnzv+o
-	yhbNQ31hSak/Y1Q81cUl6/YnlnCPiRaZL+vaN8OH9wgugyxLWDspiUGfMf/C0pyCqvgPuI
-	OMXFbyq7JIHPTqTainMwzl8wBgXLsz4OaFAix4nWOHXhKad861fJCNBJo1dI7Vw4PukBnn
-	TBnG0JDz4+vNADhohlwYYXqYlH6FbljvWLXpX2x1kSJiRuoA5eEcBsGWqUnNUg==
+	bh=hwerMsivh8BfM/hhBYmrds/bzmWbDr4E5XoWMr8kQAE=;
+	b=u1Th9DmBrt3zo1GI6umZnXL3sswsbRzfVO5oesXcJotdxB7tc52CeRaMgnXjPQdP8g9llV
+	fHGyNwdj+gkol2e5WEI7XQvQTZ4KbTVo39rnidQpqwcp+CXq5uIRDQKEhc5FhBeCP+8FaO
+	0F5QOBMEEZE/MYAnjiGTFa+5+h6rEGuFCyEdmyLKgM9OTJ8M6Qgfw60S7McQtAaMFsFcYT
+	PB0PnEJlIkWTdvqyWtszHUGfUYpoyDvkk4jYT65Z9NQKRommdSzSOM9r+8lp/tA7/eYVbL
+	EK2B7Ua8U70R4mSjLlfBYUZ/KXdZuBto0KSc7ZMRGDWs7IoJi6NZUgn+ggElXA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 27 Jun 2026 05:30:18 +0200
-Subject: [PATCH v5 01/38] drm/drm_mode_config: Add helper to get plane type
- name
+Date: Sat, 27 Jun 2026 05:30:19 +0200
+Subject: [PATCH v5 02/38] drm/blend: Get a rotation name from it's bitfield
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,8 +43,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260627-vkms-all-config-v5-1-854aa0840926@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260627-vkms-all-config-v5-2-854aa0840926@bootlin.com>
 References: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
 In-Reply-To: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -62,85 +61,125 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  sebastian.wick@redhat.com, victoria@system76.com, airlied@gmail.com, 
  thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Louis Chauvet <louis.chauvet@bootlin.com>, llvm@lists.linux.dev, 
- =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>
+ Louis Chauvet <louis.chauvet@bootlin.com>, llvm@lists.linux.dev
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1973;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4088;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=/Gr6kiSSgqJgP+KQhT9pYb203dueGUnbTDf8JiXzBVo=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBqP0Pc9iBNPzZZeBSQdnQm+kC9erh9QbfgZw2IE
- AlkbhLWIDmJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaj9D3BsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOKnUhAAyqtsEOQFcBERdhlPMGW3eckjREkiTpZ
- 5AvCtXp8hIWKiRXL9Sx0Ko+P68W+8/U8V1pAZ8kCnwKfdTrFOlr4zs41XwWW7XIv/tq6A32o49Z
- KONDSPIdEzfxFY5Bzbfnuz3PhauJ0gFwGBEkr/NkGP/qovrV3efXxUyi8mPQ2rI/DzpAMDYOgku
- IR+BTbdGC75ic/wunNEBARebL8f7bRSZWEa3YnO4fRIsBhf+wEUC2x3sQ8EcPSw2HIaAIJYjPdR
- 1jeGktGd5VdnHgoK600sRsOXl+xz1dtQq0MQcYMO82uxJftqCbbvfP0/YE1QKp0iy+MVnxoRUtf
- 43z0uV+Mn5UkYWUrFlZUXXYVouUfUIoq+yQ4dn2DzsiFM+qJT+IulgaxEosT4pMCKdHnmM6aovs
- Z2UzOwG0rsO+56WciRoaV4MED7ykacd+HNoDi5d3w8JA1UZybOOUTNM7lSknZeQ1lW5y/081AGD
- ioU6KcjR2De7gae24otVTgUbeYddGosIOS+GMyQcsAoFaxU8lnxxdA7B7YMEGEbKx+ioH1krD/U
- 4461ew3bsJ7vbUdfDtb9VfiHati8ra/TdnoDTjA//MdxhNHNvNRDEjh3yntVWH/OoguCOL6/pFa
- 6oiqo3ERLOoGOhhyI5uR7TvFx7KkZfTlIDh1nvUWvQOfFkPKDD1Q=
+ bh=F6c91uycHO4sbmoHLTpP20OekCyoqwScqtNxrwrFaJQ=;
+ b=kA0DAAgBIK0uxlsQLOIByyZiAGo/Q9ygNRBu7unbMAVsZyP6+ktUTkJUdEtgeAK7vDgvAgzMb
+ okCTwQAAQgAORYhBE+PuD++eDwxDFBZBCCtLsZbECziBQJqP0PcGxSAAAAAAAQADm1hbnUyLDIu
+ NSsxLjEyLDIsMgAKCRAgrS7GWxAs4qpRD/wItq+9q91ODjrAgkGBLjyte6dw6f9MHI4Q43XXWdN
+ 5x8BmmSvhjuPyabFrR8f3JlOHD66ZGPOOb1Yn7T25FobO88OG8FTWm8arp2twMqbDjshi5IZiWe
+ 8D4xpr0e6R5+NCx+DJ/FEzeyJPLbiVi/vFVG6R+ajdEZXqc169zoU9litKxS2B8qOa6Zw3VJYg9
+ qTBXCs9E/HRzjyRF8/KSeOEJJeiY8wFwbHEH2R6jXkZ1GTUgOBV4oqpsZiUAfa6Uo4+6fTU8g1P
+ OGG6MNRLfXjR9dTB633JtZ7KnJTtJR7GNPo1KiNO+xx4ZaDcAolrTuyN/i3gFUfIHWYnOIaR6Sl
+ vO+LNViSENG9ryXwIRegfbkbfcHtpMQMbdUeBE241sVtT/SU5aC2+vYegIJSGYFpEXAqPt6TzE0
+ n7D0NZAd8hVADQH6au0LImDDwwuO1NnDN0Crcr2FSxEBakj/ULJGXicP9aIY20yfG3QnaSosfHy
+ b9OI/X123RaTjMrJNS9OKqQhvEDMXqh+xNDsmXYFvCse9XnNMRSaq7IRPwKQriLVHErW/GbQzV/
+ bq2aqqU/tJfa3x31k15BflrXiF58HwfOmiPJ8bPNH4tPLNXKBv12hj/t1VMETm6N4RKbLaJNyIL
+ tSP7Xr0TX3wX88HTvm3OxcpStG5DifJdDaI+xDhpUCQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Create and export an helper to display plane type using the
-property string. This could be used to display debug
-information in VKMS.
+Having the rotation/reflection name from its value can be useful for
+debugging purpose. Extract the rotation property table and implement
+drm_get_rotation_name.
 
-Reviewed-by: José Expósito <jose.exposito@redhat.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
- include/drm/drm_mode_config.h     |  3 +++
- 2 files changed, 19 insertions(+)
+ drivers/gpu/drm/drm_blend.c | 35 ++++++++++++++++++++++++++---------
+ include/drm/drm_blend.h     | 17 +++++++++++++++++
+ 2 files changed, 43 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index f432f485a914..6f8a363ec6a1 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -414,6 +414,22 @@ static const struct drm_prop_enum_list drm_plane_type_enum_list[] = {
- 	{ DRM_PLANE_TYPE_CURSOR, "Cursor" },
- };
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index 2f0d1ba285be..eecdaf623c1e 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -256,6 +256,31 @@ int drm_plane_create_alpha_property(struct drm_plane *plane)
+ }
+ EXPORT_SYMBOL(drm_plane_create_alpha_property);
  
++static const struct drm_prop_enum_list rotation_props[] = {
++	{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
++	{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
++	{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
++	{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
++	{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
++	{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
++};
++
 +/**
-+ * drm_get_plane_type_name - return a string for plane name
-+ * @type: plane type to compute name of
++ * drm_get_rotation_name - Return the name of a rotation
++ * @rotation: The rotation mask (DRM_MODE_ROTATE_* | DRM_MODE_REFLECT_*)
 + *
-+ * Returns: The name of the plane type. "(unknown)" if type is not a known
-+ * plane type.
++ * Returns: the name of the rotation type (unknown) if rotation is not
++ * a known rotation/reflection
 + */
-+const char *drm_get_plane_type_name(enum drm_plane_type type)
++const char *drm_get_rotation_name(unsigned int rotation)
 +{
-+	if (type >= 0 && type < ARRAY_SIZE(drm_plane_type_enum_list))
-+		return drm_plane_type_enum_list[type].name;
-+	else
-+		return "(unknown)";
++	if (rotation < ARRAY_SIZE(rotation_props))
++		return rotation_props[rotation].name;
++
++	return "(unknown)";
 +}
-+EXPORT_SYMBOL(drm_get_plane_type_name);
++EXPORT_SYMBOL(drm_get_rotation_name);
 +
- static int drm_mode_create_standard_properties(struct drm_device *dev)
+ /**
+  * drm_plane_create_rotation_property - create a new rotation property
+  * @plane: drm plane
+@@ -294,14 +319,6 @@ int drm_plane_create_rotation_property(struct drm_plane *plane,
+ 				       unsigned int rotation,
+ 				       unsigned int supported_rotations)
  {
+-	static const struct drm_prop_enum_list props[] = {
+-		{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
+-		{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
+-		{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
+-		{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
+-		{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
+-		{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
+-	};
  	struct drm_property *prop;
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index d8f5b7e9673e..20aed1ae2985 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -30,6 +30,7 @@
- #include <linux/llist.h>
  
- #include <drm/drm_modeset_lock.h>
-+#include <drm/drm_plane.h>
+ 	WARN_ON((supported_rotations & DRM_MODE_ROTATE_MASK) == 0);
+@@ -309,7 +326,7 @@ int drm_plane_create_rotation_property(struct drm_plane *plane,
+ 	WARN_ON(rotation & ~supported_rotations);
  
- struct drm_file;
- struct drm_device;
-@@ -1011,4 +1012,6 @@ int drm_mode_config_create_initial_state(struct drm_device *dev);
- void drm_mode_config_reset(struct drm_device *dev);
- void drm_mode_config_cleanup(struct drm_device *dev);
+ 	prop = drm_property_create_bitmask(plane->dev, 0, "rotation",
+-					   props, ARRAY_SIZE(props),
++					   rotation_props, ARRAY_SIZE(rotation_props),
+ 					   supported_rotations);
+ 	if (!prop)
+ 		return -ENOMEM;
+diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+index bebbb77a8f21..33329170aafe 100644
+--- a/include/drm/drm_blend.h
++++ b/include/drm/drm_blend.h
+@@ -43,6 +43,23 @@ static inline bool drm_rotation_90_or_270(unsigned int rotation)
  
-+const char *drm_get_plane_type_name(enum drm_plane_type type);
+ #define DRM_BLEND_ALPHA_OPAQUE		0xffff
+ 
++const char *drm_get_rotation_name(unsigned int rotation);
 +
- #endif
++#define DRM_ROTATION_FMT "%s%s%s%s%s%s%s%s%s%s%s%s"
++#define DRM_ROTATION_FMT_ARGS(rot) \
++	(rot) & DRM_MODE_ROTATE_0  ? drm_get_rotation_name(0) : "", \
++	(rot) & DRM_MODE_ROTATE_0  ? " " : "", \
++	(rot) & DRM_MODE_ROTATE_90 ? drm_get_rotation_name(1) : "", \
++	(rot) & DRM_MODE_ROTATE_90 ? " " : "", \
++	(rot) & DRM_MODE_ROTATE_180 ? drm_get_rotation_name(2) : "", \
++	(rot) & DRM_MODE_ROTATE_180 ? " " : "", \
++	(rot) & DRM_MODE_ROTATE_270 ? drm_get_rotation_name(3) : "", \
++	(rot) & DRM_MODE_ROTATE_270 ? " " : "", \
++	(rot) & DRM_MODE_REFLECT_X ? drm_get_rotation_name(4) : "", \
++	(rot) & DRM_MODE_REFLECT_X ? " " : "", \
++	(rot) & DRM_MODE_REFLECT_Y ? drm_get_rotation_name(5) : "", \
++	(rot) & DRM_MODE_REFLECT_Y ? " " : ""
++
+ int drm_plane_create_alpha_property(struct drm_plane *plane);
+ int drm_plane_create_rotation_property(struct drm_plane *plane,
+ 				       unsigned int rotation,
 
 -- 
 2.54.0
