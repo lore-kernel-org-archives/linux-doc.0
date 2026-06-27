@@ -1,108 +1,83 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF04277818
-	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 05:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7893B25B0A2;
+	Sat, 27 Jun 2026 07:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782538481; cv=none; b=cKuxU1+rpWSaEdYA3fMk4lGFibAAtuGIVsIeQo97HTgt1MPaZiUiW5GjXJP9rdpBCgakrVfqLHDa9xxknrEfY2unFTWF8CJ9AFZOuZ96fycAMvrnoj+hb2qU9QlIbhVMUIm+0zFoZdxWT9zqlMmt84t2tOVvURrn0zz+6AocHsk=
+	t=1782546774; cv=none; b=Op4GGnz8fBRoDX9v4ggVr9qaimFGYg3M8FHpVXJ+8JMSgHnmeC0TzjWv97sOMKYMxPeN2W5XCMbz9mqozCislB/XdI6nhy7PJxDoIDBwtZ4AM19DW0BzkOyrWL4pQZPoKwrkxWg6CeOLa1AyRuk0TTS8b5BBjEnoZRJ0DEiDzSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782538481; c=relaxed/simple;
-	bh=Lc67fDfzAHgdQDca2Bkf0o6FdhNVsNDsGMzoxLvTEe4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FZDa0EAjjzOKJ0ewENJV4ikayEQtJinAWbh0v5Cyi1JzeXVgx2kPcROxKp+4x5/pYviH6+KaHeiiVcExApsAiqxi1YJECSu4KPN+hl+ZZBhRQa7JLf4y/tSLWfgmzKmGmDuWVMTeSUBES0wppqd/u/NZNQwMaeVGMum1ynllWNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HG8ufkzV; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782546774; c=relaxed/simple;
+	bh=RVlQtCvZvvv1cGr13Nszm1cfhyX21UVNw/O9V+ZI294=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oG7gdmUTFhYeIq+xeBwNViSznbgsMbxwIOlYgwMfyk32H7sDH2oIwwT/4aToNsd2b7/BZpZbRwHfVnBvPJBUFVw7uYbX1eYVWvCMBBTk0oP1W2YXzpNC4x1BjH+DBpiOf/a9nXT9tAz6XWjPyzJdTyUG0Dj7ieBrMgEXmQij+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoVc6vc8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HG8ufkzV"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id F2A02C5CD77;
-	Sat, 27 Jun 2026 05:34:46 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C8F9B60233;
-	Sat, 27 Jun 2026 05:34:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF7FD106F1187;
-	Sat, 27 Jun 2026 07:34:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782538476; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=CRj4z96LHvGMoyZtYopxhImpYIXmGbPsbFs8FpUj9KE=;
-	b=HG8ufkzVveQlXEJk1/YLHqNoEkFgh5wNcxTHiRNBcqixF3XtWsbtL9oVbYBviAY0HBrNbs
-	O7NQraPS7k2mHsirVrIyQnB21SfAyljVeQW58R5Jp5T7HCbRzQlW8BR9LWPEjAfxduwDGs
-	nl5qBHklK803FIkdjC9dxI4pse+SHWtUUDWHr+UJZ+fRpwlA2X5EKV7xR1YoUmqmaMScYA
-	ebsqQgJS7xalujwtJornv6fz5kg9XhXLXcx2i5CHmUiylcHr0pVnavG4Weo4R1Oxx0KX9O
-	KnT/Ff+MEtXr/DbkRdt6aTIApT8wX40LPlBhMAcJceky1WG3h/SFrAfp2aqx9Q==
-Message-ID: <12b66ea3-42df-4ecb-8eb7-44471407b83f@bootlin.com>
-Date: Sat, 27 Jun 2026 07:34:31 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoVc6vc8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 460311F000E9;
+	Sat, 27 Jun 2026 07:52:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782546773;
+	bh=S0znFcK8j0MuvFWz2pu1AoWSdjFNtXQNpSRnuMwlEzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eoVc6vc8yM9DIkM5Wo0O2t6uxw0sx2GB1/c2P9l0zVF+KOXagAc6gIrZVyliop+Qd
+	 7nfZY0dAkzYyVw8jAvnHGx5geA4y/4CXYLq06OXBuKn3reSfTXhObbuHe9gQ5ZaFuT
+	 lnyo5uaI8nyu5VAEtD/9IkEBv0GcC2DfWs3wxxr/6FtTbubs4oHPPXIVELVf4K+7VY
+	 WgmFy2isk/o9L4WzXu/02pEIqSp8VuH6m8O3I3FqFMTgIE1ochTNLkzHylHG1NO/Nm
+	 hlANvs76XOjLm23eV7mDwVjSLPNJUEtln/VbUrO/GiOuNH50gJRqnGhSm+ufJ+CDu7
+	 A0lMLVpLMK2aA==
+Date: Sat, 27 Jun 2026 10:52:42 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>, lance.yang@linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v10 6/6] selftests/mm: add hwpoison-panic destructive test
+Message-ID: <aj-BShkN6BXex_ku@kernel.org>
+References: <20260626-ecc_panic-v10-0-6dacb8ad024d@debian.org>
+ <20260626-ecc_panic-v10-6-6dacb8ad024d@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
-Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
- <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
- <65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
- <5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
- <20260626173352.7dc8f106@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260626173352.7dc8f106@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260626-ecc_panic-v10-6-6dacb8ad024d@debian.org>
 
-Hi Jakub,
+Hi Breno,
 
-On 6/27/26 02:33, Jakub Kicinski wrote:
-> On Fri, 26 Jun 2026 14:39:57 +0200 Andrew Lunn wrote:
->> On Fri, Jun 26, 2026 at 10:33:50AM +0200, Maxime Chevallier wrote:
->>>   
->>>> Sphinx follows pythons object orientate structure. So you could have a
->>>> class test_ethtool_pause_advertising, with class documentation. And
->>>> then methods within the class which are individual tests.  The
->>>> commented out section would then be method documentation.  
->>>
->>> Good point, so maybe something along these lines :
->>>
->>>  - A class for the test
->>>  - methods for indivitual tests
->>>  - For readability, I've written what the internal test helper would look
->>>    like (_adv_test), and how a test would look like without the helper in
->>>    adv_rx_on_tx_on().
->>>
->>> I'm already diving into coding, but it helps me a bit in the definition of the
->>> "description" format :)
->>>
->>> this is what the class would look like :  
->>
->> I like this :-)
-> 
-> This is very far from what existing python tests do in netdev.
+On Fri, Jun 26, 2026 at 08:33:20AM -0700, Breno Leitao wrote:
+> Add a destructive selftest that verifies
+> vm.panic_on_unrecoverable_memory_failure actually panics when a
+> hwpoison error hits a kernel-owned page.
 
-We can probably drop the class, as it is with this discussion, it's merely a way
-to regroup doc common to similar tests. The rest really is the usual set of
-ksft funcs you can feed to the run function, with a set of ksft_ethtool_*
-annotators for generic checks.
+> +ksft_skip=4
 
-> 
-> I would prefer to stick to the "bash on steroids" use of Python.
-Maxime
+...
+
+> +ksft_print() { echo "# $*"; }
+> +ksft_exit_skip() { ksft_print "$*"; exit "$ksft_skip"; }
+> +ksft_exit_fail() { echo "not ok 1 $*"; exit 1; }
+
+There is tools/testing/selftests/kselftest/ktap_helpers.sh that already
+implements this :)
+
+-- 
+Sincerely yours,
+Mike.
