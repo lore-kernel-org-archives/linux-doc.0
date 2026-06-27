@@ -1,41 +1,42 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CABF23EAB2
-	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 03:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1DA1A6813;
+	Sat, 27 Jun 2026 03:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782531071; cv=none; b=YnbahJLckCeNOz+EcegsW4OqXh4qQME1CkXFZCDwvcqK/sEXJE40AD1dHCP7IrqyG9AYhQAe7ExuF0DN6f2gO4pMyi1ihD0mjWmoKxhEGHE5l0jEbopQCYAhqzwPp9eivgVy7aag7bTl8d3zTjOwyTBnBnatFwncUypCoAahvcM=
+	t=1782531073; cv=none; b=SuDU61nqsgy428fzr+YWam2/VAvIYsj05MJWsJrnCdvQ5Wf67nx/QADhFdl6oKVWM+8Q9FS+O+IvXFW65jevGLC+oZI/uhSFObZhfWTcl8tKYKNXUSKzISt8JuXsavt2bJgMxXicCuGNSG2NFngmRpsWU2j1+AFW/Xo7N3J4kyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782531071; c=relaxed/simple;
-	bh=CoH2QFykQYAmJn0tr7ysysk8Njb0yaSHRh3FWL0Wc/k=;
+	s=arc-20240116; t=1782531073; c=relaxed/simple;
+	bh=M4IKg4jtN2coKi4h2W5OHuSx8L+kOjlkuI6yHVh2tSk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZDHES95gXhNzxBA7U6IwQrMsFCebaWFm2XkeknrJ+DRH8Hwr4yUwQuXqdvu03fx8oWQI16GxffwSu38QLfBFJ+O03L4PXh/xsNPTUCaltnkSlqJCfzkahXw7WcUPrf5lLaHwjmYp9zt0WdAUtE5+R8eVBhaQFebs4Rp7xz3qREQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Q4yWbgPA; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=aysJXlKqZOE/1Ag/v+7k6rf27/gGYXHN0vjukxEELNoNT+zvAd+ydHpqtbJoliBJDHI1XFXhLGLGbqw7AhZWtQrbIQW+A0q9jFh78cQGmpMMHbBIUlNvJ5Gb/WqQTy71z82Ox/4hi2IrL9qawip0SZ25Sb903tfsDB2RLoiv+lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yTmyt0dj; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q4yWbgPA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yTmyt0dj"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C0AB14E409D9;
-	Sat, 27 Jun 2026 03:31:02 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8EE7A1A0A10;
+	Sat, 27 Jun 2026 03:31:07 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8CF5960233;
-	Sat, 27 Jun 2026 03:31:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 40EAD106F116E;
-	Sat, 27 Jun 2026 05:30:59 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 61EFC60233;
+	Sat, 27 Jun 2026 03:31:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C6B8C106F1170;
+	Sat, 27 Jun 2026 05:31:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782531061; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1782531065; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=EK9ch49e9tGiCBU1t83Zf9bvOJuUEdiFckjtuI4mqag=;
-	b=Q4yWbgPAGLMnCzJpFK0tDfBIOYk0cLcsBKhUo/oIK3HzpUVL1sB/O8ks8kLaKR0h/N+m++
-	Bxf+DDU6x4W7xI0uW4WaWHsy7xfYd4GfiYBGL/JAezuw/a6ZEIBfj8/DkSu5WlvPxxuns4
-	Y3gBTk8WyxuHJW5ZEd99LEmg2uLe5vP/RBlbO8yk+1xh6Ly3/9UGIgu0G3wblxfGdlWRZo
-	SuxFDbs5qNzwPIz5VHQwDdtCuGdvK7MQdtXq63igCSZAdDCWkrC2dinh9744tdETGIUMsi
-	4fLwSOJv2ZYVTLxiUA5wVVXIiGiBSHku+BbxXg7ArZBDWKJQKWGxz43dwED/jA==
+	bh=OZ8EM81DGMlJ9qEgvUE9Mt5KnFr4O4RtbirwspUTjRM=;
+	b=yTmyt0djrIvDz5sia3dlyFo9K+o8tbbwin4Dc8R2c/IlQnUv5irrsKvGzTdiwXbAJ34wKH
+	GM2McjpWG/y/nzI0XxZksRrgNBIO1CD4kQMRtHq2udX8Av0xJORWwQos+3c18aGqDNlzdW
+	HDqZ0gGG40q5PRgEW/7arD3C9gDALolyWcq46HDyEB4DSbLVg8NV6aknl4Uu6uR1C5M9Xr
+	AX3n3FIvM3+GKk1952j07Y3VlB0PLg2edZGqu5Jd0IYTi310d50O11t0biaUlGk7Io+6cf
+	VPs8Daj3QLuno5jxybirPd7cICEKkoV/OyN4SGXGobQHCb+xZpZrzMEsZ5YWXQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 27 Jun 2026 05:30:22 +0200
-Subject: [PATCH v5 05/38] drm/connector: Export drm_get_colorspace_name
+Date: Sat, 27 Jun 2026 05:30:24 +0200
+Subject: [PATCH v5 07/38] Documentation: ABI: vkms: Add current VKMS ABI
+ documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260627-vkms-all-config-v5-5-854aa0840926@bootlin.com>
+Message-Id: <20260627-vkms-all-config-v5-7-854aa0840926@bootlin.com>
 References: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
 In-Reply-To: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -63,45 +64,157 @@ Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>, llvm@lists.linux.dev
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=723;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4411;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=CoH2QFykQYAmJn0tr7ysysk8Njb0yaSHRh3FWL0Wc/k=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBqP0PdhwzlzL/Edd1r96Nr5w9zaxAzln5zPoDwf
- On2i3QwUm6JAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaj9D3RsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOIM0RAAic/X/hPHJu99c0F7dRUsONIkhqIWc6j
- gCd/u/m+IVdnmHHxp0HPv91a7UQAg+xGL7cNzwxJ3PaeT3rHmyFURtQuxl7Mww/NJPm8sex07+K
- 7efG0FAzTXN6mi231K7ZSp9kVGs19y7CpU7CJp6kFI65rjCU+vjeYPcBVGagw0fB4IEyIEuuVYX
- 4HyB58r5ZxqU9eWJ7eBECLfdUVBq/VzmA4G+kjm4zUUwecpHUfqfmcLdVSky1KWI1abpbY2CZOR
- pcn+0XBt4n592wJoqz7GwkSDq3byWHobjQqmU9+1yhIg9Nm8zigGL5DKaU0zbrkmdvPiQtQbvY+
- 7WX2WXBsrX3Dv1l013qYN/RznTG6+MCDfihQAi6dMg0NZCW8lWbX9/pD6WSCwqk0e7ykDwMAutR
- t6ycREAOkPoQriaalZtAlt7+ObA/XC0J1epbtOEBY4vQ/7j7+p98SSWJDiEnB7o/QpBs15HeoYU
- XC/yvKMZZd3URzB8RJwBEFRcwJwIaAvX1UXGD+d1pWqnXH9H3XDY2y/xirOI5Lvol1kHNy5avXp
- sQn+KUMxEHPjh2aKHe5BvP025mvGppijIOPtfiriNRZiKK5OdJdcvyy7rd3rVa27yMYcTFvBXQK
- 3DsBSbYs9xMFjeOSlS4NrqQNqjUXpKAzllWIW2AqEpYvf44EePBI=
+ bh=M4IKg4jtN2coKi4h2W5OHuSx8L+kOjlkuI6yHVh2tSk=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBqP0Pd17dPdykH+J1Rl+Mvy3D02QP1ls2Fn3X5O
+ BB88oAgLUWJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaj9D3RsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLgpxAA1RNVJv+/B95y7Ja7uG6EkQvSfoqGq+l
+ OAI6TQXR1iIfG7eeDfeqpdDWWEXBNfU/L/C7GfIN8Y3Ibr7hrSdvn64cfwctxdnje2nZhUxSu8e
+ ACpBsIm1vj+XzT4rl1gWRGgLilo1xCHedZLgX+24tOxbWaYt0pZht4tIX6fMvMAeEFVPw6qt2cG
+ hrqmtLuQtLxLPlEOi5M3MUKh/y1KqECP1eppSeKAfzWrqvrljHC+RDnpT9+pVh6thVp0ANDq9cf
+ W+sMiJYdBmGwBrOAJ7NagBU9ePlPerphlwJ2mExMELXj0tz+yOoEa4rJcODSRw17lwS4jYczqgG
+ RrZuaEG/8e0nusUiZj1LqtKGQ8cZWZ78dM2vwbEGKKcoK1lIifcO9/HzSZIuH9RR3k4fa5j+e4x
+ STXSwrFDYWbZX5zgvbw+s+sUgcFHkBQP9LwQQ3RU5CbPVGVUoenJm6d8ucR+HQCIA9orszGEE9f
+ DKDByc4QnDEdPOZdZHXzY5nttS55MYyI/z6M6yq5w4+Pyp2BzJBXaMmIUlqtZBWKvhZLhxBYzBb
+ E+xPzZMQzFFJpWNgGiJhOQMuRIwsoabohSsHxNc1nnLBQ4OAHylJpEkIxbzv01fzn9xbm+tio04
+ xabB6LmUE/Gc7flSfjkuhuTZ0XtHVcrlCmw/KgPaIFkQNweAib1A=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Export drm_get_colorspace_name so it could be used by VKMS
+VKMS recently introduced a ConfigFS API to configure new devices.
+Add proper ABI documentation.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/drm_connector.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/ABI/testing/configfs-vkms | 118 ++++++++++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index cbb067d02cb9..4b2c7c09ba69 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1386,6 +1386,7 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
- 	else
- 		return "(null)";
- }
-+EXPORT_SYMBOL(drm_get_colorspace_name);
- 
- static const u32 hdmi_colorspaces =
- 	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
+diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
+new file mode 100644
+index 000000000000..a1a3e186e50a
+--- /dev/null
++++ b/Documentation/ABI/testing/configfs-vkms
+@@ -0,0 +1,118 @@
++What:		/sys/kernel/config/vkms/
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++        This group contains sub-groups corresponding to created
++	VKMS devices.
++
++What:		/sys/kernel/config/vkms/<device>
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains sub-groups corresponding to the VKMS
++	device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/connectors
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains sub-groups corresponding to the
++	connectors of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/connectors/<connector>
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains attributes corresponding to the
++	connector <connector> of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/status
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	Connection status of the connector. Possible values:
++	1 - connected, 2 - disconnected, 3 - unknown.
++
++What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/possible_encoders
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains symbolic links to possible encoders
++	for this connector.
++
++What:		/sys/kernel/config/vkms/<device>/crtcs
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains sub-groups corresponding to the
++	CRTCs of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/crtcs/<crtc>
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains attributes corresponding to the
++	CRTC <crtc> of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/crtcs/<crtc>/writeback
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	Enable or disable writeback connector support for this
++	CRTC. Value: 1 - enabled, 0 - disabled.
++
++What:		/sys/kernel/config/vkms/<device>/encoders
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains sub-groups corresponding to the
++	encoders of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/encoders/<encoder>
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains attributes corresponding to the
++	encoder <encoder> of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/encoders/<encoder>/possible_crtcs
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains symbolic links to possible CRTCs
++	for this encoder.
++
++What:		/sys/kernel/config/vkms/<device>/planes
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains sub-groups corresponding to the
++	planes of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/planes/<plane>
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains attributes corresponding to the
++	plane <plane> of the VKMS device <device>.
++
++What:		/sys/kernel/config/vkms/<device>/planes/<plane>/type
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	Plane type. Possible values: 0 - overlay, 1 - primary,
++	2 - cursor.
++
++What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	This group contains symbolic links to possible CRTCs
++	for this plane.
++
++What:		/sys/kernel/config/vkms/<device>/enabled
++Date:		Nov 2025
++Contact:	dri-devel@lists.freedesktop.org
++Description:
++	Enable or disable the VKMS device. Value: 1 - enabled,
++	0 - disabled.
 
 -- 
 2.54.0
