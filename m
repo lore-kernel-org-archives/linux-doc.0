@@ -1,85 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBFD2F0661;
-	Sat, 27 Jun 2026 16:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8662C224D6;
+	Sat, 27 Jun 2026 18:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782577816; cv=none; b=e2xJMKzW8KY1OoAFTM8kmXEPfGWL7eiMV/kkhZULWRiJ8D0eA4ZO2uS9D/ou2aVEIv/AOGG1IQSDBkYJ2t6AAeYNYPJMUe1wpmto/+fryQuEB1KhODNKyuo+MDTvfuyKUxSdGF7ZbIcBjccXSKm5RDe4nPKmdGHyV9Sb5vUZe4E=
+	t=1782583465; cv=none; b=LJvAYV7UrdW40r3VbCcyd7f/7Z8EewuN6RMQrD39d+Ajh/6CCsVHRW9v5ljeGiqo6FYHJE1UnpG1UJDcUrFLT0EKCYEZbYjN2NhhzH7Fxw2gbyne4fGOHri/qpsMLq7nwbOwWMSzsQhaTueY72hQ7SZbXEUD7kXbf8dmreatWvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782577816; c=relaxed/simple;
-	bh=T9Xh9+d6qi4HBB5tejaQShSI6NeXDd5Yqy8wC7NGHnQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WM1xCIegbE6ifsVPxzzUVR5CW14v9YjJ1zkLIpBu07QzUaCr1q0R+/htsuRxGNRqVoPQzoeIl7Sv+TuLAIygOz1FrFQhP4ASBcHjd06ULJs8U9cBrWQajCx1Sl0/rAkmW1sJm27OZwOeUpQmfyu4XDNGjVCf5Wf6jU2WQ4x6UWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=b++FewPX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1782583465; c=relaxed/simple;
+	bh=JF3ezJGmIUbCzbTZZh1iMwNS0gncg1+qjiT39DgGUWQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=GXhbUdR+C8lLRApFd/56c3iiqasx2OB2Md/vwsy0nOKZyibDW1aDUnjlNYx2WhHglyyr4hehbHJaAugSLY9Mkew2uPcgWcL6LCq2rh6H1QpuwnXdGYRC61vPLwmQ44kZb9hu0Zz5kv/uGQTvy6tTv/MIwzNmCJUPLehKO606we4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iU93BIW1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="b++FewPX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03EF140E52
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1782577485; bh=8UtNI14qUP/qApC73hXztpsStGcuLHgTk0AYTTh/tx4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=b++FewPXQIhsJV90Djx9KlncZ8xI1edHIysIqAzSyW9XbbTi78I0SeScyMtERgQzC
-	 0Hxsmy2e10cDREvhDWKjW04e+v6psqpwzASlKw6Y39hPbD7SVv1vN5WGCixaqVp2+V
-	 Piwwa31zeLWDuVer8QWXcI0gJLHwfsWlNQYZhr9JdV+p5jUJHtsixmxjgIf/Tn2JnQ
-	 aPTqHtt6FEUJXdkn8VDrA1Hdmietx48mu+hb44oUyUaVqNcnwLm6nG31UUtWqh8zOX
-	 XIXRVBQEgBq5iADzEPIU1+8x03uKV47L8on2FXdbW5n46AA/0MXUHK5GKMC3X1wbNJ
-	 2wRof3bjCWdgg==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 03EF140E52;
-	Sat, 27 Jun 2026 16:24:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Alasdair Kergon
- <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
- <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "open
- list:DEVICE-MAPPER  (LVM)" <dm-devel@lists.linux.dev>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH] Documentation: device-mapper: adopt new coding style of
- type-aware kmalloc-family
-In-Reply-To: <20260627091506.29534-2-manuelebner@mailbox.org>
-References: <20260627091506.29534-2-manuelebner@mailbox.org>
-Date: Sat, 27 Jun 2026 10:24:44 -0600
-Message-ID: <877bnkymr7.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iU93BIW1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=iI1HGH2OmlTH74rtlWGKjmoWeUyzUswLrDENDldi/+w=; b=iU93BIW1wUaGojfy98WAMgrWVg
+	efY/zGXBHPdV9ItNwLjN/U4hACFI8ldqkmK2fZgYoXSuwqH2/qGClObNYHjBt2x1yqAqLP8+hR4sJ
+	Okiw3Zom8Wleq1vyeGZ6yKmNO7ASFChAfS36E86+5hU1LQ4XpckOZH5wjeO71rNjs5dSkwnIwDvp8
+	p/XVyY8MEeF9Tig5lpu7q0SucV1ytrEp3wjp2hGchs5uD0hJcCGcSFLWAsCtANwmT7QBHdWipAljj
+	b4y+drY+3hehML8FmvMvkiBosb8SeUkclUi6zDF0K54lztCJEDc1VE+8pTOBnJk5yY9lV33AbU3cj
+	sLX/F7cw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wdXO5-0000000Ch3b-2Uhj;
+	Sat, 27 Jun 2026 18:04:17 +0000
+Message-ID: <525c1a77-c727-4c61-9372-bb7595f27290@infradead.org>
+Date: Sat, 27 Jun 2026 11:04:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: infiniband: fix bracket
+To: Manuel Ebner <manuelebner@mailbox.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "open list:INFINIBAND SUBSYSTEM" <linux-rdma@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260627093107.31068-2-manuelebner@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260627093107.31068-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
 
-> Change the Documentation to reflect this commit 69050f8d6d07 ("treewide: Replace
-> kmalloc with kmalloc_obj for non-scalar types")
-> kmalloc -> kmalloc_objs
->
+
+On 6/27/26 2:31 AM, Manuel Ebner wrote:
+> Remove needless ')'.
+> 
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
 > ---
->  Documentation/admin-guide/device-mapper/statistics.rst | 2 +-
+>  Documentation/infiniband/user_mad.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/device-mapper/statistics.rst b/Documentation/admin-guide/device-mapper/statistics.rst
-> index 41ded0bc5933..2190b90118f8 100644
-> --- a/Documentation/admin-guide/device-mapper/statistics.rst
-> +++ b/Documentation/admin-guide/device-mapper/statistics.rst
-> @@ -30,7 +30,7 @@ region, etc.  Unique region_ids enable multiple userspace programs to
->  request and process statistics for the same DM device without stepping
->  on each other's data.
->  
-> -The creation of DM statistics will allocate memory via kmalloc or
-> +The creation of DM statistics will allocate memory via kmalloc_objs or
+> 
+> diff --git a/Documentation/infiniband/user_mad.rst b/Documentation/infiniband/user_mad.rst
+> index d88abfc0e370..cd66e7623d66 100644
+> --- a/Documentation/infiniband/user_mad.rst
+> +++ b/Documentation/infiniband/user_mad.rst
+> @@ -62,7 +62,7 @@ Receiving MADs
+>  	struct ib_user_mad *mad;
+>  	mad = malloc(sizeof *mad + 256);
+>  	ret = read(fd, mad, sizeof *mad + 256);
+> -	if (ret == -ENOSPC)) {
+> +	if (ret == -ENOSPC) {
+>  		length = mad.length;
+>  		free(mad);
+>  		mad = malloc(sizeof *mad + length);
 
-A nit, but if you're going to fix the function name, why not make it
-kmalloc_objs() so that the automarkup code can do its magic?
-
-Thanks,
-
-jon
+-- 
+~Randy
