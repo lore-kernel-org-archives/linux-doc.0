@@ -1,42 +1,70 @@
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC7A319617;
-	Sat, 27 Jun 2026 08:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1643B81ACD;
+	Sat, 27 Jun 2026 09:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782548985; cv=none; b=T3kByLnoxLgKBGMkzirbv37e+DaxPVfMRm8sC4e4+GBga01IlaLajaHMSAIZgr63YhX9mybQOvfspT0TDNU5m/kJWg/Y41rZR1g+gV0TPSwIB47y8wM4aU4z2/ujTZbwYPym6kufBWURSKCupy3CH9H7E2GUa6kPK99vAgABZdo=
+	t=1782551338; cv=none; b=e6E61cX8ZFPFVfcB4pR72TP2bWhNDIIsrHdaGY9ZJNgPffVjuzxy5tUOlvZNgxasfWTt1/cfmrIdy605ATdyRppV77MwPIKDo6SbMPVJIrLPQj4umjggFGBy6BGOYyTTa/vGtuHnTaKOfJJX9xbnD3A/AGrPrUGi8UGYMPISuds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782548985; c=relaxed/simple;
-	bh=JNgVhYn+yTtQINkYxKJl/hkk3DbKEukK6zkc2/BP5zo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QTqQGSuIvaVifXa8zbvXwA5hlAbj0gfL85aWV7hUAlq2q0euUyqDrWoETl2N9iZG+kSP3OAyeNvbSITJ7P/GbAR08CquTcqf5N/s8wUGPCXU0/lWkDChGU/Dyv8w9Do5pIKKwWoISJZiZk9daIoi8KGerQVLoRR1rkQj0Vc69E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id C26241D283A; Sat, 27 Jun 2026 16:29:35 +0800 (AWST)
-X-Spam-Level: 
-Received: from sparky.lan (unknown [IPv6:2001:8003:8810:ea00::9c4])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 2F4F81CD587;
-	Sat, 27 Jun 2026 16:29:31 +0800 (AWST)
-From: David Gow <david@davidgow.net>
-To: Brendan Higgins <brendan.higgins@linux.dev>,
-	Rae Moar <raemoar63@gmail.com>,
+	s=arc-20240116; t=1782551338; c=relaxed/simple;
+	bh=IAiTq5vQRKdRUcJS9OWfQSm8Xuq84AwPxoZsWsY5clk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QfWwpFMghzUW65giBPFPhhOuTCQaZt9/BrRuzXtH1MXlUBIlacXBVK3RpGA+VPnvNIAkukeUDfZgsJm2n6Osvnccpo1D31Lw4WoqiqNwOERin0MxsqyGuHOhxf5Xd6dR/SCsoQTW6edRQ4GPZsN++1bjGlu8B3/ziBgSER4eOYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LZfLlsau; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jWKvmbTb; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LZfLlsau";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jWKvmbTb"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gnRYC4g76z9tvB;
+	Sat, 27 Jun 2026 11:08:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782551327;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/y7B5JvdYRXwDHLgBnHY1/dWi4rAUck+xQmzYFmTSFI=;
+	b=LZfLlsauISaGcxnntIUN8iSooJpm5i0GyBEjXc3/eVaXjDxS09PriYhLBkKdJQeyBqaJYc
+	NpD5PMzitsNiGb5tCQTXs+64vRTSIBGkOO8B6mSEszYPBaos0vha7EDefMoCVllhyGacit
+	BIIxz2tNCgO/WFOMVnW49N8zPghVfwxAqWBnd7GoDIDXjumyA7mW9UgJuXbab3rsrCQOlm
+	RjTzktOphChMcCHkO+rfa1WKUBVMnbYUhry7hsC044dvenlobpvP4obNS6TL6S0HPL+o0M
+	rlB1c63hsCFSXkcHb7NiEgpl06ETYIBGDDi7NYyLIKGYYDbLjR7kyLqXdQyoVQ==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782551326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/y7B5JvdYRXwDHLgBnHY1/dWi4rAUck+xQmzYFmTSFI=;
+	b=jWKvmbTb9HAsKagyJc0Diw7XPpPgVzPXhnBbQzYlR1wragAK5tT/6bEXuTGkN5aJ67Jgqc
+	KEm9CFpv9PAPjiDWhAk2DDtL2dkrTfxWuagMbjP1qqjhlEWnfZHSKsC1bt0TbOtbfKBsQV
+	STO8JwiltdoOpbLbQdL3RZ7dkGag/U8j5HfI3Q4xc7YxvRLbDp/iJNjjnCwqeWoIvcjGPv
+	WngJsXrWAn2tsLd8fg/wxIJTSxi3fFvIlbXBrSK5e3TzDuCRmEmmLpvDILoPt3KRw/9dM4
+	XHfdWowvUh1W43bO2dORAZDI7ulUED1rAHNWKAwIskyyNwcT9CdI29QzBuDesQ==
+To: "Paul E . McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: David Gow <david@davidgow.net>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH 2/2] Documentation: kunit: Fix outdated FAQ entries
-Date: Sat, 27 Jun 2026 16:29:20 +0800
-Message-ID: <20260627082921.1709181-2-david@davidgow.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260627082921.1709181-1-david@davidgow.net>
-References: <20260627082921.1709181-1-david@davidgow.net>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	Kees Cook <kees@kernel.org>
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: RCU: adopt new coding style of type-aware kmalloc-family - part 2/2
+Date: Sat, 27 Jun 2026 11:06:06 +0200
+Message-ID: <20260627090605.28955-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,97 +72,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: toms16ezruedieimsoq8tumxnnaxn4th
+X-MBO-RS-ID: a345aeb498d2b7c5200
 
-The KUnit FAQ was written when KUnit in general, and kunit.py in
-particular, were very heavily focused on UML. While they were updated
-slightly when qemu support was added, they've not really kept pace with
-changes to KUnit or the structure of the rest of the documentation.
+Update Documentation/RCU/* to reflect new type-aware kmalloc-family
+as suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+and family")
 
-Update them to describe how to run kunit.py with non-UML architectures, and
-to point to the run_manual.rst page for further detail on how to run KUnit
-without kunit.py, as it's the authoratative documentation on that subject.
+p = kmalloc(...);
+ -> p = kmalloc_obj(...);
 
-Signed-off-by: David Gow <david@davidgow.net>
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- Documentation/dev-tools/kunit/faq.rst | 43 +++++++++++++++------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+A similar patch sent by me has been applied. Back then I wasn't familiar
+enough to convert all *alloc(*. That's why this is " - part 2/2".
+Part 1: f61bf5fdf77d ("Documentation: RCU: adopt new coding style of
+                       type-aware kmalloc-family")
+---
+ Documentation/RCU/rcu_dereference.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/dev-tools/kunit/faq.rst b/Documentation/dev-tools/kunit/faq.rst
-index fae426f2634a..b1341c1a62d9 100644
---- a/Documentation/dev-tools/kunit/faq.rst
-+++ b/Documentation/dev-tools/kunit/faq.rst
-@@ -25,19 +25,21 @@ disqualifying any of them from being considered unit testing frameworks.
- Does KUnit support running on architectures other than UML?
- ===========================================================
+diff --git a/Documentation/RCU/rcu_dereference.rst b/Documentation/RCU/rcu_dereference.rst
+index 2524dcdadde2..5bc3785ebfc2 100644
+--- a/Documentation/RCU/rcu_dereference.rst
++++ b/Documentation/RCU/rcu_dereference.rst
+@@ -236,7 +236,7 @@ precautions.  To see this, consider the following code fragment::
+ 	{
+ 		struct foo *p;
  
--Yes, mostly.
-+Yes. KUnit can run on any architecture, though the kunit.py tool can only
-+build and run kernels for some architectures (of which UML is the default).
+-		p = kmalloc(...);
++		p = kmalloc_obj(*p);
+ 		if (p == NULL)
+ 			deal_with_it();
+ 		p->a = 42;  /* Each field in its own cache line. */
+@@ -293,7 +293,7 @@ Then one approach is to use locking, for example, as follows::
+ 	{
+ 		struct foo *p;
  
--For the most part, the KUnit core framework (what we use to write the tests)
--can compile to any architecture. It compiles like just another part of the
--kernel and runs when the kernel boots, or when built as a module, when the
--module is loaded.  However, there is infrastructure, like the KUnit Wrapper
--(``tools/testing/kunit/kunit.py``) that might not support some architectures
--(see :ref:`kunit-on-qemu`).
-+You can build and run tests without kunit.py at all on any architecture by
-+enabling ``CONFIG_KUNIT=y`` and booting the kernel.
-+See Documentation/dev-tools/kunit/run_manual.rst for more details.
- 
--In short, yes, you can run KUnit on other architectures, but it might require
--more work than using KUnit on UML.
-+Alternatively, kunit.py supports many common architectures using
-+cross-compilers and the qemu emulator. This can be done using the ``--arch``
-+parameter when running the tests, and the ``--cross_compile`` parameter
-+when building (if the architecture is not supported by the host compiler).
-+See :ref:`kunit-on-qemu` for more details.
- 
--For more information, see :ref:`kunit-on-non-uml`.
-+When writing tests targeting other architectures, it's worth keeping the tips
-+on the :ref:`kunit-on-non-uml` page in mind.
- 
- .. _kinds-of-tests:
- 
-@@ -78,27 +80,30 @@ things to try.
-    down where an issue is occurring. (If you think the parser is at fault, you
-    can run it manually against ``stdin`` or a file with ``kunit.py parse``.)
- 3. Running the UML kernel directly can often reveal issues or error messages,
--   ``kunit_tool`` ignores. This should be as simple as running ``./vmlinux``
--   after building the UML kernel (for example, by using ``kunit.py build``).
-+   ``kunit_tool`` ignores. This should be as simple as runningi the ``vmlinux``
-+   binary in the output directory (by default ``./.kunit/vmlinux``) after
-+   building the UML kernel (for example, by using ``kunit.py build``).
-    Note that UML has some unusual requirements (such as the host having a tmpfs
-    filesystem mounted), and has had issues in the past when built statically and
-    the host has KASLR enabled. (On older host kernels, you may need to run
-    ``setarch `uname -m` -R ./vmlinux`` to disable KASLR.)
--4. Make sure the kernel .config has ``CONFIG_KUNIT=y`` and at least one test
-+4. Try running KUnit on a different architecture by using the ``--arch``
-+   option. On an x86_64 host, using ``--arch=x86_64`` is a good first step.
-+5. Make sure the kernel .config has ``CONFIG_KUNIT=y`` and at least one test
-    (e.g. ``CONFIG_KUNIT_EXAMPLE_TEST=y``). kunit_tool will keep its .config
-    around, so you can see what config was used after running ``kunit.py run``.
-    It also preserves any config changes you might make, so you can
-    enable/disable things with ``make ARCH=um menuconfig`` or similar, and then
-    re-run kunit_tool.
--5. Try to run ``make ARCH=um defconfig`` before running ``kunit.py run``. This
-+6. Try to run ``make ARCH=um defconfig`` before running ``kunit.py run``. This
-    may help clean up any residual config items which could be causing problems.
--6. Finally, try running KUnit outside UML. KUnit and KUnit tests can be
--   built into any kernel, or can be built as a module and loaded at runtime.
--   Doing so should allow you to determine if UML is causing the issue you're
--   seeing. When tests are built-in, they will execute when the kernel boots, and
-+7. Finally, try running KUnit manually, instead of via ``kunit.py``. KUnit can
-+   be built into any kernel, or can be built as a module and loaded at runtime.
-+   When tests are built-in, they will execute when the kernel boots, and
-    modules will automatically execute associated tests when loaded. Test results
-    can be collected from ``/sys/kernel/debug/kunit/<test suite>/results``, and
--   can be parsed with ``kunit.py parse``. For more details, see :ref:`kunit-on-qemu`.
-+   can be parsed with ``kunit.py parse``. For more details, see
-+   Documentation/dev-tools/kunit/run_manual.rst
- 
- If none of the above tricks help, you are always welcome to email any issues to
- kunit-dev@googlegroups.com.
+-		p = kmalloc(...);
++		p = kmalloc_obj(*p);
+ 		if (p == NULL)
+ 			deal_with_it();
+ 		spin_lock(&p->lock);
 -- 
 2.54.0
 
