@@ -1,88 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27A15E8B;
-	Sat, 27 Jun 2026 00:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5AD2AF00
+	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 03:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782520435; cv=none; b=prmUZQr2NLMzKm2+PBZfgmmirp7+uvsGvT8VzMIKaS6Jw+P3vMtb57d0LKWeZTFdQeOcAv8lBnNEUu9hJNYE1rZ1gnpcs9VZ9M7bLG08WFWMXJb4dnFKNGipZYh5dsoubp1+m243C59amDiEKMD9bHtthWTZhPBu02xJouhjdYI=
+	t=1782531055; cv=none; b=fkX+YoecpItm3vq4Q8DCo5h3XnwJ3/1FmETZKNPlwBPG8zr/eWsEo27JL4uYErspS0/Y+Mr3v8avqUQPAexh+uFCuIzVRuRPFS88858gAS3DhIQKAdG0XlzablrpgeQsa0MwUpRAgfzGefuvwJLhtszzIye1uxuT8YYDB2kw1Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782520435; c=relaxed/simple;
-	bh=+C/BEdF6lvGSbTa6keZusmPJ06xp4e8rKbeFlpUaU9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IVOjrcMcRmLnVpPMef+rcdkpiYadGek2cl25iI2jFnj1mvYukqRQhtZSonCg46GSPc3bOuEBcKrhJWlVsHO18TJmYECX1w4GfPGc0yX4cxf7RXaknJg7upBf3Olpcx17+qzU3zc79/8kMg9YD4OYA4v4qo+yK9x4UJBAhfppmw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtdcYGb1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782531055; c=relaxed/simple;
+	bh=SzIIelzgD8yRfpXj8312XPpa8sWfV5Gpyj2Qtjw6xB0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lVPlKYRJ2svdYjbRK0XKsCcJg8qMuZLggz6F6Jv+hAb9nDANL7LTVRTXx8pvAZnbvj61Zs4uk70t48zjXgwq5sDmUWO66NQ2QVbJX384HNOmybgLWLOpWdRqahqv0gawb1YkAbN9gZflgOqI7PbpGtTLiCXBERvqEseCM3CwWJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZP02I8Z3; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtdcYGb1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56F9E1F000E9;
-	Sat, 27 Jun 2026 00:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782520434;
-	bh=DqPytamxWo34FQ+A8Cpi5CAOtOEoeY+hYNvL/0BWVwo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=KtdcYGb1Dj9KVZGqVywnASuaOEud/170EaEWu2Kq935YE17hHhyh3IwddFB7GuBr8
-	 L5d/dpQ1bgMPJY94/NUC4G5zGbMPXJslDuYOaSabbTuCQxPQE0+RpJpTf09jLS9hC/
-	 BfXaOw3t9OJ7bVBT2V07ofb0lB1hAIklpCSrPh92P21SfxgFKPBJmNoisOpe6BKvll
-	 O+gzHmhFED/Ejccfrf5+JeJoPZu3pi6OzJxUSpC3Ugi2BhHNx528G8hyGXOSplPyM5
-	 GN3Z0tuiEznjH8cxcww0cTGqGxBNu73/jzx/m7Rb77AIwkX0ppW1YILR/E2UYPTu1C
-	 MzdTeQEe2MQCA==
-Date: Fri, 26 Jun 2026 17:33:52 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Heiner
- Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Florian Fainelli
- <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <20260626173352.7dc8f106@kernel.org>
-In-Reply-To: <5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
-	<20260526172447.10ca4b9e@kernel.org>
-	<5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
-	<38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
-	<58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
-	<65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
-	<5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZP02I8Z3"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 523FE4E409D9;
+	Sat, 27 Jun 2026 03:30:51 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0403260233;
+	Sat, 27 Jun 2026 03:30:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C5C5B106F1165;
+	Sat, 27 Jun 2026 05:30:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782531049; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=Ixf3Rgqs2n33S9RzFlI8yle31Fsg5QeXnIpnubx1BPY=;
+	b=ZP02I8Z3UauEoxThvX1HeQtUflM5KsyL7N0WWXGC0npfWS6HP5RIF5EU7nQYGR5GW5QdjM
+	Jiddwwl/9L4yYb0lhd1lOvj47He2ZeNL36aGbDnqD+/bAk0uK7IO/cVsSQsjX4LJEAqgL8
+	V7ZkebhqM/nvS8qFFVgnwkUR5KF66KxLuCJP7ePpm1DPDFbwVshyk+TmdKNJXWzDe5kDZm
+	/5vcpNWvurIs0tj/SNMdSNhYq5R2WNRm5pPcnMrrSp74E+lDC5AfvTIjkelKXyoCXyj/GV
+	baYh6pnzhukvc0Tt8libikC+h94BACuOajTjvouf170kEY+KKcpt0E0L0dBbeA==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v5 00/38] VKMS: Introduce multiple configFS attributes
+Date: Sat, 27 Jun 2026 05:30:17 +0200
+Message-Id: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMlDP2oC/23OzU4DIRQF4FeZsBaFO8xM6cr3MC74ubTE+amAp
+ KaZd5dObdTgjkNyvnsuJGLwGMm+uZCA2Ue/zCV0Dw0xRzUfkHpbMgEGHWd8oPltilSNIzXL7Py
+ BassMKMZ3onektE4BnT9v4svrLQd8/yhwun0SrSKW9jT5tG9smOjko3m6P+iM50SuzaOPaQmf2
+ 7TMt+r3il21InPKqBqGng1dZyXYZ70safTzYzm0aRl+CSBrAYqgEZiW2nHRYy20PwIA1EJ7FZQ
+ Aa1qnpXO1IO5Cz8R/giiC1boDlEoV5q+wrusXkLkonLABAAA=
+X-Change-ID: 20251017-vkms-all-config-bd0c2a01846f
+To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, victoria@system76.com, 
+ sebastian.wick@redhat.com, victoria@system76.com, airlied@gmail.com, 
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, llvm@lists.linux.dev, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8984;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=SzIIelzgD8yRfpXj8312XPpa8sWfV5Gpyj2Qtjw6xB0=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBqP0PcD/GdwpMbf3PE0mDOwmh0WTz6+TxxKgdvs
+ u7jgnnvrFOJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaj9D3BsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLS2w//S1xvhz0NNO54YKS+3IAz8g7gySJGdeX
+ nzM3prdTiOyLv+VsKvhtLRuDQyGp7FW5b3+auPmkW/BrtHQ8BsZi17T9k1f8gcRD2YCqHlZSReZ
+ TjSV0O9l3GVoz7KpNC+PgnTtE2kGV3CHWxY0XK9oYfw+UxGW5p7M2oOJ615/yp2gUMVctvfgjRu
+ frokVJDv6+ciItFhuuvpRI4LewHCPzSBQdj2mLVpjcGS59PjULmKa04vSO3hpWBp5Ih/70vjdMx
+ WVXYv55JfEXxxAvyNLzGoS0Bes8jHyew7tucABpKFoSjNbgoZ/UM5S7q5TUfXz6QNTPYvxmFJE6
+ 23bsbXgtlCZnD20xMOxx2+UJRcCf6A8YgwLTt+IcAlHTj4AscJOLUvWoINb9lF5fZPNI01B7Yy9
+ wSRA3e8qxPZ8LBGaWJ3p4+svaTc1wmJy/T0yuDbJvyIsMxqdhgv13u7m33DRd34hlytvbc3tMIn
+ PHIW6Svm2KH8mroe3XwLpiSsaBxfJeNiBUi5//j1RVE5NVx5omjI204UVBshJO1oK+1bVPyJvO/
+ 6uVt/ptZZ1PWlP34Z0KG3veR6MDDrm3UKx3an+21LGu8fWWyROs5ES3HeSjumoxYc4eocIqpuMC
+ WAufEFBP9rdx0bB4/T4ZCFnj++b6AdfM16w1/ol97pL7AG6OWewA=
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 26 Jun 2026 14:39:57 +0200 Andrew Lunn wrote:
-> On Fri, Jun 26, 2026 at 10:33:50AM +0200, Maxime Chevallier wrote:
-> >   
-> > > Sphinx follows pythons object orientate structure. So you could have a
-> > > class test_ethtool_pause_advertising, with class documentation. And
-> > > then methods within the class which are individual tests.  The
-> > > commented out section would then be method documentation.  
-> > 
-> > Good point, so maybe something along these lines :
-> > 
-> >  - A class for the test
-> >  - methods for indivitual tests
-> >  - For readability, I've written what the internal test helper would look
-> >    like (_adv_test), and how a test would look like without the helper in
-> >    adv_rx_on_tx_on().
-> > 
-> > I'm already diving into coding, but it helps me a bit in the definition of the
-> > "description" format :)
-> > 
-> > this is what the class would look like :  
-> 
-> I like this :-)
+VKMS have a wide range of options. The aim of this series is to introduce
+many configfs attribute so VKMS can be used to test a wide range of
+configurations.
 
-This is very far from what existing python tests do in netdev.
+PATCH 1-5 are to expose human readable strings from drm core
+PATCH 6 is a fix for rotation value
+PATCH 7 is ABI documentation
+PATCH 8 added some error checks in plane configuration
+PATCH 9 cleanup in plane_release
+PATCH 10-12 change the display in configfs to be more readable
+PATCH 13,14 plane name
+PATCH 15,16 plane rotation
+PATCH 17,18 plane color encoding
+PATCH 19,20 plane color range
+PATCH 21,22 plane format
+PATCH 23 properly use zpos
+PATCH 24,25 plane zpos
+PATCH 26,27 connector type
+PATCH 28 preparation in connector initialization
+PATCH 29,30 connector supported colorspace
+PATCH 31,32 connector EDID
+PATCH 33-35 dynamic connectors
+PATCH 36-37 PATH property
 
-I would prefer to stick to the "bash on steroids" use of Python.
+PS: Each pair of config/configfs patch are independant. I could
+technically create ≈10 different series, but there will be a lot of
+(trivial) conflicts between them. I will be happy to reordoer, split and
+partially apply this series to help the review process.
 
-Are you both familiar with the existing tests?
+PS2: I am currently cleaning the IGT test series to validate all that,
+it should come on Monday/Tuesday
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v5:
+- Fixed missing property creation for PATH
+- Use the folder name instead of a new attribute for plane
+- Rebased on drm-misc-next
+- Link to v4: https://patch.msgid.link/20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com
+
+Changes in v4:
+- Introduced a way to change the PATH property
+- Reordered drm-only patches to the front of the series.
+- Fixed a bug when dynamic connector are allocated/freed (drmm instead of
+  kzalloc)
+- Properly handle errors in vkms_connector_init
+- Only parse formats one by one (no more complex algorithm, you will have
+  to write multiple times for multiple formats)
+- Use sysfs_emit instead of sprintf
+- Fix rotate property default value
+- Link to v3: https://lore.kernel.org/r/20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com
+
+Changes in v3:
+- Added Documentation/ABI (Thomas Petazzoni)
+- PATCH 2: Clarify return value
+- PATCH 6,7: Avoid passing null to printf
+- PATCH 7: Restrict plane name to A-Za-z0-9
+- PATCH 12: Fix missing s
+- PATCH 13: Add macro to avoid repetition, fix missing s, make code
+  consistent, remove wrong comment, properly check bit values
+- PATCH 15: Fix missing s
+- PATCH 16: Fix missing s, make code consistent, remove wrong comments,
+  properly check value and fix default_color_range value
+- PATCH 17: Create function to reduce code complexity, fix missing s
+- PATCH 18: Fix parsing, rename data, reject strings > 4 chars
+- PATCH 20: Remove duplicated lines, fix test comments simplify conditions,
+  remove useless documentation, 
+- PATCH 21: {Min,Max}imal -> {Min,Max}imum, simplify commit log
+- PATCH 25: Fix wrong comment
+- PATCH 26: Rename type to colorspaces
+- PATCH 27: Improve comment, avoid useless iterations
+- PATCH 28: Fix typo in commit log
+- PATCH 29: Fix typo in commit log
+- PATCH 30: Remove useless include and move it to proper commit
+- PATCH 32: Clarify documentation
+- PATCH 33: Simplify code and use better variable names
+- PATCH *: Fix EINVAL/EBUSY
+- Link to v2: https://lore.kernel.org/r/20251029-vkms-all-config-v2-0-be20b9bf146e@bootlin.com
+
+Changes in v2:
+- PATCH 1: reorder includes (José)
+- PATCH 2: use name property instead of folder name (José)
+- PATCH 3: Fix default rotations (José)
+- PATCH 3,5,7,12: Add tests and extract validation for planes (José)
+- PATCH 3,5: Do not create color range/encoding properties if not set
+- PATCH 5,6,7,8: Set plural form for vkms_config_plane fields (José)
+- PATCH 4,6,8,13: Remove checking for default in supported (José)
+- PATCH 9: Add break in vkms_config_plane_add_format (José)
+- PATCH 12: fix zpos_enabled typo (José)
+- PATCH 13: fix documentation (José)
+- Add debug display (José)
+- PATCH 20: use drmm_kzalloc instead of kzalloc (José)
+- PATCH 22: simplify the code (José)
+- Link to v1: https://lore.kernel.org/r/20251018-vkms-all-config-v1-0-a7760755d92d@bootlin.com
+
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Haneen Mohammed <hamohammed.sa@gmail.com>
+To: Melissa Wen <melissa.srw@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+To: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+To: Bill Wendling <morbo@google.com>
+To: Justin Stitt <justinstitt@google.com>
+Cc: thomas.petazzoni@bootlin.com
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: llvm@lists.linux.dev
+
+---
+Louis Chauvet (38):
+      drm/drm_mode_config: Add helper to get plane type name
+      drm/blend: Get a rotation name from it's bitfield
+      drm/drm_color_mgmt: Expose drm_get_color_encoding_name
+      drm/drm_color_mgmt: Expose drm_get_color_range_name
+      drm/connector: Export drm_get_colorspace_name
+      drm/drm_atomic_state_helper: Properly load default value for rotation
+      Documentation: ABI: vkms: Add current VKMS ABI documentation
+      drm/vkms: Add error handling in plane config creation
+      drm/vkms: Simplify plane_release code
+      drm/vkms: Explicitly display plane type
+      drm/vkms: Use enabled/disabled instead of 1/0 for debug
+      drm/vkms: Explicitly display connector status
+      drm/vkms: Introduce config for plane name
+      drm/vkms: Use plane folder name as plane name
+      drm/vkms: Introduce config for plane rotation
+      drm/vkms: Use DRM_ROTATION_FMT macros for rotation display
+      drm/vkms: Introduce configfs for plane rotation
+      drm/vkms: Introduce config for plane color encoding
+      drm/vkms: Introduce configfs for plane color encoding
+      drm/vkms: Introduce config for plane color range
+      drm/vkms: Introduce configfs for plane color range
+      drm/vkms: Introduce config for plane format
+      drm/vkms: Introduce configfs for plane format
+      drm/vkms: Properly render plane using their zpos
+      drm/vkms: Introduce config for plane zpos property
+      drm/vkms: Introduce configfs for plane zpos property
+      drm/vkms: Introduce config for connector type
+      drm/vkms: Introduce configfs for connector type
+      drm/vkms: Rename vkms_connector_init to vkms_connector_init_static
+      drm/vkms: Introduce config for connector supported colorspace
+      drm/vkms: Introduce configfs for connector supported colorspace
+      drm/vkms: Introduce config for connector EDID
+      drm/vkms: Introduce configfs for connector EDID
+      drm/vkms: Store the enabled/disabled status for connector
+      drm/vkms: Allow to hot-add connectors
+      drm/vkms: Introduce configfs for dynamic connector creation
+      drm/vkms: Add connector parent configuration in vkms_config
+      drm/vkms: Add ConfigFS interface for connector parent and port_id
+
+ .clang-format                                   |    2 +
+ Documentation/ABI/testing/configfs-vkms         |  250 ++++
+ Documentation/gpu/vkms.rst                      |   44 +-
+ drivers/gpu/drm/drm_atomic_state_helper.c       |    6 +
+ drivers/gpu/drm/drm_blend.c                     |   35 +-
+ drivers/gpu/drm/drm_color_mgmt.c                |    4 +-
+ drivers/gpu/drm/drm_connector.c                 |    1 +
+ drivers/gpu/drm/drm_crtc_internal.h             |    6 -
+ drivers/gpu/drm/drm_mode_config.c               |   16 +
+ drivers/gpu/drm/vkms/tests/Makefile             |    3 +-
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c   |  513 ++++++++-
+ drivers/gpu/drm/vkms/tests/vkms_configfs_test.c |  102 ++
+ drivers/gpu/drm/vkms/vkms_config.c              |  421 ++++++-
+ drivers/gpu/drm/vkms/vkms_config.h              |  641 ++++++++++-
+ drivers/gpu/drm/vkms/vkms_configfs.c            | 1402 +++++++++++++++++++----
+ drivers/gpu/drm/vkms/vkms_configfs.h            |    4 +
+ drivers/gpu/drm/vkms/vkms_connector.c           |  268 ++++-
+ drivers/gpu/drm/vkms/vkms_connector.h           |   48 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c                |   10 +-
+ drivers/gpu/drm/vkms/vkms_output.c              |   15 +-
+ drivers/gpu/drm/vkms/vkms_plane.c               |   73 +-
+ include/drm/drm_blend.h                         |   17 +
+ include/drm/drm_color_mgmt.h                    |    3 +
+ include/drm/drm_mode_config.h                   |    3 +
+ 24 files changed, 3581 insertions(+), 306 deletions(-)
+---
+base-commit: 6648301c5bb2ef23f0fb15bcb01d21ff66f36799
+change-id: 20251017-vkms-all-config-bd0c2a01846f
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
