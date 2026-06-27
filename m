@@ -1,256 +1,108 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2404036606A;
-	Sat, 27 Jun 2026 03:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF04277818
+	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 05:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782531146; cv=none; b=buIbWZcEAaH23MelBRue+jJOVO1nEhRsEgH5F5oIQ2N0igQvQCMNBeNxah5SdirFyKWazxpw9wHBmAFuz9qmEz6uSzAJD0BgtipzTrm4K7KlyYKtQKsVACpIVLL5ubg+PSeqAuHg7KYY3UNJOH0Hps+zA4YgQ5mebeCtqGNsgRI=
+	t=1782538481; cv=none; b=cKuxU1+rpWSaEdYA3fMk4lGFibAAtuGIVsIeQo97HTgt1MPaZiUiW5GjXJP9rdpBCgakrVfqLHDa9xxknrEfY2unFTWF8CJ9AFZOuZ96fycAMvrnoj+hb2qU9QlIbhVMUIm+0zFoZdxWT9zqlMmt84t2tOVvURrn0zz+6AocHsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782531146; c=relaxed/simple;
-	bh=EiGhaRVcBrHhG3ZC1o5OwZvxjBRoDMYEi/Wnd/D43UQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kvFMMcDgjRUab1bihiplCPzJi3FNQ620cCBZVON5y+PVHPDDmIwpE/BZ8e8ClZssq6NhfrMPjLG1YgA4zKModd+YN+k6w8r/Manp9WTinnRd7iMDaYfa2EqZYYlDtjxfNNmD5/qMkOuSe+5vC3ASeihOZ2cXG61gQlR8/ekuLxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ohsZLMyt; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1782538481; c=relaxed/simple;
+	bh=Lc67fDfzAHgdQDca2Bkf0o6FdhNVsNDsGMzoxLvTEe4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FZDa0EAjjzOKJ0ewENJV4ikayEQtJinAWbh0v5Cyi1JzeXVgx2kPcROxKp+4x5/pYviH6+KaHeiiVcExApsAiqxi1YJECSu4KPN+hl+ZZBhRQa7JLf4y/tSLWfgmzKmGmDuWVMTeSUBES0wppqd/u/NZNQwMaeVGMum1ynllWNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HG8ufkzV; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ohsZLMyt"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HG8ufkzV"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E0489C58468;
-	Sat, 27 Jun 2026 03:32:31 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id F2A02C5CD77;
+	Sat, 27 Jun 2026 05:34:46 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D06DF60233;
-	Sat, 27 Jun 2026 03:32:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2E833106F1165;
-	Sat, 27 Jun 2026 05:32:19 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C8F9B60233;
+	Sat, 27 Jun 2026 05:34:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF7FD106F1187;
+	Sat, 27 Jun 2026 07:34:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782531141; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=DGT4effFpPmWOM+aXYqsouC87Bp3kHtwAGycmPjcxEs=;
-	b=ohsZLMytWMZBzsQe7gY3ZbjctlxoKgmRqmejFt1q9lEeX/IHv/cRb2/tIPWIbcGee+K3eq
-	pfIOBf+JygjhF9tDGZIj3BxJSCaUEbxaonntKMYK+E0kNI0FdyuIusGA7vAMpDYcKfpfLV
-	qnWfPHpxUE6/Z8iQp53fBxrNRA7oHS5+FsgoNiFy0Pqp5cEKK0s6s9RuNNrk4cKufFCyDb
-	8b+zyOJIZYmzHtn8MyQTi9Iv9Rkqv6zYNa6YWyP3fxyWSUDKNw+fPpSw2LnjdzOCdmeCXf
-	c/VpvpOtWxA5fMgCKoGR7O7GKMcLbCM4Hdu5uxMDzbWvKO6KaSqEWqsykbEIiw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 27 Jun 2026 05:30:55 +0200
-Subject: [PATCH v5 38/38] drm/vkms: Add ConfigFS interface for connector
- parent and port_id
+	t=1782538476; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=CRj4z96LHvGMoyZtYopxhImpYIXmGbPsbFs8FpUj9KE=;
+	b=HG8ufkzVveQlXEJk1/YLHqNoEkFgh5wNcxTHiRNBcqixF3XtWsbtL9oVbYBviAY0HBrNbs
+	O7NQraPS7k2mHsirVrIyQnB21SfAyljVeQW58R5Jp5T7HCbRzQlW8BR9LWPEjAfxduwDGs
+	nl5qBHklK803FIkdjC9dxI4pse+SHWtUUDWHr+UJZ+fRpwlA2X5EKV7xR1YoUmqmaMScYA
+	ebsqQgJS7xalujwtJornv6fz5kg9XhXLXcx2i5CHmUiylcHr0pVnavG4Weo4R1Oxx0KX9O
+	KnT/Ff+MEtXr/DbkRdt6aTIApT8wX40LPlBhMAcJceky1WG3h/SFrAfp2aqx9Q==
+Message-ID: <12b66ea3-42df-4ecb-8eb7-44471407b83f@bootlin.com>
+Date: Sat, 27 Jun 2026 07:34:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+To: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>
+Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+ <20260526172447.10ca4b9e@kernel.org>
+ <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+ <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
+ <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
+ <65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
+ <5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
+ <20260626173352.7dc8f106@kernel.org>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260626173352.7dc8f106@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260627-vkms-all-config-v5-38-854aa0840926@bootlin.com>
-References: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
-In-Reply-To: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>, victoria@system76.com, 
- sebastian.wick@redhat.com, victoria@system76.com, airlied@gmail.com, 
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Louis Chauvet <louis.chauvet@bootlin.com>, llvm@lists.linux.dev
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5595;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=EiGhaRVcBrHhG3ZC1o5OwZvxjBRoDMYEi/Wnd/D43UQ=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBqP0PiMoWff0aLZE1ohvIaGwcxn99Z0iBt1F03R
- rzY5b5+pceJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaj9D4hsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQIK0uxlsQLOLEoQ//Q5VaBWPpu8uf3hXu+ADvo62FtR/kJFG
- cLstNH97LeJ/qWyPfke7Sl9BAEDZU8Qn+/2l8KiKZIBzh/8TMOCM01wSAHBWfFi6tyr74gvvXi2
- Lu6TyNiwUoKyBd71EatZ03G2YhmB1PbJwipHLMTYm6XaWTjXJluzEonnOJbVQ+LEyX4a8c242tm
- tZ/Mv5cgU7dxIxO4U5LEOf8BAYiCNQ60efX6YZ5qM8cC0mlWBJKC2AcQ+z1IwvMNF/gmAkbYllu
- jF7P1pARpuUrzqvxXSXZ3SgFsJ3nfwLX1mYrIlF2MEDUAYblbH2QHY8VHHO9WkYfg8mTheuQhio
- JaeuA/Uq3/Xuwba0Vr3fY1uxaRoUOsHBrdtKJQvU5LXMNz7JT1i0eeYsHlnz6qFz4b9MJxR6w5e
- NqJOtr/Vl8LN+O+52jXP4t+CSsFfzv1XCjkqqV+Up5BipUAbZVXVym6Tl6X+F2Ab+YlIP0FYMCa
- WPgBbYWYqjJ4SZuuNTwBspbKE1zfKWgZAa6gx4+B91aC3/oWtYLOCvMgCFRXuLltjw0+rrGKm2L
- Be1sdNHi3Mf1JxY3PxwEHdngOMQzWXxPqbR7Bd8zqSbVB1U+Rf2Fc4llhhYvsC/2qbhnvxpbQ9L
- duEmfzCs6Fj67BOlQUJoSwI94qS0bSEK/pgSRwTi1zEYljson0lA=
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add the parent and port_id configuration for a connector.
+Hi Jakub,
 
-- port_id can contains any u8 value
-- parent can contain at most one symlink to an other connector.
+On 6/27/26 02:33, Jakub Kicinski wrote:
+> On Fri, 26 Jun 2026 14:39:57 +0200 Andrew Lunn wrote:
+>> On Fri, Jun 26, 2026 at 10:33:50AM +0200, Maxime Chevallier wrote:
+>>>   
+>>>> Sphinx follows pythons object orientate structure. So you could have a
+>>>> class test_ethtool_pause_advertising, with class documentation. And
+>>>> then methods within the class which are individual tests.  The
+>>>> commented out section would then be method documentation.  
+>>>
+>>> Good point, so maybe something along these lines :
+>>>
+>>>  - A class for the test
+>>>  - methods for indivitual tests
+>>>  - For readability, I've written what the internal test helper would look
+>>>    like (_adv_test), and how a test would look like without the helper in
+>>>    adv_rx_on_tx_on().
+>>>
+>>> I'm already diving into coding, but it helps me a bit in the definition of the
+>>> "description" format :)
+>>>
+>>> this is what the class would look like :  
+>>
+>> I like this :-)
+> 
+> This is very far from what existing python tests do in netdev.
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_configfs.c | 104 +++++++++++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+We can probably drop the class, as it is with this discussion, it's merely a way
+to regroup doc common to similar tests. The rest really is the usual set of
+ksft funcs you can feed to the run function, with a set of ksft_ethtool_*
+annotators for generic checks.
 
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index dd2a9e450150..4f4ec9944804 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -114,6 +114,7 @@ struct vkms_configfs_encoder {
- struct vkms_configfs_connector {
- 	struct config_group group;
- 	struct config_group possible_encoders_group;
-+	struct config_group parent_group;
- 	struct vkms_configfs_device *dev;
- 	struct vkms_config_connector *config;
- };
-@@ -151,6 +152,10 @@ struct vkms_configfs_connector {
- 	container_of(to_config_group((item)), struct vkms_configfs_connector, \
- 		     possible_encoders_group)
- 
-+#define connector_parent_item_to_vkms_configfs_connector(item) \
-+	container_of(to_config_group((item)), struct vkms_configfs_connector, \
-+		     parent_group)
-+
- static ssize_t crtc_writeback_show(struct config_item *item, char *page)
- {
- 	struct vkms_configfs_crtc *crtc;
-@@ -1401,6 +1406,42 @@ static ssize_t connector_dynamic_store(struct config_item *item,
- 	return count;
- }
- 
-+static ssize_t connector_port_id_show(struct config_item *item, char *page)
-+{
-+	struct vkms_configfs_connector *connector;
-+	u8 port_id;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		port_id = vkms_config_connector_get_port_id(connector->config);
-+
-+	return sprintf(page, "%u\n", port_id);
-+}
-+
-+static ssize_t connector_port_id_store(struct config_item *item,
-+				   const char *page, size_t count)
-+{
-+	struct vkms_configfs_connector *connector;
-+	u8 port_id;
-+	int ret;
-+
-+	connector = connector_item_to_vkms_configfs_connector(item);
-+
-+	ret = kstrtou8(page, 10, &port_id);
-+	if (ret)
-+		return ret;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		if (connector->dev->enabled && connector_is_enabled(connector->config))
-+			return -EBUSY;
-+
-+		vkms_config_connector_set_port_id(connector->config, port_id);
-+	}
-+
-+	return count;
-+}
-+
- CONFIGFS_ATTR(connector_, status);
- CONFIGFS_ATTR(connector_, type);
- CONFIGFS_ATTR(connector_, supported_colorspaces);
-@@ -1408,6 +1449,7 @@ CONFIGFS_ATTR(connector_, edid_enabled);
- CONFIGFS_ATTR(connector_, edid);
- CONFIGFS_ATTR(connector_, dynamic);
- CONFIGFS_ATTR(connector_, enabled);
-+CONFIGFS_ATTR(connector_, port_id);
- 
- static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_status,
-@@ -1417,6 +1459,7 @@ static struct configfs_attribute *connector_item_attrs[] = {
- 	&connector_attr_edid,
- 	&connector_attr_dynamic,
- 	&connector_attr_enabled,
-+	&connector_attr_port_id,
- 	NULL,
- };
- 
-@@ -1512,6 +1555,63 @@ static const struct config_item_type connector_possible_encoders_group_type = {
- 	.ct_owner	= THIS_MODULE,
- };
- 
-+static int connector_parent_connector_allow_link(struct config_item *src,
-+						 struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+	struct vkms_configfs_connector *parent;
-+	struct vkms_config_connector *parent_cfg;
-+	int ret;
-+
-+	if (target->ci_type != &connector_item_type)
-+		return -EINVAL;
-+
-+	connector = connector_parent_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
-+	parent = connector_item_to_vkms_configfs_connector(target);
-+	parent_cfg = parent->config;
-+
-+	if (connector->dev != parent->dev)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		if (vkms_config_connector_get_parent(connector_cfg))
-+			return -EMLINK;
-+
-+		if (connector->dev->enabled && connector_cfg->enabled)
-+			return -EBUSY;
-+
-+		vkms_config_connector_attach_parent(connector_cfg,
-+						    parent_cfg);
-+	}
-+
-+	return ret;
-+}
-+
-+static void connector_parent_connector_drop_link(struct config_item *src,
-+						  struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_config_connector *connector_cfg;
-+
-+	connector = connector_parent_item_to_vkms_configfs_connector(src);
-+	connector_cfg = connector->config;
-+
-+	scoped_guard(mutex, &connector->dev->lock)
-+		vkms_config_connector_attach_parent(connector_cfg, NULL);
-+}
-+
-+static struct configfs_item_operations connector_parent_item_operations = {
-+	.allow_link	= connector_parent_connector_allow_link,
-+	.drop_link	= connector_parent_connector_drop_link,
-+};
-+
-+static const struct config_item_type connector_parent_group_type = {
-+	.ct_item_ops	= &connector_parent_item_operations,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
- static struct config_group *make_connector_group(struct config_group *group,
- 						 const char *name)
- {
-@@ -1544,6 +1644,10 @@ static struct config_group *make_connector_group(struct config_group *group,
- 		config_group_init_type_name(&connector->possible_encoders_group,
- 					    "possible_encoders",
- 					    &connector_possible_encoders_group_type);
-+		config_group_init_type_name(&connector->parent_group,
-+					    "parent",
-+					    &connector_parent_group_type);
-+		configfs_add_default_group(&connector->parent_group, &connector->group);
- 		configfs_add_default_group(&connector->possible_encoders_group,
- 					   &connector->group);
- 	}
-
--- 
-2.54.0
-
+> 
+> I would prefer to stick to the "bash on steroids" use of Python.
+Maxime
