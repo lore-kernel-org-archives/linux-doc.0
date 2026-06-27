@@ -1,134 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4311C860A;
-	Sat, 27 Jun 2026 19:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16891C860A
+	for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 20:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782587065; cv=none; b=AJwBB+qpmERd2D5Y4kOoA4iTRq428gsbR7kNF4k/UcWKF3E4nBmzbqPzOw0xee0JkEc95tM/1bbmIFITBcfz00209T8lt0lsk7Afl+6HGoV+sCDYrRlljYmMs+REdSGRz5eYvVyZphbLFUxDQvjghXwqTXXLdx2sRVGccv6M3VY=
+	t=1782593765; cv=none; b=n/qt1QpW0ff934t+VrIr0+3SKHlixTYJslq4A7B4DtjDAKVTuvVSVu202r2WUW/f4QDrviKCcAd7Ecw2RzHiKFUY4Hs4gsfmNYptfX1qBRPwErz1+RuyyJTRb2wd98626Or3z2YkGrGHu+AyDa34RAzQhYwMFxiWRoRnLHtp6qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782587065; c=relaxed/simple;
-	bh=+xyLBnXJhHsCyvjH4lUKehzs56Qj0yFydtkoKSccDZM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HqAnWAn4ScXgy2wjfVaH5oT/iWTo/FjDQK7R1n/C6NT94gAOZNmxXSQVNzxoBVIqwqo5YcUf5Kwjz2mG86Xm6/+SUShLwWHlkbHHuiU/EV8KEAigR/0XLJvP2f9u7pJ2JjWjb2j7ZQVL7n8OtHwkJQMTz6bRY8+G00v/wPZ3LvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdobY0rc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782593765; c=relaxed/simple;
+	bh=9i425v2OLf77/7490P0ZuAEgbCG/7SCUKbPj/W+6wOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AdOqxm8LG2ePo22lTU1S6HIDPQbSrwqu8q7kOvZ9Yk5mS8NFELtDNYQdI1VExdeblGAlLQxV1fYz1CRiMTuLdH/0RbpzaNF52+kxNRrgYmyvIeHSOq6phyNJUEsBCL1G618GBcLLrHUpAhzjHsvNj2qjWhSbCPKzIjEVFLNKqoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=R+DB8i/y; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdobY0rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B321F000E9;
-	Sat, 27 Jun 2026 19:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782587064;
-	bh=Bcvg8OTsMn6hQMF6tt/3ezc+Zl4T8ppYfRkhsxfi6Oo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WdobY0rc/cvauyigEPPR+PdHBWj3YvzNRk+VrrvuRL4vPYSQfUX3TLJHN1p/2JtPz
-	 xn1udATqKwwsxVajrWs6Gz1e/gou6qGXHD2fb6WlqGfTxQQB8dtNWo4psHNlplp+cz
-	 7AXE4gb7+sGsyySNnpsy9UHExrgSdidKbqr0VK63hhVDvMY2kH09JV1/1aedC01InL
-	 PQNBplkSTfT/dgX0LjG8C8faE7ldK96cHQ1WPWLh32rJP2C8cZb3wzK5AoiuvM6nkF
-	 Zai/kiTc/xlD3NCdQ6KqGLrqCEjK7FkvqUwDmsMfUvitpbCbY1mL1PQlTopbr2RKcH
-	 sywFtRVVQqj/w==
-Message-ID: <0883a8e0-e8b4-4f22-bfc6-dd4a0fcf8b7a@kernel.org>
-Date: Sat, 27 Jun 2026 21:04:11 +0200
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="R+DB8i/y"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8eaa7b5e31eso6016886d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 13:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1782593763; x=1783198563; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nhsbipjzA5I+UfoW44RlcJRMPkJBr0UMfZzbOwMhg+U=;
+        b=R+DB8i/yJbRBPA+kv7KrYOzmQTIRcRRO2CdA9hTJ1UHqahvnO4fvurJk7lSRWjYznp
+         8EXa6+HkPJ28YmN9JCrREVRXsYc/0zX766OpWw1x4vAhkJk6fZdM7DctT7Mj6nGvmLzJ
+         r0hG6lAuEyu99JV8q4BdxLq29zx8FV4yOg3EIzB/EDfp6cwXz5oP3ObvA1oaPtIGd/5k
+         LPxdGk0zL0d6UufxEjC4IliWkMO8LjhqtYq9YHoHu0VBvC6sJHsN4x6WdvjTKbKeeDV1
+         3BTYIuN9nTy+dKi769q8tN5P3de2g5hcwz2rvjGEheiMPWg3olVIzsc9cO/wrval/yjH
+         VOjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782593763; x=1783198563;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nhsbipjzA5I+UfoW44RlcJRMPkJBr0UMfZzbOwMhg+U=;
+        b=Tcol5DxZcrL4YyASRdprRY9Xc86NynvTf2pYle3+CUcYjtwCDB48dvZfLTy5MSfYch
+         ZD+VwWIxALJZLpSGKV2FhWkvv0kkitdqlDJro+KenCELI54Bzy5uQGno3zL+3NW8QCeJ
+         LJ9P5wkdx4IL9zY4Bb/iyjXG4fzSKyjVN7zIoQjQTMYk+pXgRHk8Yvsu8FMw6+Aj84J9
+         PPESKotvZA9iEww6sLFHp+heN9hnEstab+mCKOyvvqX7gzZrrRmehTKnYRfwZhUAKpnn
+         MSoUZ5opVwni9MmYvXvJn8KOCFRr1kkx7Gd5fZuANlIKNZw0q12z0ZznhrXs+FMBxCxl
+         OBAQ==
+X-Gm-Message-State: AOJu0YyadGw3XSKcvDKmyh8Hq9kZbsR4fiNdMCTEmWvuWFsX1mmebO9d
+	jNudSudAy3macP4x+SiBoae2pwurYcelt5ocgRn8dCGZ12qkKlbGO9d4M+g+vHhfivQ=
+X-Gm-Gg: AfdE7cmf7wggEObtrtrWLhs1ah0m+/b1mgpQS73a2g/ObCzVMnz03k2fGcu7WZgt76V
+	mWA6J+voAYNeut4ixtc62rsKcejLCtmuOcpME3gJpDWgzMTd6j0t/Eb00iyvDPSsfWH3ne+kY7l
+	VlffQNlR7tVbwCTNEtK4SGbihvvoVxJOr2SNFqM9X6VlEJ9/BCBwS2mzCXgT08pqBUO5w+EyMZp
+	amofh3DW2c5VvfNAqcobePY3MKZiIQZnJ6NSQtYH8t9aqgPeACoriID+prTP6gd2RB+rR/8U2Jx
+	8FfqYmjt0j6qfu/u23VIo3LWLRfr357KyTqkk+m58vIXZVHNytr/RwOI45LbdqaI/PmESTl5vr5
+	JgSpXX2gXr7cQ86e0hqcG64wyva/4OUGohcrZaWSVbm75jXbSqHbSciOwdDqW+o9cAODua7xeYh
+	396XKNJgu0LTRgVeuwc3Aajr8bDd6G8qUkXY0/CFvJ3gVeBI5NEwk+UPqIHd57QdP9NDHjbHprV
+	g==
+X-Received: by 2002:a05:6214:4983:b0:8de:1754:f793 with SMTP id 6a1803df08f44-8e6df1da882mr171865996d6.20.1782593762480;
+        Sat, 27 Jun 2026 13:56:02 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df81cdec56sm265460836d6.32.2026.06.27.13.56.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2026 13:56:01 -0700 (PDT)
+From: Gregory Price <gourry@gourry.net>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	tglx@kernel.org,
+	peterz@infradead.org,
+	luto@kernel.org,
+	akpm@linux-foundation.org,
+	feng.tang@linux.alibaba.com,
+	pmladek@suse.com,
+	mhiramat@kernel.org,
+	marc.herbert@linux.intel.com,
+	joel.granados@kernel.org,
+	gourry@gourry.net,
+	lirongqing@baidu.com,
+	kees@kernel.org,
+	nathan@kernel.org,
+	linusw@kernel.org,
+	arnd@arndb.de,
+	deller@gmx.de,
+	jpoimboe@kernel.org,
+	ruanjinjie@huawei.com,
+	lukas.bulwahn@redhat.com,
+	ryan.roberts@arm.com,
+	ojeda@kernel.org
+Subject: [PATCH 1/2] kernel/entry: add CONFIG_SYSCALL_USER_DISPATCH to compile SUD out
+Date: Sat, 27 Jun 2026 16:55:50 -0400
+Message-ID: <20260627205551.769684-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
- (hamradio) subsystem
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
- carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
- si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
- tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
- mchehab+huawei@kernel.org, gregkh@linuxfoundation.org, tytso@mit.edu,
- herbert@gondor.apana.org.au, ebiggers@kernel.org, johannes.berg@intel.com,
- geert@linux-m68k.org, pablo@netfilter.org, tglx@kernel.org,
- mashiro.chen@mailbox.org, mingo@kernel.org, dqfext@gmail.com,
- jreuter@yaina.de, sdf@fomichev.me, pkshih@realtek.com,
- enelsonmoore@gmail.com, mkl@pengutronix.de, toke@toke.dk, kees@kernel.org,
- crossd@gmail.com, jlayton@kernel.org, wangliang74@huawei.com,
- aha310510@gmail.com, takamitz@amazon.co.jp, kuniyu@google.com,
- linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
-References: <20260421021824.1293976-1-kuba@kernel.org>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20260421021824.1293976-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21. 04. 26, 4:18, Jakub Kicinski wrote:
-> Remove the amateur radio (AX.25, NET/ROM, ROSE) protocol implementation
-> and all associated hamradio device drivers from the kernel tree.
-> This set of protocols has long been a huge bug/syzbot magnet,
-> and since nobody stepped up to help us deal with the influx
-> of the AI-generated bug reports we need to move it out of tree
-> to protect our sanity.
-> 
-> The code is moved to an out-of-tree repo:
-> https://github.com/linux-netdev/mod-orphan
-> if it's cleaned up and reworked there we can accept it back.
-> 
-> Minimal stub headers are kept for include/net/ax25.h (AX25_P_IP,
-> AX25_ADDR_LEN, ax25_address) and include/net/rose.h (ROSE_ADDR_LEN)
-> so that the conditional integration code in arp.c and tun.c continues
-> to compile and work when the out-of-tree modules are loaded.
-...
->   delete mode 100644 include/uapi/linux/scc.h
-Unfortunately, this broke builds of LLVM -- compiler-rt in particular 
-(and GCC builds allegedly too). They dropped the include and its use 
-[1], but IMO we should keep the uapi header with those two structs 
-(scc_modem + scc_stat) for some time.
+Syscall User Dispatch is built under CONFIG_GENERIC_SYSCALL and cannot
+be disabled independent of the core syscall-entry machinery.
 
-[1] 
-https://github.com/llvm/llvm-project/commit/3dc4fd6dd41100f051a63642f449b16324389c96
+Native foreign-binary emulators (Wine/Proton) need it, but it should
+be an optional for minimal/high security systems.
 
-thanks,
+Add CONFIG_SYSCALL_USER_DISPATCH to make it optional.
+
+Signed-off-by: Gregory Price <gourry@gourry.net>
+---
+ arch/Kconfig                                | 11 ++++++++
+ include/linux/entry-common.h                |  6 ++---
+ include/linux/syscall_user_dispatch.h       | 28 +++++++++++++++++++--
+ include/linux/syscall_user_dispatch_types.h |  2 +-
+ kernel/entry/Makefile                       |  3 ++-
+ 5 files changed, 42 insertions(+), 8 deletions(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index e86880045158..a40686e2ad5b 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -114,6 +114,17 @@ config GENERIC_ENTRY
+ 	select GENERIC_IRQ_ENTRY
+ 	select GENERIC_SYSCALL
+ 
++config SYSCALL_USER_DISPATCH
++	bool "Syscall User Dispatch (SUD)"
++	depends on GENERIC_ENTRY
++	default y
++	help
++	  Syscall User Dispatch (SUD) lets a thread have its own system calls
++	  redirected to a userspace handler.  It is used by emulators that run
++	  foreign binaries which issue system calls directly.
++
++	  If unsure, say Y.
++
+ config KPROBES
+ 	bool "Kprobes"
+ 	depends on HAVE_KPROBES
+diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
+index 416a3352261f..9336516430a1 100644
+--- a/include/linux/entry-common.h
++++ b/include/linux/entry-common.h
+@@ -9,6 +9,7 @@
+ #include <linux/resume_user_mode.h>
+ #include <linux/seccomp.h>
+ #include <linux/sched.h>
++#include <linux/syscall_user_dispatch.h>
+ 
+ #include <asm/entry-common.h>
+ #include <asm/syscall.h>
+@@ -55,7 +56,6 @@ static __always_inline int arch_ptrace_report_syscall_entry(struct pt_regs *regs
+ }
+ #endif
+ 
+-bool syscall_user_dispatch(struct pt_regs *regs);
+ long trace_syscall_enter(struct pt_regs *regs, long syscall);
+ void trace_syscall_exit(struct pt_regs *regs, long ret);
+ 
+@@ -232,10 +232,8 @@ static __always_inline void syscall_exit_work(struct pt_regs *regs, unsigned lon
+ 	 * of these syscalls is unknown.
+ 	 */
+ 	if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
+-		if (unlikely(current->syscall_dispatch.on_dispatch)) {
+-			current->syscall_dispatch.on_dispatch = false;
++		if (syscall_user_dispatch_clear_on_dispatch())
+ 			return;
+-		}
+ 	}
+ 
+ 	audit_syscall_exit(regs);
+diff --git a/include/linux/syscall_user_dispatch.h b/include/linux/syscall_user_dispatch.h
+index 3858a6ffdd5c..3dcb4c2dc544 100644
+--- a/include/linux/syscall_user_dispatch.h
++++ b/include/linux/syscall_user_dispatch.h
+@@ -7,8 +7,22 @@
+ 
+ #include <linux/thread_info.h>
+ #include <linux/syscall_user_dispatch_types.h>
++#include <linux/sched.h>
+ 
+-#ifdef CONFIG_GENERIC_ENTRY
++struct pt_regs;
++
++#ifdef CONFIG_SYSCALL_USER_DISPATCH
++
++bool syscall_user_dispatch(struct pt_regs *regs);
++
++static inline bool syscall_user_dispatch_clear_on_dispatch(void)
++{
++	if (likely(!current->syscall_dispatch.on_dispatch))
++		return false;
++
++	current->syscall_dispatch.on_dispatch = false;
++	return true;
++}
+ 
+ int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ 			      unsigned long len, char __user *selector);
+@@ -24,6 +38,16 @@ int syscall_user_dispatch_set_config(struct task_struct *task, unsigned long siz
+ 
+ #else
+ 
++static inline bool syscall_user_dispatch(struct pt_regs *regs)
++{
++	return false;
++}
++
++static inline bool syscall_user_dispatch_clear_on_dispatch(void)
++{
++	return false;
++}
++
+ static inline int set_syscall_user_dispatch(unsigned long mode, unsigned long offset,
+ 					    unsigned long len, char __user *selector)
+ {
+@@ -46,6 +70,6 @@ static inline int syscall_user_dispatch_set_config(struct task_struct *task,
+ 	return -EINVAL;
+ }
+ 
+-#endif /* CONFIG_GENERIC_ENTRY */
++#endif /* CONFIG_SYSCALL_USER_DISPATCH */
+ 
+ #endif /* _SYSCALL_USER_DISPATCH_H */
+diff --git a/include/linux/syscall_user_dispatch_types.h b/include/linux/syscall_user_dispatch_types.h
+index 3be36b06c7d7..c0bdd4f760d3 100644
+--- a/include/linux/syscall_user_dispatch_types.h
++++ b/include/linux/syscall_user_dispatch_types.h
+@@ -4,7 +4,7 @@
+ 
+ #include <linux/types.h>
+ 
+-#ifdef CONFIG_GENERIC_ENTRY
++#ifdef CONFIG_SYSCALL_USER_DISPATCH
+ 
+ struct syscall_user_dispatch {
+ 	char __user	*selector;
+diff --git a/kernel/entry/Makefile b/kernel/entry/Makefile
+index 2333d70802e4..f220bae86b12 100644
+--- a/kernel/entry/Makefile
++++ b/kernel/entry/Makefile
+@@ -13,5 +13,6 @@ CFLAGS_REMOVE_common.o	 = -fstack-protector -fstack-protector-strong
+ CFLAGS_common.o		+= -fno-stack-protector
+ 
+ obj-$(CONFIG_GENERIC_IRQ_ENTRY) 	+= common.o
+-obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o syscall_user_dispatch.o
++obj-$(CONFIG_GENERIC_SYSCALL) 		+= syscall-common.o
++obj-$(CONFIG_SYSCALL_USER_DISPATCH)	+= syscall_user_dispatch.o
+ obj-$(CONFIG_VIRT_XFER_TO_GUEST_WORK)	+= virt.o
 -- 
-js
-suse labs
+2.54.0
+
