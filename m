@@ -1,139 +1,81 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321BA3ACF0B
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 20:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337E536D513;
+	Sun, 28 Jun 2026 21:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782679317; cv=none; b=dW2+l8WGRU0ScxoZD1h9N6a1oa+NOaw3fOX83PCXYAaO2OLHfsdhfT470CkEyyWFAH3znqH/6ayGGbfvkFbENi9FuK6uOk3mWocvzCdeFeebSm+dMDCgE39uBnWkXCyWtmzxrc8apKQJqzj3LBgaLHK9xSs95yz+Q5p+DJkC8y4=
+	t=1782680606; cv=none; b=rP7uG3xSdp0EZ2w+nFXhexxfiz2Slwonsty5Z7ZWZnVMERYaxxjbrgDryXCwZsuxaNrGz966RySt4AcuZKiwITrzk8KZlXmBQpk5ABR27pDklhjSHJwi+THeiRqXk86HoLGDTFJJ7tNqY3EiXSorPVtk8lBDnPO4x3nTsc49g1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782679317; c=relaxed/simple;
-	bh=j038mUcZjm4sep8U2CON12rveC0DF5YhYcieF8knB5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GMUBvSIvlFP/cDAoonuvT0cn3aeKh5qeuNnHS4yPVUdCugZecDeTWsGbmp3PssHuP4laX0dEpIxBVMccXJBRFDS2kALCeVmREKg/MkZv286Fn1xlIR9W6iRAxYmlpKbzCwItm1ZIHOrkp+ZQfnA+NkqA2/Axcp/MD5/NHHspKFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ouMvpPmf; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ouMvpPmf"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so7722645e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 13:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782679315; x=1783284115; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EjHbb/zbi5lY1Aux2naQDbYxfNt6M3ms/FuKtgATrAE=;
-        b=ouMvpPmfZDeWdnA0zR+StyyfvNvqq2pWlaR3aguERJVMq+jLcR3fgsQss8oJ6iDjTg
-         99aLrye0Bbgt5YwqdALjiJA+h/EIq7X3+qd9rpYMiH4xTwZSAzzypqm+XZFSq+GSrJGj
-         gpUoRRMTGgbv36svLxbNW50AEfCT/7FmOySduV4tiqHj0aVN5NkPgT8xtu3y+IjUV1Kd
-         XgcHN8LQIztle4t6F3680bKTnNV88fLP/dmdoJwAl4KJYNj/NrBIHaHkFCAMVrXdFOF3
-         szOAshHMQ0leTWXThWjhOzJoqi6fsxdguTS/951W5RUXDfp6R41CF6PcPmKfmTqT5XWU
-         BSWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782679315; x=1783284115;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EjHbb/zbi5lY1Aux2naQDbYxfNt6M3ms/FuKtgATrAE=;
-        b=qzq5il5TnuzpTeiKbdjEB419SxqNannTyLRWr2I/xMB0hZ5q24jSkSJgVaDTCM1Q+s
-         juK6xav/6ZKfgnU5HBi+5mjGze/AVCl1/x/G/5k43Hm1fsjO9BfOBxkg+NtuoY6yIjWn
-         mFm1GYclihObJm53JsdlQt7t+W3WWDFn8RwWI1YjAB0qON2qblhWZ88mHZ2u0stu7ooA
-         cS7XXldPzY+v69bfPuHqH2XtNgyB0JtVxMXpWMUmRGoqvSPGkIpCU1+yoLZ60iN/MNgy
-         4/BCFJwhjjl2S3NeX5r/f1hXLmm0q1CQXZYnxpwzgnD47cRG46xlu5x9pPY/EHGTbz5s
-         z6kQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8KZIsEYLVsIQpVjk7LEGxKY3fL+U2007eefxo6sPQMN2aR7CHWcPr3riwwjw8I7GFXfX6HoBcVE6g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywiw0amtri7bLHMs9xm8W9tINDUUCV5L/wqI5EGMMZ2aBqcigq4
-	FXwVZwZSf3llnVYCnKR5/nJ9uMaJnPMR9MRYlwrlF8zGPTpho+FN8zt2
-X-Gm-Gg: AfdE7ckntM9D/gYNP8oQmFe7gpiAX3HiLHNom+efNY+ZGDPVnJBwso0Amucegm89onA
-	BIjA3FRpQLgWuEss1iWoXdpwTVuIhyuIOcbY9IxJY859CU5QxlreOTqmXUoI6fos8y0uz46bZQu
-	MA/t42vz9yVy6VnWNNaoNefZfnZIjhUV2n1Nzc9Y84xTa8XGJFXAYgmhSphJgSul8Q8ENGYAqf9
-	MB3CNnaDVRIdcgJBN6WLA3nGiwVoIPGGEWLBgGojRvsI7b4Op8qIVib3YZ+ErCCskMpKY4vBn/q
-	OIDrJjo3iiTJ7PJ56ZFukP2eZY1EDIT8rmq74wVqtlzb7GGefIVjXZbSKDJNwp4a3w8v7jn+5lT
-	Q6wjHPGeFlIi63pRh6xhsh/Guz4xBQ5bvvZFZN4YDwP08pw4+gzutOk5dqcyQnT2HLC9x3RzVfl
-	ztZrTl+/PlZ7CQqk5DUomF5CNQ
-X-Received: by 2002:a05:600c:4e88:b0:493:ad8a:e7f2 with SMTP id 5b1f17b1804b1-493ad9a2b29mr18360745e9.13.1782679314528;
-        Sun, 28 Jun 2026 13:41:54 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268fcee16sm276918785e9.2.2026.06.28.13.41.53
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 13:41:54 -0700 (PDT)
-Date: Sun, 28 Jun 2026 22:41:50 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628224150.39990d04.michal.pecio@gmail.com>
-In-Reply-To: <8f5bb295-fc1b-4698-8f2f-2d40fb4d9f93@rowland.harvard.edu>
-References: <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-	<CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-	<5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
-	<CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
-	<eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-	<CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-	<02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
-	<20260628165040.76fd608d.michal.pecio@gmail.com>
-	<62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
-	<20260628190201.00afdccf.michal.pecio@gmail.com>
-	<8f5bb295-fc1b-4698-8f2f-2d40fb4d9f93@rowland.harvard.edu>
+	s=arc-20240116; t=1782680606; c=relaxed/simple;
+	bh=HtLx3MtE7bDH2wLmsxRez3o4DNEkkCQ7M1lA1NU+qUI=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=DHr2IM2zBqYXRcPH6PYGzumDh8VUZR1qwrWp2TKqn1FtwkNETLSmIeL9Ewc5veSiAsLqshn5aeOzulQCXDv6Zl3j+aABOqvf3ZXTYNIKJ1KCJGXLImSy+xqjS1scxGdDKGLFf/ygBlhochaubETjkG//PUou0ePhU6g0QjlOX9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45231F000E9;
+	Sun, 28 Jun 2026 21:03:23 +0000 (UTC)
+Date: Sun, 28 Jun 2026 14:03:22 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Jianyue Wu <wujianyue000@gmail.com>
+Cc: Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng
+ Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
+ <bhe@redhat.com>, Barry Song <baohua@kernel.org>, Youngjun Park
+ <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, David Hildenbrand <david@kernel.org>, Michal
+ Hocko <mhocko@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Hugh Dickins
+ <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] mm: clean up folio LRU and swap declarations
+Message-Id: <20260628140322.c3ce1a7428d6c6d021069e7d@linux-foundation.org>
+In-Reply-To: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
+References: <20260603-ch-swap-series-plus-folio-lru-cleanup-v4-0-ce0219e100d9@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 28 Jun 2026 15:18:02 -0400, Alan Stern wrote:
-> On Sun, Jun 28, 2026 at 07:02:01PM +0200, Michal Pecio wrote:
-> > If such devices will exist, then it probably won't matter whether
-> > the delay comes after or before the first request. Purpose isn't
-> > known, but it appears to be rate limiting configuration descriptor
-> > requests or delaying other requests after this function returns.  
+On Wed, 03 Jun 2026 21:05:31 +0800 Jianyue Wu <wujianyue000@gmail.com> wrote:
+
+> The previous version moved the folio LRU helpers out of mm/swap.c in
+> one step. Based on review feedback from Johannes, Baoquan and Barry,
+> split the cleanup into smaller steps:
 > 
-> In fact, the commit that talks about the Logitech webcams does
-> describe their buggy behavior to some extent.  It says that they seem
-> to reply with stale video data instead of the real config
-> information, and from there it's a short guess that adding a delay
-> gives time for the video pipeline to drain or time out.
+>   - move the page-cluster sysctl next to swap readahead in mm/swap_state.c
+>   - rename mm/swap.c to mm/folio_lru.c after the swap-specific bits move out
+>   - move MM-internal reclaim declarations out of include/linux/swap.h
 > 
-> In addition, the fact that the delay is needed after the first
-> request but before the second suggests that the data corruption only
-> affects transfers longer than 9 bytes -- which the new first request
-> would be. Therefore it would be appropriate to have the delay before
-> the new first request.  Whether another delay would be needed before
-> the second request (if there is one) is unknown.
+> After this series, swap cache and swap-in readahead stay in mm/swap_state.c,
+> folio LRU helpers live in mm/folio_lru.c, and MM-internal reclaim/workingset
+> declarations move from include/linux/swap.h to mm/internal.h (public LRU
+> helpers used outside mm/ remain in swap.h).
+> 
+> The first patch handles the swap-specific page-cluster state before the
+> file rename, so the rename commit only carries folio LRU code. The last
+> patch keeps the LRU helpers used outside mm/ in include/linux/swap.h and
+> moves the internal reclaim/workingset declarations to mm/internal.h.
+> 
+> This series is based on Christoph Hellwig's swap_ops series, which
+> moves swap I/O dispatch behind swap_ops and leaves mm/swap.c with less
+> swap-specific state. That makes the folio LRU cleanup more natural to
+> split out on top.
 
-Fair enough, that's possible, but even in these specific webcams it's
-still unclear what delays would be necessary with both quirks. We wait
-for the HW to complete something, but we don't know what starts it. If
-it's device reset, then b2a542bbb308 has already doubled all delays
-so d86db25e53fa6 isn't even necessary anymore. OTOH, if it's the first
-config request, then a delay between the requests is mandatory, and
-a delay before the first request is useless. If it's something in
-between then your approach could be the only viable choice.
+Patchset looks good and is well-reviewed (thanks, all).
 
-I would worry about it when a device is known that uses both quirks.
+But it's a little old and Sashiko was unable to apply it and I'm seeing
+at least one (probably trivial) reject.
 
-> Good point.  But I dislike messages that actively produce wrong 
-> information.  Nikhil could get rid of the parts of the log messages
-> you don't like, but he shouldn't leave them as they are.  He could
-> even do that in a second patch, separate from this one.
+So please can you refresh, retest, gather the ack/review tags and
+resend?
 
-I can agree that the first "descriptor too short" message becomes
-misleading, because we no longer expect 9 bytes exactly, but anything
-between 9 and 255. So this could be changed to "requested".
-
-But I see no need to change the second message. Regardless of initial
-request length, the next request (if any) asks for the exact size and
-we do expect it to produce 'length' bytes.
-
-Using different words in these messages has a beneficial side effect
-of making it possible to tell them apart when wTotalLength == 9.
-
-Regards,
-Michal
+Thanks.
