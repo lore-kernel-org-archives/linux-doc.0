@@ -1,143 +1,145 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27C1330B07
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 15:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7366D190462;
+	Sun, 28 Jun 2026 16:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782661722; cv=none; b=uEfM30fxZxr9UBg65Gtlq3RYrzckWJPuNFiwJ2JHKXBImURHHrxole02hCwg4rG4vd93x/0ezVAMqdbqPEBhgw88LYdDTrU8NjZ6JWj22yx02hf4qXezDfHSjhE0b+5Ct+MPwPq60XvndtFXuJb8KNy2vRovdoRT2rEZgHOsnBw=
+	t=1782662600; cv=none; b=kJMGptrOMF3k2U1IlEjTBiwOwEqztKVZztXKEFQ6M6WRsId7bLuHz65LwWUWtai6npp6CWBXXMXkxwIf5XIVXdimwoJ7Jddpz0airsJH7/cV5DD1RxfaoY7ZO2sQ/8Us/+MTn613Tv6U8h8wRoMtK3AYRy2kjI0jabe62Aup7fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782661722; c=relaxed/simple;
-	bh=gPIXDlMdWCBMQJSSxFhAQbsceBHRfDSzINaETnpvP6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YvMH6QdAjSQXx2Pjl8mxN7DNDoyJCl+8NgV8fO7RAbF3BRYyJT10Hyo+2gE1spt+JtmGgShvJTOwHleYAtume30ybFGVbXsuPSpv8EdWS3SlAgDA4HeJFp0f47PCclvxR5XbT5TlXdssx+kr6/HCC4HSuVF9ceEF7vwHWMWgN5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=VQ/twAq0; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1782662600; c=relaxed/simple;
+	bh=Bg7ATLfq06nhMAvgzIEIchQ4wjP8NHZa4leLVfF2GrI=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=aHgmSZ7khvqrPeeY1ejrlTrO+K+dZWKJWJONzqFGpZakNTbpqW30OUL7m1DCvCT6NO/SwTBpJpFLmXjuqFv01x3GuijWVibA6uGgLSlrDi+HwQac+GWpGRKOo/4KTqExN4wvWkhHmznmfjBuFodeMmbWAuNiPjhTHhC31i8phEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4Ylx3G9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="VQ/twAq0"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92b21f65b60so179543585a.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 08:48:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782661720; x=1783266520; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YbP6a6goP2U5MBu9nnomcsOpAn0oXahZ7R9xiTcBOF0=;
-        b=VQ/twAq04oAXWAzoHlUnh4ktiEQlvzWDEaDsLREWzfFOPBnN29KC/ms6mnuceGNZPT
-         ofmjcykF8ouGBu3w075OLuRDCOBqNWoZ3KKU+TiGqEzR3Xz+o+qF4QsJJXUnO1lL4t6e
-         m+A/Tw9VzVI3VaNv2dZ3I/3srbSH0DVgtjiXiVygemE3Tj9AHMPSsaQuRI6hj4tJUfbE
-         jSJ0najHu4xL/uCh2cYIpz5+ERE6vOmXo6pQ37HDPN92JEj2Wi+rTAjFBRvIPbDvQrHq
-         h5iRJYsfyx9r0DqElFo2sRv7oJNDlQ8jQiFiMIP0Fp+XBn615+CJzm7GyqLKgvmDUIgc
-         oI4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782661720; x=1783266520;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbP6a6goP2U5MBu9nnomcsOpAn0oXahZ7R9xiTcBOF0=;
-        b=cM1In+DlwG/RDtmdx8JjYYGrYliGBtphIkpbcOsqz05KUQTIWnk00daoVF35qhrJVm
-         3TZYY0cXNmGBalmzk9SxCRJtyGC372Pk+q3qJ+HBc72DsatMAC3RdlKdN+nmHNEkcHPV
-         j9cPsirVNEtYUTnfSPjqQ+BAUfhDZieeheKzvg7z38H9ybo8l7CVKhdsgv2gWDw0PGZG
-         nc513Y8udExfk/dFMiKqEp3Wqgu7n68QkwReIhcdpnHHHy8+c3ASQCdkmN914gQKp/P3
-         sGY87rcleUlNAt6EJLAtGecx0acAVFVR4ZoQ8uxHiOtaCXtzc1VsIsfUie/hSaaSLUAq
-         u6UQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9DnuQCdNoMXX7bLV0apzwPvP1N89LobYE9DhX0H+Q+ePp9Iomb+DJ+hPxh21WzZavC+HaXJenoFX0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywf/r1clvwPAmAy8v/MHE5Jk/dZ74/+KWAr9OuJ4GiD3FUyCHJR
-	btlSe8BQH8H7nKASDjrt7hv6dmR+IdjVmAKy6tgdObB+ZAXnW6zGmYdkqpWUtYEWtQ==
-X-Gm-Gg: AfdE7ckkgVI2rWQfuWX5swCFHV9pAEemYyao1K2mnxw8aleHY8OS9KDzUpE6nLau3em
-	coYRWgCkytMY13YVwH+vOCpqSUMOmw1H1eokFmV6fkfbwFqa5+6Bg51caEDTD2les8uQ/cwBDIS
-	yO4rB7QaR30d6URb95HqFK1afAvVQRYLm2T67NKVzAXxce4CSqJYcx8iPe5/lYO+ZzTkLiyrZ2s
-	1rrEzvYAMHF8NVv1+uxJQoAim+FpQghJ4ZsJ4dCdHv1wUB7arehE60CxKHKnzRYJkxZF/+T2olO
-	4+5z8KpZLecwpSsZSuzhk1pmic/6rhT8yJNvM+TAiPhIg/XRNDLU+JE4v9TYvmFJhtTODqES4Zj
-	/ps6yJj+Fygjwc68dhtoKI7WPBzPFDK4tjc6DcRe7fLGnlanl7U5jwks7EToNyT1Hr8pQxsEVRv
-	r3yt/yiRsT7G5jCi5fSq9GxkTecaUh65C9
-X-Received: by 2002:a05:620a:4613:b0:915:aa65:6e95 with SMTP id af79cd13be357-926039b55abmr2307740385a.44.1782661719983;
-        Sun, 28 Jun 2026 08:48:39 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-926005a1892sm1783735885a.38.2026.06.28.08.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 08:48:39 -0700 (PDT)
-Date: Sun, 28 Jun 2026 11:48:36 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
- <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
- <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
- <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
- <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
- <CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
- <02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
- <20260628165040.76fd608d.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4Ylx3G9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69A51F000E9;
+	Sun, 28 Jun 2026 16:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782662599;
+	bh=vStoMMAuf3Habph9ryA7GqWRgnEHB2CaISdV5isqMNQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=j4Ylx3G9Q7SS5Lo1fqaA+jDwdjRMFYrQTd9Kuh7kGwIHAMqfyX8F6MY2zh6BraVKm
+	 ReOTxCEb2MsClBG+hNJrUCN/O7v6WhzINBLDw4+gTsqZTrLnjtWbTcxpsi5PZXZJtS
+	 h8K56Fq/ba7ZUOIz3xwrLim7O0hvzmE35KwM26ckmJexw/UWYMgSkDMAeJ7nF1Lp8y
+	 y7PM+Xyxr3TO9VMInnWX4TAgEnXnUAlWNPHF2EKCkLniDWyX0KUqQKnFhitsXjh4Pq
+	 TXdQ9VoRul47oVODsgA6Lw10FW0QsZW1nipnZbzSr6UgNVBOzow8QKJR7aSisu3R+F
+	 EP2/QC0xrIBdQ==
+Date: Mon, 29 Jun 2026 01:03:14 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v11 11/11] tracing/probes: Add a new testcase for BTF
+ typecasts
+Message-Id: <20260629010314.0c6563c5022c1c973788464d@kernel.org>
+In-Reply-To: <178248336390.841606.1695444929833877704.stgit@devnote2>
+References: <178248325671.841606.17344906774310339507.stgit@devnote2>
+	<178248336390.841606.1695444929833877704.stgit@devnote2>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260628165040.76fd608d.michal.pecio@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 28, 2026 at 04:50:40PM +0200, Michal Pecio wrote:
-> On Sun, 28 Jun 2026 09:55:07 -0400, Alan Stern wrote:
-> > On Sun, Jun 28, 2026 at 11:53:09AM +0530, Nikhil Solanke wrote:
-> > > I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
-> > > out how to make it properly work with my patch because of the
-> > > following reasons:
-> > > 
-> > > 1. I don't want to move it to the top because, from my pov, there
-> > > must have been some reason for placing that quirk where it is now.
-> > > so i don't want to mess with it.
-> 
-> git blame is your friend:
-> 
->     The DELAY_INIT quirk only reduces the frequency of enumeration
->     failures with the Logitech HD Pro C920 and C930e webcams, but does
->     not quite eliminate them. We have found that adding a delay of 100ms
->     between the first and second Get Configuration request makes the
->     device enumerate perfectly reliable even after several weeks of
->     extensive testing. The reasons for that are anyone's guess,
-> 
-> > > 
-> > > 2. Regarding my idea of adding a condition — so that it doesn't
-> > > change the behavior when the quirk isn't set — if the full
-> > > configuration set exceeds 255 bytes, we would have to issue a 2nd
-> > > request. In this case the existing behavior would be more justified.
-> > > 
-> > > So, I'm a bit confused about how to implement this properly. Adding
-> > > yet another condition to fix the second case doesn't feel right to
-> > > me. It would look unnecessarily complicated. I would appreciate a
-> > > bit of help and advice.  
-> > 
-> > If the 255-byte quirk flag isn't set, do the delay before the second 
-> > transfer just as it is now.
-> > 
-> > If the 255-byte quirk flag is set, do the delay before the first 
-> > transfer.  If a second transfer is needed, you can do a second delay 
-> > before it or not -- I suspect it doesn't matter.  If you want to be 
-> > safe, add the second delay.
-> 
-> How about "keep unrelated changes out of a stable patch", i.e. always
-> do the delay (if any) after the first request, regardless of size?
+This has a problem and needs some updates.
 
-This is not an unrelated change.  Rather, it's deciding on how to behave 
-in an entirely new control pathway -- the one where the 255-byte quirk 
-flag is set.  The old pathway is completely unaffected.
+On Fri, 26 Jun 2026 23:16:04 +0900
+"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
 
-I suspect no devices will have both this quirk flag and the DELAY_INIT 
-flag set, which means the location of any delays in the new pathway 
-won't matter at all since they will never be used.  But even if some 
-such devices do turn up, adding an extra unecessary 200 ms to an 
-initialization that is already at least 2200 ms long won't make much 
-difference.
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+> new file mode 100644
+> index 000000000000..96791e120b7d
+> --- /dev/null
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
+> @@ -0,0 +1,51 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +# description: BTF event with typecast and percpu access
+> +# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
+> +
+> +# Check if the sample module is loaded
+> +if ! lsmod | grep -q trace_events_sample; then
+> +  modprobe trace-events-sample || exit_unsupported
 
-Alan Stern
+I think this should be exit_unresolved.
+
+> +fi
+[...]
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc
+> new file mode 100644
+> index 000000000000..acf0b5a917d3
+> --- /dev/null
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc
+> @@ -0,0 +1,107 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +# description: BTF typecast and percpu access syntax validation
+> +# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
+> +
+> +KPROBES=
+> +FPROBES=
+> +
+> +if grep -qF "p[:[<group>/][<event>]] <place> [<args>]" README ; then
+> +  KPROBES=yes
+> +fi
+> +if grep -qF "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README ; then
+> +  FPROBES=yes
+> +fi
+> +
+> +if [ -z "$KPROBES" -a -z "$FPROBES" ] ; then
+> +  exit_unsupported
+> +fi
+> +
+> +echo 0 > events/enable
+> +echo > dynamic_events
+> +
+> +# Load trace-events-sample module if available to have per-CPU counter structure defined
+> +if ! lsmod | grep -q trace_events_sample; then
+> +  modprobe trace-events-sample || true
+
+I think this must be tested, and if the module is not found,
+the test must return UNRESOLVED error.
+
+> +fi
+[...]
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
+> index 0e65e787e426..1d6d1cf94f16 100644
+> --- a/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
+> @@ -21,8 +21,17 @@ check_error 'e:foo/^bar.1 syscalls/sys_enter_openat'	# BAD_EVENT_NAME
+>  
+>  check_error 'e:foo/bar syscalls/sys_enter_openat arg=^$foo'	# BAD_ATTACH_ARG
+>  
+> +check_error 'e:foo/bar syscalls/sys_enter_openat arg=^COMM'	# NO_EVENT_FIELD
+> +if grep -q '\\$current' README; then
+
+Sashiko found a problem here. Indeed. this is wrong. See below:
+
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
+> index c817158b99db..e12dc967ec76 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
+> @@ -28,4 +28,9 @@ if grep -q ".*symstr.*" README; then
+>  check_error 'p /bin/sh:10 $stack0:^symstr'	# BAD_TYPE
+>  fi
+>  
+> +# $current is not supported by uprobe
+> +if grep -q "\$current.*" README; then
+
+This is correct check.
+
+Let me fix those.
+
+Thanks,
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
