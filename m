@@ -1,130 +1,143 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEDD3A872A
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 14:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27C1330B07
+	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 15:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782658248; cv=none; b=ivSqPvp2GD91469aalZmvscf+7oyhNIQC64pX6M3dVFjrdoxIWJ5pDewSc7+MPVdoPa9LqCQwCAPaIUeumPvop9XK6yOoA45vEFu/H04zIWYY7TByS/xW5YWbm0ekgCFTLblPUlX5JpogNkOUvcsqA+hmgPL4wUgwj06AprIUrc=
+	t=1782661722; cv=none; b=uEfM30fxZxr9UBg65Gtlq3RYrzckWJPuNFiwJ2JHKXBImURHHrxole02hCwg4rG4vd93x/0ezVAMqdbqPEBhgw88LYdDTrU8NjZ6JWj22yx02hf4qXezDfHSjhE0b+5Ct+MPwPq60XvndtFXuJb8KNy2vRovdoRT2rEZgHOsnBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782658248; c=relaxed/simple;
-	bh=4sy1Y4WR9ugVm1F65RWh7OvYWb4yYk3Tn9QjzRV+Rq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cbVCOi2g2pBbZRP/VXCnH5grLgA1I0YP4hAL/DsmqfOJZLdm7AaCEw4NvRcpPXvUzK6Z/uRcq6tmMbhgJ/BX5yKbsoFjtWO7kG+ECzl+9Ek3JF4Sgip2bvZipI2WRGGaiyg3k+XAf74FzMs3hmiGHeuq3Y5+0uAWY8pvb75vfPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dXqjuEyi; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782661722; c=relaxed/simple;
+	bh=gPIXDlMdWCBMQJSSxFhAQbsceBHRfDSzINaETnpvP6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YvMH6QdAjSQXx2Pjl8mxN7DNDoyJCl+8NgV8fO7RAbF3BRYyJT10Hyo+2gE1spt+JtmGgShvJTOwHleYAtume30ybFGVbXsuPSpv8EdWS3SlAgDA4HeJFp0f47PCclvxR5XbT5TlXdssx+kr6/HCC4HSuVF9ceEF7vwHWMWgN5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=VQ/twAq0; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXqjuEyi"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493a287b8c1so4999905e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 07:50:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="VQ/twAq0"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92b21f65b60so179543585a.1
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 08:48:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782658246; x=1783263046; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DIbIf43pbwX/hQV/fKrmKMDT2zLMO167rrGvyP3bRww=;
-        b=dXqjuEyidrp8mZ7tBLHJkteW8ltO3ZFVT6Z64dVPHZAewV+vI2mrFfevHD/nNjwJK7
-         qzvOMwGg172+ZjbOWMJmObKTr5zj4ku3DecV0wl+4jXzqakEqB4HfAuiKv9hy3+a0dvl
-         3Wjehu1VSLFFtkR5P3405ewO9UY67z/Qm8wfsIlS1w0QxdeO05z659n2b+A+MEvGhzvd
-         rJy/wMxcZjUzZWADTbjaRfJ/tVTT/AiQ4vo7k12RnSaKDyBcRAkEdLzd6UJQ7wcMz4cD
-         RJpKEu3KK17Tia8rkPLv2PpZ1D8HvpSZotAPk6ok5+fP2RziW1+/ektnkFK6ga5xE56C
-         s5Og==
+        d=rowland.harvard.edu; s=google; t=1782661720; x=1783266520; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YbP6a6goP2U5MBu9nnomcsOpAn0oXahZ7R9xiTcBOF0=;
+        b=VQ/twAq04oAXWAzoHlUnh4ktiEQlvzWDEaDsLREWzfFOPBnN29KC/ms6mnuceGNZPT
+         ofmjcykF8ouGBu3w075OLuRDCOBqNWoZ3KKU+TiGqEzR3Xz+o+qF4QsJJXUnO1lL4t6e
+         m+A/Tw9VzVI3VaNv2dZ3I/3srbSH0DVgtjiXiVygemE3Tj9AHMPSsaQuRI6hj4tJUfbE
+         jSJ0najHu4xL/uCh2cYIpz5+ERE6vOmXo6pQ37HDPN92JEj2Wi+rTAjFBRvIPbDvQrHq
+         h5iRJYsfyx9r0DqElFo2sRv7oJNDlQ8jQiFiMIP0Fp+XBn615+CJzm7GyqLKgvmDUIgc
+         oI4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782658246; x=1783263046;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DIbIf43pbwX/hQV/fKrmKMDT2zLMO167rrGvyP3bRww=;
-        b=QqquCb4D969NTch6PVGklkCJIceZVoZuUz/1ZeLnxEB4lWcWv80D0GfpXkxjaJOXfi
-         4v5nHGp+JhGVGgDzWRphv0h4HxudO57qJ4zWwEGVDHPs3GWMsBDS+Nen6IT+tpcZR+gc
-         BQmamWC/cayIJWCv8DGx2GyVncbxs0gYYqolJBkMik7lPBYrsEBa8ZHUcQFEnErRl1/I
-         EhdVIEWB05SPh8d0CyWJoKKvBNi3PBYIr5Ej9Tp7Jp63rmh3I5QFn/3yXvZEC1QxmFci
-         jwZCaX/Bg5Jrd48MQ7fyv2kinip25wlSeP/U/zfEbitp0lteVngT/4w678JxetfsOyLY
-         K/fg==
-X-Forwarded-Encrypted: i=1; AFNElJ8hMrYEMhCNDcwcnamQ4V2i/vfrdgKhiSVrryhz8WVJ9TrZlWsItEv8tfw1yCUFd01JyUqKbgamvws=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3ST3aLQoDj8HpVEpcRXsnvFQEootgCM1pvpQ0PTkdyXok4Fex
-	hAyFdHmL1MkeZK53sbDfvKwUz0H+13b3CBc0DK5sNHejGiaBgFnDb+ZGmWumNw==
-X-Gm-Gg: AfdE7cm07JQG3HBlA1WOaqokESvF6HeT/LwQ19o6fwPhCPFPLnynsfLJDbQ67aw4s3P
-	j791Ako9ifHAXzY/zytjUYj8j0cT3VUDo7vLxBRczCyNFX1bpvGeJqJ4RCIfGvWwbOJh6x7vdo7
-	fTBzH5qRX/c2CErnu89XW5pM6De3Mq9zJvZD12JRVc614gyY1rd81leK+nT2C/RmcmJLgaKSqtk
-	zwyDR3XERcoGYYRDIUsQ9ewoqaq6w3Sq3u+V5uiddEzRwX71OLlnzrabXMeG/Ys1aEeasg0pTns
-	2i2fYeWq11cPXC29Uo6ejounXfMTqsIj98oDV8W05lCZMkH9TK9O3mizdoXz31apu8EnFGuQg8l
-	T/Yn2f+wqC2t5eGZgTiHope9jzTSEefRWIMoTwRLKqhBro4HauB8MfP74F7HTYj2QtGte7iPlMY
-	WaI0azJH/SkKYm4ZtcGfuOSOCw
-X-Received: by 2002:a05:600c:c4aa:b0:492:3445:ecf8 with SMTP id 5b1f17b1804b1-4926685fe2dmr206794015e9.3.1782658245742;
-        Sun, 28 Jun 2026 07:50:45 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c00a34esm136115845e9.0.2026.06.28.07.50.43
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 07:50:45 -0700 (PDT)
-Date: Sun, 28 Jun 2026 16:50:40 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
+        d=1e100.net; s=20251104; t=1782661720; x=1783266520;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YbP6a6goP2U5MBu9nnomcsOpAn0oXahZ7R9xiTcBOF0=;
+        b=cM1In+DlwG/RDtmdx8JjYYGrYliGBtphIkpbcOsqz05KUQTIWnk00daoVF35qhrJVm
+         3TZYY0cXNmGBalmzk9SxCRJtyGC372Pk+q3qJ+HBc72DsatMAC3RdlKdN+nmHNEkcHPV
+         j9cPsirVNEtYUTnfSPjqQ+BAUfhDZieeheKzvg7z38H9ybo8l7CVKhdsgv2gWDw0PGZG
+         nc513Y8udExfk/dFMiKqEp3Wqgu7n68QkwReIhcdpnHHHy8+c3ASQCdkmN914gQKp/P3
+         sGY87rcleUlNAt6EJLAtGecx0acAVFVR4ZoQ8uxHiOtaCXtzc1VsIsfUie/hSaaSLUAq
+         u6UQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9DnuQCdNoMXX7bLV0apzwPvP1N89LobYE9DhX0H+Q+ePp9Iomb+DJ+hPxh21WzZavC+HaXJenoFX0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf/r1clvwPAmAy8v/MHE5Jk/dZ74/+KWAr9OuJ4GiD3FUyCHJR
+	btlSe8BQH8H7nKASDjrt7hv6dmR+IdjVmAKy6tgdObB+ZAXnW6zGmYdkqpWUtYEWtQ==
+X-Gm-Gg: AfdE7ckkgVI2rWQfuWX5swCFHV9pAEemYyao1K2mnxw8aleHY8OS9KDzUpE6nLau3em
+	coYRWgCkytMY13YVwH+vOCpqSUMOmw1H1eokFmV6fkfbwFqa5+6Bg51caEDTD2les8uQ/cwBDIS
+	yO4rB7QaR30d6URb95HqFK1afAvVQRYLm2T67NKVzAXxce4CSqJYcx8iPe5/lYO+ZzTkLiyrZ2s
+	1rrEzvYAMHF8NVv1+uxJQoAim+FpQghJ4ZsJ4dCdHv1wUB7arehE60CxKHKnzRYJkxZF/+T2olO
+	4+5z8KpZLecwpSsZSuzhk1pmic/6rhT8yJNvM+TAiPhIg/XRNDLU+JE4v9TYvmFJhtTODqES4Zj
+	/ps6yJj+Fygjwc68dhtoKI7WPBzPFDK4tjc6DcRe7fLGnlanl7U5jwks7EToNyT1Hr8pQxsEVRv
+	r3yt/yiRsT7G5jCi5fSq9GxkTecaUh65C9
+X-Received: by 2002:a05:620a:4613:b0:915:aa65:6e95 with SMTP id af79cd13be357-926039b55abmr2307740385a.44.1782661719983;
+        Sun, 28 Jun 2026 08:48:39 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-926005a1892sm1783735885a.38.2026.06.28.08.48.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2026 08:48:39 -0700 (PDT)
+Date: Sun, 28 Jun 2026 11:48:36 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
 Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
 Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628165040.76fd608d.michal.pecio@gmail.com>
-In-Reply-To: <02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
+Message-ID: <62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
 References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-	<567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-	<CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-	<5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
-	<CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
-	<eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-	<CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-	<02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
+ <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
+ <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
+ <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+ <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
+ <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
+ <CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
+ <02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
+ <20260628165040.76fd608d.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260628165040.76fd608d.michal.pecio@gmail.com>
 
-On Sun, 28 Jun 2026 09:55:07 -0400, Alan Stern wrote:
-> On Sun, Jun 28, 2026 at 11:53:09AM +0530, Nikhil Solanke wrote:
-> > I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
-> > out how to make it properly work with my patch because of the
-> > following reasons:
-> >=20
-> > 1. I don't want to move it to the top because, from my pov, there
-> > must have been some reason for placing that quirk where it is now.
-> > so i don't want to mess with it.
+On Sun, Jun 28, 2026 at 04:50:40PM +0200, Michal Pecio wrote:
+> On Sun, 28 Jun 2026 09:55:07 -0400, Alan Stern wrote:
+> > On Sun, Jun 28, 2026 at 11:53:09AM +0530, Nikhil Solanke wrote:
+> > > I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
+> > > out how to make it properly work with my patch because of the
+> > > following reasons:
+> > > 
+> > > 1. I don't want to move it to the top because, from my pov, there
+> > > must have been some reason for placing that quirk where it is now.
+> > > so i don't want to mess with it.
+> 
+> git blame is your friend:
+> 
+>     The DELAY_INIT quirk only reduces the frequency of enumeration
+>     failures with the Logitech HD Pro C920 and C930e webcams, but does
+>     not quite eliminate them. We have found that adding a delay of 100ms
+>     between the first and second Get Configuration request makes the
+>     device enumerate perfectly reliable even after several weeks of
+>     extensive testing. The reasons for that are anyone's guess,
+> 
+> > > 
+> > > 2. Regarding my idea of adding a condition — so that it doesn't
+> > > change the behavior when the quirk isn't set — if the full
+> > > configuration set exceeds 255 bytes, we would have to issue a 2nd
+> > > request. In this case the existing behavior would be more justified.
+> > > 
+> > > So, I'm a bit confused about how to implement this properly. Adding
+> > > yet another condition to fix the second case doesn't feel right to
+> > > me. It would look unnecessarily complicated. I would appreciate a
+> > > bit of help and advice.  
+> > 
+> > If the 255-byte quirk flag isn't set, do the delay before the second 
+> > transfer just as it is now.
+> > 
+> > If the 255-byte quirk flag is set, do the delay before the first 
+> > transfer.  If a second transfer is needed, you can do a second delay 
+> > before it or not -- I suspect it doesn't matter.  If you want to be 
+> > safe, add the second delay.
+> 
+> How about "keep unrelated changes out of a stable patch", i.e. always
+> do the delay (if any) after the first request, regardless of size?
 
-git blame is your friend:
+This is not an unrelated change.  Rather, it's deciding on how to behave 
+in an entirely new control pathway -- the one where the 255-byte quirk 
+flag is set.  The old pathway is completely unaffected.
 
-    The DELAY_INIT quirk only reduces the frequency of enumeration
-    failures with the Logitech HD Pro C920 and C930e webcams, but does
-    not quite eliminate them. We have found that adding a delay of 100ms
-    between the first and second Get Configuration request makes the
-    device enumerate perfectly reliable even after several weeks of
-    extensive testing. The reasons for that are anyone's guess,
+I suspect no devices will have both this quirk flag and the DELAY_INIT 
+flag set, which means the location of any delays in the new pathway 
+won't matter at all since they will never be used.  But even if some 
+such devices do turn up, adding an extra unecessary 200 ms to an 
+initialization that is already at least 2200 ms long won't make much 
+difference.
 
-> >=20
-> > 2. Regarding my idea of adding a condition =E2=80=94 so that it doesn't
-> > change the behavior when the quirk isn't set =E2=80=94 if the full
-> > configuration set exceeds 255 bytes, we would have to issue a 2nd
-> > request. In this case the existing behavior would be more justified.
-> >=20
-> > So, I'm a bit confused about how to implement this properly. Adding
-> > yet another condition to fix the second case doesn't feel right to
-> > me. It would look unnecessarily complicated. I would appreciate a
-> > bit of help and advice. =20
->=20
-> If the 255-byte quirk flag isn't set, do the delay before the second=20
-> transfer just as it is now.
->=20
-> If the 255-byte quirk flag is set, do the delay before the first=20
-> transfer.  If a second transfer is needed, you can do a second delay=20
-> before it or not -- I suspect it doesn't matter.  If you want to be=20
-> safe, add the second delay.
-
-How about "keep unrelated changes out of a stable patch", i.e. always
-do the delay (if any) after the first request, regardless of size?
-
-Regards,
-Michal
+Alan Stern
