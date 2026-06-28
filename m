@@ -1,132 +1,136 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647B02E03E4
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 17:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDF623D2A4;
+	Sun, 28 Jun 2026 18:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782667330; cv=none; b=eVLhZq64kuIUGMZzD+zSo3YI3hDeZObjmf+OE+7pZ0mSJnhQ5UaQNq4Hr+qClX6BJTiB9uezwkprG4joH9CkOqnaZ5rOAs8k4NluTbc9IjO1VUa9c7zAHL+zF04yErzijUQa+ZwWbGTtwe2LAIccDcHEdWfn+q9XS8SfqjC1ZMU=
+	t=1782672847; cv=none; b=q8SRp1ekAB1m0BDAYmFEl/kbzN1v6/VvlwviVr1HMYTS/5lF26hFxEAzA8Pz12a47ZEU6Iu2DoTS2ABjO22VzVCOAy/bI0QSX9hLnajravGzvj3isQHU6Ea2LiaSXGNMerP3HWAMPK1oXOIgdiSgkX2Uwn5KaACVidHgrwBTTZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782667330; c=relaxed/simple;
-	bh=K3EOnm1FTPPIVgm7ZBKpbKmC5oI+YrXDEzBB1/dVpHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JevnbFIMQn+MaCQ9LIPHOeo0TI17hUuBy6xDnyqK5Q+vEX6Q2DiF3H7g8a81R+nghSsiez+N0JsjGxUpRWaOnmRHrE9wnotXMtI6x6mXmku51S490dbhFoxbR4dLKAjcXjQ54XR1YiAUAp36apLGBmBTrq/wzp0YE9RbS7URglI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p9ZMZPeK; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782672847; c=relaxed/simple;
+	bh=2mBQgjcxrqblWqv5J8Qk8wJk+A0S9tR+UwxzmB1h0I4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Edp7pQjjaXJCG4LcD1+Dt1H4LcUZrVueXrE0mCT5LziUY9mmCeGXc7bCfbvBATWLxAwim9GbwxPtXNV1hgFVH1zmiZsJoSmJYTdRgP6Z4/O9wUIqKIyf7+doMrSxW56bMXetu2LW3lt6kX/TQYxOQwF2arNDWvqX48krnfTFhoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMVPNL6S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p9ZMZPeK"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-472a14c9965so533122f8f.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 10:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782667328; x=1783272128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BBABlV/y3tcVRj6J4pCvx1ErOlS8DPYAimesttySdoE=;
-        b=p9ZMZPeKYklW9y9bTUWZv3xL6SxinrYKC5qxU3P6Z7EqCWdR8yfWyWcsx4c4uga1cS
-         aqSPWK32B7VKgYG0SbA1DKqWFF4SvPv9n+/PKDkyEzkHFDjPJ3IsmHjP/OZhmjsyLmYC
-         /kGnBW3J+e62qCJiqiTZ/KOPwYF6x+P8OLWnJKDqDpYhglZp68xomAami1etPoSCVcs3
-         AEH4SIKd70Sv8N0g6Csgxpi6OY4yn+VBPMprnCVb7DoJI+FIbJEAZ24qSCFhw7cqUbSB
-         +95cB+MjtzRMKa4aDrWNVLpo+LRybZd1wwMXxcx2zaoaiOA0RhvbBQgyZegVuyJ7uygk
-         oLCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782667328; x=1783272128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BBABlV/y3tcVRj6J4pCvx1ErOlS8DPYAimesttySdoE=;
-        b=U1SR+UWwbncMopApHXEQ9Z4xB7moBsV71DU4Nst82IickEe5oJCcRxnK77EOgFDtSG
-         tyIjBlRzy1h77/KLiXMZXA1aWghAsqDrYI9Lo3JUPZSo4ZqrwUWaT+zwvcW9WgOz+UDK
-         oUEQ9afujz8w9FvhbRmay6WTvCJf2ge3BGw8crMd+qfmNXPr155bDz+BFy1kgWotGhE3
-         iT2cLLV5+NQS1Tpwxg4LsM+V4yqaHr15gaOXKv6T3cYjgwwbMtxHxgEtWs07MQif8yi0
-         snY0U+o7EVRcU+Un252/I/zTmUxtrBy/Cj9nyQxiwbGgy80CDR9My+gtCuuaVkMxyh4K
-         wdwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrTvEm/Hwk/vULDqtU4K0CxUXSiWjrRnh5OJC+Zdsz/bifnbCXUuUbY2abIfKEiDhfU2wsHP3wMDEE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV8vuZsgH5Z4XtorIn4VgPS3FmmkPt87QJ98GuYFBo01JbFFFk
-	rYzTYJ4GNHNlT/EfFseQ7E5LBEFtstwchRF61kzatC6IU78IJGin5aWk
-X-Gm-Gg: AfdE7cn7zAPadJCTPsPArQAbJZfuzVwPHtlk76c/p8QUlvnCbTVkqclDF9CWuHkSpcO
-	QxWhXvuwj4tlCGROwfVKsBhKiGxkPtogqYDr6fvcOg34/ZgD0ZkScwJCeJWPXC0vvnNQ8cKJHDD
-	6jTQdzK64+JmtbYKY7jBTEt6q4ETz9sjLXuBTtcXqywJYiVWXnKMyJSZB31II5+l66pTR19z98C
-	IE4jCN0K285C8BuZR5hUxeJuKcXpaXuNEmT52J1W7gzmEsq6Qywe2uv6zXSK0apaw3928qCU8O3
-	zGwmgdg1rigffskKgXjOhQz6+UllVC7sWelQLY06otnnR/S/GQ48ECKW8UR6fegaQd1G9neDbuX
-	uxuF8/8Dnprhk5nu81IHFfRPmfqZuKTfa6EelhRSitUDIY0uy2VIIcQufh1h/pTubGcWPSXwe4y
-	A8Rf0kADPI/jxRmpt72siAKHFn
-X-Received: by 2002:a05:6000:1867:b0:46d:8695:f49d with SMTP id ffacd0b85a97d-46dc2a1614cmr23514992f8f.34.1782667327708;
-        Sun, 28 Jun 2026 10:22:07 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-472c7bec9c2sm7927088f8f.12.2026.06.28.10.22.06
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 10:22:07 -0700 (PDT)
-Date: Sun, 28 Jun 2026 19:22:03 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628192203.5fb9daac.michal.pecio@gmail.com>
-In-Reply-To: <20260628190201.00afdccf.michal.pecio@gmail.com>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-	<567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-	<CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-	<5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
-	<CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
-	<eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-	<CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-	<02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
-	<20260628165040.76fd608d.michal.pecio@gmail.com>
-	<62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
-	<20260628190201.00afdccf.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMVPNL6S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D661F00A3A;
+	Sun, 28 Jun 2026 18:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782672846;
+	bh=TcbXPpzfkxQPhdknKxPzE7hKJWojVVYNJ0ZYN7VuqUo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oMVPNL6SGcurNCHXmW3JSPOFJI7LH22YpXBxlnznKGMdIsyI5od+fvvZQORfmixi4
+	 2L1jV5FAXwl4QGVq+k/k3nIGmT9xw2yO/jDCg1Qsmt6l+tgWabUSdiWGJQmBsp+c0r
+	 r/11LXfw6sDRUWlbeMYYEhHISwmY5WhDpWeMtQop3avlDAaKPOJYpwqJULGXyclMcG
+	 LEFqaUmhxbdzHb7DALTBvRQSK7p+QiYZEnC505OmTXbQZDDOkaqC2FzkyV2di0yIPq
+	 V0cyA4hD6W4Q2dBuocn6AJPu9Bps9oYQ7iPmwW29QmFaf8KawKNEE/30XrqtugZWrk
+	 OqfO2HS5hy8pQ==
+Date: Sun, 28 Jun 2026 11:54:04 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Andy Lutomirski <luto@amacapital.net>, linux-crypto@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, iwd@lists.linux.dev,
+	linux-hardening@vger.kernel.org, Milan Broz <gmazyland@gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Add af_alg_restrict sysctl, defaulting
+ to 1
+Message-ID: <20260628185404.GA2292@quark>
+References: <20260622234803.6982-1-ebiggers@kernel.org>
+ <CALCETrXPj0u=FZ=aFcZAHk3fFZa7rCuPEjx6cOMXmT3sdkC7SA@mail.gmail.com>
+ <20260623192715.GE1850517@google.com>
+ <c7cb79ce-48f9-4433-ab4f-88b4c4df996c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c7cb79ce-48f9-4433-ab4f-88b4c4df996c@gmail.com>
 
-I really think it could (and should) be a simple patch.
+On Tue, Jun 23, 2026 at 10:09:27PM -0400, Demi Marie Obenour wrote:
+> On 6/23/26 15:27, Eric Biggers wrote:
+> > On Tue, Jun 23, 2026 at 12:12:24PM -0700, Andy Lutomirski wrote:
+> >> On Mon, Jun 22, 2026 at 4:49 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> >>>
+> >>> AF_ALG is a frequent source of vulnerabilities and a maintenance
+> >>> nightmare.  It exposes far more functionality to userspace than ever
+> >>> should have been exposed, especially to unprivileged processes.  Recent
+> >>> exploits have targeted kernel internal implementation details like
+> >>> "authencesn" that have zero use case for userspace access.
+> >>>
+> >>> Fortunately, AF_ALG is rarely used in practice, as userspace crypto
+> >>> libraries exist.  And when it is used, only some functionality is known
+> >>> to be used, and many users are known to hold capabilities already.
+> >>> iwd for example requires CAP_NET_ADMIN and has a known algorithm list
+> >>> (https://lore.kernel.org/linux-crypto/bcbbef00-5881-421b-8892-7be6c04b832d@gmail.com/).
+> >>>
+> >>> Thus, let's restrict the set of allowed algorithms by default, depending
+> >>> on the capabilities held.
+> >>>
+> >>> Add a sysctl /proc/sys/crypto/af_alg_restrict with meaning:
+> >>>
+> >>>     0: unrestricted
+> >>>     1: limited functionality
+> >>>     2: completely disabled
+> >>>
+> >>> Set the default value to 1, which enables an algorithm allowlist for
+> >>> unprivileged processes and a slightly longer allowlist for privileged
+> >>> processes.
+> >>
+> >> In our brave new world of containers, this is a bit awkward.  The
+> >> admin is sort of asking two separate questions:
+> >>
+> >> 1. Is the actual running distro and its privileged components capable
+> >> of working without AF_ALG or with only the parts marked as being
+> >> unprivileged?
+> >>
+> >> 2. Is the system running contains that need the unprivileged parts?
+> >> (Which is maybe just sha1 for ip?  I really don't know.)
+> >>
+> >> Should there maybe be two separate options so that all options are
+> >> available?  Or maybe something between 2 and 3 that means "limited
+> >> functionality and privileged modes are completely disabled"?
+> > 
+> > If we want to offer more settings we could.  I could see this getting
+> > quite complex pretty quickly once everyone weighs in, though.  There's
+> > quite a bit of value in keeping things simple, even if the offered
+> > settings won't be optimal for every case.
+> > 
+> > - Eric
+> 
+> What about exposing both allowlists to userspace and making them
+> configurable?
+> 
+> I'm mostly concerned about systems running code (possibly
+> closed-source) that uses algorithms that nobody here knows about.
+> It would be better to allow a single algorithm than to turn off all
+> restrictions.
+> -- 
+> Sincerely,
+> Demi Marie Obenour (she/her/hers)
 
-This is what I wrote a few weeks ago. It's an unconditional change
-for all devices, but it would be easy to turn it into a quirk.
+I think the following is what you're asking for:
 
+    sysctl crypto.algif_aead_priv_allowlist='ccm(aes)'
+    sysctl crypto.algif_aead_unpriv_allowlist=''
+    sysctl crypto.algif_hash_priv_allowlist='cmac(aes),hmac(md5),hmac(sha1),hmac(sha256),hmac(sha384),hmac(sha512),md4,md5,sha224,sha256,sha384,sha512'
+    sysctl crypto.algif_hash_unpriv_allowlist='sha1'
+    sysctl crypto.algif_skcipher_priv_allowlist='cbc(aes),cbc(des),cbc(des3_ede),ctr(aes),ecb(aes),ecb(des)'
+    sysctl crypto.algif_skcipher_unpriv_allowlist='adiantum(xchacha12,aes),adiantum(xchacha20,aes),hctr2(aes),xts(aes)'
+    sysctl crypto.algif_rng_priv_allowlist=''
+    sysctl crypto.algif_rng_unpriv_allowlist=''
 
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -938,15 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
- 	if (!dev->rawdescriptors)
- 		return -ENOMEM;
- 
--	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-+	desc = kmalloc(255, GFP_KERNEL);
- 	if (!desc)
- 		return -ENOMEM;
- 
- 	for (cfgno = 0; cfgno < ncfg; cfgno++) {
--		/* We grab just the first descriptor so we know how long
--		 * the whole configuration is */
-+		/* Try 255 bytes first because that's what Windows does */
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    desc, USB_DT_CONFIG_SIZE);
-+		    desc, 255);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s: %d\n", cfgno, "start", result);
-@@ -975,8 +974,12 @@ int usb_get_configuration(struct usb_device *dev)
- 		if (dev->quirks & USB_QUIRK_DELAY_INIT)
- 			msleep(200);
- 
--		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    bigbuffer, length);
-+		/* Don't bother if we already have it all */
-+		if (length <= result)
-+			memcpy(bigbuffer, desc, length);
-+		else
-+			result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-+					bigbuffer, length);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s\n", cfgno, "all");
+We could do that if it's what people want.  Just keep in mind that it
+would be much more complex than the single tristate sysctl.  And in
+practice the number of people who are knowledgeable enough to create
+these lists is quite small; we've seen similar things with other "Crypto
+API" configuration knobs that seem to never be touched in practice.
+
+Any thoughts?
+
+- Eric
