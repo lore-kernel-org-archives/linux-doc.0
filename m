@@ -1,354 +1,243 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC60F313272
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 21:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DA8800;
+	Sun, 28 Jun 2026 21:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782681401; cv=none; b=Xmn2O5/lFE7zpOY+MS42FnqIpYc4RWtWN2BqLj1bJxGGI3YrujAq3JUudIpNTF0guQ3o/JcjOQxaZMPPGnbDIOQohfuEhfFOrFc5ptN3BqR1rs18xEx4TzaeiaFR1dfAIEf2g66fyu4Uaz3FBZxVZip2TW703EeQqahTeylamXc=
+	t=1782681526; cv=none; b=FK4tKVhtocR8nT6DMhVfKsXB5pzyZj608T9eG0I9RtL8zduWjgpQFSIZQCo7XAZlrcVsMHhCygWR6Cu54X6T8WDFeghbH9krjaJE+SoC6osX3LJNIMoHeLkDln5+lTOVhJG7J3jcM1EfhBDXGm6H40BYOPaiyoqtswuXGCQA3Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782681401; c=relaxed/simple;
-	bh=Ak4ME6EV2umXWDdTsgBMo7kpaXBWMZyqJ/E0DQRGCSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dfl5tMAUPbzq4k22CJ1QYZ0SauwgqR8uKIn2wr4gISnnuJDhT8CmAj8sUz+fPuhllSmxnrhrXdnz0iU/LOLMAmRykZlcxxJicjtXwHzKrq9nERClJanSad9IS6jU3EkQ0EkV6od7kzflsTvZ6l4cYK3XRpuh6UgeQhfO33dwW/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJTB5hLt; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782681526; c=relaxed/simple;
+	bh=llCgYXXJQ5bOYICf9djgNzfbgXeNPCTj/ihuuFFOj10=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A4HAHgCLKd9A7zJ/VFcqOKIPW/Q9aNb378ljMd/YVVffjDBte8pJY9pP1s5PxtjZJvdGunWKk0nM4C1cOYSDiWwyBrhD0dElgT8eifJeexcG7DPdqmunkzEUIIZjpdpZ1aJP9YPql8+YFKC5zqm4Eb0cIK3ADZ7eX3HWYtvBa58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AWSxr8Z6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJTB5hLt"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-471eeac43bfso1160554f8f.3
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 14:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782681398; x=1783286198; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JR17Ijov4migXeSaakJw+TAwMRCearPMtrzs674Xjvw=;
-        b=VJTB5hLtIE75WLeGWo2QOO267CwlDFAv8yZdjzc8OYQAeWigY7MqAfl3h/PHuCxwTY
-         bhAB/wy990yK3w3RhkWczSML6POE7TwKaRuaYbYN+rAUa+5xEMwWdsEmSogXXYtaHqN1
-         lPvnw2YzPkuSitjsSaj3gy381Lj9EIPTi4zYnjEyAPnalZ/7QAx24yxgJyNBhKq8C8Pg
-         IjkyeZTWpjJobZEbOccnDtZfr/awguhNUcXpe6fp9akXobTn5ysaz9pqdIRhnTx7My3w
-         Lfi7Jjg9OPqKaXHWdGf/XXw5BYmVf4n9vLcz0eD7JwYVgGCce3LvWFAbOhbaiPFP/toC
-         1Xaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782681398; x=1783286198;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JR17Ijov4migXeSaakJw+TAwMRCearPMtrzs674Xjvw=;
-        b=EKhWVn677eATzPkRMyVlADudObxfmxubgBgnoXtI62P04p86PzzJ3RaWSF3ND2rKgz
-         NAluS3VVxaUgYLtQLAHqA8f6C8XJ9LDVZBndioOWrPKjMZ4kbCet+Ncj0npRtLXCDpZA
-         7IV5wcWSCoRMxbL/JThUjvXWswp+TqNhzYP3g0+UUeMpOli74EbJQVonZWWzbZqWWzlL
-         jtNDb5v+FCm6FyLRH0P9Muyg4YyE4QqT1GpxLYW1yHtX+91pqgJiwHAXLXiDvXG10rhr
-         GNQ8aWswzeurrhS2TLdbOZl2ZpnvqXcbgZYtV0kmTNRqRAUeGX4j8A6wmDvALJMLDWIF
-         5sbg==
-X-Forwarded-Encrypted: i=1; AHgh+RpCwNfuDw07UqoTINA9bEybkHTRD/qGhPcyc5l2jKgszKTx5mdjzkEHtyB4YTF6eHcg2AIG7lwccd4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxD6e45LwaDhJwwJN5PXbODfe8zj1IOj+i5PADzG0HbarHcuNJ
-	xygjNnQKdHpZ3T7cHADml+J2PevGaPbqqtLCbhqOeC5HpJ0P/JonW/GY
-X-Gm-Gg: AfdE7ckg63DdhfWWeDn+P+9WZKvNvqY9V7I0yZ9XG/Pf8D/MNKECsd1zFgqK8JEfltr
-	MDlwoBr7iL71MpUQF9pzrX7uCQqbNJusitXW0duzGXdQ1e2rbQujpOgGRETGQqGP1TzwJX4bHjd
-	Y3ak7LV7u2m7Wf8lwLX6ZbNVR5LThTwAGWhtuk/tBJh+FrfXzgE0TS/ppfJdcFAtMitI6rTJjaf
-	BCNsAOD/T/7GVDQGbRolbEyDA4lIFcva0bBtnDzMkhi3GYWFGZgUAGJgppR+onGaYcA0mP9HTaw
-	hc2pE0qiRzi7KpZZu6xnvbfTxblrRXRzfWo31TWbCQS1RTWmGrlJQe6Gy2tVVpJPjjtVzJBEL3d
-	ywxe9fg4S6J43gitkjdMvIl9nINLIZpnwci+0SiobnYfdyOUE/77hlR77Nh0ygssZbfYSOyzyAQ
-	VHWAglZFkf6NzsaJAV0m6LP/Gt
-X-Received: by 2002:a05:6000:2905:b0:470:6dc:848a with SMTP id ffacd0b85a97d-47006dc868amr10104283f8f.2.1782681398041;
-        Sun, 28 Jun 2026 14:16:38 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46fe25429d5sm23299558f8f.7.2026.06.28.14.16.36
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 14:16:37 -0700 (PDT)
-Date: Sun, 28 Jun 2026 23:16:34 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, stern@rowland.harvard.edu,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628231634.6752f74d.michal.pecio@gmail.com>
-In-Reply-To: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AWSxr8Z6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5471F000E9;
+	Sun, 28 Jun 2026 21:18:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782681524;
+	bh=HyCs9ijfBF0ZUElYT55/Qos5tui3tyiLjbIjL4guzbE=;
+	h=From:Subject:Date:To:Cc;
+	b=AWSxr8Z6fddnPkUYcxp/duFh4LsV9vb26X0DZ9AsCXNjjg8f4HGIQQ7p8LdKgznaN
+	 EWVTnqx1nhpHZ5vzrADGsavmMjCEdrt9LtQ04a57im4o9i4HVt0pBWtHofmAu7w6hl
+	 cTZkv1b41lUuHx6VKnZEuHG70ZsOasH5sxFw82S2QcW8ri5WGm8dvDuZryIA6crrXp
+	 6+T8/Qvp+sCgnwDlwTrqbum+9Gh+XSfA/XsbUouxQSWnqZJvzDDESzTto3Y0XYaVkO
+	 Bq8BEO31TV4cJQdtCPF1XpYFUmI85d0zFVZnsGQn6nD/VSE481pjhMCnAuicWPqrd+
+	 6k0P+NhyFUMLw==
+From: Drew Fustini <fustini@kernel.org>
+Subject: [PATCH v3 0/8] riscv: Add Ssqosid and initial CBQRI resctrl
+ support
+Date: Sun, 28 Jun 2026 14:18:11 -0700
+Message-Id: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJOPQWoC/32Nyw6CMBBFf4V07Zh2IDxc+R/GBbRTGDWgbSEaw
+ r8LGBNd6PIk954zCk+OyYtdNApHA3vu2hniTSR0U7Y1AZuZBUpMZaokGNv7wC1DGS7gNejq5hh
+ MgERJnRNmShkj5vvVkeX7qj4cX+z76kQ6LL5l0bAPnXus7UEtu3em+J0ZFEigrCizDGNbVnJ/J
+ tfSZdu5WiydAT9MmPwx4WxCm8uksKaQWH2Zpml6AnS0OicdAQAA
+X-Change-ID: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+To: Adrien Ricciardi <aricciardi@baylibre.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
+ Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+ Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+ Chen Pei <cp0613@linux.alibaba.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghua.yu@intel.com>, 
+ Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+ guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+ =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+ Peter Newman <peternewman@google.com>, 
+ =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Tony Luck <tony.luck@intel.com>, Vasudevan Srinivasan <vasu@rivosinc.com>, 
+ Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>, 
+ yunhui cui <cuiyunhui@bytedance.com>, Drew Fustini <fustini@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7503; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=llCgYXXJQ5bOYICf9djgNzfbgXeNPCTj/ihuuFFOj10=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQ59s+bUznrNdu1FvFl2VtbXV7+uLDF07Uj2/LHclPBj
+ Dfl7LJmHaUsDGJcDLJiiiybPuRdWOIV+nXB/BfbYOawMoEMYeDiFICJrIxl+F96ItbV4YCwUPAE
+ 7dd/l7TouIn+fXlwqc3HnItBq4+EaSowMqxi/lauqHRu6onX1389dawJOT0j+oQXz4bNm17VOTS
+ eTuUHAA==
+X-Developer-Key: i=fustini@kernel.org; a=openpgp;
+ fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-On Tue, 23 Jun 2026 21:40:35 +0530, Nikhil Solanke wrote:
-> Certain third-party USB game controllers exposing (or spoofing) an Xbox
-> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-> The device disconnects from the bus without responding to the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-> config index 0 descriptor/start: -71'.
-> 
-> The device then falls back to a secondary Android HID mode (with a
-> different VID:PID), losing XInput functionality including rumble support.
-> The failure reproduces across multiple machines, host controller types, and
-> kernel versions including current mainline and LTS. The device enumerates
-> correctly and remains in XInput mode under Windows. Notably, the device
-> enumerates correctly in Android mode when the same 9-byte request
-> is issued for that mode's configuration descriptor, confirming the firmware
-> bug is specific to the XInput mode.
-> 
-> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-> identical up to the point of failure, with no visible protocol-level
-> difference explaining the divergence. The root cause was identified when
-> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-> use wLength=9 for the initial config descriptor request; it uses
-> wLength=255. Alan Stern subsequently confirmed this with a bus
-> analyzer on a different USB 2.0 device, and Michal verified the behavior
-> goes back to Windows 95 OSR2.1.
-> 
-> So, add a new quirk flag USB_QUIRK_CONFIG_SIZE which causes
-> usb_get_configuration() to issue a 255 byte sized configuration request
-> instead of USB_DT_CONFIG_SIZE (9) for the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-> behavior.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> 
-> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-> ---
-> Changes in v2:
-> - Add Documentation
-> - Naming changes
-> - Refactored to have a better flow with existing code.
-> 
->  .../admin-guide/kernel-parameters.txt         |  9 +++
->  drivers/usb/core/config.c                     | 61 ++++++++++++++-----
->  drivers/usb/core/hub.c                        |  6 +-
->  drivers/usb/core/quirks.c                     |  4 ++
->  include/linux/usb/quirks.h                    |  3 +
->  5 files changed, 67 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 97007f4f69d4..af4bf0ef2c7b 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8158,6 +8158,15 @@ Kernel parameters
->  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
->  					claims zero configurations,
->  					forcing to 1);
-> +                r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-> +                    fails during initialization when asked for
-> +                    9-bytes configuration desciptor request. Ask
-> +                    for 255-bytes request instead to mirror
-> +                    Windows' behavior. This quirk is originally
-> +                    meant to fix some quirky gamepads that refuse
-> +                    to connect in their XInput mode. But it can also
-> +                    potentially fix issues with other USB devices
-> +                    that work on Windows but not on Linux)
+This series adds initial RISC-V QoS support: the Ssqosid extension [1]
+(srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
+[3], and a DT-based platform driver for cache controllers. It has been
+tested on both the Tenstorrent Ascalon Shared Cache controller and a QEMU
+implementation [4].
 
-I too think it's too long. This file explains what the parametrs do,
-not their history.
+  qemu-system-riscv64 -M virt,aia=aplic-imsic -nographic -m 1G -smp 8 \
+      -kernel arch/riscv/boot/Image \
+      -append "root=/dev/vda ro console=ttyS0 rootwait" \
+      -drive if=none,file=rootfs.ext2,format=raw,id=hd0 \
+      -device virtio-blk-device,drive=hd0 \
+      -device riscv.cbqri.capacity,max_mcids=256,max_rcids=64,ncblks=16,mmio_base=0x04820000
 
-And here it's USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE, but in the commit
-message it was USB_QUIRK_CONFIG_SIZE.
+Cache allocation can be exercised on the booted system. Mount resctrl
+and read the default schemata. The L2 controller has 16 capacity
+blocks, so the default capacity bitmask (CBM) is 0xffff:
 
-Honestly, I would suggest a third option: something with "255" instead
-of "Windows", because not everybody knows how windows queries
-descriptors, but everybody knows what 255 is.
+  # mount -t resctrl resctrl /sys/fs/resctrl
+  # cat /sys/fs/resctrl/schemata
+  L2:0=ffff
 
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index 45e20c6d76c0..4fc3145404d6 100644
-> --- a/drivers/usb/core/config.c
-> +++ b/drivers/usb/core/config.c
-> @@ -19,6 +19,9 @@
->  
->  #define USB_MAXCONFIG			8	/* Arbitrary limit */
->  
-> +/* config req size if USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE is set */
-> +#define USB_CONFIG_WINDOWS_REQ_SIZE	255
-> +
->  static int find_next_descriptor(unsigned char *buffer, int size,
->      int dt1, int dt2, int *num_skipped)
->  {
-> @@ -912,6 +915,13 @@ int usb_get_configuration(struct usb_device *dev)
->  	unsigned char *bigbuffer;
->  	struct usb_config_descriptor *desc;
->  	int result;
-> +	/*
-> +	 * Devices with quirky firmware will stall or reset when asked only for
-> +	 * the configuration header. This variable decides which size to use in
-> +	 * that case, if the quirk for that device was set.
-> +	 */
-> +	size_t usb_config_req_size = (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
-> +		? USB_CONFIG_WINDOWS_REQ_SIZE : USB_DT_CONFIG_SIZE;
+Write a narrower CBM to a new control group and read it back to confirm
+the L2 controller applied it:
 
-That's a lot of capital letters, USBCONFIG_WINDOWS_REQ_SIZE never
-appears outside this function and personally I would just spell it out
-as 255 here with appropriate comment.
+  # mkdir /sys/fs/resctrl/group0
+  # echo "L2:0=ff" > /sys/fs/resctrl/group0/schemata
+  # cat /sys/fs/resctrl/group0/schemata
+  L2:0=ff
 
-The whole function is all about "usb" and "config" so maybe these words
-don't need to appear here. OTOH, "first" would add useful information.
+Note that this series only implements support for resctrl L2 and L3
+cache resources using CBQRI capacity allocation control. cc_block_mask
+maps onto resctrl's existing cbm schema. However, cc_cunits is not
+supported as there is no existing equivalent for capacity units in the
+resctrl schemata.
 
->  
->  	if (ncfg > USB_MAXCONFIG) {
->  		dev_notice(ddev, "too many configurations: %d, "
-> @@ -938,18 +948,27 @@ int usb_get_configuration(struct usb_device *dev)
->  	if (!dev->rawdescriptors)
->  		return -ENOMEM;
->  
-> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-> +	desc = kmalloc(usb_config_req_size, GFP_KERNEL);
-> +
->  	if (!desc)
->  		return -ENOMEM;
->  
->  	for (cfgno = 0; cfgno < ncfg; cfgno++) {
-> -		/* We grab just the first descriptor so we know how long
-> -		 * the whole configuration is */
-> +
-> +		if (dev->quirks & USB_QUIRK_DELAY_INIT)
-> +			msleep(200);
-> +
-> +		/*
-> +		 * Grab just the first descriptor so we know how long the whole
-> +		 * configuration is. In case of quirky firmware, try to grab the
-> +		 * whole thing in one go by asking for a 255-bytes sized buffer
-> +		 * mirroring Windows behavior.
-> +		 */
->  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> -		    desc, USB_DT_CONFIG_SIZE);
-> +						desc, usb_config_req_size);
->  		if (result < 0) {
->  			dev_err(ddev, "unable to read config index %d "
-> -			    "descriptor/%s: %d\n", cfgno, "start", result);
-> +				"descriptor/%s: %d\n", cfgno, "start", result);
->  			if (result != -EPIPE)
->  				goto err;
->  			dev_notice(ddev, "chopping to %d config(s)\n", cfgno);
-> @@ -957,13 +976,25 @@ int usb_get_configuration(struct usb_device *dev)
->  			break;
->  		} else if (result < 4) {
->  			dev_err(ddev, "config index %d descriptor too short "
-> -			    "(expected %i, got %i)\n", cfgno,
-> -			    USB_DT_CONFIG_SIZE, result);
-> +				"(asked for %zu, got %i, expected at least %i)\n",
-> +				cfgno, usb_config_req_size, result, 4);
->  			result = -EINVAL;
->  			goto err;
->  		}
-> +
->  		length = max_t(int, le16_to_cpu(desc->wTotalLength),
-> -		    USB_DT_CONFIG_SIZE);
-> +				USB_DT_CONFIG_SIZE);
-> +
-> +		/*
-> +		 * If the device returns the full length configuration
-> +		 * descriptor, skip the second read. Otherwise, send a second
-> +		 * request asking for the full length.
-> +		 */
-> +		if (result >= le16_to_cpu(desc->wTotalLength)) {
+I had previously been iterating on an RFC series [5] that did a full
+implementation of CBQRI including capacity monitoring, bandwidth
+allocation and monitoring. The bandwidth controls for CBQRI do not fit
+well into resctrl's existing throttle-based MB schemata. I believe that
+the path forward is Reinette's generic schema description proof of
+concept [6]. My plan is to rebase the full support of CBQRI onto the
+generic schema once it is ready.
 
-Technically, this is a behavior change for devices without the quirk,
-if their wTotalLength is 9. Not sure if this is worth worrynig about,
-it would mean that the configuration has no interfaces or endpoints.
+This series is based on the linux-next tag next-20260623.
 
-> +			bigbuffer = (unsigned char *) desc;
-> +			desc = NULL;
+[1] https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+[2] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
+[3] https://docs.kernel.org/filesystems/resctrl.html
+[4] https://github.com/tt-fustini/qemu/tree/riscv-cbqri-cache
+[5] https://lore.kernel.org/linux-riscv/20260601-ssqosid-cbqri-rqsc-v7-0-v6-16-baf00f50028a@kernel.org/
+[6] https://lore.kernel.org/all/aab804b9-e8b5-40ad-a85b-af7033391243@intel.com/
 
-What happens in the next iteration of the loop?
+Changes in v3:
+--------------
+- riscv,cbqri.yaml: 
+  - Require a device-specific compatible so a bare generic compatible
+    is no longer valid on its own.
+  - Rename node name from cache-controller@ to qos-controller@
+  - Rename compatible from tenstorrent,ascalon-sc-cbqri to
+    tenstorrent,ascalon-shared-cache-controller
 
-> +			goto store_and_parse;
-> +		}
->  
->  		/* Now that we know the length, get the whole thing */
->  		bigbuffer = kmalloc(length, GFP_KERNEL);
-> @@ -972,23 +1003,25 @@ int usb_get_configuration(struct usb_device *dev)
->  			goto err;
->  		}
->  
-> -		if (dev->quirks & USB_QUIRK_DELAY_INIT)
-> -			msleep(200);
-> -
->  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> -		    bigbuffer, length);
-> +						bigbuffer, length);
-> +
->  		if (result < 0) {
->  			dev_err(ddev, "unable to read config index %d "
-> -			    "descriptor/%s\n", cfgno, "all");
-> +				"descriptor/%s\n", cfgno, "all");
->  			kfree(bigbuffer);
->  			goto err;
->  		}
-> +
->  		if (result < length) {
->  			dev_notice(ddev, "config index %d descriptor too short "
-> -			    "(expected %i, got %i)\n", cfgno, length, result);
-> +				"(asked for %i, got %i)\n",
-> +				cfgno, length, result);
->  			length = result;
->  		}
->  
-> +store_and_parse:
-> +		krealloc(bigbuffer, length, GFP_KERNEL);
->  		dev->rawdescriptors[cfgno] = bigbuffer;
->  
->  		result = usb_parse_configuration(dev, cfgno,
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 24960ba9caa9..9acd278666fc 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -2527,8 +2527,10 @@ static int usb_enumerate_device(struct usb_device *udev)
->  		err = usb_get_configuration(udev);
->  		if (err < 0) {
->  			if (err != -ENODEV)
-> -				dev_err(&udev->dev, "can't read configurations, error %d\n",
-> -						err);
-> +				dev_err(&udev->dev, "can't read configurations, "
-> +					"for device %04x:%04x, error %d\n",
-> +					le16_to_cpu(udev->descriptor.idVendor),
-> +					le16_to_cpu(udev->descriptor.idProduct), err);
+- Take cbqri_controllers_lock in cbqri_attach_cpu_to_all_ctrls() so a
+  controller probed after boot can't corrupt the cbqri_controllers list.
 
-I wonder if it wouldn't make sense to split announce_device() so that
-the first line is printed as soon as usb_new_device() starts, before
-enumeration is attempted and possibly fails.
+- Revise comment above riscv_srmcfg_reset_cache() to clarify that the
+  teardown callback is not relied on. The cpuhp startup callback re-arms
+  the per-cpu sentinel, which forces the csr write on a re-onlined CPU.
 
-That would be a separate patch, of course.
+- Drop the memory fences around the srmcfg CSR write on context switch.
+  Ssqosid does not require the ordering. The brief tagging inaccuracy at
+  the switch boundary is acceptable for QoS.
 
->  			return err;
->  		}
->  	}
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 87810eff974e..df670b0b66fe 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -142,6 +142,10 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
->  				break;
->  			case 'q':
->  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-> +				break;
-> +			case 'r':
-> +				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
-> +				break;
->  			/* Ignore unrecognized flag characters */
->  			}
->  		}
-> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-> index b3cc7beab4a3..a4043b33c2c2 100644
-> --- a/include/linux/usb/quirks.h
-> +++ b/include/linux/usb/quirks.h
-> @@ -81,4 +81,7 @@
->  /* Device claims zero configurations, forcing to 1 */
->  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
->  
-> +/* Use a 255 bytes config descriptor request mirroring windows behavior */
-> +#define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
-> +
->  #endif /* __LINUX_USB_QUIRKS_H */
-> -- 
-> 2.54.0
-> 
+- Access the CBQRI controller registers with 32-bit reads and writes.
+  The spec only guarantees single-copy atomicity for 4-byte accesses.
+  This also removes the dependency on native 64-bit MMIO.
+
+- Program cc_cunits to 0 before a config limit operation on controllers
+  that support capacity units, so a stale unit limit does not constrain
+  block-mask allocation.
+
+- Link to v2:
+  https://patch.msgid.link/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+- Sashiko review of v2:
+  https://sashiko.dev/#/patchset/20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org
+
+Changes in v2:
+--------------
+The changes in this revision address the Sashiko review of v1.
+
+- Restore the srmcfg CSR for the current task on CPU_PM_EXIT and
+  CPU_PM_ENTER_FAILED, so it is not left configured incorrectly until
+  the next context switch.
+
+- Serialize the cbqri_controllers list insert and the boot time walk
+  with a mutex, so an asynchronous driver probe cannot corrupt the list.
+
+- Skip a controller at an unsupported cache level instead of aborting
+  resctrl setup, so valid L2 and L3 controllers still register.
+
+- RISCV_ISA_SSQOSID selects ARCH_HAS_CPU_RESCTRL and RISCV_CBQRI
+  together, so no intermediate commit enables RESCTRL_FS without the
+  CBQRI resctrl glue.
+
+- Rename the RISCV_CBQRI_DRIVER to RISCV_CBQRI, since it builds the
+  CBQRI core ops and resctrl integration rather than a driver.
+
+- Drop the RISCV_CBQRI_DRIVER_DEBUG Kconfig option and rely on dynamic
+  debug to control the pr_debug() output.
+
+- Note: Sashiko flagged the lack of suspend/resume state restore. I will
+  not fix that as register state is only lost when the power domain is
+  gated, which offlines the harts sharing the cache. resctrl reprograms
+  the default capacity mask through the normal control domain online
+  path on resume.
+
+- Link to v1:
+  https://lore.kernel.org/all/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org/
+
+- Sashiko review of v1:
+  https://sashiko.dev/#/patchset/20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org
+
+---
+Drew Fustini (8):
+      dt-bindings: riscv: Add Ssqosid extension description
+      riscv: Detect the Ssqosid extension
+      riscv: Add support for srmcfg CSR from Ssqosid extension
+      riscv_cbqri: Add capacity controller probe and allocation device ops
+      riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+      riscv: Enable resctrl filesystem for Ssqosid
+      dt-bindings: riscv: Add binding for CBQRI controllers
+      riscv_cbqri: Add CBQRI capacity allocation platform driver
+
+ .../devicetree/bindings/riscv/extensions.yaml      |   6 +
+ .../devicetree/bindings/riscv/riscv,cbqri.yaml     |  97 +++
+ MAINTAINERS                                        |  15 +
+ arch/riscv/Kconfig                                 |  20 +
+ arch/riscv/include/asm/csr.h                       |   5 +
+ arch/riscv/include/asm/hwcap.h                     |   1 +
+ arch/riscv/include/asm/processor.h                 |   3 +
+ arch/riscv/include/asm/qos.h                       |  74 ++
+ arch/riscv/include/asm/resctrl.h                   | 147 ++++
+ arch/riscv/include/asm/switch_to.h                 |   3 +
+ arch/riscv/kernel/Makefile                         |   2 +
+ arch/riscv/kernel/cpufeature.c                     |   1 +
+ arch/riscv/kernel/qos.c                            |  99 +++
+ drivers/resctrl/Kconfig                            |  29 +
+ drivers/resctrl/Makefile                           |   5 +
+ drivers/resctrl/cbqri_capacity.c                   | 132 ++++
+ drivers/resctrl/cbqri_devices.c                    | 562 +++++++++++++++
+ drivers/resctrl/cbqri_internal.h                   | 124 ++++
+ drivers/resctrl/cbqri_resctrl.c                    | 787 +++++++++++++++++++++
+ include/linux/riscv_cbqri.h                        |  47 ++
+ 20 files changed, 2159 insertions(+)
+---
+base-commit: 4e5dfb7c84012007c3c7061126491bbc92d71bf1
+change-id: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+
+Best regards,
+--  
+Drew Fustini <fustini@kernel.org>
+
