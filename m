@@ -1,86 +1,123 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0859578F26;
-	Sat, 27 Jun 2026 23:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782604017; cv=none; b=FIBY2R6pal38dB0FSC0u3Ec1K+0/c4mDazQh7GM5D48xvDVb3/DWe2/Wt1030vNAj8tM4qlZLOcqlruZ6bvuQhSpq+y78BIAf6JJ5S2yc9gcr3cy4MgyXygxbb0L6P7yomydlM6c8iBRd9Yf0rG6omzwNAUF3TKhrBuoIwbA39c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782604017; c=relaxed/simple;
-	bh=0BgutQrxdo0WBm7uLd0I0f5fTxu1d/Bd/eheu73268U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfZ7S+t1+cBt0ocnf+rC+T8nu7m6QxDQRr0SzPrszX8lvShLf3/UaJwQRooIwx+dmvgMnGvKr51kwOwr+rFG6sTPHOrSJZ09+HoU+3fscgdUmG5s/j8hc8OivoDyLoCx5JqOKOJSiKDCWLBCXRZqTSyyu7QJ16z9V9ygVkLYYZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Xb2AsLYA; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8520279329
+	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 06:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782627806; cv=pass; b=MVAZXBoVNuc5QQt7k4CNRRp9kpMVjsNROK+WfmpT2UtORxiUfIAWxxUjw2bHisPldTHq+BTqRy3yUy0ayGgcowvvRVXvI2+CyVVxgimBAUkg6sAfmOgBEUxfKYSE7pBi5n1H+ryxCyeanRoo8LohrnYsYILR8DwaSsztIyuWrg4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782627806; c=relaxed/simple;
+	bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bXsWyQasjp60W5g0bm8ZslqHqddQ5U15v7bUrmVpXOfnVmWrfpFalqQIBAuj5cnC++GBY+p7Woe4vYBZNfi6hws7kI4gMo0rWjXFSpzSrIuL23TrUGa/+TYwWh4oPPMXyw+TtYSy6snWVNSp4IKdot8zQrMEqk57k3dbMwREMBA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPNoA4iQ; arc=pass smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Xb2AsLYA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=45H8N/PDlf+7m9SmOhmiRitaV8mLGwzcFX/BKLhJgVI=; b=Xb2AsLYAcvqdQxOnoSkgF5aawA
-	hUAHREyhw7MNUGU5iRUCXjce1cDO9zgymqLkBpSLS+Y1my5kCZqd5M57AB8c9RMnSIykmFV8nhe2e
-	7gWMFcae4nkeNbZvoPWT9fUdXJPadwM0PJScJFG3p8TiA+FQFNc0lJVmQHX6KbySUQtA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wdcjF-009XGt-89; Sun, 28 Jun 2026 01:46:29 +0200
-Date: Sun, 28 Jun 2026 01:46:29 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
- ethtool pause validation
-Message-ID: <3b8abe17-5da7-4a7e-a42c-eb39a631843e@lunn.ch>
-References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
- <20260526172447.10ca4b9e@kernel.org>
- <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
- <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
- <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
- <65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
- <5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
- <20260626173352.7dc8f106@kernel.org>
- <12b66ea3-42df-4ecb-8eb7-44471407b83f@bootlin.com>
- <20260627143028.5afed23a@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPNoA4iQ"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c1226a096a2so241938466b.2
+        for <linux-doc@vger.kernel.org>; Sat, 27 Jun 2026 23:23:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782627803; cv=none;
+        d=google.com; s=arc-20260327;
+        b=B6hrqm83OvqMwVS5Z3wRtEsZz1EdNMPUDNRAtt+/S35ZhDNaS6aVASBfmVmUeulvVl
+         wUpMvWe0FMaXsY/9KqZAaZJBU0mVHRLTRyyGyd+DA7WTw7NreollcCU6bKreUIRO2WJn
+         vOnnAvSLcMbKJ96+5+Ya6h1BSd88OIatY8pStMRFu/sFoaxHSWXFDdFrMe39yM7T1YT6
+         ZCOW3IG8HtJQMYuT1rJprt/j0zly1GSzwmt76VpJ4G2fCHR6neYiDaNKF2dig+18tCOg
+         mGinhFj9qBwgAaktKk1fxyp8R0xdDsZPS4jEKTxIdbPCNvANTny18+zMAbm/dW5GIyuX
+         trog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
+        fh=qWn+/osXs0iCD0RIiWTVuTymj+w2uqG5vi6lJtDIC0g=;
+        b=QEXFjIsGWEtggpoSlqtiOc4RUJAaYPZ2kShHRQr8BfHz6FH2gzWmqmXwBi+xGPMJq/
+         cYDCMvW772ll5p6jkP6DRBQKBtk5PV/K5hxLU4N6gYxybC5aQ+18yGKSibt4TsnhjvzP
+         MLZWUy6jt/fQPEA4gc/G8kZERVc8e8Sj84ykGVT8XKXPTHzOKe6kYRFZVMzSX+HilWvL
+         KGmjq47ZcPcZ5dslt1Ik+mtjRaucp0wDdrnCjSGC6bhIu2ts5UQwvc6pcfZaHzMTwvBV
+         4JuGElpZljiMt+Cjx5jdi6Zr7r1zD+YJjKz8FMTdG6oNvD7nurpbtgSDIR6OiOWJHEnl
+         iCQw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782627803; x=1783232603; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
+        b=EPNoA4iQlIzz9NigehdKIO7AMaJMUw0QzNlWS1vlbWdOdFHpW7M2PSJzvBNlZMYCZ8
+         BWukGH8w5kvrwt+DZwyMdnHLJkkmFQaPIfpVntipk8PHVsN51Gqb/KhBHzuznggYyS1w
+         zAcBmcfyLPtQN99HcTfOTse/4Xe434Y+QyaLDGqMBRLb0nuiq7Ps/UnErKc4+auyBj6x
+         hb+WZsIVuc2ujVZc4fASPRLdig/MCxW6S+AURcfiYien3/iIQ2wICPb7fo3HekdNCoVd
+         eFBZ7rn0pl5ZOUhcYRVNzKOGy4McSm5KpmmWSDCVWTRZ7/xv+jqekHj8Jy/0KlaTm89u
+         Mvnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782627803; x=1783232603;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
+        b=lq6LL2yIetlqJVAxeQS13KfyOlN0N0IP+w2Io3Ubc0pHNX7JhscPSIk9+acWJDHWxX
+         nVdYZZ7RU15zHMI966j1K014kO+jBXRYAco9yziDU5EUwBDTCFNZ+A3F1eYOKMdZ4a3/
+         9oHmaSZKhXalaI9ASGyuFiPD51Ae+2TQty2tbAiFnXe1ILgJg1RNWDKULoUsAboFyloQ
+         Y81X9VG1EFF9NY8Y+2JChjtGii7a6kPOd/tMpJ1f9BzAbw02j5mKShwOgbHBZzOCwPS2
+         yHIWUQ/btq17H9lUEFAi+9DWOQeCr37RMkv/QXRMWnXMbnE98NJmYW0S8rfKm1eHB8e/
+         YxaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RowGUvUmR70RjFVGTchR4cTHhqgcfSBqTdpOFXILM2K3eKm/+1OsjSE871i3fQa0xuLxk+e9isRt3c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT3T3j4Cj1R1H+NSFCaTM/kKuyM7OQp8nvprANUMuMvpTl3Wlv
+	BgjWO8e6pk5k+b4Zxrl8qu2FFGhTaZu0PtvjW4fAGBA+z2RFdoRXUw6j9xgHf3XfwYyVVO/v1+h
+	UXKDXKqkXjxkZlOmx+PMd83nTM1Yyolr7yJ6/yHI=
+X-Gm-Gg: AfdE7ckA6OgC1av3/fFOQ0CzBDY0oqdTyEndj19OWgSrC9snr/eeR/8zt6+CECdFZJh
+	3thMZJrgke9w8Z0hrkZkq6+nq5wKzyDnvc4QnW7XCrFNTetpWdnopJDyogjhT3KVY77uRfEaRBv
+	nYEaJCRoH4SIBi1SC0BMhZHzkbwGY1MD0BA104+uXTJyHgGOjOb+S2U8JxtORJ70Snc+RiMf3FQ
+	dbu3ASto2rkHSox05R/0PmWXfIyQLQre8+AM1K7p88Kl5BQkohVpKPHu6KWdxyNuy8hJNGLMdd7
+	uVHRAis=
+X-Received: by 2002:a17:907:7b99:b0:c12:1d42:6cd1 with SMTP id
+ a640c23a62f3a-c121d426fc1mr437953166b.9.1782627802896; Sat, 27 Jun 2026
+ 23:23:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260627143028.5afed23a@kernel.org>
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+ <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
+ <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
+ <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+ <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com> <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
+In-Reply-To: <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Date: Sun, 28 Jun 2026 11:53:09 +0530
+X-Gm-Features: AVVi8CdvfZ8_HcAxzQ6YMXiRMTaitnhhJ0mCfb8fG-r-MuhUVjsbTL_143EGKF0
+Message-ID: <CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com, stable@vger.kernel.org, 
+	corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 27, 2026 at 02:30:28PM -0700, Jakub Kicinski wrote:
-> On Sat, 27 Jun 2026 07:34:31 +0200 Maxime Chevallier wrote:
-> > > This is very far from what existing python tests do in netdev.  
-> > 
-> > We can probably drop the class, as it is with this discussion, it's merely a way
-> > to regroup doc common to similar tests. The rest really is the usual set of
-> > ksft funcs you can feed to the run function, with a set of ksft_ethtool_*
-> > annotators for generic checks.
-> 
-> The common way of checking prereqs in the tests is to call a function
-> called require_xyz() which then raises a skip. At a quick glance - the
-> rss_api and xdp_metadata are good tests to get a sense of the usual format.
+I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
+out how to make it properly work with my patch because of the
+following reasons:
 
-The counter example is the ksft_disruptive() decorator.
+1. I don't want to move it to the top because, from my pov, there must
+have been some reason for placing that quirk where it is now. so i
+don't want to mess with it.
 
-Pythons own unittest framework makes use of decorators to skip
-tests. Its the Pythonic way.
+2. Regarding my idea of adding a condition =E2=80=94 so that it doesn't cha=
+nge
+the behavior when the quirk isn't set =E2=80=94 if the full configuration s=
+et
+exceeds 255 bytes, we would have to issue a 2nd request. In this case
+the existing behavior would be more justified.
 
-	Andrew
+So, I'm a bit confused about how to implement this properly. Adding
+yet another condition to fix the second case doesn't feel right to me.
+It would look unnecessarily complicated. I would appreciate a bit of
+help and advice.
+
+Thanks,
+Nikhil Solanke
