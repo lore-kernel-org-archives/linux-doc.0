@@ -1,64 +1,64 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73140315D23
-	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 19:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441533126AD
+	for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 19:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782674076; cv=none; b=AcotYy6syNQ2aQiax3lcs36ycqs0MsDI3tYNhTAoSjwQsC9Cb9oVBWLl1Xwbdqfz7cF+pnkquLXzu/Bs8w33ce0JzH2Uf98OIUuGOUlxqckGt7g3HsumjYfrQvVaKJqDExDAyRnfQiNm9Z/u7xBcJQKagOYACPHt5dp1QwCxo4U=
+	t=1782674082; cv=none; b=NgkreibVUdFfm0xZRlTLAwAwQv2G7WpCSaHTXUY9e5PySub+Vzevmtuss3ftsafCR8upuXKHoH+RYGS7anRtQaU0sJIJJRQ8ABt25q/7SZOKFYoRQZcekhZs3DAT+7n9+RvHvQwznXF8meRU27/cKCFtGqXjSkII3J6Ahfxem8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782674076; c=relaxed/simple;
-	bh=NuS+3+3TYGMxSpMgUHsnkmld7VT2jlfnkEqEyGdY7sE=;
+	s=arc-20240116; t=1782674082; c=relaxed/simple;
+	bh=YVodrP6SP1ni2moBQfSWYaBy5fMfW2VSaTFLJJaWiSI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WuTlUl3Zw+1H2dwDl4dDRK/yfCZbPT4+1t9wg4Ia3ejtX5jeSt0bIz7EY7K/bZtW66QP3qJqw11jWiImT1jEkQlvIzd/lBavFgUJsENKxfz4eY0ZKOSLmPgoMS0aYbdnQkHZpsQBiGHXmJWwfkwKj0ED5L1h6KX4JKVEPQJ3gz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQmAz3KG; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=Vo60722EjSa4OoSg/hDTynRvPayErFN/CUiPpYZ3vIS+1vtENo2WWgUsEq/5BDvAf0C6wf1uhQPLwlum5j4ecjPjnbDc6pSTYkS62ggcc+mw/NebKiZScxH+tjSmzFFhHeseyjQJ23AC1oYUs3t0dIkGI4NFD9La9QXXhK2nFkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ha3r4I7T; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQmAz3KG"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c9e9a8af98so2466115ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 12:14:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ha3r4I7T"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c9878bbe88so5027285ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 28 Jun 2026 12:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782674075; x=1783278875; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782674079; x=1783278879; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E2ivlxlOriivjU5KVldE7/+Mf/JW60VDPxj9Is5GtI0=;
-        b=EQmAz3KGyeEpE+W5HBEgxKpDuWU64vWK+YiwUNq0Bl+ugQ6iEwnHPYV1KgEFtUys/C
-         rFf5RcwB5Uq4Q6ycIFUsUS/n+Cq07ttalSWHYabwbUy/Twr34vZloyxnTn44bc9+TpAF
-         0EyAQDCYqY9jNXJT04pW69ZfAjgbEUAs9LfOjeikC8aMQVSabYY8Gx2kzGf6w/yS5/iE
-         UfzI3EDRiRXdnDwYbEKIOyqhmVnUbymLOMUqqsflwg7CSLpPuOWu+IWeGzgLPinsd7r2
-         5hbR99ToUomoDuWF0rHqWaxhxVaSMwFZ7h9tmEShcFyUOJgcmyiWsEiFsGsjKL9PWeKM
-         NxPA==
+        bh=uHdLBi94X6p2LZ4TNp4dyIhiFiAKY5bAtCFoo1y8sK4=;
+        b=Ha3r4I7T0BhzH/UdmIyzyOL9/1ccdfnlMDY7YReOjPoZnow/m4nQGCh3Z6m2unXYpQ
+         46VHrH0TQF8ZqTrdH2+S4Pr6A2UwALw0rbTGUtLuDsG5INcEqChBWmtF6c+EFu37JszH
+         mK5T3zM49F90QAEk2PIG3pyZUG8ywKWR8Go+Q7SEB5TQAYxmthy0KjNjVCm7DXpQhWJv
+         lQLU9Z9Euhp5Sd6EpFg7rZUPGe1yKYvcgj51F33qaTgvrMCkdiYphKArGuGd+9N/DxGX
+         XgzX0rCsameaElgGm/cMru2o27G23yikCPw0kDskrE6cel1rbgWEAl1scD8fTdBF7zc4
+         M0xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782674075; x=1783278875;
+        d=1e100.net; s=20251104; t=1782674080; x=1783278880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=E2ivlxlOriivjU5KVldE7/+Mf/JW60VDPxj9Is5GtI0=;
-        b=X//seE9jJxKBtXHS3zi11tSODOL8ms2BwxKduXtQP7rmwp5WTrMnlID2RMXv5ZFvvY
-         sUUiDa7zYC/PiF/mghMosveNMNA4U/ilp03uRKNoi4zR9yqRiv7Qs1GXA9wuPMDRAaC2
-         VsH4/5ofQEDFgyxIuvRgR4D4IR1Vnni1vLkeo4RD2+itN1VzXpqx/6pXlKW712yQFqUS
-         wSDKZaJ4+qou2/otXg7/RM6MXgyyb3PnKCcSUwEMiv5oQ67alL9HG78uQWUcxDIwLmYm
-         zlPeGAoHDqjv3EwkXkp/+QyHNsrf8kwIQB0AOtbHNY03ubifpk3l4VuOpvGurC+4oleI
-         QGRA==
-X-Forwarded-Encrypted: i=1; AHgh+RpIkGctpTK6sq1A7q2yAyVBu8ureV95CeROkS0BC3dAVMfOsuBPZD3BNqM13txKIMH/1aZdj71QbWw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBmGxoomttM1Zol0Ll/9GmbNcuTaSerHGLJF9BOIA7no0vbyPm
-	czM0GpVufbaOTAIQcbORBQcCwh4vVZyZ2cQPu7PqkGWHCN8Uyukf17P0
-X-Gm-Gg: AfdE7cmx8+3dwaAQA4Yqf1kxKCJbVctulb7TL++GML1oZ7ll9mP6CGC7fR3tQ4ikxp/
-	qWHk5oeFIyYTJlFvPON4QJGfRBGbZsCw79FmpxrZkz/6XAQX46OrZ+f7rO4i6O9lXa6ZZbZdz/x
-	zieM47BpjDsKETZnD5rcR/2R1o5oOcOx/4IUqR8v7+V226mgR7NVMcywaWj9s/58QygUMCAbhDO
-	ZKGXy/p/aA+hMsFkqpzwvWt83HfUX5FYp6acDud8HkT/DMSjqNURMKNJp0kLXIK/shUNNet+wFO
-	tPvoz88dOW1s6mC8ZOcnp+f/uYpVKJL9OJuBDYAaSfR6kjAyFXS6+go+iMHYcA6lnKLdh1Q072q
-	ij76t1ghOJhlmIXiNiWSmQY7XM86x3g8wR0IKorsBg6r+yA9e/uIITklVEKajGeSpcUSLu8Spc/
-	XpQ+R5CE0JmYoy0AOH4va+/FZEGAIVxC4SS+1ZU7hKD6O2nSEQuFLARN9ChI7dunL8jjL6aEcTT
-	zU9dpUiwHvAt3Mpf5Qg8CVMhWbp
-X-Received: by 2002:a17:902:ff8e:b0:2c9:cf41:adf9 with SMTP id d9443c01a7336-2c9cf41b14fmr37647505ad.47.1782674074904;
-        Sun, 28 Jun 2026 12:14:34 -0700 (PDT)
+        bh=uHdLBi94X6p2LZ4TNp4dyIhiFiAKY5bAtCFoo1y8sK4=;
+        b=gR5QL4/wXWEEPb3qAyNUbKB0hEE/a2uP6GCX5/HYyfNGnLRiytdjJRTuXXUw7XRL+k
+         o4j3v+2zqqAOeXDXeOZohJXZt5zNYFzxAbARpU4ZxPBJJs/PdqCxSOeQ+bb9+rt+ojLS
+         utrK8FRdhTC27ypeRME6VhDCD60Z50/f4zqevHj/SlZx8N26VTpQItp9KTFUmElxgxus
+         Vg21rUCf8RwemrEazN1WBKDb7AWHndB+fe8hRcQeFwp5wqOvAZLWXv3F0XE2NkFTtw4g
+         fjjqSP4bxcJliUHBVgblEAN1ZP36Qm2AubDULaCGzL9wff6gehu/wtEog2ieSxdoTaG2
+         zFrA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqq2O3Hji1FNiEGujjJUAfxKA1FfFRweyBxgFjbutxsH4k36Z0e43+lEsLuw0DBro6Q5dq8PxP73bg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJLTdXWkflVaPVRQDNJW4ok4Xl72siWTmvqMXFYvWFPmYU9dCE
+	TJEd2yjwPeuro00vpNEbH5/+jSrpCrn9QcN20JbzEQ0YaWwptMN7I+3X
+X-Gm-Gg: AfdE7cmKRwgUD3ny2cehrwy+3SxPLBJC2xDUkUB8TnWn7sAlNzLr/RNQaRUTXGw5vs9
+	bcp2DMm9Oc0xsB005f63kJgEreH1mN+Q2qPJ2VTXfdq+lZTMuJ1BHqGCcR9QNDZ85Cxqs033X8e
+	2vvx/yvUTHTOQeBms46CT9TI+zbaVsyFyZpQyiUpRTvAi6pxRWfq7w+m7GbR8+pZ8Dpo2NXb4o3
+	gs+TOE697A5wHkzIphoOv9B0cWab7FantGBfontv1n9azPvg1hOxn99C9+Eg1lP9SvEzrYwhT0q
+	Wj2pcCqoLr1XHJgkTli+9y8VH4Y/eJZ543E6WF0fzrI8UWyVFaDObEzZOQtMPsEZyfpQ9KaY6Eq
+	+ECkoJFfELAIUVu/6nPUCncIQmE71kLTTac9UewT3m2s+umeF4wvntxXwffA8mgruWlSvv8D223
+	jbEBwVAhu8y1bUrzCkoU1RlM2RKyWvY8Y5tFBYe7KnL88DtdRJ+4eKbRgcSLyFcsfEbqkz8nGu0
+	KICjjod6aXwc/A5cRpI6/iQOytM
+X-Received: by 2002:a17:903:1c2:b0:2ba:838b:bfae with SMTP id d9443c01a7336-2c7fcfdaf93mr104488555ad.18.1782674079431;
+        Sun, 28 Jun 2026 12:14:39 -0700 (PDT)
 Received: from DESKTOP-G3E0OSP.localdomain ([112.172.255.242])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca0b454815sm1354385ad.2.2026.06.28.12.14.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca0b454815sm1354385ad.2.2026.06.28.12.14.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 12:14:34 -0700 (PDT)
+        Sun, 28 Jun 2026 12:14:39 -0700 (PDT)
 From: Jinseob Kim <kimjinseob88@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -74,9 +74,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	devicetree@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v6 4/5] iio: osf: add authenticated stream parser
-Date: Mon, 29 Jun 2026 04:13:36 +0900
-Message-ID: <20260628191337.937-5-kimjinseob88@gmail.com>
+Subject: [PATCH RFC v6 5/5] iio: osf: add UART IIO driver
+Date: Mon, 29 Jun 2026 04:13:37 +0900
+Message-ID: <20260628191337.937-6-kimjinseob88@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260628191337.937-1-kimjinseob88@gmail.com>
 References: <20260628191337.937-1-kimjinseob88@gmail.com>
@@ -88,269 +88,950 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a UART byte-stream parser for Open Sensor Fusion frames.
+Add the Open Sensor Fusion serdev transport, driver core, and IIO
+registration path as one complete driver patch.
 
-The parser searches for the OSF0 wire magic, keeps partial frames
-buffered, checks header length and payload bounds, and passes complete
-candidate frames to the core decoder.
+The driver enables the required vcc regulator, receives OSF frames over
+UART, registers IIO devices from capability reports, supports direct raw
+reads from the latest sample cache, and pushes buffered samples into
+software kfifo buffers.
 
-Rejected candidate frames drop only the current head byte before
-resynchronizing, so a corrupted unauthenticated payload length cannot
-make the parser skip later valid frames.
+Use final Kconfig and Makefile contents from the start, claim IIO buffer
+mode while pushing samples, and use zeroed scan storage with explicit
+timestamp alignment so the driver does not depend on IIO core
+bounce-buffer padding behavior.
 
 Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
 ---
- MAINTAINERS                               |   1 +
- drivers/iio/opensensorfusion/osf_stream.c | 189 ++++++++++++++++++++++
- drivers/iio/opensensorfusion/osf_stream.h |  31 ++++
- 3 files changed, 221 insertions(+)
- create mode 100644 drivers/iio/opensensorfusion/osf_stream.c
- create mode 100644 drivers/iio/opensensorfusion/osf_stream.h
+ MAINTAINERS                               |   5 +
+ drivers/iio/Kconfig                       |   1 +
+ drivers/iio/Makefile                      |   1 +
+ drivers/iio/opensensorfusion/Kconfig      |  16 ++
+ drivers/iio/opensensorfusion/Makefile     |   6 +
+ drivers/iio/opensensorfusion/osf_core.c   | 291 ++++++++++++++++++++
+ drivers/iio/opensensorfusion/osf_core.h   |  70 +++++
+ drivers/iio/opensensorfusion/osf_iio.c    | 308 ++++++++++++++++++++++
+ drivers/iio/opensensorfusion/osf_iio.h    |  22 ++
+ drivers/iio/opensensorfusion/osf_serdev.c | 114 ++++++++
+ 10 files changed, 834 insertions(+)
+ create mode 100644 drivers/iio/opensensorfusion/Kconfig
+ create mode 100644 drivers/iio/opensensorfusion/Makefile
+ create mode 100644 drivers/iio/opensensorfusion/osf_core.c
+ create mode 100644 drivers/iio/opensensorfusion/osf_core.h
+ create mode 100644 drivers/iio/opensensorfusion/osf_iio.c
+ create mode 100644 drivers/iio/opensensorfusion/osf_iio.h
+ create mode 100644 drivers/iio/opensensorfusion/osf_serdev.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 32d3e7674..3d4199d9e 100644
+index 3d4199d9e..6ce18ad92 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -20017,6 +20017,7 @@ S:	Maintained
+@@ -20016,7 +20016,12 @@ M:	Jinseob Kim <kimjinseob88@gmail.com>
+ S:	Maintained
  F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
  F:	Documentation/iio/open-sensor-fusion.rst
++F:	drivers/iio/opensensorfusion/Kconfig
++F:	drivers/iio/opensensorfusion/Makefile
++F:	drivers/iio/opensensorfusion/osf_core.*
++F:	drivers/iio/opensensorfusion/osf_iio.*
  F:	drivers/iio/opensensorfusion/osf_protocol.*
-+F:	drivers/iio/opensensorfusion/osf_stream.*
++F:	drivers/iio/opensensorfusion/osf_serdev.c
+ F:	drivers/iio/opensensorfusion/osf_stream.*
  K:	opensensorfusion
  
- OPENCOMPUTE PTP CLOCK DRIVER
-diff --git a/drivers/iio/opensensorfusion/osf_stream.c b/drivers/iio/opensensorfusion/osf_stream.c
+diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
+index 661127aed..939f6c546 100644
+--- a/drivers/iio/Kconfig
++++ b/drivers/iio/Kconfig
+@@ -101,6 +101,7 @@ source "drivers/iio/light/Kconfig"
+ source "drivers/iio/magnetometer/Kconfig"
+ source "drivers/iio/multiplexer/Kconfig"
+ source "drivers/iio/orientation/Kconfig"
++source "drivers/iio/opensensorfusion/Kconfig"
+ source "drivers/iio/test/Kconfig"
+ if IIO_TRIGGER
+    source "drivers/iio/trigger/Kconfig"
+diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
+index cb80ef837..d864fe17b 100644
+--- a/drivers/iio/Makefile
++++ b/drivers/iio/Makefile
+@@ -37,6 +37,7 @@ obj-y += light/
+ obj-y += magnetometer/
+ obj-y += multiplexer/
+ obj-y += orientation/
++obj-y += opensensorfusion/
+ obj-y += position/
+ obj-y += potentiometer/
+ obj-y += potentiostat/
+diff --git a/drivers/iio/opensensorfusion/Kconfig b/drivers/iio/opensensorfusion/Kconfig
 new file mode 100644
-index 000000000..470b4ec1f
+index 000000000..6da44f91c
 --- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_stream.c
-@@ -0,0 +1,189 @@
++++ b/drivers/iio/opensensorfusion/Kconfig
+@@ -0,0 +1,16 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++config OPEN_SENSOR_FUSION
++	tristate "Open Sensor Fusion UART IIO driver"
++	depends on IIO
++	depends on SERIAL_DEV_BUS
++	select CRC32
++	select IIO_BUFFER
++	select IIO_KFIFO_BUF
++	help
++	  Build the Open Sensor Fusion UART IIO driver.
++
++	  The driver receives OSF protocol frames over a serdev UART and
++	  registers IIO devices for supported capability entries. It exposes
++	  accelerometer, gyroscope, magnetometer, and temperature samples
++	  through IIO direct reads and software buffers.
+diff --git a/drivers/iio/opensensorfusion/Makefile b/drivers/iio/opensensorfusion/Makefile
+new file mode 100644
+index 000000000..b4e03b80c
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++obj-$(CONFIG_OPEN_SENSOR_FUSION) += open-sensor-fusion.o
++
++open-sensor-fusion-y := osf_core.o osf_iio.o osf_protocol.o osf_serdev.o \
++			 osf_stream.o
+diff --git a/drivers/iio/opensensorfusion/osf_core.c b/drivers/iio/opensensorfusion/osf_core.c
+new file mode 100644
+index 000000000..207de03db
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_core.c
+@@ -0,0 +1,291 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
++#include <linux/cleanup.h>
 +#include <linux/errno.h>
 +#include <linux/string.h>
 +#include <linux/types.h>
-+#include <linux/unaligned.h>
 +
 +#include "osf_core.h"
-+#include "osf_protocol.h"
-+#include "osf_stream.h"
++#include "osf_iio.h"
 +
-+#define OSF_STREAM_MAGIC_LEN	4
-+#define OSF_STREAM_MAX_PAYLOAD_LEN				\
-+	(OSF_STREAM_MAX_FRAME_LEN - OSF_FRAME_HEADER_LEN - OSF_FRAME_CRC_LEN)
++#define OSF_RESERVED_MSG_FIRST		0x7f00
++#define OSF_RESERVED_MSG_LAST		0x7fff
++#define OSF_VENDOR_PRIVATE_FIRST	0x8000
 +
-+static const u8 osf_stream_magic[OSF_STREAM_MAGIC_LEN] = {
-+	'O', 'S', 'F', '0',
-+};
-+
-+static void osf_stream_discard(struct osf_stream *stream, size_t count)
++void osf_core_init(struct osf_device *osf, struct device *dev)
 +{
-+	if (count >= stream->len) {
-+		stream->len = 0;
-+		return;
++	*osf = (struct osf_device) {
++		.dev = dev,
++	};
++	mutex_init(&osf->latest_lock);
++}
++
++void osf_core_unregister_iio(struct osf_device *osf)
++{
++	for (unsigned int i = 0; i < osf->iio_dev_count; i++)
++		osf_iio_unregister_sensor(osf->iio_devs[i].indio_dev);
++
++	osf->iio_dev_count = 0;
++}
++
++static struct iio_dev *osf_core_find_iio_dev(struct osf_device *osf,
++					     u16 sensor_type, u16 sensor_index)
++{
++	const struct osf_iio_binding *binding;
++
++	for (unsigned int i = 0; i < osf->iio_dev_count; i++) {
++		binding = &osf->iio_devs[i];
++		if (binding->sensor_type == sensor_type &&
++		    binding->sensor_index == sensor_index)
++			return binding->indio_dev;
 +	}
 +
-+	memmove(stream->buf, stream->buf + count, stream->len - count);
-+	stream->len -= count;
++	return NULL;
 +}
 +
-+static void osf_stream_drop_invalid_head(struct osf_stream *stream)
++static struct osf_latest_sample *
++osf_core_find_latest_sample(struct osf_device *osf, u16 sensor_type,
++			    u16 sensor_index)
 +{
-+	osf_stream_discard(stream, 1);
-+}
++	struct osf_latest_sample *latest;
 +
-+static bool osf_stream_magic_match(const u8 *buf, size_t len)
-+{
-+	return !memcmp(buf, osf_stream_magic, len);
-+}
-+
-+static size_t osf_stream_discard_to_magic(struct osf_stream *stream)
-+{
-+	size_t old_len = stream->len;
-+	size_t match_len;
-+	size_t i;
-+
-+	for (i = 0; i < stream->len; i++) {
-+		match_len = stream->len - i;
-+		if (match_len > OSF_STREAM_MAGIC_LEN)
-+			match_len = OSF_STREAM_MAGIC_LEN;
-+
-+		if (osf_stream_magic_match(stream->buf + i, match_len)) {
-+			if (i)
-+				osf_stream_discard(stream, i);
-+			return i;
-+		}
++	for (unsigned int i = 0; i < osf->latest_sample_count; i++) {
++		latest = &osf->latest_samples[i];
++		if (latest->sensor_type == sensor_type &&
++		    latest->sensor_index == sensor_index)
++			return latest;
 +	}
 +
-+	stream->len = 0;
-+	return old_len;
++	if (osf->latest_sample_count >= OSF_MAX_CAPABILITIES)
++		return NULL;
++
++	return &osf->latest_samples[osf->latest_sample_count++];
 +}
 +
-+static int osf_stream_process(struct osf_stream *stream)
++static bool osf_core_capability_is_duplicate(const struct osf_capability_cache *cache,
++					     u16 index)
 +{
-+	size_t discarded;
++	const struct osf_capability_entry *entry = &cache->entries[index];
++
++	for (u16 i = 0; i < index; i++) {
++		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
++					      cache->entries[i].channel_count))
++			continue;
++
++		if (cache->entries[i].sensor_type == entry->sensor_type &&
++		    cache->entries[i].sensor_index == entry->sensor_index)
++			return true;
++	}
++
++	return false;
++}
++
++static int osf_core_register_capabilities(struct osf_device *osf,
++					  const struct osf_capability_cache *cache)
++{
++	struct iio_dev *indio_dev;
++	int ret;
++
++	if (osf->capability_cache.valid)
++		return 0;
++
++	for (u16 i = 0; i < cache->capability_count; i++) {
++		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
++					      cache->entries[i].channel_count))
++			continue;
++
++		if (osf_core_capability_is_duplicate(cache, i))
++			return -EEXIST;
++	}
++
++	for (u16 i = 0; i < cache->capability_count; i++) {
++		if (!osf_iio_sensor_supported(cache->entries[i].sensor_type,
++					      cache->entries[i].channel_count))
++			continue;
++
++		ret = osf_iio_register_sensor(osf->dev, &cache->entries[i],
++					      osf, &indio_dev);
++		if (ret)
++			goto err_unregister;
++
++		osf->iio_devs[osf->iio_dev_count++] = (struct osf_iio_binding) {
++			.sensor_type = cache->entries[i].sensor_type,
++			.sensor_index = cache->entries[i].sensor_index,
++			.indio_dev = indio_dev,
++		};
++	}
++
++	return 0;
++
++err_unregister:
++	osf_core_unregister_iio(osf);
++
++	return ret;
++}
++
++static int osf_core_handle_sensor_sample(struct osf_device *osf,
++					 const struct osf_frame *frame)
++{
++	struct osf_latest_sample *latest;
++	struct osf_sensor_sample sample;
++	struct iio_dev *indio_dev;
++	s32 values[OSF_MAX_SAMPLE_CHANNELS] = { };
++	int ret;
++
++	ret = osf_protocol_decode_sensor_sample(frame, &sample);
++	if (ret)
++		return ret;
++
++	if (sample.channel_count > OSF_MAX_SAMPLE_CHANNELS)
++		return -E2BIG;
++
++	for (u16 i = 0; i < sample.channel_count; i++) {
++		ret = osf_protocol_sensor_sample_value(&sample, i, &values[i]);
++		if (ret)
++			return ret;
++	}
++
++	scoped_guard(mutex, &osf->latest_lock) {
++		latest = osf_core_find_latest_sample(osf, sample.sensor_type,
++						     sample.sensor_index);
++		if (!latest)
++			return -E2BIG;
++
++		memcpy(latest->values, values, sizeof(values));
++		latest->sensor_type = sample.sensor_type;
++		latest->sensor_index = sample.sensor_index;
++		latest->channel_count = sample.channel_count;
++		latest->sample_format = sample.sample_format;
++		latest->scale_nano = sample.scale_nano;
++		latest->sequence = frame->sequence;
++		latest->timestamp_us = frame->timestamp_us;
++		latest->valid = true;
++		osf->last_sequence = frame->sequence;
++	}
++
++	indio_dev = osf_core_find_iio_dev(osf, sample.sensor_type,
++					  sample.sensor_index);
++	if (!indio_dev)
++		return 0;
++
++	return osf_iio_push_sample(indio_dev, values, sample.channel_count);
++}
++
++static int osf_core_handle_device_status(struct osf_device *osf,
++					 const struct osf_frame *frame)
++{
++	struct osf_device_status status;
++	int ret;
++
++	ret = osf_protocol_decode_device_status(frame, &status);
++	if (ret)
++		return ret;
++
++	osf->status_cache = (struct osf_status_cache) {
++		.uptime_s = status.uptime_s,
++		.status_flags = status.status_flags,
++		.error_flags = status.error_flags,
++		.dropped_frames = status.dropped_frames,
++		.sequence = frame->sequence,
++		.valid = true,
++	};
++	osf->last_sequence = frame->sequence;
++
++	return 0;
++}
++
++static int osf_core_handle_capability_report(struct osf_device *osf,
++					     const struct osf_frame *frame)
++{
++	struct osf_capability_cache cache = { };
++	struct osf_capability_report report;
++	int ret;
++
++	ret = osf_protocol_decode_capability_report(frame, &report);
++	if (ret)
++		return ret;
++
++	if (report.capability_count > OSF_MAX_CAPABILITIES)
++		return -E2BIG;
++
++	if (osf->capability_cache.valid) {
++		osf->last_sequence = frame->sequence;
++		return 0;
++	}
++
++	for (u16 i = 0; i < report.capability_count; i++) {
++		ret = osf_protocol_decode_capability_entry(&report, i,
++							   &cache.entries[i]);
++		if (ret)
++			return ret;
++	}
++
++	cache.capability_count = report.capability_count;
++	cache.sequence = frame->sequence;
++	cache.valid = true;
++
++	ret = osf_core_register_capabilities(osf, &cache);
++	if (ret)
++		return ret;
++
++	osf->capability_cache = cache;
++	osf->last_sequence = frame->sequence;
++
++	return 0;
++}
++
++int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len)
++{
++	struct osf_frame frame;
 +	size_t frame_len;
-+	u32 payload_len;
-+	int first_err = 0;
 +	int ret;
 +
-+	while (stream->len) {
-+		discarded = osf_stream_discard_to_magic(stream);
-+		if (discarded) {
-+			stream->stats.bad_magic_resyncs++;
-+			stream->stats.dropped_bytes += discarded;
-+			if (!first_err)
-+				first_err = -EPROTO;
-+		}
++	ret = osf_protocol_decode_frame(buf, len, &frame, &frame_len);
++	if (ret)
++		return ret;
 +
-+		if (!stream->len)
-+			break;
++	if (frame_len != len)
++		return -EMSGSIZE;
 +
-+		if (stream->len < OSF_FRAME_HEADER_LEN)
-+			break;
-+
-+		if (get_unaligned_le16(stream->buf + 6) !=
-+		    OSF_FRAME_HEADER_LEN) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = -EPROTO;
-+			continue;
-+		}
-+
-+		payload_len = get_unaligned_le32(stream->buf + 10);
-+		if (payload_len > OSF_STREAM_MAX_PAYLOAD_LEN) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = -EMSGSIZE;
-+			continue;
-+		}
-+
-+		frame_len = OSF_FRAME_HEADER_LEN + payload_len + OSF_FRAME_CRC_LEN;
-+		if (stream->len < frame_len)
-+			break;
-+
-+		ret = osf_core_receive_frame(stream->osf, stream->buf, frame_len);
-+		if (ret) {
-+			if (ret == -EBADMSG)
-+				stream->stats.bad_crc_frames++;
-+
-+			/*
-+			 * Until the decoder accepts the frame, payload_len is
-+			 * untrusted. Drop only the current head and resynchronize.
-+			 */
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = ret;
-+			continue;
-+		}
-+
-+		stream->stats.valid_frames++;
-+		osf_stream_discard(stream, frame_len);
-+	}
-+
-+	return first_err;
-+}
-+
-+void osf_stream_init(struct osf_stream *stream, struct osf_device *osf)
-+{
-+	if (!stream)
-+		return;
-+
-+	stream->osf = osf;
-+	stream->len = 0;
-+	memset(&stream->stats, 0, sizeof(stream->stats));
-+}
-+
-+void osf_stream_reset(struct osf_stream *stream)
-+{
-+	if (stream) {
-+		stream->len = 0;
-+		memset(&stream->stats, 0, sizeof(stream->stats));
++	switch (frame.message_type) {
++	case OSF_MSG_SENSOR_SAMPLE:
++		return osf_core_handle_sensor_sample(osf, &frame);
++	case OSF_MSG_DEVICE_STATUS:
++		return osf_core_handle_device_status(osf, &frame);
++	case OSF_MSG_CAPABILITY_REPORT:
++		return osf_core_handle_capability_report(osf, &frame);
++	default:
++		if (frame.message_type >= OSF_RESERVED_MSG_FIRST &&
++		    frame.message_type <= OSF_RESERVED_MSG_LAST)
++			return 0;
++		if (frame.message_type >= OSF_VENDOR_PRIVATE_FIRST)
++			return 0;
++		return -EOPNOTSUPP;
 +	}
 +}
 +
-+int osf_stream_receive_bytes(struct osf_stream *stream, const u8 *buf,
-+			     size_t len)
++int osf_core_read_latest_sample(struct osf_device *osf, u16 sensor_type,
++				u16 sensor_index, u16 channel,
++				s32 *value)
 +{
-+	size_t copy_len;
-+	size_t space;
-+	int first_err = 0;
-+	int ret;
++	const struct osf_latest_sample *latest;
 +
-+	if (!stream || !stream->osf || (!buf && len))
++	if (!osf || !value)
 +		return -EINVAL;
 +
-+	if (!len) {
-+		ret = osf_stream_process(stream);
-+		if (ret && !first_err)
-+			first_err = ret;
-+		return first_err;
-+	}
-+
-+	while (len) {
-+		space = OSF_STREAM_MAX_FRAME_LEN - stream->len;
-+		if (!space) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_discard(stream, 1);
-+			if (!first_err)
-+				first_err = -EMSGSIZE;
++	guard(mutex)(&osf->latest_lock);
++	for (unsigned int i = 0; i < osf->latest_sample_count; i++) {
++		latest = &osf->latest_samples[i];
++		if (latest->sensor_type != sensor_type ||
++		    latest->sensor_index != sensor_index)
 +			continue;
-+		}
 +
-+		copy_len = len < space ? len : space;
-+		memcpy(stream->buf + stream->len, buf, copy_len);
-+		stream->len += copy_len;
-+		buf += copy_len;
-+		len -= copy_len;
++		if (!latest->valid || channel >= latest->channel_count)
++			break;
 +
-+		ret = osf_stream_process(stream);
-+		if (ret && !first_err)
-+			first_err = ret;
++		*value = latest->values[channel];
++		return 0;
 +	}
 +
-+	return first_err;
++	return -ENODATA;
 +}
-diff --git a/drivers/iio/opensensorfusion/osf_stream.h b/drivers/iio/opensensorfusion/osf_stream.h
+diff --git a/drivers/iio/opensensorfusion/osf_core.h b/drivers/iio/opensensorfusion/osf_core.h
 new file mode 100644
-index 000000000..f7f9477fe
+index 000000000..5744a39cf
 --- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_stream.h
-@@ -0,0 +1,31 @@
++++ b/drivers/iio/opensensorfusion/osf_core.h
+@@ -0,0 +1,70 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _OSF_STREAM_H
-+#define _OSF_STREAM_H
++#ifndef _OSF_CORE_H
++#define _OSF_CORE_H
++
++#include <linux/mutex.h>
++#include <linux/types.h>
++
++#include "osf_protocol.h"
++
++#define OSF_MAX_SAMPLE_CHANNELS	3
++#define OSF_MAX_CAPABILITIES	16
++
++struct device;
++struct iio_dev;
++
++struct osf_latest_sample {
++	u16 sensor_type;
++	u16 sensor_index;
++	u16 channel_count;
++	u16 sample_format;
++	u32 scale_nano;
++	s32 values[OSF_MAX_SAMPLE_CHANNELS];
++	u64 sequence;
++	u64 timestamp_us;
++	bool valid;
++};
++
++struct osf_capability_cache {
++	u16 capability_count;
++	struct osf_capability_entry entries[OSF_MAX_CAPABILITIES];
++	u64 sequence;
++	bool valid;
++};
++
++struct osf_status_cache {
++	u32 uptime_s;
++	u32 status_flags;
++	u32 error_flags;
++	u32 dropped_frames;
++	u64 sequence;
++	bool valid;
++};
++
++struct osf_iio_binding {
++	u16 sensor_type;
++	u16 sensor_index;
++	struct iio_dev *indio_dev;
++};
++
++struct osf_device {
++	struct device *dev;
++	/* Protects latest_samples and latest_sample_count. */
++	struct mutex latest_lock;
++	struct osf_latest_sample latest_samples[OSF_MAX_CAPABILITIES];
++	unsigned int latest_sample_count;
++	struct osf_capability_cache capability_cache;
++	struct osf_status_cache status_cache;
++	struct osf_iio_binding iio_devs[OSF_MAX_CAPABILITIES];
++	unsigned int iio_dev_count;
++	u64 last_sequence;
++};
++
++void osf_core_init(struct osf_device *osf, struct device *dev);
++void osf_core_unregister_iio(struct osf_device *osf);
++int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len);
++int osf_core_read_latest_sample(struct osf_device *osf, u16 sensor_type,
++				u16 sensor_index, u16 channel,
++				s32 *value);
++
++#endif
+diff --git a/drivers/iio/opensensorfusion/osf_iio.c b/drivers/iio/opensensorfusion/osf_iio.c
+new file mode 100644
+index 000000000..91afcf3b8
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_iio.c
+@@ -0,0 +1,308 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/array_size.h>
++#include <linux/bitops.h>
++#include <linux/errno.h>
++#include <linux/iio/buffer.h>
++#include <linux/iio/iio.h>
++#include <linux/iio/kfifo_buf.h>
++#include <linux/types.h>
++#include <linux/units.h>
++
++#include "osf_core.h"
++#include "osf_iio.h"
++
++struct osf_iio_sensor_spec {
++	u16 sensor_type;
++	u16 channel_count;
++	const char *name;
++	const struct iio_chan_spec *channels;
++	unsigned int num_channels;
++	const unsigned long *available_scan_masks;
++};
++
++struct osf_iio_state {
++	const struct osf_iio_sensor_spec *spec;
++	struct iio_buffer *buffer;
++	u32 scale_nano;
++	u16 sensor_index;
++	struct osf_device *osf;
++};
++
++struct osf_iio_scan_3axis {
++	s32 values[3];
++	aligned_s64 timestamp;
++};
++
++struct osf_iio_scan_1axis {
++	s32 value;
++	aligned_s64 timestamp;
++};
++
++#define OSF_SCAN_TYPE_S32						\
++	{								\
++		.sign = 's',						\
++		.realbits = 32,					\
++		.storagebits = 32,					\
++		.endianness = IIO_CPU,					\
++	}
++
++#define OSF_MOD_CHAN(_type, _mod, _idx)				\
++	{								\
++		.type = (_type),					\
++		.modified = 1,					\
++		.channel2 = (_mod),					\
++		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
++		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
++		.scan_index = (_idx),					\
++		.scan_type = OSF_SCAN_TYPE_S32,			\
++	}
++
++#define OSF_CHAN(_type, _idx)					\
++	{								\
++		.type = (_type),					\
++		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
++		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
++		.scan_index = (_idx),					\
++		.scan_type = OSF_SCAN_TYPE_S32,			\
++	}
++
++static const struct iio_chan_spec osf_accel_channels[] = {
++	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_X, 0),
++	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Y, 1),
++	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Z, 2),
++	IIO_CHAN_SOFT_TIMESTAMP(3),
++};
++
++static const struct iio_chan_spec osf_gyro_channels[] = {
++	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_X, 0),
++	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Y, 1),
++	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Z, 2),
++	IIO_CHAN_SOFT_TIMESTAMP(3),
++};
++
++static const struct iio_chan_spec osf_mag_channels[] = {
++	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_X, 0),
++	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Y, 1),
++	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Z, 2),
++	IIO_CHAN_SOFT_TIMESTAMP(3),
++};
++
++static const struct iio_chan_spec osf_temp_channels[] = {
++	OSF_CHAN(IIO_TEMP, 0),
++	IIO_CHAN_SOFT_TIMESTAMP(1),
++};
++
++static const unsigned long osf_3axis_available_scan_masks[] = {
++	GENMASK(2, 0),
++	0
++};
++
++static const struct osf_iio_sensor_spec osf_iio_sensor_specs[] = {
++	{
++		.sensor_type = OSF_SENSOR_ACCELEROMETER,
++		.channel_count = 3,
++		.name = "osf-accel",
++		.channels = osf_accel_channels,
++		.num_channels = ARRAY_SIZE(osf_accel_channels),
++		.available_scan_masks = osf_3axis_available_scan_masks,
++	},
++	{
++		.sensor_type = OSF_SENSOR_GYROSCOPE,
++		.channel_count = 3,
++		.name = "osf-gyro",
++		.channels = osf_gyro_channels,
++		.num_channels = ARRAY_SIZE(osf_gyro_channels),
++		.available_scan_masks = osf_3axis_available_scan_masks,
++	},
++	{
++		.sensor_type = OSF_SENSOR_MAGNETOMETER,
++		.channel_count = 3,
++		.name = "osf-magn",
++		.channels = osf_mag_channels,
++		.num_channels = ARRAY_SIZE(osf_mag_channels),
++		.available_scan_masks = osf_3axis_available_scan_masks,
++	},
++	{
++		.sensor_type = OSF_SENSOR_TEMPERATURE,
++		.channel_count = 1,
++		.name = "osf-temp",
++		.channels = osf_temp_channels,
++		.num_channels = ARRAY_SIZE(osf_temp_channels),
++	},
++};
++
++static const struct osf_iio_sensor_spec *
++osf_iio_find_sensor_spec(u16 sensor_type, u16 channel_count)
++{
++	for (unsigned int i = 0; i < ARRAY_SIZE(osf_iio_sensor_specs); i++) {
++		if (osf_iio_sensor_specs[i].sensor_type == sensor_type &&
++		    osf_iio_sensor_specs[i].channel_count == channel_count)
++			return &osf_iio_sensor_specs[i];
++	}
++
++	return NULL;
++}
++
++bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count)
++{
++	if (osf_iio_find_sensor_spec(sensor_type, channel_count))
++		return true;
++
++	return false;
++}
++
++const char *osf_iio_sensor_name(u16 sensor_type)
++{
++	for (unsigned int i = 0; i < ARRAY_SIZE(osf_iio_sensor_specs); i++) {
++		if (osf_iio_sensor_specs[i].sensor_type == sensor_type)
++			return osf_iio_sensor_specs[i].name;
++	}
++
++	return NULL;
++}
++
++static int osf_iio_read_raw(struct iio_dev *indio_dev,
++			    const struct iio_chan_spec *chan, int *val,
++			    int *val2, long mask)
++{
++	struct osf_iio_state *state = iio_priv(indio_dev);
++	s32 raw;
++	int ret;
++
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		ret = osf_core_read_latest_sample(state->osf,
++						  state->spec->sensor_type,
++						  state->sensor_index,
++						  chan->scan_index, &raw);
++		if (ret)
++			return ret;
++
++		*val = raw;
++		return IIO_VAL_INT;
++	case IIO_CHAN_INFO_SCALE:
++		*val = state->scale_nano / NANO;
++		*val2 = state->scale_nano % NANO;
++		return IIO_VAL_INT_PLUS_NANO;
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct iio_info osf_iio_info = {
++	.read_raw = osf_iio_read_raw,
++};
++
++int osf_iio_register_sensor(struct device *dev,
++			    const struct osf_capability_entry *entry,
++			    struct osf_device *osf, struct iio_dev **indio_dev)
++{
++	const struct osf_iio_sensor_spec *spec;
++	struct osf_iio_state *state;
++	struct iio_dev *iio_dev;
++	int ret;
++
++	spec = osf_iio_find_sensor_spec(entry->sensor_type,
++					entry->channel_count);
++	if (!spec)
++		return -EOPNOTSUPP;
++
++	if (entry->sample_format != OSF_SAMPLE_FORMAT_S32)
++		return -EOPNOTSUPP;
++
++	iio_dev = iio_device_alloc(dev, sizeof(*state));
++	if (!iio_dev)
++		return -ENOMEM;
++
++	state = iio_priv(iio_dev);
++	state->spec = spec;
++	state->scale_nano = entry->scale_nano;
++	state->sensor_index = entry->sensor_index;
++	state->osf = osf;
++
++	iio_dev->name = spec->name;
++	iio_dev->info = &osf_iio_info;
++	iio_dev->modes = INDIO_DIRECT_MODE | INDIO_BUFFER_SOFTWARE;
++	iio_dev->channels = spec->channels;
++	iio_dev->num_channels = spec->num_channels;
++	iio_dev->available_scan_masks = spec->available_scan_masks;
++
++	state->buffer = iio_kfifo_allocate();
++	if (!state->buffer) {
++		ret = -ENOMEM;
++		goto err_free_iio;
++	}
++
++	ret = iio_device_attach_buffer(iio_dev, state->buffer);
++	if (ret)
++		goto err_free_buffer;
++
++	ret = iio_device_register(iio_dev);
++	if (ret)
++		goto err_free_buffer;
++
++	*indio_dev = iio_dev;
++
++	return 0;
++
++err_free_buffer:
++	iio_kfifo_free(state->buffer);
++err_free_iio:
++	iio_device_free(iio_dev);
++
++	return ret;
++}
++
++void osf_iio_unregister_sensor(struct iio_dev *indio_dev)
++{
++	struct osf_iio_state *state = iio_priv(indio_dev);
++
++	iio_device_unregister(indio_dev);
++	iio_kfifo_free(state->buffer);
++	iio_device_free(indio_dev);
++}
++
++int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values,
++			u16 channel_count)
++{
++	struct osf_iio_state *state = iio_priv(indio_dev);
++	s64 timestamp;
++	int ret;
++
++	if (channel_count != state->spec->channel_count)
++		return -EPROTO;
++
++	if (!iio_device_try_claim_buffer_mode(indio_dev))
++		return 0;
++
++	timestamp = iio_get_time_ns(indio_dev);
++
++	switch (channel_count) {
++	case 1: {
++		struct osf_iio_scan_1axis scan = { };
++
++		scan.value = values[0];
++		ret = iio_push_to_buffers_with_ts(indio_dev, &scan,
++						  sizeof(scan), timestamp);
++		break;
++	}
++	case 3: {
++		struct osf_iio_scan_3axis scan = { };
++
++		scan.values[0] = values[0];
++		scan.values[1] = values[1];
++		scan.values[2] = values[2];
++		ret = iio_push_to_buffers_with_ts(indio_dev, &scan,
++						  sizeof(scan), timestamp);
++		break;
++	}
++	default:
++		ret = -EPROTO;
++		break;
++	}
++
++	iio_device_release_buffer_mode(indio_dev);
++
++	return ret;
++}
+diff --git a/drivers/iio/opensensorfusion/osf_iio.h b/drivers/iio/opensensorfusion/osf_iio.h
+new file mode 100644
+index 000000000..d0745167f
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_iio.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _OSF_IIO_H
++#define _OSF_IIO_H
 +
 +#include <linux/types.h>
 +
-+#define OSF_STREAM_MAX_FRAME_LEN	4096
++#include "osf_protocol.h"
 +
++struct device;
++struct iio_dev;
 +struct osf_device;
 +
-+struct osf_stream_stats {
-+	u64 valid_frames;
-+	u64 bad_magic_resyncs;
-+	u64 bad_crc_frames;
-+	u64 partial_frames;
-+	u64 dropped_bytes;
-+};
-+
-+struct osf_stream {
-+	struct osf_device *osf;
-+	u8 buf[OSF_STREAM_MAX_FRAME_LEN];
-+	size_t len;
-+	struct osf_stream_stats stats;
-+};
-+
-+void osf_stream_init(struct osf_stream *stream, struct osf_device *osf);
-+void osf_stream_reset(struct osf_stream *stream);
-+int osf_stream_receive_bytes(struct osf_stream *stream, const u8 *buf,
-+			     size_t len);
++int osf_iio_register_sensor(struct device *dev,
++			    const struct osf_capability_entry *entry,
++			    struct osf_device *osf, struct iio_dev **indio_dev);
++void osf_iio_unregister_sensor(struct iio_dev *indio_dev);
++int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values,
++			u16 channel_count);
++bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count);
++const char *osf_iio_sensor_name(u16 sensor_type);
 +
 +#endif
+diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/opensensorfusion/osf_serdev.c
+new file mode 100644
+index 000000000..474fa251f
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_serdev.c
+@@ -0,0 +1,114 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/regulator/consumer.h>
++#include <linux/serdev.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++#include "osf_core.h"
++#include "osf_stream.h"
++
++#define OSF_SERDEV_BAUD		115200
++
++struct osf_serdev {
++	struct serdev_device *serdev;
++	struct osf_device osf;
++	struct osf_stream stream;
++};
++
++static size_t osf_serdev_receive_buf(struct serdev_device *serdev,
++				     const u8 *buf, size_t count)
++{
++	struct osf_serdev *osf_uart = serdev_device_get_drvdata(serdev);
++	const struct osf_stream_stats *stats;
++	u64 valid_before;
++	int ret;
++
++	valid_before = osf_uart->stream.stats.valid_frames;
++	ret = osf_stream_receive_bytes(&osf_uart->stream, buf, count);
++	stats = &osf_uart->stream.stats;
++
++	if (ret || stats->valid_frames != valid_before)
++		dev_dbg_ratelimited(&serdev->dev,
++				    "rx count=%zu valid=%llu bad_magic=%llu bad_crc=%llu partial=%llu dropped=%llu ret=%d\n",
++				    count, stats->valid_frames,
++				    stats->bad_magic_resyncs,
++				    stats->bad_crc_frames, stats->partial_frames,
++				    stats->dropped_bytes, ret);
++
++	return count;
++}
++
++static const struct serdev_device_ops osf_serdev_ops = {
++	.receive_buf = osf_serdev_receive_buf,
++};
++
++static int osf_serdev_probe(struct serdev_device *serdev)
++{
++	struct device *dev = &serdev->dev;
++	struct osf_serdev *osf_uart;
++	unsigned int baudrate;
++	int ret;
++
++	osf_uart = devm_kzalloc(dev, sizeof(*osf_uart), GFP_KERNEL);
++	if (!osf_uart)
++		return -ENOMEM;
++
++	osf_uart->serdev = serdev;
++	osf_core_init(&osf_uart->osf, dev);
++	osf_stream_init(&osf_uart->stream, &osf_uart->osf);
++
++	serdev_device_set_drvdata(serdev, osf_uart);
++	serdev_device_set_client_ops(serdev, &osf_serdev_ops);
++
++	ret = devm_regulator_get_enable(dev, "vcc");
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to enable vcc regulator\n");
++
++	ret = serdev_device_open(serdev);
++	if (ret)
++		return ret;
++
++	baudrate = serdev_device_set_baudrate(serdev, OSF_SERDEV_BAUD);
++	if (baudrate != OSF_SERDEV_BAUD)
++		dev_warn(dev, "requested %u baud, controller set %u\n",
++			 OSF_SERDEV_BAUD, baudrate);
++
++	serdev_device_set_flow_control(serdev, false);
++
++	return 0;
++}
++
++static void osf_serdev_remove(struct serdev_device *serdev)
++{
++	struct osf_serdev *osf_uart = serdev_device_get_drvdata(serdev);
++
++	/* Stop the RX producer before unregistering IIO consumers. */
++	serdev_device_close(serdev);
++	osf_stream_reset(&osf_uart->stream);
++	osf_core_unregister_iio(&osf_uart->osf);
++}
++
++static const struct of_device_id osf_serdev_of_match[] = {
++	{ .compatible = "opensensorfusion,osf" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, osf_serdev_of_match);
++
++static struct serdev_device_driver osf_serdev_driver = {
++	.probe = osf_serdev_probe,
++	.remove = osf_serdev_remove,
++	.driver = {
++		.name = "open-sensor-fusion-uart",
++		.of_match_table = osf_serdev_of_match,
++	},
++};
++module_serdev_device_driver(osf_serdev_driver);
++
++MODULE_DESCRIPTION("Open Sensor Fusion IIO driver");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
