@@ -1,145 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7366D190462;
-	Sun, 28 Jun 2026 16:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA3C2E7366;
+	Sun, 28 Jun 2026 16:13:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782662600; cv=none; b=kJMGptrOMF3k2U1IlEjTBiwOwEqztKVZztXKEFQ6M6WRsId7bLuHz65LwWUWtai6npp6CWBXXMXkxwIf5XIVXdimwoJ7Jddpz0airsJH7/cV5DD1RxfaoY7ZO2sQ/8Us/+MTn613Tv6U8h8wRoMtK3AYRy2kjI0jabe62Aup7fU=
+	t=1782663186; cv=none; b=XPKMqN+ICiAVvBBi7FVLfOypAApq881RWi+5W/F9ybaGeZPjsxZvkm5LVKne4H5E21DQBLkEeLuz7+Jgm3GOqGnSsHJ09XOjAa3LGLKcb7b4PPWzyABsuPCU6MhM3SkGC4caHxglwRmhhHBryctyONGQokYpiH+mNYA9T789gRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782662600; c=relaxed/simple;
-	bh=Bg7ATLfq06nhMAvgzIEIchQ4wjP8NHZa4leLVfF2GrI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=aHgmSZ7khvqrPeeY1ejrlTrO+K+dZWKJWJONzqFGpZakNTbpqW30OUL7m1DCvCT6NO/SwTBpJpFLmXjuqFv01x3GuijWVibA6uGgLSlrDi+HwQac+GWpGRKOo/4KTqExN4wvWkhHmznmfjBuFodeMmbWAuNiPjhTHhC31i8phEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4Ylx3G9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782663186; c=relaxed/simple;
+	bh=ZekyRbEhOspvXTo0J7Up1txAdnbzTkqYe626csitizU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jcGOzwDZjnnNXP3D7x/QlNGq/cx0rmwPvOZsd0ZmiXXzLKRpWbaEJ6ldLQjMf+zHu0ttpSQi0JOSGHgRmdUypp/iR1LyttHidwkl9moYZ8tPIuQJeZpmldYdDMKDozrCdokXp4k8/3NRFyyli3Ev4oaVigO23ZaVxtzVhrYDCtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hm03+Ay/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4Ylx3G9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69A51F000E9;
-	Sun, 28 Jun 2026 16:03:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hm03+Ay/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C74EB1F000E9;
+	Sun, 28 Jun 2026 16:13:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782662599;
-	bh=vStoMMAuf3Habph9ryA7GqWRgnEHB2CaISdV5isqMNQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=j4Ylx3G9Q7SS5Lo1fqaA+jDwdjRMFYrQTd9Kuh7kGwIHAMqfyX8F6MY2zh6BraVKm
-	 ReOTxCEb2MsClBG+hNJrUCN/O7v6WhzINBLDw4+gTsqZTrLnjtWbTcxpsi5PZXZJtS
-	 h8K56Fq/ba7ZUOIz3xwrLim7O0hvzmE35KwM26ckmJexw/UWYMgSkDMAeJ7nF1Lp8y
-	 y7PM+Xyxr3TO9VMInnWX4TAgEnXnUAlWNPHF2EKCkLniDWyX0KUqQKnFhitsXjh4Pq
-	 TXdQ9VoRul47oVODsgA6Lw10FW0QsZW1nipnZbzSr6UgNVBOzow8QKJR7aSisu3R+F
-	 EP2/QC0xrIBdQ==
-Date: Mon, 29 Jun 2026 01:03:14 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v11 11/11] tracing/probes: Add a new testcase for BTF
- typecasts
-Message-Id: <20260629010314.0c6563c5022c1c973788464d@kernel.org>
-In-Reply-To: <178248336390.841606.1695444929833877704.stgit@devnote2>
-References: <178248325671.841606.17344906774310339507.stgit@devnote2>
-	<178248336390.841606.1695444929833877704.stgit@devnote2>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20260515; t=1782663184;
+	bh=Y9nswxsmOhOv49plCt5Egb3K6H8R2tOSFwNfPKAqtGU=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=Hm03+Ay/dFx1r5qIlZiqVslyPjKPok+WaUvYF23xEATUGq3t5eyYh6dtYsQT8rfM/
+	 6BWNX8ZzsyaPSFS2Ck68/ROleDRRYB9rq7cmsi3VeDI6fKHDQRX+PB6axBmOaxGXya
+	 deNgQ5zUaSgls2wZpTkk3kOLHNli+DjetjAVh6IfFFaSZFH7Yrklo7og7spgdRPjWw
+	 VvUDjmjvyEax4DTyTbFa8YdJpOfFF+m6YSy5uIGoxRwRKex3+Fw6TwRfKnozvqzRZs
+	 lTuBhHET9HKMXcXxclDXs+eWeSb7vbalc+fACQEqgvuDUJuwbv+TnlaOZ1NDY13Ngg
+	 BRACMToPuArZw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8BD1ACE08B8; Sun, 28 Jun 2026 09:13:04 -0700 (PDT)
+Date: Sun, 28 Jun 2026 09:13:04 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH] Documentation: RCU: adopt new coding style of type-aware
+ kmalloc-family - part 2/2
+Message-ID: <d44059db-5313-410e-b9e9-7bf1abbd94ec@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260627090605.28955-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627090605.28955-2-manuelebner@mailbox.org>
 
-This has a problem and needs some updates.
+On Sat, Jun 27, 2026 at 11:06:06AM +0200, Manuel Ebner wrote:
+> Update Documentation/RCU/* to reflect new type-aware kmalloc-family
+> as suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> and family")
+> 
+> p = kmalloc(...);
+>  -> p = kmalloc_obj(...);
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 
-On Fri, 26 Jun 2026 23:16:04 +0900
-"Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+Queued for further review, thank you!!!
 
-> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-> new file mode 100644
-> index 000000000000..96791e120b7d
-> --- /dev/null
-> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_probe_event.tc
-> @@ -0,0 +1,51 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +# description: BTF event with typecast and percpu access
-> +# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-> +
-> +# Check if the sample module is loaded
-> +if ! lsmod | grep -q trace_events_sample; then
-> +  modprobe trace-events-sample || exit_unsupported
+							Thanx, Paul
 
-I think this should be exit_unresolved.
-
-> +fi
-[...]
-> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc b/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc
-> new file mode 100644
-> index 000000000000..acf0b5a917d3
-> --- /dev/null
-> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/btf_typecast_accepted.tc
-> @@ -0,0 +1,107 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +# description: BTF typecast and percpu access syntax validation
-> +# requires: dynamic_events "this_cpu_read(<fetcharg>)":README "[(structname[,field])]<argname>[->field[->field|.field...]]":README
-> +
-> +KPROBES=
-> +FPROBES=
-> +
-> +if grep -qF "p[:[<group>/][<event>]] <place> [<args>]" README ; then
-> +  KPROBES=yes
-> +fi
-> +if grep -qF "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README ; then
-> +  FPROBES=yes
-> +fi
-> +
-> +if [ -z "$KPROBES" -a -z "$FPROBES" ] ; then
-> +  exit_unsupported
-> +fi
-> +
-> +echo 0 > events/enable
-> +echo > dynamic_events
-> +
-> +# Load trace-events-sample module if available to have per-CPU counter structure defined
-> +if ! lsmod | grep -q trace_events_sample; then
-> +  modprobe trace-events-sample || true
-
-I think this must be tested, and if the module is not found,
-the test must return UNRESOLVED error.
-
-> +fi
-[...]
-> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
-> index 0e65e787e426..1d6d1cf94f16 100644
-> --- a/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
-> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/eprobes_syntax_errors.tc
-> @@ -21,8 +21,17 @@ check_error 'e:foo/^bar.1 syscalls/sys_enter_openat'	# BAD_EVENT_NAME
+> ---
+> A similar patch sent by me has been applied. Back then I wasn't familiar
+> enough to convert all *alloc(*. That's why this is " - part 2/2".
+> Part 1: f61bf5fdf77d ("Documentation: RCU: adopt new coding style of
+>                        type-aware kmalloc-family")
+> ---
+>  Documentation/RCU/rcu_dereference.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/RCU/rcu_dereference.rst b/Documentation/RCU/rcu_dereference.rst
+> index 2524dcdadde2..5bc3785ebfc2 100644
+> --- a/Documentation/RCU/rcu_dereference.rst
+> +++ b/Documentation/RCU/rcu_dereference.rst
+> @@ -236,7 +236,7 @@ precautions.  To see this, consider the following code fragment::
+>  	{
+>  		struct foo *p;
 >  
->  check_error 'e:foo/bar syscalls/sys_enter_openat arg=^$foo'	# BAD_ATTACH_ARG
+> -		p = kmalloc(...);
+> +		p = kmalloc_obj(*p);
+>  		if (p == NULL)
+>  			deal_with_it();
+>  		p->a = 42;  /* Each field in its own cache line. */
+> @@ -293,7 +293,7 @@ Then one approach is to use locking, for example, as follows::
+>  	{
+>  		struct foo *p;
 >  
-> +check_error 'e:foo/bar syscalls/sys_enter_openat arg=^COMM'	# NO_EVENT_FIELD
-> +if grep -q '\\$current' README; then
-
-Sashiko found a problem here. Indeed. this is wrong. See below:
-
-> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-> index c817158b99db..e12dc967ec76 100644
-> --- a/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/uprobe_syntax_errors.tc
-> @@ -28,4 +28,9 @@ if grep -q ".*symstr.*" README; then
->  check_error 'p /bin/sh:10 $stack0:^symstr'	# BAD_TYPE
->  fi
->  
-> +# $current is not supported by uprobe
-> +if grep -q "\$current.*" README; then
-
-This is correct check.
-
-Let me fix those.
-
-Thanks,
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> -		p = kmalloc(...);
+> +		p = kmalloc_obj(*p);
+>  		if (p == NULL)
+>  			deal_with_it();
+>  		spin_lock(&p->lock);
+> -- 
+> 2.54.0
+> 
