@@ -1,212 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692783D6CD4;
-	Mon, 29 Jun 2026 15:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD131427A03
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747555; cv=none; b=gind5c7lH1mf2prq9PgM+LpjuKPjq6kQzn2SAb30Zn/VQJfLhRHXXAnXwxNRSfEcmsparxGx0qOLe2OQINgW1cZMT7A1o5plIGaYvxPnAGCPAAYo9KaPQS7PFnnqvB5tNuzi798Lp6W4eX6fvLbZvOB0kiyqXGPn+Ped+bu6J/Q=
+	t=1782748113; cv=none; b=XNAeJY/mNEYWFRaiJVahD9aSU8MKtqJXs8/0lWZ1YKh10DGYAPK5FzelyUH7GDSI5M/1RoaUn5Qy24BKKfdczSBHE58eofL9tMJw857DBC8qUvuWWEGgE7kQP4Njk2rBBjUVNN4odWk0j1QfY1kLi84HWL9CNBRzSwj2An+pra8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747555; c=relaxed/simple;
-	bh=q4sV64oI/UhUUIUg8JJc/X3IP7vCZfe2L6JJj+5+DL8=;
+	s=arc-20240116; t=1782748113; c=relaxed/simple;
+	bh=i8ONpixMujFX/WAcwrYwZhC6OCLzpFUm7/dL2XKRKRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUS3myYaWMywsOV5qssZZqBAKP+c1qRR09cHHLpkyYeD7rcLgSG+gxLB3PPf0lBelBQTkfL5w2/hXK6OImeciscWgUloKG/E1R2iZ/0q+SzdNEkqQaOubKHbC4nX4RxftDmLoAmAiEK4WX+KFP/pc2bBV0nIfvcnXcwLiFWC5cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+3HfVqX; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VthXF9dzVT3taMNYRzzZv4vMtJB1A0TnnANo49FsEnHY8FPoExgqqBmoxx8fXpC2DKZmmvUuoNkPIP+DnF8jd8UWj9eEfWJlR41Tv9xSNKf7cEPdMny6a2stkjQA3eYlODndsANwKTtGdfup56aZYXcWtocsmRM7+kcpA3ym5jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmHhiotX; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+3HfVqX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2EF1F000E9;
-	Mon, 29 Jun 2026 15:39:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782747554;
-	bh=XmxJ6c0kqMhhlXGwQar6r/s6+uu4+H6QPJjq1Sx9ksM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N+3HfVqXvKKhhc0ceXkahK6oMrDZjRkUt2BIdsrQBbEPl7xtotbtunXmIW0HM7XJh
-	 D7io6Mh8w1oaA35+8EHnUpTtta1zh4Ywqmwa5WYXX8Iyn8KTKWhJjSmzYNrfDA42Tr
-	 qmCv2dHmDMqJ+w5jt/OaEZ8LoxdvkngIa5L3Rl5qK/ma652fHeUhqfwMZhAk2bpbuy
-	 FwaWIH8DT5O/OEh3svzE3b22BHkM38ryoWsArEQIQoc0gssUpqgBYq5xwrZIXks1u7
-	 86L3W0hDj/D/wOxgAL33yg+AMLF8tKYFieQPhWlWJOpovxfOiH01tyBgSN7gVsCPbO
-	 oGUm99ZohucMA==
-Date: Mon, 29 Jun 2026 16:39:09 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmHhiotX"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3078e0dcd67so6087587eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 08:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782748111; x=1783352911; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XnfYZFFV0ryFVGO4RHx8uwQIWAFO9eQlXqtuzCiwiyI=;
+        b=cmHhiotXAi/+1/XBDO+AngGh2lpfN0cq/Jo4ixTa9BY/pm3xBJ8AkhJlb1GqHoz+Iy
+         8e0BNwz69DsFKJ8eUzNk//657bOzam6AIdg25SJlRsS+asTkP6v0xiyfRO/r1F3BNvH5
+         E2O7nH3JZyAl6h2DtvyQZgRdffeBAKVqNFrQZiMdqSgt4mBQtBo33XZGgDTeG4Ri7Vgf
+         2UFoRloJKJLX7N9jxD0mdhev7YpOOFutRt7Jm1EaQYDAwdvQFjoklk129vI8P1+ryMWa
+         qk28TrJpOJbqVbyRbHxgBjmP+zv0J9fsh5jbaub8h8pjxQ3oDc7PNzVJk/JCVVzcw1I/
+         xgGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782748111; x=1783352911;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XnfYZFFV0ryFVGO4RHx8uwQIWAFO9eQlXqtuzCiwiyI=;
+        b=lRhzq7CLecXNaHpCWe765PQaSb6Ciu5kTKtRtgMtdKkIf0G8UTBnaGrG3jwQw6y7ag
+         mEH4koSAs/n4FbgFBsZcwXdRSxclL3DyGRVJyFNmDiueAoghuHrNUBLPwtyG0Cz+b3bC
+         xAE4DmHwBHmVC2I6L9p6ybHcYyNaqDWS8kfzpc+wOvosaTNuHasZSvqkjLXATdQ26AnM
+         FcVADohsi3EAV6moRqkzcQopR4Etwd2wgwHF+VH4KK+GDeskjR8AsxvOliq6GqcgDkVW
+         XjBYHX4IENgXOYXU3YJoKZg+lNWvDtLuM55Ex2h2Arhj869LKUH6fVm2JPTwAmW0nO6O
+         kSSA==
+X-Gm-Message-State: AOJu0YyeghHkCduLZj6lZ3KL8Fi8BHp4JgulNguS7nZmrz8zjgL8mzMc
+	WIbjN4LERDjBsDMNLs5WBuBTwXJiOI3P4nqpHhqsICYjrrl5XSwVqcMZ
+X-Gm-Gg: AfdE7cnmZXCS4m35pFFBzOEQ2eLCtkbdq8YObskuwj03rUX7kmxc7gIm0epgknUns8d
+	aBeohEv4BA1lV1hLmOWvteDJPUVSKxhnSf4iwFBQHUp2/diOQ5i1yk2qHB0IiintPw2HDVruhh7
+	p9rtCYzljlUL7k+7dDjhaM5xz83LElliwbagPSNvpdhJb0IeJsHk98mLevRWynI3M3fAmme5LUX
+	F9GYAkwG+30j1LG18ukY0meU8fKARTduHX6FYu4q1Kgqfnzl8x8T8IZl0Q81h7meMgzztiCxBca
+	KXabWg2WOaHTtr2hkHMWWDbWjJ3OAHuT6v0eriThxLGjml+DfbFn4CLWZYhjP5oPbj1eKquuxgJ
+	GzGFygQNRG1SvRQFZZeVH4pF3gV8pRk2T9snvHk2lPU84MQPfHpMIPu9Xxjm4p6p5eGJXaaOhBu
+	I0aEHvG7EE6yBlyqWEZAeBQo/LUA==
+X-Received: by 2002:a05:7300:2150:b0:30c:472a:248 with SMTP id 5a478bee46e88-30ee14ba3aamr4290eec.32.1782748110867;
+        Mon, 29 Jun 2026 08:48:30 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c664sm51583295eec.8.2026.06.29.08.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 08:48:30 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 29 Jun 2026 08:48:29 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v6 1/5] dt-bindings: iio: add Open Sensor Fusion
- device
-Message-ID: <20260629-gilled-henna-96bde265d7ed@spud>
-References: <20260628191337.937-1-kimjinseob88@gmail.com>
- <20260628191337.937-2-kimjinseob88@gmail.com>
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH] hwmon: ltc4283: fix malformed table docs build error
+Message-ID: <b1f32693-608e-46b9-8fe4-8878fec580e4@roeck-us.net>
+References: <20260620011833.3568693-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7sWE1OgKcjYNrSYZ"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260628191337.937-2-kimjinseob88@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260620011833.3568693-1-rdunlap@infradead.org>
 
---7sWE1OgKcjYNrSYZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jun 19, 2026 at 06:18:30PM -0700, Randy Dunlap wrote:
+> Expand the table borders (upper & lower) to prevent a documentation
+> build error:
+> 
+> Documentation/hwmon/ltc4283.rst:261: ERROR: Malformed table.
+> Text in column margin in table line 3.
+> =======================         ==========================================
+> power1_failed_fault_log         Set to 1 by a power1 fault occurring.
+> power1_good_input_fault_log     Set to 1 by a power1 good input fault occurring at PGIO3.
+> 
+> Fixes: dd63353a0b5e ("hwmon: ltc4283: Add support for the LTC4283 Swap Controller")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 
-On Mon, Jun 29, 2026 at 04:13:33AM +0900, Jinseob Kim wrote:
-> Add a binding for the generic Open Sensor Fusion host interface.
->=20
-> Open Sensor Fusion devices report capabilities and samples over an OSF
-> protocol stream. Sensor channels are discovered at runtime from
-> capability reports instead of being described individually in Device
-> Tree.
->=20
-> The protocol version is discovered at runtime from the OSF frame header.
-> OSF GREEN is a product identity, and OSF0 is a wire-format magic value,
-> so neither is used as the Linux compatible string.
->=20
-> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
-> ---
->  .../bindings/iio/opensensorfusion,osf.yaml    | 54 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  MAINTAINERS                                   |  6 +++
->  3 files changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/opensensorfusio=
-n,osf.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/opensensorfusion,osf.y=
-aml b/Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
-> new file mode 100644
-> index 000000000..8016d582f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/opensensorfusion,osf.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Open Sensor Fusion Sensor Aggregation Hub
-> +
-> +maintainers:
-> +  - Jinseob Kim <kimjinseob88@gmail.com>
-> +
-> +description: |
-> +  This binding documents the generic Open Sensor Fusion host interface. =
-Open
-> +  Sensor Fusion is a sensor aggregation hub. The hub exposes an OSF prot=
-ocol
-> +  data stream over its host interface and reports capabilities and sampl=
-es for
-> +  multiple sensor classes. The actual sensor channels are discovered at =
-runtime
-> +  from OSF capability reports instead of describing them in Device Tree.=
- The
-> +  protocol version is discovered at runtime.
-> +
-> +  Public project documentation is available at:
-> +
-> +    https://github.com/opensensorfusion
-> +
-> +  The compatible describes the generic Open Sensor Fusion host interface.
-
-> It
-> +  is not an OSF GREEN board identity, and it does not encode the OSF0 wi=
-re
-> +  magic.
-
-I think this is evident from the previous text, and the first part is a
-bit confusing while the latter half is a bit confusing.
-Just remove this sentence I think.
-
-Binding looks fine to me, I'll provide a r-b when you submit a non-RFC
-version.
-
-pw-bot: not-applicable
+Applied.
 
 Thanks,
-Conor.
-
-> OSF0, protocol_major, and protocol_minor are wire-protocol details
-> +  exchanged in OSF frames.
-> +
-> +allOf:
-> +  - $ref: /schemas/serial/serial-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: opensensorfusion,osf
-> +
-> +  vcc-supply:
-> +    description:
-> +      Regulator supplying power to the Open Sensor Fusion device.
-> +
-> +required:
-> +  - compatible
-> +  - vcc-supply
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    serial {
-> +        sensor {
-> +            compatible =3D "opensensorfusion,osf";
-> +            vcc-supply =3D <&vcc_sensor>;
-> +        };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
-umentation/devicetree/bindings/vendor-prefixes.yaml
-> index 28784d66a..88172d4a4 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1237,6 +1237,8 @@ patternProperties:
->      description: OpenPandora GmbH
->    "^openrisc,.*":
->      description: OpenRISC.io
-> +  "^opensensorfusion,.*":
-> +    description: Open Sensor Fusion
->    "^openwrt,.*":
->      description: OpenWrt
->    "^option,.*":
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c2c6d7927..e4df9d8dc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20011,6 +20011,12 @@ F:	Documentation/devicetree/
->  F:	arch/*/boot/dts/
->  F:	include/dt-bindings/
-> =20
-> +OPEN SENSOR FUSION
-> +M:	Jinseob Kim <kimjinseob88@gmail.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
-> +K:	opensensorfusion
-> +
->  OPENCOMPUTE PTP CLOCK DRIVER
->  M:	Vadim Fedorenko <vadim.fedorenko@linux.dev>
->  L:	netdev@vger.kernel.org
-> --=20
-> 2.43.0
->=20
-
---7sWE1OgKcjYNrSYZ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakKRnQAKCRB4tDGHoIJi
-0jtPAP9UjwGAQHBPikZntHLh47cDCPr+KIN+72yn0oMFnbNUEAEAjMvGeo18zA1o
-e7ThlFUJ0gGdpjOCNYM5aASU2UztAgY=
-=hoHF
------END PGP SIGNATURE-----
-
---7sWE1OgKcjYNrSYZ--
+Guenter
