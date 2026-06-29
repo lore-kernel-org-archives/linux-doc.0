@@ -1,279 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C23D6CD7
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C683742EEB8;
+	Mon, 29 Jun 2026 15:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782746192; cv=none; b=oTN9xLgpPxZjqIJiaY07o2ob+Hw19BsC4Cu0DAjdIx5iW8BboTbizsJ62r8B2OAVbJcugaKyki8CFj8BPPVOXel+4B9OgHD1xuaEZVF9YhXgdTHTQKeNwG+d2HIjaBOgx2YlX7LMStiYvVslDscnCpT22/NA83n0fKUI+AUno6Y=
+	t=1782746701; cv=none; b=ewr8UhI1OoAHixogyoCQ+Y4hAMntvu5Ro8FgEubWkTjjXN9fbGDS5CN3EXnB6t6kWBKIbO7QQu0Ko7ELVtwSLPExds/nalbVz4CfQ/Ac4ZnvI7YrQ33k904sOqa0Mfjs8aPvLH7C/60E8+drDZvB8SgaX/CsIq9wB4aX2vfrx7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782746192; c=relaxed/simple;
-	bh=TyroLfUweTHzSwj+sw+Mxymv1hw4VkQqYksGpk/3r6g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MDdMIFv3IE1SbCfjQwx/2/yxX5V1Y3/tzfKXURaBjNW9inbGQBYDxPKPRigbtZKcUtyKs6SW9JMwbL24v2+5KE59OWjDYYndhuH5qK8Lw7R8QZ3fXA12X4d/8IxBL+X1Qfk2/7P0LRT2bHneOaoIhrXKJ0sXcxUDXsYJEmRrmro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ioI86TQi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782746701; c=relaxed/simple;
+	bh=BxWHJw/g4OM8boiB+iRC+r6pkkeo8B1ZZ8goj81rBAI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oFUtDAufAg1I4r8aF2dSGM9YhxuGmt/uNXjiNj/Pq8PUxiRZhe0uHRkPU3sBa7KYyCd2TKF1dozXmDb9XNk6azeEqoHYHWzIEgLwf8HGpz/I1YUGZQZl6VJyjwWaWJVgxNCdtcdvoKFmQnWY8zSaUWN4PjsbWDkmAQrIsnt0yfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YU+wIcTk; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ioI86TQi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6141D1F00A3A
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:16:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782746191;
-	bh=mu128c2lKhMUV7F9G/OBVNv+GOpQJNZquCp8iILOmR8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ioI86TQiijOCF+e38d+1nZtGjwY6fjWUEx5hprN/5g5Cpfad32uY7dcO2IOahNXL/
-	 NwufDU/76Ge9CDs2iG/uuzFabL0gFM8Ir6dSWvbMbCJgfiEuvWk8JNLuuiZmToEJIj
-	 PLKm7wdimHCGhI4hEubwroUqBjT7Bh+FMfhH6NUs9rWviGwQR6XWtfW7OQYVMabWkf
-	 9ZGNd19d0EYzH2ANUZ5ZA4jQhid4JfThNqeSxGBnN9oulAUQ1ES1Z09fh93tlTMT/h
-	 XU/Z14y9SbOaAGXZthrPVZtINGCScoC0KzP8Z7WyJHWZtpBjrdwsWytHdgXM7Movwd
-	 qx5weVjJobeTw==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso1803473e87.2
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 08:16:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoKZ1QuMOG71NWpd8iHm3bKQqWm07Y0pVLz3+/zIpt5qfjnDjKdW/rFRyC/1+iQBs0noaiojoqrC9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzpbncHfkK706+hwYrU3DOSWCkFecKFMDMxTts6SgNDJEIIAcS
-	+Gq5Y4Y/gK3/htIUYL4vSjucxEI2pbChJcp4RvCK/fI1DCTbPfSaezwsm2BT/HM0uFncWW6TFZt
-	wSkVsPIULCipOp5LgEpIlX4JWR+rdOmY=
-X-Received: by 2002:a05:6512:400c:b0:5ae:b260:cf4b with SMTP id
- 2adb3069b0e04-5aeb260d09emr1686299e87.64.1782746189818; Mon, 29 Jun 2026
- 08:16:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YU+wIcTk"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 74C884E40B48;
+	Mon, 29 Jun 2026 15:24:58 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 421805FF96;
+	Mon, 29 Jun 2026 15:24:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6028106F1895;
+	Mon, 29 Jun 2026 17:24:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782746697; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=cV6cOM+bj7USh7hCsNibU/8DXk3lJFDt0xAap2b262Q=;
+	b=YU+wIcTkwOnnxgVT4g6EJRE0b0YtGWGu0SsA0ZopVUg/3hUzDC269GIpMtRq+zsV95prjU
+	eGtdXY+xxOaBVjJ3JKPk3ApBjhyli3rSEcIG1DLkgM722wa0O5ykt3uhdCTzSLh//Djg21
+	vuEIcH5a7E/DhnPSRKGbS9hxlfWJvzvzaNjj7j+MdI/iaSAzllXNbD9hdNUvCQ5+PXlYQw
+	HeDOuVjvd2hDtY7TnRXoWyO5KNsNwXM71aBT3liz33aftyvOJheMG8mfwfpCt8ahwlyCOu
+	fxM7PXJhGTz3+y1EiCsNk7A7L6TN2h2GLGFgfprz6U5oSykWr6l9zVt2Me2X1A==
+Message-ID: <01e3d32b-6d50-4179-8e2f-25cdf8ff6c32@bootlin.com>
+Date: Mon, 29 Jun 2026 17:24:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
-In-Reply-To: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 29 Jun 2026 17:16:17 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
-X-Gm-Features: AVVi8CdVLP70R0zK3UrM3FilV6lOIfpGj5d14bmmpB0rSBs-JGFC2A3o7FL3oPo
-Message-ID: <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
-Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
- artificial Energy Models
-To: =?UTF-8?Q?Lucas_de_Lima_N=C3=B3brega?= <lucaslnobrega38@gmail.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, mingo@redhat.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] Documentation: networking: Add a test plan for
+ ethtool pause validation
+To: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260522175109.198059-1-maxime.chevallier@bootlin.com>
+ <20260526172447.10ca4b9e@kernel.org>
+ <5cb8e2b4-8eb6-4446-9b90-1cd4c7964cd9@lunn.ch>
+ <38bafe7e-d419-46f7-8fa7-87e9183e578c@bootlin.com>
+ <58f37d6e-973b-4242-be82-0561ccdb1a6f@lunn.ch>
+ <65d26fd2-fbb3-49cd-a9ac-07863d9a8909@bootlin.com>
+ <5b7dbdbc-93fd-4664-abad-0f47855fab55@lunn.ch>
+ <20260626173352.7dc8f106@kernel.org>
+ <12b66ea3-42df-4ecb-8eb7-44471407b83f@bootlin.com>
+ <20260627143028.5afed23a@kernel.org>
+ <3b8abe17-5da7-4a7e-a42c-eb39a631843e@lunn.ch>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <3b8abe17-5da7-4a7e-a42c-eb39a631843e@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
-<lucaslnobrega38@gmail.com> wrote:
->
-> EAS currently refuses to enable energy-aware scheduling on a root
-> domain unless schedutil is the active CPUFreq governor for all of its
-> CPUs (cpufreq_ready_for_eas()). This requirement exists to protect the
-> accuracy of the energy estimate: EAS predicts the OPP a CPU will run
-> at from its utilization, which is only meaningful if the active
-> governor actually requests OPPs that way, and schedutil is the only
-> one that does.
->
-> That requirement does not apply to artificial Energy Models
-> (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
-> get_cost() callback instead of real power numbers, and only encodes a
-> cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
-> given utilization). It never claims to predict real energy use at any
-> specific OPP, so there is no per-OPP accuracy for the governor
-> requirement to protect, regardless of which governor is in control or
-> whether it tracks utilization at all.
+Hi Jakub, Andrew,
 
-But it is still about comparing the cost of running on different CPUs
-at different performance levels.
+On 6/28/26 01:46, Andrew Lunn wrote:
+> On Sat, Jun 27, 2026 at 02:30:28PM -0700, Jakub Kicinski wrote:
+>> On Sat, 27 Jun 2026 07:34:31 +0200 Maxime Chevallier wrote:
+>>>> This is very far from what existing python tests do in netdev.  
+>>>
+>>> We can probably drop the class, as it is with this discussion, it's merely a way
+>>> to regroup doc common to similar tests. The rest really is the usual set of
+>>> ksft funcs you can feed to the run function, with a set of ksft_ethtool_*
+>>> annotators for generic checks.
+>>
+>> The common way of checking prereqs in the tests is to call a function
+>> called require_xyz() which then raises a skip. At a quick glance - the
+>> rss_api and xdp_metadata are good tests to get a sense of the usual format.
+> 
+> The counter example is the ksft_disruptive() decorator.
+> 
+> Pythons own unittest framework makes use of decorators to skip
+> tests. Its the Pythonic way.
 
-For instance, say the scale-invariant utilization of a task is 256 and
-it can run either by itself on a P-core, or with another task whose
-utilization is 128 on an E-core, and say the P-core's and E-core's
-capacity is 1024 and 512, respectively.
+So maybe in the end, we can try to have something a bit less python-y, while still
+using extensive documentation using sphynx doc format ?
 
-Say the cost function tells EAS that running a P-core at 1/4 of the
-capacity is cheaper than running an E-core at 3/4 capacity, so it will
-pick up the P-core to run that task, but if cpufreq ramps up the
-frequency of the P-core to the max when the task gets to it, it may
-actually turn out to be more expensive.
+Let me send a V2 with the full test list, we'll see how much scaffolding
+we can build for ethtool testing, and how. I suspect that running/skipping based on
+the device's capabilities is going to be used throughout lots of tests
+beyond pause.
 
-This means that EAS still has an expectation regarding cpufreq which
-is that it will generally tend to run tasks at the performance level
-corresponding to the sum of their scale-invariant utilization at least
-roughly.
+For now the important part is to get that test list right, and iterate on the
+test implementation once we agree on what to test, why and how.
 
-IIUC this actually has nothing to do with whether or not the energy
-model used by EAS is artificial.  The schedutil requirement is about
-choosing a performance level proportional to the utilization (which
-schedutil generally tends to do by design).
+Maxime
 
-> intel_pstate registers exactly this kind of artificial EM for hybrid
-> (P/E-core) systems without SMT, regardless of whether it operates in
-> active or passive mode. In active mode it never uses schedutil, since
-> HWP picks frequency autonomously, so on these systems EAS never
-> engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
-> EM are all in place: find_energy_efficient_cpu() is never reached
-> because is_rd_overutilized() is hardcoded to true whenever
-> sched_energy_enabled() is false. cppc_cpufreq registers the same kind
-> of ranking-only artificial EM and is affected the same way with any
-> non-schedutil governor.
->
-> Allow EAS to be enabled when every CPU's EM in the root domain is
-> artificial, even when schedutil is not the active governor.
->
-> Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate in
-> active/HWP mode: find_energy_efficient_cpu() was never called before
-> this change (confirmed via the sched_overutilized_tp tracepoint and
-> ftrace) and is exercised as expected afterwards.
-
-If this is about allowing EAS to work with intel_pstate running in the
-active mode, you may argue that what the processor firmware is doing
-when intel_pstate runs in the active mode is not much different from
-what schedutil would do.  So a driver implementing an internal
-governor (that is, using the .set_policy() callback) would need to
-declare that its internal governor is as good as schedutil from EAS'
-perspective and so it will pass the "cpufreq readiness" check.
-
-> Signed-off-by: Lucas de Lima N=C3=B3brega <lucaslnobrega38@gmail.com>
-> ---
->  Documentation/admin-guide/pm/intel_pstate.rst |  9 ++++--
->  Documentation/scheduler/sched-energy.rst      |  7 ++++-
->  kernel/sched/topology.c                       | 28 +++++++++++++++++--
->  3 files changed, 38 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentatio=
-n/admin-guide/pm/intel_pstate.rst
-> index 25fe5d88f..c8fef1e60 100644
-> --- a/Documentation/admin-guide/pm/intel_pstate.rst
-> +++ b/Documentation/admin-guide/pm/intel_pstate.rst
-> @@ -409,13 +409,16 @@ Energy-Aware Scheduling Support
->  If ``CONFIG_ENERGY_MODEL`` has been set during kernel configuration and
->  ``intel_pstate`` runs on a hybrid processor without SMT, in addition to =
-enabling
->  :ref:`CAS` it registers an Energy Model for the processor.  This allows =
-the
-> -Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler=
- if
-> -``schedutil`` is used as the  ``CPUFreq`` governor which requires ``inte=
-l_pstate``
-> -to operate in the :ref:`passive mode <passive_mode>`.
-> +Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler=
-.
->
->  The Energy Model registered by ``intel_pstate`` is artificial (that is, =
-it is
->  based on abstract cost values and it does not include any real power num=
-bers)
->  and it is relatively simple to avoid unnecessary computations in the sch=
-eduler.
-> +Because of that, EAS does not require ``schedutil`` to be used as the
-> +``CPUFreq`` governor in this case: the cost ranking it relies on does no=
-t
-> +depend on the governor tracking utilization when requesting frequencies,=
- so
-> +EAS works the same way regardless of whether ``intel_pstate`` operates i=
-n the
-> +active or in the :ref:`passive mode <passive_mode>`.
->  There is a performance domain in it for every CPU in the system and the =
-cost
->  values for these performance domains have been chosen so that running a =
-task on
->  a less performant (small) CPU appears to be always cheaper than running =
-that
-> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/sch=
-eduler/sched-energy.rst
-> index 4e47aaf10..c23ca226d 100644
-> --- a/Documentation/scheduler/sched-energy.rst
-> +++ b/Documentation/scheduler/sched-energy.rst
-> @@ -379,7 +379,12 @@ Consequently, the only sane governor to use together=
- with EAS is schedutil,
->  because it is the only one providing some degree of consistency between
->  frequency requests and energy predictions.
->
-> -Using EAS with any other governor than schedutil is not supported.
-> +Using EAS with any other governor than schedutil is not supported, unles=
-s the
-> +EM in use is artificial (see EM_PERF_DOMAIN_ARTIFICIAL).  An artificial =
-EM only
-> +encodes a cost ranking between CPUs/OPPs instead of a real power table, =
-so it
-> +does not make any claim about energy use at a specific OPP and its concl=
-usions
-> +do not depend on the governor actually tracking utilization when request=
-ing
-> +frequencies.
->
->
->  6.5 Scale-invariant utilization signals
-> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> index 5847b83d9..124a4bb4d 100644
-> --- a/kernel/sched/topology.c
-> +++ b/kernel/sched/topology.c
-> @@ -212,6 +212,27 @@ static unsigned int sysctl_sched_energy_aware =3D 1;
->  static DEFINE_MUTEX(sched_energy_mutex);
->  static bool sched_energy_update;
->
-> +/*
-> + * An artificial EM (see EM_PERF_DOMAIN_ARTIFICIAL) only encodes a cost
-> + * ranking between CPUs and does not claim to predict energy use at any
-> + * particular OPP.  Unlike a real power-based EM, its conclusions do not
-> + * rely on the active governor tracking utilization when selecting
-> + * frequencies, so the schedutil requirement below does not apply to it.
-> + */
-> +static bool perf_domains_are_artificial(const struct cpumask *cpu_mask)
-> +{
-> +       int i;
-> +
-> +       for_each_cpu(i, cpu_mask) {
-> +               struct em_perf_domain *pd =3D em_cpu_get(i);
-
-I would do
-
-if (!pd)
-        continue;
-
-here because the CPUs without a PD simply don't matter.
-
-Also, is any synchronization needed for this?
-
-And should it go into the EM code?
-
-> +
-> +               if (!pd || !em_is_artificial(pd))
-> +                       return false;
-> +       }
-> +
-> +       return true;
-> +}
-> +
->  static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
->  {
->         bool any_asym_capacity =3D false;
-> @@ -249,7 +270,8 @@ static bool sched_is_eas_possible(const struct cpumas=
-k *cpu_mask)
->                 return false;
->         }
->
-> -       if (!cpufreq_ready_for_eas(cpu_mask)) {
-> +       if (!cpufreq_ready_for_eas(cpu_mask) &&
-> +           !perf_domains_are_artificial(cpu_mask)) {
-
-
-
->                 if (sched_debug()) {
->                         pr_info("rd %*pbl: Checking EAS: cpufreq is not r=
-eady\n",
->                                 cpumask_pr_args(cpu_mask));
-> @@ -403,7 +425,9 @@ static void sched_energy_set(bool has_eas)
->   *    1. an Energy Model (EM) is available;
->   *    2. the SD_ASYM_CPUCAPACITY flag is set in the sched_domain hierarc=
-hy.
->   *    3. no SMT is detected.
-> - *    4. schedutil is driving the frequency of all CPUs of the rd;
-> + *    4. schedutil is driving the frequency of all CPUs of the rd, or th=
-e EM
-> + *       of all of them is artificial (i.e. a cost ranking rather than a
-> + *       real power table, see EM_PERF_DOMAIN_ARTIFICIAL);
->   *    5. frequency invariance support is present;
->   */
->  static bool build_perf_domains(const struct cpumask *cpu_map)
-> --
-> 2.54.0
->
