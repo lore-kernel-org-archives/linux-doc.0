@@ -1,203 +1,279 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010065.outbound.protection.outlook.com [52.101.193.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C847E42EEBA;
-	Mon, 29 Jun 2026 15:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745470; cv=fail; b=X1Ipwnfz0f5Bcvsw0k9jok9h6m/v+5en1m8H30puvdOOuqJy5o5m+eWlBx0rV5+51OBpsrSpYj0ZjCBe/QQqRdDuCZUN3Hxz1l5yB2whFfvVh6YEcndDHF+8yYlOX9C4IzgC5FH5EQ6G3iteiXZqVVzZJlStshGrJF+X0vM8ovg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745470; c=relaxed/simple;
-	bh=L3bJxAWaxDN9h4ZxLzCh4IwKcFGtaNv0I6/o2b/+8Fg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bgna4cNbImt4HIHeEfIsJnnCAwfAtmapD71GCUatjDAG+WSR4gNa3wV5R0GnuSxwwQTjxSTocMq4WN36LR5XA+Nb1xU00JcfqF1OwxSQh7U9kAPzbyAmYZUg8hYzuSNyDWyGLdJSEn1OvaLrKUMnPSrL9akNtPuI0tYqwo6oFyA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=d+HWaH8e; arc=fail smtp.client-ip=52.101.193.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C23D6CD7
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782746192; cv=none; b=oTN9xLgpPxZjqIJiaY07o2ob+Hw19BsC4Cu0DAjdIx5iW8BboTbizsJ62r8B2OAVbJcugaKyki8CFj8BPPVOXel+4B9OgHD1xuaEZVF9YhXgdTHTQKeNwG+d2HIjaBOgx2YlX7LMStiYvVslDscnCpT22/NA83n0fKUI+AUno6Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782746192; c=relaxed/simple;
+	bh=TyroLfUweTHzSwj+sw+Mxymv1hw4VkQqYksGpk/3r6g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MDdMIFv3IE1SbCfjQwx/2/yxX5V1Y3/tzfKXURaBjNW9inbGQBYDxPKPRigbtZKcUtyKs6SW9JMwbL24v2+5KE59OWjDYYndhuH5qK8Lw7R8QZ3fXA12X4d/8IxBL+X1Qfk2/7P0LRT2bHneOaoIhrXKJ0sXcxUDXsYJEmRrmro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ioI86TQi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="d+HWaH8e"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jA1gyDBqOiA45CdLLFa8mJA0i8poX14rYf0+z4I1kl5y0FHu+fp07eoofxrOW/ZrHnGg6zUFB6ber+zlCV17Fom4kZ7oyfDBbEjxCSnTfVcGySyPSIOK8Qd54uWFlTYP1kBMF7K3vqICmkeNWi+f4zrZa+tglZAi8VWV/uPlGE36NkZk00riUstQQK2gLXHFZF77386K48t8atdnoMBAjcH+hajaRCpKU6NfY4GrBDTrexSCKjSJx1GR67ttqodjKAzYlnpZjn7dserGVJknDffUEeM1s1l9cEwb7CybL+/7DB816/h/441soKXG7nKusYvp720zeEF1VEaUVvTA5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i9dXasEo9k1rOgGIs4HhiuOKstMd796ZuXBsSxLKNGk=;
- b=pOXouS26lXg7BXzpbiOsWvfByKKKbknZkCCG7ZrXgpOWQUvtlLeAf9ElpejcfB2Qq+k+SzpL6EOkPwDPb5oXc5u2fcI/9KvU616bnrQZRNo3Eys0zHnM6R+vzqTYyILX8QFct+8pPpUdjbtopCrCLIOqNmL6YedE3L67lq6dYc+3IvcsSyLuafLNmPYXbnbbd7FDN9I+9rr1+v3k2WKUUeULbLJgBht2Cs3fDqYVpEiB4t+1Pl/lSuDzkBp1FsY0cuuj2LQI1f6M92yAT/wYcqB548iVjaHgsA3VVCBZIhl2rsTY+LE9RzWSXiylXBbTXXR+5KeBVD78mTSBfuX9HA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i9dXasEo9k1rOgGIs4HhiuOKstMd796ZuXBsSxLKNGk=;
- b=d+HWaH8euZBYc6CbLwtNhpi5hjWU59+47sn3Sdz3nWrjJb6dJ1UqrJoRXOHQj/cebjaHC0NN8xdZo5fpZXP3j+w86M8T+bbIwx9lviQ+88lvYdaCwnHTGn6KDPovL50lmyi6/BDhhMlr5uPyo9MnInjWchMwTzNFciWBmOzCiIY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by CH3PR12MB7641.namprd12.prod.outlook.com (2603:10b6:610:150::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
- 2026 15:04:19 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 15:04:19 +0000
-Message-ID: <2939bf97-3ed6-4283-a1a9-9480c78c1a9c@amd.com>
-Date: Mon, 29 Jun 2026 20:34:06 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 01/14] dmaengine: constify struct
- dma_descriptor_metadata_ops
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Thara Gopinath <thara.gopinath@gmail.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>,
- Udit Tiwari <quic_utiwari@quicinc.com>,
- Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Stephan Gerhold <stephan.gerhold@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
- Andy Gross <agross@codeaurora.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20260629-qcom-qce-cmd-descr-v20-0-56f67da84c05@oss.qualcomm.com>
- <20260629-qcom-qce-cmd-descr-v20-1-56f67da84c05@oss.qualcomm.com>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <20260629-qcom-qce-cmd-descr-v20-1-56f67da84c05@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0082.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ae::12) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ioI86TQi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6141D1F00A3A
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 15:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782746191;
+	bh=mu128c2lKhMUV7F9G/OBVNv+GOpQJNZquCp8iILOmR8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ioI86TQiijOCF+e38d+1nZtGjwY6fjWUEx5hprN/5g5Cpfad32uY7dcO2IOahNXL/
+	 NwufDU/76Ge9CDs2iG/uuzFabL0gFM8Ir6dSWvbMbCJgfiEuvWk8JNLuuiZmToEJIj
+	 PLKm7wdimHCGhI4hEubwroUqBjT7Bh+FMfhH6NUs9rWviGwQR6XWtfW7OQYVMabWkf
+	 9ZGNd19d0EYzH2ANUZ5ZA4jQhid4JfThNqeSxGBnN9oulAUQ1ES1Z09fh93tlTMT/h
+	 XU/Z14y9SbOaAGXZthrPVZtINGCScoC0KzP8Z7WyJHWZtpBjrdwsWytHdgXM7Movwd
+	 qx5weVjJobeTw==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso1803473e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 08:16:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoKZ1QuMOG71NWpd8iHm3bKQqWm07Y0pVLz3+/zIpt5qfjnDjKdW/rFRyC/1+iQBs0noaiojoqrC9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzpbncHfkK706+hwYrU3DOSWCkFecKFMDMxTts6SgNDJEIIAcS
+	+Gq5Y4Y/gK3/htIUYL4vSjucxEI2pbChJcp4RvCK/fI1DCTbPfSaezwsm2BT/HM0uFncWW6TFZt
+	wSkVsPIULCipOp5LgEpIlX4JWR+rdOmY=
+X-Received: by 2002:a05:6512:400c:b0:5ae:b260:cf4b with SMTP id
+ 2adb3069b0e04-5aeb260d09emr1686299e87.64.1782746189818; Mon, 29 Jun 2026
+ 08:16:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|CH3PR12MB7641:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75153a00-4946-4926-7944-08ded5efb21e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|4143699003|56012099006|11063799006|22082099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	S2RYZG1cHhDRdqTxKUrfrKRZh0B+klCVZFYEKumrf4Rwp110Cf15d0236BHkHqFyOVP6DPpE0z/Rksr66+Wel1hQ3Ks4cQv3YrlRRTJ4LZzjXEIHglDM/ecM3yuG1TwILg2Av0ql6liWP37dphmP1F4EH7++PubZ2aTbuMPJchginZ6i0ww9BJ32k9Xt42XZYKFyyu8MJKr6ynlJyIk6DWgreWsDt+8TQo8OObAsmvKzYSvg6ndbNsabLQagp5VCghhq/XW35agGPE4EIUmN4+joiKPHKvClGegLGCoWGkwDbKhfBfzSsrtF63Bo2J/ctCi3WXza2lTj6E7viGZg43k0jWfVmAqeElAexXDN7AZPonaN4cLh6XMA1s/QPKCkUb7HKjELeFlKIXaMNnP9BCoh0t+zxkznX/kR3wpODmDo1Brz3hBOO4PAmlwD/v9cYkvbSbWBJqihdghwWx9LcatoQwWllzYyXuoTUTnZEyIcsfhKTu6fZHZIHKsuas8F8Zuoy6qv3fRX+2C1Eb89ue4gtrS+g0UnKldw4LMHgjxkMImxnXeTVn5S3ZfrYQ4msb7nQO6snhytsszsWHQ3seRjeiM0XvRtVtSm6DnFjmH8dBN2TwptI+fhr1dpDu0VmbGueZ9TB5f6rPaXurcjQgINJDRD8GnJ0loWDx4dhBVKxGe5ivTxDZR1S/VkKWqCgE1DB4R/64wGKYD0sDLHrw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c2JmSS8xdVFjS21ETWRHK1hteXp3b1NPU1VLVDN4YTJLMHNZemlwQkE1UzNo?=
- =?utf-8?B?S1hja2pLWmRsNVo3ZlM5OHRsSER0WjgwY3FQMUZRRllEaGRGck4xN1ZDeHR4?=
- =?utf-8?B?VmJJc05EODNiQllMZXVsSkxZMzdxK08xZDdyT2JmbDhmQzVDeU5zWktHOWZC?=
- =?utf-8?B?MWJ4L1IvbHdqT2VmQ3V4dHVrK0tFbkZJVDE2Q2VPZ1d4Q21MOGFRTFNrRzBm?=
- =?utf-8?B?MHdmdURqSkxnUWFQZXRtOFpublh4d25kRzV2YmhoTFlmYldIekpOMERISXVx?=
- =?utf-8?B?TTVIekhXbzJvYWExdWtxQ1BxbTA4RWR6Y3EvUXZuYVNNbWZTSkp0UU9TUGpZ?=
- =?utf-8?B?cmhLSGI2M0szY3AvSm4vc2RLbnhVTC8zSkZ4OGhpVjhpaFZBQldOUDE5K0My?=
- =?utf-8?B?UXJzODhkNEdtNXRWUVFvdnZKaHQ5Y1N3S25CeDFmdnVyT1BRT2dvWEpqS1o1?=
- =?utf-8?B?MjFVejZOb0kyN0F3WWxyNnVHbnlTVGcwd3J3d2FDRGl0M2pURVVPQ1JkdjJQ?=
- =?utf-8?B?S2ZRYURMSXoxV3ZldC9sZWdKdWlUT0ZKcUpmRENmWCtnRkFjWXlvM1dXYmM3?=
- =?utf-8?B?MmJIWFBDUFZROHhCa3liL1kzZzdhTGo2Rzl6RTZYaTA0K25pRUNjcTNPRUtV?=
- =?utf-8?B?QWEvVXQ2b3E1VS9NVGdaVnFPQTJqZHVFRnhlL3hFVTI2MmxRUFNUd28vdVhB?=
- =?utf-8?B?SWczRmtRL095Qi9sc0lCZzRKTXJ3dnoxTlhBbzRTYTRST1lQM3p6SXorc0pB?=
- =?utf-8?B?emRlSEZKUTNwZGRRaGw4OUtFVFpGUXdLNHBmZzlxSTFZNjJYTjd0elRqcGpG?=
- =?utf-8?B?VElrcUZNcW5sY2NibjVTV0ZUTEx6SkRSc1hZekgxeW5FM2tKNEdDaWdFa25Z?=
- =?utf-8?B?QXZkQ0hYQWNrWnhPZ3ZNL1JBTG56OVY0VVFxM0c3c3pGSlJWbG9PR1BlRUhw?=
- =?utf-8?B?K0ErVm80ZjYyS3FuaHNWRkx4aUxtVUpwM3VsVVM3OCtUM0VuVzJMU0FSaTNj?=
- =?utf-8?B?b2FCOGFjSEVla2xDdDNVUlYvZkRnVTZ3blRGU2hCN0RITk55L3hiUExtTGJ4?=
- =?utf-8?B?bWV4NFYyTXpRdDRBdkdDa092bTFwLzc2d3ZGZlF5TkM3WFJCeXk3RHh1U2tW?=
- =?utf-8?B?alFublJMY054dTFjdzZ0M3VBQjcvU1NtTGlQR2F6UHFHY2VZdTMrckpFYVVO?=
- =?utf-8?B?UFVVMnMvaFlxTTdEQm1QeGNBa3JPL3FzUHY1MC9xVVUzZ3c5dFl3TFhSWnRC?=
- =?utf-8?B?RDI5VTErVVJBelpEMVEvVjNncGxPSCsxaHBrUnZMNWtvTnY1KzVXdGtxaE9S?=
- =?utf-8?B?VHFJbjZ6TnlicnhCM28zRWRGNUxVaFVpODR2bHRHVitNUnBCN3RPQ2hOQUF4?=
- =?utf-8?B?UDM4RlI1cmRNNlNCRUxzL2YxY2UzZUVzU3NwWGpjUm4zMDdaSlEwYi9hTzhH?=
- =?utf-8?B?RnpIVDI2bCtYcE83SW0raXBIUktCOEF5R2JaaFFWYmNzaHBBRUQ0VHV5cHZ5?=
- =?utf-8?B?RmdNRmk1V0tJSm13NXZ6SDBrNEFUczdTRkM4K0pHOW94ZzZvT3B4amI2SlFl?=
- =?utf-8?B?amtUaVQvYlhleFhISmpSb3V4REN0WDNtd0svcU1RNm9oZUdncWRWYlN2ek5S?=
- =?utf-8?B?Y0o1U2djMWVsQjZrRUZXZ09rcmFibjVCMktaUkxWNnY0U0NwSzdnd2xIZml3?=
- =?utf-8?B?MExyUXpCa1ZVMS91dXZhTEswdTZLKzUxTGlLbkgwaHdCblBZMVhNa1pGb05j?=
- =?utf-8?B?ZWU3OG9XN2VrMDJnUE9uMmU3KzlXT1hwcG9CZWdxVEVxQ0c5VVU2Y0VyQjd1?=
- =?utf-8?B?eXNkNWptdGNpaUhMekhHSDVGRXdEbDhQYWN4Vk9rWmFtQTl4L3cvaXRWeWZs?=
- =?utf-8?B?UzlsVWtrNm9oRmJIZUQ4dmxUS1JCOUFvUXI4SzB4Q0ZJcndUZUJQRmxQTno1?=
- =?utf-8?B?c1pTeUg4QTE0RW1kalJ6dXVIVzFQK1ozUGFISHFoc0NzaGtmcytNbUpWUmpV?=
- =?utf-8?B?OGlkQmxkZk5UT0hSdGczSy9ya1pEckZFVHU2amx5YjFUVzFRckM0Y1FtZWRW?=
- =?utf-8?B?TUlOallyZEVXUzR1UlBlSzI2SjFjdU9HN084MGJZM2xzUjhPV1hMVVRvT0FU?=
- =?utf-8?B?Q3hVb1M2NUpxa0JLZGN2YUkzTTc0ZGwxUkREQldSVnNSNzdFZnVBN3Q1L28y?=
- =?utf-8?B?NVBuNkVtdmtwNEtab0Z2dFRWb2tyS1RBK3dWTGxxOU0vY0tyWmc5cUoxRk5B?=
- =?utf-8?B?UTFrbTduRFVTWEZGbnJEMkNpd3FRSndZZ3YrUVdIZFUvQnlxNjdSTkNwQW1k?=
- =?utf-8?B?c3FxeTdWaDlIMUhZWm5jN3BlTm52OUJPKyt6cVVhRHhXK3VTSUlndz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75153a00-4946-4926-7944-08ded5efb21e
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 15:04:19.8719
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m+BlNyiwEDbPjFUT0SQlkeqCjlEnL8uxSGRM5N4l1v+Yz25KOVzMJ2qkGjSNLpR/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7641
+References: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+In-Reply-To: <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Mon, 29 Jun 2026 17:16:17 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
+X-Gm-Features: AVVi8CdVLP70R0zK3UrM3FilV6lOIfpGj5d14bmmpB0rSBs-JGFC2A3o7FL3oPo
+Message-ID: <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
+Subject: Re: [PATCH] sched/topology: Allow EAS without schedutil for
+ artificial Energy Models
+To: =?UTF-8?Q?Lucas_de_Lima_N=C3=B3brega?= <lucaslnobrega38@gmail.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, mingo@redhat.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> There's no reason for the instances of this struct to be modifiable.
-> Constify the pointer in struct dma_async_tx_descriptor and all drivers
-> currently using it.
-> 
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
+<lucaslnobrega38@gmail.com> wrote:
+>
+> EAS currently refuses to enable energy-aware scheduling on a root
+> domain unless schedutil is the active CPUFreq governor for all of its
+> CPUs (cpufreq_ready_for_eas()). This requirement exists to protect the
+> accuracy of the energy estimate: EAS predicts the OPP a CPU will run
+> at from its utilization, which is only meaningful if the active
+> governor actually requests OPPs that way, and schedutil is the only
+> one that does.
+>
+> That requirement does not apply to artificial Energy Models
+> (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
+> get_cost() callback instead of real power numbers, and only encodes a
+> cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
+> given utilization). It never claims to predict real energy use at any
+> specific OPP, so there is no per-OPP accuracy for the governor
+> requirement to protect, regardless of which governor is in control or
+> whether it tracks utilization at all.
 
-Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Thanks!
+But it is still about comparing the cost of running on different CPUs
+at different performance levels.
 
+For instance, say the scale-invariant utilization of a task is 256 and
+it can run either by itself on a P-core, or with another task whose
+utilization is 128 on an E-core, and say the P-core's and E-core's
+capacity is 1024 and 512, respectively.
+
+Say the cost function tells EAS that running a P-core at 1/4 of the
+capacity is cheaper than running an E-core at 3/4 capacity, so it will
+pick up the P-core to run that task, but if cpufreq ramps up the
+frequency of the P-core to the max when the task gets to it, it may
+actually turn out to be more expensive.
+
+This means that EAS still has an expectation regarding cpufreq which
+is that it will generally tend to run tasks at the performance level
+corresponding to the sum of their scale-invariant utilization at least
+roughly.
+
+IIUC this actually has nothing to do with whether or not the energy
+model used by EAS is artificial.  The schedutil requirement is about
+choosing a performance level proportional to the utilization (which
+schedutil generally tends to do by design).
+
+> intel_pstate registers exactly this kind of artificial EM for hybrid
+> (P/E-core) systems without SMT, regardless of whether it operates in
+> active or passive mode. In active mode it never uses schedutil, since
+> HWP picks frequency autonomously, so on these systems EAS never
+> engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
+> EM are all in place: find_energy_efficient_cpu() is never reached
+> because is_rd_overutilized() is hardcoded to true whenever
+> sched_energy_enabled() is false. cppc_cpufreq registers the same kind
+> of ranking-only artificial EM and is affected the same way with any
+> non-schedutil governor.
+>
+> Allow EAS to be enabled when every CPU's EM in the root domain is
+> artificial, even when schedutil is not the active governor.
+>
+> Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate in
+> active/HWP mode: find_energy_efficient_cpu() was never called before
+> this change (confirmed via the sched_overutilized_tp tracepoint and
+> ftrace) and is exercised as expected afterwards.
+
+If this is about allowing EAS to work with intel_pstate running in the
+active mode, you may argue that what the processor firmware is doing
+when intel_pstate runs in the active mode is not much different from
+what schedutil would do.  So a driver implementing an internal
+governor (that is, using the .set_policy() callback) would need to
+declare that its internal governor is as good as schedutil from EAS'
+perspective and so it will pass the "cpufreq readiness" check.
+
+> Signed-off-by: Lucas de Lima N=C3=B3brega <lucaslnobrega38@gmail.com>
 > ---
->   drivers/dma/ti/k3-udma.c        | 2 +-
->   drivers/dma/xilinx/xilinx_dma.c | 2 +-
->   include/linux/dmaengine.h       | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
-> index 1cf158eb7bdb541c4e7f4f79f65ab70be4311fad..fb21e0df5ab7b20e4e16777b5ff7f61d2ae67b2b 100644
-> --- a/drivers/dma/ti/k3-udma.c
-> +++ b/drivers/dma/ti/k3-udma.c
-> @@ -3408,7 +3408,7 @@ static int udma_set_metadata_len(struct dma_async_tx_descriptor *desc,
->   	return 0;
->   }
->   
-> -static struct dma_descriptor_metadata_ops metadata_ops = {
-> +static const struct dma_descriptor_metadata_ops metadata_ops = {
->   	.attach = udma_attach_metadata,
->   	.get_ptr = udma_get_metadata_ptr,
->   	.set_len = udma_set_metadata_len,
-> diff --git a/drivers/dma/xilinx/xilinx_dma.c b/drivers/dma/xilinx/xilinx_dma.c
-> index 404235c1735384635597e88edc25c67c7d250647..165b11a7c776abc6a8d66d631e19da669644577d 100644
-> --- a/drivers/dma/xilinx/xilinx_dma.c
-> +++ b/drivers/dma/xilinx/xilinx_dma.c
-> @@ -653,7 +653,7 @@ static void *xilinx_dma_get_metadata_ptr(struct dma_async_tx_descriptor *tx,
->   	return seg->hw.app;
->   }
->   
-> -static struct dma_descriptor_metadata_ops xilinx_dma_metadata_ops = {
-> +static const struct dma_descriptor_metadata_ops xilinx_dma_metadata_ops = {
->   	.get_ptr = xilinx_dma_get_metadata_ptr,
->   };
->   
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index b3d251c9734e95e1b75cf6763d4d2c3a1c6a9910..5244edb90e7e7510bf4460b6a74ee2a7f91c1ccc 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -623,7 +623,7 @@ struct dma_async_tx_descriptor {
->   	void *callback_param;
->   	struct dmaengine_unmap_data *unmap;
->   	enum dma_desc_metadata_mode desc_metadata_mode;
-> -	struct dma_descriptor_metadata_ops *metadata_ops;
-> +	const struct dma_descriptor_metadata_ops *metadata_ops;
->   #ifdef CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH
->   	struct dma_async_tx_descriptor *next;
->   	struct dma_async_tx_descriptor *parent;
-> 
+>  Documentation/admin-guide/pm/intel_pstate.rst |  9 ++++--
+>  Documentation/scheduler/sched-energy.rst      |  7 ++++-
+>  kernel/sched/topology.c                       | 28 +++++++++++++++++--
+>  3 files changed, 38 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentatio=
+n/admin-guide/pm/intel_pstate.rst
+> index 25fe5d88f..c8fef1e60 100644
+> --- a/Documentation/admin-guide/pm/intel_pstate.rst
+> +++ b/Documentation/admin-guide/pm/intel_pstate.rst
+> @@ -409,13 +409,16 @@ Energy-Aware Scheduling Support
+>  If ``CONFIG_ENERGY_MODEL`` has been set during kernel configuration and
+>  ``intel_pstate`` runs on a hybrid processor without SMT, in addition to =
+enabling
+>  :ref:`CAS` it registers an Energy Model for the processor.  This allows =
+the
+> -Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler=
+ if
+> -``schedutil`` is used as the  ``CPUFreq`` governor which requires ``inte=
+l_pstate``
+> -to operate in the :ref:`passive mode <passive_mode>`.
+> +Energy-Aware Scheduling (EAS) support to be enabled in the CPU scheduler=
+.
+>
+>  The Energy Model registered by ``intel_pstate`` is artificial (that is, =
+it is
+>  based on abstract cost values and it does not include any real power num=
+bers)
+>  and it is relatively simple to avoid unnecessary computations in the sch=
+eduler.
+> +Because of that, EAS does not require ``schedutil`` to be used as the
+> +``CPUFreq`` governor in this case: the cost ranking it relies on does no=
+t
+> +depend on the governor tracking utilization when requesting frequencies,=
+ so
+> +EAS works the same way regardless of whether ``intel_pstate`` operates i=
+n the
+> +active or in the :ref:`passive mode <passive_mode>`.
+>  There is a performance domain in it for every CPU in the system and the =
+cost
+>  values for these performance domains have been chosen so that running a =
+task on
+>  a less performant (small) CPU appears to be always cheaper than running =
+that
+> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/sch=
+eduler/sched-energy.rst
+> index 4e47aaf10..c23ca226d 100644
+> --- a/Documentation/scheduler/sched-energy.rst
+> +++ b/Documentation/scheduler/sched-energy.rst
+> @@ -379,7 +379,12 @@ Consequently, the only sane governor to use together=
+ with EAS is schedutil,
+>  because it is the only one providing some degree of consistency between
+>  frequency requests and energy predictions.
+>
+> -Using EAS with any other governor than schedutil is not supported.
+> +Using EAS with any other governor than schedutil is not supported, unles=
+s the
+> +EM in use is artificial (see EM_PERF_DOMAIN_ARTIFICIAL).  An artificial =
+EM only
+> +encodes a cost ranking between CPUs/OPPs instead of a real power table, =
+so it
+> +does not make any claim about energy use at a specific OPP and its concl=
+usions
+> +do not depend on the governor actually tracking utilization when request=
+ing
+> +frequencies.
+>
+>
+>  6.5 Scale-invariant utilization signals
+> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> index 5847b83d9..124a4bb4d 100644
+> --- a/kernel/sched/topology.c
+> +++ b/kernel/sched/topology.c
+> @@ -212,6 +212,27 @@ static unsigned int sysctl_sched_energy_aware =3D 1;
+>  static DEFINE_MUTEX(sched_energy_mutex);
+>  static bool sched_energy_update;
+>
+> +/*
+> + * An artificial EM (see EM_PERF_DOMAIN_ARTIFICIAL) only encodes a cost
+> + * ranking between CPUs and does not claim to predict energy use at any
+> + * particular OPP.  Unlike a real power-based EM, its conclusions do not
+> + * rely on the active governor tracking utilization when selecting
+> + * frequencies, so the schedutil requirement below does not apply to it.
+> + */
+> +static bool perf_domains_are_artificial(const struct cpumask *cpu_mask)
+> +{
+> +       int i;
+> +
+> +       for_each_cpu(i, cpu_mask) {
+> +               struct em_perf_domain *pd =3D em_cpu_get(i);
 
+I would do
+
+if (!pd)
+        continue;
+
+here because the CPUs without a PD simply don't matter.
+
+Also, is any synchronization needed for this?
+
+And should it go into the EM code?
+
+> +
+> +               if (!pd || !em_is_artificial(pd))
+> +                       return false;
+> +       }
+> +
+> +       return true;
+> +}
+> +
+>  static bool sched_is_eas_possible(const struct cpumask *cpu_mask)
+>  {
+>         bool any_asym_capacity =3D false;
+> @@ -249,7 +270,8 @@ static bool sched_is_eas_possible(const struct cpumas=
+k *cpu_mask)
+>                 return false;
+>         }
+>
+> -       if (!cpufreq_ready_for_eas(cpu_mask)) {
+> +       if (!cpufreq_ready_for_eas(cpu_mask) &&
+> +           !perf_domains_are_artificial(cpu_mask)) {
+
+
+
+>                 if (sched_debug()) {
+>                         pr_info("rd %*pbl: Checking EAS: cpufreq is not r=
+eady\n",
+>                                 cpumask_pr_args(cpu_mask));
+> @@ -403,7 +425,9 @@ static void sched_energy_set(bool has_eas)
+>   *    1. an Energy Model (EM) is available;
+>   *    2. the SD_ASYM_CPUCAPACITY flag is set in the sched_domain hierarc=
+hy.
+>   *    3. no SMT is detected.
+> - *    4. schedutil is driving the frequency of all CPUs of the rd;
+> + *    4. schedutil is driving the frequency of all CPUs of the rd, or th=
+e EM
+> + *       of all of them is artificial (i.e. a cost ranking rather than a
+> + *       real power table, see EM_PERF_DOMAIN_ARTIFICIAL);
+>   *    5. frequency invariance support is present;
+>   */
+>  static bool build_perf_domains(const struct cpumask *cpu_map)
+> --
+> 2.54.0
+>
