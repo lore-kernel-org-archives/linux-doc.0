@@ -1,389 +1,115 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600FA19539F;
-	Mon, 29 Jun 2026 04:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BB037BE96
+	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 04:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782706511; cv=none; b=EfoNb3yOhrF7+g4blDUQpwAratDJ7aNam/uApkVDmjzihbMqoyCMEHjlko46HNItU8I7xfYCluYTgH8O18Yam2iS9DN8YcPg7MIlvC6Osnk5iKUhnycLjYpQprD2vf8wm5QMbTio4/7N/wfsFkiZP8rPi07IDDqfoxSpgeJENQk=
+	t=1782707948; cv=none; b=HH5snLxAQ8TZ60pSbOPFK93Hm7LDOZfila4yENf+5RBLkTAIiE18C6wY2tPxN2Nq+NkyLm8AUeR0XGoUsAc8UWNkJ9sX3l4zfQBibB+uV/vGH3VmMF+S1YoM3OuZLXUIk/N2m6yQ8R7vk8ET1OPO0DB4zejISWPGyv5gv6NWqNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782706511; c=relaxed/simple;
-	bh=dbjtzAnmLGxB2rEW+W0tGutDJ9/D+Bxlwre+ZpXMits=;
+	s=arc-20240116; t=1782707948; c=relaxed/simple;
+	bh=FPjr2lEBsf6tuINR6Z2hE7dN1HCg7bXg2Jp+zTC1I20=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fLClMXTv6RJt0hwCCujqUBU0Wg2oZzc1cpKOE7RuX7sh9d06SzHjveI+hlO4VPN8DrHy1Aksv/1wMKt+YHuve3iwLvMfzXapQexy6UEFSu35/XBpdgewSSHZ6nQBk5zMliBXJI1EuxLhsuBm+Rh0knXma9Vwex1qQVLfUq0s35M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=thM7RIna; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=imVTm1+8sVjHaO1337q54lkObNkMvNFJmFrMI4ZcabeUizsA3rgFwKTnM5wVZ+AtWYfP7ilX7mJz/bRpe5fl76ejDs1NuuYEp30/fqJv9IL4wrU4QlB+8C/bhZPKsJNpWTg9CbVOratlkjsFL4D/hRg3V0iCG1tTbqGzSbLpy4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CZlIPKgH; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="thM7RIna"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65T3IW2E1952640;
-	Mon, 29 Jun 2026 04:14:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=oulQ9A
-	L7oN3PivABiX0FVkUa+9dqBJXuAK7oHjs+SwE=; b=thM7RInaPMmCHPDMDoE6EX
-	YXyUuFk2JWJ/h8z0AdXAzRBRLmnjrxiqd8HPnfD5XJTDED09/bFn2OvqiMdxS/p8
-	40uhKWDC8xfk6FneMlDzCFUhXFJotayZ1NshGOI4evWYlouHV1V/VRDiWHfEOumw
-	AtP0eg4hWwWlkKVPAbtqBzUzVSqItNSae2j4Qn0hXCR0aYQC5IRHd2w8iyiImfQt
-	+5vGy9ZgrzctsMwvnrcFXJOlcseNj1qxMyuTbVmQJ2IlDfpqEp4Uws24vGMhnrCF
-	MhLvTA2FzRRF9BAT08tNku2k6kqZeM0T6Iw9oEVqgt4FtU3KZHxYcahAOftBN8nA
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f26mjf98v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Jun 2026 04:14:50 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65T44eVG011979;
-	Mon, 29 Jun 2026 04:14:49 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4f2sujusb1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 29 Jun 2026 04:14:49 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65T4EjLk15204828
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 29 Jun 2026 04:14:45 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8E06A2004B;
-	Mon, 29 Jun 2026 04:14:45 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D6DAA20040;
-	Mon, 29 Jun 2026 04:14:38 +0000 (GMT)
-Received: from [9.123.5.233] (unknown [9.123.5.233])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 29 Jun 2026 04:14:38 +0000 (GMT)
-Message-ID: <e6570eac-e675-4b9b-8d1b-516965cd2207@linux.ibm.com>
-Date: Mon, 29 Jun 2026 09:44:37 +0530
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CZlIPKgH"
+Message-ID: <840fa721-297d-4147-ac58-7aa6f4673faf@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782707943;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yoEJ91xEiAqps2gA9CAfL/dauGrpRbXH1HQpcKF9hGY=;
+	b=CZlIPKgHewo6byYDJC0G6KfIOCWH8Q84iS/6U5TRCL9ZjBsInEtWkPv3nBYGz7UAlQJDWY
+	gkDxqFj6edQfjY4NfVeYRD8kUtk3NhvLoqfIqpLmk809W+eKmuoEfSCYmM2Lxe7RTUuQZG
+	3Gc/69MgDHkGdQkPYgX7XIy8dN/oEZc=
+Date: Sun, 28 Jun 2026 21:38:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/24] sched/core: allow only preferred CPUs in
- is_cpu_allowed
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-        tglx@kernel.org, gregkh@linuxfoundation.org, pbonzini@redhat.com,
-        seanjc@google.com, vschneid@redhat.com, huschle@linux.ibm.com,
-        rostedt@goodmis.org, dietmar.eggemann@arm.com, maddy@linux.ibm.com,
-        srikar@linux.ibm.com, hdanton@sina.com, chleroy@kernel.org,
-        vineeth@bitbyteword.org, frederic@kernel.org, arighi@nvidia.com,
-        pauld@redhat.com, christian.loehle@arm.com, tj@kernel.org,
-        tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-        rdunlap@infradead.org, kernellwp@gmail.com, linux-doc@vger.kernel.org
-References: <20260625124648.802832-1-sshegde@linux.ibm.com>
- <20260625124648.802832-7-sshegde@linux.ibm.com> <aj55TIWls4HKYj5b@yury>
- <0a223931-5172-4ed5-a9f8-c2b316a0f6cc@linux.ibm.com>
- <1ace8847-db42-49a8-8d0f-6eeead1c360f@linux.ibm.com> <akHv_4l0izJb6TgZ@yury>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <akHv_4l0izJb6TgZ@yury>
+Subject: Re: [PATCH] Documentation/bpf: make it clear that kfuncs should be
+ non-static
+Content-Language: en-GB
+To: JP Kobryn <jp.kobryn@linux.dev>, ast@kernel.org,
+ roman.gushchin@linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+ eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
+ jolsa@kernel.org, emil@etsalapatis.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, bpf@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260626172026.7327-1-jp.kobryn@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <20260626172026.7327-1-jp.kobryn@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDAyOSBTYWx0ZWRfX7nwXhlFNFl0Q
- wmUOXrQyn7/GzsVsx/OC7ElKQcxnt3SKLhReP4QfXImnHlYHD0AotacWJXwcMp48lEcxQ8Jkf64
- eJpUHHTfSa4eVeJJ3gsF72OHD+4Ubxm3e1kLU1nWbDqwut15SI+uJCxsJ5kBoT55WRLHZfnF7tR
- 0P+v9UpiGCL+I2rG7SrrYnTUZYipsinSPbbhsM/UbzTnWvjTxOFK4mzqTBK5q85CgKv5DlbkfNR
- IOCdPnmBKDAqSgTDqMYu+eoZNmqkpoDBsxI4fzunE0ZlmrH4E2QCzTVRoSJ5rgrS7EoWJtkv9aI
- abH+22TNLZdzY8ey2unMFXNAxwur8sBi5dko8scQoEpQK6et2Ny88QyjXUA1JJKAMfuKKltqQgF
- VhIR7WETsQMjlo4o9PvWLkiHUnzCTsNzuOdFLHD8A4Mo5Lx9VveoA1rm7lUjmsc+zqgm2CiECdv
- m0PZ4MsTt9sJQDXJwqA==
-X-Proofpoint-GUID: PuLnpNNHfr0MtI7rbQKRGtm8v9LEOQDa
-X-Authority-Analysis: v=2.4 cv=Z8bc2nRA c=1 sm=1 tr=0 ts=6a41f13b cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=54Zopqph8avUtlcYV1UA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDAyOSBTYWx0ZWRfX5bQitFLU5QvP
- RGnF3U7TtIicOZJUzMdpoYBe0ID6NuMT13Z7y5iTtaxSQLxVHIfNCNJXYCCNoatBWEeB9lOkktX
- eKFK+eMpxcKv0QKF8HXU1sOxwyX87tw=
-X-Proofpoint-ORIG-GUID: K771nCsAJsmDD2fxvIUd_RDxKRoT-CQ-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-29_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290029
+X-Migadu-Flow: FLOW_OUT
 
-Hi Yury.
 
-On 6/29/26 9:39 AM, Yury Norov wrote:
-> On Sat, Jun 27, 2026 at 12:13:49AM +0530, Shrikanth Hegde wrote:
->> Hi Yury.
->>
->> On 6/26/26 6:55 PM, Shrikanth Hegde wrote:
->>> Hi Yury. Thanks for going through the patches.
->>>
->>
->> [...]
->>
->>>> So, you've got 3 options to declare the status: self-explaining enum,
->>>> self-explaining #defines, and this random numbers explained in
->>>> comment. The latter option is the worst to me.
->>>
->>> ok. I will define the enums.
->>>
->>>>
->>>> And you didn't provide any benchmark advocating this caching
->>>> optimization.
->>
->>
->> I did below to see. Made interval as 100ms.
->> Ran ./hackbench 30 process 30000 loops in both the VM at the same time.
->> Values are average of 5 runs.
->>
->> With optimization:
->> 13.6 seconds
->>
->> Without optimization:
->> 13.8 seconds
-> 
-> And what's the p-value for them?
-> 
-> ...
+
+On 6/26/26 10:20 AM, JP Kobryn wrote:
+> The kfunc documentation mentions how the macro __bpf_kfunc prevents
+> inlining for static functions. This makes it sound like static kfuncs are
+> acceptable. Although static kfuncs may happen to work, it is by chance that
+> the compiler chose not to rename these functions and BTF resolution still
+> succeeds.
+>
+> Make it clear in the documentation why kfuncs should not be declared
+> static. First, remove wording that makes it sound like static is ok. Then
+> point out the external naming needed for BTF resolution. Finally point out
+> that sparse may warn on unreferenced kfuncs and that this warning can be
+> ignored.
+>
+> Signed-off-by: JP Kobryn <jp.kobryn@linux.dev>
+
+Acked-by: Yonghong Song <yonghong.song@linux.dev>
+
+> ---
+>   Documentation/bpf/kfuncs.rst | 21 ++++++++++++++-------
+>   1 file changed, 14 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+> index 4c814ff6061e..1dbaff8d4805 100644
+> --- a/Documentation/bpf/kfuncs.rst
+> +++ b/Documentation/bpf/kfuncs.rst
+> @@ -276,19 +276,26 @@ This set encodes the BTF ID of each kfunc listed above, and encodes the flags
+>   along with it. Ofcourse, it is also allowed to specify no flags.
 >   
->>> If we move to local variable then this won;t be necessary,
->>> just enum's would be enough (I think). Let me go stare at it.
->>
->> I have made it use the local variable instead. There maybe better names
->> for variable, put something quickly to check the idea.
->> Effectively this PATCH 6 becomes:
->>
->> Does this seems better?
->> Please let me know your comments.
-> 
-> I think, the below is too massive change for optimization of an
-> optimization for a particular, not too common config. And the whole
-> improvement is ~1%, assuming it's statistically important...
-> 
-> Just as said on previous round. Please order your series such that the
-> core logic goes first, and all sorts of complications, like this
-> optimization, are appended at the end.
-
-Ok. I will split it up into two patches.
-
-One without any optimization but with comment explaining the rare case of N**2.
-Second one at the end of the series, with a patch do the optimization.
-
-> 
->> ---
->>
->> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->> index 9e16946c9d62..fafedd52611f 100644
->> --- a/kernel/sched/core.c
->> +++ b/kernel/sched/core.c
->> @@ -2498,8 +2498,10 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
->>    * Per-CPU kthreads are allowed to run on !active && online CPUs, see
->>    * __set_cpus_allowed_ptr() and select_fallback_rq().
->>    */
->> -static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->> +static inline bool is_cpu_allowed(struct task_struct *p, int cpu, int cached)
->>   {
->> +       bool task_check_preferred_cpu;
->> +
->>          /* When not in the task's cpumask, no point in looking further. */
->>          if (!task_allowed_on_cpu(p, cpu))
->>                  return false;
->> @@ -2508,9 +2510,24 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->>          if (is_migration_disabled(p))
->>                  return cpu_online(cpu);
->> +       /*
->> +        * This is essential to maintain user affinities when preferred
->> +        * CPUs change. A task pinned on non-preferred CPU should continue
->> +        * to run there, since this is non-user triggered.
->> +        *
->> +        * If CPU is non-preferred and task can run on other CPUs which are
->> +        * currently preferred, then choose those other CPUs instead.
->> +        * Overhead is minimal when CPU is preferred.
->> +        */
->> +       task_check_preferred_cpu = !cpu_preferred(cpu) &&
->> +                                  task_has_preferred_cpus(p, cached);
->> +
->>          /* Non kernel threads are not allowed during either online or offline. */
->> -       if (!(p->flags & PF_KTHREAD))
->> +       if (!(p->flags & PF_KTHREAD)) {
->> +               if (task_check_preferred_cpu)
->> +                       return false;
->>                  return cpu_active(cpu);
->> +       }
->>          /* KTHREAD_IS_PER_CPU is always allowed. */
->>          if (kthread_is_per_cpu(p))
->> @@ -2520,6 +2537,10 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
->>          if (cpu_dying(cpu))
->>                  return false;
->> +       /* Try on preferred CPU first if possible*/
->> +       if (task_check_preferred_cpu)
->> +               return false;
->> +
->>          /* But are allowed during online. */
->>          return cpu_online(cpu);
->>   }
->> @@ -2595,7 +2616,7 @@ static struct rq *__migrate_task(struct rq *rq, struct rq_flags *rf,
->>          __must_hold(__rq_lockp(rq))
->>   {
->>          /* Affinity changed (again). */
->> -       if (!is_cpu_allowed(p, dest_cpu))
->> +       if (!is_cpu_allowed(p, dest_cpu, NO_CACHED_VAL))
->>                  return rq;
-> 
-> This thing I really dislike. The unrelated code should not be
-> affected. You can make it less visually invasive with:
->          
->          #define is_cpu_allowed(p, cpu) __is_cpu_allowed(p, cpu, NO_CACHED_VAL)
-> 
-> Please reconsider your code to have the changes better localized.
-> 
-> Thanks,
-> Yury
-> 
-
-That was typed out too fast. I did refactor something like that later.
-But i will split this into twp patches as said above.
-
-
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9e16946c9d62..a1b21c21aa9c 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -2498,8 +2498,11 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
-   * Per-CPU kthreads are allowed to run on !active && online CPUs, see
-   * __set_cpus_allowed_ptr() and select_fallback_rq().
-   */
--static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
-+static inline bool __is_cpu_allowed(struct task_struct *p, int cpu,
-+                                   int pref_state)
-  {
-+       bool task_check_preferred_cpu;
-+
-         /* When not in the task's cpumask, no point in looking further. */
-         if (!task_allowed_on_cpu(p, cpu))
-                 return false;
-@@ -2508,9 +2511,24 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
-         if (is_migration_disabled(p))
-                 return cpu_online(cpu);
-  
-+       /*
-+        * This is essential to maintain user affinities when preferred
-+        * CPUs change. A task pinned on non-preferred CPU should continue
-+        * to run there, since this is non-user triggered.
-+        *
-+        * If CPU is non-preferred and task can run on other CPUs which are
-+        * currently preferred, then choose those other CPUs instead.
-+        * Overhead is minimal when CPU is preferred.
-+        */
-+       task_check_preferred_cpu = !cpu_preferred(cpu) &&
-+                                  task_has_preferred_cpus(p, pref_state);
-+
-         /* Non kernel threads are not allowed during either online or offline. */
--       if (!(p->flags & PF_KTHREAD))
-+       if (!(p->flags & PF_KTHREAD)) {
-+               if (task_check_preferred_cpu)
-+                       return false;
-                 return cpu_active(cpu);
-+       }
-  
-         /* KTHREAD_IS_PER_CPU is always allowed. */
-         if (kthread_is_per_cpu(p))
-@@ -2520,10 +2538,19 @@ static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
-         if (cpu_dying(cpu))
-                 return false;
-  
-+       /* Try on preferred CPU first if possible*/
-+       if (task_check_preferred_cpu)
-+               return false;
-+
-         /* But are allowed during online. */
-         return cpu_online(cpu);
-  }
-  
-+static inline bool is_cpu_allowed(struct task_struct *p, int cpu)
-+{
-+       return __is_cpu_allowed(p, cpu, PREFERRED_CPU_UNKNOWN);
-+}
-+
-  /*
-   * This is how migration works:
-   *
-@@ -3547,7 +3574,15 @@ static int select_fallback_rq(int cpu, struct task_struct *p)
-         int nid = cpu_to_node(cpu);
-         const struct cpumask *nodemask = NULL;
-         enum { cpuset, possible, fail } state = cpuset;
--       int dest_cpu;
-+       int dest_cpu, pref_state;
-+
-+       /*
-+        * Cache the value whether task's affinity spans preferred CPUs.
-+        * This helps to avoid repeating the same for each CPU
-+        * later in the loop.
-+        */
-+       pref_state = task_has_preferred_cpus(p, PREFERRED_CPU_UNKNOWN) ?
-+                       PREFERRED_CPU_EXISTS : PREFERRED_CPU_NONE;
-  
-         /*
-          * If the node that the CPU is on has been offlined, cpu_to_node()
-@@ -3559,7 +3594,7 @@ static int select_fallback_rq(int cpu, struct task_struct *p)
-  
-                 /* Look for allowed, online CPU in same node. */
-                 for_each_cpu(dest_cpu, nodemask) {
--                       if (is_cpu_allowed(p, dest_cpu))
-+                       if (__is_cpu_allowed(p, dest_cpu, pref_state))
-                                 return dest_cpu;
-                 }
-         }
-@@ -3567,7 +3602,7 @@ static int select_fallback_rq(int cpu, struct task_struct *p)
-         for (;;) {
-                 /* Any allowed, online CPU? */
-                 for_each_cpu(dest_cpu, p->cpus_ptr) {
--                       if (!is_cpu_allowed(p, dest_cpu))
-+                       if (!__is_cpu_allowed(p, dest_cpu, pref_state))
-                                 continue;
-  
-                         goto out;
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index c7c2dea65edd..6a352d235503 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -4213,4 +4213,33 @@ DEFINE_CLASS_IS_UNCONDITIONAL(sched_change)
-  
-  #include "ext.h"
-  
-+/*
-+ * PREFERRED_CPU_UNKNOWN: Unknown and need to evaluate.
-+ * PREFERRED_CPU_NONE  : Known and No preferred CPUs exists in task's affinity.
-+ * PREFERRED_CPU_EXISTS: Known and preferred CPU exists in task's affinity.
-+ */
-+
-+enum task_preferred_cached {
-+       PREFERRED_CPU_UNKNOWN,
-+       PREFERRED_CPU_NONE,
-+       PREFERRED_CPU_EXISTS,
-+};
-+
-+/*
-+ * Value is known when called via select_fallback_rq(). This helps to
-+ * avoid calling cpumask_intersects repeatedly in the loop.
-+ *
-+ * Only affects FAIR task.
-+ */
-+static inline bool task_has_preferred_cpus(struct task_struct *p, int pref_state)
-+{
-+       /* Only FAIR tasks honor preferred CPU state */
-+       if (unlikely(p->sched_class != &fair_sched_class))
-+               return false;
-+
-+       if (pref_state != PREFERRED_CPU_UNKNOWN)
-+               return pref_state == PREFERRED_CPU_EXISTS;
-+
-+       return cpumask_intersects(p->cpus_ptr, cpu_preferred_mask);
-+}
-  #endif /* _KERNEL_SCHED_SCHED_H */
+>   kfunc definitions should also always be annotated with the ``__bpf_kfunc``
+> -macro. This prevents issues such as the compiler inlining the kfunc if it's a
+> -static kernel function, or the function being elided in an LTO build as it's
+> -not used in the rest of the kernel. Developers should not manually add
+> -annotations to their kfunc to prevent these issues. If an annotation is
+> -required to prevent such an issue with your kfunc, it is a bug and should be
+> -added to the definition of the macro so that other kfuncs are similarly
+> -protected. An example is given below::
+> +macro. This prevents issues such as the compiler inlining the kfunc, or the
+> +function being elided in an LTO build as it's not used in the rest of the
+> +kernel. Developers should not manually add annotations to their kfunc to prevent
+> +these issues. If an annotation is required to prevent such an issue with your
+> +kfunc, it is a bug and should be added to the definition of the macro so that
+> +other kfuncs are similarly protected. An example is given below::
+>   
+>           __bpf_kfunc struct task_struct *bpf_get_task_pid(s32 pid)
+>           {
+>           ...
+>           }
+>   
+> +Note that kfuncs must not be declared ``static``. A kfunc can be called from a
+> +BPF program ``*.c`` file outside the compilation unit that defines it, so its
+> +externally visible name must remain available for BTF ID lookup. ``static``
+> +linkage allows the compiler to rename the function, which can break this
+> +BTF-based kfunc resolution. Further note that sparse may warn that an otherwise
+> +unreferenced kfunc should be static. Such warnings should be ignored for kfunc
+> +definitions.
+> +
+>   2.5.1 KF_ACQUIRE flag
+>   ---------------------
+>   
 
