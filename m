@@ -1,245 +1,254 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854523C3C15
-	for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 18:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782758965; cv=pass; b=i9dRzSNdAJtxBjPeJddnXRiSQrBQXotilVPPl6QnejSA5cDimGrvl4Y1leHmZbcnJ3qOprltUkKz8bZrIiC8HruDB7ePXd0JHthmvmHnTxP4dRgIAIafIRZdHtwbrd+P6f3cPn4r9ZA5TFHDE0g57/n+IuI8hyPLTUZQ+ewnGPc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782758965; c=relaxed/simple;
-	bh=gjkwCD9KgKGHy8EtAtCOPoXjV5xDJqzXABt3GGvQ5js=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pwj7hNtDtF8n3iJ12lGNG/XjP8uVyiN9m43khdihM3Tcmr+A2dqDWv7Ly7Z/+HTXzm7GdzFrEY0ym/FGCZoBt6EgW4TTC63r6qA3WW9HkUY1f/736TU1qNFQJkUca+5w2wdFnT6+Hb66i9SG5Kwu0WeGRZbZkJp7fkQ4hXAkki4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SUz25hiz; arc=pass smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BFD1862;
+	Mon, 29 Jun 2026 19:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782759977; cv=none; b=QzyLOiYHn5orKueGOJCiJDJuoUN0PQsVuAmzNm24C+As0UWhvmBWt1142EE4WWAhN8LZv2ABAZ4+GIyUtoFBhjA2VHuw0esFBJ1dn4rQLbYf3Tt/QRzJrZ9wvaAUWYYPG5237Q5VxdxANApWehzw+n4H1u7N3X9IANs4trD7WPQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782759977; c=relaxed/simple;
+	bh=F+ByYIlzhDek98M/p8MCoXuERobJqN+LloLNnU+dMMQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RHKx2dBjGpHoXgWnnlpP1NHXL2HQVhvxRDOZHUUPdSAjB5fNLJJZTvY13+QoCJjnuf4FwR3X9dsGuYLeMvjGouLDRfMoo5v8vr+JrpmDsbLYoOWLmek5MW0cLu8Clw7aWrPyxbiTo+3H+cct4d5FBTsjfSBBm8xAlIDHkIRXfy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MP1nTTDI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SUz25hiz"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137335bc3caso7505796c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Jun 2026 11:49:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782758963; cv=none;
-        d=google.com; s=arc-20260327;
-        b=p0NlKDhjiA3+oCdkpCmjsLy+Q5FKw7cBOYYQJ1OTJj3VdlFOOXAx4/qxZ33o8s0gmn
-         ed+SNxbVDHPBzxHgZzncSkieHJ9xnxtI/6K5flR1copOS3dMDHKB6fs+sxWBcGL/VsKP
-         6zxuZJ3AGG3YNBrOaaXc+SpSGZwH28dLkRkSSKQRhlob+osFPea/1Bf8LD+VLofPHM8r
-         SfuKB2h2V1II+dZFOyGW1axP8YO+EFSkewNuyTamGkntEymmg5rDD/7GejYRilmLMWh3
-         MC8IBZCWRSvoBQg6pzW9rSptodgUNyMqwoMCTumEq5Azub1yvx6Mw8Fhny73RaLlH0xa
-         l/VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
-        fh=pr9xGB/MYP5W4jLU9M6pHC7wZ+3lU2Xp50NIF3hffb0=;
-        b=bSzyIBceaEhWIUI5nCdUdJgmYWIWK2zOq/KdtvvXKy3eoibKX1amC6/JhP5UsLomw8
-         e7QWQ/3/EuLFw0v4wHRUsgLtd7wrWOoa20hrYZttit6M1PWdig4W6ZxudreV5OSnmwjt
-         a+QRGRZe+j6hCwyvplw4zLnQlDhxWitr6m07iO4tWCLaGV4jl8jfV/l33eTbyQ+FMT8J
-         6AB1j7aizFHXfzuIWEQ+hcVzZCja/z6ankGd/GjdhiLOgk4fvI6R5NGnLUOe25oWOfqG
-         ktgCU8CUaSR0qtfAjgsIIHtn26T4EEvET2Xt0syFZPTlPyhqpuRLZ9HkmjMCrqTRhyHd
-         S59A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782758963; x=1783363763; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
-        b=SUz25hiz759chD3xNIzc0sJx+q/299X+xY/QGMSIw9rKs4N49ktSpjxz4qDoOoY44/
-         jdhLH6ceBcHNOAIz6o/5OT+cCoCQcLXuT/oX2gXMJHChOhjXrbwar4IKF7G66linW72U
-         ro9N6SMeLZPoyuaV02oDeS9eehQLjO3flGqj8wBIo3jx/iO1a2orGYtFvxITu1FgrgiO
-         DqS8cUK7YpujZ1QFdqcNedH/vBax7hE77z6ZK7xVMBMSLoQ3rK/xKAEZb+abZEVIlgjZ
-         mKmi0hqCt4kzKDNPFIk1IsFUKsEsM9R94C5/dLIpGdtvf16eHwpBCqbckOEhPeT1Pr3J
-         01EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782758963; x=1783363763;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VpmUvFbjkT4TIDiuBxTmd8SHESx8y5cMZtvBxkjxfFU=;
-        b=kQ6a1yGHbDgYIuRqARmIso/xI/anxIUlMKz9G3IIEpux+CPrIG7yeuNq9VlXaS989P
-         3igmr0WX7lOPWupAVooUxJP6CL6VKrMmBLXGylU4skQdVd9yp22MgOKLXCvZe2e30ILH
-         vrGBe0YoLvvn2hnxj2Y4Y9hjkXDSFjcsRAEJ1xJoqoBcY21Ghpksz1aZ3c6WQySYZMID
-         c2yP2iNdu6KZyHfqjpuvikORKLe/mUozpXOdUjVK3uqWh0y1NO6I/e68bvVom8PDUU+8
-         TK2vq7NG7b3rpn1Ny64MbNg5SkDmtGAgkegGRWj5K8lsHUxdfczrpsRKaeu/ZNjp0jKr
-         vsHg==
-X-Forwarded-Encrypted: i=1; AFNElJ8JBzZno0g4gtp47QEig35ttvak8nUoAnTSN/vk6OK4U7N+eJgMY2F3LFZXNOL7g3PJrv/893hC0fw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrYS+kSe16auk/usssiZxsaIrsT292h2FuPibd1G7+EolGsZ7H
-	z6bONuZ+YyoEupKIJgJNYMZ5z8laSzYBB7usiOUryXP3SZBV2ammTbVJwRpkHODJaxbBWPXJB+h
-	SqgJ4X/h2t2iywQMoQjYue6pCvJ+2JrhejPDp/kAV
-X-Gm-Gg: AfdE7cnhkyzSOycT4CKPB3R2ibpidxjrkCoM72Q7FyJWwmzeNPZ+sq2FPLkmZDcdArZ
-	tI//V6tjCWpdZw7bby81yVkmWmpuZgXOC5Cj8mZCo1EGt01pHutoY0DXe+wKwVLfr6gjQ4FY9IZ
-	Cp9ylMqyGjs0gLGQnxzd7Cr9HLXiVxtUd8E70Rqu9MUAARqnYNtd8N9y2DqvB6nsFObn/RpFDLD
-	B3R8XGpdflw8wAiqKLGxf/2WJicTu8sRK0gDX1/5VIAL+NgIAQtBqIzvipUMuRM/nc1PaABWInc
-	hjDfwpQ=
-X-Received: by 2002:a05:7022:6620:b0:136:c443:80e5 with SMTP id
- a92af1059eb24-13b2a13e510mr391503c88.6.1782758962590; Mon, 29 Jun 2026
- 11:49:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MP1nTTDI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABB291F000E9;
+	Mon, 29 Jun 2026 19:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782759975;
+	bh=mXPR5CLlkP0uz8Me7uT6EcTwcacfqWNA2zDegCEppyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=MP1nTTDIZd6up9Jrpkx5WWoyReXqb7W31uX+1v41iFHEFRbbupuO48AHHbFEmixxp
+	 Mh+oEyUL4vNG0oCYNiRzWFn0A4ge7j4CTasyamjGNrsVmfkmwSQ01+HZIV2MJKCck2
+	 biPoBHAgvJNwsVh4ekYjHHxoaN0lyLSenGR4sGrTDlVHyIcsi+X5ZgGTpB6565Tcmt
+	 jDvHfoGN/sxLYeMZkJYQEScmnZEZsnDD0S+Z2BSv7BoJSeL7Vnf6y4Zd7Bbp7Jd5FH
+	 MeE3+OthgEuEmkuH22xyhykxmw+iNzRoyjleFVhbIB2sp6B6drEyLIJY+1oZwY2crw
+	 dqTdQ+Iw5BiFg==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Lucas de Lima =?ISO-8859-1?Q?N=F3brega?= <lucaslnobrega38@gmail.com>
+Cc: viresh.kumar@linaro.org, mingo@redhat.com, peterz@infradead.org,
+ juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, kprateek.nayak@amd.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] sched/topology: Allow EAS without schedutil for artificial Energy
+ Models
+Date: Mon, 29 Jun 2026 21:06:10 +0200
+Message-ID: <6021784.DvuYhMxLoT@rafael.j.wysocki>
+Organization: Linux Kernel Development
+In-Reply-To:
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
+References:
+ <20260629083542.10041-1-lucaslnobrega38@gmail.com>
+ <CAJZ5v0iVD90XPsWgT8B+fw9vmFRZTVL7MasPP-=Ci0OdUmNR=A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522202410.3104264-1-dmatlack@google.com> <20260522202410.3104264-4-dmatlack@google.com>
- <178144432039.1257322.9644414453415904478.b4-review@b4> <ajBgj_aSuzMZG47e@google.com>
- <2vxzechulmcp.fsf@kernel.org>
-In-Reply-To: <2vxzechulmcp.fsf@kernel.org>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 29 Jun 2026 11:48:55 -0700
-X-Gm-Features: AVVi8CddGN9A_Ob4R4wlMhPsXSn8oI36PZ00eW8upPHQmIA_C2z2tuBHbPtHPrY
-Message-ID: <CALzav=fN8m9+rso7RSLR35bozZpNKv6McOR3jv1-ngxApM1BCg@mail.gmail.com>
-Subject: Re: [PATCH v6 03/12] PCI: liveupdate: Track incoming preserved PCI devices
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
-	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pranjal Shrivastava <praan@google.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 25, 2026 at 7:35=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> Hi David,
->
-> On Mon, Jun 15 2026, David Matlack wrote:
->
-> > On 2026-06-14 01:38 PM, Pasha Tatashin wrote:
-> >> On Fri, 22 May 2026 20:24:01 +0000, David Matlack <dmatlack@google.com=
-> wrote:
-> [...]
-> >> > +  }
-> >> > +
-> >> > +  pci_info(dev, "Device was preserved by previous kernel across Liv=
-e Update\n");
-> >> > +  dev->liveupdate.incoming =3D dev_ser;
-> >> > +
-> >> > +  /*
-> >> > +   * Hold the ref on the incoming FLB until pci_liveupdate_finish()=
- so
-> >> > +   * that dev->liveupdate.incoming does not get freed while it is i=
-n use.
-> >> > +   */
-> >>
-> >> How would that work? If finish is not called FLB stays around until th=
-e
-> >> next reboot.
+On Monday, June 29, 2026 5:16:17 PM CEST Rafael J. Wysocki (Intel) wrote:
+> On Mon, Jun 29, 2026 at 10:36=E2=80=AFAM Lucas de Lima N=C3=B3brega
+> <lucaslnobrega38@gmail.com> wrote:
 > >
-> > True... I think if the PCI core trusts drivers to call
-> > pci_liveupdate_finish() then we don't need to hold onto the incoming
-> > reference here.
->
-> That was my point when I was arguing against refcounts on outgoing FLBs.
-> This is very easy to abuse, especially when we are talking about device
-> drivers. And this refcounting mechanism makes the FLB no longer
-> file-lifecycle-bound, since now it is entirely up to drivers to decide
-> the lifecycle of this data.
+> > EAS currently refuses to enable energy-aware scheduling on a root
+> > domain unless schedutil is the active CPUFreq governor for all of its
+> > CPUs (cpufreq_ready_for_eas()). This requirement exists to protect the
+> > accuracy of the energy estimate: EAS predicts the OPP a CPU will run
+> > at from its utilization, which is only meaningful if the active
+> > governor actually requests OPPs that way, and schedutil is the only
+> > one that does.
+> >
+> > That requirement does not apply to artificial Energy Models
+> > (EM_PERF_DOMAIN_ARTIFICIAL). An artificial EM is built from a
+> > get_cost() callback instead of real power numbers, and only encodes a
+> > cost ranking between CPUs (e.g. P-cores cost more than E-cores at a
+> > given utilization). It never claims to predict real energy use at any
+> > specific OPP, so there is no per-OPP accuracy for the governor
+> > requirement to protect, regardless of which governor is in control or
+> > whether it tracks utilization at all.
+>=20
+> But it is still about comparing the cost of running on different CPUs
+> at different performance levels.
+>=20
+> For instance, say the scale-invariant utilization of a task is 256 and
+> it can run either by itself on a P-core, or with another task whose
+> utilization is 128 on an E-core, and say the P-core's and E-core's
+> capacity is 1024 and 512, respectively.
+>=20
+> Say the cost function tells EAS that running a P-core at 1/4 of the
+> capacity is cheaper than running an E-core at 3/4 capacity, so it will
+> pick up the P-core to run that task, but if cpufreq ramps up the
+> frequency of the P-core to the max when the task gets to it, it may
+> actually turn out to be more expensive.
+>=20
+> This means that EAS still has an expectation regarding cpufreq which
+> is that it will generally tend to run tasks at the performance level
+> corresponding to the sum of their scale-invariant utilization at least
+> roughly.
+>=20
+> IIUC this actually has nothing to do with whether or not the energy
+> model used by EAS is artificial.  The schedutil requirement is about
+> choosing a performance level proportional to the utilization (which
+> schedutil generally tends to do by design).
+>=20
+> > intel_pstate registers exactly this kind of artificial EM for hybrid
+> > (P/E-core) systems without SMT, regardless of whether it operates in
+> > active or passive mode. In active mode it never uses schedutil, since
+> > HWP picks frequency autonomously, so on these systems EAS never
+> > engages even though SD_ASYM_CPUCAPACITY, frequency invariance and the
+> > EM are all in place: find_energy_efficient_cpu() is never reached
+> > because is_rd_overutilized() is hardcoded to true whenever
+> > sched_energy_enabled() is false. cppc_cpufreq registers the same kind
+> > of ranking-only artificial EM and is affected the same way with any
+> > non-schedutil governor.
+> >
+> > Allow EAS to be enabled when every CPU's EM in the root domain is
+> > artificial, even when schedutil is not the active governor.
+> >
+> > Tested on a Raptor Lake-P laptop with nosmt=3Dforce and intel_pstate in
+> > active/HWP mode: find_energy_efficient_cpu() was never called before
+> > this change (confirmed via the sched_overutilized_tp tracepoint and
+> > ftrace) and is exercised as expected afterwards.
+>=20
+> If this is about allowing EAS to work with intel_pstate running in the
+> active mode, you may argue that what the processor firmware is doing
+> when intel_pstate runs in the active mode is not much different from
+> what schedutil would do.  So a driver implementing an internal
+> governor (that is, using the .set_policy() callback) would need to
+> declare that its internal governor is as good as schedutil from EAS'
+> perspective and so it will pass the "cpufreq readiness" check.
 
-The PCI core holds a reference to the incoming FLB for as long as it
-maintains a pointer to that FLB in struct pci_dev
-(dev->liveupdate.incoming). The lifetime of that pointer is aligned
-with the lifetime of the file as long as the driver calls
-pci_liveupdate_finish() in its file finish() callback.
+And I have a prototype patch (on top of 7.2-rc1) doing this which is
+appended.
 
-If there is a bug in the driver that causes it to not call
-pci_liveupdate_finish() then the FLB will leak past the file yes. But
-the alternative would be to leak a pointer to freed memory in
-dev->liveupdate.incoming, which could lead to UAF.
+I wonder if it works for you (that is, if it allows intel_pstate and EAS to
+work together both with schedutil and when intel_pstate operates in the
+active mode with the "powersave" policy on your system).
 
-Leaking the FLB seems safer than UAF, which is why I went for the
-refcounting approach.
+Also I wonder why exactly you want intel_pstate in the active mode to
+work with EAS.  Do you see any significant improvement in that case?
 
-Another approach entirely would be to drop the
-dev->liveupdate.incoming and do the xarray lookup everytime instead.
+=2D--
+ drivers/cpufreq/cpufreq.c        |    2 +-
+ drivers/cpufreq/intel_pstate.c   |   11 +++++++++++
+ include/linux/cpufreq.h          |   16 +++++++---------
+ kernel/sched/cpufreq_schedutil.c |    7 ++-----
+ 4 files changed, 21 insertions(+), 15 deletions(-)
 
->
-> I have been thinking about this a bit more in the last couple days, and
-> I wonder if we are doing this right. Here's an idea I have been thinking
-> of.
->
-> We should make live update a first class citizen in PCI. Instead of
-> patching in liveupdate via the liveupdate.incoming field, and letting
-> drivers figure out when to use it, we should separate out probe and
-> retrieve paths entirely.
->
-> Probe and retrieve are fundamentally different operations. While they
-> may share some common initialization logic for the _software_ state, how
-> they interface with the hardware is completely different. I think mixing
-> the two will result in driver code being more spaghetti by having
-> liveupdate checks sprayed out all over.
+=2D-- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -3058,7 +3058,7 @@ static bool cpufreq_policy_is_good_for_e
+ 		return false;
+ 	}
+=20
+=2D	return sugov_is_governor(policy);
++	return policy->eas_compatible;
+ }
+=20
+ bool cpufreq_ready_for_eas(const struct cpumask *cpu_mask)
+=2D-- a/drivers/cpufreq/intel_pstate.c
++++ b/drivers/cpufreq/intel_pstate.c
+@@ -2921,6 +2921,9 @@ static int intel_pstate_set_policy(struc
+ 		if (!hwp_boost)
+ 			intel_pstate_clear_update_util_hook(policy->cpu);
+ 		intel_pstate_hwp_set(policy->cpu);
++
++		policy->eas_compatible =3D hwp_is_hybrid &&
++				cpu->policy !=3D CPUFREQ_POLICY_PERFORMANCE;
+ 	}
+ 	/*
+ 	 * policy->cur is never updated with the intel_pstate driver, but it
+@@ -2930,6 +2933,9 @@ static int intel_pstate_set_policy(struc
+=20
+ 	mutex_unlock(&intel_pstate_limits_lock);
+=20
++	if (policy->eas_compatible)
++		em_rebuild_sched_domains();
++
+ 	return 0;
+ }
+=20
+@@ -3030,6 +3036,11 @@ static void intel_pstate_cpu_exit(struct
+ 	pr_debug("CPU %d exiting\n", policy->cpu);
+=20
+ 	policy->fast_switch_possible =3D false;
++
++	if (policy->eas_compatible) {
++		policy->eas_compatible =3D false;
++		em_rebuild_sched_domains();
++	}
+ }
+=20
+ static int __intel_pstate_cpu_init(struct cpufreq_policy *policy)
+=2D-- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -118,6 +118,13 @@ struct cpufreq_policy {
+ 	bool			strict_target;
+=20
+ 	/*
++	 * Set if the current governor meets EAS' expectations regarding
++	 * performance scaling (that is, it selects performance levels
++	 * proportional to CPU utilization at least roughly).
++	 */
++	bool			eas_compatible;
++
++	/*
+ 	 * Set if inefficient frequencies were found in the frequency table.
+ 	 * This indicates if the relation flag CPUFREQ_RELATION_E can be
+ 	 * honored.
+@@ -657,15 +664,6 @@ module_exit(__governor##_exit)
+ struct cpufreq_governor *cpufreq_default_governor(void);
+ struct cpufreq_governor *cpufreq_fallback_governor(void);
+=20
+=2D#ifdef CONFIG_CPU_FREQ_GOV_SCHEDUTIL
+=2Dbool sugov_is_governor(struct cpufreq_policy *policy);
+=2D#else
+=2Dstatic inline bool sugov_is_governor(struct cpufreq_policy *policy)
+=2D{
+=2D	return false;
+=2D}
+=2D#endif
+=2D
+ static inline void cpufreq_policy_apply_limits(struct cpufreq_policy *poli=
+cy)
+ {
+ 	if (policy->max < policy->cur)
+=2D-- a/kernel/sched/cpufreq_schedutil.c
++++ b/kernel/sched/cpufreq_schedutil.c
+@@ -797,6 +797,7 @@ out:
+ 	 * Schedutil is the preferred governor for EAS, so rebuild sched domains
+ 	 * on governor changes to make sure the scheduler knows about them.
+ 	 */
++	policy->eas_compatible =3D true;
+ 	em_rebuild_sched_domains();
+ 	mutex_unlock(&global_tunables_lock);
+ 	return 0;
+@@ -839,6 +840,7 @@ static void sugov_exit(struct cpufreq_po
+ 	sugov_policy_free(sg_policy);
+ 	cpufreq_disable_fast_switch(policy);
+=20
++	policy->eas_compatible =3D false;
+ 	em_rebuild_sched_domains();
+ }
+=20
+@@ -931,9 +933,4 @@ struct cpufreq_governor *cpufreq_default
+ }
+ #endif
+=20
+=2Dbool sugov_is_governor(struct cpufreq_policy *policy)
+=2D{
+=2D	return policy->governor =3D=3D &schedutil_gov;
+=2D}
+=2D
+ cpufreq_governor_init(schedutil_gov);
 
-We are only planning on supporting Live Update for VFIO drivers for
-the forseeable future. The VFIO work during probe is almost entirely
-software state setup. The only hardware logic we need to "if" out in
-the vfio-pci driver's probe() is putting the device into a low-power
-mode via the runtime power manager. So I don't think we will get any
-benefit from this approach, and it would be a lot more intrusive to
-both the PCI core driver framework, and VFIO itself, to support this.
 
-> This series doesn't add support for any drivers, but looking at some of
-> the code we have downstream, I see this problem. The liveupdate code is
-> all over the place in the driver and it is very hard to wrap one's head
-> around how the device is actually retrieved.
 
-You can find the vfio-pci driver changes here:
-
-  https://lore.kernel.org/kvm/20260511234802.2280368-1-vipinsh@google.com/
-
-Let's keep the discussion focused on upstream VFIO drivers since that
-is all we are planning to support right now due to LUO's requirement
-of file-based preservation. The downstream driver changes we are
-carrying is not reflective of what we want to support upstream.
-
-> So I think PCI core should track preserved devices, and if the device is
-> preserved, it should skip the probe and wait for retrieve. Retrieve does
-> the full initialization of the device. This fits in with the LUO model
-> as well. You can make retrieve a callback of struct pci_driver and do
-> some wrappers to talk with LUO, so device drivers don't directly
-> interface with LUO at all.
->
-> We should do similar things on the shutdown path. Shutdown is a
-> fundamentally different operation from freeze, and so we should separate
-> them out as well.
-
-This is speculative. In practice, we haven't needed to change VFIO's
-shutdown() or probe() functions so far. The only change I anticipate
-needing is skipping runtime power management "put" during probe() I
-mentioned above.
-
-If we actually made retrieve() a first-class callback and used that
-instead of probe(), VFIO would internally just call its probe()
-function because that would be the cleanest way to set up all the
-software state it needs to manage the device.
-
-> This solves the lifetime problem as well. When PCI core is initializing,
-> it knows for sure that no retrievals are going to happen. That's because
-> none of the drivers have registered yet. So it can safely access the FLB
-> and initialize its state. After that, drivers can register themselves
-> and start accepting retrieve() calls. Once the last driver goes away,
-> the FLB is freed automatically.
-
-It's not so simple. The PCI core does not really initialize itself.
-Scanning devices gets triggered externally, e.g. by ACPI, device
-trees, runtime hotplug events, etc., and that is when the PCI core
-gets notified about a device. None of this is synchronized with "when
-drivers have registered", which I assume you are referring to
-registering with LUO.
-
->
-> I am sorry for suggesting a big refactor at v6, but the early versions
-> looked good to me at the time, and I only thought more deeply about this
-> when trying to figure out how we can make the lifetimes cleaner.
->
-> What do you think? Does this make sense?
->
-> --
-> Regards,
-> Pratyush Yadav
